@@ -1,0 +1,102 @@
+{
+	"name": "Torn Tools",
+	"version": "3",
+	"manifest_version": 2,
+	"description": "Tools for Torn users.",
+	"author": "Gregor Kaljulaid - Mephiles[2087524]",
+
+	"permissions": ["storage", "alarms", "https://torntools.eu/*", "tabs"],
+	"browser_action": {
+		"default_title": "Torn Tools",
+		"default_popup": "views/index.html",
+		"default_icon": "images/icon128.png"
+	},
+	"web_accessible_resources": ["images/*", "views/*"],
+	"background": {
+		"page": "background.html"
+	},
+	"icons": {
+		"512": "images/icon512.png",
+		"128": "images/icon128.png",
+		"48": "images/icon48.png",
+		"16": "images/icon16.png"
+	},
+	"content_scripts": [
+        {
+            "matches": ["https://www.torn.com/*"],
+            "css": ["scripts/css/ttwindow.css"],
+            "run_at": "document_end"
+        },
+        {
+        	"matches": ["https://www.torn.com/api*"],
+        	"js": ["scripts/content/api/ttApi.js"],
+            "run_at": "document_end"
+		},
+
+
+		{
+			"matches": ["https://www.torn.com/city.php*"],
+		    "css": ["scripts/css/ttcity.css"],
+			"js": ["scripts/content/city/ttCity.js"],
+            "run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/index.php"],
+			"js": ["scripts/content/home/ttHome.js", "scripts/content/achievements/ttHomeAchievements.js"],
+            "run_at": "document_end"
+	    },
+		{
+			"matches": ["https://www.torn.com/crimes.php"],
+			"js": ["scripts/content/achievements/ttCrimeAchievements.js"],
+            "run_at": "document_end"
+	    },
+		{
+			"matches": ["https://www.torn.com/gym.php"],
+			"js": ["scripts/content/achievements/ttGymAchievements.js"],
+            "run_at": "document_end"
+	    },
+		{
+			"matches": ["https://www.torn.com/companies.php"],
+			"js": ["scripts/content/achievements/ttJobAchievements.js"],
+            "run_at": "document_end"
+	    },
+		{
+			"matches": ["https://www.torn.com/factions.php*"],
+			"js": ["scripts/content/achievements/ttFactionAchievements.js"],
+            "run_at": "document_end"
+	    },
+		{
+			"matches": ["https://www.torn.com/jailview.php"],
+			"js": ["scripts/content/achievements/ttJailAchievements.js"],
+            "run_at": "document_end"
+	    },
+		{
+			"matches": ["https://www.torn.com/hospitalview.php"],
+			"js": ["scripts/content/achievements/ttHospitalAchievements.js"],
+            "run_at": "document_end"
+	    },
+		{
+			"matches": ["https://www.torn.com/loader.php*"],
+			"js": ["scripts/content/missions/ttMissions.js", "scripts/content/achievements/ttMissionsAchievements.js"],
+            "run_at": "document_end"
+	    },
+		{
+			"matches": ["https://www.torn.com/travelagency.php"],
+			"js": ["scripts/content/achievements/ttTravelAchievements.js"],
+            "run_at": "document_end"
+	    },
+		{
+			"matches": ["https://www.torn.com/item.php"],
+			"js": ["scripts/content/achievements/ttItemsAchievements.js"],
+            "run_at": "document_end"
+	    },
+		{
+			"matches": ["https://www.torn.com/trade.php*"],
+			"js": ["scripts/content/trade/ttTrade.js"],
+            "run_at": "document_end"
+	    }
+    ],
+	"options_ui": {
+	    "page": "views/settings.html"
+	}
+}

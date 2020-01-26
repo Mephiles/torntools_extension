@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="market.js"></script>
+  <style>
+    body{width: 300px;}
+
+    #settings{
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      width: 28px;
+      height: 30px;
+      background-image: url("../images/gears.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-color: transparent;
+      border: none;
+      outline: none;
+    }
+
+    #settings:hover {
+      border: 0.5px solid lightgrey;
+    }
+
+    #search-bar{
+      width: 170px;
+      background-image: url('../images/searchicon.png');
+      background-position: 5px 5px;
+      background-repeat: no-repeat;
+      font-size: 16px;
+      padding: 6px 20px 6px 40px;
+      border: 1px solid #ddd;
+      outline: none;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 10px;
+      max-height: 400px;
+      overflow-y: scroll;
+      font-size: 17px;
+    }
+    li:hover{
+      cursor: pointer;
+      background-color: rgba(0,255,0, 0.6);
+    }
+
+    #view-item-link {
+      color: black; 
+      text-decoration: none;
+    }
+    #view-item-link:hover{
+      color: green;
+    }
+
+    .page-tab {
+      background: none;
+      border: none;
+
+      
+      padding: 0;
+      margin-left: 2px;
+      margin-right: 2px;
+      cursor: pointer;
+    }
+
+    .active-tab {
+      border-top: 1px solid grey;
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div id="error"></div>
+  <button class="page-tab active-tab" id="market-html" style="display: none">Market</button>
+  <button class="page-tab" id="stocks-html" style="display: none">Stocks</button>
+  <button class="page-tab" id="calculator-html" style="display: none">Calculator</button>
+
+  <h2>Torn Market</h2>
+  <button id="settings"></button>
+  <input type="text" id="search-bar" placeholder="Search.." autofocus>
+  <h3 id="view-item" style="display: none; margin-bottom: 6px"><a href="" id="view-item-link"></a></h3>
+  <div id="pricing" style="display: none">
+    <div id="bazaar" style="display:none; font-size: 16px; font-weight: 600">Bazaar</div>
+    <div id="bz1" style="display:none"></div>
+    <div id="bz2" style="display:none"></div>
+    <div id="bz3" style="display:none"></div>
+    <div id="itemmarket" style="display:none; font-size: 16px; font-weight: 600">Item market</div>
+    <div id="im1" style="display:none"></div>
+    <div id="im2" style="display:none"></div>
+    <div id="im3" style="display:none"></div>
+  </div>
+  <ul id="item-list" style="display: none"></ul>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="../scripts/jquery-3.3.1.min.js"></script>
+  <style>
+	body{
+	  font-family: "Segoe UI", Tahoma, sans-serif;
+	  margin-top: 0;
+	  margin-bottom: 50px;
+	}
+
+	#alarms button {
+	  width: 15px; 
+	  height: 15px; 
+	  font-size: 12px; 
+	  padding: 0; 
+	  background-color: 
+	  transparent; 
+	  border: none; 
+	  cursor: pointer; 
+	  outline: none;
+	  color: lightgrey;
+	}
+
+	#alarm-form {
+	  margin-left: 10px; 
+	  margin-top: 10px;
+	  display: none; 
+	  border: 0.5px solid lightgrey;
+	  padding: 5px;
+	  width: 250px;
+	}
+	#message {
+	  width: 100%;
+	  height: 20px;
+	  font-size: 12px;
+	  background-color: #76ff76;
+	  display: none;
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  padding-left: 5px;
+	}
+
+	.left {
+	  float: left;
+	}
+
+	.separator {
+	  width: 400px;
+	  height: 1px;
+	  background-color: grey;
+	}
+
+	#reset-button {
+	  margin-bottom: 5px;
+	  margin-left: 5px;
+	  border-radius: 5px;
+	  background-color: white;
+	  border: 0.5px solid lightgrey;
+	  padding: 5px 10px;
+	  cursor: pointer;
+	  outline: none;
+	}
+
+	#reset-button:hover {
+	  background-color: lightgrey;
+	}
+  </style>
+</head>
+<body>
+	<div id="message"></div>
+
+	<h2>Changelog</h2>
+	<ul id="changelog"></ul>
+	<hr>
+
+  	<h2>Settings</h2>
+  	<div id="settings">
+	<h3>Tabs</h3>
+	<div id="tabs">
+		<input type="checkbox" value="market" id="market-check" class="left setting"><p>Enable market tab</p>
+		<input type="checkbox" value="stocks" id="stock-check" class="left setting"><p>Enable stocks tab</p>
+		<input type="checkbox" value="calculator" id="calculator-check" class="left setting"><p>Enable calculator tab</p>
+	</div>
+	<h3>Default window</h3>
+	<div id="def_windows">
+		<input type="radio" name="def_win" id="def-market" class="left setting"><p>Market</p>
+		<input type="radio" name="def_win" id="def-stocks" class="left setting"><p>Stocks</p>
+		<input type="radio" name="def_win" id="def-calculator" class="left setting"><p>Calculator</p>
+	</div>
+	<h3>Other</h3>
+	<div id="other">
+		<input type="checkbox" id="achievements-toggle" class="left setting"><p>Show achievements</p>
+		<input type="checkbox" id="achievements-completed" class="left setting"><p>Show completed achievements</p>
+		<input type="checkbox" id="calculator-trade" class="left setting"><p>Show trade calculator</p>
+		<input type="checkbox" id="bazaar-helper" class="left setting"><p>Enable bazaar price helper <span style="color: red">( ! )</span> Note that only a placeholder is set. The user still has to enter the price themselves.</p>
+		<input type="checkbox" id="auction-helper" class="left setting"><p>Show your auctions</p>
+		<input type="checkbox" id="mission-values" class="left setting"><p>Show mission reward values</p>
+		<input type="checkbox" id="forums-helper" class="left setting"><p>Enable forums helper</p>
+		<input type="checkbox" id="forums-scroll-top" class="left setting"><p>Scroll to the top when opening a forum thread</p>
+		<input type="checkbox" id="networth-show" class="left setting"><p>Show actual networth at home page</p>
+	</div>
+	<button id="reset-button">Reset</button>
+	</div>
+	<div class="separator"></div>
+	<p>
+		<span style="color: red">( ! )</span> Torn Market might not show live changes as there is a built-in delay in Torn's API.
+	</p>
+	<p>
+		<span style="color: red">( ! )</span> Stock Portfolio info will be fetched every 1 minute so it does not show live changes.
+	</p>
+	<p>
+		<span style="color: red">( ! )</span> If you don't get an item list when entering letters into the Market search then reset/change your API key above. It will fetch the item list once again.
+	</p>
+	<hr>
+
+  <h2>API</h2>
+  <p>Change API key</p>
+  <input id="api-input" type="text" placeholder="API key .."><span style="margin-left: 5px"><span style="color: red">( ! )</span> Also fetches info from API</span><br>
+  <br>
+  <button id="change-api">Change</button>
+  <br>
+  <br>
+  <p><span style="color: red">( ! )</span> A user is allowed to make 100 requests to Torn's API in a minute.<br> <!-- A new request to Torn's API is made every time you: --></p>
+<!--   <ul>
+	<li>Market
+	  <ul>
+		<li>select an item from list (1 request)</li>
+	  </ul>
+	</li>
+	<li>On initial input or change of API key (1 request)</li>
+	<li>Every 1 minute to update data on user achievements, torn stock prices etc. (2 requests)</li>
+  </ul> -->
+  <p><span style="color: red">( ! )</span> The creator of this extension is not responsible if:</p>
+  <ul>
+	<li>the user spams requests too much or tries to use the wrong API key too many times and <br>therefore gets their ip blocked. (your ip will be unblocked in a minute or two)</li>
+	<li>If for some reason you do get your IP blocked because the extension had a bug or glitched or anything - my apologies. <br> Please do let me know of such incidents so I can avoid them in the future.</li>
+  </ul>
+  <hr>
+
+  <h2>About</h2>
+  <p id="current-version"></p>
+  <p>Brought to you by <a target="_blank" href="https://www.torn.com/profiles.php?XID=2087524#/">Mephiles[2087524]</a></p>
+  <p style="margin-bottom: 4px;">Have a suggestion or want to report a bug?</p>
+  <p style="margin-top: 4px;"><a target="_blank" href="https://www.torn.com/messages.php#/p=compose">Mail me</a> in torn.</p>
+  <p><span style="color: red">( ! )</span> It is easier for me to understand the bug if you also find any errors. Errors can be seen when you encounter the bug and open the console (right click in the small extension popup window -> inspect (element) -> (top menu) console).<br> Errors are with red backgrounds. Look for the ones that start after my script (you recognise the start by the text "START ..." or "EXTENSION ...") - console also shows the file that created the error (right side of the row, example: "ttitems.js:47") - files that start by "tt" (Torn Tools) are part of my extension.</p>
+  <hr>
+
+  <!-- <h2>Copyright</h2>
+  <p>I have not copyrighted any part of my code and any user who wants to learn or use a small part of my code in their work is welcome to do so. I only request that my name ("Torn - Mephiles[2087524]") is added (in notes, when posting somewhere, or as a comment in code).</p>
+  <p>When you want to use a bigger part of my code (whole files, concepts or similar) then I would like to review the part in question in more detail.</p>
+  <p>In either cases mentioned I would like to get notified (and asked permission for use - I probably will allow it, it's just nice to ask :) )</p>
+  <p>If anyone wants to ask help regarding coding or suggest something regarding my code - you are welcome to do so by mailing me on Torn.</p>
+  <p>If you make something (a feature or whole app) that you would want me to add to my extension (for any reason) then I'm happy to discuss it.</p> -->
+</body>
+<script src="settings.js"></script>
+</html>

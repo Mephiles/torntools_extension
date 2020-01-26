@@ -1,0 +1,44 @@
+Done
+--------------------------------
+Forums
+	- larger input
+	- go up button
+	- auto scroll up
+
+- Recode settings
+- Show total values of missions
+- Recode into modules
+- Show networth on index (get from api)
+- Move capitalize into mainModel
+
+
+
+To-Do (next version)
+-----------------------------------
+Bazaar
+	show prices when:
+		- adding items
+		managing items
+
+Show each person's money in shared vault
+Hide vicodin that has a xanax price tag in bazaars
+		
+Auction
+	- display your own listings
+	display biddings
+	- fix wrong price info
+
+
+
+
+Future
+-------------------------------
+Limit api requests from models
+
+Update API requests data on settings
+
+Christmas Town remake
+
+Phone app (WebView) with included features
+	Android
+	iOS

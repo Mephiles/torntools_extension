@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="stocks.js"></script>
+	<style>
+  	body{width: 300px;}
+
+  	#settings{
+  	  position: absolute;
+  	  right: 5px;
+  	  top: 5px;
+  	  width: 28px;
+  	  height: 30px;
+  	  background-image: url("../images/gears.png");
+  	  background-size: cover;
+  	  background-repeat: no-repeat;
+  	  background-color: transparent;
+  	  border: none;
+  	  outline: none;
+  	}
+
+    #portfolio {
+      width: 42px;
+      height: 30px;
+      background-image: url("../images/portfolio.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-color: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+
+  	#settings:hover{
+  	  border: 0.5px solid lightgrey;
+  	}
+
+		ul {
+		  list-style-type: none;
+		  padding-left: 2px;
+		  max-height: 400px;
+		  overflow-y: scroll;
+		  font-size: 17px;
+		  margin-top: 0;
+		}
+
+    a{
+      padding: 10px 20px;
+      margin-left: -8px;
+    }
+
+    .stocks-subtab {
+      background: none;
+      border: none;
+      position: relative;
+      bottom: -3px;
+      padding-left: 3px;
+      padding-right: 3px;
+      padding-bottom: 3px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .active-subtab {
+      border-bottom: 0.5px solid grey;
+    }
+
+    h2 span {
+      float: right;
+      margin-right: 5px;
+    }
+
+    .profit-total {
+      font-size: 14px;
+      float: right;
+      font-weight: normal;
+      padding: 2px;
+    }
+
+    .negative-profit {
+      background-color: #f86d60
+    }
+
+    .positive-profit {
+      background-color: #97ee50
+    }
+
+    #searchbar{
+      width: 170px;
+      background-image: url('../images/searchicon.png');
+      background-position: 5px 5px;
+      background-repeat: no-repeat;
+      font-size: 16px;
+      padding: 6px 20px 6px 40px;
+      border: 1px solid #ddd;
+      outline: none;
+    }
+
+    .item {
+      display: block;
+      padding-bottom: 2px;
+      font-size: 17px;
+    }
+
+    .item:hover {
+      cursor: pointer;
+      background-color: rgba(0,255,0, 0.6);
+    }
+
+    .remove-benefit {
+      font-size: 12px;
+      float: right;
+      font-weight: normal;
+      padding: 2px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .page-tab {
+      background: none;
+      border: none;
+
+      
+      padding: 0;
+      margin-left: 2px;
+      margin-right: 2px;
+      cursor: pointer;
+    }
+
+    .active-tab {
+      border-top: 1px solid grey;
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+
+    #update, #error {
+      margin-bottom: 5px;
+      color: red;
+    }
+
+    #update span {
+      color: blue;
+      cursor: pointer;
+    }
+	</style>
+</head>
+<body>
+  <div id="error"></div>
+  <div id="update"></div>
+  <button class="page-tab" id="market-html" style="display: none">Market</button>
+  <button class="page-tab active-tab" id="stocks-html" style="display: none">Stocks</button>
+  <button class="page-tab" id="calculator-html" style="display: none">Calculator</button>
+
+  <h2 style="margin-bottom: 10px">Torn Stocks 
+    <span>
+      <button id="portfolio"><a target="_blank" href="https://www.torn.com/stockexchange.php?step=portfolio"></a>
+      </button>
+    </span>
+    <span>
+      <button id="benefits-tab" class="stocks-subtab">
+        Benefits
+      </button>
+    </span>
+    <span>
+      <button id="mystocks-tab" class="stocks-subtab active-subtab">
+        My stocks
+      </button>
+    </span>
+  </h2>
+  <hr>
+  <button id="settings"></button>
+
+  <ul id="mystocks-container">
+  	<style type="text/css">
+  		p{
+  			font-size: 15px;
+  			margin-top: 8px;
+  			margin-bottom: 8px;
+  		}
+  		h3{
+  			margin-top: 0;
+  			margin-bottom: 10px;
+        font-size: 16px;
+  		}
+  	</style>
+  </ul>
+  <div id="benefits-container" style="display: none">
+    <input type="text" id="searchbar">
+    <ul id="stocklist" style="display: none; box-shadow: inset 0px 11px 8px -10px #cecaca;">
+      
+    </ul>
+    <hr>
+    <ul id="display">
+      
+    </ul>
+  </div>
+</body>
+</html>

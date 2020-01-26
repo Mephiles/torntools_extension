@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="../scripts/jquery-3.3.1.min.js"></script>
+  <style>
+	body{
+	  font-family: "Segoe UI", Tahoma, sans-serif;
+	  margin-top: 0;
+	  margin-bottom: 50px;
+	}
+
+	#alarms button {
+	  width: 15px; 
+	  height: 15px; 
+	  font-size: 12px; 
+	  padding: 0; 
+	  background-color: 
+	  transparent; 
+	  border: none; 
+	  cursor: pointer; 
+	  outline: none;
+	  color: lightgrey;
+	}
+
+	#alarm-form {
+	  margin-left: 10px; 
+	  margin-top: 10px;
+	  display: none; 
+	  border: 0.5px solid lightgrey;
+	  padding: 5px;
+	  width: 250px;
+	}
+	#message {
+	  width: 100%;
+	  height: 20px;
+	  font-size: 12px;
+	  background-color: #76ff76;
+	  display: none;
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  padding-left: 5px;
+	}
+
+	.left {
+	  float: left;
+	}
+
+	.separator {
+	  width: 400px;
+	  height: 1px;
+	  background-color: grey;
+	}
+
+	#reset-button {
+	  margin-bottom: 5px;
+	  margin-left: 5px;
+	  border-radius: 5px;
+	  background-color: white;
+	  border: 0.5px solid lightgrey;
+	  padding: 5px 10px;
+	  cursor: pointer;
+	  outline: none;
+	}
+
+	#reset-button:hover {
+	  background-color: lightgrey;
+	}
+
+	#changelog-container {
+		max-height: 500px;
+		overflow-y: auto;
+	}
+  </style>
+</head>
+<body>
+	<div id="message"></div>
+  	<div id="error"></div>
+
+	<div id="changelog-container" class="sub-section">
+		<h2>Changelog</h2>
+		<ul id="changelog"></ul>
+	</div>
+	<hr>
+
+	<div id="settings-container" class="sub-section">
+	  	<h2>Settings</h2>
+	  	<div id="settings">
+		<h3>Tabs</h3>
+		<div id="tabs">
+			<input type="checkbox" value="market" id="market-check" class="left setting"><p>Enable market tab</p>
+			<input type="checkbox" value="stocks" id="stock-check" class="left setting"><p>Enable stocks tab</p>
+			<input type="checkbox" value="calculator" id="calculator-check" class="left setting"><p>Enable calculator tab</p>
+		</div>
+		<h3>Default window</h3>
+		<div id="def_windows">
+			<input type="radio" name="def_win" id="def-market" class="left setting"><p>Market</p>
+			<input type="radio" name="def_win" id="def-stocks" class="left setting"><p>Stocks</p>
+			<input type="radio" name="def_win" id="def-calculator" class="left setting"><p>Calculator</p>
+		</div>
+		<h3>Other</h3>
+		<div id="other">
+			<input type="checkbox" id="achievements-toggle" class="left setting"><p>Show achievements</p>
+			<input type="checkbox" id="achievements-completed" class="left setting"><p>Show completed achievements</p>
+			<input type="checkbox" id="calculator-trade" class="left setting"><p>Show trade calculator</p>
+			<input type="checkbox" id="bazaar-helper" class="left setting"><p>Enable bazaar price helper <span style="color: red">( ! )</span> Note that only a placeholder is set. The user still has to enter the price themselves.</p>
+			<input type="checkbox" id="auction-helper" class="left setting"><p>Show your auctions</p>
+			<input type="checkbox" id="mission-values" class="left setting"><p>Show mission reward values</p>
+			<input type="checkbox" id="forums-helper" class="left setting"><p>Enable forums helper</p>
+			<input type="checkbox" id="forums-scroll-top" class="left setting"><p>Scroll to the top when opening a forum thread</p>
+			<input type="checkbox" id="networth-show" class="left setting"><p>Show actual networth at home page</p>
+			<input type="checkbox" id="mail-box" class="left setting"><p>Make mail boxes bigger</p>
+			<input type="checkbox" id="notify-vicodin" class="left setting"><p>Notify of Vicodin that is priced over 100k</p>
+			<input type="checkbox" id="city-find" class="left setting"><p>Enable City Find</p>
+			<input type="checkbox" id="faction-channels" class="left setting"><p>Enable multiple channels for Faction chat</p>
+		</div>
+		<button id="reset-button">Reset</button>
+		</div>
+		<div class="separator"></div>
+		<p>
+			<span style="color: red">( ! )</span> Torn Market might not show live changes as there is a built-in delay in Torn's API.
+		</p>
+		<p>
+			<span style="color: red">( ! )</span> Stock Portfolio info will be fetched every 1 minute so it does not show live changes.
+		</p>
+		<p>
+			<span style="color: red">( ! )</span> If you don't get an item list when entering letters into the Market search then reset/change your API key above. It will fetch the item list once again.
+		</p>
+		<p>
+			<span style="color: red">( ! )</span> When using Faction multi channels then the main chat will be channel 1 and another channel (channel 2) will be added. TornTools does not send different kinds of messages for each channel but filters them. When sending a message from channel 2 a prefix '@ch2' will be added to the message and then TornTools will filter that message out from the Main Channel (channel 1) and move it to channel 2. <br>
+			The channels work only for users who also have TornTools and have enabled the Multi-channel feature. <br>
+			Further more, when a user sends a message in second channel then the users who do not use TornTools will see the message in Main chat with a prefix '@ch2' (this might confuse other players - therefore the feature is disabled by default).
+		</p>
+		<hr>
+	</div>
+
+	<div id="api-container" class="sub-section">
+		<h2>API</h2>
+		<p>Change API key</p>
+		<input id="api-input" type="text" placeholder="API key .."><span style="margin-left: 5px"><span style="color: red">( ! )</span> Also fetches info from API</span><br>
+		<br>
+		<button id="change-api">Change</button>
+		<br>
+		<br>
+		<p><span style="color: red">( ! )</span> A user is allowed to make 100 requests to Torn's API in a minute.<br></p>
+		<p><span style="color: red">( ! )</span> The creator of this extension is not responsible if:</p>
+		<ul>
+		<li>the user spams requests too much or tries to use the wrong API key too many times and <br>therefore gets their ip blocked. (your ip will be unblocked in a minute or two)</li>
+		</ul>
+		<p>If for some reason you do get your IP blocked because the extension had a bug or glitched or anything - my apologies. <br> Please do let me know of such incidents so I can avoid them in the future.</p>
+
+		<h4>API requests</h4>
+		<ul>
+			<li>When you first set API key (3 requests)
+				<ul>
+					<li>Fetch Torn's item list</li>
+					<li>Fetch user's data (achievements & stocks & networth info)</li>
+					<li>Fetch Torn's data (honors, stocks)</li>
+				</ul>
+			</li>
+			<li>Tabs
+				<ul>
+					<li>Market (1 request per item when selecting)</li>
+					<li>Calculator (1 request per item when selecting)</li>
+				</ul>
+			</li>
+			<li>Features
+				<ul>
+					<li>Trade calculator (no requests - prices are taken from item list that is fetched every minute)</li>
+					<li>Bazaar helper (1 request per item when selecting)</li>
+					<li>Mission reward values (no requests)</li>
+					<li>Showing actual networth (no requests)</li>
+				</ul>
+			</li>
+			<li>Periodically (3 request per minute)
+				<ul>
+					<li>Fetching user's and Torn's data for achievements & stocks (2 requests per minute)</li>
+					<li>Fetching Torn's item list for Trade Calculator (1 request per minute)</li>
+				</ul>
+			</li>
+		</ul>
+		<hr>
+	</div>
+
+  	<div id="about-container" class="sub-section">
+  		<h2>About</h2>
+  		<p id="current-version"></p>
+  		<p>Brought to you by <a target="_blank" href="https://www.torn.com/profiles.php?XID=2087524#/">Mephiles[2087524]</a></p>
+  		<p style="margin-bottom: 4px;">Have a suggestion or want to report a bug?</p>
+  		<p style="margin-top: 4px;"><a target="_blank" href="https://www.torn.com/messages.php#/p=compose">Mail me</a> in torn.</p>
+  		<p><span style="color: red">( ! )</span> It is easier for me to understand the bug if you also find any errors. Errors can be seen when you encounter the bug and open the console (right click in the small extension popup window -> inspect (element) -> (top menu) console).<br> Errors are with red backgrounds. Look for the ones that start after my script (you recognise the start by the text "TornTools ..." - console also shows the file that created the error (right side of the row, example: "ttitems.js:47") - files that start by "tt" (Torn Tools) are part of my extension.</p>
+  		<p>How to access console on FireFox: Firefox doesn't show console separately for addons so just right click in the main window and you should see the logs there. (Note that FireFox tends to not show any error logs for some reason, I can figure the errors out myself if you just let me know of the bug :) )</p>
+  		<hr>
+  	</div>
+
+ 
+
+  <!-- <h2>Copyright</h2>
+  <p>I have not copyrighted any part of my code and any user who wants to learn or use a small part of my code in their work is welcome to do so. I only request that my name ("Torn - Mephiles[2087524]") is added (in notes, when posting somewhere, or as a comment in code).</p>
+  <p>When you want to use a bigger part of my code (whole files, concepts or similar) then I would like to review the part in question in more detail.</p>
+  <p>In either cases mentioned I would like to get notified (and asked permission for use - I probably will allow it, it's just nice to ask :) )</p>
+  <p>If anyone wants to ask help regarding coding or suggest something regarding my code - you are welcome to do so by mailing me on Torn.</p>
+  <p>If you make something (a feature or whole app) that you would want me to add to my extension (for any reason) then I'm happy to discuss it.</p> -->
+</body>
+<script src="settings.js"></script>
+</html>

@@ -1,0 +1,162 @@
+{
+    "author": "Gregor Kaljulaid",
+    "background": {
+        "page": "background.html",
+        "persistent": false
+    },
+    "browser_action": {
+        "default_icon": {
+            "50": "images/icon50.png"
+        }
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.torn.com/*"
+            ],
+            "js": [
+                "scripts/ttglobal.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://www.torn.com/forums.php"
+            ],
+            "js": [
+                "scripts/ttforums.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://www.torn.com/amarket.php"
+            ],
+            "js": [
+                "scripts/ttauction.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://www.torn.com/bazaar.php"
+            ],
+            "js": [
+                "scripts/ttbazaar.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://www.torn.com/christmas_town.php"
+            ],
+            "js": [
+                "scripts/ttct.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://www.torn.com/trade.php*"
+            ],
+            "js": [
+                "scripts/ttvalues.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://www.torn.com/crimes.php"
+            ],
+            "js": [
+                "scripts/ttcrime.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://www.torn.com/index.php"
+            ],
+            "js": [
+                "scripts/ttmain.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://www.torn.com/hospitalview.php"
+            ],
+            "js": [
+                "scripts/tthospital.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://www.torn.com/item.php"
+            ],
+            "js": [
+                "scripts/ttitems.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://www.torn.com/jailview.php"
+            ],
+            "js": [
+                "scripts/ttjail.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://www.torn.com/gym.php"
+            ],
+            "js": [
+                "scripts/ttgym.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://www.torn.com/factions.php?step=your"
+            ],
+            "js": [
+                "scripts/ttfaction.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://www.torn.com/companies.php"
+            ],
+            "js": [
+                "scripts/ttjob.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://www.torn.com/loader.php?sid=missions"
+            ],
+            "js": [
+                "scripts/ttmissions.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://www.torn.com/travelagency.php"
+            ],
+            "js": [
+                "scripts/tttravel.js"
+            ]
+        }
+    ],
+    "description": "Tools for Torn users.",
+    "icons": {
+        "50": "images/icon50.png"
+    },
+    "manifest_version": 2,
+    "name": "Torn Tools",
+    "options_page": "views/settings.html",
+    "permissions": [
+        "storage",
+        "alarms"
+    ],
+    "version": "1.7.1",
+    "web_accessible_resources": [
+        "scripts/models/*",
+        "images/*"
+    ],
+    "-ms-preload": {
+        "backgroundScript": "backgroundScriptsAPIBridge.js",
+        "contentScript": "contentScriptsAPIBridge.js"
+    }
+}
