@@ -255,6 +255,11 @@ function notification(message){
 }
 
 const changeLog = {
+	"v3.1": {
+		"Fixes": [
+			"Fixed the extension not updating after an API outage."
+		]
+	},
 	"v3 - Long time, no see(?)": {
 		"Features": [
 			"I removed some features either because they were not needed anymore (Torn has them default) or they weren't worth it. (auction, bazaar, forums, mail, profile voting) Let me know of any thoughts or ideas about these.",
