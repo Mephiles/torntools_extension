@@ -53,8 +53,8 @@ function Main(){
 	chrome.storage.local.get(["api_key", "api"], function(data){
 		const api_key = data.api_key;
 		console.log("API_KEY", api_key);
-		
-		if(!data.api.online || api_key === undefined){
+
+		if(api_key == undefined){
 			console.log("NO API KEY");
 			return;
 		}
