@@ -1,6 +1,6 @@
 {
 	"name": "Torn Tools",
-	"version": "3.1",
+	"version": "3.2",
 	"manifest_version": 2,
 	"description": "Tools for Torn users.",
 	"author": "Gregor Kaljulaid - Mephiles[2087524]",
@@ -76,7 +76,7 @@
             "run_at": "document_end"
 	    },
 		{
-			"matches": ["https://www.torn.com/loader.php*"],
+			"matches": ["https://www.torn.com/loader.php?sid=missions"],
 			"js": ["scripts/content/missions/ttMissions.js", "scripts/content/achievements/ttMissionsAchievements.js"],
             "run_at": "document_end"
 	    },
@@ -93,6 +93,16 @@
 		{
 			"matches": ["https://www.torn.com/trade.php*"],
 			"js": ["scripts/content/trade/ttTrade.js"],
+            "run_at": "document_end"
+	    },
+		{
+			"matches": ["https://www.torn.com/profiles.php*"],
+			"js": ["scripts/content/profile/ttProfile.js"],
+            "run_at": "document_end"
+	    },
+		{
+			"matches": ["https://www.torn.com/loader.php?sid=racing"],
+			"js": ["scripts/content/racing/ttRacing.js"],
             "run_at": "document_end"
 	    }
     ],

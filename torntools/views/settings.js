@@ -5,9 +5,10 @@ window.onload = function(){
     setUpdateToFalse();
 
 	// setup settings
-	chrome.storage.local.get(["settings"], function(data){
+	chrome.storage.local.get(["settings", "allies"], function(data){
 		let settings = data.settings;
-		showSettings(settings);
+		let allies = data.allies;
+		showSettings(settings, allies);
 	});
 
 	// reset api key button
@@ -34,7 +35,7 @@ window.onload = function(){
 	});
 }
 
-function showSettings(settings){
+function showSettings(settings, allies){
 	let tabs = settings.tabs;
 	let pages = settings.pages;
 
@@ -62,6 +63,18 @@ function showSettings(settings){
 			}
 		}catch(err){}
 	}
+
+	// show allies
+	console.log(allies)
+	let allies_text = "";
+	for(let ally of allies){
+		allies_text = allies_text + ally;
+		
+		if(allies[allies.length-1] != ally){
+			allies_text += ",";
+		}
+	}
+	document.querySelector("#allies").value = allies_text;
 }
 
 function saveSettings(){
@@ -71,6 +84,7 @@ function saveSettings(){
 		"show": true,
 		"show_completed": true
 	}
+	let allies = [];
 
 	// achievements
 	achievements.show = document.querySelector("#achievements-show").checked;
@@ -94,6 +108,15 @@ function saveSettings(){
 		pages[page_name] = pages[page_name] || {};
 		pages[page_name][option_name] = option.checked;
 	}
+
+	// allies
+	let allies_text = document.querySelector("#allies").value;
+	allies = allies_text.split(",");
+
+	// set allies
+	chrome.storage.local.set({"allies": allies}, function(){
+		console.log("Allies set");
+	});
 
 	// write settings
 	chrome.storage.local.get(["settings"], function(data){
@@ -255,6 +278,12 @@ function notification(message){
 }
 
 const changeLog = {
+	"v3.2": {
+		"Features": [
+			"Show warning on player profiles when the player is in your faction or in an ally faction.",
+			"Show racing upgrade values."
+		]
+	},
 	"v3.1": {
 		"Fixes": [
 			"Fixed the extension not updating after an API outage."

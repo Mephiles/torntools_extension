@@ -42,9 +42,16 @@ chrome.storage.local.set({
 			"hub": {
 				"show": false,
 				"pinned": false
+			},
+			"profile": {
+				"show": true
+			},
+			"racing": {
+				"show": true
 			}
 		}
-	}
+	},
+	"allies": []
 }, function(){console.log("Settings set.")});
 
 
