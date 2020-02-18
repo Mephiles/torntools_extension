@@ -102,7 +102,7 @@
 	    },
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=racing"],
-			"js": ["scripts/content/racing/ttRacing.js"],
+			"js": ["scripts/content/racing/ttRacingUpgrades.js", "scripts/content/racing/ttRacingSpeed.js"],
             "run_at": "document_end"
 	    }
     ],
