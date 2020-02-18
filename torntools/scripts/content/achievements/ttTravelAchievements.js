@@ -1,12 +1,4 @@
-var oldOnload = window.onload;
-
 window.onload = function(){
-
-    // run old window.onloads also
-    if (typeof oldOnload == 'function') {
-        oldOnload();
-    }
-
     console.log("TT - Travel | Achievements");
 
     if(flying())

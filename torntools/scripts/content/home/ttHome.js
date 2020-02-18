@@ -1,3 +1,11 @@
+Function.prototype.extend = function(fn) {
+    var self = this;
+    return function() {
+        self.apply(this, arguments);
+        fn.apply(this, arguments);
+    };
+};
+
 window.onload = function(){
     console.log("TT - Home");
 

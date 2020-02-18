@@ -1,5 +1,5 @@
-window.onload = function(){
-    console.log("TT - Items | Achievements");
+window.onload = window.onload.extend(function(){
+    console.log("TT - Racing | Achievements");
 
     if(flying())
         return
@@ -12,142 +12,36 @@ window.onload = function(){
         const honors = data.torndata.honors;
         const medals = data.torndata.medals;
         const date = data.userdata.date;
-        
-        console.log("USERDATA", data.userdata);
-        //console.log("TORNDATA", data.torndata);
 
         if(!show_achievements)
             return
         
         // object of all the achievements on this page
         var achievements = {
-            "Cannabis": {
-                "stats": personalstats.cantaken,
-                "keyword": "cannabis",
-                "ach": []
-            },
-            "Ecstasy": {
-                "stats": personalstats.exttaken,
-                "keyword": "ecstasy",
-                "ach": []
-            },
-            "Ketamine": {
-                "stats": personalstats.kettaken,
-                "keyword": "ketamine",
-                "ach": []
-            },
-            "LSD": {
-                "stats": personalstats.lsdtaken,
-                "keyword": "lsd",
-                "ach": []
-            },
-            "Opium": {
-                "stats": personalstats.opitaken,
-                "keyword": "opium",
-                "ach": []
-            },
-            "Shrooms": {
-                "stats": personalstats.shrtaken,
-                "keyword": "shrooms",
-                "ach": []
-            },
-            "Speed": {
-                "stats": personalstats.spetaken,
-                "keyword": "speed",
+            "Races won": {
+                "stats": personalstats.raceswon,
+                "keyword": "races",
                 "ach": [],
-                "excl": ["gain"]
+                "incl": ["win"],
+                "excl": ["single car"]
             },
-            "PCP": {
-                "stats": personalstats.pcptaken,
-                "keyword": "pcp",
-                "ach": []
-            },
-            "Xanax": {
-                "stats": personalstats.xantaken,
-                "keyword": "xanax",
-                "ach": []
-            },
-            "Vicodin": {
-                "stats": personalstats.victaken,
-                "keyword": "vicodin",
-                "ach": []
-            },
-            "Viruses": {
-                "stats": personalstats.virusescoded,
-                "keyword": "viruses",
-                "ach": []
-            },
-            "Blood": {
-                "stats": personalstats.bloodwithdrawn,
-                "keyword": "blood",
+            "Skill": {
+                "stats": personalstats.racingskill,
+                "keyword": "skill",
                 "ach": [],
-                "incl": ["fill"]
+                "incl": ["racing"]
             },
-            "City finds": {
-                "stats": personalstats.cityfinds,
-                "keyword": "city",
-                "ach": [],
-                "incl": ["find", "items"]
-            },
-            "Dump finds": {
-                "stats": personalstats.dumpfinds,
-                "keyword": "dump finds",
-                "ach": []
-            },
-            "Items dumped": {
-                "stats": personalstats.itemsdumped,
-                "keyword": "items dumped",
-                "ach": [],
-                "incl": ["trash"]
-            },
-            "Alcohol": {
-                "stats": personalstats.alcoholused,
-                "keyword": "alcohol",
-                "ach": []
-            },
-            "Candy": {
-                "stats": personalstats.candyused,
-                "keyword": "candy",
-                "ach": []
-            },
-            "Medical items used": {
-                "stats": personalstats.medicalitemsused,
-                "keyword": "medical items",
-                "ach": [],
-                "incl": ["use"]
-            },
-            "Energy drinks used": {
-                "stats": personalstats.energydrinkused,
-                "keyword": "energy drink",
-                "ach": []
-            },
-            "Items bought abroad": {
-                "stats": personalstats.itemsboughtabroad,
-                "keyword": "import",
-                "ach": [],
-                "incl": ["items"]
-            },
-            "Bazaar customers": {
-                "stats": personalstats.bazaarcustomers,
-                "keyword": "customers",
-                "ach": []
-            },
-            "Points sold": {
-                "stats": personalstats.pointssold,
+            "Points": {
+                "stats": personalstats.racingpointsearned,
                 "keyword": "points",
                 "ach": [],
-                "incl": ["market"]
-            },
-            "Stock payouts": {
-                "stats": personalstats.stockpayouts,
-                "keyword": "payouts",
-                "ach": []
+                "incl": ["racing"]
             }
         }
 
         displayAchievements(achievements, show_completed, honors, medals, date);
     });
-}
+});
 
 function displayAchievements(achievements, show_completed, honors, medals, date){
     let achievements_window = createWindow(date);

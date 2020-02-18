@@ -1,12 +1,4 @@
-var oldOnload = window.onload;
-
-window.onload = function(){
-
-    // run old window.onloads also
-    if (typeof oldOnload == 'function') {
-        oldOnload();
-    }
-
+window.onload = window.onload.extend(function(){
     console.log("TT - Missions | Achievements");
 
     if(flying())
@@ -29,16 +21,6 @@ window.onload = function(){
         
         // object of all the achievements on this page
         var achievements = {
-            "Stalemates": {
-                "stats": personalstats.defendsstalemated,
-                "keyword": "stalemate",
-                "ach": []
-            },
-            "Stealthed": {
-                "stats": personalstats.attacksstealthed,
-                "keyword": "stealthed attacks",
-                "ach": []
-            },
             "Attacks won": {
                 "stats": personalstats.attackswon,
                 "keyword": "attacks",
@@ -51,21 +33,31 @@ window.onload = function(){
                 "ach": [],
                 "excl": ["achieve"]
             },
-            "Assist": {
+            "Assists": {
                 "stats": personalstats.attacksassisted,
                 "keyword": "assist",
                 "ach": [1]
             },
-            "Critical hits": {
-                "stats": personalstats.attackcriticalhits,
-                "keyword": "critical",
+            "Stealthed": {
+                "stats": personalstats.attacksstealthed,
+                "keyword": "stealthed attacks",
                 "ach": []
             },
-            "Total hits": {
-                "stats": personalstats.attackhits,
-                "keyword": "hits",
+            "Stalemates": {
+                "stats": personalstats.defendsstalemated,
+                "keyword": "stalemate",
+                "ach": []
+            },
+            "Escapes": {
+                "stats": personalstats.yourunaway,
+                "keyword": "escape",
                 "ach": [],
-                "excl": ["critical", "finishing"]
+                "incl": ["successfully", "foes"]
+            },
+            "Unarmored wins": {
+                "stats": personalstats.unarmoredwon,
+                "keyword": "unarmored",
+                "ach": []
             },
             "Current killstreak": {
                 "stats": personalstats.killstreak,
@@ -78,6 +70,29 @@ window.onload = function(){
                 "keyword": "streak",
                 "ach": [],
                 "excl": ["high-low"]
+            },
+            "Total hits": {
+                "stats": personalstats.attackhits,
+                "keyword": "hits",
+                "ach": [],
+                "excl": ["critical", "finishing"]
+            },
+            "Critical hits": {
+                "stats": personalstats.attackcriticalhits,
+                "keyword": "critical",
+                "ach": []
+            },
+            "Best damage": {
+                "stats": personalstats.bestdamage,
+                "keyword": "damage",
+                "ach": [],
+                "incl": ["deal at least"]
+            },
+            "One hit kills": {
+                "stats": personalstats.onehitkills,
+                "keyword": "one hit",
+                "ach": [],
+                "incl": ["kills"]
             },
             "Rounds fired": {
                 "stats": personalstats.roundsfired,
@@ -148,15 +163,32 @@ window.onload = function(){
             },
             "Largest mug": {
                 "stats": personalstats.largestmug,
-                "keyword": ["mugging"],
+                "keyword": "mugging",
                 "ach": [],
-                "incl": ["Make", "single"]
+                "incl": ["make", "single"]
+            },
+            "Mission credits": {
+                "stats": personalstats.missioncreditsearned,
+                "keyword": "credits",
+                "ach": [],
+                "incl": ["mission"]
+            },
+            "Contracts": {
+                "stats": personalstats.contractscompleted,
+                "keyword": "contracts",
+                "ach": []
+            },
+            "Bounties collected": {
+                "stats": personalstats.bountiescollected,
+                "keyword": "bounties",
+                "ach": [],
+                "incl": ["collect"]
             }
         }
 
         displayAchievements(achievements, show_completed, honors, medals, date);
     });
-}
+});
 
 function displayAchievements(achievements, show_completed, honors, medals, date){
     let achievements_window = createWindow(date);

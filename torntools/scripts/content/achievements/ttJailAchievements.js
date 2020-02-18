@@ -1,12 +1,4 @@
-var oldOnload = window.onload;
-
 window.onload = function(){
-
-    // run old window.onloads also
-    if (typeof oldOnload == 'function') {
-        oldOnload();
-    }
-
     console.log("TT - Jail | Achievements");
 
     if(flying())
@@ -32,6 +24,11 @@ window.onload = function(){
             "Busts": {
                 "stats": personalstats.peoplebusted,
                 "keyword": "bust",
+                "ach": []
+            },
+            "Bails": {
+                "stats": personalstats.peoplebought,
+                "keyword": "bails",
                 "ach": []
             }
         }

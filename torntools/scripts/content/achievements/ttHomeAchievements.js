@@ -1,12 +1,4 @@
-var oldOnload = window.onload;
-
-window.onload = function(){
-
-    // run old window.onloads also
-    if (typeof oldOnload == 'function') {
-        oldOnload();
-    }
-
+window.onload = window.onload.extend(function(){
     console.log("TT - Home | Achievements");
 
     if(flying())
@@ -51,7 +43,7 @@ window.onload = function(){
                 "keyword": "total awards",
                 "ach": []
             },
-            "Married": {
+            "Married (days)": {
                 "stats": data.userdata.married.duration,
                 "keyword": "stay married",
                 "ach": []
@@ -70,12 +62,40 @@ window.onload = function(){
                 "stats": personalstats.bazaarcustomers,
                 "keyword": "customers buy from your bazaar",
                 "ach": []
+            },
+            "Donator (days)": {
+                "stats": personalstats.daysbeendonator,
+                "keyword": "donator",
+                "ach": []
+            },
+            "Energy refills": {
+                "stats": personalstats.refills,
+                "keyword": "refill",
+                "ach": [],
+                "incl": ["energy"]
+            },
+            "Nerve refills": {
+                "stats": personalstats.nerverefills,
+                "keyword": "refill",
+                "ach": [],
+                "incl": ["nerve"]
+            },
+            "Token refills": {
+                "stats": personalstats.tokenrefills,
+                "keyword": "refill",
+                "ach": [],
+                "incl": ["nerve"]
+            },
+            "Networth": {
+                "stats": personalstats.networth,
+                "keyword": "networth",
+                "ach": []
             }
         }
 
         displayAchievements(achievements, show_completed, honors, medals, date);
     });
-}
+});
 
 function displayAchievements(achievements, show_completed, honors, medals, date){
     let achievements_window = createWindow(date);
@@ -205,7 +225,6 @@ function displayAchievements(achievements, show_completed, honors, medals, date)
                     if(!(includes && excludes))
                         continue
 
-                    
                     desc = desc.replace(/\D/g,'');  // replace all non-numbers
                     let stat = parseInt(desc);
     
@@ -239,7 +258,8 @@ function displayAchievements(achievements, show_completed, honors, medals, date)
                     if(!(includes && excludes))
                         continue
 
-                    
+                    if(desc.indexOf("for at least") > -1)
+                        desc = desc.split("for at least")[0]
                     desc = desc.replace(/\D/g,'');  // replace all non-numbers
                     let stat = parseInt(desc);
     
@@ -345,7 +365,12 @@ function displayAchievements(achievements, show_completed, honors, medals, date)
         return "okay";
     }
     function numberWithCommas(x) {
-        if(x > 1e6){
+        if(x > 1e9){
+            let bil = (x/1e9).toFixed(3) + "bil"
+            if(parseFloat(bil)%1 == 0)
+                bil = parseInt(bil) + "bil";
+            return bil;
+        } else if(x > 1e6){
             let mil = (x/1e6).toFixed(2) + "mil"
             if(parseFloat(mil)%1 == 0)
                 mil = parseInt(mil) + "mil";

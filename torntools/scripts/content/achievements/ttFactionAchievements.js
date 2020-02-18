@@ -1,12 +1,4 @@
-var oldOnload = window.onload;
-
 window.onload = function(){
-
-    // run old window.onloads also
-    if (typeof oldOnload == 'function') {
-        oldOnload();
-    }
-
     console.log("TT - Faction | Achievements");
 
     if(flying())
@@ -33,6 +25,12 @@ window.onload = function(){
                 "stats": personalstats.organisedcrimes,
                 "keyword": "organized crimes",
                 "ach": []
+            },
+            "Respect": {
+                "stats": personalstats.respectforfaction,
+                "keyword": "respect",
+                "ach": [],
+                "incl": ["earn "]
             }
         }
 
