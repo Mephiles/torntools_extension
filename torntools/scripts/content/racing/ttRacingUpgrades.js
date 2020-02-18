@@ -1,18 +1,10 @@
-var oldOnload = window.onload;
-
 window.onload = function(){
-
-    // run old window.onloads also
-    if (typeof oldOnload == 'function') {
-        oldOnload();
-    }
-
-    console.log("TT - Racing");
+    console.log("TT - Racing Upgrades");
 
     if(flying())
         return
 
-    chrome.storage.local.get(["settings", "userdata", "allies"], function(data) {
+    chrome.storage.local.get(["settings"], function(data) {
         const settings = data.settings;
         const show_racing = settings.pages.racing.show;
 
@@ -47,13 +39,16 @@ function showUpgrades(){
     for(let item of items){
         item.style.position = "relative";
         let title = item.querySelector(".title");
-        console.log("TITLE", title);
         let properties = item.querySelectorAll(".properties");
         title.style.fontSize = "11px";
 
         let first = true;
         let amount = 7;
+        let negative = false;
         for(let property of properties){
+            if(property.querySelector(".negative"))
+                negative = true;
+
             let span = document.createElement("span");
             span.style.position = "absolute";
             span.style.right = "0";
@@ -65,11 +60,17 @@ function showUpgrades(){
             span.style.lineHeight = "10px";
             
             let name = property.querySelector(".name").innerText.trim();
-            let stat_now = parseInt(property.querySelector(".bar-gray-light-wrap-d").style.width);
-            let stat_upgrade = parseInt(property.querySelector(".bar-color-wrap-d").style.width);
-            let difference = stat_upgrade - stat_now;
+            let stat_gray = parseInt(property.querySelector(".bar-gray-light-wrap-d").style.width);
+            let stat_color = parseInt(property.querySelector(".bar-color-wrap-d").style.width);
+            difference = stat_color - stat_gray;
 
-            span.innerText += `+${difference} ${name}`;
+            if(negative){
+                difference = "-"+difference;
+                span.style.color = "#ff4444";
+            } else
+                difference = "+"+difference;
+
+            span.innerText += `${difference} ${name}`;
             title.appendChild(span);
             first = false;
             amount += 10;
