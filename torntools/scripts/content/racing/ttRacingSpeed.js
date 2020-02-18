@@ -1,12 +1,4 @@
-var oldOnload = window.onload;
-
-window.onload = function(){
-
-    // run old window.onloads also
-    if (typeof oldOnload == 'function') {
-        oldOnload();
-    }
-
+window.onload = window.onload.extend(function(){
     console.log("TT - Racing Speed");
 
     if(flying())
@@ -25,12 +17,11 @@ window.onload = function(){
             if(racingView() && raceInProgress()){
 				if(!done){
                     let track_length = document.querySelector(".drivers-list .track-info-wrap .track-info").getAttribute("data-length"); // miles
-                    let laps = document.querySelector("#racingdetails .pd-lap").innerText.split("/")[1];
-                    let race_length = parseFloat(track_length) * laps;
+                    let race_length = parseFloat(track_length);
                     
 					updateSpeed = setInterval(function(){
                         displaySpeed(race_length);
-                    }, 100);
+                    }, 500);
 					done = true;
 				}
             } else {
@@ -39,12 +30,12 @@ window.onload = function(){
             }
         }, 1000);
     });
-}
+});
 
 function displaySpeed(race_length){
-    console.log("Track length:", race_length);
+    console.log("Track:", race_length);
+    let racers = document.querySelectorAll("#leaderBoard>li");
 
-    let racers = document.querySelectorAll("#leaderBoard .li");
     for(let racer of racers){
         let first_percentage = racer.querySelector(".time").innerText;
         if(first_percentage.indexOf(":") > -1)
@@ -54,20 +45,24 @@ function displaySpeed(race_length){
         setTimeout(function(){
             let second_percentage = racer.querySelector(".time").innerText;
             if(second_percentage.indexOf(":") > -1)
-                continue;
+                return
             console.log("Second:", second_percentage);
 
-            let difference = parseFloat(now_percentage) - parseFloat(last_percentage);
+            let difference = parseFloat(second_percentage) - parseFloat(first_percentage);
             console.log("DIFFERENCE", difference);
 
-            let speed = difference * race_length;
+            let speed = difference*2/10 * race_length*3600;
 
+            // clear last span
+            racer.querySelector(".name").removeChild(racer.querySelector(".name").lastChild);
+
+            // add new span
             let span = document.createElement("span");
             span.style.color = "green";
             span.style.float = "right";
             span.innerText = speed + " mph";
             racer.querySelector(".name").appendChild(span);
-        }, 100);
+        }, 500);
 
     }
 
