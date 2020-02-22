@@ -5,7 +5,7 @@
 	"description": "Tools for Torn users.",
 	"author": "Gregor Kaljulaid - Mephiles[2087524]",
 
-	"permissions": ["storage", "alarms", "https://torntools.eu/*", "tabs"],
+	"permissions": ["storage", "alarms", "tabs"],
 	"browser_action": {
 		"default_title": "Torn Tools",
 		"default_popup": "views/index.html",
