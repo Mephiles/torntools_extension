@@ -7,7 +7,7 @@ window.onload = function(){
         const api_key = data.api_key;
         const itemlist = data.itemlist.items;
         const api = data.api;
-        const update_available = data["update_available"];
+        const update_available = data["update-available"];
 
         // if update is available
         if(update_available)
