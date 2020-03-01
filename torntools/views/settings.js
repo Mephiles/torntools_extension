@@ -282,7 +282,8 @@ const changeLog = {
 		"Features": [
 			"Added more achievements on pages Home, Items, Missions, Jail, My Faction.",
 			"Added Racing achievements.",
-			"Fixed Racing Upgrades not showing correct values."
+			"Fixed Racing Upgrades not showing correct values.",
+			"Re-added notification when a new version of TornTools is installed."
 		]
 	},
 	"v3.2": {
