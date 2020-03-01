@@ -47,3 +47,13 @@ function showTTLink(){
     div_1.appendChild(div_2);
     container.insertBefore(div_1, container.firstChild);
 }
+
+function flying() {
+	try {	
+		if(document.querySelector("#skip-to-content").innerText === "Traveling"){
+			console.log("TT - User Flying");
+			return true
+		}
+	} catch(err) {}
+	return false
+}
