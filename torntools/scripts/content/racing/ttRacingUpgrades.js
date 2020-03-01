@@ -56,6 +56,8 @@ function showUpgrades(){
         for(let property of properties){
             if(property.querySelector(".negative"))
                 negative = true;
+            else
+                negative = false;
 
             let span = document.createElement("span");
             span.style.position = "absolute";
