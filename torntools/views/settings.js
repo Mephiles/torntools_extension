@@ -138,8 +138,8 @@ function saveSettings(){
 }
 
 function setUpdateToFalse(){
-	chrome.storage.local.get(["update", "api"], function(data){
-		if(data["updated"] === true){
+	chrome.storage.local.get(["updated", "api"], function(data){
+		if(data.updated === true){
 			chrome.storage.local.set({"updated": false},function(){
 				console.log("Set update as read.");
 			});

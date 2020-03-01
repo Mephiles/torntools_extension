@@ -1,4 +1,4 @@
-window.onload = function(){
+window.onload = window.onload.extend(function(){
     console.log("TT - Hospital | Achievements");
 
     if(flying())
@@ -31,7 +31,7 @@ window.onload = function(){
 
         displayAchievements(achievements, show_completed, honors, medals, date);
     });
-}
+});
 
 function displayAchievements(achievements, show_completed, honors, medals, date){
     let achievements_window = createWindow(date);
