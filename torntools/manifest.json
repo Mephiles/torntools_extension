@@ -1,6 +1,6 @@
 {
 	"name": "Torn Tools",
-	"version": "3.2",
+	"version": "3.3",
 	"manifest_version": 2,
 	"description": "Tools for Torn users.",
 	"author": "Gregor Kaljulaid - Mephiles[2087524]",
@@ -102,7 +102,7 @@
 	    },
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=racing"],
-			"js": ["scripts/content/racing/ttRacingUpgrades.js", "scripts/content/racing/ttRacingSpeed.js", "scripts/content/achievements/ttRacingAchievements.js"],
+			"js": ["scripts/content/racing/ttRacingUpgrades.js", "scripts/content/achievements/ttRacingAchievements.js"],
             "run_at": "document_end"
 	    }
     ],
