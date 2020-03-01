@@ -278,6 +278,13 @@ function notification(message){
 }
 
 const changeLog = {
+	"v3.3": {
+		"Features": [
+			"Added more achievements on pages Home, Items, Missions, Jail, My Faction.",
+			"Added Racing achievements.",
+			"Fixed Racing Upgrades not showing correct values."
+		]
+	},
 	"v3.2": {
 		"Features": [
 			"Show warning on player profiles when the player is in your faction or in an ally faction.",
