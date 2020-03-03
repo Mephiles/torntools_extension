@@ -1,6 +1,6 @@
 var oldOnload = window.onload;
 
-window.onload = function(){
+window.onload = window.onload.extend(function(){
 	
 	// run old window.onloads also
     if (typeof oldOnload == 'function') {
@@ -43,7 +43,7 @@ window.onload = function(){
 			console.log("City Find Turned OFF");
 		}
 	});
-}
+});
 
 function addItemsToList(){
 	chrome.storage.local.get(["itemlist"], function(data){
