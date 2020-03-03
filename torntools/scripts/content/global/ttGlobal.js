@@ -1,3 +1,5 @@
+var oldOnload = window.onload;
+
 Function.prototype.extend = function(fn) {
     var self = this;
     return function() {
@@ -8,6 +10,11 @@ Function.prototype.extend = function(fn) {
 
 window.onload = function(){
     console.log("TT - Global");
+
+    // run old window.onloads also
+    if (typeof oldOnload == 'function') {
+        oldOnload();
+    }
 
     if(flying())
         return
