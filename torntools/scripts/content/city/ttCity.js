@@ -1,12 +1,4 @@
-var oldOnload = window.onload;
-
 window.onload = window.onload.extend(function(){
-	
-	// run old window.onloads also
-    if (typeof oldOnload == 'function') {
-        oldOnload();
-    }
-
 	console.log("TT - City");
 
 	chrome.storage.local.get(["settings"], function(data){
