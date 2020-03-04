@@ -1,12 +1,4 @@
-Function.prototype.extend = function(fn) {
-    var self = this;
-    return function() {
-        self.apply(this, arguments);
-        fn.apply(this, arguments);
-    };
-};
-
-window.onload = function(){
+window.onload = window.onload.extend(function(){
     console.log("TT - Home");
 
     if(flying())
@@ -23,7 +15,7 @@ window.onload = function(){
         displayNetworth(parseInt(user_networth));
     
     });
-}
+});
 
 function displayNetworth(user_networth){
 

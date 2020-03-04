@@ -1,4 +1,4 @@
-window.onload = function(){
+window.onload = window.onload.extend(function(){
     console.log("TT - Trade");
 
     chrome.storage.local.get(["settings", "itemlist"], function(data) {
@@ -23,7 +23,7 @@ window.onload = function(){
         }, 1000);
     });
 
-}
+});
 
 function createWindow(itemlist){
 	const leftSide = document.querySelector(".trade-cont .user.left");

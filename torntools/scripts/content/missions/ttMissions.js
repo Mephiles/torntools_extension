@@ -1,12 +1,4 @@
-Function.prototype.extend = function(fn) {
-    var self = this;
-    return function() {
-        self.apply(this, arguments);
-        fn.apply(this, arguments);
-    };
-};
-
-window.onload = function(){
+window.onload = window.onload.extend(function(){
     console.log("TT - Missions");
 
     chrome.storage.local.get(["settings", "itemlist"], function(data){
@@ -51,7 +43,7 @@ window.onload = function(){
         }, 1000);
         
     });
-}
+});
 
 function displayMissionPrice(reward, id, quantity, points, itemlist){
 	let itemValue = itemlist[id]["market_value"];

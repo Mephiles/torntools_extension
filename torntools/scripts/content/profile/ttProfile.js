@@ -1,4 +1,4 @@
-window.onload = function(){
+window.onload = window.onload.extend(function(){
     console.log("TT - Profile");
 
     if(flying())
@@ -29,7 +29,7 @@ window.onload = function(){
             }
         }, 1000);
     });
-}
+});
 
 function showWarning(type){
     let title = document.querySelector(".profile-left-wrapper .title-black");

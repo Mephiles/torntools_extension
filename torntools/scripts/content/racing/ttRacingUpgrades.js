@@ -1,12 +1,4 @@
-Function.prototype.extend = function(fn) {
-    var self = this;
-    return function() {
-        self.apply(this, arguments);
-        fn.apply(this, arguments);
-    };
-};
-
-window.onload = function(){
+window.onload = window.onload.extend(function(){
     console.log("TT - Racing Upgrades");
 
     if(flying())
@@ -31,7 +23,7 @@ window.onload = function(){
             }
         }, 1000);
     });
-}
+});
 
 function upgradeView(){
     let categories = document.querySelector(".pm-categories-wrap");
