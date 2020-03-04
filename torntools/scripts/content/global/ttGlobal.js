@@ -1,20 +1,5 @@
-var oldOnload = window.onload;
-
-Function.prototype.extend = function(fn) {
-    var self = this;
-    return function() {
-        self.apply(this, arguments);
-        fn.apply(this, arguments);
-    };
-};
-
-window.onload = function(){
+window.addEventListener('load', (event) => {
     console.log("TT - Global");
-
-    // run old window.onloads also
-    if (typeof oldOnload == 'function') {
-        oldOnload();
-    }
 
     if(flying())
         return
@@ -23,7 +8,7 @@ window.onload = function(){
         if(data.updated)
             showTTLink();
     });
-}
+});
 
 function showTTLink(){
     let headers = document.querySelectorAll("h2");

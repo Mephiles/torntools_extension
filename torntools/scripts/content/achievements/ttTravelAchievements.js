@@ -1,4 +1,4 @@
-window.onload = window.onload.extend(function(){
+window.addEventListener('load', (event) => {
     console.log("TT - Travel | Achievements");
 
     if(flying())

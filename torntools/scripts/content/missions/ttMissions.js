@@ -1,4 +1,4 @@
-window.onload = window.onload.extend(function(){
+window.addEventListener('load', (event) => {
     console.log("TT - Missions");
 
     chrome.storage.local.get(["settings", "itemlist"], function(data){
