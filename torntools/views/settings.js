@@ -278,6 +278,11 @@ function notification(message){
 }
 
 const changeLog = {
+	"v3.4": {
+		"Features": [
+			"Added Fraud crimes to Crime achievements."
+		]
+	},
 	"v3.3": {
 		"Features": [
 			"Added more achievements on pages Home, Items, Missions, Jail, My Faction.",

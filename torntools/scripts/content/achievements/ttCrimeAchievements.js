@@ -48,6 +48,11 @@ window.addEventListener('load', (event) => {
                 "ach": [],
                 "incl": ["auto"]
             },
+            "Fraud": {
+                "stats": crimes.fraud_crimes,
+                "keyword": "fraud",
+                "ach": []
+            },
             "Other": {
                 "stats": crimes.other,
                 "keyword": "other crimes",
