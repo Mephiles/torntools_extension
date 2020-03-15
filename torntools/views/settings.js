@@ -280,7 +280,8 @@ function notification(message){
 const changeLog = {
 	"v3.4": {
 		"Features": [
-			"Added Fraud crimes to Crime achievements."
+			"Added Fraud crimes to Crime achievements.",
+			"Added Github link to the extension (at the bottom of the Settings page)."
 		]
 	},
 	"v3.3": {
