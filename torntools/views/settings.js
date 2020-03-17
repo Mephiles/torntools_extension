@@ -33,6 +33,12 @@ window.onload = function(){
 	save_settings_button.addEventListener("click", function(){
 		saveSettings();
 	});
+
+	// target list button
+	const target_list_button = document.querySelector("#attack-history-button");
+	target_list_button.addEventListener("click", function(){
+		createTargetList();
+	});
 }
 
 function showSettings(settings, allies){
@@ -65,7 +71,6 @@ function showSettings(settings, allies){
 	}
 
 	// show allies
-	console.log(allies)
 	let allies_text = "";
 	for(let ally of allies){
 		allies_text = allies_text + ally;
@@ -275,6 +280,126 @@ function notification(message){
 	setTimeout(function(){
 		$("#message").slideUp("slow", function(){});
 	}, 2000);
+}
+
+function createTargetList(){
+	chrome.storage.local.get(["api_key", "userdata"], function(data){
+		let user_id = data.userdata.player_id;
+		let api_key = data.api_key;
+		get_api("https://api.torn.com/user/?selections=attacksfull", api_key).then((data) => {
+			if(!data)
+				return;
+
+			let targets = {};
+
+			for(let fight_id in data.attacks){
+				let fight = data.attacks[fight_id];
+				let opponent_id = fight.attacker_id == user_id ? fight.defender_id : fight.attacker_id;
+				
+				if(opponent_id && !targets[opponent_id]){
+					targets[opponent_id] = {
+						win: 0,
+						lose: 0,
+						stealth: 0,
+						leave: 0,
+						mug: 0,
+						hosp: 0,
+						assist: 0,
+						arrest: 0,
+						stalemate: 0,
+						defend: 0,
+						defend_lose: 0,
+						special: 0,
+						respect: {
+							leave: [],
+							mug: [],
+							hosp: [],
+							arrest: [],
+							special: []
+						},
+						respect_base: {
+							leave: [],
+							mug: [],
+							hosp: [],
+							arrest: [],
+							special: []
+						}
+					}
+				}
+
+				if(fight.attacker_id == user_id){  // user attacked
+					if(fight.result == "Lost")
+						targets[opponent_id].lose += 1;
+					else if(fight.result == "Stalemate")
+						targets[opponent_id].stalemate += 1;
+					else {
+						targets[opponent_id].win += 1;
+
+						if(fight.stealthed == "1")
+							targets[opponent_id].stealth += 1;
+
+						if(fight.result == "Mugged"){
+							targets[opponent_id].mug += 1;
+							targets[opponent_id].respect.mug.push(parseFloat(fight.respect_gain));
+						} else if(fight.result == "Hospitalized"){
+							targets[opponent_id].hosp += 1;
+							targets[opponent_id].respect.hosp.push(parseFloat(fight.respect_gain));
+						} else if(fight.result == "Attacked"){
+							targets[opponent_id].leave += 1;
+							targets[opponent_id].respect.leave.push(parseFloat(fight.respect_gain));
+						} else if(fight.result == "Arrested"){
+							targets[opponent_id].arrest += 1;
+							targets[opponent_id].respect.arrest.push(parseFloat(fight.respect_gain));
+						} else if(fight.result == "Assist"){
+							targets[opponent_id].assist += 1;
+						} else if(fight.result == "Special"){
+							targets[opponent_id].special += 1;
+							targets[opponent_id].respect.special.push(parseFloat(fight.respect_gain));
+						}
+					}
+				} else if(fight.defender_id == user_id){  // user defended
+					if(fight.result == "Lost")
+						targets[opponent_id].defend += 1;
+					else {
+						if(!opponent_id)
+							continue;
+
+						targets[opponent_id].defend_lose += 1;
+					}
+				}
+			}
+
+			console.log(targets);
+
+			targets.date = String(new Date());
+			chrome.storage.local.set({"target_list": targets}, function(){
+				console.log("Target list set.")
+			});
+		});
+	});
+}
+
+async function get_api(http, api_key) {
+	const response = await fetch(http + "&key=" + api_key)
+	const result = await response.json()
+
+	if(result.error){
+		console.log("API SYSTEM OFFLINE");
+		chrome.storage.local.get(["api"], function(data){
+			data.api.online = false;
+			data.api.error = result.error.error;
+			chrome.storage.local.set({"api": data.api}, function(){});
+		});
+		return false;
+	} else {
+		chrome.storage.local.get(["api"], function(data){
+			data.api.online = true;
+			data.api.error = "";
+			chrome.storage.local.set({"api": data.api}, function(){});
+		});
+	}
+
+	return result;
 }
 
 const changeLog = {

@@ -107,7 +107,7 @@ async function get_api(http, api_key) {
 			data.api.error = result.error.error;
 			chrome.storage.local.set({"api": data.api}, function(){});
 		});
-		return false
+		return false;
 	} else {
 		chrome.storage.local.get(["api"], function(data){
 			data.api.online = true;
