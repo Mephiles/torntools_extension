@@ -5,10 +5,11 @@ window.onload = function(){
     setUpdateToFalse();
 
 	// setup settings
-	chrome.storage.local.get(["settings", "allies"], function(data){
+	chrome.storage.local.get(["settings", "allies", "target_list"], function(data){
 		let settings = data.settings;
 		let allies = data.allies;
-		showSettings(settings, allies);
+		let target_list = data.target_list.show;
+		showSettings(settings, allies, target_list);
 	});
 
 	// reset api key button
@@ -33,15 +34,9 @@ window.onload = function(){
 	save_settings_button.addEventListener("click", function(){
 		saveSettings();
 	});
-
-	// target list button
-	const target_list_button = document.querySelector("#attack-history-button");
-	target_list_button.addEventListener("click", function(){
-		createTargetList();
-	});
 }
 
-function showSettings(settings, allies){
+function showSettings(settings, allies, target_list){
 	let tabs = settings.tabs;
 	let pages = settings.pages;
 
@@ -80,6 +75,9 @@ function showSettings(settings, allies){
 		}
 	}
 	document.querySelector("#allies").value = allies_text;
+
+	// target list
+	document.querySelector("#target_list").checked = target_list;
 }
 
 function saveSettings(){
@@ -118,9 +116,22 @@ function saveSettings(){
 	let allies_text = document.querySelector("#allies").value;
 	allies = allies_text.split(",");
 
+	// target list
+	let target_list_value = document.querySelector("#target_list").checked;
+
 	// set allies
 	chrome.storage.local.set({"allies": allies}, function(){
 		console.log("Allies set");
+	});
+
+	// set target list
+	chrome.storage.local.get(["target_list"], function(data){
+		chrome.storage.local.set({"target_list": {
+			show: target_list_value,
+			targets: data.target_list.targets
+		}}, function(){
+			console.log("Target list set");
+		});
 	});
 
 	// write settings
@@ -280,103 +291,6 @@ function notification(message){
 	setTimeout(function(){
 		$("#message").slideUp("slow", function(){});
 	}, 2000);
-}
-
-function createTargetList(){
-	chrome.storage.local.get(["api_key", "userdata"], function(data){
-		let user_id = data.userdata.player_id;
-		let api_key = data.api_key;
-		get_api("https://api.torn.com/user/?selections=attacksfull", api_key).then((data) => {
-			if(!data)
-				return;
-
-			let targets = {};
-
-			for(let fight_id in data.attacks){
-				let fight = data.attacks[fight_id];
-				let opponent_id = fight.attacker_id == user_id ? fight.defender_id : fight.attacker_id;
-				
-				if(opponent_id && !targets[opponent_id]){
-					targets[opponent_id] = {
-						win: 0,
-						lose: 0,
-						stealth: 0,
-						leave: 0,
-						mug: 0,
-						hosp: 0,
-						assist: 0,
-						arrest: 0,
-						stalemate: 0,
-						defend: 0,
-						defend_lose: 0,
-						special: 0,
-						respect: {
-							leave: [],
-							mug: [],
-							hosp: [],
-							arrest: [],
-							special: []
-						},
-						respect_base: {
-							leave: [],
-							mug: [],
-							hosp: [],
-							arrest: [],
-							special: []
-						}
-					}
-				}
-
-				if(fight.attacker_id == user_id){  // user attacked
-					if(fight.result == "Lost")
-						targets[opponent_id].lose += 1;
-					else if(fight.result == "Stalemate")
-						targets[opponent_id].stalemate += 1;
-					else {
-						targets[opponent_id].win += 1;
-
-						if(fight.stealthed == "1")
-							targets[opponent_id].stealth += 1;
-
-						if(fight.result == "Mugged"){
-							targets[opponent_id].mug += 1;
-							targets[opponent_id].respect.mug.push(parseFloat(fight.respect_gain));
-						} else if(fight.result == "Hospitalized"){
-							targets[opponent_id].hosp += 1;
-							targets[opponent_id].respect.hosp.push(parseFloat(fight.respect_gain));
-						} else if(fight.result == "Attacked"){
-							targets[opponent_id].leave += 1;
-							targets[opponent_id].respect.leave.push(parseFloat(fight.respect_gain));
-						} else if(fight.result == "Arrested"){
-							targets[opponent_id].arrest += 1;
-							targets[opponent_id].respect.arrest.push(parseFloat(fight.respect_gain));
-						} else if(fight.result == "Assist"){
-							targets[opponent_id].assist += 1;
-						} else if(fight.result == "Special"){
-							targets[opponent_id].special += 1;
-							targets[opponent_id].respect.special.push(parseFloat(fight.respect_gain));
-						}
-					}
-				} else if(fight.defender_id == user_id){  // user defended
-					if(fight.result == "Lost")
-						targets[opponent_id].defend += 1;
-					else {
-						if(!opponent_id)
-							continue;
-
-						targets[opponent_id].defend_lose += 1;
-					}
-				}
-			}
-
-			console.log(targets);
-
-			targets.date = String(new Date());
-			chrome.storage.local.set({"target_list": targets}, function(){
-				console.log("Target list set.")
-			});
-		});
-	});
 }
 
 async function get_api(http, api_key) {

@@ -8,6 +8,10 @@ const chrome = window.chrome || window.browser;
 chrome.storage.local.set({
 	"update-available": false,
 	"updated": true,
+	"target_list": {
+		"show": true,
+		"targets": {}
+	},
 	"api": {
 		"count": 0,
 		"limit": 60,
@@ -130,6 +134,10 @@ async function get_api(http, api_key) {
 			periodInMinutes: 1
 		});
 
+		chrome.alarms.create('updateTargetList', {  // update target list
+			periodInMinutes: 1
+		});
+
 	// Set alarm listeners (do something every minute)
 	chrome.alarms.onAlarm.addListener(function(alarm) {
 		switch (alarm.name){
@@ -139,6 +147,14 @@ async function get_api(http, api_key) {
 			case "resetApiCount":
 				chrome.storage.local.set({"api_count": 0}, function(){
 					console.log("API counter reset.")
+				});
+				break;
+			case "updateTargetList":
+				chrome.storage.local.get(["target_list"], function(data){
+					if(!data.target_list.show)
+						return;
+					
+					updateTargetList();
 				});
 				break;
 			default:
@@ -183,5 +199,138 @@ async function get_api(http, api_key) {
 
 		chrome.tabs.create({
 			url: url
+		});
+	}
+
+	function updateTargetList(){
+		chrome.storage.local.get(["api_key", "userdata", "target_list"], function(data){
+			let user_id = data.userdata.player_id;
+			let api_key = data.api_key;
+			let targets = data.target_list.targets;
+			let attacksfull = true;
+			let last_target = data.target_list.last_target || -1;
+
+			if(Object.keys(targets).length > 0)
+				attacksfull = false;
+			
+			get_api(`https://api.torn.com/user/?selections=${attacksfull?'attacksfull':'attacks'}`, api_key).then((data) => {
+				if(!data)
+					return;
+
+				for(let fight_id in data.attacks){
+					if(parseInt(fight_id) < parseInt(last_target))
+						continue;
+					
+					last_target = fight_id;
+					let fight = data.attacks[fight_id];
+					let opponent_id = fight.attacker_id == user_id ? fight.defender_id : fight.attacker_id;
+
+					if(!opponent_id)
+						continue;
+					
+					if(!targets[opponent_id]){
+						targets[opponent_id] = {
+							win: 0,
+							lose: 0,
+							stealth: 0,
+							leave: 0,
+							mug: 0,
+							hosp: 0,
+							assist: 0,
+							arrest: 0,
+							stalemate: 0,
+							defend: 0,
+							defend_lose: 0,
+							special: 0,
+							respect: {
+								leave: [],
+								mug: [],
+								hosp: [],
+								arrest: [],
+								special: []
+							},
+							respect_base: {
+								leave: [],
+								mug: [],
+								hosp: [],
+								arrest: [],
+								special: []
+							}
+						}
+					}
+	
+					if(fight.attacker_id == user_id){  // user attacked
+						if(fight.result == "Lost")
+							targets[opponent_id].lose += 1;
+						else if(fight.result == "Stalemate")
+							targets[opponent_id].stalemate += 1;
+						else {
+							targets[opponent_id].win += 1;
+							let respect = parseFloat(fight.respect_gain);
+							
+							if(!attacksfull)
+								respect = respect / fight.modifiers.war / fight.modifiers.groupAttack / fight.modifiers.overseas / fight.modifiers.chainBonus;
+
+							if(fight.stealthed == "1")
+								targets[opponent_id].stealth += 1;
+	
+							if(fight.result == "Mugged"){
+								targets[opponent_id].mug += 1;
+								
+								if(!attacksfull)
+									targets[opponent_id].respect_base.mug.push(respect);
+								else
+									targets[opponent_id].respect.mug.push(respect);
+							} else if(fight.result == "Hospitalized"){
+								targets[opponent_id].hosp += 1;
+								if(!attacksfull)
+									targets[opponent_id].respect_base.hosp.push(respect);
+								else
+									targets[opponent_id].respect.hosp.push(respect);
+							} else if(fight.result == "Attacked"){
+								targets[opponent_id].leave += 1;
+								if(!attacksfull)
+									targets[opponent_id].respect_base.leave.push(respect);
+								else
+									targets[opponent_id].respect.leave.push(respect);
+							} else if(fight.result == "Arrested"){
+								targets[opponent_id].arrest += 1;
+								if(!attacksfull)
+									targets[opponent_id].respect_base.arrest.push(respect);
+								else
+									targets[opponent_id].respect.arrest.push(respect);
+							} else if(fight.result == "Assist"){
+								targets[opponent_id].assist += 1;
+							} else if(fight.result == "Special"){
+								targets[opponent_id].special += 1;
+								if(!attacksfull)
+									targets[opponent_id].respect_base.special.push(respect);
+								else
+									targets[opponent_id].respect.special.push(respect);
+							}
+						}
+					} else if(fight.defender_id == user_id){  // user defended
+						if(fight.result == "Lost")
+							targets[opponent_id].defend += 1;
+						else {
+							if(!opponent_id)
+								continue;
+	
+							targets[opponent_id].defend_lose += 1;
+						}
+					}
+				}
+
+				console.log(targets);
+
+				targets.date = String(new Date());
+				chrome.storage.local.get(["target_list"], function(data){
+					data.target_list.targets = targets;
+					data.target_list.last_target = last_target;
+					chrome.storage.local.set({"target_list": data.target_list}, function(){
+						console.log("Target list set.")
+					});
+				});
+			});
 		});
 	}
