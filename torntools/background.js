@@ -4,60 +4,64 @@ console.log("START");
 // Chrome or something else?
 const chrome = window.chrome || window.browser;
 
-// Set settings
-chrome.storage.local.set({
-	"update-available": false,
-	"updated": true,
-	"target_list": {
-		"show": true,
-		"targets": {}
-	},
-	"api": {
-		"count": 0,
-		"limit": 60,
-		"online": true,
-		"error": ""
-	},
-	"settings": {
-		"tabs": {
-			"market": true,
-			"stocks": true,
-			"calculator": true,
-			"default": "market"
-		},
-		"achievements": {
-			"show": true,
-			"show_completed": true
-		},
-		"pages": {
-			"trade": {
-				"calculator": true
-			},
-			"home": {
-				"networth": true
-			},
-			"missions": {
-				"show": true
-			},
-			"city": {
-				"show": true,
-				"items_value": true
-			},
-			"hub": {
-				"show": false,
-				"pinned": false
-			},
-			"profile": {
-				"show": true
-			},
-			"racing": {
-				"show": true
-			}
-		}
-	},
-	"allies": []
-}, function(){console.log("Settings set.")});
+chrome.storage.local.get(["settings"], function(data){
+	if(data.settings)
+		return;
 
+	// Set settings
+	chrome.storage.local.set({
+		"update-available": false,
+		"updated": true,
+		"target_list": {
+			"show": true,
+			"targets": {}
+		},
+		"api": {
+			"count": 0,
+			"limit": 60,
+			"online": true,
+			"error": ""
+		},
+		"settings": {
+			"tabs": {
+				"market": true,
+				"stocks": true,
+				"calculator": true,
+				"default": "market"
+			},
+			"achievements": {
+				"show": true,
+				"show_completed": true
+			},
+			"pages": {
+				"trade": {
+					"calculator": true
+				},
+				"home": {
+					"networth": true
+				},
+				"missions": {
+					"show": true
+				},
+				"city": {
+					"show": true,
+					"items_value": true
+				},
+				"hub": {
+					"show": false,
+					"pinned": false
+				},
+				"profile": {
+					"show": true
+				},
+				"racing": {
+					"show": true
+				}
+			}
+		},
+		"allies": []
+	}, function(){console.log("Settings set.")});
+});
 
 function Main(){
 	// Get user and torn data
