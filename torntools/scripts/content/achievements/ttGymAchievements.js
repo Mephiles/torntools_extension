@@ -22,31 +22,31 @@ window.addEventListener('load', (event) => {
         // object of all the achievements on this page
         var achievements = {
             "Strength": {
-                "stats": userdata.strength,
+                "stats": parseInt(userdata.strength),
                 "keyword": "strength",
                 "ach": [],
                 "incl": ["gain"]
             },
             "Speed": {
-                "stats": userdata.speed,
+                "stats": parseInt(userdata.speed),
                 "keyword": "speed",
                 "ach": [],
                 "incl": ["gain"]
             },
             "Defense": {
-                "stats": userdata.defense,
+                "stats": parseInt(userdata.defense),
                 "keyword": "defense",
                 "ach": [],
                 "incl": ["gain"]
             },
             "Dexterity": {
-                "stats": userdata.dexterity,
+                "stats": parseInt(userdata.dexterity),
                 "keyword": "dexterity",
                 "ach": [],
                 "incl": ["gain"]
             },
             "Total": {
-                "stats": userdata.total,
+                "stats": parseInt(userdata.total),
                 "keyword": "total stats",
                 "ach": []
             },
