@@ -19,16 +19,7 @@ let STORAGE = {
 		"error": ""
 	},
 	// user settings
-	"networth": {
-		"previous": {
-			"value": undefined,
-			"date": undefined
-		},
-		"current": {
-			"value": undefined,
-			"date": undefined
-		}
-	},
+	"networth": {},
 	"target_list": {
 		"show": true,
 		"targets": {}
@@ -80,8 +71,9 @@ chrome.storage.local.get(null, function(old_storage){
 			console.log("Storage set");
 		});
 	} else {
+		console.log("old", old_storage)
 		let new_storage = fillStorage(old_storage, STORAGE);
-
+		console.log("new", new_storage)
 		chrome.storage.local.clear(function(){
 			chrome.storage.local.set(new_storage, function(){
 				console.log("Storage set");
@@ -90,27 +82,18 @@ chrome.storage.local.get(null, function(old_storage){
 	}
 
 	function fillStorage(old_storage, STORAGE){
-		console.log("-------------------");
 		let new_local_storage = {};
-		console.log("new local storage", new_local_storage);
 
 		for(let key in STORAGE){
-			console.log("key", key);
 			if(!(key in old_storage)){
-				console.log("old", old_storage);
-				console.log("storage", STORAGE);
-				console.log("NEW KEY");
 				new_local_storage[key] = STORAGE[key];
 				continue;
 			}
 			
 			if(typeof STORAGE[key] == "object"){
-				if(Array.isArray(STORAGE[key])){
-					console.log("array");
+				if(Array.isArray(STORAGE[key]))
 					new_local_storage[key] = old_storage[key];
-				}
 				else{
-					console.log("object");
 					if(Object.keys(STORAGE[key]).length == 0)
 						new_local_storage[key] = old_storage[key];
 					else
@@ -146,10 +129,11 @@ function Main(){
 				console.log("Userdata set.")
 			});
 
-			let networth = data.networth;
+			let new_networth = data.networth;
+
 			// set networth
 			chrome.storage.local.get(["networth"], function(data){
-				if(!data.networth){
+				if(Object.keys(data.networth).length == 0){
 					data.networth = {
 						"previous": {
 							"value": undefined,
@@ -160,16 +144,18 @@ function Main(){
 							"date": undefined
 						}
 					}
-				}
-				
-				if(data.networth.current.date && data.networth.current.date.getDate() != (new Date().getDate()))
+				} else if(new Date(data.networth.current.date).getDate() != new Date().getDate())
 					data.networth.previous = data.networth.current;
 
-				data.networth.current.value = networth;
-				data.networth.current.date = new Date();
+				data.networth.current.value = new_networth;
+				data.networth.current.date = String(new Date());
 
 				chrome.storage.local.set({"networth": data.networth}, function(){
 					console.log("Networth set.");
+
+					chrome.storage.local.get(["networth"], function(data){
+						console.log("NEW NETWORTH SET", data);
+					});
 				});
 			});
 		});
