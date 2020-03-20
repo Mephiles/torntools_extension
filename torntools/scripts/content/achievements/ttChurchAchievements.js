@@ -1,5 +1,5 @@
 window.addEventListener('load', (event) => {
-    console.log("TT - Travel | Achievements");
+    console.log("TT - Church | Achievements");
 
     if(flying())
         return
@@ -12,93 +12,26 @@ window.addEventListener('load', (event) => {
         const honors = data.torndata.honors;
         const medals = data.torndata.medals;
         const date = data.userdata.date;
-        
-        console.log("USERDATA", data.userdata);
-        //console.log("TORNDATA", data.torndata);
 
         if(!show_achievements)
-            return
-        
+            return;
+
         // object of all the achievements on this page
         var achievements = {
-            "Argentina": {
-                "stats": personalstats.argtravel, 
-                "keyword": "argentina",
+            "Donations": {
+                "stats": getDonations(),
+                "keyword": "church",
                 "ach": []
-            },
-            "Canada": {
-                "stats": personalstats.cantravel,
-                "keyword": "canada",
-                "ach": []
-            },
-            "Cayman": {
-                "stats": personalstats.caytravel,
-                "keyword": "cayman",
-                "ach": []
-            },
-            "China": {
-                "stats": personalstats.chitravel,
-                "keyword": "china",
-                "ach": []
-            },
-            "Dubai": {
-                "stats": personalstats.dubtravel,
-                "keyword": "dubai",
-                "ach": []
-            },
-            "Hawaii": {
-                "stats": personalstats.hawtravel,
-                "keyword": "hawaii",
-                "ach": []
-            },
-            "Japan": {
-                "stats": personalstats.japtravel,
-                "keyword": "japan",
-                "ach": []
-            },
-            "UK": {
-                "stats": personalstats.lontravel,
-                "keyword": "kingdom",
-                "ach": []
-            },
-            "Mexico": {
-                "stats": personalstats.mextravel,
-                "keyword": "mexico",
-                "ach": []
-            },
-            "South Africa": {
-                stats: personalstats.soutravel,
-                "keyword": "south africa",
-                "ach": []
-            },
-            "Switzerland": {
-                "stats": personalstats.switravel,
-                "keyword": "switzerland",
-                "ach": []
-            },
-            "Total": {
-                "stats": personalstats.traveltimes,
-                "keyword": "travel",
-                "ach": [], 
-                "excl": ["to"]
-            },
-            "Time (days)": {
-                "stats": days(personalstats.traveltime),
-                "keyword": "spend",
-                "ach": [], 
-                "incl": ["days", "air"]
-            },
-            "Items bought abroad": {
-                "stats": personalstats.itemsboughtabroad,
-                "keyword": "import",
-                "ach": [],
-                "incl": ["items"]
             }
         }
 
         displayAchievements(achievements, show_completed, honors, medals, date);
     });
 });
+
+function getDonations(){
+    return parseInt(document.querySelector("#church-donate .desc").innerText.split("donated")[1].split("to")[0].trim().replace(/,/g, "").replace("$", ""));
+}
 
 function displayAchievements(achievements, show_completed, honors, medals, date){
     let achievements_window = createWindow(date);
@@ -388,8 +321,4 @@ function flying() {
 
 function hours(x) {
 	return Math.floor(x / 60 / 60); // seconds, minutes
-}
-
-function days(x) {
-	return Math.floor(x / 60 / 60 / 24); // seconds, minutes, hours
 }

@@ -77,22 +77,11 @@ window.addEventListener('load', (event) => {
                 "keyword": "viruses",
                 "ach": []
             },
-            "Blood": {
+            "Fill blood": {
                 "stats": personalstats.bloodwithdrawn,
                 "keyword": "blood",
                 "ach": [],
                 "incl": ["fill"]
-            },
-            "City finds": {
-                "stats": personalstats.cityfinds,
-                "keyword": "city",
-                "ach": [],
-                "incl": ["find", "items"]
-            },
-            "Dump finds": {
-                "stats": personalstats.dumpfinds,
-                "keyword": "dump finds",
-                "ach": []
             },
             "Items dumped": {
                 "stats": personalstats.itemsdumped,
@@ -120,12 +109,6 @@ window.addEventListener('load', (event) => {
                 "stats": personalstats.energydrinkused,
                 "keyword": "energy drink",
                 "ach": []
-            },
-            "Items bought abroad": {
-                "stats": personalstats.itemsboughtabroad,
-                "keyword": "import",
-                "ach": [],
-                "incl": ["items"]
             },
             "Bazaar customers": {
                 "stats": personalstats.bazaarcustomers,
