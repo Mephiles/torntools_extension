@@ -41,7 +41,7 @@
 		{
 			"matches": ["https://www.torn.com/city.php*"],
 		    "css": ["scripts/css/ttcity.css"],
-			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/city/ttCity.js"],
+			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/city/ttCity.js", "scripts/content/achievements/ttCityAchievements.js"],
             "run_at": "document_end"
 		},
 		{
@@ -107,6 +107,11 @@
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=racing"],
 			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/racing/ttRacingUpgrades.js", "scripts/content/achievements/ttRacingAchievements.js"],
+            "run_at": "document_end"
+	    },
+		{
+			"matches": ["https://www.torn.com/church.php"],
+			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/achievements/ttChurchAchievements.js"],
             "run_at": "document_end"
 	    }
     ],
