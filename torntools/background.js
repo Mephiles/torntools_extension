@@ -4,63 +4,125 @@ console.log("START");
 // Chrome or something else?
 const chrome = window.chrome || window.browser;
 
-chrome.storage.local.get(["settings"], function(data){
-	if(data.settings)
-		return;
-
-	// Set settings
-	chrome.storage.local.set({
-		"update-available": false,
-		"updated": true,
-		"target_list": {
+let STORAGE = {
+	// app settings
+	"api_key": undefined,
+	"itemlist": {},
+	"torndata": {},
+	"userdata": {},
+	"update-available": false,
+	"updated": true,
+	"api": {
+		"count": 0,
+		"limit": 60,
+		"online": true,
+		"error": ""
+	},
+	// user settings
+	"networth": {
+		"previous": {
+			"value": undefined,
+			"date": undefined
+		},
+		"current": {
+			"value": undefined,
+			"date": undefined
+		}
+	},
+	"target_list": {
+		"show": true,
+		"targets": {}
+	},
+	"settings": {
+		"tabs": {
+			"market": true,
+			"stocks": true,
+			"calculator": true,
+			"default": "market"
+		},
+		"achievements": {
 			"show": true,
-			"targets": {}
+			"show_completed": true
 		},
-		"api": {
-			"count": 0,
-			"limit": 60,
-			"online": true,
-			"error": ""
-		},
-		"settings": {
-			"tabs": {
-				"market": true,
-				"stocks": true,
-				"calculator": true,
-				"default": "market"
+		"pages": {
+			"trade": {
+				"calculator": true
 			},
-			"achievements": {
+			"home": {
+				"networth": true,
+			},
+			"missions": {
+				"show": true
+			},
+			"city": {
 				"show": true,
-				"show_completed": true
+				"items_value": true
 			},
-			"pages": {
-				"trade": {
-					"calculator": true
-				},
-				"home": {
-					"networth": true
-				},
-				"missions": {
-					"show": true
-				},
-				"city": {
-					"show": true,
-					"items_value": true
-				},
-				"hub": {
-					"show": false,
-					"pinned": false
-				},
-				"profile": {
-					"show": true
-				},
-				"racing": {
-					"show": true
-				}
+			"hub": {
+				"show": false,
+				"pinned": false
+			},
+			"profile": {
+				"show": true
+			},
+			"racing": {
+				"show": true
 			}
-		},
-		"allies": []
-	}, function(){console.log("Settings set.")});
+		}
+	},
+	"allies": []
+}
+
+chrome.storage.local.get(null, function(old_storage){
+
+	if(!old_storage){
+		chrome.storage.local.set(STORAGE, function(){
+			console.log("Storage set");
+		});
+	} else {
+		let new_storage = fillStorage(old_storage, STORAGE);
+
+		chrome.storage.local.clear(function(){
+			chrome.storage.local.set(new_storage, function(){
+				console.log("Storage set");
+			});
+		});
+	}
+
+	function fillStorage(old_storage, STORAGE){
+		console.log("-------------------");
+		let new_local_storage = {};
+		console.log("new local storage", new_local_storage);
+
+		for(let key in STORAGE){
+			console.log("key", key);
+			if(!(key in old_storage)){
+				console.log("old", old_storage);
+				console.log("storage", STORAGE);
+				console.log("NEW KEY");
+				new_local_storage[key] = STORAGE[key];
+				continue;
+			}
+			
+			if(typeof STORAGE[key] == "object"){
+				if(Array.isArray(STORAGE[key])){
+					console.log("array");
+					new_local_storage[key] = old_storage[key];
+				}
+				else{
+					console.log("object");
+					if(Object.keys(STORAGE[key]).length == 0)
+						new_local_storage[key] = old_storage[key];
+					else
+						new_local_storage[key] = fillStorage(old_storage[key], STORAGE[key]);
+				}
+			} else {
+				new_local_storage[key] = old_storage[key];
+			}
+		}
+
+		return new_local_storage;
+	}
 });
 
 function Main(){
@@ -78,9 +140,37 @@ function Main(){
 		get_api("https://api.torn.com/user/?selections=personalstats,crimes,battlestats,perks,profile,workstats,stocks,networth", api_key).then((data) => {
 			if(!data)
 				return
+			
 			data.date = String(new Date());
 			chrome.storage.local.set({"userdata": data}, function(){
 				console.log("Userdata set.")
+			});
+
+			let networth = data.networth;
+			// set networth
+			chrome.storage.local.get(["networth"], function(data){
+				if(!data.networth){
+					data.networth = {
+						"previous": {
+							"value": undefined,
+							"date": undefined
+						},
+						"current": {
+							"value": undefined,
+							"date": undefined
+						}
+					}
+				}
+				
+				if(data.networth.current.date && data.networth.current.date.getDate() != (new Date().getDate()))
+					data.networth.previous = data.networth.current;
+
+				data.networth.current.value = networth;
+				data.networth.current.date = new Date();
+
+				chrome.storage.local.set({"networth": data.networth}, function(){
+					console.log("Networth set.");
+				});
 			});
 		});
 
@@ -324,8 +414,6 @@ async function get_api(http, api_key) {
 						}
 					}
 				}
-
-				console.log(targets);
 
 				targets.date = String(new Date());
 				chrome.storage.local.get(["target_list"], function(data){
