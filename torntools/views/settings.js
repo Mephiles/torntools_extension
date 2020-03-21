@@ -317,6 +317,21 @@ async function get_api(http, api_key) {
 }
 
 const changeLog = {
+	"v3.5": {
+		"Features": [
+			"Create and update a target list based on attack history.",
+			"Moved City & Dump finds achievements to city.php",
+			"Moved items bought abroad achievement to travelagency.php",
+			"Added Church donations achievement to church.php",
+			"Increase 'time ago' counter on achievement pages."
+		],
+		"Fixes": [
+			"Fixed settings reseting when closing and re-opening browser.",
+			"Fixed bug where Gym stats had a random comma after the decimal point. (all stats rounded down to a whole number)",
+			"Fixed double update notification on profile.php on Firefox",
+			"Fixed networth not showing for some users on home.php"
+		]
+	},
 	"v3.4": {
 		"Features": [
 			"Added Fraud crimes to Crime achievements.",
