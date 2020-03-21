@@ -319,7 +319,7 @@ async function get_api(http, api_key) {
 const changeLog = {
 	"v3.5": {
 		"Features": [
-			"Create and update a target list based on attack history.",
+			"Create and update a target list based on attack history. (not available for use yet; coming with next update)",
 			"Moved City & Dump finds achievements to city.php",
 			"Moved items bought abroad achievement to travelagency.php",
 			"Added Church donations achievement to church.php",
