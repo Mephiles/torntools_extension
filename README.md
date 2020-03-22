@@ -1,10 +1,10 @@
 # torntools_extension
- TornTools: A browser extension for Torn.com
+TornTools: A browser extension for Torn.com
 
 Links
-Original thread: https://www.torn.com/forums.php#/p=threads&f=67&t=16054539&b=0&a=0&start=0&to=19000313
-Chrome: https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib
-Firefox: https://addons.mozilla.org/en-US/firefox/addon/torn-tools/
+Original thread: <a href="https://www.torn.com/forums.php#/p=threads&f=67&t=16054539&b=0&a=0&start=0&to=19000313"> Link </a>
+Chrome: <a href="https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib"> Link </a>
+Firefox: <a href="https://addons.mozilla.org/en-US/firefox/addon/torn-tools/"> Link </a>
 
 Features:
     - Access Torn market from anywhere ( check prices of items from the small extension window at top-right )
