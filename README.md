@@ -18,3 +18,5 @@ Features:
 Don't like something? Turn it off in the settings and use the features you do like.  
 
 Any bugs? Ideas? Suggestions? Let me know!  
+
+Created by: Gregor (Mephiles[2087524])
