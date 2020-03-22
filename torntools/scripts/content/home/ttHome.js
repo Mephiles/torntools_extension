@@ -96,8 +96,14 @@ function displayNetworthChange(networth){
 				td.innerText = type;
 			else if(heading == "Value")
 				td.innerText = "$" + String(numberWithCommas(value));
-			else if(heading == "Change")
+			else if(heading == "Change"){
 				td.innerText = "$" + String(numberWithCommas(change));
+
+				if(change > 0)
+					td.style.color = "green";
+				else if (change < 0)
+					td.style.color = "red";
+			}
 			tr.appendChild(td);
 		}
 		table.appendChild(tr);

@@ -144,8 +144,11 @@ function Main(){
 							"date": undefined
 						}
 					}
-				} else if(new Date(data.networth.current.date).getDate() != new Date().getDate())
+				} else if(new Date(data.networth.current.date).getDate() != new Date().getDate()){
+					console.log("Current:", new Date(data.networth.current.date).getDate());
+					console.log("Now:", new Date().getDate());
 					data.networth.previous = data.networth.current;
+				}
 
 				data.networth.current.value = new_networth;
 				data.networth.current.date = String(new Date());
