@@ -16,7 +16,7 @@ window.addEventListener('load', (event) => {
 
         let user_networth = data.userdata.networth.total;
 		displayNetworth(parseInt(user_networth));
-		displayNetworthChange(networth);
+		// displayNetworthChange(networth);
     });
 });
 
