@@ -7,14 +7,31 @@ Links
   - [Firefox](https://addons.mozilla.org/en-US/firefox/addon/torn-tools/)  
 
 Features:  
-  - Access Torn market from anywhere ( check prices of items from the small extension window at top-right )  
-  - Keep track of your Achievements at the left-side menu bar in Torn  
-  - Auto-calculate the worth of Items when trading with someone  
-  - Show the total value of items in city map view  
-  - Show mission reward values ($/credit)  
-  - Show racing upgrade values  
-  - Get a warning when you are on an ally faction player's profile (don't attack them please) (you have to add allies manually in settings)  
+  - Torn Market  
+  - Achievements  
+  - Trade calculator  
+  - City items  
+  - Mission reward values  
+  - Racing upgrade values  
+  - Friendly Fire  
+  - Actual networth  
+  - Target list  
   
+**Market**: check prices of items from the small extension window at top-right  
+**Achievements**: keep track of your Achievements at the left-side menu bar in Torn  
+**Trade Calculator**: auto-calculate the worth of Items when trading with someone  
+**City**: show items in city & the total value of the items  
+**Mission Reward Values**: show mission reward values (most important: $/credit)  
+**Racing upgrade values**: show the exact values of racing upgrades to find the best upgrade  
+**Friendly Fire**: get a warning when you are on an ally faction player's profile (you have to add allies manually in settings)  
+**Actual Networth**: show actual current networth under the normal networth on home page  
+**Target list**: *Coming soon* (created based on attack history)  
+
+**API requests**:  
+  - 3 requests on install  
+  - 3/4 requests periodically  
+  - 1 request per search in Market tab  
+
 Don't like something? Turn it off in the settings and use the features you do like.  
 
 Any bugs? Ideas? Suggestions? Let me know!  
