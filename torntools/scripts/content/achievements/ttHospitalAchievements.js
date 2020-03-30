@@ -59,7 +59,7 @@ function displayAchievements(achievements, show_completed, honors, medals, date)
             row.style.cursor = "default";
         let row_inner = document.createElement("div");
             row_inner.setAttribute("class", "area-row___34mEZ");
-            row_inner.setAttribute("style", "line-height: 23px; min-height: 25px;");
+            row_inner.setAttribute("style", "line-height: 25px; min-height: 25px;");
             row_inner.style.cursor = "default";
         let a = document.createElement("a");
             a.setAttribute("class", "desktopLink___2dcWC");
