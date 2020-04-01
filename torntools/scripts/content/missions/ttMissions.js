@@ -75,7 +75,7 @@ function displayMissionPrice(reward, id, quantity, points, itemlist){
 	allItems.innerHTML = `Total value: <span style="color: #678c00">$${String(numberWithCommas(totalValue))}</span>`;
 	allItems.style.textAlign = "left";
 	allItems.style.paddingLeft = "5px";
-	allItems.style.paddingTop = "50px";
+	allItems.style.paddingTop = "60px";
 
 	pointValue.innerHTML = `Point value: <span style="color: #678c00">$${numberWithCommas((totalValue/points).toFixed(0))}</span>`;
 	pointValue.style.textAlign = "left";
