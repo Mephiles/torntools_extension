@@ -139,6 +139,90 @@
 		<hr>
 	</div>
 
+	<style>
+		.table {
+			width: 80%;
+			margin: 0;
+			padding: 0;
+			max-height: 600px;
+			overflow: auto;
+			position: relative;
+		}
+
+		.table .row {
+			width: 100%;
+			height: 30px;
+			line-height: 30px;
+			margin: 0;
+			padding: 0;
+			font-weight: 400;
+			text-align: center;
+			display: flex;
+		}
+		.table .header.row {
+			font-weight: 600;
+			position: sticky;
+			left: 0;
+			top: 0;
+		}
+
+		.table .row .item {
+			width: 7%;
+			border-bottom: 0.5px solid lightgrey;
+			padding-left: 5px;
+		}
+
+		.table .header.row .item {
+			border-bottom: 1px solid black;
+		}
+
+		.table .row:last-of-type .item {
+			border-bottom: none;
+		}
+
+		.table .row .new-section.item {
+			border-left: 1px solid grey;
+		}
+
+		.table .row .item.good {
+			background-color: #dfffdf;
+		}
+
+		.table .row .item.bad {
+			background-color: #ffe0e0;
+		}
+
+		.table .row .item.neutral {
+			background: white;
+		}
+
+		
+	</style>
+
+	<!-- Target list -->
+	<div id="target-list" class="sub-section">
+		<h2>Targets</h2>
+		<div class="table">
+			<div class="header row">
+				<div class="neutral item" name="id">ID</div>
+				<div class="new-section important good item" name="win">Wins</div>
+				<div class="good item" name="mug">Mugs</div>
+				<div class="good item" name="leave">Leaves</div>
+				<div class="good item" name="hosp">Hosps</div>
+				<div class="good item" name="arrest">Arrests</div>
+				<div class="good item" name="special">Specials</div>
+				<div class="good item" name="assist">Assists</div>
+				<div class="good item" name="defend">Defends</div>
+				<div class="new-section important bad item" name="lose">Losses</div>
+				<div class="bad item" name="defend_lose">Defends lost</div>
+				<div class="bad item" name="stalemate">Stalemates</div>
+				<div class="new-section important neutral item"name="stealth">Stealths</div>
+				<div class="important neutral item" name="respect_base">Respect</div>
+			</div>
+		</div>
+	</div>
+
+	<hr>
 	<!-- api -->
 	<div id="api-container" class="sub-section">
 		<h2>API</h2>

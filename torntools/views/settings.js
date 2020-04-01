@@ -2,14 +2,17 @@ window.onload = function(){
     console.log("TT - Settings");
 
     // set update to false and check if api is online
-    setUpdateToFalse();
+	setUpdateToFalse();
 
 	// setup settings
 	chrome.storage.local.get(["settings", "allies", "target_list"], function(data){
 		let settings = data.settings;
 		let allies = data.allies;
 		let target_list = data.target_list.show;
+
+		console.log("targets", data.target_list)
 		showSettings(settings, allies, target_list);
+		showTargetList(data.target_list.targets);
 	});
 
 	// reset api key button
@@ -35,6 +38,70 @@ window.onload = function(){
 		saveSettings();
 	});
 }
+
+function showTargetList(target_list){
+	let table = document.querySelector("#target-list .table");
+	let headers = [...table.querySelectorAll(".header.row .item")];
+	headers = headers.map(header => ({"name": header.getAttribute("name"), "class": header.getAttribute("class")}));
+
+	console.log("headers", headers);
+
+	for(let id in target_list){
+		if(id == "date")
+			continue;
+
+		console.log("-------------------------")
+		console.log("ID", id);
+		let row = document.createElement("div");
+		row.setAttribute("class", "row");
+		
+		for(let header of headers){
+			let item = document.createElement("div");
+			item.setAttribute("class", header.class);
+
+			if(header.name == "id")
+				item.innerText = id;
+			else if(header.name == "respect_base"){
+				let respect_type = "respect";
+
+				for(let list in target_list[id]["respect_base"]){
+					if(target_list[id]["respect_base"][list].length > 0){
+						respect_type = "respect_base";
+						break;
+					}
+				}
+
+				console.log("TYPE", respect_type);
+
+				let leaves = target_list[id][respect_type]["leave"];
+
+				if(leaves.length > 0){
+					console.log("USING LEAVES");
+					item.innerText = getAverage(leaves);
+				} else {
+					let averages = [];
+					
+					for(let list in target_list[id][respect_type]){
+						console.log(list, target_list[id][respect_type][list])
+						let avrg_of_list = getAverage(target_list[id][respect_type][list]);
+
+						if(avrg_of_list != 0)
+							averages.push(avrg_of_list);
+					}
+
+					console.log(respect_type, averages)
+
+					item.innerText = getAverage(averages);
+				}
+			} else
+				item.innerText = target_list[id][header.name];
+			
+			row.appendChild(item);
+		}
+
+		table.appendChild(row);
+	}
+}1392711
 
 function showSettings(settings, allies, target_list){
 	let tabs = settings.tabs;
@@ -293,6 +360,17 @@ function notification(message){
 	}, 2000);
 }
 
+function getAverage(arr){
+	if(arr.length == 0)
+		return 0;
+	
+	let sum = 0;
+	for(let item of arr){
+		sum += item;
+	}
+	return parseFloat((sum / arr.length).toFixed(2));
+}
+
 async function get_api(http, api_key) {
 	const response = await fetch(http + "&key=" + api_key)
 	const result = await response.json()
@@ -317,6 +395,14 @@ async function get_api(http, api_key) {
 }
 
 const changeLog = {
+	"v3.6": {
+		"Features": [
+			""
+		],
+		"Fixes": [
+			"Fixed Achievements' line-height"
+		]	
+	},
 	"v3.5": {
 		"Features": [
 			"Create and update a target list based on attack history. (not available for use yet; coming with next update)",
