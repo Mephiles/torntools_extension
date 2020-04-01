@@ -21,6 +21,7 @@ let STORAGE = {
 	// user settings
 	"networth": {},
 	"target_list": {
+		"last_target": undefined,
 		"show": true,
 		"targets": {}
 	},
@@ -294,6 +295,7 @@ async function get_api(http, api_key) {
 			let attacksfull = true;
 			let last_target = data.target_list.last_target || -1;
 
+
 			if(Object.keys(targets).length > 0)
 				attacksfull = false;
 			
@@ -302,7 +304,7 @@ async function get_api(http, api_key) {
 					return;
 
 				for(let fight_id in data.attacks){
-					if(parseInt(fight_id) < parseInt(last_target))
+					if(parseInt(fight_id) <= parseInt(last_target))
 						continue;
 					
 					last_target = fight_id;
