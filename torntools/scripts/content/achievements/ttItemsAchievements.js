@@ -203,16 +203,16 @@ function displayAchievements(achievements, show_completed, honors, medals, date)
                         tt_header.setAttribute("class", "header___30pTh desktop___vemcY");
                         tt_header.innerText = "TT - Awards";
     
-                        let tt_header_time = document.createElement("span");
-                        tt_header_time.id = "tt-awards-time";
-                        tt_header_time.setAttribute("seconds", (new Date() - Date.parse(date))/1000);
-                        tt_header_time.setAttribute("style", `
-                            font-size: 10px;
-                            color: orange;
-                            margin-left: 10px;
-                        `);
-                        tt_header_time.innerText = time_ago(Date.parse(date));
-    
+                            let tt_header_time = document.createElement("span");
+                            tt_header_time.id = "tt-awards-time";
+                            tt_header_time.setAttribute("seconds", (new Date() - Date.parse(date))/1000);
+                            tt_header_time.setAttribute("style", `
+                                font-size: 10px;
+                                color: orange;
+                                margin-left: 10px;
+                            `);
+                            tt_header_time.innerText = time_ago(Date.parse(date));
+                        
                         let tt_toggle_content = document.createElement("div");
                         tt_toggle_content.setAttribute("class", "toggle-content___3XKOC");
     

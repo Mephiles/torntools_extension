@@ -397,10 +397,11 @@ async function get_api(http, api_key) {
 const changeLog = {
 	"v3.6": {
 		"Features": [
-			""
+			"Added Target List to Settings page"
 		],
 		"Fixes": [
-			"Fixed Achievements' line-height"
+			"Fixed Achievements' line-height",
+			"Fixed Missions Reward script visual bug"
 		]	
 	},
 	"v3.5": {
