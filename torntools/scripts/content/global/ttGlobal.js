@@ -111,7 +111,9 @@ function time_ago(time) {
     return time;
 }
 
-function numberWithCommas(x) {
+function numberWithCommas(x, shorten=true) {
+    if(!shorten)
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
     if(x%10 == 0){
         if(x >= 1e9)
@@ -128,4 +130,41 @@ function numberWithCommas(x) {
         return (x/1e6).toFixed(3) + "mil";
 
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function days(x) {
+	return Math.floor(x / 60 / 60 / 24); // seconds, minutes, hours
+}
+
+// ACHIEVEMENT FUNCTIONS
+
+function showAchievementTooltip(text, position){
+    let tt_ach_tooltip = document.querySelector("#tt-ach-tooltip");
+    tt_ach_tooltip.setAttribute("style", `
+        position: absolute;
+        display: block;
+        z-index: 999999;
+        left: ${String(position.x + 172+7) + "px"};
+        top: ${String(position.y + Math.abs(document.body.getBoundingClientRect().y)+6) + "px"};
+    `);
+
+    document.querySelector("#tt-ach-tooltip-text").innerText = text;
+}
+
+function hideAchievementTooltip(){
+    document.querySelector("#tt-ach-tooltip").style.display = "none";
+}
+
+function createAchievementTooltip(){
+    let div = document.createElement("div");
+    let arrow = document.createElement("div");
+    let text = document.createElement("div");
+
+    div.id = "tt-ach-tooltip";
+    arrow.id = "tt-ach-tooltip-arrow";
+    text.id = "tt-ach-tooltip-text";
+
+    div.appendChild(arrow);
+    div.appendChild(text);
+    document.querySelector("body").appendChild(div);
 }

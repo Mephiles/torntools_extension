@@ -55,7 +55,7 @@ window.addEventListener('load', (event) => {
             },
             "Activity": {
                 "stats": hours(personalstats.useractivity),
-                "keyword": "of activity on Torn",
+                "keyword": "activity",
                 "ach": []
             },
             "Bazaar buyers": {
@@ -109,6 +109,8 @@ function displayAchievements(achievements, show_completed, honors, medals, date)
     let achievements_window = createWindow(date);
     let filled_achievements = fillAchievements(achievements, honors, medals);
 
+    createAchievementTooltip();
+
     // add achievement rows to window
     for(let key in filled_achievements){
         let name = key;
@@ -127,8 +129,17 @@ function displayAchievements(achievements, show_completed, honors, medals, date)
             row_inner.style.cursor = "default";
         let a = document.createElement("a");
             a.setAttribute("class", "desktopLink___2dcWC");
+            a.setAttribute("info", `Goals: ${filled_achievements[key].ach.map(x => " "+numberWithCommas(x))}\n Your score: ${numberWithCommas(stat)}`);
             a.style.cursor = "default";
         let span = document.createElement("span");
+
+        a.addEventListener("mouseenter", function(event){
+            showAchievementTooltip(event.target.getAttribute("info"), event.target.getBoundingClientRect());
+        });
+
+        a.addEventListener("mouseleave", function(){
+            hideAchievementTooltip();
+        });
 
         let status = getStatus();
         if(status == "hospital")

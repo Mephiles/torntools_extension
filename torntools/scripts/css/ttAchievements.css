@@ -1,0 +1,22 @@
+
+#tt-ach-tooltip-arrow {
+    float: left;
+    position: relative;
+    left: -5px;
+    top: 1px;
+    width: 0; 
+    height: 0; 
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent; 
+  
+    border-right: 7px solid white; 
+}
+
+#tt-ach-tooltip-text {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    background-color: white;
+    min-width: 100px;
+    padding: 5px;
+    line-height: 16px;
+}

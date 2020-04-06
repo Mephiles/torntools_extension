@@ -29,7 +29,7 @@
 				"https://www.torn.com/factions.php*", "https://www.torn.com/jailview.php", "https://www.torn.com/hospitalview.php", 
 				"https://www.torn.com/loader.php?sid=missions", "https://www.torn.com/loader.php?sid=racing", 
 				"https://www.torn.com/travelagency.php", "https://www.torn.com/item.php", "https://www.torn.com/trade.php*", "https://www.torn.com/profiles.php*"],
-			"css": ["scripts/css/ttwindow.css"],
+			"css": ["scripts/css/ttWindow.css"],
 			"js": ["scripts/content/global/ttGlobal.js"],
             "run_at": "document_end"
         },
@@ -40,57 +40,67 @@
 		},
 		{
 			"matches": ["https://www.torn.com/city.php*"],
-		    "css": ["scripts/css/ttcity.css"],
+		    "css": ["scripts/css/ttCity.css", "scripts/css/ttAchievements.css"],
 			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/city/ttCity.js", "scripts/content/achievements/ttCityAchievements.js"],
             "run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/index.php"],
+		    "css": ["scripts/css/ttAchievements.css"],
 			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/home/ttHome.js", "scripts/content/achievements/ttHomeAchievements.js"],
             "run_at": "document_end"
 	    },
 		{
 			"matches": ["https://www.torn.com/crimes.php"],
+		    "css": ["scripts/css/ttAchievements.css"],
 			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/achievements/ttCrimeAchievements.js"],
             "run_at": "document_end"
 	    },
 		{
 			"matches": ["https://www.torn.com/gym.php"],
-			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/achievements/ttGymAchievements.js"],
+		    "css": ["scripts/css/ttAchievements.css"],
+			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/gym/ttGym.js", "scripts/content/achievements/ttGymAchievements.js"],
             "run_at": "document_end"
 	    },
 		{
 			"matches": ["https://www.torn.com/companies.php"],
+		    "css": ["scripts/css/ttAchievements.css"],
 			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/achievements/ttJobAchievements.js"],
             "run_at": "document_end"
 	    },
 		{
 			"matches": ["https://www.torn.com/factions.php*"],
+		    "css": ["scripts/css/ttAchievements.css"],
 			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/achievements/ttFactionAchievements.js"],
             "run_at": "document_end"
 	    },
 		{
 			"matches": ["https://www.torn.com/jailview.php"],
+		    "css": ["scripts/css/ttAchievements.css"],
 			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/achievements/ttJailAchievements.js"],
             "run_at": "document_end"
 	    },
 		{
 			"matches": ["https://www.torn.com/hospitalview.php"],
+		    "css": ["scripts/css/ttAchievements.css"],
 			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/achievements/ttHospitalAchievements.js"],
             "run_at": "document_end"
 	    },
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=missions"],
+		    "css": ["scripts/css/ttAchievements.css"],
 			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/missions/ttMissions.js", "scripts/content/achievements/ttMissionsAchievements.js"],
             "run_at": "document_end"
 	    },
 		{
 			"matches": ["https://www.torn.com/travelagency.php"],
+		    "css": ["scripts/css/ttAchievements.css"],
 			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/achievements/ttTravelAchievements.js"],
             "run_at": "document_end"
 	    },
 		{
 			"matches": ["https://www.torn.com/item.php"],
+		    "css": ["scripts/css/ttAchievements.css"],
 			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/achievements/ttItemsAchievements.js"],
             "run_at": "document_end"
 	    },
@@ -106,11 +116,13 @@
 	    },
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=racing"],
+		    "css": ["scripts/css/ttAchievements.css"],
 			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/racing/ttRacingUpgrades.js", "scripts/content/achievements/ttRacingAchievements.js"],
             "run_at": "document_end"
 	    },
 		{
 			"matches": ["https://www.torn.com/church.php"],
+		    "css": ["scripts/css/ttAchievements.css"],
 			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/achievements/ttChurchAchievements.js"],
             "run_at": "document_end"
 	    }
