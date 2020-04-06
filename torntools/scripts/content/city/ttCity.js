@@ -149,7 +149,3 @@ function showValue(ids){
 		container.insertBefore(div, prevElement.nextElementSibling);
 	});
 }
-
-function numberWithCommas(x) {
-	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}

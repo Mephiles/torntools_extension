@@ -48,13 +48,3 @@ function showWarning(type){
 
     title.appendChild(span);
 }
-
-function flying() {
-	try {	
-		if(document.querySelector("#skip-to-content").innerText === "Traveling"){
-			console.log("TT - User Flying");
-			return true
-		}
-	} catch(err) {}
-	return false
-}

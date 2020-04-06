@@ -117,20 +117,6 @@ function displayNetworthChange(networth){
 	
 }
 
-function flying() {
-	try {	
-		if(document.querySelector("#skip-to-content").innerText === "Traveling"){
-			console.log("TT - User Flying");
-			return true
-		}
-	} catch(err) {}
-	return false
-}
-
-function numberWithCommas(x) {
-	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
 function getGenInfoBox(){
 	let headings = document.querySelectorAll("h5");
 	let gen_info_box;
