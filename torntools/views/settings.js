@@ -397,9 +397,14 @@ async function get_api(http, api_key) {
 const changeLog = {
 	"v3.6": {
 		"Features": [
-			"Added Target List to Settings page"
+			"Added Target List to Settings page",
+			"Added bounty reward (money) achievement",
+			"Shortened '1000' to 'k'",
+			"Added info tooltip for achievements",
+			"Show target list on Settings page"
 		],
 		"Fixes": [
+			"Fixed some broken achievements (Home: activity; Items: items dumped, cannabis; Missions: defends, assists)",
 			"Fixed Achievements' line-height",
 			"Fixed Missions Reward script visual bug"
 		]	
