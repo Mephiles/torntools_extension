@@ -19,7 +19,16 @@ let STORAGE = {
 		"error": ""
 	},
 	// user settings
-	"networth": {},
+	"networth": {
+		"previous": {
+			"value": undefined,
+			"date": undefined
+		},
+		"current": {
+			"value": undefined,
+			"date": undefined
+		}
+	},
 	"target_list": {
 		"last_target": undefined,
 		"show": true,
