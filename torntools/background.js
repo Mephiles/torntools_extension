@@ -68,6 +68,9 @@ let STORAGE = {
 			},
 			"racing": {
 				"show": true
+			},
+			"gym": {
+				"show": true
 			}
 		}
 	},
@@ -174,7 +177,7 @@ function Main(){
 			});
 		});
 
-		get_api("https://api.torn.com/torn/?selections=honors,medals,stocks", api_key).then((data) => {
+		get_api("https://api.torn.com/torn/?selections=honors,medals,stocks,gyms", api_key).then((data) => {
 			if(!data)
 				return
 			data.date = String(new Date());
