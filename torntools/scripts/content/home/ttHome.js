@@ -45,7 +45,7 @@ function displayNetworth(user_networth){
 	spanName.style.backgroundColor = "rgba(0,0,0,0)";
 
 	spanName.innerText = "Networth"
-	spanR.innerText = "$" + String(numberWithCommas(user_networth)) + " ";
+	spanR.innerText = "$" + String(numberWithCommas(user_networth, shorten=false)) + " ";
 	spanR.style.paddingLeft = "12px";
     
     // add to table
