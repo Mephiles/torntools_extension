@@ -115,7 +115,7 @@ function numberWithCommas(x, shorten=true) {
     if(!shorten)
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-    if(x%10 == 0){
+    if(x%1000 == 0){
         if(x >= 1e9)
             return (x/1e9).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "bil"
         else if(x >= 1e6)
