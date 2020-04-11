@@ -69,6 +69,8 @@ function displayNetworthChange(networth){
 
 	table.style.width = "100%";
 	li.style.padding = "3px";
+	li.style.paddingTop = "5px";
+	li.style.paddingLeft = "7px";
 	tr_h.style.paddingBottom = "5px";
 
 	for(let heading of headings){
@@ -88,8 +90,9 @@ function displayNetworthChange(networth){
 		let tr = document.createElement("tr");
 		for(let heading of headings){
 			let td = document.createElement("td");
-			td.style.paddingBottom = "2px";
+			td.style.paddingBottom = "4px";
 			let value = networth.current.value[type.replace(" ", "").toLowerCase()];
+			console.log(value)
 			let change = 0;
 
 			if(networth.previous.value && Object.keys(networth.previous.value).length != 0)
@@ -98,9 +101,9 @@ function displayNetworthChange(networth){
 			if(heading == "Type")
 				td.innerText = type;
 			else if(heading == "Value")
-				td.innerText = "$" + String(numberWithCommas(value));
+				td.innerText = ("$" + String(numberWithCommas(value))).replace("$-", "-$");
 			else if(heading == "Change"){
-				td.innerText = "$" + String(numberWithCommas(change));
+				td.innerText = ("$" + String(numberWithCommas(change))).replace("$-", "-$");
 
 				if(change > 0)
 					td.style.color = "green";
