@@ -115,19 +115,20 @@ function numberWithCommas(x, shorten=true) {
     if(!shorten)
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-    if(x%1000 == 0){
-        if(x >= 1e9)
-            return (x/1e9).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "bil"
-        else if(x >= 1e6)
-            return (x/1e6) + "mil"
-        else if(x >= 1e3)
-            return (x/1e3) + "k"
+    if(Math.abs(x) >= 1e9){
+        if(Math.abs(x)%1e9 == 0)
+            return (x/1e9).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "bil";
+        else
+            return (x/1e9).toFixed(3) + "bil";
+    } else if(Math.abs(x) >= 1e6){
+        if(Math.abs(x)%1e6 == 0)
+            return (x/1e6) + "mil";
+        else
+            return (x/1e6).toFixed(3) + "mil";
+    } else if(Math.abs(x) >= 1e3){
+        if(Math.abs(x)%1e3 == 0)
+            return (x/1e3) + "k";
     }
-
-    if(x > 1e9)
-        return (x/1e9).toFixed(3) + "bil";
-    else if(x > 1e6)
-        return (x/1e6).toFixed(3) + "mil";
 
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
