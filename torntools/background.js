@@ -71,6 +71,9 @@ let STORAGE = {
 			},
 			"gym": {
 				"show": true
+			},
+			"shop": {
+				"show": true
 			}
 		}
 	},

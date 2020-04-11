@@ -125,7 +125,12 @@
 		    "css": ["scripts/css/ttAchievements.css"],
 			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/achievements/ttChurchAchievements.js"],
             "run_at": "document_end"
-	    }
+		},
+		{
+			"matches": ["https://www.torn.com/shops.php*", "https://www.torn.com/bigalgunshop.php"],
+			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/shop/ttShop.js"],
+			"run_at": "document_end"
+		}
     ],
 	"options_ui": {
 	    "page": "views/settings.html"

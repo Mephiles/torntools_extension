@@ -400,7 +400,8 @@ const changeLog = {
 			"Added Target List to Settings page",
 			"Added bounty reward (money) achievement",
 			"Shortened '1000' to 'k'",
-			"Added info tooltips for achievements"
+			"Added info tooltips for achievements",
+			"Added percentage profit of items in stores (ie. 137% means that the market value is 137% of the store buy price)"
 		],
 		"Fixes": [
 			"Fixed some broken achievements (Home: activity; Items: items dumped, cannabis; Missions: defends, assists)",
