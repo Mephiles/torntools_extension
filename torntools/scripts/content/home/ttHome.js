@@ -16,7 +16,7 @@ window.addEventListener('load', (event) => {
 
         let user_networth = data.userdata.networth.total;
 		displayNetworth(parseInt(user_networth));
-		// displayNetworthChange(networth);
+		displayNetworthChange(networth);
     });
 });
 
@@ -82,6 +82,9 @@ function displayNetworthChange(networth){
 	table.appendChild(tr_h);
 
 	for(let type of types){
+		if(parseInt(networth.current.value[type.replace(" ", "").toLowerCase()]) == 0 && parseInt(networth.previous.value[type.replace(" ", "").toLowerCase()]) == 0)
+			continue;
+
 		let tr = document.createElement("tr");
 		for(let heading of headings){
 			let td = document.createElement("td");
