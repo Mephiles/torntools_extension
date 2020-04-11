@@ -16,6 +16,7 @@ Features:
   - Friendly Fire  
   - Actual networth  
   - Target list  
+  - Shop profits  
   
 **Market**: check prices of items from the small extension window at top-right  
 **Achievements**: keep track of your Achievements at the left-side menu bar in Torn  
@@ -26,6 +27,7 @@ Features:
 **Friendly Fire**: get a warning when you are on an ally faction player's profile (you have to add allies manually in settings)  
 **Actual Networth**: show actual current networth under the normal networth on home page  
 **Target list**: *Coming soon* (created based on attack history)  
+**Shop profits**: Show item profits in shops (profit compared to market value)  
 
 **API requests**:  
   - 3 requests on install  
