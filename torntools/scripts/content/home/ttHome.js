@@ -64,8 +64,15 @@ function displayNetworthChange(networth){
 	let types = ["Points", "Vault", "Items", "Bazaar", "Properties", "Stock Market", "Company", "Bookie"];
 	
 	let li = document.createElement("li");
+	let header = document.createElement("div");
 	let table = document.createElement("table");
 	let tr_h = document.createElement("tr");
+
+	let [day, month, year, hours, minutes, seconds] = formatDate(new Date(networth.previous.date));
+
+	header.innerText = `Networth change compared to ${day}.${month}.${year} | ${hours}:${minutes}:${seconds}`;
+	header.style.paddingTop = "4px";
+	header.style.borderTop = "1px solid lightgrey";
 
 	table.style.width = "100%";
 	li.style.padding = "3px";
@@ -92,7 +99,6 @@ function displayNetworthChange(networth){
 			let td = document.createElement("td");
 			td.style.paddingBottom = "4px";
 			let value = networth.current.value[type.replace(" ", "").toLowerCase()];
-			console.log(value)
 			let change = 0;
 
 			if(networth.previous.value && Object.keys(networth.previous.value).length != 0)
@@ -106,9 +112,9 @@ function displayNetworthChange(networth){
 				td.innerText = ("$" + String(numberWithCommas(change))).replace("$-", "-$");
 
 				if(change > 0)
-					td.style.color = "green";
+					td.style.color = "#00a500";
 				else if (change < 0)
-					td.style.color = "red";
+					td.style.color = "#de0000";
 			}
 			tr.appendChild(td);
 		}
@@ -116,6 +122,7 @@ function displayNetworthChange(networth){
 	}
 
 	li.appendChild(table);
+	li.appendChild(header);
 	
 	let gen_info_box = getGenInfoBox();
 	let inner_box = gen_info_box.children[1].children[0].children[0];

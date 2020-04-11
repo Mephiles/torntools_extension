@@ -137,6 +137,19 @@ function days(x) {
 	return Math.floor(x / 60 / 60 / 24); // seconds, minutes, hours
 }
 
+function formatDate(date){
+    let data = [
+        date.getDate(),
+        date.getMonth()+1,
+        date.getFullYear(),
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds()
+    ]
+
+    return data.map(x => (x.toString().length == 1 ? "0"+x.toString() : x.toString()));
+}
+
 // ACHIEVEMENT FUNCTIONS
 
 function displayAchievements(achievements, show_completed, honors, medals, date){
