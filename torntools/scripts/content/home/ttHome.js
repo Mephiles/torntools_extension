@@ -8,8 +8,6 @@ window.addEventListener('load', (event) => {
 		const settings = data.settings;
 		const networth = data.networth;
 		const show_networth = settings.pages.home.networth;
-		
-		console.log(networth);
 
         if(!show_networth)
             return
