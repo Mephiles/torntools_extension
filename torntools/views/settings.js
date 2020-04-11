@@ -404,7 +404,7 @@ const changeLog = {
 			"Added percentage profit of items in stores (ie. 137% means that the market value is 137% of the store buy price)"
 		],
 		"Fixes": [
-			"Fixed some broken achievements (Home: activity; Items: items dumped, cannabis; Missions: defends, assists)",
+			"Fixed some broken achievements (Home: activity, networth; Items: items dumped, cannabis; Missions: defends, assists)",
 			"Fixed Achievements' line-height",
 			"Fixed Missions Reward script visual bug"
 		]	

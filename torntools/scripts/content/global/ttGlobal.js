@@ -262,9 +262,6 @@ function displayAchievements(achievements, show_completed, honors, medals, date)
         return tt_toggle_content;
     }
     function fillAchievements(achievements, honors, medals){
-
-        console.log("ACHIVEMENTS 1", achievements);
-    
         // fill achievements
         for(let key in achievements){
             if(achievements[key].extra == "###")
@@ -331,6 +328,7 @@ function displayAchievements(achievements, show_completed, honors, medals, date)
                     if(!(includes && excludes))
                         continue
                     
+                    desc = desc.split("for at least")[0];  // remove 'day' numbers from networth
                     desc = desc.replace(/\D/g,'');  // replace all non-numbers
                     let stat = parseInt(desc);
     
@@ -341,7 +339,7 @@ function displayAchievements(achievements, show_completed, honors, medals, date)
             }
         }
     
-        console.log("ACHIVEMENTS 2", achievements);
+        console.log("ACHIVEMENTS", achievements);
         return achievements;
     }
     function getGoal(stat, achievements){
