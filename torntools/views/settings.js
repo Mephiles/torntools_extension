@@ -400,8 +400,7 @@ const changeLog = {
 			"Added Target List to Settings page",
 			"Added bounty reward (money) achievement",
 			"Shortened '1000' to 'k'",
-			"Added info tooltip for achievements",
-			"Show target list on Settings page"
+			"Added info tooltips for achievements"
 		],
 		"Fixes": [
 			"Fixed some broken achievements (Home: activity; Items: items dumped, cannabis; Missions: defends, assists)",
