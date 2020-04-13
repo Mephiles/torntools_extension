@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
   <script type="text/javascript" src="../scripts/jquery/jquery-3.4.1.min.js"></script>
   <style>
 	body{
@@ -172,6 +173,7 @@
 		.table .header.row .item {
 			border-bottom: 1px solid black;
 			position: relative;
+			cursor: pointer;
 		}
 
 		.table .row:last-of-type .item {
@@ -226,69 +228,19 @@
 			margin-left: 35px;
 		}
 
-		.table .header.row .sort {
-			width: 20%;
-			height: 100%;
+		i.fa-caret-up {
+			font-size: 19px;
 			position: absolute;
-			right: 0;
-			top: 0;
+			right: 5px;
 		}
 
-		/* .sort * {
-			width: 0;
-            height: 0;
-            float: left;
-            position: relative;
-            top: 5px;
-            margin-right: 2px;
-			cursor: pointer;
+		i.fa-caret-down {
+			font-size: 19px;
+			position: absolute;
+			right: 5px;
+			top: 10px;
 		}
 
-		.sort .desc {
-            border-left: 5px solid black;
-            border-right: 5px solid black;
-			border-bottom: 7px solid black;
-			background-color: white;
-			margin-top: 2px;
-			margin-bottom: 2px;
-		}
-
-		.sort .desc.active {
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-			border-bottom: 7px solid black;
-		}
-
-		.sort .asc {
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-			border-top: 7px solid black;
-		} */
-
-	.sort * {
-        left:10px;
-        width: 0; 
-        height: 0; 
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-bottom: 10px solid black;
-    }
-    .sort *:after {
-        /* left:10px; */
-        width: 0; 
-        height: 0; 
-        border-left: 7px solid transparent;
-        border-right: 7px solid transparent;
-        border-bottom: 7px solid #FFF;
-        /* left: 57px; */
-        position: absolute;
-        /* top: 38px; */
-		left: 3px;
-		top: 1px;
-        content: '';
-    }
-
-		
 	</style>
 
 	<!-- Target list -->
@@ -310,7 +262,7 @@
 		</div>
 		<div class="table">
 			<div class="header row">
-				<div class="neutral item" name="id">ID<div class="sort"><div class="desc"></div><div class="asc"></div></div></div>
+				<div class="neutral item" name="id">ID <i class="fas fa-caret-up"></i></div>
 				<div class="new-section important good item" name="win">Wins</div>
 				<div class="good item" name="mug">Mugs</div>
 				<div class="good item" name="leave">Leaves</div>
@@ -320,11 +272,12 @@
 				<div class="good item" name="assist">Assists</div>
 				<div class="good item" name="defend">Defends</div>
 				<div class="new-section important bad item" name="lose">Losses</div>
-				<div class="bad item" name="defend_lose">Defends lost</div>
-				<div class="bad item" name="stalemate">Stalemates</div>
+				<div class="bad item" name="defend_lose">Defends lost&nbsp;&nbsp;&nbsp;</div>
+				<div class="bad item" name="stalemate">Stalemates&nbsp;</div>
 				<div class="new-section important neutral item"name="stealth">Stealths</div>
 				<div class="important neutral item" name="respect_base">Respect</div>
 			</div>
+			<div class="body"></body>
 		</div>
 	</div>
 
