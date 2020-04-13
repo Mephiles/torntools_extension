@@ -41,21 +41,24 @@ window.onload = function(){
 
 function showTargetList(target_list){
 	let table = document.querySelector("#target-list .table");
+	let tbody = table.querySelector(".body");
 	let headers = [...table.querySelectorAll(".header.row .item")];
-	headers = headers.map(header => ({"name": header.getAttribute("name"), "class": header.getAttribute("class")}));
+	header_names = headers.map(header => ({"name": header.getAttribute("name"), "class": header.getAttribute("class")}));
 
-	console.log("headers", headers);
+	for(let header of headers){
+		header.addEventListener("click", function(){
+			sort(headers.indexOf(header)+1);
+		});
+	}
 
 	for(let id in target_list){
 		if(id == "date")
 			continue;
 
-		console.log("-------------------------")
-		console.log("ID", id);
 		let row = document.createElement("div");
 		row.setAttribute("class", "row");
 		
-		for(let header of headers){
+		for(let header of header_names){
 			let item = document.createElement("div");
 			item.setAttribute("class", header.class);
 
@@ -71,40 +74,39 @@ function showTargetList(target_list){
 					}
 				}
 
-				console.log("TYPE", respect_type);
-
 				let leaves = target_list[id][respect_type]["leave"].length > 0 ? true : false;
 
 				if(leaves){
-					console.log("USING LEAVES");
 					item.innerText = getAverage(target_list[id][respect_type]["leave"]);
 				} else {
 					let averages = [];
 					
 					for(let list in target_list[id][respect_type]){
-						console.log(list, target_list[id][respect_type][list])
 						let avrg_of_list = getAverage(target_list[id][respect_type][list]);
 
 						if(avrg_of_list != 0)
 							averages.push(avrg_of_list);
 					}
 
-					console.log(respect_type, averages)
-
 					item.innerText = getAverage(averages);
 				}
 				
-				if(respect_type == "respect")
+				if(respect_type == "respect"){
 					item.innerText = item.innerText + "*";
-				if(respect_type == "respect_base"){
-					if(leaves)
+					item.setAttribute("priority", "3");
+				} else if(respect_type == "respect_base"){
+					if(leaves){
 						item.style.backgroundColor = "#dfffdf";
-					else
-					item.style.backgroundColor = "#fffdcc";
+						item.setAttribute("priority", "1");
+					} else {
+						item.style.backgroundColor = "#fffdcc";
+						item.setAttribute("priority", "2");
+					}
 				}
 
 				if(item.innerText == "0*")
 					item.innerText = "-"
+
 					
 			} else
 				item.innerText = target_list[id][header.name];
@@ -112,9 +114,9 @@ function showTargetList(target_list){
 			row.appendChild(item);
 		}
 
-		table.appendChild(row);
+		tbody.appendChild(row);
 	}
-}1392711
+}
 
 function showSettings(settings, allies, target_list){
 	let tabs = settings.tabs;
@@ -330,22 +332,9 @@ function resetSettings(){
 					"calculator": true
 				},
 				"home": {
-					"networth": true
-				},
-				"bazaar": {
-					"show": true
-				},
-				"auction": {
-					"show": true
+					"networth": true,
 				},
 				"missions": {
-					"show": true
-				},
-				"forums": {
-					"textbox_size": true,
-					"auto_scroll_top": true
-				},
-				"mail": {
 					"show": true
 				},
 				"city": {
@@ -353,8 +342,20 @@ function resetSettings(){
 					"items_value": true
 				},
 				"hub": {
-					"show": true,
+					"show": false,
 					"pinned": false
+				},
+				"profile": {
+					"show": true
+				},
+				"racing": {
+					"show": true
+				},
+				"gym": {
+					"show": true
+				},
+				"shop": {
+					"show": true
 				}
 			}
 		}
@@ -405,6 +406,73 @@ async function get_api(http, api_key) {
 	}
 
 	return result;
+}
+
+function sort(col){
+	let order = "desc";
+
+	let col_header = document.querySelector(`#target-list .table .row.header .item:nth-child(${col})`);
+	if(col_header.querySelector("i.fa-caret-up"))
+		col_header.querySelector("i.fa-caret-up").setAttribute("class", "fas fa-caret-down");
+	else if(col_header.querySelector("i.fa-caret-down")){
+		col_header.querySelector("i.fa-caret-down").setAttribute("class", "fas fa-caret-up");
+		order="asc"
+	} else {
+		// old header
+		let current_i = document.querySelector("#target-list .table .row.header i");
+		current_i.parentElement.innerHTML = current_i.parentElement.innerText;
+
+		// new header
+		let i = document.createElement("i");
+		i.setAttribute("class", "fas fa-caret-down");
+		col_header.appendChild(i);
+	}
+
+	let rows = [];
+
+	if(!document.querySelector(`#target-list .table .body .row .item:nth-child(${col})`).getAttribute("priority")){
+		console.log("no priorities")
+		rows = [...document.querySelectorAll("#target-list .table .body .row")];
+		rows = sortRows(rows, order);
+	} else {
+		let priorities = [];
+		for(let item of document.querySelectorAll(`#target-list .table .body .row .item:nth-child(${col})`)){
+			let priority = item.getAttribute("priority");
+
+			if(!priorities[parseInt(priority)-1])
+				priorities[parseInt(priority)-1] = []
+			priorities[parseInt(priority)-1].push(item.parentElement);
+		}
+
+		for(let priority_level of priorities)
+			rows = [...rows, ...sortRows(priority_level, order)];
+	}
+
+	let body = document.createElement("div");
+
+	for(let row of rows)
+		body.appendChild(row);
+	
+	document.querySelector("#target-list .table .body").innerHTML = body.innerHTML;
+
+	function sortRows(rows, order){
+		if(order == "asc"){
+			// rows.sort(function(a,b){console.log([...a.children][col].innerText)})
+			rows.sort(function(a,b){
+				a = parseFloat([...a.children][col-1].innerText) || 0;
+				b = parseFloat([...b.children][col-1].innerText) || 0;
+				return a-b
+			});
+		} else if(order == "desc"){
+			rows.sort(function(a,b){
+				a = parseFloat([...a.children][col-1].innerText) || 0;
+				b = parseFloat([...b.children][col-1].innerText) || 0;
+				return b-a
+			});
+		}
+
+		return rows;
+	}
 }
 
 const changeLog = {
