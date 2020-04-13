@@ -73,11 +73,11 @@ function showTargetList(target_list){
 
 				console.log("TYPE", respect_type);
 
-				let leaves = target_list[id][respect_type]["leave"];
+				let leaves = target_list[id][respect_type]["leave"].length > 0 ? true : false;
 
-				if(leaves.length > 0){
+				if(leaves){
 					console.log("USING LEAVES");
-					item.innerText = getAverage(leaves);
+					item.innerText = getAverage(target_list[id][respect_type]["leave"]);
 				} else {
 					let averages = [];
 					
@@ -93,6 +93,19 @@ function showTargetList(target_list){
 
 					item.innerText = getAverage(averages);
 				}
+				
+				if(respect_type == "respect")
+					item.innerText = item.innerText + "*";
+				if(respect_type == "respect_base"){
+					if(leaves)
+						item.style.backgroundColor = "#dfffdf";
+					else
+					item.style.backgroundColor = "#fffdcc";
+				}
+
+				if(item.innerText == "0*")
+					item.innerText = "-"
+					
 			} else
 				item.innerText = target_list[id][header.name];
 			
