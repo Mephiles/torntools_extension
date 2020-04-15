@@ -26,7 +26,7 @@ Features:
 **Racing upgrade values**: show the exact values of racing upgrades to find the best upgrade  
 **Friendly Fire**: get a warning when you are on an ally faction player's profile (you have to add allies manually in settings)  
 **Actual Networth**: show actual current networth under the normal networth on home page  
-**Target list**: *Coming soon* (created based on attack history)  
+**Target list**: Show attack history on Settings page and individually on Profile page    
 **Shop profits**: Show item profits in shops (profit compared to market value)  
 
 **API requests**:  
