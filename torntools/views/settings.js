@@ -37,6 +37,12 @@ window.onload = function(){
 	save_settings_button.addEventListener("click", function(){
 		saveSettings();
 	});
+
+	// switch numbers and percentages in Target List table
+	const num_per_button = document.querySelector("#target-list #num_per .switch-input");
+	num_per_button.addEventListener("click", function(event){
+		changeTableValues("#target-list", event.target.checked);
+	});
 }
 
 function showTargetList(target_list){
@@ -111,6 +117,15 @@ function showTargetList(target_list){
 			} else
 				item.innerText = target_list[id][header.name];
 			
+			if(["mug", "leave", "hosp", "arrest", "special", "assist", "stealth"].includes(header.name)){
+				let value = target_list[id][header.name];
+				let percentage = (value/target_list[id]["win"]*100).toFixed();
+				percentage = isNaN(percentage) || percentage == Infinity ? 0 : percentage;
+
+				item.setAttribute("value", value);
+				item.setAttribute("percentage", percentage);
+			}
+
 			row.appendChild(item);
 		}
 
@@ -431,7 +446,6 @@ function sort(col){
 	let rows = [];
 
 	if(!document.querySelector(`#target-list .table .body .row .item:nth-child(${col})`).getAttribute("priority")){
-		console.log("no priorities")
 		rows = [...document.querySelectorAll("#target-list .table .body .row")];
 		rows = sortRows(rows, order);
 	} else {
@@ -472,6 +486,21 @@ function sort(col){
 		}
 
 		return rows;
+	}
+}
+
+function changeTableValues(table_id, show_percentage){
+	let rows = document.querySelectorAll(`${table_id} .body .row`);
+
+	for(let row of rows){
+		for(let item of row.querySelectorAll(".item")){
+			if(item.getAttribute("percentage")){
+				if(show_percentage)
+					item.innerText = item.getAttribute("percentage") + "%";
+				else if(!show_percentage)
+					item.innerText = item.getAttribute("value");
+			}
+		}
 	}
 }
 
