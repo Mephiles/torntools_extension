@@ -111,6 +111,7 @@
 	    },
 		{
 			"matches": ["https://www.torn.com/profiles.php*"],
+			"css": ["scripts/css/ttProfile.css"],
 			"js": ["scripts/content/global/ttGlobal.js", "scripts/content/profile/ttProfile.js"],
             "run_at": "document_end"
 	    },
