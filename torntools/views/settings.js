@@ -113,7 +113,6 @@ function showTargetList(target_list){
 				if(item.innerText == "0*")
 					item.innerText = "-"
 
-					
 			} else
 				item.innerText = target_list[id][header.name];
 			
@@ -175,6 +174,8 @@ function showSettings(settings, allies, target_list){
 
 	// target list
 	document.querySelector("#target_list").checked = target_list;
+	if(!target_list)
+		document.querySelector("#target-list").style.display = "none";
 }
 
 function saveSettings(){
@@ -508,6 +509,7 @@ const changeLog = {
 	"v3.6": {
 		"Features": [
 			"Added Target List to Settings page",
+			"Added attack history info about user on Profile page",
 			"Added bounty reward (money) achievement",
 			"Shortened '1000' to 'k'",
 			"Added info tooltips for achievements",
