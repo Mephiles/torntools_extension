@@ -150,6 +150,56 @@ function formatDate(date){
     return data.map(x => (x.toString().length == 1 ? "0"+x.toString() : x.toString()));
 }
 
+const local_storage = {
+	get: function(key, callback){
+		let promise = new Promise(function(resolve, reject){
+			if(Array.isArray(key)){
+				let arr = [];
+				chrome.storage.local.get(key, function(data){
+					for(let item of key){
+						arr.push(data[item]);
+					}
+					resolve(arr);
+				});
+			} else if(key == null){
+				chrome.storage.local.get(null, function(data){
+					resolve(data);
+				});
+			} else {
+				chrome.storage.local.get([key], function(data){
+					resolve(data[key]);
+				});
+			}
+		});
+
+		promise.then(function(data){
+			callback(data);
+		});
+	},
+	set: function(object, callback){
+		chrome.storage.local.set(object, function(){
+			callback ? callback() : null;
+		});
+	},
+	// local_storage.change("api", {"count": 0});
+	change: function(key, keys_to_change, callback){
+		chrome.storage.local.get([key], function(data){
+			for(let key_to_change of Object.keys(keys_to_change)){
+				data[key][key_to_change] = keys_to_change[key_to_change];
+			}
+
+			chrome.storage.local.set({key: data[key]}, function(){
+				callback ? callback() : null;
+			});
+		});
+	},
+	clear: function(callback){
+		chrome.storage.local.clear(function(){
+			callback ? callback() : null;
+		});
+	}
+}
+
 // ACHIEVEMENT FUNCTIONS
 
 function displayAchievements(achievements, show_completed, honors, medals, date){
