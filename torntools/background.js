@@ -1,22 +1,24 @@
 // Extension background starts
-console.log("START");
+console.log("START - Background Script");
 
 // Chrome or something else?
 const chrome = window.chrome || window.browser;
 
-let STORAGE = {
+const STORAGE = {
 	// app settings
 	"api_key": undefined,
 	"itemlist": {},
 	"torndata": {},
 	"userdata": {},
-	"update-available": false,
 	"updated": true,
 	"api": {
 		"count": 0,
 		"limit": 60,
 		"online": true,
 		"error": ""
+	},
+	"extensions": {
+		"doctorn": false
 	},
 	// user settings
 	"networth": {
@@ -34,6 +36,7 @@ let STORAGE = {
 		"show": true,
 		"targets": {}
 	},
+	"allies": [],
 	"settings": {
 		"tabs": {
 			"market": true,
@@ -76,23 +79,28 @@ let STORAGE = {
 				"show": true
 			}
 		}
-	},
-	"allies": []
+	}
 }
 
-chrome.storage.local.get(null, function(old_storage){
-
-	if(!old_storage){
-		chrome.storage.local.set(STORAGE, function(){
+local_storage.get(null, function(old_storage){
+	if(!old_storage){  // fresh install
+		// chrome.storage.local.set(STORAGE, function(){
+		// 	console.log("Storage set");
+		// });
+		local_storage.set(STORAGE, function(){
 			console.log("Storage set");
 		});
-	} else {
-		console.log("old", old_storage)
+	} else {  // existing storage
 		let new_storage = fillStorage(old_storage, STORAGE);
-		console.log("new", new_storage)
-		chrome.storage.local.clear(function(){
-			chrome.storage.local.set(new_storage, function(){
-				console.log("Storage set");
+
+		// chrome.storage.local.clear(function(){
+		// 	chrome.storage.local.set(new_storage, function(){
+		// 		console.log("Storage updated");
+		// 	});
+		// });
+		local_storage.clear(function(){
+			local_storage.set(new_storage, function(){
+				console.log("Storage updated");
 			});
 		});
 	}
@@ -126,29 +134,29 @@ chrome.storage.local.get(null, function(old_storage){
 
 function Main(){
 	// Get user and torn data
-	chrome.storage.local.get(["api_key", "api"], function(data){
-		const api_key = data.api_key;
-		console.log("API_KEY", api_key);
+	local_storage.get("api_key", function(api_key){
 
 		if(api_key == undefined){
 			console.log("NO API KEY");
 			return;
 		}
+
+		console.log("API_KEY", api_key);
 		
 		console.log("================================");
 		get_api("https://api.torn.com/user/?selections=personalstats,crimes,battlestats,perks,profile,workstats,stocks,networth", api_key).then((data) => {
 			if(!data)
-				return
+				return;
 			
 			data.date = String(new Date());
-			chrome.storage.local.set({"userdata": data}, function(){
+			local_storage.set({"userdata": data}, function(){
 				console.log("Userdata set.")
 			});
 
 			let new_networth = data.networth;
 
 			// set networth
-			chrome.storage.local.get(["networth"], function(data){
+			local_storage.get(["networth"], function(data){
 				if(Object.keys(data.networth).length == 0){
 					data.networth = {
 						"previous": {
@@ -170,56 +178,55 @@ function Main(){
 				data.networth.current.value = new_networth;
 				data.networth.current.date = String(new Date());
 
-				chrome.storage.local.set({"networth": data.networth}, function(){
+				local_storage.set({"networth": data.networth}, function(){
 					console.log("Networth set.");
-
-					chrome.storage.local.get(["networth"], function(data){
-						console.log("NEW NETWORTH SET", data);
-					});
 				});
 			});
 		});
 
 		get_api("https://api.torn.com/torn/?selections=honors,medals,stocks,gyms", api_key).then((data) => {
 			if(!data)
-				return
+				return;
+
 			data.date = String(new Date());
-			chrome.storage.local.set({"torndata": data}, function(){
-				console.log("Torndata set.")
+			local_storage.set({"torndata": data}, function(){
+				console.log("Torndata set.");
 			});
 		});
 
 		get_api("https://api.torn.com/torn/?selections=items", api_key).then((data) => {
 			if(!data)
-				return
+				return;
+
 			data.date = String(new Date());
-			chrome.storage.local.set({"itemlist": data}, function(){
-				console.log("Itemlist set.")
+			local_storage.set({"itemlist": data}, function(){
+				console.log("Itemlist set.");
 			});
 		});
 	});
 }
 
 async function get_api(http, api_key) {
-	const response = await fetch(http + "&key=" + api_key)
-	const result = await response.json()
+	const response = await fetch(http + "&key=" + api_key);
+	const result = await response.json();
 
 	if(result.error){
 		console.log("API SYSTEM OFFLINE");
-		chrome.storage.local.get(["api"], function(data){
-			data.api.online = false;
-			data.api.error = result.error.error;
-			chrome.storage.local.set({"api": data.api}, function(){});
-		});
+		// local_storage.get(["api"], function(data){
+		// 	data.api.online = false;
+		// 	data.api.error = result.error.error;
+		// 	chrome.storage.local.set({"api": data.api}, function(){});
+		// });
+		local_storage.change("api", {"online": false, "error": result.error.error});
 		return false;
 	} else {
-		chrome.storage.local.get(["api"], function(data){
-			data.api.online = true;
-			data.api.error = "";
-			chrome.storage.local.set({"api": data.api}, function(){});
-		});
+		// chrome.storage.local.get(["api"], function(data){
+		// 	data.api.online = true;
+		// 	data.api.error = "";
+		// 	chrome.storage.local.set({"api": data.api}, function(){});
+		// });
+		local_storage.change("api", {"online": true, "error": ""});
 	}
-
 	return result;
 }
 
@@ -238,6 +245,10 @@ async function get_api(http, api_key) {
 			periodInMinutes: 1
 		});
 
+		chrome.alarms.create('checkForDoctorn', {  // check if DocTorn is in use
+			periodInMinutes: 1
+		});
+
 	// Set alarm listeners (do something every minute)
 	chrome.alarms.onAlarm.addListener(function(alarm) {
 		switch (alarm.name){
@@ -245,18 +256,20 @@ async function get_api(http, api_key) {
 				Main();
 				break;
 			case "resetApiCount":
-				chrome.storage.local.set({"api_count": 0}, function(){
-					console.log("API counter reset.")
-				});
+				// chrome.storage.local.get(["api"], function(data){
+				// 	data.api.count = 0;
+				// 	chrome.storage.local.set({"api": data.api});
+				// });
+				local_storage.change("api", {"count": 0});
 				break;
 			case "updateTargetList":
-				chrome.storage.local.get(["target_list"], function(data){
-					if(!data.target_list.show)
-						return;
-					
-					updateTargetList();
+				local_storage.get("target_list", function(target_list){
+					if(target_list.show)
+						updateTargetList();
 				});
 				break;
+			case "checkForDoctorn":
+				local_storage.change("extensions", {"doctorn": detectExtension("doctorn")});
 			default:
 				break;
 		}
@@ -274,6 +287,8 @@ async function get_api(http, api_key) {
 			case "getApiCounterInfo":
 				sendResponse({"response": [2,3]})
 				break;
+			case "getDefaultSettings":
+				sendResponse({"response": STORAGE});
 			default:
 				break;
 		}
@@ -283,32 +298,27 @@ async function get_api(http, api_key) {
 
 	// Check whether new version is installed
 	chrome.runtime.onInstalled.addListener(function(details){
-		chrome.storage.local.set({"updated": true}, function(){
-			console.log("Updated.");
+		// chrome.storage.local.set({"updated": true}, function(){
+		// 	console.log("Updated.");
+		// });
+		local_storage.set({"updated": true}, function(){
+			console.log("Updated");
 		});
-	});
-
-	// If update is available
-	chrome.runtime.onUpdateAvailable.addListener((details) => {
-		chrome.storage.local.set({"update-available": true});
 	});
 
 	// Open settings page for the user
 	function openOptionsPage(){
-		var url = chrome.runtime.getURL("/views/settings.html");
-
 		chrome.tabs.create({
-			url: url
+			url: chrome.runtime.getURL("/views/settings.html")
 		});
 	}
 
 	function updateTargetList(){
-		chrome.storage.local.get(["api_key", "userdata", "target_list"], function(data){
-			let user_id = data.userdata.player_id;
-			let api_key = data.api_key;
-			let targets = data.target_list.targets;
+		local_storage.get(["api_key", "userdata", "target_list"], function([api_key, userdata, target_list]){
+			let user_id = userdata.player_id;
+			let targets = target_list.targets;
 			let attacksfull = true;
-			let last_target = data.target_list.last_target || -1;
+			let last_target = target_list.last_target || -1;
 
 
 			if(Object.keys(targets).length > 0)
@@ -423,13 +433,77 @@ async function get_api(http, api_key) {
 				}
 
 				targets.date = String(new Date());
-				chrome.storage.local.get(["target_list"], function(data){
-					data.target_list.targets = targets;
-					data.target_list.last_target = last_target;
-					chrome.storage.local.set({"target_list": data.target_list}, function(){
-						console.log("Target list set.")
-					});
+				// chrome.storage.local.get(["target_list"], function(data){
+				// 	data.target_list.targets = targets;
+				// 	data.target_list.last_target = last_target;
+				// 	chrome.storage.local.set({"target_list": data.target_list}, function(){
+				// 		console.log("Target list set.")
+				// 	});
+				// });
+				local_storage.change("target_list", {"targets": targets, "last_target": last_target}, function(){
+					console.log("Target list set");
 				});
 			});
 		});
 	}
+
+const local_storage = {
+	get: function(key){
+		let promise = new Promise(function(resolve, reject){
+			if(Array.isArray(key)){
+				let arr;
+				chrome.storage.local.get(key, function(data){
+					for(let item of Object.keys(data)){
+						arr.push(data[item]);
+					}
+					resolve(arr);
+				});
+			} else {
+				chrome.storage.local.get([key], function(data){
+					resolve(data.key);
+				});
+			}
+		});
+
+		return promise.then(function(data){
+			return data;
+		});
+	},
+	set: function(object, callback){
+		chrome.storage.local.set(object, function(){
+			callback ? callback() : null;
+		});
+	},
+	change: function(key, keys_to_change, callback){
+		chrome.storage.local.get([key], function(data){
+			for(let key_to_change of Object.keys(keys_to_change)){
+				data[key][key_to_change] = keys_to_change[key_to_change];
+			}
+
+			chrome.storage.local.set({key: data[key]}, function(){
+				callback ? callback() : null;
+			});
+		});
+	},
+	clear: function(callback){
+		chrome.storage.local.clear(function(){
+			callback ? callback() : null;
+		});
+	}
+}
+
+function detectExtension(ext, callback){
+	let ids = {
+		"doctorn": 'kfdghhdnlfeencnfpbpddbceglaamobk'
+	}
+
+	var img;
+	img = new Image();
+	img.src = `chrome-extension://${ids[ext]}/resources/images/icon_16.png`;
+	img.onload = function() {
+		callback(true);
+	};
+	img.onerror = function() {
+		callback(false);
+	};
+}
