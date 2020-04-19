@@ -1,0 +1,350 @@
+const local_storage = {
+	get: function(key, callback){
+		let promise = new Promise(function(resolve, reject){
+			if(Array.isArray(key)){
+				let arr = [];
+				chrome.storage.local.get(key, function(data){
+					for(let item of key){
+						arr.push(data[item]);
+					}
+					resolve(arr);
+				});
+			} else if(key == null){
+				chrome.storage.local.get(null, function(data){
+					resolve(data);
+				});
+			} else {
+				chrome.storage.local.get([key], function(data){
+					resolve(data[key]);
+				});
+			}
+		});
+
+		promise.then(function(data){
+			callback(data);
+		});
+	},
+	set: function(object, callback){
+		chrome.storage.local.set(object, function(){
+			callback ? callback() : null;
+		});
+	},
+	change: function(key, keys_to_change, callback){
+		chrome.storage.local.get([key], function(data){
+			for(let key_to_change of Object.keys(keys_to_change)){
+				data[key][key_to_change] = keys_to_change[key_to_change];
+			}
+
+			chrome.storage.local.set({[key]: data[key]}, function(){
+				callback ? callback() : null;
+			});
+		});
+	}
+}
+
+const doc = document;
+
+Document.prototype.find = function(type){
+    return this.querySelector(type);
+}
+Element.prototype.find = function(type){
+    return this.querySelector(type);
+}
+
+Document.prototype.findAll = function(type){
+    return this.querySelectorAll(type);
+}
+Element.prototype.findAll = function(type){
+    return this.querySelectorAll(type);
+}
+
+Document.prototype.new = function(type){
+    return this.createElement(type);
+}
+Element.prototype.new = function(type){
+    return this.createElement(type);
+}
+
+Document.prototype.setClass = function(class_name){
+    return this.setAttribute("class", class_name);
+}
+Element.prototype.setClass = function(class_name){
+    return this.setAttribute("class", class_name);
+}
+
+const navbar = {
+    new_section: function(name, attributes={}){
+        let defaults = {
+            previous_element: undefined,
+            next_element: undefined
+        }
+        attr = {...defaults, ...attributes};
+
+        // process
+        let new_div = createNewBlock(name);
+        let next_div = attr.next_element || attr.previous_element;
+        let parent = doc.find("#sidebarroot");
+
+        if(!next_div)
+            parent.appendChild(new_div);
+        else
+            parent.insertBefore(new_div, next_div);
+
+        return new_div;
+
+        function createNewBlock(name){
+            let sidebar_block = doc.new("div");
+                sidebar_block.setClass("sidebar-block___1Cqc2");
+            let content = doc.new("div");
+                content.setClass("content___kMC8x");
+            let div1 = doc.new("div");
+                div1.setClass("areas___2pu_3");
+            let toggle_block = doc.new("div");
+                toggle_block.setClass("toggle-block___13zU2");
+            let header = doc.new("h2");
+                header.setClass("header___30pTh");
+                header.innerText = name;
+            let toggle_content = doc.new("div");
+                toggle_content.setClass("toggle-content___3XKOC");
+            
+            toggle_block.appendChild(header);
+            toggle_block.appendChild(toggle_content);
+            div1.appendChild(toggle_block);
+            content.appendChild(div1);
+            sidebar_block.appendChild(content);
+            
+            return sidebar_block;
+        }
+    },
+    new_cell: function(text, attributes={}){
+        let defaults = {
+            parent_heading: undefined,
+            parent_element: undefined,
+            first: undefined,
+            style: undefined,
+            href: undefined
+        }
+        attr = {...defaults, ...attributes};
+
+        // process
+        let sidebar = doc.find("#sidebarroot");
+
+        if(!attr.parent_element && attr.parent_heading){
+            attr.parent_element = (function(){
+                for(let el of sidebar.findAll("h2")){
+                    if(el.innerText == attr.parent_heading)
+                        return el.parentElement;
+                }
+                return undefined;
+            })();
+        } else
+            return undefined;
+
+        let toggle_content = attr.parent_element.find(".toggle-content___3XKOC");
+        let new_cell_block = createNewCellBlock(text, attr.href, attr.style, attr.target);
+
+        if(attr.first)
+            toggle_content.insertBefore(new_cell_block, toggle_content.firstElementChild);
+        else
+            toggle_content.appendChild(new_cell_block);
+
+        return new_cell_block;
+
+        function createNewCellBlock(text, href, style){
+            let div = doc.new("div");
+                div.setClass("area-desktop___2YU-q");
+            let inner_div = doc.new("div");
+                inner_div.setClass("area-row___34mEZ");
+            let a = doc.new("a");
+                a.setClass("desktopLink___2dcWC");
+                a.setAttribute("href", href);
+                a.setAttribute("target", "_blank");
+                a.setAttribute("style", style);
+                a.style.height = "24px";
+                a.style.lineHeight = "24px";
+            let span = doc.new("span");
+                span.innerText = text;
+
+            a.appendChild(span);
+            inner_div.appendChild(a);
+            div.appendChild(inner_div);
+            
+            return div;
+        }
+    }
+}
+
+const info_box = {
+    new_row : function(key, value, attributes={}){
+        let defaults = {
+            parent_heading: undefined,
+            parent_element: undefined,
+            first: undefined
+        }
+        attr = {...defaults, ...attributes};
+
+        // process
+        let content = doc.find(".container .content");
+
+        if(!attr.parent_element && attr.parent_heading){
+            attr.parent_element = (function(){
+                for(let el of content.findAll("h5")){
+                    if(el.innerText == attr.parent_heading)
+                        return el.parentElement.parentElement;
+                }
+                return undefined;
+            })();
+        } else
+            return undefined;
+
+        let list = attr.parent_element.find(".info-cont-wrap");
+            !attr.first ? list.find("li.last").removeAttribute("class") : null;
+        let new_row = createNewRow(key, value, attr.style);
+
+        if(attr.first)
+            list.insertBefore(new_row, list.firstElementChild);
+        else
+            list.appendChild(new_row);
+
+        return new_row;
+
+        function createNewRow(key, value, style){
+            let li = doc.new("li");
+                !attr.first ? li.setClass("last") : null;
+                li.setAttribute("style", style);
+            let span_left = doc.new("span");
+                span_left.setClass("divider");
+            let span_left_inner = doc.new("span");
+                span_left_inner.innerText = key;
+                span_left_inner.style.backgroundColor = "transparent";
+
+            let span_right = doc.new("span");
+                span_right.setClass("desc");
+            let span_right_inner = doc.new("span");
+                span_right_inner.innerText = value;
+                span_right_inner.style.paddingLeft = "3px";
+
+            span_left.appendChild(span_left_inner);
+            span_right.appendChild(span_right_inner);
+            li.appendChild(span_left);
+            li.appendChild(span_right);
+            
+            return li;
+        }
+    }
+}
+
+function flying() {
+    let promise = new Promise(function(resolve, reject){
+        setInterval(function(){
+            let page_heading = document.querySelector("#skip-to-content");
+            if(page_heading){
+                if(page_heading.innerText === "Traveling")
+                    return resolve(true);
+                return resolve(false);
+            }
+        }, 100);
+    })
+    
+    return promise.then(function(data){
+        return data;
+    });
+}
+
+function secondsToHours(x) {
+	return Math.floor(x / 60 / 60); // seconds, minutes
+}
+
+function secondsToDays(x) {
+	return Math.floor(x / 60 / 60 / 24); // seconds, minutes, hours
+}
+
+function time_ago(time) {
+
+    switch (typeof time) {
+        case 'number':
+            break;
+        case 'string':
+            time = +new Date(time);
+            break;
+        case 'object':
+            if (time.constructor === Date) time = time.getTime();
+            break;
+        default:
+            time = +new Date();
+    }
+    var time_formats = [
+        [60, 'seconds', 1], // 60
+        [120, '1 minute ago', '1 minute from now'], // 60*2
+        [3600, 'minutes', 60], // 60*60, 60
+        [7200, '1 hour ago', '1 hour from now'], // 60*60*2
+        [86400, 'hours', 3600], // 60*60*24, 60*60
+        [172800, 'Yesterday', 'Tomorrow'], // 60*60*24*2
+        [604800, 'days', 86400], // 60*60*24*7, 60*60*24
+        [1209600, 'Last week', 'Next week'], // 60*60*24*7*4*2
+        [2419200, 'weeks', 604800], // 60*60*24*7*4, 60*60*24*7
+        [4838400, 'Last month', 'Next month'], // 60*60*24*7*4*2
+        [29030400, 'months', 2419200], // 60*60*24*7*4*12, 60*60*24*7*4
+        [58060800, 'Last year', 'Next year'], // 60*60*24*7*4*12*2
+        [2903040000, 'years', 29030400], // 60*60*24*7*4*12*100, 60*60*24*7*4*12
+        [5806080000, 'Last century', 'Next century'], // 60*60*24*7*4*12*100*2
+        [58060800000, 'centuries', 2903040000] // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
+    ];
+    var seconds = (+new Date() - time) / 1000,
+        token = 'ago',
+        list_choice = 1;
+
+    if (seconds == 0) {
+        return 'Just now'
+    }
+    if (seconds < 0) {
+        seconds = Math.abs(seconds);
+        token = 'from now';
+        list_choice = 2;
+    }
+    var i = 0,
+        format;
+    while (format = time_formats[i++])
+        if (seconds < format[0]) {
+            if (typeof format[2] == 'string')
+                return format[list_choice];
+            else
+                return Math.floor(seconds / format[2]) + ' ' + format[1] + ' ' + token;
+        }
+    return time;
+}
+
+function numberWithCommas(x, shorten=true) {
+    if(!shorten)
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    if(Math.abs(x) >= 1e9){
+        if(Math.abs(x)%1e9 == 0)
+            return (x/1e9).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "bil";
+        else
+            return (x/1e9).toFixed(3) + "bil";
+    } else if(Math.abs(x) >= 1e6){
+        if(Math.abs(x)%1e6 == 0)
+            return (x/1e6) + "mil";
+        else
+            return (x/1e6).toFixed(3) + "mil";
+    } else if(Math.abs(x) >= 1e3){
+        if(Math.abs(x)%1e3 == 0)
+            return (x/1e3) + "k";
+    }
+
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function dateParts(date){
+    let data = [
+        date.getDate(),
+        date.getMonth()+1,
+        date.getFullYear(),
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds()
+    ]
+
+    return data.map(x => (x.toString().length == 1 ? "0"+x.toString() : x.toString()));
+}
