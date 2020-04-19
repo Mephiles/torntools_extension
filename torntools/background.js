@@ -35,14 +35,13 @@ const local_storage = {
 			callback ? callback() : null;
 		});
 	},
-	// local_storage.change("api", {"count": 0});
 	change: function(key, keys_to_change, callback){
 		chrome.storage.local.get([key], function(data){
 			for(let key_to_change of Object.keys(keys_to_change)){
 				data[key][key_to_change] = keys_to_change[key_to_change];
 			}
 
-			chrome.storage.local.set({key: data[key]}, function(){
+			chrome.storage.local.set({[key]: data[key]}, function(){
 				callback ? callback() : null;
 			});
 		});
@@ -50,6 +49,24 @@ const local_storage = {
 	clear: function(callback){
 		chrome.storage.local.clear(function(){
 			callback ? callback() : null;
+		});
+	},
+	reset: function(callback){
+		chrome.storage.local.get(["api_key"], function(data){
+			let api_key = data.api_key;
+			chrome.storage.local.clear(function(){
+				chrome.storage.local.set(STORAGE, function(){
+					chrome.storage.local.set({
+						"api_key": api_key
+					}, function(){
+						chrome.storage.local.get(null, function(data){
+							console.log("Storage cleared");
+							console.log("New storage", data);
+							callback ? callback() : null;
+						});
+					});
+				});
+			});
 		});
 	}
 }
@@ -60,7 +77,7 @@ const STORAGE = {
 	"itemlist": {},
 	"torndata": {},
 	"userdata": {},
-	"updated": true,
+	"updated": "force_true",
 	"api": {
 		"count": 0,
 		"limit": 60,
@@ -82,7 +99,7 @@ const STORAGE = {
 		}
 	},
 	"target_list": {
-		"last_target": undefined,
+		"last_target": -1,
 		"show": true,
 		"targets": {}
 	},
@@ -132,6 +149,7 @@ const STORAGE = {
 	}
 }
 
+// First - set storage
 local_storage.get(null, function(old_storage){
 	if(!old_storage){  // fresh install
 		local_storage.set(STORAGE, function(){
@@ -158,36 +176,41 @@ local_storage.get(null, function(old_storage){
 				continue;
 			}
 			
-			if(typeof STORAGE[key] == "object"){
-				if(Array.isArray(STORAGE[key]))
+			if(typeof STORAGE[key] == "object" && !Array.isArray(STORAGE[key])){
+				if(Object.keys(STORAGE[key]).length == 0)
 					new_local_storage[key] = old_storage[key];
-				else{
-					if(Object.keys(STORAGE[key]).length == 0)
-						new_local_storage[key] = old_storage[key];
-					else
-						new_local_storage[key] = fillStorage(old_storage[key], STORAGE[key]);
-				}
+				else
+					new_local_storage[key] = fillStorage(old_storage[key], STORAGE[key]);
 			} else {
-				new_local_storage[key] = old_storage[key];
+				if(STORAGE[key] == "force_false")
+					new_local_storage[key] = false;
+				else if(STORAGE[key] == "force_true")
+					new_local_storage[key] = true;
+				else if(typeof STORAGE[key] == "string" && STORAGE[key].indexOf("force_") > -1)
+					new_local_storage[key] = STORAGE[key].split(/_(.+)/)[1];
+				else
+					new_local_storage[key] = old_storage[key];
 			}
+			
 		}
 
 		return new_local_storage;
 	}
 });
 
+// Second - run every 1 min
 function Main(){
-	// Get user and torn data
-	local_storage.get("api_key", function(api_key){
+	local_storage.get("api_key", async function(api_key){
 
 		if(api_key == undefined){
 			console.log("NO API KEY");
 			return;
 		}
 
+		console.log("================================");
 		console.log("API_KEY", api_key);
 		
-		console.log("================================");
+		// userdata & networth
 		get_api("https://api.torn.com/user/?selections=personalstats,crimes,battlestats,perks,profile,workstats,stocks,networth", api_key).then((data) => {
 			if(!data)
 				return;
@@ -215,6 +238,7 @@ function Main(){
 			});
 		});
 
+		// torndata
 		get_api("https://api.torn.com/torn/?selections=honors,medals,stocks,gyms", api_key).then((data) => {
 			if(!data)
 				return;
@@ -225,6 +249,7 @@ function Main(){
 			});
 		});
 
+		// itemlist
 		get_api("https://api.torn.com/torn/?selections=items", api_key).then((data) => {
 			if(!data)
 				return;
@@ -234,21 +259,18 @@ function Main(){
 				console.log("Itemlist set.");
 			});
 		});
+
+		// targetlist
+		local_storage.get("target_list", function(target_list){
+			if(target_list.show)
+				updateTargetList();
+		});
+
+		// check extensions
+		let doctorn_installed = await detectExtension("doctorn");
+		console.log("Doctorn installed:", doctorn_installed);
+		local_storage.change("extensions", {"doctorn": doctorn_installed});
 	});
-}
-
-async function get_api(http, api_key) {
-	const response = await fetch(http + "&key=" + api_key);
-	const result = await response.json();
-
-	if(result.error){
-		console.log("API SYSTEM OFFLINE");
-		local_storage.change("api", {"online": false, "error": result.error.error});
-		return false;
-	} else
-		local_storage.change("api", {"online": true, "error": ""});
-
-	return result;
 }
 
 // ALARMS & CONNECTIONS //
@@ -262,14 +284,6 @@ async function get_api(http, api_key) {
 			periodInMinutes: 1
 		});
 
-		chrome.alarms.create('updateTargetList', {  // update target list
-			periodInMinutes: 1
-		});
-
-		chrome.alarms.create('checkForDoctorn', {  // check if DocTorn is in use
-			periodInMinutes: 1
-		});
-
 	// Set alarm listeners (do something every minute)
 	chrome.alarms.onAlarm.addListener(function(alarm) {
 		switch (alarm.name){
@@ -279,33 +293,20 @@ async function get_api(http, api_key) {
 			case "resetApiCount":
 				local_storage.change("api", {"count": 0});
 				break;
-			case "updateTargetList":
-				local_storage.get("target_list", function(target_list){
-					if(target_list.show)
-						updateTargetList();
-				});
-				break;
-			case "checkForDoctorn":
-				local_storage.change("extensions", {"doctorn": detectExtension("doctorn")});
 			default:
 				break;
 		}
 	});
 
-	// Listen for connections from extension pages
+	// Listen for connections from extension's pages
 	chrome.runtime.onMessage.addListener(async function(message, sender, sendResponse) {
 		switch (message.action) {
-			case "openOptionsPage":
-				openOptionsPage();
-				break;
 			case "START":
 				Main();
 				break;
-			case "getApiCounterInfo":
-				sendResponse({"response": [2,3]})
+			case "resetSettings":
+				local_storage.reset();
 				break;
-			case "getDefaultSettings":
-				sendResponse({"response": STORAGE});
 			default:
 				break;
 		}
@@ -315,149 +316,129 @@ async function get_api(http, api_key) {
 
 	// Check whether new version is installed
 	chrome.runtime.onInstalled.addListener(function(details){
-		console.log("UPDATE REASON:", details.reason)
 		local_storage.set({"updated": true}, function(){
-			console.log("Updated");
+			console.log("Extension updated:", chrome.runtime.getManifest().version);
 		});
 	});
 
-	// Open settings page for the user
-	function openOptionsPage(){
-		chrome.tabs.create({
-			url: chrome.runtime.getURL("/views/settings.html")
-		});
-	}
+function updateTargetList(){
+	local_storage.get(["api_key", "userdata", "target_list"], function([api_key, userdata, target_list]){
+		let first_time = Object.keys(target_list.targets).length == 0 ? true : false;
+		let user_id = userdata.player_id;
 
-	function updateTargetList(){
-		local_storage.get(["api_key", "userdata", "target_list"], function([api_key, userdata, target_list]){
-			let user_id = userdata.player_id;
-			let targets = target_list.targets;
-			let attacksfull = true;
-			let last_target = target_list.last_target || -1;
-
-			if(api_key == undefined)
+		if(api_key == undefined || Object.keys(userdata).length == 0)
+			return;
+		
+		get_api(`https://api.torn.com/user/?selections=${first_time?'attacksfull':'attacks'}`, api_key).then((data) => {
+			if(!data)
 				return;
 
-			if(Object.keys(targets).length > 0)
-				attacksfull = false;
-			
-			get_api(`https://api.torn.com/user/?selections=${attacksfull?'attacksfull':'attacks'}`, api_key).then((data) => {
-				if(!data)
-					return;
+			for(let fight_id in data.attacks){
+				if(parseInt(fight_id) <= parseInt(target_list.last_target))
+					continue;
+				
+				target_list.last_target = fight_id;
+				let fight = data.attacks[fight_id];
+				let opponent_id = fight.attacker_id == user_id ? fight.defender_id : fight.attacker_id;
 
-				for(let fight_id in data.attacks){
-					if(parseInt(fight_id) <= parseInt(last_target))
-						continue;
-					
-					last_target = fight_id;
-					let fight = data.attacks[fight_id];
-					let opponent_id = fight.attacker_id == user_id ? fight.defender_id : fight.attacker_id;
 
-					if(!opponent_id)
-						continue;
-					
-					if(!targets[opponent_id]){
-						targets[opponent_id] = {
-							win: 0,
-							lose: 0,
-							stealth: 0,
-							leave: 0,
-							mug: 0,
-							hosp: 0,
-							assist: 0,
-							arrest: 0,
-							stalemate: 0,
-							defend: 0,
-							defend_lose: 0,
-							special: 0,
-							respect: {
-								leave: [],
-								mug: [],
-								hosp: [],
-								arrest: [],
-								special: []
-							},
-							respect_base: {
-								leave: [],
-								mug: [],
-								hosp: [],
-								arrest: [],
-								special: []
-							}
-						}
-					}
-	
-					if(fight.attacker_id == user_id){  // user attacked
-						if(fight.result == "Lost")
-							targets[opponent_id].lose += 1;
-						else if(fight.result == "Stalemate")
-							targets[opponent_id].stalemate += 1;
-						else {
-							targets[opponent_id].win += 1;
-							let respect = parseFloat(fight.respect_gain);
-							
-							if(!attacksfull)
-								respect = respect / fight.modifiers.war / fight.modifiers.groupAttack / fight.modifiers.overseas / fight.modifiers.chainBonus;
-
-							if(fight.stealthed == "1")
-								targets[opponent_id].stealth += 1;
-	
-							if(fight.result == "Mugged"){
-								targets[opponent_id].mug += 1;
-								
-								if(!attacksfull)
-									targets[opponent_id].respect_base.mug.push(respect);
-								else
-									targets[opponent_id].respect.mug.push(respect);
-							} else if(fight.result == "Hospitalized"){
-								targets[opponent_id].hosp += 1;
-								if(!attacksfull)
-									targets[opponent_id].respect_base.hosp.push(respect);
-								else
-									targets[opponent_id].respect.hosp.push(respect);
-							} else if(fight.result == "Attacked"){
-								targets[opponent_id].leave += 1;
-								if(!attacksfull)
-									targets[opponent_id].respect_base.leave.push(respect);
-								else
-									targets[opponent_id].respect.leave.push(respect);
-							} else if(fight.result == "Arrested"){
-								targets[opponent_id].arrest += 1;
-								if(!attacksfull)
-									targets[opponent_id].respect_base.arrest.push(respect);
-								else
-									targets[opponent_id].respect.arrest.push(respect);
-							} else if(fight.result == "Assist"){
-								targets[opponent_id].assist += 1;
-							} else if(fight.result == "Special"){
-								targets[opponent_id].special += 1;
-								if(!attacksfull)
-									targets[opponent_id].respect_base.special.push(respect);
-								else
-									targets[opponent_id].respect.special.push(respect);
-							}
-						}
-					} else if(fight.defender_id == user_id){  // user defended
-						if(fight.result == "Lost")
-							targets[opponent_id].defend += 1;
-						else {
-							if(!opponent_id)
-								continue;
-	
-							targets[opponent_id].defend_lose += 1;
+				if(!opponent_id)
+					continue;
+				
+				if(!target_list.targets[opponent_id]){
+					target_list.targets[opponent_id] = {
+						win: 0,
+						lose: 0,
+						stealth: 0,
+						leave: 0,
+						mug: 0,
+						hosp: 0,
+						assist: 0,
+						arrest: 0,
+						stalemate: 0,
+						defend: 0,
+						defend_lose: 0,
+						special: 0,
+						respect: {
+							leave: [],
+							mug: [],
+							hosp: [],
+							arrest: [],
+							special: []
+						},
+						respect_base: {
+							leave: [],
+							mug: [],
+							hosp: [],
+							arrest: [],
+							special: []
 						}
 					}
 				}
 
-				targets.date = String(new Date());
-				local_storage.change("target_list", {"targets": targets, "last_target": last_target}, function(){
-					console.log("Target list set");
-				});
+				if(fight.defender_id == user_id){  // user defended
+					if(fight.result == "Lost")
+						target_list.targets[opponent_id].defend++;
+					else
+						target_list.targets[opponent_id].defend_lose++;
+				} else if(fight.attacker_id == user_id){  // user attacked
+					if(fight.result == "Lost")
+						target_list.targets[opponent_id].lose++;
+					else if(fight.result == "Stalemate")
+						target_list.targets[opponent_id].stalemate++;
+					else {
+						target_list.targets[opponent_id].win++;
+						let respect = parseFloat(fight.respect_gain);
+
+						if(!first_time)
+							respect = respect / fight.modifiers.war / fight.modifiers.groupAttack / fight.modifiers.overseas / fight.modifiers.chainBonus;  // get base respect
+						
+						if(fight.stealthed == "1")
+							target_list.targets[opponent_id].stealth++;
+
+						switch(fight.result){
+							case "Mugged":
+								target_list.targets[opponent_id].mug++;
+
+								first_time ? target_list.targets[opponent_id].respect.mug.push(respect) : target_list.targets[opponent_id].respect_base.mug.push(respect);
+								break;
+							case "Hospitalized":
+								target_list.targets[opponent_id].hosp++;
+
+								first_time ? target_list.targets[opponent_id].respect.hosp.push(respect) : target_list.targets[opponent_id].respect_base.hosp.push(respect);
+								break;
+							case "Attacked":
+								target_list.targets[opponent_id].leave++;
+
+								first_time ? target_list.targets[opponent_id].respect.leave.push(respect) : target_list.targets[opponent_id].respect_base.leave.push(respect);
+								break;
+							case "Arrested":
+								target_list.targets[opponent_id].arrest++;
+
+								first_time ? target_list.targets[opponent_id].respect.arrest.push(respect) : target_list.targets[opponent_id].respect_base.arrest.push(respect);
+								break;
+							case "Special":
+								target_list.targets[opponent_id].special++;
+								
+								first_time ? target_list.targets[opponent_id].respect.special.push(respect) : target_list.targets[opponent_id].respect_base.special.push(respect);
+								break;
+							case "Assist":
+								target_list.targets[opponent_id].assist++;
+								break;
+						}
+					}
+				}
+			}
+
+			target_list.targets.date = String(new Date());
+			local_storage.set({"target_list": target_list}, function(){
+				console.log("Target list set");
 			});
 		});
-	}
+	});
+}
 
-function detectExtension(ext, callback){
+function detectExtension(ext){
 	let ids = {
 		"doctorn": 'kfdghhdnlfeencnfpbpddbceglaamobk'
 	}
@@ -477,4 +458,18 @@ function detectExtension(ext, callback){
 	return promise.then(function(data){
 		return data;
 	});
+}
+
+async function get_api(http, api_key) {
+	const response = await fetch(http + "&key=" + api_key);
+	const result = await response.json();
+
+	if(result.error){
+		console.log("API SYSTEM OFFLINE");
+		local_storage.change("api", {"online": false, "error": result.error.error});
+		return false;
+	} else
+		local_storage.change("api", {"online": true, "error": ""});
+
+	return result;
 }
