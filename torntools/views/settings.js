@@ -10,7 +10,10 @@ window.onload = function(){
 		let allies = data.allies;
 		let target_list = data.target_list.show;
 
-		console.log("targets", data.target_list)
+		chrome.storage.local.get(null, function(data){
+			console.log("STORAGE", data);
+		});
+
 		showSettings(settings, allies, target_list);
 		showTargetList(data.target_list.targets);
 	});
@@ -331,55 +334,8 @@ function getLowest(lists){
 }
 
 function resetSettings(){
-	const settings = {
-		"settings": {
-			"tabs": {
-				"market": true,
-				"stocks": true,
-				"calculator": true,
-				"default": "market"
-			},
-			"achievements": {
-				"show": true,
-				"show_completed": true
-			},
-			"pages": {
-				"trade": {
-					"calculator": true
-				},
-				"home": {
-					"networth": true,
-				},
-				"missions": {
-					"show": true
-				},
-				"city": {
-					"show": true,
-					"items_value": true
-				},
-				"hub": {
-					"show": false,
-					"pinned": false
-				},
-				"profile": {
-					"show": true
-				},
-				"racing": {
-					"show": true
-				},
-				"gym": {
-					"show": true
-				},
-				"shop": {
-					"show": true
-				}
-			}
-		}
-	}
-	chrome.storage.local.set({"settings": settings}, function(){
-		console.log("Settings reset.")
-		notification("Settings reset.");
-	});
+	chrome.runtime.sendMessage({"action": "resetSettings"});
+	notification("Settings reset.");
 }
 
 function notification(message){
@@ -453,14 +409,17 @@ function sort(col){
 		let priorities = [];
 		for(let item of document.querySelectorAll(`#target-list .table .body .row .item:nth-child(${col})`)){
 			let priority = item.getAttribute("priority");
-
+			
 			if(!priorities[parseInt(priority)-1])
 				priorities[parseInt(priority)-1] = []
 			priorities[parseInt(priority)-1].push(item.parentElement);
 		}
-
-		for(let priority_level of priorities)
+		
+		for(let priority_level of priorities){
+			if(priority_level == undefined)
+				continue;
 			rows = [...rows, ...sortRows(priority_level, order)];
+		}
 	}
 
 	let body = document.createElement("div");
