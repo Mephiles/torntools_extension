@@ -1,139 +1,95 @@
-window.addEventListener('load', (event) => {
+window.addEventListener('load', async (event) => {
     console.log("TT - Home");
 
-    if(flying())
-        return
+    if(await flying())
+        return;
 
-    chrome.storage.local.get(["settings", "userdata", "torndata", "networth"], function(data) {
-		const settings = data.settings;
-		const networth = data.networth;
-		const show_networth = settings.pages.home.networth;
+	local_storage.get(["settings", "networth"], function([settings, networth]){
+		if(!settings.pages.home.networth || !networth.previous.value.total)
+			return;
 
-        if(!show_networth)
-            return
-
-        let user_networth = data.userdata.networth.total;
-		displayNetworth(parseInt(user_networth));
-		displayNetworthChange(networth);
-    });
+		displayNetworth(networth);
+	});
 });
 
-function displayNetworth(user_networth){
-	// find Networth slot in General Information
-	let gen_info_box = getGenInfoBox();
-	let inner_box = gen_info_box.children[1].children[0].children[0];
-	let last_item = inner_box.children[inner_box.children.length-1];
+function displayNetworth(networth){
+	console.log("Networth", networth);
 
-    // remove class "last" from last element
-	last_item.removeAttribute("class");
+	// current networth
+	let networth_text = `$${numberWithCommas(networth.current.value.total, shorten=false)}`;
+	let networth_row = info_box.new_row("TornTools - Networth", networth_text, {
+		parent_heading: "General Information",
+		style: `background-color: #65c90069`
+	});
 
-    // create new element
-	let li = document.createElement("li");
-	let spanL = document.createElement("span");
-	let spanName = document.createElement("span");
-	let spanR = document.createElement("span");
-	let i = document.createElement("i");
-
-	li.classList.add("last");
-	li.style.backgroundColor = "#65c90069";
-	spanL.classList.add("divider");
-	spanR.classList.add("desc");
-	i.classList.add("networth-info-icon");
-	i.setAttribute("title", "Torn Tools: Your networth is fetched from Torn's API which may have a small delay. It is fetched every 1 minute.");
-	spanName.style.backgroundColor = "rgba(0,0,0,0)";
-
-	spanName.innerText = "Networth"
-	spanR.innerText = "$" + String(numberWithCommas(user_networth, shorten=false)) + " ";
-	spanR.style.paddingLeft = "12px";
-    
-    // add to table
-	spanL.appendChild(spanName);
-	spanR.appendChild(i);
-	li.appendChild(spanL);
-	li.appendChild(spanR);
-	inner_box.appendChild(li);
-}
-
-function displayNetworthChange(networth){
-	if(!networth)
-		return;
+	// networth change
+	networth_row.removeAttribute("class");
 
 	let headings = ["Type", "Value", "Change"];
-	let types = ["Points", "Vault", "Items", "Bazaar", "Properties", "Stock Market", "Company", "Bookie"];
-	
-	let li = document.createElement("li");
-	let header = document.createElement("div");
-	let table = document.createElement("table");
-	let tr_h = document.createElement("tr");
+	let types = ["Cash", "Points", "Items", "Bazaar", "Properties", "Stock Market", "Company", "Bookie", "Auction House"];
 
-	let [day, month, year, hours, minutes, seconds] = formatDate(new Date(networth.previous.date));
+	let li = doc.new("li");
+		li.setClass("last tt-networth-li");
+	let table = doc.new("table");
+		table.setClass("tt-networth-table");
+	let footer = doc.new("div");
+		footer.setClass("tt-networth-footer")
 
-	header.innerText = `Networth change compared to ${day}.${month}.${year} | ${hours}:${minutes}:${seconds}`;
-	header.style.paddingTop = "4px";
-	header.style.borderTop = "1px solid lightgrey";
-
-	table.style.width = "100%";
-	li.style.padding = "3px";
-	li.style.paddingTop = "5px";
-	li.style.paddingLeft = "7px";
-	tr_h.style.paddingBottom = "5px";
-
+	// table header
+	let header_row = doc.new("tr");
 	for(let heading of headings){
-		let td = document.createElement("td");
-		td.style.fontWeight = "600";
-		td.style.paddingBottom = "5px";
-		td.innerText = heading;
-		tr_h.appendChild(td);
+		let th = doc.new("th");
+		th.innerText = heading;
+		header_row.appendChild(th);
 	}
+	table.appendChild(header_row);
 
-	table.appendChild(tr_h);
-
+	// table content
 	for(let type of types){
-		if(parseInt(networth.current.value[type.replace(" ", "").toLowerCase()]) == 0 && parseInt(networth.previous.value[type.replace(" ", "").toLowerCase()]) == 0)
+		let current_value, previous_value;
+		
+		if(type == "Cash"){
+			current_value = networth.current.value.wallet + networth.current.value.vault;
+			previous_value = networth.previous.value.wallet + networth.previous.value.vault;
+		} else {
+			current_value = networth.current.value[type.replace(" ", "").toLowerCase()];
+			previous_value = networth.previous.value[type.replace(" ", "").toLowerCase()];
+		}
+
+		if(current_value == previous_value)
 			continue;
 
-		let tr = document.createElement("tr");
-		for(let heading of headings){
-			let td = document.createElement("td");
-			td.style.paddingBottom = "4px";
-			let value = networth.current.value[type.replace(" ", "").toLowerCase()];
-			let change = 0;
+		current_value = parseInt(current_value);
+		previous_value = parseInt(previous_value);
+		
+		let tr = doc.new("tr");
+		let td_type = doc.new("td");
+			td_type.innerText = type;
+		let td_value = doc.new("td");
+			td_value.innerText = `$${numberWithCommas(current_value)}`;
+		let td_change = doc.new("td");
 
-			if(networth.previous.value && Object.keys(networth.previous.value).length != 0)
-				change = value - (networth.previous.value[type.replace(" ", "").toLowerCase()]);
-
-			if(heading == "Type")
-				td.innerText = type;
-			else if(heading == "Value")
-				td.innerText = ("$" + String(numberWithCommas(value))).replace("$-", "-$");
-			else if(heading == "Change"){
-				td.innerText = ("$" + String(numberWithCommas(change))).replace("$-", "-$");
-
-				if(change > 0)
-					td.style.color = "#00a500";
-				else if (change < 0)
-					td.style.color = "#de0000";
-			}
-			tr.appendChild(td);
+		if(current_value < previous_value){
+			td_change.innerText = `-$${numberWithCommas(Math.abs(current_value - previous_value))}`
+			td_change.setClass("negative-change")
+		} else if(current_value > previous_value){
+			td_change.innerText = `+$${numberWithCommas(current_value - previous_value)}`
+			td_change.setClass("positive-change")
 		}
+
+		tr.appendChild(td_type);
+		tr.appendChild(td_value);
+		tr.appendChild(td_change);
 		table.appendChild(tr);
 	}
 
-	li.appendChild(table);
-	li.appendChild(header);
-	
-	let gen_info_box = getGenInfoBox();
-	let inner_box = gen_info_box.children[1].children[0].children[0];
-	inner_box.appendChild(li);
-	
-}
+	// table footer
+	let [day, month, year, hours, minutes, seconds] = dateParts(new Date(networth.previous.date));
+	footer.innerText = `Networth change compared to ${day}.${month}.${year} | ${hours}:${minutes}:${seconds}`;
 
-function getGenInfoBox(){
-	let headings = document.querySelectorAll("h5");
-	let gen_info_box;
-	for(let heading of headings){
-		if(heading.innerText == "General Information")
-			gen_info_box = heading.parentElement.parentElement;
-	}
-	return gen_info_box;
+	// compiling
+	li.appendChild(table);
+	li.appendChild(footer);
+	networth_row.parentElement.appendChild(li);
+
 }
