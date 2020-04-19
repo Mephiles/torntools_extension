@@ -15,6 +15,7 @@
 	#message {
 	  width: 100%;
 	  height: 20px;
+	  line-height: 20px;
 	  font-size: 12px;
 	  background-color: #76ff76;
 	  display: none;
@@ -58,11 +59,19 @@
 		overflow-y: auto;
 	}
 
-	.green {
+	.green.button {
 		background-color: #71ff71;
 	}
 
-	.green:hover {
+	.red.button {
+		background-color: #ff5252;
+	}
+
+	.red.button:hover {
+		background-color: red;
+	}
+
+	.green.button:hover {
 		background-color: #67e667;
 	}
 
@@ -122,8 +131,8 @@
 				<!-- <input type="checkbox" id="mail-box" class="left setting"><p>Make mail boxes bigger</p> -->
 				<!-- <input type="checkbox" id="hub" class="left setting" hidden><p hidden>Enable TornTools HUB</p> -->
 			</div><br>
-			<button class="green button" id="save-button">Save</button>
-			<button class="button" id="reset-button">Reset</button>
+			<button class="green button" id="save-button">Save</button><br>
+			<button class="red button" id="reset-button">Reset</button><span>&nbsp;&nbsp;*resets all extension settings except your API key</span>
 		</div>
 		<div class="separator"></div>
 		<p>
