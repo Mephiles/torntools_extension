@@ -1,24 +1,14 @@
-console.log("TT - API");
-
-chrome.storage.local.get(["api_key"], function(data){
-	const api_key = data["api_key"];
-
-	var container = document.querySelector("#api_key");
-	if(container){
-		container.value = api_key;
-	}
+window.addEventListener('load', (event) => {
+	console.log("TT - API");
 	
-	let demo_page_checker = setInterval(function(){
-		if(isDemoPage()){
-			container.focus();
-			clearInterval(demo_page_checker);
-		}
-	}, 1000);
-});
+	local_storage.get("api_key", function(api_key){
+		doc.find("#api_key").value = api_key;
 
-function isDemoPage(){
-	if(document.querySelector("#demo").style.display !== "none"){
-		return true;
-	}
-	return false;
-}
+		let demo_page_checker = setInterval(function(){
+			if(document.querySelector("#demo").style.display != "none"){
+				doc.find("#api_key").focus();
+				clearInterval(demo_page_checker);
+			}
+		}, 500)
+	});
+});
