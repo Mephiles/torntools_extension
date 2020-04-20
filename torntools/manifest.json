@@ -127,7 +127,7 @@
 	    },
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=missions"],
-		    "css": ["scripts/css/ttAchievements.css"],
+		    "css": ["scripts/css/ttMissions.css", "scripts/css/ttAchievements.css"],
 			"js": [
 				"scripts/js/globalFunctions.js",
 				"scripts/js/achievementFunctions.js",

@@ -1,0 +1,19 @@
+.tt-one-item-price {
+    color: #35f4be;
+    position: absolute;
+    left: 20px;
+    bottom: 5px;
+    font-size: 11px;
+}
+
+.tt-total-value {
+    margin-top: 60px;
+}
+
+.tt-total-value, .tt-point-value {
+    text-align: left;
+}
+
+.tt-total-value span, .tt-point-value span {
+    color: #678c00;
+}

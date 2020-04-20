@@ -1,88 +1,94 @@
-window.addEventListener('load', (event) => {
+window.addEventListener('load', async (event) => {
     console.log("TT - Missions");
 
-    chrome.storage.local.get(["settings", "itemlist"], function(data){
-        const settings = data.settings;
-        const itemlist = data.itemlist.items;
-        const slides = document.querySelectorAll(".rewards-slider .slide");
-        // const rewards = document.querySelectorAll(".slide .rewards-list li");
-        const userPoints = parseInt(document.querySelector(".total-mission-points").innerText.replace(",", ""));
-        const show_missions = settings.pages.missions.show
+    if(await flying())
+        return;
 
-        if(!show_missions)
+    local_storage.get(["settings", "itemlist"], function([settings, itemlist]){
+
+        if(!settings.pages.missions.show)
             return;
-        setTimeout(function(){
-            for(let slide of slides){
-                let rewards = slide.querySelectorAll(".rewards-list li");
-                for (let reward of rewards) {
-                    let data = JSON.parse(reward.getAttribute("data-ammo-info"));
-                    let quantity = parseInt(data["amount"]);
-                    let points = parseInt(data["points"]);
-                    let id = parseInt(data["image"]);
-                    let counter = parseInt(data["id"]);
-        
-                    let act_wrap = reward.querySelector(`.act-wrap`);
-                    act_wrap.style.boxSizing = "border-box";
-                    act_wrap.style.borderColor = "black";
-                    act_wrap.style.borderImage = "none";
-        
-                    // MAKE THE PRICE RED IF NOT ENOUGH POINTS
-                    if (userPoints < points) {
-                        act_wrap.style.borderTop = "1px solid red";
-                    } else {
-                        act_wrap.style.borderTop = "1px solid #2ef42e";
-                    }
-        
-                    if (!id) {
-                        continue
-                    }
-        
-                    displayMissionPrice(reward, id, quantity, points, itemlist);
-                }
+
+        rewardsLoaded().then(function(loaded){
+            if(!loaded)
+                return;
+
+            let user_points = parseInt(doc.find(".total-mission-points").innerText.replace(",", ""));
+            let reward_items = doc.findAll(".rewards-list li");
+            
+            for(let item of reward_items){
+                let info = JSON.parse(item.getAttribute("data-ammo-info"));
+                let item_id = info.image;
+                let price_points = info.points;
+                let quantity = info.amount;
+
+                // Show if user can buy
+                let actions_wrap = item.find(".act-wrap");
+                    actions_wrap.style.boxSizing = "border-box";
+                    actions_wrap.style.borderColor = "black";
+                    actions_wrap.style.borderImage = "none";
+
+                if(user_points < price_points)
+                    actions_wrap.style.borderTop = "1px solid red";
+                else
+                    actions_wrap.style.borderTop = "1px solid #2ef42e";
+
+                if(typeof item_id == "string")
+                    continue;
+
+                let market_price = itemlist.items[item_id].market_value;
+                item.style.height = "160px";  // to fit value info
+
+                // Show one item price
+                let one_item_price = doc.new("span");
+                    one_item_price.innerText = `$${numberWithCommas(market_price)}`;
+                    one_item_price.setClass("tt-one-item-price");
+
+                item.find(".img-wrap").appendChild(one_item_price);
+
+                // Show total & point value
+                let value_div = doc.new("div");
+                
+                let div_total_value = doc.new("div");
+                    div_total_value.innerText = "Total value: ";
+                    div_total_value.setClass("tt-total-value");
+                let span_total_value = doc.new("span");
+                    span_total_value.innerText = `$${numberWithCommas(quantity*market_price)}`;
+
+                let div_point_value = doc.new("div");
+                    div_point_value.innerText = "Point value: ";
+                    div_point_value.setClass("tt-point-value");
+                let span_point_value = doc.new("span");
+                    span_point_value.innerText = `$${numberWithCommas(((quantity*market_price)/price_points).toFixed())}`;
+
+                div_total_value.appendChild(span_total_value);
+                div_point_value.appendChild(span_point_value);
+                value_div.appendChild(div_total_value);
+                value_div.appendChild(div_point_value);
+                actions_wrap.insertBefore(value_div, actions_wrap.find(".actions"));
             }
-        }, 1000);
-        
+            
+        });
     });
 });
 
-function displayMissionPrice(reward, id, quantity, points, itemlist){
-	let itemValue = itemlist[id]["market_value"];
+function rewardsLoaded(){
+    let promise = new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            let counter = 0;
 
-	const container = document.querySelector(`li[data-ammo-info='${reward.getAttribute("data-ammo-info")}'] .act-wrap`);
-	const lastElement = document.querySelector(`li[data-ammo-info='${reward.getAttribute("data-ammo-info")}'] .act-wrap .actions`)
-	const image = document.querySelector(`li[data-ammo-info='${reward.getAttribute("data-ammo-info")}'] .img-wrap`);
+            if(doc.find("ul.rewards-list li")){
+                resolve(true);
+                return clearInterval(checker);
+            } else if(counter >= 10000){
+                resolve(false);
+                return clearInterval(checker);
+            } else
+                counter++;
+        }, 100);
+    });
 
-	// MAKE CONTAINERS BIGGER
-	reward.style.height = "160px";
-
-	let div = document.createElement("div");
-	let oneItem = document.createElement("div");
-	let pointValue = document.createElement("div");
-	let totalValue = itemValue*quantity;
-
-	// ONE ITEM PRICE ON IMAGE
-	oneItem.innerText = "$" + String(numberWithCommas(itemValue));
-	oneItem.style.color = "#35f4be";
-	oneItem.style.position = "absolute";
-	oneItem.style.left = "20px";
-	oneItem.style.bottom = "5px";
-	oneItem.style.fontsize = "10px";
-
-	image.appendChild(oneItem);
-
-	// LOWER CONTAINER
-	let allItems = document.createElement("div");
-	allItems.innerHTML = `Total value: <span style="color: #678c00">$${String(numberWithCommas(totalValue))}</span>`;
-	allItems.style.textAlign = "left";
-	allItems.style.paddingLeft = "5px";
-	allItems.style.paddingTop = "60px";
-
-	pointValue.innerHTML = `Point value: <span style="color: #678c00">$${numberWithCommas((totalValue/points).toFixed(0))}</span>`;
-	pointValue.style.textAlign = "left";
-	pointValue.style.paddingLeft = "5px";
-
-
-	div.appendChild(allItems)
-	div.appendChild(pointValue)
-	container.insertBefore(div, lastElement);
+    return promise.then(function(data){
+        return data;
+    });
 }
