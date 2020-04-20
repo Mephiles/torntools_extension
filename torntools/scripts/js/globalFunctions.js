@@ -239,8 +239,14 @@ function flying() {
         setInterval(function(){
             let page_heading = document.querySelector("#skip-to-content");
             if(page_heading){
-                if(page_heading.innerText === "Traveling")
+                if(page_heading.innerText == "Traveling")
                     return resolve(true);
+                else if(page_heading.innerText == "Error"){
+                    for(let msg of doc.findAll(".msg")){
+                        if(msg.innerText == "You cannot access this page while traveling!")
+                            resolve(true);
+                    }
+                }
                 return resolve(false);
             }
         }, 100);
