@@ -1,45 +1,36 @@
-window.addEventListener('load', (event) => {
+window.addEventListener('load', async (event) => {
     console.log("TT - Profile");
 
-    if(flying())
+    if(await flying())
         return
 
-    chrome.storage.local.get(["settings", "userdata", "allies", "target_list"], function(data) {
-        const settings = data.settings;
-        const show_profile = settings.pages.profile.show;
-        const show_target = data.target_list.show;
-        const user_faction = data.userdata.faction.faction_name;
-        let allies = data.allies;
+    local_storage.get(["settings", "userdata", "allies", "target_list"], function([settings, userdata, allies, target_list]) {
+        let user_faction = userdata.faction.faction_name;
 
         profileLoaded().then(function(loaded){
-            if(!loaded){
-                console.log("Page not loaded");
+            if(!loaded)
                 return;
-            }
 
             displayCreator();
 
-            if(show_profile)
+            if(settings.pages.profile.show)
                 displayAlly(user_faction, allies);
             
-            if(show_target)
-                displayTargetInfo(data.target_list.targets);
+            if(target_list.show)
+                displayTargetInfo(target_list.targets);
         });
     });
 });
 
 function displayCreator(){
-    let name = document.querySelector("#skip-to-content");
+    let name = doc.find("#skip-to-content");
 
     if(name.innerText == "Mephiles' Profile"){
-        let span1 = document.createElement("span");
-        span1.innerText = " - Thanks for using ";
-        span1.style.fontSize = "17px";
-        span1.style.color = "#888888";
+        let span1 = doc.new("span");
+            span1.innerText = " - Thanks for using ";   
 
-        let span2 = document.createElement("span");
-        span2.innerText = "TornTools";
-        span2.style.color = "#39a539";
+        let span2 = doc.new("span");
+            span2.innerText = "TornTools";
 
         span1.appendChild(span2);
         name.appendChild(span1);
@@ -57,7 +48,7 @@ function profileLoaded(){
                 resolve(false);
                 return clearInterval(checker);
             } else
-                counter+=1;
+                counter++;
         }, 100);
     });
 
@@ -66,26 +57,8 @@ function profileLoaded(){
     });
 }
 
-function showWarning(type){
-    let title = document.querySelector(".profile-left-wrapper .title-black");
-    let msg;
-
-    if(type == 'user')
-        msg = "This user is in your faction!";
-    else if(type == 'ally')
-        msg = "This user is an ally!";
-    
-    let span = document.createElement("span");
-    span.style.color = "#ff4040";
-    span.style.float = "right";
-    span.style.paddingRight = "7px";
-    span.innerText = msg;
-
-    title.appendChild(span);
-}
-
 function displayAlly(user_faction, allies){
-    let profile_faction = document.querySelector(".basic-information ul.basic-list li:nth-of-type(3) div:nth-of-type(2)").innerText;
+    let profile_faction = doc.find(".basic-information ul.basic-list li:nth-of-type(3) div:nth-of-type(2)").innerText;
 
     if(user_faction == profile_faction){
         showWarning('user');
@@ -100,96 +73,85 @@ function displayAlly(user_faction, allies){
     }
 }
 
+function showWarning(type){
+    let title = doc.find(".profile-left-wrapper .title-black");
+    let span = document.createElement("span");
+        span.setClass("tt-warning-message");
+
+    if(type == 'user')
+        span.innerText = "This user is in your faction!";
+    else if(type == 'ally')
+        span.innerText = "This user is an ally!";
+
+    title.appendChild(span);
+}
+
 function displayTargetInfo(targets){
     let user_id = getUserId();
-    let div = document.createElement("div");
-    div.setAttribute("class", "profile-wrapper m-top10");
 
-        let title = document.createElement("div");
-        title.setAttribute("class", "title-green top-round");
-        title.innerText = "TornTools - Target Info"
+    let info_container = content.new_container("TornTools - Target Info", {next_element_heading: "Medals", id: "tt-target-info"});
+    let content_container = info_container.find(".content");
 
-            let inner_div = document.createElement("div");
-            inner_div.setAttribute("class", "cont bottom-round");
+    if(!targets[user_id])
+        content_container.innerText = "No data on user.";
+    else {
+        let table = doc.new("div");
+            table.setClass("tt-table");
+        
+        let headings = [
+            {name: "Wins", type: "win", class: "good tt-item"},
+            {name: "Mugs", type: "mug", class: "good tt-item"},
+            {name: "Leaves", type: "leave", class: "good tt-item"},
+            {name: "Hosps", type: "hosp", class: "good tt-item"},
+            {name: "Arrests", type: "arrest", class: "good tt-item"},
+            {name: "Specials", type: "special", class: "good tt-item"},
+            {name: "Assists", type: "assist", class: "good tt-item"},
+            {name: "Defends", type: "defend", class: "good tt-item"},
+            {name: "Lost", type: "lose", class: "new-section bad tt-item"},
+            {name: "Defends lost", type: "defend_lose", class: "bad tt-item"},
+            {name: "Stalemates", type: "stalemate", class: "bad tt-item"},
+            {name: "Stealths", type: "stealth", class: "new-section neutral tt-item"},
+            {name: "Respect", type: "respect_base", class: "neutral tt-item"}
+        ]
 
-            let inner_div2 = document.createElement("div");
-            inner_div2.setAttribute("class", "profile-container bottom-round");
-            inner_div2.style.overflow = "auto";
-            inner_div2.style.borderBottom = "0";
+        // header row
+        let header_row = doc.new("div");
+            header_row.setClass("tt-header-row tt-row");
 
-                if(!targets[user_id]){
-                    inner_div2.style.padding = "7px";
-                    inner_div2.style.fontSize = "15px";
-                    inner_div2.innerText = "No data on user."
-                } else {
-                    // let legend = document.createElement("div");
-                    //     legend.setAttribute("class", "tt-table-legend");
-                    // let info = [
-                    //     {cls: "green", text: "Base respect based on leaves"},
-                    //     {cls: "yellow", text: "Base respect based on other outcomes"},
-                    //     {cls: "", marker: "*", text: "Not base respect"}
-                    // ];
+        for(let heading of headings){
+            let th = doc.new("div");
+                th.innerText = heading.name;
+                th.setClass(heading.class);
+            header_row.appendChild(th);
+        }
 
-                    // for(let item of info){
-                    //     let div = document.createElement("div");
-                    //     let marker = document.createElement("div");
-                    //         marker.setAttribute("class", "marker "+item.cls);
-                    //         marker.innerText = item.marker || "";
-                    //     let text = document.createElement("div");
-                    //         text.setAttribute("class", "text");
+        // data row
+        let row = doc.new("div");
+            row.setClass("tt-row");
 
-                    //     text.innerText = item.text;
+        for(let heading of headings){
+            let td = doc.new("div");
+                td.setClass(heading.class);
 
-                    //     div.appendChild(marker);
-                    //     div.appendChild(text);
-                    //     legend.appendChild(div);
-                    // }
+            if(heading.name == "Respect"){
+                let [value, color] = getRespect(targets, user_id);
+                td.innerText = value;
+                td.style.color = color;
+            } else
+                td.innerText = targets[user_id][heading.type];
 
-                    let table = document.createElement("table");
-                    table.setAttribute("class", "tt-table");
-                    let headings = ["Win", "Mug", "Leave", "Hosp", "Arrest", "Special", "Assist", "Defend", "Lose", "Defend lose", "Stalemate", "Stealth", "Respect"];
-                    let head_cls = ["good", "good", "good", "good", "good", "good", "good", "good", "new-section bad", "bad", "bad", "new-section neutral", "neutral"];
-                    
-                    let row_heading = document.createElement("row");
-                    row_heading.setAttribute("class", "row header-row");
-                    for(let heading of headings){
-                        let item = document.createElement("div");
-                        item.setAttribute("class", "item "+head_cls[headings.indexOf(heading)]);
-                        item.innerText = heading;
-                        row_heading.appendChild(item);
-                    }
+            row.appendChild(td);
+        }
 
-                    let row_data = document.createElement("row");
-                    row_data.setAttribute("class", "row");
-                    for(let heading of headings){
-                        let item = document.createElement("div");
-                        item.setAttribute("class", "item "+head_cls[headings.indexOf(heading)]);
-                        heading = heading.toLowerCase().replace(" ", "_");
-
-                        if(heading == "respect"){
-                            let [value, color] = getRespect(targets, user_id);
-                            item.innerText = value;
-                            item.style.backgroundColor = color;
-                        } else
-                            item.innerText = targets[user_id][heading];
-
-                        row_data.appendChild(item);
-                    }
-
-                    table.appendChild(row_heading);
-                    table.appendChild(row_data);
-                    // inner_div2.appendChild(legend);
-                    inner_div2.appendChild(table);
-                }
-
-    inner_div.appendChild(inner_div2);
-    div.appendChild(title);
-    div.appendChild(inner_div);
-    document.querySelector(".user-profile").insertBefore(div, document.querySelectorAll(".profile-wrapper")[1]);
+        // compiling
+        table.appendChild(header_row);
+        table.appendChild(row);
+        content_container.appendChild(table);
+    }
 }
 
 function getUserId(){
-    return document.querySelector(".basic-information ul.basic-list li:nth-of-type(1) div:nth-of-type(2)").innerText.split("[")[1].replace("]", "");
+    return doc.find(".basic-information ul.basic-list li:nth-of-type(1) div:nth-of-type(2)").innerText.split("[")[1].replace("]", "");
 }
 
 function getRespect(target_list, id){
@@ -206,18 +168,17 @@ function getRespect(target_list, id){
 
     let leaves = target_list[id][respect_type]["leave"].length > 0 ? true : false;
 
-    if(leaves){
+    if(leaves)
         respect_value = getAverage(target_list[id][respect_type]["leave"]);
-    } else {
+    else {
         let averages = [];
-        
+
         for(let list in target_list[id][respect_type]){
             let avrg_of_list = getAverage(target_list[id][respect_type][list]);
 
             if(avrg_of_list != 0)
                 averages.push(avrg_of_list);
         }
-
         respect_value = getAverage(averages);
     }
     

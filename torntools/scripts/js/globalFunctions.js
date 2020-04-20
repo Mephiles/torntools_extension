@@ -238,16 +238,23 @@ const content = {
     new_container: function(name, attributes={}){
         let defaults = {
             first: undefined,
-            id: undefined
+            id: undefined,
+            next_element_heading: undefined,
+            next_element: undefined
         }
         attr = {...defaults, ...attributes};
 
-        // process
-        let parent_element = doc.find(".content-wrapper");
+        // process           
+        if(attr.next_element_heading)
+            attr.next_element = content.findContainer(attr.next_element_heading);
+
+        let parent_element = attr.next_element ? attr.next_element.parentElement : doc.find(".content-wrapper"); 
         let new_div = createNewContainer(name, attr.id);
 
         if(attr.first)
             parent_element.insertBefore(new_div, parent_element.find(".content-title").nextElementSibling);
+        else if(attr.next_element)
+            parent_element.insertBefore(new_div, attr.next_element);
         else
             parent_element.appendChild(new_div);
 
@@ -261,12 +268,23 @@ const content = {
                 heading.innerText = name;
             let content = doc.new("div");
                 content.setClass("cont-gray bottom-round content");
+                content.style.marginTop = "0";
 
             div.appendChild(heading);
             div.appendChild(content);
             
             return div;
         }
+    },
+    findContainer: function(name){
+        let headings = doc.findAll(".content-wrapper .title-black");
+        
+        for(let heading of headings){
+            if(heading.innerText == name)
+                return heading.parentElement.parentElement;
+        }
+        
+        return undefined;
     }
 }
 
@@ -393,4 +411,18 @@ function dateParts(date){
     ]
 
     return data.map(x => (x.toString().length == 1 ? "0"+x.toString() : x.toString()));
+}
+
+function capitalize(text, every_word=false){
+    if(!every_word)
+        return text[0].toUpperCase()+text.slice(1);
+
+    let words = text.trim().split(" ");
+    let new_text = "";
+    
+    for(let word of words){
+        new_text = new_text + capitalize(word) + " ";
+    }
+
+    return new_text.trim();
 }
