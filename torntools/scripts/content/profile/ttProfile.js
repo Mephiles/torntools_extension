@@ -49,12 +49,14 @@ function displayCreator(){
 function profileLoaded(){
     let promise = new Promise(function(resolve, reject){
         let counter = 0;
-        setInterval(function(){
-            if(document.querySelector(".basic-information ul.basic-list li"))
-                return resolve(true);
-            else if(counter > 10000)
-                return resolve(false);
-            else
+        let checker = setInterval(function(){
+            if(document.querySelector(".basic-information ul.basic-list li")){
+                resolve(true);
+                return clearInterval(checker);
+            } else if(counter > 10000){
+                resolve(false);
+                return clearInterval(checker);
+            } else
                 counter+=1;
         }, 100);
     });

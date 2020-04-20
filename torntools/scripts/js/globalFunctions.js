@@ -81,9 +81,9 @@ const navbar = {
         attr = {...defaults, ...attributes};
 
         // process
+        let parent = doc.find("#sidebarroot");
         let new_div = createNewBlock(name);
         let next_div = attr.next_element || attr.previous_element;
-        let parent = doc.find("#sidebarroot");
 
         if(!next_div)
             parent.appendChild(new_div);
@@ -234,20 +234,60 @@ const info_box = {
     }
 }
 
+const content = {
+    new_container: function(name, attributes={}){
+        let defaults = {
+            first: undefined,
+            id: undefined
+        }
+        attr = {...defaults, ...attributes};
+
+        // process
+        let parent_element = doc.find(".content-wrapper");
+        let new_div = createNewContainer(name, attr.id);
+
+        if(attr.first)
+            parent_element.insertBefore(new_div, parent_element.find(".content-title").nextElementSibling);
+        else
+            parent_element.appendChild(new_div);
+
+        return new_div;
+
+        function createNewContainer(name, id){
+            let div = doc.new("div");
+                div.id = id;
+            let heading = doc.new("div");
+                heading.setClass("title-green top-round m-top10");
+                heading.innerText = name;
+            let content = doc.new("div");
+                content.setClass("cont-gray bottom-round content");
+
+            div.appendChild(heading);
+            div.appendChild(content);
+            
+            return div;
+        }
+    }
+}
+
 function flying() {
     let promise = new Promise(function(resolve, reject){
-        setInterval(function(){
+        let checker = setInterval(function(){
             let page_heading = document.querySelector("#skip-to-content");
             if(page_heading){
-                if(page_heading.innerText == "Traveling")
-                    return resolve(true);
-                else if(page_heading.innerText == "Error"){
+                if(page_heading.innerText == "Traveling"){
+                    resolve(true);
+                    return clearInterval(checker);
+                } else if(page_heading.innerText == "Error"){
                     for(let msg of doc.findAll(".msg")){
-                        if(msg.innerText == "You cannot access this page while traveling!")
+                        if(msg.innerText == "You cannot access this page while traveling!"){
                             resolve(true);
+                            return clearInterval(checker);
+                        }
                     }
                 }
-                return resolve(false);
+                resolve(false);
+                return clearInterval(checker);
             }
         }, 100);
     })

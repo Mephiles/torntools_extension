@@ -1,151 +1,99 @@
-window.addEventListener('load', (event) => {
+window.addEventListener('load', async (event) => {
 	console.log("TT - City");
+	
+	if(await flying())
+		return;
 
-	chrome.storage.local.get(["settings"], function(data){
-		const settings = data["settings"];
-
+	local_storage.get(["settings", "extensions", "itemlist"], function([settings, extensions, itemlist]){
 		if(settings.pages.city.show){
-			// Check if map tab is open
-			let tab_checker = setInterval(function(){
-				if(mapView()){
-					// Check if map has loaded
-					let map_checker = setInterval(function(){
-						if(mapLoaded()){
-							console.log("Map found.");
+			mapLoaded().then(function(loaded){
+				if(!loaded)
+					return;
 
-							// DocTorn City Finds box
-							if(!document.querySelector(".doctorn-widgets.doctorn-widgets--top")){
-								itemListWindow();
-								addItemsToList();
-							}
-
-							markItems();
-
-							// Show value of items
-							let item_ids = getItemIds();
-							showValue(item_ids);
-			
-							clearInterval(map_checker);
-						}
-					}, 100);
-					clearInterval(tab_checker);
+				let items_container = content.new_container("TornTools - City Items", {first:true, id: "tt-city-items"});
+				
+				// Map and Items
+				if(!extensions.doctorn){
+					displayItems(items_container, itemlist);
 				}
-			}, 1000);
-		} else {
-			console.log("City Find Turned OFF");
+				
+				// Value of items
+				showValueOfItems(items_container, itemlist, extensions.doctorn);
+			});
 		}
 	});
 });
 
-function addItemsToList(){
-	chrome.storage.local.get(["itemlist"], function(data){
-		let itemlist = data.itemlist.items;
-		console.log(itemlist)
-		let container = document.querySelector("#ttCityFind");
-		let elements = document.querySelectorAll("#map-cont #map .leaflet-map-pane .leaflet-objects-pane .leaflet-marker-pane .cityItem");
+function mapLoaded(){
+	let promise = new Promise(function(resolve, reject){
+		let checker = setInterval(function(){
+			if(doc.find("#map .leaflet-marker-pane .highlightItemMarket")){
+				resolve(true);
+				return clearInterval(checker);
+			}
+		}, 100);
+	});
 
-		for(let element of elements){
-			let id = element.getAttribute("src").split("items/")[1].split("/")[0];
-
-			let span = document.createElement("span");
-			let a = document.createElement("a");
-
-			a.href = "https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=" + itemlist[id]["name"];
-			a.innerText = itemlist[id]["name"] + ", ";
-
-			span.appendChild(a);
-			container.appendChild(span);
-		}
+	return promise.then(function(data){
+		return data;
 	});
 }
 
-function markItems(){
-	let elements = document.querySelectorAll("#map-cont #map .leaflet-map-pane .leaflet-objects-pane .leaflet-marker-pane *");
-	for(let element of elements){
-		if(element.getAttribute("src").indexOf("https://www.torn.com/images/items") > -1)
-			element.classList.add("cityItem");
+function displayItems(container, itemlist){
+	let content = container.find(".content");
+		content.innerText = "Items in the city: ";
+	
+	let items = getItemIDsOnMap();
+
+	// Add items to box
+	for(let id of items){
+		let a = doc.new("a");
+			a.setAttribute("href", `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${itemlist.items[id].name}`);
+		let span = doc.new("span");
+			span.innerText = itemlist.items[id].name + (items.indexOf(id) == items.length-1 ? "." : ", ");
+
+		a.appendChild(span);
+		content.appendChild(a);
 	}
 }
 
-function mapView(){
-	let tab = document.querySelector(".ui-state-active a span");
-	return (tab.innerText === "MAP");
+function showValueOfItems(container, itemlist, doctorn){
+	let content = container.find(".content");
+	let items = getItemIDsOnMap();
+
+	let total_value = 0;
+	for(let id of items){
+		let value = parseInt(itemlist.items[id].market_value);
+		total_value += value;
+	}
+
+	let new_div = doc.new("div");
+		new_div.id = "tt-city-items-value";
+		new_div.innerText = `TornTools - City Items value: `;
+	let value_span = doc.new("span");
+		value_span.innerText = `$${numberWithCommas(total_value, shorten=false)}`
+
+	if(doctorn){
+		new_div.style.borderTop = "none";
+		new_div.style.marginTop = "0";
+		new_div.style.paddingBottom = "5px";
+	}
+
+	new_div.appendChild(value_span);
+	content.appendChild(new_div);
 }
 
-function mapLoaded(){
-    // markers, items, etc.
-    let items = document.querySelectorAll("#map-cont #map .leaflet-map-pane .leaflet-objects-pane .leaflet-marker-pane *");
-    
-    if(items.length > 10){
-        return true;
-    } else {
-        return false;
-    }
-}
+function getItemIDsOnMap(){
+	let items = [];
 
-function itemListWindow(){
-	const container = document.querySelector("div[role='main']");
-	const nextElement = document.querySelector("#city-map-tooltips-wrapper");
-
-	let div_header = document.createElement("div");
-	div_header.setAttribute("class", "title-green top-round");
-	div_header.innerText = "TornTools - City Items";
-
-	let div = document.createElement("div");
-	div.id = "ttCityFind";
-
-	container.insertBefore(div_header, nextElement);
-	container.insertBefore(div, nextElement);
-}
-
-function getItemIds(){
-	let ids = [];
-    
-	let items = document.querySelectorAll("#map-cont #map .leaflet-map-pane .leaflet-objects-pane .leaflet-marker-pane .cityItem");
-    for(let item of items){
-        let id = parseInt(item.getAttribute("src").split("items/")[1].split("/*.png")[0]);
-        ids.push(id);
-    }
-
-    return ids;
-}
-
-function showValue(ids){
-	chrome.storage.local.get(["itemlist"], function(data){
-		const itemlist = data["itemlist"]["items"];
-		var value = 0;
-
-		for(let id of ids){
-			value += parseInt(itemlist[id]["market_value"]);
+	// Find items
+	for(let el of doc.findAll("#map .leaflet-marker-pane *")){
+		let src = el.getAttribute("src");
+		if(src.indexOf("https://www.torn.com/images/items/") > -1){
+			items.push(src.split("items/")[1].split("/")[0]);
+			el.classList.add("cityItem");
 		}
+	}
 
-		const container = document.querySelector("#map-cont");
-		const prevElement = document.querySelector("#map");
-
-		let div = document.createElement("div");
-		let span1 = document.createElement("span");
-		let span2 = document.createElement("span");
-
-		div.setAttribute("style", `
-			width: 100%;
-			height: 30px;
-			background-color: #f2f2f2;
-			margin-top: 15px;
-			border-bottom-left-radius: 5px;
-			border-bottom-right-radius: 5px;
-			font-size: 14px;
-			padding-left: 10px;
-			line-height: 30px;
-			box-sizing: border-box;
-		`);
-
-		span2.style.color = "#678c00";
-
-		span1.innerText = `TornTools | Items total value: `;
-		span2.innerText = `$${numberWithCommas(value)}`;
-
-		div.appendChild(span1);
-		div.appendChild(span2);
-		container.insertBefore(div, prevElement.nextElementSibling);
-	});
+	return items;
 }
