@@ -14,7 +14,6 @@ window.addEventListener('load', async (event) => {
         // start checking again when left site
         for(let category of doc.findAll(".categories li")){
             category.addEventListener("click", function(){
-                console.log("click");
                 upgradeView().then(Main);
             });
         }
@@ -58,7 +57,6 @@ window.addEventListener('load', async (event) => {
 function upgradeView(){
     let promise = new Promise(function(resolve, reject){
         let checker = setInterval(function(){
-            console.log("check")
             if(document.querySelector(".pm-categories-wrap")){
                 resolve(true);
                 return clearInterval(checker);
