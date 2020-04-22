@@ -1,106 +1,79 @@
-window.addEventListener('load', (event) => {
+window.addEventListener('load', async (event) => {
     console.log("TT - Home | Achievements");
 
-    if(flying())
-        return
+    if(await flying())
+        return;
 
-    chrome.storage.local.get(["settings", "userdata", "torndata"], function(data) {
-        const settings = data.settings;
-        const show_achievements = settings.achievements.show;
-        const show_completed = settings.achievements.show_completed;
-        const personalstats = data.userdata.personalstats;
-        const honors = data.torndata.honors;
-        const medals = data.torndata.medals;
-        const date = data.userdata.date;
-        
-        //console.log("USERDATA", data.userdata);
-        //console.log("TORNDATA", data.torndata);
+    local_storage.get(["settings", "userdata", "torndata"], function([settings, userdata, torndata]) {
+        let show_completed = settings.achievements.show_completed;
+        let personalstats = userdata.personalstats;
 
-        if(!show_achievements)
-            return
+        if(!settings.achievements.show)
+            return;
 
         // gather all perks
-        const perks = 
-            data.userdata.company_perks.length+
-            data.userdata.education_perks.length+
-            data.userdata.enhancer_perks.length+
-            data.userdata.faction_perks.length+
-            data.userdata.job_perks.length+
-            data.userdata.merit_perks.length+
-            data.userdata.property_perks.length+
-            data.userdata.stock_perks.length
+        let perks = 
+            userdata.company_perks.length+
+            userdata.education_perks.length+
+            userdata.enhancer_perks.length+
+            userdata.faction_perks.length+
+            userdata.job_perks.length+
+            userdata.merit_perks.length+
+            userdata.property_perks.length+
+            userdata.stock_perks.length
         
         
         // object of all the achievements on this page
-        var achievements = {
+        let achievements = {
             "Perks": {
                 "stats": perks,
-                "keyword": "personal perks",
-                "ach": []
+                "keyword": "personal perks"
             },
             "Awards": {
                 "stats": personalstats.awards,
-                "keyword": "total awards",
-                "ach": []
+                "keyword": "total awards"
             },
             "Married (days)": {
-                "stats": data.userdata.married.duration,
-                "keyword": "stay married",
-                "ach": []
+                "stats": userdata.married.duration,
+                "keyword": "stay married"
             },
             "Points sold": {
                 "stats": personalstats.pointssold,
-                "keyword": "points on the market",
-                "ach": []
+                "keyword": "points on the market"
             },
             "Activity": {
-                "stats": hours(personalstats.useractivity),
-                "keyword": "activity",
-                "ach": []
+                "stats": secondsToHours(personalstats.useractivity),
+                "keyword": "activity"
             },
             "Bazaar buyers": {
                 "stats": personalstats.bazaarcustomers,
-                "keyword": "customers buy from your bazaar",
-                "ach": []
+                "keyword": "customers buy from your bazaar"
             },
             "Donator (days)": {
                 "stats": personalstats.daysbeendonator,
-                "keyword": "donator",
-                "ach": []
+                "keyword": "donator"
             },
             "Energy refills": {
                 "stats": personalstats.refills,
                 "keyword": "refill",
-                "ach": [],
                 "incl": ["energy"]
             },
             "Nerve refills": {
                 "stats": personalstats.nerverefills,
                 "keyword": "refill",
-                "ach": [],
                 "incl": ["nerve"]
             },
             "Token refills": {
                 "stats": personalstats.tokenrefills,
                 "keyword": "refill",
-                "ach": [],
                 "incl": ["nerve"]
             },
             "Networth": {
                 "stats": personalstats.networth,
-                "keyword": "networth",
-                "ach": []
+                "keyword": "networth"
             }
         }
 
-        displayAchievements(achievements, show_completed, honors, medals, date);
-
-        let time_increase = setInterval(function(){
-            let seconds = parseInt(document.querySelector("#tt-awards-time").getAttribute("seconds"));
-            let new_time = time_ago(new Date() - (seconds+1)*1000);
-
-            document.querySelector("#tt-awards-time").innerText = new_time;
-            document.querySelector("#tt-awards-time").setAttribute("seconds", seconds+1);
-        }, 1000);
+        displayAchievements(achievements, show_completed, torndata);
     });
 });

@@ -75,26 +75,26 @@ Element.prototype.setClass = function(class_name){
 const navbar = {
     new_section: function(name, attributes={}){
         let defaults = {
-            previous_element: undefined,
-            next_element: undefined
+            next_element: undefined,
+            next_element_heading: undefined
         }
         attr = {...defaults, ...attributes};
 
         // process
         let parent = doc.find("#sidebarroot");
         let new_div = createNewBlock(name);
-        let next_div = attr.next_element || attr.previous_element;
+        let next_div = attr.next_element || findSection(parent, attr.next_element_heading);
 
         if(!next_div)
             parent.appendChild(new_div);
         else
-            parent.insertBefore(new_div, next_div);
+            next_div.parentElement.insertBefore(new_div, next_div);
 
         return new_div;
 
         function createNewBlock(name){
             let sidebar_block = doc.new("div");
-                sidebar_block.setClass("sidebar-block___1Cqc2");
+                sidebar_block.setClass("sidebar-block___1Cqc2 tt-nav-section");
             let content = doc.new("div");
                 content.setClass("content___kMC8x");
             let div1 = doc.new("div");
@@ -115,6 +115,15 @@ const navbar = {
             
             return sidebar_block;
         }
+
+        function findSection(parent, heading){
+            for(let head of parent.findAll("h2")){
+                if(head.innerText == heading){
+                    return head.parentElement.parentElement.parentElement;
+                }
+            }
+            return undefined;
+        }
     },
     new_cell: function(text, attributes={}){
         let defaults = {
@@ -132,8 +141,9 @@ const navbar = {
         if(!attr.parent_element && attr.parent_heading){
             attr.parent_element = (function(){
                 for(let el of sidebar.findAll("h2")){
-                    if(el.innerText == attr.parent_heading)
+                    if(el.firstChild.nodeValue == attr.parent_heading){
                         return el.parentElement;
+                    }
                 }
                 return undefined;
             })();
@@ -157,10 +167,10 @@ const navbar = {
                 inner_div.setClass("area-row___34mEZ");
             let a = doc.new("a");
                 a.setClass("desktopLink___2dcWC");
-                a.setAttribute("href", href);
+                href == "#" ? inner_div.style.cursor = "default" : a.setAttribute("href", href);
                 a.setAttribute("target", "_blank");
                 a.setAttribute("style", style);
-                a.style.height = "24px";
+                a.style.minHeight = "24px";
                 a.style.lineHeight = "24px";
             let span = doc.new("span");
                 span.innerText = text;

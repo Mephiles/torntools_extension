@@ -1,78 +1,54 @@
-window.addEventListener('load', (event) => {
+window.addEventListener('load', async(event) => {
     console.log("TT - Crime | Achievements");
 
-    if(flying())
-        return
+    if(await flying())
+        return;
 
-    chrome.storage.local.get(["settings", "userdata", "torndata"], function(data) {
-        const settings = data.settings;
-        const show_achievements = settings.achievements.show;
-        const show_completed = settings.achievements.show_completed;
-        const crimes = data.userdata.criminalrecord;
-        const honors = data.torndata.honors;
-        const medals = data.torndata.medals;
-        const date = data.userdata.date;
-        
-        console.log("USERDATA", data.userdata);
-        //console.log("TORNDATA", data.torndata);
+    local_storage.get(["settings", "userdata", "torndata"], function([settings, userdata, torndata]) {
+        let show_completed = settings.achievements.show_completed;
+        let crimes = userdata.criminalrecord;
 
-        if(!show_achievements)
-            return
+        if(!settings.achievements.show)
+            return;
         
         // object of all the achievements on this page
-        var achievements = {
+        let achievements = {
             "Theft": {
                 "stats": crimes.theft,
                 "keyword": "theft",
-                "ach": [],
                 "excl": ["auto"]
             },
             "Drug Dealing": {
                 "stats": crimes.drug_deals,
-                "keyword": "drug dealing",
-                "ach": []
+                "keyword": "drug dealing"
             },
             "Computer": {
                 "stats": crimes.computer_crimes,
-                "keyword": "computer",
-                "ach": []
+                "keyword": "computer"
             },
             "Murder": {
                 "stats": crimes.murder,
-                "keyword": "murder",
-                "ach": []
+                "keyword": "murder"
             },
             "Auto theft": {
                 "stats": crimes.auto_theft,
                 "keyword": "theft",
-                "ach": [],
                 "incl": ["auto"]
             },
             "Fraud": {
                 "stats": crimes.fraud_crimes,
-                "keyword": "fraud",
-                "ach": []
+                "keyword": "fraud"
             },
             "Other": {
                 "stats": crimes.other,
-                "keyword": "other crimes",
-                "ach": []
+                "keyword": "other crimes"
             },
             "Total": {
                 "stats": crimes.total,
-                "keyword": "criminal offences",
-                "ach": []
+                "keyword": "criminal offences"
             },
         }
 
-        displayAchievements(achievements, show_completed, honors, medals, date);
-
-        let time_increase = setInterval(function(){
-            let seconds = parseInt(document.querySelector("#tt-awards-time").getAttribute("seconds"));
-            let new_time = time_ago(new Date() - (seconds+1)*1000);
-
-            document.querySelector("#tt-awards-time").innerText = new_time;
-            document.querySelector("#tt-awards-time").setAttribute("seconds", seconds+1);
-        }, 1000);
+        displayAchievements(achievements, show_completed, torndata);
     });
 });

@@ -1,5 +1,21 @@
+.tt-nav-section h2 {
+    height: 22px;
+    line-height: 22px;
+}
 
-#tt-ach-tooltip-arrow {
+.tt-awards-time {
+    font-size: 10px;
+    color: orange;
+    margin-left: 10px;
+}
+
+.tt-ach-tooltip {
+    position: absolute;
+    display: block;
+    z-index: 999999;
+}
+
+.tt-ach-tooltip-arrow {
     float: left;
     position: relative;
     left: -5px;
@@ -12,7 +28,7 @@
     border-right: 7px solid white; 
 }
 
-#tt-ach-tooltip-text {
+.tt-ach-tooltip-text {
     border: 1px solid lightgrey;
     border-radius: 5px;
     background-color: white;
