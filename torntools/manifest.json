@@ -203,6 +203,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/shops.php*", "https://www.torn.com/bigalgunshop.php"],
+			"css": ["scripts/css/ttShop.css"],
 			"js": [
 				"scripts/js/globalFunctions.js",
 				"scripts/content/global/ttGlobal.js",

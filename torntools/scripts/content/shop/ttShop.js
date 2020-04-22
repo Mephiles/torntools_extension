@@ -1,64 +1,37 @@
-window.addEventListener('load', (event) => {
+window.addEventListener('load', async (event) => {
     console.log("TT - Shop");
 
-    if(flying())
+    if(await flying())
         return
 
-    chrome.storage.local.get(["settings", "itemlist"], function(data) {
-		const itemlist = data.itemlist;
-		const show_shop = data.settings.pages.shop.show;
+    local_storage.get(["settings", "itemlist"], function([settings, itemlist]) {
+        if(!settings.pages.shop.show)
+            return;
 
-        if(!show_shop)
-            return
+        let items = doc.findAll(".buy-items-wrap .items-list li:not(.empty):not(.clear)");
+        for(let item of items){
+            let id = item.find(".item-desc .item").getAttribute("itemid");
+            let buy_price = parseInt(item.find(".item-desc .price").innerText.replace("$", "").replace(/,/g, ""));
+            let market_price = itemlist.items[id].market_value;
+            let profit = (market_price/buy_price*100).toFixed(0);
 
-		displayItemProfits(itemlist);
+            let span = doc.new("span");
+                span.setClass("tt-shop-price");
+                span.innerText = `${numberWithCommas(profit)}%`;
+
+            let triangle_div = doc.new("div");
+                triangle_div.setClass("tt-shop-price-indicator");
+
+            if(buy_price > market_price){
+                span.style.color = "#de0000";
+                triangle_div.style.borderTop = "8px solid #de0000";
+            } else if( buy_price < market_price){
+                span.style.color = "#00a500";
+                triangle_div.style.borderBottom = "8px solid #00a500"
+            }
+
+            span.appendChild(triangle_div);
+            item.find(".item-desc .name").appendChild(span);
+        }
     });
 });
-
-function displayItemProfits(itemlist){
-    let items_in_store = document.querySelectorAll(".buy-items-wrap .items-list li:not(.empty):not(.clear)");
-
-    for(let item of items_in_store){
-        let item_id = item.querySelector(".item-desc .item").getAttribute("itemid");
-        let name = item.querySelector(".item-desc .name").innerText;
-        let buy_price = parseInt(item.querySelector(".item-desc .price").innerText.replace("$", "").replace(/,/g, ""));
-        // console.log(name+':', price);
-
-        let market_price = itemlist.items[item_id].market_value;
-
-        let profit = (market_price/buy_price*100).toFixed(0);
-
-        let negative = false;
-        if(buy_price > market_price)
-            negative = true;
-
-        // console.log(name+":", profit);
-
-        let span = document.createElement("span");
-        span.style.float = "right";
-        span.setAttribute("style", `
-            float: right;
-            font-weight: 400;
-            font-size: 11px;
-        `);
-        negative ? span.style.color = "#de0000" : span.style.color = "#00a500";
-        span.innerText = `${numberWithCommas(profit)}%`
-        
-        let triangle_div = document.createElement("div");
-        triangle_div.setAttribute("style", `
-            width: 0;
-            height: 0;
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
-            float: left;
-            position: relative;
-            top: 5px;
-            margin-right: 2px;
-        `);
-        
-        negative ? triangle_div.style.borderTop = "8px solid #de0000" : triangle_div.style.borderBottom = "8px solid #00a500";
-
-        span.appendChild(triangle_div);
-        item.querySelector(".item-desc .name").appendChild(span);
-    }
-}

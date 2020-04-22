@@ -1,0 +1,18 @@
+.tt-shop-price {
+    position: absolute;
+    top: 25px;
+    right: 5px;
+    font-weight: 400;
+    font-size: 11px;
+}
+
+.tt-shop-price-indicator {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    float: left;
+    position: relative;
+    top: 5px;
+    margin-right: 2px;
+}
