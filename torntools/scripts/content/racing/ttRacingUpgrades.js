@@ -1,81 +1,72 @@
-window.addEventListener('load', (event) => {
+window.addEventListener('load', async (event) => {
     console.log("TT - Racing Upgrades");
 
-    if(flying())
+    if(await flying())
         return
 
-    chrome.storage.local.get(["settings"], function(data) {
-        const settings = data.settings;
-        const show_racing = settings.pages.racing.show;
+    local_storage.get("settings", function(settings) {
 
-        if(!show_racing)
-            return
+        if(!settings.pages.racing.show)
+            return;
 
-        let done = false;
-        let checker = setInterval(function(){
-            if(upgradeView()){
-				if(!done){
-					showUpgrades();
-					done = true;
-				}
-            } else {
-                done = false;
+        upgradeView().then(Main);
+
+        // start checking again when left site
+        for(let category of doc.findAll(".categories li")){
+            category.addEventListener("click", function(){
+                console.log("click");
+                upgradeView().then(Main);
+            });
+        }
+
+        function Main(loaded){
+            if(!loaded)
+                return;
+
+            let items = document.querySelectorAll(".pm-items-wrap .d-wrap .pm-items .unlock");
+
+            for(let item of items){
+                item.style.position = "relative";
+                let title = item.find(".title");
+                title.style.fontSize = "11px";
+                
+                let properties = item.findAll(".properties");
+                for(let property of properties){
+                    let span = doc.new("span");
+                        span.setClass("tt-upgrade-text");
+                        span.style.top = `${7 + (10*[...properties].indexOf(property))}px`;
+        
+                    let name = property.find(".name").innerText.trim();
+                    let stat_gray = parseInt(property.find(".bar-gray-light-wrap-d").style.width);
+                    let stat_color = parseInt(property.find(".bar-color-wrap-d").style.width);
+                    let difference = stat_color - stat_gray;
+                    
+                    if(property.find(".negative")){
+                        difference = `-${difference}`;
+                        span.style.color = "#ff4444";
+                    } else
+                        difference = `+${difference}`;
+        
+                    span.innerText = `${difference} ${name}`;
+                    title.appendChild(span);
+                }
             }
-        }, 1000);
+        }
     });
 });
 
 function upgradeView(){
-    let categories = document.querySelector(".pm-categories-wrap");
+    let promise = new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            console.log("check")
+            if(document.querySelector(".pm-categories-wrap")){
+                resolve(true);
+                return clearInterval(checker);
+            }
+        }, 100);
+    });
 
-    if(categories)
-        return true;
-    return false;
-}
-
-function showUpgrades(){
-    let items = document.querySelectorAll(".pm-items-wrap .d-wrap .pm-items .unlock");
-
-    for(let item of items){
-        item.style.position = "relative";
-        let title = item.querySelector(".title");
-        let properties = item.querySelectorAll(".properties");
-        title.style.fontSize = "11px";
-
-        let first = true;
-        let amount = 7;
-        let negative = false;
-        for(let property of properties){
-            if(property.querySelector(".negative"))
-                negative = true;
-            else
-                negative = false;
-
-            let span = document.createElement("span");
-            span.style.position = "absolute";
-            span.style.right = "0";
-            span.style.top = amount + "px";
-
-            span.style.color = "green";
-            span.style.float = "right";
-            span.style.fontSize = "10px";
-            span.style.lineHeight = "10px";
-            
-            let name = property.querySelector(".name").innerText.trim();
-            let stat_gray = parseInt(property.querySelector(".bar-gray-light-wrap-d").style.width);
-            let stat_color = parseInt(property.querySelector(".bar-color-wrap-d").style.width);
-            difference = stat_color - stat_gray;
-
-            if(negative){
-                difference = "-"+difference;
-                span.style.color = "#ff4444";
-            } else
-                difference = "+"+difference;
-
-            span.innerText += `${difference} ${name}`;
-            title.appendChild(span);
-            first = false;
-            amount += 10;
-        }
-    }
+    return promise.then(function(data){
+        return data;
+    });
 }

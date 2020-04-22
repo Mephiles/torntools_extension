@@ -1,0 +1,8 @@
+.tt-upgrade-text {
+    position: absolute;
+    right: 0;
+    color: green;
+    float: right;
+    font-size: 10px;
+    line-height: 10px;
+}

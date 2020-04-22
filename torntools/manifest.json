@@ -180,7 +180,7 @@
 	    },
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=racing"],
-		    "css": ["scripts/css/ttAchievements.css"],
+		    "css": ["scripts/css/ttRacingUpgrades.css", "scripts/css/ttAchievements.css"],
 			"js": [
 				"scripts/js/globalFunctions.js",
 				"scripts/js/achievementFunctions.js",
