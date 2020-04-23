@@ -36,6 +36,10 @@ function displayAchievements(achievements, show_completed, torndata){
         }
     }
 
+    // if no content
+    if(doc.findAll(".tt-nav-section h2+div *").length == 0){
+        awards_section.style.display = "none";
+    }
     
 }
 
