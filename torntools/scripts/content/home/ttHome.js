@@ -1,7 +1,7 @@
 window.addEventListener('load', async (event) => {
     console.log("TT - Home");
 
-    if(await flying())
+    if(await flying() || await abroad())
         return;
 
 	local_storage.get(["settings", "networth"], function([settings, networth]){

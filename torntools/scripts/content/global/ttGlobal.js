@@ -1,5 +1,5 @@
 window.addEventListener('load', async (event) => {
-    if(await flying())
+    if(await flying() || await abroad())
         return;
 
     local_storage.get("updated", function(updated){

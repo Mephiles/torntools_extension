@@ -1,7 +1,7 @@
 window.addEventListener('load', async (event) => {
     console.log("TT - Faction | Achievements");
 
-    if(await flying())
+    if(await flying() || await abroad())
         return;
 
     local_storage.get(["settings", "userdata", "torndata"], function([settings, userdata, torndata]) {

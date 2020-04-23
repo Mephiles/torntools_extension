@@ -1,7 +1,7 @@
 window.addEventListener('load', async (event) => {
     console.log("TT - Profile");
 
-    if(await flying())
+    if(await flying() || await abroad())
         return
 
     local_storage.get(["settings", "userdata", "allies", "target_list"], function([settings, userdata, allies, target_list]) {

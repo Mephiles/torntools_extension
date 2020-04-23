@@ -1,7 +1,7 @@
 window.addEventListener('load', async (event) => {
     console.log("TT - Church | Achievements");
 
-    if(await flying())
+    if(await flying() || await abroad())
         return;
 
     local_storage.get(["settings", "torndata"], function([settings, torndata]) {

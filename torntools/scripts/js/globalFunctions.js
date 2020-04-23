@@ -321,6 +321,39 @@ function flying() {
     })
     
     return promise.then(function(data){
+        if(data == true)
+            console.log("User flying.");
+        return data;
+    });
+}
+
+function abroad(){
+    let promise = new Promise(function(resolve, reject){
+        let counter = 0;
+        let checker = setInterval(function(){
+            if(doc.find("#travel-home")){
+                resolve(true);
+                return clearInterval(checker);
+            } else {
+                for(let msg of doc.findAll(".msg")){
+                    if(msg.innerText == "You can't access this page while abroad."){
+                        resolve(true);
+                        return clearInterval(checker);
+                    }
+                }
+            }
+
+            if(counter >= 10000){
+                resolve(false);
+                return clearInterval(checker);
+            } else 
+                counter++;
+        }, 100);
+    })
+    
+    return promise.then(function(data){
+        if(data == true)
+            console.log("User abroad.");
         return data;
     });
 }
