@@ -33,7 +33,7 @@ window.addEventListener('load', async (event) => {
                 else
                     actions_wrap.style.borderTop = "1px solid #2ef42e";
 
-                if(typeof item_id == "string")
+                if(!item_id || typeof item_id == "string")
                     continue;
 
                 let market_price = itemlist.items[item_id].market_value;
