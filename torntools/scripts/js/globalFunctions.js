@@ -334,6 +334,9 @@ function abroad(){
             if(doc.find("#travel-home")){
                 resolve(true);
                 return clearInterval(checker);
+            } else if(doc.find("#sidebarroot h2").innerText == "Information"){
+                resolve(false);
+                return clearInterval(checker);
             } else {
                 for(let msg of doc.findAll(".msg")){
                     if(msg.innerText == "You can't access this page while abroad."){
@@ -343,7 +346,7 @@ function abroad(){
                 }
             }
 
-            if(counter >= 10000){
+            if(counter >= 50){
                 resolve(false);
                 return clearInterval(checker);
             } else 
