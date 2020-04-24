@@ -26,7 +26,7 @@ function displayNetworth(networth){
 	networth_row.removeAttribute("class");
 
 	let headings = ["Type", "Value", "Change"];
-	let types = ["Cash", "Points", "Items", "Bazaar", "Properties", "Stock Market", "Company", "Bookie", "Auction House"];
+	let types = ["Cash (Wallet+Vault)", "Points", "Items", "Bazaar", "Properties", "Stock Market", "Company", "Bookie", "Auction House"];
 
 	let li = doc.new("li");
 		li.setClass("last tt-networth-li");
@@ -48,7 +48,7 @@ function displayNetworth(networth){
 	for(let type of types){
 		let current_value, previous_value;
 		
-		if(type == "Cash"){
+		if(type.indexOf("Cash") > -1){
 			current_value = networth.current.value.wallet + networth.current.value.vault;
 			previous_value = networth.previous.value.wallet + networth.previous.value.vault;
 		} else {
