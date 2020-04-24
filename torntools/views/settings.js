@@ -5,16 +5,17 @@ window.onload = function(){
 	setUpdateToFalse();
 
 	// setup settings
-	chrome.storage.local.get(["settings", "allies", "target_list"], function(data){
+	chrome.storage.local.get(["settings", "allies", "target_list", "show_update_notification"], function(data){
 		let settings = data.settings;
 		let allies = data.allies;
 		let target_list = data.target_list.show;
+		let show_update_notification = data.show_update_notification;
 
 		chrome.storage.local.get(null, function(data){
 			console.log("STORAGE", data);
 		});
 
-		showSettings(settings, allies, target_list);
+		showSettings(settings, allies, target_list, show_update_notification);
 		showTargetList(data.target_list.targets);
 	});
 
@@ -135,7 +136,7 @@ function showTargetList(target_list){
 	}
 }
 
-function showSettings(settings, allies, target_list){
+function showSettings(settings, allies, target_list, show_update_notification){
 	let tabs = settings.tabs;
 	let pages = settings.pages;
 
@@ -174,6 +175,9 @@ function showSettings(settings, allies, target_list){
 		}
 	}
 	document.querySelector("#allies").value = allies_text;
+
+	// show update notification
+	document.querySelector("#show_update_notification").checked = show_update_notification;
 
 	// target list
 	document.querySelector("#target_list").checked = target_list;
@@ -216,6 +220,12 @@ function saveSettings(){
 	// allies
 	let allies_text = document.querySelector("#allies").value;
 	allies = allies_text.split(",");
+
+	// show update notifiation
+	let show_update_notification = document.querySelector("#show_update_notification").checked;
+	chrome.storage.local.set({"show_update_notification": show_update_notification}, function(){
+		console.log("Show update notification:", show_update_notification);
+	});
 
 	// target list
 	let target_list_value = document.querySelector("#target_list").checked;
