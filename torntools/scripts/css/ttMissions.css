@@ -12,6 +12,7 @@
 
 .tt-total-value, .tt-point-value {
     text-align: left;
+    padding-left: 7px;
 }
 
 .tt-total-value span, .tt-point-value span {
