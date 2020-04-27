@@ -477,18 +477,29 @@ function changeTableValues(table_id, show_percentage){
 const changeLog = {
 	"v3.6": {
 		"Features": [
+			"Added new logo",
 			"Added Target List to Settings page",
+			"Added Blackjack and HiLo helpers to Casino",
+			"Added option to disable update notifications",
+			"Added option to disable Gym train buttons",
 			"Added attack history info about user on Profile page",
-			"Added bounty reward (money) achievement",
-			"Shortened '1000' to 'k'",
+			"Added percentage profit of items in stores (ie. 137% means that the market value is 137% of the store buy price)",
 			"Added info tooltips for achievements",
-			"Added percentage profit of items in stores (ie. 137% means that the market value is 137% of the store buy price)"
+			"Added detailed networth information on Home page",
+			"Added bounty reward (money) achievement",
+			"Shortened '1000' to 'k'"
 		],
 		"Fixes": [
 			"Fixed some broken achievements (Home: activity, networth; Items: items dumped, cannabis; Missions: defends, assists)",
-			"Fixed Achievements' line-height",
-			"Fixed Missions Reward script visual bug"
-		]	
+			"Hide empty Awards sections"
+		],
+		"Changes": [
+			"Improved Achievements' design",
+			"Improved Missions Reward design",
+			"Improved TornTools info containers",
+			"Highlight new settings on Settings page",
+			"Reset settings button resets extension's whole storage (except the API key)"
+		]
 	},
 	"v3.5": {
 		"Features": [
