@@ -33,6 +33,11 @@
 		margin-left: 30px;
 	}
 
+	.new+p {
+		max-width: 400px;
+		background-color: rgba(255, 255, 2, 0.25);
+	}
+
 	.separator {
 	  width: 400px;
 	  height: 1px;
@@ -113,7 +118,8 @@
 			</div>
 			<h3>Other</h3>
 			<div id="other">
-				<input type="checkbox" id="show_update_notification" class="left setting"><p>Show update notification</p>
+				<input type="checkbox" id="show_update_notification" class="new left setting"><p>Show update notification</p>
+				<input type="checkbox" id="gym-disable_buttons" class="new left setting page"><p>Disable gym train buttons</p>
 				<input type="checkbox" id="achievements-show" class="left setting"><p>Show achievements</p>
 				<input type="checkbox" id="achievements-completed" class="left setting tabbed"><p>Show completed achievements</p>
 				<input type="checkbox" id="trade-calculator" class="left setting page"><p>Show trade calculator</p>
@@ -122,7 +128,7 @@
 				<input type="checkbox" id="city-show" class="left setting page"><p>Enable City Find</p>
 				<input type="checkbox" id="city-items_value" class="left setting page tabbed"><p>Show city items value</p>
 				<input type="checkbox" id="racing-show" class="left setting page"><p>Show racing upgrade values</p>
-				<input type="checkbox" id="shop-show" class="left setting page"><p>Show item profits at city shops</p>
+				<input type="checkbox" id="shop-show" class="new left setting page"><p>Show item profits at city shops</p>
 				<input type="checkbox" id="target_list" class="left setting"><p>Keep and update a target list based on attack history</p>
 				<input type="checkbox" id="profile-show" class="left setting page"><p>Show faction warning on player profiles</p>
 				<p class="left tabbed">Allies:</p><input type="text" id="allies" class="left in-line-textbox"><p class="left">(i.e. <span style="font-style:italic">Our Ally Faction, An Ally Faction 2</span>)</p><br><br>
