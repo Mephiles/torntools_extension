@@ -136,7 +136,7 @@ function displayTargetInfo(targets){
             if(heading.name == "Respect"){
                 let [value, color] = getRespect(targets, user_id);
                 td.innerText = value;
-                td.style.color = color;
+                td.style.backgroundColor = color;
             } else
                 td.innerText = targets[user_id][heading.type];
 

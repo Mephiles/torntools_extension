@@ -78,6 +78,7 @@ const STORAGE = {
 	"torndata": {},
 	"userdata": {},
 	"updated": "force_true",
+	"show_update_notification": true,
 	"api": {
 		"count": 0,
 		"limit": 60,
@@ -140,10 +141,16 @@ const STORAGE = {
 				"show": true
 			},
 			"gym": {
-				"show": true
+				"show": true,
+				"disable_buttons": false
 			},
 			"shop": {
 				"show": true
+			},
+			"casino": {
+				"show": true,
+				"hilo": true,
+				"blackjack": true
 			}
 		}
 	}

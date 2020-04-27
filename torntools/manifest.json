@@ -1,6 +1,6 @@
 {
 	"name": "Torn Tools",
-	"version": "3.7",
+	"version": "3.6",
 	"manifest_version": 2,
 	"description": "Tools for Torn users.",
 	"author": "Gregor Kaljulaid - Mephiles[2087524]",
@@ -25,12 +25,13 @@
 				"https://www.torn.com/crimes.php", "https://www.torn.com/gym.php", "https://www.torn.com/companies.php", 
 				"https://www.torn.com/factions.php*", "https://www.torn.com/jailview.php", "https://www.torn.com/hospitalview.php", 
 				"https://www.torn.com/loader.php?sid=missions", "https://www.torn.com/loader.php?sid=racing", 
-				"https://www.torn.com/travelagency.php", "https://www.torn.com/item.php", "https://www.torn.com/trade.php*", "https://www.torn.com/profiles.php*"],
+				"https://www.torn.com/travelagency.php", "https://www.torn.com/item.php", "https://www.torn.com/trade.php*", "https://www.torn.com/profiles.php*", 
+				"https://www.torn.com/api.html*"],
 			"js": ["scripts/js/globalFunctions.js", "scripts/content/global/ttGlobal.js"],
             "run_at": "document_end"
         },
         {
-        	"matches": ["https://www.torn.com/api*"],
+        	"matches": ["https://www.torn.com/api.html*"],
         	"js": ["scripts/js/globalFunctions.js", "scripts/content/api/ttApi.js"],
             "run_at": "document_end"
 		},
@@ -71,7 +72,7 @@
 	    },
 		{
 			"matches": ["https://www.torn.com/gym.php"],
-		    "css": ["scripts/css/ttAchievements.css"],
+		    "css": ["scripts/css/ttGym.css", "scripts/css/ttAchievements.css"],
 			"js": [
 				"scripts/js/globalFunctions.js",
 				"scripts/js/achievementFunctions.js",
@@ -210,7 +211,28 @@
 				"scripts/content/shop/ttShop.js"
 			],
 			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/loader.php?sid=highlow"],
+			"css": ["scripts/css/ttCasino.css"],
+			"js": [
+				"scripts/js/globalFunctions.js",
+				"scripts/content/global/ttGlobal.js",
+				"scripts/content/casino/ttHiLo.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/loader.php?sid=blackjack"],
+			"css": ["scripts/css/ttCasino.css"],
+			"js": [
+				"scripts/js/globalFunctions.js",
+				"scripts/content/global/ttGlobal.js",
+				"scripts/content/casino/ttBlackjack.js"
+			],
+			"run_at": "document_end"
 		}
+
     ],
 	"options_ui": {
 	    "page": "views/settings.html"
