@@ -6,6 +6,8 @@ function displayAchievements(achievements, show_completed, torndata){
     createAchievementTooltip();
     achievements = fillGoals(achievements, torndata);
 
+    console.log(awards_section);
+
     // add achievements to awards section
     for(let name in achievements){
         let current_stat = achievements[name].stats || 0;
@@ -20,14 +22,14 @@ function displayAchievements(achievements, show_completed, torndata){
         let achievement_text, new_cell;
         if(next_goal == "completed"){
             achievement_text = `${name}: Completed!`;
-            new_cell = navbar.new_cell(achievement_text, {parent_heading: "Awards", href:"#", style: `color: #11c511`});
+            new_cell = navbar.new_cell(achievement_text, {parent_element: awards_section, href:"#", style: `color: #11c511`});
         } else {
             if(achievements[name].extra == "###")
                 achievement_text = `${name}: ${numberWithCommas(current_stat)}`;
             else
                 achievement_text = `${name}: ${numberWithCommas(current_stat)}/${numberWithCommas(next_goal)}`;
             
-            new_cell = navbar.new_cell(achievement_text, {parent_heading: "Awards", href:"#"});
+            new_cell = navbar.new_cell(achievement_text, {parent_element: awards_section, href:"#"});
         }
 
         if(achievements[name].extra != "###"){
@@ -37,7 +39,7 @@ function displayAchievements(achievements, show_completed, torndata){
     }
 
     // if no content
-    if(doc.findAll(".tt-nav-section h2+div *").length == 0){
+    if(doc.findAll(".tt-nav-section div.title-green+div *").length == 0){
         awards_section.style.display = "none";
     }
     
@@ -49,7 +51,7 @@ function addTimeToHeader(section, date){
         span.setAttribute("seconds", (new Date() - Date.parse(date))/1000);
         span.innerText = time_ago(Date.parse(date));
 
-    section.find("h2").appendChild(span);
+    section.find("div.title-green").appendChild(span);
 
     // increment time
     let time_increase = setInterval(function(){

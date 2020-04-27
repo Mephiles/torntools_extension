@@ -101,8 +101,8 @@ const navbar = {
                 div1.setClass("areas___2pu_3");
             let toggle_block = doc.new("div");
                 toggle_block.setClass("toggle-block___13zU2");
-            let header = doc.new("h2");
-                header.setClass("header___30pTh");
+            let header = doc.new("div");
+                header.setClass("title-green");
                 header.innerText = name;
             let toggle_content = doc.new("div");
                 toggle_content.setClass("toggle-content___3XKOC");
@@ -147,8 +147,9 @@ const navbar = {
                 }
                 return undefined;
             })();
-        } else
-            return undefined;
+        }
+
+        console.log(attr.parent_element)
 
         let toggle_content = attr.parent_element.find(".toggle-content___3XKOC");
         let new_cell_block = createNewCellBlock(text, attr.href, attr.style, attr.target);

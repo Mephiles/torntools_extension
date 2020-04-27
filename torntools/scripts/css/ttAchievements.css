@@ -1,12 +1,13 @@
-.tt-nav-section h2 {
+.tt-nav-section div.title-green {
     height: 22px;
     line-height: 22px;
 }
 
 .tt-awards-time {
     font-size: 10px;
-    color: orange;
-    margin-left: 10px;
+    color: #bfbfbf;
+    position: absolute;
+    right: 10px;
 }
 
 .tt-ach-tooltip {
