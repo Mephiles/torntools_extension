@@ -1,0 +1,17 @@
+#tt-gym-settings .content {
+    padding: 5px;
+}
+
+#tt-gym-settings .content .tt-setting, #tt-gym-settings .content .tt-setting * {
+    height: 20px;
+    line-height: 20px;
+}
+
+#tt-gym-settings .content .tt-setting input[type=checkbox] {
+    float: left;
+}
+
+#tt-gym-settings .content .tt-setting .tt-setting-description {
+    padding-left: 5px;
+    float: left;
+}

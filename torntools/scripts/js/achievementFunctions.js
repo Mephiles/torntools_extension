@@ -5,9 +5,7 @@ function displayAchievements(achievements, show_completed, torndata){
     addTimeToHeader(awards_section, torndata.date);
     createAchievementTooltip();
     achievements = fillGoals(achievements, torndata);
-
-    console.log(awards_section);
-
+    
     // add achievements to awards section
     for(let name in achievements){
         let current_stat = achievements[name].stats || 0;

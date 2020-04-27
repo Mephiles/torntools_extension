@@ -32,13 +32,27 @@ const local_storage = {
 	change: function(key, keys_to_change, callback){
 		chrome.storage.local.get([key], function(data){
 			for(let key_to_change of Object.keys(keys_to_change)){
-				data[key][key_to_change] = keys_to_change[key_to_change];
+                if(!Array.isArray(keys_to_change[key_to_change]) && typeof keys_to_change[key_to_change] == "object"){
+                    data[key][key_to_change] = objectRecursive(data[key][key_to_change], keys_to_change[key_to_change]);
+                } else
+                    data[key][key_to_change] = keys_to_change[key_to_change];
 			}
 
 			chrome.storage.local.set({[key]: data[key]}, function(){
 				callback ? callback() : null;
 			});
-		});
+        });
+        
+        function objectRecursive(key, keys_to_change){
+            for(let key_to_change of Object.keys(keys_to_change)){
+                if(!Array.isArray(keys_to_change[key_to_change]) && typeof keys_to_change[key_to_change] == "object"){
+                    key[key_to_change] = objectRecursive(key[key_to_change], keys_to_change[key_to_change]);
+                } else {
+                    key[key_to_change] = keys_to_change[key_to_change];
+                }
+            }
+            return key;
+        }
 	}
 }
 
@@ -148,8 +162,6 @@ const navbar = {
                 return undefined;
             })();
         }
-
-        console.log(attr.parent_element)
 
         let toggle_content = attr.parent_element.find(".toggle-content___3XKOC");
         let new_cell_block = createNewCellBlock(text, attr.href, attr.style, attr.target);
@@ -273,7 +285,7 @@ const content = {
 
         function createNewContainer(name, id){
             let div = doc.new("div");
-                div.id = id;
+                id ? div.id = id : null;
             let heading = doc.new("div");
                 heading.setClass("title-green top-round m-top10");
                 heading.innerText = name;
