@@ -2,17 +2,52 @@ window.addEventListener('load', async (event) => {
     console.log("TT - Gym");
 
     if(await flying() || await abroad())
-        return
+        return;
 
-    // local_storage.get(["settings", "torndata"], function([settings, torndata]) {
-    //     console.log(torndata.gyms);
+    // setup box
+    let gym_settings_container = content.new_container("Torn Tools - Gym settings", {id: "tt-gym-settings"});
+    let div = doc.new("div");
+        div.setClass("tt-setting");
+    let checkbox = doc.new("input");
+        checkbox.type = "checkbox";
+    let p = doc.new("p");
+        p.setClass("tt-setting-description")
+        p.innerText = "Disable Gym buttons";
 
-    //     if(!settings.pages.gym.show)
-    //         return;
-        
+    div.appendChild(checkbox);
+    div.appendChild(p);
+    gym_settings_container.find(".content").appendChild(div);
+
+    // checkbox listener
+    checkbox.addEventListener("click", function(event){
+        let checked = event.target.checked;
+        local_storage.change("settings", {"pages": {"gym": {"disable_buttons": checked}}});
+
+        if(checked)
+            disableTrainButtons(true);
+        else
+            disableTrainButtons(false)
+    });
+    
+    local_storage.get("settings", function(settings) {
+        if(settings.pages.gym.disable_buttons){
+            checkbox.checked = true;
+            disableTrainButtons(true);
+        }
+
         // displayGymInfo(torndata.gyms);
-    // });
+    });
 });
+
+function disableTrainButtons(disable){
+    let list = doc.find("ul.properties___Vhhr7");
+    for(let button of list.findAll("button")){
+        if(disable)
+            button.classList.add("disabled___33AAM");
+        else if(!disable)
+            button.classList.remove("disabled___33AAM");
+    }
+}
 
 // function displayGymInfo(gyms_data){
 //     let locked_gyms = document.querySelectorAll(".gymList___2NGl7 .locked___3akPx");
