@@ -5,7 +5,7 @@ window.addEventListener('load', async (event) => {
         return;
 
     // setup box
-    let gym_settings_container = content.new_container("Torn Tools - Gym settings", {id: "tt-gym-settings"});
+    let gym_settings_container = content.new_container("TornTools - Gym settings", {id: "tt-gym-settings"});
     let div = doc.new("div");
         div.setClass("tt-setting");
     let checkbox = doc.new("input");
