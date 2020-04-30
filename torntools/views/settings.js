@@ -486,8 +486,7 @@ const changeLog = {
 			"Added percentage profit of items in stores (ie. 137% means that the market value is 137% of the store buy price)",
 			"Added info tooltips for achievements",
 			"Added detailed networth information on Home page",
-			"Added bounty reward (money) achievement",
-			"Shortened '1000' to 'k'"
+			"Added bounty reward (money) achievement"
 		],
 		"Fixes": [
 			"Fixed some broken achievements (Home: activity, networth; Items: items dumped, cannabis; Missions: defends, assists)",
@@ -498,7 +497,8 @@ const changeLog = {
 			"Improved Missions Reward design",
 			"Improved TornTools info containers",
 			"Highlight new settings on Settings page",
-			"Reset settings button resets extension's whole storage (except the API key)"
+			"Reset settings button resets extension's whole storage (except the API key)",
+			"Shortened '1000' to 'k'"
 		]
 	},
 	"v3.5": {
