@@ -475,7 +475,7 @@ function changeTableValues(table_id, show_percentage){
 }
 
 const changeLog = {
-	"v3.6": {
+	"v3.6.1": {
 		"Features": [
 			"Added new logo",
 			"Added Target List to Settings page",
