@@ -162,6 +162,7 @@
 	    },
 		{
 			"matches": ["https://www.torn.com/trade.php*"],
+			"css": ["scripts/css/ttTrade.css"],
 			"js": [
 				"scripts/js/globalFunctions.js",
 				"scripts/content/global/ttGlobal.js",

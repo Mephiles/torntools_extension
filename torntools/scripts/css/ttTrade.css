@@ -1,0 +1,30 @@
+/* sides */
+.tt-side-value {
+    height: 30px;
+    line-height: 30px;
+    font-size: 15px;
+    text-align: center;
+    border-top: 1px solid lightgrey;
+}
+
+.tt-side-value span {
+    color: #678c00;
+}
+
+.tt-side-item-value {
+    float: right;
+    color: #678c00;
+}
+
+/* adds */
+.log .desc {
+    position: relative;
+    color: black !important;
+}
+
+.tt-add-value {
+    position: absolute;
+    bottom: 2px;
+    right: 3px;
+    color: #678c00;
+}
