@@ -14,9 +14,11 @@ Features:
   - Mission reward values  
   - Racing upgrade values  
   - Friendly Fire  
-  - Actual networth  
+  - Detailed networth  
   - Target list  
   - Shop profits  
+  - Casino scripts  
+  - Disable Gym  
   
 **Market**: check prices of items from the small extension window at top-right  
 **Achievements**: keep track of your Achievements at the left-side menu bar in Torn  
@@ -25,9 +27,11 @@ Features:
 **Mission Reward Values**: show mission reward values (most important: $/credit)  
 **Racing upgrade values**: show the exact values of racing upgrades to find the best upgrade  
 **Friendly Fire**: get a warning when you are on an ally faction player's profile (you have to add allies manually in settings)  
-**Actual Networth**: show actual current networth under the normal networth on home page  
-**Target list**: Show attack history on Settings page and individually on Profile page    
+**Detailed Networth**: show actual current networth on home page with details comparing networth to latest one  
+**Target list**: Show attack history on Settings page and individually on Profile page  
 **Shop profits**: Show item profits in shops (profit compared to market value)  
+**Casino scripts**: Scripts for Blackjack and HiLo that give suggestions on what action to take  
+**Disable Gym**: Option to disable Gym train buttons to avoid accidental training  
 
 **API requests**:  
   - 3 requests on install  
