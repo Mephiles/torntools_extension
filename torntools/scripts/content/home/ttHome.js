@@ -4,11 +4,12 @@ window.addEventListener('load', async (event) => {
     if(await flying() || await abroad())
         return;
 
-	local_storage.get(["settings", "networth"], function([settings, networth]){
-		if(!settings.pages.home.networth || !networth.previous.value.total)
-			return;
+	local_storage.get(["settings", "networth", "extensions"], function([settings, networth, extensions]){
+		if(settings.pages.home.networth && networth.previous.value.total)
+			displayNetworth(networth);
 
-		displayNetworth(networth);
+		if(!extensions.doctorn)
+			displayEffectiveBattleStats();
 	});
 });
 
@@ -92,4 +93,33 @@ function displayNetworth(networth){
 	li.appendChild(footer);
 	networth_row.parentElement.appendChild(li);
 
+}
+
+function displayEffectiveBattleStats(){
+	// ebs - effective battle stats
+
+	let battle_stats_container = doc.find("h5=Battle Stats").parentElement.nextElementSibling;
+
+	let strength_stat = parseInt(battle_stats_container.find("li:nth-child(1) .desc").innerText.replace(/,/g, ""));
+	let defense_stat = parseInt(battle_stats_container.find("li:nth-child(2) .desc").innerText.replace(/,/g, ""));
+	let speed_stat = parseInt(battle_stats_container.find("li:nth-child(3) .desc").innerText.replace(/,/g, ""));
+	let dexterity_stat = parseInt(battle_stats_container.find("li:nth-child(4) .desc").innerText.replace(/,/g, ""));
+
+	let strength_modifier = battle_stats_container.find("li:nth-child(1) .mod").innerText;
+	let defense_modifier = battle_stats_container.find("li:nth-child(2) .mod").innerText;
+	let speed_modifier = battle_stats_container.find("li:nth-child(3) .mod").innerText;
+	let dexterity_modifier = battle_stats_container.find("li:nth-child(4) .mod").innerText;
+
+	let eff_strength = (strength_stat * (strength_modifier.indexOf("+") > -1 ? 1+(parseInt(strength_modifier)/100) : 1-(parseInt(strength_modifier)/100))).toFixed(0);
+	let eff_defense = (defense_stat * (defense_modifier.indexOf("+") > -1 ? 1+(parseInt(defense_modifier)/100) : 1-(parseInt(defense_modifier)/100))).toFixed(0);
+	let eff_speed = (speed_stat * (speed_modifier.indexOf("+") > -1 ? 1+(parseInt(speed_modifier)/100) : 1-(parseInt(speed_modifier)/100))).toFixed(0);
+	let eff_dexterity = (dexterity_stat * (dexterity_modifier.indexOf("+") > -1 ? 1+(parseInt(dexterity_modifier)/100) : 1-(parseInt(dexterity_modifier)/100))).toFixed(0);
+	let eff_total = parseInt(eff_strength) + parseInt(eff_defense) + parseInt(eff_speed) + parseInt(eff_dexterity);
+
+	info_box.new_row("TornTools", "Effective Battle Stats", {heading: true, parent_heading: "Battle Stats"});
+	info_box.new_row("Strength", numberWithCommas(eff_strength, shorten=false), {parent_heading: "Battle Stats", value_style: "width: 184px"});
+	info_box.new_row("Defense", numberWithCommas(eff_defense, shorten=false), {parent_heading: "Battle Stats", value_style: "width: 184px"});
+	info_box.new_row("Speed", numberWithCommas(eff_speed, shorten=false), {parent_heading: "Battle Stats", value_style: "width: 184px"});
+	info_box.new_row("Dextery", numberWithCommas(eff_dexterity, shorten=false), {parent_heading: "Battle Stats", value_style: "width: 184px"});
+	info_box.new_row("Total", numberWithCommas(eff_total, shorten=false), {parent_heading: "Battle Stats", value_style: "width: 184px"});
 }

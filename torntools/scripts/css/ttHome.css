@@ -1,3 +1,10 @@
+/* Box Section */
+.tt-box-section-heading {
+    height: 25px !important;
+    line-height: 25px !important;
+}
+
+/* Networth */
 .tt-networth-li {
     padding: 5px 3px 3px 7px;
 }

@@ -59,9 +59,29 @@ const local_storage = {
 const doc = document;
 
 Document.prototype.find = function(type){
+    if(type.indexOf("=") > -1){
+        let key = type.split("=")[0];
+        let value = type.split("=")[1];
+
+        for(let element of document.querySelectorAll(key)){
+            if(element.innerText == value){
+                return element;
+            }
+        }
+    }
     return this.querySelector(type);
 }
 Element.prototype.find = function(type){
+    if(type.indexOf("=") > -1){
+        let key = type.split("=")[0];
+        let value = type.split("=")[1];
+
+        for(let element of document.querySelectorAll(key)){
+            if(element.innerText == value){
+                return element;
+            }
+        }
+    }
     return this.querySelector(type);
 }
 
@@ -220,9 +240,16 @@ const info_box = {
         } else
             return undefined;
 
+
         let list = attr.parent_element.find(".info-cont-wrap");
-            !attr.first ? list.find("li.last").removeAttribute("class") : null;
-        let new_row = createNewRow(key, value, attr.style);
+            !attr.first ? list.find("li.last").classList.remove("last") : null;
+
+        let new_row;
+        if(attr.heading){
+            new_row = createNewHeading(`${key} - ${value}`);
+        } else {
+            new_row = createNewRow(key, value, attr.style, attr.value_style);
+        }
 
         if(attr.first)
             list.insertBefore(new_row, list.firstElementChild);
@@ -231,10 +258,19 @@ const info_box = {
 
         return new_row;
 
-        function createNewRow(key, value, style){
+        function createNewHeading(text){
             let li = doc.new("li");
                 !attr.first ? li.setClass("last") : null;
-                li.setAttribute("style", style);
+                li.classList.add("tt-box-section-heading");
+                li.classList.add("title-green");
+                li.innerText = text;
+            return li;
+        }
+
+        function createNewRow(key, value, style, value_style){
+            let li = doc.new("li");
+                !attr.first ? li.setClass("last") : null;
+                style? li.setAttribute("style", style):null;
             let span_left = doc.new("span");
                 span_left.setClass("divider");
             let span_left_inner = doc.new("span");
@@ -243,6 +279,7 @@ const info_box = {
 
             let span_right = doc.new("span");
                 span_right.setClass("desc");
+                value_style? span_right.setAttribute("style", value_style) : null;
             let span_right_inner = doc.new("span");
                 span_right_inner.innerText = value;
                 span_right_inner.style.paddingLeft = "3px";

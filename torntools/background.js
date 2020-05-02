@@ -121,7 +121,7 @@ const STORAGE = {
 				"calculator": true
 			},
 			"home": {
-				"networth": true,
+				"networth": true
 			},
 			"missions": {
 				"show": true
