@@ -154,11 +154,12 @@
 	    },
 		{
 			"matches": ["https://www.torn.com/item.php"],
-		    "css": ["scripts/css/ttAchievements.css"],
+		    "css": ["scripts/css/ttAchievements.css", "scripts/css/ttItems.css"],
 			"js": [
 				"scripts/js/globalFunctions.js",
 				"scripts/js/achievementFunctions.js",
 				"scripts/content/global/ttGlobal.js",
+				"scripts/content/items/ttItems.js",
 				"scripts/content/achievements/ttItemsAchievements.js"
 			],
             "run_at": "document_end"

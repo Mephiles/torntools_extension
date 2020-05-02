@@ -151,6 +151,9 @@ const STORAGE = {
 				"show": true,
 				"hilo": true,
 				"blackjack": true
+			},
+			"items": {
+				"prices": true
 			}
 		}
 	}
