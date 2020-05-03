@@ -13,7 +13,6 @@ window.addEventListener('load', async (event) => {
 
 function Main(itemlist){
     let sorting_icons = doc.findAll("ul[role=tablist] li:not(.no-items):not(.m-show):not(.hide)");
-    console.log(sorting_icons);
 
     for(let icon of sorting_icons){
         icon.addEventListener("click", function(){
@@ -63,7 +62,6 @@ function displayItemPrices(itemlist){
     
     for(let item of items){
         let id = item.getAttribute("data-item");
-        console.log("ID", id);
         let price = itemlist[id].market_value;
         let total_price;
         let qty;

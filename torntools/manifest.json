@@ -52,12 +52,13 @@
 		},
 		{
 			"matches": ["https://www.torn.com/index.php"],
-		    "css": ["scripts/css/ttHome.css", "scripts/css/ttAchievements.css"],
+		    "css": ["scripts/css/ttHome.css", "scripts/css/ttTravel.css", "scripts/css/ttAchievements.css"],
 			"js": [
 				"scripts/js/globalFunctions.js",
 				"scripts/js/achievementFunctions.js",
 				"scripts/content/global/ttGlobal.js",
 				"scripts/content/home/ttHome.js",
+				"scripts/content/travel/ttTravel.js",
 				"scripts/content/achievements/ttHomeAchievements.js"
 			],
             "run_at": "document_end"

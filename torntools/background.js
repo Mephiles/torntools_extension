@@ -154,6 +154,9 @@ const STORAGE = {
 			},
 			"items": {
 				"prices": true
+			},
+			"travel": {
+				"profit": true
 			}
 		}
 	}

@@ -405,8 +405,6 @@ function abroad(){
     })
     
     return promise.then(function(data){
-        if(data == true)
-            console.log("User abroad.");
         return data;
     });
 }
