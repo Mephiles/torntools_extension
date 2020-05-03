@@ -1,5 +1,5 @@
 .tt-travel-market-heading {
-    width: 50px;
+    width: 60px;
     float: left;
     padding-right: 10px;
     text-align: right;
@@ -12,10 +12,10 @@ li.first .tt-travel-market-cell {
 }
 
 .tt-travel-market-cell {
-    width: 50px;
-    text-align: right;
+    width: 60px;
+    /* text-align: right; */
     line-height: 34px;
-    padding-right: 10px;
+    padding-left: 10px;
     display: inline-block;
     font-size: 12px;
     border-left: 2px solid #ccc;
@@ -25,6 +25,10 @@ li.first .tt-travel-market-cell {
 
 .stock-b, .travel-agency-market li .stock {
     width: 50px !important;
+}
+
+.name-b, .travel-agency-market li .name {
+    width: 269px !important;
 }
 
 .circulation-b, .travel-agency-market li .circulation {
@@ -39,6 +43,5 @@ li.first .tt-travel-market-cell {
     float: left;
     position: relative;
     top: 12px;
-    left: 11px;
     margin-right: 2px;
 }
