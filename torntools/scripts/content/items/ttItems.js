@@ -100,6 +100,8 @@ function displayItemPrices(itemlist){
             new_element.appendChild(one_price);
             new_element.appendChild(quantity);
             new_element.appendChild(all_price);
+        } else if(price == 0) {
+            new_element.innerText = `N/A`;
         } else {
             new_element.innerText = `$${numberWithCommas(price, shorten=false)}`;
         }
