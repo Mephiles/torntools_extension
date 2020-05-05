@@ -212,6 +212,11 @@ local_storage.get(null, function(old_storage){
 });
 
 // Second - run every 1 min
+let main_interval = setInterval(Main, 60*1000);
+let api_counter_interval = setInterval(function(){
+	local_storage.change("api", {"count": 0});
+}, 60*1000);
+
 function Main(){
 	local_storage.get("api_key", async function(api_key){
 
@@ -285,45 +290,6 @@ function Main(){
 		local_storage.change("extensions", {"doctorn": doctorn_installed});
 	});
 }
-
-// ALARMS & CONNECTIONS //
-
-	// Set alarms
-		chrome.alarms.create('getMainData', {  // main user and torn data
-			periodInMinutes: 1
-		});
-
-		chrome.alarms.create('resetApiCount', {  // reset api counter
-			periodInMinutes: 1
-		});
-
-	// Set alarm listeners (do something every minute)
-	chrome.alarms.onAlarm.addListener(function(alarm) {
-		switch (alarm.name){
-			case "getMainData":
-				Main();
-				break;
-			case "resetApiCount":
-				local_storage.change("api", {"count": 0});
-				break;
-			default:
-				break;
-		}
-	});
-
-	// Listen for connections from extension's pages
-	chrome.runtime.onMessage.addListener(async function(message, sender, sendResponse) {
-		switch (message.action) {
-			case "START":
-				Main();
-				break;
-			case "resetSettings":
-				local_storage.reset();
-				break;
-			default:
-				break;
-		}
-	});
 
 // MAINTENANCE & OTHER //
 

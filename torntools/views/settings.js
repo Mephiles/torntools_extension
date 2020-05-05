@@ -1,3 +1,94 @@
+const STORAGE = {
+	// app settings
+	"api_key": undefined,
+	"itemlist": {},
+	"torndata": {},
+	"userdata": {},
+	"updated": "force_true",
+	"show_update_notification": true,
+	"api": {
+		"count": 0,
+		"limit": 60,
+		"online": true,
+		"error": ""
+	},
+	"extensions": {
+		"doctorn": false
+	},
+	// user settings
+	"networth": {
+		"previous": {
+			"value": undefined,
+			"date": undefined
+		},
+		"current": {
+			"value": undefined,
+			"date": undefined
+		}
+	},
+	"target_list": {
+		"last_target": -1,
+		"show": true,
+		"targets": {}
+	},
+	"allies": [],
+	"settings": {
+		"tabs": {
+			"market": true,
+			"stocks": true,
+			"calculator": true,
+			"default": "market"
+		},
+		"achievements": {
+			"show": true,
+			"show_completed": true
+		},
+		"pages": {
+			"trade": {
+				"calculator": true
+			},
+			"home": {
+				"networth": true
+			},
+			"missions": {
+				"show": true
+			},
+			"city": {
+				"show": true,
+				"items_value": true
+			},
+			"hub": {
+				"show": false,
+				"pinned": false
+			},
+			"profile": {
+				"show": true
+			},
+			"racing": {
+				"show": true
+			},
+			"gym": {
+				"show": true,
+				"disable_buttons": false
+			},
+			"shop": {
+				"show": true
+			},
+			"casino": {
+				"show": true,
+				"hilo": true,
+				"blackjack": true
+			},
+			"items": {
+				"prices": true
+			},
+			"travel": {
+				"profit": true
+			}
+		}
+	}
+}
+
 window.onload = function(){
     console.log("TT - Settings");
 
@@ -344,8 +435,22 @@ function getLowest(lists){
 }
 
 function resetSettings(){
-	chrome.runtime.sendMessage({"action": "resetSettings"});
-	notification("Settings reset.");
+	chrome.storage.local.get(["api_key"], function(data){
+		let api_key = data.api_key;
+		chrome.storage.local.clear(function(){
+			chrome.storage.local.set(STORAGE, function(){
+				chrome.storage.local.set({
+					"api_key": api_key
+				}, function(){
+					chrome.storage.local.get(null, function(data){
+						console.log("Storage cleared");
+						console.log("New storage", data);
+						callback ? callback() : null;
+					});
+				});
+			});
+		});
+	});
 }
 
 function notification(message){
