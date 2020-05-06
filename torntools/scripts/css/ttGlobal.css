@@ -1,0 +1,12 @@
+.area-desktop___2YU-q {
+    position: relative;
+}
+
+.nav-color-code {
+    width: 4px;
+    height: 25px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9;
+}

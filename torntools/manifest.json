@@ -30,6 +30,7 @@
 				"https://www.torn.com/church.php", "https://www.torn.com/shops.php*", "https://www.torn.com/bigalgunshop.php",
 				"https://www.torn.com/loader.php?sid=highlow", "https://www.torn.com/loader.php?sid=blackjack"
 			],
+			"css": ["scripts/css/ttGlobal.css"],
 			"js": ["scripts/js/globalFunctions.js", "scripts/content/global/ttGlobal.js"],
             "run_at": "document_end"
         },
@@ -52,7 +53,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/index.php"],
-		    "css": ["scripts/css/ttHome.css", "scripts/css/ttTravel.css", "scripts/css/ttAchievements.css"],
+		    "css": ["scripts/css/ttHome.css", "scripts/css/ttTravel.css", "scripts/css/ttAchievements.css", "scripts/css/ttGlobal.css"],
 			"js": [
 				"scripts/js/globalFunctions.js",
 				"scripts/js/achievementFunctions.js",
