@@ -1,126 +1,76 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <script src="calculator.js"></script>
-  <style>
-    body{
-      width: 300px;
-			font-family: Arial;
-    }
+	<link rel="stylesheet" href="../scripts/css/popup_window_global.css">
+	<style>
+		#clear-all {
+			float: right;
+			margin-top: 5px;
+		}
 
-    #settings{
-      position: absolute;
-      right: 5px;
-      top: 5px;
-      width: 28px;
-      height: 30px;
-      background-image: url("../images/gears.png");
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-color: transparent;
-      border: none;
-      outline: none;
-    }
+		#items-selected {
+			margin-top: 10px;
+			margin-bottom: 10px;
+			padding-left: 10px;
+			font-size: 13px;
+		}
 
-    #settings:hover {
-      border: 0.5px solid lightgrey;
-    }
+		#total-value {
+			text-align: right;
+			font-weight: 600;
+		}
 
-    #search-bar{
-      width: 170px;
-      background-image: url('../images/searchicon.png');
-      background-position: 5px 5px;
-      background-repeat: no-repeat;
-      font-size: 16px;
-      padding: 6px 20px 6px 40px;
-      border: 1px solid #ddd;
-      outline: none;
-    }
+		.quantity {
+			max-width: 25px;
+			/* float: right; */
+			position: absolute;
+			right: 47px;
 
-    ul {
-      list-style-type: none;
-      padding-left: 10px;
-      max-height: 400px;
-      overflow-y: scroll;
-      font-size: 17px;
-    }
-    li:hover{
-      cursor: pointer;
-      background-color: rgba(0,255,0, 0.6);
-    }
+		}
 
-    .quantity {
-    	width: 40px;
-    	height: 15px;
-    	margin-top: 3px;
-    	border: 0.5px solid lightgrey;
-    	float: right;
-    }
+		.add {
+			margin-left: 3px;
+			/* float: right; */
+			position: absolute;
+			right: 5px;
+		}
 
-    .sub {
-    	width: 15px;
-    	height: 15px;
-    	float: right;
-    	margin-top: 3.5px;
-    	margin-left: 4px;
-    }
+		#item-list div:hover{
+			cursor: default;
+			background-color: white;
+		}
 
-    #clear-all {
-    	float: right;
-    	margin-top: 5px;
-    }
+		/* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+		}
 
-    #price-field{
-    	width: 70%;
-    	height: 20px;
-    	font-size: 14px;
-    	padding-top: 10px;
-    	padding-left: 5px;
-    	color: #65840c;
-    }
-
-    .page-tab {
-      background: none;
-      border: none;
-
-      
-      padding: 0;
-      margin-left: 2px;
-      margin-right: 2px;
-      cursor: pointer;
-    }
-
-    .active-tab {
-      border-top: 1px solid grey;
-      padding-left: 4px;
-      padding-right: 4px;
-    }
-
-    #update, #error {
-      margin-bottom: 5px;
-      color: red;
-    }
-
-    #update span {
-      color: blue;
-      cursor: pointer;
-    }
-  </style>
+		/* Firefox */
+		input[type=number] {
+			-moz-appearance: textfield;
+		}
+	</style>
 </head>
+
 <body>
-  <div id="error"></div>
-  <div id="update"></div>
-  <button class="page-tab" id="market-html" style="display: none">Market</button>
-  <button class="page-tab" id="stocks-html" style="display: none">Stocks</button>
-  <button class="page-tab active-tab" id="calculator-html" style="display: none">Calculator</button>
+	<div class="error"></div>
+	<button class="page-tab" id="market-html">Market</button>
+	<button class="page-tab" id="stocks-html">Stocks</button>
+	<button class="page-tab active-tab" id="calculator-html">Calculator</button>
 
-  <h2>Price Calculator</h2>
-  <button id="settings"></button>
-  <input type="text" id="search-bar" placeholder="Search.." autofocus><span id="clear-all"><button>Clear</button></span>
-  <div id="price-field"></div>
-  <hr>
-  <ul id="item-list" style="display: none"></ul>
-  <ul id="items-selected" style="margin-top: 10px"></ul>
+	<h2>Price Calculator</h2>
+	<button class="settings"></button>
+	<input type="text" id="search-bar" placeholder="Search.." autofocus><span id="clear-all"><button>Clear</button></span>
+	<div id="items-selected"></div>
+	<div id="total-value" value="0"></div>
+	<hr>
+	<div id="item-list"></div>
 
+	<script src="../scripts/js/globalFunctions.js"></script>
+	<script src="calculator.js"></script>
 </body>
+
 </html>
