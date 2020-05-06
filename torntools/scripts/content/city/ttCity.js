@@ -69,7 +69,7 @@ function showValueOfItems(container, itemlist, doctorn){
 
 	let new_div = doc.new("div");
 		new_div.id = "tt-city-items-value";
-		new_div.innerText = `TornTools - City Items value: `;
+		new_div.innerText = `City Items value: `;
 	let value_span = doc.new("span");
 		value_span.innerText = `$${numberWithCommas(total_value, shorten=false)}`
 
