@@ -384,6 +384,9 @@ function abroad(){
             if(doc.find("#travel-home")){
                 resolve(true);
                 return clearInterval(checker);
+            } else if(doc.find("#skip-to-content").innerText == "Preferences"){
+                resolve(false);
+                return clearInterval(checker);
             } else if(doc.find("#sidebarroot h2").innerText == "Information"){
                 resolve(false);
                 return clearInterval(checker);
