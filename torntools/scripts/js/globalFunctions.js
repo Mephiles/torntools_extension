@@ -523,3 +523,17 @@ function capitalize(text, every_word=false){
 
     return new_text.trim();
 }
+
+async function get_api(http, api_key) {
+	const response = await fetch(http + "&key=" + api_key);
+	const result = await response.json();
+
+	if(result.error){
+		console.log("API SYSTEM OFFLINE");
+		local_storage.change("api", {"online": false, "error": result.error.error});
+		return false;
+	} else
+		local_storage.change("api", {"online": true, "error": ""});
+
+	return result;
+}

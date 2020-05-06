@@ -1,0 +1,44 @@
+body {
+    width: 300px;
+    font-family: Arial;
+}
+
+.settings {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 28px;
+    height: 30px;
+    background-image: url("../../images/gears.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.settings:hover {
+    border: 0.5px solid lightgrey;
+}
+
+.page-tab {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: 2px;
+    margin-right: 2px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.active-tab {
+    border-top: 1px solid grey;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.error {
+    margin-bottom: 5px;
+    color: red;
+    display: none;
+}
