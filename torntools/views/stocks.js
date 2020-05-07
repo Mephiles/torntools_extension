@@ -1,327 +1,157 @@
-window.onload = function(){
-    console.log("START");
+window.addEventListener("load", function(){
+	console.log("Start Stocks");
 
-     // Set up the page
-     chrome.storage.local.get(["settings", "api_key", "api", "update-available", "torndata", "userdata"], function(data){
-        const tabs = data.settings.tabs;
-        const api_key = data.api_key;
-        const api = data.api;
-        const update_available = data["update_available"];
-        const torn_stocks = data.torndata.stocks;
-        const user_stocks = data.userdata.stocks;
+	local_storage.get(["settings", "api", "torndata", "userdata"], function([settings, api, torndata, userdata]){
 
-        // if update is available
-        if(update_available)
-            document.querySelector("#update").style.display = "block";
+		console.log("Torndata", torndata);
+		console.log("Userdata", userdata);
 
-        // if api is not online
-        if(!api.online)
-			document.getElementById("error").innerText = data.api.error;
+		let torn_stocks = torndata.stocks;
+		let user_stocks = userdata.stocks;
 
-        // set up tabs
-        for(let tab in tabs){
-			if(tab === "default" || tabs[tab] == false){continue}
-			let link = document.querySelector(`#${tab}-html`);
-			link.style.display = "inline-block";
-			
-			link.addEventListener("click", function(){
-				window.location.href = tab + ".html";
-			});
+		 // show error
+		 if(!api.online){
+            doc.find(".error").style.display = "block";
+            doc.find(".error").innerText = api.error;
         }
 
-        setUpStockContainer(torn_stocks, user_stocks);
-		setUpBenefitsContainer(torn_stocks, user_stocks);
-        
+        // setup links
+        for(let tab in settings.tabs){
+            if(tab == "default")
+                continue;
 
-        const sb = document.querySelector("#searchbar");
-		const benefits_tab = document.querySelector("#benefits-tab");
-		const mystocks_tab = document.querySelector("#mystocks-tab");
-        const settingsButton = document.querySelector("#settings");
-		const reloadButton = document.querySelector("#update");
-
-        // sub-tabs
-        benefits_tab.addEventListener("click", function(){
-			activeTab("benefits");
-		});
-
-		mystocks_tab.addEventListener("click", function(){
-			activeTab("mystocks")
-		});
-
-        // searchbar
-		sb.addEventListener("focus", function(){
-			this.value = "";
-		});
-
-		sb.addEventListener("keyup", function(){
-			var filter = sb.value.toUpperCase();
-			var ul = document.querySelector("#stocklist");
-			var li = ul.getElementsByTagName("li");
-
-			for (var i = 0; i < li.length; i++) {
-			  if (li[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
-			    li[i].style.display = "";
-			    ul.style.display = "block";
-			  } else {
-			    li[i].style.display = "none";
-			  }
-			}
-			if(filter == ""){
-				ul.style.display = "none";
-			}
-		});
-
-        // settings button
-		settingsButton.addEventListener("click", function(){
-			window.open("settings.html")
-		});
-
-        // reload button
-		reloadButton.addEventListener("click", () => {
-			restartApp();
-		});
-    });
-}
-
-function setUpStockContainer(torn_stocks, user_stocks){
-	for(let stock in user_stocks){
-		let id = user_stocks[stock]["stock_id"];
-		let shares = parseInt(user_stocks[stock]["shares"]);
-		let buy_price = parseFloat(user_stocks[stock]["bought_price"]).toFixed(3);
-
-		let name = torn_stocks[id]["name"];
-		let current_price = parseFloat(torn_stocks[id]["current_price"]).toFixed(3);
-		let profit = (current_price - buy_price).toFixed(3);
-		let profit_total = (profit * shares).toFixed(0);
-
-		console.log("-----------------------");
-		console.log("shares", shares);
-		console.log("buy_price", buy_price);
-		console.log("current_price", current_price);
-		console.log("profit", profit);
-		console.log("total_profit", profit_total);
-		console.log("-----------------------");
-
-		const mystocks_container = document.querySelector("#mystocks-container");
-		let mc = mystocks_container;
-
-		let li = document.createElement("li");
-		let heading = document.createElement("h3");
-		let shares_p = document.createElement("p");
-		let buy_price_p = document.createElement("p");
-		let current_price_p = document.createElement("p");
-		let profit_p = document.createElement("p");
-		let profit_total_span = document.createElement("span");
-		let hr = document.createElement("hr");
-
-		heading.innerText = name;
-		profit_total_span.innerText = `total profit: $${numberWithCommas(profit_total)}`;
-		profit_total_span.classList.add("profit-total");
-		if(profit_total <= 0){
-			profit_total_span.classList.add("negative-profit");
-		} else {
-			profit_total_span.classList.add("positive-profit");
+            if(settings.tabs[tab] == false){
+                doc.find(`#${tab}-html`).style.display = "none";
+            } else {
+                doc.find(`#${tab}-html`).addEventListener("click", function(){
+                    window.location.href = tab+".html";
+                });
+            }
 		}
 
-		shares_p.innerText = `Shares: ${numberWithCommas(shares)}`;
-		buy_price_p.innerText = `Buy price: $${numberWithCommas(buy_price)}`;
-		current_price_p.innerText = `Current price: $${numberWithCommas(current_price)}`;
-		profit_p.innerText = `Profit: $${profit}/share`;
-
-		heading.appendChild(profit_total_span);
-		li.appendChild(heading);
-		li.appendChild(shares_p);
-		li.appendChild(buy_price_p);
-		li.appendChild(current_price_p);
-		li.appendChild(profit_p);
-
-		mc.appendChild(li);
-		mc.appendChild(hr);
-	}
-}
-
-function setUpBenefitsContainer(torn_stocks, user_stocks){
-	// set up list
-	const stocklist = document.querySelector("#stocklist");
-
-	for(let stock in torn_stocks){
-		let li = document.createElement("li");
-		let name = torn_stocks[stock]["name"];
-		li.innerText = name;
-		li.id = stock;
-		li.classList.add("item");
-		stocklist.appendChild(li);
-
-		li.addEventListener("click", function(){
-			stocklist.style.display = "none";
-			document.querySelector("#searchbar").value = "";
-
-			let requirement = parseInt(torn_stocks[stock]["benefit"]["requirement"]);
-			let user_amount = 0;
-			for(let i in user_stocks){
-				if(user_stocks[i]["stock_id"] == stock){
-					user_amount = user_stocks[i]["shares"];
-				}
-			}
-			let benefit_text = torn_stocks[stock]["benefit"]["description"];
-			let current_price = torn_stocks[stock]["current_price"];
-
-			const this_stock = {
-				name: name,
-				req: requirement,
-				owned: user_amount,
-				benefit: benefit_text,
-				cur_price: current_price
-			}
-
-			console.log("CLICKED - SAVING");
-			saveBenefit(this_stock);
-			displayBenefit(this_stock)
+		// setup settings button
+		doc.find(".settings").addEventListener("click", function(){
+			window.open("settings.html");
 		});
-	}
 
-	// set up already selected stocks
+		// setup stocks list
+		for(let id in user_stocks){
+			let user_stock = user_stocks[id];
+			let stock_id = user_stock.stock_id;
+			
+			let name = torn_stocks[stock_id].name;
+			let buy_price = user_stock.bought_price;
+			let current_price = torn_stocks[stock_id].current_price;
+			let quantity = user_stock.shares;
 
-	try {
-		chrome.storage.local.get(["benefits-stocks"], function(data){
-			const stocks = data["benefits-stocks"];
-			console.log("SAVED STOCKS", stocks);
+			let benefit_description, benefit_requirement;
 
-			for(let stock in stocks){
-				displayBenefit(stocks[stock]);
+			if(torn_stocks[stock_id].benefit){
+				benefit_description = torn_stocks[stock_id].benefit.description;
+				benefit_requirement = torn_stocks[stock_id].benefit.requirement;
 			}
-		});
-	} catch(err){
-		console.log("NO BENEFITS SAVED");
-	}
-}
 
-const numberWithCommas = (x) => {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+			let total_profit = ((current_price-buy_price)*quantity).toFixed(0);
 
-function activeTab(tab){
-	var benefits_container = document.querySelector("#benefits-container");
-	var mystocks_container = document.querySelector("#mystocks-container");
+			let div = doc.new("div");
+				div.setClass("stock-item");
 
-	if(tab === "benefits"){
-		benefits_container.style.display = "block";
-		mystocks_container.style.display = "none";
+			let hr = doc.new("hr");
+			let heading = doc.new("div");
+				heading.setClass("heading");
+				heading.innerText = name;
 
-		document.querySelector("#benefits-tab").setAttribute("class", "stocks-subtab active-subtab");
-		document.querySelector("#mystocks-tab").setAttribute("class", "stocks-subtab");
+			let stock_info = doc.new("div");
+				stock_info.setClass("stock-info-heading");
+				stock_info.innerText = "Price info";
+				let collapse_icon = doc.new("i");
+					collapse_icon.setClass("fas fa-chevron-down");
+			
+			let stock_info_content = doc.new("div");
+				stock_info_content.setClass("content");
+				let CP_div = doc.new("div");
+					CP_div.setClass("stock-info");
+					CP_div.innerText = `Current price: $${numberWithCommas(current_price, shorten=false)}`;
+				let BP_div = doc.new("div");
+					BP_div.setClass("stock-info");
+					BP_div.innerText = `Buy price: $${numberWithCommas(buy_price, shorten=false)}`;
+				let amount_div = doc.new("div");
+					amount_div.setClass("stock-info");
+					amount_div.innerText = `Quantity: ${numberWithCommas(quantity, shorten=false)}`;
+				let profit = doc.new("div");
+					profit.setClass("profit");
+					if(total_profit > 0){
+						profit.classList.add("positive");
+						profit.innerText = `+$${numberWithCommas(total_profit, shorten=false)}`;
+					} else if(total_profit < 0) {
+						profit.classList.add("negative");
+						profit.innerText = `-$${numberWithCommas(Math.abs(total_profit), shorten=false)}`;
+					} else
+						profit.innerText = `$0`;
 
-	} else if(tab === "mystocks"){
-		mystocks_container.style.display = "block";
-		benefits_container.style.display = "none";
+			let benefit_info = doc.new("div");
+				benefit_info.setClass("benefit-info-heading");
+				benefit_info.innerText = "Benefit info";
+				let collapse_icon_2 = doc.new("i");
+					collapse_icon_2.setClass("fas fa-chevron-down");
+			
+			let benefit_info_content = doc.new("div");
+				benefit_info_content.setClass("content");
+				let BD_div = doc.new("div");
+					quantity >= benefit_requirement ? BD_div.setClass("benefit-info desc complete") : BD_div.setClass("benefit-info desc incomplete");
+					BD_div.innerText = benefit_description;
+				let BR_div = doc.new("div");
+					BR_div.setClass("benefit-info");
+					BR_div.innerText = `Required stocks: ${numberWithCommas(quantity, shorten=false)}/${numberWithCommas(benefit_requirement)}`;
+				
+			stock_info.appendChild(collapse_icon);
+			benefit_info.appendChild(collapse_icon_2);
 
-		document.querySelector("#mystocks-tab").setAttribute("class", "stocks-subtab active-subtab");
-		document.querySelector("#benefits-tab").setAttribute("class", "stocks-subtab");
-	}
-}
+			
+			stock_info_content.appendChild(CP_div);
+			stock_info_content.appendChild(BP_div);
+			stock_info_content.appendChild(amount_div);
 
-function displayBenefit(stock){
-	const name = stock.name;
-	const requirement = stock.req;
-	const user_amount = stock.owned;
-	const benefit_text = stock.benefit;
-	const cur_price = stock.cur_price;
+			benefit_info_content.appendChild(BR_div);
+			benefit_info_content.appendChild(BD_div);
 
-	const container = document.querySelector("#display");
-	let li = document.createElement("li");
-	let heading = document.createElement("h3");
-	let needed_stock_amount_p = document.createElement("p");
-	let user_stock_amount_p = document.createElement("p");
-	let left_stock_amount_p = document.createElement("p");
-	let benefit_p = document.createElement("p");
-	let hr = document.createElement("hr");
-	let remove_span = document.createElement("span");
+			div.appendChild(hr);
+			div.appendChild(heading);
+			div.appendChild(profit);
 
-	heading.innerText = name;
-	remove_span.classList.add("remove-benefit");
-	remove_span.innerText = "X";
-	needed_stock_amount_p.innerText = `Required stocks: ${numberWithCommas(requirement)} ($${numberWithCommas(requirement*cur_price)})`;
-	user_stock_amount_p.innerText = `Owned: ${numberWithCommas(user_amount)}`;
+			div.appendChild(stock_info);
+			div.appendChild(stock_info_content)
 
-	let left_amount = requirement - user_amount;
-	if(left_amount > 0){
-		left_stock_amount_p.innerText = `Left: ${numberWithCommas(left_amount)} ($${numberWithCommas(left_amount*cur_price)})`;
-	}
+			div.appendChild(benefit_info);
+			div.appendChild(benefit_info_content);
 
-	benefit_p.innerText = `Benefit: ${benefit_text}`;
-	if(user_amount >= requirement){
-		benefit_p.style.backgroundColor = "#97ee50";
-		// benefit_p.style.color = "#e2b60f";
-	} else {
-		benefit_p.style.backgroundColor = "#f86d60";
-	}
+			doc.find("#stocks-list").appendChild(div);
 
-	heading.appendChild(remove_span);
-	li.appendChild(heading);
-	li.appendChild(needed_stock_amount_p);
-	li.appendChild(user_stock_amount_p);
-	li.appendChild(left_stock_amount_p);
-	li.appendChild(benefit_p);
+			// add event listeners to open collapsibles
+			stock_info.addEventListener("click", function(event){
+				let content = event.srcElement.nodeName == "I" ? event.target.parentElement.nextElementSibling : event.target.nextElementSibling;
 
-	container.appendChild(li);
-	container.appendChild(hr);
-
-	remove_span.addEventListener("click", function(){
-		removeBenefit(stock, this);
-	});
-}
-
-function saveBenefit(stock){
-	chrome.storage.local.get(["benefits-stocks"], function(data){
-		if(data["benefits-stocks"]){
-			data["benefits-stocks"].push(stock);
-
-			chrome.storage.local.set({
-				"benefits-stocks": data["benefits-stocks"]
-			}, function(){
-				console.log("SAVED");
-			});
-		} else {
-			chrome.storage.local.set({
-				"benefits-stocks": [stock]
-			}, function(){
-				console.log("SAVED");
-			});
-		}
-	});
-}
-
-function removeBenefit(_stock, _this){
-	chrome.storage.local.get(["benefits-stocks"], function(data){
-		if(data["benefits-stocks"]){
-			data = data["benefits-stocks"];
-			var newData = []
-			var done = false;
-
-			for(let i in data){
-				let stock = data[i];
-				if(_stock.name === stock.name && !done){
-					done = true;
+				if(content.style.maxHeight){
+					content.style.maxHeight = null;
 				} else {
-					newData.push(stock);
+					content.style.maxHeight = content.scrollHeight + "px";
 				}
-			}
 
-			_this.parentElement.parentElement.nextElementSibling.remove();
-			_this.parentElement.parentElement.remove();
-			console.log("NEW DATA", newData);
-
-			chrome.storage.local.set({
-				"benefits-stocks": newData
-			}, function(){
-				console.log("SAVED");
+				event.srcElement.nodeName == "I" ? rotateElement(event.target, 180) : rotateElement(event.target.find("i"), 180);
 			});
-		} else {
-			console.log("ERROR: NO BENEFITS FOUND");
-		}
-	});
-}
 
-function restartApp(){
-	chrome.runtime.reload();
-}
+			benefit_info.addEventListener("click", function(event){
+				let content = event.srcElement.nodeName == "I" ? event.target.parentElement.nextElementSibling : event.target.nextElementSibling;
+
+				if(content.style.maxHeight){
+					content.style.maxHeight = null;
+				} else {
+					content.style.maxHeight = content.scrollHeight + "px";
+				}
+
+				event.srcElement.nodeName == "I" ? rotateElement(event.target, 180) : rotateElement(event.target.find("i"), 180);
+			});
+		}
+		
+	});
+});

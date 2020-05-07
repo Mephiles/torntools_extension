@@ -537,3 +537,34 @@ async function get_api(http, api_key) {
 
 	return result;
 }
+
+function sleep(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+function rotateElement(element, degrees){
+    let start_degrees = element.style.transform ? parseInt(element.style.transform.replace("rotate(", "").replace("deg)", "")) : 0;
+    
+    if(start_degrees != 0 && start_degrees%360 == 0){
+        start_degrees = 0;
+        element.style.transform = `rotate(${start_degrees}deg)`;
+    } else if(start_degrees > 360){
+        start_degrees = start_degrees%360;
+        element.style.transform = `rotate(${start_degrees}deg)`;
+    }
+
+    let total_degrees = start_degrees + degrees;
+    let step = 1000/degrees;
+    
+    let rotater = setInterval(function(){
+        let current_rotation = element.style.transform ? parseInt(element.style.transform.replace("rotate(", "").replace("deg)", "")) : 0;
+        let new_rotation = current_rotation + step;
+
+        if(current_rotation < total_degrees && new_rotation > total_degrees){
+            new_rotation = total_degrees;
+            clearInterval(rotater);
+        }
+
+        element.style.transform = `rotate(${new_rotation}deg)`;
+    }, 1);
+}
