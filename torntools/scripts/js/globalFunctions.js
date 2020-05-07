@@ -351,7 +351,7 @@ const content = {
 function flying() {
     let promise = new Promise(function(resolve, reject){
         let checker = setInterval(function(){
-            let page_heading = document.querySelector("#skip-to-content");
+            let page_heading = doc.find("#skip-to-content");
             if(page_heading){
                 if(page_heading.innerText == "Traveling"){
                     resolve(true);
@@ -384,10 +384,10 @@ function abroad(){
             if(doc.find("#travel-home")){
                 resolve(true);
                 return clearInterval(checker);
-            } else if(doc.find("#skip-to-content").innerText == "Preferences"){
+            } else if(doc.find("#skip-to-content") && doc.find("#skip-to-content").innerText == "Preferences"){
                 resolve(false);
                 return clearInterval(checker);
-            } else if(doc.find("#sidebarroot h2").innerText == "Information"){
+            } else if(doc.find("#sidebarroot h2") && doc.find("#sidebarroot h2").innerText == "Information"){
                 resolve(false);
                 return clearInterval(checker);
             } else {
