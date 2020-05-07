@@ -1,5 +1,5 @@
 window.addEventListener('load', async (event) => {
-    console.log("TT - Home");
+    console.log("TT - Travel (abroad)");
 
     if(await flying() || !(await abroad()))
         return;

@@ -59,7 +59,7 @@
 				"scripts/js/achievementFunctions.js",
 				"scripts/content/global/ttGlobal.js",
 				"scripts/content/home/ttHome.js",
-				"scripts/content/travel/ttTravel.js",
+				"scripts/content/travel/ttTravelAbroad.js",
 				"scripts/content/achievements/ttHomeAchievements.js"
 			],
             "run_at": "document_end"
@@ -145,11 +145,12 @@
 	    },
 		{
 			"matches": ["https://www.torn.com/travelagency.php"],
-		    "css": ["scripts/css/ttAchievements.css"],
+		    "css": ["scripts/css/ttTravel.css", "scripts/css/ttAchievements.css"],
 			"js": [
 				"scripts/js/globalFunctions.js",
 				"scripts/js/achievementFunctions.js",
 				"scripts/content/global/ttGlobal.js",
+				"scripts/content/travel/ttTravelHome.js",
 				"scripts/content/achievements/ttTravelAchievements.js"
 			],
             "run_at": "document_end"

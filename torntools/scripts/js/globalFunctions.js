@@ -153,7 +153,8 @@ const STORAGE = {
 				"prices": true
 			},
 			"travel": {
-				"profit": true
+                "profit": true,
+                "destination_table": true
 			}
 		}
 	}
