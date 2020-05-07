@@ -20,7 +20,12 @@ window.addEventListener("load", function(){
                     window.location.href = tab+".html";
                 });
             }
-        }
+		}
+		
+		// setup settings button
+		doc.find(".settings").addEventListener("click", function(){
+			window.open("settings.html");
+		});
 
         // setup itemlist
         let list = doc.find("#item-list");
@@ -95,11 +100,6 @@ window.addEventListener("load", function(){
 
             doc.find("#item-list").style.display = "none";
         });
-
-        // setup settings button
-		doc.find(".settings").addEventListener("click", function(){
-			window.open("settings.html");
-		});
 
 		// setup clear button
 		doc.find("#clear-all").addEventListener("click", function(){
