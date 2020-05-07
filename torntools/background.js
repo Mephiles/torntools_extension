@@ -1,166 +1,4 @@
-// Extension background starts
 console.log("START - Background Script");
-
-// Chrome or something else?
-const chrome = window.chrome || window.browser;
-
-const local_storage = {
-	get: function(key, callback){
-		let promise = new Promise(function(resolve, reject){
-			if(Array.isArray(key)){
-				let arr = [];
-				chrome.storage.local.get(key, function(data){
-					for(let item of key){
-						arr.push(data[item]);
-					}
-					resolve(arr);
-				});
-			} else if(key == null){
-				chrome.storage.local.get(null, function(data){
-					resolve(data);
-				});
-			} else {
-				chrome.storage.local.get([key], function(data){
-					resolve(data[key]);
-				});
-			}
-		});
-
-		promise.then(function(data){
-			callback(data);
-		});
-	},
-	set: function(object, callback){
-		chrome.storage.local.set(object, function(){
-			callback ? callback() : null;
-		});
-	},
-	change: function(key, keys_to_change, callback){
-		chrome.storage.local.get([key], function(data){
-			for(let key_to_change of Object.keys(keys_to_change)){
-				data[key][key_to_change] = keys_to_change[key_to_change];
-			}
-
-			chrome.storage.local.set({[key]: data[key]}, function(){
-				callback ? callback() : null;
-			});
-		});
-	},
-	clear: function(callback){
-		chrome.storage.local.clear(function(){
-			callback ? callback() : null;
-		});
-	},
-	reset: function(callback){
-		chrome.storage.local.get(["api_key"], function(data){
-			let api_key = data.api_key;
-			chrome.storage.local.clear(function(){
-				chrome.storage.local.set(STORAGE, function(){
-					chrome.storage.local.set({
-						"api_key": api_key
-					}, function(){
-						chrome.storage.local.get(null, function(data){
-							console.log("Storage cleared");
-							console.log("New storage", data);
-							callback ? callback() : null;
-						});
-					});
-				});
-			});
-		});
-	}
-}
-
-const STORAGE = {
-	// app settings
-	"api_key": undefined,
-	"itemlist": {},
-	"torndata": {},
-	"userdata": {},
-	"updated": "force_true",
-	"show_update_notification": true,
-	"api": {
-		"count": 0,
-		"limit": 60,
-		"online": true,
-		"error": ""
-	},
-	"extensions": {
-		"doctorn": false
-	},
-	// user settings
-	"networth": {
-		"previous": {
-			"value": undefined,
-			"date": undefined
-		},
-		"current": {
-			"value": undefined,
-			"date": undefined
-		}
-	},
-	"target_list": {
-		"last_target": -1,
-		"show": true,
-		"targets": {}
-	},
-	"allies": [],
-	"settings": {
-		"tabs": {
-			"market": true,
-			"stocks": true,
-			"calculator": true,
-			"default": "market"
-		},
-		"achievements": {
-			"show": true,
-			"show_completed": true
-		},
-		"pages": {
-			"trade": {
-				"calculator": true
-			},
-			"home": {
-				"networth": true
-			},
-			"missions": {
-				"show": true
-			},
-			"city": {
-				"show": true,
-				"items_value": true
-			},
-			"hub": {
-				"show": false,
-				"pinned": false
-			},
-			"profile": {
-				"show": true
-			},
-			"racing": {
-				"show": true
-			},
-			"gym": {
-				"show": true,
-				"disable_buttons": false
-			},
-			"shop": {
-				"show": true
-			},
-			"casino": {
-				"show": true,
-				"hilo": true,
-				"blackjack": true
-			},
-			"items": {
-				"prices": true
-			},
-			"travel": {
-				"profit": true
-			}
-		}
-	}
-}
 
 // First - set storage
 local_storage.get(null, function(old_storage){
@@ -291,14 +129,14 @@ function Main(){
 	});
 }
 
-// MAINTENANCE & OTHER //
+// FUNCTIONS //
 
-	// Check whether new version is installed
-	chrome.runtime.onInstalled.addListener(function(details){
-		local_storage.set({"updated": true}, function(){
-			console.log("Extension updated:", chrome.runtime.getManifest().version);
-		});
+// Check if new version is installed
+chrome.runtime.onInstalled.addListener(function(details){
+	local_storage.set({"updated": true}, function(){
+		console.log("Extension updated:", chrome.runtime.getManifest().version);
 	});
+});
 
 function updateTargetList(){
 	local_storage.get(["api_key", "userdata", "target_list"], function([api_key, userdata, target_list]){

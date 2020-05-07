@@ -1,3 +1,6 @@
+chrome = window.chrome || window.browser;
+const doc = document;
+
 const local_storage = {
 	get: function(key, callback){
 		let promise = new Promise(function(resolve, reject){
@@ -32,31 +35,129 @@ const local_storage = {
 	change: function(key, keys_to_change, callback){
 		chrome.storage.local.get([key], function(data){
 			for(let key_to_change of Object.keys(keys_to_change)){
-                if(!Array.isArray(keys_to_change[key_to_change]) && typeof keys_to_change[key_to_change] == "object"){
-                    data[key][key_to_change] = objectRecursive(data[key][key_to_change], keys_to_change[key_to_change]);
-                } else
-                    data[key][key_to_change] = keys_to_change[key_to_change];
+				data[key][key_to_change] = keys_to_change[key_to_change];
 			}
 
 			chrome.storage.local.set({[key]: data[key]}, function(){
 				callback ? callback() : null;
 			});
-        });
-        
-        function objectRecursive(key, keys_to_change){
-            for(let key_to_change of Object.keys(keys_to_change)){
-                if(!Array.isArray(keys_to_change[key_to_change]) && typeof keys_to_change[key_to_change] == "object"){
-                    key[key_to_change] = objectRecursive(key[key_to_change], keys_to_change[key_to_change]);
-                } else {
-                    key[key_to_change] = keys_to_change[key_to_change];
-                }
-            }
-            return key;
-        }
+		});
+	},
+	clear: function(callback){
+		chrome.storage.local.clear(function(){
+			callback ? callback() : null;
+		});
+	},
+	reset: function(callback){
+		chrome.storage.local.get(["api_key"], function(data){
+			let api_key = data.api_key;
+			chrome.storage.local.clear(function(){
+				chrome.storage.local.set(STORAGE, function(){
+					chrome.storage.local.set({
+						"api_key": api_key
+					}, function(){
+						chrome.storage.local.get(null, function(data){
+							console.log("Storage cleared");
+							console.log("New storage", data);
+							callback ? callback() : null;
+						});
+					});
+				});
+			});
+		});
 	}
 }
 
-const doc = document;
+const STORAGE = {
+	// app settings
+	"api_key": undefined,
+	"itemlist": {},
+	"torndata": {},
+	"userdata": {},
+	"updated": "force_true",
+	"show_update_notification": true,
+	"api": {
+		"count": 0,
+		"limit": 60,
+		"online": true,
+		"error": ""
+	},
+	"extensions": {
+		"doctorn": false
+	},
+	// user settings
+	"networth": {
+		"previous": {
+			"value": undefined,
+			"date": undefined
+		},
+		"current": {
+			"value": undefined,
+			"date": undefined
+		}
+	},
+	"target_list": {
+		"last_target": -1,
+		"show": true,
+		"targets": {}
+	},
+	"allies": [],
+	"settings": {
+		"tabs": {
+			"market": true,
+			"stocks": true,
+			"calculator": true,
+			"default": "market"
+		},
+		"achievements": {
+			"show": true,
+			"show_completed": true
+		},
+		"pages": {
+			"trade": {
+				"calculator": true
+			},
+			"home": {
+				"networth": true
+			},
+			"missions": {
+				"show": true
+			},
+			"city": {
+				"show": true,
+				"items_value": true
+			},
+			"hub": {
+				"show": false,
+				"pinned": false
+			},
+			"profile": {
+				"show": true
+			},
+			"racing": {
+				"show": true
+			},
+			"gym": {
+				"show": true,
+				"disable_buttons": false
+			},
+			"shop": {
+				"show": true
+			},
+			"casino": {
+				"show": true,
+				"hilo": true,
+				"blackjack": true
+			},
+			"items": {
+				"prices": true
+			},
+			"travel": {
+				"profit": true
+			}
+		}
+	}
+}
 
 Document.prototype.find = function(type){
     if(type.indexOf("=") > -1){
