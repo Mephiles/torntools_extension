@@ -19,6 +19,11 @@ Features:
   - Shop profits  
   - Casino scripts  
   - Disable Gym  
+  - Effective Battle Stats  
+  - Item values  
+  - Travel profits  
+  - API helper  
+  - Travel Destinations (coming 3.7)  
   
 **Market**: check prices of items from the small extension window at top-right  
 **Achievements**: keep track of your Achievements at the left-side menu bar in Torn  
@@ -32,9 +37,14 @@ Features:
 **Shop profits**: Show item profits in shops (profit compared to market value)  
 **Casino scripts**: Scripts for Blackjack and HiLo that give suggestions on what action to take  
 **Disable Gym**: Option to disable Gym train buttons to avoid accidental training  
+**Effective Battle Stats**: Show effective battle stats on Home page (if Doctorn is not installed)  
+**Item values**: Display values for single items and the whole stack in inventory  
+**Travel profits**: Show profits for items when in travel market  
+**API helper**: Auto-fill API key on torn.com/api.html and set all responses to "pretty"  
+**Travel Destinations**: Show a table of travel destinations with the most profitable flights on Travel Agency page  
 
-**API requests**:  
-  - 3 requests on install  
+
+**API requests**:   
   - 3/4 requests periodically  
   - 1 request per search in Market tab  
 
