@@ -59,7 +59,11 @@ window.addEventListener("load", function(){
 			let hr = doc.new("hr");
 			let heading = doc.new("div");
 				heading.setClass("heading");
-				heading.innerText = name;
+				heading.innerText = `${name.length > 20 ? torn_stocks[stock_id].acronym : name}`;  // use acronym if name is too long
+				let quantity_span = doc.new("span");
+					quantity_span.setClass("heading-quantity")
+					quantity_span.innerText = ` (${numberWithCommas(quantity)} shares)`;
+					heading.appendChild(quantity_span);
 
 			let stock_info = doc.new("div");
 				stock_info.setClass("stock-info-heading");
