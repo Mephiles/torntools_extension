@@ -71,8 +71,65 @@ function displayItemValuesList(itemlist, userdata){
     }
 
     let item_prices = {
+        "cannabis": {
+            "canada": 6099,
+            "united kingdom": 5057,
+            "argentina": 5000,
+            "switzerland": 4936
+        },
+        "ecstasy": {
+            "canada": 61002,
+            "united kingdom": 50063,
+            "japan": 46424,
+            "china": 45840
+        },
+        "ketamine": {
+            "argentina": 100005,
+            "japan": 91929,
+            "switzerland": 100701,
+            "united kingdom": 100127
+        },
+        "lsd": {
+            "switzerland": 39487,
+            "argentina": 41210,
+            "china": 35597,
+            "south africa": 33445
+        },
+        "opium": {
+            "south africa": 66890,
+            "china": 72632,
+            "japan": 73543
+        },
+        "pcp": {
+            "canada": 146389,
+            "china": 103619,
+            "south africa": 100334,
+            "switzerland": 118460,
+            "united kingdom": 121365
+        },
+        "shrooms": {
+            "argentina": 19801,
+            "japan": 18386,
+            "south africa": 16720,
+            "switzerland": 19743,
+            "united kingdom": 20228
+        },
         "xanax": {
-            "canada": 0
+            "south africa": 752508,
+            "japan": 819084,
+            "canada": 1109126,
+            "united kingdom": 910149
+        },
+        "vicodin": {
+            "canada": 165029,
+            "japan": 119507,
+            "united kingdom": 132794
+        },
+        "speed": {
+            "china": 152801,
+            "japan": 154716,
+            "switzerland": 167818,
+            "argentina": 168292
         }
     }
 
@@ -136,6 +193,8 @@ function displayItemValuesList(itemlist, userdata){
     let container = content.new_container("TornTools - Travel Destinations", {id: "ttTravelTable"}).find(".content");
     let table = doc.new("div");
         table.setClass("table");
+    let body = doc.new("div");
+        body.setClass("body");
 
     addTableHeader(table);
 
@@ -143,16 +202,19 @@ function displayItemValuesList(itemlist, userdata){
         let time = item_dict[location].time;
 
         for(let item_id of item_dict[location].items){
-            console.log(itemlist[item_id]);
-            let buy_price = itemlist[item_id].buy_price;
+            let buy_price = itemlist[item_id].buy_price || item_prices[itemlist[item_id].name.toLowerCase()][location];  // if price is 0, take from item_prices
             let market_value = itemlist[item_id].market_value;
             let total_profit = (market_value - buy_price) * carry_items;
             let profit_per_minute = (total_profit / time).toFixed(0);
+            let profit_per_item = market_value - buy_price;
 
-            addRow(table, itemlist, item_id, carry_items, buy_price, market_value, total_profit, profit_per_minute, time, location);
+            addRow(body, itemlist, item_id, carry_items, buy_price, market_value, total_profit, profit_per_minute, profit_per_item, time, location);
         }
     }
+    table.appendChild(body);
     container.appendChild(table);
+    
+    sort(9)
 }
 
 function modifyTimeAndCost(dict, airstrip, wlt, business, bct_price){
@@ -183,54 +245,224 @@ function addTableHeader(table){
         item_heading.innerText = "Item";
     let buy_price_heading = doc.new("div");
         buy_price_heading.innerText = "Buy price";
-    let market_value_heading = doc.new("div");
-        market_value_heading.innerText = "Market value";
-    let profit_per_minute_heading = doc.new("div");
-        profit_per_minute_heading.innerText = "Profit/minute";
     let cash_needed_heading = doc.new("div");
         cash_needed_heading.innerText = "Cash needed";
+    let market_value_heading = doc.new("div");
+        market_value_heading.innerText = "Market value";
+    let profit_per_item_heading = doc.new("div");
+        profit_per_item_heading.innerText = "Profit/item";
+    let profit_per_minute_heading = doc.new("div");
+        profit_per_minute_heading.innerText = "Profit/minute";
+        let sorting_icon = doc.new("i");
+            sorting_icon.setClass("fas fa-caret-up");
+        profit_per_minute_heading.appendChild(sorting_icon);
     let total_profit_heading = doc.new("div");
         total_profit_heading.innerText = "Total profit";
 
-    row.appendChild(destination_heading);
-    row.appendChild(flight_time_heading);
-    row.appendChild(item_heading);
-    row.appendChild(buy_price_heading);
-    row.appendChild(market_value_heading);
-    row.appendChild(profit_per_minute_heading);
-    row.appendChild(cash_needed_heading);
-    row.appendChild(total_profit_heading);
+    let headings = [destination_heading, flight_time_heading, item_heading, 
+        buy_price_heading, cash_needed_heading, market_value_heading, 
+        profit_per_item_heading, total_profit_heading, profit_per_minute_heading];
+
+    for(let heading of headings){
+        heading.addEventListener("click", function(){
+			sort(headings.indexOf(heading)+1);
+		});
+        row.appendChild(heading);
+    }
+
+    // row.appendChild(destination_heading);
+    // row.appendChild(flight_time_heading);
+    // row.appendChild(item_heading);
+    // row.appendChild(buy_price_heading);
+    // row.appendChild(cash_needed_heading);
+    // row.appendChild(market_value_heading);
+    // row.appendChild(profit_per_item_heading);
+    // row.appendChild(total_profit_heading);
+    // row.appendChild(profit_per_minute_heading);
     table.appendChild(row);
 }
 
-function addRow(table, itemlist, item_id, carry_items, buy_price, market_value, total_profit, profit_per_minute, time, location){
+function addRow(body, itemlist, item_id, carry_items, buy_price, market_value, total_profit, profit_per_minute, profit_per_item, time, location){
     let row = doc.new("div");
         row.setClass("row");
 
     let destination_div = doc.new("div");
-        destination_div.innerText = location == "uae" ? "UAE" : capitalize(location);
+        let destination_name_span = doc.new("span");
+            destination_name_span.innerText = location == "uae" ? "UAE" : capitalize(location);
+        let flag_span = doc.new("span");
+            flag_span.setClass("flag");
+            flag_span.style.background = `url(/images/v2/travel_agency/flags/fl_${location.replace("united kingdom", "uk").replace(" islands", "").replace(" ", "_")}.svg) center top no-repeat`;
+        destination_div.appendChild(destination_name_span);
+        destination_div.appendChild(flag_span);
     let flight_time_div = doc.new("div");
         flight_time_div.innerText = time;
     let item_div = doc.new("div");
         item_div.innerText = itemlist[item_id].name, every_word=true;
     let buy_price_div = doc.new("div");
         buy_price_div.innerText = `$${numberWithCommas(buy_price, shorten=false)}`;
-    let market_value_div = doc.new("div");
-        market_value_div.innerText = `$${numberWithCommas(market_value, shorten=false)}`;
-    let profit_per_minute_div = doc.new("div");
-        profit_per_minute_div.innerText = `$${numberWithCommas(profit_per_minute, shorten=false)}`;
     let cash_needed_div = doc.new("div");
         cash_needed_div.innerText = `$${numberWithCommas((buy_price*carry_items), shorten=false)}`;
+    let market_value_div = doc.new("div");
+        market_value_div.innerText = `$${numberWithCommas(market_value, shorten=false)}`;
+    let profit_per_item_div = doc.new("div");
+        if(profit_per_item > 0){
+            profit_per_item_div.setClass("positive profit");
+            profit_per_item_div.innerText = `+$${numberWithCommas(profit_per_item, shorten=false)}`;
+        } else if(profit_per_item < 0){
+            profit_per_item_div.setClass("negative profit");
+            profit_per_item_div.innerText = `-$${numberWithCommas(Math.abs(profit_per_item), shorten=false)}`;
+        } else {
+            profit_per_item_div.innerText = `$0`;
+        }
+    let profit_per_minute_div = doc.new("div");
+        if(profit_per_minute > 0){
+            profit_per_minute_div.setClass("positive profit");
+            profit_per_minute_div.innerText = `+$${numberWithCommas(profit_per_minute, shorten=false)}`;
+        } else if(profit_per_minute < 0){
+            profit_per_minute_div.setClass("negative profit");
+            profit_per_minute_div.innerText = `-$${numberWithCommas(Math.abs(profit_per_minute), shorten=false)}`;
+        } else {
+            profit_per_minute_div.innerText = `$0`;
+        }
     let total_profit_div = doc.new("div");
-        total_profit_div.innerText = `$${numberWithCommas(total_profit, shorten=false)}`;
+        if(total_profit > 0){
+            total_profit_div.setClass("positive profit");
+            total_profit_div.innerText = `+$${numberWithCommas(total_profit, shorten=false)}`;
+        } else if(total_profit < 0){
+            total_profit_div.setClass("negative profit");
+            total_profit_div.innerText = `-$${numberWithCommas(Math.abs(total_profit), shorten=false)}`;
+        } else {
+            total_profit_div.innerText = `$0`;
+        }
 
     row.appendChild(destination_div);
     row.appendChild(flight_time_div);
     row.appendChild(item_div);
     row.appendChild(buy_price_div);
-    row.appendChild(market_value_div);
-    row.appendChild(profit_per_minute_div);
     row.appendChild(cash_needed_div);
+    row.appendChild(market_value_div);
+    row.appendChild(profit_per_item_div);
     row.appendChild(total_profit_div);
-    table.appendChild(row);
+    row.appendChild(profit_per_minute_div);
+    body.appendChild(row);
+}
+
+// Sorting
+
+function sort(col){
+    let table = doc.find("#ttTravelTable .table");
+	let order = "desc";
+
+	let col_header = table.find(`.row:first-of-type div:nth-child(${col})`);
+	if(col_header.find("i.fa-caret-up"))
+		col_header.find("i.fa-caret-up").setClass("fas fa-caret-down");
+	else if(col_header.find("i.fa-caret-down")){
+		col_header.find("i.fa-caret-down").setClass("fas fa-caret-up");
+		order = "asc";
+	} else {
+		// old header
+		let current_i = table.find(".row:first-of-type i");
+		current_i.parentElement.innerHTML = current_i.parentElement.innerText;
+
+		// new header
+		let i = doc.new("i");
+		i.setClass("fas fa-caret-down");
+		col_header.appendChild(i);
+    }
+
+	let rows = [];
+
+	if(!table.find(`.body .row div:nth-child(${col})`).getAttribute("priority")){
+		rows = [...table.findAll(".body>.row")];
+		rows = sortRows(rows, order);
+	} else {
+		let priorities = [];
+		for(let item of table.findAll(`.body>.row div:nth-child(${col})`)){
+			let priority = item.getAttribute("priority");
+			
+			if(!priorities[parseInt(priority)-1])
+				priorities[parseInt(priority)-1] = []
+			priorities[parseInt(priority)-1].push(item.parentElement);
+		}
+		
+		for(let priority_level of priorities){
+			if(priority_level == undefined)
+				continue;
+			rows = [...rows, ...sortRows(priority_level, order)];
+		}
+	}
+
+	let body = doc.new("div");
+
+	for(let row of rows)
+		body.appendChild(row);
+	
+	table.find(".body").innerHTML = body.innerHTML;
+
+	function sortRows(rows, order){
+		if(order == "asc"){
+			// rows.sort(function(a,b){console.log([...a.children][col].innerText)})
+			rows.sort(function(a,b){
+                let a_text = [...a.children][col-1].innerText;
+                let b_text = [...b.children][col-1].innerText;
+                if(isNaN(parseInt(a_text))){
+                    if(a_text.indexOf("$") > -1){
+                        console.log("MONEY");
+                        console.log("A_text", a_text)
+                        a = parseInt(a_text.replace("$", "").replace(/,/g, ""));
+                        b = parseInt(b_text.replace("$", "").replace(/,/g, ""));
+                        console.log("A", a)
+                        console.log("B", b)
+                    } else {
+                        a = a_text.toLowerCase();
+                        b = b_text.toLowerCase();
+
+                        if(a < b)
+                            return -1;
+                        else if(a > b)
+                            return 1;
+                        else
+                            return 0;
+                    }
+                } else {
+                    a = parseInt(a_text);
+                    b = parseInt(b_text);
+                }
+
+                return a-b;
+			});
+		} else if(order == "desc"){
+			rows.sort(function(a,b){
+				let a_text = [...a.children][col-1].innerText;
+                let b_text = [...b.children][col-1].innerText;
+                if(isNaN(parseInt(a_text))){
+                    if(a_text.indexOf("$") > -1){
+                        console.log("MONEY");
+                        console.log("A_text", a_text)
+                        a = parseInt(a_text.replace("$", "").replace(/,/g, ""));
+                        b = parseInt(b_text.replace("$", "").replace(/,/g, ""));
+                        console.log("A", a)
+                        console.log("B", b)
+                    } else {
+                        a = a_text.toLowerCase();
+                        b = b_text.toLowerCase();
+
+                        if(a < b)
+                            return 1;
+                        else if(a > b)
+                            return -1;
+                        else
+                            return 0;
+                    }
+                } else {
+                    a = parseInt(a_text);
+                    b = parseInt(b_text);
+                }
+
+                return b-a;
+			});
+		}
+
+		return rows;
+	}
 }
