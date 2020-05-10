@@ -5,13 +5,22 @@ window.addEventListener('load', async (event) => {
         return;
 
 	local_storage.get(["settings", "itemlist", "userdata"], function([settings, itemlist, userdata]){
-        console.log(userdata);
-        if(settings.pages.travel.destination_table)
-            displayItemValuesList(itemlist.items, userdata);
+        if(settings.pages.travel.destination_table){
+            let container = content.new_container("TornTools - Travel Destinations", {id: "ttTravelTable"}).find(".content");
+            displayTravelDestinations(container, itemlist.items, userdata);
+
+            for(let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]){
+                // tab.classList.remove("ui-state-disabled");
+                tab.addEventListener("click", function(){
+                    container.innerHTML = "";
+                    displayTravelDestinations(container, itemlist.items, userdata);
+                });
+            }
+        }
 	});
 });
 
-function displayItemValuesList(itemlist, userdata){
+function displayTravelDestinations(container, itemlist, userdata){
     let item_dict = {  // time - minutes
         "argentina": {
             time: 167,
@@ -174,7 +183,7 @@ function displayItemValuesList(itemlist, userdata){
         return 0;
     })();
 
-    item_dict = modifyTimeAndCost(item_dict, airstrip, wlt, business, itemlist["368"].market_value);  // business class ticket price
+    item_dict = modifyTimeAndCost(item_dict, airstrip, wlt, business, itemlist["396"].market_value);  // business class ticket price
 
     let carry_items = 5 + suitcase + job_perk + faction_perk + book_perk;
     if(airstrip || wlt || business){
@@ -190,7 +199,6 @@ function displayItemValuesList(itemlist, userdata){
     console.log("book_perk", book_perk);
     console.log("carry_items", carry_items);
 
-    let container = content.new_container("TornTools - Travel Destinations", {id: "ttTravelTable"}).find(".content");
     let table = doc.new("div");
         table.setClass("table");
     let body = doc.new("div");
@@ -204,9 +212,9 @@ function displayItemValuesList(itemlist, userdata){
         for(let item_id of item_dict[location].items){
             let buy_price = itemlist[item_id].buy_price || item_prices[itemlist[item_id].name.toLowerCase()][location];  // if price is 0, take from item_prices
             let market_value = itemlist[item_id].market_value;
-            let total_profit = (market_value - buy_price) * carry_items;
+            let total_profit = (market_value - buy_price) * carry_items - item_dict[location].cost;
             let profit_per_minute = (total_profit / time).toFixed(0);
-            let profit_per_item = market_value - buy_price;
+            let profit_per_item = (total_profit / carry_items).toFixed(0);
 
             addRow(body, itemlist, item_id, carry_items, buy_price, market_value, total_profit, profit_per_minute, profit_per_item, time, location);
         }
@@ -407,12 +415,8 @@ function sort(col){
                 let b_text = [...b.children][col-1].innerText;
                 if(isNaN(parseInt(a_text))){
                     if(a_text.indexOf("$") > -1){
-                        console.log("MONEY");
-                        console.log("A_text", a_text)
                         a = parseInt(a_text.replace("$", "").replace(/,/g, ""));
                         b = parseInt(b_text.replace("$", "").replace(/,/g, ""));
-                        console.log("A", a)
-                        console.log("B", b)
                     } else {
                         a = a_text.toLowerCase();
                         b = b_text.toLowerCase();
@@ -437,12 +441,8 @@ function sort(col){
                 let b_text = [...b.children][col-1].innerText;
                 if(isNaN(parseInt(a_text))){
                     if(a_text.indexOf("$") > -1){
-                        console.log("MONEY");
-                        console.log("A_text", a_text)
                         a = parseInt(a_text.replace("$", "").replace(/,/g, ""));
                         b = parseInt(b_text.replace("$", "").replace(/,/g, ""));
-                        console.log("A", a)
-                        console.log("B", b)
                     } else {
                         a = a_text.toLowerCase();
                         b = b_text.toLowerCase();
