@@ -18,14 +18,14 @@ window.addEventListener("load", function(){
                 doc.find(`#${tab}-html`).style.display = "none";
             } else {
                 doc.find(`#${tab}-html`).addEventListener("click", function(){
-                    window.location.href = tab+".html";
+                    window.location.href = `../${tab}/${tab}.html`;
                 });
             }
 		}
 		
 		// setup settings button
 		doc.find(".settings").addEventListener("click", function(){
-			window.open("settings.html");
+			window.open("../settings/settings.html");
 		});
 
         // setup itemlist

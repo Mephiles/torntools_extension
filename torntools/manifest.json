@@ -8,7 +8,7 @@
 	"permissions": ["storage"],
 	"browser_action": {
 		"default_title": "Torn Tools",
-		"default_popup": "views/index.html",
+		"default_popup": "views/index/index.html",
 		"default_icon": "images/icon128.png"
 	},
 	"web_accessible_resources": ["images/*", "views/*"],
@@ -243,6 +243,6 @@
 
     ],
 	"options_ui": {
-	    "page": "views/settings.html"
+	    "page": "views/settings/settings.html"
 	}
 }
