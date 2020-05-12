@@ -222,7 +222,7 @@ function displayTravelDestinations(container, itemlist, userdata){
     table.appendChild(body);
     container.appendChild(table);
     
-    sort(9)
+    sort(table, 9)
 }
 
 function modifyTimeAndCost(dict, airstrip, wlt, business, bct_price){
@@ -273,7 +273,7 @@ function addTableHeader(table){
 
     for(let heading of headings){
         heading.addEventListener("click", function(){
-			sort(headings.indexOf(heading)+1);
+			sort(table, headings.indexOf(heading)+1);
 		});
         row.appendChild(heading);
     }
@@ -353,116 +353,4 @@ function addRow(body, itemlist, item_id, carry_items, buy_price, market_value, t
     row.appendChild(total_profit_div);
     row.appendChild(profit_per_minute_div);
     body.appendChild(row);
-}
-
-// Sorting
-
-function sort(col){
-    let table = doc.find("#ttTravelTable .table");
-	let order = "desc";
-
-	let col_header = table.find(`.row:first-of-type div:nth-child(${col})`);
-	if(col_header.find("i.fa-caret-up"))
-		col_header.find("i.fa-caret-up").setClass("fas fa-caret-down");
-	else if(col_header.find("i.fa-caret-down")){
-		col_header.find("i.fa-caret-down").setClass("fas fa-caret-up");
-		order = "asc";
-	} else {
-		// old header
-		let current_i = table.find(".row:first-of-type i");
-		current_i.parentElement.innerHTML = current_i.parentElement.innerText;
-
-		// new header
-		let i = doc.new("i");
-		i.setClass("fas fa-caret-down");
-		col_header.appendChild(i);
-    }
-
-	let rows = [];
-
-	if(!table.find(`.body .row div:nth-child(${col})`).getAttribute("priority")){
-		rows = [...table.findAll(".body>.row")];
-		rows = sortRows(rows, order);
-	} else {
-		let priorities = [];
-		for(let item of table.findAll(`.body>.row div:nth-child(${col})`)){
-			let priority = item.getAttribute("priority");
-			
-			if(!priorities[parseInt(priority)-1])
-				priorities[parseInt(priority)-1] = []
-			priorities[parseInt(priority)-1].push(item.parentElement);
-		}
-		
-		for(let priority_level of priorities){
-			if(priority_level == undefined)
-				continue;
-			rows = [...rows, ...sortRows(priority_level, order)];
-		}
-	}
-
-	let body = doc.new("div");
-
-	for(let row of rows)
-		body.appendChild(row);
-	
-	table.find(".body").innerHTML = body.innerHTML;
-
-	function sortRows(rows, order){
-		if(order == "asc"){
-			// rows.sort(function(a,b){console.log([...a.children][col].innerText)})
-			rows.sort(function(a,b){
-                let a_text = [...a.children][col-1].innerText;
-                let b_text = [...b.children][col-1].innerText;
-                if(isNaN(parseInt(a_text))){
-                    if(a_text.indexOf("$") > -1){
-                        a = parseInt(a_text.replace("$", "").replace(/,/g, ""));
-                        b = parseInt(b_text.replace("$", "").replace(/,/g, ""));
-                    } else {
-                        a = a_text.toLowerCase();
-                        b = b_text.toLowerCase();
-
-                        if(a < b)
-                            return -1;
-                        else if(a > b)
-                            return 1;
-                        else
-                            return 0;
-                    }
-                } else {
-                    a = parseInt(a_text);
-                    b = parseInt(b_text);
-                }
-
-                return a-b;
-			});
-		} else if(order == "desc"){
-			rows.sort(function(a,b){
-				let a_text = [...a.children][col-1].innerText;
-                let b_text = [...b.children][col-1].innerText;
-                if(isNaN(parseInt(a_text))){
-                    if(a_text.indexOf("$") > -1){
-                        a = parseInt(a_text.replace("$", "").replace(/,/g, ""));
-                        b = parseInt(b_text.replace("$", "").replace(/,/g, ""));
-                    } else {
-                        a = a_text.toLowerCase();
-                        b = b_text.toLowerCase();
-
-                        if(a < b)
-                            return 1;
-                        else if(a > b)
-                            return -1;
-                        else
-                            return 0;
-                    }
-                } else {
-                    a = parseInt(a_text);
-                    b = parseInt(b_text);
-                }
-
-                return b-a;
-			});
-		}
-
-		return rows;
-	}
 }

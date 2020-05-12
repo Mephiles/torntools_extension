@@ -670,3 +670,129 @@ function rotateElement(element, degrees){
         element.style.transform = `rotate(${new_rotation}deg)`;
     }, 1);
 }
+
+function sort(table, col, type){
+	let order = "desc";
+
+	let col_header = table.find(`.row div:nth-child(${col})`);
+	if(col_header.find("i.fa-caret-up"))
+		col_header.find("i.fa-caret-up").setClass("fas fa-caret-down");
+	else if(col_header.find("i.fa-caret-down")){
+		col_header.find("i.fa-caret-down").setClass("fas fa-caret-up");
+		order = "asc";
+	} else {
+        // old header
+		let current_i = table.find(".row i");
+		current_i.parentElement.innerHTML = current_i.parentElement.innerText;
+
+		// new header
+		let i = doc.new("i");
+		i.setClass("fas fa-caret-down");
+		col_header.appendChild(i);
+    }
+
+	let rows = [];
+
+	if(!table.find(`.body .row div:nth-child(${col})`).getAttribute("priority")){
+		rows = [...table.findAll(".body>.row")];
+		rows = sortRows(rows, order, type);
+	} else {
+		let priorities = [];
+		for(let item of table.findAll(`.body>.row div:nth-child(${col})`)){
+			let priority = item.getAttribute("priority");
+			
+			if(!priorities[parseInt(priority)-1])
+				priorities[parseInt(priority)-1] = []
+			priorities[parseInt(priority)-1].push(item.parentElement);
+		}
+		
+		for(let priority_level of priorities){
+			if(priority_level == undefined)
+				continue;
+			rows = [...rows, ...sortRows(priority_level, order, type)];
+		}
+	}
+
+	let body = doc.new("div");
+
+	for(let row of rows)
+		body.appendChild(row);
+	
+	table.find(".body").innerHTML = body.innerHTML;
+
+	function sortRows(rows, order, type){
+		if(order == "asc"){
+			rows.sort(function(a,b){
+                // console.time("SORTING");
+                let a_text, b_text;
+                if(type == "value"){
+                    a_text = a.find(`div:nth-of-type(${col})`).getAttribute("value");
+                    b_text = b.find(`div:nth-of-type(${col})`).getAttribute("value");
+                } else if (type == "text") {
+                    a_text = [...a.children][col-1].innerText;
+                    b_text = [...b.children][col-1].innerText;
+                }
+                // console.timeEnd("SORTING");
+
+                if(isNaN(parseFloat(a_text))){
+                    if(a_text.indexOf("$") > -1){
+                        a = parseFloat(a_text.replace("$", "").replace(/,/g, ""));
+                        b = parseFloat(b_text.replace("$", "").replace(/,/g, ""));
+                    } else {
+                        a = a_text.toLowerCase();
+                        b = b_text.toLowerCase();
+
+                        if(a < b)
+                            return -1;
+                        else if(a > b)
+                            return 1;
+                        else
+                            return 0;
+                    }
+                } else {
+                    a = parseFloat(a_text);
+                    b = parseFloat(b_text);
+                }
+
+                return a-b;
+			});
+		} else if(order == "desc"){
+			rows.sort(function(a,b){
+                // console.time("SORTING");
+                let a_text, b_text;
+                if(type == "value"){
+                    a_text = a.find(`div:nth-of-type(${col})`).getAttribute("value");
+                    b_text = b.find(`div:nth-of-type(${col})`).getAttribute("value");
+                } else if (type == "text") {
+                    a_text = [...a.children][col-1].innerText;
+                    b_text = [...b.children][col-1].innerText;
+                }
+                // console.timeEnd("SORTING");
+
+                if(isNaN(parseFloat(a_text))){
+                    if(a_text.indexOf("$") > -1){
+                        a = parseFloat(a_text.replace("$", "").replace(/,/g, ""));
+                        b = parseFloat(b_text.replace("$", "").replace(/,/g, ""));
+                    } else {
+                        a = a_text.toLowerCase();
+                        b = b_text.toLowerCase();
+
+                        if(a < b)
+                            return 1;
+                        else if(a > b)
+                            return -1;
+                        else
+                            return 0;
+                    }
+                } else {
+                    a = parseFloat(a_text);
+                    b = parseFloat(b_text);
+                }
+
+                return b-a;
+			});
+        }
+        
+		return rows;
+	}
+}
