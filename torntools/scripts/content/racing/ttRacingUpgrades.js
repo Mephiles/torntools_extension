@@ -6,7 +6,7 @@ window.addEventListener('load', async (event) => {
 
     local_storage.get("settings", function(settings) {
 
-        if(!settings.pages.racing.show)
+        if(!settings.pages.racing.upgrades)
             return;
 
         upgradeView().then(Main);

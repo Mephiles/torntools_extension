@@ -8,7 +8,7 @@ window.addEventListener('load', async (event) => {
 		if(settings.pages.home.networth && networth.previous.value.total)
 			displayNetworth(networth);
 
-		if(!extensions.doctorn)
+		if(settings.pages.home.battle_stats && !extensions.doctorn)
 			displayEffectiveBattleStats();
 	});
 });

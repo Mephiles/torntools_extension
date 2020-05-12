@@ -5,7 +5,7 @@ window.addEventListener('load', async (event) => {
         return;
 
 	local_storage.get(["settings", "itemlist"], function([settings, itemlist]){
-        if(settings.pages.travel.profit)
+        if(settings.pages.travel.profits)
             displayItemProfits(itemlist.items);
 	});
 });

@@ -5,9 +5,9 @@ window.addEventListener('load', async (event) => {
         return;
 
 	local_storage.get(["settings", "itemlist"], function([settings, itemlist]){
-		if(settings.pages.items.prices)
+		if(settings.pages.items.values){
             Main(itemlist.items);
-        
+        }
 	});
 });
 

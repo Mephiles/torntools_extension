@@ -6,7 +6,7 @@ window.addEventListener('load', async (event) => {
 
     local_storage.get(["settings", "itemlist"], function([settings, itemlist]){
 
-        if(!settings.pages.missions.show)
+        if(!settings.pages.missions.rewards)
             return;
 
         rewardsLoaded().then(function(loaded){

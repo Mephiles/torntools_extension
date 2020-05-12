@@ -5,7 +5,7 @@ window.addEventListener('load', async (event) => {
         return;
 
     local_storage.get("settings", function(settings){
-        if(!settings.pages.casino.show || !settings.pages.casino.hilo)
+        if(!settings.pages.casino.all || !settings.pages.casino.hilo)
             return;
 
         casinoGameLoaded().then(function(loaded){

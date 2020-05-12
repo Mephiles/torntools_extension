@@ -13,7 +13,7 @@ window.addEventListener('load', async (event) => {
 
             displayCreator();
 
-            if(settings.pages.profile.show)
+            if(settings.pages.profile.friendly_warning)
                 displayAlly(user_faction, allies);
             
             if(target_list.show)

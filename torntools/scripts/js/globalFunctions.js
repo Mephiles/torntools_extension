@@ -75,7 +75,6 @@ const STORAGE = {
 	"torndata": {},
 	"userdata": {},
 	"updated": "force_true",
-	"show_update_notification": true,
 	"api": {
 		"count": 0,
 		"limit": 60,
@@ -103,6 +102,7 @@ const STORAGE = {
 	},
 	"allies": [],
 	"settings": {
+        "update_notification": true,
 		"tabs": {
 			"market": true,
 			"stocks": true,
@@ -111,51 +111,51 @@ const STORAGE = {
 		},
 		"achievements": {
 			"show": true,
-			"show_completed": true
+			"completed": true
 		},
 		"pages": {
 			"trade": {
 				"calculator": true
 			},
 			"home": {
+                "battle_stats": true,
 				"networth": true
 			},
 			"missions": {
-				"show": true
+				"rewards": true
 			},
 			"city": {
-				"show": true,
+				"items": true,
 				"items_value": true
 			},
-			"hub": {
-				"show": false,
-				"pinned": false
-			},
 			"profile": {
-				"show": true
+				"friendly_warning": true
 			},
 			"racing": {
-				"show": true
+				"upgrades": true
 			},
 			"gym": {
-				"show": true,
 				"disable_buttons": false
 			},
 			"shop": {
-				"show": true
+				"profits": true
 			},
 			"casino": {
-				"show": true,
+				"all": true,
 				"hilo": true,
 				"blackjack": true
 			},
 			"items": {
-				"prices": true
+				"values": true
 			},
 			"travel": {
-                "profit": true,
+                "profits": true,
                 "destination_table": true
-			}
+            },
+            "api": {
+                "key": true,
+                "pretty": true
+            }
 		}
 	}
 }

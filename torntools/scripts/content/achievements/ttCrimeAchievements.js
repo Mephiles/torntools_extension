@@ -5,7 +5,7 @@ window.addEventListener('load', async(event) => {
         return;
 
     local_storage.get(["settings", "userdata", "torndata"], function([settings, userdata, torndata]) {
-        let show_completed = settings.achievements.show_completed;
+        let show_completed = settings.achievements.completed;
         let crimes = userdata.criminalrecord;
 
         if(!settings.achievements.show)

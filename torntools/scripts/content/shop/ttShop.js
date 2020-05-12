@@ -5,7 +5,7 @@ window.addEventListener('load', async (event) => {
         return
 
     local_storage.get(["settings", "itemlist"], function([settings, itemlist]) {
-        if(!settings.pages.shop.show)
+        if(!settings.pages.shop.profits)
             return;
 
         let items = doc.findAll(".buy-items-wrap .items-list li:not(.empty):not(.clear)");

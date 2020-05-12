@@ -2,8 +2,8 @@ window.addEventListener('load', async (event) => {
     if(await flying() || await abroad())
         return;
 
-    local_storage.get(["updated", "show_update_notification"], function([updated, show_update_notification]){
-        if(updated && show_update_notification){
+    local_storage.get(["updated", "settings"], function([updated, settings]){
+        if(updated && settings.update_notification){
             let version_text = `TornTools updated: ${chrome.runtime.getManifest().version}`;
             
             navbar.new_cell(version_text, {

@@ -5,22 +5,22 @@ window.addEventListener('load', async (event) => {
 		return;
 
 	local_storage.get(["settings", "extensions", "itemlist"], function([settings, extensions, itemlist]){
-		if(settings.pages.city.show){
-			mapLoaded().then(function(loaded){
-				if(!loaded)
-					return;
+		
+		mapLoaded().then(function(loaded){
+			if(!loaded || (!settings.pages.city.items && !settings.pages.city.items_value))
+				return;
 
-				let items_container = content.new_container("TornTools - City Items", {first:true, id: "tt-city-items"});
-				
-				// Map and Items
-				if(!extensions.doctorn){
-					displayItems(items_container, itemlist);
-				}
-				
+			let items_container = content.new_container("TornTools - City Items", {first:true, id: "tt-city-items"});
+			
+			if(settings.pages.city.items && !extensions.doctorn){
+				displayItems(items_container, itemlist);
+			}
+			
+			if(settings.pages.city.items_value){
 				// Value of items
 				showValueOfItems(items_container, itemlist, extensions.doctorn);
-			});
-		}
+			}
+		});
 	});
 });
 

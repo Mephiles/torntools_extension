@@ -5,7 +5,7 @@ window.addEventListener('load', async (event) => {
         return;
 
     local_storage.get("settings", function(settings){
-        if(!settings.pages.casino.show || !settings.pages.casino.blackjack)
+        if(!settings.pages.casino.all || !settings.pages.casino.blackjack)
             return;
 
         casinoGameLoaded().then(function(loaded){
