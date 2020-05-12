@@ -24,6 +24,10 @@ p {
     color: red;
 }
 
+.no-margin {
+    margin: 0;
+}
+
 #message {
     position: absolute;
     width: 30%;
