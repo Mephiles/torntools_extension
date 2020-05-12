@@ -45,7 +45,7 @@ Features:
 
 
 **API requests**:   
-  - 3/4 requests periodically  
+  - 2/3 requests periodically  
   - 1 request per search in Market tab  
 
 Don't like something? Turn it off in the settings and use the features you do like.  

@@ -1,4 +1,18 @@
 export default {
+    "v3.7": {
+        "Features": [
+            "Added a Travel Destinations table to Travel Agency page",
+            "Accidentally added features in last update: Effective Battle Stats on Home page, Item profits in Travel Market, Item values on Items page"
+        ],
+        "Fixes": [
+            "Added options for settings: Effective Battle Stats, Item profits in Travel Market, Item values on Items page"
+        ],
+        "Changes": [
+            "Improved design of Settings page",
+            "Changed the structure of Local Database (You might need to check your settings)",
+            "Reduced API requests needed by 1"
+        ]
+    },
     "v3.6.1": {
         "Features": [
             "Added new logo",
