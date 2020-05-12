@@ -6,7 +6,8 @@ export default {
             "Added option to reformat Profile headings as USERNAME [ID]"
         ],
         "Fixes": [
-            "Added options for settings: Effective Battle Stats, Item profits in Travel Market, Item values on Items page"
+            "Added options for settings: Effective Battle Stats, Item profits in Travel Market, Item values on Items page",
+            "Fixed issue where Accessory pictures were blocking vision of HiLo action (I prevented any items appearing on screen)"
         ],
         "Changes": [
             "Improved design of Settings page",

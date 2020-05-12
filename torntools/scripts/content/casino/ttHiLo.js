@@ -103,7 +103,6 @@ function Main(){
         let span = doc.new("span");
             span.setClass("tt-hilo-action");
             span.innerText = action;
-            doc.find(".items-wrap .item-8") ? doc.find(".items-wrap .item-8").style.display = "none" : null;
         doc.find(".actions-wrap").appendChild(span);
     }
 }
@@ -139,10 +138,6 @@ function getCard(type, picture_cards, last_type_card){
     } else if(possible_cards[1][Object.keys(possible_cards[1])[0]] == last_type_card[Object.keys(last_type_card)[0]]){
         return possible_cards[0];
     }
-}
-
-function getOtherCard(){
-
 }
 
 function removeCard(_deck, card){
