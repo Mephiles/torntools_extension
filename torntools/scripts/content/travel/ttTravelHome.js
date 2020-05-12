@@ -1,26 +1,26 @@
 window.addEventListener('load', async (event) => {
     console.log("TT - Travel (home)");
 
-    if(await flying() || await abroad())
+    if (await flying() || await abroad())
         return;
 
-	local_storage.get(["settings", "itemlist", "userdata"], function([settings, itemlist, userdata]){
-        if(settings.pages.travel.destination_table){
-            let container = content.new_container("TornTools - Travel Destinations", {id: "ttTravelTable"}).find(".content");
+    local_storage.get(["settings", "itemlist", "userdata"], function ([settings, itemlist, userdata]) {
+        if (settings.pages.travel.destination_table) {
+            let container = content.new_container("TornTools - Travel Destinations", { id: "ttTravelTable" }).find(".content");
             displayTravelDestinations(container, itemlist.items, userdata);
 
-            for(let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]){
+            for (let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]) {
                 // tab.classList.remove("ui-state-disabled");
-                tab.addEventListener("click", function(){
+                tab.addEventListener("click", function () {
                     container.innerHTML = "";
                     displayTravelDestinations(container, itemlist.items, userdata);
                 });
             }
         }
-	});
+    });
 });
 
-function displayTravelDestinations(container, itemlist, userdata){
+function displayTravelDestinations(container, itemlist, userdata) {
     let item_dict = {  // time - minutes
         "argentina": {
             time: 167,
@@ -145,39 +145,39 @@ function displayTravelDestinations(container, itemlist, userdata){
     let airstrip = doc.find("#tab-menu4 li[aria-selected=true]").innerText == "AIRSTRIP" ? true : false;
     let wlt = doc.find("#tab-menu4 li[aria-selected=true]").innerText == "PRIVATE" ? true : false;
     let business = doc.find("#tab-menu4 li[aria-selected=true]").innerText == "BUSINESS" ? true : false;
-    let suitcase = (function(){
-        for(let perk of userdata.enhancer_perks){
-            if(perk.indexOf("(Large Suitcase)") > -1){
+    let suitcase = (function () {
+        for (let perk of userdata.enhancer_perks) {
+            if (perk.indexOf("(Large Suitcase)") > -1) {
                 return 4;
-            } else if(perk.indexOf("(Medium Suitcase)") > -1){
+            } else if (perk.indexOf("(Medium Suitcase)") > -1) {
                 return 3;
-            } else if(perk.indexOf("(Small Suitcase)") > -1){
+            } else if (perk.indexOf("(Small Suitcase)") > -1) {
                 return 2;
             }
         }
         return 0;
     })();
-    let job_perk = (function(){
+    let job_perk = (function () {
         let total = 0;
-        for(let perk of userdata.company_perks){
-            if(perk.indexOf("travel capacity") > -1){
-                total += parseInt(perk.replace("+ " ,"").split(" ")[0]);
+        for (let perk of userdata.company_perks) {
+            if (perk.indexOf("travel capacity") > -1) {
+                total += parseInt(perk.replace("+ ", "").split(" ")[0]);
             }
         }
         return total;
     })();
-    let faction_perk = (function(){
-        for(let perk of userdata.faction_perks){
-            if(perk.indexOf("Increases maximum traveling capacity by") > -1){
+    let faction_perk = (function () {
+        for (let perk of userdata.faction_perks) {
+            if (perk.indexOf("Increases maximum traveling capacity by") > -1) {
                 return parseInt(perk.split("by ")[1]);
             }
         }
         return 0;
     })();
-    let book_perk = (function(){
-        for(let perk of userdata.book_perks){
-            if(perk.indexOf("travel capacity") > -1){
-                return parseInt(perk.replace("+ " ,"").split(" ")[0]);
+    let book_perk = (function () {
+        for (let perk of userdata.book_perks) {
+            if (perk.indexOf("travel capacity") > -1) {
+                return parseInt(perk.replace("+ ", "").split(" ")[0]);
             }
         }
         return 0;
@@ -186,7 +186,7 @@ function displayTravelDestinations(container, itemlist, userdata){
     item_dict = modifyTimeAndCost(item_dict, airstrip, wlt, business, itemlist["396"].market_value);  // business class ticket price
 
     let carry_items = 5 + suitcase + job_perk + faction_perk + book_perk;
-    if(airstrip || wlt || business){
+    if (airstrip || wlt || business) {
         carry_items += 10;
     }
 
@@ -200,16 +200,16 @@ function displayTravelDestinations(container, itemlist, userdata){
     console.log("carry_items", carry_items);
 
     let table = doc.new("div");
-        table.setClass("table");
+    table.setClass("table");
     let body = doc.new("div");
-        body.setClass("body");
+    body.setClass("body");
 
     addTableHeader(table);
 
-    for(let location in item_dict){
+    for (let location in item_dict) {
         let time = item_dict[location].time;
 
-        for(let item_id of item_dict[location].items){
+        for (let item_id of item_dict[location].items) {
             let buy_price = itemlist[item_id].buy_price || item_prices[itemlist[item_id].name.toLowerCase()][location];  // if price is 0, take from item_prices
             let market_value = itemlist[item_id].market_value;
             let total_profit = (market_value - buy_price) * carry_items - item_dict[location].cost;
@@ -221,60 +221,60 @@ function displayTravelDestinations(container, itemlist, userdata){
     }
     table.appendChild(body);
     container.appendChild(table);
-    
-    sort(table, 9)
+
+    sort(table, 9, "text")
 }
 
-function modifyTimeAndCost(dict, airstrip, wlt, business, bct_price){
-    for(let key in dict){
-        if(airstrip){
-            dict[key].time = parseFloat((dict[key].time*0.7).toFixed(1)).toFixed(0);
+function modifyTimeAndCost(dict, airstrip, wlt, business, bct_price) {
+    for (let key in dict) {
+        if (airstrip) {
+            dict[key].time = parseFloat((dict[key].time * 0.7).toFixed(1)).toFixed(0);
             dict[key].cost = 0;
-        } else if(wlt) {
-            dict[key].time =  parseFloat((dict[key].time*0.5).toFixed(1)).toFixed(0);
+        } else if (wlt) {
+            dict[key].time = parseFloat((dict[key].time * 0.5).toFixed(1)).toFixed(0);
             dict[key].cost = 0;
-        } else if(business) {
-            dict[key].time =  parseFloat((dict[key].time*0.3).toFixed(1)).toFixed(0);
+        } else if (business) {
+            dict[key].time = parseFloat((dict[key].time * 0.3).toFixed(1)).toFixed(0);
             dict[key].cost = bct_price;
         }
     }
     return dict;
 }
 
-function addTableHeader(table){
+function addTableHeader(table) {
     let row = doc.new("div");
-        row.setClass("row");
+    row.setClass("row");
 
     let destination_heading = doc.new("div");
-        destination_heading.innerText = "Destination";
+    destination_heading.innerText = "Destination";
     let flight_time_heading = doc.new("div");
-        flight_time_heading.innerText = "Flight time";
+    flight_time_heading.innerText = "Flight time";
     let item_heading = doc.new("div");
-        item_heading.innerText = "Item";
+    item_heading.innerText = "Item";
     let buy_price_heading = doc.new("div");
-        buy_price_heading.innerText = "Buy price";
+    buy_price_heading.innerText = "Buy price";
     let cash_needed_heading = doc.new("div");
-        cash_needed_heading.innerText = "Cash needed";
+    cash_needed_heading.innerText = "Cash needed";
     let market_value_heading = doc.new("div");
-        market_value_heading.innerText = "Market value";
+    market_value_heading.innerText = "Market value";
     let profit_per_item_heading = doc.new("div");
-        profit_per_item_heading.innerText = "Profit/item";
+    profit_per_item_heading.innerText = "Profit/item";
     let profit_per_minute_heading = doc.new("div");
-        profit_per_minute_heading.innerText = "Profit/minute";
-        let sorting_icon = doc.new("i");
-            sorting_icon.setClass("fas fa-caret-up");
-        profit_per_minute_heading.appendChild(sorting_icon);
+    profit_per_minute_heading.innerText = "Profit/minute";
+    let sorting_icon = doc.new("i");
+    sorting_icon.setClass("fas fa-caret-up");
+    profit_per_minute_heading.appendChild(sorting_icon);
     let total_profit_heading = doc.new("div");
-        total_profit_heading.innerText = "Total profit";
+    total_profit_heading.innerText = "Total profit";
 
-    let headings = [destination_heading, flight_time_heading, item_heading, 
-        buy_price_heading, cash_needed_heading, market_value_heading, 
+    let headings = [destination_heading, flight_time_heading, item_heading,
+        buy_price_heading, cash_needed_heading, market_value_heading,
         profit_per_item_heading, total_profit_heading, profit_per_minute_heading];
 
-    for(let heading of headings){
-        heading.addEventListener("click", function(){
-			sort(table, headings.indexOf(heading)+1);
-		});
+    for (let heading of headings) {
+        heading.addEventListener("click", function () {
+            sort(table, headings.indexOf(heading) + 1, "text");
+        });
         row.appendChild(heading);
     }
 
@@ -290,58 +290,58 @@ function addTableHeader(table){
     table.appendChild(row);
 }
 
-function addRow(body, itemlist, item_id, carry_items, buy_price, market_value, total_profit, profit_per_minute, profit_per_item, time, location){
+function addRow(body, itemlist, item_id, carry_items, buy_price, market_value, total_profit, profit_per_minute, profit_per_item, time, location) {
     let row = doc.new("div");
-        row.setClass("row");
+    row.setClass("row");
 
     let destination_div = doc.new("div");
-        let destination_name_span = doc.new("span");
-            destination_name_span.innerText = location == "uae" ? "UAE" : capitalize(location);
-        let flag_span = doc.new("span");
-            flag_span.setClass("flag");
-            flag_span.style.background = `url(/images/v2/travel_agency/flags/fl_${location.replace("united kingdom", "uk").replace(" islands", "").replace(" ", "_")}.svg) center top no-repeat`;
-        destination_div.appendChild(destination_name_span);
-        destination_div.appendChild(flag_span);
+    let destination_name_span = doc.new("span");
+    destination_name_span.innerText = location == "uae" ? "UAE" : capitalize(location);
+    let flag_span = doc.new("span");
+    flag_span.setClass("flag");
+    flag_span.style.background = `url(/images/v2/travel_agency/flags/fl_${location.replace("united kingdom", "uk").replace(" islands", "").replace(" ", "_")}.svg) center top no-repeat`;
+    destination_div.appendChild(destination_name_span);
+    destination_div.appendChild(flag_span);
     let flight_time_div = doc.new("div");
-        flight_time_div.innerText = time;
+    flight_time_div.innerText = time;
     let item_div = doc.new("div");
-        item_div.innerText = itemlist[item_id].name, every_word=true;
+    item_div.innerText = itemlist[item_id].name, every_word = true;
     let buy_price_div = doc.new("div");
-        buy_price_div.innerText = `$${numberWithCommas(buy_price, shorten=false)}`;
+    buy_price_div.innerText = `$${numberWithCommas(buy_price, shorten = false)}`;
     let cash_needed_div = doc.new("div");
-        cash_needed_div.innerText = `$${numberWithCommas((buy_price*carry_items), shorten=false)}`;
+    cash_needed_div.innerText = `$${numberWithCommas((buy_price * carry_items), shorten = false)}`;
     let market_value_div = doc.new("div");
-        market_value_div.innerText = `$${numberWithCommas(market_value, shorten=false)}`;
+    market_value_div.innerText = `$${numberWithCommas(market_value, shorten = false)}`;
     let profit_per_item_div = doc.new("div");
-        if(profit_per_item > 0){
-            profit_per_item_div.setClass("positive profit");
-            profit_per_item_div.innerText = `+$${numberWithCommas(profit_per_item, shorten=false)}`;
-        } else if(profit_per_item < 0){
-            profit_per_item_div.setClass("negative profit");
-            profit_per_item_div.innerText = `-$${numberWithCommas(Math.abs(profit_per_item), shorten=false)}`;
-        } else {
-            profit_per_item_div.innerText = `$0`;
-        }
+    if (profit_per_item > 0) {
+        profit_per_item_div.setClass("positive profit");
+        profit_per_item_div.innerText = `+$${numberWithCommas(profit_per_item, shorten = false)}`;
+    } else if (profit_per_item < 0) {
+        profit_per_item_div.setClass("negative profit");
+        profit_per_item_div.innerText = `-$${numberWithCommas(Math.abs(profit_per_item), shorten = false)}`;
+    } else {
+        profit_per_item_div.innerText = `$0`;
+    }
     let profit_per_minute_div = doc.new("div");
-        if(profit_per_minute > 0){
-            profit_per_minute_div.setClass("positive profit");
-            profit_per_minute_div.innerText = `+$${numberWithCommas(profit_per_minute, shorten=false)}`;
-        } else if(profit_per_minute < 0){
-            profit_per_minute_div.setClass("negative profit");
-            profit_per_minute_div.innerText = `-$${numberWithCommas(Math.abs(profit_per_minute), shorten=false)}`;
-        } else {
-            profit_per_minute_div.innerText = `$0`;
-        }
+    if (profit_per_minute > 0) {
+        profit_per_minute_div.setClass("positive profit");
+        profit_per_minute_div.innerText = `+$${numberWithCommas(profit_per_minute, shorten = false)}`;
+    } else if (profit_per_minute < 0) {
+        profit_per_minute_div.setClass("negative profit");
+        profit_per_minute_div.innerText = `-$${numberWithCommas(Math.abs(profit_per_minute), shorten = false)}`;
+    } else {
+        profit_per_minute_div.innerText = `$0`;
+    }
     let total_profit_div = doc.new("div");
-        if(total_profit > 0){
-            total_profit_div.setClass("positive profit");
-            total_profit_div.innerText = `+$${numberWithCommas(total_profit, shorten=false)}`;
-        } else if(total_profit < 0){
-            total_profit_div.setClass("negative profit");
-            total_profit_div.innerText = `-$${numberWithCommas(Math.abs(total_profit), shorten=false)}`;
-        } else {
-            total_profit_div.innerText = `$0`;
-        }
+    if (total_profit > 0) {
+        total_profit_div.setClass("positive profit");
+        total_profit_div.innerText = `+$${numberWithCommas(total_profit, shorten = false)}`;
+    } else if (total_profit < 0) {
+        total_profit_div.setClass("negative profit");
+        total_profit_div.innerText = `-$${numberWithCommas(Math.abs(total_profit), shorten = false)}`;
+    } else {
+        total_profit_div.innerText = `$0`;
+    }
 
     row.appendChild(destination_div);
     row.appendChild(flight_time_div);
