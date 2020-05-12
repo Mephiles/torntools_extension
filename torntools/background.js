@@ -100,10 +100,8 @@ function Main(){
 				return;
 
 			data.date = String(new Date());
-			let item_list = {...data.items, date: data.date}
+			let item_list = {items: {...data.items}, date: data.date}
 			data.items = {};
-			console.log(data);
-			console.log(item_list);
 			local_storage.set({"torndata": data}, function(){
 				console.log("Torndata set.");
 			});
