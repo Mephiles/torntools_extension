@@ -29,7 +29,7 @@ p {
 }
 
 #message {
-    position: absolute;
+    position: sticky;
     width: 30%;
     margin-left: 35%;
     text-align: center;

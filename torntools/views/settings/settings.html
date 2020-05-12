@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 	<link rel="stylesheet" href="./settings.css"> <!-- Main -->
 	<link rel="stylesheet" href="./switch_button.css"> <!-- Switch button -->
 	<script type="text/javascript" src="../../scripts/jquery/jquery-3.4.1.min.js"></script>
 	<title>TornTools - Settings</title>
 </head>
+
 <body>
 	<div id="message"></div>
 	<div class="navbar">
@@ -19,31 +21,34 @@
 		<div class="site" id="about-link">About</div>
 	</div>
 
-    <!-- CHANGELOG -->
-    <div id="changelog" class="container active">
-        <h2>Changelog</h2>
-        <div class="content"></div>
-    </div>
+	<!-- CHANGELOG -->
+	<div id="changelog" class="container active">
+		<h2>Changelog</h2>
+		<div class="content"></div>
+	</div>
 
-    <!-- PREFERENCES -->
-    <div id="preferences" class="container">
-        <h2>Preferences</h2>
-        <div class="content">
+	<!-- PREFERENCES -->
+	<div id="preferences" class="container">
+		<h2>Preferences</h2>
+		<div class="content">
 			<div class="inner_content">
 				<div class="column">
 					<div class="section">
 						<div class="heading">General</div>
-						<div class="option" id="update_notification"><input type="checkbox">Show update notification</div>
+						<div class="option" id="update_notification"><input type="checkbox">Show update notification
+						</div>
 					</div>
 					<div class="section">
 						<div class="heading">API</div>
 						<div class="option" id="api-key"><input type="checkbox">Auto-fill API key on API page</div>
-						<div class="option" id="api-pretty"><input type="checkbox">Automatically set all request types to Pretty <span class="new">New!</span></div>
+						<div class="option" id="api-pretty"><input type="checkbox">Automatically set all request types
+							to Pretty <span class="new">New!</span></div>
 					</div>
 					<div class="section">
 						<div class="heading">City</div>
 						<div class="option" id="city-items"><input type="checkbox">*Highlight Items on City map</div>
-						<div class="option" id="city-items_value"><input type="checkbox">Show the value of Items on City map</div>
+						<div class="option" id="city-items_value"><input type="checkbox">Show the value of Items on City
+							map</div>
 					</div>
 					<div class="section">
 						<div class="heading">Casino</div>
@@ -54,16 +59,20 @@
 					<div class="section">
 						<div class="heading">Achievements</div>
 						<div class="option" id="achievements-show"><input type="checkbox">Display Achievements</div>
-						<div class="option" id="achievements-completed"><input type="checkbox">Show Completed achievements</div>
+						<div class="option" id="achievements-completed"><input type="checkbox">Show Completed
+							achievements</div>
 					</div>
 					<div class="section">
 						<div class="heading">Travel</div>
-						<div class="option" id="travel-destination_table"><input type="checkbox">Show a table of Travel Destinations on Travel Agency page <span class="new">New!</span></div>
-						<div class="option" id="travel-profits"><input type="checkbox">Show item Profits in Travel Markets (abroad) <span class="new">New!</span></div>
+						<div class="option" id="travel-destination_table"><input type="checkbox">Show a table of Travel
+							Destinations on Travel Agency page <span class="new">New!</span></div>
+						<div class="option" id="travel-profits"><input type="checkbox">Show item Profits in Travel
+							Markets (abroad) <span class="new">New!</span></div>
 					</div>
 					<div class="section">
 						<div class="heading">Friendly Fire</div>
-						<div class="option" id="profile-friendly_warning"><input type="checkbox">Show Faction/Ally Warning on profile pages</div>
+						<div class="option" id="profile-friendly_warning"><input type="checkbox">Show Faction/Ally
+							Warning on profile pages</div>
 						<div class="table">
 							<div class="body">
 								<div class="row input">
@@ -77,13 +86,21 @@
 						<div class="heading">Other scripts</div>
 						<div class="option" id="gym-disable_buttons"><input type="checkbox">Disable Gym buttons</div>
 						<div class="option" id="racing-upgrades"><input type="checkbox">Show Racing Upgrade values</div>
-						<div class="option" id="shop-profits"><input type="checkbox">Show Item Profits at City stores</div>
+						<div class="option" id="shop-profits"><input type="checkbox">Show Item Profits at City stores
+						</div>
 						<div class="option" id="trade-calculator"><input type="checkbox">Enable Trade Calculator</div>
-						<div class="option" id="missions-rewards"><input type="checkbox">Show Mission Reward values</div>
-						<div class="option" id="home-networth"><input type="checkbox">Display Networth details on Home page</div>
-						<div class="option" id="target_list"><input type="checkbox">Keep and update a Target List based on attack history</div>
-						<div class="option" id="items-values"><input type="checkbox">Display Item values on Items page <span class="new">New!</span></div>
-						<div class="option" id="home-battle_stats"><input type="checkbox">*Show Effective Battle Stats on Home page <span class="new">New!</span></div>
+						<div class="option" id="missions-rewards"><input type="checkbox">Show Mission Reward values
+						</div>
+						<div class="option" id="home-networth"><input type="checkbox">Display Networth details on Home
+							page</div>
+						<div class="option" id="target_list"><input type="checkbox">Keep and update a Target List based
+							on attack history</div>
+						<div class="option" id="items-values"><input type="checkbox">Display Item values on Items page
+							<span class="new">New!</span></div>
+						<div class="option" id="home-battle_stats"><input type="checkbox">*Show Effective Battle Stats
+							on Home page <span class="new">New!</span></div>
+						<div class="option" id="profile-show_id"><input type="checkbox">Reformat Profile page headings
+							as "USERNAME [ID]" <span class="new">New!</span></div>
 					</div>
 				</div>
 				<div class="column">
@@ -97,7 +114,8 @@
 						<div class="heading">Default tab</div>
 						<div class="option" id="default-market"><input type="radio" name="default-tab">Market</div>
 						<div class="option" id="default-stocks"><input type="radio" name="default-tab">Stocks</div>
-						<div class="option" id="default-calculator"><input type="radio" name="default-tab">Calculator</div>
+						<div class="option" id="default-calculator"><input type="radio" name="default-tab">Calculator
+						</div>
 					</div>
 				</div>
 			</div>
@@ -111,12 +129,12 @@
 				</div>
 			</div>
 		</div>
-    </div>
+	</div>
 
-    <!-- TARGET-LIST -->
-    <div id="target-list" class="container">
-        <h2>Targets</h2>
-        <div class="content">
+	<!-- TARGET-LIST -->
+	<div id="target-list" class="container">
+		<h2>Targets</h2>
+		<div class="content">
 			<div class="table">
 				<div class="legend">
 					<div class="item">
@@ -135,8 +153,8 @@
 						<div class="marker">
 							<label id="num_per" class="switch">
 								<input class="switch-input" type="checkbox" />
-								<span class="switch-label" data-on="%" data-off="123"></span> 
-								<span class="switch-handle"></span> 
+								<span class="switch-label" data-on="%" data-off="123"></span>
+								<span class="switch-handle"></span>
 							</label>
 						</div>
 						<div class="text">Switch between Numbers and Percentages</div>
@@ -146,18 +164,19 @@
 				<div class="body"></div>
 			</div>
 		</div>
-    </div>
+	</div>
 
-    <!-- API-INFO -->
-    <div id="api-info" class="container">
-        <h2>API info</h2>
-        <div class="content">
+	<!-- API-INFO -->
+	<div id="api-info" class="container">
+		<h2>API info</h2>
+		<div class="content">
 			<h4 class="no-margin">API requests</h4>
 			<ul>
 				<li>Periodically
 					<ul>
 						<li>Fetch Torn's Item list, Honors, Medals, Stocks</li>
-						<li>Fetch User's Personal stats, Crimes, Battle stats, Perks, Profile, Work stats, Stocks, Networth</li>
+						<li>Fetch User's Personal stats, Crimes, Battle stats, Perks, Profile, Work stats, Stocks,
+							Networth</li>
 						<li>OPTIONAL: Fetch User's Attack history</li>
 					</ul>
 				</li>
@@ -174,7 +193,8 @@
 				<li>tries to use the wrong API key too many times</li>
 			</ul>
 			<div class="note">(your ip will be unblocked in a minute or two)</div>
-			<p>If for some reason you do get your IP blocked because the extension had a bug or glitched or anything - my apologies. <br> Please do let me know of such incidents so I can avoid them in the future.</p>
+			<p>If for some reason you do get your IP blocked because the extension had a bug or glitched or anything -
+				my apologies. <br> Please do let me know of such incidents so I can avoid them in the future.</p>
 			<div class="input-field">
 				<div class="label bold">Change API key</div>
 				<input type="text" placeholder="API key.." id="api_field">
@@ -182,25 +202,27 @@
 				<div class="note">It will take max. 1 minute to fetch new data</div>
 			</div>
 		</div>
-    </div>
+	</div>
 
-    <!-- ABOUT -->
-    <div id="about" class="container">
-        <h2>About</h2>
-        <div class="content">
-            <p id="version">Version: <span></span></p>
-            <p>Brought to you by <a target="_blank" href="https://www.torn.com/profiles.php?XID=2087524#/">Mephiles[2087524]</a></p>
-            <p>Source code on <a target="_blank" href="https://github.com/Mephiles/torntools_extension">Github</a></p>
-			
+	<!-- ABOUT -->
+	<div id="about" class="container">
+		<h2>About</h2>
+		<div class="content">
+			<p id="version">Version: <span></span></p>
+			<p>Brought to you by <a target="_blank"
+					href="https://www.torn.com/profiles.php?XID=2087524#/">Mephiles[2087524]</a></p>
+			<p>Source code on <a target="_blank" href="https://github.com/Mephiles/torntools_extension">Github</a></p>
+
 			<h3>Have a suggestion or want to report a bug?</h3>
 			<p><a target="_blank" href="https://www.torn.com/messages.php#/p=compose">Mail me</a> in torn.</p>
 			<p>A screenshot of the bug happening helps!</p>
 			<p>A screenshot of the console really helps! (right-click -> inspect element -> console)</p>
-        </div>
-    </div>
+		</div>
+	</div>
 
 	<!-- <script src="../changelog.js"></script> -->
-    <script src="../../scripts/js/globalFunctions.js"></script>
+	<script src="../../scripts/js/globalFunctions.js"></script>
 	<script type="module" src="./settings.js"></script>
 </body>
+
 </html>
