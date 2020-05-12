@@ -12,3 +12,7 @@
     top: 10px;
     font-size: 17px;
 }
+
+.items-wrap * {
+    display: none !important;
+}
