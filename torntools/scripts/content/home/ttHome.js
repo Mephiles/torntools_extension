@@ -5,7 +5,7 @@ window.addEventListener('load', async (event) => {
         return;
 
 	local_storage.get(["settings", "networth", "extensions"], function([settings, networth, extensions]){
-		if(settings.pages.home.networth && networth.previous.value.total)
+		if(settings.pages.home.networth && networth.previous.value)
 			displayNetworth(networth);
 
 		if(settings.pages.home.battle_stats && !extensions.doctorn)

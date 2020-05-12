@@ -2,7 +2,8 @@ export default {
     "v3.7": {
         "Features": [
             "Added a Travel Destinations table to Travel Agency page",
-            "Accidentally added features in last update: Effective Battle Stats on Home page, Item profits in Travel Market, Item values on Items page"
+            "Accidentally added features in last update: Effective Battle Stats on Home page, Item profits in Travel Market, Item values on Items page",
+            "Added option to reformat Profile headings as USERNAME [ID]"
         ],
         "Fixes": [
             "Added options for settings: Effective Battle Stats, Item profits in Travel Market, Item values on Items page"
@@ -91,7 +92,10 @@ export default {
             "Fixed API page not working properly (the API key was inserted as 'unknown')",
             "Updated API request info"
         ]
-    }//,
+    }
+}
+
+//,
     // "v2.1 - clean-up": {
     //     "Fixes": [
     //         "Fixed Awards not showing up (reworked whole achievement display code - let me know of any bugs)",
@@ -208,4 +212,3 @@ export default {
     //     "Removed help section from settings",
     //     "Reduced api request amount in trade view. Set api limit to 60 requests on trade view."
     // ]
-}
