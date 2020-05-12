@@ -95,23 +95,19 @@ function Main(){
 		});
 
 		// torndata
-		get_api("https://api.torn.com/torn/?selections=honors,medals,stocks,gyms", api_key).then((data) => {
+		get_api("https://api.torn.com/torn/?selections=honors,medals,stocks,items", api_key).then((data) => {
 			if(!data)
 				return;
 
 			data.date = String(new Date());
+			let item_list = {...data.items, date: data.date}
+			data.items = {};
+			console.log(data);
+			console.log(item_list);
 			local_storage.set({"torndata": data}, function(){
 				console.log("Torndata set.");
 			});
-		});
-
-		// itemlist
-		get_api("https://api.torn.com/torn/?selections=items", api_key).then((data) => {
-			if(!data)
-				return;
-
-			data.date = String(new Date());
-			local_storage.set({"itemlist": data}, function(){
+			local_storage.set({"itemlist": item_list}, function(){
 				console.log("Itemlist set.");
 			});
 		});
