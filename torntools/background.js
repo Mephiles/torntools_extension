@@ -52,7 +52,7 @@ local_storage.get(null, function(old_storage){
 // Second - run every 1 min
 let main_interval = setInterval(Main, 60*1000);
 let api_counter_interval = setInterval(function(){
-	local_storage.change("api", {"count": 0});
+	local_storage.change({"api": {"count": 0}});
 }, 60*1000);
 
 function Main(){
@@ -119,7 +119,7 @@ function Main(){
 		// check extensions
 		let doctorn_installed = await detectExtension("doctorn");
 		console.log("Doctorn installed:", doctorn_installed);
-		local_storage.change("extensions", {"doctorn": doctorn_installed});
+		local_storage.change({"extensions": {"doctorn": doctorn_installed}});
 	});
 }
 
@@ -277,10 +277,10 @@ async function get_api(http, api_key) {
 
 	if(result.error){
 		console.log("API SYSTEM OFFLINE");
-		local_storage.change("api", {"online": false, "error": result.error.error});
+		local_storage.change({"api": {"online": false, "error": result.error.error}});
 		return false;
 	} else
-		local_storage.change("api", {"online": true, "error": ""});
+		local_storage.change({"api": {"online": true, "error": ""}});
 
 	return result;
 }

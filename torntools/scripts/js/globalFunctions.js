@@ -32,13 +32,22 @@ const local_storage = {
             callback ? callback() : null;
         });
     },
-    change: function (key, keys_to_change, callback) {
-        chrome.storage.local.get([key], function (data) {
-            for (let key_to_change of Object.keys(keys_to_change)) {
-                data[key][key_to_change] = keys_to_change[key_to_change];
+    change: function (keys_to_change, callback) {
+        chrome.storage.local.get(null, function (database) {
+            database = recursive(database, keys_to_change);
+
+            function recursive(parent, keys_to_change){
+                for(let key in keys_to_change){
+                    if(typeof keys_to_change[key] == "object" && !Array.isArray(keys_to_change[key])){
+                        parent[key] = recursive(parent[key], keys_to_change[key]);
+                    } else {
+                        parent[key] = keys_to_change[key];
+                    }
+                }
+                return parent;
             }
 
-            chrome.storage.local.set({ [key]: data[key] }, function () {
+            chrome.storage.local.set(database, function () {
                 callback ? callback() : null;
             });
         });
@@ -633,10 +642,10 @@ async function get_api(http, api_key) {
 
     if (result.error) {
         console.log("API SYSTEM OFFLINE");
-        local_storage.change("api", { "online": false, "error": result.error.error });
+        local_storage.change({"api": { "online": false, "error": result.error.error }});
         return false;
     } else
-        local_storage.change("api", { "online": true, "error": "" });
+        local_storage.change({"api": { "online": true, "error": "" }});
 
     return result;
 }

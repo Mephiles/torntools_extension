@@ -21,7 +21,7 @@ window.addEventListener('load', async (event) => {
     // checkbox listener
     checkbox.addEventListener("click", function(event){
         let checked = event.target.checked;
-        local_storage.change("settings", {"pages": {"gym": {"disable_buttons": checked}}});
+        local_storage.change({"settings": {"pages": {"gym": {"disable_buttons": checked}}}});
 
         if(checked)
             disableTrainButtons(true);
