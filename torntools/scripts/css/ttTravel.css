@@ -144,3 +144,42 @@ i.fa-caret-down {
 }
 
 /* font-awesome */
+
+/* Table legend */
+
+#ttTravelTable .table .legend {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+#ttTravelTable .table .legend .item {
+    flex: 1 0 auto;
+    height: 20px;
+}
+
+#ttTravelTable .table .legend .item .marker {
+    min-width: 20px;
+    max-width: 20%;
+    height: 20px;
+    float: left;
+    line-height: 20px;
+    text-align: center;
+}
+
+#ttTravelTable .table .legend .item .text {
+    height: 20px;
+    line-height: 20px;
+    padding-left: 10px;
+    float: left;
+}
+
+#ttTravelTable .table .legend .item .marker input {
+    width: 35px;
+    height: 18px;
+    border: 1px solid gray;
+    margin-left: 5px;
+    padding-left: 7px;
+    border-radius: 10px;
+}

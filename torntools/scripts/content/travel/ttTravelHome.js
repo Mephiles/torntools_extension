@@ -16,11 +16,21 @@ window.addEventListener('load', async (event) => {
                     displayTravelDestinations(container, itemlist.items, userdata);
                 });
             }
+
+            // Travel items input
+            doc.addEventListener("change", function(event){
+                if(event.target.id == "ttTravelItemsInput"){
+                    let amount = event.target.value;
+                
+                    container.innerHTML = "";
+                    displayTravelDestinations(container, itemlist.items, userdata, amount);
+                }
+            });
         }
     });
 });
 
-function displayTravelDestinations(container, itemlist, userdata) {
+function displayTravelDestinations(container, itemlist, userdata, carry_items) {
     let item_dict = {  // time - minutes
         "argentina": {
             time: 167,
@@ -185,11 +195,14 @@ function displayTravelDestinations(container, itemlist, userdata) {
 
     item_dict = modifyTimeAndCost(item_dict, airstrip, wlt, business, itemlist["396"].market_value);  // business class ticket price
 
-    let carry_items = 5 + suitcase + job_perk + faction_perk + book_perk;
-    if (airstrip || wlt || business) {
-        carry_items += 10;
+    if(!carry_items){
+        carry_items = 5 + suitcase + job_perk + faction_perk + book_perk;
+        if (airstrip || wlt || business) {
+            carry_items += 10;
+        }
     }
 
+    console.log("-----------------------------")
     console.log("airstrip", airstrip);
     console.log("wlt", wlt);
     console.log("business", business);
@@ -200,10 +213,11 @@ function displayTravelDestinations(container, itemlist, userdata) {
     console.log("carry_items", carry_items);
 
     let table = doc.new("div");
-    table.setClass("table");
+        table.setClass("table");
     let body = doc.new("div");
-    body.setClass("body");
+        body.setClass("body");
 
+    addTableLegend(table);
     addTableHeader(table);
 
     for (let location in item_dict) {
@@ -222,7 +236,9 @@ function displayTravelDestinations(container, itemlist, userdata) {
     table.appendChild(body);
     container.appendChild(table);
 
-    sort(table, 9, "text")
+    sort(table, 9, "text");
+
+    doc.find("#ttTravelItemsInput").value = carry_items;
 }
 
 function modifyTimeAndCost(dict, airstrip, wlt, business, bct_price) {
@@ -239,6 +255,30 @@ function modifyTimeAndCost(dict, airstrip, wlt, business, bct_price) {
         }
     }
     return dict;
+}
+
+function addTableLegend(table){
+    let legend = doc.new("div");
+        legend.setClass("legend");
+
+    let item = doc.new("div");
+        item.setClass("item");
+    let marker = doc.new("div");
+        marker.setClass("marker");
+    let text = doc.new("div");
+        text.setClass("text");
+
+    let input = doc.new("input");
+        input.setAttribute("type", "number");
+        input.id = "ttTravelItemsInput";
+    marker.appendChild(input);
+
+    text.innerText = "Travel items:";
+
+    item.appendChild(text);
+    item.appendChild(marker);
+    legend.appendChild(item);
+    table.appendChild(legend);
 }
 
 function addTableHeader(table) {
@@ -278,15 +318,6 @@ function addTableHeader(table) {
         row.appendChild(heading);
     }
 
-    // row.appendChild(destination_heading);
-    // row.appendChild(flight_time_heading);
-    // row.appendChild(item_heading);
-    // row.appendChild(buy_price_heading);
-    // row.appendChild(cash_needed_heading);
-    // row.appendChild(market_value_heading);
-    // row.appendChild(profit_per_item_heading);
-    // row.appendChild(total_profit_heading);
-    // row.appendChild(profit_per_minute_heading);
     table.appendChild(row);
 }
 
