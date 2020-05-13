@@ -40,12 +40,12 @@ window.addEventListener('load', async (event) => {
 });
 
 function disableTrainButtons(disable){
-    let list = doc.find("ul.properties___Vhhr7");
-    for(let button of list.findAll("button")){
+    let containers = doc.findAll("ul.properties___Vhhr7>li");
+    for(let container of containers){
         if(disable)
-            button.classList.add("disabled___33AAM");
+            container.classList.add("locked___r074J");
         else if(!disable)
-            button.classList.remove("disabled___33AAM");
+            container.classList.remove("locked___r074J");
     }
 }
 
