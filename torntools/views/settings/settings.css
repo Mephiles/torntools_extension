@@ -42,6 +42,7 @@ p {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.5s ease-out;
+    z-index: 9;
 }
 
 .new {

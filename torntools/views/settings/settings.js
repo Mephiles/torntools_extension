@@ -33,6 +33,11 @@ window.addEventListener("load", function(){
         addAllyToList();
         
     });
+
+    // Log whole Database
+    local_storage.get(null, function(STORAGE){
+        console.log("Database", STORAGE)
+    })
 });
 
 function setupSite(){
