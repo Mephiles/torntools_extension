@@ -5,7 +5,7 @@ window.addEventListener('load', async (event) => {
         return;
 
 	local_storage.get(["settings", "networth", "extensions"], function([settings, networth, extensions]){
-		if(settings.pages.home.networth && networth.previous.value)
+		if(settings.pages.home.networth)
 			displayNetworth(networth);
 
 		if(settings.pages.home.battle_stats && !extensions.doctorn)
@@ -22,6 +22,10 @@ function displayNetworth(networth){
 		parent_heading: "General Information",
 		style: `background-color: #65c90069`
 	});
+
+
+	if(!networth.previous.value)
+		return;
 
 	// networth change
 	networth_row.removeAttribute("class");
