@@ -4,23 +4,31 @@ window.addEventListener("load", async function(){
     if(await flying() || await abroad())
         return;
 
-    let options_container = content.new_container("TornTools - Chain Report", {first:true, id: "ttChainReport"});
+	local_storage.get("extensions", function(extensions){
+		if(!extensions.doctorn)
+			displayContainer();
+		
+	});
+});
 
-    let export_btn = doc.new("div");
-        export_btn.id = "ttExportTableButton";
+function displayContainer(){
+	let options_container = content.new_container("TornTools - Chain Report", {first:true, id: "ttChainReport"});
+	
+	let export_btn = doc.new("div");
+		export_btn.id = "ttExportTableButton";
 		export_btn.innerText = "Export Table to CSV";
 	let export_link = doc.new("a");
 		export_link.id = "ttExportLink";
 
-    options_container.find(".content").appendChild(export_btn);
-    options_container.find(".content").appendChild(export_link);
+	options_container.find(".content").appendChild(export_btn);
+	options_container.find(".content").appendChild(export_link);
 
-    export_btn.addEventListener("click", function(){
+	export_btn.addEventListener("click", function(){
 		let table = getData();
 		let chain_id = doc.find("#chain-report-react-root .chain-report-wrap .title-black").innerText.split(" #")[1];
-        exportData(table, chain_id);
-    });
-});
+		exportData(table, chain_id);
+	});
+}
 
 function getData(){
 	let table = []
