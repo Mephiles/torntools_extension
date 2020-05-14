@@ -10,15 +10,15 @@ const local_storage = {
                     for (let item of key) {
                         arr.push(data[item]);
                     }
-                    resolve(arr);
+                    return resolve(arr);
                 });
             } else if (key == null) {
                 chrome.storage.local.get(null, function (data) {
-                    resolve(data);
+                    return resolve(data);
                 });
             } else {
                 chrome.storage.local.get([key], function (data) {
-                    resolve(data[key]);
+                    return resolve(data[key]);
                 });
             }
         });

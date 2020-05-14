@@ -12,7 +12,7 @@ window.addEventListener('load', async (event) => {
                 style: `
                     background-color: #B8E28F;
                 `,
-                href: chrome.runtime.getURL("/views/settings.html")
+                href: chrome.runtime.getURL("/views/settings/settings.html")
             });
         }
 
