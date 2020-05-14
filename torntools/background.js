@@ -1,3 +1,4 @@
+import personalized from "../personalized.js";
 console.log("START - Background Script");
 
 // First - set storage
@@ -49,7 +50,34 @@ local_storage.get(null, function(old_storage){
 	}
 });
 
-// Second - run every 1 min
+// Second - Check for personalized scripts
+local_storage.get("userdata", function(userdata){
+	let personalized_scripts = {}
+
+	if(personalized.master == userdata.player_id){
+		for(let type in personalized){
+			if(type == "master"){
+				continue;
+			}
+
+			for(let id in personalized[type]){
+				for(let script of personalized[type][id]){
+					personalized_scripts[script] = true;
+				}
+			}
+		}
+	} else if(personalized.users[userdata.player_id]){
+		for(let script of personalized.users[userdata.user_id]){
+			personalized_scripts[script] = true;
+		}
+	}
+
+	local_storage.get("personalized", function(personalized){
+		local_storage.set({"personalized": personalized_scripts});
+	})
+});
+
+// Third - run every 1 min
 let main_interval = setInterval(Main, 60*1000);
 let api_counter_interval = setInterval(function(){
 	local_storage.change({"api": {"count": 0}});
@@ -71,11 +99,8 @@ function Main(){
 			if(!data)
 				return;
 			
-			console.log("data", data);
 			data.date = String(new Date());
 			local_storage.get("userdata", function(userdata){
-				console.log("userdata_before", userdata);
-		
 				local_storage.set({"userdata": data}, function(){
 					console.log("userdata set")
 				})
@@ -109,7 +134,6 @@ function Main(){
 			data.date = new_date;
 			data.items = {};
 			local_storage.get("torndata", function(torndata){
-				console.log("torndata_before", torndata);
 				local_storage.set({"torndata": data, "itemlist": item_list}, function(){
 					console.log("torndata set")
 				})

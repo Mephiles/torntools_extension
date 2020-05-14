@@ -80,6 +80,7 @@ const local_storage = {
 const STORAGE = {
     // app settings
     "api_key": undefined,
+    "personalized": {},
     "itemlist": {},
     "torndata": {},
     "userdata": {},
