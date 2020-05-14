@@ -11,7 +11,8 @@ export default {
             "Fixed issue where Accessory pictures were blocking vision of HiLo suggested action (I prevented any items from appearing on screen)",
             "Fixed disabling Gym buttons as clicking them still used energy before",
             "Fixed issue where disabling/enabling Gym buttons would clear preferences",
-            "Fixed issue where Effective Battle Stats would show NaN"
+            "Fixed issue where Effective Battle Stats would show NaN",
+            "Fixed Live Networth not showing if there are no details to show"
         ],
         "Changes": [
             "Improved design of Settings page",
