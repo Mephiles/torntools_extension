@@ -1,0 +1,18 @@
+#ttChainReport .content {
+    padding: 4px;
+}
+
+#ttExportTableButton {
+    width: 120px;
+    padding: 6px;
+    cursor: pointer;
+    color: white;
+    background-color: #9a9a9a;
+    text-align: center;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
+
+#ttExportTableButton:hover {
+    background-color: gray;
+}

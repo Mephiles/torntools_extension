@@ -108,7 +108,17 @@
 				"scripts/content/achievements/ttFactionAchievements.js"
 			],
             "run_at": "document_end"
-	    },
+		},
+		{
+			"matches": ["https://www.torn.com/war.php?step=chainreport*"],
+			"css": ["scripts/css/ttFaction.css"],
+			"js": [
+				"scripts/js/globalFunctions.js",
+				"scripts/content/global/ttGlobal.js",
+				"scripts/content/faction/ttChainReport.js"
+			],
+			"run_at": "document_end"
+		},
 		{
 			"matches": ["https://www.torn.com/jailview.php"],
 		    "css": ["scripts/css/ttAchievements.css"],

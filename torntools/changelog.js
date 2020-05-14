@@ -3,7 +3,8 @@ export default {
         "Features": [
             "Added a Travel Destinations table to Travel Agency page",
             "Accidentally added features in last update: Effective Battle Stats on Home page, Item profits in Travel Market, Item values on Items page",
-            "Added option to reformat Profile headings as USERNAME [ID]"
+            "Added option to reformat Profile headings as USERNAME [ID]",
+            "Add option to Export Chain Report as CSV"
         ],
         "Fixes": [
             "Added options for settings: Effective Battle Stats, Item profits in Travel Market, Item values on Items page",
