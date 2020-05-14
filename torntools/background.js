@@ -99,8 +99,9 @@ function Main(){
 			if(!data)
 				return;
 
-			data.date = String(new Date());
-			let item_list = {items: {...data.items}, date: data.date}
+			let new_date = String(new Date());
+			let item_list = {items: {...data.items}, date: new_date}
+			data.date = new_date;
 			data.items = {};
 			local_storage.set({"torndata": data}, function(){
 				console.log("Torndata set.");

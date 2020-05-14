@@ -8,7 +8,9 @@ export default {
         "Fixes": [
             "Added options for settings: Effective Battle Stats, Item profits in Travel Market, Item values on Items page",
             "Fixed issue where Accessory pictures were blocking vision of HiLo suggested action (I prevented any items from appearing on screen)",
-            "Fixed disabling Gym buttons as clicking them still used energy before"
+            "Fixed disabling Gym buttons as clicking them still used energy before",
+            "Fixed issue where disabling/enabling Gym buttons would clear preferences",
+            "Fixed issue where Effective Battle Stats would show NaN"
         ],
         "Changes": [
             "Improved design of Settings page",
