@@ -1,23 +1,30 @@
 {
+	"manifest_version": 2,
 	"name": "Torn Tools",
 	"version": "3.7",
-	"manifest_version": 2,
+	
 	"description": "Tools for Torn users.",
-	"author": "Gregor Kaljulaid - Mephiles[2087524]",
-
-	"permissions": ["storage"],
-	"browser_action": {
-		"default_title": "Torn Tools",
-		"default_popup": "views/index/index.html",
-		"default_icon": "images/icon128.png"
-	},
-	"web_accessible_resources": ["images/*", "views/*"],
-	"background": {
-		"page": "background.html"
-	},
 	"icons": {
 		"128": "images/icon128.png"
 	},
+
+	"browser_action": {
+		"default_title": "TornTools",
+		"default_popup": "views/index/index.html",
+		"default_icon": "images/icon128.png"
+	},
+
+	"author": "Gregor Kaljulaid - Mephiles[2087524]",
+	"background": {
+		"page": "background.html"
+	},
+
+	"permissions": ["storage"],
+	"web_accessible_resources": ["images/*", "views/*"],
+	"options_ui": {
+	    "page": "views/settings/settings.html"
+	},
+	
 	"content_scripts": [
         {
 			"matches": ["https://www.torn.com/*"],
@@ -261,8 +268,5 @@
 			"run_at": "document_end"
 		}
 
-    ],
-	"options_ui": {
-	    "page": "views/settings/settings.html"
-	}
+    ]
 }

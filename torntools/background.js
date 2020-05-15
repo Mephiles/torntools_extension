@@ -1,90 +1,119 @@
 import personalized from "../personalized.js";
-console.log("START - Background Script");
+console.log("_START - Background Script");
 
-// First - set storage
-local_storage.get(null, function(old_storage){
-	if(!old_storage){  // fresh install
-		local_storage.set(STORAGE, function(){
-			console.log("Storage set");
-		});
-	} else {  // existing storage
-		let new_storage = fillStorage(old_storage, STORAGE);
-
-		console.log("New storage", new_storage);
-
-		local_storage.clear(function(){
-			local_storage.set(new_storage, function(){
-				console.log("Storage updated");
+(async function(){
+	// First - set storage
+	await (function(){
+		let promise = new Promise(function(resolve, reject){
+			local_storage.get(null, function(old_storage){
+				if(!old_storage){  // fresh install
+					local_storage.get("", function(_){
+						local_storage.set(STORAGE, function(){
+							console.log("Storage set");
+							return resolve(true);
+						});
+					});
+				} else {  // existing storage
+					let new_storage = fillStorage(old_storage, STORAGE);
+			
+					console.log("New storage", new_storage);
+					
+					local_storage.get("", function(_){
+						local_storage.clear(function(){
+							local_storage.set(new_storage, function(){
+								console.log("Storage updated");
+								return resolve(true);
+							});
+						});
+					});
+				}
+			
+				function fillStorage(old_storage, STORAGE){
+					let new_local_storage = {};
+			
+					for(let key in STORAGE){
+						if(!(key in old_storage)){
+							new_local_storage[key] = STORAGE[key];
+							continue;
+						}
+						
+						if(typeof STORAGE[key] == "object" && !Array.isArray(STORAGE[key])){
+							if(Object.keys(STORAGE[key]).length == 0)
+								new_local_storage[key] = old_storage[key];
+							else
+								new_local_storage[key] = fillStorage(old_storage[key], STORAGE[key]);
+						} else {
+							if(STORAGE[key] == "force_false")
+								new_local_storage[key] = false;
+							else if(STORAGE[key] == "force_true")
+								new_local_storage[key] = true;
+							else if(typeof STORAGE[key] == "string" && STORAGE[key].indexOf("force_") > -1)
+								new_local_storage[key] = STORAGE[key].split(/_(.+)/)[1];
+							else
+								new_local_storage[key] = old_storage[key];
+						}
+						
+					}
+			
+					return new_local_storage;
+				}
 			});
 		});
-	}
 
-	function fillStorage(old_storage, STORAGE){
-		let new_local_storage = {};
+		return promise.then(function(data){
+			return data;
+		});
+	})();
 
-		for(let key in STORAGE){
-			if(!(key in old_storage)){
-				new_local_storage[key] = STORAGE[key];
-				continue;
-			}
+	// Second - Check for personalized scripts
+	await (function(){
+		let promise = new Promise(function(resolve, reject){
+			local_storage.get("userdata", function(userdata){
+				let personalized_scripts = {}
 			
-			if(typeof STORAGE[key] == "object" && !Array.isArray(STORAGE[key])){
-				if(Object.keys(STORAGE[key]).length == 0)
-					new_local_storage[key] = old_storage[key];
-				else
-					new_local_storage[key] = fillStorage(old_storage[key], STORAGE[key]);
-			} else {
-				if(STORAGE[key] == "force_false")
-					new_local_storage[key] = false;
-				else if(STORAGE[key] == "force_true")
-					new_local_storage[key] = true;
-				else if(typeof STORAGE[key] == "string" && STORAGE[key].indexOf("force_") > -1)
-					new_local_storage[key] = STORAGE[key].split(/_(.+)/)[1];
-				else
-					new_local_storage[key] = old_storage[key];
-			}
+				if(personalized.master == userdata.player_id){
+					for(let type in personalized){
+						if(type == "master"){
+							continue;
+						}
 			
-		}
-
-		return new_local_storage;
-	}
-});
-
-// Second - Check for personalized scripts
-local_storage.get("userdata", function(userdata){
-	let personalized_scripts = {}
-
-	if(personalized.master == userdata.player_id){
-		for(let type in personalized){
-			if(type == "master"){
-				continue;
-			}
-
-			for(let id in personalized[type]){
-				for(let script of personalized[type][id]){
-					personalized_scripts[script] = true;
+						for(let id in personalized[type]){
+							for(let script of personalized[type][id]){
+								personalized_scripts[script] = true;
+							}
+						}
+					}
+				} else if(personalized.users[userdata.player_id]){
+					for(let script of personalized.users[userdata.user_id]){
+						personalized_scripts[script] = true;
+					}
 				}
-			}
-		}
-	} else if(personalized.users[userdata.player_id]){
-		for(let script of personalized.users[userdata.user_id]){
-			personalized_scripts[script] = true;
-		}
-	}
+			
+				local_storage.get("", function(_){
+					local_storage.set({"personalized": personalized_scripts}, function(){
+						console.log("Personalized scripts set.");
+						return resolve(true);
+					});
+				});
+			});
+		});
 
-	local_storage.get("personalized", function(personalized){
-		local_storage.set({"personalized": personalized_scripts});
-	})
-});
+		return promise.then(function(data){
+			return data;
+		});
+	})();
 
-// Third - run every 1 min
-let main_interval = setInterval(Main, 60*1000);
-let api_counter_interval = setInterval(function(){
-	local_storage.change({"api": {"count": 0}});
-}, 60*1000);
+	// Third - run every 1 min
+	let main_interval = setInterval(Main, 60*1000);
+	let api_counter_interval = setInterval(function(){
+		local_storage.change({"api": {"count": 0}}, function(){
+			console.log("API count set to 0");
+		});
+	}, 60*1000);
+})();
 
 function Main(){
-	local_storage.get("api_key", async function(api_key){
+	local_storage.get(["api_key", "networth"], async function([api_key, networth]){
 
 		if(api_key == undefined){
 			console.log("NO API KEY");
@@ -95,56 +124,79 @@ function Main(){
 		console.log("API_KEY", api_key);
 
 		// userdata & networth
-		get_api("https://api.torn.com/user/?selections=personalstats,crimes,battlestats,perks,profile,workstats,stocks,networth", api_key).then((data) => {
-			if(!data)
-				return;
-			
-			data.date = String(new Date());
-			local_storage.get("userdata", function(userdata){
-				local_storage.set({"userdata": data}, function(){
-					console.log("userdata set")
-				})
-			})
+		await (function(){
+			let promise = new Promise(function(resolve, reject){
+				get_api("https://api.torn.com/user/?selections=personalstats,crimes,battlestats,perks,profile,workstats,stocks,networth", api_key).then((userdata) => {
+					if(!userdata)
+						return;
+		
+					userdata.date = String(new Date());
+					let new_networth = userdata.networth;
 
-			let new_networth = data.networth;
+					if(networth.current.date && new Date(networth.current.date).getDate() != new Date().getDate()){
+						networth.previous.value = networth.current.value;
+						networth.previous.date = networth.current.date;
+					}
 
-			// set networth
-			local_storage.get("networth", function(networth){
-				if(networth.current.date && new Date(networth.current.date).getDate() != new Date().getDate()){
-					networth.previous.value = networth.current.value;
-					networth.previous.date = networth.current.date;
-				}
+					networth.current.value = new_networth;
+					networth.current.date = String(new Date());
 
-				networth.current.value = new_networth;
-				networth.current.date = String(new Date());
-
-				local_storage.set({"networth": networth}, function(){
-					console.log("Networth set.");
+					// Set Userdata & Networth
+					local_storage.get("", function(_){
+						local_storage.set({"networth": networth, "userdata": userdata}, function(){
+							console.log("Userdata set.");
+							console.log("Networth set.");
+							return resolve(true);
+						});
+					});
 				});
 			});
-		});
+
+			return promise.then(function(data){
+				return data;
+			});
+		})();
 
 		// torndata
-		get_api("https://api.torn.com/torn/?selections=honors,medals,stocks,items", api_key).then((data) => {
-			if(!data)
-				return;
+		await (function(){
+			let promise = new Promise(function(resolve, reject){
+				get_api("https://api.torn.com/torn/?selections=honors,medals,stocks,items", api_key).then((torndata) => {
+					if(!torndata)
+						return;
 
-			let new_date = String(new Date());
-			let item_list = {items: {...data.items}, date: new_date}
-			data.date = new_date;
-			data.items = {};
-			local_storage.get("torndata", function(torndata){
-				local_storage.set({"torndata": data, "itemlist": item_list}, function(){
-					console.log("torndata set")
-				})
-			})
-		});
+					let new_date = String(new Date());
+					let item_list = {items: {...torndata.items}, date: new_date}
+					torndata.date = new_date;
+					torndata.items = {};
+
+					local_storage.get("", function(_){
+						local_storage.set({"torndata": torndata, "itemlist": item_list}, function(){
+							console.log("Torndata set.");
+							console.log("Itemlist set.");
+							return resolve(true);
+						});
+					});
+				});
+			});
+
+			return promise.then(function(data){
+				return data;
+			});
+		})();
 
 		// targetlist
-		local_storage.get(["target_list", "userdata"], function([target_list, userdata]){
-			if(target_list.show)
-				updateTargetList(api_key, userdata, target_list);
-		});
+		await (function(){
+			let promise = new Promise(function(resolve, reject){
+				local_storage.get(["target_list", "userdata"], function([target_list, userdata]){
+					if(target_list.show)
+						return resolve(updateTargetList(api_key, userdata, target_list));
+				});
+			});
+
+			return promise.then(function(data){
+				return data;
+			});
+		})();
 
 		// check extensions
 		let doctorn_installed = await detectExtension("doctorn");
@@ -157,8 +209,10 @@ function Main(){
 
 // Check if new version is installed
 chrome.runtime.onInstalled.addListener(function(details){
-	local_storage.set({"updated": true}, function(){
-		console.log("Extension updated:", chrome.runtime.getManifest().version);
+	local_storage.get("", function(_){
+		local_storage.set({"updated": true}, function(){
+			console.log("Extension updated:", chrome.runtime.getManifest().version);
+		});
 	});
 });
 
@@ -271,8 +325,10 @@ function updateTargetList(api_key, userdata, target_list){
 		}
 
 		target_list.targets.date = String(new Date());
-		local_storage.set({"target_list": target_list}, function(){
-			console.log("Target list set");
+		local_storage.get("", function(_){
+			local_storage.set({"target_list": target_list}, function(){
+				console.log("Target list set");
+			});
 		});
 	});
 }
