@@ -31,11 +31,12 @@
 			"exclude_matches": [
 				"https://www.torn.com/api.html*", "https://www.torn.com/city.php*", "https://www.torn.com/index.php", 
 				"https://www.torn.com/crimes.php", "https://www.torn.com/gym.php", "https://www.torn.com/companies.php", 
-				"https://www.torn.com/factions.php*", "https://www.torn.com/jailview.php", "https://www.torn.com/hospitalview.php", 
-				"https://www.torn.com/loader.php?sid=missions", "https://www.torn.com/loader.php?sid=racing", 
-				"https://www.torn.com/travelagency.php", "https://www.torn.com/item.php", "https://www.torn.com/trade.php*", "https://www.torn.com/profiles.php*", 
-				"https://www.torn.com/church.php", "https://www.torn.com/shops.php*", "https://www.torn.com/bigalgunshop.php",
-				"https://www.torn.com/loader.php?sid=highlow", "https://www.torn.com/loader.php?sid=blackjack"
+				"https://www.torn.com/factions.php*", "https://www.torn.com/war.php?step=chainreport*", "https://www.torn.com/jailview.php", 
+				"https://www.torn.com/hospitalview.php", "https://www.torn.com/loader.php?sid=missions", "https://www.torn.com/loader.php?sid=racing", 
+				"https://www.torn.com/travelagency.php", "https://www.torn.com/item.php", "https://www.torn.com/trade.php*", 
+				"https://www.torn.com/profiles.php*", "https://www.torn.com/church.php", "https://www.torn.com/shops.php*",
+				"https://www.torn.com/bigalgunshop.php", "https://www.torn.com/loader.php?sid=highlow", "https://www.torn.com/loader.php?sid=blackjack", 
+				"https://www.torn.com/messages.php*"
 			],
 			"css": ["scripts/css/ttGlobal.css"],
 			"js": ["scripts/js/globalFunctions.js", "scripts/content/global/ttGlobal.js"],
