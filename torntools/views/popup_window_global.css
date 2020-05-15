@@ -1,6 +1,7 @@
 body {
     width: 300px;
     font-family: Arial;
+    overflow-x: hidden;
 }
 
 .settings {

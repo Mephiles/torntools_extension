@@ -823,3 +823,10 @@ function sort(table, col, type) {
         return rows;
     }
 }
+
+function usingChrome(){
+    if(navigator.userAgent.indexOf("Chrome") > -1){
+        return true;
+    }
+    return false;
+}

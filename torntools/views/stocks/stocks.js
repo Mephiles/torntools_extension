@@ -157,5 +157,10 @@ window.addEventListener("load", function(){
 			});
 		}
 		
+		// Firefox
+		if(!usingChrome()){
+			console.log("Firefox edition.");
+			doc.find("body").style.paddingRight = "17px";
+		}
 	});
 });
