@@ -35,14 +35,22 @@ function Main(){
     }
     let last_dealer_card;
     let last_you_card;
+    let cashed_in = false;
 
+    // Start game button
     let start_button = doc.find(".startGame");
     start_button.addEventListener("click", function(){
+        cashed_in = false;
         setTimeout(calculate, 1000);
     });
 
+    // Continue game button
     let continue_button = doc.find(".action-c[data-step=continue]");
     continue_button.addEventListener("click", function(){
+        if(cashed_in){
+            return;
+        }
+
         if(doc.find(".main-message-wrap .message.red")){
             console.log("Lost");
             last_dealer_card = undefined;
@@ -64,6 +72,21 @@ function Main(){
             setTimeout(calculate, 700);
         } else {
             setTimeout(calculate, 700);
+        }
+    });
+
+    // Cash in button
+    let cash_in_button = doc.find(".cashin");
+    cash_in_button.addEventListener("click", function(){
+        console.log("Cashed in");
+        cashed_in = true;
+        last_dealer_card = undefined;
+        last_you_card = undefined;
+        current_deck = {
+            "hearts": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+            "diamonds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+            "clubs": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+            "spades": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
         }
     });
 
