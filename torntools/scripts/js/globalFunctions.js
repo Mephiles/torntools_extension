@@ -1,4 +1,4 @@
-chrome = window.chrome || window.browser;
+chrome = chrome || browser;
 const doc = document;
 
 const local_storage = {
