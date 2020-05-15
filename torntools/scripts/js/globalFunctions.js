@@ -646,17 +646,25 @@ function capitalize(text, every_word = false) {
 }
 
 async function get_api(http, api_key) {
-    const response = await fetch(http + "&key=" + api_key);
-    const result = await response.json();
+    let promise = new Promise(async function(resolve, reject){
+        const response = await fetch(http + "&key=" + api_key);
+        const result = await response.json();
 
-    if (result.error) {
-        console.log("API SYSTEM OFFLINE");
-        local_storage.change({"api": { "online": false, "error": result.error.error }});
-        return false;
-    } else
-        local_storage.change({"api": { "online": true, "error": "" }});
+        if (result.error) {
+            console.log("API SYSTEM OFFLINE");
+            local_storage.change({"api": { "online": false, "error": result.error.error }}, function(){
+                return resolve(false);
+            });
+        } else {
+            local_storage.change({"api": { "online": true, "error": "" }}, function(){
+                return resolve(result);
+            });
+        }
+    });
 
-    return result;
+    return promise.then(function(data){
+        return data;
+    });
 }
 
 function sleep(time) {
