@@ -1,0 +1,21 @@
+#ttMassMessages {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    padding-left: 6px;
+    padding-right: 6px;
+    height: 26px;
+    line-height: 27px;
+    border-radius: 7px;
+    border: 1px solid black;
+    background-color: white;
+    cursor: pointer;
+}
+
+#ttMassMessages span.enabled {
+    color: #678c00;
+}
+
+#ttMassMessages span.disabled {
+    color: red;
+}

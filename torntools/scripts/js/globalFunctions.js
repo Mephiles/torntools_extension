@@ -85,6 +85,14 @@ const STORAGE = {
     "torndata": {},
     "userdata": {},
     "updated": "force_true",
+    "mass_messages": {
+        "lists": {},
+        "active": false,
+        "active_list": "all",
+        "index": 0,
+        "subject": undefined,
+        "message": undefined
+    },
     "api": {
         "count": 0,
         "limit": 60,

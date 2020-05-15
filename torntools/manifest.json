@@ -249,6 +249,16 @@
 				"scripts/content/casino/ttBlackjack.js"
 			],
 			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/messages.php*"],
+			"css": ["scripts/css/ttMessages.css"],
+			"js": [
+				"scripts/js/globalFunctions.js",
+				"scripts/content/global/ttGlobal.js",
+				"scripts/content/messages/ttMessages.js"
+			],
+			"run_at": "document_end"
 		}
 
     ],
