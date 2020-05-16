@@ -343,7 +343,8 @@ const info_box = {
         let defaults = {
             parent_heading: undefined,
             parent_element: undefined,
-            first: undefined
+            first: undefined,
+            id: undefined
         }
         attr = { ...defaults, ...attributes };
 
@@ -369,7 +370,7 @@ const info_box = {
         if (attr.heading) {
             new_row = createNewHeading(`${key} - ${value}`);
         } else {
-            new_row = createNewRow(key, value, attr.style, attr.value_style);
+            new_row = createNewRow(key, value, attr.style, attr.value_style, attr.id);
         }
 
         if (attr.first)
@@ -388,22 +389,23 @@ const info_box = {
             return li;
         }
 
-        function createNewRow(key, value, style, value_style) {
+        function createNewRow(key, value, style, value_style, id) {
             let li = doc.new("li");
-            !attr.first ? li.setClass("last") : null;
-            style ? li.setAttribute("style", style) : null;
+                !attr.first ? li.setClass("last") : null;
+                style ? li.setAttribute("style", style) : null;
+                id ? li.id = id : null;
             let span_left = doc.new("span");
-            span_left.setClass("divider");
+                span_left.setClass("divider");
             let span_left_inner = doc.new("span");
-            span_left_inner.innerText = key;
-            span_left_inner.style.backgroundColor = "transparent";
+                span_left_inner.innerText = key;
+                span_left_inner.style.backgroundColor = "transparent";
 
             let span_right = doc.new("span");
-            span_right.setClass("desc");
-            value_style ? span_right.setAttribute("style", value_style) : null;
+                span_right.setClass("desc");
+                value_style ? span_right.setAttribute("style", value_style) : null;
             let span_right_inner = doc.new("span");
-            span_right_inner.innerText = value;
-            span_right_inner.style.paddingLeft = "3px";
+                span_right_inner.innerText = value;
+                span_right_inner.style.paddingLeft = "3px";
 
             span_left.appendChild(span_left_inner);
             span_right.appendChild(span_right_inner);

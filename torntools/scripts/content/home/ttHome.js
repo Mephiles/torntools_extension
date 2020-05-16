@@ -20,9 +20,29 @@ function displayNetworth(networth){
 	let networth_text = `$${numberWithCommas(networth.current.value.total, shorten=false)}`;
 	let networth_row = info_box.new_row("TornTools - Networth", networth_text, {
 		parent_heading: "General Information",
-		style: `background-color: #65c90069`
+		style: `background-color: #65c90069`,
+		id: "ttLiveNetworth"
 	});
 
+	// Networth last updated info icon
+	let info_icon = doc.new("i");
+		info_icon.setClass("networth-info-icon");
+		info_icon.setAttribute("seconds", "0");
+		info_icon.setAttribute("title", "Last updated: 0 seconds ago");
+		info_icon.style.marginLeft = "9px"
+
+	networth_row.find(".desc").appendChild(info_icon);
+
+	// increment time
+    let time_increase = setInterval(function(){
+        let time_span = doc.find("#ttLiveNetworth .networth-info-icon");
+
+        let seconds = parseInt(time_span.getAttribute("seconds"));
+        let new_time = time_ago(new Date() - (seconds+1)*1000);
+
+        time_span.setAttribute("title", `Last updated: ${new_time}`);
+        time_span.setAttribute("seconds", seconds+1);
+    }, 1000);
 
 	if(!networth.previous.value)
 		return;
