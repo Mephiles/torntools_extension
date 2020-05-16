@@ -1,4 +1,9 @@
 export default {
+    "v3.8": {
+        "Features": [
+            "Added 'last updated' info icon for live Networth on Home page"
+        ]
+    },
     "v3.7": {
         "Features": [
             "Added a Travel Destinations table to Travel Agency page",
