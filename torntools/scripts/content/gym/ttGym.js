@@ -14,14 +14,38 @@ window.addEventListener('load', async (event) => {
         p.setClass("tt-setting-description")
         p.innerText = "Disable Gym buttons";
 
+    let saving_div = doc.new("div");
+        saving_div.setClass("saving");
+    let text = doc.new("div");
+        text.setClass("text");
+        text.innerText = "Saving..";
+    let img_div = doc.new("div");
+        img_div.setClass("loading-icon");
+        img_div.style.backgroundImage = `url(${chrome.runtime.getURL("images/loading.gif")})`;
+
+    saving_div.appendChild(text);
+    saving_div.appendChild(img_div);
     div.appendChild(checkbox);
     div.appendChild(p);
+    div.appendChild(saving_div);
     gym_settings_container.find(".content").appendChild(div);
 
     // checkbox listener
     checkbox.addEventListener("click", function(event){
         let checked = event.target.checked;
-        local_storage.change({"settings": {"pages": {"gym": {"disable_buttons": checked}}}});
+        saved(false);
+
+        if(doc.find(".tt-awards-time").getAttribute("seconds")%60 >= 55 || doc.find(".tt-awards-time").getAttribute("seconds")%60 <= 5){
+            setTimeout(function(){
+                local_storage.change({"settings": {"pages": {"gym": {"disable_buttons": checked}}}}, function(){
+                    saved(true);
+                });
+            }, 10*1000);  // wait 20 seconds
+        } else {
+            local_storage.change({"settings": {"pages": {"gym": {"disable_buttons": checked}}}}, function(){
+                saved(true);
+            });
+        }
 
         if(checked)
             disableTrainButtons(true);
@@ -38,6 +62,19 @@ window.addEventListener('load', async (event) => {
         // displayGymInfo(torndata.gyms);
     });
 });
+
+function saved(saved){
+    if(saved){
+        doc.find("#tt-gym-settings .saving .text").setClass("text done");    
+        doc.find("#tt-gym-settings .saving .text").innerText = "Saved!";
+        doc.find("#tt-gym-settings .saving .loading-icon").style.display = "none";
+    } else {
+        doc.find("#tt-gym-settings .saving .text").setClass("text");
+        doc.find("#tt-gym-settings .saving .text").innerText = "Saving..";
+        doc.find("#tt-gym-settings .saving .text").style.display = "inline-block";
+        doc.find("#tt-gym-settings .saving .loading-icon").style.display = "inline-block";
+    }
+}
 
 function disableTrainButtons(disable){
     let containers = doc.findAll("ul.properties___Vhhr7>li");
