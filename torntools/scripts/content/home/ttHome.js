@@ -27,8 +27,8 @@ function displayNetworth(networth){
 	// Networth last updated info icon
 	let info_icon = doc.new("i");
 		info_icon.setClass("networth-info-icon");
-		info_icon.setAttribute("seconds", "0");
-		info_icon.setAttribute("title", "Last updated: 0 seconds ago");
+		info_icon.setAttribute("seconds", ((new Date() - Date.parse(networth.current.date))/1000));
+		info_icon.setAttribute("title", ("Last updated: " + time_ago(Date.parse(networth.current.date))));
 		info_icon.style.marginLeft = "9px"
 
 	networth_row.find(".desc").appendChild(info_icon);
