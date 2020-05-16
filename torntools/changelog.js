@@ -12,12 +12,14 @@ export default {
             "Fixed disabling Gym buttons as clicking them still used energy before",
             "Fixed issue where disabling/enabling Gym buttons would clear preferences",
             "Fixed issue where Effective Battle Stats would show NaN",
-            "Fixed Live Networth not showing if there are no details to show"
+            "Fixed Live Networth not showing if there are no details to show",
+            "Fixed HiLo multiple suggestions appearing"
         ],
         "Changes": [
             "Improved design of Settings page",
             "Changed the structure of Local Database (You might need to check your settings)",
-            "Reduced API requests needed by 1"
+            "Reduced API requests needed by 1",
+            "Improved popups' designs"
         ]
     },
     "v3.6.1": {
