@@ -43,7 +43,8 @@
             "run_at": "document_end"
         },
         {
-        	"matches": ["https://www.torn.com/api.html*"],
+			"matches": ["https://www.torn.com/api.html*"],
+			"css": ["scripts/css/ttApi.css"],
         	"js": ["scripts/js/globalFunctions.js", "scripts/content/api/ttApi.js"],
             "run_at": "document_end"
 		},
