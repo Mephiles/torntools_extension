@@ -122,6 +122,10 @@ const STORAGE = {
     "allies": [],
     "settings": {
         "update_notification": true,
+        "format": {
+            "date": "eu",
+            "time": "eu"
+        },
         "tabs": {
             "market": true,
             "stocks": true,
