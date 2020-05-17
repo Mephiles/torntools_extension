@@ -4,7 +4,13 @@ var version;
 window.addEventListener("load", function(){
     console.log("Start Settings");
     version = chrome.runtime.getManifest().version;
+
+    // About info
     doc.find("#about #version span").innerText = `v${version}`;
+    chrome.storage.local.getBytesInUse(function(data){
+        console.log("data", data);
+        doc.find("#about #data-used span").innerText = formatBytes(data);
+    });
 
     // setup site
     setupSite();
@@ -37,7 +43,7 @@ window.addEventListener("load", function(){
     // Log whole Database
     local_storage.get(null, function(STORAGE){
         console.log("Database", STORAGE)
-    })
+    });
 });
 
 function setupSite(){
