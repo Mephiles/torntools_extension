@@ -23,7 +23,9 @@ Features:
   - Item values  
   - Travel profits  
   - API helper  
-  - Travel Destinations (coming 3.7)  
+  - Travel Destinations  
+  - NPC Loot times  
+  - OC finish times    
   
 **Market**: check prices of items from the small extension window at top-right  
 **Achievements**: keep track of your Achievements at the left-side menu bar in Torn  
@@ -42,6 +44,8 @@ Features:
 **Travel profits**: Show profits for items when in travel market  
 **API helper**: Auto-fill API key on torn.com/api.html and set all responses to "pretty"  
 **Travel Destinations**: Show a table of travel destinations with the most profitable flights on Travel Agency page  
+**NPC Loot times**: Show when the next level of a NPC becomes available  
+**OC finish times**: Show the date and time when an OC is ready  
 
 
 **API requests**:   

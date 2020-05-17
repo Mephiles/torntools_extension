@@ -1,14 +1,22 @@
 export default {
     "v3.8": {
         "Features": [
-            "Added 'last updated' info icon for live Networth on Home page"
+            "Added 'last updated' info icon for live Networth on Home page",
+            "Added Disk Space Used info under About page",
+            "Added Date and Time formatting options (Added formatting to: Networth details)"
         ],
         "Fixes": [
-
+            "Hopefully fixed sometimes appearing slow popup window switch"
         ],
         "Changes": [
             "Removed some duplicated achivements (Items: Bazaar Customers, Points sold (both under Home page now))",
-            "Moved Stock Payouts to Home page (previously under Items)"
+            "Moved Stock Payouts achievement to Home page (previously under Items)",
+            "Changed Preferences' section positions"
+        ],
+        "Credits and Thanks to Lugburz [2386297]": [
+            "Added NPC loot times",
+            "Added OC finish times",
+            "Licensed my extension under the GNU General Public License"
         ]
     },
     "v3.7": {
