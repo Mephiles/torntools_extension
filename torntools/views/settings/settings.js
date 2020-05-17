@@ -8,7 +8,6 @@ window.addEventListener("load", function(){
     // About info
     doc.find("#about #version span").innerText = `v${version}`;
     chrome.storage.local.getBytesInUse(function(data){
-        console.log("data", data);
         doc.find("#about #data-used span").innerText = formatBytes(data);
     });
 
