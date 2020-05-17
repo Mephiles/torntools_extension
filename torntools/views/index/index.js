@@ -1,10 +1,12 @@
 window.addEventListener("load", function(){
 	console.log("Start Index");
 
-	local_storage.get("api_key", function(api_key){
+	local_storage.get(["settings", "api_key"], function([settings, api_key]){
 		if(api_key){
 			console.log("Loading next Window");
-			loadNextWindow();
+			
+			// Change window
+			window.location.href = `../${settings.tabs.default}/${settings.tabs.default}.html`;
 		} else {
 			doc.find("#set-button").addEventListener("click", function(){
 				api_key = doc.find("#api-field").value;
@@ -21,9 +23,3 @@ window.addEventListener("load", function(){
 		}
 	});
 });
-
-function loadNextWindow(){
-	local_storage.get("settings", function(settings){
-		window.location.href = `../${settings.tabs.default}/${settings.tabs.default}.html`;
-	});
-}
