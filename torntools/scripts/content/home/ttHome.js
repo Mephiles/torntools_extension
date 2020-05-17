@@ -6,14 +6,14 @@ window.addEventListener('load', async (event) => {
 
 	local_storage.get(["settings", "networth", "extensions"], function([settings, networth, extensions]){
 		if(settings.pages.home.networth)
-			displayNetworth(networth);
+			displayNetworth(networth, settings.format);
 
 		if(settings.pages.home.battle_stats && !extensions.doctorn)
 			displayEffectiveBattleStats();
 	});
 });
 
-function displayNetworth(networth){
+function displayNetworth(networth, format){
 	console.log("Networth", networth);
 
 	// current networth
@@ -110,7 +110,7 @@ function displayNetworth(networth){
 
 	// table footer
 	let [day, month, year, hours, minutes, seconds] = dateParts(new Date(networth.previous.date));
-	footer.innerText = `Networth change compared to ${day}.${month}.${year} | ${hours}:${minutes}:${seconds}`;
+	footer.innerText = `Networth change compared to ${formatDate([day, month, year], format.date)} | ${formatTime([hours, minutes, seconds], format.time)}`;
 
 	// compiling
 	li.appendChild(table);

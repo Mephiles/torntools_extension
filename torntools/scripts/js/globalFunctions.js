@@ -85,6 +85,7 @@ const STORAGE = {
     "torndata": {},
     "userdata": {},
     "updated": "force_true",
+    "oc": {},  // organized crimes
     "mass_messages": {
         "lists": {},
         "active": false,
@@ -180,6 +181,9 @@ const STORAGE = {
             "api": {
                 "key": true,
                 "pretty": true
+            },
+            "faction": {
+                "oc_time": true
             }
         }
     }
@@ -544,9 +548,14 @@ function abroad() {
 function captcha(){
     let promise = new Promise(function(resolve, reject){
         let checker = setInterval(function(){
-            if(doc.find("#skip-to-content") && doc.find("#skip-to-content").innerText == "Please Validate"){
-                resolve(true);
-                return clearInterval(checker);
+            if(doc.find("#skip-to-content")){
+                if(doc.find("#skip-to-content").innerText == "Please Validate"){
+                    resolve(true);
+                    return clearInterval(checker);
+                } else {
+                    resolve(false);
+                    return clearInterval(checker);
+                }
             }
         }, 100);
     });
@@ -894,4 +903,46 @@ function time_until(milliseconds){
     }
 
     return time_left;
+}
+
+function formatDate([day, month, year], formatting){
+    day = day.toString().length == 1 ? `0${day}` : day;
+    month = month.toString().length == 1 ? `0${month}` : month;
+
+    if(formatting == "us"){
+        if(year){
+            return `${month}/${day}/${year}`;
+        } else {
+            return `${month}/${day}`;
+        }
+    } else if(formatting == "eu"){
+        if(year){
+            return `${day}.${month}.${year}`;
+        } else {
+            return `${day}.${month}`;
+        }
+    }
+}
+
+function formatTime([hours, minutes, seconds], formatting){
+    hours = hours.toString().length == 1 ? `0${hours}` : hours;
+    minutes = minutes.toString().length == 1 ? `0${minutes}` : minutes;
+    seconds = seconds && seconds.toString().length == 1 ? `0${seconds}` : seconds;
+
+    if(formatting == "us"){
+        hours = hours > 12 ? hours-12 : hours;
+        hours = hours.toString().length == 1 ? `0${hours}` : hours;
+
+        if(seconds){
+            return `${hours}:${minutes}:${seconds} ${hours >= 12 ? "PM":"AM"}`;
+        } else {
+            return `${hours}:${minutes} ${hours >= 12 ? "PM":"AM"}`;
+        }
+    } else if(formatting == "eu"){
+        if(seconds){
+            return `${hours}:${minutes}:${seconds}`;
+        } else {
+            return `${hours}:${minutes}`;
+        }
+    }
 }
