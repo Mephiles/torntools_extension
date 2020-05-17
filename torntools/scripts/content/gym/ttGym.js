@@ -1,8 +1,9 @@
 window.addEventListener('load', async (event) => {
     console.log("TT - Gym");
 
-    if(await flying() || await abroad() || await captcha())
+    if(await flying() || await abroad() || await captcha()){
         return;
+    }
 
     // setup box
     let gym_settings_container = content.new_container("TornTools - Gym settings", {id: "tt-gym-settings"});

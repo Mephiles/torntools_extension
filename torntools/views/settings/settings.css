@@ -49,6 +49,7 @@ p {
 .new {
     color: red;
     font-size: 13px;
+    font-weight: 400;
 }
 
 @media only screen and (max-width: 1300px) {
