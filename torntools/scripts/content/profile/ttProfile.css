@@ -1,3 +1,10 @@
+/* Loot Times */
+.tt-loot-time {
+    float: right;
+    color: black;
+}
+
+/* Target Info */
 #tt-target-info .content {
     padding: 5px;
     font-size: 15px;
@@ -74,6 +81,8 @@
         padding-right: 0;
     }
 
+
+/* Friendly Fire */
 .tt-warning-message {
     color: #ff4040;
     float: right;

@@ -207,6 +207,26 @@ function Main(){
 			});
 		})();
 
+		// loot times
+		console.log("Setting up loot times.");
+		await (function(){
+			let promise = new Promise(async function(resolve, reject){
+				let response = await fetch("https://yata.alwaysdata.net/loot/timings/");
+				let result = await response.json();
+				
+				console.log("result", result);
+
+				local_storage.set({"loot_times": result}, function(){
+					console.log("Loot times set.");
+					return resolve(true);
+				})
+			});
+
+			return promise.then(function(data){
+				return data;
+			});
+		})();
+
 		// check extensions
 		console.log("Checking for installed extensions.");
 		await (function(){

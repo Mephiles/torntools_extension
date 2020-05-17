@@ -4,7 +4,7 @@ window.addEventListener('load', async (event) => {
     if (await flying() || await abroad())
         return
 
-    local_storage.get(["settings", "userdata", "allies", "target_list"], function ([settings, userdata, allies, target_list]) {
+    local_storage.get(["settings", "userdata", "allies", "target_list", "loot_times"], function ([settings, userdata, allies, target_list, loot_times]) {
         let user_faction = userdata.faction.faction_name;
 
         profileLoaded().then(function (loaded) {
@@ -16,11 +16,17 @@ window.addEventListener('load', async (event) => {
 			}            
 			displayCreator();
 
-            if (settings.pages.profile.friendly_warning)
+            if (settings.pages.profile.friendly_warning){
                 displayAlly(user_faction, allies);
+            }
 
-            if (target_list.show)
+            if (target_list.show){
                 displayTargetInfo(target_list.targets);
+            }
+                
+            if(settings.pages.profile.loot_times){
+                displayLootLevel(loot_times);
+            }
         });
     });
 });
@@ -214,4 +220,40 @@ function getAverage(arr) {
 function showId(){
     let text = doc.find(`.profile-container .basic-list>li .user-info-value`).innerText;
     doc.find("#skip-to-content").innerText = text;
+}
+
+function displayLootLevel(loot_times){
+    console.log(loot_times)
+    let profile_id = doc.find(`.profile-container .basic-list>li .user-info-value`).innerText.split(" [")[1].replace("]", "");
+    
+    if(profile_id in loot_times){
+        let current_time = parseInt(((new Date().getTime())/ 1000).toFixed(0));;
+        let next_level = loot_times[profile_id].levels.next;
+        let next_loot_time = loot_times[profile_id].timings[next_level].ts;
+        let time_left;
+
+        if(next_loot_time - current_time <= 60){  // New info hasn't been fetched yet
+            next_level = next_level+1 > 5 ? 1 : next_level+1;
+            next_loot_time = loot_times[profile_id].timings[next_level].ts;
+            time_left = time_until((next_loot_time - current_time)*1000);
+        } else {
+            time_left = time_until((next_loot_time - current_time)*1000);
+        }
+        
+        let span = doc.new("span");
+            span.setClass("tt-loot-time");
+            span.innerText = `Next loot in: ${time_left}`;
+            span.setAttribute("seconds", (next_loot_time - current_time));
+        
+        doc.find(".profile-wrapper .profile-status .description .sub-desc").appendChild(span);
+        
+        // Time decrease
+        let time_decrease = setInterval(function(){
+            let seconds = parseInt(span.getAttribute("seconds"));
+            let time_left = time_until((seconds-1)*1000);
+
+            span.innerText = `Next loot in: ${time_left}`;
+            span.setAttribute("seconds", seconds-1);
+        }, 1000);
+    }
 }

@@ -19,7 +19,7 @@
 		"page": "background.html"
 	},
 
-	"permissions": ["storage"],
+	"permissions": ["storage", "https://yata.alwaysdata.net/"],
 	"web_accessible_resources": ["images/*", "views/*"],
 	"options_ui": {
 	    "page": "views/settings/settings.html"

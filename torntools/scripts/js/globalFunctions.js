@@ -102,6 +102,7 @@ const STORAGE = {
     "extensions": {
         "doctorn": false
     },
+    "loot_times": {},
     // user settings
     "networth": {
         "previous": {
@@ -148,7 +149,8 @@ const STORAGE = {
             },
             "profile": {
                 "friendly_warning": true,
-                "show_id": true
+                "show_id": true,
+                "loot_times": true
             },
             "racing": {
                 "upgrades": true
@@ -865,4 +867,27 @@ function formatBytes(bytes, decimals = 2) {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
 
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
+function time_until(milliseconds){
+    let days = Math.floor(milliseconds / (1000*60*60*24));
+    let hours = Math.floor((milliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
+
+    let time_left;
+
+    if(days){
+        time_left = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    } else if(hours) {
+        time_left = `${hours}h ${minutes}m ${seconds}s`;
+    } else if(minutes){
+        time_left = `${minutes}m ${seconds}s`;
+    } else if(seconds){
+        time_left = `${seconds}s`;
+    } else if(milliseconds == 0){
+        time_left = "0s";
+    }
+
+    return time_left;
 }
