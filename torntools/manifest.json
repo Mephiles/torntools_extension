@@ -113,11 +113,12 @@
 	    },
 		{
 			"matches": ["https://www.torn.com/factions.php*"],
-		    "css": ["scripts/content/achievements/ttAchievements.css"],
+		    "css": ["scripts/content/faction/ttFaction.css", "scripts/content/achievements/ttAchievements.css"],
 			"js": [
 				"scripts/js/globalFunctions.js",
 				"scripts/js/achievementFunctions.js",
 				"scripts/content/global/ttGlobal.js",
+				"scripts/content/faction/ttFaction.js",
 				"scripts/content/achievements/ttFactionAchievements.js"
 			],
             "run_at": "document_end"

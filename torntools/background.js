@@ -191,6 +191,26 @@ function Main(){
 			});
 		})();
 
+		// faction data
+		console.log("Setting up faction data.");
+		await (function(){
+			return new Promise(function(resolve, reject){
+				get_api("https://api.torn.com/faction/?selections=crimes", api_key).then((factiondata) => {
+					if(!factiondata){
+						return;
+					}
+
+					let new_date = String(new Date());
+					factiondata.crimes.date = new_date;
+
+					local_storage.set({"oc": factiondata.crimes}, function(){
+						console.log("Faction data set.");
+						return resolve(true);
+					});
+				});
+			});
+		})();
+
 		// targetlist
 		console.log("Setting up target list.");
 		await (function(){
@@ -213,8 +233,6 @@ function Main(){
 			let promise = new Promise(async function(resolve, reject){
 				let response = await fetch("https://yata.alwaysdata.net/loot/timings/");
 				let result = await response.json();
-				
-				console.log("result", result);
 
 				local_storage.set({"loot_times": result}, function(){
 					console.log("Loot times set.");
