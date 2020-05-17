@@ -34,6 +34,61 @@
 			<div class="inner_content">
 				<div class="column">
 					<div class="section">
+						<div class="heading">Home</div>
+						<div class="option" id="home-networth"><input type="checkbox">Display Networth details on Home page
+						</div>
+						<div class="option" id="home-battle_stats"><input type="checkbox">*Show Effective Battle Stats on
+							Home page</div>
+					</div>
+					<div class="section">
+						<div class="heading">Profile</div>
+						<div class="option" id="target_list"><input type="checkbox">Keep and update a Target List based on
+							attack history</div>
+						<div class="option" id="profile-show_id"><input type="checkbox">Reformat Profile page headings as
+							"USERNAME [ID]"</div>
+						<div class="option" id="profile-loot_times"><input type="checkbox">Show NPC Loot times <span class="new">New!</span></div>
+					</div>
+					<div class="section">
+						<div class="heading">City</div>
+						<div class="option" id="city-items"><input type="checkbox">*Highlight Items on City map</div>
+						<div class="option" id="city-items_value"><input type="checkbox">Show the value of Items on City
+							map</div>
+					</div>
+					<div class="section">
+						<div class="heading">Achievements</div>
+						<div class="option" id="achievements-show"><input type="checkbox">Display Achievements</div>
+						<div class="option" id="achievements-completed"><input type="checkbox">Show Completed
+							achievements</div>
+					</div>
+					<div class="section">
+						<div class="heading">Travel</div>
+						<div class="option" id="travel-destination_table"><input type="checkbox">Show a table of Travel
+							Destinations on Travel Agency page</div>
+						<div class="option" id="travel-profits"><input type="checkbox">Show item Profits in Travel
+							Markets (abroad)</div>
+					</div>
+					<div class="section">
+						<div class="heading">Casino</div>
+						<div class="option" id="casino-all"><input type="checkbox">Enable all Casino scripts</div>
+						<div class="option" id="casino-blackjack"><input type="checkbox">Enable Blackjack helper</div>
+						<div class="option" id="casino-hilo"><input type="checkbox">Enable HiLo helper</div>
+					</div>
+					<div class="section">
+						<div class="heading">Friendly Fire</div>
+						<div class="option" id="profile-friendly_warning"><input type="checkbox">Show Faction/Ally
+							Warning on profile pages</div>
+						<div class="table">
+							<div class="body">
+								<div class="row input">
+									<input type="text" placeholder="Add..">
+									<i class="fas fa-plus" id="add_ally"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="column">
+					<div class="section">
 						<div class="heading">General</div>
 						<div class="option" id="update_notification"><input type="checkbox">Show update notification</div>
 						<div class="section">
@@ -54,56 +109,16 @@
 							to Pretty</div>
 					</div>
 					<div class="section">
-						<div class="heading">City</div>
-						<div class="option" id="city-items"><input type="checkbox">*Highlight Items on City map</div>
-						<div class="option" id="city-items_value"><input type="checkbox">Show the value of Items on City
-							map</div>
+						<div class="heading">Tabs</div>
+						<div class="option" id="tab-market"><input type="checkbox">Enable market tab</div>
+						<div class="option" id="tab-stocks"><input type="checkbox">Enable stocks tab</div>
+						<div class="option" id="tab-calculator"><input type="checkbox">Enable calculator tab</div>
 					</div>
 					<div class="section">
-						<div class="heading">Home</div>
-						<div class="option" id="home-networth"><input type="checkbox">Display Networth details on Home page
-						</div>
-						<div class="option" id="home-battle_stats"><input type="checkbox">*Show Effective Battle Stats on
-							Home page</div>
-					</div>
-					<div class="section">
-						<div class="heading">Profile</div>
-						<div class="option" id="target_list"><input type="checkbox">Keep and update a Target List based on
-							attack history</div>
-						<div class="option" id="profile-show_id"><input type="checkbox">Reformat Profile page headings as
-							"USERNAME [ID]"</div>
-						<div class="option" id="profile-loot_times"><input type="checkbox">Show NPC Loot times <span class="new">New!</span></div>
-					</div>
-					<div class="section">
-						<div class="heading">Casino</div>
-						<div class="option" id="casino-all"><input type="checkbox">Enable all Casino scripts</div>
-						<div class="option" id="casino-blackjack"><input type="checkbox">Enable Blackjack helper</div>
-						<div class="option" id="casino-hilo"><input type="checkbox">Enable HiLo helper</div>
-					</div>
-					<div class="section">
-						<div class="heading">Achievements</div>
-						<div class="option" id="achievements-show"><input type="checkbox">Display Achievements</div>
-						<div class="option" id="achievements-completed"><input type="checkbox">Show Completed
-							achievements</div>
-					</div>
-					<div class="section">
-						<div class="heading">Travel</div>
-						<div class="option" id="travel-destination_table"><input type="checkbox">Show a table of Travel
-							Destinations on Travel Agency page</div>
-						<div class="option" id="travel-profits"><input type="checkbox">Show item Profits in Travel
-							Markets (abroad)</div>
-					</div>
-					<div class="section">
-						<div class="heading">Friendly Fire</div>
-						<div class="option" id="profile-friendly_warning"><input type="checkbox">Show Faction/Ally
-							Warning on profile pages</div>
-						<div class="table">
-							<div class="body">
-								<div class="row input">
-									<input type="text" placeholder="Add..">
-									<i class="fas fa-plus" id="add_ally"></i>
-								</div>
-							</div>
+						<div class="heading">Default tab</div>
+						<div class="option" id="default-market"><input type="radio" name="default-tab">Market</div>
+						<div class="option" id="default-stocks"><input type="radio" name="default-tab">Stocks</div>
+						<div class="option" id="default-calculator"><input type="radio" name="default-tab">Calculator
 						</div>
 					</div>
 					<div class="section">
@@ -116,21 +131,6 @@
 						<div class="option" id="missions-rewards"><input type="checkbox">Show Mission Reward values
 						</div>
 						<div class="option" id="items-values"><input type="checkbox">Display Item values on Items page</div>
-					</div>
-				</div>
-				<div class="column">
-					<div class="section">
-						<div class="heading">Tabs</div>
-						<div class="option" id="tab-market"><input type="checkbox">Enable market tab</div>
-						<div class="option" id="tab-stocks"><input type="checkbox">Enable stocks tab</div>
-						<div class="option" id="tab-calculator"><input type="checkbox">Enable calculator tab</div>
-					</div>
-					<div class="section">
-						<div class="heading">Default tab</div>
-						<div class="option" id="default-market"><input type="radio" name="default-tab">Market</div>
-						<div class="option" id="default-stocks"><input type="radio" name="default-tab">Stocks</div>
-						<div class="option" id="default-calculator"><input type="radio" name="default-tab">Calculator
-						</div>
 					</div>
 				</div>
 			</div>
