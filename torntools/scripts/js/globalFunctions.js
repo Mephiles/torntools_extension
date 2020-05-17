@@ -535,6 +535,21 @@ function abroad() {
     });
 }
 
+function captcha(){
+    let promise = new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            if(doc.find("#skip-to-content") && doc.find("#skip-to-content").innerText == "Please Validate"){
+                resolve(true);
+                return clearInterval(checker);
+            }
+        }, 100);
+    });
+
+    return promise.then(function(data){
+        return data;
+    });
+}
+
 function secondsToHours(x) {
     return Math.floor(x / 60 / 60); // seconds, minutes
 }
@@ -831,4 +846,11 @@ function usingChrome(){
         return true;
     }
     return false;
+}
+
+function lastInList(item, list){
+	if(list[list.length-1] == item){
+		return true;
+	}
+	return false;
 }

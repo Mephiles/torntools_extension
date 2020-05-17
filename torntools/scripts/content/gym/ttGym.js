@@ -1,7 +1,7 @@
 window.addEventListener('load', async (event) => {
     console.log("TT - Gym");
 
-    if(await flying() || await abroad())
+    if(await flying() || await abroad() || await captcha())
         return;
 
     // setup box
