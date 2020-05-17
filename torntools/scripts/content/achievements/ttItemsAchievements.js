@@ -85,19 +85,6 @@ window.addEventListener('load', async (event) => {
             "Energy drinks used": {
                 "stats": personalstats.energydrinkused,
                 "keyword": "energy drink"
-            },
-            "Bazaar customers": {
-                "stats": personalstats.bazaarcustomers,
-                "keyword": "customers"
-            },
-            "Points sold": {
-                "stats": personalstats.pointssold,
-                "keyword": "points",
-                "incl": ["market"]
-            },
-            "Stock payouts": {
-                "stats": personalstats.stockpayouts,
-                "keyword": "payouts"
             }
         }
 

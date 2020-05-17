@@ -2,6 +2,13 @@ export default {
     "v3.8": {
         "Features": [
             "Added 'last updated' info icon for live Networth on Home page"
+        ],
+        "Fixes": [
+
+        ],
+        "Changes": [
+            "Removed some duplicated achivements (Items: Bazaar Customers, Points sold (both under Home page now))",
+            "Moved Stock Payouts to Home page (previously under Items)"
         ]
     },
     "v3.7": {

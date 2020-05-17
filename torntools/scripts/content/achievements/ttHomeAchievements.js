@@ -49,6 +49,10 @@ window.addEventListener('load', async (event) => {
                 "stats": personalstats.bazaarcustomers,
                 "keyword": "customers buy from your bazaar"
             },
+            "Stock payouts": {
+                "stats": personalstats.stockpayouts,
+                "keyword": "payouts"
+            },
             "Donator (days)": {
                 "stats": personalstats.daysbeendonator,
                 "keyword": "donator"
