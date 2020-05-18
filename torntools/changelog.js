@@ -16,6 +16,7 @@ export default {
         "Credits and Thanks to Lugburz [2386297]": [
             "Added NPC loot times",
             "Added OC finish times",
+            "Added Faction Armory simplification",
             "Licensed my extension under the GNU General Public License"
         ]
     },

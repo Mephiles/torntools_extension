@@ -183,7 +183,8 @@ const STORAGE = {
                 "pretty": true
             },
             "faction": {
-                "oc_time": true
+                "oc_time": true,
+                "armory": true
             }
         }
     }
@@ -925,6 +926,7 @@ function formatDate([day, month, year], formatting){
 }
 
 function formatTime([hours, minutes, seconds], formatting){
+    let pm = hours >= 12 ? true:false;
     hours = hours.toString().length == 1 ? `0${hours}` : hours;
     minutes = minutes.toString().length == 1 ? `0${minutes}` : minutes;
     seconds = seconds && seconds.toString().length == 1 ? `0${seconds}` : seconds;
@@ -934,7 +936,7 @@ function formatTime([hours, minutes, seconds], formatting){
         hours = hours.toString().length == 1 ? `0${hours}` : hours;
 
         if(seconds){
-            return `${hours}:${minutes}:${seconds} ${hours >= 12 ? "PM":"AM"}`;
+            return `${hours}:${minutes}:${seconds} ${pm ? "PM":"AM"}`;
         } else {
             return `${hours}:${minutes} ${hours >= 12 ? "PM":"AM"}`;
         }
