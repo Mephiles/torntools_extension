@@ -25,7 +25,8 @@ Features:
   - API helper  
   - Travel Destinations  
   - NPC Loot times  
-  - OC finish times    
+  - OC finish times  
+  - Simplified Armory  
   
 **Market**: check prices of items from the small extension window at top-right  
 **Achievements**: keep track of your Achievements at the left-side menu bar in Torn  
@@ -46,6 +47,7 @@ Features:
 **Travel Destinations**: Show a table of travel destinations with the most profitable flights on Travel Agency page  
 **NPC Loot times**: Show when the next level of a NPC becomes available  
 **OC finish times**: Show the date and time when an OC is ready  
+**Simplified Armory**: Group all similar events into one in Faction Armory  
 
 
 **API requests**:   
