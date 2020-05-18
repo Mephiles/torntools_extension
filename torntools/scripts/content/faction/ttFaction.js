@@ -113,18 +113,26 @@ function armoryLog(){
                             info.appendChild(a);
 
                     if(db[key].first_date){
-                        let year = new Date().getFullYear().toString().slice(2);
+                        // let year = new Date().getFullYear().toString().slice(2);
+                        console.log("first_date", db[key].first_date);
+                        console.log("last_date", db[key].last_date);
                         let upper_time = db[key].first_date.slice(0, db[key].first_date.length-(db[key].first_date.indexOf("\n")+4));
                         let upper_date = db[key].first_date.slice(db[key].first_date.indexOf("\n"), db[key].first_date.length-3);
                         let lower_time = db[key].last_date.slice(0, db[key].last_date.length-(db[key].last_date.indexOf("\n")+4));
                         let lower_date = db[key].last_date.slice(db[key].last_date.indexOf("\n"), db[key].last_date.length-3);
 
                         let upper_date_span = doc.new("span");
-                            upper_date_span.innerText = `${upper_time}\n${upper_date}`;
+                            upper_date_span.setClass("left-date");
+                            upper_date_span.innerText = `${upper_time}${upper_date}`;
+                        let separator = doc.new("span");
+                            separator.setClass("separator");
+                            separator.innerText = "-";
                         let lower_date_span = doc.new("span");
-                            lower_date_span.innerText = `${lower_time}\n${lower_date}`;
+                            lower_date_span.setClass("right-date");
+                            lower_date_span.innerText = `${lower_time}${lower_date}`;
 
                         date.appendChild(upper_date_span);
+                        date.appendChild(separator);
                         date.appendChild(lower_date_span);
                     } else {
                         date.innerText = db[key].last_date;

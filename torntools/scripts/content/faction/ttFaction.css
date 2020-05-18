@@ -8,6 +8,22 @@
     right: -7px;
 }
 
+/* Armory logs */
+#tab4-4 .news-list .date .left-date {
+    position: relative;
+    left: -3px;
+}
+
+#tab4-4 .news-list .date .separator {
+    position: relative;
+    top: -6px;
+}
+
+#tab4-4 .news-list .date .right-date {
+    position: relative;
+    left: 2px;
+}
+
 /* Chain Report */
 #ttChainReport .content {
     padding: 4px;
