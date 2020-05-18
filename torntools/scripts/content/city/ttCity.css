@@ -1,5 +1,5 @@
 /*
-Thanks Mauk @DocTorn
+Thanks, Mauk @DocTorn
 */
 .cityItem {
 	box-sizing: border-box;
@@ -30,10 +30,22 @@ Thanks Mauk @DocTorn
 	padding: 37.5px 0px;
 	background: black;
 }
+
 /*
-Thanks Mauk @DocTorn
+Thanks, Mauk @DocTorn
 */
 
+.cityItem_hover {
+	width: 150px !important;
+	height: 150px !important;
+	left: -75px !important;
+	top: -75px !important;
+	z-index: 1000 !important;
+	padding: 37.5px 0px;
+	background: black;
+}
+
+/* Items list */
 #tt-city-items .content {
 	padding: 7px;
 	font-size: 15px;
@@ -41,16 +53,29 @@ Thanks Mauk @DocTorn
 	padding-bottom: 2px;
 }
 
-#tt-city-items .content a {
-	text-decoration: none;
+#tt-city-items .items {
+	display: flex;
+	margin-top: 10px;
 }
 
-#tt-city-items .content span {
+#tt-city-items .items .column {
+	flex: 1 0 25%;
+}
+
+#tt-city-items .items .column>span{
 	line-height: 18px;
 	font-size: 13px;
 	font-weight: 400;
+	display: block;
+	text-align: center;
 }
 
+#tt-city-items .items .column>span>a {
+	text-decoration: none;
+}
+
+
+/* Items value */
 #tt-city-items-value {
 	border-top: 0.5px solid lightgrey;
 	line-height: 25px;

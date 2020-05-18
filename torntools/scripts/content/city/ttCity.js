@@ -17,7 +17,6 @@ window.addEventListener('load', async (event) => {
 			}
 			
 			if(settings.pages.city.items_value){
-				// Value of items
 				showValueOfItems(items_container, itemlist, extensions.doctorn);
 			}
 		});
@@ -46,15 +45,45 @@ function displayItems(container, itemlist){
 	let items = getItemIDsOnMap();
 
 	// Add items to box
-	for(let id of items){
-		let a = doc.new("a");
-			a.setAttribute("href", `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${itemlist.items[id].name}`);
-		let span = doc.new("span");
-			span.innerText = itemlist.items[id].name + (items.indexOf(id) == items.length-1 ? "." : ", ");
+	let items_span = doc.new("div");
+		items_span.setClass("items");
 
-		a.appendChild(span);
-		content.appendChild(a);
+	let index = 0;
+	for(let i = 0;i < 4;i++){
+		let col = doc.new("div");
+			col.setClass("column");
+
+		for(let j = 0; j < items.length/4; j++){
+			let id = items[index];
+			if(!id){
+				break;
+			}
+
+			let span = doc.new("span");
+			let a = doc.new("a");
+				a.setAttribute("href", `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${itemlist.items[id].name}`);
+				a.innerText = itemlist.items[id].name;
+			let inner_span = doc.new("span");
+				inner_span.innerText = ` ($${numberWithCommas(itemlist.items[id].market_value)})`;
+
+			span.addEventListener("mouseenter", function(){
+				doc.find(`#map img[item-id='${id}']`).classList.add("cityItem_hover");
+			});
+
+			span.addEventListener("mouseleave", function(){
+				doc.find(`#map img[item-id='${id}']`).classList.remove("cityItem_hover");
+			});
+			
+
+			span.appendChild(a);
+			span.appendChild(inner_span);
+			col.appendChild(span);
+			index++;
+		}
+
+		items_span.appendChild(col);
 	}
+	content.appendChild(items_span);
 }
 
 function showValueOfItems(container, itemlist, doctorn){
@@ -90,7 +119,9 @@ function getItemIDsOnMap(){
 	for(let el of doc.findAll("#map .leaflet-marker-pane *")){
 		let src = el.getAttribute("src");
 		if(src.indexOf("https://www.torn.com/images/items/") > -1){
-			items.push(src.split("items/")[1].split("/")[0]);
+			let id = src.split("items/")[1].split("/")[0];
+			items.push(id);
+			el.setAttribute("item-id", id);
 			el.classList.add("cityItem");
 		}
 	}
