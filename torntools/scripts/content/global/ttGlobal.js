@@ -3,6 +3,7 @@ window.addEventListener('load', async (event) => {
         return;
 
     local_storage.get(["updated", "settings"], function([updated, settings]){
+        // Update notification
         if(updated && settings.update_notification){
             let version_text = `TornTools updated: ${chrome.runtime.getManifest().version}`;
             
@@ -16,10 +17,39 @@ window.addEventListener('load', async (event) => {
             });
         }
 
+        // Info boxes
+        if(["crimes", "jail", "hospital"].includes(page())){
+            console.log("Removing info box.")
+            if(doc.find(".msg-info-wrap")){
+                if(doc.find(".msg-info-wrap+hr")){
+                    doc.find(".msg-info-wrap+hr").style.display = "none";
+                }
+                doc.find(".msg-info-wrap").style.display = "none";
+            } else if(doc.find(".info-msg-cont")){
+                if(doc.find(".info-msg-cont+hr")){
+                    doc.find(".info-msg-cont+hr").style.display = "none";
+                }
+                doc.find(".info-msg-cont").style.display = "none";
+            }
+        }
+
         // showColorCodes();
     })
 });
 
+function page(){
+    let db = {
+        "jailview.php": "jail",
+        "hospitalview.php": "hospital",
+        "crimes.php": "crimes"
+    }
+
+    let page = window.location.pathname.replace("/", "");
+    if(db[page]){
+        return db[page];
+    }
+    return "";
+}
 
 function showColorCodes(){
     let dictionary = {

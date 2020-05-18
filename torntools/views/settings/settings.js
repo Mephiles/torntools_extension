@@ -188,6 +188,7 @@ function setupPreferences(settings, allies, target_list_enabled){
             preferences.find(`#${page}-${option} input`).checked = settings.pages[page][option];
         }
     }
+    preferences.find(`#remove_info_boxes input`).checked = settings.remove_info_boxes;
 
     // Target list
     preferences.find(`#target_list input`).checked = target_list_enabled;
@@ -458,6 +459,7 @@ function saveSettings(preferences, settings, target_list_enabled){
             settings.pages[page][option] = preferences.find(`#${page}-${option} input`).checked;
         }
     }
+    settings.remove_info_boxes = preferences.find(`#remove_info_boxes input`).checked;
 
     // Target list
     target_list_enabled = preferences.find(`#target_list input`).checked;

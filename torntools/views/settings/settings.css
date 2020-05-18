@@ -19,6 +19,10 @@ p {
     font-style: italic;
 }
 
+.tabbed {
+    padding-left: 20px;
+}
+
 .note {
     font-size: 11px;
     margin-left: 10px;

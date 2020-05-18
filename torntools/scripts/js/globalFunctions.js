@@ -123,6 +123,7 @@ const STORAGE = {
     "allies": [],
     "settings": {
         "update_notification": true,
+        "remove_info_boxes": true,
         "format": {
             "date": "eu",
             "time": "eu"
