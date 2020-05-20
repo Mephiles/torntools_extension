@@ -80,20 +80,7 @@ const local_storage = {
 const STORAGE = {
     // app settings
     "api_key": undefined,
-    "personalized": {},
-    "itemlist": {},
-    "torndata": {},
-    "userdata": {},
     "updated": "force_true",
-    "oc": {},  // organized crimes
-    "mass_messages": {
-        "lists": {},
-        "active": false,
-        "active_list": "all",
-        "index": 0,
-        "subject": undefined,
-        "message": undefined
-    },
     "api": {
         "count": 0,
         "limit": 60,
@@ -103,8 +90,22 @@ const STORAGE = {
     "extensions": {
         "doctorn": false
     },
+    // userdata
+    "itemlist": {},
+    "torndata": {},
+    "userdata": {},
+    "oc": {},  // organized crimes
+    // script data
+    "personalized": {},
+    "mass_messages": {
+        "lists": {},
+        "active": false,
+        "active_list": "all",
+        "index": 0,
+        "subject": undefined,
+        "message": undefined
+    },
     "loot_times": {},
-    // user settings
     "networth": {
         "previous": {
             "value": undefined,
@@ -120,7 +121,21 @@ const STORAGE = {
         "show": true,
         "targets": {}
     },
+    "vault": {
+        "user": {
+            "initial_money": 0,
+            "current_money": 0
+        },
+        "partner": {
+            "initial_money": 0,
+            "current_money": 0
+        },
+        "total_money": 0,
+        "initialized": false,
+        "last_transaction": undefined
+    },
     "allies": [],
+    // user settings
     "settings": {
         "update_notification": true,
         "remove_info_boxes": true,
@@ -186,6 +201,9 @@ const STORAGE = {
             "faction": {
                 "oc_time": true,
                 "armory": true
+            },
+            "properties": {
+                "vault_sharing": true
             }
         }
     }
