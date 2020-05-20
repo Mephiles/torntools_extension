@@ -113,9 +113,6 @@ function armoryLog(){
                             info.appendChild(a);
 
                     if(db[key].first_date){
-                        // let year = new Date().getFullYear().toString().slice(2);
-                        console.log("first_date", db[key].first_date);
-                        console.log("last_date", db[key].last_date);
                         let upper_time = db[key].first_date.slice(0, db[key].first_date.length-(db[key].first_date.indexOf("\n")+4));
                         let upper_date = db[key].first_date.slice(db[key].first_date.indexOf("\n"), db[key].first_date.length-3);
                         let lower_time = db[key].last_date.slice(0, db[key].last_date.length-(db[key].last_date.indexOf("\n")+4));
@@ -140,14 +137,16 @@ function armoryLog(){
 
                     let inner_span = doc.new("span");
 
-                    if(key.indexOf("used one") > -1){
+                    if(key.indexOf("used one") > -1 || key.indexOf("filled one") > -1){
+                        let used = key.indexOf("used one") > -1;
+
                         let left_side = doc.new("span");
-                            left_side.innerText = " used ";
+                            left_side.innerText = used ? " used " : " filled ";
                         let amount = doc.new("span");
                             amount.innerText = db[key].count + "x ";
                             amount.style.fontWeight = "600";
                         let right_side = doc.new("span");
-                            right_side.innerText = key.split(" used one ")[1];
+                            right_side.innerText = used ? key.split(" used one ")[1] : key.split(" filled one ")[1];
 
                         inner_span.appendChild(left_side);
                         inner_span.appendChild(amount);
