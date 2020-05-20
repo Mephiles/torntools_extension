@@ -1,17 +1,23 @@
 export default {
     "v3.8": {
         "Features": [
-            "Added 'last updated' info icon for live Networth on Home page",
+            "Added an Alternative Theme option (black background and green text)",
             "Added Disk Space Used info under About page",
-            "Added Date and Time formatting options (Added formatting to: Networth details)"
+            "Added Date and Time formatting options (Added formatting to: Networth details)",
+            "Added option to Remove Info Boxes that are unnecessary on some pages",
+            "Added 'last updated' info icon for live Networth on Home page"
         ],
         "Fixes": [
-            "Hopefully fixed sometimes appearing slow popup window switch"
+            "Hopefully fixed sometimes appearing slow popup window switch",
+            "Fixed Trade Calculator showing incorrect total value",
+            "Fixed Allies not saving"
         ],
         "Changes": [
-            "Removed some duplicated achivements (Items: Bazaar Customers, Points sold (both under Home page now))",
+            "Removed some duplicated achievements (Items: Bazaar Customers, Points sold (both under Home page now))",
             "Moved Stock Payouts achievement to Home page (previously under Items)",
-            "Changed Preferences' section positions"
+            "Changed Preferences' section positions",
+            "Improved the design of City Items (hovering on an item in the list now reveals it on the map also)",
+            "Updated icons (Settings, Portfolio, Search icon)"
         ],
         "Credits and Thanks to Lugburz [2386297]": [
             "Added NPC loot times",
