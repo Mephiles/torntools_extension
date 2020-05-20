@@ -21,7 +21,7 @@ window.addEventListener('load', async (event) => {
             }
 
             if (target_list.show){
-                displayTargetInfo(target_list.targets);
+                displayTargetInfo(target_list.targets, settings.theme);
             }
                 
             if(settings.pages.profile.loot_times){
@@ -95,10 +95,10 @@ function showWarning(type) {
     title.appendChild(span);
 }
 
-function displayTargetInfo(targets) {
+function displayTargetInfo(targets, theme) {
     let user_id = getUserId();
 
-    let info_container = content.new_container("TornTools - Target Info", { next_element_heading: "Medals", id: "tt-target-info" });
+    let info_container = content.new_container("TornTools - Target Info", {next_element_heading: "Medals", id: "tt-target-info", theme: theme});
     let content_container = info_container.find(".content");
 
     if (!targets[user_id])

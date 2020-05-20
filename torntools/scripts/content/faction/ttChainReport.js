@@ -4,15 +4,15 @@ window.addEventListener("load", async function(){
     if(await flying() || await abroad())
         return;
 
-	local_storage.get("extensions", function(extensions){
+	local_storage.get(["settings", "extensions"], function([settings, extensions]){
 		if(!extensions.doctorn)
 			displayContainer();
 		
 	});
 });
 
-function displayContainer(){
-	let options_container = content.new_container("TornTools - Chain Report", {first:true, id: "ttChainReport"});
+function displayContainer(theme){
+	let options_container = content.new_container("TornTools - Chain Report", {first:true, id: "ttChainReport", theme: theme});
 	
 	let export_btn = doc.new("div");
 		export_btn.id = "ttExportTableButton";

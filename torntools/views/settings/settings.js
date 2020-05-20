@@ -167,6 +167,7 @@ function setupPreferences(settings, allies, target_list_enabled){
     preferences.find(`#update_notification input`).checked = settings.update_notification;
     preferences.find(`#format-date-${settings.format.date} input`).checked = true;
     preferences.find(`#format-time-${settings.format.time} input`).checked = true;
+    preferences.find(`#theme-${settings.theme} input`).checked = true;
 
     // Tabs
     for(let tab in settings.tabs){
@@ -219,7 +220,7 @@ function setupPreferences(settings, allies, target_list_enabled){
 
     // Buttons
     preferences.find("#save_settings").addEventListener("click", function(){
-        saveSettings(preferences, settings, target_list_enabled);
+        savePreferences(preferences, settings, target_list_enabled);
     });
 
     preferences.find("#reset_settings").addEventListener("click", function(){
@@ -433,11 +434,13 @@ function addAllyToList(){
     event.target.previousElementSibling.value = "";
 }
 
-function saveSettings(preferences, settings, target_list_enabled){
+function savePreferences(preferences, settings, target_list_enabled){
+
     // General
     settings.update_notification = preferences.find("#update_notification input").checked;
     settings.format.date = preferences.find("input[name=format-date]:checked").parentElement.id.split("-")[2];
     settings.format.time = preferences.find("input[name=format-time]:checked").parentElement.id.split("-")[2];
+    settings.theme = preferences.find("input[name=theme]:checked").parentElement.id.split("-")[1];
 
     // Tabs
     for(let tab in settings.tabs){

@@ -18,6 +18,6 @@ window.addEventListener('load', async (event) => {
             }
         }
 
-        displayAchievements(achievements, show_completed, torndata);
+        displayAchievements(achievements, show_completed, torndata, settings.theme);
     });
 });

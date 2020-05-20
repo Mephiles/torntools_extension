@@ -5,62 +5,60 @@ window.addEventListener('load', async (event) => {
         return;
     }
 
-    // setup box
-    let gym_settings_container = content.new_container("TornTools - Gym settings", {id: "tt-gym-settings"});
-    let div = doc.new("div");
-        div.setClass("tt-setting");
-    let checkbox = doc.new("input");
-        checkbox.type = "checkbox";
-    let p = doc.new("p");
-        p.setClass("tt-setting-description")
-        p.innerText = "Disable Gym buttons";
-
-    let saving_div = doc.new("div");
-        saving_div.setClass("saving");
-    let text = doc.new("div");
-        text.setClass("text");
-        text.innerText = "Saving..";
-    let img_div = doc.new("div");
-        img_div.setClass("loading-icon");
-        img_div.style.backgroundImage = `url(${chrome.runtime.getURL("images/loading.gif")})`;
-
-    saving_div.appendChild(text);
-    saving_div.appendChild(img_div);
-    div.appendChild(checkbox);
-    div.appendChild(p);
-    div.appendChild(saving_div);
-    gym_settings_container.find(".content").appendChild(div);
-
-    // checkbox listener
-    checkbox.addEventListener("click", function(event){
-        let checked = event.target.checked;
-        saved(false);
-
-        if(doc.find(".tt-awards-time").getAttribute("seconds")%60 >= 55 || doc.find(".tt-awards-time").getAttribute("seconds")%60 <= 5){
-            setTimeout(function(){
+    local_storage.get("settings", function(settings){
+        // setup box
+        let gym_settings_container = content.new_container("TornTools - Gym settings", {id: "tt-gym-settings", theme: settings.theme});
+        let div = doc.new("div");
+            div.setClass("tt-setting");
+        let checkbox = doc.new("input");
+            checkbox.type = "checkbox";
+        let p = doc.new("p");
+            p.setClass("tt-setting-description")
+            p.innerText = "Disable Gym buttons";
+    
+        let saving_div = doc.new("div");
+            saving_div.setClass("saving");
+        let text = doc.new("div");
+            text.setClass("text");
+            text.innerText = "Saving..";
+        let img_div = doc.new("div");
+            img_div.setClass("loading-icon");
+            img_div.style.backgroundImage = `url(${chrome.runtime.getURL("images/loading.gif")})`;
+    
+        saving_div.appendChild(text);
+        saving_div.appendChild(img_div);
+        div.appendChild(checkbox);
+        div.appendChild(p);
+        div.appendChild(saving_div);
+        gym_settings_container.find(".content").appendChild(div);
+    
+        // checkbox listener
+        checkbox.addEventListener("click", function(event){
+            let checked = event.target.checked;
+            saved(false);
+    
+            if(doc.find(".tt-awards-time").getAttribute("seconds")%60 >= 55 || doc.find(".tt-awards-time").getAttribute("seconds")%60 <= 5){
+                setTimeout(function(){
+                    local_storage.change({"settings": {"pages": {"gym": {"disable_buttons": checked}}}}, function(){
+                        saved(true);
+                    });
+                }, 10*1000);  // wait 20 seconds
+            } else {
                 local_storage.change({"settings": {"pages": {"gym": {"disable_buttons": checked}}}}, function(){
                     saved(true);
                 });
-            }, 10*1000);  // wait 20 seconds
-        } else {
-            local_storage.change({"settings": {"pages": {"gym": {"disable_buttons": checked}}}}, function(){
-                saved(true);
-            });
-        }
-
-        if(checked)
-            disableTrainButtons(true);
-        else
-            disableTrainButtons(false)
-    });
+            }
     
-    local_storage.get("settings", function(settings) {
+            if(checked)
+                disableTrainButtons(true);
+            else
+                disableTrainButtons(false)
+        });
+        
         if(settings.pages.gym.disable_buttons){
             checkbox.checked = true;
             disableTrainButtons(true);
         }
-
-        // displayGymInfo(torndata.gyms);
     });
 });
 

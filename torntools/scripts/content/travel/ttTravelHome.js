@@ -6,7 +6,7 @@ window.addEventListener('load', async (event) => {
 
     local_storage.get(["settings", "itemlist", "userdata"], function ([settings, itemlist, userdata]) {
         if (settings.pages.travel.destination_table) {
-            let container = content.new_container("TornTools - Travel Destinations", { id: "ttTravelTable" }).find(".content");
+            let container = content.new_container("TornTools - Travel Destinations", { id: "ttTravelTable", theme: settings.theme }).find(".content");
             displayTravelDestinations(container, itemlist.items, userdata);
 
             for (let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]) {

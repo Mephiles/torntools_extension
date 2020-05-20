@@ -5,7 +5,7 @@ window.addEventListener('load', async (event) => {
         return;
 
     local_storage.get(["settings", "userdata", "torndata"], function([settings, userdata, torndata]) {
-        const show_completed = settings.achievements.completed;
+        let show_completed = settings.achievements.completed;
 
         if(!settings.achievements.show)
             return;
@@ -27,6 +27,6 @@ window.addEventListener('load', async (event) => {
             }
         }
 
-        displayAchievements(achievements, show_completed, torndata);
+        displayAchievements(achievements, show_completed, torndata, settings.theme);
     });
 });

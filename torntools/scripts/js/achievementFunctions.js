@@ -1,5 +1,5 @@
-function displayAchievements(achievements, show_completed, torndata){
-    let awards_section = navbar.new_section("Awards", {next_element_heading: "Lists"});
+function displayAchievements(achievements, show_completed, torndata, theme){
+    let awards_section = navbar.new_section("Awards", {next_element_heading: "Lists", theme: theme});
     console.log(achievements);
     
     addTimeToHeader(awards_section, torndata.date);
@@ -37,7 +37,7 @@ function displayAchievements(achievements, show_completed, torndata){
     }
 
     // if no content
-    if(doc.findAll(".tt-nav-section div.title-green+div *").length == 0){
+    if(doc.findAll(".tt-nav-section div.tt-title+div *").length == 0){
         awards_section.style.display = "none";
     }
     
@@ -49,7 +49,7 @@ function addTimeToHeader(section, date){
         span.setAttribute("seconds", (new Date() - Date.parse(date))/1000);
         span.innerText = time_ago(Date.parse(date));
 
-    section.find("div.title-green").appendChild(span);
+    section.find("div.tt-title").appendChild(span);
 
     // increment time
     let time_increase = setInterval(function(){

@@ -139,10 +139,12 @@ const STORAGE = {
         "last_transaction": undefined
     },
     "allies": [],
+
     // user settings
     "settings": {
         "update_notification": true,
         "remove_info_boxes": true,
+        "theme": "default",
         "format": {
             "date": "eu",
             "time": "eu"
@@ -282,13 +284,14 @@ const navbar = {
     new_section: function (name, attributes = {}) {
         let defaults = {
             next_element: undefined,
-            next_element_heading: undefined
+            next_element_heading: undefined,
+            theme: undefined
         }
         attr = { ...defaults, ...attributes };
 
         // process
         let parent = doc.find("#sidebarroot");
-        let new_div = createNewBlock(name);
+        let new_div = createNewBlock(name, attr.theme);
         let next_div = attr.next_element || findSection(parent, attr.next_element_heading);
 
         if (!next_div)
@@ -298,20 +301,23 @@ const navbar = {
 
         return new_div;
 
-        function createNewBlock(name) {
-            let sidebar_block = doc.new("div");
-            sidebar_block.setClass("sidebar-block___1Cqc2 tt-nav-section");
-            let content = doc.new("div");
-            content.setClass("content___kMC8x");
+        function createNewBlock(name, theme) {
+            let sidebar_block = doc.new({type: "div", class: "sidebar-block___1Cqc2 tt-nav-section"});
+            let content = doc.new({type: "div", class: "content___kMC8x"});
             let div1 = doc.new("div");
-            div1.setClass("areas___2pu_3");
+                div1.setClass("areas___2pu_3");
             let toggle_block = doc.new("div");
-            toggle_block.setClass("toggle-block___13zU2");
+                toggle_block.setClass("toggle-block___13zU2");
             let header = doc.new("div");
-            header.setClass("title-green");
-            header.innerText = name;
+                header.innerText = name;
+            if(theme == "default"){
+                header.setClass("tt-title title-green");
+            } else if(theme == "alternative"){
+                header.setClass("tt-title title-black");
+                header.style.color = "#acea00";
+            } 
             let toggle_content = doc.new("div");
-            toggle_content.setClass("toggle-content___3XKOC");
+                toggle_content.setClass("toggle-content___3XKOC");
 
             toggle_block.appendChild(header);
             toggle_block.appendChild(toggle_content);
@@ -395,7 +401,8 @@ const info_box = {
             parent_heading: undefined,
             parent_element: undefined,
             first: undefined,
-            id: undefined
+            id: undefined,
+            theme: undefined
         }
         attr = { ...defaults, ...attributes };
 
@@ -419,7 +426,7 @@ const info_box = {
 
         let new_row;
         if (attr.heading) {
-            new_row = createNewHeading(`${key} - ${value}`);
+            new_row = createNewHeading(`${key} - ${value}`, attr.theme);
         } else {
             new_row = createNewRow(key, value, attr.style, attr.value_style, attr.id);
         }
@@ -431,11 +438,16 @@ const info_box = {
 
         return new_row;
 
-        function createNewHeading(text) {
+        function createNewHeading(text, theme) {
             let li = doc.new("li");
             !attr.first ? li.setClass("last") : null;
             li.classList.add("tt-box-section-heading");
-            li.classList.add("title-green");
+            if(theme == "default"){
+                li.classList.add("title-green");
+            } else if(theme == "alternative"){
+                li.classList.add("title-black");
+                li.style.color = "#acea00";
+            } 
             li.innerText = text;
             return li;
         }
@@ -474,7 +486,8 @@ const content = {
             first: undefined,
             id: undefined,
             next_element_heading: undefined,
-            next_element: undefined
+            next_element: undefined,
+            theme: undefined
         }
         attr = { ...defaults, ...attributes };
 
@@ -483,7 +496,7 @@ const content = {
             attr.next_element = content.findContainer(attr.next_element_heading);
 
         let parent_element = attr.next_element ? attr.next_element.parentElement : doc.find(".content-wrapper");
-        let new_div = createNewContainer(name, attr.id);
+        let new_div = createNewContainer(name, attr.id, attr.theme);
 
         if (attr.first)
             parent_element.insertBefore(new_div, parent_element.find(".content-title").nextElementSibling);
@@ -494,11 +507,16 @@ const content = {
 
         return new_div;
 
-        function createNewContainer(name, id) {
+        function createNewContainer(name, id, theme) {
             let div = doc.new("div");
             id ? div.id = id : null;
             let heading = doc.new("div");
-            heading.setClass("title-green top-round m-top10");
+            if(theme == "default"){
+                heading.setClass("tt-title title-green top-round m-top10");
+            } else if(theme == "alternative"){
+                heading.setClass("tt-title title-black top-round m-top10");
+                heading.style.color = "#acea00";
+            } 
             heading.innerText = name;
             let content = doc.new("div");
             content.setClass("cont-gray bottom-round content");

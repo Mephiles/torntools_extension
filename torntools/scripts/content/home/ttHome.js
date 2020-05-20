@@ -9,7 +9,7 @@ window.addEventListener('load', async (event) => {
 			displayNetworth(networth, settings.format);
 
 		if(settings.pages.home.battle_stats && !extensions.doctorn)
-			displayEffectiveBattleStats();
+			displayEffectiveBattleStats(settings.theme);
 	});
 });
 
@@ -119,19 +119,23 @@ function displayNetworth(networth, format){
 
 }
 
-function displayEffectiveBattleStats(){
+function displayEffectiveBattleStats(theme){
 	// ebs - effective battle stats
 
 	let battle_stats_container = doc.find("h5=Battle Stats").parentElement.nextElementSibling;
-	info_box.new_row("TornTools", "Effective Battle Stats", {heading: true, parent_heading: "Battle Stats"});
+	info_box.new_row("TornTools", "Effective Battle Stats", {heading: true, parent_heading: "Battle Stats", theme: theme});
+	console.log("Container", battle_stats_container);
 	
 	let eff_total = 0;
 	let battle_stats = ["Strength", "Defense", "Speed", "Dexterity"]
 
 	for(let i in battle_stats){
-		let stat = parseInt(battle_stats_container.find(`li:nth-child(${parseInt(i)+1}) .desc`).innerText.replace(/,/g, ""))
+		let stat = parseInt(battle_stats_container.find(`li:nth-child(${parseInt(i)+1}) .desc`).innerText.replace(/,/g, ""));
 		let stat_modifier = battle_stats_container.find(`li:nth-child(${parseInt(i)+1}) .mod`).innerText;
 		let effective_stat = (stat * (stat_modifier.indexOf("+") > -1 ? 1+(parseInt(stat_modifier.replace("+", "").replace("%", ""))/100) : 1-(parseInt(stat_modifier.replace("-", "").replace("%", ""))/100))).toFixed(0);
+		console.log("stat", stat);
+		console.log("modifier", stat_modifier);
+		console.log("eff_stat", effective_stat);
 
 		eff_total += parseInt(effective_stat);
 		info_box.new_row(battle_stats[i], numberWithCommas(effective_stat, shorten=false), {parent_heading: "Battle Stats", value_style: "width: 184px"});
