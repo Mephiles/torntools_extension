@@ -61,7 +61,7 @@ setup_storage.then(function(success){
 	if(!success)
 		return;
 
-	// Seconds - run every 1 min
+	// Second - run every 1 min
 	console.log("Setting up intervals.");
 	setInterval(Main, 60*1000);
 });

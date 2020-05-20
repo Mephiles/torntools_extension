@@ -1,3 +1,4 @@
+/* Button */
 #ttMassMessages {
     position: absolute;
     right: 20px;
@@ -19,3 +20,80 @@
 #ttMassMessages span.disabled {
     color: red;
 }
+
+#ttMassMessagesNote {
+    position: absolute;
+    right: 60px;
+    top: 45px;
+}
+
+/* Name list */
+#ttNameList {
+    width: 200px;
+    max-height: 50px;
+    position: absolute;
+    top: 10px;
+    right: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background-color: #efefef;
+    border: 1px solid lightgray;
+}
+
+#ttNameList>div {
+    width: 100%;
+    height: 15px;
+    line-height: 15px;
+    position: relative;
+    font-size: 14px;
+    padding-left: 3px;
+    padding-bottom: 1px;
+}
+
+#ttNameList>div:not(.input):hover {
+    background-color: #dcdcdc;
+}
+
+#ttNameList>div i{
+    position: absolute;
+    right: 6px;
+    top: 1px;
+    cursor: pointer;
+    color: red;
+}
+
+#ttNameList>div.input {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    padding-left: 2px;
+}
+
+
+#ttNameList>div.input input {
+    width: 90%;
+    border: none;
+    outline: none;
+}
+
+#ttNameList>div.input i {
+    color: #1aaf1a;
+}
+
+/* font-awesome */
+.fas {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1
+}
+
+.fa-plus:before{
+    content:"\f067"
+}
+
+/* font-awesome */
