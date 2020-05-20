@@ -58,6 +58,16 @@ function messageBoxLoaded(){
 }
 
 function massMessages(mass_messages){
+    if(mass_messages.list.length == mass_messages.index){  // went over = all done
+        mass_messages = {
+            active: false,
+            index: 0,
+            message: "",
+            subject: ""
+        }
+        local_storage.change({"mass_messages": mass_messages});
+    }
+
     setupNameList(mass_messages.list);
     setupActivateButton(mass_messages.active, mass_messages.list, mass_messages.index);
 
