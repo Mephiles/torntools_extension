@@ -33,24 +33,27 @@ const local_storage = {
         });
     },
     change: function (keys_to_change, callback) {
-        chrome.storage.local.get(null, function (database) {
-            database = recursive(database, keys_to_change);
-
-            function recursive(parent, keys_to_change){
-                for(let key in keys_to_change){
-                    if(typeof keys_to_change[key] == "object" && !Array.isArray(keys_to_change[key])){
-                        parent[key] = recursive(parent[key], keys_to_change[key]);
-                    } else {
-                        parent[key] = keys_to_change[key];
+        for(let top_level_key of Object.keys(keys_to_change)){
+            chrome.storage.local.get(top_level_key, function (data) {
+                let database = data[top_level_key];
+                database = recursive(database, keys_to_change[top_level_key]);
+    
+                function recursive(parent, keys_to_change){
+                    for(let key in keys_to_change){
+                        if(typeof keys_to_change[key] == "object" && !Array.isArray(keys_to_change[key])){
+                            parent[key] = recursive(parent[key], keys_to_change[key]);
+                        } else {
+                            parent[key] = keys_to_change[key];
+                        }
                     }
+                    return parent;
                 }
-                return parent;
-            }
-
-            chrome.storage.local.set(database, function () {
-                callback ? callback() : null;
+    
+                chrome.storage.local.set({[top_level_key]: database}, function () {
+                    callback ? callback() : null;
+                });
             });
-        });
+        }
     },
     clear: function (callback) {
         chrome.storage.local.clear(function () {
@@ -90,17 +93,18 @@ const STORAGE = {
     "extensions": {
         "doctorn": false
     },
+
     // userdata
     "itemlist": {},
     "torndata": {},
     "userdata": {},
     "oc": {},  // organized crimes
+
     // script data
     "personalized": {},
     "mass_messages": {
-        "lists": {},
         "active": false,
-        "active_list": "all",
+        "list": [],
         "index": 0,
         "subject": undefined,
         "message": undefined
@@ -243,11 +247,28 @@ Element.prototype.findAll = function (type) {
     return this.querySelectorAll(type);
 }
 
-Document.prototype.new = function (type) {
-    return this.createElement(type);
-}
-Element.prototype.new = function (type) {
-    return this.createElement(type);
+Document.prototype.new = function (new_element) {
+    if(typeof new_element == "string"){
+        return this.createElement(new_element);
+    } else if(typeof new_element == "object"){
+        let el = this.createElement(new_element.type);
+        
+        if(new_element.id){
+            el.id = new_element.id;
+        }
+        if(new_element.class){
+            el.setAttribute("class", new_element.class);
+        }
+        if(new_element.text){
+            el.innerText = new_element.text;
+        }
+
+        for(let attr in new_element.attributes){
+            el.setAttribute(attr, new_element.attributes[attr]);
+        }
+
+        return el;
+    }
 }
 
 Document.prototype.setClass = function (class_name) {
