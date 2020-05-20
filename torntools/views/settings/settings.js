@@ -473,12 +473,12 @@ function saveSettings(preferences, settings, target_list_enabled){
     console.log("New settings", settings);
 
     local_storage.set({"settings": settings});
+    local_storage.set({"allies": allies});
     local_storage.change({"target_list": {"show": target_list_enabled}}, function(){
         local_storage.get("target_list", function(target_list){
             console.log("new target list", target_list);
         });
     });
-    local_storage.set({"allies": allies});
 
     message("Settings saved.", true);
 }
