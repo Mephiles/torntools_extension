@@ -53,18 +53,22 @@ window.addEventListener('load', async (event) => {
 
 			// Show values of sides
 			for(let side of [doc.find(".user.left .cont .color2 .desc"), doc.find(".user.right .cont .color2 .desc")]){ // color2 - items
+				if(!side){
+					continue;
+				}
+
 				let LIs = side.findAll("li .name");
 				let total_value = 0;
 
 				for(let li of LIs){
 					let name = li.innerText.split(" x")[0].trim();
-					let quantity = li.innerText.split(" x")[1] || 1;
+					let quantity = parseInt(li.innerText.split(" x")[1]) || 1;
 
 					for(let id in itemlist.items){
 						if(itemlist.items[id].name == name){
 							let item_value = itemlist.items[id].market_value;
 							console.log(name, item_value)
-							total_value += item_value;
+							total_value += item_value*quantity;
 
 							let span = doc.new("span");
 								span.setClass("tt-side-item-value");
