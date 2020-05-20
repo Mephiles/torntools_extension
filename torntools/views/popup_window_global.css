@@ -8,9 +8,9 @@ body {
     position: absolute;
     right: 5px;
     top: 5px;
-    width: 28px;
+    width: 30px;
     height: 30px;
-    background-image: url("../../images/gears.png");
+    background-image: url("../../images/gears.svg");
     background-size: cover;
     background-repeat: no-repeat;
     background-color: transparent;
@@ -47,7 +47,7 @@ body {
 
 #search-bar {
     width: 170px;
-    background-image: url('../../images/searchicon.png');
+    background-image: url('../../images/searchicon.svg');
     background-position: 5px 5px;
     background-repeat: no-repeat;
     font-size: 16px;
