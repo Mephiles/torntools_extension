@@ -41,11 +41,19 @@ window.addEventListener('load', async (event) => {
                 setTimeout(function(){
                     local_storage.change({"settings": {"pages": {"gym": {"disable_buttons": checked}}}}, function(){
                         saved(true);
+
+                        setTimeout(function(){
+                            saving_div.style.display = "none";
+                        }, 1500);
                     });
                 }, 10*1000);  // wait 20 seconds
             } else {
                 local_storage.change({"settings": {"pages": {"gym": {"disable_buttons": checked}}}}, function(){
                     saved(true);
+
+                    setTimeout(function(){
+                        saving_div.style.display = "none";
+                    }, 1500);
                 });
             }
     
@@ -68,6 +76,7 @@ function saved(saved){
         doc.find("#tt-gym-settings .saving .text").innerText = "Saved!";
         doc.find("#tt-gym-settings .saving .loading-icon").style.display = "none";
     } else {
+        doc.find("#tt-gym-settings .saving").style.display = "block";
         doc.find("#tt-gym-settings .saving .text").setClass("text");
         doc.find("#tt-gym-settings .saving .text").innerText = "Saving..";
         doc.find("#tt-gym-settings .saving .text").style.display = "inline-block";
