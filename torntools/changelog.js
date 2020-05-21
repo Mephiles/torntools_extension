@@ -1,4 +1,10 @@
 export default {
+    "v3.9": {
+        "Features": [
+            ""
+        ],
+        "Fixes": []
+    },
     "v3.8": {
         "Features": [
             "Added an Alternative Theme option (black background and green text)",
