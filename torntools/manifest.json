@@ -36,7 +36,7 @@
 				"https://www.torn.com/travelagency.php", "https://www.torn.com/item.php", "https://www.torn.com/trade.php*", 
 				"https://www.torn.com/profiles.php*", "https://www.torn.com/church.php", "https://www.torn.com/shops.php*",
 				"https://www.torn.com/bigalgunshop.php", "https://www.torn.com/loader.php?sid=highlow", "https://www.torn.com/loader.php?sid=blackjack", 
-				"https://www.torn.com/messages.php*", "https://www.torn.com/properties.php*"
+				"https://www.torn.com/messages.php*", "https://www.torn.com/properties.php*", "https://www.torn.com/page.php?*"
 			],
 			"css": ["scripts/content/global/ttGlobal.css"],
 			"js": ["scripts/js/globalFunctions.js", "scripts/content/global/ttGlobal.js"],
@@ -281,6 +281,16 @@
 				"scripts/js/globalFunctions.js",
 				"scripts/content/global/ttGlobal.js",
 				"scripts/content/properties/ttVaultSharing.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/page.php?*"],
+			"css": ["scripts/content/search/ttSearch.css"],
+			"js": [
+				"scripts/js/globalFunctions.js",
+				"scripts/content/global/ttGlobal.js",
+				"scripts/content/search/ttSearch.js"
 			],
 			"run_at": "document_end"
 		}

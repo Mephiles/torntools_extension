@@ -1,0 +1,18 @@
+#ttSearchContainer .content {
+    padding: 4px;
+}
+
+#tt-add-all-to-mm-list {
+    width: 120px;
+    padding: 6px;
+    cursor: pointer;
+    color: white;
+    background-color: #9a9a9a;
+    text-align: center;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
+
+#tt-add-all-to-mm-list:hover {
+    background-color: gray;
+}
