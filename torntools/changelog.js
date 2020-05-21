@@ -2,7 +2,7 @@ export default {
     "v3.8": {
         "Features": [
             "Added an Alternative Theme option (black background and green text)",
-            "Added Disk Space Used info under About page",
+            "Added Disk Space Used info under About page (Chrome only)",
             "Added Date and Time formatting options (Added formatting to: Networth details)",
             "Added option to Remove Info Boxes that are unnecessary on some pages",
             "Added 'last updated' info icon for live Networth on Home page"

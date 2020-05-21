@@ -7,9 +7,11 @@ window.addEventListener("load", function(){
 
     // About info
     doc.find("#about #version span").innerText = `v${version}`;
-    chrome.storage.local.getBytesInUse(function(data){
-        doc.find("#about #data-used span").innerText = formatBytes(data);
-    });
+    if(chrome.storage.local.getBytesInUse){
+        chrome.storage.local.getBytesInUse(function(data){
+            doc.find("#about #data-used span").innerText = formatBytes(data);
+        });
+    }
 
     // setup site
     setupSite();
