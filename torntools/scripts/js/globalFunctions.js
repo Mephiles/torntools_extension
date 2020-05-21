@@ -996,7 +996,7 @@ function formatTime([hours, minutes, seconds], formatting){
         if(seconds){
             return `${hours}:${minutes}:${seconds} ${pm ? "PM":"AM"}`;
         } else {
-            return `${hours}:${minutes} ${hours >= 12 ? "PM":"AM"}`;
+            return `${hours}:${minutes} ${pm ? "PM":"AM"}`;
         }
     } else if(formatting == "eu"){
         if(seconds){
