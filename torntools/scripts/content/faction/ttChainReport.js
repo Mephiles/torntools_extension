@@ -6,7 +6,7 @@ window.addEventListener("load", async function(){
 
 	local_storage.get(["settings", "extensions"], function([settings, extensions]){
 		if(!extensions.doctorn)
-			displayContainer();
+			displayContainer(settings.theme);
 		
 	});
 });
