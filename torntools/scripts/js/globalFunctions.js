@@ -143,7 +143,7 @@ const STORAGE = {
     // user settings
     "settings": {
         "update_notification": true,
-        "remove_info_boxes": true,
+        "remove_info_boxes": "force_false",
         "theme": "default",
         "format": {
             "date": "eu",

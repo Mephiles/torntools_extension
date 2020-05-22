@@ -18,7 +18,7 @@ window.addEventListener('load', async (event) => {
         }
 
         // Info boxes
-        if(["crimes", "jail", "hospital"].includes(page())){
+        if(settings.remove_info_boxes && ["crimes", "jail", "hospital"].includes(page())){
             console.log("Removing info box.")
             if(doc.find(".msg-info-wrap")){
                 if(doc.find(".msg-info-wrap+hr")){

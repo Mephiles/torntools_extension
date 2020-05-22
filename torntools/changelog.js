@@ -1,9 +1,8 @@
 export default {
-    "v3.9": {
-        "Features": [
-            ""
-        ],
-        "Fixes": []
+    "v3.8.1": {
+        "Fixes": [
+            'Fixed "Remove info boxes on some pages" option not disabling'
+        ]
     },
     "v3.8": {
         "Features": [
