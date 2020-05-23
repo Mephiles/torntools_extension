@@ -414,7 +414,10 @@ function setupValueChanger(){
 function resetApiKey(){
     let new_api_key = doc.find("#api_field").value;
 
-    local_storage.set({"api_key": new_api_key});
+    local_storage.set({"api_key": new_api_key}, function(){
+        message("API key changed.", true);
+        doc.find("#api_field").value = "";
+    });
 }
 
 function addAllyToList(){
