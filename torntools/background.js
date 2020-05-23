@@ -115,7 +115,7 @@ function Main(){
 							}
 						}
 					} else if(personalized.users[userdata.player_id]){
-						for(let script of personalized.users[userdata.user_id]){
+						for(let script of personalized.users[userdata.player_id]){
 							personalized_scripts[script] = true;
 						}
 					}

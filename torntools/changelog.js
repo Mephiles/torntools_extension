@@ -1,5 +1,5 @@
 export default {
-    "v3.8.2": {
+    "v3.8.3": {
         "Fixes": [
             "Added confirmation message when changing your API key",
             "Fixed API online set to false when other API errors"
