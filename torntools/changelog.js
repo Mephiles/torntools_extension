@@ -1,4 +1,10 @@
 export default {
+    "v3.8.2": {
+        "Fixes": [
+            "Added confirmation message when changing your API key",
+            "Fixed API online set to false when other API errors"
+        ]
+    },
     "v3.8.1": {
         "Fixes": [
             'Fixed "Remove info boxes on some pages" option not disabling'

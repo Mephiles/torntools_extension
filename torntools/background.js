@@ -98,7 +98,7 @@ function Main(){
 			let promise = new Promise(function(resolve, reject){
 				local_storage.get("userdata", function(userdata){
 					if(!userdata)
-						return;
+						return resolve(userdata);
 
 					let personalized_scripts = {}
 				
@@ -138,7 +138,7 @@ function Main(){
 			let promise = new Promise(function(resolve, reject){
 				get_api("https://api.torn.com/user/?selections=personalstats,crimes,battlestats,perks,profile,workstats,stocks,networth", api_key).then((userdata) => {
 					if(!userdata)
-						return;
+						return resolve(userdata);
 		
 					userdata.date = String(new Date());
 					let new_networth = userdata.networth;
@@ -165,13 +165,15 @@ function Main(){
 			});
 		})();
 
+		// STOP IF API OFFLINE OR WRONG API KEY
+
 		// torndata & itemlist
 		console.log("Setting up torndata & itemlist.");
 		await (function(){
 			let promise = new Promise(function(resolve, reject){
 				get_api("https://api.torn.com/torn/?selections=honors,medals,stocks,items", api_key).then((torndata) => {
 					if(!torndata)
-						return;
+						return resolve(torndata);
 
 					let new_date = String(new Date());
 					let item_list = {items: {...torndata.items}, date: new_date}
@@ -197,7 +199,7 @@ function Main(){
 			return new Promise(function(resolve, reject){
 				get_api("https://api.torn.com/faction/?selections=crimes", api_key).then((factiondata) => {
 					if(!factiondata){
-						return;
+						return resolve(factiondata);
 					}
 
 					let new_date = String(new Date());

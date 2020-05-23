@@ -742,10 +742,17 @@ async function get_api(http, api_key) {
         const result = await response.json();
 
         if (result.error) {
-            console.log("API SYSTEM OFFLINE");
-            local_storage.change({"api": { "online": false, "error": result.error.error }}, function(){
-                return resolve(false);
-            });
+            if(result.error.code == 9){  // API offline
+                console.log("API SYSTEM OFFLINE");
+                local_storage.change({"api": { "online": false, "error": result.error.error }}, function(){
+                    return resolve(false);
+                });
+            } else {
+                console.log("API ERROR:", result.error.error);
+                local_storage.change({"api": { "online": true, "error": result.error.error }}, function(){
+                    return resolve(false);
+                });
+            }
         } else {
             local_storage.change({"api": { "online": true, "error": "" }}, function(){
                 return resolve(result);
