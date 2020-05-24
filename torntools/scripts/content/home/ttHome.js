@@ -5,11 +5,18 @@ window.addEventListener('load', async (event) => {
         return;
 
 	local_storage.get(["settings", "networth", "extensions"], function([settings, networth, extensions]){
-		if(settings.pages.home.networth)
+		if(settings.pages.home.networth){
 			displayNetworth(networth, settings.format);
+		}
 
-		if(settings.pages.home.battle_stats && !extensions.doctorn)
-			displayEffectiveBattleStats(settings.theme);
+		if(settings.pages.home.battle_stats){
+			if(settings.force_tt){
+				hideDoctorn();
+				displayEffectiveBattleStats(settings.theme);
+			} else if(!extensions.doctorn){
+				displayEffectiveBattleStats(settings.theme);
+			}
+		}
 	});
 });
 

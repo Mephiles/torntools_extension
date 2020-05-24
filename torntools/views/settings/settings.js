@@ -167,6 +167,7 @@ function setupPreferences(settings, allies, target_list_enabled){
 
     // General
     preferences.find(`#update_notification input`).checked = settings.update_notification;
+    preferences.find("#force_tt input").checked = settings.force_tt;
     preferences.find(`#format-date-${settings.format.date} input`).checked = true;
     preferences.find(`#format-time-${settings.format.time} input`).checked = true;
     preferences.find(`#theme-${settings.theme} input`).checked = true;
@@ -229,6 +230,59 @@ function setupPreferences(settings, allies, target_list_enabled){
         local_storage.reset();
         message("Settings reset.", true);
     });
+}
+
+function savePreferences(preferences, settings, target_list_enabled){
+
+    // General
+    settings.update_notification = preferences.find("#update_notification input").checked;
+    settings.force_tt = preferences.find("#force_tt input").checked;
+    settings.format.date = preferences.find("input[name=format-date]:checked").parentElement.id.split("-")[2];
+    settings.format.time = preferences.find("input[name=format-time]:checked").parentElement.id.split("-")[2];
+    settings.theme = preferences.find("input[name=theme]:checked").parentElement.id.split("-")[1];
+
+    // Tabs
+    for(let tab in settings.tabs){
+        if(tab == "default"){
+            settings.tabs[tab] = preferences.find(`input[name=default-tab]:checked`).parentElement.innerText.toLowerCase();
+        } else {
+            settings.tabs[tab] = preferences.find(`#tab-${tab} input`).checked;
+        }
+    }
+
+    // Achievements
+    for(let key in settings.achievements){
+        settings.achievements[key] = preferences.find(`#achievements-${key} input`).checked;
+    }
+
+    // Other scripts
+    for(let page in settings.pages){
+        for(let option in settings.pages[page]){
+            settings.pages[page][option] = preferences.find(`#${page}-${option} input`).checked;
+        }
+    }
+    settings.remove_info_boxes = preferences.find(`#remove_info_boxes input`).checked;
+
+    // Target list
+    target_list_enabled = preferences.find(`#target_list input`).checked;
+
+    // Allies
+    let allies = [];
+    for(let ally of preferences.findAll("#profile-friendly_warning+.table .row:not(.input)")){
+        allies.push(ally.innerText.trim());
+    }
+
+    console.log("New settings", settings);
+
+    local_storage.set({"settings": settings});
+    local_storage.set({"allies": allies});
+    local_storage.change({"target_list": {"show": target_list_enabled}}, function(){
+        local_storage.get("target_list", function(target_list){
+            console.log("new target list", target_list);
+        });
+    });
+
+    message("Settings saved.", true);
 }
 
 function setupTargetList(target_list){
@@ -437,58 +491,6 @@ function addAllyToList(){
 
     // Clear input
     event.target.previousElementSibling.value = "";
-}
-
-function savePreferences(preferences, settings, target_list_enabled){
-
-    // General
-    settings.update_notification = preferences.find("#update_notification input").checked;
-    settings.format.date = preferences.find("input[name=format-date]:checked").parentElement.id.split("-")[2];
-    settings.format.time = preferences.find("input[name=format-time]:checked").parentElement.id.split("-")[2];
-    settings.theme = preferences.find("input[name=theme]:checked").parentElement.id.split("-")[1];
-
-    // Tabs
-    for(let tab in settings.tabs){
-        if(tab == "default"){
-            settings.tabs[tab] = preferences.find(`input[name=default-tab]:checked`).parentElement.innerText.toLowerCase();
-        } else {
-            settings.tabs[tab] = preferences.find(`#tab-${tab} input`).checked;
-        }
-    }
-
-    // Achievements
-    for(let key in settings.achievements){
-        settings.achievements[key] = preferences.find(`#achievements-${key} input`).checked;
-    }
-
-    // Other scripts
-    for(let page in settings.pages){
-        for(let option in settings.pages[page]){
-            settings.pages[page][option] = preferences.find(`#${page}-${option} input`).checked;
-        }
-    }
-    settings.remove_info_boxes = preferences.find(`#remove_info_boxes input`).checked;
-
-    // Target list
-    target_list_enabled = preferences.find(`#target_list input`).checked;
-
-    // Allies
-    let allies = [];
-    for(let ally of preferences.findAll("#profile-friendly_warning+.table .row:not(.input)")){
-        allies.push(ally.innerText.trim());
-    }
-
-    console.log("New settings", settings);
-
-    local_storage.set({"settings": settings});
-    local_storage.set({"allies": allies});
-    local_storage.change({"target_list": {"show": target_list_enabled}}, function(){
-        local_storage.get("target_list", function(target_list){
-            console.log("new target list", target_list);
-        });
-    });
-
-    message("Settings saved.", true);
 }
 
 function message(text, good){

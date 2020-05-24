@@ -5,15 +5,19 @@ window.addEventListener('load', async (event) => {
 		return;
 
 	local_storage.get(["settings", "extensions", "itemlist"], function([settings, extensions, itemlist]){
-		
 		mapLoaded().then(function(loaded){
 			if(!loaded || (!settings.pages.city.items && !settings.pages.city.items_value))
 				return;
 
 			let items_container = content.new_container("TornTools - City Items", {first:true, id: "tt-city-items", theme: settings.theme});
 			
-			if(settings.pages.city.items && !extensions.doctorn){
-				displayItems(items_container, itemlist);
+			if(settings.pages.city.items){
+				if(settings.force_tt){
+					hideDoctorn();
+					displayItems(items_container, itemlist);
+				} else if(!extensions.doctorn){
+					displayItems(items_container, itemlist);
+				}
 			}
 			
 			if(settings.pages.city.items_value){

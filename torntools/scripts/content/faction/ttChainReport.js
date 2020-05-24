@@ -5,9 +5,12 @@ window.addEventListener("load", async function(){
         return;
 
 	local_storage.get(["settings", "extensions"], function([settings, extensions]){
-		if(!extensions.doctorn)
+		if(settings.force_tt){
+			hideDoctorn();
 			displayContainer(settings.theme);
-		
+		} else if(!extensions.doctorn){
+			displayContainer(settings.theme);
+		}
 	});
 });
 

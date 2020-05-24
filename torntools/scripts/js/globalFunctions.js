@@ -145,6 +145,7 @@ const STORAGE = {
         "update_notification": true,
         "remove_info_boxes": "force_false",
         "theme": "default",
+        "force_tt": false,
         "format": {
             "date": "eu",
             "time": "eu"
@@ -1011,5 +1012,23 @@ function formatTime([hours, minutes, seconds], formatting){
         } else {
             return `${hours}:${minutes}`;
         }
+    }
+}
+
+function hideDoctorn(){
+    console.log("Hiding Doctorn");
+
+    var css = '.doctorn-widgets, .doctorn-widget {display: none}',
+    head = doc.head || doc.getElementsByTagName('head')[0],
+    style = doc.new('style');
+    style.type = 'text/css';
+
+    head.appendChild(style);
+
+    if (style.styleSheet){
+        // This is required for IE8 and below.
+        style.styleSheet.cssText = css;
+    } else {
+        style.appendChild(doc.createTextNode(css));
     }
 }
