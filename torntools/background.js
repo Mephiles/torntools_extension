@@ -63,7 +63,9 @@ setup_storage.then(function(success){
 
 	// Second - run every 1 min
 	console.log("Setting up intervals.");
-	setInterval(Main, 60*1000);
+	setInterval(Main, 60*1000);  // 1/minute
+	setInterval(Main_fast, 15*1000);  // 4/minute
+	setInterval(Main_slow, 60*60*1000);  // 1/hour
 });
 
 function Main(){
@@ -92,53 +94,14 @@ function Main(){
 			});
 		})();
 
-		// Check for personalized scripts
-		console.log("Setting up personalized scripts.");
-		await (function(){
-			let promise = new Promise(function(resolve, reject){
-				local_storage.get("userdata", function(userdata){
-					if(!userdata)
-						return resolve(userdata);
-
-					let personalized_scripts = {}
-				
-					if(personalized.master == userdata.player_id){
-						for(let type in personalized){
-							if(type == "master"){
-								continue;
-							}
-				
-							for(let id in personalized[type]){
-								for(let script of personalized[type][id]){
-									personalized_scripts[script] = true;
-								}
-							}
-						}
-					} else if(personalized.users[userdata.player_id]){
-						for(let script of personalized.users[userdata.player_id]){
-							personalized_scripts[script] = true;
-						}
-					}
-				
-					local_storage.set({"personalized": personalized_scripts}, function(){
-						console.log("Personalized scripts set.");
-						return resolve(true);
-					});
-				});
-			});
-
-			return promise.then(function(data){
-				return data;
-			});
-		})();
-
 		// userdata & networth
 		console.log("Setting up userdata & networth.");
-		await (function(){
+		let first_fetch_result = await (function(){
 			let promise = new Promise(function(resolve, reject){
 				get_api("https://api.torn.com/user/?selections=personalstats,crimes,battlestats,perks,profile,workstats,stocks,networth", api_key).then((userdata) => {
-					if(!userdata)
+					if(!userdata.ok){
 						return resolve(userdata);
+					}
 		
 					userdata.date = String(new Date());
 					let new_networth = userdata.networth;
@@ -165,14 +128,18 @@ function Main(){
 			});
 		})();
 
-		// STOP IF API OFFLINE OR WRONG API KEY
+		// STOP IF SOMETHING WRONG WITH API FETCH
+		if(!first_fetch_result.ok){
+			console.log("(STOPPING) ERROR:", first_fetch_result.error);
+			return;
+		}
 
 		// torndata & itemlist
 		console.log("Setting up torndata & itemlist.");
 		await (function(){
 			let promise = new Promise(function(resolve, reject){
 				get_api("https://api.torn.com/torn/?selections=honors,medals,stocks,items", api_key).then((torndata) => {
-					if(!torndata)
+					if(!torndata.ok)
 						return resolve(torndata);
 
 					let new_date = String(new Date());
@@ -198,7 +165,7 @@ function Main(){
 		await (function(){
 			return new Promise(function(resolve, reject){
 				get_api("https://api.torn.com/faction/?selections=crimes", api_key).then((factiondata) => {
-					if(!factiondata){
+					if(!factiondata.ok){
 						return resolve(factiondata);
 					}
 
@@ -246,24 +213,68 @@ function Main(){
 				return data;
 			});
 		})();
+	});
+}
 
-		// check extensions
-		console.log("Checking for installed extensions.");
-		await (function(){
-			let promise = new Promise(async function(resolve, reject){
-				let doctorn_installed = await detectExtension("doctorn");
-				console.log("Doctorn installed:", doctorn_installed);
-				
-				local_storage.change({"extensions": {"doctorn": doctorn_installed}}, function(){
+async function Main_fast(){
+	// check extensions
+	console.log("Checking for installed extensions.");
+	await (function(){
+		let promise = new Promise(async function(resolve, reject){
+			let doctorn_installed = await detectExtension("doctorn");
+			console.log("Doctorn installed:", doctorn_installed);
+			
+			local_storage.change({"extensions": {"doctorn": doctorn_installed}}, function(){
+				return resolve(true);
+			});
+		});
+
+		return promise.then(function(data){
+			return data;
+		});
+	})();
+}
+
+async function Main_slow(){
+	// Check for personalized scripts
+	console.log("Setting up personalized scripts.");
+	await (function(){
+		let promise = new Promise(function(resolve, reject){
+			local_storage.get("userdata", function(userdata){
+				if(!userdata)
+					return resolve(userdata);
+
+				let personalized_scripts = {}
+			
+				if(personalized.master == userdata.player_id){
+					for(let type in personalized){
+						if(type == "master"){
+							continue;
+						}
+			
+						for(let id in personalized[type]){
+							for(let script of personalized[type][id]){
+								personalized_scripts[script] = true;
+							}
+						}
+					}
+				} else if(personalized.users[userdata.player_id]){
+					for(let script of personalized.users[userdata.player_id]){
+						personalized_scripts[script] = true;
+					}
+				}
+			
+				local_storage.set({"personalized": personalized_scripts}, function(){
+					console.log("Personalized scripts set.");
 					return resolve(true);
 				});
 			});
+		});
 
-			return promise.then(function(data){
-				return data;
-			});
-		})();
-	});
+		return promise.then(function(data){
+			return data;
+		});
+	})();
 }
 
 // FUNCTIONS //

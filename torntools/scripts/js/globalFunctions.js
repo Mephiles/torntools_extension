@@ -745,12 +745,12 @@ async function get_api(http, api_key) {
             if(result.error.code == 9){  // API offline
                 console.log("API SYSTEM OFFLINE");
                 local_storage.change({"api": { "online": false, "error": result.error.error }}, function(){
-                    return resolve(false);
+                    return resolve({ok: false, error: result.error.error});
                 });
             } else {
                 console.log("API ERROR:", result.error.error);
                 local_storage.change({"api": { "online": true, "error": result.error.error }}, function(){
-                    return resolve(false);
+                    return resolve({ok: false, error: result.error.error});
                 });
             }
         } else {
