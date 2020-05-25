@@ -7,6 +7,7 @@
 /* Target Info */
 #tt-target-info .content {
     padding: 5px;
+    padding-bottom: 10px;
     font-size: 15px;
     overflow-x: auto;
 }
@@ -87,13 +88,4 @@
     color: #ff4040;
     float: right;
     padding-right: 7px;
-}
-
-#skip-to-content span {
-    font-size: 17px;
-    color: #888888
-}
-
-#skip-to-content span span {
-    color: #39a539;
 }

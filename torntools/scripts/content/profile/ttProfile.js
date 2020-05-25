@@ -13,8 +13,7 @@ window.addEventListener('load', async (event) => {
 
 			if (settings.pages.profile.show_id) {
 				showId();
-			}            
-			displayCreator();
+			}
 
             if (settings.pages.profile.friendly_warning){
                 displayAlly(user_faction, allies);
@@ -27,19 +26,26 @@ window.addEventListener('load', async (event) => {
             if(settings.pages.profile.loot_times){
                 displayLootLevel(loot_times);
             }
+
+            if(settings.pages.profile.status_indicator){
+                addStatusIndicator();
+            }
+            displayCreator();
         });
     });
 });
 
 function displayCreator() {
-    let name = doc.find("#skip-to-content");
+    let name = doc.find("#skip-to-content span") || doc.find("#skip-to-content");
 
     if (name.innerText == "Mephiles' Profile" || name.innerText == "Mephiles [2087524]") {
-        let span1 = doc.new("span");
-        span1.innerText = " - Thanks for using ";
+        let span1 = doc.new({type: "span", text: " - Thanks for using ", attributes: {
+            style: `font-size: 17px;`
+        }});
 
-        let span2 = doc.new("span");
-        span2.innerText = "TornTools";
+        let span2 = doc.new({type: "span", text: "TornTools", attributes: {
+            style: `font-size: 17px; color: #6b8817;`
+        }});
 
         span1.appendChild(span2);
         name.appendChild(span1);
@@ -256,4 +262,31 @@ function displayLootLevel(loot_times){
             span.setAttribute("seconds", seconds-1);
         }, 1000);
     }
+}
+
+function addStatusIndicator(){
+    let status_icon = doc.find(".icons ul>li");
+    let icon_span = doc.new({type: "div", class: status_icon.classList[0], attributes: {
+        style: `margin-top: 1px; margin-right: 3px; float: left; background-position: ${window.getComputedStyle(status_icon).getPropertyValue('background-position')};`
+    }});
+    let text_span = doc.new({type: "span", text: doc.find("#skip-to-content").innerText, attributes: {
+        style: `font-size: 22px; color: #333;`
+    }});
+
+    doc.find("#skip-to-content").innerText = "";
+    doc.find("#skip-to-content").appendChild(icon_span);
+    doc.find("#skip-to-content").appendChild(text_span);
+
+    // Event listener
+    let status_observer = new MutationObserver(function(mutationsList, observer){
+        for(let mutation of mutationsList){
+            console.log("MUTATION", mutation);
+            if(mutation.type == "childList"){
+                console.log(doc.find(".icons ul>li"));
+                icon_span.setAttribute("class", doc.find(".icons ul>li").classList[0]);
+                icon_span.style.backgroundPosition = window.getComputedStyle(doc.find(".icons ul>li")).getPropertyValue('background-position');
+            }
+        }
+    });
+    status_observer.observe(status_icon.parentElement, {childList: true});
 }

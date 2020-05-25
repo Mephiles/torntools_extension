@@ -180,7 +180,8 @@ const STORAGE = {
             "profile": {
                 "friendly_warning": true,
                 "show_id": true,
-                "loot_times": true
+                "loot_times": true,
+                "status_indicator": true
             },
             "racing": {
                 "upgrades": true
@@ -488,22 +489,13 @@ const info_box = {
 }
 
 const content = {
-    new_container: function (name, attributes = {}) {
-        let defaults = {
-            first: undefined,
-            id: undefined,
-            next_element_heading: undefined,
-            next_element: undefined,
-            theme: undefined
-        }
-        attr = { ...defaults, ...attributes };
-
+    new_container: function (name, attr = {}) {
         // process           
         if (attr.next_element_heading)
             attr.next_element = content.findContainer(attr.next_element_heading);
 
         let parent_element = attr.next_element ? attr.next_element.parentElement : doc.find(".content-wrapper");
-        let new_div = createNewContainer(name, attr.id, attr.theme);
+        let new_div = createNewContainer(name, attr.id, attr.theme, attr.collapsed);
 
         if (attr.first)
             parent_element.insertBefore(new_div, parent_element.find(".content-title").nextElementSibling);
@@ -514,23 +506,61 @@ const content = {
 
         return new_div;
 
-        function createNewContainer(name, id, theme) {
+        function createNewContainer(name, id, theme, collapsed) {
             let div = doc.new("div");
             id ? div.id = id : null;
-            let heading = doc.new("div");
+            div.style.position = "relative";
+
+            let heading = doc.new({
+                type: "div", class: "tt-title top-round m-top10", text: name, attributes: {
+                    style: `cursor: pointer;`
+                }
+            });
             if(theme == "default"){
-                heading.setClass("tt-title title-green top-round m-top10");
+                heading.classList.add("title-green");
             } else if(theme == "alternative"){
-                heading.setClass("tt-title title-black top-round m-top10");
+                heading.classList.add("title-black");
                 heading.style.color = "#acea00";
             } 
-            heading.innerText = name;
-            let content = doc.new("div");
-            content.setClass("cont-gray bottom-round content");
-            content.style.marginTop = "0";
 
+            let content = doc.new({
+                type: "div", class: "cont-gray bottom-round content", 
+                attributes: {
+                    style: `position: relative; margin-top: 0; padding-top: 10px; max-height: 0; overflow: hidden; transition: max-height 0.2s ease-out;`
+                }
+            });
+
+            let icon = doc.new({type: "i", class: "fas fa-chevron-down container_collapse"});
+            
             div.appendChild(heading);
             div.appendChild(content);
+            div.appendChild(icon);
+
+            // Collapse
+            heading.addEventListener("click", function(){
+                if(content.style.maxHeight != "0px"){
+                    content.style.maxHeight = "0px";
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+                rotateElement(icon, 180);
+            });
+
+            icon.addEventListener("click", function(){
+                if(content.style.maxHeight != "0px"){
+                    content.style.maxHeight = "0px";
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+                rotateElement(icon, 180);
+            });
+
+            // Open
+            if(collapsed == false){
+                setTimeout(function(){
+                    heading.click();
+                }, 1000);
+            }
 
             return div;
         }
