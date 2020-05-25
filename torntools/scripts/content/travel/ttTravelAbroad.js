@@ -5,8 +5,11 @@ window.addEventListener('load', async (event) => {
         return;
 
 	local_storage.get(["settings", "itemlist"], function([settings, itemlist]){
-        if(settings.pages.travel.profits)
+        if(settings.pages.travel.profits){
             displayItemProfits(itemlist.items);
+        }
+
+        updateYATAprices();
 	});
 });
 
@@ -29,7 +32,6 @@ function displayItemProfits(itemlist){
     // Table content
     let rows = doc.findAll(".users-list>li");
     for(let row of rows){
-        console.log(row)
         let id = parseInt(row.find(".item img").getAttribute("src").split("items/")[1].split("/")[0]);
         let market_price = parseInt(itemlist[id].market_value);
         let buy_price = parseInt(row.find(".cost .c-price").innerText.replace("$", "").replace(/,/g, ""));
@@ -54,5 +56,46 @@ function displayItemProfits(itemlist){
         inner_span.appendChild(triangle_div);
         span.appendChild(inner_span);
         row.find(".item-info-wrap").insertBefore(span, row.find(".item-info-wrap").find(".stock"));
+    }
+}
+
+function updateYATAprices(){
+    console.log("Updating YATA prices");
+
+    let post_data = {
+        "client": "TornTools",
+        "version": chrome.runtime.getManifest().version,
+        "author_name": "Mephiles",
+        "author_id": 2087524,
+        "country": getCountryName(),
+        "items": {}
+    }
+
+    // Table content
+    let rows = doc.findAll(".users-list>li");
+    for(let row of rows){
+        let id = parseInt(row.find(".item img").getAttribute("src").split("items/")[1].split("/")[0]);
+        let quantity = parseInt(row.find(".stck-amount").innerText.replace(/,/g, ""));
+        let price = parseInt(row.find(".cost .c-price").innerText.replace("$", "").replace(/,/g, ""));
+
+        post_data.items[id] = {quantity: quantity, cost: price}
+        // post_data.items.push({
+        //     id: id,
+        //     quantity: quantity,
+        //     cost: price
+        // });
+    }
+
+    console.log("POST DATA", post_data);
+    fetch(`https://yata.alwaysdata.net/bazaar/abroad/import/`, {
+        method: "POST", 
+        headers: {"content-type": "application/json"}, 
+        body: JSON.stringify(post_data)
+    }).then(response => {
+        console.log("RESPONSE", response);
+    });
+
+    function getCountryName(){
+        return doc.find("#skip-to-content").innerText.slice(0, 3).toLowerCase();
     }
 }
