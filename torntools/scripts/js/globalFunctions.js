@@ -288,7 +288,8 @@ const navbar = {
         let defaults = {
             next_element: undefined,
             next_element_heading: undefined,
-            theme: undefined
+            theme: undefined,
+            last: undefined
         }
         attr = { ...defaults, ...attributes };
 
@@ -297,10 +298,13 @@ const navbar = {
         let new_div = createNewBlock(name, attr.theme);
         let next_div = attr.next_element || findSection(parent, attr.next_element_heading);
 
-        if (!next_div)
-            parent.appendChild(new_div);
-        else
+        if (!next_div){
+            if(attr.last){
+                parent.appendChild(new_div);
+            }
+        } else {
             next_div.parentElement.insertBefore(new_div, next_div);
+        }
 
         return new_div;
 
@@ -579,6 +583,9 @@ function abroad() {
             if (doc.find("#travel-home")) {
                 resolve(true);
                 return clearInterval(checker);
+            } else if(doc.find(".header") && doc.find(".header").classList[doc.find(".header").classList.length-1] != "responsive-sidebar-header"){
+                resolve(true);
+                return clearInterval(checker);
             } else if (doc.find("#skip-to-content") && doc.find("#skip-to-content").innerText == "Preferences") {
                 resolve(false);
                 return clearInterval(checker);
@@ -597,8 +604,9 @@ function abroad() {
             if (counter >= 50) {
                 resolve(false);
                 return clearInterval(checker);
-            } else
+            } else {
                 counter++;
+            }
         }, 100);
     })
 
