@@ -6,6 +6,10 @@ window.addEventListener('load', async (event) => {
 
     local_storage.get(["settings", "itemlist", "userdata", "travel_market"], function ([settings, itemlist, userdata, travel_market]) {
         if (settings.pages.travel.destination_table) {
+            if(settings.force_tt){
+                hideDoctorn();
+            }
+
             let container = content.new_container("TornTools - Travel Destinations", { id: "ttTravelTable", theme: settings.theme }).find(".content");
             displayTravelDestinations(container, itemlist.items, userdata, travel_market);
 
