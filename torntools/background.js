@@ -99,7 +99,7 @@ function Main(){
 		let first_fetch_result = await (function(){
 			let promise = new Promise(function(resolve, reject){
 				get_api("https://api.torn.com/user/?selections=personalstats,crimes,battlestats,perks,profile,workstats,stocks,networth", api_key).then((userdata) => {
-					if(!userdata.ok){
+					if(userdata.ok != undefined && !userdata.ok){
 						return resolve(userdata);
 					}
 		
@@ -129,7 +129,7 @@ function Main(){
 		})();
 
 		// STOP IF SOMETHING WRONG WITH API FETCH
-		if(!first_fetch_result.ok){
+		if(first_fetch_result.ok != undefined && !first_fetch_result.ok){
 			console.log("(STOPPING) ERROR:", first_fetch_result.error);
 			return;
 		}
@@ -139,7 +139,7 @@ function Main(){
 		await (function(){
 			let promise = new Promise(function(resolve, reject){
 				get_api("https://api.torn.com/torn/?selections=honors,medals,stocks,items", api_key).then((torndata) => {
-					if(!torndata.ok)
+					if(torndata.ok != undefined && !torndata.ok)
 						return resolve(torndata);
 
 					let new_date = String(new Date());
@@ -165,7 +165,7 @@ function Main(){
 		await (function(){
 			return new Promise(function(resolve, reject){
 				get_api("https://api.torn.com/faction/?selections=crimes", api_key).then((factiondata) => {
-					if(!factiondata.ok){
+					if(factiondata.ok != undefined && !factiondata.ok){
 						return resolve(factiondata);
 					}
 
