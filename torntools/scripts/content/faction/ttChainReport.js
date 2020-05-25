@@ -15,7 +15,7 @@ window.addEventListener("load", async function(){
 });
 
 function displayContainer(theme){
-	let options_container = content.new_container("TornTools - Chain Report", {first:true, id: "ttChainReport", theme: theme});
+	let options_container = content.new_container("TornTools - Chain Report", {first:true, id: "ttChainReport", theme: theme, collapsed: false});
 	
 	let export_btn = doc.new("div");
 		export_btn.id = "ttExportTableButton";

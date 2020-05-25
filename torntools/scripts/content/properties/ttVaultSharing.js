@@ -23,7 +23,7 @@ window.addEventListener("load", async function(event) {
 
     async function Main(vault, theme, need_to_save){
         console.log("VAULT", vault);
-        let vault_container = content.new_container("TornTools - Vault Sharing", {id: "tt-vault-container", next_element: doc.find(".vault-wrap+hr"), theme:theme}).find(".content");
+        let vault_container = content.new_container("TornTools - Vault Sharing", {id: "tt-vault-container", next_element: doc.find(".vault-wrap+hr"), theme:theme, collapsed: false}).find(".content");
 
         if(!vault.initialized){
             // Sub Heading

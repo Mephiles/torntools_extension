@@ -47,10 +47,11 @@ Thanks, Mauk @DocTorn
 
 /* Items list */
 #tt-city-items .content {
-	padding: 7px;
+	padding-left: 7px;
+	padding-right: 7px;
+	padding-bottom: 2px;
 	font-size: 15px;
 	font-weight: 600;
-	padding-bottom: 2px;
 }
 
 #tt-city-items .items {

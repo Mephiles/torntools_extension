@@ -3,6 +3,11 @@
     position: relative;
 }
 
+#tt-gym-settings .content .tt-setting {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
 #tt-gym-settings .content .tt-setting, #tt-gym-settings .content .tt-setting * {
     height: 20px;
     line-height: 20px;

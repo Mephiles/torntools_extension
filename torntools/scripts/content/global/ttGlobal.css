@@ -17,3 +17,25 @@
     left: 0;
     z-index: 9;
 }
+
+.container_collapse {
+    position: absolute;
+    left: 49.5%;
+    bottom: 0px;
+    cursor: pointer;
+}
+
+/* font-awesome */
+.fas {
+    font-weight: 900;
+    -webkit-font-smoothing: antialiased; 
+    display: inline-block; 
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto; 
+    line-height: 1;
+}
+
+.fa-chevron-down:before {
+    content: "\f078";
+}

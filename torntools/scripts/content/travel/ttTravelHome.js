@@ -10,7 +10,7 @@ window.addEventListener('load', async (event) => {
                 hideDoctorn();
             }
 
-            let container = content.new_container("TornTools - Travel Destinations", { id: "ttTravelTable", theme: settings.theme }).find(".content");
+            let container = content.new_container("TornTools - Travel Destinations", { id: "ttTravelTable", theme: settings.theme, collapsed: false}).find(".content");
             displayTravelDestinations(container, itemlist.items, userdata, travel_market);
 
             for (let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]) {
