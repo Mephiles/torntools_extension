@@ -2,7 +2,7 @@ window.addEventListener('load', async (event) => {
     if(await flying() || await abroad())
         return;
 
-    local_storage.get(["updated", "settings"], function([updated, settings]){
+    local_storage.get(["updated", "settings", "custom_links"], function([updated, settings, custom_links]){
         // Update notification
         if(updated && settings.update_notification){
             let version_text = `TornTools updated: ${chrome.runtime.getManifest().version}`;
@@ -30,6 +30,15 @@ window.addEventListener('load', async (event) => {
                     doc.find(".info-msg-cont+hr").style.display = "none";
                 }
                 doc.find(".info-msg-cont").style.display = "none";
+            }
+        }
+
+        // Custom links
+        if(custom_links.length > 0){
+            let links_section = navbar.new_section("Custom Links", {next_element_heading: "Areas", theme: settings.theme});
+
+            for(let link of custom_links){
+                new_cell = navbar.new_cell(link.text, {parent_element: links_section, href: link.href});
             }
         }
 

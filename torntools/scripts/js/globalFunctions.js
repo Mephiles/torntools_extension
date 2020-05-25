@@ -139,6 +139,7 @@ const STORAGE = {
         "last_transaction": undefined
     },
     "allies": [],
+    "custom_links": [],
 
     // user settings
     "settings": {

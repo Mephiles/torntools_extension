@@ -22,9 +22,9 @@ window.addEventListener("load", function(){
     // Content
     setupChangelog();
 
-    local_storage.get(["settings", "allies", "target_list"], function([settings, allies, target_list]){
+    local_storage.get(["settings", "allies", "custom_links", "target_list"], function([settings, allies, custom_links, target_list]){
         // Preferences
-        setupPreferences(settings, allies, target_list.show);
+        setupPreferences(settings, allies, custom_links, target_list.show);
         
         // Target list
         setupTargetList(target_list.targets);
@@ -35,10 +35,11 @@ window.addEventListener("load", function(){
     doc.find("#change_api_key").addEventListener("click", function(){
         resetApiKey();
     });
-
     doc.find("#add_ally").addEventListener("click", function(event){
-        addAllyToList();
-        
+        addAllyToList(event);
+    });
+    doc.find("#add_link").addEventListener("click", function(event){
+        addLinktoList(event)
     });
 
     // Log whole Database
@@ -162,7 +163,7 @@ function setupChangelog(){
     content.appendChild(p);
 }
 
-function setupPreferences(settings, allies, target_list_enabled){
+function setupPreferences(settings, allies, custom_links, target_list_enabled){
     let preferences = doc.find("#preferences");
 
     // General
@@ -221,6 +222,28 @@ function setupPreferences(settings, allies, target_list_enabled){
         table_body.parentElement.scrollTop = table_body.parentElement.scrollHeight;
     }
 
+    // Custom links
+    for(let link of custom_links){
+        let row = doc.new({type: "div", class: "row"});
+        let left_span = doc.new({type: "span", text: link.text, class: "text"});
+        let right_span = doc.new({type: "span", text: link.href, class: "href"});
+        let icon = doc.new({type: "i", class: "fas fa-times"});
+
+        icon.addEventListener("click", function(event){
+            event.target.parentElement.remove();
+        });
+
+        row.appendChild(left_span);
+        row.appendChild(right_span);
+        row.appendChild(icon);
+
+        let table_body = preferences.find("#custom_links .body");
+        table_body.insertBefore(row, table_body.find(".row.input"));
+
+        // Auto-scroll down
+        table_body.parentElement.scrollTop = table_body.parentElement.scrollHeight;
+    }
+
     // Buttons
     preferences.find("#save_settings").addEventListener("click", function(){
         savePreferences(preferences, settings, target_list_enabled);
@@ -233,7 +256,6 @@ function setupPreferences(settings, allies, target_list_enabled){
 }
 
 function savePreferences(preferences, settings, target_list_enabled){
-
     // General
     settings.update_notification = preferences.find("#update_notification input").checked;
     settings.force_tt = preferences.find("#force_tt input").checked;
@@ -272,10 +294,20 @@ function savePreferences(preferences, settings, target_list_enabled){
         allies.push(ally.innerText.trim());
     }
 
+    // Custom links
+    let custom_links = [];
+    for(let link of preferences.findAll("#custom_links .row:not(.input")){
+        custom_links.push({
+            text: link.find(".text").innerText,
+            href: link.find(".href").innerText
+        });
+    }
+
     console.log("New settings", settings);
 
     local_storage.set({"settings": settings});
     local_storage.set({"allies": allies});
+    local_storage.set({"custom_links": custom_links});
     local_storage.change({"target_list": {"show": target_list_enabled}}, function(){
         local_storage.get("target_list", function(target_list){
             console.log("new target list", target_list);
@@ -474,13 +506,14 @@ function resetApiKey(){
     });
 }
 
-function addAllyToList(){
-    let row = doc.new("div");
-            row.setClass("row");
-            row.innerText = event.target.previousElementSibling.value;
-        let icon = doc.new("i");
-            icon.setClass("fas fa-times");
+function addAllyToList(event){
+    let row = doc.new({type: "div", class: "row", text: event.target.previousElementSibling.value});
+    let icon = doc.new({type: "i", class: "fas fa-times"});
             
+    icon.addEventListener("click", function(event){
+        event.target.parentElement.remove();
+    });
+
     row.appendChild(icon);
 
     let table_body = event.target.parentElement.parentElement;
@@ -491,6 +524,31 @@ function addAllyToList(){
 
     // Clear input
     event.target.previousElementSibling.value = "";
+}
+
+function addLinktoList(event){
+    let row = doc.new({type: "div", class: "row"});
+    let left_span = doc.new({type: "span", class: "text", text: event.target.previousElementSibling.previousElementSibling.value});
+    let right_span = doc.new({type: "span", class: "href", text: event.target.previousElementSibling.value});
+    let icon = doc.new({type: "i", class: "fas fa-times"});
+
+    icon.addEventListener("click", function(event){
+        event.target.parentElement.remove();
+    });
+
+    row.appendChild(left_span);
+    row.appendChild(right_span);
+    row.appendChild(icon);
+
+    let table_body = preferences.find("#custom_links .body");
+    table_body.insertBefore(row, table_body.find(".row.input"));
+
+    // Auto-scroll down
+    table_body.parentElement.scrollTop = table_body.parentElement.scrollHeight;
+
+    // Clear input
+    event.target.previousElementSibling.value = "";
+    event.target.previousElementSibling.previousElementSibling.value = "";
 }
 
 function message(text, good){

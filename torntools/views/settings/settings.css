@@ -336,7 +336,7 @@ p {
     top: 1px;
 }
 
-#profile-friendly_warning+.table {
+.table.list {
     width: 80%;
     background-color: #efefef;
     border: 1px solid #bbbbbb;
@@ -345,11 +345,11 @@ p {
     overflow-x: hidden;
 }
 
-#profile-friendly_warning+.table .body {
+.table.list .body {
     position: relative;
 }
 
-#profile-friendly_warning+.table .row {
+.table.list .row {
     height: 15px;
     line-height: 15px;
     position: relative;
@@ -358,11 +358,11 @@ p {
     padding-bottom: 1px;
 }
 
-#profile-friendly_warning+.table .row:hover {
+.table.list .row:hover {
     background-color: #dcdcdc;
 }
 
-#profile-friendly_warning+.table .row i {
+.table.list .row i {
     position: absolute;
     right: 6px;
     top: 1px;
@@ -370,23 +370,52 @@ p {
     color: red;
 }
 
-#profile-friendly_warning+.table .row.input {
+.table.list .row.input {
     position: sticky;
     bottom: 0;
     width: 100%;
     background-color: white;
-    /* background-color: #efefef; */
     padding-left: 2px;
 }
 
-#profile-friendly_warning+.table .row.input input {
+.table.list .row.input input {
     width: 90%;
     border: none;
     outline: none;
 }
 
-#profile-friendly_warning+.table .row.input i {
+.table.list .row.input i {
     color: #1aaf1a;
+}
+
+#custom_links .row.input input:first-of-type {
+    width: 20%;
+    margin-right: 5px;
+    border-right: 1px solid lightgrey;
+}
+
+#custom_links .row.input input:nth-of-type(2) {
+    width: 70%;
+    margin-right: 20px;
+}
+
+#custom_links .row:not(.input) i {
+    background-color: #efefef;
+    width: 20px;
+    right: 0;
+    top: 0;
+    height: 100%;
+}
+
+#custom_links .row .text {
+    width: 20%;
+    margin-right: 5px;
+    text-align: left;
+}
+
+#custom_links .row .href {
+    width: 74%;
+    text-align: left;
 }
 
 #preferences .footer {

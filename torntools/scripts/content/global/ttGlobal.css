@@ -2,6 +2,13 @@
     position: relative;
 }
 
+.tt-nav-section div.tt-title {
+    height: 22px;
+    line-height: 22px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
 .nav-color-code {
     width: 4px;
     height: 25px;
