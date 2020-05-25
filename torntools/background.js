@@ -64,6 +64,7 @@ setup_storage.then(function(success){
 	// Second - run every 1 min
 	console.log("Setting up intervals.");
 	setInterval(Main, 60*1000);  // 1/minute
+	setInterval(Main_yata, 60*1000); // 1/minute
 	setInterval(Main_fast, 15*1000);  // 4/minute
 	setInterval(Main_slow, 60*60*1000);  // 1/hour
 });
@@ -195,25 +196,37 @@ function Main(){
 				return data;
 			});
 		})();
-
-		// loot times
-		console.log("Setting up loot times.");
-		await (function(){
-			let promise = new Promise(async function(resolve, reject){
-				let response = await fetch("https://yata.alwaysdata.net/loot/timings/");
-				let result = await response.json();
-
-				local_storage.set({"loot_times": result}, function(){
-					console.log("Loot times set.");
-					return resolve(true);
-				})
-			});
-
-			return promise.then(function(data){
-				return data;
-			});
-		})();
 	});
+}
+
+async function Main_yata(){
+	// loot times
+	console.log("Setting up loot times.");
+	await (function(){
+		return new Promise(async function(resolve, reject){
+			let response = await fetch("https://yata.alwaysdata.net/loot/timings/");
+			let result = await response.json();
+
+			local_storage.set({"loot_times": result}, function(){
+				console.log("Loot times set.");
+				return resolve(true);
+			});
+		});
+	})();
+
+	// travel markets
+	console.log("Setting up Travel market info.");
+	await (function(){
+		return new Promise(async function(resolve, reject){
+			let response = await fetch("https://yata.alwaysdata.net/bazaar/abroad/export/");
+			let result = await response.json();
+
+			local_storage.set({"travel_market": result}, function(){
+				console.log("Travel market info set.");
+				return resolve(true);
+			});
+		});
+	})();
 }
 
 async function Main_fast(){
