@@ -110,6 +110,7 @@ const STORAGE = {
         "message": undefined
     },
     "loot_times": {},
+    "travel_market": [],
     "networth": {
         "previous": {
             "value": undefined,

@@ -221,7 +221,7 @@ async function Main_yata(){
 			let response = await fetch("https://yata.alwaysdata.net/bazaar/abroad/export/");
 			let result = await response.json();
 
-			local_storage.set({"travel_market": result}, function(){
+			local_storage.set({"travel_market": result.stocks}, function(){
 				console.log("Travel market info set.");
 				return resolve(true);
 			});
