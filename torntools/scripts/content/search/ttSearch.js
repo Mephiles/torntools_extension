@@ -47,7 +47,7 @@ function massMessages(theme){
         let list = [];
 
         for(let li of doc.findAll("ul.user-info-list-wrap>li:not(.last)")){
-            let user = li.find("a.user.name").getAttribute("data-placeholder");
+            let user = li.find("a.user.name").getAttribute("data-placeholder") || li.find("a.user.name>span").getAttribute("title");
             list.push(user);
         }
 

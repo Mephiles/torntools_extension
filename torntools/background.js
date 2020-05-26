@@ -207,7 +207,6 @@ function Main(){
 			local_storage.get(["stock_alerts", "torndata"], function([stock_alerts, torndata]){
 				for(let stock_id in stock_alerts){
 					if(parseFloat(torndata.stocks[stock_id].current_price) >= parseFloat(stock_alerts[stock_id].reach)){
-						console.log("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
 						console.log("Notifiying of reaching price point.");
 						notified = true;
 
@@ -226,7 +225,6 @@ function Main(){
 							}
 						}});
 					} else if(parseFloat(torndata.stocks[stock_id].current_price) <= parseFloat(stock_alerts[stock_id].fall)){
-						console.log("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
 						console.log("Notifiying of reaching price point.");
 						notified = true;
 						
