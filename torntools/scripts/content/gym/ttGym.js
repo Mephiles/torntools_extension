@@ -7,7 +7,7 @@ window.addEventListener('load', async (event) => {
 
     local_storage.get("settings", function(settings){
         // setup box
-        let gym_settings_container = content.new_container("TornTools - Gym settings", {id: "tt-gym-settings", theme: settings.theme, collapsed: false});
+        let gym_settings_container = content.new_container("Gym settings", {id: "tt-gym-settings", theme: settings.theme, collapsed: false});
         let div = doc.new("div");
             div.setClass("tt-setting");
         let checkbox = doc.new("input");

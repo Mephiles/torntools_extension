@@ -25,7 +25,7 @@ function displayNetworth(networth, format){
 
 	// current networth
 	let networth_text = `$${numberWithCommas(networth.current.value.total, shorten=false)}`;
-	let networth_row = info_box.new_row("TornTools - Networth", networth_text, {
+	let networth_row = info_box.new_row("(Live) Networth", networth_text, {
 		parent_heading: "General Information",
 		style: `background-color: #65c90069`,
 		id: "ttLiveNetworth"
@@ -130,7 +130,7 @@ function displayEffectiveBattleStats(theme){
 	// ebs - effective battle stats
 
 	let battle_stats_container = doc.find("h5=Battle Stats").parentElement.nextElementSibling;
-	info_box.new_row("TornTools", "Effective Battle Stats", {heading: true, parent_heading: "Battle Stats", theme: theme});
+	info_box.new_row("Effective Battle Stats", "", {heading: true, parent_heading: "Battle Stats", theme: theme});
 	console.log("Container", battle_stats_container);
 	
 	let eff_total = 0;

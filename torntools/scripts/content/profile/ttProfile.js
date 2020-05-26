@@ -104,7 +104,7 @@ function showWarning(type) {
 function displayTargetInfo(targets, theme) {
     let user_id = getUserId();
 
-    let info_container = content.new_container("TornTools - Target Info", {next_element_heading: "Medals", id: "tt-target-info", theme: theme});
+    let info_container = content.new_container("Target Info", {next_element_heading: "Medals", id: "tt-target-info", theme: theme});
     let content_container = info_container.find(".content");
 
     if (!targets[user_id])

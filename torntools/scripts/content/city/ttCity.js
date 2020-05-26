@@ -9,7 +9,7 @@ window.addEventListener('load', async (event) => {
 			if(!loaded || (!settings.pages.city.items && !settings.pages.city.items_value))
 				return;
 
-			let items_container = content.new_container("TornTools - City Items", {first:true, id: "tt-city-items", theme: settings.theme});
+			let items_container = content.new_container("City Items", {first:true, id: "tt-city-items", theme: settings.theme});
 			
 			if(settings.pages.city.items){
 				if(settings.force_tt){

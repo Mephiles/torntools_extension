@@ -408,16 +408,7 @@ const navbar = {
 }
 
 const info_box = {
-    new_row: function (key, value, attributes = {}) {
-        let defaults = {
-            parent_heading: undefined,
-            parent_element: undefined,
-            first: undefined,
-            id: undefined,
-            theme: undefined
-        }
-        attr = { ...defaults, ...attributes };
-
+    new_row: function (key, value, attr = {}) {
         // process
         let content = doc.find(".container .content");
 
@@ -438,7 +429,7 @@ const info_box = {
 
         let new_row;
         if (attr.heading) {
-            new_row = createNewHeading(`${key} - ${value}`, attr.theme);
+            new_row = createNewHeading(`${key} ${value}`, attr.theme);
         } else {
             new_row = createNewRow(key, value, attr.style, attr.value_style, attr.id);
         }
@@ -563,7 +554,7 @@ const content = {
             if(collapsed == false){
                 setTimeout(function(){
                     heading.click();
-                }, 1000);
+                }, 300);
             }
 
             return div;
