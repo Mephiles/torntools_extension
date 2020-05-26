@@ -49,7 +49,8 @@ Thanks, Mauk @DocTorn
 #tt-city-items .content {
 	padding-left: 7px;
 	padding-right: 7px;
-	padding-bottom: 2px;
+	padding-bottom: 26px;
+	padding-top: 0 !important;
 	font-size: 15px;
 	font-weight: 600;
 }

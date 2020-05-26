@@ -11,6 +11,10 @@ window.addEventListener('load', async (event) => {
 
 			let items_container = content.new_container("City Items", {first:true, id: "tt-city-items", theme: settings.theme});
 			
+			if(settings.pages.city.items_value){
+				showValueOfItems(items_container, itemlist, extensions.doctorn);
+			}
+
 			if(settings.pages.city.items){
 				if(settings.force_tt){
 					hideDoctorn();
@@ -18,10 +22,6 @@ window.addEventListener('load', async (event) => {
 				} else if(!extensions.doctorn){
 					displayItems(items_container, itemlist);
 				}
-			}
-			
-			if(settings.pages.city.items_value){
-				showValueOfItems(items_container, itemlist, extensions.doctorn);
 			}
 		});
 	});
@@ -44,7 +44,6 @@ function mapLoaded(){
 
 function displayItems(container, itemlist){
 	let content = container.find(".content");
-		content.innerText = "Items in the city: ";
 	
 	let items = getItemIDsOnMap();
 
