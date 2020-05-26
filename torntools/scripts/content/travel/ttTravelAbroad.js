@@ -68,7 +68,7 @@ function updateYATAprices(){
         "author_name": "Mephiles",
         "author_id": 2087524,
         "country": getCountryName(),
-        "items": {}
+        "items": []
     }
 
     // Table content
@@ -78,12 +78,12 @@ function updateYATAprices(){
         let quantity = parseInt(row.find(".stck-amount").innerText.replace(/,/g, ""));
         let price = parseInt(row.find(".cost .c-price").innerText.replace("$", "").replace(/,/g, ""));
 
-        post_data.items[id] = {quantity: quantity, cost: price}
-        // post_data.items.push({
-        //     id: id,
-        //     quantity: quantity,
-        //     cost: price
-        // });
+        // post_data.items[id] = {quantity: quantity, cost: price}
+        post_data.items.push({
+            id: id,
+            quantity: quantity,
+            cost: price
+        });
     }
 
     console.log("POST DATA", post_data);
