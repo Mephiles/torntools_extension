@@ -40,7 +40,7 @@ const local_storage = {
     
                 function recursive(parent, keys_to_change){
                     for(let key in keys_to_change){
-                        if(typeof keys_to_change[key] == "object" && !Array.isArray(keys_to_change[key])){
+                        if(key in parent && typeof keys_to_change[key] == "object" && !Array.isArray(keys_to_change[key])){
                             parent[key] = recursive(parent[key], keys_to_change[key]);
                         } else {
                             parent[key] = keys_to_change[key];
@@ -139,6 +139,7 @@ const STORAGE = {
         "initialized": false,
         "last_transaction": undefined
     },
+    "stock_alerts": {},
     "allies": [],
     "custom_links": [],
 
@@ -267,6 +268,9 @@ Document.prototype.new = function (new_element) {
         }
         if(new_element.text){
             el.innerText = new_element.text;
+        }
+        if(new_element.value){
+            el.value = new_element.value;
         }
 
         for(let attr in new_element.attributes){
@@ -785,6 +789,8 @@ async function get_api(http, api_key) {
         if (result.error) {
             if(result.error.code == 9){  // API offline
                 console.log("API SYSTEM OFFLINE");
+                chrome.browserAction.setBadgeText({text: 'ERROR'});
+                chrome.browserAction.setBadgeBackgroundColor({color: "#FF0000"});
                 local_storage.change({"api": { "online": false, "error": result.error.error }}, function(){
                     return resolve({ok: false, error: result.error.error});
                 });

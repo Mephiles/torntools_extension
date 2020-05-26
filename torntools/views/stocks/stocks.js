@@ -1,7 +1,7 @@
 window.addEventListener("load", function(){
 	console.log("Start Stocks");
 
-	local_storage.get(["settings", "api", "torndata", "userdata"], function([settings, api, torndata, userdata]){
+	local_storage.get(["settings", "api", "torndata", "userdata", "stock_alerts"], function([settings, api, torndata, userdata, stock_alerts]){
 
 		console.log("Torndata", torndata);
 		console.log("Userdata", userdata);
@@ -110,7 +110,6 @@ window.addEventListener("load", function(){
 				
 			stock_info.appendChild(collapse_icon);
 			benefit_info.appendChild(collapse_icon_2);
-
 			
 			stock_info_content.appendChild(CP_div);
 			stock_info_content.appendChild(BP_div);
@@ -118,6 +117,28 @@ window.addEventListener("load", function(){
 
 			benefit_info_content.appendChild(BR_div);
 			benefit_info_content.appendChild(BD_div);
+
+			let alerts_wrap = doc.new({type: "div", class: "alerts-wrap"});
+			let alerts_heading = doc.new({type: "div", class: "alerts-heading", text: "Alerts"});
+
+			let reach_alert = stock_alerts[stock_id] ? stock_alerts[stock_id].reach : "";
+			let input_wrap_reach = doc.new({type: "div", class: "alerts-input-wrap"});
+			let reach_text = doc.new({type: "div", class: "alerts-text", text: "Reaches"});
+			let reach_input = doc.new({type: "input", class: "alerts-input", value: reach_alert});
+			input_wrap_reach.appendChild(reach_text);
+			input_wrap_reach.appendChild(reach_input);
+			
+			let fall_alert = stock_alerts[stock_id] ? stock_alerts[stock_id].fall : "";
+			let input_wrap_fall = doc.new({type: "div", class: "alerts-input-wrap"});
+			let fall_text = doc.new({type: "div", class: "alerts-text", text: "Falls to"});
+			let fall_input = doc.new({type: "input", class: "alerts-input", value: fall_alert});
+			input_wrap_fall.appendChild(fall_text);
+			input_wrap_fall.appendChild(fall_input);
+
+			alerts_wrap.appendChild(alerts_heading);
+			alerts_wrap.appendChild(input_wrap_reach);
+			alerts_wrap.appendChild(input_wrap_fall);
+			stock_info_content.appendChild(alerts_wrap);
 
 			div.appendChild(hr);
 			div.appendChild(heading);
@@ -154,6 +175,22 @@ window.addEventListener("load", function(){
 				}
 
 				event.srcElement.nodeName == "I" ? rotateElement(event.target, 180) : rotateElement(event.target.find("i"), 180);
+			});
+
+			reach_input.addEventListener("change", function(){
+				local_storage.change({"stock_alerts": {
+					[stock_id]: {
+						"reach": reach_input.value
+					}
+				}});
+			});
+
+			fall_input.addEventListener("change", function(){
+				local_storage.change({"stock_alerts": {
+					[stock_id]: {
+						"fall": fall_input.value
+					}
+				}});
 			});
 		}
 		

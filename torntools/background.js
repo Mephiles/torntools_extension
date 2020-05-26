@@ -1,6 +1,9 @@
 console.log("START - Background Script");
 import personalized from "../personalized.js";
 
+// Clear badge
+chrome.browserAction.setBadgeText({text: ''});
+
 // First - set storage
 console.log("Checking Storage.");
 let setup_storage = new Promise(function(resolve, reject){
@@ -194,6 +197,58 @@ function Main(){
 
 			return promise.then(function(data){
 				return data;
+			});
+		})();
+
+		// check stocks alerts
+		console.log("Checking stock prices.");
+		await (function(){
+			let notified = false;
+			local_storage.get(["stock_alerts", "torndata"], function([stock_alerts, torndata]){
+				for(let stock_id in stock_alerts){
+					if(parseFloat(torndata.stocks[stock_id].current_price) >= parseFloat(stock_alerts[stock_id].reach)){
+						console.log("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+						console.log("Notifiying of reaching price point.");
+						notified = true;
+
+						chrome.notifications.create({
+							type: 'basic', 
+							iconUrl: 'images/icon128.png', 
+							title: 'TornTools - Stock alerts', 
+							message: `(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has reached $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].reach})`
+						}, function(){
+							console.log("Notified!");
+						});
+
+						local_storage.change({"stock_alerts": {
+							[stock_id]: {
+								"reach": undefined
+							}
+						}});
+					} else if(parseFloat(torndata.stocks[stock_id].current_price) <= parseFloat(stock_alerts[stock_id].fall)){
+						console.log("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+						console.log("Notifiying of reaching price point.");
+						notified = true;
+						
+						chrome.notifications.create({
+							type: 'basic', 
+							iconUrl: 'images/icon128.png', 
+							title: 'TornTools - Stock alerts', 
+							message: `(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has fallen to $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].fall})`
+						}, function(){
+							console.log("Notified!");
+						});
+
+						local_storage.change({"stock_alerts": {
+							[stock_id]: {
+								"fall": undefined
+							}
+						}});
+					}
+				}
+				if(!notified){
+					console.log("No new notifications.");
+				}
 			});
 		})();
 	});
