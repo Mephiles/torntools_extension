@@ -1,0 +1,85 @@
+.table.list {
+    width: 80%;
+    margin-top: 5px;
+}
+
+.table.list .body {
+    position: relative;
+}
+
+.table.list .row {
+    height: 25px;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.table.list .row .text {
+    border-radius: 4px;
+    border: 1px solid #a7a7a7;
+    padding-left: 4px;
+    outline: none;
+    box-shadow: 0px 1px 5px 1px #e8e8e8;
+    margin-right: 4px;
+}
+
+#ff-table .row .text {
+    width: 50%;
+}
+
+#custom_links .row .text.name {
+    width: 30%;
+}
+
+#custom_links .row .text.href {
+    width: 60%;
+}
+
+#loot-table .row .text.name {
+    width: 30%;
+}
+
+#loot-table .row .text.level {
+    width: 20%;
+}
+
+#loot-table .row .text.time {
+    width: 20%;
+}
+
+.table.list .row .remove-icon-wrap {
+    width: 25px;
+    height: 25px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: unset;
+    cursor: pointer;
+}
+
+.table.list .row .remove-icon-wrap:hover {
+    background: #eaeaea;
+}
+
+.table.list .row .remove-icon {
+    position: relative;
+    top: -4px;
+    color: red;
+}
+
+.table.list .row .add-button {
+    width: 35px;
+    height: 21px;
+    line-height: 21px;
+    border: 1px solid lightgray;
+    text-align: center;
+    position: relative;
+    top: 2px;
+    cursor: pointer;
+    border-radius: 6px;
+    background: #f9f9f9;
+    padding: unset;
+}
+
+.table.list .row .add-button:hover {
+    background: #c7f77b;
+}
