@@ -22,13 +22,16 @@ window.addEventListener("load", function(){
     // Content
     setupChangelog();
 
-    local_storage.get(["settings", "allies", "custom_links", "target_list", "loot_times", "loot_alerts", "chat_highlight"], function([settings, allies, custom_links, target_list, loot_times, loot_alerts, chat_highlight]){
+    local_storage.get(["settings", "api_key", "allies", "custom_links", "target_list", "loot_times", "loot_alerts", "chat_highlight"], function([settings, api_key, allies, custom_links, target_list, loot_times, loot_alerts, chat_highlight]){
         // Preferences
         setupPreferences(settings, allies, custom_links, target_list.show, loot_times, loot_alerts, chat_highlight);
         
         // Target list
         setupTargetList(target_list.targets);
         setupValueChanger();
+
+        // Fill in API key
+        doc.find("#api_field").value = api_key.slice(0, api_key.length-8) + "********";
     });
 
     // Buttons
@@ -55,7 +58,7 @@ window.addEventListener("load", function(){
 
     // Log whole Database
     local_storage.get(null, function(STORAGE){
-        console.log("Database", STORAGE)
+        console.log("Database", STORAGE);
     });
 });
 
