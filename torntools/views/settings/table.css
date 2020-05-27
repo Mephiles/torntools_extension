@@ -1,6 +1,163 @@
+/* Target List Table */
+.table {
+    width: 100%;
+    min-width: 870px;
+}
+
+    /* legend */
+
+.table .legend {
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.table .legend .item {
+    flex: 1 0 auto;
+}
+
+.table .legend .item .marker {
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    min-width: 40px;
+    float: left;
+    margin-right: 5px;
+}
+
+.table .legend .item .text {
+    height: 22px;
+    line-height: 22px;
+}
+
+.green.marker {
+    border: 1px solid black;
+    background-color: #dfffdf;
+}
+
+.yellow.marker {
+    border: 1px solid black;
+    background-color: #fffdcc;
+}
+
+.marker.button {
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    padding: 2px 4px;
+    background-color: #c82333;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.marker.button:hover {
+    background-color: #f12c3f;
+}
+
+    /* header */
+
+.table .header.row {
+    font-weight: 600;
+    position: sticky;
+    top: -10px;
+}
+
+.table .header.row div {
+    border-bottom: 1px solid black;
+    position: relative;
+    cursor: pointer;
+}
+
+.table .header.row i.fa-caret-up {
+    font-size: 19px;
+    position: absolute;
+    right: 5px;
+    z-index: 9;
+}
+
+.table .header.row i.fa-caret-down {
+    font-size: 19px;
+    position: absolute;
+    right: 5px;
+    top: 10px;
+    z-index: 9;
+}
+
+    /* body */
+
+.table .row {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    text-align: center;
+    display: flex;
+}
+
+.table .row div {
+    border-bottom: 0.5px solid lightgrey;
+    width: 7%;
+    padding-left: 5px;
+}
+
+.table .row div:nth-of-type(2),
+.table .row div:nth-of-type(3),
+.table .row div:nth-of-type(4),
+.table .row div:nth-of-type(5),
+.table .row div:nth-of-type(6) {
+    width: 6%;
+}
+
+.table .header.row div:nth-of-type(2) i,
+.table .header.row div:nth-of-type(3) i,
+.table .header.row div:nth-of-type(4) i,
+.table .header.row div:nth-of-type(5) i,
+.table .header.row div:nth-of-type(6) i,
+.table .header.row div:nth-of-type(7) i,
+.table .header.row div:nth-of-type(8) i,
+.table .header.row div:nth-of-type(11) i,
+.table .header.row div:nth-of-type(13) i,
+.table .header.row div:nth-of-type(14) i {
+    right: -2px;
+}
+
+.table .header.row div:nth-of-type(9) i {
+    right: 0;
+}
+
+.table .row div:nth-of-type(11),
+.table .row div:nth-of-type(12) {
+    width: 10%;
+}
+
+.table .row:last-of-type div {
+    border-bottom: unset;
+}
+
+.table .row .new-section {
+    border-left: 1px solid grey;
+}
+
+.table .row .good {
+    background-color: #dfffdf;
+}
+
+.table .row .bad {
+    background-color: #ffe0e0;
+}
+
+.table .row .neutral {
+    background: white;
+}
+
+
+/* TABLE LIST */
 .table.list {
     width: 80%;
     margin-top: 5px;
+    min-width: unset;
 }
 
 .table.list .body {
