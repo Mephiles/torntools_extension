@@ -256,9 +256,14 @@ function Main(){
 			let notified = false;
 			local_storage.get(["loot_alerts", "loot_times"], function([loot_alerts, loot_times]){
 				let current_time = parseInt(((new Date().getTime())/ 1000).toFixed(0));
+
 				for(let npc_id in loot_alerts){
 					let alert_level = loot_alerts[npc_id].level;
 					let alert_loot_time = loot_times[npc_id].timings[alert_level].ts;
+
+					if(!loot_alerts[npc_id].time){
+						continue;
+					}
 
 					if(loot_times[npc_id].levels.next <= alert_level && alert_loot_time - current_time <= parseFloat(loot_alerts[npc_id].time)*60){
 						console.log("Notifiying of loot time.");
