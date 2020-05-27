@@ -1,4 +1,30 @@
 export default {
+    "v4.0 - Taking over": {
+        "Features": [
+            "Added option to force TornTools over Doctorn where possible",
+            "Added custom Links to navigation panel",
+            "Added Item Stock into Travel Destinations table (replaced flight time) - Powered by YATA",
+            "Added option to collapse TornTools containers (clicking on the heading works too)",
+            "Added option to show user's status indicator next to their name (page heading)",
+            "Added Stocks price notifications (can set under stocks tab)",
+            "Added an error badge to extension icon if API is down",
+            "Added alerts for NPC loot times",
+            "Added a button to clear target list data",
+            "Added Chat Highlighting"
+        ],
+        "Fixes": [
+            "IMPORTANT: Torn changed the formatting of dates in Vault transactions. Adjusted TornTools with that. (CLICK save to update the database with the latest correct date)",
+            "Fixed Vault not updating User's shares when looping through old transactions",
+            "Fixed API errors not appearing on Stocks page"
+        ],
+        "Changes": [
+            "Removed Hospital from 'remove info boxes' script",
+            "Simplified container headings (removed TornTools text)",
+            "Further improved design of City Items",
+            "Improved design of tables on Settings page (NPC Loot, Friendly Fire, Custom links)",
+            "Improved design of Settings page in smaller windows"
+        ]
+    },
     "v3.8.3": {
         "Fixes": [
             "Added confirmation message when changing your API key",
