@@ -2,7 +2,7 @@ window.addEventListener('load', async (event) => {
     if(await flying() || await abroad())
         return;
 
-    local_storage.get(["updated", "settings", "custom_links"], function([updated, settings, custom_links]){
+    local_storage.get(["updated", "settings", "custom_links", "chat_highlight", "userdata"], function([updated, settings, custom_links, chat_highlight, userdata]){
         // Update notification
         if(updated && settings.update_notification){
             let version_text = `TornTools updated: ${chrome.runtime.getManifest().version}`;
@@ -40,6 +40,19 @@ window.addEventListener('load', async (event) => {
             for(let link of custom_links){
                 new_cell = navbar.new_cell(link.text, {parent_element: links_section, href: link.href});
             }
+        }
+
+        // Chat highlight
+        doc.addEventListener("click", function(event){
+            if(event.target.parentElement.classList.contains("chat-box_Wjbn9") || 
+            event.target.parentElement.parentElement.classList.contains("chat-box_Wjbn9") || 
+            event.target.parentElement.parentElement.parentElement.classList.contains("chat-box_Wjbn9")){
+                highLightChat(chat_highlight, userdata.name);
+            }
+        });
+
+        if(doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")){
+            highLightChat(chat_highlight, userdata.name);
         }
 
         // showColorCodes();
@@ -92,5 +105,24 @@ function showColorCodes(){
             span.style.backgroundColor = dictionary[key];
 
         cell.appendChild(span);
+    }
+}
+
+function highLightChat(chat_highlight, username){
+    let chats = doc.findAll(".chat-box-content_2C5UJ .overview_1MoPG");
+    for(let chat of chats){
+        let messages = chat.findAll(".message_oP8oM");
+    
+        for(let message of messages){
+            let sender = message.find("a").innerText.replace(":", "").trim();
+            let text = message.find("span").innerText;
+            
+            if(sender in chat_highlight){
+                message.find("a").style.color = chat_highlight[sender];
+            }
+            if(text.indexOf(username) > -1){
+                message.find("span").style.backgroundColor = "#c3e26e";
+            }
+        }
     }
 }

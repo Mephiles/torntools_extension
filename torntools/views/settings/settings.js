@@ -22,9 +22,9 @@ window.addEventListener("load", function(){
     // Content
     setupChangelog();
 
-    local_storage.get(["settings", "allies", "custom_links", "target_list", "loot_times", "loot_alerts"], function([settings, allies, custom_links, target_list, loot_times, loot_alerts]){
+    local_storage.get(["settings", "allies", "custom_links", "target_list", "loot_times", "loot_alerts", "chat_highlight"], function([settings, allies, custom_links, target_list, loot_times, loot_alerts, chat_highlight]){
         // Preferences
-        setupPreferences(settings, allies, custom_links, target_list.show, loot_times, loot_alerts);
+        setupPreferences(settings, allies, custom_links, target_list.show, loot_times, loot_alerts, chat_highlight);
         
         // Target list
         setupTargetList(target_list.targets);
@@ -39,7 +39,10 @@ window.addEventListener("load", function(){
         addAllyToList(event);
     });
     doc.find("#add_link").addEventListener("click", function(event){
-        addLinktoList(event)
+        addLinktoList(event);
+    });
+    doc.find("#add_highlight").addEventListener("click", function(event){
+        addHighlightToList(event);
     });
     doc.find("#clear_target_list").addEventListener("click", function(){
         local_storage.set({"target_list": {
@@ -171,7 +174,7 @@ function setupChangelog(){
     content.appendChild(p);
 }
 
-function setupPreferences(settings, allies, custom_links, target_list_enabled, loot_times, loot_alerts){
+function setupPreferences(settings, allies, custom_links, target_list_enabled, loot_times, loot_alerts, chat_highlight){
     let preferences = doc.find("#preferences");
 
     // General
@@ -255,6 +258,31 @@ function setupPreferences(settings, allies, custom_links, target_list_enabled, l
         row.appendChild(remove_icon_wrap);
 
         let table_body = preferences.find("#custom_links .body");
+        table_body.insertBefore(row, table_body.find(".row.input"));
+    }
+
+    // Chat highlights
+    for(let name in chat_highlight){
+        let row = doc.new({type: "div", class: "row"});
+        let name_input = doc.new({type: "input", class: "text name", value: name});
+        let color_input = doc.new({type: "input", class: "text color", value: chat_highlight[name], attributes: {type: "color"}});
+        let remove_icon_wrap = doc.new({type: "div", class:"remove-icon-wrap"});
+        let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+
+        remove_icon.addEventListener("click", function(event){
+            event.target.parentElement.parentElement.remove();
+        });
+
+        remove_icon_wrap.addEventListener("click", function(event){
+            event.target.parentElement.remove();
+        });
+
+        remove_icon_wrap.appendChild(remove_icon);
+        row.appendChild(name_input);
+        row.appendChild(color_input);
+        row.appendChild(remove_icon_wrap);
+
+        let table_body = preferences.find("#chat_highlight .body");
         table_body.insertBefore(row, table_body.find(".row.input"));
     }
 
@@ -345,12 +373,22 @@ function savePreferences(preferences, settings, target_list_enabled){
         }
     }
 
+    // Chat highlight
+    let highlights = {}
+    for(let row of preferences.findAll("#chat_highlight .row:not(.input)")){
+        let name = row.find(".name").value;
+        let color = row.find(".color").value;
+
+        highlights[name] = color;
+    }
+
     console.log("New settings", settings);
 
     local_storage.set({"settings": settings});
     local_storage.set({"allies": allies});
     local_storage.set({"custom_links": custom_links});
     local_storage.set({"loot_alerts": alerts});
+    local_storage.set({"chat_highlight": highlights});
 
     local_storage.change({"target_list": {"show": target_list_enabled}}, function(){
         local_storage.get("target_list", function(target_list){
@@ -618,4 +656,32 @@ function message(text, good){
         message_element.innerText = "";
         message_element.style.maxHeight = null;
     }, 1500);
+}
+
+function addHighlightToList(event){
+    let row = doc.new({type: "div", class: "row"});
+    let name_input = doc.new({type: "input", class: "text name", value: event.target.previousElementSibling.previousElementSibling.value});
+    let color_input = doc.new({type: "input", class: "text color", value: event.target.previousElementSibling.value, attributes: {type: "color"}});
+    let remove_icon_wrap = doc.new({type: "div", class:"remove-icon-wrap"});
+    let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+
+    remove_icon.addEventListener("click", function(event){
+        event.target.parentElement.parentElement.remove();
+    });
+
+    remove_icon_wrap.addEventListener("click", function(event){
+        event.target.parentElement.remove();
+    });
+
+    remove_icon_wrap.appendChild(remove_icon);
+    row.appendChild(name_input);
+    row.appendChild(color_input);
+    row.appendChild(remove_icon_wrap);
+
+    let table_body = preferences.find("#chat_highlight .body");
+    table_body.insertBefore(row, table_body.find(".row.input"));
+
+    // Clear input
+    event.target.previousElementSibling.value = "#7ca900";
+    event.target.previousElementSibling.previousElementSibling.value = "";
 }

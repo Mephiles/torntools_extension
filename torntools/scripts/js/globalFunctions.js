@@ -143,6 +143,7 @@ const STORAGE = {
     "loot_alerts": {},
     "allies": [],
     "custom_links": [],
+    "chat_highlight": {},
 
     // user settings
     "settings": {
