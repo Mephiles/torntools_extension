@@ -6,8 +6,8 @@ Links
   - [Chrome](https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib)  
   - [Firefox](https://addons.mozilla.org/en-US/firefox/addon/torn-tools/)  
 
-Bigger Features:  
-  - Torn Market  
+**Bigger Features**:  
+  - Quick Market  
   - Achievements  
   - Trade Calculator  
   - City Items  
@@ -22,7 +22,7 @@ Bigger Features:
   - Stock price notifications (coming 4.0)  
   - Custom Links (coming 4.0)  
 
-Smaller Features:  
+**Smaller Features**:  
   - Friendly Fire  
   - Shop profits  
   - Disable Gym  
@@ -34,7 +34,7 @@ Smaller Features:
   - Simplified Armory  
   - Modified Profile headings  
   
-**Market**: check prices of items from the small extension window at top-right  
+**Quick Market**: check prices of items from the small extension window at top-right  
 **Achievements**: keep track of your Achievements at the left-side menu bar in Torn  
 **Trade Calculator**: auto-calculate the worth of Items when trading with someone  
 **City Items**: show items in city & the total value of the items  
