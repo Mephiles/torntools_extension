@@ -41,6 +41,14 @@ window.addEventListener("load", function(){
     doc.find("#add_link").addEventListener("click", function(event){
         addLinktoList(event)
     });
+    doc.find("#clear_target_list").addEventListener("click", function(){
+        local_storage.set({"target_list": {
+            "last_target": -1,
+            "show": true,
+            "targets": {}
+        }});
+        message("Target list reset.", true);
+    });
 
     // Log whole Database
     local_storage.get(null, function(STORAGE){
