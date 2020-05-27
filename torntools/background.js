@@ -260,7 +260,7 @@ function Main(){
 					let alert_level = loot_alerts[npc_id].level;
 					let alert_loot_time = loot_times[npc_id].timings[alert_level].ts;
 
-					if(alert_loot_time - current_time <= parseFloat(loot_alerts[npc_id].time)*60){
+					if(loot_times[npc_id].levels.next <= alert_level && alert_loot_time - current_time <= parseFloat(loot_alerts[npc_id].time)*60){
 						console.log("Notifiying of loot time.");
 						notified = true;
 
