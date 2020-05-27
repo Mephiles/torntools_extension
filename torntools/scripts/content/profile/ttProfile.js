@@ -233,7 +233,7 @@ function displayLootLevel(loot_times){
     let profile_id = doc.find(`.profile-container .basic-list>li .user-info-value`).innerText.split(" [")[1].replace("]", "");
     
     if(profile_id in loot_times){
-        let current_time = parseInt(((new Date().getTime())/ 1000).toFixed(0));;
+        let current_time = parseInt(((new Date().getTime())/ 1000).toFixed(0));
         let next_level = loot_times[profile_id].levels.next;
         let next_loot_time = loot_times[profile_id].timings[next_level].ts;
         let time_left;

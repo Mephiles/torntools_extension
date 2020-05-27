@@ -245,7 +245,37 @@ function Main(){
 					}
 				}
 				if(!notified){
-					console.log("No new notifications.");
+					console.log("No new stock notifications.");
+				}
+			});
+		})();
+
+		// check stocks alerts
+		console.log("Checking NPC loot times.");
+		await (function(){
+			let notified = false;
+			local_storage.get(["loot_alerts", "loot_times"], function([loot_alerts, loot_times]){
+				let current_time = parseInt(((new Date().getTime())/ 1000).toFixed(0));
+				for(let npc_id in loot_alerts){
+					let alert_level = loot_alerts[npc_id].level;
+					let alert_loot_time = loot_times[npc_id].timings[alert_level].ts;
+
+					if(alert_loot_time - current_time <= parseFloat(loot_alerts[npc_id].time)*60){
+						console.log("Notifiying of loot time.");
+						notified = true;
+
+						chrome.notifications.create({
+							type: 'basic', 
+							iconUrl: 'images/icon128.png', 
+							title: 'TornTools - Loot alerts', 
+							message: `${loot_times[npc_id].name} is reaching loot level ${arabicToRoman(alert_level)} in ${time_until((alert_loot_time - current_time)*1000)}`
+						}, function(){
+							console.log("Notified!");
+						});
+					}
+				}
+				if(!notified){
+					console.log("No new loot notifications.");
 				}
 			});
 		})();

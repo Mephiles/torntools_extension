@@ -22,9 +22,9 @@ window.addEventListener("load", function(){
     // Content
     setupChangelog();
 
-    local_storage.get(["settings", "allies", "custom_links", "target_list"], function([settings, allies, custom_links, target_list]){
+    local_storage.get(["settings", "allies", "custom_links", "target_list", "loot_times", "loot_alerts"], function([settings, allies, custom_links, target_list, loot_times, loot_alerts]){
         // Preferences
-        setupPreferences(settings, allies, custom_links, target_list.show);
+        setupPreferences(settings, allies, custom_links, target_list.show, loot_times, loot_alerts);
         
         // Target list
         setupTargetList(target_list.targets);
@@ -163,7 +163,7 @@ function setupChangelog(){
     content.appendChild(p);
 }
 
-function setupPreferences(settings, allies, custom_links, target_list_enabled){
+function setupPreferences(settings, allies, custom_links, target_list_enabled, loot_times, loot_alerts){
     let preferences = doc.find("#preferences");
 
     // General
@@ -204,44 +204,65 @@ function setupPreferences(settings, allies, custom_links, target_list_enabled){
             break;
         }
 
-        let row = doc.new("div");
-            row.setClass("row");
-            row.innerText = ally;
-        let icon = doc.new("i");
-            icon.setClass("fas fa-times");
+        let row = doc.new({type: "div", class: "row"});
+        let text_input = doc.new({type: "input", class: "text", value: ally});
+        let remove_icon_wrap = doc.new({type: "div", class:"remove-icon-wrap"});
+        let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
 
-        icon.addEventListener("click", function(event){
+        remove_icon.addEventListener("click", function(event){
+            event.target.parentElement.parentElement.remove();
+        });
+
+        remove_icon_wrap.addEventListener("click", function(event){
             event.target.parentElement.remove();
         });
         
-        row.appendChild(icon);
-        let table_body = preferences.find(`#profile-friendly_warning+.table .body`);
+        remove_icon_wrap.appendChild(remove_icon);
+        row.appendChild(text_input);
+        row.appendChild(remove_icon_wrap);
+        
+        let table_body = preferences.find(`#ff-table .body`);
         table_body.insertBefore(row, table_body.find(".row.input"));
-
-        // Auto-scroll down
-        table_body.parentElement.scrollTop = table_body.parentElement.scrollHeight;
     }
 
     // Custom links
     for(let link of custom_links){
         let row = doc.new({type: "div", class: "row"});
-        let left_span = doc.new({type: "span", text: link.text, class: "text"});
-        let right_span = doc.new({type: "span", text: link.href, class: "href"});
-        let icon = doc.new({type: "i", class: "fas fa-times"});
+        let name_input = doc.new({type: "input", class: "text name", value: link.text});
+        let href_input = doc.new({type: "input", class: "text href", value: link.href});
+        let remove_icon_wrap = doc.new({type: "div", class:"remove-icon-wrap"});
+        let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
 
-        icon.addEventListener("click", function(event){
+        remove_icon.addEventListener("click", function(event){
+            event.target.parentElement.parentElement.remove();
+        });
+
+        remove_icon_wrap.addEventListener("click", function(event){
             event.target.parentElement.remove();
         });
 
-        row.appendChild(left_span);
-        row.appendChild(right_span);
-        row.appendChild(icon);
+        remove_icon_wrap.appendChild(remove_icon);
+        row.appendChild(name_input);
+        row.appendChild(href_input);
+        row.appendChild(remove_icon_wrap);
 
         let table_body = preferences.find("#custom_links .body");
         table_body.insertBefore(row, table_body.find(".row.input"));
+    }
 
-        // Auto-scroll down
-        table_body.parentElement.scrollTop = table_body.parentElement.scrollHeight;
+    // Loot alerts
+    for(let npc_id in loot_times){
+        let row = doc.new({type: "div", class: "row"});
+        let name_input = doc.new({type: "input", class: "text name", value: loot_times[npc_id].name, attributes: {disabled: true}});
+        let level_input = doc.new({type: "input", class: "text level", value: (loot_alerts[npc_id] ? loot_alerts[npc_id].level : ""), attributes: {placeholder: "level.."}});
+        let time_input = doc.new({type: "input", class: "text time", id: `npc-${npc_id}`, value: (loot_alerts[npc_id] ? loot_alerts[npc_id].time : ""), attributes: {placeholder: "minutes.."}});
+
+        row.appendChild(name_input);
+        row.appendChild(level_input);
+        row.appendChild(time_input);
+
+        let table_body = preferences.find("#loot-table .body");
+        table_body.insertBefore(row, table_body.find(".row.input"));
     }
 
     // Buttons
@@ -290,17 +311,30 @@ function savePreferences(preferences, settings, target_list_enabled){
 
     // Allies
     let allies = [];
-    for(let ally of preferences.findAll("#profile-friendly_warning+.table .row:not(.input)")){
-        allies.push(ally.innerText.trim());
+    for(let ally of preferences.findAll("#ff-table .row:not(.input) .text")){
+        allies.push(ally.value.trim());
     }
 
     // Custom links
     let custom_links = [];
     for(let link of preferences.findAll("#custom_links .row:not(.input")){
         custom_links.push({
-            text: link.find(".text").innerText,
-            href: link.find(".href").innerText
+            text: link.find(".name").value,
+            href: link.find(".href").value
         });
+    }
+
+    // Loot alerts
+    let alerts = {}
+    for(let npc of preferences.findAll(`#loot-table .row`)){
+        let npc_id = npc.find(".time").id.split("-")[1];
+        let level = romanToArabic(npc.find(".level").value);
+        let time = parseFloat(npc.find(".time").value);
+
+        alerts[npc_id] = {
+            level: level,
+            time: time
+        }
     }
 
     console.log("New settings", settings);
@@ -308,6 +342,8 @@ function savePreferences(preferences, settings, target_list_enabled){
     local_storage.set({"settings": settings});
     local_storage.set({"allies": allies});
     local_storage.set({"custom_links": custom_links});
+    local_storage.set({"loot_alerts": alerts});
+
     local_storage.change({"target_list": {"show": target_list_enabled}}, function(){
         local_storage.get("target_list", function(target_list){
             console.log("new target list", target_list);
@@ -507,20 +543,25 @@ function resetApiKey(){
 }
 
 function addAllyToList(event){
-    let row = doc.new({type: "div", class: "row", text: event.target.previousElementSibling.value});
-    let icon = doc.new({type: "i", class: "fas fa-times"});
-            
-    icon.addEventListener("click", function(event){
-        event.target.parentElement.remove();
+    let row = doc.new({type: "div", class: "row"});
+    let text_input = doc.new({type: "input", class: "text", value: event.target.previousElementSibling.value});
+    let remove_icon_wrap = doc.new({type: "div", class:"remove-icon-wrap"});
+    let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"})
+
+    remove_icon.addEventListener("click", function(event){
+        event.target.parentElement.parentElement.remove();
     });
 
-    row.appendChild(icon);
-
-    let table_body = event.target.parentElement.parentElement;
+    remove_icon_wrap.addEventListener("click", function(event){
+        event.target.parentElement.remove();
+    });
+    
+    remove_icon_wrap.appendChild(remove_icon);
+    row.appendChild(text_input);
+    row.appendChild(remove_icon_wrap);
+    
+    let table_body = preferences.find(`#ff-table .body`);
     table_body.insertBefore(row, table_body.find(".row.input"));
-
-    // Auto-scroll down
-    table_body.parentElement.scrollTop = table_body.parentElement.scrollHeight;
 
     // Clear input
     event.target.previousElementSibling.value = "";
@@ -528,23 +569,26 @@ function addAllyToList(event){
 
 function addLinktoList(event){
     let row = doc.new({type: "div", class: "row"});
-    let left_span = doc.new({type: "span", class: "text", text: event.target.previousElementSibling.previousElementSibling.value});
-    let right_span = doc.new({type: "span", class: "href", text: event.target.previousElementSibling.value});
-    let icon = doc.new({type: "i", class: "fas fa-times"});
+    let name_input = doc.new({type: "input", class: "text name", value: event.target.previousElementSibling.previousElementSibling.value});
+    let href_input = doc.new({type: "input", class: "text href", value: event.target.previousElementSibling.value});
+    let remove_icon_wrap = doc.new({type: "div", class:"remove-icon-wrap"});
+    let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
 
-    icon.addEventListener("click", function(event){
+    remove_icon.addEventListener("click", function(event){
+        event.target.parentElement.parentElement.remove();
+    });
+
+    remove_icon_wrap.addEventListener("click", function(event){
         event.target.parentElement.remove();
     });
 
-    row.appendChild(left_span);
-    row.appendChild(right_span);
-    row.appendChild(icon);
+    remove_icon_wrap.appendChild(remove_icon);
+    row.appendChild(name_input);
+    row.appendChild(href_input);
+    row.appendChild(remove_icon_wrap);
 
     let table_body = preferences.find("#custom_links .body");
     table_body.insertBefore(row, table_body.find(".row.input"));
-
-    // Auto-scroll down
-    table_body.parentElement.scrollTop = table_body.parentElement.scrollHeight;
 
     // Clear input
     event.target.previousElementSibling.value = "";
