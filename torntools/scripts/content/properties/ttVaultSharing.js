@@ -38,21 +38,6 @@ window.addEventListener("load", async function(event) {
         let split = doc.new("div");
             split.setClass("split");
 
-        // left
-        let left_side = doc.new("div");
-            left_side.setClass("column");
-
-        let left_text = doc.new("div");
-            left_text.innerText = "Your share:";
-
-        let left_input = doc.new("input");
-            left_input.setAttribute("type", "text");
-            left_input.value = numberWithCommas(vault.user.current_money, shorten=false) || numberWithCommas(total_money, shorten=false);
-
-        left_side.appendChild(left_text);
-        left_side.appendChild(left_input);
-        split.appendChild(left_side);
-
         // divider
         if(!vault.initialized){
             let divider = doc.new("span");
@@ -64,12 +49,12 @@ window.addEventListener("load", async function(event) {
                 console.log("looping");
                 let date = transaction.find(".date .transaction-date").innerText;
                 let date_parts = date.split("/")
-                let time = transaction.find(".date .transaction-time").innerText.replace(" PM", "").replace(" AM", "");
+                let time = transaction.find(".date .transaction-time").innerText;
 
                 var months = [ "January", "February", "March", "April", "May", "June", 
                 "July", "August", "September", "October", "November", "December" ];
 
-                let transaction_date = new Date(`${months[date_parts[1]-1]} ${date_parts[2]}, ${date_parts[0]} ${time}`);
+                let transaction_date = new Date(`${months[parseInt(date_parts[1])-1]} ${date_parts[0]}, ${date_parts[2]} ${time}`);
 
                 if(transaction_date > new Date(vault.last_transaction)){
                     console.log("found");
@@ -90,10 +75,11 @@ window.addEventListener("load", async function(event) {
                     console.log("Amount", amount);
                     
                     if(user){
-                        vault.user.current_money = type == "withdraw" ? vault.user.current_money - amount : vault.user.current_money + amount;
+                        vault.user.current_money = (type == "withdraw" ? vault.user.current_money - amount : vault.user.current_money + amount);
                     } else {
-                        vault.partner.current_money = type == "withdraw" ? vault.partner.current_money - amount : vault.partner.current_money + amount;
+                        vault.partner.current_money = (type == "withdraw" ? vault.partner.current_money - amount : vault.partner.current_money + amount);
                     }
+
                     need_to_save = true;
 
                 } else {
@@ -102,6 +88,21 @@ window.addEventListener("load", async function(event) {
                 }
             }
         }
+
+        // left
+        let left_side = doc.new("div");
+            left_side.setClass("column");
+
+        let left_text = doc.new("div");
+            left_text.innerText = "Your share:";
+
+        let left_input = doc.new("input");
+            left_input.setAttribute("type", "text");
+            left_input.value = numberWithCommas(vault.user.current_money, shorten=false) || numberWithCommas(total_money, shorten=false);
+
+        left_side.appendChild(left_text);
+        left_side.appendChild(left_input);
+        split.appendChild(left_side);
             
         // right
         let right_side = doc.new("div");
@@ -237,7 +238,7 @@ window.addEventListener("load", async function(event) {
         });
 
         if(need_to_save){
-            saving_text.click();
+           saving_text.click();
         }
     }
 });
@@ -245,12 +246,12 @@ window.addEventListener("load", async function(event) {
 function getLastTransactionDate(){
     let date = doc.find("ul.vault-trans-list>li:not(.title) .date .transaction-date").innerText;
     let date_parts = date.split("/")
-    let time = doc.find("ul.vault-trans-list>li:not(.title) .date .transaction-time").innerText.replace(" PM", "").replace(" AM", "");
+    let time = doc.find("ul.vault-trans-list>li:not(.title) .date .transaction-time").innerText;
 
     var months = [ "January", "February", "March", "April", "May", "June", 
     "July", "August", "September", "October", "November", "December" ];
 
-    return new Date(`${months[date_parts[1]-1]} ${date_parts[2]}, ${date_parts[0]} ${time}`);
+    return new Date(`${months[parseInt(date_parts[1])-1]} ${date_parts[0]}, ${date_parts[2]} ${time}`);
 }
 
 function containerRemoved(){
