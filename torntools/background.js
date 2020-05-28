@@ -332,8 +332,8 @@ async function Main_fast(){
 	// check extensions
 	console.log("Checking for installed extensions.");
 	await (function(){
-		let promise = new Promise(async function(resolve, reject){
-			local_storage.get("extensions", function(extensions){
+		let promise = new Promise(function(resolve, reject){
+			local_storage.get("extensions", async function(extensions){
 				if(extensions.doctorn.indexOf("force") > -1){
 					return;
 				}
