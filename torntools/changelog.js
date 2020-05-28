@@ -15,14 +15,16 @@ export default {
         "Fixes": [
             "IMPORTANT: Torn changed the formatting of dates in Vault transactions. Adjusted TornTools with that. (CLICK save to update the database with the latest correct date)",
             "Fixed Vault not updating User's shares when looping through old transactions",
-            "Fixed API errors not appearing on Stocks page"
+            "Fixed API errors not appearing on Stocks page",
+            "Fixed Doctorn always set as False on Firefox (set using/not using under settings)"
         ],
         "Changes": [
             "Removed Hospital from 'remove info boxes' script",
             "Simplified container headings (removed TornTools text)",
             "Further improved design of City Items",
             "Improved design of tables on Settings page (NPC Loot, Friendly Fire, Custom links)",
-            "Improved design of Settings page in smaller windows"
+            "Improved design of Settings page in smaller windows",
+            "Added current API key preview in Change API key input"
         ]
     },
     "v3.8.3": {
