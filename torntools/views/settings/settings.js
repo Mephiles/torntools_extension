@@ -16,15 +16,22 @@ window.addEventListener("load", function(){
     // setup site
     setupSite();
 
+    // Disable extension auto-checks
+    if(!usingChrome()){
+        doc.find("#extensions-doctorn-auto input").disabled = true;
+    }
+
     // set "update" to false
     local_storage.set({"updated": false});
 
     // Content
     setupChangelog();
 
-    local_storage.get(["settings", "api_key", "allies", "custom_links", "target_list", "loot_times", "loot_alerts", "chat_highlight"], function([settings, api_key, allies, custom_links, target_list, loot_times, loot_alerts, chat_highlight]){
+    local_storage.get(
+        ["settings", "api_key", "allies", "custom_links", "target_list", "loot_times", "loot_alerts", "chat_highlight", "extensions"], 
+        function([settings, api_key, allies, custom_links, target_list, loot_times, loot_alerts, chat_highlight, extensions]){
         // Preferences
-        setupPreferences(settings, allies, custom_links, target_list.show, loot_times, loot_alerts, chat_highlight);
+        setupPreferences(settings, allies, custom_links, target_list.show, loot_times, loot_alerts, chat_highlight, extensions);
         
         // Target list
         setupTargetList(target_list.targets);
@@ -177,7 +184,7 @@ function setupChangelog(){
     content.appendChild(p);
 }
 
-function setupPreferences(settings, allies, custom_links, target_list_enabled, loot_times, loot_alerts, chat_highlight){
+function setupPreferences(settings, allies, custom_links, target_list_enabled, loot_times, loot_alerts, chat_highlight, extensions){
     let preferences = doc.find("#preferences");
 
     // General
@@ -304,6 +311,15 @@ function setupPreferences(settings, allies, custom_links, target_list_enabled, l
         table_body.insertBefore(row, table_body.find(".row.input"));
     }
 
+    // Doctorn
+    if(extensions.doctorn == "force_true"){
+        preferences.find("#extensions-doctorn-true input").checked = true;
+    } else if(extensions.doctorn == "force_false"){
+        preferences.find("#extensions-doctorn-false input").checked = true;
+    } else {
+        preferences.find("#extensions-doctorn-auto input").checked = true;
+    }
+
     // Buttons
     preferences.find("#save_settings").addEventListener("click", function(){
         savePreferences(preferences, settings, target_list_enabled);
@@ -385,6 +401,20 @@ function savePreferences(preferences, settings, target_list_enabled){
         highlights[name] = color;
     }
 
+    // Doctorn
+    let extensions = {}
+    switch(preferences.find("input[name=extensions-doctorn]:checked").parentElement.id.split("-")[2]){
+        case "false":
+            extensions.doctorn = "force_false";
+            break;
+        case "true":
+            extensions.doctorn = "force_true";
+            break;
+        case "auto":
+            extensions.doctorn = false;
+            break;
+    }
+
     console.log("New settings", settings);
 
     local_storage.set({"settings": settings});
@@ -392,6 +422,7 @@ function savePreferences(preferences, settings, target_list_enabled){
     local_storage.set({"custom_links": custom_links});
     local_storage.set({"loot_alerts": alerts});
     local_storage.set({"chat_highlight": highlights});
+    local_storage.set({"extensions": extensions});
 
     local_storage.change({"target_list": {"show": target_list_enabled}}, function(){
         local_storage.get("target_list", function(target_list){

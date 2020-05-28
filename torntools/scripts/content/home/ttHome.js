@@ -13,7 +13,7 @@ window.addEventListener('load', async (event) => {
 			if(settings.force_tt){
 				hideDoctorn();
 				displayEffectiveBattleStats(settings.theme);
-			} else if(!extensions.doctorn){
+			} else if(extensions.doctorn == false || extensions.doctorn == "force_false"){
 				displayEffectiveBattleStats(settings.theme);
 			}
 		}

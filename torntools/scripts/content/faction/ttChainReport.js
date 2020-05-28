@@ -8,7 +8,7 @@ window.addEventListener("load", async function(){
 		if(settings.force_tt){
 			hideDoctorn();
 			displayContainer(settings.theme);
-		} else if(!extensions.doctorn){
+		} else if(extensions.doctorn == false || extensions.doctorn == "force_false"){
 			displayContainer(settings.theme);
 		}
 	});

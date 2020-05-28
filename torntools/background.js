@@ -61,8 +61,19 @@ let setup_storage = new Promise(function(resolve, reject){
 });
 
 setup_storage.then(function(success){
-	if(!success)
+	if(!success){
 		return;
+	}
+
+	if(!usingChrome()){
+		local_storage.get("extensions", function(extensions){
+			if(extensions.doctorn == undefined){
+				local_storage.change({"extensions": {
+					"doctorn": "force_false"
+				}});
+			}
+		});
+	}
 
 	// Second - run every 1 min
 	console.log("Setting up intervals.");
@@ -322,11 +333,21 @@ async function Main_fast(){
 	console.log("Checking for installed extensions.");
 	await (function(){
 		let promise = new Promise(async function(resolve, reject){
-			let doctorn_installed = await detectExtension("doctorn");
-			console.log("Doctorn installed:", doctorn_installed);
-			
-			local_storage.change({"extensions": {"doctorn": doctorn_installed}}, function(){
-				return resolve(true);
+			local_storage.get("extensions", function(extensions){
+				if(extensions.doctorn.indexOf("force") > -1){
+					return;
+				}
+
+				if(usingChrome()){
+					let doctorn_installed = await detectExtension("doctorn");
+					console.log("Doctorn installed:", doctorn_installed);
+					
+					local_storage.change({"extensions": {"doctorn": doctorn_installed}}, function(){
+						return resolve(true);
+					});
+				} else {
+					console.log("	Using Firefox.");
+				}
 			});
 		});
 
@@ -509,24 +530,22 @@ function updateTargetList(api_key, userdata, target_list){
 	});
 }
 
-function detectExtension(ext){
+async function detectExtension(ext){
 	let ids = {
-		"doctorn": 'kfdghhdnlfeencnfpbpddbceglaamobk'
+		"doctorn": {
+			"chrome": 'chrome-extension://kfdghhdnlfeencnfpbpddbceglaamobk/resources/images/icon_16.png'
+		}
 	}
 
-	let promise = new Promise(function(resolve, reject){
+	return new Promise(function(resolve, reject){
 		var img;
 		img = new Image();
-		img.src = `chrome-extension://${ids[ext]}/resources/images/icon_16.png`;
+		img.src = ids[ext].chrome;
 		img.onload = function() {
-			resolve(true);
+			return resolve(true);
 		};
 		img.onerror = function() {
-			resolve(false);
+			return resolve(false);
 		};
-	});
-
-	return promise.then(function(data){
-		return data;
 	});
 }

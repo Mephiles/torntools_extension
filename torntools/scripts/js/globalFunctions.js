@@ -90,9 +90,7 @@ const STORAGE = {
         "online": true,
         "error": ""
     },
-    "extensions": {
-        "doctorn": false
-    },
+    "extensions": {},
 
     // userdata
     "itemlist": {},

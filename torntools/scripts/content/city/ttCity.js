@@ -19,7 +19,7 @@ window.addEventListener('load', async (event) => {
 				if(settings.force_tt){
 					hideDoctorn();
 					displayItems(items_container, itemlist);
-				} else if(!extensions.doctorn){
+				} else if(extensions.doctorn == false || extensions.doctorn == "force_false"){
 					displayItems(items_container, itemlist);
 				}
 			}
@@ -105,7 +105,7 @@ function showValueOfItems(container, itemlist, doctorn){
 	let value_span = doc.new("span");
 		value_span.innerText = `$${numberWithCommas(total_value, shorten=false)}`
 
-	if(doctorn){
+	if(doctorn == true || doctorn == "force_true"){
 		new_div.style.borderTop = "none";
 		new_div.style.marginTop = "0";
 		new_div.style.paddingBottom = "5px";
