@@ -44,9 +44,10 @@ window.addEventListener('load', async (event) => {
 
         // Chat highlight
         doc.addEventListener("click", function(event){
-            if(event.target.parentElement.classList.contains("chat-box_Wjbn9") || 
-            event.target.parentElement.parentElement.classList.contains("chat-box_Wjbn9") || 
-            event.target.parentElement.parentElement.parentElement.classList.contains("chat-box_Wjbn9")){
+            let parent = event.target.parentElement;
+            if((parent && parent.classList.contains("chat-box_Wjbn9")) || 
+            (parent.parentElement && parent.parentElement.classList.contains("chat-box_Wjbn9")) || 
+            (parent.parentElement.parentElement && parent.parentElement.parentElement.classList.contains("chat-box_Wjbn9"))){
                 highLightChat(chat_highlight, userdata.name);
             }
         });
