@@ -261,7 +261,7 @@ function Main(){
 			});
 		})();
 
-		// check stocks alerts
+		// check NPC loot alerts
 		console.log("Checking NPC loot times.");
 		await (function(){
 			let notified = false;
@@ -270,6 +270,10 @@ function Main(){
 
 				for(let npc_id in loot_alerts){
 					let alert_level = loot_alerts[npc_id].level;
+					if(!alert_level){
+						continue;
+					}
+					
 					let alert_loot_time = loot_times[npc_id].timings[alert_level].ts;
 
 					if(!loot_alerts[npc_id].time){
@@ -334,7 +338,6 @@ async function Main_fast(){
 	await (function(){
 		let promise = new Promise(function(resolve, reject){
 			local_storage.get("extensions", async function(extensions){
-				console.log(extensions)
 				if(typeof extensions.doctorn == "string" && extensions.doctorn.indexOf("force") > -1){
 					return;
 				}
