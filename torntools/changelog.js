@@ -1,4 +1,12 @@
 export default {
+    "v4.1": {
+        "Fixes": [
+            "Fixed bug that halted all extension's process",
+            "Fixed Doctorn check not working correctly",
+            "Fixed Mail Me link in settings - Thanks KenDoll[2235541]",
+            "Fixed UAE travel achievement"
+        ]
+    },
     "v4.0 - Taking over": {
         "Features": [
             "Added option to force TornTools over Doctorn where possible",
