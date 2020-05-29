@@ -29,9 +29,9 @@ window.addEventListener('load', async (event) => {
                 "stats": personalstats.chitravel,
                 "keyword": "china"
             },
-            "Dubai": {
+            "UAE": {
                 "stats": personalstats.dubtravel,
-                "keyword": "dubai"
+                "keyword": "united arab emirates"
             },
             "Hawaii": {
                 "stats": personalstats.hawtravel,
