@@ -97,22 +97,18 @@ function Main(){
 		// Clear api count
 		console.log("Clearing API count.");
 		await (function(){
-			let promise = new Promise(function(resolve, reject){
+			return new Promise(function(resolve, reject){
 				local_storage.change({"api": {"count": 0}}, function(){
-					console.log("API count set to 0");
+					console.log("	API count set to 0");
 					return resolve(true);
 				});
-			});
-
-			return promise.then(function(data){
-				return data;
 			});
 		})();
 
 		// userdata & networth
 		console.log("Setting up userdata & networth.");
 		let first_fetch_result = await (function(){
-			let promise = new Promise(function(resolve, reject){
+			return new Promise(function(resolve, reject){
 				get_api("https://api.torn.com/user/?selections=personalstats,crimes,battlestats,perks,profile,workstats,stocks,networth", api_key).then((userdata) => {
 					if(userdata.ok != undefined && !userdata.ok){
 						return resolve(userdata);
@@ -131,15 +127,11 @@ function Main(){
 
 					// Set Userdata & Networth
 					local_storage.set({"networth": networth, "userdata": userdata}, function(){
-						console.log("Userdata set.");
-						console.log("Networth set.");
+						console.log("	Userdata set.");
+						console.log("	Networth set.");
 						return resolve(true);
 					});
 				});
-			});
-
-			return promise.then(function(data){
-				return data;
 			});
 		})();
 
@@ -152,7 +144,7 @@ function Main(){
 		// torndata & itemlist
 		console.log("Setting up torndata & itemlist.");
 		await (function(){
-			let promise = new Promise(function(resolve, reject){
+			return new Promise(function(resolve, reject){
 				get_api("https://api.torn.com/torn/?selections=honors,medals,stocks,items", api_key).then((torndata) => {
 					if(torndata.ok != undefined && !torndata.ok)
 						return resolve(torndata);
@@ -163,15 +155,11 @@ function Main(){
 					torndata.items = {};
 
 					local_storage.set({"torndata": torndata, "itemlist": item_list}, function(){
-						console.log("Torndata set.");
-						console.log("Itemlist set.");
+						console.log("	Torndata set.");
+						console.log("	Itemlist set.");
 						return resolve(true);
 					});
 				});
-			});
-
-			return promise.then(function(data){
-				return data;
 			});
 		})();
 
@@ -188,7 +176,7 @@ function Main(){
 					factiondata.crimes.date = new_date;
 
 					local_storage.set({"oc": factiondata.crimes}, function(){
-						console.log("Faction data set.");
+						console.log("	Faction data set.");
 						return resolve(true);
 					});
 				});
@@ -198,16 +186,12 @@ function Main(){
 		// targetlist
 		console.log("Setting up target list.");
 		await (function(){
-			let promise = new Promise(function(resolve, reject){
+			return new Promise(function(resolve, reject){
 				local_storage.get(["target_list", "userdata"], function([target_list, userdata]){
 					if(target_list.show){
 						return resolve(updateTargetList(api_key, userdata, target_list));
 					}
 				});
-			});
-
-			return promise.then(function(data){
-				return data;
 			});
 		})();
 
@@ -256,7 +240,7 @@ function Main(){
 					}
 				}
 				if(!notified){
-					console.log("No new stock notifications.");
+					console.log("	No new stock notifications.");
 				}
 			});
 		})();
@@ -273,7 +257,7 @@ function Main(){
 					if(!alert_level){
 						continue;
 					}
-					
+
 					let alert_loot_time = loot_times[npc_id].timings[alert_level].ts;
 
 					if(!loot_alerts[npc_id].time){
@@ -295,7 +279,7 @@ function Main(){
 					}
 				}
 				if(!notified){
-					console.log("No new loot notifications.");
+					console.log("	No new loot notifications.");
 				}
 			});
 		})();
@@ -311,7 +295,7 @@ async function Main_yata(){
 			let result = await response.json();
 
 			local_storage.set({"loot_times": result}, function(){
-				console.log("Loot times set.");
+				console.log("	Loot times set.");
 				return resolve(true);
 			});
 		});
@@ -325,7 +309,7 @@ async function Main_yata(){
 			let result = await response.json();
 
 			local_storage.set({"travel_market": result.stocks}, function(){
-				console.log("Travel market info set.");
+				console.log("	Travel market info set.");
 				return resolve(true);
 			});
 		});
@@ -344,7 +328,7 @@ async function Main_fast(){
 
 				if(usingChrome()){
 					let doctorn_installed = await detectExtension("doctorn");
-					console.log("Doctorn installed:", doctorn_installed);
+					console.log("	Doctorn installed:", doctorn_installed);
 					
 					local_storage.change({"extensions": {"doctorn": doctorn_installed}}, function(){
 						return resolve(true);
@@ -391,7 +375,7 @@ async function Main_slow(){
 				}
 			
 				local_storage.set({"personalized": personalized_scripts}, function(){
-					console.log("Personalized scripts set.");
+					console.log("	Personalized scripts set.");
 					return resolve(true);
 				});
 			});
