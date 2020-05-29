@@ -9,26 +9,26 @@ console.log("Checking Storage.");
 let setup_storage = new Promise(function(resolve, reject){
 	local_storage.get(null, function(old_storage){
 		if(!old_storage || Object.keys(old_storage).length == 0){  // fresh install
-			console.log("Setting new storage.");
+			console.log("	Setting new storage.");
 			local_storage.set(STORAGE, function(){
-				console.log("Storage set");
+				console.log("	Storage set");
 				return resolve(true);
 			});
 		} else {  // existing storage
 			console.log("Converting old storage.");
-			let new_storage = fillStorage(old_storage, STORAGE);
+			let new_storage = convertStorage(old_storage, STORAGE);
 	
-			console.log("New storage", new_storage);
+			console.log("	New storage", new_storage);
 			
 			local_storage.clear(function(){
 				local_storage.set(new_storage, function(){
-					console.log("Storage updated");
+					console.log("	Storage updated.");
 					return resolve(true);
 				});
 			});
 		}
 	
-		function fillStorage(old_storage, STORAGE){
+		function convertStorage(old_storage, STORAGE){
 			let new_local_storage = {};
 	
 			for(let key in STORAGE){
@@ -41,7 +41,7 @@ let setup_storage = new Promise(function(resolve, reject){
 					if(Object.keys(STORAGE[key]).length == 0)
 						new_local_storage[key] = old_storage[key];
 					else
-						new_local_storage[key] = fillStorage(old_storage[key], STORAGE[key]);
+						new_local_storage[key] = convertStorage(old_storage[key], STORAGE[key]);
 				} else {
 					if(STORAGE[key] == "force_false")
 						new_local_storage[key] = false;
@@ -334,7 +334,8 @@ async function Main_fast(){
 	await (function(){
 		let promise = new Promise(function(resolve, reject){
 			local_storage.get("extensions", async function(extensions){
-				if(extensions.doctorn.indexOf("force") > -1){
+				console.log(extensions)
+				if(typeof extensions.doctorn == "string" && extensions.doctorn.indexOf("force") > -1){
 					return;
 				}
 
