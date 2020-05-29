@@ -45,6 +45,10 @@ window.addEventListener('load', async (event) => {
         // Chat highlight
         doc.addEventListener("click", function(event){
             let parent = event.target.parentElement;
+            if(!parent){
+                return
+            }
+            
             if((parent && parent.classList.contains("chat-box_Wjbn9")) || 
             (parent.parentElement && parent.parentElement.classList.contains("chat-box_Wjbn9")) || 
             (parent.parentElement.parentElement && parent.parentElement.parentElement.classList.contains("chat-box_Wjbn9"))){
