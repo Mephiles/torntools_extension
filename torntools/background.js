@@ -396,6 +396,16 @@ chrome.runtime.onInstalled.addListener(function(details){
 	});
 });
 
+// Update available
+chrome.runtime.onUpdateAvailable.addListener(function(details){
+	console.log("Details", details);
+	
+	local_storage.set({"new_version": {
+		"available": true,
+		"version": details.version
+	}});
+});
+
 function updateTargetList(api_key, userdata, target_list){
 	let promise = new Promise(function(resolve, reject){
 		let first_time = Object.keys(target_list.targets).length == 0 ? true : false;
