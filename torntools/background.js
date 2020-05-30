@@ -1,9 +1,6 @@
 console.log("START - Background Script");
 import personalized from "../personalized.js";
 
-// Clear badge
-chrome.browserAction.setBadgeText({text: ''});
-
 // First - set storage
 console.log("Checking Storage.");
 let setup_storage = new Promise(function(resolve, reject){
@@ -399,7 +396,7 @@ chrome.runtime.onInstalled.addListener(function(details){
 // Update available
 chrome.runtime.onUpdateAvailable.addListener(function(details){
 	console.log("Details", details);
-	
+
 	local_storage.set({"new_version": {
 		"available": true,
 		"version": details.version
