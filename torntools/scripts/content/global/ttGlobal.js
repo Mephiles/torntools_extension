@@ -43,22 +43,36 @@ window.addEventListener('load', async (event) => {
         }
 
         // Chat highlight
-        doc.addEventListener("click", function(event){
-            let parent = event.target.parentElement;
-            if(!parent){
-                return
-            }
-            
-            if((parent && parent.classList.contains("chat-box_Wjbn9")) || 
-            (parent.parentElement && parent.parentElement.classList.contains("chat-box_Wjbn9")) || 
-            (parent.parentElement.parentElement && parent.parentElement.parentElement.classList.contains("chat-box_Wjbn9"))){
-                highLightChat(chat_highlight, userdata.name);
-            }
-        });
-
         if(doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")){
             highLightChat(chat_highlight, userdata.name);
         }
+
+        doc.addEventListener("click", function(event){
+            if(!hasParent(event.target, {class: "chat-box_Wjbn9"})){
+                return;
+            }
+
+            highLightChat(chat_highlight, userdata.name);
+        });
+
+        let chat_observer = new MutationObserver(function(mutationsList, observer){
+            for(let mutation of mutationsList){
+                if(mutation.addedNodes && mutation.addedNodes[0] && mutation.addedNodes[0].classList && mutation.addedNodes[0].classList.contains("message_oP8oM")){
+                    let message = mutation.addedNodes[0];
+
+                    let sender = message.find("a").innerText.replace(":", "").trim();
+                    let text = message.find("span").innerText;
+                    
+                    if(sender in chat_highlight){
+                        message.find("a").style.color = chat_highlight[sender];
+                    }
+                    if(text.indexOf(userdata.name) > -1){
+                        message.find("span").style.backgroundColor = "#c3e26e";
+                    }
+                }
+            }
+        });
+        chat_observer.observe(doc.find("#chatRoot"), {childList: true, subtree: true});
 
         // showColorCodes();
     })

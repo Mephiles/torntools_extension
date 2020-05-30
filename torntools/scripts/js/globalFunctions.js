@@ -1117,3 +1117,18 @@ function romanToArabic(roman){
     }
 	return dict[roman];
 }
+
+function hasParent(element, attributes={}){
+    if(!element.parentElement){
+        return false;
+    } else {
+        if(attributes.class && element.parentElement.classList.contains(attributes.class)){
+            return true;
+        }
+        if(attributes.id && element.parentElement.id == attributes.class){
+            return true;
+        }
+
+        return hasParent(element.parentElement, attributes);
+    }
+}
