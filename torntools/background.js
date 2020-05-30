@@ -106,7 +106,7 @@ function Main(){
 		console.log("Setting up userdata & networth.");
 		let first_fetch_result = await (function(){
 			return new Promise(function(resolve, reject){
-				get_api("https://api.torn.com/user/?selections=personalstats,crimes,battlestats,perks,profile,workstats,stocks,networth", api_key).then((userdata) => {
+				get_api("https://api.torn.com/user/?selections=personalstats,crimes,battlestats,perks,profile,workstats,stocks,networth,travel,bars,cooldowns,money,events", api_key).then((userdata) => {
 					if(userdata.ok != undefined && !userdata.ok){
 						return resolve(userdata);
 					}
