@@ -5,6 +5,11 @@
 	<meta charset="utf-8"/>
 	<link rel="stylesheet" href="../popup_window_global.css">
 	<style>
+        body {
+            margin-bottom: 0;
+        }
+
+        /* Bars */
         #bars {
             width: 100%;
         }
@@ -31,6 +36,7 @@
         }
         .bar .text .full-in {
             text-align: right;
+            font-size: 11px;
         }
         .bar .progress .stat {
             position: absolute;
@@ -69,6 +75,53 @@
         }
         #chain .progress div {
             background-color: gray;
+        }
+
+        /* Cooldowns */
+        .cooldowns {
+            width: 100%;
+            display: flex;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .cooldowns .name {
+            font-weight: 600;
+        }
+        .cooldowns .time {
+            font-size: 11px;
+        }
+        .cooldowns #drug .name {
+            color: #5ec312;
+        }
+        .cooldowns #booster .name {
+            color: #d29321;
+        }
+        .cooldowns #medical .name {
+            color: #5e5eda;
+        }
+
+        .cooldowns .cd {
+            flex: 1 0 auto;
+        }
+
+        .cooldowns .cd * {
+            width: 100%;
+        }
+
+        /* Footer */
+        .footer {
+            width: 100%;
+            height: 25px;
+            line-height: 25px;
+            background-color: #f7f7f7;
+            display: flex;
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        .footer * {
+            flex: 1 0 auto;
         }
 	</style>
 </head>
@@ -118,6 +171,26 @@
             </div>
             <div class="progress"><div></div><span class="stat"></span></div>
         </div> -->
+    </div>
+
+    <div class="cooldowns">
+        <div class="cd" id="drug">
+            <div class="name">Drug</div>
+            <div class="time"></div>
+        </div>
+        <div class="cd" id="booster">
+            <div class="name">Booster</div>
+            <div class="time"></div>
+        </div>
+        <div class="cd" id="medical">
+            <div class="name">Medical</div>
+            <div class="time"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="events">Events: <span></span></div>
+        <div class="money">Wallet: <span></span></div>
     </div>
 
 	<script src="../../scripts/js/globalFunctions.js"></script>
