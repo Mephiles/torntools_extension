@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" href="../popup_window_global.css">
+	<style>
+        #bars {
+            width: 100%;
+        }
+
+        .bar {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .bar .stat, .bar .full-in span {
+            font-weight: 600;
+        }
+
+        .bar .text {
+            display: flex;
+        }
+
+        .bar .text * {
+            flex: 1 0 auto;
+        }
+
+        .bar .text .name {
+            text-align: left;
+        }
+        .bar .text .full-in {
+            text-align: right;
+        }
+        .bar .progress .stat {
+            position: absolute;
+            top: 0;
+            right: 5px;
+        }
+
+        .bar .progress {
+            width: 100%;
+            height: 13px;
+            border: 1px solid lightgray;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .bar .progress div {
+            height: inherit;
+            border-radius: inherit;
+        }
+
+        #energy .progress div {
+            background-color: #ade020;
+            background: linear-gradient(90deg, rgba(152,200,19,1) 41%, rgba(240,255,200,1) 100%);
+        }
+        #nerve .progress div {
+            background: rgb(255,197,197);
+            background: linear-gradient(90deg, rgba(255,38,38,1) 41%, rgba(255,197,197,1) 100%);
+        }
+        #happy .progress div {
+            background: #ffee44;
+            background: linear-gradient(90deg, rgba(255,234,28,1) 41%, rgba(255,249,190,1) 100%);
+        }
+        #life .progress div {
+            background: rgb(190,190,255);
+            background: linear-gradient(90deg, rgba(60,60,255,1) 42%, rgba(190,190,255,1) 100%);
+        }
+        #chain .progress div {
+            background-color: gray;
+        }
+	</style>
+</head>
+
+<body>
+	<div class="error"></div>
+	<button class="page-tab active-tab" id="info-html">Info</button>
+	<button class="page-tab" id="market-html">Market</button>
+	<button class="page-tab" id="stocks-html">Stocks</button>
+	<button class="page-tab" id="calculator-html">Calculator</button>
+
+	<h2 id="location">Location: <span></span></h2>
+	<div class="settings"></div>
+
+    <div id="bars">
+        <div class="bar" id="energy">
+            <div class="text">
+                <div class="name">Energy</div>
+                <div class="full-in">Full in: <span></span></div>
+            </div>
+            <div class="progress"><div></div><span class="stat"></span></div>
+        </div>
+        <div class="bar" id="nerve">
+            <div class="text">
+                <div class="name">Nerve</div>
+                <div class="full-in">Full in: <span></span></div>
+            </div>
+            <div class="progress"><div></div><span class="stat"></span></div>
+        </div>
+        <div class="bar" id="happy">
+            <div class="text">
+                <div class="name">Happy</div>
+                <div class="full-in">Full in: <span></span></div>
+            </div>
+            <div class="progress"><div></div><span class="stat"></span></div>
+        </div>
+        <div class="bar" id="life">
+            <div class="text">
+                <div class="name">Life</div>
+                <div class="full-in">Full in: <span></span></div>
+            </div>
+            <div class="progress"><div></div><span class="stat"></span></div>
+        </div>
+        <!-- <div class="bar" id="chain">
+            <div class="text">
+                <div class="name">Chain</div>
+            </div>
+            <div class="progress"><div></div><span class="stat"></span></div>
+        </div> -->
+    </div>
+
+	<script src="../../scripts/js/globalFunctions.js"></script>
+	<script src="info.js"></script>
+</body>
+
+</html>

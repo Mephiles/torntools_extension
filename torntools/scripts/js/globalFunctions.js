@@ -91,6 +91,7 @@ const STORAGE = {
         "error": ""
     },
     "extensions": {},
+    "new_version": {},
 
     // userdata
     "itemlist": {},
@@ -157,7 +158,8 @@ const STORAGE = {
             "market": true,
             "stocks": true,
             "calculator": true,
-            "default": "market"
+            "info": true,
+            "default": "info"
         },
         "achievements": {
             "show": true,
