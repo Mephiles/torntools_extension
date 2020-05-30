@@ -37,20 +37,30 @@ window.addEventListener("load", function(){
 
         // Global time reducer
         let time_decreaser = setInterval(function(){
-            for(let time of doc.findAll("*[seconds]")){
-                let seconds = parseInt(time.getAttribute("seconds"));
+            for(let time of doc.findAll("*[seconds-down]")){
+                let seconds = parseInt(time.getAttribute("seconds-down"));
                 seconds--;
 
                 if(seconds == 0){
                     time.parentElement.style.display = "none";
-                    time.removeAttribute("seconds");
+                    time.removeAttribute("seconds-down");
                     continue;
                 }
     
                 let time_left = time_until(seconds*1000);
                 time.innerText = time_left;
-                time.setAttribute("seconds", seconds);
+                time.setAttribute("seconds-down", seconds);
             }
+        }, 1000);
+
+        // Update time increaser
+        let time_increaser = setInterval(function(){
+            let time = doc.find("#last-update span")
+            let seconds = parseInt(time.getAttribute("seconds-up"));
+            seconds++;
+
+            time.innerText = time_ago(new Date() - seconds*1000);
+            time.setAttribute("seconds-up", seconds);
         }, 1000);
     });
 });
@@ -61,6 +71,8 @@ function updateInfo(){
         console.log("Data", userdata);
 
         let time_diff = parseInt(((new Date().getTime() - new Date(userdata.date).getTime()) / 1000).toFixed(0));
+        doc.find("#last-update span").innerText = time_ago(new Date(userdata.date));
+        doc.find("#last-update span").setAttribute("seconds-up", time_diff);
 
         // Update location
         let country = userdata.travel.destination;
@@ -73,30 +85,32 @@ function updateInfo(){
         // Update bars
         for(let bar of ["energy", "nerve", "happy", "life", "chain"]){
             let current_stat = userdata[bar].current;
-            let max_stat = userdata[bar].maximum;
+            let max_stat = bar == "chain" && current_stat != userdata[bar].maximum ? getNextBonus(current_stat) : userdata[bar].maximum;
             let full_stat = userdata[bar].fulltime - time_diff;
 
             let time_left = time_until(full_stat*1000);
 
-            if(bar == "chain"){
-                continue;
-            }
-
             doc.find(`#${bar} .stat`).innerText = `${current_stat}/${max_stat}`;
 
-            if(time_left == "0s" || time_left.indexOf("-") > -1){
-                doc.find(`#${bar} .full-in`).style.display = "none";
-            } else {
-                doc.find(`#${bar} .full-in`).style.display = "block";
-                doc.find(`#${bar} .full-in span`).innerText = time_left;
-                doc.find(`#${bar} .full-in span`).setAttribute("seconds", full_stat);
-            }
-
+            // Progress
             if(current_stat < max_stat){
                 let progress = (current_stat/max_stat * 100).toFixed(0);
                 doc.find(`#${bar} .progress div`).style.width = `${progress}%`;
             } else {
                 doc.find(`#${bar} .progress div`).style.width = `100%`;
+            }
+
+            if(bar == "chain"){
+                continue;
+            }
+
+            // Time
+            if(time_left == "0s" || time_left.indexOf("-") > -1){
+                doc.find(`#${bar} .full-in`).style.display = "none";
+            } else {
+                doc.find(`#${bar} .full-in`).style.display = "block";
+                doc.find(`#${bar} .full-in span`).innerText = time_left;
+                doc.find(`#${bar} .full-in span`).setAttribute("seconds-down", full_stat);
             }
         }
 
@@ -109,7 +123,7 @@ function updateInfo(){
             } else {
                 doc.find(`#${cd}`).style.display = "block";
                 doc.find(`#${cd} .time`).innerText = time_left;
-                doc.find(`#${cd} .time`).setAttribute("seconds", userdata.cooldowns[cd]);
+                doc.find(`#${cd} .time`).setAttribute("seconds-down", userdata.cooldowns[cd]);
             }
         }
 
@@ -126,4 +140,14 @@ function updateInfo(){
         doc.find(".footer .events span").innerText = event_count;
         doc.find(".footer .money span").innerText = `$${numberWithCommas(userdata.money_onhand, shorten=false)}`;
     });
+}
+
+function getNextBonus(current){
+    let chain_bonuses = [10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000];
+
+    for(let bonus of chain_bonuses){
+        if(bonus > current){
+            return bonus;
+        }
+    }
 }

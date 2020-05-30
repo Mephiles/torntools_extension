@@ -230,7 +230,7 @@ function addRow(body, itemlist, item, time, carry_items, travel_cost) {
     let total_profit = (market_value - item.abroad_cost) * carry_items - travel_cost;
     let profit_per_minute = (total_profit / time).toFixed(0);
     let profit_per_item = (total_profit / carry_items).toFixed(0);
-    let update_time = time_ago(item.timestamp*1000).replace(" minutes", "min").replace(" minute", "min").replace(" seconds", "sec").replace(" hours", "h").replace(" hour", "h");
+    let update_time = time_ago(item.timestamp*1000);
 
     let row = doc.new({type: "div", class: "row"});
 
