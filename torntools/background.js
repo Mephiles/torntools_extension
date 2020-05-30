@@ -102,30 +102,20 @@ function Main(){
 			});
 		})();
 
-		// userdata & networth
-		console.log("Setting up userdata & networth.");
+		// userdata
+		console.log("Setting up userdata.");
 		let first_fetch_result = await (function(){
 			return new Promise(function(resolve, reject){
-				get_api("https://api.torn.com/user/?selections=personalstats,crimes,battlestats,perks,profile,workstats,stocks,networth,travel,bars,cooldowns,money,events", api_key).then((userdata) => {
+				get_api("https://api.torn.com/user/?selections=personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events", api_key).then((userdata) => {
 					if(userdata.ok != undefined && !userdata.ok){
 						return resolve(userdata);
 					}
 		
 					userdata.date = String(new Date());
-					let new_networth = userdata.networth;
-
-					if(networth.current.date && new Date(networth.current.date).getDate() != new Date().getDate()){
-						networth.previous.value = networth.current.value;
-						networth.previous.date = networth.current.date;
-					}
-
-					networth.current.value = new_networth;
-					networth.current.date = String(new Date());
-
-					// Set Userdata & Networth
-					local_storage.set({"networth": networth, "userdata": userdata}, function(){
+					
+					// Set Userdata
+					local_storage.set({"userdata": userdata}, function(){
 						console.log("	Userdata set.");
-						console.log("	Networth set.");
 						return resolve(true);
 					});
 				});
@@ -137,6 +127,55 @@ function Main(){
 			console.log("(STOPPING) ERROR:", first_fetch_result.error);
 			return;
 		}
+
+		// networth
+		console.log("Setting up networth.");
+		await (function(){
+			return new Promise(function(resolve, reject){
+				get_api("https://api.torn.com/user/?selections=personalstats,networth", api_key).then((data) => {
+					if(data.ok != undefined && !data.ok){
+						return resolve(data);
+					}
+
+					let ps = data.personalstats;
+					let new_networth = data.networth;
+					let networth = {
+						current: {
+							date: new Date().toString(),
+							value: new_networth
+						}, 
+						previous: {
+							value: {
+								"pending": ps.networthpending,
+								"wallet": ps.networthwallet,
+								"bank": ps.networthbank,
+								"points": ps.networthpoints,
+								"cayman": ps.networthcayman,
+								"vault": ps.networthvault,
+								"piggybank": ps.networthpiggybank,
+								"items": ps.networthitems,
+								"displaycase": ps.networthdisplaycase,
+								"bazaar": ps.networthbazaar,
+								"properties": ps.networthproperties,
+								"stockmarket": ps.networthstockmarket,
+								"auctionhouse": ps.networthauctionhouse,
+								"company": ps.networthcompany,
+								"bookie": ps.networthbookie,
+								"loan": ps.networthloan,
+								"unpaidfees": ps.networthunpaidfees,
+								"total": ps.networth
+							}
+						}
+					}
+
+					// Set Userdata & Networth
+					local_storage.set({"networth": networth}, function(){
+						console.log("	Networth set.");
+						return resolve(true);
+					});
+				});
+			});
+		})();
 
 		// torndata & itemlist
 		console.log("Setting up torndata & itemlist.");

@@ -116,8 +116,7 @@ function displayNetworth(networth, format){
 	}
 
 	// table footer
-	let [day, month, year, hours, minutes, seconds] = dateParts(new Date(networth.previous.date));
-	footer.innerText = `Networth change compared to ${formatDate([day, month, year], format.date)} | ${formatTime([hours, minutes, seconds], format.time)}`;
+	footer.innerText = `Networth change compared to Torn's last known Networth`;
 
 	// compiling
 	li.appendChild(table);
