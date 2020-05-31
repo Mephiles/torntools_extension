@@ -470,6 +470,15 @@ function Main_fast(){
 								notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}`);
 							}
 						}
+
+						// Check for bars
+						for(let bar of ["energy", "happy", "nerve", "life"]){
+							if(previous_userdata[bar]){
+								if(userdata[bar].current >= userdata[bar].maximum && previous_userdata[bar].current < userdata[bar].current){
+									notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reched ${userdata[bar].current}/${userdata[bar].maximum}`);
+								}
+							}
+						}
 						
 						userdata.date = String(new Date());
 						userdata.attacks = undefined;
