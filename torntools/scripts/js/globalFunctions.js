@@ -150,6 +150,7 @@ const STORAGE = {
         "remove_info_boxes": "force_false",
         "theme": "default",
         "force_tt": false,
+        "hide_upgrade": false,
         "format": {
             "date": "eu",
             "time": "eu"

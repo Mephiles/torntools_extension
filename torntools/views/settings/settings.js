@@ -200,6 +200,7 @@ function setupPreferences(settings, allies, custom_links, target_list_enabled, l
     preferences.find(`#format-date-${settings.format.date} input`).checked = true;
     preferences.find(`#format-time-${settings.format.time} input`).checked = true;
     preferences.find(`#theme-${settings.theme} input`).checked = true;
+    preferences.find("#hide-upgrade input").checked = settings.hide_upgrade;
 
     // Tabs
     for(let tab in settings.tabs){
@@ -345,6 +346,7 @@ function savePreferences(preferences, settings, target_list_enabled){
     settings.format.date = preferences.find("input[name=format-date]:checked").parentElement.id.split("-")[2];
     settings.format.time = preferences.find("input[name=format-time]:checked").parentElement.id.split("-")[2];
     settings.theme = preferences.find("input[name=theme]:checked").parentElement.id.split("-")[1];
+    settings.hide_upgrade = preferences.find("#hide-upgrade input").checked;
 
     // Tabs
     for(let tab in settings.tabs){

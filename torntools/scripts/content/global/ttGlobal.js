@@ -42,6 +42,16 @@ window.addEventListener('load', async (event) => {
             }
         }
 
+        // Upgrade button
+        if(settings.hide_upgrade){
+            doc.find("#pointsLevel").style.display = "none";
+
+            if(doc.find(".info-msg-cont") && doc.find(".info-msg-cont").innerText.indexOf("to upgrade") > -1){
+                doc.find(".info-msg-cont").style.display = "none";
+                doc.find(".info-msg-cont+hr").style.display = "none";
+            }
+        }
+
         // Chat highlight
         if(doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")){
             highLightChat(chat_highlight, userdata.name);
