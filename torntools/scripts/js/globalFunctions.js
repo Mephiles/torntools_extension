@@ -190,7 +190,8 @@ const STORAGE = {
                 "upgrades": true
             },
             "gym": {
-                "disable_buttons": false
+                "disable_buttons": false,
+                "estimated_energy": true
             },
             "shop": {
                 "profits": true
@@ -523,7 +524,7 @@ const content = {
             let content = doc.new({
                 type: "div", class: "cont-gray bottom-round content", 
                 attributes: {
-                    style: `position: relative; margin-top: 0; padding-top: 10px; max-height: 0; overflow: hidden; transition: max-height 0.2s ease-out;`
+                    style: `position: relative; margin-top: 0; padding-bottom: 15px; max-height: 0; overflow: hidden; transition: max-height 0.2s ease-out;`
                 }
             });
 
@@ -774,34 +775,33 @@ function capitalize(text, every_word = false) {
     return new_text.trim();
 }
 
-async function get_api(http, api_key) {
-    let promise = new Promise(async function(resolve, reject){
+function get_api(http, api_key) {
+    return new Promise(async function(resolve, reject){
         const response = await fetch(http + "&key=" + api_key);
         const result = await response.json();
 
         if (result.error) {
             if(result.error.code == 9){  // API offline
                 console.log("API SYSTEM OFFLINE");
-                chrome.browserAction.setBadgeText({text: 'ERROR'});
+                chrome.browserAction.setBadgeText({text: 'error'});
                 chrome.browserAction.setBadgeBackgroundColor({color: "#FF0000"});
                 local_storage.change({"api": { "online": false, "error": result.error.error }}, function(){
                     return resolve({ok: false, error: result.error.error});
                 });
             } else {
                 console.log("API ERROR:", result.error.error);
+                chrome.browserAction.setBadgeText({text: 'error'});
+                chrome.browserAction.setBadgeBackgroundColor({color: "#FF0000"});
                 local_storage.change({"api": { "online": true, "error": result.error.error }}, function(){
                     return resolve({ok: false, error: result.error.error});
                 });
             }
         } else {
+            chrome.browserAction.setBadgeText({text: ''});
             local_storage.change({"api": { "online": true, "error": "" }}, function(){
                 return resolve(result);
             });
         }
-    });
-
-    return promise.then(function(data){
-        return data;
     });
 }
 

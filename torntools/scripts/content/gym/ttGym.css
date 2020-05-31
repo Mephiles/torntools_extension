@@ -1,5 +1,11 @@
+/* Info */
+#ttEnergyEstimate {
+    font-weight: 600;
+}
+
+/* Settings */
 #tt-gym-settings .content {
-    padding: 5px;
+    padding: 7px;
     position: relative;
 }
 

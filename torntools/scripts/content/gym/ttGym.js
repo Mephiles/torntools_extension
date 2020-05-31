@@ -6,8 +6,17 @@ window.addEventListener('load', async (event) => {
     }
 
     local_storage.get("settings", function(settings){
+        let gym_settings_container = content.new_container("Gym", {id: "tt-gym-settings", theme: settings.theme, collapsed: false});
+
+        // Energy needed for next gym estimates
+        if(settings.pages.gym.estimated_energy){
+            let div = doc.new({type: "div", id: "ttEnergyEstimate"});
+
+            gym_settings_container.find(".content").appendChild(div);
+            showProgress();
+        }
+
         // setup box
-        let gym_settings_container = content.new_container("Gym settings", {id: "tt-gym-settings", theme: settings.theme, collapsed: false});
         let div = doc.new("div");
             div.setClass("tt-setting");
         let checkbox = doc.new("input");
@@ -31,7 +40,8 @@ window.addEventListener('load', async (event) => {
         div.appendChild(p);
         div.appendChild(saving_div);
         gym_settings_container.find(".content").appendChild(div);
-    
+
+        // Disable buttons
         // checkbox listener
         checkbox.addEventListener("click", function(event){
             let checked = event.target.checked;
@@ -92,6 +102,26 @@ function disableTrainButtons(disable){
         else if(!disable)
             container.classList.remove("locked___r074J");
     }
+}
+
+function showProgress(){
+    let gym_goals = [
+        200, 500, 1000, 2000, 2750, 3000, 3500, 4000,
+        6000, 7000, 8000, 11000, 12420, 18000, 18100, 24140,
+        31260, 36610, 46640, 56520, 67775, 84535, 106305
+    ]
+
+    let in_prog_gym = doc.find(".gymButton___3OFdI.inProgress___1Nd26");
+    
+    let index = parseInt(in_prog_gym.id.split("-")[1])-1;
+    let goal = gym_goals[index];
+    let percentage = parseInt(in_prog_gym.find(".percentage___1vHCw").innerText.replace("%", ""));
+
+    let stat = parseInt((goal * (percentage/100)).toFixed(0));
+
+    console.log("Estimated stat", stat);
+    console.log("Estimated goal", goal);
+    doc.find("#ttEnergyEstimate").innerText = `Estimated Energy progress: ${numberWithCommas(stat, false)}E/${numberWithCommas(goal, false)}E`;
 }
 
 // function displayGymInfo(gyms_data){
