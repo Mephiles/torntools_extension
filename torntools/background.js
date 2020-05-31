@@ -499,6 +499,8 @@ chrome.runtime.onInstalled.addListener(function(details){
 chrome.runtime.onUpdateAvailable.addListener(function(details){
 	console.log("Details", details);
 
+	setBadge("update_available");
+
 	local_storage.set({"new_version": {
 		"available": true,
 		"version": details.version

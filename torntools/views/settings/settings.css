@@ -263,3 +263,8 @@ p {
 #preferences #reset_settings:hover {
     background-color: #f12c3f;
 }
+
+/* About */
+#about #new-version p {
+    text-decoration: underline;
+}
