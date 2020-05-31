@@ -19,6 +19,23 @@
             font-weight: 600;
         }
 
+        #location {
+            margin-bottom: 0;
+        }
+        #status {
+            margin-top: 0;
+            font-size: 13px;
+        }
+        #status .okay {
+            color: #1dbb00;
+        }
+        #status .hospital {
+            color: red;
+        }
+        #status .jail {
+            color: rgb(129, 64, 2);
+        }
+
         /* Bars */
         #bars {
             width: 100%;
@@ -146,6 +163,7 @@
 	<button class="page-tab" id="calculator-html">Calculator</button>
 
     <h2 id="location">Location: <span></span></h2>
+    <h2 id="status">Status: <span></span></h2>
     <div id="last-update">updated <span></span></div>
 
     <div id="bars">

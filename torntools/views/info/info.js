@@ -33,7 +33,7 @@ window.addEventListener("load", function(){
         // Update interval
         let updater = setInterval(function(){
             updateInfo();
-        }, 60*1000);
+        }, 15*1000);
 
         // Global time reducer
         let time_decreaser = setInterval(function(){
@@ -81,6 +81,11 @@ function updateInfo(){
         } else {
             doc.find("#location span").innerText = country;
         }
+
+        // Update status
+        let status = userdata.status.state.toLowerCase();
+        doc.find("#status span").innerText = status;
+        doc.find("#status span").setClass(status);
 
         // Update bars
         for(let bar of ["energy", "nerve", "happy", "life", "chain"]){
