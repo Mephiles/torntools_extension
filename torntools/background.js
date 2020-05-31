@@ -257,14 +257,10 @@ function Main(){
 							console.log("Notifiying of reaching price point.");
 							notified = true;
 	
-							chrome.notifications.create({
-								type: 'basic', 
-								iconUrl: 'images/icon128.png', 
-								title: 'TornTools - Stock alerts', 
-								message: `(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has reached $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].reach})`
-							}, function(){
-								console.log("Notified!");
-							});
+							notifyUser(
+								"TornTools - Stock alerts", 
+								`(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has reached $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].reach})`
+							);
 	
 							local_storage.change({"stock_alerts": {
 								[stock_id]: {
@@ -275,14 +271,10 @@ function Main(){
 							console.log("Notifiying of reaching price point.");
 							notified = true;
 							
-							chrome.notifications.create({
-								type: 'basic', 
-								iconUrl: 'images/icon128.png', 
-								title: 'TornTools - Stock alerts', 
-								message: `(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has fallen to $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].fall})`
-							}, function(){
-								console.log("Notified!");
-							});
+							notifyUser(
+								"TornTools - Stock alerts",
+								`(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has fallen to $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].fall})`
+							);
 	
 							local_storage.change({"stock_alerts": {
 								[stock_id]: {
@@ -323,14 +315,10 @@ function Main(){
 							console.log("Notifiying of loot time.");
 							notified = true;
 	
-							chrome.notifications.create({
-								type: 'basic', 
-								iconUrl: 'images/icon128.png', 
-								title: 'TornTools - Loot alerts', 
-								message: `${loot_times[npc_id].name} is reaching loot level ${arabicToRoman(alert_level)} in ${time_until((alert_loot_time - current_time)*1000)}`
-							}, function(){
-								console.log("Notified!");
-							});
+							notifyUser(
+								"TornTools - Loot alerts",
+								`${loot_times[npc_id].name} is reaching loot level ${arabicToRoman(alert_level)} in ${time_until((alert_loot_time - current_time)*1000)}`
+							);
 						}
 					}
 					if(!notified){
@@ -417,7 +405,7 @@ function Main_fast(){
 		console.log("Setting up userdata.");
 		await (function(){
 			return new Promise(function(resolve, reject){
-				let selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events${attack_history? `,${attack_history}`:''}`;
+				let selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages${attack_history? `,${attack_history}`:''}`;
 				console.log("---------selections", selections);
 
 				get_api(`https://api.torn.com/user/?selections=${selections}`, api_key).then((userdata) => {
@@ -425,11 +413,40 @@ function Main_fast(){
 						return resolve(userdata);
 					}
 		
+					// Target list
 					if(userdata.attacks){
 						let attacks_data = {...userdata.attacks}
 						updateTargetList(attacks_data, userdata.player_id, target_list);
 					}
 
+					// Check for new events
+					for(let event_key of Object.keys(userdata.events).reverse()){
+						let event = userdata.events[event_key];
+
+						if(event.seen == 0){
+							notifyUser(
+								`TornTools - New Event`,
+								event.event.replace(/<\/?[^>]+(>|$)/g, "")
+							);
+						} else {
+							break;
+						}
+					}
+
+					// Check for new messages
+					for(let message_key of Object.keys(userdata.messages).reverse()){
+						let message = userdata.messages[message_key];
+
+						if(message.seen == 0){
+							notifyUser(
+								`TornTools - New Message by ${message.name}`,
+								message.title
+							);
+						} else {
+							break;
+						}
+					}
+					
 					userdata.date = String(new Date());
 					userdata.attacks = undefined;
 					

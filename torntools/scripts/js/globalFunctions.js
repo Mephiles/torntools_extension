@@ -783,21 +783,21 @@ function get_api(http, api_key) {
         if (result.error) {
             if(result.error.code == 9){  // API offline
                 console.log("API SYSTEM OFFLINE");
-                chrome.browserAction.setBadgeText({text: 'error'});
-                chrome.browserAction.setBadgeBackgroundColor({color: "#FF0000"});
+                setBadge("error");
+                
                 local_storage.change({"api": { "online": false, "error": result.error.error }}, function(){
                     return resolve({ok: false, error: result.error.error});
                 });
             } else {
                 console.log("API ERROR:", result.error.error);
-                chrome.browserAction.setBadgeText({text: 'error'});
-                chrome.browserAction.setBadgeBackgroundColor({color: "#FF0000"});
+                setBadge("error");
+
                 local_storage.change({"api": { "online": true, "error": result.error.error }}, function(){
                     return resolve({ok: false, error: result.error.error});
                 });
             }
         } else {
-            chrome.browserAction.setBadgeText({text: ''});
+            setBadge("");
             local_storage.change({"api": { "online": true, "error": "" }}, function(){
                 return resolve(result);
             });
@@ -1130,5 +1130,31 @@ function hasParent(element, attributes={}){
         }
 
         return hasParent(element.parentElement, attributes);
+    }
+}
+
+function notifyUser(title, message){
+    chrome.notifications.create({
+        type: 'basic', 
+        iconUrl: 'images/icon128.png', 
+        title: title, 
+        message: message
+    }, function(){
+        console.log("Notified!");
+    });
+}
+
+function setBadge(text){
+    if(text == ""){
+        chrome.browserAction.setBadgeText({text: ''});
+    } else if(text == "error"){
+        chrome.browserAction.setBadgeText({text: 'error'});
+        chrome.browserAction.setBadgeBackgroundColor({color: "#FF0000"});
+    } else if(text == "update_available"){
+        chrome.browserAction.setBadgeText({text: 'new'});
+        chrome.browserAction.setBadgeBackgroundColor({color: "#e0dd11"});
+    } else if(text == "update_installed"){
+        chrome.browserAction.setBadgeText({text: 'new'});
+        chrome.browserAction.setBadgeBackgroundColor({color: "#0ad121"});
     }
 }
