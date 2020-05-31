@@ -490,7 +490,7 @@ function Main_fast(){
 
 // Check if new version is installed
 chrome.runtime.onInstalled.addListener(function(details){
-	local_storage.set({"updated": true}, function(){
+	local_storage.set({"updated": true, "new_version": {"available": false}}, function(){
 		console.log("Extension updated:", chrome.runtime.getManifest().version);
 	});
 });

@@ -28,8 +28,8 @@ window.addEventListener("load", function(){
     setupChangelog();
 
     local_storage.get(
-        ["settings", "api_key", "allies", "custom_links", "target_list", "loot_times", "loot_alerts", "chat_highlight", "extensions"], 
-        function([settings, api_key, allies, custom_links, target_list, loot_times, loot_alerts, chat_highlight, extensions]){
+        ["settings", "api_key", "allies", "custom_links", "target_list", "loot_times", "loot_alerts", "chat_highlight", "extensions", "new_version"], 
+        function([settings, api_key, allies, custom_links, target_list, loot_times, loot_alerts, chat_highlight, extensions, new_version]){
         // Preferences
         setupPreferences(settings, allies, custom_links, target_list.show, loot_times, loot_alerts, chat_highlight, extensions);
         
@@ -39,6 +39,13 @@ window.addEventListener("load", function(){
 
         // Fill in API key
         doc.find("#api_field").value = api_key.slice(0, api_key.length-8) + "********";
+
+        // Set new version text
+        if(new_version.available){
+            doc.find("#about #new-version span").innerText = new_version.version;
+        } else {
+            doc.find("#about #new-version").style.display = "none";
+        }
     });
 
     // Buttons
