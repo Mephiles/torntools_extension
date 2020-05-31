@@ -57,7 +57,7 @@ window.addEventListener('load', async (event) => {
 
         let chat_observer = new MutationObserver(function(mutationsList, observer){
             for(let mutation of mutationsList){
-                if(mutation.addedNodes && mutation.addedNodes[0] && mutation.addedNodes[0].classList && mutation.addedNodes[0].classList.contains("message_oP8oM")){
+                if(mutation.addedNodes[0] && mutation.addedNodes[0].classList && mutation.addedNodes[0].classList.contains("message_oP8oM")){
                     let message = mutation.addedNodes[0];
 
                     let sender = message.find("a").innerText.replace(":", "").trim();
