@@ -62,7 +62,7 @@ Links
 
 
 **API requests**:   
-  - 2/3 requests periodically  
+  - 4 main requests once per minute. 1 request for user's data every 15 seconds    
   - 1 request per search in Market tab  
 
 Don't like something? Turn it off in the settings and use the features you do like.  
