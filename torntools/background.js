@@ -405,55 +405,73 @@ function Main_fast(){
 		console.log("Setting up userdata.");
 		await (function(){
 			return new Promise(function(resolve, reject){
-				let selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages${attack_history? `,${attack_history}`:''}`;
+				let selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,education${attack_history? `,${attack_history}`:''}`;
 				console.log("---------selections", selections);
 
-				get_api(`https://api.torn.com/user/?selections=${selections}`, api_key).then((userdata) => {
-					if(userdata.ok != undefined && !userdata.ok){
-						return resolve(userdata);
-					}
-		
-					// Target list
-					if(userdata.attacks){
-						let attacks_data = {...userdata.attacks}
-						updateTargetList(attacks_data, userdata.player_id, target_list);
-					}
-
-					// Check for new events
-					for(let event_key of Object.keys(userdata.events).reverse()){
-						let event = userdata.events[event_key];
-
-						if(event.seen == 0){
-							notifyUser(
-								`TornTools - New Event`,
-								event.event.replace(/<\/?[^>]+(>|$)/g, "")
-							);
-						} else {
-							break;
+				local_storage.get("userdata", function(previous_userdata){
+					get_api(`https://api.torn.com/user/?selections=${selections}`, api_key).then((userdata) => {
+						if(userdata.ok != undefined && !userdata.ok){
+							return resolve(userdata);
 						}
-					}
-
-					// Check for new messages
-					for(let message_key of Object.keys(userdata.messages).reverse()){
-						let message = userdata.messages[message_key];
-
-						if(message.seen == 0){
-							notifyUser(
-								`TornTools - New Message by ${message.name}`,
-								message.title
-							);
-						} else {
-							break;
+			
+						// Target list
+						if(userdata.attacks){
+							let attacks_data = {...userdata.attacks}
+							updateTargetList(attacks_data, userdata.player_id, target_list);
 						}
-					}
-					
-					userdata.date = String(new Date());
-					userdata.attacks = undefined;
-					
-					// Set Userdata
-					local_storage.set({"userdata": userdata}, function(){
-						console.log("	Userdata set.");
-						return resolve(true);
+	
+						// Check for new events
+						for(let event_key of Object.keys(userdata.events).reverse()){
+							let event = userdata.events[event_key];
+	
+							if(event.seen == 0){
+								notifyUser(
+									`TornTools - New Event`,
+									event.event.replace(/<\/?[^>]+(>|$)/g, "")
+								);
+							} else {
+								break;
+							}
+						}
+	
+						// Check for new messages
+						for(let message_key of Object.keys(userdata.messages).reverse()){
+							let message = userdata.messages[message_key];
+	
+							if(message.seen == 0){
+								notifyUser(
+									`TornTools - New Message by ${message.name}`,
+									message.title
+								);
+							} else {
+								break;
+							}
+						}
+
+						// Check for cooldowns
+						if(previous_userdata.cooldowns){
+							for(let cd_type in userdata.cooldowns){
+								if(userdata.cooldowns[cd_type] == 0 && previous_userdata.cooldowns[cd_type] != 0){
+									notifyUser("TornTools - Cooldowns", `Your ${cd_type} cooldown has ended`);
+								}
+							}
+						}
+
+						// Check for education
+						if(previous_userdata.education_timeleft){
+							if(userdata.education_timeleft == 0 && previous_userdata.education_timeleft != 0){
+								notifyUser("TornTools - Education", `You have finished your education course`);
+							}
+						}
+						
+						userdata.date = String(new Date());
+						userdata.attacks = undefined;
+	
+						// Set Userdata
+						local_storage.set({"userdata": userdata}, function(){
+							console.log("	Userdata set.");
+							return resolve(true);
+						});
 					});
 				});
 			});
