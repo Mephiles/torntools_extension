@@ -466,7 +466,7 @@ function Main_fast(){
 
 						// Check for travelling
 						if(previous_userdata.travel){
-							if(userdata.travel.time_left == 0 && previous_userdata.travel_timeleft != 0){
+							if(userdata.travel.time_left == 0 && previous_userdata.travel.time_left != 0){
 								notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}`);
 							}
 						}
