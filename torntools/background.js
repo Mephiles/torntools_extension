@@ -463,6 +463,13 @@ function Main_fast(){
 								notifyUser("TornTools - Education", `You have finished your education course`);
 							}
 						}
+
+						// Check for travelling
+						if(previous_userdata.travel){
+							if(userdata.travel.time_left == 0 && previous_userdata.travel_timeleft != 0){
+								notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}`);
+							}
+						}
 						
 						userdata.date = String(new Date());
 						userdata.attacks = undefined;
