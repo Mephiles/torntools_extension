@@ -424,7 +424,7 @@ function Main_fast(){
 						for(let event_key of Object.keys(userdata.events).reverse()){
 							let event = userdata.events[event_key];
 	
-							if(event.seen == 0){
+							if(event.seen == 0 && new Date().getTime() - event.timestamp*1000 < 15000){
 								notifyUser(
 									`TornTools - New Event`,
 									event.event.replace(/<\/?[^>]+(>|$)/g, "")
@@ -438,7 +438,7 @@ function Main_fast(){
 						for(let message_key of Object.keys(userdata.messages).reverse()){
 							let message = userdata.messages[message_key];
 	
-							if(message.seen == 0){
+							if(message.seen == 0 && new Date().getTime() - message.timestamp*1000 < 15000){
 								notifyUser(
 									`TornTools - New Message by ${message.name}`,
 									message.title
