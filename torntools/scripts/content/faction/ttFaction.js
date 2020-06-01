@@ -1,30 +1,25 @@
 window.addEventListener("load", async function(){
     console.log("TT - Faction");
 
-    if(await flying() || await abroad())
-        return;
-
-	local_storage.get(["settings", "oc"], function([settings, oc]){
-        if(settings.pages.faction.oc_time){
-            if(subpage() == "crimes"){
-                ocTimes(oc, settings.format);
-            }
-
-            doc.find(".faction-tabs li[data-case=crimes]").addEventListener("click", function(){
-                ocTimes(oc, settings.format);
-            });
-        } 
-        
-        if(settings.pages.faction.armory){
-            if(subpage() == "main"){
-                armoryLog();
-            }
-
-            doc.find(".faction-tabs li[data-case=main]").addEventListener("click", function(){
-                armoryLog();
-            });
+    if(settings.pages.faction.oc_time){
+        if(subpage() == "crimes"){
+            ocTimes(oc, settings.format);
         }
-	});
+
+        doc.find(".faction-tabs li[data-case=crimes]").addEventListener("click", function(){
+            ocTimes(oc, settings.format);
+        });
+    } 
+    
+    if(settings.pages.faction.armory){
+        if(subpage() == "main"){
+            armoryLog();
+        }
+
+        doc.find(".faction-tabs li[data-case=main]").addEventListener("click", function(){
+            armoryLog();
+        });
+    }
 });
 
 function ocTimes(oc, format){
@@ -51,15 +46,9 @@ function ocTimes(oc, format){
 }
 
 function armoryLog(){
-    subpageLoaded("main").then(function(loaded){
-        if(!loaded){
-            return;
-        }
+    subpageLoaded("main").then(function(){
         
-        newstabLoaded("armory").then(function(loaded){
-            if(!loaded){
-                return;
-            }
+        newstabLoaded("armory").then(function(){
             shortenNews();
 
             document.addEventListener("click", function(event){
@@ -67,12 +56,8 @@ function armoryLog(){
                 event.target.classList.contains("page-nb") || 
                 event.target.classList.contains("pagination-left") || 
                 event.target.classList.contains("pagination-right")){
-                    console.log("click");
                     setTimeout(function(){
-                        newstabLoaded("armory").then(function(loaded){
-                            if(!loaded){
-                                return;
-                            }
+                        newstabLoaded("armory").then(function(){
                             shortenNews();
                         });
                     }, 400)
@@ -203,17 +188,10 @@ function subpageLoaded(page){
 
 function newstabLoaded(tab){
     return new Promise(function(resolve, reject){
-        let counter = 50;
         let checker = setInterval(function(){
-            console.log("checking for tab");
             if(tab == "armory" && doc.find("#tab4-4 .news-list li:not(.last)")){
                 resolve(true);
                 return clearInterval(checker);
-            }else if(counter == 0){
-                resolve(false);
-                return clearInterval(checker);
-            } else {
-                counter--;
             }
         }, 100);
     });
