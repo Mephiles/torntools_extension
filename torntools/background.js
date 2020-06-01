@@ -417,7 +417,7 @@ function Main_fast(){
 						// Target list
 						if(userdata.attacks){
 							let attacks_data = {...userdata.attacks}
-							updateTargetList(attacks_data, userdata.player_id, target_list);
+							updateTargetList(attacks_data, userdata.player_id, target_list, (attack_history == "attacksfull" ? true : false));
 						}
 	
 						// Check for new events
@@ -516,9 +516,8 @@ chrome.runtime.onUpdateAvailable.addListener(function(details){
 	}});
 });
 
-function updateTargetList(attacks_data, player_id, target_list){
+function updateTargetList(attacks_data, player_id, target_list, first_time){
 	console.log("Updating Target list");
-
 
 	for(let fight_id in attacks_data){
 		if(parseInt(fight_id) <= parseInt(target_list.last_target)){
@@ -564,13 +563,13 @@ function updateTargetList(attacks_data, player_id, target_list){
 			}
 		}
 
-		if(fight.defender_id == user_id){  // user defended
+		if(fight.defender_id == player_id){  // user defended
 			if(fight.result == "Lost"){
 				target_list.targets[opponent_id].defend++;
 			} else {
 				target_list.targets[opponent_id].defend_lose++;
 			}
-		} else if(fight.attacker_id == user_id){  // user attacked
+		} else if(fight.attacker_id == player_id){  // user attacked
 			if(fight.result == "Lost")
 				target_list.targets[opponent_id].lose++;
 			else if(fight.result == "Stalemate")
