@@ -475,7 +475,7 @@ function Main_fast(){
 						for(let bar of ["energy", "happy", "nerve", "life"]){
 							if(previous_userdata[bar]){
 								if(userdata[bar].current >= userdata[bar].maximum && previous_userdata[bar].current < userdata[bar].current){
-									notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reched ${userdata[bar].current}/${userdata[bar].maximum}`);
+									notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`);
 								}
 							}
 						}
