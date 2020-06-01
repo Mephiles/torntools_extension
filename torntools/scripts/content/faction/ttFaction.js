@@ -2,6 +2,11 @@ window.addEventListener("load", async function(){
     console.log("TT - Faction");
 
     if(settings.pages.faction.oc_time){
+        if(Object.keys(oc).length == 0){
+            console.log("NO DATA (might be no API access)");
+            return;
+        }
+
         if(subpage() == "crimes"){
             ocTimes(oc, settings.format);
         }
@@ -30,7 +35,6 @@ function ocTimes(oc, format){
         
         let crimes = doc.findAll(".organize-wrap .crimes-list>li");
         for(let crime of crimes){
-            console.log(crime)
             let crime_id = crime.find(".details-wrap").getAttribute("data-crime");
 
             let finish_time = oc[crime_id].time_ready;
