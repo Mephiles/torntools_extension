@@ -1,38 +1,72 @@
-window.addEventListener('load', async (event) => {
+mapLoaded().then(function(){
     console.log("TT - Travel (home)");
 
-    if (await flying() || await abroad())
+    if(!settings.pages.travel.destination_table){
         return;
+    }
 
-    local_storage.get(["settings", "itemlist", "userdata", "travel_market"], function ([settings, itemlist, userdata, travel_market]) {
-        if (settings.pages.travel.destination_table) {
-            if(settings.force_tt){
-                hideDoctorn();
-            }
+    let container = content.new_container("Travel Destinations", { id: "ttTravelTable", theme: settings.theme, collapsed: false}).find(".content");
+    displayTravelDestinations(container, itemlist.items, userdata, travel_market);
 
-            let container = content.new_container("Travel Destinations", { id: "ttTravelTable", theme: settings.theme, collapsed: false}).find(".content");
+    for (let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]) {
+        // tab.classList.remove("ui-state-disabled");
+        tab.addEventListener("click", function () {
+            container.innerHTML = "";
             displayTravelDestinations(container, itemlist.items, userdata, travel_market);
+        });
+    }
 
-            for (let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]) {
-                // tab.classList.remove("ui-state-disabled");
-                tab.addEventListener("click", function () {
-                    container.innerHTML = "";
-                    displayTravelDestinations(container, itemlist.items, userdata, travel_market);
-                });
-            }
+    // Sorting by type
+    for(let radio of doc.findAll("#ttTravelTable .legend input[name=item-type]")){
+        let type = radio.getAttribute("item-type");
+        
+        if(type == "all"){
+            radio.checked = true;
+        }
 
-            // Travel items input
-            doc.addEventListener("change", function(event){
-                if(event.target.id == "ttTravelItemsInput"){
-                    let amount = event.target.value;
-                
-                    container.innerHTML = "";
-                    displayTravelDestinations(container, itemlist.items, userdata, travel_market, amount);
-                }
-            });
+        switch(type){
+            case "plushies":
+                type = "plushie";
+                break;
+            case "flowers":
+                type = "flower";
+                break;
+            case "plushies/flowers":
+                type = ["plushie", "flower"];
+                break;
+            case "drugs":
+                type = "drug";
+                break;
+            default:
+                break;
+        }
+
+        radio.addEventListener("click", function(){
+            sortByItemType(type);
+        });
+    }
+
+    // Travel items input
+    doc.addEventListener("change", function(event){
+        if(event.target.id == "ttTravelItemsInput"){
+            let amount = event.target.value;
+        
+            container.innerHTML = "";
+            displayTravelDestinations(container, itemlist.items, userdata, travel_market, amount);
         }
     });
 });
+
+function mapLoaded(){
+    return new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            if(doc.find(".travel-map")){
+                resolve(true);
+                return clearInterval(checker);
+            }
+        });
+    });
+}
 
 function displayTravelDestinations(container, itemlist, userdata, travel_market, carry_items) {
     let item_dict = {  // time - minutes
@@ -182,15 +216,31 @@ function modifyTimeAndCost(dict, airstrip, wlt, business, bct_price) {
 
 function addTableLegend(table){
     let legend = doc.new({type: "div", class: "legend"});
-    let item = doc.new({type: "div", class: "item"});
-    let marker = doc.new({type: "div", class: "marker"});
-    let text = doc.new({type: "div", class: "text", text: "Travel items:"});
-    let input = doc.new({type: "input", id: "ttTravelItemsInput", attributes: {type: "number"}});
 
-    marker.appendChild(input);
-    item.appendChild(text);
-    item.appendChild(marker);
-    legend.appendChild(item);
+    // Items input
+    let item_items = doc.new({type: "div", class: "item"});
+    let text_items = doc.new({type: "div", class: "text right", text: "Travel items:"});
+    let input_items = doc.new({type: "input", id: "ttTravelItemsInput", attributes: {type: "number"}});
+
+    item_items.appendChild(text_items);
+    item_items.appendChild(input_items);
+    legend.appendChild(item_items);
+
+    // Divider
+    let empty_item = doc.new({type: "div", class: "item"});
+    legend.appendChild(empty_item);
+
+    // Item type radios
+    for(let type of ["All", "Plushies", "Flowers", "Plushies/Flowers", "Drugs", "Other"]){
+        let item_type = doc.new({type: "div", class: "item"});
+        let input_type = doc.new({type: "input", attributes: {type: "radio", name: "item-type", "item-type": type.toLowerCase()}});
+        let text_type = doc.new({type: "div", class: "text left", text: type});
+
+        item_type.appendChild(input_type)
+        item_type.appendChild(text_type);
+        legend.appendChild(item_type);
+    }
+
     table.appendChild(legend);
 }
 
@@ -231,6 +281,7 @@ function addRow(body, itemlist, item, time, carry_items, travel_cost) {
     let profit_per_minute = (total_profit / time).toFixed(0);
     let profit_per_item = (total_profit / carry_items).toFixed(0);
     let update_time = time_ago(item.timestamp*1000);
+    let item_types = ["plushie", "flower", "drug"];
 
     let row = doc.new({type: "div", class: "row"});
 
@@ -247,7 +298,7 @@ function addRow(body, itemlist, item, time, carry_items, travel_cost) {
 
     // let flight_time_div = doc.new({type: "div", text: time});
     let stock_div = doc.new({type: "div", text: `${item.abroad_quantity.toString()} \n (${update_time})`});
-    let item_div = doc.new({type: "div", text: item.item_name});
+    let item_div = doc.new({type: "div", text: item.item_name, attributes: {"item-type": (item_types.includes(item.item_type.toLowerCase()) ? item.item_type.toLowerCase() : "other")}});
     let buy_price_div = doc.new({type: "div", text: `$${numberWithCommas(item.abroad_cost, shorten = false)}`});
     let cash_needed_div = doc.new({type: "div", text: `$${numberWithCommas((item.abroad_cost * carry_items), shorten = false)}`});
     let market_value_div = doc.new({type: "div", text: `$${numberWithCommas(market_value, shorten = false)}`});
@@ -295,4 +346,30 @@ function addRow(body, itemlist, item, time, carry_items, travel_cost) {
     row.appendChild(total_profit_div);
     row.appendChild(profit_per_minute_div);
     body.appendChild(row);
+}
+
+function sortByItemType(sort_type){
+    let col = 3;
+
+    for(let cell of doc.findAll(`#ttTravelTable .body .row>div:nth-child(${col})`)){
+        let cell_type = cell.getAttribute("item-type");
+        cell.parentElement.style.display = "none";
+
+        if(sort_type == "all"){
+            cell.parentElement.style.display = "flex";
+            continue;
+        }
+
+        if(Array.isArray(sort_type)){
+            for(let type of sort_type){
+                if(cell_type == type){
+                    cell.parentElement.style.display = "flex";
+                }
+            }
+        } else if(cell_type == sort_type){
+            cell.parentElement.style.display = "flex";
+        }
+    }
+
+    doc.find("#ttTravelTable .content").style.maxHeight = doc.find("#ttTravelTable .content").scrollHeight + "px";
 }
