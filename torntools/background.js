@@ -424,7 +424,7 @@ function Main_fast(){
 						for(let event_key of Object.keys(userdata.events).reverse()){
 							let event = userdata.events[event_key];
 	
-							if(event.seen == 0 && new Date().getTime() - event.timestamp*1000 < 15000){
+							if(event.seen == 0 && new Date().getTime() - event.timestamp*1000 < 25000){
 								notifyUser(
 									`TornTools - New Event`,
 									event.event.replace(/<\/?[^>]+(>|$)/g, "")
@@ -438,13 +438,31 @@ function Main_fast(){
 						for(let message_key of Object.keys(userdata.messages).reverse()){
 							let message = userdata.messages[message_key];
 	
-							if(message.seen == 0 && new Date().getTime() - message.timestamp*1000 < 15000){
+							if(message.seen == 0 && new Date().getTime() - message.timestamp*1000 < 25000){
 								notifyUser(
 									`TornTools - New Message by ${message.name}`,
 									message.title
 								);
 							} else {
 								break;
+							}
+						}
+						
+						// Check for Status change
+						if(previous_userdata.status){
+							let current_status = userdata.status.state;
+							let previous_status = previous_userdata.status.state;
+							
+							if(current_status == previous_status){
+								return;
+							} else if(current_status == "Okay"){
+								if(previous_status == "Hospital"){
+									notifyUser("TornTools - Status", `You are out of the hospital.`);
+								} else if(previous_status == "Jail"){
+									notifyUser("TornTools - Status", `You are out of the jail.`);
+								}
+							} else {
+								notifyUser("TornTools - Status", userdata.status.description);
 							}
 						}
 
