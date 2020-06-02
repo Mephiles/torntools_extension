@@ -257,6 +257,7 @@ function setupPreferences(settings, allies, custom_links, target_list_enabled, l
     // Custom links
     for(let link of custom_links){
         let row = doc.new({type: "div", class: "row"});
+        let new_tab_input = doc.new({type: "input", class: "new_tab", attributes: {type: "checkbox"}});
         let name_input = doc.new({type: "input", class: "text name", value: link.text});
         let href_input = doc.new({type: "input", class: "text href", value: link.href});
         let remove_icon_wrap = doc.new({type: "div", class:"remove-icon-wrap"});
@@ -271,12 +272,17 @@ function setupPreferences(settings, allies, custom_links, target_list_enabled, l
         });
 
         remove_icon_wrap.appendChild(remove_icon);
+        row.appendChild(new_tab_input);
         row.appendChild(name_input);
         row.appendChild(href_input);
         row.appendChild(remove_icon_wrap);
 
         let table_body = preferences.find("#custom_links .body");
         table_body.insertBefore(row, table_body.find(".row.input"));
+
+        if(link.new_tab == true || link.new_tab == undefined){
+            new_tab_input.checked = true;
+        }
     }
 
     // Chat highlights
@@ -382,9 +388,11 @@ function savePreferences(preferences, settings, target_list_enabled){
     // Custom links
     let custom_links = [];
     for(let link of preferences.findAll("#custom_links .row:not(.input")){
+        console.log(link.find(".new_tab").checked)
         custom_links.push({
             text: link.find(".name").value,
-            href: link.find(".href").value
+            href: link.find(".href").value,
+            new_tab: link.find(".new_tab").checked
         });
     }
 
@@ -658,6 +666,7 @@ function addAllyToList(event){
 
 function addLinktoList(event){
     let row = doc.new({type: "div", class: "row"});
+    let new_tab_input = doc.new({type: "input", class: "new_tab", attributes: {type: "checkbox"}});
     let name_input = doc.new({type: "input", class: "text name", value: event.target.previousElementSibling.previousElementSibling.value});
     let href_input = doc.new({type: "input", class: "text href", value: event.target.previousElementSibling.value});
     let remove_icon_wrap = doc.new({type: "div", class:"remove-icon-wrap"});
@@ -672,6 +681,7 @@ function addLinktoList(event){
     });
 
     remove_icon_wrap.appendChild(remove_icon);
+    row.appendChild(new_tab_input);
     row.appendChild(name_input);
     row.appendChild(href_input);
     row.appendChild(remove_icon_wrap);
@@ -679,9 +689,14 @@ function addLinktoList(event){
     let table_body = preferences.find("#custom_links .body");
     table_body.insertBefore(row, table_body.find(".row.input"));
 
+    if(event.target.previousElementSibling.previousElementSibling.previousElementSibling.checked){
+        new_tab_input.checked = true;
+    }
+
     // Clear input
     event.target.previousElementSibling.value = "";
     event.target.previousElementSibling.previousElementSibling.value = "";
+    event.target.previousElementSibling.previousElementSibling.previousElementSibling.checked = true;
 }
 
 function message(text, good){

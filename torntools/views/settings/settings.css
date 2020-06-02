@@ -27,6 +27,15 @@ p {
     font-size: 11px;
     margin-left: 10px;
     color: red;
+    position: relative;
+}
+
+.arrow {
+    position: absolute;
+    font-size: 26px;
+    left: -2px;
+    top: -13px;
+    transform: rotate(-90deg);
 }
 
 .no-margin {

@@ -179,10 +179,18 @@
     margin-right: 4px;
 }
 
+.table.list .row input[type=checkbox] {
+    position: relative;
+    top: 3px;
+}
+
 #ff-table .row .text {
     width: 50%;
 }
 
+#custom_links {
+    width: 90%;
+}
 #custom_links .row .text.name {
     width: 30%;
 }

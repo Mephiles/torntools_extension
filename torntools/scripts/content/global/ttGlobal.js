@@ -68,7 +68,7 @@ function addCustomLinks(){
     for(let link of DB.custom_links){
         let cell = doc.new({type: "div", class: "area-desktop___2YU-q"});
         let inner_div = doc.new({type: "div", class: "area-row___34mEZ"});
-        let a = doc.new({type: "a", class: "desktopLink___2dcWC", href: link.href, attributes: {target: "_blank", style: "min-height: 24px; line-height: 24px;"}});
+        let a = doc.new({type: "a", class: "desktopLink___2dcWC", href: link.href, attributes: {target: (link.new_tab ? "_blank" : ""), style: "min-height: 24px; line-height: 24px;"}});
         let span = doc.new({type: "span", text: link.text});
     
         a.appendChild(span);
