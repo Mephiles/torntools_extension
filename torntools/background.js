@@ -75,6 +75,8 @@ setup_storage.then(async function(success){
 							console.log("	Set doctorn as force_false");
 							return resolve(true);
 						});
+					} else {
+						return resolve(true);
 					}
 				});
 			} else {
