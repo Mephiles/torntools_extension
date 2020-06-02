@@ -544,7 +544,7 @@ function updateTargetList(attacks_data, player_id, target_list, first_time){
 
 		target_list.last_target = fight_id;
 		let fight = attacks_data[fight_id];
-		let opponent_id = fight.attacked_id == player_id ? fight.defender_id : fight.attacker_id;
+		let opponent_id = fight.attacker_id == player_id ? fight.defender_id : fight.attacker_id;
 
 		if(!opponent_id){
 			continue;
