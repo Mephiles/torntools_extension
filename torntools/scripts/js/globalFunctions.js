@@ -153,6 +153,18 @@ const STORAGE = {
         "theme": "default",
         "force_tt": false,
         "hide_upgrade": false,
+        "notifications": {
+            "events": true,
+            "messages": true,
+            "status": true,
+            "traveling": true,
+            "cooldowns": true,
+            "education": true,
+            "energy": true,
+            "nerve": true,
+            "happy": true,
+            "life": true
+        },
         "format": {
             "date": "eu",
             "time": "eu"
@@ -1152,11 +1164,23 @@ function infoBoxesLoaded(){
     });
 }
 
+function DBloaded(){
+    return new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            if(DB && Object.keys(DB).length > 0){
+                resolve(true);
+                return clearInterval(checker);
+            }
+        });
+    });
+}
+
 // Pre-load database
 var DB;
 var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
 travel_market, oc, allies, loot_times, target_list, vault, personalized, 
-mass_messages;
+mass_messages, custom_links, loot_alerts, extensions, new_version;
+
 
 (function(){
     local_storage.get(null, function(db){
@@ -1169,7 +1193,6 @@ mass_messages;
         api_key = DB.api_key;
         chat_highlight = DB.chat_highlight;
         itemlist = DB.itemlist;
-        extensions = DB.extensions;
         travel_market = DB.travel_market;
         oc = DB.oc;
         allies = DB.allies;
@@ -1178,6 +1201,10 @@ mass_messages;
         vault = DB.vault;
         personalized = DB.personalized;
         mass_messages = DB.mass_messages;
+        custom_links = DB.custom_links;
+        loot_alerts = DB.loot_alerts;
+        extensions = DB.extensions;
+        new_version = DB.new_version;
 
         // Upgrade button
         document.documentElement.style.setProperty("--torntools-hide-upgrade", settings.hide_upgrade ? "none" : "block");

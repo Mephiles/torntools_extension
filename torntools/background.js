@@ -410,7 +410,7 @@ function Main_fast(){
 				let selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,education${attack_history? `,${attack_history}`:''}`;
 				console.log("---------selections", selections);
 
-				local_storage.get("userdata", function(previous_userdata){
+				local_storage.get(["settings", "userdata"], function([settings, previous_userdata]){
 					get_api(`https://api.torn.com/user/?selections=${selections}`, api_key).then((userdata) => {
 						if(userdata.ok != undefined && !userdata.ok){
 							return resolve(userdata);
@@ -425,6 +425,10 @@ function Main_fast(){
 						// Check for new events
 						for(let event_key of Object.keys(userdata.events).reverse()){
 							let event = userdata.events[event_key];
+
+							if(!settings.notifications.events){
+								break;
+							}
 	
 							if(event.seen == 0 && new Date().getTime() - event.timestamp*1000 < 25000){
 								notifyUser(
@@ -440,6 +444,10 @@ function Main_fast(){
 						for(let message_key of Object.keys(userdata.messages).reverse()){
 							let message = userdata.messages[message_key];
 	
+							if(!settings.notifications.messages){
+								break;
+							}
+
 							if(message.seen == 0 && new Date().getTime() - message.timestamp*1000 < 25000){
 								notifyUser(
 									`TornTools - New Message by ${message.name}`,
@@ -451,7 +459,7 @@ function Main_fast(){
 						}
 						
 						// Check for Status change
-						if(previous_userdata.status){
+						if(previous_userdata.status && settings.notifications.status){
 							let current_status = userdata.status.state;
 							let previous_status = previous_userdata.status.state;
 							
@@ -469,7 +477,7 @@ function Main_fast(){
 						}
 
 						// Check for cooldowns
-						if(previous_userdata.cooldowns){
+						if(previous_userdata.cooldowns && settings.notifications.cooldowns){
 							for(let cd_type in userdata.cooldowns){
 								if(userdata.cooldowns[cd_type] == 0 && previous_userdata.cooldowns[cd_type] != 0){
 									notifyUser("TornTools - Cooldowns", `Your ${cd_type} cooldown has ended`);
@@ -478,14 +486,14 @@ function Main_fast(){
 						}
 
 						// Check for education
-						if(previous_userdata.education_timeleft){
+						if(previous_userdata.education_timeleft && settings.notifications.education){
 							if(userdata.education_timeleft == 0 && previous_userdata.education_timeleft != 0){
 								notifyUser("TornTools - Education", `You have finished your education course`);
 							}
 						}
 
 						// Check for travelling
-						if(previous_userdata.travel){
+						if(previous_userdata.travel && settings.notifications.traveling){
 							if(userdata.travel.time_left == 0 && previous_userdata.travel.time_left != 0){
 								notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}`);
 							}
@@ -493,7 +501,7 @@ function Main_fast(){
 
 						// Check for bars
 						for(let bar of ["energy", "happy", "nerve", "life"]){
-							if(previous_userdata[bar]){
+							if(previous_userdata[bar] && settings.notifications[bar]){
 								if(userdata[bar].current >= userdata[bar].maximum && previous_userdata[bar].current < userdata[bar].current){
 									notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`);
 								}

@@ -2,36 +2,36 @@ import changelog from "../../changelog.js";
 var version;
 
 window.addEventListener("load", function(){
-    console.log("Start Settings");
-    version = chrome.runtime.getManifest().version;
+    DBloaded().then(function(){
+        console.log("Start Settings");
+        version = chrome.runtime.getManifest().version;
+    
+        console.log("Database", DB);
 
-    // About info
-    doc.find("#about #version span").innerText = `v${version}`;
-    if(chrome.storage.local.getBytesInUse){
-        chrome.storage.local.getBytesInUse(function(data){
-            doc.find("#about #data-used span").innerText = formatBytes(data);
-        });
-    }
+        // About info
+        doc.find("#about #version span").innerText = `v${version}`;
+        if(chrome.storage.local.getBytesInUse){
+            chrome.storage.local.getBytesInUse(function(data){
+                doc.find("#about #data-used span").innerText = formatBytes(data);
+            });
+        }
+    
+        // setup site
+        setupSite();
+    
+        // Disable extension auto-checks
+        if(!usingChrome()){
+            doc.find("#extensions-doctorn-auto input").disabled = true;
+        }
+    
+        // set "update" to false
+        local_storage.set({"updated": false});
+    
+        // Content
+        setupChangelog();
 
-    // setup site
-    setupSite();
-
-    // Disable extension auto-checks
-    if(!usingChrome()){
-        doc.find("#extensions-doctorn-auto input").disabled = true;
-    }
-
-    // set "update" to false
-    local_storage.set({"updated": false});
-
-    // Content
-    setupChangelog();
-
-    local_storage.get(
-        ["settings", "api_key", "allies", "custom_links", "target_list", "loot_times", "loot_alerts", "chat_highlight", "extensions", "new_version"], 
-        function([settings, api_key, allies, custom_links, target_list, loot_times, loot_alerts, chat_highlight, extensions, new_version]){
         // Preferences
-        setupPreferences(settings, allies, custom_links, target_list.show, loot_times, loot_alerts, chat_highlight, extensions);
+        setupPreferences();
         
         // Target list
         setupTargetList(target_list.targets);
@@ -46,35 +46,32 @@ window.addEventListener("load", function(){
         } else {
             doc.find("#about #new-version").style.display = "none";
         }
-    });
-
-    // Buttons
-    doc.find("#change_api_key").addEventListener("click", function(){
-        resetApiKey();
-    });
-    doc.find("#add_ally").addEventListener("click", function(event){
-        addAllyToList(event);
-    });
-    doc.find("#add_link").addEventListener("click", function(event){
-        addLinktoList(event);
-    });
-    doc.find("#add_highlight").addEventListener("click", function(event){
-        addHighlightToList(event);
-    });
-    doc.find("#clear_target_list").addEventListener("click", function(){
-        local_storage.set({"target_list": {
-            "last_target": -1,
-            "show": true,
-            "targets": {}
-        }});
-        message("Target list reset.", true);
-    });
-
-    // Log whole Database
-    local_storage.get(null, function(STORAGE){
-        console.log("Database", STORAGE);
+    
+        // Buttons
+        doc.find("#change_api_key").addEventListener("click", function(){
+            resetApiKey();
+        });
+        doc.find("#add_ally").addEventListener("click", function(event){
+            addAllyToList(event);
+        });
+        doc.find("#add_link").addEventListener("click", function(event){
+            addLinktoList(event);
+        });
+        doc.find("#add_highlight").addEventListener("click", function(event){
+            addHighlightToList(event);
+        });
+        doc.find("#clear_target_list").addEventListener("click", function(){
+            local_storage.set({"target_list": {
+                "last_target": -1,
+                "show": true,
+                "targets": {}
+            }});
+            message("Target list reset.", true);
+        });
+    
     });
 });
+
 
 function setupSite(){
     // Navigation bar
@@ -191,7 +188,7 @@ function setupChangelog(){
     content.appendChild(p);
 }
 
-function setupPreferences(settings, allies, custom_links, target_list_enabled, loot_times, loot_alerts, chat_highlight, extensions){
+function setupPreferences(){
     let preferences = doc.find("#preferences");
 
     // General
@@ -225,7 +222,7 @@ function setupPreferences(settings, allies, custom_links, target_list_enabled, l
     preferences.find(`#remove_info_boxes input`).checked = settings.remove_info_boxes;
 
     // Target list
-    preferences.find(`#target_list input`).checked = target_list_enabled;
+    preferences.find(`#target_list input`).checked = target_list.show;
 
     // Allies
     for(let ally of allies){
@@ -325,6 +322,11 @@ function setupPreferences(settings, allies, custom_links, target_list_enabled, l
         table_body.insertBefore(row, table_body.find(".row.input"));
     }
 
+    // Notifications
+    for(let notification in settings.notifications){
+        preferences.find(`#notifications-${notification} input`).checked = settings.notifications[notification];
+    }
+
     // Doctorn
     if(extensions.doctorn == "force_true"){
         preferences.find("#extensions-doctorn-true input").checked = true;
@@ -336,7 +338,7 @@ function setupPreferences(settings, allies, custom_links, target_list_enabled, l
 
     // Buttons
     preferences.find("#save_settings").addEventListener("click", function(){
-        savePreferences(preferences, settings, target_list_enabled);
+        savePreferences(preferences, settings, target_list.show);
     });
 
     preferences.find("#reset_settings").addEventListener("click", function(){
@@ -416,6 +418,11 @@ function savePreferences(preferences, settings, target_list_enabled){
         let color = row.find(".color").value;
 
         highlights[name] = color;
+    }
+
+    // Notifications
+    for(let notification in settings.notifications){
+        settings.notifications[notification] = preferences.find(`#notifications-${notification} input`).checked;
     }
 
     // Doctorn
