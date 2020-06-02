@@ -2,12 +2,12 @@ infoBoxesLoaded().then(function(){
 	console.log("TT - Home");
 
 	// Networth
-	if(DB.settings.pages.home.networth){
+	if(settings.pages.home.networth){
 		displayNetworth(DB.networth);
 	}
 
 	// Battle Stats
-	if(DB.settings.pages.home.battle_stats){
+	if(settings.pages.home.battle_stats && (settings.force_tt || extensions.doctorn == false || extensions.doctorn == "force_false")){
 		displayEffectiveBattleStats();
 	}
 });
