@@ -1,23 +1,18 @@
-window.addEventListener('load', async (event) => {
+navbarLoaded().then(function(){
     console.log("TT - Church | Achievements");
 
-    if(await flying() || await abroad())
+    let show_completed = settings.achievements.completed;
+
+    if(!settings.achievements.show)
         return;
 
-    local_storage.get(["settings", "torndata"], function([settings, torndata]) {
-        let show_completed = settings.achievements.completed;
-
-        if(!settings.achievements.show)
-            return;
-
-        // object of all the achievements on this page
-        let achievements = {
-            "Donations": {
-                "stats": getDonations(),
-                "keyword": "church"
-            }
+    // object of all the achievements on this page
+    let achievements = {
+        "Donations": {
+            "stats": getDonations(),
+            "keyword": "church"
         }
+    }
 
-        displayAchievements(achievements, show_completed, torndata, settings.theme);
-    });
+    displayAchievements(achievements, show_completed);
 });

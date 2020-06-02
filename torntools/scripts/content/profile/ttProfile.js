@@ -1,38 +1,28 @@
-window.addEventListener('load', async (event) => {
+profileLoaded().then(function(){
     console.log("TT - Profile");
 
-    if (await flying() || await abroad())
-        return
+    let user_faction = userdata.faction.faction_name;
 
-    local_storage.get(["settings", "userdata", "allies", "target_list", "loot_times"], function ([settings, userdata, allies, target_list, loot_times]) {
-        let user_faction = userdata.faction.faction_name;
+    if(settings.pages.profile.show_id){
+        showId();
+    }
 
-        profileLoaded().then(function (loaded) {
-            if (!loaded)
-                return;
+    if(settings.pages.profile.friendly_warning){
+        displayAlly(user_faction, allies);
+    }
 
-			if (settings.pages.profile.show_id) {
-				showId();
-			}
+    if(target_list.show){
+        displayTargetInfo(target_list.targets);
+    }
+        
+    if(settings.pages.profile.loot_times){
+        displayLootLevel(loot_times);
+    }
 
-            if (settings.pages.profile.friendly_warning){
-                displayAlly(user_faction, allies);
-            }
-
-            if (target_list.show){
-                displayTargetInfo(target_list.targets, settings.theme);
-            }
-                
-            if(settings.pages.profile.loot_times){
-                displayLootLevel(loot_times);
-            }
-
-            if(settings.pages.profile.status_indicator){
-                addStatusIndicator();
-            }
-            displayCreator();
-        });
-    });
+    if(settings.pages.profile.status_indicator){
+        addStatusIndicator();
+    }
+    displayCreator();
 });
 
 function displayCreator() {
@@ -101,10 +91,10 @@ function showWarning(type) {
     title.appendChild(span);
 }
 
-function displayTargetInfo(targets, theme) {
+function displayTargetInfo(targets) {
     let user_id = getUserId();
 
-    let info_container = content.new_container("Target Info", {next_element_heading: "Medals", id: "tt-target-info", theme: theme});
+    let info_container = content.new_container("Target Info", {next_element_heading: "Medals", id: "tt-target-info"});
     let content_container = info_container.find(".content");
 
     if (!targets[user_id])
@@ -248,7 +238,7 @@ function displayLootLevel(loot_times){
         
         let span = doc.new("span");
             span.setClass("tt-loot-time");
-            span.innerText = `Next loot in: ${time_left}`;
+            span.innerText = `Next loot level in: ${time_left}`;
             span.setAttribute("seconds", (next_loot_time - current_time));
         
         doc.find(".profile-wrapper .profile-status .description .sub-desc").appendChild(span);

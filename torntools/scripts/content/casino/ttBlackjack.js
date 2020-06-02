@@ -1,38 +1,30 @@
-window.addEventListener('load', async (event) => {
+casinoGameLoaded().then(function(){
     console.log("TT - Casino | Blackjack");
 
-    if(await flying() || await abroad())
+    if(!settings.pages.casino.all || !settings.pages.casino.blackjack){
         return;
+    }
 
-    local_storage.get("settings", function(settings){
-        if(!settings.pages.casino.all || !settings.pages.casino.blackjack)
-            return;
-
-        casinoGameLoaded().then(function(loaded){
-            if(!loaded)
-                return;
-
-            doc.find(".startGame").addEventListener("click", function(){
-                if(doc.find(".bet-confirm").style.display != "block"){
-                    setTimeout(Main, 3000);
-                }
-            });
-
-            // bet confirm
-            doc.find(".bet-confirm .yes").addEventListener("click", function(){
-                setTimeout(Main, 3000);
-            });
-
-            // remove action when chosen option
-            for(let li of doc.findAll(".d-buttons-wrap li")){
-                li.addEventListener("click", function(){
-                    if(doc.find(".tt-blackjack-action"))
-                        doc.find(".tt-blackjack-action").remove();
-
-                });
-            }
-        });
+    doc.find(".startGame").addEventListener("click", function(){
+        if(doc.find(".bet-confirm").style.display != "block"){
+            setTimeout(Main, 3000);
+        }
     });
+
+    // bet confirm
+    doc.find(".bet-confirm .yes").addEventListener("click", function(){
+        setTimeout(Main, 3000);
+    });
+
+    // remove action when chosen option
+    for(let li of doc.findAll(".d-buttons-wrap li")){
+        li.addEventListener("click", function(){
+            if(doc.find(".tt-blackjack-action"))
+                doc.find(".tt-blackjack-action").remove();
+
+        });
+    }
+
 });
 
 function Main(){

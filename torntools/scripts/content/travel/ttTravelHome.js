@@ -16,36 +16,6 @@ mapLoaded().then(function(){
         });
     }
 
-    // Sorting by type
-    for(let radio of doc.findAll("#ttTravelTable .legend input[name=item-type]")){
-        let type = radio.getAttribute("item-type");
-        
-        if(type == "all"){
-            radio.checked = true;
-        }
-
-        switch(type){
-            case "plushies":
-                type = "plushie";
-                break;
-            case "flowers":
-                type = "flower";
-                break;
-            case "plushies/flowers":
-                type = ["plushie", "flower"];
-                break;
-            case "drugs":
-                type = "drug";
-                break;
-            default:
-                break;
-        }
-
-        radio.addEventListener("click", function(){
-            sortByItemType(type);
-        });
-    }
-
     // Travel items input
     doc.addEventListener("change", function(event){
         if(event.target.id == "ttTravelItemsInput"){
@@ -196,6 +166,36 @@ function displayTravelDestinations(container, itemlist, userdata, travel_market,
     sort(table, 9, "text");
 
     doc.find("#ttTravelItemsInput").value = carry_items;
+
+    // Sorting by type
+    for(let radio of doc.findAll("#ttTravelTable .legend input[name=item-type]")){
+        let type = radio.getAttribute("item-type");
+        
+        if(type == "all"){
+            radio.checked = true;
+        }
+
+        switch(type){
+            case "plushies":
+                type = "plushie";
+                break;
+            case "flowers":
+                type = "flower";
+                break;
+            case "plushies/flowers":
+                type = ["plushie", "flower"];
+                break;
+            case "drugs":
+                type = "drug";
+                break;
+            default:
+                break;
+        }
+
+        radio.addEventListener("click", function(){
+            sortByItemType(type);
+        });
+    }
 }
 
 function modifyTimeAndCost(dict, airstrip, wlt, business, bct_price) {

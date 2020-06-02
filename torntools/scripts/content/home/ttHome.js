@@ -1,77 +1,62 @@
-window.addEventListener('load', async (event) => {
-    console.log("TT - Home");
+infoBoxesLoaded().then(function(){
+	console.log("TT - Home");
 
-    if(await flying() || await abroad())
-        return;
+	// Networth
+	if(DB.settings.pages.home.networth){
+		displayNetworth(DB.networth);
+	}
 
-	local_storage.get(["settings", "networth", "extensions"], function([settings, networth, extensions]){
-		if(settings.pages.home.networth){
-			displayNetworth(networth, settings.format);
-		}
-
-		if(settings.pages.home.battle_stats){
-			if(settings.force_tt){
-				hideDoctorn();
-				displayEffectiveBattleStats(settings.theme);
-			} else if(extensions.doctorn == false || extensions.doctorn == "force_false"){
-				displayEffectiveBattleStats(settings.theme);
-			}
-		}
-	});
+	// Battle Stats
+	if(DB.settings.pages.home.battle_stats){
+		displayEffectiveBattleStats();
+	}
 });
 
-function displayNetworth(networth, format){
+function displayNetworth(networth){
 	console.log("Networth", networth);
+
+	let parent_box = doc.find("h5=General Information").parentElement.nextElementSibling.find("ul.info-cont-wrap");
 
 	// current networth
 	let networth_text = `$${numberWithCommas(networth.current.value.total, shorten=false)}`;
-	let networth_row = info_box.new_row("(Live) Networth", networth_text, {
-		parent_heading: "General Information",
-		style: `background-color: #65c90069`,
-		id: "ttLiveNetworth"
-	});
+	let networth_row = info_box.new_row("(Live) Networth", networth_text, {id: "ttLiveNetworth"});
+	networth_row.style.backgroundColor = "#65c90069";
 
 	// Networth last updated info icon
-	let info_icon = doc.new("i");
-		info_icon.setClass("networth-info-icon");
-		info_icon.setAttribute("seconds", ((new Date() - Date.parse(networth.current.date))/1000));
-		info_icon.setAttribute("title", ("Last updated: " + time_ago(Date.parse(networth.current.date))));
-		info_icon.style.marginLeft = "9px"
-
+	let info_icon = doc.new({type: "i", class: "networth-info-icon", attributes: {
+		seconds: ((new Date() - Date.parse(networth.current.date))/1000),
+		title: ("Last updated: " + time_ago(Date.parse(networth.current.date))),
+		style: `margin-left: 9px;`
+	}})
 	networth_row.find(".desc").appendChild(info_icon);
+	parent_box.appendChild(networth_row);
 
 	// increment time
-    let time_increase = setInterval(function(){
-        let time_span = doc.find("#ttLiveNetworth .networth-info-icon");
+	let time_increase = setInterval(function(){
+		let time_span = doc.find("#ttLiveNetworth .networth-info-icon");
 
-        let seconds = parseInt(time_span.getAttribute("seconds"));
-        let new_time = time_ago(new Date() - (seconds+1)*1000);
+		let seconds = parseInt(time_span.getAttribute("seconds"));
+		let new_time = time_ago(new Date() - (seconds+1)*1000);
 
-        time_span.setAttribute("title", `Last updated: ${new_time}`);
-        time_span.setAttribute("seconds", seconds+1);
-    }, 1000);
+		time_span.setAttribute("title", `Last updated: ${new_time}`);
+		time_span.setAttribute("seconds", seconds+1);
+	}, 1000);
 
 	if(!networth.previous.value)
 		return;
 
 	// networth change
-	networth_row.removeAttribute("class");
-
 	let headings = ["Type", "Value", "Change"];
 	let types = ["Cash (Wallet+Vault)", "Points", "Items", "Bazaar", "Properties", "Stock Market", "Company", "Bookie", "Auction House"];
 
-	let li = doc.new("li");
-		li.setClass("last tt-networth-li");
-	let table = doc.new("table");
-		table.setClass("tt-networth-table");
-	let footer = doc.new("div");
-		footer.setClass("tt-networth-footer")
+	let li = doc.new({type: "li", class: "last tt-networth-li"});
+	let table = doc.new({type: "table", class: "tt-networth-table"});
+	let footer = doc.new({type: "div", class: "tt-networth-footer", text: `Networth change compared to Torn's last known Networth`});
 
 	// table header
 	let header_row = doc.new("tr");
 	for(let heading of headings){
-		let th = doc.new("th");
-		th.innerText = heading;
+		let th = doc.new({type: "th", text: heading});
 		header_row.appendChild(th);
 	}
 	table.appendChild(header_row);
@@ -115,22 +100,18 @@ function displayNetworth(networth, format){
 		table.appendChild(tr);
 	}
 
-	// table footer
-	footer.innerText = `Networth change compared to Torn's last known Networth`;
-
 	// compiling
 	li.appendChild(table);
 	li.appendChild(footer);
 	networth_row.parentElement.appendChild(li);
-
 }
 
-function displayEffectiveBattleStats(theme){
+function displayEffectiveBattleStats(){
 	// ebs - effective battle stats
-
-	let battle_stats_container = doc.find("h5=Battle Stats").parentElement.nextElementSibling;
-	info_box.new_row("Effective Battle Stats", "", {heading: true, parent_heading: "Battle Stats", theme: theme});
-	console.log("Container", battle_stats_container);
+	let battle_stats_container = doc.find("h5=Battle Stats").parentElement.nextElementSibling.find("ul.info-cont-wrap");
+	
+	let heading = info_box.new_row("Effective Battle Stats", "", {heading: true});
+	battle_stats_container.appendChild(heading);
 	
 	let eff_total = 0;
 	let battle_stats = ["Strength", "Defense", "Speed", "Dexterity"]
@@ -144,8 +125,13 @@ function displayEffectiveBattleStats(theme){
 		console.log("eff_stat", effective_stat);
 
 		eff_total += parseInt(effective_stat);
-		info_box.new_row(battle_stats[i], numberWithCommas(effective_stat, shorten=false), {parent_heading: "Battle Stats", value_style: "width: 184px"});
+		let row = info_box.new_row(battle_stats[i], numberWithCommas(effective_stat, shorten=false));
+		row.find(".desc").style.width = "184px";
+		battle_stats_container.appendChild(row);
 	}
 
-	info_box.new_row("Total", numberWithCommas(eff_total, shorten=false), {parent_heading: "Battle Stats", value_style: "width: 184px"});
+	let total_row = info_box.new_row("Total", numberWithCommas(eff_total, shorten=false), {last: true});
+	total_row.find(".desc").style.width = "184px";
+
+	battle_stats_container.appendChild(total_row);
 }

@@ -1,22 +1,11 @@
-window.addEventListener('load', async (event) => {
+casinoGameLoaded().then(function(){
     console.log("TT - Casino | HiLo");
 
-    if(await flying() || await abroad())
+    if(!settings.pages.casino.all || !settings.pages.casino.hilo){
         return;
+    }
 
-    local_storage.get("settings", function(settings){
-        if(!settings.pages.casino.all || !settings.pages.casino.hilo)
-            return;
-
-        casinoGameLoaded().then(function(loaded){
-            if(!loaded)
-                return;
-
-            console.log("HiLo loaded");
-
-            Main();
-        });
-    });
+    Main();
 });
 
 function Main(){

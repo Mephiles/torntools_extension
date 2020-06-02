@@ -1,60 +1,32 @@
-window.addEventListener('load', async (event) => {
+itemsLoaded().then(function(){
     console.log("TT - Items");
 
-    if (await flying() || await abroad())
+    if(!settings.pages.items.values){
         return;
+    }
+    
+    displayItemPrices(itemlist.items);
 
-    local_storage.get(["settings", "itemlist"], function ([settings, itemlist]) {
-        console.log(itemlist)
-        if (settings.pages.items.values) {
-            Main(itemlist.items);
-        }
-    });
-});
-
-function Main(itemlist) {
     let sorting_icons = doc.findAll("ul[role=tablist] li:not(.no-items):not(.m-show):not(.hide)");
-
     for (let icon of sorting_icons) {
         icon.addEventListener("click", function () {
-            itemsLoaded().then(function (loaded) {
-                if (!loaded)
-                    return;
-
-                displayItemPrices(itemlist)
+            itemsLoaded().then(function(){
+                displayItemPrices(itemlist.items)
             });
-
         });
     }
-
-    itemsLoaded().then(function (loaded) {
-        if (!loaded)
-            return;
-
-        displayItemPrices(itemlist)
-    });
-}
+});
 
 function itemsLoaded() {
-    let promise = new Promise(function (resolve, reject) {
-        setTimeout(function () {
-            let counter = 0;
-            let checker = setInterval(function () {
-                if ([doc.findAll(".items-cont[aria-expanded=true]>li")].length != 0 && !doc.find(".items-cont[aria-expanded=true]>li.ajax-item-loader")) {
-                    resolve(true);
-                    return clearInterval(checker);
-                } else if (counter == 1000) {
-                    resolve(false);
-                    return clearInterval(checker);
-                } else {
-                    counter++;
-                }
-            }, 100);
-        }, 250);
-    });
-
-    return promise.then(function (data) {
-        return data;
+    return new Promise(function (resolve, reject) {
+        let checker = setInterval(function () {
+            let items = doc.find(".items-cont[aria-expanded=true]>li")
+            if(items && [...items.children].length > 1){
+                console.log(items)
+                resolve(true);
+                return clearInterval(checker);
+            }
+        }, 100);
     });
 }
 

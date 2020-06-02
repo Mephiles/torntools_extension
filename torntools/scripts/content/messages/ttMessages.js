@@ -1,23 +1,9 @@
-window.addEventListener('load', async (event) => {
+messageBoxLoaded().then(function(){
     console.log("TT - Messages");
 
-    if(await flying() || await abroad()){
-        return;
-    }
-
-    if(window.location.hash == "#/p=compose"){
-        local_storage.get(["personalized", "mass_messages"], function([personalized, mass_messages]){
-            if(personalized.mass_messages){
-                console.log("MASS MESSAGES", mass_messages);
-                
-                messageBoxLoaded().then(function(loaded){
-                    if(!loaded)
-                        return;
-                    
-                    massMessages(mass_messages);
-                });
-            }
-        });
+    if(personalized.mass_messages){
+        console.log("MASS MESSAGES", mass_messages);
+        massMessages(mass_messages);
     }
 
     document.addEventListener("click", function(event){
@@ -27,10 +13,7 @@ window.addEventListener('load', async (event) => {
                 if(personalized.mass_messages){
                     console.log("MASS MESSAGES", mass_messages);
                     
-                    messageBoxLoaded().then(function(loaded){
-                        if(!loaded)
-                            return;
-                        
+                    messageBoxLoaded().then(function(){
                         massMessages(mass_messages);
                     });
                 }
@@ -40,7 +23,7 @@ window.addEventListener('load', async (event) => {
 });
 
 function messageBoxLoaded(){
-    let promise = new Promise(function(resolve, reject){
+    return new Promise(function(resolve, reject){
         let checker = setInterval(function(){
             console.log("checking")
             if(
@@ -50,10 +33,6 @@ function messageBoxLoaded(){
                 return clearInterval(checker);
             }
         }, 500);
-    });
-
-    return promise.then(function(data){
-        return data;
     });
 }
 
@@ -196,7 +175,9 @@ function massMessages(mass_messages){
     // SEND button
     doc.find(".form-message-input-text .form-submit-wrapper input").addEventListener("click", function(){
         let subject = doc.find(".subject").value;
-        let message = doc.find("#mailcompose_ifr").contentWindow.document.querySelector("#tinymce").innerText || doc.find("#mailcompose").innerText;
+
+        let message_box = doc.find("#mailcompose_ifr") || doc.find("#mailcompose");
+        let message = message_box.contentWindow ? message_box.contentWindow.document.querySelector("#tinymce").innerText : message_box.value;
 
         local_storage.change({"mass_messages": {
             "index": mass_messages.index+1,

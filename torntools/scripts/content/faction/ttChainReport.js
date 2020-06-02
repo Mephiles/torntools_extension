@@ -1,21 +1,22 @@
-window.addEventListener("load", async function(){
-    console.log("TT - Faction | Chain Report");
-
-    if(await flying() || await abroad())
-        return;
-
-	local_storage.get(["settings", "extensions"], function([settings, extensions]){
-		if(settings.force_tt){
-			hideDoctorn();
-			displayContainer(settings.theme);
-		} else if(extensions.doctorn == false || extensions.doctorn == "force_false"){
-			displayContainer(settings.theme);
-		}
-	});
+chainReportLoaded().then(function(){
+	console.log("TT - Faction | Chain Report");
+	
+	displayContainer();
 });
 
-function displayContainer(theme){
-	let options_container = content.new_container("Chain Report", {first:true, id: "ttChainReport", theme: theme, collapsed: false});
+function chainReportLoaded(){
+	return new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            if(doc.find(".report-title")){
+                resolve(true);
+                return clearInterval(checker);
+            }
+        });
+    });
+}
+
+function displayContainer(){
+	let options_container = content.new_container("Chain Report", {first:true, id: "ttChainReport", collapsed: false});
 	
 	let export_btn = doc.new("div");
 		export_btn.id = "ttExportTableButton";

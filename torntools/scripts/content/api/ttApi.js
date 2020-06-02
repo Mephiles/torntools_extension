@@ -1,56 +1,54 @@
 window.addEventListener('load', (event) => {
 	console.log("TT - API");
 	
-	local_storage.get(["api_key", "settings"], function([api_key, settings]){
-		// auto-fill API key
-		if(settings.pages.api.key){
-			doc.find("#api_key").value = api_key;
+	// auto-fill API key
+	if(settings.pages.api.key){
+		doc.find("#api_key").value = api_key;
 
-			let demo_page_checker = setInterval(function(){
-				if(document.querySelector("#demo").style.display != "none"){
-					// apply API key
-					doc.find("#api_key").focus();
+		let demo_page_checker = setInterval(function(){
+			if(document.querySelector("#demo").style.display != "none"){
+				// apply API key
+				doc.find("#api_key").focus();
 
-					// Show fields in use
-					for(let panel of doc.findAll(".panel-group")){
-						panel.addEventListener("click", markFieldsTimeout);
-						panel.find("button").addEventListener("click", function(event){
-							let response_div = event.target.nextElementSibling;
-							let responses_before = [...response_div.findAll("span")].length;
+				// Show fields in use
+				for(let panel of doc.findAll(".panel-group")){
+					panel.addEventListener("click", markFieldsTimeout);
+					panel.find("button").addEventListener("click", function(event){
+						let response_div = event.target.nextElementSibling;
+						let responses_before = [...response_div.findAll("span")].length;
 
-							responseLoaded(response_div, responses_before).then(function(loaded){
-								if(!loaded)
-									return;
+						responseLoaded(response_div, responses_before).then(function(loaded){
+							if(!loaded)
+								return;
 
-								let type = panel.previousElementSibling.innerText.toLowerCase();
-								let fields = panel.find(`#${type[0]}_selections`).value;
-								markResponse(type, fields, response_div.firstElementChild.find("pre"));
-							});
+							let type = panel.previousElementSibling.innerText.toLowerCase();
+							let fields = panel.find(`#${type[0]}_selections`).value;
+							markResponse(type, fields, response_div.firstElementChild.find("pre"));
 						});
+					});
 
-						function markFieldsTimeout() {
-							setTimeout(function(){
-								let name = panel.previousElementSibling.innerText.toLowerCase();
-								let id = panel.find("div[role=tabpanel]").id;
-								markFields(name, id);
-								panel.removeEventListener("click", markFieldsTimeout);
-							}, 500);
-						}
+					function markFieldsTimeout() {
+						setTimeout(function(){
+							let name = panel.previousElementSibling.innerText.toLowerCase();
+							let id = panel.find("div[role=tabpanel]").id;
+							markFields(name, id);
+							panel.removeEventListener("click", markFieldsTimeout);
+						}, 500);
 					}
-
-					clearInterval(demo_page_checker);
 				}
-			}, 500);
-		}
 
-		// auto-set all responses to Pretty
-		if(settings.pages.api.pretty){
-			// set resonse type to pretty
-			for(let type_pretty of doc.findAll("input[value=pretty]")){
-				type_pretty.checked=true
+				clearInterval(demo_page_checker);
 			}
+		}, 500);
+	}
+
+	// auto-set all responses to Pretty
+	if(settings.pages.api.pretty){
+		// set resonse type to pretty
+		for(let type_pretty of doc.findAll("input[value=pretty]")){
+			type_pretty.checked=true
 		}
-	});
+	}
 });
 
 function responseLoaded(response_div, responses_before){

@@ -1,44 +1,44 @@
-window.addEventListener('load', async (event) => {
+mapLoaded().then(function(){
 	console.log("TT - City");
-	
-	if(await flying())
+
+	if(!settings.pages.city.items && !settings.pages.city.items_value){
 		return;
+	}
 
-	local_storage.get(["settings", "extensions", "itemlist"], function([settings, extensions, itemlist]){
-		mapLoaded().then(function(loaded){
-			if(!loaded || (!settings.pages.city.items && !settings.pages.city.items_value))
-				return;
-
-			let items_container = content.new_container("City Items", {first:true, id: "tt-city-items", theme: settings.theme});
-			
-			if(settings.pages.city.items_value){
-				showValueOfItems(items_container, itemlist, extensions.doctorn);
-			}
-
-			if(settings.pages.city.items){
-				if(settings.force_tt){
-					hideDoctorn();
-					displayItems(items_container, itemlist);
-				} else if(extensions.doctorn == false || extensions.doctorn == "force_false"){
-					displayItems(items_container, itemlist);
+	let items_container = content.new_container("City Items", {first:true, id: "tt-city-items", theme: settings.theme});
+	
+	if(settings.pages.city.items_value){
+		showValueOfItems(items_container, itemlist, extensions.doctorn);
+	}
+	
+	if(settings.pages.city.items){
+		displayItems(items_container, itemlist);
+		
+		if(!settings.pages.city.closed_highlight){
+			doc.find("#map").classList.remove("doctorn-highlight-city-finds");
+			items_container.addEventListener("click", function(){
+				for(let item of doc.findAll("#map .leaflet-marker-pane *[item-id]")){
+					if(items_container.find(".content").style.maxHeight == "0px"){
+						item.classList.remove("cityItem");
+						doc.find("#map").classList.remove("doctorn-highlight-city-finds");
+					} else {
+						doc.find("#map").classList.add("doctorn-highlight-city-finds");
+						item.classList.add("cityItem");
+					}
 				}
-			}
-		});
-	});
+			});
+		}
+	}
 });
 
 function mapLoaded(){
-	let promise = new Promise(function(resolve, reject){
+	return new Promise(function(resolve, reject){
 		let checker = setInterval(function(){
 			if(doc.find("#map .leaflet-marker-pane .highlightItemMarket")){
 				resolve(true);
 				return clearInterval(checker);
 			}
 		}, 100);
-	});
-
-	return promise.then(function(data){
-		return data;
 	});
 }
 
@@ -125,7 +125,9 @@ function getItemIDsOnMap(){
 			let id = src.split("items/")[1].split("/")[0];
 			items.push(id);
 			el.setAttribute("item-id", id);
-			el.classList.add("cityItem");
+			if(settings.pages.city.closed_highlight){
+				el.classList.add("cityItem");
+			}
 		}
 	}
 

@@ -1,39 +1,21 @@
-window.addEventListener('load', async (event) => {
+searchLoaded().then(function(){
     console.log("TT - Search");
-
-    if(await flying() || await abroad()){
-        return;
+    
+    if(personalized.mass_messages){
+        console.log("Mass Messages");
+        massMessages();
     }
+})
 
-    if(window.location.search.indexOf("sid=UserList")){
-        local_storage.get(["settings", "personalized"], function([settings, personalized]){
-            if(personalized.mass_messages){
-                console.log("MASS MESSAGES");
-
-                searchLoaded().then(function(loaded){
-                    if(!loaded){
-                        return;
-                    }
-                    massMessages(settings.theme);
-                });
-            }
-        });
-    }
-});
 
 function searchLoaded(){
-    let promise = new Promise(function(resolve, reject){
+    return new Promise(function(resolve, reject){
         let checker = setInterval(function(){
-            console.log("checking")
             if(doc.find("ul.user-info-list-wrap li:not(.last)")){
                 resolve(true);
                 return clearInterval(checker);
             }
         }, 100);
-    });
-
-    return promise.then(function(data){
-        return data;
     });
 }
 

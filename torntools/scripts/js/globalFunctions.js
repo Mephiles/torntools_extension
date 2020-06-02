@@ -1,3 +1,5 @@
+console.log("Loading Global Functions");
+
 chrome = chrome || browser;
 const doc = document;
 
@@ -147,7 +149,7 @@ const STORAGE = {
     // user settings
     "settings": {
         "update_notification": true,
-        "remove_info_boxes": "force_false",
+        "remove_info_boxes": false,
         "theme": "default",
         "force_tt": false,
         "hide_upgrade": false,
@@ -179,7 +181,8 @@ const STORAGE = {
             },
             "city": {
                 "items": true,
-                "items_value": true
+                "items_value": true,
+                "closed_highlight": true
             },
             "profile": {
                 "friendly_warning": true,
@@ -263,7 +266,39 @@ Document.prototype.new = function (new_element) {
         return this.createElement(new_element);
     } else if(typeof new_element == "object"){
         let el = this.createElement(new_element.type);
-        
+
+        // if(new_element.children){
+        //     (function fillChildren(parent_el, children){
+        //         console.log("PARENT", parent_el);
+        //         console.log("CHILDREN", children);
+        //         for(let child of children){
+        //             let child_el = document.createElement(child.type);
+
+        //             if(child.children){
+        //                 fillChildren(child_el, child.children);
+        //             }
+                    
+        //             if(child.id){
+        //                 child_el.id = child.id;
+        //             }
+        //             if(child.class){
+        //                 child_el.setAttribute("class", child.class);
+        //             }
+        //             if(child.text){
+        //                 child_el.innerText = child.text;
+        //             }
+        //             if(child.value){
+        //                 child_el.value = child.value;
+        //             }
+            
+        //             for(let attr in child.attributes){
+        //                 child_el.setAttribute(attr, child.attributes[attr]);
+        //             }
+        //             parent_el.appendChild(child_el);
+        //         }
+        //     })(el, new_element.children);
+        // }
+
         if(new_element.id){
             el.id = new_element.id;
         }
@@ -275,6 +310,9 @@ Document.prototype.new = function (new_element) {
         }
         if(new_element.value){
             el.value = new_element.value;
+        }
+        if(new_element.href){
+            el.href = new_element.href;
         }
 
         for(let attr in new_element.attributes){
@@ -293,18 +331,10 @@ Element.prototype.setClass = function (class_name) {
 }
 
 const navbar = {
-    new_section: function (name, attributes = {}) {
-        let defaults = {
-            next_element: undefined,
-            next_element_heading: undefined,
-            theme: undefined,
-            last: undefined
-        }
-        attr = { ...defaults, ...attributes };
-
+    new_section: function (name, attr = {}) {
         // process
         let parent = doc.find("#sidebarroot");
-        let new_div = createNewBlock(name, attr.theme);
+        let new_div = createNewBlock(name);
         let next_div = attr.next_element || findSection(parent, attr.next_element_heading);
 
         if (!next_div){
@@ -317,23 +347,18 @@ const navbar = {
 
         return new_div;
 
-        function createNewBlock(name, theme) {
+        function createNewBlock(name) {
             let sidebar_block = doc.new({type: "div", class: "sidebar-block___1Cqc2 tt-nav-section"});
             let content = doc.new({type: "div", class: "content___kMC8x"});
-            let div1 = doc.new("div");
-                div1.setClass("areas___2pu_3");
-            let toggle_block = doc.new("div");
-                toggle_block.setClass("toggle-block___13zU2");
-            let header = doc.new("div");
-                header.innerText = name;
-            if(theme == "default"){
-                header.setClass("tt-title title-green");
-            } else if(theme == "alternative"){
-                header.setClass("tt-title title-black");
-                header.style.color = "#acea00";
-            } 
-            let toggle_content = doc.new("div");
-                toggle_content.setClass("toggle-content___3XKOC");
+            let div1 = doc.new({type: "div", class: "areas___2pu_3"});
+            let toggle_block = doc.new({type: "div", class: "toggle-block___13zU2"});
+            let header = doc.new({type: "div", text: name, class: "tt-title"});
+            if(DB.settings.theme == "default"){
+                header.classList.add("title-green")
+            } else if(DB.settings.theme == "alternative"){
+                header.classList.add("title-black");
+            }
+            let toggle_content = doc.new({type: "div", class: "toggle-content___3XKOC"});
 
             toggle_block.appendChild(header);
             toggle_block.appendChild(toggle_content);
@@ -414,76 +439,32 @@ const navbar = {
 const info_box = {
     new_row: function (key, value, attr = {}) {
         // process
-        let content = doc.find(".container .content");
 
-        if (!attr.parent_element && attr.parent_heading) {
-            attr.parent_element = (function () {
-                for (let el of content.findAll("h5")) {
-                    if (el.innerText == attr.parent_heading)
-                        return el.parentElement.parentElement;
-                }
-                return undefined;
-            })();
-        } else
-            return undefined;
-
-
-        let list = attr.parent_element.find(".info-cont-wrap");
-        !attr.first ? list.find("li.last").classList.remove("last") : null;
-
-        let new_row;
+        let li = doc.new({type: "li", id: attr.id ? attr.id:"", class: attr.last? "last":""});
         if (attr.heading) {
-            new_row = createNewHeading(`${key} ${value}`, attr.theme);
-        } else {
-            new_row = createNewRow(key, value, attr.style, attr.value_style, attr.id);
-        }
-
-        if (attr.first)
-            list.insertBefore(new_row, list.firstElementChild);
-        else
-            list.appendChild(new_row);
-
-        return new_row;
-
-        function createNewHeading(text, theme) {
-            let li = doc.new("li");
-            !attr.first ? li.setClass("last") : null;
-            li.classList.add("tt-box-section-heading");
-            if(theme == "default"){
+            li.innerText = key;
+            if(DB.settings.theme == "default"){
+                li.classList.add("tt-box-section-heading");
+                li.classList.add("tt-title");
                 li.classList.add("title-green");
-            } else if(theme == "alternative"){
+            } else if(DB.settings.theme == "alternative"){
+                li.classList.add("tt-box-section-heading");
+                li.classList.add("tt-title");
                 li.classList.add("title-black");
-                li.style.color = "#acea00";
-            } 
-            li.innerText = text;
-            return li;
-        }
-
-        function createNewRow(key, value, style, value_style, id) {
-            let li = doc.new("li");
-                !attr.first ? li.setClass("last") : null;
-                style ? li.setAttribute("style", style) : null;
-                id ? li.id = id : null;
-            let span_left = doc.new("span");
-                span_left.setClass("divider");
-            let span_left_inner = doc.new("span");
-                span_left_inner.innerText = key;
-                span_left_inner.style.backgroundColor = "transparent";
-
-            let span_right = doc.new("span");
-                span_right.setClass("desc");
-                value_style ? span_right.setAttribute("style", value_style) : null;
-            let span_right_inner = doc.new("span");
-                span_right_inner.innerText = value;
-                span_right_inner.style.paddingLeft = "3px";
+            }
+        } else {
+            let span_left = doc.new({type: "span", class: "divider"});
+            let span_left_inner = doc.new({type: "span", text: key, attributes: {style: "background-color: transparent;"}});
+            let span_right = doc.new({type: "span", class: "desc"});
+            let span_right_inner = doc.new({type: "span", text: value, attributes: {style: "padding-left: 3px;"}});
 
             span_left.appendChild(span_left_inner);
             span_right.appendChild(span_right_inner);
             li.appendChild(span_left);
             li.appendChild(span_right);
-
-            return li;
         }
+
+        return li;
     }
 }
 
@@ -494,7 +475,7 @@ const content = {
             attr.next_element = content.findContainer(attr.next_element_heading);
 
         let parent_element = attr.next_element ? attr.next_element.parentElement : doc.find(".content-wrapper");
-        let new_div = createNewContainer(name, attr.id, attr.theme, attr.collapsed);
+        let new_div = createNewContainer(name, attr.id, attr.collapsed);
 
         if (attr.first)
             parent_element.insertBefore(new_div, parent_element.find(".content-title").nextElementSibling);
@@ -505,22 +486,15 @@ const content = {
 
         return new_div;
 
-        function createNewContainer(name, id, theme, collapsed) {
-            let div = doc.new("div");
-            id ? div.id = id : null;
-            div.style.position = "relative";
+        function createNewContainer(name, id, collapsed) {
+            let div = doc.new({type: "div", id: id? id: undefined, attributes: {style: "position: relative;"}});
 
-            let heading = doc.new({
-                type: "div", class: "tt-title top-round m-top10", text: name, attributes: {
-                    style: `cursor: pointer;`
-                }
-            });
-            if(theme == "default"){
-                heading.classList.add("title-green");
-            } else if(theme == "alternative"){
+            let heading = doc.new({type: "div", text: name, class: "tt-title top-round m-top10", attributes: {style: "cursor: pointer;"}});
+            if(DB.settings.theme == "default"){
+                heading.classList.add("title-green")
+            } else if(DB.settings.theme == "alternative"){
                 heading.classList.add("title-black");
-                heading.style.color = "#acea00";
-            } 
+            }
 
             let content = doc.new({
                 type: "div", class: "cont-gray bottom-round content", 
@@ -645,7 +619,7 @@ function abroad() {
 }
 
 function captcha(){
-    let promise = new Promise(function(resolve, reject){
+    return new Promise(function(resolve, reject){
         let checker = setInterval(function(){
             if(doc.find("#skip-to-content")){
                 if(doc.find("#skip-to-content").innerText == "Please Validate"){
@@ -657,10 +631,6 @@ function captcha(){
                 }
             }
         }, 100);
-    });
-
-    return promise.then(function(data){
-        return data;
     });
 }
 
@@ -1055,24 +1025,6 @@ function formatTime([hours, minutes, seconds], formatting){
     }
 }
 
-function hideDoctorn(){
-    console.log("Hiding Doctorn");
-
-    var css = '.doctorn-widgets, .doctorn-widget {display: none}',
-    head = doc.head || doc.getElementsByTagName('head')[0],
-    style = doc.new('style');
-    style.type = 'text/css';
-
-    head.appendChild(style);
-
-    if (style.styleSheet){
-        // This is required for IE8 and below.
-        style.styleSheet.cssText = css;
-    } else {
-        style.appendChild(doc.createTextNode(css));
-    }
-}
-
 function arabicToRoman(arabic){
 	let dict = {
 		"1": "I",
@@ -1159,3 +1111,85 @@ function setBadge(text){
         chrome.browserAction.setBadgeBackgroundColor({color: "#0ad121"});
     }
 }
+
+function page(){
+    let db = {
+        "jailview.php": "jail",
+        "hospitalview.php": "hospital",
+        "crimes.php": "crimes",
+        "index.php": "home",
+        "city.php": "city",
+        "travelagency.php": "travelagency",
+        "war.php": "war"
+    }
+
+    let page = window.location.pathname.replace("/", "");
+    if(db[page]){
+        return db[page];
+    }
+    return "";
+}
+
+function navbarLoaded(){
+    return new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            if(doc.find("#sidebar")){
+                resolve(true);
+                return clearInterval(checker);
+            }
+        });
+    });
+}
+
+function infoBoxesLoaded(){
+    return new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            if(doc.find(".box-title")){
+                resolve(true);
+                return clearInterval(checker);
+            }
+        });
+    });
+}
+
+// Pre-load database
+var DB;
+var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
+travel_market, oc, allies, loot_times, target_list, vault, personalized, 
+mass_messages;
+
+(function(){
+    local_storage.get(null, function(db){
+        DB = db;
+        console.log("DB LOADED");
+
+        userdata = DB.userdata;
+        torndata = DB.torndata;
+        settings = DB.settings;
+        api_key = DB.api_key;
+        chat_highlight = DB.chat_highlight;
+        itemlist = DB.itemlist;
+        extensions = DB.extensions;
+        travel_market = DB.travel_market;
+        oc = DB.oc;
+        allies = DB.allies;
+        loot_times = DB.loot_times;
+        target_list = DB.target_list;
+        vault = DB.vault;
+        personalized = DB.personalized;
+        mass_messages = DB.mass_messages;
+
+        // Upgrade button
+        document.documentElement.style.setProperty("--torntools-hide-upgrade", settings.hide_upgrade ? "none" : "block");
+
+        // Info boxes
+        if(settings.remove_info_boxes && ["crimes"].includes(page())){
+            document.documentElement.style.setProperty("--torntools-remove-info-boxes", "none");
+        }
+
+        // Hide Doctorn
+        if((settings.force_tt && ["home", "city", "travelagency", "war"].includes(page()))){
+            document.documentElement.style.setProperty("--torntools-hide-doctorn", "none");
+        }
+    });
+})();

@@ -9,6 +9,10 @@
     border-bottom-right-radius: 5px;
 }
 
+.tt-title.title-black {
+    color: #acea00 !important;
+}
+
 .nav-color-code {
     width: 4px;
     height: 25px;
@@ -23,6 +27,19 @@
     left: 49.5%;
     bottom: 0px;
     cursor: pointer;
+}
+
+/* Torn element manipulation */
+#pointsLevel, .info-msg-cont.green, .info-msg-cont.green+hr {
+    display: var(--torntools-hide-upgrade, block) !important;
+}
+
+.info-msg-cont, .info-msg-cont+hr, .msg-info-wrap, .msg-info-wrap+hr {
+    display: var(--torntools-remove-info-boxes, block) !important;
+}
+
+.doctorn-widgets:not(:empty), .doctorn-widget:not(.doctorn-widget--animated) {
+    display: var(--torntools-hide-doctorn) !important;
 }
 
 /* font-awesome */

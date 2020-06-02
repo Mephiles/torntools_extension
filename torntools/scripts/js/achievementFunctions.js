@@ -1,5 +1,7 @@
-function displayAchievements(achievements, show_completed, torndata, theme){
-    let awards_section = navbar.new_section("Awards", {next_element_heading: "Lists", theme: theme});
+console.log("Loading Achievement Functions");
+
+function displayAchievements(achievements, show_completed){
+    let awards_section = navbar.new_section("Awards", {next_element_heading: "Lists"});
     console.log(achievements);
     
     addTimeToHeader(awards_section, torndata.date);

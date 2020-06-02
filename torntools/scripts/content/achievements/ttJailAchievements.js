@@ -1,28 +1,23 @@
-window.addEventListener('load', async (event) => {
+navbarLoaded().then(function(){
     console.log("TT - Jail | Achievements");
 
-    if(await flying() || await abroad())
+    let show_completed = settings.achievements.completed;
+    let personalstats = userdata.personalstats;
+
+    if(!settings.achievements.show)
         return;
-
-    local_storage.get(["settings", "userdata", "torndata"], function([settings, userdata, torndata]) {
-        let show_completed = settings.achievements.completed;
-        let personalstats = userdata.personalstats;
-
-        if(!settings.achievements.show)
-            return;
-        
-        // object of all the achievements on this page
-        let achievements = {
-            "Busts": {
-                "stats": personalstats.peoplebusted,
-                "keyword": "bust"
-            },
-            "Bails": {
-                "stats": personalstats.peoplebought,
-                "keyword": "bails"
-            }
+    
+    // object of all the achievements on this page
+    let achievements = {
+        "Busts": {
+            "stats": personalstats.peoplebusted,
+            "keyword": "bust"
+        },
+        "Bails": {
+            "stats": personalstats.peoplebought,
+            "keyword": "bails"
         }
+    }
 
-        displayAchievements(achievements, show_completed, torndata, settings.theme);
-    });
+    displayAchievements(achievements, show_completed);
 });

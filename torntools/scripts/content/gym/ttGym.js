@@ -1,63 +1,49 @@
-window.addEventListener('load', async (event) => {
+gymLoaded().then(function(){
     console.log("TT - Gym");
 
-    if(await flying() || await abroad() || await captcha()){
-        return;
+    let gym_settings_container = content.new_container("Gym", {id: "tt-gym-settings", theme: settings.theme, collapsed: false});
+
+    // Energy needed for next gym estimates
+    if(settings.pages.gym.estimated_energy){
+        let div = doc.new({type: "div", id: "ttEnergyEstimate"});
+
+        gym_settings_container.find(".content").appendChild(div);
+        showProgress();
     }
 
-    local_storage.get("settings", function(settings){
-        let gym_settings_container = content.new_container("Gym", {id: "tt-gym-settings", theme: settings.theme, collapsed: false});
+    // setup box
+    let div = doc.new("div");
+        div.setClass("tt-setting");
+    let checkbox = doc.new("input");
+        checkbox.type = "checkbox";
+    let p = doc.new("p");
+        p.setClass("tt-setting-description")
+        p.innerText = "Disable Gym buttons";
 
-        // Energy needed for next gym estimates
-        if(settings.pages.gym.estimated_energy){
-            let div = doc.new({type: "div", id: "ttEnergyEstimate"});
+    let saving_div = doc.new("div");
+        saving_div.setClass("saving");
+    let text = doc.new("div");
+        text.setClass("text");
+        text.innerText = "Saving..";
+    let img_div = doc.new("div");
+        img_div.setClass("loading-icon");
+        img_div.style.backgroundImage = `url(${chrome.runtime.getURL("images/loading.gif")})`;
 
-            gym_settings_container.find(".content").appendChild(div);
-            showProgress();
-        }
+    saving_div.appendChild(text);
+    saving_div.appendChild(img_div);
+    div.appendChild(checkbox);
+    div.appendChild(p);
+    div.appendChild(saving_div);
+    gym_settings_container.find(".content").appendChild(div);
 
-        // setup box
-        let div = doc.new("div");
-            div.setClass("tt-setting");
-        let checkbox = doc.new("input");
-            checkbox.type = "checkbox";
-        let p = doc.new("p");
-            p.setClass("tt-setting-description")
-            p.innerText = "Disable Gym buttons";
-    
-        let saving_div = doc.new("div");
-            saving_div.setClass("saving");
-        let text = doc.new("div");
-            text.setClass("text");
-            text.innerText = "Saving..";
-        let img_div = doc.new("div");
-            img_div.setClass("loading-icon");
-            img_div.style.backgroundImage = `url(${chrome.runtime.getURL("images/loading.gif")})`;
-    
-        saving_div.appendChild(text);
-        saving_div.appendChild(img_div);
-        div.appendChild(checkbox);
-        div.appendChild(p);
-        div.appendChild(saving_div);
-        gym_settings_container.find(".content").appendChild(div);
+    // Disable buttons
+    // checkbox listener
+    checkbox.addEventListener("click", function(event){
+        let checked = event.target.checked;
+        saved(false);
 
-        // Disable buttons
-        // checkbox listener
-        checkbox.addEventListener("click", function(event){
-            let checked = event.target.checked;
-            saved(false);
-    
-            if(doc.find(".tt-awards-time").getAttribute("seconds")%60 >= 55 || doc.find(".tt-awards-time").getAttribute("seconds")%60 <= 5){
-                setTimeout(function(){
-                    local_storage.change({"settings": {"pages": {"gym": {"disable_buttons": checked}}}}, function(){
-                        saved(true);
-
-                        setTimeout(function(){
-                            saving_div.style.display = "none";
-                        }, 1500);
-                    });
-                }, 10*1000);  // wait 20 seconds
-            } else {
+        if(doc.find(".tt-awards-time").getAttribute("seconds")%60 >= 55 || doc.find(".tt-awards-time").getAttribute("seconds")%60 <= 5){
+            setTimeout(function(){
                 local_storage.change({"settings": {"pages": {"gym": {"disable_buttons": checked}}}}, function(){
                     saved(true);
 
@@ -65,20 +51,39 @@ window.addEventListener('load', async (event) => {
                         saving_div.style.display = "none";
                     }, 1500);
                 });
-            }
-    
-            if(checked)
-                disableTrainButtons(true);
-            else
-                disableTrainButtons(false)
-        });
-        
-        if(settings.pages.gym.disable_buttons){
-            checkbox.checked = true;
-            disableTrainButtons(true);
+            }, 10*1000);  // wait 20 seconds
+        } else {
+            local_storage.change({"settings": {"pages": {"gym": {"disable_buttons": checked}}}}, function(){
+                saved(true);
+
+                setTimeout(function(){
+                    saving_div.style.display = "none";
+                }, 1500);
+            });
         }
+
+        if(checked)
+            disableTrainButtons(true);
+        else
+            disableTrainButtons(false)
     });
+    
+    if(settings.pages.gym.disable_buttons){
+        checkbox.checked = true;
+        disableTrainButtons(true);
+    }
 });
+
+function gymLoaded(){
+    return new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            if(doc.find(".gymButton___3OFdI.inProgress___1Nd26")){
+                resolve(true);
+                return clearInterval(checker);
+            }
+        });
+    });
+}
 
 function saved(saved){
     if(saved){

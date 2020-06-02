@@ -161,30 +161,47 @@ i.fa-caret-down {
 
 #ttTravelTable .table .legend .item {
     flex: 1 0 auto;
-    height: 20px;
-}
-
-#ttTravelTable .table .legend .item .marker {
-    min-width: 20px;
-    max-width: 20%;
-    height: 20px;
-    float: left;
-    line-height: 20px;
-    text-align: center;
-}
-
-#ttTravelTable .table .legend .item .text {
+    display: flex;
     height: 20px;
     line-height: 20px;
-    padding-left: 10px;
-    float: left;
+}
+#ttTravelTable .table .legend .item>* {
+    flex: 1 0 auto;
 }
 
-#ttTravelTable .table .legend .item .marker input {
-    width: 35px;
-    height: 18px;
+#ttTravelTable .table .legend .item .text.left {
+    height: inherit;
+    /* line-height: 20px; */
+    /* padding-left: 10px; */
+    /* float: left; */
+    text-align: left;
+}
+
+#ttTravelTable .table .legend .item .text.right {
+    height: inherit;
+    text-align: right;
+    padding-right: 5px;
+    margin-left: -5px;
+}
+
+#ttTravelTable .table .legend .item input {
+    height: inherit;
+    margin: auto;
+}
+#ttTravelTable .table .legend .item input[type=number] {
+    width: 12px;
+    padding-left: 5px;
+    /* height: 18px; */
     border: 1px solid gray;
-    margin-left: 5px;
-    padding-left: 7px;
+    /* margin-left: 5px; */
+    /* padding-left: 7px; */
     border-radius: 10px;
+}
+#ttTravelTable .table .legend .item input[type=radio] {
+    width: 0;
+    height: 13px;
+    margin-left: 10px;
+    margin-right: -6px;
+    position: relative;
+    top: -1px;
 }
