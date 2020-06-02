@@ -463,17 +463,17 @@ function Main_fast(){
 							let current_status = userdata.status.state;
 							let previous_status = previous_userdata.status.state;
 							
-							if(current_status == previous_status || current_status == "Traveling" || current_status == "Abroad"){
-								return;
-							} else if(current_status == "Okay"){
-								if(previous_status == "Hospital"){
-									notifyUser("TornTools - Status", `You are out of the hospital.`);
-								} else if(previous_status == "Jail"){
-									notifyUser("TornTools - Status", `You are out of the jail.`);
+							if(!(current_status == previous_status || current_status == "Traveling" || current_status == "Abroad")){
+								if(current_status == "Okay"){
+									if(previous_status == "Hospital"){
+										notifyUser("TornTools - Status", `You are out of the hospital.`);
+									} else if(previous_status == "Jail"){
+										notifyUser("TornTools - Status", `You are out of the jail.`);
+									}
+								} else {
+									notifyUser("TornTools - Status", userdata.status.description);
 								}
-							} else {
-								notifyUser("TornTools - Status", userdata.status.description);
-							}
+							} 
 						}
 
 						// Check for cooldowns
