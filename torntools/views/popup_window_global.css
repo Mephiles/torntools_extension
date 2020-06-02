@@ -2,6 +2,7 @@ body {
     width: 300px;
     font-family: Arial;
     overflow-x: hidden;
+    font-size: 75%;
 }
 
 .settings {

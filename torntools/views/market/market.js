@@ -81,12 +81,6 @@ window.addEventListener("load", function(){
             doc.find("#item-list").style.display = "none";
             doc.find("#market-info").style.display = "none";
         });
-
-        // Firefox
-		if(!usingChrome()){
-			console.log("Firefox edition.");
-			doc.find("body").style.paddingRight = "17px";
-		}
     });
 });
 
