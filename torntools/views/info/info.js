@@ -83,7 +83,7 @@ function updateInfo(){
         }
 
         // Update status
-        let status = userdata.status.state.toLowerCase() == "traveling" ? "okay" : userdata.status.state.toLowerCase();
+        let status = userdata.status.state.toLowerCase() == "traveling" || userdata.status.state.toLowerCase() == "abroad"? "okay" : userdata.status.state.toLowerCase();
         doc.find("#status span").innerText = status;
         doc.find("#status span").setClass(status);
 

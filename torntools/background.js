@@ -455,7 +455,7 @@ function Main_fast(){
 							let current_status = userdata.status.state;
 							let previous_status = previous_userdata.status.state;
 							
-							if(current_status == previous_status || current_status == "traveling"){
+							if(current_status == previous_status || current_status == "Traveling" || current_status == "Abroad"){
 								return;
 							} else if(current_status == "Okay"){
 								if(previous_status == "Hospital"){
