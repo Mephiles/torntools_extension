@@ -9,7 +9,8 @@ export default {
             "Added item type sorting to Travel Destinations table",
             "Added option to disable item highlighting on City Map if TornTools container is close (similar to Doctorn)",
             "Added option to open Custom Links on same page",
-            "Added back Stock Search function"
+            "Added back Stock Search function",
+            "Added option to hide item values on Trade view to allow copy-pasting for traders"
         ],
         "Fixes": [
             "Fixed Chat Highlight not updating when sending a message",
