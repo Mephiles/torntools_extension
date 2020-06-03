@@ -1,4 +1,30 @@
 export default {
+    "v4.2": {
+        "Features": [
+            "Added Info tab popup to display bars, money, events, cooldowns",
+            "Added Estimated Energy progress to Gym (based on estimated goals in wiki and percentage to next gym on Gym page)",
+            "Added notifications for new Events, Messages, Education finish, Cooldown end, Traveling, Bars full, Status change",
+            "Added update-available notifier with instructions to manually update on About page",
+            "Added option to hide Level Upgrade info (button and info on Home page)",
+            "Added item type sorting to Travel Destinations table",
+            "Added option to disable item highlighting on City Map if TornTools container is close (similar to Doctorn)",
+            "Added option to open Custom Links on same page",
+            "Added back Stock Search function"
+        ],
+        "Fixes": [
+            "Fixed Chat Highlight not updating when sending a message",
+            "Fixed ERROR text not disappearing after API comes back online",
+            "Fixed Armory log script not working when waited too long"
+        ],
+        "Changes": [
+            "Changed Networth comparing to Torn's own last known networth (the one shown under General Information)",
+            "Reformatted how Target List is updated. Removed the optional request.",
+            "Removed jail from 'remove info boxes' script"
+        ],
+        "IMPORTANT": [
+            "Refactored how info is fetched from Torn. Total requests raised to 7 per minute to keep TornTools up-to-date with user's status, bars etc. for Info popup & notifications"
+        ]
+    },
     "v4.1": {
         "Fixes": [
             "Fixed bug that halted all extension's process",
