@@ -52,7 +52,7 @@ function chatsLoaded(){
             if(doc.find(".overview_1MoPG")){
                 setInterval(function(){
                     resolve(true);
-                }, 100);
+                }, 300);
                 return clearInterval(checker);
             }
         });
