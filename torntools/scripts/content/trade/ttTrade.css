@@ -28,3 +28,20 @@
     right: 3px;
     color: #678c00;
 }
+
+/* Options */
+.user.left>.title-black, .user.right>.title-black {
+    position: relative;
+}
+.item-value-option-wrap {
+    position: absolute;
+    right: 10px;
+    top: 0;
+    color: #acea00;
+    font-size: 12px;
+}
+.item-value-option-wrap input {
+    position: relative;
+    top: 2px;
+    margin-left: 4px;
+}

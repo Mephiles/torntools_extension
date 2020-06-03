@@ -87,6 +87,48 @@ function Main(){
 			div.appendChild(span);
 			side.parentElement.parentElement.parentElement.appendChild(div);
 		}
+
+		// Add option to hide item values
+		let wrap_1 = doc.new({type: "div", class: "item-value-option-wrap"});
+		let checkbox_1 = doc.new({type: "input", attributes: {type: "checkbox"}});
+		let text_1 = doc.new({type: "span", text: "Hide item values"});
+	
+		wrap_1.appendChild(text_1);
+		wrap_1.appendChild(checkbox_1);
+
+		let wrap_2 = doc.new({type: "div", class: "item-value-option-wrap"});
+		let checkbox_2 = doc.new({type: "input", attributes: {type: "checkbox"}});
+		let text_2 = doc.new({type: "span", text: "Hide item values"});
+	
+		wrap_2.appendChild(text_2);
+		wrap_2.appendChild(checkbox_2);
+
+		doc.find(".trade-cont .user.left .title-black").appendChild(wrap_1);
+		doc.find(".trade-cont .user.right .title-black").appendChild(wrap_2);
+
+		checkbox_1.addEventListener("click", function(){
+			if(checkbox_1.checked){
+				for(let item of doc.findAll(".user.left .tt-side-item-value")){
+					item.style.display = "none";
+				}
+			} else {
+				for(let item of doc.findAll(".user.left .tt-side-item-value")){
+					item.style.display = "block";
+				}
+			}
+		});
+
+		checkbox_2.addEventListener("click", function(){
+			if(checkbox_2.checked){
+				for(let item of doc.findAll(".user.right .tt-side-item-value")){
+					item.style.display = "none";
+				}
+			} else {
+				for(let item of doc.findAll(".user.right .tt-side-item-value")){
+					item.style.display = "block";
+				}
+			}
+		});
 	}
 }
 
