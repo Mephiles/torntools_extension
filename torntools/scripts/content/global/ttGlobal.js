@@ -12,7 +12,7 @@ navbarLoaded().then(function(){
     }
 });
 
-window.addEventListener("load", function(){
+chatsLoaded().then(function(){
     // Chat highlight
     if(doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")){
         highLightChat(chat_highlight, userdata.name);
@@ -45,6 +45,19 @@ window.addEventListener("load", function(){
     });
     chat_observer.observe(doc.find("#chatRoot"), {childList: true, subtree: true});
 });
+
+function chatsLoaded(){
+    return new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            if(doc.find(".overview_1MoPG")){
+                setInterval(function(){
+                    resolve(true);
+                }, 100);
+                return clearInterval(checker);
+            }
+        });
+    });
+}
 
 function addCustomLinks(){
     let sidebar_block = doc.new({type: "div", class: "sidebar-block___1Cqc2 tt-nav-section"});
