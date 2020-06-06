@@ -77,24 +77,24 @@ window.addEventListener("load", function(){
 			stock_info_content.appendChild(amount_div);
 			
 			// Benefit info
-			let benefit_description, benefit_requirement;
+			let benefit_description, benefit_requirement, benefit_info, benefit_info_content;
 	
 			if(torn_stocks[id].benefit){
 				benefit_description = torn_stocks[id].benefit.description;
 				benefit_requirement = torn_stocks[id].benefit.requirement;
+				benefit_info = doc.new({type: "div", class: "benefit-info-heading", text: "Benefit info"});
+					let collapse_icon_2 = doc.new({type: "i", class: "fas fa-chevron-down"});
+					benefit_info.appendChild(collapse_icon_2);
+				
+				benefit_info_content = doc.new({type: "div", class: "content"});
+					let BD_div = doc.new({type: "div", text: benefit_description})
+						quantity >= benefit_requirement ? BD_div.setClass("benefit-info desc complete") : BD_div.setClass("benefit-info desc incomplete");
+					let BR_div = doc.new({type: "div", class: "benefit-info", text: `Required stocks: ${numberWithCommas(quantity, shorten=false)}/${numberWithCommas(benefit_requirement)}`});
+					
+				benefit_info_content.appendChild(BR_div);
+				benefit_info_content.appendChild(BD_div);
 			}
 
-			let benefit_info = doc.new({type: "div", class: "benefit-info-heading", text: "Benefit info"});
-				let collapse_icon_2 = doc.new({type: "i", class: "fas fa-chevron-down"});
-				benefit_info.appendChild(collapse_icon_2);
-			
-			let benefit_info_content = doc.new({type: "div", class: "content"});
-				let BD_div = doc.new({type: "div", text: benefit_description})
-					quantity >= benefit_requirement ? BD_div.setClass("benefit-info desc complete") : BD_div.setClass("benefit-info desc incomplete");
-				let BR_div = doc.new({type: "div", class: "benefit-info", text: `Required stocks: ${numberWithCommas(quantity, shorten=false)}/${numberWithCommas(benefit_requirement)}`});
-				
-			benefit_info_content.appendChild(BR_div);
-			benefit_info_content.appendChild(BD_div);
 
 			// Alerts
 			let alerts_wrap = doc.new({type: "div", class: "alerts-wrap"});
@@ -126,8 +126,10 @@ window.addEventListener("load", function(){
 			div.appendChild(stock_info);
 			div.appendChild(stock_info_content)
 
-			div.appendChild(benefit_info);
-			div.appendChild(benefit_info_content);
+			if(benefit_info){
+				div.appendChild(benefit_info);
+				div.appendChild(benefit_info_content);
+			}
 
 			parent.appendChild(div);
 
@@ -144,17 +146,19 @@ window.addEventListener("load", function(){
 				event.srcElement.nodeName == "I" ? rotateElement(event.target, 180) : rotateElement(event.target.find("i"), 180);
 			});
 
-			benefit_info.addEventListener("click", function(event){
-				let content = event.srcElement.nodeName == "I" ? event.target.parentElement.nextElementSibling : event.target.nextElementSibling;
-
-				if(content.style.maxHeight){
-					content.style.maxHeight = null;
-				} else {
-					content.style.maxHeight = content.scrollHeight + "px";
-				}
-
-				event.srcElement.nodeName == "I" ? rotateElement(event.target, 180) : rotateElement(event.target.find("i"), 180);
-			});
+			if(benefit_info){
+				benefit_info.addEventListener("click", function(event){
+					let content = event.srcElement.nodeName == "I" ? event.target.parentElement.nextElementSibling : event.target.nextElementSibling;
+	
+					if(content.style.maxHeight){
+						content.style.maxHeight = null;
+					} else {
+						content.style.maxHeight = content.scrollHeight + "px";
+					}
+	
+					event.srcElement.nodeName == "I" ? rotateElement(event.target, 180) : rotateElement(event.target.find("i"), 180);
+				});
+			}
 
 			// add event listeners to pirce alerts
 			reach_input.addEventListener("change", function(){
