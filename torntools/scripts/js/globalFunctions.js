@@ -145,6 +145,7 @@ const STORAGE = {
     "allies": [],
     "custom_links": [],
     "chat_highlight": {},
+    "hide_icons": [],
 
     // user settings
     "settings": {
@@ -1179,7 +1180,7 @@ function DBloaded(){
 var DB;
 var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
 travel_market, oc, allies, loot_times, target_list, vault, personalized, 
-mass_messages, custom_links, loot_alerts, extensions, new_version;
+mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons;
 
 
 (function(){
@@ -1205,6 +1206,7 @@ mass_messages, custom_links, loot_alerts, extensions, new_version;
         loot_alerts = DB.loot_alerts;
         extensions = DB.extensions;
         new_version = DB.new_version;
+        hide_icons = DB.hide_icons;
 
         // Upgrade button
         document.documentElement.style.setProperty("--torntools-hide-upgrade", settings.hide_upgrade ? "none" : "block");
@@ -1217,6 +1219,13 @@ mass_messages, custom_links, loot_alerts, extensions, new_version;
         // Hide Doctorn
         if((settings.force_tt && ["home", "city", "travelagency", "war"].includes(page()))){
             document.documentElement.style.setProperty("--torntools-hide-doctorn", "none");
+        }
+
+        // Hide icons
+        if(hide_icons.length > 0){
+            for(let icon of hide_icons){
+                document.documentElement.style.setProperty(`--torntools-hide-icons-${icon}`, 'none');
+            }
         }
     });
 })();

@@ -10,6 +10,14 @@ navbarLoaded().then(function(){
     if(DB.custom_links.length > 0){
         addCustomLinks();
     }
+
+    // Remove icons that are hidden
+    for(let icon of doc.findAll(`#sidebarroot .status-icons___1SnOI>li`)){
+        let name = icon.getAttribute("class").split("_")[0];
+        if(hide_icons.indexOf(name) > -1){
+            icon.remove();
+        }
+    }
 });
 
 chatsLoaded().then(function(){

@@ -84,6 +84,20 @@ function setupSite(){
             doc.find(`.container#${event.target.id.replace("-link", "").replace("_", "-")}`).classList.add("active");
         });
     }
+
+    // Icons
+    let icons_parent = doc.find("#preferences #icons");
+    for(let i = 1; i < 81; i++){
+        let outer_div = doc.new({type: "div", class: `icon`})
+        let inner_div = doc.new({type: "div", class: `icon${i}`});
+        
+        outer_div.appendChild(inner_div);
+        icons_parent.appendChild(outer_div);
+
+        outer_div.addEventListener("click", function(){
+            outer_div.classList.toggle("disabled");
+        });
+    }
 }
 
 function setupChangelog(){
@@ -336,6 +350,11 @@ function setupPreferences(){
         preferences.find("#extensions-doctorn-auto input").checked = true;
     }
 
+    // Icons
+    for(let icon of hide_icons){
+        preferences.find(`.${icon}`).parentElement.classList.add("disabled");
+    }
+
     // Buttons
     preferences.find("#save_settings").addEventListener("click", function(){
         savePreferences(preferences, settings, target_list.show);
@@ -439,6 +458,12 @@ function savePreferences(preferences, settings, target_list_enabled){
             break;
     }
 
+    // Icons
+    let icons = [];
+    for(let icon of preferences.findAll(".icon.disabled>div")){
+        icons.push(icon.getAttribute("class"));
+    }
+
     console.log("New settings", settings);
 
     local_storage.set({"settings": settings});
@@ -447,6 +472,7 @@ function savePreferences(preferences, settings, target_list_enabled){
     local_storage.set({"loot_alerts": alerts});
     local_storage.set({"chat_highlight": highlights});
     local_storage.set({"extensions": extensions});
+    local_storage.set({"hide_icons": icons});
 
     local_storage.change({"target_list": {"show": target_list_enabled}}, function(){
         local_storage.get("target_list", function(target_list){

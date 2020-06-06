@@ -273,6 +273,41 @@ p {
     background-color: #f12c3f;
 }
 
+.icon {
+    width: 17px;
+    height: 17px;
+    display: inline-block;
+    margin-right: 5px;
+    cursor: pointer;
+    position: relative;
+}
+
+.icon>div {
+    background: url(https://torn.com/images/v2/svg_icons/sprites/user_status_icons_sprite.svg);
+    width: inherit;
+    height: inherit;
+}
+
+.icon.disabled {
+    opacity: 0.5;
+}
+
+.icon.disabled:before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 40%;
+    right: 1px;
+    color: red;
+    border-top: 2px solid;
+
+    -webkit-transform:rotate(-30deg);
+    -moz-transform:rotate(-30deg);
+    -ms-transform:rotate(-30deg);
+    -o-transform:rotate(-30deg);
+    transform:rotate(-30deg);
+}
+
 /* About */
 #about #new-version p {
     text-decoration: underline;
