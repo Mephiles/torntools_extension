@@ -119,7 +119,7 @@ function displayEffectiveBattleStats(){
 	for(let i in battle_stats){
 		let stat = parseInt(battle_stats_container.find(`li:nth-child(${parseInt(i)+1}) .desc`).innerText.replace(/,/g, ""));
 		let stat_modifier = battle_stats_container.find(`li:nth-child(${parseInt(i)+1}) .mod`).innerText;
-		let effective_stat = (stat * (stat_modifier.indexOf("+") > -1 ? 1+(parseInt(stat_modifier.replace("+", "").replace("%", ""))/100) : 1-(parseInt(stat_modifier.replace("-", "").replace("%", ""))/100))).toFixed(0);
+		let effective_stat = (stat * (stat_modifier.indexOf("+") > -1 ? 1+(parseInt(stat_modifier.replace("+", "").replace("%", ""))/100) : 1-(parseInt(stat_modifier.replace("−", "").replace("%", ""))/100))).toFixed(0);  // Not a normal minus symbol "−" (not "-")
 		console.log("stat", stat);
 		console.log("modifier", stat_modifier);
 		console.log("eff_stat", effective_stat);
