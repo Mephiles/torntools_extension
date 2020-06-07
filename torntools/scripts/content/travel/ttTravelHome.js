@@ -163,7 +163,7 @@ function displayTravelDestinations(container, itemlist, userdata, travel_market,
     table.appendChild(body);
     container.appendChild(table);
 
-    sort(table, 9, "text");
+    sort(table, 8, "text");
 
     doc.find("#ttTravelItemsInput").value = carry_items;
 
@@ -250,20 +250,28 @@ function addTableHeader(table) {
 
     let destination_heading = doc.new({type: "div", text: "Destination"});
     // let flight_time_heading = doc.new({type: "div", text: "Flight time"});
-    let items_abroad_heading = doc.new({type: "div", text: "Stock"});
     let item_heading = doc.new({type: "div", text: "Item"});
+    let items_abroad_heading = doc.new({type: "div", text: "Stock"});
     let buy_price_heading = doc.new({type: "div", text: "Buy price"});
-    let cash_needed_heading = doc.new({type: "div", text: "Cash needed"});
     let market_value_heading = doc.new({type: "div", text: "Market value"});
     let profit_per_item_heading = doc.new({type: "div", text: "Profit/item"});
     let profit_per_minute_heading = doc.new({type: "div", text: "Profit/minute"});
-        let sorting_icon = doc.new({type: "i", class: "fas fa-caret-up"});
-    profit_per_minute_heading.appendChild(sorting_icon);
+    let sorting_icon = doc.new({type: "i", class: "fas fa-caret-up"});
+        profit_per_minute_heading.appendChild(sorting_icon);
     let total_profit_heading = doc.new({type: "div", text: "Total profit"});
+    let cash_needed_heading = doc.new({type: "div", text: "Cash needed"});
 
-    let headings = [destination_heading, items_abroad_heading, item_heading,
-        buy_price_heading, cash_needed_heading, market_value_heading,
-        profit_per_item_heading, total_profit_heading, profit_per_minute_heading];
+    let headings = [
+        destination_heading, 
+        item_heading, 
+        items_abroad_heading,
+        buy_price_heading, 
+        market_value_heading,
+        profit_per_item_heading, 
+        total_profit_heading, 
+        profit_per_minute_heading,
+        cash_needed_heading
+    ];
 
     for (let heading of headings) {
         heading.addEventListener("click", function () {
@@ -297,8 +305,8 @@ function addRow(body, itemlist, item, time, carry_items, travel_cost) {
     destination_div.appendChild(flag_span);
 
     // let flight_time_div = doc.new({type: "div", text: time});
-    let stock_div = doc.new({type: "div", text: `${item.abroad_quantity.toString()} \n (${update_time})`});
     let item_div = doc.new({type: "div", text: item.item_name, attributes: {"item-type": (item_types.includes(item.item_type.toLowerCase()) ? item.item_type.toLowerCase() : "other")}});
+    let stock_div = doc.new({type: "div", text: `${item.abroad_quantity.toString()} \n (${update_time})`});
     let buy_price_div = doc.new({type: "div", text: `$${numberWithCommas(item.abroad_cost, shorten = false)}`});
     let cash_needed_div = doc.new({type: "div", text: `$${numberWithCommas((item.abroad_cost * carry_items), shorten = false)}`});
     let market_value_div = doc.new({type: "div", text: `$${numberWithCommas(market_value, shorten = false)}`});
@@ -337,19 +345,19 @@ function addRow(body, itemlist, item, time, carry_items, travel_cost) {
         }
 
     row.appendChild(destination_div);
-    row.appendChild(stock_div);
     row.appendChild(item_div);
+    row.appendChild(stock_div);
     row.appendChild(buy_price_div);
-    row.appendChild(cash_needed_div);
     row.appendChild(market_value_div);
     row.appendChild(profit_per_item_div);
     row.appendChild(total_profit_div);
     row.appendChild(profit_per_minute_div);
+    row.appendChild(cash_needed_div);
     body.appendChild(row);
 }
 
 function sortByItemType(sort_type){
-    let col = 3;
+    let col = 2;
 
     for(let cell of doc.findAll(`#ttTravelTable .body .row>div:nth-child(${col})`)){
         let cell_type = cell.getAttribute("item-type");
