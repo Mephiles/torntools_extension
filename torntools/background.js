@@ -314,6 +314,10 @@ function Main(){
 						}
 	
 						if(loot_times[npc_id].levels.next <= alert_level && alert_loot_time - current_time <= parseFloat(loot_alerts[npc_id].time)*60){
+							if(time_until((alert_loot_time - current_time)*1000).indexOf("-") == -1){
+								return;
+							}
+
 							console.log("Notifiying of loot time.");
 							notified = true;
 	
