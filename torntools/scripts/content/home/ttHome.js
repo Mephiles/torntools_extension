@@ -1,4 +1,4 @@
-infoBoxesLoaded().then(function(){
+contentLoaded().then(function(){
 	console.log("TT - Home");
 
 	// Networth

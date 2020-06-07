@@ -145,6 +145,7 @@
 			"matches": ["https://www.torn.com/item.php*"],
 		    "css": ["scripts/content/items/ttItems.css", "scripts/content/achievements/ttAchievements.css"],
 			"js": [
+				"scripts/jquery/jquery-3.4.1.min.js",
 				"scripts/content/items/ttItems.js",
 				"scripts/content/achievements/ttItemsAchievements.js"
 			],
