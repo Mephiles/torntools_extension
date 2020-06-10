@@ -1,6 +1,13 @@
 console.log("Loading Global Script");
 
 navbarLoaded().then(function(){
+
+    // Firefox opens new tab when dropping item
+    doc.body.ondrop = function(event){
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
     // Update notification
     if(DB.updated && settings.update_notification){
         addUpdateNotification();
