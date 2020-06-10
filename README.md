@@ -1,7 +1,7 @@
-# TornTools  
+# TornTools (v4.2)  
 ##### A browser extension for Torn.com
 &nbsp;  
-Links  
+**Links**  
   - [Original Thread](https://www.torn.com/forums.php#/p=threads&f=67&t=16054539&b=0&a=0&start=0&to=19000313)  
   - [Chrome](https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib)  
   - [Firefox](https://addons.mozilla.org/en-US/firefox/addon/torn-tools/)  
@@ -17,10 +17,12 @@ Links
   - Target List  
   - Casino scripts  
   - Travel Destinations (Travel HUB)  
-  - NPC Loot times (+notifications (coming 4.0))  
-  - Chat Highlighting (coming 4.0)  
-  - Stock price notifications (coming 4.0)  
-  - Custom Links (coming 4.0)  
+  - NPC Loot times  
+  - Chat Highlighting  
+  - Stock price notifications  
+  - Custom Links  
+  - Quick items & crimes  
+  - Info popup  
 
 **Smaller Features**:  
   - Friendly Fire  
@@ -33,6 +35,9 @@ Links
   - OC finish times  
   - Simplified Armory  
   - Modified Profile headings  
+  - Estimated gym progress  
+  - Hide upgrade button  
+  - Hide icons
   
 **Quick Market**: check prices of items from the small extension window at top-right  
 **Achievements**: keep track of your Achievements at the left-side menu bar in Torn  
@@ -48,6 +53,8 @@ Links
 **Chat Highlighting**: Setup different colors for usernames and highlight messages where You are mentioned  
 **Stock price notifications**: Set pricepoints for stocks to recieve alerts  
 **Custom Links**: Setup custom areas/links in the navigation panel  
+**Quick items & crimes**: Setup items and crimes to quickly access them  
+**Info popup**: Popup to show basic information like location, status, bars etc.  
 
 **Friendly Fire**: get a warning when you are on an ally faction player's profile (you have to add allies manually in settings)  
 **Shop profits**: Show item profits in shops (profit compared to market value)  
@@ -59,6 +66,9 @@ Links
 **OC finish times**: Show the date and time when an OC is ready  
 **Simplified Armory**: Group all similar events into one in Faction Armory  
 **Modified Profile headings**: Format Profile headings as [STATUS ICON] [USERNAME] [ID]  
+**Estimated gym progress**: Gives a rough estimate of how much Energy is needed to unlock next gym  
+**Hide upgrade button**: Hides the Upgrade button and message on Home page  
+**Hide icons**: Gives ability to hide any icon from the navbar  
 
 
 **API requests**:   
