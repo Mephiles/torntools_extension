@@ -1264,6 +1264,42 @@ function onDrop(event, name){
     event.dataTransfer.clearData();
 }
 
+function addRFC(url) {
+    var url = url || "";
+    url += (url.split("?").length > 1 ? "&" : "?") + "rfcv=" + getRFC();
+    return url;
+}
+
+function getRFC() {
+    // var rfc = $.cookie("rfc_v");
+    var rfc = getCookie("rfc_v");
+    if (!rfc) {
+        var cookies = document.cookie.split("; ");
+        for (var i in cookies) {
+            var cookie = cookies[i].split("=");
+            if (cookie[0] == "rfc_v") {
+                return cookie[1];
+            }
+        }
+    }
+    return rfc;
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
 
 
 // Pre-load database

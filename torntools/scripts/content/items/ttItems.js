@@ -35,6 +35,7 @@ contentLoaded().then(function(){
             });
 
             div.addEventListener("click", function(){     
+                console.log("Clicked Quick item");
                 getAction({
                     type: "post",
                     action: "item.php",
@@ -187,27 +188,29 @@ function getAction(obj) {
     obj.complete = obj.complete || function () {};
     var url = obj.action || window.location.protocol + "//" + window.location.hostname + location.pathname;
     var options = {
-        url: url,
+        url: "https://www.torn.com/"+addRFC(url),
         type: obj.type || "get",
         data: obj.data || {},
         async: typeof obj.async !== "undefined" ? obj.async : true,
         beforeSend: function (xhr) {
-            obj.before(xhr);
+            // obj.before(xhr);
         },
         success: function (msg) {
             // if (!checkPageStatus(msg)) return;
+            console.log("success")
             obj.success(msg);
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            if (typeof xhr.error === "function") {
-                obj.error(xhr, ajaxOptions, thrownError);
-            } else {
-                informationMessageTemplateIn(xhr.error, true, false, "red");
-                $(".info-msg .msg").text("Request error. Please try again.");
-            }
+            console.log("error", thrownError);
+            // if (typeof xhr.error === "function") {
+            //     obj.error(xhr, ajaxOptions, thrownError);
+            // } else {
+            //     informationMessageTemplateIn(xhr.error, true, false, "red");
+            //     $(".info-msg .msg").text("Request error. Please try again.");
+            // }
         },
         complete: function (data) {
-            obj.complete(data);
+            // obj.complete(data);
         },
     };
     if (options.data.step != undefined) {

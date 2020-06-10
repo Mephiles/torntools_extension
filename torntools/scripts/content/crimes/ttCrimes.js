@@ -106,7 +106,7 @@ function ajaxWrapper(request_options, infobox_options) {
         io.elementIn.find(".info-msg-cont .msg").html('<img class="ajax-placeholder" src="/images/v2/main/ajax-loader.gif" />');
     }
     var r = $.ajax({
-        url: request_options.url + "&rfcv=5ee0ce651a1c1",
+        url: "https://www.torn.com/"+addRFC(request_options.url),
         // dataType: request_options.dataType ? request_options.dataType : "text",
         type: request_options.type,
         // timeout: request_options.timeout,
