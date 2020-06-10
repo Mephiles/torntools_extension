@@ -234,6 +234,15 @@
 				"scripts/content/search/ttSearch.js"
 			],
 			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/crimes.php*"],
+			"css": ["scripts/content/crimes/ttCrimes.css"],
+			"js": [
+				"scripts/jquery/jquery-3.4.1.min.js",
+				"scripts/content/crimes/ttCrimes.js"
+			],
+			"run_at": "document_end"
 		}
 
     ]

@@ -154,7 +154,7 @@ const STORAGE = {
     // user settings
     "settings": {
         "update_notification": true,
-        "remove_info_boxes": false,
+        // "remove_info_boxes": false,
         "theme": "default",
         "force_tt": false,
         "hide_upgrade": false,
@@ -492,7 +492,7 @@ const content = {
             attr.next_element = content.findContainer(attr.next_element_heading);
 
         let parent_element = attr.next_element ? attr.next_element.parentElement : doc.find(".content-wrapper");
-        let new_div = createNewContainer(name, attr.id, attr.collapsed, attr.dragzone);
+        let new_div = createNewContainer(name, attr.id, attr.collapsed, attr.dragzone, attr.dragzone_name);
 
         if (attr.first)
             parent_element.insertBefore(new_div, parent_element.find(".content-title").nextElementSibling);
@@ -503,7 +503,7 @@ const content = {
 
         return new_div;
 
-        function createNewContainer(name, id, collapsed, dragzone) {
+        function createNewContainer(name, id, collapsed, dragzone, dragzone_name) {
             let div = doc.new({type: "div", id: id? id: undefined, attributes: {style: "position: relative;"}});
 
             let heading = doc.new({type: "div", text: name, class: "tt-title top-round m-top10", attributes: {style: "cursor: pointer;"}});
@@ -517,7 +517,9 @@ const content = {
             if(dragzone){
                 content.classList.add("tt-dragzone");
                 content.addEventListener("dragover", onDragOver);
-                content.addEventListener("drop", onDrop);
+                content.addEventListener("drop", function(event){
+                    onDrop(event, dragzone_name);
+                });
                 content.addEventListener("dragenter", onDragEnter);
                 content.addEventListener("dragleave", onDragLeave);
             }
@@ -1178,39 +1180,11 @@ function DBloaded(){
 function contentLoaded(){
     return new Promise(function(resolve, reject){
         let checker = setInterval(function(){
-            if(doc.find(".box-title") || doc.find("#equipped-weapons")){
+            if(doc.find(".box-title") || doc.find("#equipped-weapons") || doc.find("div.title-black[role=heading]")){
                 resolve(true);
                 return clearInterval(checker);
             }
         });
-    });
-}
-
-function onDragStart(event) {
-    doc.find("#ttQuickItems .content").classList.add("drag-progress");
-    event.dataTransfer.setData("text/plain", event.target.parentElement.getAttribute("data-item"));
-
-    if(doc.find("#ttQuickItems .temp.item")){
-        return;
-    }
-
-    let id = event.target.parentElement.getAttribute("data-item");
-    let div = doc.new({type: "div", class: "temp item", attributes: {"item-id": id}});
-    let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(/images/items/${id}/medium.png)`}});
-    let text = doc.new({type: "div", class: "text", text: itemlist.items[id].name});
-    let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
-
-    div.appendChild(pic);
-    div.appendChild(text);
-    div.appendChild(close_icon);
-    doc.find("#ttQuickItems .inner-content").appendChild(div);
-
-    close_icon.addEventListener("click", function(event){
-        event.stopPropagation();
-        div.remove();
-
-        let items = [...doc.findAll("#ttQuickItems .item")].map(x => x.getAttribute("item-id"));
-        local_storage.change({"quick": {"items": items}});
     });
 }
 
@@ -1219,62 +1193,77 @@ function onDragOver(event){
 }
 
 function onDragEnter(event){
-    if(doc.find("#ttQuickItems .temp.item")){
-        doc.find("#ttQuickItems .temp.item").style.opacity = "1";
+    if(doc.find("#ttQuick .temp.item")){
+        doc.find("#ttQuick .temp.item").style.opacity = "1";
     }
 }
 
 function onDragLeave(event){
-    if(doc.find("#ttQuickItems .temp.item")){
-        doc.find("#ttQuickItems .temp.item").style.opacity = "0.2";
+    if(doc.find("#ttQuick .temp.item")){
+        doc.find("#ttQuick .temp.item").style.opacity = "0.2";
     }
 }
 
-function onDragEnd(event){
-    if(doc.find("#ttQuickItems .temp.item")){
-        doc.find("#ttQuickItems .temp.item").remove();
-    }
+function onDrop(event, name){
+    let div = doc.find("#ttQuick .temp.item");
+
+    if(name == "items"){
+        let id = event.dataTransfer.getData("text");
     
-    doc.find("#ttQuickItems .content").classList.remove("drag-progress");
+        if(div){
+            div.classList.remove("temp");
 
-    let items = [...doc.findAll("#ttQuickItems .item")].map(x => x.getAttribute("item-id"));
-    local_storage.change({"quick": {"items": items}});
-}
-
-function onDrop(event){
-    let div = doc.find("#ttQuickItems .temp.item");
-    let id = event.dataTransfer.getData("text");
-
-    if(div){
-        div.classList.remove("temp");
-        
-        div.addEventListener("click", function(){      
-            getAction({
-                type: "post",
-                action: "item.php",
-                data: {step: "actionForm", id: id, action: "use"},
-                success: function (str) {
-                    
-                    if(doc.find("#ttQuickItems").find(".action-wrap")){
-                        doc.find("#ttQuickItems").find(".action-wrap").remove();
+            // adjust container
+            doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px"; 
+            
+            div.addEventListener("click", function(){      
+                getAction({
+                    type: "post",
+                    action: "item.php",
+                    data: {step: "actionForm", id: id, action: "use"},
+                    success: function (str) {
+                        
+                        if(doc.find("#ttQuick").find(".action-wrap")){
+                            doc.find("#ttQuick").find(".action-wrap").remove();
+                        }
+    
+                        doc.find("#ttQuick .response-wrap").style.display = "block";
+                        doc.find("#ttQuick .response-wrap").innerHTML = str;
+                        
+                        // adjust container
+                        doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px"; 
+                        
+                        useContainerLoaded().then(function(){
+                            doc.find("#ttQuick").find(`a[data-item='${id}']`).click();
+                        });
                     }
-
-                    doc.find("#ttQuickItems .response-wrap").style.display = "block";
-                    doc.find("#ttQuickItems .response-wrap").innerHTML = str;
-                    
-                    // adjust container
-                    doc.find("#ttQuickItems .content").style.maxHeight = doc.find("#ttQuickItems .content").scrollHeight + "px"; 
-                    
-                    useContainerLoaded().then(function(){
-                        doc.find("#ttQuickItems").find(`a[data-item='${id}']`).click();
-                    });
-                }
+                });
             });
-        });
+        }
+    } else if(name == "crimes"){
+        let crime_info = JSON.parse(event.dataTransfer.getData("text"));
+
+        if(div){
+            div.classList.remove("temp");
+
+            // adjust container
+            doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px"; 
+                
+            div.addEventListener("click", function(){      
+                ajaxWrapper({
+                    url: crime_info.action,
+                    type: "POST",
+                    data: {nervetake: crime_info.nerve, crime: crime_info.name},
+                    onerror: function (ee) {
+                        console.error(ee);
+                    },
+                });
+            });
+        }
     }
-    // dropzone.appendChild(div);
     event.dataTransfer.clearData();
 }
+
 
 
 // Pre-load database

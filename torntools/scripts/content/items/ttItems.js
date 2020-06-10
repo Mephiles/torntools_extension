@@ -2,15 +2,15 @@ contentLoaded().then(function(){
     console.log("TT - Quick items");
 
     // Quick items
-    let quick_container = content.new_container("Quick items", {id: "ttQuickItems", dragzone: true, collapsed: false, next_element: doc.find(".equipped-items-wrap")}).find(".content");
+    let quick_container = content.new_container("Quick items", {id: "ttQuick", dragzone: true, dragzone_name: "items", collapsed: false, next_element: doc.find(".equipped-items-wrap")}).find(".content");
     let inner_content = doc.new({type: "div", class: "inner-content"});
     let response_wrap = doc.new({type: "div", class: "response-wrap"});
     quick_container.appendChild(inner_content);
     quick_container.appendChild(response_wrap);
 
     document.addEventListener("click", function(event){
-        if(event.target.classList.contains("close-act") && hasParent(event.target, {id: "ttQuickItems"})){
-            doc.find("#ttQuickItems .response-wrap").style.display = "none";
+        if(event.target.classList.contains("close-act") && hasParent(event.target, {id: "ttQuick"})){
+            doc.find("#ttQuick .response-wrap").style.display = "none";
         }
     });
 
@@ -30,7 +30,7 @@ contentLoaded().then(function(){
                 event.stopPropagation();
                 div.remove();
 
-                let items = [...doc.findAll("#ttQuickItems .item")].map(x => x.getAttribute("item-id"));
+                let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
                 local_storage.change({"quick": {"items": items}});
             });
 
@@ -59,7 +59,6 @@ contentLoaded().then(function(){
             });
         }
     }
-
 });
 
 itemsLoaded().then(function(){
@@ -171,7 +170,7 @@ function displayItemPrices(itemlist) {
 function useContainerLoaded(){
     return new Promise(function (resolve, reject) {
         let checker = setInterval(function () {
-            let wrap = doc.find("#ttQuickItems .action-wrap.use-act.use-action");
+            let wrap = doc.find("#ttQuick .action-wrap.use-act.use-action");
             if(wrap){
                 resolve(true);
                 return clearInterval(checker);
@@ -219,4 +218,47 @@ function getAction(obj) {
         options.processData = false;
     }
     return $.ajax(options);
+}
+
+// Dragging
+function onDragStart(event) {
+    doc.find("#ttQuick .content").classList.add("drag-progress");
+    if(doc.find("#ttQuick .temp.item")){
+        return;
+    }
+
+    let id = event.target.parentElement.getAttribute("data-item");
+    event.dataTransfer.setData("text/plain", id);
+
+    let div = doc.new({type: "div", class: "temp item", attributes: {"item-id": id}});
+    let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(/images/items/${id}/medium.png)`}});
+    let text = doc.new({type: "div", class: "text", text: itemlist.items[id].name});
+    let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
+
+    div.appendChild(pic);
+    div.appendChild(text);
+    div.appendChild(close_icon);
+    doc.find("#ttQuick .inner-content").appendChild(div);
+
+    close_icon.addEventListener("click", function(event){
+        event.stopPropagation();
+        div.remove();
+
+        let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
+        local_storage.change({"quick": {"items": items}});
+    });
+
+    // adjust container
+    // doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px"; 
+}
+
+function onDragEnd(event){
+    if(doc.find("#ttQuick .temp.item")){
+        doc.find("#ttQuick .temp.item").remove();
+    }
+    
+    doc.find("#ttQuick .content").classList.remove("drag-progress");
+
+    let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
+    local_storage.change({"quick": {"items": items}});
 }

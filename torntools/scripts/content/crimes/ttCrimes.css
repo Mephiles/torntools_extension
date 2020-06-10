@@ -1,23 +1,8 @@
-/* Item values */
-span.tt-item-price {
-    color: #678c00;
-    float: right;
-    padding-right: 10px;
+/* Quick crimes */
+*[draggable=true] {
+    cursor: pointer;
 }
 
-li.tt-item-price {
-    color: #678c00;
-    width: unset !important;
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-}
-
-.tt-item-quantity {
-    color: black;
-    font-weight: 600;
-}
-
-/* Quick items */
 #ttQuick {
     margin-bottom: 20px;
 }
@@ -26,6 +11,8 @@ li.tt-item-price {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 #ttQuick .content.drag-progress * {
@@ -33,7 +20,7 @@ li.tt-item-price {
 }
 
 #ttQuick .inner-content .item {
-    display: inline-block;
+    flex: 1 0 auto;
     border: 1px solid lightgray;
     margin-right: 10px;
     padding: 5px;
@@ -41,6 +28,7 @@ li.tt-item-price {
     background-color: white;
     cursor: pointer;
     position: relative;
+    margin-bottom: 10px;
 }
 
 #ttQuick .inner-content .item:hover .tt-close-icon {
@@ -65,27 +53,18 @@ li.tt-item-price {
 }
 
 #ttQuick .inner-content .item .pic {
-    width: 60px;
+    width: 30px;
     height: 30px;
     background-size: cover;
-    margin: auto;
+    display: inline-block;
 }
 
 #ttQuick .inner-content .item .text {
-    text-align: center;
-}
-
-#ttQuick .response-wrap {
-    display: none;
-    padding: 10px;
-    background-color: white;
-    text-align: center;
-    border-top: 1px solid lightgray;
-    border-bottom: 1px solid lightgray;
-}
-
-#ttQuick .ajax-placeholder {
-    left: 0 !important;
+    /* text-align: center; */
+    display: inline-block;
+    vertical-align: top;
+    line-height: 30px;
+    margin-left: 10px;
 }
 
 /* Font-awesome */
