@@ -10,17 +10,22 @@ export default {
             "Added option to disable item highlighting on City Map if TornTools container is close (similar to Doctorn)",
             "Added option to open Custom Links on same page",
             "Added back Stock Search function",
-            "Added option to hide item values on Trade view to allow copy-pasting for traders"
+            "Added option to hide item values on Trade view to allow copy-pasting for traders",
+            "Added option to hide icons in navigation sidebar",
+            "Added Quick items & crimes (might be a bit buggy, let me know)"
         ],
         "Fixes": [
-            "Fixed Chat Highlight not updating when sending a message",
             "Fixed ERROR text not disappearing after API comes back online",
-            "Fixed Armory log script not working when waited too long"
+            "Fixed Chat Highlight not updating when sending a message",
+            "Fixed Armory log script not working when waited too long",
+            "Improved load times of scripts",
+            "Fixed Battle Stats NaN errors"
         ],
         "Changes": [
             "Changed Networth comparing to Torn's own last known networth (the one shown under General Information)",
             "Reformatted how Target List is updated. Removed the optional request.",
-            "Removed jail from 'remove info boxes' script"
+            "Changed Travel Destinations table columns order",
+            "Removed 'remove info boxes' script completely"
         ],
         "IMPORTANT": [
             "Refactored how info is fetched from Torn. Total requests raised to 7 per minute to keep TornTools up-to-date with user's status, bars etc. for Info popup & notifications"
