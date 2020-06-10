@@ -767,30 +767,34 @@ function capitalize(text, every_word = false) {
 
 function get_api(http, api_key) {
     return new Promise(async function(resolve, reject){
-        const response = await fetch(http + "&key=" + api_key);
-        const result = await response.json();
-
-        if (result.error) {
-            if(result.error.code == 9){  // API offline
-                console.log("API SYSTEM OFFLINE");
-                setBadge("error");
-                
-                local_storage.change({"api": { "online": false, "error": result.error.error }}, function(){
-                    return resolve({ok: false, error: result.error.error});
-                });
+        try {
+            const response = await fetch(http + "&key=" + api_key);
+            const result = await response.json();
+    
+            if (result.error) {
+                if(result.error.code == 9){  // API offline
+                    console.log("API SYSTEM OFFLINE");
+                    setBadge("error");
+                    
+                    local_storage.change({"api": { "online": false, "error": result.error.error }}, function(){
+                        return resolve({ok: false, error: result.error.error});
+                    });
+                } else {
+                    console.log("API ERROR:", result.error.error);
+                    setBadge("error");
+    
+                    local_storage.change({"api": { "online": true, "error": result.error.error }}, function(){
+                        return resolve({ok: false, error: result.error.error});
+                    });
+                }
             } else {
-                console.log("API ERROR:", result.error.error);
-                setBadge("error");
-
-                local_storage.change({"api": { "online": true, "error": result.error.error }}, function(){
-                    return resolve({ok: false, error: result.error.error});
+                setBadge("");
+                local_storage.change({"api": { "online": true, "error": "" }}, function(){
+                    return resolve(result);
                 });
             }
-        } else {
-            setBadge("");
-            local_storage.change({"api": { "online": true, "error": "" }}, function(){
-                return resolve(result);
-            });
+        } catch(err){
+            console.log("Error Fetching API", err);
         }
     });
 }
