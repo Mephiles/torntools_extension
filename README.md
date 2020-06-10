@@ -79,4 +79,4 @@ Don't like something? Turn it off in the settings and use the features you do li
 
 Any bugs? Ideas? Suggestions? Let me know!  
 
-Created by: Gregor (Mephiles[2087524])
+Created by: Gregor (**Mephiles[2087524]**)
