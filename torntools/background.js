@@ -434,7 +434,7 @@ function Main_fast(){
 								break;
 							}
 	
-							if(event.seen == 0 && new Date().getTime() - event.timestamp*1000 < 25000){
+							if(event.seen == 0 && new Date().getTime() - event.timestamp*1000 < 15000){
 								notifyUser(
 									`TornTools - New Event`,
 									event.event.replace(/<\/?[^>]+(>|$)/g, "")
@@ -452,7 +452,7 @@ function Main_fast(){
 								break;
 							}
 
-							if(message.seen == 0 && new Date().getTime() - message.timestamp*1000 < 25000){
+							if(message.seen == 0 && new Date().getTime() - message.timestamp*1000 < 15000){
 								notifyUser(
 									`TornTools - New Message by ${message.name}`,
 									message.title
