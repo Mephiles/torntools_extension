@@ -254,6 +254,7 @@ Document.prototype.find = function (type) {
                 return element;
             }
         }
+        return undefined;
     }
     return this.querySelector(type);
 }
@@ -267,6 +268,7 @@ Element.prototype.find = function (type) {
                 return element;
             }
         }
+        return undefined;
     }
     return this.querySelector(type);
 }
