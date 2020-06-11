@@ -24,6 +24,29 @@ body {
     border: 0.5px solid lightgrey;
 }
 
+.header {
+    width: 175px;
+    border-top: 2px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    height: 0;
+    overflow: hidden;
+    transition: top 0.1s;
+    cursor: pointer;
+    position: relative;
+    top: 4px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+.header:hover {
+    height: unset;
+    top: 0px;
+    border-bottom: unset;
+    border-radius: 2px;
+    border-top: unset;
+    margin-bottom: unset;
+    margin-bottom: 18px;
+}
 .page-tab {
     background: none;
     border: none;
