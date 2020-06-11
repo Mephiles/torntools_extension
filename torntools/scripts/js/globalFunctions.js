@@ -1169,7 +1169,7 @@ function navbarLoaded(){
 function DBloaded(){
     return new Promise(function(resolve, reject){
         let checker = setInterval(function(){
-            if(DB && Object.keys(DB).length > 0){
+            if(DB != undefined){
                 resolve(true);
                 return clearInterval(checker);
             }
