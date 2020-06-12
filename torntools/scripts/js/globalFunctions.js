@@ -273,7 +273,7 @@ Element.prototype.find = function (type) {
                 return element;
             }
         }
-        
+
         try {
             this.querySelector(type)
         } catch(err){
@@ -525,7 +525,11 @@ const content = {
                 heading.classList.add("title-black");
             }
 
-            let content = doc.new({type: "div", class: "cont-gray bottom-round tt-content content", attributes: {style: `max-height: 0px; `}});
+            let content = doc.new({type: "div", class: "cont-gray bottom-round tt-content content"});
+            if(collapsed == true || collapsed == undefined){
+                console.log("here1")
+                content.style.maxHeight = "0px";
+            }
             if(dragzone){
                 content.classList.add("tt-dragzone");
                 content.addEventListener("dragover", onDragOver);
@@ -562,11 +566,11 @@ const content = {
             });
 
             // Open
-            if(collapsed == false){
-                setTimeout(function(){
-                    heading.click();
-                }, 300);
-            }
+            // if(collapsed == false){
+            //     setTimeout(function(){
+            //         heading.click();
+            //     }, 300);
+            // }
 
             return div;
         }
