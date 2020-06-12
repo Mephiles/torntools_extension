@@ -254,7 +254,12 @@ Document.prototype.find = function (type) {
                 return element;
             }
         }
-        return undefined;
+
+        try {
+            this.querySelector(type)
+        } catch(err){
+            return undefined;
+        }
     }
     return this.querySelector(type);
 }
@@ -268,7 +273,12 @@ Element.prototype.find = function (type) {
                 return element;
             }
         }
-        return undefined;
+        
+        try {
+            this.querySelector(type)
+        } catch(err){
+            return undefined;
+        }
     }
     return this.querySelector(type);
 }
