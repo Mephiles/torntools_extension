@@ -150,6 +150,10 @@ const STORAGE = {
         "items": [],
         "crimes": []
     },
+    "notes": {
+        "text": undefined,
+        "height": undefined
+    },
 
     // user settings
     "settings": {
@@ -1326,7 +1330,7 @@ var DB;
 var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
 travel_market, oc, allies, loot_times, target_list, vault, personalized, 
 mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
-quick;
+quick, notes;
 
 
 (function(){
@@ -1354,6 +1358,7 @@ quick;
         new_version = DB.new_version;
         hide_icons = DB.hide_icons;
         quick = DB.quick;
+        notes = DB.notes;
 
         // Upgrade button
         document.documentElement.style.setProperty("--torntools-hide-upgrade-button", settings.hide_upgrade ? "none" : "block");

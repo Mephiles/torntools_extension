@@ -18,6 +18,9 @@ navbarLoaded().then(function(){
         addCustomLinks();
     }
 
+    // Notes
+    addNotesBox();
+
     // Remove icons that are hidden
     for(let icon of doc.findAll(`#sidebarroot .status-icons___1SnOI>li`)){
         let name = icon.getAttribute("class").split("_")[0];
@@ -75,6 +78,7 @@ function chatsLoaded(){
 }
 
 function addCustomLinks(){
+    // MOVE INTO NAVBAR BLOCK
     let sidebar_block = doc.new({type: "div", class: "sidebar-block___1Cqc2 tt-nav-section"});
     let content = doc.new({type: "div", class: "content___kMC8x"});
     let div1 = doc.new({type: "div", class: "areas___2pu_3"})
@@ -106,6 +110,55 @@ function addCustomLinks(){
     }
 
     doc.find("#sidebar").insertBefore(sidebar_block, doc.find("h2=Areas").parentElement.parentElement.parentElement.parentElement);
+}
+
+function addNotesBox(){
+    // MOVE INTO NAVBAR BLOCK
+    let sidebar_block = doc.new({type: "div", class: "sidebar-block___1Cqc2 tt-nav-section"});
+    let content = doc.new({type: "div", class: "content___kMC8x"});
+    let div1 = doc.new({type: "div", class: "areas___2pu_3"})
+    let toggle_block = doc.new({type: "div", class: "toggle-block___13zU2"})
+    let header;
+    if(settings.theme == "default"){
+        header = doc.new({type: "div", text: "Notes", class: "tt-title title-green"});
+    } else if(settings.theme == "alternative"){
+        header = doc.new({type: "div", text: "Notes", class: "tt-title title-black"});
+    }
+    let toggle_content = doc.new({type: "div", class: "toggle-content___3XKOC"});
+
+    toggle_block.appendChild(header);
+    toggle_block.appendChild(toggle_content);
+    div1.appendChild(toggle_block);
+    content.appendChild(div1);
+    sidebar_block.appendChild(content);
+
+    let cell = doc.new({type: "div", class: "area-desktop___2YU-q"});
+    let inner_div = doc.new({type: "div", class: "area-row___34mEZ"});
+    let textbox = doc.new({type: "textarea", class: "tt-nav-textarea", value: notes.text || ""});
+
+    if(notes.height){
+        textbox.style.height = notes.height;
+    }
+    // let a = doc.new({type: "a", class: "desktopLink___2dcWC", href: link.href, attributes: {target: (link.new_tab ? "_blank" : ""), style: "min-height: 24px; line-height: 24px;"}});
+    // let span = doc.new({type: "span", text: link.text});
+
+    // a.appendChild(span);
+    inner_div.appendChild(textbox);
+    cell.appendChild(inner_div)
+    sidebar_block.appendChild(cell);
+
+    doc.find("#sidebar").insertBefore(sidebar_block, doc.find("h2=Areas").parentElement.parentElement.parentElement.parentElement);
+
+    textbox.addEventListener("change", function(){
+        local_storage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
+    });
+    textbox.addEventListener("mouseup", function(){ 
+        if(textbox.style.height != notes.height){
+            console.log("resize");
+            console.log(textbox.style.height)
+            local_storage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
+        }
+    });
 }
 
 function addUpdateNotification(){

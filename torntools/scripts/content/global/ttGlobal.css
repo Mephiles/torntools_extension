@@ -36,6 +36,25 @@
     cursor: pointer;
 }
 
+.tt-nav-textarea {
+    min-width: 97%;
+    max-width: 97%;
+    min-height: 24px;
+    background-color: #f2f2f2;
+    border: unset;
+    box-sizing: border-box;
+    padding: 3px;
+}
+
+.tt-nav-textarea::-webkit-scrollbar {
+    width: 10px;
+}
+
+.tt-nav-textarea::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #a9a9a9;
+}
+
 /* Torn element manipulation */
 #pointsLevel {
     display: var(--torntools-hide-upgrade-button, block) !important;
