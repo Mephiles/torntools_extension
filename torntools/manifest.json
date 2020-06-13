@@ -20,7 +20,7 @@
 	},
 
 	"permissions": ["storage", "notifications", "https://yata.alwaysdata.net/"],
-	"web_accessible_resources": ["images/*", "views/*"],
+	"web_accessible_resources": ["images/*", "views/*", "scripts/*"],
 	"options_ui": {
 	    "page": "views/settings/settings.html"
 	},
@@ -241,6 +241,14 @@
 			"js": [
 				"scripts/jquery/jquery-3.4.1.min.js",
 				"scripts/content/crimes/ttCrimes.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/bazaar.php*"],
+			"css": ["scripts/content/bazaar/ttBazaar.css"],
+			"js": [
+				"scripts/content/bazaar/ttBazaar.js"
 			],
 			"run_at": "document_end"
 		}

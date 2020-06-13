@@ -19,12 +19,8 @@
 }
 
 /* Fill max */
-span.buy-act {
-    position: relative;
-}
-span.buy-act a {
-    position: relative;
-    top: -4px;
+.buy___C9yzh {
+    height: 27px !important;
 }
 .tt-max-buy {
     position: absolute;
@@ -33,4 +29,5 @@ span.buy-act a {
     bottom: 0px;
     left: 7px;
     font-size: 9px;
+    cursor: pointer;
 }
