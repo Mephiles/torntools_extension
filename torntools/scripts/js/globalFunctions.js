@@ -1236,32 +1236,6 @@ function onDrop(event){
     temp_div.classList.remove("temp");
     doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px"; 
 
-        // let id = event.dataTransfer.getData("text");
-        
-        
-        // div.addEventListener("click", function(){
-        //     getAction({
-        //         type: "post",
-        //         action: "item.php",
-        //         data: {step: "actionForm", id: id, action: "use"},
-        //         success: function (str) {
-                    
-        //             if(doc.find("#ttQuick").find(".action-wrap")){
-        //                 doc.find("#ttQuick").find(".action-wrap").remove();
-        //             }
-
-        //             doc.find("#ttQuick .response-wrap").style.display = "block";
-        //             doc.find("#ttQuick .response-wrap").innerHTML = str;
-                    
-        //             // adjust container
-        //             doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px"; 
-                    
-        //             useContainerLoaded().then(function(){
-        //                 doc.find("#ttQuick").find(`a[data-item='${id}']`).click();
-        //             });
-        //         }
-        //     });
-        // });
     event.dataTransfer.clearData();
 }
 

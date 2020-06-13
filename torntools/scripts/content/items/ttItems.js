@@ -2,7 +2,7 @@ contentLoaded().then(function(){
     console.log("TT - Quick items");
 
     // Quick items
-    let quick_container = content.new_container("Quick items", {id: "ttQuick", dragzone: true, dragzone_name: "items", collapsed: false, next_element: doc.find(".equipped-items-wrap")}).find(".content");
+    let quick_container = content.new_container("Quick items", {id: "ttQuick", dragzone: true, collapsed: false, next_element: doc.find(".equipped-items-wrap")}).find(".content");
     let inner_content = doc.new({type: "div", class: "inner-content"});
     let response_wrap = doc.new({type: "div", class: "response-wrap"});
     quick_container.appendChild(inner_content);
@@ -251,8 +251,29 @@ function onDragStart(event) {
         local_storage.change({"quick": {"items": items}});
     });
 
-    // adjust container
-    // doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px"; 
+    div.addEventListener("click", function(){
+        getAction({
+            type: "post",
+            action: "item.php",
+            data: {step: "actionForm", id: id, action: "use"},
+            success: function (str) {
+                
+                if(doc.find("#ttQuick").find(".action-wrap")){
+                    doc.find("#ttQuick").find(".action-wrap").remove();
+                }
+
+                doc.find("#ttQuick .response-wrap").style.display = "block";
+                doc.find("#ttQuick .response-wrap").innerHTML = str;
+                
+                // adjust container
+                doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px"; 
+                
+                useContainerLoaded().then(function(){
+                    doc.find("#ttQuick").find(`a[data-item='${id}']`).click();
+                });
+            }
+        });
+    });
 }
 
 function onDragEnd(event){
