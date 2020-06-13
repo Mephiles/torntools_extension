@@ -76,7 +76,7 @@
                 preventTextSelectionOnDoubleClick({ invokeType: "callback", duaration: 500 });
                 formElement.isSubmitting = false;
 
-                if(resp.responseText.indexOf("success-message") == -1){
+                if(resp.responseText.indexOf("success-message") == -1 && resp.responseText.indexOf("ready-message") == -1){
                     $(".content-wrapper").html(resp.responseText);
                 } else {
                     let parts = resp.responseText.split('<div class="tutorial-cont');
