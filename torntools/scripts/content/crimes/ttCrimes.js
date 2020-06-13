@@ -1,40 +1,55 @@
-contentLoaded().then(function(){
+$(document).ready(function(){
+    let script_tag = doc.new({type: "script", attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/crimes/ttInject.js")}});
+    doc.find("head").appendChild(script_tag);
+})
+
+messageBoxLoaded().then(function(){
     console.log("TT - Quick crimes");
 
     // Quick crimes
     quickCrimesMain(quick);
-});
 
-crimesLoaded().then(function(){
-    // Change crime page
-    for(let el of doc.findAll("form[name=crimes]>ul>li")){
-        el.addEventListener("click", function(){
+    crimesLoaded().then(function(){
+        markCrimes();
+    });
+    
+
+    let in_progress = false;
+    let content_wrapper = doc.find(".content-wrapper");
+    let content_observer = new MutationObserver(function(mutationList, observer){
+        if(doc.find("#ttQuick") || in_progress) return;
+        in_progress = true;
+
+        messageBoxLoaded().then(function(){
+            if(doc.find("#ttQuick")) return;
+
             local_storage.get("quick", function(quick){
-                crimesLoaded().then(function(){
-                    quickCrimesMain(quick);
-    
-                    // Quick crimes
-                    for(let crime of doc.findAll("form[name=crimes]>ul>li")){
-                        crime = crime.find(".item");
-    
-                        crime.setAttribute("draggable", "true");
-                        crime.addEventListener("dragstart", onDragStart);
-                        crime.addEventListener("dragend", onDragEnd);
-                    }
-                });
+                quickCrimesMain(quick);
             });
+            in_progress = false;
         });
-    }
-    // window.addEventListener("hashchange", function(){
-    //     if(doc.find("form[name=crimes]>ul>li") && doc.find("form[name=crimes]>ul>li").draggable){
-    //         return;
-    //     }
 
-    //     crimesLoaded().then(function(){
-                 
-    //     });
-    // });
+        crimesLoaded().then(function(){
+            markCrimes();
+        });
+        
+    });
+    content_observer.observe(content_wrapper, {childList: true, subtree: true});
 });
+
+function markCrimes(){
+    let form_action = doc.find(".content-wrapper form[name=crimes]").getAttribute("action");
+    if(!isNaN(parseInt(form_action[form_action.length-1])) && parseInt(form_action[form_action.length-1]) != 3){
+        console.log("marking");
+        for(let crime of doc.findAll("form[name=crimes]>ul>li")){
+            crime = crime.find(".item");
+
+            crime.setAttribute("draggable", "true");
+            crime.addEventListener("dragstart", onDragStart);
+            crime.addEventListener("dragend", onDragEnd);
+        }
+    }
+}
 
 function crimesLoaded(){
     return new Promise(function(resolve, reject){
@@ -48,7 +63,7 @@ function crimesLoaded(){
 }
 
 function quickCrimesMain(quick){
-    let quick_container = content.new_container("Quick crimes", {id: "ttQuick", dragzone: true, dragzone_name: "crimes", collapsed: false, next_element: doc.find("#module-desc") || doc.find(".title-black[role=heading]") || doc.find(".users-list-title")}).find(".content");
+    let quick_container = content.new_container("Quick crimes", {id: "ttQuick", dragzone: true, collapsed: false, next_element: doc.find(".tutorial-cont")}).find(".content"); /*doc.find("#module-desc") || doc.find(".title-black[role=heading]") || doc.find(".users-list-title")*/
     let inner_content = doc.new({type: "div", class: "inner-content"});
     quick_container.appendChild(inner_content);
 
@@ -79,138 +94,102 @@ function quickCrimesMain(quick){
             });
 
             div.addEventListener("click", function(){
-                let action = div.getAttribute("action")
-                let nerve_take = div.getAttribute("nerve")
-                let crime_name = div.getAttribute("name")
+                let action = div.getAttribute("action");
+                let nerve_take = div.getAttribute("nerve");
+                let crime_name = div.getAttribute("name");
 
-                ajaxWrapper({
-                    url: action,
-                    type: "POST",
-                    data: {nervetake: nerve_take, crime: crime_name},
-                    onerror: function (ee) {
-                        console.error(ee);
-                    },
-                });
+                let form = doc.find(".content-wrapper form[name=crimes]");
+
+                console.log("action", action);
+                console.log("nerve_take", nerve_take)
+                console.log("crime_name", crime_name)
+                form.setAttribute("action", action);
+                form.setAttribute("hijacked", true);
+                form.find(".radio.right input[type=radio]:checked").setAttribute("value", crime_name);
+                if(form.find("input[name=nervetake]")){
+                    form.find("input[name=nervetake]").setAttribute("value", nerve_take);
+                } else {
+                    let input = doc.new({type: "input", attributes: {name: "nervetake", type: "hidden", value: nerve_take}});
+                    form.insertBefore(input, form.firstChild);
+                }
+
+                doc.find("#do_crimes").click();
             });
         }
     }
 }
 
-// Torn functions
-function ajaxWrapper(request_options, infobox_options) {
-    if (infobox_options) {
-        var io = infobox_options;
-        io.isTopDelimiterRequired = typeof io.isTopDelimiterRequired === "undefined" ? true : io.isTopDelimiterRequired;
-        io.isBottomDelimiterRequired = typeof io.isBottomDelimiterRequired === "undefined" ? false : io.isBottomDelimiterRequired;
-        informationMessageTemplateIn(io.elementIn, io.isTopDelimiterRequired, io.isBottomDelimiterRequired, io.color ? io.color : "");
-        io.elementIn.find(".info-msg-cont .msg").html('<img class="ajax-placeholder" src="/images/v2/main/ajax-loader.gif" />');
-    }
-    var r = $.ajax({
-        url: "https://www.torn.com/"+addRFC(request_options.url),
-        // dataType: request_options.dataType ? request_options.dataType : "text",
-        type: request_options.type,
-        // timeout: request_options.timeout,
-        // processData: request_options.processData != undefined ? request_options.processData : undefined,
-        // contentType: request_options.contentType != undefined ? request_options.contentType : undefined,
-        // cache: request_options.cache != undefined ? request_options.cache : undefined,
-        // headers: request_options.headers != undefined ? request_options.headers : undefined,
-        data: request_options.data,
-        // async: request_options.async != undefined ? request_options.async : true,
-        success: function (resp) {
-            doc.find(".content-wrapper[role=main]").innerHTML = resp;
-            setTimeout(function(){
-                local_storage.get("quick", function(quick){
-                    quickCrimesMain(quick);
-                });
-            }, 300);
-            
-            // console.log("success", resp);
-            // if (!checkPageStatus(resp)) return;
-            // if (request_options.oncomplete) request_options.oncomplete({ responseText: resp });
-            // if (infobox_options) {
-            //     var io = infobox_options,
-            //         text = "";
-            //     try {
-            //         var responseData = JSON.parse(resp);
-            //         io.color = responseData.color || "";
-            //         text = responseData.msg;
-            //     } catch (e) {
-            //         text = resp;
-            //     }
-            //     informationMessageTemplateIn(io.elementIn, false, false, io.color ? io.color : "");
-            //     var data = '<div class="ajax-action">' + text + "</div>";
-            //     io.elementIn.find(".info-msg-cont .msg").html(data);
-            // }
-            // if (request_options.onsuccess) request_options.onsuccess(resp);
-        },
-        error: function (resp) {
-            console.log("error", resp);
-            // if (typeof request_options.onerror === "function") {
-            //     request_options.onerror.call(this, resp);
-            // }
-            // if (infobox_options) {
-            //     var data = '<div class="ajax-action">Request error. Please try again.</div>',
-            //         $msg = io.elementIn.find(".info-msg-cont .msg");
-            //     $msg.html(data);
-            //     $msg.parents(".info-msg-cont").removeClass("green blue").addClass("red");
-            // }
-            // onAjaxError.apply(this, arguments);
-        },
-    });
-    return r;
-}
-
 // Dragging
 function onDragStart(event) {
-    doc.find("#ttQuick .content").classList.add("drag-progress");
-    if(doc.find("#ttQuick .temp.item")){
-        return;
-    }
-
-    let action = doc.find("form[name=crimes]").getAttribute("action");
-    action = action[0] == "/" ? action.substr(1) : action;
-    let urlParamsDelimier = action.indexOf("?") > -1 ? "&" : "?";
-    action += urlParamsDelimier + "timestamp=" + Date.now();
-
-    let crime_nerve = doc.find("input[name=nervetake]").value;
-    let crime_name = event.target.find(".radio.right input").getAttribute("value");
-    let crime_icon = event.target.find(".title.left img").getAttribute("src");
-    let crime_text = event.target.find(".bonus.left").innerText.trim();
+    console.log("drag start")
+    setTimeout(function(){
+        doc.find("#ttQuick .content").classList.add("drag-progress");
     
-    event.dataTransfer.setData("text/plain", JSON.stringify({
-        "action": action,
-        "name": crime_name,
-        "nerve": crime_nerve,
-        "icon": crime_icon,
-        "text": crime_text
-    }));
-
-    let div = doc.new({type: "div", class: "temp item", attributes: {"nerve": crime_nerve, "name": crime_name, "action": action}});
-    let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(${crime_icon})`}});
-    let text = doc.new({type: "div", class: "text", text: crime_text});
-    let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
-
-    div.appendChild(pic);
-    div.appendChild(text);
-    div.appendChild(close_icon);
-    doc.find("#ttQuick .inner-content").appendChild(div);
-
-    close_icon.addEventListener("click", function(event){
-        event.stopPropagation();
-        div.remove();
-
-        let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
-            "action": x.getAttribute("action"),
-            "nerve": x.getAttribute("nerve"), 
-            "name": x.getAttribute("name"), 
-            "icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0], 
-            "text": x.find(".text").innerText
-        }));
-        local_storage.change({"quick": {"crimes": crimes}});
-    });
+        if(doc.find("#ttQuick .temp.item")){
+            return;
+        }
+    
+        let action = doc.find("form[name=crimes]").getAttribute("action");
+        action = action[0] == "/" ? action.substr(1) : action;
+        let urlParamsDelimier = action.indexOf("?") > -1 ? "&" : "?";
+        action += urlParamsDelimier;
+    
+        let crime_nerve = doc.find("input[name=nervetake]").value;
+        let crime_name = event.target.find(".radio.right input").getAttribute("value");
+        let crime_icon = event.target.find(".title.left img").getAttribute("src");
+        let crime_text = event.target.find(".bonus.left").innerText.trim();
+    
+        let div = doc.new({type: "div", class: "temp item", attributes: {"nerve": crime_nerve, "name": crime_name, "action": action}});
+        let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(${crime_icon})`}});
+        let text = doc.new({type: "div", class: "text", text: crime_text});
+        let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
+    
+        div.appendChild(pic);
+        div.appendChild(text);
+        div.appendChild(close_icon);
+        doc.find("#ttQuick .inner-content").appendChild(div);
+    
+        close_icon.addEventListener("click", function(event){
+            event.stopPropagation();
+            div.remove();
+    
+            let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
+                "action": x.getAttribute("action"),
+                "nerve": x.getAttribute("nerve"), 
+                "name": x.getAttribute("name"), 
+                "icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0], 
+                "text": x.find(".text").innerText
+            }));
+            local_storage.change({"quick": {"crimes": crimes}});
+        });
+    
+        div.addEventListener("click", function(){
+            let action = div.getAttribute("action");
+            let nerve_take = div.getAttribute("nerve");
+            let crime_name = div.getAttribute("name");
+    
+            let form = doc.find(".content-wrapper form[name=crimes]");
+    
+            console.log("action", action);
+            console.log("nerve_take", nerve_take)
+            console.log("crime_name", crime_name)
+            form.setAttribute("action", action);
+            form.setAttribute("hijacked", true);
+            form.find(".radio.right input[type=radio]:checked").setAttribute("value", crime_name);
+            if(form.find("input[name=nervetake]")){
+                form.find("input[name=nervetake]").setAttribute("value", nerve_take);
+            } else {
+                let input = doc.new({type: "input", attributes: {name: "nervetake", type: "hidden", value: nerve_take}});
+                form.insertBefore(input, form.firstChild);
+            }
+    
+            doc.find("#do_crimes").click();
+        });
+    }, 10);
 }
 
 function onDragEnd(event){
+    console.log("drag end")
     if(doc.find("#ttQuick .temp.item")){
         doc.find("#ttQuick .temp.item").remove();
     }
