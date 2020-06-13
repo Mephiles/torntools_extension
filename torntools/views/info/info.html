@@ -46,8 +46,12 @@
             margin-bottom: 10px;
         }
 
-        .bar .stat, .bar .full-in span {
+        .bar .stat, .bar .full-in span, .bar .resets-in span {
             font-weight: 600;
+        }
+
+        .bar .resets-in span {
+            color: red;
         }
 
         .bar .text {
@@ -64,6 +68,11 @@
         .bar .text .full-in {
             text-align: right;
             font-size: 11px;
+        }
+        .bar .text .resets-in {
+            text-align: right;
+            font-size: 11px;
+            display: none;
         }
         .bar .progress .stat {
             position: absolute;
@@ -214,6 +223,7 @@
             <div class="text">
                 <div class="name">Happy</div>
                 <div class="full-in">Full in: <span></span></div>
+                <div class="resets-in">Resets in: <span></span></div>
             </div>
             <div class="progress"><div></div><span class="stat"></span></div>
         </div>
@@ -248,6 +258,7 @@
     </div>
 
     <div class="footer">
+        <div class="messages">Messages: <span></span></div>
         <div class="events">Events: <span></span></div>
         <div class="money">Wallet: <span></span></div>
     </div>

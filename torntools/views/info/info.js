@@ -91,8 +91,33 @@ function updateInfo(){
         for(let bar of ["energy", "nerve", "happy", "life", "chain"]){
             let current_stat = userdata[bar].current;
             let max_stat = bar == "chain" && current_stat != userdata[bar].maximum ? getNextBonus(current_stat) : userdata[bar].maximum;
-            let full_stat = userdata[bar].fulltime - time_diff;
 
+            if(current_stat > max_stat && ["happy"].includes(bar)){
+                let tick_times = [15, 30, 45, 60];
+                let current_minutes = new Date().getMinutes();
+
+                for(let tick of tick_times){
+                    if(tick > current_minutes){
+                        let next_tick_date = new Date(new Date(new Date().setMinutes(tick)).setSeconds(0));
+                        let ms_left = next_tick_date - new Date();
+                        let resets_in = time_until(ms_left);
+
+                        console.log(next_tick_date)
+                        console.log(resets_in)
+                        doc.find(`#${bar} .resets-in`).style.display = "block";
+                        doc.find(`#${bar} .resets-in span`).innerText = resets_in;
+                        doc.find(`#${bar} .resets-in span`).setAttribute("seconds-down", parseInt(ms_left/1000));
+
+                        break;
+                    }
+                }
+            } else {
+                if(doc.find(`#${bar} .resets-in`)){
+                    doc.find(`#${bar} .resets-in`).style.display = "none";
+                }
+            }
+            
+            let full_stat = userdata[bar].fulltime - time_diff;
             let time_left = time_until(full_stat*1000);
 
             doc.find(`#${bar} .stat`).innerText = `${current_stat}/${max_stat}`;
@@ -141,7 +166,16 @@ function updateInfo(){
                 break;
             }
         }
+        let message_count = 0;
+        for(let message_id in userdata.messages){
+            if(userdata.messages[message_id].seen == 0){
+                message_count++;
+            } else {
+                break;
+            }
+        }
 
+        doc.find(".footer .messages span").innerText = message_count;
         doc.find(".footer .events span").innerText = event_count;
         doc.find(".footer .money span").innerText = `$${numberWithCommas(userdata.money_onhand, shorten=false)}`;
     });
