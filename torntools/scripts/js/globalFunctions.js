@@ -1361,7 +1361,7 @@ quick, notes;
         notes = DB.notes;
 
         // Align left
-        document.documentElement.style.setProperty("--torntools-align-left", settings.align_left ? "0px" : "auto");
+        document.documentElement.style.setProperty("--torntools-align-left", settings.align_left ? "20px" : "auto");
 
         // Upgrade button
         document.documentElement.style.setProperty("--torntools-hide-upgrade-button", settings.hide_upgrade ? "none" : "block");
