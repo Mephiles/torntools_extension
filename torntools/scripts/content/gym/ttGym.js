@@ -119,8 +119,14 @@ function showProgress(){
     let in_prog_gym = doc.find(".gymButton___3OFdI.inProgress___1Nd26");
     
     let index = parseInt(in_prog_gym.id.split("-")[1])-1;
-    let goal = gym_goals[index];
     let percentage = parseInt(in_prog_gym.find(".percentage___1vHCw").innerText.replace("%", ""));
+    let goal = gym_goals[index];
+    for(let perk of userdata.company_perks){
+        if(perk.indexOf("increased gym experience") > -1){
+            goal = parseInt(goal/1.3);
+            break;
+        }
+    }
 
     let stat = parseInt((goal * (percentage/100)).toFixed(0));
 
