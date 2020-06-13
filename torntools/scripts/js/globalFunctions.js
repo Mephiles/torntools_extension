@@ -795,7 +795,6 @@ function get_api(http, api_key) {
                     });
                 } else {
                     console.log("API ERROR:", result.error.error);
-                    setBadge("error");
     
                     local_storage.change({"api": { "online": true, "error": result.error.error }}, function(){
                         return resolve({ok: false, error: result.error.error});
