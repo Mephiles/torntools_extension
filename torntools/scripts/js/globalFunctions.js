@@ -527,7 +527,6 @@ const content = {
 
             let content = doc.new({type: "div", class: "cont-gray bottom-round tt-content content"});
             if(collapsed == true || collapsed == undefined){
-                console.log("here1")
                 content.style.maxHeight = "0px";
             }
             if(dragzone){
@@ -564,13 +563,6 @@ const content = {
                 }
                 rotateElement(icon, 180);
             });
-
-            // Open
-            // if(collapsed == false){
-            //     setTimeout(function(){
-            //         heading.click();
-            //     }, 300);
-            // }
 
             return div;
         }
@@ -1204,6 +1196,17 @@ function contentLoaded(){
     });
 }
 
+function messageBoxLoaded(){
+    return new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            if(doc.find(".info-msg-cont")){
+                resolve(true);
+                return clearInterval(checker);
+            }
+        });
+    });
+}
+
 function onDragOver(event){
     event.preventDefault();
 }
@@ -1232,7 +1235,7 @@ function onDrop(event, name){
             // adjust container
             doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px"; 
             
-            div.addEventListener("click", function(){      
+            div.addEventListener("click", function(){
                 getAction({
                     type: "post",
                     action: "item.php",
@@ -1265,7 +1268,7 @@ function onDrop(event, name){
             // adjust container
             doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px"; 
                 
-            div.addEventListener("click", function(){      
+            div.addEventListener("click", function(){
                 ajaxWrapper({
                     url: crime_info.action,
                     type: "POST",
@@ -1353,7 +1356,10 @@ quick;
         quick = DB.quick;
 
         // Upgrade button
-        document.documentElement.style.setProperty("--torntools-hide-upgrade", settings.hide_upgrade ? "none" : "block");
+        document.documentElement.style.setProperty("--torntools-hide-upgrade-button", settings.hide_upgrade ? "none" : "block");
+        if(["home"].includes(page())){
+            document.documentElement.style.setProperty("--torntools-hide-upgrade-info", settings.hide_upgrade ? "none" : "block");
+        }
 
         // Info boxes
         if(settings.remove_info_boxes && ["crimes"].includes(page())){

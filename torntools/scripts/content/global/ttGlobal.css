@@ -37,8 +37,12 @@
 }
 
 /* Torn element manipulation */
-#pointsLevel, .info-msg-cont.green, .info-msg-cont.green+hr {
-    display: var(--torntools-hide-upgrade, block) !important;
+#pointsLevel {
+    display: var(--torntools-hide-upgrade-button, block) !important;
+}
+
+.info-msg-cont.green, .info-msg-cont.green+hr {
+    display: var(--torntools-hide-upgrade-info, block) !important;
 }
 
 .info-msg-cont, .info-msg-cont+hr, .msg-info-wrap, .msg-info-wrap+hr {
