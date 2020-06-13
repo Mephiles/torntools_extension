@@ -162,6 +162,7 @@ const STORAGE = {
         "theme": "default",
         "force_tt": false,
         "hide_upgrade": false,
+        "align_left": false,
         "notifications": {
             "events": true,
             "messages": true,
@@ -1358,6 +1359,9 @@ quick, notes;
         hide_icons = DB.hide_icons;
         quick = DB.quick;
         notes = DB.notes;
+
+        // Align left
+        document.documentElement.style.setProperty("--torntools-align-left", settings.align_left ? "0px" : "auto");
 
         // Upgrade button
         document.documentElement.style.setProperty("--torntools-hide-upgrade-button", settings.hide_upgrade ? "none" : "block");

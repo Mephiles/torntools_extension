@@ -56,6 +56,10 @@
 }
 
 /* Torn element manipulation */
+#mainContainer {
+    margin-left: var(--torntools-align-left, auto) !important;
+}
+
 #pointsLevel {
     display: var(--torntools-hide-upgrade-button, block) !important;
 }
