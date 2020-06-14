@@ -178,6 +178,13 @@ function updateInfo(){
         doc.find(".footer .messages span").innerText = message_count;
         doc.find(".footer .events span").innerText = event_count;
         doc.find(".footer .money span").innerText = `$${numberWithCommas(userdata.money_onhand, shorten=false)}`;
+
+        doc.find(".footer .messages").addEventListener("click", function(){
+            chrome.tabs.create({url: "https://www.torn.com/messages.php"});
+        });
+        doc.find(".footer .events").addEventListener("click", function(){
+            chrome.tabs.create({url: "https://www.torn.com/events.php"});
+        });
     });
 }
 
