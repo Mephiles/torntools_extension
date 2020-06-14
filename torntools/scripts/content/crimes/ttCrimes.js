@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    let script_tag = doc.new({type: "script", attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/crimes/ttInject.js")}});
+    let script_tag = doc.new({type: "script", attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/crimes/ttCrimeInject.js")}});
     doc.find("head").appendChild(script_tag);
 })
 
@@ -35,6 +35,82 @@ messageBoxLoaded().then(function(){
         
     });
     content_observer.observe(content_wrapper, {childList: true, subtree: true});
+
+    // quick crimes listener
+    doc.addEventListener("click", function(event){
+        console.log(event.target);
+
+         // Close button
+         if(event.target.classList.contains("tt-close-icon")){
+            console.log("here")
+            event.stopPropagation();
+
+            let div = findParent(event.target, {class: "item"});
+            div.remove();
+    
+            let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
+                "action": x.getAttribute("action"),
+                "nerve": x.getAttribute("nerve"), 
+                "name": x.getAttribute("name"), 
+                "icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0], 
+                "text": x.find(".text").innerText
+            }));
+            local_storage.change({"quick": {"crimes": crimes}});
+            return;
+        }
+
+        // Crime button
+        if((event.target.classList.contains("item") && hasParent(event.target, {id: "ttQuick"})) || 
+            (hasParent(event.target, {class: "item"}) && hasParent(event.target, {id: "ttQuick"}))){
+            let div = event.target.classList.contains("item") ? event.target : findParent(event.target, {class: "item"});
+
+            let action = div.getAttribute("action");
+            let nerve_take = div.getAttribute("nerve");
+            let crime_name = div.getAttribute("name");
+
+            console.log("action", action);
+            console.log("nerve_take", nerve_take)
+            console.log("crime_name", crime_name)
+
+            let form = doc.find(".content-wrapper form[name=crimes]");
+            if(!form){
+                form = doc.new({type: "form", attributes: {name: "crimes", method: "post"}});
+                let dummy_crime = doc.new({type: "input", value: crime_name, attributes: {name: "crime", type: "radio", checked: true}});
+                let submit_button = doc.new({type: "div", id: "do_crimes", class: "btn"});
+                let submit_button_inner = doc.new({type: "button", class: "torn-btn", text: "NEXT STEP"});
+                submit_button.appendChild(submit_button_inner);
+                form.appendChild(dummy_crime);
+                form.appendChild(submit_button);
+                doc.find(".content-wrapper").appendChild(form);
+            } else {
+                if(form.find("input[type=radio]:checked")){
+                    form.find("input[type=radio]:checked").setAttribute("value", crime_name);
+                } else {
+                    let dummy_crime = doc.new({type: "input", value: crime_name, attributes: {name: "crime", type: "radio", checked: true}});
+                    form.appendChild(dummy_crime);
+                }
+            }
+
+            form.setAttribute("action", action);
+            form.setAttribute("hijacked", true);
+            if(form.find("input[name=nervetake]")){
+                form.find("input[name=nervetake]").setAttribute("value", nerve_take);
+            } else {
+                let input = doc.new({type: "input", attributes: {name: "nervetake", type: "hidden", value: nerve_take}});
+                form.insertBefore(input, form.firstChild);
+            }
+
+            if(form.find("#do_crimes")){
+                form.find("#do_crimes").click();
+            } else {
+                let submit_button = doc.new({type: "div", id: "do_crimes", class: "btn"});
+                let submit_button_inner = doc.new({type: "button", class: "torn-btn", text: "NEXT STEP"});
+                submit_button.appendChild(submit_button_inner);
+                form.appendChild(submit_button);
+                form.find("#do_crimes").click();
+            }
+        }
+    });
 });
 
 function markCrimes(){
@@ -78,62 +154,12 @@ function quickCrimesMain(quick){
             div.appendChild(text);
             div.appendChild(close_icon);
             inner_content.appendChild(div);
-
-            close_icon.addEventListener("click", function(event){
-                event.stopPropagation();
-                div.remove();
-
-                let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
-                    "action": x.getAttribute("action"),
-                    "nerve": x.getAttribute("nerve"), 
-                    "name": x.getAttribute("name"), 
-                    "icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0], 
-                    "text": x.find(".text").innerText
-                }));
-                local_storage.change({"quick": {"crimes": crimes}});
-            });
-
-            div.addEventListener("click", function(){
-                let action = div.getAttribute("action");
-                let nerve_take = div.getAttribute("nerve");
-                let crime_name = div.getAttribute("name");
-
-                console.log("action", action);
-                console.log("nerve_take", nerve_take)
-                console.log("crime_name", crime_name)
-
-                let form = doc.find(".content-wrapper form[name=crimes]");
-                if(!form){
-                    form = doc.new({type: "form", attributes: {name: "crimes", method: "post"}});
-                    let dummy_crime = doc.new({type: "input", value: crime_name, attributes: {name: "crime", type: "radio", checked: true}});
-                    let submit_button = doc.new({type: "div", id: "do_crimes", class: "btn"});
-                    let submit_button_inner = doc.new({type: "button", class: "torn-btn", text: "NEXT STEP"});
-                    submit_button.appendChild(submit_button_inner);
-                    form.appendChild(dummy_crime);
-                    form.appendChild(submit_button);
-                    doc.find(".content-wrapper").appendChild(form);
-                } else {
-                    form.find("input[type=radio]:checked").setAttribute("value", crime_name);
-                }
-
-                form.setAttribute("action", action);
-                form.setAttribute("hijacked", true);
-                if(form.find("input[name=nervetake]")){
-                    form.find("input[name=nervetake]").setAttribute("value", nerve_take);
-                } else {
-                    let input = doc.new({type: "input", attributes: {name: "nervetake", type: "hidden", value: nerve_take}});
-                    form.insertBefore(input, form.firstChild);
-                }
-
-                form.find("#do_crimes").click();
-            });
         }
     }
 }
 
 // Dragging
 function onDragStart(event) {
-    console.log("drag start")
     setTimeout(function(){
         doc.find("#ttQuick .content").classList.add("drag-progress");
     
@@ -161,48 +187,10 @@ function onDragStart(event) {
         div.appendChild(text);
         div.appendChild(close_icon);
         doc.find("#ttQuick .inner-content").appendChild(div);
-    
-        close_icon.addEventListener("click", function(event){
-            event.stopPropagation();
-            div.remove();
-    
-            let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
-                "action": x.getAttribute("action"),
-                "nerve": x.getAttribute("nerve"), 
-                "name": x.getAttribute("name"), 
-                "icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0], 
-                "text": x.find(".text").innerText
-            }));
-            local_storage.change({"quick": {"crimes": crimes}});
-        });
-    
-        div.addEventListener("click", function(){
-            let action = div.getAttribute("action");
-            let nerve_take = div.getAttribute("nerve");
-            let crime_name = div.getAttribute("name");
-    
-            let form = doc.find(".content-wrapper form[name=crimes]");
-    
-            console.log("action", action);
-            console.log("nerve_take", nerve_take)
-            console.log("crime_name", crime_name)
-            form.setAttribute("action", action);
-            form.setAttribute("hijacked", true);
-            form.find(".radio.right input[type=radio]:checked").setAttribute("value", crime_name);
-            if(form.find("input[name=nervetake]")){
-                form.find("input[name=nervetake]").setAttribute("value", nerve_take);
-            } else {
-                let input = doc.new({type: "input", attributes: {name: "nervetake", type: "hidden", value: nerve_take}});
-                form.insertBefore(input, form.firstChild);
-            }
-    
-            doc.find("#do_crimes").click();
-        });
     }, 10);
 }
 
 function onDragEnd(event){
-    console.log("drag end")
     if(doc.find("#ttQuick .temp.item")){
         doc.find("#ttQuick .temp.item").remove();
     }

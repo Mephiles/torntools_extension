@@ -1123,6 +1123,21 @@ function hasParent(element, attributes={}){
     }
 }
 
+function findParent(element, attributes={}){
+    if(!element.parentElement){
+        return undefined;
+    } else {
+        if(attributes.class && element.parentElement.classList.contains(attributes.class)){
+            return element.parentElement;
+        }
+        if(attributes.id && element.parentElement.id == attributes.id){
+            return element.parentElement;
+        }
+
+        return hasParent(element.parentElement, attributes);
+    }
+}
+
 function notifyUser(title, message){
     chrome.notifications.create({
         type: 'basic', 
@@ -1223,26 +1238,22 @@ function playersLoaded(list_class){
 }
 
 function onDragOver(event){
-    console.log("drag over")
     event.preventDefault();
 }
 
 function onDragEnter(event){
-    console.log("drag enter")
     if(doc.find("#ttQuick .temp.item")){
         doc.find("#ttQuick .temp.item").style.opacity = "1";
     }
 }
 
 function onDragLeave(event){
-    console.log("drag leave")
     if(doc.find("#ttQuick .temp.item")){
         doc.find("#ttQuick .temp.item").style.opacity = "0.2";
     }
 }
 
 function onDrop(event){
-    console.log("drop")
     let temp_div = doc.find("#ttQuick .temp.item");
     temp_div.classList.remove("temp");
     doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px"; 
