@@ -1,4 +1,33 @@
 export default {
+    "v4.3": {
+        "Features": [
+            "Added Notes section to Navigation bar",
+            "Added Fill Max button to city shops & bazaars",
+            "Added Player filters to Faction Info page, Jail page & Hospital page",
+            "Added Country filter to Travel Destinations table & made legend collapsible",
+            "Added Badge notifications for Events & Messages"
+        ],
+        "Fixes": [
+            "Hopefully increased loading speeds for popups",
+            "Fixed double notifications for some messages & events",
+            "Fixed container collapse bubbling when loading site (changes are set before loading the container)",
+            "Fixed Museum set message disappearing because of Upgrade button hide script",
+            "Fixed ERROR badge flashing for some users",
+            "Fixed Energy Estimate script on Gym page for users who have company special (+30% experience gain)",
+            "Fixed Quick crimes"
+        ],
+        "Changes": [
+            "Simplified links design in popups to reduce clutter"
+        ],
+        "Thanks - RockyRoxanne [2282703]": [
+            "Changed bar colors in Info popup",
+            "Added option to Align Torn to left",
+            "Added Happy reset timer to Info popup",
+            "Improved design of Preferences page (slightly increased white space around sections and made container bigger)",
+            "Added Messages section to Info popup",
+            "Added links to Info popup messages & events"
+        ]
+    },
     "v4.2": {
         "Features": [
             "Added Info tab popup to display bars, money, events, cooldowns",
