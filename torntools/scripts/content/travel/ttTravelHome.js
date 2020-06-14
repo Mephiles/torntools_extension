@@ -153,6 +153,22 @@ function displayTravelDestinations(container, itemlist, userdata, travel_market,
     addTableLegend(table);
     addTableHeader(table);
 
+    // Legend collapse button
+    let icon = doc.new({type: "i", class: "fas fa-chevron-up collapse-legend"});
+    table.appendChild(icon);
+
+    icon.addEventListener("click", function(){
+        let legend = table.find(".legend");
+        console.log(legend.style.height)
+
+        if(legend.style.height == "10px"){
+            legend.style.height = legend.scrollHeight+"px";
+        } else {
+            legend.style.height = "10px";
+        }
+        rotateElement(icon, 180);
+    });
+
     for(let item of travel_market){
         let time = item_dict[item.country_name.toLowerCase()].time;
         let travel_cost = item_dict[item.country_name.toLowerCase()].cost;
@@ -234,7 +250,7 @@ function modifyTimeAndCost(dict, airstrip, wlt, business, bct_price) {
 }
 
 function addTableLegend(table){
-    let legend = doc.new({type: "div", class: "legend"});
+    let legend = doc.new({type: "div", class: "legend", attributes: {style: `height: 10px;`}});
 
     // Items input
     let row_1 = doc.new({type: "div", class: "row"});
