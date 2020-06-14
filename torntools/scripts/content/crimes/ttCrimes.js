@@ -98,14 +98,26 @@ function quickCrimesMain(quick){
                 let nerve_take = div.getAttribute("nerve");
                 let crime_name = div.getAttribute("name");
 
-                let form = doc.find(".content-wrapper form[name=crimes]");
-
                 console.log("action", action);
                 console.log("nerve_take", nerve_take)
                 console.log("crime_name", crime_name)
+
+                let form = doc.find(".content-wrapper form[name=crimes]");
+                if(!form){
+                    form = doc.new({type: "form", attributes: {name: "crimes", method: "post"}});
+                    let dummy_crime = doc.new({type: "input", value: crime_name, attributes: {name: "crime", type: "radio", checked: true}});
+                    let submit_button = doc.new({type: "div", id: "do_crimes", class: "btn"});
+                    let submit_button_inner = doc.new({type: "button", class: "torn-btn", text: "NEXT STEP"});
+                    submit_button.appendChild(submit_button_inner);
+                    form.appendChild(dummy_crime);
+                    form.appendChild(submit_button);
+                    doc.find(".content-wrapper").appendChild(form);
+                } else {
+                    form.find("input[type=radio]:checked").setAttribute("value", crime_name);
+                }
+
                 form.setAttribute("action", action);
                 form.setAttribute("hijacked", true);
-                form.find(".radio.right input[type=radio]:checked").setAttribute("value", crime_name);
                 if(form.find("input[name=nervetake]")){
                     form.find("input[name=nervetake]").setAttribute("value", nerve_take);
                 } else {
@@ -113,7 +125,7 @@ function quickCrimesMain(quick){
                     form.insertBefore(input, form.firstChild);
                 }
 
-                doc.find("#do_crimes").click();
+                form.find("#do_crimes").click();
             });
         }
     }
@@ -131,8 +143,9 @@ function onDragStart(event) {
     
         let action = doc.find("form[name=crimes]").getAttribute("action");
         action = action[0] == "/" ? action.substr(1) : action;
-        let urlParamsDelimier = action.indexOf("?") > -1 ? "&" : "?";
-        action += urlParamsDelimier;
+        if(action.indexOf("?") == -1){
+            action+="?";
+        }
     
         let crime_nerve = doc.find("input[name=nervetake]").value;
         let crime_name = event.target.find(".radio.right input").getAttribute("value");
