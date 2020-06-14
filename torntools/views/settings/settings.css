@@ -55,7 +55,7 @@ p {
     border-bottom-right-radius: 10px;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease-out;
+    /* transition: max-height 0.5s ease-out; */
     z-index: 9;
 }
 
@@ -194,6 +194,9 @@ p {
 
 /* Preferences */
 
+#preferences .content {
+    width: 45%;
+}
 #preferences .content .inner_content {
     display: flex;
     font-size: 15px;
@@ -204,7 +207,7 @@ p {
 }
 
 .column .section {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .column .section .heading {
