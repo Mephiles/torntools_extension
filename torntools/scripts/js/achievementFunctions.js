@@ -33,7 +33,11 @@ function displayAchievements(achievements, show_completed){
         }
 
         if(achievements[name].extra != "###"){
-            new_cell.setAttribute("info", `Goals: ${achievements[name].goals.map(x => " "+numberWithCommas(x))}\n Your score: ${numberWithCommas(current_stat)}`);
+            new_cell.setAttribute("info", JSON.stringify({
+                goals: achievements[name].goals,
+                score: current_stat
+            }));
+            // new_cell.setAttribute("info", `Goals: ${achievements[name].goals.map(x => " "+numberWithCommas(x))}\n Your score: ${numberWithCommas(current_stat)}`);
             addTooltip(new_cell);
         }
     }
@@ -157,7 +161,24 @@ function addTooltip(cell){
         tooltip.style.left = String(position.x + 172+7) + "px";
         tooltip.style.top = String(position.y + Math.abs(document.body.getBoundingClientRect().y)+6) + "px";
         tooltip.style.display = "block";
-        tooltip.find(".tt-ach-tooltip-text").innerText = event.target.getAttribute("info");
+        // tooltip.find(".tt-ach-tooltip-text").innerText = event.target.getAttribute("info");
+        tooltip.find(".tt-ach-tooltip-text").innerHTML = "";
+
+        let data = JSON.parse(event.target.getAttribute("info"));
+        let span_heading = doc.new({type: "span", text: "Goals: "});
+        tooltip.find(".tt-ach-tooltip-text").appendChild(span_heading);
+        for(let goal of data.goals){
+            let span;
+            if(data.goals.indexOf(goal) == 0){
+                span = doc.new({type: "span", text: numberWithCommas(goal)});
+            } else {
+                span = doc.new({type: "span", text: ", "+numberWithCommas(goal)});
+            }
+            tooltip.find(".tt-ach-tooltip-text").appendChild(span);
+        }
+
+        let span_heading_2 = doc.new({type: "span", text: "\nYou score: " + numberWithCommas(data.score)});
+        tooltip.find(".tt-ach-tooltip-text").appendChild(span_heading_2);
     });
 
     cell.addEventListener("mouseleave", function(){
