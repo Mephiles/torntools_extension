@@ -1211,6 +1211,17 @@ function messageBoxLoaded(){
     });
 }
 
+function playersLoaded(list_class){
+    return new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            if(doc.find(`${list_class}>*:not(.ajax-placeholder)`)){
+                resolve(true);
+                return clearInterval(checker);
+            }
+        });
+    });
+}
+
 function onDragOver(event){
     console.log("drag over")
     event.preventDefault();
@@ -1276,6 +1287,26 @@ function getCookie(cname) {
     return "";
 }
 
+function to_seconds(time){
+    time = time.toLowerCase();
+    let seconds = 0;
+    
+    if(time.indexOf("h") > -1){
+        seconds += parseInt(time.split("h")[0].trim()) * 3600;
+        time = time.split("h")[1];
+    }
+    if(time.indexOf("m") > -1){
+        seconds += parseInt(time.split("m")[0].trim()) * 60;
+        time = time.split("m")[1];
+    }
+    if(time.indexOf("s") > -1){
+        seconds += parseInt(time.split("s")[0].trim()) * 1;
+        time = time.split("s")[1];
+    }
+
+    console.log("seconds", seconds);
+    return seconds;
+}
 
 // Pre-load database
 var DB;

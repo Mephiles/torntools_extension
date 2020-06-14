@@ -109,17 +109,19 @@
 		},
 		{
 			"matches": ["https://www.torn.com/jailview.php*"],
-		    "css": ["scripts/content/achievements/ttAchievements.css"],
+		    "css": ["scripts/content/achievements/ttAchievements.css", "scripts/content/jail/ttJail.css"],
 			"js": [
-				"scripts/content/achievements/ttJailAchievements.js"
+				"scripts/content/achievements/ttJailAchievements.js",
+				"scripts/content/jail/ttJail.js"
 			],
             "run_at": "document_end"
 	    },
 		{
 			"matches": ["https://www.torn.com/hospitalview.php*"],
-		    "css": ["scripts/content/achievements/ttAchievements.css"],
+		    "css": ["scripts/content/achievements/ttAchievements.css", "scripts/content/hospital/ttHospital.css"],
 			"js": [
-				"scripts/content/achievements/ttHospitalAchievements.js"
+				"scripts/content/achievements/ttHospitalAchievements.js",
+				"scripts/content/hospital/ttHospital.js"
 			],
             "run_at": "document_end"
 	    },

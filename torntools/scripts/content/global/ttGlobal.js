@@ -139,10 +139,7 @@ function addNotesBox(){
     if(notes.height){
         textbox.style.height = notes.height;
     }
-    // let a = doc.new({type: "a", class: "desktopLink___2dcWC", href: link.href, attributes: {target: (link.new_tab ? "_blank" : ""), style: "min-height: 24px; line-height: 24px;"}});
-    // let span = doc.new({type: "span", text: link.text});
 
-    // a.appendChild(span);
     inner_div.appendChild(textbox);
     cell.appendChild(inner_div)
     sidebar_block.appendChild(cell);

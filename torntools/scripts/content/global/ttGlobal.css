@@ -25,8 +25,9 @@
 .tt-content.content {
     position: relative; 
     margin-top: 0; 
-    padding-bottom: 15px; 
+    padding: 4px;
     overflow: hidden;
+    padding-bottom: 15px; 
 }
 
 .container_collapse {
@@ -173,3 +174,62 @@
 #sidebarroot .status-icons___1SnOI>li[class^="icon78_"] { display: var(--torntools-hide-icons-icon78, inline-block) }
 #sidebarroot .status-icons___1SnOI>li[class^="icon79_"] { display: var(--torntools-hide-icons-icon79, inline-block) }
 #sidebarroot .status-icons___1SnOI>li[class^="icon80_"] { display: var(--torntools-hide-icons-icon80, inline-block) }
+
+/* Player list filter */
+#tt-player-filter+div {
+    margin-top: 0;
+}
+#tt-player-filter .content {
+    display: flex;
+}
+#tt-player-filter .tt-filter-wrap {
+    flex: 1 0 auto;
+    vertical-align: top;
+    margin-right: 10px;
+}
+
+.tt-filter-wrap .tt-filter-heading {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.tt-filter-wrap .tt-filter {
+    padding-left: 10px;
+    position: relative;
+}
+.tt-filter-wrap .tt-filter * {
+    display: inline-block;
+    vertical-align: top;
+    color: #909090;
+}
+.tt-filter-wrap .tt-filter input {
+    margin-right: 3px;
+}
+
+.tt-filter-wrap .tt-filter-from {
+    width: 30px;
+}
+.tt-filter-wrap .tt-filter-to {
+    width: 30px;
+    margin-left: 3px;
+}
+.tt-filter .tt-filter-note {
+    position: absolute;
+    font-size: 11px;
+    left: 1px;
+    bottom: -14px;
+}
+
+/* hide arrows on number inputs */
+/* Chrome, Safari, Edge, Opera */
+.tt-filter input::-webkit-outer-spin-button,
+.tt-filter input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.tt-filter input[type=number] {
+  -moz-appearance: textfield;
+}

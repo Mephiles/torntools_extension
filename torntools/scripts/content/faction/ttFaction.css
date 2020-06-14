@@ -25,10 +25,6 @@
 }
 
 /* Chain Report */
-#ttChainReport .content {
-    padding: 4px;
-}
-
 #ttExportTableButton {
     width: 120px;
     padding: 6px;
