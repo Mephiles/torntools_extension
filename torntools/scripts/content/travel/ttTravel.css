@@ -152,56 +152,49 @@ i.fa-caret-down {
 
 /* Table legend */
 
-#ttTravelTable .table .legend {
-    display: flex;
-    flex-wrap: wrap;
+#ttTravelTable .legend {
     margin-top: 10px;
     margin-bottom: 20px;
 }
 
-#ttTravelTable .table .legend .item {
-    flex: 1 0 auto;
-    display: flex;
-    height: 20px;
-    line-height: 20px;
+#ttTravelTable .legend .row {
+    display: block;
+    position: relative;
+    border: unset;
 }
-#ttTravelTable .table .legend .item>* {
-    flex: 1 0 auto;
+#ttTravelTable .legend .row .item {
+    display: inline-block;
+    min-width: unset !important;
+    max-width: unset !important;
+    /* width: 150px; */
 }
-
-#ttTravelTable .table .legend .item .text.left {
-    height: inherit;
-    /* line-height: 20px; */
-    /* padding-left: 10px; */
-    /* float: left; */
-    text-align: left;
+#ttTravelTable .legend .row .item * {
+    display: inline-block;
+    min-width: unset !important;
+    max-width: unset !important;
+    vertical-align: top;
 }
-
-#ttTravelTable .table .legend .item .text.right {
-    height: inherit;
-    text-align: right;
-    padding-right: 5px;
-    margin-left: -5px;
-}
-
-#ttTravelTable .table .legend .item input {
-    height: inherit;
-    margin: auto;
-}
-#ttTravelTable .table .legend .item input[type=number] {
-    width: 12px;
+#ttTravelTable .legend .row:first-of-type .item input {
+    width: 32px;
     padding-left: 5px;
-    /* height: 18px; */
     border: 1px solid gray;
-    /* margin-left: 5px; */
-    /* padding-left: 7px; */
     border-radius: 10px;
 }
-#ttTravelTable .table .legend .item input[type=radio] {
-    width: 0;
-    height: 13px;
-    margin-left: 10px;
-    margin-right: -3px;
+#ttTravelTable .legend .row.has-heading {
+    padding-top: 35px;
+}
+#ttTravelTable .table .legend .row .heading {
+    position: absolute;
+    top: 15px;
+    left: -10px;
+    font-weight: 600;
+}
+
+#ttTravelTable .table .legend .row:not(:first-of-type) .item .text {
+    padding-left: 5px;
+    padding-right: 20px;
+}
+#ttTravelTable .table .legend .row .item input[type=radio] {
     position: relative;
-    top: -1px;
+    top: 3px;
 }

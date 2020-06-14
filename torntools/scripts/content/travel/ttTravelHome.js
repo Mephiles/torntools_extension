@@ -193,7 +193,26 @@ function displayTravelDestinations(container, itemlist, userdata, travel_market,
         }
 
         radio.addEventListener("click", function(){
+            if(type != "all"){
+                doc.find("#ttTravelTable .legend input[country=all]").click();
+            }
             sortByItemType(type);
+        });
+    }
+
+    // Sorting by country
+    for(let radio of doc.findAll("#ttTravelTable .legend input[name=country]")){
+        let type = radio.getAttribute("country");
+        
+        if(type == "all"){
+            radio.checked = true;
+        }
+
+        radio.addEventListener("click", function(){
+            if(type != "all"){
+                doc.find("#ttTravelTable .legend input[item-type=all]").click();
+            }
+            sortByCountry(type);
         });
     }
 }
@@ -218,29 +237,46 @@ function addTableLegend(table){
     let legend = doc.new({type: "div", class: "legend"});
 
     // Items input
+    let row_1 = doc.new({type: "div", class: "row"});
     let item_items = doc.new({type: "div", class: "item"});
-    let text_items = doc.new({type: "div", class: "text right", text: "Travel items:"});
+    let text_items = doc.new({type: "div", class: "text", text: "Travel items:"});
     let input_items = doc.new({type: "input", id: "ttTravelItemsInput", attributes: {type: "number"}});
 
     item_items.appendChild(text_items);
     item_items.appendChild(input_items);
-    legend.appendChild(item_items);
-
-    // Divider
-    let empty_item = doc.new({type: "div", class: "item"});
-    legend.appendChild(empty_item);
+    row_1.appendChild(item_items);
 
     // Item type radios
+    let row_2 = doc.new({type: "div", class: "row has-heading"});
+    let heading_2 = doc.new({type: "div", class: "heading", text: "Item types"});
+    row_2.appendChild(heading_2);
     for(let type of ["All", "Plushies", "Flowers", "Plushies/Flowers", "Drugs", "Other"]){
         let item_type = doc.new({type: "div", class: "item"});
         let input_type = doc.new({type: "input", attributes: {type: "radio", name: "item-type", "item-type": type.toLowerCase()}});
-        let text_type = doc.new({type: "div", class: "text left", text: type});
+        let text_type = doc.new({type: "div", class: "text", text: type});
 
         item_type.appendChild(input_type)
         item_type.appendChild(text_type);
-        legend.appendChild(item_type);
+        row_2.appendChild(item_type);
     }
 
+    // Country filter
+    let row_3 = doc.new({type: "div", class: "row has-heading"});
+    let heading_3 = doc.new({type: "div", class: "heading", text: "Country"});
+    row_3.appendChild(heading_3);
+    for(let country of ["All", "Mexico", "Cayman Islands", "Canada", "Hawaii", "United Kingdom", "Argentina", "Switzerland", "Japan", "China", "UAE", "South Africa"]){
+        let item_country = doc.new({type: "div", class: "item"});
+        let input_country = doc.new({type: "input", attributes: {type: "radio", name: "country", "country": country.toLowerCase()}});
+        let text_country = doc.new({type: "div", class: "text", text: country});
+
+        item_country.appendChild(input_country)
+        item_country.appendChild(text_country);
+        row_3.appendChild(item_country);
+    }
+
+    legend.appendChild(row_1);
+    legend.appendChild(row_2);
+    legend.appendChild(row_3);
     table.appendChild(legend);
 }
 
@@ -293,7 +329,7 @@ function addRow(body, itemlist, item, time, carry_items, travel_cost) {
 
     let row = doc.new({type: "div", class: "row"});
 
-    let destination_div = doc.new("div");
+    let destination_div = doc.new({type: "div", attributes: {country: item.country_name.toLowerCase()}});
         let destination_name_span = doc.new({type: "span", text: item.country_name});
         let flag_span = doc.new({
             type: "span", class:"flag", 
@@ -359,8 +395,34 @@ function addRow(body, itemlist, item, time, carry_items, travel_cost) {
 function sortByItemType(sort_type){
     let col = 2;
 
-    for(let cell of doc.findAll(`#ttTravelTable .body .row>div:nth-child(${col})`)){
+    for(let cell of doc.findAll(`#ttTravelTable .body>.row>div:nth-child(${col})`)){
         let cell_type = cell.getAttribute("item-type");
+        cell.parentElement.style.display = "none";
+
+        if(sort_type == "all"){
+            cell.parentElement.style.display = "flex";
+            continue;
+        }
+
+        if(Array.isArray(sort_type)){
+            for(let type of sort_type){
+                if(cell_type == type){
+                    cell.parentElement.style.display = "flex";
+                }
+            }
+        } else if(cell_type == sort_type){
+            cell.parentElement.style.display = "flex";
+        }
+    }
+
+    doc.find("#ttTravelTable .content").style.maxHeight = doc.find("#ttTravelTable .content").scrollHeight + "px";
+}
+
+function sortByCountry(sort_type){
+    let col = 1;
+
+    for(let cell of doc.findAll(`#ttTravelTable .body>.row>div:nth-child(${col})`)){
+        let cell_type = cell.getAttribute("country");
         cell.parentElement.style.display = "none";
 
         if(sort_type == "all"){

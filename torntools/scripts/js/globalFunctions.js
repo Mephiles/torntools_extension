@@ -847,7 +847,7 @@ function rotateElement(element, degrees) {
 function sort(table, col, type) {
     let order = "desc";
 
-    let col_header = table.find(`.row div:nth-child(${col})`);
+    let col_header = table.find(`:scope>.row div:nth-child(${col})`);
     if (col_header.find("i.fa-caret-up"))
         col_header.find("i.fa-caret-up").setClass("fas fa-caret-down");
     else if (col_header.find("i.fa-caret-down")) {
