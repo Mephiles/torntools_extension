@@ -1149,7 +1149,7 @@ function notifyUser(title, message){
     });
 }
 
-function setBadge(text){
+function setBadge(text, count=0){
     if(text == ""){
         chrome.browserAction.setBadgeText({text: ''});
     } else if(text == "error"){
@@ -1161,7 +1161,21 @@ function setBadge(text){
     } else if(text == "update_installed"){
         chrome.browserAction.setBadgeText({text: 'new'});
         chrome.browserAction.setBadgeBackgroundColor({color: "#0ad121"});
+    } else if(text == "new_message"){
+        chrome.browserAction.setBadgeText({text: count});
+        chrome.browserAction.setBadgeBackgroundColor({color: "#6E8820"});
+    } else if(text == "new_event"){
+        chrome.browserAction.setBadgeText({text: count});
+        chrome.browserAction.setBadgeBackgroundColor({color: "#626CE3"});
     }
+}
+
+function getBadgeText(){
+    return new Promise(function(resolve, reject){
+        chrome.browserAction.getBadgeText({}, function(text){
+            return resolve(text);
+        });
+    });
 }
 
 function page(){

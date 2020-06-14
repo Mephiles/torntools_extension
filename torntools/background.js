@@ -314,7 +314,7 @@ function Main(){
 						}
 	
 						if(loot_times[npc_id].levels.next <= alert_level && alert_loot_time - current_time <= parseFloat(loot_alerts[npc_id].time)*60){
-							if(time_until((alert_loot_time - current_time)*1000).indexOf("-") == -1){
+							if(time_until((alert_loot_time - current_time)*1000).indexOf("-") > -1){
 								return;
 							}
 
@@ -415,7 +415,7 @@ function Main_fast(){
 				console.log("---------selections", selections);
 
 				local_storage.get(["settings", "userdata"], function([settings, previous_userdata]){
-					get_api(`https://api.torn.com/user/?selections=${selections}`, api_key).then((userdata) => {
+					get_api(`https://api.torn.com/user/?selections=${selections}`, api_key).then(async (userdata) => {
 						if(userdata.ok != undefined && !userdata.ok){
 							return resolve(userdata);
 						}
@@ -427,38 +427,52 @@ function Main_fast(){
 						}
 	
 						// Check for new events
+						let event_count = 0;
 						for(let event_key of Object.keys(userdata.events).reverse()){
 							let event = userdata.events[event_key];
-
-							if(!settings.notifications.events){
-								break;
-							}
 	
 							if(event.seen == 0 && new Date().getTime() - event.timestamp*1000 < 15000){
-								notifyUser(
-									`TornTools - New Event`,
-									event.event.replace(/<\/?[^>]+(>|$)/g, "")
-								);
+								if(settings.notifications.events){
+									notifyUser(
+										`TornTools - New Event`,
+										event.event.replace(/<\/?[^>]+(>|$)/g, "")
+									);
+								}
+								event_count++;
 							} else {
 								break;
 							}
 						}
+						if(event_count > 0){
+							setBadge("new_event", event_count);
+						} else {
+							if(!isNaN(await getBadgeText())){
+								setBadge("");
+							}
+						}
 	
 						// Check for new messages
+						let message_count = 0;
 						for(let message_key of Object.keys(userdata.messages).reverse()){
 							let message = userdata.messages[message_key];
-	
-							if(!settings.notifications.messages){
-								break;
-							}
 
 							if(message.seen == 0 && new Date().getTime() - message.timestamp*1000 < 15000){
-								notifyUser(
-									`TornTools - New Message by ${message.name}`,
-									message.title
-								);
+								if(settings.notifications.messages){
+									notifyUser(
+										`TornTools - New Message by ${message.name}`,
+										message.title
+									);
+								}
+								message_count++;
 							} else {
 								break;
+							}
+						}
+						if(message_count > 0){
+							setBadge("new_message", message_count);
+						} else {
+							if(!isNaN(await getBadgeText())){
+								setBadge("");
 							}
 						}
 						
