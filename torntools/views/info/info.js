@@ -92,6 +92,13 @@ function updateInfo(){
             let current_stat = userdata[bar].current;
             let max_stat = bar == "chain" && current_stat != userdata[bar].maximum ? getNextBonus(current_stat) : userdata[bar].maximum;
 
+            if(bar == "chain" && current_stat == 0){
+                doc.find("#chain").style.display = "none";
+                continue;
+            } else {
+                doc.find("#chain").style.display = "block";
+            }
+
             if(current_stat > max_stat && ["happy"].includes(bar)){
                 let tick_times = [15, 30, 45, 60];
                 let current_minutes = new Date().getMinutes();
@@ -142,6 +149,23 @@ function updateInfo(){
                 doc.find(`#${bar} .full-in span`).innerText = time_left;
                 doc.find(`#${bar} .full-in span`).setAttribute("seconds-down", full_stat);
             }
+        }
+
+        // Update travel bar
+        if(userdata.travel.time_left != 0){
+            doc.find("#travel").style.display = "block";
+            let travel_time = (userdata.travel.timestamp - userdata.travel.departed)*1000;  // ms
+            let time_left = new Date(userdata.travel.timestamp*1000) - new Date(); // ms
+            let progress = parseInt((travel_time - time_left) / travel_time*100);
+            console.log(travel_time)
+            console.log(time_left)
+
+            doc.find("#travel .full-in span").innerText = time_until(time_left);
+            doc.find("#travel .full-in span").setAttribute("seconds-down", (time_left/1000).toFixed(0));
+            doc.find("#travel .progress div").style.width = `${progress}%`;
+
+        } else {
+            doc.find("#travel").style.display = "none";
         }
 
         // Update cooldowns
