@@ -5,7 +5,8 @@ export default {
             "Added Fill Max button to city shops & bazaars",
             "Added Player filters to Faction Info page, Jail page & Hospital page",
             "Added Country filter to Travel Destinations table & made legend collapsible",
-            "Added Badge notifications for Events & Messages"
+            "Added Badge notifications for Events & Messages",
+            "Added Chain cooldown timer to Info popup"
         ],
         "Fixes": [
             "Hopefully increased loading speeds for popups",
@@ -14,10 +15,12 @@ export default {
             "Fixed Museum set message disappearing because of Upgrade button hide script",
             "Fixed ERROR badge flashing for some users",
             "Fixed Energy Estimate script on Gym page for users who have company special (+30% experience gain)",
-            "Fixed Quick crimes"
+            "Fixed Quick crimes",
+            "Fixed People list broken overseas because of the Item profits script"
         ],
         "Changes": [
-            "Simplified links design in popups to reduce clutter"
+            "Simplified links design in popups to reduce clutter",
+            "Separated Trade Item values & Total value to two different options to permanently disable item values"
         ],
         "Thanks - RockyRoxanne [2282703]": [
             "Changed bar colors in Info popup",
@@ -25,7 +28,8 @@ export default {
             "Added Happy reset timer to Info popup",
             "Improved design of Preferences page (slightly increased white space around sections and made container bigger)",
             "Added Messages section to Info popup",
-            "Added links to Info popup messages & events"
+            "Added links to Info popup messages & events",
+            "Added Travel bar to Info popup"
         ]
     },
     "v4.2": {

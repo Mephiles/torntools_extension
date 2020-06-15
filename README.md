@@ -1,4 +1,4 @@
-# TornTools (v4.2)  
+# TornTools (v4.3)  
 ##### A browser extension for Torn.com
 &nbsp;  
 **Links**  
@@ -38,6 +38,9 @@
   - Estimated gym progress  
   - Hide upgrade button  
   - Hide icons
+  - Quick notes  
+  - Fill Max  
+  - Player list filters  
   
 **Quick Market**: check prices of items from the small extension window at top-right  
 **Achievements**: keep track of your Achievements at the left-side menu bar in Torn  
@@ -52,7 +55,7 @@
 **NPC Loot times**: Show when the next level of a NPC becomes available  
 **Chat Highlighting**: Setup different colors for usernames and highlight messages where You are mentioned  
 **Stock price notifications**: Set pricepoints for stocks to recieve alerts  
-**Custom Links**: Setup custom areas/links in the navigation panel  
+**Custom Links**: Setup custom areas/links in the Navigation panel  
 **Quick items & crimes**: Setup items and crimes to quickly access them  
 **Info popup**: Popup to show basic information like location, status, bars etc.  
 
@@ -69,6 +72,9 @@
 **Estimated gym progress**: Gives a rough estimate of how much Energy is needed to unlock next gym  
 **Hide upgrade button**: Hides the Upgrade button and message on Home page  
 **Hide icons**: Gives ability to hide any icon from the navbar  
+**Quick notes**: Show small notes window in the Navigation panel  
+**Fill Max**: Fill Max button for city shops & bazaars to fill items to maximum available quantity when buying  
+**Player list filters**: Filter players in Faction user list, Jail list & Hospital list  
 
 
 **API requests**:   
