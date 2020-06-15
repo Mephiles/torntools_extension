@@ -232,7 +232,6 @@ function onDragStart(event) {
         }
     
         let id = event.target.parentElement.getAttribute("data-item");
-        event.dataTransfer.setData("text/plain", id);
     
         let div = doc.new({type: "div", class: "temp item", attributes: {"item-id": id}});
         let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(/images/items/${id}/medium.png)`}});
