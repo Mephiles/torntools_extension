@@ -1,7 +1,6 @@
 console.log("Loading Global Script");
 
 navbarLoaded().then(function(){
-
     // Firefox opens new tab when dropping item
     doc.body.ondrop = function(event){
         event.preventDefault();

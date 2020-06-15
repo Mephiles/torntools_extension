@@ -1,5 +1,5 @@
 /* ABROAD */
-.tt-travel-market-heading {
+.travel-agency-market .tt-travel-market-heading {
     width: 60px;
     float: left;
     padding-right: 10px;
@@ -8,11 +8,11 @@
     padding-left: 0 !important;
 }
 
-li.first .tt-travel-market-cell {
+.travel-agency-market li.first .tt-travel-market-cell {
     border-top: 1px solid transparent;
 }
 
-.tt-travel-market-cell {
+.travel-agency-market .tt-travel-market-cell {
     width: 60px;
     /* text-align: right; */
     line-height: 34px;
@@ -24,15 +24,15 @@ li.first .tt-travel-market-cell {
     vertical-align: middle;
 }
 
-.stock-b, .travel-agency-market li .stock {
+.travel-agency-market .stock-b, .travel-agency-market li .stock {
     width: 50px !important;
 }
 
-.name-b, .travel-agency-market li .name {
+.travel-agency-market .name-b, .travel-agency-market li .name {
     width: 269px !important;
 }
 
-.circulation-b, .travel-agency-market li .circulation {
+.travel-agency-market .circulation-b, .travel-agency-market li .circulation {
     width: 85px !important;
 }
 
