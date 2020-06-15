@@ -143,7 +143,7 @@ function quickCrimesMain(quick){
     let inner_content = doc.new({type: "div", class: "inner-content"});
     quick_container.appendChild(inner_content);
 
-    if(quick.items.length > 0){
+    if(quick.crimes.length > 0){
         for(let crime of quick.crimes){
             let div = doc.new({type: "div", class: "item", attributes: {"nerve": crime.nerve, "name": crime.name, "action": crime.action}});
             let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(${crime.icon})`}});
