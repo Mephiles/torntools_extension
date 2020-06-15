@@ -147,7 +147,7 @@ function quickCrimesMain(quick){
         for(let crime of quick.crimes){
             let div = doc.new({type: "div", class: "item", attributes: {"nerve": crime.nerve, "name": crime.name, "action": crime.action}});
             let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(${crime.icon})`}});
-            let text = doc.new({type: "div", class: "text", text: crime.text});
+            let text = doc.new({type: "div", class: "text", text: `${crime.text} (-${crime.nerve} nerve)`});
             let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
 
             div.appendChild(pic);
