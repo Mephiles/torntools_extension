@@ -163,6 +163,7 @@ const STORAGE = {
         "force_tt": false,
         "hide_upgrade": false,
         "align_left": false,
+        "notes": true,
         "notifications": {
             "events": true,
             "messages": true,

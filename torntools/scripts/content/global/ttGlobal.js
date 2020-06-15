@@ -18,7 +18,9 @@ navbarLoaded().then(function(){
     }
 
     // Notes
-    addNotesBox();
+    if(settings.notes){
+        addNotesBox();
+    }
 
     // Remove icons that are hidden
     for(let icon of doc.findAll(`#sidebarroot .status-icons___1SnOI>li`)){

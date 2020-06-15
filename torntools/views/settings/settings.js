@@ -213,6 +213,7 @@ function setupPreferences(){
     preferences.find(`#theme-${settings.theme} input`).checked = true;
     preferences.find("#hide-upgrade input").checked = settings.hide_upgrade;
     preferences.find("#align-left input").checked = settings.align_left;
+    preferences.find("#notes input").checked = settings.notes;
 
     // Tabs
     for(let tab in settings.tabs){
@@ -376,6 +377,7 @@ function savePreferences(preferences, settings, target_list_enabled){
     settings.theme = preferences.find("input[name=theme]:checked").parentElement.id.split("-")[1];
     settings.hide_upgrade = preferences.find("#hide-upgrade input").checked;
     settings.align_left = preferences.find("#align-left input").checked;
+    settings.notes = preferences.find("#notes input").checked;
 
     // Tabs
     for(let tab in settings.tabs){
