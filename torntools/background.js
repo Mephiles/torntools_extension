@@ -412,7 +412,7 @@ function Main_fast(){
 		await (function(){
 			return new Promise(function(resolve, reject){
 				let selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,education${attack_history? `,${attack_history}`:''}`;
-				console.log("---------selections", selections);
+				// console.log("---------selections", selections);
 
 				local_storage.get(["settings", "userdata"], function([settings, previous_userdata]){
 					get_api(`https://api.torn.com/user/?selections=${selections}`, api_key).then(async (userdata) => {
@@ -431,8 +431,8 @@ function Main_fast(){
 						for(let event_key of Object.keys(userdata.events).reverse()){
 							let event = userdata.events[event_key];
 	
-							if(event.seen == 0 && new Date().getTime() - event.timestamp*1000 < 15000){
-								if(settings.notifications.events){
+							if(event.seen == 0){
+								if(settings.notifications.events && new Date().getTime() - event.timestamp*1000 < 16000){
 									notifyUser(
 										`TornTools - New Event`,
 										event.event.replace(/<\/?[^>]+(>|$)/g, "")
@@ -456,8 +456,8 @@ function Main_fast(){
 						for(let message_key of Object.keys(userdata.messages).reverse()){
 							let message = userdata.messages[message_key];
 
-							if(message.seen == 0 && new Date().getTime() - message.timestamp*1000 < 15000){
-								if(settings.notifications.messages){
+							if(message.seen == 0){
+								if(settings.notifications.messages && new Date().getTime() - message.timestamp*1000 < 16000){
 									notifyUser(
 										`TornTools - New Message by ${message.name}`,
 										message.title

@@ -802,7 +802,9 @@ function get_api(http, api_key) {
                     });
                 }
             } else {
-                setBadge("");
+                if(isNaN(await getBadgeText())){
+                    setBadge("");
+                }
                 local_storage.change({"api": { "online": true, "error": "" }}, function(){
                     return resolve(result);
                 });
@@ -1162,11 +1164,11 @@ function setBadge(text, count=0){
         chrome.browserAction.setBadgeText({text: 'new'});
         chrome.browserAction.setBadgeBackgroundColor({color: "#0ad121"});
     } else if(text == "new_message"){
-        chrome.browserAction.setBadgeText({text: count});
-        chrome.browserAction.setBadgeBackgroundColor({color: "#6E8820"});
+        chrome.browserAction.setBadgeText({text: count.toString()});
+        chrome.browserAction.setBadgeBackgroundColor({color: "#84af03"});
     } else if(text == "new_event"){
-        chrome.browserAction.setBadgeText({text: count});
-        chrome.browserAction.setBadgeBackgroundColor({color: "#626CE3"});
+        chrome.browserAction.setBadgeText({text: count.toString()});
+        chrome.browserAction.setBadgeBackgroundColor({color: "#009eda"});
     }
 }
 
