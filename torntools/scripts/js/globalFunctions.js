@@ -1172,7 +1172,8 @@ function setBadge(text, attr={}){
         chrome.browserAction.setBadgeText({text: attr.count.toString()});
         chrome.browserAction.setBadgeBackgroundColor({color: "#009eda"});
     } else {
-
+        chrome.browserAction.setBadgeText({text: text});
+        chrome.browserAction.setBadgeBackgroundColor({color: attr.color});
     }
 }
 

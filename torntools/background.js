@@ -464,11 +464,11 @@ function Main_fast(){
 
 						// Messages & Events badge
 						if(event_count > 0 && message_count > 0){
-							setBadge(`${message_count}/${event_count}`, {color: "orange"});
+							setBadge(`${message_count}/${event_count}`, {color: "#1ed2ac"});
 						} else if(event_count > 0){
-							setBadge("new_event", event_count);
+							setBadge("new_event", {count: event_count});
 						} else if(message_count > 0){
-							setBadge("new_message", message_count);
+							setBadge("new_message", {count: message_count});
 						} else if(!isNaN(await getBadgeText())){
 							setBadge("");
 						}
