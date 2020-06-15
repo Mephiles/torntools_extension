@@ -5,14 +5,11 @@ let checker = setInterval(function(){
 	if(tradeView() && looking){
 		looking = false
 		setTimeout(function(){
-
-			if(!settings.pages.trade.calculator){
-				return;
-			}
 			Main();
 		}, 1000);
-	} else if(!tradeView())
+	} else if(!tradeView()){
 		looking = true;
+	}
 }, 500);
 
 function Main(){
@@ -68,16 +65,17 @@ function Main(){
 					console.log(name, item_value)
 					total_value += item_value*quantity;
 
-					let span = doc.new("span");
-						span.setClass("tt-side-item-value");
-						span.innerText = `$${numberWithCommas((item_value * quantity), shorten=false)}`;
-					li.appendChild(span);
+					// Show item value if enabled
+					if(settings.pages.trade.item_values){
+						let span = doc.new({type: "span", class: "tt-side-item-value", text: `$${numberWithCommas((item_value * quantity), shorten=false)}`});
+						li.appendChild(span);
+					}
 				}
 			}
 
 		}
 
-		if(!total_value == 0){
+		if(total_value != 0 && settings.pages.trade.total_value){
 			let div = doc.new("div");
 				div.setClass("tt-side-value");
 				div.innerText = `Items value: `;
@@ -88,47 +86,49 @@ function Main(){
 			side.parentElement.parentElement.parentElement.appendChild(div);
 		}
 
-		// Add option to hide item values
-		let wrap_1 = doc.new({type: "div", class: "item-value-option-wrap"});
-		let checkbox_1 = doc.new({type: "input", attributes: {type: "checkbox"}});
-		let text_1 = doc.new({type: "span", text: "Hide item values"});
+		if(settings.pages.trade.item_values){
+			// Add option to hide item values
+			let wrap_1 = doc.new({type: "div", class: "item-value-option-wrap"});
+			let checkbox_1 = doc.new({type: "input", attributes: {type: "checkbox"}});
+			let text_1 = doc.new({type: "span", text: "Hide item values"});
+		
+			wrap_1.appendChild(text_1);
+			wrap_1.appendChild(checkbox_1);
 	
-		wrap_1.appendChild(text_1);
-		wrap_1.appendChild(checkbox_1);
-
-		let wrap_2 = doc.new({type: "div", class: "item-value-option-wrap"});
-		let checkbox_2 = doc.new({type: "input", attributes: {type: "checkbox"}});
-		let text_2 = doc.new({type: "span", text: "Hide item values"});
+			let wrap_2 = doc.new({type: "div", class: "item-value-option-wrap"});
+			let checkbox_2 = doc.new({type: "input", attributes: {type: "checkbox"}});
+			let text_2 = doc.new({type: "span", text: "Hide item values"});
+		
+			wrap_2.appendChild(text_2);
+			wrap_2.appendChild(checkbox_2);
 	
-		wrap_2.appendChild(text_2);
-		wrap_2.appendChild(checkbox_2);
-
-		doc.find(".trade-cont .user.left .title-black").appendChild(wrap_1);
-		doc.find(".trade-cont .user.right .title-black").appendChild(wrap_2);
-
-		checkbox_1.addEventListener("click", function(){
-			if(checkbox_1.checked){
-				for(let item of doc.findAll(".user.left .tt-side-item-value")){
-					item.style.display = "none";
+			doc.find(".trade-cont .user.left .title-black").appendChild(wrap_1);
+			doc.find(".trade-cont .user.right .title-black").appendChild(wrap_2);
+	
+			checkbox_1.addEventListener("click", function(){
+				if(checkbox_1.checked){
+					for(let item of doc.findAll(".user.left .tt-side-item-value")){
+						item.style.display = "none";
+					}
+				} else {
+					for(let item of doc.findAll(".user.left .tt-side-item-value")){
+						item.style.display = "block";
+					}
 				}
-			} else {
-				for(let item of doc.findAll(".user.left .tt-side-item-value")){
-					item.style.display = "block";
+			});
+	
+			checkbox_2.addEventListener("click", function(){
+				if(checkbox_2.checked){
+					for(let item of doc.findAll(".user.right .tt-side-item-value")){
+						item.style.display = "none";
+					}
+				} else {
+					for(let item of doc.findAll(".user.right .tt-side-item-value")){
+						item.style.display = "block";
+					}
 				}
-			}
-		});
-
-		checkbox_2.addEventListener("click", function(){
-			if(checkbox_2.checked){
-				for(let item of doc.findAll(".user.right .tt-side-item-value")){
-					item.style.display = "none";
-				}
-			} else {
-				for(let item of doc.findAll(".user.right .tt-side-item-value")){
-					item.style.display = "block";
-				}
-			}
-		});
+			});
+		}
 	}
 }
 

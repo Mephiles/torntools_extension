@@ -192,7 +192,8 @@ const STORAGE = {
         },
         "pages": {
             "trade": {
-                "calculator": true
+                "item_values": true,
+                "total_value": true,
             },
             "home": {
                 "battle_stats": true,
