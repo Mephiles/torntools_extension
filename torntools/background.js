@@ -426,31 +426,6 @@ function Main_fast(){
 							updateTargetList(attacks_data, userdata.player_id, target_list, (attack_history == "attacksfull" ? true : false));
 						}
 	
-						// Check for new events
-						let event_count = 0;
-						for(let event_key of Object.keys(userdata.events).reverse()){
-							let event = userdata.events[event_key];
-	
-							if(event.seen == 0){
-								if(settings.notifications.events && new Date().getTime() - event.timestamp*1000 < 16000){
-									notifyUser(
-										`TornTools - New Event`,
-										event.event.replace(/<\/?[^>]+(>|$)/g, "")
-									);
-								}
-								event_count++;
-							} else {
-								break;
-							}
-						}
-						if(event_count > 0){
-							setBadge("new_event", event_count);
-						} else {
-							if(!isNaN(await getBadgeText())){
-								setBadge("");
-							}
-						}
-	
 						// Check for new messages
 						let message_count = 0;
 						for(let message_key of Object.keys(userdata.messages).reverse()){
@@ -468,12 +443,34 @@ function Main_fast(){
 								break;
 							}
 						}
-						if(message_count > 0){
-							setBadge("new_message", message_count);
-						} else {
-							if(!isNaN(await getBadgeText())){
-								setBadge("");
+						
+						// Check for new events
+						let event_count = 0;
+						for(let event_key of Object.keys(userdata.events).reverse()){
+							let event = userdata.events[event_key];
+	
+							if(event.seen == 0){
+								if(settings.notifications.events && new Date().getTime() - event.timestamp*1000 < 16000){
+									notifyUser(
+										`TornTools - New Event`,
+										event.event.replace(/<\/?[^>]+(>|$)/g, "")
+									);
+								}
+								event_count++;
+							} else {
+								break;
 							}
+						}
+
+						// Messages & Events badge
+						if(event_count > 0 && message_count > 0){
+							setBadge(`${message_count}/${event_count}`, {color: "orange"});
+						} else if(event_count > 0){
+							setBadge("new_event", event_count);
+						} else if(message_count > 0){
+							setBadge("new_message", message_count);
+						} else if(!isNaN(await getBadgeText())){
+							setBadge("");
 						}
 						
 						// Check for Status change

@@ -1153,7 +1153,7 @@ function notifyUser(title, message){
     });
 }
 
-function setBadge(text, count=0){
+function setBadge(text, attr={}){
     if(text == ""){
         chrome.browserAction.setBadgeText({text: ''});
     } else if(text == "error"){
@@ -1166,11 +1166,13 @@ function setBadge(text, count=0){
         chrome.browserAction.setBadgeText({text: 'new'});
         chrome.browserAction.setBadgeBackgroundColor({color: "#0ad121"});
     } else if(text == "new_message"){
-        chrome.browserAction.setBadgeText({text: count.toString()});
+        chrome.browserAction.setBadgeText({text: attr.count.toString()});
         chrome.browserAction.setBadgeBackgroundColor({color: "#84af03"});
     } else if(text == "new_event"){
-        chrome.browserAction.setBadgeText({text: count.toString()});
+        chrome.browserAction.setBadgeText({text: attr.count.toString()});
         chrome.browserAction.setBadgeBackgroundColor({color: "#009eda"});
+    } else {
+
     }
 }
 
