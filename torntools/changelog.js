@@ -16,11 +16,13 @@ export default {
             "Fixed ERROR badge flashing for some users",
             "Fixed Energy Estimate script on Gym page for users who have company special (+30% experience gain)",
             "Fixed Quick crimes",
-            "Fixed People list broken overseas because of the Item profits script"
+            "Fixed People list breaking overseas because of the Item profits script",
+            "Fixed Quick items not dragging well"
         ],
         "Changes": [
             "Simplified links design in popups to reduce clutter",
-            "Separated Trade Item values & Total value to two different options to permanently disable item values"
+            "Separated Trade Item values & Total value to two different options to permanently disable item values",
+            "Removed 'Location:' text from Info popup"
         ],
         "Thanks - RockyRoxanne [2282703]": [
             "Changed bar colors in Info popup",
