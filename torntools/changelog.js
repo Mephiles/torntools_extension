@@ -1,4 +1,10 @@
 export default {
+    "v4.3.1": {
+        "Fixes": [
+            "Fixed Quick Crimes not appearing if user had 0 Quick Items",
+            "Fixed Quick Items drag not working on Firefox"
+        ]
+    },
     "v4.3": {
         "Features": [
             "Added Notes section to Navigation bar",
