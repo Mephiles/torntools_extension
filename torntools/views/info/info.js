@@ -109,8 +109,6 @@ function updateInfo(){
                         let ms_left = next_tick_date - new Date();
                         let resets_in = time_until(ms_left);
 
-                        console.log(next_tick_date)
-                        console.log(resets_in)
                         doc.find(`#${bar} .resets-in`).style.display = "block";
                         doc.find(`#${bar} .resets-in span`).innerText = resets_in;
                         doc.find(`#${bar} .resets-in span`).setAttribute("seconds-down", parseInt(ms_left/1000));
@@ -166,6 +164,22 @@ function updateInfo(){
 
         } else {
             doc.find("#travel").style.display = "none";
+        }
+
+        // Update chain timer
+        console.log("Chaim timeout: ", userdata.chain.timeout);
+        if(userdata.chain.timeout > 0){
+            doc.find("#chain").style.display = "block";
+
+            let time_diff = new Date() - new Date(userdata.date);
+            let real_timeout = userdata.chain.timeout*1000 - time_diff;
+
+            if(real_timeout > 0){
+                doc.find("#chain .resets-in span").innerText = time_until(real_timeout);
+                doc.find("#chain .resets-in span").setAttribute("seconds-down", (real_timeout/1000).toFixed(0));
+            }
+        } else {
+            doc.find("#chain").style.display = "none";
         }
 
         // Update cooldowns
