@@ -78,7 +78,7 @@ function Main(){
 		if(total_value != 0 && settings.pages.trade.total_value){
 			let div = doc.new("div");
 				div.setClass("tt-side-value");
-				div.innerText = `Items value: `;
+				div.innerText = `Total value: `;
 			let span = doc.new("span");
 				span.innerText = `$${numberWithCommas(total_value, shorten=false)}`;
 
