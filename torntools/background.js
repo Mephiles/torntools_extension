@@ -88,39 +88,43 @@ setup_storage.then(async function(success){
 	
 	// Check for personalized scripts
 	console.log("Setting up personalized scripts.");
-	await (function(){
-		return new Promise(function(resolve, reject){
-			local_storage.get("userdata", function(userdata){
-				if(!userdata)
-					return resolve(userdata);
-
-				let personalized_scripts = {}
-			
-				if(personalized.master == userdata.player_id){
-					for(let type in personalized){
-						if(type == "master"){
-							continue;
-						}
-			
-						for(let id in personalized[type]){
-							for(let script of personalized[type][id]){
-								personalized_scripts[script] = true;
+	if(Object.keys(personalized).length != 0){
+		await (function(){
+			return new Promise(function(resolve, reject){
+				local_storage.get("userdata", function(userdata){
+					if(!userdata)
+						return resolve(userdata);
+	
+					let personalized_scripts = {}
+				
+					if(personalized.master == userdata.player_id){
+						for(let type in personalized){
+							if(type == "master"){
+								continue;
+							}
+				
+							for(let id in personalized[type]){
+								for(let script of personalized[type][id]){
+									personalized_scripts[script] = true;
+								}
 							}
 						}
+					} else if(personalized.users[userdata.player_id]){
+						for(let script of personalized.users[userdata.player_id]){
+							personalized_scripts[script] = true;
+						}
 					}
-				} else if(personalized.users[userdata.player_id]){
-					for(let script of personalized.users[userdata.player_id]){
-						personalized_scripts[script] = true;
-					}
-				}
-			
-				local_storage.set({"personalized": personalized_scripts}, function(){
-					console.log("	Personalized scripts set.");
-					return resolve(true);
+				
+					local_storage.set({"personalized": personalized_scripts}, function(){
+						console.log("	Personalized scripts set.");
+						return resolve(true);
+					});
 				});
 			});
-		});
-	})();
+		})();
+	} else {
+		console.log("	Empty file.");
+	}
 
 	// Second - run every 1 min
 	console.log("Setting up intervals.");
