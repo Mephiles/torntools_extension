@@ -36,7 +36,7 @@ let setup_storage = new Promise(function(resolve, reject){
 				}
 
 				// Key has new type
-				if(typeof STORAGE[key] != undefined && typeof STORAGE[key] != typeof old_storage[key]){
+				if(typeof STORAGE[key] != "undefined" && typeof STORAGE[key] != typeof old_storage[key]){
 					new_local_storage[key] = STORAGE[key];
 					continue;
 				} 
@@ -527,9 +527,12 @@ function Main_fast(){
 
 						// Check for bars
 						for(let bar of ["energy", "happy", "nerve", "life"]){
-							if(previous_userdata[bar] && settings.notifications[bar]){
-								if(userdata[bar].current >= userdata[bar].maximum && previous_userdata[bar].current < userdata[bar].current){
-									notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`);
+							if(previous_userdata[bar] && settings.notifications[bar].length > 0){
+								for(let checkpoint of settings.notifications[bar].sort(function(a,b){return b-a})){
+									if(previous_userdata[bar].current < userdata[bar].current && (userdata[bar].current/userdata[bar].maximum)*100 >= checkpoint){
+										notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum} (${checkpoint}%)`);
+										break;
+									}
 								}
 							}
 						}

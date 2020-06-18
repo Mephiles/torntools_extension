@@ -171,10 +171,10 @@ const STORAGE = {
             "traveling": true,
             "cooldowns": true,
             "education": true,
-            "energy": true,
-            "nerve": true,
-            "happy": true,
-            "life": true
+            "energy": [100],
+            "nerve": [100],
+            "happy": [100],
+            "life": [100]
         },
         "format": {
             "date": "eu",

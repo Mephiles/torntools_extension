@@ -311,6 +311,13 @@ p {
     transform:rotate(-30deg);
 }
 
+.notifications.section .option input[type=text] {
+    width: 70px;
+    height: 10px;
+    outline: none;
+    font-size: 12px;
+}
+
 /* About */
 #about #new-version p {
     text-decoration: underline;

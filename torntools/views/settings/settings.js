@@ -340,7 +340,17 @@ function setupPreferences(){
 
     // Notifications
     for(let notification in settings.notifications){
-        preferences.find(`#notifications-${notification} input`).checked = settings.notifications[notification];
+        
+        if(Array.isArray(settings.notifications[notification])){
+            let text = settings.notifications[notification].join(",");
+            preferences.find(`#notifications-${notification} input[type='text']`).value = text;
+
+            if(text != ""){
+                preferences.find(`#notifications-${notification} input[type='checkbox']`).checked = settings.notifications[notification];
+            }
+        } else {
+            preferences.find(`#notifications-${notification} input[type='checkbox']`).checked = settings.notifications[notification];
+        }
     }
 
     // Doctorn
@@ -445,8 +455,27 @@ function savePreferences(preferences, settings, target_list_enabled, ext){
 
     // Notifications
     for(let notification in settings.notifications){
-        settings.notifications[notification] = preferences.find(`#notifications-${notification} input`).checked;
+        if(preferences.find(`#notifications-${notification} input[type='text']`)){
+            if(!preferences.find(`#notifications-${notification} input[type='checkbox']`).checked){
+                settings.notifications[notification] = [];
+            } else {
+                let values = preferences.find(`#notifications-${notification} input[type='text']`).value.split(",").map(x=>parseInt(x.trim()));
+                settings.notifications[notification] = values;
+            }
+        } else {
+            settings.notifications[notification] = preferences.find(`#notifications-${notification} input[type='checkbox']`).checked;
+        }
     }
+
+    // // Notifications
+    // for(let notification in settings.notifications){
+    //     preferences.find(`#notifications-${notification} input[type='checkbox']`).checked = settings.notifications[notification];
+        
+    //     if(Array.isArray(settings.notifications[notification])){
+    //         let text = settings.notifications[notification].join(",");
+    //         preferences.find(`#notifications-${notification} input[type='text']`).value = text;
+    //     }
+    // }
 
     // Doctorn
     let extensions = {}
