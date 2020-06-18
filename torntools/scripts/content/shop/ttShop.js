@@ -38,7 +38,13 @@ shopLoaded().then(function(){
         max_span.addEventListener("click", function(event){
             event.stopPropagation();
 
-            let max = buy_btn.parentElement.parentElement.find(".instock").innerText;
+            let max = parseInt(buy_btn.parentElement.parentElement.find(".instock").innerText.replace(/,/g, ""));
+            let price = parseInt(buy_btn.parentElement.parentElement.find(".price").innerText.replace(/,/g, "").replace("$",""));
+            let user_money = doc.find("#user-money").innerText.replace(/,/g, "").replace("$","");
+            
+            max = max > 100 ? 100:max;
+            max = Math.floor(user_money/price) < max ? Math.floor(user_money/price) : max;
+            
             buy_btn.parentElement.find("input").value = max;
         });
     }
