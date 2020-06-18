@@ -1,10 +1,18 @@
 $(document).ready(function(){
+    if((extensions.doctorn == true || extensions.doctorn == "force_true") && !settings.force_tt){
+        return;
+    }
+
     let script_tag = doc.new({type: "script", attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/crimes/ttCrimeInject.js")}});
     doc.find("head").appendChild(script_tag);
 })
 
 messageBoxLoaded().then(function(){
     console.log("TT - Quick crimes");
+    
+    if((extensions.doctorn == true || extensions.doctorn == "force_true") && !settings.force_tt){
+        return;
+    }
 
     // Quick crimes
     quickCrimesMain(quick);
@@ -13,7 +21,6 @@ messageBoxLoaded().then(function(){
         markCrimes();
     });
     
-
     let in_progress = false;
     let content_wrapper = doc.find(".content-wrapper");
     let content_observer = new MutationObserver(function(mutationList, observer){
@@ -38,7 +45,6 @@ messageBoxLoaded().then(function(){
 
     // quick crimes listener
     doc.addEventListener("click", function(event){
-        console.log(event.target);
 
          // Close button
          if(event.target.classList.contains("tt-close-icon")){
@@ -53,7 +59,7 @@ messageBoxLoaded().then(function(){
                 "nerve": x.getAttribute("nerve"), 
                 "name": x.getAttribute("name"), 
                 "icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0], 
-                "text": x.find(".text").innerText
+                "text": x.find(".text").innerText.split(" (")[0]
             }));
             local_storage.change({"quick": {"crimes": crimes}});
             return;
@@ -117,7 +123,7 @@ function markCrimes(){
     let form_action = doc.find(".content-wrapper form[name=crimes]").getAttribute("action");
     if(!isNaN(parseInt(form_action[form_action.length-1])) && parseInt(form_action[form_action.length-1]) != 3){
         console.log("marking");
-        for(let crime of doc.findAll("form[name=crimes]>ul>li")){
+        for(let crime of doc.findAll(".specials-cont-wrap form[name=crimes]>ul>li")){
             crime = crime.find(".item");
 
             crime.setAttribute("draggable", "true");
@@ -167,20 +173,20 @@ function onDragStart(event) {
             return;
         }
     
-        let action = doc.find("form[name=crimes]").getAttribute("action");
+        let action = doc.find(".specials-cont-wrap form[name=crimes]").getAttribute("action");
         action = action[0] == "/" ? action.substr(1) : action;
         if(action.indexOf("?") == -1){
             action+="?";
         }
     
-        let crime_nerve = doc.find("input[name=nervetake]").value;
-        let crime_name = event.target.find(".radio.right input").getAttribute("value");
-        let crime_icon = event.target.find(".title.left img").getAttribute("src");
-        let crime_text = event.target.find(".bonus.left").innerText.trim();
+        let crime_nerve = doc.find(".specials-cont-wrap input[name=nervetake]").value;
+        let crime_name = event.target.find(".specials-cont-wrap .radio.right input").getAttribute("value");
+        let crime_icon = event.target.find(".specials-cont-wrap .title.left img").getAttribute("src");
+        let crime_text = event.target.find(".specials-cont-wrap .bonus.left").innerText.trim();
     
         let div = doc.new({type: "div", class: "temp item", attributes: {"nerve": crime_nerve, "name": crime_name, "action": action}});
         let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(${crime_icon})`}});
-        let text = doc.new({type: "div", class: "text", text: crime_text});
+        let text = doc.new({type: "div", class: "text", text: `${crime_text} (-${crime_nerve} nerve)`});
         let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
     
         div.appendChild(pic);
@@ -202,7 +208,7 @@ function onDragEnd(event){
         "nerve": x.getAttribute("nerve"), 
         "name": x.getAttribute("name"), 
         "icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0], 
-        "text": x.find(".text").innerText
+        "text": x.find(".text").innerText.split(" (")[0]
     }));
     local_storage.change({"quick": {"crimes": crimes}});
 }

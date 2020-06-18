@@ -1,6 +1,10 @@
 contentLoaded().then(function(){
     console.log("TT - Quick items");
 
+    if((extensions.doctorn == true || extensions.doctorn == "force_true") && !settings.force_tt){
+        return;
+    }
+
     // Quick items
     let quick_container = content.new_container("Quick items", {id: "ttQuick", dragzone: true, collapsed: false, next_element: doc.find(".equipped-items-wrap")}).find(".content");
     let inner_content = doc.new({type: "div", class: "inner-content"});
@@ -70,12 +74,15 @@ itemsLoaded().then(function(){
         displayItemPrices(itemlist.items);
     }
 
-    // Quick items
-    for(let item of doc.findAll(".items-cont[aria-expanded=true]>li .title-wrap")){
-        item.setAttribute("draggable", "true");
-        item.addEventListener("dragstart", onDragStart);
-        item.addEventListener("dragend", onDragEnd);
+    if(extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt){
+        // Quick items
+        for(let item of doc.findAll(".items-cont[aria-expanded=true]>li .title-wrap")){
+            item.setAttribute("draggable", "true");
+            item.addEventListener("dragstart", onDragStart);
+            item.addEventListener("dragend", onDragEnd);
+        }
     }
+
 
     // Change item type page
     let sorting_icons = doc.findAll("ul[role=tablist] li:not(.no-items):not(.m-show):not(.hide)");
@@ -87,11 +94,13 @@ itemsLoaded().then(function(){
                     displayItemPrices(itemlist.items);
                 }
 
-                // Quick items
-                for(let item of doc.findAll(".items-cont[aria-expanded=true]>li .title-wrap")){
-                    item.setAttribute("draggable", "true");
-                    item.addEventListener("dragstart", onDragStart);
-                    item.addEventListener("dragend", onDragEnd);
+                if(extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt){
+                    // Quick items
+                    for(let item of doc.findAll(".items-cont[aria-expanded=true]>li .title-wrap")){
+                        item.setAttribute("draggable", "true");
+                        item.addEventListener("dragstart", onDragStart);
+                        item.addEventListener("dragend", onDragEnd);
+                    }
                 }
             });
         });
