@@ -24,7 +24,7 @@ body {
     border: 0.5px solid lightgrey;
 }
 
-.header {
+/* .header {
     width: 175px;
     border-top: 2px solid lightgray;
     border-bottom: 1px solid lightgray;
@@ -46,7 +46,7 @@ body {
     border-top: unset;
     margin-bottom: unset;
     margin-bottom: 18px;
-}
+} */
 .page-tab {
     background: none;
     border: none;
