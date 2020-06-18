@@ -1,3 +1,4 @@
+var previous_chain_timer;
 window.addEventListener("load", function(){
     console.log("Start Info popup");
 
@@ -116,10 +117,6 @@ function updateInfo(){
                         break;
                     }
                 }
-            } else {
-                if(doc.find(`#${bar} .resets-in`)){
-                    doc.find(`#${bar} .resets-in`).style.display = "none";
-                }
             }
             
             let full_stat = userdata[bar].fulltime - time_diff;
@@ -167,16 +164,18 @@ function updateInfo(){
         }
 
         // Update chain timer
-        console.log("Chaim timeout: ", userdata.chain.timeout);
+        console.log("Chain timeout: ", userdata.chain.timeout);
         if(userdata.chain.timeout > 0){
-            doc.find("#chain").style.display = "block";
-
-            let time_diff = new Date() - new Date(userdata.date);
-            let real_timeout = userdata.chain.timeout*1000 - time_diff;
-
-            if(real_timeout > 0){
-                doc.find("#chain .resets-in span").innerText = time_until(real_timeout);
-                doc.find("#chain .resets-in span").setAttribute("seconds-down", (real_timeout/1000).toFixed(0));
+            if(!previous_chain_timer || previous_chain_timer != userdata.chain.timeout){
+                doc.find("#chain").style.display = "block";
+    
+                let time_diff = new Date() - new Date(userdata.date);
+                let real_timeout = userdata.chain.timeout*1000 - time_diff;
+    
+                if(real_timeout > 0){
+                    doc.find("#chain .resets-in span").innerText = time_until(real_timeout);
+                    doc.find("#chain .resets-in span").setAttribute("seconds-down", (real_timeout/1000).toFixed(0));
+                }
             }
         } else {
             doc.find("#chain").style.display = "none";
@@ -197,16 +196,16 @@ function updateInfo(){
 
         // Update footer info
         let event_count = 0;
-        for(let event_id in userdata.events){
-            if(userdata.events[event_id].seen == 0){
+        for(let event_key of Object.keys(userdata.events).reverse()){
+            if(userdata.events[event_key].seen == 0){
                 event_count++;
             } else {
                 break;
             }
         }
         let message_count = 0;
-        for(let message_id in userdata.messages){
-            if(userdata.messages[message_id].seen == 0){
+        for(let message_key of Object.keys(userdata.messages).reverse()){
+            if(userdata.messages[message_key].seen == 0){
                 message_count++;
             } else {
                 break;
