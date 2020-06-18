@@ -29,10 +29,17 @@ let setup_storage = new Promise(function(resolve, reject){
 			let new_local_storage = {};
 	
 			for(let key in STORAGE){
+				// Key not in old storage
 				if(!(key in old_storage)){
 					new_local_storage[key] = STORAGE[key];
 					continue;
 				}
+
+				// Key has new type
+				if(typeof STORAGE[key] != undefined && typeof STORAGE[key] != typeof old_storage[key]){
+					new_local_storage[key] = STORAGE[key];
+					continue;
+				} 
 				
 				if(typeof STORAGE[key] == "object" && !Array.isArray(STORAGE[key])){
 					if(Object.keys(STORAGE[key]).length == 0)
