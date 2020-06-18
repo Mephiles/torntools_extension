@@ -1138,7 +1138,7 @@ function findParent(element, attributes={}){
             return element.parentElement;
         }
 
-        return hasParent(element.parentElement, attributes);
+        return findParent(element.parentElement, attributes);
     }
 }
 
