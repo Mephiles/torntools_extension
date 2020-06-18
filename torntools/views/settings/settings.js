@@ -359,7 +359,7 @@ function setupPreferences(){
 
     // Buttons
     preferences.find("#save_settings").addEventListener("click", function(){
-        savePreferences(preferences, settings, target_list.show);
+        savePreferences(preferences, settings, target_list.show, extensions);
     });
 
     preferences.find("#reset_settings").addEventListener("click", function(){
@@ -368,7 +368,7 @@ function setupPreferences(){
     });
 }
 
-function savePreferences(preferences, settings, target_list_enabled){
+function savePreferences(preferences, settings, target_list_enabled, ext){
     // General
     settings.update_notification = preferences.find("#update_notification input").checked;
     settings.force_tt = preferences.find("#force_tt input").checked;
@@ -458,7 +458,7 @@ function savePreferences(preferences, settings, target_list_enabled){
             extensions.doctorn = "force_true";
             break;
         case "auto":
-            extensions.doctorn = false;
+            extensions.doctorn = ext.doctorn || false;
             break;
     }
 
