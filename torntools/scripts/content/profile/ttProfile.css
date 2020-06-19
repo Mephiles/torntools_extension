@@ -4,10 +4,103 @@
     color: black;
 }
 
+/* Profile stats */
+.fetch-button {
+    border: 1px solid lightgray;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 7px;
+    border-radius: 5px;
+    background-color: lightgray;
+    cursor: pointer;
+}
+.fetch-button:hover {
+    background-color: #bfbfbf;
+}
+
+.tt-profile-stats {
+    margin-bottom: 10px;
+}
+.tt-profile-stats .tt-col {
+    display: inline-block;
+    width: 49.5%;
+    vertical-align: top;
+    max-height: 200px;
+    overflow-x: auto;
+}
+.tt-profile-stats .tt-col.col-right {
+    border-left: 1px solid lightgray;
+    padding-left: 3px;
+}
+.tt-profile-stats .tt-col .tt-row>* {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 14px;
+    border-bottom: 1px solid lightgray;
+}
+.tt-row .tt-icon {
+    width: 4%;
+    text-align: center;
+}
+.tt-row .tt-icon i {
+    cursor: pointer;
+}
+.tt-row .tt-key {
+    width: 40%;
+    border-right: 1px solid lightgray;
+}
+.tt-row .tt-value {
+    width: 28%;
+    box-sizing: border-box;
+    padding-left: 5px;
+    font-size: 13px;
+    border-right: 1px solid lightgray;
+}
+.tt-row .tt-user-value {
+    width: 27%;
+    box-sizing: border-box;
+    padding-left: 5px;
+    font-size: 13px;
+}
+.positive {
+    color: #00a500;
+}
+.negative {
+    color: #de0000;
+}
+
+.tt-header {
+    font-weight: 600;
+}
+.tt-header .tt-header-item {
+    box-sizing: border-box;
+    padding-left: 5px;
+    padding-bottom: 3px;
+    font-size: 13px;
+}
+.col-left .tt-header .tt-header-item:nth-of-type(1) {width: 40%;}
+.col-left .tt-header .tt-header-item:nth-of-type(2) {width: 29%;}
+.col-left .tt-header .tt-header-item:nth-of-type(3) {width: 30%;}
+.col-right .tt-header .tt-header-item:nth-of-type(1) {width: 45%;}
+.col-right .tt-header .tt-header-item:nth-of-type(2) {width: 28%;}
+.col-right .tt-header .tt-header-item:nth-of-type(3) {width: 26%;}
+
+.tt-footer {
+    height: 30px;
+}
+.tt-footer * {
+    float: right;
+}
+.tt-footer div {
+    padding-left: 4px;
+    display: inline-block;
+}
+
 /* Target Info */
 #tt-target-info .content {
     padding: 5px;
-    padding-bottom: 10px;
+    padding-bottom: 15px;
     font-size: 15px;
     overflow-x: auto;
 }

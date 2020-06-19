@@ -1,3 +1,14 @@
+var money_key_list = ["networth", "moneymugged", "largestmug", "peopleboughtspent", "receivedbountyvalue"]
+var key_dict = {
+    "networth": "Networth",
+    "refills": "Refills",
+    "receivedbountyvalue": "Recieved Bounties",
+    "dukecontractscompleted": "Duke Contracts",
+    "contractscompleted": "Total Contracts",
+    "missioncreditsearned": "Mis. Cred. Earned",
+    "defendslostabroad": "Def. lost abroad",
+    "attackswonabroad" : "Att. won abroad"
+}
 profileLoaded().then(function(){
     console.log("TT - Profile");
 
@@ -10,10 +21,6 @@ profileLoaded().then(function(){
     if(settings.pages.profile.friendly_warning){
         displayAlly(user_faction, allies);
     }
-
-    if(target_list.show){
-        displayTargetInfo(target_list.targets);
-    }
         
     if(settings.pages.profile.loot_times){
         displayLootLevel(loot_times);
@@ -23,6 +30,25 @@ profileLoaded().then(function(){
         addStatusIndicator();
     }
     displayCreator();
+
+    // Profile stats & Target info
+    let info_container = content.new_container("User Info", {next_element_heading: "Medals", id: "tt-target-info", collapsed: false});
+    let content_container = info_container.find(".content");
+
+    let button = doc.new({type: "div", class: "fetch-button", text: "Fetch Info via API"});
+    content_container.appendChild(button);
+
+    if(settings.profile_stats.auto_fetch){
+        displayProfileStats();
+    } else {
+        button.addEventListener("click", function(){
+            displayProfileStats();
+        });
+    }
+
+    if(target_list.show){
+        displayTargetInfo(target_list.targets);
+    }
 });
 
 function displayCreator() {
@@ -93,13 +119,12 @@ function showWarning(type) {
 
 function displayTargetInfo(targets) {
     let user_id = getUserId();
+    let content_container = doc.find("#tt-target-info .content");
 
-    let info_container = content.new_container("Target Info", {next_element_heading: "Medals", id: "tt-target-info"});
-    let content_container = info_container.find(".content");
-
-    if (!targets[user_id])
-        content_container.innerText = "No data on user.";
-    else {
+    if (!targets[user_id]){
+        let span = doc.new({type: "span", text: "No battle data on user.", });
+        content_container.appendChild(span);
+    } else {
         let table = doc.new("div");
         table.setClass("tt-table");
 
@@ -152,6 +177,186 @@ function displayTargetInfo(targets) {
         table.appendChild(header_row);
         table.appendChild(row);
         content_container.appendChild(table);
+    }
+}
+
+function displayProfileStats(){
+    doc.find(".fetch-button").style.display = "none";
+    get_api(`https://api.torn.com/user/${getUserId()}?selections=personalstats`, api_key)
+    .then(async function(data){
+        return new Promise(function(resolve, reject){
+            fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${getUserId()}`)
+            .then(async function(response){
+                let result = await response.json();
+                if(result.error){
+                    console.log("TornStats API result", result);
+                    
+                    let text;
+                    if(result.error.indexOf("User not found") > -1){
+                        text = "Please register an account @ www.tornstats.com";
+                    }
+                    let div = doc.new({type: "div", text: text || result.error, attributes: {style: "margin-bottom: 10px;"}});
+                    doc.find(".fetch-button").parentElement.insertBefore(div, doc.find(".fetch-button"));
+                    return resolve({});
+                }
+                return resolve({...data.personalstats, ...result.compare.data});
+            });
+        });
+    })
+    .then(function(data){
+        if(Object.keys(data).length == 0){
+            return;
+        }
+        console.log("data", data);
+
+        let table = doc.new({type: "div", class: "tt-profile-stats"});
+        let col_chosen = doc.new({type: "div", class: "tt-col col-left"});
+        let col_all = doc.new({type: "div", class: "tt-col col-right"});
+        
+        // Setup headers
+        for(let el of [col_chosen, col_all]){
+            let header = doc.new({type: "div", class: "tt-row tt-header"});
+            let header_1 = doc.new({type: "div", class: "tt-header-item", text: "Key"});
+            let header_2 = doc.new({type: "div", class: "tt-header-item", text: "Value"});
+            let header_3 = doc.new({type: "div", class: "tt-header-item", text: "Your stats"});
+            header.appendChild(header_1);
+            header.appendChild(header_2);
+            header.appendChild(header_3);
+
+            el.appendChild(header);
+        }
+
+        // Setup all data
+        for(let key of Object.keys(data).reverse()){
+            if(["Networth"].includes(key)) continue;
+
+            let original_value = typeof data[key] == "object" ? data[key].amount : data[key];
+            let original_user_value = typeof data[key] == "object" ? data[key].amount + data[key].difference : (userdata.personalstats[key] || 0);
+
+            let value = numberWithCommas(original_value, shorten=false);
+            let user_value = numberWithCommas(original_user_value, false);
+
+            if(money_key_list.includes(key)){
+                let negative = value < 0 ? true : false;
+                value = "$"+numberWithCommas(Math.abs(original_value), false);
+                value = negative? "-"+value : value;
+
+                negative = user_value < 0 ? true : false;
+                user_value = "$"+numberWithCommas(Math.abs(original_user_value), false);
+                user_value = negative? "-"+user_value : user_value;
+            }
+
+            let row = doc.new({type: "div", class: "tt-row", attributes: {key: key}});
+            let key_cell = doc.new({type: "div", text: key_dict[key] || key, class: "tt-key"});
+            let value_cell = doc.new({type: "div", text: value, class: "tt-value"});
+            let user_value_cell = doc.new({type: "div", text: user_value, class: "tt-user-value"});
+            let icon_div = doc.new({type: "div", class: "tt-icon"});
+            let icon = doc.new({type: "i", class: "fas fa-caret-left"});
+
+            if(original_user_value > original_value){
+                user_value_cell.classList.add("positive");
+                value_cell.classList.add("negative");
+            } else if(original_user_value == original_value){
+            } else {
+                value_cell.classList.add("positive");
+                user_value_cell.classList.add("negative");
+            }
+
+            icon_div.appendChild(icon);
+            row.appendChild(icon_div);
+            row.appendChild(key_cell);
+            row.appendChild(value_cell);
+            row.appendChild(user_value_cell);
+            col_all.appendChild(row);
+
+            icon.addEventListener("click", function(){
+                moveLeft(row);
+            });
+        }
+
+        // Footer
+        let footer_div = doc.new({type: "div", class: "tt-footer"});
+        let footer_text = doc.new({type: "div", text: "Automatically load info"});
+        let footer_input = doc.new({type: "input", attributes: {type: "checkbox"}});
+        footer_div.appendChild(footer_text);
+        footer_div.appendChild(footer_input);
+
+        if(settings.profile_stats.auto_fetch){
+            footer_input.checked = true;
+        }
+
+        footer_input.addEventListener("click", function(){
+            local_storage.change({"settings": {"profile_stats": {"auto_fetch": footer_input.checked}}});
+        });
+
+        table.appendChild(col_chosen);
+        table.appendChild(col_all);
+        doc.find("#tt-target-info .fetch-button").parentElement.insertBefore(table, doc.find("#tt-target-info .fetch-button"));
+        doc.find("#tt-target-info .fetch-button").parentElement.insertBefore(footer_div, doc.find("#tt-target-info .fetch-button"))
+
+        // Move chosen keys to left side
+        for(let row of doc.findAll(".tt-profile-stats .tt-col.col-right .tt-row:not(.tt-header)")){
+            if(row.getAttribute("key") && settings.profile_stats.stats.includes(row.getAttribute("key"))){
+                moveLeft(row);
+            }
+        }
+
+        // Fix overflows
+        for(let el of table.findAll(".tt-row .tt-value, .tt-row .tt-user-value")){
+            if(isOverflownX(el)){
+                let money = el.innerText.indexOf("$") > -1 ? true:false;
+                let negative = el.innerText.indexOf("-") > -1 ? true:false;
+                let value = el.innerText.replace(/,/g, "").replace("$", "");
+
+                el.setAttribute("true-value", value);
+
+                if(money){
+                    if(negative){
+                        el.innerText = "-$"+numberWithCommas(value);
+                    } else {
+                        el.innerText = "$"+numberWithCommas(value);
+                    }
+                } else {
+                    el.innerText = numberWithCommas(value);
+                }
+            }
+        }
+    });
+
+    function moveLeft(row){
+        row.appendChild(row.find(".tt-icon"));
+        row.find(".tt-icon i").setClass("fas fa-caret-right");
+        doc.find(".tt-profile-stats .tt-col.col-left").appendChild(row);
+
+        row.find(".tt-icon i").addEventListener("click", function(){
+            moveRight(row);
+        });
+
+        savePreferences();
+    }
+
+    function moveRight(row){
+        row.insertBefore(row.find(".tt-icon"), row.firstElementChild);
+        row.find(".tt-icon i").setClass("fas fa-caret-left");
+        doc.find(".tt-profile-stats .tt-col.col-right").appendChild(row);
+
+        row.find(".tt-icon i").addEventListener("click", function(){
+            moveLeft(row);
+        });
+        
+        savePreferences();
+    }
+
+    function savePreferences(){
+        let chosen_keys = [];
+
+        for(let row of doc.findAll(".tt-col.col-left .tt-row:not(.tt-header)")){
+            if(row.getAttribute("key")){
+                chosen_keys.push(row.getAttribute("key"));
+            }
+        }
+
+        local_storage.change({"settings": {"profile_stats": {"stats": chosen_keys}}});
     }
 }
 

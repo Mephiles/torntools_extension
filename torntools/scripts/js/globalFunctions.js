@@ -164,6 +164,10 @@ const STORAGE = {
         "hide_upgrade": false,
         "align_left": false,
         "notes": true,
+        "profile_stats": {
+            "auto_fetch": false,
+            "stats": []
+        },
         "notifications": {
             "events": true,
             "messages": true,
@@ -804,9 +808,11 @@ function get_api(http, api_key) {
                     });
                 }
             } else {
-                if(isNaN(await getBadgeText())){
-                    setBadge("");
-                }
+                try {
+                    if(isNaN(await getBadgeText())){
+                        setBadge("");
+                    }
+                } catch(err){console.log("Unable to get Badge.")}
                 local_storage.change({"api": { "online": true, "error": "" }}, function(){
                     return resolve(result);
                 });
@@ -815,6 +821,13 @@ function get_api(http, api_key) {
             console.log("Error Fetching API", err);
         }
     });
+}
+
+function isOverflownX(element) {
+    return element.scrollWidth > element.clientWidth;
+}
+function isOverflownY(element) {
+    return element.scrollHeight > element.clientHeight;
 }
 
 function sleep(time) {
