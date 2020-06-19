@@ -47,6 +47,26 @@
     margin-right: 2px;
 }
 
+/* Fill max */
+.deal {
+    position: relative;
+}
+.deal .buy {
+    margin-top: -14px !important;
+    line-height: 20px !important;
+}
+.tt-max-buy {
+    position: absolute;
+    width: 62px;
+    text-align: center;
+    border-left: 2px solid #ccc;
+    height: 15px;
+    line-height: 15px;
+    bottom: -17px;
+    right: 0px;
+    font-size: 9px;
+}
+
 /* HOME */
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button {  

@@ -7,6 +7,7 @@ window.addEventListener('load', async (event) => {
 
     if(settings.pages.travel.profits && subpage("main")){
         displayItemProfits(itemlist.items);
+        addFillMaxButtons();
     }
 
     if(subpage("main") && !doc.find(".info-msg-cont.red")){
@@ -68,6 +69,40 @@ function displayItemProfits(itemlist){
         span.appendChild(inner_span);
         row.find(".item-info-wrap").insertBefore(span, row.find(".item-info-wrap").find(".stock"));
     }
+}
+
+function addFillMaxButtons(){
+    let market = doc.find(".travel-agency-market");
+
+    if(!market){
+        console.log("No market");
+        return;
+    }
+
+    for(let buy_btn of market.findAll(".buy")){
+        let max_span = doc.new({type: "span", text: "fill max", class: "tt-max-buy bold"});
+        buy_btn.parentElement.appendChild(max_span);
+
+        max_span.addEventListener("click", function(event){
+            event.stopPropagation();
+
+            let max = parseInt(buy_btn.parentElement.parentElement.find(".stck-amount").innerText.replace(/,/g, ""));
+            let price = parseInt(buy_btn.parentElement.parentElement.find(".c-price").innerText.replace(/,/g, "").replace("$",""));
+            let user_money = doc.find(".user-info .msg .bold:nth-of-type(2)").innerText.replace(/,/g, "").replace("$","");
+            let limit = parseInt(doc.find(".user-info .msg .bold:nth-of-type(4)").innerText);
+            
+            max = max > limit ? limit:max;
+            max = Math.floor(user_money/price) < max ? Math.floor(user_money/price) : max;
+            
+            console.log(buy_btn.parentElement.find("input[name='amount']"))
+            buy_btn.parentElement.find("input[name='amount']").value = max;
+            buy_btn.parentElement.find("input[name='amount']").setAttribute("value", max);
+
+            // for value to be accepted
+            buy_btn.parentElement.find("input[name='amount']").dispatchEvent(new Event("blur"));
+        });
+    }
+
 }
 
 function updateYATAprices(){
