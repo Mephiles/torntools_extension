@@ -1208,7 +1208,8 @@ function page(){
         "travelagency.php": "travelagency",
         "war.php": "war",
         "item.php": "items",
-        "crimes.php": "crimes"
+        "crimes.php": "crimes",
+        "gym.php": "gym"
     }
 
     let page = window.location.pathname.replace("/", "");
@@ -1405,7 +1406,7 @@ quick, notes;
         }
 
         // Hide Doctorn
-        if((settings.force_tt && ["home", "city", "travelagency", "war", "items", "crimes"].includes(page()))){
+        if((settings.force_tt && ["home", "city", "travelagency", "war", "items", "crimes", "gym"].includes(page()))){
             document.documentElement.style.setProperty("--torntools-hide-doctorn", "none");
         }
 

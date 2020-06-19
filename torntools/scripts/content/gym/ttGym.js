@@ -3,6 +3,11 @@ gymLoaded().then(function(){
 
     let gym_settings_container = content.new_container("Gym", {id: "tt-gym-settings", theme: settings.theme, collapsed: false});
 
+    // Graph
+    if(extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt){
+        displayGraph();
+    }
+
     // Energy needed for next gym estimates
     if(settings.pages.gym.estimated_energy){
         let div = doc.new({type: "div", id: "ttEnergyEstimate"});
@@ -133,6 +138,117 @@ function showProgress(){
     console.log("Estimated stat", stat);
     console.log("Estimated goal", goal);
     doc.find("#ttEnergyEstimate").innerText = `Estimated Energy progress: ${numberWithCommas(stat, false)}E/${numberWithCommas(goal, false)}E`;
+}
+
+function displayGraph(){
+    fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=getStatGraph`)
+    .then(async function(response){
+        let result = await response.json();
+        if(result.error){
+            console.log("TornStats API result", result);
+            
+            let text;
+            if(result.error.indexOf("User not found") > -1){
+                text = "Please register an account @ www.tornstats.com";
+            }
+            let div = doc.new({type: "div", text: text || result.error, attributes: {style: "margin-bottom: 10px;"}});
+            doc.find(".fetch-button").parentElement.insertBefore(div, doc.find(".fetch-button"));
+            return;
+        }
+
+        let canvas = doc.new({type: "canvas", id: "tt-gym-graph", attributes: {width: "784", height: "250", style: "margin-bottom: 10px;"}});
+        doc.find("#tt-gym-settings .content").insertBefore(canvas, doc.find("#tt-gym-settings .content").firstElementChild);
+
+        let ctx = doc.find("#tt-gym-graph").getContext("2d");
+        new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: result.data.map(function(x){
+                    let date = new Date(x.timestamp*1000);
+                    return formatDate([date.getDate(), date.getMonth()+1], settings.format.date);
+                }),
+                datasets: [
+                    {
+                        label: "Strength",
+                        data: result.data.map(x => x.strength),
+                        borderColor: ["#3366CC"],
+                        fill: false,
+                        pointRadius: 0,
+                        pointBackgroundColor: "#3366CC",
+                        pointHoverRadius: 5
+                    },
+                    {
+                        label: "Defense",
+                        data: result.data.map(x => x.defense),
+                        borderColor: ["#DC3912"],
+                        fill: false,
+                        pointRadius: 0,
+                        pointBackgroundColor: "#DC3912",
+                        pointHoverRadius: 5
+                    },
+                    {
+                        label: "Speed",
+                        data: result.data.map(x => x.speed),
+                        borderColor: ["#FF9901"],
+                        fill: false,
+                        pointRadius: 0,
+                        pointBackgroundColor: "#FF9901",
+                        pointHoverRadius: 5
+                    },
+                    {
+                        label: "Dexterity",
+                        data: result.data.map(x => x.dexterity),
+                        borderColor: ["#109618"],
+                        fill: false,
+                        pointRadius: 0,
+                        pointBackgroundColor: "#109618",
+                        pointHoverRadius: 5
+                    },
+                    {
+                        label: "Total",
+                        data: result.data.map(x => x.total),
+                        borderColor: ["#990199"],
+                        fill: false,
+                        pointRadius: 0,
+                        pointBackgroundColor: "#990199",
+                        pointHoverRadius: 5,
+                        hidden: true
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            step: 2000000,
+                            callback: function(value, index, values){return numberWithCommas(value, false)}
+                        },
+                    }]
+                },
+                legend: {
+                    position: "right",
+                    labels: {
+                        boxWidth: 13
+                    }
+                },
+                tooltips: {
+                    intersect: false,
+                    mode: "index"
+                    // enabled: true,
+                    // mode: "y",
+                    // callbacks: {
+                    //     label: function(tooltipItems, data){
+
+                    //     }
+                    // }
+                },
+                hover: {
+                    intersect: false,
+                    mode: "index"
+                }
+            }
+        });
+    });
 }
 
 // function displayGymInfo(gyms_data){
