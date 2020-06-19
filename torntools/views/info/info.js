@@ -159,6 +159,9 @@ function updateInfo(){
             doc.find("#travel .full-in span").setAttribute("seconds-down", (time_left/1000).toFixed(0));
             doc.find("#travel .progress div").style.width = `${progress}%`;
 
+            let land_date = new Date(userdata.travel.timestamp*1000);
+            let [hours, minutes, seconds] = [land_date.getHours(), land_date.getMinutes(), land_date.getSeconds()];
+            doc.find("#travel .progress .stat").innerText = formatTime([hours, minutes, seconds], settings.format.time);
         } else {
             doc.find("#travel").style.display = "none";
         }
