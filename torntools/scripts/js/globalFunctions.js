@@ -123,7 +123,7 @@ const STORAGE = {
         }
     },
     "target_list": {
-        "last_target": -1,
+        "last_target": "-1",
         "show": true,
         "targets": {}
     },
