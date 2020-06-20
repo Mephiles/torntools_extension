@@ -233,14 +233,14 @@ function displayGraph(){
                 },
                 tooltips: {
                     intersect: false,
-                    mode: "index"
+                    mode: "index",
                     // enabled: true,
                     // mode: "y",
-                    // callbacks: {
-                    //     label: function(tooltipItems, data){
-
-                    //     }
-                    // }
+                    callbacks: {
+                        label: function(tooltipItem, data){
+                            return `${data.datasets[tooltipItem.datasetIndex].label}: ${numberWithCommas(tooltipItem.yLabel, false)}`;
+                        }
+                    }
                 },
                 hover: {
                     intersect: false,
