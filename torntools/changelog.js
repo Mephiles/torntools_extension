@@ -1,4 +1,27 @@
 export default {
+    "v4.4": {
+        "Features": [
+            "Added percentages to Energy, Nerve, Happy, Life notifications",
+            "Added Player Stats to Profile pages. To use, you need to have a TornStats account (https://www.tornstats.com/)",
+            "Added Paypal donation button to Settings -> About page",
+            "Added Fill Max button to Trave Market",
+            "Added Gym Stats graph to Gym page. To use, you need to have a TornStats account ((https://www.tornstats.com/)"
+        ],
+        "Fixes": [
+            "Disabled Chat Highlighting when Doctorn is installed and TornTools is not forced",
+            "Disabled Quick Crimes & Quick Items if Doctorn is installed and TornTools is not forced",
+            "Fixed Info popup showing only 0 messages & events"
+        ],
+        "Changes": [
+            "Added nerve indicator to Quick Crimes",
+            "Shop fill max takes into count the 100 item limit",
+            "Shop & bazaar fill max take into count user's money",
+            "Made Info popup bars a bit brigther and removed 'Status:' text",
+            "Disabled simplified header for Info popup",
+            "Added time of landing to Info popup travel bar",
+            "Updated API info (Profile Stats makes 1 request to Torn's API and 1 to TornStats' API (max 25/minute))"
+        ]
+    },
     "v4.3.1": {
         "Fixes": [
             "Fixed Quick Crimes not appearing if user had 0 Quick Items",
