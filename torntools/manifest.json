@@ -77,7 +77,7 @@
 			"matches": ["https://www.torn.com/gym.php*"],
 		    "css": ["scripts/content/gym/ttGym.css", "scripts/content/achievements/ttAchievements.css"],
 			"js": [
-				"scripts/js/chart.min.js",
+				"scripts/js/Chart.min.js",
 				"scripts/content/gym/ttGym.js",
 				"scripts/content/achievements/ttGymAchievements.js"
 			],
