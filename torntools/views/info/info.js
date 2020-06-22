@@ -170,14 +170,18 @@ function updateInfo(){
         console.log("Chain timeout: ", userdata.chain.timeout);
         if(userdata.chain.timeout > 0){
             if(!previous_chain_timer || previous_chain_timer != userdata.chain.timeout){
+                previous_chain_timer = userdata.chain.timeout;
                 doc.find("#chain").style.display = "block";
     
                 let time_diff = new Date() - new Date(userdata.date);
                 let real_timeout = userdata.chain.timeout*1000 - time_diff;
     
                 if(real_timeout > 0){
+                    doc.find(`#chain .resets-in`).style.display = "block";
                     doc.find("#chain .resets-in span").innerText = time_until(real_timeout);
                     doc.find("#chain .resets-in span").setAttribute("seconds-down", (real_timeout/1000).toFixed(0));
+                } else {
+                    doc.find("#chain").style.display = "none";
                 }
             }
         } else {
