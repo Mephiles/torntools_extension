@@ -36,7 +36,6 @@
 .tt-profile-stats .tt-col .tt-row>* {
     display: inline-block;
     vertical-align: top;
-    font-size: 14px;
     border-bottom: 1px solid lightgray;
 }
 .tt-row .tt-icon {
@@ -45,23 +44,33 @@
 }
 .tt-row .tt-icon i {
     cursor: pointer;
+    font-size: 14px;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 .tt-row .tt-key {
     width: 40%;
     border-right: 1px solid lightgray;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-size: 12px;
 }
 .tt-row .tt-value {
     width: 28%;
     box-sizing: border-box;
     padding-left: 5px;
-    font-size: 13px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-size: 12px;
     border-right: 1px solid lightgray;
 }
 .tt-row .tt-user-value {
     width: 27%;
     box-sizing: border-box;
     padding-left: 5px;
-    font-size: 13px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-size: 12px;
 }
 .positive {
     color: #00a500;
