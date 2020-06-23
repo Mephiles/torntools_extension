@@ -536,6 +536,36 @@ function Main_fast(){
 								}
 							}
 						}
+
+						// Check for hospital notification
+						if(settings.notifications.hospital.length > 0 && userdata.status.state == "Hospital"){
+							for(let checkpoint of settings.notifications.hospital.sort(function(a,b){return a-b})){
+								let time_left = new Date(userdata.status.until*1000) - new Date(); // ms
+								if(time_left <= checkpoint*60*1000){
+									if(time_left > 60*1000){
+										notifyUser("TornTools - Hospital", `You will be out of the Hospital in ${(time_left/1000/60).toFixed(0)} minutes ${(time_left/1000 % 60).toFixed(0)} seconds`);
+									} else {
+										notifyUser("TornTools - Hospital", `You will be out of the Hospital in ${(time_left/1000).toFixed(0)} seconds`);
+									}
+									break;
+								}
+							}
+						}
+
+						// Check for travel notification
+						if(settings.notifications.landing.length > 0 && userdata.travel.time_left > 0){
+							for(let checkpoint of settings.notifications.landing.sort(function(a,b){return a-b})){
+								let time_left = new Date(userdata.travel.timestamp*1000) - new Date(); // ms
+								if(time_left <= checkpoint*60*1000){
+									if(time_left > 60*1000){
+										notifyUser("TornTools - Hospital", `You will be Landing in ${(time_left/1000/60).toFixed(0)} minutes ${(time_left/1000 % 60).toFixed(0)} seconds`);
+									} else {
+										notifyUser("TornTools - Hospital", `You will be Landing in ${(time_left/1000).toFixed(0)} seconds`);
+									}
+									break;
+								}
+							}
+						}
 						
 						userdata.date = String(new Date());
 						userdata.attacks = undefined;

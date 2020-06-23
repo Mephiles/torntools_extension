@@ -317,6 +317,9 @@ p {
     outline: none;
     font-size: 12px;
 }
+.notifications.section .option input[type=text].short {
+    width: 15px;
+}
 
 /* About */
 #about #new-version p {

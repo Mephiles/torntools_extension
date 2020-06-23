@@ -178,7 +178,9 @@ const STORAGE = {
             "energy": [100],
             "nerve": [100],
             "happy": [100],
-            "life": [100]
+            "life": [100],
+            "hospital": [],
+            "landing": []
         },
         "format": {
             "date": "eu",
