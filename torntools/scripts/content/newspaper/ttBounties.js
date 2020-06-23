@@ -1,17 +1,19 @@
 window.addEventListener("load", function(){
     console.log("TT - Newspaper | Bounties");
     
-    Main();
-
-    document.addEventListener("click", function(event){
-        let tar = event.target;
-
-        if(tar.classList.contains("pagination") || hasParent(tar, {class: "pagination"})){
-            setTimeout(function(){
-                bountiesLoaded().then(Main);
-            }, 500);
-        }
-    });
+    if(extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt){
+        Main();
+    
+        document.addEventListener("click", function(event){
+            let tar = event.target;
+    
+            if(tar.classList.contains("pagination") || hasParent(tar, {class: "pagination"})){
+                setTimeout(function(){
+                    bountiesLoaded().then(Main);
+                }, 500);
+            }
+        });
+    }
 });
 
 function Main(){
