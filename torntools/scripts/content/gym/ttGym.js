@@ -248,6 +248,25 @@ function displayGraph(){
                 }
             }
         });
+
+        let update_button = doc.new({type: "button", text: "Update TornStats", class: "ttEnergyEstimate"});
+        doc.find("#tt-gym-settings .content").insertBefore(update_button, doc.find("#ttEnergyEstimate"));
+
+        update_button.addEventListener("click", function(){
+            fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=recordStats`)
+            .then(async function(response){
+                let result = await response.json();
+                if(result.error){
+                    console.log("TornStats API result", result);
+
+                    update_button.style.color = "#de0000";
+                    update_button.innerText = result.error;
+                } else if(result.status == true){
+                    update_button.innerText = result.message;
+                    update_button.style.color = "#00a500"
+                }
+            });
+        });
     });
 }
 

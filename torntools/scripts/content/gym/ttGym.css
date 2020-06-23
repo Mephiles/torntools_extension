@@ -3,6 +3,11 @@
     font-weight: 600;
 }
 
+.ttEnergyEstimate {
+    float: right;
+    font-size: 15px;
+}
+
 /* Settings */
 #tt-gym-settings .content {
     padding: 7px;
