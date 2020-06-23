@@ -88,6 +88,8 @@
 **API requests**:   
   - 4 main requests once per minute. 1 request for user's data every 15 seconds    
   - 1 request per search in Market tab  
+  - 1 request to TornStats when fetching Player Stats (max 25/minute)  
+  - 1 request to TornStats when fetching Gym Stats (max 25/minute)  
 
 Don't like something? Turn it off in the settings and use the features you do like.  
 
