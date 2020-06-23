@@ -82,7 +82,7 @@ gymLoaded().then(function(){
 function gymLoaded(){
     return new Promise(function(resolve, reject){
         let checker = setInterval(function(){
-            if(doc.find(".gymButton___3OFdI.inProgress___1Nd26")){
+            if(doc.find(".gymButton___3OFdI")){
                 resolve(true);
                 return clearInterval(checker);
             }
