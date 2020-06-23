@@ -402,7 +402,7 @@ async function Main_yata(){
 }
 
 function Main_fast(){
-	local_storage.get(["api_key", "target_list"], async function([api_key, target_list]){
+	local_storage.get(["api_key", "target_list", "stakeouts"], async function([api_key, target_list, stakeouts]){
 		let attack_history;
 
 		if(api_key == undefined){
@@ -579,6 +579,34 @@ function Main_fast(){
 				});
 			});
 		})();
+
+		// stakeouts
+		if(Object.keys(stakeouts).length > 0){
+			console.log("Checking stakeouts.");
+			for(let user_id of Object.keys(stakeouts)){
+				await (function(){
+					return new Promise(function(resolve, reject){
+						get_api(`https://api.torn.com/user/${user_id}?`, api_key)
+						.then(stakeout_info => {
+							console.log(`	Checking ${stakeout_info.name} [${user_id}]`);
+
+							if(stakeouts[user_id].online && stakeout_info.last_action.status == "Online"){
+								notifyUser("TornTools - Stakeouts", `${stakeout_info.name} is now Online`);
+							}
+							if(stakeouts[user_id].okay && stakeout_info.status.state == "Okay"){
+								notifyUser("TornTools - Stakeouts", `${stakeout_info.name} is now Okay`);
+							}
+							if(stakeouts[user_id].lands && stakeout_info.status.state != "Traveling"){
+								notifyUser(`TornTools - Stakeouts`, `${stakeout_info.name} is now ${stakeout_info.status.state == "Abroad" ? stakeout_info.status.description : "in Torn"}`);
+							}
+							return resolve(true);
+						});
+					});
+				})();
+			}
+		} else {
+			console.log("No stakeouts.");
+		}
 	});
 }
 

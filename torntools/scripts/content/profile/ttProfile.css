@@ -191,3 +191,21 @@
     float: right;
     padding-right: 7px;
 }
+
+/* Stakeouts */
+
+.tt-sub-heading {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.tt-option * {
+    display: inline-block;
+}
+
+.tt-option input[type='checkbox'] {
+    margin-right: 2px;
+    position: relative;
+    top: 2px;
+}

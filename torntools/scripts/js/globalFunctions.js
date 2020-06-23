@@ -154,6 +154,7 @@ const STORAGE = {
         "text": undefined,
         "height": undefined
     },
+    "stakeouts": {},
 
     // user settings
     "settings": {
@@ -1372,7 +1373,7 @@ var DB;
 var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
 travel_market, oc, allies, loot_times, target_list, vault, personalized, 
 mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
-quick, notes;
+quick, notes, stakeouts;
 
 
 (function(){
@@ -1401,6 +1402,7 @@ quick, notes;
         hide_icons = DB.hide_icons;
         quick = DB.quick;
         notes = DB.notes;
+        stakeouts = DB.stakeouts;
 
         // Align left
         document.documentElement.style.setProperty("--torntools-align-left", settings.align_left ? "20px" : "auto");

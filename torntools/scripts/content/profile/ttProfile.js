@@ -9,6 +9,7 @@ var key_dict = {
     "defendslostabroad": "Def. lost abroad",
     "attackswonabroad" : "Att. won abroad"
 }
+
 profileLoaded().then(function(){
     console.log("TT - Profile");
 
@@ -31,7 +32,7 @@ profileLoaded().then(function(){
     }
     displayCreator();
 
-    // Profile stats & Target info
+    // Profile stats
     let info_container = content.new_container("User Info", {next_element_heading: "Medals", id: "tt-target-info", collapsed: false});
     let content_container = info_container.find(".content");
 
@@ -46,9 +47,13 @@ profileLoaded().then(function(){
         });
     }
 
+    // Target info
     if(target_list.show){
         displayTargetInfo(target_list.targets);
     }
+
+    // Stakeout
+    displayStakeoutOptions();
 });
 
 function displayCreator() {
@@ -484,4 +489,61 @@ function addStatusIndicator(){
         }
     });
     status_observer.observe(status_icon.parentElement, {childList: true});
+}
+
+function displayStakeoutOptions(){
+    let heading = doc.new({type: "div", class: "tt-sub-heading", text: "Let me know when this player"});
+
+    let option_okay = doc.new({type: "div", class: "tt-option"});
+    let checkbox_okay = doc.new({type: "input", attributes: {type: "checkbox"}});
+    let text_okay = doc.new({type: "div", text: "is okay"});
+
+    option_okay.appendChild(checkbox_okay);
+    option_okay.appendChild(text_okay);
+
+    let option_lands = doc.new({type: "div", class: "tt-option"});
+    let checkbox_lands = doc.new({type: "input", attributes: {type: "checkbox"}});
+    let text_lands = doc.new({type: "div", text: "lands"});
+
+    option_lands.appendChild(checkbox_lands);
+    option_lands.appendChild(text_lands);
+
+    let option_online = doc.new({type: "div", class: "tt-option"});
+    let checkbox_online = doc.new({type: "input", attributes: {type: "checkbox"}});
+    let text_online = doc.new({type: "div", text: "comes online"});
+
+    option_online.appendChild(checkbox_online);
+    option_online.appendChild(text_online);
+
+    let user_id = getUserId()
+    if(stakeouts[user_id]){
+        checkbox_okay.checked = stakeouts[user_id].okay;
+        checkbox_lands.checked = stakeouts[user_id].lands;
+        checkbox_online.checked = stakeouts[user_id].online;
+    }
+
+    doc.find("#tt-target-info .content").appendChild(heading);
+    doc.find("#tt-target-info .content").appendChild(option_okay);
+    doc.find("#tt-target-info .content").appendChild(option_lands);
+    doc.find("#tt-target-info .content").appendChild(option_online);
+
+    checkbox_okay.addEventListener("click", function(){
+        saveStakoutSettings();
+    });
+    checkbox_lands.addEventListener("click", function(){
+        saveStakoutSettings();
+    });
+    checkbox_online.addEventListener("click", function(){
+        saveStakoutSettings();
+    });
+
+    function saveStakoutSettings(){
+        local_storage.change({"stakeouts": {
+            [getUserId()]: {
+                "okay": checkbox_okay.checked,
+                "lands": checkbox_lands.checked,
+                "online": checkbox_online.checked
+            }
+        }});
+    }
 }
