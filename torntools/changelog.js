@@ -1,10 +1,27 @@
 export default {
+    "v4.5": {
+        "Features": [
+            "Added Update TornStats button to Gym graph",
+            "Added option to add notifications for X minutes left in hospital & landing in X minutes",
+            "Added Bounty Filter to newspaper",
+            "Added Stakeouts to profiles"
+        ],
+        "Fixes": [
+            "Fixed Gym graph labels not using commas",
+            "Fixed Chain timer in Info popup not appearing",
+            "Fixed Gym script not loading for players who have unlocked all gyms"
+        ],
+        "Changes": [
+            "Improved design of Info popup (removed unnecessary text & made 'update' text smaller)",
+            "Improved Player Stats readability"
+        ]
+    },
     "v4.4": {
         "Features": [
             "Added percentages to Energy, Nerve, Happy, Life notifications",
             "Added Player Stats to Profile pages. To use, you need to have a TornStats account (https://www.tornstats.com/)",
             "Added Paypal donation button to Settings -> About page",
-            "Added Fill Max button to Trave Market",
+            "Added Fill Max button to Travel Market",
             "Added Gym Stats graph to Gym page. To use, you need to have a TornStats account ((https://www.tornstats.com/)"
         ],
         "Fixes": [

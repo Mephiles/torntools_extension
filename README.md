@@ -1,4 +1,4 @@
-# TornTools (v4.3)  
+# TornTools (v4.5)  
 ##### A browser extension for Torn.com
 &nbsp;  
 **Links**  
@@ -23,6 +23,8 @@
   - Custom Links  
   - Quick items & crimes  
   - Info popup  
+  - Player stats  
+  - Gym Stats graph  
 
 **Smaller Features**:  
   - Friendly Fire  
@@ -41,6 +43,8 @@
   - Quick notes  
   - Fill Max  
   - Player list filters  
+  - Bounty Filter  
+  - Stakeouts  
   
 **Quick Market**: check prices of items from the small extension window at top-right  
 **Achievements**: keep track of your Achievements at the left-side menu bar in Torn  
@@ -58,6 +62,8 @@
 **Custom Links**: Setup custom areas/links in the Navigation panel  
 **Quick items & crimes**: Setup items and crimes to quickly access them  
 **Info popup**: Popup to show basic information like location, status, bars etc.  
+**Player stats**: Show stats like networth, xan used, etc. on their Profile page  
+**Gym Stats graph**: Keep track of your overall Gym Stats using TornStats  
 
 **Friendly Fire**: get a warning when you are on an ally faction player's profile (you have to add allies manually in settings)  
 **Shop profits**: Show item profits in shops (profit compared to market value)  
@@ -75,6 +81,8 @@
 **Quick notes**: Show small notes window in the Navigation panel  
 **Fill Max**: Fill Max button for city shops & bazaars to fill items to maximum available quantity when buying  
 **Player list filters**: Filter players in Faction user list, Jail list & Hospital list  
+**Bounty Filter**: Filter out players that are unattackable and too high-level in the Bounty list  
+**Stakeouts**: Set up notifications when another player comes online, lands or comes out of the hospital  
 
 
 **API requests**:   
