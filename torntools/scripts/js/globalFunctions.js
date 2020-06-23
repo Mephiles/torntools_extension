@@ -168,6 +168,7 @@ const STORAGE = {
             "auto_fetch": false,
             "stats": []
         },
+        "bounties_filter": {},
         "notifications": {
             "events": true,
             "messages": true,
@@ -513,11 +514,12 @@ const info_box = {
 const content = {
     new_container: function (name, attr = {}) {
         // process           
-        if (attr.next_element_heading)
+        if (attr.next_element_heading){
             attr.next_element = content.findContainer(attr.next_element_heading);
+        }
 
         let parent_element = attr.next_element ? attr.next_element.parentElement : doc.find(".content-wrapper");
-        let new_div = createNewContainer(name, attr.id, attr.collapsed, attr.dragzone);
+        let new_div = createNewContainer(name, attr.id, attr.collapsed, attr.dragzone, attr.header_only);
 
         if (attr.first)
             parent_element.insertBefore(new_div, parent_element.find(".content-title").nextElementSibling);
@@ -528,7 +530,7 @@ const content = {
 
         return new_div;
 
-        function createNewContainer(name, id, collapsed, dragzone) {
+        function createNewContainer(name, id, collapsed, dragzone, header_only) {
             let div = doc.new({type: "div", id: id? id: undefined, attributes: {style: "position: relative;"}});
 
             let heading = doc.new({type: "div", text: name, class: "tt-title top-round m-top10", attributes: {style: "cursor: pointer;"}});
@@ -536,6 +538,12 @@ const content = {
                 heading.classList.add("title-green")
             } else if(DB.settings.theme == "alternative"){
                 heading.classList.add("title-black");
+            }
+
+            if(header_only){
+                heading.classList.add("tt-header-only");
+                div.appendChild(heading);
+                return div;
             }
 
             let content = doc.new({type: "div", class: "cont-gray bottom-round tt-content content"});
@@ -1211,7 +1219,8 @@ function page(){
         "war.php": "war",
         "item.php": "items",
         "crimes.php": "crimes",
-        "gym.php": "gym"
+        "gym.php": "gym",
+        "bounties.php": "bounties"
     }
 
     let page = window.location.pathname.replace("/", "");
@@ -1408,7 +1417,7 @@ quick, notes;
         }
 
         // Hide Doctorn
-        if((settings.force_tt && ["home", "city", "travelagency", "war", "items", "crimes", "gym"].includes(page()))){
+        if((settings.force_tt && ["home", "city", "travelagency", "war", "items", "crimes", "gym", "bounties"].includes(page()))){
             document.documentElement.style.setProperty("--torntools-hide-doctorn", "none");
         }
 

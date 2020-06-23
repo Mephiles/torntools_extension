@@ -1,0 +1,23 @@
+/* Bounties */
+.tt-option {
+    float: right;
+    margin: 0 10px;
+}
+
+.tt-option * {
+    display: inline-block;
+}
+
+.tt-option .tt-input-box {
+    width: 20px;
+    height: 18px;
+    border-radius: 3px;
+    margin-left: 4px;
+    padding: 0 3px;
+}
+
+.tt-option input[type='checkbox'] {
+    margin: 0 5px;
+    position: relative;
+    top: 2px;
+}

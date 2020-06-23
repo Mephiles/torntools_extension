@@ -13,6 +13,12 @@
     color: #acea00 !important;
 }
 
+.tt-title.tt-header-only {
+    margin-top: 0 !important;
+    border-radius: 0 !important;
+}
+
+
 .nav-color-code {
     width: 4px;
     height: 25px;
