@@ -3,7 +3,7 @@ contentLoaded().then(function(){
 
 	// Networth
 	if(settings.pages.home.networth){
-		displayNetworth(DB.networth);
+		displayNetworth(networth);
 	}
 
 	// Battle Stats
@@ -126,12 +126,12 @@ function displayEffectiveBattleStats(){
 
 		eff_total += parseInt(effective_stat);
 		let row = info_box.new_row(battle_stats[i], numberWithCommas(effective_stat, shorten=false));
-		row.find(".desc").style.width = "184px";
+		row.find(".desc").style.width = mobile? "180px":"184px";
 		battle_stats_container.appendChild(row);
 	}
 
 	let total_row = info_box.new_row("Total", numberWithCommas(eff_total, shorten=false), {last: true});
-	total_row.find(".desc").style.width = "184px";
+	total_row.find(".desc").style.width = mobile? "180px":"184px";
 
 	battle_stats_container.appendChild(total_row);
 }
