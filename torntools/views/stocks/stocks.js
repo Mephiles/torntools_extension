@@ -197,15 +197,20 @@ window.addEventListener("load", function(){
 			let hr = doc.new("hr");
 			let heading = doc.new({type: "div", class: "heading", text: name});  // use acronym if name is too long
 
+			heading.addEventListener("click", function(){
+				chrome.tabs.create({url: `https://www.torn.com/stockexchange.php?torntools_redirect=${name}`});
+			});
+
 			// Stock info
 			let stock_info = doc.new({type: "div", class: "stock-info-heading", text: "Price info"});
 			let collapse_icon = doc.new({type: "i", class: "fas fa-chevron-down"});
 			stock_info.appendChild(collapse_icon);
 	
 			let stock_info_content = doc.new({type: "div", class: "content"});
-			let CP_div = doc.new({type: "div", class: "stock-info", text: `Current price: $${numberWithCommas(current_price, shorten=false)}`, attributes: {style: "height: 50px;"}});
-		
+			let CP_div = doc.new({type: "div", class: "stock-info", text: `Current price: $${numberWithCommas(current_price, shorten=false)}`});
+			let Q_div = doc.new({type: "div", class: "stock-info", text: `Available shares: ${numberWithCommas(torn_stocks[id].available_shares, shorten=false)}`, attributes: {style: "margin-bottom: 20px;"}})
 			stock_info_content.appendChild(CP_div);
+			stock_info_content.appendChild(Q_div);
 
 			// Benefit info
 			let benefit_description, benefit_requirement, benefit_info, benefit_info_content;
