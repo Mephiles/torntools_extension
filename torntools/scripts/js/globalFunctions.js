@@ -2,6 +2,9 @@ console.log("Loading Global Functions");
 
 chrome = chrome || browser;
 const doc = document;
+var DB;
+var mobile = false;
+var db_loaded = false;
 
 const local_storage = {
     get: function (key, callback) {
@@ -1245,7 +1248,7 @@ function navbarLoaded(){
 function DBloaded(){
     return new Promise(function(resolve, reject){
         let checker = setInterval(function(){
-            if(DB != undefined){
+            if(db_loaded == true){
                 resolve(true);
                 return clearInterval(checker);
             }
@@ -1368,16 +1371,33 @@ function to_seconds(time){
     return seconds;
 }
 
+function mobileChecker(){
+    return new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            if(window.location.host.indexOf("torn") == -1){
+                resolve(false);
+                return clearInterval(checker);
+            }
+            if(doc.find(`#sidebar`)){
+                if(doc.find("#sidebar").classList.contains("mobile___1tkgj")){
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+                return clearInterval(checker);
+            }
+        });
+    });
+}
+
 // Pre-load database
-var DB;
 var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
 travel_market, oc, allies, loot_times, target_list, vault, personalized, 
 mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
-quick, notes, stakeouts;
-
+quick, notes, stakeouts, updated, networth;
 
 (function(){
-    local_storage.get(null, function(db){
+    local_storage.get(null, async function(db){
         DB = db;
         console.log("DB LOADED");
 
@@ -1403,6 +1423,8 @@ quick, notes, stakeouts;
         quick = DB.quick;
         notes = DB.notes;
         stakeouts = DB.stakeouts;
+        updated = DB.updated;
+        networth = DB.networth;
 
         // Align left
         document.documentElement.style.setProperty("--torntools-align-left", settings.align_left ? "20px" : "auto");
@@ -1429,5 +1451,12 @@ quick, notes, stakeouts;
                 document.documentElement.style.setProperty(`--torntools-hide-icons-${icon}`, 'none');
             }
         }
+
+        // Mobile
+        mobile = await mobileChecker();
+        console.log("Using mobile:", mobile);
+        if(mobile) document.documentElement.style.setProperty("--torntools-mobile-torn-content-margin", "150px");
+
+        db_loaded = true;
     });
 })();
