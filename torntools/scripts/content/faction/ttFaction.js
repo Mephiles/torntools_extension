@@ -28,23 +28,25 @@ window.addEventListener("load", async function(){
         });
     }
 
-    // Player list filter
-    if(subpage() == "info"){
-        playersLoaded(".member-list").then(function(){
-            let list = doc.find(".member-list");
-            let title = list.previousElementSibling;
-
-            addFilterToTable(list, title);
+    if(!mobile){
+        // Player list filter
+        if(subpage() == "info"){
+            playersLoaded(".member-list").then(function(){
+                let list = doc.find(".member-list");
+                let title = list.previousElementSibling;
+    
+                addFilterToTable(list, title);
+            });
+        }
+        doc.find(".faction-tabs li[data-case=info]").addEventListener("click", function(){
+            playersLoaded(".member-list").then(function(){
+                let list = doc.find(".member-list");
+                let title = list.previousElementSibling;
+    
+                addFilterToTable(list, title);
+            });
         });
     }
-    doc.find(".faction-tabs li[data-case=info]").addEventListener("click", function(){
-        playersLoaded(".member-list").then(function(){
-            let list = doc.find(".member-list");
-            let title = list.previousElementSibling;
-
-            addFilterToTable(list, title);
-        });
-    });
 });
 
 function ocTimes(oc, format){

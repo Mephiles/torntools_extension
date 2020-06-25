@@ -1,10 +1,12 @@
 playersLoaded(".users-list").then(function(){
     console.log("TT - Hospital");
 
-    let list = doc.find(".users-list");
-    let title = list.previousElementSibling;
-
-    addFilterToTable(list, title);
+    if(!mobile){
+        let list = doc.find(".users-list");
+        let title = list.previousElementSibling;
+    
+        addFilterToTable(list, title);
+    }
 });
 
 function addFilterToTable(list, title){
