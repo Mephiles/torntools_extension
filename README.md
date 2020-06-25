@@ -3,6 +3,7 @@
 &nbsp;  
 **Links**  
   - [Original Thread](https://www.torn.com/forums.php#/p=threads&f=67&t=16054539&b=0&a=0&start=0&to=19000313)  
+  - [New Thread by Armpit[2137519]](https://www.torn.com/forums.php#/p=threads&f=67&t=16170566&b=0&a=0)  
   - [Chrome](https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib)  
   - [Firefox](https://addons.mozilla.org/en-US/firefox/addon/torn-tools/)  
 
