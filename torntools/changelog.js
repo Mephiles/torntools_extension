@@ -1,4 +1,30 @@
 export default {
+    "v4.6": {
+        "Features": [
+            "Added option to automatically open OCs that are ready to initiate (all players are Okay)",
+            "Added Natural Nerve Bar info to OCs (powered by TornStats)",
+            "Added option to display acronyms on Stock Exchange page",
+            "Added links to Stocks popup stock names"
+        ],
+        "Fixes": [
+            "Fixed Bounty Filter not working well with Doctorn",
+            "Fixed TornStats integration not working on Firefox",
+            "Fixed Notifications for events, messages, X minutes until landing, X minutes until out of hospital, NPC loot times (notifications will repeat every 15minutes if time is over 15minutes)"
+        ],
+        "Changes": [
+            "Hopefully increased popup load speed"
+        ],
+        "MOBILE": [
+            "Show Custom Links for mobile",
+            "Disabled Notes section for mobile",
+            "Fixed Effective Battle Stats table for mobile",
+            "Disabled Achievements for mobile",
+            "Disabled Gym Graph on mobile",
+            "Fixed Item Values for mobile",
+            "Fixed Mission Values for mobile",
+            "Disabled Jail, Hospital, Faction filters for mobile (fill be re-added when fixed)"
+        ]
+    },
     "v4.5": {
         "Features": [
             "Added Update TornStats button to Gym graph",
