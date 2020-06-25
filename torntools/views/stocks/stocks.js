@@ -1,6 +1,10 @@
 window.addEventListener("load", function(){
 	console.log("Start Stocks");
 
+	if(!usingChrome()){
+		doc.find("body").style.marginRight = "25px";
+	}
+
 	local_storage.get(["settings", "api", "torndata", "userdata", "stock_alerts"], function([settings, api, torndata, userdata, stock_alerts]){
 
 		console.log("Torndata", torndata.stocks);
