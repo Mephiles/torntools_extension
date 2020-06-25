@@ -259,6 +259,9 @@ const STORAGE = {
             },
             "properties": {
                 "vault_sharing": true
+            },
+            "stockexchange": {
+                "acronyms": true
             }
         }
     }
@@ -1390,6 +1393,17 @@ function mobileChecker(){
             }
         });
     });
+}
+
+function getSearchParameters(){
+    let srch = window.location.search.replace("?", "");
+    let dict = {}
+
+    for(let pair of srch.split("&")){
+        dict[pair.split("=")[0]] = pair.split("=")[1];
+    }
+
+    return dict;
 }
 
 // Pre-load database

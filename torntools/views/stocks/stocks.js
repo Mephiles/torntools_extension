@@ -56,6 +56,10 @@ window.addEventListener("load", function(){
 				let quantity_span = doc.new({type: "div", class: "heading-quantity", text: ` (${numberWithCommas(quantity)} shares)`});
 				heading.appendChild(quantity_span);
 
+			heading.addEventListener("click", function(){
+				chrome.tabs.create({url: `https://www.torn.com/stockexchange.php?torntools_redirect=${name}`});
+			});
+
 			// Stock info
 			let stock_info = doc.new({type: "div", class: "stock-info-heading", text: "Price info"});
 				let collapse_icon = doc.new({type: "i", class: "fas fa-chevron-down"});

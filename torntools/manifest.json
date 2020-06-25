@@ -381,6 +381,18 @@
 				"scripts/content/newspaper/ttBounties.js"
 			],
 			"run_at": "document_idle"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/stockexchange.php*"
+			],
+			"css": [
+				"scripts/content/stockexchange/ttStockexchange.css"
+			],
+			"js": [
+				"scripts/content/stockexchange/ttStockexchange.js"
+			],
+			"run_at": "document_end"
 		}
 	]
 }
