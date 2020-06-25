@@ -2,9 +2,12 @@ console.log("Loading Achievement Functions");
 
 function displayAchievements(achievements, show_completed){
     if(mobile){
+        let cont = doc.new({type: "div"});
         let hidden_heading = doc.new({type: "div", class: "tt-title", attributes: {style: "display: none;"}});
-        body.appendChild(hidden_heading);
-        addTimeToHeader(doc.find("body"), torndata.date);
+        cont.appendChild(hidden_heading);
+        body.appendChild(cont);
+
+        addTimeToHeader(cont, torndata.date);
 
         return;
     }
