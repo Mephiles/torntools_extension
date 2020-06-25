@@ -83,6 +83,11 @@
     display: var(--torntools-hide-doctorn) !important;
 }
 
+/* mobile */
+div[role="main"] {
+    margin-top: var(--torntools-mobile-torn-content-margin) !important;
+}
+
 /* font-awesome */
 .fas {
     font-weight: 900;
@@ -239,4 +244,20 @@
 /* Firefox */
 .tt-filter input[type=number] {
   -moz-appearance: textfield;
+}
+
+/* Mobile */
+.areas-mobile___3zY0z.torntools-mobile {
+    background: #6e8820;
+}
+
+.sidebarMobileLink.torntools-mobile {
+    color: black;
+    font-size: 11px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.area-row___34mEZ.torntools-mobile {
+    max-width: unset !important;
 }

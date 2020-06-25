@@ -1,73 +1,75 @@
-console.log("Loading Global Script");
-
-navbarLoaded().then(function(){
-    // Firefox opens new tab when dropping item
-    doc.body.ondrop = function(event){
-        event.preventDefault();
-        event.stopPropagation();
-    }
-
-    // Update notification
-    if(DB.updated && settings.update_notification){
-        addUpdateNotification();
-    }
-
-    // Custom links
-    if(DB.custom_links.length > 0){
-        addCustomLinks();
-    }
-
-    // Notes
-    if(settings.notes){
-        addNotesBox();
-    }
-
-    // Remove icons that are hidden
-    for(let icon of doc.findAll(`#sidebarroot .status-icons___1SnOI>li`)){
-        let name = icon.getAttribute("class").split("_")[0];
-        if(hide_icons.indexOf(name) > -1){
-            icon.remove();
+DBloaded().then(function(){
+    console.log("Loading Global Script");
+    
+    navbarLoaded().then(function(){
+        // Firefox opens new tab when dropping item
+        doc.body.ondrop = function(event){
+            event.preventDefault();
+            event.stopPropagation();
         }
-    }
-});
-
-chatsLoaded().then(function(){
-
-    if((extensions.doctorn == true || extensions.doctorn == "force_true") && !settings.force_tt){
-        return;
-    }
-
-    // Chat highlight
-    if(doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")){
-        highLightChat(chat_highlight, userdata.name);
-    }
-
-    doc.addEventListener("click", function(event){
-        if(!hasParent(event.target, {class: "chat-box_Wjbn9"})){
-            return;
+    
+        // Update notification
+        if(updated && settings.update_notification){
+            addUpdateNotification();
         }
-
-        highLightChat(chat_highlight, userdata.name);
-    });
-
-    let chat_observer = new MutationObserver(function(mutationsList, observer){
-        for(let mutation of mutationsList){
-            if(mutation.addedNodes[0] && mutation.addedNodes[0].classList && mutation.addedNodes[0].classList.contains("message_oP8oM")){
-                let message = mutation.addedNodes[0];
-
-                let sender = message.find("a").innerText.replace(":", "").trim();
-                let text = message.find("span").innerText;
-                
-                if(sender in chat_highlight){
-                    message.find("a").style.color = chat_highlight[sender];
-                }
-                if(text.indexOf(userdata.name) > -1){
-                    message.find("span").parentElement.style.backgroundColor = "#c7e27b6e";
-                }
+    
+        // Custom links
+        if(custom_links.length > 0){
+            addCustomLinks();
+        }
+    
+        // Notes
+        if(settings.notes){
+            addNotesBox();
+        }
+    
+        // Remove icons that are hidden
+        for(let icon of doc.findAll(`#sidebarroot .status-icons___1SnOI>li`)){
+            let name = icon.getAttribute("class").split("_")[0];
+            if(hide_icons.indexOf(name) > -1){
+                icon.remove();
             }
         }
     });
-    chat_observer.observe(doc.find("#chatRoot"), {childList: true, subtree: true});
+    
+    chatsLoaded().then(function(){
+    
+        if((extensions.doctorn == true || extensions.doctorn == "force_true") && !settings.force_tt){
+            return;
+        }
+    
+        // Chat highlight
+        if(doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")){
+            highLightChat(chat_highlight, userdata.name);
+        }
+    
+        doc.addEventListener("click", function(event){
+            if(!hasParent(event.target, {class: "chat-box_Wjbn9"})){
+                return;
+            }
+    
+            highLightChat(chat_highlight, userdata.name);
+        });
+    
+        let chat_observer = new MutationObserver(function(mutationsList, observer){
+            for(let mutation of mutationsList){
+                if(mutation.addedNodes[0] && mutation.addedNodes[0].classList && mutation.addedNodes[0].classList.contains("message_oP8oM")){
+                    let message = mutation.addedNodes[0];
+    
+                    let sender = message.find("a").innerText.replace(":", "").trim();
+                    let text = message.find("span").innerText;
+                    
+                    if(sender in chat_highlight){
+                        message.find("a").style.color = chat_highlight[sender];
+                    }
+                    if(text.indexOf(userdata.name) > -1){
+                        message.find("span").parentElement.style.backgroundColor = "#c7e27b6e";
+                    }
+                }
+            }
+        });
+        chat_observer.observe(doc.find("#chatRoot"), {childList: true, subtree: true});
+    });
 });
 
 function chatsLoaded(){
@@ -84,84 +86,113 @@ function chatsLoaded(){
 }
 
 function addCustomLinks(){
-    // MOVE INTO NAVBAR BLOCK
-    let sidebar_block = doc.new({type: "div", class: "sidebar-block___1Cqc2 tt-nav-section"});
-    let content = doc.new({type: "div", class: "content___kMC8x"});
-    let div1 = doc.new({type: "div", class: "areas___2pu_3"})
-    let toggle_block = doc.new({type: "div", class: "toggle-block___13zU2"})
-    let header;
-    if(settings.theme == "default"){
-        header = doc.new({type: "div", text: "Custom Links", class: "tt-title title-green"});
-    } else if(settings.theme == "alternative"){
-        header = doc.new({type: "div", text: "Custom Links", class: "tt-title title-black"});
-    }
-    let toggle_content = doc.new({type: "div", class: "toggle-content___3XKOC"});
+    if(mobile){
+        let areas_custom = doc.new({type: "div", class: "areas___2pu_3 areasWrapper areas-mobile___3zY0z torntools-mobile"});
+        let div = doc.new({type: "div"});
+        let swipe_container = doc.new({type: "div", class: "swiper-container swiper-container-horizontal"});
+        let swipe_wrapper = doc.new({type: "div", class: "swiper-wrapper swiper___nAyWO", attributes: {style: "transform: translate3d(0px, 0px, 0px);"}});
+        // let swipe_button_left = doc.new({type: "div", class: "swiper-button___3lZ1n button-prev___2x-Io swiper-button-disabled"});
+        // let swipe_button_right = doc.new({type: "div", class: "swiper-button___3lZ1n button-next___1hJxo"});
 
-    toggle_block.appendChild(header);
-    toggle_block.appendChild(toggle_content);
-    div1.appendChild(toggle_block);
-    content.appendChild(div1);
-    sidebar_block.appendChild(content);
+        for(let link of custom_links){
+            let slide = doc.new({type: "div", class: "swiper-slide slide___1oBWA"});
+            let area = doc.new({type: "div", class: "area-mobile___1XJcq"});
+            let area_row = doc.new({type: "div", class: "area-row___34mEZ torntools-mobile"});
+            let a = doc.new({type: "a", href: link.href, class: "mobileLink___33zU1 sidebarMobileLink torntools-mobile", text: link.text, attributes: {target: (link.new_tab? "_blank":"")}});
 
-    for(let link of DB.custom_links){
-        let cell = doc.new({type: "div", class: "area-desktop___2YU-q"});
-        let inner_div = doc.new({type: "div", class: "area-row___34mEZ"});
-        let a = doc.new({type: "a", class: "desktopLink___2dcWC", href: link.href, attributes: {target: (link.new_tab ? "_blank" : ""), style: "min-height: 24px; line-height: 24px;"}});
-        let span = doc.new({type: "span", text: link.text});
+            area_row.appendChild(a);
+            area.appendChild(area_row);
+            slide.appendChild(area);
+            swipe_wrapper.appendChild(slide);
+        }
+        
+        swipe_container.appendChild(swipe_wrapper);
+        div.appendChild(swipe_container);
+        areas_custom.appendChild(div);
+
+        doc.find("#sidebar .content___kMC8x").insertBefore(areas_custom, doc.find("#sidebar .content___kMC8x .user-information-mobile___EaRKJ"));
+    } else {
+        // MOVE INTO NAVBAR BLOCK
+        let sidebar_block = doc.new({type: "div", class: "sidebar-block___1Cqc2 tt-nav-section"});
+        let content = doc.new({type: "div", class: "content___kMC8x"});
+        let div1 = doc.new({type: "div", class: "areas___2pu_3"})
+        let toggle_block = doc.new({type: "div", class: "toggle-block___13zU2"})
+        let header;
+        if(settings.theme == "default"){
+            header = doc.new({type: "div", text: "Custom Links", class: "tt-title title-green"});
+        } else if(settings.theme == "alternative"){
+            header = doc.new({type: "div", text: "Custom Links", class: "tt-title title-black"});
+        }
+        let toggle_content = doc.new({type: "div", class: "toggle-content___3XKOC"});
     
-        a.appendChild(span);
-        inner_div.appendChild(a);
-        cell.appendChild(inner_div)
-        sidebar_block.appendChild(cell);
+        toggle_block.appendChild(header);
+        toggle_block.appendChild(toggle_content);
+        div1.appendChild(toggle_block);
+        content.appendChild(div1);
+        sidebar_block.appendChild(content);
+    
+        for(let link of custom_links){
+            let cell = doc.new({type: "div", class: "area-desktop___2YU-q"});
+            let inner_div = doc.new({type: "div", class: "area-row___34mEZ"});
+            let a = doc.new({type: "a", class: "desktopLink___2dcWC", href: link.href, attributes: {target: (link.new_tab ? "_blank" : ""), style: "min-height: 24px; line-height: 24px;"}});
+            let span = doc.new({type: "span", text: link.text});
+        
+            a.appendChild(span);
+            inner_div.appendChild(a);
+            cell.appendChild(inner_div)
+            sidebar_block.appendChild(cell);
+        }
+    
+        doc.find("#sidebar").insertBefore(sidebar_block, doc.find("h2=Areas").parentElement.parentElement.parentElement.parentElement);
     }
-
-    doc.find("#sidebar").insertBefore(sidebar_block, doc.find("h2=Areas").parentElement.parentElement.parentElement.parentElement);
 }
 
 function addNotesBox(){
-    // MOVE INTO NAVBAR BLOCK
-    let sidebar_block = doc.new({type: "div", class: "sidebar-block___1Cqc2 tt-nav-section"});
-    let content = doc.new({type: "div", class: "content___kMC8x"});
-    let div1 = doc.new({type: "div", class: "areas___2pu_3"})
-    let toggle_block = doc.new({type: "div", class: "toggle-block___13zU2"})
-    let header;
-    if(settings.theme == "default"){
-        header = doc.new({type: "div", text: "Notes", class: "tt-title title-green"});
-    } else if(settings.theme == "alternative"){
-        header = doc.new({type: "div", text: "Notes", class: "tt-title title-black"});
-    }
-    let toggle_content = doc.new({type: "div", class: "toggle-content___3XKOC"});
-
-    toggle_block.appendChild(header);
-    toggle_block.appendChild(toggle_content);
-    div1.appendChild(toggle_block);
-    content.appendChild(div1);
-    sidebar_block.appendChild(content);
-
-    let cell = doc.new({type: "div", class: "area-desktop___2YU-q"});
-    let inner_div = doc.new({type: "div", class: "area-row___34mEZ"});
-    let textbox = doc.new({type: "textarea", class: "tt-nav-textarea", value: notes.text || ""});
-
-    if(notes.height){
-        textbox.style.height = notes.height;
-    }
-
-    inner_div.appendChild(textbox);
-    cell.appendChild(inner_div)
-    sidebar_block.appendChild(cell);
-
-    doc.find("#sidebar").insertBefore(sidebar_block, doc.find("h2=Areas").parentElement.parentElement.parentElement.parentElement);
-
-    textbox.addEventListener("change", function(){
-        local_storage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
-    });
-    textbox.addEventListener("mouseup", function(){ 
-        if(textbox.style.height != notes.height){
-            console.log("resize");
-            console.log(textbox.style.height)
-            local_storage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
+    if(!mobile){
+        // MOVE INTO NAVBAR BLOCK
+        let sidebar_block = doc.new({type: "div", class: "sidebar-block___1Cqc2 tt-nav-section"});
+        let content = doc.new({type: "div", class: "content___kMC8x"});
+        let div1 = doc.new({type: "div", class: "areas___2pu_3"})
+        let toggle_block = doc.new({type: "div", class: "toggle-block___13zU2"})
+        let header;
+        if(settings.theme == "default"){
+            header = doc.new({type: "div", text: "Notes", class: "tt-title title-green"});
+        } else if(settings.theme == "alternative"){
+            header = doc.new({type: "div", text: "Notes", class: "tt-title title-black"});
         }
-    });
+        let toggle_content = doc.new({type: "div", class: "toggle-content___3XKOC"});
+    
+        toggle_block.appendChild(header);
+        toggle_block.appendChild(toggle_content);
+        div1.appendChild(toggle_block);
+        content.appendChild(div1);
+        sidebar_block.appendChild(content);
+    
+        let cell = doc.new({type: "div", class: "area-desktop___2YU-q"});
+        let inner_div = doc.new({type: "div", class: "area-row___34mEZ"});
+        let textbox = doc.new({type: "textarea", class: "tt-nav-textarea", value: notes.text || ""});
+    
+        if(notes.height){
+            textbox.style.height = notes.height;
+        }
+    
+        inner_div.appendChild(textbox);
+        cell.appendChild(inner_div)
+        sidebar_block.appendChild(cell);
+    
+        doc.find("#sidebar").insertBefore(sidebar_block, doc.find("h2=Areas").parentElement.parentElement.parentElement.parentElement);
+    
+        textbox.addEventListener("change", function(){
+            local_storage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
+        });
+        textbox.addEventListener("mouseup", function(){ 
+            if(textbox.style.height != notes.height){
+                console.log("resize");
+                console.log(textbox.style.height)
+                local_storage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
+            }
+        });
+    }
 }
 
 function addUpdateNotification(){
