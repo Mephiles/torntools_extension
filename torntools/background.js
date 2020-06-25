@@ -1,7 +1,13 @@
 console.log("START - Background Script");
 import personalized from "../personalized.js";
 
-var notifications = {};
+var notifications = {
+	'travel': {},
+	"hospital": {},
+	"loot": {},
+	"events": {},
+	"messages": {}
+};
 
 // First - set storage
 console.log("Checking Storage.");
@@ -140,6 +146,7 @@ setup_storage.then(async function(success){
 	setInterval(Main, 60*1000);  // 1/minute
 	setInterval(Main_yata, 60*1000); // 1/minute
 	setInterval(Main_fast, 15*1000);  // 4/minute
+	setInterval(Main_extra_fast, 5*1000);  // 15/minute
 });
 
 function Main(){
@@ -331,13 +338,17 @@ function Main(){
 								return;
 							}
 
-							console.log("Notifiying of loot time.");
-							notified = true;
-	
-							notifyUser(
-								"TornTools - Loot alerts",
-								`${loot_times[npc_id].name} is reaching loot level ${arabicToRoman(alert_level)} in ${time_until((alert_loot_time - current_time)*1000)}`
-							);
+							let checkpoint = loot_alerts[npc_id].time.toString();
+							if(!notifications.loot[checkpoint+"_"+npc_id]){
+								notifications.loot[checkpoint+"_"+npc_id] = {
+									title: "TornTools - NPC Loot",
+									text: `${loot_times[npc_id].name} is reaching loot level ${arabicToRoman(alert_level)} in ${time_until((alert_loot_time - current_time)*1000)}`,
+									seen: 0,
+									date: new Date()
+								}
+								console.log("	Added Loot time to notifications.");
+								notified = true;
+							}
 						}
 					}
 					if(!notified){
@@ -445,11 +456,13 @@ function Main_fast(){
 							let message = userdata.messages[message_key];
 
 							if(message.seen == 0){
-								if(settings.notifications.messages && new Date().getTime() - message.timestamp*1000 < 16000){
-									notifyUser(
-										`TornTools - New Message by ${message.name}`,
-										message.title
-									);
+								if(!notifications.messages[message_key]){
+									notifications.messages[message_key] = {
+										title: `TornTools - New Message by ${message.name}`,
+										text: message.title,
+										seen: 0,
+										date: new Date()
+									}
 								}
 								message_count++;
 							} else {
@@ -463,11 +476,13 @@ function Main_fast(){
 							let event = userdata.events[event_key];
 	
 							if(event.seen == 0){
-								if(settings.notifications.events && new Date().getTime() - event.timestamp*1000 < 16000){
-									notifyUser(
-										`TornTools - New Event`,
-										event.event.replace(/<\/?[^>]+(>|$)/g, "")
-									);
+								if(!notifications.events[event_key]){
+									notifications.events[event_key] = {
+										title: `TornTools - New Event`,
+										text: event.event.replace(/<\/?[^>]+(>|$)/g, ""),
+										seen: 0,
+										date: new Date()
+									}
 								}
 								event_count++;
 							} else {
@@ -543,12 +558,14 @@ function Main_fast(){
 						if(settings.notifications.hospital.length > 0 && userdata.status.state == "Hospital"){
 							for(let checkpoint of settings.notifications.hospital.sort(function(a,b){return a-b})){
 								let time_left = new Date(userdata.status.until*1000) - new Date(); // ms
-								if(time_left <= checkpoint*60*1000){
-									if(time_left > 60*1000){
-										notifyUser("TornTools - Hospital", `You will be out of the Hospital in ${(time_left/1000/60).toFixed(0)} minutes ${(time_left/1000 % 60).toFixed(0)} seconds`);
-									} else {
-										notifyUser("TornTools - Hospital", `You will be out of the Hospital in ${(time_left/1000).toFixed(0)} seconds`);
-									}
+
+								if(time_left <= checkpoint*60*1000 && !notifications.hospital[checkpoint]){
+									notifications.hospital[checkpoint] = {
+										title: "TornTools - Hospital",
+										text: `You will be out of the Hospital in ${Math.floor(time_left/1000/60)} minutes ${(time_left/1000 % 60).toFixed(0)} seconds`,
+										seen: 0,
+										date: new Date()
+									};
 									break;
 								}
 							}
@@ -558,17 +575,20 @@ function Main_fast(){
 						if(settings.notifications.landing.length > 0 && userdata.travel.time_left > 0){
 							for(let checkpoint of settings.notifications.landing.sort(function(a,b){return a-b})){
 								let time_left = new Date(userdata.travel.timestamp*1000) - new Date(); // ms
-								if(time_left <= checkpoint*60*1000){
-									if(time_left > 60*1000){
-										notifyUser("TornTools - Hospital", `You will be Landing in ${(time_left/1000/60).toFixed(0)} minutes ${(time_left/1000 % 60).toFixed(0)} seconds`);
-									} else {
-										notifyUser("TornTools - Hospital", `You will be Landing in ${(time_left/1000).toFixed(0)} seconds`);
-									}
+
+								if(time_left <= checkpoint*60*1000 && !notifications.travel[checkpoint]){
+									notifications.travel = {
+										checkpoint: checkpoint,
+										title: "TornTools - Travel",
+										text: `You will be Landing in ${Math.floor(time_left/1000/60)} minutes ${(time_left/1000 % 60).toFixed(0)} seconds`,
+										seen: 0,
+										date: new Date()
+									};
 									break;
 								}
 							}
 						}
-						
+
 						userdata.date = String(new Date());
 						userdata.attacks = undefined;
 	
@@ -614,6 +634,58 @@ function Main_fast(){
 			console.log("No stakeouts.");
 		}
 	});
+}
+
+function Main_extra_fast(){
+	// Notifications
+	console.log(notifications);
+	for(let notification_type in notifications){
+		for(let notification_key in notifications[notification_type]){
+			if(notifications[notification_type][notification_key].seen == 0){
+				notifyUser(
+					notifications[notification_type][notification_key].title,
+					notifications[notification_type][notification_key].text
+				);
+
+				notifications[notification_type][notification_key].seen = 1;
+			}
+
+			if(notifications[notification_type][notification_key].seen == 1 && (new Date() - notifications[notification_type][notification_key].date) > 15*60*1000){
+				// notifications[notification_type][notification_key] = undefined;
+				delete notifications[notification_type][notification_key];
+			}
+		}
+
+		// if(notification_key.indexOf("noid") > -1){
+		// 	for(let checkpoint of notifications[notification_key]){
+		// 		if(checkpoint.seen == 0){
+		// 			notifyUser(
+		// 				checkpoint.title,
+		// 				checkpoint.text
+		// 			);
+
+		// 			checkpoint.seen = 1;
+		// 		}
+
+		// 		if(checkpoint.seen == 1 && (new Date() - checkpoint.date) > 15*60*1000){
+		// 			notifications[notification_key].splice(notifications[notification_key].indexOf(checkpoint), 1);
+		// 		}
+		// 	}
+		// } else {
+		// 	if(notifications[notification_key].seen == 0){
+		// 		notifyUser(
+		// 			notifications[notification_key].title,
+		// 			notifications[notification_key].text
+		// 		);
+
+		// 		notifications[notification_key].seen = 1;
+		// 	}
+
+		// 	if(notifications[notification_key].seen == 1 && (new Date() - notifications[notification_key].date) > 15*60*1000){
+		// 		notifications[notification_key] = undefined;
+		// 	}
+		// }
+	}
 }
 
 // FUNCTIONS //
