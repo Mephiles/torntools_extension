@@ -1,6 +1,8 @@
 console.log("Loading Achievement Functions");
 
 function displayAchievements(achievements, show_completed){
+    if(mobile) return;
+    
     let awards_section = navbar.new_section("Awards", {next_element_heading: "Lists"});
     console.log(achievements);
     
