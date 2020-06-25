@@ -41,9 +41,8 @@ rewardsLoaded().then(function(){
         // Show total & point value
         let value_div = doc.new("div");
         
-        let div_total_value = doc.new("div");
-            div_total_value.innerText = "Total value: ";
-            div_total_value.setClass("tt-total-value");
+        let div_total_value = doc.new({type: "div", text: "Total value: ", class: "tt-total-value"});
+        if(mobile) div_total_value.style.marginTop = "66px";
         let span_total_value = doc.new("span");
             span_total_value.innerText = `$${numberWithCommas(quantity*market_price)}`;
 
