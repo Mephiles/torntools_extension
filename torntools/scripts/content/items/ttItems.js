@@ -128,7 +128,7 @@ function displayItemPrices(itemlist) {
         let total_price;
         let qty;
 
-        let parent = item.find(".bonuses-wrap") || item.find(".name-wrap");
+        let parent = mobile ? item.find(".name-wrap") : (item.find(".bonuses-wrap") || item.find(".name-wrap"));
         let new_element;
 
         if (parent.find(".tt-item-price"))
@@ -137,6 +137,12 @@ function displayItemPrices(itemlist) {
         if (item.find(".bonuses-wrap")) {
             new_element = doc.new("li");
             new_element.setClass("bonus left tt-item-price");
+            
+            if(mobile){
+                new_element.setAttribute("style", `position: absolute; right: -10px; top: 10px; float: unset !important; font-size: 11px;`);
+                parent.find(".name").setAttribute("style", "position: relative; top: -3px;");
+                parent.find(".qty").setAttribute("style", "position: relative; top: -3px;");
+            }
 
             if ([...item.findAll(".bonuses-wrap *")].length == 0) {
                 qty = parseInt(parent.parentElement.parentElement.parentElement.find(".qty").innerText.replace("x", ""));
@@ -145,6 +151,12 @@ function displayItemPrices(itemlist) {
         } else {
             new_element = doc.new("span");
             new_element.setClass("tt-item-price");
+
+            if(mobile){
+                new_element.setAttribute("style", `position: absolute; right: -10px; top: 10px; float: unset !important; font-size: 11px;`);
+                parent.find(".name").setAttribute("style", "position: relative; top: -3px;");
+                parent.find(".qty").setAttribute("style", "position: relative; top: -3px;");
+            }
 
             qty = parseInt(parent.find(".qty").innerText.replace("x", ""));
             total_price = qty * parseInt(price);
