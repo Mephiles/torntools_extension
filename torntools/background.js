@@ -569,6 +569,8 @@ function Main_fast(){
 									break;
 								}
 							}
+						} else {
+							notifications.hospital = {}
 						}
 
 						// Check for travel notification
@@ -577,7 +579,7 @@ function Main_fast(){
 								let time_left = new Date(userdata.travel.timestamp*1000) - new Date(); // ms
 
 								if(time_left <= checkpoint*60*1000 && !notifications.travel[checkpoint]){
-									notifications.travel = {
+									notifications.travel[checkpoint] = {
 										checkpoint: checkpoint,
 										title: "TornTools - Travel",
 										text: `You will be Landing in ${Math.floor(time_left/1000/60)} minutes ${(time_left/1000 % 60).toFixed(0)} seconds`,
@@ -587,6 +589,8 @@ function Main_fast(){
 									break;
 								}
 							}
+						} else {
+							notifications.travel = {}
 						}
 
 						userdata.date = String(new Date());
@@ -655,36 +659,6 @@ function Main_extra_fast(){
 				delete notifications[notification_type][notification_key];
 			}
 		}
-
-		// if(notification_key.indexOf("noid") > -1){
-		// 	for(let checkpoint of notifications[notification_key]){
-		// 		if(checkpoint.seen == 0){
-		// 			notifyUser(
-		// 				checkpoint.title,
-		// 				checkpoint.text
-		// 			);
-
-		// 			checkpoint.seen = 1;
-		// 		}
-
-		// 		if(checkpoint.seen == 1 && (new Date() - checkpoint.date) > 15*60*1000){
-		// 			notifications[notification_key].splice(notifications[notification_key].indexOf(checkpoint), 1);
-		// 		}
-		// 	}
-		// } else {
-		// 	if(notifications[notification_key].seen == 0){
-		// 		notifyUser(
-		// 			notifications[notification_key].title,
-		// 			notifications[notification_key].text
-		// 		);
-
-		// 		notifications[notification_key].seen = 1;
-		// 	}
-
-		// 	if(notifications[notification_key].seen == 1 && (new Date() - notifications[notification_key].date) > 15*60*1000){
-		// 		notifications[notification_key] = undefined;
-		// 	}
-		// }
 	}
 }
 
