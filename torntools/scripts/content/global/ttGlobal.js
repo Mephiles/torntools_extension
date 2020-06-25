@@ -90,9 +90,9 @@ function addCustomLinks(){
         let areas_custom = doc.new({type: "div", class: "areas___2pu_3 areasWrapper areas-mobile___3zY0z torntools-mobile"});
         let div = doc.new({type: "div"});
         let swipe_container = doc.new({type: "div", class: "swiper-container swiper-container-horizontal"});
-        let swipe_wrapper = doc.new({type: "div", class: "swiper-wrapper swiper___nAyWO", attributes: {style: "transform: translate3d(0px, 0px, 0px);"}});
-        // let swipe_button_left = doc.new({type: "div", class: "swiper-button___3lZ1n button-prev___2x-Io swiper-button-disabled"});
-        // let swipe_button_right = doc.new({type: "div", class: "swiper-button___3lZ1n button-next___1hJxo"});
+        let swipe_wrapper = doc.new({type: "div", class: "swiper-wrapper swiper___nAyWO", attributes: {style: "transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"}});
+        let swipe_button_left = doc.new({type: "div", class: "swiper-button___3lZ1n button-prev___2x-Io swiper-button-disabled"});
+        let swipe_button_right = doc.new({type: "div", class: "swiper-button___3lZ1n button-next___1hJxo"});
 
         for(let link of custom_links){
             let slide = doc.new({type: "div", class: "swiper-slide slide___1oBWA"});
@@ -107,6 +107,8 @@ function addCustomLinks(){
         }
         
         swipe_container.appendChild(swipe_wrapper);
+        swipe_container.appendChild(swipe_button_left);
+        swipe_container.appendChild(swipe_button_right);
         div.appendChild(swipe_container);
         areas_custom.appendChild(div);
 
