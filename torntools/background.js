@@ -1,6 +1,8 @@
 console.log("START - Background Script");
 import personalized from "../personalized.js";
 
+var notifications = {};
+
 // First - set storage
 console.log("Checking Storage.");
 let setup_storage = new Promise(function(resolve, reject){
@@ -598,6 +600,10 @@ function Main_fast(){
 							}
 							if(stakeouts[user_id].lands && stakeout_info.status.state != "Traveling"){
 								notifyUser(`TornTools - Stakeouts`, `${stakeout_info.name} is now ${stakeout_info.status.state == "Abroad" ? stakeout_info.status.description : "in Torn"}`);
+							}
+
+							if(stakeouts[user_id].online == false && stakeouts[user_id].okay == false && stakeouts[user_id].lands == false){
+								local_storage.change({"stakeouts": {[user_id]: undefined}});
 							}
 							return resolve(true);
 						});
