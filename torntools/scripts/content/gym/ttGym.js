@@ -4,7 +4,7 @@ gymLoaded().then(function(){
     let gym_settings_container = content.new_container("Gym", {id: "tt-gym-settings", theme: settings.theme, collapsed: false});
 
     // Graph
-    if(extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt){
+    if((extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt) && !mobile){
         displayGraph();
     }
 
