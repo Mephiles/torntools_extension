@@ -26,8 +26,12 @@ p {
 .note {
     font-size: 11px;
     margin-left: 10px;
-    color: red;
+    /* color: red; */
+    color: #848484;
     position: relative;
+}
+.note.red {
+    color: red;
 }
 
 .arrow {
