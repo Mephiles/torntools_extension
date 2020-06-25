@@ -23,6 +23,28 @@ window.addEventListener("load", function(){
 	});
 });
 
+
+const doc = document;
+Document.prototype.find = function (type) {
+    if (type.indexOf("=") > -1) {
+        let key = type.split("=")[0];
+        let value = type.split("=")[1];
+
+        for (let element of document.querySelectorAll(key)) {
+            if (element.innerText == value) {
+                return element;
+            }
+        }
+
+        try {
+            this.querySelector(type)
+        } catch(err){
+            return undefined;
+        }
+    }
+    return this.querySelector(type);
+}
+
 const local_storage = {
     get: function (key, callback) {
         let promise = new Promise(function (resolve, reject) {
