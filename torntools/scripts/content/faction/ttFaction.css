@@ -8,6 +8,21 @@
     right: -7px;
 }
 
+.level.torntools-modified {
+    width: 100px !important;
+}
+.offences.torntools-modified {
+    width: 55px !important;
+}
+
+.tt-nnb {
+    text-align: right;
+    width: 154px;
+}
+.tt-nnb.short {
+    width: 88px;
+}
+
 /* Armory logs */
 #tab4-4 .news-list .date .left-date {
     position: relative;

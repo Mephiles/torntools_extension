@@ -253,7 +253,9 @@ const STORAGE = {
             },
             "faction": {
                 "oc_time": true,
-                "armory": true
+                "armory": true,
+                "open_ready_oc": true,
+                "show_nnb": true
             },
             "properties": {
                 "vault_sharing": true

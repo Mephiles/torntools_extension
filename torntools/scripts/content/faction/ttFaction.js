@@ -1,21 +1,14 @@
 window.addEventListener("load", async function(){
     console.log("TT - Faction");
 
-    // OC times
-    if(settings.pages.faction.oc_time){
-        if(Object.keys(oc).length == 0){
-            console.log("NO DATA (might be no API access)");
-            return;
-        }
+    // OC
+    if(subpage() == "crimes"){
+        ocMain();
+    }
 
-        if(subpage() == "crimes"){
-            ocTimes(oc, settings.format);
-        }
-
-        doc.find(".faction-tabs li[data-case=crimes]").addEventListener("click", function(){
-            ocTimes(oc, settings.format);
-        });
-    } 
+    doc.find(".faction-tabs li[data-case=crimes]").addEventListener("click", function(){
+        ocMain();
+    });
     
     // Simplify Armory
     if(settings.pages.faction.armory){
@@ -49,26 +42,37 @@ window.addEventListener("load", async function(){
     }
 });
 
-function ocTimes(oc, format){
-    subpageLoaded("crimes").then(function(loaded){
-        if(!loaded){
-            return;
+function ocMain(){
+    subpageLoaded("crimes").then(function(){
+        if(settings.pages.faction.oc_time && Object.keys(oc).length > 0){
+            ocTimes(oc, settings.format);
+        } else if(Object.keys(oc).length == 0) {
+            console.log("NO DATA (might be no API access)");
         }
-        
-        let crimes = doc.findAll(".organize-wrap .crimes-list>li");
-        for(let crime of crimes){
-            let crime_id = crime.find(".details-wrap").getAttribute("data-crime");
 
-            let finish_time = oc[crime_id].time_ready;
-            let [day, month, year, hours, minutes, seconds]  = dateParts(new Date(finish_time*1000));
-
-            let span = doc.new("span");
-                span.setClass("tt-oc-time");
-                span.innerText =`${formatTime([hours, minutes], format.time)} | ${formatDate([day, month], format.date)}`;
-
-            crime.find(".status").appendChild(span);
+        if(settings.pages.faction.open_ready_oc){
+            openOCs();
+        }
+        if(settings.pages.faction.show_nnb){
+            showNNB();
         }
     });
+}
+
+function ocTimes(oc, format){
+    let crimes = doc.findAll(".organize-wrap .crimes-list>li");
+    for(let crime of crimes){
+        let crime_id = crime.find(".details-wrap").getAttribute("data-crime");
+
+        let finish_time = oc[crime_id].time_ready;
+        let [day, month, year, hours, minutes, seconds]  = dateParts(new Date(finish_time*1000));
+
+        let span = doc.new("span");
+            span.setClass("tt-oc-time");
+            span.innerText =`${formatTime([hours, minutes], format.time)} | ${formatDate([day, month], format.date)}`;
+
+        crime.find(".status").appendChild(span);
+    }
 }
 
 function armoryLog(){
@@ -442,4 +446,71 @@ function addFilterToTable(list, title){
             }
         }
     }
+}
+
+function openOCs(){
+    let crimes = doc.findAll(".organize-wrap .crimes-list>li");
+    
+    for(let crime of crimes){
+        let all_players_ready = true;
+        
+        for(let player of crime.findAll(".details-list>li")){
+            if(player.find(".member").innerText == "Member") continue;
+
+            if(player.find(".stat").innerText != "Okay"){
+                all_players_ready = false;
+                break;
+            }
+        }
+
+        if(all_players_ready){
+            crime.classList.add("active");
+        }
+    }
+}
+
+function showNNB(){
+    fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=crimes`)
+    .then(async function(response){
+        let result = await response.json();
+
+        // Populate active crimes
+        let crimes = doc.findAll(".organize-wrap .crimes-list>li");
+        for(let crime of crimes){
+            for(let player of crime.findAll(".details-list>li")){
+                player.find(".level").classList.add("torntools-modified");
+
+                if(player.find(".member").innerText == "Member"){
+                    let col = doc.new({type: "li", class: "tt-nnb", text: "TornStats NNB"});
+                    player.find(".stat").parentElement.insertBefore(col, player.find(".stat"));
+
+                    continue;
+                }
+
+                let player_id = player.find(".h").getAttribute("href").split("XID=")[1];
+                let nnb = result.members[player_id] ? result.members[player_id].natural_nerve : "N/A";
+
+                let col = doc.new({type: "li", class: "tt-nnb", text: nnb});
+                player.find(".stat").parentElement.insertBefore(col, player.find(".stat"));
+            }
+        }
+
+        // Populate new crime selection
+        for(let player of doc.findAll(".plans-list .item")){
+            player.find(".offences").classList.add("torntools-modified");
+
+            if(player.find(".member").innerText.trim() == "Member"){
+                let col = doc.new({type: "li", class: "tt-nnb short", text: "TornStats NNB"});
+                player.find(".act").parentElement.insertBefore(col, player.find(".act"));
+
+                continue;
+            }
+
+            let player_id = player.find(".h").getAttribute("href").split("XID=")[1];
+            let nnb = result.members[player_id] ? result.members[player_id].natural_nerve : "N/A";
+
+            let col = doc.new({type: "li", class: "tt-nnb short", text: nnb});
+            player.find(".act").parentElement.insertBefore(col, player.find(".act"));
+        }
+    });
 }
