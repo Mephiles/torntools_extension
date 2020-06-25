@@ -18,7 +18,8 @@
 	"permissions": [
 		"storage",
 		"notifications",
-		"https://yata.alwaysdata.net/"
+		"https://yata.alwaysdata.net/*",
+		"https://www.tornstats.com/*"
 	],
 	"web_accessible_resources": [
 		"images/*",
