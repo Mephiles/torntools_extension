@@ -155,6 +155,10 @@ function updateInfo(){
             console.log(travel_time)
             console.log(time_left)
 
+            if(time_until(time_left) == -1){
+                doc.find("#travel").style.display = "none";
+            }
+
             doc.find("#travel .full-in span").innerText = time_until(time_left);
             doc.find("#travel .full-in span").setAttribute("seconds-down", (time_left/1000).toFixed(0));
             doc.find("#travel .progress div").style.width = `${progress}%`;
