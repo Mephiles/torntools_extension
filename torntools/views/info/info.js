@@ -137,7 +137,7 @@ function updateInfo(){
             }
 
             // Time
-            if(time_left == "0s" || time_left.indexOf("-") > -1){
+            if(time_left == "0s" || time_left == -1){
                 doc.find(`#${bar} .full-in`).style.display = "none";
             } else {
                 doc.find(`#${bar} .full-in`).style.display = "block";
