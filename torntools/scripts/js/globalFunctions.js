@@ -1383,6 +1383,17 @@ function mobileChecker(){
                 resolve(false);
                 return clearInterval(checker);
             }
+
+            if(doc.find(".header-menu-icon")){
+                if(getComputedStyle(doc.find(".header-menu-icon")).display == "none"){
+                    resolve(false);
+                    return clearInterval(checker);
+                } else if(getComputedStyle(doc.find(".header-menu-icon")).display == "inline-block"){
+                    resolve(true);
+                    return clearInterval(checker);
+                }
+            }
+
             if(doc.find(`#sidebar`)){
                 if(doc.find("#sidebar").classList.contains("mobile___1tkgj")){
                     resolve(true);
@@ -1415,7 +1426,6 @@ quick, notes, stakeouts, updated, networth;
 (function(){
     local_storage.get(null, async function(db){
         DB = db;
-        console.log("DB LOADED");
 
         userdata = DB.userdata;
         torndata = DB.torndata;
@@ -1473,6 +1483,7 @@ quick, notes, stakeouts, updated, networth;
         console.log("Using mobile:", mobile);
         if(mobile) document.documentElement.style.setProperty("--torntools-mobile-torn-content-margin", "150px");
 
+        console.log("DB LOADED");
         db_loaded = true;
     });
 })();
