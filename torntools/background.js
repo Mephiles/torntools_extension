@@ -6,7 +6,8 @@ var notifications = {
 	"hospital": {},
 	"loot": {},
 	"events": {},
-	"messages": {}
+	"messages": {},
+	"stakeouts": {}
 };
 
 // First - set storage
@@ -334,8 +335,8 @@ function Main(){
 						}
 	
 						if(loot_times[npc_id].levels.next <= alert_level && alert_loot_time - current_time <= parseFloat(loot_alerts[npc_id].time)*60){
-							if(time_until((alert_loot_time - current_time)*1000).indexOf("-") > -1){
-								return;
+							if(time_until((alert_loot_time - current_time)*1000) == -1){
+								continue;
 							}
 
 							let checkpoint = loot_alerts[npc_id].time.toString();
@@ -616,17 +617,54 @@ function Main_fast(){
 						.then(stakeout_info => {
 							console.log(`	Checking ${stakeout_info.name} [${user_id}]`);
 
-							if(stakeouts[user_id].online && stakeout_info.last_action.status == "Online"){
-								notifyUser("TornTools - Stakeouts", `${stakeout_info.name} is now Online`);
+							if(stakeouts[user_id].online){
+								if(stakeout_info.last_action.status == "Online" && !notifications.stakeouts[user_id+"_online"]){
+									console.log("	Adding [online] notification to notifications.");
+									notifications.stakeouts[user_id+"_online"] = {
+										title: `TornTools - Stakeouts`,
+										text: `${stakeout_info.name} is now Online`,
+										seen: 0,
+										date: new Date()
+									}
+								} else if(stakeout_info.last_action.status != "Online"){
+									delete notifications.stakeouts[user_id+"_online"];
+								}
 							}
-							if(stakeouts[user_id].okay && stakeout_info.status.state == "Okay"){
-								notifyUser("TornTools - Stakeouts", `${stakeout_info.name} is now Okay`);
+							if(stakeouts[user_id].okay){
+								if(stakeout_info.status.state == "Okay" && !notifications.stakeouts[user_id+"_okay"]){
+									console.log("	Adding [okay] notification to notifications.");
+									notifications.stakeouts[user_id+"_okay"] = {
+										title: `TornTools - Stakeouts`,
+										text: `${stakeout_info.name} is now Okay`,
+										seen: 0,
+										date: new Date()
+									}
+								} else if(stakeout_info.status.state != "Okay"){
+									delete notifications.stakeouts[user_id+"_okay"];
+								}
 							}
-							if(stakeouts[user_id].lands && stakeout_info.status.state != "Traveling"){
-								notifyUser(`TornTools - Stakeouts`, `${stakeout_info.name} is now ${stakeout_info.status.state == "Abroad" ? stakeout_info.status.description : "in Torn"}`);
+							if(stakeouts[user_id].lands){
+								if(stakeout_info.status.state != "Traveling" && !notifications.stakeouts[user_id+"_lands"]){
+									console.log("	Adding [lands] notification to notifications.");
+									notifications.stakeouts[user_id+"_lands"] = {
+										title: `TornTools - Stakeouts`,
+										text: `${stakeout_info.name} is now ${stakeout_info.status.state == "Abroad" ? stakeout_info.status.description : "in Torn"}`,
+										seen: 0,
+										date: new Date()
+									}
+								} else if(stakeout_info.status.state == "Traveling"){
+									delete notifications.stakeouts[user_id+"_lands"];
+								}
 							}
 
-							if(stakeouts[user_id].online == false && stakeouts[user_id].okay == false && stakeouts[user_id].lands == false){
+							let all_false = true;
+							for(let option in stakeouts[user_id]){
+								if(stakeouts[user_id][option] == true){
+									all_false = false;
+								}
+							}
+
+							if(all_false){
 								local_storage.change({"stakeouts": {[user_id]: undefined}});
 							}
 							return resolve(true);
