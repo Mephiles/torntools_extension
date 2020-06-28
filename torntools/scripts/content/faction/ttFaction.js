@@ -77,7 +77,6 @@ function ocTimes(oc, format){
 
 function armoryLog(){
     subpageLoaded("main").then(function(){
-        
         newstabLoaded("armory").then(function(){
             shortenNews();
 
@@ -166,6 +165,12 @@ function armoryLog(){
                         inner_span.appendChild(left_side);
                         inner_span.appendChild(amount);
                         inner_span.appendChild(right_side);
+                    } else if(key.indexOf("lent one") > -1){
+                        inner_span.innerText = " lent one"+key.split(" lent one")[1];
+                    } else if(key.indexOf("retrieved one") > -1){
+                        inner_span.innerText = " retrieved one"+key.split(" retrieved one")[1];
+                    } else if(key.indexOf("returned one") > -1){
+                        inner_span.innerText = " returned one"+key.split(" returned one")[1];
                     } else {
                         inner_span.innerText = key;
                     }
