@@ -1,4 +1,4 @@
-# TornTools (v4.5)  
+# TornTools (v4.6)  
 ##### A browser extension for Torn.com
 &nbsp;  
 **Links**  
@@ -6,6 +6,7 @@
   - [New Thread by Armpit[2137519]](https://www.torn.com/forums.php#/p=threads&f=67&t=16170566&b=0&a=0)  
   - [Chrome](https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib)  
   - [Firefox](https://addons.mozilla.org/en-US/firefox/addon/torn-tools/)  
+  - [Discord](https://discord.gg/ukyK6f6)  
 
 **Bigger Features**:  
   - Quick Market  

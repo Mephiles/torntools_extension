@@ -1,5 +1,8 @@
 export default {
     "v4.6": {
+        "Discord": [
+            "Join the Discord (https://discord.gg/ukyK6f6) to report bugs, give suggestions or just chat"
+        ],
         "Features": [
             "Added option to automatically open OCs that are ready to initiate (all players are Okay)",
             "Added Natural Nerve Bar info to OCs (powered by TornStats)",
@@ -9,10 +12,15 @@ export default {
         "Fixes": [
             "Fixed Bounty Filter not working well with Doctorn",
             "Fixed TornStats integration not working on Firefox",
-            "Fixed Notifications for events, messages, X minutes until landing, X minutes until out of hospital, NPC loot times (notifications will repeat every 15minutes if time is over 15minutes)"
+            "Fixed Notifications for events, messages, X minutes until landing, X minutes until out of hospital, Stakeouts, NPC loot times (notifications will repeat every 15minutes if time is over 15minutes)",
+            "Fixed Quick Crimes failing to load sometimes",
+            "Fixed Global Scripts (like chat filter) not running when traveling",
+            "Fixed Travel Bar showing negative values in Info popup",
+            "Fixed Faction Armory simplification double username. Added keywords 'lent', 'retrieved', 'returned'"
         ],
         "Changes": [
-            "Hopefully increased popup load speed"
+            "Hopefully increased popup load speed",
+            "Improved layout and functionality of Travel Table. Filters work together now and save automatically"
         ],
         "MOBILE": [
             "Show Custom Links for mobile",
@@ -22,7 +30,8 @@ export default {
             "Disabled Gym Graph on mobile",
             "Fixed Item Values for mobile",
             "Fixed Mission Values for mobile",
-            "Disabled Jail, Hospital, Faction filters for mobile (fill be re-added when fixed)"
+            "Disabled Jail, Hospital, Faction filters for mobile (fill be re-added when fixed)",
+            "Fixed Profile Stats design for mobile"
         ]
     },
     "v4.5": {
