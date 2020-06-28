@@ -249,7 +249,8 @@ const STORAGE = {
                 "blackjack": true
             },
             "items": {
-                "values": true
+                "values": true,
+                "drug_details": true
             },
             "travel": {
                 "profits": true,

@@ -89,6 +89,14 @@ li.tt-item-price {
     left: 0 !important;
 }
 
+/* Drug information */
+.item-effect.tabbed {
+    margin-left: 15px;
+}
+.item-effect.double-tabbed {
+    margin-left: 30px;
+}
+
 /* Font-awesome */
 
 .fa, .fas {
