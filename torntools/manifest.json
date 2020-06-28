@@ -18,6 +18,7 @@
 	"permissions": [
 		"storage",
 		"notifications",
+		"tts",
 		"https://yata.alwaysdata.net/*",
 		"https://www.tornstats.com/*"
 	],

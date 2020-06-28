@@ -170,6 +170,7 @@ const STORAGE = {
     // user settings
     "settings": {
         "update_notification": true,
+        "notifications_tts": false,
         // "remove_info_boxes": false,
         "theme": "default",
         "force_tt": false,
@@ -1203,6 +1204,12 @@ function notifyUser(title, message){
     }, function(){
         console.log("Notified!");
     });
+
+    if(settings.notifications_tts){
+        console.log("READING TTS");
+        chrome.tts.speak(title);
+        chrome.tts.speak(message, {"enqueue": true});
+    }
 }
 
 function setBadge(text, attr={}){
