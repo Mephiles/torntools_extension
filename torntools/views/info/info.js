@@ -29,11 +29,11 @@ window.addEventListener("load", function(){
 			window.open("../settings/settings.html");
         });
         
-        updateInfo();
+        updateInfo(settings);
 
         // Update interval
         let updater = setInterval(function(){
-            updateInfo();
+            updateInfo(settings);
         }, 15*1000);
 
         // Global time reducer
@@ -66,7 +66,7 @@ window.addEventListener("load", function(){
     });
 });
 
-function updateInfo(){
+function updateInfo(settings){
     console.log("Updating INFO");
     local_storage.get("userdata", function(userdata){
         console.log("Data", userdata);
