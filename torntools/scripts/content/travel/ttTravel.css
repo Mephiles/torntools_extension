@@ -73,74 +73,122 @@ input[type=number]::-webkit-outer-spin-button {
    opacity: 1;
 }
 
-#ttTravelTable .content {
-    overflow-x: auto;
+#ttTravelTable .top-row {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+#ttTravelTable .top-row>* {
+    width: 49.5%;
+}
+#ttTravelTable .filter-button {
+    display: inline-block;
+}
+#ttTravelTable .filter-button * {
+    display: inline-block;
+    cursor: pointer;
+}
+#ttTravelTable .table-type-button {
+    display: inline-flex;
+    flex-direction: row-reverse;
+}
+#ttTravelTable .table-type-button span[type] {
+    cursor: pointer;
+}
+#ttTravelTable .table-type-button span[type].active {
+    font-weight: 600;
 }
 
-#ttTravelTable .table {
-    box-sizing: border-box;
+#ttTravelTable .legend-content:not(.collapsed) {
+    padding-bottom: 20px;
+}
+#ttTravelTable .legend-content.collapsed {
+    height: 0px;
+    overflow-y: hidden;
+}
+#ttTravelTable .legend-content .heading {
+    height: 25px;
+    line-height: 25px;
+    font-weight: 600;
+    font-size: 14px;
+    padding-left: 10px;
+}
+#ttTravelTable .legend-content #tt-items {
+    width: 32px;
+    padding-left: 5px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    height: 15px;
+}
+#ttTravelTable .legend-content .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding-left: 20px;
+}
+#ttTravelTable .legend-content .row .radio-item {
+    margin-bottom: 5px;
+}
+#ttTravelTable .legend-content .row .radio-item input {
     position: relative;
-    min-width: 774px;
-	padding: 5px;
+    top: 2px;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+#ttTravelTable .table .header-row {
+    border-top: unset !important;
+}
+#ttTravelTable .table .header-row div {
+    position: relative;
+    cursor: pointer;
+    height: 30px;
+    line-height: 20px;
+}
+#ttTravelTable .table .row {
+    margin: 0;
+    display: flex;
+    min-height: 25px;
+    border-top: 0.5px solid lightgray;
+    line-height: 20px;
+    align-items: center;
+}
+#ttTravelTable .table .row div {
+	flex-basis: 0;
+	flex-grow: 1;
+    text-align: center;
+}
+#ttTravelTable .table .row.hidden {
+    display: none;
+}
+#ttTravelTable .table .row .advanced.hidden {
+    display: none;
 }
 
 i.fa-caret-up {
     font-size: 19px;
     position: absolute;
-    right: 35px;
-    top: -6px;
+    left: 47%;
+    top: -10px;
 }
 
 i.fa-caret-down {
     font-size: 19px;
     position: absolute;
-    right: 35px;
-    top: 17px;
-}
-
-#ttTravelTable .table .row {
-    width: 100%;
-	min-height: 25px;
-	margin: 0;
-    display: flex;
-    align-items: center;
-    border-top: 0.5px solid lightgrey;
-    line-height: 20px;
-}
-
-#ttTravelTable .table .row div {
-	flex-basis: 0;
-	flex-grow: 1;
-	text-align: center;
-}
-
-#ttTravelTable .table>.row {
-    font-weight: 600;
-    border: unset;
-}
-
-#ttTravelTable .table>.row div{
-    position: relative;
-    padding-top: 5px;
-    padding-bottom: 10px;
-    cursor: pointer;
-}
-
-#ttTravelTable .table .row div:first-of-type {
-    min-width: 105px;
-}
-
-#ttTravelTable .table .row div:nth-of-type(2) {
-    max-width: 70px;
+    left: 47%;
+    top: 13px;
 }
 
 #ttTravelTable .table .row .flag {
     width: 15px;
     height: 15px;
-    float: left;
+    display: inline-block;
     position: relative;
     top: 3px;
+    margin-right: 3px;
     background-size: cover !important;
+}
+#ttTravelTable .table .row .update-time {
+    font-size: 10px;
 }
 
 #ttTravelTable .positive.profit {
@@ -149,7 +197,7 @@ i.fa-caret-down {
 
 #ttTravelTable .negative.profit {
     color: #de0000;
-}
+} 
 
 /* font-awesome */
 .fas {
@@ -168,63 +216,4 @@ i.fa-caret-down {
 
 .fa-caret-down:before {
     content: "\f0d7"
-}
-
-/* font-awesome */
-
-/* Table legend */
-
-#ttTravelTable .legend {
-    margin-top: 10px;
-    margin-bottom: 20px;
-    position: relative;
-    overflow: hidden;
-}
-#ttTravelTable .collapse-legend {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-}
-
-#ttTravelTable .legend .row {
-    display: block;
-    position: relative;
-    border: unset;
-}
-#ttTravelTable .legend .row .item {
-    display: inline-block;
-    min-width: unset !important;
-    max-width: unset !important;
-    /* width: 150px; */
-}
-#ttTravelTable .legend .row .item * {
-    display: inline-block;
-    min-width: unset !important;
-    max-width: unset !important;
-    vertical-align: top;
-}
-#ttTravelTable .legend .row:first-of-type .item input {
-    width: 32px;
-    padding-left: 5px;
-    border: 1px solid gray;
-    border-radius: 10px;
-}
-#ttTravelTable .legend .row.has-heading {
-    padding-top: 35px;
-}
-#ttTravelTable .table .legend .row .heading {
-    position: absolute;
-    top: 15px;
-    left: -10px;
-    font-weight: 600;
-}
-
-#ttTravelTable .table .legend .row:not(:first-of-type) .item .text {
-    padding-left: 5px;
-    padding-right: 20px;
-}
-#ttTravelTable .table .legend .row .item input[type=radio] {
-    position: relative;
-    top: 3px;
 }

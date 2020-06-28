@@ -1,95 +1,228 @@
-mapLoaded().then(function(){
-    console.log("TT - Travel (home)");
-
-    if(!settings.pages.travel.destination_table){
-        return;
+var country_dict = {  // time = minutes
+    "argentina": {
+        time: 167,
+        cost: 21000
+    },
+    "canada": {
+        time: 41,
+        cost: 9000
+    },
+    "cayman islands": {
+        time: 35,
+        cost: 10000
+    },
+    "china": {
+        time: 242,
+        cost: 35000
+    },
+    "hawaii": {
+        time: 134,
+        cost: 11000
+    },
+    "japan": {
+        time: 225,
+        cost: 32000
+    },
+    "mexico": {
+        time: 26,
+        cost: 6500
+    },
+    "south africa": {
+        time: 297,
+        cost: 40000
+    },
+    "switzerland": {
+        time: 175,
+        cost: 27000
+    },
+    "uae": {
+        time: 271,
+        cost: 32000
+    },
+    "united kingdom": {
+        time: 159,
+        cost: 18000
     }
+}
 
-    let container = content.new_container("Travel Destinations", { id: "ttTravelTable", theme: settings.theme, collapsed: false}).find(".content");
-    displayTravelDestinations(container, itemlist.items, userdata, travel_market);
+DBloaded().then(function(){
+    mapLoaded().then(function(){
+        console.log("TT - Travel (home)");
 
-    for (let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]) {
-        // tab.classList.remove("ui-state-disabled");
-        tab.addEventListener("click", function () {
-            container.innerHTML = "";
-            displayTravelDestinations(container, itemlist.items, userdata, travel_market);
-        });
-    }
+        if(!settings.pages.travel.destination_table){
+            return;
+        }
+    
+        modifyTimeAndCost();
 
-    // Travel items input
-    doc.addEventListener("change", function(event){
-        if(event.target.id == "ttTravelItemsInput"){
-            let amount = event.target.value;
+        let container = content.new_container("Travel Destinations", {id: "ttTravelTable", collapsed: false}).find(".content");
         
-            container.innerHTML = "";
-            displayTravelDestinations(container, itemlist.items, userdata, travel_market, amount);
+        addLegend();
+        setTravelItems();
+
+        let travel_items = doc.find("#ttTravelTable #tt-items").value;
+
+        let table = doc.new({type: "div", class: "table"});
+        container.appendChild(table);
+
+        addTableContent(travel_items);
+
+        // Set initial table mode
+        if(filters.travel.table_type == "basic"){
+            doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
+        } else if(filters.travel.table_type == "advanced"){
+            doc.find("#ttTravelTable .table-type-button span[type='advanced']").click();
+        }
+
+        // Sort by country
+        sort(doc.find("#ttTravelTable .table"), 1, "text");
+
+        filterTable();
+    
+        for (let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]) {
+            // tab.classList.remove("ui-state-disabled");  // Testing purposes
+            tab.addEventListener("click", function () {
+                setTravelItems();
+                reloadTable();
+            });
         }
     });
 });
 
-function mapLoaded(){
-    return new Promise(function(resolve, reject){
-        let checker = setInterval(function(){
-            if(doc.find(".travel-map")){
-                resolve(true);
-                return clearInterval(checker);
-            }
-        });
-    });
+function modifyTimeAndCost() {
+    let business_class_ticket_price = itemlist.items["396"].market_value;
+
+    let airstrip = doc.find("#tab-menu4 li[aria-selected=true]").innerText == "AIRSTRIP" ? true : false;
+    let wlt = doc.find("#tab-menu4 li[aria-selected=true]").innerText == "PRIVATE" ? true : false;
+    let business = doc.find("#tab-menu4 li[aria-selected=true]").innerText == "BUSINESS" ? true : false;
+
+    for (let key in country_dict) {
+        if (airstrip) {
+            country_dict[key].time = parseFloat((country_dict[key].time * 0.7).toFixed(1)).toFixed(0);
+            country_dict[key].cost = 0;
+        } else if (wlt) {
+            country_dict[key].time = parseFloat((country_dict[key].time * 0.5).toFixed(1)).toFixed(0);
+            country_dict[key].cost = 0;
+        } else if (business) {
+            country_dict[key].time = parseFloat((country_dict[key].time * 0.3).toFixed(1)).toFixed(0);
+            country_dict[key].cost = business_class_ticket_price;
+        }
+    }
 }
 
-function displayTravelDestinations(container, itemlist, userdata, travel_market, carry_items) {
-    let item_dict = {  // time - minutes
-        "argentina": {
-            time: 167,
-            cost: 21000
-        },
-        "canada": {
-            time: 41,
-            cost: 9000
-        },
-        "cayman islands": {
-            time: 35,
-            cost: 10000
-        },
-        "china": {
-            time: 242,
-            cost: 35000
-        },
-        "hawaii": {
-            time: 134,
-            cost: 11000
-        },
-        "japan": {
-            time: 225,
-            cost: 32000
-        },
-        "mexico": {
-            time: 26,
-            cost: 6500
-        },
-        "south africa": {
-            time: 297,
-            cost: 40000
-        },
-        "switzerland": {
-            time: 175,
-            cost: 27000
-        },
-        "uae": {
-            time: 271,
-            cost: 32000
-        },
-        "united kingdom": {
-            time: 159,
-            cost: 18000
+function addLegend(){
+    let legend = 
+    `
+<div class="legend">
+    <div class="top-row">
+        <div class="filter-button"><i class="fas fa-chevron-up"></i><div>&nbsp;Filters</div></div>
+        <div class="table-type-button">
+            <span class="table-type" type="advanced">Advanced</span>
+            <span>&nbsp;/&nbsp;</span>
+            <span class="table-type" type="basic">Basic</span>
+        </div>
+    </div>
+    <div class="legend-content ${filters.travel.open?"":"collapsed"}">
+        <div class="row">
+            <div>Travel items:&nbsp;<input type="number" id="tt-items"></div>
+        </div>
+        <div class="heading">Items</div>
+        <div class="row">
+            <div class="radio-item"><input type="radio" name="item" _type="all">All</div>
+            <div class="radio-item"><input type="radio" name="item" _type="plushie">Plushies</div>
+            <div class="radio-item"><input type="radio" name="item" _type="flower">Flowers</div>
+            <div class="radio-item"><input type="radio" name="item" _type="plushie,flower">Plushies/Flowers</div>
+            <div class="radio-item"><input type="radio" name="item" _type="drug">Drugs</div>
+            <div class="radio-item"><input type="radio" name="item" _type="other">Other</div>
+        </div>
+        <div class="heading">Countries</div>
+        <div class="row">
+            <div class="radio-item"><input type="radio" name="country" _type="all">All</div>
+            <div class="radio-item"><input type="radio" name="country" _type="mexico">Mexico</div>
+            <div class="radio-item"><input type="radio" name="country" _type="cayman islands">Cayman Islands</div>
+            <div class="radio-item"><input type="radio" name="country" _type="canada">Canada</div>
+            <div class="radio-item"><input type="radio" name="country" _type="hawaii">Hawaii</div>
+            <div class="radio-item"><input type="radio" name="country" _type="united kingdom">United Kingdom</div>
+            <div class="radio-item"><input type="radio" name="country" _type="argentina">Argentina</div>
+            <div class="radio-item"><input type="radio" name="country" _type="switzerland">Switzerland</div>
+            <div class="radio-item"><input type="radio" name="country" _type="japan">Japan</div>
+            <div class="radio-item"><input type="radio" name="country" _type="china">China</div>
+            <div class="radio-item"><input type="radio" name="country" _type="uae">UAE</div>
+            <div class="radio-item"><input type="radio" name="country" _type="south africa">South Africa</div>
+        </div>
+    </div>
+</div>
+    `
+
+    doc.find("#ttTravelTable .content").innerHTML += legend;
+
+    // Set right filters
+    doc.find(`#ttTravelTable .legend-content input[name='item'][_type='${filters.travel.item_type}']`).checked = true;
+    doc.find(`#ttTravelTable .legend-content input[name='country'][_type='${filters.travel.country}']`).checked = true;
+
+    // Open/Close filter
+    for(let el of doc.findAll("#ttTravelTable .content .filter-button *")){
+        el.onclick = function(){
+            doc.find("#ttTravelTable .content .legend-content").classList.toggle("collapsed");
+            rotateElement(doc.find("#ttTravelTable .content .filter-button i"), 180);
+
+            saveSettings();
         }
     }
 
+    // Switch between modes
+    let basic_mode_button = doc.find("#ttTravelTable .table-type-button span[type='basic']");
+    let advanced_mode_button = doc.find("#ttTravelTable .table-type-button span[type='advanced']");
+    
+    basic_mode_button.onclick = function(){
+        if(!basic_mode_button.classList.contains("active")){
+            basic_mode_button.classList.add("active");
+        }
+        advanced_mode_button.classList.remove("active");
+
+        // Hide advanced elements
+        for(let el of doc.findAll("#ttTravelTable .table .advanced")){
+            if(!el.classList.contains("hidden")){
+                el.classList.add("hidden");
+            }
+        }
+
+        saveSettings();
+    }
+    advanced_mode_button.onclick = function(){
+        if(!advanced_mode_button.classList.contains("active")){
+            advanced_mode_button.classList.add("active");
+        }
+        basic_mode_button.classList.remove("active");
+
+        // Show advanced elements
+        for(let el of doc.findAll("#ttTravelTable .table .advanced")){
+            el.classList.remove("hidden");
+        }
+        
+        saveSettings();
+    }
+
+    // Filtering
+    for(let el of doc.findAll("#ttTravelTable .legend-content .row .radio-item input")){
+        el.onclick = function(){
+            filterTable();
+            saveSettings();
+        }
+    }
+
+    // Change travel items count
+    doc.find("#ttTravelTable .legend-content #tt-items").onchange = function(){
+        reloadTable();
+    }
+}
+
+function setTravelItems(){
     // Travel items calculation
     let airstrip = doc.find("#tab-menu4 li[aria-selected=true]").innerText == "AIRSTRIP" ? true : false;
     let wlt = doc.find("#tab-menu4 li[aria-selected=true]").innerText == "PRIVATE" ? true : false;
     let business = doc.find("#tab-menu4 li[aria-selected=true]").innerText == "BUSINESS" ? true : false;
+
     let suitcase = (function () {
         for (let perk of userdata.enhancer_perks) {
             if (perk.indexOf("(Large Suitcase)") > -1) {
@@ -128,13 +261,18 @@ function displayTravelDestinations(container, itemlist, userdata, travel_market,
         return 0;
     })();
 
-    item_dict = modifyTimeAndCost(item_dict, airstrip, wlt, business, itemlist["396"].market_value);  // business class ticket price
+    // item_dict = modifyTimeAndCost(item_dict, airstrip, wlt, business, itemlist["396"].market_value);  // business class ticket price
 
-    if(!carry_items){
-        carry_items = 5 + suitcase + job_perk + faction_perk + book_perk;
-        if (airstrip || wlt || business) {
-            carry_items += 10;
-        }
+    // if(!carry_items){
+    //     carry_items = 5 + suitcase + job_perk + faction_perk + book_perk;
+    //     if (airstrip || wlt || business) {
+    //         carry_items += 10;
+    //     }
+    // }
+
+    let travel_items = 5 + suitcase + job_perk + faction_perk + book_perk;
+    if(airstrip || wlt || business){
+        travel_items += 10;
     }
 
     console.log("-----------------------------")
@@ -145,317 +283,198 @@ function displayTravelDestinations(container, itemlist, userdata, travel_market,
     console.log("job_perk", job_perk);
     console.log("faction_perk", faction_perk);
     console.log("book_perk", book_perk);
-    console.log("carry_items", carry_items);
+    console.log("carry_items", travel_items);
 
-    let table = doc.new({type: "div", class:"table"});
-    let body = doc.new({type: "div", class:"body"});
+    doc.find("#ttTravelTable #tt-items").value = travel_items;
+}
 
-    addTableLegend(table);
-    addTableHeader(table);
+function addTableContent(travel_items){
+    addTableHeader();
 
-    // Legend collapse button
-    let icon = doc.new({type: "i", class: "fas fa-chevron-up collapse-legend"});
-    table.appendChild(icon);
+    let body = doc.new({type: "div", class: "body"});
+    doc.find("#ttTravelTable .table").appendChild(body);
 
-    icon.addEventListener("click", function(){
-        let legend = table.find(".legend");
-        console.log(legend.style.height)
+    let body_html = ``;
 
-        if(legend.style.height == "10px"){
-            legend.style.height = legend.scrollHeight+"px";
-        } else {
-            legend.style.height = "10px";
-        }
-        rotateElement(icon, 180);
-    });
-
+    // Add rows
     for(let item of travel_market){
-        let time = item_dict[item.country_name.toLowerCase()].time;
-        let travel_cost = item_dict[item.country_name.toLowerCase()].cost;
-
-        addRow(body, itemlist, item, time, carry_items, travel_cost);
-    }
-
-    table.appendChild(body);
-    container.appendChild(table);
-
-    sort(table, 8, "text");
-
-    doc.find("#ttTravelItemsInput").value = carry_items;
-
-    // Sorting by type
-    for(let radio of doc.findAll("#ttTravelTable .legend input[name=item-type]")){
-        let type = radio.getAttribute("item-type");
+        let time = country_dict[item.country_name.toLowerCase()].time;
+        let cost = country_dict[item.country_name.toLowerCase()].cost;
         
-        if(type == "all"){
-            radio.checked = true;
-        }
-
-        switch(type){
-            case "plushies":
-                type = "plushie";
-                break;
-            case "flowers":
-                type = "flower";
-                break;
-            case "plushies/flowers":
-                type = ["plushie", "flower"];
-                break;
-            case "drugs":
-                type = "drug";
-                break;
-            default:
-                break;
-        }
-
-        radio.addEventListener("click", function(){
-            if(type != "all"){
-                doc.find("#ttTravelTable .legend input[country=all]").click();
-            }
-            sortByItemType(type);
-        });
+        body_html += addRow(item, time, cost, travel_items);
     }
+    body.innerHTML = body_html;
+}
 
-    // Sorting by country
-    for(let radio of doc.findAll("#ttTravelTable .legend input[name=country]")){
-        let type = radio.getAttribute("country");
+function addTableHeader(){
+    let row = 
+    `
+<div class="row header-row">
+    <div>Destination</div>
+    <div>Item</div>
+    <div>Stock</div>
+    <div class="advanced" sort-type="value">Buy Price</div>
+    <div class="advanced" sort-type="value">Market Value</div>
+    <div class="advanced" sort-type="value">Profit/Item</div>
+    <div sort-type="value">Profit/Minute</div>
+    <div class="advanced" sort-type="value">Total Profit</div>
+    <div class="advanced" sort-type="value">Cash Needed</div>
+</div>
+    `
+    doc.find("#ttTravelTable .table").innerHTML += row;
+
+    doc.addEventListener("click", function(event){
         
-        if(type == "all"){
-            radio.checked = true;
+        if(hasParent(event.target, {class: "header-row"})){
+            let parent = event.target;
+            
+            if(event.target.nodeName == "I") parent = event.target.parentElement;
+
+            sort(doc.find("#ttTravelTable .table"), [...parent.parentElement.children].indexOf(parent)+1, parent.getAttribute("sort-type") == "value" ? "value":"text");
         }
-
-        radio.addEventListener("click", function(){
-            if(type != "all"){
-                doc.find("#ttTravelTable .legend input[item-type=all]").click();
-            }
-            sortByCountry(type);
-        });
-    }
+    });
 }
 
-function modifyTimeAndCost(dict, airstrip, wlt, business, bct_price) {
-    for (let key in dict) {
-        if (airstrip) {
-            dict[key].time = parseFloat((dict[key].time * 0.7).toFixed(1)).toFixed(0);
-            dict[key].cost = 0;
-        } else if (wlt) {
-            dict[key].time = parseFloat((dict[key].time * 0.5).toFixed(1)).toFixed(0);
-            dict[key].cost = 0;
-        } else if (business) {
-            dict[key].time = parseFloat((dict[key].time * 0.3).toFixed(1)).toFixed(0);
-            dict[key].cost = bct_price;
-        }
-    }
-    return dict;
-}
-
-function addTableLegend(table){
-    let legend = doc.new({type: "div", class: "legend", attributes: {style: `height: 10px;`}});
-
-    // Items input
-    let row_1 = doc.new({type: "div", class: "row"});
-    let item_items = doc.new({type: "div", class: "item"});
-    let text_items = doc.new({type: "div", class: "text", text: "Travel items:"});
-    let input_items = doc.new({type: "input", id: "ttTravelItemsInput", attributes: {type: "number"}});
-
-    item_items.appendChild(text_items);
-    item_items.appendChild(input_items);
-    row_1.appendChild(item_items);
-
-    // Item type radios
-    let row_2 = doc.new({type: "div", class: "row has-heading"});
-    let heading_2 = doc.new({type: "div", class: "heading", text: "Item types"});
-    row_2.appendChild(heading_2);
-    for(let type of ["All", "Plushies", "Flowers", "Plushies/Flowers", "Drugs", "Other"]){
-        let item_type = doc.new({type: "div", class: "item"});
-        let input_type = doc.new({type: "input", attributes: {type: "radio", name: "item-type", "item-type": type.toLowerCase()}});
-        let text_type = doc.new({type: "div", class: "text", text: type});
-
-        item_type.appendChild(input_type)
-        item_type.appendChild(text_type);
-        row_2.appendChild(item_type);
-    }
-
-    // Country filter
-    let row_3 = doc.new({type: "div", class: "row has-heading"});
-    let heading_3 = doc.new({type: "div", class: "heading", text: "Country"});
-    row_3.appendChild(heading_3);
-    for(let country of ["All", "Mexico", "Cayman Islands", "Canada", "Hawaii", "United Kingdom", "Argentina", "Switzerland", "Japan", "China", "UAE", "South Africa"]){
-        let item_country = doc.new({type: "div", class: "item"});
-        let input_country = doc.new({type: "input", attributes: {type: "radio", name: "country", "country": country.toLowerCase()}});
-        let text_country = doc.new({type: "div", class: "text", text: country});
-
-        item_country.appendChild(input_country)
-        item_country.appendChild(text_country);
-        row_3.appendChild(item_country);
-    }
-
-    legend.appendChild(row_1);
-    legend.appendChild(row_2);
-    legend.appendChild(row_3);
-    table.appendChild(legend);
-}
-
-function addTableHeader(table) {
-    let row = doc.new("div");
-    row.setClass("row");
-
-    let destination_heading = doc.new({type: "div", text: "Destination"});
-    // let flight_time_heading = doc.new({type: "div", text: "Flight time"});
-    let item_heading = doc.new({type: "div", text: "Item"});
-    let items_abroad_heading = doc.new({type: "div", text: "Stock"});
-    let buy_price_heading = doc.new({type: "div", text: "Buy price"});
-    let market_value_heading = doc.new({type: "div", text: "Market value"});
-    let profit_per_item_heading = doc.new({type: "div", text: "Profit/item"});
-    let profit_per_minute_heading = doc.new({type: "div", text: "Profit/minute"});
-    let sorting_icon = doc.new({type: "i", class: "fas fa-caret-up"});
-        profit_per_minute_heading.appendChild(sorting_icon);
-    let total_profit_heading = doc.new({type: "div", text: "Total profit"});
-    let cash_needed_heading = doc.new({type: "div", text: "Cash needed"});
-
-    let headings = [
-        destination_heading, 
-        item_heading, 
-        items_abroad_heading,
-        buy_price_heading, 
-        market_value_heading,
-        profit_per_item_heading, 
-        total_profit_heading, 
-        profit_per_minute_heading,
-        cash_needed_heading
-    ];
-
-    for (let heading of headings) {
-        heading.addEventListener("click", function () {
-            sort(table, headings.indexOf(heading) + 1, "text");
-        });
-        row.appendChild(heading);
-    }
-
-    table.appendChild(row);
-}
-
-function addRow(body, itemlist, item, time, carry_items, travel_cost) {
-    let market_value = itemlist[item.item_id].market_value;
-    let total_profit = (market_value - item.abroad_cost) * carry_items - travel_cost;
+function addRow(item, time, cost, travel_items) {
+    let market_value = itemlist.items[item.item_id].market_value;
+    let total_profit = (market_value - item.abroad_cost)*travel_items - cost;
     let profit_per_minute = (total_profit / time).toFixed(0);
-    let profit_per_item = (total_profit / carry_items).toFixed(0);
+    let profit_per_item = (total_profit / travel_items).toFixed(0);
     let update_time = time_ago(item.timestamp*1000);
     let item_types = ["plushie", "flower", "drug"];
+    let background_style = `url(/images/v2/travel_agency/flags/fl_${item.country_name.toLowerCase().replace("united kingdom", "uk").replace(" islands", "").replace(" ", "_")}.svg) center top no-repeat`
+    let item_type = item_types.includes(item.item_type.toLowerCase()) ? item.item_type.toLowerCase() : "other";
 
-    let row = doc.new({type: "div", class: "row"});
+    let row = 
+    `
+<div class="row">
+    <div country='${item.country_name.toLowerCase()}'><div class="flag" style="background: ${background_style}"></div>${item.country_name}</div>
+    <div item='${item_type}'>${item.item_name}</div>
+    <div>${item.abroad_quantity.toString()} <br> <span class="update-time">(${update_time})</span></div>
+    <div class="advanced" value="${item.abroad_cost}">$${numberWithCommas(item.abroad_cost, item.abroad_cost>=1e6?true:false)}</div>
+    <div class="advanced" value="${market_value}">$${numberWithCommas(market_value, market_value>=1e6?true:false)}</div>
+    
+    `
+    let profit_per_item_div;
+    if (profit_per_item > 0) {
+        profit_per_item_div = `<div class="positive profit advanced" value="${profit_per_item}">+$${numberWithCommas(profit_per_item, profit_per_item>=1e6?true:false)}</div>`
+    } else if (profit_per_item < 0) {
+        profit_per_item_div = `<div class="negative profit advanced" value="${profit_per_item}">-$${numberWithCommas(Math.abs(profit_per_item), profit_per_item<=-1e6?true:false)}</div>`
+    } else {
+        profit_per_item_div = `<div class="advanced" value="0">$0</div>`
+    }
+    row+=profit_per_item_div;
+    
+    let profit_per_minute_div;
+    if (profit_per_minute > 0) {
+        profit_per_minute_div = `<div class="positive profit" value="${profit_per_minute}">+$${numberWithCommas(profit_per_minute, profit_per_minute>=1e6?true:false)}</div>`
+    } else if (profit_per_minute < 0) {
+        profit_per_minute_div = `<div class="negative profit" value="${profit_per_minute}">-$${numberWithCommas(Math.abs(profit_per_minute), profit_per_minute<=-1e6?true:false)}</div>`
+    } else {
+        profit_per_minute_div = `<div value="0">$0</div>`
+    }
+    row+=profit_per_minute_div;
 
-    let destination_div = doc.new({type: "div", attributes: {country: item.country_name.toLowerCase()}});
-        let destination_name_span = doc.new({type: "span", text: item.country_name});
-        let flag_span = doc.new({
-            type: "span", class:"flag", 
-            attributes: {
-                style: `background: url(/images/v2/travel_agency/flags/fl_${item.country_name.toLowerCase().replace("united kingdom", "uk").replace(" islands", "").replace(" ", "_")}.svg) center top no-repeat`
+    let total_profit_div;
+    if (total_profit > 0) {
+        total_profit_div = `<div class="positive profit advanced" value="${total_profit}">+$${numberWithCommas(total_profit, total_profit>=1e6?true:false)}</div>`
+    } else if (total_profit < 0) {
+        total_profit_div = `<div class="negative profit advanced" value="${total_profit}">-$${numberWithCommas(Math.abs(total_profit), total_profit<=-1e6?true:false)}</div>`
+    } else {
+        total_profit_div = `<div class="advanced" value="0">$0</div>`
+    }
+    row+=total_profit_div;
+
+    row+= `<div class="advanced" value="${item.abroad_cost * travel_items}">$${numberWithCommas((item.abroad_cost * travel_items), item.abroad_cost>=1e6?true:false)}</div>`
+
+    row+="</div>"
+    return row;
+}
+
+function filterTable(){
+    let types = {}
+    for(let el of doc.findAll("#ttTravelTable .legend-content .radio-item input:checked")){
+        types[el.getAttribute("name")] = el.getAttribute("_type").split(",");
+    }
+
+    let cols = {
+        "country": 1,
+        "item": 2
+    }
+
+    for(let row of doc.findAll("#ttTravelTable .table .body .row")){
+        row.classList.remove("hidden");
+
+        for(let type in types){
+            if(types[type][0] == "all"){
+                continue;
+            }
+
+            let is_in_list = false;
+            let row_type = [...row.children][cols[type]-1].getAttribute(type);
+
+            for(let filter of types[type]){
+                if(filter == row_type){
+                    is_in_list = true;
+                }
+            }
+
+            if(!is_in_list){
+                row.classList.add("hidden");
+            }
+        }
+    }
+}
+
+function mapLoaded(){
+    return new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            if(doc.find(".travel-map")){
+                resolve(true);
+                return clearInterval(checker);
             }
         });
-    destination_div.appendChild(destination_name_span);
-    destination_div.appendChild(flag_span);
-
-    // let flight_time_div = doc.new({type: "div", text: time});
-    let item_div = doc.new({type: "div", text: item.item_name, attributes: {"item-type": (item_types.includes(item.item_type.toLowerCase()) ? item.item_type.toLowerCase() : "other")}});
-    let stock_div = doc.new({type: "div", text: `${item.abroad_quantity.toString()} \n (${update_time})`});
-    let buy_price_div = doc.new({type: "div", text: `$${numberWithCommas(item.abroad_cost, shorten = false)}`});
-    let cash_needed_div = doc.new({type: "div", text: `$${numberWithCommas((item.abroad_cost * carry_items), shorten = false)}`});
-    let market_value_div = doc.new({type: "div", text: `$${numberWithCommas(market_value, shorten = false)}`});
-    
-    let profit_per_item_div = doc.new("div");
-        if (profit_per_item > 0) {
-            profit_per_item_div.setClass("positive profit");
-            profit_per_item_div.innerText = `+$${numberWithCommas(profit_per_item, shorten = false)}`;
-        } else if (profit_per_item < 0) {
-            profit_per_item_div.setClass("negative profit");
-            profit_per_item_div.innerText = `-$${numberWithCommas(Math.abs(profit_per_item), shorten = false)}`;
-        } else {
-            profit_per_item_div.innerText = `$0`;
-        }
-    
-    let profit_per_minute_div = doc.new("div");
-        if (profit_per_minute > 0) {
-            profit_per_minute_div.setClass("positive profit");
-            profit_per_minute_div.innerText = `+$${numberWithCommas(profit_per_minute, shorten = false)}`;
-        } else if (profit_per_minute < 0) {
-            profit_per_minute_div.setClass("negative profit");
-            profit_per_minute_div.innerText = `-$${numberWithCommas(Math.abs(profit_per_minute), shorten = false)}`;
-        } else {
-            profit_per_minute_div.innerText = `$0`;
-        }
-    
-    let total_profit_div = doc.new("div");
-        if (total_profit > 0) {
-            total_profit_div.setClass("positive profit");
-            total_profit_div.innerText = `+$${numberWithCommas(total_profit, shorten = false)}`;
-        } else if (total_profit < 0) {
-            total_profit_div.setClass("negative profit");
-            total_profit_div.innerText = `-$${numberWithCommas(Math.abs(total_profit), shorten = false)}`;
-        } else {
-            total_profit_div.innerText = `$0`;
-        }
-
-    row.appendChild(destination_div);
-    row.appendChild(item_div);
-    row.appendChild(stock_div);
-    row.appendChild(buy_price_div);
-    row.appendChild(market_value_div);
-    row.appendChild(profit_per_item_div);
-    row.appendChild(total_profit_div);
-    row.appendChild(profit_per_minute_div);
-    row.appendChild(cash_needed_div);
-    body.appendChild(row);
+    });
 }
 
-function sortByItemType(sort_type){
-    let col = 2;
-
-    for(let cell of doc.findAll(`#ttTravelTable .body>.row>div:nth-child(${col})`)){
-        let cell_type = cell.getAttribute("item-type");
-        cell.parentElement.style.display = "none";
-
-        if(sort_type == "all"){
-            cell.parentElement.style.display = "flex";
-            continue;
-        }
-
-        if(Array.isArray(sort_type)){
-            for(let type of sort_type){
-                if(cell_type == type){
-                    cell.parentElement.style.display = "flex";
-                }
-            }
-        } else if(cell_type == sort_type){
-            cell.parentElement.style.display = "flex";
-        }
+function saveSettings(){
+    let travel = {
+        table_type: doc.find(".table-type.active")? doc.find(".table-type.active").getAttribute("type") : "basic",
+        open: doc.find(".legend-content").classList.contains("collapsed")? false:true,
+        item_type: doc.find(".legend-content input[name='item']:checked").getAttribute("_type"),
+        country: doc.find(".legend-content input[name='country']:checked").getAttribute("_type")
     }
 
-    doc.find("#ttTravelTable .content").style.maxHeight = doc.find("#ttTravelTable .content").scrollHeight + "px";
+    local_storage.change({"filters": {"travel": travel}});
 }
 
-function sortByCountry(sort_type){
-    let col = 1;
+function reloadTable(){
+    let travel_items = doc.find("#tt-items").value;
 
-    for(let cell of doc.findAll(`#ttTravelTable .body>.row>div:nth-child(${col})`)){
-        let cell_type = cell.getAttribute("country");
-        cell.parentElement.style.display = "none";
+    doc.find("#ttTravelTable .table .body").innerHTML = "";
+    let body_html = ``;
 
-        if(sort_type == "all"){
-            cell.parentElement.style.display = "flex";
-            continue;
-        }
-
-        if(Array.isArray(sort_type)){
-            for(let type of sort_type){
-                if(cell_type == type){
-                    cell.parentElement.style.display = "flex";
-                }
-            }
-        } else if(cell_type == sort_type){
-            cell.parentElement.style.display = "flex";
-        }
+    // Add rows
+    for(let item of travel_market){
+        let time = country_dict[item.country_name.toLowerCase()].time;
+        let cost = country_dict[item.country_name.toLowerCase()].cost;
+        
+        body_html += addRow(item, time, cost, travel_items);
     }
+    doc.find("#ttTravelTable .table .body").innerHTML = body_html;
 
-    doc.find("#ttTravelTable .content").style.maxHeight = doc.find("#ttTravelTable .content").scrollHeight + "px";
+    // Set Table mode
+    local_storage.get("filters", function(filters){
+        if(filters.travel.table_type == "basic"){
+            doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
+        } else if(filters.travel.table_type == "advanced"){
+            doc.find("#ttTravelTable .table-type-button span[type='advanced']").click();
+        }
+
+        // Sort by country
+        doc.find("#ttTravelTable .header-row i").remove();
+        sort(doc.find("#ttTravelTable .table"), 1, "text");
+    
+        filterTable();
+    });
 }

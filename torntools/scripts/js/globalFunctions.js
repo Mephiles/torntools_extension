@@ -158,6 +158,14 @@ const STORAGE = {
         "height": undefined
     },
     "stakeouts": {},
+    "filters": {
+        "travel": {
+            "table_type": "basic",
+            "open": false,
+            "item_type": "all",
+            "country": "all"
+        }
+    },
 
     // user settings
     "settings": {
@@ -892,7 +900,7 @@ function sort(table, col, type) {
     } else {
         // old header
         let current_i = table.find(".row i");
-        current_i.parentElement.innerHTML = current_i.parentElement.innerText;
+        if(current_i) current_i.remove();
 
         // new header
         let i = doc.new("i");
@@ -1425,7 +1433,7 @@ function getSearchParameters(){
 var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
 travel_market, oc, allies, loot_times, target_list, vault, personalized, 
 mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
-quick, notes, stakeouts, updated, networth;
+quick, notes, stakeouts, updated, networth, filters;
 
 (function(){
     local_storage.get(null, async function(db){
@@ -1455,6 +1463,7 @@ quick, notes, stakeouts, updated, networth;
         stakeouts = DB.stakeouts;
         updated = DB.updated;
         networth = DB.networth;
+        filters = DB.filters;
 
         // Align left
         document.documentElement.style.setProperty("--torntools-align-left", settings.align_left ? "20px" : "auto");
