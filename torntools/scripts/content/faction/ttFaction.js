@@ -1,29 +1,58 @@
 window.addEventListener("load", async function(){
     console.log("TT - Faction");
 
-    // OC
-    if(subpage() == "crimes"){
-        ocMain();
+    switch(subpage()){
+        case "main":
+            if(settings.pages.faction.armory) armoryLog();
+
+            subpageLoaded("main").then(function(){
+                fullInfoBox("main");
+            });
+            break;
+        case "info":
+            subpageLoaded("info").then(function(){
+                fullInfoBox("info");
+            });
+
+            // player list filter
+            if(!mobile){
+                playersLoaded(".member-list").then(function(){
+                    let list = doc.find(".member-list");
+                    let title = list.previousElementSibling;
+        
+                    addFilterToTable(list, title);
+                });
+            }
+            break;
+        case "crimes":
+            ocMain();
+            break;
+        default:
+            break;
     }
 
+    // Crimes page
     doc.find(".faction-tabs li[data-case=crimes]").addEventListener("click", function(){
         ocMain();
     });
     
-    // Simplify Armory
-    if(settings.pages.faction.armory){
-        if(subpage() == "main"){
-            armoryLog();
-        }
-
-        doc.find(".faction-tabs li[data-case=main]").addEventListener("click", function(){
-            armoryLog();
+    // Main page
+    doc.find(".faction-tabs li[data-case=main]").addEventListener("click", function(){
+        if(settings.pages.faction.armory) armoryLog();
+        
+        subpageLoaded("main").then(function(){
+            fullInfoBox("main");
         });
-    }
+    });
 
-    if(!mobile){
-        // Player list filter
-        if(subpage() == "info"){
+    // Info page
+    doc.find(".faction-tabs li[data-case=info]").addEventListener("click", function(){
+        subpageLoaded("info").then(function(){
+            fullInfoBox("info");
+        });
+
+        // player list filter
+        if(!mobile){
             playersLoaded(".member-list").then(function(){
                 let list = doc.find(".member-list");
                 let title = list.previousElementSibling;
@@ -31,15 +60,8 @@ window.addEventListener("load", async function(){
                 addFilterToTable(list, title);
             });
         }
-        doc.find(".faction-tabs li[data-case=info]").addEventListener("click", function(){
-            playersLoaded(".member-list").then(function(){
-                let list = doc.find(".member-list");
-                let title = list.previousElementSibling;
-    
-                addFilterToTable(list, title);
-            });
-        });
-    }
+    });
+
 });
 
 function ocMain(){
@@ -202,20 +224,17 @@ function subpage(){
 
 function subpageLoaded(page){
     return new Promise(function(resolve, reject){
-        let counter = 50;
         let checker = setInterval(function(){
-            console.log("checking");
-            if(page == "crimes" && doc.find(".organize-wrap ul.crimes-list li")){
+            console.log("checking", page);
+            if(page == "crimes" && doc.find("#faction-crimes .organize-wrap ul.crimes-list li")){
                 resolve(true);
                 return clearInterval(checker);
-            } else if(page == "main" && doc.find("#war-react-root")){
+            } else if(page == "main" && !doc.find("#faction-main div[data-title='announcement']+div .ajax-placeholder")){
                 resolve(true);
                 return clearInterval(checker);
-            } else if(counter == 0){
-                resolve(false);
+            } else if(page == "info" && !doc.find("#faction-info .ajax-placeholder")){
+                resolve(true);
                 return clearInterval(checker);
-            } else {
-                counter--;
             }
         }, 100);
     });
@@ -522,3 +541,42 @@ function showNNB(){
         }
     });
 }
+
+function fullInfoBox(page){
+    let info_box;
+    if(page == "main"){
+        info_box = doc.find("#faction-main div[data-title='announcement']").nextElementSibling;
+    } else if(page == "info"){
+        info_box = doc.find("#faction-info .faction-info-wrap.faction-description .faction-info");
+    }
+
+    let title = info_box.previousElementSibling;
+    title.classList.add("tt-title-with-option");
+
+    let key;
+    if(page == "main"){
+        key = "announcements_page_full";
+    } else if(page == "info"){
+        key = "info_page_full";
+    }
+
+    let setting_div = doc.new({type: "div", class: "tt-title-option"});
+    let checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
+    let text = doc.new({type: "div", text: "Show full page"});
+
+    if(settings.pages.faction[key]){
+        checkbox.checked = true;
+        info_box.classList.toggle("tt-force-full");
+    }
+
+    setting_div.appendChild(checkbox);
+    setting_div.appendChild(text);
+    title.appendChild(setting_div);
+
+    checkbox.onclick = function(){
+        info_box.classList.toggle("tt-force-full");
+        
+        local_storage.change({"settings": {"pages": {"faction": {[key]: checkbox.checked}}}})
+    }
+}
+

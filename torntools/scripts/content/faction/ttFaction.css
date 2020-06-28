@@ -55,3 +55,9 @@
 #ttExportTableButton:hover {
     background-color: gray;
 }
+
+/* Announcement & Info page */
+.tt-force-full {
+    overflow-y: unset !important;
+    max-height: unset !important;
+}

@@ -264,7 +264,9 @@ const STORAGE = {
                 "oc_time": true,
                 "armory": true,
                 "open_ready_oc": true,
-                "show_nnb": true
+                "show_nnb": true,
+                "announcements_page_full": false,
+                "info_page_full": false
             },
             "properties": {
                 "vault_sharing": true
