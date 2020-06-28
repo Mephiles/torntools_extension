@@ -232,7 +232,9 @@ function setupPreferences(){
     // Other scripts
     for(let page in settings.pages){
         for(let option in settings.pages[page]){
-            preferences.find(`#${page}-${option} input`).checked = settings.pages[page][option];
+            if(preferences.find(`#${page}-${option} input`)){
+                preferences.find(`#${page}-${option} input`).checked = settings.pages[page][option];
+            }
         }
     }
     // preferences.find(`#remove_info_boxes input`).checked = settings.remove_info_boxes;
@@ -406,7 +408,7 @@ function savePreferences(preferences, settings, target_list_enabled, ext){
     // Other scripts
     for(let page in settings.pages){
         for(let option in settings.pages[page]){
-            settings.pages[page][option] = preferences.find(`#${page}-${option} input`).checked;
+            if(preferences.find(`#${page}-${option} input`)) settings.pages[page][option] = preferences.find(`#${page}-${option} input`).checked;
         }
     }
     // settings.remove_info_boxes = preferences.find(`#remove_info_boxes input`).checked;
