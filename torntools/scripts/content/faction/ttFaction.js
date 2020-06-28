@@ -551,6 +551,11 @@ function fullInfoBox(page){
     }
 
     let title = info_box.previousElementSibling;
+
+    if(title.classList.contains("tt-title-with-option")){
+        return;
+    }
+    
     title.classList.add("tt-title-with-option");
 
     let key;
