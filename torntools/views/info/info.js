@@ -196,7 +196,7 @@ function updateInfo(settings){
         for(let cd of ["drug", "medical", "booster"]){
             let time_left = time_until((userdata.cooldowns[cd] - time_diff)*1000);
 
-            if(time_left == "0s" || time_left.indexOf("-") > -1){
+            if(time_left == "0s" || time_left == -1){
                 doc.find(`#${cd}`).style.display = "none";
             } else {
                 doc.find(`#${cd}`).style.display = "block";
