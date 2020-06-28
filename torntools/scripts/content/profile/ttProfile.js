@@ -215,8 +215,8 @@ function displayProfileStats(){
         console.log("data", data);
 
         let table = doc.new({type: "div", class: "tt-profile-stats"});
-        let col_chosen = doc.new({type: "div", class: "tt-col col-left"});
-        let col_all = doc.new({type: "div", class: "tt-col col-right"});
+        let col_chosen = doc.new({type: "div", class: `tt-col col-left ${mobile?'mobile':''}`});
+        let col_all = doc.new({type: "div", class: `tt-col col-right ${mobile?'mobile':''}`});
         
         // Setup headers
         for(let el of [col_chosen, col_all]){
@@ -256,7 +256,7 @@ function displayProfileStats(){
             let value_cell = doc.new({type: "div", text: value, class: "tt-value"});
             let user_value_cell = doc.new({type: "div", text: user_value, class: "tt-user-value"});
             let icon_div = doc.new({type: "div", class: "tt-icon"});
-            let icon = doc.new({type: "i", class: "fas fa-caret-left"});
+            let icon = doc.new({type: "i", class: `fas ${mobile? 'fa-caret-up':'fa-caret-left'}`});
 
             if(original_user_value > original_value){
                 user_value_cell.classList.add("positive");
@@ -330,7 +330,7 @@ function displayProfileStats(){
 
     function moveLeft(row){
         row.appendChild(row.find(".tt-icon"));
-        row.find(".tt-icon i").setClass("fas fa-caret-right");
+        row.find(".tt-icon i").setClass(`fas ${mobile? 'fa-caret-down':'fa-caret-right'}`);
         doc.find(".tt-profile-stats .tt-col.col-left").appendChild(row);
 
         row.find(".tt-icon i").addEventListener("click", function(){
@@ -342,7 +342,7 @@ function displayProfileStats(){
 
     function moveRight(row){
         row.insertBefore(row.find(".tt-icon"), row.firstElementChild);
-        row.find(".tt-icon i").setClass("fas fa-caret-left");
+        row.find(".tt-icon i").setClass(`fas ${mobile? 'fa-caret-up':'fa-caret-left'}`);
         doc.find(".tt-profile-stats .tt-col.col-right").appendChild(row);
 
         row.find(".tt-icon i").addEventListener("click", function(){

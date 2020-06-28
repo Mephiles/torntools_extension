@@ -29,6 +29,15 @@
     max-height: 200px;
     overflow-x: auto;
 }
+.tt-profile-stats .tt-col.mobile {
+    width: 100% !important;
+}
+.tt-profile-stats .tt-col.col-left.mobile {
+    margin-bottom: 10px !important;
+}
+.tt-profile-stats .tt-col.col-right.mobile {
+    border-left: unset !important;
+}
 .tt-profile-stats .tt-col.col-right {
     border-left: 1px solid lightgray;
     padding-left: 3px;
