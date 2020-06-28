@@ -577,7 +577,12 @@ const content = {
                 content.addEventListener("dragleave", onDragLeave);
             }
 
-            let icon = doc.new({type: "i", class: "fas fa-chevron-down container_collapse"});
+            let icon;
+            if(collapsed == false){
+                icon = doc.new({type: "i", class: "fas fa-chevron-up container_collapse"});
+            } else {
+                icon = doc.new({type: "i", class: "fas fa-chevron-down container_collapse"});
+            }
             
             div.appendChild(heading);
             div.appendChild(content);

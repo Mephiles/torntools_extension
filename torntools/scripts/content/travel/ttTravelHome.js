@@ -115,7 +115,7 @@ function addLegend(){
     `
 <div class="legend">
     <div class="top-row">
-        <div class="filter-button"><i class="fas fa-chevron-up"></i><div>&nbsp;Filters</div></div>
+        <div class="filter-button"><i class="fas ${filters.travel.open? 'fa-chevron-up':'fa-chevron-down'}"></i><div>&nbsp;Filters</div></div>
         <div class="table-type-button">
             <span class="table-type" type="advanced">Advanced</span>
             <span>&nbsp;/&nbsp;</span>
