@@ -208,6 +208,8 @@ p {
 
 .column {
     width: 50%;
+    box-sizing: border-box;
+    padding-right: 10px;
 }
 
 .column .section {
