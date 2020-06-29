@@ -457,7 +457,7 @@ function Main_fast(){
 							let message = userdata.messages[message_key];
 
 							if(message.seen == 0){
-								if(!notifications.messages[message_key]){
+								if(settings.notifications.messages && !notifications.messages[message_key]){
 									notifications.messages[message_key] = {
 										title: `TornTools - New Message by ${message.name}`,
 										text: message.title,
@@ -477,7 +477,7 @@ function Main_fast(){
 							let event = userdata.events[event_key];
 	
 							if(event.seen == 0){
-								if(!notifications.events[event_key]){
+								if(settings.notifications.events && !notifications.events[event_key]){
 									notifications.events[event_key] = {
 										title: `TornTools - New Event`,
 										text: event.event.replace(/<\/?[^>]+(>|$)/g, ""),
