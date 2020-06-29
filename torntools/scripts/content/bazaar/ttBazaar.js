@@ -2,7 +2,7 @@ bazaarLoaded().then(function(){
     console.log("TT - Bazaar");
 
     if(visiting()){
-        console.log("visiting")
+        console.log("visiting");
         // // Shop profits
         // if(settings.pages.shop.profits){
         //     let items = doc.findAll(".buy-items-wrap .items-list li:not(.empty):not(.clear)");
@@ -43,12 +43,40 @@ bazaarLoaded().then(function(){
                     total += result.bazaar[item].market_price * result.bazaar[item].quantity;
                 }
     
-                let div = doc.new({type: "div", class: "tt-bazaar-worth", text: `This bazaar is worth `});
-                let span = doc.new({type: "span", text: `$${numberWithCommas(total, false)}`});
+                let div = doc.new({type: "div", class: "tt-bazaar-text", text: `This bazaar is worth `});
+                let span = doc.new({type: "span", class: "tt-money", text: `$${numberWithCommas(total, false)}`});
     
                 div.appendChild(span);
                 doc.find(".info-msg-cont .msg").appendChild(div);
             });
+        }
+
+        // Highlight item
+        let params = getSearchParameters();
+        if(params.tt_itemid){
+            let item_id = params.tt_itemid;
+            let item_price = params.tt_itemprice;
+            let item_name = itemlist.items[item_id].name;
+
+            let found_item = false;
+            for(let item of doc.findAll(".item___2GvHm")){
+                if(item.find(".name___IJ_Q-").innerText.trim() == item_name && 
+                item.find(".price___8AdTw").innerText.replace("$", "").replace(/,/g, "") == item_price){
+                    found_item = true;
+
+                    item.style.backgroundColor = "rgba(177, 206, 130, 0.5)";
+                    flashColor(item, "background", "slow", 0.2, 1);
+                    break;
+                }
+            }
+
+            if(!found_item){
+                let div = doc.new({type: "div", class: "tt-bazaar-text bold", text: `[${item_name}] `});
+                let span = doc.new({type: "span", class: "not-bold", text: `Could not find item. Please try using the Search function.`});
+    
+                div.appendChild(span);
+                doc.find(".info-msg-cont .msg").appendChild(div);
+            }
         }
     
         // Max buy button

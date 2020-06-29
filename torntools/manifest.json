@@ -394,6 +394,18 @@
 				"scripts/content/stockexchange/ttStockexchange.js"
 			],
 			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/imarket.php*"
+			],
+			"css": [
+				"scripts/content/itemmarket/ttItemmarket.css"
+			],
+			"js": [
+				"scripts/content/itemmarket/ttItemmarket.js"
+			],
+			"run_at": "document_end"
 		}
 	]
 }

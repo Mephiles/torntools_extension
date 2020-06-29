@@ -33,6 +33,10 @@
 }
 
 /* Bazaar worth */
-.tt-bazaar-worth span {
+.tt-bazaar-text span.tt-money {
     color: #678c00;
+}
+
+.not-bold {
+    font-weight: 400 !important;
 }

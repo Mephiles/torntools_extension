@@ -1459,6 +1459,45 @@ function getSearchParameters(){
     return dict;
 }
 
+function flashColor(element, type, speed, min=0, max=1){
+    let [r,g,b,a] = element.style.backgroundColor.split("(")[1].split(")")[0].split(",").map(x=>parseFloat(x.trim()));
+
+    let interval;
+    switch(speed){
+        case "slow":
+            interval = 35;
+            break;
+        case "fast":
+            interval = 20;
+            break;
+        default:
+            break;
+    }
+
+    let increase = a == min ? true:false;
+    let changer = setInterval(function(){
+        if(a <= min){
+            increase = true;
+        } else if(a >= max){
+            increase = false;
+        }
+
+        if(increase){
+            a += 0.01;
+        } else {
+            a -= 0.01;
+        }
+
+        switch(type){
+            case "background":
+                element.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${a})`;
+                break;
+            default:
+                break;
+        }
+    }, interval);
+}
+
 // Pre-load database
 var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
 travel_market, oc, allies, loot_times, target_list, vault, personalized, 
