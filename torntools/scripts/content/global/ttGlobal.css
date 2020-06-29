@@ -291,3 +291,21 @@ div[role="main"] {
     margin-right: 4px;
     margin-top: 7%;
 }
+
+/* Chat filter */
+.tt-chat-filter * {
+    display: inline-block;
+    vertical-align: top;
+}
+.tt-chat-filter div {
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 2px;
+}
+.tt-chat-filter input {
+    background-color: #F2F2F2;
+    margin-top: 1px;
+}
+.chat-box-input_1SBQR.tt-modified {
+    height: 85px !important;
+}

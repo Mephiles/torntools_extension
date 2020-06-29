@@ -41,6 +41,7 @@ DBloaded().then(function(){
         // Chat highlight
         if(doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")){
             highLightChat(chat_highlight, userdata.name);
+            addChatFilters();
         }
     
         doc.addEventListener("click", function(event){
@@ -49,6 +50,7 @@ DBloaded().then(function(){
             }
     
             highLightChat(chat_highlight, userdata.name);
+            addChatFilters();
         });
     
         let chat_observer = new MutationObserver(function(mutationsList, observer){
@@ -227,6 +229,44 @@ function highLightChat(chat_highlight, username){
             }
             if(text.indexOf(username) > -1){
                 message.find("span").parentElement.style.backgroundColor = "#c7e27b6e";
+            }
+        }
+    }
+}
+
+function addChatFilters(){
+    let chats = doc.findAll(".chat-box-content_2C5UJ");
+    for(let chat of chats){
+        if(!chat.nextElementSibling) continue;
+        if(chat.nextElementSibling.find(".tt-chat-filter")) continue;
+
+        chat.nextElementSibling.classList.add("tt-modified");
+
+        console.log(chat)
+        let filter_wrap = doc.new({type: "div", class: "tt-chat-filter"});
+        let filter_text = doc.new({type: "div", text: "filter:"});
+        let filter_input = doc.new({type: "input"});
+
+        filter_wrap.appendChild(filter_text);
+        filter_wrap.appendChild(filter_input);
+
+        chat.nextElementSibling.insertBefore(filter_wrap, chat.nextElementSibling.firstElementChild);
+
+        // Filtering process
+        filter_input.onkeyup = function(){
+            let keyword = filter_input.value.toLowerCase();
+
+            for(let message of chat.findAll(".overview_1MoPG .message_oP8oM span")){
+                message.parentElement.style.display = "block";
+                
+                if(keyword != "" && message.innerText.toLowerCase().indexOf(keyword) == -1){
+                    message.parentElement.style.display = "none";
+                }
+            }
+
+            if(keyword == ""){
+                let viewport = chat.find(".viewport_1F0WI");
+                viewport.scrollTop = viewport.scrollHeight;
             }
         }
     }
