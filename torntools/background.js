@@ -231,7 +231,7 @@ function Main(){
 		console.log("Setting up torndata & itemlist.");
 		await (function(){
 			return new Promise(function(resolve, reject){
-				get_api("https://api.torn.com/torn/?selections=honors,medals,stocks,items", api_key).then((torndata) => {
+				get_api("https://api.torn.com/torn/?selections=honors,medals,stocks,items,pawnshop", api_key).then((torndata) => {
 					if(torndata.ok != undefined && !torndata.ok)
 						return resolve(torndata);
 

@@ -12,6 +12,8 @@ window.addEventListener("load", async function(){
         case "info":
             subpageLoaded("info").then(function(){
                 fullInfoBox("info");
+                
+                if(settings.pages.faction.armory_worth) armoryWorth();
             });
 
             // player list filter
@@ -52,6 +54,8 @@ window.addEventListener("load", async function(){
     doc.find(".faction-tabs li[data-case=info]").addEventListener("click", function(){
         subpageLoaded("info").then(function(){
             fullInfoBox("info");
+
+            if(settings.pages.faction.armory_worth) armoryWorth();
         });
 
         // player list filter
@@ -626,5 +630,33 @@ function upgradesInfoListener(){
             }
         });
         upgrades_info_listener.observe(doc.find(".skill-tree"), {childList: true, subtree: true});
+    });
+}
+
+function armoryWorth(){
+    get_api(`https://api.torn.com/faction/?selections=weapons,armor,temporary,medical,drugs,boosters,cesium,currency`, api_key)
+    .then(function(result){
+        console.log("result", result);
+
+        let total = 0;
+
+        let lists = ["weapons", "armor", "temporary", "medical", "drugs", "boosters"];
+
+        for(let type of lists){
+            for(let item of result[type]){
+                total += itemlist.items[item.ID].market_value * item.quantity;
+            }
+        }
+
+        // Cesium
+        if(result.cesium){
+
+        }
+
+        // Points
+        total += result.points * torndata.pawnshop.points_value;
+
+        let li = doc.new({type: "li", text: `Armory value: $${numberWithCommas(total, false)}`});
+        doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
     });
 }

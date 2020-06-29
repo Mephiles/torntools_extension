@@ -268,7 +268,8 @@ const STORAGE = {
                 "open_ready_oc": true,
                 "show_nnb": true,
                 "announcements_page_full": false,
-                "info_page_full": false
+                "info_page_full": false,
+                "armory_worth": false
             },
             "properties": {
                 "vault_sharing": true
