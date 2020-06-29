@@ -243,7 +243,7 @@ function addChatFilters(){
         chat.nextElementSibling.classList.add("tt-modified");
 
         let filter_wrap = doc.new({type: "div", class: "tt-chat-filter"});
-        let filter_text = doc.new({type: "div", text: "filter:"});
+        let filter_text = doc.new({type: "div", text: "find:"});
         let filter_input = doc.new({type: "input"});
 
         filter_wrap.appendChild(filter_text);
