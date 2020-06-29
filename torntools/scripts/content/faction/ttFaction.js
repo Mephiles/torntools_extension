@@ -732,7 +732,7 @@ function showAvailablePlayers(){
     }
 
     let list = doc.find("ul.plans-list");
-    for(let member of list.find(":scope .item")){
+    for(let member of list.findAll(":scope .item")){
         count++;
     }
 
