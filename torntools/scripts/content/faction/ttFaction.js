@@ -643,8 +643,10 @@ function armoryWorth(){
         let lists = ["weapons", "armor", "temporary", "medical", "drugs", "boosters"];
 
         for(let type of lists){
-            for(let item of result[type]){
-                total += itemlist.items[item.ID].market_value * item.quantity;
+            if(result[type]){
+                for(let item of result[type]){
+                    total += itemlist.items[item.ID].market_value * item.quantity;
+                }
             }
         }
 
