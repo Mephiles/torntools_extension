@@ -315,13 +315,13 @@ p {
     transform:rotate(-30deg);
 }
 
-.notifications.section .option input[type=text] {
+.option input[type=text] {
     width: 70px;
     height: 10px;
     outline: none;
     font-size: 12px;
 }
-.notifications.section .option input[type=text].short {
+.option input[type=text].short {
     width: 15px;
 }
 

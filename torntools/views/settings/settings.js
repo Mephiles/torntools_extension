@@ -211,8 +211,8 @@ function setupPreferences(){
     preferences.find(`#format-date-${settings.format.date} input`).checked = true;
     preferences.find(`#format-time-${settings.format.time} input`).checked = true;
     preferences.find(`#theme-${settings.theme} input`).checked = true;
-    preferences.find("#hide-upgrade input").checked = settings.hide_upgrade;
-    preferences.find("#align-left input").checked = settings.align_left;
+    preferences.find("#hide_upgrade input").checked = settings.hide_upgrade;
+    preferences.find("#align_left input").checked = settings.align_left;
     preferences.find("#notes input").checked = settings.notes;
     preferences.find("#notifications_tts input").checked = settings.notifications_tts;
     preferences.find("#clean_flight input").checked = settings.clean_flight;
@@ -344,16 +344,11 @@ function setupPreferences(){
 
     // Notifications
     for(let notification in settings.notifications){
-        
         if(Array.isArray(settings.notifications[notification])){
             let text = settings.notifications[notification].join(",");
             preferences.find(`#notifications-${notification} input[type='text']`).value = text;
-
-            if(text != ""){
-                preferences.find(`#notifications-${notification} input[type='checkbox']`).checked = settings.notifications[notification];
-            }
         } else {
-            preferences.find(`#notifications-${notification} input[type='checkbox']`).checked = settings.notifications[notification];
+            preferences.find(`#notifications-${notification} input`).checked = settings.notifications[notification];
         }
     }
 
@@ -370,6 +365,19 @@ function setupPreferences(){
     for(let icon of hide_icons){
         preferences.find(`.${icon}`).parentElement.classList.add("disabled");
     }
+
+    // Inactivity
+    let orange_time = "";
+    let red_time = "";
+    for(let time in settings.inactivity_alerts){
+        if(settings.inactivity_alerts[time] == "#fde5c8"){
+            orange_time = (parseFloat(time)/24/60/60/1000).toFixed(0);
+        } else if(settings.inactivity_alerts[time] == "#ffc8c8"){
+            red_time = (parseFloat(time)/24/60/60/1000).toFixed(0);
+        }
+    }
+    preferences.find("#faction-inactivity_alerts_first input").value = orange_time;
+    preferences.find("#faction-inactivity_alerts_second input").value = red_time;
 
     // Buttons
     preferences.find("#save_settings").addEventListener("click", function(){
@@ -389,8 +397,8 @@ function savePreferences(preferences, settings, target_list_enabled, ext){
     settings.format.date = preferences.find("input[name=format-date]:checked").parentElement.id.split("-")[2];
     settings.format.time = preferences.find("input[name=format-time]:checked").parentElement.id.split("-")[2];
     settings.theme = preferences.find("input[name=theme]:checked").parentElement.id.split("-")[1];
-    settings.hide_upgrade = preferences.find("#hide-upgrade input").checked;
-    settings.align_left = preferences.find("#align-left input").checked;
+    settings.hide_upgrade = preferences.find("#hide_upgrade input").checked;
+    settings.align_left = preferences.find("#align_left input").checked;
     settings.notes = preferences.find("#notes input").checked;
     settings.notifications_tts = preferences.find("#notifications_tts input").checked;
     settings.clean_flight = preferences.find("#clean_flight input").checked;
@@ -462,26 +470,14 @@ function savePreferences(preferences, settings, target_list_enabled, ext){
     // Notifications
     for(let notification in settings.notifications){
         if(preferences.find(`#notifications-${notification} input[type='text']`)){
-            if(!preferences.find(`#notifications-${notification} input[type='checkbox']`).checked){
-                settings.notifications[notification] = [];
-            } else {
-                let values = preferences.find(`#notifications-${notification} input[type='text']`).value.split(",").map(x=>parseInt(x.trim()));
-                settings.notifications[notification] = values;
-            }
+            let values = preferences.find(`#notifications-${notification} input[type='text']`).value.split(",").map(x=>parseInt(x.trim()));
+            if(isNaN(values[0])) values = [];
+
+            settings.notifications[notification] = values;
         } else {
             settings.notifications[notification] = preferences.find(`#notifications-${notification} input[type='checkbox']`).checked;
         }
     }
-
-    // // Notifications
-    // for(let notification in settings.notifications){
-    //     preferences.find(`#notifications-${notification} input[type='checkbox']`).checked = settings.notifications[notification];
-        
-    //     if(Array.isArray(settings.notifications[notification])){
-    //         let text = settings.notifications[notification].join(",");
-    //         preferences.find(`#notifications-${notification} input[type='text']`).value = text;
-    //     }
-    // }
 
     // Doctorn
     let extensions = {}
@@ -503,6 +499,17 @@ function savePreferences(preferences, settings, target_list_enabled, ext){
         icons.push(icon.getAttribute("class"));
     }
 
+    // Inactivity
+    settings.inactivity_alerts = {}
+    let orange_time = String(parseFloat(preferences.find("#faction-inactivity_alerts_first input").value)*24*60*60*1000);
+    let red_time = String(parseFloat(preferences.find("#faction-inactivity_alerts_second input").value)*24*60*60*1000);
+    if(!isNaN(orange_time)){
+        settings.inactivity_alerts[orange_time] = "#fde5c8";
+    }
+    if(!isNaN(red_time)){
+        settings.inactivity_alerts[red_time] = "#ffc8c8";
+    }
+    
     console.log("New settings", settings);
 
     local_storage.set({"settings": settings});

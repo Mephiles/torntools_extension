@@ -98,6 +98,10 @@
 						<div class="option" id="faction-open_ready_oc"><input type="checkbox">Auto-open all OCs that are Ready to execute</div>
 						<div class="option" id="faction-show_nnb"><input type="checkbox">Auto-fetch Natural Nerve Bar information from TornStats</div>
 						<div class="option" id="faction-armory_worth"><input type="checkbox">Display Armory Worth information on Info page <span class="new">New!</span></div>
+						<div class="option" id="faction-member_info"><input type="checkbox">Show details about faction members <span class="new">New!</span></div>
+						<div class="note tabbed">(needs to be enabled for following settings)</div>
+						<div class="option" id="faction-inactivity_alerts_first" class="single-nr-input">Inactivity 'orange' notifier: <input type="text" class="short"> days <span class="new">New!</span></div>
+						<div class="option" id="faction-inactivity_alerts_second" class="single-nr-input">Inactivity 'red' notifier: <input type="text" class="short"> days <span class="new">New!</span></div>
 					</div>
 					<div class="section">
 						<div class="heading">Gym</div>
@@ -133,13 +137,13 @@
 						<div class="tabbed note">(landing in Torn or another country)</div>
 						<div class="option" id="notifications-cooldowns"><input type="checkbox">Cooldowns</div>
 						<div class="option" id="notifications-education"><input type="checkbox">Education</div>						
-						<div class="option" id="notifications-energy"><input type="checkbox">Energy <input type="text"> %</div>						
-						<div class="option" id="notifications-nerve"><input type="checkbox">Nerve <input type="text"> %</div>						
-						<div class="option" id="notifications-happy"><input type="checkbox">Happy <input type="text"> %</div>						
-						<div class="option" id="notifications-life"><input type="checkbox">Life <input type="text"> %</div>		
+						<div class="option" id="notifications-energy" class="multi-nr-input">Energy <input type="text"> %</div>						
+						<div class="option" id="notifications-nerve" class="multi-nr-input">Nerve <input type="text"> %</div>						
+						<div class="option" id="notifications-happy" class="multi-nr-input">Happy <input type="text"> %</div>						
+						<div class="option" id="notifications-life" class="multi-nr-input">Life <input type="text"> %</div>		
 						<div class="tabbed note">Separate by commas (5,10,25,50,100)</div>
-						<div class="option" id="notifications-hospital"><input type="checkbox">Notify me <input type="text" class="short"> minutes before getting out of hospital</div>
-						<div class="option" id="notifications-landing"><input type="checkbox">Notify me <input type="text" class="short"> minutes before landing</div>
+						<div class="option" id="notifications-hospital" class="single-nr-input">Notify me <input type="text" class="short"> minutes before getting out of hospital</div>
+						<div class="option" id="notifications-landing" class="single-nr-input">Notify me <input type="text" class="short"> minutes before landing</div>
 
 					</div>
 				</div>
@@ -148,8 +152,8 @@
 						<div class="heading">General</div>
 						<div class="option" id="update_notification"><input type="checkbox">Show update notification</div>
 						<div class="option" id="force_tt"><input type="checkbox">Force TornTools over Doctorn</div>
-						<div class="option" id="hide-upgrade"><input type="checkbox">Hide Level Upgrade info</div>
-						<div class="option" id="align-left"><input type="checkbox">Align Torn to left (fits more open chats)</div>
+						<div class="option" id="hide_upgrade"><input type="checkbox">Hide Level Upgrade info</div>
+						<div class="option" id="align_left"><input type="checkbox">Align Torn to left (fits more open chats)</div>
 						<div class="option" id="notes"><input type="checkbox">Show small Notes box in the Navigation panel</div>
 						<div class="option" id="notifications_tts"><input type="checkbox">Read notifications using Text-To-Speech <span class="new">New!</span></div>
 						<div class="section">
@@ -315,6 +319,7 @@
 						<li>OC NNB: 1 Request to TornStats API (max 25/minute)</li>
 						<li>Bazaar worth: 1 Request to Torn's API</li>
 						<li>Armory worth: 1 Request to Torn's API</li>
+						<li>Faction users info: 1 Request to Torn's API <span class="new">New!</span></li>
 					</ul>
 				</li>
 			</ul>
