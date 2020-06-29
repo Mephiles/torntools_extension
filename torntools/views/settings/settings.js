@@ -215,6 +215,7 @@ function setupPreferences(){
     preferences.find("#align-left input").checked = settings.align_left;
     preferences.find("#notes input").checked = settings.notes;
     preferences.find("#notifications_tts input").checked = settings.notifications_tts;
+    preferences.find("#clean_flight input").checked = settings.clean_flight;
 
     // Tabs
     for(let tab in settings.tabs){
@@ -392,6 +393,7 @@ function savePreferences(preferences, settings, target_list_enabled, ext){
     settings.align_left = preferences.find("#align-left input").checked;
     settings.notes = preferences.find("#notes input").checked;
     settings.notifications_tts = preferences.find("#notifications_tts input").checked;
+    settings.clean_flight = preferences.find("#clean_flight input").checked;
 
     // Tabs
     for(let tab in settings.tabs){

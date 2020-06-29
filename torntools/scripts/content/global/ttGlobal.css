@@ -88,6 +88,11 @@ div[role="main"] {
     margin-top: var(--torntools-mobile-torn-content-margin) !important;
 }
 
+/* Clean Flight */
+.travel-agency-travelling .stage, .travel-agency-travelling .popup-info {
+    display: var(--torntools-clean-flight-display) !important;
+}
+
 /* font-awesome */
 .fas {
     font-weight: 900;

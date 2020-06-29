@@ -171,6 +171,7 @@ const STORAGE = {
     "settings": {
         "update_notification": true,
         "notifications_tts": false,
+        "clean_flight": false,
         // "remove_info_boxes": false,
         "theme": "default",
         "force_tt": false,
@@ -1518,6 +1519,9 @@ quick, notes, stakeouts, updated, networth, filters;
                 document.documentElement.style.setProperty(`--torntools-hide-icons-${icon}`, 'none');
             }
         }
+
+        // Clean Flight page
+        document.documentElement.style.setProperty("--torntools-clean-flight-display", settings.clean_flight? "none":"block");
 
         // Mobile
         mobile = await mobileChecker();
