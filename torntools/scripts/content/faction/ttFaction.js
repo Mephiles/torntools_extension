@@ -476,7 +476,7 @@ function openOCs(){
     let crimes = doc.findAll(".organize-wrap .crimes-list>li");
     
     for(let crime of crimes){
-        if(crime.find(".status .br").innerText.trim() != "Ready"){
+        if(crime.find(".status .bold").innerText.trim() != "Ready"){
             continue;
         }
 
