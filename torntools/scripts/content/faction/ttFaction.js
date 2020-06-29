@@ -27,6 +27,9 @@ window.addEventListener("load", async function(){
         case "crimes":
             ocMain();
             break;
+        case "upgrades":
+            upgradesInfoListener();
+            break;
         default:
             break;
     }
@@ -60,6 +63,11 @@ window.addEventListener("load", async function(){
                 addFilterToTable(list, title);
             });
         }
+    });
+
+    // Upgrades page
+    doc.find(".faction-tabs li[data-case=upgrades]").addEventListener("click", function(){
+        upgradesInfoListener();
     });
 
 });
@@ -233,6 +241,9 @@ function subpageLoaded(page){
                 resolve(true);
                 return clearInterval(checker);
             } else if(page == "info" && !doc.find("#faction-info .ajax-placeholder")){
+                resolve(true);
+                return clearInterval(checker);
+            } else if(page == "upgrades" && !doc.find("#faction-upgrades>.ajax-placeholder")){
                 resolve(true);
                 return clearInterval(checker);
             }
@@ -585,3 +596,35 @@ function fullInfoBox(page){
     }
 }
 
+function upgradesInfoListener(){
+    subpageLoaded("upgrades").then(function(){
+        let upgrades_info_listener = new MutationObserver(function(mutations){
+            for(let mutation of mutations){
+                if(mutation.type == "childList"){
+                    if(mutation.addedNodes[0]){
+                        for(let added_node of mutation.addedNodes){
+                            if(added_node.classList && added_node.classList.contains("confirm") && added_node.classList.length >= 3){
+                                let available_respect = parseInt(doc.find(".residue-respect").innerText.replace(/,/g, ""));
+                                let required_respect;
+                                let needed_respect;
+
+                                for(let text of added_node.findAll(".text")){
+                                    if(text.innerText.indexOf("Requires:") > -1){
+                                        required_respect = parseInt(text.innerText.trim().split("Requires: ")[1].split(" respect")[0].replace(/,/g, ""));
+                                        
+                                        needed_respect = required_respect - available_respect;
+                                        if(needed_respect < 0) needed_respect = 0;
+        
+                                        let span = doc.new({type: "span", text: ` (${numberWithCommas(needed_respect)} respect to go)`});
+                                        text.appendChild(span);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        upgrades_info_listener.observe(doc.find(".skill-tree"), {childList: true, subtree: true});
+    });
+}
