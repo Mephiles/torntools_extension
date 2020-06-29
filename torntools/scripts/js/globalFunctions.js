@@ -274,6 +274,9 @@ const STORAGE = {
             },
             "stockexchange": {
                 "acronyms": true
+            },
+            "bazaar": {
+                "worth": false
             }
         }
     }
@@ -639,6 +642,17 @@ function flying() {
                         if (msg.innerText == "You cannot access this page while traveling!") {
                             resolve(true);
                             return clearInterval(checker);
+                        } else if(msg.innerText.indexOf("You are in") > -1){
+                            console.log("here1");
+                            resolve(true);
+                            return clearInterval(checker);
+                        }
+                    }
+                } else {
+                    for (let msg of doc.findAll(".msg")) {
+                        if(msg.innerText.indexOf("You are in") > -1){
+                            resolve(false);
+                            return clearInterval(checker);
                         }
                     }
                 }
@@ -656,7 +670,7 @@ function flying() {
 }
 
 function abroad() {
-    let promise = new Promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
         let counter = 0;
         let checker = setInterval(function () {
             if (doc.find("#travel-home")) {
@@ -676,6 +690,9 @@ function abroad() {
                     if (msg.innerText == "You can't access this page while abroad.") {
                         resolve(true);
                         return clearInterval(checker);
+                    } else if(msg.innerText.indexOf("You are in") > -1){
+                        resolve(true);
+                        return clearInterval(checker);
                     }
                 }
             }
@@ -687,10 +704,6 @@ function abroad() {
                 counter++;
             }
         }, 100);
-    })
-
-    return promise.then(function (data) {
-        return data;
     });
 }
 

@@ -236,6 +236,7 @@
 						<!-- <div class="tabbed note">(crimes)</div> -->
 						<div class="option" id="properties-vault_sharing"><input type="checkbox">Keep track of each user's money in Vault</div>
 						<div class="option" id="stockexchange-acronyms"><input type="checkbox">Display Stock acronyms before their names at Stock Exchange</div>
+						<div class="option" id="bazaar-worth"><input type="checkbox">Display how much a Bazaar is worth <span class="new">New!</span></div>
 					</div>
 				</div>
 			</div>
@@ -310,6 +311,7 @@
 						<li>Profile Stats: 1 Request per profile to Torn API and 1 request to TornStats API (max 25/minute)</li>
 						<li>Gym Stats: 1 Request to TornStats API (max 25/minute)</li>
 						<li>OC NNB: 1 Request to TornStats API (max 25/minute)</li>
+						<li>Bazaar worth: 1 Request to Torn's API</li>
 					</ul>
 				</li>
 			</ul>
@@ -319,14 +321,14 @@
 				<li>spams requests too much</li>
 				<li>tries to use the wrong API key too many times</li>
 			</ul>
-			<div class="note">(your ip will be unblocked in a minute or two)</div>
+			<div class="note red">(your ip will be unblocked in a minute or two)</div>
 			<p>If for some reason you do get your IP blocked because the extension had a bug or glitched or anything -
 				my apologies. <br> Please do let me know of such incidents so I can avoid them in the future.</p>
 			<div class="input-field">
 				<div class="label bold">Change API key</div>
 				<input type="text" placeholder="API key.." id="api_field">
 				<button id="change_api_key">Change</button>
-				<div class="note">It will take max. 1 minute to fetch new data</div>
+				<div class="note red">It will take max. 1 minute to fetch new data</div>
 			</div>
 		</div>
 	</div>

@@ -31,6 +31,25 @@ bazaarLoaded().then(function(){
         //         item.find(".item-desc .name").appendChild(span);
         //     }
         // }
+
+        // Bazaar worth
+        if(settings.pages.bazaar.worth){
+            let bazaar_user_id = getSearchParameters().userId;
+            get_api(`https://api.torn.com/user/${bazaar_user_id}?selections=bazaar`, api_key)
+            .then(function(result){
+                let total = 0;
+    
+                for(let item in result.bazaar){
+                    total += result.bazaar[item].market_price * result.bazaar[item].quantity;
+                }
+    
+                let div = doc.new({type: "div", class: "tt-bazaar-worth", text: `This bazaar is worth `});
+                let span = doc.new({type: "span", text: `$${numberWithCommas(total, false)}`});
+    
+                div.appendChild(span);
+                doc.find(".info-msg-cont .msg").appendChild(div);
+            });
+        }
     
         // Max buy button
         document.addEventListener("click", function(event){

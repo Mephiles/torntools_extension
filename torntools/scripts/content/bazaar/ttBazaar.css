@@ -31,3 +31,8 @@
     font-size: 9px;
     cursor: pointer;
 }
+
+/* Bazaar worth */
+.tt-bazaar-worth span {
+    color: #678c00;
+}
