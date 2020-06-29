@@ -90,11 +90,10 @@ function ocMain(){
             console.log("NO DATA (might be no API access)");
         }
 
-        if(settings.pages.faction.open_ready_oc){
+        if(settings.pages.faction.oc_advanced){
             openOCs();
             showAvailablePlayers();
-        }
-        if(settings.pages.faction.show_nnb){
+            showRecommendedNNB();
             showNNB();
         }
 
@@ -754,5 +753,28 @@ function showAvailablePlayers(){
         msg_cont.innerHTML = msg_cont_inner;
 
         doc.find("#faction-crimes").insertBefore(msg_cont, doc.find("#faction-crimes").firstElementChild);
+    }
+}
+
+function showRecommendedNNB(){
+    let nnb_dict = {
+        "Blackmail": "0+",
+        "Kidnapping": "~20",
+        "Bomb Threat": "~25",
+        "Planned Robbery": "~35",
+        "Rob a money train": "~45",
+        "Take over a cruise liner": "~50",
+        "Hijack a plane": "55-60",
+        "Political Assassination": "~60"
+    }
+
+    let heading = doc.find(".faction-crimes-wrap:nth-of-type(3) .plan-crimes[role=heading]");
+    let span = doc.new({type: "span", class: "tt-span", text: "Recommended NNB"});
+    heading.appendChild(span);
+
+    for(let crime_type of doc.findAll(".faction-crimes-wrap:nth-of-type(3) .crimes-list .item-wrap")){
+        let name_div = crime_type.find(".plan-crimes")
+        let inner_span = doc.new({type: "span", class: "tt-span", text: nnb_dict[name_div.innerText]});
+        name_div.appendChild(inner_span);
     }
 }

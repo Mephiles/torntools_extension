@@ -23,6 +23,11 @@
     width: 88px;
 }
 
+/* Recommended NNB */
+.plan-crimes .tt-span {
+    float: right;
+}
+
 /* Armory logs */
 #tab4-4 .news-list .date .left-date {
     position: relative;

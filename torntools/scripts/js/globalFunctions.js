@@ -269,8 +269,7 @@ const STORAGE = {
             "faction": {
                 "oc_time": true,
                 "armory": true,
-                "open_ready_oc": true,
-                "show_nnb": true,
+                "oc_advanced": true,
                 "announcements_page_full": false,
                 "info_page_full": false,
                 "armory_worth": false,
