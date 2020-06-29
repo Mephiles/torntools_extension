@@ -24,7 +24,7 @@ window.addEventListener("load", async function(){
         
                     addFilterToTable(list, title);
                 }
-
+    
                 if(settings.pages.faction.member_info) showUserInfo();
             });
             break;
@@ -40,7 +40,9 @@ window.addEventListener("load", async function(){
 
     // Crimes page
     doc.find(".faction-tabs li[data-case=crimes]").addEventListener("click", function(){
-        ocMain();
+        if(!doc.find(".faction-crimes-wrap.tt-modified")){
+            ocMain();
+        }
     });
     
     // Main page
@@ -95,6 +97,8 @@ function ocMain(){
         if(settings.pages.faction.show_nnb){
             showNNB();
         }
+
+        doc.find(".faction-crimes-wrap").classList.add("tt-modified");
     });
 }
 
@@ -719,3 +723,36 @@ function showUserInfo(){
     });
 }
 
+function showAvailablePlayers(){
+    let count = 0;
+
+    if(doc.find("div.plans-list.p10")){
+        display(count);
+        return;
+    }
+
+    let list = doc.find("ul.plans-list");
+    for(let member of list.find(":scope .item")){
+        count++;
+    }
+
+    display(count);
+
+    function display(number){
+        let msg_cont_inner = `
+            <div class="info-msg border-round">
+                <i class="info-icon"></i>
+                <div class="delimiter">
+                    <div class="msg right-round">
+                        ${number} member${number!=1? "s":""} available for OCs.
+                    </div>
+                </div>
+            </div>
+        `
+
+        let msg_cont = doc.new({type: "div", class: "info-msg-cont border-round m-top10"});
+        msg_cont.innerHTML = msg_cont_inner;
+
+        doc.find("#faction-crimes").insertBefore(msg_cont, doc.find("#faction-crimes").firstElementChild);
+    }
+}
