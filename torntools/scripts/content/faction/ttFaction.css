@@ -61,3 +61,32 @@
     overflow-y: unset !important;
     max-height: unset !important;
 }
+
+/* User detailed info */
+#faction-info .member-list.info-members.tt-modified {
+    background-color: unset;
+}
+#faction-info .member-list.info-members.tt-modified>li {
+    background-color: #F2F2F2;
+}
+#faction-info .member-list.info-members li.tt-user-info {
+    height: 18px;
+    line-height: 18px;
+    font-size: 11px;
+    text-align: center;
+    width: 782px;
+    color: #7b7b7b;
+    background-color: #dcdcdc !important;
+}
+
+.tt-user-info .tt-user-info-inner-wrap {
+    margin: auto;
+}
+.tt-user-info .tt-user-info-inner-wrap div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.tt-user-info-inner-wrap .tt-divider {
+    padding: 0 13px;
+}

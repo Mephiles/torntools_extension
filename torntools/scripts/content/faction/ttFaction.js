@@ -16,15 +16,17 @@ window.addEventListener("load", async function(){
                 if(settings.pages.faction.armory_worth) armoryWorth();
             });
 
-            // player list filter
-            if(!mobile){
-                playersLoaded(".member-list").then(function(){
+            playersLoaded(".member-list").then(function(){
+                // Player list filter
+                if(!mobile){
                     let list = doc.find(".member-list");
                     let title = list.previousElementSibling;
         
                     addFilterToTable(list, title);
-                });
-            }
+                }
+
+                if(settings.pages.faction.member_info) showUserInfo();
+            });
             break;
         case "crimes":
             ocMain();
@@ -58,15 +60,17 @@ window.addEventListener("load", async function(){
             if(settings.pages.faction.armory_worth) armoryWorth();
         });
 
-        // player list filter
-        if(!mobile){
-            playersLoaded(".member-list").then(function(){
+        playersLoaded(".member-list").then(function(){
+            // Player list filter
+            if(!mobile){
                 let list = doc.find(".member-list");
                 let title = list.previousElementSibling;
     
                 addFilterToTable(list, title);
-            });
-        }
+            }
+
+            if(settings.pages.faction.member_info) showUserInfo();
+        });
     });
 
     // Upgrades page
@@ -86,6 +90,7 @@ function ocMain(){
 
         if(settings.pages.faction.open_ready_oc){
             openOCs();
+            showAvailablePlayers();
         }
         if(settings.pages.faction.show_nnb){
             showNNB();
@@ -491,7 +496,7 @@ function openOCs(){
     let crimes = doc.findAll(".organize-wrap .crimes-list>li");
     
     for(let crime of crimes){
-        if(crime.find(".status .bold").innerText.trim() != "Ready"){
+        if(crime.find(".status .br") || crime.find(".status .bold").innerText.trim() != "Ready"){
             continue;
         }
 
@@ -662,3 +667,55 @@ function armoryWorth(){
         doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
     });
 }
+
+function showUserInfo(){
+    get_api(`https://api.torn.com/faction/?selections=donations,basic`, api_key)
+    .then(function(result){
+        console.log("result", result);
+
+        doc.find("#faction-info .member-list.info-members").classList.add("tt-modified");
+    
+        for(let user of doc.findAll("#faction-info .member-list.info-members>li")){
+            let user_id = user.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0];
+            
+            let li = doc.new({type: "li", class: "tt-user-info"});
+            let inner_wrap = doc.new({type: "div", class: "tt-user-info-inner-wrap"});
+            let texts = [
+                `Last action: ${result.members[user_id].last_action.relative}`
+            ]
+
+            if(result.donations[user_id]){
+                if(result.donations[user_id].money_balance != 0){
+                    texts.push(`Money balance: $${numberWithCommas(result.donations[user_id].money_balance, false)}`);
+                }
+                if(result.donations[user_id].points_balance != 0){
+                    texts.push(`Points balance: ${numberWithCommas(result.donations[user_id].points_balance, false)}`);
+                }
+            }
+    
+            for(let text of texts){
+                let div = doc.new({type: "div", text: text});
+                inner_wrap.appendChild(div);
+    
+                if(texts.indexOf(text) != texts.length-1){
+                    let divider = doc.new({type: "div", class: "tt-divider", text: "—"});
+                    inner_wrap.appendChild(divider);
+                }
+            }
+    
+            li.appendChild(inner_wrap);
+            user.parentElement.insertBefore(li, user.nextElementSibling);
+
+            // Activity notifications
+            let checkpoints = settings.inactivity_alerts;
+            for(let checkpoint of Object.keys(checkpoints).sort(function(a,b){return b-a})){
+                if(new Date() - new Date(result.members[user_id].last_action.timestamp*1000) >= parseInt(checkpoint)){
+                    console.log(checkpoints[checkpoint])
+                    user.style.backgroundColor = `${checkpoints[checkpoint]}`;
+                    break;
+                }
+            }
+        }
+    });
+}
+

@@ -178,6 +178,10 @@ const STORAGE = {
         "hide_upgrade": false,
         "align_left": false,
         "notes": true,
+        "inactivity_alerts": {
+            // "432000000": "#ffc8c8",  // 5 days
+            // "259200000": "#fde5c8"  // 3 days
+        },
         "profile_stats": {
             "auto_fetch": false,
             "stats": []
@@ -269,7 +273,8 @@ const STORAGE = {
                 "show_nnb": true,
                 "announcements_page_full": false,
                 "info_page_full": false,
-                "armory_worth": false
+                "armory_worth": false,
+                "member_info": false
             },
             "properties": {
                 "vault_sharing": true
