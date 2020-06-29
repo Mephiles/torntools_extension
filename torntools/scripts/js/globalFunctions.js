@@ -627,10 +627,10 @@ const content = {
 }
 
 function flying() {
-    let promise = new Promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
         let checker = setInterval(function () {
             let page_heading = doc.find("#skip-to-content");
-            if (page_heading) {
+            if(page_heading) {
                 if (page_heading.innerText == "Traveling") {
                     resolve(true);
                     return clearInterval(checker);
@@ -642,16 +642,16 @@ function flying() {
                         }
                     }
                 }
+            }
+
+            if(userdata.travel.time_left > 0){
+                resolve(true);
+                return clearInterval(checker);
+            } else {
                 resolve(false);
                 return clearInterval(checker);
             }
         }, 100);
-    })
-
-    return promise.then(function (data) {
-        if (data == true)
-            console.log("User flying.");
-        return data;
     });
 }
 
@@ -1509,7 +1509,10 @@ quick, notes, stakeouts, updated, networth, filters;
         // Mobile
         mobile = await mobileChecker();
         console.log("Using mobile:", mobile);
-        if(mobile) document.documentElement.style.setProperty("--torntools-mobile-torn-content-margin", "150px");
+        console.log(await flying())
+        if(mobile && !(await flying())){
+            document.documentElement.style.setProperty("--torntools-mobile-torn-content-margin", custom_links.length > 0? "150px":"120px");
+        }
 
         console.log("DB LOADED");
         db_loaded = true;
