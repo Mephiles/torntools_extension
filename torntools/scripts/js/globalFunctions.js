@@ -335,7 +335,11 @@ const STORAGE = {
         "hide_upgrade": false,
         "align_left": false,
         "notes": true,
-        "inactivity_alerts": {
+        "inactivity_alerts_faction": {
+            // "432000000": "#ffc8c8",  // 5 days
+            // "259200000": "#fde5c8"  // 3 days
+        },
+        "inactivity_alerts_company": {
             // "432000000": "#ffc8c8",  // 5 days
             // "259200000": "#fde5c8"  // 3 days
         },
@@ -440,6 +444,9 @@ const STORAGE = {
             },
             "bazaar": {
                 "worth": false
+            },
+            "company": {
+                "member_info": false
             }
         }
     }

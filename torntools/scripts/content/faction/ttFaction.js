@@ -715,7 +715,7 @@ function showUserInfo(){
             user.parentElement.insertBefore(li, user.nextElementSibling);
 
             // Activity notifications
-            let checkpoints = settings.inactivity_alerts;
+            let checkpoints = settings.inactivity_alerts_faction;
             for(let checkpoint of Object.keys(checkpoints).sort(function(a,b){return b-a})){
                 if(new Date() - new Date(result.members[user_id].last_action.timestamp*1000) >= parseInt(checkpoint)){
                     console.log(checkpoints[checkpoint])

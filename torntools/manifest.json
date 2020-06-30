@@ -407,6 +407,18 @@
 				"scripts/content/itemmarket/ttItemmarket.js"
 			],
 			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/companies.php*"
+			],
+			"css": [
+				"scripts/content/company/ttCompany.css"
+			],
+			"js": [
+				"scripts/content/company/ttCompany.js"
+			],
+			"run_at": "document_end"
 		}
 	]
 }

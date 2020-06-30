@@ -366,18 +366,31 @@ function setupPreferences(){
         preferences.find(`.${icon}`).parentElement.classList.add("disabled");
     }
 
-    // Inactivity
-    let orange_time = "";
-    let red_time = "";
-    for(let time in settings.inactivity_alerts){
-        if(settings.inactivity_alerts[time] == "#fde5c8"){
-            orange_time = (parseFloat(time)/24/60/60/1000).toFixed(0);
-        } else if(settings.inactivity_alerts[time] == "#ffc8c8"){
-            red_time = (parseFloat(time)/24/60/60/1000).toFixed(0);
+    // Inactivity Faction
+    let orange_time_faction = "";
+    let red_time_faction = "";
+    for(let time in settings.inactivity_alerts_faction){
+        if(settings.inactivity_alerts_faction[time] == "#fde5c8"){
+            orange_time_faction = (parseFloat(time)/24/60/60/1000).toFixed(0);
+        } else if(settings.inactivity_alerts_faction[time] == "#ffc8c8"){
+            red_time_faction = (parseFloat(time)/24/60/60/1000).toFixed(0);
         }
     }
-    preferences.find("#faction-inactivity_alerts_first input").value = orange_time;
-    preferences.find("#faction-inactivity_alerts_second input").value = red_time;
+    preferences.find("#faction-inactivity_alerts_first input").value = orange_time_faction;
+    preferences.find("#faction-inactivity_alerts_second input").value = red_time_faction;
+
+    // Inactivity Company
+    let orange_time_company = "";
+    let red_time_company = "";
+    for(let time in settings.inactivity_alerts_company){
+        if(settings.inactivity_alerts_company[time] == "#fde5c8"){
+            orange_time_company = (parseFloat(time)/24/60/60/1000).toFixed(0);
+        } else if(settings.inactivity_alerts_company[time] == "#ffc8c8"){
+            red_time_company = (parseFloat(time)/24/60/60/1000).toFixed(0);
+        }
+    }
+    preferences.find("#company-inactivity_alerts_first input").value = orange_time_company;
+    preferences.find("#company-inactivity_alerts_second input").value = red_time_company;
 
     // Buttons
     preferences.find("#save_settings").addEventListener("click", function(){
@@ -499,15 +512,26 @@ function savePreferences(preferences, settings, target_list_enabled, ext){
         icons.push(icon.getAttribute("class"));
     }
 
-    // Inactivity
-    settings.inactivity_alerts = {}
-    let orange_time = String(parseFloat(preferences.find("#faction-inactivity_alerts_first input").value)*24*60*60*1000);
-    let red_time = String(parseFloat(preferences.find("#faction-inactivity_alerts_second input").value)*24*60*60*1000);
-    if(!isNaN(orange_time)){
-        settings.inactivity_alerts[orange_time] = "#fde5c8";
+    // Inactivity Faction
+    settings.inactivity_alerts_faction = {}
+    let orange_time_faction = String(parseFloat(preferences.find("#faction-inactivity_alerts_first input").value)*24*60*60*1000);
+    let red_time_faction = String(parseFloat(preferences.find("#faction-inactivity_alerts_second input").value)*24*60*60*1000);
+    if(!isNaN(orange_time_faction)){
+        settings.inactivity_alerts_faction[orange_time_faction] = "#fde5c8";
     }
-    if(!isNaN(red_time)){
-        settings.inactivity_alerts[red_time] = "#ffc8c8";
+    if(!isNaN(red_time_faction)){
+        settings.inactivity_alerts_faction[red_time_faction] = "#ffc8c8";
+    }
+
+    // Inactivity Company
+    settings.inactivity_alerts_company = {}
+    let orange_time_company = String(parseFloat(preferences.find("#company-inactivity_alerts_first input").value)*24*60*60*1000);
+    let red_time_company = String(parseFloat(preferences.find("#company-inactivity_alerts_second input").value)*24*60*60*1000);
+    if(!isNaN(orange_time_company)){
+        settings.inactivity_alerts_company[orange_time_company] = "#fde5c8";
+    }
+    if(!isNaN(red_time_company)){
+        settings.inactivity_alerts_company[red_time_company] = "#ffc8c8";
     }
     
     console.log("New settings", settings);
