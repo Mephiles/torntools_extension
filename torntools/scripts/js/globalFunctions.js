@@ -5,6 +5,163 @@ const doc = document;
 var DB;
 var mobile = false;
 var db_loaded = false;
+var drug_dict = {
+    "cannabis": {
+        "pros": [
+            "Increased crime success rate",
+            "+2-3 Nerve",
+        ],
+        "cons": [
+            "-20% Strength",
+            "-25% Defense",
+            "-35% Speed"
+        ],
+        "cooldown": "60-90 minutes",
+        "overdose": {
+            "bars": ["-100% Energy & Nerve"],
+            "hosp_time": "5 hours",
+            "extra": "'Spaced Out' honor bar"
+        }
+    },
+    "ecstasy": {
+        "pros": [
+            "Doubles Happy"
+        ],
+        "cooldown": "3-4 hours",
+        "overdose": {
+            "bars": ["-100% Energy & Happy"]
+        }
+    },
+    "ketamine": {
+        "pros": [
+            "+50% Defense"
+        ],
+        "cons": [
+            "-20% Strength & Speed"
+        ],
+        "cooldown": "45-60 minutes",
+        "overdose": {
+            "bars": ["-100% Energy, Nerve & Happy"],
+            "stats": "-20% Strength & Speed",
+            "hosp_time": "16-17 hours",
+            "extra": "24-27 hours of cooldown"
+        }
+    },
+    "lsd": {
+        "pros": [
+            "+30% Strength",
+            "+50% Defense",
+            "+50 Energy",
+            "+200-500 Happy",
+            "+5 Nerve"
+        ],
+        "cons": [
+            "-30% Speed & Dexterity"
+        ],
+        "cooldown": "6-8 hours",
+        "overdose": {
+            "bars": [
+                "-100% Energy, Nerve",
+                "-50% Happy"
+            ],
+            "stats": "-30% Speed & Dexterity"
+        }
+    },
+    "opium": {
+        "pros": [
+            "Removes all hospital time (except Radiation Sickness) and replenishes life by 66.6%",
+            "+50-100 Happy"
+        ],
+        "cooldown": "3-4 hours"
+    },
+    "pcp": {
+        "pros": [
+            "+20% Strength & Dexterity",
+            "+250 Happy"
+        ],
+        "cooldown": "4-7 hours",
+        "overdose": {
+            "bars": [
+                "-100% Energy, Nerve & Happy"
+            ],
+            "hosp_time": "27 hours",
+            "stats": "-10x(player level) Speed (permanent)"
+        }
+    },
+    "shrooms": {
+        "pros": [
+            "+500 Happy"
+        ],
+        "cons": [
+            "-20% All Battle Stats",
+            "-25 Energy (caps at 0)"
+        ],
+        "cooldown": "3-4 hours",
+        "overdose": {
+            "bars": [
+                "-100% Energy, Nerve & Happy"
+            ],
+            "hosp_time": "1h 40min"
+        }
+    },
+    "speed": {
+        "pros": [
+            "+20% Speed",
+            "+50 Happy"
+        ],
+        "cons": [
+            "-20% Dexterity"
+        ],
+        "cooldown": "4-6 hours",
+        "overdose": {
+            "bars": [
+                "-100% Energy, Nerve & Happy"
+            ],
+            "stats": "-6x(player level) Strength & Defense (permanent)",
+            "hosp_time": "7h 30min"
+        }
+    },
+    "vicodin": {
+        "pros": [
+            "+25% All Battle Stats",
+            "+75 Happy"
+        ],
+        "cons": [
+            "-35% All Battle Stats"
+        ],
+        "cooldown": "4-6 hours",
+        "overdose": {
+            "bars": [
+                "-150 Happy"
+            ]
+        }
+    },
+    "xanax": {
+        "pros": [
+            "+250 Energy",
+            "+75 Happy"
+        ],
+        "cooldown": "6-8 hours",
+        "overdose": {
+            "bars": [
+                "-100% Energy, Nerve & Happy"
+            ],
+            "hosp_time": "3 days 12 hours",
+            "extra": "24 hours of cooldown and increased addiction"
+        }
+    },
+    "love_juice": {
+        "pros": [
+            "Cost of Attacking & Reviving reduced to 15 Energy",
+            "+50% Speed",
+            "+25% Dexterity"
+        ],
+        "cons": [
+            "Only works on Valentine's Day"
+        ],
+        "cooldown": "5 hours"
+    },
+}
 
 const local_storage = {
     get: function (key, callback) {
@@ -1457,6 +1614,17 @@ function getSearchParameters(){
     let dict = {}
 
     for(let pair of srch.split("&")){
+        dict[pair.split("=")[0]] = pair.split("=")[1];
+    }
+
+    return dict;
+}
+
+function getHashParameters(){
+    let hash = window.location.hash.replace("#/", "");
+    let dict = {}
+
+    for(let pair of hash.split("&")){
         dict[pair.split("=")[0]] = pair.split("=")[1];
     }
 
