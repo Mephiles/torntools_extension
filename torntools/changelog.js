@@ -1,4 +1,34 @@
 export default {
+    "v4.7": {
+        "Features": [
+            "Added detailed info about Drugs on Items page & Faction armory",
+            "Added option to display full Announcements & Info containers on Faction page",
+            "Added option to enable Text-To-Speech for notifications",
+            "Added option to show Bazaar Value",
+            "Added option to show Faction Armory Value",
+            "Added option to clean Flight page",
+            "Added option to show 'respect to go' info for Faction Upgrades",
+            "Added item highlighting when going from Item Market to someone's Bazaar",
+            "Added 'find' feature for chat boxes",
+            "Added option to display details about Faction members including Inactivity alerts (requires Faction API access)",
+            "Added optio nto display details about Company members including Inactivity alerts",
+            "Added 'members available' info for OCs",
+            "Added recommended NNB info for OCs"
+        ],
+        "Fixes": [
+            "Turned all container arrows the right way",
+            "Fixed Info popup failing for Firefox when Traveling",
+            "Fixed OCs opening when their status was not Ready",
+            "Fixed Info popup failing to load when no booster cooldown",
+            "Fixed notifications repeating after 15 minutes. Changed time to 24 hours",
+            "Fixed empty space on Mobile while Traveling",
+            "Fixed events and message Notifications not respecting preferences",
+            "Fixed script info stacking on Faction Crimes page"
+        ],
+        "Changes": [
+            "Moved 'TornStats NNB', 'recommended NNB', 'auto-open OCs', 'show available member count' under single option: 'OC Advanced'"
+        ]
+    },
     "v4.6": {
         "Discord": [
             "Join the Discord (https://discord.gg/ukyK6f6) to report bugs, give suggestions or just chat"
