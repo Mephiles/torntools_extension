@@ -34,6 +34,9 @@ window.addEventListener("load", async function(){
         case "upgrades":
             upgradesInfoListener();
             break;
+        case "armoury":
+            if(settings.pages.items.drug_details) drugInfo();
+            break;
         default:
             break;
     }
@@ -80,6 +83,10 @@ window.addEventListener("load", async function(){
         upgradesInfoListener();
     });
 
+    // Armory page
+    doc.find(".faction-tabs li[data-case=armoury]").addEventListener("click", function(){
+        if(settings.pages.items.drug_details) drugInfo();
+    });
 });
 
 function ocMain(){
@@ -233,12 +240,10 @@ function subpage(){
         return "main";
     }
 
-    let key = hash.split("=")[0];
-    let value = hash.split("=")[1];
-
-    if(key == "tab"){
-        return value;
+    if(getHashParameters().tab){
+        return getHashParameters().tab
     }
+    
     return "";
 }
 
@@ -777,4 +782,97 @@ function showRecommendedNNB(){
         let inner_span = doc.new({type: "span", class: "tt-span", text: nnb_dict[name_div.innerText]});
         name_div.appendChild(inner_span);
     }
+}
+
+function drugInfo(){
+    let item_info_container_mutation = new MutationObserver(function(mutations){
+        for(let mutation of mutations){
+            if(mutation.target.classList.contains("view-item-info") && (mutation.addedNodes.length > 0 || mutation.attributeName == "style")){
+                let el = mutation.target;
+                itemInfoLoaded(el).then(function(){
+                    let item_name = el.find("span.bold").innerText;
+                    if(item_name.indexOf("The") > -1) item_name = item_name.split("The ")[1];
+
+                    let drug_details = drug_dict[item_name.toLowerCase().replace(/ /g, "_")];
+                    if(drug_details == undefined){
+                        return;
+                    }
+
+                    // Remove current info
+                    for(let eff of el.findAll(".item-effect")){
+                        eff.remove();
+                    }
+
+                    // Pros
+                    if(drug_details.pros){
+                        let pros_header = doc.new({type: "div", class: "t-green bold item-effect m-top10", text: "Pros:"});
+                        el.find(".info-msg").appendChild(pros_header);
+                        
+                        for(let eff of drug_details.pros){
+                            let pros_div = doc.new({type: "div", class: "t-green bold item-effect tabbed", text: eff});
+                            el.find(".info-msg").appendChild(pros_div);
+                        }
+                    }
+
+                    // Cons
+                    if(drug_details.cons){
+                        let cons_header = doc.new({type: "div", class: "t-red bold item-effect", text: "Cons:"});
+                        el.find(".info-msg").appendChild(cons_header);
+                        
+                        for(let eff of drug_details.cons){
+                            let cons_div = doc.new({type: "div", class: "t-red bold item-effect tabbed", text: eff});
+                            el.find(".info-msg").appendChild(cons_div);
+                        }
+                    }
+
+                    // Cooldown
+                    if(drug_details.cooldown){
+                        let cooldown_div = doc.new({type: "div", class: "t-red bold item-effect", text: `Cooldown: ${drug_details.cooldown}`});
+                        el.find(".info-msg").appendChild(cooldown_div);
+                    }
+
+                    // Overdose
+                    if(drug_details.overdose){
+                        let od_header = doc.new({type: "div", class: "t-red bold item-effect", text: "Overdose:"});
+                        el.find(".info-msg").appendChild(od_header);
+
+                        // bars
+                        if(drug_details.overdose.bars){
+                            let bars_header = doc.new({type: "div", class: "t-red bold item-effect tabbed", text: "Bars"});
+                            el.find(".info-msg").appendChild(bars_header);
+                            
+                            for(let bar_eff of drug_details.overdose.bars){
+                                let bar_eff_div = doc.new({type: "div", class: "t-red bold item-effect double-tabbed", text: bar_eff});
+                                el.find(".info-msg").appendChild(bar_eff_div);
+                            }
+                        }
+
+                        // hospital time
+                        if(drug_details.overdose.hosp_time){
+                            let hosp_div = doc.new({type: "div", class: "t-red bold item-effect tabbed", text: `Hospital: ${drug_details.overdose.hosp_time}`});
+                            el.find(".info-msg").appendChild(hosp_div);
+                        }
+
+                        // extra
+                        if(drug_details.overdose.extra){
+                            let extra_div = doc.new({type: "div", class: "t-red bold item-effect tabbed", text: `Extra: ${drug_details.overdose.extra}`});
+                            el.find(".info-msg").appendChild(extra_div);
+                        }
+                    }
+                });
+            }
+        }
+    });
+    item_info_container_mutation.observe(doc.find("body"), {childList: true, subtree: true, attributes: true});
+}
+
+function itemInfoLoaded(element){
+    return new Promise(function (resolve, reject) {
+        let checker = setInterval(function () {
+            if(!element.find(".ajax-placeholder")){
+                resolve(true);
+                return clearInterval(checker);
+            }
+        }, 100);
+    });
 }

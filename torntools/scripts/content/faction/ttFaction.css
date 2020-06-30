@@ -96,3 +96,11 @@
 .tt-user-info-inner-wrap .tt-divider {
     padding: 0 13px;
 }
+
+/* Drug information */
+.item-effect.tabbed {
+    margin-left: 15px;
+}
+.item-effect.double-tabbed {
+    margin-left: 30px;
+}
