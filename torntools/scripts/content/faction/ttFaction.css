@@ -75,12 +75,10 @@
     background-color: #F2F2F2;
 }
 #faction-info .member-list.info-members li.tt-user-info {
-    height: 18px;
     line-height: 18px;
     font-size: 11px;
     text-align: center;
     padding-bottom: 5px;
-    width: 782px;
     color: #7b7b7b;
     background-color: #dcdcdc !important;
 }
