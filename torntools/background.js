@@ -692,7 +692,7 @@ function Main_extra_fast(){
 				notifications[notification_type][notification_key].seen = 1;
 			}
 
-			if(notifications[notification_type][notification_key].seen == 1 && (new Date() - notifications[notification_type][notification_key].date) > 24*60*60*1000){
+			if(notifications[notification_type][notification_key].seen == 1 && (new Date() - notifications[notification_type][notification_key].date) > 7*24*60*60*1000){
 				// notifications[notification_type][notification_key] = undefined;
 				delete notifications[notification_type][notification_key];
 			}
