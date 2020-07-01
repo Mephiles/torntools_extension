@@ -538,12 +538,19 @@ function displayStakeoutOptions(){
     });
 
     function saveStakoutSettings(){
-        local_storage.change({"stakeouts": {
-            [getUserId()]: {
-                "okay": checkbox_okay.checked,
-                "lands": checkbox_lands.checked,
-                "online": checkbox_online.checked
-            }
-        }});
+        if(checkbox_okay.checked || checkbox_lands.checked || checkbox_online.checked){
+            local_storage.change({"stakeouts": {
+                [getUserId()]: {
+                    "okay": checkbox_okay.checked,
+                    "lands": checkbox_lands.checked,
+                    "online": checkbox_online.checked
+                }
+            }});
+        } else {
+            local_storage.get("stakeouts", function(stakeouts){
+                delete stakeouts[getUserId()];
+                local_storage.set({"stakeouts": stakeouts});
+            });
+        }
     }
 }
