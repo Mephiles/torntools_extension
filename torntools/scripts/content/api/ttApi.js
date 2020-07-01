@@ -10,30 +10,32 @@ window.addEventListener('load', (event) => {
 				// apply API key
 				doc.find("#api_key").focus();
 
-				// Show fields in use
-				for(let panel of doc.findAll(".panel-group")){
-					panel.addEventListener("click", markFieldsTimeout);
-					panel.find("button").addEventListener("click", function(event){
-						let response_div = event.target.nextElementSibling;
-						let responses_before = [...response_div.findAll("span")].length;
-
-						responseLoaded(response_div, responses_before).then(function(loaded){
-							if(!loaded)
-								return;
-
-							let type = panel.previousElementSibling.innerText.toLowerCase();
-							let fields = panel.find(`#${type[0]}_selections`).value;
-							markResponse(type, fields, response_div.firstElementChild.find("pre"));
+				if(settings.pages.api.marking){
+					// Show fields in use
+					for(let panel of doc.findAll(".panel-group")){
+						panel.addEventListener("click", markFieldsTimeout);
+						panel.find("button").addEventListener("click", function(event){
+							let response_div = event.target.nextElementSibling;
+							let responses_before = [...response_div.findAll("span")].length;
+	
+							responseLoaded(response_div, responses_before).then(function(loaded){
+								if(!loaded)
+									return;
+	
+								let type = panel.previousElementSibling.innerText.toLowerCase();
+								let fields = panel.find(`#${type[0]}_selections`).value;
+								markResponse(type, fields, response_div.firstElementChild.find("pre"));
+							});
 						});
-					});
-
-					function markFieldsTimeout() {
-						setTimeout(function(){
-							let name = panel.previousElementSibling.innerText.toLowerCase();
-							let id = panel.find("div[role=tabpanel]").id;
-							markFields(name, id);
-							panel.removeEventListener("click", markFieldsTimeout);
-						}, 500);
+	
+						function markFieldsTimeout() {
+							setTimeout(function(){
+								let name = panel.previousElementSibling.innerText.toLowerCase();
+								let id = panel.find("div[role=tabpanel]").id;
+								markFields(name, id);
+								panel.removeEventListener("click", markFieldsTimeout);
+							}, 500);
+						}
 					}
 				}
 

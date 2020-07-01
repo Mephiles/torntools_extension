@@ -425,7 +425,8 @@ const STORAGE = {
             },
             "api": {
                 "key": true,
-                "pretty": true
+                "pretty": true,
+                "marking": false
             },
             "faction": {
                 "oc_time": true,
