@@ -1390,11 +1390,13 @@ function notifyUser(title, message){
         console.log("Notified!");
     });
 
-    if(settings.notifications_tts){
-        console.log("READING TTS");
-        chrome.tts.speak(title);
-        chrome.tts.speak(message, {"enqueue": true});
-    }
+    local_storage.get("settings", function(settings){
+        if(settings.notifications_tts){
+            console.log("READING TTS");
+            chrome.tts.speak(title);
+            chrome.tts.speak(message, {"enqueue": true});
+        }
+    });
 }
 
 function setBadge(text, attr={}){
