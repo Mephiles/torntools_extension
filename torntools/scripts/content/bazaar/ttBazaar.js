@@ -53,7 +53,7 @@ bazaarLoaded().then(function(){
 
         // Highlight item
         let params = getSearchParameters();
-        if(params.tt_itemid){
+        if(params.tt_itemid && !mobile){
             let item_id = params.tt_itemid;
             let item_price = params.tt_itemprice;
             let item_name = itemlist.items[item_id].name;
