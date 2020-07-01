@@ -1287,6 +1287,7 @@ function formatTime([hours, minutes, seconds], formatting){
 
     if(formatting == "us"){
         hours = hours > 12 ? hours-12 : hours;
+        if(hours == 0) hours = 12;
         hours = hours.toString().length == 1 ? `0${hours}` : hours;
 
         if(seconds){
