@@ -1,7 +1,7 @@
 gymLoaded().then(function(){
     console.log("TT - Gym");
 
-    let gym_settings_container = content.new_container("Gym", {id: "tt-gym-settings", theme: settings.theme, collapsed: false});
+    let gym_container = content.new_container("Gym", {id: "tt-gym", collapsed: false});
 
     // Graph
     if((extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt) && !mobile){
@@ -12,65 +12,29 @@ gymLoaded().then(function(){
     if(settings.pages.gym.estimated_energy){
         let div = doc.new({type: "div", id: "ttEnergyEstimate"});
 
-        gym_settings_container.find(".content").appendChild(div);
+        gym_container.find(".content").appendChild(div);
         showProgress();
     }
 
-    // setup box
-    let div = doc.new("div");
-        div.setClass("tt-setting");
-    let checkbox = doc.new("input");
-        checkbox.type = "checkbox";
-    let p = doc.new("p");
-        p.setClass("tt-setting-description")
-        p.innerText = "Disable Gym buttons";
-
-    let saving_div = doc.new("div");
-        saving_div.setClass("saving");
-    let text = doc.new("div");
-        text.setClass("text");
-        text.innerText = "Saving..";
-    let img_div = doc.new("div");
-        img_div.setClass("loading-icon");
-        img_div.style.backgroundImage = `url(${chrome.runtime.getURL("images/loading.gif")})`;
-
-    saving_div.appendChild(text);
-    saving_div.appendChild(img_div);
-    div.appendChild(checkbox);
-    div.appendChild(p);
-    div.appendChild(saving_div);
-    gym_settings_container.find(".content").appendChild(div);
-
     // Disable buttons
-    // checkbox listener
+    let div = doc.new({type: "div", class: "tt-wrap"});
+    let checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
+    let div_text = doc.new({type: "div", text: "Disable Gym buttons"});
+
+    div.appendChild(checkbox);
+    div.appendChild(div_text);
+    gym_container.find(".content").appendChild(div);
+
     checkbox.addEventListener("click", function(event){
         let checked = event.target.checked;
-        saved(false);
 
-        if(doc.find(".tt-awards-time").getAttribute("seconds")%60 >= 55 || doc.find(".tt-awards-time").getAttribute("seconds")%60 <= 5){
-            setTimeout(function(){
-                local_storage.change({"settings": {"pages": {"gym": {"disable_buttons": checked}}}}, function(){
-                    saved(true);
+        local_storage.change({"settings": {"pages": {"gym": {"disable_buttons": checked}}}});
 
-                    setTimeout(function(){
-                        saving_div.style.display = "none";
-                    }, 1500);
-                });
-            }, 10*1000);  // wait 20 seconds
-        } else {
-            local_storage.change({"settings": {"pages": {"gym": {"disable_buttons": checked}}}}, function(){
-                saved(true);
-
-                setTimeout(function(){
-                    saving_div.style.display = "none";
-                }, 1500);
-            });
-        }
-
-        if(checked)
+        if(checked){
             disableTrainButtons(true);
-        else
+        } else {
             disableTrainButtons(false)
+        }
     });
     
     if(settings.pages.gym.disable_buttons){
@@ -141,23 +105,29 @@ function showProgress(){
 }
 
 function displayGraph(){
+    let container = doc.find("#tt-gym .content");
+    let graph_area = doc.new({type: "div", class: "tt-graph-area"});
+    container.appendChild(graph_area);
+
     fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=getStatGraph`)
     .then(async function(response){
         let result = await response.json();
+
         if(result.error){
             console.log("TornStats API result", result);
             
             let text;
             if(result.error.indexOf("User not found") > -1){
-                text = "Please register an account @ www.tornstats.com";
+                text = "Can't display graph because no TornStats account was found. Please register an account @ www.tornstats.com";
             }
-            let div = doc.new({type: "div", text: text || result.error, attributes: {style: "margin-bottom: 10px;"}});
-            doc.find(".fetch-button").parentElement.insertBefore(div, doc.find(".fetch-button"));
+
+            let div = doc.new({type: "div", text: text || result.error, class: "tt-error-message"});
+            graph_area.appendChild(div);
             return;
         }
 
-        let canvas = doc.new({type: "canvas", id: "tt-gym-graph", attributes: {width: "784", height: "250", style: "margin-bottom: 10px;"}});
-        doc.find("#tt-gym-settings .content").insertBefore(canvas, doc.find("#tt-gym-settings .content").firstElementChild);
+        let canvas = doc.new({type: "canvas", id: "tt-gym-graph", attributes: {width: "784", height: "250"}});
+        graph_area.appendChild(canvas);
 
         let ctx = doc.find("#tt-gym-graph").getContext("2d");
         new Chart(ctx, {
@@ -249,21 +219,48 @@ function displayGraph(){
             }
         });
 
-        let update_button = doc.new({type: "button", text: "Update TornStats", class: "ttEnergyEstimate"});
-        doc.find("#tt-gym-settings .content").insertBefore(update_button, doc.find("#ttEnergyEstimate"));
+        let update_button = doc.new({type: "button", text: "Update TornStats", class: "update-button"});
+        graph_area.appendChild(update_button);
 
         update_button.addEventListener("click", function(){
+            if(graph_area.find(".response-message")) graph_area.find(".response-message").remove();
+            if(graph_area.find(".tt-info-message")) graph_area.find(".tt-info-message").remove();
+
             fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=recordStats`)
             .then(async function(response){
                 let result = await response.json();
+                console.log("result", result);
+
+                let response_div = doc.new({type: "div", class: "response-message"});
+                graph_area.appendChild(response_div);
+
                 if(result.error){
                     console.log("TornStats API result", result);
 
-                    update_button.style.color = "#de0000";
-                    update_button.innerText = result.error;
+                    response_div.classList.add("failure");
+                    response_div.innerText = result.error;
                 } else if(result.status == true){
-                    update_button.innerText = result.message;
-                    update_button.style.color = "#00a500"
+                    response_div.classList.add("success");
+                    response_div.innerText = result.message;
+
+                    let gains = []
+                    let update_message = `You have gained `
+
+                    if(result.deltaStrength != 0){
+                        gains.push(`${numberWithCommas(result.deltaStrength, false)} Strength`);
+                    } else if(result.deltaDefense != 0){
+                        gains.push(`${numberWithCommas(result.deltaDefense, false)} Defense`);
+                    } else if(result.deltaDexterity != 0){
+                        gains.push(`${numberWithCommas(result.deltaDexterity, false)} Dexterity`);
+                    } else if(result.deltaSpeed != 0){
+                        gains.push(`${numberWithCommas(result.deltaSpeed, false)} Speed`);
+                    }
+
+                    update_message += gains.join(", ") + ` since your last update ${result.age}.`;
+                    if(gains.length == 0) update_message = `You have not gained any stats since your last update ${result.age}.`
+
+                    let info_div = doc.new({type: "div", class: "tt-info-message", text: update_message});
+                    graph_area.appendChild(info_div);
                 }
             });
         });

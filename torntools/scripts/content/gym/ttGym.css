@@ -1,67 +1,49 @@
+/* Graph */
+.tt-graph-area {
+    /* background-color: white; */
+    padding: 10px 0;
+    margin-bottom: 10px;
+}
+.tt-error-message {
+    text-align: center;
+}
+
+.update-button {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.response-message {
+    margin-top: 10px;
+    margin-left: 5px;
+}
+.response-message.failure {
+    color: #de0000;
+}
+.response-message.success {
+    color: #00a500;
+}
+
+.tt-info-message {
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
 /* Info */
 #ttEnergyEstimate {
     font-weight: 600;
-}
+} 
 
-.ttEnergyEstimate {
-    float: right;
-    font-size: 15px;
+/* Options */
+.tt-wrap {
+    margin-top: 5px;
 }
-
-/* Settings */
-#tt-gym-settings .content {
-    padding: 7px;
+.tt-wrap * {
+    display: inline-block;
+    vertical-align: top;
+}
+.tt-wrap input {
+    margin-right: 3px;
     position: relative;
-}
-
-#tt-gym-settings .content .tt-setting {
-    margin-top: 3px;
-    margin-bottom: 3px;
-}
-
-#tt-gym-settings .content .tt-setting, #tt-gym-settings .content .tt-setting * {
-    height: 20px;
-    line-height: 20px;
-}
-
-#tt-gym-settings .content .tt-setting input[type=checkbox] {
-    float: left;
-}
-
-#tt-gym-settings .content .tt-setting .tt-setting-description {
-    padding-left: 5px;
-    float: left;
-}
-
-#tt-gym-settings .saving {
-    position: absolute;
-    right: 5px;
-}
-
-#tt-gym-settings .text {
-    display: none;
-}
-
-#tt-gym-settings .loading-icon {
-    width: 20px;
-    background-size: cover;
-    float: right;
-    margin-left: 3px;
-    display: none;
-}
-
-
-#tt-gym-settings .text.done {
-    color: #678c00;
-}
-
-#tt-gym-settings .saving.done .loading-icon {
-    display: none;
-}
-
-#tt-gym-settings .loading-icon {
-    width: 20px;
-    background-size: cover;
-    float: right;
-    margin-left: 3px;
+    top: -1px;
 }
