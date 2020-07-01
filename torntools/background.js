@@ -611,6 +611,21 @@ function Main_fast(){
 		if(Object.keys(stakeouts).length > 0){
 			console.log("Checking stakeouts.");
 			for(let user_id of Object.keys(stakeouts)){
+				let all_false = true;
+				for(let option in stakeouts[user_id]){
+					if(stakeouts[user_id][option] == true){
+						all_false = false;
+					}
+				}
+
+				if(all_false){
+					local_storage.get("stakeouts", function(stakeouts){
+						delete stakeouts[user_id];
+						local_storage.set({"stakeouts": stakeouts});
+					});
+					continue;
+				}
+
 				await (function(){
 					return new Promise(function(resolve, reject){
 						get_api(`https://api.torn.com/user/${user_id}?`, api_key)
@@ -657,16 +672,6 @@ function Main_fast(){
 								}
 							}
 
-							let all_false = true;
-							for(let option in stakeouts[user_id]){
-								if(stakeouts[user_id][option] == true){
-									all_false = false;
-								}
-							}
-
-							if(all_false){
-								local_storage.change({"stakeouts": {[user_id]: undefined}});
-							}
 							return resolve(true);
 						});
 					});
