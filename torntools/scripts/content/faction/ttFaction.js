@@ -534,9 +534,16 @@ function showNNB(){
         for(let crime of crimes){
             for(let player of crime.findAll(".details-list>li")){
                 player.find(".level").classList.add("torntools-modified");
+                if(mobile){
+                    player.find(".member").classList.add("torntools-modified");
+                    player.find(".stat").classList.add("torntools-modified");
+                    player.find(".member").classList.add("torntools-mobile");
+                    player.find(".level").classList.add("torntools-mobile");
+                    player.find(".stat").classList.add("torntools-mobile");
+                }    
 
                 if(player.find(".member").innerText == "Member"){
-                    let col = doc.new({type: "li", class: "tt-nnb", text: "TornStats NNB"});
+                    let col = doc.new({type: "li", class: `tt-nnb ${mobile? "torntools-mobile":""}`, text: mobile?"NNB":"TornStats NNB"});
                     player.find(".stat").parentElement.insertBefore(col, player.find(".stat"));
 
                     continue;
@@ -545,7 +552,7 @@ function showNNB(){
                 let player_id = player.find(".h").getAttribute("href").split("XID=")[1];
                 let nnb = result.members[player_id] ? result.members[player_id].natural_nerve : "N/A";
 
-                let col = doc.new({type: "li", class: "tt-nnb", text: nnb});
+                let col = doc.new({type: "li", class: `tt-nnb ${mobile? "torntools-mobile":""}`, text: nnb});
                 player.find(".stat").parentElement.insertBefore(col, player.find(".stat"));
             }
         }
@@ -553,9 +560,18 @@ function showNNB(){
         // Populate new crime selection
         for(let player of doc.findAll(".plans-list .item")){
             player.find(".offences").classList.add("torntools-modified");
+            if(mobile){
+                player.find(".member").classList.add("torntools-modified");
+                player.find(".level").classList.add("torntools-modified");
+                player.find(".act").classList.add("torntools-modified");
+                player.find(".member").classList.add("torntools-mobile");
+                player.find(".level").classList.add("torntools-mobile");
+                player.find(".act").classList.add("torntools-mobile");
+                player.find(".offences").classList.add("torntools-mobile");
+            } 
 
             if(player.find(".member").innerText.trim() == "Member"){
-                let col = doc.new({type: "li", class: "tt-nnb short", text: "TornStats NNB"});
+                let col = doc.new({type: "li", class: `tt-nnb short ${mobile?"torntools-mobile":""}`, text: mobile?"NNB":"TornStats NNB"});
                 player.find(".act").parentElement.insertBefore(col, player.find(".act"));
 
                 continue;
@@ -564,7 +580,7 @@ function showNNB(){
             let player_id = player.find(".h").getAttribute("href").split("XID=")[1];
             let nnb = result.members[player_id] ? result.members[player_id].natural_nerve : "N/A";
 
-            let col = doc.new({type: "li", class: "tt-nnb short", text: nnb});
+            let col = doc.new({type: "li", class: `tt-nnb short ${mobile?"torntools-mobile":""}`, text: nnb});
             player.find(".act").parentElement.insertBefore(col, player.find(".act"));
         }
     });
@@ -774,7 +790,7 @@ function showRecommendedNNB(){
     }
 
     let heading = doc.find(".faction-crimes-wrap:nth-of-type(3) .plan-crimes[role=heading]");
-    let span = doc.new({type: "span", class: "tt-span", text: "Recommended NNB"});
+    let span = doc.new({type: "span", class: "tt-span", text: mobile? "NNB":"Recommended NNB"});
     heading.appendChild(span);
 
     for(let crime_type of doc.findAll(".faction-crimes-wrap:nth-of-type(3) .crimes-list .item-wrap")){

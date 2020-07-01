@@ -8,19 +8,54 @@
     right: -7px;
 }
 
-.level.torntools-modified {
-    width: 100px !important;
-}
-.offences.torntools-modified {
-    width: 55px !important;
-}
-
-.tt-nnb {
+.crimes-list .tt-nnb {
     text-align: right;
     width: 154px;
 }
-.tt-nnb.short {
+
+.crimes-list .level.torntools-modified {
+    width: 100px !important;
+}
+.crimes-list .member.torntools-modified.torntools-mobile {
+    width: 140px !important;
+}
+.crimes-list .level.torntools-modified.torntools-mobile {
+    width: 30px !important;
+}
+.crimes-list .stat.torntools-modified.torntools-mobile {
+    width: 40px !important;
+    padding-left: 5px !important;
+}
+.crimes-list .tt-nnb.torntools-mobile {
+    width: 27px;
+}
+
+.plan-crimes .tt-nnb.short {
     width: 88px;
+}
+.plan-crimes .tt-nnb.short.torntools-mobile {
+    width: 20px;
+}
+
+.plans-list .offences.torntools-modified {
+    width: 55px !important;
+}
+.plans-list .member.torntools-modified.torntools-mobile {
+    width: 100px !important;
+}
+.plans-list .level.torntools-modified.torntools-mobile {
+    width: 15px !important;
+}
+.plans-list .offences.torntools-modified.torntools-mobile {
+    width: 50px !important;
+}
+.plans-list .act.torntools-modified.torntools-mobile {
+    width: 29px !important;
+}
+.faction-crimes-wrap:nth-of-type(3) .crimes-list>.item-wrap:nth-of-type(5)>ul>li:not(.plan-crimes),
+.faction-crimes-wrap:nth-of-type(3) .crimes-list>.item-wrap:nth-of-type(6)>ul>li:not(.plan-crimes),
+.faction-crimes-wrap:nth-of-type(3) .crimes-list>.item-wrap:nth-of-type(8)>ul>li:not(.plan-crimes) {
+    line-height: 28px !important;
 }
 
 /* Recommended NNB */
