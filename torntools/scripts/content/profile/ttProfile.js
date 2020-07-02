@@ -35,7 +35,7 @@ profileLoaded().then(async function(){
 
     // Profile stats
     let info_container = content.new_container("User Info", {next_element_heading: "Medals", id: "tt-target-info", collapsed: !filters.profile_stats.open});
-    let profile_stats_div = doc.new({type: "div", class: "profile-stats"});
+    let profile_stats_div = doc.new({type: "div", class: `profile-stats ${mobile?'tt-mobile':""}`});
     info_container.find(".content").appendChild(profile_stats_div);
 
     if(!filters.profile_stats.auto_fetch){
@@ -237,7 +237,7 @@ async function displayProfileStats(){
 
     }
 
-    let table = doc.new({type: "div", class: "tt-stats-table"});
+    let table = doc.new({type: "div", class: `tt-stats-table ${mobile?'tt-mobile':""}`});
     let col_chosen = doc.new({type: "div", class: "col-chosen active"});
     let col_other = doc.new({type: "div", class: "col-other"});
 

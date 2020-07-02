@@ -12,13 +12,19 @@
     width: 160%;
     overflow-x: hidden;
 }
+.profile-stats.tt-mobile {
+    width: 197%;
+}
 .tt-stats-table {
     overflow-x: hidden;
     height: 200px;
     position: relative;
 }
 .tt-stats-table.active {
-    left: -454px
+    left: -454px;
+}
+.tt-stats-table.active.tt-mobile {
+    left: -292px
 }
 .col-chosen {
     width: 49.5%;
@@ -100,6 +106,7 @@
     flex: 1 0 33%;
     font-size: 13px;
     line-height: 16px;
+    overflow: hidden;
 }
 .tt-row .item:last-of-type {
     border-right: unset;
