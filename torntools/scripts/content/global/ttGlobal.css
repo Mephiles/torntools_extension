@@ -18,6 +18,13 @@
     border-radius: 0 !important;
 }
 
+.tt-checkbox-wrap * {
+    display: inline-block;
+    vertical-align: top;
+}
+.tt-checkbox-wrap input {
+    margin: 1px 5px 0 5px;
+}
 
 .nav-color-code {
     width: 4px;

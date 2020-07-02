@@ -151,7 +151,7 @@ setup_storage.then(async function(success){
 });
 
 function Main(){
-	local_storage.get("api_key", async function(api_key){
+	local_storage.get(["api_key", "cache"], async function([api_key, cache]){
 
 		if(api_key == undefined){
 			console.log("NO API KEY");
@@ -381,6 +381,20 @@ function Main(){
 					}
 				});
 			});
+		})();
+
+		// Clear cache
+		console.log("Clearing cache");
+		await (function(){
+			for(let type in cache){
+				for(let key in cache[type]){
+					if(!cache[type][key].date || new Date() - new Date(cache[type][key].date) >= 60*1000){
+						console.log(`	Cleared cache for ${type}: ${key}`)
+						delete cache[type][key];
+					}
+				}
+			}
+			local_storage.set({"cache": cache});
 		})();
 	});
 }

@@ -9,8 +9,9 @@ var key_dict = {
     "defendslostabroad": "Def. lost abroad",
     "attackswonabroad" : "Att. won abroad"
 }
+var spy_info;
 
-profileLoaded().then(function(){
+profileLoaded().then(async function(){
     console.log("TT - Profile");
 
     let user_faction = userdata.faction.faction_name;
@@ -33,25 +34,31 @@ profileLoaded().then(function(){
     displayCreator();
 
     // Profile stats
-    let info_container = content.new_container("User Info", {next_element_heading: "Medals", id: "tt-target-info", collapsed: false});
-    let content_container = info_container.find(".content");
+    let info_container = content.new_container("User Info", {next_element_heading: "Medals", id: "tt-target-info", collapsed: !filters.profile_stats.open});
+    let profile_stats_div = doc.new({type: "div", class: "profile-stats"});
+    info_container.find(".content").appendChild(profile_stats_div);
 
-    let button = doc.new({type: "div", class: "fetch-button", text: "Fetch Info via API"});
-    content_container.appendChild(button);
+    if(!filters.profile_stats.auto_fetch){
+        let button = doc.new({type: "div", class: "fetch-button", text: "Fetch Info via API"});
+        profile_stats_div.appendChild(button);
 
-    if(settings.profile_stats.auto_fetch){
-        displayProfileStats();
-    } else {
-        button.addEventListener("click", function(){
-            displayProfileStats();
+        button.addEventListener("click", async function(){
+            button.remove();
+            await displayProfileStats();
+            // Show Spy info
+            showSpyInfo();
         });
+    } else {
+        await displayProfileStats();
+        // Show Spy info
+        showSpyInfo();
     }
 
     // Target info
     if(target_list.show){
         displayTargetInfo(target_list.targets);
     }
-
+    
     // Stakeout
     displayStakeoutOptions();
 });
@@ -123,6 +130,9 @@ function showWarning(type) {
 }
 
 function displayTargetInfo(targets) {
+    // Add hr separator
+    doc.find("#tt-target-info .content").appendChild(doc.new({type: "hr"}));
+
     let user_id = getUserId();
     let content_container = doc.find("#tt-target-info .content");
 
@@ -183,185 +193,261 @@ function displayTargetInfo(targets) {
         table.appendChild(row);
         content_container.appendChild(table);
     }
+
+    content_container.appendChild(doc.new({type: "hr"}));
 }
 
-function displayProfileStats(){
-    doc.find(".fetch-button").style.display = "none";
-    get_api(`https://api.torn.com/user/${getUserId()}?selections=personalstats`, api_key)
-    .then(async function(data){
-        return new Promise(function(resolve, reject){
-            fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${getUserId()}`)
-            .then(async function(response){
-                let result = await response.json();
-                if(result.error){
-                    console.log("TornStats API result", result);
-                    
-                    let text;
-                    if(result.error.indexOf("User not found") > -1){
-                        text = "Please register an account @ www.tornstats.com";
-                    }
-                    let div = doc.new({type: "div", text: text || result.error, attributes: {style: "margin-bottom: 10px;"}});
-                    doc.find(".fetch-button").parentElement.insertBefore(div, doc.find(".fetch-button"));
-                    return resolve({});
-                }
-                return resolve({...data.personalstats, ...result.compare.data});
-            });
-        });
-    })
-    .then(function(data){
-        if(Object.keys(data).length == 0){
-            return;
-        }
-        console.log("data", data);
+async function displayProfileStats(){
+    let user_id = getUserId();
+    let profile_stats = doc.find("#tt-target-info .profile-stats");
+    let result;
 
-        let table = doc.new({type: "div", class: "tt-profile-stats"});
-        let col_chosen = doc.new({type: "div", class: `tt-col col-left ${mobile?'mobile':''}`});
-        let col_all = doc.new({type: "div", class: `tt-col col-right ${mobile?'mobile':''}`});
-        
-        // Setup headers
-        for(let el of [col_chosen, col_all]){
-            let header = doc.new({type: "div", class: "tt-row tt-header"});
-            let header_1 = doc.new({type: "div", class: "tt-header-item", text: "Key"});
-            let header_2 = doc.new({type: "div", class: "tt-header-item", text: "Value"});
-            let header_3 = doc.new({type: "div", class: "tt-header-item", text: "Your stats"});
-            header.appendChild(header_1);
-            header.appendChild(header_2);
-            header.appendChild(header_3);
+    if(cache.profile_stats[user_id]){
+        result = cache.profile_stats[user_id];
+    } else {
+        result = await new Promise(function(resolve, reject){
+            get_api(`https://api.torn.com/user/${user_id}?selections=personalstats`, api_key)
+            .then(data => {
+                fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${user_id}`)
+                .then(async response => {
+                    let result = await response.json();
 
-            el.appendChild(header);
-        }
-
-        // Setup all data
-        for(let key of Object.keys(data).reverse()){
-            if(["Networth"].includes(key)) continue;
-
-            let original_value = typeof data[key] == "object" ? data[key].amount : data[key];
-            let original_user_value = typeof data[key] == "object" ? data[key].amount + data[key].difference : (userdata.personalstats[key] || 0);
-
-            let value = numberWithCommas(original_value, shorten=false);
-            let user_value = numberWithCommas(original_user_value, false);
-
-            if(money_key_list.includes(key)){
-                let negative = value < 0 ? true : false;
-                value = "$"+numberWithCommas(Math.abs(original_value), false);
-                value = negative? "-"+value : value;
-
-                negative = user_value < 0 ? true : false;
-                user_value = "$"+numberWithCommas(Math.abs(original_user_value), false);
-                user_value = negative? "-"+user_value : user_value;
-            }
-
-            let row = doc.new({type: "div", class: "tt-row", attributes: {key: key}});
-            let key_cell = doc.new({type: "div", text: key_dict[key] || key, class: "tt-key"});
-            let value_cell = doc.new({type: "div", text: value, class: "tt-value"});
-            let user_value_cell = doc.new({type: "div", text: user_value, class: "tt-user-value"});
-            let icon_div = doc.new({type: "div", class: "tt-icon"});
-            let icon = doc.new({type: "i", class: `fas ${mobile? 'fa-caret-up':'fa-caret-left'}`});
-
-            if(original_user_value > original_value){
-                user_value_cell.classList.add("positive");
-                value_cell.classList.add("negative");
-            } else if(original_user_value == original_value){
-            } else {
-                value_cell.classList.add("positive");
-                user_value_cell.classList.add("negative");
-            }
-
-            icon_div.appendChild(icon);
-            row.appendChild(icon_div);
-            row.appendChild(key_cell);
-            row.appendChild(value_cell);
-            row.appendChild(user_value_cell);
-            col_all.appendChild(row);
-
-            icon.addEventListener("click", function(){
-                moveLeft(row);
-            });
-        }
-
-        // Footer
-        let footer_div = doc.new({type: "div", class: "tt-footer"});
-        let footer_text = doc.new({type: "div", text: "Automatically load info"});
-        let footer_input = doc.new({type: "input", attributes: {type: "checkbox"}});
-        footer_div.appendChild(footer_text);
-        footer_div.appendChild(footer_input);
-
-        if(settings.profile_stats.auto_fetch){
-            footer_input.checked = true;
-        }
-
-        footer_input.addEventListener("click", function(){
-            local_storage.change({"settings": {"profile_stats": {"auto_fetch": footer_input.checked}}});
-        });
-
-        table.appendChild(col_chosen);
-        table.appendChild(col_all);
-        doc.find("#tt-target-info .fetch-button").parentElement.insertBefore(table, doc.find("#tt-target-info .fetch-button"));
-        doc.find("#tt-target-info .fetch-button").parentElement.insertBefore(footer_div, doc.find("#tt-target-info .fetch-button"))
-
-        // Move chosen keys to left side
-        for(let row of doc.findAll(".tt-profile-stats .tt-col.col-right .tt-row:not(.tt-header)")){
-            if(row.getAttribute("key") && settings.profile_stats.stats.includes(row.getAttribute("key"))){
-                moveLeft(row);
-            }
-        }
-
-        // Fix overflows
-        for(let el of table.findAll(".tt-row .tt-value, .tt-row .tt-user-value")){
-            if(isOverflownX(el)){
-                let money = el.innerText.indexOf("$") > -1 ? true:false;
-                let negative = el.innerText.indexOf("-") > -1 ? true:false;
-                let value = el.innerText.replace(/,/g, "").replace("$", "");
-
-                el.setAttribute("true-value", value);
-
-                if(money){
-                    if(negative){
-                        el.innerText = "-$"+numberWithCommas(value);
+                    if(result.error){
+                        if(result.error.indexOf("User not found") > -1){
+                            return resolve({"error": `Can't display user stats because no TornStats account was found. Please register an account @ www.tornstats.com`});
+                        } else {
+                            return resolve({"error": result.error});
+                        }
                     } else {
-                        el.innerText = "$"+numberWithCommas(value);
+                        return resolve({...data.personalstats, ...result.compare.data, "spy": {...result.spy}, "date": new Date().toString()});
                     }
+                });
+            });
+        });
+        local_storage.change({"cache": {"profile_stats": {[user_id]: result}}});
+    }
+
+    console.log("result", result);
+    spy_info = result.spy;
+
+    if(result.error){
+        let error_div = doc.new({type: "div", class: "tt-error-message", text: result.error});
+        profile_stats.appendChild(error_div);
+    } else {
+
+    }
+
+    let table = doc.new({type: "div", class: "tt-stats-table"});
+    let col_chosen = doc.new({type: "div", class: "col-chosen active"});
+    let col_other = doc.new({type: "div", class: "col-other"});
+
+    let header = doc.new({type: "div", class: "tt-row tt-header"});
+    for(let heading of ["Stat", "Them", "You"]){
+        let item = doc.new({type: "div", class: "item", text: heading});
+        header.appendChild(item);
+    }
+    let header_other = doc.new({type: "div", class: "tt-row tt-header"});
+    for(let heading of ["Stat", "Them", "You"]){
+        let item = doc.new({type: "div", class: "item", text: heading});
+        header_other.appendChild(item);
+    }
+
+    col_chosen.appendChild(header);
+    col_other.appendChild(header_other)
+    table.appendChild(col_chosen);
+    table.appendChild(col_other);
+    profile_stats.appendChild(table);
+
+    for(let key of Object.keys(result).sort()){
+        if(["Networth", "spy", "date"].includes(key)) continue;
+
+        let their_value, your_value, their_value_modified, your_value_modified;
+        if(typeof result[key] == "object"){
+            their_value = result[key].amount;
+            your_value = result[key].amount + result[key].difference;
+        } else {
+            their_value = result[key];
+            your_value = userdata.personalstats[key] || 0;
+        }
+
+        if(money_key_list.includes(key)){
+            let negative = their_value < 0 ? true : false;
+            their_value_modified = "$"+numberWithCommas(Math.abs(their_value), false);
+            if(negative) their_value_modified = "-"+their_value;
+
+            negative = your_value < 0 ? true : false;
+            your_value_modified = "$"+numberWithCommas(Math.abs(your_value), false);
+            if(negative) your_value_modified = "-"+your_value;
+        } else {
+            their_value_modified = numberWithCommas(their_value, false);
+            your_value_modified = numberWithCommas(your_value, false);
+        }
+
+        let row = doc.new({type: "div", class: "tt-row", attributes: {key: key}});
+        let key_cell = doc.new({type: "div", text: key_dict[key] || key, class: "item"});
+        let their_cell = doc.new({type: "div", text: their_value_modified, class: "item"});
+        let your_cell = doc.new({type: "div", text: your_value_modified, class: "item"});
+
+        if(their_value > your_value){
+            your_cell.classList.add("negative");
+            their_cell.classList.add("positive");
+        } else if(their_value < your_value){
+            their_cell.classList.add("negative");
+            your_cell.classList.add("positive");
+        }
+
+        row.appendChild(key_cell)
+        row.appendChild(their_cell)
+        row.appendChild(your_cell)
+        col_other.appendChild(row);
+
+        row.onclick = function(){
+            if(hasParent(row, {class: "col-chosen"})){
+                col_other.appendChild(row);
+            } else if(hasParent(row, {class: "col-other"})){
+                col_chosen.appendChild(row);
+            }
+
+            saveProfileStats();
+        }
+
+    }
+
+    col_other.onclick = function(){
+        if(!col_other.classList.contains("active")){
+            col_other.classList.add("active");
+            col_chosen.classList.remove("active");
+            table.classList.add("active");
+        }
+    }
+    col_chosen.onclick = function(){
+        if(!col_chosen.classList.contains("active")){
+            col_chosen.classList.add("active");
+            col_other.classList.remove("active");
+            table.classList.remove("active");
+        }
+    }
+
+    // Move chosen ones
+    for(let stat of filters.profile_stats.chosen_stats){
+        col_chosen.appendChild(col_other.find(`:scope>[key='${stat}']`));
+    }
+
+    // Footer
+    let footer_div = doc.new({type: "div", class: "tt-footer"});
+    let footer_text = doc.new({type: "div", text: "Automatically load info"});
+    let footer_input = doc.new({type: "input", attributes: {type: "checkbox"}});
+    footer_div.appendChild(footer_text);
+    footer_div.appendChild(footer_input);
+    doc.find("#tt-target-info .content").insertBefore(footer_div, doc.find("#tt-target-info .content .profile-stats").nextElementSibling)
+
+    if(filters.profile_stats.auto_fetch){
+        footer_input.checked = true;
+    }
+
+    footer_input.onclick = function(){
+        local_storage.change({"filters": {"profile_stats": {"auto_fetch": footer_input.checked}}});
+    };
+
+    // Fix overflows
+    for(let el of table.findAll(".tt-row .item")){
+        if(isOverflownX(el)){
+            let money = el.innerText.indexOf("$") > -1 ? true:false;
+            let negative = el.innerText.indexOf("-") > -1 ? true:false;
+            let value = el.innerText.replace(/,/g, "").replace("$", "");
+
+            el.setAttribute("true-value", value);
+
+            if(money){
+                if(negative){
+                    el.innerText = "-$"+numberWithCommas(value);
                 } else {
-                    el.innerText = numberWithCommas(value);
+                    el.innerText = "$"+numberWithCommas(value);
                 }
+            } else {
+                el.innerText = numberWithCommas(value);
             }
         }
-    });
-
-    function moveLeft(row){
-        row.appendChild(row.find(".tt-icon"));
-        row.find(".tt-icon i").setClass(`fas ${mobile? 'fa-caret-down':'fa-caret-right'}`);
-        doc.find(".tt-profile-stats .tt-col.col-left").appendChild(row);
-
-        row.find(".tt-icon i").addEventListener("click", function(){
-            moveRight(row);
-        });
-
-        savePreferences();
     }
 
-    function moveRight(row){
-        row.insertBefore(row.find(".tt-icon"), row.firstElementChild);
-        row.find(".tt-icon i").setClass(`fas ${mobile? 'fa-caret-up':'fa-caret-left'}`);
-        doc.find(".tt-profile-stats .tt-col.col-right").appendChild(row);
-
-        row.find(".tt-icon i").addEventListener("click", function(){
-            moveLeft(row);
-        });
-        
-        savePreferences();
-    }
-
-    function savePreferences(){
+    function saveProfileStats(){
         let chosen_keys = [];
 
-        for(let row of doc.findAll(".tt-col.col-left .tt-row:not(.tt-header)")){
+        for(let row of doc.findAll(".col-chosen .tt-row:not(.header)")){
             if(row.getAttribute("key")){
                 chosen_keys.push(row.getAttribute("key"));
             }
         }
 
-        local_storage.change({"settings": {"profile_stats": {"stats": chosen_keys}}});
+        local_storage.change({"filters": {"profile_stats": {"chosen_stats": chosen_keys}}});
+    }
+}
+
+function showSpyInfo(){
+    console.log("spy info", spy_info);
+    
+    // Add hr separator
+    let hr = doc.new({type: "hr"})
+    doc.find("#tt-target-info .content").insertBefore(hr, doc.find("#tt-target-info .content .tt-footer").nextElementSibling);
+
+    let spy_section = doc.new({type: "div", class: "spy-section"});
+    doc.find("#tt-target-info .content").insertBefore(spy_section, hr.nextElementSibling);
+
+    if(!spy_info.status){
+        let div = doc.new({type: "div", class: "tt-spy-info", text: spy_info.message});
+        spy_section.appendChild(div);
+    } else {
+        let heading = doc.new({type: "div", class: "spy-heading", text: `Spy type: ${spy_info.type} (${spy_info.difference})`});
+        spy_section.appendChild(heading);
+
+        let table = doc.new({type: "div", class: "spy-table"});
+        let header = doc.new({type: "div", class: "tt-row tt-header"});
+        let item_key = doc.new({type: "div", class: "item", text: "Stat"});
+        let item_them = doc.new({type: "div", class: "item", text: "Them"});
+        let item_you = doc.new({type: "div", class: "item", text: "You"});
+        header.appendChild(item_key);
+        header.appendChild(item_them);
+        header.appendChild(item_you);
+        table.appendChild(header);
+
+        for(let stat of ["strength", "defense", "speed", "dexterity", "total"]){
+            let row = doc.new({type: "div", class: "tt-row"});
+            let item_key = doc.new({type: "div", class: "item", text: capitalize(stat)});
+            let item_them = doc.new({type: "div", class: "item", text: numberWithCommas(parseInt(spy_info[stat]), false)});
+            let item_you = doc.new({type: "div", class: "item", text: numberWithCommas(parseInt(userdata[stat]), false)});
+
+            if(parseInt(spy_info[stat]) > parseInt(userdata[stat])){
+                item_you.classList.add("negative");
+                item_them.classList.add("positive");
+            } else if(parseInt(spy_info[stat]) < parseInt(userdata[stat])){
+                item_them.classList.add("negative");
+                item_you.classList.add("positive");
+            }
+
+            row.appendChild(item_key);
+            row.appendChild(item_them);
+            row.appendChild(item_you);
+            table.appendChild(row);
+        }
+
+        let score_row = doc.new({type: "div", class: "tt-row"});
+        let score_item_key = doc.new({type: "div", class: "item", text: "Score"});
+        let score_item_them = doc.new({type: "div", class: "item", text: numberWithCommas(parseInt(spy_info.target_score), false)});
+        let score_item_you = doc.new({type: "div", class: "item", text: numberWithCommas(parseInt(spy_info.your_score), false)});
+
+        if(parseInt(spy_info.target_score) > parseInt(spy_info.your_score)){
+            score_item_you.classList.add("negative");
+            score_item_them.classList.add("positive");
+        } else if(parseInt(spy_info.target_score) < parseInt(spy_info.your_score)){
+            score_item_them.classList.add("negative");
+            score_item_you.classList.add("positive");
+        }
+
+        score_row.appendChild(score_item_key);
+        score_row.appendChild(score_item_them);
+        score_row.appendChild(score_item_you);
+        table.appendChild(score_row);
+        spy_section.appendChild(table);
     }
 }
 
@@ -492,55 +578,106 @@ function addStatusIndicator(){
 }
 
 function displayStakeoutOptions(){
-    let heading = doc.new({type: "div", class: "tt-sub-heading", text: "Let me know when this player"});
+    let user_id = getUserId();
 
-    let option_okay = doc.new({type: "div", class: "tt-option"});
+    let stakeout_div = doc.new({type: "div", class: "stakeout-section"});
+    doc.find("#tt-target-info .content").appendChild(stakeout_div);
+
+    let watchlist_wrap = doc.new({type: "div", class: "tt-checkbox-wrap"});
+    let input = doc.new({type: "input", attributes: {type: "checkbox"}});
+    let text = doc.new({type: "div", text: "Add this player to Watch List"});
+    watchlist_wrap.appendChild(input);
+    watchlist_wrap.appendChild(text);
+    stakeout_div.appendChild(watchlist_wrap);
+
+    for(let user of watchlist){
+        if(user.id == user_id){
+            input.checked = true;
+        }
+    }
+
+    input.onclick = function(){
+        saveStakeoutSettings();
+    }
+
+    let heading = doc.new({type: "div", class: "tt-sub-heading", text: "Let me know when this player:"});
+    stakeout_div.appendChild(heading);
+
+    let option_okay = doc.new({type: "div", class: "tt-checkbox-wrap"});
     let checkbox_okay = doc.new({type: "input", attributes: {type: "checkbox"}});
     let text_okay = doc.new({type: "div", text: "is okay"});
-
     option_okay.appendChild(checkbox_okay);
     option_okay.appendChild(text_okay);
 
-    let option_lands = doc.new({type: "div", class: "tt-option"});
+    let option_lands = doc.new({type: "div", class: "tt-checkbox-wrap"});
     let checkbox_lands = doc.new({type: "input", attributes: {type: "checkbox"}});
     let text_lands = doc.new({type: "div", text: "lands"});
-
     option_lands.appendChild(checkbox_lands);
     option_lands.appendChild(text_lands);
 
-    let option_online = doc.new({type: "div", class: "tt-option"});
+    let option_online = doc.new({type: "div", class: "tt-checkbox-wrap"});
     let checkbox_online = doc.new({type: "input", attributes: {type: "checkbox"}});
     let text_online = doc.new({type: "div", text: "comes online"});
-
     option_online.appendChild(checkbox_online);
     option_online.appendChild(text_online);
 
-    let user_id = getUserId()
     if(stakeouts[user_id]){
         checkbox_okay.checked = stakeouts[user_id].okay;
         checkbox_lands.checked = stakeouts[user_id].lands;
         checkbox_online.checked = stakeouts[user_id].online;
     }
 
-    doc.find("#tt-target-info .content").appendChild(heading);
-    doc.find("#tt-target-info .content").appendChild(option_okay);
-    doc.find("#tt-target-info .content").appendChild(option_lands);
-    doc.find("#tt-target-info .content").appendChild(option_online);
+    stakeout_div.appendChild(option_okay);
+    stakeout_div.appendChild(option_lands);
+    stakeout_div.appendChild(option_online);
 
-    checkbox_okay.addEventListener("click", function(){
-        saveStakoutSettings();
-    });
-    checkbox_lands.addEventListener("click", function(){
-        saveStakoutSettings();
-    });
-    checkbox_online.addEventListener("click", function(){
-        saveStakoutSettings();
-    });
+    checkbox_okay.onclick = function(){
+        saveStakeoutSettings();
+    };
+    checkbox_lands.onclick = function(){
+        saveStakeoutSettings();
+    };
+    checkbox_online.onclick = function(){
+        saveStakeoutSettings();
+    };
 
-    function saveStakoutSettings(){
-        if(checkbox_okay.checked || checkbox_lands.checked || checkbox_online.checked){
+    function saveStakeoutSettings(){
+
+        if(input.checked){
+            local_storage.get("watchlist", function(watchlist){
+                let is_in_list = false;
+                for(let item of watchlist){
+                    if(item.id == user_id){
+                        is_in_list = true;
+                        break;
+                    }
+                }
+
+                if(!is_in_list){
+                    watchlist.push({
+                        id: user_id,
+                        username: getUsername(),
+                        status: getStatus(),
+                        traveling: getTraveling()
+                    });
+                }
+                local_storage.set({"watchlist": watchlist});
+            });
+        } else {
+            local_storage.get("watchlist", function(watchlist){
+                for(let item of watchlist){
+                    if(item.id == user_id){
+                        watchlist.splice(watchlist.indexOf(item), 1);
+                        break;
+                    }
+                }
+                local_storage.set({"watchlist": watchlist});
+            });
+        }
+
+        if(checkbox_okay.checked == true || checkbox_lands.checked  == true || checkbox_online.checked == true ){
             local_storage.change({"stakeouts": {
-                [getUserId()]: {
+                [user_id]: {
                     "okay": checkbox_okay.checked,
                     "lands": checkbox_lands.checked,
                     "online": checkbox_online.checked
@@ -548,9 +685,34 @@ function displayStakeoutOptions(){
             }});
         } else {
             local_storage.get("stakeouts", function(stakeouts){
-                delete stakeouts[getUserId()];
+                delete stakeouts[user_id];
                 local_storage.set({"stakeouts": stakeouts});
             });
         }
     }
+}
+
+function getUsername(){
+    return doc.find(".basic-information ul.basic-list li:nth-of-type(1) div:nth-of-type(2)").innerText.split(" [")[0].trim();
+}
+
+function getStatus(){
+    let desc = doc.find(".main-desc").innerText;
+
+    if(desc.indexOf("Okay") > -1){
+        return "okay";
+    } else if(desc.indexOf("hospital") > -1){
+        return "hospital";
+    } else if(desc.indexOf("jail") > -1){
+        return "jail";
+    }
+}
+
+function getTraveling(){
+    let desc = doc.find(".main-desc").innerText;
+
+    if(desc.indexOf("Traveling") > -1 || desc.indexOf("Returning") > -1){
+        return true;
+    }
+    return false;
 }

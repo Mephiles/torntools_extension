@@ -321,8 +321,17 @@ const STORAGE = {
             "open": false,
             "item_type": "all",
             "country": "all"
+        },
+        "profile_stats": {
+            "open": true,
+            "auto_fetch": true,
+            "chosen_stats": []
         }
     },
+    "cache": {
+        "profile_stats": {}
+    },
+    "watchlist": [],
 
     // user settings
     "settings": {
@@ -342,10 +351,6 @@ const STORAGE = {
         "inactivity_alerts_company": {
             // "432000000": "#ffc8c8",  // 5 days
             // "259200000": "#fde5c8"  // 3 days
-        },
-        "profile_stats": {
-            "auto_fetch": false,
-            "stats": []
         },
         "bounties_filter": {},
         "notifications": {
@@ -1685,7 +1690,7 @@ function flashColor(element, type, speed, min=0, max=1){
 var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
 travel_market, oc, allies, loot_times, target_list, vault, personalized, 
 mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
-quick, notes, stakeouts, updated, networth, filters;
+quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
 
 (function(){
     local_storage.get(null, async function(db){
@@ -1716,6 +1721,8 @@ quick, notes, stakeouts, updated, networth, filters;
         updated = DB.updated;
         networth = DB.networth;
         filters = DB.filters;
+        cache = DB.cache;
+        watchlist = DB.watchlist;
 
         // Align left
         document.documentElement.style.setProperty("--torntools-align-left", settings.align_left ? "20px" : "auto");
