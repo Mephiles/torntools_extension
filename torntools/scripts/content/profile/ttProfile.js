@@ -39,7 +39,7 @@ profileLoaded().then(async function(){
     info_container.find(".content").appendChild(profile_stats_div);
 
     if(!filters.profile_stats.auto_fetch){
-        let button = doc.new({type: "div", class: "fetch-button", text: "Fetch Info via API"});
+        let button = doc.new({type: "div", class: `fetch-button ${mobile?"tt-mobile":""}`, text: "Fetch Info via API"});
         profile_stats_div.appendChild(button);
 
         button.addEventListener("click", async function(){

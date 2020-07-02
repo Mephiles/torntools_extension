@@ -158,6 +158,9 @@
     cursor: pointer;
     margin-bottom: 5px;
 }
+.fetch-button.tt-mobile {
+    width: 310px;
+}
 .fetch-button:hover {
     background-color: #c1c1c1;
 }
