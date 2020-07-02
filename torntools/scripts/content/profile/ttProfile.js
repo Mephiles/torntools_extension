@@ -140,20 +140,19 @@ function displayTargetInfo(targets) {
         let span = doc.new({type: "span", text: "No battle data on user.", });
         content_container.appendChild(span);
     } else {
-        let table = doc.new("div");
-        table.setClass("tt-table");
+        let table = doc.new({type: "div", class: `tt-table ${mobile?"tt-mobile":""}`});
 
         let headings = [
             { name: "Wins", type: "win", class: "good tt-item" },
-            { name: "Mugs", type: "mug", class: "good tt-item" },
-            { name: "Leaves", type: "leave", class: "good tt-item" },
-            { name: "Hosps", type: "hosp", class: "good tt-item" },
-            { name: "Arrests", type: "arrest", class: "good tt-item" },
-            { name: "Specials", type: "special", class: "good tt-item" },
-            { name: "Assists", type: "assist", class: "good tt-item" },
-            { name: "Defends", type: "defend", class: "good tt-item" },
+            { name: "Mugs", type: "mug", class: "good tt-item tt-advanced" },
+            { name: "Leaves", type: "leave", class: "good tt-item tt-advanced" },
+            { name: "Hosps", type: "hosp", class: "good tt-item tt-advanced" },
+            { name: "Arrests", type: "arrest", class: "good tt-item tt-advanced" },
+            { name: "Specials", type: "special", class: "good tt-item tt-advanced" },
+            { name: "Assists", type: "assist", class: "good tt-item tt-advanced" },
+            { name: "Defends", type: "defend", class: "good tt-item tt-advanced" },
             { name: "Lost", type: "lose", class: "new-section bad tt-item" },
-            { name: "Defends lost", type: "defend_lose", class: "bad tt-item" },
+            { name: "Defends lost", type: "defend_lose", class: "bad tt-item tt-advanced" },
             { name: "Stalemates", type: "stalemate", class: "bad tt-item" },
             { name: "Stealths", type: "stealth", class: "new-section neutral tt-item" },
             { name: "Respect", type: "respect_base", class: "neutral tt-item" }
@@ -167,6 +166,11 @@ function displayTargetInfo(targets) {
             let th = doc.new("div");
             th.innerText = heading.name;
             th.setClass(heading.class);
+            
+            if(mobile){
+                th.classList.add("tt-mobile");
+            }
+
             header_row.appendChild(th);
         }
 
@@ -178,12 +182,17 @@ function displayTargetInfo(targets) {
             let td = doc.new("div");
             td.setClass(heading.class);
 
+            if(mobile){
+                td.classList.add("tt-mobile");
+            }
+
             if (heading.name == "Respect") {
                 let [value, color] = getRespect(targets, user_id);
                 td.innerText = value;
                 td.style.backgroundColor = color;
-            } else
+            } else{
                 td.innerText = targets[user_id][heading.type];
+            }
 
             row.appendChild(td);
         }
