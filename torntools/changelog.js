@@ -5,13 +5,13 @@ export default {
             "Added option to display full Announcements & Info containers on Faction page",
             "Added option to enable Text-To-Speech for notifications",
             "Added option to show Bazaar Value",
-            "Added option to show Faction Armory Value",
+            "Added option to show Faction Armory Value (does not take into count Cesium)",
             "Added option to clean Flight page",
             "Added option to show 'respect to go' info for Faction Upgrades",
             "Added item highlighting when going from Item Market to someone's Bazaar",
             "Added 'find' feature for chat boxes",
             "Added option to display details about Faction members including Inactivity alerts (requires Faction API access)",
-            "Added optio nto display details about Company members including Inactivity alerts",
+            "Added option to display details about Company members including Inactivity alerts",
             "Added 'members available' info for OCs",
             "Added recommended NNB info for OCs"
         ],
@@ -23,10 +23,20 @@ export default {
             "Fixed notifications repeating after 15 minutes. Changed time to 24 hours",
             "Fixed empty space on Mobile while Traveling",
             "Fixed events and message Notifications not respecting preferences",
-            "Fixed script info stacking on Faction Crimes page"
+            "Fixed script info stacking on Faction Crimes page",
+            "Fixed 12hour formatting showing time as 00:30 AM rather than 12:30 AM",
+            "Fixed Stakeouts continuing requests if user was no longer watched",
+            "Fixed TTS working even when disabled",
+            "Fixed Profile Stats view for Mobile users"
         ],
         "Changes": [
-            "Moved 'TornStats NNB', 'recommended NNB', 'auto-open OCs', 'show available member count' under single option: 'OC Advanced'"
+            "Moved 'TornStats NNB', 'recommended NNB', 'auto-open OCs', 'show available member count' under single option: 'OC Advanced'",
+            "Made API marking optional (default: false)",
+            "Changed Notifiation cache to 7 days",
+            "Split up API settings",
+            "Re-designed Gym container to show progress from last update",
+            "Re-designed Profile Stats page to display Spy info",
+            "Profile script now takes into count if Doctorn is installed"
         ]
     },
     "v4.6": {
