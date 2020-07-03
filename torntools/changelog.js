@@ -13,7 +13,8 @@ export default {
             "Added option to display details about Faction members including Inactivity alerts (requires Faction API access)",
             "Added option to display details about Company members including Inactivity alerts",
             "Added 'members available' info for OCs",
-            "Added recommended NNB info for OCs"
+            "Added recommended NNB info for OCs",
+            "Added links to notifications"
         ],
         "Fixes": [
             "Turned all container arrows the right way",

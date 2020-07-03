@@ -1385,15 +1385,23 @@ function findParent(element, attributes={}){
     }
 }
 
-function notifyUser(title, message){
-    chrome.notifications.create({
-        type: 'basic', 
-        iconUrl: 'images/icon128.png', 
-        title: title, 
-        message: message
-    }, function(){
-        console.log("Notified!");
+function notifyUser(title, message, url){
+    // chrome.notifications.create(url, {
+    //     type: 'basic', 
+    //     iconUrl: 'images/icon128.png', 
+    //     title: title, 
+    //     message: message
+    // }, function(){
+    //     console.log("Notified!");
+    // });
+    let notification = new Notification(title, {
+        icon: 'images/icon128.png',
+        body: message
     });
+    
+    notification.onclick = function(){
+        window.open(url);
+    }
 
     local_storage.get("settings", function(settings){
         if(settings.notifications_tts){

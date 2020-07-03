@@ -10,6 +10,15 @@ var notifications = {
 	"stakeouts": {}
 };
 
+var links = {
+	stocks: "https://www.torn.com/stockexchange.php?step=portfolio",
+	home: "https://www.torn.com/index.php",
+	items: "https://www.torn.com/item.php",
+	education: "https://www.torn.com/education.php#/step=main",
+	messages: "https://www.torn.com/messages.php",
+	events: "https://www.torn.com/events.php#/step=all"
+}
+
 // First - set storage
 console.log("Checking Storage.");
 let setup_storage = new Promise(function(resolve, reject){
@@ -282,7 +291,8 @@ function Main(){
 	
 							notifyUser(
 								"TornTools - Stock alerts", 
-								`(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has reached $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].reach})`
+								`(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has reached $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].reach})`,
+								links.stocks
 							);
 	
 							local_storage.change({"stock_alerts": {
@@ -296,7 +306,8 @@ function Main(){
 							
 							notifyUser(
 								"TornTools - Stock alerts",
-								`(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has fallen to $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].fall})`
+								`(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has fallen to $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].fall})`,
+								links.stocks
 							);
 	
 							local_storage.change({"stock_alerts": {
@@ -344,6 +355,7 @@ function Main(){
 								notifications.loot[checkpoint+"_"+npc_id] = {
 									title: "TornTools - NPC Loot",
 									text: `${loot_times[npc_id].name} is reaching loot level ${arabicToRoman(alert_level)} in ${time_until((alert_loot_time - current_time)*1000)}`,
+									url: `https://www.torn.com/profiles.php?XID=${npc_id}`,
 									seen: 0,
 									date: new Date()
 								}
@@ -475,6 +487,7 @@ function Main_fast(){
 									notifications.messages[message_key] = {
 										title: `TornTools - New Message by ${message.name}`,
 										text: message.title,
+										url: links.messages,
 										seen: 0,
 										date: new Date()
 									}
@@ -495,6 +508,7 @@ function Main_fast(){
 									notifications.events[event_key] = {
 										title: `TornTools - New Event`,
 										text: event.event.replace(/<\/?[^>]+(>|$)/g, ""),
+										url: links.events,
 										seen: 0,
 										date: new Date()
 									}
@@ -524,12 +538,12 @@ function Main_fast(){
 							if(!(current_status == previous_status || current_status == "Traveling" || current_status == "Abroad")){
 								if(current_status == "Okay"){
 									if(previous_status == "Hospital"){
-										notifyUser("TornTools - Status", `You are out of the hospital.`);
+										notifyUser("TornTools - Status", `You are out of the hospital.`, links.home);
 									} else if(previous_status == "Jail"){
-										notifyUser("TornTools - Status", `You are out of the jail.`);
+										notifyUser("TornTools - Status", `You are out of the jail.`, links.home);
 									}
 								} else {
-									notifyUser("TornTools - Status", userdata.status.description);
+									notifyUser("TornTools - Status", userdata.status.description, links.home);
 								}
 							} 
 						}
@@ -538,7 +552,7 @@ function Main_fast(){
 						if(previous_userdata.cooldowns && settings.notifications.cooldowns){
 							for(let cd_type in userdata.cooldowns){
 								if(userdata.cooldowns[cd_type] == 0 && previous_userdata.cooldowns[cd_type] != 0){
-									notifyUser("TornTools - Cooldowns", `Your ${cd_type} cooldown has ended`);
+									notifyUser("TornTools - Cooldowns", `Your ${cd_type} cooldown has ended`, links.items);
 								}
 							}
 						}
@@ -546,14 +560,14 @@ function Main_fast(){
 						// Check for education
 						if(previous_userdata.education_timeleft && settings.notifications.education){
 							if(userdata.education_timeleft == 0 && previous_userdata.education_timeleft != 0){
-								notifyUser("TornTools - Education", `You have finished your education course`);
+								notifyUser("TornTools - Education", `You have finished your education course`, links.education);
 							}
 						}
 
 						// Check for travelling
 						if(previous_userdata.travel && settings.notifications.traveling){
 							if(userdata.travel.time_left == 0 && previous_userdata.travel.time_left != 0){
-								notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}`);
+								notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}`, links.home);
 							}
 						}
 
@@ -562,7 +576,7 @@ function Main_fast(){
 							if(previous_userdata[bar] && settings.notifications[bar].length > 0){
 								for(let checkpoint of settings.notifications[bar].sort(function(a,b){return b-a})){
 									if(previous_userdata[bar].current < userdata[bar].current && (userdata[bar].current/userdata[bar].maximum)*100 >= checkpoint){
-										notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum} (${checkpoint}%)`);
+										notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum} (${checkpoint}%)`, links.home);
 										break;
 									}
 								}
@@ -578,6 +592,7 @@ function Main_fast(){
 									notifications.hospital[checkpoint] = {
 										title: "TornTools - Hospital",
 										text: `You will be out of the Hospital in ${Math.floor(time_left/1000/60)} minutes ${(time_left/1000 % 60).toFixed(0)} seconds`,
+										url: links.hospital,
 										seen: 0,
 										date: new Date()
 									};
@@ -598,6 +613,7 @@ function Main_fast(){
 										checkpoint: checkpoint,
 										title: "TornTools - Travel",
 										text: `You will be Landing in ${Math.floor(time_left/1000/60)} minutes ${(time_left/1000 % 60).toFixed(0)} seconds`,
+										url: links.home,
 										seen: 0,
 										date: new Date()
 									};
@@ -652,6 +668,7 @@ function Main_fast(){
 									notifications.stakeouts[user_id+"_online"] = {
 										title: `TornTools - Stakeouts`,
 										text: `${stakeout_info.name} is now Online`,
+										url: `https://www.torn.com/profiles.php?XID=${user_id}`,
 										seen: 0,
 										date: new Date()
 									}
@@ -665,6 +682,7 @@ function Main_fast(){
 									notifications.stakeouts[user_id+"_okay"] = {
 										title: `TornTools - Stakeouts`,
 										text: `${stakeout_info.name} is now Okay`,
+										url: `https://www.torn.com/profiles.php?XID=${user_id}`,
 										seen: 0,
 										date: new Date()
 									}
@@ -678,6 +696,7 @@ function Main_fast(){
 									notifications.stakeouts[user_id+"_lands"] = {
 										title: `TornTools - Stakeouts`,
 										text: `${stakeout_info.name} is now ${stakeout_info.status.state == "Abroad" ? stakeout_info.status.description : "in Torn"}`,
+										url: `https://www.torn.com/profiles.php?XID=${user_id}`,
 										seen: 0,
 										date: new Date()
 									}
@@ -705,7 +724,8 @@ function Main_extra_fast(){
 			if(notifications[notification_type][notification_key].seen == 0){
 				notifyUser(
 					notifications[notification_type][notification_key].title,
-					notifications[notification_type][notification_key].text
+					notifications[notification_type][notification_key].text,
+					notifications[notification_type][notification_key].url
 				);
 
 				notifications[notification_type][notification_key].seen = 1;
