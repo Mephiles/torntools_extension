@@ -28,7 +28,8 @@ export default {
             "Fixed 12hour formatting showing time as 00:30 AM rather than 12:30 AM",
             "Fixed Stakeouts continuing requests if user was no longer watched",
             "Fixed TTS working even when disabled",
-            "Fixed Profile Stats view for Mobile users"
+            "Fixed Profile Stats view for Mobile users",
+            "Added all Profile Stats keys as normal text - Thanks Allo"
         ],
         "Changes": [
             "Moved 'TornStats NNB', 'recommended NNB', 'auto-open OCs', 'show available member count' under single option: 'OC Advanced'",
@@ -37,7 +38,11 @@ export default {
             "Split up API settings",
             "Re-designed Gym container to show progress from last update",
             "Re-designed Profile Stats page to display Spy info",
-            "Profile script now takes into count if Doctorn is installed"
+            "Profile script now takes into count if Doctorn is installed",
+            "Slightly improved Settings page design"
+        ],
+        "Notifications": [
+            "Switched notification system to allow clicking notifications to open Torn. Firefox users need to manually allow notifications on Preferences page"
         ]
     },
     "v4.6": {
