@@ -17,8 +17,8 @@
 }
 .tt-stats-table {
     overflow-x: hidden;
-    height: 200px;
     position: relative;
+    display: flex;
 }
 .tt-stats-table.active {
     left: -454px;
@@ -30,7 +30,7 @@
     width: 49.5%;
     display: inline-block;
     vertical-align: top;
-    height: 200px;
+    min-height: 200px;
     border-right: 2px solid lightgray;
     position: relative;
     background-color: #e0e0e0;
@@ -56,7 +56,7 @@
     content: "SHOW LESS";
     position: absolute;
     right: 10px;
-    top: 93px;
+    top: 50%;
     font-size: 14px;
     cursor: pointer;
     z-index: 99;
@@ -67,7 +67,7 @@
     display: inline-block;
     vertical-align: top;
     background-color: #e0e0e0;
-    height: 200px;
+    min-height: 200px;
     cursor: pointer;
     position: relative;
     overflow-y: scroll;
@@ -92,7 +92,7 @@
     content: "SHOW MORE";
     position: absolute;
     left: 10px;
-    top: 93px;
+    top: 50%;
     font-size: 14px;
     cursor: pointer;
     z-index: 99;
