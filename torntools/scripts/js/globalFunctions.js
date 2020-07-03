@@ -834,7 +834,7 @@ function flying() {
                 }
             }
 
-            if(userdata.travel.time_left > 0){
+            if(userdata && userdata.travel && userdata.travel.time_left > 0){
                 resolve(true);
                 return clearInterval(checker);
             } else {
