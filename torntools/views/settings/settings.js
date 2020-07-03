@@ -46,6 +46,11 @@ window.addEventListener("load", function(){
         } else {
             doc.find("#about #new-version").style.display = "none";
         }
+
+        // Allow notifications text
+        if(Notification.permission != "granted"){
+            doc.find("#allow_notifications").parentElement.classList.remove("hidden");
+        }
     
         // Buttons
         doc.find("#change_api_key").addEventListener("click", function(){
@@ -68,6 +73,13 @@ window.addEventListener("load", function(){
             }});
             message("Target list reset.", true);
         });
+        doc.find("#allow_notifications").onclick = function(){
+            Notification.requestPermission().then(function(permission){
+                if(permission == "granted"){
+                    doc.find("#allow_notifications").parentElement.classList.add("hidden");
+                }
+            });
+        }
     
     });
 });
