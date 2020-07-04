@@ -223,9 +223,6 @@ function setupPreferences(){
     preferences.find(`#format-date-${settings.format.date} input`).checked = true;
     preferences.find(`#format-time-${settings.format.time} input`).checked = true;
     preferences.find(`#theme-${settings.theme} input`).checked = true;
-    preferences.find("#hide_upgrade input").checked = settings.hide_upgrade;
-    preferences.find("#align_left input").checked = settings.align_left;
-    preferences.find("#notes input").checked = settings.notes;
     preferences.find("#notifications_tts input").checked = settings.notifications_tts;
     preferences.find("#clean_flight input").checked = settings.clean_flight;
 
@@ -422,9 +419,6 @@ function savePreferences(preferences, settings, target_list_enabled, ext){
     settings.format.date = preferences.find("input[name=format-date]:checked").parentElement.id.split("-")[2];
     settings.format.time = preferences.find("input[name=format-time]:checked").parentElement.id.split("-")[2];
     settings.theme = preferences.find("input[name=theme]:checked").parentElement.id.split("-")[1];
-    settings.hide_upgrade = preferences.find("#hide_upgrade input").checked;
-    settings.align_left = preferences.find("#align_left input").checked;
-    settings.notes = preferences.find("#notes input").checked;
     settings.notifications_tts = preferences.find("#notifications_tts input").checked;
     settings.clean_flight = preferences.find("#clean_flight input").checked;
 

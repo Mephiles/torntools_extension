@@ -19,7 +19,7 @@ DBloaded().then(function(){
         }
     
         // Notes
-        if(settings.notes){
+        if(settings.pages.global.notes){
             addNotesBox();
         }
     
@@ -29,6 +29,11 @@ DBloaded().then(function(){
             if(hide_icons.indexOf(name) > -1){
                 icon.remove();
             }
+        }
+
+        // Vault balance
+        if(settings.pages.global.vault_balance){
+            displayVaultBalance();
         }
     });
     
@@ -269,6 +274,19 @@ function addChatFilters(){
             }
         }
     }
+}
+
+function displayVaultBalance(){
+    let elementHTML = `
+    <span class="name___297H-">Vault:</span>
+    <span class="value___1K0oi money-positive___3pqLW" style="position:relative;left:-3px;">$${numberWithCommas(networth.current.value.vault, false)}</span>
+    `
+
+    let el = doc.new({type: "p", class: "point-block___xpMEi", attributes: {tabindex: "1"}});
+    el.innerHTML = elementHTML;
+
+    let info_cont = doc.find("h2=Information");
+    info_cont.parentElement.find(".points___KTUNl").insertBefore(el, info_cont.parentElement.find(".points___KTUNl .point-block___xpMEi:nth-of-type(2)"));
 }
 
 // function showColorCodes(){

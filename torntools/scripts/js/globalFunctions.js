@@ -341,9 +341,6 @@ const STORAGE = {
         // "remove_info_boxes": false,
         "theme": "default",
         "force_tt": false,
-        "hide_upgrade": false,
-        "align_left": false,
-        "notes": true,
         "inactivity_alerts_faction": {
             // "432000000": "#ffc8c8",  // 5 days
             // "259200000": "#fde5c8"  // 3 days
@@ -453,6 +450,12 @@ const STORAGE = {
             },
             "company": {
                 "member_info": false
+            },
+            "global": {
+                "vault_balance": true,
+                "notes": true,
+                "hide_upgrade": false,
+                "align_left": false,
             }
         }
     }
@@ -1734,18 +1737,18 @@ quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
         watchlist = DB.watchlist;
 
         // Align left
-        document.documentElement.style.setProperty("--torntools-align-left", settings.align_left ? "20px" : "auto");
+        document.documentElement.style.setProperty("--torntools-align-left", settings.pages.globalalign_left ? "20px" : "auto");
 
         // Upgrade button
-        document.documentElement.style.setProperty("--torntools-hide-upgrade-button", settings.hide_upgrade ? "none" : "block");
+        document.documentElement.style.setProperty("--torntools-hide-upgrade-button", settings.pages.global.hide_upgrade ? "none" : "block");
         if(["home"].includes(page())){
-            document.documentElement.style.setProperty("--torntools-hide-upgrade-info", settings.hide_upgrade ? "none" : "block");
+            document.documentElement.style.setProperty("--torntools-hide-upgrade-info", settings.pages.global.hide_upgrade ? "none" : "block");
         }
 
         // Info boxes
-        if(settings.remove_info_boxes && ["crimes"].includes(page())){
-            document.documentElement.style.setProperty("--torntools-remove-info-boxes", "none");
-        }
+        // if(settings.remove_info_boxes && ["crimes"].includes(page())){
+        //     document.documentElement.style.setProperty("--torntools-remove-info-boxes", "none");
+        // }
 
         // Hide Doctorn
         if((settings.force_tt && ["home", "city", "travelagency", "war", "items", "crimes", "gym", "bounties", "profile"].includes(page()))){
