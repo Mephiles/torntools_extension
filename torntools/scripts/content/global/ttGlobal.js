@@ -244,7 +244,7 @@ function addChatFilters(){
 
         let filter_wrap = doc.new({type: "div", class: "tt-chat-filter"});
         let filter_text = doc.new({type: "div", text: "find:"});
-        let filter_input = doc.new({type: "input"});
+        let filter_input = doc.new({type: "input", id: "---search---"});
 
         filter_wrap.appendChild(filter_text);
         filter_wrap.appendChild(filter_input);
