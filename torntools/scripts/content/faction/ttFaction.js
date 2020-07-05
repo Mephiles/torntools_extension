@@ -596,11 +596,12 @@ function fullInfoBox(page){
 
     let title = info_box.previousElementSibling;
 
-    if(title.classList.contains("tt-title-with-option")){
+    if(title.classList.contains("tt-modified")){
         return;
     }
     
-    title.classList.add("tt-title-with-option");
+    title.classList.add("title");
+    title.classList.add("tt-modified");
 
     let key;
     if(page == "main"){
@@ -609,7 +610,9 @@ function fullInfoBox(page){
         key = "info_page_full";
     }
 
-    let setting_div = doc.new({type: "div", class: "tt-title-option"});
+    let options_div = doc.new({type: "div", class: "tt-options"});
+
+    let setting_div = doc.new({type: "div", class: "tt-checkbox-wrap"});
     let checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
     let text = doc.new({type: "div", text: "Show full page"});
 
@@ -620,7 +623,8 @@ function fullInfoBox(page){
 
     setting_div.appendChild(checkbox);
     setting_div.appendChild(text);
-    title.appendChild(setting_div);
+    options_div.appendChild(setting_div);
+    title.appendChild(options_div);
 
     checkbox.onclick = function(){
         info_box.classList.toggle("tt-force-full");

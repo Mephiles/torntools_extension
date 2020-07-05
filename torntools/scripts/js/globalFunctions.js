@@ -745,7 +745,7 @@ const content = {
             if(id) div.id = id;
 
             let div_html = `
-            <div class="top-round m-top10 tt-title ${theme_classes[`title-${settings.theme}`]} ${collapsed == true || collapsed == undefined? 'collapsed':''}"><div class="title-text">${name}</div> <div class="tt-options"></div><i class="tt-title-icon fas fa-caret-down"></i></div>
+            <div class="top-round m-top10 tt-title ${theme_classes[`title-${settings.theme}`]} ${collapsed == true || collapsed == undefined? 'collapsed':''}"><div class="title-text">${name}</div> <div class="tt-options"></div>${header_only? "":`<i class="tt-title-icon fas fa-caret-down"></i>`}</div>
             ${header_only? "":`<div class="cont-gray bottom-round content tt-content ${dragzone? 'tt-dragzon':''}"></div>`}
             `;
             div.innerHTML = div_html;

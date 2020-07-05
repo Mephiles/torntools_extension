@@ -1,5 +1,5 @@
 /* TornTools containers */
-.tt-title {
+.tt-title, .title.tt-modified {
     /* position: relative; */
     cursor: pointer;
     display: flex;
@@ -15,8 +15,12 @@
 .tt-title .title-text {
     width: fit-content;
 }
-.tt-title .tt-options {
+.tt-title .tt-options, .title.tt-modified .tt-options {
     width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    padding-right: 10px;
+    color: #acea00;
 }
 .tt-title .tt-title-icon {
     line-height: inherit;
@@ -101,6 +105,9 @@
 }
 .tt-checkbox-wrap input {
     margin: 1px 5px 0 5px;
+    height: 100%;
+    position: relative;
+    top: -2px;
 }
 
 /* hide arrows on number inputs */
