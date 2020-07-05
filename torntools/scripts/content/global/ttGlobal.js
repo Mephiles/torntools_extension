@@ -35,6 +35,10 @@ DBloaded().then(function(){
         if(settings.pages.global.vault_balance && !mobile){
             displayVaultBalance();
         }
+
+        // Add TT Black overlay
+        let overlay = doc.new({type: "div", class: "tt-black-overlay"});
+        doc.find("body").appendChild(overlay);
     });
     
     chatsLoaded().then(function(){

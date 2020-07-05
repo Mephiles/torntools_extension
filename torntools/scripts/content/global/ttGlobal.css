@@ -22,6 +22,9 @@
     padding-right: 10px;
     color: #acea00;
 }
+.tt-title.title-green .tt-options {
+    color: white;
+}
 .tt-title .tt-title-icon {
     line-height: inherit;
     width: 25px;
@@ -108,6 +111,24 @@
     height: 100%;
     position: relative;
     top: -2px;
+}
+
+.tt-black-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background-color: #00000059;
+    display: none;
+}
+.tt-black-overlay.active {
+    display: block;
+}
+.tt-highlight-sector {
+    position: relative;
+    z-index: 999999999;
 }
 
 /* hide arrows on number inputs */
@@ -261,6 +282,9 @@ div[role="main"] {
 .fa-caret-down:before{content:"\f0d7"}
 .fa-caret-left:before{content:"\f0d9"}
 .fa-caret-right:before{content:"\f0da"}
+
+.fa-plus:before{content:"\f067"}
+.fa-plus-circle:before{content:"\f055"}
 
 /* Torn icons */
 #sidebarroot .status-icons___1SnOI>li[class^="icon1_"] { display: var(--torntools-hide-icons-icon1, inline-block) }

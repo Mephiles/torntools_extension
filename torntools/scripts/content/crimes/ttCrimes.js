@@ -132,6 +132,8 @@ function markCrimes(){
             crime.addEventListener("dragstart", onDragStart);
             crime.addEventListener("dragend", onDragEnd);
         }
+        
+        addButton();
     }
 }
 
@@ -163,6 +165,74 @@ function quickCrimesMain(quick){
             div.appendChild(close_icon);
             inner_content.appendChild(div);
         }
+    }
+}
+
+function addButton(){
+    let wrap = doc.new({type: "div", class: "tt-option", id: "add-crime-button"});
+    let icon = doc.new({type: "i", class: "fas fa-plus"});
+    wrap.appendChild(icon);
+    wrap.innerHTML += " Add";
+
+    doc.find("#ttQuick .tt-title .tt-options").appendChild(wrap);
+
+    wrap.onclick = function(event){
+        event.stopPropagation();
+
+        if(doc.find(".tt-black-overlay").classList.contains("active")){
+            doc.find(".tt-black-overlay").classList.remove("active");
+            doc.find("form[name='crimes']").classList.remove("tt-highlight-sector");
+            doc.find(".tt-title .tt-options .tt-option#add-crime-button").classList.remove("tt-highlight-sector");
+
+            for(let crime of doc.findAll("form[name='crimes']>ul>li")){
+                crime.onclick = undefined;
+            }
+        } else {
+            doc.find(".tt-black-overlay").classList.add("active");
+            doc.find("form[name='crimes']").classList.add("tt-highlight-sector");
+            doc.find(".tt-title .tt-options .tt-option#add-crime-button").classList.add("tt-highlight-sector");
+
+            for(let crime of doc.findAll("form[name='crimes']>ul>li")){
+                crime.onclick = function(event){
+                    event.stopPropagation();
+                    event.preventDefault();
+
+                    let action = doc.find(".specials-cont-wrap form[name=crimes]").getAttribute("action");
+                    action = action[0] == "/" ? action.substr(1) : action;
+                    if(action.indexOf("?") == -1){
+                        action+="?";
+                    }
+                
+                    let target = findParent(event.target, {class: "item"});
+
+                    let crime_nerve = doc.find(".specials-cont-wrap input[name=nervetake]").value;
+                    let crime_name = target.find(".radio.right input").getAttribute("value");
+                    let crime_icon = target.find(".title.left img").getAttribute("src");
+                    let crime_text = target.find(".bonus.left").innerText.trim();
+                
+                    let div = doc.new({type: "div", class: "item", attributes: {"nerve": crime_nerve, "name": crime_name, "action": action}});
+                    let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(${crime_icon})`}});
+                    let text = doc.new({type: "div", class: "text", text: `${crime_text} (-${crime_nerve} nerve)`});
+                    let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
+                
+                    div.appendChild(pic);
+                    div.appendChild(text);
+                    div.appendChild(close_icon);
+                    doc.find("#ttQuick .inner-content").appendChild(div);
+
+                    // Save
+                    let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
+                        "action": x.getAttribute("action"),
+                        "nerve": x.getAttribute("nerve"), 
+                        "name": x.getAttribute("name"), 
+                        "icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0], 
+                        "text": x.find(".text").innerText.split(" (")[0]
+                    }));
+                    local_storage.change({"quick": {"crimes": crimes}});
+                }
+            }            
+        }
+
     }
 }
 
