@@ -699,12 +699,15 @@ function armoryWorth(){
 function showUserInfo(){
     get_api(`https://api.torn.com/faction/?selections=donations,basic`, api_key)
     .then(function(result){
+        if(!result.ok) return;
+        
+        result = result.result;
         console.log("result", result);
 
         doc.find("#faction-info .member-list.info-members").classList.add("tt-modified");
     
         for(let user of doc.findAll("#faction-info .member-list.info-members>li")){
-            let user_id = user.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0];
+            let user_id = user.find("a.user.name").getAttribute("data-placeholder")? user.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : user.find("a.user.name").getAttribute("href").split("XID=")[1];
             
             let li = doc.new({type: "li", class: "tt-user-info"});
             let inner_wrap = doc.new({type: "div", class: "tt-user-info-inner-wrap"});
