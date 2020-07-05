@@ -3,7 +3,7 @@ contentLoaded().then(function(){
 
 	// Networth
 	if(settings.pages.home.networth){
-		displayNetworth(networth);
+		displayNetworth();
 	}
 
 	// Battle Stats
@@ -12,7 +12,56 @@ contentLoaded().then(function(){
 	}
 });
 
-function displayNetworth(networth){
+async function displayNetworth(){
+	let networth;
+	if(cache.other.networth){
+		networth = cache.other.networth;
+	} else {
+		networth = await new Promise(function(resolve, reject){
+			get_api("https://api.torn.com/user/?selections=personalstats,networth", api_key).then((data) => {
+				if(!data.ok) return resolve(data.result);
+				
+				data = data.result;
+
+				let ps = data.personalstats;
+				let new_networth = data.networth;
+				let networth = {
+					current: {
+						date: new Date().toString(),
+						value: new_networth
+					}, 
+					previous: {
+						value: {
+							"pending": ps.networthpending,
+							"wallet": ps.networthwallet,
+							"bank": ps.networthbank,
+							"points": ps.networthpoints,
+							"cayman": ps.networthcayman,
+							"vault": ps.networthvault,
+							"piggybank": ps.networthpiggybank,
+							"items": ps.networthitems,
+							"displaycase": ps.networthdisplaycase,
+							"bazaar": ps.networthbazaar,
+							"properties": ps.networthproperties,
+							"stockmarket": ps.networthstockmarket,
+							"auctionhouse": ps.networthauctionhouse,
+							"company": ps.networthcompany,
+							"bookie": ps.networthbookie,
+							"loan": ps.networthloan,
+							"unpaidfees": ps.networthunpaidfees,
+							"total": ps.networth
+						}
+					}
+				}
+
+				// Set Userdata & Networth
+				local_storage.change({"cache": {"other": {"networth": networth}}}, function(){
+					console.log("Networth info updated.");
+					return resolve(networth);
+				});
+			});
+		});
+	}
 	console.log("Networth", networth);
 
 	let parent_box = doc.find("h5=General Information").parentElement.nextElementSibling.find("ul.info-cont-wrap");
