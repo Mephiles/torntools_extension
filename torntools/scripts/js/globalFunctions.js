@@ -333,7 +333,8 @@ const STORAGE = {
         "container_open": {}
     },
     "cache": {
-        "profile_stats": {}
+        "profile_stats": {},
+        "other": {}
     },
     "watchlist": [],
 
@@ -410,8 +411,11 @@ const STORAGE = {
                 "upgrades": true
             },
             "gym": {
-                "disable_buttons": false,
-                "estimated_energy": true
+                "estimated_energy": true,
+                "disable_strength": false,
+                "disable_speed": false,
+                "disable_defense": false,
+                "disable_dexterity": false
             },
             "shop": {
                 "profits": true

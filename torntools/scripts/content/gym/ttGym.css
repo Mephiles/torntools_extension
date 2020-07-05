@@ -1,3 +1,8 @@
+.tt-checkbox-wrap {
+    height: 13px;
+    margin-top: 4px;
+}
+
 /* Graph */
 .tt-graph-area {
     /* background-color: white; */
@@ -36,15 +41,12 @@
 } 
 
 /* Options */
-.tt-wrap {
-    margin-top: 5px;
-}
-.tt-wrap * {
-    display: inline-block;
-    vertical-align: top;
-}
-.tt-wrap input {
-    margin-right: 3px;
+ul.properties___Vhhr7>li {
     position: relative;
-    top: -1px;
+}
+.tt-gym-stat-checkbox {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    z-index: 999;
 }

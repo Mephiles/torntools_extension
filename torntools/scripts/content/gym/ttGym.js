@@ -17,7 +17,7 @@ gymLoaded().then(function(){
     }
 
     // Disable buttons
-    let div = doc.new({type: "div", class: "tt-wrap"});
+    let div = doc.new({type: "div", class: "tt-checkbox-wrap"});
     let checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
     let div_text = doc.new({type: "div", text: "Disable Gym buttons"});
 
@@ -25,21 +25,43 @@ gymLoaded().then(function(){
     div.appendChild(div_text);
     gym_container.find(".content").appendChild(div);
 
-    checkbox.addEventListener("click", function(event){
-        let checked = event.target.checked;
-
-        local_storage.change({"settings": {"pages": {"gym": {"disable_buttons": checked}}}});
-
-        if(checked){
-            disableTrainButtons(true);
+    checkbox.addEventListener("click", function(){
+        if(checkbox.checked){
+            disableGymButton(["strength", "speed", "dexterity", "defense"], true);
         } else {
-            disableTrainButtons(false)
+            disableGymButton(["strength", "speed", "dexterity", "defense"], false);
         }
     });
-    
-    if(settings.pages.gym.disable_buttons){
+
+    let stats = {
+        "strength": "strength___1GeGr",
+        "speed": "speed___1o1b_",
+        "defense": "defense___311kR",
+        "dexterity": "dexterity___1YdUM",
+    }
+    // Individual buttons
+    for(let stat in stats){
+        let checkbox = doc.new({type: "input", class: "tt-gym-stat-checkbox", attributes: {type: "checkbox"}});
+        checkbox.checked = settings.pages.gym[`disable_${stat}`];
+        
+        if(settings.pages.gym[`disable_${stat}`] && !doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("locked___r074J")){
+            doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.add("locked___r074J");
+        }
+
+        doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).appendChild(checkbox);
+        
+        checkbox.onclick = function(){
+            if(!doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("locked___r074J") && checkbox.checked){
+                disableGymButton([stat], true);
+            } else if(!checkbox.checked){
+                disableGymButton([stat], false);
+            }
+        }
+    }
+
+    if(settings.pages.gym.disable_strength && settings.pages.gym.disable_speed && settings.pages.gym.disable_dexterity && settings.pages.gym.disable_defense){
         checkbox.checked = true;
-        disableTrainButtons(true);
+        disableGymButton(["strength", "speed", "dexterity", "defense"], true);
     }
 });
 
@@ -54,28 +76,37 @@ function gymLoaded(){
     });
 }
 
-function saved(saved){
-    if(saved){
-        doc.find("#tt-gym-settings .saving .text").setClass("text done");    
-        doc.find("#tt-gym-settings .saving .text").innerText = "Saved!";
-        doc.find("#tt-gym-settings .saving .loading-icon").style.display = "none";
-    } else {
-        doc.find("#tt-gym-settings .saving").style.display = "block";
-        doc.find("#tt-gym-settings .saving .text").setClass("text");
-        doc.find("#tt-gym-settings .saving .text").innerText = "Saving..";
-        doc.find("#tt-gym-settings .saving .text").style.display = "inline-block";
-        doc.find("#tt-gym-settings .saving .loading-icon").style.display = "inline-block";
+function disableGymButton(types, disable){
+    let stats = {
+        "strength": "strength___1GeGr",
+        "speed": "speed___1o1b_",
+        "defense": "defense___311kR",
+        "dexterity": "dexterity___1YdUM",
     }
-}
 
-function disableTrainButtons(disable){
-    let containers = doc.findAll("ul.properties___Vhhr7>li");
-    for(let container of containers){
-        if(disable)
-            container.classList.add("locked___r074J");
-        else if(!disable)
-            container.classList.remove("locked___r074J");
+    console.log(types)
+    console.log(disable)
+
+    for(let stat of types){
+        if(disable){
+            if(!doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("locked___r074J")){
+                console.log(`${stat}: disabling`);
+                doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.add("locked___r074J");
+                doc.find(`ul.properties___Vhhr7>li.${stats[stat]} .tt-gym-stat-checkbox`).checked = true;
+            }
+        } else {
+            console.log(`${stat}: enabling`);
+            doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.remove("locked___r074J");
+            doc.find(`ul.properties___Vhhr7>li.${stats[stat]} .tt-gym-stat-checkbox`).checked = false;
+        }
+
     }
+    local_storage.get("settings", function(settings){
+        for(let stat of types){
+            settings.pages.gym[`disable_${stat}`] = disable;
+        }
+        local_storage.set({"settings": settings});
+    });
 }
 
 function showProgress(){
@@ -269,6 +300,21 @@ function displayGraph(){
         });
     });
 }
+
+
+// function saved(saved){
+//     if(saved){
+//         doc.find("#tt-gym-settings .saving .text").setClass("text done");    
+//         doc.find("#tt-gym-settings .saving .text").innerText = "Saved!";
+//         doc.find("#tt-gym-settings .saving .loading-icon").style.display = "none";
+//     } else {
+//         doc.find("#tt-gym-settings .saving").style.display = "block";
+//         doc.find("#tt-gym-settings .saving .text").setClass("text");
+//         doc.find("#tt-gym-settings .saving .text").innerText = "Saving..";
+//         doc.find("#tt-gym-settings .saving .text").style.display = "inline-block";
+//         doc.find("#tt-gym-settings .saving .loading-icon").style.display = "inline-block";
+//     }
+// }
 
 // function displayGymInfo(gyms_data){
 //     let locked_gyms = document.querySelectorAll(".gymList___2NGl7 .locked___3akPx");
