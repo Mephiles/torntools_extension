@@ -22,7 +22,7 @@ vaultLoaded().then(function(){
 
 function Main(vault, need_to_save){
     console.log("VAULT", vault);
-    let vault_container = content.new_container("Vault Sharing", {id: "tt-vault-container", next_element: doc.find(".vault-wrap+hr"), collapsed: false}).find(".content");
+    let vault_container = content.new_container("Vault Sharing", {id: "tt-vault-container", next_element: doc.find(".vault-wrap+hr")}).find(".content");
 
     if(!vault.initialized){
         // Sub Heading

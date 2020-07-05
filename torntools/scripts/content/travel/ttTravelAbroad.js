@@ -175,7 +175,7 @@ function addFilterToTable(list, title){
         "Traveling": "icon71_"
     }
 
-    let filter_container = content.new_container("Filters", {id: "tt-player-filter", collapsed: false, next_element: title}).find(".content");
+    let filter_container = content.new_container("Filters", {id: "tt-player-filter", next_element: title}).find(".content");
     filter_container.setAttribute("class", "cont-gray bottom-round tt-content content");
 
     // Active filter

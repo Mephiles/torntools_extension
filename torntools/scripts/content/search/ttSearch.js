@@ -20,7 +20,7 @@ function searchLoaded(){
 }
 
 function massMessages(theme){
-    let container = content.new_container("Search", {first: true, theme: theme, id: "ttSearchContainer", collapsed: false}).find(".content");
+    let container = content.new_container("Search", {first: true, theme: theme, id: "ttSearchContainer"}).find(".content");
 
     let add_all_to_list = doc.new({type: "div", id: "tt-add-all-to-mm-list", text: "Add all to List"});
     container.appendChild(add_all_to_list);

@@ -55,7 +55,7 @@ DBloaded().then(function(){
     
         modifyTimeAndCost();
 
-        let container = content.new_container("Travel Destinations", {id: "ttTravelTable", collapsed: false}).find(".content");
+        let container = content.new_container("Travel Destinations", {id: "ttTravelTable"}).find(".content");
         
         addLegend();
         setTravelItems();

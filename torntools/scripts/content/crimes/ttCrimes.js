@@ -147,7 +147,7 @@ function crimesLoaded(){
 }
 
 function quickCrimesMain(quick){
-    let quick_container = content.new_container("Quick crimes", {id: "ttQuick", dragzone: true, collapsed: false, next_element: doc.find(".tutorial-cont")}).find(".content"); /*doc.find("#module-desc") || doc.find(".title-black[role=heading]") || doc.find(".users-list-title")*/
+    let quick_container = content.new_container("Quick crimes", {id: "ttQuick", dragzone: true, next_element: doc.find(".tutorial-cont")}).find(".content"); /*doc.find("#module-desc") || doc.find(".title-black[role=heading]") || doc.find(".users-list-title")*/
     let inner_content = doc.new({type: "div", class: "inner-content"});
     quick_container.appendChild(inner_content);
 

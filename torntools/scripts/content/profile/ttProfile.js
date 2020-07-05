@@ -166,7 +166,7 @@ profileLoaded().then(async function(){
     if(getUserId() == userdata.player_id) return;
 
     // Profile stats
-    let info_container = content.new_container("User Info", {next_element_heading: "Medals", id: "tt-target-info", collapsed: !filters.profile_stats.open});
+    let info_container = content.new_container("User Info", {next_element_heading: "Medals", id: "tt-target-info"});
     let profile_stats_div = doc.new({type: "div", class: `profile-stats ${mobile?'tt-mobile':""}`});
     info_container.find(".content").appendChild(profile_stats_div);
 

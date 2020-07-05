@@ -6,7 +6,7 @@ contentLoaded().then(function(){
     }
 
     // Quick items
-    let quick_container = content.new_container("Quick items", {id: "ttQuick", dragzone: true, collapsed: false, next_element: doc.find(".equipped-items-wrap")}).find(".content");
+    let quick_container = content.new_container("Quick items", {id: "ttQuick", dragzone: true, next_element: doc.find(".equipped-items-wrap")}).find(".content");
     let inner_content = doc.new({type: "div", class: "inner-content"});
     let response_wrap = doc.new({type: "div", class: "response-wrap"});
     quick_container.appendChild(inner_content);

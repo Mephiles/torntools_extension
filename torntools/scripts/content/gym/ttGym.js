@@ -1,7 +1,7 @@
 gymLoaded().then(function(){
     console.log("TT - Gym");
 
-    let gym_container = content.new_container("Gym", {id: "tt-gym", collapsed: false});
+    let gym_container = content.new_container("Gym", {id: "tt-gym"});
 
     // Graph
     if((extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt) && !mobile){
