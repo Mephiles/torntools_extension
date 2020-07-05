@@ -360,7 +360,7 @@ async function displayProfileStats(){
                             return resolve({"error": result.error});
                         }
                     } else {
-                        return resolve({...data.personalstats, ...result.compare.data, "spy": {...result.spy}, "date": new Date().toString()});
+                        return resolve({...data.result.personalstats, ...result.compare.data, "spy": {...result.spy}, "date": new Date().toString()});
                     }
                 });
             });
