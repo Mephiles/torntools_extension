@@ -4,7 +4,7 @@ gymLoaded().then(function(){
     let gym_container = content.new_container("Gym", {id: "tt-gym"});
 
     // Graph
-    if((extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt) && !mobile){
+    if(extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt){
         displayGraph();
     }
 
@@ -111,114 +111,117 @@ function displayGraph(){
 
     fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=getStatGraph`)
     .then(async function(response){
-        let result = await response.json();
-
-        if(result.error){
-            console.log("TornStats API result", result);
-            
-            let text;
-            if(result.error.indexOf("User not found") > -1){
-                text = "Can't display graph because no TornStats account was found. Please register an account @ www.tornstats.com";
+        if(!mobile){
+            let result = await response.json();
+    
+            if(result.error){
+                console.log("TornStats API result", result);
+                
+                let text;
+                if(result.error.indexOf("User not found") > -1){
+                    text = "Can't display graph because no TornStats account was found. Please register an account @ www.tornstats.com";
+                }
+    
+                let div = doc.new({type: "div", text: text || result.error, class: "tt-error-message"});
+                graph_area.appendChild(div);
+                return;
             }
-
-            let div = doc.new({type: "div", text: text || result.error, class: "tt-error-message"});
-            graph_area.appendChild(div);
-            return;
+    
+            let canvas = doc.new({type: "canvas", id: "tt-gym-graph", attributes: {width: "784", height: "250"}});
+            graph_area.appendChild(canvas);
+    
+            let ctx = doc.find("#tt-gym-graph").getContext("2d");
+            new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: result.data.map(function(x){
+                        let date = new Date(x.timestamp*1000);
+                        return formatDate([date.getDate(), date.getMonth()+1], settings.format.date);
+                    }),
+                    datasets: [
+                        {
+                            label: "Strength",
+                            data: result.data.map(x => x.strength),
+                            borderColor: ["#3366CC"],
+                            fill: false,
+                            pointRadius: 0,
+                            pointBackgroundColor: "#3366CC",
+                            pointHoverRadius: 5
+                        },
+                        {
+                            label: "Defense",
+                            data: result.data.map(x => x.defense),
+                            borderColor: ["#DC3912"],
+                            fill: false,
+                            pointRadius: 0,
+                            pointBackgroundColor: "#DC3912",
+                            pointHoverRadius: 5
+                        },
+                        {
+                            label: "Speed",
+                            data: result.data.map(x => x.speed),
+                            borderColor: ["#FF9901"],
+                            fill: false,
+                            pointRadius: 0,
+                            pointBackgroundColor: "#FF9901",
+                            pointHoverRadius: 5
+                        },
+                        {
+                            label: "Dexterity",
+                            data: result.data.map(x => x.dexterity),
+                            borderColor: ["#109618"],
+                            fill: false,
+                            pointRadius: 0,
+                            pointBackgroundColor: "#109618",
+                            pointHoverRadius: 5
+                        },
+                        {
+                            label: "Total",
+                            data: result.data.map(x => x.total),
+                            borderColor: ["#990199"],
+                            fill: false,
+                            pointRadius: 0,
+                            pointBackgroundColor: "#990199",
+                            pointHoverRadius: 5,
+                            hidden: true
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                step: 2000000,
+                                callback: function(value, index, values){return numberWithCommas(value, false)}
+                            },
+                        }]
+                    },
+                    legend: {
+                        position: "right",
+                        labels: {
+                            boxWidth: 13
+                        }
+                    },
+                    tooltips: {
+                        intersect: false,
+                        mode: "index",
+                        // enabled: true,
+                        // mode: "y",
+                        callbacks: {
+                            label: function(tooltipItem, data){
+                                return `${data.datasets[tooltipItem.datasetIndex].label}: ${numberWithCommas(tooltipItem.yLabel, false)}`;
+                            }
+                        }
+                    },
+                    hover: {
+                        intersect: false,
+                        mode: "index"
+                    }
+                }
+            });
         }
 
-        let canvas = doc.new({type: "canvas", id: "tt-gym-graph", attributes: {width: "784", height: "250"}});
-        graph_area.appendChild(canvas);
-
-        let ctx = doc.find("#tt-gym-graph").getContext("2d");
-        new Chart(ctx, {
-            type: "line",
-            data: {
-                labels: result.data.map(function(x){
-                    let date = new Date(x.timestamp*1000);
-                    return formatDate([date.getDate(), date.getMonth()+1], settings.format.date);
-                }),
-                datasets: [
-                    {
-                        label: "Strength",
-                        data: result.data.map(x => x.strength),
-                        borderColor: ["#3366CC"],
-                        fill: false,
-                        pointRadius: 0,
-                        pointBackgroundColor: "#3366CC",
-                        pointHoverRadius: 5
-                    },
-                    {
-                        label: "Defense",
-                        data: result.data.map(x => x.defense),
-                        borderColor: ["#DC3912"],
-                        fill: false,
-                        pointRadius: 0,
-                        pointBackgroundColor: "#DC3912",
-                        pointHoverRadius: 5
-                    },
-                    {
-                        label: "Speed",
-                        data: result.data.map(x => x.speed),
-                        borderColor: ["#FF9901"],
-                        fill: false,
-                        pointRadius: 0,
-                        pointBackgroundColor: "#FF9901",
-                        pointHoverRadius: 5
-                    },
-                    {
-                        label: "Dexterity",
-                        data: result.data.map(x => x.dexterity),
-                        borderColor: ["#109618"],
-                        fill: false,
-                        pointRadius: 0,
-                        pointBackgroundColor: "#109618",
-                        pointHoverRadius: 5
-                    },
-                    {
-                        label: "Total",
-                        data: result.data.map(x => x.total),
-                        borderColor: ["#990199"],
-                        fill: false,
-                        pointRadius: 0,
-                        pointBackgroundColor: "#990199",
-                        pointHoverRadius: 5,
-                        hidden: true
-                    }
-                ]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            step: 2000000,
-                            callback: function(value, index, values){return numberWithCommas(value, false)}
-                        },
-                    }]
-                },
-                legend: {
-                    position: "right",
-                    labels: {
-                        boxWidth: 13
-                    }
-                },
-                tooltips: {
-                    intersect: false,
-                    mode: "index",
-                    // enabled: true,
-                    // mode: "y",
-                    callbacks: {
-                        label: function(tooltipItem, data){
-                            return `${data.datasets[tooltipItem.datasetIndex].label}: ${numberWithCommas(tooltipItem.yLabel, false)}`;
-                        }
-                    }
-                },
-                hover: {
-                    intersect: false,
-                    mode: "index"
-                }
-            }
-        });
-
+        // Update TornStats button
         let update_button = doc.new({type: "button", text: "Update TornStats", class: "update-button"});
         graph_area.appendChild(update_button);
 
