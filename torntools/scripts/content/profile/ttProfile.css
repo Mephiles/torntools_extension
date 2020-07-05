@@ -179,8 +179,6 @@
 
 /* Target Info */
 #tt-target-info .content {
-    padding: 5px;
-    padding-bottom: 15px;
     font-size: 15px;
     overflow-x: auto;
 }
@@ -274,6 +272,9 @@
 
 .tt-advanced.tt-mobile {
     display: none;
+}
+.no-btl-data {
+    line-height: 30px;
 }
 /* Friendly Fire */
 .tt-warning-message {

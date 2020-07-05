@@ -269,7 +269,7 @@ function displayTargetInfo(targets) {
     let content_container = doc.find("#tt-target-info .content");
 
     if (!targets[user_id]){
-        let span = doc.new({type: "span", text: "No battle data on user.", });
+        let span = doc.new({type: "span", class: "no-btl-data", text: "No battle data on user.", });
         content_container.appendChild(span);
     } else {
         let table = doc.new({type: "div", class: `tt-table ${mobile?"tt-mobile":""}`});

@@ -162,6 +162,10 @@ var drug_dict = {
         "cooldown": "5 hours"
     },
 }
+var theme_classes = {
+    "title-default": "title-green",
+    "title-alternative": "title-black"
+}
 
 const local_storage = {
     get: function (key, callback) {
@@ -734,27 +738,17 @@ const content = {
         return new_div;
 
         function createNewContainer(name, id, collapsed, dragzone, header_only) {
-            let div = doc.new({type: "div", id: id? id: undefined, attributes: {style: "position: relative;"}});
+            let div = doc.new({type: "div"});
+            if(id) div.id = id;
 
-            let heading = doc.new({type: "div", text: name, class: "tt-title top-round m-top10", attributes: {style: "cursor: pointer;"}});
-            if(DB.settings.theme == "default"){
-                heading.classList.add("title-green")
-            } else if(DB.settings.theme == "alternative"){
-                heading.classList.add("title-black");
-            }
+            let div_html = `
+            <div class="top-round m-top10 tt-title ${theme_classes[`title-${settings.theme}`]} ${collapsed == true || collapsed == undefined? 'collapsed':''}"><div class="title-text">${name}</div> <div class="tt-options"></div><i class="tt-title-icon fas fa-caret-down"></i></div>
+            ${header_only? "":`<div class="cont-gray bottom-round content tt-content ${dragzone? 'tt-dragzon':''}"></div>`}
+            `;
+            div.innerHTML = div_html;
 
-            if(header_only){
-                heading.classList.add("tt-header-only");
-                div.appendChild(heading);
-                return div;
-            }
-
-            let content = doc.new({type: "div", class: "cont-gray bottom-round tt-content content"});
-            if(collapsed == true || collapsed == undefined){
-                content.style.maxHeight = "0px";
-            }
             if(dragzone){
-                content.classList.add("tt-dragzone");
+                let content = div.find(".content");
                 content.addEventListener("dragover", onDragOver);
                 content.addEventListener("drop", function(event){
                     onDrop(event);
@@ -763,35 +757,9 @@ const content = {
                 content.addEventListener("dragleave", onDragLeave);
             }
 
-            let icon;
-            if(collapsed == false){
-                icon = doc.new({type: "i", class: "fas fa-chevron-up container_collapse"});
-            } else {
-                icon = doc.new({type: "i", class: "fas fa-chevron-down container_collapse"});
+            div.find(".tt-title").onclick = function(){
+                div.find(".tt-title").classList.toggle("collapsed");
             }
-            
-            div.appendChild(heading);
-            div.appendChild(content);
-            div.appendChild(icon);
-
-            // Collapse
-            heading.addEventListener("click", function(){
-                if(content.style.maxHeight != "0px"){
-                    content.style.maxHeight = "0px";
-                } else {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                }
-                rotateElement(icon, 180);
-            });
-
-            icon.addEventListener("click", function(){
-                if(content.style.maxHeight != "0px"){
-                    content.style.maxHeight = "0px";
-                } else {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                }
-                rotateElement(icon, 180);
-            });
 
             return div;
         }
