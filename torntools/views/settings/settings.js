@@ -65,6 +65,9 @@ window.addEventListener("load", function(){
         doc.find("#add_highlight").addEventListener("click", function(event){
             addHighlightToList(event);
         });
+        doc.find("#add_filter_faction").addEventListener("click", function(event){
+            addFactionToFilter(event);
+        });
         doc.find("#clear_target_list").addEventListener("click", function(){
             local_storage.set({"target_list": {
                 "last_target": -1,
@@ -401,6 +404,32 @@ function setupPreferences(){
     preferences.find("#company-inactivity_alerts_first input").value = orange_time_company;
     preferences.find("#company-inactivity_alerts_second input").value = red_time_company;
 
+    // Filters (Faction)
+    for(let faction of filters.preset_data.factions.data){
+        let row = doc.new({type: "div", class: "row"});
+        let radio_input = doc.new({type: "input", attributes: {type: "radio", name: "filter-faction", value: faction}});
+        let name_input = doc.new({type: "input", class: "text name", value: faction});
+        let remove_icon_wrap = doc.new({type: "div", class:"remove-icon-wrap"});
+        let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+
+        remove_icon.addEventListener("click", function(event){
+            event.target.parentElement.parentElement.remove();
+        });
+
+        remove_icon_wrap.addEventListener("click", function(event){
+            event.target.parentElement.remove();
+        });
+        
+        remove_icon_wrap.appendChild(remove_icon);
+        row.appendChild(radio_input);
+        row.appendChild(name_input);
+        row.appendChild(remove_icon_wrap);
+
+        let table_body = preferences.find("#filter-factions .body");
+        table_body.insertBefore(row, table_body.find(".row.input"));
+    }
+    if(filters.preset_data.factions.default) preferences.find(`#filter-factions input[value='${filters.preset_data.factions.default}']`).checked = true;
+
     // Buttons
     preferences.find("#save_settings").addEventListener("click", function(){
         savePreferences(preferences, settings, target_list.show, extensions);
@@ -539,6 +568,22 @@ function savePreferences(preferences, settings, target_list_enabled, ext){
     if(!isNaN(red_time_company)){
         settings.inactivity_alerts_company[red_time_company] = "#ffc8c8";
     }
+
+    // Filters (Faction)
+    let filter_factions = {
+        default: "",
+        data: []
+    }
+    for(let row of preferences.findAll("#filter-factions .row:not(.input)")){
+        let name = row.find(".name").value;
+
+        if(row.find("input[type=radio]").checked == true){
+            filter_factions.default = name;
+        }
+
+        filter_factions.data.push(name);
+    }
+    console.log("filter factions", filter_factions);
     
     console.log("New settings", settings);
 
@@ -549,6 +594,9 @@ function savePreferences(preferences, settings, target_list_enabled, ext){
     local_storage.set({"chat_highlight": highlights});
     local_storage.set({"extensions": extensions});
     local_storage.set({"hide_icons": icons});
+    local_storage.change({"filters": {"preset_data": {
+        "factions": filter_factions
+    }}});
 
     local_storage.change({"target_list": {"show": target_list_enabled}}, function(){
         local_storage.get("target_list", function(target_list){
@@ -806,6 +854,38 @@ function addLinktoList(event){
     event.target.previousElementSibling.value = "";
     event.target.previousElementSibling.previousElementSibling.value = "";
     event.target.previousElementSibling.previousElementSibling.previousElementSibling.checked = true;
+}
+
+function addFactionToFilter(event){
+    let row = doc.new({type: "div", class: "row"});
+    let radio_input = doc.new({type: "input", attributes: {type: "radio", name: "filter-faction", value: event.target.previousElementSibling.value}});
+    let name_input = doc.new({type: "input", class: "text name", value: event.target.previousElementSibling.value});
+    let remove_icon_wrap = doc.new({type: "div", class:"remove-icon-wrap"});
+    let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+
+    if(event.target.previousElementSibling.previousElementSibling.checked == true){
+        radio_input.checked = true;
+    }
+
+    remove_icon.addEventListener("click", function(event){
+        event.target.parentElement.parentElement.remove();
+    });
+
+    remove_icon_wrap.addEventListener("click", function(event){
+        event.target.parentElement.remove();
+    });
+    
+    remove_icon_wrap.appendChild(remove_icon);
+    row.appendChild(radio_input);
+    row.appendChild(name_input);
+    row.appendChild(remove_icon_wrap);
+
+    let table_body = preferences.find("#filter-factions .body");
+    table_body.insertBefore(row, table_body.find(".row.input"));
+
+    // Clear input
+    event.target.previousElementSibling.value = "";
+    event.target.previousElementSibling.previousElementSibling.checked = false;
 }
 
 function message(text, good){

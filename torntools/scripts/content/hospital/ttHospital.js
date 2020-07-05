@@ -26,9 +26,6 @@ function addFilterToTable(list, title){
                 <div class="filter-heading">Faction</div>
                 <select name="faction" id="tt-faction-filter">
                     <option selected value="">none</option>
-                    <option value="ViN">ViN</option>
-                    <option value="NUKE">NUKE</option>
-                    <option value="CR">CR</option>
                 </select>
             </div>
             <div class="filter-wrap" id="time-filter">
@@ -50,6 +47,15 @@ function addFilterToTable(list, title){
     let time_end = filters.hospital.time[1] || 100;
     let level_start = filters.hospital.level[0] || 0;
     let level_end = filters.hospital.level[1] || 100;
+
+    for(let faction of filters.preset_data.factions.data){
+        let option = doc.new({type: "option", value: faction, text: faction});
+        if(faction == filters.preset_data.factions.default) option.selected = true;
+
+        filter_container.find("#tt-faction-filter").appendChild(option);
+    }
+    let divider_option = doc.new({type: "option", value: "----------", text: "----------", attributes: {disabled: true}});
+    filter_container.find("#tt-faction-filter").appendChild(divider_option);
 
     // Time slider
     let time_slider = filter_container.find('#tt-time-filter');
@@ -112,7 +118,8 @@ function addFilterToTable(list, title){
             console.log("click");
             setTimeout(function(){
                 playersLoaded(".users-list").then(function(){
-                    console.log("loaded")
+                    console.log("loaded");
+                    populateFactions();
                     applyFilters();
                 });
             }, 300);
@@ -123,10 +130,11 @@ function addFilterToTable(list, title){
     for(let state of filters.hospital.activity){
         doc.find(`#activity-filter input[value='${state}']`).checked = true;
     }
-    if(filters.hospital.faction){
+    if(filters.hospital.faction.default){
         doc.find(`#faction-filter option[value='${filters.hospital.faction}']`).selected = true;
     }
 
+    populateFactions();
     applyFilters();
     
     function applyFilters(){
@@ -195,7 +203,7 @@ function addFilterToTable(list, title){
             }
 
             // Faction
-            if(faction != "" && !li.querySelector(`img[title=${faction}]`)){
+            if(faction != "" && !li.querySelector(`img[title='${faction}']`)){
                 li.classList.add("filter-hidden");
                 continue;
             }
@@ -217,5 +225,16 @@ function addFilterToTable(list, title){
 
         doc.find(".statistic#showing .filter-count").innerText = shown_users;
         doc.find(".statistic#showing .filter-total").innerText = total_users;
+    }
+
+    function populateFactions(){
+        let faction_tags = [...list.findAll(":scope>li")].map(x => (x.find(".user.faction img")? x.find(".user.faction img").getAttribute("title"):"")).filter(x => x != "");
+        
+        for(let tag of faction_tags){
+            if(filter_container.find(`#tt-faction-filter option[value='${tag}']`)) continue;
+
+            let option = doc.new({type: "option", value: tag, text: tag});
+            filter_container.find("#tt-faction-filter").appendChild(option);
+        }
     }
 }

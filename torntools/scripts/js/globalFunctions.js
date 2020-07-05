@@ -320,6 +320,12 @@ const STORAGE = {
     },
     "stakeouts": {},
     "filters": {
+        "preset_data": {
+            "factions": {
+                "default": "",
+                "data": []
+            }
+        },
         "travel": {
             "table_type": "basic",
             "open": false,
@@ -1538,7 +1544,6 @@ function messageBoxLoaded(){
 function playersLoaded(list_class){
     return new Promise(function(resolve, reject){
         let checker = setInterval(function(){
-            console.log(doc.find(`${list_class}`).firstElementChild)
             if(!(doc.find(`${list_class}>*`).classList.contains("ajax-placeholder") || doc.find(`${list_class}>* .ajax-placeholder`)) && doc.find(`${list_class}`).firstElementChild){
                 resolve(true);
                 return clearInterval(checker);
