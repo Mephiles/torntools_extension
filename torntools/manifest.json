@@ -37,9 +37,11 @@
 				"https://www.torn.com/*"
 			],
 			"css": [
-				"scripts/content/global/ttGlobal.css"
+				"scripts/content/global/ttGlobal.css",
+				"scripts/js/nouislider.css"
 			],
 			"js": [
+				"scripts/js/nouislider.js",
 				"scripts/js/globalFunctions.js",
 				"scripts/js/achievementFunctions.js",
 				"scripts/content/global/ttGlobal.js"

@@ -330,6 +330,12 @@ const STORAGE = {
             "auto_fetch": true,
             "chosen_stats": []
         },
+        "hospital": {
+            "activity": [],
+            "faction": "",
+            "time": [],
+            "level": []
+        },
         "container_open": {}
     },
     "cache": {
@@ -470,7 +476,7 @@ const STORAGE = {
 }
 
 Document.prototype.find = function (type) {
-    if (type.indexOf("=") > -1) {
+    if (type.indexOf("=") > -1 && type.indexOf("[") == -1) {
         let key = type.split("=")[0];
         let value = type.split("=")[1];
 
@@ -489,7 +495,7 @@ Document.prototype.find = function (type) {
     return this.querySelector(type);
 }
 Element.prototype.find = function (type) {
-    if (type.indexOf("=") > -1) {
+    if (type.indexOf("=") > -1 && type.indexOf("[") == -1) {
         let key = type.split("=")[0];
         let value = type.split("=")[1];
 
@@ -730,7 +736,7 @@ const content = {
         }
 
         let parent_element = attr.next_element ? attr.next_element.parentElement : doc.find(".content-wrapper");
-        let new_div = createNewContainer(name, attr.id, attr.dragzone, attr.header_only);
+        let new_div = createNewContainer(name, attr.id, attr.dragzone, attr.header_only, attr.class);
 
         if (attr.first)
             parent_element.insertBefore(new_div, parent_element.find(".content-title").nextElementSibling);
@@ -741,12 +747,13 @@ const content = {
 
         return new_div;
 
-        function createNewContainer(name, id, dragzone, header_only) {
+        function createNewContainer(name, id, dragzone, header_only, _class) {
             console.log(page())
             let collapsed = filters.container_open[page()];
 
             let div = doc.new({type: "div"});
             if(id) div.id = id;
+            if(_class) div.setClass(_class);
 
             let div_html = `
             <div class="top-round m-top10 tt-title ${theme_classes[`title-${settings.theme}`]} ${collapsed == true || collapsed == undefined? 'collapsed':''}"><div class="title-text">${name}</div> <div class="tt-options"></div>${header_only? "":`<i class="tt-title-icon fas fa-caret-down"></i>`}</div>
@@ -1219,7 +1226,7 @@ function formatBytes(bytes, decimals = 2) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
-function time_until(milliseconds){
+function time_until(milliseconds, attr={}){
     if(milliseconds < 0){
         return -1;
     }
@@ -1228,6 +1235,26 @@ function time_until(milliseconds){
     let hours = Math.floor((milliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     let minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));
     let seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
+
+    switch(attr.max_unit){
+        case "h":
+            hours = hours + days*24;
+            days = undefined;
+            break;
+        // case "m":
+        //     minutes = minutes + days*24 + hours*60;
+        //     days = undefined;
+        //     hours = undefined;
+        //     break;
+        // case "s":
+        //     seconds = seconds + days*24 + hours*60 + minutes*60;
+        //     days = undefined;
+        //     hours = undefined;
+        //     minutes = undefined;
+        //     break;
+        default:
+            break;
+    }
 
     let time_left;
 
@@ -1243,7 +1270,19 @@ function time_until(milliseconds){
         time_left = "0s";
     }
 
-    return time_left;
+    if(attr.hide_nulls){
+        time_left += " ";
+
+        while(time_left != time_left.replace(/\s[0][A-Za-z]\s/, " ")){
+            time_left = time_left.replace(/\s[0][A-Za-z]\s/, " ");
+        }
+        // while(time_left.indexOf("0") > -1){
+        //     let index = time_left.indexOf("0");
+        //     time_left = time_left.replace(time_left.slice(index, index+3), "");
+        // }
+    }
+
+    return time_left.trim();
 }
 
 function formatDate([day, month, year], formatting){
@@ -1499,7 +1538,8 @@ function messageBoxLoaded(){
 function playersLoaded(list_class){
     return new Promise(function(resolve, reject){
         let checker = setInterval(function(){
-            if(doc.find(`${list_class}>*:not(.ajax-placeholder)`)){
+            console.log(doc.find(`${list_class}`).firstElementChild)
+            if(!(doc.find(`${list_class}>*`).classList.contains("ajax-placeholder") || doc.find(`${list_class}>* .ajax-placeholder`)) && doc.find(`${list_class}`).firstElementChild){
                 resolve(true);
                 return clearInterval(checker);
             }
@@ -1585,7 +1625,6 @@ function to_seconds(time){
         time = time.split("s")[1];
     }
 
-    console.log("seconds", seconds);
     return seconds;
 }
 

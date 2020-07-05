@@ -111,6 +111,7 @@
     height: 100%;
     position: relative;
     top: -2px;
+    height: 13px;
 }
 
 .tt-black-overlay {
@@ -201,7 +202,42 @@ div[role="main"] {
 }
 
 /* Player list filter */
-#tt-player-filter+div {
+.filter-container+* {
+    margin-top: 0 !important;
+}
+.filter-header {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+.filter-header .statistic span {
+    font-weight: 600;
+}
+.filter-content {
+    display: flex;
+}
+.filter-wrap {
+    flex: 1 0 auto;
+}
+.filter-wrap .filter-heading {
+    /* margin-left: 30%; */
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.filter-slider {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+.filter-slider+.filter-slider-info {
+    width: 50%;
+    margin: auto;
+}
+.filter-hidden {
+    display: none !important;
+}
+/* #tt-player-filter+div {
     margin-top: 0;
 }
 #tt-player-filter .content {
@@ -244,7 +280,7 @@ div[role="main"] {
     font-size: 11px;
     left: 1px;
     bottom: -14px;
-}
+} */
 
 /* Chat filter */
 .tt-chat-filter * {
