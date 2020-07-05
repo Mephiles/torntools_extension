@@ -32,7 +32,7 @@ DBloaded().then(function(){
         }
 
         // Vault balance
-        if(settings.pages.global.vault_balance){
+        if(settings.pages.global.vault_balance && !mobile){
             displayVaultBalance();
         }
     });
