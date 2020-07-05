@@ -37,6 +37,10 @@ bazaarLoaded().then(function(){
             let bazaar_user_id = getSearchParameters().userId;
             get_api(`https://api.torn.com/user/${bazaar_user_id}?selections=bazaar`, api_key)
             .then(function(result){
+                if(!result.ok) return false;
+                
+                result = result.result;
+                
                 let total = 0;
     
                 for(let item in result.bazaar){

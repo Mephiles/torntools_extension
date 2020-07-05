@@ -669,6 +669,10 @@ function upgradesInfoListener(){
 function armoryWorth(){
     get_api(`https://api.torn.com/faction/?selections=weapons,armor,temporary,medical,drugs,boosters,cesium,currency`, api_key)
     .then(function(result){
+        if(!result.ok) return false;
+
+        result = result.result;
+        
         console.log("result", result);
 
         let total = 0;
