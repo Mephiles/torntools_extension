@@ -1042,7 +1042,7 @@ function get_api(http, api_key) {
                     }
                 } catch(err){console.log("Unable to get Badge.")}
                 local_storage.change({"api": { "online": true, "error": "" }}, function(){
-                    return resolve(result);
+                    return resolve({ok: true, result: result});
                 });
             }
         } catch(err){
@@ -1737,7 +1737,7 @@ quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
         watchlist = DB.watchlist;
 
         // Align left
-        document.documentElement.style.setProperty("--torntools-align-left", settings.pages.globalalign_left ? "20px" : "auto");
+        document.documentElement.style.setProperty("--torntools-align-left", settings.pages.global.align_left ? "20px" : "auto");
 
         // Upgrade button
         document.documentElement.style.setProperty("--torntools-hide-upgrade-button", settings.pages.global.hide_upgrade ? "none" : "block");
