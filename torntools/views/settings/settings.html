@@ -113,7 +113,6 @@
 					</div>
 					<div class="section">
 						<div class="heading">Gym</div>
-						<div class="option" id="gym-disable_buttons"><input type="checkbox">Disable Gym buttons</div>
 						<div class="option" id="gym-estimated_energy"><input type="checkbox">Display Estimated Energy progress</div>
 					</div>
 					<div class="section">
@@ -318,16 +317,22 @@
 			<ul>
 				<li>Periodically
 					<ul>
-						<li>Fetch Torn's Item list, Honors, Medals, Stocks</li>
+						<li>User's stats, crimes, stocks, networth, bars, cooldowns, events, messages, etc. (every 15 seconds)</li>
+						<li>Pull data from YATA servers: loot times, travel market info (1 per minute)</li>
+						<li>Torn stocks data (every 15 minutes)</li>
+						<li>Torn's honors, medals, item values, point values. Faction's OC info (1 per 24 hours)</li>
+
+						<!-- <li>Fetch Torn's Item list, Honors, Medals, Stocks</li>
 						<li>Fetch User's Personal stats, Crimes, Battle stats, Perks, Profile, Work stats, Stocks,
 							Networth, Bars, Cooldowns, Education, Messages, Events, Travel info</li>
-							<span class="note">3 main requests once per minute. 1 request for user's data every 15 seconds</span>
+							<span class="note">3 main requests once per minute. 1 request for user's data every 15 seconds</span> -->
 					</ul>
 				</li>
 				<li>Scripts
 					<ul>
-						<li>Market Tab: 1 Request per Item searched</li>
-						<li>Profile Stats: 1 Request per profile to Torn API and 1 request to TornStats API (max 25/minute)</li>
+						<li>Stakeouts: 1 request per user (every 15 seconds)</li>
+						<li>Market Tab: 1 request per Item searched</li>
+						<li>Profile Stats: 1 request per profile to Torn API and 1 request to TornStats API (max 25/minute)</li>
 						<li>Gym Stats: 1 Request to TornStats API (max 25/minute)</li>
 						<li>OC NNB: 1 Request to TornStats API (max 25/minute)</li>
 						<li>Bazaar value: 1 Request to Torn's API</li>
