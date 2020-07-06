@@ -563,6 +563,8 @@ async function Main_1_day(){
 				if(!torndata.ok) return resolve(false);
 		
 				torndata = torndata.result;
+				let itemlist = {items: {...torndata.items}, date: (new Date).toString()};
+				delete torndata.items;
 
 				let new_date = (new Date()).toString();
 				torndata.date = new_date;
@@ -570,8 +572,9 @@ async function Main_1_day(){
 				local_storage.get("torndata", function(old_torndata){
 					torndata.stocks = old_torndata.stocks;
 					
-					local_storage.set({"torndata": torndata}, function(){
+					local_storage.set({"torndata": torndata, "itemlist": itemlist}, function(){
 						console.log("	Torndata info updated.");
+						console.log("	Itemlist info updated.");
 						return resolve(true);
 					});
 				});
