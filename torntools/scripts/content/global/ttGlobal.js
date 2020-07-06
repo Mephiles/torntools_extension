@@ -50,7 +50,8 @@ DBloaded().then(function(){
         // Chat highlight
         if(doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")){
             highLightChat(chat_highlight, userdata.name);
-            addChatFilters();
+
+            if(settings.pages.global.find_chat) addChatFilters();
         }
     
         doc.addEventListener("click", function(event){
@@ -59,7 +60,7 @@ DBloaded().then(function(){
             }
     
             highLightChat(chat_highlight, userdata.name);
-            addChatFilters();
+            if(settings.pages.global.find_chat) addChatFilters();
         });
     
         let chat_observer = new MutationObserver(function(mutationsList, observer){
