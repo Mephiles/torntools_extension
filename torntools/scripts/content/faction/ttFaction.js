@@ -457,14 +457,18 @@ function upgradesInfoListener(){
 function armoryWorth(){
     get_api(`https://api.torn.com/faction/?selections=weapons,armor,temporary,medical,drugs,boosters,cesium,currency`, api_key)
     .then(function(result){
-        if(!result.ok) return false;
+        if(!result.ok){
+            if(result.error == 'Incorrect ID-entity relation'){
+                let li = doc.new({type: "li", text: `Armory value: NO API ACCESS`});
+                doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
+            }
+            return false;
+        };
 
         result = result.result;
-        
         console.log("result", result);
 
         let total = 0;
-
         let lists = ["weapons", "armor", "temporary", "medical", "drugs", "boosters"];
 
         for(let type of lists){
