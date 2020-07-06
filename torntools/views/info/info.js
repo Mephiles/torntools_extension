@@ -120,7 +120,8 @@ function updateInfo(settings){
             }
             
             let full_stat = userdata[bar].fulltime - time_diff;
-            let time_left = time_until(full_stat*1000);
+            let time_left;
+            if(!isNaN(full_stat)) time_left = time_until(full_stat*1000);
 
             doc.find(`#${bar} .stat`).innerText = `${current_stat}/${max_stat}`;
 
