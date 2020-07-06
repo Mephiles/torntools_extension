@@ -170,9 +170,9 @@ setup_storage.then(async function(success){
 	local_storage.get("api_key", function(api_key){
 		if(api_key == undefined) return;
 
-		Main_1_day();  // 2 requests
 		Main_15_minutes(); // 1 request
 		Main_1_minute(); // 2 requests (YATA)
+		setTimeout(Main_1_day, 5*seconds); // 2 requests
 	});
 });
 
@@ -530,7 +530,7 @@ function Main_15_minutes(){
 			get_api("https://api.torn.com/torn/?selections=stocks", api_key).then((stocks) => {
 				if(!stocks.ok) return resolve(false);
 		
-				stocks = stocks.result;
+				stocks = {...stocks.result.stocks};
 
 				let new_date = (new Date()).toString();
 				stocks.date = new_date;
