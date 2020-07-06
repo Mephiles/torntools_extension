@@ -895,7 +895,7 @@ function addFilterToTable(list, title){
             // Status
             let matches_one_status = status.length != 0? false:true;
             for(let state of status){
-                if(li.find(`.status`).innerText.replace("Status", "").toLowerCase() == state){
+                if(li.find(`.status`).innerText.replace("Status:", "").trim().toLowerCase() == state){
                     matches_one_status = true;
                 }
             }

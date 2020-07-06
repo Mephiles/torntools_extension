@@ -203,7 +203,7 @@ function addFilterToTable(list, title){
             }
 
             // Faction
-            if(faction != "" && !li.querySelector(`img[title='${faction}']`)){
+            if(faction != "" && (!li.find(`img[title='${faction}']`) && li.find(`a.user.faction`).innerText != faction)){
                 li.classList.add("filter-hidden");
                 continue;
             }
@@ -228,8 +228,8 @@ function addFilterToTable(list, title){
     }
 
     function populateFactions(){
-        let faction_tags = [...list.findAll(":scope>li")].map(x => (x.find(".user.faction img")? x.find(".user.faction img").getAttribute("title"):"")).filter(x => x != "");
-        
+        let faction_tags = [...list.findAll(":scope>li")].map(x => (x.find(".user.faction img")? x.find(".user.faction img").getAttribute("title"):x.find("a.user.faction").innerText)).filter(x => x.trim() != "");
+
         for(let tag of faction_tags){
             if(filter_container.find(`#tt-faction-filter option[value='${tag}']`)) continue;
 

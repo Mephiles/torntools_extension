@@ -177,14 +177,14 @@ function addFilterToTable(list, title){
             }
 
             // Level
-            let player_level = parseInt(li.find(".level").innerText.trim().replace("Level:", "").trim());
+            let player_level = parseInt(li.find(".level").innerText.trim().replace("Level", "").replace("LEVEL", "").replace(":", "").trim());
             if(!(level[0] <= player_level && player_level <= level[1])){
                 li.classList.add("filter-hidden");
                 continue;
             }
 
             // Time
-            let player_time = to_seconds(li.find(".time").innerText.trim().replace("Time:", "").replace("left:", "").trim())/60/60;
+            let player_time = to_seconds(li.find(".time").innerText.trim().replace("Time", "").replace("TIME", "").replace(":", "").replace("left:", "").trim())/60/60;
             if(!(time[0] <= player_time && player_time <= time[1])){
                 li.classList.add("filter-hidden");
                 continue;
@@ -203,7 +203,7 @@ function addFilterToTable(list, title){
             }
 
             // Faction
-            if(faction != "" && !li.querySelector(`img[title='${faction}']`)){
+            if(faction != "" && (!li.find(`img[title='${faction}']`) && li.find(`a.user.faction`).innerText != faction)){
                 li.classList.add("filter-hidden");
                 continue;
             }
@@ -228,8 +228,8 @@ function addFilterToTable(list, title){
     }
 
     function populateFactions(){
-        let faction_tags = [...list.findAll(":scope>li")].map(x => (x.find(".user.faction img")? x.find(".user.faction img").getAttribute("title"):"")).filter(x => x != "");
-        
+        let faction_tags = [...list.findAll(":scope>li")].map(x => (x.find(".user.faction img")? x.find(".user.faction img").getAttribute("title"):x.find("a.user.faction").innerText)).filter(x => x.trim() != "");
+
         for(let tag of faction_tags){
             if(filter_container.find(`#tt-faction-filter option[value='${tag}']`)) continue;
 
