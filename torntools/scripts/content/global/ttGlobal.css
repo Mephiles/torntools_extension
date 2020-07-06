@@ -215,9 +215,14 @@ div[role="main"] {
 }
 .filter-content {
     display: flex;
+    flex-wrap: wrap;
+}
+.filter-content.tt-mobile .filter-wrap {
+    flex: 1 0 100%;
 }
 .filter-wrap {
     flex: 1 0 auto;
+    margin-bottom: 10px;
 }
 .filter-wrap .filter-heading {
     /* margin-left: 30%; */
@@ -236,6 +241,10 @@ div[role="main"] {
 }
 .filter-hidden {
     display: none !important;
+}
+.filter-wrap select {
+    width: 40%;
+    margin-left: 30%;
 }
 /* #tt-player-filter+div {
     margin-top: 0;

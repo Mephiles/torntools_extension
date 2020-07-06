@@ -1,12 +1,10 @@
 playersLoaded(".users-list").then(function(){
     console.log("TT - Hospital");
 
-    if(!mobile){
-        let list = doc.find(".users-list");
-        let title = list.previousElementSibling;
-    
-        addFilterToTable(list, title);
-    }
+    let list = doc.find(".users-list");
+    let title = list.previousElementSibling;
+
+    addFilterToTable(list, title);
 });
 
 function addFilterToTable(list, title){
@@ -15,7 +13,7 @@ function addFilterToTable(list, title){
         <div class="filter-header">
             <div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> users</div>
         </div>
-        <div class="filter-content">
+        <div class="filter-content ${mobile?"tt-mobile":""}">
             <div class="filter-wrap" id="activity-filter">
                 <div class="filter-heading">Activity</div>
                 <div class="tt-checkbox-wrap"><input type="checkbox" value="online">Online</div>
@@ -177,14 +175,14 @@ function addFilterToTable(list, title){
             }
 
             // Level
-            let player_level = parseInt(li.find(".level").innerText.trim());
+            let player_level = parseInt(li.find(".level").innerText.trim().replace("Level:", "").trim());
             if(!(level[0] <= player_level && player_level <= level[1])){
                 li.classList.add("filter-hidden");
                 continue;
             }
 
             // Time
-            let player_time = to_seconds(li.find(".time").innerText.trim())/60/60;
+            let player_time = to_seconds(li.find(".time").innerText.trim().replace("Time:", "").replace("left:", "").trim())/60/60;
             if(!(time[0] <= player_time && player_time <= time[1])){
                 li.classList.add("filter-hidden");
                 continue;
