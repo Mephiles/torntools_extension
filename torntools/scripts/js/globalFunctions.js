@@ -1661,18 +1661,19 @@ function mobileChecker(){
                 if(getComputedStyle(doc.find(".header-menu-icon")).display == "none"){
                     resolve(false);
                     return clearInterval(checker);
-                } else if(getComputedStyle(doc.find(".header-menu-icon")).display == "inline-block"){
+                }
+                /* else if(getComputedStyle(doc.find(".header-menu-icon")).display == "inline-block"){
                     resolve(true);
                     return clearInterval(checker);
-                }
+                }*/
             }
 
-            if(doc.find(`#sidebar`)){
-                if(doc.find("#sidebar").classList.contains("mobile___1tkgj")){
-                    resolve(true);
-                } else {
-                    resolve(false);
-                }
+            console.log(doc.find(`.swiper___V17Wp`))
+            if(doc.find(`.sidebar___BizFX`).classList.contains("mobile")){
+                resolve(true);
+                return clearInterval(checker);
+            } else {
+                resolve(false);
                 return clearInterval(checker);
             }
         });
