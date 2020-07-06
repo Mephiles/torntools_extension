@@ -147,7 +147,6 @@ function Main_15_minutes(){
 		
 				local_storage.change({"torndata": {"stocks": stocks}}, function(){
 					console.log("Stocks info updated.");
-					checkStockAlerts();
 					return resolve(true);
 				});
 			});
