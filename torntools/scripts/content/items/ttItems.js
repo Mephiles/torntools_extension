@@ -17,6 +17,8 @@ contentLoaded().then(function(){
             doc.find("#ttQuick .response-wrap").style.display = "none";
         }
     });
+    
+    addButton();
 
     if(quick.items.length > 0){
         for(let id of quick.items){
@@ -294,6 +296,90 @@ function itemInfoLoaded(element){
             }
         }, 100);
     });
+}
+
+function addButton(){
+    let wrap = doc.new({type: "div", class: "tt-option", id: "add-crime-button"});
+    let icon = doc.new({type: "i", class: "fas fa-plus"});
+    wrap.appendChild(icon);
+    wrap.innerHTML += " Add";
+
+    doc.find("#ttQuick .tt-title .tt-options").appendChild(wrap);
+
+    wrap.onclick = function(event){
+        event.stopPropagation();
+
+        if(doc.find(".tt-black-overlay").classList.contains("active")){
+            doc.find(".tt-black-overlay").classList.remove("active");
+            doc.find("ul.items-cont[aria-expanded='true']").classList.remove("tt-highlight-sector");
+            doc.find(".tt-title .tt-options .tt-option#add-crime-button").classList.remove("tt-highlight-sector");
+
+            for(let item of doc.findAll("ul.items-cont[aria-expanded='true']>li")){
+                item.onclick = undefined;
+            }
+        } else {
+            doc.find(".tt-black-overlay").classList.add("active");
+            doc.find("ul.items-cont[aria-expanded='true']").classList.add("tt-highlight-sector");
+            doc.find(".tt-title .tt-options .tt-option#add-crime-button").classList.add("tt-highlight-sector");
+
+            for(let item of doc.findAll("ul.items-cont[aria-expanded='true']>li")){
+                item.onclick = function(event){
+                    event.stopPropagation();
+                    event.preventDefault();
+
+                    let target = findParent(event.target, {has_attribute: "data-item"});
+                    let id = target.getAttribute("data-item");
+
+                    let div = doc.new({type: "div", class: "item", attributes: {"item-id": id}});
+                    let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(/images/items/${id}/medium.png)`}});
+                    let text = doc.new({type: "div", class: "text", text: itemlist.items[id].name});
+                    let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
+                
+                    div.appendChild(pic);
+                    div.appendChild(text);
+                    div.appendChild(close_icon);
+                    doc.find("#ttQuick .inner-content").appendChild(div);
+                
+                    close_icon.addEventListener("click", function(event){
+                        event.stopPropagation();
+                        div.remove();
+                
+                        let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
+                        local_storage.change({"quick": {"items": items}});
+                    });
+                
+                    div.addEventListener("click", function(){
+                        getAction({
+                            type: "post",
+                            action: "item.php",
+                            data: {step: "actionForm", id: id, action: "use"},
+                            success: function (str) {
+                                
+                                if(doc.find("#ttQuick").find(".action-wrap")){
+                                    doc.find("#ttQuick").find(".action-wrap").remove();
+                                }
+                
+                                doc.find("#ttQuick .response-wrap").style.display = "block";
+                                doc.find("#ttQuick .response-wrap").innerHTML = str;
+                                
+                                // adjust container
+                                doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px"; 
+                                
+                                useContainerLoaded().then(function(){
+                                    doc.find("#ttQuick").find(`a[data-item='${id}']`).click();
+                                });
+                            }
+                        });
+                    });
+
+                    // Save
+                    let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
+                    local_storage.change({"quick": {"items": items}});
+                }
+            }            
+        }
+
+    }
 }
 
 // Torn functions

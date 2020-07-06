@@ -1418,6 +1418,9 @@ function findParent(element, attributes={}){
         if(attributes.id && element.parentElement.id == attributes.id){
             return element.parentElement;
         }
+        if(attributes.has_attribute && element.parentElement.getAttribute(attributes.has_attribute) != null){
+            return element.parentElement;
+        }
 
         return findParent(element.parentElement, attributes);
     }
