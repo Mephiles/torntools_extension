@@ -165,6 +165,15 @@ setup_storage.then(async function(success){
 	setTimeout(function(){
 		setInterval(Main_1_day, 1*days);  // 1 day
 	}, 23*seconds);
+
+	// Initial info fetch
+	local_storage.get("api_key", function(api_key){
+		if(api_key == undefined) return;
+
+		Main_1_day();  // 2 requests
+		Main_15_minutes(); // 1 request
+		Main_1_minute(); // 2 requests (YATA)
+	});
 });
 
 function Main_5_seconds(){
