@@ -86,11 +86,13 @@ window.addEventListener("load", function(){
 
 function showMarketInfo(id, api_key){
     get_api(`https://api.torn.com/market/${id}?selections=bazaar,itemmarket`, api_key).then(function(data){
-        if(!data){
+        if(!data.ok){
             doc.find(".error").style.display = "block";
-            doc.find(".error").innerText = "Failed to fetch. (api down?)";
+            doc.find(".error").innerText = data.error;
             return;
         }
+
+        data = data.result;
 
         console.log("Getting Bazaar & Itemmarket info");
         
