@@ -39,50 +39,61 @@ window.addEventListener("load", async function(){
             break;
     }
 
-    // Crimes page
-    doc.find(".faction-tabs li[data-case=crimes]").addEventListener("click", function(){
-        if(!doc.find(".faction-crimes-wrap.tt-modified")){
-            ocMain();
-        }
-    });
-    
-    // Main page
-    doc.find(".faction-tabs li[data-case=main]").addEventListener("click", function(){
-        if(settings.pages.faction.armory) armoryLog();
+    if(getSearchParameters().step != "profile"){
+        // Crimes page
+        doc.find(".faction-tabs li[data-case=crimes]").addEventListener("click", function(){
+            if(!doc.find(".faction-crimes-wrap.tt-modified")){
+                ocMain();
+            }
+        });
         
-        subpageLoaded("main").then(function(){
-            fullInfoBox("main");
+        // Main page
+        doc.find(".faction-tabs li[data-case=main]").addEventListener("click", function(){
+            if(settings.pages.faction.armory) armoryLog();
+            
+            subpageLoaded("main").then(function(){
+                fullInfoBox("main");
+            });
         });
-    });
-
-    // Info page
-    doc.find(".faction-tabs li[data-case=info]").addEventListener("click", function(){
-        subpageLoaded("info").then(function(){
-            fullInfoBox("info");
-
-            if(settings.pages.faction.armory_worth) armoryWorth();
+    
+        // Info page
+        doc.find(".faction-tabs li[data-case=info]").addEventListener("click", function(){
+            subpageLoaded("info").then(function(){
+                fullInfoBox("info");
+    
+                if(settings.pages.faction.armory_worth) armoryWorth();
+            });
+    
+            playersLoaded(".member-list").then(function(){
+                if(settings.pages.faction.member_info) showUserInfo();
+    
+                // Player list filter
+                let list = doc.find(".member-list");
+                let title = list.previousElementSibling;
+    
+                addFilterToTable(list, title);
+            });
         });
-
+    
+        // Upgrades page
+        doc.find(".faction-tabs li[data-case=upgrades]").addEventListener("click", function(){
+            upgradesInfoListener();
+        });
+    
+        // Armory page
+        doc.find(".faction-tabs li[data-case=armoury]").addEventListener("click", function(){
+            if(settings.pages.items.drug_details) drugInfo();
+        });
+    } else {
         playersLoaded(".member-list").then(function(){
-            if(settings.pages.faction.member_info) showUserInfo();
-
             // Player list filter
             let list = doc.find(".member-list");
             let title = list.previousElementSibling;
 
             addFilterToTable(list, title);
         });
-    });
+    }
 
-    // Upgrades page
-    doc.find(".faction-tabs li[data-case=upgrades]").addEventListener("click", function(){
-        upgradesInfoListener();
-    });
-
-    // Armory page
-    doc.find(".faction-tabs li[data-case=armoury]").addEventListener("click", function(){
-        if(settings.pages.items.drug_details) drugInfo();
-    });
 });
 
 function ocMain(){
@@ -363,7 +374,9 @@ function showNNB(){
 
 function fullInfoBox(page){
     let info_box;
-    if(page == "main"){
+    if(getSearchParameters().step == "profile"){
+        info_box = doc.find("#factions div[data-title='description']").nextElementSibling;
+    } else if(page == "main"){
         info_box = doc.find("#faction-main div[data-title='announcement']").nextElementSibling;
     } else if(page == "info"){
         info_box = doc.find("#faction-info .faction-info-wrap.faction-description .faction-info");
