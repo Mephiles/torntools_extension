@@ -192,25 +192,21 @@ async function Main_1_day(){
 
 		// faction data
 		console.log("Setting up faction data.");
-		if(settings.pages.faction.oc_time){
-			await new Promise(function(resolve, reject){
-				get_api("https://api.torn.com/faction/?selections=crimes", api_key).then((factiondata) => {
-					if(!factiondata.ok) return resolve(false);
+        await new Promise(function(resolve, reject){
+            get_api("https://api.torn.com/faction/?selections=crimes", api_key).then((factiondata) => {
+                if(!factiondata.ok) return resolve(false);
 
-					factiondata = factiondata.result;
+                factiondata = factiondata.result;
 
-					let new_date = (new Date()).toString();
-					factiondata.crimes.date = new_date;
+                let new_date = (new Date()).toString();
+                factiondata.crimes.date = new_date;
 
-					local_storage.set({"oc": factiondata.crimes}, function(){
-						console.log("	Faction data set.");
-						return resolve(true);
-					});
-				});
-			});
-		} else {
-			console.log("	Faction OC time formatting turned off.");
-		}
+                local_storage.set({"oc": factiondata.crimes}, function(){
+                    console.log("	Faction data set.");
+                    return resolve(true);
+                });
+            });
+        });
 
 		// Doctorn
 		console.log("Checking for installed extensions.");
