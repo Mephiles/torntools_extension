@@ -16,9 +16,11 @@ function addFilterToTable(list, title){
         <div class="filter-content ${mobile?"tt-mobile":""}">
             <div class="filter-wrap" id="activity-filter">
                 <div class="filter-heading">Activity</div>
-                <div class="tt-checkbox-wrap"><input type="checkbox" value="online">Online</div>
-                <div class="tt-checkbox-wrap"><input type="checkbox" value="idle">Idle</div>
-                <div class="tt-checkbox-wrap"><input type="checkbox" value="offline">Offline</div>
+                <div class="filter-multi-wrap">
+                    <div class="tt-checkbox-wrap"><input type="checkbox" value="online">Online</div>
+                    <div class="tt-checkbox-wrap"><input type="checkbox" value="idle">Idle</div>
+                    <div class="tt-checkbox-wrap"><input type="checkbox" value="offline">Offline</div>
+                </div>
             </div>
             <div class="filter-wrap" id="faction-filter">
                 <div class="filter-heading">Faction</div>

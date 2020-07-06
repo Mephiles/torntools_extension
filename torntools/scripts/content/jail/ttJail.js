@@ -1,261 +1,240 @@
 playersLoaded(".users-list").then(function(){
     console.log("TT - Jail");
 
-    if(!mobile){
-        let list = doc.find(".users-list");
-        let title = list.previousElementSibling;
-    
-        addFilterToTable(list, title);
-    }
+    let list = doc.find(".users-list");
+    let title = list.previousElementSibling;
+
+    addFilterToTable(list, title);
 });
 
 function addFilterToTable(list, title){
-    let active_dict = {
-        "Online": "icon1_",
-        "Idle": "icon62_",
-        "Offline": "icon2_"
+    let filter_container = content.new_container("Filters", {id: "tt-player-filter", class: "filter-container", next_element: title}).find(".content");
+    filter_html = `
+        <div class="filter-header">
+            <div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> users</div>
+        </div>
+        <div class="filter-content ${mobile?"tt-mobile":""}">
+            <div class="filter-wrap" id="activity-filter">
+                <div class="filter-heading">Activity</div>
+                <div class="filter-multi-wrap">
+                    <div class="tt-checkbox-wrap"><input type="checkbox" value="online">Online</div>
+                    <div class="tt-checkbox-wrap"><input type="checkbox" value="idle">Idle</div>
+                    <div class="tt-checkbox-wrap"><input type="checkbox" value="offline">Offline</div>
+                </div>
+            </div>
+            <div class="filter-wrap" id="faction-filter">
+                <div class="filter-heading">Faction</div>
+                <select name="faction" id="tt-faction-filter">
+                    <option selected value="">none</option>
+                </select>
+            </div>
+            <div class="filter-wrap" id="time-filter">
+                <div class="filter-heading">Time</div>
+                <div id="tt-time-filter" class="filter-slider"></div>
+                <div class="filter-slider-info"></div>
+            </div>
+            <div class="filter-wrap" id="level-filter">
+                <div class="filter-heading">Level</div>
+                <div id="tt-level-filter" class="filter-slider"></div>
+                <div class="filter-slider-info"></div>
+            </div>
+        </div>
+    `
+    filter_container.innerHTML = filter_html;
+
+    // Initializing
+    let time_start = filters.jail.time[0] || 0;
+    let time_end = filters.jail.time[1] || 100;
+    let level_start = filters.jail.level[0] || 0;
+    let level_end = filters.jail.level[1] || 100;
+
+    for(let faction of filters.preset_data.factions.data){
+        let option = doc.new({type: "option", value: faction, text: faction});
+        if(faction == filters.preset_data.factions.default) option.selected = true;
+
+        filter_container.find("#tt-faction-filter").appendChild(option);
     }
-    // let icons_dict = {
-    //     "Male": "icon6_",
-    //     "Female": "icon7_",
-    //     "Donator": "icon3_",
-    //     "Subscriber": "icon4_",
-    //     "Company": "icon27_",
-    //     "Bazaar": "icon35_",
-    //     "Traveling": "icon71_"
-    // }
+    let divider_option = doc.new({type: "option", value: "----------", text: "----------", attributes: {disabled: true}});
+    filter_container.find("#tt-faction-filter").appendChild(divider_option);
 
-    let filter_container = content.new_container("Filters", {id: "tt-player-filter", next_element: title}).find(".content");
-    filter_container.setAttribute("class", "cont-gray bottom-round tt-content content");
+    // Time slider
+    let time_slider = filter_container.find('#tt-time-filter');
+    noUiSlider.create(time_slider, {
+        start: [time_start, time_end],
+        step: 1,
+        connect: true,
+        range: {
+            'min': 0,
+            'max': 100
+        }
+    });
 
-    // Active filter
-    let active_filter = doc.new({type: "div", class:"tt-filter-wrap"});
-    let active_heading = doc.new({type: "div", class: "tt-filter-heading", text: "Active"});
-    active_filter.appendChild(active_heading);
+    let time_slider_info = time_slider.nextElementSibling;
+    time_slider.noUiSlider.on('update', function (values) {
+        values = values.map(x => (time_until(parseFloat(x)*60*60*1000, {max_unit: "h", hide_nulls: true})));
+        time_slider_info.innerHTML = `Time: ${values.join(' - ')}`;
+    });
 
-    for(let option of ["Online", "Idle", "Offline"]){
-        let wrap = doc.new({type: "div", class: "tt-filter"});
-        let checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
-        let text = doc.new({type: "div", text: option});
-        
-        wrap.appendChild(checkbox);
-        wrap.appendChild(text);
-        active_filter.appendChild(wrap);
+    // Level slider
+    let level_slider = filter_container.find('#tt-level-filter');
+    noUiSlider.create(level_slider, {
+        start: [level_start, level_end],
+        step: 1,
+        connect: true,
+        range: {
+            'min': 0,
+            'max': 100
+        }
+    });
+
+    let level_slider_info = level_slider.nextElementSibling;
+    level_slider.noUiSlider.on('update', function (values) {
+        values = values.map(x => parseInt(x));
+        level_slider_info.innerHTML = `Level: ${values.join(' - ')}`;
+    });
+
+    // Event listeners
+    for(let checkbox of filter_container.findAll(".tt-checkbox-wrap input")){
+        checkbox.onclick = applyFilters;
     }
-    filter_container.appendChild(active_filter);
+    for(let dropdown of filter_container.findAll("select")){
+        dropdown.onchange = applyFilters;
+    }
+    let filter_observer = new MutationObserver(function(mutations){
+        for(let mutation of mutations){
+            if(mutation.type == "attributes" 
+            && mutation.target.classList 
+            && mutation.attributeName == "aria-valuenow"
+            && (mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))){
+                applyFilters();
+            }
+        }
+    });
+    filter_observer.observe(filter_container, {attributes: true, subtree: true});
 
-    // Time filter
-    let time_filter = doc.new({type: "div", class: "tt-filter-wrap"});
-    let time_heading = doc.new({type: "div", class: "tt-filter-heading", text: "Time"});
-    time_filter.appendChild(time_heading);
-    
-    let time_wrap = doc.new({type: "div", class: "tt-filter"});
-    let from_time_input = doc.new({type: "input", class: "tt-filter-from", attributes: {type: "text", style: `width: 60px;`}});
-    let from_to_time_divider = doc.new({type: "div", class: "tt-from-to-divider", text: "-"});
-    let to_time_input = doc.new({type: "input", class: "tt-filter-to", attributes: {type: "text", style: `width: 60px;`}});
-    let note = doc.new({type: "span", class: "tt-filter-note", text: "Format: (1h 2m 3s)", attributes: {style: `left: 30px`}});
-    time_wrap.appendChild(from_time_input);
-    time_wrap.appendChild(from_to_time_divider);
-    time_wrap.appendChild(to_time_input);
-    time_wrap.appendChild(note);
-    time_filter.appendChild(time_wrap);
-
-    filter_container.appendChild(time_filter);
-
-    // Level filter
-    let level_filter = doc.new({type: "div", class:"tt-filter-wrap"});
-    let level_heading = doc.new({type: "div", class: "tt-filter-heading", text: "Level"});
-    level_filter.appendChild(level_heading);
-    
-    let level_wrap = doc.new({type: "div", class: "tt-filter"});
-    let from_level_input = doc.new({type: "input", class: "tt-filter-from", attributes: {type: "number"}});
-    let from_to_level_divider = doc.new({type: "div", class: "tt-from-to-divider", text: "-"});
-    let to_level_input = doc.new({type: "input", class: "tt-filter-to", attributes: {type: "number"}});
-    level_wrap.appendChild(from_level_input);
-    level_wrap.appendChild(from_to_level_divider);
-    level_wrap.appendChild(to_level_input);
-    level_filter.appendChild(level_wrap);
-
-    filter_container.appendChild(level_filter);
-
-    // // Icons filter
-    // let icons_filter = doc.new({type: "div", class:"tt-filter-wrap"});
-    // let icons_heading = doc.new({type: "div", class: "tt-filter-heading", text: "Icons"});
-    // icons_filter.appendChild(icons_heading);
-
-    // for(let option of ["Male", "Female", "Donator", "Subscriber", "Company", "Bazaar", "Traveling"]){
-    //     let wrap = doc.new({type: "div", class: "tt-filter"});
-    //     let checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
-    //     let text = doc.new({type: "div", text: option});
-        
-    //     wrap.appendChild(checkbox);
-    //     wrap.appendChild(text);
-    //     icons_filter.appendChild(wrap);
-    // }
-    // filter_container.appendChild(icons_filter);
-
-    // // Age filter
-    // let age_filter = doc.new({type: "div", class:"tt-filter-wrap"});
-    // let age_heading = doc.new({type: "div", class: "tt-filter-heading", text: "Age"});
-    // age_filter.appendChild(age_heading);
-    
-    // let age_wrap = doc.new({type: "div", class: "tt-filter"});
-    // let from__age_input = doc.new({type: "input", class: "tt-filter-from", attributes: {type: "number"}});
-    // let from_to_age_divider = doc.new({type: "div", class: "tt-from-to-divider", text: "-"});
-    // let to_age_input = doc.new({type: "input", class: "tt-filter-to", attributes: {type: "number"}});
-    // age_wrap.appendChild(from__age_input);
-    // age_wrap.appendChild(from_to_age_divider);
-    // age_wrap.appendChild(to_age_input);
-    // age_filter.appendChild(age_wrap);
-
-    // filter_container.appendChild(age_filter);
-
-    // // Status filter
-    // let status_filter = doc.new({type: "div", class:"tt-filter-wrap"});
-    // let status_heading = doc.new({type: "div", class: "tt-filter-heading", text: "Status"});
-    // status_filter.appendChild(status_heading);
-
-    // for(let option of ["Okay", "Hospital", "Jail", "Traveling"]){
-    //     let wrap = doc.new({type: "div", class: "tt-filter"});
-    //     let checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
-    //     let text = doc.new({type: "div", text: option});
-        
-    //     wrap.appendChild(checkbox);
-    //     wrap.appendChild(text);
-    //     status_filter.appendChild(wrap);
-    // }
-    // filter_container.appendChild(status_filter);
-
-    // Event Listeners
+    // Page changing
     doc.addEventListener("click", function(event){
-        if(event.target.nodeName == "INPUT" && event.target.parentElement.classList.contains("tt-filter")){
-            applyFilter();
+        if(event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, {class: "gallery-wrapper"})){
+            console.log("click");
+            setTimeout(function(){
+                playersLoaded(".users-list").then(function(){
+                    console.log("loaded");
+                    populateFactions();
+                    applyFilters();
+                });
+            }, 300);
         }
     });
 
-    doc.addEventListener("keyup", function(event){
-        if(event.target.nodeName == "INPUT" && event.target.parentElement.classList.contains("tt-filter")){
-            applyFilter();
-        }
-    });
-
-    function showAllUsers(list){
-        for(let user of list.findAll(":scope>li")){
-            user.style.display = "block";
-        }
+    // Initializing
+    for(let state of filters.jail.activity){
+        doc.find(`#activity-filter input[value='${state}']`).checked = true;
+    }
+    if(filters.jail.faction.default){
+        doc.find(`#faction-filter option[value='${filters.jail.faction}']`).selected = true;
     }
 
-    function applyFilter(){
-        let filters = {}
+    populateFactions();
+    applyFilters();
+    
+    function applyFilters(){
+        let active_dict = {
+            "online": "icon1_",
+            "idle": "icon62_",
+            "offline": "icon2_"
+        }
 
-        // Populate filters
-        for(let wrap of doc.findAll("#tt-player-filter .tt-filter-wrap")){
-            if(wrap.find("input[type=number]") || wrap.find("input[type=text]")){
-                filters[wrap.find(".tt-filter-heading").innerText] = {}
-                if(wrap.find(".tt-filter-from").value != ""){
-                    filters[wrap.find(".tt-filter-heading").innerText].from = wrap.find(".tt-filter-from").value
-                }
-                if(wrap.find(".tt-filter-to").value != ""){
-                    filters[wrap.find(".tt-filter-heading").innerText].to = wrap.find(".tt-filter-to").value
-                }
+        let activity = [];
+        let faction = ``;
+        let time = [];
+        let level = [];
+
+        // Activity
+        for(let checkbox of doc.findAll("#activity-filter .tt-checkbox-wrap input:checked")){
+            activity.push(checkbox.getAttribute("value"));
+        }
+        // Faction
+        faction = doc.find("#faction-filter select option:checked").value;
+        // Time
+        time.push(parseInt(doc.find("#time-filter .noUi-handle-lower").getAttribute("aria-valuenow")));
+        time.push(parseInt(doc.find("#time-filter .noUi-handle-upper").getAttribute("aria-valuenow")));
+        // Level
+        level.push(parseInt(doc.find("#level-filter .noUi-handle-lower").getAttribute("aria-valuenow")));
+        level.push(parseInt(doc.find("#level-filter .noUi-handle-upper").getAttribute("aria-valuenow")));
+
+        // console.log("Activity", activity);
+        // console.log("Faction", faction);
+        // console.log("Time", time);
+        // console.log("Level", level);
+
+        // Filtering
+        for(let li of list.findAll(":scope>li")){
+            li.classList.remove("filter-hidden");
+            if(li.classList.contains("tt-user-info")){
+                continue;
+            } else if(li.nextElementSibling && li.nextElementSibling.classList.contains("tt-user-info")){
+                li.nextElementSibling.classList.remove("filter-hidden");
+            }
+
+            // Level
+            let player_level = parseInt(li.find(".level").innerText.trim().replace("Level:", "").trim());
+            if(!(level[0] <= player_level && player_level <= level[1])){
+                li.classList.add("filter-hidden");
                 continue;
             }
-            filters[wrap.find(".tt-filter-heading").innerText] = [...wrap.findAll("input:checked")].map(x => x.nextElementSibling.innerText);
+
+            // Time
+            let player_time = to_seconds(li.find(".time").innerText.trim().replace("Time:", "").replace("left:", "").trim())/60/60;
+            if(!(time[0] <= player_time && player_time <= time[1])){
+                li.classList.add("filter-hidden");
+                continue;
+            }
+
+            // Activity
+            let matches_one_activity = activity.length != 0? false:true;
+            for(let state of activity){
+                if(li.querySelector(`li[id^='${active_dict[state]}']`)){
+                    matches_one_activity = true;
+                }
+            }
+            if(!matches_one_activity){
+                li.classList.add("filter-hidden");
+                continue;
+            }
+
+            // Faction
+            if(faction != "" && !li.querySelector(`img[title='${faction}']`)){
+                li.classList.add("filter-hidden");
+                continue;
+            }
         }
+
+        local_storage.change({"filters": {"jail": {
+            activity: activity,
+            faction: faction,
+            time: time,
+            level: level
+        }}});
+
+        updateStatistics();
+    }
+
+    function updateStatistics(){
+        let total_users = [...list.findAll(":scope>li")].length;
+        let shown_users = [...list.findAll(":scope>li")].filter(x => (!x.classList.contains("filter-hidden"))).length;
+
+        doc.find(".statistic#showing .filter-count").innerText = shown_users;
+        doc.find(".statistic#showing .filter-total").innerText = total_users;
+    }
+
+    function populateFactions(){
+        let faction_tags = [...list.findAll(":scope>li")].map(x => (x.find(".user.faction img")? x.find(".user.faction img").getAttribute("title"):"")).filter(x => x != "");
         
-        console.log(filters);
+        for(let tag of faction_tags){
+            if(filter_container.find(`#tt-faction-filter option[value='${tag}']`)) continue;
 
-        // Check for filter count
-        let filters_count = 0;
-        for(let type in filters){
-            if(typeof filters[type] == "object" && !Array.isArray(filters[type])){
-                if(Object.keys(filters[type]).length > 0){
-                    filters_count++;
-                    continue;
-                }
-            } else if (filters[type][0] != undefined) {
-                filters_count++;
-            }
-        }
-        if(filters_count == 0){
-            console.log("empty filter")
-            showAllUsers(list);
-            return;
-        } else if(filters_count == 1){
-            showAllUsers(list);
-        }
-
-
-        for(let user of list.findAll(":scope>li")){
-            if(user.style.display == "none"){
-                continue;
-            }
-            
-            for(let heading in filters){
-                if(Array.isArray(filters[heading]) && filters[heading][0] == undefined) continue;
-
-                let filtered = false;
-                if(heading == "Level"){
-                    let from = filters[heading].from || 0;
-                    let to = filters[heading].to || 100;
-
-                    let user_level = parseInt(user.find(".level").innerText.trim());
-                    if(user_level >= from && user_level <= to){
-                        filtered = true;
-                        user.style.display = "block";
-                    }
-                } /*else if(heading == "Age"){
-                    let from = filters[heading].from || 0;
-                    let to = filters[heading].to || 999999999;
-
-                    let user_age = parseInt(user.find(".days").innerText.trim());
-                    if(user_age >= from && user_age <= to){
-                        filtered = true;
-                        user.style.display = "block";
-                    }
-                }*/ else if (heading == "Time"){
-                    console.log(filters[heading].from)
-                    let from = to_seconds(filters[heading].from || "0s");
-                    let to = to_seconds(filters[heading].to || "1000h");
-
-                    let user_time = to_seconds(user.find(".time").innerText.trim());
-                    if(user_time >= from && user_time <= to){
-                        filtered = true;
-                        user.style.display = "block";
-                    }
-                } else {
-                    for(let filter of filters[heading]){
-                        switch(heading){
-                            case "Active":
-                                if(user.find("#iconTray li").id.indexOf(active_dict[filter]) > -1){
-                                    filtered = true;
-                                    user.style.display = "block";
-                                }
-                                break;
-                            // case "Icons":
-                            //     for(let icon of user.findAll(".member-icons.icons #iconTray li")){
-                            //         if(icon.id.indexOf(icons_dict[filter]) > -1){
-                            //             filtered = true;
-                            //             user.style.display = "block";
-                            //         }
-                            //     }
-                            //     break;
-                            // case "Status":
-                            //     if(user.find(".status *:not(.t-show)").innerText == filter){
-                            //         filtered = true;
-                            //         user.style.display = "block";
-                            //     }
-                            //     break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-                if(!filtered){
-                    // showAllUsers(list);
-                    user.style.display = "none";
-                }
-            }
+            let option = doc.new({type: "option", value: tag, text: tag});
+            filter_container.find("#tt-faction-filter").appendChild(option);
         }
     }
 }

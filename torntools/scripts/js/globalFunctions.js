@@ -342,6 +342,17 @@ const STORAGE = {
             "time": [],
             "level": []
         },
+        "jail": {
+            "activity": [],
+            "faction": "",
+            "time": [],
+            "level": []
+        },
+        "faction": {
+            "activity": [],
+            "level": [],
+            "status": []
+        },
         "container_open": {}
     },
     "cache": {
@@ -1545,7 +1556,8 @@ function messageBoxLoaded(){
 function playersLoaded(list_class){
     return new Promise(function(resolve, reject){
         let checker = setInterval(function(){
-            if(!(doc.find(`${list_class}>*`).classList.contains("ajax-placeholder") || doc.find(`${list_class}>* .ajax-placeholder`)) && doc.find(`${list_class}`).firstElementChild){
+            if(!((doc.find(`${list_class}>*`) && doc.find(`${list_class}>*`).classList.contains("ajax-placeholder")) || doc.find(`${list_class}>* .ajax-placeholder`)) && 
+            (doc.find(`${list_class}`) && doc.find(`${list_class}`).firstElementChild)){
                 resolve(true);
                 return clearInterval(checker);
             }
