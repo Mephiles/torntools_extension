@@ -1669,7 +1669,7 @@ function mobileChecker(){
                 }*/
             }
 
-            console.log(doc.find(`.swiper___V17Wp`))
+            if(!doc.find(`.sidebar___BizFX`)) return;
             if(doc.find(`.sidebar___BizFX`).classList.contains("mobile")){
                 resolve(true);
                 return clearInterval(checker);
