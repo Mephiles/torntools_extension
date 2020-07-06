@@ -19,7 +19,7 @@ window.addEventListener("load", function(){
                     doc.find("button").style.display = "none";
                     
                     Main_15_minutes(); // 1 request
-                    setTimeout(Main_1_day, 5*seconds); // 2 requests
+                    setTimeout(Main_1_day, 5*1000); // 2 requests
 				});
 			});
 		}
@@ -238,4 +238,41 @@ async function Main_1_day(){
 
 		console.groupEnd("Main (torndata | OC info | installed extensions)");
 	});
+}
+
+function get_api(http, api_key) {
+    return new Promise(async function(resolve, reject){
+        try {
+            const response = await fetch(http + "&key=" + api_key);
+            const result = await response.json();
+    
+            if (result.error) {
+                if(result.error.code == 9){  // API offline
+                    console.log("API SYSTEM OFFLINE");
+                    setBadge("error");
+                    
+                    local_storage.change({"api": { "online": false, "error": result.error.error }}, function(){
+                        return resolve({ok: false, error: result.error.error});
+                    });
+                } else {
+                    console.log("API ERROR:", result.error.error);
+    
+                    local_storage.change({"api": { "online": true, "error": result.error.error }}, function(){
+                        return resolve({ok: false, error: result.error.error});
+                    });
+                }
+            } else {
+                try {
+                    if(isNaN(await getBadgeText())){
+                        setBadge("");
+                    }
+                } catch(err){console.log("Unable to get Badge.")}
+                local_storage.change({"api": { "online": true, "error": "" }}, function(){
+                    return resolve({ok: true, result: result});
+                });
+            }
+        } catch(err){
+            console.log("Error Fetching API", err);
+        }
+    });
 }
