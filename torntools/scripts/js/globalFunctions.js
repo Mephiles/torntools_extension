@@ -1233,6 +1233,7 @@ function formatBytes(bytes, decimals = 2) {
 }
 
 function time_until(milliseconds, attr={}){
+    milliseconds = parseFloat(milliseconds);
     if(milliseconds < 0){
         return -1;
     }
