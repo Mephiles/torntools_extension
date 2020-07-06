@@ -19,7 +19,7 @@ window.addEventListener("load", function(){
                     doc.find("button").style.display = "none";
                     
                     Main_15_minutes(); // 1 request
-                    setTimeout(Main_1_day, 2*1000); // 2 requests
+                    setTimeout(Main_1_day, 500); // 2 requests
 				});
 			});
 		}
@@ -277,4 +277,24 @@ function usingChrome(){
         return true;
     }
     return false;
+}
+
+async function detectExtension(ext){
+	let ids = {
+		"doctorn": {
+			"chrome": 'chrome-extension://kfdghhdnlfeencnfpbpddbceglaamobk/resources/images/icon_16.png'
+		}
+	}
+
+	return new Promise(function(resolve, reject){
+		var img;
+		img = new Image();
+		img.src = ids[ext].chrome;
+		img.onload = function() {
+			return resolve(true);
+		};
+		img.onerror = function() {
+			return resolve(false);
+		};
+	});
 }
