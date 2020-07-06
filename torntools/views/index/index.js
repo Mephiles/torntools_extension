@@ -19,7 +19,7 @@ window.addEventListener("load", function(){
                     doc.find("button").style.display = "none";
                     
                     Main_15_minutes(); // 1 request
-                    setTimeout(Main_1_day, 5*1000); // 2 requests
+                    setTimeout(Main_1_day, 2*1000); // 2 requests
 				});
 			});
 		}
@@ -270,4 +270,11 @@ function get_api(http, api_key) {
             console.log("Error Fetching API", err);
         }
     });
+}
+
+function usingChrome(){
+    if(navigator.userAgent.indexOf("Chrome") > -1){
+        return true;
+    }
+    return false;
 }
