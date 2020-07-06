@@ -793,6 +793,9 @@ function resetApiKey(){
     local_storage.set({"api_key": new_api_key}, function(){
         message("API key changed.", true);
         doc.find("#api_field").value = "";
+
+        Main_15_minutes(); // 1 request
+        setTimeout(Main_1_day, 5*seconds); // 2 requests
     });
 }
 
