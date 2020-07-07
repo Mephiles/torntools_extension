@@ -35,7 +35,7 @@ window.addEventListener("load", function(){
             
             let div = doc.new("div");
                 div.setClass("item");
-                div.id = name.toLowerCase().replace(/\s+/g, '');  // remove spaces
+                div.id = name.toLowerCase().replace(/\s+/g, '').replace(":","_");  // remove spaces
                 div.innerText = name;
 
             list.appendChild(div);
@@ -45,8 +45,8 @@ window.addEventListener("load", function(){
                 let view_item = doc.find("#view-item");
                 view_item.style.display = "block";
 
-                view_item.find("a").innerText = doc.find("#"+name.toLowerCase().replace(/\s+/g, '')).innerText;
-                view_item.find("a").href = `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${doc.find("#"+name.toLowerCase().replace(/\s+/g, '')).innerText.replace(/\s+/g, '+')}`;
+                view_item.find("a").innerText = name;
+                view_item.find("a").href = `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${name}`;
 
                 list.style.display = "none";
 
