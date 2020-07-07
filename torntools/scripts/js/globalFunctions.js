@@ -450,7 +450,8 @@ const STORAGE = {
             },
             "items": {
                 "values": true,
-                "drug_details": true
+                "drug_details": true,
+                "itemmarket_links": true
             },
             "travel": {
                 "profits": true,

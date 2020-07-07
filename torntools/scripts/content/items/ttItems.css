@@ -97,18 +97,30 @@ li.tt-item-price {
     margin-left: 30px;
 }
 
-/* Font-awesome */
+/* Item Market links */
 
-.fa, .fas {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    line-height: 1;
+.name-wrap.tt-modified {
+    width: 542px !important;
 }
-
-.fa-times:before {
-    content: "\f00d";
+.cont-wrap.tt-modified {
+    position: relative !important;
+    left: -34px !important;
+}
+.actions.right.tt-modified {
+    width: 172px !important;
+    position: relative !important;
+    right: -34px !important;
+}
+.actions.right.tt-modified+.action-wrap {
+    position: relative !important;
+    left: 34px !important;
+}
+.cont-wrap.tt-modified .bonuses.left {
+    right: -37px !important;
+}
+li.item-group.tt-modified .title.left {
+    width: 612px !important;
+}
+li.item-group.tt-modified .group-arrow {
+    right: 170px !important;
 }

@@ -170,6 +170,11 @@ itemsLoaded().then(function(){
         item_info_container_mutation.observe(doc.find("body"), {childList: true, subtree: true});
     }
 
+    // Item Market links
+    if(settings.pages.items.itemmarket_links){
+        addItemMarketLinks();
+    }
+
     // Change item type page
     let sorting_icons = doc.findAll("ul[role=tablist] li:not(.no-items):not(.m-show):not(.hide)");
     for (let icon of sorting_icons) {
@@ -187,6 +192,11 @@ itemsLoaded().then(function(){
                         item.addEventListener("dragstart", onDragStart);
                         item.addEventListener("dragend", onDragEnd);
                     }
+                }
+
+                // Item Market links
+                if(settings.pages.items.itemmarket_links){
+                    addItemMarketLinks();
                 }
             });
         });
@@ -379,6 +389,26 @@ function addButton(){
             }            
         }
 
+    }
+}
+
+function addItemMarketLinks(){
+    let items = doc.findAll(".items-cont[aria-expanded=true]>li");
+
+    for(let item of items){
+        let li = doc.new({type: "li", class: "left tt-market-link", attributes: {"data-id": item.getAttribute("data-item")}});
+        let a = doc.new({type: "a", href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${item.find(".image-wrap img").getAttribute("alt")}`});
+        let i = doc.new({type: "i", class: "cql-item-market", attributes: {title: "Open Item Market"}});
+        a.appendChild(i);
+        li.appendChild(a);
+
+        if(item.classList.contains("item-group")) item.classList.add("tt-modified");
+        
+        item.find(".name-wrap").classList.add("tt-modified");
+        item.find(".cont-wrap").classList.add("tt-modified");
+        item.find(".actions.right").classList.add("tt-modified");
+
+        item.find("ul.actions-wrap").insertBefore(li, item.find("ul.actions-wrap .dump"));
     }
 }
 
