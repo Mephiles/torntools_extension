@@ -266,7 +266,7 @@ function displayGraph(){
         }
 
         // Update TornStats button
-        let update_button = doc.new({type: "button", text: "Update TornStats", class: "update-button"});
+        let update_button = doc.new({type: "button", text: "Update TornStats", class: "update-button tt-torn-button"});
         graph_area.appendChild(update_button);
 
         update_button.addEventListener("click", function(){
