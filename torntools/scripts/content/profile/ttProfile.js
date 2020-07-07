@@ -343,7 +343,7 @@ async function displayProfileStats(){
     let profile_stats = doc.find("#tt-target-info .profile-stats");
     let result;
 
-    if(cache.profile_stats[user_id]){
+    if(cache && cache.profile_stats[user_id]){
         result = cache.profile_stats[user_id];
     } else {
         result = await new Promise(function(resolve, reject){
