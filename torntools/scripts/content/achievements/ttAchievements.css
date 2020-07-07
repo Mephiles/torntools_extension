@@ -30,3 +30,7 @@
     padding: 5px;
     line-height: 16px;
 }
+
+.tt-completed {
+    color: #11c511 !important;
+}

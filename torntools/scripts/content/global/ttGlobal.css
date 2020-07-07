@@ -61,7 +61,7 @@
     transform: rotate(-90deg);
 }
 .tt-cell a {
-    height: 23px !important;
+    min-height: 23px !important;
 }
 
 .tt-checkbox-wrap *, .tt-input-wrap * {

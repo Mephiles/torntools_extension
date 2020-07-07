@@ -692,7 +692,7 @@ const navbar = {
             let div = doc.new({type: "div", class: "area-desktop___2YU-q"});
             let div_html = `
                 <div class="area-row___34mEZ tt-cell">
-                    <a class="desktopLink___2dcWC" href="${attr.href || "#"}" target="${attr.link_target || ""}">
+                    <a class="desktopLink___2dcWC ${attr.class || ""}" href="${attr.href || "#"}" target="${attr.link_target || ""}">
                         <span>${text}</span>
                     </a>
                 </div>
