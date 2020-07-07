@@ -66,7 +66,7 @@ function addTimeToHeader(section, date){
         span.setAttribute("seconds", (new Date() - Date.parse(date))/1000);
         span.innerText = time_ago(Date.parse(date));
 
-    section.find("div.tt-title").appendChild(span);
+    section.find("div.tt-title .tt-options").appendChild(span);
 
     // increment time
     let time_increase = setInterval(function(){

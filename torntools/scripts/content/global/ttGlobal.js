@@ -126,62 +126,19 @@ function addCustomLinks(){
 
         doc.find("#sidebar .content___kMC8x").insertBefore(areas_custom, doc.find("#sidebar .content___kMC8x .user-information-mobile___EaRKJ"));
     } else {
-        // MOVE INTO NAVBAR BLOCK
-        let sidebar_block = doc.new({type: "div", class: "sidebar-block___1Cqc2 tt-nav-section"});
-        let content = doc.new({type: "div", class: "content___kMC8x"});
-        let div1 = doc.new({type: "div", class: "areas___2pu_3"})
-        let toggle_block = doc.new({type: "div", class: "toggle-block___13zU2"})
-        let header;
-        if(settings.theme == "default"){
-            header = doc.new({type: "div", text: "Custom Links", class: "tt-title title-green"});
-        } else if(settings.theme == "alternative"){
-            header = doc.new({type: "div", text: "Custom Links", class: "tt-title title-black"});
-        }
-        let toggle_content = doc.new({type: "div", class: "toggle-content___3XKOC"});
-    
-        toggle_block.appendChild(header);
-        toggle_block.appendChild(toggle_content);
-        div1.appendChild(toggle_block);
-        content.appendChild(div1);
-        sidebar_block.appendChild(content);
+        let custom_links_section = navbar.new_section("Custom Links", {next_element_heading: "Areas"});
     
         for(let link of custom_links){
-            let cell = doc.new({type: "div", class: "area-desktop___2YU-q"});
-            let inner_div = doc.new({type: "div", class: "area-row___34mEZ"});
-            let a = doc.new({type: "a", class: "desktopLink___2dcWC", href: link.href, attributes: {target: (link.new_tab ? "_blank" : ""), style: "min-height: 24px; line-height: 24px;"}});
-            let span = doc.new({type: "span", text: link.text});
-        
-            a.appendChild(span);
-            inner_div.appendChild(a);
-            cell.appendChild(inner_div)
-            sidebar_block.appendChild(cell);
+            new_cell = navbar.new_cell(link.text, {parent_element: custom_links_section, href: link.href, link_target: (link.new_tab ? "_blank" : "")});
         }
     
-        doc.find("#sidebar").insertBefore(sidebar_block, doc.find("h2=Areas").parentElement.parentElement.parentElement.parentElement);
+        doc.find("#sidebar").insertBefore(custom_links_section, findParent(doc.find("h2=Areas"), {class: "sidebar-block___1Cqc2"}));
     }
 }
 
 function addNotesBox(){
     if(!mobile){
-        // MOVE INTO NAVBAR BLOCK
-        let sidebar_block = doc.new({type: "div", class: "sidebar-block___1Cqc2 tt-nav-section"});
-        let content = doc.new({type: "div", class: "content___kMC8x"});
-        let div1 = doc.new({type: "div", class: "areas___2pu_3"})
-        let toggle_block = doc.new({type: "div", class: "toggle-block___13zU2"})
-        let header;
-        if(settings.theme == "default"){
-            header = doc.new({type: "div", text: "Notes", class: "tt-title title-green"});
-        } else if(settings.theme == "alternative"){
-            header = doc.new({type: "div", text: "Notes", class: "tt-title title-black"});
-        }
-        let toggle_content = doc.new({type: "div", class: "toggle-content___3XKOC"});
-    
-        toggle_block.appendChild(header);
-        toggle_block.appendChild(toggle_content);
-        div1.appendChild(toggle_block);
-        content.appendChild(div1);
-        sidebar_block.appendChild(content);
-    
+        let notes_section = navbar.new_section("Notes", {next_element_heading: "Areas"});
         let cell = doc.new({type: "div", class: "area-desktop___2YU-q"});
         let inner_div = doc.new({type: "div", class: "area-row___34mEZ"});
         let textbox = doc.new({type: "textarea", class: "tt-nav-textarea", value: notes.text || ""});
@@ -192,9 +149,9 @@ function addNotesBox(){
     
         inner_div.appendChild(textbox);
         cell.appendChild(inner_div)
-        sidebar_block.appendChild(cell);
+        notes_section.find(".tt-content").appendChild(cell);
     
-        doc.find("#sidebar").insertBefore(sidebar_block, doc.find("h2=Areas").parentElement.parentElement.parentElement.parentElement);
+        doc.find("#sidebar").insertBefore(notes_section, findParent(doc.find("h2=Areas"), {class: "sidebar-block___1Cqc2"}));
     
         textbox.addEventListener("change", function(){
             local_storage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});

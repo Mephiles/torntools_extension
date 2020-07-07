@@ -609,10 +609,9 @@ Element.prototype.setClass = function (class_name) {
 }
 
 const navbar = {
-    new_section: function (name, attr = {}) {
-        // process
+    new_section: function (name, attr={}) {
         let parent = doc.find("#sidebarroot");
-        let new_div = createNewBlock(name);
+        let new_div = createNewBlock(name, attr);
         let next_div = attr.next_element || findSection(parent, attr.next_element_heading);
 
         if (!next_div){
@@ -625,24 +624,33 @@ const navbar = {
 
         return new_div;
 
-        function createNewBlock(name) {
-            let sidebar_block = doc.new({type: "div", class: "sidebar-block___1Cqc2 tt-nav-section"});
-            let content = doc.new({type: "div", class: "content___kMC8x"});
-            let div1 = doc.new({type: "div", class: "areas___2pu_3"});
-            let toggle_block = doc.new({type: "div", class: "toggle-block___13zU2"});
-            let header = doc.new({type: "div", text: name, class: "tt-title"});
-            if(DB.settings.theme == "default"){
-                header.classList.add("title-green")
-            } else if(DB.settings.theme == "alternative"){
-                header.classList.add("title-black");
-            }
-            let toggle_content = doc.new({type: "div", class: "toggle-content___3XKOC"});
+        function createNewBlock(name, attr={}) {
+            let collapsed = filters.container_open.navbar?.[name] ?? false;
 
-            toggle_block.appendChild(header);
-            toggle_block.appendChild(toggle_content);
-            div1.appendChild(toggle_block);
-            content.appendChild(div1);
-            sidebar_block.appendChild(content);
+            let sidebar_block = doc.new({type: "div", class: "sidebar-block___1Cqc2 tt-nav-section"});
+            let sidebar_block_html = `
+                <div class="content___kMC8x">
+                    <div class="areas___2pu_3">
+                        <div class="toggle-block___13zU2">
+                            <div class="tt-title tt-nav ${theme_classes[`title-${settings.theme}`]} ${collapsed == true || collapsed == undefined? 'collapsed':''}">
+                                <div class="title-text">${name}</div>
+                                <div class="tt-options"></div>
+                                <i class="tt-title-icon fas fa-caret-down"></i></div>
+                            <div class="toggle-content___3XKOC tt-content"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            sidebar_block.innerHTML = sidebar_block_html;
+
+            if(!attr.header_only){
+                sidebar_block.find(".tt-title").onclick = function(){
+                    sidebar_block.find(".tt-title").classList.toggle("collapsed");
+                    let collapsed = sidebar_block.find(".tt-title").classList.contains("collapsed")? true:false;
+    
+                    local_storage.change({"filters": {"container_open": {"navbar": {[name]: collapsed}}}});
+                }
+            }
 
             return sidebar_block;
         }
@@ -656,17 +664,7 @@ const navbar = {
             return undefined;
         }
     },
-    new_cell: function (text, attributes = {}) {
-        let defaults = {
-            parent_heading: undefined,
-            parent_element: undefined,
-            first: undefined,
-            style: undefined,
-            href: undefined
-        }
-        attr = { ...defaults, ...attributes };
-
-        // process
+    new_cell: function (text, attr={}) {
         let sidebar = doc.find("#sidebarroot");
 
         if (!attr.parent_element && attr.parent_heading) {
@@ -681,7 +679,7 @@ const navbar = {
         }
 
         let toggle_content = attr.parent_element.find(".toggle-content___3XKOC");
-        let new_cell_block = createNewCellBlock(text, attr.href, attr.style, attr.target);
+        let new_cell_block = createNewCellBlock(text, attr);
 
         if (attr.first)
             toggle_content.insertBefore(new_cell_block, toggle_content.firstElementChild);
@@ -690,24 +688,33 @@ const navbar = {
 
         return new_cell_block;
 
-        function createNewCellBlock(text, href, style) {
-            let div = doc.new("div");
-            div.setClass("area-desktop___2YU-q");
-            let inner_div = doc.new("div");
-            inner_div.setClass("area-row___34mEZ");
-            let a = doc.new("a");
-            a.setClass("desktopLink___2dcWC");
-            href == "#" ? inner_div.style.cursor = "default" : a.setAttribute("href", href);
-            a.setAttribute("target", "_blank");
-            a.setAttribute("style", style);
-            a.style.minHeight = "24px";
-            a.style.lineHeight = "24px";
-            let span = doc.new("span");
-            span.innerText = text;
+        function createNewCellBlock(text, attr) {
+            let div = doc.new({type: "div", class: "area-desktop___2YU-q"});
+            let div_html = `
+                <div class="area-row___34mEZ tt-cell">
+                    <a class="desktopLink___2dcWC" href="${attr.href || "#"}" target="${attr.link_target || ""}">
+                        <span>${text}</span>
+                    </a>
+                </div>
+            `;
+            div.innerHTML = div_html;
 
-            a.appendChild(span);
-            inner_div.appendChild(a);
-            div.appendChild(inner_div);
+            // div.setClass("area-desktop___2YU-q");
+            // let inner_div = doc.new("div");
+            // inner_div.setClass("area-row___34mEZ");
+            // let a = doc.new("a");
+            // a.setClass("desktopLink___2dcWC");
+            // href == "#" ? inner_div.style.cursor = "default" : a.setAttribute("href", href);
+            // a.setAttribute("target", "_blank");
+            // a.setAttribute("style", style);
+            // a.style.minHeight = "24px";
+            // a.style.lineHeight = "24px";
+            // let span = doc.new("span");
+            // span.innerText = text;
+
+            // a.appendChild(span);
+            // inner_div.appendChild(a);
+            // div.appendChild(inner_div);
 
             return div;
         }
