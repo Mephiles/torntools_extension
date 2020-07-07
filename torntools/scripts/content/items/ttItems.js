@@ -406,8 +406,15 @@ function addItemMarketLinks(){
         
         item.find(".name-wrap").classList.add("tt-modified");
         item.find(".cont-wrap").classList.add("tt-modified");
-        item.find(".actions.right").classList.add("tt-modified");
 
+        let actionParent = doc.new({type: "div"});
+
+        let actionRight = item.find(".actions.right");
+        actionRight.classList.add("tt-modified")
+
+        actionParent.appendChild(actionRight);
+
+        item.find(".cont-wrap").appendChild(actionParent)
         item.find("ul.actions-wrap").insertBefore(li, item.find("ul.actions-wrap .dump"));
     }
 }
