@@ -353,6 +353,7 @@ const STORAGE = {
             "level": [],
             "status": []
         },
+        "bounties": {},
         "container_open": {}
     },
     "cache": {
@@ -377,7 +378,6 @@ const STORAGE = {
             // "432000000": "#ffc8c8",  // 5 days
             // "259200000": "#fde5c8"  // 3 days
         },
-        "bounties_filter": {},
         "notifications": {
             "events": true,
             "messages": true,
@@ -774,8 +774,8 @@ const content = {
             if(_class) div.setClass(_class);
 
             let div_html = `
-            <div class="top-round m-top10 tt-title ${theme_classes[`title-${settings.theme}`]} ${collapsed == true || collapsed == undefined? 'collapsed':''}"><div class="title-text">${name}</div> <div class="tt-options"></div>${header_only? "":`<i class="tt-title-icon fas fa-caret-down"></i>`}</div>
-            ${header_only? "":`<div class="cont-gray bottom-round content tt-content ${dragzone? 'tt-dragzon':''}"></div>`}
+            <div class="top-round m-top10 tt-title ${header_only? "no-content":""} ${theme_classes[`title-${settings.theme}`]} ${collapsed == true || collapsed == undefined? 'collapsed':''}"><div class="title-text">${name}</div> <div class="tt-options"></div><i class="tt-title-icon fas fa-caret-down"></i></div>
+            <div class="cont-gray bottom-round content tt-content ${dragzone? 'tt-dragzone':''}"></div>
             `;
             div.innerHTML = div_html;
 
@@ -789,11 +789,13 @@ const content = {
                 content.addEventListener("dragleave", onDragLeave);
             }
 
-            div.find(".tt-title").onclick = function(){
-                div.find(".tt-title").classList.toggle("collapsed");
-                let collapsed = div.find(".tt-title").classList.contains("collapsed")? true:false;
-
-                local_storage.change({"filters": {"container_open": {[page()]: collapsed}}})
+            if(!header_only){
+                div.find(".tt-title").onclick = function(){
+                    div.find(".tt-title").classList.toggle("collapsed");
+                    let collapsed = div.find(".tt-title").classList.contains("collapsed")? true:false;
+    
+                    local_storage.change({"filters": {"container_open": {[page()]: collapsed}}})
+                }
             }
 
             return div;

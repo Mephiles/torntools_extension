@@ -1,127 +1,81 @@
-window.addEventListener("load", function(){
+bountiesLoaded().then(function(){
     console.log("TT - Newspaper | Bounties");
-    
-    if(extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt){
-        Main();
-    
-        document.addEventListener("click", function(event){
-            let tar = event.target;
-    
-            if(tar.classList.contains("pagination") || hasParent(tar, {class: "pagination"})){
-                setTimeout(function(){
-                    bountiesLoaded().then(Main);
-                }, 500);
+    Main(filters);
+
+    let newspaper_content_observer = new MutationObserver(function(mutations){
+        for(let mutation of mutations){
+            if(mutation.type == "childList" && mutation.addedNodes.length > 0){
+                if(doc.find("#ttBountyContainer")) return;
+                
+                local_storage.get("filters", function(filters){
+                    bountiesLoaded().then(function(){
+                        Main(filters);
+                    });
+                });
             }
-        });
-    }
+        }
+    });
+    newspaper_content_observer.observe(doc.find(".content-wrapper"), {childList: true, subtree: true});
 });
 
-function Main(){
+function Main(filters){
     let container = content.new_container("Bounty Filter", {header_only: true, id: "ttBountyContainer", next_element: doc.find(".bounties-total").nextElementSibling});
-    console.log(container);
 
-    let option_1 = doc.new({type: "div", class: "tt-option"});
+    let option_1 = doc.new({type: "div", class: "tt-checkbox-wrap in-title"});
     let checkbox_1 = doc.new({type: "input", attributes: {type: "checkbox"}});
-    let text_1 = doc.new({type: "div", class: "tt-text", text: "Hide unavailable"});
+    let text_1 = doc.new({type: "div", text: "Hide unavailable"});
 
-    if(settings.bounties_filter.hide_unavailable){
+    if(filters.bounties.hide_unavailable){
         checkbox_1.checked = true;
     }
 
     option_1.appendChild(checkbox_1);
     option_1.appendChild(text_1);
 
-    let option_2 = doc.new({type: "div", class: "tt-option"});
-    let text_2 = doc.new({type: "div", class: "tt-text", text: "Max level"});
-    let input_2 = doc.new({type: "input", class: "tt-input-box"});
+    let option_2 = doc.new({type: "div", class: "tt-input-wrap in-title"});
+    let text_2 = doc.new({type: "div", text: "Max level"});
+    let input_2 = doc.new({type: "input"});
 
-    if(settings.bounties_filter.max_level){
-        input_2.value = settings.bounties_filter.max_level;
+    if(filters.bounties.max_level){
+        input_2.value = filters.bounties.max_level;
     }
 
     option_2.appendChild(text_2);
     option_2.appendChild(input_2);
 
-    container.find(".tt-title").appendChild(option_2);
-    container.find(".tt-title").appendChild(option_1);
+    container.find(".tt-title .tt-options").appendChild(option_1);
+    container.find(".tt-title .tt-options").appendChild(option_2);
 
-    // Hide unavailable
-    checkbox_1.addEventListener("click", function(){
-        console.log("CHECKBOX EVENT");
+    checkbox_1.onclick = filter;
+    input_2.onkeyup = filter;
+
+    filter();
+
+    function filter(){
         let people = doc.findAll(".bounties-list>li:not(.clear)");
 
-        if(input_2.value == "" && !checkbox_1.checked){
-            for(let person of people){
-                person.style.display = "block";
-            }
-        } else if(checkbox_1.checked && input_2.value == ""){
-            for(let person of people){
-                if(person.find(".status .t-red")){
-                    person.style.display = "none";
-                } else {
-                    person.style.display = "block";
-                }
-            }
-        } else if(checkbox_1.checked && input_2.value != ""){
-            for(let person of people){
-                if(person.style.display == "none") continue;
+        let hide_unavailable = checkbox_1.checked;
+        let max_level = input_2.value;
 
-                if(person.find(".status .t-red")){
-                    person.style.display = "none";
-                } else {
-                    person.style.display = "block";
-                }
-            }
-        } else if(!checkbox_1.checked && input_2.value != ""){
-            input_2.dispatchEvent(new Event("keyup"));
-        }
+        for(let person of people){
+            person.classList.remove("filter-hidden");
 
-        local_storage.change({"settings": {"bounties_filter": {"hide_unavailable": checkbox_1.checked, "max_level": parseInt(input_2.value)}}});
-    });
+            // Unavailable
+            if(hide_unavailable && person.find(".status .t-red")){
+                person.classList.add("filter-hidden");
+                continue;
+            }
 
-    // Max level
-    input_2.addEventListener("keyup", function(){
-        console.log("INPUT EVENT");
-        let people = doc.findAll(".bounties-list>li:not(.clear)");
-
-        if(input_2.value == "" && !checkbox_1.checked){
-            for(let person of people){
-                person.style.display = "block";
+            // Max level
+            let person_level = parseInt(person.find(".level").innerText.replace("Level:", ""));
+            if(max_level && person_level > parseInt(max_level)){
+                person.classList.add("filter-hidden");
+                continue;
             }
-        } else if(input_2.value != "" && !checkbox_1.checked){
-            for(let person of people){
-                if(parseInt(person.find(".level").innerText.replace("Level:", "")) <= parseInt(input_2.value)){
-                    person.style.display = "block";
-                } else {
-                    person.style.display = "none";
-                }
-            }
-        } else if(input_2.value != "" && checkbox_1.checked){
-            for(let person of people){
-                if(person.style.display == "none") continue;
-                
-                if(parseInt(person.find(".level").innerText.replace("Level:", "")) <= parseInt(input_2.value)){
-                    person.style.display = "block";
-                } else {
-                    person.style.display = "none";
-                }
-            }
-        } else if(checkbox_1.checked && input_2.value == ""){
-            checkbox_1.dispatchEvent(new Event("click"));
         }
         
-        local_storage.change({"settings": {"bounties_filter": {"hide_unavailable": checkbox_1.checked, "max_level": parseInt(input_2.value)}}});
-    });
-
-    bountiesLoaded().then(function(){
-        if(settings.bounties_filter.hide_unavailable){
-            checkbox_1.dispatchEvent(new Event("click"));
-        }
-
-        if(settings.bounties_filter.max_level){
-            input_2.dispatchEvent(new Event("keyup"));
-        }
-    });
+        local_storage.change({"filters": {"bounties": {"hide_unavailable": hide_unavailable, "max_level": parseInt(max_level)}}});
+    }
 }
 
 function bountiesLoaded(){
