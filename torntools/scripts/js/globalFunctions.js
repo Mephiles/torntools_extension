@@ -1805,7 +1805,7 @@ quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
         // }
 
         // Hide Doctorn
-        if((settings.force_tt && ["home", "city", "travelagency", "war", "items", "crimes", "gym", "bounties", "profile"].includes(page()))){
+        if((settings.force_tt && ["home", "city", "travelagency", "war", "items", "crimes", "gym", "bounties", "profile", "faction"].includes(page()))){
             document.documentElement.style.setProperty("--torntools-hide-doctorn", "none");
         }
 
