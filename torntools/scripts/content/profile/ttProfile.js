@@ -400,7 +400,7 @@ async function displayProfileStats(){
     profile_stats.appendChild(table);
 
     for(let key of Object.keys(result).sort()){
-        if(["Networth", "spy", "date"].includes(key)) continue;
+        if(["Xanax Taken", "Attacks Won", "Defends Won", "Networth", "spy", "date"].includes(key)) continue;
 
         let their_value, your_value, their_value_modified, your_value_modified;
         if(typeof result[key] == "object"){
