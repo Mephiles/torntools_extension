@@ -9,7 +9,9 @@ bountiesLoaded().then(function(){
                 
                 local_storage.get("filters", function(filters){
                     bountiesLoaded().then(function(){
-                        Main(filters);
+                        if(!doc.find("#ttBountyContainer")){
+                            Main(filters);
+                        }
                     });
                 });
             }
