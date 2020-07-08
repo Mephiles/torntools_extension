@@ -355,6 +355,10 @@ const STORAGE = {
             "level": [],
             "status": []
         },
+        "user_list": {
+            "activity": [],
+            "level": []
+        },
         "bounties": {},
         "faction_armory": {},
         "container_open": {}
