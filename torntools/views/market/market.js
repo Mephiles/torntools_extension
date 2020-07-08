@@ -34,9 +34,9 @@ window.addEventListener("load", function(){
             let name = itemlist.items[id].name;
             
             let div = doc.new("div");
-                div.setClass("item");
-                div.id = name.toLowerCase().replace(/\s+/g, '').replace(":","_");  // remove spaces
-                div.innerText = name;
+            div.setClass("item");
+            div.id = name.toLowerCase().replace(/\s+/g, '').replace(":","_");  // remove spaces
+            div.innerText = name;
 
             list.appendChild(div);
 
@@ -65,7 +65,7 @@ window.addEventListener("load", function(){
             }
 
             for(let item of items){
-                if(item.id.indexOf(keyword) > -1){
+                if(item.textContent.toLowerCase().includes(keyword)){
                     item.style.display = "block";
                     list.style.display = "block";
                 } else {
