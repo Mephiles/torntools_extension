@@ -15,13 +15,11 @@ DBloaded().then(function(){
 });
 
 async function displayNetworth(){
-	let networth;
-	if(cache.other.networth){
-		networth = cache.other.networth;
-	} else {
+	// let networth = networth;
+	if(networth.current.date == undefined || new Date() - new Date(networth.current.date) >= 5*60*1000){  // 5 minutes
 		networth = await new Promise(function(resolve, reject){
 			get_api("https://api.torn.com/user/?selections=personalstats,networth", api_key).then((data) => {
-				if(!data.ok) return resolve(data.result);
+				if(!data.ok) return resolve(data.error);
 				
 				data = data.result;
 
@@ -57,7 +55,7 @@ async function displayNetworth(){
 				}
 
 				// Set Userdata & Networth
-				local_storage.change({"cache": {"other": {"networth": networth}}}, function(){
+				local_storage.change({"networth": networth}, function(){
 					console.log("Networth info updated.");
 					return resolve(networth);
 				});
