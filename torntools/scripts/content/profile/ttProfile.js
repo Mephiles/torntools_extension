@@ -443,17 +443,6 @@ async function displayProfileStats(){
         row.appendChild(their_cell)
         row.appendChild(your_cell)
         col_other.appendChild(row);
-
-        row.onclick = function(){
-            if(hasParent(row, {class: "col-chosen"})){
-                col_other.appendChild(row);
-            } else if(hasParent(row, {class: "col-other"})){
-                col_chosen.appendChild(row);
-            }
-
-            saveProfileStats();
-        }
-
     }
 
     col_other.onclick = function(){
@@ -508,16 +497,6 @@ async function displayProfileStats(){
                 your_cell.classList.add("positive");
             }
 
-            row.onclick = function(){
-                if(hasParent(row, {class: "col-chosen"})){
-                    col_other.appendChild(row);
-                } else if(hasParent(row, {class: "col-other"})){
-                    col_chosen.appendChild(row);
-                }
-    
-                saveProfileStats();
-            }
-
             col_chosen.appendChild(row);
         }
     }
@@ -557,6 +536,50 @@ async function displayProfileStats(){
                 el.innerText = numberWithCommas(value);
             }
         }
+    }
+
+    // Add Edit button
+    let edit_button = doc.new({type: "div", id: "tt-edit", class: "tt-option"});
+    let icon = doc.new({type: "i", class: "fas fa-cog"});
+    edit_button.appendChild(icon);
+    edit_button.innerHTML += " Edit";
+
+    doc.find("#tt-target-info .tt-options").appendChild(edit_button);
+
+    edit_button.onclick = function(event){
+        event.stopPropagation();
+
+        if(doc.find(".tt-black-overlay").classList.contains("active")){
+            doc.find(".tt-black-overlay").classList.remove("active");
+            doc.find(".tt-stats-table .active").classList.remove("tt-highlight-sector");
+            doc.find(".tt-title .tt-options .tt-option#tt-edit").classList.remove("tt-highlight-sector");
+
+            for(let item of doc.findAll(".tt-stats-table .active .tt-row:not(.tt-header)")){
+                item.onclick = undefined;
+            }
+        } else {
+            doc.find(".tt-black-overlay").classList.add("active");
+            doc.find(".tt-stats-table .active").classList.add("tt-highlight-sector");
+            doc.find(".tt-title .tt-options .tt-option#tt-edit").classList.add("tt-highlight-sector");
+
+            for(let row of doc.findAll(".tt-stats-table .active .tt-row:not(.tt-header)")){
+                row.onclick = function(event){
+                    event.stopPropagation();
+                    event.preventDefault();
+
+                    row.onclick = undefined;
+
+                    if(hasParent(row, {class: "col-chosen"})){
+                        col_other.appendChild(row);
+                    } else if(hasParent(row, {class: "col-other"})){
+                        col_chosen.appendChild(row);
+                    }
+        
+                    saveProfileStats();
+                }
+            }            
+        }
+
     }
 
     function saveProfileStats(){

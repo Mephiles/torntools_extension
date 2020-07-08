@@ -97,10 +97,15 @@
     cursor: pointer;
     z-index: 99;
 }
+.tt-stats-table .active.tt-highlight-sector {
+    border-color: #9e9e9e;
+    z-index: 101 !important;
+}
 
 .tt-row {
     display: flex;
     border-bottom: 1px solid lightgray;
+    background-color: #f2f2f2;
 }
 .tt-row .item {
     flex: 1 0 33%;
@@ -119,11 +124,11 @@
     padding-left: 10px;
     border-right: 2px solid lightgray;
 }
-.col-chosen .tt-row:not(.tt-header):hover {
+.col-chosen.tt-highlight-sector .tt-row:not(.tt-header):hover {
     background-color: #ff9c9c;
     cursor: pointer;
 }
-.col-other .tt-row:not(.tt-header):hover {
+.col-other.tt-highlight-sector .tt-row:not(.tt-header):hover {
     background-color: #c8e888;
     cursor: pointer;
 }
