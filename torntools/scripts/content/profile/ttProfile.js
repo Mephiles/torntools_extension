@@ -473,7 +473,53 @@ async function displayProfileStats(){
 
     // Move chosen ones
     for(let stat of filters.profile_stats.chosen_stats){
-        col_chosen.appendChild(col_other.find(`:scope>[key='${stat}']`));
+        if(col_other.find(`:scope>[key='${stat}']`)){
+            col_chosen.appendChild(col_other.find(`:scope>[key='${stat}']`));
+        } else {
+            let their_value = 0;
+            let your_value = userdata.personalstats[stat] || 0;
+
+            let their_value_modified, your_value_modified;
+
+            if(money_key_list.includes(stat)){
+                their_value_modified = "$0";
+
+                negative = your_value < 0 ? true : false;
+                your_value_modified = "$"+numberWithCommas(Math.abs(your_value), false);
+                if(negative) your_value_modified = "-"+your_value;
+            } else {
+                their_value_modified = "0";
+                your_value_modified = numberWithCommas(your_value, false);
+            }
+
+            let row = doc.new({type: "div", class: "tt-row", attributes: {key: stat}});
+            let key_cell = doc.new({type: "div", text: key_dict[stat] || stat, class: "item"});
+            let their_cell = doc.new({type: "div", text: their_value_modified, class: "item"});
+            let your_cell = doc.new({type: "div", text: your_value_modified, class: "item"});
+            row.appendChild(key_cell)
+            row.appendChild(their_cell)
+            row.appendChild(your_cell)
+
+            if(their_value > your_value){
+                your_cell.classList.add("negative");
+                their_cell.classList.add("positive");
+            } else if(their_value < your_value){
+                their_cell.classList.add("negative");
+                your_cell.classList.add("positive");
+            }
+
+            row.onclick = function(){
+                if(hasParent(row, {class: "col-chosen"})){
+                    col_other.appendChild(row);
+                } else if(hasParent(row, {class: "col-other"})){
+                    col_chosen.appendChild(row);
+                }
+    
+                saveProfileStats();
+            }
+
+            col_chosen.appendChild(row);
+        }
     }
 
     // Footer
