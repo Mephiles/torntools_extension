@@ -34,6 +34,8 @@ window.addEventListener("load", async function(){
             break;
         case "armoury":
             if(settings.pages.items.drug_details) drugInfo();
+
+            armoryFilter();
             break;
         default:
             break;
@@ -83,6 +85,8 @@ window.addEventListener("load", async function(){
         // Armory page
         doc.find(".faction-tabs li[data-case=armoury]").addEventListener("click", function(){
             if(settings.pages.items.drug_details) drugInfo();
+
+            armoryFilter();
         });
     } else {
         playersLoaded(".member-list").then(function(){
@@ -960,4 +964,98 @@ function addFilterToTable(list, title){
             filter_container.find("#tt-faction-filter").appendChild(option);
         }
     }
+}
+
+function armoryFilter(){
+    armoryTabsLoaded().then(function(){
+        let armory_filter = content.new_container("Armory Filter", {header_only: true, id: "ttArmoryFilter", next_element: doc.find("#faction-armoury-tabs")});
+
+        if(!["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))){
+            armory_filter.classList.add("filter-hidden");
+        }
+
+        for(let link of doc.findAll("ul[aria-label='faction armoury tabs']>li")){
+            if(["weapons", "armour"].includes(link.getAttribute("aria-controls").replace("armoury-", ""))){
+                link.addEventListener("click", function(){
+                    console.log("filter tab")
+                    doc.find("#ttArmoryFilter")?.classList.remove("filter-hidden");
+                });
+            } else {
+                link.addEventListener("click", function(){
+                    console.log("other tab");
+                    doc.find("#ttArmoryFilter")?.classList.add("filter-hidden");
+                });
+            }
+        }
+
+        let unavailable_wrap = doc.new({type: "div", class: "tt-checkbox-wrap in-title hide-unavailable-option"});
+        let unavailable_checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
+        let unavailable_text = doc.new({type: "div", text: "Hide unavailable"});
+
+        unavailable_checkbox.checked = filters.faction_armory?.hide_unavailable ?? false;
+
+        unavailable_wrap.appendChild(unavailable_checkbox);
+        unavailable_wrap.appendChild(unavailable_text);
+
+        unavailable_checkbox.onclick = filter;
+
+        armory_filter.find(".tt-options").appendChild(unavailable_wrap);
+
+        armoryItemsLoaded().then(filter);
+
+        let items_added_observer = new MutationObserver(function(mutations){
+            for(let mutation of mutations){
+                if(mutation.type == "childList" && mutation.addedNodes[0]){
+                    for(let added_node of mutation.addedNodes){
+                        if(added_node.classList?.contains("item-list")){                            
+                            if(["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))){
+                                console.log("items added")
+                                filter();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        items_added_observer.observe(doc.find(`#faction-armoury-tabs`), {childList: true, subtree: true});
+
+        function filter(){
+            let item_list = doc.findAll(`#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list>li`);
+            let unavailable = doc.find(".hide-unavailable-option input").checked;
+    
+            for(let item of item_list){
+                item.classList.remove("filter-hidden");
+    
+                // Unavailable filter
+                if(unavailable && item.find(".loaned a")){
+                    item.classList.add("filter-hidden");
+                    continue;
+                }
+            }
+    
+            local_storage.change({"filters": {"faction_armory": {"hide_unavailable": unavailable}}});
+        }
+    });    
+}
+
+function armoryTabsLoaded(){
+    return new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            if(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']")){
+                resolve(true);
+                return clearInterval(checker);
+            }
+        });
+    });
+}
+
+function armoryItemsLoaded(){
+    return new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            if(doc.find("#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list>li:not(.ajax-placeholder)")){
+                resolve(true);
+                return clearInterval(checker);
+            }
+        });
+    });
 }

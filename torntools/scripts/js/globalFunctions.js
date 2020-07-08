@@ -354,6 +354,7 @@ const STORAGE = {
             "status": []
         },
         "bounties": {},
+        "faction_armory": {},
         "container_open": {}
     },
     "cache": {
