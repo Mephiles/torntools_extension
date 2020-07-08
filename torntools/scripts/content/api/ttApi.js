@@ -50,6 +50,10 @@ window.addEventListener('load', (event) => {
 			type_pretty.checked=true
 		}
 	}
+
+	if(settings.pages.api.autoDemo) {
+		doc.find("button.demoLink").click();
+	}
 });
 
 function responseLoaded(response_div, responses_before){
