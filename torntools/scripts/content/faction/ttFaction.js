@@ -978,12 +978,16 @@ function armoryFilter(){
             if(["weapons", "armour"].includes(link.getAttribute("aria-controls").replace("armoury-", ""))){
                 link.addEventListener("click", function(){
                     console.log("filter tab")
-                    doc.find("#ttArmoryFilter")?.classList.remove("filter-hidden");
+                    if(doc.find("#ttArmoryFilter")){
+                        doc.find("#ttArmoryFilter").classList.remove("filter-hidden");
+                    }
                 });
             } else {
                 link.addEventListener("click", function(){
                     console.log("other tab");
-                    doc.find("#ttArmoryFilter")?.classList.add("filter-hidden");
+                    if(doc.find("#ttArmoryFilter")){
+                        doc.find("#ttArmoryFilter").classList.add("filter-hidden");
+                    }
                 });
             }
         }
@@ -992,7 +996,9 @@ function armoryFilter(){
         let unavailable_checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
         let unavailable_text = doc.new({type: "div", text: "Hide unavailable"});
 
-        unavailable_checkbox.checked = filters.faction_armory?.hide_unavailable ?? false;
+        if(filters.faction_armory.hide_unavailable){
+            unavailable_checkbox.checked = filters.faction_armory.hide_unavailable;
+        }
 
         unavailable_wrap.appendChild(unavailable_checkbox);
         unavailable_wrap.appendChild(unavailable_text);
@@ -1007,7 +1013,7 @@ function armoryFilter(){
             for(let mutation of mutations){
                 if(mutation.type == "childList" && mutation.addedNodes[0]){
                     for(let added_node of mutation.addedNodes){
-                        if(added_node.classList?.contains("item-list")){                            
+                        if(added_node.classList && added_node.classList.contains("item-list")){                            
                             if(["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))){
                                 console.log("items added")
                                 filter();

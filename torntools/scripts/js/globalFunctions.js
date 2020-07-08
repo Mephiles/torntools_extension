@@ -630,7 +630,10 @@ const navbar = {
         return new_div;
 
         function createNewBlock(name, attr={}) {
-            let collapsed = filters.container_open.navbar?.[name] ?? false;
+            let collapsed = false;
+            if(filters.container_open.navbar && filters.container_open.navbar[name]){
+                collapsed = filters.container_open.navbar[name];
+            }
 
             let sidebar_block = doc.new({type: "div", class: "sidebar-block___1Cqc2 tt-nav-section"});
             let sidebar_block_html = `
