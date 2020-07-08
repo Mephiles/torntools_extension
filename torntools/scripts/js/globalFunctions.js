@@ -460,7 +460,8 @@ const STORAGE = {
             "api": {
                 "key": true,
                 "pretty": true,
-                "marking": false
+                "marking": false,
+                "autoDemo": true
             },
             "faction": {
                 "oc_time": true,
