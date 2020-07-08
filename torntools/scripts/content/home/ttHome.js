@@ -55,7 +55,7 @@ async function displayNetworth(){
 				}
 
 				// Set Userdata & Networth
-				local_storage.change({"networth": networth}, function(){
+				local_storage.set({"networth": networth}, function(){
 					console.log("Networth info updated.");
 					return resolve(networth);
 				});
