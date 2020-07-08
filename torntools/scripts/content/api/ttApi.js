@@ -50,7 +50,7 @@ DBloaded().then(() => {
 	}
 
 	if(settings.pages.api.autoDemo) {
-		doc.find("button.demoLink").click();
+		doc.find(".demoLink").click();
 	}
 });
 
