@@ -1517,14 +1517,13 @@ function page(){
         "travelagency.php": "travelagency",
         "war.php": "war",
         "item.php": "items",
-        "crimes.php": "crimes",
         "gym.php": "gym",
         "bounties.php": "bounties",
         "profiles.php": "profile",
         "factions.php": "faction",
-        "war.php": "war",
         "page.php": "page",
-        "properties.php": "properties"
+        "properties.php": "properties",
+        "api.html": "api"
     }
 
     let page = window.location.pathname.replace("/", "");
@@ -1674,7 +1673,7 @@ function to_seconds(time){
 function mobileChecker(){
     return new Promise(function(resolve, reject){
         let checker = setInterval(function(){
-            if(window.location.host.indexOf("torn") == -1){
+            if(window.location.host.indexOf("torn") == -1 || page() === "api"){
                 resolve(false);
                 return clearInterval(checker);
             }
