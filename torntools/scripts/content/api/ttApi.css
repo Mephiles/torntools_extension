@@ -38,3 +38,7 @@ pre.active {
 .in-use {
     color: #23b523;
 }
+
+.selection {
+    cursor: pointer;
+}

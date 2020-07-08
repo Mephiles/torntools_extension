@@ -50,6 +50,10 @@ window.addEventListener('load', (event) => {
 			type_pretty.checked=true
 		}
 	}
+
+	if(settings.pages.api.autoDemo) {
+		doc.find("button.demoLink").click();
+	}
 });
 
 function responseLoaded(response_div, responses_before){
@@ -85,19 +89,38 @@ function markFields(name, id){
 
 	// Add field spans
 	for(let field of fields){
-		let span = doc.new("span");
-			span.innerText = field;
-			in_use[name] && in_use[name][field] ? span.setClass("in-use") : null;
+		let span = doc.new({
+			type: "span",
+			text: field,
+			class: `selection ${ in_use[name] && in_use[name][field] ? 'in-use' : '' }`,
+		});
+
+		// in_use[name] && in_use[name][field] ? span.setClass("in-use") : null;
 
 		fields_container.appendChild(span);
 		
 		if(!lastInList(field, fields)){
 			let separator = doc.new("span");
-				separator.innerText = ", ";
+			separator.innerText = ", ";
 			
 			fields_container.appendChild(separator);
 		}
 	}
+
+	doc.findAll(".selection").forEach(selection => {
+		selection.addEventListener('click', (event) => {
+			const panel = event.target.closest('div.panel-group');
+			const selections_input = panel.querySelector('input[id*=selections]');
+
+			if (event.ctrlKey) {
+				if (selections_input.value === '') selections_input.value = event.target.innerText;
+				else selections_input.value += ',' + event.target.innerText;
+			} else {
+				selections_input.value = event.target.innerText;
+				panel.find('button').click();
+			}
+		})
+	})
 }
 
 function markResponse(type, fields, response_pre){
