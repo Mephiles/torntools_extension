@@ -1779,7 +1779,7 @@ mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
 quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
 
 (async function(){
-    await sleep(50);
+    await sleep(5);
     if(only_wants_functions){
         console.log("Skipping Global Functions DB build.")
         return;
