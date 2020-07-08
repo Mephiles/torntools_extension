@@ -162,9 +162,9 @@ function addFilterToTable(list, title){
         if(event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, {class: "gallery-wrapper"})){
             console.log("click");
             setTimeout(function(){
-                playersLoaded(".users-list").then(function(){
+                playersLoaded(".user-info-list-wrap").then(function(){
                     console.log("loaded");
-                    populateFactions();
+                    // populateFactions();
                     applyFilters();
                 });
             }, 300);
@@ -188,6 +188,7 @@ function addFilterToTable(list, title){
             "idle": "icon62_",
             "offline": "icon2_"
         }
+        
 
         let activity = [];
         // let faction = ``;
