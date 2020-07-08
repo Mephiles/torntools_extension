@@ -1,6 +1,8 @@
 console.log("Loading Global Functions");
 
 chrome = chrome || browser;
+var only_wants_functions = false;
+var only_wants_database = false;
 const doc = document;
 var DB;
 var mobile = false;
@@ -1754,13 +1756,32 @@ function flashColor(element, type, speed, min=0, max=1){
     }, interval);
 }
 
+function sleep(ms){
+    return new Promise(function(resolve, reject){
+        let ticker = setInterval(function(){
+            if(ms <= 0){
+                resolve(true);
+                return clearInterval(ticker);
+            } else {
+                ms--;
+            }
+        }, 1);
+    });
+}
+
 // Pre-load database
 var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
 travel_market, oc, allies, loot_times, target_list, vault, personalized, 
 mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
 quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
 
-(function(){
+(async function(){
+    await sleep(50);
+    if(only_wants_functions){
+        console.log("Skipping Global Functions DB build.")
+        return;
+    }
+
     local_storage.get(null, async function(db){
         DB = db;
 
@@ -1791,6 +1812,11 @@ quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
         filters = DB.filters;
         cache = DB.cache;
         watchlist = DB.watchlist;
+
+        if(only_wants_database){
+            console.log("Skipping Global Page Modification.")
+            return;
+        }
 
         // Align left
         document.documentElement.style.setProperty("--torntools-align-left", settings.pages.global.align_left ? "20px" : "auto");
