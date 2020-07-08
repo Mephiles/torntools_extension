@@ -1,21 +1,23 @@
-vaultLoaded().then(function(){
-    console.log("TT - Properties | Vault Sharing");
+DBloaded().then(function(){
+	vaultLoaded().then(function(){
+        console.log("TT - Properties | Vault Sharing");
 
-    if(!settings.pages.properties.vault_sharing){
-        return;
-    }
-
-    Main(vault);
-
-    window.addEventListener("hashchange", function(){
-        if(doc.find("#tt-vault-container")){
+        if(!settings.pages.properties.vault_sharing){
             return;
         }
-        
-        vaultLoaded().then(function(){
-            local_storage.get("vault", function(vault){
-                Main(vault);
-            })
+
+        Main(vault);
+
+        window.addEventListener("hashchange", function(){
+            if(doc.find("#tt-vault-container")){
+                return;
+            }
+            
+            vaultLoaded().then(function(){
+                local_storage.get("vault", function(vault){
+                    Main(vault);
+                })
+            });
         });
     });
 });

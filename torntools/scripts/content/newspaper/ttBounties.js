@@ -1,23 +1,25 @@
-bountiesLoaded().then(function(){
-    console.log("TT - Newspaper | Bounties");
-    Main(filters);
+DBloaded().then(function(){
+	bountiesLoaded().then(function(){
+        console.log("TT - Newspaper | Bounties");
+        Main(filters);
 
-    let newspaper_content_observer = new MutationObserver(function(mutations){
-        for(let mutation of mutations){
-            if(mutation.type == "childList" && mutation.addedNodes.length > 0){
-                if(doc.find("#ttBountyContainer")) return;
-                
-                local_storage.get("filters", function(filters){
-                    bountiesLoaded().then(function(){
-                        if(!doc.find("#ttBountyContainer")){
-                            Main(filters);
-                        }
+        let newspaper_content_observer = new MutationObserver(function(mutations){
+            for(let mutation of mutations){
+                if(mutation.type == "childList" && mutation.addedNodes.length > 0){
+                    if(doc.find("#ttBountyContainer")) return;
+                    
+                    local_storage.get("filters", function(filters){
+                        bountiesLoaded().then(function(){
+                            if(!doc.find("#ttBountyContainer")){
+                                Main(filters);
+                            }
+                        });
                     });
-                });
+                }
             }
-        }
+        });
+        newspaper_content_observer.observe(doc.find(".content-wrapper"), {childList: true, subtree: true});
     });
-    newspaper_content_observer.observe(doc.find(".content-wrapper"), {childList: true, subtree: true});
 });
 
 function Main(filters){

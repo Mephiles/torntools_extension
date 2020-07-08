@@ -1,81 +1,83 @@
-gymLoaded().then(function(){
-    console.log("TT - Gym");
-
-    let gym_container = content.new_container("Gym", {id: "tt-gym"});
-
-    // Graph
-    if(extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt){
-        displayGraph();
-    }
-
-    // Energy needed for next gym estimates
-    if(settings.pages.gym.estimated_energy){
-        let div = doc.new({type: "div", id: "ttEnergyEstimate"});
-
+DBloaded().then(function(){
+    gymLoaded().then(function(){
+        console.log("TT - Gym");
+    
+        let gym_container = content.new_container("Gym", {id: "tt-gym"});
+    
+        // Graph
+        if(extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt){
+            displayGraph();
+        }
+    
+        // Energy needed for next gym estimates
+        if(settings.pages.gym.estimated_energy){
+            let div = doc.new({type: "div", id: "ttEnergyEstimate"});
+    
+            gym_container.find(".content").appendChild(div);
+            showProgress();
+        }
+    
+        // Disable buttons
+        let div = doc.new({type: "div", class: "tt-checkbox-wrap"});
+        let checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
+        let div_text = doc.new({type: "div", text: "Disable Gym buttons"});
+    
+        div.appendChild(checkbox);
+        div.appendChild(div_text);
         gym_container.find(".content").appendChild(div);
-        showProgress();
-    }
-
-    // Disable buttons
-    let div = doc.new({type: "div", class: "tt-checkbox-wrap"});
-    let checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
-    let div_text = doc.new({type: "div", text: "Disable Gym buttons"});
-
-    div.appendChild(checkbox);
-    div.appendChild(div_text);
-    gym_container.find(".content").appendChild(div);
-
-    checkbox.addEventListener("click", function(){
-        if(checkbox.checked){
-            disableGymButton(["strength", "speed", "dexterity", "defense"], true);
-        } else {
-            disableGymButton(["strength", "speed", "dexterity", "defense"], false);
-        }
-    });
-
-    let stats = {
-        "strength": "strength___1GeGr",
-        "speed": "speed___1o1b_",
-        "defense": "defense___311kR",
-        "dexterity": "dexterity___1YdUM",
-    }
-    // Individual buttons
-    for(let stat in stats){
-        let checkbox = doc.new({type: "input", class: "tt-gym-stat-checkbox", attributes: {type: "checkbox"}});
-        checkbox.checked = settings.pages.gym[`disable_${stat}`];
-        
-        if(settings.pages.gym[`disable_${stat}`] && !doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("locked___r074J")){
-            doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.add("locked___r074J");
-        }
-
-        doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).appendChild(checkbox);
-        
-        checkbox.onclick = function(){
-            if(!doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("locked___r074J") && checkbox.checked){
-                disableGymButton([stat], true);
-            } else if(!checkbox.checked){
-                disableGymButton([stat], false);
-            }
-        }
-    }
-
-    if(settings.pages.gym.disable_strength && settings.pages.gym.disable_speed && settings.pages.gym.disable_dexterity && settings.pages.gym.disable_defense){
-        checkbox.checked = true;
-        disableGymButton(["strength", "speed", "dexterity", "defense"], true);
-    }
-
-    // Train button listeners
-    for(let button of doc.findAll(".button___3AlDV")){
-        button.addEventListener("click", function(){
-            for(let button of doc.findAll(".button___3AlDV")){
-                setTimeout(function(){
-                    if(findParent(button, {class: "propertyContent___1hg0-"}).parentElement.find(".tt-gym-stat-checkbox").checked == true){
-                        findParent(button, {class: "propertyContent___1hg0-"}).parentElement.classList.add("locked___r074J");
-                    }
-                }, 400);
+    
+        checkbox.addEventListener("click", function(){
+            if(checkbox.checked){
+                disableGymButton(["strength", "speed", "dexterity", "defense"], true);
+            } else {
+                disableGymButton(["strength", "speed", "dexterity", "defense"], false);
             }
         });
-    }
+    
+        let stats = {
+            "strength": "strength___1GeGr",
+            "speed": "speed___1o1b_",
+            "defense": "defense___311kR",
+            "dexterity": "dexterity___1YdUM",
+        }
+        // Individual buttons
+        for(let stat in stats){
+            let checkbox = doc.new({type: "input", class: "tt-gym-stat-checkbox", attributes: {type: "checkbox"}});
+            checkbox.checked = settings.pages.gym[`disable_${stat}`];
+            
+            if(settings.pages.gym[`disable_${stat}`] && !doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("locked___r074J")){
+                doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.add("locked___r074J");
+            }
+    
+            doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).appendChild(checkbox);
+            
+            checkbox.onclick = function(){
+                if(!doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("locked___r074J") && checkbox.checked){
+                    disableGymButton([stat], true);
+                } else if(!checkbox.checked){
+                    disableGymButton([stat], false);
+                }
+            }
+        }
+    
+        if(settings.pages.gym.disable_strength && settings.pages.gym.disable_speed && settings.pages.gym.disable_dexterity && settings.pages.gym.disable_defense){
+            checkbox.checked = true;
+            disableGymButton(["strength", "speed", "dexterity", "defense"], true);
+        }
+    
+        // Train button listeners
+        for(let button of doc.findAll(".button___3AlDV")){
+            button.addEventListener("click", function(){
+                for(let button of doc.findAll(".button___3AlDV")){
+                    setTimeout(function(){
+                        if(findParent(button, {class: "propertyContent___1hg0-"}).parentElement.find(".tt-gym-stat-checkbox").checked == true){
+                            findParent(button, {class: "propertyContent___1hg0-"}).parentElement.classList.add("locked___r074J");
+                        }
+                    }, 400);
+                }
+            });
+        }
+    });
 });
 
 function gymLoaded(){

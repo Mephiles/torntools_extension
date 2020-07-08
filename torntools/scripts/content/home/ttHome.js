@@ -1,15 +1,17 @@
-contentLoaded().then(function(){
-	console.log("TT - Home");
+DBloaded().then(function(){
+	contentLoaded().then(function(){
+		console.log("TT - Home");
 
-	// Networth
-	if(settings.pages.home.networth){
-		displayNetworth();
-	}
+		// Networth
+		if(settings.pages.home.networth){
+			displayNetworth();
+		}
 
-	// Battle Stats
-	if(settings.pages.home.battle_stats && (settings.force_tt || extensions.doctorn == false || extensions.doctorn == "force_false")){
-		displayEffectiveBattleStats();
-	}
+		// Battle Stats
+		if(settings.pages.home.battle_stats && (settings.force_tt || extensions.doctorn == false || extensions.doctorn == "force_false")){
+			displayEffectiveBattleStats();
+		}
+	});
 });
 
 async function displayNetworth(){

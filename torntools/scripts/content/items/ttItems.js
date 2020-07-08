@@ -1,4 +1,5 @@
-contentLoaded().then(function(){
+DBloaded().then(function(){
+	contentLoaded().then(function(){
     console.log("TT - Quick items");
 
     if((extensions.doctorn == true || extensions.doctorn == "force_true") && !settings.force_tt){
@@ -66,141 +67,144 @@ contentLoaded().then(function(){
             });
         }
     }
+    });
 });
 
-itemsLoaded().then(function(){
-    console.log("TT - Item values");
+DBloaded().then(function(){
+    itemsLoaded().then(function(){
+        console.log("TT - Item values");
 
-    // Item values
-    if(settings.pages.items.values){
-        displayItemPrices(itemlist.items);
-    }
-
-    // Quick items
-    if(extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt){
-        for(let item of doc.findAll(".items-cont[aria-expanded=true]>li .title-wrap")){
-            item.setAttribute("draggable", "true");
-            item.addEventListener("dragstart", onDragStart);
-            item.addEventListener("dragend", onDragEnd);
+        // Item values
+        if(settings.pages.items.values){
+            displayItemPrices(itemlist.items);
         }
-    }
 
-    // Drug detailed effects
-    if(settings.pages.items.drug_details){
-        let item_info_container_mutation = new MutationObserver(function(mutations){
-            for(let mutation of mutations){
-                if(mutation.type == "childList"){
-                    if(mutation.addedNodes[0] && mutation.addedNodes[0].classList && mutation.addedNodes[0].classList.contains("show-item-info")){
-                        let el = mutation.addedNodes[0];
-                        itemInfoLoaded(el).then(function(){
-                            let item_name = el.find("span.bold").innerText;
-                            if(item_name.indexOf("The") > -1) item_name = item_name.split("The ")[1];
+        // Quick items
+        if(extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt){
+            for(let item of doc.findAll(".items-cont[aria-expanded=true]>li .title-wrap")){
+                item.setAttribute("draggable", "true");
+                item.addEventListener("dragstart", onDragStart);
+                item.addEventListener("dragend", onDragEnd);
+            }
+        }
+
+        // Drug detailed effects
+        if(settings.pages.items.drug_details){
+            let item_info_container_mutation = new MutationObserver(function(mutations){
+                for(let mutation of mutations){
+                    if(mutation.type == "childList"){
+                        if(mutation.addedNodes[0] && mutation.addedNodes[0].classList && mutation.addedNodes[0].classList.contains("show-item-info")){
+                            let el = mutation.addedNodes[0];
+                            itemInfoLoaded(el).then(function(){
+                                let item_name = el.find("span.bold").innerText;
+                                if(item_name.indexOf("The") > -1) item_name = item_name.split("The ")[1];
+            
+                                let drug_details = drug_dict[item_name.toLowerCase().replace(/ /g, "_")];
+                                if(drug_details == undefined){
+                                    return;
+                                }
+                                
+                                // Remove current info
+                                for(let eff of el.findAll(".item-effect")){
+                                    eff.remove();
+                                }
         
-                            let drug_details = drug_dict[item_name.toLowerCase().replace(/ /g, "_")];
-                            if(drug_details == undefined){
-                                return;
-                            }
-                            
-                            // Remove current info
-                            for(let eff of el.findAll(".item-effect")){
-                                eff.remove();
-                            }
-    
-                            // Pros
-                            if(drug_details.pros){
-                                let pros_header = doc.new({type: "div", class: "t-green bold item-effect m-top10", text: "Pros:"});
-                                el.find(".info-msg").appendChild(pros_header);
-                                
-                                for(let eff of drug_details.pros){
-                                    let pros_div = doc.new({type: "div", class: "t-green bold item-effect tabbed", text: eff});
-                                    el.find(".info-msg").appendChild(pros_div);
-                                }
-                            }
-    
-                            // Cons
-                            if(drug_details.cons){
-                                let cons_header = doc.new({type: "div", class: "t-red bold item-effect", text: "Cons:"});
-                                el.find(".info-msg").appendChild(cons_header);
-                                
-                                for(let eff of drug_details.cons){
-                                    let cons_div = doc.new({type: "div", class: "t-red bold item-effect tabbed", text: eff});
-                                    el.find(".info-msg").appendChild(cons_div);
-                                }
-                            }
-    
-                            // Cooldown
-                            if(drug_details.cooldown){
-                                let cooldown_div = doc.new({type: "div", class: "t-red bold item-effect", text: `Cooldown: ${drug_details.cooldown}`});
-                                el.find(".info-msg").appendChild(cooldown_div);
-                            }
-    
-                            // Overdose
-                            if(drug_details.overdose){
-                                let od_header = doc.new({type: "div", class: "t-red bold item-effect", text: "Overdose:"});
-                                el.find(".info-msg").appendChild(od_header);
-    
-                                // bars
-                                if(drug_details.overdose.bars){
-                                    let bars_header = doc.new({type: "div", class: "t-red bold item-effect tabbed", text: "Bars"});
-                                    el.find(".info-msg").appendChild(bars_header);
+                                // Pros
+                                if(drug_details.pros){
+                                    let pros_header = doc.new({type: "div", class: "t-green bold item-effect m-top10", text: "Pros:"});
+                                    el.find(".info-msg").appendChild(pros_header);
                                     
-                                    for(let bar_eff of drug_details.overdose.bars){
-                                        let bar_eff_div = doc.new({type: "div", class: "t-red bold item-effect double-tabbed", text: bar_eff});
-                                        el.find(".info-msg").appendChild(bar_eff_div);
+                                    for(let eff of drug_details.pros){
+                                        let pros_div = doc.new({type: "div", class: "t-green bold item-effect tabbed", text: eff});
+                                        el.find(".info-msg").appendChild(pros_div);
                                     }
                                 }
-    
-                                // hospital time
-                                if(drug_details.overdose.hosp_time){
-                                    let hosp_div = doc.new({type: "div", class: "t-red bold item-effect tabbed", text: `Hospital: ${drug_details.overdose.hosp_time}`});
-                                    el.find(".info-msg").appendChild(hosp_div);
+        
+                                // Cons
+                                if(drug_details.cons){
+                                    let cons_header = doc.new({type: "div", class: "t-red bold item-effect", text: "Cons:"});
+                                    el.find(".info-msg").appendChild(cons_header);
+                                    
+                                    for(let eff of drug_details.cons){
+                                        let cons_div = doc.new({type: "div", class: "t-red bold item-effect tabbed", text: eff});
+                                        el.find(".info-msg").appendChild(cons_div);
+                                    }
                                 }
-    
-                                // extra
-                                if(drug_details.overdose.extra){
-                                    let extra_div = doc.new({type: "div", class: "t-red bold item-effect tabbed", text: `Extra: ${drug_details.overdose.extra}`});
-                                    el.find(".info-msg").appendChild(extra_div);
+        
+                                // Cooldown
+                                if(drug_details.cooldown){
+                                    let cooldown_div = doc.new({type: "div", class: "t-red bold item-effect", text: `Cooldown: ${drug_details.cooldown}`});
+                                    el.find(".info-msg").appendChild(cooldown_div);
                                 }
-                            }
-                        });
+        
+                                // Overdose
+                                if(drug_details.overdose){
+                                    let od_header = doc.new({type: "div", class: "t-red bold item-effect", text: "Overdose:"});
+                                    el.find(".info-msg").appendChild(od_header);
+        
+                                    // bars
+                                    if(drug_details.overdose.bars){
+                                        let bars_header = doc.new({type: "div", class: "t-red bold item-effect tabbed", text: "Bars"});
+                                        el.find(".info-msg").appendChild(bars_header);
+                                        
+                                        for(let bar_eff of drug_details.overdose.bars){
+                                            let bar_eff_div = doc.new({type: "div", class: "t-red bold item-effect double-tabbed", text: bar_eff});
+                                            el.find(".info-msg").appendChild(bar_eff_div);
+                                        }
+                                    }
+        
+                                    // hospital time
+                                    if(drug_details.overdose.hosp_time){
+                                        let hosp_div = doc.new({type: "div", class: "t-red bold item-effect tabbed", text: `Hospital: ${drug_details.overdose.hosp_time}`});
+                                        el.find(".info-msg").appendChild(hosp_div);
+                                    }
+        
+                                    // extra
+                                    if(drug_details.overdose.extra){
+                                        let extra_div = doc.new({type: "div", class: "t-red bold item-effect tabbed", text: `Extra: ${drug_details.overdose.extra}`});
+                                        el.find(".info-msg").appendChild(extra_div);
+                                    }
+                                }
+                            });
+                        }
                     }
-                }
-            }
-        });
-        item_info_container_mutation.observe(doc.find("body"), {childList: true, subtree: true});
-    }
-
-    // Item Market links
-    if(settings.pages.items.itemmarket_links){
-        addItemMarketLinks();
-    }
-
-    // Change item type page
-    let sorting_icons = doc.findAll("ul[role=tablist] li:not(.no-items):not(.m-show):not(.hide)");
-    for (let icon of sorting_icons) {
-        icon.addEventListener("click", function () {
-            itemsLoaded().then(function(){
-                // Item values
-                if(settings.pages.items.values){
-                    displayItemPrices(itemlist.items);
-                }
-
-                if(extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt){
-                    // Quick items
-                    for(let item of doc.findAll(".items-cont[aria-expanded=true]>li .title-wrap")){
-                        item.setAttribute("draggable", "true");
-                        item.addEventListener("dragstart", onDragStart);
-                        item.addEventListener("dragend", onDragEnd);
-                    }
-                }
-
-                // Item Market links
-                if(settings.pages.items.itemmarket_links){
-                    addItemMarketLinks();
                 }
             });
-        });
-    }
+            item_info_container_mutation.observe(doc.find("body"), {childList: true, subtree: true});
+        }
+
+        // Item Market links
+        if(settings.pages.items.itemmarket_links){
+            addItemMarketLinks();
+        }
+
+        // Change item type page
+        let sorting_icons = doc.findAll("ul[role=tablist] li:not(.no-items):not(.m-show):not(.hide)");
+        for (let icon of sorting_icons) {
+            icon.addEventListener("click", function () {
+                itemsLoaded().then(function(){
+                    // Item values
+                    if(settings.pages.items.values){
+                        displayItemPrices(itemlist.items);
+                    }
+
+                    if(extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt){
+                        // Quick items
+                        for(let item of doc.findAll(".items-cont[aria-expanded=true]>li .title-wrap")){
+                            item.setAttribute("draggable", "true");
+                            item.addEventListener("dragstart", onDragStart);
+                            item.addEventListener("dragend", onDragEnd);
+                        }
+                    }
+
+                    // Item Market links
+                    if(settings.pages.items.itemmarket_links){
+                        addItemMarketLinks();
+                    }
+                });
+            });
+        }
+    });
 });
 
 function itemsLoaded() {

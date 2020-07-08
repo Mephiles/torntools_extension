@@ -1,24 +1,26 @@
-messageBoxLoaded().then(function(){
-    console.log("TT - Messages");
+DBloaded().then(function(){
+	messageBoxLoaded().then(function(){
+        console.log("TT - Messages");
 
-    if(personalized.mass_messages){
-        console.log("MASS MESSAGES", mass_messages);
-        massMessages(mass_messages);
-    }
-
-    document.addEventListener("click", function(event){
-        if(event.srcElement.href == "https://www.torn.com/messages.php#/p=compose"){
-            console.log("click");
-            local_storage.get(["personalized", "mass_messages"], function([personalized, mass_messages]){
-                if(personalized.mass_messages){
-                    console.log("MASS MESSAGES", mass_messages);
-                    
-                    messageBoxLoaded().then(function(){
-                        massMessages(mass_messages);
-                    });
-                }
-            });
+        if(personalized.mass_messages){
+            console.log("MASS MESSAGES", mass_messages);
+            massMessages(mass_messages);
         }
+
+        document.addEventListener("click", function(event){
+            if(event.srcElement.href == "https://www.torn.com/messages.php#/p=compose"){
+                console.log("click");
+                local_storage.get(["personalized", "mass_messages"], function([personalized, mass_messages]){
+                    if(personalized.mass_messages){
+                        console.log("MASS MESSAGES", mass_messages);
+                        
+                        messageBoxLoaded().then(function(){
+                            massMessages(mass_messages);
+                        });
+                    }
+                });
+            }
+        });
     });
 });
 

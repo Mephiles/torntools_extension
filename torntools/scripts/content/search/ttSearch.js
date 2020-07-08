@@ -1,12 +1,13 @@
-searchLoaded().then(function(){
-    console.log("TT - Search");
-    
-    if(personalized.mass_messages){
-        console.log("Mass Messages");
-        massMessages();
-    }
-})
-
+DBloaded().then(function(){
+	searchLoaded().then(function(){
+        console.log("TT - Search");
+        
+        if(personalized.mass_messages){
+            console.log("Mass Messages");
+            massMessages();
+        }
+    });
+});
 
 function searchLoaded(){
     return new Promise(function(resolve, reject){

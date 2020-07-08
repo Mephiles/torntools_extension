@@ -137,62 +137,64 @@ var key_dict = {
 }
 var spy_info;
 
-profileLoaded().then(async function(){
-    console.log("TT - Profile");
+DBloaded().then(function(){
+    profileLoaded().then(async function(){
+        console.log("TT - Profile");
 
-    let user_faction = userdata.faction.faction_name;
+        let user_faction = userdata.faction.faction_name;
 
-    if(settings.pages.profile.show_id){
-        showId();
-    }
+        if(settings.pages.profile.show_id){
+            showId();
+        }
 
-    if(settings.pages.profile.friendly_warning){
-        displayAlly(user_faction, allies);
-    }
-        
-    if(settings.pages.profile.loot_times){
-        displayLootLevel(loot_times);
-    }
+        if(settings.pages.profile.friendly_warning){
+            displayAlly(user_faction, allies);
+        }
+            
+        if(settings.pages.profile.loot_times){
+            displayLootLevel(loot_times);
+        }
 
-    if(settings.pages.profile.status_indicator){
-        addStatusIndicator();
-    }
-    displayCreator();
+        if(settings.pages.profile.status_indicator){
+            addStatusIndicator();
+        }
+        displayCreator();
 
-    if((extensions.doctorn == true || extensions.doctorn == "force_true") && !settings.force_tt){
-        return;
-    }
+        if((extensions.doctorn == true || extensions.doctorn == "force_true") && !settings.force_tt){
+            return;
+        }
 
-    if(getUserId() == userdata.player_id) return;
+        if(getUserId() == userdata.player_id) return;
 
-    // Profile stats
-    let info_container = content.new_container("User Info", {next_element_heading: "Medals", id: "tt-target-info"});
-    let profile_stats_div = doc.new({type: "div", class: `profile-stats ${mobile?'tt-mobile':""}`});
-    info_container.find(".content").appendChild(profile_stats_div);
+        // Profile stats
+        let info_container = content.new_container("User Info", {next_element_heading: "Medals", id: "tt-target-info"});
+        let profile_stats_div = doc.new({type: "div", class: `profile-stats ${mobile?'tt-mobile':""}`});
+        info_container.find(".content").appendChild(profile_stats_div);
 
-    if(!filters.profile_stats.auto_fetch){
-        let button = doc.new({type: "div", class: `fetch-button ${mobile?"tt-mobile":""}`, text: "Fetch Info via API"});
-        profile_stats_div.appendChild(button);
+        if(!filters.profile_stats.auto_fetch){
+            let button = doc.new({type: "div", class: `fetch-button ${mobile?"tt-mobile":""}`, text: "Fetch Info via API"});
+            profile_stats_div.appendChild(button);
 
-        button.addEventListener("click", async function(){
-            button.remove();
+            button.addEventListener("click", async function(){
+                button.remove();
+                await displayProfileStats();
+                // Show Spy info
+                showSpyInfo();
+            });
+        } else {
             await displayProfileStats();
             // Show Spy info
             showSpyInfo();
-        });
-    } else {
-        await displayProfileStats();
-        // Show Spy info
-        showSpyInfo();
-    }
+        }
 
-    // Target info
-    if(target_list.show){
-        displayTargetInfo(target_list.targets);
-    }
-    
-    // Stakeout
-    displayStakeoutOptions();
+        // Target info
+        if(target_list.show){
+            displayTargetInfo(target_list.targets);
+        }
+        
+        // Stakeout
+        displayStakeoutOptions();
+    });
 });
 
 function displayCreator() {

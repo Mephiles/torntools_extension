@@ -1,4 +1,5 @@
-bazaarLoaded().then(function(){
+DBloaded().then(function(){
+	bazaarLoaded().then(function(){
     console.log("TT - Bazaar");
 
     if(visiting()){
@@ -107,6 +108,7 @@ bazaarLoaded().then(function(){
             }
         });
     }
+    });
 });
 
 function bazaarLoaded(){

@@ -1,18 +1,20 @@
-navbarLoaded().then(function(){
-    console.log("TT - Church | Achievements");
+DBloaded().then(function(){
+    navbarLoaded().then(function(){
+        console.log("TT - Church | Achievements");
 
-    let show_completed = settings.achievements.completed;
+        let show_completed = settings.achievements.completed;
 
-    if(!settings.achievements.show)
-        return;
+        if(!settings.achievements.show)
+            return;
 
-    // object of all the achievements on this page
-    let achievements = {
-        "Donations": {
-            "stats": getDonations(),
-            "keyword": "church"
+        // object of all the achievements on this page
+        let achievements = {
+            "Donations": {
+                "stats": getDonations(),
+                "keyword": "church"
+            }
         }
-    }
 
-    displayAchievements(achievements, show_completed);
+        displayAchievements(achievements, show_completed);
+    });
 });

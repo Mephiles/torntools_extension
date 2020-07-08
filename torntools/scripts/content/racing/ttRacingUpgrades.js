@@ -1,18 +1,20 @@
-upgradeView().then(function(){
-    console.log("TT - Racing Upgrades");
-    
-    if(!settings.pages.racing.upgrades){
-        return;
-    }
+DBloaded().then(function(){
+	upgradeView().then(function(){
+        console.log("TT - Racing Upgrades");
+        
+        if(!settings.pages.racing.upgrades){
+            return;
+        }
 
-    Main();
+        Main();
 
-    // start checking again when left site
-    for(let category of doc.findAll(".categories li")){
-        category.addEventListener("click", function(){
-            upgradeView().then(Main);
-        });
-    }
+        // start checking again when left site
+        for(let category of doc.findAll(".categories li")){
+            category.addEventListener("click", function(){
+                upgradeView().then(Main);
+            });
+        }
+    });
 });
 
 function Main(){
