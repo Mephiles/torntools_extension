@@ -1,6 +1,4 @@
-window.addEventListener('load', (event) => {
-	console.log("TT - API");
-	
+DBloaded().then(() => {
 	// auto-fill API key
 	let demo_page_checker = setInterval(function(){
 		if(document.querySelector("#demo").style.display != "none"){
