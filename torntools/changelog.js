@@ -1,4 +1,36 @@
 export default {
+    "v4.8": {
+        "Features": [
+            "Added Vault balance to Torn Information window",
+            "Added option to disable individual Gym stats training",
+            "Added Item Market links to Items",
+            "Added Faction Armory filter to hide items that are Unavailable"
+        ],
+        "Fixes": [
+            "Remove LastPass icon from chat 'Find' field",
+            "Enabled Update TornStats button on mobile Gym page",
+            "Fixed displaying Faction Member info when honors are turned off",
+            "Fixed and redesigned Filters for Hospital, Jail, Faction, Player search, Bounties (all enabled on Mobile now)",
+            "Fixed 'view full page' when visiting other Factions",
+            "Added option to disable 'find' feature in chat",
+            "Removed duplicates from Profile Stats",
+            "Fixed Market Tab searching - Thanks DKK",
+            "Fixed OC Recommended NNB display when Doctorn is enabled - Thanks DKK"
+        ],
+        "Changes": [
+            "Disabled Profile Stats for your own profile",
+            "Improved TornTools containers' design",
+            "Containers now remember their last position",
+            "Added alternative way of adding Quick Crimes & Items in case dragging fails to work",
+            "Made Navigation Bar TornTools sections collapsibe",
+            "Added EDIT button to add/remove Profile Stats to eliminate accidental moving"
+        ],
+        "API SYSTEM CHANGES": [
+            "Networth info is only fetched when visiting Home page with a cache time of 5 minutes",
+            "Stocks data is fetched every 15 minutes",
+            "Torn's data & OC info is fetched every 24 hours"
+        ]
+    },
     "v4.7": {
         "Features": [
             "Added detailed info about Drugs on Items page & Faction armory",
