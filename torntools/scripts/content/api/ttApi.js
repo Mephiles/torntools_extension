@@ -78,7 +78,7 @@ function markFields(name, id){
 		strong.innerText = "Available fields: ";
 
 	let fields = fields_container.innerText.replace("Available fields: ", "").split(",").map(x => x.trim());
-	
+
 	// Clear fields
 	fields_container.innerText = "";
 
@@ -96,11 +96,11 @@ function markFields(name, id){
 		// in_use[name] && in_use[name][field] ? span.setClass("in-use") : null;
 
 		fields_container.appendChild(span);
-		
+
 		if(!lastInList(field, fields)){
 			let separator = doc.new("span");
 			separator.innerText = ", ";
-			
+
 			fields_container.appendChild(separator);
 		}
 	}
@@ -126,21 +126,25 @@ function markResponse(type, fields, response_pre){
 	fields = fields.split(",").map(x => x.trim());
 	console.log("fields", fields)
 
-	let response_data = JSON.parse(response_pre.innerText);
-	console.log("response_data", response_data);
+	const response_data = JSON.parse(response_pre.innerText);
 
-	let new_pre = doc.new("pre");
-		new_pre.setClass("modified");
+	let new_pre = doc.new({
+		type: "pre",
+		class: "modified",
+	});
 
-	let starting_span = doc.new("span");
-		starting_span.innerText = "{";
-		new_pre.appendChild(starting_span);
+	new_pre.appendChild(doc.new({
+		type: "span",
+		text: "{",
+	}));
 
-	let top_level_fields = fields;
+	let top_level_fields = [...fields];
 
 	// Remove fields that are not top-level
 	for(let response_key in response_data){
+	    console.log('1', response_key)
 		if(typeof response_data[response_key] == "object"){
+            console.log('2', field_db[response_key], top_level_fields)
 			response_key = response_key in field_db ? field_db[response_key] : response_key;
 
 			if(top_level_fields.includes(response_key)){
@@ -151,151 +155,20 @@ function markResponse(type, fields, response_pre){
 
 	console.log("top_level_fields", top_level_fields);
 
-	for(let response_key in response_data){
-		if(typeof response_data[response_key] == "object" && !Array.isArray(response_data[response_key])){  // Object
+	loadResponses(type, response_data, new_pre, 1, false, fields)
 
-			// New section
-			let br = doc.new("br");
-				new_pre.appendChild(br);
-			let section_start = doc.new("span");
-				section_start.innerText = `	"${getTrueField(response_key)}": {`;
-				new_pre.appendChild(section_start);
+	new_pre.appendChild(doc.new({
+		type: "div",
+		text: "}",
+	}));
 
-			for(let key of Object.keys(response_data[getTrueField(response_key)])){
-				let value = response_data[getTrueField(response_key)][key];
-				let is_last = lastInList(key, Object.keys(response_data[getTrueField(response_key)]));
-				let quotation_marks = typeof value == "string" ? true : false;
-
-				let br = doc.new("br");
-					new_pre.appendChild(br);
-
-				let span = doc.new("span");
-					if(quotation_marks){
-						span.innerText = `		"${key}": "${value}"` + (is_last ? "":",");
-					} else {
-						span.innerText = `		"${key}": ${value}` + (is_last ? "":",");
-					}
-					
-				if(response_key in in_use[type] || (response_key in field_db && field_db[response_key] in in_use[type])){
-					let in_use_keys = in_use[type][response_key] || in_use[type][field_db[response_key]];
-					if(in_use_keys.includes(key)){
-						span.setClass("in-use");
-					}
-				}
-				
-				new_pre.appendChild(span);
-			}
-
-			let br2 = doc.new("br");
-				new_pre.appendChild(br2);
-			let section_end = doc.new("span");
-				section_end.innerText = `	}` + (lastInList(response_key, Object.keys(response_data)) ? "":",");
-				new_pre.appendChild(section_end);
-		} else if (typeof response_data[response_key] == "object" && Array.isArray(response_data[response_key])) {  // Array
-
-			// New section
-			let br = doc.new("br");
-				new_pre.appendChild(br);
-			let section_start = doc.new("span");
-				section_start.innerText = `	"${response_key}": [`;
-				new_pre.appendChild(section_start);
-
-			for(let item of response_data[response_key]){
-				let is_last = lastInList(item, response_data[response_key]);
-
-				let br = doc.new("br");
-					new_pre.appendChild(br);
-
-				if(typeof item == "object" && !Array.isArray(response_data[response_key][item])){
-					let starting_span = doc.new("span");
-						starting_span.innerText = `		{`;
-						new_pre.appendChild(starting_span);
-
-					for(let inner_key in item){
-						let value = item[inner_key];
-						let is_last = lastInList(inner_key, Object.keys(item));
-						let quotation_marks = typeof value == "string" ? true : false;
-
-						let inner_br = doc.new("br");
-							new_pre.appendChild(inner_br);
-
-						let inner_span = doc.new("span");
-						if(quotation_marks){
-							inner_span.innerText = `			"${inner_key}": "${value}"` + (is_last ? "":",");
-						} else {
-							inner_span.innerText = `			"${inner_key}": ${value}` + (is_last ? "":",");
-						}
-						new_pre.appendChild(inner_span);
-					}
-
-					let br2 = doc.new("br");
-						new_pre.appendChild(br2);
-					let ending_span = doc.new("span");
-						ending_span.innerText = `		}` + (is_last ? "":",");
-						new_pre.appendChild(ending_span);
-				} else {
-					let quotation_marks = typeof item == "string" ? true : false;
-					let span = doc.new("span");
-						if(quotation_marks){
-							span.innerText = `		"${item}"` + (is_last ? "":",");
-						} else {
-							span.innerText = `		${item}` + (is_last ? "":",");
-						}
-					new_pre.appendChild(span);
-				}
-			}
-
-			let br2 = doc.new("br");
-				new_pre.appendChild(br2);
-			let section_end = doc.new("span");
-				section_end.innerText = `	]` + (lastInList(response_key, Object.keys(response_data)) ? "":",");
-				new_pre.appendChild(section_end);
-		} else {
-			let value = response_data[response_key];
-			let is_last = lastInList(response_key, Object.keys(response_data));
-			let quotation_marks = typeof value == "string" ? true : false;
-
-			let br = doc.new("br");
-				new_pre.appendChild(br);
-			let span = doc.new("span");
-				if(quotation_marks){
-					span.innerText = `	"${response_key}": "${value}"` + (is_last ? "":",");
-				} else {
-					span.innerText = `	"${response_key}": ${value}` + (is_last ? "":",");
-				}
-
-			for(let top_level_field of top_level_fields){
-				if(top_level_field in in_use[type] || (top_level_field in field_db && top_level_field in in_use[type][field_db[top_level_field]])){
-					let keys = in_use[type][top_level_field] || in_use[type][field_db[top_level_field]];
-					if(keys.includes(response_key)){
-						span.setClass("in-use");
-					}
-				}
-			}
-
-			new_pre.appendChild(span);
-		}
-	}
-
-	let br = doc.new("br");
-		new_pre.appendChild(br);
-	let ending_span = doc.new("span");
-		ending_span.innerText = "}";
-		new_pre.appendChild(ending_span);
-
-	console.log("NEW PRE", new_pre);
 	response_pre.classList.add("original");
 	response_pre.parentElement.insertBefore(new_pre, response_pre);
 
 	// Add tabs
-	let tabs = doc.new("div");
-		tabs.setClass("tt-tabs");
-	let tab_og = doc.new("div");
-		tab_og.setClass("tt-tab");
-		tab_og.innerText = "Original";
-	let tab_mod = doc.new("div");
-		tab_mod.setClass("tt-tab");
-		tab_mod.innerText = "Modified";
+	let tabs = doc.new({type: "div", class: "tt-tabs"});
+	let tab_og = doc.new({type: "div", class: "tt-tab", text: "Original"});
+	let tab_mod = doc.new({type: "div", class: "tt-tab", text: "Modified"});
 
 	tabs.appendChild(tab_og);
 	tabs.appendChild(tab_mod);
@@ -320,21 +193,186 @@ function markResponse(type, fields, response_pre){
 	tab_mod.click();
 }
 
-var field_db = {
+function loadResponses(type, response, modifiedSection, level, skipFirstLine, selections) {
+	const indent = getIndent(level);
+
+	let skipLine = skipFirstLine;ns
+	for (let responseField in respoe) {
+		if (!response.hasOwnProperty(responseField)) continue;
+
+		if (!skipLine)
+			modifiedSection.appendChild(doc.new("br"));
+		 else
+			skipLine = false;
+
+		if (typeof response[responseField] === "object") {
+			if (Array.isArray(response[responseField])) {
+				modifiedSection.appendChild(doc.new({
+					type: "span",
+					text: `${indent}"${responseField}": [`
+				}));
+
+				let skipLine = false;
+				for (let item of response[responseField]) {
+					const isLast = lastInList(item, response[responseField]);
+
+					if (!skipLine)
+						modifiedSection.appendChild(doc.new("br"));
+					else
+						skipLine = false;
+
+					if (typeof item === "object") {
+						if (Array.isArray(item)) {
+							modifiedSection.appendChild(doc.new({
+								type: "span",
+								text: `${getIndent(level + 1)}NOT SUPPORTED`
+							}));
+						} else {
+							showObject({
+								object: item,
+								items: response[responseField],
+								level: level + 1,
+								isLast,
+							});
+							skipLine = true;
+						}
+					} else {
+						showText({
+							value: item,
+							level: level + 1,
+							isLast,
+						});
+					}
+				}
+
+				modifiedSection.appendChild(doc.new({
+					type: "div",
+					text: `${indent}]${lastInList(responseField, Object.keys(response)) ? "" : ","}`
+				}));
+			} else {
+				showObject({
+					name: responseField,
+					items: Object.keys(response),
+					object: response[responseField],
+				});
+			}
+			skipLine = true;
+		} else {
+			showText({
+				name: responseField,
+				value: response[responseField],
+			});
+		}
+	}
+
+	function getIndent(level) {
+		let indent = "";
+
+		for (let i = 0; i < level; i++) {
+			indent += "        ";
+		}
+
+		return indent;
+	}
+
+	function showObject(attr) {
+		const attributes = {
+			level: level,
+			...attr,
+		}
+
+        if (attributes.name && attributes.items) {
+            if (!attributes.object)
+                attributes.object = attributes.items[attributes.name];
+            if (!attributes.isLast)
+                attributes.isLast = lastInList(attributes.name, attributes.items)
+        }
+
+		const indent = getIndent(attributes.level);
+
+		if (attributes.name) {
+			modifiedSection.appendChild(doc.new({
+                type: "div",
+                text: `${indent}"${attributes.name}": {`
+            }));
+		} else {
+			modifiedSection.appendChild(doc.new({
+				type: "div",
+				text: `${indent}{`
+			}));
+		}
+
+		loadResponses(type, attributes.object, modifiedSection, attributes.level + 1, true, selections);
+
+		modifiedSection.appendChild(doc.new({
+			type: "div",
+			text: `${indent}}${attributes.isLast ? "" : ","}`,
+		}));
+		console.log('DKK section end', attributes.name);
+	}
+
+	function showText(attr) {
+		const attributes = {
+			level: level,
+			...attr,
+		}
+
+        if (attributes.name && attributes.items) {
+            if (!attributes.value)
+                attributes.value = attributes.items[attributes.name];
+            if (!attributes.isLast)
+                attributes.isLast = lastInList(attributes.name, attributes.items)
+        }
+
+		const quotation_marks = typeof attributes.value == "string";
+
+        const indent = getIndent(attributes.level);
+		let span;
+		if (attributes.name) {
+			span = doc.new({
+				type: "span",
+				text: `${indent}"${attributes.name}": ${quotation_marks ? `"${attributes.value}"` : attributes.value}${attributes.isLast ? "" : ","}`,
+			});
+
+			for (let selection in in_use[type]) {
+			    if (!in_use[type].hasOwnProperty(selection)) continue;
+			    if (!selections.includes(selection)) continue;
+
+			    const keys = in_use[type][selection];
+
+			    if (keys.includes("*") || keys.includes(attributes.name)) span.setClass("in-use");
+
+			    console.log('selection',selection, in_use[type][selection])
+            }
+		} else {
+			span = doc.new({
+				type: "span",
+				text: `${indent}${quotation_marks ? `"${attributes.value}"` : attributes.value}${attributes.isLast ? "" : ","}`,
+			});
+		}
+
+		modifiedSection.appendChild(span);
+	}
+
+}
+
+
+
+const field_db = {
 	"criminalrecord": "crimes",
 	"medals_awarded": "medals"
 }
 
-var in_use = {
+const in_use = {
 	"user": {
 		"battlestats": [
 			"strength", "speed", "dexterity", "defense", "total"
 		],
 		"crimes": [
-			"theft", "auto_theft", "drug_deals", "computer_crimes", 
+			"theft", "auto_theft", "drug_deals", "computer_crimes",
 			"murder", "fraud_crimes", "other", "total"
 		],
-		"personalstats": [ 
+		"personalstats": [
 			"cityfinds",
 			"dumpfinds",
 			"organisedcrimes",
@@ -475,7 +513,7 @@ var markings = {
 			"honors_awarded", "honors_time"
 		],
 		"icons": [],
-		"inventory": [], 
+		"inventory": [],
 		"jobpoints": [
 			"jobs", "companies"
 		],
@@ -487,12 +525,12 @@ var markings = {
 			"Education Length", "Awareness", "Bank Interest", "Masterful Looting",
 			"Stealth", "Hospitalizing", "Brawn", "Protection", "Sharpness", "Evasion",
 			"Heavy Artillery Mastery", "Machine Gun Mastery", "Rifle Mastery", "SMG Mastery",
-			"Shotgun Mastery", "Pistol Mastery", "Club Mastery", "Piercing Mastery", 
+			"Shotgun Mastery", "Pistol Mastery", "Club Mastery", "Piercing Mastery",
 			"Slashing Mastery", "Mechanical Mastery", "Temporary Mastery"
 		],
 		"messages": [],
 		"money": [
-			"points", "cayman_bank", "vault_amount", "networth", 
+			"points", "cayman_bank", "vault_amount", "networth",
 			"money_onhand", "city_bank"
 		],
 		"networth": [
@@ -506,8 +544,8 @@ var markings = {
 			"messages", "events", "awards", "competition"
 		],
 		"perks": [
-			"job_perks", "property_perks", "stock_perks", "merit_perks", 
-			"education_perks", "enhancer_perks", "company_perks", "faction_perks", 
+			"job_perks", "property_perks", "stock_perks", "merit_perks",
+			"education_perks", "enhancer_perks", "company_perks", "faction_perks",
 			"book_perks"
 		],
 		"personalstats": [
@@ -581,7 +619,7 @@ var markings = {
 			"rank", "level", "gender", "property", "signup", "awards",
 			"friends", "enemies", "forum_posts", "karma", "age",
 			"role", "donator", "player_id", "name", "property_id",
-			"life", "status", "job", "faction", "married", "basicicons", 
+			"life", "status", "job", "faction", "married", "basicicons",
 			"states", "last_action"
 		],
 		"properties": [],
