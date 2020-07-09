@@ -196,8 +196,8 @@ function markResponse(type, fields, response_pre){
 function loadResponses(type, response, modifiedSection, level, skipFirstLine, selections) {
 	const indent = getIndent(level);
 
-	let skipLine = skipFirstLine;ns
-	for (let responseField in respoe) {
+	let skipLine = skipFirstLine;
+	for (let responseField in response) {
 		if (!response.hasOwnProperty(responseField)) continue;
 
 		if (!skipLine)
