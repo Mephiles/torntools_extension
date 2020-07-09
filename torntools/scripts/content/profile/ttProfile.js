@@ -348,6 +348,7 @@ async function displayProfileStats(){
     if(cache && cache.profile_stats[user_id]){
         result = cache.profile_stats[user_id];
     } else {
+        loadingPlaceholder(profile_stats, true);
         result = await new Promise(function(resolve, reject){
             get_api(`https://api.torn.com/user/${user_id}?selections=personalstats`, api_key)
             .then(data => {
@@ -368,6 +369,7 @@ async function displayProfileStats(){
             });
         });
         local_storage.change({"cache": {"profile_stats": {[user_id]: result}}});
+        loadingPlaceholder(profile_stats, false);
     }
 
     console.log("result", result);
@@ -376,8 +378,6 @@ async function displayProfileStats(){
     if(result.error){
         let error_div = doc.new({type: "div", class: "tt-error-message", text: result.error});
         profile_stats.appendChild(error_div);
-    } else {
-
     }
 
     let table = doc.new({type: "div", class: `tt-stats-table ${mobile?'tt-mobile':""}`});

@@ -170,6 +170,11 @@
     background-color: #c1c1c1;
 }
 
+.profile-stats .tt-loading-placeholder {
+    left: 0 !important;
+    margin-left: 350px !important;
+}
+
 /* Spy */
 .spy-heading {
     font-weight: 600;

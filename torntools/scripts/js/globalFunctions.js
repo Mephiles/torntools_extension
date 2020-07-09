@@ -1775,6 +1775,18 @@ function sleep(ms){
     });
 }
 
+function loadingPlaceholder(element, display){
+    if(display){
+        if(element.find(".tt-loading-placeholder")){
+            element.find(".tt-loading-placeholder").classList.add("active");
+        } else {
+            element.appendChild(doc.new({type: "img", class: "ajax-placeholder m-top10 m-bottom10 tt-loading-placeholder active", attributes: {src: "https://www.torn.com/images/v2/main/ajax-loader.gif"}}));
+        }
+    } else {
+        element.find(".tt-loading-placeholder").classList.remove("active");
+    }
+}
+
 // Pre-load database
 var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
 travel_market, oc, allies, loot_times, target_list, vault, personalized, 

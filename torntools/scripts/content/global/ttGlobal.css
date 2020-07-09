@@ -109,7 +109,6 @@
     z-index: 999999999;
 }
 
-
 .tt-torn-button {
     cursor: pointer;
     background: linear-gradient(180deg,#d7d7d7,#bdbdbd 17%,#989898 61%,#7e7e7e 83%,#7c7c7c 87%,#7f7f7f 91%,#868686 96%,#8a8a8a);
@@ -124,6 +123,13 @@
 }
 .tt-torn-button:hover {
     background: linear-gradient(180deg,#fff,#cbcbcb 61%,#b0b0b0 83%,#acacac 91%,#b0b0b0 96%,#b1b1b1)
+}
+
+.tt-loading-placeholder {
+    display: none;
+}
+.tt-loading-placeholder.active {
+    display: block;
 }
 /* .container_collapse {
     position: absolute;
