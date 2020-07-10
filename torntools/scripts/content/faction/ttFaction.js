@@ -1,3 +1,5 @@
+var member_info_added = false;
+
 window.addEventListener("load", async function(){
     console.log("TT - Faction");
 
@@ -509,7 +511,7 @@ function showUserInfo(){
         for(let user of doc.findAll("#faction-info .member-list.info-members>li")){
             let user_id = user.find("a.user.name").getAttribute("data-placeholder")? user.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : user.find("a.user.name").getAttribute("href").split("XID=")[1];
             
-            let li = doc.new({type: "li", class: "tt-user-info"});
+            let li = doc.new({type: "li", class: "tt-user-info", attributes: {"last-action": ((new Date() - result.members[user_id].last_action.timestamp*1000)/1000).toFixed(0)}});
             let inner_wrap = doc.new({type: "div", class: "tt-user-info-inner-wrap"});
             let texts = [
                 `Last action: ${result.members[user_id].last_action.relative}`
@@ -547,6 +549,7 @@ function showUserInfo(){
                 }
             }
         }
+        member_info_added = true;
     });
 }
 
@@ -746,6 +749,11 @@ function addFilterToTable(list, title){
                 <div id="tt-level-filter" class="filter-slider"></div>
                 <div class="filter-slider-info"></div>
             </div>
+            <div class="filter-wrap ${settings.pages.faction.member_info? '':'filter-hidden'}" id="last-action-filter">
+                <div class="filter-heading">Last Action</div>
+                <div id="tt-last-action-filter" class="filter-slider"></div>
+                <div class="filter-slider-info"></div>
+            </div>
         </div>
     `
     filter_container.innerHTML = filter_html;
@@ -755,6 +763,8 @@ function addFilterToTable(list, title){
     // let time_end = filters.faction.time[1] || 99999;
     let level_start = filters.faction.level[0] || 0;
     let level_end = filters.faction.level[1] || 100;
+    let last_action_start = settings.pages.faction.member_info? filters.faction.last_action[0]/60/60 || 0 : 0;
+    // let last_action_end = filters.faction.last_action[1] || 744;
 
     // for(let faction of filters.preset_data.factions.data){
     //     let option = doc.new({type: "option", value: faction, text: faction});
@@ -799,6 +809,24 @@ function addFilterToTable(list, title){
     level_slider.noUiSlider.on('update', function (values) {
         values = values.map(x => parseInt(x));
         level_slider_info.innerHTML = `Level: ${values.join(' - ')}`;
+    });
+
+    // Last Action slider
+    let last_action_slider = filter_container.find('#tt-last-action-filter');
+    noUiSlider.create(last_action_slider, {
+        start: last_action_start,
+        step: 1,
+        connect: true,
+        range: {
+            'min': 0,
+            'max': 744
+        }
+    });
+
+    let last_action_slider_info = last_action_slider.nextElementSibling;
+    last_action_slider.noUiSlider.on('update', function (values) {
+        values = values.map(x => (time_until(parseFloat(x)*60*60*1000, {max_unit: "h", hide_nulls: true})));
+        last_action_slider_info.innerHTML = `Min Hours: ${values.join(' - ')}`;
     });
 
     // Event listeners
@@ -846,7 +874,11 @@ function addFilterToTable(list, title){
     // }
 
     // populateFactions();
-    applyFilters();
+    if(settings.pages.faction.member_info){
+        memberInfoAdded().then(applyFilters);
+    } else {
+        applyFilters();
+    }
     
     function applyFilters(){
         let active_dict = {
@@ -860,6 +892,7 @@ function addFilterToTable(list, title){
         // let faction = ``;
         // let time = [];
         let level = [];
+        let last_action = [];
 
         // Activity
         for(let checkbox of doc.findAll("#activity-filter .tt-checkbox-wrap input:checked")){
@@ -877,6 +910,9 @@ function addFilterToTable(list, title){
         // Level
         level.push(parseInt(doc.find("#level-filter .noUi-handle-lower").getAttribute("aria-valuenow")));
         level.push(parseInt(doc.find("#level-filter .noUi-handle-upper").getAttribute("aria-valuenow")));
+        // Last Action
+        last_action.push(parseInt(doc.find("#last-action-filter .noUi-handle-lower").getAttribute("aria-valuenow"))*60*60);  // convert to seconds
+        // last_action.push(parseInt(doc.find("#last-action-filter .noUi-handle-upper").getAttribute("aria-valuenow"))*60*60);  // convert to seconds
 
         // console.log("Activity", activity);
         // console.log("Faction", faction);
@@ -903,6 +939,16 @@ function addFilterToTable(list, title){
             //     li.classList.add("filter-hidden");
             //     continue;
             // }
+
+            // Last Action
+            let player_last_action = "N/A";
+            if(li.nextElementSibling && li.nextElementSibling.classList && li.nextElementSibling.classList.contains("tt-user-info") && li.nextElementSibling.getAttribute("last-action")){
+                player_last_action = parseInt(li.nextElementSibling.getAttribute("last-action"));
+            }
+            if(player_last_action != "N/A" && !(last_action[0] <= player_last_action)){
+                li.classList.add("filter-hidden");
+                continue;
+            }
 
             // Activity
             let matches_one_activity = activity.length != 0? false:true;
@@ -940,7 +986,8 @@ function addFilterToTable(list, title){
             // faction: faction,
             // time: time,
             status: status,
-            level: level
+            level: level,
+            last_action: last_action
         }}});
 
         updateStatistics();
@@ -1059,6 +1106,17 @@ function armoryItemsLoaded(){
     return new Promise(function(resolve, reject){
         let checker = setInterval(function(){
             if(doc.find("#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list>li:not(.ajax-placeholder)")){
+                resolve(true);
+                return clearInterval(checker);
+            }
+        });
+    });
+}
+
+function memberInfoAdded(){
+    return new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            if(member_info_added){
                 resolve(true);
                 return clearInterval(checker);
             }

@@ -4,6 +4,8 @@ function displayAchievements(achievements, show_completed){
     if(mobile){
         let cont = doc.new({type: "div"});
         let hidden_heading = doc.new({type: "div", class: "tt-title", attributes: {style: "display: none;"}});
+        let options = doc.new({type: "div", class: "tt-options"});
+        hidden_heading.appendChild(options);
         cont.appendChild(hidden_heading);
         body.appendChild(cont);
 

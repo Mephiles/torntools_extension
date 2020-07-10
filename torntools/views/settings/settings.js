@@ -38,7 +38,7 @@ window.addEventListener("load", function(){
         setupValueChanger();
 
         // Fill in API key
-        doc.find("#api_field").value = api_key.slice(0, api_key.length-8) + "********";
+        doc.find("#api_field").value = api_key;
 
         // Set new version text
         if(new_version.available){
@@ -794,8 +794,15 @@ function resetApiKey(){
         message("API key changed.", true);
         doc.find("#api_field").value = "";
 
-        Main_15_minutes(); // 1 request
-        setTimeout(Main_1_day, 5*seconds); // 2 requests
+        setTimeout(function(){
+            if(!torndata.date || new Date() - new Date(torndata.date) > 24*60*60*1000){
+                chrome.runtime.sendMessage({action: "update_itemlist"}, function(response){
+                    console.log(response.message);
+    
+                    message(response.message, true);
+                });
+            }
+        }, 2000);
     });
 }
 
@@ -934,132 +941,4 @@ function addHighlightToList(event){
     // Clear input
     event.target.previousElementSibling.value = "#7ca900";
     event.target.previousElementSibling.previousElementSibling.value = "";
-}
-
-function Main_15_minutes(){
-	local_storage.get("api_key", async function(api_key){
-		console.group("Main (stocks)");
-
-		if(api_key == undefined){
-			console.log("NO API KEY");
-			return;
-		}
-	
-		await new Promise(function(resolve, reject){
-			get_api("https://api.torn.com/torn/?selections=stocks", api_key).then((stocks) => {
-				if(!stocks.ok) return resolve(false);
-		
-				stocks = {...stocks.result.stocks};
-
-				let new_date = (new Date()).toString();
-				stocks.date = new_date;
-		
-				local_storage.change({"torndata": {"stocks": stocks}}, function(){
-					console.log("Stocks info updated.");
-					return resolve(true);
-				});
-			});
-		});
-	
-		console.groupEnd("Main (stocks)");
-	});
-}
-
-async function Main_1_day(){
-	local_storage.get("api_key", async function(api_key){
-		console.group("Main (torndata | OC info | installed extensions)");
-
-		if(api_key == undefined){
-			console.log("NO API KEY");
-			return;
-		}
-
-		// torndata
-		console.log("Setting up torndata.")
-		await new Promise(function(resolve, reject){
-			get_api("https://api.torn.com/torn/?selections=honors,medals,items,pawnshop", api_key).then((torndata) => {
-				if(!torndata.ok) return resolve(false);
-		
-				torndata = torndata.result;
-				let itemlist = {items: {...torndata.items}, date: (new Date).toString()};
-				delete torndata.items;
-
-				let new_date = (new Date()).toString();
-				torndata.date = new_date;
-		
-				local_storage.get("torndata", function(old_torndata){
-					torndata.stocks = old_torndata.stocks;
-					
-					local_storage.set({"torndata": torndata, "itemlist": itemlist}, function(){
-						console.log("	Torndata info updated.");
-						console.log("	Itemlist info updated.");
-						return resolve(true);
-					});
-				});
-			});
-		});
-
-		// faction data
-		console.log("Setting up faction data.");
-        await new Promise(function(resolve, reject){
-            get_api("https://api.torn.com/faction/?selections=crimes", api_key).then((factiondata) => {
-                if(!factiondata.ok) return resolve(false);
-
-                factiondata = factiondata.result;
-
-                let new_date = (new Date()).toString();
-                factiondata.crimes.date = new_date;
-
-                local_storage.set({"oc": factiondata.crimes}, function(){
-                    console.log("	Faction data set.");
-                    return resolve(true);
-                });
-            });
-        });
-
-		// Doctorn
-		console.log("Checking for installed extensions.");
-		await (function(){
-			return new Promise(function(resolve, reject){
-				local_storage.get("extensions", async function(extensions){
-					if(typeof extensions.doctorn == "string" && extensions.doctorn.indexOf("force") > -1){
-						return;
-					}
-
-					if(usingChrome()){
-						let doctorn_installed = await detectExtension("doctorn");
-						console.log("	Doctorn installed:", doctorn_installed);
-						
-						local_storage.change({"extensions": {"doctorn": doctorn_installed}}, function(){
-							return resolve(true);
-						});
-					} else {
-						console.log("	Using Firefox.");
-					}
-				});
-			});
-		})();
-
-		console.groupEnd("Main (torndata | OC info | installed extensions)");
-	});
-}
-
-async function detectExtension(ext){
-	let ids = {
-		"doctorn": {
-			"chrome": 'chrome-extension://kfdghhdnlfeencnfpbpddbceglaamobk/resources/images/icon_16.png'
-		}
-	}
-
-	return new Promise(function(resolve, reject){
-		var img;
-		img = new Image();
-		img.src = ids[ext].chrome;
-		img.onload = function() {
-			return resolve(true);
-		};
-		img.onerror = function() {
-			return resolve(false);
-		};
-	});
 }

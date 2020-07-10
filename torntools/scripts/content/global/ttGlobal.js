@@ -1,7 +1,9 @@
 DBloaded().then(function(){
     console.log("Loading Global Script");
     
-    navbarLoaded().then(function(){
+    navbarLoaded().then(async function(){
+        let _flying = await flying();
+
         // Firefox opens new tab when dropping item
         doc.body.ondrop = function(event){
             event.preventDefault();
@@ -39,6 +41,12 @@ DBloaded().then(function(){
         // Add TT Black overlay
         let overlay = doc.new({type: "div", class: "tt-black-overlay"});
         doc.find("body").appendChild(overlay);
+
+        // Content margin
+        if(mobile && !_flying && custom_links.length > 0){
+            console.log("here")
+            doc.find("div[role='main']").classList.add("tt-modified");
+        }
     });
     
     chatsLoaded().then(function(){

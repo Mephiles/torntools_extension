@@ -147,6 +147,8 @@ function showProgress(){
 
     console.log("Estimated stat", stat);
     console.log("Estimated goal", goal);
+
+    if(!stat || !goal) return;
     doc.find("#ttEnergyEstimate").innerText = `Estimated Energy progress: ${numberWithCommas(stat, false)}E/${numberWithCommas(goal, false)}E`;
 }
 

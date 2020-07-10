@@ -2,7 +2,7 @@ console.log("Loading Global Functions");
 
 chrome = chrome || browser;
 var only_wants_functions = false;
-var only_wants_database = false;
+var app_initialized = true;
 const doc = document;
 var DB;
 var mobile = false;
@@ -353,7 +353,8 @@ const STORAGE = {
         "faction": {
             "activity": [],
             "level": [],
-            "status": []
+            "status": [],
+            "last_action": []
         },
         "user_list": {
             "activity": [],
@@ -1449,14 +1450,6 @@ function findParent(element, attributes={}){
 }
 
 function notifyUser(title, message, url){
-    // chrome.notifications.create(url, {
-    //     type: 'basic', 
-    //     iconUrl: 'images/icon128.png', 
-    //     title: title, 
-    //     message: message
-    // }, function(){
-    //     console.log("Notified!");
-    // });
     let notification = new Notification(title, {
         icon: 'images/icon128.png',
         body: message
@@ -1469,8 +1462,11 @@ function notifyUser(title, message, url){
     local_storage.get("settings", function(settings){
         if(settings.notifications_tts){
             console.log("READING TTS");
-            chrome.tts.speak(title);
-            chrome.tts.speak(message, {"enqueue": true});
+            // chrome.tts.speak(title);
+            // chrome.tts.speak(message, {"enqueue": true});
+
+            window.speechSynthesis.speak(new SpeechSynthesisUtterance(title));
+            window.speechSynthesis.speak(new SpeechSynthesisUtterance(message));
         }
     });
 }
@@ -1771,8 +1767,20 @@ function sleep(ms){
             } else {
                 ms--;
             }
-        }, 0.01);
+        }, 0.00001);
     });
+}
+
+function loadingPlaceholder(element, display){
+    if(display){
+        if(element.find(".tt-loading-placeholder")){
+            element.find(".tt-loading-placeholder").classList.add("active");
+        } else {
+            element.appendChild(doc.new({type: "img", class: "ajax-placeholder m-top10 m-bottom10 tt-loading-placeholder active", attributes: {src: "https://www.torn.com/images/v2/main/ajax-loader.gif"}}));
+        }
+    } else {
+        element.find(".tt-loading-placeholder").classList.remove("active");
+    }
 }
 
 // Pre-load database
@@ -1782,13 +1790,12 @@ mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
 quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
 
 (async function(){
-    await sleep(1);
-    if(only_wants_functions){
-        console.log("Skipping Global Functions DB build.")
-        return;
-    }
-
     local_storage.get(null, async function(db){
+        if(only_wants_functions){
+            console.log("Skipping Global Functions DB build.")
+            return;
+        }
+
         DB = db;
 
         userdata = DB.userdata;
@@ -1819,8 +1826,9 @@ quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
         cache = DB.cache;
         watchlist = DB.watchlist;
 
-        if(only_wants_database){
-            console.log("Skipping Global Page Modification.")
+        if(api_key == undefined || api_key == ""){
+            app_initialized = false;
+            console.log("App has not been initialized");
             return;
         }
 
@@ -1856,11 +1864,6 @@ quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
         // Mobile
         mobile = await mobileChecker();
         console.log("Using mobile:", mobile);
-        console.log(await flying())
-        if(mobile && !(await flying())){
-            document.documentElement.style.setProperty("--torntools-mobile-torn-content-margin", custom_links.length > 0? "150px":"120px");
-        }
-
         console.log("DB LOADED");
         db_loaded = true;
     });
