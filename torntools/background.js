@@ -2,6 +2,7 @@ console.log("START - Background Script");
 import personalized from "../personalized.js";
 
 only_wants_database = true;
+needs_to_wait_for_database = true;
 let [seconds, minutes, hours, days] = [1000, 60*1000, 60*60*1000, 24*60*60*1000];
 
 var notifications = {
@@ -154,27 +155,18 @@ setup_storage.then(async function(success){
 		console.log("	Empty file.");
 	}
 
-	// Second - run every 1 min
-	console.log("Setting up intervals.");
+	if(api_key){
+		console.log("Setting up intervals.");
+		setInterval(Main_5_seconds, 5*seconds);  // 5 seconds
+		setInterval(Main_15_seconds, 15*seconds);  // 15 seconds
+		setInterval(Main_1_minute, 1*minutes);  // 1 minute
+		setInterval(Main_15_minutes, 15*minutes);  // 15 minutes
 
-	setInterval(Main_5_seconds, 5*seconds);  // 5 seconds
-	setInterval(Main_15_seconds, 15*seconds);  // 15 seconds
-	setInterval(Main_1_minute, 1*minutes);  // 1 minute
-	setInterval(Main_15_minutes, 15*minutes);  // 15 minutes
-
-	// Safety delay
-	setTimeout(function(){
-		setInterval(Main_1_day, 1*days);  // 1 day
-	}, 23*seconds);
-
-	// Initial info fetch
-	local_storage.get("api_key", function(api_key){
-		if(api_key == undefined) return;
-
-		Main_15_minutes(); // 1 request
-		Main_1_minute(); // 2 requests (YATA)
-		setTimeout(Main_1_day, 5*seconds); // 2 requests
-	});
+		// Safety delay
+		setTimeout(function(){
+			setInterval(Main_1_day, 1*days);  // 1 day
+		}, 23*seconds);
+	}
 });
 
 function Main_5_seconds(){
@@ -1224,6 +1216,41 @@ chrome.runtime.onInstalled.addListener(function(details){
 	local_storage.set({"updated": true, "new_version": {"available": false}}, function(){
 		console.log("Extension updated:", chrome.runtime.getManifest().version);
 	});
+});
+
+// Messaging
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
+	console.log(sender.tab ? "from a content script:"+sender.tab.url : "from the extension");
+
+	switch(request.action){
+		case "initialize":
+			console.log("Initializing app.")
+
+			console.log("Setting up intervals.");
+			setInterval(Main_5_seconds, 5*seconds);  // 5 seconds
+			setInterval(Main_15_seconds, 15*seconds);  // 15 seconds
+			setInterval(Main_1_minute, 1*minutes);  // 1 minute
+			setInterval(Main_15_minutes, 15*minutes);  // 15 minutes
+
+			// Safety delay
+			setTimeout(function(){
+				setInterval(Main_1_day, 1*days);  // 1 day
+			}, 23*seconds);
+
+			console.log("Fetching initial info.");
+			Main_15_minutes();
+			setTimeout(Main_1_day, 500);
+
+			sendResponse({success: true, message: "TornTools app has been intialized."});
+			break;
+		case "update_itemlist":
+			console.log("Updating Itemlist - API key changed");
+			Main_1_day();
+			sendResponse({success: true, message: "Itemlist updated."});
+		default:
+			sendResponse({success: false, message: "Unknown command."});
+			break;
+	}
 });
 
 // Update available

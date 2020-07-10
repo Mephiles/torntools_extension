@@ -3,6 +3,8 @@ console.log("Loading Global Functions");
 chrome = chrome || browser;
 var only_wants_functions = false;
 var only_wants_database = false;
+var needs_to_wait_for_database = false;
+var app_initialized = true;
 const doc = document;
 var DB;
 var mobile = false;
@@ -1794,10 +1796,14 @@ mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
 quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
 
 (async function(){
-    await sleep(1);
+    await sleep(3);
     if(only_wants_functions){
         console.log("Skipping Global Functions DB build.")
         return;
+    }
+
+    if(needs_to_wait_for_database){
+        await sleep(50);
     }
 
     local_storage.get(null, async function(db){
@@ -1833,6 +1839,12 @@ quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
 
         if(only_wants_database){
             console.log("Skipping Global Page Modification.")
+            return;
+        }
+
+        if(api_key == undefined || api_key == ""){
+            app_initialized = false;
+            console.log("App has not been initialized");
             return;
         }
 
