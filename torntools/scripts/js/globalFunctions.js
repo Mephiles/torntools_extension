@@ -1868,11 +1868,6 @@ quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
         // Mobile
         mobile = await mobileChecker();
         console.log("Using mobile:", mobile);
-        console.log(await flying())
-        if(mobile && !(await flying())){
-            document.documentElement.style.setProperty("--torntools-mobile-torn-content-margin", custom_links.length > 0? "150px":"120px");
-        }
-
         console.log("DB LOADED");
         db_loaded = true;
     });
