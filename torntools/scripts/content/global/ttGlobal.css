@@ -245,8 +245,8 @@
 }
 
 /* mobile */
-div[role="main"] {
-    margin-top: var(--torntools-mobile-torn-content-margin) !important;
+div[role='main'].tt-modified {
+    margin-top: 150px !important;
 }
 
 /* Clean Flight */
