@@ -349,7 +349,9 @@ function addRow(item, time, cost, travel_items) {
     `
 <div class="row">
     <div country='${item.country_name.toLowerCase()}'><div class="flag" style="background: ${background_style}"></div>${item.country_name}</div>
-    <div item='${item_type}'>${item.item_name}</div>
+    <div item='${item_type}'>
+      <a target="_blank" href="https://www.torn.com/imarket.php#/p=shop&type=${item.item_id}">${item.item_name}</a>
+    </div>
     <div>${item.abroad_quantity.toString()} <br> <span class="update-time">(${update_time})</span></div>
     <div class="advanced" value="${item.abroad_cost}">$${numberWithCommas(item.abroad_cost, item.abroad_cost>=1e6?true:false)}</div>
     <div class="advanced" value="${market_value}">$${numberWithCommas(market_value, market_value>=1e6?true:false)}</div>
