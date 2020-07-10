@@ -749,7 +749,7 @@ function addFilterToTable(list, title){
                 <div id="tt-level-filter" class="filter-slider"></div>
                 <div class="filter-slider-info"></div>
             </div>
-            <div class="filter-wrap ${settings.pages.faction.member_info? '':'filter-hidden'}" id="last-action-filter">
+            <div class="filter-wrap ${settings.pages.faction.member_info && getSearchParameters().step != "profile"? '':'filter-hidden'}" id="last-action-filter">
                 <div class="filter-heading">Last Action</div>
                 <div id="tt-last-action-filter" class="filter-slider"></div>
                 <div class="filter-slider-info"></div>
