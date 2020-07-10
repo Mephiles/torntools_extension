@@ -353,7 +353,8 @@ const STORAGE = {
         "faction": {
             "activity": [],
             "level": [],
-            "status": []
+            "status": [],
+            "last_action": []
         },
         "user_list": {
             "activity": [],
