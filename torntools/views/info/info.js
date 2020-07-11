@@ -172,14 +172,12 @@ function updateInfo(settings){
         }
 
         // Update chain timer
-        console.log("Chain timeout: ", userdata.chain.timeout);
         if(userdata.chain.timeout > 0){
             if(!previous_chain_timer || previous_chain_timer != userdata.chain.timeout){
                 previous_chain_timer = userdata.chain.timeout;
                 doc.find("#chain").style.display = "block";
     
-                let time_diff = new Date() - new Date(userdata.date);
-                let real_timeout = userdata.chain.timeout*1000 - time_diff;
+                let real_timeout = userdata.chain.timeout*1000-(new Date() - new Date(userdata.timestamp*1000));
     
                 if(real_timeout > 0){
                     doc.find(`#chain .resets-in`).style.display = "block";
