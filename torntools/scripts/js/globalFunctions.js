@@ -1456,7 +1456,7 @@ function notifyUser(title, message, url){
     });
     
     notification.onclick = function(){
-        window.open(url);
+        chrome.tabs.create({url: url});
     }
 
     local_storage.get("settings", function(settings){
