@@ -188,6 +188,7 @@ window.addEventListener("load", function(){
 
 		// setup torn stocks
 		for(let id in torn_stocks){
+			if(id == "date") continue;
 			let parent = doc.find("#all-stocks");
 			let stock = torn_stocks[id];
 			let name = stock.name;
