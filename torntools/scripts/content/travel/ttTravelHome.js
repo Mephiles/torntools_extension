@@ -394,6 +394,7 @@ function addRow(item, time, cost, travel_items) {
 }
 
 function filterTable(){
+    let country_display = false;
     let types = {}
     for(let el of doc.findAll("#ttTravelTable .legend-content .radio-item input:checked")){
         types[el.getAttribute("name")] = el.getAttribute("_type").split(",");
@@ -410,6 +411,24 @@ function filterTable(){
         for(let type in types){
             if(types[type][0] == "all"){
                 continue;
+            }
+
+            // Switch destination on map
+            if(type == "country" && !country_display){
+                // // hide current
+                // for(let path of doc.findAll(`div[role='tabpanel'][aria-expanded='true'] .path`)){
+                //     path.style.display = "none";
+                // }
+                // // show new
+                let name = types[type][0].replace(/ /g, "-");
+                if(types[type][0] == "cayman islands") name = "cayman";
+                if(types[type][0] == "united kingdom") name = "uk";
+                // console.log(doc.find(`div[role='tabpanel'][aria-expanded='true'] .path.to-${name}`))
+                doc.find(`div[role='tabpanel'][aria-expanded='true'] .path.to-${name}`).previousElementSibling.click();
+                country_display = true;
+
+                // doc.find(`div[role='tabpanel'][aria-expanded='true'] .path.to-${name}`).style.display = "block";
+
             }
 
             let is_in_list = false;
