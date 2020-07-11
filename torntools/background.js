@@ -250,7 +250,7 @@ function Main_15_seconds(){
 		console.log("Setting up userdata.");
 		await (function(){
 			return new Promise(function(resolve, reject){
-				let selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,education${attack_history? `,${attack_history}`:''}`;
+				let selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,timestamp,inventory,education${attack_history? `,${attack_history}`:''}`;
 				// console.log("---------selections", selections);
 
 				local_storage.get(["settings", "userdata"], function([settings, previous_userdata]){

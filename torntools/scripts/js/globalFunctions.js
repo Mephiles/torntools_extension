@@ -1755,6 +1755,21 @@ function loadingPlaceholder(element, display){
     }
 }
 
+function findItemsInList(list, attr={}){
+    let arr = []
+    if(!list || Object.keys(attr).length == 0) return arr;
+
+    for(let item of list){
+        let fits_all = true;
+        for(let attribute in attr){
+            if(item[attribute] != attr[attribute]) fits_all = false;
+        }
+
+        if(fits_all) arr.push(item);
+    }
+    return arr;
+}
+
 // Pre-load database
 var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
 travel_market, oc, allies, loot_times, target_list, vault, personalized, 
