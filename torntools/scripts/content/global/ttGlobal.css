@@ -303,6 +303,13 @@ div[role='main'].tt-modified {
     width: 40%;
     margin: auto;
 }
+.filter-multi-wrap.tt-mobile {
+    width: 80%;
+    display: flex;
+}
+.filter-multi-wrap.tt-mobile>* {
+    flex: 1 0 auto;
+}
 
 /* Chat filter */
 .tt-chat-filter * {

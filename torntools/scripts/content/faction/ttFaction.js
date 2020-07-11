@@ -715,7 +715,7 @@ function addFilterToTable(list, title){
         <div class="filter-content ${mobile?"tt-mobile":""}">
             <div class="filter-wrap" id="activity-filter">
                 <div class="filter-heading">Activity</div>
-                <div class="filter-multi-wrap">
+                <div class="filter-multi-wrap ${mobile? 'tt-mobile':''}">
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="online">Online</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="idle">Idle</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="offline">Offline</div>
@@ -723,7 +723,7 @@ function addFilterToTable(list, title){
             </div>
             <div class="filter-wrap" id="status-filter">
                 <div class="filter-heading">Status</div>
-                <div class="filter-multi-wrap">
+                <div class="filter-multi-wrap ${mobile? 'tt-mobile':''}">
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="okay">Okay</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="hospital">Hospital</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="traveling">Traveling</div>
