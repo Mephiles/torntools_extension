@@ -28,6 +28,9 @@
 .title.tt-modified .tt-options {
     padding-right: 10px;
 }
+.tt-title.all-rounded {
+    border-radius: 5px !important;
+}
 .tt-title .tt-options>* {
     margin-left: 4px;
     margin-right: 4px;

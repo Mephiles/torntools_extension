@@ -1,7 +1,7 @@
 navbarLoaded().then(function(){
     console.log("TT - Preferences");
 
-    let settings_container = content.new_container("TornTools - Settings", {header_only: true, class: "m-top10"});
+    let settings_container = content.new_container("TornTools - Settings", {header_only: true, all_rounded: true, _class: "m-top10"});
 
     let settings_link = doc.new({type: "div", class: "in-title tt-torn-button", text: "Preferences"});
     settings_container.find(".tt-options").appendChild(settings_link);

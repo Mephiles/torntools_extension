@@ -742,7 +742,7 @@ const content = {
         }
 
         let parent_element = attr.next_element ? attr.next_element.parentElement : doc.find(".content-wrapper");
-        let new_div = createNewContainer(name, attr.id, attr.dragzone, attr.header_only, attr.class);
+        let new_div = createNewContainer(name, attr);
 
         if (attr.first)
             parent_element.insertBefore(new_div, parent_element.find(".content-title").nextElementSibling);
@@ -753,21 +753,25 @@ const content = {
 
         return new_div;
 
-        function createNewContainer(name, id, dragzone, header_only, _class) {
+        function createNewContainer(name, attr) {
             console.log(page())
             let collapsed = filters.container_open[page()];
 
             let div = doc.new({type: "div"});
-            if(id) div.id = id;
-            if(_class) div.setClass(_class);
+            if(attr.id) div.id = attr.id;
+            if(attr["_class"]) div.setClass(attr["_class"]);
 
             let div_html = `
-            <div class="top-round m-top10 tt-title ${header_only? "no-content":""} ${theme_classes[`title-${settings.theme}`]} ${collapsed == true || collapsed == undefined? 'collapsed':''}"><div class="title-text">${name}</div> <div class="tt-options"></div><i class="tt-title-icon fas fa-caret-down"></i></div>
-            <div class="cont-gray bottom-round content tt-content ${dragzone? 'tt-dragzone':''}"></div>
+            <div class="top-round m-top10 tt-title ${attr.all_rounded? 'all-rounded':''} ${attr.header_only? "no-content":""} ${theme_classes[`title-${settings.theme}`]} ${collapsed == true || collapsed == undefined? 'collapsed':''}">
+                <div class="title-text">${name}</div>
+                <div class="tt-options"></div>
+                <i class="tt-title-icon fas fa-caret-down"></i>
+            </div>
+            <div class="cont-gray bottom-round content tt-content ${attr.dragzone? 'tt-dragzone':''}"></div>
             `;
             div.innerHTML = div_html;
 
-            if(dragzone){
+            if(attr){
                 let content = div.find(".content");
                 content.addEventListener("dragover", onDragOver);
                 content.addEventListener("drop", function(event){
@@ -777,7 +781,7 @@ const content = {
                 content.addEventListener("dragleave", onDragLeave);
             }
 
-            if(!header_only){
+            if(!attr.header_only){
                 div.find(".tt-title").onclick = function(){
                     div.find(".tt-title").classList.toggle("collapsed");
                     let collapsed = div.find(".tt-title").classList.contains("collapsed")? true:false;
