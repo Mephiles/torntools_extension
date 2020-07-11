@@ -15,15 +15,22 @@ export default {
             "Added option to disable 'find' feature in chat",
             "Removed duplicates from Profile Stats",
             "Fixed Market Tab searching - Thanks DKK",
-            "Fixed OC Recommended NNB display when Doctorn is enabled - Thanks DKK"
+            "Fixed OC Recommended NNB display when Doctorn is enabled - Thanks DKK",
+            "Fixed Gym Estimated Energy script when unlocking the last gym",
+            "Fixed Mobile content overflow",
+            "Fixed search bug in Stocks popup",
+            "Fixed Firefox notification links not working"
         ],
         "Changes": [
             "Disabled Profile Stats for your own profile",
             "Improved TornTools containers' design",
             "Containers now remember their last position",
             "Added alternative way of adding Quick Crimes & Items in case dragging fails to work",
-            "Made Navigation Bar TornTools sections collapsibe",
-            "Added EDIT button to add/remove Profile Stats to eliminate accidental moving"
+            "Made Navigation Bar TornTools sections collapsible",
+            "Added EDIT button to add/remove Profile Stats to eliminate accidental moving",
+            "Removed Text-To-Speech from permissions (still usable)",
+            "Improved Travel Destinations table. Clicking on Country filters affects the map and vice-versa",
+            "Added link to TornTools preferences to Torn's Settings page"
         ],
         "API SYSTEM CHANGES": [
             "Networth info is only fetched when visiting Home page with a cache time of 5 minutes",
