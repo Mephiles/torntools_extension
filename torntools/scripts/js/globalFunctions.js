@@ -555,38 +555,6 @@ Document.prototype.new = function (new_element) {
     } else if(typeof new_element == "object"){
         let el = this.createElement(new_element.type);
 
-        // if(new_element.children){
-        //     (function fillChildren(parent_el, children){
-        //         console.log("PARENT", parent_el);
-        //         console.log("CHILDREN", children);
-        //         for(let child of children){
-        //             let child_el = document.createElement(child.type);
-
-        //             if(child.children){
-        //                 fillChildren(child_el, child.children);
-        //             }
-                    
-        //             if(child.id){
-        //                 child_el.id = child.id;
-        //             }
-        //             if(child.class){
-        //                 child_el.setAttribute("class", child.class);
-        //             }
-        //             if(child.text){
-        //                 child_el.innerText = child.text;
-        //             }
-        //             if(child.value){
-        //                 child_el.value = child.value;
-        //             }
-            
-        //             for(let attr in child.attributes){
-        //                 child_el.setAttribute(attr, child.attributes[attr]);
-        //             }
-        //             parent_el.appendChild(child_el);
-        //         }
-        //     })(el, new_element.children);
-        // }
-
         if(new_element.id){
             el.id = new_element.id;
         }

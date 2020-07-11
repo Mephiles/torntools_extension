@@ -425,6 +425,18 @@
 				"scripts/content/company/ttCompany.js"
 			],
 			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/preferences.php*"
+			],
+			"css": [
+				"scripts/content/preferences/ttPreferences.css"
+			],
+			"js": [
+				"scripts/content/preferences/ttPreferences.js"
+			],
+			"run_at": "document_end"
 		}
 	]
 }

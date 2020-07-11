@@ -124,6 +124,11 @@
 .tt-torn-button:hover {
     background: linear-gradient(180deg,#fff,#cbcbcb 61%,#b0b0b0 83%,#acacac 91%,#b0b0b0 96%,#b1b1b1)
 }
+.tt-torn-button.in-title {
+    height: 16px;
+    line-height: 16px;
+    margin-top: 4px;
+}
 
 .tt-loading-placeholder {
     display: none;
