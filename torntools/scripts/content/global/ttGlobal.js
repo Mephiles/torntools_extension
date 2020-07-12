@@ -244,6 +244,8 @@ function addChatFilters(){
 }
 
 function displayVaultBalance(){
+    if (!networth || !networth.current || !networth.current.value) return;
+
     let elementHTML = `
     <span class="name___297H-">Vault:</span>
     <span class="value___1K0oi money-positive___3pqLW" style="position:relative;left:-3px;">$${numberWithCommas(networth.current.value.vault, false)}</span>
