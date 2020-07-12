@@ -1,8 +1,6 @@
 DBloaded().then(function(){
     $(document).ready(function(){
-        if((extensions.doctorn == true || extensions.doctorn == "force_true") && !settings.force_tt){
-            return;
-        }
+        if (shouldDisable()) return;
     
         let script_tag = doc.new({type: "script", attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/crimes/ttCrimeInject.js")}});
         doc.find("head").appendChild(script_tag);
@@ -10,11 +8,8 @@ DBloaded().then(function(){
     
     messageBoxLoaded().then(function(){
         console.log("TT - Quick crimes");
-        
-        if((extensions.doctorn == true || extensions.doctorn == "force_true") && !settings.force_tt){
-            return;
-        }
-    
+        if (shouldDisable()) return;
+
         // Quick crimes
         quickCrimesMain(quick);
     

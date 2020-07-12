@@ -8,10 +8,10 @@ mapLoaded().then(function(){
 	let items_container = content.new_container("City Items", {first:true, id: "tt-city-items", theme: settings.theme});
 	
 	if(settings.pages.city.items_value){
-		showValueOfItems(items_container, itemlist, extensions.doctorn);
+		showValueOfItems(items_container, itemlist);
 	}
 	
-	if(settings.pages.city.items && (settings.force_tt || extensions.doctorn == false || extensions.doctorn == "force_false")){
+	if(settings.pages.city.items && !shouldDisable()){
 		displayItems(items_container, itemlist);
 		
 		if(!settings.pages.city.closed_highlight){
@@ -91,7 +91,7 @@ function displayItems(container, itemlist){
 	content.appendChild(items_span);
 }
 
-function showValueOfItems(container, itemlist, doctorn){
+function showValueOfItems(container, itemlist){
 	let content = container.find(".content");
 	let items = getItemIDsOnMap();
 
@@ -107,7 +107,7 @@ function showValueOfItems(container, itemlist, doctorn){
 	let value_span = doc.new("span");
 		value_span.innerText = `$${numberWithCommas(total_value, shorten=false)}`
 
-	if(doctorn == true || doctorn == "force_true"){
+	if(extensions.doctorn){
 		new_div.style.borderTop = "none";
 		new_div.style.marginTop = "0";
 		new_div.style.paddingBottom = "5px";
@@ -127,7 +127,7 @@ function getItemIDsOnMap(){
 			let id = src.split("items/")[1].split("/")[0];
 			items.push(id);
 			el.setAttribute("item-id", id);
-			if(settings.pages.city.closed_highlight && (settings.force_tt || extensions.doctorn == false || extensions.doctorn == "force_false")){
+			if(settings.pages.city.closed_highlight && !shouldDisable()){
 				el.classList.add("cityItem");
 			}
 		}
