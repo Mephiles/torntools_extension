@@ -372,6 +372,19 @@
 				<button id="change_api_key">Change</button>
 				<div class="note red">It will take max. 1 minute to fetch new data</div>
 			</div>
+			<div id="api-statistics">
+				<h4>API statistics</h4>
+				<div>
+					<div>Average calls/minute: <span id="average_calls_per_minute"></span></div>
+					<div>Average calls/hour: <span id="average_calls_per_hour"></span></div>
+					<span class="note">All stats based on last 24 hours</span>
+				</div>
+				<div class="graph-wrap">
+					<div class="graph">
+						<canvas id="torn-api-graph" width="300" height="150"></canvas>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -412,6 +425,7 @@
 	</div>
 
 	<!-- <script src="../changelog.js"></script> -->
+	<script src="../../scripts/js/Chart.min.js"></script>
 	<script src="../../scripts/js/globalFunctions.js"></script>
 	<script type="module" src="./settings.js"></script>
 </body>

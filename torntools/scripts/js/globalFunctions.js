@@ -260,6 +260,11 @@ const STORAGE = {
     },
     "extensions": {},
     "new_version": {},
+    "api_history": {
+        "torn": [],
+        "yata": [],
+        "tornstats": []
+    },
 
     // userdata
     "itemlist": {},
@@ -1013,6 +1018,28 @@ function capitalize(text, every_word = false) {
 
 function get_api(http, api_key) {
     return new Promise(async function(resolve, reject){
+        local_storage.get("api_history", function(api_history){
+            let selections = http.split("selections=")[1].split(",");
+            let section = http.split("torn.com/")[1].split("/")[0];
+            let user_id = http.split("?")[0].split("/")[http.split("?")[0].split("/").length-1];
+            let name = "other";
+
+            if(selections.includes("personalstats")){
+                name = user_id == ""? "userdata" : "profile_stats";
+            } else if(selections.length == 0 && section == "user"){
+                name = "stakeouts";
+            }
+
+            api_history.torn.push({
+                date: new Date().toString(),
+                selections: selections,
+                section: section,
+                user_id: user_id,
+                name: name
+            });
+            local_storage.set({"api_history": api_history});
+        });
+
         try {
             const response = await fetch(http + "&key=" + api_key);
             const result = await response.json();
@@ -1774,7 +1801,7 @@ function findItemsInList(list, attr={}){
 var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
 travel_market, oc, allies, loot_times, target_list, vault, personalized, 
 mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
-quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
+quick, notes, stakeouts, updated, networth, filters, cache, watchlist, api_history;
 
 (async function(){
     local_storage.get(null, async function(db){
@@ -1812,6 +1839,7 @@ quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
         filters = DB.filters;
         cache = DB.cache;
         watchlist = DB.watchlist;
+        api_history = DB.api_history;
 
         if(api_key == undefined || api_key == ""){
             app_initialized = false;

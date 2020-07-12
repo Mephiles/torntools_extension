@@ -39,6 +39,7 @@ window.addEventListener("load", function(){
 
         // Fill in API key
         doc.find("#api_field").value = api_key;
+        setupApiStatistics();
 
         // Set new version text
         if(new_version.available){
@@ -941,4 +942,155 @@ function addHighlightToList(event){
     // Clear input
     event.target.previousElementSibling.value = "#7ca900";
     event.target.previousElementSibling.previousElementSibling.value = "";
+}
+
+function setupApiStatistics(){
+    console.log("api history", api_history);
+
+    let time_limit = 5*60*1000;  // (ms) 5 minutes
+    let chartColors = {
+        "red": "rgb(255, 99, 132)",
+        "orange": "rgb(255, 159, 64)",
+        "yellow": "rgb(255, 205, 86)",
+        "green": "rgb(75, 192, 192)",
+        "blue": "rgb(54, 162, 235)",
+        "purple": "rgb(153, 102, 255)",
+        "grey": "rgb(201, 203, 207)"
+    }
+
+    let data = {}
+    let datasets = [
+        {
+            label: "userdata",
+            backgroundColor: Chart.helpers.color(chartColors.red).alpha(0.5).rgbString(),
+            borderWidth: 1,
+            data: []
+        },
+        {
+            label: "profile_stats",
+            backgroundColor: Chart.helpers.color(chartColors.blue).alpha(0.5).rgbString(),
+            borderWidth: 1,
+            data: []
+        },
+        {
+            label: "stakeouts",
+            backgroundColor: Chart.helpers.color(chartColors.purple).alpha(0.5).rgbString(),
+            borderWidth: 1,
+            data: []
+        },
+        {
+            label: "other",
+            backgroundColor: Chart.helpers.color(chartColors.grey).alpha(0.5).rgbString(),
+            borderWidth: 1,
+            data: []
+        }
+    ]
+
+    // Populate data
+    for(let fetch of api_history.torn.reverse()){
+        let fetch_date = new Date(fetch.date);
+        if(new Date() - fetch_date > time_limit) break;
+
+        let [day, month, year, hours, minutes, seconds] = dateParts(fetch_date);
+        let fetch_time = formatTime([hours, minutes], "eu");
+        
+        if(fetch_time in data){
+            data[fetch_time][fetch.name]++;
+        } else {
+            data[fetch_time] = {
+                "userdata": 0,
+                "profile_stats": 0,
+                "stakeouts": 0,
+                "other": 0
+            }
+            data[fetch_time][fetch.name]++;
+        }
+    }
+
+    // Populate datasets
+    for(let time of Object.keys(data).reverse()){
+        for(let set of datasets){
+            set.data.push(data[time][set.label]);
+        }
+    }
+    
+    console.log(data)
+    console.log(Object.keys(data).reverse())
+    console.log(datasets)
+
+    // Replace labels
+    datasets.map(x => x.label = capitalize(x.label.replace(/_/g, " ")));
+
+    let ctx = doc.find("#torn-api-graph").getContext("2d");
+    let torn_api_chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(data).reverse(),
+            datasets: datasets
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Torn API"
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        callback: function(value, index, values){
+                            if(Math.floor(value) == value){
+                                return value;
+                            }
+                        }
+                    },
+                }]
+            },
+        }
+    });
+
+    // Statistics
+    time_limit = 24*60*60*1000;
+    let stats = {}
+
+    for(let fetch of api_history.torn.reverse()){
+        let fetch_date = new Date(fetch.date);
+        if(new Date() - fetch_date > time_limit) break;
+
+        let [day, month, year, hours, minutes, seconds] = dateParts(fetch_date);
+
+        if(hours == new Date().getHours()) continue;
+        
+        let fetch_time_hours = formatTime([hours, ""], "eu");
+        let fetch_time_minutes = formatTime(["", minutes], "eu");
+
+        if(fetch_time_hours in stats){
+            if(fetch_time_minutes in stats[fetch_time_hours]){
+                stats[fetch_time_hours][fetch_time_minutes]++;
+            } else {
+                stats[fetch_time_hours][fetch_time_minutes] = 1;
+            }
+        } else {
+            stats[fetch_time_hours] = {
+                [fetch_time_minutes]: 1
+            }
+        }
+    }
+
+    console.log("stats", stats);
+    let total_minutes = 0;
+    let total_hours = 0;
+    let total_minute_requests = 0;
+    let total_hour_requests = 0;
+
+    for(let hour in stats){
+        total_hours++;
+
+        for(let minute in stats[hour]){
+            total_minutes++;
+            total_minute_requests += stats[hour][minute]
+            total_hour_requests += stats[hour][minute]
+        }
+    }
+
+    doc.find("#average_calls_per_minute").innerText = (total_minute_requests/total_minutes).toFixed(1);
+    doc.find("#average_calls_per_hour").innerText = (total_hour_requests/total_hours).toFixed(1);
 }
