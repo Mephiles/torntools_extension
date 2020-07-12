@@ -23,12 +23,12 @@ DBloaded().then(function(){
                 let div = doc.new({type: "div", class: "item", attributes: {"item-id": id}});
                 let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(/images/items/${id}/medium.png)`}});
                 let text = doc.new({type: "div", class: "text", text: itemlist.items[id].name});
-                let sub_text = doc.new({type: "div", class: "sub-text", text: findItemsInList(userdata.inventory, {ID: id})[0].quantity+"x"});
+                let quantity = doc.new({type: "div", class: "sub-text", text: findItemsInList(userdata.inventory, {ID: id})[0].quantity+"x"});
                 let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
 
                 div.appendChild(pic);
                 div.appendChild(text);
-                div.appendChild(sub_text);
+                div.appendChild(quantity);
                 div.appendChild(close_icon);
                 inner_content.appendChild(div);
 
@@ -479,12 +479,12 @@ function onDragStart(event) {
         let div = doc.new({type: "div", class: "temp item", attributes: {"item-id": id}});
         let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(/images/items/${id}/medium.png)`}});
         let text = doc.new({type: "div", class: "text", text: itemlist.items[id].name});
-        let sub_text = doc.new({type: "div", class: "sub-text", text: findItemsInList(userdata.inventory, {ID: id})[0].quantity+"x"});
+        let quantity = doc.new({type: "div", class: "sub-text", text: findItemsInList(userdata.inventory, {ID: id})[0].quantity+"x"});
         let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
     
         div.appendChild(pic);
         div.appendChild(text);
-        div.appendChild(sub_text);
+        div.appendChild(quantity);
         div.appendChild(close_icon);
         doc.find("#ttQuick .inner-content").appendChild(div);
     
