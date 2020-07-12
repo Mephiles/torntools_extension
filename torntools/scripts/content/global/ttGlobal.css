@@ -258,7 +258,7 @@ div[role='main'].tt-modified {
 }
 
 /* Clean Flight */
-.travel-agency-travelling .stage, .travel-agency-travelling .popup-info {
+.travel-agency-travelling .stage, .travel-agency-travelling .stage+hr, .travel-agency-travelling .popup-info {
     display: var(--torntools-clean-flight-display) !important;
 }
 
