@@ -917,6 +917,7 @@ function addHighlightToList(event){
 
 function setupApiStatistics(){
     console.log("api history", api_history);
+    if (!api_history) return;
 
     let time_limit = 5*60*1000;  // (ms) 5 minutes
     let chartColors = {
