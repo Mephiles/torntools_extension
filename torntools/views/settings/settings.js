@@ -957,8 +957,10 @@ function setupApiStatistics(){
         }
     ]
 
+    let torn_api_history = [...api_history.torn].reverse();
+
     // Populate data
-    for(let fetch of api_history.torn.reverse()){
+    for(let fetch of torn_api_history){
         let fetch_date = new Date(fetch.date);
         if(new Date() - fetch_date > time_limit) break;
 
@@ -978,15 +980,16 @@ function setupApiStatistics(){
         }
     }
 
+    let data_keys = [...Object.keys(data)].reverse();
     // Populate datasets
-    for(let time of Object.keys(data).reverse()){
+    for(let time of data_keys){
         for(let set of datasets){
             set.data.push(data[time][set.label]);
         }
     }
     
     console.log(data)
-    console.log(Object.keys(data).reverse())
+    console.log(data_keys)
     console.log(datasets)
 
     // Replace labels
@@ -996,7 +999,7 @@ function setupApiStatistics(){
     let torn_api_chart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: Object.keys(data).reverse(),
+            labels: data_keys,
             datasets: datasets
         },
         options: {
@@ -1022,7 +1025,7 @@ function setupApiStatistics(){
     time_limit = 24*60*60*1000;
     let stats = {}
 
-    for(let fetch of api_history.torn.reverse()){
+    for(let fetch of torn_api_history){
         let fetch_date = new Date(fetch.date);
         if(new Date() - fetch_date > time_limit) break;
 
