@@ -1,6 +1,6 @@
 console.log("Loading Global Functions");
 
-chrome = browser || chrome;
+chrome = typeof browser !== "undefined" ? browser : chrome;
 var only_wants_functions = false;
 var app_initialized = true;
 const doc = document;
