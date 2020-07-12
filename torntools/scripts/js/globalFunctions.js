@@ -1,6 +1,6 @@
 console.log("Loading Global Functions");
 
-chrome = chrome || browser;
+chrome = typeof browser !== "undefined" ? browser : chrome;
 var only_wants_functions = false;
 var app_initialized = true;
 const doc = document;
@@ -1219,6 +1219,10 @@ function usingChrome(){
     return false;
 }
 
+function usingFirefox(){
+    return navigator.userAgent.includes("Firefox");
+}
+
 function lastInList(item, list){
 	if(list[list.length-1] == item){
 		return true;
@@ -1768,6 +1772,10 @@ function findItemsInList(list, attr={}){
         if(fits_all) arr.push(item);
     }
     return arr;
+}
+
+function shouldDisable() {
+    return extensions.doctorn === true && !settings.force_tt;
 }
 
 // Pre-load database

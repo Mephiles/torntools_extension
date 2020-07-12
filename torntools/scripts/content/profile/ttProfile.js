@@ -160,9 +160,7 @@ DBloaded().then(function(){
         }
         displayCreator();
 
-        if((extensions.doctorn == true || extensions.doctorn == "force_true") && !settings.force_tt){
-            return;
-        }
+        if (shouldDisable()) return
 
         if(getUserId() == userdata.player_id) return;
 

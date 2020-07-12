@@ -89,30 +89,6 @@ setup_storage.then(async function(success){
 	if(!success){
 		return;
 	}
-
-	// Set doctorn as force_false if on firefox first time
-	console.log("Checking Doctorn settings.")
-	await (function(){
-		return new Promise(function(resolve, reject){
-			if(!usingChrome()){
-				local_storage.get("extensions", function(extensions){
-					if(extensions.doctorn == undefined){
-						local_storage.change({"extensions": {
-							"doctorn": "force_false"
-						}}, function(){
-							console.log("	Set doctorn as force_false");
-							return resolve(true);
-						});
-					} else {
-						return resolve(true);
-					}
-				});
-			} else {
-				console.log("	All good.");
-				return resolve(true);
-			}
-		});
-	})();
 	
 	// Check for personalized scripts
 	console.log("Setting up personalized scripts.");
@@ -196,6 +172,7 @@ setup_storage.then(async function(success){
 			setTimeout(function(){
 				setInterval(Main_1_day, 1*days);  // 1 day
 			}, 23*seconds);
+			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 		}
 	});
 });
@@ -628,27 +605,7 @@ async function Main_1_day(){
 		}
 
 		// Doctorn
-		console.log("Checking for installed extensions.");
-		await (function(){
-			return new Promise(function(resolve, reject){
-				local_storage.get("extensions", async function(extensions){
-					if(typeof extensions.doctorn == "string" && extensions.doctorn.indexOf("force") > -1){
-						return;
-					}
-
-					if(usingChrome()){
-						let doctorn_installed = await detectExtension("doctorn");
-						console.log("	Doctorn installed:", doctorn_installed);
-						
-						local_storage.change({"extensions": {"doctorn": doctorn_installed}}, function(){
-							return resolve(true);
-						});
-					} else {
-						console.log("	Using Firefox.");
-					}
-				});
-			});
-		})();
+		updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 
 		console.groupEnd("Main (torndata | OC info | installed extensions)");
 	});
@@ -1526,22 +1483,69 @@ async function clearCache(){
 	console.groupEnd("Clearing cache");
 }
 
-async function detectExtension(ext){
-	let ids = {
+async function detectExtension(browserName, ext){
+	const ids = {
 		"doctorn": {
-			"chrome": 'chrome-extension://kfdghhdnlfeencnfpbpddbceglaamobk/resources/images/icon_16.png'
+			"chrome": {"id": "kfdghhdnlfeencnfpbpddbceglaamobk"},
+			"firefox": {"name": "DoctorN for Torn"}
+		},
+		/* as example
+		"torntools": {
+			"firefox": {"id": "torntools@mephiles.github.com"}
 		}
+		 */
 	}
 
-	return new Promise(function(resolve, reject){
-		var img;
-		img = new Image();
-		img.src = ids[ext].chrome;
-		img.onload = function() {
-			return resolve(true);
-		};
-		img.onerror = function() {
-			return resolve(false);
-		};
-	});
+	if (!(ext in ids)) return Promise.reject(`Detection for '${ext}' is not supported!`);
+	else if (!(browserName in ids[ext])) return Promise.reject(`Detection for '${ext}' with ${browserName} is not supported!`);
+
+	const information = ids[ext][browserName];
+
+	if (information.id) {
+		return new Promise(function(resolve, reject){
+			chrome.management.get(information.id, function(result) {
+				resolve(!!result);
+			});
+		});
+	} else if (information.name) {
+		const getAll = chrome.management.getAll;
+		if (!getAll) return Promise.reject(`Detection for '${ext}' with ${browserName} is not supported!`);
+
+		return new Promise( async function(resolve, reject) {
+			const addons = await getAll();
+
+			resolve(addons && !!addons
+				.filter((addon) => addon.type === "extension")
+				.filter((addon) => addon.name === information.name)
+				.length);
+		});
+	}
+}
+
+async function updateExtensions() {
+	console.log("Checking for installed extensions.");
+
+	return new Promise(((resolve, reject) => {
+		local_storage.get("extensions", async function(extensions) {
+			let browser = false;
+			if (usingChrome()) browser = "chrome";
+			else if (usingFirefox()) browser = "firefox";
+
+			if (browser) {
+				const extensions = {
+					"doctorn": false
+				}
+
+				for (let extension in extensions) {
+					extensions[extension] = await detectExtension(browser, extension);
+				}
+
+			    local_storage.change({extensions}, function(){
+					return resolve(extensions);
+			 	});
+			} else {
+				console.log("	Using something else than Chrome or Firefox.");
+			}
+		});
+	}));
 }
