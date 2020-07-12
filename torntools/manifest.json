@@ -16,7 +16,8 @@
 		"page": "background.html"
 	},
 	"permissions": [
-		"storage",
+    "management",
+    "storage",
 		"notifications",
 		"https://yata.alwaysdata.net/*",
 		"https://www.tornstats.com/*",
