@@ -607,6 +607,9 @@ async function Main_1_day(){
 		// Doctorn
 		updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 
+		// Clear API history
+		await clearAPIhistory();
+
 		console.groupEnd("Main (torndata | OC info | installed extensions)");
 	});
 }
@@ -1548,4 +1551,30 @@ async function updateExtensions() {
 			}
 		});
 	}));
+}
+
+function clearAPIhistory(){
+	return new Promise(function(resolve, reject){
+		local_storage.get("api_history", function(api_history){
+			let time_limit = 24*60*60*1000;
+	
+			for(let type in api_history){
+				let data = [...api_history[type]].reverse();
+	
+				for(let fetch of data){
+					if(new Date() - new Date(fetch.date) > time_limit){
+						data.splice(data.indexOf(fetch), 1);
+					}
+				}
+	
+				data.reverse();
+				api_history[type] = data;
+			}
+	
+			local_storage.set({"api_history": api_history}, function(){
+				console.log("	API history cleared");
+				return resolve(true);
+			});
+		});
+	});
 }
