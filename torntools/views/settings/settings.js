@@ -19,11 +19,6 @@ window.addEventListener("load", function(){
         // setup site
         setupSite();
     
-        // Disable extension auto-checks
-        if(!usingChrome()){
-            doc.find("#extensions-doctorn-auto input").disabled = true;
-        }
-    
         // set "update" to false
         local_storage.set({"updated": false});
     
@@ -364,15 +359,6 @@ function setupPreferences(){
         }
     }
 
-    // Doctorn
-    if(extensions.doctorn == "force_true"){
-        preferences.find("#extensions-doctorn-true input").checked = true;
-    } else if(extensions.doctorn == "force_false"){
-        preferences.find("#extensions-doctorn-false input").checked = true;
-    } else {
-        preferences.find("#extensions-doctorn-auto input").checked = true;
-    }
-
     // Icons
     for(let icon of hide_icons){
         preferences.find(`.${icon}`).parentElement.classList.add("disabled");
@@ -432,7 +418,7 @@ function setupPreferences(){
 
     // Buttons
     preferences.find("#save_settings").addEventListener("click", function(){
-        savePreferences(preferences, settings, target_list.show, extensions);
+        savePreferences(preferences, settings, target_list.show);
     });
 
     preferences.find("#reset_settings").addEventListener("click", function(){
@@ -441,7 +427,7 @@ function setupPreferences(){
     });
 }
 
-function savePreferences(preferences, settings, target_list_enabled, ext){
+function savePreferences(preferences, settings, target_list_enabled){
     // General
     settings.update_notification = preferences.find("#update_notification input").checked;
     settings.force_tt = preferences.find("#force_tt input").checked;
@@ -527,20 +513,6 @@ function savePreferences(preferences, settings, target_list_enabled, ext){
         }
     }
 
-    // Doctorn
-    let extensions = {}
-    switch(preferences.find("input[name=extensions-doctorn]:checked").parentElement.id.split("-")[2]){
-        case "false":
-            extensions.doctorn = "force_false";
-            break;
-        case "true":
-            extensions.doctorn = "force_true";
-            break;
-        case "auto":
-            extensions.doctorn = ext.doctorn || false;
-            break;
-    }
-
     // Icons
     let icons = [];
     for(let icon of preferences.findAll(".icon.disabled>div")){
@@ -592,7 +564,6 @@ function savePreferences(preferences, settings, target_list_enabled, ext){
     local_storage.set({"custom_links": custom_links});
     local_storage.set({"loot_alerts": alerts});
     local_storage.set({"chat_highlight": highlights});
-    local_storage.set({"extensions": extensions});
     local_storage.set({"hide_icons": icons});
     local_storage.change({"filters": {"preset_data": {
         "factions": filter_factions
