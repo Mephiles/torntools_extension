@@ -1219,6 +1219,10 @@ function usingChrome(){
     return false;
 }
 
+function usingFirefox(){
+    return navigator.userAgent.includes("Firefox");
+}
+
 function lastInList(item, list){
 	if(list[list.length-1] == item){
 		return true;
