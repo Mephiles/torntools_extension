@@ -5,7 +5,7 @@ DBloaded().then(function(){
         let gym_container = content.new_container("Gym", {id: "tt-gym"});
     
         // Graph
-        if(extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt){
+        if (!shouldDisable()) {
             displayGraph();
         }
     

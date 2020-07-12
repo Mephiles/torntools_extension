@@ -1774,6 +1774,10 @@ function findItemsInList(list, attr={}){
     return arr;
 }
 
+function shouldDisable() {
+    return extensions.doctorn === true && !settings.force_tt;
+}
+
 // Pre-load database
 var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
 travel_market, oc, allies, loot_times, target_list, vault, personalized, 

@@ -50,11 +50,8 @@ DBloaded().then(function(){
     });
     
     chatsLoaded().then(function(){
-    
-        if((extensions.doctorn == true || extensions.doctorn == "force_true") && !settings.force_tt){
-            return;
-        }
-    
+        if (shouldDisable()) return
+
         // Chat highlight
         if(doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")){
             highLightChat(chat_highlight, userdata.name);
