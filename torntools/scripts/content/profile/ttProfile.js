@@ -626,10 +626,10 @@ function showSpyInfo(){
             let item_them = doc.new({type: "div", class: "item", text: numberWithCommas(parseInt(spy_info[stat]), false)});
             let item_you = doc.new({type: "div", class: "item", text: numberWithCommas(parseInt(userdata[stat].replace(/,/g,"")), false)});
 
-            if(parseInt(spy_info[stat]) > parseInt(userdata[stat])){
+            if(parseInt(spy_info[stat].replace(/,/g,"")) > parseInt(userdata[stat].replace(/,/g,""))){
                 item_you.classList.add("negative");
                 item_them.classList.add("positive");
-            } else if(parseInt(spy_info[stat]) < parseInt(userdata[stat])){
+            } else if(parseInt(spy_info[stat].replace(/,/g,"")) < parseInt(userdata[stat].replace(/,/g,""))){
                 item_them.classList.add("negative");
                 item_you.classList.add("positive");
             }
