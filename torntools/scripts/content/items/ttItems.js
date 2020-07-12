@@ -1,71 +1,71 @@
 DBloaded().then(function(){
 	contentLoaded().then(function(){
-    console.log("TT - Quick items");
-    if (shouldDisable()) return;
+        console.log("TT - Quick items");
+        if (shouldDisable()) return;
 
-    // Quick items
-    let quick_container = content.new_container("Quick items", {id: "ttQuick", dragzone: true, next_element: doc.find(".equipped-items-wrap")}).find(".content");
-    let inner_content = doc.new({type: "div", class: "inner-content"});
-    let response_wrap = doc.new({type: "div", class: "response-wrap"});
-    quick_container.appendChild(inner_content);
-    quick_container.appendChild(response_wrap);
+        // Quick items
+        let quick_container = content.new_container("Quick items", {id: "ttQuick", dragzone: true, next_element: doc.find(".equipped-items-wrap")}).find(".content");
+        let inner_content = doc.new({type: "div", class: "inner-content"});
+        let response_wrap = doc.new({type: "div", class: "response-wrap"});
+        quick_container.appendChild(inner_content);
+        quick_container.appendChild(response_wrap);
 
-    document.addEventListener("click", function(event){
-        if(event.target.classList.contains("close-act") && hasParent(event.target, {id: "ttQuick"})){
-            doc.find("#ttQuick .response-wrap").style.display = "none";
-        }
-    });
-    
-    addButton();
+        document.addEventListener("click", function(event){
+            if(event.target.classList.contains("close-act") && hasParent(event.target, {id: "ttQuick"})){
+                doc.find("#ttQuick .response-wrap").style.display = "none";
+            }
+        });
 
-    if(quick.items.length > 0){
-        for(let id of quick.items){
-            let div = doc.new({type: "div", class: "item", attributes: {"item-id": id}});
-            let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(/images/items/${id}/medium.png)`}});
-            let text = doc.new({type: "div", class: "text", text: itemlist.items[id].name});
-            let sub_text = doc.new({type: "div", class: "sub-text", text: findItemsInList(userdata.inventory, {ID: id})[0].quantity+"x"});
-            let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
+        addButton();
 
-            div.appendChild(pic);
-            div.appendChild(text);
-            div.appendChild(sub_text);
-            div.appendChild(close_icon);
-            inner_content.appendChild(div);
+        if(quick.items.length > 0){
+            for(let id of quick.items){
+                let div = doc.new({type: "div", class: "item", attributes: {"item-id": id}});
+                let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(/images/items/${id}/medium.png)`}});
+                let text = doc.new({type: "div", class: "text", text: itemlist.items[id].name});
+                let sub_text = doc.new({type: "div", class: "sub-text", text: findItemsInList(userdata.inventory, {ID: id})[0].quantity+"x"});
+                let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
 
-            close_icon.addEventListener("click", function(event){
-                event.stopPropagation();
-                div.remove();
+                div.appendChild(pic);
+                div.appendChild(text);
+                div.appendChild(sub_text);
+                div.appendChild(close_icon);
+                inner_content.appendChild(div);
 
-                let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
-                local_storage.change({"quick": {"items": items}});
-            });
+                close_icon.addEventListener("click", function(event){
+                    event.stopPropagation();
+                    div.remove();
 
-            div.addEventListener("click", function(){     
-                console.log("Clicked Quick item");
-                getAction({
-                    type: "post",
-                    action: "item.php",
-                    data: {step: "actionForm", id: id, action: "use"},
-                    success: function (str) {
-
-                        if(quick_container.find(".action-wrap")){
-                            quick_container.find(".action-wrap").remove();
-                        }
-
-                        response_wrap.style.display = "block";
-                        response_wrap.innerHTML = str;
-    
-                        // adjust container
-                        quick_container.style.maxHeight = quick_container.scrollHeight + "px"; 
-
-                        useContainerLoaded().then(function(){
-                            quick_container.find(`a[data-item='${id}']`).click();
-                        });
-                    }
+                    let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
+                    local_storage.change({"quick": {"items": items}});
                 });
-            });
+
+                div.addEventListener("click", function(){
+                    console.log("Clicked Quick item");
+                    getAction({
+                        type: "post",
+                        action: "item.php",
+                        data: {step: "actionForm", id: id, action: "use"},
+                        success: function (str) {
+
+                            if(quick_container.find(".action-wrap")){
+                                quick_container.find(".action-wrap").remove();
+                            }
+
+                            response_wrap.style.display = "block";
+                            response_wrap.innerHTML = str;
+
+                            // adjust container
+                            quick_container.style.maxHeight = quick_container.scrollHeight + "px";
+
+                            useContainerLoaded().then(function(){
+                                quick_container.find(`a[data-item='${id}']`).click();
+                            });
+                        }
+                    });
+                });
+            }
         }
-    }
     });
 });
 
