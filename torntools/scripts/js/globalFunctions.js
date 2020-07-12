@@ -498,7 +498,7 @@ const STORAGE = {
                 "member_info": false
             },
             "global": {
-                "vault_balance": true,
+                "vault_balance": false,
                 "notes": true,
                 "hide_upgrade": false,
                 "align_left": false,
