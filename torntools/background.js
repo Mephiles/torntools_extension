@@ -636,15 +636,19 @@ async function Main_1_day(){
 						return;
 					}
 
-					if(usingChrome()){
-						let doctorn_installed = await detectExtension("doctorn");
-						console.log("	Doctorn installed:", doctorn_installed);
-						
-						local_storage.change({"extensions": {"doctorn": doctorn_installed}}, function(){
+					let browser = false;
+					if (usingChrome()) browser = "chrome";
+					else if (usingFirefox()) browser = "firefox";
+
+					if (browser) {
+						let doctornInstalled = await detectExtension(browser, "doctorn");
+						console.log(`	Doctorn installed on ${browser}:`, doctornInstalled);
+
+						local_storage.change({"extensions": {"doctorn": doctornInstalled}}, function(){
 							return resolve(true);
 						});
 					} else {
-						console.log("	Using Firefox.");
+						console.log("	Using something else than Chrome or Firefox.");
 					}
 				});
 			});
@@ -1526,22 +1530,41 @@ async function clearCache(){
 	console.groupEnd("Clearing cache");
 }
 
-async function detectExtension(ext){
-	let ids = {
+async function detectExtension(browserName, ext){
+	const ids = {
 		"doctorn": {
-			"chrome": 'chrome-extension://kfdghhdnlfeencnfpbpddbceglaamobk/resources/images/icon_16.png'
+			"chrome": {"id": "kfdghhdnlfeencnfpbpddbceglaamobk"},
+			"firefox": {"name": "DoctorN for Torn"}
+		},
+		/* as example
+		"torntools": {
+			"firefox": {"id": "torntools@mephiles.github.com"}
 		}
+		 */
 	}
 
-	return new Promise(function(resolve, reject){
-		var img;
-		img = new Image();
-		img.src = ids[ext].chrome;
-		img.onload = function() {
-			return resolve(true);
-		};
-		img.onerror = function() {
-			return resolve(false);
-		};
-	});
+	if (!(ext in ids)) return Promise.reject(`Detection for '${ext}' is not supported!`);
+	else if (!(browserName in ids[ext])) return Promise.reject(`Detection for '${ext}' with ${browserName} is not supported!`);
+
+	const information = ids[ext][browserName];
+
+	if (information.id) {
+		return new Promise(function(resolve, reject){
+			chrome.management.get(information.id, function(result) {
+				resolve(!!result);
+			});
+		});
+	} else if (information.name) {
+		const getAll = chrome.management.getAll;
+		if (!getAll) return Promise.reject(`Detection for '${ext}' with ${browserName} is not supported!`);
+
+		return new Promise( async function(resolve, reject) {
+			const addons = await getAll();
+
+			resolve(addons && !!addons
+				.filter((addon) => addon.type === "extension")
+				.filter((addon) => addon.name === information.name)
+				.length);
+		});
+	}
 }

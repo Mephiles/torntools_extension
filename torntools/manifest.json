@@ -16,6 +16,7 @@
 		"page": "background.html"
 	},
 	"permissions": [
+		"management",
 		"storage",
 		"notifications",
 		"https://yata.alwaysdata.net/*",
