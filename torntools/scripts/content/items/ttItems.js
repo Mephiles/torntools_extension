@@ -20,10 +20,12 @@ DBloaded().then(function(){
 
         if(quick.items.length > 0){
             for(let id of quick.items){
+                let amount = findItemsInList(userdata.inventory, {ID: id})[0].quantity;
+
                 let div = doc.new({type: "div", class: "item", attributes: {"item-id": id}});
                 let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(/images/items/${id}/medium.png)`}});
                 let text = doc.new({type: "div", class: "text", text: itemlist.items[id].name});
-                let quantity = doc.new({type: "div", class: "sub-text", text: findItemsInList(userdata.inventory, {ID: id})[0].quantity+"x"});
+                let quantity = doc.new({type: "div", class: "sub-text tt-quickitems-quantity", attributes: {quantity: amount}, text: amount+"x"});
                 let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
 
                 div.appendChild(pic);
@@ -47,13 +49,16 @@ DBloaded().then(function(){
                         action: "item.php",
                         data: {step: "actionForm", id: id, action: "use"},
                         success: function (str) {
-
                             if(quick_container.find(".action-wrap")){
                                 quick_container.find(".action-wrap").remove();
                             }
 
                             response_wrap.style.display = "block";
                             response_wrap.innerHTML = str;
+
+                            let newQuantity = parseInt(quantity.getAttribute("quantity")) - 1;
+                            quantity.innerText = newQuantity + "x";
+                            quantity.setAttribute("quantity", newQuantity);
 
                             // adjust container
                             quick_container.style.maxHeight = quick_container.scrollHeight + "px";
