@@ -402,6 +402,8 @@ async function displayProfileStats(){
                 .then(async response => {
                     let result = await response.json();
 
+                    console.log("OPEN THIS", curObj(result));
+
                     if(result.error){
                         if(result.error.indexOf("User not found") > -1){
                             return resolve({"error": `Can't display user stats because no TornStats account was found. Please register an account @ www.tornstats.com`});
