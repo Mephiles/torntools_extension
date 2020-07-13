@@ -144,6 +144,7 @@ function showProgress(){
     ]
 
     let in_prog_gym = doc.find(".gymButton___3OFdI.inProgress___1Nd26");
+    if(!in_prog_gym) return;
     
     let index = parseInt(in_prog_gym.id.split("-")[1])-1;
     let percentage = parseInt(in_prog_gym.find(".percentage___1vHCw").innerText.replace("%", ""));
