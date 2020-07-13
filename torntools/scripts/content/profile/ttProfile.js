@@ -415,10 +415,14 @@ async function displayProfileStats(){
 
                         return resolve(modified_result);
                     }
+                })
+                .catch(error => {
+                    console.error("Error while receiving TornStats information.", error);
+                    resolve(false);
                 });
             });
         });
-        local_storage.change({"cache": {"profile_stats": {[user_id]: result}}});
+        if (result) local_storage.change({"cache": {"profile_stats": {[user_id]: result}}});
         loadingPlaceholder(profile_stats, false);
     }
 
