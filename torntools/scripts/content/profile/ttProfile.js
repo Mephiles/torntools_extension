@@ -991,20 +991,34 @@ function getTraveling(){
 }
 
 function modifyResult(personalstats, criminalrecord, comparison_data, spy_data){
-    // Replace crime keywords
-    criminalrecord.totalcrimes = criminalrecord.total;
-    criminalrecord.othercrimes = criminalrecord.other;
-    delete criminalrecord.total;
-    delete criminalrecord.other;
+    const record = {
+        total: "totalcrimes",
+        other: "othercrimes",
+    };
+    const comparison = {
+        "Xanax Taken": { name: "xantaken", field: "amount" },
+        "Attacks Won": { name: "attackswon", field: "amount" },
+        "Attacks Lost": { name: "attackslost", field: "amount" },
+    };
 
-    // Replace
-    comparison_data.xantaken = comparison_data["Xanax Taken"].amount;
-    comparison_data.attackswon = comparison_data["Attacks Won"].amount;
-    comparison_data.attackslost = comparison_data["Attacks Lost"].amount;
-    delete comparison_data["Xanax Taken"];
-    delete comparison_data["Attacks Won"];
-    delete comparison_data["Attacks Lost"];
-    delete comparison_data["Networth"]
+    for (let key in record) {
+        if (!(key in criminalrecord)) continue;
+
+        criminalrecord[record[key]] = criminalrecord[key];
+        delete criminalrecord[key];
+    }
+
+    for (let key in comparison) {
+        if (!(key in comparison_data)) continue;
+
+        let r = comparison[key];
+
+        if (r.field) comparison_data[r.name] = comparison_data[key][r.field]
+        else comparison_data[r.name] = comparison_data[key];
+
+        delete comparison_data[key];
+    }
+    delete comparison_data["Networth"];
 
     let data = {...personalstats, ...criminalrecord, ...comparison_data, spy: {...spy_data}, date: new Date().toString()}
     return data;
