@@ -218,7 +218,7 @@ DBloaded().then(function(){
         info_container.find(".content").appendChild(profile_stats_div);
 
         if(!filters.profile_stats.auto_fetch){
-            let button = doc.new({type: "div", class: `fetch-button ${mobile?"tt-mobile":""}`, text: "Fetch Info via API"});
+            let button = doc.new({type: "div", class: `fetch-button`, text: "Fetch Info via API"});
             profile_stats_div.appendChild(button);
 
             button.addEventListener("click", async function(){
@@ -398,18 +398,20 @@ async function displayProfileStats(){
         result = await new Promise(function(resolve, reject){
             get_api(`https://api.torn.com/user/${user_id}?selections=personalstats,crimes`, api_key)
             .then(data => {
+                console.log("data", curObj(data));
                 fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${user_id}`)
                 .then(async response => {
                     let result = await response.json();
 
+                    console.log("result", curObj(result));
                     if(result.error){
                         if(result.error.indexOf("User not found") > -1){
                             return resolve({"error": `Can't display user stats because no TornStats account was found. Please register an account @ www.tornstats.com`});
                         } else {
                             return resolve({"error": result.error});
                         }
-                    } else if(data.error){
-                        return resolve({"error": data.error.error});
+                    } else if(!data.ok){
+                        return resolve({"error": data.error});
                     } else {
                         let modified_result = modifyResult(data.result.personalstats, data.result.criminalrecord, result.compare.data, result.spy);
 
@@ -418,7 +420,10 @@ async function displayProfileStats(){
                 });
             });
         });
-        local_storage.change({"cache": {"profile_stats": {[user_id]: result}}});
+        
+        if(!result.error){
+            local_storage.change({"cache": {"profile_stats": {[user_id]: result}}});
+        }
         loadingPlaceholder(profile_stats, false);
     }
 
@@ -431,6 +436,7 @@ async function displayProfileStats(){
         return;
     }
 
+    profile_stats.classList.add("populated");
     let table = doc.new({type: "div", class: `tt-stats-table ${mobile?'tt-mobile':""}`});
     let col_chosen = doc.new({type: "div", class: "col-chosen active"});
     let col_other = doc.new({type: "div", class: "col-other"});
@@ -526,41 +532,7 @@ async function displayProfileStats(){
     for(let stat of filters.profile_stats.chosen_stats){
         if(col_other.find(`:scope>[key='${stat}']`)){
             col_chosen.appendChild(col_other.find(`:scope>[key='${stat}']`));
-        }/* else {
-            let their_value = 0;
-            let your_value = userdata.personalstats[stat] || 0;
-
-            let their_value_modified, your_value_modified;
-
-            if(money_key_list.includes(stat)){
-                their_value_modified = "$0";
-
-                negative = your_value < 0 ? true : false;
-                your_value_modified = "$"+numberWithCommas(Math.abs(your_value), false);
-                if(negative) your_value_modified = "-"+your_value;
-            } else {
-                their_value_modified = "0";
-                your_value_modified = numberWithCommas(your_value, false);
-            }
-
-            let row = doc.new({type: "div", class: "tt-row", attributes: {key: stat}});
-            let key_cell = doc.new({type: "div", text: key_dict[stat] || stat, class: "item"});
-            let their_cell = doc.new({type: "div", text: their_value_modified, class: "item"});
-            let your_cell = doc.new({type: "div", text: your_value_modified, class: "item"});
-            row.appendChild(key_cell)
-            row.appendChild(their_cell)
-            row.appendChild(your_cell)
-
-            if(their_value > your_value){
-                your_cell.classList.add("negative");
-                their_cell.classList.add("positive");
-            } else if(their_value < your_value){
-                their_cell.classList.add("negative");
-                your_cell.classList.add("positive");
-            }
-
-            col_chosen.appendChild(row);
-        }*/
+        }
     }
 
     // Footer
@@ -659,6 +631,7 @@ async function displayProfileStats(){
 
 function showSpyInfo(){
     console.log("spy info", spy_info);
+    if(!spy_info) return;
     
     // Add hr separator
     let hr = doc.new({type: "hr"})

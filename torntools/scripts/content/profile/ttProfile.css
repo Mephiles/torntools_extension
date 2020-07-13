@@ -8,11 +8,11 @@
 .content.tt-content {
     overflow: hidden !important;
 }
-.profile-stats {
+.profile-stats.populated {
     width: 160%;
     overflow-x: hidden;
 }
-.profile-stats.tt-mobile {
+.profile-stats.populated.tt-mobile {
     width: 197%;
 }
 .tt-stats-table {
@@ -156,16 +156,13 @@
 } 
 
 .fetch-button {
-    width: 774px;
+    width: 100%;
     text-align: center;
     background-color: #e0e0e0;
     padding: 6px 0;
     border-radius: 11px;
     cursor: pointer;
     margin-bottom: 5px;
-}
-.fetch-button.tt-mobile {
-    width: 310px;
 }
 .fetch-button:hover {
     background-color: #c1c1c1;
@@ -174,6 +171,11 @@
 .profile-stats .tt-loading-placeholder {
     left: 0 !important;
     margin-left: 350px !important;
+}
+
+.tt-error-message {
+    text-align: center;
+    color: red;
 }
 
 /* Spy */
