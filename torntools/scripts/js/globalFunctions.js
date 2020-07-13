@@ -2,6 +2,7 @@ console.log("Loading Global Functions");
 
 chrome = typeof browser !== "undefined" ? browser : chrome;
 var only_wants_functions = false;
+var only_wants_database = false;
 var app_initialized = true;
 const doc = document;
 var DB;
@@ -1834,7 +1835,8 @@ function curObj(obj){
 var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
 travel_market, oc, allies, loot_times, target_list, vault, personalized, 
 mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
-quick, notes, stakeouts, updated, networth, filters, cache, watchlist, api_history;
+quick, notes, stakeouts, updated, networth, filters, cache, watchlist, api_history,
+api;
 
 (async function(){
     local_storage.get(null, async function(db){
@@ -1873,10 +1875,16 @@ quick, notes, stakeouts, updated, networth, filters, cache, watchlist, api_histo
         cache = DB.cache;
         watchlist = DB.watchlist;
         api_history = DB.api_history;
+        api = DB.api;
 
         if(api_key == undefined || api_key == ""){
             app_initialized = false;
             console.log("App has not been initialized");
+            return;
+        }
+
+        if(only_wants_database){
+            db_loaded = true;
             return;
         }
 

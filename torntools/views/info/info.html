@@ -3,11 +3,16 @@
 
 <head>
 	<meta charset="utf-8"/>
-	<link rel="stylesheet" href="../popup_window_global.css">
+    <link rel="stylesheet" href="../popup_window_global.css">
+    <link rel="stylesheet" href="../../scripts/content/global/ttGlobal.css">
 	<style>
         body {
             margin-bottom: 0;
         }
+        body.loading *:not(.tt-loading-placeholder) {
+            display: none !important;
+        }
+
         #last-update {
             position: absolute;
             right: 10px;
@@ -202,7 +207,7 @@
 	</style>
 </head>
 
-<body>
+<body class="loading">
     <div class="error"></div>
     <div class="settings"></div>
     <div class="header">
