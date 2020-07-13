@@ -46,13 +46,13 @@ DBloaded().then(function(){
             checkbox.checked = settings.pages.gym[`disable_${stat}`];
             
             if(settings.pages.gym[`disable_${stat}`] && !doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("locked___r074J")){
-                doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.add("locked___r074J");
+                doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.add("tt-gym-locked");
             }
     
             doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).appendChild(checkbox);
             
             checkbox.onclick = function(){
-                if(!doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("locked___r074J") && checkbox.checked){
+                if(!doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("tt-gym-locked") && checkbox.checked){
                     disableGymButton([stat], true);
                 } else if(!checkbox.checked){
                     disableGymButton([stat], false);
@@ -66,29 +66,18 @@ DBloaded().then(function(){
         }
     
         // Train button listeners
-        for(let button of doc.findAll(".button___3AlDV")){
-            button.addEventListener("click", function(){
-                for(let button of doc.findAll(".button___3AlDV")){
-                    // Should be disabled
-                    if(findParent(button, {class: "propertyContent___1hg0-"}).parentElement.find(".tt-gym-stat-checkbox").checked == true){
-                        let parent = findParent(button, {class: "propertyContent___1hg0-"}).parentElement;
-                        console.log("parent", parent);
-
-                        elementChanges(parent, {remove_class: "locked___r074J"}).then(function(changed){
-                            console.log("element changed:", changed);
-                            if(!changed){
-                                console.log('timed out');
-                                return;
-                            }
-
-                            setTimeout(function(){
-                                parent.classList.add("locked___r074J");
-                            }, 100);
-                        });
+        let train_button_observer = new MutationObserver(function(mutations){
+            for(let mutation of mutations){´
+                if(mutation.target.classList){
+                    if(!mutation.target.classList.contains("tt-gym-locked") && mutation.target.find(".tt-gym-stat-checkbox").checked == true){
+                        mutation.target.classList.add("tt-gym-locked")
+                    } else if(mutation.target.classList.contains("tt-gym-locked") && mutation.target.find(".tt-gym-stat-checkbox").checked == false){
+                        mutation.target.classList.remove("tt-gym-locked")
                     }
                 }
-            });
-        }
+            }
+        });
+        train_button_observer.observe(doc.find("ul.properties___Vhhr7"), {classList: true, attributes: true, subtree: true});
     });
 });
 
@@ -116,14 +105,14 @@ function disableGymButton(types, disable){
 
     for(let stat of types){
         if(disable){
-            if(!doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("locked___r074J")){
+            if(!doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("tt-gym-locked")){
                 console.log(`${stat}: disabling`);
-                doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.add("locked___r074J");
+                doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.add("tt-gym-locked");
                 doc.find(`ul.properties___Vhhr7>li.${stats[stat]} .tt-gym-stat-checkbox`).checked = true;
             }
         } else {
             console.log(`${stat}: enabling`);
-            doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.remove("locked___r074J");
+            doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.remove("tt-gym-locked");
             doc.find(`ul.properties___Vhhr7>li.${stats[stat]} .tt-gym-stat-checkbox`).checked = false;
         }
 
