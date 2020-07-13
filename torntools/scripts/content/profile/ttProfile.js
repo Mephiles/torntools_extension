@@ -398,12 +398,10 @@ async function displayProfileStats(){
         result = await new Promise(function(resolve, reject){
             get_api(`https://api.torn.com/user/${user_id}?selections=personalstats,crimes`, api_key)
             .then(data => {
-                console.log("data", curObj(data));
                 fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${user_id}`)
                 .then(async response => {
                     let result = await response.json();
 
-                    console.log("result", curObj(result));
                     if(result.error){
                         if(result.error.indexOf("User not found") > -1){
                             return resolve({"error": `Can't display user stats because no TornStats account was found. Please register an account @ www.tornstats.com`});

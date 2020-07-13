@@ -135,7 +135,8 @@
 
 .tt-loading-placeholder {
     display: none;
-    margin: auto;
+    margin: 10px auto !important;
+    left: unset !important;
 }
 .tt-loading-placeholder.active {
     display: block;
