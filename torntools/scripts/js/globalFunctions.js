@@ -7,6 +7,7 @@ const doc = document;
 var DB;
 var mobile = false;
 var db_loaded = false;
+var notification_link_relations = {}
 var drug_dict = {
     "cannabis": {
         "pros": [
@@ -1453,20 +1454,20 @@ function findParent(element, attributes={}){
 }
 
 function notifyUser(title, message, url){
-    let notification = new Notification(title, {
-        icon: 'images/icon128.png',
-        body: message
+    chrome.notifications.create({
+        type: "basic",
+        iconUrl: "images/icon128.png",
+        title: title,
+        message: message
+    }, function(id){
+        console.log(id)
+        notification_link_relations[id] = url;
+        console.log("   Notified!");
     });
-    
-    notification.onclick = function(){
-        chrome.tabs.create({url: url});
-    }
 
     local_storage.get("settings", function(settings){
         if(settings.notifications_tts){
             console.log("READING TTS");
-            // chrome.tts.speak(title);
-            // chrome.tts.speak(message, {"enqueue": true});
 
             window.speechSynthesis.speak(new SpeechSynthesisUtterance(title));
             window.speechSynthesis.speak(new SpeechSynthesisUtterance(message));
@@ -1822,6 +1823,11 @@ function elementChanges(element, attr={}){
             } else counter++;
         });
     });
+}
+
+function curObj(obj){
+    // get current state of object to not see dynamically evaluated changes
+    return JSON.parse(JSON.stringify(obj));
 }
 
 // Pre-load database

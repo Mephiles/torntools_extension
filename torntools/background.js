@@ -11,7 +11,7 @@ var notifications = {
 	"events": {},
 	"messages": {},
 	"stakeouts": {}
-};
+}
 
 var links = {
 	stocks: "https://www.torn.com/stockexchange.php?step=portfolio",
@@ -1254,6 +1254,11 @@ chrome.runtime.onUpdateAvailable.addListener(function(details){
 		"available": true,
 		"version": details.version
 	}});
+});
+
+// Notification links
+chrome.notifications.onClicked.addListener(function(notification_id){
+	chrome.tabs.create({url: notification_link_relations[notification_id]});
 });
 
 function updateTargetList(attacks_data, player_id, target_list, first_time){
