@@ -141,6 +141,10 @@
 .tt-loading-placeholder.active {
     display: block;
 }
+
+#tt-player-filter+div {
+    margin-top: 0 !important;
+}
 /* .container_collapse {
     position: absolute;
     left: 49.5%;

@@ -367,6 +367,11 @@ const STORAGE = {
             "activity": [],
             "level": []
         },
+        "overseas": {
+            "activity": [],
+            "status": [],
+            "level": []
+        },
         "bounties": {},
         "faction_armory": {},
         "container_open": {}
