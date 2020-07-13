@@ -422,7 +422,7 @@ function Main_15_seconds(){
 				}
 
 				await new Promise(function(resolve, reject){
-					get_api(`https://api.torn.com/user/${user_id}?`, api_key)
+					get_api(`https://api.torn.com/user/${user_id}?selections=`, api_key)
 					.then(stakeout_info => {
 						if(!stakeout_info.ok) return resolve(false);
 

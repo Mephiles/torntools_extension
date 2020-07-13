@@ -1020,7 +1020,7 @@ function capitalize(text, every_word = false) {
 function get_api(http, api_key) {
     return new Promise(async function(resolve, reject){
         local_storage.get("api_history", function(api_history){
-            let selections = http.split("selections=")[1].split(",");
+            let selections = http.split("selections=")[1].split(",").filter(x => x != "");
             let section = http.split("torn.com/")[1].split("/")[0];
             let user_id = http.split("?")[0].split("/")[http.split("?")[0].split("/").length-1];
             let name = "other";
