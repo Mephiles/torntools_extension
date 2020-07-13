@@ -67,7 +67,7 @@ DBloaded().then(function(){
     
         // Train button listeners
         let train_button_observer = new MutationObserver(function(mutations){
-            for(let mutation of mutations){´
+            for(let mutation of mutations){
                 if(mutation.target.classList){
                     if(!mutation.target.classList.contains("tt-gym-locked") && mutation.target.find(".tt-gym-stat-checkbox").checked == true){
                         mutation.target.classList.add("tt-gym-locked")
