@@ -69,11 +69,23 @@ DBloaded().then(function(){
         for(let button of doc.findAll(".button___3AlDV")){
             button.addEventListener("click", function(){
                 for(let button of doc.findAll(".button___3AlDV")){
-                    setTimeout(function(){
-                        if(findParent(button, {class: "propertyContent___1hg0-"}).parentElement.find(".tt-gym-stat-checkbox").checked == true){
-                            findParent(button, {class: "propertyContent___1hg0-"}).parentElement.classList.add("locked___r074J");
-                        }
-                    }, 400);
+                    // Should be disabled
+                    if(findParent(button, {class: "propertyContent___1hg0-"}).parentElement.find(".tt-gym-stat-checkbox").checked == true){
+                        let parent = findParent(button, {class: "propertyContent___1hg0-"}).parentElement;
+                        console.log("parent", parent);
+
+                        elementChanges(parent, {remove_class: "locked___r074J"}).then(function(changed){
+                            console.log("element changed:", changed);
+                            if(!changed){
+                                console.log('timed out');
+                                return;
+                            }
+
+                            setTimeout(function(){
+                                parent.classList.add("locked___r074J");
+                            }, 100);
+                        });
+                    }
                 }
             });
         }

@@ -1805,6 +1805,25 @@ function shouldDisable() {
     return extensions.doctorn === true && !settings.force_tt;
 }
 
+function elementChanges(element, attr={}){
+    return new Promise(function(resolve, reject){
+        let counter = 0;
+        let checker = setInterval(function(){
+            console.log("checking");
+            console.log(attr)
+            console.log(element.classList)
+
+            if(attr.remove_class && !element.classList.contains(attr.remove_class)){
+                resolve(true);
+                return clearInterval(checker);
+            } else if(counter == 1000){
+                resolve(false);
+                return clearInterval(checker);
+            } else counter++;
+        });
+    });
+}
+
 // Pre-load database
 var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
 travel_market, oc, allies, loot_times, target_list, vault, personalized, 
