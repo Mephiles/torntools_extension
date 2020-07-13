@@ -1,139 +1,187 @@
-var money_key_list = ["networth", "moneymugged", "largestmug", "peopleboughtspent", "receivedbountyvalue"]
+var money_key_list = ["networth", "moneymugged", "largestmug", "peopleboughtspent", "receivedbountyvalue", "totalbountyspent", "totalbountyreward"]
 var key_dict = {
-    "useractivity": "User Activity",
-    "itemsbought": "Items Bought",
-    "pointsbought": "Points Bought",
-    "itemsboughtabroad": "Items Bought Abroad",
-    "weaponsbought": "Weapons Bought",
-    "itemssent": "Items Sent",
-    "auctionswon": "Auctions Won",
-    "auctionsells": "Items Auctioned",
-    "attackswon": "Attacks Won",
-    "attackslost": "Attacks Lost",
-    "attacksdraw": "Attacks Drawn",
-    "bestkillstreak": "Best Killstreak",
-    "moneymugged": "Money Mugged",
-    "attacksstealthed": "Attacks Stealthed",
-    "attackhits": "Attack Hits",
-    "attackmisses": "Attack Misses",
-    "attackdamage": "Total Damage",
-    "attackcriticalhits": "Critical Hits",
-    "respectforfaction": "Respect Earned",
-    "onehitkills": "One Hit Kills",
-    "defendswon": "Def. Won",
-    "defendslost": "Def. Lost",
-    "defendsstalemated": "Def. Stalemated",
-    "roundsfired": "Ammo Fired",
-    "yourunaway": "Times Escaped",
-    "theyrunaway": "Foes Escaped",
-    "highestbeaten": "Highest Level Beaten",
-    "peoplebusted": "People Busted",
-    "failedbusts": "Failed Busts",
-    "peoplebought": "People Bailed",
-    "peopleboughtspent": "Bail Fees Spent",
-    "virusescoded": "Viruses Coded",
-    "cityfinds": "Items Found",
-    "traveltimes": "Time Traveled",
-    "bountiesplaced": "Bounties Placed",
-    "bountiesreceived": "Times Bountied",
-    "bountiescollected": "Bounties Completed",
-    "totalbountyreward": "Bounty Rewards",
-    "revives": "Revives Given",
-    "revivesreceived": "Revive Received",
-    "medicalitemsused": "Meds Used",
-    "statenhancersused": "Stat Enhancers Used",
-    "trainsreceived": "Times Trained",
-    "totalbountyspent": "Spent On Bounties",
-    "drugsused": "Drugs Used",
-    "overdosed": "Times Overdosed",
-    "meritsbought": "Merits Bought",
-    "logins": "Logins",
-    "personalsplaced": "Personal Ads Placed",
-    "classifiedadsplaced": "Classified Ads Placed",
-    "mailssent": "Total Mail Sent",
-    "friendmailssent": "Friend Mail Sent",
-    "factionmailssent": "Faction Mail Sent",
-    "companymailssent": "Company Mail Sent",
-    "spousemailssent": "Spouse Mail Sent",
-    "largestmug": "Largest Mug",
-    "medstolen": "Meds Stolen",
-    "spydone": "Spies Done",
-    "cantaken": "Cannabis Taken",
-    "exttaken": "Ecstasy Taken",
-    "lsdtaken": "LSD taken",
-    "shrtaken": "Shrooms Taken",
-    "xantaken": "Xanax Taken",
-    "victaken": "Vicodin Taken",
-    "chahits": "Mechanical Finishers",
-    "axehits": "Clubbing Finishers",
-    "grehits": "Temporary Finishers",
-    "pishits": "Pistol Finishers",
-    "rifhits": "Rifle FInishers",
-    "smghits": "SMG Finishers",
-    "piehits": "Piercing Finishers",
-    "slahits": "Slashing Finishers",
-    "argtravel": "Argentina Travel",
-    "mextravel": "Mexico Travel",
-    "dubtravel": "UAE Travel",
-    "hawtravel": "Hawaii Travel",
-    "japtravel": "Japan Travel",
-    "lontravel": "UK Travel",
-    "soutravel": "South Africa Travel",
-    "switravel": "Switzerland Travel",
-    "chitravel": "China Travel",
-    "cantravel": "Canada Travel",
-    "dumpfinds": "Dump Finds",
-    "dumpsearches": "Dump Searches",
-    "itemsdumped": "Items Dumped",
-    "daysbeendonator": "Days Been A Donator",
-    "caytravel": "Cayman Travel",
-    "jailed": "Times In Jail",
-    "hospital": "Times In Hospital",
-    "kettaken": "Ketamine Taken",
-    "shohits": "Shotgun Finishers",
-    "opitaken": "Opium Taken",
-    "heahits": "Heavy Art. Finishers",
-    "spetaken": "Speed Taken",
-    "attacksassisted": "Attacks Assisted",
-    "bloodwithdrawn": "Blood Bags Filled",
-    "networth": "Networth",
-    "missionscompleted": "Missions Completed",
-    "missioncreditsearned": "Miss. Creds Earned",
-    "contractscompleted": "Contracts Completed",
-    "dukecontractscompleted": "Duke Contracts",
-    "pcptaken": "PCP Taken",
-    "h2hhits": "Unarmed Finishers",
-    "unarmoredwon": "Unarmored Wins",
-    "arrestsmade": "Arrests Made",
-    "territorytime": "Territory Time",
-    "consumablesused": "Consumables Used",
-    "candyused": "Candy Used",
-    "alcoholused": "Alcohol Used",
-    "energydrinkused": "Energy Drinks Used",
-    "nerverefills": "Nerve Refills",
-    "tokenrefills": "Token Refills",
-    "organisedcrimes": "Organised Crimes",
-    "booksread": "Books Read",
-    "traveltime": "Time Spent Traveling",
-    "boostersused": "Boosters Used",
-    "rehabs": "Rehabs Done",
-    "rehabcost": "Money Spent On Rehab",
-    "machits": "Machine Gun Finishers",
-    "awards": "Awards",
-    "bestdamage": "Best Damage",
-    "racingpointsearned": "Racing Points Earned",
-    "raceswon": "Races Won",
-    "racesentered": "Races Entered",
-    "specialammoused": "Special AMmo Used",
-    "cityitemsbought": "Shop Purchases",
-    "hollowammoused": "Hollow Point Ammo Used",
-    "piercingammoused": "Piercing Ammo Used",
-    "tracerammoused": "Tracer Ammo Used",
-    "incendiaryammoused": "Incendiary Ammo Used",
-    "attackswonabroad": "Attacks Won Abroad",
-    "defendslostabroad": "Defends Lost Abroad",
-    "refills": "Refills",
-    "receivedbountyvalue": "Recieved Bounties"
+    basic: {
+        "awards": "Awards",
+        "logins": "Logins",
+        "networth": "Networth",
+        "useractivity": "User Activity",
+        "statenhancersused": "Stat Enhancers Used",
+    },
+    attacks: {
+        "attackswon": "Attacks: Won",
+        "attackslost": "Attacks: Lost",
+        "attacksdraw": "Attacks: Draw",
+        "attacksstealthed": "Attacks: Stealthed",
+        "attackhits": "Attacks: Total Hits",
+        "attackmisses": "Attacks: Misses",
+        "attacksassisted": "Attacks: Assisted",
+        "attackswonabroad": "Attacks: Won Abroad",
+        "highestbeaten": "Attacks: Highest Lvl Beaten",
+        "largestmug": "Attacks: Largest Mug",
+        "moneymugged": "Attacks: Money Mugged",
+        "onehitkills": "Attacks: One Hit Kills",
+        "attackdamage": "Attacks: Total Damage",
+        "yourunaway": "Attacks: Escaped",
+        "unarmoredwon": "Attacks: Unarmored Wins",
+        "weaponsbought": "Attacks: Weapons Bought",
+        "attackcriticalhits": "Attacks: Critical Hits",
+        "bestdamage": "Attacks: Best Damage",
+        "bestkillstreak": "Attacks: Best Killstreak",
+        "arrestsmade": "Attacks: Arrests",
+        "roundsfired": "Attacks: Ammo: Fired",
+        "incendiaryammoused": "Attacks: Ammo: Incendiary",
+        "piercingammoused": "Attacks: Ammo: Piercing",
+        "tracerammoused": "Attacks: Ammo: Tracer",
+        "specialammoused": "Attacks: Ammo: Special Total",
+        "hollowammoused": "Attacks: Ammo: Hollow Point",
+    },
+    bounties: {
+        "bountiesplaced": "Bounties: Placed",
+        "bountiescollected": "Bounties: Completed",
+        "totalbountyreward": "Bounties: Rewards",
+        "totalbountyspent": "Bounties: Spent On",
+        "receivedbountyvalue": "Bounties: Recieved",
+        "bountiesreceived": "Bounties: Times Bountied"
+    },
+    crimes: {
+        "selling_illegal_products": "Crimes: Sell illegal products",
+        "theft": "Crimes: Theft",
+        "auto_theft": "Crimes: Auto theft",
+        "drug_deals": "Crimes: Drug deals",
+        "computer_crimes": "Crimes: Computer",
+        "murder": "Crimes: Murder",
+        "fraud_crimes": "Crimes: Fraud",
+        "othercrimes": "Crimes: Other",
+        "totalcrimes": "Crimes: Total",
+        "organisedcrimes": "Crimes: Organised Crimes"
+    },
+    consumables: {
+        "candyused": "Consumables: Candy",
+        "energydrinkused": "Consumables: Energy Drinks",
+        "consumablesused": "Consumables: Total",
+        "alcoholused": "Consumables: Alcohol",
+        "boostersused": "Consumables: Boosters"
+    },
+    contracts: {
+        "contractscompleted": "Contracts: Completed",
+        "dukecontractscompleted": "Contracts: Duke",
+        "missionscompleted": "Contracts: Missions Completed",
+        "missioncreditsearned": "Contracts: Miss. Creds Earned"
+    },
+    defends: {
+        "defendswon": "Defends: Won",
+        "defendslost": "Defends: Lost",
+        "defendsstalemated": "Defends: Stalemated",
+        "defendslostabroad": "Defends: Lost Abroad"
+    },
+    drugs: {
+        "cantaken": "Drugs: Cannabis",
+        "exttaken": "Drugs: Ecstasy",
+        "lsdtaken": "Drugs: LSD",
+        "shrtaken": "Drugs: Shrooms",
+        "xantaken": "Drugs: Xanax",
+        "victaken": "Drugs: Vicodin",
+        "drugsused": "Drugs: Total",
+        "kettaken": "Drugs: Ketamine",
+        "opitaken": "Drugs: Opium",
+        "spetaken": "Drugs: Speed",
+        "pcptaken": "Drugs: PCP",
+        "overdosed": "Drugs: Overdosed"
+    },
+    finishers: {
+        "chahits": "Finishers: Mechanical",
+        "axehits": "Finishers: Clubbing",
+        "grehits": "Finishers: Temporary",
+        "pishits": "Finishers: Pistol",
+        "rifhits": "Finishers: Rifle",
+        "smghits": "Finishers: SMG",
+        "piehits": "Finishers: Piercing",
+        "slahits": "Finishers: Slashing",
+        "shohits": "Finishers: Shotgun",
+        "heahits": "Finishers: Heavy Artillery",
+        "machits": "Finishers: Machine Guns",
+        "h2hhits": "Finishers: Unarmed"
+    },
+    items: {
+        "itemsbought": "Items: Bought",
+        "itemsboughtabroad": "Items: Bought Abroad",
+        "itemssent": "Items: Sent",
+        "auctionsells": "Items: Auctioned",
+        "cityfinds": "Items: Found in City",
+        "itemsdumped": "Items: Dumped"
+    },
+    refills: {
+        "nerverefills": "Refills: Nerve",
+        "tokenrefills": "Refills: Token",
+        "refills": "Refills: Total"
+    },
+    revives: {
+        "revives": "Revives: Given",
+        "revivesreceived": "Revives: Received"
+    },
+    travel: {
+        "argtravel": "Travel: Argentina",
+        "mextravel": "Travel: Mexico",
+        "dubtravel": "Travel: UAE",
+        "hawtravel": "Travel: Hawaii",
+        "japtravel": "Travel: Japan",
+        "lontravel": "Travel: UK",
+        "soutravel": "Travel: South Africa",
+        "switravel": "Travel: Switzerland",
+        "chitravel": "Travel: China",
+        "cantravel": "Travel: Canada",
+        "caytravel": "Travel: Cayman Islands",
+        "traveltimes": "Travel: Total",
+        "traveltime": "Travel: Time Spent"
+    },
+    other: {
+        "auctionswon": "Auctions Won",
+
+        "peopleboughtspent": "Bail Fees Spent",
+        "booksread": "Books Read",
+        "bloodwithdrawn": "Blood Bags Filled",
+    
+        "classifiedadsplaced": "Classified Ads Placed",
+        "companymailssent": "Company Mail Sent",
+    
+        "dumpfinds": "Dump Finds",
+        "dumpsearches": "Dump Searches",
+        "daysbeendonator": "Days Been A Donator",
+    
+        "failedbusts": "Failed Busts",
+        "theyrunaway": "Foes Escaped",
+        "friendmailssent": "Friend Mail Sent",
+        "factionmailssent": "Faction Mail Sent",
+
+        "peoplebusted": "Jail: Busted",
+        "peoplebought": "Jail: Bailed",
+        "jailed": "Jail: Total",
+        
+        "medicalitemsused": "Meds Used",
+        "medstolen": "Meds Stolen",
+        "meritsbought": "Merits Bought",
+        "rehabcost": "Money Spent On Rehab",
+        
+        "pointsbought": "Points Bought",
+        "personalsplaced": "Personal Ads Placed",
+        
+        "respectforfaction": "Respect Earned",
+        "rehabs": "Rehabs Done",
+        "racingpointsearned": "Racing: Points Earned",
+        "raceswon": "Racing: Won",
+        "racesentered": "Racing: Entered",
+        
+        "spousemailssent": "Spouse Mail Sent",
+        "spydone": "Spies Done",
+        "cityitemsbought": "Shop Purchases",
+        
+        "trainsreceived": "Times Trained",
+        "mailssent": "Total Mail Sent",
+        "hospital": "Times In Hospital",
+        "territorytime": "Territory Time",
+    
+        "virusescoded": "Viruses Coded"
+    }
 }
 var spy_info;
 
@@ -348,7 +396,7 @@ async function displayProfileStats(){
     } else {
         loadingPlaceholder(profile_stats, true);
         result = await new Promise(function(resolve, reject){
-            get_api(`https://api.torn.com/user/${user_id}?selections=personalstats`, api_key)
+            get_api(`https://api.torn.com/user/${user_id}?selections=personalstats,crimes`, api_key)
             .then(data => {
                 fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${user_id}`)
                 .then(async response => {
@@ -360,8 +408,12 @@ async function displayProfileStats(){
                         } else {
                             return resolve({"error": result.error});
                         }
+                    } else if(data.error){
+                        return resolve({"error": data.error.error});
                     } else {
-                        return resolve({...data.result.personalstats, ...result.compare.data, "spy": {...result.spy}, "date": new Date().toString()});
+                        let modified_result = modifyResult(data.result.personalstats, data.result.criminalrecord, result.compare.data, result.spy);
+
+                        return resolve(modified_result);
                     }
                 });
             });
@@ -376,6 +428,7 @@ async function displayProfileStats(){
     if(result.error){
         let error_div = doc.new({type: "div", class: "tt-error-message", text: result.error});
         profile_stats.appendChild(error_div);
+        return;
     }
 
     let table = doc.new({type: "div", class: `tt-stats-table ${mobile?'tt-mobile':""}`});
@@ -399,48 +452,59 @@ async function displayProfileStats(){
     table.appendChild(col_other);
     profile_stats.appendChild(table);
 
-    for(let key of Object.keys(result).sort()){
-        if(["Xanax Taken", "Attacks Won", "Defends Won", "Networth", "spy", "date"].includes(key)) continue;
+    // Add all to other column
+    for(let section in key_dict){
+        let section_heading = doc.new({type: "div", class: "tt-row sub-heading"});
+        let inner_text = doc.new({type: "div", class: "item", text: capitalize(section)});
+        section_heading.appendChild(inner_text);
+        col_other.appendChild(section_heading);
 
-        let their_value, your_value, their_value_modified, your_value_modified;
-        if(typeof result[key] == "object"){
-            their_value = result[key].amount;
-            your_value = result[key].amount + result[key].difference;
-        } else {
-            their_value = result[key];
-            your_value = userdata.personalstats[key] || 0;
+        let keys = Object.keys(key_dict[section]);
+        keys.sort(function(a,b){
+            if(key_dict[section][a] < key_dict[section][b]) return -1;
+            if(key_dict[section][b] < key_dict[section][a]) return 1;
+            return 0;
+        });
+
+        for(let key of keys){
+            let row_title = key_dict[section][key];
+
+            let their_value = result[key] || 0;
+            let your_value = userdata.personalstats[key] || 0;
+            
+            let their_value_modified, your_value_modified;
+
+            if(money_key_list.includes(key)){
+                let neg = their_value < 0 ? true:false;
+                their_value_modified = `$${numberWithCommas(Math.abs(their_value), false)}`;
+                if(neg) their_value_modified = "-"+their_value_modified;
+                
+                neg = your_value < 0 ? true:false;
+                your_value_modified = `$${numberWithCommas(Math.abs(your_value), false)}`;
+                if(neg) your_value_modified = "-"+your_value_modified;
+            } else {
+                their_value_modified = numberWithCommas(their_value, false);
+                your_value_modified = numberWithCommas(your_value, false);
+            }
+
+            let row = doc.new({type: "div", class: "tt-row", attributes: {key: key}});
+            let key_cell = doc.new({type: "div", text: row_title, class: "item"});
+            let their_cell = doc.new({type: "div", text: their_value_modified, class: "item"});
+            let your_cell = doc.new({type: "div", text: your_value_modified, class: "item"});
+
+            if(their_value > your_value){
+                your_cell.classList.add("negative");
+                their_cell.classList.add("positive");
+            } else if(their_value < your_value){
+                their_cell.classList.add("negative");
+                your_cell.classList.add("positive");
+            }
+
+            row.appendChild(key_cell)
+            row.appendChild(their_cell)
+            row.appendChild(your_cell)
+            col_other.appendChild(row);
         }
-
-        if(money_key_list.includes(key)){
-            let negative = their_value < 0 ? true : false;
-            their_value_modified = "$"+numberWithCommas(Math.abs(their_value), false);
-            if(negative) their_value_modified = "-"+their_value;
-
-            negative = your_value < 0 ? true : false;
-            your_value_modified = "$"+numberWithCommas(Math.abs(your_value), false);
-            if(negative) your_value_modified = "-"+your_value;
-        } else {
-            their_value_modified = numberWithCommas(their_value, false);
-            your_value_modified = numberWithCommas(your_value, false);
-        }
-
-        let row = doc.new({type: "div", class: "tt-row", attributes: {key: key}});
-        let key_cell = doc.new({type: "div", text: key_dict[key] || key, class: "item"});
-        let their_cell = doc.new({type: "div", text: their_value_modified, class: "item"});
-        let your_cell = doc.new({type: "div", text: your_value_modified, class: "item"});
-
-        if(their_value > your_value){
-            your_cell.classList.add("negative");
-            their_cell.classList.add("positive");
-        } else if(their_value < your_value){
-            their_cell.classList.add("negative");
-            your_cell.classList.add("positive");
-        }
-
-        row.appendChild(key_cell)
-        row.appendChild(their_cell)
-        row.appendChild(your_cell)
-        col_other.appendChild(row);
     }
 
     col_other.onclick = function(){
@@ -462,7 +526,7 @@ async function displayProfileStats(){
     for(let stat of filters.profile_stats.chosen_stats){
         if(col_other.find(`:scope>[key='${stat}']`)){
             col_chosen.appendChild(col_other.find(`:scope>[key='${stat}']`));
-        } else {
+        }/* else {
             let their_value = 0;
             let your_value = userdata.personalstats[stat] || 0;
 
@@ -496,7 +560,7 @@ async function displayProfileStats(){
             }
 
             col_chosen.appendChild(row);
-        }
+        }*/
     }
 
     // Footer
@@ -552,7 +616,7 @@ async function displayProfileStats(){
             doc.find(".tt-stats-table .active").classList.remove("tt-highlight-sector");
             doc.find(".tt-title .tt-options .tt-option#tt-edit").classList.remove("tt-highlight-sector");
 
-            for(let item of doc.findAll(".tt-stats-table .active .tt-row:not(.tt-header)")){
+            for(let item of doc.findAll(".tt-stats-table .active .tt-row:not(.tt-header):not(.sub-heading)")){
                 item.onclick = undefined;
             }
         } else {
@@ -560,7 +624,7 @@ async function displayProfileStats(){
             doc.find(".tt-stats-table .active").classList.add("tt-highlight-sector");
             doc.find(".tt-title .tt-options .tt-option#tt-edit").classList.add("tt-highlight-sector");
 
-            for(let row of doc.findAll(".tt-stats-table .active .tt-row:not(.tt-header)")){
+            for(let row of doc.findAll(".tt-stats-table .active .tt-row:not(.tt-header):not(.sub-heading)")){
                 row.onclick = function(event){
                     event.stopPropagation();
                     event.preventDefault();
@@ -583,7 +647,7 @@ async function displayProfileStats(){
     function saveProfileStats(){
         let chosen_keys = [];
 
-        for(let row of doc.findAll(".col-chosen .tt-row:not(.header)")){
+        for(let row of doc.findAll(".col-chosen .tt-row:not(.header):not(.sub-heading)")){
             if(row.getAttribute("key")){
                 chosen_keys.push(row.getAttribute("key"));
             }
@@ -776,7 +840,6 @@ function addStatusIndicator(){
     // Event listener
     let status_observer = new MutationObserver(function(mutationsList, observer){
         for(let mutation of mutationsList){
-            console.log("MUTATION", mutation);
             if(mutation.type == "childList"){
                 console.log(doc.find(".icons ul>li"));
                 icon_span.setAttribute("class", doc.find(".icons ul>li").classList[0]);
@@ -925,4 +988,24 @@ function getTraveling(){
         return true;
     }
     return false;
+}
+
+function modifyResult(personalstats, criminalrecord, comparison_data, spy_data){
+    // Replace crime keywords
+    criminalrecord.totalcrimes = criminalrecord.total;
+    criminalrecord.othercrimes = criminalrecord.other;
+    delete criminalrecord.total;
+    delete criminalrecord.other;
+
+    // Replace
+    comparison_data.xantaken = comparison_data["Xanax Taken"].amount;
+    comparison_data.attackswon = comparison_data["Attacks Won"].amount;
+    comparison_data.attackslost = comparison_data["Attacks Lost"].amount;
+    delete comparison_data["Xanax Taken"];
+    delete comparison_data["Attacks Won"];
+    delete comparison_data["Attacks Lost"];
+    delete comparison_data["Networth"]
+
+    let data = {...personalstats, ...criminalrecord, ...comparison_data, spy: {...spy_data}, date: new Date().toString()}
+    return data;
 }

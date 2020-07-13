@@ -116,19 +116,20 @@
 .tt-row .item:last-of-type {
     border-right: unset;
 }
-.tt-row.tt-header {
+.tt-row.tt-header .item, .tt-row.sub-heading .item {
     font-weight: 600;
+    font-size: 14px !important;
 }
 .tt-row .item {
     box-sizing: border-box;
     padding-left: 10px;
     border-right: 2px solid lightgray;
 }
-.col-chosen.tt-highlight-sector .tt-row:not(.tt-header):hover {
+.col-chosen.tt-highlight-sector .tt-row:not(.tt-header):not(.sub-heading):hover {
     background-color: #ff9c9c;
     cursor: pointer;
 }
-.col-other.tt-highlight-sector .tt-row:not(.tt-header):hover {
+.col-other.tt-highlight-sector .tt-row:not(.tt-header):not(.sub-heading):hover {
     background-color: #c8e888;
     cursor: pointer;
 }
