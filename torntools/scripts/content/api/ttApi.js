@@ -1,3 +1,5 @@
+only_wants_database = true;
+
 DBloaded().then(() => {
 	// auto-fill API key
 	let demo_page_checker = setInterval(function(){
