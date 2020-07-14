@@ -113,7 +113,7 @@ var key_dict = {
     refills: {
         "nerverefills": "Refills: Nerve",
         "tokenrefills": "Refills: Token",
-        "refills": "Refills: Total"
+        "refills": "Refills: Energy"
     },
     revives: {
         "revives": "Revives: Given",
