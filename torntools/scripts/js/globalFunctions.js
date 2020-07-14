@@ -4,6 +4,8 @@ chrome = typeof browser !== "undefined" ? browser : chrome;
 var only_wants_functions = false;
 var only_wants_database = false;
 var app_initialized = true;
+var page_status;
+
 const doc = document;
 var DB;
 var mobile = false;
@@ -895,19 +897,37 @@ function abroad() {
     });
 }
 
-function captcha(){
+function pageStatus(){
     return new Promise(function(resolve, reject){
         let checker = setInterval(function(){
-            if(doc.find("#skip-to-content")){
-                if(doc.find("#skip-to-content").innerText == "Please Validate"){
-                    resolve(true);
-                    return clearInterval(checker);
-                } else {
-                    resolve(false);
+            let page_heading = doc.find("#skip-to-content");
+            let message = doc.find("div[role='main']>.info-msg-cont");
+            
+            // Page heading
+            if(page_heading){
+                switch(page_heading.innerText){
+                    case "Please Validate":
+                        resolve("captcha");
+                        return clearInterval(checker);
+                    case "Error":
+                        resolve("blocked");
+                        return clearInterval(checker);
+                }
+            }
+
+            // Page info message
+            if(message){
+                if(message.innerText.includes("a page which is blocked when")){
+                    resolve("blocked");
                     return clearInterval(checker);
                 }
             }
-        }, 100);
+
+            if(page_heading || message){
+                resolve("okay");
+                return clearInterval(checker);
+            }
+        });
     });
 }
 
@@ -1925,6 +1945,12 @@ api;
         // Mobile
         mobile = await mobileChecker();
         console.log("Using mobile:", mobile);
+
+        // Page status
+        page_status = await pageStatus();
+        console.log("Page Status:", page_status);
+
+        // DB loaded
         console.log("DB LOADED");
         db_loaded = true;
     });

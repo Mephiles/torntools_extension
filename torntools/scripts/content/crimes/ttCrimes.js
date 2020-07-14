@@ -1,4 +1,9 @@
 DBloaded().then(function(){
+    if(page_status == "blocked"){
+        console.log("Exiting Crimes script. Page is blocked.")
+        return;
+    }
+
     $(document).ready(function(){
         if (shouldDisable()) return;
     
