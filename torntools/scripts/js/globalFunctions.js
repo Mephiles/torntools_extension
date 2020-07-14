@@ -1,12 +1,16 @@
 console.log("Loading Global Functions");
 
-chrome = chrome || browser;
+chrome = typeof browser !== "undefined" ? browser : chrome;
 var only_wants_functions = false;
+var only_wants_database = false;
 var app_initialized = true;
+var page_status;
+
 const doc = document;
 var DB;
 var mobile = false;
 var db_loaded = false;
+var notification_link_relations = {}
 var drug_dict = {
     "cannabis": {
         "pros": [
@@ -260,6 +264,11 @@ const STORAGE = {
     },
     "extensions": {},
     "new_version": {},
+    "api_history": {
+        "torn": [],
+        "yata": [],
+        "tornstats": []
+    },
 
     // userdata
     "itemlist": {},
@@ -358,6 +367,11 @@ const STORAGE = {
         },
         "user_list": {
             "activity": [],
+            "level": []
+        },
+        "overseas": {
+            "activity": [],
+            "status": [],
             "level": []
         },
         "bounties": {},
@@ -493,7 +507,7 @@ const STORAGE = {
                 "member_info": false
             },
             "global": {
-                "vault_balance": true,
+                "vault_balance": false,
                 "notes": true,
                 "hide_upgrade": false,
                 "align_left": false,
@@ -554,38 +568,6 @@ Document.prototype.new = function (new_element) {
         return this.createElement(new_element);
     } else if(typeof new_element == "object"){
         let el = this.createElement(new_element.type);
-
-        // if(new_element.children){
-        //     (function fillChildren(parent_el, children){
-        //         console.log("PARENT", parent_el);
-        //         console.log("CHILDREN", children);
-        //         for(let child of children){
-        //             let child_el = document.createElement(child.type);
-
-        //             if(child.children){
-        //                 fillChildren(child_el, child.children);
-        //             }
-                    
-        //             if(child.id){
-        //                 child_el.id = child.id;
-        //             }
-        //             if(child.class){
-        //                 child_el.setAttribute("class", child.class);
-        //             }
-        //             if(child.text){
-        //                 child_el.innerText = child.text;
-        //             }
-        //             if(child.value){
-        //                 child_el.value = child.value;
-        //             }
-            
-        //             for(let attr in child.attributes){
-        //                 child_el.setAttribute(attr, child.attributes[attr]);
-        //             }
-        //             parent_el.appendChild(child_el);
-        //         }
-        //     })(el, new_element.children);
-        // }
 
         if(new_element.id){
             el.id = new_element.id;
@@ -774,7 +756,7 @@ const content = {
         }
 
         let parent_element = attr.next_element ? attr.next_element.parentElement : doc.find(".content-wrapper");
-        let new_div = createNewContainer(name, attr.id, attr.dragzone, attr.header_only, attr.class);
+        let new_div = createNewContainer(name, attr);
 
         if (attr.first)
             parent_element.insertBefore(new_div, parent_element.find(".content-title").nextElementSibling);
@@ -785,21 +767,25 @@ const content = {
 
         return new_div;
 
-        function createNewContainer(name, id, dragzone, header_only, _class) {
+        function createNewContainer(name, attr) {
             console.log(page())
             let collapsed = filters.container_open[page()];
 
             let div = doc.new({type: "div"});
-            if(id) div.id = id;
-            if(_class) div.setClass(_class);
+            if(attr.id) div.id = attr.id;
+            if(attr["_class"]) div.setClass(attr["_class"]);
 
             let div_html = `
-            <div class="top-round m-top10 tt-title ${header_only? "no-content":""} ${theme_classes[`title-${settings.theme}`]} ${collapsed == true || collapsed == undefined? 'collapsed':''}"><div class="title-text">${name}</div> <div class="tt-options"></div><i class="tt-title-icon fas fa-caret-down"></i></div>
-            <div class="cont-gray bottom-round content tt-content ${dragzone? 'tt-dragzone':''}"></div>
+            <div class="top-round m-top10 tt-title ${attr.all_rounded? 'all-rounded':''} ${attr.header_only? "no-content":""} ${theme_classes[`title-${settings.theme}`]} ${collapsed == true || collapsed == undefined? 'collapsed':''}">
+                <div class="title-text">${name}</div>
+                <div class="tt-options"></div>
+                <i class="tt-title-icon fas fa-caret-down"></i>
+            </div>
+            <div class="cont-gray bottom-round content tt-content ${attr.dragzone? 'tt-dragzone':''}"></div>
             `;
             div.innerHTML = div_html;
 
-            if(dragzone){
+            if(attr){
                 let content = div.find(".content");
                 content.addEventListener("dragover", onDragOver);
                 content.addEventListener("drop", function(event){
@@ -809,7 +795,7 @@ const content = {
                 content.addEventListener("dragleave", onDragLeave);
             }
 
-            if(!header_only){
+            if(!attr.header_only){
                 div.find(".tt-title").onclick = function(){
                     div.find(".tt-title").classList.toggle("collapsed");
                     let collapsed = div.find(".tt-title").classList.contains("collapsed")? true:false;
@@ -911,19 +897,37 @@ function abroad() {
     });
 }
 
-function captcha(){
+function pageStatus(){
     return new Promise(function(resolve, reject){
         let checker = setInterval(function(){
-            if(doc.find("#skip-to-content")){
-                if(doc.find("#skip-to-content").innerText == "Please Validate"){
-                    resolve(true);
-                    return clearInterval(checker);
-                } else {
-                    resolve(false);
+            let page_heading = doc.find("#skip-to-content") || doc.find(".title___2sbYr");
+            let message = doc.find("div[role='main']>.info-msg-cont");
+            
+            // Page heading
+            if(page_heading){
+                switch(page_heading.innerText){
+                    case "Please Validate":
+                        resolve("captcha");
+                        return clearInterval(checker);
+                    case "Error":
+                        resolve("blocked");
+                        return clearInterval(checker);
+                }
+            }
+
+            // Page info message
+            if(message){
+                if(message.innerText.includes("a page which is blocked when")){
+                    resolve("blocked");
                     return clearInterval(checker);
                 }
             }
-        }, 100);
+
+            if(page_heading || message){
+                resolve("okay");
+                return clearInterval(checker);
+            }
+        });
     });
 }
 
@@ -1041,6 +1045,28 @@ function capitalize(text, every_word = false) {
 
 function get_api(http, api_key) {
     return new Promise(async function(resolve, reject){
+        local_storage.get("api_history", function(api_history){
+            let selections = http.split("selections=")[1].split(",").filter(x => x != "");
+            let section = http.split("torn.com/")[1].split("/")[0];
+            let user_id = http.split("?")[0].split("/")[http.split("?")[0].split("/").length-1];
+            let name = "other";
+
+            if(selections.includes("personalstats")){
+                name = user_id == ""? "userdata" : "profile_stats";
+            } else if(selections.length == 0 && section == "user"){
+                name = "stakeouts";
+            }
+
+            api_history.torn.push({
+                date: new Date().toString(),
+                selections: selections,
+                section: section,
+                user_id: user_id,
+                name: name
+            });
+            local_storage.set({"api_history": api_history});
+        });
+
         try {
             const response = await fetch(http + "&key=" + api_key);
             const result = await response.json();
@@ -1247,6 +1273,10 @@ function usingChrome(){
     return false;
 }
 
+function usingFirefox(){
+    return navigator.userAgent.includes("Firefox");
+}
+
 function lastInList(item, list){
 	if(list[list.length-1] == item){
 		return true;
@@ -1450,20 +1480,20 @@ function findParent(element, attributes={}){
 }
 
 function notifyUser(title, message, url){
-    let notification = new Notification(title, {
-        icon: 'images/icon128.png',
-        body: message
+    chrome.notifications.create({
+        type: "basic",
+        iconUrl: "images/icon128.png",
+        title: title,
+        message: message
+    }, function(id){
+        console.log(id)
+        notification_link_relations[id] = url;
+        console.log("   Notified!");
     });
-    
-    notification.onclick = function(){
-        window.open(url);
-    }
 
     local_storage.get("settings", function(settings){
         if(settings.notifications_tts){
             console.log("READING TTS");
-            // chrome.tts.speak(title);
-            // chrome.tts.speak(message, {"enqueue": true});
 
             window.speechSynthesis.speak(new SpeechSynthesisUtterance(title));
             window.speechSynthesis.speak(new SpeechSynthesisUtterance(message));
@@ -1783,11 +1813,55 @@ function loadingPlaceholder(element, display){
     }
 }
 
+function findItemsInList(list, attr={}){
+    let arr = []
+    if(!list || Object.keys(attr).length == 0) return arr;
+
+    for(let item of list){
+        let fits_all = true;
+        for(let attribute in attr){
+            if(item[attribute] != attr[attribute]) fits_all = false;
+        }
+
+        if(fits_all) arr.push(item);
+    }
+    return arr;
+}
+
+function shouldDisable() {
+    return extensions.doctorn === true && !settings.force_tt;
+}
+
+function elementChanges(element, attr={}){
+    return new Promise(function(resolve, reject){
+        let counter = 0;
+        let checker = setInterval(function(){
+            console.log("checking");
+            console.log(attr)
+            console.log(element.classList)
+
+            if(attr.remove_class && !element.classList.contains(attr.remove_class)){
+                resolve(true);
+                return clearInterval(checker);
+            } else if(counter == 1000){
+                resolve(false);
+                return clearInterval(checker);
+            } else counter++;
+        });
+    });
+}
+
+function curObj(obj){
+    // get current state of object to not see dynamically evaluated changes
+    return JSON.parse(JSON.stringify(obj));
+}
+
 // Pre-load database
 var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
 travel_market, oc, allies, loot_times, target_list, vault, personalized, 
 mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
-quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
+quick, notes, stakeouts, updated, networth, filters, cache, watchlist, api_history,
+api;
 
 (async function(){
     local_storage.get(null, async function(db){
@@ -1825,10 +1899,18 @@ quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
         filters = DB.filters;
         cache = DB.cache;
         watchlist = DB.watchlist;
+        api_history = DB.api_history;
+        api = DB.api;
 
         if(api_key == undefined || api_key == ""){
             app_initialized = false;
             console.log("App has not been initialized");
+            return;
+        }
+
+        if(only_wants_database){
+            console.log("DB LOADED");
+            db_loaded = true;
             return;
         }
 
@@ -1864,6 +1946,12 @@ quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
         // Mobile
         mobile = await mobileChecker();
         console.log("Using mobile:", mobile);
+
+        // Page status
+        page_status = await pageStatus();
+        console.log("Page Status:", page_status);
+
+        // DB loaded
         console.log("DB LOADED");
         db_loaded = true;
     });

@@ -28,6 +28,9 @@
 .title.tt-modified .tt-options {
     padding-right: 10px;
 }
+.tt-title.all-rounded {
+    border-radius: 5px !important;
+}
 .tt-title .tt-options>* {
     margin-left: 4px;
     margin-right: 4px;
@@ -124,12 +127,23 @@
 .tt-torn-button:hover {
     background: linear-gradient(180deg,#fff,#cbcbcb 61%,#b0b0b0 83%,#acacac 91%,#b0b0b0 96%,#b1b1b1)
 }
+.tt-torn-button.in-title {
+    height: 16px;
+    line-height: 16px;
+    margin-top: 4px;
+}
 
 .tt-loading-placeholder {
     display: none;
+    margin: 10px auto !important;
+    left: unset !important;
 }
 .tt-loading-placeholder.active {
     display: block;
+}
+
+#tt-player-filter+div {
+    margin-top: 0 !important;
 }
 /* .container_collapse {
     position: absolute;
@@ -250,7 +264,7 @@ div[role='main'].tt-modified {
 }
 
 /* Clean Flight */
-.travel-agency-travelling .stage, .travel-agency-travelling .popup-info {
+.travel-agency-travelling .stage, .travel-agency-travelling .stage+hr, .travel-agency-travelling .popup-info {
     display: var(--torntools-clean-flight-display) !important;
 }
 
@@ -302,6 +316,13 @@ div[role='main'].tt-modified {
 .filter-multi-wrap {
     width: 40%;
     margin: auto;
+}
+.filter-multi-wrap.tt-mobile {
+    width: 80%;
+    display: flex;
+}
+.filter-multi-wrap.tt-mobile>* {
+    flex: 1 0 auto;
 }
 
 /* Chat filter */

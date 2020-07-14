@@ -30,10 +30,10 @@
     width: 27px;
 }
 
-.plan-crimes .tt-nnb.short {
+.plan-list-scrollbar.plans-list .tt-nnb.short {
     width: 88px;
 }
-.plan-crimes .tt-nnb.short.torntools-mobile {
+.plan-list-scrollbar.plans-list .tt-nnb.short.torntools-mobile {
     width: 20px;
 }
 

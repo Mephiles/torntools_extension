@@ -11,7 +11,7 @@ var notifications = {
 	"events": {},
 	"messages": {},
 	"stakeouts": {}
-};
+}
 
 var links = {
 	stocks: "https://www.torn.com/stockexchange.php?step=portfolio",
@@ -89,30 +89,6 @@ setup_storage.then(async function(success){
 	if(!success){
 		return;
 	}
-
-	// Set doctorn as force_false if on firefox first time
-	console.log("Checking Doctorn settings.")
-	await (function(){
-		return new Promise(function(resolve, reject){
-			if(!usingChrome()){
-				local_storage.get("extensions", function(extensions){
-					if(extensions.doctorn == undefined){
-						local_storage.change({"extensions": {
-							"doctorn": "force_false"
-						}}, function(){
-							console.log("	Set doctorn as force_false");
-							return resolve(true);
-						});
-					} else {
-						return resolve(true);
-					}
-				});
-			} else {
-				console.log("	All good.");
-				return resolve(true);
-			}
-		});
-	})();
 	
 	// Check for personalized scripts
 	console.log("Setting up personalized scripts.");
@@ -196,6 +172,7 @@ setup_storage.then(async function(success){
 			setTimeout(function(){
 				setInterval(Main_1_day, 1*days);  // 1 day
 			}, 23*seconds);
+			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 		}
 	});
 });
@@ -250,7 +227,7 @@ function Main_15_seconds(){
 		console.log("Setting up userdata.");
 		await (function(){
 			return new Promise(function(resolve, reject){
-				let selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,education${attack_history? `,${attack_history}`:''}`;
+				let selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,timestamp,inventory,education${attack_history? `,${attack_history}`:''}`;
 				// console.log("---------selections", selections);
 
 				local_storage.get(["settings", "userdata"], function([settings, previous_userdata]){
@@ -445,7 +422,7 @@ function Main_15_seconds(){
 				}
 
 				await new Promise(function(resolve, reject){
-					get_api(`https://api.torn.com/user/${user_id}?`, api_key)
+					get_api(`https://api.torn.com/user/${user_id}?selections=`, api_key)
 					.then(stakeout_info => {
 						if(!stakeout_info.ok) return resolve(false);
 
@@ -543,7 +520,7 @@ async function Main_1_minute(){
 
 function Main_15_minutes(){
 	local_storage.get("api_key", async function(api_key){
-		console.group("Main (stocks)");
+		console.group("Main (stocks | OC info)");
 
 		if(api_key == undefined){
 			console.log("NO API KEY");
@@ -566,6 +543,28 @@ function Main_15_minutes(){
 				});
 			});
 		});
+
+		// faction data
+		console.log("Setting up faction data.");
+		if(settings.pages.faction.oc_time){
+			await new Promise(function(resolve, reject){
+				get_api("https://api.torn.com/faction/?selections=crimes", api_key).then((factiondata) => {
+					if(!factiondata.ok) return resolve(false);
+
+					factiondata = factiondata.result;
+
+					let new_date = new Date().toString();
+					factiondata.crimes.date = new_date;
+
+					local_storage.set({"oc": factiondata.crimes}, function(){
+						console.log("	Faction data set.");
+						return resolve(true);
+					});
+				});
+			});
+		} else {
+			console.log("	Faction OC time formatting turned off.");
+		}
 	
 		console.groupEnd("Main (stocks)");
 	});
@@ -573,7 +572,7 @@ function Main_15_minutes(){
 
 async function Main_1_day(){
 	local_storage.get("api_key", async function(api_key){
-		console.group("Main (torndata | OC info | installed extensions)");
+		console.group("Main (torndata | installed extensions)");
 
 		if(api_key == undefined){
 			console.log("NO API KEY");
@@ -605,50 +604,11 @@ async function Main_1_day(){
 			});
 		});
 
-		// faction data
-		console.log("Setting up faction data.");
-		if(settings.pages.faction.oc_time){
-			await new Promise(function(resolve, reject){
-				get_api("https://api.torn.com/faction/?selections=crimes", api_key).then((factiondata) => {
-					if(!factiondata.ok) return resolve(false);
-
-					factiondata = factiondata.result;
-
-					let new_date = (new Date()).toString();
-					factiondata.crimes.date = new_date;
-
-					local_storage.set({"oc": factiondata.crimes}, function(){
-						console.log("	Faction data set.");
-						return resolve(true);
-					});
-				});
-			});
-		} else {
-			console.log("	Faction OC time formatting turned off.");
-		}
-
 		// Doctorn
-		console.log("Checking for installed extensions.");
-		await (function(){
-			return new Promise(function(resolve, reject){
-				local_storage.get("extensions", async function(extensions){
-					if(typeof extensions.doctorn == "string" && extensions.doctorn.indexOf("force") > -1){
-						return;
-					}
+		updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 
-					if(usingChrome()){
-						let doctorn_installed = await detectExtension("doctorn");
-						console.log("	Doctorn installed:", doctorn_installed);
-						
-						local_storage.change({"extensions": {"doctorn": doctorn_installed}}, function(){
-							return resolve(true);
-						});
-					} else {
-						console.log("	Using Firefox.");
-					}
-				});
-			});
-		})();
+		// Clear API history
+		await clearAPIhistory();
 
 		console.groupEnd("Main (torndata | OC info | installed extensions)");
 	});
@@ -1296,6 +1256,11 @@ chrome.runtime.onUpdateAvailable.addListener(function(details){
 	}});
 });
 
+// Notification links
+chrome.notifications.onClicked.addListener(function(notification_id){
+	chrome.tabs.create({url: notification_link_relations[notification_id]});
+});
+
 function updateTargetList(attacks_data, player_id, target_list, first_time){
 	console.log("Updating Target list");
 
@@ -1526,22 +1491,95 @@ async function clearCache(){
 	console.groupEnd("Clearing cache");
 }
 
-async function detectExtension(ext){
-	let ids = {
+async function detectExtension(browserName, ext){
+	const ids = {
 		"doctorn": {
-			"chrome": 'chrome-extension://kfdghhdnlfeencnfpbpddbceglaamobk/resources/images/icon_16.png'
+			"chrome": {"id": "kfdghhdnlfeencnfpbpddbceglaamobk"},
+			"firefox": {"name": "DoctorN for Torn"}
+		},
+		/* as example
+		"torntools": {
+			"firefox": {"id": "torntools@mephiles.github.com"}
 		}
+		 */
 	}
 
+	if (!(ext in ids)) return Promise.reject(`Detection for '${ext}' is not supported!`);
+	else if (!(browserName in ids[ext])) return Promise.reject(`Detection for '${ext}' with ${browserName} is not supported!`);
+
+	const information = ids[ext][browserName];
+
+	if (information.id) {
+		return new Promise(function(resolve, reject){
+			chrome.management.get(information.id, function(result) {
+				resolve(!!result);
+			});
+		});
+	} else if (information.name) {
+		const getAll = chrome.management.getAll;
+		if (!getAll) return Promise.reject(`Detection for '${ext}' with ${browserName} is not supported!`);
+
+		return new Promise( async function(resolve, reject) {
+			const addons = await getAll();
+
+			resolve(addons && !!addons
+				.filter((addon) => addon.type === "extension")
+				.filter((addon) => addon.name === information.name)
+				.length);
+		});
+	}
+}
+
+async function updateExtensions() {
+	console.log("Checking for installed extensions.");
+
+	return new Promise(((resolve, reject) => {
+		local_storage.get("extensions", async function(extensions) {
+			let browser = false;
+			if (usingChrome()) browser = "chrome";
+			else if (usingFirefox()) browser = "firefox";
+
+			if (browser) {
+				const extensions = {
+					"doctorn": false
+				}
+
+				for (let extension in extensions) {
+					extensions[extension] = await detectExtension(browser, extension);
+				}
+
+			    local_storage.change({extensions}, function(){
+					return resolve(extensions);
+			 	});
+			} else {
+				console.log("	Using something else than Chrome or Firefox.");
+			}
+		});
+	}));
+}
+
+function clearAPIhistory(){
 	return new Promise(function(resolve, reject){
-		var img;
-		img = new Image();
-		img.src = ids[ext].chrome;
-		img.onload = function() {
-			return resolve(true);
-		};
-		img.onerror = function() {
-			return resolve(false);
-		};
+		local_storage.get("api_history", function(api_history){
+			let time_limit = 24*60*60*1000;
+	
+			for(let type in api_history){
+				let data = [...api_history[type]].reverse();
+	
+				for(let fetch of data){
+					if(new Date() - new Date(fetch.date) > time_limit){
+						data.splice(data.indexOf(fetch), 1);
+					}
+				}
+	
+				data.reverse();
+				api_history[type] = data;
+			}
+	
+			local_storage.set({"api_history": api_history}, function(){
+				console.log("	API history cleared");
+				return resolve(true);
+			});
+		});
 	});
 }

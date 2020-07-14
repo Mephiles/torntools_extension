@@ -79,11 +79,24 @@ DBloaded().then(function(){
 
         filterTable();
     
+        // Tab listeners
         for (let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]) {
             // tab.classList.remove("ui-state-disabled");  // Testing purposes
             tab.addEventListener("click", function () {
                 setTravelItems();
                 reloadTable();
+            });
+        }
+
+        // Destination listeners
+        for(let destination of doc.findAll(`div[role='tabpanel'][aria-expanded='true']>div[role='button']`)){
+            destination.addEventListener("click", function(){
+                console.log(destination);
+                let country = destination.getAttribute("data-race")? destination.getAttribute("data-race").replace(/-/g, " ") : "all";
+                if(country == "cayman") country = "cayman islands";
+                if(country == "uk") country = "united kingdom";
+
+                doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
             });
         }
     });
@@ -394,6 +407,7 @@ function addRow(item, time, cost, travel_items) {
 }
 
 function filterTable(){
+    let country_display = false;
     let types = {}
     for(let el of doc.findAll("#ttTravelTable .legend-content .radio-item input:checked")){
         types[el.getAttribute("name")] = el.getAttribute("_type").split(",");
@@ -410,6 +424,16 @@ function filterTable(){
         for(let type in types){
             if(types[type][0] == "all"){
                 continue;
+            }
+
+            // Switch destination on map
+            if(type == "country" && !country_display){
+                let name = types[type][0].replace(/ /g, "-");
+                if(types[type][0] == "cayman islands") name = "cayman";
+                if(types[type][0] == "united kingdom") name = "uk";
+
+                doc.find(`div[role='tabpanel'][aria-expanded='true'] .path.to-${name}`).previousElementSibling.click();
+                country_display = true;
             }
 
             let is_in_list = false;

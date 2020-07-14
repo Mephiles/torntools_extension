@@ -75,6 +75,11 @@ li.tt-item-price {
 #ttQuick .inner-content .item .text {
     text-align: center;
 }
+#ttQuick .inner-content .item .sub-text {
+    text-align: center;
+    font-size: 10px;
+    color: gray;
+}
 
 #ttQuick .response-wrap {
     display: none;

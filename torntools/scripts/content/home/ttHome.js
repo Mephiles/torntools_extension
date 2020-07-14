@@ -8,7 +8,7 @@ DBloaded().then(function(){
 		}
 
 		// Battle Stats
-		if(settings.pages.home.battle_stats && (settings.force_tt || extensions.doctorn == false || extensions.doctorn == "force_false")){
+		if(settings.pages.home.battle_stats && !shouldDisable()){
 			displayEffectiveBattleStats();
 		}
 	});

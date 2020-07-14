@@ -1,69 +1,77 @@
 var previous_chain_timer;
+only_wants_database = true;
+
 window.addEventListener("load", function(){
+    loadingPlaceholder(doc.find("body"), true);
+});
+
+DBloaded().then(function(){
     console.log("Start Info popup");
 
-    local_storage.get(["settings", "api"], function([settings, api]){
-        
-        // show error
-        if(!api.online){
-            doc.find(".error").style.display = "block";
-            doc.find(".error").innerText = api.error;
+    // Remove loader
+    loadingPlaceholder(doc.find("body"), false);
+    doc.find("body").classList.remove("loading");
+
+    console.log(api)
+    // show error
+    if(!api.online){
+        doc.find(".error").style.display = "block";
+        doc.find(".error").innerText = api.error;
+    }
+
+    // setup links
+    for(let tab in settings.tabs){
+        if(tab == "default")
+            continue;
+
+        if(settings.tabs[tab] == false){
+            doc.find(`#${tab}-html`).style.display = "none";
+        } else {
+            doc.find(`#${tab}-html`).addEventListener("click", function(){
+                window.location.href = `../${tab}/${tab}.html`;
+            });
         }
-
-        // setup links
-        for(let tab in settings.tabs){
-            if(tab == "default")
-                continue;
-
-            if(settings.tabs[tab] == false){
-                doc.find(`#${tab}-html`).style.display = "none";
-            } else {
-                doc.find(`#${tab}-html`).addEventListener("click", function(){
-                    window.location.href = `../${tab}/${tab}.html`;
-                });
-            }
-		}
-		
-		// setup settings button
-		doc.find(".settings").addEventListener("click", function(){
-			window.open("../settings/settings.html");
-        });
-        
-        updateInfo(settings);
-
-        // Update interval
-        let updater = setInterval(function(){
-            updateInfo(settings);
-        }, 15*1000);
-
-        // Global time reducer
-        let time_decreaser = setInterval(function(){
-            for(let time of doc.findAll("*[seconds-down]")){
-                let seconds = parseInt(time.getAttribute("seconds-down"));
-                seconds--;
-
-                if(seconds == 0){
-                    time.parentElement.style.display = "none";
-                    time.removeAttribute("seconds-down");
-                    continue;
-                }
+    }
     
-                let time_left = time_until(seconds*1000);
-                time.innerText = time_left;
-                time.setAttribute("seconds-down", seconds);
-            }
-        }, 1000);
-
-        // Update time increaser
-        let time_increaser = setInterval(function(){
-            let time = doc.find("#last-update span")
-            let seconds = parseInt(time.getAttribute("seconds-up"));
-            seconds++;
-
-            time.innerText = time_ago(new Date() - seconds*1000);
-            time.setAttribute("seconds-up", seconds);
-        }, 1000);
+    // setup settings button
+    doc.find(".settings").addEventListener("click", function(){
+        window.open("../settings/settings.html");
     });
+    
+    updateInfo(settings);
+
+    // Update interval
+    let updater = setInterval(function(){
+        updateInfo(settings);
+    }, 15*1000);
+
+    // Global time reducer
+    let time_decreaser = setInterval(function(){
+        for(let time of doc.findAll("*[seconds-down]")){
+            let seconds = parseInt(time.getAttribute("seconds-down"));
+            seconds--;
+
+            if(seconds == 0){
+                time.parentElement.style.display = "none";
+                time.removeAttribute("seconds-down");
+                continue;
+            }
+
+            let time_left = time_until(seconds*1000);
+            time.innerText = time_left;
+            time.setAttribute("seconds-down", seconds);
+        }
+    }, 1000);
+
+    // Update time increaser
+    let time_increaser = setInterval(function(){
+        let time = doc.find("#last-update span")
+        let seconds = parseInt(time.getAttribute("seconds-up"));
+        seconds++;
+
+        time.innerText = time_ago(new Date() - seconds*1000);
+        time.setAttribute("seconds-up", seconds);
+    }, 1000);
 });
 
 function updateInfo(settings){
@@ -172,14 +180,12 @@ function updateInfo(settings){
         }
 
         // Update chain timer
-        console.log("Chain timeout: ", userdata.chain.timeout);
         if(userdata.chain.timeout > 0){
             if(!previous_chain_timer || previous_chain_timer != userdata.chain.timeout){
                 previous_chain_timer = userdata.chain.timeout;
                 doc.find("#chain").style.display = "block";
     
-                let time_diff = new Date() - new Date(userdata.date);
-                let real_timeout = userdata.chain.timeout*1000 - time_diff;
+                let real_timeout = userdata.chain.timeout*1000-(new Date() - new Date(userdata.timestamp*1000));
     
                 if(real_timeout > 0){
                     doc.find(`#chain .resets-in`).style.display = "block";

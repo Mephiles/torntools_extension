@@ -5,7 +5,7 @@ DBloaded().then(function(){
         let gym_container = content.new_container("Gym", {id: "tt-gym"});
     
         // Graph
-        if(extensions.doctorn == false || extensions.doctorn == "force_false" || settings.force_tt){
+        if (!shouldDisable()) {
             displayGraph();
         }
     
@@ -46,13 +46,13 @@ DBloaded().then(function(){
             checkbox.checked = settings.pages.gym[`disable_${stat}`];
             
             if(settings.pages.gym[`disable_${stat}`] && !doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("locked___r074J")){
-                doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.add("locked___r074J");
+                doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.add("tt-gym-locked");
             }
     
             doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).appendChild(checkbox);
             
             checkbox.onclick = function(){
-                if(!doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("locked___r074J") && checkbox.checked){
+                if(!doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("tt-gym-locked") && checkbox.checked){
                     disableGymButton([stat], true);
                 } else if(!checkbox.checked){
                     disableGymButton([stat], false);
@@ -66,17 +66,18 @@ DBloaded().then(function(){
         }
     
         // Train button listeners
-        for(let button of doc.findAll(".button___3AlDV")){
-            button.addEventListener("click", function(){
-                for(let button of doc.findAll(".button___3AlDV")){
-                    setTimeout(function(){
-                        if(findParent(button, {class: "propertyContent___1hg0-"}).parentElement.find(".tt-gym-stat-checkbox").checked == true){
-                            findParent(button, {class: "propertyContent___1hg0-"}).parentElement.classList.add("locked___r074J");
-                        }
-                    }, 400);
+        let train_button_observer = new MutationObserver(function(mutations){
+            for(let mutation of mutations){
+                if(mutation.target.classList){
+                    if(!mutation.target.classList.contains("tt-gym-locked") && mutation.target.find(".tt-gym-stat-checkbox").checked == true){
+                        mutation.target.classList.add("tt-gym-locked")
+                    } else if(mutation.target.classList.contains("tt-gym-locked") && mutation.target.find(".tt-gym-stat-checkbox").checked == false){
+                        mutation.target.classList.remove("tt-gym-locked")
+                    }
                 }
-            });
-        }
+            }
+        });
+        train_button_observer.observe(doc.find("ul.properties___Vhhr7"), {classList: true, attributes: true, subtree: true});
     });
 });
 
@@ -104,14 +105,14 @@ function disableGymButton(types, disable){
 
     for(let stat of types){
         if(disable){
-            if(!doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("locked___r074J")){
+            if(!doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("tt-gym-locked")){
                 console.log(`${stat}: disabling`);
-                doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.add("locked___r074J");
+                doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.add("tt-gym-locked");
                 doc.find(`ul.properties___Vhhr7>li.${stats[stat]} .tt-gym-stat-checkbox`).checked = true;
             }
         } else {
             console.log(`${stat}: enabling`);
-            doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.remove("locked___r074J");
+            doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.remove("tt-gym-locked");
             doc.find(`ul.properties___Vhhr7>li.${stats[stat]} .tt-gym-stat-checkbox`).checked = false;
         }
 
@@ -132,6 +133,7 @@ function showProgress(){
     ]
 
     let in_prog_gym = doc.find(".gymButton___3OFdI.inProgress___1Nd26");
+    if(!in_prog_gym) return;
     
     let index = parseInt(in_prog_gym.id.split("-")[1])-1;
     let percentage = parseInt(in_prog_gym.find(".percentage___1vHCw").innerText.replace("%", ""));

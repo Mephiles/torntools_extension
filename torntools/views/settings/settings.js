@@ -1,5 +1,6 @@
 import changelog from "../../changelog.js";
 var version;
+only_wants_database = true;
 
 window.addEventListener("load", function(){
     DBloaded().then(function(){
@@ -19,11 +20,6 @@ window.addEventListener("load", function(){
         // setup site
         setupSite();
     
-        // Disable extension auto-checks
-        if(!usingChrome()){
-            doc.find("#extensions-doctorn-auto input").disabled = true;
-        }
-    
         // set "update" to false
         local_storage.set({"updated": false});
     
@@ -39,6 +35,7 @@ window.addEventListener("load", function(){
 
         // Fill in API key
         doc.find("#api_field").value = api_key;
+        setupApiStatistics();
 
         // Set new version text
         if(new_version.available){
@@ -364,15 +361,6 @@ function setupPreferences(){
         }
     }
 
-    // Doctorn
-    if(extensions.doctorn == "force_true"){
-        preferences.find("#extensions-doctorn-true input").checked = true;
-    } else if(extensions.doctorn == "force_false"){
-        preferences.find("#extensions-doctorn-false input").checked = true;
-    } else {
-        preferences.find("#extensions-doctorn-auto input").checked = true;
-    }
-
     // Icons
     for(let icon of hide_icons){
         preferences.find(`.${icon}`).parentElement.classList.add("disabled");
@@ -432,7 +420,7 @@ function setupPreferences(){
 
     // Buttons
     preferences.find("#save_settings").addEventListener("click", function(){
-        savePreferences(preferences, settings, target_list.show, extensions);
+        savePreferences(preferences, settings, target_list.show);
     });
 
     preferences.find("#reset_settings").addEventListener("click", function(){
@@ -441,7 +429,7 @@ function setupPreferences(){
     });
 }
 
-function savePreferences(preferences, settings, target_list_enabled, ext){
+function savePreferences(preferences, settings, target_list_enabled){
     // General
     settings.update_notification = preferences.find("#update_notification input").checked;
     settings.force_tt = preferences.find("#force_tt input").checked;
@@ -527,20 +515,6 @@ function savePreferences(preferences, settings, target_list_enabled, ext){
         }
     }
 
-    // Doctorn
-    let extensions = {}
-    switch(preferences.find("input[name=extensions-doctorn]:checked").parentElement.id.split("-")[2]){
-        case "false":
-            extensions.doctorn = "force_false";
-            break;
-        case "true":
-            extensions.doctorn = "force_true";
-            break;
-        case "auto":
-            extensions.doctorn = ext.doctorn || false;
-            break;
-    }
-
     // Icons
     let icons = [];
     for(let icon of preferences.findAll(".icon.disabled>div")){
@@ -592,7 +566,6 @@ function savePreferences(preferences, settings, target_list_enabled, ext){
     local_storage.set({"custom_links": custom_links});
     local_storage.set({"loot_alerts": alerts});
     local_storage.set({"chat_highlight": highlights});
-    local_storage.set({"extensions": extensions});
     local_storage.set({"hide_icons": icons});
     local_storage.change({"filters": {"preset_data": {
         "factions": filter_factions
@@ -941,4 +914,159 @@ function addHighlightToList(event){
     // Clear input
     event.target.previousElementSibling.value = "#7ca900";
     event.target.previousElementSibling.previousElementSibling.value = "";
+}
+
+function setupApiStatistics(){
+    console.log("api history", api_history);
+    if (!api_history) return;
+
+    let time_limit = 5*60*1000;  // (ms) 5 minutes
+    let chartColors = {
+        "red": "rgb(255, 99, 132)",
+        "orange": "rgb(255, 159, 64)",
+        "yellow": "rgb(255, 205, 86)",
+        "green": "rgb(75, 192, 192)",
+        "blue": "rgb(54, 162, 235)",
+        "purple": "rgb(153, 102, 255)",
+        "grey": "rgb(201, 203, 207)"
+    }
+
+    let data = {}
+    let datasets = [
+        {
+            label: "userdata",
+            backgroundColor: Chart.helpers.color(chartColors.red).alpha(0.5).rgbString(),
+            borderWidth: 1,
+            data: []
+        },
+        {
+            label: "profile_stats",
+            backgroundColor: Chart.helpers.color(chartColors.blue).alpha(0.5).rgbString(),
+            borderWidth: 1,
+            data: []
+        },
+        {
+            label: "stakeouts",
+            backgroundColor: Chart.helpers.color(chartColors.purple).alpha(0.5).rgbString(),
+            borderWidth: 1,
+            data: []
+        },
+        {
+            label: "other",
+            backgroundColor: Chart.helpers.color(chartColors.grey).alpha(0.5).rgbString(),
+            borderWidth: 1,
+            data: []
+        }
+    ]
+
+    let torn_api_history = [...api_history.torn].reverse();
+
+    // Populate data
+    for(let fetch of torn_api_history){
+        let fetch_date = new Date(fetch.date);
+        if(new Date() - fetch_date > time_limit) break;
+
+        let [day, month, year, hours, minutes, seconds] = dateParts(fetch_date);
+        let fetch_time = formatTime([hours, minutes], "eu");
+        
+        if(fetch_time in data){
+            data[fetch_time][fetch.name]++;
+        } else {
+            data[fetch_time] = {
+                "userdata": 0,
+                "profile_stats": 0,
+                "stakeouts": 0,
+                "other": 0
+            }
+            data[fetch_time][fetch.name]++;
+        }
+    }
+
+    let data_keys = [...Object.keys(data)].reverse();
+    // Populate datasets
+    for(let time of data_keys){
+        for(let set of datasets){
+            set.data.push(data[time][set.label]);
+        }
+    }
+    
+    console.log(data)
+    console.log(data_keys)
+    console.log(datasets)
+
+    // Replace labels
+    datasets.map(x => x.label = capitalize(x.label.replace(/_/g, " ")));
+
+    let ctx = doc.find("#torn-api-graph").getContext("2d");
+    let torn_api_chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data_keys,
+            datasets: datasets
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Torn API"
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        callback: function(value, index, values){
+                            if(Math.floor(value) == value){
+                                return value;
+                            }
+                        }
+                    },
+                }]
+            },
+        }
+    });
+
+    // Statistics
+    time_limit = 24*60*60*1000;
+    let stats = {}
+
+    for(let fetch of torn_api_history){
+        let fetch_date = new Date(fetch.date);
+        if(new Date() - fetch_date > time_limit) break;
+
+        let [day, month, year, hours, minutes, seconds] = dateParts(fetch_date);
+
+        if(hours == new Date().getHours()) continue;
+        
+        let fetch_time_hours = formatTime([hours, ""], "eu");
+        let fetch_time_minutes = formatTime(["", minutes], "eu");
+
+        if(fetch_time_hours in stats){
+            if(fetch_time_minutes in stats[fetch_time_hours]){
+                stats[fetch_time_hours][fetch_time_minutes]++;
+            } else {
+                stats[fetch_time_hours][fetch_time_minutes] = 1;
+            }
+        } else {
+            stats[fetch_time_hours] = {
+                [fetch_time_minutes]: 1
+            }
+        }
+    }
+
+    console.log("stats", stats);
+    let total_minutes = 0;
+    let total_hours = 0;
+    let total_minute_requests = 0;
+    let total_hour_requests = 0;
+
+    for(let hour in stats){
+        total_hours++;
+
+        for(let minute in stats[hour]){
+            total_minutes++;
+            total_minute_requests += stats[hour][minute]
+            total_hour_requests += stats[hour][minute]
+        }
+    }
+
+    doc.find("#average_calls_per_minute").innerText = (total_minute_requests/total_minutes).toFixed(1);
+    doc.find("#average_calls_per_hour").innerText = (total_hour_requests/total_hours).toFixed(1);
 }

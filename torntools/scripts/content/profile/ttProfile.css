@@ -8,11 +8,11 @@
 .content.tt-content {
     overflow: hidden !important;
 }
-.profile-stats {
+.profile-stats.populated {
     width: 160%;
     overflow-x: hidden;
 }
-.profile-stats.tt-mobile {
+.profile-stats.populated.tt-mobile {
     width: 197%;
 }
 .tt-stats-table {
@@ -116,19 +116,20 @@
 .tt-row .item:last-of-type {
     border-right: unset;
 }
-.tt-row.tt-header {
+.tt-row.tt-header .item, .tt-row.sub-heading .item {
     font-weight: 600;
+    font-size: 14px !important;
 }
 .tt-row .item {
     box-sizing: border-box;
     padding-left: 10px;
     border-right: 2px solid lightgray;
 }
-.col-chosen.tt-highlight-sector .tt-row:not(.tt-header):hover {
+.col-chosen.tt-highlight-sector .tt-row:not(.tt-header):not(.sub-heading):hover {
     background-color: #ff9c9c;
     cursor: pointer;
 }
-.col-other.tt-highlight-sector .tt-row:not(.tt-header):hover {
+.col-other.tt-highlight-sector .tt-row:not(.tt-header):not(.sub-heading):hover {
     background-color: #c8e888;
     cursor: pointer;
 }
@@ -155,7 +156,7 @@
 } 
 
 .fetch-button {
-    width: 774px;
+    width: 100%;
     text-align: center;
     background-color: #e0e0e0;
     padding: 6px 0;
@@ -163,16 +164,13 @@
     cursor: pointer;
     margin-bottom: 5px;
 }
-.fetch-button.tt-mobile {
-    width: 310px;
-}
 .fetch-button:hover {
     background-color: #c1c1c1;
 }
 
-.profile-stats .tt-loading-placeholder {
-    left: 0 !important;
-    margin-left: 350px !important;
+.tt-error-message {
+    text-align: center;
+    color: red;
 }
 
 /* Spy */

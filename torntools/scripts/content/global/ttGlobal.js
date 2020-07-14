@@ -1,5 +1,9 @@
 DBloaded().then(function(){
     console.log("Loading Global Script");
+
+    // Add TT Black overlay
+    let overlay = doc.new({type: "div", class: "tt-black-overlay"});
+    doc.find("body").appendChild(overlay);
     
     navbarLoaded().then(async function(){
         let _flying = await flying();
@@ -38,10 +42,6 @@ DBloaded().then(function(){
             displayVaultBalance();
         }
 
-        // Add TT Black overlay
-        let overlay = doc.new({type: "div", class: "tt-black-overlay"});
-        doc.find("body").appendChild(overlay);
-
         // Content margin
         if(mobile && !_flying && custom_links.length > 0){
             console.log("here")
@@ -50,11 +50,8 @@ DBloaded().then(function(){
     });
     
     chatsLoaded().then(function(){
-    
-        if((extensions.doctorn == true || extensions.doctorn == "force_true") && !settings.force_tt){
-            return;
-        }
-    
+        if (shouldDisable()) return
+
         // Chat highlight
         if(doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")){
             highLightChat(chat_highlight, userdata.name);
@@ -247,6 +244,8 @@ function addChatFilters(){
 }
 
 function displayVaultBalance(){
+    if (!networth || !networth.current || !networth.current.value) return;
+
     let elementHTML = `
     <span class="name___297H-">Vault:</span>
     <span class="value___1K0oi money-positive___3pqLW" style="position:relative;left:-3px;">$${numberWithCommas(networth.current.value.vault, false)}</span>

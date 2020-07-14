@@ -1,6 +1,27 @@
+/* Disabling gym buttons */
 .tt-checkbox-wrap {
     height: 13px;
     margin-top: 4px;
+}
+
+.tt-gym-locked {
+    position: relative;
+}
+.tt-gym-locked:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: hsla(0,0%,90.2%,.5);
+}
+.tt-gym-locked .propertyValue___3oAOv {
+    z-index: 1;
+    position: relative;
+    text-shadow: none;
+    color: #eee;
 }
 
 /* Graph */
