@@ -126,12 +126,16 @@ function ocTimes(oc, format){
     for(let crime of crimes){
         let crime_id = crime.find(".details-wrap").getAttribute("data-crime");
 
-        let finish_time = oc[crime_id].time_ready;
-        let [day, month, year, hours, minutes, seconds]  = dateParts(new Date(finish_time*1000));
+        let finish_time;
+        let span = doc.new({type: "span", class: "tt-oc-time"});
 
-        let span = doc.new("span");
-            span.setClass("tt-oc-time");
+        if(oc[crime_id]){
+            finish_time = oc[crime_id].time_ready;
+            let [day, month, year, hours, minutes, seconds]  = dateParts(new Date(finish_time*1000));
+
             span.innerText =`${formatTime([hours, minutes], format.time)} | ${formatDate([day, month], format.date)}`;
+        }
+        span.innerText = "N/A";
 
         crime.find(".status").appendChild(span);
     }

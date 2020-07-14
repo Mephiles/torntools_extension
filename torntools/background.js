@@ -520,7 +520,7 @@ async function Main_1_minute(){
 
 function Main_15_minutes(){
 	local_storage.get("api_key", async function(api_key){
-		console.group("Main (stocks)");
+		console.group("Main (stocks | OC info)");
 
 		if(api_key == undefined){
 			console.log("NO API KEY");
@@ -543,6 +543,28 @@ function Main_15_minutes(){
 				});
 			});
 		});
+
+		// faction data
+		console.log("Setting up faction data.");
+		if(settings.pages.faction.oc_time){
+			await new Promise(function(resolve, reject){
+				get_api("https://api.torn.com/faction/?selections=crimes", api_key).then((factiondata) => {
+					if(!factiondata.ok) return resolve(false);
+
+					factiondata = factiondata.result;
+
+					let new_date = new Date().toString();
+					factiondata.crimes.date = new_date;
+
+					local_storage.set({"oc": factiondata.crimes}, function(){
+						console.log("	Faction data set.");
+						return resolve(true);
+					});
+				});
+			});
+		} else {
+			console.log("	Faction OC time formatting turned off.");
+		}
 	
 		console.groupEnd("Main (stocks)");
 	});
@@ -550,7 +572,7 @@ function Main_15_minutes(){
 
 async function Main_1_day(){
 	local_storage.get("api_key", async function(api_key){
-		console.group("Main (torndata | OC info | installed extensions)");
+		console.group("Main (torndata | installed extensions)");
 
 		if(api_key == undefined){
 			console.log("NO API KEY");
@@ -581,28 +603,6 @@ async function Main_1_day(){
 				});
 			});
 		});
-
-		// faction data
-		console.log("Setting up faction data.");
-		if(settings.pages.faction.oc_time){
-			await new Promise(function(resolve, reject){
-				get_api("https://api.torn.com/faction/?selections=crimes", api_key).then((factiondata) => {
-					if(!factiondata.ok) return resolve(false);
-
-					factiondata = factiondata.result;
-
-					let new_date = (new Date()).toString();
-					factiondata.crimes.date = new_date;
-
-					local_storage.set({"oc": factiondata.crimes}, function(){
-						console.log("	Faction data set.");
-						return resolve(true);
-					});
-				});
-			});
-		} else {
-			console.log("	Faction OC time formatting turned off.");
-		}
 
 		// Doctorn
 		updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
