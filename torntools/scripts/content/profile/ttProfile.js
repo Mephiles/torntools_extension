@@ -473,8 +473,11 @@ async function displayProfileStats(){
         for(let key of keys){
             let row_title = key_dict[section][key];
 
+            if(key == "totalcrimes") key = "total";
+            if(key == "othercrimes") key = "other";
+
             let their_value = result[key] || 0;
-            let your_value = userdata.personalstats[key] || 0;
+            let your_value = userdata.personalstats[key] || userdata.criminalrecord[key] || 0;
             
             let their_value_modified, your_value_modified;
 
