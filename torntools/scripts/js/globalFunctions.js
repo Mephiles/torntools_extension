@@ -900,7 +900,7 @@ function abroad() {
 function pageStatus(){
     return new Promise(function(resolve, reject){
         let checker = setInterval(function(){
-            let page_heading = doc.find("#skip-to-content");
+            let page_heading = doc.find("#skip-to-content") || doc.find(".title___2sbYr");
             let message = doc.find("div[role='main']>.info-msg-cont");
             
             // Page heading
