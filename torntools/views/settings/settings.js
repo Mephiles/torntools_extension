@@ -1,5 +1,6 @@
 import changelog from "../../changelog.js";
 var version;
+only_wants_database = true;
 
 window.addEventListener("load", function(){
     DBloaded().then(function(){

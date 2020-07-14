@@ -1909,6 +1909,7 @@ api;
         }
 
         if(only_wants_database){
+            console.log("DB LOADED");
             db_loaded = true;
             return;
         }
