@@ -51,8 +51,8 @@ var key_dict = {
         "computer_crimes": "Crimes: Computer",
         "murder": "Crimes: Murder",
         "fraud_crimes": "Crimes: Fraud",
-        "othercrimes": "Crimes: Other",
-        "totalcrimes": "Crimes: Total",
+        "other": "Crimes: Other",
+        "total": "Crimes: Total",
         "organisedcrimes": "Crimes: Organised Crimes"
     },
     consumables: {
@@ -472,9 +472,6 @@ async function displayProfileStats(){
 
         for(let key of keys){
             let row_title = key_dict[section][key];
-
-            if(key == "totalcrimes") key = "total";
-            if(key == "othercrimes") key = "other";
 
             let their_value = result[key] || 0;
             let your_value = userdata.personalstats[key] || userdata.criminalrecord[key] || 0;
@@ -966,8 +963,8 @@ function getTraveling(){
 
 function modifyResult(personalstats, criminalrecord, comparison_data, spy_data){
     const record = {
-        total: "totalcrimes",
-        other: "othercrimes",
+        // total: "totalcrimes",
+        // other: "othercrimes",
     };
     const comparison = {
         "Xanax Taken": { name: "xantaken", field: "amount" },
