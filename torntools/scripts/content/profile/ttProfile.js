@@ -659,12 +659,12 @@ function showSpyInfo(){
             let row = doc.new({type: "div", class: "tt-row"});
             let item_key = doc.new({type: "div", class: "item", text: capitalize(stat)});
             let item_them = doc.new({type: "div", class: "item", text: numberWithCommas(parseInt(spy_info[stat]), false)});
-            let item_you = doc.new({type: "div", class: "item", text: numberWithCommas(parseInt(userdata[stat].replace(/,/g,"")), false)});
+            let item_you = doc.new({type: "div", class: "item", text: numberWithCommas(parseInt(userdata[stat]), false)});
 
-            if(parseInt(spy_info[stat]) > parseInt(userdata[stat].replace(/,/g,""))){
+            if(parseInt(spy_info[stat]) > parseInt(userdata[stat])){
                 item_you.classList.add("negative");
                 item_them.classList.add("positive");
-            } else if(parseInt(spy_info[stat]) < parseInt(userdata[stat].replace(/,/g,""))){
+            } else if(parseInt(spy_info[stat]) < parseInt(userdata[stat])){
                 item_them.classList.add("negative");
                 item_you.classList.add("positive");
             }
