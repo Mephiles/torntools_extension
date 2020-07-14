@@ -1,4 +1,4 @@
-navbarLoaded().then(function(){
+window.addEventListener("load", function(){
     console.log("TT - Preferences");
 
     let settings_container = content.new_container("TornTools - Settings", {header_only: true, all_rounded: true, _class: "m-top10"});
