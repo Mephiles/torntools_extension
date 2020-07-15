@@ -1,4 +1,15 @@
 export default {
+    "v4.9": {
+        "Features": [
+
+        ],
+        "Fixes": [
+            
+        ],
+        "Changes": [
+
+        ]
+    },
     "v4.8": {
         "Features": [
             "Added Vault balance to Torn Information window",
