@@ -403,6 +403,8 @@ function addButton(){
 function addItemMarketLinks(){
     let items = doc.findAll(".items-cont[aria-expanded=true]>li");
 
+    if(doc.find(".items-cont[aria-expanded=true] .tt-market-link")) return;
+
     for(let item of items){
         let li = doc.new({type: "li", class: "left tt-market-link", attributes: {"data-id": item.getAttribute("data-item")}});
         let a = doc.new({type: "a", href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${item.find(".image-wrap img").getAttribute("alt")}`});
