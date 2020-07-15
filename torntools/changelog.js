@@ -4,13 +4,16 @@ export default {
             "Added Vault balance to Torn Information window",
             "Added option to disable individual Gym stats training",
             "Added Item Market links to Items",
-            "Added Faction Armory filter to hide items that are Unavailable"
+            "Added Faction Armory filter to hide items that are Unavailable",
+            "Show item quantities for Quick Items",
+            "Added basic statistics about Torn's API fetches made by TornTools",
+            "Added Crimes stats to Profile Stats",
         ],
         "Fixes": [
             "Remove LastPass icon from chat 'Find' field",
             "Enabled Update TornStats button on mobile Gym page",
             "Fixed displaying Faction Member info when honors are turned off",
-            "Fixed and redesigned Filters for Hospital, Jail, Faction, Player search, Bounties (all enabled on Mobile now)",
+            "Fixed and redesigned Filters for Hospital, Jail, Faction, Player search, Bounties, Overseas player list (all enabled on Mobile now)",
             "Fixed 'view full page' when visiting other Factions",
             "Added option to disable 'find' feature in chat",
             "Removed duplicates from Profile Stats",
@@ -19,7 +22,14 @@ export default {
             "Fixed Gym Estimated Energy script when unlocking the last gym",
             "Fixed Mobile content overflow",
             "Fixed search bug in Stocks popup",
-            "Fixed Firefox notification links not working"
+            "Fixed Firefox notification links not working",
+            "Fixed chain timer inaccuraccy in Info popup",
+            "Removed an extra HR from Clean travel page",
+            "Fixed Gym script failing to load completely when All gyms were unlocked",
+            "Fixed Crimes script running when page was blocked",
+            "Fixed TornStats NNB visual issue",
+            "Fixed Market tab not showing prices if either bazaar or itemmarket had 0 listings",
+            "Fixed Info popup Events & Messages links stacking up"
         ],
         "Changes": [
             "Disabled Profile Stats for your own profile",
@@ -30,7 +40,9 @@ export default {
             "Added EDIT button to add/remove Profile Stats to eliminate accidental moving",
             "Removed Text-To-Speech from permissions (still usable)",
             "Improved Travel Destinations table. Clicking on Country filters affects the map and vice-versa",
-            "Added link to TornTools preferences to Torn's Settings page"
+            "Added link to TornTools preferences to Torn's Settings page",
+            "Removed options for Doctorn in settings. Auto-detection is enabled for Chrome and Firefox - Thanks DKK",
+            "Adjusted 'buy' button position to reduce misclicking"
         ],
         "API SYSTEM CHANGES": [
             "Networth info is only fetched when visiting Home page with a cache time of 5 minutes",
