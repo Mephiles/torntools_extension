@@ -33,7 +33,7 @@
 	},
 	"browser_specific_settings": {
 		"gecko": {
-			"id": "torntools@mephiles.github.com"
+			"id": "{3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9}"
 		}
 	},
 	"content_scripts": [
