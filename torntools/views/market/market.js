@@ -111,8 +111,6 @@ function showMarketInfo(id, api_key){
                 for(let i = 0; i < 3; i++){
                     let price_div = doc.new("div");
                     price_div.setClass("price");
-                    // price_div.innerText = `$${numberWithCommas(data[type][i].cost, shorten=false)} | ${data[type][i].quantity}x`;
-                    console.log("DKK", type, data)
                     price_div.innerText = `${data[type][i].quantity}x | $${numberWithCommas(data[type][i].cost, shorten=false)}`;
 
                     list.appendChild(price_div);
@@ -121,7 +119,7 @@ function showMarketInfo(id, api_key){
                list.appendChild(doc.new({
                    type: "div",
                    class: "price",
-                   text: "no price found",
+                   text: "No price found.",
                }));
             }
 
