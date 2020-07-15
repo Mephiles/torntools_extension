@@ -123,6 +123,9 @@ li.tt-item-price {
 .cont-wrap.tt-modified .bonuses.left {
     right: -37px !important;
 }
+.cont-wrap.tt-modified>.action-wrap {
+    display: none !important;
+}
 li.item-group.tt-modified .title.left {
     width: 612px !important;
 }

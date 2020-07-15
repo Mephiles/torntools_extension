@@ -424,7 +424,11 @@ function addItemMarketLinks(){
 
         item.find(".cont-wrap").appendChild(actionParent)
 
-        item.find("ul.actions-wrap").insertBefore(li, item.find("ul.actions-wrap .dump"));
+        if(item.find("ul.actions-wrap .dump")){
+            item.find("ul.actions-wrap").insertBefore(li, item.find("ul.actions-wrap .dump"));
+        } else {
+            item.find("ul.actions-wrap").insertBefore(li, item.find("ul.actions-wrap .clear"));
+        }
     }
 }
 
