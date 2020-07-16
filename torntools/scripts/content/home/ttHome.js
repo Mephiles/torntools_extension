@@ -15,7 +15,9 @@ DBloaded().then(function(){
 });
 
 async function displayNetworth(){
-	// let networth = networth;
+	let parent_box = doc.find("h5=General Information").parentElement.nextElementSibling.find("ul.info-cont-wrap");
+	loadingPlaceholder(parent_box, true);
+	
 	if(networth.current.date == undefined || new Date() - new Date(networth.current.date) >= 5*60*1000){  // 5 minutes
 		networth = await new Promise(function(resolve, reject){
 			get_api("https://api.torn.com/user/?selections=personalstats,networth", api_key).then((data) => {
@@ -63,8 +65,7 @@ async function displayNetworth(){
 		});
 	}
 	console.log("Networth", networth);
-
-	let parent_box = doc.find("h5=General Information").parentElement.nextElementSibling.find("ul.info-cont-wrap");
+	loadingPlaceholder(parent_box, false);
 
 	// current networth
 	let networth_text = `$${numberWithCommas(networth.current.value.total, shorten=false)}`;
