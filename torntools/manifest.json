@@ -8,7 +8,7 @@
 	},
 	"browser_action": {
 		"default_title": "TornTools",
-		"default_popup": "views/index/index.html",
+		"default_popup": "views/info/info.html",
 		"default_icon": "images/icon128.png"
 	},
 	"author": "Gregor Kaljulaid - Mephiles[2087524]",
@@ -43,6 +43,7 @@
 			],
 			"css": [
 				"scripts/content/global/ttGlobal.css",
+				"scripts/content/global/ttChat.css",
 				"scripts/js/nouislider.css"
 			],
 			"js": [

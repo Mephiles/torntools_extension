@@ -5,8 +5,24 @@ window.addEventListener("load", function(){
     loadingPlaceholder(doc.find("body"), true);
 });
 
+DBfailed().then(function(failed){
+    console.log("DB failed", failed);
+    if(failed){
+        if(!app_initialized) {
+            window.location.href = `../index/index.html`;
+        }
+    } else {
+        console.log("DB has loaded.");
+    }
+});
+
 DBloaded().then(function(){
     console.log("Start Info popup");
+
+    // Check if another page is default
+    if(settings.tabs.default != "info"){
+        window.location.href = `../${settings.tabs.default}/${settings.tabs.default}.html`;
+    }
 
     // Remove loader
     loadingPlaceholder(doc.find("body"), false);

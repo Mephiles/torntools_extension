@@ -10,6 +10,7 @@ const doc = document;
 var DB;
 var mobile = false;
 var db_loaded = false;
+var db_failed = undefined;
 var notification_link_relations = {}
 var drug_dict = {
     "cannabis": {
@@ -1581,6 +1582,20 @@ function DBloaded(){
     });
 }
 
+function DBfailed(){
+    return new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            if(db_failed == true){
+                resolve(true);
+                return clearInterval(checker);
+            } else if(db_failed == false){
+                resolve(false);
+                return clearInterval(checker);
+            }
+        });
+    });
+}
+
 function contentLoaded(){
     return new Promise(function(resolve, reject){
         let checker = setInterval(function(){
@@ -1904,6 +1919,7 @@ api;
 
         if(api_key == undefined || api_key == ""){
             app_initialized = false;
+            db_failed = true;
             console.log("App has not been initialized");
             return;
         }
@@ -1911,6 +1927,7 @@ api;
         if(only_wants_database){
             console.log("DB LOADED");
             db_loaded = true;
+            db_failed = false;
             return;
         }
 
@@ -1954,5 +1971,6 @@ api;
         // DB loaded
         console.log("DB LOADED");
         db_loaded = true;
+        db_failed = false;
     });
 })();
