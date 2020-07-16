@@ -571,7 +571,7 @@ function Main_15_minutes(){
 }
 
 async function Main_1_day(){
-	local_storage.get("api_key", async function(api_key){
+	local_storage.get(["api_key", "new_day_last"]  async function(api_key, new_day_last){
 		console.group("Main (torndata | installed extensions)");
 
 		if(api_key == undefined){
@@ -607,11 +607,79 @@ async function Main_1_day(){
 		// Doctorn
 		updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 
+		//Check New Day has ran and re-initialise if not
+		if(new_day_last + 1 * days < new Date().getTime())
+			Init_New_Day_Timer();
+
 		// Clear API history
 		await clearAPIhistory();
 
 		console.groupEnd("Main (torndata | OC info | installed extensions)");
 	});
+}
+
+function Init_New_Day_Timer() {
+	local_storage.get(["api_key"], async function([api_key]){
+
+		if(api_key == undefined){
+			console.log("NO API KEY");
+			return;
+		}
+
+		// New torn day notification
+		console.log("Setting up Torn New Day Timer");
+		await (function(){
+			return new Promise(function(resolve, reject){
+				get_api("https://api.torn.com/torn/?selections=timestamp", api_key).then((timestamp) => {
+					if(timestamp.ok != undefined && !timestamp.ok)
+						return resolve(timestamp);
+
+					let torn_timestamp = timestamp.result.timestamp * 1000;
+					let system_timestamp = new Date().getTime();
+					let prepare_new_day_alert = new Date();
+
+					prepare_new_day_alert.setUTCHours(23,55,0 );
+					prepare_new_day_alert = prepare_new_day_alert.getTime();
+					prepare_new_day_alert = prepare_new_day_alert - system_timestamp - (torn_timestamp - system_timestamp);
+
+					setTimeout(Prepare_New_Day_Alert, prepare_new_day_alert);
+
+				});
+			});
+		})();
+
+	});
+}
+
+function Prepare_New_Day_Alert() {
+	local_storage.get(["api_key"], async function([api_key]) {
+		await (function () {
+			return new Promise(function (resolve, reject) {
+				get_api("https://api.torn.com/torn/?selections=timestamp", api_key).then((timestamp) => {
+					if (timestamp.ok != undefined && !timestamp.ok)
+						return resolve(timestamp);
+
+					let torn_timestamp = timestamp.result.timestamp * 1000;
+					let system_timestamp = new Date().getTime();
+					let new_day_alert = new Date();
+
+					new_day_alert.setUTCHours(23, 59, 59);
+					new_day_alert = new_day_alert.getTime();
+					new_day_alert = new_day_alert - system_timestamp - (torn_timestamp - system_timestamp);
+
+					setTimeout(Prepare_New_Day_Alert, 1 * days - new_day_alert + (5 * minutes))
+					setTimeout(Show_New_Day_Alert, new_day_alert);
+				});
+			});
+		})();
+	});
+
+}
+
+function Show_New_Day_Alert(){
+	local_storage.set({"new_day_last": new Date().getTime()});
+	notifyUser("TornTools - New Day", `Its a new day in Torn`);
+
 }
 
 // 
