@@ -1512,7 +1512,11 @@ async function detectExtension(browserName, ext){
 	if (information.id) {
 		return new Promise(function(resolve, reject){
 			chrome.management.get(information.id, function(result) {
-				resolve(!!result);
+				if(result.enabled === true){
+					resolve(true);
+				} else {
+					resolve(false)
+				}
 			});
 		});
 	} else if (information.name) {
@@ -1525,6 +1529,7 @@ async function detectExtension(browserName, ext){
 			resolve(addons && !!addons
 				.filter((addon) => addon.type === "extension")
 				.filter((addon) => addon.name === information.name)
+				.filter((addon) => addon.enabled === true)
 				.length);
 		});
 	}
