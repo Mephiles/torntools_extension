@@ -20,55 +20,7 @@ DBloaded().then(function(){
 
         if(quick.items.length > 0){
             for(let id of quick.items){
-                let amount = findItemsInList(userdata.inventory, {ID: id})[0].quantity;
-
-                let div = doc.new({type: "div", class: "item", attributes: {"item-id": id}});
-                let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(/images/items/${id}/medium.png)`}});
-                let text = doc.new({type: "div", class: "text", text: itemlist.items[id].name});
-                let quantity = doc.new({type: "div", class: "sub-text tt-quickitems-quantity", attributes: {quantity: amount}, text: amount+"x"});
-                let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
-
-                div.appendChild(pic);
-                div.appendChild(text);
-                div.appendChild(quantity);
-                div.appendChild(close_icon);
-                inner_content.appendChild(div);
-
-                close_icon.addEventListener("click", function(event){
-                    event.stopPropagation();
-                    div.remove();
-
-                    let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
-                    local_storage.change({"quick": {"items": items}});
-                });
-
-                div.addEventListener("click", function(){
-                    console.log("Clicked Quick item");
-                    getAction({
-                        type: "post",
-                        action: "item.php",
-                        data: {step: "actionForm", id: id, action: "use"},
-                        success: function (str) {
-                            if(quick_container.find(".action-wrap")){
-                                quick_container.find(".action-wrap").remove();
-                            }
-
-                            response_wrap.style.display = "block";
-                            response_wrap.innerHTML = str;
-
-                            let newQuantity = parseInt(quantity.getAttribute("quantity")) - 1;
-                            quantity.innerText = newQuantity + "x";
-                            quantity.setAttribute("quantity", newQuantity);
-
-                            // adjust container
-                            quick_container.style.maxHeight = quick_container.scrollHeight + "px";
-
-                            useContainerLoaded().then(function(){
-                                quick_container.find(`a[data-item='${id}']`).click();
-                            });
-                        }
-                    });
-                });
+                addQuickItem(quick_container, inner_content, response_wrap, id);
             }
         }
     });
@@ -486,50 +438,8 @@ function onDragStart(event) {
         }
     
         let id = event.target.parentElement.getAttribute("data-item");
-    
-        let div = doc.new({type: "div", class: "temp item", attributes: {"item-id": id}});
-        let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(/images/items/${id}/medium.png)`}});
-        let text = doc.new({type: "div", class: "text", text: itemlist.items[id].name});
-        let quantity = doc.new({type: "div", class: "sub-text", text: findItemsInList(userdata.inventory, {ID: id})[0].quantity+"x"});
-        let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
-    
-        div.appendChild(pic);
-        div.appendChild(text);
-        div.appendChild(quantity);
-        div.appendChild(close_icon);
-        doc.find("#ttQuick .inner-content").appendChild(div);
-    
-        close_icon.addEventListener("click", function(event){
-            event.stopPropagation();
-            div.remove();
-    
-            let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
-            local_storage.change({"quick": {"items": items}});
-        });
-    
-        div.addEventListener("click", function(){
-            getAction({
-                type: "post",
-                action: "item.php",
-                data: {step: "actionForm", id: id, action: "use"},
-                success: function (str) {
-                    
-                    if(doc.find("#ttQuick").find(".action-wrap")){
-                        doc.find("#ttQuick").find(".action-wrap").remove();
-                    }
-    
-                    doc.find("#ttQuick .response-wrap").style.display = "block";
-                    doc.find("#ttQuick .response-wrap").innerHTML = str;
-                    
-                    // adjust container
-                    doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px"; 
-                    
-                    useContainerLoaded().then(function(){
-                        doc.find("#ttQuick").find(`a[data-item='${id}']`).click();
-                    });
-                }
-            });
-        });
+
+        addQuickItem(undefined, undefined, undefined, id);
     }, 10);
 }
 
@@ -542,4 +452,60 @@ function onDragEnd(event){
 
     let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
     local_storage.change({"quick": {"items": items}});
+}
+
+function addQuickItem(container, innerContent, responseWrap, id) {
+    if (!container) container = doc.find("#ttQuick");
+    if (!innerContent) innerContent = doc.find("#ttQuick .inner-content");
+    if (!responseWrap)  responseWrap = doc.find("#ttQuick .response-wrap")
+
+    let amount = findItemsInList(userdata.inventory, {ID: id})[0].quantity;
+
+    let div = doc.new({type: "div", class: "item", attributes: {"item-id": id}});
+    let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(/images/items/${id}/medium.png)`}});
+    let text = doc.new({type: "div", class: "text", text: itemlist.items[id].name});
+    let quantity = doc.new({type: "div", class: "sub-text tt-quickitems-quantity", attributes: {quantity: amount}, text: amount+"x"});
+    let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
+
+    div.appendChild(pic);
+    div.appendChild(text);
+    div.appendChild(quantity);
+    div.appendChild(close_icon);
+    innerContent.appendChild(div);
+
+    close_icon.addEventListener("click", function(event){
+        event.stopPropagation();
+        div.remove();
+
+        let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
+        local_storage.change({"quick": {"items": items}});
+    });
+
+    div.addEventListener("click", function(){
+        console.log("Clicked Quick item");
+        getAction({
+            type: "post",
+            action: "item.php",
+            data: {step: "actionForm", id: id, action: "use"},
+            success: function (str) {
+                if(container.find(".action-wrap")){
+                    container.find(".action-wrap").remove();
+                }
+
+                responseWrap.style.display = "block";
+                responseWrap.innerHTML = str;
+
+                let newQuantity = parseInt(quantity.getAttribute("quantity")) - 1;
+                quantity.innerText = newQuantity + "x";
+                quantity.setAttribute("quantity", newQuantity);
+
+                // adjust container
+                container.style.maxHeight = container.scrollHeight + "px";
+
+                useContainerLoaded().then(function(){
+                    container.find(`a[data-item='${id}']`).click();
+                });
+            }
+        });
+    });
 }
