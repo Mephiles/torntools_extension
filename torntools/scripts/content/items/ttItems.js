@@ -498,7 +498,7 @@ function addQuickItem(container, innerContent, responseWrap, id) {
                 let newQuantity = parseInt(quantity.getAttribute("quantity")) - 1;
                 quantity.innerText = newQuantity + "x";
                 quantity.setAttribute("quantity", newQuantity);
-
+                
                 // adjust container
                 container.style.maxHeight = container.scrollHeight + "px";
 
