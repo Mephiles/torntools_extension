@@ -291,38 +291,38 @@ function disableGyms() {
 
         checkbox.onclick = function(){
             if(!doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked") && checkbox.checked){
-                disableButton([stat], true);
+                disableGymButton([stat], true);
             } else if(!checkbox.checked){
-                disableButton([stat], false);
+                disableGymButton([stat], false);
             }
         }
     }
 
     if(settings.pages.gym.disable_strength && settings.pages.gym.disable_speed && settings.pages.gym.disable_dexterity && settings.pages.gym.disable_defense){
         checkbox.checked = true;
-        disableButton(["strength", "speed", "dexterity", "defense"], true);
+        disableGymButton(["strength", "speed", "dexterity", "defense"], true);
     }
+}
 
-    function disableButton(types, disable){
-        for(let stat of types){
-            if(disable){
-                if(!doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked")){
-                    doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.add("tt-gym-locked");
-                    doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = true;
-                }
-            } else {
-                doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.remove("tt-gym-locked");
-                doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = false;
+function disableGymButton(types, disable){
+    for(let stat of types){
+        if(disable){
+            if(!doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked")){
+                doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.add("tt-gym-locked");
+                doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = true;
             }
-
+        } else {
+            doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.remove("tt-gym-locked");
+            doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = false;
         }
 
-        local_storage.get("settings", function(settings){
-            for(let stat of types){
-                settings.pages.gym[`disable_${stat}`] = disable;
-            }
-
-            local_storage.set({"settings": settings});
-        });
     }
+
+    local_storage.get("settings", function(settings){
+        for(let stat of types){
+            settings.pages.gym[`disable_${stat}`] = disable;
+        }
+
+        local_storage.set({"settings": settings});
+    });
 }
