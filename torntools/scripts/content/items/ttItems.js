@@ -24,6 +24,7 @@ DBloaded().then(function(){
             for(let id of quick.items){
                 addQuickItem(quick_container, inner_content, response_wrap, id);
             }
+            enableInjectListener();
         }
     });
 });
@@ -442,6 +443,7 @@ function onDragStart(event) {
         let id = event.target.parentElement.getAttribute("data-item");
 
         addQuickItem(undefined, undefined, undefined, id);
+        enableInjectListener();
     }, 10);
 }
 
@@ -506,4 +508,33 @@ function addQuickItem(container, innerContent, responseWrap, id) {
             }
         });
     });
+}
+
+let injectListener = false;
+
+function enableInjectListener() {
+    if (injectListener) return;
+
+    window.addEventListener("tt-xhr", (event) => {
+        const {page, json, xhr} = event.detail;
+
+        if (page === "item" && json) {
+            if (!json.success) return;
+
+            const params = new URLSearchParams(xhr.requestBody);
+            if (params.get("step") !== "useItem") return;
+            if (params.has("fac") && params.get("fac") !== "0") return;
+
+            const item = params.get("itemID");
+
+            const quantity = doc.find(`#ttQuick .inner-content .item[item-id="${item}"] .tt-quickitems-quantity`);
+            if (!quantity) return;
+
+            let newQuantity = parseInt(quantity.getAttribute("quantity")) - 1;
+            quantity.innerText = newQuantity + "x";
+            quantity.setAttribute("quantity", newQuantity);
+        }
+    });
+
+    injectListener = true;
 }
