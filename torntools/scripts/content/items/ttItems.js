@@ -24,8 +24,9 @@ DBloaded().then(function(){
             for(let id of quick.items){
                 addQuickItem(quick_container, inner_content, response_wrap, id);
             }
-            enableInjectListener();
         }
+
+        enableInjectListener();
     });
 });
 
@@ -51,7 +52,7 @@ DBloaded().then(function(){
         if(settings.pages.items.drug_details){
             let item_info_container_mutation = new MutationObserver(function(mutations){
                 for(let mutation of mutations){
-                    if(mutation.type == "childList"){
+                    if(mutation.type === "childList"){
                         if(mutation.addedNodes[0] && mutation.addedNodes[0].classList && mutation.addedNodes[0].classList.contains("show-item-info")){
                             let el = mutation.addedNodes[0];
                             itemInfoLoaded(el).then(function(){
@@ -59,7 +60,7 @@ DBloaded().then(function(){
                                 if(item_name.indexOf("The") > -1) item_name = item_name.split("The ")[1];
             
                                 let drug_details = drug_dict[item_name.toLowerCase().replace(/ /g, "_")];
-                                if(drug_details == undefined){
+                                if(drug_details === undefined){
                                     return;
                                 }
                                 
@@ -167,7 +168,7 @@ DBloaded().then(function(){
 });
 
 function itemsLoaded() {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         let checker = setInterval(function () {
             let items = doc.find(".items-cont[aria-expanded=true]>li")
             if(items && [...items.children].length > 1){
@@ -203,7 +204,7 @@ function displayItemPrices(itemlist) {
                 parent.find(".qty").setAttribute("style", "position: relative; top: -3px;");
             }
 
-            if ([...item.findAll(".bonuses-wrap *")].length == 0) {
+            if ([...item.findAll(".bonuses-wrap *")].length === 0) {
                 qty = parseInt(parent.parentElement.parentElement.parentElement.find(".qty").innerText.replace("x", ""));
                 total_price = qty * parseInt(price);
             }
@@ -228,20 +229,20 @@ function displayItemPrices(itemlist) {
         if (total_price) {
             // new_element.innerText = `$${numberWithCommas(price, shorten=false)} | ${qty}x = $${numberWithCommas(total_price, shorten=false)}`;
             let one_price = doc.new("span");
-            one_price.innerText = `$${numberWithCommas(price, shorten = false)} |`;
+            one_price.innerText = `$${numberWithCommas(price, false)} |`;
             let quantity = doc.new("span");
             quantity.innerText = ` ${qty}x = `;
             quantity.setClass("tt-item-quantity");
             let all_price = doc.new("span");
-            all_price.innerText = `$${numberWithCommas(total_price, shorten = false)}`;
+            all_price.innerText = `$${numberWithCommas(total_price, false)}`;
 
             new_element.appendChild(one_price);
             new_element.appendChild(quantity);
             new_element.appendChild(all_price);
-        } else if (price == 0) {
+        } else if (price === 0) {
             new_element.innerText = `N/A`;
         } else {
-            new_element.innerText = `$${numberWithCommas(price, shorten = false)}`;
+            new_element.innerText = `$${numberWithCommas(price, false)}`;
         }
 
         parent.appendChild(new_element);
@@ -249,7 +250,7 @@ function displayItemPrices(itemlist) {
 }
 
 function useContainerLoaded(){
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         let checker = setInterval(function () {
             let wrap = doc.find("#ttQuick .action-wrap.use-act.use-action");
             if(wrap){
@@ -261,7 +262,7 @@ function useContainerLoaded(){
 }
 
 function itemInfoLoaded(element){
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         let checker = setInterval(function () {
             if(!element.find(".ajax-placeholder")){
                 resolve(true);
@@ -358,9 +359,9 @@ function addButton(){
 function addItemMarketLinks(){
     let items = doc.findAll(".items-cont[aria-expanded=true]>li");
 
-    if(doc.find(".items-cont[aria-expanded=true] .tt-market-link")) return;
+    for (let item of items) {
+        if (item.find(".tt-market-link")) continue;
 
-    for(let item of items){
         let li = doc.new({type: "li", class: "left tt-market-link", attributes: {"data-id": item.getAttribute("data-item")}});
         let a = doc.new({type: "a", href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${item.find(".image-wrap img").getAttribute("alt")}`});
         let i = doc.new({type: "i", class: "cql-item-market", attributes: {title: "Open Item Market"}});
@@ -395,8 +396,8 @@ function getAction(obj) {
     // obj.error = obj.error || onAjaxError;
     obj.before = obj.before || function () {};
     obj.complete = obj.complete || function () {};
-    var url = obj.action || window.location.protocol + "//" + window.location.hostname + location.pathname;
-    var options = {
+    const url = obj.action || window.location.protocol + "//" + window.location.hostname + location.pathname;
+    const options = {
         url: "https://www.torn.com/"+addRFC(url),
         type: obj.type || "get",
         data: obj.data || {},
@@ -422,7 +423,7 @@ function getAction(obj) {
             // obj.complete(data);
         },
     };
-    if (options.data.step != undefined) {
+    if (options.data.step !== undefined) {
     }
     if (obj.file) {
         options.cache = false;
@@ -447,7 +448,7 @@ function onDragStart(event) {
     }, 10);
 }
 
-function onDragEnd(event){
+function onDragEnd(){
     if(doc.find("#ttQuick .temp.item")){
         doc.find("#ttQuick .temp.item").remove();
     }
@@ -519,20 +520,38 @@ function enableInjectListener() {
         const {page, json, xhr} = event.detail;
 
         if (page === "item" && json) {
-            if (!json.success) return;
-
             const params = new URLSearchParams(xhr.requestBody);
-            if (params.get("step") !== "useItem") return;
-            if (params.has("fac") && params.get("fac") !== "0") return;
+            const step = params.get("step");
 
-            const item = params.get("itemID");
+            if (step === "useItem") {
+                if (!json.success) return;
 
-            const quantity = doc.find(`#ttQuick .inner-content .item[item-id="${item}"] .tt-quickitems-quantity`);
-            if (!quantity) return;
+                if (params.get("step") !== "useItem") return;
+                if (params.has("fac") && params.get("fac") !== "0") return;
 
-            let newQuantity = parseInt(quantity.getAttribute("quantity")) - 1;
-            quantity.innerText = newQuantity + "x";
-            quantity.setAttribute("quantity", newQuantity);
+                const item = params.get("itemID");
+
+                const quantity = doc.find(`#ttQuick .inner-content .item[item-id="${item}"] .tt-quickitems-quantity`);
+                if (!quantity) return;
+
+                let newQuantity = parseInt(quantity.getAttribute("quantity")) - 1;
+                quantity.innerText = newQuantity + "x";
+                quantity.setAttribute("quantity", newQuantity);
+            } else if (step === "getCategoryList" || step === "getNotAllItemsListWithoutGroups") {
+                if (!settings.pages.items.values && !settings.pages.items.itemmarket_links) return;
+
+                const currentTab = doc.find('ul.items-cont.tab-menu-cont[style="display: block;"]') || doc.find('ul.items-cont.tab-menu-cont:not([style])');
+                if (!currentTab) return;
+
+                new MutationObserver((mutations, observer) => {
+                    if (doc.find("li.ajax-item-loader")) return;
+
+                    if (settings.pages.items.values) displayItemPrices(itemlist.items);
+                    if (settings.pages.items.itemmarket_links) addItemMarketLinks();
+
+                    observer.disconnect();
+                }).observe(currentTab,  {subtree: true, childList: true});
+            }
         }
     });
 
