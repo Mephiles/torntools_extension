@@ -89,7 +89,8 @@ function addFillMaxButtons(){
             let max = parseInt(buy_btn.parentElement.parentElement.find(".stck-amount").innerText.replace(/,/g, ""));
             let price = parseInt(buy_btn.parentElement.parentElement.find(".c-price").innerText.replace(/,/g, "").replace("$",""));
             let user_money = doc.find(".user-info .msg .bold:nth-of-type(2)").innerText.replace(/,/g, "").replace("$","");
-            let limit = parseInt(doc.find(".user-info .msg .bold:nth-of-type(4)").innerText);
+            let bought = parseInt(doc.find(".user-info .msg .bold:nth-of-type(3)").innerText);
+            let limit = parseInt(doc.find(".user-info .msg .bold:nth-of-type(4)").innerText) - bought;
             
             max = max > limit ? limit:max;
             max = Math.floor(user_money/price) < max ? Math.floor(user_money/price) : max;
