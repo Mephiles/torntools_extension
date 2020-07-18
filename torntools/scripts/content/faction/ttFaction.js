@@ -1020,7 +1020,12 @@ function addFilterToTable(list, title){
 
 function armoryFilter(){
     armoryTabsLoaded().then(function(){
-        let armory_filter = content.new_container("Armory Filter", {header_only: true, id: "ttArmoryFilter", next_element: doc.find("#faction-armoury-tabs")});
+        let armory_filter = content.new_container("Armory Filter", {
+            header_only: true,
+            id: "ttArmoryFilter",
+            next_element: doc.find("#faction-armoury-tabs"),
+            all_rounded: true
+        });
 
         if(!["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))){
             armory_filter.classList.add("filter-hidden");
