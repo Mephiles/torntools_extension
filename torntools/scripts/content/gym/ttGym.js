@@ -38,7 +38,7 @@ DBloaded().then(function(){
     
         // Disable buttons
         let div = doc.new({type: "div", class: "tt-checkbox-wrap"});
-        let checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
+        let checkbox = doc.new({type: "input", id: "tt-gym-global-disable", attributes: {type: "checkbox"}});
         let div_text = doc.new({type: "div", text: "Disable Gym buttons"});
     
         div.appendChild(checkbox);
@@ -59,9 +59,9 @@ DBloaded().then(function(){
         let train_button_observer = new MutationObserver(function(mutations){
             for(let mutation of mutations){
                 if(mutation.target.classList){
-                    if(!mutation.target.classList.contains("tt-gym-locked") && mutation.target.find(".tt-gym-stat-checkbox").checked == true){
+                    if(!mutation.target.classList.contains("tt-gym-locked") && mutation.target.find(".tt-gym-stat-checkbox").checked === true){
                         mutation.target.classList.add("tt-gym-locked")
-                    } else if(mutation.target.classList.contains("tt-gym-locked") && mutation.target.find(".tt-gym-stat-checkbox").checked == false){
+                    } else if(mutation.target.classList.contains("tt-gym-locked") && mutation.target.find(".tt-gym-stat-checkbox").checked === false){
                         mutation.target.classList.remove("tt-gym-locked")
                     }
                 }
@@ -72,7 +72,7 @@ DBloaded().then(function(){
 });
 
 function gymLoaded(){
-    return new Promise(function(resolve, reject){
+    return new Promise(function(resolve){
         let checker = setInterval(function(){
             if(doc.find(".gymButton___3OFdI")){
                 resolve(true);
@@ -143,7 +143,7 @@ function displayGraph(){
                 data: {
                     labels: result.data.map(function(x){
                         let date = new Date(x.timestamp*1000);
-                        return formatDate([date.getDate(), date.getMonth()+1], settings.format.date);
+                        return formatDate([date.getDate(), date.getMonth()+1, 0], settings.format.date);
                     }),
                     datasets: [
                         {
@@ -249,25 +249,25 @@ function displayGraph(){
 
                     response_div.classList.add("failure");
                     response_div.innerText = result.error;
-                } else if(result.status == true){
+                } else if(result.status === true){
                     response_div.classList.add("success");
                     response_div.innerText = result.message;
 
                     let gains = []
                     let update_message = `You have gained `
 
-                    if(result.deltaStrength != 0){
+                    if(result.deltaStrength !== 0){
                         gains.push(`${numberWithCommas(result.deltaStrength, false)} Strength`);
-                    } else if(result.deltaDefense != 0){
+                    } else if(result.deltaDefense !== 0){
                         gains.push(`${numberWithCommas(result.deltaDefense, false)} Defense`);
-                    } else if(result.deltaDexterity != 0){
+                    } else if(result.deltaDexterity !== 0){
                         gains.push(`${numberWithCommas(result.deltaDexterity, false)} Dexterity`);
-                    } else if(result.deltaSpeed != 0){
+                    } else if(result.deltaSpeed !== 0){
                         gains.push(`${numberWithCommas(result.deltaSpeed, false)} Speed`);
                     }
 
                     update_message += gains.join(", ") + ` since your last update ${result.age}.`;
-                    if(gains.length == 0) update_message = `You have not gained any stats since your last update ${result.age}.`
+                    if(gains.length === 0) update_message = `You have not gained any stats since your last update ${result.age}.`
 
                     let info_div = doc.new({type: "div", class: "tt-info-message", text: update_message});
                     graph_area.appendChild(info_div);
@@ -278,6 +278,8 @@ function displayGraph(){
 }
 
 function disableGyms() {
+    let checkbox = doc.find("#tt-gym-global-disable");
+
     // Individual buttons
     for(let stat in GYM_SELECTORS){
         let checkbox = doc.new({type: "input", class: "tt-gym-stat-checkbox", attributes: {type: "checkbox"}});
