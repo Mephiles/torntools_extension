@@ -3,6 +3,8 @@ DBloaded().then(function(){
         console.log("TT - Quick items");
         if (shouldDisable()) return;
 
+        doc.find("head").appendChild(doc.new({type: "script", attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/items/ttItemsInject.js")}}));
+
         // Quick items
         let quick_container = content.new_container("Quick items", {id: "ttQuick", dragzone: true, next_element: doc.find(".equipped-items-wrap")}).find(".content");
         let inner_content = doc.new({type: "div", class: "inner-content"});
@@ -495,10 +497,6 @@ function addQuickItem(container, innerContent, responseWrap, id) {
                 responseWrap.style.display = "block";
                 responseWrap.innerHTML = str;
 
-                let newQuantity = parseInt(quantity.getAttribute("quantity")) - 1;
-                quantity.innerText = newQuantity + "x";
-                quantity.setAttribute("quantity", newQuantity);
-                
                 // adjust container
                 container.style.maxHeight = container.scrollHeight + "px";
 
