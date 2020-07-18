@@ -776,8 +776,18 @@ const content = {
             if(attr.id) div.id = attr.id;
             if(attr["_class"]) div.setClass(attr["_class"]);
 
+            let containerClasses = `top-round m-top10 tt-title ${theme_classes[`title-${settings.theme}`]}`;
+            if (attr.all_rounded) containerClasses += " all-rounded";
+            if (attr.header_only) containerClasses += " no-content";
+            if (collapsed === true || collapsed === undefined) {
+                containerClasses += " collapsed";
+
+                if (!attr.header_only) containerClasses += " all-rounded";
+            }
+
+
             let div_html = `
-            <div class="top-round m-top10 tt-title ${attr.all_rounded? 'all-rounded':''} ${attr.header_only? "no-content":""} ${theme_classes[`title-${settings.theme}`]} ${collapsed == true || collapsed == undefined? 'collapsed':''}">
+            <div class="${containerClasses}">
                 <div class="title-text">${name}</div>
                 <div class="tt-options"></div>
                 <i class="tt-title-icon fas fa-caret-down"></i>
@@ -798,9 +808,14 @@ const content = {
 
             if(!attr.header_only){
                 div.find(".tt-title").onclick = function(){
-                    div.find(".tt-title").classList.toggle("collapsed");
-                    let collapsed = div.find(".tt-title").classList.contains("collapsed")? true:false;
-    
+                    const title = div.find(".tt-title");
+
+                    title.classList.toggle("collapsed");
+                    let collapsed = title.classList.contains("collapsed");
+
+                    if (collapsed) title.classList.add("all-rounded");
+                    else title.classList.remove("all-rounded");
+
                     local_storage.change({"filters": {"container_open": {[page()]: collapsed}}})
                 }
             }
