@@ -138,6 +138,9 @@ DBloaded().then(function(){
             addItemMarketLinks();
         }
 
+        console.log("DKK setting", settings.pages.items.highlight_bloodbags)
+        if (settings.pages.items.highlight_bloodbags !== "none") highlightBloodBags();
+
         // Change item type page
         let sorting_icons = doc.findAll("ul[role=tablist] li:not(.no-items):not(.m-show):not(.hide)");
         for (let icon of sorting_icons) {
@@ -390,6 +393,37 @@ function addItemMarketLinks(){
     }
 }
 
+
+const ALLOWED_BLOOD = {
+    "o+": [ 738, 739 ], // 738
+    "o-": [ 739 ], // 739
+    "a+": [ 732, 733, 738, 739 ], // 732
+    "a-": [ 733, 739 ], // 733
+    "b+": [ 734, 735, 738, 739 ], // 734
+    "b-": [ 735, 739 ], // 735
+    "ab+": [ 732, 733, 734, 735, 736, 737, 738, 739 ], // 736
+    "ab-": [ 733, 735, 737, 739 ], // 737
+}
+
+function highlightBloodBags(){
+    const allowedBlood = ALLOWED_BLOOD[settings.pages.items.highlight_bloodbags];
+    const items = doc.findAll("ul.items-cont[aria-expanded=true] > li");
+
+    for (let item of items) {
+        if (!item.find(".name-wrap") || item.find(".name-wrap").find(".tt-modified")) continue;
+
+        if (!item.getAttribute("data-sort").includes("Blood Bag : ")) continue; // is not a filled blood bag
+        if (item.getAttribute("data-item") === "1012") continue; // is an irradiated blood bag
+
+        const classes = item.find(".name-wrap").classList;
+
+        classes.add("tt-modified");
+
+        if (allowedBlood.includes(parseInt(item.getAttribute("data-item")))) classes.add("tt-good_blood");
+        else classes.add("tt-bad_blood")
+    }
+}
+
 // Torn functions
 function getAction(obj) {
     obj.success = obj.success || function () {};
@@ -548,6 +582,7 @@ function enableInjectListener() {
 
                     if (settings.pages.items.values) displayItemPrices(itemlist.items);
                     if (settings.pages.items.itemmarket_links) addItemMarketLinks();
+                    if (settings.pages.items.highlight_bloodbags !== "none") highlightBloodBags();
 
                     observer.disconnect();
                 }).observe(currentTab,  {subtree: true, childList: true});
