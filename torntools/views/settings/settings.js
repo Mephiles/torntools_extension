@@ -243,8 +243,16 @@ function setupPreferences(){
     // Other scripts
     for(let page in settings.pages){
         for(let option in settings.pages[page]){
-            if(preferences.find(`#${page}-${option} input`)){
-                preferences.find(`#${page}-${option} input`).checked = settings.pages[page][option];
+            const optionDiv = preferences.find(`#${page}-${option}`);
+            if (!optionDiv) continue;
+
+
+            if(optionDiv.find("input")) optionDiv.find("input").checked = settings.pages[page][option];
+            else if (optionDiv.find("select")) {
+                const selectedOption = optionDiv.find(`select > option[value='${settings.pages[page][option]}']`)
+                if (!selectedOption) optionDiv.find("select > option[value='none']")
+
+                optionDiv.find("select").value = settings.pages[page][option];
             }
         }
     }
@@ -456,7 +464,11 @@ function savePreferences(preferences, settings, target_list_enabled){
     // Other scripts
     for(let page in settings.pages){
         for(let option in settings.pages[page]){
-            if(preferences.find(`#${page}-${option} input`)) settings.pages[page][option] = preferences.find(`#${page}-${option} input`).checked;
+            const optionDiv = preferences.find(`#${page}-${option}`);
+            if (!optionDiv) continue;
+
+            if(optionDiv.find("input")) settings.pages[page][option] = optionDiv.find("input").checked;
+            else if (optionDiv.find("select")) settings.pages[page][option] = optionDiv.find("select").selectedOptions[0].getAttribute("value");
         }
     }
     // settings.remove_info_boxes = preferences.find(`#remove_info_boxes input`).checked;
@@ -542,6 +554,9 @@ function savePreferences(preferences, settings, target_list_enabled){
     if(!isNaN(red_time_company)){
         settings.inactivity_alerts_company[red_time_company] = "#ffc8c8";
     }
+
+    // Items
+    settings.pages.items.highlight
 
     // Filters (Faction)
     let filter_factions = {

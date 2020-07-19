@@ -474,7 +474,8 @@ const STORAGE = {
             "items": {
                 "values": true,
                 "drug_details": true,
-                "itemmarket_links": true
+                "itemmarket_links": true,
+                "highlight_bloodbags": "none"
             },
             "travel": {
                 "profits": true,
