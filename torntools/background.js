@@ -34,6 +34,7 @@ let setup_storage = new Promise(function(resolve, reject){
 			});
 		} else {  // existing storage
 			console.log("Converting old storage.");
+			console.log("	Old storage", old_storage);
 			let new_storage = convertStorage(old_storage, STORAGE);
 	
 			console.log("	New storage", new_storage);
@@ -63,7 +64,7 @@ let setup_storage = new Promise(function(resolve, reject){
 				} 
 				
 				if(typeof STORAGE[key] == "object" && !Array.isArray(STORAGE[key])){
-					if(Object.keys(STORAGE[key]).length == 0)
+					if(Object.keys(STORAGE[key]).length == 0 || key === "chat_highlight")
 						new_local_storage[key] = old_storage[key];
 					else
 						new_local_storage[key] = convertStorage(old_storage[key], STORAGE[key]);
