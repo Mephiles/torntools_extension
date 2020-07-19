@@ -460,8 +460,8 @@ function upgradesInfoListener(){
 function armoryWorth(){
     get_api(`https://api.torn.com/faction/?selections=weapons,armor,temporary,medical,drugs,boosters,cesium,currency`, api_key)
     .then(function(result){
-        if(!result.ok){
-            if(result.error === 'Incorrect ID-entity relation'){
+        if (!result.ok) {
+            if (result.error === 'Incorrect ID-entity relation') {
                 let li = doc.new({type: "li", text: `Armory value: NO API ACCESS`});
                 doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
             }
@@ -499,9 +499,20 @@ function showUserInfo(){
     let factionId = doc.find(".faction-info-wrap .faction-info[data-faction]").getAttribute("data-faction");
 
     get_api(`https://api.torn.com/faction/${factionId}?selections=${ownFaction ? 'donations,' : ''}basic`, api_key)
-    .then(function(result){
-        if(!result.ok) {
-            return;
+    .then(function(result) {
+        if (!result.ok) {
+            if (result.error === 'Incorrect ID-entity relation') {
+                doc.findAll(".member-list.info-members>li").forEach((value) => {
+                    let li = doc.new({type: "li", class: "tt-user-info"});
+                    let inner_wrap = doc.new({type: "div", class: "tt-user-info-inner-wrap"});
+
+                    inner_wrap.appendChild(doc.new({type: "div", text: "No API access."}));
+
+                    li.appendChild(inner_wrap);
+                    value.parentElement.insertBefore(li, value.nextElementSibling);
+                });
+            }
+            return false;
         }
         
         result = result.result;
