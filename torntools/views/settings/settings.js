@@ -343,6 +343,14 @@ function setupPreferences(){
         let table_body = preferences.find("#chat_highlight .body");
         table_body.insertBefore(row, table_body.find(".row.input"));
     }
+    const chatSection = preferences.find(".section.chat");
+    for (let placeholder in HIGHLIGHT_PLACEHOLDERS) {
+        chatSection.append(doc.new({
+            type: "div",
+            class:"tabbed note",
+            text: `${placeholder} - ${HIGHLIGHT_PLACEHOLDERS[placeholder].description}`
+        }));
+    }
 
     // Loot alerts
     for(let npc_id in loot_times){
