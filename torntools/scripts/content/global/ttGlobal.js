@@ -1,6 +1,5 @@
 DBloaded().then(function(){
     console.log("Loading Global Script");
-    console.log("DKK chat_highlight", chat_highlight);
 
     // Add TT Black overlay
     let overlay = doc.new({type: "div", class: "tt-black-overlay"});
