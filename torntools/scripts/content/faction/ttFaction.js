@@ -1,124 +1,115 @@
-var member_info_added = false;
+let ownFaction = false;
+let member_info_added = false;
 
-window.addEventListener("load", async function(){
-    console.log("TT - Faction");
 
-    switch(subpage()){
-        case "main":
-            if(settings.pages.faction.armory) armoryLog();
 
-            subpageLoaded("main").then(function(){
-                fullInfoBox("main");
-            });
-            break;
-        case "info":
-            subpageLoaded("info").then(function(){
-                fullInfoBox("info");
-                
-                if(settings.pages.faction.armory_worth) armoryWorth();
-            });
+DBloaded().then(() => {
+    console.log("DKK settings", settings)
+    contentLoaded().then(() => {
+        console.log("TT - Faction");
 
-            playersLoaded(".member-list").then(function(){
-                if(settings.pages.faction.member_info) showUserInfo();
+        if (getSearchParameters().step === "your") {
+            ownFaction = true;
 
-                // Player list filter
-                let list = doc.find(".member-list");
-                let title = list.previousElementSibling;
-    
-                addFilterToTable(list, title);
-            });
-            break;
-        case "crimes":
-            ocMain();
-            break;
-        case "upgrades":
-            upgradesInfoListener();
-            break;
-        case "armoury":
-            if(settings.pages.items.drug_details) drugInfo();
-
-            armoryFilter();
-            break;
-        default:
-            break;
-    }
-
-    if(getSearchParameters().step != "profile"){
-        // Crimes page
-        doc.find(".faction-tabs li[data-case=crimes]").addEventListener("click", function(){
-            if(!doc.find(".faction-crimes-wrap.tt-modified")){
-                ocMain();
+            switch(subpage()){
+                case "main":
+                    loadMain();
+                    break;
+                case "info":
+                    loadInfo();
+                    break;
+                case "crimes":
+                    loadCrimes();
+                    break;
+                case "upgrades":
+                    loadUpgrades();
+                    break;
+                case "armoury":
+                    loadArmory();
+                    break;
+                default:
+                    break;
             }
-        });
-        
-        // Main page
-        doc.find(".faction-tabs li[data-case=main]").addEventListener("click", function(){
-            if(settings.pages.faction.armory) armoryLog();
-            
-            subpageLoaded("main").then(function(){
-                fullInfoBox("main");
-            });
-        });
-    
-        // Info page
-        doc.find(".faction-tabs li[data-case=info]").addEventListener("click", function(){
-            subpageLoaded("info").then(function(){
-                fullInfoBox("info");
-    
-                if(settings.pages.faction.armory_worth) armoryWorth();
-            });
-    
-            playersLoaded(".member-list").then(function(){
-                if(settings.pages.faction.member_info) showUserInfo();
-    
-                // Player list filter
-                let list = doc.find(".member-list");
-                let title = list.previousElementSibling;
-    
-                addFilterToTable(list, title);
-            });
-        });
-    
-        // Upgrades page
-        doc.find(".faction-tabs li[data-case=upgrades]").addEventListener("click", function(){
-            upgradesInfoListener();
-        });
-    
-        // Armory page
-        doc.find(".faction-tabs li[data-case=armoury]").addEventListener("click", function(){
-            if(settings.pages.items.drug_details) drugInfo();
 
-            armoryFilter();
-        });
-    } else {
-        playersLoaded(".member-list").then(function(){
-            // Player list filter
-            let list = doc.find(".member-list");
-            let title = list.previousElementSibling;
+            // Main page
+            doc.find(".faction-tabs li[data-case=main]").addEventListener("click", loadMain);
 
-            addFilterToTable(list, title);
-        });
-    }
+            // Info page
+            doc.find(".faction-tabs li[data-case=info]").addEventListener("click", loadInfo);
 
+            // Crimes page
+            doc.find(".faction-tabs li[data-case=crimes]").addEventListener("click", loadCrimes);
+
+            // Upgrades page
+            doc.find(".faction-tabs li[data-case=upgrades]").addEventListener("click", loadUpgrades);
+
+            // Armory page
+            doc.find(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
+        } else {
+            ownFaction = false;
+
+            loadInfo();
+        }
+    });
 });
 
-function ocMain(){
-    subpageLoaded("crimes").then(function(){
-        if(settings.pages.faction.oc_time && Object.keys(oc).length > 0){
-            ocTimes(oc, settings.format);
-        } else if(Object.keys(oc).length == 0) {
-            console.log("NO DATA (might be no API access)");
-        }
+function loadMain() {
+    if(settings.pages.faction.armory) armoryLog();
 
-        if(settings.pages.faction.oc_advanced){
-            openOCs();
-            showAvailablePlayers();
-            showRecommendedNNB();
-            showNNB();
-        }
-
-        doc.find(".faction-crimes-wrap").classList.add("tt-modified");
+    subpageLoaded("main").then(function(){
+        fullInfoBox("main");
     });
+}
+
+function loadInfo() {
+    if (ownFaction) {
+        subpageLoaded("info").then(function(){
+            fullInfoBox("info");
+
+            if(settings.pages.faction.armory_worth) armoryWorth();
+        });
+    }
+
+    playersLoaded(".member-list").then(function(){
+        if(settings.pages.faction.member_info) showUserInfo();
+
+        // Player list filter
+        let list = doc.find(".member-list");
+        let title = list.previousElementSibling;
+
+        addFilterToTable(list, title);
+    });
+}
+
+function loadCrimes() {
+    if(!doc.find(".faction-crimes-wrap.tt-modified")){
+        subpageLoaded("crimes").then(function(){
+            if(settings.pages.faction.oc_time && Object.keys(oc).length > 0){
+                ocTimes(oc, settings.format);
+            } else if(Object.keys(oc).length === 0) {
+                console.log("NO DATA (might be no API access)");
+            }
+
+            if(settings.pages.faction.oc_advanced){
+                openOCs();
+                showAvailablePlayers();
+                showRecommendedNNB();
+                showNNB();
+            }
+
+            doc.find(".faction-crimes-wrap").classList.add("tt-modified");
+        });
+    }
+}
+
+function loadUpgrades() {
+    upgradesInfoListener();
+}
+
+function loadArmory() {
+    if(settings.pages.items.drug_details) drugInfo();
+
+    armoryFilter();
 }
 
 function ocTimes(oc, format){
@@ -388,7 +379,7 @@ function fullInfoBox(page){
     if(getSearchParameters().step == "profile"){
         info_box = doc.find("#factions div[data-title='description']").nextElementSibling;
     } else if(page == "main"){
-        info_box = doc.find("#faction-main div[data-title='announcement']").nextElementSibling;
+        info_box = doc.find("div[data-title='announcement']").nextElementSibling;
     } else if(page == "info"){
         info_box = doc.find("#faction-info .faction-info-wrap.faction-description .faction-info");
     }
@@ -504,29 +495,33 @@ function armoryWorth(){
 }
 
 function showUserInfo(){
-    get_api(`https://api.torn.com/faction/?selections=donations,basic`, api_key)
+    let factionId = doc.find(".faction-info-wrap .faction-info[data-faction]").getAttribute("data-faction");
+
+    get_api(`https://api.torn.com/faction/${factionId}?selections=${ownFaction ? 'donations,' : ''}basic`, api_key)
     .then(function(result){
-        if(!result.ok) return;
+        if(!result.ok) {
+            return;
+        }
         
         result = result.result;
         console.log("result", result);
 
-        doc.find("#faction-info .member-list.info-members").classList.add("tt-modified");
-    
-        for(let user of doc.findAll("#faction-info .member-list.info-members>li")){
+        doc.find(".member-list.info-members").classList.add("tt-modified");
+
+        for(let user of doc.findAll(".member-list.info-members>li")){
             let user_id = user.find("a.user.name").getAttribute("data-placeholder")? user.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : user.find("a.user.name").getAttribute("href").split("XID=")[1];
-            
+
             let li = doc.new({type: "li", class: "tt-user-info", attributes: {"last-action": ((new Date() - result.members[user_id].last_action.timestamp*1000)/1000).toFixed(0)}});
             let inner_wrap = doc.new({type: "div", class: "tt-user-info-inner-wrap"});
             let texts = [
                 `Last action: ${result.members[user_id].last_action.relative}`
             ]
 
-            if(result.donations[user_id]){
-                if(result.donations[user_id].money_balance != 0){
+            if(result.donations && result.donations[user_id]){
+                if(result.donations[user_id].money_balance > 0){
                     texts.push(`Money balance: $${numberWithCommas(result.donations[user_id].money_balance, false)}`);
                 }
-                if(result.donations[user_id].points_balance != 0){
+                if(result.donations[user_id].points_balance > 0){
                     texts.push(`Points balance: ${numberWithCommas(result.donations[user_id].points_balance, false)}`);
                 }
             }
@@ -535,7 +530,7 @@ function showUserInfo(){
                 let div = doc.new({type: "div", text: text});
                 inner_wrap.appendChild(div);
     
-                if(texts.indexOf(text) != texts.length-1){
+                if(texts.indexOf(text) !== texts.length-1){
                     let divider = doc.new({type: "div", class: "tt-divider", text: "—"});
                     inner_wrap.appendChild(divider);
                 }

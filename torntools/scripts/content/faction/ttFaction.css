@@ -102,13 +102,13 @@
 }
 
 /* User detailed info */
-#faction-info .member-list.info-members.tt-modified {
+.member-list.info-members.tt-modified {
     background-color: unset;
 }
-#faction-info .member-list.info-members.tt-modified>li {
+.member-list.info-members.tt-modified>li {
     background-color: #F2F2F2;
 }
-#faction-info .member-list.info-members li.tt-user-info {
+.member-list.info-members li.tt-user-info {
     line-height: 18px;
     font-size: 11px;
     text-align: center;
