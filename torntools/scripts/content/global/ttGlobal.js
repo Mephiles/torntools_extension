@@ -1,5 +1,6 @@
 DBloaded().then(function(){
     console.log("Loading Global Script");
+    console.log("DKK chat_highlight", chat_highlight);
 
     // Add TT Black overlay
     let overlay = doc.new({type: "div", class: "tt-black-overlay"});
@@ -53,8 +54,15 @@ DBloaded().then(function(){
         if (shouldDisable()) return
 
         // Chat highlight
+        let highlights = {...chat_highlight};
+        for (let key in highlights) {
+            if (!(key in HIGHLIGHT_PLACEHOLDERS)) continue;
+
+            highlights[HIGHLIGHT_PLACEHOLDERS[key].value()] = highlights[key];
+        }
+
         if(doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")){
-            highLightChat(chat_highlight, userdata.name);
+            highLightChat(highlights, userdata.name);
 
             if(settings.pages.global.find_chat) addChatFilters();
         }
@@ -64,7 +72,7 @@ DBloaded().then(function(){
                 return;
             }
     
-            highLightChat(chat_highlight, userdata.name);
+            highLightChat(highlights, userdata.name);
             if(settings.pages.global.find_chat) addChatFilters();
         });
     
@@ -76,8 +84,8 @@ DBloaded().then(function(){
                     let sender = message.find("a").innerText.replace(":", "").trim();
                     let text = message.find("span").innerText;
                     
-                    if(sender in chat_highlight){
-                        message.find("a").style.color = chat_highlight[sender];
+                    if(sender in highlights){
+                        message.find("a").style.color = highlights[sender];
                     }
                     if(text.indexOf(userdata.name) > -1){
                         message.find("span").parentElement.style.backgroundColor = "#c7e27b6e";

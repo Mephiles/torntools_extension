@@ -520,6 +520,13 @@ const STORAGE = {
     }
 }
 
+const HIGHLIGHT_PLACEHOLDERS = {
+    "{player_name}": {
+        value: () => userdata.name,
+        description: "Your player name."
+    }
+}
+
 Document.prototype.find = function (type) {
     if (type.indexOf("=") > -1 && type.indexOf("[") == -1) {
         let key = type.split("=")[0];
