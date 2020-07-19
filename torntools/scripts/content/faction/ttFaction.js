@@ -1,124 +1,115 @@
-var member_info_added = false;
+let ownFaction = false;
+let member_info_added = false;
 
-window.addEventListener("load", async function(){
-    console.log("TT - Faction");
 
-    switch(subpage()){
-        case "main":
-            if(settings.pages.faction.armory) armoryLog();
 
-            subpageLoaded("main").then(function(){
-                fullInfoBox("main");
-            });
-            break;
-        case "info":
-            subpageLoaded("info").then(function(){
-                fullInfoBox("info");
-                
-                if(settings.pages.faction.armory_worth) armoryWorth();
-            });
+DBloaded().then(() => {
+    console.log("DKK settings", settings)
+    contentLoaded().then(() => {
+        console.log("TT - Faction");
 
-            playersLoaded(".member-list").then(function(){
-                if(settings.pages.faction.member_info) showUserInfo();
+        if (getSearchParameters().step === "your") {
+            ownFaction = true;
 
-                // Player list filter
-                let list = doc.find(".member-list");
-                let title = list.previousElementSibling;
-    
-                addFilterToTable(list, title);
-            });
-            break;
-        case "crimes":
-            ocMain();
-            break;
-        case "upgrades":
-            upgradesInfoListener();
-            break;
-        case "armoury":
-            if(settings.pages.items.drug_details) drugInfo();
-
-            armoryFilter();
-            break;
-        default:
-            break;
-    }
-
-    if(getSearchParameters().step != "profile"){
-        // Crimes page
-        doc.find(".faction-tabs li[data-case=crimes]").addEventListener("click", function(){
-            if(!doc.find(".faction-crimes-wrap.tt-modified")){
-                ocMain();
+            switch(subpage()){
+                case "main":
+                    loadMain();
+                    break;
+                case "info":
+                    loadInfo();
+                    break;
+                case "crimes":
+                    loadCrimes();
+                    break;
+                case "upgrades":
+                    loadUpgrades();
+                    break;
+                case "armoury":
+                    loadArmory();
+                    break;
+                default:
+                    break;
             }
-        });
-        
-        // Main page
-        doc.find(".faction-tabs li[data-case=main]").addEventListener("click", function(){
-            if(settings.pages.faction.armory) armoryLog();
-            
-            subpageLoaded("main").then(function(){
-                fullInfoBox("main");
-            });
-        });
-    
-        // Info page
-        doc.find(".faction-tabs li[data-case=info]").addEventListener("click", function(){
-            subpageLoaded("info").then(function(){
-                fullInfoBox("info");
-    
-                if(settings.pages.faction.armory_worth) armoryWorth();
-            });
-    
-            playersLoaded(".member-list").then(function(){
-                if(settings.pages.faction.member_info) showUserInfo();
-    
-                // Player list filter
-                let list = doc.find(".member-list");
-                let title = list.previousElementSibling;
-    
-                addFilterToTable(list, title);
-            });
-        });
-    
-        // Upgrades page
-        doc.find(".faction-tabs li[data-case=upgrades]").addEventListener("click", function(){
-            upgradesInfoListener();
-        });
-    
-        // Armory page
-        doc.find(".faction-tabs li[data-case=armoury]").addEventListener("click", function(){
-            if(settings.pages.items.drug_details) drugInfo();
 
-            armoryFilter();
-        });
-    } else {
-        playersLoaded(".member-list").then(function(){
-            // Player list filter
-            let list = doc.find(".member-list");
-            let title = list.previousElementSibling;
+            // Main page
+            doc.find(".faction-tabs li[data-case=main]").addEventListener("click", loadMain);
 
-            addFilterToTable(list, title);
-        });
-    }
+            // Info page
+            doc.find(".faction-tabs li[data-case=info]").addEventListener("click", loadInfo);
 
+            // Crimes page
+            doc.find(".faction-tabs li[data-case=crimes]").addEventListener("click", loadCrimes);
+
+            // Upgrades page
+            doc.find(".faction-tabs li[data-case=upgrades]").addEventListener("click", loadUpgrades);
+
+            // Armory page
+            doc.find(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
+        } else {
+            ownFaction = false;
+
+            loadInfo();
+        }
+    });
 });
 
-function ocMain(){
-    subpageLoaded("crimes").then(function(){
-        if(settings.pages.faction.oc_time && Object.keys(oc).length > 0){
-            ocTimes(oc, settings.format);
-        } else if(Object.keys(oc).length == 0) {
-            console.log("NO DATA (might be no API access)");
-        }
+function loadMain() {
+    if(settings.pages.faction.armory) armoryLog();
 
-        if(settings.pages.faction.oc_advanced){
-            openOCs();
-            showAvailablePlayers();
-            showRecommendedNNB();
-            showNNB();
-        }
-
-        doc.find(".faction-crimes-wrap").classList.add("tt-modified");
+    subpageLoaded("main").then(function(){
+        fullInfoBox("main");
     });
+}
+
+function loadInfo() {
+    if (ownFaction) {
+        subpageLoaded("info").then(function(){
+            fullInfoBox("info");
+
+            if(settings.pages.faction.armory_worth) armoryWorth();
+        });
+    }
+
+    playersLoaded(".member-list").then(function(){
+        if(settings.pages.faction.member_info) showUserInfo();
+
+        // Player list filter
+        let list = doc.find(".member-list");
+        let title = list.previousElementSibling;
+
+        addFilterToTable(list, title);
+    });
+}
+
+function loadCrimes() {
+    if(!doc.find(".faction-crimes-wrap.tt-modified")){
+        subpageLoaded("crimes").then(function(){
+            if(settings.pages.faction.oc_time && Object.keys(oc).length > 0){
+                ocTimes(oc, settings.format);
+            } else if(Object.keys(oc).length === 0) {
+                console.log("NO DATA (might be no API access)");
+            }
+
+            if(settings.pages.faction.oc_advanced){
+                openOCs();
+                showAvailablePlayers();
+                showRecommendedNNB();
+                showNNB();
+            }
+
+            doc.find(".faction-crimes-wrap").classList.add("tt-modified");
+        });
+    }
+}
+
+function loadUpgrades() {
+    upgradesInfoListener();
+}
+
+function loadArmory() {
+    if(settings.pages.items.drug_details) drugInfo();
+
+    armoryFilter();
 }
 
 function ocTimes(oc, format){
@@ -131,9 +122,10 @@ function ocTimes(oc, format){
 
         if(oc[crime_id]){
             finish_time = oc[crime_id].time_ready;
+            // noinspection JSUnusedLocalSymbols
             let [day, month, year, hours, minutes, seconds]  = dateParts(new Date(finish_time*1000));
 
-            span.innerText =`${formatTime([hours, minutes], format.time)} | ${formatDate([day, month], format.date)}`;
+            span.innerText =`${formatTime([hours, minutes, 0], format.time)} | ${formatDate([day, month, 0], format.date)}`;
         } else {
             span.innerText = "N/A";
         }
@@ -254,7 +246,7 @@ function armoryLog(){
 
 function subpage(){
     let hash = window.location.hash.replace("#/", "");
-    if(hash == ""){
+    if(hash === ""){
         return "main";
     }
 
@@ -266,19 +258,19 @@ function subpage(){
 }
 
 function subpageLoaded(page){
-    return new Promise(function(resolve, reject){
+    return new Promise(function(resolve){
         let checker = setInterval(function(){
             console.log("checking", page);
-            if(page == "crimes" && doc.find("#faction-crimes .organize-wrap ul.crimes-list li")){
+            if(page === "crimes" && doc.find("#faction-crimes .organize-wrap ul.crimes-list li")){
                 resolve(true);
                 return clearInterval(checker);
-            } else if(page == "main" && !doc.find("#faction-main div[data-title='announcement']+div .ajax-placeholder")){
+            } else if(page === "main" && !doc.find("#faction-main div[data-title='announcement']+div .ajax-placeholder")){
                 resolve(true);
                 return clearInterval(checker);
-            } else if(page == "info" && !doc.find("#faction-info .ajax-placeholder")){
+            } else if(page === "info" && !doc.find("#faction-info .ajax-placeholder")){
                 resolve(true);
                 return clearInterval(checker);
-            } else if(page == "upgrades" && !doc.find("#faction-upgrades>.ajax-placeholder")){
+            } else if(page === "upgrades" && !doc.find("#faction-upgrades>.ajax-placeholder")){
                 resolve(true);
                 return clearInterval(checker);
             }
@@ -287,9 +279,9 @@ function subpageLoaded(page){
 }
 
 function newstabLoaded(tab){
-    return new Promise(function(resolve, reject){
+    return new Promise(function(resolve){
         let checker = setInterval(function(){
-            if(tab == "armory" && doc.find("#tab4-4 .news-list li:not(.last)")){
+            if(tab === "armory" && doc.find("#tab4-4 .news-list li:not(.last)")){
                 resolve(true);
                 return clearInterval(checker);
             }
@@ -301,15 +293,15 @@ function openOCs(){
     let crimes = doc.findAll(".organize-wrap .crimes-list>li");
     
     for(let crime of crimes){
-        if(crime.find(".status .br") || crime.find(".status .bold").innerText.trim() != "Ready"){
+        if(crime.find(".status .br") || crime.find(".status .bold").innerText.trim() !== "Ready"){
             continue;
         }
 
         let all_players_ready = true;
         for(let player of crime.findAll(".details-list>li")){
-            if(player.find(".member").innerText == "Member") continue;
+            if(player.find(".member").innerText === "Member") continue;
 
-            if(player.find(".stat").innerText != "Okay"){
+            if(player.find(".stat").innerText !== "Okay"){
                 all_players_ready = false;
                 break;
             }
@@ -339,7 +331,7 @@ function showNNB(){
                     player.find(".stat").classList.add("torntools-mobile");
                 }    
 
-                if(player.find(".member").innerText == "Member"){
+                if(player.find(".member").innerText === "Member"){
                     let col = doc.new({type: "li", class: `tt-nnb ${mobile? "torntools-mobile":""}`, text: mobile?"NNB":"TornStats NNB"});
                     player.find(".stat").parentElement.insertBefore(col, player.find(".stat"));
 
@@ -367,7 +359,7 @@ function showNNB(){
                 player.find(".offences").classList.add("torntools-mobile");
             } 
 
-            if(player.find(".member").innerText.trim() == "Member"){
+            if(player.find(".member").innerText.trim() === "Member"){
                 let col = doc.new({type: "li", class: `tt-nnb short ${mobile?"torntools-mobile":""}`, text: mobile?"NNB":"TornStats NNB"});
                 player.find(".act").parentElement.insertBefore(col, player.find(".act"));
 
@@ -385,11 +377,11 @@ function showNNB(){
 
 function fullInfoBox(page){
     let info_box;
-    if(getSearchParameters().step == "profile"){
+    if(getSearchParameters().step === "profile"){
         info_box = doc.find("#factions div[data-title='description']").nextElementSibling;
-    } else if(page == "main"){
-        info_box = doc.find("#faction-main div[data-title='announcement']").nextElementSibling;
-    } else if(page == "info"){
+    } else if(page === "main"){
+        info_box = doc.find("div[data-title='announcement']").nextElementSibling;
+    } else if(page === "info"){
         info_box = doc.find("#faction-info .faction-info-wrap.faction-description .faction-info");
     }
 
@@ -403,9 +395,9 @@ function fullInfoBox(page){
     title.classList.add("tt-modified");
 
     let key;
-    if(page == "main"){
+    if(page === "main"){
         key = "announcements_page_full";
-    } else if(page == "info"){
+    } else if(page === "info"){
         key = "info_page_full";
     }
 
@@ -436,7 +428,7 @@ function upgradesInfoListener(){
     subpageLoaded("upgrades").then(function(){
         let upgrades_info_listener = new MutationObserver(function(mutations){
             for(let mutation of mutations){
-                if(mutation.type == "childList"){
+                if(mutation.type === "childList"){
                     if(mutation.addedNodes[0]){
                         for(let added_node of mutation.addedNodes){
                             if(added_node.classList && added_node.classList.contains("confirm") && added_node.classList.length >= 3){
@@ -468,13 +460,13 @@ function upgradesInfoListener(){
 function armoryWorth(){
     get_api(`https://api.torn.com/faction/?selections=weapons,armor,temporary,medical,drugs,boosters,cesium,currency`, api_key)
     .then(function(result){
-        if(!result.ok){
-            if(result.error == 'Incorrect ID-entity relation'){
+        if (!result.ok) {
+            if (result.error === 'Incorrect ID-entity relation') {
                 let li = doc.new({type: "li", text: `Armory value: NO API ACCESS`});
                 doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
             }
             return false;
-        };
+        }
 
         result = result.result;
         console.log("result", result);
@@ -504,29 +496,44 @@ function armoryWorth(){
 }
 
 function showUserInfo(){
-    get_api(`https://api.torn.com/faction/?selections=donations,basic`, api_key)
-    .then(function(result){
-        if(!result.ok) return;
+    let factionId = doc.find(".faction-info-wrap .faction-info[data-faction]").getAttribute("data-faction");
+
+    get_api(`https://api.torn.com/faction/${factionId}?selections=${ownFaction ? 'donations,' : ''}basic`, api_key)
+    .then(function(result) {
+        if (!result.ok) {
+            if (result.error === 'Incorrect ID-entity relation') {
+                doc.findAll(".member-list.info-members>li").forEach((value) => {
+                    let li = doc.new({type: "li", class: "tt-user-info"});
+                    let inner_wrap = doc.new({type: "div", class: "tt-user-info-inner-wrap"});
+
+                    inner_wrap.appendChild(doc.new({type: "div", text: "No API access."}));
+
+                    li.appendChild(inner_wrap);
+                    value.parentElement.insertBefore(li, value.nextElementSibling);
+                });
+            }
+            return false;
+        }
         
         result = result.result;
         console.log("result", result);
 
-        doc.find("#faction-info .member-list.info-members").classList.add("tt-modified");
-    
-        for(let user of doc.findAll("#faction-info .member-list.info-members>li")){
+        doc.find(".member-list.info-members").classList.add("tt-modified");
+
+        for(let user of doc.findAll(".member-list.info-members>li")){
             let user_id = user.find("a.user.name").getAttribute("data-placeholder")? user.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : user.find("a.user.name").getAttribute("href").split("XID=")[1];
-            
+
             let li = doc.new({type: "li", class: "tt-user-info", attributes: {"last-action": ((new Date() - result.members[user_id].last_action.timestamp*1000)/1000).toFixed(0)}});
             let inner_wrap = doc.new({type: "div", class: "tt-user-info-inner-wrap"});
             let texts = [
                 `Last action: ${result.members[user_id].last_action.relative}`
             ]
 
-            if(result.donations[user_id]){
-                if(result.donations[user_id].money_balance != 0){
+            if(result.donations && result.donations[user_id]){
+                if(result.donations[user_id].money_balance > 0){
                     texts.push(`Money balance: $${numberWithCommas(result.donations[user_id].money_balance, false)}`);
                 }
-                if(result.donations[user_id].points_balance != 0){
+                if(result.donations[user_id].points_balance > 0){
                     texts.push(`Points balance: ${numberWithCommas(result.donations[user_id].points_balance, false)}`);
                 }
             }
@@ -535,7 +542,7 @@ function showUserInfo(){
                 let div = doc.new({type: "div", text: text});
                 inner_wrap.appendChild(div);
     
-                if(texts.indexOf(text) != texts.length-1){
+                if(texts.indexOf(text) !== texts.length-1){
                     let divider = doc.new({type: "div", class: "tt-divider", text: "—"});
                     inner_wrap.appendChild(divider);
                 }
@@ -579,7 +586,7 @@ function showAvailablePlayers(){
                 <i class="info-icon"></i>
                 <div class="delimiter">
                     <div class="msg right-round">
-                        ${number} member${number!=1? "s":""} available for OCs.
+                        ${number} member${number!==1? "s":""} available for OCs.
                     </div>
                 </div>
             </div>
@@ -621,14 +628,14 @@ function showRecommendedNNB(){
 function drugInfo(){
     let item_info_container_mutation = new MutationObserver(function(mutations){
         for(let mutation of mutations){
-            if(mutation.target.classList.contains("view-item-info") && (mutation.addedNodes.length > 0 || mutation.attributeName == "style")){
+            if(mutation.target.classList.contains("view-item-info") && (mutation.addedNodes.length > 0 || mutation.attributeName === "style")){
                 let el = mutation.target;
                 itemInfoLoaded(el).then(function(){
                     let item_name = el.find("span.bold").innerText;
                     if(item_name.indexOf("The") > -1) item_name = item_name.split("The ")[1];
 
                     let drug_details = drug_dict[item_name.toLowerCase().replace(/ /g, "_")];
-                    if(drug_details == undefined){
+                    if(drug_details === undefined){
                         return;
                     }
 
@@ -701,7 +708,7 @@ function drugInfo(){
 }
 
 function itemInfoLoaded(element){
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         let checker = setInterval(function () {
             if(!element.find(".ajax-placeholder")){
                 resolve(true);
@@ -713,14 +720,14 @@ function itemInfoLoaded(element){
 
 function addFilterToTable(list, title){
     let filter_container = content.new_container("Filters", {id: "tt-player-filter", class: "filter-container", next_element: title}).find(".content");
-    filter_html = `
+    filter_container.innerHTML = `
         <div class="filter-header">
             <div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> users</div>
         </div>
-        <div class="filter-content ${mobile?"tt-mobile":""}">
+        <div class="filter-content ${mobile ? "tt-mobile" : ""}">
             <div class="filter-wrap" id="activity-filter">
                 <div class="filter-heading">Activity</div>
-                <div class="filter-multi-wrap ${mobile? 'tt-mobile':''}">
+                <div class="filter-multi-wrap ${mobile ? 'tt-mobile' : ''}">
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="online">Online</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="idle">Idle</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="offline">Offline</div>
@@ -728,7 +735,7 @@ function addFilterToTable(list, title){
             </div>
             <div class="filter-wrap" id="status-filter">
                 <div class="filter-heading">Status</div>
-                <div class="filter-multi-wrap ${mobile? 'tt-mobile':''}">
+                <div class="filter-multi-wrap ${mobile ? 'tt-mobile' : ''}">
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="okay">Okay</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="hospital">Hospital</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="traveling">Traveling</div>
@@ -754,14 +761,13 @@ function addFilterToTable(list, title){
                 <div id="tt-level-filter" class="filter-slider"></div>
                 <div class="filter-slider-info"></div>
             </div>
-            <div class="filter-wrap ${settings.pages.faction.member_info && getSearchParameters().step != "profile"? '':'filter-hidden'}" id="last-action-filter">
+            <div class="filter-wrap ${settings.pages.faction.member_info && getSearchParameters().step !== "profile" ? '' : 'filter-hidden'}" id="last-action-filter">
                 <div class="filter-heading">Last Action</div>
                 <div id="tt-last-action-filter" class="filter-slider"></div>
                 <div class="filter-slider-info"></div>
             </div>
         </div>
-    `
-    filter_container.innerHTML = filter_html;
+    `;
 
     // Initializing
     // let time_start = filters.faction.time[0] || 0;
@@ -843,9 +849,9 @@ function addFilterToTable(list, title){
     }
     let filter_observer = new MutationObserver(function(mutations){
         for(let mutation of mutations){
-            if(mutation.type == "attributes" 
+            if(mutation.type === "attributes"
             && mutation.target.classList 
-            && mutation.attributeName == "aria-valuenow"
+            && mutation.attributeName === "aria-valuenow"
             && (mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))){
                 applyFilters();
             }
@@ -950,13 +956,13 @@ function addFilterToTable(list, title){
             if(li.nextElementSibling && li.nextElementSibling.classList && li.nextElementSibling.classList.contains("tt-user-info") && li.nextElementSibling.getAttribute("last-action")){
                 player_last_action = parseInt(li.nextElementSibling.getAttribute("last-action"));
             }
-            if(player_last_action != "N/A" && !(last_action[0] <= player_last_action)){
+            if(player_last_action !== "N/A" && !(last_action[0] <= player_last_action)){
                 li.classList.add("filter-hidden");
                 continue;
             }
 
             // Activity
-            let matches_one_activity = activity.length != 0? false:true;
+            let matches_one_activity = activity.length === 0;
             for(let state of activity){
                 if(li.querySelector(`li[id^='${active_dict[state]}']`)){
                     matches_one_activity = true;
@@ -968,15 +974,14 @@ function addFilterToTable(list, title){
             }
 
             // Status
-            let matches_one_status = status.length != 0? false:true;
+            let matches_one_status = status.length === 0;
             for(let state of status){
-                if(li.find(`.status`).innerText.replace("Status:", "").trim().toLowerCase() == state){
+                if(li.find(`.status`).innerText.replace("Status:", "").trim().toLowerCase() === state){
                     matches_one_status = true;
                 }
             }
             if(!matches_one_status){
                 li.classList.add("filter-hidden");
-                continue;
             }
 
             // // Faction
@@ -999,15 +1004,14 @@ function addFilterToTable(list, title){
     }
 
     function updateStatistics(){
-        let total_users = [...list.findAll(":scope>li:not(.tt-user-info)")].length;
-        let shown_users = [...list.findAll(":scope>li:not(.tt-user-info)")].filter(x => (!x.classList.contains("filter-hidden"))).length;
+        const users = [...list.findAll(":scope>li:not(.tt-user-info)")];
 
-        doc.find(".statistic#showing .filter-count").innerText = shown_users;
-        doc.find(".statistic#showing .filter-total").innerText = total_users;
+        doc.find(".statistic#showing .filter-total").innerText = users.length;
+        doc.find(".statistic#showing .filter-count").innerText = users.filter(x => (!x.classList.contains("filter-hidden"))).length;
     }
 
     function populateFactions(){
-        let faction_tags = [...list.findAll(":scope>li")].map(x => (x.find(".user.faction img")? x.find(".user.faction img").getAttribute("title"):"")).filter(x => x != "");
+        let faction_tags = [...list.findAll(":scope>li")].map(x => (x.find(".user.faction img")? x.find(".user.faction img").getAttribute("title"):"")).filter(x => x !== "");
         
         for(let tag of faction_tags){
             if(filter_container.find(`#tt-faction-filter option[value='${tag}']`)) continue;
@@ -1068,7 +1072,7 @@ function armoryFilter(){
 
         let items_added_observer = new MutationObserver(function(mutations){
             for(let mutation of mutations){
-                if(mutation.type == "childList" && mutation.addedNodes[0]){
+                if(mutation.type === "childList" && mutation.addedNodes[0]){
                     for(let added_node of mutation.addedNodes){
                         if(added_node.classList && added_node.classList.contains("item-list")){                            
                             if(["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))){
@@ -1092,7 +1096,6 @@ function armoryFilter(){
                 // Unavailable filter
                 if(unavailable && item.find(".loaned a")){
                     item.classList.add("filter-hidden");
-                    continue;
                 }
             }
     
@@ -1102,7 +1105,7 @@ function armoryFilter(){
 }
 
 function armoryTabsLoaded(){
-    return new Promise(function(resolve, reject){
+    return new Promise(function(resolve){
         let checker = setInterval(function(){
             if(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']")){
                 resolve(true);
@@ -1113,7 +1116,7 @@ function armoryTabsLoaded(){
 }
 
 function armoryItemsLoaded(){
-    return new Promise(function(resolve, reject){
+    return new Promise(function(resolve){
         let checker = setInterval(function(){
             if(doc.find("#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list>li:not(.ajax-placeholder)")){
                 resolve(true);
@@ -1124,7 +1127,7 @@ function armoryItemsLoaded(){
 }
 
 function memberInfoAdded(){
-    return new Promise(function(resolve, reject){
+    return new Promise(function(resolve){
         let checker = setInterval(function(){
             if(member_info_added){
                 resolve(true);
