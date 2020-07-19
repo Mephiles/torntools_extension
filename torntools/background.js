@@ -178,6 +178,8 @@ setup_storage.then(async function(success){
 });
 
 function Main_5_seconds(){
+	if (!settings.notifications.global) return;
+
 	console.group("Notifications");
 
 	// Notifications
@@ -248,7 +250,7 @@ function Main_15_seconds(){
 							let message = userdata.messages[message_key];
 
 							if(message.seen == 0){
-								if(settings.notifications.messages && !notifications.messages[message_key]){
+								if(settings.notifications.global && settings.notifications.messages && !notifications.messages[message_key]){
 									notifications.messages[message_key] = {
 										title: `TornTools - New Message by ${message.name}`,
 										text: message.title,
@@ -269,7 +271,7 @@ function Main_15_seconds(){
 							let event = userdata.events[event_key];
 	
 							if(event.seen == 0){
-								if(settings.notifications.events && !notifications.events[event_key]){
+								if(settings.notifications.global && settings.notifications.events && !notifications.events[event_key]){
 									notifications.events[event_key] = {
 										title: `TornTools - New Event`,
 										text: event.event.replace(/<\/?[^>]+(>|$)/g, ""),
@@ -296,7 +298,7 @@ function Main_15_seconds(){
 						}
 						
 						// Check for Status change
-						if(previous_userdata.status && settings.notifications.status){
+						if(settings.notifications.global && previous_userdata.status && settings.notifications.status){
 							let current_status = userdata.status.state;
 							let previous_status = previous_userdata.status.state;
 							
@@ -314,7 +316,7 @@ function Main_15_seconds(){
 						}
 
 						// Check for cooldowns
-						if(previous_userdata.cooldowns && settings.notifications.cooldowns){
+						if(settings.notifications.global && previous_userdata.cooldowns && settings.notifications.cooldowns){
 							for(let cd_type in userdata.cooldowns){
 								if(userdata.cooldowns[cd_type] == 0 && previous_userdata.cooldowns[cd_type] != 0){
 									notifyUser("TornTools - Cooldowns", `Your ${cd_type} cooldown has ended`, links.items);
@@ -323,33 +325,37 @@ function Main_15_seconds(){
 						}
 
 						// Check for education
-						if(previous_userdata.education_timeleft && settings.notifications.education){
+						if(settings.notifications.global && previous_userdata.education_timeleft && settings.notifications.education){
 							if(userdata.education_timeleft == 0 && previous_userdata.education_timeleft != 0){
 								notifyUser("TornTools - Education", `You have finished your education course`, links.education);
 							}
 						}
 
 						// Check for travelling
-						if(previous_userdata.travel && settings.notifications.traveling){
+						if(settings.notifications.global && previous_userdata.travel && settings.notifications.traveling){
 							if(userdata.travel.time_left == 0 && previous_userdata.travel.time_left != 0){
 								notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}`, links.home);
 							}
 						}
 
 						// Check for bars
-						for(let bar of ["energy", "happy", "nerve", "life"]){
-							if(previous_userdata[bar] && settings.notifications[bar].length > 0){
-								for(let checkpoint of settings.notifications[bar].sort(function(a,b){return b-a})){
-									if(previous_userdata[bar].current < userdata[bar].current && (userdata[bar].current/userdata[bar].maximum)*100 >= checkpoint){
-										notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum} (${checkpoint}%)`, links.home);
-										break;
+						if (settings.notifications.global) {
+							for (let bar of ["energy", "happy", "nerve", "life"]) {
+								if (previous_userdata[bar] && settings.notifications[bar].length > 0) {
+									for (let checkpoint of settings.notifications[bar].sort(function (a, b) {
+										return b - a
+									})) {
+										if (previous_userdata[bar].current < userdata[bar].current && (userdata[bar].current / userdata[bar].maximum) * 100 >= checkpoint) {
+											notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum} (${checkpoint}%)`, links.home);
+											break;
+										}
 									}
 								}
 							}
 						}
 
 						// Check for hospital notification
-						if(settings.notifications.hospital.length > 0 && userdata.status.state == "Hospital"){
+						if(settings.notifications.global && settings.notifications.hospital.length > 0 && userdata.status.state == "Hospital"){
 							for(let checkpoint of settings.notifications.hospital.sort(function(a,b){return a-b})){
 								let time_left = new Date(userdata.status.until*1000) - new Date(); // ms
 
@@ -369,7 +375,7 @@ function Main_15_seconds(){
 						}
 
 						// Check for travel notification
-						if(settings.notifications.landing.length > 0 && userdata.travel.time_left > 0){
+						if(settings.notifications.global && settings.notifications.landing.length > 0 && userdata.travel.time_left > 0){
 							for(let checkpoint of settings.notifications.landing.sort(function(a,b){return a-b})){
 								let time_left = new Date(userdata.travel.timestamp*1000) - new Date(); // ms
 

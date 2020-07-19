@@ -360,14 +360,37 @@ function setupPreferences(){
     }
 
     // Notifications
+    const notificationsDisabled = !settings.notifications.global;
+
     for(let notification in settings.notifications){
+        let option;
+
         if(Array.isArray(settings.notifications[notification])){
             let text = settings.notifications[notification].join(",");
-            preferences.find(`#notifications-${notification} input[type='text']`).value = text;
+            option = preferences.find(`#notifications-${notification} input[type='text']`);
+            option.value = text;
         } else {
-            preferences.find(`#notifications-${notification} input`).checked = settings.notifications[notification];
+            option = preferences.find(`#notifications-${notification} input`);
+            option.checked = settings.notifications[notification];
         }
+
+        if (notificationsDisabled && notification !== "global") option.setAttribute("disabled", true);
     }
+
+    preferences.find("#notifications-global").addEventListener("click", (event) => {
+        const disableNotifications = !event.target.checked;
+
+        for (let notification in settings.notifications) {
+            if (notification === "global") continue;
+
+            let option = preferences.find(`#notifications-${notification} input`);
+
+            console.log("DKK disabled", disableNotifications, option)
+            if (disableNotifications) option.setAttribute("disabled", true);
+            else option.removeAttribute("disabled");
+        }
+    })
+
 
     // Icons
     for(let icon of hide_icons){

@@ -402,6 +402,7 @@ const STORAGE = {
             // "259200000": "#fde5c8"  // 3 days
         },
         "notifications": {
+            "global": true,
             "events": true,
             "messages": true,
             "status": true,
