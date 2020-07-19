@@ -1,10 +1,7 @@
 let ownFaction = false;
 let member_info_added = false;
 
-
-
 DBloaded().then(() => {
-    console.log("DKK settings", settings)
     contentLoaded().then(() => {
         console.log("TT - Faction");
 
@@ -109,7 +106,11 @@ function loadUpgrades() {
 function loadArmory() {
     if(settings.pages.items.drug_details) drugInfo();
 
-    armoryFilter();
+    armoryTabsLoaded().then(() => {
+        armoryFilter();
+
+        if (settings.pages.items.highlight_bloodbags !== "none") highlightBloodBags();
+    });
 }
 
 function ocTimes(oc, format){
@@ -1023,85 +1024,133 @@ function addFilterToTable(list, title){
 }
 
 function armoryFilter(){
-    armoryTabsLoaded().then(function(){
-        let armory_filter = content.new_container("Armory Filter", {
-            header_only: true,
-            id: "ttArmoryFilter",
-            next_element: doc.find("#faction-armoury-tabs"),
-            all_rounded: true
-        });
+    let armory_filter = content.new_container("Armory Filter", {
+        header_only: true,
+        id: "ttArmoryFilter",
+        next_element: doc.find("#faction-armoury-tabs"),
+        all_rounded: true
+    });
 
-        if(!["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))){
-            armory_filter.classList.add("filter-hidden");
+    if(!["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))){
+        armory_filter.classList.add("filter-hidden");
+    }
+
+    for(let link of doc.findAll("ul[aria-label='faction armoury tabs']>li")){
+        if(["weapons", "armour"].includes(link.getAttribute("aria-controls").replace("armoury-", ""))){
+            link.addEventListener("click", function(){
+                console.log("filter tab")
+                if(doc.find("#ttArmoryFilter")){
+                    doc.find("#ttArmoryFilter").classList.remove("filter-hidden");
+                }
+            });
+        } else {
+            link.addEventListener("click", function(){
+                console.log("other tab");
+                if(doc.find("#ttArmoryFilter")){
+                    doc.find("#ttArmoryFilter").classList.add("filter-hidden");
+                }
+            });
         }
+    }
 
-        for(let link of doc.findAll("ul[aria-label='faction armoury tabs']>li")){
-            if(["weapons", "armour"].includes(link.getAttribute("aria-controls").replace("armoury-", ""))){
-                link.addEventListener("click", function(){
-                    console.log("filter tab")
-                    if(doc.find("#ttArmoryFilter")){
-                        doc.find("#ttArmoryFilter").classList.remove("filter-hidden");
-                    }
-                });
-            } else {
-                link.addEventListener("click", function(){
-                    console.log("other tab");
-                    if(doc.find("#ttArmoryFilter")){
-                        doc.find("#ttArmoryFilter").classList.add("filter-hidden");
-                    }
-                });
-            }
-        }
+    let unavailable_wrap = doc.new({type: "div", class: "tt-checkbox-wrap in-title hide-unavailable-option"});
+    let unavailable_checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
+    let unavailable_text = doc.new({type: "div", text: "Hide unavailable"});
 
-        let unavailable_wrap = doc.new({type: "div", class: "tt-checkbox-wrap in-title hide-unavailable-option"});
-        let unavailable_checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
-        let unavailable_text = doc.new({type: "div", text: "Hide unavailable"});
+    if(filters.faction_armory.hide_unavailable){
+        unavailable_checkbox.checked = filters.faction_armory.hide_unavailable;
+    }
 
-        if(filters.faction_armory.hide_unavailable){
-            unavailable_checkbox.checked = filters.faction_armory.hide_unavailable;
-        }
+    unavailable_wrap.appendChild(unavailable_checkbox);
+    unavailable_wrap.appendChild(unavailable_text);
 
-        unavailable_wrap.appendChild(unavailable_checkbox);
-        unavailable_wrap.appendChild(unavailable_text);
+    unavailable_checkbox.onclick = filter;
 
-        unavailable_checkbox.onclick = filter;
+    armory_filter.find(".tt-options").appendChild(unavailable_wrap);
 
-        armory_filter.find(".tt-options").appendChild(unavailable_wrap);
+    armoryItemsLoaded().then(filter);
 
-        armoryItemsLoaded().then(filter);
-
-        let items_added_observer = new MutationObserver(function(mutations){
-            for(let mutation of mutations){
-                if(mutation.type === "childList" && mutation.addedNodes[0]){
-                    for(let added_node of mutation.addedNodes){
-                        if(added_node.classList && added_node.classList.contains("item-list")){                            
-                            if(["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))){
-                                console.log("items added")
-                                filter();
-                            }
+    let items_added_observer = new MutationObserver(function(mutations){
+        for(let mutation of mutations){
+            if(mutation.type === "childList" && mutation.addedNodes[0]){
+                for(let added_node of mutation.addedNodes){
+                    if(added_node.classList && added_node.classList.contains("item-list")){
+                        if(["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))){
+                            console.log("items added")
+                            filter();
                         }
                     }
                 }
             }
-        });
-        items_added_observer.observe(doc.find(`#faction-armoury-tabs`), {childList: true, subtree: true});
-
-        function filter(){
-            let item_list = doc.findAll(`#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list>li`);
-            let unavailable = doc.find(".hide-unavailable-option input").checked;
-    
-            for(let item of item_list){
-                item.classList.remove("filter-hidden");
-    
-                // Unavailable filter
-                if(unavailable && item.find(".loaned a")){
-                    item.classList.add("filter-hidden");
-                }
-            }
-    
-            local_storage.change({"filters": {"faction_armory": {"hide_unavailable": unavailable}}});
         }
-    });    
+    });
+    items_added_observer.observe(doc.find(`#faction-armoury-tabs`), {childList: true, subtree: true});
+
+    function filter(){
+        let item_list = doc.findAll(`#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list>li`);
+        let unavailable = doc.find(".hide-unavailable-option input").checked;
+
+        for(let item of item_list){
+            item.classList.remove("filter-hidden");
+
+            // Unavailable filter
+            if(unavailable && item.find(".loaned a")){
+                item.classList.add("filter-hidden");
+            }
+        }
+
+        local_storage.change({"filters": {"faction_armory": {"hide_unavailable": unavailable}}});
+    }
+}
+
+const ALLOWED_BLOOD = {
+    "o+": [ 738, 739 ], // 738
+    "o-": [ 739 ], // 739
+    "a+": [ 732, 733, 738, 739 ], // 732
+    "a-": [ 733, 739 ], // 733
+    "b+": [ 734, 735, 738, 739 ], // 734
+    "b-": [ 735, 739 ], // 735
+    "ab+": [ 732, 733, 734, 735, 736, 737, 738, 739 ], // 736
+    "ab-": [ 733, 735, 737, 739 ], // 737
+}
+
+function highlightBloodBags(){
+    const section = doc.find("ul[aria-label='faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
+    if (section === "medical") highlight();
+
+    new MutationObserver((mutations) => {
+        if (!mutations
+            .filter((mut) => mut.type === "childList" && mut.addedNodes.length)
+            .flatMap((mut) => Array.from(mut.addedNodes))
+            .some((node) => node.classList && node.classList.contains("item-list"))) {
+            return;
+        }
+
+        const section = doc.find("ul[aria-label='faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
+        if (section !== "medical") return;
+
+        highlight();
+    }).observe(doc.find(`#faction-armoury-tabs`), {childList: true, subtree: true});
+
+    function highlight() {
+        const allowedBlood = ALLOWED_BLOOD[settings.pages.items.highlight_bloodbags];
+        const items = doc.findAll(`#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list > li`);
+
+        for (let item of items) {
+            if (!item.find(".name") || item.find(".name").classList.contains(".tt-modified")) continue;
+
+            if (item.find(".img-wrap").getAttribute("data-id") === "1012") continue; // is an irradiated blood bag
+
+            if (!item.find(".name").innerText.split(" x")[0].includes("Blood Bag : ")) continue; // is not a filled blood bag
+
+            const classes = item.find(".name").classList;
+
+            classes.add("tt-modified");
+
+            if (allowedBlood.includes(parseInt(item.find(".img-wrap").getAttribute("data-id")))) classes.add("tt-good_blood");
+            else classes.add("tt-bad_blood")
+        }
+    }
 }
 
 function armoryTabsLoaded(){
