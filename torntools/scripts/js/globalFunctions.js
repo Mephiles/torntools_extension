@@ -320,7 +320,9 @@ const STORAGE = {
     "loot_alerts": {},
     "allies": [],
     "custom_links": [],
-    "chat_highlight": {},
+    "chat_highlight": {
+        "$player": "#7ca900"
+    },
     "hide_icons": [],
     "quick": {
         "items": [],
@@ -521,7 +523,7 @@ const STORAGE = {
 }
 
 const HIGHLIGHT_PLACEHOLDERS = {
-    "{player_name}": {
+    "$player": {
         value: () => userdata.name,
         description: "Your player name."
     }
