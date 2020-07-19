@@ -129,6 +129,10 @@
     padding: 0 13px;
 }
 
+#tt-player-filter {
+    margin-bottom: 10px;
+}
+
 /* Drug information */
 .item-effect.tabbed {
     margin-left: 15px;
