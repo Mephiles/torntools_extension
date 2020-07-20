@@ -15,7 +15,23 @@ DBloaded().then(function(){
             event.preventDefault();
             event.stopPropagation();
         }
+
+        // Make Areas collapsible
+        if(!doc.find(".header-arrow___1Ph0g")){
+            let areas_i = doc.new({type: "i", class: "tt-title-icon-torn fas fa-caret-down"});
+            let areas_header = doc.find("h2=Areas");
+            areas_header.classList.add("tt-title-torn");
+            areas_header.appendChild(areas_i);
+            if(settings.pages.global.collapse_areas) areas_header.classList.add("collapsed");
     
+            areas_header.addEventListener("click", function(){
+                areas_header.classList.toggle("collapsed");
+                let collapsed = areas_header.classList.contains("collapsed")? true:false;
+        
+                local_storage.change({"settings": {"pages": {"global": {"collapse_areas": collapsed}}}});
+            });
+        }
+
         // Update notification
         if(updated && settings.update_notification){
             addUpdateNotification();

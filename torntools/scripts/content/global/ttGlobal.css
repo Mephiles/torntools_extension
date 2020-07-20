@@ -5,6 +5,9 @@
     display: flex;
     white-space: nowrap;
 }
+.tt-title-torn {
+    cursor: pointer !important;
+}
 .tt-title.title-black {
     color: #acea00 !important;
 }
@@ -48,6 +51,13 @@
 .tt-title.tt-navbar .tt-title-icon {
     min-width: 25px;
 }
+.tt-title-torn .tt-title-icon-torn {
+    line-height: inherit;
+    font-size: 16px;
+    position: absolute;
+    top: 1px;
+    right: 9px;
+}
 .tt-content.content {
     position: relative; 
     margin-top: 0; 
@@ -55,12 +65,12 @@
     overflow: hidden;
     /* padding-bottom: 15px;  */
 }
-.tt-title.collapsed+.tt-content {
+.tt-title.collapsed+.tt-content, .tt-title-torn.collapsed+* {
     height: 0px;
     padding: 0px;
     border-bottom: unset;
 }
-.tt-title.collapsed .tt-title-icon {
+.tt-title.collapsed .tt-title-icon, .tt-title-torn.collapsed .tt-title-icon-torn {
     transform: rotate(-90deg);
 }
 .tt-cell a {
