@@ -10,6 +10,7 @@ const doc = document;
 var DB;
 var mobile = false;
 var db_loaded = false;
+var db_failed = undefined;
 var notification_link_relations = {}
 var drug_dict = {
     "cannabis": {
@@ -319,7 +320,9 @@ const STORAGE = {
     "loot_alerts": {},
     "allies": [],
     "custom_links": [],
-    "chat_highlight": {},
+    "chat_highlight": {
+        "$player": "#7ca900"
+    },
     "hide_icons": [],
     "quick": {
         "items": [],
@@ -401,6 +404,7 @@ const STORAGE = {
             // "259200000": "#fde5c8"  // 3 days
         },
         "notifications": {
+            "global": true,
             "events": true,
             "messages": true,
             "status": true,
@@ -473,7 +477,8 @@ const STORAGE = {
             "items": {
                 "values": true,
                 "drug_details": true,
-                "itemmarket_links": true
+                "itemmarket_links": true,
+                "highlight_bloodbags": "none"
             },
             "travel": {
                 "profits": true,
@@ -511,9 +516,17 @@ const STORAGE = {
                 "notes": true,
                 "hide_upgrade": false,
                 "align_left": false,
-                "find_chat": true
+                "find_chat": true,
+                "hide_chat": false
             }
         }
+    }
+}
+
+const HIGHLIGHT_PLACEHOLDERS = {
+    "$player": {
+        value: () => userdata.name,
+        description: "Your player name."
     }
 }
 
@@ -775,8 +788,18 @@ const content = {
             if(attr.id) div.id = attr.id;
             if(attr["_class"]) div.setClass(attr["_class"]);
 
+            let containerClasses = `top-round m-top10 tt-title ${theme_classes[`title-${settings.theme}`]}`;
+            if (attr.all_rounded) containerClasses += " all-rounded";
+            if (attr.header_only) containerClasses += " no-content";
+            if (collapsed === true || collapsed === undefined) {
+                containerClasses += " collapsed";
+
+                if (!attr.header_only) containerClasses += " all-rounded";
+            }
+
+
             let div_html = `
-            <div class="top-round m-top10 tt-title ${attr.all_rounded? 'all-rounded':''} ${attr.header_only? "no-content":""} ${theme_classes[`title-${settings.theme}`]} ${collapsed == true || collapsed == undefined? 'collapsed':''}">
+            <div class="${containerClasses}">
                 <div class="title-text">${name}</div>
                 <div class="tt-options"></div>
                 <i class="tt-title-icon fas fa-caret-down"></i>
@@ -797,9 +820,14 @@ const content = {
 
             if(!attr.header_only){
                 div.find(".tt-title").onclick = function(){
-                    div.find(".tt-title").classList.toggle("collapsed");
-                    let collapsed = div.find(".tt-title").classList.contains("collapsed")? true:false;
-    
+                    const title = div.find(".tt-title");
+
+                    title.classList.toggle("collapsed");
+                    let collapsed = title.classList.contains("collapsed");
+
+                    if (collapsed) title.classList.add("all-rounded");
+                    else title.classList.remove("all-rounded");
+
                     local_storage.change({"filters": {"container_open": {[page()]: collapsed}}})
                 }
             }
@@ -1581,6 +1609,20 @@ function DBloaded(){
     });
 }
 
+function DBfailed(){
+    return new Promise(function(resolve, reject){
+        let checker = setInterval(function(){
+            if(db_failed == true){
+                resolve(true);
+                return clearInterval(checker);
+            } else if(db_failed == false){
+                resolve(false);
+                return clearInterval(checker);
+            }
+        });
+    });
+}
+
 function contentLoaded(){
     return new Promise(function(resolve, reject){
         let checker = setInterval(function(){
@@ -1904,6 +1946,7 @@ api;
 
         if(api_key == undefined || api_key == ""){
             app_initialized = false;
+            db_failed = true;
             console.log("App has not been initialized");
             return;
         }
@@ -1911,6 +1954,7 @@ api;
         if(only_wants_database){
             console.log("DB LOADED");
             db_loaded = true;
+            db_failed = false;
             return;
         }
 
@@ -1954,5 +1998,6 @@ api;
         // DB loaded
         console.log("DB LOADED");
         db_loaded = true;
+        db_failed = false;
     });
 })();

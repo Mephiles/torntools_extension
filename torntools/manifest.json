@@ -1,14 +1,14 @@
 {
 	"manifest_version": 2,
 	"name": "Torn Tools",
-	"version": "4.8",
+	"version": "4.9",
 	"description": "Tools for Torn users.",
 	"icons": {
 		"128": "images/icon128.png"
 	},
 	"browser_action": {
 		"default_title": "TornTools",
-		"default_popup": "views/index/index.html",
+		"default_popup": "views/info/info.html",
 		"default_icon": "images/icon128.png"
 	},
 	"author": "Gregor Kaljulaid - Mephiles[2087524]",
@@ -33,7 +33,7 @@
 	},
 	"browser_specific_settings": {
 		"gecko": {
-			"id": "torntools@mephiles.github.com"
+			"id": "{3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9}"
 		}
 	},
 	"content_scripts": [
@@ -43,6 +43,7 @@
 			],
 			"css": [
 				"scripts/content/global/ttGlobal.css",
+				"scripts/content/global/ttChat.css",
 				"scripts/js/nouislider.css"
 			],
 			"js": [

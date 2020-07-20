@@ -102,13 +102,13 @@
 }
 
 /* User detailed info */
-#faction-info .member-list.info-members.tt-modified {
+.member-list.info-members.tt-modified {
     background-color: unset;
 }
-#faction-info .member-list.info-members.tt-modified>li {
+.member-list.info-members.tt-modified>li {
     background-color: #F2F2F2;
 }
-#faction-info .member-list.info-members li.tt-user-info {
+.member-list.info-members li.tt-user-info {
     line-height: 18px;
     font-size: 11px;
     text-align: center;
@@ -129,10 +129,24 @@
     padding: 0 13px;
 }
 
+#tt-player-filter {
+    margin-bottom: 10px;
+}
+
 /* Drug information */
 .item-effect.tabbed {
     margin-left: 15px;
 }
 .item-effect.double-tabbed {
     margin-left: 30px;
+}
+
+/* Highlight blood bags */
+
+.tt-good_blood {
+    background-color: #bdecb9b5 !important;
+}
+
+.tt-bad_blood {
+    background-color: #f5b2b28a !important;
 }

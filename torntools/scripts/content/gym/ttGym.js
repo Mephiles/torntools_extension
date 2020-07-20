@@ -1,7 +1,26 @@
+const GYM_SELECTORS = {
+    "strength": "strength___1GeGr",
+    "speed": "speed___1o1b_",
+    "defense": "defense___311kR",
+    "dexterity": "dexterity___1YdUM",
+};
+
 DBloaded().then(function(){
     gymLoaded().then(function(){
         console.log("TT - Gym");
-    
+
+        doc.find("head").appendChild(doc.new({type: "script", attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/gym/ttGymInject.js")}}));
+
+        window.addEventListener("tt-fetch", (event) => {
+            const {page, json, fetch} = event.detail;
+            if (page !== "gym" || !json) return
+
+            const params = new URL(fetch.url).searchParams;
+            if (params.get("step") !== "getInitialGymInfo") return;
+
+            disableGyms();
+        });
+
         let gym_container = content.new_container("Gym", {id: "tt-gym"});
     
         // Graph
@@ -19,7 +38,7 @@ DBloaded().then(function(){
     
         // Disable buttons
         let div = doc.new({type: "div", class: "tt-checkbox-wrap"});
-        let checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
+        let checkbox = doc.new({type: "input", id: "tt-gym-global-disable", attributes: {type: "checkbox"}});
         let div_text = doc.new({type: "div", text: "Disable Gym buttons"});
     
         div.appendChild(checkbox);
@@ -34,44 +53,15 @@ DBloaded().then(function(){
             }
         });
     
-        let stats = {
-            "strength": "strength___1GeGr",
-            "speed": "speed___1o1b_",
-            "defense": "defense___311kR",
-            "dexterity": "dexterity___1YdUM",
-        }
-        // Individual buttons
-        for(let stat in stats){
-            let checkbox = doc.new({type: "input", class: "tt-gym-stat-checkbox", attributes: {type: "checkbox"}});
-            checkbox.checked = settings.pages.gym[`disable_${stat}`];
-            
-            if(settings.pages.gym[`disable_${stat}`] && !doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("locked___r074J")){
-                doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.add("tt-gym-locked");
-            }
-    
-            doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).appendChild(checkbox);
-            
-            checkbox.onclick = function(){
-                if(!doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("tt-gym-locked") && checkbox.checked){
-                    disableGymButton([stat], true);
-                } else if(!checkbox.checked){
-                    disableGymButton([stat], false);
-                }
-            }
-        }
-    
-        if(settings.pages.gym.disable_strength && settings.pages.gym.disable_speed && settings.pages.gym.disable_dexterity && settings.pages.gym.disable_defense){
-            checkbox.checked = true;
-            disableGymButton(["strength", "speed", "dexterity", "defense"], true);
-        }
+        disableGyms();
     
         // Train button listeners
         let train_button_observer = new MutationObserver(function(mutations){
             for(let mutation of mutations){
                 if(mutation.target.classList){
-                    if(!mutation.target.classList.contains("tt-gym-locked") && mutation.target.find(".tt-gym-stat-checkbox").checked == true){
+                    if(!mutation.target.classList.contains("tt-gym-locked") && mutation.target.find(".tt-gym-stat-checkbox").checked === true){
                         mutation.target.classList.add("tt-gym-locked")
-                    } else if(mutation.target.classList.contains("tt-gym-locked") && mutation.target.find(".tt-gym-stat-checkbox").checked == false){
+                    } else if(mutation.target.classList.contains("tt-gym-locked") && mutation.target.find(".tt-gym-stat-checkbox").checked === false){
                         mutation.target.classList.remove("tt-gym-locked")
                     }
                 }
@@ -82,46 +72,13 @@ DBloaded().then(function(){
 });
 
 function gymLoaded(){
-    return new Promise(function(resolve, reject){
+    return new Promise(function(resolve){
         let checker = setInterval(function(){
             if(doc.find(".gymButton___3OFdI")){
                 resolve(true);
                 return clearInterval(checker);
             }
         });
-    });
-}
-
-function disableGymButton(types, disable){
-    let stats = {
-        "strength": "strength___1GeGr",
-        "speed": "speed___1o1b_",
-        "defense": "defense___311kR",
-        "dexterity": "dexterity___1YdUM",
-    }
-
-    console.log(types)
-    console.log(disable)
-
-    for(let stat of types){
-        if(disable){
-            if(!doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.contains("tt-gym-locked")){
-                console.log(`${stat}: disabling`);
-                doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.add("tt-gym-locked");
-                doc.find(`ul.properties___Vhhr7>li.${stats[stat]} .tt-gym-stat-checkbox`).checked = true;
-            }
-        } else {
-            console.log(`${stat}: enabling`);
-            doc.find(`ul.properties___Vhhr7>li.${stats[stat]}`).classList.remove("tt-gym-locked");
-            doc.find(`ul.properties___Vhhr7>li.${stats[stat]} .tt-gym-stat-checkbox`).checked = false;
-        }
-
-    }
-    local_storage.get("settings", function(settings){
-        for(let stat of types){
-            settings.pages.gym[`disable_${stat}`] = disable;
-        }
-        local_storage.set({"settings": settings});
     });
 }
 
@@ -186,7 +143,7 @@ function displayGraph(){
                 data: {
                     labels: result.data.map(function(x){
                         let date = new Date(x.timestamp*1000);
-                        return formatDate([date.getDate(), date.getMonth()+1], settings.format.date);
+                        return formatDate([date.getDate(), date.getMonth()+1, 0], settings.format.date);
                     }),
                     datasets: [
                         {
@@ -292,25 +249,25 @@ function displayGraph(){
 
                     response_div.classList.add("failure");
                     response_div.innerText = result.error;
-                } else if(result.status == true){
+                } else if(result.status === true){
                     response_div.classList.add("success");
                     response_div.innerText = result.message;
 
                     let gains = []
                     let update_message = `You have gained `
 
-                    if(result.deltaStrength != 0){
+                    if(result.deltaStrength !== 0){
                         gains.push(`${numberWithCommas(result.deltaStrength, false)} Strength`);
-                    } else if(result.deltaDefense != 0){
+                    } else if(result.deltaDefense !== 0){
                         gains.push(`${numberWithCommas(result.deltaDefense, false)} Defense`);
-                    } else if(result.deltaDexterity != 0){
+                    } else if(result.deltaDexterity !== 0){
                         gains.push(`${numberWithCommas(result.deltaDexterity, false)} Dexterity`);
-                    } else if(result.deltaSpeed != 0){
+                    } else if(result.deltaSpeed !== 0){
                         gains.push(`${numberWithCommas(result.deltaSpeed, false)} Speed`);
                     }
 
                     update_message += gains.join(", ") + ` since your last update ${result.age}.`;
-                    if(gains.length == 0) update_message = `You have not gained any stats since your last update ${result.age}.`
+                    if(gains.length === 0) update_message = `You have not gained any stats since your last update ${result.age}.`
 
                     let info_div = doc.new({type: "div", class: "tt-info-message", text: update_message});
                     graph_area.appendChild(info_div);
@@ -320,70 +277,54 @@ function displayGraph(){
     });
 }
 
+function disableGyms() {
+    let checkbox = doc.find("#tt-gym-global-disable");
 
-// function saved(saved){
-//     if(saved){
-//         doc.find("#tt-gym-settings .saving .text").setClass("text done");    
-//         doc.find("#tt-gym-settings .saving .text").innerText = "Saved!";
-//         doc.find("#tt-gym-settings .saving .loading-icon").style.display = "none";
-//     } else {
-//         doc.find("#tt-gym-settings .saving").style.display = "block";
-//         doc.find("#tt-gym-settings .saving .text").setClass("text");
-//         doc.find("#tt-gym-settings .saving .text").innerText = "Saving..";
-//         doc.find("#tt-gym-settings .saving .text").style.display = "inline-block";
-//         doc.find("#tt-gym-settings .saving .loading-icon").style.display = "inline-block";
-//     }
-// }
+    // Individual buttons
+    for(let stat in GYM_SELECTORS){
+        let checkbox = doc.new({type: "input", class: "tt-gym-stat-checkbox", attributes: {type: "checkbox"}});
+        checkbox.checked = settings.pages.gym[`disable_${stat}`];
 
-// function displayGymInfo(gyms_data){
-//     let locked_gyms = document.querySelectorAll(".gymList___2NGl7 .locked___3akPx");
+        if(settings.pages.gym[`disable_${stat}`] && !doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.contains("locked___r074J")){
+            doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.add("tt-gym-locked");
+        }
 
-//     for(let gym of locked_gyms){
-//         let id = parseInt(gym.getAttribute("id").replace("gym-", ""));
+        doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).appendChild(checkbox);
 
-//         gym.addEventListener("mouseover", function(){
-//             displayTooltip(gyms_data[id]);
-//         });
-//     }
+        checkbox.onclick = function(){
+            if(!doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked") && checkbox.checked){
+                disableGymButton([stat], true);
+            } else if(!checkbox.checked){
+                disableGymButton([stat], false);
+            }
+        }
+    }
 
-//     function displayTooltip(gym){
-//         let stages = {
-//             1: "Lightweight",
-//             2: "Middleweight",
-//             3: "Heavyweight",
-//             4: "Specialist"
-//         }
+    if(settings.pages.gym.disable_strength && settings.pages.gym.disable_speed && settings.pages.gym.disable_dexterity && settings.pages.gym.disable_defense){
+        checkbox.checked = true;
+        disableGymButton(["strength", "speed", "dexterity", "defense"], true);
+    }
+}
 
-//         // setting info
+function disableGymButton(types, disable){
+    for(let stat of types){
+        if(disable){
+            if(!doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked")){
+                doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.add("tt-gym-locked");
+                doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = true;
+            }
+        } else {
+            doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.remove("tt-gym-locked");
+            doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = false;
+        }
 
-//         let tooltip = document.querySelectorAll(".ToolTipPortal")[1];
-//         tooltip.querySelector(".gymName___3olj4").innerText = gym.name + " ";
-//             let span = document.createElement("span");
-//             span.setAttribute("class", "gymClass___1FZ6q");
-//             span.innerText = `(${stages[gym.stage]})`;
-//             tooltip.querySelector(".gymName___3olj4").appendChild(span);
-//         tooltip.querySelectorAll(".gymInfo___1P0Vl p")[0].innerText = `Membership cost - $${gym.cost}`;
-//         tooltip.querySelectorAll(".gymInfo___1P0Vl p")[1].innerText = `Energy usage - ${gym.energy} per train`;
+    }
 
-//         // displaying
-//         let left = 586.5;  // 641.422 ; 662.844
-//         let top = 467;
-        
-//         let container = tooltip.querySelector("div");
-//         container.setAttribute("style", `
-//             position: absolute; 
-//             padding: 5px 8px; 
-//             background: rgb(242, 242, 242); 
-//             box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 8px; 
-//             border-radius: 3px; 
-//             transition: 
-//                 all 0.3s ease-in-out 0s, 
-//                 visibility 0.3s ease-in-out 0s; 
-//             opacity: 0; 
-//             visibility: hidden; 
-//             z-index: 50; 
-//             left: 587px; 
-//             top: 467px;
-//         `);
-//     }
-// }
+    local_storage.get("settings", function(settings){
+        for(let stat of types){
+            settings.pages.gym[`disable_${stat}`] = disable;
+        }
+
+        local_storage.set({"settings": settings});
+    });
+}

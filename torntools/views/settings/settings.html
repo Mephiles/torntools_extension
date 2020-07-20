@@ -79,6 +79,22 @@
 						<div class="option" id="items-values"><input type="checkbox">Display Item values on Items page</div>
 						<div class="option" id="items-drug_details"><input type="checkbox">Show more details about Drugs (also affects Faction Armory drug section)</div>
 						<div class="option" id="items-itemmarket_links"><input type="checkbox">Add link icons to Item Market <span class="new">New!</span></div>
+						<div class="option" id="items-highlight_bloodbags">
+							Highlight blood bags for :
+							<select name="cars">
+								<option value="none">none</option>
+								<option value="o+">O+</option>
+								<option value="o-">O-</option>
+								<option value="a+">A+</option>
+								<option value="a-">A-</option>
+								<option value="b+">B+</option>
+								<option value="b-">B-</option>
+								<option value="ab+">AB+</option>
+								<option value="ab-">AB-</option>
+							</select>
+							(also affects Faction Armory)
+							<span class="new">New!</span>
+						</div>
 					</div>
 					<div class="section">
 						<div class="heading">Travel</div>
@@ -136,7 +152,7 @@
 						</div>
 					</div>
 					<div class="section notifications">
-						<div class="heading">Notifications</div>
+						<div class="option heading" id="notifications-global"><input type="checkbox">Notifications</div>
 						<div class="option" id="notifications-events"><input type="checkbox">Events</div>
 						<div class="option" id="notifications-messages"><input type="checkbox">Messages</div>
 						<div class="option" id="notifications-status"><input type="checkbox">Status change</div>
@@ -234,7 +250,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="section">
+					<div class="section chat">
 						<div class="heading">*Chat Highlight</div>
 						<div class="table list" id="chat_highlight">
 							<div class="body">
@@ -245,6 +261,7 @@
 								</div>
 							</div>
 						</div>
+						<div class="note">Placeholders:</div>
 					</div>
 					<div class="section">
 						<div class="heading">Icons</div>

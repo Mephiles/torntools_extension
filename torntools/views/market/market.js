@@ -107,14 +107,22 @@ function showMarketInfo(id, api_key){
 
             list.appendChild(heading_div);
 
-            for(let i = 0; i < 3; i++){
-                let price_div = doc.new("div");
+            if (data[type]) {
+                for(let i = 0; i < 3; i++){
+                    let price_div = doc.new("div");
                     price_div.setClass("price");
-                    // price_div.innerText = `$${numberWithCommas(data[type][i].cost, shorten=false)} | ${data[type][i].quantity}x`;
                     price_div.innerText = `${data[type][i].quantity}x | $${numberWithCommas(data[type][i].cost, shorten=false)}`;
 
-                list.appendChild(price_div);
+                    list.appendChild(price_div);
+                }
+            } else {
+               list.appendChild(doc.new({
+                   type: "div",
+                   class: "price",
+                   text: "No price found.",
+               }));
             }
+
         }
     });
 }

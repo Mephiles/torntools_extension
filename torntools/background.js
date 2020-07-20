@@ -34,6 +34,7 @@ let setup_storage = new Promise(function(resolve, reject){
 			});
 		} else {  // existing storage
 			console.log("Converting old storage.");
+			console.log("	Old storage", old_storage);
 			let new_storage = convertStorage(old_storage, STORAGE);
 	
 			console.log("	New storage", new_storage);
@@ -63,7 +64,7 @@ let setup_storage = new Promise(function(resolve, reject){
 				} 
 				
 				if(typeof STORAGE[key] == "object" && !Array.isArray(STORAGE[key])){
-					if(Object.keys(STORAGE[key]).length == 0)
+					if(Object.keys(STORAGE[key]).length == 0 || key === "chat_highlight")
 						new_local_storage[key] = old_storage[key];
 					else
 						new_local_storage[key] = convertStorage(old_storage[key], STORAGE[key]);
@@ -178,6 +179,8 @@ setup_storage.then(async function(success){
 });
 
 function Main_5_seconds(){
+	if (!settings.notifications.global) return;
+
 	console.group("Notifications");
 
 	// Notifications
@@ -248,7 +251,7 @@ function Main_15_seconds(){
 							let message = userdata.messages[message_key];
 
 							if(message.seen == 0){
-								if(settings.notifications.messages && !notifications.messages[message_key]){
+								if(settings.notifications.global && settings.notifications.messages && !notifications.messages[message_key]){
 									notifications.messages[message_key] = {
 										title: `TornTools - New Message by ${message.name}`,
 										text: message.title,
@@ -269,7 +272,7 @@ function Main_15_seconds(){
 							let event = userdata.events[event_key];
 	
 							if(event.seen == 0){
-								if(settings.notifications.events && !notifications.events[event_key]){
+								if(settings.notifications.global && settings.notifications.events && !notifications.events[event_key]){
 									notifications.events[event_key] = {
 										title: `TornTools - New Event`,
 										text: event.event.replace(/<\/?[^>]+(>|$)/g, ""),
@@ -296,7 +299,7 @@ function Main_15_seconds(){
 						}
 						
 						// Check for Status change
-						if(previous_userdata.status && settings.notifications.status){
+						if(settings.notifications.global && previous_userdata.status && settings.notifications.status){
 							let current_status = userdata.status.state;
 							let previous_status = previous_userdata.status.state;
 							
@@ -314,7 +317,7 @@ function Main_15_seconds(){
 						}
 
 						// Check for cooldowns
-						if(previous_userdata.cooldowns && settings.notifications.cooldowns){
+						if(settings.notifications.global && previous_userdata.cooldowns && settings.notifications.cooldowns){
 							for(let cd_type in userdata.cooldowns){
 								if(userdata.cooldowns[cd_type] == 0 && previous_userdata.cooldowns[cd_type] != 0){
 									notifyUser("TornTools - Cooldowns", `Your ${cd_type} cooldown has ended`, links.items);
@@ -323,33 +326,37 @@ function Main_15_seconds(){
 						}
 
 						// Check for education
-						if(previous_userdata.education_timeleft && settings.notifications.education){
+						if(settings.notifications.global && previous_userdata.education_timeleft && settings.notifications.education){
 							if(userdata.education_timeleft == 0 && previous_userdata.education_timeleft != 0){
 								notifyUser("TornTools - Education", `You have finished your education course`, links.education);
 							}
 						}
 
 						// Check for travelling
-						if(previous_userdata.travel && settings.notifications.traveling){
+						if(settings.notifications.global && previous_userdata.travel && settings.notifications.traveling){
 							if(userdata.travel.time_left == 0 && previous_userdata.travel.time_left != 0){
 								notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}`, links.home);
 							}
 						}
 
 						// Check for bars
-						for(let bar of ["energy", "happy", "nerve", "life"]){
-							if(previous_userdata[bar] && settings.notifications[bar].length > 0){
-								for(let checkpoint of settings.notifications[bar].sort(function(a,b){return b-a})){
-									if(previous_userdata[bar].current < userdata[bar].current && (userdata[bar].current/userdata[bar].maximum)*100 >= checkpoint){
-										notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum} (${checkpoint}%)`, links.home);
-										break;
+						if (settings.notifications.global) {
+							for (let bar of ["energy", "happy", "nerve", "life"]) {
+								if (previous_userdata[bar] && settings.notifications[bar].length > 0) {
+									for (let checkpoint of settings.notifications[bar].sort(function (a, b) {
+										return b - a
+									})) {
+										if (previous_userdata[bar].current < userdata[bar].current && (userdata[bar].current / userdata[bar].maximum) * 100 >= checkpoint) {
+											notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum} (${checkpoint}%)`, links.home);
+											break;
+										}
 									}
 								}
 							}
 						}
 
 						// Check for hospital notification
-						if(settings.notifications.hospital.length > 0 && userdata.status.state == "Hospital"){
+						if(settings.notifications.global && settings.notifications.hospital.length > 0 && userdata.status.state == "Hospital"){
 							for(let checkpoint of settings.notifications.hospital.sort(function(a,b){return a-b})){
 								let time_left = new Date(userdata.status.until*1000) - new Date(); // ms
 
@@ -369,7 +376,7 @@ function Main_15_seconds(){
 						}
 
 						// Check for travel notification
-						if(settings.notifications.landing.length > 0 && userdata.travel.time_left > 0){
+						if(settings.notifications.global && settings.notifications.landing.length > 0 && userdata.travel.time_left > 0){
 							for(let checkpoint of settings.notifications.landing.sort(function(a,b){return a-b})){
 								let time_left = new Date(userdata.travel.timestamp*1000) - new Date(); // ms
 
@@ -612,592 +619,6 @@ async function Main_1_day(){
 
 		console.groupEnd("Main (torndata | OC info | installed extensions)");
 	});
-}
-
-// 
-
-function Main(){
-	local_storage.get(["api_key", "cache", "settings"], async function([api_key, cache, settings]){
-
-		if(api_key == undefined){
-			console.log("NO API KEY");
-			return;
-		}
-
-		console.log("================================");
-		console.log("API_KEY", api_key);
-
-		// Clear api count
-		// console.log("Clearing API count.");
-		// await (function(){
-		// 	return new Promise(function(resolve, reject){
-		// 		local_storage.change({"api": {"count": 0}}, function(){
-		// 			console.log("	API count set to 0");
-		// 			return resolve(true);
-		// 		});
-		// 	});
-		// })();
-
-		// networth
-		// console.log("Setting up networth.");
-		// let first_fetch_result = await (function(){
-		// 	return new Promise(function(resolve, reject){
-		// 		get_api("https://api.torn.com/user/?selections=personalstats,networth", api_key).then((data) => {
-		// 			if(data.ok != undefined && !data.ok){
-		// 				return resolve(data);
-		// 			}
-
-		// 			let ps = data.personalstats;
-		// 			let new_networth = data.networth;
-		// 			let networth = {
-		// 				current: {
-		// 					date: new Date().toString(),
-		// 					value: new_networth
-		// 				}, 
-		// 				previous: {
-		// 					value: {
-		// 						"pending": ps.networthpending,
-		// 						"wallet": ps.networthwallet,
-		// 						"bank": ps.networthbank,
-		// 						"points": ps.networthpoints,
-		// 						"cayman": ps.networthcayman,
-		// 						"vault": ps.networthvault,
-		// 						"piggybank": ps.networthpiggybank,
-		// 						"items": ps.networthitems,
-		// 						"displaycase": ps.networthdisplaycase,
-		// 						"bazaar": ps.networthbazaar,
-		// 						"properties": ps.networthproperties,
-		// 						"stockmarket": ps.networthstockmarket,
-		// 						"auctionhouse": ps.networthauctionhouse,
-		// 						"company": ps.networthcompany,
-		// 						"bookie": ps.networthbookie,
-		// 						"loan": ps.networthloan,
-		// 						"unpaidfees": ps.networthunpaidfees,
-		// 						"total": ps.networth
-		// 					}
-		// 				}
-		// 			}
-
-		// 			// Set Userdata & Networth
-		// 			local_storage.set({"networth": networth}, function(){
-		// 				console.log("	Networth set.");
-		// 				return resolve(true);
-		// 			});
-		// 		});
-		// 	});
-		// })();
-
-		// STOP IF SOMETHING WRONG WITH API FETCH
-		// if(first_fetch_result.ok != undefined && !first_fetch_result.ok){
-		// 	console.log("(STOPPING) ERROR:", first_fetch_result.error);
-		// 	return;
-		// }
-
-		// torndata & itemlist
-		// console.log("Setting up torndata & itemlist.");
-		// await (function(){
-		// 	return new Promise(function(resolve, reject){
-		// 		get_api("https://api.torn.com/torn/?selections=honors,medals,stocks,items,pawnshop", api_key).then((torndata) => {
-		// 			if(torndata.ok != undefined && !torndata.ok)
-		// 				return resolve(torndata);
-
-		// 			let new_date = String(new Date());
-		// 			let item_list = {items: {...torndata.items}, date: new_date}
-		// 			torndata.date = new_date;
-		// 			torndata.items = {};
-
-		// 			local_storage.set({"torndata": torndata, "itemlist": item_list}, function(){
-		// 				console.log("	Torndata set.");
-		// 				console.log("	Itemlist set.");
-		// 				return resolve(true);
-		// 			});
-		// 		});
-		// 	});
-		// })();
-
-		// if(settings.pages.faction.oc_time){
-		// 	// faction data
-		// 	console.log("Setting up faction data.");
-		// 	await (function(){
-		// 		return new Promise(function(resolve, reject){
-		// 			get_api("https://api.torn.com/faction/?selections=crimes", api_key).then((factiondata) => {
-		// 				if(factiondata.ok != undefined && !factiondata.ok){
-		// 					return resolve(factiondata);
-		// 				}
-	
-		// 				let new_date = String(new Date());
-		// 				factiondata.crimes.date = new_date;
-	
-		// 				local_storage.set({"oc": factiondata.crimes}, function(){
-		// 					console.log("	Faction data set.");
-		// 					return resolve(true);
-		// 				});
-		// 			});
-		// 		});
-		// 	})();
-		// } else {
-		// 	console.log("Faction OC time formatting turned off.")
-		// }
-
-		// check stocks alerts
-		// console.log("Checking stock prices.");
-		// await (function(){
-		// 	return new Promise(function(resolve, reject){
-		// 		let notified = false;
-		// 		local_storage.get(["stock_alerts", "torndata"], function([stock_alerts, torndata]){
-		// 			for(let stock_id in stock_alerts){
-		// 				if(parseFloat(torndata.stocks[stock_id].current_price) >= parseFloat(stock_alerts[stock_id].reach)){
-		// 					console.log("Notifiying of reaching price point.");
-		// 					notified = true;
-	
-		// 					notifyUser(
-		// 						"TornTools - Stock alerts", 
-		// 						`(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has reached $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].reach})`,
-		// 						links.stocks
-		// 					);
-	
-		// 					local_storage.change({"stock_alerts": {
-		// 						[stock_id]: {
-		// 							"reach": undefined
-		// 						}
-		// 					}});
-		// 				} else if(parseFloat(torndata.stocks[stock_id].current_price) <= parseFloat(stock_alerts[stock_id].fall)){
-		// 					console.log("Notifiying of reaching price point.");
-		// 					notified = true;
-							
-		// 					notifyUser(
-		// 						"TornTools - Stock alerts",
-		// 						`(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has fallen to $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].fall})`,
-		// 						links.stocks
-		// 					);
-	
-		// 					local_storage.change({"stock_alerts": {
-		// 						[stock_id]: {
-		// 							"fall": undefined
-		// 						}
-		// 					}});
-		// 				}
-		// 			}
-		// 			if(!notified){
-		// 				console.log("	No new stock notifications.");
-		// 			}
-		// 			return resolve(true);
-		// 		});
-		// 	});
-		// })();
-
-		// check NPC loot alerts
-		// console.log("Checking NPC loot times.");
-		// await (function(){
-		// 	return new Promise(function(resolve, reject){
-		// 		let notified = false;
-		// 		local_storage.get(["loot_alerts", "loot_times"], function([loot_alerts, loot_times]){
-		// 			let current_time = parseInt(((new Date().getTime())/ 1000).toFixed(0));
-	
-		// 			for(let npc_id in loot_alerts){
-		// 				let alert_level = loot_alerts[npc_id].level;
-		// 				if(!alert_level){
-		// 					continue;
-		// 				}
-	
-		// 				let alert_loot_time = loot_times[npc_id].timings[alert_level].ts;
-	
-		// 				if(!loot_alerts[npc_id].time){
-		// 					continue;
-		// 				}
-	
-		// 				if(loot_times[npc_id].levels.next <= alert_level && alert_loot_time - current_time <= parseFloat(loot_alerts[npc_id].time)*60){
-		// 					if(time_until((alert_loot_time - current_time)*1000) == -1){
-		// 						continue;
-		// 					}
-
-		// 					let checkpoint = loot_alerts[npc_id].time.toString();
-		// 					if(!notifications.loot[checkpoint+"_"+npc_id]){
-		// 						notifications.loot[checkpoint+"_"+npc_id] = {
-		// 							title: "TornTools - NPC Loot",
-		// 							text: `${loot_times[npc_id].name} is reaching loot level ${arabicToRoman(alert_level)} in ${time_until((alert_loot_time - current_time)*1000)}`,
-		// 							url: `https://www.torn.com/profiles.php?XID=${npc_id}`,
-		// 							seen: 0,
-		// 							date: new Date()
-		// 						}
-		// 						console.log("	Added Loot time to notifications.");
-		// 						notified = true;
-		// 					}
-		// 				}
-		// 			}
-		// 			if(!notified){
-		// 				console.log("	No new loot notifications.");
-		// 			}
-		// 			return resolve(true);
-		// 		});
-		// 	});
-		// })();
-
-		// check extensions
-		// console.log("Checking for installed extensions.");
-		// await (function(){
-		// 	return  new Promise(function(resolve, reject){
-		// 		local_storage.get("extensions", async function(extensions){
-		// 			if(typeof extensions.doctorn == "string" && extensions.doctorn.indexOf("force") > -1){
-		// 				return;
-		// 			}
-
-		// 			if(usingChrome()){
-		// 				let doctorn_installed = await detectExtension("doctorn");
-		// 				console.log("	Doctorn installed:", doctorn_installed);
-						
-		// 				local_storage.change({"extensions": {"doctorn": doctorn_installed}}, function(){
-		// 					return resolve(true);
-		// 				});
-		// 			} else {
-		// 				console.log("	Using Firefox.");
-		// 			}
-		// 		});
-		// 	});
-		// })();
-
-		// Clear cache
-		// console.log("Clearing cache");
-		// await (function(){
-		// 	for(let type in cache){
-		// 		for(let key in cache[type]){
-		// 			if(!cache[type][key].date || new Date() - new Date(cache[type][key].date) >= 60*1000){
-		// 				console.log(`	Cleared cache for ${type}: ${key}`)
-		// 				delete cache[type][key];
-		// 			}
-		// 		}
-		// 	}
-		// 	local_storage.set({"cache": cache});
-		// })();
-	});
-}
-
-async function Main_yata(){
-	// loot times
-	// console.log("Setting up loot times.");
-	// await (function(){
-	// 	return new Promise(async function(resolve, reject){
-	// 		let response = await fetch("https://yata.alwaysdata.net/loot/timings/");
-	// 		let result = await response.json();
-
-	// 		local_storage.set({"loot_times": result}, function(){
-	// 			console.log("	Loot times set.");
-	// 			return resolve(true);
-	// 		});
-	// 	});
-	// })();
-
-	// travel markets
-	// console.log("Setting up Travel market info.");
-	// await (function(){
-	// 	return new Promise(async function(resolve, reject){
-	// 		let response = await fetch("https://yata.alwaysdata.net/bazaar/abroad/export/");
-	// 		let result = await response.json();
-
-	// 		local_storage.set({"travel_market": result.stocks}, function(){
-	// 			console.log("	Travel market info set.");
-	// 			return resolve(true);
-	// 		});
-	// 	});
-	// })();
-}
-
-function Main_fast(){
-	// local_storage.get(["api_key", "target_list", "stakeouts"], async function([api_key, target_list, stakeouts]){
-	// 	let attack_history;
-
-	// 	if(api_key == undefined){
-	// 		console.log("NO API KEY");
-	// 		return;
-	// 	}
-
-	// 	if(target_list.show){
-	// 		if(target_list.last_target == -1){
-	// 			attack_history = "attacksfull";
-	// 		} else {
-	// 			attack_history = "attacks";
-	// 		}
-	// 	}
-
-	// 	// userdata
-	// 	console.log("Setting up userdata.");
-	// 	await (function(){
-	// 		return new Promise(function(resolve, reject){
-	// 			let selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,education${attack_history? `,${attack_history}`:''}`;
-	// 			// console.log("---------selections", selections);
-
-	// 			local_storage.get(["settings", "userdata"], function([settings, previous_userdata]){
-	// 				get_api(`https://api.torn.com/user/?selections=${selections}`, api_key).then(async (userdata) => {
-	// 					if(userdata.ok != undefined && !userdata.ok){
-	// 						return resolve(userdata);
-	// 					}
-			
-	// 					// Target list
-	// 					if(userdata.attacks){
-	// 						let attacks_data = {...userdata.attacks}
-	// 						updateTargetList(attacks_data, userdata.player_id, target_list, (attack_history == "attacksfull" ? true : false));
-	// 					}
-	
-	// 					// Check for new messages
-	// 					let message_count = 0;
-	// 					for(let message_key of Object.keys(userdata.messages).reverse()){
-	// 						let message = userdata.messages[message_key];
-
-	// 						if(message.seen == 0){
-	// 							if(settings.notifications.messages && !notifications.messages[message_key]){
-	// 								notifications.messages[message_key] = {
-	// 									title: `TornTools - New Message by ${message.name}`,
-	// 									text: message.title,
-	// 									url: links.messages,
-	// 									seen: 0,
-	// 									date: new Date()
-	// 								}
-	// 							}
-	// 							message_count++;
-	// 						} else {
-	// 							break;
-	// 						}
-	// 					}
-						
-	// 					// Check for new events
-	// 					let event_count = 0;
-	// 					for(let event_key of Object.keys(userdata.events).reverse()){
-	// 						let event = userdata.events[event_key];
-	
-	// 						if(event.seen == 0){
-	// 							if(settings.notifications.events && !notifications.events[event_key]){
-	// 								notifications.events[event_key] = {
-	// 									title: `TornTools - New Event`,
-	// 									text: event.event.replace(/<\/?[^>]+(>|$)/g, ""),
-	// 									url: links.events,
-	// 									seen: 0,
-	// 									date: new Date()
-	// 								}
-	// 							}
-	// 							event_count++;
-	// 						} else {
-	// 							break;
-	// 						}
-	// 					}
-
-	// 					// Messages & Events badge
-	// 					if(event_count > 0 && message_count > 0){
-	// 						setBadge(`${message_count}/${event_count}`, {color: "#1ed2ac"});
-	// 					} else if(event_count > 0){
-	// 						setBadge("new_event", {count: event_count});
-	// 					} else if(message_count > 0){
-	// 						setBadge("new_message", {count: message_count});
-	// 					} else if(!isNaN(await getBadgeText())){
-	// 						setBadge("");
-	// 					}
-						
-	// 					// Check for Status change
-	// 					if(previous_userdata.status && settings.notifications.status){
-	// 						let current_status = userdata.status.state;
-	// 						let previous_status = previous_userdata.status.state;
-							
-	// 						if(!(current_status == previous_status || current_status == "Traveling" || current_status == "Abroad")){
-	// 							if(current_status == "Okay"){
-	// 								if(previous_status == "Hospital"){
-	// 									notifyUser("TornTools - Status", `You are out of the hospital.`, links.home);
-	// 								} else if(previous_status == "Jail"){
-	// 									notifyUser("TornTools - Status", `You are out of the jail.`, links.home);
-	// 								}
-	// 							} else {
-	// 								notifyUser("TornTools - Status", userdata.status.description, links.home);
-	// 							}
-	// 						} 
-	// 					}
-
-	// 					// Check for cooldowns
-	// 					if(previous_userdata.cooldowns && settings.notifications.cooldowns){
-	// 						for(let cd_type in userdata.cooldowns){
-	// 							if(userdata.cooldowns[cd_type] == 0 && previous_userdata.cooldowns[cd_type] != 0){
-	// 								notifyUser("TornTools - Cooldowns", `Your ${cd_type} cooldown has ended`, links.items);
-	// 							}
-	// 						}
-	// 					}
-
-	// 					// Check for education
-	// 					if(previous_userdata.education_timeleft && settings.notifications.education){
-	// 						if(userdata.education_timeleft == 0 && previous_userdata.education_timeleft != 0){
-	// 							notifyUser("TornTools - Education", `You have finished your education course`, links.education);
-	// 						}
-	// 					}
-
-	// 					// Check for travelling
-	// 					if(previous_userdata.travel && settings.notifications.traveling){
-	// 						if(userdata.travel.time_left == 0 && previous_userdata.travel.time_left != 0){
-	// 							notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}`, links.home);
-	// 						}
-	// 					}
-
-	// 					// Check for bars
-	// 					for(let bar of ["energy", "happy", "nerve", "life"]){
-	// 						if(previous_userdata[bar] && settings.notifications[bar].length > 0){
-	// 							for(let checkpoint of settings.notifications[bar].sort(function(a,b){return b-a})){
-	// 								if(previous_userdata[bar].current < userdata[bar].current && (userdata[bar].current/userdata[bar].maximum)*100 >= checkpoint){
-	// 									notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum} (${checkpoint}%)`, links.home);
-	// 									break;
-	// 								}
-	// 							}
-	// 						}
-	// 					}
-
-	// 					// Check for hospital notification
-	// 					if(settings.notifications.hospital.length > 0 && userdata.status.state == "Hospital"){
-	// 						for(let checkpoint of settings.notifications.hospital.sort(function(a,b){return a-b})){
-	// 							let time_left = new Date(userdata.status.until*1000) - new Date(); // ms
-
-	// 							if(time_left <= checkpoint*60*1000 && !notifications.hospital[checkpoint]){
-	// 								notifications.hospital[checkpoint] = {
-	// 									title: "TornTools - Hospital",
-	// 									text: `You will be out of the Hospital in ${Math.floor(time_left/1000/60)} minutes ${(time_left/1000 % 60).toFixed(0)} seconds`,
-	// 									url: links.hospital,
-	// 									seen: 0,
-	// 									date: new Date()
-	// 								};
-	// 								break;
-	// 							}
-	// 						}
-	// 					} else {
-	// 						notifications.hospital = {}
-	// 					}
-
-	// 					// Check for travel notification
-	// 					if(settings.notifications.landing.length > 0 && userdata.travel.time_left > 0){
-	// 						for(let checkpoint of settings.notifications.landing.sort(function(a,b){return a-b})){
-	// 							let time_left = new Date(userdata.travel.timestamp*1000) - new Date(); // ms
-
-	// 							if(time_left <= checkpoint*60*1000 && !notifications.travel[checkpoint]){
-	// 								notifications.travel[checkpoint] = {
-	// 									checkpoint: checkpoint,
-	// 									title: "TornTools - Travel",
-	// 									text: `You will be Landing in ${Math.floor(time_left/1000/60)} minutes ${(time_left/1000 % 60).toFixed(0)} seconds`,
-	// 									url: links.home,
-	// 									seen: 0,
-	// 									date: new Date()
-	// 								};
-	// 								break;
-	// 							}
-	// 						}
-	// 					} else {
-	// 						notifications.travel = {}
-	// 					}
-
-	// 					userdata.date = String(new Date());
-	// 					userdata.attacks = undefined;
-	
-	// 					// Set Userdata
-	// 					local_storage.set({"userdata": userdata}, function(){
-	// 						console.log("	Userdata set.");
-	// 						return resolve(true);
-	// 					});
-	// 				});
-	// 			});
-	// 		});
-	// 	})();
-
-	// 	// stakeouts
-	// 	if(Object.keys(stakeouts).length > 0){
-	// 		console.log("Checking stakeouts.");
-	// 		for(let user_id of Object.keys(stakeouts)){
-	// 			let all_false = true;
-	// 			for(let option in stakeouts[user_id]){
-	// 				if(stakeouts[user_id][option] == true){
-	// 					all_false = false;
-	// 				}
-	// 			}
-
-	// 			if(all_false){
-	// 				local_storage.get("stakeouts", function(stakeouts){
-	// 					delete stakeouts[user_id];
-	// 					local_storage.set({"stakeouts": stakeouts});
-	// 				});
-	// 				continue;
-	// 			}
-
-	// 			await (function(){
-	// 				return new Promise(function(resolve, reject){
-	// 					get_api(`https://api.torn.com/user/${user_id}?`, api_key)
-	// 					.then(stakeout_info => {
-	// 						console.log(`	Checking ${stakeout_info.name} [${user_id}]`);
-
-	// 						if(stakeouts[user_id].online){
-	// 							if(stakeout_info.last_action.status == "Online" && !notifications.stakeouts[user_id+"_online"]){
-	// 								console.log("	Adding [online] notification to notifications.");
-	// 								notifications.stakeouts[user_id+"_online"] = {
-	// 									title: `TornTools - Stakeouts`,
-	// 									text: `${stakeout_info.name} is now Online`,
-	// 									url: `https://www.torn.com/profiles.php?XID=${user_id}`,
-	// 									seen: 0,
-	// 									date: new Date()
-	// 								}
-	// 							} else if(stakeout_info.last_action.status != "Online"){
-	// 								delete notifications.stakeouts[user_id+"_online"];
-	// 							}
-	// 						}
-	// 						if(stakeouts[user_id].okay){
-	// 							if(stakeout_info.status.state == "Okay" && !notifications.stakeouts[user_id+"_okay"]){
-	// 								console.log("	Adding [okay] notification to notifications.");
-	// 								notifications.stakeouts[user_id+"_okay"] = {
-	// 									title: `TornTools - Stakeouts`,
-	// 									text: `${stakeout_info.name} is now Okay`,
-	// 									url: `https://www.torn.com/profiles.php?XID=${user_id}`,
-	// 									seen: 0,
-	// 									date: new Date()
-	// 								}
-	// 							} else if(stakeout_info.status.state != "Okay"){
-	// 								delete notifications.stakeouts[user_id+"_okay"];
-	// 							}
-	// 						}
-	// 						if(stakeouts[user_id].lands){
-	// 							if(stakeout_info.status.state != "Traveling" && !notifications.stakeouts[user_id+"_lands"]){
-	// 								console.log("	Adding [lands] notification to notifications.");
-	// 								notifications.stakeouts[user_id+"_lands"] = {
-	// 									title: `TornTools - Stakeouts`,
-	// 									text: `${stakeout_info.name} is now ${stakeout_info.status.state == "Abroad" ? stakeout_info.status.description : "in Torn"}`,
-	// 									url: `https://www.torn.com/profiles.php?XID=${user_id}`,
-	// 									seen: 0,
-	// 									date: new Date()
-	// 								}
-	// 							} else if(stakeout_info.status.state == "Traveling"){
-	// 								delete notifications.stakeouts[user_id+"_lands"];
-	// 							}
-	// 						}
-
-	// 						return resolve(true);
-	// 					});
-	// 				});
-	// 			})();
-	// 		}
-	// 	} else {
-	// 		console.log("No stakeouts.");
-	// 	}
-	// });
-}
-
-function Main_extra_fast(){
-	// Notifications
-	// console.log(notifications);
-	// for(let notification_type in notifications){
-	// 	for(let notification_key in notifications[notification_type]){
-	// 		if(notifications[notification_type][notification_key].seen == 0){
-	// 			notifyUser(
-	// 				notifications[notification_type][notification_key].title,
-	// 				notifications[notification_type][notification_key].text,
-	// 				notifications[notification_type][notification_key].url
-	// 			);
-
-	// 			notifications[notification_type][notification_key].seen = 1;
-	// 		}
-
-	// 		if(notifications[notification_type][notification_key].seen == 1 && (new Date() - notifications[notification_type][notification_key].date) > 7*24*60*60*1000){
-	// 			// notifications[notification_type][notification_key] = undefined;
-	// 			delete notifications[notification_type][notification_key];
-	// 		}
-	// 	}
-	// }
 }
 
 // FUNCTIONS //
@@ -1512,7 +933,11 @@ async function detectExtension(browserName, ext){
 	if (information.id) {
 		return new Promise(function(resolve, reject){
 			chrome.management.get(information.id, function(result) {
-				resolve(!!result);
+				if(result.enabled === true){
+					resolve(true);
+				} else {
+					resolve(false)
+				}
 			});
 		});
 	} else if (information.name) {
@@ -1525,6 +950,7 @@ async function detectExtension(browserName, ext){
 			resolve(addons && !!addons
 				.filter((addon) => addon.type === "extension")
 				.filter((addon) => addon.name === information.name)
+				.filter((addon) => addon.enabled === true)
 				.length);
 		});
 	}

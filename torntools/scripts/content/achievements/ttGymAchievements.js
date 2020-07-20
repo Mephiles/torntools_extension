@@ -9,27 +9,27 @@ DBloaded().then(function(){
         // object of all the achievements on this page
         let achievements = {
             "Strength": {
-                "stats": parseInt(userdata.strength.replace(/,/g, "")),
+                "stats": parseInt(userdata.strength),
                 "keyword": "strength",
                 "incl": ["gain"]
             },
             "Speed": {
-                "stats": parseInt(userdata.speed.replace(/,/g, "")),
+                "stats": parseInt(userdata.speed),
                 "keyword": "speed",
                 "incl": ["gain"]
             },
             "Defense": {
-                "stats": parseInt(userdata.defense.replace(/,/g, "")),
+                "stats": parseInt(userdata.defense),
                 "keyword": "defense",
                 "incl": ["gain"]
             },
             "Dexterity": {
-                "stats": parseInt(userdata.dexterity.replace(/,/g, "")),
+                "stats": parseInt(userdata.dexterity),
                 "keyword": "dexterity",
                 "incl": ["gain"]
             },
             "Total": {
-                "stats": parseInt(userdata.total.replace(/,/g, "")),
+                "stats": parseInt(userdata.total),
                 "keyword": "total stats"
             },
         }

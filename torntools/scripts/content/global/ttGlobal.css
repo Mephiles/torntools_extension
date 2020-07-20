@@ -343,6 +343,24 @@ div[role='main'].tt-modified {
     height: 85px !important;
 }
 
+/* Hide chat */
+
+#tt-hide_chat {
+    height: 40px;
+    width: 40px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 999;
+
+    font-size: 36px;
+    text-align: center;
+}
+
+#chatRoot {
+    display: var(--torntools-hide-chat, none);
+}
+
 /* font-awesome */
 .fa, .fas {
     font-weight: 900;
@@ -368,6 +386,8 @@ div[role='main'].tt-modified {
 .fa-plus-circle:before{content:"\f055"}
 
 .fa-cog:before{content:"\f013"}
+
+.fa-binoculars:before{content:"\f1e5"}
 
 /* Torn icons */
 #sidebarroot .status-icons___1SnOI>li[class^="icon1_"] { display: var(--torntools-hide-icons-icon1, inline-block) }

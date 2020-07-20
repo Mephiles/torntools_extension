@@ -123,9 +123,22 @@ li.tt-item-price {
 .cont-wrap.tt-modified .bonuses.left {
     right: -37px !important;
 }
+.cont-wrap.tt-modified>.action-wrap {
+    display: none !important;
+}
 li.item-group.tt-modified .title.left {
     width: 612px !important;
 }
 li.item-group.tt-modified .group-arrow {
     right: 170px !important;
+}
+
+/* Highlight blood bags */
+
+.tt-good_blood {
+    background-color: #bdecb9b5 !important;
+}
+
+.tt-bad_blood {
+    background-color: #f5b2b28a !important;
 }

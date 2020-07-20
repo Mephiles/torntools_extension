@@ -1,4 +1,4 @@
-var money_key_list = ["networth", "moneymugged", "largestmug", "peopleboughtspent", "receivedbountyvalue", "totalbountyspent", "totalbountyreward"]
+var money_key_list = ["networth", "moneymugged", "largestmug", "peopleboughtspent", "receivedbountyvalue", "totalbountyspent", "totalbountyreward", "rehabcost"]
 var key_dict = {
     basic: {
         "awards": "Awards",
@@ -51,8 +51,8 @@ var key_dict = {
         "computer_crimes": "Crimes: Computer",
         "murder": "Crimes: Murder",
         "fraud_crimes": "Crimes: Fraud",
-        "othercrimes": "Crimes: Other",
-        "totalcrimes": "Crimes: Total",
+        "other": "Crimes: Other",
+        "total": "Crimes: Total",
         "organisedcrimes": "Crimes: Organised Crimes"
     },
     consumables: {
@@ -474,7 +474,7 @@ async function displayProfileStats(){
             let row_title = key_dict[section][key];
 
             let their_value = result[key] || 0;
-            let your_value = userdata.personalstats[key] || 0;
+            let your_value = userdata.personalstats[key] || userdata.criminalrecord[key] || 0;
             
             let their_value_modified, your_value_modified;
 
@@ -659,12 +659,12 @@ function showSpyInfo(){
             let row = doc.new({type: "div", class: "tt-row"});
             let item_key = doc.new({type: "div", class: "item", text: capitalize(stat)});
             let item_them = doc.new({type: "div", class: "item", text: numberWithCommas(parseInt(spy_info[stat]), false)});
-            let item_you = doc.new({type: "div", class: "item", text: numberWithCommas(parseInt(userdata[stat].replace(/,/g,"")), false)});
+            let item_you = doc.new({type: "div", class: "item", text: numberWithCommas(parseInt(userdata[stat]), false)});
 
-            if(parseInt(spy_info[stat]) > parseInt(userdata[stat].replace(/,/g,""))){
+            if(parseInt(spy_info[stat]) > parseInt(userdata[stat])){
                 item_you.classList.add("negative");
                 item_them.classList.add("positive");
-            } else if(parseInt(spy_info[stat]) < parseInt(userdata[stat].replace(/,/g,""))){
+            } else if(parseInt(spy_info[stat]) < parseInt(userdata[stat])){
                 item_them.classList.add("negative");
                 item_you.classList.add("positive");
             }
@@ -963,8 +963,8 @@ function getTraveling(){
 
 function modifyResult(personalstats, criminalrecord, comparison_data, spy_data){
     const record = {
-        total: "totalcrimes",
-        other: "othercrimes",
+        // total: "totalcrimes",
+        // other: "othercrimes",
     };
     const comparison = {
         "Xanax Taken": { name: "xantaken", field: "amount" },

@@ -5,8 +5,24 @@ window.addEventListener("load", function(){
     loadingPlaceholder(doc.find("body"), true);
 });
 
+DBfailed().then(function(failed){
+    console.log("DB failed", failed);
+    if(failed){
+        if(!app_initialized) {
+            window.location.href = `../index/index.html`;
+        }
+    } else {
+        console.log("DB has loaded.");
+    }
+});
+
 DBloaded().then(function(){
     console.log("Start Info popup");
+
+    // Check if another page is default
+    if(settings.tabs.default != "info"){
+        window.location.href = `../${settings.tabs.default}/${settings.tabs.default}.html`;
+    }
 
     // Remove loader
     loadingPlaceholder(doc.find("body"), false);
@@ -39,6 +55,12 @@ DBloaded().then(function(){
     });
     
     updateInfo(settings);
+    doc.find(".footer .messages").addEventListener("click", function(){
+        chrome.tabs.create({url: "https://www.torn.com/messages.php"});
+    });
+    doc.find(".footer .events").addEventListener("click", function(){
+        chrome.tabs.create({url: "https://www.torn.com/events.php"});
+    });
 
     // Update interval
     let updater = setInterval(function(){
@@ -233,13 +255,6 @@ function updateInfo(settings){
         doc.find(".footer .messages span").innerText = message_count;
         doc.find(".footer .events span").innerText = event_count;
         doc.find(".footer .money span").innerText = `$${numberWithCommas(userdata.money_onhand, shorten=false)}`;
-
-        doc.find(".footer .messages").addEventListener("click", function(){
-            chrome.tabs.create({url: "https://www.torn.com/messages.php"});
-        });
-        doc.find(".footer .events").addEventListener("click", function(){
-            chrome.tabs.create({url: "https://www.torn.com/events.php"});
-        });
     });
 }
 

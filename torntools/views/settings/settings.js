@@ -243,8 +243,16 @@ function setupPreferences(){
     // Other scripts
     for(let page in settings.pages){
         for(let option in settings.pages[page]){
-            if(preferences.find(`#${page}-${option} input`)){
-                preferences.find(`#${page}-${option} input`).checked = settings.pages[page][option];
+            const optionDiv = preferences.find(`#${page}-${option}`);
+            if (!optionDiv) continue;
+
+
+            if(optionDiv.find("input")) optionDiv.find("input").checked = settings.pages[page][option];
+            else if (optionDiv.find("select")) {
+                const selectedOption = optionDiv.find(`select > option[value='${settings.pages[page][option]}']`)
+                if (!selectedOption) optionDiv.find("select > option[value='none']")
+
+                optionDiv.find("select").value = settings.pages[page][option];
             }
         }
     }
@@ -335,6 +343,14 @@ function setupPreferences(){
         let table_body = preferences.find("#chat_highlight .body");
         table_body.insertBefore(row, table_body.find(".row.input"));
     }
+    const chatSection = preferences.find(".section.chat");
+    for (let placeholder in HIGHLIGHT_PLACEHOLDERS) {
+        chatSection.append(doc.new({
+            type: "div",
+            class:"tabbed note",
+            text: `${placeholder} - ${HIGHLIGHT_PLACEHOLDERS[placeholder].description}`
+        }));
+    }
 
     // Loot alerts
     for(let npc_id in loot_times){
@@ -352,14 +368,37 @@ function setupPreferences(){
     }
 
     // Notifications
+    const notificationsDisabled = !settings.notifications.global;
+
     for(let notification in settings.notifications){
+        let option;
+
         if(Array.isArray(settings.notifications[notification])){
             let text = settings.notifications[notification].join(",");
-            preferences.find(`#notifications-${notification} input[type='text']`).value = text;
+            option = preferences.find(`#notifications-${notification} input[type='text']`);
+            option.value = text;
         } else {
-            preferences.find(`#notifications-${notification} input`).checked = settings.notifications[notification];
+            option = preferences.find(`#notifications-${notification} input`);
+            option.checked = settings.notifications[notification];
         }
+
+        if (notificationsDisabled && notification !== "global") option.setAttribute("disabled", true);
     }
+
+    preferences.find("#notifications-global").addEventListener("click", (event) => {
+        const disableNotifications = !event.target.checked;
+
+        for (let notification in settings.notifications) {
+            if (notification === "global") continue;
+
+            let option = preferences.find(`#notifications-${notification} input`);
+
+            console.log("DKK disabled", disableNotifications, option)
+            if (disableNotifications) option.setAttribute("disabled", true);
+            else option.removeAttribute("disabled");
+        }
+    })
+
 
     // Icons
     for(let icon of hide_icons){
@@ -456,7 +495,11 @@ function savePreferences(preferences, settings, target_list_enabled){
     // Other scripts
     for(let page in settings.pages){
         for(let option in settings.pages[page]){
-            if(preferences.find(`#${page}-${option} input`)) settings.pages[page][option] = preferences.find(`#${page}-${option} input`).checked;
+            const optionDiv = preferences.find(`#${page}-${option}`);
+            if (!optionDiv) continue;
+
+            if(optionDiv.find("input")) settings.pages[page][option] = optionDiv.find("input").checked;
+            else if (optionDiv.find("select")) settings.pages[page][option] = optionDiv.find("select").selectedOptions[0].getAttribute("value");
         }
     }
     // settings.remove_info_boxes = preferences.find(`#remove_info_boxes input`).checked;
@@ -542,6 +585,9 @@ function savePreferences(preferences, settings, target_list_enabled){
     if(!isNaN(red_time_company)){
         settings.inactivity_alerts_company[red_time_company] = "#ffc8c8";
     }
+
+    // Items
+    settings.pages.items.highlight
 
     // Filters (Faction)
     let filter_factions = {

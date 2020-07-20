@@ -4,7 +4,9 @@ DBloaded().then(function(){
     // Add TT Black overlay
     let overlay = doc.new({type: "div", class: "tt-black-overlay"});
     doc.find("body").appendChild(overlay);
-    
+
+    showToggleChat();
+
     navbarLoaded().then(async function(){
         let _flying = await flying();
 
@@ -53,8 +55,15 @@ DBloaded().then(function(){
         if (shouldDisable()) return
 
         // Chat highlight
+        let highlights = {...chat_highlight};
+        for (let key in highlights) {
+            if (!(key in HIGHLIGHT_PLACEHOLDERS)) continue;
+
+            highlights[HIGHLIGHT_PLACEHOLDERS[key].value()] = highlights[key];
+        }
+
         if(doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")){
-            highLightChat(chat_highlight, userdata.name);
+            highLightChat(highlights);
 
             if(settings.pages.global.find_chat) addChatFilters();
         }
@@ -64,7 +73,7 @@ DBloaded().then(function(){
                 return;
             }
     
-            highLightChat(chat_highlight, userdata.name);
+            highLightChat(highlights);
             if(settings.pages.global.find_chat) addChatFilters();
         });
     
@@ -72,16 +81,8 @@ DBloaded().then(function(){
             for(let mutation of mutationsList){
                 if(mutation.addedNodes[0] && mutation.addedNodes[0].classList && mutation.addedNodes[0].classList.contains("message_oP8oM")){
                     let message = mutation.addedNodes[0];
-    
-                    let sender = message.find("a").innerText.replace(":", "").trim();
-                    let text = message.find("span").innerText;
-                    
-                    if(sender in chat_highlight){
-                        message.find("a").style.color = chat_highlight[sender];
-                    }
-                    if(text.indexOf(userdata.name) > -1){
-                        message.find("span").parentElement.style.backgroundColor = "#c7e27b6e";
-                    }
+
+                    applyChatHighlights(message, highlights);
                 }
             }
         });
@@ -187,22 +188,34 @@ function addUpdateNotification(){
     doc.find("h2=Areas").nextElementSibling.insertBefore(cell, doc.find("h2=Areas").nextElementSibling.firstElementChild);
 }
 
-function highLightChat(chat_highlight, username){
+function highLightChat(chat_highlight){
     let chats = doc.findAll(".chat-box-content_2C5UJ .overview_1MoPG");
     for(let chat of chats){
         let messages = chat.findAll(".message_oP8oM");
         
         for(let message of messages){
-            let sender = message.find("a").innerText.replace(":", "").trim();
-            let text = message.find("span").innerText;
-            
-            if(sender in chat_highlight){
-                message.find("a").style.color = chat_highlight[sender];
-            }
-            if(text.indexOf(username) > -1){
-                message.find("span").parentElement.style.backgroundColor = "#c7e27b6e";
-            }
+            applyChatHighlights(message, chat_highlight)
         }
+    }
+}
+
+function applyChatHighlights(message, highlights) {
+    let sender = message.find("a").innerText.replace(":", "").trim();
+    let text = message.find("span").innerText;
+    const words = text.split(" ").map((w) => w.toLowerCase());
+
+    if(sender in highlights){
+        message.find("a").style.color = highlights[sender];
+    }
+
+    for (let highlight in highlights) {
+        if (!words.includes(highlight.toLowerCase())) continue;
+
+        let color = highlights[highlight]
+        if (color.length === 7) color += "6e";
+
+        message.find("span").parentElement.style.backgroundColor = color;
+        break;
     }
 }
 
@@ -258,37 +271,18 @@ function displayVaultBalance(){
     info_cont.parentElement.find(".points___KTUNl").insertBefore(el, info_cont.parentElement.find(".points___KTUNl .point-block___xpMEi:nth-of-type(2)"));
 }
 
-// function showColorCodes(){
-//     let dictionary = {
-//         "home": "#8ad2f7",
-//         "items": "#91a96be0",
-//         "city": "#cc3ecc9e",
-//         "job": "#a255279e",
-//         "gym": "#7ed426",
-//         "properties": "#71717173",
-//         "education": "#8ad2f7",
-//         "crimes": "#e4755b",
-//         "missions": "#e4755b",
-//         "newspaper": "#71717173",
-//         "jail": "#a255279e",
-//         "hospital": "#71717173",
-//         "casino": "#e4755b",
-//         "forums": "#8ad2f7",
-//         "hall_of_fame": "#c5c242",
-//         "my_faction": "#91a96be0",
-//         "recruit_citizens": "#71717173",
-//         "competitions": "#c5c242"
-//     }
+function showToggleChat() {
+    doc.documentElement.style.setProperty(`--torntools-hide-chat`, settings.pages.global.hide_chat ? "none" : "block");
 
-//     let navbar_content = doc.find("h2=Areas").nextElementSibling;
+    const icon = doc.new({id: "tt-hide_chat", type: "i", class: "fas fa-binoculars"});
 
-//     for(let key in dictionary){
-//         let cell = navbar_content.find(`#nav-${key}`);
+    icon.addEventListener("click", (event) => {
+        settings.pages.global.hide_chat = !settings.pages.global.hide_chat;
 
-//         let span = doc.new("span");
-//             span.setClass("nav-color-code");
-//             span.style.backgroundColor = dictionary[key];
+        doc.documentElement.style.setProperty(`--torntools-hide-chat`, settings.pages.global.hide_chat ? "none" : "block");
 
-//         cell.appendChild(span);
-//     }
-// }
+        local_storage.set({"settings": settings});
+    });
+
+    doc.find("#body").prepend(icon);
+}

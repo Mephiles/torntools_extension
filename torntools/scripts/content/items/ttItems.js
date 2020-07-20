@@ -3,6 +3,8 @@ DBloaded().then(function(){
         console.log("TT - Quick items");
         if (shouldDisable()) return;
 
+        doc.find("head").appendChild(doc.new({type: "script", attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/items/ttItemsInject.js")}}));
+
         // Quick items
         let quick_container = content.new_container("Quick items", {id: "ttQuick", dragzone: true, next_element: doc.find(".equipped-items-wrap")}).find(".content");
         let inner_content = doc.new({type: "div", class: "inner-content"});
@@ -20,57 +22,11 @@ DBloaded().then(function(){
 
         if(quick.items.length > 0){
             for(let id of quick.items){
-                let amount = findItemsInList(userdata.inventory, {ID: id})[0].quantity;
-
-                let div = doc.new({type: "div", class: "item", attributes: {"item-id": id}});
-                let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(/images/items/${id}/medium.png)`}});
-                let text = doc.new({type: "div", class: "text", text: itemlist.items[id].name});
-                let quantity = doc.new({type: "div", class: "sub-text tt-quickitems-quantity", attributes: {quantity: amount}, text: amount+"x"});
-                let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
-
-                div.appendChild(pic);
-                div.appendChild(text);
-                div.appendChild(quantity);
-                div.appendChild(close_icon);
-                inner_content.appendChild(div);
-
-                close_icon.addEventListener("click", function(event){
-                    event.stopPropagation();
-                    div.remove();
-
-                    let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
-                    local_storage.change({"quick": {"items": items}});
-                });
-
-                div.addEventListener("click", function(){
-                    console.log("Clicked Quick item");
-                    getAction({
-                        type: "post",
-                        action: "item.php",
-                        data: {step: "actionForm", id: id, action: "use"},
-                        success: function (str) {
-                            if(quick_container.find(".action-wrap")){
-                                quick_container.find(".action-wrap").remove();
-                            }
-
-                            response_wrap.style.display = "block";
-                            response_wrap.innerHTML = str;
-
-                            let newQuantity = parseInt(quantity.getAttribute("quantity")) - 1;
-                            quantity.innerText = newQuantity + "x";
-                            quantity.setAttribute("quantity", newQuantity);
-
-                            // adjust container
-                            quick_container.style.maxHeight = quick_container.scrollHeight + "px";
-
-                            useContainerLoaded().then(function(){
-                                quick_container.find(`a[data-item='${id}']`).click();
-                            });
-                        }
-                    });
-                });
+                addQuickItem(quick_container, inner_content, response_wrap, id);
             }
         }
+
+        enableInjectListener();
     });
 });
 
@@ -96,7 +52,7 @@ DBloaded().then(function(){
         if(settings.pages.items.drug_details){
             let item_info_container_mutation = new MutationObserver(function(mutations){
                 for(let mutation of mutations){
-                    if(mutation.type == "childList"){
+                    if(mutation.type === "childList"){
                         if(mutation.addedNodes[0] && mutation.addedNodes[0].classList && mutation.addedNodes[0].classList.contains("show-item-info")){
                             let el = mutation.addedNodes[0];
                             itemInfoLoaded(el).then(function(){
@@ -104,7 +60,7 @@ DBloaded().then(function(){
                                 if(item_name.indexOf("The") > -1) item_name = item_name.split("The ")[1];
             
                                 let drug_details = drug_dict[item_name.toLowerCase().replace(/ /g, "_")];
-                                if(drug_details == undefined){
+                                if(drug_details === undefined){
                                     return;
                                 }
                                 
@@ -182,6 +138,9 @@ DBloaded().then(function(){
             addItemMarketLinks();
         }
 
+        console.log("DKK setting", settings.pages.items.highlight_bloodbags)
+        if (settings.pages.items.highlight_bloodbags !== "none") highlightBloodBags();
+
         // Change item type page
         let sorting_icons = doc.findAll("ul[role=tablist] li:not(.no-items):not(.m-show):not(.hide)");
         for (let icon of sorting_icons) {
@@ -212,7 +171,7 @@ DBloaded().then(function(){
 });
 
 function itemsLoaded() {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         let checker = setInterval(function () {
             let items = doc.find(".items-cont[aria-expanded=true]>li")
             if(items && [...items.children].length > 1){
@@ -248,7 +207,7 @@ function displayItemPrices(itemlist) {
                 parent.find(".qty").setAttribute("style", "position: relative; top: -3px;");
             }
 
-            if ([...item.findAll(".bonuses-wrap *")].length == 0) {
+            if ([...item.findAll(".bonuses-wrap *")].length === 0) {
                 qty = parseInt(parent.parentElement.parentElement.parentElement.find(".qty").innerText.replace("x", ""));
                 total_price = qty * parseInt(price);
             }
@@ -273,20 +232,20 @@ function displayItemPrices(itemlist) {
         if (total_price) {
             // new_element.innerText = `$${numberWithCommas(price, shorten=false)} | ${qty}x = $${numberWithCommas(total_price, shorten=false)}`;
             let one_price = doc.new("span");
-            one_price.innerText = `$${numberWithCommas(price, shorten = false)} |`;
+            one_price.innerText = `$${numberWithCommas(price, false)} |`;
             let quantity = doc.new("span");
             quantity.innerText = ` ${qty}x = `;
             quantity.setClass("tt-item-quantity");
             let all_price = doc.new("span");
-            all_price.innerText = `$${numberWithCommas(total_price, shorten = false)}`;
+            all_price.innerText = `$${numberWithCommas(total_price, false)}`;
 
             new_element.appendChild(one_price);
             new_element.appendChild(quantity);
             new_element.appendChild(all_price);
-        } else if (price == 0) {
+        } else if (price === 0) {
             new_element.innerText = `N/A`;
         } else {
-            new_element.innerText = `$${numberWithCommas(price, shorten = false)}`;
+            new_element.innerText = `$${numberWithCommas(price, false)}`;
         }
 
         parent.appendChild(new_element);
@@ -294,7 +253,7 @@ function displayItemPrices(itemlist) {
 }
 
 function useContainerLoaded(){
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         let checker = setInterval(function () {
             let wrap = doc.find("#ttQuick .action-wrap.use-act.use-action");
             if(wrap){
@@ -306,7 +265,7 @@ function useContainerLoaded(){
 }
 
 function itemInfoLoaded(element){
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         let checker = setInterval(function () {
             if(!element.find(".ajax-placeholder")){
                 resolve(true);
@@ -403,7 +362,9 @@ function addButton(){
 function addItemMarketLinks(){
     let items = doc.findAll(".items-cont[aria-expanded=true]>li");
 
-    for(let item of items){
+    for (let item of items) {
+        if (item.find(".tt-market-link")) continue;
+
         let li = doc.new({type: "li", class: "left tt-market-link", attributes: {"data-id": item.getAttribute("data-item")}});
         let a = doc.new({type: "a", href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${item.find(".image-wrap img").getAttribute("alt")}`});
         let i = doc.new({type: "i", class: "cql-item-market", attributes: {title: "Open Item Market"}});
@@ -424,7 +385,42 @@ function addItemMarketLinks(){
 
         item.find(".cont-wrap").appendChild(actionParent)
 
-        item.find("ul.actions-wrap").insertBefore(li, item.find("ul.actions-wrap .dump"));
+        if(item.find("ul.actions-wrap .dump")){
+            item.find("ul.actions-wrap").insertBefore(li, item.find("ul.actions-wrap .dump"));
+        } else {
+            item.find("ul.actions-wrap").insertBefore(li, item.find("ul.actions-wrap .clear"));
+        }
+    }
+}
+
+
+const ALLOWED_BLOOD = {
+    "o+": [ 738, 739 ], // 738
+    "o-": [ 739 ], // 739
+    "a+": [ 732, 733, 738, 739 ], // 732
+    "a-": [ 733, 739 ], // 733
+    "b+": [ 734, 735, 738, 739 ], // 734
+    "b-": [ 735, 739 ], // 735
+    "ab+": [ 732, 733, 734, 735, 736, 737, 738, 739 ], // 736
+    "ab-": [ 733, 735, 737, 739 ], // 737
+}
+
+function highlightBloodBags(){
+    const allowedBlood = ALLOWED_BLOOD[settings.pages.items.highlight_bloodbags];
+    const items = doc.findAll("ul.items-cont[aria-expanded=true] > li");
+
+    for (let item of items) {
+        if (!item.find(".name-wrap") || item.find(".name-wrap").classList.contains(".tt-modified")) continue;
+
+        if (!item.getAttribute("data-sort").includes("Blood Bag : ")) continue; // is not a filled blood bag
+        if (item.getAttribute("data-item") === "1012") continue; // is an irradiated blood bag
+
+        const classes = item.find(".name-wrap").classList;
+
+        classes.add("tt-modified");
+
+        if (allowedBlood.includes(parseInt(item.getAttribute("data-item")))) classes.add("tt-good_blood");
+        else classes.add("tt-bad_blood")
     }
 }
 
@@ -434,8 +430,8 @@ function getAction(obj) {
     // obj.error = obj.error || onAjaxError;
     obj.before = obj.before || function () {};
     obj.complete = obj.complete || function () {};
-    var url = obj.action || window.location.protocol + "//" + window.location.hostname + location.pathname;
-    var options = {
+    const url = obj.action || window.location.protocol + "//" + window.location.hostname + location.pathname;
+    const options = {
         url: "https://www.torn.com/"+addRFC(url),
         type: obj.type || "get",
         data: obj.data || {},
@@ -461,7 +457,7 @@ function getAction(obj) {
             // obj.complete(data);
         },
     };
-    if (options.data.step != undefined) {
+    if (options.data.step !== undefined) {
     }
     if (obj.file) {
         options.cache = false;
@@ -480,54 +476,13 @@ function onDragStart(event) {
         }
     
         let id = event.target.parentElement.getAttribute("data-item");
-    
-        let div = doc.new({type: "div", class: "temp item", attributes: {"item-id": id}});
-        let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(/images/items/${id}/medium.png)`}});
-        let text = doc.new({type: "div", class: "text", text: itemlist.items[id].name});
-        let quantity = doc.new({type: "div", class: "sub-text", text: findItemsInList(userdata.inventory, {ID: id})[0].quantity+"x"});
-        let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
-    
-        div.appendChild(pic);
-        div.appendChild(text);
-        div.appendChild(quantity);
-        div.appendChild(close_icon);
-        doc.find("#ttQuick .inner-content").appendChild(div);
-    
-        close_icon.addEventListener("click", function(event){
-            event.stopPropagation();
-            div.remove();
-    
-            let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
-            local_storage.change({"quick": {"items": items}});
-        });
-    
-        div.addEventListener("click", function(){
-            getAction({
-                type: "post",
-                action: "item.php",
-                data: {step: "actionForm", id: id, action: "use"},
-                success: function (str) {
-                    
-                    if(doc.find("#ttQuick").find(".action-wrap")){
-                        doc.find("#ttQuick").find(".action-wrap").remove();
-                    }
-    
-                    doc.find("#ttQuick .response-wrap").style.display = "block";
-                    doc.find("#ttQuick .response-wrap").innerHTML = str;
-                    
-                    // adjust container
-                    doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px"; 
-                    
-                    useContainerLoaded().then(function(){
-                        doc.find("#ttQuick").find(`a[data-item='${id}']`).click();
-                    });
-                }
-            });
-        });
+
+        addQuickItem(undefined, undefined, undefined, id);
+        enableInjectListener();
     }, 10);
 }
 
-function onDragEnd(event){
+function onDragEnd(){
     if(doc.find("#ttQuick .temp.item")){
         doc.find("#ttQuick .temp.item").remove();
     }
@@ -536,4 +491,104 @@ function onDragEnd(event){
 
     let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
     local_storage.change({"quick": {"items": items}});
+}
+
+function addQuickItem(container, innerContent, responseWrap, id) {
+    if (!container) container = doc.find("#ttQuick");
+    if (!innerContent) innerContent = doc.find("#ttQuick .inner-content");
+    if (!responseWrap)  responseWrap = doc.find("#ttQuick .response-wrap")
+
+    let amount = findItemsInList(userdata.inventory, {ID: id})[0].quantity;
+
+    let div = doc.new({type: "div", class: "item", attributes: {"item-id": id}});
+    let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(/images/items/${id}/medium.png)`}});
+    let text = doc.new({type: "div", class: "text", text: itemlist.items[id].name});
+    let quantity = doc.new({type: "div", class: "sub-text tt-quickitems-quantity", attributes: {quantity: amount}, text: amount+"x"});
+    let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
+
+    div.appendChild(pic);
+    div.appendChild(text);
+    div.appendChild(quantity);
+    div.appendChild(close_icon);
+    innerContent.appendChild(div);
+
+    close_icon.addEventListener("click", function(event){
+        event.stopPropagation();
+        div.remove();
+
+        let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
+        local_storage.change({"quick": {"items": items}});
+    });
+
+    div.addEventListener("click", function(){
+        console.log("Clicked Quick item");
+        getAction({
+            type: "post",
+            action: "item.php",
+            data: {step: "actionForm", id: id, action: "use"},
+            success: function (str) {
+                if(container.find(".action-wrap")){
+                    container.find(".action-wrap").remove();
+                }
+
+                responseWrap.style.display = "block";
+                responseWrap.innerHTML = str;
+
+                // adjust container
+                container.style.maxHeight = container.scrollHeight + "px";
+
+                useContainerLoaded().then(function(){
+                    container.find(`a[data-item='${id}']`).click();
+                });
+            }
+        });
+    });
+}
+
+let injectListener = false;
+
+function enableInjectListener() {
+    if (injectListener) return;
+
+    window.addEventListener("tt-xhr", (event) => {
+        const {page, json, xhr} = event.detail;
+
+        if (page === "item" && json) {
+            const params = new URLSearchParams(xhr.requestBody);
+            const step = params.get("step");
+
+            if (step === "useItem") {
+                if (!json.success) return;
+
+                if (params.get("step") !== "useItem") return;
+                if (params.has("fac") && params.get("fac") !== "0") return;
+
+                const item = params.get("itemID");
+
+                const quantity = doc.find(`#ttQuick .inner-content .item[item-id="${item}"] .tt-quickitems-quantity`);
+                if (!quantity) return;
+
+                let newQuantity = parseInt(quantity.getAttribute("quantity")) - 1;
+                quantity.innerText = newQuantity + "x";
+                quantity.setAttribute("quantity", newQuantity);
+            } else if (step === "getCategoryList" || step === "getNotAllItemsListWithoutGroups") {
+                if (!settings.pages.items.values && !settings.pages.items.itemmarket_links) return;
+
+                const currentTab = doc.find('ul.items-cont.tab-menu-cont[style="display: block;"]') || doc.find('ul.items-cont.tab-menu-cont:not([style])');
+                if (!currentTab) return;
+
+                new MutationObserver((mutations, observer) => {
+                    if (doc.find("li.ajax-item-loader")) return;
+
+                    if (settings.pages.items.values) displayItemPrices(itemlist.items);
+                    if (settings.pages.items.itemmarket_links) addItemMarketLinks();
+                    if (settings.pages.items.highlight_bloodbags !== "none") highlightBloodBags();
+
+                    observer.disconnect();
+                }).observe(currentTab,  {subtree: true, childList: true});
+            }
+        }
+    });
+
+    injectListener = true;
 }
