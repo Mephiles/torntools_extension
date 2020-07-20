@@ -355,6 +355,7 @@ div[role='main'].tt-modified {
 
     font-size: 36px;
     text-align: center;
+    cursor: pointer;
 }
 
 #chatRoot {
