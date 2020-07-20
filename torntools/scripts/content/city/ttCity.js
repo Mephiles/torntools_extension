@@ -5,7 +5,7 @@ mapLoaded().then(function(){
 		return;
 	}
 
-	let items_container = content.new_container("City Items", {first:true, id: "tt-city-items", theme: settings.theme});
+	let items_container = content.new_container("City Items", {first:true, id: "tt-city-items", theme: settings.theme, all_rounded: false});
 	
 	if(settings.pages.city.items_value){
 		showValueOfItems(items_container, itemlist);
