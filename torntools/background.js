@@ -527,7 +527,7 @@ async function Main_1_minute(){
 	console.groupEnd("Main (YATA)");
 
 	// networth
-	if(networth.current.date == undefined || new Date() - new Date(networth.current.date) >= 5*60*1000){  // 5 minutes
+	if(networth.current.date == undefined || new Date() - new Date(networth.current.date) >= 10*60*1000){  // 10 minutes
 		console.log("Updating networth");
 		await new Promise(function(resolve, reject){
 			get_api("https://api.torn.com/user/?selections=personalstats,networth", api_key).then((data) => {
@@ -574,7 +574,7 @@ async function Main_1_minute(){
 			});
 		});
 	}
-	
+
 	clearCache();
 
 	// Clear API history
