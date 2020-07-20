@@ -10,8 +10,6 @@ export default {
             "Format rehab cost as currency - Thanks DKK",
             "Fix gym hiding not working after switching to another gym - Thanks DKK",
             "Fix item value and item market links not showing when scrolling through your items - Thanks DKK",
-            " - Thanks DKK",
-            " - Thanks DKK",
         ],
         "Changes": [
             "Added a loading icon for networth on the Home page",
