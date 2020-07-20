@@ -4,7 +4,9 @@ DBloaded().then(function(){
     // Add TT Black overlay
     let overlay = doc.new({type: "div", class: "tt-black-overlay"});
     doc.find("body").appendChild(overlay);
-    
+
+    showToggleChat();
+
     navbarLoaded().then(async function(){
         let _flying = await flying();
 
@@ -267,4 +269,20 @@ function displayVaultBalance(){
 
     let info_cont = doc.find("h2=Information");
     info_cont.parentElement.find(".points___KTUNl").insertBefore(el, info_cont.parentElement.find(".points___KTUNl .point-block___xpMEi:nth-of-type(2)"));
+}
+
+function showToggleChat() {
+    doc.documentElement.style.setProperty(`--torntools-hide-chat`, settings.pages.global.hide_chat ? "none" : "block");
+
+    const icon = doc.new({id: "tt-hide_chat", type: "i", class: "fas fa-binoculars"});
+
+    icon.addEventListener("click", (event) => {
+        settings.pages.global.hide_chat = !settings.pages.global.hide_chat;
+
+        doc.documentElement.style.setProperty(`--torntools-hide-chat`, settings.pages.global.hide_chat ? "none" : "block");
+
+        local_storage.set({"settings": settings});
+    });
+
+    doc.find("#body").prepend(icon);
 }

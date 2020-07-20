@@ -516,7 +516,8 @@ const STORAGE = {
                 "notes": true,
                 "hide_upgrade": false,
                 "align_left": false,
-                "find_chat": true
+                "find_chat": true,
+                "hide_chat": false
             }
         }
     }
