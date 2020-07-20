@@ -1,13 +1,29 @@
 export default {
     "v4.9": {
         "Features": [
-
+            "Highlight good and bad blood bags on the item page and faction armory - Thanks DKK",
+            "Add a way to hide all chats - Thanks DKK",
         ],
         "Fixes": [
-            
+            "Fix Doctorn detection not accounting disabled setting",
+            "Fix the buy max abroad to take already bought items into account - Thanks DKK",
+            "Format rehab cost as currency - Thanks DKK",
+            "Fix gym hiding not working after switching to another gym - Thanks DKK",
+            "Fix item value and item market links not showing when scrolling through your items - Thanks DKK",
+            " - Thanks DKK",
+            " - Thanks DKK",
         ],
         "Changes": [
-
+            "Added a loading icon for networth on the Home page",
+            "Change popup entry point to improve speed",
+            "Intercept items 'useItem' to decrease the remaining item quantity - Thanks DKK",
+            "Make armory filter rounded - Thanks DKK",
+            "Make all containers rounded when closed - Thanks DKK",
+            "Show faction member information for other factions - Thanks DKK",
+            "Add a margin under the faction filter. - Thanks DKK",
+            "Add an option to disable all notifications - Thanks DKK",
+            "Add placeholders to chat highlights - Thanks DKK",
+            "Highlight words in chats - Thanks DKK",
         ]
     },
     "v4.8": {
