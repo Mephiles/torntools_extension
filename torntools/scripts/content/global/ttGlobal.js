@@ -4,7 +4,9 @@ DBloaded().then(function(){
     // Add TT Black overlay
     let overlay = doc.new({type: "div", class: "tt-black-overlay"});
     doc.find("body").appendChild(overlay);
-    
+
+    showToggleChat();
+
     navbarLoaded().then(async function(){
         let _flying = await flying();
 
@@ -269,37 +271,18 @@ function displayVaultBalance(){
     info_cont.parentElement.find(".points___KTUNl").insertBefore(el, info_cont.parentElement.find(".points___KTUNl .point-block___xpMEi:nth-of-type(2)"));
 }
 
-// function showColorCodes(){
-//     let dictionary = {
-//         "home": "#8ad2f7",
-//         "items": "#91a96be0",
-//         "city": "#cc3ecc9e",
-//         "job": "#a255279e",
-//         "gym": "#7ed426",
-//         "properties": "#71717173",
-//         "education": "#8ad2f7",
-//         "crimes": "#e4755b",
-//         "missions": "#e4755b",
-//         "newspaper": "#71717173",
-//         "jail": "#a255279e",
-//         "hospital": "#71717173",
-//         "casino": "#e4755b",
-//         "forums": "#8ad2f7",
-//         "hall_of_fame": "#c5c242",
-//         "my_faction": "#91a96be0",
-//         "recruit_citizens": "#71717173",
-//         "competitions": "#c5c242"
-//     }
+function showToggleChat() {
+    doc.documentElement.style.setProperty(`--torntools-hide-chat`, settings.pages.global.hide_chat ? "none" : "block");
 
-//     let navbar_content = doc.find("h2=Areas").nextElementSibling;
+    const icon = doc.new({id: "tt-hide_chat", type: "i", class: "fas fa-binoculars"});
 
-//     for(let key in dictionary){
-//         let cell = navbar_content.find(`#nav-${key}`);
+    icon.addEventListener("click", (event) => {
+        settings.pages.global.hide_chat = !settings.pages.global.hide_chat;
 
-//         let span = doc.new("span");
-//             span.setClass("nav-color-code");
-//             span.style.backgroundColor = dictionary[key];
+        doc.documentElement.style.setProperty(`--torntools-hide-chat`, settings.pages.global.hide_chat ? "none" : "block");
 
-//         cell.appendChild(span);
-//     }
-// }
+        local_storage.set({"settings": settings});
+    });
+
+    doc.find("#body").prepend(icon);
+}
