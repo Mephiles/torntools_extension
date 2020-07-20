@@ -173,7 +173,12 @@ setup_storage.then(async function(success){
 			setTimeout(function(){
 				setInterval(Main_1_day, 1*days);  // 1 day
 			}, 23*seconds);
+
+			// Update info about installed extensions
 			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
+
+			// Clear API history
+			await clearAPIhistory();
 		}
 	});
 });
@@ -231,7 +236,6 @@ function Main_15_seconds(){
 		await (function(){
 			return new Promise(function(resolve, reject){
 				let selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,timestamp,inventory,education${attack_history? `,${attack_history}`:''}`;
-				// console.log("---------selections", selections);
 
 				local_storage.get(["settings", "userdata"], function([settings, previous_userdata]){
 					get_api(`https://api.torn.com/user/?selections=${selections}`, api_key).then(async (userdata) => {
@@ -396,9 +400,9 @@ function Main_15_seconds(){
 							notifications.travel = {}
 						}
 
-						userdata.date = String(new Date());
-						userdata.attacks = undefined;
-	
+						userdata.date = new Date().toString();
+						delete userdata.attacks;
+
 						// Set Userdata
 						local_storage.set({"userdata": userdata}, function(){
 							console.log("	Userdata set.");
@@ -523,6 +527,9 @@ async function Main_1_minute(){
 	console.groupEnd("Main (YATA)");
 
 	clearCache();
+
+	// Clear API history
+	await clearAPIhistory();
 }
 
 function Main_15_minutes(){
@@ -613,9 +620,6 @@ async function Main_1_day(){
 
 		// Doctorn
 		updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
-
-		// Clear API history
-		await clearAPIhistory();
 
 		console.groupEnd("Main (torndata | OC info | installed extensions)");
 	});
@@ -987,10 +991,11 @@ async function updateExtensions() {
 function clearAPIhistory(){
 	return new Promise(function(resolve, reject){
 		local_storage.get("api_history", function(api_history){
-			let time_limit = 24*60*60*1000;
+			let time_limit = 10*60*60*1000;
 	
 			for(let type in api_history){
 				let data = [...api_history[type]].reverse();
+				console.log("data", data)
 	
 				for(let fetch of data){
 					if(new Date() - new Date(fetch.date) > time_limit){

@@ -1070,7 +1070,7 @@ function setupApiStatistics(){
     });
 
     // Statistics
-    time_limit = 24*60*60*1000;
+    time_limit = 10*60*60*1000;
     let stats = {}
 
     for(let fetch of torn_api_history){
