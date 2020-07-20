@@ -272,17 +272,28 @@ function displayVaultBalance(){
 }
 
 function showToggleChat() {
-    doc.documentElement.style.setProperty(`--torntools-hide-chat`, settings.pages.global.hide_chat ? "none" : "block");
+    hideChat();
 
     const icon = doc.new({id: "tt-hide_chat", type: "i", class: "fas fa-binoculars"});
 
-    icon.addEventListener("click", (event) => {
+    icon.addEventListener("click", () => {
         settings.pages.global.hide_chat = !settings.pages.global.hide_chat;
 
-        doc.documentElement.style.setProperty(`--torntools-hide-chat`, settings.pages.global.hide_chat ? "none" : "block");
+        hideChat();
 
         local_storage.set({"settings": settings});
     });
 
     doc.find("#body").prepend(icon);
+
+    function hideChat() {
+        const hide = settings.pages.global.hide_chat;
+
+        doc.documentElement.style.setProperty(`--torntools-hide-chat`, hide ? "none" : "block");
+
+        if (!hide) {
+            document.querySelectorAll(".chat-box_Wjbn9 > .chat-box-content_2C5UJ > .viewport_1F0WI")
+                .forEach((viewport) => viewport.scrollTo(0, viewport.scrollTopMax));
+        }
+    }
 }
