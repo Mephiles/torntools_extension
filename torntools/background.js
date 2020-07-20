@@ -178,7 +178,7 @@ setup_storage.then(async function(success){
 			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 
 			// Clear API history
-			await clearAPIhistory();
+			clearAPIhistory();
 		}
 	});
 });
@@ -525,6 +525,55 @@ async function Main_1_minute(){
 	});
 
 	console.groupEnd("Main (YATA)");
+
+	// networth
+	if(networth.current.date == undefined || new Date() - new Date(networth.current.date) >= 10*60*1000){  // 10 minutes
+		console.log("Updating networth");
+		await new Promise(function(resolve, reject){
+			get_api("https://api.torn.com/user/?selections=personalstats,networth", api_key).then((data) => {
+				if(!data.ok) return resolve(data.error);
+				
+				data = data.result;
+
+				let ps = data.personalstats;
+				let new_networth = data.networth;
+				let networth = {
+					current: {
+						date: new Date().toString(),
+						value: new_networth
+					}, 
+					previous: {
+						value: {
+							"pending": ps.networthpending,
+							"wallet": ps.networthwallet,
+							"bank": ps.networthbank,
+							"points": ps.networthpoints,
+							"cayman": ps.networthcayman,
+							"vault": ps.networthvault,
+							"piggybank": ps.networthpiggybank,
+							"items": ps.networthitems,
+							"displaycase": ps.networthdisplaycase,
+							"bazaar": ps.networthbazaar,
+							"properties": ps.networthproperties,
+							"stockmarket": ps.networthstockmarket,
+							"auctionhouse": ps.networthauctionhouse,
+							"company": ps.networthcompany,
+							"bookie": ps.networthbookie,
+							"loan": ps.networthloan,
+							"unpaidfees": ps.networthunpaidfees,
+							"total": ps.networth
+						}
+					}
+				}
+
+				// Set Userdata & Networth
+				local_storage.set({"networth": networth}, function(){
+					console.log("Networth info updated.");
+					return resolve(networth);
+				});
+			});
+		});
+	}
 
 	clearCache();
 
@@ -995,7 +1044,6 @@ function clearAPIhistory(){
 	
 			for(let type in api_history){
 				let data = [...api_history[type]].reverse();
-				console.log("data", data)
 	
 				for(let fetch of data){
 					if(new Date() - new Date(fetch.date) > time_limit){
