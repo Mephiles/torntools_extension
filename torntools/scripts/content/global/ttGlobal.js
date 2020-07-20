@@ -293,7 +293,7 @@ function showToggleChat() {
 
         if (!hide) {
             document.querySelectorAll(".chat-box_Wjbn9 > .chat-box-content_2C5UJ > .viewport_1F0WI")
-                .forEach((viewport) => viewport.scrollTo(0, viewport.scrollTopMax));
+                .forEach((viewport) => viewport.scrollTo(0, viewport.scrollHeight));
         }
     }
 }
