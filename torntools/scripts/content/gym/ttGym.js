@@ -116,7 +116,7 @@ function displayGraph(){
     let graph_area = doc.new({type: "div", class: "tt-graph-area"});
     container.appendChild(graph_area);
 
-    fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=getStatGraph`)
+    fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=getStatGraph&from=${((new Date()-2*24*60*60*1000)/1000).toFixed(0)}`)
     .then(async function(response){
         if(!mobile){
             let result = await response.json();
