@@ -381,6 +381,9 @@ const STORAGE = {
         "faction_armory": {},
         "container_open": {}
     },
+    "sorting": {
+        "profile": []
+    },
     "cache": {
         "profile_stats": {},
         "other": {}
@@ -1901,12 +1904,30 @@ function curObj(obj){
     return JSON.parse(JSON.stringify(obj));
 }
 
+function saveSortingOrder(parent, page){
+    let names = []
+    for(let section of parent.findAll(":scope>.tt-section")){
+        names.push(section.getAttribute("name"));
+    }
+
+    local_storage.change({"sorting": {[page]: names}});
+}
+
+function sortSections(parent, page){
+    let names = sorting[page];
+
+    for(let name of names){
+        let section = parent.find(`.tt-section[name='${name}']`);
+        parent.appendChild(section);
+    }
+}
+
 // Pre-load database
 var userdata, torndata, settings, api_key, chat_highlight, itemlist, 
 travel_market, oc, allies, loot_times, target_list, vault, personalized, 
 mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
 quick, notes, stakeouts, updated, networth, filters, cache, watchlist, api_history,
-api;
+api, sorting;
 
 (async function(){
     local_storage.get(null, async function(db){
@@ -1946,6 +1967,7 @@ api;
         watchlist = DB.watchlist;
         api_history = DB.api_history;
         api = DB.api;
+        sorting = DB.sorting;
 
         if(api_key == undefined || api_key == ""){
             app_initialized = false;

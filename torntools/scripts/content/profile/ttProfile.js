@@ -214,8 +214,11 @@ DBloaded().then(function(){
 
         // Profile stats
         let info_container = content.new_container("User Info", {next_element_heading: "Medals", id: "tt-target-info"});
+
+        let section_profile_stats = doc.new({type: "div", class: "tt-section", attributes: {name: 'profile-stats'}});
         let profile_stats_div = doc.new({type: "div", class: `profile-stats ${mobile?'tt-mobile':""}`});
-        info_container.find(".content").appendChild(profile_stats_div);
+        section_profile_stats.appendChild(profile_stats_div);
+        info_container.find(".content").appendChild(section_profile_stats);
 
         if(!filters.profile_stats.auto_fetch){
             let button = doc.new({type: "div", class: `fetch-button`, text: "Fetch Info via API"});
@@ -224,14 +227,17 @@ DBloaded().then(function(){
             button.addEventListener("click", async function(){
                 button.remove();
                 await displayProfileStats();
+                section_profile_stats.appendChild(doc.new({type: "hr"}));
                 // Show Spy info
                 showSpyInfo();
             });
         } else {
             await displayProfileStats();
+            section_profile_stats.appendChild(doc.new({type: "hr"}));
             // Show Spy info
             showSpyInfo();
         }
+
 
         // Target info
         if(target_list.show){
@@ -240,6 +246,72 @@ DBloaded().then(function(){
         
         // Stakeout
         displayStakeoutOptions();
+
+        // Make content sortable
+        doc.find("#tt-target-info .content").setAttribute("uk-sortable", "handle: .uk-sortable-handle");
+        for(let section of doc.findAll("#tt-target-info .content .tt-section")) {
+            section.addEventListener("mouseleave", function(event){
+                event.preventDefault();
+                saveSortingOrder(doc.find("#tt-target-info .content"), "profile");
+            });
+        }
+        sortSections(doc.find("#tt-target-info .content"), "profile");
+
+        // Add Edit button
+        let edit_button = doc.new({type: "div", id: "tt-edit", class: "tt-option"});
+        let icon = doc.new({type: "i", class: "fas fa-cog"});
+        edit_button.appendChild(icon);
+        edit_button.innerHTML += " Edit";
+
+        doc.find("#tt-target-info .tt-options").appendChild(edit_button);
+
+        edit_button.onclick = function(event){
+            event.stopPropagation();
+
+            if(doc.find(".tt-black-overlay").classList.contains("active")){
+                doc.find(".tt-black-overlay").classList.remove("active");
+                doc.find(".tt-stats-table .active").classList.remove("tt-highlight-sector");
+                doc.find(".tt-title .tt-options .tt-option#tt-edit").classList.remove("tt-highlight-sector");
+
+                for(let item of doc.findAll(".tt-stats-table .active .tt-row:not(.tt-header):not(.sub-heading)")){
+                    item.onclick = undefined;
+                }
+            } else {
+                doc.find(".tt-black-overlay").classList.add("active");
+                doc.find(".tt-stats-table .active").classList.add("tt-highlight-sector");
+                doc.find(".tt-title .tt-options .tt-option#tt-edit").classList.add("tt-highlight-sector");
+
+                // Profile stats
+                for(let row of doc.findAll(".tt-stats-table .active .tt-row:not(.tt-header):not(.sub-heading)")){
+                    row.onclick = function(event){
+                        event.stopPropagation();
+                        event.preventDefault();
+
+                        row.onclick = undefined;
+
+                        if(hasParent(row, {class: "col-chosen"})){
+                            doc.find(".tt-stats-table .col-other").appendChild(row);
+                        } else if(hasParent(row, {class: "col-other"})){
+                            doc.find(".tt-stats-table .col-chosen").appendChild(row);
+                        }
+            
+                        saveProfileStats();
+
+                        function saveProfileStats(){
+                            let chosen_keys = [];
+                    
+                            for(let row of doc.findAll(".col-chosen .tt-row:not(.header):not(.sub-heading)")){
+                                if(row.getAttribute("key")){
+                                    chosen_keys.push(row.getAttribute("key"));
+                                }
+                            }
+                    
+                            local_storage.change({"filters": {"profile_stats": {"chosen_stats": chosen_keys}}});
+                        }
+                    }
+                }
+            }
+        }
     });
 });
 
@@ -310,15 +382,13 @@ function showWarning(type) {
 }
 
 function displayTargetInfo(targets) {
-    // Add hr separator
-    doc.find("#tt-target-info .content").appendChild(doc.new({type: "hr"}));
-
+    let section = doc.new({type: "div", class: "tt-section", attributes: {name: 'target-info'}});
     let user_id = getUserId();
-    let content_container = doc.find("#tt-target-info .content");
+    doc.find("#tt-target-info .content").appendChild(section);
 
     if (!targets[user_id]){
         let span = doc.new({type: "span", class: "no-btl-data", text: "No battle data on user.", });
-        content_container.appendChild(span);
+        section.appendChild(span);
     } else {
         let table = doc.new({type: "div", class: `tt-table ${mobile?"tt-mobile":""}`});
 
@@ -380,10 +450,13 @@ function displayTargetInfo(targets) {
         // compiling
         table.appendChild(header_row);
         table.appendChild(row);
-        content_container.appendChild(table);
+        section.appendChild(table);
     }
 
-    content_container.appendChild(doc.new({type: "hr"}));
+    section.appendChild(doc.new({type: "hr"}));
+
+    // Add sortable icon
+    section.appendChild(doc.new({type: "i", class: "uk-sortable-handle fas fa-arrows-alt"}));
 }
 
 async function displayProfileStats(){
@@ -539,7 +612,7 @@ async function displayProfileStats(){
     let footer_input = doc.new({type: "input", attributes: {type: "checkbox"}});
     footer_div.appendChild(footer_text);
     footer_div.appendChild(footer_input);
-    doc.find("#tt-target-info .content").insertBefore(footer_div, doc.find("#tt-target-info .content .profile-stats").nextElementSibling)
+    doc.find("#tt-target-info .content .tt-section[name='profile-stats']").insertBefore(footer_div, doc.find("#tt-target-info .content .profile-stats").nextElementSibling)
 
     if(filters.profile_stats.auto_fetch){
         footer_input.checked = true;
@@ -570,73 +643,20 @@ async function displayProfileStats(){
         }
     }
 
-    // Add Edit button
-    let edit_button = doc.new({type: "div", id: "tt-edit", class: "tt-option"});
-    let icon = doc.new({type: "i", class: "fas fa-cog"});
-    edit_button.appendChild(icon);
-    edit_button.innerHTML += " Edit";
-
-    doc.find("#tt-target-info .tt-options").appendChild(edit_button);
-
-    edit_button.onclick = function(event){
-        event.stopPropagation();
-
-        if(doc.find(".tt-black-overlay").classList.contains("active")){
-            doc.find(".tt-black-overlay").classList.remove("active");
-            doc.find(".tt-stats-table .active").classList.remove("tt-highlight-sector");
-            doc.find(".tt-title .tt-options .tt-option#tt-edit").classList.remove("tt-highlight-sector");
-
-            for(let item of doc.findAll(".tt-stats-table .active .tt-row:not(.tt-header):not(.sub-heading)")){
-                item.onclick = undefined;
-            }
-        } else {
-            doc.find(".tt-black-overlay").classList.add("active");
-            doc.find(".tt-stats-table .active").classList.add("tt-highlight-sector");
-            doc.find(".tt-title .tt-options .tt-option#tt-edit").classList.add("tt-highlight-sector");
-
-            for(let row of doc.findAll(".tt-stats-table .active .tt-row:not(.tt-header):not(.sub-heading)")){
-                row.onclick = function(event){
-                    event.stopPropagation();
-                    event.preventDefault();
-
-                    row.onclick = undefined;
-
-                    if(hasParent(row, {class: "col-chosen"})){
-                        col_other.appendChild(row);
-                    } else if(hasParent(row, {class: "col-other"})){
-                        col_chosen.appendChild(row);
-                    }
-        
-                    saveProfileStats();
-                }
-            }            
-        }
-
-    }
-
-    function saveProfileStats(){
-        let chosen_keys = [];
-
-        for(let row of doc.findAll(".col-chosen .tt-row:not(.header):not(.sub-heading)")){
-            if(row.getAttribute("key")){
-                chosen_keys.push(row.getAttribute("key"));
-            }
-        }
-
-        local_storage.change({"filters": {"profile_stats": {"chosen_stats": chosen_keys}}});
-    }
+    // Add sortable icon
+    profile_stats.appendChild(doc.new({type: "i", class: "uk-sortable-handle fas fa-arrows-alt"}));
 }
 
 function showSpyInfo(){
     console.log("spy info", spy_info);
     if(!spy_info) return;
-    
-    // Add hr separator
-    let hr = doc.new({type: "hr"})
-    doc.find("#tt-target-info .content").insertBefore(hr, doc.find("#tt-target-info .content .tt-footer").nextElementSibling);
 
-    let spy_section = doc.new({type: "div", class: "spy-section"});
-    doc.find("#tt-target-info .content").insertBefore(spy_section, hr.nextElementSibling);
+    let spy_section = doc.new({type: "div", class: "tt-section", attributes: {name: 'spy-info'}});
+    if(doc.find("#tt-target-info .content .tt-section[name='target-info'")){
+        doc.find("#tt-target-info .content").insertBefore(spy_section, doc.find("#tt-target-info .content .tt-section[name='target-info'"));
+    } else {
+        doc.find("#tt-target-info .content").appendChild(spy_section);
+    }
 
     if(!spy_info.status){
         let div = doc.new({type: "div", class: "tt-spy-info", text: spy_info.message});
@@ -694,6 +714,11 @@ function showSpyInfo(){
         table.appendChild(score_row);
         spy_section.appendChild(table);
     }
+
+    spy_section.appendChild(doc.new({type: "hr"}));
+
+    // Add sortable icon
+    spy_section.appendChild(doc.new({type: "i", class: "uk-sortable-handle fas fa-arrows-alt"}));
 }
 
 function getUserId() {
@@ -824,7 +849,7 @@ function addStatusIndicator(){
 function displayStakeoutOptions(){
     let user_id = getUserId();
 
-    let stakeout_div = doc.new({type: "div", class: "stakeout-section"});
+    let stakeout_div = doc.new({type: "div", class: "tt-section", attributes: {name: 'stakeouts'}});
     doc.find("#tt-target-info .content").appendChild(stakeout_div);
 
     let watchlist_wrap = doc.new({type: "div", class: "tt-checkbox-wrap"});
@@ -884,6 +909,12 @@ function displayStakeoutOptions(){
     checkbox_online.onclick = function(){
         saveStakeoutSettings();
     };
+
+    // Add hr
+    stakeout_div.appendChild(doc.new({type: "hr"}));
+    
+    // Add sortable icon
+    stakeout_div.appendChild(doc.new({type: "i", class: "uk-sortable-handle fas fa-arrows-alt"}));
 
     function saveStakeoutSettings(){
 

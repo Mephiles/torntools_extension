@@ -249,9 +249,13 @@
 				"https://www.torn.com/profiles.php*"
 			],
 			"css": [
+				"scripts/js/uikit.min.css",
+				"scripts/js/uikit-rtl.min.css",
 				"scripts/content/profile/ttProfile.css"
 			],
 			"js": [
+				"scripts/js/uikit.min.js",
+				"scripts/js/uikit-icons.min.js",
 				"scripts/content/profile/ttProfile.js"
 			],
 			"run_at": "document_end"
