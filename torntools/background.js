@@ -924,7 +924,7 @@ async function checkLootAlerts(){
 					if(!notifications.loot[checkpoint+"_"+npc_id]){
 						notifications.loot[checkpoint+"_"+npc_id] = {
 							title: "TornTools - NPC Loot",
-							text: `${loot_times[npc_id].name} is reaching loot level ${arabicToRoman(alert_level)} in ${time_until((alert_loot_time - current_time)*1000)}`,
+							text: `${loot_times[npc_id].name} is reaching loot level ${arabicToRoman(alert_level)} in ${time_until((alert_loot_time - current_time)*1000).replace("m", "min")}`,
 							url: `https://www.torn.com/profiles.php?XID=${npc_id}`,
 							seen: 0,
 							date: new Date()
