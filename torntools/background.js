@@ -213,9 +213,9 @@ function Main_5_seconds(){
 }
 
 function Main_15_seconds(){
-	console.group("Main (userdata | stakeouts)");
+	console.group("Main (userdata | torndata | stakeouts)");
 
-	local_storage.get(["api_key", "target_list", "stakeouts"], async function([api_key, target_list, stakeouts]){
+	local_storage.get(["api_key", "target_list", "stakeouts", "torndata"], async function([api_key, target_list, stakeouts, old_torndata]){
 		let attack_history;
 
 		if(api_key == undefined){
@@ -491,9 +491,34 @@ function Main_15_seconds(){
 		} else {
 			console.log("No stakeouts.");
 		}
+
+		// Torndata
+		if(new Date() - new Date(old_torndata.date) >= 24*60*60*1000){
+			console.log("Setting up torndata.")
+			await new Promise(function(resolve, reject){
+				get_api("https://api.torn.com/torn/?selections=honors,medals,items,pawnshop", api_key).then((torndata) => {
+					if(!torndata.ok) return resolve(false);
+			
+					torndata = torndata.result;
+					let itemlist = {items: {...torndata.items}, date: (new Date).toString()};
+					delete torndata.items;
+
+					let new_date = (new Date()).toString();
+					torndata.date = new_date;
+			
+					torndata.stocks = old_torndata.stocks;
+					
+					local_storage.set({"torndata": torndata, "itemlist": itemlist}, function(){
+						console.log("	Torndata info updated.");
+						console.log("	Itemlist info updated.");
+						return resolve(true);
+					});
+				});
+			});
+		}
 	});
 	
-	console.groupEnd("Main (userdata | stakeouts)");
+	console.groupEnd("Main (userdata | torndata | stakeouts)");
 }
 
 async function Main_1_minute(){
@@ -634,44 +659,12 @@ function Main_15_minutes(){
 }
 
 async function Main_1_day(){
-	local_storage.get("api_key", async function(api_key){
-		console.group("Main (torndata | installed extensions)");
+	console.group("Main (installed extensions)");
 
-		if(api_key == undefined){
-			console.log("NO API KEY");
-			return;
-		}
+	// Doctorn
+	updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 
-		// torndata
-		console.log("Setting up torndata.")
-		await new Promise(function(resolve, reject){
-			get_api("https://api.torn.com/torn/?selections=honors,medals,items,pawnshop", api_key).then((torndata) => {
-				if(!torndata.ok) return resolve(false);
-		
-				torndata = torndata.result;
-				let itemlist = {items: {...torndata.items}, date: (new Date).toString()};
-				delete torndata.items;
-
-				let new_date = (new Date()).toString();
-				torndata.date = new_date;
-		
-				local_storage.get("torndata", function(old_torndata){
-					torndata.stocks = old_torndata.stocks;
-					
-					local_storage.set({"torndata": torndata, "itemlist": itemlist}, function(){
-						console.log("	Torndata info updated.");
-						console.log("	Itemlist info updated.");
-						return resolve(true);
-					});
-				});
-			});
-		});
-
-		// Doctorn
-		updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
-
-		console.groupEnd("Main (torndata | OC info | installed extensions)");
-	});
+	console.groupEnd("Main (installed extensions)");
 }
 
 // FUNCTIONS //
