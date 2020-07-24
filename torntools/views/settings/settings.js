@@ -80,10 +80,13 @@ window.addEventListener("load", function(){
                 }
             });
         }
-    
+
+        // Export data
+        chrome.runtime.sendMessage({action: "export_data", type: "basic"}, function(response){
+            console.log(response.message);
+        });
     });
 });
-
 
 function setupSite(){
     // Navigation bar
@@ -461,10 +464,16 @@ function setupPreferences(){
     preferences.find("#save_settings").addEventListener("click", function(){
         savePreferences(preferences, settings, target_list.show);
     });
-
     preferences.find("#reset_settings").addEventListener("click", function(){
         local_storage.reset();
         message("Settings reset.", true);
+    });
+    preferences.find("#import_settings").addEventListener("click", function(){
+        // Export settings
+        chrome.runtime.sendMessage({action: "import_data"}, function(response){
+            console.log(response.message);
+        });
+        message("Settings imported (refresh to see).", true);
     });
 }
 
@@ -621,6 +630,11 @@ function savePreferences(preferences, settings, target_list_enabled){
         local_storage.get("target_list", function(target_list){
             console.log("new target list", target_list);
         });
+    });
+
+    // Export settings
+    chrome.runtime.sendMessage({action: "export_data", type: "storage"}, function(response){
+        console.log(response.message);
     });
 
     message("Settings saved.", true);

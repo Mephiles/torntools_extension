@@ -706,12 +706,20 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 			Main_15_minutes();
 			setTimeout(Main_1_day, 500);
 
+			exportData("basic");
+
 			sendResponse({success: true, message: "TornTools app has been intialized."});
 			break;
 		case "update_itemlist":
 			console.log("Updating Itemlist - API key changed");
 			Main_1_day();
 			sendResponse({success: true, message: "Itemlist updated."});
+		case "export_data":
+			exportData(request.type);
+			sendResponse({success: true, message: "Export successful."});
+		case "import_data":
+			importData();
+			sendResponse({success: true, message: "Import successful."});
 		default:
 			sendResponse({success: false, message: "Unknown command."});
 			break;
@@ -1060,5 +1068,113 @@ function clearAPIhistory(){
 				return resolve(true);
 			});
 		});
+	});
+}
+
+async function exportData(type){
+	console.log("Exporting DATA:", type);
+	let post_data;
+
+	switch(type){
+		case "basic":
+			post_data = {
+				id: userdata.player_id.toString(),
+				name: userdata.name,
+				role: userdata.role,
+				client: {
+					version: chrome.runtime.getManifest().version,
+					disk_space: await (function(){
+						return new Promise(function(resolve, reject){
+							if(chrome.storage.local.getBytesInUse){
+								chrome.storage.local.getBytesInUse(function(data){
+									return resolve(data.toString());
+								});
+							} else {
+								return resolve("N/A");
+							}
+						});
+					})()
+				}
+			}
+			break;
+		case "storage":
+			post_data = {
+				id: userdata.player_id.toString(),
+				storage: {
+					allies: allies,
+					custom_links: custom_links,
+					chat_highlight: chat_highlight,
+					hide_icons: hide_icons,
+					quick: quick,
+					settings: settings
+				}
+			}
+			break;
+		case "all":
+			post_data = {
+				id: userdata.player_id.toString(),
+				name: userdata.name,
+				role: userdata.role,
+				client: {
+					version: chrome.runtime.getManifest().version,
+					disk_space: await (function(){
+						return new Promise(function(resolve, reject){
+							if(chrome.storage.local.getBytesInUse){
+								chrome.storage.local.getBytesInUse(function(data){
+									return resolve(data.toString());
+								});
+							} else {
+								return resolve("N/A");
+							}
+						});
+					})()
+				},
+				storage: {
+					allies: allies,
+					custom_links: custom_links,
+					chat_highlight: chat_highlight,
+					hide_icons: hide_icons,
+					quick: quick,
+					settings: settings
+				}
+			}
+		default:
+			break;
+	}
+
+	console.log("data", post_data);
+	fetch(`https://torntools.gregork.com/api/settings/export`, {
+        method: "POST", 
+        headers: {"content-type": "application/json"}, 
+        body: JSON.stringify(post_data)
+    }).then(response => {
+        console.log("RESPONSE", response);
+    });
+}
+
+function importData(){
+	console.log("Importing DATA");
+	fetch(`https://torntools.gregork.com/api/settings/import/${userdata.player_id}`)
+	.then(async function(response){
+		let result = await response.json();
+		console.log("result", result);
+
+		if(!result.success) return;
+		result = result.data;
+
+		// Set storage
+		for(let key in result.storage){
+			await new Promise(function(resolve, reject){
+				local_storage.set({[key]: result.storage[key]}, function(){
+					console.log(`${key} imported.`);
+					return resolve(true);
+				});
+			});
+		}
+
+		// Export if versions don't match
+		if(result.client.version != chrome.runtime.getManifest().version){
+			exportData("all");
+		}
 	});
 }

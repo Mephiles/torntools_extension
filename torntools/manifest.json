@@ -21,7 +21,8 @@
 		"notifications",
 		"https://yata.alwaysdata.net/*",
 		"https://www.tornstats.com/*",
-		"https://api.torn.com/*"
+		"https://api.torn.com/*",
+		"https://torntools.gregork.com/*"
 	],
 	"web_accessible_resources": [
 		"images/*",

@@ -284,7 +284,6 @@ p {
 #preferences #save_settings {
     background-color: #149a32;
 }
-
 #preferences #save_settings:hover {
     background-color: #1bcc43;
 }
@@ -292,9 +291,15 @@ p {
 #preferences #reset_settings {
     background-color: #c82333;
 }
-
 #preferences #reset_settings:hover {
     background-color: #f12c3f;
+}
+
+#preferences #import_settings {
+    background-color: gray;
+}
+#preferences #import_settings:hover {
+    background-color: lightgray;
 }
 
 .icon {
