@@ -145,7 +145,14 @@ p {
 #changelog .content {
     border: unset;
 }
-
+#changelog .content .header {
+    width: 100%;
+    display: flex;
+}
+#changelog .content .header .contributor {
+    flex: 1 0 auto;
+    text-align: center;
+}
 #changelog .content>.parent>.heading {
     cursor: pointer;
     border-bottom: 0.5px solid lightgrey;
@@ -154,29 +161,62 @@ p {
     line-height: 23px;
     font-size: 15px;
 }
-
+#changelog .content>.parent>.heading span {
+    font-size: 12px;
+}
 #changelog .content>.parent>.heading i {
     float: right;
     position: relative;
     top: 7px;
 }
-
 #changelog .content .parent .parent {
     font-weight: 600;
     margin-left: 20px;
 }
-
 #changelog .content .parent .child {
     font-weight: 400;
     margin-left: 20px;
 }
-
 #changelog .content .parent .closeable {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
     padding: 4px 0px 4px 10px;
 }
+
+#changelog .dkk span, #changelog .mephiles span {
+    position: relative;
+}
+#changelog .mephiles span:before {
+    width: 5px;
+    height: 5px;
+    content: "";
+    border-radius: 50%;
+    background-color: green;
+    border: 2px solid green;
+    position: absolute;
+    left: -13px;
+    top: 5px;
+}
+#changelog .dkk span:before {
+    width: 5px;
+    height: 5px;
+    content: "";
+    border-radius: 50%;
+    background-color: #dc8e00;
+    border: 2px solid #dc8e00;
+    position: absolute;
+    left: -13px;
+    top: 5px;
+}
+
+/* .mephiles:not(.contributor) {
+    color: green;
+}
+.dkk:not(.contributor) {
+    color: orange;
+} */
+
 
 /* API info */
 

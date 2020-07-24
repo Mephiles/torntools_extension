@@ -119,20 +119,19 @@ function setupChangelog(){
     let content = doc.find(".container#changelog .content");
 
     for(let ver in changelog){
-        let div = doc.new("div");
-        div.setClass("parent");
+        let sub_ver = ver.split(" - ")[1] ? " - "+ver.split(" - ")[1] : "";
+        ver = ver.split(" - ")[0];
+ 
+        let div = doc.new({type: "div", class: "parent"});
 
         // Heading
-        let heading = doc.new("div");
-            heading.setClass("heading");
-            heading.innerText = ver;
-
-            // Icon
-            let icon = doc.new("i");
-                icon.setClass("fas fa-chevron-down");
-            heading.appendChild(icon);
+        let heading = doc.new({type: "div", class: "heading", text: ver});
+        let span = doc.new({type: "span", text: sub_ver});
+        let icon = doc.new({type: "i", class: "fas fa-chevron-down"});
+        heading.appendChild(span);
+        heading.appendChild(icon);
         
-        if(Object.keys(changelog).indexOf(ver) == 0){
+        if(Object.keys(changelog).indexOf(ver+sub_ver) == 0){
             heading.style.color = "red";
         }
 
@@ -153,8 +152,8 @@ function setupChangelog(){
         });
         
         // Content
-        if(Array.isArray(changelog[ver])){
-            for(let item of changelog[ver]){
+        if(Array.isArray(changelog[ver+sub_ver])){
+            for(let item of changelog[ver+sub_ver]){
                 let item_div = doc.new("div");
                     item_div.setClass("child");
                     item_div.innerText = "- "+item;
@@ -175,10 +174,19 @@ function setupChangelog(){
 
                         if(Array.isArray(grandparent[parent_name][_key])){
                             for(let _item of grandparent[parent_name][_key]){
-                                let _item_div = doc.new("div");
-                                    _item_div.setClass("child");
-                                    _item_div.innerText = "- "+_item;
+                                let contributor;
+                                
+                                if(_item.includes("- DKK")){
+                                    contributor = "dkk";
+                                    _item = _item.slice(0, _item.indexOf(" - DKK"));
+                                } else if(_item.includes("- Mephiles")){
+                                    contributor = "mephiles";
+                                    _item = _item.slice(0, _item.indexOf(" - Mephiles"));
+                                }
 
+                                let _item_div = doc.new({type: "div", class: `child ${contributor}`});
+                                let _item_span = doc.new({type: "span", text: _item});
+                                _item_div.appendChild(_item_span);
                                 _div.appendChild(_item_div);
                             }
                         } else {
@@ -191,11 +199,11 @@ function setupChangelog(){
                     }
                     parent_element.appendChild(_div);
                 }
-            })(changelog, ver, closeable);
+            })(changelog, ver+sub_ver, closeable);
         }
 
         // Bottom border on last element
-        if(ver.split(" ")[0] == "v3"){
+        if(ver+sub_ver.split(" ")[0] == "v3"){
             let hr = doc.new("hr");
             closeable.appendChild(hr);
         }
@@ -204,7 +212,7 @@ function setupChangelog(){
         div.appendChild(closeable)
         content.appendChild(div);
 
-        if(Object.keys(changelog).indexOf(ver) == 0){
+        if(Object.keys(changelog).indexOf(ver+sub_ver) == 0){
             heading.click();
         }
     }
