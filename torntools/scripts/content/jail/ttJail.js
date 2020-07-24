@@ -8,7 +8,7 @@ DBloaded().then(function(){
         addFilterToTable(list, title);
 
         if(shouldDisable()) return;
-        ;)
+        
         // Quick Bail & Bust
         let quick_wrap = doc.new({type: "div", class: "tt-checkbox-wrap in-title"});
         let checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
