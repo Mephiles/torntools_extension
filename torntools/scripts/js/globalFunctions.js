@@ -360,7 +360,8 @@ const STORAGE = {
             "activity": [],
             "faction": "",
             "time": [],
-            "level": []
+            "level": [],
+            "score": []
         },
         "faction": {
             "activity": [],
@@ -522,6 +523,9 @@ const STORAGE = {
                 "find_chat": true,
                 "hide_chat": false,
                 "collapse_areas": false
+            },
+            "jail": {
+                "quick_icons": false
             }
         }
     }
