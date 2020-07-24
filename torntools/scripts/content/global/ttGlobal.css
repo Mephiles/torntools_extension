@@ -384,7 +384,7 @@ div[role='main'].tt-modified {
 }
 
 #chatRoot {
-    display: var(--torntools-hide-chat, none);
+    display: var(--torntools-hide-chat, block) !important;
 }
 
 /* font-awesome */

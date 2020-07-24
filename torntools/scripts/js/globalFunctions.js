@@ -2013,6 +2013,9 @@ api, sorting;
             }
         }
 
+        // Hide chats
+        document.documentElement.style.setProperty(`--torntools-hide-chat`, settings.pages.global.hide_chat ? "none" : "block");
+
         // Clean Flight page
         document.documentElement.style.setProperty("--torntools-clean-flight-display", settings.clean_flight? "none":"block");
 
