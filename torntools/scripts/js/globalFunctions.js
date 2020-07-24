@@ -2002,7 +2002,7 @@ api, sorting;
         // }
 
         // Hide Doctorn
-        if((settings.force_tt && ["home", "city", "travelagency", "war", "items", "crimes", "gym", "bounties", "profile", "faction"].includes(page()))){
+        if((settings.force_tt && ["home", "city", "travelagency", "war", "items", "crimes", "gym", "bounties", "profile", "faction", "jail"].includes(page()))){
             document.documentElement.style.setProperty("--torntools-hide-doctorn", "none");
         }
 
