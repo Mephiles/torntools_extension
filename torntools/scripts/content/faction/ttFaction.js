@@ -67,11 +67,11 @@ function loadInfo() {
         });
     }
 
-    playersLoaded(".member-list").then(function(){
+    playersLoaded(".members-list .table-body").then(function(){
         if(settings.pages.faction.member_info) showUserInfo();
 
         // Player list filter
-        let list = doc.find(".member-list");
+        let list = doc.find(".members-list .table-body");
         let title = list.previousElementSibling;
 
         addFilterToTable(list, title);
@@ -503,7 +503,7 @@ function showUserInfo(){
     .then(function(result) {
         if (!result.ok) {
             if (result.error === 'Incorrect ID-entity relation') {
-                doc.findAll(".member-list.info-members>li").forEach((value) => {
+                doc.findAll(".members-list .table-body>li").forEach((value) => {
                     let li = doc.new({type: "li", class: "tt-user-info"});
                     let inner_wrap = doc.new({type: "div", class: "tt-user-info-inner-wrap"});
 
@@ -519,9 +519,9 @@ function showUserInfo(){
         result = result.result;
         console.log("result", result);
 
-        doc.find(".member-list.info-members").classList.add("tt-modified");
+        doc.find(".members-list .table-body").classList.add("tt-modified");
 
-        for(let user of doc.findAll(".member-list.info-members>li")){
+        for(let user of doc.findAll(".members-list .table-body>li")){
             let user_id = user.find("a.user.name").getAttribute("data-placeholder")? user.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : user.find("a.user.name").getAttribute("href").split("XID=")[1];
 
             let li = doc.new({type: "li", class: "tt-user-info", attributes: {"last-action": ((new Date() - result.members[user_id].last_action.timestamp*1000)/1000).toFixed(0)}});
