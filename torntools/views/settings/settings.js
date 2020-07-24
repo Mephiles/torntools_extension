@@ -826,16 +826,6 @@ function resetApiKey(){
     local_storage.set({"api_key": new_api_key}, function(){
         message("API key changed.", true);
         doc.find("#api_field").value = "";
-
-        setTimeout(function(){
-            if(!torndata.date || new Date() - new Date(torndata.date) > 24*60*60*1000){
-                chrome.runtime.sendMessage({action: "update_itemlist"}, function(response){
-                    console.log(response.message);
-    
-                    message(response.message, true);
-                });
-            }
-        }, 2000);
     });
 }
 

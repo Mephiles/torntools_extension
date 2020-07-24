@@ -168,11 +168,6 @@ setup_storage.then(async function(success){
 			setInterval(Main_15_seconds, 15*seconds);  // 15 seconds
 			setInterval(Main_1_minute, 1*minutes);  // 1 minute
 			setInterval(Main_15_minutes, 15*minutes);  // 15 minutes
-	
-			// Safety delay
-			setTimeout(function(){
-				setInterval(Main_1_day, 1*days);  // 1 day
-			}, 23*seconds);
 
 			// Update info about installed extensions
 			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
@@ -608,7 +603,7 @@ async function Main_1_minute(){
 
 function Main_15_minutes(){
 	local_storage.get("api_key", async function(api_key){
-		console.group("Main (stocks | OC info)");
+		console.group("Main (stocks | OC info | installed extensions)");
 
 		if(api_key == undefined){
 			console.log("NO API KEY");
@@ -653,18 +648,12 @@ function Main_15_minutes(){
 		} else {
 			console.log("	Faction OC time formatting turned off.");
 		}
+
+		// Doctorn
+		updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 	
-		console.groupEnd("Main (stocks)");
+		console.groupEnd("Main (stocks | OC info | installed extensions)");
 	});
-}
-
-async function Main_1_day(){
-	console.group("Main (installed extensions)");
-
-	// Doctorn
-	updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
-
-	console.groupEnd("Main (installed extensions)");
 }
 
 // FUNCTIONS //
@@ -690,23 +679,13 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 			setInterval(Main_1_minute, 1*minutes);  // 1 minute
 			setInterval(Main_15_minutes, 15*minutes);  // 15 minutes
 
-			// Safety delay
-			setTimeout(function(){
-				setInterval(Main_1_day, 1*days);  // 1 day
-			}, 23*seconds);
-
 			console.log("Fetching initial info.");
 			Main_15_minutes();
-			setTimeout(Main_1_day, 500);
 
 			exportData("basic");
 
 			sendResponse({success: true, message: "TornTools app has been intialized."});
 			break;
-		case "update_itemlist":
-			console.log("Updating Itemlist - API key changed");
-			Main_1_day();
-			sendResponse({success: true, message: "Itemlist updated."});
 		case "export_data":
 			exportData(request.type);
 			sendResponse({success: true, message: "Export successful."});
