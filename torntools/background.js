@@ -717,9 +717,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 		case "export_data":
 			exportData(request.type);
 			sendResponse({success: true, message: "Export successful."});
+			break;
 		case "import_data":
 			importData();
 			sendResponse({success: true, message: "Import successful."});
+			break;
 		default:
 			sendResponse({success: false, message: "Unknown command."});
 			break;
@@ -1071,85 +1073,87 @@ function clearAPIhistory(){
 	});
 }
 
-async function exportData(type){
+function exportData(type){
 	console.log("Exporting DATA:", type);
-	let post_data;
-
-	switch(type){
-		case "basic":
-			post_data = {
-				id: userdata.player_id.toString(),
-				name: userdata.name,
-				role: userdata.role,
-				client: {
-					version: chrome.runtime.getManifest().version,
-					disk_space: await (function(){
-						return new Promise(function(resolve, reject){
-							if(chrome.storage.local.getBytesInUse){
-								chrome.storage.local.getBytesInUse(function(data){
-									return resolve(data.toString());
-								});
-							} else {
-								return resolve("N/A");
-							}
-						});
-					})()
+	local_storage.get(null, async function(database){
+		let post_data;
+	
+		switch(type){
+			case "basic":
+				post_data = {
+					id: userdata.player_id.toString(),
+					name: database.userdata.name,
+					role: database.userdata.role,
+					client: {
+						version: chrome.runtime.getManifest().version,
+						disk_space: await (function(){
+							return new Promise(function(resolve, reject){
+								if(chrome.storage.local.getBytesInUse){
+									chrome.storage.local.getBytesInUse(function(data){
+										return resolve(data.toString());
+									});
+								} else {
+									return resolve("N/A");
+								}
+							});
+						})()
+					}
 				}
-			}
-			break;
-		case "storage":
-			post_data = {
-				id: userdata.player_id.toString(),
-				storage: {
-					allies: allies,
-					custom_links: custom_links,
-					chat_highlight: chat_highlight,
-					hide_icons: hide_icons,
-					quick: quick,
-					settings: settings
+				break;
+			case "storage":
+				post_data = {
+					id: userdata.player_id.toString(),
+					storage: {
+						allies: database.allies,
+						custom_links: database.custom_links,
+						chat_highlight: database.chat_highlight,
+						hide_icons: database.hide_icons,
+						quick: database.quick,
+						settings: database.settings
+					}
 				}
-			}
-			break;
-		case "all":
-			post_data = {
-				id: userdata.player_id.toString(),
-				name: userdata.name,
-				role: userdata.role,
-				client: {
-					version: chrome.runtime.getManifest().version,
-					disk_space: await (function(){
-						return new Promise(function(resolve, reject){
-							if(chrome.storage.local.getBytesInUse){
-								chrome.storage.local.getBytesInUse(function(data){
-									return resolve(data.toString());
-								});
-							} else {
-								return resolve("N/A");
-							}
-						});
-					})()
-				},
-				storage: {
-					allies: allies,
-					custom_links: custom_links,
-					chat_highlight: chat_highlight,
-					hide_icons: hide_icons,
-					quick: quick,
-					settings: settings
+				break;
+			case "all":
+				post_data = {
+					id: userdata.player_id.toString(),
+					name: database.userdata.name,
+					role: database.userdata.role,
+					client: {
+						version: chrome.runtime.getManifest().version,
+						disk_space: await (function(){
+							return new Promise(function(resolve, reject){
+								if(chrome.storage.local.getBytesInUse){
+									chrome.storage.local.getBytesInUse(function(data){
+										return resolve(data.toString());
+									});
+								} else {
+									return resolve("N/A");
+								}
+							});
+						})()
+					},
+					storage: {
+						allies: database.allies,
+						custom_links: database.custom_links,
+						chat_highlight: database.chat_highlight,
+						hide_icons: database.hide_icons,
+						quick: database.quick,
+						settings: database.settings
+					}
 				}
-			}
-		default:
-			break;
-	}
-
-	console.log("data", post_data);
-	fetch(`https://torntools.gregork.com/api/settings/export`, {
-        method: "POST", 
-        headers: {"content-type": "application/json"}, 
-        body: JSON.stringify(post_data)
-    }).then(response => {
-        console.log("RESPONSE", response);
-    });
+			default:
+				break;
+		}
+	
+		console.log("data", post_data);
+		fetch(`https://torntools.gregork.com/api/settings/export`, {
+			method: "POST", 
+			headers: {"content-type": "application/json"}, 
+			body: JSON.stringify(post_data)
+		}).then(response => {
+			console.log("RESPONSE", response);
+		});
+	});
 }
 
 function importData(){
