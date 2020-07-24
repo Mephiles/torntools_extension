@@ -45,10 +45,10 @@
 			"css": [
 				"scripts/content/global/ttGlobal.css",
 				"scripts/content/global/ttChat.css",
-				"scripts/js/nouislider.css"
+				"scripts/libs/nouislider.css"
 			],
 			"js": [
-				"scripts/js/nouislider.js",
+				"scripts/libs/nouislider.js",
 				"scripts/js/globalFunctions.js",
 				"scripts/js/achievementFunctions.js",
 				"scripts/content/global/ttGlobal.js"
@@ -118,7 +118,7 @@
 				"scripts/content/achievements/ttAchievements.css"
 			],
 			"js": [
-				"scripts/js/Chart.min.js",
+				"scripts/libs/Chart.min.js",
 				"scripts/content/gym/ttGym.js",
 				"scripts/content/achievements/ttGymAchievements.js"
 			],
@@ -227,7 +227,7 @@
 				"scripts/content/achievements/ttAchievements.css"
 			],
 			"js": [
-				"scripts/jquery/jquery-3.4.1.min.js",
+				"scripts/libs/jquery-3.4.1.min.js",
 				"scripts/content/items/ttItems.js",
 				"scripts/content/achievements/ttItemsAchievements.js"
 			],
@@ -250,13 +250,9 @@
 				"https://www.torn.com/profiles.php*"
 			],
 			"css": [
-				"scripts/js/uikit.min.css",
-				"scripts/js/uikit-rtl.min.css",
 				"scripts/content/profile/ttProfile.css"
 			],
 			"js": [
-				"scripts/js/uikit.min.js",
-				"scripts/js/uikit-icons.min.js",
 				"scripts/content/profile/ttProfile.js"
 			],
 			"run_at": "document_end"
@@ -368,7 +364,7 @@
 				"scripts/content/crimes/ttCrimes.css"
 			],
 			"js": [
-				"scripts/jquery/jquery-3.4.1.min.js",
+				"scripts/libs/jquery-3.4.1.min.js",
 				"scripts/content/crimes/ttCrimes.js"
 			],
 			"run_at": "document_end"
