@@ -1,4 +1,5 @@
 only_wants_database = true;
+var previous_chain_timer;
 
 window.addEventListener("load", function(){
     loadingPlaceholder(doc.find("body"), true);
