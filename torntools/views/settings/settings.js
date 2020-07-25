@@ -80,6 +80,11 @@ window.addEventListener("load", function(){
                 }
             });
         }
+        doc.find("#fetch_torndata").onclick = function(){
+            chrome.runtime.sendMessage({action: "fetch", type: "torndata"}, function(response){
+                message(response.message, response.success);
+            });
+        }
 
         // Export data
         chrome.runtime.sendMessage({action: "export_data", type: "basic"}, function(response){

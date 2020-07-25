@@ -610,6 +610,7 @@ function Main_15_minutes(){
 			return;
 		}
 	
+		console.log("Setting up stocks");
 		await new Promise(function(resolve, reject){
 			get_api("https://api.torn.com/torn/?selections=stocks", api_key).then((stocks) => {
 				if(!stocks.ok) return resolve(false);
@@ -696,6 +697,14 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 		case "import_data":
 			importData();
 			sendResponse({success: true, message: "Import successful."});
+			break;
+		case "fetch":
+			if(request.type == "torndata"){
+				console.log("Setting up torndata.");
+				fetchTorndata().then(response => {
+					sendResponse(response);
+				});
+			}
 			break;
 		default:
 			sendResponse({success: false, message: "Unknown command."});
@@ -1164,6 +1173,31 @@ function importData(){
 				let export_result = await exportData("all");
 				console.log("Export result:", export_result.success? 'success' : export_result.message);
 			}
+		});
+	});
+}
+
+function fetchTorndata(){
+	return new Promise(function(resolve, reject){
+		local_storage.get("torndata", function(old_torndata){
+			get_api("https://api.torn.com/torn/?selections=honors,medals,items,pawnshop", api_key).then((torndata) => {
+				if(!torndata.ok) return resolve({success: false, message: torndata.error});
+		
+				torndata = torndata.result;
+				let itemlist = {items: {...torndata.items}, date: (new Date).toString()};
+				delete torndata.items;
+
+				let new_date = (new Date()).toString();
+				torndata.date = new_date;
+		
+				torndata.stocks = old_torndata.stocks;
+				
+				local_storage.set({"torndata": torndata, "itemlist": itemlist}, function(){
+					console.log("	Torndata info updated.");
+					console.log("	Itemlist info updated.");
+					return resolve({success: true, message: "Torndata fetched"});
+				});
+			});
 		});
 	});
 }

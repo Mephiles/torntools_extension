@@ -231,6 +231,23 @@ p {
     margin-bottom: 3px;
 }
 
+#api-info .actions .button {
+    width: fit-content;
+    padding: 0 3px;
+    height: 30px;
+    border: 1px solid lightgrey;
+    margin: 15px 10px 0 0;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 7px;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    background-color: gray;
+}
+#api-info .actions .button:hover {
+    background-color: lightgray;
+}
 /* Target list */
 
 #target-list .content {
