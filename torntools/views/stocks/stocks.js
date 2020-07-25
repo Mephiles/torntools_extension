@@ -345,12 +345,3 @@ window.addEventListener("load", function(){
 		});
 	});
 });
-
-function userHasStock(id){
-	for(let stock in userdata.stocks){
-		if(userdata.stocks[stock].stock_id == id){
-			return true;
-		}
-	}
-	return false;
-}

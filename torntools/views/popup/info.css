@@ -1,0 +1,156 @@
+#last-update {
+    position: absolute;
+    right: 10px;
+    top: 60px;
+    color: #d48900;
+    font-size: 11px;
+}
+#last-update span {
+    color: black;
+    font-weight: 600;
+}
+
+#location {
+    margin-bottom: 0;
+}
+#status {
+    margin-top: 0;
+    font-size: 13px;
+}
+#status .okay {
+    color: #1dbb00;
+}
+#status .hospital {
+    color: red;
+}
+#status .jail {
+    color: rgb(129, 64, 2);
+}
+
+/* Bars */
+#bars {
+    width: 100%;
+}
+
+.bar {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.bar .stat, .bar .full-in span, .bar .resets-in span {
+    font-weight: 600;
+}
+
+.bar .resets-in span {
+    color: red;
+}
+
+.bar .text {
+    display: flex;
+}
+
+.bar .text * {
+    flex: 1 0 auto;
+}
+
+.bar .text .name {
+    text-align: left;
+}
+.bar .text .full-in {
+    text-align: right;
+    font-size: 11px;
+}
+.bar .text .resets-in {
+    text-align: right;
+    font-size: 11px;
+    display: none;
+}
+.bar .progress .stat {
+    position: absolute;
+    top: 0;
+    right: 5px;
+}
+
+.bar .progress {
+    width: 100%;
+    height: 13px;
+    border: 1px solid lightgray;
+    /* border-radius: 5px; */
+    position: relative;
+}
+
+.bar .progress div {
+    width: 0;
+    height: inherit;
+    border-radius: inherit;
+}
+
+#energy .progress div {
+    background-color: #9cdc5c;
+}
+#nerve .progress div {
+    background-color: #e6815b;
+}
+#happy .progress div {
+    background-color: #f1e053;
+}
+#life .progress div {
+    background-color: #8e97ff;
+}
+#chain .progress div {
+    background-color: #8F8F8F;
+}
+#travel .progress div {
+    background-color: #b2b2ff;
+}
+
+/* Cooldowns */
+.cooldowns {
+    width: 100%;
+    display: flex;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.cooldowns .name {
+    font-weight: 600;
+}
+.cooldowns .time {
+    font-size: 11px;
+}
+.cooldowns #drug .name {
+    color: #5ec312;
+}
+.cooldowns #booster .name {
+    color: #d29321;
+}
+.cooldowns #medical .name {
+    color: #5e5eda;
+}
+
+.cooldowns .cd {
+    flex: 1 0 auto;
+}
+
+.cooldowns .cd * {
+    width: 100%;
+}
+
+/* Footer */
+.footer {
+    width: 100%;
+    height: 25px;
+    line-height: 25px;
+    background-color: #f7f7f7;
+    display: flex;
+    text-align: center;
+    margin-top: 12px;
+}
+
+.footer * {
+    flex: 1 0 auto;
+}
+.footer .link:hover {
+    color: #888888;
+    cursor: pointer;
+}
