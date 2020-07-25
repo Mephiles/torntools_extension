@@ -253,6 +253,7 @@
 				"scripts/content/profile/ttProfile.css"
 			],
 			"js": [
+				"scripts/libs/Sortable.min.js",
 				"scripts/content/profile/ttProfile.js"
 			],
 			"run_at": "document_end"

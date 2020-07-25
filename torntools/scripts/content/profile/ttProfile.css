@@ -314,6 +314,7 @@
     position: absolute;
     top: 5px;
     right: 5px;
+    cursor: pointer;
 }
 
 .tt-section:last-of-type hr {

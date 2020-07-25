@@ -248,7 +248,6 @@ DBloaded().then(function(){
         displayStakeoutOptions();
 
         // Make content sortable
-        doc.find("#tt-target-info .content").setAttribute("uk-sortable", "handle: .uk-sortable-handle");
         for(let section of doc.findAll("#tt-target-info .content .tt-section")) {
             section.addEventListener("mouseleave", function(event){
                 event.preventDefault();
@@ -256,6 +255,10 @@ DBloaded().then(function(){
             });
         }
         sortSections(doc.find("#tt-target-info .content"), "profile");
+        new Sortable(doc.find("#tt-target-info .content"), {
+            handle: '.uk-sortable-handle', // handle's class
+            animation: 150
+        });
 
         // Add Edit button
         let edit_button = doc.new({type: "div", id: "tt-edit", class: "tt-option"});
