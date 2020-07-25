@@ -153,13 +153,9 @@ function fillGoals(achievements, torndata){
 
 function createAchievementTooltip(){
     // create tooltip
-    let div = doc.new("div");
-    let arrow = doc.new("div");
-    let text = doc.new("div");
-
-    div.setClass("tt-ach-tooltip");
-    arrow.setClass("tt-ach-tooltip-arrow");
-    text.setClass("tt-ach-tooltip-text");
+    let div = doc.new({type: "div", class: "tt-ach-tooltip"});
+    let arrow = doc.new({type: "div", class: "tt-ach-tooltip-arrow"});
+    let text = doc.new({type: "div", class: "tt-ach-tooltip-text"});
 
     div.appendChild(arrow);
     div.appendChild(text);
@@ -174,24 +170,37 @@ function addTooltip(cell){
         tooltip.style.left = String(position.x + 172+7) + "px";
         tooltip.style.top = String(position.y + Math.abs(document.body.getBoundingClientRect().y)+6) + "px";
         tooltip.style.display = "block";
-        // tooltip.find(".tt-ach-tooltip-text").innerText = event.target.getAttribute("info");
         tooltip.find(".tt-ach-tooltip-text").innerHTML = "";
 
         let data = JSON.parse(event.target.getAttribute("info"));
-        let span_heading = doc.new({type: "span", text: "Goals: "});
-        tooltip.find(".tt-ach-tooltip-text").appendChild(span_heading);
+        let line_progress = doc.new({type: "div", class: "line-progress"});
+        tooltip.find(".tt-ach-tooltip-text").appendChild(line_progress);
+
+        let added_user = false;
         for(let goal of data.goals){
-            let span;
-            if(data.goals.indexOf(goal) == 0){
-                span = doc.new({type: "span", text: numberWithCommas(goal)});
-            } else {
-                span = doc.new({type: "span", text: ", "+numberWithCommas(goal)});
+            console.log(goal, data.score);
+            if(goal > data.score && !added_user){
+                let div = doc.new({type: "div", text: numberWithCommas(data.score)});
+                let inner_div = doc.new({type: "div", class: "point progress"});
+                div.appendChild(inner_div);
+                line_progress.appendChild(div);
+                added_user = true;
             }
-            tooltip.find(".tt-ach-tooltip-text").appendChild(span);
+
+            let div = doc.new({type: "div", text: numberWithCommas(goal)});
+            let inner_div = doc.new({type: "div", class: "point"});
+            div.appendChild(inner_div);
+            line_progress.appendChild(div);
         }
 
-        let span_heading_2 = doc.new({type: "span", text: "\nYou score: " + numberWithCommas(data.score)});
-        tooltip.find(".tt-ach-tooltip-text").appendChild(span_heading_2);
+        if(!added_user){
+            let div = doc.new({type: "div", text: numberWithCommas(data.score)});
+            let inner_div = doc.new({type: "div", class: "point progress"});
+            div.appendChild(inner_div);
+            line_progress.appendChild(div);
+        }
+
+        tooltip.find(".tt-ach-tooltip-text").appendChild(line_progress);
     });
 
     cell.addEventListener("mouseleave", function(){
