@@ -33,6 +33,9 @@ p {
 .note.red {
     color: red;
 }
+.note.green {
+    color: #1bcc43;
+}
 
 .arrow {
     position: absolute;
@@ -286,15 +289,14 @@ p {
 
 #preferences .footer {
     width: 100%;
-    height: 50px;
     border-top: 1px solid lightgrey;
     position: relative;
 }
 
 .footer .legend {
     width: 70%;
-    height: 100%;
-    float: left;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .footer .legend div {
@@ -303,8 +305,9 @@ p {
 }
 
 #preferences .footer .actions {
-    width: 30%;
-    float: right;
+    width: 29%;
+    display: inline-block;
+    vertical-align: top;
 }
 
 #preferences .footer .actions * {

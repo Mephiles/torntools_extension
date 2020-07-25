@@ -83,7 +83,7 @@ window.addEventListener("load", function(){
 
         // Export data
         chrome.runtime.sendMessage({action: "export_data", type: "basic"}, function(response){
-            console.log(response.message);
+            message(response.message, response.success);
         });
     });
 });
@@ -640,12 +640,15 @@ function savePreferences(preferences, settings, target_list_enabled){
         });
     });
 
-    // Export settings
-    chrome.runtime.sendMessage({action: "export_data", type: "storage"}, function(response){
-        console.log(response.message);
-    });
-
     message("Settings saved.", true);
+
+    setTimeout(function(){
+        // Export settings
+        chrome.runtime.sendMessage({action: "export_data", type: "storage"}, function(response){
+            console.log(response.message);
+            message(response.message, response.success);
+        });
+    }, 1000);
 }
 
 function setupTargetList(target_list){
@@ -1048,9 +1051,9 @@ function setupApiStatistics(){
         }
     }
     
-    console.log(data)
-    console.log(data_keys)
-    console.log(datasets)
+    // console.log(data)
+    // console.log(data_keys)
+    // console.log(datasets)
 
     // Replace labels
     datasets.map(x => x.label = capitalize(x.label.replace(/_/g, " ")));
@@ -1109,7 +1112,7 @@ function setupApiStatistics(){
         }
     }
 
-    console.log("stats", stats);
+    // console.log("stats", stats);
     let total_minutes = 0;
     let total_hours = 0;
     let total_minute_requests = 0;

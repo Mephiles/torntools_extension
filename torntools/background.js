@@ -667,7 +667,7 @@ chrome.runtime.onInstalled.addListener(function(details){
 
 // Messaging
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
-	console.log(sender.tab ? "from a content script:"+sender.tab.url : "from the extension");
+	// console.log(sender.tab ? "from a content script:"+sender.tab.url : "from the extension");
 
 	switch(request.action){
 		case "initialize":
@@ -682,13 +682,16 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 			console.log("Fetching initial info.");
 			Main_15_minutes();
 
-			exportData("basic");
-
-			sendResponse({success: true, message: "TornTools app has been intialized."});
+			exportData("basic").then(async export_result => {
+				export_result = await export_result.json();
+				sendResponse(export_result);
+			});
 			break;
 		case "export_data":
-			exportData(request.type);
-			sendResponse({success: true, message: "Export successful."});
+			exportData(request.type).then(async export_result => {
+				export_result = await export_result.json();
+				sendResponse(export_result);
+			});
 			break;
 		case "import_data":
 			importData();
@@ -698,6 +701,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 			sendResponse({success: false, message: "Unknown command."});
 			break;
 	}
+	return true;
 });
 
 // Update available
@@ -1046,111 +1050,120 @@ function clearAPIhistory(){
 }
 
 function exportData(type){
-	console.log("Exporting DATA:", type);
-	local_storage.get(null, async function(database){
-		let post_data;
-	
-		switch(type){
-			case "basic":
-				post_data = {
-					id: userdata.player_id.toString(),
-					name: database.userdata.name,
-					role: database.userdata.role,
-					client: {
-						version: chrome.runtime.getManifest().version,
-						disk_space: await (function(){
-							return new Promise(function(resolve, reject){
-								if(chrome.storage.local.getBytesInUse){
-									chrome.storage.local.getBytesInUse(function(data){
-										return resolve(data.toString());
-									});
-								} else {
-									return resolve("N/A");
-								}
-							});
-						})()
+	return new Promise(function(resolve, reject){
+		console.log("Exporting DATA:", type);
+		local_storage.get(null, async function(database){
+			let post_data;
+		
+			switch(type){
+				case "basic":
+					post_data = {
+						id: userdata.player_id.toString(),
+						name: database.userdata.name,
+						role: database.userdata.role,
+						client: {
+							version: chrome.runtime.getManifest().version,
+							disk_space: await (function(){
+								return new Promise(function(resolve, reject){
+									if(chrome.storage.local.getBytesInUse){
+										chrome.storage.local.getBytesInUse(function(data){
+											return resolve(data.toString());
+										});
+									} else {
+										return resolve("N/A");
+									}
+								});
+							})()
+						}
 					}
-				}
-				break;
-			case "storage":
-				post_data = {
-					id: userdata.player_id.toString(),
-					storage: {
-						allies: database.allies,
-						custom_links: database.custom_links,
-						chat_highlight: database.chat_highlight,
-						hide_icons: database.hide_icons,
-						quick: database.quick,
-						settings: database.settings
+					break;
+				case "storage":
+					post_data = {
+						id: userdata.player_id.toString(),
+						storage: {
+							allies: database.allies,
+							custom_links: database.custom_links,
+							chat_highlight: database.chat_highlight,
+							hide_icons: database.hide_icons,
+							quick: database.quick,
+							settings: database.settings
+						}
 					}
-				}
-				break;
-			case "all":
-				post_data = {
-					id: userdata.player_id.toString(),
-					name: database.userdata.name,
-					role: database.userdata.role,
-					client: {
-						version: chrome.runtime.getManifest().version,
-						disk_space: await (function(){
-							return new Promise(function(resolve, reject){
-								if(chrome.storage.local.getBytesInUse){
-									chrome.storage.local.getBytesInUse(function(data){
-										return resolve(data.toString());
-									});
-								} else {
-									return resolve("N/A");
-								}
-							});
-						})()
-					},
-					storage: {
-						allies: database.allies,
-						custom_links: database.custom_links,
-						chat_highlight: database.chat_highlight,
-						hide_icons: database.hide_icons,
-						quick: database.quick,
-						settings: database.settings
+					break;
+				case "all":
+					post_data = {
+						id: userdata.player_id.toString(),
+						name: database.userdata.name,
+						role: database.userdata.role,
+						client: {
+							version: chrome.runtime.getManifest().version,
+							disk_space: await (function(){
+								return new Promise(function(resolve, reject){
+									if(chrome.storage.local.getBytesInUse){
+										chrome.storage.local.getBytesInUse(function(data){
+											return resolve(data.toString());
+										});
+									} else {
+										return resolve("N/A");
+									}
+								});
+							})()
+						},
+						storage: {
+							allies: database.allies,
+							custom_links: database.custom_links,
+							chat_highlight: database.chat_highlight,
+							hide_icons: database.hide_icons,
+							quick: database.quick,
+							settings: database.settings
+						}
 					}
-				}
-			default:
-				break;
-		}
-	
-		console.log("data", post_data);
-		fetch(`https://torntools.gregork.com/api/settings/export`, {
-			method: "POST", 
-			headers: {"content-type": "application/json"}, 
-			body: JSON.stringify(post_data)
-		}).then(response => {
-			console.log("RESPONSE", response);
+				default:
+					break;
+			}
+		
+			console.log("data", post_data);
+			fetch(`https://torntools.gregork.com/api/settings/export`, {
+				method: "POST", 
+				headers: {"content-type": "application/json"}, 
+				body: JSON.stringify(post_data)
+			}).then(response => {
+				console.log("RESPONSE", response);
+				return resolve(response);
+			});
 		});
 	});
 }
 
 function importData(){
-	console.log("Importing DATA");
-	fetch(`https://torntools.gregork.com/api/settings/import/${userdata.player_id}`)
-	.then(async function(response){
-		let result = await response.json();
-		console.log("result", result);
-
-		if(!result.success) return;
-		result = result.data;
-
-		// Set storage
-		for(let key in result.storage){
-			await new Promise(function(resolve, reject){
-				local_storage.set({[key]: result.storage[key]}, function(){
-					console.log(`${key} imported.`);
-					return resolve(true);
+	return new Promise(function(resolve, reject){
+		console.log("Importing DATA");
+		fetch(`https://torntools.gregork.com/api/settings/import/${userdata.player_id}`)
+		.then(async function(response){
+			let result = await response.json();
+			console.log("result", result);
+	
+			if(!result.success) return resolve(result);
+			result = result.data;
+	
+			// Set storage
+			for(let key in result.storage){
+				await new Promise(function(resolve, reject){
+					local_storage.set({[key]: result.storage[key]}, function(){
+						console.log(`${key} imported.`);
+						return resolve(true);
+					});
 				});
-			});
-		}
+			}
 
-		// Export if versions don't match
-		if(result.client.version != chrome.runtime.getManifest().version){
-			exportData("all");
-		}
+			resolve(result);
+	
+			// Export if versions don't match
+			if(result.client.version != chrome.runtime.getManifest().version){
+				console.log("Versions don't match. Exporting data.");
+				let export_result = await exportData("all");
+				console.log("Export result:", export_result.success? 'success' : export_result.message);
+			}
+		});
 	});
 }
