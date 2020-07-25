@@ -816,7 +816,7 @@ const content = {
             `;
             div.innerHTML = div_html;
 
-            if(attr){
+            if(attr.dragzone){
                 let content = div.find(".content");
                 content.addEventListener("dragover", onDragOver);
                 content.addEventListener("drop", function(event){
