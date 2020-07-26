@@ -17,7 +17,7 @@ DBloaded().then(function(){
         }
 
         // Make Areas collapsible
-        if(!doc.find(".header-arrow___1Ph0g")){
+        if(!doc.find(".header-arrow___1Ph0g") && !mobile){
             let areas_i = doc.new({type: "i", class: "tt-title-icon-torn fas fa-caret-down"});
             let areas_header = doc.find("h2=Areas");
             areas_header.classList.add("tt-title-torn");
