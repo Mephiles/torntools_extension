@@ -1136,7 +1136,7 @@ function timeAgo(time) {
         [5806080000, 'Last century', 'Next century'], // 60*60*24*7*4*12*100*2
         [58060800000, 'cen', 2903040000] // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
     ];
-    for (let format in formats) {
+    for (let format of formats) {
         if (seconds < format[0]) {
             if (typeof format[2] == 'string')
                 return format[list_choice];
