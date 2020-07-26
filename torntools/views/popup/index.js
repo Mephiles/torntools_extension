@@ -5,12 +5,22 @@ window.addEventListener("load", function(){
     loadingPlaceholder(doc.find("body"), true);
 });
 
+DBfailed().then(function(failed){
+    if(failed){
+        loadPage("initialize");
+
+        setTimeout(function(){
+            // Show loaded page
+            loadingPlaceholder(doc.find("body"), false);
+            doc.find("body").classList.remove("loading");
+        }, 100);
+    }
+});
+
 DBloaded().then(function(){
     console.log("Starting POPUP");
 
-    // loadPage("initialize");
-    if(api_key == undefined) loadPage("initialize");
-    else loadPage(settings.tabs.default);
+    loadPage(settings.tabs.default);
     
     // Show api error if any
     if(!api.online){
@@ -798,6 +808,7 @@ function mainInitialize(){
             console.log("API key set");
 
             doc.find("h3").innerText = "Loading..";
+            doc.find("p").innerText = "It will take 15 seconds to fetch your data. You may close this window."
             doc.find("input").style.display = "none";
             doc.find("button").style.display = "none";
             
@@ -805,6 +816,10 @@ function mainInitialize(){
                 console.log(response.message);
                 doc.find("h3").innerText = response.message; 
                 doc.find("p").innerText = "(you may close this window)";
+
+                if(response.success){
+                    loadPage("info");
+                }
             });
         });
     }

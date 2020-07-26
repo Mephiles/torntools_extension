@@ -683,10 +683,12 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 			console.log("Fetching initial info.");
 			Main_15_minutes();
 
-			exportData("basic").then(async export_result => {
-				export_result = await export_result.json();
-				sendResponse(export_result);
-			});
+			setTimeout(function(){
+				exportData("basic").then(async export_result => {
+					export_result = await export_result.json();
+					sendResponse(export_result);
+				});
+			}, 17*seconds);
 			break;
 		case "export_data":
 			exportData(request.type).then(async export_result => {
@@ -1067,7 +1069,7 @@ function exportData(type){
 			switch(type){
 				case "basic":
 					post_data = {
-						id: userdata.player_id.toString(),
+						id: database.userdata.player_id.toString(),
 						name: database.userdata.name,
 						role: database.userdata.role,
 						client: {
@@ -1088,7 +1090,7 @@ function exportData(type){
 					break;
 				case "storage":
 					post_data = {
-						id: userdata.player_id.toString(),
+						id: database.userdata.player_id.toString(),
 						storage: {
 							allies: database.allies,
 							custom_links: database.custom_links,
@@ -1101,7 +1103,7 @@ function exportData(type){
 					break;
 				case "all":
 					post_data = {
-						id: userdata.player_id.toString(),
+						id: database.userdata.player_id.toString(),
 						name: database.userdata.name,
 						role: database.userdata.role,
 						client: {
