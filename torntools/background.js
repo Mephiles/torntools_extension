@@ -22,10 +22,9 @@ var links = {
 }
 
 let userdata, torndata, settings, api_key, chat_highlight, itemlist,
-	travel_market, oc, allies, loot_times, target_list, vault, personalized,
+	travel_market, oc, allies, loot_times, target_list, vault,
 	mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
-	quick, notes, stakeouts, updated, networth, filters, cache, watchlist, api_history,
-	api, sorting, stock_alerts;
+	quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
 
 // First - set storage
 console.log("Checking Storage.");
