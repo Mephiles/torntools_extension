@@ -1,5 +1,5 @@
 DBloaded().then(function(){
-	contentLoaded().then(function(){
+	requireContent().then(function(){
 		console.log("TT - Home");
 
 		// Networth
@@ -20,7 +20,7 @@ async function displayNetworth(){
 	
 	if(networth.current.date == undefined || new Date() - new Date(networth.current.date) >= 5*60*1000){  // 5 minutes
 		networth = await new Promise(function(resolve, reject){
-			get_api("https://api.torn.com/user/?selections=personalstats,networth", api_key).then((data) => {
+			fetchApi("https://api.torn.com/user/?selections=personalstats,networth", api_key).then((data) => {
 				if(!data.ok) return resolve(data.error);
 				
 				data = data.result;
@@ -57,7 +57,7 @@ async function displayNetworth(){
 				}
 
 				// Set Userdata & Networth
-				local_storage.set({"networth": networth}, function(){
+				ttStorage.set({"networth": networth}, function(){
 					console.log("Networth info updated.");
 					return resolve(networth);
 				});
@@ -69,13 +69,13 @@ async function displayNetworth(){
 
 	// current networth
 	let networth_text = `$${numberWithCommas(networth.current.value.total, shorten=false)}`;
-	let networth_row = info_box.new_row("(Live) Networth", networth_text, {id: "ttLiveNetworth"});
+	let networth_row = infoBox.newRow("(Live) Networth", networth_text, {id: "ttLiveNetworth"});
 	networth_row.style.backgroundColor = "#65c90069";
 
 	// Networth last updated info icon
 	let info_icon = doc.new({type: "i", class: "networth-info-icon", attributes: {
 		seconds: ((new Date() - Date.parse(networth.current.date))/1000),
-		title: ("Last updated: " + time_ago(Date.parse(networth.current.date))),
+		title: ("Last updated: " + timeAgo(Date.parse(networth.current.date))),
 		style: `margin-left: 9px;`
 	}})
 	networth_row.find(".desc").appendChild(info_icon);
@@ -86,7 +86,7 @@ async function displayNetworth(){
 		let time_span = doc.find("#ttLiveNetworth .networth-info-icon");
 
 		let seconds = parseInt(time_span.getAttribute("seconds"));
-		let new_time = time_ago(new Date() - (seconds+1)*1000);
+		let new_time = timeAgo(new Date() - (seconds+1)*1000);
 
 		time_span.setAttribute("title", `Last updated: ${new_time}`);
 		time_span.setAttribute("seconds", seconds+1);
@@ -160,7 +160,7 @@ function displayEffectiveBattleStats(){
 	// ebs - effective battle stats
 	let battle_stats_container = doc.find("h5=Battle Stats").parentElement.nextElementSibling.find("ul.info-cont-wrap");
 	
-	let heading = info_box.new_row("Effective Battle Stats", "", {heading: true});
+	let heading = infoBox.newRow("Effective Battle Stats", "", {heading: true});
 	battle_stats_container.appendChild(heading);
 	
 	let eff_total = 0;
@@ -175,12 +175,12 @@ function displayEffectiveBattleStats(){
 		console.log("eff_stat", effective_stat);
 
 		eff_total += parseInt(effective_stat);
-		let row = info_box.new_row(battle_stats[i], numberWithCommas(effective_stat, shorten=false));
+		let row = infoBox.newRow(battle_stats[i], numberWithCommas(effective_stat, shorten=false));
 		row.find(".desc").style.width = mobile? "180px":"184px";
 		battle_stats_container.appendChild(row);
 	}
 
-	let total_row = info_box.new_row("Total", numberWithCommas(eff_total, shorten=false), {last: true});
+	let total_row = infoBox.newRow("Total", numberWithCommas(eff_total, shorten=false), {last: true});
 	total_row.find(".desc").style.width = mobile? "180px":"184px";
 
 	battle_stats_container.appendChild(total_row);

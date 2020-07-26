@@ -42,6 +42,9 @@
 			"matches": [
 				"https://www.torn.com/*"
 			],
+			"exclude_matches": [
+				"https://www.torn.com/api.html*"
+			],
 			"css": [
 				"scripts/content/global/ttGlobal.css",
 				"scripts/content/global/ttChat.css",
@@ -50,7 +53,25 @@
 			"js": [
 				"scripts/libs/nouislider.js",
 				"scripts/js/globalFunctions.js",
+				"scripts/js/globalDatabase.js",
+				"scripts/js/globalEntry.js",
 				"scripts/js/achievementFunctions.js",
+				"scripts/content/global/ttGlobal.js"
+			],
+			"run_at": "document_start"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/api.html*"
+			],
+			"css": [
+				"scripts/content/global/ttGlobal.css",
+				"scripts/libs/nouislider.css"
+			],
+			"js": [
+				"scripts/libs/nouislider.js",
+				"scripts/js/globalFunctions.js",
+				"scripts/js/globalDatabase.js",
 				"scripts/content/global/ttGlobal.js"
 			],
 			"run_at": "document_start"

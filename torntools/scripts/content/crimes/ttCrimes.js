@@ -11,7 +11,7 @@ DBloaded().then(function(){
         doc.find("head").appendChild(script_tag);
     })
     
-    messageBoxLoaded().then(function(){
+    requireMessageBox().then(function(){
         console.log("TT - Quick crimes");
         if (shouldDisable()) return;
 
@@ -28,10 +28,10 @@ DBloaded().then(function(){
             if(doc.find("#ttQuick") || in_progress) return;
             in_progress = true;
     
-            messageBoxLoaded().then(function(){
+            requireMessageBox().then(function(){
                 if(doc.find("#ttQuick")) return;
     
-                local_storage.get("quick", function(quick){
+                ttStorage.get("quick", function(quick){
                     quickCrimesMain(quick);
                 });
                 in_progress = false;
@@ -62,7 +62,7 @@ DBloaded().then(function(){
                     "icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0], 
                     "text": x.find(".text").innerText.split(" (")[0]
                 }));
-                local_storage.change({"quick": {"crimes": crimes}});
+                ttStorage.change({"quick": {"crimes": crimes}});
                 return;
             }
     
@@ -149,7 +149,7 @@ function crimesLoaded(){
 }
 
 function quickCrimesMain(quick){
-    let quick_container = content.new_container("Quick crimes", {id: "ttQuick", dragzone: true, next_element: doc.find(".tutorial-cont")}).find(".content"); /*doc.find("#module-desc") || doc.find(".title-black[role=heading]") || doc.find(".users-list-title")*/
+    let quick_container = content.newContainer("Quick crimes", {id: "ttQuick", dragzone: true, next_element: doc.find(".tutorial-cont")}).find(".content"); /*doc.find("#module-desc") || doc.find(".title-black[role=heading]") || doc.find(".users-list-title")*/
     let inner_content = doc.new({type: "div", class: "inner-content"});
     quick_container.appendChild(inner_content);
 
@@ -228,7 +228,7 @@ function addButton(){
                         "icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0], 
                         "text": x.find(".text").innerText.split(" (")[0]
                     }));
-                    local_storage.change({"quick": {"crimes": crimes}});
+                    ttStorage.change({"quick": {"crimes": crimes}});
                 }
             }            
         }
@@ -282,5 +282,5 @@ function onDragEnd(event){
         "icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0], 
         "text": x.find(".text").innerText.split(" (")[0]
     }));
-    local_storage.change({"quick": {"crimes": crimes}});
+    ttStorage.change({"quick": {"crimes": crimes}});
 }

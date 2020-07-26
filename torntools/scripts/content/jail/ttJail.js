@@ -1,5 +1,5 @@
 DBloaded().then(function(){
-	playersLoaded(".users-list").then(function(){
+	requirePlayerList(".users-list").then(function(){
         console.log("TT - Jail");
 
         let list = doc.find(".users-list");
@@ -25,7 +25,7 @@ DBloaded().then(function(){
             console.log(event.target.checked);
             modifyActions(event.target.checked);
 
-            local_storage.change({"settings": {"pages": {"jail": {"quick_icons": event.target.checked}}}});
+            ttStorage.change({"settings": {"pages": {"jail": {"quick_icons": event.target.checked}}}});
         }
 
         if(settings.pages.jail.quick_icons){
@@ -36,7 +36,7 @@ DBloaded().then(function(){
 });
 
 function addFilterToTable(list, title){
-    let filter_container = content.new_container("Filters", {id: "tt-player-filter", class: "filter-container", next_element: title}).find(".content");
+    let filter_container = content.newContainer("Filters", {id: "tt-player-filter", class: "filter-container", next_element: title}).find(".content");
     filter_html = `
         <div class="filter-header">
             <div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> users</div>
@@ -106,7 +106,7 @@ function addFilterToTable(list, title){
 
     let time_slider_info = time_slider.nextElementSibling;
     time_slider.noUiSlider.on('update', function (values) {
-        values = values.map(x => (time_until(parseFloat(x)*60*60*1000, {max_unit: "h", hide_nulls: true})));
+        values = values.map(x => (timeUntil(parseFloat(x)*60*60*1000, {max_unit: "h", hide_nulls: true})));
         time_slider_info.innerHTML = `Time: ${values.join(' - ')}`;
     });
 
@@ -178,7 +178,7 @@ function addFilterToTable(list, title){
         if(event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, {class: "gallery-wrapper"})){
             console.log("click");
             setTimeout(function(){
-                playersLoaded(".users-list").then(function(){
+                requirePlayerList(".users-list").then(function(){
                     console.log("loaded");
                     populateFactions();
                     applyFilters();
@@ -248,14 +248,14 @@ function addFilterToTable(list, title){
             }
 
             // Time
-            let player_time = to_seconds(li.find(".time").innerText.trim().replace("Time", "").replace("TIME", "").replace(":", "").replace("left:", "").trim())/60/60; // to hours
+            let player_time = toSeconds(li.find(".time").innerText.trim().replace("Time", "").replace("TIME", "").replace(":", "").replace("left:", "").trim())/60/60; // to hours
             if(!(time[0] <= player_time && player_time <= time[1])){
                 li.classList.add("filter-hidden");
                 continue;
             }
 
             // Score
-            let player_score = player_level * to_seconds(li.find(".time").innerText.trim().replace("Time", "").replace("TIME", "").replace(":", "").replace("left:", "").trim())/60;  // to minutes
+            let player_score = player_level * toSeconds(li.find(".time").innerText.trim().replace("Time", "").replace("TIME", "").replace(":", "").replace("left:", "").trim())/60;  // to minutes
             if(player_score > score[0]){
                 li.classList.add("filter-hidden");
                 continue;
@@ -280,7 +280,7 @@ function addFilterToTable(list, title){
             }
         }
 
-        local_storage.change({"filters": {"jail": {
+        ttStorage.change({"filters": {"jail": {
             activity: activity,
             faction: faction,
             time: time,

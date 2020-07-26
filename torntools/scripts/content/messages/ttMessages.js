@@ -10,7 +10,7 @@ DBloaded().then(function(){
         document.addEventListener("click", function(event){
             if(event.srcElement.href == "https://www.torn.com/messages.php#/p=compose"){
                 console.log("click");
-                local_storage.get(["personalized", "mass_messages"], function([personalized, mass_messages]){
+                ttStorage.get(["personalized", "mass_messages"], function([personalized, mass_messages]){
                     if(personalized.mass_messages){
                         console.log("MASS MESSAGES", mass_messages);
                         
@@ -48,7 +48,7 @@ function massMessages(mass_messages){
             subject: "",
             list: mass_messages.list
         }
-        local_storage.change({"mass_messages": mass_messages});
+        ttStorage.change({"mass_messages": mass_messages});
     }
 
     // Setup NAMELIST
@@ -67,7 +67,7 @@ function massMessages(mass_messages){
 
                 mass_messages.list.splice(mass_messages.list.indexOf(name), 1);
                 // Update list
-                local_storage.change({"mass_messages": {"list": mass_messages.list}});
+                ttStorage.change({"mass_messages": {"list": mass_messages.list}});
             });
         }
 
@@ -104,7 +104,7 @@ function massMessages(mass_messages){
 
                     mass_messages.list.splice(mass_messages.list.indexOf(name), 1);
                     // Update list
-                    local_storage.change({"mass_messages": {"list": mass_messages.list}});
+                    ttStorage.change({"mass_messages": {"list": mass_messages.list}});
                 });
 
             row.appendChild(remove_icon);
@@ -119,7 +119,7 @@ function massMessages(mass_messages){
             console.log("NAMES", mass_messages.list);
 
             // Save list
-            local_storage.change({"mass_messages": {"list": mass_messages.list}})
+            ttStorage.change({"mass_messages": {"list": mass_messages.list}})
         });
 
     // Setup BUTTONS
@@ -144,7 +144,7 @@ function massMessages(mass_messages){
         let clear_all = doc.new({type: "div", id: "tt-clear-all", text: "Clear List"});
         doc.find(".mailbox-container form>div").appendChild(clear_all);
         clear_all.addEventListener("click", function(){
-            local_storage.change({"mass_messages": {"list": []}}, function(){
+            ttStorage.change({"mass_messages": {"list": []}}, function(){
                 mass_messages.list = [];
                 for(let item of doc.findAll("#ttNameList div:not(.input)")){
                     item.remove();
@@ -181,7 +181,7 @@ function massMessages(mass_messages){
         let message_box = doc.find("#mailcompose_ifr") || doc.find("#mailcompose");
         let message = message_box.contentWindow ? message_box.contentWindow.document.querySelector("#tinymce").innerText : message_box.value;
 
-        local_storage.change({"mass_messages": {
+        ttStorage.change({"mass_messages": {
             "index": mass_messages.index+1,
             "message": message,
             "active": true,
@@ -201,7 +201,7 @@ function massMessages(mass_messages){
                 doc.find("#ttMassMessagesNote").innerText = "0 letter(s) left";
                 doc.find("#ttMassMessagesNote").style.display = "none";
 
-                local_storage.change({"mass_messages": {
+                ttStorage.change({"mass_messages": {
                     "index": 0,
                     "message": "",
                     "active": false,
@@ -234,7 +234,7 @@ function massMessages(mass_messages){
                 doc.find("#ttMassMessagesNote").innerText = "0 letter(s) left";
                 doc.find("#ttMassMessagesNote").style.display = "none";
 
-                local_storage.change({"mass_messages": {
+                ttStorage.change({"mass_messages": {
                     "index": 0,
                     "message": "",
                     "active": false,

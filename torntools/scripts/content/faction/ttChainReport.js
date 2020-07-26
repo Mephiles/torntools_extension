@@ -16,7 +16,7 @@ function chainReportLoaded(){
 }
 
 function displayContainer(){
-	let options_container = content.new_container("Chain Report", {first:true, id: "ttChainReport"});
+	let options_container = content.newContainer("Chain Report", {first:true, id: "ttChainReport"});
 	
 	let export_btn = doc.new("div");
 		export_btn.id = "ttExportTableButton";

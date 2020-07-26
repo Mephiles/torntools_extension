@@ -8,7 +8,7 @@ DBloaded().then(function(){
                 if(mutation.type == "childList" && mutation.addedNodes.length > 0){
                     if(doc.find("#ttBountyContainer")) return;
                     
-                    local_storage.get("filters", function(filters){
+                    ttStorage.get("filters", function(filters){
                         bountiesLoaded().then(function(){
                             if(!doc.find("#ttBountyContainer")){
                                 Main(filters);
@@ -23,7 +23,7 @@ DBloaded().then(function(){
 });
 
 function Main(filters){
-    let container = content.new_container("Bounty Filter", {header_only: true, id: "ttBountyContainer", next_element: doc.find(".bounties-total").nextElementSibling});
+    let container = content.newContainer("Bounty Filter", {header_only: true, id: "ttBountyContainer", next_element: doc.find(".bounties-total").nextElementSibling});
 
     let option_1 = doc.new({type: "div", class: "tt-checkbox-wrap in-title"});
     let checkbox_1 = doc.new({type: "input", attributes: {type: "checkbox"}});
@@ -78,7 +78,7 @@ function Main(filters){
             }
         }
         
-        local_storage.change({"filters": {"bounties": {"hide_unavailable": hide_unavailable, "max_level": parseInt(max_level)}}});
+        ttStorage.change({"filters": {"bounties": {"hide_unavailable": hide_unavailable, "max_level": parseInt(max_level)}}});
     }
 }
 

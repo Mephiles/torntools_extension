@@ -35,8 +35,8 @@ DBloaded().then(function(){
 
         // Bazaar worth
         if(settings.pages.bazaar.worth){
-            let bazaar_user_id = getSearchParameters().userId;
-            get_api(`https://api.torn.com/user/${bazaar_user_id}?selections=bazaar`, api_key)
+            let bazaar_user_id = getSearchParameters().get("userId");
+            fetchApi(`https://api.torn.com/user/${bazaar_user_id}?selections=bazaar`, api_key)
             .then(function(result){
                 if(!result.ok) return false;
                 
@@ -58,9 +58,9 @@ DBloaded().then(function(){
 
         // Highlight item
         let params = getSearchParameters();
-        if(params.tt_itemid && !mobile){
-            let item_id = params.tt_itemid;
-            let item_price = params.tt_itemprice;
+        if(params.has("tt_itemid") && !mobile){
+            let item_id = params.get("tt_itemid");
+            let item_price = params.get("tt_itemprice");
             let item_name = itemlist.items[item_id].name;
 
             let found_item = false;

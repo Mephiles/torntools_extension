@@ -27,7 +27,7 @@ function searchLoaded(){
 }
 
 function massMessages(theme){
-    let container = content.new_container("Search", {first: true, theme: theme, id: "ttSearchContainer"}).find(".content");
+    let container = content.newContainer("Search", {first: true, theme: theme, id: "ttSearchContainer"}).find(".content");
 
     let add_all_to_list = doc.new({type: "div", id: "tt-add-all-to-mm-list", text: "Add all to List"});
     container.appendChild(add_all_to_list);
@@ -41,15 +41,15 @@ function massMessages(theme){
         }
 
         console.log("LIST", list);
-        local_storage.get("mass_messages", function(mass_messages){
+        ttStorage.get("mass_messages", function(mass_messages){
             mass_messages.list = [...mass_messages.list, ...list];
-            local_storage.set({"mass_messages": mass_messages});
+            ttStorage.set({"mass_messages": mass_messages});
         });
     });
 }
 
 function addFilterToTable(list, title){
-    let filter_container = content.new_container("Filters", {id: "tt-player-filter", class: "filter-container", next_element: title}).find(".content");
+    let filter_container = content.newContainer("Filters", {id: "tt-player-filter", class: "filter-container", next_element: title}).find(".content");
     filter_html = `
         <div class="filter-header">
             <div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> users</div>
@@ -116,7 +116,7 @@ function addFilterToTable(list, title){
 
     // let time_slider_info = time_slider.nextElementSibling;
     // time_slider.noUiSlider.on('update', function (values) {
-    //     values = values.map(x => (time_until(parseFloat(x)*60*60*1000, {max_unit: "h", hide_nulls: true})));
+    //     values = values.map(x => (tivvvme_until(parseFloat(x)*60*60*1000, {max_unit: "h", hide_nulls: true})));
     //     time_slider_info.innerHTML = `Time: ${values.join(' - ')}`;
     // });
 
@@ -162,7 +162,7 @@ function addFilterToTable(list, title){
         if(event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, {class: "gallery-wrapper"})){
             console.log("click");
             setTimeout(function(){
-                playersLoaded(".user-info-list-wrap").then(function(){
+                requirePlayerList(".user-info-list-wrap").then(function(){
                     console.log("loaded");
                     // populateFactions();
                     applyFilters();
@@ -230,7 +230,7 @@ function addFilterToTable(list, title){
             }
 
             // Time
-            // let player_time = to_seconds(li.find(".time").innerText.trim().replace("Time", "").replace("TIME", "").replace(":", "").replace("left:", "").trim())/60/60;
+            // let player_time = toSeconds(li.find(".time").innerText.trim().replace("Time", "").replace("TIME", "").replace(":", "").replace("left:", "").trim())/60/60;
             // if(!(time[0] <= player_time && player_time <= time[1])){
             //     li.classList.add("filter-hidden");
             //     continue;
@@ -255,7 +255,7 @@ function addFilterToTable(list, title){
             // }
         }
 
-        local_storage.change({"filters": {"user_list": {
+        ttStorage.change({"filters": {"user_list": {
             activity: activity,
             // faction: faction,
             // time: time,

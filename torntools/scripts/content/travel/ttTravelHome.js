@@ -55,7 +55,7 @@ DBloaded().then(function(){
     
         modifyTimeAndCost();
 
-        let container = content.new_container("Travel Destinations", {id: "ttTravelTable"}).find(".content");
+        let container = content.newContainer("Travel Destinations", {id: "ttTravelTable"}).find(".content");
         
         addLegend();
         setTravelItems();
@@ -353,7 +353,7 @@ function addRow(item, time, cost, travel_items) {
     let total_profit = (market_value - item.abroad_cost)*travel_items - cost;
     let profit_per_minute = (total_profit / time).toFixed(0);
     let profit_per_item = (total_profit / travel_items).toFixed(0);
-    let update_time = time_ago(item.timestamp*1000);
+    let update_time = timeAgo(item.timestamp*1000);
     let item_types = ["plushie", "flower", "drug"];
     let background_style = `url(/images/v2/travel_agency/flags/fl_${item.country_name.toLowerCase().replace("united kingdom", "uk").replace(" islands", "").replace(" ", "_")}.svg) center top no-repeat`
     let item_type = item_types.includes(item.item_type.toLowerCase()) ? item.item_type.toLowerCase() : "other";
@@ -471,7 +471,7 @@ function saveSettings(){
         country: doc.find(".legend-content input[name='country']:checked").getAttribute("_type")
     }
 
-    local_storage.change({"filters": {"travel": travel}});
+    ttStorage.change({"filters": {"travel": travel}});
 }
 
 function reloadTable(){
@@ -490,7 +490,7 @@ function reloadTable(){
     doc.find("#ttTravelTable .table .body").innerHTML = body_html;
 
     // Set Table mode
-    local_storage.get("filters", function(filters){
+    ttStorage.get("filters", function(filters){
         if(filters.travel.table_type == "basic"){
             doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
         } else if(filters.travel.table_type == "advanced"){

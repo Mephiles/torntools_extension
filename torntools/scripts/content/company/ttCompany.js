@@ -1,7 +1,7 @@
 window.addEventListener("load", function(){
     console.log("TT - Company");
 
-    switch(getHashParameters().option){
+    switch(getHashParameters().get("option")){
         case "employees":
             if(settings.pages.company.member_info) showUserInfo();
             break;
@@ -30,7 +30,7 @@ function companyContentLoaded(aria_controls){
 }
 
 function showUserInfo(){
-    get_api(`https://api.torn.com/company/?selections=`, api_key)
+    fetchApi(`https://api.torn.com/company/?selections=`, api_key)
     .then(function(result){
         console.log("result", result);
 

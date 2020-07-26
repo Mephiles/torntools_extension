@@ -1,5 +1,5 @@
 DBloaded().then(function(){
-    navbarLoaded().then(function(){
+    requireNavbar().then(function(){
         console.log("TT - Hospital | Achievements");
 
         let show_completed = settings.achievements.completed;

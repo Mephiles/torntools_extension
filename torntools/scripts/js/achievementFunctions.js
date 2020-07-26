@@ -14,7 +14,7 @@ function displayAchievements(achievements, show_completed){
         return;
     }
     
-    let awards_section = navbar.new_section("Awards", {next_element_heading: "Lists"});
+    let awards_section = navbar.newSection("Awards", {next_element_heading: "Lists"});
     console.log(achievements);
     
     addTimeToHeader(awards_section, userdata.date);
@@ -35,14 +35,14 @@ function displayAchievements(achievements, show_completed){
         let achievement_text, new_cell;
         if(next_goal == "completed"){
             achievement_text = `${name}: Completed!`;
-            new_cell = navbar.new_cell(achievement_text, {parent_element: awards_section, href:"#", class: "tt-completed"});
+            new_cell = navbar.newCell(achievement_text, {parent_element: awards_section, href:"#", class: "tt-completed"});
         } else {
             if(achievements[name].extra == "###")
                 achievement_text = `${name}: ${numberWithCommas(current_stat)}`;
             else
                 achievement_text = `${name}: ${numberWithCommas(current_stat)}/${numberWithCommas(next_goal)}`;
             
-            new_cell = navbar.new_cell(achievement_text, {parent_element: awards_section, href:"#"});
+            new_cell = navbar.newCell(achievement_text, {parent_element: awards_section, href:"#"});
         }
 
         if(achievements[name].extra != "###"){
@@ -66,7 +66,7 @@ function addTimeToHeader(section, date){
     let span = doc.new("span");
         span.setClass("tt-awards-time");
         span.setAttribute("seconds", (new Date() - Date.parse(date))/1000);
-        span.innerText = time_ago(Date.parse(date));
+        span.innerText = timeAgo(Date.parse(date));
 
     section.find("div.tt-title .tt-options").appendChild(span);
 
@@ -75,7 +75,7 @@ function addTimeToHeader(section, date){
         let time_span = doc.find(".tt-awards-time");
 
         let seconds = parseInt(time_span.getAttribute("seconds"));
-        let new_time = time_ago(new Date() - (seconds+1)*1000);
+        let new_time = timeAgo(new Date() - (seconds+1)*1000);
 
         time_span.innerText = new_time;
         time_span.setAttribute("seconds", seconds+1);
