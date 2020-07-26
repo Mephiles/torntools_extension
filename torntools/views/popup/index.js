@@ -278,7 +278,7 @@ function mainInfo() {
 
             doc.find(".footer .messages span").innerText = message_count;
             doc.find(".footer .events span").innerText = event_count;
-            doc.find(".footer .money span").innerText = `$${numberWithCommas(userdata.money_onhand, shorten = false)}`;
+            doc.find(".footer .money span").innerText = `$${numberWithCommas(userdata.money_onhand, false)}`;
         });
     }
 
@@ -375,7 +375,7 @@ function mainMarket() {
                     for (let i = 0; i < 3; i++) {
                         let price_div = doc.new("div");
                         price_div.setClass("price");
-                        price_div.innerText = `${data[type][i].quantity}x | $${numberWithCommas(data[type][i].cost, shorten = false)}`;
+                        price_div.innerText = `${data[type][i].quantity}x | $${numberWithCommas(data[type][i].cost, false)}`;
 
                         list.appendChild(price_div);
                     }
@@ -435,25 +435,25 @@ function mainStocks() {
         let CP_div = doc.new({
             type: "div",
             class: "stock-info",
-            text: `Current price: $${numberWithCommas(current_price, shorten = false)}`
+            text: `Current price: $${numberWithCommas(current_price, false)}`
         });
         let BP_div = doc.new({
             type: "div",
             class: "stock-info",
-            text: `Buy price: $${numberWithCommas(buy_price, shorten = false)}`
+            text: `Buy price: $${numberWithCommas(buy_price, false)}`
         });
         let amount_div = doc.new({
             type: "div",
             class: "stock-info",
-            text: `Quantity: ${numberWithCommas(quantity, shorten = false)}`
+            text: `Quantity: ${numberWithCommas(quantity, false)}`
         });
         let profit = doc.new({type: "div", class: "profit"});
         if (total_profit > 0) {
             profit.classList.add("positive");
-            profit.innerText = `+$${numberWithCommas(total_profit, shorten = false)}`;
+            profit.innerText = `+$${numberWithCommas(total_profit, false)}`;
         } else if (total_profit < 0) {
             profit.classList.add("negative");
-            profit.innerText = `-$${numberWithCommas(Math.abs(total_profit), shorten = false)}`;
+            profit.innerText = `-$${numberWithCommas(Math.abs(total_profit), false)}`;
         } else {
             profit.innerText = `$0`;
         }
@@ -478,7 +478,7 @@ function mainStocks() {
             let BR_div = doc.new({
                 type: "div",
                 class: "benefit-info",
-                text: `Required stocks: ${numberWithCommas(quantity, shorten = false)}/${numberWithCommas(benefit_requirement)}`
+                text: `Required stocks: ${numberWithCommas(quantity, false)}/${numberWithCommas(benefit_requirement)}`
             });
 
             benefit_info_content.appendChild(BR_div);
@@ -601,12 +601,12 @@ function mainStocks() {
         let CP_div = doc.new({
             type: "div",
             class: "stock-info",
-            text: `Current price: $${numberWithCommas(current_price, shorten = false)}`
+            text: `Current price: $${numberWithCommas(current_price,false)}`
         });
         let Q_div = doc.new({
             type: "div",
             class: "stock-info",
-            text: `Available shares: ${numberWithCommas(torn_stocks[id].available_shares, shorten = false)}`,
+            text: `Available shares: ${numberWithCommas(torn_stocks[id].available_shares, false)}`,
             attributes: {style: "margin-bottom: 20px;"}
         })
         stock_info_content.appendChild(CP_div);
@@ -789,7 +789,7 @@ function mainCalculator() {
             // add price to list
             let item_price = itemlist.items[id].market_value;
             let div = doc.new("div");
-            div.innerText = `${quantity}x ${name}  = $${numberWithCommas(item_price * quantity, shorten = false)}`;
+            div.innerText = `${quantity}x ${name}  = $${numberWithCommas(item_price * quantity, false)}`;
 
             doc.find("#items-selected").appendChild(div);
 
@@ -797,7 +797,7 @@ function mainCalculator() {
             let total_value = parseInt(doc.find("#total-value").getAttribute("value"));
             doc.find("#total-value").setAttribute("value", total_value + (item_price * quantity));
 
-            doc.find("#total-value").innerText = `Total: $${numberWithCommas(total_value + (item_price * quantity), shorten = false)}`;
+            doc.find("#total-value").innerText = `Total: $${numberWithCommas(total_value + (item_price * quantity), false)}`;
 
             // clear input box
             input.value = "";

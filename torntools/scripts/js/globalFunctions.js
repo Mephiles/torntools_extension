@@ -1108,7 +1108,20 @@ function timeAgo(time) {
             time = +new Date();
     }
 
-    const time_formats = [
+
+    let seconds = (+new Date() - time) / 1000,
+        token = 'ago',
+        list_choice = 1;
+
+    if (seconds === 0) return 'Just now';
+
+    if (seconds < 0) {
+        seconds = Math.abs(seconds);
+        token = 'from now';
+        list_choice = 2;
+    }
+
+    const formats = [
         [60, 'sec', 1], // 60
         [120, '1min ago', '1min from now'], // 60*2
         [3600, 'min', 60], // 60*60, 60
@@ -1125,22 +1138,7 @@ function timeAgo(time) {
         [5806080000, 'Last century', 'Next century'], // 60*60*24*7*4*12*100*2
         [58060800000, 'cen', 2903040000] // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
     ];
-    let seconds = (+new Date() - time) / 1000,
-        token = 'ago',
-        list_choice = 1;
-
-    if (seconds === 0) return 'Just now';
-
-    if (seconds < 0) {
-        seconds = Math.abs(seconds);
-        token = 'from now';
-        list_choice = 2;
-    }
-
-    let i = 0,
-        format;
-
-    while (format = time_formats[i++]) {
+    for (let format in formats) {
         if (seconds < format[0]) {
             if (typeof format[2] == 'string')
                 return format[list_choice];
@@ -1157,8 +1155,8 @@ function setBadge(text, attributes = {}) {
         error: {text: "error", color: "#FF0000"},
         "update_available": {text: "new", color: "#e0dd11"},
         "update_installed": {text: "new", color: "#0ad121"},
-        "new_message": {text: attributes.count.toString(), color: "#84af03"},
-        "new_event": {text: attributes.count.toString(), color: "#009eda"},
+        "new_message": {filter: () => attributes.count, text: attributes.count.toString(), color: "#84af03"},
+        "new_event": {filter: () => attributes.count, text: attributes.count.toString(), color: "#009eda"},
     };
 
     const badge = types[text];
@@ -1166,7 +1164,7 @@ function setBadge(text, attributes = {}) {
     if (!badge) {
         chrome.browserAction.setBadgeText({text: text});
         chrome.browserAction.setBadgeBackgroundColor({color: attributes.color});
-    } else {
+    } else if (!badge.filter || badge.filter()) {
         if (badge.text) chrome.browserAction.setBadgeText({text: badge.text});
         if (badge.color) chrome.browserAction.setBadgeBackgroundColor({color: badge.color});
     }

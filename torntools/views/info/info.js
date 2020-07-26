@@ -248,7 +248,7 @@ function updateInfo(settings) {
 
         doc.find(".footer .messages span").innerText = message_count;
         doc.find(".footer .events span").innerText = event_count;
-        doc.find(".footer .money span").innerText = `$${numberWithCommas(userdata.money_onhand, shorten = false)}`;
+        doc.find(".footer .money span").innerText = `$${numberWithCommas(userdata.money_onhand, false)}`;
     });
 }
 
