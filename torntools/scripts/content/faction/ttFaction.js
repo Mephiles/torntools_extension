@@ -1048,22 +1048,39 @@ function armoryFilter(){
         armory_filter.classList.add("filter-hidden");
     }
 
-    for(let link of doc.findAll("ul[aria-label='faction armoury tabs']>li")){
-        if(["weapons", "armour"].includes(link.getAttribute("aria-controls").replace("armoury-", ""))){
-            link.addEventListener("click", function(){
+    // Switching page
+    if(!mobile){
+        for(let link of doc.findAll("ul[aria-label='faction armoury tabs']>li")){
+            if(["weapons", "armour"].includes(link.getAttribute("aria-controls").replace("armoury-", ""))){
+                link.addEventListener("click", function(){
+                    console.log("filter tab")
+                    if(doc.find("#ttArmoryFilter")){
+                        doc.find("#ttArmoryFilter").classList.remove("filter-hidden");
+                    }
+                });
+            } else {
+                link.addEventListener("click", function(){
+                    console.log("other tab");
+                    if(doc.find("#ttArmoryFilter")){
+                        doc.find("#ttArmoryFilter").classList.add("filter-hidden");
+                    }
+                });
+            }
+        }
+    } else {
+        doc.find(".armoury-drop-list select#armour-nav-list").addEventListener("change", function(){
+            if(["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))){
                 console.log("filter tab")
                 if(doc.find("#ttArmoryFilter")){
                     doc.find("#ttArmoryFilter").classList.remove("filter-hidden");
                 }
-            });
-        } else {
-            link.addEventListener("click", function(){
+            } else {
                 console.log("other tab");
                 if(doc.find("#ttArmoryFilter")){
                     doc.find("#ttArmoryFilter").classList.add("filter-hidden");
                 }
-            });
-        }
+            }
+        });
     }
 
     let unavailable_wrap = doc.new({type: "div", class: "tt-checkbox-wrap in-title hide-unavailable-option"});
