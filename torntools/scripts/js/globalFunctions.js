@@ -573,9 +573,7 @@ const ttStorage = {
                     return resolve(data[key]);
                 });
             }
-        });
-
-        promise.then(function (data) {
+        }).then(function (data) {
             callback(data);
         });
     },
