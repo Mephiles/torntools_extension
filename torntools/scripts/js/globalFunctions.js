@@ -1535,26 +1535,6 @@ function requirePlayerList(listClass) {
     });
 }
 
-// TODO - Should probably use a MutationObserver.
-function elementChanges(element, attributes = {}) {
-    return new Promise((resolve) => {
-        let counter = 0;
-        let checker = setInterval(function () {
-            console.log("checking");
-            console.log(attributes)
-            console.log(element.classList)
-
-            if (attributes.remove_class && !element.classList.contains(attributes.remove_class)) {
-                resolve(true);
-                return clearInterval(checker);
-            } else if (counter === 1000) {
-                resolve(false);
-                return clearInterval(checker);
-            } else counter++;
-        });
-    });
-}
-
 function getPageStatus() {
     return new Promise((resolve) => {
         let checker = setInterval(function () {
