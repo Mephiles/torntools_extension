@@ -131,35 +131,33 @@ setup_storage.then(async function(success){
 	}
 
 	ttStorage.get(null, function(db){
-		DB = db;
-
-        userdata = DB.userdata;
-        torndata = DB.torndata;
-        settings = DB.settings;
-        api_key = DB.api_key;
-        chat_highlight = DB.chat_highlight;
-        itemlist = DB.itemlist;
-        travel_market = DB.travel_market;
-        oc = DB.oc;
-        allies = DB.allies;
-        loot_times = DB.loot_times;
-        target_list = DB.target_list;
-        vault = DB.vault;
+        userdata = db.userdata;
+        torndata = db.torndata;
+        settings = db.settings;
+        api_key = db.api_key;
+        chat_highlight = db.chat_highlight;
+        itemlist = db.itemlist;
+        travel_market = db.travel_market;
+        oc = db.oc;
+        allies = db.allies;
+        loot_times = db.loot_times;
+        target_list = db.target_list;
+        vault = db.vault;
         // personalized = DB.personalized;
-        mass_messages = DB.mass_messages;
-        custom_links = DB.custom_links;
-        loot_alerts = DB.loot_alerts;
-        extensions = DB.extensions;
-        new_version = DB.new_version;
-        hide_icons = DB.hide_icons;
-        quick = DB.quick;
-        notes = DB.notes;
-        stakeouts = DB.stakeouts;
-        updated = DB.updated;
-        networth = DB.networth;
-        filters = DB.filters;
-        cache = DB.cache;
-        watchlist = DB.watchlist;
+        mass_messages = db.mass_messages;
+        custom_links = db.custom_links;
+        loot_alerts = db.loot_alerts;
+        extensions = db.extensions;
+        new_version = db.new_version;
+        hide_icons = db.hide_icons;
+        quick = db.quick;
+        notes = db.notes;
+        stakeouts = db.stakeouts;
+        updated = db.updated;
+        networth = db.networth;
+        filters = db.filters;
+        cache = db.cache;
+        watchlist = db.watchlist;
 		
 		if(api_key){
 			console.log("Setting up intervals.");
