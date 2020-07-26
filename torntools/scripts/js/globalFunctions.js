@@ -1153,8 +1153,8 @@ function setBadge(text, attributes = {}) {
         error: {text: "error", color: "#FF0000"},
         "update_available": {text: "new", color: "#e0dd11"},
         "update_installed": {text: "new", color: "#0ad121"},
-        "new_message": {filter: () => attributes.count, text: attributes.count.toString(), color: "#84af03"},
-        "new_event": {filter: () => attributes.count, text: attributes.count.toString(), color: "#009eda"},
+        "new_message": {text: () => attributes.count.toString(), color: "#84af03"},
+        "new_event": {text: () => attributes.count.toString(), color: "#009eda"},
     };
 
     const badge = types[text];
@@ -1162,8 +1162,8 @@ function setBadge(text, attributes = {}) {
     if (!badge) {
         chrome.browserAction.setBadgeText({text: text});
         chrome.browserAction.setBadgeBackgroundColor({color: attributes.color});
-    } else if (!badge.filter || badge.filter()) {
-        if (badge.text) chrome.browserAction.setBadgeText({text: badge.text});
+    } else {
+        if (badge.text) chrome.browserAction.setBadgeText({text: typeof badge.text === "function" ? badge.text() : badge.text});
         if (badge.color) chrome.browserAction.setBadgeBackgroundColor({color: badge.color});
     }
 }
