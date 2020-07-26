@@ -78,7 +78,7 @@ input[type=number]::-webkit-outer-spin-button {
     margin-bottom: 20px;
 }
 #ttTravelTable .top-row>* {
-    width: 49.5%;
+    width: 49%;
 }
 #ttTravelTable .filter-button {
     display: inline-block;
