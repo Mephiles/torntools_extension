@@ -826,10 +826,11 @@ function displayLootLevel(loot_times){
 function addStatusIndicator(){
     let status_icon = doc.find(".icons ul>li");
     let icon_span = doc.new({type: "div", class: status_icon.classList[0], attributes: {
-        style: `margin-top: 1px; margin-right: 3px; float: left; background-position: ${window.getComputedStyle(status_icon).getPropertyValue('background-position')};`
+        style: `margin-right: 3px; float: left; background-position: ${window.getComputedStyle(status_icon).getPropertyValue('background-position')};`
     }});
+    if(!mobile) icon_span.style.marginTop = "1px";
     let text_span = doc.new({type: "span", text: doc.find("#skip-to-content").innerText, attributes: {
-        style: `font-size: 22px; color: #333;`
+        style: mobile? `font-size: 17px; color: #333` : `font-size: 22px; color: #333`
     }});
 
     doc.find("#skip-to-content").innerText = "";
