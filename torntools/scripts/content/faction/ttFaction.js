@@ -247,7 +247,7 @@ function armoryLog(){
 
 function subpage(){
     let hash = window.location.hash.replace("#/", "");
-    if(hash === ""){
+    if(hash === "" || hash === "war/chain"){
         return "main";
     }
 
