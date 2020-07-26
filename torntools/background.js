@@ -21,6 +21,12 @@ var links = {
 	events: "https://www.torn.com/events.php#/step=all"
 }
 
+let userdata, torndata, settings, api_key, chat_highlight, itemlist,
+	travel_market, oc, allies, loot_times, target_list, vault, personalized,
+	mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
+	quick, notes, stakeouts, updated, networth, filters, cache, watchlist, api_history,
+	api, sorting, stock_alerts;
+
 // First - set storage
 console.log("Checking Storage.");
 let setup_storage = new Promise(function(resolve, reject){
