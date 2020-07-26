@@ -178,7 +178,6 @@ function addTooltip(cell){
 
         let added_user = false;
         for(let goal of data.goals){
-            console.log(goal, data.score);
             if(goal > data.score && !added_user){
                 let div = doc.new({type: "div", text: numberWithCommas(data.score)});
                 let inner_div = doc.new({type: "div", class: "point progress"});

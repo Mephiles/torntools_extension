@@ -891,6 +891,19 @@ function addFilterToTable(list, title){
     } else {
         applyFilters();
     }
+
+    // Look for Search bar changes
+    doc.find("#faction-info-members .table-header .table-cell.member input.search-input").addEventListener("keyup", function(){
+        setTimeout(function(){
+            for(let row of doc.findAll("#faction-info-members .table-body>.table-row")){
+                if(row.style.display == "none" && row.nextElementSibling && row.nextElementSibling.classList.contains("tt-user-info")){
+                    row.classList.add("filter-hidden");
+                } else if((row.style.display == "flex" || row.style.display == "") && row.nextElementSibling && row.nextElementSibling.classList.contains("tt-user-info")){
+                    row.classList.remove("filter-hidden");
+                }
+            }
+        }, 100);
+    });
     
     function applyFilters(){
         let active_dict = {
