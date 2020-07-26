@@ -1194,7 +1194,7 @@ function dateParts(date) {
         date.getSeconds()
     ]
 
-    return data.map(toMultipleDigits);
+    return data.map((value) => toMultipleDigits(value, 2));
 }
 
 function rotateElement(element, degrees) {
