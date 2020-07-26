@@ -150,7 +150,7 @@
 .footer * {
     flex: 1 0 auto;
 }
-.footer .link:hover {
+.link:hover {
     color: #888888;
     cursor: pointer;
 }
