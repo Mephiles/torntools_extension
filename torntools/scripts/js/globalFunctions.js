@@ -1767,6 +1767,17 @@ function mobileChecker(){
                 }*/
             }
 
+            if(doc.find("#top-page-links-list")){
+                let events_icon = doc.find("#top-page-links-list a[role='button'][aria-labelledby='events']");
+                if(window.getComputedStyle(events_icon, ":before").getPropertyValue("content") == ""){
+                    resolve(true);
+                    return clearInterval(checker);
+                } else {
+                    resolve(false);
+                    return clearInterval(checker);
+                }
+            }
+
             if(!doc.find(`.sidebar___BizFX`)) return;
             if(doc.find(`.sidebar___BizFX`).classList.contains("mobile")){
                 resolve(true);
