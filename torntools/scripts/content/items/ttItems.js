@@ -138,7 +138,6 @@ requireDatabase().then(function(){
             addItemMarketLinks();
         }
 
-        console.log("DKK setting", settings.pages.items.highlight_bloodbags)
         if (settings.pages.items.highlight_bloodbags !== "none") highlightBloodBags();
 
         // Change item type page

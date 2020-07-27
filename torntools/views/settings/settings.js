@@ -432,7 +432,6 @@ function setupPreferences() {
 
             let option = preferences.find(`#notifications-${notification} input`);
 
-            console.log("DKK disabled", disableNotifications, option)
             if (disableNotifications) option.setAttribute("disabled", true);
             else option.removeAttribute("disabled");
         }

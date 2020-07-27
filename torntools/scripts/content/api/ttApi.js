@@ -310,7 +310,6 @@ function loadResponses(type, response, modifiedSection, level, skipFirstLine, se
             type: "div",
             text: `${indent}}${attributes.isLast ? "" : ","}`,
         }));
-        console.log('DKK section end', attributes.name);
     }
 
     function showText(attr) {
