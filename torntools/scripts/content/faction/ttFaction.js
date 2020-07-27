@@ -1,11 +1,11 @@
 let ownFaction = false;
 let member_info_added = false;
 
-DBloaded().then(() => {
-    contentLoaded().then(() => {
+requireDatabase().then(() => {
+    requireContent().then(() => {
         console.log("TT - Faction");
 
-        if (getSearchParameters().step === "your") {
+        if (getSearchParameters().get("step") === "your") {
             ownFaction = true;
 
             switch(subpage()){
@@ -67,7 +67,7 @@ function loadInfo() {
         });
     }
 
-    playersLoaded(".members-list .table-body").then(function(){
+    requirePlayerList(".members-list .table-body").then(function(){
         if(settings.pages.faction.member_info) showUserInfo();
 
         // Player list filter
@@ -251,8 +251,8 @@ function subpage(){
         return "main";
     }
 
-    if(getHashParameters().tab){
-        return getHashParameters().tab
+    if(getHashParameters().has("tab")){
+        return getHashParameters().get("tab")
     }
     
     return "";
@@ -378,7 +378,7 @@ function showNNB(){
 
 function fullInfoBox(page){
     let info_box;
-    if(getSearchParameters().step === "profile"){
+    if(getSearchParameters().get("step") === "profile"){
         info_box = doc.find("#factions div[data-title='description']").nextElementSibling;
     } else if(page === "main"){
         info_box = doc.find("div[data-title='announcement']").nextElementSibling;
@@ -421,7 +421,7 @@ function fullInfoBox(page){
     checkbox.onclick = function(){
         info_box.classList.toggle("tt-force-full");
         
-        local_storage.change({"settings": {"pages": {"faction": {[key]: checkbox.checked}}}})
+        ttStorage.change({"settings": {"pages": {"faction": {[key]: checkbox.checked}}}})
     }
 }
 
@@ -459,7 +459,7 @@ function upgradesInfoListener(){
 }
 
 function armoryWorth(){
-    get_api(`https://api.torn.com/faction/?selections=weapons,armor,temporary,medical,drugs,boosters,cesium,currency`, api_key)
+    fetchApi(`https://api.torn.com/faction/?selections=weapons,armor,temporary,medical,drugs,boosters,cesium,currency`, api_key)
     .then(function(result){
         if (!result.ok) {
             if (result.error === 'Incorrect ID-entity relation') {
@@ -499,7 +499,7 @@ function armoryWorth(){
 function showUserInfo(){
     let factionId = doc.find(".faction-info-wrap .faction-info[data-faction]").getAttribute("data-faction");
 
-    get_api(`https://api.torn.com/faction/${factionId}?selections=${ownFaction ? 'donations,' : ''}basic`, api_key)
+    fetchApi(`https://api.torn.com/faction/${factionId}?selections=${ownFaction ? 'donations,' : ''}basic`, api_key)
     .then(function(result) {
         if (!result.ok) {
             if (result.error === 'Incorrect ID-entity relation') {
@@ -635,7 +635,7 @@ function drugInfo(){
                     let item_name = el.find("span.bold").innerText;
                     if(item_name.indexOf("The") > -1) item_name = item_name.split("The ")[1];
 
-                    let drug_details = drug_dict[item_name.toLowerCase().replace(/ /g, "_")];
+                    let drug_details = DRUG_INFORMATION[item_name.toLowerCase().replace(/ /g, "_")];
                     if(drug_details === undefined){
                         return;
                     }
@@ -720,7 +720,7 @@ function itemInfoLoaded(element){
 }
 
 function addFilterToTable(list, title){
-    let filter_container = content.new_container("Filters", {id: "tt-player-filter", class: "filter-container", next_element: title}).find(".content");
+    let filter_container = content.newContainer("Filters", {id: "tt-player-filter", class: "filter-container", next_element: title}).find(".content");
     filter_container.innerHTML = `
         <div class="filter-header">
             <div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> users</div>
@@ -762,7 +762,7 @@ function addFilterToTable(list, title){
                 <div id="tt-level-filter" class="filter-slider"></div>
                 <div class="filter-slider-info"></div>
             </div>
-            <div class="filter-wrap ${settings.pages.faction.member_info && getSearchParameters().step !== "profile" ? '' : 'filter-hidden'}" id="last-action-filter">
+            <div class="filter-wrap ${settings.pages.faction.member_info && getSearchParameters().get("step") !== "profile" ? '' : 'filter-hidden'}" id="last-action-filter">
                 <div class="filter-heading">Last Action</div>
                 <div id="tt-last-action-filter" class="filter-slider"></div>
                 <div class="filter-slider-info"></div>
@@ -837,7 +837,7 @@ function addFilterToTable(list, title){
 
     let last_action_slider_info = last_action_slider.nextElementSibling;
     last_action_slider.noUiSlider.on('update', function (values) {
-        values = values.map(x => (time_until(parseFloat(x)*60*60*1000, {max_unit: "h", hide_nulls: true})));
+        values = values.map(x => (timeUntil(parseFloat(x)*60*60*1000, {max_unit: "h", hide_nulls: true})));
         last_action_slider_info.innerHTML = `Min Hours: ${values.join(' - ')}`;
     });
 
@@ -865,7 +865,7 @@ function addFilterToTable(list, title){
         if(event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, {class: "gallery-wrapper"})){
             console.log("click");
             setTimeout(function(){
-                playersLoaded(".users-list").then(function(){
+                requirePlayerList(".users-list").then(function(){
                     console.log("loaded");
                     populateFactions();
                     applyFilters();
@@ -1005,7 +1005,7 @@ function addFilterToTable(list, title){
             // }
         }
 
-        local_storage.change({"filters": {"faction": {
+        ttStorage.change({"filters": {"faction": {
             activity: activity,
             // faction: faction,
             // time: time,
@@ -1037,7 +1037,7 @@ function addFilterToTable(list, title){
 }
 
 function armoryFilter(){
-    let armory_filter = content.new_container("Armory Filter", {
+    let armory_filter = content.newContainer("Armory Filter", {
         header_only: true,
         id: "ttArmoryFilter",
         next_element: doc.find("#faction-armoury-tabs"),
@@ -1129,7 +1129,7 @@ function armoryFilter(){
             }
         }
 
-        local_storage.change({"filters": {"faction_armory": {"hide_unavailable": unavailable}}});
+        ttStorage.change({"filters": {"faction_armory": {"hide_unavailable": unavailable}}});
     }
 }
 

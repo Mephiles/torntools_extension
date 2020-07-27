@@ -185,7 +185,7 @@ var key_dict = {
 }
 var spy_info;
 
-DBloaded().then(function(){
+requireDatabase().then(function(){
     profileLoaded().then(async function(){
         console.log("TT - Profile");
 
@@ -213,7 +213,7 @@ DBloaded().then(function(){
         if(getUserId() == userdata.player_id) return;
 
         // Profile stats
-        let info_container = content.new_container("User Info", {next_element_heading: "Medals", id: "tt-target-info"});
+        let info_container = content.newContainer("User Info", {next_element_heading: "Medals", id: "tt-target-info"});
 
         let section_profile_stats = doc.new({type: "div", class: "tt-section", attributes: {name: 'profile-stats'}});
         let profile_stats_div = doc.new({type: "div", class: `profile-stats ${mobile?'tt-mobile':""}`});
@@ -309,7 +309,7 @@ DBloaded().then(function(){
                                 }
                             }
                     
-                            local_storage.change({"filters": {"profile_stats": {"chosen_stats": chosen_keys}}});
+                            ttStorage.change({"filters": {"profile_stats": {"chosen_stats": chosen_keys}}});
                         }
                     }
                 }
@@ -472,7 +472,7 @@ async function displayProfileStats(){
     } else {
         loadingPlaceholder(profile_stats, true);
         result = await new Promise(function(resolve, reject){
-            get_api(`https://api.torn.com/user/${user_id}?selections=personalstats,crimes`, api_key)
+            fetchApi(`https://api.torn.com/user/${user_id}?selections=personalstats,crimes`, api_key)
             .then(data => {
                 fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${user_id}`)
                 .then(async response => {
@@ -496,7 +496,7 @@ async function displayProfileStats(){
         });
         
         if(!result.error){
-            local_storage.change({"cache": {"profile_stats": {[user_id]: result}}});
+            ttStorage.change({"cache": {"profile_stats": {[user_id]: result}}});
         }
         loadingPlaceholder(profile_stats, false);
     }
@@ -622,7 +622,7 @@ async function displayProfileStats(){
     }
 
     footer_input.onclick = function(){
-        local_storage.change({"filters": {"profile_stats": {"auto_fetch": footer_input.checked}}});
+        ttStorage.change({"filters": {"profile_stats": {"auto_fetch": footer_input.checked}}});
     };
 
     // Fix overflows
@@ -800,9 +800,9 @@ function displayLootLevel(loot_times){
         if(next_loot_time - current_time <= 60){  // New info hasn't been fetched yet
             next_level = next_level+1 > 5 ? 1 : next_level+1;
             next_loot_time = loot_times[profile_id].timings[next_level].ts;
-            time_left = time_until((next_loot_time - current_time)*1000);
+            time_left = timeUntil((next_loot_time - current_time)*1000);
         } else {
-            time_left = time_until((next_loot_time - current_time)*1000);
+            time_left = timeUntil((next_loot_time - current_time)*1000);
         }
         
         let span = doc.new("span");
@@ -815,7 +815,7 @@ function displayLootLevel(loot_times){
         // Time decrease
         let time_decrease = setInterval(function(){
             let seconds = parseInt(span.getAttribute("seconds"));
-            let time_left = time_until((seconds-1)*1000);
+            let time_left = timeUntil((seconds-1)*1000);
 
             span.innerText = `Next loot in: ${time_left}`;
             span.setAttribute("seconds", seconds-1);
@@ -923,7 +923,7 @@ function displayStakeoutOptions(){
     function saveStakeoutSettings(){
 
         if(input.checked){
-            local_storage.get("watchlist", function(watchlist){
+            ttStorage.get("watchlist", function(watchlist){
                 let is_in_list = false;
                 for(let item of watchlist){
                     if(item.id == user_id){
@@ -940,22 +940,22 @@ function displayStakeoutOptions(){
                         traveling: getTraveling()
                     });
                 }
-                local_storage.set({"watchlist": watchlist});
+                ttStorage.set({"watchlist": watchlist});
             });
         } else {
-            local_storage.get("watchlist", function(watchlist){
+            ttStorage.get("watchlist", function(watchlist){
                 for(let item of watchlist){
                     if(item.id == user_id){
                         watchlist.splice(watchlist.indexOf(item), 1);
                         break;
                     }
                 }
-                local_storage.set({"watchlist": watchlist});
+                ttStorage.set({"watchlist": watchlist});
             });
         }
 
         if(checkbox_okay.checked == true || checkbox_lands.checked  == true || checkbox_online.checked == true ){
-            local_storage.change({"stakeouts": {
+            ttStorage.change({"stakeouts": {
                 [user_id]: {
                     "okay": checkbox_okay.checked,
                     "lands": checkbox_lands.checked,
@@ -963,9 +963,9 @@ function displayStakeoutOptions(){
                 }
             }});
         } else {
-            local_storage.get("stakeouts", function(stakeouts){
+            ttStorage.get("stakeouts", function(stakeouts){
                 delete stakeouts[user_id];
-                local_storage.set({"stakeouts": stakeouts});
+                ttStorage.set({"stakeouts": stakeouts});
             });
         }
     }

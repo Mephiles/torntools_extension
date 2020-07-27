@@ -1,11 +1,11 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
 	stocksLoaded().then(function(){
         console.log("TT - Stock Exchange");
 
         let stocks = doc.findAll(".stock-list>.item");
 
         // Open torntools redirect
-        let torntools_redirect = getSearchParameters().torntools_redirect ? getSearchParameters().torntools_redirect.replace(/%20/g, " ") : undefined;
+        let torntools_redirect = getSearchParameters().has("torntools_redirect") ? getSearchParameters().get("torntools_redirect").replace(/%20/g, " ") : undefined;
         if(torntools_redirect){
             for(let stock of stocks){
                 let stock_name = stock.find(".name").innerText;

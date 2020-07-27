@@ -1,4 +1,4 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
 	itemmarketLoaded().then(function(){
         console.log("TT - Item Market");
 

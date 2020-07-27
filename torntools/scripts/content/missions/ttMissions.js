@@ -1,4 +1,4 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
     rewardsLoaded().then(function(){
         console.log("TT - Missions");
 

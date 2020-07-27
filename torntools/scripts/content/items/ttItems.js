@@ -1,12 +1,12 @@
-DBloaded().then(function(){
-	contentLoaded().then(function(){
+requireDatabase().then(function(){
+	requireContent().then(function(){
         console.log("TT - Quick items");
         if (shouldDisable()) return;
 
         doc.find("head").appendChild(doc.new({type: "script", attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/items/ttItemsInject.js")}}));
 
         // Quick items
-        let quick_container = content.new_container("Quick items", {id: "ttQuick", dragzone: true, next_element: doc.find(".equipped-items-wrap")}).find(".content");
+        let quick_container = content.newContainer("Quick items", {id: "ttQuick", dragzone: true, next_element: doc.find(".equipped-items-wrap")}).find(".content");
         let inner_content = doc.new({type: "div", class: "inner-content"});
         let response_wrap = doc.new({type: "div", class: "response-wrap"});
         quick_container.appendChild(inner_content);
@@ -30,7 +30,7 @@ DBloaded().then(function(){
     });
 });
 
-DBloaded().then(function(){
+requireDatabase().then(function(){
     itemsLoaded().then(function(){
         console.log("TT - Item values");
 
@@ -59,7 +59,7 @@ DBloaded().then(function(){
                                 let item_name = el.find("span.bold").innerText;
                                 if(item_name.indexOf("The") > -1) item_name = item_name.split("The ")[1];
             
-                                let drug_details = drug_dict[item_name.toLowerCase().replace(/ /g, "_")];
+                                let drug_details = DRUG_INFORMATION[item_name.toLowerCase().replace(/ /g, "_")];
                                 if(drug_details === undefined){
                                     return;
                                 }
@@ -322,7 +322,7 @@ function addButton(){
                         div.remove();
                 
                         let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
-                        local_storage.change({"quick": {"items": items}});
+                        ttStorage.change({"quick": {"items": items}});
                     });
                 
                     div.addEventListener("click", function(){
@@ -351,7 +351,7 @@ function addButton(){
 
                     // Save
                     let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
-                    local_storage.change({"quick": {"items": items}});
+                    ttStorage.change({"quick": {"items": items}});
                 }
             }            
         }
@@ -490,7 +490,7 @@ function onDragEnd(){
     doc.find("#ttQuick .content").classList.remove("drag-progress");
 
     let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
-    local_storage.change({"quick": {"items": items}});
+    ttStorage.change({"quick": {"items": items}});
 }
 
 function addQuickItem(container, innerContent, responseWrap, id) {
@@ -517,7 +517,7 @@ function addQuickItem(container, innerContent, responseWrap, id) {
         div.remove();
 
         let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
-        local_storage.change({"quick": {"items": items}});
+        ttStorage.change({"quick": {"items": items}});
     });
 
     div.addEventListener("click", function(){

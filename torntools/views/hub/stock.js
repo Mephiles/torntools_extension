@@ -18,7 +18,7 @@ function init(){
 function displayStocks(torn_stocks, user_stocks, date){
 	const stock_list = document.querySelector("#stock-list");
 
-	document.querySelector("#last-updated").innerText = "Last updated: " + time_ago(date);
+	document.querySelector("#last-updated").innerText = "Last updated: " + timeAgo(date);
 
 	for(let id in torn_stocks){
 		let stock = torn_stocks[id];
@@ -162,7 +162,7 @@ const numberWithCommas = (x) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function time_ago(time) {
+function timeAgo(time) {
 
 	switch (typeof time) {
 		case 'number':

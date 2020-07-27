@@ -5,7 +5,7 @@ const GYM_SELECTORS = {
     "dexterity": "dexterity___1YdUM",
 };
 
-DBloaded().then(function(){
+requireDatabase().then(function(){
     gymLoaded().then(function(){
         console.log("TT - Gym");
 
@@ -21,7 +21,7 @@ DBloaded().then(function(){
             disableGyms();
         });
 
-        let gym_container = content.new_container("Gym", {id: "tt-gym"});
+        let gym_container = content.newContainer("Gym", {id: "tt-gym"});
     
         // Graph
         if (!shouldDisable()) {
@@ -320,11 +320,11 @@ function disableGymButton(types, disable){
 
     }
 
-    local_storage.get("settings", function(settings){
+    ttStorage.get("settings", function(settings){
         for(let stat of types){
             settings.pages.gym[`disable_${stat}`] = disable;
         }
 
-        local_storage.set({"settings": settings});
+        ttStorage.set({"settings": settings});
     });
 }

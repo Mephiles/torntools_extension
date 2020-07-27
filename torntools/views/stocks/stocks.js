@@ -5,7 +5,7 @@ window.addEventListener("load", function(){
 		doc.find("body").style.marginRight = "25px";
 	}
 
-	local_storage.get(["settings", "api", "torndata", "userdata", "stock_alerts"], function([settings, api, torndata, userdata, stock_alerts]){
+	ttStorage.get(["settings", "api", "torndata", "userdata", "stock_alerts"], function([settings, api, torndata, userdata, stock_alerts]){
 
 		console.log("Torndata", torndata.stocks);
 		console.log("Userdata", userdata.stocks);
@@ -170,7 +170,7 @@ window.addEventListener("load", function(){
 
 			// add event listeners to pirce alerts
 			reach_input.addEventListener("change", function(){
-				local_storage.change({"stock_alerts": {
+				ttStorage.change({"stock_alerts": {
 					[id]: {
 						"reach": reach_input.value
 					}
@@ -178,7 +178,7 @@ window.addEventListener("load", function(){
 			});
 
 			fall_input.addEventListener("change", function(){
-				local_storage.change({"stock_alerts": {
+				ttStorage.change({"stock_alerts": {
 					[id]: {
 						"fall": fall_input.value
 					}
@@ -298,7 +298,7 @@ window.addEventListener("load", function(){
 		
 			// add event listeners to pirce alerts
 			reach_input.addEventListener("change", function(){
-				local_storage.change({"stock_alerts": {
+				ttStorage.change({"stock_alerts": {
 					[id]: {
 						"reach": reach_input.value
 					}
@@ -306,7 +306,7 @@ window.addEventListener("load", function(){
 			});
 		
 			fall_input.addEventListener("change", function(){
-				local_storage.change({"stock_alerts": {
+				ttStorage.change({"stock_alerts": {
 					[id]: {
 						"fall": fall_input.value
 					}

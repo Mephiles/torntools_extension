@@ -1,7 +1,7 @@
 window.addEventListener("load", function(){
     console.log("Start Market");
 
-    local_storage.get(["settings", "api_key", "api", "itemlist"], function([settings, api_key, api, itemlist]){
+    ttStorage.get(["settings", "api_key", "api", "itemlist"], function([settings, api_key, api, itemlist]){
         
         // show error
         if(!api.online){
@@ -85,7 +85,7 @@ window.addEventListener("load", function(){
 });
 
 function showMarketInfo(id, api_key){
-    get_api(`https://api.torn.com/market/${id}?selections=bazaar,itemmarket`, api_key).then(function(data){
+    fetchApi(`https://api.torn.com/market/${id}?selections=bazaar,itemmarket`, api_key).then(function(data){
         if(!data.ok){
             doc.find(".error").style.display = "block";
             doc.find(".error").innerText = data.error;
