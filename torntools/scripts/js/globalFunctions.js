@@ -1332,7 +1332,8 @@ function findItemsInList(list, attributes = {}) {
         let fitsAll = true;
 
         for (let attribute in attributes) {
-            if (item[attribute] !== attributes[attribute]) fitsAll = false;
+            // noinspection EqualityComparisonWithCoercionJS
+            if (item[attribute] != attributes[attribute]) fitsAll = false;
         }
 
         if (fitsAll) arr.push(item);
