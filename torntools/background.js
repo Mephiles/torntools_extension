@@ -490,7 +490,7 @@ function Main_15_seconds(){
 		}
 
 		// Torndata
-		if(new Date() - new Date(old_torndata.date) >= 24*60*60*1000){
+		if(!old_torndata || !old_torndata.date || new Date() - new Date(old_torndata.date) >= 24*60*60*1000){
 			console.log("Setting up torndata.")
 			await new Promise(function(resolve, reject){
 				fetchApi("https://api.torn.com/torn/?selections=honors,medals,items,pawnshop", api_key).then((torndata) => {
