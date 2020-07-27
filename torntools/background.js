@@ -165,20 +165,24 @@ setup_storage.then(async function(success){
         watchlist = db.watchlist;
 		
 		if(api_key){
-			console.log("Setting up intervals.");
-			setInterval(Main_5_seconds, 5*seconds);  // 5 seconds
-			setInterval(Main_15_seconds, 15*seconds);  // 15 seconds
-			setInterval(Main_1_minute, 1*minutes);  // 1 minute
-			setInterval(Main_15_minutes, 15*minutes);  // 15 minutes
-
-			// Update info about installed extensions
-			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
-
-			// Clear API history
-			clearAPIhistory();
+			initiateTasks();
 		}
 	});
 });
+
+function initiateTasks() {
+	console.log("Setting up intervals.");
+	setInterval(Main_5_seconds, 5*seconds);  // 5 seconds
+	setInterval(Main_15_seconds, 15*seconds);  // 15 seconds
+	setInterval(Main_1_minute, 1*minutes);  // 1 minute
+	setInterval(Main_15_minutes, 15*minutes);  // 15 minutes
+
+	// Update info about installed extensions
+	updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
+
+	// Clear API history
+	clearAPIhistory();
+}
 
 function Main_5_seconds(){
 	if (!settings.notifications.global) return;
@@ -492,26 +496,7 @@ function Main_15_seconds(){
 		// Torndata
 		if(!old_torndata || !old_torndata.date || new Date() - new Date(old_torndata.date) >= 24*60*60*1000){
 			console.log("Setting up torndata.")
-			await new Promise(function(resolve, reject){
-				fetchApi("https://api.torn.com/torn/?selections=honors,medals,items,pawnshop", api_key).then((torndata) => {
-					if(!torndata.ok) return resolve(false);
-			
-					torndata = torndata.result;
-					let itemlist = {items: {...torndata.items}, date: (new Date).toString()};
-					delete torndata.items;
-
-					let new_date = (new Date()).toString();
-					torndata.date = new_date;
-			
-					torndata.stocks = old_torndata.stocks;
-					
-					ttStorage.set({"torndata": torndata, "itemlist": itemlist}, function(){
-						console.log("	Torndata info updated.");
-						console.log("	Itemlist info updated.");
-						return resolve(true);
-					});
-				});
-			});
+			await updateTorndata();
 		}
 	});
 	
@@ -659,7 +644,173 @@ function Main_15_minutes(){
 	});
 }
 
-// FUNCTIONS //
+/*
+ * Updating Functions
+ */
+
+function updateTargetList(attacks_data, player_id, target_list, first_time){
+	console.log("Updating Target list");
+
+	for(let fight_id in attacks_data){
+		if(parseInt(fight_id) <= parseInt(target_list.last_target)){
+			continue;
+		}
+
+		target_list.last_target = fight_id;
+		let fight = attacks_data[fight_id];
+		let opponent_id = fight.attacker_id == player_id ? fight.defender_id : fight.attacker_id;
+
+		if(!opponent_id){
+			continue;
+		}
+
+		if(!target_list.targets[opponent_id]){
+			target_list.targets[opponent_id] = {
+				win: 0,
+				lose: 0,
+				stealth: 0,
+				leave: 0,
+				mug: 0,
+				hosp: 0,
+				assist: 0,
+				arrest: 0,
+				stalemate: 0,
+				defend: 0,
+				defend_lose: 0,
+				special: 0,
+				respect: {
+					leave: [],
+					mug: [],
+					hosp: [],
+					arrest: [],
+					special: []
+				},
+				respect_base: {
+					leave: [],
+					mug: [],
+					hosp: [],
+					arrest: [],
+					special: []
+				}
+			}
+		}
+
+		if(fight.defender_id == player_id){  // user defended
+			if(fight.result == "Lost"){
+				target_list.targets[opponent_id].defend++;
+			} else {
+				target_list.targets[opponent_id].defend_lose++;
+			}
+		} else if(fight.attacker_id == player_id){  // user attacked
+			if(fight.result == "Lost")
+				target_list.targets[opponent_id].lose++;
+			else if(fight.result == "Stalemate")
+				target_list.targets[opponent_id].stalemate++;
+			else {
+				target_list.targets[opponent_id].win++;
+				let respect = parseFloat(fight.respect_gain);
+
+				if(!first_time)
+					respect = respect / fight.modifiers.war / fight.modifiers.groupAttack / fight.modifiers.overseas / fight.modifiers.chainBonus;  // get base respect
+
+				if(fight.stealthed == "1")
+					target_list.targets[opponent_id].stealth++;
+
+				switch(fight.result){
+					case "Mugged":
+						target_list.targets[opponent_id].mug++;
+
+						first_time ? target_list.targets[opponent_id].respect.mug.push(respect) : target_list.targets[opponent_id].respect_base.mug.push(respect);
+						break;
+					case "Hospitalized":
+						target_list.targets[opponent_id].hosp++;
+
+						first_time ? target_list.targets[opponent_id].respect.hosp.push(respect) : target_list.targets[opponent_id].respect_base.hosp.push(respect);
+						break;
+					case "Attacked":
+						target_list.targets[opponent_id].leave++;
+
+						first_time ? target_list.targets[opponent_id].respect.leave.push(respect) : target_list.targets[opponent_id].respect_base.leave.push(respect);
+						break;
+					case "Arrested":
+						target_list.targets[opponent_id].arrest++;
+
+						first_time ? target_list.targets[opponent_id].respect.arrest.push(respect) : target_list.targets[opponent_id].respect_base.arrest.push(respect);
+						break;
+					case "Special":
+						target_list.targets[opponent_id].special++;
+
+						first_time ? target_list.targets[opponent_id].respect.special.push(respect) : target_list.targets[opponent_id].respect_base.special.push(respect);
+						break;
+					case "Assist":
+						target_list.targets[opponent_id].assist++;
+						break;
+				}
+			}
+		}
+	}
+
+	target_list.targets.date = new Date().toString();
+	ttStorage.set({"target_list": target_list}, function(){
+		console.log("	Target list set");
+	});
+}
+
+async function updateExtensions() {
+	console.log("Checking for installed extensions.");
+
+	return new Promise(((resolve, reject) => {
+		ttStorage.get("extensions", async function(extensions) {
+			let browser = false;
+			if (usingChrome()) browser = "chrome";
+			else if (usingFirefox()) browser = "firefox";
+
+			if (browser) {
+				const extensions = {
+					"doctorn": false
+				}
+
+				for (let extension in extensions) {
+					extensions[extension] = await detectExtension(browser, extension);
+				}
+
+				ttStorage.change({extensions}, function(){
+					return resolve(extensions);
+				});
+			} else {
+				console.log("	Using something else than Chrome or Firefox.");
+			}
+		});
+	}));
+}
+
+async function updateTorndata() {
+	console.log("Updating torndata");
+
+	return new Promise((resolve) => {
+		fetchApi("https://api.torn.com/torn/?selections=honors,medals,items,pawnshop", api_key).then((torndata) => {
+			if (!torndata.ok) return resolve(false);
+
+			torndata = torndata.result;
+			let itemlist = {items: {...torndata.items}, date: (new Date).toString()};
+			delete torndata.items;
+
+			torndata.date = (new Date()).toString();
+
+			torndata.stocks = old_torndata.stocks;
+
+			ttStorage.set({"torndata": torndata, "itemlist": itemlist}, function(){
+				console.log("	Torndata info updated.");
+				console.log("	Itemlist info updated.");
+				return resolve(true);
+			});
+		});
+	});
+}
+
+/*
+ * Various Functions
+ */
 
 // Check if new version is installed
 chrome.runtime.onInstalled.addListener(function(details){
@@ -734,113 +885,7 @@ chrome.notifications.onClicked.addListener(function(notification_id){
 	chrome.tabs.create({url: notificationLinkRelations[notification_id]});
 });
 
-function updateTargetList(attacks_data, player_id, target_list, first_time){
-	console.log("Updating Target list");
 
-	for(let fight_id in attacks_data){
-		if(parseInt(fight_id) <= parseInt(target_list.last_target)){
-			continue;
-		}
-
-		target_list.last_target = fight_id;
-		let fight = attacks_data[fight_id];
-		let opponent_id = fight.attacker_id == player_id ? fight.defender_id : fight.attacker_id;
-
-		if(!opponent_id){
-			continue;
-		}
-
-		if(!target_list.targets[opponent_id]){
-			target_list.targets[opponent_id] = {
-				win: 0,
-				lose: 0,
-				stealth: 0,
-				leave: 0,
-				mug: 0,
-				hosp: 0,
-				assist: 0,
-				arrest: 0,
-				stalemate: 0,
-				defend: 0,
-				defend_lose: 0,
-				special: 0,
-				respect: {
-					leave: [],
-					mug: [],
-					hosp: [],
-					arrest: [],
-					special: []
-				},
-				respect_base: {
-					leave: [],
-					mug: [],
-					hosp: [],
-					arrest: [],
-					special: []
-				}
-			}
-		}
-
-		if(fight.defender_id == player_id){  // user defended
-			if(fight.result == "Lost"){
-				target_list.targets[opponent_id].defend++;
-			} else {
-				target_list.targets[opponent_id].defend_lose++;
-			}
-		} else if(fight.attacker_id == player_id){  // user attacked
-			if(fight.result == "Lost")
-				target_list.targets[opponent_id].lose++;
-			else if(fight.result == "Stalemate")
-				target_list.targets[opponent_id].stalemate++;
-			else {
-				target_list.targets[opponent_id].win++;
-				let respect = parseFloat(fight.respect_gain);
-
-				if(!first_time)
-					respect = respect / fight.modifiers.war / fight.modifiers.groupAttack / fight.modifiers.overseas / fight.modifiers.chainBonus;  // get base respect
-				
-				if(fight.stealthed == "1")
-					target_list.targets[opponent_id].stealth++;
-
-				switch(fight.result){
-					case "Mugged":
-						target_list.targets[opponent_id].mug++;
-
-						first_time ? target_list.targets[opponent_id].respect.mug.push(respect) : target_list.targets[opponent_id].respect_base.mug.push(respect);
-						break;
-					case "Hospitalized":
-						target_list.targets[opponent_id].hosp++;
-
-						first_time ? target_list.targets[opponent_id].respect.hosp.push(respect) : target_list.targets[opponent_id].respect_base.hosp.push(respect);
-						break;
-					case "Attacked":
-						target_list.targets[opponent_id].leave++;
-
-						first_time ? target_list.targets[opponent_id].respect.leave.push(respect) : target_list.targets[opponent_id].respect_base.leave.push(respect);
-						break;
-					case "Arrested":
-						target_list.targets[opponent_id].arrest++;
-
-						first_time ? target_list.targets[opponent_id].respect.arrest.push(respect) : target_list.targets[opponent_id].respect_base.arrest.push(respect);
-						break;
-					case "Special":
-						target_list.targets[opponent_id].special++;
-						
-						first_time ? target_list.targets[opponent_id].respect.special.push(respect) : target_list.targets[opponent_id].respect_base.special.push(respect);
-						break;
-					case "Assist":
-						target_list.targets[opponent_id].assist++;
-						break;
-				}
-			}
-		}
-	}
-
-	target_list.targets.date = new Date().toString();
-	ttStorage.set({"target_list": target_list}, function(){
-		console.log("	Target list set");
-	});
-}
 
 async function checkStockAlerts(){
 	console.group("Checking stock prices");
@@ -1006,34 +1051,6 @@ async function detectExtension(browserName, ext){
 				.length);
 		});
 	}
-}
-
-async function updateExtensions() {
-	console.log("Checking for installed extensions.");
-
-	return new Promise(((resolve, reject) => {
-		ttStorage.get("extensions", async function(extensions) {
-			let browser = false;
-			if (usingChrome()) browser = "chrome";
-			else if (usingFirefox()) browser = "firefox";
-
-			if (browser) {
-				const extensions = {
-					"doctorn": false
-				}
-
-				for (let extension in extensions) {
-					extensions[extension] = await detectExtension(browser, extension);
-				}
-
-			    ttStorage.change({extensions}, function(){
-					return resolve(extensions);
-			 	});
-			} else {
-				console.log("	Using something else than Chrome or Firefox.");
-			}
-		});
-	}));
 }
 
 function clearAPIhistory(){
