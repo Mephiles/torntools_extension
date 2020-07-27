@@ -410,14 +410,12 @@ function highlightBloodBags(){
     const items = doc.findAll("ul.items-cont[aria-expanded=true] > li");
 
     for (let item of items) {
-        if (!item.find(".name-wrap") || item.find(".name-wrap").classList.contains(".tt-modified")) continue;
+        if (!item.find(".name-wrap") || item.find(".name-wrap").classList.contains("tt-good_blood") || item.find(".name-wrap").classList.contains("tt-bad_blood")) continue;
 
         if (!item.getAttribute("data-sort").includes("Blood Bag : ")) continue; // is not a filled blood bag
         if (item.getAttribute("data-item") === "1012") continue; // is an irradiated blood bag
 
         const classes = item.find(".name-wrap").classList;
-
-        classes.add("tt-modified");
 
         if (allowedBlood.includes(parseInt(item.getAttribute("data-item")))) classes.add("tt-good_blood");
         else classes.add("tt-bad_blood")
