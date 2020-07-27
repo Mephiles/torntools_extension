@@ -1,4 +1,4 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
 	bazaarLoaded().then(function(){
     console.log("TT - Bazaar");
 

@@ -1,4 +1,4 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
 	vaultLoaded().then(function(){
         console.log("TT - Properties | Vault Sharing");
 

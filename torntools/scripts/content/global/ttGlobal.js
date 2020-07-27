@@ -1,4 +1,4 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
     console.log("Loading Global Script");
 
     // Add TT Black overlay

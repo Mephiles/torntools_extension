@@ -1,4 +1,4 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
 	requireContent().then(function(){
 		console.log("TT - Home");
 

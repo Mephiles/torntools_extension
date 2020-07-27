@@ -1,4 +1,4 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
 	searchLoaded().then(function(){
         console.log("TT - Search");
         

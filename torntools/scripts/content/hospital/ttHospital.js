@@ -1,4 +1,4 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
     requirePlayerList(".users-list").then(function(){
         console.log("TT - Hospital");
 

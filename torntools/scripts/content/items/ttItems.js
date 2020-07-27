@@ -1,4 +1,4 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
 	requireContent().then(function(){
         console.log("TT - Quick items");
         if (shouldDisable()) return;
@@ -30,7 +30,7 @@ DBloaded().then(function(){
     });
 });
 
-DBloaded().then(function(){
+requireDatabase().then(function(){
     itemsLoaded().then(function(){
         console.log("TT - Item values");
 

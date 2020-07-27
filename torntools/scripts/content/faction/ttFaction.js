@@ -1,7 +1,7 @@
 let ownFaction = false;
 let member_info_added = false;
 
-DBloaded().then(() => {
+requireDatabase().then(() => {
     requireContent().then(() => {
         console.log("TT - Faction");
 

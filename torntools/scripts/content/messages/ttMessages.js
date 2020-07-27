@@ -1,4 +1,4 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
 	messageBoxLoaded().then(function(){
         console.log("TT - Messages");
 

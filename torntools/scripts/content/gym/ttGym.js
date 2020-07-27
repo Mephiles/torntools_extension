@@ -5,7 +5,7 @@ const GYM_SELECTORS = {
     "dexterity": "dexterity___1YdUM",
 };
 
-DBloaded().then(function(){
+requireDatabase().then(function(){
     gymLoaded().then(function(){
         console.log("TT - Gym");
 

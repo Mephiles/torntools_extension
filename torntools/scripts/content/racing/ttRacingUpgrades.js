@@ -1,4 +1,4 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
 	upgradeView().then(function(){
         console.log("TT - Racing Upgrades");
         

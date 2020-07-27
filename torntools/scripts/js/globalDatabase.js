@@ -12,11 +12,7 @@ const DATABASE_STATUSES = {
 
 let database_status = DATABASE_STATUSES.NOT_INITIALIZED;
 
-function DBloaded() {
-    return requireDatabase(true);
-}
-
-function requireDatabase(requireEntry = false) {
+function requireDatabase(requireEntry = true) {
     return new Promise((resolve, reject) => {
         let checker = setInterval(function () {
             switch (database_status) {

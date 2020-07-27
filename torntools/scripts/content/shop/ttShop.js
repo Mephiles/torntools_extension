@@ -1,4 +1,4 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
 	shopLoaded().then(function(){
         console.log("TT - Shop");
 

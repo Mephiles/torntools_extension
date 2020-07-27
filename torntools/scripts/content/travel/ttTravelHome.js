@@ -45,7 +45,7 @@ var country_dict = {  // time = minutes
     }
 }
 
-DBloaded().then(function(){
+requireDatabase().then(function(){
     mapLoaded().then(function(){
         console.log("TT - Travel (home)");
 

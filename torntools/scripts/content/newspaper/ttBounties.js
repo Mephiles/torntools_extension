@@ -1,4 +1,4 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
 	bountiesLoaded().then(function(){
         console.log("TT - Newspaper | Bounties");
         Main(filters);

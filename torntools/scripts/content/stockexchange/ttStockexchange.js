@@ -1,4 +1,4 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
 	stocksLoaded().then(function(){
         console.log("TT - Stock Exchange");
 

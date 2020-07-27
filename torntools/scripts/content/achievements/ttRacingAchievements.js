@@ -1,4 +1,4 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
     requireNavbar().then(function(){
         console.log("TT - Racing | Achievements");
         

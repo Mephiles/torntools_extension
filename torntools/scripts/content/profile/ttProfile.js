@@ -185,7 +185,7 @@ var key_dict = {
 }
 var spy_info;
 
-DBloaded().then(function(){
+requireDatabase().then(function(){
     profileLoaded().then(async function(){
         console.log("TT - Profile");
 

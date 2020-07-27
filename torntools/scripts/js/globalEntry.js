@@ -45,7 +45,7 @@ function mobileChecker() {
     });
 }
 
-requireDatabase().then(async () => {
+requireDatabase(false).then(async () => {
     // Align left
     document.documentElement.style.setProperty("--torntools-align-left", settings.pages.global.align_left ? "20px" : "auto");
 
