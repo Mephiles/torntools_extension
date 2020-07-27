@@ -236,43 +236,53 @@ function setTravelItems(){
     let wlt = doc.find("#tab-menu4 li[aria-selected=true]").innerText == "PRIVATE" ? true : false;
     let business = doc.find("#tab-menu4 li[aria-selected=true]").innerText == "BUSINESS" ? true : false;
 
-    let suitcase = (function () {
-        for (let perk of userdata.enhancer_perks) {
-            if (perk.indexOf("(Large Suitcase)") > -1) {
-                return 4;
-            } else if (perk.indexOf("(Medium Suitcase)") > -1) {
-                return 3;
-            } else if (perk.indexOf("(Small Suitcase)") > -1) {
-                return 2;
+    let suitcase = 0,
+        job_perk = 0,
+        faction_perk = 0,
+        book_perk = 0;
+
+    if (userdata) {
+        suitcase = (function () {
+            for (let perk of userdata.enhancer_perks) {
+                if (perk.indexOf("(Large Suitcase)") > -1) {
+                    return 4;
+                } else if (perk.indexOf("(Medium Suitcase)") > -1) {
+                    return 3;
+                } else if (perk.indexOf("(Small Suitcase)") > -1) {
+                    return 2;
+                }
             }
-        }
-        return 0;
-    })();
-    let job_perk = (function () {
-        let total = 0;
-        for (let perk of userdata.company_perks) {
-            if (perk.indexOf("travel capacity") > -1) {
-                total += parseInt(perk.replace("+ ", "").split(" ")[0]);
+            return 0;
+        })();
+
+        job_perk = (function () {
+            let total = 0;
+            for (let perk of userdata.company_perks) {
+                if (perk.indexOf("travel capacity") > -1) {
+                    total += parseInt(perk.replace("+ ", "").split(" ")[0]);
+                }
             }
-        }
-        return total;
-    })();
-    let faction_perk = (function () {
-        for (let perk of userdata.faction_perks) {
-            if (perk.indexOf("Increases maximum traveling capacity by") > -1) {
-                return parseInt(perk.split("by ")[1]);
+            return total;
+        })();
+
+        faction_perk = (function () {
+            for (let perk of userdata.faction_perks) {
+                if (perk.indexOf("Increases maximum traveling capacity by") > -1) {
+                    return parseInt(perk.split("by ")[1]);
+                }
             }
-        }
-        return 0;
-    })();
-    let book_perk = (function () {
-        for (let perk of userdata.book_perks) {
-            if (perk.indexOf("travel capacity") > -1) {
-                return parseInt(perk.replace("+ ", "").split(" ")[0]);
+            return 0;
+        })();
+
+        book_perk = (function () {
+            for (let perk of userdata.book_perks) {
+                if (perk.indexOf("travel capacity") > -1) {
+                    return parseInt(perk.replace("+ ", "").split(" ")[0]);
+                }
             }
-        }
-        return 0;
-    })();
+            return 0;
+        })();
+    }
 
     // item_dict = modifyTimeAndCost(item_dict, airstrip, wlt, business, itemlist["396"].market_value);  // business class ticket price
 
