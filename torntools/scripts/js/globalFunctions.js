@@ -786,8 +786,9 @@ const content = {
             if (attr.id) div.id = attr.id;
             if (attr["_class"]) div.setClass(attr["_class"]);
 
-            let containerClasses = `top-rounded m-top10 tt-title ${THEME_CLASSES[settings.theme].title}`;
+            let containerClasses = `m-top10 tt-title ${THEME_CLASSES[settings.theme].title}`;
             if (attr.all_rounded) containerClasses += " all-rounded";
+            else containerClasses += "top-rounded"
             if (attr.header_only) containerClasses += " no-content";
             if (collapsed === true || collapsed === undefined) {
                 containerClasses += " collapsed";
