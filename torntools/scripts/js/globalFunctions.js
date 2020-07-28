@@ -1161,10 +1161,10 @@ function setBadge(text, attributes = {}) {
     const badge = types[text];
 
     if (!badge) {
-        if (text) chrome.browserAction.setBadgeText({text: text});
+        chrome.browserAction.setBadgeText({text: text || ""});
         if (attributes.color) chrome.browserAction.setBadgeBackgroundColor({color: attributes.color});
     } else {
-        chrome.browserAction.setBadgeText({text: (typeof badge.text === "function" ? badge.text() : badge.text) || ""});
+        if (badge.text) chrome.browserAction.setBadgeText({text: (typeof badge.text === "function" ? badge.text() : badge.text) || ""});
         if (badge.color) chrome.browserAction.setBadgeBackgroundColor({color: badge.color});
     }
 }
@@ -1322,7 +1322,7 @@ function formatTime([hours, minutes, seconds], formatting) {
 }
 
 function toMultipleDigits(number, digits = 2) {
-    if (number === undefined) return undefined;
+    if(number === undefined) return undefined;
     return number.toString().length < digits ? toMultipleDigits(`0${number}`, digits) : number;
 }
 
