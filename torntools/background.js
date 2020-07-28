@@ -1035,7 +1035,7 @@ async function detectExtension(browserName, ext){
 	if (information.id) {
 		return new Promise(function(resolve, reject){
 			chrome.management.get(information.id, function(result) {
-				if(result.enabled === true){
+				if(result && result.enabled === true){
 					resolve(true);
 				} else {
 					resolve(false)
