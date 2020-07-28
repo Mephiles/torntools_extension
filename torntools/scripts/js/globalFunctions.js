@@ -1198,10 +1198,10 @@ function rotateElement(element, degrees) {
 
     if (startDegrees !== 0 && startDegrees % 360 === 0) {
         startDegrees = 0;
-        element.style.transform = `rotate(${start_degrees}deg)`;
-    } else if (start_degrees > 360) {
-        startDegrees = start_degrees % 360;
-        element.style.transform = `rotate(${start_degrees}deg)`;
+        element.style.transform = `rotate(${startDegrees}deg)`;
+    } else if (startDegrees > 360) {
+        startDegrees = startDegrees % 360;
+        element.style.transform = `rotate(${startDegrees}deg)`;
     }
 
     const totalDegrees = startDegrees + degrees;
@@ -1321,6 +1321,7 @@ function formatTime([hours, minutes, seconds], formatting) {
 }
 
 function toMultipleDigits(number, digits = 2) {
+    if(number === undefined) return undefined;
     return number.toString().length < digits ? toMultipleDigits(`0${number}`, digits) : number;
 }
 
