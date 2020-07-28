@@ -202,8 +202,10 @@ function shortenArmoryNews(){
             lower_date_span.setClass("right-date");
             lower_date_span.innerText = `${lower_time}${lower_date}`;
 
-            date.appendChild(upper_date_span);
-            date.appendChild(separator);
+            if (upper_time !== lower_time || upper_date !== lower_date) {
+                date.appendChild(upper_date_span);
+                date.appendChild(separator);
+            }
             date.appendChild(lower_date_span);
         } else {
             date.innerText = db[key].last_date;
