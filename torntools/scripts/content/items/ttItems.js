@@ -306,47 +306,7 @@ function addButton(){
                     let target = findParent(event.target, {has_attribute: "data-item"});
                     let id = target.getAttribute("data-item");
 
-                    let div = doc.new({type: "div", class: "item", attributes: {"item-id": id}});
-                    let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(/images/items/${id}/medium.png)`}});
-                    let text = doc.new({type: "div", class: "text", text: itemlist.items[id].name});
-                    let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
-                
-                    div.appendChild(pic);
-                    div.appendChild(text);
-                    div.appendChild(close_icon);
-                    doc.find("#ttQuick .inner-content").appendChild(div);
-                
-                    close_icon.addEventListener("click", function(event){
-                        event.stopPropagation();
-                        div.remove();
-                
-                        let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
-                        ttStorage.change({"quick": {"items": items}});
-                    });
-                
-                    div.addEventListener("click", function(){
-                        getAction({
-                            type: "post",
-                            action: "item.php",
-                            data: {step: "actionForm", id: id, action: "use"},
-                            success: function (str) {
-                                
-                                if(doc.find("#ttQuick").find(".action-wrap")){
-                                    doc.find("#ttQuick").find(".action-wrap").remove();
-                                }
-                
-                                doc.find("#ttQuick .response-wrap").style.display = "block";
-                                doc.find("#ttQuick .response-wrap").innerHTML = str;
-                                
-                                // adjust container
-                                doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px"; 
-                                
-                                useContainerLoaded().then(function(){
-                                    doc.find("#ttQuick").find(`a[data-item='${id}']`).click();
-                                });
-                            }
-                        });
-                    });
+                    addQuickItem(undefined, undefined, undefined, id);
 
                     // Save
                     let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
