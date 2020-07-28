@@ -48,11 +48,28 @@ requireDatabase().then(() => {
             loadInfo();
         }
     });
+
+    doc.find("head").appendChild(doc.new({
+        type: "script",
+        attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/faction/ttFactionInject.js")}
+    }));
+
+    window.addEventListener("tt-xhr", (event) => {
+        const {page, json, xhr} = event.detail;
+        if (!json) return;
+
+        if (page === "factions") {
+            const params = new URLSearchParams(xhr.requestBody);
+            const step = params.get("step");
+
+            if (step === "mainnews" && parseInt(params.get("type")) === 4 && settings.pages.faction.armory) {
+                newstabLoaded("armory").then(shortenArmoryNews);
+            }
+        }
+    });
 });
 
 function loadMain() {
-    if(settings.pages.faction.armory) armoryLog();
-
     subpageLoaded("main").then(function(){
         fullInfoBox("main");
     });
@@ -135,114 +152,94 @@ function ocTimes(oc, format){
     }
 }
 
-function armoryLog(){
-    subpageLoaded("main").then(function(){
-        newstabLoaded("armory").then(function(){
-            shortenNews();
+function shortenArmoryNews(){
+    let all_news = doc.findAll("#tab4-4 .news-list>li");
+    let db = {}
 
-            document.addEventListener("click", function(event){
-                if(event.target.classList.contains("page-number") || 
-                event.target.classList.contains("page-nb") || 
-                event.target.classList.contains("pagination-left") || 
-                event.target.classList.contains("pagination-right")){
-                    setTimeout(function(){
-                        newstabLoaded("armory").then(function(){
-                            shortenNews();
-                        });
-                    }, 400)
-                }
-            })
+    for(let news of all_news){
+        let info = news.find(".info").innerText;
 
-            function shortenNews(){
-                let all_news = doc.findAll("#tab4-4 .news-list>li");
-                let db = {}
-                for(let news of all_news){
-                    let info = news.find(".info").innerText;
+        if(info in db){
+            db[info].count++;
+            db[info].first_date = news.find(".date").innerText;
+        } else {
+            db[info] = {
+                count: 1,
+                username: news.find(".info a").innerText,
+                link: news.find(".info a").getAttribute("href"),
+                last_date: news.find(".date").innerText
+            };
+        }
+    }
 
-                    if(info in db){
-                        db[info].count++;
-                        db[info].first_date = news.find(".date").innerText;
-                    } else {
-                        db[info] = {
-                            count: 1,
-                            username: news.find(".info a").innerText,
-                            link: news.find(".info a").getAttribute("href"),
-                            last_date: news.find(".date").innerText
-                        };
-                    }
-                }
-                
-                doc.find("#tab4-4 .news-list").innerHTML = "";
-                console.log("db", db)
+    doc.find("#tab4-4 .news-list").innerHTML = "";
+    console.log("db", db)
 
-                for(let key in db){
-                    let li = doc.new("li");
-                    let date = doc.new("span");
-                        date.setClass("date");
-                    let info = doc.new("span");
-                        info.setClass("info");
-                        let a = doc.new("a");
-                            a.href = db[key].link;
-                            a.innerText = db[key].username;
-                            info.appendChild(a);
+    for(let key in db){
+        let li = doc.new("li");
+        let date = doc.new("span");
+        date.setClass("date");
+        let info = doc.new("span");
+        info.setClass("info");
+        let a = doc.new("a");
+        a.href = db[key].link;
+        a.innerText = db[key].username;
+        info.appendChild(a);
 
-                    if(db[key].first_date){
-                        let upper_time = db[key].first_date.slice(0, db[key].first_date.length-(db[key].first_date.indexOf("\n")+4));
-                        let upper_date = db[key].first_date.slice(db[key].first_date.indexOf("\n"), db[key].first_date.length-3);
-                        let lower_time = db[key].last_date.slice(0, db[key].last_date.length-(db[key].last_date.indexOf("\n")+4));
-                        let lower_date = db[key].last_date.slice(db[key].last_date.indexOf("\n"), db[key].last_date.length-3);
+        if(db[key].first_date){
+            let upper_time = db[key].first_date.slice(0, db[key].first_date.length-(db[key].first_date.indexOf("\n")+4));
+            let upper_date = db[key].first_date.slice(db[key].first_date.indexOf("\n"), db[key].first_date.length-3);
+            let lower_time = db[key].last_date.slice(0, db[key].last_date.length-(db[key].last_date.indexOf("\n")+4));
+            let lower_date = db[key].last_date.slice(db[key].last_date.indexOf("\n"), db[key].last_date.length-3);
 
-                        let upper_date_span = doc.new("span");
-                            upper_date_span.setClass("left-date");
-                            upper_date_span.innerText = `${upper_time}${upper_date}`;
-                        let separator = doc.new("span");
-                            separator.setClass("separator");
-                            separator.innerText = "-";
-                        let lower_date_span = doc.new("span");
-                            lower_date_span.setClass("right-date");
-                            lower_date_span.innerText = `${lower_time}${lower_date}`;
+            let upper_date_span = doc.new("span");
+            upper_date_span.setClass("left-date");
+            upper_date_span.innerText = `${upper_time}${upper_date}`;
+            let separator = doc.new("span");
+            separator.setClass("separator");
+            separator.innerText = "-";
+            let lower_date_span = doc.new("span");
+            lower_date_span.setClass("right-date");
+            lower_date_span.innerText = `${lower_time}${lower_date}`;
 
-                        date.appendChild(upper_date_span);
-                        date.appendChild(separator);
-                        date.appendChild(lower_date_span);
-                    } else {
-                        date.innerText = db[key].last_date;
-                    }
+            date.appendChild(upper_date_span);
+            date.appendChild(separator);
+            date.appendChild(lower_date_span);
+        } else {
+            date.innerText = db[key].last_date;
+        }
 
-                    let inner_span = doc.new("span");
+        let inner_span = doc.new("span");
 
-                    if(key.indexOf("used one") > -1 || key.indexOf("filled one") > -1){
-                        let used = key.indexOf("used one") > -1;
+        if(key.indexOf("used one") > -1 || key.indexOf("filled one") > -1){
+            let used = key.indexOf("used one") > -1;
 
-                        let left_side = doc.new("span");
-                            left_side.innerText = used ? " used " : " filled ";
-                        let amount = doc.new("span");
-                            amount.innerText = db[key].count + "x ";
-                            amount.style.fontWeight = "600";
-                        let right_side = doc.new("span");
-                            right_side.innerText = used ? key.split(" used one ")[1] : key.split(" filled one ")[1];
+            let left_side = doc.new("span");
+            left_side.innerText = used ? " used " : " filled ";
+            let amount = doc.new("span");
+            amount.innerText = db[key].count + "x ";
+            amount.style.fontWeight = "600";
+            let right_side = doc.new("span");
+            right_side.innerText = used ? key.split(" used one ")[1] : key.split(" filled one ")[1];
 
-                        inner_span.appendChild(left_side);
-                        inner_span.appendChild(amount);
-                        inner_span.appendChild(right_side);
-                    } else if(key.indexOf("lent one") > -1){
-                        inner_span.innerText = " lent one"+key.split(" lent one")[1];
-                    } else if(key.indexOf("retrieved one") > -1){
-                        inner_span.innerText = " retrieved one"+key.split(" retrieved one")[1];
-                    } else if(key.indexOf("returned one") > -1){
-                        inner_span.innerText = " returned one"+key.split(" returned one")[1];
-                    } else {
-                        inner_span.innerText = key;
-                    }
+            inner_span.appendChild(left_side);
+            inner_span.appendChild(amount);
+            inner_span.appendChild(right_side);
+        } else if(key.indexOf("lent one") > -1){
+            inner_span.innerText = " lent one"+key.split(" lent one")[1];
+        } else if(key.indexOf("retrieved one") > -1){
+            inner_span.innerText = " retrieved one"+key.split(" retrieved one")[1];
+        } else if(key.indexOf("returned one") > -1){
+            inner_span.innerText = " returned one"+key.split(" returned one")[1];
+        } else {
+            inner_span.innerText = key;
+        }
 
-                    info.appendChild(inner_span);
-                    li.appendChild(date);
-                    li.appendChild(info);
-                    doc.find("#tab4-4 .news-list").appendChild(li);
-                }
-            }
-        });
-    });
+        info.appendChild(inner_span);
+        li.appendChild(date);
+        li.appendChild(info);
+        doc.find("#tab4-4 .news-list").appendChild(li);
+    }
 }
 
 function subpage(){
@@ -286,7 +283,7 @@ function newstabLoaded(tab){
                 resolve(true);
                 return clearInterval(checker);
             }
-        }, 100);
+        }, 25);
     });
 }
 
