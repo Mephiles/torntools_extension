@@ -366,13 +366,13 @@ function setupPreferences() {
         let table_body = preferences.find("#chat_highlight .body");
         table_body.insertBefore(row, table_body.find(".row.input"));
     }
-    const chatSection = preferences.find(".section.chat");
+    const globalSection = preferences.find(".section[name='global']");
     for (let placeholder in HIGHLIGHT_PLACEHOLDERS) {
-        chatSection.append(doc.new({
+        globalSection.insertBefore(doc.new({
             type: "div",
             class: "tabbed note",
             text: `${placeholder} - ${HIGHLIGHT_PLACEHOLDERS[placeholder].description}`
-        }));
+        }), globalSection.find("#chat_highlight+.note").nextElementSibling);
     }
 
     // Loot alerts
@@ -510,6 +510,17 @@ function setupPreferences() {
         });
         message("Settings imported (refresh to see).", true);
     });
+    
+    // changing subsite
+    for(let link of preferences.findAll(".navigation>div:not(.heading)")){
+        link.onclick = function () {
+            let name = link.getAttribute("name");
+            preferences.find(`.inner-content .section.active`).classList.remove("active");
+            preferences.find(`.navigation .active`).classList.remove("active");
+            preferences.find(`.inner-content .section[name='${name}']`).classList.add("active");
+            link.classList.add("active");
+        }
+    }
 }
 
 function savePreferences(preferences, settings, target_list_enabled) {
