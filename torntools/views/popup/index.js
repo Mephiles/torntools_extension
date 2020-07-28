@@ -25,7 +25,9 @@ requireDatabase(false)
         for (let tab of doc.findAll("body>.header .page-tab")) {
             let name = tab.id.split("-")[0];
             tab.onclick = function () {
-                loadPage(name);
+                if(doc.find(`body>.header .page-tab.active-tab`).id.split("-")[0] !== name){
+                    loadPage(name);
+                }
             }
 
             if (settings.tabs[name] === false) tab.style.display = "none";
