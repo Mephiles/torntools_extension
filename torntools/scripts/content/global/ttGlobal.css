@@ -34,6 +34,12 @@
 .tt-title.all-rounded {
     border-radius: 5px !important;
 }
+.tt-title.top-rounded {
+    border-radius: 5px 5px 0 0 !important;
+}
+.tt-content.bottom-rounded {
+    border-radius: 0 0 5px 5px !important;
+}
 .tt-title .tt-options>* {
     margin-left: 4px;
     margin-right: 4px;

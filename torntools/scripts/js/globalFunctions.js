@@ -786,7 +786,7 @@ const content = {
             if (attr.id) div.id = attr.id;
             if (attr["_class"]) div.setClass(attr["_class"]);
 
-            let containerClasses = `top-round m-top10 tt-title ${THEME_CLASSES[settings.theme].title}`;
+            let containerClasses = `top-rounded m-top10 tt-title ${THEME_CLASSES[settings.theme].title}`;
             if (attr.all_rounded) containerClasses += " all-rounded";
             if (attr.header_only) containerClasses += " no-content";
             if (collapsed === true || collapsed === undefined) {
@@ -802,7 +802,7 @@ const content = {
                     <div class="tt-options"></div>
                     <i class="tt-title-icon fas fa-caret-down"></i>
                 </div>
-                <div class="cont-gray bottom-round content tt-content ${attr.dragzone ? 'tt-dragzone' : ''}"></div>
+                <div class="cont-gray bottom-rounded content tt-content ${attr.dragzone ? 'tt-dragzone' : ''}"></div>
             `;
 
             if (attr.dragzone) {
