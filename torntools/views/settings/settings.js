@@ -877,8 +877,9 @@ function resetApiKey() {
     let new_api_key = doc.find("#api_field").value;
 
     ttStorage.set({"api_key": new_api_key}, function () {
-        message("API key changed.", true);
-        doc.find("#api_field").value = "";
+        chrome.runtime.sendMessage({action: "fetch", type: "torndata"}, function (response) {
+            message("API key changed.", true);
+        });
     });
 }
 

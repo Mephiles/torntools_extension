@@ -859,11 +859,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 			sendResponse({success: true, message: "Import successful."});
 			break;
 		case "fetch":
-			if(request.type == "torndata"){
+			if(request.type === "torndata"){
 				console.log("Setting up torndata.");
-				updateTorndata().then(response => {
-					sendResponse(response);
-				});
+				updateTorndata().then(sendResponse);
 			}
 			break;
 		default:
