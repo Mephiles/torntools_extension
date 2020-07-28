@@ -496,7 +496,7 @@ function Main_15_seconds(){
 		// Torndata
 		if(!old_torndata || !old_torndata.date || new Date() - new Date(old_torndata.date) >= 24*60*60*1000){
 			console.log("Setting up torndata.")
-			await updateTorndata();
+			await updateTorndata(old_torndata);
 		}
 	});
 	
@@ -784,12 +784,17 @@ async function updateExtensions() {
 	}));
 }
 
-async function updateTorndata() {
+async function updateTorndata(oldTorndata) {
 	console.log("Updating torndata");
+	if (!oldTorndata) {
+		return new Promise((resolve) => {
+			ttStorage.get("torndata", (oldTorndata) => updateTorndata(oldTorndata || {}).then(resolve));
+		});
+	}
 
 	return new Promise((resolve) => {
 		fetchApi("https://api.torn.com/torn/?selections=honors,medals,items,pawnshop", api_key).then((torndata) => {
-			if (!torndata.ok) return resolve(false);
+			if (!torndata.ok) return resolve({success: false, message: torndata.error});
 
 			torndata = torndata.result;
 			let itemlist = {items: {...torndata.items}, date: (new Date).toString()};
@@ -797,12 +802,12 @@ async function updateTorndata() {
 
 			torndata.date = (new Date()).toString();
 
-			torndata.stocks = old_torndata.stocks;
+			torndata.stocks = oldTorndata.stocks;
 
 			ttStorage.set({"torndata": torndata, "itemlist": itemlist}, function(){
 				console.log("	Torndata info updated.");
 				console.log("	Itemlist info updated.");
-				return resolve(true);
+				return resolve({success: true, message: "Torndata fetched"});
 			});
 		});
 	});
@@ -856,7 +861,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 		case "fetch":
 			if(request.type == "torndata"){
 				console.log("Setting up torndata.");
-				fetchTorndata().then(response => {
+				updateTorndata().then(response => {
 					sendResponse(response);
 				});
 			}
@@ -1194,31 +1199,6 @@ function importData(){
 				let export_result = await exportData("all");
 				console.log("Export result:", export_result.success? 'success' : export_result.message);
 			}
-		});
-	});
-}
-
-function fetchTorndata(){
-	return new Promise(function(resolve, reject){
-		ttStorage.get("torndata", function(old_torndata){
-			fetchApi("https://api.torn.com/torn/?selections=honors,medals,items,pawnshop", api_key).then((torndata) => {
-				if(!torndata.ok) return resolve({success: false, message: torndata.error});
-		
-				torndata = torndata.result;
-				let itemlist = {items: {...torndata.items}, date: (new Date).toString()};
-				delete torndata.items;
-
-				let new_date = (new Date()).toString();
-				torndata.date = new_date;
-		
-				torndata.stocks = old_torndata.stocks;
-				
-				ttStorage.set({"torndata": torndata, "itemlist": itemlist}, function(){
-					console.log("	Torndata info updated.");
-					console.log("	Itemlist info updated.");
-					return resolve({success: true, message: "Torndata fetched"});
-				});
-			});
 		});
 	});
 }
