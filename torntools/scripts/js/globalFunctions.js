@@ -788,7 +788,7 @@ const content = {
 
             let containerClasses = `m-top10 tt-title ${THEME_CLASSES[settings.theme].title}`;
             if (attr.all_rounded) containerClasses += " all-rounded";
-            else containerClasses += "top-rounded"
+            else containerClasses += " top-rounded"
             if (attr.header_only) containerClasses += " no-content";
             if (collapsed === true || collapsed === undefined) {
                 containerClasses += " collapsed";
