@@ -2,6 +2,25 @@ let ownFaction = false;
 let member_info_added = false;
 
 requireDatabase().then(() => {
+    doc.find("head").appendChild(doc.new({
+        type: "script",
+        attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/faction/ttFactionInject.js")}
+    }));
+
+    window.addEventListener("tt-xhr", (event) => {
+        const {page, json, xhr} = event.detail;
+        if (!json) return;
+
+        if (page === "factions") {
+            const params = new URLSearchParams(xhr.requestBody);
+            const step = params.get("step");
+
+            if (step === "mainnews" && parseInt(params.get("type")) === 4 && settings.pages.faction.armory) {
+                newstabLoaded("armory").then(shortenArmoryNews);
+            }
+        }
+    });
+
     requireContent().then(() => {
         console.log("TT - Faction");
 
@@ -46,25 +65,6 @@ requireDatabase().then(() => {
             ownFaction = false;
 
             loadInfo();
-        }
-    });
-
-    doc.find("head").appendChild(doc.new({
-        type: "script",
-        attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/faction/ttFactionInject.js")}
-    }));
-
-    window.addEventListener("tt-xhr", (event) => {
-        const {page, json, xhr} = event.detail;
-        if (!json) return;
-
-        if (page === "factions") {
-            const params = new URLSearchParams(xhr.requestBody);
-            const step = params.get("step");
-
-            if (step === "mainnews" && parseInt(params.get("type")) === 4 && settings.pages.faction.armory) {
-                newstabLoaded("armory").then(shortenArmoryNews);
-            }
         }
     });
 });
