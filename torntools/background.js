@@ -890,17 +890,14 @@ chrome.notifications.onClicked.addListener(function(notification_id){
 	chrome.tabs.create({url: notificationLinkRelations[notification_id]});
 });
 
-chrome.storage.local.onChanged.addListener(async (result) => {
-	if (result.api_key) {
-		if (result.api_key.newValue) {
-			console.group("New API key");
+chrome.storage.onChanged.addListener( (changes, area) => {
+	if (area !== "local") return;
 
-			await updateTorndata();
-
-			console.groupEnd();
-		}
+	if (changes.api_key) {
+		console.log("New API Key", api_key, changes.api_key.newValue);
+		api_key = changes.api_key.newValue;
 	}
-})
+});
 
 async function checkStockAlerts(){
 	console.group("Checking stock prices");
