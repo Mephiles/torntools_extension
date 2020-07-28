@@ -40,9 +40,9 @@ let setup_storage = new Promise(function(resolve, reject){
 			console.log("Converting old storage.");
 			console.log("	Old storage", old_storage);
 			let new_storage = convertStorage(old_storage, STORAGE);
-	
+
 			console.log("	New storage", new_storage);
-			
+
 			ttStorage.clear(function(){
 				ttStorage.set(new_storage, function(){
 					console.log("	Storage updated.");
@@ -50,10 +50,10 @@ let setup_storage = new Promise(function(resolve, reject){
 				});
 			});
 		}
-	
+
 		function convertStorage(old_storage, STORAGE){
 			let new_local_storage = {};
-	
+
 			for(let key in STORAGE){
 				// Key not in old storage
 				if(!(key in old_storage)){
@@ -65,8 +65,8 @@ let setup_storage = new Promise(function(resolve, reject){
 				if(typeof STORAGE[key] != "undefined" && typeof STORAGE[key] != typeof old_storage[key]){
 					new_local_storage[key] = STORAGE[key];
 					continue;
-				} 
-				
+				}
+
 				if(typeof STORAGE[key] == "object" && !Array.isArray(STORAGE[key])){
 					if(Object.keys(STORAGE[key]).length == 0 || key === "chat_highlight")
 						new_local_storage[key] = old_storage[key];
@@ -82,9 +82,9 @@ let setup_storage = new Promise(function(resolve, reject){
 					else
 						new_local_storage[key] = old_storage[key];
 				}
-				
+
 			}
-	
+
 			return new_local_storage;
 		}
 	});
@@ -94,7 +94,7 @@ setup_storage.then(async function(success){
 	if(!success){
 		return;
 	}
-	
+
 	// Check for personalized scripts
 	console.log("Setting up personalized scripts.");
 	if(Object.keys(personalized).length != 0){
@@ -103,15 +103,15 @@ setup_storage.then(async function(success){
 				ttStorage.get("userdata", function(userdata){
 					if(!userdata)
 						return resolve(userdata);
-	
+
 					let personalized_scripts = {}
-				
+
 					if(personalized.master == userdata.player_id){
 						for(let type in personalized){
 							if(type == "master"){
 								continue;
 							}
-				
+
 							for(let id in personalized[type]){
 								for(let script of personalized[type][id]){
 									personalized_scripts[script] = true;
@@ -123,7 +123,7 @@ setup_storage.then(async function(success){
 							personalized_scripts[script] = true;
 						}
 					}
-				
+
 					ttStorage.set({"personalized": personalized_scripts}, function(){
 						console.log("	Personalized scripts set.");
 						return resolve(true);
@@ -163,7 +163,7 @@ setup_storage.then(async function(success){
         filters = db.filters;
         cache = db.cache;
         watchlist = db.watchlist;
-		
+
 		if(api_key){
 			initiateTasks();
 		}
@@ -209,7 +209,7 @@ function Main_5_seconds(){
 			}
 		}
 	}
-	
+
 	console.groupEnd("Notifications");
 }
 
@@ -241,7 +241,7 @@ function Main_15_seconds(){
 				ttStorage.get(["settings", "userdata"], function([settings, previous_userdata]){
 					fetchApi(`https://api.torn.com/user/?selections=${selections}`, api_key).then(async (userdata) => {
 						if(!userdata.ok) return resolve(false);
-			
+
 						userdata = userdata.result;
 
 						// Target list
@@ -249,7 +249,7 @@ function Main_15_seconds(){
 							let attacks_data = {...userdata.attacks}
 							updateTargetList(attacks_data, userdata.player_id, target_list, (attack_history == "attacksfull" ? true : false));
 						}
-	
+
 						// Check for new messages
 						let message_count = 0;
 						for(let message_key of Object.keys(userdata.messages).reverse()){
@@ -270,12 +270,12 @@ function Main_15_seconds(){
 								break;
 							}
 						}
-						
+
 						// Check for new events
 						let event_count = 0;
 						for(let event_key of Object.keys(userdata.events).reverse()){
 							let event = userdata.events[event_key];
-	
+
 							if(event.seen == 0){
 								if(settings.notifications.global && settings.notifications.events && !notifications.events[event_key]){
 									notifications.events[event_key] = {
@@ -302,12 +302,12 @@ function Main_15_seconds(){
 						} else if(!isNaN(await getBadgeText())){
 							setBadge("");
 						}
-						
+
 						// Check for Status change
 						if(settings.notifications.global && previous_userdata.status && settings.notifications.status){
 							let current_status = userdata.status.state;
 							let previous_status = previous_userdata.status.state;
-							
+
 							if(!(current_status == previous_status || current_status == "Traveling" || current_status == "Abroad")){
 								if(current_status == "Okay"){
 									if(previous_status == "Hospital"){
@@ -318,7 +318,7 @@ function Main_15_seconds(){
 								} else {
 									notifyUser("TornTools - Status", userdata.status.description, links.home);
 								}
-							} 
+							}
 						}
 
 						// Check for cooldowns
@@ -499,7 +499,7 @@ function Main_15_seconds(){
 			await updateTorndata(old_torndata);
 		}
 	});
-	
+
 	console.groupEnd("Main (userdata | torndata | stakeouts)");
 }
 
@@ -539,7 +539,7 @@ async function Main_1_minute(){
 		await new Promise(function(resolve, reject){
 			fetchApi("https://api.torn.com/user/?selections=personalstats,networth", api_key).then((data) => {
 				if(!data.ok) return resolve(data.error);
-				
+
 				data = data.result;
 
 				let ps = data.personalstats;
@@ -548,7 +548,7 @@ async function Main_1_minute(){
 					current: {
 						date: new Date().toString(),
 						value: new_networth
-					}, 
+					},
 					previous: {
 						value: {
 							"pending": ps.networthpending,
@@ -596,17 +596,17 @@ function Main_15_minutes(){
 			console.log("NO API KEY");
 			return;
 		}
-	
+
 		console.log("Setting up stocks");
 		await new Promise(function(resolve, reject){
 			fetchApi("https://api.torn.com/torn/?selections=stocks", api_key).then((stocks) => {
 				if(!stocks.ok) return resolve(false);
-		
+
 				stocks = {...stocks.result.stocks};
 
 				let new_date = (new Date()).toString();
 				stocks.date = new_date;
-		
+
 				ttStorage.change({"torndata": {"stocks": stocks}}, function(){
 					console.log("Stocks info updated.");
 					checkStockAlerts();
@@ -639,7 +639,7 @@ function Main_15_minutes(){
 
 		// Doctorn
 		updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
-	
+
 		console.groupEnd("Main (stocks | OC info | installed extensions)");
 	});
 }
@@ -785,12 +785,12 @@ async function updateExtensions() {
 }
 
 async function updateTorndata(oldTorndata) {
-	console.log("Updating torndata");
 	if (!oldTorndata) {
 		return new Promise((resolve) => {
 			ttStorage.get("torndata", (oldTorndata) => updateTorndata(oldTorndata || {}).then(resolve));
 		});
 	}
+	console.log("Updating torndata");
 
 	return new Promise((resolve) => {
 		fetchApi("https://api.torn.com/torn/?selections=honors,medals,items,pawnshop", api_key).then((torndata) => {
@@ -890,7 +890,17 @@ chrome.notifications.onClicked.addListener(function(notification_id){
 	chrome.tabs.create({url: notificationLinkRelations[notification_id]});
 });
 
+chrome.storage.local.onChanged.addListener(async (result) => {
+	if (result.api_key) {
+		if (result.api_key.newValue) {
+			console.group("New API key");
 
+			await updateTorndata();
+
+			console.groupEnd();
+		}
+	}
+})
 
 async function checkStockAlerts(){
 	console.group("Checking stock prices");
@@ -905,7 +915,7 @@ async function checkStockAlerts(){
 					notified = true;
 
 					notifyUser(
-						"TornTools - Stock alerts", 
+						"TornTools - Stock alerts",
 						`(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has reached $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].reach})`,
 						links.stocks
 					);
@@ -918,7 +928,7 @@ async function checkStockAlerts(){
 				} else if(parseFloat(torndata.stocks[stock_id].current_price) <= parseFloat(stock_alerts[stock_id].fall)){
 					console.log("	Notifiying of reaching price point.");
 					notified = true;
-					
+
 					notifyUser(
 						"TornTools - Stock alerts",
 						`(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has fallen to $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].fall})`,
@@ -939,7 +949,7 @@ async function checkStockAlerts(){
 			return resolve(true);
 		});
 	});
-		
+
 	console.groupEnd("Checking stock prices");
 }
 
@@ -1010,7 +1020,7 @@ async function clearCache(){
 			return resolve(true);
 		});
 	});
-	
+
 	console.groupEnd("Clearing cache");
 }
 
@@ -1062,20 +1072,20 @@ function clearAPIhistory(){
 	return new Promise(function(resolve, reject){
 		ttStorage.get("api_history", function(api_history){
 			let time_limit = 10*60*60*1000;
-	
+
 			for(let type in api_history){
 				let data = [...api_history[type]].reverse();
-	
+
 				for(let fetch of data){
 					if(new Date() - new Date(fetch.date) > time_limit){
 						data.splice(data.indexOf(fetch), 1);
 					}
 				}
-	
+
 				data.reverse();
 				api_history[type] = data;
 			}
-	
+
 			ttStorage.set({"api_history": api_history}, function(){
 				console.log("	API history cleared");
 				return resolve(true);
@@ -1089,7 +1099,7 @@ function exportData(type){
 		console.log("Exporting DATA:", type);
 		ttStorage.get(null, async function(database){
 			let post_data;
-		
+
 			switch(type){
 				case "basic":
 					post_data = {
@@ -1156,11 +1166,11 @@ function exportData(type){
 				default:
 					break;
 			}
-		
+
 			console.log("data", post_data);
 			fetch(`https://torntools.gregork.com/api/settings/export`, {
-				method: "POST", 
-				headers: {"content-type": "application/json"}, 
+				method: "POST",
+				headers: {"content-type": "application/json"},
 				body: JSON.stringify(post_data)
 			}).then(response => {
 				console.log("RESPONSE", response);
@@ -1177,10 +1187,10 @@ function importData(){
 		.then(async function(response){
 			let result = await response.json();
 			console.log("result", result);
-	
+
 			if(!result.success) return resolve(result);
 			result = result.data;
-	
+
 			// Set storage
 			for(let key in result.storage){
 				await new Promise(function(resolve, reject){
@@ -1192,7 +1202,7 @@ function importData(){
 			}
 
 			resolve(result);
-	
+
 			// Export if versions don't match
 			if(result.client.version != chrome.runtime.getManifest().version){
 				console.log("Versions don't match. Exporting data.");
