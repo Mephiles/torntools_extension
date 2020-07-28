@@ -468,13 +468,11 @@ function getAction(obj) {
 function onDragStart(event) {
     setTimeout(function(){
         doc.find("#ttQuick .content").classList.add("drag-progress");
-        if(doc.find("#ttQuick .temp.item")){
-            return;
-        }
+        if (doc.find("#ttQuick .temp.item")) return;
     
         let id = event.target.parentElement.getAttribute("data-item");
 
-        addQuickItem(undefined, undefined, undefined, id);
+        addQuickItem(undefined, undefined, undefined, id, true);
         enableInjectListener();
     }, 10);
 }
@@ -490,26 +488,26 @@ function onDragEnd(){
     ttStorage.change({"quick": {"items": items}});
 }
 
-function addQuickItem(container, innerContent, responseWrap, id) {
+function addQuickItem(container, innerContent, responseWrap, id, temporary = false) {
     if (!container) container = doc.find("#ttQuick");
     if (!innerContent) innerContent = doc.find("#ttQuick .inner-content");
     if (!responseWrap)  responseWrap = doc.find("#ttQuick .response-wrap")
 
     let amount = findItemsInList(userdata.inventory, {ID: id})[0].quantity;
 
-    let div = doc.new({type: "div", class: "item", attributes: {"item-id": id}});
+    let div = doc.new({type: "div", class: temporary ? "temp item" : "item", attributes: {"item-id": id}});
     let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(/images/items/${id}/medium.png)`}});
     let text = doc.new({type: "div", class: "text", text: itemlist.items[id].name});
     let quantity = doc.new({type: "div", class: "sub-text tt-quickitems-quantity", attributes: {quantity: amount}, text: amount+"x"});
-    let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
+    let closeIcon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
 
     div.appendChild(pic);
     div.appendChild(text);
     div.appendChild(quantity);
-    div.appendChild(close_icon);
+    div.appendChild(closeIcon);
     innerContent.appendChild(div);
 
-    close_icon.addEventListener("click", function(event){
+    closeIcon.addEventListener("click", function(event){
         event.stopPropagation();
         div.remove();
 
