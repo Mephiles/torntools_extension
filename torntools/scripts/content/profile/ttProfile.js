@@ -339,7 +339,7 @@ function profileLoaded() {
     let promise = new Promise(function (resolve, reject) {
         let counter = 0;
         let checker = setInterval(function () {
-            if (document.querySelector(".basic-information ul.basic-list li")) {
+            if (document.querySelector(".basic-information ul.info-table li")) {
                 resolve(true);
                 return clearInterval(checker);
             } else if (counter > 10000) {
@@ -356,7 +356,7 @@ function profileLoaded() {
 }
 
 function displayAlly(user_faction, allies) {
-    let profile_faction = doc.find(".basic-information ul.basic-list li:nth-of-type(3) div:nth-of-type(2)").innerText;
+    let profile_faction = doc.find(".basic-information ul.info-table li:nth-of-type(3) div:nth-of-type(2)").innerText;
 
     if (user_faction == profile_faction) {
         showWarning('user');
@@ -725,7 +725,7 @@ function showSpyInfo(){
 }
 
 function getUserId() {
-    return doc.find(".basic-information ul.basic-list li:nth-of-type(1) div:nth-of-type(2)").innerText.split("[")[1].replace("]", "");
+    return doc.find(".basic-information ul.info-table li:nth-of-type(1) div:nth-of-type(2)").innerText.split("[")[1].replace("]", "");
 }
 
 function getRespect(target_list, id) {
@@ -783,13 +783,13 @@ function getAverage(arr) {
 }
 
 function showId(){
-    let text = doc.find(`.profile-container .basic-list>li .user-info-value`).innerText;
+    let text = doc.find(".profile-container .info-table > li .user-info-value").innerText;
     doc.find("#skip-to-content").innerText = text;
 }
 
 function displayLootLevel(loot_times){
     console.log(loot_times)
-    let profile_id = doc.find(`.profile-container .basic-list>li .user-info-value`).innerText.split(" [")[1].replace("]", "");
+    let profile_id = doc.find(`.profile-container .info-table > li .user-info-value`).innerText.split(" [")[1].replace("]", "");
     
     if(profile_id in loot_times){
         let current_time = parseInt(((new Date().getTime())/ 1000).toFixed(0));
@@ -972,7 +972,7 @@ function displayStakeoutOptions(){
 }
 
 function getUsername(){
-    return doc.find(".basic-information ul.basic-list li:nth-of-type(1) div:nth-of-type(2)").innerText.split(" [")[0].trim();
+    return doc.find(".basic-information ul.info-table li:nth-of-type(1) div:nth-of-type(2)").innerText.split(" [")[0].trim();
 }
 
 function getStatus(){
