@@ -625,12 +625,25 @@ function enableInjectListener() {
     injectListener = true;
 }
 
-function updateItemAmount(item, change) {
-    const quickQuantity = doc.find(`#ttQuick .inner-content .item[item-id="${item}"] .tt-quickitems-quantity`);
+function updateItemAmount(id, change) {
+    const quickQuantity = doc.find(`#ttQuick .inner-content .item[item-id="${id}"] .tt-quickitems-quantity`);
     if (quickQuantity) {
         let newQuantity = parseInt(quickQuantity.getAttribute("quantity")) + change;
 
         quickQuantity.innerText = newQuantity + "x";
         quickQuantity.setAttribute("quantity", newQuantity);
+    }
+
+    for (let item of doc.findAll(`.items-cont > li[data-item="${id}"]`)) {
+        const ttItemPrice = item.find(".tt-item-price");
+
+        const ttItemQuantity = ttItemPrice.find(".tt-item-quantity");
+
+        let price = itemlist.items[id].market_value;
+        let newQuantity = parseInt(ttItemQuantity.innerText.match(/([0-9]*)x = /i)[1]) + change;
+
+        ttItemQuantity.innerText = ` ${newQuantity}x = `;
+
+        ttItemPrice.find("span:last-child").innerText = `$${numberWithCommas(price * newQuantity, false)}`;
     }
 }
