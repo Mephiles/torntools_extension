@@ -786,19 +786,20 @@ const content = {
             if (attr.id) div.id = attr.id;
             if (attr["_class"]) div.setClass(attr["_class"]);
 
-            let containerClasses = `m-top10 tt-title ${THEME_CLASSES[settings.theme].title}`;
-            if (attr.all_rounded) containerClasses += " all-rounded";
-            else containerClasses += " top-rounded"
-            if (attr.header_only) containerClasses += " no-content";
-            if (collapsed === true || collapsed === undefined) {
-                containerClasses += " collapsed";
+            let containerClasses = ["m-top10", "tt-title", THEME_CLASSES[settings.theme].title];
+            if (attr.header_only) containerClasses.push("no-content");
+            if (attr.all_rounded) containerClasses.push("all-rounded");
 
-                if (attr.all_rounded !== false && !attr.header_only) containerClasses += " all-rounded";
+            if (collapsed === true || collapsed === undefined) {
+                containerClasses.push("collapsed");
+
+                if (attr.all_rounded !== false && !attr.header_only) containerClasses.push("all-rounded");
+            } else {
+                containerClasses.push("top-rounded");
             }
 
-
             div.innerHTML = `
-                <div class="${containerClasses}">
+                <div class="${containerClasses.join(" ")}">
                     <div class="title-text">${name}</div>
                     <div class="tt-options"></div>
                     <i class="tt-title-icon fas fa-caret-down"></i>
@@ -824,8 +825,13 @@ const content = {
                     let collapsed = title.classList.contains("collapsed");
 
                     if (attr.all_rounded !== false) {
-                        if (collapsed) title.classList.add("all-rounded");
-                        else title.classList.remove("all-rounded");
+                        if (collapsed) {
+                            title.classList.add("all-rounded");
+                            title.classList.remove("top-rounded");
+                        } else {
+                            title.classList.remove("all-rounded");
+                            title.classList.add("top-rounded");
+                        }
                     }
 
                     ttStorage.change({"filters": {"container_open": {[getCurrentPage()]: collapsed}}})
