@@ -27,7 +27,8 @@ export default {
             "Fix Quick Items item dragging - DKK",
             "Adjust Profile script to Torn's layout changes - DKK",
             "Fix Badge issues - DKK",
-            "Fix Faction armory news - DKK"
+            "Fix Faction armory news - DKK",
+            "Fix Gym stats updating not showing all improved stats - Mephiles"
         ],
         "Changes": [
             "Add a loading icon for networth on the Home page - Mephiles",
