@@ -356,15 +356,15 @@ function profileLoaded() {
 }
 
 function displayAlly(user_faction, allies) {
-    let profile_faction = doc.find(".basic-information ul.info-table li:nth-of-type(3) div:nth-of-type(2)").innerText;
+    let profile_faction = doc.find(".basic-information ul.info-table li:nth-of-type(3) div:nth-of-type(2) a").innerText;
 
-    if (user_faction == profile_faction) {
+    if (user_faction === profile_faction) {
         showWarning('user');
         return;
     }
 
     for (let ally of allies) {
-        if (ally.trim() == profile_faction) {
+        if (ally.trim() === profile_faction) {
             showWarning('ally');
             return;
         }
