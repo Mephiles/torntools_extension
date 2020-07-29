@@ -226,16 +226,10 @@ requireDatabase().then(function(){
 
             button.addEventListener("click", async function(){
                 button.remove();
-                await displayProfileStats();
-                section_profile_stats.appendChild(doc.new({type: "hr"}));
-                // Show Spy info
-                showSpyInfo();
+                await fetchStats();
             });
         } else {
-            await displayProfileStats();
-            section_profile_stats.appendChild(doc.new({type: "hr"}));
-            // Show Spy info
-            showSpyInfo();
+            await fetchStats();
         }
 
 
@@ -314,6 +308,13 @@ requireDatabase().then(function(){
                     }
                 }
             }
+        }
+
+        async function fetchStats() {
+            await displayProfileStats();
+            section_profile_stats.appendChild(doc.new({type: "hr"}));
+            // Show Spy info
+            showSpyInfo();
         }
     });
 });
