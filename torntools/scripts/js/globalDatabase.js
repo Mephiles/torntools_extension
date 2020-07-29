@@ -33,14 +33,6 @@ function requireDatabase(requireEntry = true) {
     });
 }
 
-function DBfailed() {
-    return new Promise((resolve) => {
-        requireDatabase(false)
-            .then(() => resolve(false))
-            .catch(() => resolve(true))
-    });
-}
-
 // Pre-load database
 let userdata, torndata, settings, api_key, chat_highlight, itemlist,
     travel_market, oc, allies, loot_times, target_list, vault, personalized,
