@@ -1,4 +1,4 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
     console.log("Loading Global Script");
 
     // Add TT Black overlay
@@ -7,15 +7,31 @@ DBloaded().then(function(){
 
     showToggleChat();
 
-    navbarLoaded().then(async function(){
-        let _flying = await flying();
+    requireNavbar().then(async function(){
+        let _flying = await isFlying();
 
         // Firefox opens new tab when dropping item
         doc.body.ondrop = function(event){
             event.preventDefault();
             event.stopPropagation();
         }
+
+        // Make Areas collapsible
+        if(!doc.find(".header-arrow___1Ph0g") && !mobile){
+            let areas_i = doc.new({type: "i", class: "tt-title-icon-torn fas fa-caret-down"});
+            let areas_header = doc.find("h2=Areas");
+            areas_header.classList.add("tt-title-torn");
+            areas_header.appendChild(areas_i);
+            if(settings.pages.global.collapse_areas) areas_header.classList.add("collapsed");
     
+            areas_header.addEventListener("click", function(){
+                areas_header.classList.toggle("collapsed");
+                let collapsed = areas_header.classList.contains("collapsed")? true:false;
+        
+                ttStorage.change({"settings": {"pages": {"global": {"collapse_areas": collapsed}}}});
+            });
+        }
+
         // Update notification
         if(updated && settings.update_notification){
             addUpdateNotification();
@@ -132,10 +148,10 @@ function addCustomLinks(){
 
         doc.find("#sidebar .content___kMC8x").insertBefore(areas_custom, doc.find("#sidebar .content___kMC8x .user-information-mobile___EaRKJ"));
     } else {
-        let custom_links_section = navbar.new_section("Custom Links", {next_element_heading: "Areas"});
+        let custom_links_section = navbar.newSection("Custom Links", {next_element_heading: "Areas"});
     
         for(let link of custom_links){
-            new_cell = navbar.new_cell(link.text, {parent_element: custom_links_section, href: link.href, link_target: (link.new_tab ? "_blank" : "")});
+            new_cell = navbar.newCell(link.text, {parent_element: custom_links_section, href: link.href, link_target: (link.new_tab ? "_blank" : "")});
         }
     
         doc.find("#sidebar").insertBefore(custom_links_section, findParent(doc.find("h2=Areas"), {class: "sidebar-block___1Cqc2"}));
@@ -144,7 +160,7 @@ function addCustomLinks(){
 
 function addNotesBox(){
     if(!mobile){
-        let notes_section = navbar.new_section("Notes", {next_element_heading: "Areas"});
+        let notes_section = navbar.newSection("Notes", {next_element_heading: "Areas"});
         let cell = doc.new({type: "div", class: "area-desktop___2YU-q"});
         let inner_div = doc.new({type: "div", class: "area-row___34mEZ"});
         let textbox = doc.new({type: "textarea", class: "tt-nav-textarea", value: notes.text || ""});
@@ -160,13 +176,13 @@ function addNotesBox(){
         doc.find("#sidebar").insertBefore(notes_section, findParent(doc.find("h2=Areas"), {class: "sidebar-block___1Cqc2"}));
     
         textbox.addEventListener("change", function(){
-            local_storage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
+            ttStorage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
         });
         textbox.addEventListener("mouseup", function(){ 
             if(textbox.style.height != notes.height){
                 console.log("resize");
                 console.log(textbox.style.height)
-                local_storage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
+                ttStorage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
             }
         });
     }
@@ -272,16 +288,14 @@ function displayVaultBalance(){
 }
 
 function showToggleChat() {
-    doc.documentElement.style.setProperty(`--torntools-hide-chat`, settings.pages.global.hide_chat ? "none" : "block");
-
     const icon = doc.new({id: "tt-hide_chat", type: "i", class: "fas fa-binoculars"});
 
-    icon.addEventListener("click", (event) => {
+    icon.addEventListener("click", () => {
         settings.pages.global.hide_chat = !settings.pages.global.hide_chat;
 
-        doc.documentElement.style.setProperty(`--torntools-hide-chat`, settings.pages.global.hide_chat ? "none" : "block");
+        document.documentElement.style.setProperty(`--torntools-hide-chat`, settings.pages.global.hide_chat ? "none" : "block");
 
-        local_storage.set({"settings": settings});
+        ttStorage.set({"settings": settings});
     });
 
     doc.find("#body").prepend(icon);

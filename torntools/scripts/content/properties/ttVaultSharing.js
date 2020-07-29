@@ -1,4 +1,4 @@
-DBloaded().then(function(){
+requireDatabase().then(function(){
 	vaultLoaded().then(function(){
         console.log("TT - Properties | Vault Sharing");
 
@@ -14,7 +14,7 @@ DBloaded().then(function(){
             }
             
             vaultLoaded().then(function(){
-                local_storage.get("vault", function(vault){
+                ttStorage.get("vault", function(vault){
                     Main(vault);
                 })
             });
@@ -24,7 +24,7 @@ DBloaded().then(function(){
 
 function Main(vault, need_to_save){
     console.log("VAULT", vault);
-    let vault_container = content.new_container("Vault Sharing", {id: "tt-vault-container", next_element: doc.find(".vault-wrap+hr")}).find(".content");
+    let vault_container = content.newContainer("Vault Sharing", {id: "tt-vault-container", next_element: doc.find(".vault-wrap+hr")}).find(".content");
 
     if(!vault.initialized){
         // Sub Heading
@@ -188,7 +188,7 @@ function Main(vault, need_to_save){
 
         vault.user.current_money = user_value;
         vault.partner.current_money = partner_value;
-        local_storage.set({"vault": {
+        ttStorage.set({"vault": {
             "initialized": true,
             "last_transaction": last_transaction.toString(),
             "total_money": total_money,

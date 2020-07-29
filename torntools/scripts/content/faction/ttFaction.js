@@ -1,11 +1,30 @@
 let ownFaction = false;
 let member_info_added = false;
 
-DBloaded().then(() => {
-    contentLoaded().then(() => {
+requireDatabase().then(() => {
+    doc.find("head").appendChild(doc.new({
+        type: "script",
+        attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/faction/ttFactionInject.js")}
+    }));
+
+    window.addEventListener("tt-xhr", (event) => {
+        const {page, json, xhr} = event.detail;
+        if (!json) return;
+
+        if (page === "factions") {
+            const params = new URLSearchParams(xhr.requestBody);
+            const step = params.get("step");
+
+            if (step === "mainnews" && parseInt(params.get("type")) === 4 && settings.pages.faction.armory) {
+                newstabLoaded("armory").then(shortenArmoryNews);
+            }
+        }
+    });
+
+    requireContent().then(() => {
         console.log("TT - Faction");
 
-        if (getSearchParameters().step === "your") {
+        if (getSearchParameters().get("step") === "your") {
             ownFaction = true;
 
             switch(subpage()){
@@ -51,8 +70,6 @@ DBloaded().then(() => {
 });
 
 function loadMain() {
-    if(settings.pages.faction.armory) armoryLog();
-
     subpageLoaded("main").then(function(){
         fullInfoBox("main");
     });
@@ -67,11 +84,11 @@ function loadInfo() {
         });
     }
 
-    playersLoaded(".member-list").then(function(){
+    requirePlayerList(".members-list .table-body").then(function(){
         if(settings.pages.faction.member_info) showUserInfo();
 
         // Player list filter
-        let list = doc.find(".member-list");
+        let list = doc.find(".members-list .table-body");
         let title = list.previousElementSibling;
 
         addFilterToTable(list, title);
@@ -135,124 +152,106 @@ function ocTimes(oc, format){
     }
 }
 
-function armoryLog(){
-    subpageLoaded("main").then(function(){
-        newstabLoaded("armory").then(function(){
-            shortenNews();
+function shortenArmoryNews(){
+    let all_news = doc.findAll("#tab4-4 .news-list>li");
+    let db = {}
 
-            document.addEventListener("click", function(event){
-                if(event.target.classList.contains("page-number") || 
-                event.target.classList.contains("page-nb") || 
-                event.target.classList.contains("pagination-left") || 
-                event.target.classList.contains("pagination-right")){
-                    setTimeout(function(){
-                        newstabLoaded("armory").then(function(){
-                            shortenNews();
-                        });
-                    }, 400)
-                }
-            })
+    for(let news of all_news){
+        let info = news.find(".info").innerText;
 
-            function shortenNews(){
-                let all_news = doc.findAll("#tab4-4 .news-list>li");
-                let db = {}
-                for(let news of all_news){
-                    let info = news.find(".info").innerText;
+        if(info in db){
+            db[info].count++;
+            db[info].first_date = news.find(".date").innerText;
+        } else {
+            db[info] = {
+                count: 1,
+                username: news.find(".info a").innerText,
+                link: news.find(".info a").getAttribute("href"),
+                last_date: news.find(".date").innerText
+            };
+        }
+    }
 
-                    if(info in db){
-                        db[info].count++;
-                        db[info].first_date = news.find(".date").innerText;
-                    } else {
-                        db[info] = {
-                            count: 1,
-                            username: news.find(".info a").innerText,
-                            link: news.find(".info a").getAttribute("href"),
-                            last_date: news.find(".date").innerText
-                        };
-                    }
-                }
-                
-                doc.find("#tab4-4 .news-list").innerHTML = "";
-                console.log("db", db)
+    doc.find("#tab4-4 .news-list").innerHTML = "";
+    console.log("db", db)
 
-                for(let key in db){
-                    let li = doc.new("li");
-                    let date = doc.new("span");
-                        date.setClass("date");
-                    let info = doc.new("span");
-                        info.setClass("info");
-                        let a = doc.new("a");
-                            a.href = db[key].link;
-                            a.innerText = db[key].username;
-                            info.appendChild(a);
+    for(let key in db){
+        let li = doc.new("li");
+        let date = doc.new("span");
+        date.setClass("date");
+        let info = doc.new("span");
+        info.setClass("info");
+        let a = doc.new("a");
+        a.href = db[key].link;
+        a.innerText = db[key].username;
+        info.appendChild(a);
 
-                    if(db[key].first_date){
-                        let upper_time = db[key].first_date.slice(0, db[key].first_date.length-(db[key].first_date.indexOf("\n")+4));
-                        let upper_date = db[key].first_date.slice(db[key].first_date.indexOf("\n"), db[key].first_date.length-3);
-                        let lower_time = db[key].last_date.slice(0, db[key].last_date.length-(db[key].last_date.indexOf("\n")+4));
-                        let lower_date = db[key].last_date.slice(db[key].last_date.indexOf("\n"), db[key].last_date.length-3);
+        if(db[key].first_date){
+            let upper_time = db[key].first_date.slice(0, db[key].first_date.length-(db[key].first_date.indexOf("\n")+4));
+            let upper_date = db[key].first_date.slice(db[key].first_date.indexOf("\n"), db[key].first_date.length-3);
+            let lower_time = db[key].last_date.slice(0, db[key].last_date.length-(db[key].last_date.indexOf("\n")+4));
+            let lower_date = db[key].last_date.slice(db[key].last_date.indexOf("\n"), db[key].last_date.length-3);
 
-                        let upper_date_span = doc.new("span");
-                            upper_date_span.setClass("left-date");
-                            upper_date_span.innerText = `${upper_time}${upper_date}`;
-                        let separator = doc.new("span");
-                            separator.setClass("separator");
-                            separator.innerText = "-";
-                        let lower_date_span = doc.new("span");
-                            lower_date_span.setClass("right-date");
-                            lower_date_span.innerText = `${lower_time}${lower_date}`;
+            let upper_date_span = doc.new("span");
+            upper_date_span.setClass("left-date");
+            upper_date_span.innerText = `${upper_time}${upper_date}`;
+            let separator = doc.new("span");
+            separator.setClass("separator");
+            separator.innerText = "-";
+            let lower_date_span = doc.new("span");
+            lower_date_span.setClass("right-date");
+            lower_date_span.innerText = `${lower_time}${lower_date}`;
 
-                        date.appendChild(upper_date_span);
-                        date.appendChild(separator);
-                        date.appendChild(lower_date_span);
-                    } else {
-                        date.innerText = db[key].last_date;
-                    }
-
-                    let inner_span = doc.new("span");
-
-                    if(key.indexOf("used one") > -1 || key.indexOf("filled one") > -1){
-                        let used = key.indexOf("used one") > -1;
-
-                        let left_side = doc.new("span");
-                            left_side.innerText = used ? " used " : " filled ";
-                        let amount = doc.new("span");
-                            amount.innerText = db[key].count + "x ";
-                            amount.style.fontWeight = "600";
-                        let right_side = doc.new("span");
-                            right_side.innerText = used ? key.split(" used one ")[1] : key.split(" filled one ")[1];
-
-                        inner_span.appendChild(left_side);
-                        inner_span.appendChild(amount);
-                        inner_span.appendChild(right_side);
-                    } else if(key.indexOf("lent one") > -1){
-                        inner_span.innerText = " lent one"+key.split(" lent one")[1];
-                    } else if(key.indexOf("retrieved one") > -1){
-                        inner_span.innerText = " retrieved one"+key.split(" retrieved one")[1];
-                    } else if(key.indexOf("returned one") > -1){
-                        inner_span.innerText = " returned one"+key.split(" returned one")[1];
-                    } else {
-                        inner_span.innerText = key;
-                    }
-
-                    info.appendChild(inner_span);
-                    li.appendChild(date);
-                    li.appendChild(info);
-                    doc.find("#tab4-4 .news-list").appendChild(li);
-                }
+            if (upper_time !== lower_time || upper_date !== lower_date) {
+                date.appendChild(upper_date_span);
+                date.appendChild(separator);
             }
-        });
-    });
+            date.appendChild(lower_date_span);
+        } else {
+            date.innerText = db[key].last_date;
+        }
+
+        let inner_span = doc.new("span");
+
+        if(key.indexOf("used one") > -1 || key.indexOf("filled one") > -1){
+            let used = key.indexOf("used one") > -1;
+
+            let left_side = doc.new("span");
+            left_side.innerText = used ? " used " : " filled ";
+            let amount = doc.new("span");
+            amount.innerText = db[key].count + "x ";
+            amount.style.fontWeight = "600";
+            let right_side = doc.new("span");
+            right_side.innerText = used ? key.split(" used one ")[1] : key.split(" filled one ")[1];
+
+            inner_span.appendChild(left_side);
+            inner_span.appendChild(amount);
+            inner_span.appendChild(right_side);
+        } else if(key.indexOf("lent one") > -1){
+            inner_span.innerText = " lent one"+key.split(" lent one")[1];
+        } else if(key.indexOf("retrieved one") > -1){
+            inner_span.innerText = " retrieved one"+key.split(" retrieved one")[1];
+        } else if(key.indexOf("returned one") > -1){
+            inner_span.innerText = " returned one"+key.split(" returned one")[1];
+        } else {
+            inner_span.innerText = key;
+        }
+
+        info.appendChild(inner_span);
+        li.appendChild(date);
+        li.appendChild(info);
+        doc.find("#tab4-4 .news-list").appendChild(li);
+    }
 }
 
 function subpage(){
     let hash = window.location.hash.replace("#/", "");
-    if(hash === ""){
+    if(hash === "" || hash === "war/chain"){
         return "main";
     }
 
-    if(getHashParameters().tab){
-        return getHashParameters().tab
+    if(getHashParameters().has("tab")){
+        return getHashParameters().get("tab")
     }
     
     return "";
@@ -286,7 +285,7 @@ function newstabLoaded(tab){
                 resolve(true);
                 return clearInterval(checker);
             }
-        }, 100);
+        }, 25);
     });
 }
 
@@ -378,7 +377,7 @@ function showNNB(){
 
 function fullInfoBox(page){
     let info_box;
-    if(getSearchParameters().step === "profile"){
+    if(getSearchParameters().get("step") === "profile"){
         info_box = doc.find("#factions div[data-title='description']").nextElementSibling;
     } else if(page === "main"){
         info_box = doc.find("div[data-title='announcement']").nextElementSibling;
@@ -421,7 +420,7 @@ function fullInfoBox(page){
     checkbox.onclick = function(){
         info_box.classList.toggle("tt-force-full");
         
-        local_storage.change({"settings": {"pages": {"faction": {[key]: checkbox.checked}}}})
+        ttStorage.change({"settings": {"pages": {"faction": {[key]: checkbox.checked}}}})
     }
 }
 
@@ -459,7 +458,7 @@ function upgradesInfoListener(){
 }
 
 function armoryWorth(){
-    get_api(`https://api.torn.com/faction/?selections=weapons,armor,temporary,medical,drugs,boosters,cesium,currency`, api_key)
+    fetchApi(`https://api.torn.com/faction/?selections=weapons,armor,temporary,medical,drugs,boosters,cesium,currency`, api_key)
     .then(function(result){
         if (!result.ok) {
             if (result.error === 'Incorrect ID-entity relation') {
@@ -499,11 +498,11 @@ function armoryWorth(){
 function showUserInfo(){
     let factionId = doc.find(".faction-info-wrap .faction-info[data-faction]").getAttribute("data-faction");
 
-    get_api(`https://api.torn.com/faction/${factionId}?selections=${ownFaction ? 'donations,' : ''}basic`, api_key)
+    fetchApi(`https://api.torn.com/faction/${factionId}?selections=${ownFaction ? 'donations,' : ''}basic`, api_key)
     .then(function(result) {
         if (!result.ok) {
             if (result.error === 'Incorrect ID-entity relation') {
-                doc.findAll(".member-list.info-members>li").forEach((value) => {
+                doc.findAll(".members-list .table-body>li").forEach((value) => {
                     let li = doc.new({type: "li", class: "tt-user-info"});
                     let inner_wrap = doc.new({type: "div", class: "tt-user-info-inner-wrap"});
 
@@ -519,9 +518,9 @@ function showUserInfo(){
         result = result.result;
         console.log("result", result);
 
-        doc.find(".member-list.info-members").classList.add("tt-modified");
+        doc.find(".members-list .table-body").classList.add("tt-modified");
 
-        for(let user of doc.findAll(".member-list.info-members>li")){
+        for(let user of doc.findAll(".members-list .table-body>li")){
             let user_id = user.find("a.user.name").getAttribute("data-placeholder")? user.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : user.find("a.user.name").getAttribute("href").split("XID=")[1];
 
             let li = doc.new({type: "li", class: "tt-user-info", attributes: {"last-action": ((new Date() - result.members[user_id].last_action.timestamp*1000)/1000).toFixed(0)}});
@@ -635,7 +634,7 @@ function drugInfo(){
                     let item_name = el.find("span.bold").innerText;
                     if(item_name.indexOf("The") > -1) item_name = item_name.split("The ")[1];
 
-                    let drug_details = drug_dict[item_name.toLowerCase().replace(/ /g, "_")];
+                    let drug_details = DRUG_INFORMATION[item_name.toLowerCase().replace(/ /g, "_")];
                     if(drug_details === undefined){
                         return;
                     }
@@ -720,7 +719,7 @@ function itemInfoLoaded(element){
 }
 
 function addFilterToTable(list, title){
-    let filter_container = content.new_container("Filters", {id: "tt-player-filter", class: "filter-container", next_element: title}).find(".content");
+    let filter_container = content.newContainer("Filters", {id: "tt-player-filter", class: "filter-container", next_element: title}).find(".content");
     filter_container.innerHTML = `
         <div class="filter-header">
             <div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> users</div>
@@ -762,7 +761,7 @@ function addFilterToTable(list, title){
                 <div id="tt-level-filter" class="filter-slider"></div>
                 <div class="filter-slider-info"></div>
             </div>
-            <div class="filter-wrap ${settings.pages.faction.member_info && getSearchParameters().step !== "profile" ? '' : 'filter-hidden'}" id="last-action-filter">
+            <div class="filter-wrap ${settings.pages.faction.member_info && getSearchParameters().get("step") !== "profile" ? '' : 'filter-hidden'}" id="last-action-filter">
                 <div class="filter-heading">Last Action</div>
                 <div id="tt-last-action-filter" class="filter-slider"></div>
                 <div class="filter-slider-info"></div>
@@ -837,7 +836,7 @@ function addFilterToTable(list, title){
 
     let last_action_slider_info = last_action_slider.nextElementSibling;
     last_action_slider.noUiSlider.on('update', function (values) {
-        values = values.map(x => (time_until(parseFloat(x)*60*60*1000, {max_unit: "h", hide_nulls: true})));
+        values = values.map(x => (timeUntil(parseFloat(x)*60*60*1000, {max_unit: "h", hide_nulls: true})));
         last_action_slider_info.innerHTML = `Min Hours: ${values.join(' - ')}`;
     });
 
@@ -865,7 +864,7 @@ function addFilterToTable(list, title){
         if(event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, {class: "gallery-wrapper"})){
             console.log("click");
             setTimeout(function(){
-                playersLoaded(".users-list").then(function(){
+                requirePlayerList(".users-list").then(function(){
                     console.log("loaded");
                     populateFactions();
                     applyFilters();
@@ -891,6 +890,19 @@ function addFilterToTable(list, title){
     } else {
         applyFilters();
     }
+
+    // Look for Search bar changes
+    doc.find("#faction-info-members .table-header .table-cell.member input.search-input").addEventListener("keyup", function(){
+        setTimeout(function(){
+            for(let row of doc.findAll("#faction-info-members .table-body>.table-row")){
+                if(row.style.display == "none" && row.nextElementSibling && row.nextElementSibling.classList.contains("tt-user-info")){
+                    row.classList.add("filter-hidden");
+                } else if((row.style.display == "flex" || row.style.display == "") && row.nextElementSibling && row.nextElementSibling.classList.contains("tt-user-info")){
+                    row.classList.remove("filter-hidden");
+                }
+            }
+        }, 100);
+    });
     
     function applyFilters(){
         let active_dict = {
@@ -992,7 +1004,7 @@ function addFilterToTable(list, title){
             // }
         }
 
-        local_storage.change({"filters": {"faction": {
+        ttStorage.change({"filters": {"faction": {
             activity: activity,
             // faction: faction,
             // time: time,
@@ -1024,7 +1036,7 @@ function addFilterToTable(list, title){
 }
 
 function armoryFilter(){
-    let armory_filter = content.new_container("Armory Filter", {
+    let armory_filter = content.newContainer("Armory Filter", {
         header_only: true,
         id: "ttArmoryFilter",
         next_element: doc.find("#faction-armoury-tabs"),
@@ -1035,22 +1047,39 @@ function armoryFilter(){
         armory_filter.classList.add("filter-hidden");
     }
 
-    for(let link of doc.findAll("ul[aria-label='faction armoury tabs']>li")){
-        if(["weapons", "armour"].includes(link.getAttribute("aria-controls").replace("armoury-", ""))){
-            link.addEventListener("click", function(){
+    // Switching page
+    if(!mobile){
+        for(let link of doc.findAll("ul[aria-label='faction armoury tabs']>li")){
+            if(["weapons", "armour"].includes(link.getAttribute("aria-controls").replace("armoury-", ""))){
+                link.addEventListener("click", function(){
+                    console.log("filter tab")
+                    if(doc.find("#ttArmoryFilter")){
+                        doc.find("#ttArmoryFilter").classList.remove("filter-hidden");
+                    }
+                });
+            } else {
+                link.addEventListener("click", function(){
+                    console.log("other tab");
+                    if(doc.find("#ttArmoryFilter")){
+                        doc.find("#ttArmoryFilter").classList.add("filter-hidden");
+                    }
+                });
+            }
+        }
+    } else {
+        doc.find(".armoury-drop-list select#armour-nav-list").addEventListener("change", function(){
+            if(["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))){
                 console.log("filter tab")
                 if(doc.find("#ttArmoryFilter")){
                     doc.find("#ttArmoryFilter").classList.remove("filter-hidden");
                 }
-            });
-        } else {
-            link.addEventListener("click", function(){
+            } else {
                 console.log("other tab");
                 if(doc.find("#ttArmoryFilter")){
                     doc.find("#ttArmoryFilter").classList.add("filter-hidden");
                 }
-            });
-        }
+            }
+        });
     }
 
     let unavailable_wrap = doc.new({type: "div", class: "tt-checkbox-wrap in-title hide-unavailable-option"});
@@ -1099,7 +1128,7 @@ function armoryFilter(){
             }
         }
 
-        local_storage.change({"filters": {"faction_armory": {"hide_unavailable": unavailable}}});
+        ttStorage.change({"filters": {"faction_armory": {"hide_unavailable": unavailable}}});
     }
 }
 

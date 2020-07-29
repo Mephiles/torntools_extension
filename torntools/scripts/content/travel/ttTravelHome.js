@@ -45,7 +45,7 @@ var country_dict = {  // time = minutes
     }
 }
 
-DBloaded().then(function(){
+requireDatabase().then(function(){
     mapLoaded().then(function(){
         console.log("TT - Travel (home)");
 
@@ -55,7 +55,7 @@ DBloaded().then(function(){
     
         modifyTimeAndCost();
 
-        let container = content.new_container("Travel Destinations", {id: "ttTravelTable"}).find(".content");
+        let container = content.newContainer("Travel Destinations", {id: "ttTravelTable"}).find(".content");
         
         addLegend();
         setTravelItems();
@@ -236,43 +236,53 @@ function setTravelItems(){
     let wlt = doc.find("#tab-menu4 li[aria-selected=true]").innerText == "PRIVATE" ? true : false;
     let business = doc.find("#tab-menu4 li[aria-selected=true]").innerText == "BUSINESS" ? true : false;
 
-    let suitcase = (function () {
-        for (let perk of userdata.enhancer_perks) {
-            if (perk.indexOf("(Large Suitcase)") > -1) {
-                return 4;
-            } else if (perk.indexOf("(Medium Suitcase)") > -1) {
-                return 3;
-            } else if (perk.indexOf("(Small Suitcase)") > -1) {
-                return 2;
+    let suitcase = 0,
+        job_perk = 0,
+        faction_perk = 0,
+        book_perk = 0;
+
+    if (userdata) {
+        suitcase = (function () {
+            for (let perk of userdata.enhancer_perks) {
+                if (perk.indexOf("(Large Suitcase)") > -1) {
+                    return 4;
+                } else if (perk.indexOf("(Medium Suitcase)") > -1) {
+                    return 3;
+                } else if (perk.indexOf("(Small Suitcase)") > -1) {
+                    return 2;
+                }
             }
-        }
-        return 0;
-    })();
-    let job_perk = (function () {
-        let total = 0;
-        for (let perk of userdata.company_perks) {
-            if (perk.indexOf("travel capacity") > -1) {
-                total += parseInt(perk.replace("+ ", "").split(" ")[0]);
+            return 0;
+        })();
+
+        job_perk = (function () {
+            let total = 0;
+            for (let perk of userdata.company_perks) {
+                if (perk.indexOf("travel capacity") > -1) {
+                    total += parseInt(perk.replace("+ ", "").split(" ")[0]);
+                }
             }
-        }
-        return total;
-    })();
-    let faction_perk = (function () {
-        for (let perk of userdata.faction_perks) {
-            if (perk.indexOf("Increases maximum traveling capacity by") > -1) {
-                return parseInt(perk.split("by ")[1]);
+            return total;
+        })();
+
+        faction_perk = (function () {
+            for (let perk of userdata.faction_perks) {
+                if (perk.indexOf("Increases maximum traveling capacity by") > -1) {
+                    return parseInt(perk.split("by ")[1]);
+                }
             }
-        }
-        return 0;
-    })();
-    let book_perk = (function () {
-        for (let perk of userdata.book_perks) {
-            if (perk.indexOf("travel capacity") > -1) {
-                return parseInt(perk.replace("+ ", "").split(" ")[0]);
+            return 0;
+        })();
+
+        book_perk = (function () {
+            for (let perk of userdata.book_perks) {
+                if (perk.indexOf("travel capacity") > -1) {
+                    return parseInt(perk.replace("+ ", "").split(" ")[0]);
+                }
             }
-        }
-        return 0;
-    })();
+            return 0;
+        })();
+    }
 
     // item_dict = modifyTimeAndCost(item_dict, airstrip, wlt, business, itemlist["396"].market_value);  // business class ticket price
 
@@ -353,7 +363,7 @@ function addRow(item, time, cost, travel_items) {
     let total_profit = (market_value - item.abroad_cost)*travel_items - cost;
     let profit_per_minute = (total_profit / time).toFixed(0);
     let profit_per_item = (total_profit / travel_items).toFixed(0);
-    let update_time = time_ago(item.timestamp*1000);
+    let update_time = timeAgo(item.timestamp*1000);
     let item_types = ["plushie", "flower", "drug"];
     let background_style = `url(/images/v2/travel_agency/flags/fl_${item.country_name.toLowerCase().replace("united kingdom", "uk").replace(" islands", "").replace(" ", "_")}.svg) center top no-repeat`
     let item_type = item_types.includes(item.item_type.toLowerCase()) ? item.item_type.toLowerCase() : "other";
@@ -365,7 +375,7 @@ function addRow(item, time, cost, travel_items) {
     <div item='${item_type}'>
       <a target="_blank" href="https://www.torn.com/imarket.php#/p=shop&type=${item.item_id}">${item.item_name}</a>
     </div>
-    <div>${item.abroad_quantity.toString()} <br> <span class="update-time">(${update_time})</span></div>
+    <div>${item.abroad_quantity.toString()} <br class="advanced"> <span class="update-time">(${update_time})</span></div>
     <div class="advanced" value="${item.abroad_cost}">$${numberWithCommas(item.abroad_cost, item.abroad_cost>=1e6?true:false)}</div>
     <div class="advanced" value="${market_value}">$${numberWithCommas(market_value, market_value>=1e6?true:false)}</div>
     
@@ -471,7 +481,7 @@ function saveSettings(){
         country: doc.find(".legend-content input[name='country']:checked").getAttribute("_type")
     }
 
-    local_storage.change({"filters": {"travel": travel}});
+    ttStorage.change({"filters": {"travel": travel}});
 }
 
 function reloadTable(){
@@ -490,7 +500,7 @@ function reloadTable(){
     doc.find("#ttTravelTable .table .body").innerHTML = body_html;
 
     // Set Table mode
-    local_storage.get("filters", function(filters){
+    ttStorage.get("filters", function(filters){
         if(filters.travel.table_type == "basic"){
             doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
         } else if(filters.travel.table_type == "advanced"){

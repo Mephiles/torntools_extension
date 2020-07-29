@@ -1,16 +1,42 @@
-DBloaded().then(function(){
-	playersLoaded(".users-list").then(function(){
+requireDatabase().then(function(){
+	requirePlayerList(".users-list").then(function(){
         console.log("TT - Jail");
 
         let list = doc.find(".users-list");
         let title = list.previousElementSibling;
 
         addFilterToTable(list, title);
+
+        if(shouldDisable()) return;
+        
+        // Quick Bail & Bust
+        let quick_wrap = doc.new({type: "div", class: "tt-checkbox-wrap in-title"});
+        let checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
+        let text = doc.new({type: "div", text: "Enable Quick Bail & Bust"});
+        quick_wrap.appendChild(checkbox);
+        quick_wrap.appendChild(text);
+        doc.find("#tt-player-filter .tt-options").appendChild(quick_wrap);
+
+        quick_wrap.onclick = function(event){
+            event.stopPropagation();
+        }
+
+        checkbox.onclick = function(event){
+            console.log(event.target.checked);
+            modifyActions(event.target.checked);
+
+            ttStorage.change({"settings": {"pages": {"jail": {"quick_icons": event.target.checked}}}});
+        }
+
+        if(settings.pages.jail.quick_icons){
+            checkbox.checked = true;
+            modifyActions(true);
+        }
     });
 });
 
 function addFilterToTable(list, title){
-    let filter_container = content.new_container("Filters", {id: "tt-player-filter", class: "filter-container", next_element: title}).find(".content");
+    let filter_container = content.newContainer("Filters", {id: "tt-player-filter", class: "filter-container", next_element: title}).find(".content");
     filter_html = `
         <div class="filter-header">
             <div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> users</div>
@@ -40,6 +66,11 @@ function addFilterToTable(list, title){
                 <div id="tt-level-filter" class="filter-slider"></div>
                 <div class="filter-slider-info"></div>
             </div>
+            <div class="filter-wrap" id="score-filter" style="width: 140px">
+                <div class="filter-heading">Score</div>
+                <div id="tt-score-filter" class="filter-slider tt-small-pips"></div>
+                <div class="filter-slider-info" style="padding-top: 10px; position: relative; top: 10px;"></div>
+            </div>
         </div>
     `
     filter_container.innerHTML = filter_html;
@@ -49,6 +80,8 @@ function addFilterToTable(list, title){
     let time_end = filters.jail.time[1] || 100;
     let level_start = filters.jail.level[0] || 0;
     let level_end = filters.jail.level[1] || 100;
+    // let score_start = filters.jail.score[0] || 0;
+    let score_end = filters.jail.score[0] || 250000;
 
     for(let faction of filters.preset_data.factions.data){
         let option = doc.new({type: "option", value: faction, text: faction});
@@ -73,7 +106,7 @@ function addFilterToTable(list, title){
 
     let time_slider_info = time_slider.nextElementSibling;
     time_slider.noUiSlider.on('update', function (values) {
-        values = values.map(x => (time_until(parseFloat(x)*60*60*1000, {max_unit: "h", hide_nulls: true})));
+        values = values.map(x => (timeUntil(parseFloat(x)*60*60*1000, {max_unit: "h", hide_nulls: true})));
         time_slider_info.innerHTML = `Time: ${values.join(' - ')}`;
     });
 
@@ -93,6 +126,32 @@ function addFilterToTable(list, title){
     level_slider.noUiSlider.on('update', function (values) {
         values = values.map(x => parseInt(x));
         level_slider_info.innerHTML = `Level: ${values.join(' - ')}`;
+    });
+
+    // Scpre slider
+    let score_slider = filter_container.find('#tt-score-filter');
+    noUiSlider.create(score_slider, {
+        start: score_end,
+        step: 500,
+        range: {
+            "min": [0],
+            "70%": [150000],
+            "max": [250000]
+        },
+        pips: {
+            mode: "range",
+            density: 5,
+            format: {
+                from: function(x){return x},
+                to: function(x){return numberWithCommas(x, false)}
+            }
+        }
+    });
+
+    let score_slider_info = score_slider.nextElementSibling;
+    score_slider.noUiSlider.on('update', function (values) {
+        values = values.map(x => numberWithCommas(parseInt(x), false));
+        score_slider_info.innerHTML = `Max Score: ${values.join(' - ')}`;
     });
 
     // Event listeners
@@ -119,7 +178,7 @@ function addFilterToTable(list, title){
         if(event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, {class: "gallery-wrapper"})){
             console.log("click");
             setTimeout(function(){
-                playersLoaded(".users-list").then(function(){
+                requirePlayerList(".users-list").then(function(){
                     console.log("loaded");
                     populateFactions();
                     applyFilters();
@@ -150,6 +209,7 @@ function addFilterToTable(list, title){
         let faction = ``;
         let time = [];
         let level = [];
+        let score = []
 
         // Activity
         for(let checkbox of doc.findAll("#activity-filter .tt-checkbox-wrap input:checked")){
@@ -163,6 +223,8 @@ function addFilterToTable(list, title){
         // Level
         level.push(parseInt(doc.find("#level-filter .noUi-handle-lower").getAttribute("aria-valuenow")));
         level.push(parseInt(doc.find("#level-filter .noUi-handle-upper").getAttribute("aria-valuenow")));
+        // Score
+        score.push(parseInt(doc.find("#score-filter .noUi-handle-lower").getAttribute("aria-valuenow")));
 
         // console.log("Activity", activity);
         // console.log("Faction", faction);
@@ -186,12 +248,19 @@ function addFilterToTable(list, title){
             }
 
             // Time
-            let player_time = to_seconds(li.find(".time").innerText.trim().replace("Time", "").replace("TIME", "").replace(":", "").replace("left:", "").trim())/60/60;
+            let player_time = toSeconds(li.find(".time").innerText.trim().replace("Time", "").replace("TIME", "").replace(":", "").replace("left:", "").trim())/60/60; // to hours
             if(!(time[0] <= player_time && player_time <= time[1])){
                 li.classList.add("filter-hidden");
                 continue;
             }
 
+            // Score
+            let player_score = player_level * toSeconds(li.find(".time").innerText.trim().replace("Time", "").replace("TIME", "").replace(":", "").replace("left:", "").trim())/60;  // to minutes
+            if(player_score > score[0]){
+                li.classList.add("filter-hidden");
+                continue;
+            }
+            
             // Activity
             let matches_one_activity = activity.length != 0? false:true;
             for(let state of activity){
@@ -211,11 +280,12 @@ function addFilterToTable(list, title){
             }
         }
 
-        local_storage.change({"filters": {"jail": {
+        ttStorage.change({"filters": {"jail": {
             activity: activity,
             faction: faction,
             time: time,
-            level: level
+            level: level,
+            score: score
         }}});
 
         updateStatistics();
@@ -238,5 +308,46 @@ function addFilterToTable(list, title){
             let option = doc.new({type: "option", value: tag, text: tag});
             filter_container.find("#tt-faction-filter").appendChild(option);
         }
+    }
+}
+
+function modifyActions(enabled){
+    for(let player of doc.findAll(".users-list>li")){
+        let buy_link = player.find(".buy") ? player.find(".buy").getAttribute("href") : player.find(".bye").getAttribute("href");
+        let bust_link = player.find(".bust").getAttribute("href");
+
+        if(enabled){
+            console.log("1", buy_link[buy_link.length-1] != "1")
+            if(buy_link[buy_link.length-1] != "1"){
+                buy_link += "1";
+            }
+            if(bust_link[bust_link.length-1] != "1"){
+                bust_link += "1";
+            }
+
+            if(!player.find(".tt-modified-icon")){
+                let icon_1 = doc.new({type: "span", class: "tt-modified-icon", text: "Q"});
+                let icon_2 = doc.new({type: "span", class: "tt-modified-icon", text: "Q"});
+
+                player.find(".buy-icon") ? player.find(".buy-icon").appendChild(icon_1) : player.find(".bye-icon").appendChild(icon_1);
+                player.find(".bust-icon").appendChild(icon_2);
+            }
+        } else  {
+            if(buy_link[buy_link.length-1] == "1"){
+                buy_link = buy_link.slice(0, buy_link.length-1);
+            }
+            if(bust_link[bust_link.length-1] == "1"){
+                bust_link = bust_link.slice(0, bust_link.length-1);
+            }
+
+            if(player.find(".tt-modified-icon")){
+                for(let icon of player.findAll(".tt-modified-icon")){
+                    icon.remove();
+                }
+            }
+        }
+
+        player.find(".buy") ? player.find(".buy").setAttribute("href", buy_link) : player.find(".bye").setAttribute("href", buy_link);
+        player.find(".bust").setAttribute("href", bust_link);
     }
 }

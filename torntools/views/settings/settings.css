@@ -33,6 +33,9 @@ p {
 .note.red {
     color: red;
 }
+.note.green {
+    color: #1bcc43;
+}
 
 .arrow {
     position: absolute;
@@ -145,7 +148,14 @@ p {
 #changelog .content {
     border: unset;
 }
-
+#changelog .content .header {
+    width: 100%;
+    display: flex;
+}
+#changelog .content .header .contributor {
+    flex: 1 0 auto;
+    text-align: center;
+}
 #changelog .content>.parent>.heading {
     cursor: pointer;
     border-bottom: 0.5px solid lightgrey;
@@ -154,28 +164,53 @@ p {
     line-height: 23px;
     font-size: 15px;
 }
-
+#changelog .content>.parent>.heading span {
+    font-size: 12px;
+}
 #changelog .content>.parent>.heading i {
     float: right;
     position: relative;
     top: 7px;
 }
-
 #changelog .content .parent .parent {
     font-weight: 600;
     margin-left: 20px;
 }
-
 #changelog .content .parent .child {
     font-weight: 400;
     margin-left: 20px;
 }
-
 #changelog .content .parent .closeable {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
     padding: 4px 0px 4px 10px;
+}
+
+#changelog .dkk span, #changelog .mephiles span {
+    position: relative;
+}
+#changelog .mephiles span:before {
+    width: 5px;
+    height: 5px;
+    content: "";
+    border-radius: 50%;
+    background-color: green;
+    border: 2px solid green;
+    position: absolute;
+    left: -13px;
+    top: 5px;
+}
+#changelog .dkk span:before {
+    width: 5px;
+    height: 5px;
+    content: "";
+    border-radius: 50%;
+    background-color: #dc8e00;
+    border: 2px solid #dc8e00;
+    position: absolute;
+    left: -13px;
+    top: 5px;
 }
 
 /* API info */
@@ -188,6 +223,23 @@ p {
     margin-bottom: 3px;
 }
 
+#api-info .actions .button {
+    width: fit-content;
+    padding: 0 3px;
+    height: 30px;
+    border: 1px solid lightgrey;
+    margin: 15px 10px 0 0;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 7px;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    background-color: gray;
+}
+#api-info .actions .button:hover {
+    background-color: lightgray;
+}
 /* Target list */
 
 #target-list .content {
@@ -200,10 +252,32 @@ p {
 
 #preferences .content {
     width: 45%;
+    padding: unset;
 }
-#preferences .content .inner_content {
+#preferences .inner-content {
     display: flex;
     font-size: 15px;
+}
+
+
+#preferences .navigation {
+    width: fit-content;
+    border-right: 1px solid lightgray;
+    background-color: #f1f1f1;
+}
+#preferences .navigation>div {
+    padding: 7px;
+    border-bottom: 1px solid lightgray;
+}
+#preferences .navigation>div:not(.heading):hover {
+    background-color: #e2e0e0;
+    cursor: pointer;
+}
+#preferences .navigation>div:not(.heading).active {
+    background-color: #e2e0e0;
+}
+#preferences .navigation>div.heading {
+    background-color: #b9b9b9;
 }
 
 .big-message {
@@ -221,54 +295,41 @@ p {
     color: #721c24;
 }
 
-.column {
-    width: 50%;
-    box-sizing: border-box;
-    padding-right: 10px;
+.sections {
+    border-bottom: 1px solid lightgray;
+    width: 100%;
 }
-
-.column .section {
+.section {
     margin-bottom: 20px;
+    display: none;
+    padding: 10px;
 }
-
-.column .section .heading {
+.section.active {
+    display: block;
+}
+.section.active .section {
+    display: block;
+}
+.section .heading {
     font-weight: 600;
+    margin-top: 15px;
 }
-
-.column .section>*:not(.heading) {
-    margin-left: 20px;
+.section .heading:first-of-type {
+    margin-top: unset;
 }
-
-.column .section input:not([type=text]) {
+.section input:not([type=text]) {
     position: relative;
     top: 1px;
 }
 
 #preferences .footer {
-    width: 100%;
-    height: 50px;
-    border-top: 1px solid lightgrey;
-    position: relative;
+    padding: 5px;
 }
-
-.footer .legend {
-    width: 70%;
-    height: 100%;
-    float: left;
-}
-
-.footer .legend div {
-    margin-top: 10px;
-    margin-left: 10px;
-}
-
 #preferences .footer .actions {
-    width: 30%;
-    float: right;
+    display: flex;
+    flex-direction: row-reverse;
 }
-
 #preferences .footer .actions * {
-    float: right;
     width: 60px;
     height: 30px;
     border: 1px solid lightgrey;
@@ -279,22 +340,47 @@ p {
     color: white;
     cursor: pointer;
     font-weight: 600;
+    display: inline-block;
+    vertical-align: top;
+}
+/* #preferences .footer .actions {
+    width: 29%;
+    display: inline-block;
+    vertical-align: top;
+} */
+/* #preferences .footer {
+    width: 100%;
+    display: flex;
+}
+#preferences .footer>* {
+    flex: 1 0 auto;
+} */
+/* .footer .legend {
+    flex: 1 0 auto;
+}
+.footer .legend div {
+    margin-top: 10px;
+    margin-left: 10px;
 }
 
+ */
 #preferences #save_settings {
     background-color: #149a32;
 }
-
 #preferences #save_settings:hover {
     background-color: #1bcc43;
 }
-
 #preferences #reset_settings {
     background-color: #c82333;
 }
-
 #preferences #reset_settings:hover {
     background-color: #f12c3f;
+}
+#preferences #import_settings {
+    background-color: gray;
+}
+#preferences #import_settings:hover {
+    background-color: lightgray;
 }
 
 .icon {

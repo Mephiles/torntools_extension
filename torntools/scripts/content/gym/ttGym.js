@@ -5,7 +5,7 @@ const GYM_SELECTORS = {
     "dexterity": "dexterity___1YdUM",
 };
 
-DBloaded().then(function(){
+requireDatabase().then(function(){
     gymLoaded().then(function(){
         console.log("TT - Gym");
 
@@ -21,7 +21,7 @@ DBloaded().then(function(){
             disableGyms();
         });
 
-        let gym_container = content.new_container("Gym", {id: "tt-gym"});
+        let gym_container = content.newContainer("Gym", {id: "tt-gym"});
     
         // Graph
         if (!shouldDisable()) {
@@ -116,7 +116,7 @@ function displayGraph(){
     let graph_area = doc.new({type: "div", class: "tt-graph-area"});
     container.appendChild(graph_area);
 
-    fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=getStatGraph`)
+    fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=getStatGraph&from=${((new Date()-2*24*60*60*1000)/1000).toFixed(0)}`)
     .then(async function(response){
         if(!mobile){
             let result = await response.json();
@@ -320,11 +320,11 @@ function disableGymButton(types, disable){
 
     }
 
-    local_storage.get("settings", function(settings){
+    ttStorage.get("settings", function(settings){
         for(let stat of types){
             settings.pages.gym[`disable_${stat}`] = disable;
         }
 
-        local_storage.set({"settings": settings});
+        ttStorage.set({"settings": settings});
     });
 }

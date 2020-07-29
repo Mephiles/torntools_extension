@@ -1,7 +1,7 @@
 window.addEventListener("load", function(){
 	console.log("Start Calculator");
 
-	local_storage.get(["settings", "itemlist", "api"], function([settings, itemlist, api]){
+	ttStorage.get(["settings", "itemlist", "api"], function([settings, itemlist, api]){
 		// show error
         if(!api.online){
             doc.find(".error").style.display = "block";

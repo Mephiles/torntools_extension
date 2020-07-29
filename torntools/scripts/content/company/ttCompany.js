@@ -1,7 +1,7 @@
 window.addEventListener("load", function(){
     console.log("TT - Company");
 
-    switch(getHashParameters().option){
+    switch(getHashParameters().get("option")){
         case "employees":
             if(settings.pages.company.member_info) showUserInfo();
             break;
@@ -30,7 +30,7 @@ function companyContentLoaded(aria_controls){
 }
 
 function showUserInfo(){
-    get_api(`https://api.torn.com/company/?selections=`, api_key)
+    fetchApi(`https://api.torn.com/company/?selections=`, api_key)
     .then(function(result){
         console.log("result", result);
 
@@ -42,7 +42,7 @@ function showUserInfo(){
             let li = doc.new({type: "li", class: "tt-user-info"});
             let inner_wrap = doc.new({type: "div", class: "tt-user-info-inner-wrap"});
             let texts = [
-                `Last action: ${result.company.employees[user_id].last_action.relative}`
+                `Last action: ${result.result.company.employees[user_id].last_action.relative}`
             ]
 
         //     if(result.donations[user_id]){
@@ -70,7 +70,7 @@ function showUserInfo(){
             // Activity notifications
             let checkpoints = settings.inactivity_alerts_company;
             for(let checkpoint of Object.keys(checkpoints).sort(function(a,b){return b-a})){
-                if(new Date() - new Date(result.company.employees[user_id].last_action.timestamp*1000) >= parseInt(checkpoint)){
+                if(new Date() - new Date(result.result.company.employees[user_id].last_action.timestamp*1000) >= parseInt(checkpoint)){
                     console.log(checkpoints[checkpoint])
                     user.style.backgroundColor = `${checkpoints[checkpoint]}`;
                     break;

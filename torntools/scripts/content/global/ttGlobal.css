@@ -5,6 +5,9 @@
     display: flex;
     white-space: nowrap;
 }
+.tt-title-torn {
+    cursor: pointer !important;
+}
 .tt-title.title-black {
     color: #acea00 !important;
 }
@@ -31,6 +34,12 @@
 .tt-title.all-rounded {
     border-radius: 5px !important;
 }
+.tt-title.top-rounded {
+    border-radius: 5px 5px 0 0 !important;
+}
+.tt-content.bottom-rounded {
+    border-radius: 0 0 5px 5px !important;
+}
 .tt-title .tt-options>* {
     margin-left: 4px;
     margin-right: 4px;
@@ -48,6 +57,13 @@
 .tt-title.tt-navbar .tt-title-icon {
     min-width: 25px;
 }
+.tt-title-torn .tt-title-icon-torn {
+    line-height: inherit;
+    font-size: 16px;
+    position: absolute;
+    top: 1px;
+    right: 9px;
+}
 .tt-content.content {
     position: relative; 
     margin-top: 0; 
@@ -55,12 +71,12 @@
     overflow: hidden;
     /* padding-bottom: 15px;  */
 }
-.tt-title.collapsed+.tt-content {
+.tt-title.collapsed+.tt-content, .tt-title-torn.collapsed+* {
     height: 0px;
     padding: 0px;
     border-bottom: unset;
 }
-.tt-title.collapsed .tt-title-icon {
+.tt-title.collapsed .tt-title-icon, .tt-title-torn.collapsed .tt-title-icon-torn {
     transform: rotate(-90deg);
 }
 .tt-cell a {
@@ -77,6 +93,7 @@
     position: relative;
     top: -2px;
     height: 13px;
+    cursor: pointer;
 }
 .tt-checkbox-wrap.in-title input {
     height: 30px;
@@ -298,13 +315,13 @@ div[role='main'].tt-modified {
     margin-bottom: 5px;
 }
 .filter-slider {
-    width: 50%;
+    width: 70%;
     margin: auto;
     margin-bottom: 10px;
 }
 .filter-slider+.filter-slider-info {
-    width: 50%;
-    margin: auto;
+    width: 100%;
+    text-align: center;
 }
 .filter-wrap select {
     width: 40%;
@@ -314,7 +331,7 @@ div[role='main'].tt-modified {
     display: none !important;
 }
 .filter-multi-wrap {
-    width: 40%;
+    width: fit-content;
     margin: auto;
 }
 .filter-multi-wrap.tt-mobile {
@@ -323,6 +340,20 @@ div[role='main'].tt-modified {
 }
 .filter-multi-wrap.tt-mobile>* {
     flex: 1 0 auto;
+}
+
+.filter-slider.tt-small-pips .noUi-pips {
+    padding-top: 7px;
+}
+.filter-slider.tt-small-pips .noUi-marker-large {
+    height: 8px !important;
+}
+.filter-slider.tt-small-pips .noUi-marker-normal {
+    height: 5px !important;
+}
+.filter-slider.tt-small-pips .noUi-value-large {
+    font-size: 10px !important;
+    top: 10px !important;
 }
 
 /* Chat filter */
@@ -355,10 +386,11 @@ div[role='main'].tt-modified {
 
     font-size: 36px;
     text-align: center;
+    cursor: pointer;
 }
 
 #chatRoot {
-    display: var(--torntools-hide-chat, none);
+    display: var(--torntools-hide-chat, block) !important;
 }
 
 /* font-awesome */
@@ -374,7 +406,7 @@ div[role='main'].tt-modified {
 
 .fa-times:before {content: "\f00d";}
 
-.fa-chevron-down:before{content: "\f078"}
+.fa-chevron-down:before{content:"\f078"}
 .fa-chevron-up:before{content:"\f077"}
 
 .fa-caret-up:before{content:"\f0d8"}
@@ -388,6 +420,8 @@ div[role='main'].tt-modified {
 .fa-cog:before{content:"\f013"}
 
 .fa-binoculars:before{content:"\f1e5"}
+
+.fa-arrows-alt:before{content:"\f0b2"}
 
 /* Torn icons */
 #sidebarroot .status-icons___1SnOI>li[class^="icon1_"] { display: var(--torntools-hide-icons-icon1, inline-block) }

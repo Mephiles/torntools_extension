@@ -162,7 +162,7 @@
     padding: 6px 0;
     border-radius: 11px;
     cursor: pointer;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
 }
 .fetch-button:hover {
     background-color: #c1c1c1;
@@ -293,22 +293,30 @@
 
 /* Stakeouts */
 
-.stakeout-section {
+.tt-section[name='stakeouts'] {
     padding-top: 10px;
+}
+.tt-section[name='stakeouts'] hr {
+    margin-top: 10px;
 }
 .tt-sub-heading {
     margin-top: 10px;
     margin-bottom: 10px;
     font-weight: 600;
 }
-/* 
 
-.tt-option * {
-    display: inline-block;
+/* Sections */
+.tt-section {
+    position: relative;
 }
 
-.tt-option input[type='checkbox'] {
-    margin-right: 2px;
-    position: relative;
-    top: 2px;
-} */
+.uk-sortable-handle {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
+
+.tt-section:last-of-type hr {
+    display: none;
+}

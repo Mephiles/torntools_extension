@@ -185,7 +185,7 @@ var key_dict = {
 }
 var spy_info;
 
-DBloaded().then(function(){
+requireDatabase().then(function(){
     profileLoaded().then(async function(){
         console.log("TT - Profile");
 
@@ -213,9 +213,12 @@ DBloaded().then(function(){
         if(getUserId() == userdata.player_id) return;
 
         // Profile stats
-        let info_container = content.new_container("User Info", {next_element_heading: "Medals", id: "tt-target-info"});
+        let info_container = content.newContainer("User Info", {next_element_heading: "Medals", id: "tt-target-info"});
+
+        let section_profile_stats = doc.new({type: "div", class: "tt-section", attributes: {name: 'profile-stats'}});
         let profile_stats_div = doc.new({type: "div", class: `profile-stats ${mobile?'tt-mobile':""}`});
-        info_container.find(".content").appendChild(profile_stats_div);
+        section_profile_stats.appendChild(profile_stats_div);
+        info_container.find(".content").appendChild(section_profile_stats);
 
         if(!filters.profile_stats.auto_fetch){
             let button = doc.new({type: "div", class: `fetch-button`, text: "Fetch Info via API"});
@@ -224,14 +227,17 @@ DBloaded().then(function(){
             button.addEventListener("click", async function(){
                 button.remove();
                 await displayProfileStats();
+                section_profile_stats.appendChild(doc.new({type: "hr"}));
                 // Show Spy info
                 showSpyInfo();
             });
         } else {
             await displayProfileStats();
+            section_profile_stats.appendChild(doc.new({type: "hr"}));
             // Show Spy info
             showSpyInfo();
         }
+
 
         // Target info
         if(target_list.show){
@@ -240,6 +246,75 @@ DBloaded().then(function(){
         
         // Stakeout
         displayStakeoutOptions();
+
+        // Make content sortable
+        for(let section of doc.findAll("#tt-target-info .content .tt-section")) {
+            section.addEventListener("mouseleave", function(event){
+                event.preventDefault();
+                saveSortingOrder(doc.find("#tt-target-info .content"), "profile");
+            });
+        }
+        sortSections(doc.find("#tt-target-info .content"), "profile");
+        new Sortable(doc.find("#tt-target-info .content"), {
+            handle: '.uk-sortable-handle', // handle's class
+            animation: 150
+        });
+
+        // Add Edit button
+        let edit_button = doc.new({type: "div", id: "tt-edit", class: "tt-option"});
+        let icon = doc.new({type: "i", class: "fas fa-cog"});
+        edit_button.appendChild(icon);
+        edit_button.innerHTML += " Edit";
+
+        doc.find("#tt-target-info .tt-options").appendChild(edit_button);
+
+        edit_button.onclick = function(event){
+            event.stopPropagation();
+
+            if(doc.find(".tt-black-overlay").classList.contains("active")){
+                doc.find(".tt-black-overlay").classList.remove("active");
+                doc.find(".tt-stats-table .active").classList.remove("tt-highlight-sector");
+                doc.find(".tt-title .tt-options .tt-option#tt-edit").classList.remove("tt-highlight-sector");
+
+                for(let item of doc.findAll(".tt-stats-table .active .tt-row:not(.tt-header):not(.sub-heading)")){
+                    item.onclick = undefined;
+                }
+            } else {
+                doc.find(".tt-black-overlay").classList.add("active");
+                doc.find(".tt-stats-table .active").classList.add("tt-highlight-sector");
+                doc.find(".tt-title .tt-options .tt-option#tt-edit").classList.add("tt-highlight-sector");
+
+                // Profile stats
+                for(let row of doc.findAll(".tt-stats-table .active .tt-row:not(.tt-header):not(.sub-heading)")){
+                    row.onclick = function(event){
+                        event.stopPropagation();
+                        event.preventDefault();
+
+                        row.onclick = undefined;
+
+                        if(hasParent(row, {class: "col-chosen"})){
+                            doc.find(".tt-stats-table .col-other").appendChild(row);
+                        } else if(hasParent(row, {class: "col-other"})){
+                            doc.find(".tt-stats-table .col-chosen").appendChild(row);
+                        }
+            
+                        saveProfileStats();
+
+                        function saveProfileStats(){
+                            let chosen_keys = [];
+                    
+                            for(let row of doc.findAll(".col-chosen .tt-row:not(.header):not(.sub-heading)")){
+                                if(row.getAttribute("key")){
+                                    chosen_keys.push(row.getAttribute("key"));
+                                }
+                            }
+                    
+                            ttStorage.change({"filters": {"profile_stats": {"chosen_stats": chosen_keys}}});
+                        }
+                    }
+                }
+            }
+        }
     });
 });
 
@@ -264,7 +339,7 @@ function profileLoaded() {
     let promise = new Promise(function (resolve, reject) {
         let counter = 0;
         let checker = setInterval(function () {
-            if (document.querySelector(".basic-information ul.basic-list li")) {
+            if (document.querySelector(".basic-information ul.info-table li")) {
                 resolve(true);
                 return clearInterval(checker);
             } else if (counter > 10000) {
@@ -281,7 +356,7 @@ function profileLoaded() {
 }
 
 function displayAlly(user_faction, allies) {
-    let profile_faction = doc.find(".basic-information ul.basic-list li:nth-of-type(3) div:nth-of-type(2)").innerText;
+    let profile_faction = doc.find(".basic-information ul.info-table li:nth-of-type(3) div:nth-of-type(2)").innerText;
 
     if (user_faction == profile_faction) {
         showWarning('user');
@@ -310,15 +385,13 @@ function showWarning(type) {
 }
 
 function displayTargetInfo(targets) {
-    // Add hr separator
-    doc.find("#tt-target-info .content").appendChild(doc.new({type: "hr"}));
-
+    let section = doc.new({type: "div", class: "tt-section", attributes: {name: 'target-info'}});
     let user_id = getUserId();
-    let content_container = doc.find("#tt-target-info .content");
+    doc.find("#tt-target-info .content").appendChild(section);
 
     if (!targets[user_id]){
         let span = doc.new({type: "span", class: "no-btl-data", text: "No battle data on user.", });
-        content_container.appendChild(span);
+        section.appendChild(span);
     } else {
         let table = doc.new({type: "div", class: `tt-table ${mobile?"tt-mobile":""}`});
 
@@ -380,10 +453,13 @@ function displayTargetInfo(targets) {
         // compiling
         table.appendChild(header_row);
         table.appendChild(row);
-        content_container.appendChild(table);
+        section.appendChild(table);
     }
 
-    content_container.appendChild(doc.new({type: "hr"}));
+    section.appendChild(doc.new({type: "hr"}));
+
+    // Add sortable icon
+    section.appendChild(doc.new({type: "i", class: "uk-sortable-handle fas fa-arrows-alt"}));
 }
 
 async function displayProfileStats(){
@@ -396,7 +472,7 @@ async function displayProfileStats(){
     } else {
         loadingPlaceholder(profile_stats, true);
         result = await new Promise(function(resolve, reject){
-            get_api(`https://api.torn.com/user/${user_id}?selections=personalstats,crimes`, api_key)
+            fetchApi(`https://api.torn.com/user/${user_id}?selections=personalstats,crimes`, api_key)
             .then(data => {
                 fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${user_id}`)
                 .then(async response => {
@@ -420,7 +496,7 @@ async function displayProfileStats(){
         });
         
         if(!result.error){
-            local_storage.change({"cache": {"profile_stats": {[user_id]: result}}});
+            ttStorage.change({"cache": {"profile_stats": {[user_id]: result}}});
         }
         loadingPlaceholder(profile_stats, false);
     }
@@ -539,14 +615,14 @@ async function displayProfileStats(){
     let footer_input = doc.new({type: "input", attributes: {type: "checkbox"}});
     footer_div.appendChild(footer_text);
     footer_div.appendChild(footer_input);
-    doc.find("#tt-target-info .content").insertBefore(footer_div, doc.find("#tt-target-info .content .profile-stats").nextElementSibling)
+    doc.find("#tt-target-info .content .tt-section[name='profile-stats']").insertBefore(footer_div, doc.find("#tt-target-info .content .profile-stats").nextElementSibling)
 
     if(filters.profile_stats.auto_fetch){
         footer_input.checked = true;
     }
 
     footer_input.onclick = function(){
-        local_storage.change({"filters": {"profile_stats": {"auto_fetch": footer_input.checked}}});
+        ttStorage.change({"filters": {"profile_stats": {"auto_fetch": footer_input.checked}}});
     };
 
     // Fix overflows
@@ -570,73 +646,20 @@ async function displayProfileStats(){
         }
     }
 
-    // Add Edit button
-    let edit_button = doc.new({type: "div", id: "tt-edit", class: "tt-option"});
-    let icon = doc.new({type: "i", class: "fas fa-cog"});
-    edit_button.appendChild(icon);
-    edit_button.innerHTML += " Edit";
-
-    doc.find("#tt-target-info .tt-options").appendChild(edit_button);
-
-    edit_button.onclick = function(event){
-        event.stopPropagation();
-
-        if(doc.find(".tt-black-overlay").classList.contains("active")){
-            doc.find(".tt-black-overlay").classList.remove("active");
-            doc.find(".tt-stats-table .active").classList.remove("tt-highlight-sector");
-            doc.find(".tt-title .tt-options .tt-option#tt-edit").classList.remove("tt-highlight-sector");
-
-            for(let item of doc.findAll(".tt-stats-table .active .tt-row:not(.tt-header):not(.sub-heading)")){
-                item.onclick = undefined;
-            }
-        } else {
-            doc.find(".tt-black-overlay").classList.add("active");
-            doc.find(".tt-stats-table .active").classList.add("tt-highlight-sector");
-            doc.find(".tt-title .tt-options .tt-option#tt-edit").classList.add("tt-highlight-sector");
-
-            for(let row of doc.findAll(".tt-stats-table .active .tt-row:not(.tt-header):not(.sub-heading)")){
-                row.onclick = function(event){
-                    event.stopPropagation();
-                    event.preventDefault();
-
-                    row.onclick = undefined;
-
-                    if(hasParent(row, {class: "col-chosen"})){
-                        col_other.appendChild(row);
-                    } else if(hasParent(row, {class: "col-other"})){
-                        col_chosen.appendChild(row);
-                    }
-        
-                    saveProfileStats();
-                }
-            }            
-        }
-
-    }
-
-    function saveProfileStats(){
-        let chosen_keys = [];
-
-        for(let row of doc.findAll(".col-chosen .tt-row:not(.header):not(.sub-heading)")){
-            if(row.getAttribute("key")){
-                chosen_keys.push(row.getAttribute("key"));
-            }
-        }
-
-        local_storage.change({"filters": {"profile_stats": {"chosen_stats": chosen_keys}}});
-    }
+    // Add sortable icon
+    profile_stats.appendChild(doc.new({type: "i", class: "uk-sortable-handle fas fa-arrows-alt"}));
 }
 
 function showSpyInfo(){
     console.log("spy info", spy_info);
     if(!spy_info) return;
-    
-    // Add hr separator
-    let hr = doc.new({type: "hr"})
-    doc.find("#tt-target-info .content").insertBefore(hr, doc.find("#tt-target-info .content .tt-footer").nextElementSibling);
 
-    let spy_section = doc.new({type: "div", class: "spy-section"});
-    doc.find("#tt-target-info .content").insertBefore(spy_section, hr.nextElementSibling);
+    let spy_section = doc.new({type: "div", class: "tt-section", attributes: {name: 'spy-info'}});
+    if(doc.find("#tt-target-info .content .tt-section[name='target-info'")){
+        doc.find("#tt-target-info .content").insertBefore(spy_section, doc.find("#tt-target-info .content .tt-section[name='target-info'"));
+    } else {
+        doc.find("#tt-target-info .content").appendChild(spy_section);
+    }
 
     if(!spy_info.status){
         let div = doc.new({type: "div", class: "tt-spy-info", text: spy_info.message});
@@ -694,10 +717,15 @@ function showSpyInfo(){
         table.appendChild(score_row);
         spy_section.appendChild(table);
     }
+
+    spy_section.appendChild(doc.new({type: "hr"}));
+
+    // Add sortable icon
+    spy_section.appendChild(doc.new({type: "i", class: "uk-sortable-handle fas fa-arrows-alt"}));
 }
 
 function getUserId() {
-    return doc.find(".basic-information ul.basic-list li:nth-of-type(1) div:nth-of-type(2)").innerText.split("[")[1].replace("]", "");
+    return doc.find(".basic-information ul.info-table li:nth-of-type(1) div:nth-of-type(2)").innerText.split("[")[1].replace("]", "");
 }
 
 function getRespect(target_list, id) {
@@ -755,13 +783,13 @@ function getAverage(arr) {
 }
 
 function showId(){
-    let text = doc.find(`.profile-container .basic-list>li .user-info-value`).innerText;
+    let text = doc.find(".profile-container .info-table > li .user-info-value").innerText;
     doc.find("#skip-to-content").innerText = text;
 }
 
 function displayLootLevel(loot_times){
     console.log(loot_times)
-    let profile_id = doc.find(`.profile-container .basic-list>li .user-info-value`).innerText.split(" [")[1].replace("]", "");
+    let profile_id = doc.find(`.profile-container .info-table > li .user-info-value`).innerText.split(" [")[1].replace("]", "");
     
     if(profile_id in loot_times){
         let current_time = parseInt(((new Date().getTime())/ 1000).toFixed(0));
@@ -772,9 +800,9 @@ function displayLootLevel(loot_times){
         if(next_loot_time - current_time <= 60){  // New info hasn't been fetched yet
             next_level = next_level+1 > 5 ? 1 : next_level+1;
             next_loot_time = loot_times[profile_id].timings[next_level].ts;
-            time_left = time_until((next_loot_time - current_time)*1000);
+            time_left = timeUntil((next_loot_time - current_time)*1000);
         } else {
-            time_left = time_until((next_loot_time - current_time)*1000);
+            time_left = timeUntil((next_loot_time - current_time)*1000);
         }
         
         let span = doc.new("span");
@@ -787,7 +815,7 @@ function displayLootLevel(loot_times){
         // Time decrease
         let time_decrease = setInterval(function(){
             let seconds = parseInt(span.getAttribute("seconds"));
-            let time_left = time_until((seconds-1)*1000);
+            let time_left = timeUntil((seconds-1)*1000);
 
             span.innerText = `Next loot in: ${time_left}`;
             span.setAttribute("seconds", seconds-1);
@@ -798,10 +826,11 @@ function displayLootLevel(loot_times){
 function addStatusIndicator(){
     let status_icon = doc.find(".icons ul>li");
     let icon_span = doc.new({type: "div", class: status_icon.classList[0], attributes: {
-        style: `margin-top: 1px; margin-right: 3px; float: left; background-position: ${window.getComputedStyle(status_icon).getPropertyValue('background-position')};`
+        style: `margin-right: 3px; float: left; background-position: ${window.getComputedStyle(status_icon).getPropertyValue('background-position')};`
     }});
+    if(!mobile) icon_span.style.marginTop = "1px";
     let text_span = doc.new({type: "span", text: doc.find("#skip-to-content").innerText, attributes: {
-        style: `font-size: 22px; color: #333;`
+        style: mobile? `font-size: 17px; color: #333` : `font-size: 22px; color: #333`
     }});
 
     doc.find("#skip-to-content").innerText = "";
@@ -824,7 +853,7 @@ function addStatusIndicator(){
 function displayStakeoutOptions(){
     let user_id = getUserId();
 
-    let stakeout_div = doc.new({type: "div", class: "stakeout-section"});
+    let stakeout_div = doc.new({type: "div", class: "tt-section", attributes: {name: 'stakeouts'}});
     doc.find("#tt-target-info .content").appendChild(stakeout_div);
 
     let watchlist_wrap = doc.new({type: "div", class: "tt-checkbox-wrap"});
@@ -885,10 +914,16 @@ function displayStakeoutOptions(){
         saveStakeoutSettings();
     };
 
+    // Add hr
+    stakeout_div.appendChild(doc.new({type: "hr"}));
+    
+    // Add sortable icon
+    stakeout_div.appendChild(doc.new({type: "i", class: "uk-sortable-handle fas fa-arrows-alt"}));
+
     function saveStakeoutSettings(){
 
         if(input.checked){
-            local_storage.get("watchlist", function(watchlist){
+            ttStorage.get("watchlist", function(watchlist){
                 let is_in_list = false;
                 for(let item of watchlist){
                     if(item.id == user_id){
@@ -905,22 +940,22 @@ function displayStakeoutOptions(){
                         traveling: getTraveling()
                     });
                 }
-                local_storage.set({"watchlist": watchlist});
+                ttStorage.set({"watchlist": watchlist});
             });
         } else {
-            local_storage.get("watchlist", function(watchlist){
+            ttStorage.get("watchlist", function(watchlist){
                 for(let item of watchlist){
                     if(item.id == user_id){
                         watchlist.splice(watchlist.indexOf(item), 1);
                         break;
                     }
                 }
-                local_storage.set({"watchlist": watchlist});
+                ttStorage.set({"watchlist": watchlist});
             });
         }
 
         if(checkbox_okay.checked == true || checkbox_lands.checked  == true || checkbox_online.checked == true ){
-            local_storage.change({"stakeouts": {
+            ttStorage.change({"stakeouts": {
                 [user_id]: {
                     "okay": checkbox_okay.checked,
                     "lands": checkbox_lands.checked,
@@ -928,16 +963,16 @@ function displayStakeoutOptions(){
                 }
             }});
         } else {
-            local_storage.get("stakeouts", function(stakeouts){
+            ttStorage.get("stakeouts", function(stakeouts){
                 delete stakeouts[user_id];
-                local_storage.set({"stakeouts": stakeouts});
+                ttStorage.set({"stakeouts": stakeouts});
             });
         }
     }
 }
 
 function getUsername(){
-    return doc.find(".basic-information ul.basic-list li:nth-of-type(1) div:nth-of-type(2)").innerText.split(" [")[0].trim();
+    return doc.find(".basic-information ul.info-table li:nth-of-type(1) div:nth-of-type(2)").innerText.split(" [")[0].trim();
 }
 
 function getStatus(){
