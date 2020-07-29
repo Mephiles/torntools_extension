@@ -258,11 +258,14 @@ function displayGraph(){
 
                     if(result.deltaStrength !== 0){
                         gains.push(`${numberWithCommas(result.deltaStrength, false)} Strength`);
-                    } else if(result.deltaDefense !== 0){
+                    }
+                    if(result.deltaDefense !== 0){
                         gains.push(`${numberWithCommas(result.deltaDefense, false)} Defense`);
-                    } else if(result.deltaDexterity !== 0){
+                    }
+                    if(result.deltaDexterity !== 0){
                         gains.push(`${numberWithCommas(result.deltaDexterity, false)} Dexterity`);
-                    } else if(result.deltaSpeed !== 0){
+                    }
+                    if(result.deltaSpeed !== 0){
                         gains.push(`${numberWithCommas(result.deltaSpeed, false)} Speed`);
                     }
 
