@@ -89,15 +89,32 @@ requireDatabase().then(function(){
         }
 
         // Destination listeners
-        for(let destination of doc.findAll(`div[role='tabpanel'][aria-expanded='true']>div[role='button']`)){
-            destination.addEventListener("click", function(){
-                console.log(destination);
-                let country = destination.getAttribute("data-race")? destination.getAttribute("data-race").replace(/-/g, " ") : "all";
+        if(!mobile){
+            for(let destination of doc.findAll(`div[role='tabpanel'][aria-expanded='true']>div[role='button']`)){
+                destination.addEventListener("click", function(){
+                    console.log(destination);
+                    let country = destination.getAttribute("data-race")? destination.getAttribute("data-race").replace(/-/g, " ") : "all";
+                    if(country == "cayman") country = "cayman islands";
+                    if(country == "uk") country = "united kingdom";
+    
+                    doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
+                });
+            }
+        } else {
+            for(let destination of doc.findAll(`.tab-menu-cont .travel-info-table li.travel-info-table-list`)){
+                let country = destination.find(".city-flag").classList[1].replace(/-/g, " ");
                 if(country == "cayman") country = "cayman islands";
                 if(country == "uk") country = "united kingdom";
 
-                doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
-            });
+                destination.addEventListener("click", function(){
+                    doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
+                });
+            }
+        }
+
+        // mobile
+        if(mobile){
+            doc.find(".travel-agency").classList.add("tt-mobile");
         }
     });
 });
