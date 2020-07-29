@@ -3,6 +3,10 @@ export default {
         "Features": [
             "Highlight good and bad blood bags on the item page and faction armory - DKK",
             "Add a way to hide all chats - DKK",
+            "Add option to make Areas section collapsible - Mephiles",
+            "Add sortability option for Profile sections - Mephiles",
+            "Add exporting/importing for TornTools settings - Mephiles",
+            "Add Quick Bail & Bust and Scores - Mephiles"
         ],
         "Fixes": [
             "Fix Doctorn detection not accounting disabled setting - Mephiles",
@@ -10,18 +14,36 @@ export default {
             "Format rehab cost as currency - DKK",
             "Fix gym hiding not working after switching to another gym - DKK",
             "Fix item value and item market links not showing when scrolling through your items - DKK",
+            "Fix API history cleaning to stop storage build-up - Mephiles",
+            "Fix NPC loot notifications Text-To-Speech saying 'meter' instead of 'minute' - Mephiles",
+            "Fix Gym Graph old data issue - Mephiles",
+            "Adjust Faction filter to Torn's new layout - Mephiles",
+            "Fix Company users' info not appearing - Mephiles",
+            "Fix Torn's data fetch not running correctly - Mephiles",
+            "Fix Achievements' tooltip appearing at the bottom of the page - Mephiles",
+            "Fix Faction announcement 'full page' option not loading when Chain tab was open - Mephiles",
+            "Fix Faction armory filter not loading for Mobile - Mephiles",
+            "Block Quick Items doubles - DKK",
+            "Fix Quick Items item dragging - DKK",
+            "Adjust Profile script to Torn's layout changes - DKK",
+            "Fix Badge issues - DKK",
+            "Fix Faction armory news - DKK"
         ],
         "Changes": [
-            "Added a loading icon for networth on the Home page - Mephiles",
+            "Add a loading icon for networth on the Home page - Mephiles",
             "Change popup entry point to improve speed - Mephiles",
-            "Intercept items 'useItem' to decrease the remaining item quantity - DKK",
-            "Make armory filter rounded - DKK",
-            "Make all containers rounded when closed - DKK",
+            "Decrease item quantity in Quick Items when sending or using an item - DKK",
+            "Improve containers' design - DKK",
             "Show faction member information for other factions - DKK",
-            "Add a margin under the faction filter - DKK",
             "Add an option to disable all notifications - DKK",
             "Add placeholders to chat highlights - DKK",
-            "Highlight words in chats - DKK",
+            "Highlight keywords in chats - DKK",
+            "Make Networth fetching regular (10min interval) - Mephiles",
+            "Redesign Achievements' tooltip - Mephiles",
+            "Add link to Torn to Info popup's location text - Mephiles",
+            "Improve overall system performance and stability - DKK",
+            "Improve Preferences page design - Mephiles",
+            "Enable Gym graph on Mobile - Mephiles"
         ]
     },
     "v4.8": {
