@@ -1,5 +1,5 @@
 export default {
-    "v4.9 - xx.07.2020": {
+    "v4.9 - July, 29th. 2020": {
         "Features": [
             "Highlight good and bad blood bags on the item page and faction armory - DKK",
             "Add a way to hide all chats - DKK",
@@ -27,7 +27,9 @@ export default {
             "Fix Quick Items item dragging - DKK",
             "Adjust Profile script to Torn's layout changes - DKK",
             "Fix Badge issues - DKK",
-            "Fix Faction armory news - DKK"
+            "Fix Faction armory news - DKK",
+            "Fix Gym stats updating not showing all improved stats - Mephiles",
+            "Fix Travel Agency page artifacts on Mobile - Mephiles"
         ],
         "Changes": [
             "Add a loading icon for networth on the Home page - Mephiles",
