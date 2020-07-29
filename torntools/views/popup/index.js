@@ -1,4 +1,10 @@
 var previous_chain_timer;
+var initiated_pages = {
+    "info": false,
+    "market": false,
+    "stocks": false,
+    "calculator": false
+}
 
 window.addEventListener("load", function () {
     loadingPlaceholder(doc.find("body"), true);
@@ -73,7 +79,10 @@ function loadPage(name) {
         "calculator": mainCalculator,
         "initialize": mainInitialize
     }
-    dict[name]();
+    if(!initiated_pages[name]){
+        dict[name]();
+        initiated_pages[name] = true;
+    }
 }
 
 function mainInfo() {
