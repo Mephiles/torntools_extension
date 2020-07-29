@@ -1001,15 +1001,19 @@ async function checkLootAlerts(){
 async function clearCache(){
 	console.group("Clearing cache");
 
-	await new Promise(function(resolve, reject){
-		for(let type in cache){
-			for(let key in cache[type]){
-				if(!cache[type][key].date || new Date() - new Date(cache[type][key].date) >= 60*1000){
-					console.log(`	Cleared cache for ${type}: ${key}`)
-					delete cache[type][key];
-				}
-			}
-		}
+	await new Promise((resolve) => {
+	    const timestamp = new Date().getTime();
+
+	    for (let type in cache) {
+	        for (let key in cache[type]) {
+                let t = cache[type][key];
+
+                if (!t.timestamp || timestamp > (t.timestamp + t.ttl)) {
+                    delete cache[type][key];
+                }
+            }
+        }
+
 		ttStorage.set({"cache": cache}, function(){
 			console.log("	Cleared cache.");
 			return resolve(true);
