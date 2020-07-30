@@ -326,6 +326,7 @@ function setTravelItems(){
     console.log("carry_items", travel_items);
 
     doc.find("#ttTravelTable #tt-items").value = travel_items;
+    ttStorage.set({"travel_items": travel_items});
 }
 
 function addTableContent(travel_items){
