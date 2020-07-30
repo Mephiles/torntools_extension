@@ -186,10 +186,12 @@ function addTooltip(cell){
                 added_user = true;
             }
 
-            let div = doc.new({type: "div", text: numberWithCommas(goal)});
-            let inner_div = doc.new({type: "div", class: "point"});
-            div.appendChild(inner_div);
-            line_progress.appendChild(div);
+            if(goal !== data.score){
+                let div = doc.new({type: "div", text: numberWithCommas(goal)});
+                let inner_div = doc.new({type: "div", class: "point"});
+                div.appendChild(inner_div);
+                line_progress.appendChild(div);
+            }
         }
 
         if(!added_user){
