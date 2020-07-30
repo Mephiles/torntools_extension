@@ -246,15 +246,6 @@
     max-width: unset !important;
 }
 
-/* .nav-color-code {
-    width: 4px;
-    height: 25px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 9;
-} */
-
 /* Torn element manipulation */
 #mainContainer, .header .header-wrapper-top>.container {
     margin-left: var(--torntools-align-left, auto) !important;
@@ -286,6 +277,7 @@ div[role='main'].tt-modified {
 }
 
 /* Player list filter */
+
 .filter-container+* {
     margin-top: 0 !important;
 }
@@ -357,6 +349,7 @@ div[role='main'].tt-modified {
 }
 
 /* Chat filter */
+
 .tt-chat-filter * {
     display: inline-block;
     vertical-align: top;
@@ -394,6 +387,7 @@ div[role='main'].tt-modified {
 }
 
 /* Color Classes */
+
 *[color="warning"] {
     color: #ff4040;
 }
