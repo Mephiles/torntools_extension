@@ -9,8 +9,7 @@ requireDatabase().then(function(){
     gymLoaded().then(function(){
         console.log("TT - Gym");
 
-        injectFetch();
-        window.addEventListener("tt-fetch", (event) => {
+        addFetchListener((event) => {
             const {page, json, fetch} = event.detail;
             if (page !== "gym" || !json) return
 

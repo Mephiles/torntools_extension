@@ -464,7 +464,15 @@ const STORAGE = {
         },
         "scripts": {
             "stats_estimate": {
-                "profile": true
+                "profile": true,
+                "userlist": false,
+                // TODO - abroad
+                // TODO - "hall_of_fame": false,
+                // TODO - "bounties": false,
+                // TODO - "blacklist": false,
+                // TODO - "faction_wall": false,
+                // TODO - "faction_profile": false,
+                // TODO - competition
             }
         }
     }
@@ -1837,10 +1845,21 @@ function injectXHR() {
     injectedXHR = true;
 }
 
+function addXHRListener(callback) {
+    injectXHR();
+
+    window.addEventListener("tt-xhr", callback);
+}
 
 function injectFetch() {
     if (injectedFetch) return;
 
     doc.find("head").appendChild(doc.new({type: "script", attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectFetch.js")}}));
     injectedFetch = true;
+}
+
+function addFetchListener(callback) {
+    injectXHR();
+
+    window.addEventListener("tt-fetch", callback);
 }

@@ -571,7 +571,7 @@ let pendingActions = {};
 function enableInjectListener() {
     if (injectListener) return;
 
-    window.addEventListener("tt-xhr", (event) => {
+    addXHRListener((event) => {
         const {page, json, xhr} = event.detail;
 
         if (page === "item" && json) {

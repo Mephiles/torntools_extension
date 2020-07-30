@@ -2,9 +2,7 @@ let ownFaction = false;
 let member_info_added = false;
 
 requireDatabase().then(() => {
-    injectXHR();
-
-    window.addEventListener("tt-xhr", (event) => {
+    addXHRListener((event) => {
         const {page, json, xhr} = event.detail;
         if (!json) return;
 

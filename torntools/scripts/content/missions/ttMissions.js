@@ -1,9 +1,7 @@
 requireDatabase().then(function(){
     if (!settings.pages.missions.rewards) return;
 
-    injectXHR();
-
-    window.addEventListener("tt-xhr", (event) => {
+    addXHRListener((event) => {
         const {page, json, xhr} = event.detail;
         console.log("DKK XHR", page, json)
         if (page !== "loader") return;
