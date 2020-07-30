@@ -514,9 +514,9 @@ function setupPreferences() {
         });
         message("Settings imported (refresh to see).", true);
     });
-    
+
     // changing subsite
-    for(let link of preferences.findAll(".navigation>div:not(.heading)")){
+    for (let link of preferences.findAll(".navigation>div:not(.heading)")) {
         link.onclick = function () {
             let name = link.getAttribute("name");
             preferences.find(`.inner-content .section.active`).classList.remove("active");
@@ -556,15 +556,15 @@ function savePreferences(preferences, settings, target_list_enabled) {
 
     // Other scripts
     for (let type of ["pages", "scripts"]) {
-       for (let page in settings[type]) {
-           for (let option in settings[type][page]) {
-               const optionDiv = preferences.find(`#${page}-${option}`);
-               if (!optionDiv) continue;
+        for (let page in settings[type]) {
+            for (let option in settings[type][page]) {
+                const optionDiv = preferences.find(`#${page}-${option}`);
+                if (!optionDiv) continue;
 
-               if (optionDiv.find("input")) settings[type][page][option] = optionDiv.find("input").checked;
-               else if (optionDiv.find("select")) settings[type][page][option] = optionDiv.find("select").selectedOptions[0].getAttribute("value");
-           }
-       }
+                if (optionDiv.find("input")) settings[type][page][option] = optionDiv.find("input").checked;
+                else if (optionDiv.find("select")) settings[type][page][option] = optionDiv.find("select").selectedOptions[0].getAttribute("value");
+            }
+        }
     }
 
     // Target list
