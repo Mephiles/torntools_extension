@@ -48,7 +48,8 @@
 			"css": [
 				"scripts/content/global/ttGlobal.css",
 				"scripts/content/global/ttChat.css",
-				"scripts/libs/nouislider.css"
+				"scripts/libs/nouislider.css",
+				"scripts/libs/fontawesome.css"
 			],
 			"js": [
 				"scripts/libs/nouislider.js",
