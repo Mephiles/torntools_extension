@@ -1,4 +1,15 @@
 export default {
+    "v5.0 - 2020": {
+        "Features": [
+            "Show an estimate of an user battle stats. - DKK",
+        ],
+        "Fixes": [
+        ],
+        "Changes": [
+            "Change the caching system. - DKK",
+            "Update the profile view to not completely fail upon any api error. - DKK",
+        ]
+    },
     "v4.9 - July, 29th. 2020": {
         "Features": [
             "Highlight good and bad blood bags on the item page and faction armory - DKK",
