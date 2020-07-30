@@ -325,10 +325,13 @@ const STORAGE = {
     "settings": {
         "update_notification": true,
         "notifications_tts": false,
+        "notifications_sound": true,
+        "notifications_link": true,
         "clean_flight": false,
         // "remove_info_boxes": false,
         "theme": "default",
         "force_tt": false,
+        "font_size": "12px",
         "inactivity_alerts_faction": {
             // "432000000": "#ffc8c8",  // 5 days
             // "259200000": "#fde5c8"  // 3 days
@@ -447,6 +450,7 @@ const STORAGE = {
             },
             "global": {
                 "vault_balance": false,
+                "vault_balance_own": false,
                 "notes": true,
                 "hide_upgrade": false,
                 "align_left": false,
@@ -1707,18 +1711,19 @@ function sortSections(parent, page) {
 }
 
 function notifyUser(title, message, url) {
-    chrome.notifications.create({
-        type: "basic",
-        iconUrl: "images/icon128.png",
-        title: title,
-        message: message
-    }, function (id) {
-        console.log(id)
-        notificationLinkRelations[id] = url;
-        console.log("   Notified!");
-    });
-
     ttStorage.get("settings", function (settings) {
+        chrome.notifications.create({
+            type: "basic",
+            iconUrl: "images/icon128.png",
+            title: title,
+            message: message,
+            silent: !settings.notifications_sound
+        }, function (id) {
+            console.log(id)
+            notificationLinkRelations[id] = url;
+            console.log("   Notified!");
+        });
+
         if (settings.notifications_tts) {
             console.log("READING TTS");
 

@@ -275,9 +275,15 @@ function addChatFilters(){
 function displayVaultBalance(){
     if (!networth || !networth.current || !networth.current.value) return;
 
+    let money = networth.current.value.vault;
+
+    if(settings.pages.global.vault_balance_own && vault.initialized && vault.user.current_money){
+        money = vault.user.current_money;
+    }
+
     let elementHTML = `
     <span class="name___297H-">Vault:</span>
-    <span class="value___1K0oi money-positive___3pqLW" style="position:relative;left:-3px;">$${numberWithCommas(networth.current.value.vault, false)}</span>
+    <span class="value___1K0oi money-positive___3pqLW" style="position:relative;left:-3px;">$${numberWithCommas(money, false)}</span>
     `
 
     let el = doc.new({type: "p", class: "point-block___xpMEi", attributes: {tabindex: "1"}});

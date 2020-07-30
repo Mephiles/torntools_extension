@@ -10,6 +10,17 @@ export default {
             "Update the profile view to not completely fail upon any api error. - DKK",
         ]
     },
+    "v4.10 - August, xxth. 2020": {
+        "Features": [
+
+        ],
+        "Fixes": [
+
+        ],
+        "Changes": [
+
+        ]
+    },
     "v4.9 - July, 29th. 2020": {
         "Features": [
             "Highlight good and bad blood bags on the item page and faction armory - DKK",

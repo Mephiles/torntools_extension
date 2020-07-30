@@ -258,21 +258,20 @@
 #mainContainer, .header .header-wrapper-top>.container {
     margin-left: var(--torntools-align-left, auto) !important;
 }
-
 #pointsLevel {
     display: var(--torntools-hide-upgrade-button, block) !important;
 }
-
 .info-msg-cont.green, .info-msg-cont.green+hr {
     display: var(--torntools-hide-upgrade-info, block) !important;
 }
-
 .info-msg-cont, .info-msg-cont+hr, .msg-info-wrap, .msg-info-wrap+hr {
     display: var(--torntools-remove-info-boxes, block) !important;
 }
-
 .doctorn-widgets:not(:empty), .doctorn-widget:not(.doctorn-widget--animated) {
     display: var(--torntools-hide-doctorn) !important;
+}
+.overview_1MoPG .message_oP8oM * {
+    font-size: var(--torntools-chat-font-size) !important;
 }
 
 /* mobile */

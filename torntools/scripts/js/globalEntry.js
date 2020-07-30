@@ -71,6 +71,9 @@ requireDatabase(false).then(async () => {
     // Clean Flight page
     document.documentElement.style.setProperty("--torntools-clean-flight-display", settings.clean_flight ? "none" : "block");
 
+    // Chat font size
+    document.documentElement.style.setProperty("--torntools-chat-font-size", settings.font_size || "12px");
+
     // Mobile
     mobile = await mobileChecker();
     console.log("Using mobile:", mobile);
