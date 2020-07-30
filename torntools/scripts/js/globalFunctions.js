@@ -449,6 +449,7 @@ const STORAGE = {
             },
             "global": {
                 "vault_balance": false,
+                "vault_balance_own": false,
                 "notes": true,
                 "hide_upgrade": false,
                 "align_left": false,
