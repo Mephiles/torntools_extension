@@ -324,6 +324,7 @@ const STORAGE = {
     "settings": {
         "update_notification": true,
         "notifications_tts": false,
+        "notifications_sound": true,
         "clean_flight": false,
         // "remove_info_boxes": false,
         "theme": "default",
@@ -1650,18 +1651,19 @@ function sortSections(parent, page) {
 }
 
 function notifyUser(title, message, url) {
-    chrome.notifications.create({
-        type: "basic",
-        iconUrl: "images/icon128.png",
-        title: title,
-        message: message
-    }, function (id) {
-        console.log(id)
-        notificationLinkRelations[id] = url;
-        console.log("   Notified!");
-    });
-
     ttStorage.get("settings", function (settings) {
+        chrome.notifications.create({
+            type: "basic",
+            iconUrl: "images/icon128.png",
+            title: title,
+            message: message,
+            silent: !settings.notifications_sound
+        }, function (id) {
+            console.log(id)
+            notificationLinkRelations[id] = url;
+            console.log("   Notified!");
+        });
+
         if (settings.notifications_tts) {
             console.log("READING TTS");
 
