@@ -261,6 +261,7 @@ const STORAGE = {
         "text": undefined,
         "height": undefined
     },
+    "travel_items": 5,
     "stakeouts": {},
     "filters": {
         "preset_data": {

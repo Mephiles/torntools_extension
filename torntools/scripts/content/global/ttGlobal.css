@@ -53,6 +53,7 @@
     font-size: 16px;
     text-align: center;
     position: static !important;
+    margin: auto;
 }
 .tt-title.tt-navbar .tt-title-icon {
     min-width: 25px;
@@ -391,36 +392,6 @@ div[role='main'].tt-modified {
 #chatRoot {
     display: var(--torntools-hide-chat, block) !important;
 }
-
-/* font-awesome */
-.fa, .fas {
-    font-weight: 900;
-    -webkit-font-smoothing: antialiased;
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    line-height: 1;
-}
-
-.fa-times:before {content: "\f00d";}
-
-.fa-chevron-down:before{content:"\f078"}
-.fa-chevron-up:before{content:"\f077"}
-
-.fa-caret-up:before{content:"\f0d8"}
-.fa-caret-down:before{content:"\f0d7"}
-.fa-caret-left:before{content:"\f0d9"}
-.fa-caret-right:before{content:"\f0da"}
-
-.fa-plus:before{content:"\f067"}
-.fa-plus-circle:before{content:"\f055"}
-
-.fa-cog:before{content:"\f013"}
-
-.fa-binoculars:before{content:"\f1e5"}
-
-.fa-arrows-alt:before{content:"\f0b2"}
 
 /* Color Classes */
 *[color="warning"] {
