@@ -325,6 +325,7 @@ const STORAGE = {
         "update_notification": true,
         "notifications_tts": false,
         "notifications_sound": true,
+        "notifications_link": true,
         "clean_flight": false,
         // "remove_info_boxes": false,
         "theme": "default",

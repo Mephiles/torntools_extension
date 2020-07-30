@@ -885,7 +885,11 @@ chrome.runtime.onUpdateAvailable.addListener(function(details){
 
 // Notification links
 chrome.notifications.onClicked.addListener(function(notification_id){
-	chrome.tabs.create({url: notificationLinkRelations[notification_id]});
+	ttStorage.get("settings", function(settings){
+		if(settings.notifications_link){
+			chrome.tabs.create({url: notificationLinkRelations[notification_id]});
+		}
+	});
 });
 
 chrome.storage.onChanged.addListener( (changes, area) => {
