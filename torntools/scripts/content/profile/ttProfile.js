@@ -377,16 +377,18 @@ function displayAlly(user_faction, allies) {
 }
 
 function showWarning(type) {
-    let title = doc.find(".profile-left-wrapper .title-black");
-    let span = document.createElement("span");
-    span.setClass("tt-warning-message");
-
+    let text;
     if (type === 'user')
-        span.innerText = "This user is in your faction!";
+        text = "This user is in your faction!";
     else if (type === 'ally')
-        span.innerText = "This user is an ally!";
+        text = "This user is an ally!";
 
-    title.appendChild(span);
+    doc.find(".profile-left-wrapper .title-black").appendChild(doc.new({
+        type: "span",
+        class: "tt-title-message",
+        text,
+        attributes: {color: "warning"}
+    }));
 }
 
 function displayTargetInfo(targets) {
@@ -659,7 +661,12 @@ async function displayProfileStats() {
     profile_stats.appendChild(doc.new({type: "i", class: "uk-sortable-handle fas fa-arrows-alt"}));
 
     if (settings.scripts.stats_estimate.profile) {
-        doc.find("#skip-to-content").appendChild(doc.new({type: "div", class: "tt-stat-estimate", text: result.battleStatsEstimate}))
+        doc.find(".profile-right-wrapper > .profile-action .title-black").appendChild(doc.new({
+            type: "span",
+            class: "tt-title-message",
+            text: result.battleStatsEstimate,
+            attributes: {color: "info"}
+        }));
     }
 }
 

@@ -326,8 +326,7 @@
 }
 
 /* Friendly Fire */
-.tt-warning-message {
-    color: #ff4040;
+.tt-title-message {
     float: right;
     padding-right: 7px;
 }
