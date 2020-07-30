@@ -512,7 +512,8 @@ function addQuickItem(container, innerContent, responseWrap, id, temporary = fal
 
     if (innerContent.find(`.item[item-id='${id}']`)) return
 
-    let amount = findItemsInList(userdata.inventory, {ID: id})[0].quantity;
+    let amount = findItemsInList(userdata.inventory, {ID: id})[0];
+    amount = amount? amount.quantity : 0;
 
     let div = doc.new({type: "div", class: temporary ? "temp item" : "item", attributes: {"item-id": id}});
     let pic = doc.new({
