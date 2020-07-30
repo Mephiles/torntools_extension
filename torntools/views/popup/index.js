@@ -88,14 +88,10 @@ function loadPage(name) {
 function mainInfo() {
     updateInfo(settings);
 
-    doc.find("#location .link").onclick = function () {
-        chrome.tabs.create({url: "https://www.torn.com/index.php"});
-    }
-    doc.find(".footer .messages").onclick = function () {
-        chrome.tabs.create({url: "https://www.torn.com/messages.php"});
-    }
-    doc.find(".footer .events").onclick = function () {
-        chrome.tabs.create({url: "https://www.torn.com/events.php"});
+    for(let link of doc.findAll(".subpage#info .link")){
+        link.onclick = function () {
+            chrome.tabs.create({url: link.getAttribute("href")});
+        }
     }
 
     // Update interval
