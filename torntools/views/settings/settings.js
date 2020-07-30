@@ -243,6 +243,7 @@ function setupPreferences() {
     preferences.find(`#theme-${settings.theme} input`).checked = true;
     preferences.find("#notifications_tts input").checked = settings.notifications_tts;
     preferences.find("#clean_flight input").checked = settings.clean_flight;
+    preferences.find("#font_size input").value = settings.font_size.replace(/px/, "");
 
     // Tabs
     for (let tab in settings.tabs) {
@@ -532,6 +533,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
     settings.theme = preferences.find("input[name=theme]:checked").parentElement.id.split("-")[1];
     settings.notifications_tts = preferences.find("#notifications_tts input").checked;
     settings.clean_flight = preferences.find("#clean_flight input").checked;
+    settings.font_size = preferences.find("#font_size input").value.replace(/px/, "") + "px";
 
     // Tabs
     for (let tab in settings.tabs) {

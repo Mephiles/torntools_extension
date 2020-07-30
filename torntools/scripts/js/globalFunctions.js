@@ -328,6 +328,7 @@ const STORAGE = {
         // "remove_info_boxes": false,
         "theme": "default",
         "force_tt": false,
+        "font_size": "12px",
         "inactivity_alerts_faction": {
             // "432000000": "#ffc8c8",  // 5 days
             // "259200000": "#fde5c8"  // 3 days
