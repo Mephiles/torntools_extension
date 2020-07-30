@@ -15,6 +15,8 @@ window.addEventListener("load", function () {
             chrome.storage.local.getBytesInUse(function (data) {
                 doc.find("#about #data-used span").innerText = formatBytes(data);
             });
+        } else {
+            setTimeout(() => doc.find("#about #data-used span").innerText = formatBytes(JSON.stringify(DB).length), 0);
         }
 
         // setup site
