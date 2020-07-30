@@ -9,8 +9,7 @@ requireDatabase().then(function(){
     gymLoaded().then(function(){
         console.log("TT - Gym");
 
-        doc.find("head").appendChild(doc.new({type: "script", attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/gym/ttGymInject.js")}}));
-
+        injectFetch();
         window.addEventListener("tt-fetch", (event) => {
             const {page, json, fetch} = event.detail;
             if (page !== "gym" || !json) return
@@ -22,29 +21,29 @@ requireDatabase().then(function(){
         });
 
         let gym_container = content.newContainer("Gym", {id: "tt-gym"});
-    
+
         // Graph
         if (!shouldDisable()) {
             displayGraph();
         }
-    
+
         // Energy needed for next gym estimates
         if(settings.pages.gym.estimated_energy){
             let div = doc.new({type: "div", id: "ttEnergyEstimate"});
-    
+
             gym_container.find(".content").appendChild(div);
             showProgress();
         }
-    
+
         // Disable buttons
         let div = doc.new({type: "div", class: "tt-checkbox-wrap"});
         let checkbox = doc.new({type: "input", id: "tt-gym-global-disable", attributes: {type: "checkbox"}});
         let div_text = doc.new({type: "div", text: "Disable Gym buttons"});
-    
+
         div.appendChild(checkbox);
         div.appendChild(div_text);
         gym_container.find(".content").appendChild(div);
-    
+
         checkbox.addEventListener("click", function(){
             if(checkbox.checked){
                 disableGymButton(["strength", "speed", "dexterity", "defense"], true);
@@ -52,9 +51,9 @@ requireDatabase().then(function(){
                 disableGymButton(["strength", "speed", "dexterity", "defense"], false);
             }
         });
-    
+
         disableGyms();
-    
+
         // Train button listeners
         let train_button_observer = new MutationObserver(function(mutations){
             for(let mutation of mutations){
@@ -91,7 +90,7 @@ function showProgress(){
 
     let in_prog_gym = doc.find(".gymButton___3OFdI.inProgress___1Nd26");
     if(!in_prog_gym) return;
-    
+
     let index = parseInt(in_prog_gym.id.split("-")[1])-1;
     let percentage = parseInt(in_prog_gym.find(".percentage___1vHCw").innerText.replace("%", ""));
     let goal = gym_goals[index];
@@ -122,7 +121,7 @@ function displayGraph(){
 
         if(result.error){
             console.log("TornStats API result", result);
-            
+
             let text;
             if(result.error.indexOf("User not found") > -1){
                 text = "Can't display graph because no TornStats account was found. Please register an account @ www.tornstats.com";

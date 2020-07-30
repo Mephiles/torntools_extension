@@ -2,10 +2,7 @@ let ownFaction = false;
 let member_info_added = false;
 
 requireDatabase().then(() => {
-    doc.find("head").appendChild(doc.new({
-        type: "script",
-        attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/faction/ttFactionInject.js")}
-    }));
+    injectXHR();
 
     window.addEventListener("tt-xhr", (event) => {
         const {page, json, xhr} = event.detail;

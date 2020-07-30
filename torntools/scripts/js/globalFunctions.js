@@ -524,6 +524,9 @@ const RANK_TRIGGERS = {
     ],
 };
 
+let injectedXHR = false;
+let injectedFetch = false;
+
 /*
  * Add prototype functions.
  */
@@ -1825,4 +1828,19 @@ function estimateBattleStats(rank, level, totalCrimes, networth) {
     const triggersStats = RANKS[rank] - triggersLevel - triggersCrimes - triggersNetworth - 1;
 
     return RANK_TRIGGERS.stats[triggersStats] || "N/A";
+}
+
+function injectXHR() {
+    if (injectedXHR) return;
+
+    doc.find("head").appendChild(doc.new({type: "script", attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectXHR.js")}}));
+    injectedXHR = true;
+}
+
+
+function injectFetch() {
+    if (injectedFetch) return;
+
+    doc.find("head").appendChild(doc.new({type: "script", attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectFetch.js")}}));
+    injectedFetch = true;
 }

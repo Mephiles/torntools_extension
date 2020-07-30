@@ -1,10 +1,7 @@
 requireDatabase().then(function(){
     if (!settings.pages.missions.rewards) return;
 
-    doc.find("head").appendChild(doc.new({
-        type: "script",
-        attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/missions/ttMissionsInject.js")}
-    }));
+    injectXHR();
 
     window.addEventListener("tt-xhr", (event) => {
         const {page, json, xhr} = event.detail;

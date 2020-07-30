@@ -3,10 +3,7 @@ requireDatabase().then(function () {
         console.log("TT - Quick items");
         if (shouldDisable()) return;
 
-        doc.find("head").appendChild(doc.new({
-            type: "script",
-            attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/items/ttItemsInject.js")}
-        }));
+       injectXHR();
 
         // Quick items
         let quick_container = content.newContainer("Quick items", {
