@@ -485,7 +485,7 @@ async function displayProfileStats() {
         result = await new Promise((resolve) => {
             fetchApi(`https://api.torn.com/user/${user_id}?selections=profile,personalstats,crimes`, api_key)
                 .then(data => {
-                    return resolve(handleTornData(data));
+                    return resolve(handleTornProfileData(data));
                 });
         });
 
@@ -1066,30 +1066,6 @@ function getTraveling() {
     let desc = doc.find(".main-desc").innerText;
 
     return desc.indexOf("Traveling") > -1 || desc.indexOf("Returning") > -1;
-}
-
-function handleTornData(data) {
-    let response = {};
-
-    if (data.ok) {
-        const rankSpl = data.result.rank.split(" ");
-        let rank = rankSpl[0];
-        if (rankSpl[1][0] === rankSpl[1][0].toLowerCase()) rank += " " + rankSpl[1];
-
-        const level = data.result.level;
-        const totalCrimes = data.result.criminalrecord.total;
-        const networth = data.result.personalstats.networth;
-
-        response.stats = {
-            ...data.result.personalstats,
-            ...data.result.criminalrecord,
-        };
-        response.battleStatsEstimate = estimateBattleStats(rank, level, totalCrimes, networth);
-    } else {
-        response.error = data.error;
-    }
-
-    return response;
 }
 
 function handleTornStatsData(data) {

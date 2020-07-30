@@ -388,12 +388,33 @@ div[role='main'].tt-modified {
 
 /* Color Classes */
 
+*[color="error"] {
+    color: #ff4040;
+}
+
 *[color="warning"] {
     color: #ff4040;
 }
 
 *[color="info"] {
     color: #47dfd6;
+}
+
+/* Grid System */
+
+.tt-userinfo-grid {
+    display: inline-grid;
+    justify-items: center;
+    align-items: center;
+    width: 100%;
+}
+
+.tt-userinfo-grid .tt-userinfo--last_action {
+    grid-column-start: last-action;
+}
+
+.tt-userinfo-grid .tt-userinfo--stats_estimate {
+    grid-column-start: stats-estimate;
 }
 
 /* Torn icons */

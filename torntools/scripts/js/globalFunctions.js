@@ -1842,7 +1842,10 @@ function estimateBattleStats(rank, level, totalCrimes, networth) {
 function injectXHR() {
     if (injectedXHR) return;
 
-    doc.find("head").appendChild(doc.new({type: "script", attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectXHR.js")}}));
+    doc.find("head").appendChild(doc.new({
+        type: "script",
+        attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectXHR.js")}
+    }));
     injectedXHR = true;
 }
 
@@ -1855,7 +1858,10 @@ function addXHRListener(callback) {
 function injectFetch() {
     if (injectedFetch) return;
 
-    doc.find("head").appendChild(doc.new({type: "script", attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectFetch.js")}}));
+    doc.find("head").appendChild(doc.new({
+        type: "script",
+        attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectFetch.js")}
+    }));
     injectedFetch = true;
 }
 
@@ -1863,4 +1869,32 @@ function addFetchListener(callback) {
     injectXHR();
 
     window.addEventListener("tt-fetch", callback);
+}
+
+function sleep(millis) {
+    return new Promise((resolve => setTimeout(resolve, millis)));
+}
+
+function handleTornProfileData(data) {
+    let response = {};
+
+    if (data.ok) {
+        const rankSpl = data.result.rank.split(" ");
+        let rank = rankSpl[0];
+        if (rankSpl[1][0] === rankSpl[1][0].toLowerCase()) rank += " " + rankSpl[1];
+
+        const level = data.result.level;
+        const totalCrimes = data.result.criminalrecord ? data.result.criminalrecord.total : 0;
+        const networth = data.result.personalstats ? data.result.personalstats.networth : 0;
+
+        response.stats = {
+            ...data.result.personalstats,
+            ...data.result.criminalrecord,
+        };
+        response.battleStatsEstimate = estimateBattleStats(rank, level, totalCrimes, networth);
+    } else {
+        response.error = data.error;
+    }
+
+    return response;
 }
