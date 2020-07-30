@@ -270,7 +270,7 @@
 .doctorn-widgets:not(:empty), .doctorn-widget:not(.doctorn-widget--animated) {
     display: var(--torntools-hide-doctorn) !important;
 }
-.overview_1MoPG .message_oP8oM span {
+.overview_1MoPG .message_oP8oM * {
     font-size: var(--torntools-chat-font-size) !important;
 }
 
