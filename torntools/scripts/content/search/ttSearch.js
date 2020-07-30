@@ -1,8 +1,8 @@
-requireDatabase().then(function(){
-	searchLoaded().then(function(){
+requireDatabase().then(function () {
+    searchLoaded().then(function () {
         console.log("TT - Search");
-        
-        if(personalized.mass_messages){
+
+        if (personalized.mass_messages) {
             console.log("Mass Messages");
             massMessages();
         }
@@ -15,10 +15,10 @@ requireDatabase().then(function(){
     });
 });
 
-function searchLoaded(){
-    return new Promise(function(resolve, reject){
-        let checker = setInterval(function(){
-            if(doc.find("ul.user-info-list-wrap li:not(.last)")){
+function searchLoaded() {
+    return new Promise((resolve) => {
+        let checker = setInterval(function () {
+            if (doc.find("ul.user-info-list-wrap li:not(.last)")) {
                 resolve(true);
                 return clearInterval(checker);
             }
@@ -26,35 +26,43 @@ function searchLoaded(){
     });
 }
 
-function massMessages(theme){
-    let container = content.newContainer("Search", {first: true, theme: theme, id: "ttSearchContainer"}).find(".content");
+function massMessages(theme) {
+    let container = content.newContainer("Search", {
+        first: true,
+        theme: theme,
+        id: "ttSearchContainer"
+    }).find(".content");
 
     let add_all_to_list = doc.new({type: "div", id: "tt-add-all-to-mm-list", text: "Add all to List"});
     container.appendChild(add_all_to_list);
 
-    add_all_to_list.addEventListener("click", function(){
+    add_all_to_list.addEventListener("click", function () {
         let list = [];
 
-        for(let li of doc.findAll("ul.user-info-list-wrap>li:not(.last)")){
+        for (let li of doc.findAll("ul.user-info-list-wrap>li:not(.last)")) {
             let user = li.find("a.user.name").getAttribute("data-placeholder") || li.find("a.user.name>span").getAttribute("title");
             list.push(user);
         }
 
         console.log("LIST", list);
-        ttStorage.get("mass_messages", function(mass_messages){
+        ttStorage.get("mass_messages", function (mass_messages) {
             mass_messages.list = [...mass_messages.list, ...list];
             ttStorage.set({"mass_messages": mass_messages});
         });
     });
 }
 
-function addFilterToTable(list, title){
-    let filter_container = content.newContainer("Filters", {id: "tt-player-filter", class: "filter-container", next_element: title}).find(".content");
-    filter_html = `
+function addFilterToTable(list, title) {
+    let filter_container = content.newContainer("Filters", {
+        id: "tt-player-filter",
+        class: "filter-container",
+        next_element: title
+    }).find(".content");
+    filter_container.innerHTML = `
         <div class="filter-header">
             <div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> users</div>
         </div>
-        <div class="filter-content ${mobile?"tt-mobile":""}">
+        <div class="filter-content ${mobile ? "tt-mobile" : ""}">
             <div class="filter-wrap" id="activity-filter">
                 <div class="filter-heading">Activity</div>
                 <div class="filter-multi-wrap">
@@ -84,8 +92,7 @@ function addFilterToTable(list, title){
                 <div class="filter-slider-info"></div>
             </div>
         </div>
-    `
-    filter_container.innerHTML = filter_html;
+    `;
 
     // Initializing
     // let time_start = filters.user_list.time[0] || 0;
@@ -139,18 +146,18 @@ function addFilterToTable(list, title){
     });
 
     // Event listeners
-    for(let checkbox of filter_container.findAll(".tt-checkbox-wrap input")){
+    for (let checkbox of filter_container.findAll(".tt-checkbox-wrap input")) {
         checkbox.onclick = applyFilters;
     }
-    for(let dropdown of filter_container.findAll("select")){
+    for (let dropdown of filter_container.findAll("select")) {
         dropdown.onchange = applyFilters;
     }
-    let filter_observer = new MutationObserver(function(mutations){
-        for(let mutation of mutations){
-            if(mutation.type == "attributes" 
-            && mutation.target.classList 
-            && mutation.attributeName == "aria-valuenow"
-            && (mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))){
+    let filter_observer = new MutationObserver(function (mutations) {
+        for (let mutation of mutations) {
+            if (mutation.type === "attributes"
+                && mutation.target.classList
+                && mutation.attributeName === "aria-valuenow"
+                && (mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))) {
                 applyFilters();
             }
         }
@@ -158,11 +165,11 @@ function addFilterToTable(list, title){
     filter_observer.observe(filter_container, {attributes: true, subtree: true});
 
     // Page changing
-    doc.addEventListener("click", function(event){
-        if(event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, {class: "gallery-wrapper"})){
+    doc.addEventListener("click", function (event) {
+        if (event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, {class: "gallery-wrapper"})) {
             console.log("click");
-            setTimeout(function(){
-                requirePlayerList(".user-info-list-wrap").then(function(){
+            setTimeout(function () {
+                requirePlayerList(".user-info-list-wrap").then(function () {
                     console.log("loaded");
                     // populateFactions();
                     applyFilters();
@@ -172,7 +179,7 @@ function addFilterToTable(list, title){
     });
 
     // Initializing
-    for(let state of filters.user_list.activity){
+    for (let state of filters.user_list.activity) {
         doc.find(`#activity-filter input[value='${state}']`).checked = true;
     }
     // if(filters.user_list.faction.default){
@@ -181,14 +188,14 @@ function addFilterToTable(list, title){
 
     // populateFactions();
     applyFilters();
-    
-    function applyFilters(){
+
+    function applyFilters() {
         let active_dict = {
             "online": "icon1_",
             "idle": "icon62_",
             "offline": "icon2_"
         }
-        
+
 
         let activity = [];
         // let faction = ``;
@@ -196,7 +203,7 @@ function addFilterToTable(list, title){
         let level = [];
 
         // Activity
-        for(let checkbox of doc.findAll("#activity-filter .tt-checkbox-wrap input:checked")){
+        for (let checkbox of doc.findAll("#activity-filter .tt-checkbox-wrap input:checked")) {
             activity.push(checkbox.getAttribute("value"));
         }
         // Faction
@@ -214,17 +221,17 @@ function addFilterToTable(list, title){
         // console.log("Level", level);
 
         // Filtering
-        for(let li of list.findAll(":scope>li")){
+        for (let li of list.findAll(":scope>li")) {
             li.classList.remove("filter-hidden");
-            if(li.classList.contains("tt-user-info")){
+            if (li.classList.contains("tt-user-info")) {
                 continue;
-            } else if(li.nextElementSibling && li.nextElementSibling.classList.contains("tt-user-info")){
+            } else if (li.nextElementSibling && li.nextElementSibling.classList.contains("tt-user-info")) {
                 li.nextElementSibling.classList.remove("filter-hidden");
             }
 
             // Level
             let player_level = parseInt(li.find(".level").innerText.trim().replace("Level", "").replace("LEVEL", "").replace(":", "").trim());
-            if(!(level[0] <= player_level && player_level <= level[1])){
+            if (!(level[0] <= player_level && player_level <= level[1])) {
                 li.classList.add("filter-hidden");
                 continue;
             }
@@ -237,50 +244,34 @@ function addFilterToTable(list, title){
             // }
 
             // Activity
-            let matches_one_activity = activity.length != 0? false:true;
-            for(let state of activity){
-                if(li.querySelector(`li[id^='${active_dict[state]}']`)){
+            let matches_one_activity = activity.length === 0;
+            for (let state of activity) {
+                if (li.querySelector(`li[id^='${active_dict[state]}']`)) {
                     matches_one_activity = true;
                 }
             }
-            if(!matches_one_activity){
+            if (!matches_one_activity) {
                 li.classList.add("filter-hidden");
-                continue;
             }
-
-            // Faction
-            // if(faction != "" && (!li.find(`img[title='${faction}']`) && li.find(`a.user.faction`).innerText != faction)){
-            //     li.classList.add("filter-hidden");
-            //     continue;
-            // }
         }
 
-        ttStorage.change({"filters": {"user_list": {
-            activity: activity,
-            // faction: faction,
-            // time: time,
-            level: level
-        }}});
+        ttStorage.change({
+            "filters": {
+                "user_list": {
+                    activity: activity,
+                    // faction: faction,
+                    // time: time,
+                    level: level
+                }
+            }
+        });
 
         updateStatistics();
     }
 
-    function updateStatistics(){
-        let total_users = [...list.findAll(":scope>li")].length;
-        let shown_users = [...list.findAll(":scope>li")].filter(x => (!x.classList.contains("filter-hidden"))).length;
-
-        doc.find(".statistic#showing .filter-count").innerText = shown_users;
-        doc.find(".statistic#showing .filter-total").innerText = total_users;
+    function updateStatistics() {
+        doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li")].filter(x => (!x.classList.contains("filter-hidden"))).length;
+        doc.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope>li")].length;
     }
 
-    function populateFactions(){
-        let faction_tags = [...list.findAll(":scope>li")].map(x => (x.find(".user.faction img")? x.find(".user.faction img").getAttribute("title"):x.find("a.user.faction").innerText)).filter(x => x.trim() != "");
-
-        for(let tag of faction_tags){
-            if(filter_container.find(`#tt-faction-filter option[value='${tag}']`)) continue;
-
-            let option = doc.new({type: "option", value: tag, text: tag});
-            filter_container.find("#tt-faction-filter").appendChild(option);
-        }
-    }
 }
