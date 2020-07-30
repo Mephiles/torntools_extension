@@ -841,7 +841,6 @@ const content = {
         return new_div;
 
         function createNewContainer(name, attr) {
-            console.log(getCurrentPage())
             let collapsed = filters.container_open[getCurrentPage()];
 
             let div = doc.new({type: "div"});
