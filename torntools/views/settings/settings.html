@@ -47,7 +47,7 @@
 					<div name="notifications">Notifications</div>
 					<div name="achievements">Achievements</div>
 					<div name="api">API</div>
-	
+
 					<div class="heading">Pages</div>
 					<div name="profile">Profile</div>
 					<div name="home">Home</div>
@@ -57,7 +57,10 @@
 					<div name="gym">Gym</div>
 					<div name="casino">Casino</div>
 					<div name="faction">Faction</div>
-	
+
+					<div class="heading">Scripts</div>
+					<div name="stats-estimate">Stats Estimate</div>
+
 					<div class="heading">Other</div>
 					<div name="travel">Travel</div>
 					<div name="trade">Trade</div>
@@ -70,7 +73,7 @@
 						<div class="option" id="update_notification"><input type="checkbox">Show update notification</div>
 						<div class="option" id="force_tt"><input type="checkbox">Force TornTools over Doctorn</div>
 						<div class="option" id="notifications_tts"><input type="checkbox">Read notifications using Text-To-Speech</div>
-	
+
 						<div class="heading">Theme</div>
 						<div class="option" id="theme-default"><input type="radio" name="theme">Default</div>
 						<div class="option" id="theme-alternative"><input type="radio" name="theme">Alternative</div>
@@ -99,7 +102,7 @@
 						<div class="option" id="global-align_left"><input type="checkbox">Align Torn to left (fits more open chats)</div>
 						<div class="option" id="global-vault_balance"><input type="checkbox">Display Vault balance under "Money" in Torn's info tab</div>
 						<div class="option" id="global-find_chat"><input type="checkbox">Display 'find' feature for chatboxes</div>
-	
+
 						<div class="heading">*Chat Highlight</div>
 						<div class="table list" id="chat_highlight">
 							<div class="body">
@@ -111,10 +114,10 @@
 							</div>
 						</div>
 						<div class="note">Placeholders:</div>
-	
+
 						<div class="heading">Icons</div>
 						<div id="icons"></div>
-	
+
 						<div class="heading">Custom links</div>
 						<div class="table list" id="custom_links">
 							<div class="body">
@@ -134,7 +137,7 @@
 						<div class="option" id="tab-market"><input type="checkbox">Enable Market tab</div>
 						<div class="option" id="tab-stocks"><input type="checkbox">Enable Stocks tab</div>
 						<div class="option" id="tab-calculator"><input type="checkbox">Enable Calculator tab</div>
-	
+
 						<div class="heading">Default tab</div>
 							<div class="option" id="default-info"><input type="radio" name="default-tab">Info</div>
 							<div class="option" id="default-market"><input type="radio" name="default-tab">Market</div>
@@ -151,15 +154,15 @@
 						<div class="option" id="notifications-traveling"><input type="checkbox">Traveling</div>
 						<div class="tabbed note">(landing in Torn or another country)</div>
 						<div class="option" id="notifications-cooldowns"><input type="checkbox">Cooldowns</div>
-						<div class="option" id="notifications-education"><input type="checkbox">Education</div>						
-						<div class="option" id="notifications-energy" class="multi-nr-input">Energy <input type="text"> %</div>						
-						<div class="option" id="notifications-nerve" class="multi-nr-input">Nerve <input type="text"> %</div>						
-						<div class="option" id="notifications-happy" class="multi-nr-input">Happy <input type="text"> %</div>						
-						<div class="option" id="notifications-life" class="multi-nr-input">Life <input type="text"> %</div>		
+						<div class="option" id="notifications-education"><input type="checkbox">Education</div>
+						<div class="option" id="notifications-energy" class="multi-nr-input">Energy <input type="text"> %</div>
+						<div class="option" id="notifications-nerve" class="multi-nr-input">Nerve <input type="text"> %</div>
+						<div class="option" id="notifications-happy" class="multi-nr-input">Happy <input type="text"> %</div>
+						<div class="option" id="notifications-life" class="multi-nr-input">Life <input type="text"> %</div>
 						<div class="tabbed note">Separate by commas (5,10,25,50,100)</div>
 						<div class="option" id="notifications-hospital" class="single-nr-input">Notify me <input type="text" class="short"> minutes before getting out of hospital</div>
 						<div class="option" id="notifications-landing" class="single-nr-input">Notify me <input type="text" class="short"> minutes before landing</div>
-	
+
 					</div>
 					<div class="section" name="achievements">
 						<div class="heading">Achievements</div>
@@ -174,7 +177,7 @@
 						<div class="option" id="api-marking"><input type="checkbox">Show TornTools marking on API page</div>
 						<div class="option" id="api-autoDemo"><input type="checkbox">Automatically open the demo page</div>
 					</div>
-	
+
 					<div class="section" name="profile">
 						<div class="heading">Profile</div>
 						<div class="option" id="target_list"><input type="checkbox">Keep and update a Target List based on
@@ -182,7 +185,7 @@
 						<div class="option" id="profile-show_id"><input type="checkbox">Reformat Profile page headings as
 							"USERNAME [ID]"</div>
 						<div class="option" id="profile-status_indicator"><input type="checkbox">Show user's status indicator next to their name</div>
-	
+
 						<div class="heading">Friendly Fire</div>
 						<div class="option" id="profile-friendly_warning"><input type="checkbox">Show Faction/Ally
 							Warning on profile pages</div>
@@ -260,7 +263,12 @@
 						<div class="option" id="faction-inactivity_alerts_first" class="single-nr-input">Inactivity 'orange' notifier: <input type="text" class="short"> days</div>
 						<div class="option" id="faction-inactivity_alerts_second" class="single-nr-input">Inactivity 'red' notifier: <input type="text" class="short"> days</div>
 					</div>
-	
+
+					<div class="section" name="stats-estimate">
+						<div class="heading">Pages</div>
+						<div class="option" id="stats_estimate-profile"><input type="checkbox">Profile page (only shows after fetching data).</div>
+					</div>
+
 					<div class="section" name="travel">
 						<div class="heading">Travel</div>
 						<div class="option" id="travel-destination_table"><input type="checkbox">Show a table of Travel
@@ -382,6 +390,20 @@
 						<li>Company users info: 1 Request to Torn's API</li>
 					</ul>
 				</li>
+				<li><strong>Cache</strong>
+					<ul>
+						<li>1 hour
+							<ul>
+								<li>Profile Stats: 1 request to TornStats API (max 25/minute)</li>
+							</ul>
+						</li>
+						<li>1 day
+							<ul>
+								<li>Profile Stats: 1 request per profile to Torn API</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
 			</ul>
 			<p class="no-margin">The user is allowed to make 100 requests to Torn's API in a minute.</p>
 			<p class="no-margin">The creator of this extension is not responsible if the user:</p>
@@ -399,6 +421,7 @@
 				<div class="note red">It will take max. 1 minute to fetch new data</div>
 				<div class="note red">Changing your api key will do 1 additional api request to make sure information is up-to-date</div>
 			</div>
+
 			<h4>API data</h4>
 			<div class="actions">
 				<div class="button" id="fetch_torndata">Torn data</div>

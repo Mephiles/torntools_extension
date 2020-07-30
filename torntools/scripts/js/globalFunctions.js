@@ -315,8 +315,9 @@ const STORAGE = {
         "profile": []
     },
     "cache": {
-        "profile_stats": {},
-        "other": {}
+        "profileStats": {},
+        "spyReport": {},
+        "battleStatsEstimate": {},
     },
     "watchlist": [],
 
@@ -456,11 +457,68 @@ const STORAGE = {
             "jail": {
                 "quick_icons": false
             }
+        },
+        "scripts": {
+            "stats_estimate": {
+                "profile": true
+            }
         }
     }
 }
 
+const TO_MILLIS = {
+    SECONDS: 1000,
+    MINUTES: 1000 * 60,
+    HOURS: 1000 * 60 * 60,
+    DAYS: 1000 * 60 * 60 * 24,
+};
+
 let notificationLinkRelations = {}
+
+const RANKS = {
+    "Absolute beginner": 1,
+    "Beginner": 2,
+    "Inexperienced": 3,
+    "Rookie": 4,
+    "Novice": 5,
+    "Below average": 6,
+    "Average": 7,
+    "Reasonable": 8,
+    "Above average": 9,
+    "Competent": 10,
+    "Highly competent": 11,
+    "Veteran": 12,
+    "Distinguished": 13,
+    "Highly distinguished": 14,
+    "Professional": 15,
+    "Star": 16,
+    "Master": 17,
+    "Outstanding": 18,
+    "Celebrity": 19,
+    "Supreme": 20,
+    "Idolised": 21,
+    "Champion": 22,
+    "Heroic": 23,
+    "Legendary": 24,
+    "Elite": 25,
+    "Invincible": 26
+};
+
+const RANK_TRIGGERS = {
+    level: [2, 6, 11, 26, 31, 50, 71, 100],
+    crimes: [100, 5000, 10000, 20000, 30000, 50000],
+    networth: [5000000, 50000000, 500000000, 5000000000, 50000000000],
+
+    stats: [
+        "under 2k",
+        "2k - 25k",
+        "20k - 250k",
+        "200k - 2.5m",
+        "2m - 25m",
+        "20m - 250m",
+        "over 200m",
+    ],
+};
 
 /*
  * Add prototype functions.
@@ -555,7 +613,7 @@ Element.prototype.setClass = function (className) {
 
 const ttStorage = {
     get: function (key, callback) {
-        let promise = new Promise((resolve) => {
+        new Promise((resolve) => {
             if (Array.isArray(key)) {
                 let arr = [];
                 chrome.storage.local.get(key, function (data) {
@@ -1328,7 +1386,7 @@ function formatTime([hours, minutes, seconds], formatting) {
 }
 
 function toMultipleDigits(number, digits = 2) {
-    if(number === undefined) return undefined;
+    if (number === undefined) return undefined;
     return number.toString().length < digits ? toMultipleDigits(`0${number}`, digits) : number;
 }
 
@@ -1735,13 +1793,13 @@ function onDragOver(event) {
     event.preventDefault();
 }
 
-function onDragEnter(event) {
+function onDragEnter() {
     if (doc.find("#ttQuick .temp.item")) {
         doc.find("#ttQuick .temp.item").style.opacity = "1";
     }
 }
 
-function onDragLeave(event) {
+function onDragLeave() {
     if (doc.find("#ttQuick .temp.item")) {
         doc.find("#ttQuick .temp.item").style.opacity = "0.2";
     }
@@ -1753,4 +1811,14 @@ function onDrop(event) {
     doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px";
 
     event.dataTransfer.clearData();
+}
+
+function estimateBattleStats(rank, level, totalCrimes, networth) {
+    const triggersLevel = RANK_TRIGGERS.level.filter((x) => x <= level).length;
+    const triggersCrimes = RANK_TRIGGERS.crimes.filter((x) => x <= totalCrimes).length;
+    const triggersNetworth = RANK_TRIGGERS.networth.filter((x) => x <= networth).length;
+
+    const triggersStats = RANKS[rank] - triggersLevel - triggersCrimes - triggersNetworth - 1;
+
+    return RANK_TRIGGERS.stats[triggersStats] || "N/A";
 }

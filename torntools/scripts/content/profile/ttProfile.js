@@ -183,7 +183,6 @@ const key_dict = {
         "virusescoded": "Viruses Coded"
     }
 };
-let spy_info;
 
 requireDatabase().then(function () {
     profileLoaded().then(async function () {
@@ -315,7 +314,7 @@ requireDatabase().then(function () {
             await displayProfileStats();
             section_profile_stats.appendChild(doc.new({type: "hr"}));
             // Show Spy info
-            showSpyInfo();
+            await showSpyInfo();
         }
     });
 });
@@ -471,48 +470,52 @@ function displayTargetInfo(targets) {
 async function displayProfileStats() {
     let user_id = getUserId();
     let profile_stats = doc.find("#tt-target-info .profile-stats");
+
     let result;
 
-    if (cache && cache.profile_stats[user_id]) {
-        result = cache.profile_stats[user_id];
+    if (cache && cache.profileStats[user_id] && cache.battleStatsEstimate[user_id]) {
+        result = {
+            stats: cache.profileStats[user_id].data,
+            battleStatsEstimate: cache.battleStatsEstimate[user_id].data,
+        };
     } else {
         loadingPlaceholder(profile_stats, true);
         result = await new Promise((resolve) => {
-            fetchApi(`https://api.torn.com/user/${user_id}?selections=personalstats,crimes`, api_key)
+            fetchApi(`https://api.torn.com/user/${user_id}?selections=profile,personalstats,crimes`, api_key)
                 .then(data => {
-                    fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${user_id}`)
-                        .then(async response => {
-                            let result = await response.json();
-
-                            if (result.error) {
-                                if (result.error.indexOf("User not found") > -1) {
-                                    return resolve({"error": `Can't display user stats because no TornStats account was found. Please register an account @ www.tornstats.com`});
-                                } else {
-                                    return resolve({"error": result.error});
-                                }
-                            } else if (!data.ok) {
-                                return resolve({"error": data.error});
-                            } else {
-                                let modified_result = modifyResult(data.result.personalstats, data.result.criminalrecord, result.compare.data || {}, result.spy);
-
-                                return resolve(modified_result);
-                            }
-                        });
+                    return resolve(handleTornData(data));
                 });
         });
 
         if (!result.error) {
-            ttStorage.change({"cache": {"profile_stats": {[user_id]: result}}});
+            const timestamp = new Date().getTime();
+
+            ttStorage.change({
+                "cache": {
+                    "profileStats": {
+                        [user_id]: {
+                            timestamp,
+                            ttl: TO_MILLIS.DAYS,
+                            data: result.stats,
+                        }
+                    },
+                    "battleStatsEstimate": {
+                        [user_id]: {
+                            timestamp,
+                            ttl: result.battleStatsEstimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
+                            data: result.battleStatsEstimate,
+                        }
+                    },
+                }
+            });
         }
         loadingPlaceholder(profile_stats, false);
     }
 
-    console.log("result", result);
-    spy_info = result.spy;
+    console.log("Profile Stats", result.stats, result.battleStatsEstimate);
 
     if (result.error) {
-        let error_div = doc.new({type: "div", class: "tt-error-message", text: result.error});
-        profile_stats.appendChild(error_div);
+        profile_stats.appendChild(doc.new({type: "div", class: "tt-error-message", text: result.error}));
         return;
     }
 
@@ -555,7 +558,7 @@ async function displayProfileStats() {
         for (let key of keys) {
             let row_title = key_dict[section][key];
 
-            let their_value = result[key] || 0;
+            let their_value = result.stats[key] || 0;
             let your_value = userdata.personalstats[key] || userdata.criminalrecord[key] || 0;
 
             let their_value_modified, your_value_modified;
@@ -654,29 +657,64 @@ async function displayProfileStats() {
 
     // Add sortable icon
     profile_stats.appendChild(doc.new({type: "i", class: "uk-sortable-handle fas fa-arrows-alt"}));
+
+    if (settings.scripts.stats_estimate.profile) {
+        doc.find("#skip-to-content").appendChild(doc.new({type: "div", class: "tt-stat-estimate", text: result.battleStatsEstimate}))
+    }
 }
 
-function showSpyInfo() {
-    console.log("spy info", spy_info);
-    if (!spy_info) return;
+async function showSpyInfo() {
+    let user_id = getUserId();
+    let result;
 
-    let spy_section = doc.new({type: "div", class: "tt-section", attributes: {name: 'spy-info'}});
+    let spySection = doc.new({type: "div", class: "tt-section", attributes: {name: 'spy-info'}});
     if (doc.find("#tt-target-info .content .tt-section[name='target-info'")) {
-        doc.find("#tt-target-info .content").insertBefore(spy_section, doc.find("#tt-target-info .content .tt-section[name='target-info'"));
+        doc.find("#tt-target-info .content").insertBefore(spySection, doc.find("#tt-target-info .content .tt-section[name='target-info'"));
     } else {
-        doc.find("#tt-target-info .content").appendChild(spy_section);
+        doc.find("#tt-target-info .content").appendChild(spySection);
     }
 
-    if (!spy_info.status) {
-        let div = doc.new({type: "div", class: "tt-spy-info", text: spy_info.message});
-        spy_section.appendChild(div);
+    if (cache && cache.spyReport[user_id]) {
+        result = cache.spyReport[user_id].data;
+    } else {
+        loadingPlaceholder(spySection, true);
+        result = await new Promise((resolve) => {
+            fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${user_id}`)
+                .then(async response => {
+                    let data = await response.json();
+
+                    return resolve(handleTornStatsData(data));
+                });
+        });
+
+        if (!result.error) {
+            ttStorage.change({
+                "cache": {
+                    "spyReport": {
+                        [user_id]: {
+                            timestamp: new Date().getTime(),
+                            ttl: TO_MILLIS.HOURS,
+                            data: result,
+                        }
+                    }
+                }
+            });
+        }
+        loadingPlaceholder(spySection, false);
+    }
+
+    console.log("Spy Information", result.spyreport);
+
+    if (result.error) {
+        let div = doc.new({type: "div", class: "tt-spy-info tt-error-message", text: result.error});
+        spySection.appendChild(div);
     } else {
         let heading = doc.new({
             type: "div",
             class: "spy-heading",
-            text: `Spy type: ${spy_info.type} (${spy_info.difference})`
+            text: `Spy type: ${result.spyreport.type} (${result.spyreport.difference})`
         });
-        spy_section.appendChild(heading);
+        spySection.appendChild(heading);
 
         let table = doc.new({type: "div", class: "spy-table"});
         let header = doc.new({type: "div", class: "tt-row tt-header"});
@@ -694,7 +732,7 @@ function showSpyInfo() {
             let item_them = doc.new({
                 type: "div",
                 class: "item",
-                text: numberWithCommas(parseInt(spy_info[stat]), false)
+                text: numberWithCommas(parseInt(result.spyreport[stat]), false)
             });
             let item_you = doc.new({
                 type: "div",
@@ -702,10 +740,10 @@ function showSpyInfo() {
                 text: numberWithCommas(parseInt(userdata[stat]), false)
             });
 
-            if (parseInt(spy_info[stat]) > parseInt(userdata[stat])) {
+            if (parseInt(result.spyreport[stat]) > parseInt(userdata[stat])) {
                 item_you.classList.add("negative");
                 item_them.classList.add("positive");
-            } else if (parseInt(spy_info[stat]) < parseInt(userdata[stat])) {
+            } else if (parseInt(result.spyreport[stat]) < parseInt(userdata[stat])) {
                 item_them.classList.add("negative");
                 item_you.classList.add("positive");
             }
@@ -721,18 +759,18 @@ function showSpyInfo() {
         let score_item_them = doc.new({
             type: "div",
             class: "item",
-            text: numberWithCommas(parseInt(spy_info.target_score), false)
+            text: numberWithCommas(parseInt(result.spyreport.target_score), false)
         });
         let score_item_you = doc.new({
             type: "div",
             class: "item",
-            text: numberWithCommas(parseInt(spy_info.your_score), false)
+            text: numberWithCommas(parseInt(result.spyreport.your_score), false)
         });
 
-        if (parseInt(spy_info.target_score) > parseInt(spy_info.your_score)) {
+        if (parseInt(result.spyreport.target_score) > parseInt(result.spyreport.your_score)) {
             score_item_you.classList.add("negative");
             score_item_them.classList.add("positive");
-        } else if (parseInt(spy_info.target_score) < parseInt(spy_info.your_score)) {
+        } else if (parseInt(result.spyreport.target_score) < parseInt(result.spyreport.your_score)) {
             score_item_them.classList.add("negative");
             score_item_you.classList.add("positive");
         }
@@ -741,13 +779,13 @@ function showSpyInfo() {
         score_row.appendChild(score_item_them);
         score_row.appendChild(score_item_you);
         table.appendChild(score_row);
-        spy_section.appendChild(table);
+        spySection.appendChild(table);
     }
 
-    spy_section.appendChild(doc.new({type: "hr"}));
+    spySection.appendChild(doc.new({type: "hr"}));
 
     // Add sortable icon
-    spy_section.appendChild(doc.new({type: "i", class: "uk-sortable-handle fas fa-arrows-alt"}));
+    spySection.appendChild(doc.new({type: "i", class: "uk-sortable-handle fas fa-arrows-alt"}));
 }
 
 function getUserId() {
@@ -1023,30 +1061,38 @@ function getTraveling() {
     return desc.indexOf("Traveling") > -1 || desc.indexOf("Returning") > -1;
 }
 
-function modifyResult(personalstats, criminalrecord, comparison_data, spy_data) {
-    const comparison = {
-        "Xanax Taken": {name: "xantaken", field: "amount"},
-        "Attacks Won": {name: "attackswon", field: "amount"},
-        "Attacks Lost": {name: "attackslost", field: "amount"},
-    };
+function handleTornData(data) {
+    let response = {};
 
-    for (let key in comparison) {
-        if (!(key in comparison_data)) continue;
+    if (data.ok) {
+        const rankSpl = data.result.rank.split(" ");
+        let rank = rankSpl[0];
+        if (rankSpl[1][0] === rankSpl[1][0].toLowerCase()) rank += " " + rankSpl[1];
 
-        let r = comparison[key];
+        const level = data.result.level;
+        const totalCrimes = data.result.criminalrecord.total;
+        const networth = data.result.personalstats.networth;
 
-        if (r.field) comparison_data[r.name] = comparison_data[key][r.field]
-        else comparison_data[r.name] = comparison_data[key];
-
-        delete comparison_data[key];
+        response.stats = {
+            ...data.result.personalstats,
+            ...data.result.criminalrecord,
+        };
+        response.battleStatsEstimate = estimateBattleStats(rank, level, totalCrimes, networth);
+    } else {
+        response.error = data.error;
     }
-    delete comparison_data["Networth"];
 
-    return {
-        ...personalstats,
-        ...criminalrecord,
-        ...comparison_data,
-        spy: {...spy_data},
-        date: new Date().toString()
-    };
+    return response;
+}
+
+function handleTornStatsData(data) {
+    let response = {};
+
+    if (!data.error) {
+        response.spyreport = {...data.spy};
+    } else {
+        response.error = data.error.includes("User not found") ? "Can't display stat spies because no TornStats account was found. Please register an account @ www.tornstats.com" : data.error;
+    }
+
+    return response;
 }

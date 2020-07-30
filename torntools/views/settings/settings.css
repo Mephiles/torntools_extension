@@ -261,7 +261,7 @@ p {
 
 
 #preferences .navigation {
-    width: fit-content;
+    width: max-content;
     border-right: 1px solid lightgray;
     background-color: #f1f1f1;
 }
@@ -269,12 +269,18 @@ p {
     padding: 7px;
     border-bottom: 1px solid lightgray;
 }
+#preferences .navigation>div:not(.heading) {
+    white-space: nowrap;
+}
 #preferences .navigation>div:not(.heading):hover {
     background-color: #e2e0e0;
     cursor: pointer;
 }
 #preferences .navigation>div:not(.heading).active {
     background-color: #e2e0e0;
+}
+#preferences .navigation>div:not(.heading).active:hover {
+    cursor: initial;
 }
 #preferences .navigation>div.heading {
     background-color: #b9b9b9;

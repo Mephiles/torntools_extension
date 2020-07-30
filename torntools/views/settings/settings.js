@@ -259,18 +259,19 @@ function setupPreferences() {
     }
 
     // Other scripts
-    for (let page in settings.pages) {
-        for (let option in settings.pages[page]) {
-            const optionDiv = preferences.find(`#${page}-${option}`);
-            if (!optionDiv) continue;
+    for (let type of ["pages", "scripts"]) {
+        for (let page in settings[type]) {
+            for (let option in settings[type][page]) {
+                const optionDiv = preferences.find(`#${page}-${option}`);
+                if (!optionDiv) continue;
 
+                if (optionDiv.find("input")) optionDiv.find("input").checked = settings[type][page][option];
+                else if (optionDiv.find("select")) {
+                    const selectedOption = optionDiv.find(`select > option[value='${settings[type][page][option]}']`)
+                    if (!selectedOption) optionDiv.find("select > option[value='none']")
 
-            if (optionDiv.find("input")) optionDiv.find("input").checked = settings.pages[page][option];
-            else if (optionDiv.find("select")) {
-                const selectedOption = optionDiv.find(`select > option[value='${settings.pages[page][option]}']`)
-                if (!selectedOption) optionDiv.find("select > option[value='none']")
-
-                optionDiv.find("select").value = settings.pages[page][option];
+                    optionDiv.find("select").value = settings[type][page][option];
+                }
             }
         }
     }
@@ -548,16 +549,17 @@ function savePreferences(preferences, settings, target_list_enabled) {
     }
 
     // Other scripts
-    for (let page in settings.pages) {
-        for (let option in settings.pages[page]) {
-            const optionDiv = preferences.find(`#${page}-${option}`);
-            if (!optionDiv) continue;
+    for (let type of ["pages", "scripts"]) {
+       for (let page in settings[type]) {
+           for (let option in settings[type][page]) {
+               const optionDiv = preferences.find(`#${page}-${option}`);
+               if (!optionDiv) continue;
 
-            if (optionDiv.find("input")) settings.pages[page][option] = optionDiv.find("input").checked;
-            else if (optionDiv.find("select")) settings.pages[page][option] = optionDiv.find("select").selectedOptions[0].getAttribute("value");
-        }
+               if (optionDiv.find("input")) settings[type][page][option] = optionDiv.find("input").checked;
+               else if (optionDiv.find("select")) settings[type][page][option] = optionDiv.find("select").selectedOptions[0].getAttribute("value");
+           }
+       }
     }
-    // settings.remove_info_boxes = preferences.find(`#remove_info_boxes input`).checked;
 
     // Target list
     target_list_enabled = preferences.find(`#target_list input`).checked;
