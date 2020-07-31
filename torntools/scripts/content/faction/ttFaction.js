@@ -218,7 +218,7 @@ function shortenArmoryNews(){
                     inner_span.appendChild(amount_span);
                     inner_span.innerHTML += key.split(" one")[1];
                 } else {
-                    inner_span.innerText = `${keyword}` + key.split(keyword)[1];
+                    inner_span.innerText = ` ${keyword}` + key.split(keyword)[1];
                 }
                 break;
             }
