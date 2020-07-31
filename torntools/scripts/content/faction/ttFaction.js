@@ -233,6 +233,10 @@ function shortenArmoryNews(){
             inner_span.innerText = " retrieved one"+key.split(" retrieved one")[1];
         } else if(key.indexOf("returned one") > -1){
             inner_span.innerText = " returned one"+key.split(" returned one")[1];
+        } else if(key.includes("deposited one")){
+            inner_span.innerText = " deposited one"+key.split(" deposited one")[1];
+        } else if(key.includes("gave one")){
+            inner_span.innerText = " gave one"+key.split(" gave one")[1];
         } else {
             inner_span.innerText = key;
         }
