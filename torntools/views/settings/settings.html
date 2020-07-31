@@ -83,24 +83,14 @@
 						<div class="heading">Time</div>
 						<div class="option" id="format-time-eu"><input type="radio" name="format-time">24 hours</div>
 						<div class="option" id="format-time-us"><input type="radio" name="format-time">12 hours</div>
-						<div class="heading">Filters (factions)</div>
-						<div class="table list" id="filter-factions">
-							<div class="body">
-								<div class="row input">
-									<input type="radio" name="filter-faction">
-									<input type="text" class="text name" placeholder="Name..">
-									<div class="add-button" id="add_filter_faction">Add</div>
-								</div>
-								<div class="tabbed note"><span class="arrow">&#8625;</span>(default selector)</div>
-							</div>
-						</div>
 					</div>
 					<div class="section" name="global">
 						<div class="heading">Global</div>
 						<div class="option" id="global-notes"><input type="checkbox">Show small Notes box in the Navigation panel</div>
 						<div class="option" id="global-hide_upgrade"><input type="checkbox">Hide Level Upgrade info</div>
-						<div class="option" id="global-align_left"><input type="checkbox">Align Torn to left (fits more open chats)</div>
-						<div class="option" id="global-vault_balance"><input type="checkbox">Display Vault balance under "Money" in Torn's info tab</div>
+						<div class="option" id="global-align_left"><input type="checkbox">Align Torn to left</div>
+						<div class="note">(fits more open chats)</div>
+						<div class="option" id="global-vault_balance"><input type="checkbox">Display Vault balance under "Money" in Torn's Information tab</div>
 						<div class="option tabbed" id="global-vault_balance_own"><input type="checkbox">Display your own vault share <span class="new">New!</span></div>
 						<div class="option" id="global-find_chat"><input type="checkbox">Display 'find' feature for chatboxes</div>
 	
@@ -189,7 +179,7 @@
 	
 						<div class="heading">Friendly Fire</div>
 						<div class="option" id="profile-friendly_warning"><input type="checkbox">Show Faction/Ally
-							Warning on profile pages</div>
+							warning on Profile pages</div>
 						<div class="table list" id="ff-table">
 							<div class="body">
 								<div class="row input">
@@ -208,8 +198,8 @@
 					</div>
 					<div class="section" name="items">
 						<div class="heading">Items</div>
-						<div class="option" id="items-values"><input type="checkbox">Display Item values on Items page</div>
-						<div class="option" id="items-drug_details"><input type="checkbox">Show more details about Drugs (also affects Faction Armory drug section)</div>
+						<div class="option" id="items-values"><input type="checkbox">Display item values on Items page</div>
+						<div class="option" id="items-drug_details"><input type="checkbox">Show more details about drugs (also affects Faction armory drug section)</div>
 						<div class="option" id="items-itemmarket_links"><input type="checkbox">Add link icons to Item Market</div>
 						<div class="option" id="items-highlight_bloodbags">
 							Highlight blood bags for :
@@ -224,19 +214,19 @@
 								<option value="ab+">AB+</option>
 								<option value="ab-">AB-</option>
 							</select>
-							(also affects Faction Armory)
+							(also affects Faction armory)
 						</div>
 					</div>
 					<div class="section" name="city">
 						<div class="heading">City</div>
-						<div class="option" id="city-items"><input type="checkbox">*Highlight Items on City map</div>
+						<div class="option" id="city-items"><input type="checkbox">*Highlight items on City map</div>
 						<div class="tabbed option" id="city-closed_highlight"><input type="checkbox">Highlight items if TornTools container is closed</div>
-						<div class="option" id="city-items_value"><input type="checkbox">Show the total value of Items on City
+						<div class="option" id="city-items_value"><input type="checkbox">Show the total value of items on City
 							map</div>
 					</div>
 					<div class="section" name="company">
 						<div class="heading">Company</div>
-						<div class="option" id="company-member_info"><input type="checkbox">Show details about company members</div>
+						<div class="option" id="company-member_info"><input type="checkbox">Show details about Company members</div>
 						<div class="note tabbed">(needs to be enabled for following settings)</div>
 						<div class="option" id="company-inactivity_alerts_first" class="single-nr-input">Inactivity 'orange' notifier: <input type="text" class="short"> days</div>
 						<div class="option" id="company-inactivity_alerts_second" class="single-nr-input">Inactivity 'red' notifier: <input type="text" class="short"> days</div>
@@ -268,7 +258,7 @@
 						<div class="heading">Travel</div>
 						<div class="option" id="travel-destination_table"><input type="checkbox">Show a table of Travel
 							Destinations on Travel Agency page</div>
-						<div class="option" id="travel-profits"><input type="checkbox">Show item Profits in Travel
+						<div class="option" id="travel-profits"><input type="checkbox">Show item profits in Travel
 							Markets (abroad)</div>
 					</div>
 					<div class="section" name="trade">
@@ -288,16 +278,27 @@
 					<div class="section" name="other">
 						<div class="heading">Other scripts</div>
 						<div class="option" id="racing-upgrades"><input type="checkbox">Show Racing Upgrade values</div>
-						<div class="option" id="shop-profits"><input type="checkbox">Show Item Profits at City stores
+						<div class="option" id="shop-profits"><input type="checkbox">Show item profits at City stores
 						</div>
-						<div class="option" id="missions-rewards"><input type="checkbox">Show Mission Reward values
+						<div class="option" id="missions-rewards"><input type="checkbox">Show Mission reward values
 						</div>
 						<!-- <div class="option" id="remove_info_boxes"><input type="checkbox">Remove info boxes on some pages</div> -->
 						<!-- <div class="tabbed note">(crimes)</div> -->
 						<div class="option" id="properties-vault_sharing"><input type="checkbox">Keep track of each user's money in Vault</div>
 						<div class="option" id="stockexchange-acronyms"><input type="checkbox">Display Stock acronyms before their names at Stock Exchange</div>
 						<div class="option" id="bazaar-worth"><input type="checkbox">Display how much a Bazaar is worth</div>
-						<div class="option" id="clean_flight"><input type="checkbox">Hide plane & Funfact box on Flying page</div>
+						<div class="option" id="clean_flight"><input type="checkbox">Hide plane & funfact box on Flying page</div>
+						<div class="heading">Filters (factions)</div>
+						<div class="table list" id="filter-factions">
+							<div class="body">
+								<div class="row input">
+									<input type="radio" name="filter-faction">
+									<input type="text" class="text name" placeholder="Name..">
+									<div class="add-button" id="add_filter_faction">Add</div>
+								</div>
+								<div class="tabbed note"><span class="arrow">&#8625;</span>(default selector)</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
