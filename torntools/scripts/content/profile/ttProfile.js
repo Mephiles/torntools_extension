@@ -663,7 +663,7 @@ async function displayProfileStats() {
     // Add sortable icon
     profile_stats.appendChild(doc.new({type: "i", class: "uk-sortable-handle fas fa-arrows-alt"}));
 
-    if (settings.scripts.stats_estimate.profile) {
+    if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.profile) {
         doc.find(".profile-right-wrapper > .profile-action .title-black").appendChild(doc.new({
             type: "span",
             class: "tt-title-message",

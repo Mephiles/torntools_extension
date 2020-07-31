@@ -466,6 +466,7 @@ const STORAGE = {
         },
         "scripts": {
             "stats_estimate": {
+                "global": true,
                 "profile": true,
                 "userlist": false,
                 // TODO - abroad
@@ -473,7 +474,7 @@ const STORAGE = {
                 // TODO - "bounties": false,
                 // TODO - "blacklist": false,
                 // TODO - "faction_wall": false,
-                // TODO - "faction_profile": false,
+                "faction_members": false,
                 // TODO - competition
             }
         }

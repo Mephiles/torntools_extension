@@ -1,5 +1,5 @@
 requireDatabase().then(function () {
-    if (settings.scripts.stats_estimate.userlist) {
+    if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.userlist) {
         addXHRListener((event) => {
             const {page, json, xhr} = event.detail;
             if (page !== "page" || !json || !json.success) return;
@@ -8,7 +8,7 @@ requireDatabase().then(function () {
             if (params.get("sid") !== "UserListAjax") return;
 
             searchLoaded().then(async () => {
-                await showStatsEstimates
+                await showStatsEstimates();
             });
         });
     }
@@ -27,7 +27,8 @@ requireDatabase().then(function () {
 
         addFilterToTable(list, title);
 
-        if (settings.scripts.stats_estimate.userlist) await showStatsEstimates();
+        if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.userlist)
+            await showStatsEstimates();
     });
 });
 
