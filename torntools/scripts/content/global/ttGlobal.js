@@ -371,7 +371,7 @@ function displayOCtime(){
 
     for(let crime_id of crime_ids){
         if(crime_id === "date") continue;
-        if(oc[crime_id].initiated === 1) break;
+        if(oc[crime_id].initiated === 1) continue;
 
         for(let participant of oc[crime_id].participants){
             if(userdata.player_id in participant){
