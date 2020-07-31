@@ -207,7 +207,7 @@ function shortenArmoryNews(){
             date.innerText = db[key].last_date;
         }
 
-        let keywords = ["used", "lent", "retrieved", "returned", "deposited", "gave"];
+        let keywords = ["used", "filled", "lent", "retrieved", "returned", "deposited", "gave"];
         let inner_span = doc.new("span");
 
         for(let keyword of keywords){
