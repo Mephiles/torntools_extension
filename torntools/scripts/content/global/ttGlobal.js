@@ -367,12 +367,16 @@ function displayOCtime(){
         return;
     }
     
+    let found_oc = false;
+
     for(let crime_id of crime_ids){
         if(crime_id === "date") continue;
         if(oc[crime_id].initiated === 1) break;
 
         for(let participant of oc[crime_id].participants){
             if(userdata.player_id in participant){
+                found_oc = true;
+
                 let time_left = timeUntil(new Date(oc[crime_id].time_ready*1000) - new Date());
                 let div = doc.new({type: "div", text: `OC: `});
                 let span = doc.new({type: "span", text: time_left, attributes: {"seconds-down": parseInt((new Date(oc[crime_id].time_ready*1000) - new Date())/1000)}});
@@ -383,5 +387,13 @@ function displayOCtime(){
                 doc.find(".tt-information-section").appendChild(div);
             }
         }
+    }
+
+    if(!found_oc){
+        let div = doc.new({type: "div", text: `OC: `});
+        let span = doc.new({type: "span", text: "No active OC"});
+
+        div.appendChild(span);
+        doc.find(".tt-information-section").appendChild(div);
     }
 }
