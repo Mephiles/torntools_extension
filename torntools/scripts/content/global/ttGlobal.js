@@ -36,7 +36,7 @@ requireDatabase().then(function(){
         }
 
         // Update notification
-        if(updated && settings.update_notification && !update){
+        if(updated && settings.update_notification && !mobile){
             addUpdateNotification();
         }
     
