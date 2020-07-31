@@ -456,7 +456,8 @@ const STORAGE = {
                 "align_left": false,
                 "find_chat": true,
                 "hide_chat": false,
-                "collapse_areas": false
+                "collapse_areas": false,
+                "oc_time": true
             },
             "jail": {
                 "quick_icons": false
