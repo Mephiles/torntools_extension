@@ -356,7 +356,10 @@ function profileLoaded() {
 }
 
 function displayAlly(user_faction, allies) {
-    let profile_faction = doc.find(".basic-information ul.info-table li:nth-of-type(3) div:nth-of-type(2) a").innerText;
+    let faction_cell = doc.find(".basic-information ul.info-table li:nth-of-type(3) div:nth-of-type(2)");
+    let profile_faction = faction_cell.find("a")? faction_cell.find("a").innerText : "";
+
+    if(profile_faction === "") return;
 
     if (user_faction === profile_faction) {
         showWarning('user');
