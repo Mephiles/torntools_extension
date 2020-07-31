@@ -1,7 +1,7 @@
 casinoGameLoaded().then(function(){
     console.log("TT - Casino | Blackjack");
 
-    if(!settings.pages.casino.all || !settings.pages.casino.blackjack){
+    if(!settings.pages.casino.global || !settings.pages.casino.blackjack){
         return;
     }
 

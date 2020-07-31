@@ -1,7 +1,7 @@
 casinoGameLoaded().then(function(){
     console.log("TT - Casino | HiLo");
 
-    if(!settings.pages.casino.all || !settings.pages.casino.hilo){
+    if(!settings.pages.casino.global || !settings.pages.casino.hilo){
         return;
     }
 
