@@ -901,10 +901,12 @@ chrome.notifications.onClicked.addListener(function (notification_id) {
 chrome.storage.onChanged.addListener((changes, area) => {
     if (area !== "local") return;
 
-	if (changes.api_key) {
-		console.log("New API Key", api_key, changes.api_key.newValue);
-		api_key = changes.api_key.newValue;
-	}
+    if (changes.api_key) {
+        console.log("New API Key", api_key, changes.api_key.newValue);
+        api_key = changes.api_key.newValue;
+    } else if (changes.cache) {
+        cache = changes.cache.newValue;
+    }
 });
 
 async function checkStockAlerts() {
