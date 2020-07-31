@@ -266,7 +266,7 @@ function setupPreferences() {
     // Other scripts
     for (let type of ["pages", "scripts"]) {
         for (let page in settings[type]) {
-            let has_global_disabled = !settings.pages[page].global;
+            let has_global_disabled = !settings[type][page].global;
 
             for (let option in settings[type][page]) {
                 const optionDiv = preferences.find(`#${page}-${option}`);
