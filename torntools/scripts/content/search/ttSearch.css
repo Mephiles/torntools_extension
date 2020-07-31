@@ -17,6 +17,10 @@
 
 .tt-userinfo-grid {
     grid-template-columns: [stats-estimate] 1fr;
-    background-color: #F2F2F2;
-    height: 20px;
+    background-color: #dcdcdc;
+    color: #7b7b7b;
+    line-height: 18px;
+    font-size: 11px;
+
+    padding-bottom: 2px;
 }

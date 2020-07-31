@@ -293,101 +293,78 @@ function addFilterToTable(list, title) {
 }
 
 async function showStatsEstimates() {
-    try {
-        doc.find(".user-info-list-wrap").classList.add("tt-info-wrap");
+    doc.find(".user-info-list-wrap").classList.add("tt-info-wrap");
 
-        let results = {
-            cached: [],
-            new: [],
-            allUsers: [],
-        };
+    let results = {
+        cached: [],
+        new: [],
+        allUsers: [],
+    };
 
-        for (let row of doc.findAll("ul.user-info-list-wrap > li:not(.last)")) {
-            let userId = (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1];
+    for (let row of doc.findAll("ul.user-info-list-wrap > li:not(.last)")) {
+        let userId = (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1];
 
-            const gridContainer = doc.new({type: "section", class: "tt-userinfo-grid"});
-            row.parentElement.insertBefore(gridContainer, row.nextElementSibling);
+        const gridContainer = doc.new({type: "section", class: "tt-userinfo-grid"});
+        row.parentElement.insertBefore(gridContainer, row.nextElementSibling);
 
-            loadingPlaceholder(gridContainer, true);
+        loadingPlaceholder(gridContainer, true);
 
-            results.allUsers.push(userId);
-            if (cache && cache.battleStatsEstimate && cache.battleStatsEstimate[userId]) results.cached.push({
-                userId,
-                gridContainer
+        results.allUsers.push(userId);
+        if (cache && cache.battleStatsEstimate && cache.battleStatsEstimate[userId]) results.cached.push({
+            userId,
+            gridContainer
+        });
+        else results.new.push({userId, gridContainer});
+    }
+
+    for (let result of results.cached) {
+        const {gridContainer, userId} = result;
+
+        loadingPlaceholder(gridContainer, false);
+        show(gridContainer, {battleStatsEstimate: cache.battleStatsEstimate[userId].data});
+    }
+
+    for (let result of results.new) {
+        await sleep(TO_MILLIS.SECONDS * 1.5);
+
+        const {gridContainer, userId} = result;
+
+        const data = handleTornProfileData(await fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key));
+        if (!data.error) {
+            const timestamp = new Date().getTime();
+
+            ttStorage.change({
+                "cache": {
+                    "battleStatsEstimate": {
+                        [userId]: {
+                            timestamp,
+                            ttl: data.battleStatsEstimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
+                            data: data.battleStatsEstimate,
+                        }
+                    },
+                }
             });
-            else results.new.push({userId, gridContainer});
         }
 
-        ttStorage.get("cache", (c) => {
-            for (let u of results.allUsers) {
-                if (c.battleStatsEstimate[u]) console.log("DKK 1 - cached result", u, c.battleStatsEstimate[u].data);
-                else console.log("DKK 1 - not cached", u);
-            }
-        });
+        loadingPlaceholder(gridContainer, false);
+        show(gridContainer, data);
+    }
 
-        for (let result of results.cached) {
-            const {gridContainer, userId} = result;
-
-            loadingPlaceholder(gridContainer, false);
-            show(gridContainer, {battleStatsEstimate: cache.battleStatsEstimate[userId].data});
+    function show(container, result) {
+        console.log("Stats Estimate", result);
+        if (result.error) {
+            container.appendChild(doc.new({
+                type: "div",
+                class: "tt-userinfo-message",
+                text: result.error,
+                attributes: {color: "error"}
+            }));
+        } else {
+            container.appendChild(doc.new({
+                type: "div",
+                class: "tt-userinfo--stats_estimate",
+                text: `Stat Estimate: ${result.battleStatsEstimate}`,
+            }));
         }
-        for (let result of results.new) {
-            await sleep(TO_MILLIS.SECONDS * 1.5);
-
-            const {gridContainer, userId} = result;
-
-            const data = handleTornProfileData(await fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key));
-            if (!data.error) {
-                const timestamp = new Date().getTime();
-
-                ttStorage.change({
-                    "cache": {
-                        "battleStatsEstimate": {
-                            [userId]: {
-                                timestamp,
-                                ttl: data.battleStatsEstimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
-                                data: data.battleStatsEstimate,
-                            }
-                        },
-                    }
-                }, () => {
-                    ttStorage.get("cache", (c) => {
-                        if (c.battleStatsEstimate[userId]) console.log("DKK temp - cached result", userId, c.battleStatsEstimate[userId].data);
-                        else console.log("DKK temp - not cached", userId);
-                    });
-                });
-            }
-
-            loadingPlaceholder(gridContainer, false);
-            show(gridContainer, data);
-        }
-
-        ttStorage.get("cache", (c) => {
-            for (let u of results.allUsers) {
-                if (c.battleStatsEstimate[u]) console.log("DKK 2 - cached result", u, c.battleStatsEstimate[u].data);
-                else console.log("DKK 2 - not cached", u);
-            }
-        });
-
-
-        function show(container, result) {
-            console.log("Stats Estimate", result);
-            if (result.error) {
-                container.appendChild(doc.new({
-                    type: "div",
-                    class: "tt-userinfo-message",
-                    text: result.error,
-                    attributes: {color: "error"}
-                }));
-            } else {
-                container.appendChild(doc.new({
-                    type: "div",
-                    class: "tt-userinfo--stats_estimate",
-                    text: `Stat Estimate: ${result.battleStatsEstimate}`,
-                }));
-            }
-        }
-    } catch (e) {
-        console.log("DKK error", e)
     }
 }
