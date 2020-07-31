@@ -1025,7 +1025,6 @@ async function clearCache() {
                 let t = cache[type][key];
 
                 if (!t.timestamp || timestamp > (t.timestamp + t.ttl)) {
-                    console.log("DKK cache", key, t, t.timestamp + t.ttl, timestamp);
                     delete cache[type][key];
                 }
             }

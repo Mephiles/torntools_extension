@@ -3,12 +3,10 @@ requireDatabase().then(function(){
 
     addXHRListener((event) => {
         const {page, json, xhr} = event.detail;
-        console.log("DKK XHR", page, json)
         if (page !== "loader") return;
 
         const params = new URLSearchParams(xhr.requestBody);
         if (params.get("sid") !== "missionsRewards") return;
-        else console.log("DKK SID", params.get("sid"))
 
         rewardsLoaded().then(showRewards);
     });
