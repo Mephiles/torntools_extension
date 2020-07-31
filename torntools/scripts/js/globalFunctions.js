@@ -1603,7 +1603,6 @@ function requireMessageBox() {
     });
 }
 
-// TODO - Should probably use a MutationObserver.
 function requirePlayerList(listClass) {
     return new Promise((resolve) => {
         let checker = setInterval(function () {
@@ -1686,7 +1685,6 @@ function flashColor(element, type, speed, min = 0, max = 1) {
                 break;
         }
     }, interval);
-    // TODO - Maybe stop the interval once?
 }
 
 function loadingPlaceholder(element, display) {
