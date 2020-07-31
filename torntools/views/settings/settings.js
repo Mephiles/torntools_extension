@@ -265,10 +265,31 @@ function setupPreferences() {
 
     // Other scripts
     for (let page in settings.pages) {
+        let has_global_disabled = false;
+
+        if(settings.pages[page].global === false) has_global_disabled = true;
+
         for (let option in settings.pages[page]) {
             const optionDiv = preferences.find(`#${page}-${option}`);
             if (!optionDiv) continue;
 
+            // Global option for pages. Disabled all options if global is disabled
+            if(option === "global" && optionDiv.classList.contains("heading")){
+                optionDiv.find("input").addEventListener("click", function(event){
+                    let disabledGlobal = !event.target.checked;
+
+                    for(let option in settings.pages[page]){
+                        if(option === "global") continue;
+
+                        let inp = preferences.find(`#${page}-${option} input`);
+
+                        if(disabledGlobal) inp.setAttribute("disabled", true);
+                        else inp.removeAttribute("disabled");
+                    }
+                });
+            } else if(option !== "global" && has_global_disabled){
+                optionDiv.find("input").setAttribute("disabled", true);
+            }
 
             if (optionDiv.find("input")) optionDiv.find("input").checked = settings.pages[page][option];
             else if (optionDiv.find("select")) {
@@ -429,7 +450,7 @@ function setupPreferences() {
         if (notificationsDisabled && notification !== "global") option.setAttribute("disabled", true);
     }
 
-    preferences.find("#notifications-global").addEventListener("click", (event) => {
+    preferences.find("#notifications-global input").addEventListener("click", (event) => {
         const disableNotifications = !event.target.checked;
 
         for (let notification in settings.notifications) {
@@ -441,7 +462,6 @@ function setupPreferences() {
             else option.removeAttribute("disabled");
         }
     })
-
 
     // Icons
     for (let icon of hide_icons) {

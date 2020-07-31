@@ -407,7 +407,7 @@ const STORAGE = {
                 "profits": true
             },
             "casino": {
-                "all": true,
+                "global": true,
                 "hilo": true,
                 "blackjack": true
             },
