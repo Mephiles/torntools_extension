@@ -171,14 +171,10 @@ function shortenArmoryNews(){
     console.log("db", db)
 
     for(let key in db){
-        let li = doc.new("li");
-        let date = doc.new("span");
-        date.setClass("date");
-        let info = doc.new("span");
-        info.setClass("info");
-        let a = doc.new("a");
-        a.href = db[key].link;
-        a.innerText = db[key].username;
+        let li = doc.new({type: "li"});
+        let date = doc.new({type: "span", class: "date"});
+        let info = doc.new({type: "span", class: "info"});
+        let a = doc.new({type: "a", text: db[key].username, attributes: {href: db[key].link}});
         info.appendChild(a);
 
         if(db[key].first_date){
@@ -206,31 +202,50 @@ function shortenArmoryNews(){
             date.innerText = db[key].last_date;
         }
 
+        let keywords = ["used", "filled", "lent", "retrieved", "returned", "deposited", "gave"];
         let inner_span = doc.new("span");
 
-        if(key.indexOf("used one") > -1 || key.indexOf("filled one") > -1){
-            let used = key.indexOf("used one") > -1;
-
-            let left_side = doc.new("span");
-            left_side.innerText = used ? " used " : " filled ";
-            let amount = doc.new("span");
-            amount.innerText = db[key].count + "x ";
-            amount.style.fontWeight = "600";
-            let right_side = doc.new("span");
-            right_side.innerText = used ? key.split(" used one ")[1] : key.split(" filled one ")[1];
-
-            inner_span.appendChild(left_side);
-            inner_span.appendChild(amount);
-            inner_span.appendChild(right_side);
-        } else if(key.indexOf("lent one") > -1){
-            inner_span.innerText = " lent one"+key.split(" lent one")[1];
-        } else if(key.indexOf("retrieved one") > -1){
-            inner_span.innerText = " retrieved one"+key.split(" retrieved one")[1];
-        } else if(key.indexOf("returned one") > -1){
-            inner_span.innerText = " returned one"+key.split(" returned one")[1];
-        } else {
-            inner_span.innerText = key;
+        for(let keyword of keywords){
+            if(key.includes(keyword)){
+                if(key.includes("one")){
+                    let amount_span = doc.new({type: "span", text: " "+db[key].count+"x", attributes: {style: "font-weight: 600"}});
+                    inner_span.innerHTML += ` ${keyword}`;
+                    inner_span.appendChild(amount_span);
+                    inner_span.innerHTML += key.split(" one")[1];
+                } else {
+                    inner_span.innerText = ` ${keyword}` + key.split(keyword)[1];
+                }
+                break;
+            }
         }
+
+        // if(key.indexOf("used one") > -1 || key.indexOf("filled one") > -1){
+        //     let used = key.indexOf("used one") > -1;
+
+        //     let left_side = doc.new("span");
+        //     left_side.innerText = used ? " used " : " filled ";
+        //     let amount = doc.new("span");
+        //     amount.innerText = db[key].count + "x ";
+        //     amount.style.fontWeight = "600";
+        //     let right_side = doc.new("span");
+        //     right_side.innerText = used ? key.split(" used one ")[1] : key.split(" filled one ")[1];
+
+        //     inner_span.appendChild(left_side);
+        //     inner_span.appendChild(amount);
+        //     inner_span.appendChild(right_side);
+        // } else if(key.indexOf("lent one") > -1){
+        //     inner_span.innerText = " lent one"+key.split(" lent one")[1];
+        // } else if(key.indexOf("retrieved one") > -1){
+        //     inner_span.innerText = " retrieved one"+key.split(" retrieved one")[1];
+        // } else if(key.indexOf("returned one") > -1){
+        //     inner_span.innerText = " returned one"+key.split(" returned one")[1];
+        // } else if(key.includes("deposited one")){
+        //     inner_span.innerText = " deposited one"+key.split(" deposited one")[1];
+        // } else if(key.includes("gave one")){
+        //     inner_span.innerText = " gave one"+key.split(" gave one")[1];
+        // } else {
+        //     inner_span.innerText = key;
+        // }
 
         info.appendChild(inner_span);
         li.appendChild(date);

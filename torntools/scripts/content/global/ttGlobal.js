@@ -16,6 +16,9 @@ requireDatabase().then(function(){
             event.stopPropagation();
         }
 
+        // Create a section in Information tab for future info added
+        addInformationSection();
+
         // Make Areas collapsible
         if(!doc.find(".header-arrow___1Ph0g") && !mobile){
             let areas_i = doc.new({type: "i", class: "tt-title-icon-torn fas fa-caret-down"});
@@ -33,7 +36,7 @@ requireDatabase().then(function(){
         }
 
         // Update notification
-        if(updated && settings.update_notification){
+        if(updated && settings.update_notification && !mobile){
             addUpdateNotification();
         }
     
@@ -43,7 +46,7 @@ requireDatabase().then(function(){
         }
     
         // Notes
-        if(settings.pages.global.notes){
+        if(settings.pages.global.notes && !mobile){
             addNotesBox();
         }
     
@@ -60,11 +63,46 @@ requireDatabase().then(function(){
             displayVaultBalance();
         }
 
+        // OC ready time
+        if(settings.pages.global.oc_time && !mobile){
+            displayOCtime();
+        }
+
         // Content margin
         if(mobile && !_flying && custom_links.length > 0){
             console.log("here")
             doc.find("div[role='main']").classList.add("tt-modified");
         }
+
+        // Global time reducer
+        let time_decreaser = setInterval(function () {
+            for (let time of doc.findAll("*[seconds-down]")) {
+                let seconds = parseInt(time.getAttribute("seconds-down"));
+                seconds--;
+
+                if (seconds == 0) {
+                    time.removeAttribute("seconds-down");
+                    time.innerText = "Ready";
+                    continue;
+                }
+
+                let time_left = timeUntil(seconds * 1000);
+                time.innerText = time_left;
+                time.setAttribute("seconds-down", seconds);
+            }
+        }, 1000);
+
+        // Update time increaser
+        let time_increaser = setInterval(function () {
+            for (let time of doc.findAll("*[seconds-up]")) {
+                let seconds = parseInt(time.getAttribute("seconds-up"));
+                seconds++;
+
+                let time_left = timeUntil(seconds * 1000);
+                time.innerText = time_left;
+                time.setAttribute("seconds-up", seconds);
+            }
+        }, 1000);
     });
     
     chatsLoaded().then(function(){
@@ -159,33 +197,31 @@ function addCustomLinks(){
 }
 
 function addNotesBox(){
-    if(!mobile){
-        let notes_section = navbar.newSection("Notes", {next_element_heading: "Areas"});
-        let cell = doc.new({type: "div", class: "area-desktop___2YU-q"});
-        let inner_div = doc.new({type: "div", class: "area-row___34mEZ"});
-        let textbox = doc.new({type: "textarea", class: "tt-nav-textarea", value: notes.text || ""});
-    
-        if(notes.height){
-            textbox.style.height = notes.height;
-        }
-    
-        inner_div.appendChild(textbox);
-        cell.appendChild(inner_div)
-        notes_section.find(".tt-content").appendChild(cell);
-    
-        doc.find("#sidebar").insertBefore(notes_section, findParent(doc.find("h2=Areas"), {class: "sidebar-block___1Cqc2"}));
-    
-        textbox.addEventListener("change", function(){
-            ttStorage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
-        });
-        textbox.addEventListener("mouseup", function(){ 
-            if(textbox.style.height != notes.height){
-                console.log("resize");
-                console.log(textbox.style.height)
-                ttStorage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
-            }
-        });
+    let notes_section = navbar.newSection("Notes", {next_element_heading: "Areas"});
+    let cell = doc.new({type: "div", class: "area-desktop___2YU-q"});
+    let inner_div = doc.new({type: "div", class: "area-row___34mEZ"});
+    let textbox = doc.new({type: "textarea", class: "tt-nav-textarea", value: notes.text || ""});
+
+    if(notes.height){
+        textbox.style.height = notes.height;
     }
+
+    inner_div.appendChild(textbox);
+    cell.appendChild(inner_div)
+    notes_section.find(".tt-content").appendChild(cell);
+
+    doc.find("#sidebar").insertBefore(notes_section, findParent(doc.find("h2=Areas"), {class: "sidebar-block___1Cqc2"}));
+
+    textbox.addEventListener("change", function(){
+        ttStorage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
+    });
+    textbox.addEventListener("mouseup", function(){ 
+        if(textbox.style.height != notes.height){
+            console.log("resize");
+            console.log(textbox.style.height)
+            ttStorage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
+        }
+    });
 }
 
 function addUpdateNotification(){
@@ -283,7 +319,7 @@ function displayVaultBalance(){
 
     let elementHTML = `
     <span class="name___297H-">Vault:</span>
-    <span class="value___1K0oi money-positive___3pqLW" style="position:relative;left:-3px;">$${numberWithCommas(money, false)}</span>
+    <span class="value___1K0oi money-positive___3pqLW" style="position:relative;left:-3px;">${(settings.pages.global.vault_balance_own && vault.initialized && vault.user.current_money)? "*":""}$${numberWithCommas(money, false)}</span>
     `
 
     let el = doc.new({type: "p", class: "point-block___xpMEi", attributes: {tabindex: "1"}});
@@ -305,4 +341,59 @@ function showToggleChat() {
     });
 
     doc.find("#body").prepend(icon);
+}
+
+function addInformationSection(){
+    let hr = doc.new({type: "hr", class: "delimiter___neME6 tt-information-section-hr"});
+    let div = doc.new({type: "div", class: "tt-information-section"});
+
+    doc.find("#sidebarroot .user-information___u408H .content___3HChF").appendChild(hr);
+    doc.find("#sidebarroot .user-information___u408H .content___3HChF").appendChild(div);
+}
+
+function displayOCtime(){
+    doc.find(".tt-information-section-hr").classList.add("active");
+    doc.find(".tt-information-section").classList.add("active");
+    
+    let crime_ids = Object.keys(oc);
+    crime_ids.reverse();
+
+    if(crime_ids.length === 0){
+        let div = doc.new({type: "div", text: `OC: `});
+        let span = doc.new({type: "span", text: "N/A"});
+
+        div.appendChild(span);
+        doc.find(".tt-information-section").appendChild(div);
+        return;
+    }
+    
+    let found_oc = false;
+
+    for(let crime_id of crime_ids){
+        if(crime_id === "date") continue;
+        if(oc[crime_id].initiated === 1) continue;
+
+        for(let participant of oc[crime_id].participants){
+            if(userdata.player_id in participant){
+                found_oc = true;
+
+                let time_left = timeUntil(new Date(oc[crime_id].time_ready*1000) - new Date());
+                let div = doc.new({type: "div", text: `OC: `});
+                let span = doc.new({type: "span", text: time_left, attributes: {"seconds-down": parseInt((new Date(oc[crime_id].time_ready*1000) - new Date())/1000)}});
+
+                if(!time_left.includes("d")) span.classList.add("red");
+
+                div.appendChild(span);
+                doc.find(".tt-information-section").appendChild(div);
+            }
+        }
+    }
+
+    if(!found_oc){
+        let div = doc.new({type: "div", text: `OC: `});
+        let span = doc.new({type: "span", text: "No active OC"});
+
+        div.appendChild(span);
+        doc.find(".tt-information-section").appendChild(div);
+    }
 }
