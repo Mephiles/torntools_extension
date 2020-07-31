@@ -212,10 +212,14 @@ function shortenArmoryNews(){
 
         for(let keyword of keywords){
             if(key.includes(keyword)){
-                let amount_span = doc.new({type: "span", text: " "+db[key].count+"x", attributes: {style: "font-weight: 600"}});
-                inner_span.innerHTML += ` ${keyword}`;
-                inner_span.appendChild(amount_span);
-                inner_span.innerHTML += key.split(" one")[1];
+                if(key.includes("one")){
+                    let amount_span = doc.new({type: "span", text: " "+db[key].count+"x", attributes: {style: "font-weight: 600"}});
+                    inner_span.innerHTML += ` ${keyword}`;
+                    inner_span.appendChild(amount_span);
+                    inner_span.innerHTML += key.split(" one")[1];
+                } else {
+                    inner_span.innerText = `${keyword}` + key.split(keyword)[1];
+                }
                 break;
             }
         }
