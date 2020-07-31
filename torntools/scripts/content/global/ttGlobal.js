@@ -352,18 +352,27 @@ function addInformationSection(){
 }
 
 function displayOCtime(){
+    doc.find(".tt-information-section-hr").classList.add("active");
+    doc.find(".tt-information-section").classList.add("active");
+    
     let crime_ids = Object.keys(oc);
     crime_ids.reverse();
 
+    if(crime_ids.length === 0){
+        let div = doc.new({type: "div", text: `OC: `});
+        let span = doc.new({type: "span", text: "N/A"});
+
+        div.appendChild(span);
+        doc.find(".tt-information-section").appendChild(div);
+        return;
+    }
+    
     for(let crime_id of crime_ids){
         if(crime_id === "date") continue;
         if(oc[crime_id].initiated === 1) break;
 
         for(let participant of oc[crime_id].participants){
             if(userdata.player_id in participant){
-                doc.find(".tt-information-section-hr").classList.add("active");
-                doc.find(".tt-information-section").classList.add("active");
-
                 let time_left = timeUntil(new Date(oc[crime_id].time_ready*1000) - new Date());
                 let div = doc.new({type: "div", text: `OC: `});
                 let span = doc.new({type: "span", text: time_left, attributes: {"seconds-down": parseInt((new Date(oc[crime_id].time_ready*1000) - new Date())/1000)}});
