@@ -288,7 +288,7 @@ function setupPreferences() {
                     }
                 });
             } else if(option !== "global" && has_global_disabled){
-                optionDiv.find("input").setAttribute("disabled", true);
+                optionDiv.find("input, select").setAttribute("disabled", true);
             }
 
             if (optionDiv.find("input")) optionDiv.find("input").checked = settings.pages[page][option];
