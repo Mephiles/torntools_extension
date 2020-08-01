@@ -413,7 +413,7 @@ function Main_30_seconds(){
 									notifications.chain[checkpoint] = {
 										checkpoint: checkpoint,
 										title: "TornTools - Chain",
-										text: `Chain timer will run out in ${Math.floor(real_timeout/1000/60)} ${(real_timeout/1000 % 60).toFixed(0)} seconds`,
+										text: `Chain timer will run out in ${Math.floor(real_timeout/1000/60)} minutes ${(real_timeout/1000 % 60).toFixed(0)} seconds`,
 										url: links.chain,
 										seen: 0,
 										date: new Date()
