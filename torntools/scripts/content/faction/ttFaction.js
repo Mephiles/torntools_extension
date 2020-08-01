@@ -224,34 +224,6 @@ function shortenArmoryNews(){
             }
         }
 
-        // if(key.indexOf("used one") > -1 || key.indexOf("filled one") > -1){
-        //     let used = key.indexOf("used one") > -1;
-
-        //     let left_side = doc.new("span");
-        //     left_side.innerText = used ? " used " : " filled ";
-        //     let amount = doc.new("span");
-        //     amount.innerText = db[key].count + "x ";
-        //     amount.style.fontWeight = "600";
-        //     let right_side = doc.new("span");
-        //     right_side.innerText = used ? key.split(" used one ")[1] : key.split(" filled one ")[1];
-
-        //     inner_span.appendChild(left_side);
-        //     inner_span.appendChild(amount);
-        //     inner_span.appendChild(right_side);
-        // } else if(key.indexOf("lent one") > -1){
-        //     inner_span.innerText = " lent one"+key.split(" lent one")[1];
-        // } else if(key.indexOf("retrieved one") > -1){
-        //     inner_span.innerText = " retrieved one"+key.split(" retrieved one")[1];
-        // } else if(key.indexOf("returned one") > -1){
-        //     inner_span.innerText = " returned one"+key.split(" returned one")[1];
-        // } else if(key.includes("deposited one")){
-        //     inner_span.innerText = " deposited one"+key.split(" deposited one")[1];
-        // } else if(key.includes("gave one")){
-        //     inner_span.innerText = " gave one"+key.split(" gave one")[1];
-        // } else {
-        //     inner_span.innerText = key;
-        // }
-
         info.appendChild(inner_span);
         li.appendChild(date);
         li.appendChild(info);
@@ -703,9 +675,9 @@ function drugInfo(){
                             }
                         }
 
-                        // faction time
+                        // Hospital time
                         if(drug_details.overdose.hosp_time){
-                            let hosp_div = doc.new({type: "div", class: "t-red bold item-effect tabbed", text: `faction: ${drug_details.overdose.hosp_time}`});
+                            let hosp_div = doc.new({type: "div", class: "t-red bold item-effect tabbed", text: `Hospital: ${drug_details.overdose.hosp_time}`});
                             el.find(".info-msg").appendChild(hosp_div);
                         }
 
