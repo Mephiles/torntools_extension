@@ -632,8 +632,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
     // Notifications
     for (let notification in settings.notifications) {
         if (preferences.find(`#notifications-${notification} input[type='text']`)) {
-            let values = preferences.find(`#notifications-${notification} input[type='text']`).value.split(",").map(x => parseInt(x.trim()));
-            if (isNaN(values[0])) values = [];
+            let values = preferences.find(`#notifications-${notification} input[type='text']`).value.split(",").filter(x => x !== "");
 
             settings.notifications[notification] = values;
         } else {
