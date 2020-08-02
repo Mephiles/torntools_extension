@@ -10,7 +10,11 @@ var notifications = {
 	"loot": {},
 	"events": {},
 	"messages": {},
-	"stakeouts": {}
+	"stakeouts": {},
+	"nerve": {},
+	"energy": {},
+	"happy": {},
+	"life": {}
 }
 
 var links = {
@@ -354,9 +358,19 @@ function Main_30_seconds(){
 									console.log(`${bar} checkpoints previous:`, settings.notifications[bar]);
 									console.log(`${bar} checkpoints modified:`, checkpoints);
 									for (let checkpoint of checkpoints){
-										if (previous_userdata[bar].current < userdata[bar].current && userdata[bar].current >= checkpoint) {
-											notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`, links.home);
+										if (previous_userdata[bar].current < userdata[bar].current && userdata[bar].current >= checkpoint && !notifications[bar][checkpoint]) {
+											notifications[bar][checkpoint] = {
+												title: "TornTools - Bars",
+												text: `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`,
+												url: links.home,
+												seen: 0,
+												date: new Date()
+											};
 											break;
+											// notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`, links.home);
+											// break;
+										} else if(userdata[bar].current < checkpoint && notifications[bar][checkpoint]){
+											delete notifications[bar][checkpoint];
 										}
 									}
 								}
