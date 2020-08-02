@@ -1073,7 +1073,6 @@ function getTraveling() {
 }
 
 function handleTornStatsData(data) {
-    console.log("DKK handleTornStatsData", data)
     let response = {};
 
     if (!data.error) {
