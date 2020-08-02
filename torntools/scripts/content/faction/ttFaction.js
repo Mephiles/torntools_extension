@@ -521,8 +521,9 @@ async function showUserInfo() {
             if (dataInformation.ok) {
                 row.appendChild(doc.new({
                     type: "div",
-                    class: "tt-userinfo--last_action",
+                    class: "tt-userinfo-field--last_action",
                     text: `Last Action: ${dataInformation.result.members[userId].last_action.relative}`,
+                    attributes: {"last-action": dataInformation.result.members[userId].last_action.relative},
                 }));
 
                 if (dataInformation.result.donations && dataInformation.result.donations[userId]) {
@@ -1024,16 +1025,18 @@ function addFilterToTable(list, title) {
         // console.log("Level", level);
 
         // Filtering
-        for (let li of list.findAll(":scope>li")) {
+        for (let li of list.findAll(":scope > li.table-row")) {
             if (li.classList.contains("tt-user-info")) {
                 continue;
             }
             li.classList.remove("filter-hidden");
+            if (li.nextElementSibling) li.nextElementSibling.classList.remove("filter-hidden");
 
             // Level
             let player_level = parseInt(li.find(".lvl").innerText.trim().replace("Level:", "").trim());
             if (!(level[0] <= player_level && player_level <= level[1])) {
                 li.classList.add("filter-hidden");
+                if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
                 continue;
             }
 
@@ -1046,12 +1049,12 @@ function addFilterToTable(list, title) {
 
             // Last Action
             let player_last_action = "N/A";
-            // FIXME - Change to use new user info classes.
-            if (li.nextElementSibling && li.nextElementSibling.classList && li.nextElementSibling.classList.contains("tt-user-info") && li.nextElementSibling.getAttribute("last-action")) {
-                player_last_action = parseInt(li.nextElementSibling.getAttribute("last-action"));
+            if (li.nextElementSibling && li.nextElementSibling.find(".tt-userinfo-field--last_action") && li.nextElementSibling.find(".tt-userinfo-field--last_action").getAttribute("last-action")) {
+                player_last_action = parseInt(li.nextElementSibling.find(".tt-userinfo-field--last_action").getAttribute("last-action"));
             }
             if (player_last_action !== "N/A" && !(last_action[0] <= player_last_action)) {
                 li.classList.add("filter-hidden");
+                if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
                 continue;
             }
 
@@ -1064,6 +1067,7 @@ function addFilterToTable(list, title) {
             }
             if (!matches_one_activity) {
                 li.classList.add("filter-hidden");
+                if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
                 continue;
             }
 
@@ -1076,6 +1080,7 @@ function addFilterToTable(list, title) {
             }
             if (!matches_one_status) {
                 li.classList.add("filter-hidden");
+                if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
             }
 
             // // Faction
