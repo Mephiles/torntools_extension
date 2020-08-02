@@ -1,4 +1,4 @@
-requireDatabase().then(function(){
+requireDatabase().then(() => {
     console.log("Loading Global Script");
 
     // Add TT Black overlay
@@ -7,11 +7,11 @@ requireDatabase().then(function(){
 
     showToggleChat();
 
-    requireNavbar().then(async function(){
+    requireNavbar().then(async () => {
         let _flying = await isFlying();
 
         // Firefox opens new tab when dropping item
-        doc.body.ondrop = function(event){
+        doc.body.ondrop =  (event) => {
             event.preventDefault();
             event.stopPropagation();
         }
@@ -20,92 +20,90 @@ requireDatabase().then(function(){
         addInformationSection();
 
         // Make Areas collapsible
-        if(!doc.find(".header-arrow___1Ph0g") && !mobile){
+        if (!doc.find(".header-arrow___1Ph0g") && !mobile) {
             let areas_i = doc.new({type: "i", class: "tt-title-icon-torn fas fa-caret-down"});
             let areas_header = doc.find("h2=Areas");
             areas_header.classList.add("tt-title-torn");
             areas_header.appendChild(areas_i);
-            if(settings.pages.global.collapse_areas) areas_header.classList.add("collapsed");
-    
-            areas_header.addEventListener("click", function(){
+            if (settings.pages.global.collapse_areas) areas_header.classList.add("collapsed");
+
+            areas_header.addEventListener("click", function () {
                 areas_header.classList.toggle("collapsed");
-                let collapsed = areas_header.classList.contains("collapsed")? true:false;
-        
+                let collapsed = areas_header.classList.contains("collapsed") ? true : false;
+
                 ttStorage.change({"settings": {"pages": {"global": {"collapse_areas": collapsed}}}});
             });
         }
 
         // Update notification
-        if(updated && settings.update_notification && !mobile){
+        if (updated && settings.update_notification && !mobile) {
             addUpdateNotification();
         }
-    
+
         // Custom links
-        if(custom_links.length > 0){
+        if (custom_links.length > 0) {
             addCustomLinks();
         }
-    
+
         // Notes
-        if(settings.pages.global.notes && !mobile){
+        if (settings.pages.global.notes && !mobile) {
             addNotesBox();
         }
-    
+
         // Remove icons that are hidden
-        for(let icon of doc.findAll(`#sidebarroot .status-icons___1SnOI>li`)){
+        for (let icon of doc.findAll(`#sidebarroot .status-icons___1SnOI>li`)) {
             let name = icon.getAttribute("class").split("_")[0];
-            if(hide_icons.indexOf(name) > -1){
+            if (hide_icons.indexOf(name) > -1) {
                 icon.remove();
             }
         }
 
         // Vault balance
-        if(settings.pages.global.vault_balance && !mobile){
+        if (settings.pages.global.vault_balance && !mobile) {
             displayVaultBalance();
         }
 
         // OC ready time
-        if(settings.pages.global.oc_time && !mobile){
+        if (settings.pages.global.oc_time && !mobile) {
             displayOCtime();
         }
 
         // Content margin
-        if(mobile && !_flying && custom_links.length > 0){
+        if (mobile && !_flying && custom_links.length > 0) {
             console.log("here")
             doc.find("div[role='main']").classList.add("tt-modified");
         }
 
         // Global time reducer
-        let time_decreaser = setInterval(function () {
+        setInterval(function () {
             for (let time of doc.findAll("*[seconds-down]")) {
                 let seconds = parseInt(time.getAttribute("seconds-down"));
                 seconds--;
 
-                if (seconds == 0) {
+                if (seconds <= 0) {
                     time.removeAttribute("seconds-down");
                     time.innerText = "Ready";
                     continue;
                 }
 
-                let time_left = timeUntil(seconds * 1000);
-                time.innerText = time_left;
+                time.innerText = timeUntil(seconds * 1000);
                 time.setAttribute("seconds-down", seconds);
             }
         }, 1000);
 
         // Update time increaser
-        let time_increaser = setInterval(function () {
+        setInterval(function () {
             for (let time of doc.findAll("*[seconds-up]")) {
                 let seconds = parseInt(time.getAttribute("seconds-up"));
                 seconds++;
 
-                let time_left = timeUntil(seconds * 1000);
-                time.innerText = time_left;
+                time.innerText = timeUntil(seconds * 1000);
                 time.setAttribute("seconds-up", seconds);
             }
         }, 1000);
     });
-    
-    chatsLoaded().then(function(){
+
+    chatsLoaded().then(function () {
         if (shouldDisable()) return
 
         // Chat highlight
@@ -116,24 +114,24 @@ requireDatabase().then(function(){
             highlights[HIGHLIGHT_PLACEHOLDERS[key].value()] = highlights[key];
         }
 
-        if(doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")){
+        if (doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")) {
             highLightChat(highlights);
 
-            if(settings.pages.global.find_chat) addChatFilters();
+            if (settings.pages.global.find_chat) addChatFilters();
         }
-    
-        doc.addEventListener("click", function(event){
-            if(!hasParent(event.target, {class: "chat-box_Wjbn9"})){
+
+        doc.addEventListener("click", function (event) {
+            if (!hasParent(event.target, {class: "chat-box_Wjbn9"})) {
                 return;
             }
-    
+
             highLightChat(highlights);
-            if(settings.pages.global.find_chat) addChatFilters();
+            if (settings.pages.global.find_chat) addChatFilters();
         });
-    
-        let chat_observer = new MutationObserver(function(mutationsList, observer){
-            for(let mutation of mutationsList){
-                if(mutation.addedNodes[0] && mutation.addedNodes[0].classList && mutation.addedNodes[0].classList.contains("message_oP8oM")){
+
+        let chat_observer = new MutationObserver(function (mutationsList, observer) {
+            for (let mutation of mutationsList) {
+                if (mutation.addedNodes[0] && mutation.addedNodes[0].classList && mutation.addedNodes[0].classList.contains("message_oP8oM")) {
                     let message = mutation.addedNodes[0];
 
                     applyChatHighlights(message, highlights);
@@ -144,11 +142,11 @@ requireDatabase().then(function(){
     });
 });
 
-function chatsLoaded(){
-    return new Promise(function(resolve, reject){
-        let checker = setInterval(function(){
-            if(doc.find(".overview_1MoPG")){
-                setInterval(function(){
+function chatsLoaded() {
+    return new Promise(function (resolve, reject) {
+        let checker = setInterval(function () {
+            if (doc.find(".overview_1MoPG")) {
+                setInterval(function () {
                     resolve(true);
                 }, 300);
                 return clearInterval(checker);
@@ -157,27 +155,43 @@ function chatsLoaded(){
     });
 }
 
-function addCustomLinks(){
-    if(mobile){
-        let areas_custom = doc.new({type: "div", class: "areas___2pu_3 areasWrapper areas-mobile___3zY0z torntools-mobile"});
+function addCustomLinks() {
+    if (mobile) {
+        let areas_custom = doc.new({
+            type: "div",
+            class: "areas___2pu_3 areasWrapper areas-mobile___3zY0z torntools-mobile"
+        });
         let div = doc.new({type: "div"});
         let swipe_container = doc.new({type: "div", class: "swiper-container swiper-container-horizontal"});
-        let swipe_wrapper = doc.new({type: "div", class: "swiper-wrapper swiper___nAyWO", attributes: {style: "transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"}});
-        let swipe_button_left = doc.new({type: "div", class: "swiper-button___3lZ1n button-prev___2x-Io swiper-button-disabled"});
+        let swipe_wrapper = doc.new({
+            type: "div",
+            class: "swiper-wrapper swiper___nAyWO",
+            attributes: {style: "transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"}
+        });
+        let swipe_button_left = doc.new({
+            type: "div",
+            class: "swiper-button___3lZ1n button-prev___2x-Io swiper-button-disabled"
+        });
         let swipe_button_right = doc.new({type: "div", class: "swiper-button___3lZ1n button-next___1hJxo"});
 
-        for(let link of custom_links){
+        for (let link of custom_links) {
             let slide = doc.new({type: "div", class: "swiper-slide slide___1oBWA"});
             let area = doc.new({type: "div", class: "area-mobile___1XJcq"});
             let area_row = doc.new({type: "div", class: "area-row___34mEZ torntools-mobile"});
-            let a = doc.new({type: "a", href: link.href, class: "mobileLink___33zU1 sidebarMobileLink torntools-mobile", text: link.text, attributes: {target: (link.new_tab? "_blank":"")}});
+            let a = doc.new({
+                type: "a",
+                href: link.href,
+                class: "mobileLink___33zU1 sidebarMobileLink torntools-mobile",
+                text: link.text,
+                attributes: {target: (link.new_tab ? "_blank" : "")}
+            });
 
             area_row.appendChild(a);
             area.appendChild(area_row);
             slide.appendChild(area);
             swipe_wrapper.appendChild(slide);
         }
-        
+
         swipe_container.appendChild(swipe_wrapper);
         swipe_container.appendChild(swipe_button_left);
         swipe_container.appendChild(swipe_button_right);
@@ -187,22 +201,26 @@ function addCustomLinks(){
         doc.find("#sidebar .content___kMC8x").insertBefore(areas_custom, doc.find("#sidebar .content___kMC8x .user-information-mobile___EaRKJ"));
     } else {
         let custom_links_section = navbar.newSection("Custom Links", {next_element_heading: "Areas"});
-    
-        for(let link of custom_links){
-            new_cell = navbar.newCell(link.text, {parent_element: custom_links_section, href: link.href, link_target: (link.new_tab ? "_blank" : "")});
+
+        for (let link of custom_links) {
+            new_cell = navbar.newCell(link.text, {
+                parent_element: custom_links_section,
+                href: link.href,
+                link_target: (link.new_tab ? "_blank" : "")
+            });
         }
-    
+
         doc.find("#sidebar").insertBefore(custom_links_section, findParent(doc.find("h2=Areas"), {class: "sidebar-block___1Cqc2"}));
     }
 }
 
-function addNotesBox(){
+function addNotesBox() {
     let notes_section = navbar.newSection("Notes", {next_element_heading: "Areas"});
     let cell = doc.new({type: "div", class: "area-desktop___2YU-q"});
     let inner_div = doc.new({type: "div", class: "area-row___34mEZ"});
     let textbox = doc.new({type: "textarea", class: "tt-nav-textarea", value: notes.text || ""});
 
-    if(notes.height){
+    if (notes.height) {
         textbox.style.height = notes.height;
     }
 
@@ -212,11 +230,11 @@ function addNotesBox(){
 
     doc.find("#sidebar").insertBefore(notes_section, findParent(doc.find("h2=Areas"), {class: "sidebar-block___1Cqc2"}));
 
-    textbox.addEventListener("change", function(){
+    textbox.addEventListener("change", function () {
         ttStorage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
     });
-    textbox.addEventListener("mouseup", function(){ 
-        if(textbox.style.height != notes.height){
+    textbox.addEventListener("mouseup", function () {
+        if (textbox.style.height != notes.height) {
             console.log("resize");
             console.log(textbox.style.height)
             ttStorage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
@@ -224,28 +242,33 @@ function addNotesBox(){
     });
 }
 
-function addUpdateNotification(){
+function addUpdateNotification() {
     let version_text = `TornTools updated: ${chrome.runtime.getManifest().version}`;
     let settings_page_url = chrome.runtime.getURL("/views/settings/settings.html");
 
     let cell = doc.new({type: "div", class: "area-desktop___2YU-q"});
     let inner_div = doc.new({type: "div", class: "area-row___34mEZ"});
-    let a = doc.new({type: "a", class: "desktopLink___2dcWC", href: settings_page_url, attributes: {target: "_blank", style: "background-color: #B8E28F; min-height: 24px; line-height: 24px;"}});
+    let a = doc.new({
+        type: "a",
+        class: "desktopLink___2dcWC",
+        href: settings_page_url,
+        attributes: {target: "_blank", style: "background-color: #B8E28F; min-height: 24px; line-height: 24px;"}
+    });
     let span = doc.new({type: "span", text: version_text});
 
     a.appendChild(span);
     inner_div.appendChild(a);
     cell.appendChild(inner_div);
-    
+
     doc.find("h2=Areas").nextElementSibling.insertBefore(cell, doc.find("h2=Areas").nextElementSibling.firstElementChild);
 }
 
-function highLightChat(chat_highlight){
+function highLightChat(chat_highlight) {
     let chats = doc.findAll(".chat-box-content_2C5UJ .overview_1MoPG");
-    for(let chat of chats){
+    for (let chat of chats) {
         let messages = chat.findAll(".message_oP8oM");
-        
-        for(let message of messages){
+
+        for (let message of messages) {
             applyChatHighlights(message, chat_highlight)
         }
     }
@@ -256,7 +279,7 @@ function applyChatHighlights(message, highlights) {
     let text = message.find("span").innerText;
     const words = text.split(" ").map((w) => w.toLowerCase());
 
-    if(sender in highlights){
+    if (sender in highlights) {
         message.find("a").style.color = highlights[sender];
     }
 
@@ -271,11 +294,11 @@ function applyChatHighlights(message, highlights) {
     }
 }
 
-function addChatFilters(){
+function addChatFilters() {
     let chats = doc.findAll(".chat-box-content_2C5UJ");
-    for(let chat of chats){
-        if(!chat.nextElementSibling) continue;
-        if(chat.nextElementSibling.find(".tt-chat-filter")) continue;
+    for (let chat of chats) {
+        if (!chat.nextElementSibling) continue;
+        if (chat.nextElementSibling.find(".tt-chat-filter")) continue;
 
         chat.nextElementSibling.classList.add("tt-modified");
 
@@ -289,18 +312,18 @@ function addChatFilters(){
         chat.nextElementSibling.insertBefore(filter_wrap, chat.nextElementSibling.firstElementChild);
 
         // Filtering process
-        filter_input.onkeyup = function(){
+        filter_input.onkeyup = function () {
             let keyword = filter_input.value.toLowerCase();
 
-            for(let message of chat.findAll(".overview_1MoPG .message_oP8oM span")){
+            for (let message of chat.findAll(".overview_1MoPG .message_oP8oM span")) {
                 message.parentElement.style.display = "block";
-                
-                if(keyword != "" && message.innerText.toLowerCase().indexOf(keyword) == -1){
+
+                if (keyword != "" && message.innerText.toLowerCase().indexOf(keyword) == -1) {
                     message.parentElement.style.display = "none";
                 }
             }
 
-            if(keyword == ""){
+            if (keyword == "") {
                 let viewport = chat.find(".viewport_1F0WI");
                 viewport.scrollTop = viewport.scrollHeight;
             }
@@ -308,18 +331,18 @@ function addChatFilters(){
     }
 }
 
-function displayVaultBalance(){
+function displayVaultBalance() {
     if (!networth || !networth.current || !networth.current.value) return;
 
     let money = networth.current.value.vault;
 
-    if(settings.pages.global.vault_balance_own && vault.initialized && vault.user.current_money){
+    if (settings.pages.global.vault_balance_own && vault.initialized && vault.user.current_money) {
         money = vault.user.current_money;
     }
 
     let elementHTML = `
     <span class="name___297H-">Vault:</span>
-    <span class="value___1K0oi money-positive___3pqLW" style="position:relative;left:-3px;">${(settings.pages.global.vault_balance_own && vault.initialized && vault.user.current_money)? "*":""}$${numberWithCommas(money, false)}</span>
+    <span class="value___1K0oi money-positive___3pqLW" style="position:relative;left:-3px;">${(settings.pages.global.vault_balance_own && vault.initialized && vault.user.current_money) ? "*" : ""}$${numberWithCommas(money, false)}</span>
     `
 
     let el = doc.new({type: "p", class: "point-block___xpMEi", attributes: {tabindex: "1"}});
@@ -343,7 +366,7 @@ function showToggleChat() {
     doc.find("#body").prepend(icon);
 }
 
-function addInformationSection(){
+function addInformationSection() {
     let hr = doc.new({type: "hr", class: "delimiter___neME6 tt-information-section-hr"});
     let div = doc.new({type: "div", class: "tt-information-section"});
 
@@ -351,14 +374,14 @@ function addInformationSection(){
     doc.find("#sidebarroot .user-information___u408H .content___3HChF").appendChild(div);
 }
 
-function displayOCtime(){
+function displayOCtime() {
     doc.find(".tt-information-section-hr").classList.add("active");
     doc.find(".tt-information-section").classList.add("active");
-    
+
     let crime_ids = Object.keys(oc);
     crime_ids.reverse();
 
-    if(crime_ids.length === 0){
+    if (crime_ids.length === 0) {
         let div = doc.new({type: "div", text: `OC: `});
         let span = doc.new({type: "span", text: "N/A"});
 
@@ -366,22 +389,26 @@ function displayOCtime(){
         doc.find(".tt-information-section").appendChild(div);
         return;
     }
-    
+
     let found_oc = false;
 
-    for(let crime_id of crime_ids){
-        if(crime_id === "date") continue;
-        if(oc[crime_id].initiated === 1) continue;
+    for (let crime_id of crime_ids) {
+        if (crime_id === "date") continue;
+        if (oc[crime_id].initiated === 1) continue;
 
-        for(let participant of oc[crime_id].participants){
-            if(userdata.player_id in participant){
+        for (let participant of oc[crime_id].participants) {
+            if (userdata.player_id in participant) {
                 found_oc = true;
 
-                let time_left = timeUntil(new Date(oc[crime_id].time_ready*1000) - new Date());
+                let time_left = timeUntil(oc[crime_id].time_left * 1000);
                 let div = doc.new({type: "div", text: `OC: `});
-                let span = doc.new({type: "span", text: time_left, attributes: {"seconds-down": parseInt((new Date(oc[crime_id].time_ready*1000) - new Date())/1000)}});
+                let span = doc.new({
+                    type: "span",
+                    text: time_left,
+                    attributes: {"seconds-down": parseInt(oc[crime_id].time_left)}
+                });
 
-                if(!time_left.includes("d")) span.classList.add("red");
+                if (time_left === -1 || !time_left.includes("d")) span.classList.add("red");
 
                 div.appendChild(span);
                 doc.find(".tt-information-section").appendChild(div);
@@ -389,7 +416,7 @@ function displayOCtime(){
         }
     }
 
-    if(!found_oc){
+    if (!found_oc) {
         let div = doc.new({type: "div", text: `OC: `});
         let span = doc.new({type: "span", text: "No active OC"});
 
