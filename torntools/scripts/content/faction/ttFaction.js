@@ -601,14 +601,14 @@ async function showUserInfo() {
 
             row.appendChild(doc.new({
                 type: "span",
-                text: `Stat Estimate: ${result.battleStatsEstimate[userId].data}`,
+                text: `Stat Estimate: ${result.battleStatsEstimate}`,
             }));
         } else {
             row.appendChild(doc.new({
                 type: "span",
                 class: "tt-userinfo-message",
                 text: result.error,
-                attributes: {color: "error"}
+                attributes: {color: "error"},
             }));
         }
         loadingPlaceholder(row, false);
