@@ -1,12 +1,13 @@
 export default {
     "v5.0 - 2020": {
         "Features": [
-            "Show an estimate of an user battle stats. - DKK",
+            "Show an estimate of an user battle stats. Works on profiles, search pages, faction pages and .... - DKK",
         ],
         "Fixes": [
+            "Don't apply the last action filter on other faction pages. - DKK"
         ],
         "Changes": [
-            "Change the caching system. - DKK",
+            "Change the caching system to allow for different times to keep it for. - DKK",
             "Update the profile view to not completely fail upon any api error. - DKK",
         ]
     },
