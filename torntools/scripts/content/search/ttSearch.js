@@ -305,17 +305,20 @@ async function showStatsEstimates() {
     for (let row of doc.findAll("ul.user-info-list-wrap > li:not(.last)")) {
         let userId = (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1];
 
-        const gridContainer = doc.new({type: "section", class: "tt-userinfo-grid"});
+        const gridContainer = doc.new({type: "section", class: "tt-userinfo-container"});
         row.parentElement.insertBefore(gridContainer, row.nextElementSibling);
 
-        loadingPlaceholder(gridContainer, true);
+        const gridRow = doc.new({type: "section", class: "tt-userinfo-row"});
+        gridContainer.appendChild(gridRow);
+
+        loadingPlaceholder(gridRow, true);
 
         results.allUsers.push(userId);
         if (cache && cache.battleStatsEstimate && cache.battleStatsEstimate[userId]) results.cached.push({
             userId,
-            gridContainer
+            gridContainer: gridRow
         });
-        else results.new.push({userId, gridContainer});
+        else results.new.push({userId, gridContainer: gridRow});
     }
 
     for (let result of results.cached) {
@@ -363,7 +366,6 @@ async function showStatsEstimates() {
         } else {
             container.appendChild(doc.new({
                 type: "div",
-                class: "tt-userinfo--stats_estimate",
                 text: `Stat Estimate: ${result.battleStatsEstimate}`,
             }));
         }

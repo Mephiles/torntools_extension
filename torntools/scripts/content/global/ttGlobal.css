@@ -390,21 +390,29 @@ div[role='main'].tt-modified {
     color: #47dfd6;
 }
 
-/* Grid System */
+/* Container System */
 
-.tt-userinfo-grid {
-    display: inline-grid;
-    justify-items: center;
-    align-items: center;
-    width: 100%;
+.tt-userinfo-container {
+    background-color: #dcdcdc;
+    color: #7b7b7b;
+    line-height: 18px;
+    font-size: 11px;
+    padding-bottom: 2px;
 }
 
-.tt-userinfo-grid .tt-userinfo--last_action {
-    grid-column-start: last-action;
+.tt-userinfo-container .tt-userinfo-row {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
 }
 
-.tt-userinfo-grid .tt-userinfo--stats_estimate {
-    grid-column-start: stats-estimate;
+.tt-userinfo-container .tt-userinfo-row > * {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.tt-userinfo-container .tt-userinfo-row .ajax-placeholder {
+    flex-grow: 0;
 }
 
 /* Torn icons */
