@@ -463,6 +463,16 @@
 				"scripts/content/preferences/ttPreferences.js"
 			],
 			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/blacklist.php*"
+			],
+			"css": [],
+			"js": [
+				"scripts/content/blacklist/ttEnemiesList.js"
+			],
+			"run_at": "document_end"
 		}
 	]
 }

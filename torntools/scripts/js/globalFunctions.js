@@ -473,7 +473,7 @@ const STORAGE = {
                 // TODO - abroad
                 // TODO - "hall_of_fame": false,
                 "bounties": false,
-                // TODO - "blacklist": false,
+                "enemies_list": false,
                 // TODO - "faction_wall": false,
                 "faction_members": false,
                 // TODO - competition
@@ -1898,4 +1898,69 @@ function handleTornProfileData(data) {
     }
 
     return response;
+}
+
+function estimateStatsInList(listSelector, userHandler) {
+    new Promise((resolve) => {
+        let estimateQueue = [];
+
+        for (let person of doc.findAll("ul.user-info-blacklist-wrap > li:not(.clear)")) {
+            const {userId} = userHandler(person);
+
+            const container = doc.new({type: "li", class: "tt-userinfo-container"});
+            person.parentElement.insertBefore(container, person.nextElementSibling);
+
+            const row = doc.new({type: "section", class: "tt-userinfo-row"});
+            container.appendChild(row);
+
+            if (cache && cache.battleStatsEstimate && cache.battleStatsEstimate[userId]) {
+                row.appendChild(doc.new({
+                    type: "span",
+                    text: `Stat Estimate: ${cache.battleStatsEstimate[userId].data}`,
+                }));
+            } else {
+                loadingPlaceholder(row, true);
+                estimateQueue.push([userId, row]);
+            }
+        }
+
+        setTimeout(async () => {
+            for (let [userId, row] of estimateQueue) {
+                const result = handleTornProfileData(await fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key));
+
+                if (!result.error) {
+                    const timestamp = new Date().getTime();
+
+                    ttStorage.change({
+                        "cache": {
+                            "battleStatsEstimate": {
+                                [userId]: {
+                                    timestamp,
+                                    ttl: result.battleStatsEstimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
+                                    data: result.battleStatsEstimate,
+                                }
+                            },
+                        }
+                    });
+
+                    row.appendChild(doc.new({
+                        type: "span",
+                        text: `Stat Estimate: ${result.battleStatsEstimate}`,
+                    }));
+                } else {
+                    row.appendChild(doc.new({
+                        type: "span",
+                        class: "tt-userinfo-message",
+                        text: result.error,
+                        attributes: {color: "error"},
+                    }));
+                }
+                loadingPlaceholder(row, false);
+
+                await sleep(TO_MILLIS.SECONDS * 1.5);
+            }
+
+            resolve();
+        });
+    }).then(() => console.log("Estimated stats."));
 }
