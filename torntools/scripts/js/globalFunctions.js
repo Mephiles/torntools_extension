@@ -472,7 +472,7 @@ const STORAGE = {
                 "userlist": false,
                 // TODO - abroad
                 // TODO - "hall_of_fame": false,
-                // TODO - "bounties": false,
+                "bounties": false,
                 // TODO - "blacklist": false,
                 // TODO - "faction_wall": false,
                 "faction_members": false,

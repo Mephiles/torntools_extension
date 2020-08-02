@@ -1,7 +1,15 @@
-requireDatabase().then(function(){
-	bountiesLoaded().then(function(){
-        console.log("TT - Newspaper | Bounties");
-        Main(filters);
+requireDatabase().then(function () {
+    console.log("TT - Newspaper | Bounties");
+
+    addXHRListener((event) => {
+        const {page, xhr} = event.detail;
+        if (page !== "bounties") return;
+
+        const params = new URLSearchParams(xhr.requestBody);
+        if (params.get("step") !== "mainBounties") return;
+
+        bountiesLoaded().then(() => {
+            addFilter(filters);
 
             if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.bounties)
                 showStatsEstimates().then(() => console.log("Estimated stats."));
@@ -114,4 +122,74 @@ function addFilter(filters) {
     } catch (e) {
         console.log("DKK error 2", e)
     }
+}
+
+function showStatsEstimates() {
+    console.log("DKK showStatsEstimates")
+    return new Promise((resolve) => {
+        try {
+            let estimateQueue = [];
+
+            for (let person of doc.findAll(".bounties-list > li:not(.clear)")) {
+                const userId = person.find(".head .target a").getAttribute("href").match(/profiles\.php\?XID=([0-9]*)/i)[1];
+
+                const container = doc.new({type: "li", class: "tt-userinfo-container"});
+                person.parentElement.insertBefore(container, person.nextElementSibling);
+
+                const row = doc.new({type: "section", class: "tt-userinfo-row"});
+                container.appendChild(row);
+
+                if (cache && cache.battleStatsEstimate && cache.battleStatsEstimate[userId]) {
+                    row.appendChild(doc.new({
+                        type: "span",
+                        text: `Stat Estimate: ${cache.battleStatsEstimate[userId].data}`,
+                    }));
+                } else {
+                    loadingPlaceholder(row, true);
+                    estimateQueue.push([userId, row]);
+                }
+            }
+
+            setTimeout(async () => {
+                for (let [userId, row] of estimateQueue) {
+                    const result = handleTornProfileData(await fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key));
+
+                    if (!result.error) {
+                        const timestamp = new Date().getTime();
+
+                        ttStorage.change({
+                            "cache": {
+                                "battleStatsEstimate": {
+                                    [userId]: {
+                                        timestamp,
+                                        ttl: result.battleStatsEstimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
+                                        data: result.battleStatsEstimate,
+                                    }
+                                },
+                            }
+                        });
+
+                        row.appendChild(doc.new({
+                            type: "span",
+                            text: `Stat Estimate: ${result.battleStatsEstimate}`,
+                        }));
+                    } else {
+                        row.appendChild(doc.new({
+                            type: "span",
+                            class: "tt-userinfo-message",
+                            text: result.error,
+                            attributes: {color: "error"},
+                        }));
+                    }
+                    loadingPlaceholder(row, false);
+
+                    await sleep(TO_MILLIS.SECONDS * 1.5);
+                }
+
+                resolve();
+            });
+        } catch (e) {
+            console.error("DKK erorr", e)
+        }
+    });
 }
