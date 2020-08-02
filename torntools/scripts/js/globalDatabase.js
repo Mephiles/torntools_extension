@@ -88,3 +88,11 @@ let userdata, torndata, settings, api_key, chat_highlight, itemlist,
         database_status = DATABASE_STATUSES.LOADED;
     });
 })();
+
+chrome.storage.onChanged.addListener((changes, area) => {
+    if (area !== "local") return;
+
+    if (changes.filters) {
+        filters = changes.filters.newValue;
+    }
+});

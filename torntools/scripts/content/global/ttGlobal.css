@@ -398,6 +398,8 @@ div[role='main'].tt-modified {
     line-height: 18px;
     font-size: 11px;
     padding-bottom: 2px;
+    width: -moz-available;
+    width: -webkit-fill-available;
 }
 
 .tt-userinfo-container .tt-userinfo-row {
