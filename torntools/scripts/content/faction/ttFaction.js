@@ -523,7 +523,7 @@ async function showUserInfo() {
                     type: "div",
                     class: "tt-userinfo-field--last_action",
                     text: `Last Action: ${dataInformation.result.members[userId].last_action.relative}`,
-                    attributes: {"last-action": dataInformation.result.members[userId].last_action.relative},
+                    attributes: {"last-action": ((new Date() - dataInformation.result.members[userId].last_action.timestamp * 1000) / 1000).toFixed(0)},
                 }));
 
                 if (dataInformation.result.donations && dataInformation.result.donations[userId]) {
@@ -1053,6 +1053,7 @@ function addFilterToTable(list, title) {
                 player_last_action = parseInt(li.nextElementSibling.find(".tt-userinfo-field--last_action").getAttribute("last-action"));
             }
             if (player_last_action !== "N/A" && !(last_action[0] <= player_last_action)) {
+                console.log("DKK filter", player_last_action, last_action[0])
                 li.classList.add("filter-hidden");
                 if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
                 continue;
