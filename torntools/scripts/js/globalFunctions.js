@@ -1901,10 +1901,11 @@ function handleTornProfileData(data) {
 }
 
 function estimateStatsInList(listSelector, userHandler) {
+    console.log("Estimating stats in a list.", listSelector)
     new Promise((resolve) => {
         let estimateQueue = [];
 
-        for (let person of doc.findAll("ul.user-info-blacklist-wrap > li:not(.clear)")) {
+        for (let person of doc.findAll(listSelector)) {
             const {userId} = userHandler(person);
 
             const container = doc.new({type: "li", class: "tt-userinfo-container"});
