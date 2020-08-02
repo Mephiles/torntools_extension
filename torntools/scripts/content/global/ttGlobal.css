@@ -406,6 +406,7 @@ div[role='main'].tt-modified {
     display: flex;
     justify-content: center;
     align-items: stretch;
+    font-size: 11px;
 }
 
 .tt-userinfo-container .tt-userinfo-row > * {
