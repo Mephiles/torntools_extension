@@ -57,7 +57,8 @@ requireDatabase().then(() => {
             // Armory page
             doc.find(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
         } else {
-            ownFaction = false;
+            // noinspection EqualityComparisonWithCoercionJS
+            ownFaction = userdata.faction ? getSearchParameters().get("ID") == userdata.faction.faction_id : false;
 
             loadInfo();
         }
@@ -497,7 +498,6 @@ async function showUserInfo() {
         !(settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_members))
         return;
 
-
     const factionId = doc.find(".faction-info-wrap .faction-info[data-faction]").getAttribute("data-faction");
 
     doc.find(".members-list .table-body").classList.add("tt-modified");
@@ -842,7 +842,7 @@ function addFilterToTable(list, title) {
                 <div id="tt-level-filter" class="filter-slider"></div>
                 <div class="filter-slider-info"></div>
             </div>
-            <div class="filter-wrap ${settings.pages.faction.member_info && getSearchParameters().get("step") !== "profile" ? '' : 'filter-hidden'}" id="last-action-filter">
+            <div class="filter-wrap ${settings.pages.faction.member_info && ownFaction ? '' : 'filter-hidden'}" id="last-action-filter">
                 <div class="filter-heading">Last Action</div>
                 <div id="tt-last-action-filter" class="filter-slider"></div>
                 <div class="filter-slider-info"></div>
@@ -1048,15 +1048,17 @@ function addFilterToTable(list, title) {
             // }
 
             // Last Action
-            let player_last_action = "N/A";
-            if (li.nextElementSibling && li.nextElementSibling.find(".tt-userinfo-field--last_action") && li.nextElementSibling.find(".tt-userinfo-field--last_action").getAttribute("last-action")) {
-                player_last_action = parseInt(li.nextElementSibling.find(".tt-userinfo-field--last_action").getAttribute("last-action"));
-            }
-            if (player_last_action !== "N/A" && !(last_action[0] <= player_last_action)) {
-                console.log("DKK filter", player_last_action, last_action[0])
-                li.classList.add("filter-hidden");
-                if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
-                continue;
+            if (settings.pages.faction.member_info && ownFaction) {
+                let player_last_action = "N/A";
+                if (li.nextElementSibling && li.nextElementSibling.find(".tt-userinfo-field--last_action") && li.nextElementSibling.find(".tt-userinfo-field--last_action").getAttribute("last-action")) {
+                    player_last_action = parseInt(li.nextElementSibling.find(".tt-userinfo-field--last_action").getAttribute("last-action"));
+                }
+                if (player_last_action !== "N/A" && !(last_action[0] <= player_last_action)) {
+                    console.log("DKK filter", player_last_action, last_action[0])
+                    li.classList.add("filter-hidden");
+                    if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
+                    continue;
+                }
             }
 
             // Activity
