@@ -1,7 +1,7 @@
 export default {
     "v5.0 - 2020": {
         "Features": [
-            "Show an estimate of an user battle stats. Works on profiles, search pages, faction pages and .... - DKK",
+            "Show an estimate of an user battle stats. Works on profiles, search pages, faction pages, bounty pages, your enemies list and the hall of fame.  - DKK",
         ],
         "Fixes": [
             "Don't apply the last action filter on other faction pages. - DKK"
