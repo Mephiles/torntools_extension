@@ -1867,7 +1867,7 @@ function injectFetch() {
 }
 
 function addFetchListener(callback) {
-    injectXHR();
+    injectFetch();
 
     window.addEventListener("tt-fetch", callback);
 }
