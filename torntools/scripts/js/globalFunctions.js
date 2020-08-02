@@ -349,12 +349,13 @@ const STORAGE = {
             "traveling": true,
             "cooldowns": true,
             "education": true,
-            "energy": [100],
-            "nerve": [100],
-            "happy": [100],
-            "life": [100],
+            "energy": ["100%"],
+            "nerve": ["100%"],
+            "happy": ["100%"],
+            "life": ["100%"],
             "hospital": [],
-            "landing": []
+            "landing": [],
+            "chain": []
         },
         "format": {
             "date": "eu",

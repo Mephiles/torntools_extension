@@ -861,7 +861,7 @@ function mainInitialize() {
             console.log("API key set");
 
             doc.find("h3").innerText = "Loading..";
-            doc.find("p").innerText = "It will take 15 seconds to fetch your data. You may close this window."
+            doc.find("p").innerText = "It will take 30 seconds to fetch your data. You may close this window."
             doc.find("input").style.display = "none";
             doc.find("button").style.display = "none";
 

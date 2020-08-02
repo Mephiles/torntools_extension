@@ -9,16 +9,22 @@ var notifications = {
     "loot": {},
     "events": {},
     "messages": {},
-    "stakeouts": {}
+    "stakeouts": {},
+	"chain": {},
+	"nerve": {},
+	"energy": {},
+	"happy": {},
+	"life": {},
 }
 
 var links = {
-    stocks: "https://www.torn.com/stockexchange.php?step=portfolio",
-    home: "https://www.torn.com/index.php",
-    items: "https://www.torn.com/item.php",
-    education: "https://www.torn.com/education.php#/step=main",
-    messages: "https://www.torn.com/messages.php",
-    events: "https://www.torn.com/events.php#/step=all"
+	stocks: "https://www.torn.com/stockexchange.php?step=portfolio",
+	home: "https://www.torn.com/index.php",
+	items: "https://www.torn.com/item.php",
+	education: "https://www.torn.com/education.php#/step=main",
+	messages: "https://www.torn.com/messages.php",
+	events: "https://www.torn.com/events.php#/step=all",
+	chain: "https://www.torn.com/factions.php?step=your#/war/chain"
 }
 
 let userdata, torndata, settings, api_key, chat_highlight, itemlist,
@@ -171,11 +177,11 @@ setup_storage.then(async function (success) {
 });
 
 function initiateTasks() {
-    console.log("Setting up intervals.");
-    setInterval(Main_5_seconds, 5 * seconds);  // 5 seconds
-    setInterval(Main_15_seconds, 15 * seconds);  // 15 seconds
-    setInterval(Main_1_minute, 1 * minutes);  // 1 minute
-    setInterval(Main_15_minutes, 15 * minutes);  // 15 minutes
+	console.log("Setting up intervals.");
+	setInterval(Main_5_seconds, 5 * seconds);  // 5 seconds
+	setInterval(Main_30_seconds, 30 * seconds);  // 30 seconds
+	setInterval(Main_1_minute, 1 * minutes);  // 1 minute
+	setInterval(Main_15_minutes, 15 * minutes);  // 15 minutes
 
     // Update info about installed extensions
     updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
@@ -213,8 +219,8 @@ function Main_5_seconds() {
     console.groupEnd("Notifications");
 }
 
-function Main_15_seconds() {
-    console.group("Main (userdata | torndata | stakeouts)");
+function Main_30_seconds() {
+	console.group("Main (userdata | torndata | stakeouts)");
 
     ttStorage.get(["api_key", "target_list", "stakeouts", "torndata"], async function ([api_key, target_list, stakeouts, old_torndata]) {
         let attack_history;
@@ -344,21 +350,32 @@ function Main_15_seconds() {
                             }
                         }
 
-                        // Check for bars
-                        if (settings.notifications.global) {
-                            for (let bar of ["energy", "happy", "nerve", "life"]) {
-                                if (previous_userdata[bar] && settings.notifications[bar].length > 0) {
-                                    for (let checkpoint of settings.notifications[bar].sort(function (a, b) {
-                                        return b - a
-                                    })) {
-                                        if (previous_userdata[bar].current < userdata[bar].current && (userdata[bar].current / userdata[bar].maximum) * 100 >= checkpoint) {
-                                            notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum} (${checkpoint}%)`, links.home);
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
+						// Check for bars
+						if (settings.notifications.global) {
+							for (let bar of ["energy", "happy", "nerve", "life"]) {
+								if (previous_userdata[bar] && settings.notifications[bar].length > 0) {
+									let checkpoints = settings.notifications[bar].map(x => (typeof x === "string" && x.includes("%"))? parseInt(x)/100*userdata[bar].maximum:parseInt(x)).sort(function(a,b){ return b-a });
+									console.log(`${bar} checkpoints previous:`, settings.notifications[bar]);
+									console.log(`${bar} checkpoints modified:`, checkpoints);
+									for (let checkpoint of checkpoints){
+										if (previous_userdata[bar].current < userdata[bar].current && userdata[bar].current >= checkpoint && !notifications[bar][checkpoint]) {
+											notifications[bar][checkpoint] = {
+												title: "TornTools - Bars",
+												text: `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`,
+												url: links.home,
+												seen: 0,
+												date: new Date()
+											};
+											break;
+											// notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`, links.home);
+											// break;
+										} else if(userdata[bar].current < checkpoint && notifications[bar][checkpoint]){
+											delete notifications[bar][checkpoint];
+										}
+									}
+								}
+							}
+						}
 
                         // Check for hospital notification
                         if (settings.notifications.global && settings.notifications.hospital.length > 0 && userdata.status.state == "Hospital") {
@@ -367,20 +384,20 @@ function Main_15_seconds() {
                             })) {
                                 let time_left = new Date(userdata.status.until * 1000) - new Date(); // ms
 
-                                if (time_left <= checkpoint * 60 * 1000 && !notifications.hospital[checkpoint]) {
-                                    notifications.hospital[checkpoint] = {
-                                        title: "TornTools - Hospital",
-                                        text: `You will be out of the Hospital in ${Math.floor(time_left / 1000 / 60)} minutes ${(time_left / 1000 % 60).toFixed(0)} seconds`,
-                                        url: links.hospital,
-                                        seen: 0,
-                                        date: new Date()
-                                    };
-                                    break;
-                                }
-                            }
-                        } else {
-                            notifications.hospital = {}
-                        }
+								if(time_left <= parseInt(checkpoint)*60*1000 && !notifications.hospital[checkpoint]){
+									notifications.hospital[checkpoint] = {
+										title: "TornTools - Hospital",
+										text: `You will be out of the Hospital in ${Math.floor(time_left/1000/60)} minutes ${(time_left/1000 % 60).toFixed(0)} seconds`,
+										url: links.hospital,
+										seen: 0,
+										date: new Date()
+									};
+									break;
+								}
+							}
+						} else {
+							notifications.hospital = {}
+						}
 
                         // Check for travel notification
                         if (settings.notifications.global && settings.notifications.landing.length > 0 && userdata.travel.time_left > 0) {
@@ -389,24 +406,45 @@ function Main_15_seconds() {
                             })) {
                                 let time_left = new Date(userdata.travel.timestamp * 1000) - new Date(); // ms
 
-                                if (time_left <= checkpoint * 60 * 1000 && !notifications.travel[checkpoint]) {
-                                    notifications.travel[checkpoint] = {
-                                        checkpoint: checkpoint,
-                                        title: "TornTools - Travel",
-                                        text: `You will be Landing in ${Math.floor(time_left / 1000 / 60)} minutes ${(time_left / 1000 % 60).toFixed(0)} seconds`,
-                                        url: links.home,
-                                        seen: 0,
-                                        date: new Date()
-                                    };
-                                    break;
-                                }
-                            }
-                        } else {
-                            notifications.travel = {}
-                        }
+								if(time_left <= parseInt(checkpoint)*60*1000 && !notifications.travel[checkpoint]){
+									notifications.travel[checkpoint] = {
+										checkpoint: checkpoint,
+										title: "TornTools - Travel",
+										text: `You will be Landing in ${Math.floor(time_left/1000/60)} minutes ${(time_left/1000 % 60).toFixed(0)} seconds`,
+										url: links.home,
+										seen: 0,
+										date: new Date()
+									};
+									break;
+								}
+							}
+						} else {
+							notifications.travel = {}
+						}
 
-                        userdata.date = new Date().toString();
-                        delete userdata.attacks;
+						// Check for chain notification
+						if(settings.notifications.global && settings.notifications.chain.length > 0 && userdata.chain.timeout !== 0){
+							for(let checkpoint of settings.notifications.chain.sort(function(a,b){return a-b})){
+								let real_timeout = userdata.chain.timeout * 1000 - (new Date() - new Date(userdata.timestamp * 1000));  // ms
+
+								if(real_timeout <= parseInt(checkpoint)*60*1000 && !notifications.chain[checkpoint]){
+									notifications.chain[checkpoint] = {
+										checkpoint: checkpoint,
+										title: "TornTools - Chain",
+										text: `Chain timer will run out in ${Math.floor(real_timeout/1000/60)} minutes ${(real_timeout/1000 % 60).toFixed(0)} seconds`,
+										url: links.chain,
+										seen: 0,
+										date: new Date()
+									};
+									break;
+								}
+							}
+						} else {
+							notifications.chain = {}
+						}
+
+						userdata.date = new Date().toString();
+						delete userdata.attacks;
 
                         // Set Userdata
                         ttStorage.set({"userdata": userdata}, function () {
@@ -836,11 +874,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         case "initialize":
             console.log("Initializing app.")
 
-            console.log("Setting up intervals.");
-            setInterval(Main_5_seconds, 5 * seconds);  // 5 seconds
-            setInterval(Main_15_seconds, 15 * seconds);  // 15 seconds
-            setInterval(Main_1_minute, 1 * minutes);  // 1 minute
-            setInterval(Main_15_minutes, 15 * minutes);  // 15 minutes
+			console.log("Setting up intervals.");
+			setInterval(Main_5_seconds, 5*seconds);  // 5 seconds
+			setInterval(Main_30_seconds, 30*seconds);  // 30 seconds
+			setInterval(Main_1_minute, 1*minutes);  // 1 minute
+			setInterval(Main_15_minutes, 15*minutes);  // 15 minutes
 
             console.log("Fetching initial info.");
             Main_15_minutes();
