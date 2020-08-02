@@ -79,8 +79,8 @@ function loadInfo() {
         });
     }
 
-    requirePlayerList(".members-list .table-body").then(function () {
-        if (settings.pages.faction.member_info) showUserInfo();
+    requirePlayerList(".members-list .table-body").then(async function () {
+        await showUserInfo();
 
         // Player list filter
         let list = doc.find(".members-list .table-body");
@@ -492,80 +492,128 @@ function armoryWorth() {
         });
 }
 
-function showUserInfo() {
-    let factionId = doc.find(".faction-info-wrap .faction-info[data-faction]").getAttribute("data-faction");
+async function showUserInfo() {
+    if (!settings.pages.faction.member_info &&
+        !(settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_members))
+        return;
 
-    fetchApi(`https://api.torn.com/faction/${factionId}?selections=${ownFaction ? 'donations,' : ''}basic`, api_key)
-        .then(function (result) {
-            if (!result.ok) {
-                if (result.error === 'Incorrect ID-entity relation') {
-                    doc.findAll(".members-list .table-body>li").forEach((value) => {
-                        let li = doc.new({type: "li", class: "tt-user-info"});
-                        let inner_wrap = doc.new({type: "div", class: "tt-user-info-inner-wrap"});
 
-                        inner_wrap.appendChild(doc.new({type: "div", text: "No API access."}));
+    const factionId = doc.find(".faction-info-wrap .faction-info[data-faction]").getAttribute("data-faction");
 
-                        li.appendChild(inner_wrap);
-                        value.parentElement.insertBefore(li, value.nextElementSibling);
-                    });
-                }
-                return false;
-            }
+    doc.find(".members-list .table-body").classList.add("tt-modified");
 
-            result = result.result;
-            console.log("result", result);
+    let dataInformation;
+    if (settings.pages.faction.member_info) {
+        dataInformation = await fetchApi(`https://api.torn.com/faction/${factionId}?selections=${ownFaction ? 'donations,' : ''}basic`, api_key);
+    }
 
-            doc.find(".members-list .table-body").classList.add("tt-modified");
+    let estimateQueue = [];
+    for (let tableRow of doc.findAll(".members-list .table-body > li")) {
+        let userId = tableRow.find("a.user.name").getAttribute("data-placeholder") ? tableRow.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : tableRow.find("a.user.name").getAttribute("href").split("XID=")[1];
 
-            for (let user of doc.findAll(".members-list .table-body>li")) {
-                let user_id = user.find("a.user.name").getAttribute("data-placeholder") ? user.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : user.find("a.user.name").getAttribute("href").split("XID=")[1];
+        const container = doc.new({type: "section", class: "tt-userinfo-container"});
+        tableRow.parentElement.insertBefore(container, tableRow.nextElementSibling);
 
-                let li = doc.new({
-                    type: "li",
-                    class: "tt-user-info",
-                    attributes: {"last-action": ((new Date() - result.members[user_id].last_action.timestamp * 1000) / 1000).toFixed(0)}
-                });
-                let inner_wrap = doc.new({type: "div", class: "tt-user-info-inner-wrap"});
-                let texts = [
-                    `Last action: ${result.members[user_id].last_action.relative}`
-                ]
+        if (settings.pages.faction.member_info) {
+            const row = doc.new({type: "section", class: "tt-userinfo-row"});
+            container.appendChild(row);
 
-                if (result.donations && result.donations[user_id]) {
-                    if (result.donations[user_id].money_balance > 0) {
-                        texts.push(`Money balance: $${numberWithCommas(result.donations[user_id].money_balance, false)}`);
+            if (dataInformation.ok) {
+                row.appendChild(doc.new({
+                    type: "div",
+                    class: "tt-userinfo--last_action",
+                    text: `Last Action: ${dataInformation.result.members[userId].last_action.relative}`,
+                }));
+
+                if (dataInformation.result.donations && dataInformation.result.donations[userId]) {
+                    if (dataInformation.result.donations[userId].money_balance > 0) {
+                        row.appendChild(doc.new({
+                            type: "div",
+                            text: `Money Balance: $${numberWithCommas(dataInformation.result.donations[userId].money_balance, false)}`,
+                        }));
                     }
-                    if (result.donations[user_id].points_balance > 0) {
-                        texts.push(`Points balance: ${numberWithCommas(result.donations[user_id].points_balance, false)}`);
-                    }
-                }
-
-                for (let text of texts) {
-                    let div = doc.new({type: "div", text: text});
-                    inner_wrap.appendChild(div);
-
-                    if (texts.indexOf(text) !== texts.length - 1) {
-                        let divider = doc.new({type: "div", class: "tt-divider", text: "—"});
-                        inner_wrap.appendChild(divider);
+                    if (dataInformation.result.donations[userId].points_balance > 0) {
+                        row.appendChild(doc.new({
+                            type: "div",
+                            text: `Point Balance: ${numberWithCommas(dataInformation.result.donations[userId].points_balance, false)}`,
+                        }));
                     }
                 }
-
-                li.appendChild(inner_wrap);
-                user.parentElement.insertBefore(li, user.nextElementSibling);
 
                 // Activity notifications
-                let checkpoints = settings.inactivity_alerts_faction;
-                for (let checkpoint of Object.keys(checkpoints).sort(function (a, b) {
-                    return b - a
-                })) {
-                    if (new Date() - new Date(result.members[user_id].last_action.timestamp * 1000) >= parseInt(checkpoint)) {
+                const checkpoints = settings.inactivity_alerts_faction;
+                for (let checkpoint of Object.keys(checkpoints).sort((a, b) => b - a)) {
+                    if (new Date() - new Date(dataInformation.result.members[userId].last_action.timestamp * 1000) >= parseInt(checkpoint)) {
                         console.log(checkpoints[checkpoint])
-                        user.style.backgroundColor = `${checkpoints[checkpoint]}`;
+                        tableRow.style.backgroundColor = `${checkpoints[checkpoint]}`;
                         break;
                     }
                 }
+            } else {
+                let error = dataInformation.error;
+
+                if (error === "Incorrect ID-entity relation") error = "No API access."
+
+                container.appendChild(doc.new({
+                    type: "div",
+                    class: "tt-userinfo-message",
+                    text: error,
+                    attributes: {color: "error"}
+                }));
             }
-            member_info_added = true;
-        });
+        }
+
+        if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_members) {
+            const row = doc.new({type: "section", class: "tt-userinfo-row"});
+            container.appendChild(row);
+
+            if (cache && cache.battleStatsEstimate && cache.battleStatsEstimate[userId]) {
+                row.appendChild(doc.new({
+                    type: "span",
+                    text: `Stat Estimate: ${cache.battleStatsEstimate[userId].data}`,
+                }));
+            } else {
+                loadingPlaceholder(row, true);
+                estimateQueue.push([userId, row]);
+            }
+        }
+    }
+
+    for (let [userId, row] of estimateQueue) {
+        await sleep(TO_MILLIS.SECONDS * 1.5);
+
+        const result = handleTornProfileData(await fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key));
+
+        if (!result.error) {
+            const timestamp = new Date().getTime();
+
+            ttStorage.change({
+                "cache": {
+                    "battleStatsEstimate": {
+                        [userId]: {
+                            timestamp,
+                            ttl: result.battleStatsEstimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
+                            data: result.battleStatsEstimate,
+                        }
+                    },
+                }
+            });
+
+            row.appendChild(doc.new({
+                type: "span",
+                text: `Stat Estimate: ${result.battleStatsEstimate[userId].data}`,
+            }));
+        } else {
+            row.appendChild(doc.new({
+                type: "span",
+                class: "tt-userinfo-message",
+                text: result.error,
+                attributes: {color: "error"}
+            }));
+        }
+        loadingPlaceholder(row, false);
+    }
+    member_info_added = true;
 }
 
 function showAvailablePlayers() {
@@ -998,6 +1046,7 @@ function addFilterToTable(list, title) {
 
             // Last Action
             let player_last_action = "N/A";
+            // FIXME - Change to use new user info classes.
             if (li.nextElementSibling && li.nextElementSibling.classList && li.nextElementSibling.classList.contains("tt-user-info") && li.nextElementSibling.getAttribute("last-action")) {
                 player_last_action = parseInt(li.nextElementSibling.getAttribute("last-action"));
             }
