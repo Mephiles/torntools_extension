@@ -1901,7 +1901,8 @@ function handleTornProfileData(data) {
 }
 
 function estimateStatsInList(listSelector, userHandler) {
-    console.log("Estimating stats in a list.", listSelector)
+    console.log("Estimating stats in a list.", listSelector);
+
     new Promise((resolve) => {
         let estimateQueue = [];
 

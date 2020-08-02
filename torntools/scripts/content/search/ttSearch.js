@@ -7,9 +7,7 @@ requireDatabase().then(function () {
             const params = new URLSearchParams(xhr.requestBody);
             if (params.get("sid") !== "UserListAjax") return;
 
-            searchLoaded().then(async () => {
-                await showStatsEstimates();
-            });
+            searchLoaded().then(showStatsEstimates);
         });
     }
 
@@ -28,7 +26,7 @@ requireDatabase().then(function () {
         addFilterToTable(list, title);
 
         if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.userlist)
-            await showStatsEstimates();
+            showStatsEstimates();
     });
 });
 
@@ -293,81 +291,12 @@ function addFilterToTable(list, title) {
 
 }
 
-async function showStatsEstimates() {
+function showStatsEstimates() {
     doc.find(".user-info-list-wrap").classList.add("tt-info-wrap");
 
-    let results = {
-        cached: [],
-        new: [],
-        allUsers: [],
-    };
-
-    for (let row of doc.findAll("ul.user-info-list-wrap > li:not(.last)")) {
-        let userId = (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1];
-
-        const gridContainer = doc.new({type: "section", class: "tt-userinfo-container"});
-        row.parentElement.insertBefore(gridContainer, row.nextElementSibling);
-
-        const gridRow = doc.new({type: "section", class: "tt-userinfo-row"});
-        gridContainer.appendChild(gridRow);
-
-        loadingPlaceholder(gridRow, true);
-
-        results.allUsers.push(userId);
-        if (cache && cache.battleStatsEstimate && cache.battleStatsEstimate[userId]) results.cached.push({
-            userId,
-            gridContainer: gridRow
-        });
-        else results.new.push({userId, gridContainer: gridRow});
-    }
-
-    for (let result of results.cached) {
-        const {gridContainer, userId} = result;
-
-        loadingPlaceholder(gridContainer, false);
-        show(gridContainer, {battleStatsEstimate: cache.battleStatsEstimate[userId].data});
-    }
-
-    for (let result of results.new) {
-        await sleep(TO_MILLIS.SECONDS * 1.5);
-
-        const {gridContainer, userId} = result;
-
-        const data = handleTornProfileData(await fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key));
-        if (!data.error) {
-            const timestamp = new Date().getTime();
-
-            ttStorage.change({
-                "cache": {
-                    "battleStatsEstimate": {
-                        [userId]: {
-                            timestamp,
-                            ttl: data.battleStatsEstimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
-                            data: data.battleStatsEstimate,
-                        }
-                    },
-                }
-            });
-        }
-
-        loadingPlaceholder(gridContainer, false);
-        show(gridContainer, data);
-    }
-
-    function show(container, result) {
-        console.log("Stats Estimate", result);
-        if (result.error) {
-            container.appendChild(doc.new({
-                type: "div",
-                class: "tt-userinfo-message",
-                text: result.error,
-                attributes: {color: "error"}
-            }));
-        } else {
-            container.appendChild(doc.new({
-                type: "div",
-                text: `Stat Estimate: ${result.battleStatsEstimate}`,
-            }));
-        }
-    }
+    estimateStatsInList("ul.user-info-list-wrap > li:not(.last)", (row) => {
+        return {
+            userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1]
+        };
+    });
 }
