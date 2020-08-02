@@ -717,7 +717,7 @@ async function showSpyInfo() {
 
     if (result.error) {
         spySection.appendChild(doc.new({type: "div", class: "tt-spy-info tt-error-message", text: result.error}));
-    } else if (!result.status) {
+    } else if (!result.spyreport.status) {
         spySection.appendChild(doc.new({type: "div", class: "tt-spy-info", text: result.spyreport.message}));
     } else {
         let heading = doc.new({
