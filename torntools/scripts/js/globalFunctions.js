@@ -471,7 +471,7 @@ const STORAGE = {
                 "profile": true,
                 "userlist": false,
                 // TODO - abroad
-                // TODO - "hall_of_fame": false,
+                "hall_of_fame": false,
                 "bounties": false,
                 "enemies_list": false,
                 // TODO - "faction_wall": false,
