@@ -580,40 +580,42 @@ async function showUserInfo() {
         }
     }
 
-    for (let [userId, row] of estimateQueue) {
-        await sleep(TO_MILLIS.SECONDS * 1.5);
+    setTimeout(async () => {
+        for (let [userId, row] of estimateQueue) {
+            await sleep(TO_MILLIS.SECONDS * 1.5);
 
-        const result = handleTornProfileData(await fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key));
+            const result = handleTornProfileData(await fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key));
 
-        if (!result.error) {
-            const timestamp = new Date().getTime();
+            if (!result.error) {
+                const timestamp = new Date().getTime();
 
-            ttStorage.change({
-                "cache": {
-                    "battleStatsEstimate": {
-                        [userId]: {
-                            timestamp,
-                            ttl: result.battleStatsEstimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
-                            data: result.battleStatsEstimate,
-                        }
-                    },
-                }
-            });
+                ttStorage.change({
+                    "cache": {
+                        "battleStatsEstimate": {
+                            [userId]: {
+                                timestamp,
+                                ttl: result.battleStatsEstimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
+                                data: result.battleStatsEstimate,
+                            }
+                        },
+                    }
+                });
 
-            row.appendChild(doc.new({
-                type: "span",
-                text: `Stat Estimate: ${result.battleStatsEstimate}`,
-            }));
-        } else {
-            row.appendChild(doc.new({
-                type: "span",
-                class: "tt-userinfo-message",
-                text: result.error,
-                attributes: {color: "error"},
-            }));
+                row.appendChild(doc.new({
+                    type: "span",
+                    text: `Stat Estimate: ${result.battleStatsEstimate}`,
+                }));
+            } else {
+                row.appendChild(doc.new({
+                    type: "span",
+                    class: "tt-userinfo-message",
+                    text: result.error,
+                    attributes: {color: "error"},
+                }));
+            }
+            loadingPlaceholder(row, false);
         }
-        loadingPlaceholder(row, false);
-    }
+    }, 0);
     member_info_added = true;
 }
 
