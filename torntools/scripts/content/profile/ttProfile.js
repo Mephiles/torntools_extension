@@ -362,9 +362,9 @@ function profileLoaded() {
 
 function displayAlly(user_faction, allies) {
     let faction_cell = doc.find(".basic-information ul.info-table li:nth-of-type(3) div:nth-of-type(2)");
-    let profile_faction = faction_cell.find("a")? faction_cell.find("a").innerText : "";
+    let profile_faction = faction_cell.find("a") ? faction_cell.find("a").innerText : "";
 
-    if(profile_faction === "") return;
+    if (profile_faction === "") return;
 
     if (user_faction === profile_faction) {
         showWarning('user');
@@ -716,8 +716,9 @@ async function showSpyInfo() {
     console.log("Spy Information", result.spyreport);
 
     if (result.error) {
-        let div = doc.new({type: "div", class: "tt-spy-info tt-error-message", text: result.error});
-        spySection.appendChild(div);
+        spySection.appendChild(doc.new({type: "div", class: "tt-spy-info tt-error-message", text: result.error}));
+    } else if (!result.status) {
+        spySection.appendChild(doc.new({type: "div", class: "tt-spy-info", text: result.spyreport.message}));
     } else {
         let heading = doc.new({
             type: "div",
@@ -1072,6 +1073,7 @@ function getTraveling() {
 }
 
 function handleTornStatsData(data) {
+    console.log("DKK handleTornStatsData", data)
     let response = {};
 
     if (!data.error) {
