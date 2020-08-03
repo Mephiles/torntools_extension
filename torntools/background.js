@@ -14,7 +14,8 @@ var notifications = {
 	"nerve": {},
 	"energy": {},
 	"happy": {},
-	"life": {}
+	"life": {},
+	"new_day": {}
 }
 
 var links = {
@@ -437,6 +438,20 @@ function Main_30_seconds(){
 							}
 						} else {
 							notifications.chain = {}
+						}
+
+						// Check for New Day notification
+						let torn_time = new Date(new Date(userdata.timestamp).toUTCString().replace(" GMT", ""));
+						if(torn_time.getHours() == "00" && 
+						torn_time.getMinutes() == "00" && 
+						!(torn_time.getDate().toString() in notifications.new_day)){
+							notifications.new_day[torn_time.getDate().toString()] = {
+								title: "TornTools - New Day",
+								text: "It's a new day! Hopefully a sunny one.",
+								url: links.home,
+								seen: 0,
+								date: new Date()
+							}
 						}
 
 						userdata.date = new Date().toString();
