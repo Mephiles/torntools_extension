@@ -1312,6 +1312,17 @@ function memberInfoAdded() {
     });
 }
 
+function warOverviewLoaded() {
+    return new Promise(function (resolve) {
+        let checker = setInterval(function () {
+            if (doc.find("#war-react-root ul.f-war-list")) {
+                resolve(true);
+                return clearInterval(checker);
+            }
+        }, 25);
+    });
+}
+
 function warDescriptionLoaded() {
     return new Promise(function (resolve) {
         let checker = setInterval(function () {
@@ -1326,24 +1337,26 @@ function warDescriptionLoaded() {
 function observeWarlist() {
     if (window.location.hash.includes("/war/")) warDescriptionLoaded().then(observeDescription);
 
-    new MutationObserver((mutations, observer) => {
-        let found = false;
+    warOverviewLoaded().then(() => {
+        new MutationObserver((mutations, observer) => {
+            let found = false;
 
-        for (let mutation of mutations) {
-            for (let node of mutation.addedNodes) {
-                if (node.classList && node.classList.contains("descriptions")) {
-                    found = true;
-                    break;
+            for (let mutation of mutations) {
+                for (let node of mutation.addedNodes) {
+                    if (node.classList && node.classList.contains("descriptions")) {
+                        found = true;
+                        break;
+                    }
                 }
+
+                if (found) break;
             }
 
-            if (found) break;
-        }
+            if (!found) return;
 
-        if (!found) return;
-
-        observeDescription();
-    }).observe(doc.find("#war-react-root ul.f-war-list"), {childList: true});
+            observeDescription();
+        }).observe(doc.find("#war-react-root ul.f-war-list"), {childList: true});
+    });
 }
 
 function observeDescription() {
