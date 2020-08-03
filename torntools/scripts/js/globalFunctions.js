@@ -348,6 +348,7 @@ const STORAGE = {
             "traveling": true,
             "cooldowns": true,
             "education": true,
+            "new_day": true,
             "energy": ["100%"],
             "nerve": ["100%"],
             "happy": ["100%"],

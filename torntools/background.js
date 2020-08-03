@@ -442,7 +442,10 @@ function Main_30_seconds(){
 
 						// Check for New Day notification
 						let torn_time = new Date(new Date(userdata.timestamp).toUTCString().replace(" GMT", ""));
-						if(torn_time.getHours() == "00" && 
+						if(
+						settings.notifications.global &&
+						settings.notifications.new_day &&
+						torn_time.getHours() == "00" && 
 						torn_time.getMinutes() == "00" && 
 						!(torn_time.getDate().toString() in notifications.new_day)){
 							notifications.new_day[torn_time.getDate().toString()] = {
