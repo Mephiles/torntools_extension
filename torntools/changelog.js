@@ -1,13 +1,23 @@
 export default {
     "v4.10 - August, xxth. 2020": {
         "Features": [
-
+            "Add OC timer to Information window - Mephiles",
+            "Add Chain timer notification - Mephiles",
+            "Add New Day notification - Mephiles"
         ],
         "Fixes": [
-
+            "Fix Quick Items failing to load if an item has 0 quantity - Mephiles",
+            "Fix Profile script failing if player is not in a faction - Mephiles",
+            "Add missing keywords for Faction armory news shortening script - Mephiles",
+            "Fix Calculator popup gear icon not working - Mephiles"
         ],
         "Changes": [
-            
+            "Add option to dismiss notifications rather than open the relevant page - Mephiles",
+            "Add option to display your own vault value in Information window (indicated by *) - Mephiles",
+            "Make Travel Destinations table available while flying - Mephiles",
+            "Add Data usage estimate on Firefox - DKK",
+            "Allow whole numbers and percentages simultaniously for bar Notifications - Mephiles",
+            "Change userdata fetch from 15sec to 30sec to cut down on unnecessary API calls - Mephiles"
         ]
     },
     "v4.9 - July, 29th. 2020": {
