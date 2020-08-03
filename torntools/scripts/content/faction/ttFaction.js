@@ -1326,29 +1326,24 @@ function warDescriptionLoaded() {
 function observeWarlist() {
     if (window.location.hash.includes("/war/")) warDescriptionLoaded().then(observeDescription);
 
-    try {
-        new MutationObserver((mutations, observer) => {
-            console.log("DKK observeWarlist", mutations)
-            let found = false;
+    new MutationObserver((mutations, observer) => {
+        let found = false;
 
-            for (let mutation of mutations) {
-                for (let node of mutation.addedNodes) {
-                    if (node.classList && node.classList.contains("descriptions")) {
-                        found = true;
-                        break;
-                    }
+        for (let mutation of mutations) {
+            for (let node of mutation.addedNodes) {
+                if (node.classList && node.classList.contains("descriptions")) {
+                    found = true;
+                    break;
                 }
-
-                if (found) break;
             }
 
-            if (!found) return;
+            if (found) break;
+        }
 
-            observeDescription();
-        }).observe(doc.find("#war-react-root ul.f-war-list"), {childList: true});
-    } catch (e) {
-        console.error("DKK error", e)
-    }
+        if (!found) return;
+
+        observeDescription();
+    }).observe(doc.find("#war-react-root ul.f-war-list"), {childList: true});
 }
 
 function observeDescription() {
