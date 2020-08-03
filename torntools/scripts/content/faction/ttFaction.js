@@ -1352,83 +1352,79 @@ function observeWarlist() {
 }
 
 function observeDescription() {
-    try {
-        estimateStatsInList(".descriptions .members-list > li:not(.tt-userinfo-container)", (row) => {
-            if (hasClass(row, "join") || hasClass(row, "timer-wrap")) {
-                if (hasClass(row.nextElementSibling, "tt-userinfo-container")) row.nextElementSibling.remove();
+    estimateStatsInList(".descriptions .members-list > li:not(.tt-userinfo-container)", (row) => {
+        if (hasClass(row, "join") || hasClass(row, "timer-wrap")) {
+            if (hasClass(row.nextElementSibling, "tt-userinfo-container")) row.nextElementSibling.remove();
 
-                return {};
+            return {};
+        }
+
+        return {
+            userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1]
+        };
+    });
+
+    new MutationObserver((mutations) => {
+        for (let mutation of mutations) {
+            for (let node of mutation.removedNodes) {
+                if (hasClass(node, "your") || hasClass(node, "enemy")) {
+                    if (hasClass(mutation.nextSibling, "tt-userinfo-container")) mutation.nextSibling.remove();
+                }
             }
 
-            return {
-                userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1]
-            };
-        });
+            for (let node of mutation.addedNodes) {
+                if (node && node.classList && (node.classList.contains("your") || node.classList.contains("enemy"))) {
+                    const userId = (node.find("a.user.name").getAttribute("data-placeholder") || node.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1];
 
-        new MutationObserver((mutations) => {
-            for (let mutation of mutations) {
-                for (let node of mutation.removedNodes) {
-                    if (hasClass(node, "your") || hasClass(node, "enemy")) {
-                        if (hasClass(mutation.nextSibling, "tt-userinfo-container")) mutation.nextSibling.remove();
-                    }
-                }
+                    const container = doc.new({type: "li", class: "tt-userinfo-container"});
+                    node.parentElement.insertBefore(container, node.nextElementSibling);
 
-                for (let node of mutation.addedNodes) {
-                    if (node && node.classList && (node.classList.contains("your") || node.classList.contains("enemy"))) {
-                        const userId = (node.find("a.user.name").getAttribute("data-placeholder") || node.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1];
+                    const row = doc.new({type: "section", class: "tt-userinfo-row tt-userinfo-row--statsestimate"});
+                    container.appendChild(row);
 
-                        const container = doc.new({type: "li", class: "tt-userinfo-container"});
-                        node.parentElement.insertBefore(container, node.nextElementSibling);
+                    if (cache && cache.battleStatsEstimate && cache.battleStatsEstimate[userId]) {
+                        row.appendChild(doc.new({
+                            type: "span",
+                            text: `Stat Estimate: ${cache.battleStatsEstimate[userId].data}`,
+                        }));
+                    } else {
+                        loadingPlaceholder(row, true);
 
-                        const row = doc.new({type: "section", class: "tt-userinfo-row tt-userinfo-row--statsestimate"});
-                        container.appendChild(row);
+                        setTimeout(async () => {
+                            const result = handleTornProfileData(await fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key));
 
-                        if (cache && cache.battleStatsEstimate && cache.battleStatsEstimate[userId]) {
-                            row.appendChild(doc.new({
-                                type: "span",
-                                text: `Stat Estimate: ${cache.battleStatsEstimate[userId].data}`,
-                            }));
-                        } else {
-                            loadingPlaceholder(row, true);
+                            if (!result.error) {
+                                const timestamp = new Date().getTime();
 
-                            setTimeout(async () => {
-                                const result = handleTornProfileData(await fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key));
+                                ttStorage.change({
+                                    "cache": {
+                                        "battleStatsEstimate": {
+                                            [userId]: {
+                                                timestamp,
+                                                ttl: result.battleStatsEstimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
+                                                data: result.battleStatsEstimate,
+                                            }
+                                        },
+                                    }
+                                });
 
-                                if (!result.error) {
-                                    const timestamp = new Date().getTime();
-
-                                    ttStorage.change({
-                                        "cache": {
-                                            "battleStatsEstimate": {
-                                                [userId]: {
-                                                    timestamp,
-                                                    ttl: result.battleStatsEstimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
-                                                    data: result.battleStatsEstimate,
-                                                }
-                                            },
-                                        }
-                                    });
-
-                                    row.appendChild(doc.new({
-                                        type: "span",
-                                        text: `Stat Estimate: ${result.battleStatsEstimate}`,
-                                    }));
-                                } else {
-                                    row.appendChild(doc.new({
-                                        type: "span",
-                                        class: "tt-userinfo-message",
-                                        text: result.error,
-                                        attributes: {color: "error"},
-                                    }));
-                                }
-                                loadingPlaceholder(row, false);
-                            });
-                        }
+                                row.appendChild(doc.new({
+                                    type: "span",
+                                    text: `Stat Estimate: ${result.battleStatsEstimate}`,
+                                }));
+                            } else {
+                                row.appendChild(doc.new({
+                                    type: "span",
+                                    class: "tt-userinfo-message",
+                                    text: result.error,
+                                    attributes: {color: "error"},
+                                }));
+                            }
+                            loadingPlaceholder(row, false);
+                        });
                     }
                 }
             }
-        }).observe(doc.find("#war-react-root ul.f-war-list > li.descriptions ul.members-list"), {childList: true,});
-    } catch (e) {
-        console.error("DKK error", e)
-    }
+        }
+    }).observe(doc.find("#war-react-root ul.f-war-list > li.descriptions ul.members-list"), {childList: true,});
 }
