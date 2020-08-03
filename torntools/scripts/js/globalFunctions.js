@@ -470,7 +470,7 @@ const STORAGE = {
                 "global": true,
                 "profile": true,
                 "userlist": false,
-                // TODO - abroad
+                "abroad": false,
                 "hall_of_fame": false,
                 "bounties": false,
                 "enemies_list": false,
