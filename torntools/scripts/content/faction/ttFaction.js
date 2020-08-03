@@ -6,12 +6,22 @@ requireDatabase().then(() => {
         const {page, json, xhr} = event.detail;
         if (!json) return;
 
+        const params = new URLSearchParams(xhr.requestBody);
+        const step = params.get("step");
         if (page === "factions") {
-            const params = new URLSearchParams(xhr.requestBody);
-            const step = params.get("step");
-
             if (step === "mainnews" && parseInt(params.get("type")) === 4 && settings.pages.faction.armory) {
                 newstabLoaded("armory").then(shortenArmoryNews);
+            }
+        }
+    });
+    addFetchListener((event) => {
+        const {page, json, fetch} = event.detail;
+
+        const params = new URLSearchParams(fetch.url);
+        const step = params.get("step");
+        if (page === "faction_wars") {
+            if ((step === "getwarusers" || step === "getwardata") && settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) {
+                warLoaded().then(estimateWarStats);
             }
         }
     });
@@ -68,6 +78,8 @@ requireDatabase().then(() => {
 function loadMain() {
     subpageLoaded("main").then(function () {
         fullInfoBox("main");
+
+
     });
 }
 
@@ -1306,5 +1318,32 @@ function memberInfoAdded() {
                 return clearInterval(checker);
             }
         });
+    });
+}
+
+function warLoaded() {
+    return new Promise(function (resolve) {
+        let checker = setInterval(function () {
+            if (doc.find(".faction-war .members-list li")) {
+                resolve(true);
+                return clearInterval(checker);
+            }
+        }, 25);
+    });
+}
+
+function estimateWarStats() {
+    estimateStatsInList(".descriptions .members-list > li:not(.tt-userinfo-container)", (row) => {
+        if (row.classList && (row.classList.contains("join") || row.classList.contains("timer-wrap"))) {
+            if (row.nextElementSibling && row.nextElementSibling.classList && row.nextElementSibling.classList.contains("tt-userinfo-container")) {
+                row.nextElementSibling.remove();
+            }
+
+            return {};
+        }
+
+        return {
+            userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1]
+        };
     });
 }

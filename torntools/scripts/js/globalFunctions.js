@@ -474,7 +474,7 @@ const STORAGE = {
                 "hall_of_fame": false,
                 "bounties": false,
                 "enemies_list": false,
-                // TODO - "faction_wall": false,
+                "faction_wars": false,
                 "faction_members": false,
                 // TODO - competition
             }
@@ -1901,19 +1901,33 @@ function handleTornProfileData(data) {
 }
 
 function estimateStatsInList(listSelector, userHandler) {
-    console.log("Estimating stats in a list.", listSelector);
+    console.log("Estimating stats in a list.", doc.findAll(listSelector).length);
 
     new Promise((resolve) => {
         let estimateQueue = [];
 
         for (let person of doc.findAll(listSelector)) {
-            const {userId} = userHandler(person);
+            const response = userHandler(person);
+            if (!response) continue;
+            const {userId} = response;
+            if (!userId) continue;
 
-            const container = doc.new({type: "li", class: "tt-userinfo-container"});
-            person.parentElement.insertBefore(container, person.nextElementSibling);
+            let container;
+            if (person.nextElementSibling && person.nextElementSibling.classList && person.nextElementSibling.classList.contains("tt-userinfo-container")) {
+                container = person.nextElementSibling;
+            } else {
+                container = doc.new({type: "li", class: "tt-userinfo-container"});
+                person.parentElement.insertBefore(container, person.nextElementSibling);
+            }
 
-            const row = doc.new({type: "section", class: "tt-userinfo-row"});
-            container.appendChild(row);
+            let row;
+            if (container.find(".tt-userinfo-row--statsestimate")) {
+                row = container.find(".tt-userinfo-row--statsestimate");
+                row.childNodes.forEach((child) => child.remove());
+            } else {
+                row = doc.new({type: "section", class: "tt-userinfo-row tt-userinfo-row--statsestimate"});
+                container.appendChild(row);
+            }
 
             if (cache && cache.battleStatsEstimate && cache.battleStatsEstimate[userId]) {
                 row.appendChild(doc.new({
@@ -1964,5 +1978,5 @@ function estimateStatsInList(listSelector, userHandler) {
 
             resolve();
         });
-    }).then(() => console.log("Estimated stats."));
+    }).then(() => console.log("Estimated stats."));D
 }
