@@ -1,4 +1,4 @@
-var country_dict = {  // time = minutes
+const country_dict = {  // time = minutes
     "argentina": {
         time: 167,
         cost: 21000
@@ -45,50 +45,58 @@ var country_dict = {  // time = minutes
     }
 }
 
-window.addEventListener('load', async (event) => {
+window.addEventListener('load', async () => {
     console.log("TT - Travel (abroad)");
 
     // Flying page
-    if(await isFlying()){
+    if (await isFlying()) {
         let on_travel_table = getSearchParameters().get("page") === "travel_table";
 
-        let link = doc.new({type: "a", class: "t-clear h c-pointer m-icon line-h24 right last", attributes: {href: on_travel_table? "https://www.torn.com/index.php":"https://www.torn.com/index.php?page=travel_table", role: "button", "aria-labelledby": "travel-table"}});
+        let link = doc.new({
+            type: "a",
+            class: "t-clear h c-pointer m-icon line-h24 right last",
+            attributes: {
+                href: on_travel_table ? "https://www.torn.com/index.php" : "https://www.torn.com/index.php?page=travel_table",
+                role: "button",
+                "aria-labelledby": "travel-table"
+            }
+        });
         let icon = doc.new({type: "i", class: "fas fa-plane"});
-        let span = doc.new({type: "span", text: on_travel_table? "Home" : "Travel Table"});
+        let span = doc.new({type: "span", text: on_travel_table ? "Home" : "Travel Table"});
         link.appendChild(icon);
         link.appendChild(span);
 
         doc.find("#top-page-links-list a.last").classList.remove("last");
         doc.find("#top-page-links-list").insertBefore(link, doc.find("#top-page-links-list .links-footer"));
 
-        if(on_travel_table) travelTableScript();
+        if (on_travel_table) travelTableScript();
     }
-    
-    if(await isAbroad()){
-        if(settings.pages.travel.profits && (getSearchParameters().get("page") === null || getSearchParameters().get("page") === "travel_table")){
+
+    if (await isAbroad()) {
+        if (settings.pages.travel.profits && (getSearchParameters().get("page") === null || getSearchParameters().get("page") === "travel_table")) {
             displayItemProfits(itemlist.items);
             addFillMaxButtons();
         }
-    
-        if((getSearchParameters().get("page") === null || getSearchParameters().get("page") === "travel_table") && !doc.find(".info-msg-cont.red")){
+
+        if ((getSearchParameters().get("page") === null || getSearchParameters().get("page") === "travel_table") && !doc.find(".info-msg-cont.red")) {
             updateYATAprices();
         }
-    
-        if(getSearchParameters().get("page") === "people"){
-            requirePlayerList(".users-list").then(function(){
+
+        if (getSearchParameters().get("page") === "people") {
+            requirePlayerList(".users-list").then(function () {
                 let list = doc.find(".users-list");
                 let title = list.previousElementSibling;
-        
+
                 addFilterToTable(list, title);
             });
         }
     }
 });
 
-function displayItemProfits(itemlist){
+function displayItemProfits(itemlist) {
     let market = doc.find(".travel-agency-market");
 
-    if(!market){
+    if (!market) {
         console.log("No market");
         return;
     }
@@ -96,31 +104,31 @@ function displayItemProfits(itemlist){
     // Table heading
     let headings = market.find(".items-list-title");
     let profit_heading = doc.new("div");
-        profit_heading.innerText = "Profit";
-        profit_heading.setClass("tt-travel-market-heading title-green");
+    profit_heading.innerText = "Profit";
+    profit_heading.setClass("tt-travel-market-heading title-green");
 
     headings.insertBefore(profit_heading, headings.find(".stock-b"));
 
     // Table content
     let rows = doc.findAll(".users-list>li");
-    for(let row of rows){
+    for (let row of rows) {
         let id = parseInt(row.find(".item img").getAttribute("src").split("items/")[1].split("/")[0]);
         let market_price = parseInt(itemlist[id].market_value);
         let buy_price = parseInt(row.find(".cost .c-price").innerText.replace("$", "").replace(/,/g, ""));
-        let profit = (market_price/buy_price*100).toFixed(0);
+        let profit = (market_price / buy_price * 100).toFixed(0);
 
         let span = doc.new("span");
-            span.setClass("tt-travel-market-cell")
+        span.setClass("tt-travel-market-cell")
         let inner_span = doc.new("span");
-            inner_span.innerText = `${profit}%`;
+        inner_span.innerText = `${profit}%`;
 
         let triangle_div = doc.new("div");
-            triangle_div.setClass("tt-travel-price-indicator");
+        triangle_div.setClass("tt-travel-price-indicator");
 
-        if(buy_price > market_price){
+        if (buy_price > market_price) {
             span.style.color = "#de0000";
             triangle_div.style.borderTop = "8px solid #de0000";
-        } else if( buy_price < market_price){
+        } else if (buy_price < market_price) {
             span.style.color = "#00a500";
             triangle_div.style.borderBottom = "8px solid #00a500"
         }
@@ -131,30 +139,30 @@ function displayItemProfits(itemlist){
     }
 }
 
-function addFillMaxButtons(){
+function addFillMaxButtons() {
     let market = doc.find(".travel-agency-market");
 
-    if(!market){
+    if (!market) {
         console.log("No market");
         return;
     }
 
-    for(let buy_btn of market.findAll(".buy")){
+    for (let buy_btn of market.findAll(".buy")) {
         let max_span = doc.new({type: "span", text: "fill max", class: "tt-max-buy bold"});
         buy_btn.parentElement.appendChild(max_span);
 
-        max_span.addEventListener("click", function(event){
+        max_span.addEventListener("click", function (event) {
             event.stopPropagation();
 
             let max = parseInt(buy_btn.parentElement.parentElement.find(".stck-amount").innerText.replace(/,/g, ""));
-            let price = parseInt(buy_btn.parentElement.parentElement.find(".c-price").innerText.replace(/,/g, "").replace("$",""));
-            let user_money = doc.find(".user-info .msg .bold:nth-of-type(2)").innerText.replace(/,/g, "").replace("$","");
+            let price = parseInt(buy_btn.parentElement.parentElement.find(".c-price").innerText.replace(/,/g, "").replace("$", ""));
+            let user_money = doc.find(".user-info .msg .bold:nth-of-type(2)").innerText.replace(/,/g, "").replace("$", "");
             let bought = parseInt(doc.find(".user-info .msg .bold:nth-of-type(3)").innerText);
             let limit = parseInt(doc.find(".user-info .msg .bold:nth-of-type(4)").innerText) - bought;
-            
-            max = max > limit ? limit:max;
-            max = Math.floor(user_money/price) < max ? Math.floor(user_money/price) : max;
-            
+
+            max = max > limit ? limit : max;
+            max = Math.floor(user_money / price) < max ? Math.floor(user_money / price) : max;
+
             console.log(buy_btn.parentElement.find("input[name='amount']"))
             buy_btn.parentElement.find("input[name='amount']").value = max;
             buy_btn.parentElement.find("input[name='amount']").setAttribute("value", max);
@@ -166,7 +174,7 @@ function addFillMaxButtons(){
 
 }
 
-function updateYATAprices(){
+function updateYATAprices() {
     console.log("Updating YATA prices");
 
     let post_data = {
@@ -180,7 +188,7 @@ function updateYATAprices(){
 
     // Table content
     let rows = doc.findAll(".users-list>li");
-    for(let row of rows){
+    for (let row of rows) {
         let id = parseInt(row.find(".item img").getAttribute("src").split("items/")[1].split("/")[0]);
         let quantity = parseInt(row.find(".stck-amount").innerText.replace(/,/g, ""));
         let price = parseInt(row.find(".cost .c-price").innerText.replace("$", "").replace(/,/g, ""));
@@ -195,28 +203,32 @@ function updateYATAprices(){
 
     console.log("POST DATA", post_data);
     fetch(`https://yata.alwaysdata.net/bazaar/abroad/import/`, {
-        method: "POST", 
-        headers: {"content-type": "application/json"}, 
+        method: "POST",
+        headers: {"content-type": "application/json"},
         body: JSON.stringify(post_data)
     }).then(response => {
         console.log("RESPONSE", response);
     });
 
-    function getCountryName(){
+    function getCountryName() {
         return doc.find("#skip-to-content").innerText.slice(0, 3).toLowerCase();
     }
 }
 
-function addFilterToTable(list, title){
-    let filter_container = content.newContainer("Filters", {id: "tt-player-filter", class: "filter-container", next_element: title}).find(".content");
-    filter_html = `
+function addFilterToTable(list, title) {
+    let filter_container = content.newContainer("Filters", {
+        id: "tt-player-filter",
+        class: "filter-container",
+        next_element: title
+    }).find(".content");
+    filter_container.innerHTML = `
         <div class="filter-header">
             <div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> users</div>
         </div>
-        <div class="filter-content ${mobile?"tt-mobile":""}">
+        <div class="filter-content ${mobile ? "tt-mobile" : ""}">
             <div class="filter-wrap" id="activity-filter">
                 <div class="filter-heading">Activity</div>
-                <div class="filter-multi-wrap ${mobile? 'tt-mobile':''}">
+                <div class="filter-multi-wrap ${mobile ? 'tt-mobile' : ''}">
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="online">Online</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="idle">Idle</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="offline">Offline</div>
@@ -224,68 +236,22 @@ function addFilterToTable(list, title){
             </div>
             <div class="filter-wrap" id="status-filter">
                 <div class="filter-heading">Status</div>
-                <div class="filter-multi-wrap ${mobile? 'tt-mobile':''}">
+                <div class="filter-multi-wrap ${mobile ? 'tt-mobile' : ''}">
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="okay">Okay</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="hospital">Hospital</div>
-                    <!--<div class="tt-checkbox-wrap"><input type="checkbox" value="traveling">Traveling</div>-->
                 </div>
             </div>
-            <!--
-            <div class="filter-wrap" id="faction-filter">
-                <div class="filter-heading">Faction</div>
-                <select name="faction" id="tt-faction-filter">
-                    <option selected value="">none</option>
-                </select>
-            </div>
-            -->
-            <!--
-            <div class="filter-wrap" id="time-filter">
-                <div class="filter-heading">Time</div>
-                <div id="tt-time-filter" class="filter-slider"></div>
-                <div class="filter-slider-info"></div>
-            </div>
-            -->
             <div class="filter-wrap" id="level-filter">
                 <div class="filter-heading">Level</div>
                 <div id="tt-level-filter" class="filter-slider"></div>
                 <div class="filter-slider-info"></div>
             </div>
         </div>
-    `
-    filter_container.innerHTML = filter_html;
+    `;
 
     // Initializing
-    // let time_start = filters.hospital.time[0] || 0;
-    // let time_end = filters.hospital.time[1] || 100;
     let level_start = filters.overseas.level[0] || 0;
     let level_end = filters.overseas.level[1] || 100;
-
-    // for(let faction of filters.preset_data.factions.data){
-    //     let option = doc.new({type: "option", value: faction, text: faction});
-    //     if(faction == filters.preset_data.factions.default) option.selected = true;
-
-    //     filter_container.find("#tt-faction-filter").appendChild(option);
-    // }
-    // let divider_option = doc.new({type: "option", value: "----------", text: "----------", attributes: {disabled: true}});
-    // filter_container.find("#tt-faction-filter").appendChild(divider_option);
-
-    // Time slider
-    // let time_slider = filter_container.find('#tt-time-filter');
-    // noUiSlider.create(time_slider, {
-    //     start: [time_start, time_end],
-    //     step: 1,
-    //     connect: true,
-    //     range: {
-    //         'min': 0,
-    //         'max': 100
-    //     }
-    // });
-
-    // let time_slider_info = time_slider.nextElementSibling;
-    // time_slider.noUiSlider.on('update', function (values) {
-    //     values = values.map(x => (timeUntil(parseFloat(x)*60*60*1000, {max_unit: "h", hide_nulls: true})));
-    //     time_slider_info.innerHTML = `Time: ${values.join(' - ')}`;
-    // });
 
     // Level slider
     let level_slider = filter_container.find('#tt-level-filter');
@@ -306,18 +272,17 @@ function addFilterToTable(list, title){
     });
 
     // Event listeners
-    for(let checkbox of filter_container.findAll(".tt-checkbox-wrap input")){
+    for (let checkbox of filter_container.findAll(".tt-checkbox-wrap input")) {
         checkbox.onclick = applyFilters;
     }
-    for(let dropdown of filter_container.findAll("select")){
+    for (let dropdown of filter_container.findAll("select")) {
         dropdown.onchange = applyFilters;
     }
-    let filter_observer = new MutationObserver(function(mutations){
-        for(let mutation of mutations){
-            if(mutation.type == "attributes" 
-            && mutation.target.classList 
-            && mutation.attributeName == "aria-valuenow"
-            && (mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))){
+    let filter_observer = new MutationObserver(function (mutations) {
+        for (let mutation of mutations) {
+            if (mutation.type === "attributes"
+                && mutation.attributeName === "aria-valuenow"
+                && (hasClass(mutation.target, "noUi-handle-lower") || hasClass(mutation.target, "noUi-handle-upper"))) {
                 applyFilters();
             }
         }
@@ -325,11 +290,11 @@ function addFilterToTable(list, title){
     filter_observer.observe(filter_container, {attributes: true, subtree: true});
 
     // Page changing
-    doc.addEventListener("click", function(event){
-        if(event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, {class: "gallery-wrapper"})){
+    doc.addEventListener("click", function (event) {
+        if (event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, {class: "gallery-wrapper"})) {
             console.log("click");
-            setTimeout(function(){
-                requirePlayerList(".users-list").then(function(){
+            setTimeout(function () {
+                requirePlayerList(".users-list").then(function () {
                     console.log("loaded");
                     // populateFactions();
                     applyFilters();
@@ -339,10 +304,10 @@ function addFilterToTable(list, title){
     });
 
     // Initializing
-    for(let state of filters.overseas.activity){
+    for (let state of filters.overseas.activity) {
         doc.find(`#activity-filter input[value='${state}']`).checked = true;
     }
-    for(let state of filters.overseas.status){
+    for (let state of filters.overseas.status) {
         doc.find(`#status-filter input[value='${state}']`).checked = true;
     }
     // if(filters.overseas.faction.default){
@@ -351,8 +316,8 @@ function addFilterToTable(list, title){
 
     // populateFactions();
     applyFilters();
-    
-    function applyFilters(){
+
+    function applyFilters() {
         let active_dict = {
             "online": "icon1_",
             "idle": "icon62_",
@@ -366,156 +331,122 @@ function addFilterToTable(list, title){
         let level = [];
 
         // Activity
-        for(let checkbox of doc.findAll("#activity-filter .tt-checkbox-wrap input:checked")){
+        for (let checkbox of doc.findAll("#activity-filter .tt-checkbox-wrap input:checked")) {
             activity.push(checkbox.getAttribute("value"));
         }
         // Status
-        for(let checkbox of doc.findAll("#status-filter .tt-checkbox-wrap input:checked")){
+        for (let checkbox of doc.findAll("#status-filter .tt-checkbox-wrap input:checked")) {
             status.push(checkbox.getAttribute("value"));
         }
-        // Faction
-        // faction = doc.find("#faction-filter select option:checked").value;
-        // Time
-        // time.push(parseInt(doc.find("#time-filter .noUi-handle-lower").getAttribute("aria-valuenow")));
-        // time.push(parseInt(doc.find("#time-filter .noUi-handle-upper").getAttribute("aria-valuenow")));
         // Level
         level.push(parseInt(doc.find("#level-filter .noUi-handle-lower").getAttribute("aria-valuenow")));
         level.push(parseInt(doc.find("#level-filter .noUi-handle-upper").getAttribute("aria-valuenow")));
 
-        // console.log("Activity", activity);
-        // console.log("Faction", faction);
-        // console.log("Time", time);
-        // console.log("Level", level);
-
         // Filtering
-        for(let li of list.findAll(":scope>li")){
+        for (let li of list.findAll(":scope>li")) {
             li.classList.remove("filter-hidden");
-            if(li.classList.contains("tt-user-info")){
+            if (li.classList.contains("tt-user-info")) {
                 continue;
-            } else if(li.nextElementSibling && li.nextElementSibling.classList.contains("tt-user-info")){
+            } else if (hasClass(li.nextElementSibling, "tt-user-info")) {
                 li.nextElementSibling.classList.remove("filter-hidden");
             }
 
             // Level
             let player_level = parseInt(li.find(".level").innerText.trim().replace("LEVEL:", "").trim());
-            if(!(level[0] <= player_level && player_level <= level[1])){
+            if (!(level[0] <= player_level && player_level <= level[1])) {
                 li.classList.add("filter-hidden");
                 continue;
             }
 
-            // Time
-            // let player_time = toSeconds(li.find(".time").innerText.trim().replace("Time:", "").replace("left:", "").trim())/60/60;
-            // if(!(time[0] <= player_time && player_time <= time[1])){
-            //     li.classList.add("filter-hidden");
-            //     continue;
-            // }
-
             // Activity
-            let matches_one_activity = activity.length != 0? false:true;
-            for(let state of activity){
-                if(li.querySelector(`li[id^='${active_dict[state]}']`)){
+            let matches_one_activity = activity.length === 0;
+            for (let state of activity) {
+                if (li.querySelector(`li[id^='${active_dict[state]}']`)) {
                     matches_one_activity = true;
                 }
             }
-            if(!matches_one_activity){
+            if (!matches_one_activity) {
                 li.classList.add("filter-hidden");
                 continue;
             }
 
             // Status
-            let matches_one_status = status.length != 0? false:true;
-            for(let state of status){
-                if(li.find(`.status`).innerText.replace("STATUS:", "").trim().toLowerCase() == state){
+            let matches_one_status = status.length === 0;
+            for (let state of status) {
+                if (li.find(`.status`).innerText.replace("STATUS:", "").trim().toLowerCase() === state) {
                     matches_one_status = true;
                 }
             }
-            if(!matches_one_status){
+            if (!matches_one_status) {
                 li.classList.add("filter-hidden");
-                continue;
             }
-
-            // Faction
-            // if(faction != "" && (!li.find(`img[title='${faction}']`) && li.find(`a.user.faction`).innerText != faction)){
-            //     li.classList.add("filter-hidden");
-            //     continue;
-            // }
         }
 
-        ttStorage.change({"filters": {"overseas": {
-            activity: activity,
-            status: status,
-            // faction: faction,
-            // time: time,
-            level: level
-        }}});
+        ttStorage.change({
+            "filters": {
+                "overseas": {
+                    activity: activity,
+                    status: status,
+                    // faction: faction,
+                    // time: time,
+                    level: level
+                }
+            }
+        });
 
         updateStatistics();
     }
 
-    function updateStatistics(){
-        let total_users = [...list.findAll(":scope>li")].length;
-        let shown_users = [...list.findAll(":scope>li")].filter(x => (!x.classList.contains("filter-hidden"))).length;
-
-        doc.find(".statistic#showing .filter-count").innerText = shown_users;
-        doc.find(".statistic#showing .filter-total").innerText = total_users;
-    }
-
-    function populateFactions(){
-        let faction_tags = [...list.findAll(":scope>li")].map(x => (x.find(".user.faction img")? x.find(".user.faction img").getAttribute("title"):x.find("a.user.faction").innerText)).filter(x => x.trim() != "");
-
-        for(let tag of faction_tags){
-            if(filter_container.find(`#tt-faction-filter option[value='${tag}']`)) continue;
-
-            let option = doc.new({type: "option", value: tag, text: tag});
-            filter_container.find("#tt-faction-filter").appendChild(option);
-        }
+    function updateStatistics() {
+        doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li")].filter(x => (!x.classList.contains("filter-hidden"))).length;
+        doc.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope>li")].length;
     }
 }
 
 /* Travel Table subsite */
-function travelTableScript(){
+function travelTableScript() {
     doc.find(".content-wrapper .travel-agency-travelling").innerHTML = "";
 
     let container = content.newContainer("Travel Destinations", {id: "ttTravelTable"}).find(".content");
 
     addLegend();
 
-    ttStorage.get("travel_items", function(travel_items){
+    ttStorage.get("travel_items", function (travel_items) {
         console.log(travel_items)
         doc.find("#ttTravelTable #tt-items").value = travel_items;
-    
+
         let table = doc.new({type: "div", class: "table"});
         container.appendChild(table);
-    
+
         addTableContent(travel_items);
-    
+
         // Set initial table mode
-        if(filters.travel.table_type == "basic"){
+        if (filters.travel.table_type === "basic") {
             doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
-        } else if(filters.travel.table_type == "advanced"){
+        } else if (filters.travel.table_type === "advanced") {
             doc.find("#ttTravelTable .table-type-button span[type='advanced']").click();
         }
-    
+
         // Sort by country
         sort(doc.find("#ttTravelTable .table"), 1, "text");
-    
+
         filterTable();
     });
 }
 
-function addLegend(){
-    let legend = 
-    `
+function addLegend() {
+    let legend =
+        `
 <div class="legend">
     <div class="top-row">
-        <div class="filter-button"><i class="fas ${filters.travel.open? 'fa-chevron-up':'fa-chevron-down'}"></i><div>&nbsp;Filters</div></div>
+        <div class="filter-button"><i class="fas ${filters.travel.open ? 'fa-chevron-up' : 'fa-chevron-down'}"></i><div>&nbsp;Filters</div></div>
         <div class="table-type-button">
             <span class="table-type" type="advanced">Advanced</span>
             <span>&nbsp;/&nbsp;</span>
             <span class="table-type" type="basic">Basic</span>
         </div>
     </div>
-    <div class="legend-content ${filters.travel.open?"":"collapsed"}">
+    <div class="legend-content ${filters.travel.open ? "" : "collapsed"}">
         <div class="row">
             <div>Travel items:&nbsp;<input type="number" id="tt-items"></div>
         </div>
@@ -554,8 +485,8 @@ function addLegend(){
     doc.find(`#ttTravelTable .legend-content input[name='country'][_type='${filters.travel.country}']`).checked = true;
 
     // Open/Close filter
-    for(let el of doc.findAll("#ttTravelTable .content .filter-button *")){
-        el.onclick = function(){
+    for (let el of doc.findAll("#ttTravelTable .content .filter-button *")) {
+        el.onclick = function () {
             doc.find("#ttTravelTable .content .legend-content").classList.toggle("collapsed");
             rotateElement(doc.find("#ttTravelTable .content .filter-button i"), 180);
 
@@ -566,51 +497,51 @@ function addLegend(){
     // Switch between modes
     let basic_mode_button = doc.find("#ttTravelTable .table-type-button span[type='basic']");
     let advanced_mode_button = doc.find("#ttTravelTable .table-type-button span[type='advanced']");
-    
-    basic_mode_button.onclick = function(){
-        if(!basic_mode_button.classList.contains("active")){
+
+    basic_mode_button.onclick = function () {
+        if (!basic_mode_button.classList.contains("active")) {
             basic_mode_button.classList.add("active");
         }
         advanced_mode_button.classList.remove("active");
 
         // Hide advanced elements
-        for(let el of doc.findAll("#ttTravelTable .table .advanced")){
-            if(!el.classList.contains("hidden")){
+        for (let el of doc.findAll("#ttTravelTable .table .advanced")) {
+            if (!el.classList.contains("hidden")) {
                 el.classList.add("hidden");
             }
         }
 
         saveSettings();
     }
-    advanced_mode_button.onclick = function(){
-        if(!advanced_mode_button.classList.contains("active")){
+    advanced_mode_button.onclick = function () {
+        if (!advanced_mode_button.classList.contains("active")) {
             advanced_mode_button.classList.add("active");
         }
         basic_mode_button.classList.remove("active");
 
         // Show advanced elements
-        for(let el of doc.findAll("#ttTravelTable .table .advanced")){
+        for (let el of doc.findAll("#ttTravelTable .table .advanced")) {
             el.classList.remove("hidden");
         }
-        
+
         saveSettings();
     }
 
     // Filtering
-    for(let el of doc.findAll("#ttTravelTable .legend-content .row .radio-item input")){
-        el.onclick = function(){
+    for (let el of doc.findAll("#ttTravelTable .legend-content .row .radio-item input")) {
+        el.onclick = function () {
             filterTable();
             saveSettings();
         }
     }
 
     // Change travel items count
-    doc.find("#ttTravelTable .legend-content #tt-items").onchange = function(){
+    doc.find("#ttTravelTable .legend-content #tt-items").onchange = function () {
         reloadTable();
     }
 }
 
-function addTableContent(travel_items){
+function addTableContent(travel_items) {
     addTableHeader();
 
     let body = doc.new({type: "div", class: "body"});
@@ -619,18 +550,18 @@ function addTableContent(travel_items){
     let body_html = ``;
 
     // Add rows
-    for(let item of travel_market){
+    for (let item of travel_market) {
         let time = country_dict[item.country_name.toLowerCase()].time;
         let cost = country_dict[item.country_name.toLowerCase()].cost;
-        
+
         body_html += addRow(item, time, cost, travel_items);
     }
     body.innerHTML = body_html;
 }
 
-function addTableHeader(){
-    let row = 
-    `
+function addTableHeader() {
+    let row =
+        `
 <div class="row header-row">
     <div>Destination</div>
     <div>Item</div>
@@ -645,80 +576,79 @@ function addTableHeader(){
     `
     doc.find("#ttTravelTable .table").innerHTML += row;
 
-    doc.addEventListener("click", function(event){
-        
-        if(hasParent(event.target, {class: "header-row"})){
-            let parent = event.target;
-            
-            if(event.target.nodeName == "I") parent = event.target.parentElement;
+    doc.addEventListener("click", function (event) {
 
-            sort(doc.find("#ttTravelTable .table"), [...parent.parentElement.children].indexOf(parent)+1, parent.getAttribute("sort-type") == "value" ? "value":"text");
+        if (hasParent(event.target, {class: "header-row"})) {
+            let parent = event.target;
+
+            if (event.target.nodeName === "I") parent = event.target.parentElement;
+
+            sort(doc.find("#ttTravelTable .table"), [...parent.parentElement.children].indexOf(parent) + 1, parent.getAttribute("sort-type") === "value" ? "value" : "text");
         }
     });
 }
 
 function addRow(item, time, cost, travel_items) {
     let market_value = itemlist.items[item.item_id].market_value;
-    let total_profit = (market_value - item.abroad_cost)*travel_items - cost;
+    let total_profit = (market_value - item.abroad_cost) * travel_items - cost;
     let profit_per_minute = (total_profit / time).toFixed(0);
     let profit_per_item = (total_profit / travel_items).toFixed(0);
-    let update_time = timeAgo(item.timestamp*1000);
+    let update_time = timeAgo(item.timestamp * 1000);
     let item_types = ["plushie", "flower", "drug"];
     let background_style = `url(/images/v2/travel_agency/flags/fl_${item.country_name.toLowerCase().replace("united kingdom", "uk").replace(" islands", "").replace(" ", "_")}.svg) center top no-repeat`
     let item_type = item_types.includes(item.item_type.toLowerCase()) ? item.item_type.toLowerCase() : "other";
 
-    let row = 
-    `
+    let row =
+        `
 <div class="row">
     <div country='${item.country_name.toLowerCase()}'><div class="flag" style="background: ${background_style}"></div>${item.country_name}</div>
     <div item='${item_type}'>
       <a target="_blank" href="https://www.torn.com/imarket.php#/p=shop&type=${item.item_id}">${item.item_name}</a>
     </div>
     <div>${item.abroad_quantity.toString()} <br class="advanced"> <span class="update-time">(${update_time})</span></div>
-    <div class="advanced" value="${item.abroad_cost}">$${numberWithCommas(item.abroad_cost, item.abroad_cost>=1e6?true:false)}</div>
-    <div class="advanced" value="${market_value}">$${numberWithCommas(market_value, market_value>=1e6?true:false)}</div>
+    <div class="advanced" value="${item.abroad_cost}">$${numberWithCommas(item.abroad_cost, item.abroad_cost >= 1e6)}</div>
+    <div class="advanced" value="${market_value}">$${numberWithCommas(market_value, market_value >= 1e6)}</div>
     
     `
     let profit_per_item_div;
     if (profit_per_item > 0) {
-        profit_per_item_div = `<div class="positive profit advanced" value="${profit_per_item}">+$${numberWithCommas(profit_per_item, profit_per_item>=1e6?true:false)}</div>`
+        profit_per_item_div = `<div class="positive profit advanced" value="${profit_per_item}">+$${numberWithCommas(profit_per_item, profit_per_item >= 1e6)}</div>`
     } else if (profit_per_item < 0) {
-        profit_per_item_div = `<div class="negative profit advanced" value="${profit_per_item}">-$${numberWithCommas(Math.abs(profit_per_item), profit_per_item<=-1e6?true:false)}</div>`
+        profit_per_item_div = `<div class="negative profit advanced" value="${profit_per_item}">-$${numberWithCommas(Math.abs(profit_per_item), profit_per_item <= -1e6)}</div>`
     } else {
         profit_per_item_div = `<div class="advanced" value="0">$0</div>`
     }
-    row+=profit_per_item_div;
-    
+    row += profit_per_item_div;
+
     let profit_per_minute_div;
     if (profit_per_minute > 0) {
-        profit_per_minute_div = `<div class="positive profit" value="${profit_per_minute}">+$${numberWithCommas(profit_per_minute, profit_per_minute>=1e6?true:false)}</div>`
+        profit_per_minute_div = `<div class="positive profit" value="${profit_per_minute}">+$${numberWithCommas(profit_per_minute, profit_per_minute >= 1e6)}</div>`
     } else if (profit_per_minute < 0) {
-        profit_per_minute_div = `<div class="negative profit" value="${profit_per_minute}">-$${numberWithCommas(Math.abs(profit_per_minute), profit_per_minute<=-1e6?true:false)}</div>`
+        profit_per_minute_div = `<div class="negative profit" value="${profit_per_minute}">-$${numberWithCommas(Math.abs(profit_per_minute), profit_per_minute <= -1e6)}</div>`
     } else {
         profit_per_minute_div = `<div value="0">$0</div>`
     }
-    row+=profit_per_minute_div;
+    row += profit_per_minute_div;
 
     let total_profit_div;
     if (total_profit > 0) {
-        total_profit_div = `<div class="positive profit advanced" value="${total_profit}">+$${numberWithCommas(total_profit, total_profit>=1e6?true:false)}</div>`
+        total_profit_div = `<div class="positive profit advanced" value="${total_profit}">+$${numberWithCommas(total_profit, total_profit >= 1e6)}</div>`
     } else if (total_profit < 0) {
-        total_profit_div = `<div class="negative profit advanced" value="${total_profit}">-$${numberWithCommas(Math.abs(total_profit), total_profit<=-1e6?true:false)}</div>`
+        total_profit_div = `<div class="negative profit advanced" value="${total_profit}">-$${numberWithCommas(Math.abs(total_profit), total_profit <= -1e6)}</div>`
     } else {
         total_profit_div = `<div class="advanced" value="0">$0</div>`
     }
-    row+=total_profit_div;
+    row += total_profit_div;
 
-    row+= `<div class="advanced" value="${item.abroad_cost * travel_items}">$${numberWithCommas((item.abroad_cost * travel_items), item.abroad_cost>=1e6?true:false)}</div>`
+    row += `<div class="advanced" value="${item.abroad_cost * travel_items}">$${numberWithCommas((item.abroad_cost * travel_items), item.abroad_cost >= 1e6)}</div>`
 
-    row+="</div>"
+    row += "</div>"
     return row;
 }
 
-function filterTable(){
-    let country_display = false;
+function filterTable() {
     let types = {}
-    for(let el of doc.findAll("#ttTravelTable .legend-content .radio-item input:checked")){
+    for (let el of doc.findAll("#ttTravelTable .legend-content .radio-item input:checked")) {
         types[el.getAttribute("name")] = el.getAttribute("_type").split(",");
     }
 
@@ -727,11 +657,11 @@ function filterTable(){
         "item": 2
     }
 
-    for(let row of doc.findAll("#ttTravelTable .table .body .row")){
+    for (let row of doc.findAll("#ttTravelTable .table .body .row")) {
         row.classList.remove("hidden");
 
-        for(let type in types){
-            if(types[type][0] == "all"){
+        for (let type in types) {
+            if (types[type][0] === "all") {
                 continue;
             }
 
@@ -746,25 +676,25 @@ function filterTable(){
             // }
 
             let is_in_list = false;
-            let row_type = [...row.children][cols[type]-1].getAttribute(type);
+            let row_type = [...row.children][cols[type] - 1].getAttribute(type);
 
-            for(let filter of types[type]){
-                if(filter == row_type){
+            for (let filter of types[type]) {
+                if (filter === row_type) {
                     is_in_list = true;
                 }
             }
 
-            if(!is_in_list){
+            if (!is_in_list) {
                 row.classList.add("hidden");
             }
         }
     }
 }
 
-function saveSettings(){
+function saveSettings() {
     let travel = {
-        table_type: doc.find(".table-type.active")? doc.find(".table-type.active").getAttribute("type") : "basic",
-        open: doc.find(".legend-content").classList.contains("collapsed")? false:true,
+        table_type: doc.find(".table-type.active") ? doc.find(".table-type.active").getAttribute("type") : "basic",
+        open: !doc.find(".legend-content").classList.contains("collapsed"),
         item_type: doc.find(".legend-content input[name='item']:checked").getAttribute("_type"),
         country: doc.find(".legend-content input[name='country']:checked").getAttribute("_type")
     }
@@ -772,33 +702,33 @@ function saveSettings(){
     ttStorage.change({"filters": {"travel": travel}});
 }
 
-function reloadTable(){
+function reloadTable() {
     let travel_items = doc.find("#tt-items").value;
 
     doc.find("#ttTravelTable .table .body").innerHTML = "";
     let body_html = ``;
 
     // Add rows
-    for(let item of travel_market){
+    for (let item of travel_market) {
         let time = country_dict[item.country_name.toLowerCase()].time;
         let cost = country_dict[item.country_name.toLowerCase()].cost;
-        
+
         body_html += addRow(item, time, cost, travel_items);
     }
     doc.find("#ttTravelTable .table .body").innerHTML = body_html;
 
     // Set Table mode
-    ttStorage.get("filters", function(filters){
-        if(filters.travel.table_type == "basic"){
+    ttStorage.get("filters", function (filters) {
+        if (filters.travel.table_type === "basic") {
             doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
-        } else if(filters.travel.table_type == "advanced"){
+        } else if (filters.travel.table_type === "advanced") {
             doc.find("#ttTravelTable .table-type-button span[type='advanced']").click();
         }
 
         // Sort by country
         doc.find("#ttTravelTable .header-row i").remove();
         sort(doc.find("#ttTravelTable .table"), 1, "text");
-    
+
         filterTable();
     });
 }
