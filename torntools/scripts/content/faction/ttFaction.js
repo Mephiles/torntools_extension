@@ -14,17 +14,6 @@ requireDatabase().then(() => {
             }
         }
     });
-    addFetchListener((event) => {
-        const {page, json, fetch} = event.detail;
-
-        const params = new URLSearchParams(fetch.url);
-        const step = params.get("step");
-        if (page === "faction_wars") {
-            if ((step === "getwarusers" || step === "getwardata") && settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) {
-                warLoaded().then(estimateWarStats);
-            }
-        }
-    });
 
     requireContent().then(() => {
         console.log("TT - Faction");
@@ -91,6 +80,8 @@ function loadInfo() {
             if (settings.pages.faction.armory_worth) armoryWorth();
         });
     }
+
+    if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
 
     requirePlayerList(".members-list .table-body").then(async function () {
         await showUserInfo();
@@ -1321,10 +1312,10 @@ function memberInfoAdded() {
     });
 }
 
-function warLoaded() {
+function warDescriptionLoaded() {
     return new Promise(function (resolve) {
         let checker = setInterval(function () {
-            if (doc.find(".faction-war .members-list li")) {
+            if (doc.find("#war-react-root ul.f-war-list > li.descriptions")) {
                 resolve(true);
                 return clearInterval(checker);
             }
@@ -1332,18 +1323,112 @@ function warLoaded() {
     });
 }
 
-function estimateWarStats() {
-    estimateStatsInList(".descriptions .members-list > li:not(.tt-userinfo-container)", (row) => {
-        if (row.classList && (row.classList.contains("join") || row.classList.contains("timer-wrap"))) {
-            if (row.nextElementSibling && row.nextElementSibling.classList && row.nextElementSibling.classList.contains("tt-userinfo-container")) {
-                row.nextElementSibling.remove();
+function observeWarlist() {
+    if (window.location.hash.includes("/war/")) warDescriptionLoaded().then(observeDescription);
+
+    try {
+        new MutationObserver((mutations, observer) => {
+            console.log("DKK observeWarlist", mutations)
+            let found = false;
+
+            for (let mutation of mutations) {
+                for (let node of mutation.addedNodes) {
+                    if (node.classList && node.classList.contains("descriptions")) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found) break;
             }
 
-            return {};
-        }
+            if (!found) return;
 
-        return {
-            userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1]
-        };
-    });
+            observeDescription();
+        }).observe(doc.find("#war-react-root ul.f-war-list"), {childList: true});
+    } catch (e) {
+        console.error("DKK error", e)
+    }
+}
+
+function observeDescription() {
+    try {
+        estimateStatsInList(".descriptions .members-list > li:not(.tt-userinfo-container)", (row) => {
+            if (hasClass(row, "join") || hasClass(row, "timer-wrap")) {
+                if (hasClass(row.nextElementSibling, "tt-userinfo-container")) row.nextElementSibling.remove();
+
+                return {};
+            }
+
+            return {
+                userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1]
+            };
+        });
+
+        new MutationObserver((mutations) => {
+            for (let mutation of mutations) {
+                for (let node of mutation.removedNodes) {
+                    if (hasClass(node, "your") || hasClass(node, "enemy")) {
+                        if (hasClass(mutation.nextSibling, "tt-userinfo-container")) mutation.nextSibling.remove();
+                    }
+                }
+
+                for (let node of mutation.addedNodes) {
+                    if (node && node.classList && (node.classList.contains("your") || node.classList.contains("enemy"))) {
+                        const userId = (node.find("a.user.name").getAttribute("data-placeholder") || node.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1];
+
+                        const container = doc.new({type: "li", class: "tt-userinfo-container"});
+                        node.parentElement.insertBefore(container, node.nextElementSibling);
+
+                        const row = doc.new({type: "section", class: "tt-userinfo-row tt-userinfo-row--statsestimate"});
+                        container.appendChild(row);
+
+                        if (cache && cache.battleStatsEstimate && cache.battleStatsEstimate[userId]) {
+                            row.appendChild(doc.new({
+                                type: "span",
+                                text: `Stat Estimate: ${cache.battleStatsEstimate[userId].data}`,
+                            }));
+                        } else {
+                            loadingPlaceholder(row, true);
+
+                            setTimeout(async () => {
+                                const result = handleTornProfileData(await fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key));
+
+                                if (!result.error) {
+                                    const timestamp = new Date().getTime();
+
+                                    ttStorage.change({
+                                        "cache": {
+                                            "battleStatsEstimate": {
+                                                [userId]: {
+                                                    timestamp,
+                                                    ttl: result.battleStatsEstimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
+                                                    data: result.battleStatsEstimate,
+                                                }
+                                            },
+                                        }
+                                    });
+
+                                    row.appendChild(doc.new({
+                                        type: "span",
+                                        text: `Stat Estimate: ${result.battleStatsEstimate}`,
+                                    }));
+                                } else {
+                                    row.appendChild(doc.new({
+                                        type: "span",
+                                        class: "tt-userinfo-message",
+                                        text: result.error,
+                                        attributes: {color: "error"},
+                                    }));
+                                }
+                                loadingPlaceholder(row, false);
+                            });
+                        }
+                    }
+                }
+            }
+        }).observe(doc.find("#war-react-root ul.f-war-list > li.descriptions ul.members-list"), {childList: true,});
+    } catch (e) {
+        console.error("DKK error", e)
+    }
 }

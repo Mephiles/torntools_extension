@@ -1978,5 +1978,9 @@ function estimateStatsInList(listSelector, userHandler) {
 
             resolve();
         });
-    }).then(() => console.log("Estimated stats."));D
+    }).then(() => console.log("Estimated stats."));
+}
+
+function hasClass(node, className) {
+    return node && node.classList && node.classList.contains(className);
 }
