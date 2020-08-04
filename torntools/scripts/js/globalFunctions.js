@@ -1370,7 +1370,7 @@ function hasParent(element, attributes = {}) {
 }
 
 function findParent(element, attributes = {}) {
-    if (!element.parentElement) return undefined;
+    if (!element || !element.parentElement) return undefined;
 
     if (attributes.class && element.parentElement.classList.contains(attributes.class))
         return element.parentElement;

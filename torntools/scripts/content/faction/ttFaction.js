@@ -1257,10 +1257,8 @@ function memberInfoAdded() {
 }
 
 function highlightOwnOC() {
-    for (let crime of document.findAll(".crimes-list > li.item-wrap")) {
-        if (!crime.find(`.team > a[href="/profiles.php?XID=${userdata.player_id}"]`)) continue;
+    const member = document.find(`.crimes-list > li.item-wrap .team > a[href="/profiles.php?XID=${userdata.player_id}"]`);
+    if (!member) return;
 
-        crime.setAttribute("background-color", "green");
-        break;
-    }
+    findParent(member, {class: "item-wrap"}).setAttribute("background-color", "green");
 }
