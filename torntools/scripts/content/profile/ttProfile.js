@@ -473,20 +473,20 @@ function displayTargetInfo(targets) {
 }
 
 async function displayProfileStats() {
-    let user_id = getUserId();
+    let userId = getUserId();
     let profile_stats = doc.find("#tt-target-info .profile-stats");
 
     let result;
 
-    if (cache && cache.profileStats[user_id] && cache.battleStatsEstimate[user_id]) {
+    if (cache && cache.profileStats[userId] && cache.battleStatsEstimate[userId]) {
         result = {
-            stats: cache.profileStats[user_id].data,
-            battleStatsEstimate: cache.battleStatsEstimate[user_id].data,
+            stats: cache.profileStats[userId].data,
+            battleStatsEstimate: cache.battleStatsEstimate[userId].data,
         };
     } else {
         loadingPlaceholder(profile_stats, true);
         result = await new Promise((resolve) => {
-            fetchApi(`https://api.torn.com/user/${user_id}?selections=profile,personalstats,crimes`, api_key)
+            fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key)
                 .then(data => {
                     return resolve(handleTornProfileData(data));
                 });
@@ -498,21 +498,18 @@ async function displayProfileStats() {
             ttStorage.change({
                 "cache": {
                     "profileStats": {
-                        [user_id]: {
+                        [userId]: {
                             timestamp,
                             ttl: TO_MILLIS.DAYS,
                             data: result.stats,
                         }
                     },
-                    "battleStatsEstimate": {
-                        [user_id]: {
-                            timestamp,
-                            ttl: result.battleStatsEstimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
-                            data: result.battleStatsEstimate,
-                        }
-                    },
                 }
+            }, () => {
+                cacheEstimate(userId, timestamp, result.battleStatsEstimate);
             });
+
+
         }
         loadingPlaceholder(profile_stats, false);
     }

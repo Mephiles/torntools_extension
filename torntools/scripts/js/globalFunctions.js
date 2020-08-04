@@ -478,6 +478,9 @@ const STORAGE = {
                 "faction_wars": false,
                 "faction_members": false,
                 // TODO - competition
+
+                "delay": 1500,
+                "cached_only": false,
             }
         }
     }
@@ -1831,7 +1834,7 @@ function onDrop(event) {
     event.dataTransfer.clearData();
 }
 
-function estimateBattleStats(rank, level, totalCrimes, networth) {
+function calculateEstimateBattleStats(rank, level, totalCrimes, networth) {
     const triggersLevel = RANK_TRIGGERS.level.filter((x) => x <= level).length;
     const triggersCrimes = RANK_TRIGGERS.crimes.filter((x) => x <= totalCrimes).length;
     const triggersNetworth = RANK_TRIGGERS.networth.filter((x) => x <= networth).length;
@@ -1893,7 +1896,7 @@ function handleTornProfileData(data) {
             ...data.result.personalstats,
             ...data.result.criminalrecord,
         };
-        response.battleStatsEstimate = estimateBattleStats(rank, level, totalCrimes, networth);
+        response.battleStatsEstimate = calculateEstimateBattleStats(rank, level, totalCrimes, networth);
     } else {
         response.error = data.error;
     }
@@ -1901,11 +1904,51 @@ function handleTornProfileData(data) {
     return response;
 }
 
+function hasClass(node, className) {
+    return node && node.classList && node.classList.contains(className);
+}
+
+function hasCachedEstimate(userId) {
+    return cache && cache.battleStatsEstimate && cache.battleStatsEstimate[userId];
+}
+
+function estimateStats(userId, isIndividual = false, listCount = 0) {
+    return new Promise(async (resolve, reject) => {
+        if (hasCachedEstimate(userId)) {
+            return resolve({
+                estimate: cache.battleStatsEstimate[userId].data,
+                cached: true,
+            });
+        } else {
+            if (!isIndividual && settings.scripts.stats_estimate.cached_only)
+                return reject({message: "No cached result found!"});
+
+            if (!isIndividual) await sleep(listCount * settings.scripts.stats_estimate.delay);
+
+            const result = handleTornProfileData(await fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key));
+
+            if (!result.error) {
+                const timestamp = new Date().getTime();
+
+                cacheEstimate(userId, timestamp, result.battleStatsEstimate);
+
+                return resolve({
+                    estimate: result.battleStatsEstimate,
+                    cached: false,
+                    apiResult: result,
+                });
+            } else {
+                return reject({message: result.error});
+            }
+        }
+    });
+}
+
 function estimateStatsInList(listSelector, userHandler) {
     console.log("Estimating stats in a list.", doc.findAll(listSelector).length);
 
     new Promise((resolve) => {
-        let estimateQueue = [];
+        let estimateCount = 0;
 
         for (let person of doc.findAll(listSelector)) {
             const response = userHandler(person);
@@ -1930,58 +1973,41 @@ function estimateStatsInList(listSelector, userHandler) {
                 container.appendChild(row);
             }
 
-            if (cache && cache.battleStatsEstimate && cache.battleStatsEstimate[userId]) {
-                row.appendChild(doc.new({
-                    type: "span",
-                    text: `Stat Estimate: ${cache.battleStatsEstimate[userId].data}`,
-                }));
-            } else {
-                loadingPlaceholder(row, true);
-                estimateQueue.push([userId, row]);
-            }
-        }
+            if (!hasCachedEstimate(userId)) estimateCount++;
 
-        setTimeout(async () => {
-            for (let [userId, row] of estimateQueue) {
-                const result = handleTornProfileData(await fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key));
-
-                if (!result.error) {
-                    const timestamp = new Date().getTime();
-
-                    ttStorage.change({
-                        "cache": {
-                            "battleStatsEstimate": {
-                                [userId]: {
-                                    timestamp,
-                                    ttl: result.battleStatsEstimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
-                                    data: result.battleStatsEstimate,
-                                }
-                            },
-                        }
-                    });
-
+            loadingPlaceholder(row, true);
+            estimateStats(userId, false, estimateCount)
+                .then((result => {
+                    loadingPlaceholder(row, false);
                     row.appendChild(doc.new({
                         type: "span",
-                        text: `Stat Estimate: ${result.battleStatsEstimate}`,
-                    }));
-                } else {
+                        text: `Stat Estimate: (${result.cached ? "cached" : "new"}) ${result.estimate}`,
+                    }))
+                }))
+                .catch((error) => {
+                    loadingPlaceholder(row, false);
                     row.appendChild(doc.new({
                         type: "span",
                         class: "tt-userinfo-message",
-                        text: result.error,
+                        text: error.message,
                         attributes: {color: "error"},
                     }));
-                }
-                loadingPlaceholder(row, false);
-
-                await sleep(TO_MILLIS.SECONDS * 1.5);
-            }
-
-            resolve();
-        });
+                })
+                .then(() => resolve());
+        }
     }).then(() => console.log("Estimated stats."));
 }
 
-function hasClass(node, className) {
-    return node && node.classList && node.classList.contains(className);
+function cacheEstimate(userId, timestamp, estimate) {
+    ttStorage.change({
+        "cache": {
+            "battleStatsEstimate": {
+                [userId]: {
+                    timestamp,
+                    ttl: estimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
+                    data: estimate,
+                }
+            },
+        }
+    });
 }

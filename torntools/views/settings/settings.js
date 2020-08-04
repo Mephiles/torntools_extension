@@ -290,7 +290,8 @@ function setupPreferences() {
                     optionDiv.find("input, select").setAttribute("disabled", true);
                 }
 
-                if (optionDiv.find("input")) optionDiv.find("input").checked = settings[type][page][option];
+                if (optionDiv.find("input[type='checkbox']")) optionDiv.find("input[type='checkbox']").checked = settings[type][page][option];
+                else if (optionDiv.find("input")) optionDiv.find("input").value = settings[type][page][option];
                 else if (optionDiv.find("select")) {
                     const selectedOption = optionDiv.find(`select > option[value='${settings[type][page][option]}']`)
                     if (!selectedOption) optionDiv.find("select > option[value='none']")
@@ -582,7 +583,8 @@ function savePreferences(preferences, settings, target_list_enabled) {
                 const optionDiv = preferences.find(`#${page}-${option}`);
                 if (!optionDiv) continue;
 
-                if (optionDiv.find("input")) settings[type][page][option] = optionDiv.find("input").checked;
+                if (optionDiv.find("input[type='checkbox']")) settings[type][page][option] = optionDiv.find("input[type='checkbox']").checked;
+                else if (optionDiv.find("input")) settings[type][page][option] = parseFloat(optionDiv.find("input").value) || optionDiv.find("input").value;
                 else if (optionDiv.find("select")) settings[type][page][option] = optionDiv.find("select").selectedOptions[0].getAttribute("value");
             }
         }

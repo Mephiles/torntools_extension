@@ -510,7 +510,7 @@ async function showUserInfo() {
         dataInformation = await fetchApi(`https://api.torn.com/faction/${factionId}?selections=${ownFaction ? 'donations,' : ''}basic`, api_key);
     }
 
-    let estimateQueue = [];
+    let estimateCount = 0;
     for (let tableRow of doc.findAll(".members-list .table-body > li")) {
         let userId = tableRow.find("a.user.name").getAttribute("data-placeholder") ? tableRow.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : tableRow.find("a.user.name").getAttribute("href").split("XID=")[1];
 
@@ -571,54 +571,28 @@ async function showUserInfo() {
             const row = doc.new({type: "section", class: "tt-userinfo-row"});
             container.appendChild(row);
 
-            if (cache && cache.battleStatsEstimate && cache.battleStatsEstimate[userId]) {
-                row.appendChild(doc.new({
-                    type: "span",
-                    text: `Stat Estimate: ${cache.battleStatsEstimate[userId].data}`,
-                }));
-            } else {
-                loadingPlaceholder(row, true);
-                estimateQueue.push([userId, row]);
-            }
+            if (!hasCachedEstimate(userId)) estimateCount++;
+
+            loadingPlaceholder(row, true);
+            estimateStats(userId, false, estimateCount)
+                .then((result => {
+                    loadingPlaceholder(row, false);
+                    row.appendChild(doc.new({
+                        type: "span",
+                        text: `Stat Estimate: (${result.cached ? "cached" : "new"}) ${result.estimate}`,
+                    }))
+                }))
+                .catch((error) => {
+                    loadingPlaceholder(row, false);
+                    row.appendChild(doc.new({
+                        type: "span",
+                        class: "tt-userinfo-message",
+                        text: error.message,
+                        attributes: {color: "error"},
+                    }));
+                });
         }
     }
-
-    setTimeout(async () => {
-        for (let [userId, row] of estimateQueue) {
-            await sleep(TO_MILLIS.SECONDS * 1.5);
-
-            const result = handleTornProfileData(await fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key));
-
-            if (!result.error) {
-                const timestamp = new Date().getTime();
-
-                ttStorage.change({
-                    "cache": {
-                        "battleStatsEstimate": {
-                            [userId]: {
-                                timestamp,
-                                ttl: result.battleStatsEstimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
-                                data: result.battleStatsEstimate,
-                            }
-                        },
-                    }
-                });
-
-                row.appendChild(doc.new({
-                    type: "span",
-                    text: `Stat Estimate: ${result.battleStatsEstimate}`,
-                }));
-            } else {
-                row.appendChild(doc.new({
-                    type: "span",
-                    class: "tt-userinfo-message",
-                    text: result.error,
-                    attributes: {color: "error"},
-                }));
-            }
-            loadingPlaceholder(row, false);
-        }
-    }, 0);
     member_info_added = true;
 }
 
@@ -1373,6 +1347,8 @@ function observeDescription() {
     });
 
     new MutationObserver((mutations) => {
+        let estimateCount = 0;
+
         for (let mutation of mutations) {
             for (let node of mutation.removedNodes) {
                 if (hasClass(node, "your") || hasClass(node, "enemy")) {
@@ -1390,47 +1366,26 @@ function observeDescription() {
                     const row = doc.new({type: "section", class: "tt-userinfo-row tt-userinfo-row--statsestimate"});
                     container.appendChild(row);
 
-                    if (cache && cache.battleStatsEstimate && cache.battleStatsEstimate[userId]) {
-                        row.appendChild(doc.new({
-                            type: "span",
-                            text: `Stat Estimate: ${cache.battleStatsEstimate[userId].data}`,
-                        }));
-                    } else {
-                        loadingPlaceholder(row, true);
+                    if (!hasCachedEstimate(userId)) estimateCount++;
 
-                        setTimeout(async () => {
-                            const result = handleTornProfileData(await fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key));
-
-                            if (!result.error) {
-                                const timestamp = new Date().getTime();
-
-                                ttStorage.change({
-                                    "cache": {
-                                        "battleStatsEstimate": {
-                                            [userId]: {
-                                                timestamp,
-                                                ttl: result.battleStatsEstimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
-                                                data: result.battleStatsEstimate,
-                                            }
-                                        },
-                                    }
-                                });
-
-                                row.appendChild(doc.new({
-                                    type: "span",
-                                    text: `Stat Estimate: ${result.battleStatsEstimate}`,
-                                }));
-                            } else {
-                                row.appendChild(doc.new({
-                                    type: "span",
-                                    class: "tt-userinfo-message",
-                                    text: result.error,
-                                    attributes: {color: "error"},
-                                }));
-                            }
+                    loadingPlaceholder(row, true);
+                    estimateStats(userId, false, estimateCount)
+                        .then((result => {
                             loadingPlaceholder(row, false);
+                            row.appendChild(doc.new({
+                                type: "span",
+                                text: `Stat Estimate: (${result.cached ? "cached" : "new"}) ${result.estimate}`,
+                            }))
+                        }))
+                        .catch((error) => {
+                            loadingPlaceholder(row, false);
+                            row.appendChild(doc.new({
+                                type: "span",
+                                class: "tt-userinfo-message",
+                                text: error.message,
+                                attributes: {color: "error"},
+                            }));
                         });
-                    }
                 }
             }
         }
