@@ -4,17 +4,18 @@ import personalized from "../personalized.js";
 let [seconds, minutes, hours, days] = [1000, 60 * 1000, 60 * 60 * 1000, 24 * 60 * 60 * 1000];
 
 var notifications = {
-    'travel': {},
-    "hospital": {},
-    "loot": {},
-    "events": {},
-    "messages": {},
-    "stakeouts": {},
+	"travel": {},
+	"hospital": {},
 	"chain": {},
+	"loot": {},
+	"events": {},
+	"messages": {},
+	"stakeouts": {},
 	"nerve": {},
 	"energy": {},
 	"happy": {},
 	"life": {},
+	"new_day": {},
 }
 
 var links = {
@@ -36,7 +37,7 @@ let userdata, torndata, settings, api_key, chat_highlight, itemlist,
 console.log("Checking Storage.");
 let setup_storage = new Promise(function (resolve, reject) {
     ttStorage.get(null, function (old_storage) {
-        if (!old_storage || Object.keys(old_storage).length == 0) {  // fresh install
+        if (!old_storage || Object.keys(old_storage).length === 0) {  // fresh install
             console.log("	Setting new storage.");
             ttStorage.set(STORAGE, function () {
                 console.log("	Storage set");
@@ -68,20 +69,20 @@ let setup_storage = new Promise(function (resolve, reject) {
                 }
 
                 // Key has new type
-                if (typeof STORAGE[key] != "undefined" && typeof STORAGE[key] != typeof old_storage[key]) {
+                if (typeof STORAGE[key] != "undefined" && typeof STORAGE[key] !== typeof old_storage[key]) {
                     new_local_storage[key] = STORAGE[key];
                     continue;
                 }
 
                 if (typeof STORAGE[key] == "object" && !Array.isArray(STORAGE[key])) {
-                    if (Object.keys(STORAGE[key]).length == 0 || key === "chat_highlight")
+                    if (Object.keys(STORAGE[key]).length === 0 || key === "chat_highlight")
                         new_local_storage[key] = old_storage[key];
                     else
                         new_local_storage[key] = convertStorage(old_storage[key], STORAGE[key]);
                 } else {
-                    if (STORAGE[key] == "force_false")
+                    if (STORAGE[key] === "force_false")
                         new_local_storage[key] = false;
-                    else if (STORAGE[key] == "force_true")
+                    else if (STORAGE[key] === "force_true")
                         new_local_storage[key] = true;
                     else if (typeof STORAGE[key] == "string" && STORAGE[key].indexOf("force_") > -1)
                         new_local_storage[key] = STORAGE[key].split(/_(.+)/)[1];
@@ -441,6 +442,23 @@ function Main_30_seconds() {
 							}
 						} else {
 							notifications.chain = {}
+						}
+
+						// Check for New Day notification
+						let torn_time = new Date(new Date(userdata.timestamp).toUTCString().replace(" GMT", ""));
+						if(
+						settings.notifications.global &&
+						settings.notifications.new_day &&
+						torn_time.getHours() == "00" &&
+						torn_time.getMinutes() == "00" &&
+						!(torn_time.getDate().toString() in notifications.new_day)){
+							notifications.new_day[torn_time.getDate().toString()] = {
+								title: "TornTools - New Day",
+								text: "It's a new day! Hopefully a sunny one.",
+								url: links.home,
+								seen: 0,
+								date: new Date()
+							}
 						}
 
 						userdata.date = new Date().toString();
