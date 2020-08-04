@@ -383,6 +383,20 @@ div[role='main'].tt-modified {
     display: var(--torntools-hide-chat, block) !important;
 }
 
+/* Color Classes */
+
+*[color="error"] {
+    color: #ff4040;
+}
+
+*[color="warning"] {
+    color: #ff4040;
+}
+
+*[color="info"] {
+    color: #47dfd6;
+}
+
 /* Torn icons */
 #sidebarroot .status-icons___1SnOI>li[class^="icon1_"] { display: var(--torntools-hide-icons-icon1, inline-block) }
 #sidebarroot .status-icons___1SnOI>li[class^="icon2_"] { display: var(--torntools-hide-icons-icon2, inline-block) }
