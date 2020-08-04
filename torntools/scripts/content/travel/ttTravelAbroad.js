@@ -735,6 +735,16 @@ function reloadTable() {
     });
 }
 
+chrome.storage.onChanged.addListener((changes, area) => {
+    if (area !== "local") return;
+
+    if (changes.travel_market) {
+        console.log("DKK travel_items changed")
+        travel_market = changes.travel_market.newValue;
+        reloadTable()
+    }
+});
+
 async function showUserInfo() {
     if (!(settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.abroad))
         return;
