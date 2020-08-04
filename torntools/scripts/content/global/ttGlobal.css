@@ -397,6 +397,10 @@ div[role='main'].tt-modified {
     color: #47dfd6;
 }
 
+*[background-color="green"] {
+    background-color: #bdecb9b5;
+}
+
 /* Torn icons */
 #sidebarroot .status-icons___1SnOI>li[class^="icon1_"] { display: var(--torntools-hide-icons-icon1, inline-block) }
 #sidebarroot .status-icons___1SnOI>li[class^="icon2_"] { display: var(--torntools-hide-icons-icon2, inline-block) }

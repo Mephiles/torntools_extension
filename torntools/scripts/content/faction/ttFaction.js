@@ -109,6 +109,7 @@ function loadCrimes() {
                 showAvailablePlayers();
                 showRecommendedNNB();
                 showNNB();
+                highlightOwnOC();
             }
 
             doc.find(".faction-crimes-wrap").classList.add("tt-modified");
@@ -1253,4 +1254,13 @@ function memberInfoAdded() {
             }
         });
     });
+}
+
+function highlightOwnOC() {
+    for (let crime of document.findAll(".crimes-list > li.item-wrap")) {
+        if (!crime.find(`.team > a[href="/profiles.php?XID=${userdata.player_id}"]`)) continue;
+
+        crime.setAttribute("background-color", "green");
+        break;
+    }
 }
