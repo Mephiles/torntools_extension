@@ -330,7 +330,7 @@ const STORAGE = {
         "clean_flight": false,
         // "remove_info_boxes": false,
         "theme": "default",
-        "force_tt": false,
+        "force_tt": true,
         "font_size": "12px",
         "inactivity_alerts_faction": {
             // "432000000": "#ffc8c8",  // 5 days
