@@ -739,9 +739,8 @@ chrome.storage.onChanged.addListener((changes, area) => {
     if (area !== "local") return;
 
     if (changes.travel_market) {
-        console.log("DKK travel_items changed")
         travel_market = changes.travel_market.newValue;
-        reloadTable()
+        reloadTable();
     }
 });
 
