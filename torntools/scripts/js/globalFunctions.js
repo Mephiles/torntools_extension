@@ -2004,7 +2004,7 @@ function cacheEstimate(userId, timestamp, estimate) {
             "battleStatsEstimate": {
                 [userId]: {
                     timestamp,
-                    ttl: estimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
+                    ttl: estimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS * 7,
                     data: estimate,
                 }
             },

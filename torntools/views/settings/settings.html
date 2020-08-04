@@ -403,25 +403,31 @@
 					<ul>
 						<li>Stakeouts: 1 request per user (every 15 seconds)</li>
 						<li>Market Tab: 1 request per Item searched</li>
-						<li>Profile Stats: 1 request per profile to Torn API and 1 request to TornStats API (max 25/minute)</li>
+						<li>Profile Stats: 1 request per profile to Torn's API and 1 request to TornStats API (max 25/minute)</li>
 						<li>Gym Stats: 1 Request to TornStats API (max 25/minute)</li>
 						<li>OC NNB: 1 Request to TornStats API (max 25/minute)</li>
 						<li>Bazaar value: 1 Request to Torn's API</li>
 						<li>Armory value: 1 Request to Torn's API</li>
 						<li>Faction member info: 1 Request to Torn's API</li>
 						<li>Company users info: 1 Request to Torn's API</li>
+						<li>Stats Estimates: 1 request per estimate to Torn;s API</li>
 					</ul>
 				</li>
 				<li><strong>Cache</strong>
 					<ul>
 						<li>1 hour
 							<ul>
-								<li>Profile Stats: 1 request to TornStats API (max 25/minute)</li>
+								<li>Profile Stats: 1 request to TornStats API</li>
 							</ul>
 						</li>
 						<li>1 day
 							<ul>
-								<li>Profile Stats: 1 request per profile to Torn API</li>
+								<li>Profile Stats: 1 request per profile to Torn's API</li>
+							</ul>
+						</li>
+						<li>7 days
+							<ul>
+								<li>Stats Estimates: 1 request per estimate to Torn's API (31 days if 'over 200m')</li>
 							</ul>
 						</li>
 					</ul>
