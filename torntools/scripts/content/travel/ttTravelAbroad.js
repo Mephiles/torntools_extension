@@ -49,8 +49,9 @@ window.addEventListener('load', async () => {
     console.log("TT - Travel (abroad)");
 
     // Flying page
+    const page = getSearchParameters().get("page");
     if (await isFlying()) {
-        let on_travel_table = getSearchParameters().get("page") === "travel_table";
+        let on_travel_table = page === "travel_table";
 
         let link = doc.new({
             type: "a",
@@ -73,17 +74,18 @@ window.addEventListener('load', async () => {
     }
 
     if (await isAbroad()) {
-        if (settings.pages.travel.profits && (getSearchParameters().get("page") === null || getSearchParameters().get("page") === "travel_table")) {
-            displayItemProfits(itemlist.items);
-            addFillMaxButtons();
-        }
+        if (page === null || page === "travel_table") {
+            if (settings.pages.travel.profits) {
+                displayItemProfits(itemlist.items);
+                addFillMaxButtons();
+            }
+            if (!doc.find(".info-msg-cont.red")) {
+                updateYATAprices();
+            }
+        } else if (page === "people") {
+            requirePlayerList(".users-list").then(async () => {
+                await showUserInfo();
 
-        if ((getSearchParameters().get("page") === null || getSearchParameters().get("page") === "travel_table") && !doc.find(".info-msg-cont.red")) {
-            updateYATAprices();
-        }
-
-        if (getSearchParameters().get("page") === "people") {
-            requirePlayerList(".users-list").then(function () {
                 let list = doc.find(".users-list");
                 let title = list.previousElementSibling;
 
@@ -731,4 +733,71 @@ function reloadTable() {
 
         filterTable();
     });
+}
+
+async function showUserInfo() {
+    if (!(settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.abroad))
+        return;
+
+    let estimateQueue = [];
+    for (let tableRow of doc.findAll(".users-list > li")) {
+        let userId = tableRow.find("a.user.name").getAttribute("data-placeholder") ? tableRow.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : tableRow.find("a.user.name").getAttribute("href").split("XID=")[1];
+        console.log("DKK showUserInfo", userId)
+
+        if (userId) {
+            const container = doc.new({type: "section", class: "tt-userinfo-container"});
+            tableRow.parentElement.insertBefore(container, tableRow.nextElementSibling);
+
+            const row = doc.new({type: "section", class: "tt-userinfo-row"});
+            container.appendChild(row);
+
+            if (cache && cache.battleStatsEstimate && cache.battleStatsEstimate[userId]) {
+                row.appendChild(doc.new({
+                    type: "span",
+                    text: `Stat Estimate: ${cache.battleStatsEstimate[userId].data}`,
+                }));
+            } else {
+                loadingPlaceholder(row, true);
+                estimateQueue.push([userId, row]);
+            }
+
+        }
+    }
+
+    setTimeout(async () => {
+        for (let [userId, row] of estimateQueue) {
+            await sleep(TO_MILLIS.SECONDS * 1.5);
+
+            const result = handleTornProfileData(await fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key));
+
+            if (!result.error) {
+                const timestamp = new Date().getTime();
+
+                ttStorage.change({
+                    "cache": {
+                        "battleStatsEstimate": {
+                            [userId]: {
+                                timestamp,
+                                ttl: result.battleStatsEstimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS,
+                                data: result.battleStatsEstimate,
+                            }
+                        },
+                    }
+                });
+
+                row.appendChild(doc.new({
+                    type: "span",
+                    text: `Stat Estimate: ${result.battleStatsEstimate}`,
+                }));
+            } else {
+                row.appendChild(doc.new({
+                    type: "span",
+                    class: "tt-userinfo-message",
+                    text: result.error,
+                    attributes: {color: "error"},
+                }));
+            }
+            loadingPlaceholder(row, false);
+        }
+    }, 0);
 }
