@@ -108,6 +108,7 @@ function loadCrimes() {
                 showAvailablePlayers();
                 showRecommendedNNB();
                 showNNB();
+                highlightOwnOC();
             }
 
             doc.find(".faction-crimes-wrap").classList.add("tt-modified");
@@ -1390,4 +1391,11 @@ function observeDescription() {
             }
         }
     }).observe(doc.find("#war-react-root ul.f-war-list > li.descriptions ul.members-list"), {childList: true,});
+}
+
+function highlightOwnOC() {
+    const member = document.find(`.crimes-list > li.item-wrap .team > a[href="/profiles.php?XID=${userdata.player_id}"]`);
+    if (!member) return;
+
+    findParent(member, {class: "item-wrap"}).setAttribute("background-color", "green");
 }
