@@ -30,7 +30,7 @@ requireDatabase().then(function () {
 });
 
 function stocksLoaded() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve) => {
         let checker = setInterval(function () {
             if (doc.find(".stock-list .item, .portfolio-list-shares > .item-wrap")) {
                 resolve(true);
@@ -39,3 +39,4 @@ function stocksLoaded() {
         }, 100);
     });
 }
+
