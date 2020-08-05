@@ -314,6 +314,7 @@ const STORAGE = {
         "stock_exchange": {
             "forecast": [],
             "worth": [],
+            "name": "",
         },
     },
     "sorting": {

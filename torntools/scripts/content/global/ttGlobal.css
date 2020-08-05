@@ -87,9 +87,10 @@
 .tt-checkbox-wrap *, .tt-input-wrap * {
     display: inline-block;
     vertical-align: top;
+
 }
 .tt-checkbox-wrap input {
-    margin: 1px 5px 0 5px;
+    margin: 1px 5px 0 5px; /* top - right - bottom - left */
     height: 100%;
     position: relative;
     top: -2px;
