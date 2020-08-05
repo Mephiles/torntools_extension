@@ -1,6 +1,7 @@
 console.log("START - Background Script");
 import personalized from "../personalized.js";
 
+// noinspection JSUnusedLocalSymbols
 let [seconds, minutes, hours, days] = [1000, 60 * 1000, 60 * 60 * 1000, 24 * 60 * 60 * 1000];
 
 var notifications = {
