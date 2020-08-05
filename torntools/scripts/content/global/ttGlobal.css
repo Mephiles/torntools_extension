@@ -390,6 +390,10 @@ div[role='main'].tt-modified {
     color: #47dfd6;
 }
 
+*[background-color="green"] {
+    background-color: #bdecb9b5;
+}
+
 /* Container System */
 
 .tt-userinfo-container {
