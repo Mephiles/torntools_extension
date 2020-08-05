@@ -75,6 +75,7 @@ function showInformation() {
 
         parent.classList.add(classForecast);
         parent.classList.add(classWorth);
+        parent.classList.add("worth");
     }
 }
 
