@@ -57,9 +57,10 @@
 					<div name="gym">Gym</div>
 					<div name="casino">Casino</div>
 					<div name="faction">Faction</div>
+					<div name="stock_exchange">Stock Exchange</div>
 
 					<div class="heading">Scripts</div>
-					<div name="stats-estimate">Stats Estimate</div>
+					<div name="stats_estimate">Stats Estimate</div>
 
 					<div class="heading">Other</div>
 					<div name="travel">Travel</div>
@@ -260,8 +261,13 @@
 						<div class="option single-nr-input" id="faction-inactivity_alerts_first">Inactivity 'orange' notifier: <input type="text" class="short"> days</div>
 						<div class="option single-nr-input" id="faction-inactivity_alerts_second">Inactivity 'red' notifier: <input type="text" class="short"> days</div>
 					</div>
+					<div class="section" name="stock_exchange">
+						<div class="heading">Stock Exchange</div>
+						<div class="option" id="stockexchange-acronyms"><input type="checkbox">Display Stock acronyms before their names.</div>
+						<div class="option" id="stockexchange-advanced"><input type="checkbox">Display advanced information.</div>
+					</div>
 
-					<div class="section" name="stats-estimate">
+					<div class="section" name="stats_estimate">
 						<div class="option heading" id="stats_estimate-global"><input type="checkbox">Stats Estimate <span class="new">New!</span></div>
                         <div class="option single-nr-input" id="stats_estimate-delay">Delay <input type="number"> ms <span class="new">New!</span></div>
 						<div class="note tabbed">(setting this too low will risk getting your api banned easily)</div>
@@ -311,7 +317,6 @@
 						<!-- <div class="option" id="remove_info_boxes"><input type="checkbox">Remove info boxes on some pages</div> -->
 						<!-- <div class="tabbed note">(crimes)</div> -->
 						<div class="option" id="properties-vault_sharing"><input type="checkbox">Keep track of each user's money in Vault</div>
-						<div class="option" id="stockexchange-acronyms"><input type="checkbox">Display Stock acronyms before their names at Stock Exchange</div>
 						<div class="option" id="bazaar-worth"><input type="checkbox">Display how much a Bazaar is worth</div>
 						<div class="option" id="clean_flight"><input type="checkbox">Hide plane & funfact box on Flying page</div>
 						<div class="heading">Filters (factions)</div>

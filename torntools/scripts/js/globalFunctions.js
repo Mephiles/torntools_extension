@@ -443,7 +443,8 @@ const STORAGE = {
                 "vault_sharing": true
             },
             "stockexchange": {
-                "acronyms": true
+                "acronyms": true,
+                "advanced": true,
             },
             "bazaar": {
                 "worth": false
