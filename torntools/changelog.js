@@ -1,7 +1,7 @@
 export default {
     "v5.0 - 2020": {
         "Features": [
-            "Show an estimate of an user battle stats. Works on profiles, search pages, faction pages, faction war wall, bounty pages, your enemies list and the hall of fame.  - DKK",
+            "Show an estimate of an user battle stats on various pages. - DKK",
         ],
         "Fixes": [
             "Don't apply the last action filter on other faction pages. - DKK"
@@ -9,6 +9,7 @@ export default {
         "Changes": [
             "Change the caching system to allow for different times to keep it for. - DKK",
             "Update the profile view to not completely fail upon any api error. - DKK",
+            "Sync the 15 minute updater to the stock ticks.. - DKK",
         ]
     },
     "v4.10 - August, xxth. 2020": {
