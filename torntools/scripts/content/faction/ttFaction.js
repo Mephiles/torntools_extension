@@ -580,7 +580,7 @@ async function showUserInfo() {
                     loadingPlaceholder(row, false);
                     row.appendChild(doc.new({
                         type: "span",
-                        text: `Stat Estimate: (${result.cached ? "cached" : "new"}) ${result.estimate}`,
+                        text: `Stat Estimate: ${result.estimate}`,
                     }))
                 }))
                 .catch((error) => {
@@ -1375,7 +1375,7 @@ function observeDescription() {
                             loadingPlaceholder(row, false);
                             row.appendChild(doc.new({
                                 type: "span",
-                                text: `Stat Estimate: (${result.cached ? "cached" : "new"}) ${result.estimate}`,
+                                text: `Stat Estimate: ${result.estimate}`,
                             }))
                         }))
                         .catch((error) => {

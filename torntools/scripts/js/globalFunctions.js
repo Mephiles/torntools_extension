@@ -1986,7 +1986,7 @@ function estimateStatsInList(listSelector, userHandler) {
                     loadingPlaceholder(row, false);
                     row.appendChild(doc.new({
                         type: "span",
-                        text: `Stat Estimate: (${result.cached ? "cached" : "new"}) ${result.estimate}`,
+                        text: `Stat Estimate: ${result.estimate}`,
                     }))
                 }))
                 .catch((error) => {
