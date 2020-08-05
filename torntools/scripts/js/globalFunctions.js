@@ -310,7 +310,11 @@ const STORAGE = {
         },
         "bounties": {},
         "faction_armory": {},
-        "container_open": {}
+        "container_open": {},
+        "stock_exchange": {
+            "forecast": [],
+            "worth": [],
+        },
     },
     "sorting": {
         "profile": []

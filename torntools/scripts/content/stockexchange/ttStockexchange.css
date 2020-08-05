@@ -1,0 +1,41 @@
+/* Forecast Colors */
+
+.forecast-very_good {
+    background: #6bff71 !important;
+}
+
+.forecast-good {
+    background: #cbff8f !important;
+}
+
+.forecast-average {
+    background: inherit;
+}
+
+.forecast-poor {
+    background: #ffdedc !important;
+}
+
+.forecast-very_poor {
+    background: #ffb0ac !important;
+}
+
+.worth-noshares > .logo-stock {
+    width: 75px !important;
+    border-left: solid 5px #424242;
+}
+
+.worth-level_1 > .logo-stock {
+    width: 75px !important;
+    border-left: solid 5px #ff1f1f;
+}
+
+.worth-level_2 > .logo-stock {
+    width: 75px !important;
+    border-left: solid 5px #F2EA47;
+}
+
+.worth-level_3 > .logo-stock {
+    width: 75px !important;
+    border-left: solid 5px #7be12e;
+}
