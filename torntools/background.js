@@ -185,17 +185,19 @@ setup_storage.then(async function (success) {
 });
 
 function initiateTasks() {
-	console.log("Setting up intervals.");
-	setInterval(Main_5_seconds, 5 * seconds);  // 5 seconds
-	setInterval(Main_30_seconds, 30 * seconds);  // 30 seconds
-	setInterval(Main_1_minute, 1 * minutes);  // 1 minute
-	setInterval(Main_15_minutes, 15 * minutes);  // 15 minutes
+    console.log("Setting up intervals.");
+    setInterval(Main_5_seconds, 5 * seconds);  // 5 seconds
+    setInterval(Main_30_seconds, 30 * seconds);  // 30 seconds
+    setInterval(Main_1_minute, minutes);  // 1 minute
 
-    // Update info about installed extensions
-    updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
+    const now = new Date();
+    const secondsTillStockTick = (15 - (now.getUTCMinutes() % 15)) * 60 - now.getUTCSeconds();
 
-    // Clear API history
-    clearAPIhistory();
+    setTimeout(() => {
+        Main_15_minutes();
+
+        setInterval(Main_15_minutes, 15 * minutes);  // 15 minutes
+    }, (secondsTillStockTick + 10) * 1000);
 }
 
 function Main_5_seconds() {
