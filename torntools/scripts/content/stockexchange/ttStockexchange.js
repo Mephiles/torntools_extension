@@ -69,13 +69,14 @@ function showInformation() {
         else if (availableWorth > 0 && availableWorth <= 20e9) classWorth = "worth-level_1";
         else if (availableWorth > 20e9 && availableWorth <= 50e9) classWorth = "worth-level_2";
         else if (availableWorth > 50e9 && availableWorth <= 100e9) classWorth = "worth-level_3";
-        else classWorth = "worth-other";
 
         const parent = stock.firstElementChild;
 
         parent.classList.add(classForecast);
-        parent.classList.add(classWorth);
-        parent.classList.add("worth");
+        if (classWorth) {
+            parent.classList.add(classWorth);
+            parent.classList.add("worth");
+        }
     }
 }
 
