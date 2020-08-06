@@ -391,6 +391,10 @@ div[role='main'].tt-modified {
     color: #47dfd6;
 }
 
+*[color="cyan"] {
+    color: #0ccece;
+}
+
 *[background-color="green"] {
     background-color: #bdecb9b5;
 }

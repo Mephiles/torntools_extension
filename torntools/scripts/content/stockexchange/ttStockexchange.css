@@ -71,3 +71,7 @@
 
 .block-bb {
 }
+
+.stock-list .item .owned.tt-modified {
+    line-height: 20px !important;
+}

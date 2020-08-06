@@ -60,19 +60,6 @@ function showInformation() {
 
             const data = torndata.stocks[stockId];
 
-            if (data.acronym === "TCSE") continue;
-
-            const classForecast = `forecast-${data.forecast.toLowerCase().replace(" ", "_")}`
-
-            const availableWorth = parseInt(data.available_shares) * parseFloat(data.current_price);
-            let classWorth;
-            if (availableWorth === 0) classWorth = "worth-noshares";
-            else if (availableWorth > 0 && availableWorth <= 20e9) classWorth = "worth-level_1";
-            else if (availableWorth > 20e9 && availableWorth <= 50e9) classWorth = "worth-level_2";
-            else if (availableWorth > 50e9 && availableWorth <= 100e9) classWorth = "worth-level_3";
-
-            const parent = stock.firstElementChild;
-
             if (isPortfolio) {
                 const amount = parseInt(stock.find(".b-price-wrap > .first-row").innerText.split(": ")[1].replaceAll(",", ""));
                 const boughtPrice = parseFloat(stock.find(".c-price-wrap > .second-row > .prop-wrap").innerText.split(": $")[1].replaceAll(",", ""));
@@ -112,12 +99,36 @@ function showInformation() {
                 }
 
                 stock.find(".qualify-wrap").innerHTML = blockText;
+            } else {
+                const owned = parseInt(stock.find(".owned").innerText.split("\n")[1].replaceAll(",", ""));
+
+                if (owned > 0) {
+                    const price = parseFloat(stock.find(".price").innerText.split("\n$")[1].replaceAll(",", ""));
+
+                    const worth = parseInt(price * owned);
+
+                    stock.find(".owned").classList.add("tt-modified");
+                    stock.find(".owned").innerHTML += `<br/><span color="cyan">$${numberWithCommas(worth, false)}</span>`;
+                }
             }
 
-            parent.classList.add(classForecast);
-            if (classWorth) {
-                parent.classList.add(classWorth);
-                parent.classList.add("worth");
+            if (data.acronym !== "TCSE") {
+                const classForecast = `forecast-${data.forecast.toLowerCase().replace(" ", "_")}`
+
+                const availableWorth = parseInt(data.available_shares) * parseFloat(data.current_price);
+                let classWorth;
+                if (availableWorth === 0) classWorth = "worth-noshares";
+                else if (availableWorth > 0 && availableWorth <= 20e9) classWorth = "worth-level_1";
+                else if (availableWorth > 20e9 && availableWorth <= 50e9) classWorth = "worth-level_2";
+                else if (availableWorth > 50e9 && availableWorth <= 100e9) classWorth = "worth-level_3";
+
+                const parent = stock.firstElementChild;
+
+                parent.classList.add(classForecast);
+                if (classWorth) {
+                    parent.classList.add(classWorth);
+                    parent.classList.add("worth");
+                }
             }
         }
     } catch (e) {
