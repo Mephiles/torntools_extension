@@ -52,3 +52,22 @@
 .worth-level_3 > .logo-stock, .worth-level_3 > .logo {
     border-left: solid 5px #7be12e;
 }
+
+.block-wording {
+    text-decoration: underline;
+}
+
+.block-profit {
+    color: green;
+}
+
+.block-loss {
+    color: red;
+}
+
+.block-break-even {
+    color: blue;
+}
+
+.block-bb {
+}

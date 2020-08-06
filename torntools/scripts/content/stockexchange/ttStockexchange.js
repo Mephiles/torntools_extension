@@ -54,29 +54,74 @@ function stocksLoaded() {
 }
 
 function showInformation() {
-    for (let stock of doc.findAll(".stock-list > .item, .portfolio-list-shares > li.item-wrap")) {
-        const stockId = isPortfolio ? stock.find(".logo > a").getAttribute("href").match(/&ID=([0-9]*)/i)[1] : stock.firstElementChild.getAttribute("action").split("ID=")[1];
+    try {
+        for (let stock of doc.findAll(".stock-list > .item, .portfolio-list-shares > li.item-wrap")) {
+            const stockId = isPortfolio ? stock.find(".logo > a").getAttribute("href").match(/&ID=([0-9]*)/i)[1] : stock.firstElementChild.getAttribute("action").split("ID=")[1];
 
-        const data = torndata.stocks[stockId];
+            const data = torndata.stocks[stockId];
 
-        if (data.acronym === "TCSE") continue;
+            if (data.acronym === "TCSE") continue;
 
-        const classForecast = `forecast-${data.forecast.toLowerCase().replace(" ", "_")}`
+            const classForecast = `forecast-${data.forecast.toLowerCase().replace(" ", "_")}`
 
-        const availableWorth = parseInt(data.available_shares) * parseFloat(data.current_price);
-        let classWorth;
-        if (availableWorth === 0) classWorth = "worth-noshares";
-        else if (availableWorth > 0 && availableWorth <= 20e9) classWorth = "worth-level_1";
-        else if (availableWorth > 20e9 && availableWorth <= 50e9) classWorth = "worth-level_2";
-        else if (availableWorth > 50e9 && availableWorth <= 100e9) classWorth = "worth-level_3";
+            const availableWorth = parseInt(data.available_shares) * parseFloat(data.current_price);
+            let classWorth;
+            if (availableWorth === 0) classWorth = "worth-noshares";
+            else if (availableWorth > 0 && availableWorth <= 20e9) classWorth = "worth-level_1";
+            else if (availableWorth > 20e9 && availableWorth <= 50e9) classWorth = "worth-level_2";
+            else if (availableWorth > 50e9 && availableWorth <= 100e9) classWorth = "worth-level_3";
 
-        const parent = stock.firstElementChild;
+            const parent = stock.firstElementChild;
 
-        parent.classList.add(classForecast);
-        if (classWorth) {
-            parent.classList.add(classWorth);
-            parent.classList.add("worth");
+            if (isPortfolio) {
+                const amount = parseInt(stock.find(".b-price-wrap > .first-row").innerText.split(": ")[1].replaceAll(",", ""));
+                const boughtPrice = parseFloat(stock.find(".c-price-wrap > .second-row > .prop-wrap").innerText.split(": $")[1].replaceAll(",", ""));
+                const currentPrice = parseInt(stock.find(".c-price-wrap > .first-row").innerText.split(": $")[1].replaceAll(",", ""));
+
+                let buyPrice = parseInt(boughtPrice * amount);
+                let profit = parseInt(currentPrice - buyPrice);
+
+                let profitClass, profitChar;
+                if (profit > 0) {
+                    profitClass = "profit";
+                    profitChar = "+";
+                } else if (profit < 0) {
+                    profitClass = "loss";
+                    profitChar = "-";
+                } else {
+                    profitClass = "break-even";
+                    profitChar = "-";
+                }
+
+                const qualityWrap = stock.find(".info > .qualify-wrap");
+                const isEarningBlock = !!qualityWrap.innerText;
+
+                let blockText = isEarningBlock ? "<span class='block-bb'>(BB)</span>" : "";
+                if (!mobile) {
+                    blockText += `You bought at $<span class="bold">${numberWithCommas(buyPrice, false)}</span> worth and <span class="block-wording">${profitClass}</span> <span class="bold block-${profitClass}">${profitChar} $${numberWithCommas(Math.abs(profit), false)}</span>`
+                } else {
+                    blockText += `Bought $<span class="bold">${numberWithCommas(buyPrice, false)}</span> / <span class="block-wording">${profitClass}</span> <span class="bold block-${profitClass}">${profitChar} $${numberWithCommas(Math.abs(profit), false)}</span>`
+                }
+
+                if (data.acronym === "MCS") {
+                    console.log("DKK MCS 1", amount);
+                    console.log("DKK MCS 2", boughtPrice);
+                    console.log("DKK MCS 3", currentPrice);
+                    console.log("DKK MCS 4", buyPrice);
+                    console.log("DKK MCS 5", profit);
+                }
+
+                stock.find(".qualify-wrap").innerHTML = blockText;
+            }
+
+            parent.classList.add(classForecast);
+            if (classWorth) {
+                parent.classList.add(classWorth);
+                parent.classList.add("worth");
+            }
         }
+    } catch (e) {
+        console.log("DKK error 2", e)
     }
 }
 
