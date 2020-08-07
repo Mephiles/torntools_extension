@@ -11,7 +11,7 @@ requireDatabase().then(() => {
         let _flying = await isFlying();
 
         // Firefox opens new tab when dropping item
-        doc.body.ondrop =  (event) => {
+        doc.body.ondrop = (event) => {
             event.preventDefault();
             event.stopPropagation();
         }
@@ -353,10 +353,22 @@ function displayVaultBalance() {
 }
 
 function showToggleChat() {
-    const icon = doc.new({id: "tt-hide_chat", type: "i", class: "fas fa-binoculars"});
+    const icon = doc.new({
+        id: "tt-hide_chat",
+        type: "i",
+        class: `fas ${settings.pages.global.hide_chat ? "fa-comment" : "fa-comment-slash"}`
+    });
 
     icon.addEventListener("click", () => {
         settings.pages.global.hide_chat = !settings.pages.global.hide_chat;
+
+        if (settings.pages.global.hide_chat) {
+            icon.classList.remove("fa-comment-slash");
+            icon.classList.add("fa-comment");
+        } else {
+            icon.classList.add("fa-comment-slash");
+            icon.classList.remove("fa-comment");
+        }
 
         document.documentElement.style.setProperty(`--torntools-hide-chat`, settings.pages.global.hide_chat ? "none" : "block");
 

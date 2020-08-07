@@ -396,7 +396,7 @@ div[role='main'].tt-modified {
 
 #tt-hide_chat {
     height: 40px;
-    width: 40px;
+    width: 48px;
     position: fixed;
     left: 0;
     bottom: 0;
@@ -409,6 +409,24 @@ div[role='main'].tt-modified {
 
 #chatRoot {
     display: var(--torntools-hide-chat, block) !important;
+}
+
+/* Color Classes */
+
+*[color="error"] {
+    color: #ff4040;
+}
+
+*[color="warning"] {
+    color: #ff4040;
+}
+
+*[color="info"] {
+    color: #47dfd6;
+}
+
+*[background-color="green"] {
+    background-color: #bdecb9b5;
 }
 
 /* Torn icons */

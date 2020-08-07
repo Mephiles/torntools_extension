@@ -100,4 +100,8 @@ Don't like something? Turn it off in the settings and use the features you do li
 
 Any bugs? Ideas? Suggestions? Let me know!  
 
+**Open Source**  
+The code is open to view for everybody.  
+If anyone wants to submit Pull Requests then I won't deny any improvements/additions. You can always contact me about changes you'd like to add/improve so everybody's on the same page.  
+
 Created by: Gregor (**Mephiles[2087524]**)
