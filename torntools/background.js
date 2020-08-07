@@ -51,13 +51,13 @@ let setup_storage = new Promise(function (resolve) {
 
             console.log("	New storage", new_storage);
 
-            ttStorage.clear(function () {
-                ttStorage.set(new_storage, function () {
-                    console.log("	Storage updated.");
-                    return resolve(true);
-                });
-            });
-        }
+			ttStorage.clear(function () {
+				ttStorage.set(new_storage, function () {
+					console.log("	Storage updated.");
+					return resolve(true);
+				});
+			});
+		}
 
         function convertStorage(old_storage, STORAGE) {
             let new_local_storage = {};
@@ -103,45 +103,45 @@ setup_storage.then(async function (success) {
         return;
     }
 
-    // Check for personalized scripts
-    console.log("Setting up personalized scripts.");
-    if (Object.keys(personalized).length !== 0) {
-        await (function () {
-            return new Promise(function (resolve) {
-                ttStorage.get("userdata", function (userdata) {
-                    if (!userdata)
-                        return resolve(userdata);
+	// Check for personalized scripts
+	console.log("Setting up personalized scripts.");
+	if (Object.keys(personalized).length !== 0) {
+		await (function () {
+			return new Promise(function (resolve) {
+				ttStorage.get("userdata", function (userdata) {
+					if (!userdata)
+						return resolve(userdata);
 
                     let personalized_scripts = {}
 
-                    if (personalized.master === userdata.player_id) {
-                        for (let type in personalized) {
-                            if (type === "master") {
-                                continue;
-                            }
+					if (personalized.master === userdata.player_id) {
+						for (let type in personalized) {
+							if (type == "master") {
+								continue;
+							}
 
-                            for (let id in personalized[type]) {
-                                for (let script of personalized[type][id]) {
-                                    personalized_scripts[script] = true;
-                                }
-                            }
-                        }
-                    } else if (personalized.users[userdata.player_id]) {
-                        for (let script of personalized.users[userdata.player_id]) {
-                            personalized_scripts[script] = true;
-                        }
-                    }
+							for (let id in personalized[type]) {
+								for (let script of personalized[type][id]) {
+									personalized_scripts[script] = true;
+								}
+							}
+						}
+					} else if (personalized.users[userdata.player_id]) {
+						for (let script of personalized.users[userdata.player_id]) {
+							personalized_scripts[script] = true;
+						}
+					}
 
-                    ttStorage.set({"personalized": personalized_scripts}, function () {
-                        console.log("	Personalized scripts set.");
-                        return resolve(true);
-                    });
-                });
-            });
-        })();
-    } else {
-        console.log("	Empty file.");
-    }
+					ttStorage.set({ "personalized": personalized_scripts }, function () {
+						console.log("	Personalized scripts set.");
+						return resolve(true);
+					});
+				});
+			});
+		})();
+	} else {
+		console.log("	Empty file.");
+	}
 
     ttStorage.get(null, function (db) {
         userdata = db.userdata;
@@ -201,30 +201,31 @@ function initiateTasks() {
 }
 
 function Main_5_seconds() {
-    if (!settings.notifications.global) return;
+	if (!settings.notifications.global) return;
 
     console.group("Notifications");
 
-    // Notifications
-    console.log(notifications);
-    for (let notification_type in notifications) {
-        for (let notification_key in notifications[notification_type]) {
-            if (notifications[notification_type][notification_key].seen === 0) {
-                notifyUser(
-                    notifications[notification_type][notification_key].title,
-                    notifications[notification_type][notification_key].text,
-                    notifications[notification_type][notification_key].url
-                );
+	// Notifications
+	console.log(notifications);
+	for (let notification_type in notifications) {
+		for (let notification_key in notifications[notification_type]) {
+			if (notifications[notification_type][notification_key].seen === 0) {
+				console.log("NOTIFY USER", notification_type, notification_type)
+				notifyUser(
+					notifications[notification_type][notification_key].title,
+					notifications[notification_type][notification_key].text,
+					notifications[notification_type][notification_key].url
+				);
 
                 notifications[notification_type][notification_key].seen = 1;
             }
 
-            if (notifications[notification_type][notification_key].seen === 1 && (new Date() - notifications[notification_type][notification_key].date) > 7 * 24 * 60 * 60 * 1000) {
-                // notifications[notification_type][notification_key] = undefined;
-                delete notifications[notification_type][notification_key];
-            }
-        }
-    }
+			if (notifications[notification_type][notification_key].seen === 1 && (new Date() - notifications[notification_type][notification_key].date) > 7 * 24 * 60 * 60 * 1000) {
+				// notifications[notification_type][notification_key] = undefined;
+				delete notifications[notification_type][notification_key];
+			}
+		}
+	}
 
     console.groupEnd();
 }
@@ -248,49 +249,49 @@ function Main_30_seconds() {
             }
         }
 
-        // userdata
-        console.log("Setting up userdata.");
-        await (function () {
-            return new Promise(function (resolve) {
-                let selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,timestamp,inventory,education${attack_history ? `,${attack_history}` : ''}`;
+		// userdata
+		console.log("Setting up userdata.");
+		await (function () {
+			return new Promise(function (resolve) {
+				let selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,timestamp,inventory,education${attack_history ? `,${attack_history}` : ''}`;
 
-                ttStorage.get(["settings", "userdata"], function ([settings, previous_userdata]) {
-                    fetchApi(`https://api.torn.com/user/?selections=${selections}`, api_key).then(async (userdata) => {
-                        if (!userdata.ok) return resolve(false);
+				ttStorage.get(["settings", "userdata"], function ([settings, previous_userdata]) {
+					fetchApi(`https://api.torn.com/user/?selections=${selections}`, api_key).then(async (userdata) => {
+						if (!userdata.ok) return resolve(false);
 
                         userdata = userdata.result;
 
-                        // Target list
-                        if (userdata.attacks) {
-                            let attacks_data = {...userdata.attacks}
-                            updateTargetList(attacks_data, userdata.player_id, target_list, attack_history === "attacksfull");
-                        }
+						// Target list
+						if (userdata.attacks) {
+							let attacks_data = { ...userdata.attacks }
+							updateTargetList(attacks_data, userdata.player_id, target_list, (attack_history == "attacksfull" ? true : false));
+						}
 
-                        // Check for new messages
-                        let message_count = 0;
-                        for (let message_key of Object.keys(userdata.messages).reverse()) {
-                            let message = userdata.messages[message_key];
+						// Check for new messages
+						let message_count = 0;
+						for (let message_key of Object.keys(userdata.messages).reverse()) {
+							let message = userdata.messages[message_key];
 
-                            if (message.seen === 0) {
-                                if (settings.notifications.global && settings.notifications.messages && !notifications.messages[message_key]) {
-                                    notifications.messages[message_key] = {
-                                        title: `TornTools - New Message by ${message.name}`,
-                                        text: message.title,
-                                        url: links.messages,
-                                        seen: 0,
-                                        date: new Date()
-                                    }
-                                }
-                                message_count++;
-                            } else {
-                                break;
-                            }
-                        }
+							if (message.seen === 0) {
+								if (settings.notifications.global && settings.notifications.messages && !notifications.messages[message_key]) {
+									notifications.messages[message_key] = {
+										title: `TornTools - New Message by ${message.name}`,
+										text: message.title,
+										url: links.messages,
+										seen: 0,
+										date: new Date()
+									}
+								}
+								message_count++;
+							} else {
+								break;
+							}
+						}
 
-                        // Check for new events
-                        let event_count = 0;
-                        for (let event_key of Object.keys(userdata.events).reverse()) {
-                            let event = userdata.events[event_key];
+						// Check for new events
+						let event_count = 0;
+						for (let event_key of Object.keys(userdata.events).reverse()) {
+							let event = userdata.events[event_key];
 
                             if (event.seen === 0) {
                                 if (settings.notifications.global && settings.notifications.events && !notifications.events[event_key]) {
@@ -363,7 +364,7 @@ function Main_30_seconds() {
                         // Check for bars
                         if (settings.notifications.global) {
                             for (let bar of ["energy", "happy", "nerve", "life"]) {
-                                if (previous_userdata[bar] && settings.notifications[bar].length > 0) {
+								if (previous_userdata[bar] && settings.notifications[bar].length > 0) {
                                     let checkpoints = settings.notifications[bar].map(x => (typeof x === "string" && x.includes("%")) ? parseInt(x) / 100 * userdata[bar].maximum : parseInt(x)).sort(function (a, b) {
                                         return b - a
                                     });
@@ -379,8 +380,6 @@ function Main_30_seconds() {
                                                 date: new Date()
                                             };
                                             break;
-                                            // notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`, links.home);
-                                            // break;
                                         } else if (userdata[bar].current < checkpoint && notifications[bar][checkpoint]) {
                                             delete notifications[bar][checkpoint];
                                         }
@@ -595,15 +594,21 @@ async function Main_1_minute() {
 
     // travel markets
     console.log("Setting up Travel market info.");
-    await new Promise(async function (resolve) {
-        let response = await fetch("https://yata.alwaysdata.net/bazaar/abroad/export/");
-        let result = await response.json();
+	await new Promise(async function (resolve) {
+		fetchApi_v2('yata', { section: 'bazaar/abroad/export' })
+			.then(result => {
+				// console.log('travel market info', result);
+				ttStorage.set({ "travel_market": result.stocks }, function () {
+					console.log("	Travel market info set.");
+					return resolve();
+				});
 
-        ttStorage.set({"travel_market": result.stocks}, function () {
-            console.log("	Travel market info set.");
-            return resolve(true);
-        });
-    });
+			})
+			.catch(result => {
+				console.log('travel market fail', result);
+				return resolve();
+			})
+	});
 
     console.groupEnd();
 
@@ -665,6 +670,9 @@ async function Main_1_minute() {
 function Main_15_minutes() {
     ttStorage.get("api_key", async function (api_key) {
         console.group("Main (stocks | OC info | installed extensions)");
+function Main_15_minutes() {
+	ttStorage.get("api_key", async function (api_key) {
+		console.group("Main (stocks | OC info | installed extensions)");
 
         if (api_key === undefined) {
             console.log("NO API KEY");
@@ -904,25 +912,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
             initiateTasks();
 
-            console.log("Fetching initial info.");
-            Main_15_minutes();
+			// Update info about installed extensions
+			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 
-            setTimeout(function () {
-                exportData("basic").then(async export_result => {
-                    export_result = await export_result.json();
-                    sendResponse(export_result);
-                });
-            }, 17 * seconds);
-            break;
-        case "export_data":
-            exportData(request.type).then(async export_result => {
-                export_result = await export_result.json();
-                sendResponse(export_result);
-            });
-            break;
-        case "import_data":
-            importData();
-            sendResponse({success: true, message: "Import successful."});
+			// Clear API history
+			clearAPIhistory();
             break;
         case "fetch":
             if (request.type === "torndata") {
@@ -946,8 +940,8 @@ chrome.runtime.onUpdateAvailable.addListener(function (details) {
     ttStorage.set({
         "new_version": {
             "available": true,
-            "version": details.version
-        }
+            "version": details.version,
+        },
     });
 });
 

@@ -31,7 +31,7 @@ requireDatabase(false)
         for (let tab of doc.findAll("body>.header .page-tab")) {
             let name = tab.id.split("-")[0];
             tab.onclick = function () {
-                if(doc.find(`body>.header .page-tab.active-tab`).id.split("-")[0] !== name){
+                if (doc.find(`body>.header .page-tab.active-tab`).id.split("-")[0] !== name) {
                     loadPage(name);
                 }
             }
@@ -79,7 +79,7 @@ function loadPage(name) {
         "calculator": mainCalculator,
         "initialize": mainInitialize
     }
-    if(!initiated_pages[name]){
+    if (!initiated_pages[name]) {
         dict[name]();
         initiated_pages[name] = true;
     }
@@ -88,9 +88,9 @@ function loadPage(name) {
 function mainInfo() {
     updateInfo(settings);
 
-    for(let link of doc.findAll(".subpage#info .link")){
+    for (let link of doc.findAll(".subpage#info .link")) {
         link.onclick = function () {
-            chrome.tabs.create({url: link.getAttribute("href")});
+            chrome.tabs.create({ url: link.getAttribute("href") });
         }
     }
 
@@ -356,46 +356,44 @@ function mainMarket() {
     }
 
     function showMarketInfo(id, api_key) {
-        fetchApi(`https://api.torn.com/market/${id}?selections=bazaar,itemmarket`, api_key).then(function (data) {
-            if (!data.ok) {
-                doc.find(".error").style.display = "block";
-                doc.find(".error").innerText = data.error;
-                return;
-            }
+        // fetchApi(`https://api.torn.com/market/${id}?selections=bazaar,itemmarket`, api_key)
+        fetchApi_v2('torn', { section: 'market', objectid: id, selections: 'bazaar,itemmarket', apiKey: api_key })
+            .then(result => {
+                console.log("Getting Bazaar & Itemmarket info");
 
-            data = data.result;
+                let list = doc.find("#market-info");
+                list.style.display = "block";
+                list.innerHTML = "";
 
-            console.log("Getting Bazaar & Itemmarket info");
+                for (let type of Object.keys(result)) {
+                    let heading_div = doc.new("div");
+                    heading_div.setClass("heading");
+                    heading_div.innerText = capitalize(type);
 
-            let list = doc.find("#market-info");
-            list.style.display = "block";
-            list.innerHTML = "";
+                    list.appendChild(heading_div);
 
-            for (let type of Object.keys(data)) {
-                let heading_div = doc.new("div");
-                heading_div.setClass("heading");
-                heading_div.innerText = capitalize(type);
+                    if (result[type]) {
+                        for (let i = 0; i < 3; i++) {
+                            let price_div = doc.new("div");
+                            price_div.setClass("price");
+                            price_div.innerText = `${result[type][i].quantity}x | $${numberWithCommas(result[type][i].cost, false)}`;
 
-                list.appendChild(heading_div);
-
-                if (data[type]) {
-                    for (let i = 0; i < 3; i++) {
-                        let price_div = doc.new("div");
-                        price_div.setClass("price");
-                        price_div.innerText = `${data[type][i].quantity}x | $${numberWithCommas(data[type][i].cost, false)}`;
-
-                        list.appendChild(price_div);
+                            list.appendChild(price_div);
+                        }
+                    } else {
+                        list.appendChild(doc.new({
+                            type: "div",
+                            class: "price",
+                            text: "No price found.",
+                        }));
                     }
-                } else {
-                    list.appendChild(doc.new({
-                        type: "div",
-                        class: "price",
-                        text: "No price found.",
-                    }));
-                }
 
-            }
-        });
+                }
+            })
+            .catch(result => {
+                doc.find(".error").style.display = "block";
+                doc.find(".error").innerText = result;
+            })
     }
 }
 
@@ -415,7 +413,7 @@ function mainStocks() {
         let quantity = stock.shares;
         let total_profit = ((current_price - buy_price) * quantity).toFixed(0);
 
-        let div = doc.new({type: "div", class: "stock-item"});
+        let div = doc.new({ type: "div", class: "stock-item" });
         let hr = doc.new("hr");
         let heading = doc.new({
             type: "div",
@@ -430,15 +428,15 @@ function mainStocks() {
         heading.appendChild(quantity_span);
 
         heading.addEventListener("click", function () {
-            chrome.tabs.create({url: `https://www.torn.com/stockexchange.php?torntools_redirect=${name}`});
+            chrome.tabs.create({ url: `https://www.torn.com/stockexchange.php?torntools_redirect=${name}` });
         });
 
         // Stock info
-        let stock_info = doc.new({type: "div", class: "stock-info-heading", text: "Price info"});
-        let collapse_icon = doc.new({type: "i", class: "fas fa-chevron-down"});
+        let stock_info = doc.new({ type: "div", class: "stock-info-heading", text: "Price info" });
+        let collapse_icon = doc.new({ type: "i", class: "fas fa-chevron-down" });
         stock_info.appendChild(collapse_icon);
 
-        let stock_info_content = doc.new({type: "div", class: "content"});
+        let stock_info_content = doc.new({ type: "div", class: "content" });
         let CP_div = doc.new({
             type: "div",
             class: "stock-info",
@@ -454,7 +452,7 @@ function mainStocks() {
             class: "stock-info",
             text: `Quantity: ${numberWithCommas(quantity, false)}`
         });
-        let profit = doc.new({type: "div", class: "profit"});
+        let profit = doc.new({ type: "div", class: "profit" });
         if (total_profit > 0) {
             profit.classList.add("positive");
             profit.innerText = `+$${numberWithCommas(total_profit, false)}`;
@@ -475,12 +473,12 @@ function mainStocks() {
         if (torn_stocks[id].benefit) {
             benefit_description = torn_stocks[id].benefit.description;
             benefit_requirement = torn_stocks[id].benefit.requirement;
-            benefit_info = doc.new({type: "div", class: "benefit-info-heading", text: "Benefit info"});
-            let collapse_icon_2 = doc.new({type: "i", class: "fas fa-chevron-down"});
+            benefit_info = doc.new({ type: "div", class: "benefit-info-heading", text: "Benefit info" });
+            let collapse_icon_2 = doc.new({ type: "i", class: "fas fa-chevron-down" });
             benefit_info.appendChild(collapse_icon_2);
 
-            benefit_info_content = doc.new({type: "div", class: "content"});
-            let BD_div = doc.new({type: "div", text: benefit_description})
+            benefit_info_content = doc.new({ type: "div", class: "content" });
+            let BD_div = doc.new({ type: "div", text: benefit_description })
             quantity >= benefit_requirement ? BD_div.setClass("benefit-info desc complete") : BD_div.setClass("benefit-info desc incomplete");
             let BR_div = doc.new({
                 type: "div",
@@ -494,20 +492,20 @@ function mainStocks() {
 
 
         // Alerts
-        let alerts_wrap = doc.new({type: "div", class: "alerts-wrap"});
-        let alerts_heading = doc.new({type: "div", class: "alerts-heading", text: "Alerts"});
+        let alerts_wrap = doc.new({ type: "div", class: "alerts-wrap" });
+        let alerts_heading = doc.new({ type: "div", class: "alerts-heading", text: "Alerts" });
 
         let reach_alert = stock_alerts[id] ? stock_alerts[id].reach : "";
-        let input_wrap_reach = doc.new({type: "div", class: "alerts-input-wrap"});
-        let reach_text = doc.new({type: "div", class: "alerts-text", text: "Reaches"});
-        let reach_input = doc.new({type: "input", class: "alerts-input", value: reach_alert});
+        let input_wrap_reach = doc.new({ type: "div", class: "alerts-input-wrap" });
+        let reach_text = doc.new({ type: "div", class: "alerts-text", text: "Reaches" });
+        let reach_input = doc.new({ type: "input", class: "alerts-input", value: reach_alert });
         input_wrap_reach.appendChild(reach_text);
         input_wrap_reach.appendChild(reach_input);
 
         let fall_alert = stock_alerts[id] ? stock_alerts[id].fall : "";
-        let input_wrap_fall = doc.new({type: "div", class: "alerts-input-wrap"});
-        let fall_text = doc.new({type: "div", class: "alerts-text", text: "Falls to"});
-        let fall_input = doc.new({type: "input", class: "alerts-input", value: fall_alert});
+        let input_wrap_fall = doc.new({ type: "div", class: "alerts-input-wrap" });
+        let fall_text = doc.new({ type: "div", class: "alerts-text", text: "Falls to" });
+        let fall_input = doc.new({ type: "input", class: "alerts-input", value: fall_alert });
         input_wrap_fall.appendChild(fall_text);
         input_wrap_fall.appendChild(fall_input);
 
@@ -590,31 +588,31 @@ function mainStocks() {
         let div = doc.new({
             type: "div",
             class: "stock-item",
-            attributes: {name: `${name.toLowerCase()} (${stock.acronym.toLowerCase()})`}
+            attributes: { name: `${name.toLowerCase()} (${stock.acronym.toLowerCase()})` }
         });
         let hr = doc.new("hr");
-        let heading = doc.new({type: "div", class: "heading", text: name});  // use acronym if name is too long
+        let heading = doc.new({ type: "div", class: "heading", text: name });  // use acronym if name is too long
 
         heading.addEventListener("click", function () {
-            chrome.tabs.create({url: `https://www.torn.com/stockexchange.php?torntools_redirect=${name}`});
+            chrome.tabs.create({ url: `https://www.torn.com/stockexchange.php?torntools_redirect=${name}` });
         });
 
         // Stock info
-        let stock_info = doc.new({type: "div", class: "stock-info-heading", text: "Price info"});
-        let collapse_icon = doc.new({type: "i", class: "fas fa-chevron-down"});
+        let stock_info = doc.new({ type: "div", class: "stock-info-heading", text: "Price info" });
+        let collapse_icon = doc.new({ type: "i", class: "fas fa-chevron-down" });
         stock_info.appendChild(collapse_icon);
 
-        let stock_info_content = doc.new({type: "div", class: "content"});
+        let stock_info_content = doc.new({ type: "div", class: "content" });
         let CP_div = doc.new({
             type: "div",
             class: "stock-info",
-            text: `Current price: $${numberWithCommas(current_price,false)}`
+            text: `Current price: $${numberWithCommas(current_price, false)}`
         });
         let Q_div = doc.new({
             type: "div",
             class: "stock-info",
             text: `Available shares: ${numberWithCommas(torn_stocks[id].available_shares, false)}`,
-            attributes: {style: "margin-bottom: 20px;"}
+            attributes: { style: "margin-bottom: 20px;" }
         })
         stock_info_content.appendChild(CP_div);
         stock_info_content.appendChild(Q_div);
@@ -626,12 +624,12 @@ function mainStocks() {
             benefit_description = torn_stocks[id].benefit.description;
             benefit_requirement = torn_stocks[id].benefit.requirement;
 
-            benefit_info = doc.new({type: "div", class: "benefit-info-heading", text: "Benefit info"});
-            let collapse_icon_2 = doc.new({type: "i", class: "fas fa-chevron-down"});
+            benefit_info = doc.new({ type: "div", class: "benefit-info-heading", text: "Benefit info" });
+            let collapse_icon_2 = doc.new({ type: "i", class: "fas fa-chevron-down" });
             benefit_info.appendChild(collapse_icon_2);
 
-            benefit_info_content = doc.new({type: "div", class: "content"});
-            let BD_div = doc.new({type: "div", text: benefit_description})
+            benefit_info_content = doc.new({ type: "div", class: "content" });
+            let BD_div = doc.new({ type: "div", text: benefit_description })
             let BR_div = doc.new({
                 type: "div",
                 class: "benefit-info",
@@ -644,20 +642,20 @@ function mainStocks() {
 
 
         // Alerts
-        let alerts_wrap = doc.new({type: "div", class: "alerts-wrap"});
-        let alerts_heading = doc.new({type: "div", class: "alerts-heading", text: "Alerts"});
+        let alerts_wrap = doc.new({ type: "div", class: "alerts-wrap" });
+        let alerts_heading = doc.new({ type: "div", class: "alerts-heading", text: "Alerts" });
 
         let reach_alert = stock_alerts[id] ? stock_alerts[id].reach : "";
-        let input_wrap_reach = doc.new({type: "div", class: "alerts-input-wrap"});
-        let reach_text = doc.new({type: "div", class: "alerts-text", text: "Reaches"});
-        let reach_input = doc.new({type: "input", class: "alerts-input", value: reach_alert});
+        let input_wrap_reach = doc.new({ type: "div", class: "alerts-input-wrap" });
+        let reach_text = doc.new({ type: "div", class: "alerts-text", text: "Reaches" });
+        let reach_input = doc.new({ type: "input", class: "alerts-input", value: reach_alert });
         input_wrap_reach.appendChild(reach_text);
         input_wrap_reach.appendChild(reach_input);
 
         let fall_alert = stock_alerts[id] ? stock_alerts[id].fall : "";
-        let input_wrap_fall = doc.new({type: "div", class: "alerts-input-wrap"});
-        let fall_text = doc.new({type: "div", class: "alerts-text", text: "Falls to"});
-        let fall_input = doc.new({type: "input", class: "alerts-input", value: fall_alert});
+        let input_wrap_fall = doc.new({ type: "div", class: "alerts-input-wrap" });
+        let fall_text = doc.new({ type: "div", class: "alerts-text", text: "Falls to" });
+        let fall_input = doc.new({ type: "input", class: "alerts-input", value: fall_alert });
         input_wrap_fall.appendChild(fall_text);
         input_wrap_fall.appendChild(fall_input);
 
@@ -857,7 +855,7 @@ function mainInitialize() {
     doc.find("#set-button").onclick = function () {
         api_key = doc.find("#api-field").value;
 
-        ttStorage.set({"api_key": api_key}, function () {
+        ttStorage.set({ "api_key": api_key }, function () {
             console.log("API key set");
 
             doc.find("h3").innerText = "Loading..";
@@ -865,7 +863,7 @@ function mainInitialize() {
             doc.find("input").style.display = "none";
             doc.find("button").style.display = "none";
 
-            chrome.runtime.sendMessage({action: "initialize"}, function (response) {
+            chrome.runtime.sendMessage({ action: "initialize" }, function (response) {
                 console.log(response.message);
                 doc.find("h3").innerText = response.message;
                 doc.find("p").innerText = "(you may close this window)";
