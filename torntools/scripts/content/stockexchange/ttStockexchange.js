@@ -134,7 +134,7 @@ function showInformation() {
         }
 
         let loaded = false;
-        stock.firstElementChild.addEventListener("click", async (event) => {
+        stock.firstElementChild.addEventListener("click", async () => {
             if (loaded) return;
 
             await stockProfileLoaded();
@@ -347,7 +347,7 @@ function addFilter(filters) {
 function stockProfileLoaded() {
     return new Promise((resolve) => {
         let checker = setInterval(function () {
-            if (doc.find(".item-wrap .stock-list .profile-wrap[style*='display: block;'] .tabs-title")) {
+            if (doc.find(".item-wrap .stock-list .profile-wrap[style*='display: block;'] .tabs-title, .item .acc-body[style*='display: block;'] .tabs-title")) {
                 resolve(true);
                 return clearInterval(checker);
             }
