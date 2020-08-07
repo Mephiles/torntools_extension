@@ -1171,122 +1171,121 @@ function clearAPIhistory() {
     });
 }
 
-function exportData(type) {
-    return new Promise(function (resolve) {
-        console.log("Exporting DATA:", type);
-        ttStorage.get(null, async function (database) {
-            let post_data;
+// function exportData(type){
+// 	return new Promise(function(resolve, reject){
+// 		console.log("Exporting DATA:", type);
+// 		ttStorage.get(null, async function(database){
+// 			let post_data;
 
-            switch (type) {
-                case "basic":
-                    post_data = {
-                        id: database.userdata.player_id.toString(),
-                        name: database.userdata.name,
-                        role: database.userdata.role,
-                        client: {
-                            version: chrome.runtime.getManifest().version,
-                            disk_space: await (function () {
-                                return new Promise(function (resolve) {
-                                    if (chrome.storage.local.getBytesInUse) {
-                                        chrome.storage.local.getBytesInUse(function (data) {
-                                            return resolve(data.toString());
-                                        });
-                                    } else {
-                                        return resolve("N/A");
-                                    }
-                                });
-                            })()
-                        }
-                    }
-                    break;
-                case "storage":
-                    post_data = {
-                        id: database.userdata.player_id.toString(),
-                        storage: {
-                            allies: database.allies,
-                            custom_links: database.custom_links,
-                            chat_highlight: database.chat_highlight,
-                            hide_icons: database.hide_icons,
-                            quick: database.quick,
-                            settings: database.settings
-                        }
-                    }
-                    break;
-                case "all":
-                    post_data = {
-                        id: database.userdata.player_id.toString(),
-                        name: database.userdata.name,
-                        role: database.userdata.role,
-                        client: {
-                            version: chrome.runtime.getManifest().version,
-                            disk_space: await (function () {
-                                return new Promise(function (resolve) {
-                                    if (chrome.storage.local.getBytesInUse) {
-                                        chrome.storage.local.getBytesInUse(function (data) {
-                                            return resolve(data.toString());
-                                        });
-                                    } else {
-                                        return resolve("N/A");
-                                    }
-                                });
-                            })()
-                        },
-                        storage: {
-                            allies: database.allies,
-                            custom_links: database.custom_links,
-                            chat_highlight: database.chat_highlight,
-                            hide_icons: database.hide_icons,
-                            quick: database.quick,
-                            settings: database.settings
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
+// 			switch(type){
+// 				case "basic":
+// 					post_data = {
+// 						id: database.userdata.player_id.toString(),
+// 						name: database.userdata.name,
+// 						role: database.userdata.role,
+// 						client: {
+// 							version: chrome.runtime.getManifest().version,
+// 							disk_space: await (function(){
+// 								return new Promise(function(resolve, reject){
+// 									if(chrome.storage.local.getBytesInUse){
+// 										chrome.storage.local.getBytesInUse(function(data){
+// 											return resolve(data.toString());
+// 										});
+// 									} else {
+// 										return resolve("N/A");
+// 									}
+// 								});
+// 							})()
+// 						}
+// 					}
+// 					break;
+// 				case "storage":
+// 					post_data = {
+// 						id: database.userdata.player_id.toString(),
+// 						storage: {
+// 							allies: database.allies,
+// 							custom_links: database.custom_links,
+// 							chat_highlight: database.chat_highlight,
+// 							hide_icons: database.hide_icons,
+// 							quick: database.quick,
+// 							settings: database.settings
+// 						}
+// 					}
+// 					break;
+// 				case "all":
+// 					post_data = {
+// 						id: database.userdata.player_id.toString(),
+// 						name: database.userdata.name,
+// 						role: database.userdata.role,
+// 						client: {
+// 							version: chrome.runtime.getManifest().version,
+// 							disk_space: await (function(){
+// 								return new Promise(function(resolve, reject){
+// 									if(chrome.storage.local.getBytesInUse){
+// 										chrome.storage.local.getBytesInUse(function(data){
+// 											return resolve(data.toString());
+// 										});
+// 									} else {
+// 										return resolve("N/A");
+// 									}
+// 								});
+// 							})()
+// 						},
+// 						storage: {
+// 							allies: database.allies,
+// 							custom_links: database.custom_links,
+// 							chat_highlight: database.chat_highlight,
+// 							hide_icons: database.hide_icons,
+// 							quick: database.quick,
+// 							settings: database.settings
+// 						}
+// 					}
+// 				default:
+// 					break;
+// 			}
 
-            console.log("data", post_data);
-            fetch(`https://torntools.gregork.com/api/settings/export`, {
-                method: "POST",
-                headers: {"content-type": "application/json"},
-                body: JSON.stringify(post_data)
-            }).then(response => {
-                console.log("RESPONSE", response);
-                return resolve(response);
-            });
-        });
-    });
-}
+// 			console.log("data", post_data);
+// 			fetch(`https://torntools.gregork.com/api/settings/export`, {
+// 				method: "POST",
+// 				headers: {"content-type": "application/json"},
+// 				body: JSON.stringify(post_data)
+// 			}).then(response => {
+// 				console.log("RESPONSE", response);
+// 				return resolve(response);
+// 			});
+// 		});
+// 	});
+// }
 
-function importData() {
-    return new Promise(function (resolve) {
-        console.log("Importing DATA");
-        fetch(`https://torntools.gregork.com/api/settings/import/${userdata.player_id}`)
-            .then(async function (response) {
-                let result = await response.json();
-                console.log("result", result);
+// function importData(){
+// 	return new Promise(function(resolve, reject){
+// 		console.log("Importing DATA");
+// 		fetch(`https://torntools.gregork.com/api/settings/import/${userdata.player_id}`)
+// 		.then(async function(response){
+// 			let result = await response.json();
+// 			console.log("result", result);
 
-                if (!result.success) return resolve(result);
-                result = result.data;
+// 			if(!result.success) return resolve(result);
+// 			result = result.data;
 
-                // Set storage
-                for (let key in result.storage) {
-                    await new Promise(function (resolve) {
-                        ttStorage.set({[key]: result.storage[key]}, function () {
-                            console.log(`${key} imported.`);
-                            return resolve(true);
-                        });
-                    });
-                }
+// 			// Set storage
+// 			for(let key in result.storage){
+// 				await new Promise(function(resolve, reject){
+// 					ttStorage.set({[key]: result.storage[key]}, function(){
+// 						console.log(`${key} imported.`);
+// 						return resolve(true);
+// 					});
+// 				});
+// 			}
 
-                resolve(result);
+// 			resolve(result);
 
-                // Export if versions don't match
-                if (result.client.version !== chrome.runtime.getManifest().version) {
-                    console.log("Versions don't match. Exporting data.");
-                    let export_result = await exportData("all");
-                    console.log("Export result:", export_result.success ? 'success' : export_result.message);
-                }
-            });
-    });
-}
+// 			// Export if versions don't match
+// 			if(result.client.version != chrome.runtime.getManifest().version){
+// 				console.log("Versions don't match. Exporting data.");
+// 				let export_result = await exportData("all");
+// 				console.log("Export result:", export_result.success? 'success' : export_result.message);
+// 			}
+// 		});
+// 	});
+// }

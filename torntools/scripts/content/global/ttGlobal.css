@@ -114,7 +114,7 @@
 }
 
 .tt-black-overlay {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -129,6 +129,34 @@
 .tt-highlight-sector {
     position: relative;
     z-index: 999999999;
+}
+.tt-confirmation-popup {
+    width: 50%;
+    height: fit-content;
+    left: 25%;
+    padding-bottom: 5px;
+    top: 20%;
+    position: fixed;
+    display: none;
+    background-color: white;
+    border-radius: 10px;
+    z-index: 99999;
+}
+.tt-confirmation-popup.active {
+    display: block;
+}
+.tt-confirmation-popup .title {
+    font-weight: 600;
+    width: calc(100% - 20px);
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 1px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+.tt-confirmation-popup .message {
+    min-height: 200px;
+    margin: 5px 10px;
+    border-bottom: 1px solid lightgray;
 }
 
 .tt-torn-button {
@@ -255,6 +283,10 @@
 }
 .overview_1MoPG .message_oP8oM * {
     font-size: var(--torntools-chat-font-size) !important;
+}
+
+body.tt-unscrollable {
+    overflow-y: hidden !important;
 }
 
 /* mobile */

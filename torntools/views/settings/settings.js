@@ -1,54 +1,41 @@
 import changelog from "../../changelog.js";
 
 var version;
+var initiated_pages = {}
 
-window.addEventListener("load", function () {
-    requireDatabase(false).then(function () {
+// preferences.find("#reset_settings").addEventListener("click", function () {
+//     ttStorage.reset();
+//     message("Settings reset.", true);
+// });
+
+requireDatabase(false)
+    .then(() => {
         console.log("Start Settings");
         version = chrome.runtime.getManifest().version;
 
         console.log("Database", DB);
 
-        // About info
-        doc.find("#about #version span").innerText = `v${version}`;
-        if (chrome.storage.local.getBytesInUse) {
-            chrome.storage.local.getBytesInUse(function (data) {
-                doc.find("#about #data-used span").innerText = formatBytes(data);
-            });
-        } else {
-            setTimeout(() => doc.find("#about #data-used span").innerText = formatBytes(JSON.stringify(DB).length), 0);
+        ttStorage.set({ "updated": false });
+
+        // Navigation bar
+        for (let site of [...doc.findAll(".navbar .site")]) {
+            site.onclick = (event) => {
+                doc.find(`.navbar .site.active`).classList.remove("active");
+                doc.find(`.container.active`).classList.remove("active");
+
+                doc.find(`.navbar .site#${event.target.id}`).classList.add("active");
+                doc.find(`.container#${event.target.id.replace("-link", "").replace("_", "-")}`).classList.add("active");
+            }
         }
 
-        // setup site
-        setupSite();
+        let init_page = getSearchParameters().get("page") || "changelog";
+        loadPage(init_page);
 
-        // set "update" to false
-        ttStorage.set({"updated": false});
-
-        // Content
-        setupChangelog();
-
-        // Preferences
-        setupPreferences();
-
-        // Target list
-        setupTargetList(target_list.targets);
-        setupValueChanger();
-
-        // Fill in API key
-        doc.find("#api_field").value = api_key;
-        setupApiStatistics();
-
-        // Set new version text
-        if (new_version.available) {
-            doc.find("#about #new-version span").innerText = new_version.version;
-        } else {
-            doc.find("#about #new-version").style.display = "none";
-        }
-
-        // Allow notifications text
-        if (Notification.permission != "granted") {
-            doc.find("#allow_notifications").parentElement.classList.remove("hidden");
+        for (let link of doc.findAll(".navbar>.site")) {
+            let name = link.id.split("-")[0];
+            link.onclick = function () {
+                loadPage(name);
+            };
         }
 
         // Buttons
@@ -85,42 +72,56 @@ window.addEventListener("load", function () {
             });
         }
         doc.find("#fetch_torndata").onclick = function () {
-            chrome.runtime.sendMessage({action: "fetch", type: "torndata"}, function (response) {
+            chrome.runtime.sendMessage({ action: "fetch", type: "torndata" }, function (response) {
                 message(response.message, response.success);
             });
         }
-
-        // Export data
-        chrome.runtime.sendMessage({action: "export_data", type: "basic"}, function (response) {
-            message(response.message, response.success);
+        doc.find("#save_settings").addEventListener("click", function () {
+            savePreferences(preferences, settings, target_list.show);
         });
-    });
-});
+    })
+    .catch(() => {
+        loadConfirmationPopup({
+            title: 'API key',
+            message: `### You have not initialized the App by providing your API key
+Please enter your API key via opening the Extension popup.  
+Clicking either 'Cancel' or 'Confirm' will reload the page.
+            `,
+        })
+            .then(() => {
+                location.reload();
+            })
+            .catch(() => {
+                location.reload();
+            })
+    })
 
-function setupSite() {
-    // Navigation bar
-    for (let site of [...doc.findAll(".navbar .site")]) {
-        site.addEventListener("click", function (event) {
-            doc.find(`.navbar .site.active`).classList.remove("active");
-            doc.find(`.container.active`).classList.remove("active");
+function loadPage(name) {
+    console.log("Loading page:", name);
 
-            doc.find(`.navbar .site#${event.target.id}`).classList.add("active");
-            doc.find(`.container#${event.target.id.replace("-link", "").replace("_", "-")}`).classList.add("active");
-        });
+    // URL
+    window.history.replaceState("", "Title", "?page=" + name);
+
+    // Header
+    if (doc.find(".navbar .site.active")) doc.find(".navbar .site.active").classList.remove("active");
+    doc.find(`.navbar #${name}-link.site`).classList.add("active");
+
+    // Page itself
+    if (doc.find(".subpage.active")) doc.find(".subpage.active").classList.remove("active");
+    doc.find(`.subpage#${name}`).classList.add("active");
+
+    // Run page script
+    let dict = {
+        "changelog": setupChangelog,
+        "preferences": setupPreferences,
+        "target_list": targetList,
+        "api_info": apiInfo,
+        "server": server,
+        "about": about
     }
-
-    // Icons
-    let icons_parent = doc.find("#preferences #icons");
-    for (let i = 1; i < 81; i++) {
-        let outer_div = doc.new({type: "div", class: `icon`})
-        let inner_div = doc.new({type: "div", class: `icon${i}`});
-
-        outer_div.appendChild(inner_div);
-        icons_parent.appendChild(outer_div);
-
-        outer_div.addEventListener("click", function () {
-            outer_div.classList.toggle("disabled");
-        });
+    if (!(name in initiated_pages) || !initiated_pages[name]) {
+        dict[name]();
+        initiated_pages[name] = true;
     }
 }
 
@@ -131,12 +132,12 @@ function setupChangelog() {
         let sub_ver = ver.split(" - ")[1] ? " - " + ver.split(" - ")[1] : "";
         ver = ver.split(" - ")[0];
 
-        let div = doc.new({type: "div", class: "parent"});
+        let div = doc.new({ type: "div", class: "parent" });
 
         // Heading
-        let heading = doc.new({type: "div", class: "heading", text: ver});
-        let span = doc.new({type: "span", text: sub_ver});
-        let icon = doc.new({type: "i", class: "fas fa-chevron-down"});
+        let heading = doc.new({ type: "div", class: "heading", text: ver });
+        let span = doc.new({ type: "span", text: sub_ver });
+        let icon = doc.new({ type: "i", class: "fas fa-chevron-down" });
         heading.appendChild(span);
         heading.appendChild(icon);
 
@@ -193,8 +194,8 @@ function setupChangelog() {
                                     _item = _item.slice(0, _item.indexOf(" - Mephiles"));
                                 }
 
-                                let _item_div = doc.new({type: "div", class: `child ${contributor}`});
-                                let _item_span = doc.new({type: "span", text: _item});
+                                let _item_div = doc.new({ type: "div", class: `child ${contributor}` });
+                                let _item_span = doc.new({ type: "span", text: _item });
                                 _item_div.appendChild(_item_span);
                                 _div.appendChild(_item_div);
                             }
@@ -276,6 +277,10 @@ function setupPreferences() {
                 if (option === "global" && optionDiv.classList.contains("heading")) {
                     optionDiv.find("input").addEventListener("click", function (event) {
                         let disabledGlobal = !event.target.checked;
+            // Global option for pages. Disabled all options if global is disabled
+            if (option === "global" && optionDiv.classList.contains("heading")) {
+                optionDiv.find("input").addEventListener("click", function (event) {
+                    let disabledGlobal = !event.target.checked;
 
                         for (let option in settings[type][page]) {
                             if (option === "global") continue;
@@ -289,6 +294,13 @@ function setupPreferences() {
                 } else if (option !== "global" && has_global_disabled) {
                     optionDiv.find("input, select").setAttribute("disabled", true);
                 }
+                        if (disabledGlobal) inp.setAttribute("disabled", true);
+                        else inp.removeAttribute("disabled");
+                    }
+                });
+            } else if (option !== "global" && has_global_disabled) {
+                optionDiv.find("input, select").setAttribute("disabled", true);
+            }
 
                 if (optionDiv.find("input[type='checkbox']")) optionDiv.find("input[type='checkbox']").checked = settings[type][page][option];
                 else if (optionDiv.find("input")) optionDiv.find("input").value = settings[type][page][option];
@@ -312,10 +324,10 @@ function setupPreferences() {
             break;
         }
 
-        let row = doc.new({type: "div", class: "row"});
-        let text_input = doc.new({type: "input", class: "text", value: ally});
-        let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
-        let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+        let row = doc.new({ type: "div", class: "row" });
+        let text_input = doc.new({ type: "input", class: "text", value: ally });
+        let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+        let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
         remove_icon.addEventListener("click", function (event) {
             event.target.parentElement.parentElement.remove();
@@ -335,12 +347,12 @@ function setupPreferences() {
 
     // Custom links
     for (let link of custom_links) {
-        let row = doc.new({type: "div", class: "row"});
-        let new_tab_input = doc.new({type: "input", class: "new_tab", attributes: {type: "checkbox"}});
-        let name_input = doc.new({type: "input", class: "text name", value: link.text});
-        let href_input = doc.new({type: "input", class: "text href", value: link.href});
-        let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
-        let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+        let row = doc.new({ type: "div", class: "row" });
+        let new_tab_input = doc.new({ type: "input", class: "new_tab", attributes: { type: "checkbox" } });
+        let name_input = doc.new({ type: "input", class: "text name", value: link.text });
+        let href_input = doc.new({ type: "input", class: "text href", value: link.href });
+        let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+        let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
         remove_icon.addEventListener("click", function (event) {
             event.target.parentElement.parentElement.remove();
@@ -366,16 +378,16 @@ function setupPreferences() {
 
     // Chat highlights
     for (let name in chat_highlight) {
-        let row = doc.new({type: "div", class: "row"});
-        let name_input = doc.new({type: "input", class: "text name", value: name});
+        let row = doc.new({ type: "div", class: "row" });
+        let name_input = doc.new({ type: "input", class: "text name", value: name });
         let color_input = doc.new({
             type: "input",
             class: "text color",
             value: chat_highlight[name],
-            attributes: {type: "color"}
+            attributes: { type: "color" }
         });
-        let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
-        let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+        let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+        let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
         remove_icon.addEventListener("click", function (event) {
             event.target.parentElement.parentElement.remove();
@@ -404,25 +416,25 @@ function setupPreferences() {
 
     // Loot alerts
     for (let npc_id in loot_times) {
-        let row = doc.new({type: "div", class: "row"});
+        let row = doc.new({ type: "div", class: "row" });
         let name_input = doc.new({
             type: "input",
             class: "text name",
             value: loot_times[npc_id].name,
-            attributes: {disabled: true}
+            attributes: { disabled: true }
         });
         let level_input = doc.new({
             type: "input",
             class: "text level",
             value: (loot_alerts[npc_id] ? loot_alerts[npc_id].level : ""),
-            attributes: {placeholder: "level.."}
+            attributes: { placeholder: "level.." }
         });
         let time_input = doc.new({
             type: "input",
             class: "text time",
             id: `npc-${npc_id}`,
             value: (loot_alerts[npc_id] ? loot_alerts[npc_id].time : ""),
-            attributes: {placeholder: "minutes.."}
+            attributes: { placeholder: "minutes.." }
         });
 
         row.appendChild(name_input);
@@ -465,6 +477,19 @@ function setupPreferences() {
     })
 
     // Icons
+    let icons_parent = doc.find("#preferences #icons");
+    for (let i = 1; i < 81; i++) {
+        let outer_div = doc.new({ type: "div", class: `icon` })
+        let inner_div = doc.new({ type: "div", class: `icon${i}` });
+
+        outer_div.appendChild(inner_div);
+        icons_parent.appendChild(outer_div);
+
+        outer_div.addEventListener("click", function () {
+            outer_div.classList.toggle("disabled");
+        });
+    }
+
     for (let icon of hide_icons) {
         preferences.find(`.${icon}`).parentElement.classList.add("disabled");
     }
@@ -497,11 +522,11 @@ function setupPreferences() {
 
     // Filters (Faction)
     for (let faction of filters.preset_data.factions.data) {
-        let row = doc.new({type: "div", class: "row"});
-        let radio_input = doc.new({type: "input", attributes: {type: "radio", name: "filter-faction", value: faction}});
-        let name_input = doc.new({type: "input", class: "text name", value: faction});
-        let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
-        let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+        let row = doc.new({ type: "div", class: "row" });
+        let radio_input = doc.new({ type: "input", attributes: { type: "radio", name: "filter-faction", value: faction } });
+        let name_input = doc.new({ type: "input", class: "text name", value: faction });
+        let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+        let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
         remove_icon.addEventListener("click", function (event) {
             event.target.parentElement.parentElement.remove();
@@ -521,22 +546,6 @@ function setupPreferences() {
     }
     if (filters.preset_data.factions.default) preferences.find(`#filter-factions input[value='${filters.preset_data.factions.default}']`).checked = true;
 
-    // Buttons
-    preferences.find("#save_settings").addEventListener("click", function () {
-        savePreferences(preferences, settings, target_list.show);
-    });
-    preferences.find("#reset_settings").addEventListener("click", function () {
-        ttStorage.reset();
-        message("Settings reset.", true);
-    });
-    preferences.find("#import_settings").addEventListener("click", function () {
-        // Export settings
-        chrome.runtime.sendMessage({action: "import_data"}, function (response) {
-            console.log(response.message);
-        });
-        message("Settings imported (refresh to see).", true);
-    });
-
     // changing subsite
     for (let link of preferences.findAll(".navigation>div:not(.heading)")) {
         link.onclick = function () {
@@ -548,6 +557,299 @@ function setupPreferences() {
         }
     }
 }
+
+function targetList() {
+    setupValueChanger();
+
+    target_list = target_list.targets;
+
+    let table = doc.find("#target_list .table");
+    let header = table.find(".header");
+    let body = table.find(".body");
+
+    let headings = [
+        { name: "id", text: "ID", type: "neutral" },
+        { name: "win", type: "good" },
+        { name: "mug", type: "good" },
+        { name: "leave", type: "good" },
+        { name: "hosp", type: "good" },
+        { name: "arrest", type: "good" },
+        { name: "special", type: "good" },
+        { name: "assist", type: "good" },
+        { name: "defend", type: "good" },
+        { name: "lose", text: "Losses", type: "bad" },
+        { name: "defend_lose", text: "Defends lost", type: "bad" },
+        { name: "stalemate", type: "bad" },
+        { name: "stealth", type: "neutral" },
+        { name: "respect", text: "Respect", type: "neutral" },
+    ]
+
+    // Header row
+    let type;
+    for (let heading of headings) {
+        let div = doc.new("div");
+        div.setAttribute("name", heading.name);
+
+        if ((!type || type != heading.type) && heading.name != "id") {
+            div.setClass(`new-section ${heading.type}`);
+        } else {
+            div.setClass(heading.type);
+        }
+
+        if (heading.text) {
+            div.innerText = heading.text;
+        } else {
+            div.innerText = capitalize(heading.name) + "s";
+        }
+
+        // Sorting icon
+        if (heading.name == "id") {
+            let icon = doc.new("i");
+            icon.setClass("fas fa-caret-up");
+            div.appendChild(icon);
+        }
+
+        type = heading.type;
+        header.appendChild(div);
+
+        div.addEventListener("click", function () {
+            sort(table, headings.indexOf(heading) + 1, "value");
+        });
+    }
+
+    // Body
+    for (let id in target_list) {
+        if (id == "date")
+            continue;
+
+        type = undefined;
+        let row = doc.new("div");
+        row.setClass("row");
+
+        for (let heading of headings) {
+            let item = doc.new("div");
+
+            if ((!type || type != heading.type) && heading.name != "id") {
+                item.setClass(`new-section ${heading.type}`);
+            } else {
+                item.setClass(heading.type);
+            }
+
+            if (heading.name == "id") {
+                item.innerText = id;
+                item.setAttribute("value", id);
+            } else if (heading.name == "respect") {
+                let respect_type = getRespectType(target_list[id]);
+
+                let leaves = target_list[id][respect_type]["leave"].length > 0 ? true : false;
+
+                if (leaves) {
+                    item.innerText = getAverage(target_list[id][respect_type]["leave"]);
+                    item.setAttribute("value", item.innerText);
+                } else {
+                    let averages = [];
+
+                    for (let list in target_list[id][respect_type]) {
+                        let avrg = getAverage(target_list[id][respect_type][list]);
+
+                        if (avrg != 0) {
+                            averages.push(avrg);
+                        }
+                    }
+
+                    item.innerText = getAverage(averages);
+                    item.setAttribute("value", item.innerText);
+                }
+
+                if (item.innerText == "0") {
+                    item.setAttribute("value", "-");
+                    item.innerText = "-";
+                    item.setAttribute("priority", "4");
+                } else if (respect_type == "respect") {
+                    item.innerText = item.innerText + "*";
+                    item.setAttribute("priority", "3");
+                } else if (respect_type == "respect_base") {
+                    if (leaves) {
+                        item.style.backgroundColor = "#dfffdf";
+                        item.setAttribute("priority", "1");
+                    } else {
+                        item.style.backgroundColor = "#fffdcc";
+                        item.setAttribute("priority", "2");
+                    }
+                }
+            } else {
+                item.innerText = target_list[id][heading.name];
+                item.setAttribute("value", target_list[id][heading.name]);
+            }
+
+            // Percentage values
+            if (["mug", "leave", "hosp", "arrest", "special", "assist", "stealth"].includes(heading.name)) {
+                let value = target_list[id][heading.name];
+                let percentage = (value / target_list[id]["win"] * 100).toFixed();
+                percentage = isNaN(percentage) || percentage == Infinity ? 0 : percentage;
+
+                // item.setAttribute("value", value);
+                item.setAttribute("percentage", percentage);
+            }
+
+            // Finish
+            type = heading.type;
+            row.appendChild(item);
+        }
+
+        body.appendChild(row);
+    }
+
+    function getRespectType(enemy) {
+        let type = "respect";
+
+        for (let list in enemy.respect_base) {
+            if (enemy.respect_base[list].length > 0) {
+                type = "respect_base";
+                break;
+            }
+        }
+
+        return type;
+    }
+
+    function getAverage(arr) {
+        if (arr.length == 0)
+            return 0;
+
+        let sum = 0;
+        for (let item of arr) {
+            sum += item;
+        }
+        return parseFloat((sum / arr.length).toFixed(2));
+    }
+}
+
+function apiInfo() {
+    // Fill in API key
+    doc.find("#api_field").value = api_key;
+    setupApiStatistics();
+
+    // Set new version text
+    if (new_version.available) {
+        doc.find("#about #new-version span").innerText = new_version.version;
+    } else {
+        doc.find("#about #new-version").style.display = "none";
+    }
+
+    // Allow notifications text
+    if (Notification.permission != "granted") {
+        doc.find("#allow_notifications").parentElement.classList.remove("hidden");
+    }
+}
+
+function server() {
+    loadingPlaceholder(doc.find("#server #tt_server_user_info"), true);
+
+    fetch(`https://torntools.gregork.com/api/${userdata.player_id}/mydata`)
+        .then(async response => {
+            let result = await response.json();
+            console.log("result", result);
+
+            loadingPlaceholder(doc.find("#server #tt_server_user_info"), false);
+
+            let pre;
+            if (result.data) {
+                let [day, month, year, hours, minutes, seconds] = dateParts(new Date(result.data.date));
+                doc.find("#server #tt_server_user_info+.date span").innerText = formatDate([day, month, year], settings.format.date);
+                delete result.data.date;
+
+                pre = JSON.stringify(result.data, null, 2);
+            } else pre = JSON.stringify(result, null, 2);
+
+            doc.find("#server #tt_server_user_info").innerText = pre;
+
+            doc.find("#server_export").onclick = () => {
+                loadConfirmationPopup({
+                    title: 'Export',
+                    message: `### Following information about you will be exported:
+- Player ID
+- Player Username
+- Client version
+- Client database size
+- Database
+    - vault
+    - stock alerts
+    - loot alerts
+    - allies
+    - custom links
+    - chat highlight
+    - hidden icons
+    - quick items & crimes
+    - notes
+    - filter settings
+    - sorting settings
+    - watchlist
+    - preferences
+                    `,
+                })
+                    .then(() => {
+                        exportData();
+                    })
+                    .catch(() => { })
+            }
+
+            doc.find("#server_import").onclick = () => {
+                importData();
+            }
+
+            doc.find("#server_clear").onclick = () => {
+                loadConfirmationPopup({
+                    title: 'Clear Data',
+                    message: `### Are you sure you want to Delete following data from the remote server?
+- Player ID
+- Player Username
+- Client version
+- Client database size
+- Database
+    - vault
+    - stock alerts
+    - loot alerts
+    - allies
+    - custom links
+    - chat highlight
+    - hidden icons
+    - quick items & crimes
+    - notes
+    - filter settings
+    - sorting settings
+    - watchlist
+    - preferences
+            `,
+                })
+                    .then(() => {
+                        clearRemoteData();
+                    })
+                    .catch(() => { })
+            }
+        });
+}
+
+function about() {
+    // About info
+    doc.find("#about #version span").innerText = `v${version}`;
+    if (chrome.storage.local.getBytesInUse) {
+        chrome.storage.local.getBytesInUse(function (data) {
+            doc.find("#about #data-used span").innerText = formatBytes(data);
+        });
+    } else {
+        setTimeout(() => doc.find("#about #data-used span").innerText = formatBytes(JSON.stringify(DB).length), 0);
+    }
+
+    // Set new version text
+    if (new_version.available) {
+        doc.find("#about #new-version span").innerText = new_version.version;
+    } else {
+        doc.find("#about #new-version").style.display = "none";
+    }
+}
+
+// Functions
 
 function savePreferences(preferences, settings, target_list_enabled) {
     // General
@@ -692,12 +994,12 @@ function savePreferences(preferences, settings, target_list_enabled) {
 
     console.log("New settings", settings);
 
-    ttStorage.set({"settings": settings});
-    ttStorage.set({"allies": allies});
-    ttStorage.set({"custom_links": custom_links});
-    ttStorage.set({"loot_alerts": alerts});
-    ttStorage.set({"chat_highlight": highlights});
-    ttStorage.set({"hide_icons": icons});
+    ttStorage.set({ "settings": settings });
+    ttStorage.set({ "allies": allies });
+    ttStorage.set({ "custom_links": custom_links });
+    ttStorage.set({ "loot_alerts": alerts });
+    ttStorage.set({ "chat_highlight": highlights });
+    ttStorage.set({ "hide_icons": icons });
     ttStorage.change({
         "filters": {
             "preset_data": {
@@ -706,189 +1008,41 @@ function savePreferences(preferences, settings, target_list_enabled) {
         }
     });
 
-    ttStorage.change({"target_list": {"show": target_list_enabled}}, function () {
+    ttStorage.change({ "target_list": { "show": target_list_enabled } }, function () {
         ttStorage.get("target_list", function (target_list) {
             console.log("new target list", target_list);
         });
     });
 
     message("Settings saved.", true);
-
-    setTimeout(function () {
-        // Export settings
-        chrome.runtime.sendMessage({action: "export_data", type: "storage"}, function (response) {
-            console.log(response.message);
-            message(response.message, response.success);
-        });
-    }, 1000);
 }
 
-function setupTargetList(target_list) {
-    let table = doc.find("#target-list .table");
-    let header = table.find(".header");
-    let body = table.find(".body");
-
-    let headings = [
-        {name: "id", text: "ID", type: "neutral"},
-        {name: "win", type: "good"},
-        {name: "mug", type: "good"},
-        {name: "leave", type: "good"},
-        {name: "hosp", type: "good"},
-        {name: "arrest", type: "good"},
-        {name: "special", type: "good"},
-        {name: "assist", type: "good"},
-        {name: "defend", type: "good"},
-        {name: "lose", text: "Losses", type: "bad"},
-        {name: "defend_lose", text: "Defends lost", type: "bad"},
-        {name: "stalemate", type: "bad"},
-        {name: "stealth", type: "neutral"},
-        {name: "respect", text: "Respect", type: "neutral"},
-    ]
-
-    // Header row
-    let type;
-    for (let heading of headings) {
-        let div = doc.new("div");
-        div.setAttribute("name", heading.name);
-
-        if ((!type || type != heading.type) && heading.name != "id") {
-            div.setClass(`new-section ${heading.type}`);
-        } else {
-            div.setClass(heading.type);
-        }
-
-        if (heading.text) {
-            div.innerText = heading.text;
-        } else {
-            div.innerText = capitalize(heading.name) + "s";
-        }
-
-        // Sorting icon
-        if (heading.name == "id") {
-            let icon = doc.new("i");
-            icon.setClass("fas fa-caret-up");
-            div.appendChild(icon);
-        }
-
-        type = heading.type;
-        header.appendChild(div);
-
-        div.addEventListener("click", function () {
-            sort(table, headings.indexOf(heading) + 1, "value");
-        });
+function message(text, good, options={}) {
+    let message_element = doc.find("#message");
+    message_element.innerText = text;
+    if (good) {
+        message_element.style.backgroundColor = "#30e202";
+    } else {
+        message_element.style.backgroundColor = "#ff19199e";
     }
 
-    // Body
-    for (let id in target_list) {
-        if (id == "date")
-            continue;
+    message_element.style.maxHeight = message_element.scrollHeight + "px";
 
-        type = undefined;
-        let row = doc.new("div");
-        row.setClass("row");
-
-        for (let heading of headings) {
-            let item = doc.new("div");
-
-            if ((!type || type != heading.type) && heading.name != "id") {
-                item.setClass(`new-section ${heading.type}`);
-            } else {
-                item.setClass(heading.type);
-            }
-
-            if (heading.name == "id") {
-                item.innerText = id;
-                item.setAttribute("value", id);
-            } else if (heading.name == "respect") {
-                let respect_type = getRespectType(target_list[id]);
-
-                let leaves = target_list[id][respect_type]["leave"].length > 0 ? true : false;
-
-                if (leaves) {
-                    item.innerText = getAverage(target_list[id][respect_type]["leave"]);
-                    item.setAttribute("value", item.innerText);
-                } else {
-                    let averages = [];
-
-                    for (let list in target_list[id][respect_type]) {
-                        let avrg = getAverage(target_list[id][respect_type][list]);
-
-                        if (avrg != 0) {
-                            averages.push(avrg);
-                        }
-                    }
-
-                    item.innerText = getAverage(averages);
-                    item.setAttribute("value", item.innerText);
-                }
-
-                if (item.innerText == "0") {
-                    item.setAttribute("value", "-");
-                    item.innerText = "-";
-                    item.setAttribute("priority", "4");
-                } else if (respect_type == "respect") {
-                    item.innerText = item.innerText + "*";
-                    item.setAttribute("priority", "3");
-                } else if (respect_type == "respect_base") {
-                    if (leaves) {
-                        item.style.backgroundColor = "#dfffdf";
-                        item.setAttribute("priority", "1");
-                    } else {
-                        item.style.backgroundColor = "#fffdcc";
-                        item.setAttribute("priority", "2");
-                    }
-                }
-            } else {
-                item.innerText = target_list[id][heading.name];
-                item.setAttribute("value", target_list[id][heading.name]);
-            }
-
-            // Percentage values
-            if (["mug", "leave", "hosp", "arrest", "special", "assist", "stealth"].includes(heading.name)) {
-                let value = target_list[id][heading.name];
-                let percentage = (value / target_list[id]["win"] * 100).toFixed();
-                percentage = isNaN(percentage) || percentage == Infinity ? 0 : percentage;
-
-                // item.setAttribute("value", value);
-                item.setAttribute("percentage", percentage);
-            }
-
-            // Finish
-            type = heading.type;
-            row.appendChild(item);
-        }
-
-        body.appendChild(row);
-    }
-
-    function getRespectType(enemy) {
-        let type = "respect";
-
-        for (let list in enemy.respect_base) {
-            if (enemy.respect_base[list].length > 0) {
-                type = "respect_base";
-                break;
-            }
-        }
-
-        return type;
-    }
-
-    function getAverage(arr) {
-        if (arr.length == 0)
-            return 0;
-
-        let sum = 0;
-        for (let item of arr) {
-            sum += item;
-        }
-        return parseFloat((sum / arr.length).toFixed(2));
+    if (options.reload) {
+        setTimeout(function () {
+            location.reload();
+        }, 1200);
+    } else {
+        setTimeout(function () {
+            message_element.innerText = "";
+            message_element.style.maxHeight = null;
+        }, 1500);
     }
 }
 
 function setupValueChanger() {
     doc.find("#num_per .switch-input").addEventListener("click", function (event) {
-        let rows = doc.findAll("#target-list .table .body .row");
+        let rows = doc.findAll("#target_list .table .body .row");
 
         for (let row of rows) {
             for (let item of row.findAll("div")) {
@@ -906,18 +1060,18 @@ function setupValueChanger() {
 function resetApiKey() {
     let new_api_key = doc.find("#api_field").value;
 
-    ttStorage.set({"api_key": new_api_key}, function () {
-        chrome.runtime.sendMessage({action: "fetch", type: "torndata"}, function (response) {
+    ttStorage.set({ "api_key": new_api_key }, function () {
+        chrome.runtime.sendMessage({ action: "fetch", type: "torndata" }, function (response) {
             message("API key changed.", true);
         });
     });
 }
 
 function addAllyToList(event) {
-    let row = doc.new({type: "div", class: "row"});
-    let text_input = doc.new({type: "input", class: "text", value: event.target.previousElementSibling.value});
-    let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
-    let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"})
+    let row = doc.new({ type: "div", class: "row" });
+    let text_input = doc.new({ type: "input", class: "text", value: event.target.previousElementSibling.value });
+    let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+    let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" })
 
     remove_icon.addEventListener("click", function (event) {
         event.target.parentElement.parentElement.remove();
@@ -939,16 +1093,16 @@ function addAllyToList(event) {
 }
 
 function addLinktoList(event) {
-    let row = doc.new({type: "div", class: "row"});
-    let new_tab_input = doc.new({type: "input", class: "new_tab", attributes: {type: "checkbox"}});
+    let row = doc.new({ type: "div", class: "row" });
+    let new_tab_input = doc.new({ type: "input", class: "new_tab", attributes: { type: "checkbox" } });
     let name_input = doc.new({
         type: "input",
         class: "text name",
         value: event.target.previousElementSibling.previousElementSibling.value
     });
-    let href_input = doc.new({type: "input", class: "text href", value: event.target.previousElementSibling.value});
-    let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
-    let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+    let href_input = doc.new({ type: "input", class: "text href", value: event.target.previousElementSibling.value });
+    let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+    let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
     remove_icon.addEventListener("click", function (event) {
         event.target.parentElement.parentElement.remove();
@@ -978,14 +1132,14 @@ function addLinktoList(event) {
 }
 
 function addFactionToFilter(event) {
-    let row = doc.new({type: "div", class: "row"});
+    let row = doc.new({ type: "div", class: "row" });
     let radio_input = doc.new({
         type: "input",
-        attributes: {type: "radio", name: "filter-faction", value: event.target.previousElementSibling.value}
+        attributes: { type: "radio", name: "filter-faction", value: event.target.previousElementSibling.value }
     });
-    let name_input = doc.new({type: "input", class: "text name", value: event.target.previousElementSibling.value});
-    let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
-    let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+    let name_input = doc.new({ type: "input", class: "text name", value: event.target.previousElementSibling.value });
+    let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+    let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
     if (event.target.previousElementSibling.previousElementSibling.checked == true) {
         radio_input.checked = true;
@@ -1012,25 +1166,8 @@ function addFactionToFilter(event) {
     event.target.previousElementSibling.previousElementSibling.checked = false;
 }
 
-function message(text, good) {
-    let message_element = doc.find("#message");
-    message_element.innerText = text;
-    if (good) {
-        message_element.style.backgroundColor = "#30e202";
-    } else {
-        message_element.style.backgroundColor = "#ff19199e";
-    }
-
-    message_element.style.maxHeight = message_element.scrollHeight + "px";
-
-    setTimeout(function () {
-        message_element.innerText = "";
-        message_element.style.maxHeight = null;
-    }, 1500);
-}
-
 function addHighlightToList(event) {
-    let row = doc.new({type: "div", class: "row"});
+    let row = doc.new({ type: "div", class: "row" });
     let name_input = doc.new({
         type: "input",
         class: "text name",
@@ -1040,10 +1177,10 @@ function addHighlightToList(event) {
         type: "input",
         class: "text color",
         value: event.target.previousElementSibling.value,
-        attributes: {type: "color"}
+        attributes: { type: "color" }
     });
-    let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
-    let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+    let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+    let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
     remove_icon.addEventListener("click", function (event) {
         event.target.parentElement.parentElement.remove();
@@ -1219,4 +1356,142 @@ function setupApiStatistics() {
 
     doc.find("#average_calls_per_minute").innerText = (total_minute_requests / total_minutes).toFixed(1);
     doc.find("#average_calls_per_hour").innerText = (total_hour_requests / total_hours).toFixed(1);
+}
+
+function exportData() {
+    ttStorage.get(null, async (database) => {
+
+        if (!database) {
+            return message('No database found.', false);
+        }
+        if (!database.userdata) {
+            return message('No player ID found.', false);
+        }
+
+        let post_data = {
+            id: database.userdata.player_id.toString(),
+            name: database.userdata.name,
+            client: {
+                version: chrome.runtime.getManifest().version,
+                disk_space: await (function () {
+                    return new Promise(function (resolve, reject) {
+                        if (chrome.storage.local.getBytesInUse) {
+                            chrome.storage.local.getBytesInUse(function (data) {
+                                return resolve(data.toString());
+                            });
+                        } else {
+                            return resolve(formatBytes(JSON.stringify(DB).length));
+                        }
+                    });
+                })()
+            },
+            date: new Date().toString(),
+            storage: {}
+        }
+
+        let keys_to_export = [
+            "vault",
+            "stock_alerts",
+            "loot_alerts",
+            "allies",
+            "custom_links",
+            "chat_highlight",
+            "hide_icons",
+            "quick",
+            "notes",
+            "filters",
+            "sorting",
+            "watchlist",
+            "settings"
+        ]
+
+        for (let key of keys_to_export) {
+            if (!(key in database)) {
+                return message(`Database is missing key: ${key}`, false);
+            }
+
+            post_data.storage[key] = database[key];
+        }
+
+        fetch(`https://torntools.gregork.com/api/${userdata.player_id}/storage/update`, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(post_data)
+        })
+            .then(async response => {
+                let result = await response.json();
+                console.log("export", result);
+
+                message(result.message, result.success, { reload: true });
+            }).catch(err => {
+                console.log(err);
+
+                if (err.name === "SyntaxError") {
+                    message('Malformed response', false);
+                }
+            });
+    });
+}
+
+function importData() {
+    fetch(`https://torntools.gregork.com/api/${userdata.player_id}/storage`)
+        .then(async response => {
+            let result = await response.json();
+            console.log("import", result);
+
+            if (!result.success) return message(result.message, false);
+
+            loadConfirmationPopup({
+                title: 'Import',
+                message: `### Are you sure that you want to merge following items?
+  - asd
+            
+            `
+            })
+                .then(async () => {
+                    let import_result;
+                    for (let key in result.data) {
+                        import_result = await new Promise(function (resolve, reject) {
+                            try {
+                                ttStorage.set({ [key]: result.data[key] }, function () {
+                                    console.log(`${key} imported.`);
+                                    return resolve({ success: true, message: 'All settings imported' });
+                                });
+                            } catch (err) {
+                                return resolve({ success: false, message: err });
+                            }
+                        });
+                    }
+
+                    message(import_result.message, import_result.success, { reload: true });
+                })
+                .catch(() => { })
+        })
+        .catch(err => {
+            console.log(err);
+
+            if (err.name === "SyntaxError") {
+                message('Malformed response', false);
+            }
+        })
+}
+
+function clearRemoteData() {
+    fetch(`https://torntools.gregork.com/api/${userdata.player_id}/storage/clear`, {
+        method: "POST",
+        headers: { "content-type": "application/json" }
+    })
+        .then(async response => {
+            let result = await response.json();
+            console.log("clear", result);
+
+            message(result.message, result.success, { reload: true });
+        })
+        .catch(err => {
+            console.log(err);
+
+            if (err.name === "SyntaxError") {
+                message('Malformed response', false);
+            }
+        })
 }

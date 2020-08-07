@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="./switch_button.css"> <!-- Switch button -->
 	<link rel="stylesheet" href="./table.css"> <!-- tables -->
 	<link rel="stylesheet" href="./icons.css"> <!-- Torn icons -->
+	<link rel="stylesheet" href="../../scripts/content/global/ttGlobal.css">
 	<script type="text/javascript" src="../../scripts/libs/jquery-3.4.1.min.js"></script>
 	<title>TornTools - Settings</title>
 </head>
@@ -16,15 +17,25 @@
 <body>
 	<div id="message"></div>
 	<div class="navbar">
-		<div class="site active" id="changelog-link">Changelog</div>
+		<div class="site" id="changelog-link">Changelog</div>
 		<div class="site" id="preferences-link">Preferences</div>
 		<div class="site" id="target_list-link">Targets</div>
 		<div class="site" id="api_info-link">API info</div>
+		<div class="site" id="server-link">Remote</div>
 		<div class="site" id="about-link">About</div>
+	</div>
+	<div class="tt-black-overlay"></div>
+	<div class="tt-confirmation-popup">
+		<h1 class="title"></h1>
+		<div class="message"></div>
+		<div class="actions right">
+			<div class="button green">Confirm</div>
+			<div class="button red">Cancel</div>
+		</div>
 	</div>
 
 	<!-- CHANGELOG -->
-	<div id="changelog" class="container active">
+	<div id="changelog" class="container subpage">
 		<h2>Changelog</h2>
 		<div class="content">
 			<div class="header">
@@ -35,7 +46,7 @@
 	</div>
 
 	<!-- PREFERENCES -->
-	<div id="preferences" class="container">
+	<div id="preferences" class="container subpage">
 		<h2>Preferences</h2>
 		<div class="content">
 			<div class="big-message error hidden">I do not have permission to display Notifications. <a href="#" id="allow_notifications">Click me</a> to allow.</div>
@@ -335,20 +346,16 @@
 			</div>
 			<div class="footer">
 				<div>* - Will not be shown if DocTorn is installed (unless 'Force TornTools' is enabled)</div>
-				<div class="actions">
-					<div id="reset_settings">Reset</div>
-					<div id="save_settings">Save</div>
-					<div id="import_settings">Import</div>
+				<div class="actions right">
+					<div class="button green" id="save_settings">Save</div>
 				</div>
-				<div class="note green" style="text-align: right">SAVE - exports your storage (allies, custom links, chat highlighting, icons, quick items/crimes, settings)</div>
-				<div class="note" style="text-align: right">IMPORT - imports your settings from TornTools server (if you have SAVEd them before)</div>
-				<div class="note red" style="text-align: right">RESET - resets whole Database (excl. API key)</div>
+				<!-- <div class="note red" style="text-align: right">RESET - resets whole Database (excl. API key)</div> -->
 			</div>
 		</div>
 	</div>
 
 	<!-- TARGET-LIST -->
-	<div id="target-list" class="container">
+	<div id="target_list" class="container subpage">
 		<h2>Targets</h2>
 		<div class="content">
 			<div class="table">
@@ -386,14 +393,14 @@
 	</div>
 
 	<!-- API-INFO -->
-	<div id="api-info" class="container">
+	<div id="api_info" class="container subpage">
 		<h2>API info</h2>
 		<div class="content">
 			<h4 class="no-margin">API requests</h4>
 			<ul>
 				<li>Periodically
 					<ul>
-						<li>User's stats, crimes, stocks, networth, bars, cooldowns, events, messages, etc. (every 15 seconds)</li>
+						<li>User's stats, crimes, stocks, networth, bars, cooldowns, events, messages, etc. (every 30 seconds)</li>
 						<li>Pull data from YATA servers: loot times, travel market info (1 per minute)</li>
 						<li>Torn stocks data (every 15 minutes)</li>
 						<li>Torn's honors, medals, item values, point values. Faction's OC info (1 per 24 hours)</li>
@@ -458,7 +465,7 @@
 			<h4>API data</h4>
 			<div class="actions">
 				<div class="button" id="fetch_torndata">Torn data</div>
-				<div class="note">Torn data - stocks info, medals, honors, itemlist, points price (ONLY USE IF INSTRUCTED TO)</div>
+				<div class="note red">Torn data - stocks info, medals, honors, itemlist, points price (ONLY USE IF INSTRUCTED TO)</div>
 			</div>
 
 			<div id="api-statistics">
@@ -477,8 +484,29 @@
 		</div>
 	</div>
 
+	<!-- TornTools server -->
+	<div id="server" class="container subpage">
+		<h2>Remote</h2>
+		<div class="content">
+			<h3>TornTools remote Server</h3>
+			<p><span class="bold">Address:</span> <a target="_blank" href="https://torntools.gregork.com/">torntools.gregork.com</a> (no web content)</p>
+			<p><span class="bold">Privacy Policy:</span> <a target="_blank" href="http://privacy_policy.gregork.com/">privacy_policy.gregork.com</a></p>
+			<h3>Your Data</h3>
+			<p class="bold">Following information about you is stored in TornTools' remote server:</p>
+			<pre class="json-text" id="tt_server_user_info"></pre>
+			<div class="date">Last updated: <span></span></div>
+
+			<hr>
+			<div class="actions right">
+				<div class="button red" id="server_clear">Clear</div>
+				<div class="button" id="server_export">Export</div>
+				<div class="button" id="server_import">Import</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- ABOUT -->
-	<div id="about" class="container">
+	<div id="about" class="container subpage">
 		<h2>About</h2>
 		<div class="content">
 			<p id="version">Version: <span class="bold"></span></p>
@@ -515,6 +543,7 @@
 
 	<!-- <script src="../changelog.js"></script> -->
 	<script src="../../scripts/libs/Chart.min.js"></script>
+	<script src="../../scripts/libs/showdown.min.js"></script>
 	<script src="../../scripts/js/globalFunctions.js"></script>
 	<script src="../../scripts/js/globalDatabase.js"></script>
 	<script type="module" src="./settings.js"></script>

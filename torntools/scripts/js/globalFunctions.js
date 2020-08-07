@@ -694,7 +694,7 @@ const ttStorage = {
                     return parent;
                 }
 
-                chrome.storage.local.set({[top_level_key]: database}, function () {
+                chrome.storage.local.set({ [top_level_key]: database }, function () {
                     callback ? callback() : null;
                 });
             });
@@ -729,7 +729,7 @@ const infoBox = {
     newRow: function (key, value, attr = {}) {
         // process
 
-        let li = doc.new({type: "li", id: attr.id ? attr.id : "", class: attr.last ? "last" : ""});
+        let li = doc.new({ type: "li", id: attr.id ? attr.id : "", class: attr.last ? "last" : "" });
         if (attr.heading) {
             li.innerText = key;
 
@@ -737,14 +737,14 @@ const infoBox = {
             li.classList.add("tt-title");
             li.classList.add(THEME_CLASSES[DB.settings.theme].title);
         } else {
-            let span_left = doc.new({type: "span", class: "divider"});
+            let span_left = doc.new({ type: "span", class: "divider" });
             let span_left_inner = doc.new({
                 type: "span",
                 text: key,
-                attributes: {style: "background-color: transparent;"}
+                attributes: { style: "background-color: transparent;" }
             });
-            let span_right = doc.new({type: "span", class: "desc"});
-            let span_right_inner = doc.new({type: "span", text: value, attributes: {style: "padding-left: 3px;"}});
+            let span_right = doc.new({ type: "span", class: "desc" });
+            let span_right_inner = doc.new({ type: "span", text: value, attributes: { style: "padding-left: 3px;" } });
 
             span_left.appendChild(span_left_inner);
             span_right.appendChild(span_right_inner);
@@ -778,7 +778,7 @@ const navbar = {
                 collapsed = filters.container_open.navbar[name];
             }
 
-            let sidebarBlock = doc.new({type: "div", class: "sidebar-block___1Cqc2 tt-nav-section"});
+            let sidebarBlock = doc.new({ type: "div", class: "sidebar-block___1Cqc2 tt-nav-section" });
             sidebarBlock.innerHTML = `
                 <div class="content___kMC8x">
                     <div class="areas___2pu_3">
@@ -798,7 +798,7 @@ const navbar = {
                     sidebarBlock.find(".tt-title").classList.toggle("collapsed");
                     let collapsed = sidebarBlock.find(".tt-title").classList.contains("collapsed");
 
-                    ttStorage.change({"filters": {"container_open": {"navbar": {[name]: collapsed}}}});
+                    ttStorage.change({ "filters": { "container_open": { "navbar": { [name]: collapsed } } } });
                 }
             }
 
@@ -839,7 +839,7 @@ const navbar = {
         return newCellBlock;
 
         function createNewCellBlock(text, attr) {
-            let div = doc.new({type: "div", class: "area-desktop___2YU-q"});
+            let div = doc.new({ type: "div", class: "area-desktop___2YU-q" });
 
             div.innerHTML = `
                 <div class="area-row___34mEZ tt-cell">
@@ -876,7 +876,7 @@ const content = {
         function createNewContainer(name, attr) {
             let collapsed = filters.container_open[getCurrentPage()];
 
-            let div = doc.new({type: "div"});
+            let div = doc.new({ type: "div" });
             if (attr.id) div.id = attr.id;
             if (attr["_class"]) div.setClass(attr["_class"]);
 
@@ -928,7 +928,7 @@ const content = {
                         }
                     }
 
-                    ttStorage.change({"filters": {"container_open": {[getCurrentPage()]: collapsed}}})
+                    ttStorage.change({ "filters": { "container_open": { [getCurrentPage()]: collapsed } } })
                 }
             }
 
@@ -1250,22 +1250,22 @@ function timeAgo(time) {
 
 function setBadge(text, attributes = {}) {
     const types = {
-        default: {text: ''},
-        error: {text: "error", color: "#FF0000"},
-        "update_available": {text: "new", color: "#e0dd11"},
-        "update_installed": {text: "new", color: "#0ad121"},
-        "new_message": {text: () => attributes.count.toString(), color: "#84af03"},
-        "new_event": {text: () => attributes.count.toString(), color: "#009eda"},
+        default: { text: '' },
+        error: { text: "error", color: "#FF0000" },
+        "update_available": { text: "new", color: "#e0dd11" },
+        "update_installed": { text: "new", color: "#0ad121" },
+        "new_message": { text: () => attributes.count.toString(), color: "#84af03" },
+        "new_event": { text: () => attributes.count.toString(), color: "#009eda" },
     };
 
     const badge = types[text];
 
     if (!badge) {
-        chrome.browserAction.setBadgeText({text: text || ""});
-        if (attributes.color) chrome.browserAction.setBadgeBackgroundColor({color: attributes.color});
+        chrome.browserAction.setBadgeText({ text: text || "" });
+        if (attributes.color) chrome.browserAction.setBadgeBackgroundColor({ color: attributes.color });
     } else {
-        if (badge.text) chrome.browserAction.setBadgeText({text: (typeof badge.text === "function" ? badge.text() : badge.text) || ""});
-        if (badge.color) chrome.browserAction.setBadgeBackgroundColor({color: badge.color});
+        if (badge.text) chrome.browserAction.setBadgeText({ text: (typeof badge.text === "function" ? badge.text() : badge.text) || "" });
+        if (badge.color) chrome.browserAction.setBadgeBackgroundColor({ color: badge.color });
     }
 }
 
@@ -1566,7 +1566,7 @@ function sort(table, col, type) {
                 b = parseFloat(valueB);
             }
 
-            return {a, b};
+            return { a, b };
         }
     }
 }
@@ -1714,7 +1714,7 @@ function loadingPlaceholder(element, display) {
             element.appendChild(doc.new({
                 type: "img",
                 class: "ajax-placeholder m-top10 m-bottom10 tt-loading-placeholder active",
-                attributes: {src: "https://www.torn.com/images/v2/main/ajax-loader.gif"}
+                attributes: { src: "https://www.torn.com/images/v2/main/ajax-loader.gif" }
             }));
         }
     } else {
@@ -1728,7 +1728,7 @@ function saveSortingOrder(parent, page) {
         names.push(section.getAttribute("name"));
     }
 
-    ttStorage.change({"sorting": {[page]: names}});
+    ttStorage.change({ "sorting": { [page]: names } });
 }
 
 function sortSections(parent, page) {
@@ -1784,7 +1784,7 @@ function fetchApi(http, apiKey) {
                 user_id: user_id,
                 name: name
             });
-            ttStorage.set({"api_history": api_history});
+            ttStorage.set({ "api_history": api_history });
         });
 
         try {
@@ -1796,14 +1796,14 @@ function fetchApi(http, apiKey) {
                     console.log("API SYSTEM OFFLINE");
                     setBadge("error");
 
-                    ttStorage.change({"api": {"online": false, "error": result.error.error}}, function () {
-                        return resolve({ok: false, error: result.error.error});
+                    ttStorage.change({ "api": { "online": false, "error": result.error.error } }, function () {
+                        return resolve({ ok: false, error: result.error.error });
                     });
                 } else {
                     console.log("API ERROR:", result.error.error);
 
-                    ttStorage.change({"api": {"online": true, "error": result.error.error}}, function () {
-                        return resolve({ok: false, error: result.error.error});
+                    ttStorage.change({ "api": { "online": true, "error": result.error.error } }, function () {
+                        return resolve({ ok: false, error: result.error.error });
                     });
                 }
             } else {
@@ -1814,8 +1814,8 @@ function fetchApi(http, apiKey) {
                 } catch (err) {
                     console.log("Unable to get Badge.")
                 }
-                ttStorage.change({"api": {"online": true, "error": ""}}, function () {
-                    return resolve({ok: true, result: result});
+                ttStorage.change({ "api": { "online": true, "error": "" } }, function () {
+                    return resolve({ ok: true, result: result });
                 });
             }
         } catch (err) {
@@ -2022,6 +2022,37 @@ function cacheEstimate(userId, timestamp, estimate) {
                     data: estimate,
                 }
             },
+        }
+    });
+}
+
+function loadConfirmationPopup(options) {
+    return new Promise((resolve, reject) => {
+        const markdownConverter = new showdown.Converter();
+
+        doc.find(".tt-black-overlay").classList.add("active");
+        doc.find(".tt-confirmation-popup").classList.add("active");
+
+        doc.find("body").classList.add("tt-unscrollable");
+
+        doc.find(".tt-confirmation-popup .title").innerText = options.title;
+        doc.find(".tt-confirmation-popup .message").innerHTML = markdownConverter.makeHtml(options.message);
+
+        doc.find(".tt-confirmation-popup .actions .button.green").onclick = () => {
+            doc.find(".tt-black-overlay").classList.remove("active");
+            doc.find(".tt-confirmation-popup").classList.remove("active");
+
+            doc.find("body").classList.remove("tt-unscrollable");
+
+            return resolve();
+        }
+        doc.find(".tt-confirmation-popup .actions .button.red").onclick = () => {
+            doc.find(".tt-black-overlay").classList.remove("active");
+            doc.find(".tt-confirmation-popup").classList.remove("active");
+
+            doc.find("body").classList.remove("tt-unscrollable");
+
+            return reject();
         }
     });
 }
