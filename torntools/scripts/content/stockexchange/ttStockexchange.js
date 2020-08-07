@@ -4,6 +4,19 @@ requireDatabase().then(function () {
     stocksLoaded().then(function () {
         console.log("TT - Stock Exchange");
 
+        addXHRListener(async (event) => {
+            const {page, uri} = event.detail;
+            if (page !== "stockexchange" || !uri) return;
+
+            if (uri.step === "buy2") {
+                await stocksLoaded();
+
+                showInformation();
+
+                addFilter(filters);
+            }
+        });
+
         isPortfolio = getSearchParameters().get("step") === "portfolio";
 
         if (!isPortfolio) {
