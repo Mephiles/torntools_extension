@@ -317,7 +317,7 @@ function addFilter(filters) {
                     worth,
                     name,
                     profitLoss,
-                    listed: listedOnly,
+					listedOnly,
                 }
             }
         });
