@@ -6,9 +6,7 @@ requireDatabase().then(function () {
 
         isPortfolio = getSearchParameters().get("step") === "portfolio";
 
-        if (isPortfolio) {
-
-        } else {
+        if (!isPortfolio) {
             let ttRedirect = getSearchParameters().has("torntools_redirect") ? getSearchParameters().get("torntools_redirect").replace(/%20/g, " ") : undefined;
 
             if (ttRedirect || settings.pages.stockexchange.acronyms) {
@@ -121,6 +119,19 @@ function showInformation() {
                 parent.classList.add("worth");
             }
         }
+
+        let loaded = false;
+        stock.firstElementChild.addEventListener("click", async (event) => {
+            if (loaded) return;
+
+            await stockProfileLoaded();
+
+            const stockProperties = stock.find(".info-stock-wrap .properties");
+
+            stockProperties.appendChild(doc.new({type: "span", text: "testing"}));
+
+            loaded = true;
+        })
     }
 }
 
@@ -310,4 +321,15 @@ function addFilter(filters) {
             }
         });
     }
+}
+
+function stockProfileLoaded() {
+    return new Promise((resolve) => {
+        let checker = setInterval(function () {
+            if (doc.find(".item-wrap .stock-list .profile-wrap[style*='display: block;'] .tabs-title")) {
+                resolve(true);
+                return clearInterval(checker);
+            }
+        }, 100);
+    });
 }
