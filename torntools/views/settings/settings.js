@@ -15,7 +15,7 @@ requireDatabase(false)
 
         console.log("Database", DB);
 
-        ttStorage.set({ "updated": false });
+        ttStorage.set({"updated": false});
 
         // Navigation bar
         for (let site of [...doc.findAll(".navbar .site")]) {
@@ -72,7 +72,7 @@ requireDatabase(false)
             });
         }
         doc.find("#fetch_torndata").onclick = function () {
-            chrome.runtime.sendMessage({ action: "fetch", type: "torndata" }, function (response) {
+            chrome.runtime.sendMessage({action: "fetch", type: "torndata"}, function (response) {
                 message(response.message, response.success);
             });
         }
@@ -132,12 +132,12 @@ function setupChangelog() {
         let sub_ver = ver.split(" - ")[1] ? " - " + ver.split(" - ")[1] : "";
         ver = ver.split(" - ")[0];
 
-        let div = doc.new({ type: "div", class: "parent" });
+        let div = doc.new({type: "div", class: "parent"});
 
         // Heading
-        let heading = doc.new({ type: "div", class: "heading", text: ver });
-        let span = doc.new({ type: "span", text: sub_ver });
-        let icon = doc.new({ type: "i", class: "fas fa-chevron-down" });
+        let heading = doc.new({type: "div", class: "heading", text: ver});
+        let span = doc.new({type: "span", text: sub_ver});
+        let icon = doc.new({type: "i", class: "fas fa-chevron-down"});
         heading.appendChild(span);
         heading.appendChild(icon);
 
@@ -194,8 +194,8 @@ function setupChangelog() {
                                     _item = _item.slice(0, _item.indexOf(" - Mephiles"));
                                 }
 
-                                let _item_div = doc.new({ type: "div", class: `child ${contributor}` });
-                                let _item_span = doc.new({ type: "span", text: _item });
+                                let _item_div = doc.new({type: "div", class: `child ${contributor}`});
+                                let _item_span = doc.new({type: "span", text: _item});
                                 _item_div.appendChild(_item_span);
                                 _div.appendChild(_item_div);
                             }
@@ -277,30 +277,29 @@ function setupPreferences() {
                 if (option === "global" && optionDiv.classList.contains("heading")) {
                     optionDiv.find("input").addEventListener("click", function (event) {
                         let disabledGlobal = !event.target.checked;
-            // Global option for pages. Disabled all options if global is disabled
-            if (option === "global" && optionDiv.classList.contains("heading")) {
-                optionDiv.find("input").addEventListener("click", function (event) {
-                    let disabledGlobal = !event.target.checked;
+                        // Global option for pages. Disabled all options if global is disabled
+                        if (option === "global" && optionDiv.classList.contains("heading")) {
+                            optionDiv.find("input").addEventListener("click", function (event) {
+                                let disabledGlobal = !event.target.checked;
 
-                        for (let option in settings[type][page]) {
-                            if (option === "global") continue;
+                                for (let option in settings[type][page]) {
+                                    if (option === "global") continue;
 
-                            let inp = preferences.find(`#${page}-${option} input`);
+                                    let inp = preferences.find(`#${page}-${option} input`);
 
-                            if (disabledGlobal) inp.setAttribute("disabled", true);
-                            else inp.removeAttribute("disabled");
+                                    if (disabledGlobal) inp.setAttribute("disabled", true);
+                                    else inp.removeAttribute("disabled");
+                                }
+                            });
+                        } else if (option !== "global" && has_global_disabled) {
+                            optionDiv.find("input, select").setAttribute("disabled", true);
                         }
+                        if (disabledGlobal) inp.setAttribute("disabled", true);
+                        else inp.removeAttribute("disabled");
                     });
                 } else if (option !== "global" && has_global_disabled) {
                     optionDiv.find("input, select").setAttribute("disabled", true);
                 }
-                        if (disabledGlobal) inp.setAttribute("disabled", true);
-                        else inp.removeAttribute("disabled");
-                    }
-                });
-            } else if (option !== "global" && has_global_disabled) {
-                optionDiv.find("input, select").setAttribute("disabled", true);
-            }
 
                 if (optionDiv.find("input[type='checkbox']")) optionDiv.find("input[type='checkbox']").checked = settings[type][page][option];
                 else if (optionDiv.find("input")) optionDiv.find("input").value = settings[type][page][option];
@@ -313,21 +312,22 @@ function setupPreferences() {
             }
         }
     }
-    // preferences.find(`#remove_info_boxes input`).checked = settings.remove_info_boxes;
 
-    // Target list
+// preferences.find(`#remove_info_boxes input`).checked = settings.remove_info_boxes;
+
+// Target list
     preferences.find(`#target_list input`).checked = target_list.show;
 
-    // Allies
+// Allies
     for (let ally of allies) {
         if (ally == "") {
             break;
         }
 
-        let row = doc.new({ type: "div", class: "row" });
-        let text_input = doc.new({ type: "input", class: "text", value: ally });
-        let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
-        let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
+        let row = doc.new({type: "div", class: "row"});
+        let text_input = doc.new({type: "input", class: "text", value: ally});
+        let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
+        let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
 
         remove_icon.addEventListener("click", function (event) {
             event.target.parentElement.parentElement.remove();
@@ -345,14 +345,14 @@ function setupPreferences() {
         table_body.insertBefore(row, table_body.find(".row.input"));
     }
 
-    // Custom links
+// Custom links
     for (let link of custom_links) {
-        let row = doc.new({ type: "div", class: "row" });
-        let new_tab_input = doc.new({ type: "input", class: "new_tab", attributes: { type: "checkbox" } });
-        let name_input = doc.new({ type: "input", class: "text name", value: link.text });
-        let href_input = doc.new({ type: "input", class: "text href", value: link.href });
-        let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
-        let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
+        let row = doc.new({type: "div", class: "row"});
+        let new_tab_input = doc.new({type: "input", class: "new_tab", attributes: {type: "checkbox"}});
+        let name_input = doc.new({type: "input", class: "text name", value: link.text});
+        let href_input = doc.new({type: "input", class: "text href", value: link.href});
+        let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
+        let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
 
         remove_icon.addEventListener("click", function (event) {
             event.target.parentElement.parentElement.remove();
@@ -376,18 +376,18 @@ function setupPreferences() {
         }
     }
 
-    // Chat highlights
+// Chat highlights
     for (let name in chat_highlight) {
-        let row = doc.new({ type: "div", class: "row" });
-        let name_input = doc.new({ type: "input", class: "text name", value: name });
+        let row = doc.new({type: "div", class: "row"});
+        let name_input = doc.new({type: "input", class: "text name", value: name});
         let color_input = doc.new({
             type: "input",
             class: "text color",
             value: chat_highlight[name],
-            attributes: { type: "color" }
+            attributes: {type: "color"}
         });
-        let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
-        let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
+        let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
+        let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
 
         remove_icon.addEventListener("click", function (event) {
             event.target.parentElement.parentElement.remove();
@@ -414,27 +414,27 @@ function setupPreferences() {
         }), globalSection.find("#chat_highlight+.note").nextElementSibling);
     }
 
-    // Loot alerts
+// Loot alerts
     for (let npc_id in loot_times) {
-        let row = doc.new({ type: "div", class: "row" });
+        let row = doc.new({type: "div", class: "row"});
         let name_input = doc.new({
             type: "input",
             class: "text name",
             value: loot_times[npc_id].name,
-            attributes: { disabled: true }
+            attributes: {disabled: true}
         });
         let level_input = doc.new({
             type: "input",
             class: "text level",
             value: (loot_alerts[npc_id] ? loot_alerts[npc_id].level : ""),
-            attributes: { placeholder: "level.." }
+            attributes: {placeholder: "level.."}
         });
         let time_input = doc.new({
             type: "input",
             class: "text time",
             id: `npc-${npc_id}`,
             value: (loot_alerts[npc_id] ? loot_alerts[npc_id].time : ""),
-            attributes: { placeholder: "minutes.." }
+            attributes: {placeholder: "minutes.."}
         });
 
         row.appendChild(name_input);
@@ -445,7 +445,7 @@ function setupPreferences() {
         table_body.insertBefore(row, table_body.find(".row.input"));
     }
 
-    // Notifications
+// Notifications
     const notificationsDisabled = !settings.notifications.global;
 
     for (let notification in settings.notifications) {
@@ -476,11 +476,11 @@ function setupPreferences() {
         }
     })
 
-    // Icons
+// Icons
     let icons_parent = doc.find("#preferences #icons");
     for (let i = 1; i < 81; i++) {
-        let outer_div = doc.new({ type: "div", class: `icon` })
-        let inner_div = doc.new({ type: "div", class: `icon${i}` });
+        let outer_div = doc.new({type: "div", class: `icon`})
+        let inner_div = doc.new({type: "div", class: `icon${i}`});
 
         outer_div.appendChild(inner_div);
         icons_parent.appendChild(outer_div);
@@ -494,7 +494,7 @@ function setupPreferences() {
         preferences.find(`.${icon}`).parentElement.classList.add("disabled");
     }
 
-    // Inactivity Faction
+// Inactivity Faction
     let orange_time_faction = "";
     let red_time_faction = "";
     for (let time in settings.inactivity_alerts_faction) {
@@ -507,7 +507,7 @@ function setupPreferences() {
     preferences.find("#faction-inactivity_alerts_first input").value = orange_time_faction;
     preferences.find("#faction-inactivity_alerts_second input").value = red_time_faction;
 
-    // Inactivity Company
+// Inactivity Company
     let orange_time_company = "";
     let red_time_company = "";
     for (let time in settings.inactivity_alerts_company) {
@@ -520,13 +520,16 @@ function setupPreferences() {
     preferences.find("#company-inactivity_alerts_first input").value = orange_time_company;
     preferences.find("#company-inactivity_alerts_second input").value = red_time_company;
 
-    // Filters (Faction)
+// Filters (Faction)
     for (let faction of filters.preset_data.factions.data) {
-        let row = doc.new({ type: "div", class: "row" });
-        let radio_input = doc.new({ type: "input", attributes: { type: "radio", name: "filter-faction", value: faction } });
-        let name_input = doc.new({ type: "input", class: "text name", value: faction });
-        let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
-        let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
+        let row = doc.new({type: "div", class: "row"});
+        let radio_input = doc.new({
+            type: "input",
+            attributes: {type: "radio", name: "filter-faction", value: faction}
+        });
+        let name_input = doc.new({type: "input", class: "text name", value: faction});
+        let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
+        let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
 
         remove_icon.addEventListener("click", function (event) {
             event.target.parentElement.parentElement.remove();
@@ -546,7 +549,7 @@ function setupPreferences() {
     }
     if (filters.preset_data.factions.default) preferences.find(`#filter-factions input[value='${filters.preset_data.factions.default}']`).checked = true;
 
-    // changing subsite
+// changing subsite
     for (let link of preferences.findAll(".navigation>div:not(.heading)")) {
         link.onclick = function () {
             let name = link.getAttribute("name");
@@ -568,20 +571,20 @@ function targetList() {
     let body = table.find(".body");
 
     let headings = [
-        { name: "id", text: "ID", type: "neutral" },
-        { name: "win", type: "good" },
-        { name: "mug", type: "good" },
-        { name: "leave", type: "good" },
-        { name: "hosp", type: "good" },
-        { name: "arrest", type: "good" },
-        { name: "special", type: "good" },
-        { name: "assist", type: "good" },
-        { name: "defend", type: "good" },
-        { name: "lose", text: "Losses", type: "bad" },
-        { name: "defend_lose", text: "Defends lost", type: "bad" },
-        { name: "stalemate", type: "bad" },
-        { name: "stealth", type: "neutral" },
-        { name: "respect", text: "Respect", type: "neutral" },
+        {name: "id", text: "ID", type: "neutral"},
+        {name: "win", type: "good"},
+        {name: "mug", type: "good"},
+        {name: "leave", type: "good"},
+        {name: "hosp", type: "good"},
+        {name: "arrest", type: "good"},
+        {name: "special", type: "good"},
+        {name: "assist", type: "good"},
+        {name: "defend", type: "good"},
+        {name: "lose", text: "Losses", type: "bad"},
+        {name: "defend_lose", text: "Defends lost", type: "bad"},
+        {name: "stalemate", type: "bad"},
+        {name: "stealth", type: "neutral"},
+        {name: "respect", text: "Respect", type: "neutral"},
     ]
 
     // Header row
@@ -791,7 +794,8 @@ function server() {
                     .then(() => {
                         exportData();
                     })
-                    .catch(() => { })
+                    .catch(() => {
+                    })
             }
 
             doc.find("#server_import").onclick = () => {
@@ -825,7 +829,8 @@ function server() {
                     .then(() => {
                         clearRemoteData();
                     })
-                    .catch(() => { })
+                    .catch(() => {
+                    })
             }
         });
 }
@@ -994,12 +999,12 @@ function savePreferences(preferences, settings, target_list_enabled) {
 
     console.log("New settings", settings);
 
-    ttStorage.set({ "settings": settings });
-    ttStorage.set({ "allies": allies });
-    ttStorage.set({ "custom_links": custom_links });
-    ttStorage.set({ "loot_alerts": alerts });
-    ttStorage.set({ "chat_highlight": highlights });
-    ttStorage.set({ "hide_icons": icons });
+    ttStorage.set({"settings": settings});
+    ttStorage.set({"allies": allies});
+    ttStorage.set({"custom_links": custom_links});
+    ttStorage.set({"loot_alerts": alerts});
+    ttStorage.set({"chat_highlight": highlights});
+    ttStorage.set({"hide_icons": icons});
     ttStorage.change({
         "filters": {
             "preset_data": {
@@ -1008,7 +1013,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
         }
     });
 
-    ttStorage.change({ "target_list": { "show": target_list_enabled } }, function () {
+    ttStorage.change({"target_list": {"show": target_list_enabled}}, function () {
         ttStorage.get("target_list", function (target_list) {
             console.log("new target list", target_list);
         });
@@ -1017,7 +1022,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
     message("Settings saved.", true);
 }
 
-function message(text, good, options={}) {
+function message(text, good, options = {}) {
     let message_element = doc.find("#message");
     message_element.innerText = text;
     if (good) {
@@ -1060,18 +1065,18 @@ function setupValueChanger() {
 function resetApiKey() {
     let new_api_key = doc.find("#api_field").value;
 
-    ttStorage.set({ "api_key": new_api_key }, function () {
-        chrome.runtime.sendMessage({ action: "fetch", type: "torndata" }, function (response) {
+    ttStorage.set({"api_key": new_api_key}, function () {
+        chrome.runtime.sendMessage({action: "fetch", type: "torndata"}, function (response) {
             message("API key changed.", true);
         });
     });
 }
 
 function addAllyToList(event) {
-    let row = doc.new({ type: "div", class: "row" });
-    let text_input = doc.new({ type: "input", class: "text", value: event.target.previousElementSibling.value });
-    let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
-    let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" })
+    let row = doc.new({type: "div", class: "row"});
+    let text_input = doc.new({type: "input", class: "text", value: event.target.previousElementSibling.value});
+    let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
+    let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"})
 
     remove_icon.addEventListener("click", function (event) {
         event.target.parentElement.parentElement.remove();
@@ -1093,16 +1098,16 @@ function addAllyToList(event) {
 }
 
 function addLinktoList(event) {
-    let row = doc.new({ type: "div", class: "row" });
-    let new_tab_input = doc.new({ type: "input", class: "new_tab", attributes: { type: "checkbox" } });
+    let row = doc.new({type: "div", class: "row"});
+    let new_tab_input = doc.new({type: "input", class: "new_tab", attributes: {type: "checkbox"}});
     let name_input = doc.new({
         type: "input",
         class: "text name",
         value: event.target.previousElementSibling.previousElementSibling.value
     });
-    let href_input = doc.new({ type: "input", class: "text href", value: event.target.previousElementSibling.value });
-    let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
-    let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
+    let href_input = doc.new({type: "input", class: "text href", value: event.target.previousElementSibling.value});
+    let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
+    let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
 
     remove_icon.addEventListener("click", function (event) {
         event.target.parentElement.parentElement.remove();
@@ -1132,14 +1137,14 @@ function addLinktoList(event) {
 }
 
 function addFactionToFilter(event) {
-    let row = doc.new({ type: "div", class: "row" });
+    let row = doc.new({type: "div", class: "row"});
     let radio_input = doc.new({
         type: "input",
-        attributes: { type: "radio", name: "filter-faction", value: event.target.previousElementSibling.value }
+        attributes: {type: "radio", name: "filter-faction", value: event.target.previousElementSibling.value}
     });
-    let name_input = doc.new({ type: "input", class: "text name", value: event.target.previousElementSibling.value });
-    let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
-    let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
+    let name_input = doc.new({type: "input", class: "text name", value: event.target.previousElementSibling.value});
+    let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
+    let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
 
     if (event.target.previousElementSibling.previousElementSibling.checked == true) {
         radio_input.checked = true;
@@ -1167,7 +1172,7 @@ function addFactionToFilter(event) {
 }
 
 function addHighlightToList(event) {
-    let row = doc.new({ type: "div", class: "row" });
+    let row = doc.new({type: "div", class: "row"});
     let name_input = doc.new({
         type: "input",
         class: "text name",
@@ -1177,10 +1182,10 @@ function addHighlightToList(event) {
         type: "input",
         class: "text color",
         value: event.target.previousElementSibling.value,
-        attributes: { type: "color" }
+        attributes: {type: "color"}
     });
-    let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
-    let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
+    let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
+    let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
 
     remove_icon.addEventListener("click", function (event) {
         event.target.parentElement.parentElement.remove();
@@ -1415,21 +1420,21 @@ function exportData() {
 
         fetch(`https://torntools.gregork.com/api/${userdata.player_id}/storage/update`, {
             method: "POST",
-            headers: { "content-type": "application/json" },
+            headers: {"content-type": "application/json"},
             body: JSON.stringify(post_data)
         })
             .then(async response => {
                 let result = await response.json();
                 console.log("export", result);
 
-                message(result.message, result.success, { reload: true });
+                message(result.message, result.success, {reload: true});
             }).catch(err => {
-                console.log(err);
+            console.log(err);
 
-                if (err.name === "SyntaxError") {
-                    message('Malformed response', false);
-                }
-            });
+            if (err.name === "SyntaxError") {
+                message('Malformed response', false);
+            }
+        });
     });
 }
 
@@ -1453,19 +1458,20 @@ function importData() {
                     for (let key in result.data) {
                         import_result = await new Promise(function (resolve, reject) {
                             try {
-                                ttStorage.set({ [key]: result.data[key] }, function () {
+                                ttStorage.set({[key]: result.data[key]}, function () {
                                     console.log(`${key} imported.`);
-                                    return resolve({ success: true, message: 'All settings imported' });
+                                    return resolve({success: true, message: 'All settings imported'});
                                 });
                             } catch (err) {
-                                return resolve({ success: false, message: err });
+                                return resolve({success: false, message: err});
                             }
                         });
                     }
 
-                    message(import_result.message, import_result.success, { reload: true });
+                    message(import_result.message, import_result.success, {reload: true});
                 })
-                .catch(() => { })
+                .catch(() => {
+                })
         })
         .catch(err => {
             console.log(err);
@@ -1479,13 +1485,13 @@ function importData() {
 function clearRemoteData() {
     fetch(`https://torntools.gregork.com/api/${userdata.player_id}/storage/clear`, {
         method: "POST",
-        headers: { "content-type": "application/json" }
+        headers: {"content-type": "application/json"}
     })
         .then(async response => {
             let result = await response.json();
             console.log("clear", result);
 
-            message(result.message, result.success, { reload: true });
+            message(result.message, result.success, {reload: true});
         })
         .catch(err => {
             console.log(err);
