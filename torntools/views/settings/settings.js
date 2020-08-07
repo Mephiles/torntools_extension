@@ -1,54 +1,41 @@
 import changelog from "../../changelog.js";
 
 var version;
+var initiated_pages = {}
 
-window.addEventListener("load", function () {
-    requireDatabase(false).then(function () {
+// // Export data
+// // chrome.runtime.sendMessage({action: "export_data", type: "basic"}, function (response) {
+// //     message(response.message, response.success);
+// // });
+
+requireDatabase(false)
+    .then(() => {
         console.log("Start Settings");
         version = chrome.runtime.getManifest().version;
 
         console.log("Database", DB);
 
-        // About info
-        doc.find("#about #version span").innerText = `v${version}`;
-        if (chrome.storage.local.getBytesInUse) {
-            chrome.storage.local.getBytesInUse(function (data) {
-                doc.find("#about #data-used span").innerText = formatBytes(data);
-            });
-        } else {
-            setTimeout(() => doc.find("#about #data-used span").innerText = formatBytes(JSON.stringify(DB).length), 0);
+        ttStorage.set({ "updated": false });
+
+        // Navigation bar
+        for (let site of [...doc.findAll(".navbar .site")]) {
+            site.onclick = (event) => {
+                doc.find(`.navbar .site.active`).classList.remove("active");
+                doc.find(`.container.active`).classList.remove("active");
+
+                doc.find(`.navbar .site#${event.target.id}`).classList.add("active");
+                doc.find(`.container#${event.target.id.replace("-link", "").replace("_", "-")}`).classList.add("active");
+            }
         }
 
-        // setup site
-        setupSite();
+        let init_page = getSearchParameters().get("page") || "changelog";
+        loadPage(init_page);
 
-        // set "update" to false
-        ttStorage.set({"updated": false});
-
-        // Content
-        setupChangelog();
-
-        // Preferences
-        setupPreferences();
-
-        // Target list
-        setupTargetList(target_list.targets);
-        setupValueChanger();
-
-        // Fill in API key
-        doc.find("#api_field").value = api_key;
-        setupApiStatistics();
-
-        // Set new version text
-        if (new_version.available) {
-            doc.find("#about #new-version span").innerText = new_version.version;
-        } else {
-            doc.find("#about #new-version").style.display = "none";
-        }
-
-        // Allow notifications text
-        if (Notification.permission != "granted") {
-            doc.find("#allow_notifications").parentElement.classList.remove("hidden");
+        for (let link of doc.findAll(".navbar>.site")) {
+            let name = link.id.split("-")[0];
+            link.onclick = function () {
+                loadPage(name);
+            };
         }
 
         // Buttons
@@ -85,42 +72,53 @@ window.addEventListener("load", function () {
             });
         }
         doc.find("#fetch_torndata").onclick = function () {
-            chrome.runtime.sendMessage({action: "fetch", type: "torndata"}, function (response) {
+            chrome.runtime.sendMessage({ action: "fetch", type: "torndata" }, function (response) {
                 message(response.message, response.success);
             });
         }
-
-        // Export data
-        chrome.runtime.sendMessage({action: "export_data", type: "basic"}, function (response) {
-            message(response.message, response.success);
+        doc.find("#save_settings").addEventListener("click", function () {
+            savePreferences(preferences, settings, target_list.show);
         });
-    });
-});
+    })
+    .catch(() => {
+        loadConfirmationPopup({
+            title: 'API key',
+            message: `### You have not initialized the App by providing your API key
+Please enter your API key via opening the Extension popup.
+            `,
+        })
+        .then(() => {
+           location.reload();
+        })
+        .catch(() => {})
+    })
 
-function setupSite() {
-    // Navigation bar
-    for (let site of [...doc.findAll(".navbar .site")]) {
-        site.addEventListener("click", function (event) {
-            doc.find(`.navbar .site.active`).classList.remove("active");
-            doc.find(`.container.active`).classList.remove("active");
+function loadPage(name) {
+    console.log("Loading page:", name);
 
-            doc.find(`.navbar .site#${event.target.id}`).classList.add("active");
-            doc.find(`.container#${event.target.id.replace("-link", "").replace("_", "-")}`).classList.add("active");
-        });
+    // URL
+    window.history.replaceState("", "Title", "?page=" + name);
+
+    // Header
+    if (doc.find(".navbar .site.active")) doc.find(".navbar .site.active").classList.remove("active");
+    doc.find(`.navbar #${name}-link.site`).classList.add("active");
+
+    // Page itself
+    if (doc.find(".subpage.active")) doc.find(".subpage.active").classList.remove("active");
+    doc.find(`.subpage#${name}`).classList.add("active");
+
+    // Run page script
+    let dict = {
+        "changelog": setupChangelog,
+        "preferences": setupPreferences,
+        "target_list": targetList,
+        "api_info": apiInfo,
+        "server": server,
+        "about": about
     }
-
-    // Icons
-    let icons_parent = doc.find("#preferences #icons");
-    for (let i = 1; i < 81; i++) {
-        let outer_div = doc.new({type: "div", class: `icon`})
-        let inner_div = doc.new({type: "div", class: `icon${i}`});
-
-        outer_div.appendChild(inner_div);
-        icons_parent.appendChild(outer_div);
-
-        outer_div.addEventListener("click", function () {
-            outer_div.classList.toggle("disabled");
-        });
+    if (!(name in initiated_pages) || !initiated_pages[name]) {
+        dict[name]();
+        initiated_pages[name] = true;
     }
 }
 
@@ -131,12 +129,12 @@ function setupChangelog() {
         let sub_ver = ver.split(" - ")[1] ? " - " + ver.split(" - ")[1] : "";
         ver = ver.split(" - ")[0];
 
-        let div = doc.new({type: "div", class: "parent"});
+        let div = doc.new({ type: "div", class: "parent" });
 
         // Heading
-        let heading = doc.new({type: "div", class: "heading", text: ver});
-        let span = doc.new({type: "span", text: sub_ver});
-        let icon = doc.new({type: "i", class: "fas fa-chevron-down"});
+        let heading = doc.new({ type: "div", class: "heading", text: ver });
+        let span = doc.new({ type: "span", text: sub_ver });
+        let icon = doc.new({ type: "i", class: "fas fa-chevron-down" });
         heading.appendChild(span);
         heading.appendChild(icon);
 
@@ -193,8 +191,8 @@ function setupChangelog() {
                                     _item = _item.slice(0, _item.indexOf(" - Mephiles"));
                                 }
 
-                                let _item_div = doc.new({type: "div", class: `child ${contributor}`});
-                                let _item_span = doc.new({type: "span", text: _item});
+                                let _item_div = doc.new({ type: "div", class: `child ${contributor}` });
+                                let _item_span = doc.new({ type: "span", text: _item });
                                 _item_div.appendChild(_item_span);
                                 _div.appendChild(_item_div);
                             }
@@ -267,27 +265,27 @@ function setupPreferences() {
     for (let page in settings.pages) {
         let has_global_disabled = false;
 
-        if(settings.pages[page].global === false) has_global_disabled = true;
+        if (settings.pages[page].global === false) has_global_disabled = true;
 
         for (let option in settings.pages[page]) {
             const optionDiv = preferences.find(`#${page}-${option}`);
             if (!optionDiv) continue;
 
             // Global option for pages. Disabled all options if global is disabled
-            if(option === "global" && optionDiv.classList.contains("heading")){
-                optionDiv.find("input").addEventListener("click", function(event){
+            if (option === "global" && optionDiv.classList.contains("heading")) {
+                optionDiv.find("input").addEventListener("click", function (event) {
                     let disabledGlobal = !event.target.checked;
 
-                    for(let option in settings.pages[page]){
-                        if(option === "global") continue;
+                    for (let option in settings.pages[page]) {
+                        if (option === "global") continue;
 
                         let inp = preferences.find(`#${page}-${option} input`);
 
-                        if(disabledGlobal) inp.setAttribute("disabled", true);
+                        if (disabledGlobal) inp.setAttribute("disabled", true);
                         else inp.removeAttribute("disabled");
                     }
                 });
-            } else if(option !== "global" && has_global_disabled){
+            } else if (option !== "global" && has_global_disabled) {
                 optionDiv.find("input, select").setAttribute("disabled", true);
             }
 
@@ -311,10 +309,10 @@ function setupPreferences() {
             break;
         }
 
-        let row = doc.new({type: "div", class: "row"});
-        let text_input = doc.new({type: "input", class: "text", value: ally});
-        let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
-        let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+        let row = doc.new({ type: "div", class: "row" });
+        let text_input = doc.new({ type: "input", class: "text", value: ally });
+        let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+        let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
         remove_icon.addEventListener("click", function (event) {
             event.target.parentElement.parentElement.remove();
@@ -334,12 +332,12 @@ function setupPreferences() {
 
     // Custom links
     for (let link of custom_links) {
-        let row = doc.new({type: "div", class: "row"});
-        let new_tab_input = doc.new({type: "input", class: "new_tab", attributes: {type: "checkbox"}});
-        let name_input = doc.new({type: "input", class: "text name", value: link.text});
-        let href_input = doc.new({type: "input", class: "text href", value: link.href});
-        let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
-        let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+        let row = doc.new({ type: "div", class: "row" });
+        let new_tab_input = doc.new({ type: "input", class: "new_tab", attributes: { type: "checkbox" } });
+        let name_input = doc.new({ type: "input", class: "text name", value: link.text });
+        let href_input = doc.new({ type: "input", class: "text href", value: link.href });
+        let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+        let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
         remove_icon.addEventListener("click", function (event) {
             event.target.parentElement.parentElement.remove();
@@ -365,16 +363,16 @@ function setupPreferences() {
 
     // Chat highlights
     for (let name in chat_highlight) {
-        let row = doc.new({type: "div", class: "row"});
-        let name_input = doc.new({type: "input", class: "text name", value: name});
+        let row = doc.new({ type: "div", class: "row" });
+        let name_input = doc.new({ type: "input", class: "text name", value: name });
         let color_input = doc.new({
             type: "input",
             class: "text color",
             value: chat_highlight[name],
-            attributes: {type: "color"}
+            attributes: { type: "color" }
         });
-        let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
-        let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+        let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+        let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
         remove_icon.addEventListener("click", function (event) {
             event.target.parentElement.parentElement.remove();
@@ -403,25 +401,25 @@ function setupPreferences() {
 
     // Loot alerts
     for (let npc_id in loot_times) {
-        let row = doc.new({type: "div", class: "row"});
+        let row = doc.new({ type: "div", class: "row" });
         let name_input = doc.new({
             type: "input",
             class: "text name",
             value: loot_times[npc_id].name,
-            attributes: {disabled: true}
+            attributes: { disabled: true }
         });
         let level_input = doc.new({
             type: "input",
             class: "text level",
             value: (loot_alerts[npc_id] ? loot_alerts[npc_id].level : ""),
-            attributes: {placeholder: "level.."}
+            attributes: { placeholder: "level.." }
         });
         let time_input = doc.new({
             type: "input",
             class: "text time",
             id: `npc-${npc_id}`,
             value: (loot_alerts[npc_id] ? loot_alerts[npc_id].time : ""),
-            attributes: {placeholder: "minutes.."}
+            attributes: { placeholder: "minutes.." }
         });
 
         row.appendChild(name_input);
@@ -464,6 +462,19 @@ function setupPreferences() {
     })
 
     // Icons
+    let icons_parent = doc.find("#preferences #icons");
+    for (let i = 1; i < 81; i++) {
+        let outer_div = doc.new({ type: "div", class: `icon` })
+        let inner_div = doc.new({ type: "div", class: `icon${i}` });
+
+        outer_div.appendChild(inner_div);
+        icons_parent.appendChild(outer_div);
+
+        outer_div.addEventListener("click", function () {
+            outer_div.classList.toggle("disabled");
+        });
+    }
+
     for (let icon of hide_icons) {
         preferences.find(`.${icon}`).parentElement.classList.add("disabled");
     }
@@ -496,11 +507,11 @@ function setupPreferences() {
 
     // Filters (Faction)
     for (let faction of filters.preset_data.factions.data) {
-        let row = doc.new({type: "div", class: "row"});
-        let radio_input = doc.new({type: "input", attributes: {type: "radio", name: "filter-faction", value: faction}});
-        let name_input = doc.new({type: "input", class: "text name", value: faction});
-        let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
-        let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+        let row = doc.new({ type: "div", class: "row" });
+        let radio_input = doc.new({ type: "input", attributes: { type: "radio", name: "filter-faction", value: faction } });
+        let name_input = doc.new({ type: "input", class: "text name", value: faction });
+        let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+        let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
         remove_icon.addEventListener("click", function (event) {
             event.target.parentElement.parentElement.remove();
@@ -520,24 +531,8 @@ function setupPreferences() {
     }
     if (filters.preset_data.factions.default) preferences.find(`#filter-factions input[value='${filters.preset_data.factions.default}']`).checked = true;
 
-    // Buttons
-    preferences.find("#save_settings").addEventListener("click", function () {
-        savePreferences(preferences, settings, target_list.show);
-    });
-    preferences.find("#reset_settings").addEventListener("click", function () {
-        ttStorage.reset();
-        message("Settings reset.", true);
-    });
-    preferences.find("#import_settings").addEventListener("click", function () {
-        // Export settings
-        chrome.runtime.sendMessage({action: "import_data"}, function (response) {
-            console.log(response.message);
-        });
-        message("Settings imported (refresh to see).", true);
-    });
-    
     // changing subsite
-    for(let link of preferences.findAll(".navigation>div:not(.heading)")){
+    for (let link of preferences.findAll(".navigation>div:not(.heading)")) {
         link.onclick = function () {
             let name = link.getAttribute("name");
             preferences.find(`.inner-content .section.active`).classList.remove("active");
@@ -548,198 +543,30 @@ function setupPreferences() {
     }
 }
 
-function savePreferences(preferences, settings, target_list_enabled) {
-    // General
-    settings.update_notification = preferences.find("#update_notification input").checked;
-    settings.force_tt = preferences.find("#force_tt input").checked;
-    settings.format.date = preferences.find("input[name=format-date]:checked").parentElement.id.split("-")[2];
-    settings.format.time = preferences.find("input[name=format-time]:checked").parentElement.id.split("-")[2];
-    settings.theme = preferences.find("input[name=theme]:checked").parentElement.id.split("-")[1];
-    settings.notifications_tts = preferences.find("#notifications_tts input").checked;
-    settings.notifications_sound = preferences.find("#notifications_sound input").checked;
-    settings.notifications_link = preferences.find("#notifications_link input").checked;
-    settings.clean_flight = preferences.find("#clean_flight input").checked;
-    settings.font_size = preferences.find("#font_size input").value.replace(/px/, "") + "px";
+function targetList() {
+    setupValueChanger();
 
-    // Tabs
-    for (let tab in settings.tabs) {
-        if (tab == "default") {
-            settings.tabs[tab] = preferences.find(`input[name=default-tab]:checked`).parentElement.innerText.toLowerCase();
-        } else {
-            settings.tabs[tab] = preferences.find(`#tab-${tab} input`).checked;
-        }
-    }
+    target_list = target_list.targets;
 
-    // Achievements
-    for (let key in settings.achievements) {
-        settings.achievements[key] = preferences.find(`#achievements-${key} input`).checked;
-    }
-
-    // Other scripts
-    for (let page in settings.pages) {
-        for (let option in settings.pages[page]) {
-            const optionDiv = preferences.find(`#${page}-${option}`);
-            if (!optionDiv) continue;
-
-            if (optionDiv.find("input")) settings.pages[page][option] = optionDiv.find("input").checked;
-            else if (optionDiv.find("select")) settings.pages[page][option] = optionDiv.find("select").selectedOptions[0].getAttribute("value");
-        }
-    }
-    // settings.remove_info_boxes = preferences.find(`#remove_info_boxes input`).checked;
-
-    // Target list
-    target_list_enabled = preferences.find(`#target_list input`).checked;
-
-    // Allies
-    let allies = [];
-    for (let ally of preferences.findAll("#ff-table .row:not(.input) .text")) {
-        allies.push(ally.value.trim());
-    }
-
-    // Custom links
-    let custom_links = [];
-    for (let link of preferences.findAll("#custom_links .row:not(.input")) {
-        console.log(link.find(".new_tab").checked)
-        custom_links.push({
-            text: link.find(".name").value,
-            href: link.find(".href").value,
-            new_tab: link.find(".new_tab").checked
-        });
-    }
-
-    // Loot alerts
-    let alerts = {}
-    for (let npc of preferences.findAll(`#loot-table .row`)) {
-        let npc_id = npc.find(".time").id.split("-")[1];
-        let level = romanToArabic(npc.find(".level").value);
-        let time = parseFloat(npc.find(".time").value);
-
-        alerts[npc_id] = {
-            level: level,
-            time: time
-        }
-    }
-
-    // Chat highlight
-    let highlights = {}
-    for (let row of preferences.findAll("#chat_highlight .row:not(.input)")) {
-        let name = row.find(".name").value;
-        let color = row.find(".color").value;
-
-        highlights[name] = color;
-    }
-
-    // Notifications
-    for (let notification in settings.notifications) {
-        if (preferences.find(`#notifications-${notification} input[type='text']`)) {
-            let values = preferences.find(`#notifications-${notification} input[type='text']`).value.split(",").filter(x => x !== "");
-
-            settings.notifications[notification] = values;
-        } else {
-            settings.notifications[notification] = preferences.find(`#notifications-${notification} input[type='checkbox']`).checked;
-        }
-    }
-
-    // Icons
-    let icons = [];
-    for (let icon of preferences.findAll(".icon.disabled>div")) {
-        icons.push(icon.getAttribute("class"));
-    }
-
-    // Inactivity Faction
-    settings.inactivity_alerts_faction = {}
-    let orange_time_faction = String(parseFloat(preferences.find("#faction-inactivity_alerts_first input").value) * 24 * 60 * 60 * 1000);
-    let red_time_faction = String(parseFloat(preferences.find("#faction-inactivity_alerts_second input").value) * 24 * 60 * 60 * 1000);
-    if (!isNaN(orange_time_faction)) {
-        settings.inactivity_alerts_faction[orange_time_faction] = "#fde5c8";
-    }
-    if (!isNaN(red_time_faction)) {
-        settings.inactivity_alerts_faction[red_time_faction] = "#ffc8c8";
-    }
-
-    // Inactivity Company
-    settings.inactivity_alerts_company = {}
-    let orange_time_company = String(parseFloat(preferences.find("#company-inactivity_alerts_first input").value) * 24 * 60 * 60 * 1000);
-    let red_time_company = String(parseFloat(preferences.find("#company-inactivity_alerts_second input").value) * 24 * 60 * 60 * 1000);
-    if (!isNaN(orange_time_company)) {
-        settings.inactivity_alerts_company[orange_time_company] = "#fde5c8";
-    }
-    if (!isNaN(red_time_company)) {
-        settings.inactivity_alerts_company[red_time_company] = "#ffc8c8";
-    }
-
-    // Items
-    settings.pages.items.highlight
-
-    // Filters (Faction)
-    let filter_factions = {
-        default: "",
-        data: []
-    }
-    for (let row of preferences.findAll("#filter-factions .row:not(.input)")) {
-        let name = row.find(".name").value;
-
-        if (row.find("input[type=radio]").checked == true) {
-            filter_factions.default = name;
-        }
-
-        filter_factions.data.push(name);
-    }
-    console.log("filter factions", filter_factions);
-
-    console.log("New settings", settings);
-
-    ttStorage.set({"settings": settings});
-    ttStorage.set({"allies": allies});
-    ttStorage.set({"custom_links": custom_links});
-    ttStorage.set({"loot_alerts": alerts});
-    ttStorage.set({"chat_highlight": highlights});
-    ttStorage.set({"hide_icons": icons});
-    ttStorage.change({
-        "filters": {
-            "preset_data": {
-                "factions": filter_factions
-            }
-        }
-    });
-
-    ttStorage.change({"target_list": {"show": target_list_enabled}}, function () {
-        ttStorage.get("target_list", function (target_list) {
-            console.log("new target list", target_list);
-        });
-    });
-
-    message("Settings saved.", true);
-
-    setTimeout(function () {
-        // Export settings
-        chrome.runtime.sendMessage({action: "export_data", type: "storage"}, function (response) {
-            console.log(response.message);
-            message(response.message, response.success);
-        });
-    }, 1000);
-}
-
-function setupTargetList(target_list) {
-    let table = doc.find("#target-list .table");
+    let table = doc.find("#target_list .table");
     let header = table.find(".header");
     let body = table.find(".body");
 
     let headings = [
-        {name: "id", text: "ID", type: "neutral"},
-        {name: "win", type: "good"},
-        {name: "mug", type: "good"},
-        {name: "leave", type: "good"},
-        {name: "hosp", type: "good"},
-        {name: "arrest", type: "good"},
-        {name: "special", type: "good"},
-        {name: "assist", type: "good"},
-        {name: "defend", type: "good"},
-        {name: "lose", text: "Losses", type: "bad"},
-        {name: "defend_lose", text: "Defends lost", type: "bad"},
-        {name: "stalemate", type: "bad"},
-        {name: "stealth", type: "neutral"},
-        {name: "respect", text: "Respect", type: "neutral"},
+        { name: "id", text: "ID", type: "neutral" },
+        { name: "win", type: "good" },
+        { name: "mug", type: "good" },
+        { name: "leave", type: "good" },
+        { name: "hosp", type: "good" },
+        { name: "arrest", type: "good" },
+        { name: "special", type: "good" },
+        { name: "assist", type: "good" },
+        { name: "defend", type: "good" },
+        { name: "lose", text: "Losses", type: "bad" },
+        { name: "defend_lose", text: "Defends lost", type: "bad" },
+        { name: "stalemate", type: "bad" },
+        { name: "stealth", type: "neutral" },
+        { name: "respect", text: "Respect", type: "neutral" },
     ]
 
     // Header row
@@ -883,9 +710,280 @@ function setupTargetList(target_list) {
     }
 }
 
+function apiInfo() {
+    // Fill in API key
+    doc.find("#api_field").value = api_key;
+    setupApiStatistics();
+
+    // Set new version text
+    if (new_version.available) {
+        doc.find("#about #new-version span").innerText = new_version.version;
+    } else {
+        doc.find("#about #new-version").style.display = "none";
+    }
+
+    // Allow notifications text
+    if (Notification.permission != "granted") {
+        doc.find("#allow_notifications").parentElement.classList.remove("hidden");
+    }
+}
+
+function server() {
+    loadingPlaceholder(doc.find("#server #tt_server_user_info"), true);
+
+    fetch(`https://torntools.gregork.com/api/${userdata.player_id}/data`)
+        .then(async response => {
+            let result = await response.json();
+            console.log("result", result);
+
+            result = result.data ? JSON.stringify(result.data, null, 2) : JSON.stringify(result, null, 2);
+
+            loadingPlaceholder(doc.find("#server #tt_server_user_info"), false);
+            doc.find("#server #tt_server_user_info").innerText = result;
+
+            // preferences.find("#reset_settings").addEventListener("click", function () {
+            //     ttStorage.reset();
+            //     message("Settings reset.", true);
+            // });
+
+            doc.find("#server_export").onclick = () => {
+                loadConfirmationPopup({
+                    title: 'Export',
+                    message: `### Following information about you will be exported:
+- Player ID
+- Player Username
+- Client version
+- Client database size
+- Database
+    - vault
+    - stock alerts
+    - loot alerts
+    - allies
+    - custom links
+    - chat highlight
+    - hidden icons
+    - quick items & crimes
+    - notes
+    - filter settings
+    - sorting settings
+    - watchlist
+    - preferences
+                    `,
+                })
+                .then(() => {
+                    exportData();
+                })
+                .catch(() => {})
+            }
+
+            doc.find("#server_import").onclick = () => {
+                importData();
+            }
+
+            doc.find("#server_clear").onclick = () => {
+                clearRemoteData();
+            }
+        });
+}
+
+function about() {
+    // About info
+    doc.find("#about #version span").innerText = `v${version}`;
+    if (chrome.storage.local.getBytesInUse) {
+        chrome.storage.local.getBytesInUse(function (data) {
+            doc.find("#about #data-used span").innerText = formatBytes(data);
+        });
+    } else {
+        setTimeout(() => doc.find("#about #data-used span").innerText = formatBytes(JSON.stringify(DB).length), 0);
+    }
+}
+
+// Functions
+
+function savePreferences(preferences, settings, target_list_enabled) {
+    // General
+    settings.update_notification = preferences.find("#update_notification input").checked;
+    settings.force_tt = preferences.find("#force_tt input").checked;
+    settings.format.date = preferences.find("input[name=format-date]:checked").parentElement.id.split("-")[2];
+    settings.format.time = preferences.find("input[name=format-time]:checked").parentElement.id.split("-")[2];
+    settings.theme = preferences.find("input[name=theme]:checked").parentElement.id.split("-")[1];
+    settings.notifications_tts = preferences.find("#notifications_tts input").checked;
+    settings.notifications_sound = preferences.find("#notifications_sound input").checked;
+    settings.notifications_link = preferences.find("#notifications_link input").checked;
+    settings.clean_flight = preferences.find("#clean_flight input").checked;
+    settings.font_size = preferences.find("#font_size input").value.replace(/px/, "") + "px";
+
+    // Tabs
+    for (let tab in settings.tabs) {
+        if (tab == "default") {
+            settings.tabs[tab] = preferences.find(`input[name=default-tab]:checked`).parentElement.innerText.toLowerCase();
+        } else {
+            settings.tabs[tab] = preferences.find(`#tab-${tab} input`).checked;
+        }
+    }
+
+    // Achievements
+    for (let key in settings.achievements) {
+        settings.achievements[key] = preferences.find(`#achievements-${key} input`).checked;
+    }
+
+    // Other scripts
+    for (let page in settings.pages) {
+        for (let option in settings.pages[page]) {
+            const optionDiv = preferences.find(`#${page}-${option}`);
+            if (!optionDiv) continue;
+
+            if (optionDiv.find("input")) settings.pages[page][option] = optionDiv.find("input").checked;
+            else if (optionDiv.find("select")) settings.pages[page][option] = optionDiv.find("select").selectedOptions[0].getAttribute("value");
+        }
+    }
+    // settings.remove_info_boxes = preferences.find(`#remove_info_boxes input`).checked;
+
+    // Target list
+    target_list_enabled = preferences.find(`#target_list input`).checked;
+
+    // Allies
+    let allies = [];
+    for (let ally of preferences.findAll("#ff-table .row:not(.input) .text")) {
+        allies.push(ally.value.trim());
+    }
+
+    // Custom links
+    let custom_links = [];
+    for (let link of preferences.findAll("#custom_links .row:not(.input")) {
+        console.log(link.find(".new_tab").checked)
+        custom_links.push({
+            text: link.find(".name").value,
+            href: link.find(".href").value,
+            new_tab: link.find(".new_tab").checked
+        });
+    }
+
+    // Loot alerts
+    let alerts = {}
+    for (let npc of preferences.findAll(`#loot-table .row`)) {
+        let npc_id = npc.find(".time").id.split("-")[1];
+        let level = romanToArabic(npc.find(".level").value);
+        let time = parseFloat(npc.find(".time").value);
+
+        alerts[npc_id] = {
+            level: level,
+            time: time
+        }
+    }
+
+    // Chat highlight
+    let highlights = {}
+    for (let row of preferences.findAll("#chat_highlight .row:not(.input)")) {
+        let name = row.find(".name").value;
+        let color = row.find(".color").value;
+
+        highlights[name] = color;
+    }
+
+    // Notifications
+    for (let notification in settings.notifications) {
+        if (preferences.find(`#notifications-${notification} input[type='text']`)) {
+            let values = preferences.find(`#notifications-${notification} input[type='text']`).value.split(",").filter(x => x !== "");
+
+            settings.notifications[notification] = values;
+        } else {
+            settings.notifications[notification] = preferences.find(`#notifications-${notification} input[type='checkbox']`).checked;
+        }
+    }
+
+    // Icons
+    let icons = [];
+    for (let icon of preferences.findAll(".icon.disabled>div")) {
+        icons.push(icon.getAttribute("class"));
+    }
+
+    // Inactivity Faction
+    settings.inactivity_alerts_faction = {}
+    let orange_time_faction = String(parseFloat(preferences.find("#faction-inactivity_alerts_first input").value) * 24 * 60 * 60 * 1000);
+    let red_time_faction = String(parseFloat(preferences.find("#faction-inactivity_alerts_second input").value) * 24 * 60 * 60 * 1000);
+    if (!isNaN(orange_time_faction)) {
+        settings.inactivity_alerts_faction[orange_time_faction] = "#fde5c8";
+    }
+    if (!isNaN(red_time_faction)) {
+        settings.inactivity_alerts_faction[red_time_faction] = "#ffc8c8";
+    }
+
+    // Inactivity Company
+    settings.inactivity_alerts_company = {}
+    let orange_time_company = String(parseFloat(preferences.find("#company-inactivity_alerts_first input").value) * 24 * 60 * 60 * 1000);
+    let red_time_company = String(parseFloat(preferences.find("#company-inactivity_alerts_second input").value) * 24 * 60 * 60 * 1000);
+    if (!isNaN(orange_time_company)) {
+        settings.inactivity_alerts_company[orange_time_company] = "#fde5c8";
+    }
+    if (!isNaN(red_time_company)) {
+        settings.inactivity_alerts_company[red_time_company] = "#ffc8c8";
+    }
+
+    // Items
+    settings.pages.items.highlight
+
+    // Filters (Faction)
+    let filter_factions = {
+        default: "",
+        data: []
+    }
+    for (let row of preferences.findAll("#filter-factions .row:not(.input)")) {
+        let name = row.find(".name").value;
+
+        if (row.find("input[type=radio]").checked == true) {
+            filter_factions.default = name;
+        }
+
+        filter_factions.data.push(name);
+    }
+    console.log("filter factions", filter_factions);
+
+    console.log("New settings", settings);
+
+    ttStorage.set({ "settings": settings });
+    ttStorage.set({ "allies": allies });
+    ttStorage.set({ "custom_links": custom_links });
+    ttStorage.set({ "loot_alerts": alerts });
+    ttStorage.set({ "chat_highlight": highlights });
+    ttStorage.set({ "hide_icons": icons });
+    ttStorage.change({
+        "filters": {
+            "preset_data": {
+                "factions": filter_factions
+            }
+        }
+    });
+
+    ttStorage.change({ "target_list": { "show": target_list_enabled } }, function () {
+        ttStorage.get("target_list", function (target_list) {
+            console.log("new target list", target_list);
+        });
+    });
+
+    message("Settings saved.", true);
+}
+
+function message(text, good) {
+    let message_element = doc.find("#message");
+    message_element.innerText = text;
+    if (good) {
+        message_element.style.backgroundColor = "#30e202";
+    } else {
+        message_element.style.backgroundColor = "#ff19199e";
+    }
+
+    message_element.style.maxHeight = message_element.scrollHeight + "px";
+
+    setTimeout(function () {
+        message_element.innerText = "";
+        message_element.style.maxHeight = null;
+    }, 1500);
+}
+
 function setupValueChanger() {
     doc.find("#num_per .switch-input").addEventListener("click", function (event) {
-        let rows = doc.findAll("#target-list .table .body .row");
+        let rows = doc.findAll("#target_list .table .body .row");
 
         for (let row of rows) {
             for (let item of row.findAll("div")) {
@@ -903,18 +1001,18 @@ function setupValueChanger() {
 function resetApiKey() {
     let new_api_key = doc.find("#api_field").value;
 
-    ttStorage.set({"api_key": new_api_key}, function () {
-        chrome.runtime.sendMessage({action: "fetch", type: "torndata"}, function (response) {
+    ttStorage.set({ "api_key": new_api_key }, function () {
+        chrome.runtime.sendMessage({ action: "fetch", type: "torndata" }, function (response) {
             message("API key changed.", true);
         });
     });
 }
 
 function addAllyToList(event) {
-    let row = doc.new({type: "div", class: "row"});
-    let text_input = doc.new({type: "input", class: "text", value: event.target.previousElementSibling.value});
-    let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
-    let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"})
+    let row = doc.new({ type: "div", class: "row" });
+    let text_input = doc.new({ type: "input", class: "text", value: event.target.previousElementSibling.value });
+    let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+    let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" })
 
     remove_icon.addEventListener("click", function (event) {
         event.target.parentElement.parentElement.remove();
@@ -936,16 +1034,16 @@ function addAllyToList(event) {
 }
 
 function addLinktoList(event) {
-    let row = doc.new({type: "div", class: "row"});
-    let new_tab_input = doc.new({type: "input", class: "new_tab", attributes: {type: "checkbox"}});
+    let row = doc.new({ type: "div", class: "row" });
+    let new_tab_input = doc.new({ type: "input", class: "new_tab", attributes: { type: "checkbox" } });
     let name_input = doc.new({
         type: "input",
         class: "text name",
         value: event.target.previousElementSibling.previousElementSibling.value
     });
-    let href_input = doc.new({type: "input", class: "text href", value: event.target.previousElementSibling.value});
-    let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
-    let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+    let href_input = doc.new({ type: "input", class: "text href", value: event.target.previousElementSibling.value });
+    let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+    let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
     remove_icon.addEventListener("click", function (event) {
         event.target.parentElement.parentElement.remove();
@@ -975,14 +1073,14 @@ function addLinktoList(event) {
 }
 
 function addFactionToFilter(event) {
-    let row = doc.new({type: "div", class: "row"});
+    let row = doc.new({ type: "div", class: "row" });
     let radio_input = doc.new({
         type: "input",
-        attributes: {type: "radio", name: "filter-faction", value: event.target.previousElementSibling.value}
+        attributes: { type: "radio", name: "filter-faction", value: event.target.previousElementSibling.value }
     });
-    let name_input = doc.new({type: "input", class: "text name", value: event.target.previousElementSibling.value});
-    let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
-    let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+    let name_input = doc.new({ type: "input", class: "text name", value: event.target.previousElementSibling.value });
+    let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+    let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
     if (event.target.previousElementSibling.previousElementSibling.checked == true) {
         radio_input.checked = true;
@@ -1009,25 +1107,8 @@ function addFactionToFilter(event) {
     event.target.previousElementSibling.previousElementSibling.checked = false;
 }
 
-function message(text, good) {
-    let message_element = doc.find("#message");
-    message_element.innerText = text;
-    if (good) {
-        message_element.style.backgroundColor = "#30e202";
-    } else {
-        message_element.style.backgroundColor = "#ff19199e";
-    }
-
-    message_element.style.maxHeight = message_element.scrollHeight + "px";
-
-    setTimeout(function () {
-        message_element.innerText = "";
-        message_element.style.maxHeight = null;
-    }, 1500);
-}
-
 function addHighlightToList(event) {
-    let row = doc.new({type: "div", class: "row"});
+    let row = doc.new({ type: "div", class: "row" });
     let name_input = doc.new({
         type: "input",
         class: "text name",
@@ -1037,10 +1118,10 @@ function addHighlightToList(event) {
         type: "input",
         class: "text color",
         value: event.target.previousElementSibling.value,
-        attributes: {type: "color"}
+        attributes: { type: "color" }
     });
-    let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
-    let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
+    let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+    let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
     remove_icon.addEventListener("click", function (event) {
         event.target.parentElement.parentElement.remove();
@@ -1216,4 +1297,156 @@ function setupApiStatistics() {
 
     doc.find("#average_calls_per_minute").innerText = (total_minute_requests / total_minutes).toFixed(1);
     doc.find("#average_calls_per_hour").innerText = (total_hour_requests / total_hours).toFixed(1);
+}
+
+function exportData() {
+    ttStorage.get(null, async (database) => {
+        
+        if(!database) {
+            return message('No database found.', false);
+        }
+        if(!database.userdata) {
+            return message('No player ID found.', false);
+        }
+
+        let post_data = {
+            id: database.userdata.player_id.toString(),
+            name: database.userdata.name,
+            client: {
+                version: chrome.runtime.getManifest().version,
+                disk_space: await (function(){
+                    return new Promise(function(resolve, reject){
+                        if(chrome.storage.local.getBytesInUse){
+                            chrome.storage.local.getBytesInUse(function(data){
+                                return resolve(data.toString());
+                            });
+                        } else {
+                            return resolve(formatBytes(JSON.stringify(DB).length));
+                        }
+                    });
+                })()
+            },
+            storage: {}
+        }
+        
+        let keys_to_export = [
+            "vault",
+            "stock_alerts",
+            "loot_alerts",
+            "allies",
+            "custom_links",
+            "chat_highlight",
+            "hide_icons",
+            "quick",
+            "notes",
+            "filters",
+            "sorting",
+            "watchlist",
+            "settings"
+        ]
+
+        for(let key of keys_to_export) {
+            if(!(key in database)) {
+                return message(`Database is missing key: ${key}`, false);
+            }
+
+            post_data.storage[key] = database[key];
+        }
+
+        fetch(`https://torntools.gregork.com/api/${userdata.player_id}/storage/update`, {
+            method: "POST",
+            headers: {"content-type": "application/json"},
+            body: JSON.stringify(post_data)
+        })
+        .then(async response => {
+            let result = await response.json();
+            console.log("export", result);
+
+            message(result.message, result.success);
+        }).catch(err => {
+            console.log(err);
+
+            if(err.name === "SyntaxError") {
+                message('Malformed response', false);
+            }
+        });
+    });
+}
+
+function importData() {
+    fetch(`https://torntools.gregork.com/api/${userdata.player_id}/storage`)
+    .then(async response => {
+        let result = await response.json();
+        console.log("import", result);
+
+        if(!result.success) return message(result.message, false);
+
+        loadConfirmationPopup({
+            title: 'Import',
+            message: `### Are you sure that you want to merge following items?
+  - asd
+            
+            `
+        })
+        .then(() => {
+            console.log("confirm")
+        })
+        .catch(() => {
+            console.log("cancel")
+        })
+    })
+    .catch(err => {
+        console.log(err);
+
+        if(err.name === "SyntaxError") {
+            message('Malformed response', false);
+        }
+    })
+}
+
+function clearRemoteData() {
+    fetch(`https://torntools.gregork.com/api/${userdata.player_id}/storage/clear`)
+    .then(async response => {
+        let result = await response.json();
+        console.log("clear", result);
+
+        if(!result.success) return message(result.message, false);
+
+        loadConfirmationPopup({
+            title: 'Clear Data',
+            message: `### Are you sure you want to Delete following data from the remote server?
+- Player ID
+- Player Username
+- Client version
+- Client database size
+- Database
+    - vault
+    - stock alerts
+    - loot alerts
+    - allies
+    - custom links
+    - chat highlight
+    - hidden icons
+    - quick items & crimes
+    - notes
+    - filter settings
+    - sorting settings
+    - watchlist
+    - preferences
+            `,
+        })
+        .then(() => {
+            console.log("confirm")
+        })
+        .catch(() => {
+            console.log("cancel")
+        })
+    })
+    .catch(err => {
+        console.log(err);
+
+        if(err.name === "SyntaxError") {
+            message('Malformed response', false);
+        }
+    })
 }

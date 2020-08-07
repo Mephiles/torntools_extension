@@ -1763,3 +1763,28 @@ function onDrop(event) {
 
     event.dataTransfer.clearData();
 }
+
+function loadConfirmationPopup(options){
+    return new Promise((resolve, reject) => {
+        const markdownConverter = new showdown.Converter();
+
+        doc.find(".tt-black-overlay").classList.add("active");
+        doc.find(".tt-confirmation-popup").classList.add("active");
+
+        doc.find(".tt-confirmation-popup .title").innerText = options.title;
+        doc.find(".tt-confirmation-popup .message").innerHTML = markdownConverter.makeHtml(options.message);
+
+        doc.find(".tt-confirmation-popup .actions .button.green").onclick = () => {
+            doc.find(".tt-black-overlay").classList.remove("active");
+            doc.find(".tt-confirmation-popup").classList.remove("active");
+
+            return resolve();
+        }
+        doc.find(".tt-confirmation-popup .actions .button.red").onclick = () => {
+            doc.find(".tt-black-overlay").classList.remove("active");
+            doc.find(".tt-confirmation-popup").classList.remove("active");
+            
+            return reject();
+        }
+    });
+}
