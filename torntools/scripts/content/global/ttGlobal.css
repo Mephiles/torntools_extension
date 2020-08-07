@@ -323,8 +323,11 @@ div[role='main'].tt-modified {
     flex: 1 0 auto;
     margin-bottom: 10px;
 }
+.filter-subwrap {
+    flex: 1 0 auto;
+    margin-bottom: 10px;
+}
 .filter-wrap .filter-heading {
-    /* margin-left: 30%; */
     text-align: center;
     font-weight: 600;
     margin-bottom: 5px;

@@ -160,17 +160,31 @@ function addFilter(filters) {
             <div class="filter-wrap" id="forecast-filter">
                 <div class="filter-heading">Forecast</div>
                 <div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}">
-                    <div class="tt-checkbox-wrap forecast-very_good"><input type="checkbox" value="very_good">Very Good</div>
-                    <div class="tt-checkbox-wrap forecast-good"><input type="checkbox" value="good">Good</div>
-                    <div class="tt-checkbox-wrap forecast-average"><input type="checkbox" value="average">Average</div>
-                    <div class="tt-checkbox-wrap forecast-poor"><input type="checkbox" value="poor">Poor</div>
-                    <div class="tt-checkbox-wrap forecast-very_poor"><input type="checkbox" value="very_poor">Very Poor</div>
+                    <div class="tt-checkbox-wrap"><input type="checkbox" value="very_good">Very Good</div>
+                    <div class="tt-checkbox-wrap"><input type="checkbox" value="good">Good</div>
+                    <div class="tt-checkbox-wrap"><input type="checkbox" value="average">Average</div>
+                    <div class="tt-checkbox-wrap"><input type="checkbox" value="poor">Poor</div>
+                    <div class="tt-checkbox-wrap"><input type="checkbox" value="very_poor">Very Poor</div>
                 </div>
             </div>
             <div class="filter-wrap" id="extra-filter">
-                <div class="filter-heading">Other</div>
-                <div class="tt-input-wrap" id="name-filter">Name: <input type="text" style="width: 50px;"></div>
-                ${isPortfolio ? `` : ""}
+                <div class="filter-subwrap">
+                    <div class="filter-heading">Name</div>
+                    <div class="tt-input-wrap" id="name-filter">Name: <input type="text" style="width: 50px;"></div>
+                </div>
+                ${isPortfolio ? ` 
+                <div class="filter-subwrap" id="profit-filter">
+                    <div class="filter-heading">Profit / Loss</div>
+                    <div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}" id="profit-filter">
+                        <div class="tt-checkbox-wrap"><input type="checkbox" value="profit">Profit</div>
+                        <div class="tt-checkbox-wrap"><input type="checkbox" value="loss">Loss</div>
+                    </div>
+                </div>
+                <div class="filter-subwrap">
+                    <div class="filter-heading">Listed</div>
+                    <div class="tt-checkbox-wrap" id="listed-filter"><input type="checkbox" value="listed">Listed</div>
+                </div>
+                ` : ""}
             </div>
         </div>
     `;
@@ -187,6 +201,13 @@ function addFilter(filters) {
     for (let state of filters.stock_exchange.forecast) {
         doc.find(`#forecast-filter input[type='checkbox'][value='${state}']`).checked = true;
     }
+    if (isPortfolio) {
+        for (let state of filters.stock_exchange.profitLoss) {
+            doc.find(`#extra-filter #profit-filter input[type='checkbox'][value='${state}']`).checked = true;
+        }
+
+        doc.find(`#extra-filter #listed-filter input`).value = filters.stock_exchange.listedOnly;
+    }
     doc.find(`#extra-filter #name-filter input`).value = filters.stock_exchange.name;
 
     applyFilters();
@@ -194,6 +215,8 @@ function addFilter(filters) {
     function applyFilters() {
         let worth = [];
         let forecast = [];
+        let profitLoss = [];
+        let listedOnly;
 
         // Worth
         for (let checkbox of doc.findAll("#worth-filter input[type='checkbox']:checked")) {
@@ -203,7 +226,13 @@ function addFilter(filters) {
         for (let checkbox of doc.findAll("#forecast-filter input[type='checkbox']:checked")) {
             forecast.push(checkbox.getAttribute("value"));
         }
-        const input = doc.find(`#extra-filter #name-filter input`).value;
+        const name = doc.find(`#extra-filter #name-filter input`).value;
+        if (isPortfolio) {
+            for (let checkbox of doc.findAll("#extra-filter #profit-filter input[type='checkbox']:checked")) {
+                profitLoss.push(checkbox.getAttribute("value"));
+            }
+            listedOnly = doc.find(`#extra-filter #listed-filter input`).checked;
+        }
 
         // Filtering
         for (let stock of doc.findAll(".stock-list > .item, .portfolio-list-shares > li.item-wrap")) {
@@ -256,9 +285,26 @@ function addFilter(filters) {
             }
 
             // Input
-            if (input && !(data.acronym.toLowerCase().includes(input.toLowerCase()) || data.name.toLowerCase().includes(input.toLowerCase()))) {
+            if (name && !(data.acronym.toLowerCase().includes(name.toLowerCase()) || data.name.toLowerCase().includes(name.toLowerCase()))) {
                 stock.classList.add("filter-hidden");
                 continue;
+            }
+
+            if (isPortfolio) {
+                const changeClasses = stock.find(".length-wrap .second-row .prop-wrap .change").classList;
+
+                // profit or loss
+                if (profitLoss && profitLoss.length &&
+                    !((profitLoss.includes("profit") && changeClasses.contains("up")) ||
+                        (profitLoss.includes("loss") && changeClasses.contains("down")))) {
+                    stock.classList.add("filter-hidden");
+                    continue;
+                }
+
+                if (listedOnly && !stock.classList.contains("remove")) {
+                    stock.classList.add("filter-hidden");
+                    continue;
+                }
             }
 
             stock.classList.remove("filter-hidden");
@@ -270,6 +316,8 @@ function addFilter(filters) {
                     forecast,
                     worth,
                     name,
+                    profitLoss,
+                    listed: listedOnly,
                 }
             }
         });

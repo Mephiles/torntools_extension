@@ -1,5 +1,10 @@
 /* General UI */
 
+.filter-wrap {
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
 .tt-input-wrap input {
     height: 10px;
     border-radius: 3px;

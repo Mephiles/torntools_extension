@@ -315,6 +315,8 @@ const STORAGE = {
             "forecast": [],
             "worth": [],
             "name": "",
+            "profitLoss": [],
+            "listedOnly": false,
         },
     },
     "sorting": {
