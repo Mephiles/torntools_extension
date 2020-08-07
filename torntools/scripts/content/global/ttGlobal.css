@@ -113,7 +113,7 @@
 }
 
 .tt-black-overlay {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -135,7 +135,7 @@
     left: 25%;
     padding-bottom: 5px;
     top: 20%;
-    position: absolute;
+    position: fixed;
     display: none;
     background-color: white;
     border-radius: 10px;
@@ -291,6 +291,10 @@
 }
 .overview_1MoPG .message_oP8oM * {
     font-size: var(--torntools-chat-font-size) !important;
+}
+
+body.tt-unscrollable {
+    overflow-y: hidden !important;
 }
 
 /* mobile */
