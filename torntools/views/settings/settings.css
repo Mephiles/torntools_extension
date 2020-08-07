@@ -72,6 +72,34 @@ p {
     font-weight: 600;
 }
 
+.button {
+    min-width: 60px;
+    padding: 0 4px;
+    height: 30px;
+    border: 1px solid lightgrey;
+    margin-right: 10px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 7px;
+    color: black;
+    cursor: pointer;
+    font-weight: 600;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #f5f5f5;
+}
+.button:hover {
+    border: 1px solid black;
+}
+.button.red {
+    background-color: #c82333;
+    color: white;
+}
+.button.green {
+    background-color: #149a32;
+    color: white;
+}
+
 @media only screen and (max-width: 1400px) {
     .navbar {
         width: 70% !important;
@@ -107,8 +135,7 @@ p {
 }
 
 .navbar .site {
-    flex-grow: 1;
-    flex-basis: 0;
+    flex: 1 0 auto;
     text-align: center;
     font-size: 15px;
     cursor: pointer;
@@ -215,15 +242,15 @@ p {
 
 /* API info */
 
-#api-info .input-field {
+#api_info .input-field {
     margin-top: 20px;
 }
 
-#api-info .input-field .label {
+#api_info .input-field .label {
     margin-bottom: 3px;
 }
 
-#api-info .actions .button {
+/* #api_info .actions .button {
     width: fit-content;
     padding: 0 3px;
     height: 30px;
@@ -237,12 +264,12 @@ p {
     font-weight: 600;
     background-color: gray;
 }
-#api-info .actions .button:hover {
+#api_info .actions .button:hover {
     background-color: lightgray;
-}
+} */
 /* Target list */
 
-#target-list .content {
+#target_list .content {
     width: 60%;
     max-height: 600px;
     overflow: auto;
@@ -325,11 +352,11 @@ p {
 #preferences .footer {
     padding: 5px;
 }
-#preferences .footer .actions {
+.actions.right {
     display: flex;
     flex-direction: row-reverse;
 }
-#preferences .footer .actions * {
+/* #preferences .footer .actions * {
     width: 60px;
     height: 30px;
     border: 1px solid lightgrey;
@@ -342,7 +369,7 @@ p {
     font-weight: 600;
     display: inline-block;
     vertical-align: top;
-}
+} */
 /* #preferences .footer .actions {
     width: 29%;
     display: inline-block;
@@ -364,7 +391,7 @@ p {
 }
 
  */
-#preferences #save_settings {
+/* #preferences #save_settings {
     background-color: #149a32;
 }
 #preferences #save_settings:hover {
@@ -381,7 +408,7 @@ p {
 }
 #preferences #import_settings:hover {
     background-color: lightgray;
-}
+} */
 
 .icon {
     width: 17px;
@@ -431,4 +458,12 @@ p {
 /* About */
 #about #new-version p {
     text-decoration: underline;
+}
+
+/* Remote server */
+.json-text {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
 }
