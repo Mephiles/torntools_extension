@@ -201,6 +201,7 @@ function Main_5_seconds() {
 	for (let notification_type in notifications) {
 		for (let notification_key in notifications[notification_type]) {
 			if (notifications[notification_type][notification_key].seen == 0) {
+				console.log("NOTIFY USER", notification_type, notification_type)
 				notifyUser(
 					notifications[notification_type][notification_key].title,
 					notifications[notification_type][notification_key].text,
@@ -354,12 +355,17 @@ function Main_30_seconds() {
 						// Check for bars
 						if (settings.notifications.global) {
 							for (let bar of ["energy", "happy", "nerve", "life"]) {
+								console.log(bar, settings.notifications[bar].length)
 								if (previous_userdata[bar] && settings.notifications[bar].length > 0) {
-									let checkpoints = settings.notifications[bar].map(x => (typeof x === "string" && x.includes("%")) ? parseInt(x) / 100 * userdata[bar].maximum : parseInt(x)).sort(function (a, b) { return b - a });
+									console.log("passed")
+									let checkpoints = settings.notifications[bar].map(x => (typeof x === "string" && x.includes("%")) ? parseInt(x) / 100 * userdata[bar].maximum : parseInt(x)).sort(function (a, b) {
+										return b - a
+									});
 									console.log(`${bar} checkpoints previous:`, settings.notifications[bar]);
 									console.log(`${bar} checkpoints modified:`, checkpoints);
 									for (let checkpoint of checkpoints) {
 										if (previous_userdata[bar].current < userdata[bar].current && userdata[bar].current >= checkpoint && !notifications[bar][checkpoint]) {
+											console.log("NOTIFICATION ADD", bar)
 											notifications[bar][checkpoint] = {
 												title: "TornTools - Bars",
 												text: `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`,
@@ -380,7 +386,9 @@ function Main_30_seconds() {
 
 						// Check for hospital notification
 						if (settings.notifications.global && settings.notifications.hospital.length > 0 && userdata.status.state == "Hospital") {
-							for (let checkpoint of settings.notifications.hospital.sort(function (a, b) { return a - b })) {
+							for (let checkpoint of settings.notifications.hospital.sort(function (a, b) {
+								return a - b
+							})) {
 								let time_left = new Date(userdata.status.until * 1000) - new Date(); // ms
 
 								if (time_left <= parseInt(checkpoint) * 60 * 1000 && !notifications.hospital[checkpoint]) {
@@ -400,7 +408,9 @@ function Main_30_seconds() {
 
 						// Check for travel notification
 						if (settings.notifications.global && settings.notifications.landing.length > 0 && userdata.travel.time_left > 0) {
-							for (let checkpoint of settings.notifications.landing.sort(function (a, b) { return a - b })) {
+							for (let checkpoint of settings.notifications.landing.sort(function (a, b) {
+								return a - b
+							})) {
 								let time_left = new Date(userdata.travel.timestamp * 1000) - new Date(); // ms
 
 								if (time_left <= parseInt(checkpoint) * 60 * 1000 && !notifications.travel[checkpoint]) {
@@ -421,7 +431,9 @@ function Main_30_seconds() {
 
 						// Check for chain notification
 						if (settings.notifications.global && settings.notifications.chain.length > 0 && userdata.chain.timeout !== 0) {
-							for (let checkpoint of settings.notifications.chain.sort(function (a, b) { return a - b })) {
+							for (let checkpoint of settings.notifications.chain.sort(function (a, b) {
+								return a - b
+							})) {
 								let real_timeout = userdata.chain.timeout * 1000 - (new Date() - new Date(userdata.timestamp * 1000));  // ms
 
 								if (real_timeout <= parseInt(checkpoint) * 60 * 1000 && !notifications.chain[checkpoint]) {
