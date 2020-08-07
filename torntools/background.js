@@ -201,7 +201,6 @@ function Main_5_seconds() {
 	for (let notification_type in notifications) {
 		for (let notification_key in notifications[notification_type]) {
 			if (notifications[notification_type][notification_key].seen == 0) {
-				console.log("NOTIFY USER", notification_type, notification_type)
 				notifyUser(
 					notifications[notification_type][notification_key].title,
 					notifications[notification_type][notification_key].text,
@@ -355,9 +354,7 @@ function Main_30_seconds() {
 						// Check for bars
 						if (settings.notifications.global) {
 							for (let bar of ["energy", "happy", "nerve", "life"]) {
-								console.log(bar, settings.notifications[bar].length)
 								if (previous_userdata[bar] && settings.notifications[bar].length > 0) {
-									console.log("passed")
 									let checkpoints = settings.notifications[bar].map(x => (typeof x === "string" && x.includes("%")) ? parseInt(x) / 100 * userdata[bar].maximum : parseInt(x)).sort(function (a, b) {
 										return b - a
 									});
@@ -365,7 +362,6 @@ function Main_30_seconds() {
 									console.log(`${bar} checkpoints modified:`, checkpoints);
 									for (let checkpoint of checkpoints) {
 										if (previous_userdata[bar].current < userdata[bar].current && userdata[bar].current >= checkpoint && !notifications[bar][checkpoint]) {
-											console.log("NOTIFICATION ADD", bar)
 											notifications[bar][checkpoint] = {
 												title: "TornTools - Bars",
 												text: `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`,
