@@ -1679,6 +1679,61 @@ function notifyUser(title, message, url) {
     });
 }
 
+function onDragOver(event) {
+    event.preventDefault();
+}
+
+function onDragEnter(event) {
+    if (doc.find("#ttQuick .temp.item")) {
+        doc.find("#ttQuick .temp.item").style.opacity = "1";
+    }
+}
+
+function onDragLeave(event) {
+    if (doc.find("#ttQuick .temp.item")) {
+        doc.find("#ttQuick .temp.item").style.opacity = "0.2";
+    }
+}
+
+function onDrop(event) {
+    let tempElement = doc.find("#ttQuick .temp.item");
+    tempElement.classList.remove("temp");
+    doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px";
+
+    event.dataTransfer.clearData();
+}
+
+function loadConfirmationPopup(options) {
+    return new Promise((resolve, reject) => {
+        const markdownConverter = new showdown.Converter();
+
+        doc.find(".tt-black-overlay").classList.add("active");
+        doc.find(".tt-confirmation-popup").classList.add("active");
+
+        doc.find("body").classList.add("tt-unscrollable");
+
+        doc.find(".tt-confirmation-popup .title").innerText = options.title;
+        doc.find(".tt-confirmation-popup .message").innerHTML = markdownConverter.makeHtml(options.message);
+
+        doc.find(".tt-confirmation-popup .actions .button.green").onclick = () => {
+            doc.find(".tt-black-overlay").classList.remove("active");
+            doc.find(".tt-confirmation-popup").classList.remove("active");
+
+            doc.find("body").classList.remove("tt-unscrollable");
+
+            return resolve();
+        }
+        doc.find(".tt-confirmation-popup .actions .button.red").onclick = () => {
+            doc.find(".tt-black-overlay").classList.remove("active");
+            doc.find(".tt-confirmation-popup").classList.remove("active");
+
+            doc.find("body").classList.remove("tt-unscrollable");
+
+            return reject();
+        }
+    });
+}
+
 function fetchApi(http, apiKey) {
     return new Promise(async (resolve) => {
         ttStorage.get("api_history", function (api_history) {
@@ -1740,57 +1795,76 @@ function fetchApi(http, apiKey) {
     });
 }
 
-function onDragOver(event) {
-    event.preventDefault();
-}
-
-function onDragEnter(event) {
-    if (doc.find("#ttQuick .temp.item")) {
-        doc.find("#ttQuick .temp.item").style.opacity = "1";
-    }
-}
-
-function onDragLeave(event) {
-    if (doc.find("#ttQuick .temp.item")) {
-        doc.find("#ttQuick .temp.item").style.opacity = "0.2";
-    }
-}
-
-function onDrop(event) {
-    let tempElement = doc.find("#ttQuick .temp.item");
-    tempElement.classList.remove("temp");
-    doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px";
-
-    event.dataTransfer.clearData();
-}
-
-function loadConfirmationPopup(options) {
+function fetchApi_v2(location, options = {/*section, objectid, selections, apiKey*/ }) {
     return new Promise((resolve, reject) => {
-        const markdownConverter = new showdown.Converter();
-
-        doc.find(".tt-black-overlay").classList.add("active");
-        doc.find(".tt-confirmation-popup").classList.add("active");
-
-        doc.find("body").classList.add("tt-unscrollable");
-
-        doc.find(".tt-confirmation-popup .title").innerText = options.title;
-        doc.find(".tt-confirmation-popup .message").innerHTML = markdownConverter.makeHtml(options.message);
-
-        doc.find(".tt-confirmation-popup .actions .button.green").onclick = () => {
-            doc.find(".tt-black-overlay").classList.remove("active");
-            doc.find(".tt-confirmation-popup").classList.remove("active");
-
-            doc.find("body").classList.remove("tt-unscrollable");
-
-            return resolve();
+        const URLs = {
+            'torn': 'https://api.torn.com/',
+            'yata': 'https://yata.alwaysdata.net/',
+            'torn-proxy': 'https://torn-proxy.com/'
         }
-        doc.find(".tt-confirmation-popup .actions .button.red").onclick = () => {
-            doc.find(".tt-black-overlay").classList.remove("active");
-            doc.find(".tt-confirmation-popup").classList.remove("active");
 
-            doc.find("body").classList.remove("tt-unscrollable");
+        if (options.apiKey && options.apiKey.length === 32) location = 'torn-proxy';
+        const base = URLs[location];
+        const section = options.section ? options.section + "/" : "";
+        const objectid = options.objectid ? options.objectid + "?" : "?";
+        const selections = options.selections || "";
+        const apiKey = options.apiKey;
 
-            return reject();
+        const full_url = `${base}${section}${selections ? objectid : ""}${selections ? 'selections=' + selections : ''}${apiKey ? `&key=${apiKey}` : ''}`;
+        // console.log('new fetch', full_url);
+
+        let parameters = {}
+
+        if (options.method === "POST") {
+            parameters = {
+                method: "POST",
+                headers: { "content-type": "application/josn" },
+                body: JSON.stringify(options.post_data)
+            }
         }
+
+        fetch(full_url, parameters)
+            .then(async response => {
+                const result = await response.json();
+                // console.log("result", result);
+
+                if (result.error) {
+                    if (result.error.code === 9) {  // API offline
+                        console.log("API SYSTEM OFFLINE");
+                        setBadge("error");
+
+                        ttStorage.change({ "api": { "online": false, "error": result.error.error } }, function () {
+                            // return resolve({ success: false, message: result.error.error });
+                            return reject(result.error.error);
+                        });
+                    } else {
+                        console.log("API ERROR:", result.error.error);
+
+                        ttStorage.change({ "api": { "online": true, "error": result.error.error } }, function () {
+                            // return resolve({ success: false, message: result.error.error });
+                            return reject(result.error.error);
+                        });
+                    }
+                } else {
+                    try {
+                        if (isNaN(await getBadgeText())) {
+                            setBadge("");
+                        }
+                    } catch (err) {
+                        console.log("Unable to get Badge.")
+                    }
+                    ttStorage.change({ "api": { "online": true, "error": "" } }, function () {
+                        // return resolve({ success: true, message: 'Data fetched successfully', data: result });
+                        return resolve(result);
+                    });
+                }
+            })
+            .catch(async response => {
+                // const result = await response.json();
+                console.log("response", response);
+
+                // return resolve({ success: false, message: result });
+                return reject(response);
+            })
     });
 }
