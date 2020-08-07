@@ -3,10 +3,10 @@ import changelog from "../../changelog.js";
 var version;
 var initiated_pages = {}
 
-// // Export data
-// // chrome.runtime.sendMessage({action: "export_data", type: "basic"}, function (response) {
-// //     message(response.message, response.success);
-// // });
+// preferences.find("#reset_settings").addEventListener("click", function () {
+//     ttStorage.reset();
+//     message("Settings reset.", true);
+// });
 
 requireDatabase(false)
     .then(() => {
@@ -84,13 +84,16 @@ requireDatabase(false)
         loadConfirmationPopup({
             title: 'API key',
             message: `### You have not initialized the App by providing your API key
-Please enter your API key via opening the Extension popup.
+Please enter your API key via opening the Extension popup.  
+Clicking either 'Cancel' or 'Confirm' will reload the page.
             `,
         })
-        .then(() => {
-           location.reload();
-        })
-        .catch(() => {})
+            .then(() => {
+                location.reload();
+            })
+            .catch(() => {
+                location.reload();
+            })
     })
 
 function loadPage(name) {
@@ -731,20 +734,23 @@ function apiInfo() {
 function server() {
     loadingPlaceholder(doc.find("#server #tt_server_user_info"), true);
 
-    fetch(`https://torntools.gregork.com/api/${userdata.player_id}/data`)
+    fetch(`https://torntools.gregork.com/api/${userdata.player_id}/mydata`)
         .then(async response => {
             let result = await response.json();
             console.log("result", result);
 
-            result = result.data ? JSON.stringify(result.data, null, 2) : JSON.stringify(result, null, 2);
-
             loadingPlaceholder(doc.find("#server #tt_server_user_info"), false);
-            doc.find("#server #tt_server_user_info").innerText = result;
 
-            // preferences.find("#reset_settings").addEventListener("click", function () {
-            //     ttStorage.reset();
-            //     message("Settings reset.", true);
-            // });
+            let pre;
+            if (result.data) {
+                let [day, month, year, hours, minutes, seconds] = dateParts(new Date(result.data.date));
+                doc.find("#server #tt_server_user_info+.date span").innerText = formatDate([day, month, year], settings.format.date);
+                delete result.data.date;
+
+                pre = JSON.stringify(result.data, null, 2);
+            } else pre = JSON.stringify(result, null, 2);
+
+            doc.find("#server #tt_server_user_info").innerText = pre;
 
             doc.find("#server_export").onclick = () => {
                 loadConfirmationPopup({
@@ -770,10 +776,10 @@ function server() {
     - preferences
                     `,
                 })
-                .then(() => {
-                    exportData();
-                })
-                .catch(() => {})
+                    .then(() => {
+                        exportData();
+                    })
+                    .catch(() => { })
             }
 
             doc.find("#server_import").onclick = () => {
@@ -781,7 +787,33 @@ function server() {
             }
 
             doc.find("#server_clear").onclick = () => {
-                clearRemoteData();
+                loadConfirmationPopup({
+                    title: 'Clear Data',
+                    message: `### Are you sure you want to Delete following data from the remote server?
+- Player ID
+- Player Username
+- Client version
+- Client database size
+- Database
+    - vault
+    - stock alerts
+    - loot alerts
+    - allies
+    - custom links
+    - chat highlight
+    - hidden icons
+    - quick items & crimes
+    - notes
+    - filter settings
+    - sorting settings
+    - watchlist
+    - preferences
+            `,
+                })
+                    .then(() => {
+                        clearRemoteData();
+                    })
+                    .catch(() => { })
             }
         });
 }
@@ -964,7 +996,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
     message("Settings saved.", true);
 }
 
-function message(text, good) {
+function message(text, good, options={}) {
     let message_element = doc.find("#message");
     message_element.innerText = text;
     if (good) {
@@ -975,10 +1007,16 @@ function message(text, good) {
 
     message_element.style.maxHeight = message_element.scrollHeight + "px";
 
-    setTimeout(function () {
-        message_element.innerText = "";
-        message_element.style.maxHeight = null;
-    }, 1500);
+    if (options.reload) {
+        setTimeout(function () {
+            location.reload();
+        }, 1200);
+    } else {
+        setTimeout(function () {
+            message_element.innerText = "";
+            message_element.style.maxHeight = null;
+        }, 1500);
+    }
 }
 
 function setupValueChanger() {
@@ -1301,11 +1339,11 @@ function setupApiStatistics() {
 
 function exportData() {
     ttStorage.get(null, async (database) => {
-        
-        if(!database) {
+
+        if (!database) {
             return message('No database found.', false);
         }
-        if(!database.userdata) {
+        if (!database.userdata) {
             return message('No player ID found.', false);
         }
 
@@ -1314,10 +1352,10 @@ function exportData() {
             name: database.userdata.name,
             client: {
                 version: chrome.runtime.getManifest().version,
-                disk_space: await (function(){
-                    return new Promise(function(resolve, reject){
-                        if(chrome.storage.local.getBytesInUse){
-                            chrome.storage.local.getBytesInUse(function(data){
+                disk_space: await (function () {
+                    return new Promise(function (resolve, reject) {
+                        if (chrome.storage.local.getBytesInUse) {
+                            chrome.storage.local.getBytesInUse(function (data) {
                                 return resolve(data.toString());
                             });
                         } else {
@@ -1326,9 +1364,10 @@ function exportData() {
                     });
                 })()
             },
+            date: new Date().toString(),
             storage: {}
         }
-        
+
         let keys_to_export = [
             "vault",
             "stock_alerts",
@@ -1345,8 +1384,8 @@ function exportData() {
             "settings"
         ]
 
-        for(let key of keys_to_export) {
-            if(!(key in database)) {
+        for (let key of keys_to_export) {
+            if (!(key in database)) {
                 return message(`Database is missing key: ${key}`, false);
             }
 
@@ -1355,98 +1394,83 @@ function exportData() {
 
         fetch(`https://torntools.gregork.com/api/${userdata.player_id}/storage/update`, {
             method: "POST",
-            headers: {"content-type": "application/json"},
+            headers: { "content-type": "application/json" },
             body: JSON.stringify(post_data)
         })
-        .then(async response => {
-            let result = await response.json();
-            console.log("export", result);
+            .then(async response => {
+                let result = await response.json();
+                console.log("export", result);
 
-            message(result.message, result.success);
-        }).catch(err => {
-            console.log(err);
+                message(result.message, result.success, { reload: true });
+            }).catch(err => {
+                console.log(err);
 
-            if(err.name === "SyntaxError") {
-                message('Malformed response', false);
-            }
-        });
+                if (err.name === "SyntaxError") {
+                    message('Malformed response', false);
+                }
+            });
     });
 }
 
 function importData() {
     fetch(`https://torntools.gregork.com/api/${userdata.player_id}/storage`)
-    .then(async response => {
-        let result = await response.json();
-        console.log("import", result);
+        .then(async response => {
+            let result = await response.json();
+            console.log("import", result);
 
-        if(!result.success) return message(result.message, false);
+            if (!result.success) return message(result.message, false);
 
-        loadConfirmationPopup({
-            title: 'Import',
-            message: `### Are you sure that you want to merge following items?
+            loadConfirmationPopup({
+                title: 'Import',
+                message: `### Are you sure that you want to merge following items?
   - asd
             
             `
-        })
-        .then(() => {
-            console.log("confirm")
-        })
-        .catch(() => {
-            console.log("cancel")
-        })
-    })
-    .catch(err => {
-        console.log(err);
+            })
+                .then(async () => {
+                    let import_result;
+                    for (let key in result.data) {
+                        import_result = await new Promise(function (resolve, reject) {
+                            try {
+                                ttStorage.set({ [key]: result.data[key] }, function () {
+                                    console.log(`${key} imported.`);
+                                    return resolve({ success: true, message: 'All settings imported' });
+                                });
+                            } catch (err) {
+                                return resolve({ success: false, message: err });
+                            }
+                        });
+                    }
 
-        if(err.name === "SyntaxError") {
-            message('Malformed response', false);
-        }
-    })
+                    message(import_result.message, import_result.success, { reload: true });
+                })
+                .catch(() => { })
+        })
+        .catch(err => {
+            console.log(err);
+
+            if (err.name === "SyntaxError") {
+                message('Malformed response', false);
+            }
+        })
 }
 
 function clearRemoteData() {
-    fetch(`https://torntools.gregork.com/api/${userdata.player_id}/storage/clear`)
-    .then(async response => {
-        let result = await response.json();
-        console.log("clear", result);
-
-        if(!result.success) return message(result.message, false);
-
-        loadConfirmationPopup({
-            title: 'Clear Data',
-            message: `### Are you sure you want to Delete following data from the remote server?
-- Player ID
-- Player Username
-- Client version
-- Client database size
-- Database
-    - vault
-    - stock alerts
-    - loot alerts
-    - allies
-    - custom links
-    - chat highlight
-    - hidden icons
-    - quick items & crimes
-    - notes
-    - filter settings
-    - sorting settings
-    - watchlist
-    - preferences
-            `,
-        })
-        .then(() => {
-            console.log("confirm")
-        })
-        .catch(() => {
-            console.log("cancel")
-        })
+    fetch(`https://torntools.gregork.com/api/${userdata.player_id}/storage/clear`, {
+        method: "POST",
+        headers: { "content-type": "application/json" }
     })
-    .catch(err => {
-        console.log(err);
+        .then(async response => {
+            let result = await response.json();
+            console.log("clear", result);
 
-        if(err.name === "SyntaxError") {
-            message('Malformed response', false);
-        }
-    })
+            message(result.message, result.success, { reload: true });
+        })
+        .catch(err => {
+            console.log(err);
+
+            if (err.name === "SyntaxError") {
+                message('Malformed response', false);
+            }
+        })
 }
