@@ -1818,7 +1818,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, apiKe
         if (options.method === "POST") {
             parameters = {
                 method: "POST",
-                headers: { "content-type": "application/josn" },
+                headers: { "content-type": "application/json" },
                 body: JSON.stringify(options.post_data)
             }
         }
