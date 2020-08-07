@@ -828,6 +828,13 @@ function about() {
     } else {
         setTimeout(() => doc.find("#about #data-used span").innerText = formatBytes(JSON.stringify(DB).length), 0);
     }
+
+    // Set new version text
+    if (new_version.available) {
+        doc.find("#about #new-version span").innerText = new_version.version;
+    } else {
+        doc.find("#about #new-version").style.display = "none";
+    }
 }
 
 // Functions
