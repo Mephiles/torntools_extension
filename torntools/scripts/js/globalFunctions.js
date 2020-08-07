@@ -312,11 +312,18 @@ const STORAGE = {
         "faction_armory": {},
         "container_open": {},
         "stock_exchange": {
-            "forecast": [],
-            "worth": [],
-            "name": "",
-            "profitLoss": [],
-            "listedOnly": false,
+            "portfolio": {
+                "forecast": [],
+                "worth": [],
+                "name": "",
+                "profitLoss": [],
+                "listedOnly": false,
+            },
+            "market": {
+                "forecast": [],
+                "worth": [],
+                "name": "",
+            },
         },
     },
     "sorting": {

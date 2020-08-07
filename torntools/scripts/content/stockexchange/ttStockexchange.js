@@ -201,26 +201,28 @@ function addFilter(filters) {
         </div>
     `;
 
+    const filterPage = isPortfolio ? "portfolio" : "market";
+
     for (let checkbox of filterContainer.findAll("#tt-stock-filter input[type='checkbox']")) {
         checkbox.onclick = applyFilters;
     }
     doc.find(`#extra-filter #name-filter input`).oninput = applyFilters;
 
     // Initializing
-    for (let state of filters.stock_exchange.worth) {
+    for (let state of filters.stock_exchange[filterPage].worth) {
         doc.find(`#worth-filter input[type='checkbox'][value='${state}']`).checked = true;
     }
-    for (let state of filters.stock_exchange.forecast) {
+    for (let state of filters.stock_exchange[filterPage].forecast) {
         doc.find(`#forecast-filter input[type='checkbox'][value='${state}']`).checked = true;
     }
     if (isPortfolio) {
-        for (let state of filters.stock_exchange.profitLoss) {
+        for (let state of filters.stock_exchange[filterPage].profitLoss) {
             doc.find(`#extra-filter #profit-filter input[type='checkbox'][value='${state}']`).checked = true;
         }
 
-        doc.find(`#extra-filter #listed-filter input`).value = filters.stock_exchange.listedOnly;
+        doc.find(`#extra-filter #listed-filter input`).value = filters.stock_exchange[filterPage].listedOnly;
     }
-    doc.find(`#extra-filter #name-filter input`).value = filters.stock_exchange.name;
+    doc.find(`#extra-filter #name-filter input`).value = filters.stock_exchange[filterPage].name;
 
     applyFilters();
 
@@ -322,14 +324,20 @@ function addFilter(filters) {
             stock.classList.remove("filter-hidden");
         }
 
+        let filter = {
+            forecast,
+            worth,
+            name,
+        };
+        if (isPortfolio) {
+            filter.profitLoss = profitLoss;
+            filter.listedOnly = listedOnly;
+        }
+
         ttStorage.change({
             "filters": {
                 "stock_exchange": {
-                    forecast,
-                    worth,
-                    name,
-                    profitLoss,
-					listedOnly,
+                    [filterPage]: filter,
                 }
             }
         });
