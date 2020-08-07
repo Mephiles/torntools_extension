@@ -3,13 +3,15 @@ export default {
         "Features": [
             "Add OC timer to Information window - Mephiles",
             "Add Chain timer notification - Mephiles",
-            "Add New Day notification - Mephiles"
+            "Add New Day notification - Mephiles",
+            "Add highlighting for your own OC - DKK"
         ],
         "Fixes": [
             "Fix Quick Items failing to load if an item has 0 quantity - Mephiles",
             "Fix Profile script failing if player is not in a faction - Mephiles",
             "Add missing keywords for Faction armory news shortening script - Mephiles",
-            "Fix Calculator popup gear icon not working - Mephiles"
+            "Fix Calculator popup gear icon not working - Mephiles",
+            "Fix Gym Estimate progress being off by 1 gym - Mephiles"
         ],
         "Changes": [
             "Add option to dismiss notifications rather than open the relevant page - Mephiles",
@@ -17,7 +19,16 @@ export default {
             "Make Travel Destinations table available while flying - Mephiles",
             "Add Data usage estimate on Firefox - DKK",
             "Allow whole numbers and percentages simultaniously for bar Notifications - Mephiles",
-            "Change userdata fetch from 15sec to 30sec to cut down on unnecessary API calls - Mephiles"
+            "Change userdata fetch from 15sec to 30sec to cut down on unnecessary API calls - Mephiles",
+            "Set 'Force TornTools' setting as default - DKK",
+            "Make Travel Table update automatically - DKK",
+            "Change 'Hide chats' icon - DKK",
+            "Recode Settings page logic - Mephiles",
+            "Rework how Importing/Exporting works - Mephiles"
+        ],
+        "Other": [
+            "Add 'Open Source' disclaimer to Github Readme - Mephiles",
+            "Update the Privacy Policy for TornTools - Mephiles"
         ]
     },
     "v4.9 - July, 29th. 2020": {
