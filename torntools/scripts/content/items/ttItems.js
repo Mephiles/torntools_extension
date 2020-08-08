@@ -181,7 +181,7 @@ requireDatabase().then(function () {
         }
 
         // Item Market links
-        if (settings.pages.items.itemmarket_links) {
+        if (settings.pages.items.itemmarket_links && !mobile) {
             addItemMarketLinks();
         }
 
