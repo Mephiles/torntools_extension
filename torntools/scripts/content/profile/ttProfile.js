@@ -913,7 +913,7 @@ function displayStakeoutOptions() {
     let stakeout_div = doc.new({ type: "div", class: "tt-section", attributes: { name: 'stakeouts' } });
     doc.find("#tt-target-info .content").appendChild(stakeout_div);
 
-    let watchlist_wrap = doc.new({ type: "div", class: "tt-checkbox-wrap" });
+    let watchlist_wrap = doc.new({ type: "div", class: "tt-checkbox-wrap", attributes: { style: 'display: none' } });
     let input = doc.new({ type: "input", attributes: { type: "checkbox" } });
     let text = doc.new({ type: "div", text: "Add this player to Watch List" });
     watchlist_wrap.appendChild(input);
