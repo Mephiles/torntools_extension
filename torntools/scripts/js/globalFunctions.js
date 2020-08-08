@@ -1183,7 +1183,7 @@ function toSeconds(time) {
     return seconds;
 }
 
-function numberWithCommas(x, shorten = true) {
+function numberWithCommas(x, shorten = true, formatter) {
     if (shorten) {
         if (Math.abs(x) >= 1e9) {
             if (Math.abs(x) % 1e9 === 0)
@@ -1199,6 +1199,10 @@ function numberWithCommas(x, shorten = true) {
             if (Math.abs(x) % 1e3 === 0)
                 return (x / 1e3) + "k";
         }
+    }
+
+    if (formatter) {
+        return formatter.format(x);
     }
 
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

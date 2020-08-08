@@ -65,6 +65,11 @@ function stocksLoaded() {
 }
 
 function showInformation() {
+    const formatterPrice = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 3,
+        maximumFractionDigits: 3,
+    });
+
     for (let stock of doc.findAll(".stock-list > .item, .portfolio-list-shares > li.item-wrap")) {
         const stockId = isPortfolio ? stock.find(".logo > a").getAttribute("href").match(/&ID=([0-9]*)/i)[1] : stock.firstElementChild.getAttribute("action").split("ID=")[1];
 
@@ -73,10 +78,12 @@ function showInformation() {
         if (isPortfolio) {
             const amount = parseInt(stock.find(".b-price-wrap > .first-row").innerText.split(": ")[1].replaceAll(",", ""));
             const boughtPrice = parseFloat(stock.find(".c-price-wrap > .second-row > .prop-wrap").innerText.split(": $")[1].replaceAll(",", ""));
-            const currentPrice = parseInt(stock.find(".c-price-wrap > .first-row").innerText.split(": $")[1].replaceAll(",", ""));
+            const currentPrice = parseFloat(stock.find(".b-price-wrap > .second-row > .prop-wrap").innerText.split(": $")[1].replaceAll(",", ""));
+            const currentWorth = parseInt(stock.find(".c-price-wrap > .first-row").innerText.split(": $")[1].replaceAll(",", ""));
 
             let buyPrice = parseInt(boughtPrice * amount);
-            let profit = parseInt(currentPrice - buyPrice);
+            let profit = parseInt(currentWorth - buyPrice);
+            let priceDiff = currentPrice - data.current_price;
 
             let profitClass, profitChar;
             if (profit > 0) {
@@ -99,6 +106,14 @@ function showInformation() {
             } else {
                 blockText += `Bought $<span class="bold">${numberWithCommas(buyPrice, false)}</span> / <span class="block-wording">${profitClass}</span> <span class="bold block-${profitClass}">${profitChar} $${numberWithCommas(Math.abs(profit), false)}</span>`
             }
+
+            stock.find(".b-price-wrap > .second-row > .prop-wrap").innerHTML = `
+                <span class="bold">
+                    <span class="t-hide">Price</span>:
+                </span>
+                $${formatterPrice.format(currentPrice)}
+                <span class="difference ${priceDiff >= 0 ? "up" : "down"}"><i></i>$${formatterPrice.format(Math.abs(priceDiff))}</span>
+            `;
 
             stock.find(".qualify-wrap").innerHTML = blockText;
         } else {
