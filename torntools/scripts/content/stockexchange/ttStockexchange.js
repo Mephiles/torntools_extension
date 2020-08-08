@@ -69,6 +69,9 @@ function showInformation() {
         minimumFractionDigits: 3,
         maximumFractionDigits: 3,
     });
+    const formatterShares = new Intl.NumberFormat('en-US', {
+        maximumFractionDigits: 0,
+    });
 
     for (let stock of doc.findAll(".stock-list > .item, .portfolio-list-shares > li.item-wrap")) {
         const stockId = isPortfolio ? stock.find(".logo > a").getAttribute("href").match(/&ID=([0-9]*)/i)[1] : stock.firstElementChild.getAttribute("action").split("ID=")[1];
@@ -156,7 +159,22 @@ function showInformation() {
 
             const stockProperties = stock.find(".info-stock-wrap .properties");
 
-            stockProperties.appendChild(doc.new({type: "span", text: "testing"}));
+            // TODO - Show difference in stock prices.
+
+            const rowSharesForSale = stockProperties.find(":scope > li:nth-child(8)");
+            const sharesForSale = parseInt(rowSharesForSale.innerText.split(":\n")[1].replaceAll(",", ""));
+            if (sharesForSale !== data.available_shares) {
+                const diff = sharesForSale - data.available_shares;
+
+                rowSharesForSale.innerHTML = `
+                    <div class="property left"><span>Shares for sale:</span></div>
+                    ${formatterShares.format(sharesForSale)}
+                    <span class="difference ${diff >= 0 ? "up" : "down"}">
+                        <i></i>
+                        ${formatterShares.format(Math.abs(diff))}
+                    </span>
+                `;
+            }
 
             loaded = true;
         })
