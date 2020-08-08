@@ -279,6 +279,7 @@ const STORAGE = {
         },
         "profile_stats": {
             "auto_fetch": true,
+            "relative_values": false,
             "chosen_stats": []
         },
         "hospital": {
