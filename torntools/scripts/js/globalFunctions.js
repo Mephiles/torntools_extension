@@ -1778,30 +1778,6 @@ function notifyUser(title, message, url) {
     });
 }
 
-function onDragOver(event) {
-    event.preventDefault();
-}
-
-function onDragEnter(event) {
-    if (doc.find("#ttQuick .temp.item")) {
-        doc.find("#ttQuick .temp.item").style.opacity = "1";
-    }
-}
-
-function onDragLeave(event) {
-    if (doc.find("#ttQuick .temp.item")) {
-        doc.find("#ttQuick .temp.item").style.opacity = "0.2";
-    }
-}
-
-function onDrop(event) {
-    let tempElement = doc.find("#ttQuick .temp.item");
-    tempElement.classList.remove("temp");
-    doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px";
-
-    event.dataTransfer.clearData();
-}
-
 function loadConfirmationPopup(options) {
     return new Promise((resolve, reject) => {
         const markdownConverter = new showdown.Converter();
