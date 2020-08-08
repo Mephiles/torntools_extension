@@ -357,7 +357,8 @@ const STORAGE = {
             "life": ["100%"],
             "hospital": [],
             "landing": [],
-            "chain": []
+            "chain": [],
+            "chain_count": []
         },
         "format": {
             "date": "eu",
@@ -469,6 +470,10 @@ const STORAGE = {
         }
     }
 }
+
+const CHAIN_BONUSES = [
+    10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000
+]
 
 let notificationLinkRelations = {}
 

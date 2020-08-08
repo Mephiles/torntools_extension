@@ -7,6 +7,7 @@ var notifications = {
 	'travel': {},
 	"hospital": {},
 	"chain": {},
+	"chain_count": {},
 	"loot": {},
 	"events": {},
 	"messages": {},
@@ -440,12 +441,45 @@ function Main_30_seconds() {
 										url: links.chain,
 										seen: 0,
 										date: new Date()
-									};
+									}
 									break;
 								}
 							}
 						} else {
 							notifications.chain = {}
+						}
+
+						// Check for chain count notification
+						if (settings.notifications.global && settings.notifications.chain_count.length > 0 && userdata.chain.timeout !== 0) {
+							for (let checkpoint of settings.notifications.chain_count.sort((a, b) => { return b - a })) {
+								const chain_count = userdata.chain.current;
+
+								if (nextBonus(chain_count) - chain_count <= checkpoint && !notifications.chain_count[checkpoint]) {
+									notifications.chain_count[checkpoint] = {
+										checkpoint: checkpoint,
+										title: "TornTools - Chain",
+										text: `Chain will reach next Bonus Hit in ${nextBonus(chain_count) - chain_count} hits`,
+										url: links.chain,
+										seen: 0,
+										date: new Date()
+									}
+									break;
+								}
+							}
+
+							function nextBonus(current) {
+								let bonus;
+
+								for (let BONUS of CHAIN_BONUSES) {
+									if (BONUS > current) {
+										bonus = BONUS;
+										break;
+									}
+								}
+
+								return bonus;
+							}
+
 						}
 
 						// Check for New Day notification
