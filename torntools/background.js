@@ -194,9 +194,9 @@ function initiateTasks() {
 	const secondsTillStockTick = (15 - (now.getUTCMinutes() % 15)) * 60 - now.getUTCSeconds();
 
 	setTimeout(() => {
-		Main_15_minutes();
+		Main_15_minutes().then(() => {});
 
-		setInterval(Main_15_minutes, 15 * minutes);  // 15 minutes
+		setInterval(async () => await Main_15_minutes(), 15 * minutes);  // 15 minutes
 	}, (secondsTillStockTick + 10) * 1000);
 }
 
@@ -667,58 +667,56 @@ async function Main_1_minute() {
 	await clearAPIhistory();
 }
 
-function Main_15_minutes() {
-	ttStorage.get("api_key", async function (api_key) {
-		console.group("Main (stocks | OC info | installed extensions)");
+async function Main_15_minutes() {
+	console.group("Main (stocks | OC info | installed extensions)");
 
-		if (api_key === undefined) {
-			console.log("NO API KEY");
-			return;
-		}
+	if (api_key === undefined) {
+		console.log("NO API KEY");
+		return;
+	}
 
-		console.log("Setting up stocks");
+	console.log("Setting up stocks");
+	await new Promise(function (resolve) {
+		fetchApi("https://api.torn.com/torn/?selections=stocks", api_key).then((stocks) => {
+			if (!stocks.ok) return resolve(false);
+
+			stocks = { ...stocks.result.stocks };
+
+			stocks.date = (new Date()).toString();
+
+			ttStorage.change({ "torndata": { "stocks": stocks } }, function (a) {
+				console.log("Stocks info updated.");
+				checkStockAlerts();
+				return resolve(true);
+			});
+		});
+	});
+
+	// faction data
+	console.log("Setting up faction data.");
+	if (settings.pages.faction.oc_time) {
 		await new Promise(function (resolve) {
-			fetchApi("https://api.torn.com/torn/?selections=stocks", api_key).then((stocks) => {
-				if (!stocks.ok) return resolve(false);
+			fetchApi("https://api.torn.com/faction/?selections=crimes", api_key).then((factiondata) => {
+				if (!factiondata.ok) return resolve(false);
 
-				stocks = { ...stocks.result.stocks };
+				factiondata = factiondata.result;
 
-				stocks.date = (new Date()).toString();
+				factiondata.crimes.date = new Date().toString();
 
-				ttStorage.change({ "torndata": { "stocks": stocks } }, function () {
-					console.log("Stocks info updated.");
-					checkStockAlerts();
+				ttStorage.set({ "oc": factiondata.crimes }, function () {
+					console.log("	Faction data set.");
 					return resolve(true);
 				});
 			});
 		});
+	} else {
+		console.log("	Faction OC time formatting turned off.");
+	}
 
-		// faction data
-		console.log("Setting up faction data.");
-		if (settings.pages.faction.oc_time) {
-			await new Promise(function (resolve) {
-				fetchApi("https://api.torn.com/faction/?selections=crimes", api_key).then((factiondata) => {
-					if (!factiondata.ok) return resolve(false);
+	// Doctorn
+	updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 
-					factiondata = factiondata.result;
-
-					factiondata.crimes.date = new Date().toString();
-
-					ttStorage.set({ "oc": factiondata.crimes }, function () {
-						console.log("	Faction data set.");
-						return resolve(true);
-					});
-				});
-			});
-		} else {
-			console.log("	Faction OC time formatting turned off.");
-		}
-
-		// Doctorn
-		updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
-
-		console.groupEnd();
-	});
+	console.groupEnd();
 }
 
 /*
