@@ -45,32 +45,32 @@ var country_dict = {  // time = minutes
     }
 }
 
-requireDatabase().then(function(){
-    mapLoaded().then(function(){
+requireDatabase().then(function () {
+    mapLoaded().then(function () {
         console.log("TT - Travel (home)");
 
-        if(!settings.pages.travel.destination_table){
+        if (!settings.pages.travel.destination_table) {
             return;
         }
-    
+
         modifyTimeAndCost();
 
-        let container = content.newContainer("Travel Destinations", {id: "ttTravelTable"}).find(".content");
-        
+        let container = content.newContainer("Travel Destinations", { id: "ttTravelTable" }).find(".content");
+
         addLegend();
         setTravelItems();
 
         let travel_items = doc.find("#ttTravelTable #tt-items").value;
 
-        let table = doc.new({type: "div", class: "table"});
+        let table = doc.new({ type: "div", class: "table" });
         container.appendChild(table);
 
         addTableContent(travel_items);
 
         // Set initial table mode
-        if(filters.travel.table_type == "basic"){
+        if (filters.travel.table_type == "basic") {
             doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
-        } else if(filters.travel.table_type == "advanced"){
+        } else if (filters.travel.table_type == "advanced") {
             doc.find("#ttTravelTable .table-type-button span[type='advanced']").click();
         }
 
@@ -78,7 +78,7 @@ requireDatabase().then(function(){
         sort(doc.find("#ttTravelTable .table"), 1, "text");
 
         filterTable();
-    
+
         // Tab listeners
         for (let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]) {
             // tab.classList.remove("ui-state-disabled");  // Testing purposes
@@ -89,31 +89,31 @@ requireDatabase().then(function(){
         }
 
         // Destination listeners
-        if(!mobile){
-            for(let destination of doc.findAll(`div[role='tabpanel'][aria-expanded='true']>div[role='button']`)){
-                destination.addEventListener("click", function(){
+        if (!mobile) {
+            for (let destination of doc.findAll(`div[role='tabpanel'][aria-expanded='true']>div[role='button']`)) {
+                destination.addEventListener("click", function () {
                     console.log(destination);
-                    let country = destination.getAttribute("data-race")? destination.getAttribute("data-race").replace(/-/g, " ") : "all";
-                    if(country == "cayman") country = "cayman islands";
-                    if(country == "uk") country = "united kingdom";
-    
+                    let country = destination.getAttribute("data-race") ? destination.getAttribute("data-race").replace(/-/g, " ") : "all";
+                    if (country == "cayman") country = "cayman islands";
+                    if (country == "uk") country = "united kingdom";
+
                     doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
                 });
             }
         } else {
-            for(let destination of doc.findAll(`.tab-menu-cont .travel-info-table li.travel-info-table-list`)){
+            for (let destination of doc.findAll(`.tab-menu-cont .travel-info-table li.travel-info-table-list`)) {
                 let country = destination.find(".city-flag").classList[1].replace(/-/g, " ");
-                if(country == "cayman") country = "cayman islands";
-                if(country == "uk") country = "united kingdom";
+                if (country == "cayman") country = "cayman islands";
+                if (country == "uk") country = "united kingdom";
 
-                destination.addEventListener("click", function(){
+                destination.addEventListener("click", function () {
                     doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
                 });
             }
         }
 
         // mobile
-        if(mobile){
+        if (mobile) {
             doc.find(".travel-agency").classList.add("tt-mobile");
         }
     });
@@ -140,19 +140,19 @@ function modifyTimeAndCost() {
     }
 }
 
-function addLegend(){
-    let legend = 
-    `
+function addLegend() {
+    let legend =
+        `
 <div class="legend">
     <div class="top-row">
-        <div class="filter-button"><i class="fas ${filters.travel.open? 'fa-chevron-up':'fa-chevron-down'}"></i><div>&nbsp;Filters</div></div>
+        <div class="filter-button"><i class="fas ${filters.travel.open ? 'fa-chevron-up' : 'fa-chevron-down'}"></i><div>&nbsp;Filters</div></div>
         <div class="table-type-button">
             <span class="table-type" type="advanced">Advanced</span>
             <span>&nbsp;/&nbsp;</span>
             <span class="table-type" type="basic">Basic</span>
         </div>
     </div>
-    <div class="legend-content ${filters.travel.open?"":"collapsed"}">
+    <div class="legend-content ${filters.travel.open ? "" : "collapsed"}">
         <div class="row">
             <div>Travel items:&nbsp;<input type="number" id="tt-items"></div>
         </div>
@@ -191,8 +191,8 @@ function addLegend(){
     doc.find(`#ttTravelTable .legend-content input[name='country'][_type='${filters.travel.country}']`).checked = true;
 
     // Open/Close filter
-    for(let el of doc.findAll("#ttTravelTable .content .filter-button *")){
-        el.onclick = function(){
+    for (let el of doc.findAll("#ttTravelTable .content .filter-button *")) {
+        el.onclick = function () {
             doc.find("#ttTravelTable .content .legend-content").classList.toggle("collapsed");
             rotateElement(doc.find("#ttTravelTable .content .filter-button i"), 180);
 
@@ -203,51 +203,51 @@ function addLegend(){
     // Switch between modes
     let basic_mode_button = doc.find("#ttTravelTable .table-type-button span[type='basic']");
     let advanced_mode_button = doc.find("#ttTravelTable .table-type-button span[type='advanced']");
-    
-    basic_mode_button.onclick = function(){
-        if(!basic_mode_button.classList.contains("active")){
+
+    basic_mode_button.onclick = function () {
+        if (!basic_mode_button.classList.contains("active")) {
             basic_mode_button.classList.add("active");
         }
         advanced_mode_button.classList.remove("active");
 
         // Hide advanced elements
-        for(let el of doc.findAll("#ttTravelTable .table .advanced")){
-            if(!el.classList.contains("hidden")){
+        for (let el of doc.findAll("#ttTravelTable .table .advanced")) {
+            if (!el.classList.contains("hidden")) {
                 el.classList.add("hidden");
             }
         }
 
         saveSettings();
     }
-    advanced_mode_button.onclick = function(){
-        if(!advanced_mode_button.classList.contains("active")){
+    advanced_mode_button.onclick = function () {
+        if (!advanced_mode_button.classList.contains("active")) {
             advanced_mode_button.classList.add("active");
         }
         basic_mode_button.classList.remove("active");
 
         // Show advanced elements
-        for(let el of doc.findAll("#ttTravelTable .table .advanced")){
+        for (let el of doc.findAll("#ttTravelTable .table .advanced")) {
             el.classList.remove("hidden");
         }
-        
+
         saveSettings();
     }
 
     // Filtering
-    for(let el of doc.findAll("#ttTravelTable .legend-content .row .radio-item input")){
-        el.onclick = function(){
+    for (let el of doc.findAll("#ttTravelTable .legend-content .row .radio-item input")) {
+        el.onclick = function () {
             filterTable();
             saveSettings();
         }
     }
 
     // Change travel items count
-    doc.find("#ttTravelTable .legend-content #tt-items").onchange = function(){
+    doc.find("#ttTravelTable .legend-content #tt-items").onchange = function () {
         reloadTable();
     }
 }
 
-function setTravelItems(){
+function setTravelItems() {
     // Travel items calculation
     let airstrip = doc.find("#tab-menu4 li[aria-selected=true]").innerText == "AIRSTRIP" ? true : false;
     let wlt = doc.find("#tab-menu4 li[aria-selected=true]").innerText == "PRIVATE" ? true : false;
@@ -311,7 +311,7 @@ function setTravelItems(){
     // }
 
     let travel_items = 5 + suitcase + job_perk + faction_perk + book_perk;
-    if(airstrip || wlt || business){
+    if (airstrip || wlt || business) {
         travel_items += 10;
     }
 
@@ -326,30 +326,30 @@ function setTravelItems(){
     console.log("carry_items", travel_items);
 
     doc.find("#ttTravelTable #tt-items").value = travel_items;
-    ttStorage.set({"travel_items": travel_items});
+    ttStorage.set({ "travel_items": travel_items });
 }
 
-function addTableContent(travel_items){
+function addTableContent(travel_items) {
     addTableHeader();
 
-    let body = doc.new({type: "div", class: "body"});
+    let body = doc.new({ type: "div", class: "body" });
     doc.find("#ttTravelTable .table").appendChild(body);
 
     let body_html = ``;
 
     // Add rows
-    for(let item of travel_market){
+    for (let item of travel_market) {
         let time = country_dict[item.country_name.toLowerCase()].time;
         let cost = country_dict[item.country_name.toLowerCase()].cost;
-        
+
         body_html += addRow(item, time, cost, travel_items);
     }
     body.innerHTML = body_html;
 }
 
-function addTableHeader(){
-    let row = 
-    `
+function addTableHeader() {
+    let row =
+        `
 <div class="row header-row">
     <div>Destination</div>
     <div>Item</div>
@@ -364,80 +364,81 @@ function addTableHeader(){
     `
     doc.find("#ttTravelTable .table").innerHTML += row;
 
-    doc.addEventListener("click", function(event){
-        
-        if(hasParent(event.target, {class: "header-row"})){
-            let parent = event.target;
-            
-            if(event.target.nodeName == "I") parent = event.target.parentElement;
+    doc.addEventListener("click", function (event) {
 
-            sort(doc.find("#ttTravelTable .table"), [...parent.parentElement.children].indexOf(parent)+1, parent.getAttribute("sort-type") == "value" ? "value":"text");
+        if (hasParent(event.target, { class: "header-row" })) {
+            let parent = event.target;
+
+            if (event.target.nodeName == "I") parent = event.target.parentElement;
+
+            sort(doc.find("#ttTravelTable .table"), [...parent.parentElement.children].indexOf(parent) + 1, parent.getAttribute("sort-type") == "value" ? "value" : "text");
         }
     });
 }
 
 function addRow(item, time, cost, travel_items) {
     let market_value = itemlist.items[item.item_id].market_value;
-    let total_profit = (market_value - item.abroad_cost)*travel_items - cost;
+    let total_profit = (market_value - item.abroad_cost) * travel_items - cost;
     let profit_per_minute = (total_profit / time).toFixed(0);
     let profit_per_item = (total_profit / travel_items).toFixed(0);
-    let update_time = timeAgo(item.timestamp*1000);
+    let update_time = timeAgo(item.timestamp * 1000);
     let item_types = ["plushie", "flower", "drug"];
     let background_style = `url(/images/v2/travel_agency/flags/fl_${item.country_name.toLowerCase().replace("united kingdom", "uk").replace(" islands", "").replace(" ", "_")}.svg) center top no-repeat`
     let item_type = item_types.includes(item.item_type.toLowerCase()) ? item.item_type.toLowerCase() : "other";
 
-    let row = 
-    `
+    let row =
+        `
 <div class="row">
     <div country='${item.country_name.toLowerCase()}'><div class="flag" style="background: ${background_style}"></div>${item.country_name}</div>
     <div item='${item_type}'>
+        <div class="item-image" style='background-image: url(https://www.torn.com/images/items/${item.item_id}/small.png)'></div>
       <a target="_blank" href="https://www.torn.com/imarket.php#/p=shop&type=${item.item_id}">${item.item_name}</a>
     </div>
     <div>${item.abroad_quantity.toString()} <br class="advanced"> <span class="update-time">(${update_time})</span></div>
-    <div class="advanced" value="${item.abroad_cost}">$${numberWithCommas(item.abroad_cost, item.abroad_cost>=1e6?true:false)}</div>
-    <div class="advanced" value="${market_value}">$${numberWithCommas(market_value, market_value>=1e6?true:false)}</div>
+    <div class="advanced" value="${item.abroad_cost}">$${numberWithCommas(item.abroad_cost, item.abroad_cost >= 1e6 ? true : false)}</div>
+    <div class="advanced" value="${market_value}">$${numberWithCommas(market_value, market_value >= 1e6 ? true : false)}</div>
     
     `
     let profit_per_item_div;
     if (profit_per_item > 0) {
-        profit_per_item_div = `<div class="positive profit advanced" value="${profit_per_item}">+$${numberWithCommas(profit_per_item, profit_per_item>=1e6?true:false)}</div>`
+        profit_per_item_div = `<div class="positive profit advanced" value="${profit_per_item}">+$${numberWithCommas(profit_per_item, profit_per_item >= 1e6 ? true : false)}</div>`
     } else if (profit_per_item < 0) {
-        profit_per_item_div = `<div class="negative profit advanced" value="${profit_per_item}">-$${numberWithCommas(Math.abs(profit_per_item), profit_per_item<=-1e6?true:false)}</div>`
+        profit_per_item_div = `<div class="negative profit advanced" value="${profit_per_item}">-$${numberWithCommas(Math.abs(profit_per_item), profit_per_item <= -1e6 ? true : false)}</div>`
     } else {
         profit_per_item_div = `<div class="advanced" value="0">$0</div>`
     }
-    row+=profit_per_item_div;
-    
+    row += profit_per_item_div;
+
     let profit_per_minute_div;
     if (profit_per_minute > 0) {
-        profit_per_minute_div = `<div class="positive profit" value="${profit_per_minute}">+$${numberWithCommas(profit_per_minute, profit_per_minute>=1e6?true:false)}</div>`
+        profit_per_minute_div = `<div class="positive profit" value="${profit_per_minute}">+$${numberWithCommas(profit_per_minute, profit_per_minute >= 1e6 ? true : false)}</div>`
     } else if (profit_per_minute < 0) {
-        profit_per_minute_div = `<div class="negative profit" value="${profit_per_minute}">-$${numberWithCommas(Math.abs(profit_per_minute), profit_per_minute<=-1e6?true:false)}</div>`
+        profit_per_minute_div = `<div class="negative profit" value="${profit_per_minute}">-$${numberWithCommas(Math.abs(profit_per_minute), profit_per_minute <= -1e6 ? true : false)}</div>`
     } else {
         profit_per_minute_div = `<div value="0">$0</div>`
     }
-    row+=profit_per_minute_div;
+    row += profit_per_minute_div;
 
     let total_profit_div;
     if (total_profit > 0) {
-        total_profit_div = `<div class="positive profit advanced" value="${total_profit}">+$${numberWithCommas(total_profit, total_profit>=1e6?true:false)}</div>`
+        total_profit_div = `<div class="positive profit advanced" value="${total_profit}">+$${numberWithCommas(total_profit, total_profit >= 1e6 ? true : false)}</div>`
     } else if (total_profit < 0) {
-        total_profit_div = `<div class="negative profit advanced" value="${total_profit}">-$${numberWithCommas(Math.abs(total_profit), total_profit<=-1e6?true:false)}</div>`
+        total_profit_div = `<div class="negative profit advanced" value="${total_profit}">-$${numberWithCommas(Math.abs(total_profit), total_profit <= -1e6 ? true : false)}</div>`
     } else {
         total_profit_div = `<div class="advanced" value="0">$0</div>`
     }
-    row+=total_profit_div;
+    row += total_profit_div;
 
-    row+= `<div class="advanced" value="${item.abroad_cost * travel_items}">$${numberWithCommas((item.abroad_cost * travel_items), item.abroad_cost>=1e6?true:false)}</div>`
+    row += `<div class="advanced" value="${item.abroad_cost * travel_items}">$${numberWithCommas((item.abroad_cost * travel_items), item.abroad_cost >= 1e6 ? true : false)}</div>`
 
-    row+="</div>"
+    row += "</div>"
     return row;
 }
 
-function filterTable(){
+function filterTable() {
     let country_display = false;
     let types = {}
-    for(let el of doc.findAll("#ttTravelTable .legend-content .radio-item input:checked")){
+    for (let el of doc.findAll("#ttTravelTable .legend-content .radio-item input:checked")) {
         types[el.getAttribute("name")] = el.getAttribute("_type").split(",");
     }
 
@@ -446,44 +447,44 @@ function filterTable(){
         "item": 2
     }
 
-    for(let row of doc.findAll("#ttTravelTable .table .body .row")){
+    for (let row of doc.findAll("#ttTravelTable .table .body .row")) {
         row.classList.remove("hidden");
 
-        for(let type in types){
-            if(types[type][0] == "all"){
+        for (let type in types) {
+            if (types[type][0] == "all") {
                 continue;
             }
 
             // Switch destination on map
-            if(type == "country" && !country_display){
+            if (type == "country" && !country_display) {
                 let name = types[type][0].replace(/ /g, "-");
-                if(types[type][0] == "cayman islands") name = "cayman";
-                if(types[type][0] == "united kingdom") name = "uk";
+                if (types[type][0] == "cayman islands") name = "cayman";
+                if (types[type][0] == "united kingdom") name = "uk";
 
                 doc.find(`div[role='tabpanel'][aria-expanded='true'] .path.to-${name}`).previousElementSibling.click();
                 country_display = true;
             }
 
             let is_in_list = false;
-            let row_type = [...row.children][cols[type]-1].getAttribute(type);
+            let row_type = [...row.children][cols[type] - 1].getAttribute(type);
 
-            for(let filter of types[type]){
-                if(filter == row_type){
+            for (let filter of types[type]) {
+                if (filter == row_type) {
                     is_in_list = true;
                 }
             }
 
-            if(!is_in_list){
+            if (!is_in_list) {
                 row.classList.add("hidden");
             }
         }
     }
 }
 
-function mapLoaded(){
-    return new Promise(function(resolve, reject){
-        let checker = setInterval(function(){
-            if(doc.find(".travel-map")){
+function mapLoaded() {
+    return new Promise(function (resolve, reject) {
+        let checker = setInterval(function () {
+            if (doc.find(".travel-map")) {
                 resolve(true);
                 return clearInterval(checker);
             }
@@ -491,44 +492,44 @@ function mapLoaded(){
     });
 }
 
-function saveSettings(){
+function saveSettings() {
     let travel = {
-        table_type: doc.find(".table-type.active")? doc.find(".table-type.active").getAttribute("type") : "basic",
-        open: doc.find(".legend-content").classList.contains("collapsed")? false:true,
+        table_type: doc.find(".table-type.active") ? doc.find(".table-type.active").getAttribute("type") : "basic",
+        open: doc.find(".legend-content").classList.contains("collapsed") ? false : true,
         item_type: doc.find(".legend-content input[name='item']:checked").getAttribute("_type"),
         country: doc.find(".legend-content input[name='country']:checked").getAttribute("_type")
     }
 
-    ttStorage.change({"filters": {"travel": travel}});
+    ttStorage.change({ "filters": { "travel": travel } });
 }
 
-function reloadTable(){
+function reloadTable() {
     let travel_items = doc.find("#tt-items").value;
 
     doc.find("#ttTravelTable .table .body").innerHTML = "";
     let body_html = ``;
 
     // Add rows
-    for(let item of travel_market){
+    for (let item of travel_market) {
         let time = country_dict[item.country_name.toLowerCase()].time;
         let cost = country_dict[item.country_name.toLowerCase()].cost;
-        
+
         body_html += addRow(item, time, cost, travel_items);
     }
     doc.find("#ttTravelTable .table .body").innerHTML = body_html;
 
     // Set Table mode
-    ttStorage.get("filters", function(filters){
-        if(filters.travel.table_type == "basic"){
+    ttStorage.get("filters", function (filters) {
+        if (filters.travel.table_type == "basic") {
             doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
-        } else if(filters.travel.table_type == "advanced"){
+        } else if (filters.travel.table_type == "advanced") {
             doc.find("#ttTravelTable .table-type-button span[type='advanced']").click();
         }
 
         // Sort by country
         doc.find("#ttTravelTable .header-row i").remove();
         sort(doc.find("#ttTravelTable .table"), 1, "text");
-    
+
         filterTable();
     });
 }
