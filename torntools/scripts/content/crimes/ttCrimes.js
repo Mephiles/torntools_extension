@@ -238,6 +238,8 @@ function addButton(){
 
 // Dragging
 function onDragStart(event) {
+    event.dataTransfer.setData("text/plain", null);
+
     setTimeout(function(){
         doc.find("#ttQuick .content").classList.add("drag-progress");
     
