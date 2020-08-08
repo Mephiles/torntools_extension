@@ -149,24 +149,21 @@ function showInformation() {
                 parent.classList.add(classWorth);
                 parent.classList.add("worth");
             }
-        }
 
-        let loaded = false;
-        stock.firstElementChild.addEventListener("click", async () => {
-            if (loaded) return;
+            let loaded = false;
+            stock.firstElementChild.addEventListener("click", async () => {
+                if (loaded) return;
 
-            await stockProfileLoaded();
+                await stockProfileLoaded();
 
-            const stockProperties = stock.find(".info-stock-wrap .properties");
+                const stockProperties = stock.find(".info-stock-wrap .properties");
 
-            // TODO - Show difference in stock prices.
+                const rowTotalShares = stockProperties.find(":scope > li:nth-child(7)");
+                const totalShares = parseInt(rowTotalShares.innerText.split(":\n")[1].replaceAll(",", ""));
+                if (totalShares !== data.total_shares) {
+                    const diff = totalShares - data.total_shares;
 
-            const rowTotalShares = stockProperties.find(":scope > li:nth-child(7)");
-            const totalShares = parseInt(rowTotalShares.innerText.split(":\n")[1].replaceAll(",", ""));
-            if (totalShares !== data.total_shares) {
-                const diff = totalShares - data.total_shares;
-
-                rowTotalShares.innerHTML = `
+                    rowTotalShares.innerHTML = `
                     <div class="property left"><span>Total shares:</span></div>
                     ${formatterShares.format(totalShares)}
                     <span class="difference ${diff >= 0 ? "up" : "down"}">
@@ -174,14 +171,14 @@ function showInformation() {
                         ${formatterShares.format(Math.abs(diff))}
                     </span>
                 `;
-            }
+                }
 
-            const rowSharesForSale = stockProperties.find(":scope > li:nth-child(8)");
-            const sharesForSale = parseInt(rowSharesForSale.innerText.split(":\n")[1].replaceAll(",", ""));
-            if (sharesForSale !== data.available_shares) {
-                const diff = sharesForSale - data.available_shares;
+                const rowSharesForSale = stockProperties.find(":scope > li:nth-child(8)");
+                const sharesForSale = parseInt(rowSharesForSale.innerText.split(":\n")[1].replaceAll(",", ""));
+                if (sharesForSale !== data.available_shares) {
+                    const diff = sharesForSale - data.available_shares;
 
-                rowSharesForSale.innerHTML = `
+                    rowSharesForSale.innerHTML = `
                     <div class="property left"><span>Shares for sale:</span></div>
                     ${formatterShares.format(sharesForSale)}
                     <span class="difference ${diff >= 0 ? "up" : "down"}">
@@ -189,22 +186,22 @@ function showInformation() {
                         ${formatterShares.format(Math.abs(diff))}
                     </span>
                 `;
-            }
-
-            const rowForecast = stockProperties.find(":scope > li:nth-child(3)");
-            const forecast = rowForecast.innerText.split(":\n")[1];
-            if (forecast !== data.forecast) {
-                const FORECASTS = {
-                    "Very Good": 2,
-                    "Good": 1,
-                    "Average": 0,
-                    "Poor": -1,
-                    "Very Poor": -2,
                 }
 
-                const diff = FORECASTS[forecast] - FORECASTS[data.forecast];
+                const rowForecast = stockProperties.find(":scope > li:nth-child(3)");
+                const forecast = rowForecast.innerText.split(":\n")[1];
+                if (forecast !== data.forecast) {
+                    const FORECASTS = {
+                        "Very Good": 2,
+                        "Good": 1,
+                        "Average": 0,
+                        "Poor": -1,
+                        "Very Poor": -2,
+                    }
 
-                rowForecast.innerHTML = `
+                    const diff = FORECASTS[forecast] - FORECASTS[data.forecast];
+
+                    rowForecast.innerHTML = `
                     <div class="property left"><span>Forecast:</span></div>
                     ${forecast}
                     <span class="difference ${diff >= 0 ? "up" : "down"}">
@@ -212,10 +209,11 @@ function showInformation() {
                         ${data.forecast}
                     </span>
                 `;
-            }
+                }
 
-            loaded = true;
-        })
+                loaded = true;
+            });
+        }
     }
 }
 
