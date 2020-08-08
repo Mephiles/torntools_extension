@@ -161,6 +161,21 @@ function showInformation() {
 
             // TODO - Show difference in stock prices.
 
+            const rowTotalShares = stockProperties.find(":scope > li:nth-child(7)");
+            const totalShares = parseInt(rowTotalShares.innerText.split(":\n")[1].replaceAll(",", ""));
+            if (totalShares !== data.total_shares) {
+                const diff = totalShares - data.total_shares;
+
+                rowTotalShares.innerHTML = `
+                    <div class="property left"><span>Total shares:</span></div>
+                    ${formatterShares.format(totalShares)}
+                    <span class="difference ${diff >= 0 ? "up" : "down"}">
+                        <i></i>
+                        ${formatterShares.format(Math.abs(diff))}
+                    </span>
+                `;
+            }
+
             const rowSharesForSale = stockProperties.find(":scope > li:nth-child(8)");
             const sharesForSale = parseInt(rowSharesForSale.innerText.split(":\n")[1].replaceAll(",", ""));
             if (sharesForSale !== data.available_shares) {
@@ -172,6 +187,29 @@ function showInformation() {
                     <span class="difference ${diff >= 0 ? "up" : "down"}">
                         <i></i>
                         ${formatterShares.format(Math.abs(diff))}
+                    </span>
+                `;
+            }
+
+            const rowForecast = stockProperties.find(":scope > li:nth-child(3)");
+            const forecast = rowForecast.innerText.split(":\n")[1];
+            if (forecast !== data.forecast) {
+                const FORECASTS = {
+                    "Very Good": 2,
+                    "Good": 1,
+                    "Average": 0,
+                    "Poor": -1,
+                    "Very Poor": -2,
+                }
+
+                const diff = FORECASTS[forecast] - FORECASTS[data.forecast];
+
+                rowForecast.innerHTML = `
+                    <div class="property left"><span>Forecast:</span></div>
+                    ${forecast}
+                    <span class="difference ${diff >= 0 ? "up" : "down"}">
+                        <i></i>
+                        ${data.forecast}
                     </span>
                 `;
             }
