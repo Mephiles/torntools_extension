@@ -46,7 +46,7 @@ let userdata, torndata, settings, api_key, chat_highlight, itemlist,
     travel_market, oc, allies, loot_times, target_list, vault, personalized,
     mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
     quick, notes, stakeouts, updated, networth, filters, cache, watchlist, api_history,
-    api, sorting, stock_alerts;
+    api, sorting, stock_alerts, hide_areas;
 
 (async function () {
     database_status = DATABASE_STATUSES.LOADING;
@@ -85,6 +85,7 @@ let userdata, torndata, settings, api_key, chat_highlight, itemlist,
         api = DB.api;
         sorting = DB.sorting;
         stock_alerts = DB.stock_alerts;
+        hide_areas = DB.hide_areas;
 
         if (!api_key) {
             app_initialized = false;

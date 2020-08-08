@@ -2,7 +2,7 @@ requireDatabase().then(() => {
     console.log("Loading Global Script");
 
     // Add TT Black overlay
-    let overlay = doc.new({type: "div", class: "tt-black-overlay"});
+    let overlay = doc.new({ type: "div", class: "tt-black-overlay" });
     doc.find("body").appendChild(overlay);
 
     showToggleChat();
@@ -21,7 +21,7 @@ requireDatabase().then(() => {
 
         // Make Areas collapsible
         if (!doc.find(".header-arrow___1Ph0g") && !mobile) {
-            let areas_i = doc.new({type: "i", class: "tt-title-icon-torn fas fa-caret-down"});
+            let areas_i = doc.new({ type: "i", class: "tt-title-icon-torn fas fa-caret-down" });
             let areas_header = doc.find("h2=Areas");
             areas_header.classList.add("tt-title-torn");
             areas_header.appendChild(areas_i);
@@ -31,7 +31,7 @@ requireDatabase().then(() => {
                 areas_header.classList.toggle("collapsed");
                 let collapsed = areas_header.classList.contains("collapsed") ? true : false;
 
-                ttStorage.change({"settings": {"pages": {"global": {"collapse_areas": collapsed}}}});
+                ttStorage.change({ "settings": { "pages": { "global": { "collapse_areas": collapsed } } } });
             });
         }
 
@@ -107,7 +107,7 @@ requireDatabase().then(() => {
         if (shouldDisable()) return
 
         // Chat highlight
-        let highlights = {...chat_highlight};
+        let highlights = { ...chat_highlight };
         for (let key in highlights) {
             if (!(key in HIGHLIGHT_PLACEHOLDERS)) continue;
 
@@ -121,7 +121,7 @@ requireDatabase().then(() => {
         }
 
         doc.addEventListener("click", function (event) {
-            if (!hasParent(event.target, {class: "chat-box_Wjbn9"})) {
+            if (!hasParent(event.target, { class: "chat-box_Wjbn9" })) {
                 return;
             }
 
@@ -138,7 +138,7 @@ requireDatabase().then(() => {
                 }
             }
         });
-        chat_observer.observe(doc.find("#chatRoot"), {childList: true, subtree: true});
+        chat_observer.observe(doc.find("#chatRoot"), { childList: true, subtree: true });
     });
 });
 
@@ -161,29 +161,29 @@ function addCustomLinks() {
             type: "div",
             class: "areas___2pu_3 areasWrapper areas-mobile___3zY0z torntools-mobile"
         });
-        let div = doc.new({type: "div"});
-        let swipe_container = doc.new({type: "div", class: "swiper-container swiper-container-horizontal"});
+        let div = doc.new({ type: "div" });
+        let swipe_container = doc.new({ type: "div", class: "swiper-container swiper-container-horizontal" });
         let swipe_wrapper = doc.new({
             type: "div",
             class: "swiper-wrapper swiper___nAyWO",
-            attributes: {style: "transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"}
+            attributes: { style: "transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;" }
         });
         let swipe_button_left = doc.new({
             type: "div",
             class: "swiper-button___3lZ1n button-prev___2x-Io swiper-button-disabled"
         });
-        let swipe_button_right = doc.new({type: "div", class: "swiper-button___3lZ1n button-next___1hJxo"});
+        let swipe_button_right = doc.new({ type: "div", class: "swiper-button___3lZ1n button-next___1hJxo" });
 
         for (let link of custom_links) {
-            let slide = doc.new({type: "div", class: "swiper-slide slide___1oBWA"});
-            let area = doc.new({type: "div", class: "area-mobile___1XJcq"});
-            let area_row = doc.new({type: "div", class: "area-row___34mEZ torntools-mobile"});
+            let slide = doc.new({ type: "div", class: "swiper-slide slide___1oBWA" });
+            let area = doc.new({ type: "div", class: "area-mobile___1XJcq" });
+            let area_row = doc.new({ type: "div", class: "area-row___34mEZ torntools-mobile" });
             let a = doc.new({
                 type: "a",
                 href: link.href,
                 class: "mobileLink___33zU1 sidebarMobileLink torntools-mobile",
                 text: link.text,
-                attributes: {target: (link.new_tab ? "_blank" : "")}
+                attributes: { target: (link.new_tab ? "_blank" : "") }
             });
 
             area_row.appendChild(a);
@@ -200,7 +200,7 @@ function addCustomLinks() {
 
         doc.find("#sidebar .content___kMC8x").insertBefore(areas_custom, doc.find("#sidebar .content___kMC8x .user-information-mobile___EaRKJ"));
     } else {
-        let custom_links_section = navbar.newSection("Custom Links", {next_element_heading: "Areas"});
+        let custom_links_section = navbar.newSection("Custom Links", { next_element_heading: "Areas" });
 
         for (let link of custom_links) {
             new_cell = navbar.newCell(link.text, {
@@ -210,15 +210,15 @@ function addCustomLinks() {
             });
         }
 
-        doc.find("#sidebar").insertBefore(custom_links_section, findParent(doc.find("h2=Areas"), {class: "sidebar-block___1Cqc2"}));
+        doc.find("#sidebar").insertBefore(custom_links_section, findParent(doc.find("h2=Areas"), { class: "sidebar-block___1Cqc2" }));
     }
 }
 
 function addNotesBox() {
-    let notes_section = navbar.newSection("Notes", {next_element_heading: "Areas"});
-    let cell = doc.new({type: "div", class: "area-desktop___2YU-q"});
-    let inner_div = doc.new({type: "div", class: "area-row___34mEZ"});
-    let textbox = doc.new({type: "textarea", class: "tt-nav-textarea", value: notes.text || ""});
+    let notes_section = navbar.newSection("Notes", { next_element_heading: "Areas" });
+    let cell = doc.new({ type: "div", class: "area-desktop___2YU-q" });
+    let inner_div = doc.new({ type: "div", class: "area-row___34mEZ" });
+    let textbox = doc.new({ type: "textarea", class: "tt-nav-textarea", value: notes.text || "" });
 
     if (notes.height) {
         textbox.style.height = notes.height;
@@ -228,16 +228,16 @@ function addNotesBox() {
     cell.appendChild(inner_div)
     notes_section.find(".tt-content").appendChild(cell);
 
-    doc.find("#sidebar").insertBefore(notes_section, findParent(doc.find("h2=Areas"), {class: "sidebar-block___1Cqc2"}));
+    doc.find("#sidebar").insertBefore(notes_section, findParent(doc.find("h2=Areas"), { class: "sidebar-block___1Cqc2" }));
 
     textbox.addEventListener("change", function () {
-        ttStorage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
+        ttStorage.set({ "notes": { "text": textbox.value, "height": textbox.style.height } });
     });
     textbox.addEventListener("mouseup", function () {
         if (textbox.style.height != notes.height) {
             console.log("resize");
             console.log(textbox.style.height)
-            ttStorage.set({"notes": {"text": textbox.value, "height": textbox.style.height}});
+            ttStorage.set({ "notes": { "text": textbox.value, "height": textbox.style.height } });
         }
     });
 }
@@ -246,15 +246,15 @@ function addUpdateNotification() {
     let version_text = `TornTools updated: ${chrome.runtime.getManifest().version}`;
     let settings_page_url = chrome.runtime.getURL("/views/settings/settings.html");
 
-    let cell = doc.new({type: "div", class: "area-desktop___2YU-q"});
-    let inner_div = doc.new({type: "div", class: "area-row___34mEZ"});
+    let cell = doc.new({ type: "div", class: "area-desktop___2YU-q" });
+    let inner_div = doc.new({ type: "div", class: "area-row___34mEZ" });
     let a = doc.new({
         type: "a",
         class: "desktopLink___2dcWC",
         href: settings_page_url,
-        attributes: {target: "_blank", style: "background-color: #B8E28F; min-height: 24px; line-height: 24px;"}
+        attributes: { target: "_blank", style: "background-color: #B8E28F; min-height: 24px; line-height: 24px;" }
     });
-    let span = doc.new({type: "span", text: version_text});
+    let span = doc.new({ type: "span", text: version_text });
 
     a.appendChild(span);
     inner_div.appendChild(a);
@@ -302,9 +302,9 @@ function addChatFilters() {
 
         chat.nextElementSibling.classList.add("tt-modified");
 
-        let filter_wrap = doc.new({type: "div", class: "tt-chat-filter"});
-        let filter_text = doc.new({type: "div", text: "find:"});
-        let filter_input = doc.new({type: "input", id: "---search---"});
+        let filter_wrap = doc.new({ type: "div", class: "tt-chat-filter" });
+        let filter_text = doc.new({ type: "div", text: "find:" });
+        let filter_input = doc.new({ type: "input", id: "---search---" });
 
         filter_wrap.appendChild(filter_text);
         filter_wrap.appendChild(filter_input);
@@ -345,7 +345,7 @@ function displayVaultBalance() {
     <span class="value___1K0oi money-positive___3pqLW" style="position:relative;left:-3px;">${(settings.pages.global.vault_balance_own && vault.initialized && vault.user.current_money) ? "*" : ""}$${numberWithCommas(money, false)}</span>
     `
 
-    let el = doc.new({type: "p", class: "point-block___xpMEi", attributes: {tabindex: "1"}});
+    let el = doc.new({ type: "p", class: "point-block___xpMEi", attributes: { tabindex: "1" } });
     el.innerHTML = elementHTML;
 
     let info_cont = doc.find("h2=Information");
@@ -372,15 +372,15 @@ function showToggleChat() {
 
         document.documentElement.style.setProperty(`--torntools-hide-chat`, settings.pages.global.hide_chat ? "none" : "block");
 
-        ttStorage.set({"settings": settings});
+        ttStorage.set({ "settings": settings });
     });
 
     doc.find("#body").prepend(icon);
 }
 
 function addInformationSection() {
-    let hr = doc.new({type: "hr", class: "delimiter___neME6 tt-information-section-hr"});
-    let div = doc.new({type: "div", class: "tt-information-section"});
+    let hr = doc.new({ type: "hr", class: "delimiter___neME6 tt-information-section-hr" });
+    let div = doc.new({ type: "div", class: "tt-information-section" });
 
     doc.find("#sidebarroot .user-information___u408H .content___3HChF").appendChild(hr);
     doc.find("#sidebarroot .user-information___u408H .content___3HChF").appendChild(div);
@@ -394,8 +394,8 @@ function displayOCtime() {
     crime_ids.reverse();
 
     if (crime_ids.length === 0) {
-        let div = doc.new({type: "div", text: `OC: `});
-        let span = doc.new({type: "span", text: "N/A"});
+        let div = doc.new({ type: "div", text: `OC: ` });
+        let span = doc.new({ type: "span", text: "N/A" });
 
         div.appendChild(span);
         doc.find(".tt-information-section").appendChild(div);
@@ -413,11 +413,11 @@ function displayOCtime() {
                 found_oc = true;
 
                 let time_left = timeUntil(oc[crime_id].time_left * 1000);
-                let div = doc.new({type: "div", text: `OC: `});
+                let div = doc.new({ type: "div", text: `OC: ` });
                 let span = doc.new({
                     type: "span",
                     text: time_left,
-                    attributes: {"seconds-down": parseInt(oc[crime_id].time_left)}
+                    attributes: { "seconds-down": parseInt(oc[crime_id].time_left) }
                 });
 
                 if (time_left === -1 || !time_left.includes("d")) span.classList.add("red");
@@ -429,8 +429,8 @@ function displayOCtime() {
     }
 
     if (!found_oc) {
-        let div = doc.new({type: "div", text: `OC: `});
-        let span = doc.new({type: "span", text: "No active OC"});
+        let div = doc.new({ type: "div", text: `OC: ` });
+        let span = doc.new({ type: "span", text: "No active OC" });
 
         div.appendChild(span);
         doc.find(".tt-information-section").appendChild(div);

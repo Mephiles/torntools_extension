@@ -477,9 +477,18 @@ function setupPreferences() {
             outer_div.classList.toggle("disabled");
         });
     }
-
     for (let icon of hide_icons) {
         preferences.find(`.${icon}`).parentElement.classList.add("disabled");
+    }
+
+    // Areas
+    for (let area of preferences.findAll("#areas span")) {
+        area.onclick = function () {
+            area.classList.toggle("disabled");
+        }
+    }
+    for (let area of hide_areas) {
+        preferences.find(`#areas span[name='${area}']`).classList.add("disabled");
     }
 
     // Inactivity Faction
@@ -937,6 +946,12 @@ function savePreferences(preferences, settings, target_list_enabled) {
         icons.push(icon.getAttribute("class"));
     }
 
+    // Areas
+    const areas = [];
+    for (let area of preferences.findAll("#areas span.disabled")) {
+        areas.push(area.getAttribute("name"));
+    }
+
     // Inactivity Faction
     settings.inactivity_alerts_faction = {}
     let orange_time_faction = String(parseFloat(preferences.find("#faction-inactivity_alerts_first input").value) * 24 * 60 * 60 * 1000);
@@ -986,6 +1001,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
     ttStorage.set({ "loot_alerts": alerts });
     ttStorage.set({ "chat_highlight": highlights });
     ttStorage.set({ "hide_icons": icons });
+    ttStorage.set({ "hide_areas": areas });
     ttStorage.change({
         "filters": {
             "preset_data": {
@@ -1003,7 +1019,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
     message("Settings saved.", true);
 }
 
-function message(text, good, options={}) {
+function message(text, good, options = {}) {
     let message_element = doc.find("#message");
     message_element.innerText = text;
     if (good) {

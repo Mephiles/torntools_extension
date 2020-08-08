@@ -293,6 +293,25 @@
     font-size: var(--torntools-chat-font-size) !important;
 }
 
+#nav-home {display: var(--torntools-hide-area-home) !important;}
+#nav-items {display: var(--torntools-hide-area-items) !important;}
+#nav-city {display: var(--torntools-hide-area-city) !important;}
+#nav-job {display: var(--torntools-hide-area-job) !important;}
+#nav-gym {display: var(--torntools-hide-area-gym) !important;}
+#nav-properties {display: var(--torntools-hide-area-properties) !important;}
+#nav-education {display: var(--torntools-hide-area-education) !important;}
+#nav-crimes {display: var(--torntools-hide-area-crimes) !important;}
+#nav-missions {display: var(--torntools-hide-area-missions) !important;}
+#nav-newspaper {display: var(--torntools-hide-area-newspaper) !important;}
+#nav-jail {display: var(--torntools-hide-area-jail) !important;}
+#nav-hospital {display: var(--torntools-hide-area-hospital) !important;}
+#nav-casino {display: var(--torntools-hide-area-casino) !important;}
+#nav-forums {display: var(--torntools-hide-area-forums) !important;}
+#nav-hall_of_fame {display: var(--torntools-hide-area-hall_of_fame) !important;}
+#nav-my_faction {display: var(--torntools-hide-area-my_faction) !important;}
+#nav-recruit_citizens {display: var(--torntools-hide-area-recruit_citizens) !important;}
+#nav-competitions {display: var(--torntools-hide-area-competitions) !important;}
+
 body.tt-unscrollable {
     overflow-y: hidden !important;
 }

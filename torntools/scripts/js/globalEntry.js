@@ -65,6 +65,11 @@ requireDatabase(false).then(async () => {
         document.documentElement.style.setProperty(`--torntools-hide-icons-${icon}`, 'none');
     }
 
+    // Hide areas
+    for (let area of hide_areas) {
+        document.documentElement.style.setProperty(`--torntools-hide-area-${area.toLowerCase().replace(/ /g, "_")}`, "none");
+    }
+
     // Hide chats
     document.documentElement.style.setProperty(`--torntools-hide-chat`, settings.pages.global.hide_chat ? "none" : "block");
 
