@@ -213,15 +213,15 @@ requireDatabase().then(function () {
         if (getUserId() == userdata.player_id) return;
 
         // Profile stats
-        let info_container = content.newContainer("User Info", {next_element_heading: "Medals", id: "tt-target-info"});
+        let info_container = content.newContainer("User Info", { next_element_heading: "Medals", id: "tt-target-info" });
 
-        let section_profile_stats = doc.new({type: "div", class: "tt-section", attributes: {name: 'profile-stats'}});
-        let profile_stats_div = doc.new({type: "div", class: `profile-stats ${mobile ? 'tt-mobile' : ""}`});
+        let section_profile_stats = doc.new({ type: "div", class: "tt-section", attributes: { name: 'profile-stats' } });
+        let profile_stats_div = doc.new({ type: "div", class: `profile-stats ${mobile ? 'tt-mobile' : ""}` });
         section_profile_stats.appendChild(profile_stats_div);
         info_container.find(".content").appendChild(section_profile_stats);
 
         if (!filters.profile_stats.auto_fetch) {
-            let button = doc.new({type: "div", class: `fetch-button`, text: "Fetch Info via API"});
+            let button = doc.new({ type: "div", class: `fetch-button`, text: "Fetch Info via API" });
             profile_stats_div.appendChild(button);
 
             button.addEventListener("click", async function () {
@@ -242,21 +242,28 @@ requireDatabase().then(function () {
         displayStakeoutOptions();
 
         // Make content sortable
-        for (let section of doc.findAll("#tt-target-info .content .tt-section")) {
-            section.addEventListener("mouseleave", function (event) {
-                event.preventDefault();
-                saveSortingOrder(doc.find("#tt-target-info .content"), "profile");
-            });
-        }
         sortSections(doc.find("#tt-target-info .content"), "profile");
         new Sortable(doc.find("#tt-target-info .content"), {
             handle: '.uk-sortable-handle', // handle's class
-            animation: 150
+            animation: 150,
+            onMove: () => {
+                setTimeout(() => {
+                    saveSortingOrder(doc.find("#tt-target-info .content"), "profile");
+                }, 100);
+            }
+        });
+
+        // Make profile stats sortable
+        new Sortable(doc.find("#tt-target-info .tt-stats-table .col-chosen"), {
+            animation: 150,
+            onMove: () => {
+                setTimeout(saveProfileStats, 100);
+            }
         });
 
         // Add Edit button
-        let edit_button = doc.new({type: "div", id: "tt-edit", class: "tt-option"});
-        let icon = doc.new({type: "i", class: "fas fa-cog"});
+        let edit_button = doc.new({ type: "div", id: "tt-edit", class: "tt-option" });
+        let icon = doc.new({ type: "i", class: "fas fa-cog" });
         edit_button.appendChild(icon);
         edit_button.innerHTML += " Edit";
 
@@ -286,29 +293,46 @@ requireDatabase().then(function () {
 
                         row.onclick = undefined;
 
-                        if (hasParent(row, {class: "col-chosen"})) {
+                        if (hasParent(row, { class: "col-chosen" })) {
                             doc.find(".tt-stats-table .col-other").appendChild(row);
-                        } else if (hasParent(row, {class: "col-other"})) {
+                        } else if (hasParent(row, { class: "col-other" })) {
                             doc.find(".tt-stats-table .col-chosen").appendChild(row);
                         }
 
                         saveProfileStats();
-
-                        function saveProfileStats() {
-                            let chosen_keys = [];
-
-                            for (let row of doc.findAll(".col-chosen .tt-row:not(.header):not(.sub-heading)")) {
-                                if (row.getAttribute("key")) {
-                                    chosen_keys.push(row.getAttribute("key"));
-                                }
-                            }
-
-                            ttStorage.change({"filters": {"profile_stats": {"chosen_stats": chosen_keys}}});
-                        }
                     }
                 }
             }
         }
+
+        // Add Relative/Whole value setting
+        const checkbox_wrap = doc.new({ type: "div", class: "in-title tt-checkbox-wrap" });
+        const checkbox = doc.new({ type: "input", attributes: { type: "checkbox" } });
+        const text = doc.new({ type: "div", text: "Show relative values" });
+        checkbox_wrap.appendChild(checkbox);
+        checkbox_wrap.appendChild(text);
+
+        doc.find("#tt-target-info .tt-options").appendChild(checkbox_wrap);
+
+        checkbox_wrap.onclick = (event) => {
+            event.stopPropagation();
+        }
+
+        checkbox.onclick = () => {
+            for (let item of doc.findAll("#tt-target-info *[real-value-you]")) {
+                const your_value = item.getAttribute("real-value-you");
+                const your_value_relative = item.getAttribute("relative-value-you");
+
+                if (!checkbox.checked) {
+                    item.innerText = your_value;
+                } else {
+                    item.innerText = your_value_relative.includes("-") ? your_value_relative : "+" + your_value_relative;
+                }
+            }
+
+            ttStorage.change({ 'filters': { 'profile_stats': { 'relative_values': checkbox.checked } } });
+        }
+        if (filters.profile_stats.relative_values) checkbox.click();
 
         async function fetchStats() {
             await displayProfileStats();
@@ -324,7 +348,9 @@ function displayCreator() {
 
     if (name.innerText === "Mephiles' Profile" || name.innerText === "Mephiles [2087524]") {
         let span1 = doc.new({
-            type: "span", text: " - Thanks for using ", attributes: {
+            type: "span",
+            text: " - Thanks for using ",
+            attributes: {
                 style: `font-size: 17px;`
             }
         });
@@ -395,15 +421,15 @@ function showWarning(type) {
 }
 
 function displayTargetInfo(targets) {
-    let section = doc.new({type: "div", class: "tt-section", attributes: {name: 'target-info'}});
+    let section = doc.new({ type: "div", class: "tt-section", attributes: { name: 'target-info' } });
     let user_id = getUserId();
     doc.find("#tt-target-info .content").appendChild(section);
 
     if (!targets[user_id]) {
-        let span = doc.new({type: "span", class: "no-btl-data", text: "No battle data on user.",});
+        let span = doc.new({ type: "span", class: "no-btl-data", text: "No battle data on user.", });
         section.appendChild(span);
     } else {
-        let table = doc.new({type: "div", class: `tt-table ${mobile ? "tt-mobile" : ""}`});
+        let table = doc.new({ type: "div", class: `tt-table ${mobile ? "tt-mobile" : ""}` });
 
         let headings = [
             {name: "Wins", type: "win", class: "good tt-item"},
@@ -466,10 +492,10 @@ function displayTargetInfo(targets) {
         section.appendChild(table);
     }
 
-    section.appendChild(doc.new({type: "hr"}));
+    section.appendChild(doc.new({ type: "hr" }));
 
     // Add sortable icon
-    section.appendChild(doc.new({type: "i", class: "uk-sortable-handle fas fa-arrows-alt"}));
+    section.appendChild(doc.new({ type: "i", class: "uk-sortable-handle fas fa-arrows-alt" }));
 }
 
 async function displayProfileStats() {
@@ -562,8 +588,9 @@ async function displayProfileStats() {
 
             let their_value = result.stats[key] || 0;
             let your_value = userdata.personalstats[key] || userdata.criminalrecord[key] || 0;
+            const relative_value = your_value - their_value;
 
-            let their_value_modified, your_value_modified;
+            let their_value_modified, your_value_modified, relative_value_modified;
 
             if (money_key_list.includes(key)) {
                 let neg = their_value < 0;
@@ -573,15 +600,20 @@ async function displayProfileStats() {
                 neg = your_value < 0;
                 your_value_modified = `$${numberWithCommas(Math.abs(your_value), false)}`;
                 if (neg) your_value_modified = "-" + your_value_modified;
+
+                neg = relative_value < 0;
+                relative_value_modified = `$${numberWithCommas(Math.abs(relative_value), false)}`;
+                if (neg) relative_value_modified = "-" + relative_value_modified;
             } else {
                 their_value_modified = numberWithCommas(their_value, false);
                 your_value_modified = numberWithCommas(your_value, false);
+                relative_value_modified = numberWithCommas(relative_value, false);
             }
 
-            let row = doc.new({type: "div", class: "tt-row", attributes: {key: key}});
-            let key_cell = doc.new({type: "div", text: row_title, class: "item"});
-            let their_cell = doc.new({type: "div", text: their_value_modified, class: "item"});
-            let your_cell = doc.new({type: "div", text: your_value_modified, class: "item"});
+            let row = doc.new({ type: "div", class: "tt-row", attributes: { key: key } });
+            let key_cell = doc.new({ type: "div", text: row_title, class: "item" });
+            let their_cell = doc.new({ type: "div", text: their_value_modified, class: "item" });
+            let your_cell = doc.new({ type: "div", text: your_value_modified, class: "item", attributes: { 'real-value-you': your_value_modified, 'relative-value-you': relative_value_modified } });
 
             if (their_value > your_value) {
                 your_cell.classList.add("negative");
@@ -621,9 +653,9 @@ async function displayProfileStats() {
     }
 
     // Footer
-    let footer_div = doc.new({type: "div", class: "tt-footer"});
-    let footer_text = doc.new({type: "div", text: "Automatically load info"});
-    let footer_input = doc.new({type: "input", attributes: {type: "checkbox"}});
+    let footer_div = doc.new({ type: "div", class: "tt-footer" });
+    let footer_text = doc.new({ type: "div", text: "Automatically load info" });
+    let footer_input = doc.new({ type: "input", attributes: { type: "checkbox" } });
     footer_div.appendChild(footer_text);
     footer_div.appendChild(footer_input);
     doc.find("#tt-target-info .content .tt-section[name='profile-stats']").insertBefore(footer_div, doc.find("#tt-target-info .content .profile-stats").nextElementSibling)
@@ -633,7 +665,7 @@ async function displayProfileStats() {
     }
 
     footer_input.onclick = function () {
-        ttStorage.change({"filters": {"profile_stats": {"auto_fetch": footer_input.checked}}});
+        ttStorage.change({ "filters": { "profile_stats": { "auto_fetch": footer_input.checked } } });
     };
 
     // Fix overflows
@@ -724,11 +756,11 @@ async function showSpyInfo() {
         });
         spySection.appendChild(heading);
 
-        let table = doc.new({type: "div", class: "spy-table"});
-        let header = doc.new({type: "div", class: "tt-row tt-header"});
-        let item_key = doc.new({type: "div", class: "item", text: "Stat"});
-        let item_them = doc.new({type: "div", class: "item", text: "Them"});
-        let item_you = doc.new({type: "div", class: "item", text: "You"});
+        let table = doc.new({ type: "div", class: "spy-table" });
+        let header = doc.new({ type: "div", class: "tt-row tt-header" });
+        let item_key = doc.new({ type: "div", class: "item", text: "Stat" });
+        let item_them = doc.new({ type: "div", class: "item", text: "Them" });
+        let item_you = doc.new({ type: "div", class: "item", text: "You" });
         header.appendChild(item_key);
         header.appendChild(item_them);
         header.appendChild(item_you);
@@ -740,12 +772,16 @@ async function showSpyInfo() {
             let item_them = doc.new({
                 type: "div",
                 class: "item",
-                text: numberWithCommas(parseInt(result.spyreport[stat]), false)
+                text: numberWithCommas(parseInt(result.spyreport[stat]), false),
+                attributes: {
+                    'real-value-you': numberWithCommas(parseInt(userdata[stat]), false),
+                    "relative-value-you": numberWithCommas(parseInt(userdata[stat]) - parseInt(spy_info[stat]), false)
+                },
             });
             let item_you = doc.new({
                 type: "div",
                 class: "item",
-                text: numberWithCommas(parseInt(userdata[stat]), false)
+                text: numberWithCommas(parseInt(userdata[stat]), false),
             });
 
             if (parseInt(result.spyreport[stat]) > parseInt(userdata[stat])) {
@@ -767,12 +803,16 @@ async function showSpyInfo() {
         let score_item_them = doc.new({
             type: "div",
             class: "item",
-            text: numberWithCommas(parseInt(result.spyreport.target_score), false)
+            text: numberWithCommas(parseInt(result.spyreport.target_score), false),
         });
         let score_item_you = doc.new({
             type: "div",
             class: "item",
-            text: numberWithCommas(parseInt(result.spyreport.your_score), false)
+            text: numberWithCommas(parseInt(result.spyreport.your_score), false),
+            attributes: {
+                'real-value-you': numberWithCommas(parseInt(spy_info.your_score), false),
+                "relative-value-you": numberWithCommas(parseInt(spy_info.your_score) - parseInt(spy_info.target_score), false)
+            },
         });
 
         if (parseInt(result.spyreport.target_score) > parseInt(result.spyreport.your_score)) {
@@ -922,18 +962,18 @@ function addStatusIndicator() {
             }
         }
     });
-    status_observer.observe(status_icon.parentElement, {childList: true});
+    status_observer.observe(status_icon.parentElement, { childList: true });
 }
 
 function displayStakeoutOptions() {
     let user_id = getUserId();
 
-    let stakeout_div = doc.new({type: "div", class: "tt-section", attributes: {name: 'stakeouts'}});
+    let stakeout_div = doc.new({ type: "div", class: "tt-section", attributes: { name: 'stakeouts' } });
     doc.find("#tt-target-info .content").appendChild(stakeout_div);
 
-    let watchlist_wrap = doc.new({type: "div", class: "tt-checkbox-wrap"});
-    let input = doc.new({type: "input", attributes: {type: "checkbox"}});
-    let text = doc.new({type: "div", text: "Add this player to Watch List"});
+    let watchlist_wrap = doc.new({ type: "div", class: "tt-checkbox-wrap" });
+    let input = doc.new({ type: "input", attributes: { type: "checkbox" } });
+    let text = doc.new({ type: "div", text: "Add this player to Watch List" });
     watchlist_wrap.appendChild(input);
     watchlist_wrap.appendChild(text);
     stakeout_div.appendChild(watchlist_wrap);
@@ -948,24 +988,24 @@ function displayStakeoutOptions() {
         saveStakeoutSettings();
     }
 
-    let heading = doc.new({type: "div", class: "tt-sub-heading", text: "Let me know when this player:"});
+    let heading = doc.new({ type: "div", class: "tt-sub-heading", text: "Let me know when this player:" });
     stakeout_div.appendChild(heading);
 
-    let option_okay = doc.new({type: "div", class: "tt-checkbox-wrap"});
-    let checkbox_okay = doc.new({type: "input", attributes: {type: "checkbox"}});
-    let text_okay = doc.new({type: "div", text: "is okay"});
+    let option_okay = doc.new({ type: "div", class: "tt-checkbox-wrap" });
+    let checkbox_okay = doc.new({ type: "input", attributes: { type: "checkbox" } });
+    let text_okay = doc.new({ type: "div", text: "is okay" });
     option_okay.appendChild(checkbox_okay);
     option_okay.appendChild(text_okay);
 
-    let option_lands = doc.new({type: "div", class: "tt-checkbox-wrap"});
-    let checkbox_lands = doc.new({type: "input", attributes: {type: "checkbox"}});
-    let text_lands = doc.new({type: "div", text: "lands"});
+    let option_lands = doc.new({ type: "div", class: "tt-checkbox-wrap" });
+    let checkbox_lands = doc.new({ type: "input", attributes: { type: "checkbox" } });
+    let text_lands = doc.new({ type: "div", text: "lands" });
     option_lands.appendChild(checkbox_lands);
     option_lands.appendChild(text_lands);
 
-    let option_online = doc.new({type: "div", class: "tt-checkbox-wrap"});
-    let checkbox_online = doc.new({type: "input", attributes: {type: "checkbox"}});
-    let text_online = doc.new({type: "div", text: "comes online"});
+    let option_online = doc.new({ type: "div", class: "tt-checkbox-wrap" });
+    let checkbox_online = doc.new({ type: "input", attributes: { type: "checkbox" } });
+    let text_online = doc.new({ type: "div", text: "comes online" });
     option_online.appendChild(checkbox_online);
     option_online.appendChild(text_online);
 
@@ -990,12 +1030,13 @@ function displayStakeoutOptions() {
     };
 
     // Add hr
-    stakeout_div.appendChild(doc.new({type: "hr"}));
+    stakeout_div.appendChild(doc.new({ type: "hr" }));
 
     // Add sortable icon
-    stakeout_div.appendChild(doc.new({type: "i", class: "uk-sortable-handle fas fa-arrows-alt"}));
+    stakeout_div.appendChild(doc.new({ type: "i", class: "uk-sortable-handle fas fa-arrows-alt" }));
 
     function saveStakeoutSettings() {
+
         if (input.checked) {
             ttStorage.get("watchlist", function (watchlist) {
                 let is_in_list = false;
@@ -1014,7 +1055,7 @@ function displayStakeoutOptions() {
                         traveling: getTraveling()
                     });
                 }
-                ttStorage.set({"watchlist": watchlist});
+                ttStorage.set({ "watchlist": watchlist });
             });
         } else {
             ttStorage.get("watchlist", function (watchlist) {
@@ -1024,7 +1065,7 @@ function displayStakeoutOptions() {
                         break;
                     }
                 }
-                ttStorage.set({"watchlist": watchlist});
+                ttStorage.set({ "watchlist": watchlist });
             });
         }
 
@@ -1041,7 +1082,7 @@ function displayStakeoutOptions() {
         } else {
             ttStorage.get("stakeouts", function (stakeouts) {
                 delete stakeouts[user_id];
-                ttStorage.set({"stakeouts": stakeouts});
+                ttStorage.set({ "stakeouts": stakeouts });
             });
         }
     }
@@ -1079,4 +1120,16 @@ function handleTornStatsData(data) {
     }
 
     return response;
+}
+
+function saveProfileStats() {
+    let chosen_keys = [];
+
+    for (let row of doc.findAll(".col-chosen .tt-row:not(.header):not(.sub-heading)")) {
+        if (row.getAttribute("key")) {
+            chosen_keys.push(row.getAttribute("key"));
+        }
+    }
+
+    ttStorage.change({ "filters": { "profile_stats": { "chosen_stats": chosen_keys } } });
 }

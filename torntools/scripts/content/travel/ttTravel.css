@@ -161,6 +161,19 @@ input[type=number]::-webkit-outer-spin-button {
 	flex-grow: 1;
     text-align: center;
 }
+#ttTravelTable .table .row div .item-image {
+    width: 33px;
+    height: 20px;
+    vertical-align: top;
+    display: inline-block;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+#ttTravelTable .table .row div a {
+    margin: unset;
+    display: inline-block;
+}
 #ttTravelTable .table .row.hidden {
     display: none;
 }

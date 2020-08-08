@@ -489,12 +489,21 @@ function setupPreferences() {
             outer_div.classList.toggle("disabled");
         });
     }
-
     for (let icon of hide_icons) {
         preferences.find(`.${icon}`).parentElement.classList.add("disabled");
     }
 
-// Inactivity Faction
+    // Areas
+    for (let area of preferences.findAll("#areas span")) {
+        area.onclick = function () {
+            area.classList.toggle("disabled");
+        }
+    }
+    for (let area of hide_areas) {
+        preferences.find(`#areas span[name='${area}']`).classList.add("disabled");
+    }
+
+    // Inactivity Faction
     let orange_time_faction = "";
     let red_time_faction = "";
     for (let time in settings.inactivity_alerts_faction) {
@@ -956,6 +965,12 @@ function savePreferences(preferences, settings, target_list_enabled) {
         icons.push(icon.getAttribute("class"));
     }
 
+    // Areas
+    const areas = [];
+    for (let area of preferences.findAll("#areas span.disabled")) {
+        areas.push(area.getAttribute("name"));
+    }
+
     // Inactivity Faction
     settings.inactivity_alerts_faction = {}
     let orange_time_faction = String(parseFloat(preferences.find("#faction-inactivity_alerts_first input").value) * 24 * 60 * 60 * 1000);
@@ -999,12 +1014,13 @@ function savePreferences(preferences, settings, target_list_enabled) {
 
     console.log("New settings", settings);
 
-    ttStorage.set({"settings": settings});
-    ttStorage.set({"allies": allies});
-    ttStorage.set({"custom_links": custom_links});
-    ttStorage.set({"loot_alerts": alerts});
-    ttStorage.set({"chat_highlight": highlights});
-    ttStorage.set({"hide_icons": icons});
+    ttStorage.set({ "settings": settings });
+    ttStorage.set({ "allies": allies });
+    ttStorage.set({ "custom_links": custom_links });
+    ttStorage.set({ "loot_alerts": alerts });
+    ttStorage.set({ "chat_highlight": highlights });
+    ttStorage.set({ "hide_icons": icons });
+    ttStorage.set({ "hide_areas": areas });
     ttStorage.change({
         "filters": {
             "preset_data": {
