@@ -294,16 +294,16 @@
 }
 
 #nav-gym .area-row___34mEZ {
-    background-color: var(--torntools-disable-gym-highlight) !important;
+    background-color: var(--torntools-disable-gym-highlight, #f2f2f2) !important;
 }
 #nav-gym svg {
-    fill: var(--torntools-disable-gym-highlight-icon) !important;
+    fill: var(--torntools-disable-gym-highlight-icon, url(#sidebar_svg_gradient_regular_desktop)) !important;
 }
 #nav-gym .area-row___34mEZ:hover {
-    background-color: var(--torntools-disable-gym-highlight-hover) !important;
+    background-color: var(--torntools-disable-gym-highlight-hover, #fff) !important;
 }
 #nav-gym.active___T3p3C .area-row___34mEZ {
-    background-color: var(--torntools-disable-gym-highlight-active) !important;
+    background-color: var(--torntools-disable-gym-highlight-active, #fff) !important;
 }
 #nav-gym.active___T3p3C svg {
     background-color: var(--torntools-disable-gym-highlight-icon-active) !important;
