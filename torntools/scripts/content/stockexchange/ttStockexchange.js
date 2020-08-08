@@ -41,13 +41,9 @@ requireDatabase().then(function () {
         }
 
         if (settings.pages.stockexchange.advanced) {
-            try {
-                showInformation();
+            showInformation();
 
-                addFilter(filters);
-            } catch (e) {
-                console.error("DKK error", e);
-            }
+            addFilter(filters);
         }
 
     });
@@ -68,9 +64,6 @@ function showInformation() {
     const formatterPrice = new Intl.NumberFormat('en-US', {
         minimumFractionDigits: 3,
         maximumFractionDigits: 3,
-    });
-    const formatterShares = new Intl.NumberFormat('en-US', {
-        maximumFractionDigits: 0,
     });
 
     for (let stock of doc.findAll(".stock-list > .item, .portfolio-list-shares > li.item-wrap")) {
@@ -165,10 +158,10 @@ function showInformation() {
 
                     rowTotalShares.innerHTML = `
                     <div class="property left"><span>Total shares:</span></div>
-                    ${formatterShares.format(totalShares)}
+                    ${FORMATTER_NO_DECIMALS.format(totalShares)}
                     <span class="difference ${getDiffClass(diff)}">
                         <i></i>
-                        ${formatterShares.format(Math.abs(diff))}
+                        ${FORMATTER_NO_DECIMALS.format(Math.abs(diff))}
                     </span>
                 `;
                 }
@@ -180,10 +173,10 @@ function showInformation() {
 
                     rowSharesForSale.innerHTML = `
                     <div class="property left"><span>Shares for sale:</span></div>
-                    ${formatterShares.format(sharesForSale)}
+                    ${FORMATTER_NO_DECIMALS.format(sharesForSale)}
                     <span class="difference ${getDiffClass(diff)}">
                         <i></i>
-                        ${formatterShares.format(Math.abs(diff))}
+                        ${FORMATTER_NO_DECIMALS.format(Math.abs(diff))}
                     </span>
                 `;
                 }

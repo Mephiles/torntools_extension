@@ -226,8 +226,10 @@ function itemsLoaded() {
 }
 
 function displayItemPrices(itemlist) {
-    let items = doc.findAll(".items-cont[aria-expanded=true]>li");
+    const list = doc.find(".items-cont[aria-expanded=true]")
+    let items = list.findAll(":scope > li[data-item]");
 
+    let total = 0;
     for (let item of items) {
         let id = item.getAttribute("data-item");
         let price = itemlist[id].market_value;
@@ -236,6 +238,17 @@ function displayItemPrices(itemlist) {
 
         let parent = mobile ? item.find(".name-wrap") : (item.find(".bonuses-wrap") || item.find(".name-wrap"));
         let new_element;
+
+        if (item.find(".bonuses-wrap")) {
+            if ([...item.findAll(".bonuses-wrap *")].length === 0) {
+                qty = parseInt(parent.parentElement.parentElement.parentElement.find(".qty").innerText.replace("x", ""));
+            }
+        } else {
+            qty = parseInt(parent.find(".qty").innerText.replace("x", ""));
+        }
+        total_price = qty * parseInt(price);
+        if (total_price) total += total_price
+        else if (total_price !== 0) total += price;
 
         if (parent.find(".tt-item-price"))
             continue;
@@ -293,6 +306,18 @@ function displayItemPrices(itemlist) {
 
         parent.appendChild(new_element);
     }
+
+    if (list.find(":scope > li > .tt-item-price")) list.find(":scope > li > .tt-item-price").parentElement.remove();
+
+    let row = doc.new("li");
+
+    row.appendChild(doc.new({
+        type: "li",
+        text: `Total Value: $${FORMATTER_NO_DECIMALS.format(total)}`,
+        class: "tt-item-price",
+    }));
+
+    list.insertBefore(row, list.firstElementChild);
 }
 
 function useContainerLoaded() {
@@ -402,7 +427,6 @@ function addItemMarketLinks() {
         }
     }
 }
-
 
 const ALLOWED_BLOOD = {
     "o+": [738, 739], // 738

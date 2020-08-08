@@ -562,6 +562,10 @@ const RANK_TRIGGERS = {
     ],
 };
 
+const FORMATTER_NO_DECIMALS = new Intl.NumberFormat('en-US', {
+    maximumFractionDigits: 0,
+});
+
 let injectedXHR = false;
 let injectedFetch = false;
 
