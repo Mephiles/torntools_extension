@@ -248,16 +248,23 @@ requireDatabase().then(function () {
         displayStakeoutOptions();
 
         // Make content sortable
-        for (let section of doc.findAll("#tt-target-info .content .tt-section")) {
-            section.addEventListener("mouseleave", function (event) {
-                event.preventDefault();
-                saveSortingOrder(doc.find("#tt-target-info .content"), "profile");
-            });
-        }
         sortSections(doc.find("#tt-target-info .content"), "profile");
         new Sortable(doc.find("#tt-target-info .content"), {
             handle: '.uk-sortable-handle', // handle's class
-            animation: 150
+            animation: 150,
+            onMove: () => {
+                setTimeout(() => {
+                    saveSortingOrder(doc.find("#tt-target-info .content"), "profile");
+                }, 100);
+            }
+        });
+
+        // Make profile stats sortable
+        new Sortable(doc.find("#tt-target-info .tt-stats-table .col-chosen"), {
+            animation: 150,
+            onMove: () => {
+                setTimeout(saveProfileStats, 100);
+            }
         });
 
         // Add Edit button
@@ -299,18 +306,6 @@ requireDatabase().then(function () {
                         }
 
                         saveProfileStats();
-
-                        function saveProfileStats() {
-                            let chosen_keys = [];
-
-                            for (let row of doc.findAll(".col-chosen .tt-row:not(.header):not(.sub-heading)")) {
-                                if (row.getAttribute("key")) {
-                                    chosen_keys.push(row.getAttribute("key"));
-                                }
-                            }
-
-                            ttStorage.change({ "filters": { "profile_stats": { "chosen_stats": chosen_keys } } });
-                        }
                     }
                 }
             }
@@ -1092,4 +1087,16 @@ function modifyResult(personalstats, criminalrecord, comparison_data, spy_data) 
 
     let data = { ...personalstats, ...criminalrecord, ...comparison_data, spy: { ...spy_data }, date: new Date().toString() }
     return data;
+}
+
+function saveProfileStats() {
+    let chosen_keys = [];
+
+    for (let row of doc.findAll(".col-chosen .tt-row:not(.header):not(.sub-heading)")) {
+        if (row.getAttribute("key")) {
+            chosen_keys.push(row.getAttribute("key"));
+        }
+    }
+
+    ttStorage.change({ "filters": { "profile_stats": { "chosen_stats": chosen_keys } } });
 }

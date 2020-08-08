@@ -42,6 +42,7 @@
 }
 .col-chosen .tt-row {
     display: none;
+    cursor: pointer;
 }
 .col-chosen.active .tt-row {
     display: flex;
