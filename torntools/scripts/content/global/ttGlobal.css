@@ -293,6 +293,23 @@
     font-size: var(--torntools-chat-font-size) !important;
 }
 
+#nav-gym .area-row___34mEZ {
+    background-color: var(--torntools-disable-gym-highlight) !important;
+}
+#nav-gym svg {
+    fill: var(--torntools-disable-gym-highlight-icon) !important;
+}
+#nav-gym .area-row___34mEZ:hover {
+    background-color: var(--torntools-disable-gym-highlight-hover) !important;
+}
+#nav-gym.active___T3p3C .area-row___34mEZ {
+    background-color: var(--torntools-disable-gym-highlight-active) !important;
+}
+#nav-gym.active___T3p3C svg {
+    background-color: var(--torntools-disable-gym-highlight-icon-active) !important;
+}
+
+
 #nav-home {display: var(--torntools-hide-area-home) !important;}
 #nav-items {display: var(--torntools-hide-area-items) !important;}
 #nav-city {display: var(--torntools-hide-area-city) !important;}
