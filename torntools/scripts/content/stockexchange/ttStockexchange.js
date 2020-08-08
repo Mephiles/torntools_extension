@@ -115,7 +115,7 @@ function showInformation() {
                     <span class="t-hide">Price</span>:
                 </span>
                 $${formatterPrice.format(currentPrice)}
-                <span class="difference ${priceDiff >= 0 ? "up" : "down"}"><i></i>$${formatterPrice.format(Math.abs(priceDiff))}</span>
+                <span class="difference ${getDiffClass(priceDiff)}"><i></i>$${formatterPrice.format(Math.abs(priceDiff))}</span>
             `;
 
             stock.find(".qualify-wrap").innerHTML = blockText;
@@ -166,7 +166,7 @@ function showInformation() {
                     rowTotalShares.innerHTML = `
                     <div class="property left"><span>Total shares:</span></div>
                     ${formatterShares.format(totalShares)}
-                    <span class="difference ${diff >= 0 ? "up" : "down"}">
+                    <span class="difference ${getDiffClass(diff)}">
                         <i></i>
                         ${formatterShares.format(Math.abs(diff))}
                     </span>
@@ -181,7 +181,7 @@ function showInformation() {
                     rowSharesForSale.innerHTML = `
                     <div class="property left"><span>Shares for sale:</span></div>
                     ${formatterShares.format(sharesForSale)}
-                    <span class="difference ${diff >= 0 ? "up" : "down"}">
+                    <span class="difference ${getDiffClass(diff)}">
                         <i></i>
                         ${formatterShares.format(Math.abs(diff))}
                     </span>
@@ -204,7 +204,7 @@ function showInformation() {
                     rowForecast.innerHTML = `
                     <div class="property left"><span>Forecast:</span></div>
                     ${forecast}
-                    <span class="difference ${diff >= 0 ? "up" : "down"}">
+                    <span class="difference ${getDiffClass(diff)}">
                         <i></i>
                         ${data.forecast}
                     </span>
@@ -422,4 +422,10 @@ function stockProfileLoaded() {
             }
         }, 100);
     });
+}
+
+function getDiffClass(diff) {
+    if (diff > 0) return "up";
+    else if (diff < 0) return "down";
+    else return "";
 }

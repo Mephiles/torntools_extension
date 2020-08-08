@@ -96,6 +96,10 @@
     font-family: Arial;
 }
 
+.difference:not(.up):not(.down) {
+    color: #a57b00;
+}
+
 .difference.up {
     color: green;
 }
@@ -108,6 +112,13 @@
     padding-left: 13px;
     height: 9px;
     display: inline-block;
+}
+
+.difference:not(.up):not(.down) i {
+    background: url("https://torn.com/images/v2/stock/up_down_steady.png") 0 -16px no-repeat;
+    height: 16px;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .difference.up i {
