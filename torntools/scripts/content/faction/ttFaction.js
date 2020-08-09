@@ -2,618 +2,647 @@ let ownFaction = false;
 let member_info_added = false;
 
 requireDatabase().then(() => {
-    addXHRListener((event) => {
-        const {page, json, xhr} = event.detail;
-        if (!json) return;
+	addXHRListener((event) => {
+		const { page, json, xhr } = event.detail;
+		if (!json) return;
 
-        const params = new URLSearchParams(xhr.requestBody);
-        const step = params.get("step");
-        if (page === "factions") {
-            if (step === "mainnews" && parseInt(params.get("type")) === 4 && settings.pages.faction.armory) {
-                newstabLoaded("armory").then(shortenArmoryNews);
-            }
-        }
-    });
+		const params = new URLSearchParams(xhr.requestBody);
+		const step = params.get("step");
+		if (page === "factions") {
+			if (step === "mainnews" && parseInt(params.get("type")) === 4 && settings.pages.faction.armory) {
+				newstabLoaded("armory").then(shortenArmoryNews);
+			}
+		}
+	});
 
-    requireContent().then(() => {
-        console.log("TT - Faction");
+	requireContent().then(() => {
+		console.log("TT - Faction", subpage(), getHashParameters().get("tab"));
 
-        if (getSearchParameters().get("step") === "your") {
-            ownFaction = true;
+		if (getSearchParameters().get("step") === "your") {
+			ownFaction = true;
 
-            switch (subpage()) {
-                case "main":
-                    loadMain();
-                    break;
-                case "info":
-                    loadInfo();
-                    break;
-                case "crimes":
-                    loadCrimes();
-                    break;
-                case "upgrades":
-                    loadUpgrades();
-                    break;
-                case "armoury":
-                    loadArmory();
-                    break;
-                default:
-                    break;
-            }
+			switch (subpage()) {
+				case "main":
+					loadMain();
+					break;
+				case "info":
+					loadInfo();
+					break;
+				case "crimes":
+					loadCrimes();
+					break;
+				case "upgrades":
+					loadUpgrades();
+					break;
+				case "armoury":
+					loadArmory();
+					break;
+				case "controls":
+					loadControls();
+					break;
+				default:
+					break;
+			}
 
-            // Main page
-            doc.find(".faction-tabs li[data-case=main]").addEventListener("click", loadMain);
+			// Main page
+			doc.find(".faction-tabs li[data-case=main]").addEventListener("click", loadMain);
 
-            // Info page
-            doc.find(".faction-tabs li[data-case=info]").addEventListener("click", loadInfo);
+			// Info page
+			doc.find(".faction-tabs li[data-case=info]").addEventListener("click", loadInfo);
 
-            // Crimes page
-            doc.find(".faction-tabs li[data-case=crimes]").addEventListener("click", loadCrimes);
+			// Crimes page
+			doc.find(".faction-tabs li[data-case=crimes]").addEventListener("click", loadCrimes);
 
-            // Upgrades page
-            doc.find(".faction-tabs li[data-case=upgrades]").addEventListener("click", loadUpgrades);
+			// Upgrades page
+			doc.find(".faction-tabs li[data-case=upgrades]").addEventListener("click", loadUpgrades);
 
-            // Armory page
-            doc.find(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
-        } else {
-            // noinspection EqualityComparisonWithCoercionJS
-            ownFaction = userdata.faction ? getSearchParameters().get("ID") == userdata.faction.faction_id : false;
+			// Armory page
+			doc.find(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
 
-            loadInfo();
-        }
-    });
+			// Controls page
+			doc.find(".faction-tabs li[data-case=controls]").addEventListener("click", loadControls);
+		} else {
+			// noinspection EqualityComparisonWithCoercionJS
+			ownFaction = userdata.faction ? getSearchParameters().get("ID") == userdata.faction.faction_id : false;
+
+			loadInfo();
+		}
+	});
 });
 
 function loadMain() {
-    subpageLoaded("main").then(function () {
-        fullInfoBox("main");
+	subpageLoaded("main").then(function () {
+		fullInfoBox("main");
 
 
-    });
+	});
 }
 
 function loadInfo() {
-    if (ownFaction) {
-        subpageLoaded("info").then(function () {
-            fullInfoBox("info");
+	if (ownFaction) {
+		subpageLoaded("info").then(function () {
+			fullInfoBox("info");
 
-            if (settings.pages.faction.armory_worth) armoryWorth();
-        });
-    }
+			if (settings.pages.faction.armory_worth) armoryWorth();
+		});
+	}
 
-    if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
+	if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
 
-    requirePlayerList(".members-list .table-body").then(async function () {
-        await showUserInfo();
+	requirePlayerList(".members-list .table-body").then(async function () {
+		await showUserInfo();
 
-        // Player list filter
-        let list = doc.find(".members-list .table-body");
-        let title = list.previousElementSibling;
+		// Player list filter
+		let list = doc.find(".members-list .table-body");
+		let title = list.previousElementSibling;
 
-        addFilterToTable(list, title);
-    });
+		addFilterToTable(list, title);
+	});
 }
 
 function loadCrimes() {
-    if (!doc.find(".faction-crimes-wrap.tt-modified")) {
-        subpageLoaded("crimes").then(function () {
-            if (settings.pages.faction.oc_time && Object.keys(oc).length > 0) {
-                ocTimes(oc, settings.format);
-            } else if (Object.keys(oc).length === 0) {
-                console.log("NO DATA (might be no API access)");
-            }
+	if (!doc.find(".faction-crimes-wrap.tt-modified")) {
+		subpageLoaded("crimes").then(function () {
+			if (settings.pages.faction.oc_time && Object.keys(oc).length > 0) {
+				ocTimes(oc, settings.format);
+			} else if (Object.keys(oc).length === 0) {
+				console.log("NO DATA (might be no API access)");
+			}
 
-            if (settings.pages.faction.oc_advanced) {
-                openOCs();
-                showAvailablePlayers();
-                showRecommendedNNB();
-                showNNB();
-                highlightOwnOC();
-            }
+			if (settings.pages.faction.oc_advanced) {
+				openOCs();
+				showAvailablePlayers();
+				showRecommendedNNB();
+				showNNB();
+				highlightOwnOC();
+			}
 
-            doc.find(".faction-crimes-wrap").classList.add("tt-modified");
-        });
-    }
+			doc.find(".faction-crimes-wrap").classList.add("tt-modified");
+		});
+	}
 }
 
 function loadUpgrades() {
-    upgradesInfoListener();
+	upgradesInfoListener();
 }
 
 function loadArmory() {
-    if (settings.pages.items.drug_details) drugInfo();
+	if (settings.pages.items.drug_details) drugInfo();
 
-    armoryTabsLoaded().then(() => {
-        armoryFilter();
+	armoryTabsLoaded().then(() => {
+		armoryFilter();
 
-        if (settings.pages.items.highlight_bloodbags !== "none") highlightBloodBags();
-    });
+		if (settings.pages.items.highlight_bloodbags !== "none") highlightBloodBags();
+	});
+}
+
+function loadControls() {
+	const btnGiveToUser = doc.find(".control-tabs > li[aria-controls='option-give-to-user']");
+	btnGiveToUser.addEventListener("click", () => {
+		if (doc.find(".control-tabs > li[aria-controls='option-give-to-user']").getAttribute("aria-selected")) {
+			loadGiveToUser();
+		}
+	});
+	if (doc.find(".control-tabs > li[aria-controls='option-give-to-user']").getAttribute("aria-selected")) {
+		loadGiveToUser();
+	}
+
+	function loadGiveToUser() {
+		try {
+			requirePlayerList(".user-info-list-wrap.money-depositors").then(() => {
+				showFactionBalance();
+			});
+		} catch (e) {
+			console.error("DKK Error during load.", e);
+		}
+	}
+
 }
 
 function ocTimes(oc, format) {
-    let crimes = doc.findAll(".organize-wrap .crimes-list>li");
-    for (let crime of crimes) {
-        let crime_id = crime.find(".details-wrap").getAttribute("data-crime");
+	let crimes = doc.findAll(".organize-wrap .crimes-list>li");
+	for (let crime of crimes) {
+		let crime_id = crime.find(".details-wrap").getAttribute("data-crime");
 
-        let finish_time;
-        let span = doc.new({type: "span", class: "tt-oc-time"});
+		let finish_time;
+		let span = doc.new({ type: "span", class: "tt-oc-time" });
 
-        if (oc[crime_id]) {
-            finish_time = oc[crime_id].time_ready;
-            // noinspection JSUnusedLocalSymbols
-            let [day, month, year, hours, minutes, seconds] = dateParts(new Date(finish_time * 1000));
+		if (oc[crime_id]) {
+			finish_time = oc[crime_id].time_ready;
+			// noinspection JSUnusedLocalSymbols
+			let [day, month, year, hours, minutes, seconds] = dateParts(new Date(finish_time * 1000));
 
-            span.innerText = `${formatTime([hours, minutes, 0], format.time)} | ${formatDate([day, month, 0], format.date)}`;
-        } else {
-            span.innerText = "N/A";
-        }
+			span.innerText = `${formatTime([hours, minutes, 0], format.time)} | ${formatDate([day, month, 0], format.date)}`;
+		} else {
+			span.innerText = "N/A";
+		}
 
-        crime.find(".status").appendChild(span);
-    }
+		crime.find(".status").appendChild(span);
+	}
 }
 
 function shortenArmoryNews() {
-    let all_news = doc.findAll("#tab4-4 .news-list>li");
-    let db = {}
+	let all_news = doc.findAll("#tab4-4 .news-list>li");
+	let db = {}
 
-    for (let news of all_news) {
-        let info = news.find(".info").innerText;
+	for (let news of all_news) {
+		let info = news.find(".info").innerText;
 
-        if (info in db) {
-            db[info].count++;
-            db[info].first_date = news.find(".date").innerText;
-        } else {
-            db[info] = {
-                count: 1,
-                username: news.find(".info a").innerText,
-                link: news.find(".info a").getAttribute("href"),
-                last_date: news.find(".date").innerText
-            };
-        }
-    }
+		if (info in db) {
+			db[info].count++;
+			db[info].first_date = news.find(".date").innerText;
+		} else {
+			db[info] = {
+				count: 1,
+				username: news.find(".info a").innerText,
+				link: news.find(".info a").getAttribute("href"),
+				last_date: news.find(".date").innerText
+			};
+		}
+	}
 
-    doc.find("#tab4-4 .news-list").innerHTML = "";
-    console.log("db", db)
+	doc.find("#tab4-4 .news-list").innerHTML = "";
+	console.log("db", db)
 
-    for (let key in db) {
-        let li = doc.new({type: "li"});
-        let date = doc.new({type: "span", class: "date"});
-        let info = doc.new({type: "span", class: "info"});
-        let a = doc.new({type: "a", text: db[key].username, attributes: {href: db[key].link}});
-        info.appendChild(a);
+	for (let key in db) {
+		let li = doc.new({ type: "li" });
+		let date = doc.new({ type: "span", class: "date" });
+		let info = doc.new({ type: "span", class: "info" });
+		let a = doc.new({ type: "a", text: db[key].username, attributes: { href: db[key].link } });
+		info.appendChild(a);
 
-        if (db[key].first_date) {
-            let upper_time = db[key].first_date.slice(0, db[key].first_date.length - (db[key].first_date.indexOf("\n") + 4));
-            let upper_date = db[key].first_date.slice(db[key].first_date.indexOf("\n"), db[key].first_date.length - 3);
-            let lower_time = db[key].last_date.slice(0, db[key].last_date.length - (db[key].last_date.indexOf("\n") + 4));
-            let lower_date = db[key].last_date.slice(db[key].last_date.indexOf("\n"), db[key].last_date.length - 3);
+		if (db[key].first_date) {
+			let upper_time = db[key].first_date.slice(0, db[key].first_date.length - (db[key].first_date.indexOf("\n") + 4));
+			let upper_date = db[key].first_date.slice(db[key].first_date.indexOf("\n"), db[key].first_date.length - 3);
+			let lower_time = db[key].last_date.slice(0, db[key].last_date.length - (db[key].last_date.indexOf("\n") + 4));
+			let lower_date = db[key].last_date.slice(db[key].last_date.indexOf("\n"), db[key].last_date.length - 3);
 
-            let upper_date_span = doc.new("span");
-            upper_date_span.setClass("left-date");
-            upper_date_span.innerText = `${upper_time}${upper_date}`;
-            let separator = doc.new("span");
-            separator.setClass("separator");
-            separator.innerText = "-";
-            let lower_date_span = doc.new("span");
-            lower_date_span.setClass("right-date");
-            lower_date_span.innerText = `${lower_time}${lower_date}`;
+			let upper_date_span = doc.new("span");
+			upper_date_span.setClass("left-date");
+			upper_date_span.innerText = `${upper_time}${upper_date}`;
+			let separator = doc.new("span");
+			separator.setClass("separator");
+			separator.innerText = "-";
+			let lower_date_span = doc.new("span");
+			lower_date_span.setClass("right-date");
+			lower_date_span.innerText = `${lower_time}${lower_date}`;
 
-            if (upper_time !== lower_time || upper_date !== lower_date) {
-                date.appendChild(upper_date_span);
-                date.appendChild(separator);
-            }
-            date.appendChild(lower_date_span);
-        } else {
-            date.innerText = db[key].last_date;
-        }
+			if (upper_time !== lower_time || upper_date !== lower_date) {
+				date.appendChild(upper_date_span);
+				date.appendChild(separator);
+			}
+			date.appendChild(lower_date_span);
+		} else {
+			date.innerText = db[key].last_date;
+		}
 
-        let keywords = ["used", "filled", "lent", "retrieved", "returned", "deposited", "gave"];
-        let inner_span = doc.new("span");
+		let keywords = ["used", "filled", "lent", "retrieved", "returned", "deposited", "gave"];
+		let inner_span = doc.new("span");
 
-        for (let keyword of keywords) {
-            if (key.includes(keyword)) {
-                if (key.includes("one")) {
-                    let amount_span = doc.new({
-                        type: "span",
-                        text: " " + db[key].count + "x",
-                        attributes: {style: "font-weight: 600"}
-                    });
-                    inner_span.innerHTML += ` ${keyword}`;
-                    inner_span.appendChild(amount_span);
-                    inner_span.innerHTML += key.split(" one")[1];
-                } else {
-                    inner_span.innerText = ` ${keyword}` + key.split(keyword)[1];
-                }
-                break;
-            }
-        }
+		for (let keyword of keywords) {
+			if (key.includes(keyword)) {
+				if (key.includes("one")) {
+					let amount_span = doc.new({
+						type: "span",
+						text: " " + db[key].count + "x",
+						attributes: { style: "font-weight: 600" }
+					});
+					inner_span.innerHTML += ` ${keyword}`;
+					inner_span.appendChild(amount_span);
+					inner_span.innerHTML += key.split(" one")[1];
+				} else {
+					inner_span.innerText = ` ${keyword}` + key.split(keyword)[1];
+				}
+				break;
+			}
+		}
 
-        info.appendChild(inner_span);
-        li.appendChild(date);
-        li.appendChild(info);
-        doc.find("#tab4-4 .news-list").appendChild(li);
-    }
+		info.appendChild(inner_span);
+		li.appendChild(date);
+		li.appendChild(info);
+		doc.find("#tab4-4 .news-list").appendChild(li);
+	}
 }
 
 function subpage() {
-    let hash = window.location.hash.replace("#/", "");
-    if (hash === "" || hash === "war/chain") {
-        return "main";
-    }
+	let hash = window.location.hash.replace("#/", "");
+	if (hash === "" || hash === "war/chain") {
+		return "main";
+	}
 
-    if (getHashParameters().has("tab")) {
-        return getHashParameters().get("tab")
-    }
+	if (getHashParameters().has("tab")) {
+		return getHashParameters().get("tab")
+	}
 
-    return "";
+	return "";
 }
 
 function subpageLoaded(page) {
-    return new Promise(function (resolve) {
-        let checker = setInterval(function () {
-            console.log("checking", page);
-            if (page === "crimes" && doc.find("#faction-crimes .organize-wrap ul.crimes-list li")) {
-                resolve(true);
-                return clearInterval(checker);
-            } else if (page === "main" && !doc.find("#faction-main div[data-title='announcement']+div .ajax-placeholder")) {
-                resolve(true);
-                return clearInterval(checker);
-            } else if (page === "info" && !doc.find("#faction-info .ajax-placeholder")) {
-                resolve(true);
-                return clearInterval(checker);
-            } else if (page === "upgrades" && !doc.find("#faction-upgrades>.ajax-placeholder")) {
-                resolve(true);
-                return clearInterval(checker);
-            }
-        }, 100);
-    });
+	return new Promise(function (resolve) {
+		let checker = setInterval(function () {
+			console.log("checking", page);
+			if (page === "crimes" && doc.find("#faction-crimes .organize-wrap ul.crimes-list li")) {
+				resolve(true);
+				return clearInterval(checker);
+			} else if (page === "main" && !doc.find("#faction-main div[data-title='announcement']+div .ajax-placeholder")) {
+				resolve(true);
+				return clearInterval(checker);
+			} else if (page === "info" && !doc.find("#faction-info .ajax-placeholder")) {
+				resolve(true);
+				return clearInterval(checker);
+			} else if (page === "upgrades" && !doc.find("#faction-upgrades>.ajax-placeholder")) {
+				resolve(true);
+				return clearInterval(checker);
+			}
+		}, 100);
+	});
 }
 
 function newstabLoaded(tab) {
-    return new Promise(function (resolve) {
-        let checker = setInterval(function () {
-            if (tab === "armory" && doc.find("#tab4-4 .news-list li:not(.last)")) {
-                resolve(true);
-                return clearInterval(checker);
-            }
-        }, 25);
-    });
+	return new Promise(function (resolve) {
+		let checker = setInterval(function () {
+			if (tab === "armory" && doc.find("#tab4-4 .news-list li:not(.last)")) {
+				resolve(true);
+				return clearInterval(checker);
+			}
+		}, 25);
+	});
 }
 
 function openOCs() {
-    let crimes = doc.findAll(".organize-wrap .crimes-list>li");
+	let crimes = doc.findAll(".organize-wrap .crimes-list>li");
 
-    for (let crime of crimes) {
-        if (crime.find(".status .br") || crime.find(".status .bold").innerText.trim() !== "Ready") {
-            continue;
-        }
+	for (let crime of crimes) {
+		if (crime.find(".status .br") || crime.find(".status .bold").innerText.trim() !== "Ready") {
+			continue;
+		}
 
-        let all_players_ready = true;
-        for (let player of crime.findAll(".details-list>li")) {
-            if (player.find(".member").innerText === "Member") continue;
+		let all_players_ready = true;
+		for (let player of crime.findAll(".details-list>li")) {
+			if (player.find(".member").innerText === "Member") continue;
 
-            if (player.find(".stat").innerText !== "Okay") {
-                all_players_ready = false;
-                break;
-            }
-        }
+			if (player.find(".stat").innerText !== "Okay") {
+				all_players_ready = false;
+				break;
+			}
+		}
 
-        if (all_players_ready) {
-            crime.classList.add("active");
-        }
-    }
+		if (all_players_ready) {
+			crime.classList.add("active");
+		}
+	}
 }
 
 function showNNB() {
-    fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=crimes`)
-        .then(async function (response) {
-            let result = await response.json();
+	fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=crimes`)
+		.then(async function (response) {
+			let result = await response.json();
 
-            // Populate active crimes
-            let crimes = doc.findAll(".organize-wrap .crimes-list>li");
-            for (let crime of crimes) {
-                for (let player of crime.findAll(".details-list>li")) {
-                    player.find(".level").classList.add("torntools-modified");
-                    if (mobile) {
-                        player.find(".member").classList.add("torntools-modified");
-                        player.find(".stat").classList.add("torntools-modified");
-                        player.find(".member").classList.add("torntools-mobile");
-                        player.find(".level").classList.add("torntools-mobile");
-                        player.find(".stat").classList.add("torntools-mobile");
-                    }
+			// Populate active crimes
+			let crimes = doc.findAll(".organize-wrap .crimes-list>li");
+			for (let crime of crimes) {
+				for (let player of crime.findAll(".details-list>li")) {
+					player.find(".level").classList.add("torntools-modified");
+					if (mobile) {
+						player.find(".member").classList.add("torntools-modified");
+						player.find(".stat").classList.add("torntools-modified");
+						player.find(".member").classList.add("torntools-mobile");
+						player.find(".level").classList.add("torntools-mobile");
+						player.find(".stat").classList.add("torntools-mobile");
+					}
 
-                    if (player.find(".member").innerText === "Member") {
-                        let col = doc.new({
-                            type: "li",
-                            class: `tt-nnb ${mobile ? "torntools-mobile" : ""}`,
-                            text: mobile ? "NNB" : "TornStats NNB"
-                        });
-                        player.find(".stat").parentElement.insertBefore(col, player.find(".stat"));
+					if (player.find(".member").innerText === "Member") {
+						let col = doc.new({
+							type: "li",
+							class: `tt-nnb ${mobile ? "torntools-mobile" : ""}`,
+							text: mobile ? "NNB" : "TornStats NNB"
+						});
+						player.find(".stat").parentElement.insertBefore(col, player.find(".stat"));
 
-                        continue;
-                    }
+						continue;
+					}
 
-                    let player_id = player.find(".h").getAttribute("href").split("XID=")[1];
-                    let nnb = result.members[player_id] ? result.members[player_id].natural_nerve : "N/A";
+					let player_id = player.find(".h").getAttribute("href").split("XID=")[1];
+					let nnb = result.members[player_id] ? result.members[player_id].natural_nerve : "N/A";
 
-                    let col = doc.new({type: "li", class: `tt-nnb ${mobile ? "torntools-mobile" : ""}`, text: nnb});
-                    player.find(".stat").parentElement.insertBefore(col, player.find(".stat"));
-                }
-            }
+					let col = doc.new({ type: "li", class: `tt-nnb ${mobile ? "torntools-mobile" : ""}`, text: nnb });
+					player.find(".stat").parentElement.insertBefore(col, player.find(".stat"));
+				}
+			}
 
-            // Populate new crime selection
-            for (let player of doc.findAll(".plans-list .item")) {
-                player.find(".offences").classList.add("torntools-modified");
-                if (mobile) {
-                    player.find(".member").classList.add("torntools-modified");
-                    player.find(".level").classList.add("torntools-modified");
-                    player.find(".act").classList.add("torntools-modified");
-                    player.find(".member").classList.add("torntools-mobile");
-                    player.find(".level").classList.add("torntools-mobile");
-                    player.find(".act").classList.add("torntools-mobile");
-                    player.find(".offences").classList.add("torntools-mobile");
-                }
+			// Populate new crime selection
+			for (let player of doc.findAll(".plans-list .item")) {
+				player.find(".offences").classList.add("torntools-modified");
+				if (mobile) {
+					player.find(".member").classList.add("torntools-modified");
+					player.find(".level").classList.add("torntools-modified");
+					player.find(".act").classList.add("torntools-modified");
+					player.find(".member").classList.add("torntools-mobile");
+					player.find(".level").classList.add("torntools-mobile");
+					player.find(".act").classList.add("torntools-mobile");
+					player.find(".offences").classList.add("torntools-mobile");
+				}
 
-                if (player.find(".member").innerText.trim() === "Member") {
-                    let col = doc.new({
-                        type: "li",
-                        class: `tt-nnb short ${mobile ? "torntools-mobile" : ""}`,
-                        text: mobile ? "NNB" : "TornStats NNB"
-                    });
-                    player.find(".act").parentElement.insertBefore(col, player.find(".act"));
+				if (player.find(".member").innerText.trim() === "Member") {
+					let col = doc.new({
+						type: "li",
+						class: `tt-nnb short ${mobile ? "torntools-mobile" : ""}`,
+						text: mobile ? "NNB" : "TornStats NNB"
+					});
+					player.find(".act").parentElement.insertBefore(col, player.find(".act"));
 
-                    continue;
-                }
+					continue;
+				}
 
-                let player_id = player.find(".h").getAttribute("href").split("XID=")[1];
-                let nnb = result.members[player_id] ? result.members[player_id].natural_nerve : "N/A";
+				let player_id = player.find(".h").getAttribute("href").split("XID=")[1];
+				let nnb = result.members[player_id] ? result.members[player_id].natural_nerve : "N/A";
 
-                let col = doc.new({type: "li", class: `tt-nnb short ${mobile ? "torntools-mobile" : ""}`, text: nnb});
-                player.find(".act").parentElement.insertBefore(col, player.find(".act"));
-            }
-        });
+				let col = doc.new({ type: "li", class: `tt-nnb short ${mobile ? "torntools-mobile" : ""}`, text: nnb });
+				player.find(".act").parentElement.insertBefore(col, player.find(".act"));
+			}
+		});
 }
 
 function fullInfoBox(page) {
-    let info_box;
-    if (getSearchParameters().get("step") === "profile") {
-        info_box = doc.find("#factions div[data-title='description']").nextElementSibling;
-    } else if (page === "main") {
-        info_box = doc.find("div[data-title='announcement']").nextElementSibling;
-    } else if (page === "info") {
-        info_box = doc.find("#faction-info .faction-info-wrap.faction-description .faction-info");
-    }
+	let info_box;
+	if (getSearchParameters().get("step") === "profile") {
+		info_box = doc.find("#factions div[data-title='description']").nextElementSibling;
+	} else if (page === "main") {
+		info_box = doc.find("div[data-title='announcement']").nextElementSibling;
+	} else if (page === "info") {
+		info_box = doc.find("#faction-info .faction-info-wrap.faction-description .faction-info");
+	}
 
-    let title = info_box.previousElementSibling;
+	let title = info_box.previousElementSibling;
 
-    if (title.classList.contains("tt-modified")) {
-        return;
-    }
+	if (title.classList.contains("tt-modified")) {
+		return;
+	}
 
-    title.classList.add("title");
-    title.classList.add("tt-modified");
+	title.classList.add("title");
+	title.classList.add("tt-modified");
 
-    let key;
-    if (page === "main") {
-        key = "announcements_page_full";
-    } else if (page === "info") {
-        key = "info_page_full";
-    }
+	let key;
+	if (page === "main") {
+		key = "announcements_page_full";
+	} else if (page === "info") {
+		key = "info_page_full";
+	}
 
-    let options_div = doc.new({type: "div", class: "tt-options"});
+	let options_div = doc.new({ type: "div", class: "tt-options" });
 
-    let setting_div = doc.new({type: "div", class: "tt-checkbox-wrap in-title"});
-    let checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
-    let text = doc.new({type: "div", text: "Show full page"});
+	let setting_div = doc.new({ type: "div", class: "tt-checkbox-wrap in-title" });
+	let checkbox = doc.new({ type: "input", attributes: { type: "checkbox" } });
+	let text = doc.new({ type: "div", text: "Show full page" });
 
-    if (settings.pages.faction[key]) {
-        checkbox.checked = true;
-        info_box.classList.toggle("tt-force-full");
-    }
+	if (settings.pages.faction[key]) {
+		checkbox.checked = true;
+		info_box.classList.toggle("tt-force-full");
+	}
 
-    setting_div.appendChild(checkbox);
-    setting_div.appendChild(text);
-    options_div.appendChild(setting_div);
-    title.appendChild(options_div);
+	setting_div.appendChild(checkbox);
+	setting_div.appendChild(text);
+	options_div.appendChild(setting_div);
+	title.appendChild(options_div);
 
-    checkbox.onclick = function () {
-        info_box.classList.toggle("tt-force-full");
+	checkbox.onclick = function () {
+		info_box.classList.toggle("tt-force-full");
 
-        ttStorage.change({"settings": {"pages": {"faction": {[key]: checkbox.checked}}}})
-    }
+		ttStorage.change({ "settings": { "pages": { "faction": { [key]: checkbox.checked } } } })
+	}
 }
 
 function upgradesInfoListener() {
-    subpageLoaded("upgrades").then(function () {
-        let upgrades_info_listener = new MutationObserver(function (mutations) {
-            for (let mutation of mutations) {
-                if (mutation.type === "childList") {
-                    if (mutation.addedNodes[0]) {
-                        for (let added_node of mutation.addedNodes) {
-                            if (added_node.classList && added_node.classList.contains("confirm") && added_node.classList.length >= 3) {
-                                let available_respect = parseInt(doc.find(".residue-respect").innerText.replace(/,/g, ""));
-                                let required_respect;
-                                let needed_respect;
+	subpageLoaded("upgrades").then(function () {
+		let upgrades_info_listener = new MutationObserver(function (mutations) {
+			for (let mutation of mutations) {
+				if (mutation.type === "childList") {
+					if (mutation.addedNodes[0]) {
+						for (let added_node of mutation.addedNodes) {
+							if (added_node.classList && added_node.classList.contains("confirm") && added_node.classList.length >= 3) {
+								let available_respect = parseInt(doc.find(".residue-respect").innerText.replace(/,/g, ""));
+								let required_respect;
+								let needed_respect;
 
-                                for (let text of added_node.findAll(".text")) {
-                                    if (text.innerText.indexOf("Requires:") > -1) {
-                                        required_respect = parseInt(text.innerText.trim().split("Requires: ")[1].split(" respect")[0].replace(/,/g, ""));
+								for (let text of added_node.findAll(".text")) {
+									if (text.innerText.indexOf("Requires:") > -1) {
+										required_respect = parseInt(text.innerText.trim().split("Requires: ")[1].split(" respect")[0].replace(/,/g, ""));
 
-                                        needed_respect = required_respect - available_respect;
-                                        if (needed_respect < 0) needed_respect = 0;
+										needed_respect = required_respect - available_respect;
+										if (needed_respect < 0) needed_respect = 0;
 
-                                        let span = doc.new({
-                                            type: "span",
-                                            text: ` (${numberWithCommas(needed_respect)} respect to go)`
-                                        });
-                                        text.appendChild(span);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        });
-        upgrades_info_listener.observe(doc.find(".skill-tree"), {childList: true, subtree: true});
-    });
+										let span = doc.new({
+											type: "span",
+											text: ` (${numberWithCommas(needed_respect)} respect to go)`
+										});
+										text.appendChild(span);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+		upgrades_info_listener.observe(doc.find(".skill-tree"), { childList: true, subtree: true });
+	});
 }
 
 function armoryWorth() {
-    fetchApi(`https://api.torn.com/faction/?selections=weapons,armor,temporary,medical,drugs,boosters,cesium,currency`, api_key)
-        .then(function (result) {
-            if (!result.ok) {
-                if (result.error === 'Incorrect ID-entity relation') {
-                    let li = doc.new({type: "li", text: `Armory value: NO API ACCESS`});
-                    doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
-                }
-                return false;
-            }
+	fetchApi(`https://api.torn.com/faction/?selections=weapons,armor,temporary,medical,drugs,boosters,cesium,currency`, api_key)
+		.then(function (result) {
+			if (!result.ok) {
+				if (result.error === 'Incorrect ID-entity relation') {
+					let li = doc.new({ type: "li", text: `Armory value: NO API ACCESS` });
+					doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
+				}
+				return false;
+			}
 
-            result = result.result;
-            console.log("result", result);
+			result = result.result;
+			console.log("result", result);
 
-            let total = 0;
-            let lists = ["weapons", "armor", "temporary", "medical", "drugs", "boosters"];
+			let total = 0;
+			let lists = ["weapons", "armor", "temporary", "medical", "drugs", "boosters"];
 
-            for (let type of lists) {
-                if (result[type]) {
-                    for (let item of result[type]) {
-                        total += itemlist.items[item.ID].market_value * item.quantity;
-                    }
-                }
-            }
+			for (let type of lists) {
+				if (result[type]) {
+					for (let item of result[type]) {
+						total += itemlist.items[item.ID].market_value * item.quantity;
+					}
+				}
+			}
 
-            // Cesium
-            if (result.cesium) {
+			// Cesium
+			if (result.cesium) {
 
-            }
+			}
 
-            // Points
-            total += result.points * torndata.pawnshop.points_value;
+			// Points
+			total += result.points * torndata.pawnshop.points_value;
 
-            let li = doc.new({type: "li", text: `Armory value: $${numberWithCommas(total, false)}`});
-            doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
-        });
+			let li = doc.new({ type: "li", text: `Armory value: $${numberWithCommas(total, false)}` });
+			doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
+		});
 }
 
 async function showUserInfo() {
-    if (!settings.pages.faction.member_info &&
-        !(settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_members))
-        return;
+	if (!settings.pages.faction.member_info &&
+		!(settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_members))
+		return;
 
-    const factionId = doc.find(".faction-info-wrap .faction-info[data-faction]").getAttribute("data-faction");
+	const factionId = doc.find(".faction-info-wrap .faction-info[data-faction]").getAttribute("data-faction");
 
-    doc.find(".members-list .table-body").classList.add("tt-modified");
+	doc.find(".members-list .table-body").classList.add("tt-modified");
 
-    let dataInformation;
-    if (settings.pages.faction.member_info) {
-        dataInformation = await fetchApi(`https://api.torn.com/faction/${factionId}?selections=${ownFaction ? 'donations,' : ''}basic`, api_key);
-    }
+	let dataInformation;
+	if (settings.pages.faction.member_info) {
+		dataInformation = await fetchApi(`https://api.torn.com/faction/${factionId}?selections=${ownFaction ? 'donations,' : ''}basic`, api_key);
+	}
 
-    let estimateCount = 0;
-    for (let tableRow of doc.findAll(".members-list .table-body > li")) {
-        let userId = tableRow.find("a.user.name").getAttribute("data-placeholder") ? tableRow.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : tableRow.find("a.user.name").getAttribute("href").split("XID=")[1];
+	let estimateCount = 0;
+	for (let tableRow of doc.findAll(".members-list .table-body > li")) {
+		let userId = tableRow.find("a.user.name").getAttribute("data-placeholder") ? tableRow.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : tableRow.find("a.user.name").getAttribute("href").split("XID=")[1];
 
-        const container = doc.new({type: "section", class: "tt-userinfo-container"});
-        tableRow.parentElement.insertBefore(container, tableRow.nextElementSibling);
+		const container = doc.new({ type: "section", class: "tt-userinfo-container" });
+		tableRow.parentElement.insertBefore(container, tableRow.nextElementSibling);
 
-        if (settings.pages.faction.member_info) {
-            const row = doc.new({type: "section", class: "tt-userinfo-row"});
-            container.appendChild(row);
+		if (settings.pages.faction.member_info) {
+			const row = doc.new({ type: "section", class: "tt-userinfo-row" });
+			container.appendChild(row);
 
-            if (dataInformation.ok) {
-                row.appendChild(doc.new({
-                    type: "div",
-                    class: "tt-userinfo-field--last_action",
-                    text: `Last Action: ${dataInformation.result.members[userId].last_action.relative}`,
-                    attributes: {"last-action": ((new Date() - dataInformation.result.members[userId].last_action.timestamp * 1000) / 1000).toFixed(0)},
-                }));
+			if (dataInformation.ok) {
+				row.appendChild(doc.new({
+					type: "div",
+					class: "tt-userinfo-field--last_action",
+					text: `Last Action: ${dataInformation.result.members[userId].last_action.relative}`,
+					attributes: { "last-action": ((new Date() - dataInformation.result.members[userId].last_action.timestamp * 1000) / 1000).toFixed(0) },
+				}));
 
-                if (dataInformation.result.donations && dataInformation.result.donations[userId]) {
-                    if (dataInformation.result.donations[userId].money_balance > 0) {
-                        row.appendChild(doc.new({
-                            type: "div",
-                            text: `Money Balance: $${numberWithCommas(dataInformation.result.donations[userId].money_balance, false)}`,
-                        }));
-                    }
-                    if (dataInformation.result.donations[userId].points_balance > 0) {
-                        row.appendChild(doc.new({
-                            type: "div",
-                            text: `Point Balance: ${numberWithCommas(dataInformation.result.donations[userId].points_balance, false)}`,
-                        }));
-                    }
-                }
+				if (dataInformation.result.donations && dataInformation.result.donations[userId]) {
+					if (dataInformation.result.donations[userId].money_balance > 0) {
+						row.appendChild(doc.new({
+							type: "div",
+							text: `Money Balance: $${numberWithCommas(dataInformation.result.donations[userId].money_balance, false)}`,
+						}));
+					}
+					if (dataInformation.result.donations[userId].points_balance > 0) {
+						row.appendChild(doc.new({
+							type: "div",
+							text: `Point Balance: ${numberWithCommas(dataInformation.result.donations[userId].points_balance, false)}`,
+						}));
+					}
+				}
 
-                // Activity notifications
-                const checkpoints = settings.inactivity_alerts_faction;
-                for (let checkpoint of Object.keys(checkpoints).sort((a, b) => b - a)) {
-                    if (new Date() - new Date(dataInformation.result.members[userId].last_action.timestamp * 1000) >= parseInt(checkpoint)) {
-                        console.log(checkpoints[checkpoint])
-                        tableRow.style.backgroundColor = `${checkpoints[checkpoint]}`;
-                        break;
-                    }
-                }
-            } else {
-                let error = dataInformation.error;
+				// Activity notifications
+				const checkpoints = settings.inactivity_alerts_faction;
+				for (let checkpoint of Object.keys(checkpoints).sort((a, b) => b - a)) {
+					if (new Date() - new Date(dataInformation.result.members[userId].last_action.timestamp * 1000) >= parseInt(checkpoint)) {
+						console.log(checkpoints[checkpoint])
+						tableRow.style.backgroundColor = `${checkpoints[checkpoint]}`;
+						break;
+					}
+				}
+			} else {
+				let error = dataInformation.error;
 
-                if (error === "Incorrect ID-entity relation") error = "No API access."
+				if (error === "Incorrect ID-entity relation") error = "No API access."
 
-                container.appendChild(doc.new({
-                    type: "div",
-                    class: "tt-userinfo-message",
-                    text: error,
-                    attributes: {color: "error"}
-                }));
-            }
-        }
+				container.appendChild(doc.new({
+					type: "div",
+					class: "tt-userinfo-message",
+					text: error,
+					attributes: { color: "error" }
+				}));
+			}
+		}
 
-        if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_members) {
-            const row = doc.new({type: "section", class: "tt-userinfo-row"});
-            container.appendChild(row);
+		if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_members) {
+			const row = doc.new({ type: "section", class: "tt-userinfo-row" });
+			container.appendChild(row);
 
-            if (!hasCachedEstimate(userId)) estimateCount++;
+			if (!hasCachedEstimate(userId)) estimateCount++;
 
-            loadingPlaceholder(row, true);
-            estimateStats(userId, false, estimateCount)
-                .then((result => {
-                    loadingPlaceholder(row, false);
-                    row.appendChild(doc.new({
-                        type: "span",
-                        text: `Stat Estimate: ${result.estimate}`,
-                    }))
-                }))
-                .catch((error) => {
-                    loadingPlaceholder(row, false);
-                    row.appendChild(doc.new({
-                        type: "span",
-                        class: "tt-userinfo-message",
-                        text: error.message,
-                        attributes: {color: "error"},
-                    }));
-                });
-        }
-    }
-    member_info_added = true;
+			loadingPlaceholder(row, true);
+			estimateStats(userId, false, estimateCount)
+				.then((result => {
+					loadingPlaceholder(row, false);
+					row.appendChild(doc.new({
+						type: "span",
+						text: `Stat Estimate: ${result.estimate}`,
+					}))
+				}))
+				.catch((error) => {
+					loadingPlaceholder(row, false);
+					row.appendChild(doc.new({
+						type: "span",
+						class: "tt-userinfo-message",
+						text: error.message,
+						attributes: { color: "error" },
+					}));
+				});
+		}
+	}
+	member_info_added = true;
 }
 
 function showAvailablePlayers() {
-    let count = 0;
+	let count = 0;
 
-    if (doc.find("div.plans-list.p10")) {
-        display(count);
-        return;
-    }
+	if (doc.find("div.plans-list.p10")) {
+		display(count);
+		return;
+	}
 
-    let list = doc.find("ul.plans-list");
-    for (let member of list.findAll(":scope .item")) {
-        count++;
-    }
+	let list = doc.find("ul.plans-list");
+	for (let member of list.findAll(":scope .item")) {
+		count++;
+	}
 
-    display(count);
+	display(count);
 
-    function display(number) {
-        let msg_cont_inner = `
+	function display(number) {
+		let msg_cont_inner = `
             <div class="info-msg border-round">
                 <i class="info-icon"></i>
                 <div class="delimiter">
@@ -624,164 +653,164 @@ function showAvailablePlayers() {
             </div>
         `
 
-        let msg_cont = doc.new({type: "div", class: "info-msg-cont border-round m-top10"});
-        msg_cont.innerHTML = msg_cont_inner;
+		let msg_cont = doc.new({ type: "div", class: "info-msg-cont border-round m-top10" });
+		msg_cont.innerHTML = msg_cont_inner;
 
-        doc.find("#faction-crimes").insertBefore(msg_cont, doc.find("#faction-crimes").firstElementChild);
-    }
+		doc.find("#faction-crimes").insertBefore(msg_cont, doc.find("#faction-crimes").firstElementChild);
+	}
 }
 
 function showRecommendedNNB() {
-    let nnb_dict = {
-        "Blackmail": "0+",
-        "Kidnapping": "~20",
-        "Bomb Threat": "~25",
-        "Planned Robbery": "~35",
-        "Rob a money train": "~45",
-        "Take over a cruise liner": "~50",
-        "Hijack a plane": "55-60",
-        "Political Assassination": "~60"
-    }
+	let nnb_dict = {
+		"Blackmail": "0+",
+		"Kidnapping": "~20",
+		"Bomb Threat": "~25",
+		"Planned Robbery": "~35",
+		"Rob a money train": "~45",
+		"Take over a cruise liner": "~50",
+		"Hijack a plane": "55-60",
+		"Political Assassination": "~60"
+	}
 
-    let parent = doc.findAll(".faction-crimes-wrap")[1];
+	let parent = doc.findAll(".faction-crimes-wrap")[1];
 
-    let heading = parent.find(".plan-crimes[role=heading]");
-    let span = doc.new({type: "span", class: "tt-span", text: mobile ? "NNB" : "Recommended NNB"});
-    heading.appendChild(span);
+	let heading = parent.find(".plan-crimes[role=heading]");
+	let span = doc.new({ type: "span", class: "tt-span", text: mobile ? "NNB" : "Recommended NNB" });
+	heading.appendChild(span);
 
 
-    for (let crime_type of parent.findAll(".crimes-list .item-wrap")) {
-        let name_div = crime_type.find(".plan-crimes")
-        let inner_span = doc.new({type: "span", class: "tt-span", text: nnb_dict[name_div.innerText]});
-        name_div.appendChild(inner_span);
-    }
+	for (let crime_type of parent.findAll(".crimes-list .item-wrap")) {
+		let name_div = crime_type.find(".plan-crimes")
+		let inner_span = doc.new({ type: "span", class: "tt-span", text: nnb_dict[name_div.innerText] });
+		name_div.appendChild(inner_span);
+	}
 }
 
 function drugInfo() {
-    let item_info_container_mutation = new MutationObserver(function (mutations) {
-        for (let mutation of mutations) {
-            if (mutation.target.classList.contains("view-item-info") && (mutation.addedNodes.length > 0 || mutation.attributeName === "style")) {
-                let el = mutation.target;
-                itemInfoLoaded(el).then(function () {
-                    let item_name = el.find("span.bold").innerText;
-                    if (item_name.indexOf("The") > -1) item_name = item_name.split("The ")[1];
+	let item_info_container_mutation = new MutationObserver(function (mutations) {
+		for (let mutation of mutations) {
+			if (mutation.target.classList.contains("view-item-info") && (mutation.addedNodes.length > 0 || mutation.attributeName === "style")) {
+				let el = mutation.target;
+				itemInfoLoaded(el).then(function () {
+					let item_name = el.find("span.bold").innerText;
+					if (item_name.indexOf("The") > -1) item_name = item_name.split("The ")[1];
 
-                    let drug_details = DRUG_INFORMATION[item_name.toLowerCase().replace(/ /g, "_")];
-                    if (drug_details === undefined) {
-                        return;
-                    }
+					let drug_details = DRUG_INFORMATION[item_name.toLowerCase().replace(/ /g, "_")];
+					if (drug_details === undefined) {
+						return;
+					}
 
-                    // Remove current info
-                    for (let eff of el.findAll(".item-effect")) {
-                        eff.remove();
-                    }
+					// Remove current info
+					for (let eff of el.findAll(".item-effect")) {
+						eff.remove();
+					}
 
-                    // Pros
-                    if (drug_details.pros) {
-                        let pros_header = doc.new({
-                            type: "div",
-                            class: "t-green bold item-effect m-top10",
-                            text: "Pros:"
-                        });
-                        el.find(".info-msg").appendChild(pros_header);
+					// Pros
+					if (drug_details.pros) {
+						let pros_header = doc.new({
+							type: "div",
+							class: "t-green bold item-effect m-top10",
+							text: "Pros:"
+						});
+						el.find(".info-msg").appendChild(pros_header);
 
-                        for (let eff of drug_details.pros) {
-                            let pros_div = doc.new({type: "div", class: "t-green bold item-effect tabbed", text: eff});
-                            el.find(".info-msg").appendChild(pros_div);
-                        }
-                    }
+						for (let eff of drug_details.pros) {
+							let pros_div = doc.new({ type: "div", class: "t-green bold item-effect tabbed", text: eff });
+							el.find(".info-msg").appendChild(pros_div);
+						}
+					}
 
-                    // Cons
-                    if (drug_details.cons) {
-                        let cons_header = doc.new({type: "div", class: "t-red bold item-effect", text: "Cons:"});
-                        el.find(".info-msg").appendChild(cons_header);
+					// Cons
+					if (drug_details.cons) {
+						let cons_header = doc.new({ type: "div", class: "t-red bold item-effect", text: "Cons:" });
+						el.find(".info-msg").appendChild(cons_header);
 
-                        for (let eff of drug_details.cons) {
-                            let cons_div = doc.new({type: "div", class: "t-red bold item-effect tabbed", text: eff});
-                            el.find(".info-msg").appendChild(cons_div);
-                        }
-                    }
+						for (let eff of drug_details.cons) {
+							let cons_div = doc.new({ type: "div", class: "t-red bold item-effect tabbed", text: eff });
+							el.find(".info-msg").appendChild(cons_div);
+						}
+					}
 
-                    // Cooldown
-                    if (drug_details.cooldown) {
-                        let cooldown_div = doc.new({
-                            type: "div",
-                            class: "t-red bold item-effect",
-                            text: `Cooldown: ${drug_details.cooldown}`
-                        });
-                        el.find(".info-msg").appendChild(cooldown_div);
-                    }
+					// Cooldown
+					if (drug_details.cooldown) {
+						let cooldown_div = doc.new({
+							type: "div",
+							class: "t-red bold item-effect",
+							text: `Cooldown: ${drug_details.cooldown}`
+						});
+						el.find(".info-msg").appendChild(cooldown_div);
+					}
 
-                    // Overdose
-                    if (drug_details.overdose) {
-                        let od_header = doc.new({type: "div", class: "t-red bold item-effect", text: "Overdose:"});
-                        el.find(".info-msg").appendChild(od_header);
+					// Overdose
+					if (drug_details.overdose) {
+						let od_header = doc.new({ type: "div", class: "t-red bold item-effect", text: "Overdose:" });
+						el.find(".info-msg").appendChild(od_header);
 
-                        // bars
-                        if (drug_details.overdose.bars) {
-                            let bars_header = doc.new({
-                                type: "div",
-                                class: "t-red bold item-effect tabbed",
-                                text: "Bars"
-                            });
-                            el.find(".info-msg").appendChild(bars_header);
+						// bars
+						if (drug_details.overdose.bars) {
+							let bars_header = doc.new({
+								type: "div",
+								class: "t-red bold item-effect tabbed",
+								text: "Bars"
+							});
+							el.find(".info-msg").appendChild(bars_header);
 
-                            for (let bar_eff of drug_details.overdose.bars) {
-                                let bar_eff_div = doc.new({
-                                    type: "div",
-                                    class: "t-red bold item-effect double-tabbed",
-                                    text: bar_eff
-                                });
-                                el.find(".info-msg").appendChild(bar_eff_div);
-                            }
-                        }
+							for (let bar_eff of drug_details.overdose.bars) {
+								let bar_eff_div = doc.new({
+									type: "div",
+									class: "t-red bold item-effect double-tabbed",
+									text: bar_eff
+								});
+								el.find(".info-msg").appendChild(bar_eff_div);
+							}
+						}
 
-                        // faction time
-                        if (drug_details.overdose.hosp_time) {
-                            let hosp_div = doc.new({
-                                type: "div",
-                                class: "t-red bold item-effect tabbed",
-                                text: `Hospital: ${drug_details.overdose.hosp_time}`
-                            });
-                            el.find(".info-msg").appendChild(hosp_div);
-                        }
+						// faction time
+						if (drug_details.overdose.hosp_time) {
+							let hosp_div = doc.new({
+								type: "div",
+								class: "t-red bold item-effect tabbed",
+								text: `Hospital: ${drug_details.overdose.hosp_time}`
+							});
+							el.find(".info-msg").appendChild(hosp_div);
+						}
 
-                        // extra
-                        if (drug_details.overdose.extra) {
-                            let extra_div = doc.new({
-                                type: "div",
-                                class: "t-red bold item-effect tabbed",
-                                text: `Extra: ${drug_details.overdose.extra}`
-                            });
-                            el.find(".info-msg").appendChild(extra_div);
-                        }
-                    }
-                });
-            }
-        }
-    });
-    item_info_container_mutation.observe(doc.find("body"), {childList: true, subtree: true, attributes: true});
+						// extra
+						if (drug_details.overdose.extra) {
+							let extra_div = doc.new({
+								type: "div",
+								class: "t-red bold item-effect tabbed",
+								text: `Extra: ${drug_details.overdose.extra}`
+							});
+							el.find(".info-msg").appendChild(extra_div);
+						}
+					}
+				});
+			}
+		}
+	});
+	item_info_container_mutation.observe(doc.find("body"), { childList: true, subtree: true, attributes: true });
 }
 
 function itemInfoLoaded(element) {
-    return new Promise(function (resolve) {
-        let checker = setInterval(function () {
-            if (!element.find(".ajax-placeholder")) {
-                resolve(true);
-                return clearInterval(checker);
-            }
-        }, 100);
-    });
+	return new Promise(function (resolve) {
+		let checker = setInterval(function () {
+			if (!element.find(".ajax-placeholder")) {
+				resolve(true);
+				return clearInterval(checker);
+			}
+		}, 100);
+	});
 }
 
 function addFilterToTable(list, title) {
-    let filter_container = content.newContainer("Filters", {
-        id: "tt-player-filter",
-        class: "filter-container",
-        next_element: title
-    }).find(".content");
+	let filter_container = content.newContainer("Filters", {
+		id: "tt-player-filter",
+		class: "filter-container",
+		next_element: title
+	}).find(".content");
 
-    filter_container.innerHTML = `
+	filter_container.innerHTML = `
         <div class="filter-header">
             <div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> users</div>
         </div>
@@ -830,572 +859,620 @@ function addFilterToTable(list, title) {
         </div>
     `;
 
-    // Initializing
-    // let time_start = filters.faction.time[0] || 0;
-    // let time_end = filters.faction.time[1] || 99999;
-    let level_start = filters.faction.level[0] || 0;
-    let level_end = filters.faction.level[1] || 100;
-    let last_action_start = settings.pages.faction.member_info ? filters.faction.last_action[0] / 60 / 60 || 0 : 0;
-    // let last_action_end = filters.faction.last_action[1] || 744;
+	// Initializing
+	// let time_start = filters.faction.time[0] || 0;
+	// let time_end = filters.faction.time[1] || 99999;
+	let level_start = filters.faction.level[0] || 0;
+	let level_end = filters.faction.level[1] || 100;
+	let last_action_start = settings.pages.faction.member_info ? filters.faction.last_action[0] / 60 / 60 || 0 : 0;
+	// let last_action_end = filters.faction.last_action[1] || 744;
 
-    // for(let faction of filters.preset_data.factions.data){
-    //     let option = doc.new({type: "option", value: faction, text: faction});
-    //     if(faction == filters.preset_data.factions.default) option.selected = true;
+	// for(let faction of filters.preset_data.factions.data){
+	//     let option = doc.new({type: "option", value: faction, text: faction});
+	//     if(faction == filters.preset_data.factions.default) option.selected = true;
 
-    //     filter_container.find("#tt-faction-filter").appendChild(option);
-    // }
-    // let divider_option = doc.new({type: "option", value: "----------", text: "----------", attributes: {disabled: true}});
-    // filter_container.find("#tt-faction-filter").appendChild(divider_option);
+	//     filter_container.find("#tt-faction-filter").appendChild(option);
+	// }
+	// let divider_option = doc.new({type: "option", value: "----------", text: "----------", attributes: {disabled: true}});
+	// filter_container.find("#tt-faction-filter").appendChild(divider_option);
 
-    // // Time slider
-    // let time_slider = filter_container.find('#tt-time-filter');
-    // noUiSlider.create(time_slider, {
-    //     start: [time_start, time_end],
-    //     step: 1,
-    //     connect: true,
-    //     range: {
-    //         'min': 0,
-    //         'max': 99999
-    //     }
-    // });
+	// // Time slider
+	// let time_slider = filter_container.find('#tt-time-filter');
+	// noUiSlider.create(time_slider, {
+	//     start: [time_start, time_end],
+	//     step: 1,
+	//     connect: true,
+	//     range: {
+	//         'min': 0,
+	//         'max': 99999
+	//     }
+	// });
 
-    // let time_slider_info = time_slider.nextElementSibling;
-    // time_slider.noUiSlider.on('update', function (values) {
-    //     values = values.map(x => parseInt(x));
-    //     time_slider_info.innerHTML = `Days: ${values.join(' - ')}`;
-    // });
+	// let time_slider_info = time_slider.nextElementSibling;
+	// time_slider.noUiSlider.on('update', function (values) {
+	//     values = values.map(x => parseInt(x));
+	//     time_slider_info.innerHTML = `Days: ${values.join(' - ')}`;
+	// });
 
-    // Level slider
-    let level_slider = filter_container.find('#tt-level-filter');
-    noUiSlider.create(level_slider, {
-        start: [level_start, level_end],
-        step: 1,
-        connect: true,
-        range: {
-            'min': 0,
-            'max': 100
-        }
-    });
+	// Level slider
+	let level_slider = filter_container.find('#tt-level-filter');
+	noUiSlider.create(level_slider, {
+		start: [level_start, level_end],
+		step: 1,
+		connect: true,
+		range: {
+			'min': 0,
+			'max': 100
+		}
+	});
 
-    let level_slider_info = level_slider.nextElementSibling;
-    level_slider.noUiSlider.on('update', function (values) {
-        values = values.map(x => parseInt(x));
-        level_slider_info.innerHTML = `Level: ${values.join(' - ')}`;
-    });
+	let level_slider_info = level_slider.nextElementSibling;
+	level_slider.noUiSlider.on('update', function (values) {
+		values = values.map(x => parseInt(x));
+		level_slider_info.innerHTML = `Level: ${values.join(' - ')}`;
+	});
 
-    // Last Action slider
-    let last_action_slider = filter_container.find('#tt-last-action-filter');
-    noUiSlider.create(last_action_slider, {
-        start: last_action_start,
-        step: 1,
-        connect: true,
-        range: {
-            'min': 0,
-            'max': 744
-        }
-    });
+	// Last Action slider
+	let last_action_slider = filter_container.find('#tt-last-action-filter');
+	noUiSlider.create(last_action_slider, {
+		start: last_action_start,
+		step: 1,
+		connect: true,
+		range: {
+			'min': 0,
+			'max': 744
+		}
+	});
 
-    let last_action_slider_info = last_action_slider.nextElementSibling;
-    last_action_slider.noUiSlider.on('update', function (values) {
-        values = values.map(x => (timeUntil(parseFloat(x) * 60 * 60 * 1000, {max_unit: "h", hide_nulls: true})));
-        last_action_slider_info.innerHTML = `Min Hours: ${values.join(' - ')}`;
-    });
+	let last_action_slider_info = last_action_slider.nextElementSibling;
+	last_action_slider.noUiSlider.on('update', function (values) {
+		values = values.map(x => (timeUntil(parseFloat(x) * 60 * 60 * 1000, { max_unit: "h", hide_nulls: true })));
+		last_action_slider_info.innerHTML = `Min Hours: ${values.join(' - ')}`;
+	});
 
-    // Event listeners
-    for (let checkbox of filter_container.findAll(".tt-checkbox-wrap input")) {
-        checkbox.onclick = applyFilters;
-    }
-    for (let dropdown of filter_container.findAll("select")) {
-        dropdown.onchange = applyFilters;
-    }
-    let filter_observer = new MutationObserver(function (mutations) {
-        for (let mutation of mutations) {
-            if (mutation.type === "attributes"
-                && mutation.target.classList
-                && mutation.attributeName === "aria-valuenow"
-                && (mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))) {
-                applyFilters();
-            }
-        }
-    });
-    filter_observer.observe(filter_container, {attributes: true, subtree: true});
+	// Event listeners
+	for (let checkbox of filter_container.findAll(".tt-checkbox-wrap input")) {
+		checkbox.onclick = applyFilters;
+	}
+	for (let dropdown of filter_container.findAll("select")) {
+		dropdown.onchange = applyFilters;
+	}
+	let filter_observer = new MutationObserver(function (mutations) {
+		for (let mutation of mutations) {
+			if (mutation.type === "attributes"
+				&& mutation.target.classList
+				&& mutation.attributeName === "aria-valuenow"
+				&& (mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))) {
+				applyFilters();
+			}
+		}
+	});
+	filter_observer.observe(filter_container, { attributes: true, subtree: true });
 
-    // Page changing
-    doc.addEventListener("click", function (event) {
-        if (event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, {class: "gallery-wrapper"})) {
-            console.log("click");
-            setTimeout(function () {
-                requirePlayerList(".users-list").then(function () {
-                    console.log("loaded");
-                    populateFactions();
-                    applyFilters();
-                });
-            }, 300);
-        }
-    });
+	// Page changing
+	doc.addEventListener("click", function (event) {
+		if (event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, { class: "gallery-wrapper" })) {
+			console.log("click");
+			setTimeout(function () {
+				requirePlayerList(".users-list").then(function () {
+					console.log("loaded");
+					populateFactions();
+					applyFilters();
+				});
+			}, 300);
+		}
+	});
 
-    // Initializing
-    for (let state of filters.faction.activity) {
-        doc.find(`#activity-filter input[value='${state}']`).checked = true;
-    }
-    for (let state of filters.faction.status) {
-        doc.find(`#status-filter input[value='${state}']`).checked = true;
-    }
-    // if(filters.faction.faction.default){
-    //     doc.find(`#faction-filter option[value='${filters.faction.faction}']`).selected = true;
-    // }
+	// Initializing
+	for (let state of filters.faction.activity) {
+		doc.find(`#activity-filter input[value='${state}']`).checked = true;
+	}
+	for (let state of filters.faction.status) {
+		doc.find(`#status-filter input[value='${state}']`).checked = true;
+	}
+	// if(filters.faction.faction.default){
+	//     doc.find(`#faction-filter option[value='${filters.faction.faction}']`).selected = true;
+	// }
 
-    // populateFactions();
-    if (settings.pages.faction.member_info) {
-        memberInfoAdded().then(applyFilters);
-    } else {
-        applyFilters();
-    }
+	// populateFactions();
+	if (settings.pages.faction.member_info) {
+		memberInfoAdded().then(applyFilters);
+	} else {
+		applyFilters();
+	}
 
-    // Look for Search bar changes
-    doc.find("#faction-info-members .table-header .table-cell.member input.search-input").addEventListener("keyup", function () {
-        setTimeout(function () {
-            for (let row of doc.findAll("#faction-info-members .table-body>.table-row")) {
-                if (row.style.display === "none" && row.nextElementSibling && row.nextElementSibling.classList.contains("tt-user-info")) {
-                    row.classList.add("filter-hidden");
-                } else if ((row.style.display === "flex" || row.style.display === "") && row.nextElementSibling && row.nextElementSibling.classList.contains("tt-user-info")) {
-                    row.classList.remove("filter-hidden");
-                }
-            }
-        }, 100);
-    });
+	// Look for Search bar changes
+	doc.find("#faction-info-members .table-header .table-cell.member input.search-input").addEventListener("keyup", function () {
+		setTimeout(function () {
+			for (let row of doc.findAll("#faction-info-members .table-body>.table-row")) {
+				if (row.style.display === "none" && row.nextElementSibling && row.nextElementSibling.classList.contains("tt-user-info")) {
+					row.classList.add("filter-hidden");
+				} else if ((row.style.display === "flex" || row.style.display === "") && row.nextElementSibling && row.nextElementSibling.classList.contains("tt-user-info")) {
+					row.classList.remove("filter-hidden");
+				}
+			}
+		}, 100);
+	});
 
-    function applyFilters() {
-        let active_dict = {
-            "online": "icon1_",
-            "idle": "icon62_",
-            "offline": "icon2_"
-        }
+	function applyFilters() {
+		let active_dict = {
+			"online": "icon1_",
+			"idle": "icon62_",
+			"offline": "icon2_"
+		}
 
-        let activity = [];
-        let status = [];
-        // let faction = ``;
-        // let time = [];
-        let level = [];
-        let last_action = [];
+		let activity = [];
+		let status = [];
+		// let faction = ``;
+		// let time = [];
+		let level = [];
+		let last_action = [];
 
-        // Activity
-        for (let checkbox of doc.findAll("#activity-filter .tt-checkbox-wrap input:checked")) {
-            activity.push(checkbox.getAttribute("value"));
-        }
-        // Status
-        for (let checkbox of doc.findAll("#status-filter .tt-checkbox-wrap input:checked")) {
-            status.push(checkbox.getAttribute("value"));
-        }
-        // // Faction
-        // faction = doc.find("#faction-filter select option:checked").value;
-        // // Time
-        // time.push(parseInt(doc.find("#time-filter .noUi-handle-lower").getAttribute("aria-valuenow")));
-        // time.push(parseInt(doc.find("#time-filter .noUi-handle-upper").getAttribute("aria-valuenow")));
-        // Level
-        level.push(parseInt(doc.find("#level-filter .noUi-handle-lower").getAttribute("aria-valuenow")));
-        level.push(parseInt(doc.find("#level-filter .noUi-handle-upper").getAttribute("aria-valuenow")));
-        // Last Action
-        last_action.push(parseInt(doc.find("#last-action-filter .noUi-handle-lower").getAttribute("aria-valuenow")) * 60 * 60);  // convert to seconds
-        // last_action.push(parseInt(doc.find("#last-action-filter .noUi-handle-upper").getAttribute("aria-valuenow"))*60*60);  // convert to seconds
+		// Activity
+		for (let checkbox of doc.findAll("#activity-filter .tt-checkbox-wrap input:checked")) {
+			activity.push(checkbox.getAttribute("value"));
+		}
+		// Status
+		for (let checkbox of doc.findAll("#status-filter .tt-checkbox-wrap input:checked")) {
+			status.push(checkbox.getAttribute("value"));
+		}
+		// // Faction
+		// faction = doc.find("#faction-filter select option:checked").value;
+		// // Time
+		// time.push(parseInt(doc.find("#time-filter .noUi-handle-lower").getAttribute("aria-valuenow")));
+		// time.push(parseInt(doc.find("#time-filter .noUi-handle-upper").getAttribute("aria-valuenow")));
+		// Level
+		level.push(parseInt(doc.find("#level-filter .noUi-handle-lower").getAttribute("aria-valuenow")));
+		level.push(parseInt(doc.find("#level-filter .noUi-handle-upper").getAttribute("aria-valuenow")));
+		// Last Action
+		last_action.push(parseInt(doc.find("#last-action-filter .noUi-handle-lower").getAttribute("aria-valuenow")) * 60 * 60);  // convert to seconds
+		// last_action.push(parseInt(doc.find("#last-action-filter .noUi-handle-upper").getAttribute("aria-valuenow"))*60*60);  // convert to seconds
 
-        // console.log("Activity", activity);
-        // console.log("Faction", faction);
-        // console.log("Time", time);
-        // console.log("Level", level);
+		// console.log("Activity", activity);
+		// console.log("Faction", faction);
+		// console.log("Time", time);
+		// console.log("Level", level);
 
-        // Filtering
-        for (let li of list.findAll(":scope > li.table-row")) {
-            if (li.classList.contains("tt-user-info")) {
-                continue;
-            }
-            li.classList.remove("filter-hidden");
-            if (li.nextElementSibling) li.nextElementSibling.classList.remove("filter-hidden");
+		// Filtering
+		for (let li of list.findAll(":scope > li.table-row")) {
+			if (li.classList.contains("tt-user-info")) {
+				continue;
+			}
+			li.classList.remove("filter-hidden");
+			if (li.nextElementSibling) li.nextElementSibling.classList.remove("filter-hidden");
 
-            // Level
-            let player_level = parseInt(li.find(".lvl").innerText.trim().replace("Level:", "").trim());
-            if (!(level[0] <= player_level && player_level <= level[1])) {
-                li.classList.add("filter-hidden");
-                if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
-                continue;
-            }
+			// Level
+			let player_level = parseInt(li.find(".lvl").innerText.trim().replace("Level:", "").trim());
+			if (!(level[0] <= player_level && player_level <= level[1])) {
+				li.classList.add("filter-hidden");
+				if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
+				continue;
+			}
 
-            // // Time
-            // let player_time = parseInt(li.find(".days").innerText.trim().replace("Days:", "").trim());
-            // if(!(time[0] <= player_time && player_time <= time[1])){
-            //     li.classList.add("filter-hidden");
-            //     continue;
-            // }
+			// // Time
+			// let player_time = parseInt(li.find(".days").innerText.trim().replace("Days:", "").trim());
+			// if(!(time[0] <= player_time && player_time <= time[1])){
+			//     li.classList.add("filter-hidden");
+			//     continue;
+			// }
 
-            // Last Action
-            if (settings.pages.faction.member_info && ownFaction) {
-                let player_last_action = "N/A";
-                if (li.nextElementSibling && li.nextElementSibling.find(".tt-userinfo-field--last_action") && li.nextElementSibling.find(".tt-userinfo-field--last_action").getAttribute("last-action")) {
-                    player_last_action = parseInt(li.nextElementSibling.find(".tt-userinfo-field--last_action").getAttribute("last-action"));
-                }
-                if (player_last_action !== "N/A" && !(last_action[0] <= player_last_action)) {
-                    li.classList.add("filter-hidden");
-                    if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
-                    continue;
-                }
-            }
+			// Last Action
+			if (settings.pages.faction.member_info && ownFaction) {
+				let player_last_action = "N/A";
+				if (li.nextElementSibling && li.nextElementSibling.find(".tt-userinfo-field--last_action") && li.nextElementSibling.find(".tt-userinfo-field--last_action").getAttribute("last-action")) {
+					player_last_action = parseInt(li.nextElementSibling.find(".tt-userinfo-field--last_action").getAttribute("last-action"));
+				}
+				if (player_last_action !== "N/A" && !(last_action[0] <= player_last_action)) {
+					li.classList.add("filter-hidden");
+					if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
+					continue;
+				}
+			}
 
-            // Activity
-            let matches_one_activity = activity.length === 0;
-            for (let state of activity) {
-                if (li.querySelector(`li[id^='${active_dict[state]}']`)) {
-                    matches_one_activity = true;
-                }
-            }
-            if (!matches_one_activity) {
-                li.classList.add("filter-hidden");
-                if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
-                continue;
-            }
+			// Activity
+			let matches_one_activity = activity.length === 0;
+			for (let state of activity) {
+				if (li.querySelector(`li[id^='${active_dict[state]}']`)) {
+					matches_one_activity = true;
+				}
+			}
+			if (!matches_one_activity) {
+				li.classList.add("filter-hidden");
+				if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
+				continue;
+			}
 
-            // Status
-            let matches_one_status = status.length === 0;
-            for (let state of status) {
-                if (li.find(`.status`).innerText.replace("Status:", "").trim().toLowerCase() === state) {
-                    matches_one_status = true;
-                }
-            }
-            if (!matches_one_status) {
-                li.classList.add("filter-hidden");
-                if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
-            }
+			// Status
+			let matches_one_status = status.length === 0;
+			for (let state of status) {
+				if (li.find(`.status`).innerText.replace("Status:", "").trim().toLowerCase() === state) {
+					matches_one_status = true;
+				}
+			}
+			if (!matches_one_status) {
+				li.classList.add("filter-hidden");
+				if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
+			}
 
-            // // Faction
-            // if(faction != "" && !li.querySelector(`img[title='${faction}']`)){
-            //     li.classList.add("filter-hidden");
-            //     continue;
-            // }
-        }
+			// // Faction
+			// if(faction != "" && !li.querySelector(`img[title='${faction}']`)){
+			//     li.classList.add("filter-hidden");
+			//     continue;
+			// }
+		}
 
-        ttStorage.change({
-            "filters": {
-                "faction": {
-                    activity: activity,
-                    // faction: faction,
-                    // time: time,
-                    status: status,
-                    level: level,
-                    last_action: last_action
-                }
-            }
-        });
+		ttStorage.change({
+			"filters": {
+				"faction": {
+					activity: activity,
+					// faction: faction,
+					// time: time,
+					status: status,
+					level: level,
+					last_action: last_action
+				}
+			}
+		});
 
-        updateStatistics();
-    }
+		updateStatistics();
+	}
 
-    function updateStatistics() {
-        const users = [...list.findAll(":scope>li:not(.tt-user-info)")];
+	function updateStatistics() {
+		const users = [...list.findAll(":scope>li:not(.tt-user-info)")];
 
-        doc.find(".statistic#showing .filter-total").innerText = users.length;
-        doc.find(".statistic#showing .filter-count").innerText = users.filter(x => (!x.classList.contains("filter-hidden"))).length;
-    }
+		doc.find(".statistic#showing .filter-total").innerText = users.length;
+		doc.find(".statistic#showing .filter-count").innerText = users.filter(x => (!x.classList.contains("filter-hidden"))).length;
+	}
 
-    function populateFactions() {
-        let faction_tags = [...list.findAll(":scope>li")].map(x => (x.find(".user.faction img") ? x.find(".user.faction img").getAttribute("title") : "")).filter(x => x !== "");
+	function populateFactions() {
+		let faction_tags = [...list.findAll(":scope>li")].map(x => (x.find(".user.faction img") ? x.find(".user.faction img").getAttribute("title") : "")).filter(x => x !== "");
 
-        for (let tag of faction_tags) {
-            if (filter_container.find(`#tt-faction-filter option[value='${tag}']`)) continue;
+		for (let tag of faction_tags) {
+			if (filter_container.find(`#tt-faction-filter option[value='${tag}']`)) continue;
 
-            let option = doc.new({type: "option", value: tag, text: tag});
-            filter_container.find("#tt-faction-filter").appendChild(option);
-        }
-    }
+			let option = doc.new({ type: "option", value: tag, text: tag });
+			filter_container.find("#tt-faction-filter").appendChild(option);
+		}
+	}
 }
 
 function armoryFilter() {
-    let armory_filter = content.newContainer("Armory Filter", {
-        header_only: true,
-        id: "ttArmoryFilter",
-        next_element: doc.find("#faction-armoury-tabs"),
-        all_rounded: true
-    });
+	let armory_filter = content.newContainer("Armory Filter", {
+		header_only: true,
+		id: "ttArmoryFilter",
+		next_element: doc.find("#faction-armoury-tabs"),
+		all_rounded: true
+	});
 
-    if (!["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))) {
-        armory_filter.classList.add("filter-hidden");
-    }
+	if (!["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))) {
+		armory_filter.classList.add("filter-hidden");
+	}
 
-    // Switching page
-    if (!mobile) {
-        for (let link of doc.findAll("ul[aria-label='faction armoury tabs']>li")) {
-            if (["weapons", "armour"].includes(link.getAttribute("aria-controls").replace("armoury-", ""))) {
-                link.addEventListener("click", function () {
-                    console.log("filter tab")
-                    if (doc.find("#ttArmoryFilter")) {
-                        doc.find("#ttArmoryFilter").classList.remove("filter-hidden");
-                    }
-                });
-            } else {
-                link.addEventListener("click", function () {
-                    console.log("other tab");
-                    if (doc.find("#ttArmoryFilter")) {
-                        doc.find("#ttArmoryFilter").classList.add("filter-hidden");
-                    }
-                });
-            }
-        }
-    } else {
-        doc.find(".armoury-drop-list select#armour-nav-list").addEventListener("change", function () {
-            if (["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))) {
-                console.log("filter tab")
-                if (doc.find("#ttArmoryFilter")) {
-                    doc.find("#ttArmoryFilter").classList.remove("filter-hidden");
-                }
-            } else {
-                console.log("other tab");
-                if (doc.find("#ttArmoryFilter")) {
-                    doc.find("#ttArmoryFilter").classList.add("filter-hidden");
-                }
-            }
-        });
-    }
+	// Switching page
+	if (!mobile) {
+		for (let link of doc.findAll("ul[aria-label='faction armoury tabs']>li")) {
+			if (["weapons", "armour"].includes(link.getAttribute("aria-controls").replace("armoury-", ""))) {
+				link.addEventListener("click", function () {
+					console.log("filter tab")
+					if (doc.find("#ttArmoryFilter")) {
+						doc.find("#ttArmoryFilter").classList.remove("filter-hidden");
+					}
+				});
+			} else {
+				link.addEventListener("click", function () {
+					console.log("other tab");
+					if (doc.find("#ttArmoryFilter")) {
+						doc.find("#ttArmoryFilter").classList.add("filter-hidden");
+					}
+				});
+			}
+		}
+	} else {
+		doc.find(".armoury-drop-list select#armour-nav-list").addEventListener("change", function () {
+			if (["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))) {
+				console.log("filter tab")
+				if (doc.find("#ttArmoryFilter")) {
+					doc.find("#ttArmoryFilter").classList.remove("filter-hidden");
+				}
+			} else {
+				console.log("other tab");
+				if (doc.find("#ttArmoryFilter")) {
+					doc.find("#ttArmoryFilter").classList.add("filter-hidden");
+				}
+			}
+		});
+	}
 
-    let unavailable_wrap = doc.new({type: "div", class: "tt-checkbox-wrap in-title hide-unavailable-option"});
-    let unavailable_checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
-    let unavailable_text = doc.new({type: "div", text: "Hide unavailable"});
+	let unavailable_wrap = doc.new({ type: "div", class: "tt-checkbox-wrap in-title hide-unavailable-option" });
+	let unavailable_checkbox = doc.new({ type: "input", attributes: { type: "checkbox" } });
+	let unavailable_text = doc.new({ type: "div", text: "Hide unavailable" });
 
-    if (filters.faction_armory.hide_unavailable) {
-        unavailable_checkbox.checked = filters.faction_armory.hide_unavailable;
-    }
+	if (filters.faction_armory.hide_unavailable) {
+		unavailable_checkbox.checked = filters.faction_armory.hide_unavailable;
+	}
 
-    unavailable_wrap.appendChild(unavailable_checkbox);
-    unavailable_wrap.appendChild(unavailable_text);
+	unavailable_wrap.appendChild(unavailable_checkbox);
+	unavailable_wrap.appendChild(unavailable_text);
 
-    unavailable_checkbox.onclick = filter;
+	unavailable_checkbox.onclick = filter;
 
-    armory_filter.find(".tt-options").appendChild(unavailable_wrap);
+	armory_filter.find(".tt-options").appendChild(unavailable_wrap);
 
-    armoryItemsLoaded().then(filter);
+	armoryItemsLoaded().then(filter);
 
-    let items_added_observer = new MutationObserver(function (mutations) {
-        for (let mutation of mutations) {
-            if (mutation.type === "childList" && mutation.addedNodes[0]) {
-                for (let added_node of mutation.addedNodes) {
-                    if (added_node.classList && added_node.classList.contains("item-list")) {
-                        if (["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))) {
-                            console.log("items added")
-                            filter();
-                        }
-                    }
-                }
-            }
-        }
-    });
-    items_added_observer.observe(doc.find(`#faction-armoury-tabs`), {childList: true, subtree: true});
+	let items_added_observer = new MutationObserver(function (mutations) {
+		for (let mutation of mutations) {
+			if (mutation.type === "childList" && mutation.addedNodes[0]) {
+				for (let added_node of mutation.addedNodes) {
+					if (added_node.classList && added_node.classList.contains("item-list")) {
+						if (["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))) {
+							console.log("items added")
+							filter();
+						}
+					}
+				}
+			}
+		}
+	});
+	items_added_observer.observe(doc.find(`#faction-armoury-tabs`), { childList: true, subtree: true });
 
-    function filter() {
-        let item_list = doc.findAll(`#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list>li`);
-        let unavailable = doc.find(".hide-unavailable-option input").checked;
+	function filter() {
+		let item_list = doc.findAll(`#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list>li`);
+		let unavailable = doc.find(".hide-unavailable-option input").checked;
 
-        for (let item of item_list) {
-            item.classList.remove("filter-hidden");
+		for (let item of item_list) {
+			item.classList.remove("filter-hidden");
 
-            // Unavailable filter
-            if (unavailable && item.find(".loaned a")) {
-                item.classList.add("filter-hidden");
-            }
-        }
+			// Unavailable filter
+			if (unavailable && item.find(".loaned a")) {
+				item.classList.add("filter-hidden");
+			}
+		}
 
-        ttStorage.change({"filters": {"faction_armory": {"hide_unavailable": unavailable}}});
-    }
+		ttStorage.change({ "filters": { "faction_armory": { "hide_unavailable": unavailable } } });
+	}
 }
 
 const ALLOWED_BLOOD = {
-    "o+": [738, 739], // 738
-    "o-": [739], // 739
-    "a+": [732, 733, 738, 739], // 732
-    "a-": [733, 739], // 733
-    "b+": [734, 735, 738, 739], // 734
-    "b-": [735, 739], // 735
-    "ab+": [732, 733, 734, 735, 736, 737, 738, 739], // 736
-    "ab-": [733, 735, 737, 739], // 737
+	"o+": [738, 739], // 738
+	"o-": [739], // 739
+	"a+": [732, 733, 738, 739], // 732
+	"a-": [733, 739], // 733
+	"b+": [734, 735, 738, 739], // 734
+	"b-": [735, 739], // 735
+	"ab+": [732, 733, 734, 735, 736, 737, 738, 739], // 736
+	"ab-": [733, 735, 737, 739], // 737
 }
 
 function highlightBloodBags() {
-    const section = doc.find("ul[aria-label='faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
-    if (section === "medical") highlight();
+	const section = doc.find("ul[aria-label='faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
+	if (section === "medical") highlight();
 
-    new MutationObserver((mutations) => {
-        if (!mutations
-            .filter((mut) => mut.type === "childList" && mut.addedNodes.length)
-            .flatMap((mut) => Array.from(mut.addedNodes))
-            .some((node) => node.classList && node.classList.contains("item-list"))) {
-            return;
-        }
+	new MutationObserver((mutations) => {
+		if (!mutations
+			.filter((mut) => mut.type === "childList" && mut.addedNodes.length)
+			.flatMap((mut) => Array.from(mut.addedNodes))
+			.some((node) => node.classList && node.classList.contains("item-list"))) {
+			return;
+		}
 
-        const section = doc.find("ul[aria-label='faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
-        if (section !== "medical") return;
+		const section = doc.find("ul[aria-label='faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
+		if (section !== "medical") return;
 
-        highlight();
-    }).observe(doc.find(`#faction-armoury-tabs`), {childList: true, subtree: true});
+		highlight();
+	}).observe(doc.find(`#faction-armoury-tabs`), { childList: true, subtree: true });
 
-    function highlight() {
-        const allowedBlood = ALLOWED_BLOOD[settings.pages.items.highlight_bloodbags];
-        const items = doc.findAll(`#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list > li`);
+	function highlight() {
+		const allowedBlood = ALLOWED_BLOOD[settings.pages.items.highlight_bloodbags];
+		const items = doc.findAll(`#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list > li`);
 
-        for (let item of items) {
-            if (!item.find(".name") || item.find(".name").classList.contains(".tt-modified")) continue;
+		for (let item of items) {
+			if (!item.find(".name") || item.find(".name").classList.contains(".tt-modified")) continue;
 
-            if (item.find(".img-wrap").getAttribute("data-id") === "1012") continue; // is an irradiated blood bag
+			if (item.find(".img-wrap").getAttribute("data-id") === "1012") continue; // is an irradiated blood bag
 
-            if (!item.find(".name").innerText.split(" x")[0].includes("Blood Bag : ")) continue; // is not a filled blood bag
+			if (!item.find(".name").innerText.split(" x")[0].includes("Blood Bag : ")) continue; // is not a filled blood bag
 
-            const classes = item.find(".name").classList;
+			const classes = item.find(".name").classList;
 
-            classes.add("tt-modified");
+			classes.add("tt-modified");
 
-            if (allowedBlood.includes(parseInt(item.find(".img-wrap").getAttribute("data-id")))) classes.add("tt-good_blood");
-            else classes.add("tt-bad_blood")
-        }
-    }
+			if (allowedBlood.includes(parseInt(item.find(".img-wrap").getAttribute("data-id")))) classes.add("tt-good_blood");
+			else classes.add("tt-bad_blood")
+		}
+	}
 }
 
 function armoryTabsLoaded() {
-    return new Promise(function (resolve) {
-        let checker = setInterval(function () {
-            if (doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']")) {
-                resolve(true);
-                return clearInterval(checker);
-            }
-        });
-    });
+	return new Promise(function (resolve) {
+		let checker = setInterval(function () {
+			if (doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']")) {
+				resolve(true);
+				return clearInterval(checker);
+			}
+		});
+	});
 }
 
 function armoryItemsLoaded() {
-    return new Promise(function (resolve) {
-        let checker = setInterval(function () {
-            if (doc.find("#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list>li:not(.ajax-placeholder)")) {
-                resolve(true);
-                return clearInterval(checker);
-            }
-        });
-    });
+	return new Promise(function (resolve) {
+		let checker = setInterval(function () {
+			if (doc.find("#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list>li:not(.ajax-placeholder)")) {
+				resolve(true);
+				return clearInterval(checker);
+			}
+		});
+	});
 }
 
 function memberInfoAdded() {
-    return new Promise(function (resolve) {
-        let checker = setInterval(function () {
-            if (member_info_added) {
-                resolve(true);
-                return clearInterval(checker);
-            }
-        });
-    });
+	return new Promise(function (resolve) {
+		let checker = setInterval(function () {
+			if (member_info_added) {
+				resolve(true);
+				return clearInterval(checker);
+			}
+		});
+	});
 }
 
 function warOverviewLoaded() {
-    return new Promise(function (resolve) {
-        let checker = setInterval(function () {
-            if (doc.find("#war-react-root ul.f-war-list")) {
-                resolve(true);
-                return clearInterval(checker);
-            }
-        }, 25);
-    });
+	return new Promise(function (resolve) {
+		let checker = setInterval(function () {
+			if (doc.find("#war-react-root ul.f-war-list")) {
+				resolve(true);
+				return clearInterval(checker);
+			}
+		}, 25);
+	});
 }
 
 function warDescriptionLoaded() {
-    return new Promise(function (resolve) {
-        let checker = setInterval(function () {
-            if (doc.find("#war-react-root ul.f-war-list > li.descriptions")) {
-                resolve(true);
-                return clearInterval(checker);
-            }
-        }, 25);
-    });
+	return new Promise(function (resolve) {
+		let checker = setInterval(function () {
+			if (doc.find("#war-react-root ul.f-war-list > li.descriptions")) {
+				resolve(true);
+				return clearInterval(checker);
+			}
+		}, 25);
+	});
 }
 
 function observeWarlist() {
-    if (window.location.hash.includes("/war/")) warDescriptionLoaded().then(observeDescription);
+	if (window.location.hash.includes("/war/")) warDescriptionLoaded().then(observeDescription);
 
-    warOverviewLoaded().then(() => {
-        new MutationObserver((mutations, observer) => {
-            let found = false;
+	warOverviewLoaded().then(() => {
+		new MutationObserver((mutations, observer) => {
+			let found = false;
 
-            for (let mutation of mutations) {
-                for (let node of mutation.addedNodes) {
-                    if (node.classList && node.classList.contains("descriptions")) {
-                        found = true;
-                        break;
-                    }
-                }
+			for (let mutation of mutations) {
+				for (let node of mutation.addedNodes) {
+					if (node.classList && node.classList.contains("descriptions")) {
+						found = true;
+						break;
+					}
+				}
 
-                if (found) break;
-            }
+				if (found) break;
+			}
 
-            if (!found) return;
+			if (!found) return;
 
-            observeDescription();
-        }).observe(doc.find("#war-react-root ul.f-war-list"), {childList: true});
-    });
+			observeDescription();
+		}).observe(doc.find("#war-react-root ul.f-war-list"), { childList: true });
+	});
 }
 
 function observeDescription() {
-    estimateStatsInList(".descriptions .members-list > li:not(.tt-userinfo-container)", (row) => {
-        if (hasClass(row, "join") || hasClass(row, "timer-wrap")) {
-            if (hasClass(row.nextElementSibling, "tt-userinfo-container")) row.nextElementSibling.remove();
+	estimateStatsInList(".descriptions .members-list > li:not(.tt-userinfo-container)", (row) => {
+		if (hasClass(row, "join") || hasClass(row, "timer-wrap")) {
+			if (hasClass(row.nextElementSibling, "tt-userinfo-container")) row.nextElementSibling.remove();
 
-            return {};
-        }
+			return {};
+		}
 
-        return {
-            userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1]
-        };
-    });
+		return {
+			userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1]
+		};
+	});
 
-    new MutationObserver((mutations) => {
-        let estimateCount = 0;
+	new MutationObserver((mutations) => {
+		let estimateCount = 0;
 
-        for (let mutation of mutations) {
-            for (let node of mutation.removedNodes) {
-                if (hasClass(node, "your") || hasClass(node, "enemy")) {
-                    if (hasClass(mutation.nextSibling, "tt-userinfo-container")) mutation.nextSibling.remove();
-                }
-            }
+		for (let mutation of mutations) {
+			for (let node of mutation.removedNodes) {
+				if (hasClass(node, "your") || hasClass(node, "enemy")) {
+					if (hasClass(mutation.nextSibling, "tt-userinfo-container")) mutation.nextSibling.remove();
+				}
+			}
 
-            for (let node of mutation.addedNodes) {
-                if (node && node.classList && (node.classList.contains("your") || node.classList.contains("enemy"))) {
-                    const userId = (node.find("a.user.name").getAttribute("data-placeholder") || node.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1];
+			for (let node of mutation.addedNodes) {
+				if (node && node.classList && (node.classList.contains("your") || node.classList.contains("enemy"))) {
+					const userId = (node.find("a.user.name").getAttribute("data-placeholder") || node.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1];
 
-                    const container = doc.new({type: "li", class: "tt-userinfo-container"});
-                    node.parentElement.insertBefore(container, node.nextElementSibling);
+					const container = doc.new({ type: "li", class: "tt-userinfo-container" });
+					node.parentElement.insertBefore(container, node.nextElementSibling);
 
-                    const row = doc.new({type: "section", class: "tt-userinfo-row tt-userinfo-row--statsestimate"});
-                    container.appendChild(row);
+					const row = doc.new({ type: "section", class: "tt-userinfo-row tt-userinfo-row--statsestimate" });
+					container.appendChild(row);
 
-                    if (!hasCachedEstimate(userId)) estimateCount++;
+					if (!hasCachedEstimate(userId)) estimateCount++;
 
-                    loadingPlaceholder(row, true);
-                    estimateStats(userId, false, estimateCount)
-                        .then((result => {
-                            loadingPlaceholder(row, false);
-                            row.appendChild(doc.new({
-                                type: "span",
-                                text: `Stat Estimate: ${result.estimate}`,
-                            }))
-                        }))
-                        .catch((error) => {
-                            loadingPlaceholder(row, false);
-                            row.appendChild(doc.new({
-                                type: "span",
-                                class: "tt-userinfo-message",
-                                text: error.message,
-                                attributes: {color: "error"},
-                            }));
-                        });
-                }
-            }
-        }
-    }).observe(doc.find("#war-react-root ul.f-war-list > li.descriptions ul.members-list"), {childList: true,});
+					loadingPlaceholder(row, true);
+					estimateStats(userId, false, estimateCount)
+						.then((result => {
+							loadingPlaceholder(row, false);
+							row.appendChild(doc.new({
+								type: "span",
+								text: `Stat Estimate: ${result.estimate}`,
+							}))
+						}))
+						.catch((error) => {
+							loadingPlaceholder(row, false);
+							row.appendChild(doc.new({
+								type: "span",
+								class: "tt-userinfo-message",
+								text: error.message,
+								attributes: { color: "error" },
+							}));
+						});
+				}
+			}
+		}
+	}).observe(doc.find("#war-react-root ul.f-war-list > li.descriptions ul.members-list"), { childList: true, });
 }
 
 function highlightOwnOC() {
-    const member = document.find(`.crimes-list > li.item-wrap .team > a[href="/profiles.php?XID=${userdata.player_id}"]`);
-    if (!member) return;
+	const member = document.find(`.crimes-list > li.item-wrap .team > a[href="/profiles.php?XID=${userdata.player_id}"]`);
+	if (!member) return;
 
-    findParent(member, {class: "item-wrap"}).setAttribute("background-color", "green");
+	findParent(member, { class: "item-wrap" }).setAttribute("background-color", "green");
+}
+
+function showFactionBalance() {
+	const alreadyShown = doc.find(".user-info-list-wrap.money-depositors > li.depositor.tt-modified");
+
+	const balanceFaction = parseInt(doc.find("#money .give-block *[data-faction-money]").getAttribute("data-faction-money"));
+	let balancePlayers = 0;
+	let factionShow, factionShowAlt, hasHonors;
+
+	for (let balanceRow of doc.findAll(".user-info-list-wrap.money-depositors > li.depositor")) {
+		balancePlayers += parseInt(balanceRow.find(".amount .money").getAttribute("data-value"));
+
+		if (!alreadyShown && !factionShow && !balanceRow.classList.contains("inactive")) {
+			hasHonors = balanceRow.find(".factionWrap .user.faction img")
+
+			if (hasHonors) {
+				factionShow = hasHonors.getAttribute("src");
+				factionShowAlt = hasHonors.getAttribute("alt");
+				hasHonors = true;
+			} else {
+				factionShow = balanceRow.find(".factionWrap .user.faction").innerText;
+			}
+
+			hasHonors = !!hasHonors;
+		}
+	}
+
+	if (alreadyShown) {
+		alreadyShown.find(".money").innerText = FORMATTER_NO_DECIMALS.format(balance);
+	} else {
+		const row = doc.new({ type: "li", class: "depositor tt-modified" });
+
+		row.innerHTML = `
+			<div class="clearfix">
+				<div class="user name btFaction" style="width: 147px;">
+					${hasHonors ? `<img src='${factionShow}' border="0" alt="${factionShowAlt}"/>` : `<span>${factionShow}</span>`}
+				</div>
+				<div class="amount">
+					<div class="show">
+						$<span class="money" id="totalFaction">${FORMATTER_NO_DECIMALS.format(balanceFaction - balancePlayers)}</span>
+					</div>
+				</div>
+			</div>
+		`;
+
+		const userWrap = doc.find(".user-info-list-wrap.money-depositors");
+		userWrap.insertBefore(row, userWrap.firstElementChild);
+	}
 }
