@@ -391,9 +391,23 @@ function addFilter(filters) {
             }
 
             // Input
-            if (name && !(data.acronym.toLowerCase().includes(name.toLowerCase()) || data.name.toLowerCase().includes(name.toLowerCase()))) {
-                stock.classList.add("filter-hidden");
-                continue;
+            if (name) {
+                let found = false;
+
+                for (let search of name.split(",")) {
+                    search = search.trim().toLowerCase();
+                    if (!search) continue;
+
+                    if (data.acronym.toLowerCase().includes(search) || data.name.toLowerCase().includes(search)) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    stock.classList.add("filter-hidden");
+                    continue;
+                }
             }
 
             if (isPortfolio) {
