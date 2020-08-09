@@ -4,14 +4,19 @@ export default {
             "Add OC timer to Information window - Mephiles",
             "Add Chain timer notification - Mephiles",
             "Add New Day notification - Mephiles",
-            "Add highlighting for your own OC - DKK"
+            "Add highlighting for your own OC - DKK",
+            "Add option to hide Areas links - Mephiles",
+            "Add chain count notification - Mephiles",
+            "Add a Connect button to Torn Preferences page - Mephiles"
         ],
         "Fixes": [
             "Fix Quick Items failing to load if an item has 0 quantity - Mephiles",
             "Fix Profile script failing if player is not in a faction - Mephiles",
             "Add missing keywords for Faction armory news shortening script - Mephiles",
             "Fix Calculator popup gear icon not working - Mephiles",
-            "Fix Gym Estimate progress being off by 1 gym - Mephiles"
+            "Fix Gym Estimate progress being off by 1 gym - Mephiles",
+            "Fix Quick Crimes/Items not working on some browsers - DKK",
+            "Fix 'add api key' page loading in Popup when API key has been inserted - Mephiles"
         ],
         "Changes": [
             "Add option to dismiss notifications rather than open the relevant page - Mephiles",
@@ -24,7 +29,14 @@ export default {
             "Make Travel Table update automatically - DKK",
             "Change 'Hide chats' icon - DKK",
             "Recode Settings page logic - Mephiles",
-            "Rework how Importing/Exporting works - Mephiles"
+            "Rework how Importing/Exporting works - Mephiles",
+            "Disable Item Market links on Mobile view - Mephiles",
+            "Add option to display relative values on Profile Stats - Mephiles",
+            "Add sorting capability for Profile chosen stats - Mephiles",
+            "Disable Gym link highlighting if all Stats are turned off - Mephiles",
+            "Add images to Travel Table items - Mephiles",
+            "Disable Watch List option to avoid confusion (will be added in future updates) - Mephiles",
+            "Switched Travel Table items category options to checkboxes to allow different combinations - Mephiles"
         ],
         "Other": [
             "Add 'Open Source' disclaimer to Github Readme - Mephiles",
