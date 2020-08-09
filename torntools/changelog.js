@@ -2,7 +2,9 @@ export default {
     "v5.0 - 2020": {
         "Features": [
             "Show an estimate of an user battle stats on various pages. - DKK",
-            "Show forecast and available worth along with a filter on the stock page. - DKK"
+            "Show forecast and available worth along with a filter on the stock page. - DKK",
+            "Show faction balance excess. - DKK",
+            "Show user balance upon selecting their name on the give cash window. - DKK"
         ],
         "Fixes": [
             "Don't apply the last action filter on other faction pages. - DKK"
