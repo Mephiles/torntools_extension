@@ -152,9 +152,8 @@ function loadControls() {
 
 function loadGiveToUser() {
 	try {
-		requirePlayerList(".user-info-list-wrap.money-depositors").then(() => {
-			showFactionBalance();
-		});
+		requirePlayerList(".user-info-list-wrap.money-depositors").then(showFactionBalance);
+		requireElement("#money-user").then(suggestBalance);
 	} catch (e) {
 		console.error("DKK Error during load.", e);
 	}
@@ -1475,5 +1474,28 @@ function showFactionBalance() {
 
 		const userWrap = doc.find(".user-info-list-wrap.money-depositors");
 		userWrap.insertBefore(row, userWrap.firstElementChild);
+	}
+}
+
+function suggestBalance() {
+	const inputElement = doc.find("#money-user");
+	["change", "paste", "keyup", "select", "focus", "input"].forEach((e) => inputElement.addEventListener(e, showBalance));
+	doc.find("#money-user-cont").addEventListener("click", showBalance);
+	showBalance();
+
+	function showBalance() {
+		let user = doc.find("#money-user").value;
+
+		let idMatch = user.match(/(.*) \[([0-9]*)]/i);
+		if (!idMatch) {
+			doc.find("label[for='money-user']").innerText = "Select player: ";
+			return;
+		}
+
+		const name = idMatch[1];
+		const id = parseInt(idMatch[2]);
+		const balance = parseInt(doc.find(`.depositor .user.name[href='/profiles.php?XID=${id}']`).parentElement.find(".amount .money").getAttribute("data-value")) || 0;
+
+		doc.find("label[for='money-user']").innerText = `${name} has a balance of $${FORMATTER_NO_DECIMALS.format(balance)}`;
 	}
 }
