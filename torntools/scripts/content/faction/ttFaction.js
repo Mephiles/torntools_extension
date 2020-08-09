@@ -11,6 +11,8 @@ requireDatabase().then(() => {
 		if (page === "factions") {
 			if (step === "mainnews" && parseInt(params.get("type")) === 4 && settings.pages.faction.armory) {
 				newstabLoaded("armory").then(shortenArmoryNews);
+			} else if (step === "getMoneyDepositors") {
+				loadGiveToUser();
 			}
 		}
 	});
@@ -146,17 +148,16 @@ function loadControls() {
 	if (doc.find(".control-tabs > li[aria-controls='option-give-to-user']").getAttribute("aria-selected")) {
 		loadGiveToUser();
 	}
+}
 
-	function loadGiveToUser() {
-		try {
-			requirePlayerList(".user-info-list-wrap.money-depositors").then(() => {
-				showFactionBalance();
-			});
-		} catch (e) {
-			console.error("DKK Error during load.", e);
-		}
+function loadGiveToUser() {
+	try {
+		requirePlayerList(".user-info-list-wrap.money-depositors").then(() => {
+			showFactionBalance();
+		});
+	} catch (e) {
+		console.error("DKK Error during load.", e);
 	}
-
 }
 
 function ocTimes(oc, format) {
