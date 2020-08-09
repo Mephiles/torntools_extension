@@ -178,6 +178,13 @@
     line-height: 16px;
     margin-top: 4px;
 }
+.tt-torn-button.disabled {
+    color: #777 !important;
+    cursor: default;
+    text-shadow: 0 -1px 0 #ffffff66;
+    box-shadow: 0 1px 0 #ffffffa6;
+    background: transparent linear-gradient(180deg,#999999 0%,#CCCCCC 100%) 0 0 no-repeat;
+}
 
 .tt-loading-placeholder {
     display: none;
