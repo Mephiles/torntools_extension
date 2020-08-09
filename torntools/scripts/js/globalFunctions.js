@@ -1616,14 +1616,7 @@ function getCurrentPage() {
 }
 
 function requireNavbar() {
-    return new Promise((resolve) => {
-        let checker = setInterval(function () {
-            if (doc.find("#sidebar")) {
-                resolve(true);
-                return clearInterval(checker);
-            }
-        });
-    });
+    return requireElement("#sidebar");
 }
 
 function requireContent() {
@@ -1638,9 +1631,13 @@ function requireContent() {
 }
 
 function requireMessageBox() {
+    return requireElement(".info-msg-cont");
+}
+
+function requireElement(selector) {
     return new Promise((resolve) => {
         let checker = setInterval(function () {
-            if (doc.find(".info-msg-cont")) {
+            if (doc.find(selector)) {
                 resolve(true);
                 return clearInterval(checker);
             }
