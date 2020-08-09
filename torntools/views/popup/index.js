@@ -44,6 +44,7 @@ requireDatabase(false)
         doc.find("body").classList.remove("loading");
     })
     .catch(() => {
+        if (api_key) return;
         loadPage("initialize");
 
         setTimeout(function () {

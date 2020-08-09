@@ -412,12 +412,12 @@ function displayOCtime() {
             if (userdata.player_id in participant) {
                 found_oc = true;
 
-                let time_left = timeUntil(oc[crime_id].time_left * 1000);
+                let time_left = timeUntil(new Date(oc[crime_id].time_ready * 1000) - new Date());
                 let div = doc.new({ type: "div", text: `OC: ` });
                 let span = doc.new({
                     type: "span",
                     text: time_left,
-                    attributes: { "seconds-down": parseInt(oc[crime_id].time_left) }
+                    attributes: { "seconds-down": parseInt((new Date(oc[crime_id].time_ready * 1000) - new Date()) / 1000) }
                 });
 
                 if (time_left === -1 || !time_left.includes("d")) span.classList.add("red");

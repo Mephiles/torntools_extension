@@ -439,9 +439,10 @@ function Main_30_seconds() {
 								return a - b
 							})) {
 								let real_timeout = userdata.chain.timeout * 1000 - (new Date() - new Date(userdata.timestamp * 1000));  // ms
+								const chain_count = userdata.chain.current;
 
-								if (real_timeout <= parseInt(checkpoint) * 60 * 1000 && !notifications.chain[checkpoint]) {
-									notifications.chain[checkpoint] = {
+								if (real_timeout <= parseInt(checkpoint) * 60 * 1000 && !notifications.chain[`${chain_count}_${checkpoint}`]) {
+									notifications.chain[`${chain_count}_${checkpoint}`] = {
 										checkpoint: checkpoint,
 										title: "TornTools - Chain",
 										text: `Chain timer will run out in ${Math.floor(real_timeout / 1000 / 60)} minutes ${(real_timeout / 1000 % 60).toFixed(0)} seconds`,
@@ -458,11 +459,16 @@ function Main_30_seconds() {
 
 						// Check for chain count notification
 						if (settings.notifications.global && settings.notifications.chain_count.length > 0 && userdata.chain.timeout !== 0) {
-							for (let checkpoint of settings.notifications.chain_count.sort((a, b) => { return b - a })) {
-								const chain_count = userdata.chain.current;
+							const chain_count = userdata.chain.current;
+							const next_bonus = nextBonus(chain_count);
+							console.log("count", chain_count);
+							console.log("next bonus", next_bonus);
 
-								if (nextBonus(chain_count) - chain_count <= checkpoint && !notifications.chain_count[checkpoint]) {
-									notifications.chain_count[checkpoint] = {
+							for (let checkpoint of settings.notifications.chain_count.sort((a, b) => { return b - a })) {
+								console.log("checkpoint", checkpoint);
+
+								if (next_bonus - chain_count <= parseInt(checkpoint) && !notifications.chain_count[`${next_bonus}_${checkpoint}`]) {
+									notifications.chain_count[`${next_bonus}_${checkpoint}`] = {
 										checkpoint: checkpoint,
 										title: "TornTools - Chain",
 										text: `Chain will reach next Bonus Hit in ${nextBonus(chain_count) - chain_count} hits`,
@@ -939,6 +945,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 			console.log("Initializing app.")
 
 			initiateTasks();
+			sendResponse({ success: true, message: "App initialized." });
 
 			// Update info about installed extensions
 			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));

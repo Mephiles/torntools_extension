@@ -182,6 +182,10 @@ const THEME_CLASSES = {
     },
 }
 
+const CHAIN_BONUSES = [
+    10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000
+]
+
 const STORAGE = {
     // app settings
     "api_key": undefined,
@@ -274,7 +278,7 @@ const STORAGE = {
         "travel": {
             "table_type": "basic",
             "open": false,
-            "item_type": "all",
+            "item_type": ["plushie", "flower", "drug", "other"],
             "country": "all"
         },
         "profile_stats": {
@@ -511,10 +515,6 @@ const TO_MILLIS = {
     HOURS: 1000 * 60 * 60,
     DAYS: 1000 * 60 * 60 * 24,
 };
-
-const CHAIN_BONUSES = [
-    10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000
-]
 
 let notificationLinkRelations = {}
 
