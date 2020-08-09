@@ -151,11 +151,9 @@ function loadControls() {
 }
 
 function loadGiveToUser() {
-	try {
+	if (settings.pages.faction.banking_tools) {
 		requirePlayerList(".user-info-list-wrap.money-depositors").then(showFactionBalance);
 		requireElement("#money-user").then(suggestBalance);
-	} catch (e) {
-		console.error("DKK Error during load.", e);
 	}
 }
 

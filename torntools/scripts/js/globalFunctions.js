@@ -454,7 +454,8 @@ const STORAGE = {
                 "announcements_page_full": false,
                 "info_page_full": false,
                 "armory_worth": false,
-                "member_info": false
+                "member_info": false,
+                "banking_tools": true,
             },
             "properties": {
                 "vault_sharing": true
