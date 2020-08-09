@@ -158,12 +158,18 @@ function addLegend() {
         </div>
         <div class="heading">Items</div>
         <div class="row">
+            <!--
             <div class="radio-item"><input type="radio" name="item" _type="all">All</div>
             <div class="radio-item"><input type="radio" name="item" _type="plushie">Plushies</div>
             <div class="radio-item"><input type="radio" name="item" _type="flower">Flowers</div>
             <div class="radio-item"><input type="radio" name="item" _type="plushie,flower">Plushies/Flowers</div>
             <div class="radio-item"><input type="radio" name="item" _type="drug">Drugs</div>
             <div class="radio-item"><input type="radio" name="item" _type="other">Other</div>
+            -->
+            <div class="checkbox-item"><input type="checkbox" name="item" _type="plushie">Plushies</div>
+            <div class="checkbox-item"><input type="checkbox" name="item" _type="flower">Flowers</div>
+            <div class="checkbox-item"><input type="checkbox" name="item" _type="drug">Drugs</div>
+            <div class="checkbox-item"><input type="checkbox" name="item" _type="other">Other</div>
         </div>
         <div class="heading">Countries</div>
         <div class="row">
@@ -187,7 +193,14 @@ function addLegend() {
     doc.find("#ttTravelTable .content").innerHTML += legend;
 
     // Set right filters
-    doc.find(`#ttTravelTable .legend-content input[name='item'][_type='${filters.travel.item_type}']`).checked = true;
+    if (!Array.isArray(filters.travel.item_type)) filters.travel.item_type = ["plushie", "flower", "drug", "other"]
+
+    console.log(filters.travel.item_type)
+
+    for (let type of filters.travel.item_type) {
+        doc.find(`#ttTravelTable .legend-content input[name='item'][_type='${type}']`).checked = true;
+    }
+
     doc.find(`#ttTravelTable .legend-content input[name='country'][_type='${filters.travel.country}']`).checked = true;
 
     // Open/Close filter
@@ -234,7 +247,7 @@ function addLegend() {
     }
 
     // Filtering
-    for (let el of doc.findAll("#ttTravelTable .legend-content .row .radio-item input")) {
+    for (let el of doc.findAll("#ttTravelTable .legend-content .row .radio-item input, #ttTravelTable .legend-content .row .checkbox-item input")) {
         el.onclick = function () {
             filterTable();
             saveSettings();
@@ -436,47 +449,41 @@ function addRow(item, time, cost, travel_items) {
 }
 
 function filterTable() {
-    let country_display = false;
-    let types = {}
-    for (let el of doc.findAll("#ttTravelTable .legend-content .radio-item input:checked")) {
-        types[el.getAttribute("name")] = el.getAttribute("_type").split(",");
-    }
+    const country = doc.find("#ttTravelTable .legend-content .radio-item input[name='country']:checked").getAttribute("_type");
+    const item_types = [...doc.findAll("#ttTravelTable .legend-content .checkbox-item input[name='item']:checked")].map(x => x.getAttribute("_type"));
 
     let cols = {
         "country": 1,
         "item": 2
     }
 
+    // Switch destination on map
+    let name = country.replace(/ /g, "-");
+    if (country === "cayman islands") name = "cayman";
+    if (country === "united kingdom") name = "uk";
+    doc.find(`div[role='tabpanel'][aria-expanded='true'] .path.to-${name}`).previousElementSibling.click();
+
     for (let row of doc.findAll("#ttTravelTable .table .body .row")) {
         row.classList.remove("hidden");
 
-        for (let type in types) {
-            if (types[type][0] == "all") {
-                continue;
+        // Country
+        if ([...row.children][cols['country'] - 1].getAttribute('country') != country) {
+            row.classList.add("hidden");
+            continue;
+        }
+
+        // Item type
+        let is_in_list = false;
+        for (let type of item_types) {
+            if (item_types.includes([...row.children][cols['item'] - 1].getAttribute('item'))) {
+                is_in_list = true;
+                break;
             }
+        }
 
-            // Switch destination on map
-            if (type == "country" && !country_display) {
-                let name = types[type][0].replace(/ /g, "-");
-                if (types[type][0] == "cayman islands") name = "cayman";
-                if (types[type][0] == "united kingdom") name = "uk";
-
-                doc.find(`div[role='tabpanel'][aria-expanded='true'] .path.to-${name}`).previousElementSibling.click();
-                country_display = true;
-            }
-
-            let is_in_list = false;
-            let row_type = [...row.children][cols[type] - 1].getAttribute(type);
-
-            for (let filter of types[type]) {
-                if (filter == row_type) {
-                    is_in_list = true;
-                }
-            }
-
-            if (!is_in_list) {
-                row.classList.add("hidden");
-            }
+        if (!is_in_list) {
+            row.classList.add("hidden");
+            continue;
         }
     }
 }
@@ -496,7 +503,7 @@ function saveSettings() {
     let travel = {
         table_type: doc.find(".table-type.active") ? doc.find(".table-type.active").getAttribute("type") : "basic",
         open: doc.find(".legend-content").classList.contains("collapsed") ? false : true,
-        item_type: doc.find(".legend-content input[name='item']:checked").getAttribute("_type"),
+        item_type: [...doc.findAll(".legend-content input[name='item']:checked")].map(x => x.getAttribute("_type")),
         country: doc.find(".legend-content input[name='country']:checked").getAttribute("_type")
     }
 

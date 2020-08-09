@@ -129,10 +129,10 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0;
     padding-left: 20px;
 }
-#ttTravelTable .legend-content .row .radio-item {
+#ttTravelTable .legend-content .row .radio-item, #ttTravelTable .legend-content .row .checkbox-item {
     margin-bottom: 5px;
 }
-#ttTravelTable .legend-content .row .radio-item input {
+#ttTravelTable .legend-content .row .radio-item input, #ttTravelTable .legend-content .row .checkbox-item input {
     position: relative;
     top: 2px;
     margin-left: 10px;
