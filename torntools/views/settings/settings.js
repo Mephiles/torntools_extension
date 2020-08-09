@@ -3,11 +3,6 @@ import changelog from "../../changelog.js";
 var version;
 var initiated_pages = {}
 
-// preferences.find("#reset_settings").addEventListener("click", function () {
-//     ttStorage.reset();
-//     message("Settings reset.", true);
-// });
-
 requireDatabase(false)
     .then(() => {
         console.log("Start Settings");
@@ -78,6 +73,10 @@ requireDatabase(false)
         }
         doc.find("#save_settings").addEventListener("click", function () {
             savePreferences(preferences, settings, target_list.show);
+        });
+        preferences.find("#reset_settings").addEventListener("click", function () {
+            ttStorage.reset();
+            message("Settings reset.", true);
         });
     })
     .catch(() => {

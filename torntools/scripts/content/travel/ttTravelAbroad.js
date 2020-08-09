@@ -62,8 +62,8 @@ window.addEventListener('load', async () => {
                 "aria-labelledby": "travel-table"
             }
         });
-        let icon = doc.new({type: "i", class: "fas fa-plane"});
-        let span = doc.new({type: "span", text: on_travel_table ? "Home" : "Travel Table"});
+        let icon = doc.new({ type: "i", class: "fas fa-plane" });
+        let span = doc.new({ type: "span", text: on_travel_table ? "Home" : "Travel Table" });
         link.appendChild(icon);
         link.appendChild(span);
 
@@ -150,7 +150,7 @@ function addFillMaxButtons() {
     }
 
     for (let buy_btn of market.findAll(".buy")) {
-        let max_span = doc.new({type: "span", text: "fill max", class: "tt-max-buy bold"});
+        let max_span = doc.new({ type: "span", text: "fill max", class: "tt-max-buy bold" });
         buy_btn.parentElement.appendChild(max_span);
 
         max_span.addEventListener("click", function (event) {
@@ -206,7 +206,7 @@ function updateYATAprices() {
     console.log("POST DATA", post_data);
     fetch(`https://yata.alwaysdata.net/bazaar/abroad/import/`, {
         method: "POST",
-        headers: {"content-type": "application/json"},
+        headers: { "content-type": "application/json" },
         body: JSON.stringify(post_data)
     }).then(response => {
         console.log("RESPONSE", response);
@@ -289,11 +289,11 @@ function addFilterToTable(list, title) {
             }
         }
     });
-    filter_observer.observe(filter_container, {attributes: true, subtree: true});
+    filter_observer.observe(filter_container, { attributes: true, subtree: true });
 
     // Page changing
     doc.addEventListener("click", function (event) {
-        if (event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, {class: "gallery-wrapper"})) {
+        if (event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, { class: "gallery-wrapper" })) {
             console.log("click");
             setTimeout(function () {
                 requirePlayerList(".users-list").then(function () {
@@ -409,7 +409,7 @@ function addFilterToTable(list, title) {
 function travelTableScript() {
     doc.find(".content-wrapper .travel-agency-travelling").innerHTML = "";
 
-    let container = content.newContainer("Travel Destinations", {id: "ttTravelTable"}).find(".content");
+    let container = content.newContainer("Travel Destinations", { id: "ttTravelTable" }).find(".content");
 
     addLegend();
 
@@ -417,7 +417,7 @@ function travelTableScript() {
         console.log(travel_items)
         doc.find("#ttTravelTable #tt-items").value = travel_items;
 
-        let table = doc.new({type: "div", class: "table"});
+        let table = doc.new({ type: "div", class: "table" });
         container.appendChild(table);
 
         addTableContent(travel_items);
@@ -454,12 +454,10 @@ function addLegend() {
         </div>
         <div class="heading">Items</div>
         <div class="row">
-            <div class="radio-item"><input type="radio" name="item" _type="all">All</div>
-            <div class="radio-item"><input type="radio" name="item" _type="plushie">Plushies</div>
-            <div class="radio-item"><input type="radio" name="item" _type="flower">Flowers</div>
-            <div class="radio-item"><input type="radio" name="item" _type="plushie,flower">Plushies/Flowers</div>
-            <div class="radio-item"><input type="radio" name="item" _type="drug">Drugs</div>
-            <div class="radio-item"><input type="radio" name="item" _type="other">Other</div>
+            <div class="checkbox-item"><input type="checkbox" name="item" _type="plushie">Plushies</div>
+            <div class="checkbox-item"><input type="checkbox" name="item" _type="flower">Flowers</div>
+            <div class="checkbox-item"><input type="checkbox" name="item" _type="drug">Drugs</div>
+            <div class="checkbox-item"><input type="checkbox" name="item" _type="other">Other</div>
         </div>
         <div class="heading">Countries</div>
         <div class="row">
@@ -483,7 +481,14 @@ function addLegend() {
     doc.find("#ttTravelTable .content").innerHTML += legend;
 
     // Set right filters
-    doc.find(`#ttTravelTable .legend-content input[name='item'][_type='${filters.travel.item_type}']`).checked = true;
+    if (!Array.isArray(filters.travel.item_type)) filters.travel.item_type = ["plushie", "flower", "drug", "other"]
+
+    console.log(filters.travel.item_type)
+
+    for (let type of filters.travel.item_type) {
+        doc.find(`#ttTravelTable .legend-content input[name='item'][_type='${type}']`).checked = true;
+    }
+
     doc.find(`#ttTravelTable .legend-content input[name='country'][_type='${filters.travel.country}']`).checked = true;
 
     // Open/Close filter
@@ -530,7 +535,7 @@ function addLegend() {
     }
 
     // Filtering
-    for (let el of doc.findAll("#ttTravelTable .legend-content .row .radio-item input")) {
+    for (let el of doc.findAll("#ttTravelTable .legend-content .row .radio-item input, #ttTravelTable .legend-content .row .checkbox-item input")) {
         el.onclick = function () {
             filterTable();
             saveSettings();
@@ -546,7 +551,7 @@ function addLegend() {
 function addTableContent(travel_items) {
     addTableHeader();
 
-    let body = doc.new({type: "div", class: "body"});
+    let body = doc.new({ type: "div", class: "body" });
     doc.find("#ttTravelTable .table").appendChild(body);
 
     let body_html = ``;
@@ -580,7 +585,7 @@ function addTableHeader() {
 
     doc.addEventListener("click", function (event) {
 
-        if (hasParent(event.target, {class: "header-row"})) {
+        if (hasParent(event.target, { class: "header-row" })) {
             let parent = event.target;
 
             if (event.target.nodeName === "I") parent = event.target.parentElement;
@@ -605,6 +610,7 @@ function addRow(item, time, cost, travel_items) {
 <div class="row">
     <div country='${item.country_name.toLowerCase()}'><div class="flag" style="background: ${background_style}"></div>${item.country_name}</div>
     <div item='${item_type}'>
+        <div class="item-image" style='background-image: url(https://www.torn.com/images/items/${item.item_id}/small.png)'></div>
       <a target="_blank" href="https://www.torn.com/imarket.php#/p=shop&type=${item.item_id}">${item.item_name}</a>
     </div>
     <div>${item.abroad_quantity.toString()} <br class="advanced"> <span class="update-time">(${update_time})</span></div>
@@ -649,46 +655,40 @@ function addRow(item, time, cost, travel_items) {
 }
 
 function filterTable() {
-    let types = {}
-    for (let el of doc.findAll("#ttTravelTable .legend-content .radio-item input:checked")) {
-        types[el.getAttribute("name")] = el.getAttribute("_type").split(",");
-    }
+    const country = doc.find("#ttTravelTable .legend-content .radio-item input[name='country']:checked").getAttribute("_type");
+    const item_types = [...doc.findAll("#ttTravelTable .legend-content .checkbox-item input[name='item']:checked")].map(x => x.getAttribute("_type"));
 
     let cols = {
         "country": 1,
         "item": 2
     }
 
+    // Switch destination on map
+    // let name = country.replace(/ /g, "-");
+    // if (country === "cayman islands") name = "cayman";
+    // if (country === "united kingdom") name = "uk";
+    // doc.find(`div[role='tabpanel'][aria-expanded='true'] .path.to-${name}`).previousElementSibling.click();
+
     for (let row of doc.findAll("#ttTravelTable .table .body .row")) {
         row.classList.remove("hidden");
 
-        for (let type in types) {
-            if (types[type][0] === "all") {
-                continue;
+        // Country
+        if ([...row.children][cols['country'] - 1].getAttribute('country') !== country) {
+            row.classList.add("hidden");
+            continue;
+        }
+
+        // Item type
+        let is_in_list = false;
+        for (let type of item_types) {
+            if (item_types.includes([...row.children][cols['item'] - 1].getAttribute('item'))) {
+                is_in_list = true;
+                break;
             }
+        }
 
-            // Switch destination on map
-            // if(type == "country" && !country_display){
-            //     let name = types[type][0].replace(/ /g, "-");
-            //     if(types[type][0] == "cayman islands") name = "cayman";
-            //     if(types[type][0] == "united kingdom") name = "uk";
-
-            //     doc.find(`div[role='tabpanel'][aria-expanded='true'] .path.to-${name}`).previousElementSibling.click();
-            //     country_display = true;
-            // }
-
-            let is_in_list = false;
-            let row_type = [...row.children][cols[type] - 1].getAttribute(type);
-
-            for (let filter of types[type]) {
-                if (filter === row_type) {
-                    is_in_list = true;
-                }
-            }
-
-            if (!is_in_list) {
-                row.classList.add("hidden");
-            }
+        if (!is_in_list) {
+            row.classList.add("hidden");
         }
     }
 }
@@ -697,11 +697,11 @@ function saveSettings() {
     let travel = {
         table_type: doc.find(".table-type.active") ? doc.find(".table-type.active").getAttribute("type") : "basic",
         open: !doc.find(".legend-content").classList.contains("collapsed"),
-        item_type: doc.find(".legend-content input[name='item']:checked").getAttribute("_type"),
+        item_type: [...doc.findAll(".legend-content input[name='item']:checked")].map(x => x.getAttribute("_type")),
         country: doc.find(".legend-content input[name='country']:checked").getAttribute("_type")
     }
 
-    ttStorage.change({"filters": {"travel": travel}});
+    ttStorage.change({ "filters": { "travel": travel } });
 }
 
 function reloadTable() {
