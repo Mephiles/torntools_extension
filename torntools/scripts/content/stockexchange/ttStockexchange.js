@@ -225,24 +225,24 @@ function addFilter(filters) {
                 <div class="filter-heading">Worth</div>
                 <div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}">
                     <div class="tt-checkbox-wrap worth-noshares">
-                        <input type="checkbox" name="shares" value="no_shares">
-                        <label for="shares" class="legend-worth" style="border-color: #424242;">No Shares</label>
+                        <input type="checkbox" name="shares" id="no_shares" value="no_shares">
+                        <label for="no_shares" class="legend-worth" style="border-color: #424242;">No Shares</label>
                     </div>
                     <div class="tt-checkbox-wrap worth-level_1">
-                        <input type="checkbox" name="shares" value="level_1">
-                        <label for="shares" class="legend-worth" style="border-color: #ff1f1f;">$0B - $20B</label>
+                        <input type="checkbox" name="shares" id="level_1" value="level_1">
+                        <label for="level_1" class="legend-worth" style="border-color: #ff1f1f;">$0B - $20B</label>
                     </div>
                     <div class="tt-checkbox-wrap worth-level_2">
-                        <input type="checkbox" name="shares" value="level_2">
-                        <label for="shares" class="legend-worth" style="border-color: #F2EA47;">$20B - $50B</label>
+                        <input type="checkbox" name="shares" id="level_2" value="level_2">
+                        <label for="level_2" class="legend-worth" style="border-color: #F2EA47;">$20B - $50B</label>
                     </div>
                     <div class="tt-checkbox-wrap worth-level_3">
-                        <input type="checkbox" name="shares" value="level_3">
-                        <label for="shares" class="legend-worth" style="border-color: #7be12e;">$50B - $100B</label>
+                        <input type="checkbox" name="shares" id="level_3" value="level_3">
+                        <label for="level_3" class="legend-worth" style="border-color: #7be12e;">$50B - $100B</label>
                     </div>
                     <div class="tt-checkbox-wrap worth-other">
-                        <input type="checkbox" name="shares" value="other">
-                        <label for="shares" class="legend-worth" style="border-color: transparent;">$100B+</label>
+                        <input type="checkbox" name="shares" id="other" value="other">
+                        <label for="other" class="legend-worth" style="border-color: transparent;">$100B+</label>
                     </div>
                 </div>
             </div>
@@ -250,43 +250,43 @@ function addFilter(filters) {
                 <div class="filter-heading">Forecast</div>
                 <div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}">
                     <div class="tt-checkbox-wrap">
-                        <input type="checkbox" name="forecast" value="very_good">
-                        <label for="forecast" class="legend-forecast forecast-very_good">Very Good</label>
+                        <input type="checkbox" name="forecast" id="very_good" value="very_good">
+                        <label for="very_good" class="legend-forecast forecast-very_good">Very Good</label>
                     </div>
                     <div class="tt-checkbox-wrap">
-                        <input type="checkbox" name="forecast" value="good">
-                        <label for="forecast" class="legend-forecast forecast-good">Good</label>
+                        <input type="checkbox" name="forecast" id="good" value="good">
+                        <label for="good" class="legend-forecast forecast-good">Good</label>
                     </div>
                     <div class="tt-checkbox-wrap">
-                        <input type="checkbox" name="forecast" value="average">
-                        <label for="forecast" class="legend-forecast forecast-average">Average</label>
+                        <input type="checkbox" name="forecast" id="average" value="average">
+                        <label for="average" class="legend-forecast forecast-average">Average</label>
                     </div>
                     <div class="tt-checkbox-wrap">
-                        <input type="checkbox" name="forecast" value="poor">
-                        <label for="forecast" class="legend-forecast forecast-poor">Poor</label>
+                        <input type="checkbox" name="forecast" id="poor" value="poor">
+                        <label for="poor" class="legend-forecast forecast-poor">Poor</label>
                     </div>
                     <div class="tt-checkbox-wrap">
-                        <input type="checkbox" name="forecast" value="very_poor">
-                        <label for="forecast" class="legend-forecast forecast-very_poor">Very Poor</label>
+                        <input type="checkbox" name="forecast" id="very_poor" value="very_poor">
+                        <label for="very_poor" class="legend-forecast forecast-very_poor">Very Poor</label>
                     </div>
                 </div>
             </div>
             <div class="filter-wrap" id="extra-filter">
                 <div class="filter-subwrap">
                     <div class="filter-heading">Name</div>
-                    <div class="tt-input-wrap" id="name-filter">Name: <input type="text"></div>
+                    <div class="tt-input-wrap" id="name-filter"><label for="name">Name: </label><input type="text" id="name"></div>
                 </div>
                 ${isPortfolio ? ` 
                 <div class="filter-subwrap" id="profit-filter">
                     <div class="filter-heading">Profit / Loss</div>
                     <div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}" id="profit-filter">
-                        <div class="tt-checkbox-wrap"><input type="checkbox" value="profit">Profit</div>
-                        <div class="tt-checkbox-wrap"><input type="checkbox" value="loss">Loss</div>
+                        <div class="tt-checkbox-wrap"><input type="checkbox" id="profit" value="profit"><label for="profit">Profit</label></div>
+                        <div class="tt-checkbox-wrap"><input type="checkbox" id="loss" value="loss"><label for="loss">Loss</label></div>
                     </div>
                 </div>
                 <div class="filter-subwrap">
                     <div class="filter-heading">Listed</div>
-                    <div class="tt-checkbox-wrap" id="listed-filter"><input type="checkbox" value="listed">Listed</div>
+                    <div class="tt-checkbox-wrap" id="listed-filter"><input type="checkbox" id="listed" value="listed"><label for="listed">Listed</label></div>
                 </div>
                 ` : ""}
             </div>
