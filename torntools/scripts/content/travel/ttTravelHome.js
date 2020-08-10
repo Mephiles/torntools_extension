@@ -49,72 +49,72 @@ requireDatabase().then(function () {
 	mapLoaded().then(function () {
 		console.log("TT - Travel (home)");
 
-		if (!settings.pages.travel.destination_table) {
-			return;
-		}
+		if (settings.pages.travel.cooldown_warnings) showCooldowns();
 
-		modifyTimeAndCost();
+		if (settings.pages.travel.destination_table) {
+			modifyTimeAndCost();
 
-		let container = content.newContainer("Travel Destinations", { id: "ttTravelTable" }).find(".content");
+			let container = content.newContainer("Travel Destinations", { id: "ttTravelTable" }).find(".content");
 
-		addLegend();
-		setTravelItems();
+			addLegend();
+			setTravelItems();
 
-		let travel_items = doc.find("#ttTravelTable #tt-items").value;
+			let travel_items = doc.find("#ttTravelTable #tt-items").value;
 
-		let table = doc.new({ type: "div", class: "table" });
-		container.appendChild(table);
+			let table = doc.new({ type: "div", class: "table" });
+			container.appendChild(table);
 
-		addTableContent(travel_items);
+			addTableContent(travel_items);
 
-		// Set initial table mode
-		if (filters.travel.table_type === "basic") {
-			doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
-		} else if (filters.travel.table_type === "advanced") {
-			doc.find("#ttTravelTable .table-type-button span[type='advanced']").click();
-		}
+			// Set initial table mode
+			if (filters.travel.table_type === "basic") {
+				doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
+			} else if (filters.travel.table_type === "advanced") {
+				doc.find("#ttTravelTable .table-type-button span[type='advanced']").click();
+			}
 
-		// Sort by country
-		sort(doc.find("#ttTravelTable .table"), 1, "text");
+			// Sort by country
+			sort(doc.find("#ttTravelTable .table"), 1, "text");
 
-		filterTable();
+			filterTable();
 
-		// Tab listeners
-		for (let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]) {
-			// tab.classList.remove("ui-state-disabled");  // Testing purposes
-			tab.addEventListener("click", function () {
-				setTravelItems();
-				reloadTable();
-			});
-		}
+			// Tab listeners
+			for (let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]) {
+				// tab.classList.remove("ui-state-disabled");  // Testing purposes
+				tab.addEventListener("click", function () {
+					setTravelItems();
+					reloadTable();
+				});
+			}
 
-		// Destination listeners
-		if (!mobile) {
-			for (let destination of doc.findAll(`div[role='tabpanel'][aria-expanded='true']>div[role='button']`)) {
-				destination.addEventListener("click", function () {
-					console.log(destination);
-					let country = destination.getAttribute("data-race") ? destination.getAttribute("data-race").replace(/-/g, " ") : "all";
+			// Destination listeners
+			if (!mobile) {
+				for (let destination of doc.findAll(`div[role='tabpanel'][aria-expanded='true']>div[role='button']`)) {
+					destination.addEventListener("click", function () {
+						console.log(destination);
+						let country = destination.getAttribute("data-race") ? destination.getAttribute("data-race").replace(/-/g, " ") : "all";
+						if (country === "cayman") country = "cayman islands";
+						if (country === "uk") country = "united kingdom";
+
+						doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
+					});
+				}
+			} else {
+				for (let destination of doc.findAll(`.tab-menu-cont .travel-info-table li.travel-info-table-list`)) {
+					let country = destination.find(".city-flag").classList[1].replace(/-/g, " ");
 					if (country === "cayman") country = "cayman islands";
 					if (country === "uk") country = "united kingdom";
 
-					doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
-				});
+					destination.addEventListener("click", function () {
+						doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
+					});
+				}
 			}
-		} else {
-			for (let destination of doc.findAll(`.tab-menu-cont .travel-info-table li.travel-info-table-list`)) {
-				let country = destination.find(".city-flag").classList[1].replace(/-/g, " ");
-				if (country === "cayman") country = "cayman islands";
-				if (country === "uk") country = "united kingdom";
 
-				destination.addEventListener("click", function () {
-					doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
-				});
+			// mobile
+			if (mobile) {
+				doc.find(".travel-agency").classList.add("tt-mobile");
 			}
-		}
-
-		// mobile
-		if (mobile) {
-			doc.find(".travel-agency").classList.add("tt-mobile");
 		}
 	});
 });
@@ -537,4 +537,70 @@ function reloadTable() {
 
 		filterTable();
 	});
+}
+
+function showCooldowns() {
+	requireElement("*[aria-hidden='false'] .travel-container.full-map").then(() => {
+		display();
+
+		for (let map of doc.findAll(".travel-container.full-map:not(.empty-tag)")) {
+			new MutationObserver((mutations, observer) => {
+				console.log("DKK display", mutations);
+				display();
+			}).observe(map, {childList: true});
+		}
+	});
+
+	function display() {
+		if (!doc.find("*[aria-hidden='false'] .travel-container.full-map .flight-time")) return;
+
+		const timer = doc.find("*[aria-hidden='false'] .travel-container.full-map .flight-time").innerText.split(" - ")[1].split(":");
+		const duration = ((parseInt(timer[0]) * 60) + parseInt(timer[1])) * 60 * 2;
+
+		console.log("DKK display", duration, {
+			energy: userdata.energy.fulltime,
+			nerve: userdata.nerve.fulltime,
+			drug: userdata.cooldowns.drug,
+			booster: userdata.cooldowns.booster,
+			medical: userdata.cooldowns.medical,
+		})
+
+		if (!doc.find("*[aria-hidden='false'] .tt-cooldowns")) {
+			let travelContainer = doc.find("*[aria-hidden='false'] .travel-container.full-map");
+
+			const cooldowns = doc.new({ type: "div", class: "tt-cooldowns" });
+
+			cooldowns.innerHTML = `
+				<div class="patter-left"></div>
+				<div class="travel-wrap">
+					<div class="cooldown energy ${getDurationClass(userdata.energy.fulltime)}">Energy</div>
+					<div class="cooldown nerve ${getDurationClass(userdata.nerve.fulltime)}">Nerve</div>
+					<div class="cooldown drug ${getDurationClass(userdata.cooldowns.drug)}">Drug</div>
+					<div class="cooldown booster ${getDurationClass(userdata.cooldowns.booster)}">Booster</div>
+					<div class="cooldown medical ${getDurationClass(userdata.cooldowns.medical)}">Medical</div>
+				</div>
+				<div class="patter-right"></div>
+				<div class="clear"></div>
+			`;
+
+			travelContainer.parentElement.insertBefore(cooldowns, travelContainer);
+		} else {
+			handleClass(doc.find("*[aria-hidden='false'] .tt-cooldowns .cooldown.energy"), userdata.energy.fulltime);
+			handleClass(doc.find("*[aria-hidden='false'] .tt-cooldowns .cooldown.nerve"), userdata.nerve.fulltime);
+			handleClass(doc.find("*[aria-hidden='false'] .tt-cooldowns .cooldown.drug"), userdata.cooldowns.drug);
+			handleClass(doc.find("*[aria-hidden='false'] .tt-cooldowns .cooldown.booster"), userdata.cooldowns.booster);
+			handleClass(doc.find("*[aria-hidden='false'] .tt-cooldowns .cooldown.medical"), userdata.cooldowns.medical);
+		}
+
+		function getDurationClass(time) {
+			return time < duration ? "waste" : "";
+		}
+
+		function handleClass(element, time) {
+			const isWasted = time < duration;
+
+			if (isWasted && !element.classList.contains("waste")) element.classList.add("waste");
+			else if (!isWasted && element.classList.contains("waste")) element.classList.remove("waste");
+		}
+	}
 }

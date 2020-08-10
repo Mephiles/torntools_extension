@@ -443,7 +443,8 @@ const STORAGE = {
             },
             "travel": {
                 "profits": true,
-                "destination_table": true
+                "destination_table": true,
+                "cooldown_warnings": true,
             },
             "api": {
                 "key": true,
