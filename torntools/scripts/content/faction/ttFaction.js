@@ -1481,19 +1481,41 @@ function suggestBalance() {
 	doc.find("#money-user-cont").addEventListener("click", showBalance);
 	showBalance();
 
-	function showBalance() {
-		let user = doc.find("#money-user").value;
+	doc.find("#money .input-money-symbol").addEventListener("click", (event) => {
+		let user = findUser();
+		if (!user) return;
 
-		let idMatch = user.match(/(.*) \[([0-9]*)]/i);
-		if (!idMatch) {
+		new MutationObserver((mutations, observer) => {
+			observer.disconnect();
+
+			const balance = getBalance(user[2]);
+
+			doc.find("#money .count.input-money[type='text']").value = balance;
+			doc.find("#money .count.input-money[type='text']").setAttribute("data-money", balance);
+			doc.find("#money .count.input-money[type='hidden']").setAttribute("data-money", balance);
+			doc.find("#money .count.input-money[type='text']").click();
+		}).observe(doc.find("#money .count.input-money[type='hidden']"), {attributes: true, attributeFilter: ["data-money"]})
+	});
+
+	function showBalance() {
+		const user = findUser();
+		if (!user) {
 			doc.find("label[for='money-user']").innerText = "Select player: ";
 			return;
 		}
 
-		const name = idMatch[1];
-		const id = parseInt(idMatch[2]);
-		const balance = parseInt(doc.find(`.depositor .user.name[href='/profiles.php?XID=${id}']`).parentElement.find(".amount .money").getAttribute("data-value")) || 0;
+		const name = user[1];
+		const id = parseInt(user[2]);
+		const balance = getBalance(id);
 
 		doc.find("label[for='money-user']").innerText = `${name} has a balance of $${FORMATTER_NO_DECIMALS.format(balance)}`;
+	}
+
+	function findUser() {
+		return doc.find("#money-user").value.match(/(.*) \[([0-9]*)]/i);
+	}
+
+	function getBalance(id) {
+		return parseInt(doc.find(`.depositor .user.name[href='/profiles.php?XID=${id}']`).parentElement.find(".amount .money").getAttribute("data-value")) || 0;
 	}
 }
