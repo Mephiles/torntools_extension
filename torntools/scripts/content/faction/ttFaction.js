@@ -1481,22 +1481,6 @@ function suggestBalance() {
 	doc.find("#money-user-cont").addEventListener("click", showBalance);
 	showBalance();
 
-	doc.find("#money .input-money-symbol").addEventListener("click", (event) => {
-		let user = findUser();
-		if (!user) return;
-
-		new MutationObserver((mutations, observer) => {
-			observer.disconnect();
-
-			const balance = getBalance(user[2]);
-
-			doc.find("#money .count.input-money[type='text']").value = balance;
-			doc.find("#money .count.input-money[type='text']").setAttribute("data-money", balance);
-			doc.find("#money .count.input-money[type='hidden']").setAttribute("data-money", balance);
-			doc.find("#money .count.input-money[type='text']").click();
-		}).observe(doc.find("#money .count.input-money[type='hidden']"), {attributes: true, attributeFilter: ["data-money"]})
-	});
-
 	function showBalance() {
 		const user = findUser();
 		if (!user) {
