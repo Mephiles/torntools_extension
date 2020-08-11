@@ -567,7 +567,7 @@ async function displayProfileStats() {
     col_other.appendChild(header_other)
     table.appendChild(col_chosen);
     table.appendChild(col_other);
-    profile_stats.appendChild(table);
+    profileStatsContainer.appendChild(table);
 
     // Add all to other column
     for (let section in key_dict) {
