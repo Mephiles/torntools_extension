@@ -1927,7 +1927,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
                     break;
             }
 
-            api_history.torn.push({
+            api_history[location].push({
                 date: new Date().toString(),
                 location: location,
                 section: section,
