@@ -202,7 +202,8 @@ const STORAGE = {
     "api_history": {
         "torn": [],
         "yata": [],
-        "tornstats": []
+        "tornstats": [],
+        'torntools': []
     },
 
     // userdata
@@ -1802,14 +1803,15 @@ function fetchApi(http, apiKey) {
     });
 }
 
-function fetchApi_v2(location, options = {/*section, objectid, selections, proxyFail, action, target*/ }) {
+function fetchApi_v2(location, options = {/*section, objectid, selections, proxyFail, action, target, postData*/ }) {
     return new Promise(async (resolve, reject) => {
         ttStorage.get(['api_key', 'proxy_key'], ([api_key, proxy_key]) => {
             const URLs = {
                 'torn': 'https://api.torn.com/',
                 'yata': 'https://yata.alwaysdata.net/',
                 'torn-proxy': 'https://torn-proxy.com/',
-                'tornstats': 'https://www.tornstats.com/api.php?'
+                'tornstats': 'https://www.tornstats.com/api.php?',
+                'torntools': 'https://torntools.gregork.com/'
             }
 
             if (location === 'torn' && proxy_key && proxy_key.length === 32) location = 'torn-proxy';
@@ -1826,6 +1828,8 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
             let full_url;
             if (location === 'tornstats') {
                 full_url = `${base}key=${apiKey}${action ? '&action=' + action : ''}${target ? '&target=' + target : ''}`;
+            } else if (location === 'torntools') {
+                full_url = `${base}${section || ''}`;
             } else if (proxyKey || apiKey) {
                 full_url = `${base}${section}${objectid}${selections ? 'selections=' + selections : ''}${location !== 'yata' ? proxyKey && !proxyFail ? `&key=${proxyKey}` : `&key=${apiKey}` : ''}`;
             } else {
@@ -1840,7 +1844,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
                 parameters = {
                     method: "POST",
                     headers: { "content-type": "application/json" },
-                    body: JSON.stringify(options.post_data)
+                    body: JSON.stringify(options.postData)
                 }
             }
 
@@ -1849,7 +1853,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
                     const result = await response.json();
                     // console.log("result", result);
 
-                    logFetch(location, options);
+                    logFetch(location === 'torn-proxy' ? 'torn' : location, options);
 
                     if (result.error) {
                         // Torn Proxy
@@ -1861,6 +1865,10 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
                                 options.proxyFail = true;
                                 return fetchApi_v2(location, options);
                             }
+                        }
+                        // TornTools
+                        else if (location === 'torntools') {
+                            return reject(result);
                         }
                         // Torn API
                         else {
@@ -1888,9 +1896,14 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
                         } catch (err) {
                             console.log("Unable to get Badge.")
                         }
-                        ttStorage.change({ "api": { "online": true, "error": "" } }, function () {
+
+                        if (location === 'torn' || location === 'torn-proxy') {
+                            ttStorage.change({ "api": { "online": true, "error": "" } }, function () {
+                                return resolve(result);
+                            });
+                        } else {
                             return resolve(result);
-                        });
+                        }
                     }
                 })
                 .catch(async response => {
