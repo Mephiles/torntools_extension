@@ -31,7 +31,7 @@ requireDatabase().then(function () {
 });
 
 function itemmarketLoaded() {
-	return requireElement("#item-market-main-wrap .info-msg .msg .ajax-placeholder");
+	return requireElement("#item-market-main-wrap .info-msg .msg .ajax-placeholder", true);
 }
 
 function subview() {

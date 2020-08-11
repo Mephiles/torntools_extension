@@ -1636,10 +1636,10 @@ function requireMessageBox() {
     return requireElement(".info-msg-cont");
 }
 
-function requireElement(selector) {
+function requireElement(selector, invert = false) {
     return new Promise((resolve) => {
         let checker = setInterval(function () {
-            if (doc.find(selector)) {
+            if ((invert && doc.find(selector)) || (!invert && !doc.find(selector))) {
                 resolve(true);
                 return clearInterval(checker);
             }
