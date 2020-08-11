@@ -772,9 +772,8 @@ function apiInfo() {
 function server() {
     loadingPlaceholder(doc.find("#server #tt_server_user_info"), true);
 
-    fetch(`https://torntools.gregork.com/api/${userdata.player_id}/mydata`)
-        .then(async response => {
-            let result = await response.json();
+    fetchApi_v2('torntools', { section: `api/${userdata.player_id}/mydata`})
+        .then(result => {
             console.log("result", result);
 
             loadingPlaceholder(doc.find("#server #tt_server_user_info"), false);
@@ -834,7 +833,10 @@ function server() {
                     })
                     .catch(() => { })
             }
-        });
+        })
+        .catch(err => {
+            console.log('ERROR', err);
+        })
 }
 
 function about() {
