@@ -4,11 +4,11 @@ let member_info_added = false;
 requireDatabase().then(() => {
     doc.find("head").appendChild(doc.new({
         type: "script",
-        attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/faction/ttFactionInject.js")}
+        attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/faction/ttFactionInject.js") }
     }));
 
     window.addEventListener("tt-xhr", (event) => {
-        const {page, json, xhr} = event.detail;
+        const { page, json, xhr } = event.detail;
         if (!json) return;
 
         if (page === "factions") {
@@ -137,7 +137,7 @@ function ocTimes(oc, format) {
         let crime_id = crime.find(".details-wrap").getAttribute("data-crime");
 
         let finish_time;
-        let span = doc.new({type: "span", class: "tt-oc-time"});
+        let span = doc.new({ type: "span", class: "tt-oc-time" });
 
         if (oc[crime_id]) {
             finish_time = oc[crime_id].time_ready;
@@ -177,10 +177,10 @@ function shortenArmoryNews() {
     console.log("db", db)
 
     for (let key in db) {
-        let li = doc.new({type: "li"});
-        let date = doc.new({type: "span", class: "date"});
-        let info = doc.new({type: "span", class: "info"});
-        let a = doc.new({type: "a", text: db[key].username, attributes: {href: db[key].link}});
+        let li = doc.new({ type: "li" });
+        let date = doc.new({ type: "span", class: "date" });
+        let info = doc.new({ type: "span", class: "info" });
+        let a = doc.new({ type: "a", text: db[key].username, attributes: { href: db[key].link } });
         info.appendChild(a);
 
         if (db[key].first_date) {
@@ -217,7 +217,7 @@ function shortenArmoryNews() {
                     let amount_span = doc.new({
                         type: "span",
                         text: " " + db[key].count + "x",
-                        attributes: {style: "font-weight: 600"}
+                        attributes: { style: "font-weight: 600" }
                     });
                     inner_span.innerHTML += ` ${keyword}`;
                     inner_span.appendChild(amount_span);
@@ -337,7 +337,7 @@ function showNNB() {
                     let player_id = player.find(".h").getAttribute("href").split("XID=")[1];
                     let nnb = result.members[player_id] ? result.members[player_id].natural_nerve : "N/A";
 
-                    let col = doc.new({type: "li", class: `tt-nnb ${mobile ? "torntools-mobile" : ""}`, text: nnb});
+                    let col = doc.new({ type: "li", class: `tt-nnb ${mobile ? "torntools-mobile" : ""}`, text: nnb });
                     player.find(".stat").parentElement.insertBefore(col, player.find(".stat"));
                 }
             }
@@ -369,7 +369,7 @@ function showNNB() {
                 let player_id = player.find(".h").getAttribute("href").split("XID=")[1];
                 let nnb = result.members[player_id] ? result.members[player_id].natural_nerve : "N/A";
 
-                let col = doc.new({type: "li", class: `tt-nnb short ${mobile ? "torntools-mobile" : ""}`, text: nnb});
+                let col = doc.new({ type: "li", class: `tt-nnb short ${mobile ? "torntools-mobile" : ""}`, text: nnb });
                 player.find(".act").parentElement.insertBefore(col, player.find(".act"));
             }
         });
@@ -401,11 +401,11 @@ function fullInfoBox(page) {
         key = "info_page_full";
     }
 
-    let options_div = doc.new({type: "div", class: "tt-options"});
+    let options_div = doc.new({ type: "div", class: "tt-options" });
 
-    let setting_div = doc.new({type: "div", class: "tt-checkbox-wrap in-title"});
-    let checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
-    let text = doc.new({type: "div", text: "Show full page"});
+    let setting_div = doc.new({ type: "div", class: "tt-checkbox-wrap in-title" });
+    let checkbox = doc.new({ type: "input", attributes: { type: "checkbox" } });
+    let text = doc.new({ type: "div", text: "Show full page" });
 
     if (settings.pages.faction[key]) {
         checkbox.checked = true;
@@ -420,7 +420,7 @@ function fullInfoBox(page) {
     checkbox.onclick = function () {
         info_box.classList.toggle("tt-force-full");
 
-        ttStorage.change({"settings": {"pages": {"faction": {[key]: checkbox.checked}}}})
+        ttStorage.change({ "settings": { "pages": { "faction": { [key]: checkbox.checked } } } })
     }
 }
 
@@ -456,22 +456,14 @@ function upgradesInfoListener() {
                 }
             }
         });
-        upgrades_info_listener.observe(doc.find(".skill-tree"), {childList: true, subtree: true});
+        upgrades_info_listener.observe(doc.find(".skill-tree"), { childList: true, subtree: true });
     });
 }
 
 function armoryWorth() {
-    fetchApi(`https://api.torn.com/faction/?selections=weapons,armor,temporary,medical,drugs,boosters,cesium,currency`, api_key)
-        .then(function (result) {
-            if (!result.ok) {
-                if (result.error === 'Incorrect ID-entity relation') {
-                    let li = doc.new({type: "li", text: `Armory value: NO API ACCESS`});
-                    doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
-                }
-                return false;
-            }
-
-            result = result.result;
+    // fetchApi(`https://api.torn.com/faction/?selections=weapons,armor,temporary,medical,drugs,boosters,cesium,currency`, api_key)
+    fetchApi_v2('torn', { section: 'faction', selections: 'weapons,armor,temporary,medical,drugs,boosters,cesium,currency' })
+        .then(result => {
             console.log("result", result);
 
             let total = 0;
@@ -493,32 +485,25 @@ function armoryWorth() {
             // Points
             total += result.points * torndata.pawnshop.points_value;
 
-            let li = doc.new({type: "li", text: `Armory value: $${numberWithCommas(total, false)}`});
+            let li = doc.new({ type: "li", text: `Armory value: $${numberWithCommas(total, false)}` });
             doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
-        });
+        })
+        .catch(err => {
+            console.log("ERROR", err);
+
+            if (err.error === 'Incorrect ID-entity relation') {
+                let li = doc.new({ type: "li", text: `Armory value: NO API ACCESS` });
+                doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
+            }
+        })
 }
 
 function showUserInfo() {
     let factionId = doc.find(".faction-info-wrap .faction-info[data-faction]").getAttribute("data-faction");
 
-    fetchApi(`https://api.torn.com/faction/${factionId}?selections=${ownFaction ? 'donations,' : ''}basic`, api_key)
-        .then(function (result) {
-            if (!result.ok) {
-                if (result.error === 'Incorrect ID-entity relation') {
-                    doc.findAll(".members-list .table-body>li").forEach((value) => {
-                        let li = doc.new({type: "li", class: "tt-user-info"});
-                        let inner_wrap = doc.new({type: "div", class: "tt-user-info-inner-wrap"});
-
-                        inner_wrap.appendChild(doc.new({type: "div", text: "No API access."}));
-
-                        li.appendChild(inner_wrap);
-                        value.parentElement.insertBefore(li, value.nextElementSibling);
-                    });
-                }
-                return false;
-            }
-
-            result = result.result;
+    // fetchApi(`https://api.torn.com/faction/${factionId}?selections=${ownFaction ? 'donations,' : ''}basic`, api_key)
+    fetchApi_v2('torn', { section: 'faction', objectid: factionId, selections: `${ownFaction ? 'donations,' : ''}basic` })
+        .then(result => {
             console.log("result", result);
 
             doc.find(".members-list .table-body").classList.add("tt-modified");
@@ -529,9 +514,9 @@ function showUserInfo() {
                 let li = doc.new({
                     type: "li",
                     class: "tt-user-info",
-                    attributes: {"last-action": ((new Date() - result.members[user_id].last_action.timestamp * 1000) / 1000).toFixed(0)}
+                    attributes: { "last-action": ((new Date() - result.members[user_id].last_action.timestamp * 1000) / 1000).toFixed(0) }
                 });
-                let inner_wrap = doc.new({type: "div", class: "tt-user-info-inner-wrap"});
+                let inner_wrap = doc.new({ type: "div", class: "tt-user-info-inner-wrap" });
                 let texts = [
                     `Last action: ${result.members[user_id].last_action.relative}`
                 ]
@@ -546,11 +531,11 @@ function showUserInfo() {
                 }
 
                 for (let text of texts) {
-                    let div = doc.new({type: "div", text: text});
+                    let div = doc.new({ type: "div", text: text });
                     inner_wrap.appendChild(div);
 
                     if (texts.indexOf(text) !== texts.length - 1) {
-                        let divider = doc.new({type: "div", class: "tt-divider", text: "—"});
+                        let divider = doc.new({ type: "div", class: "tt-divider", text: "—" });
                         inner_wrap.appendChild(divider);
                     }
                 }
@@ -571,7 +556,21 @@ function showUserInfo() {
                 }
             }
             member_info_added = true;
-        });
+        })
+        .catch(err => {
+            console.log("ERROR", err);
+            if (err.error === 'Incorrect ID-entity relation') {
+                doc.findAll(".members-list .table-body>li").forEach((value) => {
+                    let li = doc.new({ type: "li", class: "tt-user-info" });
+                    let inner_wrap = doc.new({ type: "div", class: "tt-user-info-inner-wrap" });
+
+                    inner_wrap.appendChild(doc.new({ type: "div", text: "No API access." }));
+
+                    li.appendChild(inner_wrap);
+                    value.parentElement.insertBefore(li, value.nextElementSibling);
+                });
+            }
+        })
 }
 
 function showAvailablePlayers() {
@@ -601,7 +600,7 @@ function showAvailablePlayers() {
             </div>
         `
 
-        let msg_cont = doc.new({type: "div", class: "info-msg-cont border-round m-top10"});
+        let msg_cont = doc.new({ type: "div", class: "info-msg-cont border-round m-top10" });
         msg_cont.innerHTML = msg_cont_inner;
 
         doc.find("#faction-crimes").insertBefore(msg_cont, doc.find("#faction-crimes").firstElementChild);
@@ -623,13 +622,13 @@ function showRecommendedNNB() {
     let parent = doc.findAll(".faction-crimes-wrap")[1];
 
     let heading = parent.find(".plan-crimes[role=heading]");
-    let span = doc.new({type: "span", class: "tt-span", text: mobile ? "NNB" : "Recommended NNB"});
+    let span = doc.new({ type: "span", class: "tt-span", text: mobile ? "NNB" : "Recommended NNB" });
     heading.appendChild(span);
 
 
     for (let crime_type of parent.findAll(".crimes-list .item-wrap")) {
         let name_div = crime_type.find(".plan-crimes")
-        let inner_span = doc.new({type: "span", class: "tt-span", text: nnb_dict[name_div.innerText]});
+        let inner_span = doc.new({ type: "span", class: "tt-span", text: nnb_dict[name_div.innerText] });
         name_div.appendChild(inner_span);
     }
 }
@@ -663,18 +662,18 @@ function drugInfo() {
                         el.find(".info-msg").appendChild(pros_header);
 
                         for (let eff of drug_details.pros) {
-                            let pros_div = doc.new({type: "div", class: "t-green bold item-effect tabbed", text: eff});
+                            let pros_div = doc.new({ type: "div", class: "t-green bold item-effect tabbed", text: eff });
                             el.find(".info-msg").appendChild(pros_div);
                         }
                     }
 
                     // Cons
                     if (drug_details.cons) {
-                        let cons_header = doc.new({type: "div", class: "t-red bold item-effect", text: "Cons:"});
+                        let cons_header = doc.new({ type: "div", class: "t-red bold item-effect", text: "Cons:" });
                         el.find(".info-msg").appendChild(cons_header);
 
                         for (let eff of drug_details.cons) {
-                            let cons_div = doc.new({type: "div", class: "t-red bold item-effect tabbed", text: eff});
+                            let cons_div = doc.new({ type: "div", class: "t-red bold item-effect tabbed", text: eff });
                             el.find(".info-msg").appendChild(cons_div);
                         }
                     }
@@ -691,7 +690,7 @@ function drugInfo() {
 
                     // Overdose
                     if (drug_details.overdose) {
-                        let od_header = doc.new({type: "div", class: "t-red bold item-effect", text: "Overdose:"});
+                        let od_header = doc.new({ type: "div", class: "t-red bold item-effect", text: "Overdose:" });
                         el.find(".info-msg").appendChild(od_header);
 
                         // bars
@@ -737,7 +736,7 @@ function drugInfo() {
             }
         }
     });
-    item_info_container_mutation.observe(doc.find("body"), {childList: true, subtree: true, attributes: true});
+    item_info_container_mutation.observe(doc.find("body"), { childList: true, subtree: true, attributes: true });
 }
 
 function itemInfoLoaded(element) {
@@ -873,7 +872,7 @@ function addFilterToTable(list, title) {
 
     let last_action_slider_info = last_action_slider.nextElementSibling;
     last_action_slider.noUiSlider.on('update', function (values) {
-        values = values.map(x => (timeUntil(parseFloat(x) * 60 * 60 * 1000, {max_unit: "h", hide_nulls: true})));
+        values = values.map(x => (timeUntil(parseFloat(x) * 60 * 60 * 1000, { max_unit: "h", hide_nulls: true })));
         last_action_slider_info.innerHTML = `Min Hours: ${values.join(' - ')}`;
     });
 
@@ -894,11 +893,11 @@ function addFilterToTable(list, title) {
             }
         }
     });
-    filter_observer.observe(filter_container, {attributes: true, subtree: true});
+    filter_observer.observe(filter_container, { attributes: true, subtree: true });
 
     // Page changing
     doc.addEventListener("click", function (event) {
-        if (event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, {class: "gallery-wrapper"})) {
+        if (event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, { class: "gallery-wrapper" })) {
             console.log("click");
             setTimeout(function () {
                 requirePlayerList(".users-list").then(function () {
@@ -1070,7 +1069,7 @@ function addFilterToTable(list, title) {
         for (let tag of faction_tags) {
             if (filter_container.find(`#tt-faction-filter option[value='${tag}']`)) continue;
 
-            let option = doc.new({type: "option", value: tag, text: tag});
+            let option = doc.new({ type: "option", value: tag, text: tag });
             filter_container.find("#tt-faction-filter").appendChild(option);
         }
     }
@@ -1123,9 +1122,9 @@ function armoryFilter() {
         });
     }
 
-    let unavailable_wrap = doc.new({type: "div", class: "tt-checkbox-wrap in-title hide-unavailable-option"});
-    let unavailable_checkbox = doc.new({type: "input", attributes: {type: "checkbox"}});
-    let unavailable_text = doc.new({type: "div", text: "Hide unavailable"});
+    let unavailable_wrap = doc.new({ type: "div", class: "tt-checkbox-wrap in-title hide-unavailable-option" });
+    let unavailable_checkbox = doc.new({ type: "input", attributes: { type: "checkbox" } });
+    let unavailable_text = doc.new({ type: "div", text: "Hide unavailable" });
 
     if (filters.faction_armory.hide_unavailable) {
         unavailable_checkbox.checked = filters.faction_armory.hide_unavailable;
@@ -1154,7 +1153,7 @@ function armoryFilter() {
             }
         }
     });
-    items_added_observer.observe(doc.find(`#faction-armoury-tabs`), {childList: true, subtree: true});
+    items_added_observer.observe(doc.find(`#faction-armoury-tabs`), { childList: true, subtree: true });
 
     function filter() {
         let item_list = doc.findAll(`#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list>li`);
@@ -1169,7 +1168,7 @@ function armoryFilter() {
             }
         }
 
-        ttStorage.change({"filters": {"faction_armory": {"hide_unavailable": unavailable}}});
+        ttStorage.change({ "filters": { "faction_armory": { "hide_unavailable": unavailable } } });
     }
 }
 
@@ -1200,7 +1199,7 @@ function highlightBloodBags() {
         if (section !== "medical") return;
 
         highlight();
-    }).observe(doc.find(`#faction-armoury-tabs`), {childList: true, subtree: true});
+    }).observe(doc.find(`#faction-armoury-tabs`), { childList: true, subtree: true });
 
     function highlight() {
         const allowedBlood = ALLOWED_BLOOD[settings.pages.items.highlight_bloodbags];
@@ -1260,5 +1259,5 @@ function highlightOwnOC() {
     const member = document.find(`.crimes-list > li.item-wrap .team > a[href="/profiles.php?XID=${userdata.player_id}"]`);
     if (!member) return;
 
-    findParent(member, {class: "item-wrap"}).setAttribute("background-color", "green");
+    findParent(member, { class: "item-wrap" }).setAttribute("background-color", "green");
 }

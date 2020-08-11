@@ -324,7 +324,7 @@ function mainMarket() {
 
             list.style.display = "none";
 
-            showMarketInfo(id, api_key);
+            showMarketInfo(id);
         });
     }
 
@@ -356,9 +356,8 @@ function mainMarket() {
         doc.find("#market-info").style.display = "none";
     }
 
-    function showMarketInfo(id, api_key) {
-        // fetchApi(`https://api.torn.com/market/${id}?selections=bazaar,itemmarket`, api_key)
-        fetchApi_v2('torn', { section: 'market', objectid: id, selections: 'bazaar,itemmarket', apiKey: api_key })
+    function showMarketInfo(id) {
+        fetchApi_v2('torn', { section: 'market', objectid: id, selections: 'bazaar,itemmarket' })
             .then(result => {
                 console.log("Getting Bazaar & Itemmarket info");
 

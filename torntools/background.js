@@ -29,7 +29,7 @@ var links = {
 	chain: "https://www.torn.com/factions.php?step=your#/war/chain"
 }
 
-let userdata, torndata, settings, api_key, chat_highlight, itemlist,
+let userdata, torndata, settings, api_key, proxy_key, chat_highlight, itemlist,
 	travel_market, oc, allies, loot_times, target_list, vault,
 	mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
 	quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
@@ -244,276 +244,278 @@ function Main_30_seconds() {
 		console.log("Setting up userdata.");
 		await (function () {
 			return new Promise(function (resolve, reject) {
-				let selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,timestamp,inventory,education${attack_history ? `,${attack_history}` : ''}`;
+				const selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,timestamp,inventory,education${attack_history ? `,${attack_history}` : ''}`;
 
 				ttStorage.get(["settings", "userdata"], function ([settings, previous_userdata]) {
-					fetchApi(`https://api.torn.com/user/?selections=${selections}`, api_key).then(async (userdata) => {
-						if (!userdata.ok) return resolve(false);
+					// fetchApi(`https://api.torn.com/user/?selections=${selections}`, api_key).then(async (userdata) => {
+					fetchApi_v2('torn', { section: 'user', selections: selections })
+						.then(async userdata => {
 
-						userdata = userdata.result;
+							// Target list
+							if (userdata.attacks) {
+								let attacks_data = { ...userdata.attacks }
+								updateTargetList(attacks_data, userdata.player_id, target_list, (attack_history == "attacksfull" ? true : false));
+							}
 
-						// Target list
-						if (userdata.attacks) {
-							let attacks_data = { ...userdata.attacks }
-							updateTargetList(attacks_data, userdata.player_id, target_list, (attack_history == "attacksfull" ? true : false));
-						}
+							// Check for new messages
+							let message_count = 0;
+							for (let message_key of Object.keys(userdata.messages).reverse()) {
+								let message = userdata.messages[message_key];
 
-						// Check for new messages
-						let message_count = 0;
-						for (let message_key of Object.keys(userdata.messages).reverse()) {
-							let message = userdata.messages[message_key];
+								if (message.seen == 0) {
+									if (settings.notifications.global && settings.notifications.messages && !notifications.messages[message_key]) {
+										notifications.messages[message_key] = {
+											title: `TornTools - New Message by ${message.name}`,
+											text: message.title,
+											url: links.messages,
+											seen: 0,
+											date: new Date()
+										}
+									}
+									message_count++;
+								} else {
+									break;
+								}
+							}
 
-							if (message.seen == 0) {
-								if (settings.notifications.global && settings.notifications.messages && !notifications.messages[message_key]) {
-									notifications.messages[message_key] = {
-										title: `TornTools - New Message by ${message.name}`,
-										text: message.title,
-										url: links.messages,
-										seen: 0,
-										date: new Date()
+							// Check for new events
+							let event_count = 0;
+							for (let event_key of Object.keys(userdata.events).reverse()) {
+								let event = userdata.events[event_key];
+
+								if (event.seen == 0) {
+									if (settings.notifications.global && settings.notifications.events && !notifications.events[event_key]) {
+										notifications.events[event_key] = {
+											title: `TornTools - New Event`,
+											text: event.event.replace(/<\/?[^>]+(>|$)/g, ""),
+											url: links.events,
+											seen: 0,
+											date: new Date()
+										}
+									}
+									event_count++;
+								} else {
+									break;
+								}
+							}
+
+							// Messages & Events badge
+							if (event_count > 0 && message_count > 0) {
+								setBadge(`${message_count}/${event_count}`, { color: "#1ed2ac" });
+							} else if (event_count > 0) {
+								setBadge("new_event", { count: event_count });
+							} else if (message_count > 0) {
+								setBadge("new_message", { count: message_count });
+							} else if (!isNaN(await getBadgeText())) {
+								setBadge("");
+							}
+
+							if (settings.notifications.global) {
+								// Check for Status change
+								if (previous_userdata.status && settings.notifications.status) {
+									let current_status = userdata.status.state;
+									let previous_status = previous_userdata.status.state;
+
+									if (!(current_status == previous_status || current_status == "Traveling" || current_status == "Abroad")) {
+										if (current_status == "Okay") {
+											if (previous_status == "Hospital") {
+												notifyUser("TornTools - Status", `You are out of the hospital.`, links.home);
+											} else if (previous_status == "Jail") {
+												notifyUser("TornTools - Status", `You are out of the jail.`, links.home);
+											}
+										} else {
+											notifyUser("TornTools - Status", userdata.status.description, links.home);
+										}
 									}
 								}
-								message_count++;
-							} else {
-								break;
-							}
-						}
 
-						// Check for new events
-						let event_count = 0;
-						for (let event_key of Object.keys(userdata.events).reverse()) {
-							let event = userdata.events[event_key];
-
-							if (event.seen == 0) {
-								if (settings.notifications.global && settings.notifications.events && !notifications.events[event_key]) {
-									notifications.events[event_key] = {
-										title: `TornTools - New Event`,
-										text: event.event.replace(/<\/?[^>]+(>|$)/g, ""),
-										url: links.events,
-										seen: 0,
-										date: new Date()
+								// Check for cooldowns
+								if (previous_userdata.cooldowns && settings.notifications.cooldowns) {
+									for (let cd_type in userdata.cooldowns) {
+										if (userdata.cooldowns[cd_type] == 0 && previous_userdata.cooldowns[cd_type] != 0) {
+											notifyUser("TornTools - Cooldowns", `Your ${cd_type} cooldown has ended`, links.items);
+										}
 									}
 								}
-								event_count++;
-							} else {
-								break;
-							}
-						}
 
-						// Messages & Events badge
-						if (event_count > 0 && message_count > 0) {
-							setBadge(`${message_count}/${event_count}`, { color: "#1ed2ac" });
-						} else if (event_count > 0) {
-							setBadge("new_event", { count: event_count });
-						} else if (message_count > 0) {
-							setBadge("new_message", { count: message_count });
-						} else if (!isNaN(await getBadgeText())) {
-							setBadge("");
-						}
+								// Check for education
+								if (previous_userdata.education_timeleft && settings.notifications.education) {
+									if (userdata.education_timeleft == 0 && previous_userdata.education_timeleft != 0) {
+										notifyUser("TornTools - Education", `You have finished your education course`, links.education);
+									}
+								}
 
-						// Check for Status change
-						if (settings.notifications.global && previous_userdata.status && settings.notifications.status) {
-							let current_status = userdata.status.state;
-							let previous_status = previous_userdata.status.state;
+								// Check for travelling
+								if (previous_userdata.travel && settings.notifications.traveling) {
+									if (userdata.travel.time_left == 0 && previous_userdata.travel.time_left != 0) {
+										notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}`, links.home);
+									}
+								}
 
-							if (!(current_status == previous_status || current_status == "Traveling" || current_status == "Abroad")) {
-								if (current_status == "Okay") {
-									if (previous_status == "Hospital") {
-										notifyUser("TornTools - Status", `You are out of the hospital.`, links.home);
-									} else if (previous_status == "Jail") {
-										notifyUser("TornTools - Status", `You are out of the jail.`, links.home);
+								// Check for bars
+								for (let bar of ["energy", "happy", "nerve", "life"]) {
+									if (previous_userdata[bar] && settings.notifications[bar].length > 0) {
+										let checkpoints = settings.notifications[bar].map(x => (typeof x === "string" && x.includes("%")) ? parseInt(x) / 100 * userdata[bar].maximum : parseInt(x)).sort(function (a, b) {
+											return b - a
+										});
+										console.log(`${bar} checkpoints previous:`, settings.notifications[bar]);
+										console.log(`${bar} checkpoints modified:`, checkpoints);
+										for (let checkpoint of checkpoints) {
+											if (previous_userdata[bar].current < userdata[bar].current && userdata[bar].current >= checkpoint && !notifications[bar][checkpoint]) {
+												notifications[bar][checkpoint] = {
+													title: "TornTools - Bars",
+													text: `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`,
+													url: links.home,
+													seen: 0,
+													date: new Date()
+												};
+												break;
+												// notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`, links.home);
+												// break;
+											} else if (userdata[bar].current < checkpoint && notifications[bar][checkpoint]) {
+												delete notifications[bar][checkpoint];
+											}
+										}
+									}
+								}
+
+								// Check for hospital notification
+								if (settings.notifications.hospital.length > 0 && userdata.status.state == "Hospital") {
+									for (let checkpoint of settings.notifications.hospital.sort(function (a, b) {
+										return a - b
+									})) {
+										let time_left = new Date(userdata.status.until * 1000) - new Date(); // ms
+
+										if (time_left <= parseInt(checkpoint) * 60 * 1000 && !notifications.hospital[checkpoint]) {
+											notifications.hospital[checkpoint] = {
+												title: "TornTools - Hospital",
+												text: `You will be out of the Hospital in ${Math.floor(time_left / 1000 / 60)} minutes ${(time_left / 1000 % 60).toFixed(0)} seconds`,
+												url: links.hospital,
+												seen: 0,
+												date: new Date()
+											};
+											break;
+										}
 									}
 								} else {
-									notifyUser("TornTools - Status", userdata.status.description, links.home);
+									notifications.hospital = {}
 								}
-							}
-						}
 
-						// Check for cooldowns
-						if (settings.notifications.global && previous_userdata.cooldowns && settings.notifications.cooldowns) {
-							for (let cd_type in userdata.cooldowns) {
-								if (userdata.cooldowns[cd_type] == 0 && previous_userdata.cooldowns[cd_type] != 0) {
-									notifyUser("TornTools - Cooldowns", `Your ${cd_type} cooldown has ended`, links.items);
-								}
-							}
-						}
+								// Check for travel notification
+								if (settings.notifications.landing.length > 0 && userdata.travel.time_left > 0) {
+									for (let checkpoint of settings.notifications.landing.sort(function (a, b) {
+										return a - b
+									})) {
+										let time_left = new Date(userdata.travel.timestamp * 1000) - new Date(); // ms
 
-						// Check for education
-						if (settings.notifications.global && previous_userdata.education_timeleft && settings.notifications.education) {
-							if (userdata.education_timeleft == 0 && previous_userdata.education_timeleft != 0) {
-								notifyUser("TornTools - Education", `You have finished your education course`, links.education);
-							}
-						}
-
-						// Check for travelling
-						if (settings.notifications.global && previous_userdata.travel && settings.notifications.traveling) {
-							if (userdata.travel.time_left == 0 && previous_userdata.travel.time_left != 0) {
-								notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}`, links.home);
-							}
-						}
-
-						// Check for bars
-						if (settings.notifications.global) {
-							for (let bar of ["energy", "happy", "nerve", "life"]) {
-								if (previous_userdata[bar] && settings.notifications[bar].length > 0) {
-									let checkpoints = settings.notifications[bar].map(x => (typeof x === "string" && x.includes("%")) ? parseInt(x) / 100 * userdata[bar].maximum : parseInt(x)).sort(function (a, b) {
-										return b - a
-									});
-									console.log(`${bar} checkpoints previous:`, settings.notifications[bar]);
-									console.log(`${bar} checkpoints modified:`, checkpoints);
-									for (let checkpoint of checkpoints) {
-										if (previous_userdata[bar].current < userdata[bar].current && userdata[bar].current >= checkpoint && !notifications[bar][checkpoint]) {
-											notifications[bar][checkpoint] = {
-												title: "TornTools - Bars",
-												text: `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`,
+										if (time_left <= parseInt(checkpoint) * 60 * 1000 && !notifications.travel[checkpoint]) {
+											notifications.travel[checkpoint] = {
+												checkpoint: checkpoint,
+												title: "TornTools - Travel",
+												text: `You will be Landing in ${Math.floor(time_left / 1000 / 60)} minutes ${(time_left / 1000 % 60).toFixed(0)} seconds`,
 												url: links.home,
 												seen: 0,
 												date: new Date()
 											};
 											break;
-											// notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`, links.home);
-											// break;
-										} else if (userdata[bar].current < checkpoint && notifications[bar][checkpoint]) {
-											delete notifications[bar][checkpoint];
 										}
 									}
+								} else {
+									notifications.travel = {}
 								}
-							}
-						}
 
-						// Check for hospital notification
-						if (settings.notifications.global && settings.notifications.hospital.length > 0 && userdata.status.state == "Hospital") {
-							for (let checkpoint of settings.notifications.hospital.sort(function (a, b) {
-								return a - b
-							})) {
-								let time_left = new Date(userdata.status.until * 1000) - new Date(); // ms
+								// Check for chain notification
+								if (settings.notifications.chain.length > 0 && userdata.chain.timeout !== 0) {
+									for (let checkpoint of settings.notifications.chain.sort(function (a, b) {
+										return a - b
+									})) {
+										let real_timeout = userdata.chain.timeout * 1000 - (new Date() - new Date(userdata.timestamp * 1000));  // ms
+										const chain_count = userdata.chain.current;
 
-								if (time_left <= parseInt(checkpoint) * 60 * 1000 && !notifications.hospital[checkpoint]) {
-									notifications.hospital[checkpoint] = {
-										title: "TornTools - Hospital",
-										text: `You will be out of the Hospital in ${Math.floor(time_left / 1000 / 60)} minutes ${(time_left / 1000 % 60).toFixed(0)} seconds`,
-										url: links.hospital,
-										seen: 0,
-										date: new Date()
-									};
-									break;
+										if (real_timeout <= parseInt(checkpoint) * 60 * 1000 && !notifications.chain[`${chain_count}_${checkpoint}`]) {
+											notifications.chain[`${chain_count}_${checkpoint}`] = {
+												checkpoint: checkpoint,
+												title: "TornTools - Chain",
+												text: `Chain timer will run out in ${Math.floor(real_timeout / 1000 / 60)} minutes ${(real_timeout / 1000 % 60).toFixed(0)} seconds`,
+												url: links.chain,
+												seen: 0,
+												date: new Date()
+											}
+											break;
+										}
+									}
+								} else {
+									notifications.chain = {}
 								}
-							}
-						} else {
-							notifications.hospital = {}
-						}
 
-						// Check for travel notification
-						if (settings.notifications.global && settings.notifications.landing.length > 0 && userdata.travel.time_left > 0) {
-							for (let checkpoint of settings.notifications.landing.sort(function (a, b) {
-								return a - b
-							})) {
-								let time_left = new Date(userdata.travel.timestamp * 1000) - new Date(); // ms
+								// Check for chain count notification
+								if (settings.notifications.chain_count.length > 0 && userdata.chain.timeout !== 0) {
+									const chain_count = userdata.chain.current;
+									const next_bonus = nextBonus(chain_count);
+									console.log("count", chain_count);
+									console.log("next bonus", next_bonus);
 
-								if (time_left <= parseInt(checkpoint) * 60 * 1000 && !notifications.travel[checkpoint]) {
-									notifications.travel[checkpoint] = {
-										checkpoint: checkpoint,
-										title: "TornTools - Travel",
-										text: `You will be Landing in ${Math.floor(time_left / 1000 / 60)} minutes ${(time_left / 1000 % 60).toFixed(0)} seconds`,
+									for (let checkpoint of settings.notifications.chain_count.sort((a, b) => { return b - a })) {
+										console.log("checkpoint", checkpoint);
+
+										if (next_bonus - chain_count <= parseInt(checkpoint) && !notifications.chain_count[`${next_bonus}_${checkpoint}`]) {
+											notifications.chain_count[`${next_bonus}_${checkpoint}`] = {
+												checkpoint: checkpoint,
+												title: "TornTools - Chain",
+												text: `Chain will reach next Bonus Hit in ${nextBonus(chain_count) - chain_count} hits`,
+												url: links.chain,
+												seen: 0,
+												date: new Date()
+											}
+											break;
+										}
+									}
+
+									function nextBonus(current) {
+										let bonus;
+
+										for (let BONUS of CHAIN_BONUSES) {
+											if (BONUS > current) {
+												bonus = BONUS;
+												break;
+											}
+										}
+
+										return bonus;
+									}
+
+								}
+
+								// Check for New Day notification
+								let torn_time = new Date(new Date(userdata.timestamp).toUTCString().replace(" GMT", ""));
+								if (
+									settings.notifications.new_day &&
+									torn_time.getHours() == "00" &&
+									torn_time.getMinutes() == "00" &&
+									!(torn_time.getDate().toString() in notifications.new_day)) {
+									notifications.new_day[torn_time.getDate().toString()] = {
+										title: "TornTools - New Day",
+										text: "It's a new day! Hopefully a sunny one.",
 										url: links.home,
 										seen: 0,
 										date: new Date()
-									};
-									break;
-								}
-							}
-						} else {
-							notifications.travel = {}
-						}
-
-						// Check for chain notification
-						if (settings.notifications.global && settings.notifications.chain.length > 0 && userdata.chain.timeout !== 0) {
-							for (let checkpoint of settings.notifications.chain.sort(function (a, b) {
-								return a - b
-							})) {
-								let real_timeout = userdata.chain.timeout * 1000 - (new Date() - new Date(userdata.timestamp * 1000));  // ms
-								const chain_count = userdata.chain.current;
-
-								if (real_timeout <= parseInt(checkpoint) * 60 * 1000 && !notifications.chain[`${chain_count}_${checkpoint}`]) {
-									notifications.chain[`${chain_count}_${checkpoint}`] = {
-										checkpoint: checkpoint,
-										title: "TornTools - Chain",
-										text: `Chain timer will run out in ${Math.floor(real_timeout / 1000 / 60)} minutes ${(real_timeout / 1000 % 60).toFixed(0)} seconds`,
-										url: links.chain,
-										seen: 0,
-										date: new Date()
-									}
-									break;
-								}
-							}
-						} else {
-							notifications.chain = {}
-						}
-
-						// Check for chain count notification
-						if (settings.notifications.global && settings.notifications.chain_count.length > 0 && userdata.chain.timeout !== 0) {
-							const chain_count = userdata.chain.current;
-							const next_bonus = nextBonus(chain_count);
-							console.log("count", chain_count);
-							console.log("next bonus", next_bonus);
-
-							for (let checkpoint of settings.notifications.chain_count.sort((a, b) => { return b - a })) {
-								console.log("checkpoint", checkpoint);
-
-								if (next_bonus - chain_count <= parseInt(checkpoint) && !notifications.chain_count[`${next_bonus}_${checkpoint}`]) {
-									notifications.chain_count[`${next_bonus}_${checkpoint}`] = {
-										checkpoint: checkpoint,
-										title: "TornTools - Chain",
-										text: `Chain will reach next Bonus Hit in ${nextBonus(chain_count) - chain_count} hits`,
-										url: links.chain,
-										seen: 0,
-										date: new Date()
-									}
-									break;
-								}
-							}
-
-							function nextBonus(current) {
-								let bonus;
-
-								for (let BONUS of CHAIN_BONUSES) {
-									if (BONUS > current) {
-										bonus = BONUS;
-										break;
 									}
 								}
-
-								return bonus;
 							}
 
-						}
+							userdata.date = new Date().toString();
+							delete userdata.attacks;
 
-						// Check for New Day notification
-						let torn_time = new Date(new Date(userdata.timestamp).toUTCString().replace(" GMT", ""));
-						if (
-							settings.notifications.global &&
-							settings.notifications.new_day &&
-							torn_time.getHours() == "00" &&
-							torn_time.getMinutes() == "00" &&
-							!(torn_time.getDate().toString() in notifications.new_day)) {
-							notifications.new_day[torn_time.getDate().toString()] = {
-								title: "TornTools - New Day",
-								text: "It's a new day! Hopefully a sunny one.",
-								url: links.home,
-								seen: 0,
-								date: new Date()
-							}
-						}
-
-						userdata.date = new Date().toString();
-						delete userdata.attacks;
-
-						// Set Userdata
-						ttStorage.set({ "userdata": userdata }, function () {
-							console.log("	Userdata set.");
-							return resolve(true);
-						});
-					});
+							// Set Userdata
+							ttStorage.set({ "userdata": userdata }, function () {
+								console.log("	Userdata set.");
+								return resolve(true);
+							});
+						})
+						.catch(err => {
+							console.log("ERROR", err);
+							return resolve();
+						})
 				});
 			});
 		})();
@@ -538,12 +540,9 @@ function Main_30_seconds() {
 				}
 
 				await new Promise(function (resolve, reject) {
-					fetchApi(`https://api.torn.com/user/${user_id}?selections=`, api_key)
+					// fetchApi(`https://api.torn.com/user/${user_id}?selections=`, api_key)
+					fetchApi_v2('torn', { section: 'user', objectid: user_id })
 						.then(stakeout_info => {
-							if (!stakeout_info.ok) return resolve(false);
-
-							stakeout_info = stakeout_info.result;
-
 							console.log(`	Checking ${stakeout_info.name} [${user_id}]`);
 
 							if (stakeouts[user_id].online) {
@@ -590,6 +589,10 @@ function Main_30_seconds() {
 							}
 
 							return resolve(true);
+						})
+						.catch(err => {
+							console.log("ERROR", err);
+							return resolve()
 						});
 				});
 			}
@@ -613,14 +616,18 @@ async function Main_1_minute() {
 	// loot times
 	console.log("Setting up loot times.");
 	await new Promise(async function (resolve, reject) {
-		let response = await fetch("https://yata.alwaysdata.net/loot/timings/");
-		let result = await response.json();
-
-		ttStorage.set({ "loot_times": result }, function () {
-			console.log("	Loot times set.");
-			checkLootAlerts();
-			return resolve(true);
-		});
+		fetchApi_v2('yata', { section: 'loot/timings' })
+			.then(result => {
+				ttStorage.set({ "loot_times": result }, function () {
+					console.log("	Loot times set.");
+					checkLootAlerts();
+					return resolve(true);
+				});
+			})
+			.catch(err => {
+				console.log("ERROR", err);
+				return resolve();
+			});
 	});
 
 	// travel markets
@@ -628,15 +635,14 @@ async function Main_1_minute() {
 	await new Promise(async function (resolve, reject) {
 		fetchApi_v2('yata', { section: 'bazaar/abroad/export' })
 			.then(result => {
-				// console.log('travel market info', result);
 				ttStorage.set({ "travel_market": result.stocks }, function () {
 					console.log("	Travel market info set.");
 					return resolve();
 				});
 
 			})
-			.catch(result => {
-				console.log('travel market fail', result);
+			.catch(err => {
+				console.log("ERROR", err);
 				return resolve();
 			})
 	});
@@ -647,48 +653,50 @@ async function Main_1_minute() {
 	if (networth.current.date == undefined || new Date() - new Date(networth.current.date) >= 10 * 60 * 1000) {  // 10 minutes
 		console.log("Updating networth");
 		await new Promise(function (resolve, reject) {
-			fetchApi("https://api.torn.com/user/?selections=personalstats,networth", api_key).then((data) => {
-				if (!data.ok) return resolve(data.error);
-
-				data = data.result;
-
-				let ps = data.personalstats;
-				let new_networth = data.networth;
-				let networth = {
-					current: {
-						date: new Date().toString(),
-						value: new_networth
-					},
-					previous: {
-						value: {
-							"pending": ps.networthpending,
-							"wallet": ps.networthwallet,
-							"bank": ps.networthbank,
-							"points": ps.networthpoints,
-							"cayman": ps.networthcayman,
-							"vault": ps.networthvault,
-							"piggybank": ps.networthpiggybank,
-							"items": ps.networthitems,
-							"displaycase": ps.networthdisplaycase,
-							"bazaar": ps.networthbazaar,
-							"properties": ps.networthproperties,
-							"stockmarket": ps.networthstockmarket,
-							"auctionhouse": ps.networthauctionhouse,
-							"company": ps.networthcompany,
-							"bookie": ps.networthbookie,
-							"loan": ps.networthloan,
-							"unpaidfees": ps.networthunpaidfees,
-							"total": ps.networth
+			// fetchApi("https://api.torn.com/user/?selections=personalstats,networth", api_key)
+			fetchApi_v2('torn', { section: 'user', selections: 'personalstats,networth' })
+				.then(data => {
+					let ps = data.personalstats;
+					let new_networth = data.networth;
+					let networth = {
+						current: {
+							date: new Date().toString(),
+							value: new_networth
+						},
+						previous: {
+							value: {
+								"pending": ps.networthpending,
+								"wallet": ps.networthwallet,
+								"bank": ps.networthbank,
+								"points": ps.networthpoints,
+								"cayman": ps.networthcayman,
+								"vault": ps.networthvault,
+								"piggybank": ps.networthpiggybank,
+								"items": ps.networthitems,
+								"displaycase": ps.networthdisplaycase,
+								"bazaar": ps.networthbazaar,
+								"properties": ps.networthproperties,
+								"stockmarket": ps.networthstockmarket,
+								"auctionhouse": ps.networthauctionhouse,
+								"company": ps.networthcompany,
+								"bookie": ps.networthbookie,
+								"loan": ps.networthloan,
+								"unpaidfees": ps.networthunpaidfees,
+								"total": ps.networth
+							}
 						}
 					}
-				}
 
-				// Set Userdata & Networth
-				ttStorage.set({ "networth": networth }, function () {
-					console.log("Networth info updated.");
-					return resolve(networth);
-				});
-			});
+					// Set Userdata & Networth
+					ttStorage.set({ "networth": networth }, function () {
+						console.log("Networth info updated.");
+						return resolve();
+					});
+				})
+				.catch(err => {
+					console.log("ERROR", err);
+					return resolve();
+				})
 		});
 	}
 
@@ -709,39 +717,45 @@ function Main_15_minutes() {
 
 		console.log("Setting up stocks");
 		await new Promise(function (resolve, reject) {
-			fetchApi("https://api.torn.com/torn/?selections=stocks", api_key).then((stocks) => {
-				if (!stocks.ok) return resolve(false);
+			// fetchApi("https://api.torn.com/torn/?selections=stocks", api_key)
+			fetchApi_v2('torn', { section: 'torn', selections: 'stocks' })
+				.then(result => {
+					const stocks = result.stocks;
 
-				stocks = { ...stocks.result.stocks };
+					let new_date = (new Date()).toString();
+					stocks.date = new_date;
 
-				let new_date = (new Date()).toString();
-				stocks.date = new_date;
-
-				ttStorage.change({ "torndata": { "stocks": stocks } }, function () {
-					console.log("Stocks info updated.");
-					checkStockAlerts();
-					return resolve(true);
-				});
-			});
+					ttStorage.change({ "torndata": { "stocks": stocks } }, function () {
+						console.log("Stocks info updated.");
+						checkStockAlerts();
+						return resolve(true);
+					});
+				})
+				.catch(err => {
+					console.log("ERROR", err);
+					return resolve();
+				})
 		});
 
 		// faction data
 		console.log("Setting up faction data.");
 		if (settings.pages.faction.oc_time) {
 			await new Promise(function (resolve, reject) {
-				fetchApi("https://api.torn.com/faction/?selections=crimes", api_key).then((factiondata) => {
-					if (!factiondata.ok) return resolve(false);
+				// fetchApi("https://api.torn.com/faction/?selections=crimes", api_key)
+				fetchApi_v2('torn', { section: 'faction', selections: 'crimes' })
+					.then(factiondata => {
+						let new_date = new Date().toString();
+						factiondata.crimes.date = new_date;
 
-					factiondata = factiondata.result;
-
-					let new_date = new Date().toString();
-					factiondata.crimes.date = new_date;
-
-					ttStorage.set({ "oc": factiondata.crimes }, function () {
-						console.log("	Faction data set.");
-						return resolve(true);
-					});
-				});
+						ttStorage.set({ "oc": factiondata.crimes }, function () {
+							console.log("	Faction data set.");
+							return resolve(true);
+						});
+					})
+					.catch(err => {
+						console.log("ERROR", err);
+						return resolve();
+					})
 			});
 		} else {
 			console.log("	Faction OC time formatting turned off.");
@@ -903,23 +917,26 @@ async function updateTorndata(oldTorndata) {
 	console.log("Updating torndata");
 
 	return new Promise((resolve) => {
-		fetchApi("https://api.torn.com/torn/?selections=honors,medals,items,pawnshop", api_key).then((torndata) => {
-			if (!torndata.ok) return resolve({ success: false, message: torndata.error });
+		// fetchApi("https://api.torn.com/torn/?selections=honors,medals,items,pawnshop", api_key)
+		fetchApi_v2('torn', { section: 'torn', selections: "honors,medals,items,pawnshop" })
+			.then(torndata => {
+				let itemlist = { items: { ...torndata.items }, date: (new Date).toString() };
+				delete torndata.items;
 
-			torndata = torndata.result;
-			let itemlist = { items: { ...torndata.items }, date: (new Date).toString() };
-			delete torndata.items;
+				torndata.date = (new Date()).toString();
 
-			torndata.date = (new Date()).toString();
+				torndata.stocks = oldTorndata.stocks;
 
-			torndata.stocks = oldTorndata.stocks;
-
-			ttStorage.set({ "torndata": torndata, "itemlist": itemlist }, function () {
-				console.log("	Torndata info updated.");
-				console.log("	Itemlist info updated.");
-				return resolve({ success: true, message: "Torndata fetched" });
+				ttStorage.set({ "torndata": torndata, "itemlist": itemlist }, function () {
+					console.log("	Torndata info updated.");
+					console.log("	Itemlist info updated.");
+					return resolve({ success: true, message: "Torndata fetched" });
+				})
+			})
+			.catch(err => {
+				console.log("ERROR", err);
+				return resolve({ success: false, message: err });
 			});
-		});
 	});
 }
 
@@ -1012,6 +1029,10 @@ chrome.storage.onChanged.addListener((changes, area) => {
 	if (changes.api_key) {
 		console.log("New API Key", api_key, changes.api_key.newValue);
 		api_key = changes.api_key.newValue;
+	}
+	if (changes.proxy_key) {
+		console.log("New Proxy Key", proxy_key, changes.proxy_key.newValue);
+		proxy_key = changes.proxy_key.newValue;
 	}
 });
 

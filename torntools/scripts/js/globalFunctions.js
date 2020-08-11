@@ -189,6 +189,7 @@ const CHAIN_BONUSES = [
 const STORAGE = {
     // app settings
     "api_key": undefined,
+    "proxy_key": undefined,
     "updated": "force_true",
     "api": {
         "count": 0,
@@ -1672,7 +1673,6 @@ function notifyUser(title, message, url) {
             message: message,
             silent: !settings.notifications_sound
         }, function (id) {
-            console.log(id)
             notificationLinkRelations[id] = url;
             console.log("   Notified!");
         });
@@ -1743,27 +1743,27 @@ function loadConfirmationPopup(options) {
 
 function fetchApi(http, apiKey) {
     return new Promise(async (resolve) => {
-        ttStorage.get("api_history", function (api_history) {
-            let selections = http.split("selections=")[1].split(",").filter(x => x !== "");
-            let section = http.split("torn.com/")[1].split("/")[0];
-            let user_id = http.split("?")[0].split("/")[http.split("?")[0].split("/").length - 1];
-            let name = "other";
+        // ttStorage.get("api_history", function (api_history) {
+        //     let selections = http.split("selections=")[1].split(",").filter(x => x !== "");
+        //     let section = http.split("torn.com/")[1].split("/")[0];
+        //     let user_id = http.split("?")[0].split("/")[http.split("?")[0].split("/").length - 1];
+        //     let name = "other";
 
-            if (selections.includes("personalstats")) {
-                name = user_id === "" ? "userdata" : "profile_stats";
-            } else if (selections.length && section === "user") {
-                name = "stakeouts";
-            }
+        //     if (selections.includes("personalstats")) {
+        //         name = user_id === "" ? "userdata" : "profile_stats";
+        //     } else if (selections.length && section === "user") {
+        //         name = "stakeouts";
+        //     }
 
-            api_history.torn.push({
-                date: new Date().toString(),
-                selections: selections,
-                section: section,
-                user_id: user_id,
-                name: name
-            });
-            ttStorage.set({ "api_history": api_history });
-        });
+        //     api_history.torn.push({
+        //         date: new Date().toString(),
+        //         selections: selections,
+        //         section: section,
+        //         user_id: user_id,
+        //         name: name
+        //     });
+        //     ttStorage.set({ "api_history": api_history });
+        // });
 
         try {
             const response = await fetch(http + "&key=" + apiKey);
@@ -1802,76 +1802,142 @@ function fetchApi(http, apiKey) {
     });
 }
 
-function fetchApi_v2(location, options = {/*section, objectid, selections, apiKey*/ }) {
-    return new Promise((resolve, reject) => {
-        const URLs = {
-            'torn': 'https://api.torn.com/',
-            'yata': 'https://yata.alwaysdata.net/',
-            'torn-proxy': 'https://torn-proxy.com/'
-        }
-
-        if (options.apiKey && options.apiKey.length === 32) location = 'torn-proxy';
-        const base = URLs[location];
-        const section = options.section ? options.section + "/" : "";
-        const objectid = options.objectid ? options.objectid + "?" : "?";
-        const selections = options.selections || "";
-        const apiKey = options.apiKey;
-
-        const full_url = `${base}${section}${selections ? objectid : ""}${selections ? 'selections=' + selections : ''}${apiKey ? `&key=${apiKey}` : ''}`;
-        // console.log('new fetch', full_url);
-
-        let parameters = {}
-
-        if (options.method === "POST") {
-            parameters = {
-                method: "POST",
-                headers: { "content-type": "application/json" },
-                body: JSON.stringify(options.post_data)
+function fetchApi_v2(location, options = {/*section, objectid, selections, proxyFail, action, target*/ }) {
+    return new Promise(async (resolve, reject) => {
+        ttStorage.get(['api_key', 'proxy_key'], ([api_key, proxy_key]) => {
+            const URLs = {
+                'torn': 'https://api.torn.com/',
+                'yata': 'https://yata.alwaysdata.net/',
+                'torn-proxy': 'https://torn-proxy.com/',
+                'tornstats': 'https://www.tornstats.com/api.php?'
             }
-        }
 
-        fetch(full_url, parameters)
-            .then(async response => {
-                const result = await response.json();
-                // console.log("result", result);
+            if (location === 'torn' && proxy_key && proxy_key.length === 32) location = 'torn-proxy';
+            const base = URLs[location];
+            const section = options.section ? options.section + "/" : "";
+            const objectid = options.objectid ? options.objectid + "?" : "?";
+            const selections = options.selections || "";
+            const apiKey = api_key;
+            const proxyKey = proxy_key;
+            const action = options.action;
+            const target = options.target;
+            const proxyFail = options.proxyFail;
 
-                if (result.error) {
-                    if (result.error.code === 9) {  // API offline
-                        console.log("API SYSTEM OFFLINE");
-                        setBadge("error");
+            let full_url;
+            if (location === 'tornstats') {
+                full_url = `${base}key=${apiKey}${action ? '&action=' + action : ''}${target ? '&target=' + target : ''}`;
+            } else if (proxyKey || apiKey) {
+                full_url = `${base}${section}${objectid}${selections ? 'selections=' + selections : ''}${location !== 'yata' ? proxyKey && !proxyFail ? `&key=${proxyKey}` : `&key=${apiKey}` : ''}`;
+            } else {
+                console.log('NO API KEY IS SET. ABORTING FETCH.');
+                return reject({ error: 'NO API KEY IS SET. ABORTING FETCH.' });
+            }
+            console.log('new fetch', full_url);
 
-                        ttStorage.change({ "api": { "online": false, "error": result.error.error } }, function () {
-                            // return resolve({ success: false, message: result.error.error });
-                            return reject(result.error.error);
-                        });
-                    } else {
-                        console.log("API ERROR:", result.error.error);
+            let parameters = {}
 
-                        ttStorage.change({ "api": { "online": true, "error": result.error.error } }, function () {
-                            // return resolve({ success: false, message: result.error.error });
-                            return reject(result.error.error);
-                        });
-                    }
-                } else {
-                    try {
-                        if (isNaN(await getBadgeText())) {
-                            setBadge("");
-                        }
-                    } catch (err) {
-                        console.log("Unable to get Badge.")
-                    }
-                    ttStorage.change({ "api": { "online": true, "error": "" } }, function () {
-                        // return resolve({ success: true, message: 'Data fetched successfully', data: result });
-                        return resolve(result);
-                    });
+            if (options.method === "POST") {
+                parameters = {
+                    method: "POST",
+                    headers: { "content-type": "application/json" },
+                    body: JSON.stringify(options.post_data)
                 }
-            })
-            .catch(async response => {
-                // const result = await response.json();
-                console.log("response", response);
+            }
 
-                // return resolve({ success: false, message: result });
-                return reject(response);
-            })
+            fetch(full_url, parameters)
+                .then(async response => {
+                    const result = await response.json();
+                    // console.log("result", result);
+
+                    logFetch(location, options);
+
+                    if (result.error) {
+                        // Torn Proxy
+                        if (result.proxy) {
+                            // Revoked key
+                            if (result.code === '2') {
+                                return reject({ error: 'Proxy Key has been revoked.' });
+                            } else {
+                                options.proxyFail = true;
+                                return fetchApi_v2(location, options);
+                            }
+                        }
+                        // Torn API
+                        else {
+                            // API offline
+                            if (result.error.code === 9) {
+                                console.log("API SYSTEM OFFLINE");
+                                setBadge("error");
+
+                                ttStorage.change({ "api": { "online": false, "error": result.error.error } }, function () {
+                                    return reject({ error: result.error.error });
+                                });
+                            } else {
+                                console.log("API ERROR:", result.error.error);
+
+                                ttStorage.change({ "api": { "online": true, "error": result.error.error } }, function () {
+                                    return reject({ error: result.error.error });
+                                });
+                            }
+                        }
+                    } else {
+                        try {
+                            if (isNaN(await getBadgeText())) {
+                                setBadge("");
+                            }
+                        } catch (err) {
+                            console.log("Unable to get Badge.")
+                        }
+                        ttStorage.change({ "api": { "online": true, "error": "" } }, function () {
+                            return resolve(result);
+                        });
+                    }
+                })
+                .catch(async response => {
+                    console.log("response", response);
+                    return reject(response);
+                })
+        });
     });
+
+    function logFetch(location, options = {}) {
+        ttStorage.get("api_history", api_history => {
+            const section = options.section ? options.section + "/" : "";
+            const objectid = options.objectid ? options.objectid + "?" : "?";
+            const selections = options.selections || "";
+            const action = options.action;
+            const target = options.target;
+
+            let type = 'other';
+
+            switch (location) {
+                case 'torn-proxy' || 'torn':
+                    if (selections.includes('personalstats')) type = objectid === '' ? 'userdata' : 'profile_stats';
+                    else if (selections.length && section === 'user') type = 'stakeouts';
+                    break;
+                case 'tornstats':
+                    if (action === 'spy') type = 'spy';
+                    else if (action === 'crimes') type = 'OC info';
+                    else if (action === 'getStatGraph') type = 'Gym Stats';
+                    break;
+                case 'yata':
+                    if (section === 'loot/timings') type = 'Loot timings';
+                    else if (section === 'bazaar/abroad/export') type = 'Travel data (pull)';
+                    else if (section === 'bazaar/abroad/import') type = 'Travel data (push)';
+                    break;
+            }
+
+            api_history.torn.push({
+                date: new Date().toString(),
+                location: location,
+                section: section,
+                objectid: objectid,
+                selections: selections,
+                action: action,
+                target: target,
+                type: type
+            });
+            ttStorage.set({ "api_history": api_history });
+        });
+    }
 }

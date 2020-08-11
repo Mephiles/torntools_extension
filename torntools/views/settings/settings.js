@@ -37,6 +37,9 @@ requireDatabase(false)
         doc.find("#change_api_key").addEventListener("click", function () {
             resetApiKey();
         });
+        doc.find("#change_api_proxy_key").onclick = () => {
+            resetApiProxyKey();
+        }
         doc.find("#add_ally").addEventListener("click", function (event) {
             addAllyToList(event);
         });
@@ -75,24 +78,48 @@ requireDatabase(false)
             savePreferences(preferences, settings, target_list.show);
         });
         preferences.find("#reset_settings").addEventListener("click", function () {
-            ttStorage.reset();
-            message("Settings reset.", true);
+            loadConfirmationPopup({
+                title: 'Reset settings',
+                message: `### Are you sure you want to delete ALL data except your API key?`
+            })
+                .then(() => {
+                    ttStorage.reset();
+                    message("Settings reset.", true);
+                })
+                .catch(() => { })
+
         });
     })
-    .catch(() => {
-        loadConfirmationPopup({
-            title: 'API key',
-            message: `### You have not initialized the App by providing your API key
-Please enter your API key via opening the Extension popup.  
-Clicking either 'Cancel' or 'Confirm' will reload the page.
-            `,
-        })
-            .then(() => {
-                location.reload();
+    .catch((err) => {
+        if (api_key) {
+            loadConfirmationPopup({
+                title: 'Oops',
+                message: `### Something has gone wrong. Please contact the developers and let them know of the following message:
+    (ERROR) ${err}
+    Clicking either 'Cancel' or 'Confirm' will reload the page.
+                `,
             })
-            .catch(() => {
-                location.reload();
+                .then(() => {
+                    location.reload();
+                })
+                .catch(() => {
+                    location.reload();
+                })
+        } else {
+            loadConfirmationPopup({
+                title: 'API key',
+                message: `### You have not initialized the App by providing your API key
+    Please enter your API key via opening the Extension popup.  
+    Clicking either 'Cancel' or 'Confirm' will reload the page.
+                `,
             })
+                .then(() => {
+                    location.reload();
+                })
+                .catch(() => {
+                    location.reload();
+                })
+        }
     })
 
 function loadPage(name) {
@@ -726,6 +753,9 @@ function apiInfo() {
     doc.find("#api_field").value = api_key;
     setupApiStatistics();
 
+    // Fill in API Proxy key
+    doc.find("#api_proxy_field").value = proxy_key;
+
     // Set new version text
     if (new_version.available) {
         doc.find("#about #new-version span").innerText = new_version.version;
@@ -1065,6 +1095,13 @@ function resetApiKey() {
         chrome.runtime.sendMessage({ action: "fetch", type: "torndata" }, function (response) {
             message("API key changed.", true);
         });
+    });
+}
+function resetApiProxyKey() {
+    let new_api_proxy_key = doc.find("#api_proxy_field").value;
+
+    ttStorage.set({ "proxy_key": new_api_proxy_key }, function () {
+        message("API Proxy key changed.", true);
     });
 }
 
