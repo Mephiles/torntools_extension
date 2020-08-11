@@ -827,26 +827,7 @@ function server() {
             doc.find("#server_clear").onclick = () => {
                 loadConfirmationPopup({
                     title: 'Clear Data',
-                    message: `### Are you sure you want to Delete following data from the remote server?
-- Player ID
-- Player Username
-- Client version
-- Client database size
-- Database
-    - vault
-    - stock alerts
-    - loot alerts
-    - allies
-    - custom links
-    - chat highlight
-    - hidden icons
-    - quick items & crimes
-    - notes
-    - filter settings
-    - sorting settings
-    - watchlist
-    - preferences
-            `,
+                    message: `### Are you sure you want to Delete ALL data from the remote server?`,
                 })
                     .then(() => {
                         clearRemoteData();
@@ -1398,7 +1379,6 @@ function setupApiStatistics() {
 
 function exportData() {
     ttStorage.get(null, async (database) => {
-
         if (!database) {
             return message('No database found.', false);
         }
@@ -1451,85 +1431,83 @@ function exportData() {
             post_data.storage[key] = database[key];
         }
 
-        fetch(`https://torntools.gregork.com/api/${userdata.player_id}/storage/update`, {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify(post_data)
-        })
-            .then(async response => {
-                let result = await response.json();
+        fetchApi_v2('torntools', { section: `api/${userdata.player_id}/storage/update`, method: 'POST', postData: post_data })
+            .then(result => {
                 console.log("export", result);
-
                 message(result.message, result.success, { reload: true });
-            }).catch(err => {
-                console.log(err);
-
-                if (err.name === "SyntaxError") {
-                    message('Malformed response', false);
-                }
-            });
+            })
+            .catch(err => {
+                console.log("ERROR", err);
+                message(err.error, false);
+            })
     });
 }
 
 function importData() {
-    fetch(`https://torntools.gregork.com/api/${userdata.player_id}/storage`)
-        .then(async response => {
-            let result = await response.json();
+    fetchApi_v2('torntools', { section: `api/${userdata.player_id}/storage` })
+        .then(result => {
             console.log("import", result);
 
-            if (!result.success) return message(result.message, false);
+            let conflictMessage = `\n`;
 
-            loadConfirmationPopup({
-                title: 'Import',
-                message: `### Are you sure that you want to merge following items?
-  - asd
-            
-            `
-            })
-                .then(async () => {
-                    let import_result;
-                    for (let key in result.data) {
-                        import_result = await new Promise(function (resolve, reject) {
-                            try {
-                                ttStorage.set({ [key]: result.data[key] }, function () {
-                                    console.log(`${key} imported.`);
-                                    return resolve({ success: true, message: 'All settings imported' });
-                                });
-                            } catch (err) {
-                                return resolve({ success: false, message: err });
-                            }
-                        });
+            ttStorage.get(null, database => {
+                for (let key in result.data) {
+                    if (JSON.stringify(result.data[key]) !== JSON.stringify(database[key])) {
+                        conflictMessage += `- ${key}\n`;
                     }
+                }
 
-                    message(import_result.message, import_result.success, { reload: true });
-                })
-                .catch(() => { })
+                console.log("CM", conflictMessage);
+                if (conflictMessage.trim() === "") {
+                    loadConfirmationPopup({
+                        title: 'Import',
+                        message: `### You are all up-to-date`
+                    })
+                        .then(() => { })
+                        .catch(() => { })
+                } else {
+                    loadConfirmationPopup({
+                        title: 'Import',
+                        message: `### Are you sure that you want to overwrite following items?
+        ${conflictMessage}
+                    `
+                    })
+                        .then(async () => {
+                            let import_result;
+                            for (let key in result.data) {
+                                import_result = await new Promise(function (resolve, reject) {
+                                    try {
+                                        ttStorage.set({ [key]: result.data[key] }, function () {
+                                            console.log(`${key} imported.`);
+                                            return resolve({ success: true, message: 'All settings imported' });
+                                        });
+                                    } catch (err) {
+                                        return resolve({ success: false, message: err });
+                                    }
+                                });
+                            }
+
+                            message(import_result.message, import_result.success, { reload: true });
+                        })
+                        .catch(() => { })
+                }
+
+            });
         })
         .catch(err => {
             console.log(err);
-
-            if (err.name === "SyntaxError") {
-                message('Malformed response', false);
-            }
+            message(err.error, false)
         })
 }
 
 function clearRemoteData() {
-    fetch(`https://torntools.gregork.com/api/${userdata.player_id}/storage/clear`, {
-        method: "POST",
-        headers: { "content-type": "application/json" }
-    })
-        .then(async response => {
-            let result = await response.json();
+    fetchApi_v2('torntools', { section: `api/${userdata.player_id}/storage/clear`, method: 'POST' })
+        .then(result => {
             console.log("clear", result);
-
-            message(result.message, result.success, { reload: true });
+            message(result.message, true, { reload: true });
         })
         .catch(err => {
-            console.log(err);
-
-            if (err.name === "SyntaxError") {
-                message('Malformed response', false);
-            }
+            console.log("ERROR", err);
+            message(err.error, false);
         })
 }
