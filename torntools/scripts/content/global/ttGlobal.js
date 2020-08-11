@@ -16,8 +16,11 @@ requireDatabase().then(() => {
             event.stopPropagation();
         }
 
+        // Mark Body with Mobile class
+        if (mobile) doc.find("body").classList.add("tt-mobile");
+
         // Create a section in Information tab for future info added
-        addInformationSection();
+        if (!mobile) addInformationSection();
 
         // Make Areas collapsible
         if (!doc.find(".header-arrow___1Ph0g") && !mobile) {
