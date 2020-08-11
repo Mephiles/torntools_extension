@@ -27,6 +27,18 @@ requireDatabase().then(function () {
 				}
 			});
 		}
+
+		if (settings.scripts.no_confirm.global && settings.scripts.no_confirm.item_market) {
+			for (let list of doc.findAll(".m-items-list")) {
+				new MutationObserver(() => removeConfirmButtons(list)).observe(list, { childList: true, subtree: true });
+			}
+
+			if (subview() === "item_view") requireElement(".buy .buy-link").then(() => removeConfirmButtons());
+
+			new MutationObserver(() => {
+				requireElement(".buy .buy-link:not(.tt-modified)").then(() => removeConfirmButtons());
+			}).observe(doc.find("#item-market-main-wrap"), { childList: true });
+		}
 	});
 });
 
@@ -35,9 +47,29 @@ function itemmarketLoaded() {
 }
 
 function subview() {
-	if (window.location.hash.indexOf("searchname=") > -1) {
+	if (getHashParameters().get("p") === "shop") {
 		return "item_view";
 	} else {
 		return "browse_view";
 	}
+}
+
+function removeConfirmButtons(source = doc) {
+	const items = source.findAll(".items > li");
+	if (!items || !items.length) return;
+
+	let view = subview();
+
+	for (let item of items) {
+		if (item.classList && (item.classList.contains("clear") || item.classList.contains("private-bazaar"))) continue;
+
+		const icon = item.find(".buy .buy-link");
+
+		icon.setAttribute("data-action", "buyItemConfirm");
+		icon.classList.add("yes-buy", "tt-modified");
+
+		if (view === "item_view") {
+			icon.setAttribute("data-price", item.find(".cost").innerText.split(": ").pop().substring(1).replaceAll(",", ""));
+		}
+	}s
 }

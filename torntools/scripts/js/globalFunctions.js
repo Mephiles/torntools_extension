@@ -505,7 +505,11 @@ const STORAGE = {
 
                 "delay": 1500,
                 "cached_only": false,
-            }
+            },
+            "no_confirm": {
+                "global": true,
+                "item_market": false,
+            },
         }
     }
 }
