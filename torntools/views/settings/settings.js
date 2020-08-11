@@ -61,7 +61,7 @@ requireDatabase(false)
         });
         doc.find("#allow_notifications").onclick = function () {
             Notification.requestPermission().then(function (permission) {
-                if (permission == "granted") {
+                if (permission === "granted") {
                     doc.find("#allow_notifications").parentElement.classList.add("hidden");
                 }
             });
@@ -83,8 +83,8 @@ requireDatabase(false)
         loadConfirmationPopup({
             title: 'API key',
             message: `### You have not initialized the App by providing your API key
-Please enter your API key via opening the Extension popup.  
-Clicking either 'Cancel' or 'Confirm' will reload the page.
+                Please enter your API key via opening the Extension popup.  
+                Clicking either 'Cancel' or 'Confirm' will reload the page.
             `,
         })
             .then(() => {
@@ -92,7 +92,7 @@ Clicking either 'Cancel' or 'Confirm' will reload the page.
             })
             .catch(() => {
                 location.reload();
-            })
+            });
     })
 
 function loadPage(name) {
@@ -140,7 +140,7 @@ function setupChangelog() {
         heading.appendChild(span);
         heading.appendChild(icon);
 
-        if (Object.keys(changelog).indexOf(ver + sub_ver) == 0) {
+        if (Object.keys(changelog).indexOf(ver + sub_ver) === 0) {
             heading.style.color = "red";
         }
 
@@ -212,7 +212,7 @@ function setupChangelog() {
         }
 
         // Bottom border on last element
-        if (ver + sub_ver.split(" ")[0] == "v3") {
+        if (ver + sub_ver.split(" ")[0] === "v3") {
             let hr = doc.new("hr");
             closeable.appendChild(hr);
         }
@@ -221,7 +221,7 @@ function setupChangelog() {
         div.appendChild(closeable)
         content.appendChild(div);
 
-        if (Object.keys(changelog).indexOf(ver + sub_ver) == 0) {
+        if (Object.keys(changelog).indexOf(ver + sub_ver) === 0) {
             heading.click();
         }
     }
@@ -251,7 +251,7 @@ function setupPreferences() {
 
     // Tabs
     for (let tab in settings.tabs) {
-        if (tab == "default") {
+        if (tab === "default") {
             preferences.find(`#default-${settings.tabs[tab]} input`).checked = true;
         } else {
             preferences.find(`#tab-${tab} input`).checked = settings.tabs[tab];
@@ -312,14 +312,14 @@ function setupPreferences() {
         }
     }
 
-// preferences.find(`#remove_info_boxes input`).checked = settings.remove_info_boxes;
+    // preferences.find(`#remove_info_boxes input`).checked = settings.remove_info_boxes;
 
-// Target list
+    // Target list
     preferences.find(`#target_list input`).checked = target_list.show;
 
-// Allies
+    // Allies
     for (let ally of allies) {
-        if (ally == "") {
+        if (!ally || ally === "") {
             break;
         }
 
@@ -344,7 +344,7 @@ function setupPreferences() {
         table_body.insertBefore(row, table_body.find(".row.input"));
     }
 
-// Custom links
+    // Custom links
     for (let link of custom_links) {
         let row = doc.new({type: "div", class: "row"});
         let new_tab_input = doc.new({type: "input", class: "new_tab", attributes: {type: "checkbox"}});
@@ -370,12 +370,12 @@ function setupPreferences() {
         let table_body = preferences.find("#custom_links .body");
         table_body.insertBefore(row, table_body.find(".row.input"));
 
-        if (link.new_tab == true || link.new_tab == undefined) {
+        if (link.new_tab === true || link.new_tab === undefined) {
             new_tab_input.checked = true;
         }
     }
 
-// Chat highlights
+    // Chat highlights
     for (let name in chat_highlight) {
         let row = doc.new({type: "div", class: "row"});
         let name_input = doc.new({type: "input", class: "text name", value: name});
@@ -413,7 +413,7 @@ function setupPreferences() {
         }), globalSection.find("#chat_highlight+.note").nextElementSibling);
     }
 
-// Loot alerts
+    // Loot alerts
     for (let npc_id in loot_times) {
         let row = doc.new({type: "div", class: "row"});
         let name_input = doc.new({
@@ -444,7 +444,7 @@ function setupPreferences() {
         table_body.insertBefore(row, table_body.find(".row.input"));
     }
 
-// Notifications
+    // Notifications
     const notificationsDisabled = !settings.notifications.global;
 
     for (let notification in settings.notifications) {
@@ -475,7 +475,7 @@ function setupPreferences() {
         }
     })
 
-// Icons
+    // Icons
     let icons_parent = doc.find("#preferences #icons");
     for (let i = 1; i < 81; i++) {
         let outer_div = doc.new({type: "div", class: `icon`})
@@ -506,29 +506,29 @@ function setupPreferences() {
     let orange_time_faction = "";
     let red_time_faction = "";
     for (let time in settings.inactivity_alerts_faction) {
-        if (settings.inactivity_alerts_faction[time] == "#fde5c8") {
+        if (settings.inactivity_alerts_faction[time] === "#fde5c8") {
             orange_time_faction = (parseFloat(time) / 24 / 60 / 60 / 1000).toFixed(0);
-        } else if (settings.inactivity_alerts_faction[time] == "#ffc8c8") {
+        } else if (settings.inactivity_alerts_faction[time] === "#ffc8c8") {
             red_time_faction = (parseFloat(time) / 24 / 60 / 60 / 1000).toFixed(0);
         }
     }
     preferences.find("#faction-inactivity_alerts_first input").value = orange_time_faction;
     preferences.find("#faction-inactivity_alerts_second input").value = red_time_faction;
 
-// Inactivity Company
+    // Inactivity Company
     let orange_time_company = "";
     let red_time_company = "";
     for (let time in settings.inactivity_alerts_company) {
-        if (settings.inactivity_alerts_company[time] == "#fde5c8") {
+        if (settings.inactivity_alerts_company[time] === "#fde5c8") {
             orange_time_company = (parseFloat(time) / 24 / 60 / 60 / 1000).toFixed(0);
-        } else if (settings.inactivity_alerts_company[time] == "#ffc8c8") {
+        } else if (settings.inactivity_alerts_company[time] === "#ffc8c8") {
             red_time_company = (parseFloat(time) / 24 / 60 / 60 / 1000).toFixed(0);
         }
     }
     preferences.find("#company-inactivity_alerts_first input").value = orange_time_company;
     preferences.find("#company-inactivity_alerts_second input").value = red_time_company;
 
-// Filters (Faction)
+    // Filters (Faction)
     for (let faction of filters.preset_data.factions.data) {
         let row = doc.new({type: "div", class: "row"});
         let radio_input = doc.new({
@@ -557,7 +557,7 @@ function setupPreferences() {
     }
     if (filters.preset_data.factions.default) preferences.find(`#filter-factions input[value='${filters.preset_data.factions.default}']`).checked = true;
 
-// changing subsite
+    // changing subsite
     for (let link of preferences.findAll(".navigation>div:not(.heading)")) {
         link.onclick = function () {
             let name = link.getAttribute("name");
@@ -601,7 +601,7 @@ function targetList() {
         let div = doc.new("div");
         div.setAttribute("name", heading.name);
 
-        if ((!type || type != heading.type) && heading.name != "id") {
+        if ((!type || type !== heading.type) && heading.name !== "id") {
             div.setClass(`new-section ${heading.type}`);
         } else {
             div.setClass(heading.type);
@@ -614,7 +614,7 @@ function targetList() {
         }
 
         // Sorting icon
-        if (heading.name == "id") {
+        if (heading.name === "id") {
             let icon = doc.new("i");
             icon.setClass("fas fa-caret-up");
             div.appendChild(icon);
@@ -630,7 +630,7 @@ function targetList() {
 
     // Body
     for (let id in target_list) {
-        if (id == "date")
+        if (id === "date")
             continue;
 
         type = undefined;
@@ -640,19 +640,19 @@ function targetList() {
         for (let heading of headings) {
             let item = doc.new("div");
 
-            if ((!type || type != heading.type) && heading.name != "id") {
+            if ((!type || type !== heading.type) && heading.name !== "id") {
                 item.setClass(`new-section ${heading.type}`);
             } else {
                 item.setClass(heading.type);
             }
 
-            if (heading.name == "id") {
+            if (heading.name === "id") {
                 item.innerText = id;
                 item.setAttribute("value", id);
-            } else if (heading.name == "respect") {
+            } else if (heading.name === "respect") {
                 let respect_type = getRespectType(target_list[id]);
 
-                let leaves = target_list[id][respect_type]["leave"].length > 0 ? true : false;
+                let leaves = target_list[id][respect_type]["leave"].length > 0;
 
                 if (leaves) {
                     item.innerText = getAverage(target_list[id][respect_type]["leave"]);
@@ -663,7 +663,7 @@ function targetList() {
                     for (let list in target_list[id][respect_type]) {
                         let avrg = getAverage(target_list[id][respect_type][list]);
 
-                        if (avrg != 0) {
+                        if (avrg !== 0) {
                             averages.push(avrg);
                         }
                     }
@@ -672,14 +672,15 @@ function targetList() {
                     item.setAttribute("value", item.innerText);
                 }
 
+                // noinspection EqualityComparisonWithCoercionJS
                 if (item.innerText == "0") {
                     item.setAttribute("value", "-");
                     item.innerText = "-";
                     item.setAttribute("priority", "4");
-                } else if (respect_type == "respect") {
+                } else if (respect_type === "respect") {
                     item.innerText = item.innerText + "*";
                     item.setAttribute("priority", "3");
-                } else if (respect_type == "respect_base") {
+                } else if (respect_type === "respect_base") {
                     if (leaves) {
                         item.style.backgroundColor = "#dfffdf";
                         item.setAttribute("priority", "1");
@@ -697,6 +698,7 @@ function targetList() {
             if (["mug", "leave", "hosp", "arrest", "special", "assist", "stealth"].includes(heading.name)) {
                 let value = target_list[id][heading.name];
                 let percentage = (value / target_list[id]["win"] * 100).toFixed();
+                // noinspection EqualityComparisonWithCoercionJS
                 percentage = isNaN(percentage) || percentage == Infinity ? 0 : percentage;
 
                 // item.setAttribute("value", value);
@@ -725,7 +727,7 @@ function targetList() {
     }
 
     function getAverage(arr) {
-        if (arr.length == 0)
+        if (arr.length === 0)
             return 0;
 
         let sum = 0;
@@ -749,7 +751,7 @@ function apiInfo() {
     }
 
     // Allow notifications text
-    if (Notification.permission != "granted") {
+    if (Notification.permission !== "granted") {
         doc.find("#allow_notifications").parentElement.classList.remove("hidden");
     }
 }
@@ -766,7 +768,7 @@ function server() {
 
             let pre;
             if (result.data) {
-                let [day, month, year, hours, minutes, seconds] = dateParts(new Date(result.data.date));
+                let [day, month, year] = dateParts(new Date(result.data.date));
                 doc.find("#server #tt_server_user_info+.date span").innerText = formatDate([day, month, year], settings.format.date);
                 delete result.data.date;
 
@@ -779,24 +781,24 @@ function server() {
                 loadConfirmationPopup({
                     title: 'Export',
                     message: `### Following information about you will be exported:
-- Player ID
-- Player Username
-- Client version
-- Client database size
-- Database
-    - vault
-    - stock alerts
-    - loot alerts
-    - allies
-    - custom links
-    - chat highlight
-    - hidden icons
-    - quick items & crimes
-    - notes
-    - filter settings
-    - sorting settings
-    - watchlist
-    - preferences
+                            - Player ID
+                            - Player Username
+                            - Client version
+                            - Client database size
+                            - Database
+                                - vault
+                                - stock alerts
+                                - loot alerts
+                                - allies
+                                - custom links
+                                - chat highlight
+                                - hidden icons
+                                - quick items & crimes
+                                - notes
+                                - filter settings
+                                - sorting settings
+                                - watchlist
+                                - preferences
                     `,
                 })
                     .then(() => {
@@ -814,24 +816,24 @@ function server() {
                 loadConfirmationPopup({
                     title: 'Clear Data',
                     message: `### Are you sure you want to Delete following data from the remote server?
-- Player ID
-- Player Username
-- Client version
-- Client database size
-- Database
-    - vault
-    - stock alerts
-    - loot alerts
-    - allies
-    - custom links
-    - chat highlight
-    - hidden icons
-    - quick items & crimes
-    - notes
-    - filter settings
-    - sorting settings
-    - watchlist
-    - preferences
+                        - Player ID
+                        - Player Username
+                        - Client version
+                        - Client database size
+                        - Database
+                            - vault
+                            - stock alerts
+                            - loot alerts
+                            - allies
+                            - custom links
+                            - chat highlight
+                            - hidden icons
+                            - quick items & crimes
+                            - notes
+                            - filter settings
+                            - sorting settings
+                            - watchlist
+                            - preferences
             `,
                 })
                     .then(() => {
@@ -879,7 +881,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 
     // Tabs
     for (let tab in settings.tabs) {
-        if (tab == "default") {
+        if (tab === "default") {
             settings.tabs[tab] = preferences.find(`input[name=default-tab]:checked`).parentElement.innerText.toLowerCase();
         } else {
             settings.tabs[tab] = preferences.find(`#tab-${tab} input`).checked;
@@ -942,17 +944,13 @@ function savePreferences(preferences, settings, target_list_enabled) {
     let highlights = {}
     for (let row of preferences.findAll("#chat_highlight .row:not(.input)")) {
         let name = row.find(".name").value;
-        let color = row.find(".color").value;
-
-        highlights[name] = color;
+        highlights[name] = row.find(".color").value;
     }
 
     // Notifications
     for (let notification in settings.notifications) {
         if (preferences.find(`#notifications-${notification} input[type='text']`)) {
-            let values = preferences.find(`#notifications-${notification} input[type='text']`).value.split(",").filter(x => x !== "");
-
-            settings.notifications[notification] = values;
+            settings.notifications[notification] = preferences.find(`#notifications-${notification} input[type='text']`).value.split(",").filter(x => x !== "");
         } else {
             settings.notifications[notification] = preferences.find(`#notifications-${notification} input[type='checkbox']`).checked;
         }
@@ -1003,7 +1001,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
     for (let row of preferences.findAll("#filter-factions .row:not(.input)")) {
         let name = row.find(".name").value;
 
-        if (row.find("input[type=radio]").checked == true) {
+        if (row.find("input[type=radio]").checked === true) {
             filter_factions.default = name;
         }
 
@@ -1081,7 +1079,7 @@ function resetApiKey() {
     let new_api_key = doc.find("#api_field").value;
 
     ttStorage.set({"api_key": new_api_key}, function () {
-        chrome.runtime.sendMessage({action: "fetch", type: "torndata"}, function (response) {
+        chrome.runtime.sendMessage({action: "fetch", type: "torndata"}, () => {
             message("API key changed.", true);
         });
     });
@@ -1161,7 +1159,7 @@ function addFactionToFilter(event) {
     let remove_icon_wrap = doc.new({type: "div", class: "remove-icon-wrap"});
     let remove_icon = doc.new({type: "i", class: "remove-icon fas fa-trash-alt"});
 
-    if (event.target.previousElementSibling.previousElementSibling.checked == true) {
+    if (event.target.previousElementSibling.previousElementSibling.checked) {
         radio_input.checked = true;
     }
 
@@ -1273,7 +1271,7 @@ function setupApiStatistics() {
         let fetch_date = new Date(fetch.date);
         if (new Date() - fetch_date > time_limit) break;
 
-        let [day, month, year, hours, minutes, seconds] = dateParts(fetch_date);
+        let [day, month, year, hours, minutes] = dateParts(fetch_date);
         let fetch_time = formatTime([hours, minutes], "eu");
 
         if (fetch_time in data) {
@@ -1305,7 +1303,7 @@ function setupApiStatistics() {
     datasets.map(x => x.label = capitalize(x.label.replace(/_/g, " ")));
 
     let ctx = doc.find("#torn-api-graph").getContext("2d");
-    let torn_api_chart = new Chart(ctx, {
+    new Chart(ctx, {
         type: 'bar',
         data: {
             labels: data_keys,
@@ -1319,8 +1317,8 @@ function setupApiStatistics() {
             scales: {
                 yAxes: [{
                     ticks: {
-                        callback: function (value, index, values) {
-                            if (Math.floor(value) == value) {
+                        callback: function (value) {
+                            if (Math.floor(value) === value) {
                                 return value;
                             }
                         }
@@ -1338,9 +1336,9 @@ function setupApiStatistics() {
         let fetch_date = new Date(fetch.date);
         if (new Date() - fetch_date > time_limit) break;
 
-        let [day, month, year, hours, minutes, seconds] = dateParts(fetch_date);
+        let [day, month, year, hours, minutes] = dateParts(fetch_date);
 
-        if (hours == new Date().getHours()) continue;
+        if (hours === new Date().getHours()) continue;
 
         let fetch_time_hours = formatTime([hours, ""], "eu");
         let fetch_time_minutes = formatTime(["", minutes], "eu");
@@ -1394,7 +1392,7 @@ function exportData() {
             client: {
                 version: chrome.runtime.getManifest().version,
                 disk_space: await (function () {
-                    return new Promise(function (resolve, reject) {
+                    return new Promise(function (resolve) {
                         if (chrome.storage.local.getBytesInUse) {
                             chrome.storage.local.getBytesInUse(function (data) {
                                 return resolve(data.toString());
@@ -1471,7 +1469,7 @@ function importData() {
                 .then(async () => {
                     let import_result;
                     for (let key in result.data) {
-                        import_result = await new Promise(function (resolve, reject) {
+                        import_result = await new Promise(function (resolve) {
                             try {
                                 ttStorage.set({[key]: result.data[key]}, function () {
                                     console.log(`${key} imported.`);
