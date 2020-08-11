@@ -6,8 +6,9 @@ export default {
             "Add New Day notification - Mephiles",
             "Add highlighting for your own OC - DKK",
             "Add option to hide Areas links - Mephiles",
-            "Add chain count notification - Mephiles",
-            "Add a Connect button to Torn Preferences page - Mephiles"
+            "Add Chain count notification - Mephiles",
+            "Add a Connect button to Torn Preferences page - Mephiles",
+            "Add option to change Chat Font size - Mephiles"
         ],
         "Fixes": [
             "Fix Quick Items failing to load if an item has 0 quantity - Mephiles",
@@ -16,7 +17,8 @@ export default {
             "Fix Calculator popup gear icon not working - Mephiles",
             "Fix Gym Estimate progress being off by 1 gym - Mephiles",
             "Fix Quick Crimes/Items not working on some browsers - DKK",
-            "Fix 'add api key' page loading in Popup when API key has been inserted - Mephiles"
+            "Fix 'add api key' page loading in Popup when API key has been inserted - Mephiles",
+            "Fix Quick Bail/Bust not loading on pagination change - Mephiles"
         ],
         "Changes": [
             "Add option to dismiss notifications rather than open the relevant page - Mephiles",
@@ -33,7 +35,6 @@ export default {
             "Disable Item Market links on Mobile view - Mephiles",
             "Add option to display relative values on Profile Stats - Mephiles",
             "Add sorting capability for Profile chosen stats - Mephiles",
-            "Disable Gym link highlighting if all Stats are turned off - Mephiles",
             "Add images to Travel Table items - Mephiles",
             "Disable Watch List option to avoid confusion (will be added in future updates) - Mephiles",
             "Switched Travel Table items category options to checkboxes to allow different combinations - Mephiles"
