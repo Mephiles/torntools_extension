@@ -425,7 +425,7 @@ function Main_30_seconds() {
 								}
 
 								// Check for chain notification
-								if (settings.notifications.chain.length > 0 && userdata.chain.timeout !== 0) {
+								if (settings.notifications.chain.length > 0 && userdata.chain.timeout !== 0 && userdata.chain.current >= 10) {
 									for (let checkpoint of settings.notifications.chain.sort(function (a, b) {
 										return a - b
 									})) {
@@ -449,7 +449,7 @@ function Main_30_seconds() {
 								}
 
 								// Check for chain count notification
-								if (settings.notifications.chain_count.length > 0 && userdata.chain.timeout !== 0) {
+								if (settings.notifications.chain_count.length > 0 && userdata.chain.timeout !== 0 && userdata.chain.current >= 10) {
 									const chain_count = userdata.chain.current;
 									const next_bonus = nextBonus(chain_count);
 									console.log("count", chain_count);
