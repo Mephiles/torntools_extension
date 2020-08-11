@@ -300,8 +300,8 @@
     font-size: var(--torntools-chat-font-size) !important;
 }
 
-#nav-gym .area-row___34mEZ {
-    background-color: var(--torntools-disable-gym-highlight, #f2f2f2) !important;
+/* #nav-gym .area-row___34mEZ {
+    background-color: var(--torntools-disable-gym-highlight) !important;
 }
 #nav-gym svg {
     fill: var(--torntools-disable-gym-highlight-icon, url(#sidebar_svg_gradient_regular_desktop)) !important;
@@ -314,7 +314,7 @@
 }
 #nav-gym.active___T3p3C svg {
     background-color: var(--torntools-disable-gym-highlight-icon-active) !important;
-}
+} */
 
 #nav-home {display: var(--torntools-hide-area-home, block) !important;}
 #nav-items {display: var(--torntools-hide-area-items, block) !important;}

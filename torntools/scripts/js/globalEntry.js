@@ -79,21 +79,23 @@ requireDatabase(false).then(async () => {
     // Chat font size
     document.documentElement.style.setProperty("--torntools-chat-font-size", settings.font_size || "12px");
 
-    // Hide Gym highlight
-    if (settings.pages.gym.disable_defense &&
-        settings.pages.gym.disable_dexterity &&
-        settings.pages.gym.disable_speed &&
-        settings.pages.gym.disable_strength) {
-        document.documentElement.style.setProperty("--torntools-disable-gym-highlight", "#f2f2f2");
-        document.documentElement.style.setProperty("--torntools-disable-gym-highlight-active", "#fff");
-        document.documentElement.style.setProperty("--torntools-disable-gym-highlight-hover", "#fff");
-        document.documentElement.style.setProperty("--torntools-disable-gym-highlight-icon", "url(#sidebar_svg_gradient_regular_desktop)");
-        document.documentElement.style.setProperty("--torntools-disable-gym-highlight-icon-active", "url(#sidebar_svg_gradient_regular_desktop_active)");
-    }
-
     // Mobile
     mobile = await mobileChecker();
     console.log("Using mobile:", mobile);
+
+    // // Hide Gym highlight
+    // if (settings.pages.gym.disable_defense &&
+    //     settings.pages.gym.disable_dexterity &&
+    //     settings.pages.gym.disable_speed &&
+    //     settings.pages.gym.disable_strength) {
+    //     document.documentElement.style.setProperty("--torntools-disable-gym-highlight", mobile ? "#3A3A3A" : "#f2f2f2");
+    //     document.documentElement.style.setProperty("--torntools-disable-gym-highlight-active", "#fff");
+    //     document.documentElement.style.setProperty("--torntools-disable-gym-highlight-hover", "#fff");
+    //     document.documentElement.style.setProperty("--torntools-disable-gym-highlight-icon", "url(#sidebar_svg_gradient_regular_desktop)");
+    //     document.documentElement.style.setProperty("--torntools-disable-gym-highlight-icon-active", "url(#sidebar_svg_gradient_regular_desktop_active)");
+    // } else {
+    //     document.documentElement.style.setProperty("--torntools-disable-gym-highlight", mobile ? "#3A3A3A" : "#f2f2f2");
+    // }
 
     // Page status
     page_status = await getPageStatus();
