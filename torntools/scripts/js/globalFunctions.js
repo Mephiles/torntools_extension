@@ -1836,7 +1836,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
                 console.log('NO API KEY IS SET. ABORTING FETCH.');
                 return reject({ error: 'NO API KEY IS SET. ABORTING FETCH.' });
             }
-            console.log('new fetch', full_url);
+            // console.log('new fetch', full_url);
 
             let parameters = {}
 
