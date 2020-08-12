@@ -82,3 +82,7 @@
 .fa-times:before {
     content: "\f00d";
 }
+
+.specials-cont-wrap .specials-cont > li:not(.safe-crime) {
+    display: var(--torntools-only-safe-crimes, block);
+}

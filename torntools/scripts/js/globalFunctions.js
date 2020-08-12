@@ -333,6 +333,9 @@ const STORAGE = {
                 "name": "",
             },
         },
+        "crimes": {
+            "safeCrimes": false,
+        },
     },
     "sorting": {
         "profile": []
