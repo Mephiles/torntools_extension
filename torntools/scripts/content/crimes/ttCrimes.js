@@ -149,49 +149,43 @@ function crimesLoaded(){
 }
 
 function showCrimesContainer(quick){
-    try {
-        let quick_container = content.newContainer("Crimes", {id: "ttQuick", dragzone: true, next_element: doc.find(".tutorial-cont")}).find(".content"); /*doc.find("#module-desc") || doc.find(".title-black[role=heading]") || doc.find(".users-list-title")*/
-        let inner_content = doc.new({type: "div", class: "inner-content"});
-        quick_container.appendChild(inner_content);
+    let quick_container = content.newContainer("Crimes", {id: "ttQuick", dragzone: true, next_element: doc.find(".tutorial-cont")}).find(".content"); /*doc.find("#module-desc") || doc.find(".title-black[role=heading]") || doc.find(".users-list-title")*/
+    let inner_content = doc.new({type: "div", class: "inner-content"});
+    quick_container.appendChild(inner_content);
 
-        if(quick.crimes.length > 0){
-            for(let crime of quick.crimes){
-                let div = doc.new({type: "div", class: "item", attributes: {"nerve": crime.nerve, "name": crime.name, "action": crime.action}});
-                let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(${crime.icon})`}});
-                let text = doc.new({type: "div", class: "text", text: `${crime.text} (-${crime.nerve} nerve)`});
-                let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
+    if(quick.crimes.length > 0){
+        for(let crime of quick.crimes){
+            let div = doc.new({type: "div", class: "item", attributes: {"nerve": crime.nerve, "name": crime.name, "action": crime.action}});
+            let pic = doc.new({type: "div", class: "pic", attributes: {style: `background-image: url(${crime.icon})`}});
+            let text = doc.new({type: "div", class: "text", text: `${crime.text} (-${crime.nerve} nerve)`});
+            let close_icon = doc.new({type: "i", class: "fas fa-times tt-close-icon"});
 
-                div.appendChild(pic);
-                div.appendChild(text);
-                div.appendChild(close_icon);
-                inner_content.appendChild(div);
-            }
+            div.appendChild(pic);
+            div.appendChild(text);
+            div.appendChild(close_icon);
+            inner_content.appendChild(div);
         }
-
-        const safeWrap = doc.new({ type: "div", class: "in-title tt-checkbox-wrap" });
-        const safeSetting = doc.new({ type: "input", id: "safe-crimes", attributes: { type: "checkbox" } });
-        const safeText = doc.new({ type: "label", text: "Only show safe crimes", attributes: { for: "safe-crimes" } });
-        safeWrap.appendChild(safeSetting);
-        safeWrap.appendChild(safeText);
-
-        safeWrap.addEventListener("click", (event) => event.stopPropagation());
-        safeSetting.addEventListener("click", (event) => {
-            document.documentElement.style.setProperty("--torntools-only-safe-crimes", safeSetting.checked ? "none" : "block");
-
-            ttStorage.change({ 'filters': { 'crimes': { 'safeCrimes': safeSetting.checked } } });
-        });
-
-        doc.find("#ttQuick .tt-options").appendChild(safeWrap);
-
-        toggleCrimes();
-
-        console.log("DKK safeSetting", safeSetting)
-        console.log("DKK filters", filters.crimes.safeCrimes)
-        safeSetting.checked = filters.crimes.safeCrimes;
-        document.documentElement.style.setProperty("--torntools-only-safe-crimes", filters.crimes.safeCrimes ? "none" : "block");
-    } catch (e) {
-        console.error("DKK 2", e)
     }
+
+    const safeWrap = doc.new({ type: "div", class: "in-title tt-checkbox-wrap" });
+    const safeSetting = doc.new({ type: "input", id: "safe-crimes", attributes: { type: "checkbox" } });
+    const safeText = doc.new({ type: "label", text: "Only show safe crimes", attributes: { for: "safe-crimes" } });
+    safeWrap.appendChild(safeSetting);
+    safeWrap.appendChild(safeText);
+
+    safeWrap.addEventListener("click", (event) => event.stopPropagation());
+    safeSetting.addEventListener("click", (event) => {
+        document.documentElement.style.setProperty("--torntools-only-safe-crimes", safeSetting.checked ? "none" : "block");
+
+        ttStorage.change({ 'filters': { 'crimes': { 'safeCrimes': safeSetting.checked } } });
+    });
+
+    doc.find("#ttQuick .tt-options").appendChild(safeWrap);
+
+    toggleCrimes();
+
+    safeSetting.checked = filters.crimes.safeCrimes;
+    document.documentElement.style.setProperty("--torntools-only-safe-crimes", filters.crimes.safeCrimes ? "none" : "block");
 }
 
 function addButton(){
@@ -321,10 +315,6 @@ function toggleCrimes() {
         "docrime4": [ "kid", "old-woman", "businessman" ],
 	}
 
-    console.log("DKK toggleCrimes 1", doc.find(".specials-cont-wrap > form"))
-	console.log("DKK toggleCrimes 2", doc.find(".specials-cont-wrap > form").getAttribute("action"))
-    console.log("DKK toggleCrimes 3", doc.find(".specials-cont-wrap > form").getAttribute("action").substring(10))
-    console.log("DKK toggleCrimes 4", new URLSearchParams(doc.find(".specials-cont-wrap > form").getAttribute("action").substring(10)).get("step"))
 	const step = new URLSearchParams(doc.find(".specials-cont-wrap > form").getAttribute("action").substring(10)).get("step");
 	if (!SAFE_CRIMES[step]) return;
 	for (let crime of doc.findAll(".specials-cont-wrap .specials-cont > li")) {

@@ -544,8 +544,7 @@ function showCooldowns() {
 		display();
 
 		for (let map of doc.findAll(".travel-container.full-map:not(.empty-tag)")) {
-			new MutationObserver((mutations, observer) => {
-				console.log("DKK display", mutations);
+			new MutationObserver(() => {
 				display();
 			}).observe(map, {childList: true});
 		}
@@ -556,14 +555,6 @@ function showCooldowns() {
 
 		const timer = doc.find("*[aria-hidden='false'] .travel-container.full-map .flight-time").innerText.split(" - ")[1].split(":");
 		const duration = ((parseInt(timer[0]) * 60) + parseInt(timer[1])) * 60 * 2;
-
-		console.log("DKK display", duration, {
-			energy: userdata.energy.fulltime,
-			nerve: userdata.nerve.fulltime,
-			drug: userdata.cooldowns.drug,
-			booster: userdata.cooldowns.booster,
-			medical: userdata.cooldowns.medical,
-		})
 
 		if (!doc.find("*[aria-hidden='false'] .tt-cooldowns")) {
 			let travelContainer = doc.find("*[aria-hidden='false'] .travel-container.full-map");

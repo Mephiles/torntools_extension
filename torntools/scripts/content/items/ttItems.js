@@ -398,7 +398,6 @@ function addItemMarketLinks() {
             class: "left tt-market-link",
             attributes: {"data-id": item.getAttribute("data-item")}
         });
-        console.log("DKK item link", item, item.find(".image-wrap img"))
         let a = doc.new({
             type: "a",
             href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${item.find(".image-wrap img").getAttribute("alt")}`
