@@ -667,7 +667,16 @@ Element.prototype.setClass = function (className) {
 String.prototype.replaceAll = function (text, replace) {
     let str = this.toString();
 
-    while (str.includes(text)) { str = str.replace(text, replace); }
+    if (typeof text === "string") {
+        while (str.includes(text)) { str = str.replace(text, replace); }
+    } else if (typeof text === "object") {
+        if (Array.isArray(text)) {
+            for (let t of text) {
+                str = str.replaceAll(t, replace);
+            }
+        }
+    }
+
 
     return str;
 };

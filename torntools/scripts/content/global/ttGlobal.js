@@ -279,8 +279,8 @@ function highLightChat(chat_highlight) {
 
 function applyChatHighlights(message, highlights) {
     let sender = message.find("a").innerText.replace(":", "").trim();
-    let text = message.find("span").innerText;
-    const words = text.split(" ").map((w) => w.toLowerCase());
+    let text = simplify(message.find("span").innerText);
+    const words = text.split(" ").map(simplify);
 
     if (sender in highlights) {
         message.find("a").style.color = highlights[sender];
@@ -294,6 +294,10 @@ function applyChatHighlights(message, highlights) {
 
         message.find("span").parentElement.style.backgroundColor = color;
         break;
+    }
+
+    function simplify(text) {
+        return text.toLowerCase().replaceAll([".", "?", ":", "!", "\"", "'", ";", "`"], "");
     }
 }
 
