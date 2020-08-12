@@ -756,7 +756,7 @@ function filterTable() {
         row.classList.remove("hidden");
 
         // Country
-        if ([...row.children][cols['country'] - 1].getAttribute('country') != country) {
+        if (country !== 'all' && [...row.children][cols['country'] - 1].getAttribute('country') != country) {
             row.classList.add("hidden");
             continue;
         }
