@@ -487,7 +487,6 @@ function upgradesInfoListener() {
 }
 
 function armoryWorth() {
-    // fetchApi(`https://api.torn.com/faction/?selections=weapons,armor,temporary,medical,drugs,boosters,cesium,currency`, api_key)
     fetchApi_v2('torn', { section: 'faction', selections: 'weapons,armor,temporary,medical,drugs,boosters,cesium,currency' })
         .then(result => {
             console.log("result", result);

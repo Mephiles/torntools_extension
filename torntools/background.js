@@ -256,7 +256,6 @@ function Main_30_seconds() {
 				const selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,timestamp,inventory,education${attack_history ? `,${attack_history}` : ''}`;
 
 				ttStorage.get(["settings", "userdata"], function ([settings, previous_userdata]) {
-					// fetchApi(`https://api.torn.com/user/?selections=${selections}`, api_key).then(async (userdata) => {
 					fetchApi_v2('torn', { section: 'user', selections: selections })
 						.then(async userdata => {
 
@@ -550,7 +549,6 @@ function Main_30_seconds() {
 				}
 
 				await new Promise(function (resolve) {
-					// fetchApi(`https://api.torn.com/user/${user_id}?selections=`, api_key)
 					fetchApi_v2('torn', { section: 'user', objectid: user_id })
 						.then(stakeout_info => {
 							console.log(`	Checking ${stakeout_info.name} [${user_id}]`);
@@ -663,7 +661,6 @@ async function Main_1_minute() {
 	if (networth.current.date === undefined || new Date() - new Date(networth.current.date) >= 10 * 60 * 1000) {  // 10 minutes
 		console.log("Updating networth");
 		await new Promise(function (resolve) {
-			// fetchApi("https://api.torn.com/user/?selections=personalstats,networth", api_key)
 			fetchApi_v2('torn', { section: 'user', selections: 'personalstats,networth' })
 				.then(data => {
 					let ps = data.personalstats;
@@ -726,7 +723,6 @@ async function Main_15_minutes() {
 
 		console.log("Setting up stocks");
 		await new Promise(function (resolve) {
-			// fetchApi("https://api.torn.com/torn/?selections=stocks", api_key)
 			fetchApi_v2('torn', { section: 'torn', selections: 'stocks' })
 				.then(result => {
 					const stocks = result.stocks;
@@ -749,7 +745,6 @@ async function Main_15_minutes() {
 		console.log("Setting up faction data.");
 		if (settings.pages.faction.oc_time) {
 			await new Promise(function (resolve) {
-				// fetchApi("https://api.torn.com/faction/?selections=crimes", api_key)
 				fetchApi_v2('torn', { section: 'faction', selections: 'crimes' })
 					.then(factiondata => {
 						factiondata.crimes.date = new Date().toString();
@@ -921,7 +916,6 @@ async function updateTorndata(oldTorndata) {
 	console.log("Updating torndata");
 
 	return new Promise((resolve) => {
-		// fetchApi("https://api.torn.com/torn/?selections=honors,medals,items,pawnshop", api_key)
 		fetchApi_v2('torn', { section: 'torn', selections: "honors,medals,items,pawnshop" })
 			.then(torndata => {
 				let itemlist = { items: { ...torndata.items }, date: (new Date).toString() };

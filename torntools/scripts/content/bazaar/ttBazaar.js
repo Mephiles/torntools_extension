@@ -36,7 +36,6 @@ requireDatabase().then(function () {
             // Bazaar worth
             if (settings.pages.bazaar.worth) {
                 let bazaar_user_id = getSearchParameters().get("userId");
-                // fetchApi(`https://api.torn.com/user/${bazaar_user_id}?selections=bazaar`, api_key)
                 fetchApi_v2('torn', { section: 'user', objectid: bazaar_user_id, selections: 'bazaar' })
                     .then(result => {
                         let total = 0;

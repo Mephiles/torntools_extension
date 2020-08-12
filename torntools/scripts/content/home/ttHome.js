@@ -20,7 +20,6 @@ async function displayNetworth() {
 
 	if (networth.current.date == undefined || new Date() - new Date(networth.current.date) >= 5 * 60 * 1000) {  // 5 minutes
 		networth = await new Promise(function (resolve, reject) {
-			// fetchApi("https://api.torn.com/user/?selections=personalstats,networth", api_key)
 			fetchApi_v2('torn', { section: 'user', selections: "personalstats,networth" })
 				.then(data => {
 					let ps = data.personalstats;

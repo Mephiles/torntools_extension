@@ -30,7 +30,6 @@ function companyContentLoaded(aria_controls) {
 }
 
 function showUserInfo() {
-    // fetchApi(`https://api.torn.com/company/?selections=`, api_key)
     fetchApi_v2('torn', { section: 'company' })
         .then(result => {
             console.log("result", result);
