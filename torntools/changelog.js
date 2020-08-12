@@ -13,7 +13,7 @@ export default {
         "Changes": [
             "Change the caching system to allow for different times to keep it for. - DKK",
             "Update the profile view to not completely fail upon any api error. - DKK",
-            "Sync the 15 minute updater to the stock ticks.. - DKK",
+            "Sync the 15 minute updater to the stock ticks. - DKK",
             "Ignore punctuation marks for word highlighting. - DKK",
         ]
     },

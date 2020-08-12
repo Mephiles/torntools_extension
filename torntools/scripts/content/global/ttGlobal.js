@@ -297,7 +297,7 @@ function applyChatHighlights(message, highlights) {
     }
 
     function simplify(text) {
-        return text.toLowerCase().replaceAll([".", "?", ":", "!", "\"", "'", ";", "`"], "");
+        return text.toLowerCase().replaceAll([".", "?", ":", "!", "\"", "'", ";", "`", ","], "");
     }
 }
 
