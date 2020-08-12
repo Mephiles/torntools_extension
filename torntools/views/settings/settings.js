@@ -303,25 +303,15 @@ function setupPreferences() {
                 if (option === "global" && optionDiv.classList.contains("heading")) {
                     optionDiv.find("input").addEventListener("click", function (event) {
                         let disabledGlobal = !event.target.checked;
-                        // Global option for pages. Disabled all options if global is disabled
-                        if (option === "global" && optionDiv.classList.contains("heading")) {
-                            optionDiv.find("input").addEventListener("click", function (event) {
-                                let disabledGlobal = !event.target.checked;
 
-                                for (let option in settings[type][page]) {
-                                    if (option === "global") continue;
+                        for (let option in settings[type][page]) {
+                            if (option === "global") continue;
 
-                                    let inp = preferences.find(`#${page}-${option} input`);
+                            let inp = preferences.find(`#${page}-${option} input`);
 
-                                    if (disabledGlobal) inp.setAttribute("disabled", true);
-                                    else inp.removeAttribute("disabled");
-                                }
-                            });
-                        } else if (option !== "global" && has_global_disabled) {
-                            optionDiv.find("input, select").setAttribute("disabled", true);
+                            if (disabledGlobal) inp.setAttribute("disabled", true);
+                            else inp.removeAttribute("disabled");
                         }
-                        if (disabledGlobal) inp.setAttribute("disabled", true);
-                        else inp.removeAttribute("disabled");
                     });
                 } else if (option !== "global" && has_global_disabled) {
                     optionDiv.find("input, select").setAttribute("disabled", true);
