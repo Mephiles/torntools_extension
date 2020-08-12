@@ -391,13 +391,14 @@ function addItemMarketLinks() {
     let items = doc.findAll(".items-cont[aria-expanded=true]>li");
 
     for (let item of items) {
-        if (item.find(".tt-market-link")) continue;
+        if (item.find(".tt-market-link") || item.find(":scope > .tt-item-price")) continue;
 
         let li = doc.new({
             type: "li",
             class: "left tt-market-link",
             attributes: {"data-id": item.getAttribute("data-item")}
         });
+        console.log("DKK item link", item, item.find(".image-wrap img"))
         let a = doc.new({
             type: "a",
             href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${item.find(".image-wrap img").getAttribute("alt")}`
