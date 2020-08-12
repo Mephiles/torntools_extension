@@ -512,10 +512,9 @@ async function displayProfileStats() {
     } else {
         loadingPlaceholder(profile_stats, true);
         result = await new Promise((resolve) => {
-            fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key)
-                .then(data => {
-                    return resolve(handleTornProfileData(data));
-                });
+            fetchApi_v2('torn', { section: 'user', objectid: userId, selections: 'profile,personalstats,crimes' })
+                .then((result) => resolve(handleTornProfileData(result)))
+                .catch(({ error }) => resolve({ error }));
         });
 
         if (!result.error) {
@@ -567,7 +566,7 @@ async function displayProfileStats() {
     col_other.appendChild(header_other)
     table.appendChild(col_chosen);
     table.appendChild(col_other);
-    profileStatsContainer.appendChild(table);
+    profile_stats.appendChild(table);
 
     // Add all to other column
     for (let section in key_dict) {

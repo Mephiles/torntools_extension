@@ -1958,23 +1958,19 @@ function sleep(millis) {
 function handleTornProfileData(data) {
     let response = {};
 
-    if (data.ok) {
-        const rankSpl = data.result.rank.split(" ");
-        let rank = rankSpl[0];
-        if (rankSpl[1][0] === rankSpl[1][0].toLowerCase()) rank += " " + rankSpl[1];
+    const rankSpl = data.rank.split(" ");
+    let rank = rankSpl[0];
+    if (rankSpl[1][0] === rankSpl[1][0].toLowerCase()) rank += " " + rankSpl[1];
 
-        const level = data.result.level;
-        const totalCrimes = data.result.criminalrecord ? data.result.criminalrecord.total : 0;
-        const networth = data.result.personalstats ? data.result.personalstats.networth : 0;
+    const level = data.level;
+    const totalCrimes = data.criminalrecord ? data.criminalrecord.total : 0;
+    const networth = data.personalstats ? data.personalstats.networth : 0;
 
-        response.stats = {
-            ...data.result.personalstats,
-            ...data.result.criminalrecord,
-        };
-        response.battleStatsEstimate = calculateEstimateBattleStats(rank, level, totalCrimes, networth);
-    } else {
-        response.error = data.error;
-    }
+    response.stats = {
+        ...data.personalstats,
+        ...data.criminalrecord,
+    };
+    response.battleStatsEstimate = calculateEstimateBattleStats(rank, level, totalCrimes, networth);
 
     return response;
 }
@@ -2000,21 +1996,21 @@ function estimateStats(userId, isIndividual = false, listCount = 0) {
 
             if (!isIndividual) await sleep(listCount * settings.scripts.stats_estimate.delay);
 
-            const result = handleTornProfileData(await fetchApi(`https://api.torn.com/user/${userId}?selections=profile,personalstats,crimes`, api_key));
+            fetchApi_v2('torn', { section: 'user', objectid: userId, selections: 'profile,personalstats,crimes' })
+                .then((result) => {
+                    const estimate = handleTornProfileData(result).battleStatsEstimate;
 
-            if (!result.error) {
-                const timestamp = new Date().getTime();
+                    cacheEstimate(userId, new Date().getTime(), estimate);
 
-                cacheEstimate(userId, timestamp, result.battleStatsEstimate);
-
-                return resolve({
-                    estimate: result.battleStatsEstimate,
-                    cached: false,
-                    apiResult: result,
+                    return resolve({
+                        estimate,
+                        cached: false,
+                        apiResult: result,
+                    });
+                })
+                .catch(({ error }) => {
+                    reject({ message: error });
                 });
-            } else {
-                return reject({message: result.error});
-            }
         }
     });
 }

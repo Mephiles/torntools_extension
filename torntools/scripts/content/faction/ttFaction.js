@@ -534,9 +534,11 @@ async function showUserInfo() {
 
 	let dataInformation;
 	if (settings.pages.faction.member_info) {
-        // TODO fetchApi_v2('torn', { section: 'faction', objectid: factionId, selections: `${ownFaction ? 'donations,' : ''}basic` })
-
-        dataInformation = await fetchApi(`https://api.torn.com/faction/${factionId}?selections=${ownFaction ? 'donations,' : ''}basic`, api_key);
+		dataInformation = await new Promise((resolve) => {
+			fetchApi_v2('torn', { section: 'faction', objectid: factionId, selections: `${ownFaction ? 'donations,' : ''}basic` })
+				.then((result) => resolve(result))
+				.catch((result) => resolve(result));
+		});
 	}
 
 	let estimateCount = 0;
@@ -550,25 +552,25 @@ async function showUserInfo() {
 			const row = doc.new({ type: "section", class: "tt-userinfo-row" });
 			container.appendChild(row);
 
-			if (dataInformation.ok) {
+			if (!dataInformation.error) {
 				row.appendChild(doc.new({
 					type: "div",
 					class: "tt-userinfo-field--last_action",
-					text: `Last Action: ${dataInformation.result.members[userId].last_action.relative}`,
-					attributes: { "last-action": ((new Date() - dataInformation.result.members[userId].last_action.timestamp * 1000) / 1000).toFixed(0) },
+					text: `Last Action: ${dataInformation.members[userId].last_action.relative}`,
+					attributes: { "last-action": ((new Date() - dataInformation.members[userId].last_action.timestamp * 1000) / 1000).toFixed(0) },
 				}));
 
-				if (dataInformation.result.donations && dataInformation.result.donations[userId]) {
-					if (dataInformation.result.donations[userId].money_balance > 0) {
+				if (dataInformation.donations && dataInformation.donations[userId]) {
+					if (dataInformation.donations[userId].money_balance > 0) {
 						row.appendChild(doc.new({
 							type: "div",
-							text: `Money Balance: $${numberWithCommas(dataInformation.result.donations[userId].money_balance, false)}`,
+							text: `Money Balance: $${numberWithCommas(dataInformation.donations[userId].money_balance, false)}`,
 						}));
 					}
-					if (dataInformation.result.donations[userId].points_balance > 0) {
+					if (dataInformation.donations[userId].points_balance > 0) {
 						row.appendChild(doc.new({
 							type: "div",
-							text: `Point Balance: ${numberWithCommas(dataInformation.result.donations[userId].points_balance, false)}`,
+							text: `Point Balance: ${numberWithCommas(dataInformation.donations[userId].points_balance, false)}`,
 						}));
 					}
 				}
@@ -576,7 +578,7 @@ async function showUserInfo() {
 				// Activity notifications
 				const checkpoints = settings.inactivity_alerts_faction;
 				for (let checkpoint of Object.keys(checkpoints).sort((a, b) => b - a)) {
-					if (new Date() - new Date(dataInformation.result.members[userId].last_action.timestamp * 1000) >= parseInt(checkpoint)) {
+					if (new Date() - new Date(dataInformation.members[userId].last_action.timestamp * 1000) >= parseInt(checkpoint)) {
 						console.log(checkpoints[checkpoint])
 						tableRow.style.backgroundColor = `${checkpoints[checkpoint]}`;
 						break;
