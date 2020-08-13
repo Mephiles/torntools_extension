@@ -46,11 +46,16 @@ var country_dict = {  // time = minutes
 }
 
 requireDatabase().then(function () {
-    mapLoaded().then(function () {
+    mapLoaded().then(async () => {
         console.log("TT - Travel (home)");
 
         if (!settings.pages.travel.destination_table) {
             return;
+        }
+
+        if (travel_market.length === 0 || !("date" in travel_market) || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) // 2 minutes
+        {
+            travel_market = await updateTravelMarket();
         }
 
         modifyTimeAndCost();
@@ -116,6 +121,11 @@ requireDatabase().then(function () {
         if (mobile) {
             doc.find(".travel-agency").classList.add("tt-mobile");
         }
+
+        // Updater
+        setInterval(function () {
+            reloadTable();
+        }, 2 * 60 * 1000);
     });
 });
 
@@ -351,7 +361,7 @@ function addTableContent(travel_items) {
     let body_html = ``;
 
     // Add rows
-    for (let item of travel_market) {
+    for (let item of travel_market.stocks) {
         let time = country_dict[item.country_name.toLowerCase()].time;
         let cost = country_dict[item.country_name.toLowerCase()].cost;
 
@@ -513,22 +523,28 @@ function saveSettings() {
 }
 
 function reloadTable() {
-    let travel_items = doc.find("#tt-items").value;
+    console.log("Reloading table");
+    ttStorage.get(['filters', 'travel_market'], async ([filters, travel_market]) => {
+        if (travel_market.length === 0 || !travel_market.date || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) // 2 minutes
+        {
+            travel_market = await updateTravelMarket();
+        }
 
-    doc.find("#ttTravelTable .table .body").innerHTML = "";
-    let body_html = ``;
+        let travel_items = doc.find("#tt-items").value;
 
-    // Add rows
-    for (let item of travel_market) {
-        let time = country_dict[item.country_name.toLowerCase()].time;
-        let cost = country_dict[item.country_name.toLowerCase()].cost;
+        doc.find("#ttTravelTable .table .body").innerHTML = "";
+        let body_html = ``;
 
-        body_html += addRow(item, time, cost, travel_items);
-    }
-    doc.find("#ttTravelTable .table .body").innerHTML = body_html;
+        // Add rows
+        for (let item of travel_market.stocks) {
+            let time = country_dict[item.country_name.toLowerCase()].time;
+            let cost = country_dict[item.country_name.toLowerCase()].cost;
 
-    // Set Table mode
-    ttStorage.get("filters", function (filters) {
+            body_html += addRow(item, time, cost, travel_items);
+        }
+        doc.find("#ttTravelTable .table .body").innerHTML = body_html;
+
+        // Set Table mode
         if (filters.travel.table_type == "basic") {
             doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
         } else if (filters.travel.table_type == "advanced") {
@@ -540,5 +556,24 @@ function reloadTable() {
         sort(doc.find("#ttTravelTable .table"), 1, "text");
 
         filterTable();
+    });
+}
+
+function updateTravelMarket() {
+    console.log("Updating Travel Market info.");
+    return new Promise((resolve, reject) => {
+        fetchRelay('yata', { section: 'bazaar/abroad/export' })
+            .then(result => {
+                console.log("Travel market result", result);
+                result.date = new Date().toString();
+                ttStorage.set({ "travel_market": result }, function () {
+                    console.log("	Travel market info set.");
+                    return resolve(result);
+                });
+            })
+            .catch(err => {
+                console.log("ERROR", err);
+                return resolve(err);
+            });
     });
 }
