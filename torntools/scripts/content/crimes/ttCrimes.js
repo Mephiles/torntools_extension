@@ -308,20 +308,97 @@ function onDragEnd(event){
 }
 
 function toggleCrimes() {
-    if (!doc.find(".specials-cont-wrap > form")) return;
+    try {
+        if (!doc.find(".specials-cont-wrap > form")) return;
 
-	const SAFE_CRIMES = {
-		"docrime": [ "pickpocket-someone", "armed-robberies", "plant-a-computer-virus", "arson", "assassination", "grand-theft-auto" ],
-        "docrime4": [ "kid", "old-woman", "businessman" ],
-	}
+        const SAFE_CRIMES = {
+            "docrime": {
+                "search-for-cash": true,
+                "sell-copied-media": true,
+                shoplift: true,
+                "pickpocket-someone": true,
+                "armed-robberies": true,
+                "plant-a-computer-virus": true,
+                arson: true,
+                assassination: true,
+                "grand-theft-auto": true,
+                kidnapping: {
+                    check: () => parseInt(doc.find("#user-money").getAttribute("data-money")) >= 75000
+                },
+            },
+            "docrime2": {
+                // search for cash
+                "search-the-train-station": true,
+                "search-under-the-old-bridge": true,
+                "search-the-bins": true,
+                "search-the-water-fountain": true,
+                "search-the-dumpsters": true,
+                "search-movie-theater": true,
+                // sell copied media
+                "rock-cds": true,
+                "heavy-metal-cds": true,
+                "pop-cds": true,
+                "rap-cds": true,
+                "reggae-cds": true,
+                "horror-dvds": true,
+                "action-dvds": true,
+                "romance-dvds": true,
+                "sci-fi-dvds": true,
+                "thriller-dvds": true,
+            },
+            "docrime3": {
+                "clothes-shop": true
+            },
+            "docrime4": {
+                // shoplift
+                jacket: true,
+                // pickpocket
+                kid: {
+                    nerve: 5,
+                },
+                "old-woman": true,
+                businessman: true,
+                // armed robbery
+                "thorough-robbery": true,
+                // computer virus
+                "stealth-virus": true,
+                // arson
+                warehouse: true,
+                // assassination
+                "assassinate-a-target": true,
+                "mob-boss": true,
+                // gta
+                "steal-a-parked-car": true,
+                // kidnapping
+                mayor: {
+                    check: () => parseInt(doc.find("#user-money").getAttribute("data-money")) >= 75000
+                },
+            },
+        }
 
-	const step = new URLSearchParams(doc.find(".specials-cont-wrap > form").getAttribute("action").substring(10)).get("step");
-	if (!SAFE_CRIMES[step]) return;
-	for (let crime of doc.findAll(".specials-cont-wrap .specials-cont > li")) {
-		const type = crime.find(".choice-container .radio-css").id;
+        const step = new URLSearchParams(doc.find(".specials-cont-wrap > form").getAttribute("action").substring(10)).get("step");
+        if (!SAFE_CRIMES[step]) return;
+        for (let crime of doc.findAll(".specials-cont-wrap .specials-cont > li")) {
+            const type = crime.find(".choice-container .radio-css").id;
 
-		if (SAFE_CRIMES[step].includes(type)) crime.classList.add("safe-crime");
-	}
+            const safe = SAFE_CRIMES[step][type];
+            if (!safe) continue;
+
+            if (typeof safe === "boolean") crime.classList.add("safe-crime");
+            else if (typeof safe === "object") {
+                const check = safe.check ? safe.check() : true;
+                const nerve = safe.nerve ? safe.nerve === getNerve() : true;
+
+                if (check && nerve) crime.classList.add("safe-crime");
+            }
+        }
+
+        function getNerve() {
+            return parseInt(doc.find(".specials-cont-wrap form input[name='nervetake']").value);
+        }
+    } catch (e) {
+        console.error("DKK error", e)
+    }
 }
 
 function handleFormSubmit({ detail: { response } }) {
