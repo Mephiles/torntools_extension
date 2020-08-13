@@ -505,8 +505,10 @@ async function displayProfileStats() {
         result = await new Promise(function (resolve, reject) {
             fetchApi_v2('torn', { section: 'user', objectid: targetID, selections: 'personalstats,crimes' })
                 .then(data => {
-                    fetchApi_v2('tornstats', { action: 'spy', target: targetID })
+                    console.log("data", data);
+                    fetchRelay('tornstats', { section: 'api.php', action: 'spy', target: targetID })
                         .then(result => {
+                            console.log("result", result);
                             const modified_result = { ...data.personalstats, ...data.criminalrecord, spy: result.spy, date: new Date().toString() }
                             return resolve(modified_result);
                         })
