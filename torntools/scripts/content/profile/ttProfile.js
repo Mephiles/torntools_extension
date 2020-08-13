@@ -774,7 +774,7 @@ async function showSpyInfo() {
                 text: numberWithCommas(parseInt(result.spyreport[stat]), false),
                 attributes: {
                     'real-value-you': numberWithCommas(parseInt(userdata[stat]), false),
-                    "relative-value-you": numberWithCommas(parseInt(userdata[stat]) - parseInt(spy_info[stat]), false)
+                    "relative-value-you": numberWithCommas(parseInt(userdata[stat]) - parseInt(result.spyreport[stat]), false)
                 },
             });
             let item_you = doc.new({
@@ -809,8 +809,8 @@ async function showSpyInfo() {
             class: "item",
             text: numberWithCommas(parseInt(result.spyreport.your_score), false),
             attributes: {
-                'real-value-you': numberWithCommas(parseInt(spy_info.your_score), false),
-                "relative-value-you": numberWithCommas(parseInt(spy_info.your_score) - parseInt(spy_info.target_score), false)
+                'real-value-you': numberWithCommas(parseInt(result.spyreport.your_score), false),
+                "relative-value-you": numberWithCommas(parseInt(result.spyreport.your_score) - parseInt(result.spyreport.target_score), false)
             },
         });
 
