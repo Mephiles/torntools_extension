@@ -247,7 +247,6 @@ function Main_30_seconds() {
 				const selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,timestamp,inventory,education${attack_history ? `,${attack_history}` : ''}`;
 
 				ttStorage.get(["settings", "userdata"], function ([settings, previous_userdata]) {
-					// fetchApi(`https://api.torn.com/user/?selections=${selections}`, api_key).then(async (userdata) => {
 					fetchApi_v2('torn', { section: 'user', selections: selections })
 						.then(async userdata => {
 
@@ -540,7 +539,6 @@ function Main_30_seconds() {
 				}
 
 				await new Promise(function (resolve, reject) {
-					// fetchApi(`https://api.torn.com/user/${user_id}?selections=`, api_key)
 					fetchApi_v2('torn', { section: 'user', objectid: user_id })
 						.then(stakeout_info => {
 							console.log(`	Checking ${stakeout_info.name} [${user_id}]`);
@@ -653,7 +651,6 @@ async function Main_1_minute() {
 	if (networth.current.date == undefined || new Date() - new Date(networth.current.date) >= 10 * 60 * 1000) {  // 10 minutes
 		console.log("Updating networth");
 		await new Promise(function (resolve, reject) {
-			// fetchApi("https://api.torn.com/user/?selections=personalstats,networth", api_key)
 			fetchApi_v2('torn', { section: 'user', selections: 'personalstats,networth' })
 				.then(data => {
 					let ps = data.personalstats;
@@ -717,7 +714,6 @@ function Main_15_minutes() {
 
 		console.log("Setting up stocks");
 		await new Promise(function (resolve, reject) {
-			// fetchApi("https://api.torn.com/torn/?selections=stocks", api_key)
 			fetchApi_v2('torn', { section: 'torn', selections: 'stocks' })
 				.then(result => {
 					const stocks = result.stocks;
@@ -741,7 +737,6 @@ function Main_15_minutes() {
 		console.log("Setting up faction data.");
 		if (settings.pages.faction.oc_time) {
 			await new Promise(function (resolve, reject) {
-				// fetchApi("https://api.torn.com/faction/?selections=crimes", api_key)
 				fetchApi_v2('torn', { section: 'faction', selections: 'crimes' })
 					.then(factiondata => {
 						let new_date = new Date().toString();
@@ -917,7 +912,6 @@ async function updateTorndata(oldTorndata) {
 	console.log("Updating torndata");
 
 	return new Promise((resolve) => {
-		// fetchApi("https://api.torn.com/torn/?selections=honors,medals,items,pawnshop", api_key)
 		fetchApi_v2('torn', { section: 'torn', selections: "honors,medals,items,pawnshop" })
 			.then(torndata => {
 				let itemlist = { items: { ...torndata.items }, date: (new Date).toString() };
@@ -1231,122 +1225,3 @@ function clearAPIhistory() {
 		});
 	});
 }
-
-// function exportData(type){
-// 	return new Promise(function(resolve, reject){
-// 		console.log("Exporting DATA:", type);
-// 		ttStorage.get(null, async function(database){
-// 			let post_data;
-
-// 			switch(type){
-// 				case "basic":
-// 					post_data = {
-// 						id: database.userdata.player_id.toString(),
-// 						name: database.userdata.name,
-// 						role: database.userdata.role,
-// 						client: {
-// 							version: chrome.runtime.getManifest().version,
-// 							disk_space: await (function(){
-// 								return new Promise(function(resolve, reject){
-// 									if(chrome.storage.local.getBytesInUse){
-// 										chrome.storage.local.getBytesInUse(function(data){
-// 											return resolve(data.toString());
-// 										});
-// 									} else {
-// 										return resolve("N/A");
-// 									}
-// 								});
-// 							})()
-// 						}
-// 					}
-// 					break;
-// 				case "storage":
-// 					post_data = {
-// 						id: database.userdata.player_id.toString(),
-// 						storage: {
-// 							allies: database.allies,
-// 							custom_links: database.custom_links,
-// 							chat_highlight: database.chat_highlight,
-// 							hide_icons: database.hide_icons,
-// 							quick: database.quick,
-// 							settings: database.settings
-// 						}
-// 					}
-// 					break;
-// 				case "all":
-// 					post_data = {
-// 						id: database.userdata.player_id.toString(),
-// 						name: database.userdata.name,
-// 						role: database.userdata.role,
-// 						client: {
-// 							version: chrome.runtime.getManifest().version,
-// 							disk_space: await (function(){
-// 								return new Promise(function(resolve, reject){
-// 									if(chrome.storage.local.getBytesInUse){
-// 										chrome.storage.local.getBytesInUse(function(data){
-// 											return resolve(data.toString());
-// 										});
-// 									} else {
-// 										return resolve("N/A");
-// 									}
-// 								});
-// 							})()
-// 						},
-// 						storage: {
-// 							allies: database.allies,
-// 							custom_links: database.custom_links,
-// 							chat_highlight: database.chat_highlight,
-// 							hide_icons: database.hide_icons,
-// 							quick: database.quick,
-// 							settings: database.settings
-// 						}
-// 					}
-// 				default:
-// 					break;
-// 			}
-
-// 			console.log("data", post_data);
-// 			fetch(`https://torntools.gregork.com/api/settings/export`, {
-// 				method: "POST",
-// 				headers: {"content-type": "application/json"},
-// 				body: JSON.stringify(post_data)
-// 			}).then(response => {
-// 				console.log("RESPONSE", response);
-// 				return resolve(response);
-// 			});
-// 		});
-// 	});
-// }
-
-// function importData(){
-// 	return new Promise(function(resolve, reject){
-// 		console.log("Importing DATA");
-// 		fetch(`https://torntools.gregork.com/api/settings/import/${userdata.player_id}`)
-// 		.then(async function(response){
-// 			let result = await response.json();
-// 			console.log("result", result);
-
-// 			if(!result.success) return resolve(result);
-// 			result = result.data;
-
-// 			// Set storage
-// 			for(let key in result.storage){
-// 				await new Promise(function(resolve, reject){
-// 					ttStorage.set({[key]: result.storage[key]}, function(){
-// 						console.log(`${key} imported.`);
-// 						return resolve(true);
-// 					});
-// 				});
-// 			}
-
-// 			resolve(result);
-
-// 			// Export if versions don't match
-// 			if(result.client.version != chrome.runtime.getManifest().version){
-// 				console.log("Versions don't match. Exporting data.");
-// 				let export_result = await exportData("all");
-// 				console.log("Export result:", export_result.success? 'success' : export_result.message);
-// 			}
-// 		});
-// 	});
-// }

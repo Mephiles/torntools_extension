@@ -306,10 +306,8 @@ function openOCs() {
 }
 
 function showNNB() {
-    fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=crimes`)
-        .then(async function (response) {
-            let result = await response.json();
-
+    fetchApi_v2('tornstats', { section: 'api.php', action: 'crimes' })
+        .then(result => {
             // Populate active crimes
             let crimes = doc.findAll(".organize-wrap .crimes-list>li");
             for (let crime of crimes) {
@@ -372,7 +370,10 @@ function showNNB() {
                 let col = doc.new({ type: "li", class: `tt-nnb short ${mobile ? "torntools-mobile" : ""}`, text: nnb });
                 player.find(".act").parentElement.insertBefore(col, player.find(".act"));
             }
-        });
+        })
+        .catch(err => {
+            console.log("ERROR", err);
+        })
 }
 
 function fullInfoBox(page) {
@@ -461,7 +462,6 @@ function upgradesInfoListener() {
 }
 
 function armoryWorth() {
-    // fetchApi(`https://api.torn.com/faction/?selections=weapons,armor,temporary,medical,drugs,boosters,cesium,currency`, api_key)
     fetchApi_v2('torn', { section: 'faction', selections: 'weapons,armor,temporary,medical,drugs,boosters,cesium,currency' })
         .then(result => {
             console.log("result", result);
@@ -501,7 +501,6 @@ function armoryWorth() {
 function showUserInfo() {
     let factionId = doc.find(".faction-info-wrap .faction-info[data-faction]").getAttribute("data-faction");
 
-    // fetchApi(`https://api.torn.com/faction/${factionId}?selections=${ownFaction ? 'donations,' : ''}basic`, api_key)
     fetchApi_v2('torn', { section: 'faction', objectid: factionId, selections: `${ownFaction ? 'donations,' : ''}basic` })
         .then(result => {
             console.log("result", result);
