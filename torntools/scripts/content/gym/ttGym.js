@@ -326,12 +326,43 @@ function disableGymButton(types, disable) {
 
 function setupSpecialtyGym() {
     try {
-       const container = content.newContainer("Specialty Gym Requirements", {
-           id: "tt-specialty-gyms",
-           adjacent_element: doc.find("#gymroot"),
-           collapseId: 1,
-       });
+        let container = doc.find("#tt-specialty-gyms");
+        if (!container) {
+            container = content.newContainer("Specialty Gym Requirements", {
+                id: "tt-specialty-gyms",
+                adjacent_element: doc.find("#gymroot"),
+                collapseId: 1,
+            });
+
+            const row1 = createRow("tt-specialty-gym-1")
+        }
+
+
+        function createRow(id) {
+            const row = doc.new({
+                type: "div",
+                class: "specialty-gym-row",
+                id,
+            });
+
+            const selector = doc.new("select");
+            selector.innerHTML = `
+                <option value="balboas">Balboas Gym (def/dex)</option>
+                <option value="frontline">Frontline Fitness (str/spd)</option>
+                <option value="gym3000">Gym 3000 (str)</option>
+                <option value="isoyamas">Mr. Isoyamas (def)</option>
+                <option value="rebound">Total Rebound (spd)</option>
+                <option value="elites">Elites (dex)</option>
+            `;
+
+            row.appendChild(selector);
+            container.appendChild(row);
+
+            return row;
+        }
     } catch (e) {
        console.error("DKK setupSpecialtyGym error", e);
     }
+
+
 }
