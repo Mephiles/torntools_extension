@@ -1366,16 +1366,18 @@ function observeWarlist() {
 }
 
 function observeDescription() {
-	estimateStatsInList(".descriptions .members-list > li:not(.tt-userinfo-container)", (row) => {
-		if (hasClass(row, "join") || hasClass(row, "timer-wrap")) {
-			if (hasClass(row.nextElementSibling, "tt-userinfo-container")) row.nextElementSibling.remove();
+	requireElement(".descriptions .members-list > li:not(.tt-userinfo-container)").then(() => {
+		estimateStatsInList(".descriptions .members-list > li:not(.tt-userinfo-container)", (row) => {
+			if (hasClass(row, "join") || hasClass(row, "timer-wrap")) {
+				if (hasClass(row.nextElementSibling, "tt-userinfo-container")) row.nextElementSibling.remove();
 
-			return {};
-		}
+				return {};
+			}
 
-		return {
-			userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1]
-		};
+			return {
+				userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1]
+			};
+		});
 	});
 
 	new MutationObserver((mutations) => {
