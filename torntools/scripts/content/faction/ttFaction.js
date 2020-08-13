@@ -18,7 +18,7 @@ requireDatabase().then(() => {
 	});
 
 	requireContent().then(() => {
-		console.log("TT - Faction", subpage(), getHashParameters().get("tab"));
+		console.log("TT - Faction", subpage(), getSearchParameters().get("step"));
 
 		if (getSearchParameters().get("step") === "your") {
 			ownFaction = true;
@@ -76,7 +76,7 @@ function loadMain() {
 	subpageLoaded("main").then(function () {
 		fullInfoBox("main");
 
-
+		if (ownFaction && settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
 	});
 }
 
@@ -264,7 +264,7 @@ function shortenArmoryNews() {
 
 function subpage() {
 	let hash = window.location.hash.replace("#/", "");
-	if (hash === "" || hash === "war/chain") {
+	if (hash === "" || hash.includes("war/")) {
 		return "main";
 	}
 
