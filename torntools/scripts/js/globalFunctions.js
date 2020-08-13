@@ -2054,6 +2054,7 @@ function estimateStatsInList(listSelector, userHandler) {
             let container;
             if (person.nextElementSibling && person.nextElementSibling.classList && person.nextElementSibling.classList.contains("tt-userinfo-container")) {
                 container = person.nextElementSibling;
+                container.innerHTML = "";
             } else {
                 container = doc.new({type: "li", class: "tt-userinfo-container"});
                 person.parentElement.insertBefore(container, person.nextElementSibling);
