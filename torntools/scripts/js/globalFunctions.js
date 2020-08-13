@@ -1803,40 +1803,42 @@ function fetchApi(http, apiKey) {
     });
 }
 
-function fetchApi_v2(location, options = {/*section, objectid, selections, proxyFail, action, target, postData*/ }) {
+function fetchApi_v2(location, options = {/*section, objectid, selections, proxyFail, action, target, postData, from*/ }) {
     return new Promise(async (resolve, reject) => {
         ttStorage.get(['api_key', 'proxy_key'], ([api_key, proxy_key]) => {
             const URLs = {
                 'torn': 'https://api.torn.com/',
                 'yata': 'https://yata.alwaysdata.net/',
                 'torn-proxy': 'https://torn-proxy.com/',
-                'tornstats': 'https://www.tornstats.com/api.php?',
+                'tornstats': 'https://www.tornstats.com/',
+                // 'tornstats': 'https://www.torn-proxy.com/tornstats/',
                 'torntools': 'https://torntools.gregork.com/'
             }
 
-            if (location === 'torn' && proxy_key && proxy_key.length === 32) location = 'torn-proxy';
+            const proxyFail = options.proxyFail;
+            const ogLocation = location;
+            if ((location === 'torn' || location === 'tornstats') && !proxyFail && proxy_key && proxy_key.length === 32) location = 'torn-proxy';
             const base = URLs[location];
             const section = options.section ? options.section + "/" : "";
             const objectid = options.objectid ? options.objectid + "?" : "?";
             const selections = options.selections || "";
             const apiKey = api_key;
             const proxyKey = proxy_key;
-            const action = options.action;
-            const target = options.target;
-            const proxyFail = options.proxyFail;
 
             let full_url;
-            if (location === 'tornstats') {
-                full_url = `${base}key=${apiKey}${action ? '&action=' + action : ''}${target ? '&target=' + target : ''}`;
-            } else if (location === 'torntools') {
+            if (location === 'torntools') {
                 full_url = `${base}${section || ''}`;
             } else if (proxyKey || apiKey) {
-                full_url = `${base}${section}${objectid}${selections ? 'selections=' + selections : ''}${location !== 'yata' ? proxyKey && !proxyFail ? `&key=${proxyKey}` : `&key=${apiKey}` : ''}`;
+                full_url = `${base}${ogLocation === 'tornstats' ? 'tornstats/' + section : section}${objectid}${selections ? 'selections=' + selections : ''}${location !== 'yata' ? proxyKey && !proxyFail ? `&key=${proxyKey}` : `&key=${apiKey}` : ''}`;
+                for (let param of ['action', 'target', 'from']) {
+                    if (options[param] === undefined) continue;
+                    full_url += `&${param}=${options[param]}`
+                }
             } else {
                 console.log('NO API KEY IS SET. ABORTING FETCH.');
                 return reject({ error: 'NO API KEY IS SET. ABORTING FETCH.' });
             }
-            // console.log('new fetch', full_url);
+            console.log('new fetch', full_url);
 
             let parameters = {}
 
@@ -1851,19 +1853,22 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
             fetch(full_url, parameters)
                 .then(async response => {
                     const result = await response.json();
-                    // console.log("result", result);
+                    console.log("result", result);
 
-                    logFetch(location === 'torn-proxy' ? 'torn' : location, options);
+                    logFetch(ogLocation, (options => {
+                        if (location === 'torn-proxy') options.proxy = true;
+                        return options;
+                    })(options));
 
                     if (result.error) {
                         // Torn Proxy
                         if (result.proxy) {
                             // Revoked key
-                            if (result.code === '2') {
+                            if (result.code === 2) {
                                 return reject({ error: 'Proxy Key has been revoked.' });
                             } else {
                                 options.proxyFail = true;
-                                return fetchApi_v2(location, options);
+                                return fetchApi_v2(ogLocation, options);
                             }
                         }
                         // TornTools
@@ -1906,9 +1911,44 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
                         }
                     }
                 })
-                .catch(async response => {
-                    console.log("response", response);
-                    return reject(response);
+                .catch(result => {
+                    // const result = await response.json();
+                    console.log("result", result);
+
+                    if (result.error) {
+                        // Torn Proxy
+                        if (result.proxy) {
+                            // Revoked key
+                            if (result.code === '2') {
+                                return reject({ error: 'Proxy Key has been revoked.' });
+                            } else {
+                                options.proxyFail = true;
+                                return fetchApi_v2(location, options);
+                            }
+                        }
+                        // TornTools
+                        else if (location === 'torntools') {
+                            return reject(result);
+                        }
+                        // Torn API
+                        else {
+                            // API offline
+                            if (result.error.code === 9) {
+                                console.log("API SYSTEM OFFLINE");
+                                setBadge("error");
+
+                                ttStorage.change({ "api": { "online": false, "error": result.error.error } }, function () {
+                                    return reject({ error: result.error.error });
+                                });
+                            } else {
+                                console.log("API ERROR:", result.error.error);
+
+                                ttStorage.change({ "api": { "online": true, "error": result.error.error } }, function () {
+                                    return reject({ error: result.error.error });
+                                });
+                            }
+                        }
+                    }
                 })
         });
     });
