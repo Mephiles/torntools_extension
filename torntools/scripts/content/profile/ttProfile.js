@@ -870,7 +870,7 @@ function displayLootLevel(loot_times) {
             let seconds = parseInt(span.getAttribute("seconds"));
             let time_left = timeUntil((seconds - 1) * 1000);
 
-            span.innerText = `Next loot in: ${time_left}`;
+            span.innerText = `Next loot level in: ${time_left}`;
             span.setAttribute("seconds", seconds - 1);
         }, 1000);
     }
