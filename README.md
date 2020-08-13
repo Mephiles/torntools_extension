@@ -96,6 +96,13 @@
   - 1 request to TornStats when fetching Player Stats (max 25/minute)  
   - 1 request to TornStats when fetching Gym Stats (max 25/minute)  
 
+**Development focus** (High to Low):
+  - v4.10 (small features, fixes; fixing Import/Export; Torn Proxy) - Mainly Mephiles  
+  - v5.0 (importing DKK & other community scripts, other small features, fixes) - Mainly DKK  
+  - Design improvements - Mainly Yukio  
+  - Stabilizing for different Browsers  
+  - Stabilizing for Mobile Browsers  
+  
 Don't like something? Turn it off in the settings and use the features you do like.  
 
 Any bugs? Ideas? Suggestions? Let me know!  
