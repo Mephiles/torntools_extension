@@ -982,7 +982,7 @@ const content = {
                         }
                     }
 
-                    ttStorage.change({ "filters": { "container_open": { [getCurrentPage()]: collapsed } } })
+                    ttStorage.change({ "filters": { "container_open": { [getCurrentPage() + (attr.collapseId || '')]: collapsed } } })
                 }
             }
 

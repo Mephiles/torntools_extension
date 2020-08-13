@@ -328,7 +328,8 @@ function setupSpecialtyGym() {
     try {
        const container = content.newContainer("Specialty Gym Requirements", {
            id: "tt-specialty-gyms",
-           adjacent_element: doc.find("#gymroot")
+           adjacent_element: doc.find("#gymroot"),
+           collapseId: 1,
        });
     } catch (e) {
        console.error("DKK setupSpecialtyGym error", e);
