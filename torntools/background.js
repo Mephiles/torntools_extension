@@ -604,10 +604,12 @@ function Main_30_seconds() {
 		}
 
 		// Loot times
+		NPC_FETCH_TIME -= 30 * seconds
+		console.log("NPC FETCH TIME", NPC_FETCH_TIME);
 		if (!oldLootTimes || NPC_FETCH_TIME <= 0) {
 			console.log('Setting up NPC loot times');
 			await updateLootTimes();
-		} else NPC_FETCH_TIME -= 30 * seconds;
+		}
 
 		// Networth data
 		if (!oldNetworth || !oldNetworth.current.date || new Date() - new Date(oldNetworth.current.date) >= 5 * minutes) {
@@ -825,13 +827,12 @@ function updateLootTimes() {
 						const nextLevel = result[id].levels.next;
 						const nextLevelTime = result[id].timings[nextLevel].ts * 1000;
 						if (new Date(nextLevelTime) - new Date() < lowestTime && new Date(nextLevelTime) - new Date() > 0) {
-							console.log(id, 'nextLevelTime', new Date(nextLevelTime) - new Date())
 							if (new Date(nextLevelTime) - new Date() >= 1 * hours + 30 * minutes) lowestTime = 10 * minutes;
 							else lowestTime = new Date(nextLevelTime) - new Date() + 3 * minutes;
 						}
 					}
 				}
-				console.log("lowest time", lowestTime);
+				// console.log("lowest time", lowestTime);
 				if (lowestTime !== 1e10) NPC_FETCH_TIME = lowestTime;
 
 				ttStorage.set({ "loot_times": result }, function () {
