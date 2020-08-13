@@ -317,7 +317,6 @@ function toggleCrimes() {
                 "sell-copied-media": true,
                 shoplift: true,
                 "pickpocket-someone": true,
-                "armed-robberies": true,
                 "plant-a-computer-virus": true,
                 arson: true,
                 assassination: true,
@@ -358,8 +357,6 @@ function toggleCrimes() {
                 },
                 "old-woman": true,
                 businessman: true,
-                // armed robbery
-                "thorough-robbery": true,
                 // computer virus
                 "stealth-virus": true,
                 // arson
