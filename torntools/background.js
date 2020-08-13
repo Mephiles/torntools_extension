@@ -432,7 +432,7 @@ function Main_30_seconds() {
 										let real_timeout = userdata.chain.timeout * 1000 - (new Date() - new Date(userdata.timestamp * 1000));  // ms
 										const chain_count = userdata.chain.current;
 
-										if (real_timeout <= parseInt(checkpoint) * 60 * 1000 && !notifications.chain[`${chain_count}_${checkpoint}`]) {
+										if (real_timeout <= parseFloat(checkpoint) * 60 * 1000 && !notifications.chain[`${chain_count}_${checkpoint}`]) {
 											notifications.chain[`${chain_count}_${checkpoint}`] = {
 												checkpoint: checkpoint,
 												title: "TornTools - Chain",
