@@ -26,6 +26,7 @@ function interceptXHR(channel) {
         return oldXHROpen.apply(this, arguments);
     }
     window.XMLHttpRequest.prototype.send = function(body) {
+        if (typeof adjustXHRSend === "function") body = adjustXHRSend(this, body);
         this.requestBody = body;
 
         return oldXHRSend.apply(this, arguments);

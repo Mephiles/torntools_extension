@@ -3,7 +3,7 @@ requireDatabase().then(function () {
         console.log("TT - Quick items");
         if (shouldDisable()) return;
 
-       injectXHR();
+        injectXHR();
 
         // Quick items
         let quick_container = content.newContainer("Quick items", {
@@ -671,3 +671,60 @@ function updateItemAmount(id, change) {
         ttItemPrice.find("span:last-child").innerText = `$${numberWithCommas(price * newQuantity, false)}`;
     }
 }
+
+// function injectRequestChanger() {
+//     let functions = "";
+//
+//     if (settings.scripts.no_confirm.inventory && settings.scripts.no_confirm.inventory_sending) {
+//         functions += `
+//             function adjustXHRSend(xhr, body) {
+//                 if (body.includes("step=actionForm") && body.includes("action=use")) {
+//                     let params = getParams();
+//
+//                     params.step = "useItem";
+//                     params.item = params.id;
+//                     params.itemID = params.id;
+//                     delete params.action;
+//                     delete params.id;
+//                     delete params.armory;
+//
+//                     body = paramsToBody(params);
+//                 }
+//
+//                 return body;
+//
+//                 function getParams() {
+//                     let params = {};
+//
+//                     for (let param of body.split("&")) {
+//                         const split = param.split("=");
+//
+//                         params[split[0]] = split[1];
+//                     }
+//
+//                     return params;
+//                 }
+//
+//                 function paramsToBody(params) {
+//                     let _params = [];
+//
+//                     for (let key in params) {
+//                         _params.push(key + "=" + params[key]);
+//                     }
+//
+//                     return _params.join("&");
+//                 }
+//             }
+//         `;
+//     }
+//
+//     if (!functions) return
+//
+//     const script = doc.new({
+//         type: "script",
+//         attributes: { type: "text/javascript" }
+//     });
+//     script.innerHTML = functions;
+//
+//     doc.find("head").appendChild(script);
+// }
