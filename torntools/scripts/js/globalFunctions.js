@@ -430,7 +430,9 @@ const STORAGE = {
                 "disable_strength": false,
                 "disable_speed": false,
                 "disable_defense": false,
-                "disable_dexterity": false
+                "disable_dexterity": false,
+                special_gym_1: '',
+                special_gym_2: '',
             },
             "shop": {
                 "profits": true
@@ -903,13 +905,23 @@ const content = {
             attr.next_element = content.findContainer(attr.next_element_heading);
         }
 
-        let parent_element = attr.next_element ? attr.next_element.parentElement : doc.find(".content-wrapper");
+        let parent_element;
+        if (attr.next_element) {
+            parent_element = attr.next_element.parentElement;
+        } else if (attr.adjacent_element) {
+            parent_element = attr.adjacent_element;
+        } else {
+            parent_element = doc.find(".content-wrapper");
+        }
+
         let new_div = createNewContainer(name, attr);
 
         if (attr.first)
             parent_element.insertBefore(new_div, parent_element.find(".content-title").nextElementSibling);
         else if (attr.next_element)
             parent_element.insertBefore(new_div, attr.next_element);
+        else if (attr.adjacent_element)
+            parent_element.insertAdjacentElement(attr.adjacent_element_position || "afterend", new_div);
         else
             parent_element.appendChild(new_div);
 
