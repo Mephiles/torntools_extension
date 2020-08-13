@@ -606,7 +606,7 @@ function Main_30_seconds() {
 		// Loot times
 		NPC_FETCH_TIME -= 30 * seconds
 		console.log("NPC FETCH TIME", NPC_FETCH_TIME);
-		if (!oldLootTimes || NPC_FETCH_TIME <= 0) {
+		if (!oldLootTimes || NPC_FETCH_TIME <= 10 * seconds) {
 			console.log('Setting up NPC loot times');
 			await updateLootTimes();
 		}
