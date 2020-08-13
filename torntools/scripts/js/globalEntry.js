@@ -24,7 +24,7 @@ function mobileChecker() {
 
             if (doc.find("#top-page-links-list")) {
                 let events_icon = doc.find("#top-page-links-list a[role='button'][aria-labelledby='events']");
-                if (window.getComputedStyle(events_icon, ":before").getPropertyValue("content") === "") {
+                if (events_icon && window.getComputedStyle(events_icon, ":before").getPropertyValue("content") === "") {
                     resolve(true);
                     return clearInterval(checker);
                 } else {
