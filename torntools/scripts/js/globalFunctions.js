@@ -2123,7 +2123,14 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
             const ogLocation = location;
             if ((location === 'torn' || location === 'tornstats') && !proxyFail && proxy_key && proxy_key.length === 32) location = 'torn-proxy';
             const base = URLs[location];
-            const section = options.section ? options.section + "/" : "";
+            let section;
+            if (ogLocation === 'tornstats' && location === 'torn-proxy') {
+                section = 'tornstats/' + options.section;
+            } else if (location !== 'tornstats') {
+                section = options.section + "/";
+            } else {
+                section = options.section;
+            }
             const objectid = options.objectid ? options.objectid + "?" : "?";
             const selections = options.selections || "";
             const apiKey = api_key;
@@ -2133,7 +2140,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
             if (location === 'torntools') {
                 full_url = `${base}${section || ''}`;
             } else if (proxyKey || apiKey) {
-                full_url = `${base}${ogLocation === 'tornstats' && location === 'torn-proxy' ? 'tornstats/' + section : section}${objectid}${selections ? 'selections=' + selections : ''}${location !== 'yata' ? proxyKey && !proxyFail ? `&key=${proxyKey}` : `&key=${apiKey}` : ''}`;
+                full_url = `${base}${section}${objectid}${selections ? 'selections=' + selections : ''}${location !== 'yata' ? proxyKey && !proxyFail ? `&key=${proxyKey}` : `&key=${apiKey}` : ''}`;
                 for (let param of ['action', 'target', 'from']) {
                     if (options[param] === undefined) continue;
                     full_url += `&${param}=${options[param]}`
