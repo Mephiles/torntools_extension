@@ -2133,7 +2133,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
             if (location === 'torntools') {
                 full_url = `${base}${section || ''}`;
             } else if (proxyKey || apiKey) {
-                full_url = `${base}${ogLocation === 'tornstats' ? 'tornstats/' + section : section}${objectid}${selections ? 'selections=' + selections : ''}${location !== 'yata' ? proxyKey && !proxyFail ? `&key=${proxyKey}` : `&key=${apiKey}` : ''}`;
+                full_url = `${base}${ogLocation === 'tornstats' && location === 'torn-proxy' ? 'tornstats/' + section : section}${objectid}${selections ? 'selections=' + selections : ''}${location !== 'yata' ? proxyKey && !proxyFail ? `&key=${proxyKey}` : `&key=${apiKey}` : ''}`;
                 for (let param of ['action', 'target', 'from']) {
                     if (options[param] === undefined) continue;
                     full_url += `&${param}=${options[param]}`
