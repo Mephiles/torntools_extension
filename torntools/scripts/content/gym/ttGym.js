@@ -183,7 +183,7 @@ function displayGraph() {
                         yAxes: [{
                             ticks: {
                                 step: 2000000,
-                                callback: function (value, index, values) { return numberWithCommas(value, mobile ? true : false) }
+                                callback: function (value) { return numberWithCommas(value, mobile) }
                             },
                         }]
                     },
