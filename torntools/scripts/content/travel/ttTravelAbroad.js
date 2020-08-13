@@ -204,13 +204,13 @@ function updateYATAprices() {
     }
 
     console.log("POST DATA", post_data);
-    fetch(`https://yata.alwaysdata.net/bazaar/abroad/import/`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(post_data)
-    }).then(response => {
-        console.log("RESPONSE", response);
-    });
+    fetchApi_v2('yata', { section: `bazaar/abroad/import`, method: 'POST', postData: post_data })
+        .then(result => {
+            console.log("yata PUSH", result);
+        })
+        .catch(err => {
+            console.log("ERROR", err);
+        })
 
     function getCountryName() {
         return doc.find("#skip-to-content").innerText.slice(0, 3).toLowerCase();
@@ -673,7 +673,7 @@ function filterTable() {
         row.classList.remove("hidden");
 
         // Country
-        if ([...row.children][cols['country'] - 1].getAttribute('country') !== country) {
+        if (country !== 'all' && [...row.children][cols['country'] - 1].getAttribute('country') !== country) {
             row.classList.add("hidden");
             continue;
         }

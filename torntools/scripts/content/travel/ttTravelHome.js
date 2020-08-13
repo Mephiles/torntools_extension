@@ -463,20 +463,22 @@ function filterTable() {
 		"item": 2
 	}
 
-	// Switch destination on map
-	let name = country.replace(/ /g, "-");
-	if (country === "cayman islands") name = "cayman";
-	if (country === "united kingdom") name = "uk";
-	doc.find(`div[role='tabpanel'][aria-expanded='true'] .path.to-${name}`).previousElementSibling.click();
+    // Switch destination on map
+    if (country !== 'all') {
+        let name = country.replace(/ /g, "-");
+        if (country === "cayman islands") name = "cayman";
+        if (country === "united kingdom") name = "uk";
+        doc.find(`div[role='tabpanel'][aria-expanded='true'] .path.to-${name}`).previousElementSibling.click();
+    }
 
 	for (let row of doc.findAll("#ttTravelTable .table .body .row")) {
 		row.classList.remove("hidden");
 
-		// Country
-		if ([...row.children][cols['country'] - 1].getAttribute('country') !== country) {
-			row.classList.add("hidden");
-			continue;
-		}
+        // Country
+        if (country !== 'all' && [...row.children][cols['country'] - 1].getAttribute('country') !== country) {
+            row.classList.add("hidden");
+            continue;
+        }
 
 		// Item type
 		let is_in_list = false;

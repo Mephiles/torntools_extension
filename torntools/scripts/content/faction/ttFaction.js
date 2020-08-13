@@ -332,22 +332,20 @@ function openOCs() {
 }
 
 function showNNB() {
-	fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=crimes`)
-		.then(async function (response) {
-			let result = await response.json();
-
-			// Populate active crimes
-			let crimes = doc.findAll(".organize-wrap .crimes-list>li");
-			for (let crime of crimes) {
-				for (let player of crime.findAll(".details-list>li")) {
-					player.find(".level").classList.add("torntools-modified");
-					if (mobile) {
-						player.find(".member").classList.add("torntools-modified");
-						player.find(".stat").classList.add("torntools-modified");
-						player.find(".member").classList.add("torntools-mobile");
-						player.find(".level").classList.add("torntools-mobile");
-						player.find(".stat").classList.add("torntools-mobile");
-					}
+    fetchApi_v2('tornstats', { section: 'api.php', action: 'crimes' })
+        .then(result => {
+            // Populate active crimes
+            let crimes = doc.findAll(".organize-wrap .crimes-list>li");
+            for (let crime of crimes) {
+                for (let player of crime.findAll(".details-list>li")) {
+                    player.find(".level").classList.add("torntools-modified");
+                    if (mobile) {
+                        player.find(".member").classList.add("torntools-modified");
+                        player.find(".stat").classList.add("torntools-modified");
+                        player.find(".member").classList.add("torntools-mobile");
+                        player.find(".level").classList.add("torntools-mobile");
+                        player.find(".stat").classList.add("torntools-mobile");
+                    }
 
 					if (player.find(".member").innerText === "Member") {
 						let col = doc.new({
@@ -398,7 +396,10 @@ function showNNB() {
                 let col = doc.new({ type: "li", class: `tt-nnb short ${mobile ? "torntools-mobile" : ""}`, text: nnb });
                 player.find(".act").parentElement.insertBefore(col, player.find(".act"));
             }
-        });
+        })
+        .catch(err => {
+            console.log("ERROR", err);
+        })
 }
 
 function fullInfoBox(page) {
