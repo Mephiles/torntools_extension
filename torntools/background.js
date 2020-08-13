@@ -20,7 +20,7 @@ var notifications = {
 	"new_day": {},
 }
 
-var links = {
+const links = {
 	stocks: "https://www.torn.com/stockexchange.php?step=portfolio",
 	home: "https://www.torn.com/index.php",
 	items: "https://www.torn.com/item.php",
@@ -29,6 +29,8 @@ var links = {
 	events: "https://www.torn.com/events.php#/step=all",
 	chain: "https://www.torn.com/factions.php?step=your#/war/chain"
 }
+
+var NPC_FETCH_TIME = 0;
 
 let userdata, torndata, settings, api_key, proxy_key, chat_highlight, itemlist,
 	travel_market, oc, allies, loot_times, target_list, vault,
@@ -233,7 +235,7 @@ function Main_5_seconds() {
 function Main_30_seconds() {
 	console.group("Main");
 
-	ttStorage.get(["api_key", "target_list", "stakeouts", "torndata", "old_loot_times", 'networth', 'oc', 'settings'], async function ([api_key, target_list, stakeouts, old_torndata, oldLootTimes, oldNetworth, oldOC, settings]) {
+	ttStorage.get(["api_key", "target_list", "stakeouts", "torndata", "loot_times", 'networth', 'oc', 'settings'], async function ([api_key, target_list, stakeouts, old_torndata, oldLootTimes, oldNetworth, oldOC, settings]) {
 		let attack_history;
 
 		if (api_key === undefined || api_key === '') {
@@ -613,7 +615,9 @@ function Main_30_seconds() {
 		}
 
 		// Loot times
-		if (!oldLootTimes || !oldLootTimes.date || new Date() - new Date(oldLootTimes.date) >= 5 * minutes) {
+		NPC_FETCH_TIME -= 30 * seconds
+		console.log("NPC FETCH TIME", NPC_FETCH_TIME);
+		if (!oldLootTimes || NPC_FETCH_TIME <= 10 * seconds) {
 			console.log('Setting up NPC loot times');
 			await updateLootTimes();
 		}
@@ -823,6 +827,23 @@ function updateLootTimes() {
 	return new Promise((resolve, reject) => {
 		fetchApi_v2('yata', { section: 'loot/timings' })
 			.then(result => {
+
+				let lowestTime = 1e10;
+				for (let id in result) {
+					if (result[id].status === 'hospitalized' && new Date(result[id].hospout * 1000) - new Date() < lowestTime && new Date(result[id].hospout * 1000) - new Date() > 0) {
+						lowestTime = new Date(result[id].hospout * 1000) - new Date() + 1 * minutes;
+					} else {
+						const nextLevel = result[id].levels.next;
+						const nextLevelTime = result[id].timings[nextLevel].ts * 1000;
+						if (new Date(nextLevelTime) - new Date() < lowestTime && new Date(nextLevelTime) - new Date() > 0) {
+							if (new Date(nextLevelTime) - new Date() >= 1 * hours + 30 * minutes) lowestTime = 10 * minutes;
+							else lowestTime = new Date(nextLevelTime) - new Date() + 3 * minutes;
+						}
+					}
+				}
+				// console.log("lowest time", lowestTime);
+				if (lowestTime !== 1e10) NPC_FETCH_TIME = lowestTime;
+
 				ttStorage.set({ "loot_times": result }, function () {
 					console.log("	Loot times set.");
 					checkLootAlerts();
