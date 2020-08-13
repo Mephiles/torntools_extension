@@ -231,12 +231,12 @@ function Main_5_seconds() {
 }
 
 function Main_30_seconds() {
-	console.group("Main (userdata | torndata | stakeouts)");
+	console.group("Main");
 
-	ttStorage.get(["api_key", "target_list", "stakeouts", "torndata"], async function ([api_key, target_list, stakeouts, old_torndata]) {
+	ttStorage.get(["api_key", "target_list", "stakeouts", "torndata", "old_loot_times", 'networth', 'oc', 'settings'], async function ([api_key, target_list, stakeouts, old_torndata, oldLootTimes, oldNetworth, oldOC, settings]) {
 		let attack_history;
 
-		if (api_key === undefined) {
+		if (api_key === undefined || api_key === '') {
 			console.log("NO API KEY");
 			return;
 		}
@@ -604,169 +604,50 @@ function Main_30_seconds() {
 						});
 				});
 			}
-		} else {
-			console.log("No stakeouts.");
 		}
 
 		// Torndata
-		if (!old_torndata || !old_torndata.date || new Date() - new Date(old_torndata.date) >= 24 * 60 * 60 * 1000) {
+		if (!old_torndata || !old_torndata.date || new Date() - new Date(old_torndata.date) >= 1 * days) {
 			console.log("Setting up torndata.")
 			await updateTorndata(old_torndata);
 		}
+
+		// Loot times
+		if (!oldLootTimes || !oldLootTimes.date || new Date() - new Date(oldLootTimes.date) >= 5 * minutes) {
+			console.log('Setting up NPC loot times');
+			await updateLootTimes();
+		}
+
+		// Networth data
+		if (!oldNetworth || !oldNetworth.current.date || new Date() - new Date(oldNetworth.current.date) >= 5 * minutes) {
+			console.log('Setting up Networth data');
+			await updateNetworthData();
+		}
+
+		// Stocks data
+		if (!old_torndata || !old_torndata.stocks || !old_torndata.stocks.date || new Date() - new Date(!old_torndata.stocks.date) >= 15 * minutes) {
+			console.log('Setting up Stocks data');
+			await updateStocksData();
+		}
+
+		// Faction data
+		if (settings.pages.faction.oc_time && (!oldOC || !oldOC.date || new Date() - new Date(oldOC) >= 15 * minutes)) {
+			console.log('Setting up OC info');
+			await updateOCinfo();
+		}
+
+		// Doctorn
+		updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 	});
 
 	console.groupEnd();
 }
 
 async function Main_1_minute() {
-	console.group("Main (YATA)");
-
-	// loot times
-	console.log("Setting up loot times.");
-	await new Promise(async function (resolve) {
-		fetchApi_v2('yata', { section: 'loot/timings' })
-			.then(result => {
-				ttStorage.set({ "loot_times": result }, function () {
-					console.log("	Loot times set.");
-					checkLootAlerts();
-					return resolve(true);
-				});
-			})
-			.catch(err => {
-				console.log("ERROR", err);
-				return resolve();
-			});
-	});
-
-	// travel markets
-	console.log("Setting up Travel market info.");
-	await new Promise(async function (resolve) {
-		fetchApi_v2('yata', { section: 'bazaar/abroad/export' })
-			.then(result => {
-				ttStorage.set({ "travel_market": result.stocks }, function () {
-					console.log("	Travel market info set.");
-					return resolve();
-				});
-
-			})
-			.catch(err => {
-				console.log("ERROR", err);
-				return resolve();
-			})
-	});
-
-	console.groupEnd();
-
-	// networth
-	if (networth.current.date === undefined || new Date() - new Date(networth.current.date) >= 10 * 60 * 1000) {  // 10 minutes
-		console.log("Updating networth");
-		await new Promise(function (resolve) {
-			fetchApi_v2('torn', { section: 'user', selections: 'personalstats,networth' })
-				.then(data => {
-					let ps = data.personalstats;
-					let new_networth = data.networth;
-					let networth = {
-						current: {
-							date: new Date().toString(),
-							value: new_networth
-						},
-						previous: {
-							value: {
-								"pending": ps.networthpending,
-								"wallet": ps.networthwallet,
-								"bank": ps.networthbank,
-								"points": ps.networthpoints,
-								"cayman": ps.networthcayman,
-								"vault": ps.networthvault,
-								"piggybank": ps.networthpiggybank,
-								"items": ps.networthitems,
-								"displaycase": ps.networthdisplaycase,
-								"bazaar": ps.networthbazaar,
-								"properties": ps.networthproperties,
-								"stockmarket": ps.networthstockmarket,
-								"auctionhouse": ps.networthauctionhouse,
-								"company": ps.networthcompany,
-								"bookie": ps.networthbookie,
-								"loan": ps.networthloan,
-								"unpaidfees": ps.networthunpaidfees,
-								"total": ps.networth
-							}
-						}
-					}
-
-					// Set Userdata & Networth
-					ttStorage.set({ "networth": networth }, function () {
-						console.log("Networth info updated.");
-						return resolve();
-					});
-				})
-				.catch(err => {
-					console.log("ERROR", err);
-					return resolve();
-				})
-		});
-	}
-
 	clearCache();
 
 	// Clear API history
 	await clearAPIhistory();
-}
-
-async function Main_15_minutes() {
-	console.group("Main (stocks | OC info | installed extensions)");
-
-	if (api_key === undefined) {
-		console.log("NO API KEY");
-		return;
-	}
-
-		console.log("Setting up stocks");
-		await new Promise(function (resolve) {
-			fetchApi_v2('torn', { section: 'torn', selections: 'stocks' })
-				.then(result => {
-					const stocks = result.stocks;
-
-					stocks.date = (new Date()).toString();
-
-					ttStorage.change({ "torndata": { "stocks": stocks } }, function () {
-						console.log("Stocks info updated.");
-						checkStockAlerts();
-						return resolve(true);
-					});
-				})
-				.catch(err => {
-					console.log("ERROR", err);
-					return resolve();
-				})
-		});
-
-		// faction data
-		console.log("Setting up faction data.");
-		if (settings.pages.faction.oc_time) {
-			await new Promise(function (resolve) {
-				fetchApi_v2('torn', { section: 'faction', selections: 'crimes' })
-					.then(factiondata => {
-						factiondata.crimes.date = new Date().toString();
-
-						ttStorage.set({ "oc": factiondata.crimes }, function () {
-							console.log("	Faction data set.");
-							return resolve(true);
-						});
-					})
-					.catch(err => {
-						console.log("ERROR", err);
-						return resolve();
-					})
-			});
-		} else {
-			console.log("	Faction OC time formatting turned off.");
-		}
-
-	// Doctorn
-	updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
-
-	console.groupEnd();
 }
 
 /*
@@ -938,6 +819,112 @@ async function updateTorndata(oldTorndata) {
 	});
 }
 
+function updateLootTimes() {
+	return new Promise((resolve, reject) => {
+		fetchApi_v2('yata', { section: 'loot/timings' })
+			.then(result => {
+				ttStorage.set({ "loot_times": result }, function () {
+					console.log("	Loot times set.");
+					checkLootAlerts();
+					return resolve();
+				});
+			})
+			.catch(err => {
+				console.log("ERROR", err);
+				return resolve();
+			});
+	});
+}
+
+function updateNetworthData() {
+	return new Promise((resolve, reject) => {
+		fetchApi_v2('torn', { section: 'user', selections: 'personalstats,networth' })
+			.then(data => {
+				let ps = data.personalstats;
+				let new_networth = data.networth;
+				let networth = {
+					current: {
+						date: new Date().toString(),
+						value: new_networth
+					},
+					previous: {
+						value: {
+							"pending": ps.networthpending,
+							"wallet": ps.networthwallet,
+							"bank": ps.networthbank,
+							"points": ps.networthpoints,
+							"cayman": ps.networthcayman,
+							"vault": ps.networthvault,
+							"piggybank": ps.networthpiggybank,
+							"items": ps.networthitems,
+							"displaycase": ps.networthdisplaycase,
+							"bazaar": ps.networthbazaar,
+							"properties": ps.networthproperties,
+							"stockmarket": ps.networthstockmarket,
+							"auctionhouse": ps.networthauctionhouse,
+							"company": ps.networthcompany,
+							"bookie": ps.networthbookie,
+							"loan": ps.networthloan,
+							"unpaidfees": ps.networthunpaidfees,
+							"total": ps.networth
+						}
+					}
+				}
+
+				// Set Userdata & Networth
+				ttStorage.set({ "networth": networth }, function () {
+					console.log("Networth info updated.");
+					return resolve();
+				});
+			})
+			.catch(err => {
+				console.log("ERROR", err);
+				return resolve();
+			})
+	});
+}
+
+function updateStocksData() {
+	return new Promise((resolve, reject) => {
+		fetchApi_v2('torn', { section: 'torn', selections: 'stocks' })
+			.then(result => {
+				const stocks = result.stocks;
+
+				let new_date = (new Date()).toString();
+				stocks.date = new_date;
+
+				ttStorage.change({ "torndata": { "stocks": stocks } }, function () {
+					console.log("Stocks info updated.");
+					checkStockAlerts();
+					return resolve(true);
+				});
+			})
+			.catch(err => {
+				console.log("ERROR", err);
+				return resolve();
+			})
+	});
+}
+
+function updateOCinfo() {
+	return new Promise(function (resolve, reject) {
+		fetchApi_v2('torn', { section: 'faction', selections: 'crimes' })
+			.then(factiondata => {
+				let new_date = new Date().toString();
+				factiondata.crimes.date = new_date;
+
+				ttStorage.set({ "oc": factiondata.crimes }, function () {
+					console.log("	Faction data set.");
+					return resolve(true);
+				});
+			})
+			.catch(err => {
+				console.log("ERROR", err);
+				return resolve();
+			})
+	});
+}
+
 /*
  * Various Functions
  */
@@ -971,6 +958,15 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 				console.log("Setting up torndata.");
 				updateTorndata().then(sendResponse);
 			}
+			break;
+		case 'fetch-relay':
+			fetchApi_v2(request.location, request.options)
+				.then(result => {
+					sendResponse(result);
+				})
+				.catch(err => {
+					sendResponse(err);
+				})
 			break;
 		default:
 			sendResponse({ success: false, message: "Unknown command." });

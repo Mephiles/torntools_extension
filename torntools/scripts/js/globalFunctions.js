@@ -2130,7 +2130,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
                 console.log('NO API KEY IS SET. ABORTING FETCH.');
                 return reject({ error: 'NO API KEY IS SET. ABORTING FETCH.' });
             }
-            console.log('new fetch', full_url);
+            // console.log('new fetch', full_url);
 
             let parameters = {}
 
@@ -2145,7 +2145,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
             fetch(full_url, parameters)
                 .then(async response => {
                     const result = await response.json();
-                    console.log("result", result);
+                    // console.log("result", result);
 
                     logFetch(ogLocation, (options => {
                         if (location === 'torn-proxy') options.proxy = true;
@@ -2285,4 +2285,14 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
             ttStorage.set({ "api_history": api_history });
         });
     }
+}
+
+// Uses fetchApi_v2
+function fetchRelay(location, options) {
+    return new Promise((resolve, reject) => {
+        chrome.runtime.sendMessage({ action: "fetch-relay", location: location, options: options }, response => {
+            if (response.error) return reject(response);
+            return resolve(response);
+        });
+    });
 }

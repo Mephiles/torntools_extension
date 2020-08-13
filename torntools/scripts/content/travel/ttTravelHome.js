@@ -46,13 +46,16 @@ const country_dict = {  // time = minutes
 }
 
 requireDatabase().then(function () {
-	mapLoaded().then(function () {
-		console.log("TT - Travel (home)");
+    mapLoaded().then(async () => {
+        console.log("TT - Travel (home)");
 
 		if (settings.pages.travel.cooldown_warnings) showCooldowns();
 
-		if (settings.pages.travel.destination_table) {
-			modifyTimeAndCost();
+        if (travel_market.length === 0 || !("date" in travel_market) || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) { // 2 minutes
+            travel_market = await updateTravelMarket();
+        }
+
+        modifyTimeAndCost();
 
 			let container = content.newContainer("Travel Destinations", { id: "ttTravelTable" }).find(".content");
 
@@ -111,12 +114,16 @@ requireDatabase().then(function () {
 				}
 			}
 
-			// mobile
-			if (mobile) {
-				doc.find(".travel-agency").classList.add("tt-mobile");
-			}
-		}
-	});
+        // mobile
+        if (mobile) {
+            doc.find(".travel-agency").classList.add("tt-mobile");
+        }
+
+        // Updater
+        setInterval(function () {
+            reloadTable();
+        }, 2 * 60 * 1000);
+    });
 });
 
 function modifyTimeAndCost() {
@@ -350,10 +357,10 @@ function addTableContent(travel_items) {
 
 	let body_html = ``;
 
-	// Add rows
-	for (let item of travel_market) {
-		let time = country_dict[item.country_name.toLowerCase()].time;
-		let cost = country_dict[item.country_name.toLowerCase()].cost;
+    // Add rows
+    for (let item of travel_market.stocks) {
+        let time = country_dict[item.country_name.toLowerCase()].time;
+        let cost = country_dict[item.country_name.toLowerCase()].cost;
 
 		body_html += addRow(item, time, cost, travel_items);
 	}
@@ -511,27 +518,33 @@ function saveSettings() {
 }
 
 function reloadTable() {
-	let travel_items = doc.find("#tt-items").value;
+    console.log("Reloading table");
+    ttStorage.get(['filters', 'travel_market'], async ([filters, travel_market]) => {
+        if (travel_market.length === 0 || !travel_market.date || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) // 2 minutes
+        {
+            travel_market = await updateTravelMarket();
+        }
 
-	doc.find("#ttTravelTable .table .body").innerHTML = "";
-	let body_html = ``;
+        let travel_items = doc.find("#tt-items").value;
 
-	// Add rows
-	for (let item of travel_market) {
-		let time = country_dict[item.country_name.toLowerCase()].time;
-		let cost = country_dict[item.country_name.toLowerCase()].cost;
+        doc.find("#ttTravelTable .table .body").innerHTML = "";
+        let body_html = ``;
 
-		body_html += addRow(item, time, cost, travel_items);
-	}
-	doc.find("#ttTravelTable .table .body").innerHTML = body_html;
+        // Add rows
+        for (let item of travel_market.stocks) {
+            let time = country_dict[item.country_name.toLowerCase()].time;
+            let cost = country_dict[item.country_name.toLowerCase()].cost;
 
-	// Set Table mode
-	ttStorage.get("filters", function (filters) {
-		if (filters.travel.table_type === "basic") {
-			doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
-		} else if (filters.travel.table_type === "advanced") {
-			doc.find("#ttTravelTable .table-type-button span[type='advanced']").click();
-		}
+            body_html += addRow(item, time, cost, travel_items);
+        }
+        doc.find("#ttTravelTable .table .body").innerHTML = body_html;
+
+        // Set Table mode
+        if (filters.travel.table_type == "basic") {
+            doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
+        } else if (filters.travel.table_type == "advanced") {
+            doc.find("#ttTravelTable .table-type-button span[type='advanced']").click();
+        }
 
 		// Sort by country
 		doc.find("#ttTravelTable .header-row i").remove();
@@ -539,6 +552,25 @@ function reloadTable() {
 
 		filterTable();
 	});
+}
+
+function updateTravelMarket() {
+    console.log("Updating Travel Market info.");
+    return new Promise((resolve, reject) => {
+        fetchRelay('yata', { section: 'bazaar/abroad/export' })
+            .then(result => {
+                console.log("Travel market result", result);
+                result.date = new Date().toString();
+                ttStorage.set({ "travel_market": result }, function () {
+                    console.log("	Travel market info set.");
+                    return resolve(result);
+                });
+            })
+            .catch(err => {
+                console.log("ERROR", err);
+                return resolve(err);
+            });
+    });
 }
 
 function showCooldowns() {
