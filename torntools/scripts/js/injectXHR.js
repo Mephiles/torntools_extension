@@ -80,6 +80,7 @@ function interceptXHR(channel) {
 	}
 }
 
+// noinspection JSUnusedGlobalSymbols
 function getParams(body) {
 	let params = {};
 
@@ -92,6 +93,7 @@ function getParams(body) {
 	return params;
 }
 
+// noinspection JSUnusedGlobalSymbols
 function paramsToBody(params) {
 	let _params = [];
 
