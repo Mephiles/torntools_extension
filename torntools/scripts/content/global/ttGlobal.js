@@ -5,6 +5,12 @@ requireDatabase().then(() => {
 	let overlay = doc.new({ type: "div", class: "tt-black-overlay" });
 	doc.find("body").appendChild(overlay);
 
+	if (settings.scripts.no_confirm.revives) {
+		injectXHR();
+
+		addReviveListener();
+	}
+
 	showToggleChat();
 
 	requireNavbar().then(async () => {
@@ -490,4 +496,31 @@ function onMiniProfile(callback) {
 	function triggerCallback() {
 		requireElement("#profile-mini-root .mini-profile-wrapper .profile-container").then(callback);
 	}
+}
+
+function addReviveListener() {
+	const script = doc.new({
+		type: "script",
+		attributes: { type: "text/javascript" },
+	});
+
+	const reviveHandler = `
+		(xhr, method, url) => {
+			if (url.includes("action=revive") && !url.includes("step=revive")) {
+				url = url + "&step=revive";
+			}
+			
+			return { method, url };
+		}
+	`;
+
+	script.innerHTML = `
+		(() => { 
+			if (typeof xhrOpenAdjustments === "undefined") xhrOpenAdjustments = {};
+			
+			xhrOpenAdjustments.noconfirm_revives = ${reviveHandler}
+		})();
+	`;
+
+	doc.find("head").appendChild(script);
 }
