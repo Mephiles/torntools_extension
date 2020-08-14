@@ -66,7 +66,7 @@ requireDatabase().then(() => {
 					"icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0],
 					"text": x.find(".text").innerText.split(" (")[0]
 				}));
-				ttStorage.change({ "quick": { "crimes": crimes } });
+				ttStorage.change({ "quick": { "crimes": crimes } }, () => quick.crimes = crimes);
 
 			}
 			// Crime button
@@ -249,7 +249,7 @@ function addButton() {
 						"icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0],
 						"text": x.find(".text").innerText.split(" (")[0]
 					}));
-					ttStorage.change({ "quick": { "crimes": crimes } });
+					ttStorage.change({ "quick": { "crimes": crimes } }, () => quick.crimes = crimes);
 				}
 			}
 		}
@@ -301,7 +301,7 @@ function onDragEnd() {
 		"icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0],
 		"text": x.find(".text").innerText.split(" (")[0]
 	}));
-	ttStorage.change({ "quick": { "crimes": crimes } });
+	ttStorage.change({ "quick": { "crimes": crimes } }, () => quick.crimes = crimes);
 }
 
 function toggleCrimes() {
