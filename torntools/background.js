@@ -192,16 +192,6 @@ function initiateTasks() {
 	setInterval(Main_5_seconds, 5 * seconds);  // 5 seconds
 	setInterval(Main_30_seconds, 30 * seconds);  // 30 seconds
 	setInterval(Main_1_minute, minutes);  // 1 minute
-
-	const now = new Date();
-	const secondsTillStockTick = (15 - (now.getUTCMinutes() % 15)) * 60 - now.getUTCSeconds();
-
-	setTimeout(() => {
-		Main_15_minutes().then(() => {
-		});
-
-		setInterval(async () => await Main_15_minutes(), 15 * minutes);  // 15 minutes
-	}, (secondsTillStockTick + 10) * 1000);
 }
 
 function Main_5_seconds() {
