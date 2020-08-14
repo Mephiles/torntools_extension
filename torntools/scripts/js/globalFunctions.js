@@ -516,6 +516,7 @@ const STORAGE = {
             "no_confirm": {
                 "global": true,
                 "item_market": false,
+                "revives": false,
             },
         }
     }
