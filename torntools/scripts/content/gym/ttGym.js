@@ -365,6 +365,4 @@ function setupSpecialtyGym() {
 	} catch (e) {
 		console.error("DKK setupSpecialtyGym error", e);
 	}
-
-
 }

@@ -685,9 +685,7 @@ function addItemListener() {
 		(xhr, body) => {
 			if (!body || !body.includes("step=actionForm")) return body;
 		
-			console.log("DKK sendListener 1", body);
 			const params = getParams(body);
-			console.log("DKK sendListener 2", params);
 			${settings.scripts.no_confirm.item_equip ? `
 				if (params.action === "equip" && confirm !== 1) {
 					return paramsToBody({
@@ -698,7 +696,6 @@ function addItemListener() {
 					});
 				}
 			` : ""}
-			console.log("DKK sendListener 3", params);
 	
 			return body;
 		}

@@ -8,7 +8,6 @@ requireDatabase().then(() => {
 		}
 
 		document.addEventListener("click", event => {
-			console.log("DKK click", event)
 			if (event.target.href === "https://www.torn.com/messages.php#/p=compose") {
 				console.log("click");
 				ttStorage.get(["personalized", "mass_messages"], ([personalized, mass_messages]) => {
