@@ -458,22 +458,12 @@ function highlightBloodBags() {
 
 // Torn functions
 function getAction(obj) {
-	obj.success = obj.success || ()
-=>
-	{
-	}
-	;
-	// obj.error = obj.error || onAjaxError;
-	obj.before = obj.before || ()
-=>
-	{
-	}
-	;
-	obj.complete = obj.complete || ()
-=>
-	{
-	}
-	;
+	obj.success = obj.success || (() => {
+	});
+	obj.before = obj.before || (() => {
+	});
+	obj.complete = obj.complete || (() => {
+	});
 	const url = obj.action || window.location.protocol + "//" + window.location.hostname + location.pathname;
 	const options = {
 		url: "https://www.torn.com/" + addRFC(url),
