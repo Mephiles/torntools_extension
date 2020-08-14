@@ -335,7 +335,7 @@ function addChatFilters() {
 				viewport.scrollTop = viewport.scrollHeight;
 			}
 		}
-    }
+	}
 }
 
 function displayVaultBalance() {
@@ -441,5 +441,53 @@ function displayOCtime() {
 
 		div.appendChild(span);
 		doc.find(".tt-information-section").appendChild(div);
+	}
+}
+
+function onMiniProfile(callback) {
+	if (doc.find(".profile-mini-root")) addListener();
+	else {
+		new MutationObserver((mutations, observer) => {
+			for (let mutation of mutations) {
+				let found = false;
+				for (let node of mutation.addedNodes) {
+					if (node.id !== "profile-mini-root") continue;
+
+					found = true;
+					break;
+				}
+
+				if (found) {
+					addListener();
+					observer.disconnect();
+					break;
+				}
+			}
+		}).observe(doc.find("body"), { childList: true });
+	}
+
+	function addListener() {
+		if (doc.find("#profile-mini-root .mini-profile-wrapper")) triggerCallback();
+
+		new MutationObserver((mutations) => {
+			for (let mutation of mutations) {
+				let found = false;
+				for (let node of mutation.addedNodes) {
+					if (!node.classList.contains("mini-profile-wrapper")) continue;
+
+					found = true;
+					break;
+				}
+
+				if (found) {
+					triggerCallback();
+					break;
+				}
+			}
+		}).observe(doc.find("#profile-mini-root"), { childList: true });
+	}
+
+	function triggerCallback() {
+		requireElement("#profile-mini-root .mini-profile-wrapper .profile-container").then(callback);
 	}
 }
