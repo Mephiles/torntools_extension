@@ -797,10 +797,21 @@ function server() {
 
 			doc.find("#server #tt_server_user_info").innerText = pre;
 
-			doc.find("#server_export").onclick = () => {
-				loadConfirmationPopup({
-					title: 'Export',
-					message: `### Following information about you will be exported:
+
+			doc.find("#server_import").onclick = () => {
+				importData();
+			}
+		})
+		.catch(err => {
+			console.log('ERROR', err);
+			doc.find("#server #tt_server_user_info").innerText = err.error;
+			doc.find("#server_import").setAttribute("style", "display: none;");
+		})
+
+	doc.find("#server_export").onclick = () => {
+		loadConfirmationPopup({
+			title: 'Export',
+			message: `### Following information about you will be exported:
                             - Player ID
                             - Player Username
                             - Client version
@@ -820,34 +831,25 @@ function server() {
                                 - watchlist
                                 - preferences
                     `,
-				})
-					.then(() => {
-						exportData();
-					})
-					.catch(() => {
-					})
-			}
-
-			doc.find("#server_import").onclick = () => {
-				importData();
-			}
-
-			doc.find("#server_clear").onclick = () => {
-				loadConfirmationPopup({
-					title: 'Clear Data',
-					message: `### Are you sure you want to Delete ALL data from the remote server?`,
-				})
-					.then(() => {
-						clearRemoteData();
-					})
-					.catch(() => {
-					})
-			}
 		})
-		.catch(err => {
-			console.log('ERROR', err);
-			doc.find("#server #tt_server_user_info").innerText = err.error;
+			.then(() => {
+				exportData();
+			})
+			.catch(() => {
+			})
+	}
+
+	doc.find("#server_clear").onclick = () => {
+		loadConfirmationPopup({
+			title: 'Clear Data',
+			message: `### Are you sure you want to Delete ALL data from the remote server?`,
 		})
+			.then(() => {
+				clearRemoteData();
+			})
+			.catch(() => {
+			})
+	}
 }
 
 function about() {
