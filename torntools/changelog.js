@@ -5,10 +5,11 @@ export default {
             "Show forecast and available worth along with a filter on the stock page. - DKK",
             "Show faction balance excess. - DKK",
             "Show user balance upon selecting their name on the give cash window. - DKK",
-            "Show warnings if your cooldowns are ending during your flight. - DKK"
+            "Show warnings if your cooldowns are ending during your flight. - DKK",
+            "Remove confirmation buttons for the item market and hospital. - DKK",
         ],
         "Fixes": [
-            "Don't apply the last action filter on other faction pages. - DKK"
+            "Don't apply the last action filter on other faction pages. - DKK",
         ],
         "Changes": [
             "Change the caching system to allow for different times to keep it for. - DKK",
