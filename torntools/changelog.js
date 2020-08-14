@@ -18,7 +18,7 @@ export default {
             "Ignore punctuation marks for word highlighting. - DKK",
         ]
     },
-    "v4.10 - August, xxth. 2020": {
+    "v4.10 - August, 14th. 2020": {
         "Features": [
             "Add OC timer to Information window - Mephiles",
             "Add Chain timer notification - Mephiles",
