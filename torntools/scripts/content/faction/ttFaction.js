@@ -1344,7 +1344,7 @@ function observeWarlist() {
 	if (window.location.hash.includes("/war/")) warDescriptionLoaded().then(observeDescription);
 
 	warOverviewLoaded().then(() => {
-		new MutationObserver((mutations, observer) => {
+		new MutationObserver((mutations) => {
 			let found = false;
 
 			for (let mutation of mutations) {
