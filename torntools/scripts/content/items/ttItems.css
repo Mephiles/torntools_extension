@@ -75,6 +75,7 @@ li.tt-item-price {
 #ttQuick .inner-content .item .text {
     text-align: center;
 }
+
 #ttQuick .inner-content .item .sub-text {
     text-align: center;
     font-size: 10px;
@@ -98,6 +99,7 @@ li.tt-item-price {
 .item-effect.tabbed {
     margin-left: 15px;
 }
+
 .item-effect.double-tabbed {
     margin-left: 30px;
 }
@@ -107,28 +109,35 @@ li.tt-item-price {
 .name-wrap.tt-modified {
     width: 542px !important;
 }
+
 .cont-wrap.tt-modified {
     position: relative !important;
     left: -34px !important;
 }
+
 .actions.right.tt-modified {
     width: 172px !important;
     position: relative !important;
     right: -34px !important;
 }
-.actions.right.tt-modified+.action-wrap {
+
+.actions.right.tt-modified + .action-wrap {
     position: relative !important;
     left: 34px !important;
 }
+
 .cont-wrap.tt-modified .bonuses.left {
     right: -37px !important;
 }
-.cont-wrap.tt-modified>.action-wrap {
+
+.cont-wrap.tt-modified > .action-wrap {
     display: none !important;
 }
+
 li.item-group.tt-modified .title.left {
     width: 612px !important;
 }
+
 li.item-group.tt-modified .group-arrow {
     right: 170px !important;
 }

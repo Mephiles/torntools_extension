@@ -51,10 +51,12 @@
 .deal {
     position: relative;
 }
+
 .deal .buy {
     margin-top: -14px !important;
     line-height: 20px !important;
 }
+
 .tt-max-buy {
     position: absolute;
     width: 62px;
@@ -63,14 +65,14 @@
     height: 15px;
     line-height: 15px;
     bottom: -17px;
-    right: 0px;
+    right: 0;
     font-size: 9px;
 }
 
 /* HOME */
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button {  
-   opacity: 1;
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    opacity: 1;
 }
 
 .travel-agency.tt-mobile .path {
@@ -81,23 +83,29 @@ input[type=number]::-webkit-outer-spin-button {
     margin-top: 10px;
     margin-bottom: 20px;
 }
-#ttTravelTable .top-row>* {
+
+#ttTravelTable .top-row > * {
     width: 49%;
 }
+
 #ttTravelTable .filter-button {
     display: inline-block;
 }
+
 #ttTravelTable .filter-button * {
     display: inline-block;
     cursor: pointer;
 }
+
 #ttTravelTable .table-type-button {
     display: inline-flex;
     flex-direction: row-reverse;
 }
+
 #ttTravelTable .table-type-button span[type] {
     cursor: pointer;
 }
+
 #ttTravelTable .table-type-button span[type].active {
     font-weight: 600;
 }
@@ -105,10 +113,12 @@ input[type=number]::-webkit-outer-spin-button {
 #ttTravelTable .legend-content:not(.collapsed) {
     padding-bottom: 20px;
 }
+
 #ttTravelTable .legend-content.collapsed {
-    height: 0px;
+    height: 0;
     overflow-y: hidden;
 }
+
 #ttTravelTable .legend-content .heading {
     height: 25px;
     line-height: 25px;
@@ -116,6 +126,7 @@ input[type=number]::-webkit-outer-spin-button {
     font-size: 14px;
     padding-left: 10px;
 }
+
 #ttTravelTable .legend-content #tt-items {
     width: 32px;
     padding-left: 5px;
@@ -123,15 +134,18 @@ input[type=number]::-webkit-outer-spin-button {
     border-radius: 10px;
     height: 15px;
 }
+
 #ttTravelTable .legend-content .row {
     display: flex;
     flex-wrap: wrap;
     margin: 0;
     padding-left: 20px;
 }
+
 #ttTravelTable .legend-content .row .radio-item, #ttTravelTable .legend-content .row .checkbox-item {
     margin-bottom: 5px;
 }
+
 #ttTravelTable .legend-content .row .radio-item input, #ttTravelTable .legend-content .row .checkbox-item input {
     position: relative;
     top: 2px;
@@ -142,12 +156,14 @@ input[type=number]::-webkit-outer-spin-button {
 #ttTravelTable .table .header-row {
     border-top: unset !important;
 }
+
 #ttTravelTable .table .header-row div {
     position: relative;
     cursor: pointer;
     height: 30px;
     line-height: 20px;
 }
+
 #ttTravelTable .table .row {
     margin: 0;
     display: flex;
@@ -156,11 +172,13 @@ input[type=number]::-webkit-outer-spin-button {
     line-height: 20px;
     align-items: center;
 }
+
 #ttTravelTable .table .row div {
-	flex-basis: 0;
-	flex-grow: 1;
+    flex-basis: 0;
+    flex-grow: 1;
     text-align: center;
 }
+
 #ttTravelTable .table .row div .item-image {
     width: 33px;
     height: 20px;
@@ -170,13 +188,16 @@ input[type=number]::-webkit-outer-spin-button {
     background-repeat: no-repeat;
     background-size: contain;
 }
+
 #ttTravelTable .table .row div a {
     margin: unset;
     display: inline-block;
 }
+
 #ttTravelTable .table .row.hidden {
     display: none;
 }
+
 #ttTravelTable .table .row .advanced.hidden {
     display: none;
 }
@@ -204,6 +225,7 @@ i.fa-caret-down:not(.tt-title-icon):not(.tt-title-icon-torn) {
     margin-right: 3px;
     background-size: cover !important;
 }
+
 #ttTravelTable .table .row .update-time {
     font-size: 10px;
 }
@@ -214,7 +236,7 @@ i.fa-caret-down:not(.tt-title-icon):not(.tt-title-icon-torn) {
 
 #ttTravelTable .negative.profit {
     color: #de0000;
-} 
+}
 
 /* Cooldown Timers */
 

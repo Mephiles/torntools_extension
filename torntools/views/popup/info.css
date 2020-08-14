@@ -5,6 +5,7 @@
     color: #d48900;
     font-size: 11px;
 }
+
 #last-update span {
     color: black;
     font-weight: 600;
@@ -13,16 +14,20 @@
 #location {
     margin-bottom: 0;
 }
+
 #status {
     margin-top: 0;
     font-size: 13px;
 }
+
 #status .okay {
     color: #1dbb00;
 }
+
 #status .hospital {
     color: red;
 }
+
 #status .jail {
     color: rgb(129, 64, 2);
 }
@@ -56,15 +61,18 @@
 .bar .text .name {
     text-align: left;
 }
+
 .bar .text .full-in {
     text-align: right;
     font-size: 11px;
 }
+
 .bar .text .resets-in {
     text-align: right;
     font-size: 11px;
     display: none;
 }
+
 .bar .progress .stat {
     position: absolute;
     top: 0;
@@ -88,18 +96,23 @@
 #energy .progress div {
     background-color: #9cdc5c;
 }
+
 #nerve .progress div {
     background-color: #e6815b;
 }
+
 #happy .progress div {
     background-color: #f1e053;
 }
+
 #life .progress div {
     background-color: #8e97ff;
 }
+
 #chain .progress div {
     background-color: #8F8F8F;
 }
+
 #travel .progress div {
     background-color: #b2b2ff;
 }
@@ -115,15 +128,19 @@
 .cooldowns .name {
     font-weight: 600;
 }
+
 .cooldowns .time {
     font-size: 11px;
 }
+
 .cooldowns #drug .name {
     color: #5ec312;
 }
+
 .cooldowns #booster .name {
     color: #d29321;
 }
+
 .cooldowns #medical .name {
     color: #5e5eda;
 }
@@ -150,6 +167,7 @@
 .footer * {
     flex: 1 0 auto;
 }
+
 .link:hover {
     color: #888888;
     cursor: pointer;

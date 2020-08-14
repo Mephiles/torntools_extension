@@ -16,16 +16,20 @@
 .crimes-list .level.torntools-modified {
     width: 100px !important;
 }
+
 .crimes-list .member.torntools-modified.torntools-mobile {
     width: 140px !important;
 }
+
 .crimes-list .level.torntools-modified.torntools-mobile {
     width: 30px !important;
 }
+
 .crimes-list .stat.torntools-modified.torntools-mobile {
     width: 40px !important;
     padding-left: 5px !important;
 }
+
 .crimes-list .tt-nnb.torntools-mobile {
     width: 27px;
 }
@@ -33,6 +37,7 @@
 .plan-list-scrollbar.plans-list .tt-nnb.short {
     width: 88px;
 }
+
 .plan-list-scrollbar.plans-list .tt-nnb.short.torntools-mobile {
     width: 20px;
 }
@@ -40,21 +45,26 @@
 .plans-list .offences.torntools-modified {
     width: 55px !important;
 }
+
 .plans-list .member.torntools-modified.torntools-mobile {
     width: 100px !important;
 }
+
 .plans-list .level.torntools-modified.torntools-mobile {
     width: 15px !important;
 }
+
 .plans-list .offences.torntools-modified.torntools-mobile {
     width: 50px !important;
 }
+
 .plans-list .act.torntools-modified.torntools-mobile {
     width: 29px !important;
 }
-.faction-crimes-wrap:nth-of-type(3) .crimes-list>.item-wrap:nth-of-type(5)>ul>li:not(.plan-crimes),
-.faction-crimes-wrap:nth-of-type(3) .crimes-list>.item-wrap:nth-of-type(6)>ul>li:not(.plan-crimes),
-.faction-crimes-wrap:nth-of-type(3) .crimes-list>.item-wrap:nth-of-type(8)>ul>li:not(.plan-crimes) {
+
+.faction-crimes-wrap:nth-of-type(3) .crimes-list > .item-wrap:nth-of-type(5) > ul > li:not(.plan-crimes),
+.faction-crimes-wrap:nth-of-type(3) .crimes-list > .item-wrap:nth-of-type(6) > ul > li:not(.plan-crimes),
+.faction-crimes-wrap:nth-of-type(3) .crimes-list > .item-wrap:nth-of-type(8) > ul > li:not(.plan-crimes) {
     line-height: 28px !important;
 }
 
@@ -105,9 +115,11 @@
 .members-list .table-body.tt-modified {
     background-color: unset;
 }
-.members-list .table-body.tt-modified>li {
+
+.members-list .table-body.tt-modified > li {
     background-color: #F2F2F2;
 }
+
 .members-list .table-body li.tt-user-info {
     line-height: 18px;
     font-size: 11px;
@@ -120,6 +132,7 @@
 .tt-user-info .tt-user-info-inner-wrap {
     margin: auto;
 }
+
 .tt-user-info .tt-user-info-inner-wrap div {
     display: inline-block;
     vertical-align: top;
@@ -137,6 +150,7 @@
 .item-effect.tabbed {
     margin-left: 15px;
 }
+
 .item-effect.double-tabbed {
     margin-left: 30px;
 }

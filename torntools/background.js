@@ -4,7 +4,7 @@ import personalized from "../personalized.js";
 // noinspection JSUnusedLocalSymbols
 let [seconds, minutes, hours, days] = [1000, 60 * 1000, 60 * 60 * 1000, 24 * 60 * 60 * 1000];
 
-var notifications = {
+let notifications = {
 	"travel": {},
 	"hospital": {},
 	"chain": {},
@@ -30,7 +30,7 @@ const links = {
 	chain: "https://www.torn.com/factions.php?step=your#/war/chain"
 }
 
-var NPC_FETCH_TIME = 0;
+let NPC_FETCH_TIME = 0;
 
 let userdata, torndata, settings, api_key, proxy_key, chat_highlight, itemlist,
 	travel_market, oc, allies, loot_times, target_list, vault,
@@ -119,7 +119,7 @@ setup_storage.then(async function (success) {
 
 					if (personalized.master === userdata.player_id) {
 						for (let type in personalized) {
-							if (type == "master") {
+							if (type === "master") {
 								continue;
 							}
 
@@ -146,7 +146,7 @@ setup_storage.then(async function (success) {
 		console.log("	Empty file.");
 	}
 
-	ttStorage.get(null, function (db) {
+	ttStorage.get(null, async db => {
 		userdata = db.userdata;
 		torndata = db.torndata;
 		settings = db.settings;
@@ -182,7 +182,7 @@ setup_storage.then(async function (success) {
 			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 
 			// Clear API history
-			clearAPIhistory();
+			await clearAPIhistory();
 		}
 	});
 });
@@ -197,7 +197,8 @@ function initiateTasks() {
 	const secondsTillStockTick = (15 - (now.getUTCMinutes() % 15)) * 60 - now.getUTCSeconds();
 
 	setTimeout(() => {
-		Main_15_minutes().then(() => {});
+		Main_15_minutes().then(() => {
+		});
 
 		setInterval(async () => await Main_15_minutes(), 15 * minutes);  // 15 minutes
 	}, (secondsTillStockTick + 10) * 1000);
@@ -264,7 +265,7 @@ function Main_30_seconds() {
 							// Target list
 							if (userdata.attacks) {
 								let attacks_data = { ...userdata.attacks }
-								updateTargetList(attacks_data, userdata.player_id, target_list, (attack_history == "attacksfull" ? true : false));
+								updateTargetList(attacks_data, userdata.player_id, target_list, (attack_history === "attacksfull"));
 							}
 
 							// Check for new messages
@@ -465,7 +466,7 @@ function Main_30_seconds() {
 									console.log("count", chain_count);
 									console.log("next bonus", next_bonus);
 
-									for (let checkpoint of settings.notifications.chain_count.sort((a, b) => { return b - a })) {
+									for (let checkpoint of settings.notifications.chain_count.sort((a, b) => b - a)) {
 										console.log("checkpoint", checkpoint);
 
 										if (next_bonus - chain_count <= parseInt(checkpoint) && !notifications.chain_count[`${next_bonus}_${checkpoint}`]) {
@@ -609,7 +610,7 @@ function Main_30_seconds() {
 		}
 
 		// Torndata
-		if (!old_torndata || !old_torndata.date || new Date() - new Date(old_torndata.date) >= 1 * days) {
+		if (!old_torndata || !old_torndata.date || new Date() - new Date(old_torndata.date) >= days) {
 			console.log("Setting up torndata.")
 			await updateTorndata(old_torndata);
 		}
@@ -648,7 +649,7 @@ function Main_30_seconds() {
 }
 
 async function Main_1_minute() {
-	clearCache();
+	await clearCache();
 
 	// Clear API history
 	await clearAPIhistory();
@@ -824,19 +825,19 @@ async function updateTorndata(oldTorndata) {
 }
 
 function updateLootTimes() {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		fetchApi_v2('yata', { section: 'loot/timings' })
 			.then(result => {
 
 				let lowestTime = 1e10;
 				for (let id in result) {
 					if (result[id].status === 'hospitalized' && new Date(result[id].hospout * 1000) - new Date() < lowestTime && new Date(result[id].hospout * 1000) - new Date() > 0) {
-						lowestTime = new Date(result[id].hospout * 1000) - new Date() + 1 * minutes;
+						lowestTime = new Date(result[id].hospout * 1000) - new Date() + minutes;
 					} else {
 						const nextLevel = result[id].levels.next;
 						const nextLevelTime = result[id].timings[nextLevel].ts * 1000;
 						if (new Date(nextLevelTime) - new Date() < lowestTime && new Date(nextLevelTime) - new Date() > 0) {
-							if (new Date(nextLevelTime) - new Date() >= 1 * hours + 30 * minutes) lowestTime = 10 * minutes;
+							if (new Date(nextLevelTime) - new Date() >= hours + 30 * minutes) lowestTime = 10 * minutes;
 							else lowestTime = new Date(nextLevelTime) - new Date() + 3 * minutes;
 						}
 					}
@@ -844,9 +845,9 @@ function updateLootTimes() {
 				// console.log("lowest time", lowestTime);
 				if (lowestTime !== 1e10) NPC_FETCH_TIME = lowestTime;
 
-				ttStorage.set({ "loot_times": result }, function () {
+				ttStorage.set({ "loot_times": result }, async () => {
 					console.log("	Loot times set.");
-					checkLootAlerts();
+					await checkLootAlerts();
 					return resolve();
 				});
 			})
@@ -858,7 +859,7 @@ function updateLootTimes() {
 }
 
 function updateNetworthData() {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		fetchApi_v2('torn', { section: 'user', selections: 'personalstats,networth' })
 			.then(data => {
 				let ps = data.personalstats;
@@ -906,17 +907,16 @@ function updateNetworthData() {
 }
 
 function updateStocksData() {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		fetchApi_v2('torn', { section: 'torn', selections: 'stocks' })
 			.then(result => {
 				const stocks = result.stocks;
 
-				let new_date = (new Date()).toString();
-				stocks.date = new_date;
+				stocks.date = (new Date()).toString();
 
-				ttStorage.change({ "torndata": { "stocks": stocks } }, function () {
+				ttStorage.change({ "torndata": { "stocks": stocks } }, async () => {
 					console.log("Stocks info updated.");
-					checkStockAlerts();
+					await checkStockAlerts();
 					return resolve(true);
 				});
 			})
@@ -928,11 +928,10 @@ function updateStocksData() {
 }
 
 function updateOCinfo() {
-	return new Promise(function (resolve, reject) {
+	return new Promise((resolve) => {
 		fetchApi_v2('torn', { section: 'faction', selections: 'crimes' })
 			.then(factiondata => {
-				let new_date = new Date().toString();
-				factiondata.crimes.date = new_date;
+				factiondata.crimes.date = new Date().toString();
 
 				ttStorage.set({ "oc": factiondata.crimes }, function () {
 					console.log("	Faction data set.");
@@ -951,6 +950,7 @@ function updateOCinfo() {
  */
 
 // Check if new version is installed
+// noinspection JSDeprecatedSymbols
 chrome.runtime.onInstalled.addListener(function () {
 	ttStorage.set({ "updated": true, "new_version": { "available": false } }, function () {
 		console.log("Extension updated:", chrome.runtime.getManifest().version);
@@ -958,7 +958,8 @@ chrome.runtime.onInstalled.addListener(function () {
 });
 
 // Messaging
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+// noinspection JSDeprecatedSymbols
+chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 	// console.log(sender.tab ? "from a content script:"+sender.tab.url : "from the extension");
 
 	switch (request.action) {
@@ -972,7 +973,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 
 			// Clear API history
-			clearAPIhistory();
+			await clearAPIhistory();
 			break;
 		case "fetch":
 			if (request.type === "torndata") {
@@ -997,6 +998,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 // Update available
+// noinspection JSDeprecatedSymbols
 chrome.runtime.onUpdateAvailable.addListener(function (details) {
 	console.log("Details", details);
 
@@ -1011,6 +1013,7 @@ chrome.runtime.onUpdateAvailable.addListener(function (details) {
 });
 
 // Notification links
+// noinspection JSDeprecatedSymbols
 chrome.notifications.onClicked.addListener(function (notification_id) {
 	ttStorage.get("settings", function (settings) {
 		if (settings.notifications_link) {
@@ -1019,6 +1022,7 @@ chrome.notifications.onClicked.addListener(function (notification_id) {
 	});
 });
 
+// noinspection JSDeprecatedSymbols
 chrome.storage.onChanged.addListener((changes, area) => {
 	if (area !== "local") return;
 
