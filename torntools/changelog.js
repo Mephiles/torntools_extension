@@ -26,7 +26,8 @@ export default {
             "Add option to hide Areas links - Mephiles",
             "Add Chain count notification - Mephiles",
             "Add a Connect button to Torn Preferences page - Mephiles",
-            "Add option to change Chat Font size - Mephiles"
+            "Add option to change Chat Font size - Mephiles",
+            "Add support for Torn Proxy (you API key is still needed for fall-back if Proxy system fails) - Mephiles"
         ],
         "Fixes": [
             "Fix Quick Items failing to load if an item has 0 quantity - Mephiles",
@@ -55,11 +56,13 @@ export default {
             "Add sorting capability for Profile chosen stats - Mephiles",
             "Add images to Travel Table items - Mephiles",
             "Disable Watch List option to avoid confusion (will be added in future updates) - Mephiles",
-            "Switched Travel Table items category options to checkboxes to allow different combinations - Mephiles"
+            "Switched Travel Table items category options to checkboxes to allow different combinations - Mephiles",
+            "Changed fetching to be more consistent & to reduce load on YATA - Mephiles",
         ],
         "Other": [
             "Add 'Open Source' disclaimer to Github Readme - Mephiles",
-            "Update the Privacy Policy for TornTools - Mephiles"
+            "Update the Privacy Policy for TornTools - Mephiles",
+            "Add 'Development focus' section to Github Readme - Mephiles"
         ]
     },
     "v4.9 - July, 29th. 2020": {
