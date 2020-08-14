@@ -6,10 +6,11 @@ export default {
 			"Show faction balance excess. - DKK",
 			"Show user balance upon selecting their name on the give cash window. - DKK",
 			"Show warnings if your cooldowns are ending during your flight. - DKK",
-			"Remove confirmation buttons for the item market and hospital. - DKK",
+			"Remove confirmation buttons for the item market, revives and item equipping. - DKK",
 		],
 		"Fixes": [
 			"Don't apply the last action filter on other faction pages. - DKK",
+			"Don't break the profile page if a profile section is turned off. - DKK",
 		],
 		"Changes": [
 			"Change the caching system to allow for different times to keep it for. - DKK",
