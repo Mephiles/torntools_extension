@@ -79,3 +79,25 @@ function interceptXHR(channel) {
 		return true;
 	}
 }
+
+function getParams(body) {
+	let params = {};
+
+	for (let param of body.split("&")) {
+		const split = param.split("=");
+
+		params[split[0]] = split[1];
+	}
+
+	return params;
+}
+
+function paramsToBody(params) {
+	let _params = [];
+
+	for (let key in params) {
+		_params.push(key + "=" + params[key]);
+	}
+
+	return _params.join("&");
+}
