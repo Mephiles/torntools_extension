@@ -1380,50 +1380,52 @@ function observeDescription() {
 		});
 	});
 
-	new MutationObserver((mutations) => {
-		let estimateCount = 0;
+	requireElement("#war-react-root ul.f-war-list > li.descriptions ul.members-list").then(() => {
+		new MutationObserver((mutations) => {
+			let estimateCount = 0;
 
-		for (let mutation of mutations) {
-			for (let node of mutation.removedNodes) {
-				if (hasClass(node, "your") || hasClass(node, "enemy")) {
-					if (hasClass(mutation.nextSibling, "tt-userinfo-container")) mutation.nextSibling.remove();
+			for (let mutation of mutations) {
+				for (let node of mutation.removedNodes) {
+					if (hasClass(node, "your") || hasClass(node, "enemy")) {
+						if (hasClass(mutation.nextSibling, "tt-userinfo-container")) mutation.nextSibling.remove();
+					}
 				}
-			}
 
-			for (let node of mutation.addedNodes) {
-				if (node && node.classList && (node.classList.contains("your") || node.classList.contains("enemy"))) {
-					const userId = (node.find("a.user.name").getAttribute("data-placeholder") || node.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1];
+				for (let node of mutation.addedNodes) {
+					if (node && node.classList && (node.classList.contains("your") || node.classList.contains("enemy"))) {
+						const userId = (node.find("a.user.name").getAttribute("data-placeholder") || node.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1];
 
-					const container = doc.new({ type: "li", class: "tt-userinfo-container" });
-					node.parentElement.insertBefore(container, node.nextElementSibling);
+						const container = doc.new({ type: "li", class: "tt-userinfo-container" });
+						node.parentElement.insertBefore(container, node.nextElementSibling);
 
-					const row = doc.new({ type: "section", class: "tt-userinfo-row tt-userinfo-row--statsestimate" });
-					container.appendChild(row);
+						const row = doc.new({ type: "section", class: "tt-userinfo-row tt-userinfo-row--statsestimate" });
+						container.appendChild(row);
 
-					if (!hasCachedEstimate(userId)) estimateCount++;
+						if (!hasCachedEstimate(userId)) estimateCount++;
 
-					loadingPlaceholder(row, true);
-					estimateStats(userId, false, estimateCount)
-						.then((result => {
-							loadingPlaceholder(row, false);
-							row.appendChild(doc.new({
-								type: "span",
-								text: `Stat Estimate: ${result.estimate}`,
+						loadingPlaceholder(row, true);
+						estimateStats(userId, false, estimateCount)
+							.then((result => {
+								loadingPlaceholder(row, false);
+								row.appendChild(doc.new({
+									type: "span",
+									text: `Stat Estimate: ${result.estimate}`,
+								}))
 							}))
-						}))
-						.catch((error) => {
-							loadingPlaceholder(row, false);
-							row.appendChild(doc.new({
-								type: "span",
-								class: "tt-userinfo-message",
-								text: error.message,
-								attributes: { color: "error" },
-							}));
-						});
+							.catch((error) => {
+								loadingPlaceholder(row, false);
+								row.appendChild(doc.new({
+									type: "span",
+									class: "tt-userinfo-message",
+									text: error.message,
+									attributes: { color: "error" },
+								}));
+							});
+					}
 				}
 			}
-		}
-	}).observe(doc.find("#war-react-root ul.f-war-list > li.descriptions ul.members-list"), { childList: true, });
+		}).observe(doc.find("#war-react-root ul.f-war-list > li.descriptions ul.members-list"), { childList: true, });
+	})
 }
 
 function highlightOwnOC() {
