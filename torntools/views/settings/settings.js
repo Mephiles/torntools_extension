@@ -846,6 +846,7 @@ function server() {
 		})
 		.catch(err => {
 			console.log('ERROR', err);
+			doc.find("#server #tt_server_user_info").innerText = err.error;
 		})
 }
 
