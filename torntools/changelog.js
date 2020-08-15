@@ -17,6 +17,7 @@ export default {
 			"Update the profile view to not completely fail upon any api error. - DKK",
 			"Sync the 15 minute updater to the stock ticks. - DKK",
 			"Ignore punctuation marks for word highlighting. - DKK",
+			"Include money value to show trade value. - DKK",
 		]
 	},
 	"v4.10 - August, 14th. 2020": {
