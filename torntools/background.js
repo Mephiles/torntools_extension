@@ -949,7 +949,7 @@ chrome.runtime.onInstalled.addListener(function () {
 
 // Messaging
 // noinspection JSDeprecatedSymbols
-chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	// console.log(sender.tab ? "from a content script:"+sender.tab.url : "from the extension");
 
 	switch (request.action) {
@@ -963,7 +963,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 
 			// Clear API history
-			await clearAPIhistory();
+			clearAPIhistory();
 			break;
 		case "fetch":
 			if (request.type === "torndata") {
