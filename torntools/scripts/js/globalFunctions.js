@@ -1792,7 +1792,7 @@ function sortSections(parent, page) {
 
     for (let name of names) {
         let section = parent.find(`.tt-section[name='${name}']`);
-        parent.appendChild(section);
+        if (section) parent.appendChild(section);
     }
 }
 
