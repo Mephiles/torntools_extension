@@ -73,5 +73,11 @@ ul.properties___Vhhr7>li {
 
 /* Specialty Gym */
 .specialty-gym-row {
+    display: flex;
+    padding: 2px;
+}
 
+.specialty-gym-information {
+    line-height: 19px;
+    margin-left: 8px;
 }

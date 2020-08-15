@@ -431,8 +431,8 @@ const STORAGE = {
                 "disable_speed": false,
                 "disable_defense": false,
                 "disable_dexterity": false,
-                special_gym_1: '',
-                special_gym_2: '',
+                specialty_gym_1: '',
+                specialty_gym_2: '',
             },
             "shop": {
                 "profits": true

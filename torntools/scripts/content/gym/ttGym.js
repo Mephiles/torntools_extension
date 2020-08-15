@@ -5,18 +5,44 @@ const GYM_SELECTORS = {
 	"dexterity": "dexterity___1YdUM",
 };
 
+const STATS = {};
+
 requireDatabase().then(function () {
 	gymLoaded().then(function () {
 		addFetchListener((event) => {
+			console.log("DKK event 1", event);
+			if (!event.detail) return;
 			const { page, json, fetch } = event.detail;
 			if (page !== "gym" || !json) return
 
 			const params = new URL(fetch.url).searchParams;
-			if (params.get("step") !== "getInitialGymInfo") return;
+			const step = params.get("step");
 
-			disableGyms();
+			console.log("DKK event 2", step);
+			switch (step) {
+				case "getInitialGymInfo":
+					disableGyms();
+
+					for (let stat in json.stats) {
+						STATS[stat] = parseInt(json.stats[stat].value.replaceAll(",", ""));
+					}
+					setupSpecialtyGym();
+					break;
+				case "train":
+					console.log("DKK event 3");
+					if (!json.success) break;
+
+					STATS[json.stat.name] = parseInt(json.stat.newValue.replaceAll(",", ""))
+					console.log("DKK event 4", json.stat.name, STATS);
+					setupSpecialtyGym();
+					break;
+			}
+
 		});
 
+		for (let stat of ["strength", "defense", "speed", "dexterity"]) {
+			STATS[stat] = parseInt(doc.find(`#${stat}-val`).innerText.replaceAll(",", ""));
+		}
 		setupSpecialtyGym();
 
 		let gym_container = content.newContainer("Gym", { id: "tt-gym" });
@@ -54,18 +80,19 @@ requireDatabase().then(function () {
 		disableGyms();
 
 		// Train button listeners
-		let train_button_observer = new MutationObserver(function (mutations) {
+		new MutationObserver(function (mutations) {
 			for (let mutation of mutations) {
-				if (mutation.target.classList) {
-					if (!mutation.target.classList.contains("tt-gym-locked") && mutation.target.find(".tt-gym-stat-checkbox").checked === true) {
-						mutation.target.classList.add("tt-gym-locked")
-					} else if (mutation.target.classList.contains("tt-gym-locked") && mutation.target.find(".tt-gym-stat-checkbox").checked === false) {
-						mutation.target.classList.remove("tt-gym-locked")
-					}
+				const checkbox = mutation.target.find(".tt-gym-stat-checkbox");
+				if (!checkbox) continue;
+
+				let classList = mutation.target.classList;
+				if (!classList.contains("tt-gym-locked") && checkbox.checked === true) {
+					classList.add("tt-gym-locked");
+				} else if (mutation.target.classList.contains("tt-gym-locked") && checkbox.checked === false) {
+					classList.remove("tt-gym-locked");
 				}
 			}
-		});
-		train_button_observer.observe(doc.find("ul.properties___Vhhr7"), { classList: true, attributes: true, subtree: true });
+		}).observe(doc.find("ul.properties___Vhhr7"), { classList: true, attributes: true, subtree: true });
 	});
 });
 
@@ -327,28 +354,31 @@ function disableGymButton(types, disable) {
 }
 
 function setupSpecialtyGym() {
-	try {
-		let container = doc.find("#tt-specialty-gyms");
-		if (!container) {
-			container = content.newContainer("Specialty Gym Requirements", {
-				id: "tt-specialty-gyms",
-				adjacent_element: doc.find("#gymroot"),
-				collapseId: 1,
-			});
+	console.log("DKK STATS", STATS)
 
-			const row1 = createRow("tt-specialty-gym-1")
-		}
+	let container = doc.find("#tt-specialty-gyms .content");
+	if (!container) {
+		container = content.newContainer("Specialty Gym Requirements", {
+			id: "tt-specialty-gyms",
+			adjacent_element: doc.find("#gymroot"),
+			collapseId: 1,
+		}).find(".content");
 
+		createRow("specialty-gym-1");
+		createRow("specialty-gym-2");
+	} else {
+		container.findAll(".specialty-gym-row").forEach(updateRow);
+	}
 
-		function createRow(id) {
-			const row = doc.new({
-				type: "div",
-				class: "specialty-gym-row",
-				id,
-			});
+	function createRow(id) {
+		const row = doc.new({
+			type: "div",
+			class: "specialty-gym-row",
+			id,
+		});
 
-			const selector = doc.new("select");
-			selector.innerHTML = `
+		const selector = doc.new("select");
+		selector.innerHTML = `
                 <option value="balboas">Balboas Gym (def/dex)</option>
                 <option value="frontline">Frontline Fitness (str/spd)</option>
                 <option value="gym3000">Gym 3000 (str)</option>
@@ -356,13 +386,70 @@ function setupSpecialtyGym() {
                 <option value="rebound">Total Rebound (spd)</option>
                 <option value="elites">Elites (dex)</option>
             `;
+		selector.value = settings.pages.gym[id.replaceAll("-", "_")] || "balboas";
 
-			row.appendChild(selector);
-			container.appendChild(row);
+		const text = doc.new({
+			type: "p",
+			class: "specialty-gym-information",
+			text: calculateTarget(selector.value),
+		});
 
-			return row;
+		selector.addEventListener("change", (event) => {
+			text.innerText = calculateTarget(event.target.value);
+
+			ttStorage.change({
+				settings: {
+					pages: {
+						gym: {
+							[id.replaceAll("-", "_")]: event.target.value,
+						}
+					}
+				}
+			})
+		});
+
+		row.appendChild(selector);
+		row.appendChild(text);
+		container.appendChild(row);
+
+		return row;
+	}
+
+	function updateRow(row) {
+		row.find(".specialty-gym-information").innerText = calculateTarget(row.find("select").value);
+	}
+
+	function calculateTarget(gym) {
+		const SPECIALITY_GYMS = {
+			balboas: ["defense", "dexterity"],
+			frontline: ["strength", "speed"],
+			gym3000: ["strength"],
+			isoyamas: ["defense"],
+			rebound: ["speed"],
+			elites: ["dexterity"],
+		};
+
+		let primaryStats = {};
+		let secondaryStats = {};
+		for (const stat in STATS) {
+			if (SPECIALITY_GYMS[gym].includes(stat)) primaryStats[stat] = STATS[stat]
+			else secondaryStats[stat] = STATS[stat]
 		}
-	} catch (e) {
-		console.error("DKK setupSpecialtyGym error", e);
+
+		if (Object.keys(primaryStats).length > 1) {
+			const primary = Object.values(primaryStats).reduce((a, b) => a + b)
+			const secondary = Object.values(secondaryStats).reduce((a, b) => a + b)
+
+			if (primary >= 1.25 * secondary)
+				return `Gain no more than ${numberWithCommas((primary / 1.25) - secondary, false, FORMATTER_NO_DECIMALS)} ${Object.keys(STATS).filter(s => !SPECIALITY_GYMS[gym].includes(s)).join(' and ')}.`
+			else return `Gain ${numberWithCommas((secondary * 1.25) - primary, false, FORMATTER_NO_DECIMALS)} ${SPECIALITY_GYMS[gym].join(' and ')}.`
+		} else {
+			const primary = parseInt(primaryStats[SPECIALITY_GYMS[gym][0]])
+			let secondary = Object.values(secondaryStats).reduce((a, b) => Math.max(a, b))
+
+			if (primary >= 1.25 * secondary)
+				return `Gain no more than ${numberWithCommas((primary / 1.25) - secondary, false, FORMATTER_NO_DECIMALS)} ${Object.entries(secondaryStats).filter(a => a[1] === secondary)[0][0]}.`
+			else return `Gain ${numberWithCommas((secondary * 1.25) - primary, false, FORMATTER_NO_DECIMALS)} ${SPECIALITY_GYMS[gym][0]}.`
+		}
 	}
 }
