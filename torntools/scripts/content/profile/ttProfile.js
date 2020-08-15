@@ -528,8 +528,9 @@ async function displayProfileStats() {
                                 }
                             },
                         }
+                    }, () => {
+                        cacheEstimate(userId, timestamp, data.battleStatsEstimate, result.last_action);
                     });
-                    cacheEstimate(userId, timestamp, data.battleStatsEstimate, result.last_action);
 
                     resolve(data);
                 })
