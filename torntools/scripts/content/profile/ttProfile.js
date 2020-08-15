@@ -511,31 +511,31 @@ async function displayProfileStats() {
         };
     } else {
         loadingPlaceholder(profile_stats, true);
+
         result = await new Promise((resolve) => {
             fetchApi_v2('torn', { section: 'user', objectid: userId, selections: 'profile,personalstats,crimes' })
-                .then((result) => resolve(handleTornProfileData(result)))
+                .then((result) => {
+                    const data = handleTornProfileData(result);
+                    const timestamp = new Date().getTime();
+
+                    ttStorage.change({
+                        "cache": {
+                            "profileStats": {
+                                [userId]: {
+                                    timestamp,
+                                    ttl: TO_MILLIS.DAYS,
+                                    data: data.stats,
+                                }
+                            },
+                        }
+                    });
+                    cacheEstimate(userId, timestamp, data.battleStatsEstimate, result.last_action);
+
+                    resolve(data);
+                })
                 .catch(({ error }) => resolve({ error }));
         });
 
-        if (!result.error) {
-            const timestamp = new Date().getTime();
-
-            ttStorage.change({
-                "cache": {
-                    "profileStats": {
-                        [userId]: {
-                            timestamp,
-                            ttl: TO_MILLIS.DAYS,
-                            data: result.stats,
-                        }
-                    },
-                }
-            }, () => {
-                cacheEstimate(userId, timestamp, result.battleStatsEstimate);
-            });
-
-
-        }
         loadingPlaceholder(profile_stats, false);
     }
 

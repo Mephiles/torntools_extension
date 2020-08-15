@@ -1967,7 +1967,7 @@ function estimateStats(userId, isIndividual = false, listCount = 0) {
 				.then((result) => {
 					const estimate = handleTornProfileData(result).battleStatsEstimate;
 
-					cacheEstimate(userId, new Date().getTime(), estimate);
+					cacheEstimate(userId, new Date().getTime(), estimate, result.last_action);
 
 					return resolve({
 						estimate,
@@ -2037,13 +2037,20 @@ function estimateStatsInList(listSelector, userHandler) {
 	}).then(() => console.log("Estimated stats."));
 }
 
-function cacheEstimate(userId, timestamp, estimate) {
+function cacheEstimate(userId, timestamp, estimate, lastAction) {
+	let days = 7;
+
+	if (estimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1]) days = 31;
+	else if (lastAction && (new Date().getTime() - new Date(lastAction.timestamp).getTime()) > (TO_MILLIS.DAYS * 180)) days = 31;
+
+	console.log(`Caching result for '${userId}' for ${days} days.`, estimate);
+
 	ttStorage.change({
 		"cache": {
 			"battleStatsEstimate": {
 				[userId]: {
 					timestamp,
-					ttl: estimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1] ? TO_MILLIS.DAYS * 31 : TO_MILLIS.DAYS * 7,
+					ttl: TO_MILLIS.DAYS * days,
 					data: estimate,
 				}
 			},
@@ -2258,4 +2265,9 @@ function fetchRelay(location, options) {
 			return resolve(response);
 		});
 	});
+}
+
+function getDateDifferenceSeconds(old, recent = new Date()) {
+	return old.getTime() - recent.getTime()
+	const diff = old - recent;
 }
