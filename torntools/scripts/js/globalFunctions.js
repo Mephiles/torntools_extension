@@ -1485,7 +1485,7 @@ function toMultipleDigits(number, digits = 2) {
     return number.toString().length < digits ? toMultipleDigits(`0${number}`, digits) : number;
 }
 
-function findItemsInList(list, attributes = {}) {
+function findItemsInList(list, attributes = {}, single = false) {
     let arr = [];
     if (!list || Object.keys(attributes).length === 0) return arr;
 
@@ -1497,7 +1497,36 @@ function findItemsInList(list, attributes = {}) {
             if (item[attribute] != attributes[attribute]) fitsAll = false;
         }
 
-        if (fitsAll) arr.push(item);
+        if (fitsAll) {
+            arr.push(item);
+            if (single) break;
+        }
+    }
+
+    return arr;
+}
+
+function findItemsInObject(object, attributes = {}, single = false) {
+    let arr = [];
+    if (!object || Object.keys(attributes).length === 0) return arr;
+
+    for (let id in object) {
+        const item = object[id];
+        let fitsAll = true;
+
+        for (let attribute in attributes) {
+            // noinspection EqualityComparisonWithCoercionJS
+            if (item[attribute] != attributes[attribute]) fitsAll = false;
+        }
+
+        if (fitsAll) {
+            arr.push({
+                id,
+                ...item,
+            });
+
+            if (single) break;
+        }
     }
 
     return arr;
