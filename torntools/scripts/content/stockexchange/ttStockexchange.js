@@ -117,7 +117,8 @@ function showInformation() {
 
 
 			if (owned > 0) {
-				const price = parseFloat(stock.find(".price").innerText.split("\n$")[1].replaceAll(",", ""));
+				const price = parseFloat(stock.find(".price").innerText.split(mobile ? ": $" : "\n$")[1].replaceAll(",", ""));
+
 
 				const worth = parseInt(price * owned);
 
