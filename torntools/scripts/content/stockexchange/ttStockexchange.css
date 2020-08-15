@@ -28,6 +28,10 @@
     vertical-align: middle;
 }
 
+.tt-mobile #tt-stock-filter .filter-content {
+    flex-flow: column;
+}
+
 /* Legend UI */
 
 .legend-worth {
