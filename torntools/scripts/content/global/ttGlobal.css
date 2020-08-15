@@ -5,48 +5,61 @@
     display: flex;
     white-space: nowrap;
 }
+
 .tt-title-torn {
     cursor: pointer !important;
 }
+
 .tt-title.title-black {
     color: #acea00 !important;
 }
+
 .tt-title.no-content {
     margin-top: 0 !important;
     border-radius: 0 !important;
     cursor: unset !important;
 }
-.tt-title.no-content .tt-title-icon, .tt-title.no-content+.tt-content {
+
+.tt-title.no-content .tt-title-icon, .tt-title.no-content + .tt-content {
     display: none;
 }
+
 .tt-title .title-text {
     width: fit-content;
 }
+
 .tt-title .tt-options, .title.tt-modified .tt-options {
     width: 100%;
     display: flex;
     flex-direction: row-reverse;
     color: #acea00;
 }
+
 .title.tt-modified .tt-options {
     padding-right: 10px;
 }
+
 .tt-title.all-rounded {
     border-radius: 5px !important;
 }
+
 .tt-title.top-rounded {
     border-radius: 5px 5px 0 0 !important;
 }
+
 .tt-content.bottom-rounded {
     border-radius: 0 0 5px 5px !important;
 }
-.tt-title .tt-options>* {
+
+.tt-title .tt-options > * {
     margin-left: 4px;
     margin-right: 4px;
 }
+
 .tt-title.title-green .tt-options {
     color: white;
 }
+
 .tt-title .tt-title-icon {
     line-height: inherit;
     min-width: 30px;
@@ -55,9 +68,11 @@
     position: static !important;
     margin: auto;
 }
+
 .tt-title.tt-navbar .tt-title-icon {
     min-width: 25px;
 }
+
 .tt-title-torn .tt-title-icon-torn {
     line-height: inherit;
     font-size: 16px;
@@ -65,6 +80,7 @@
     top: 1px;
     right: 9px;
 }
+
 .tt-content.content {
     position: relative;
     margin-top: 0;
@@ -72,14 +88,17 @@
     overflow: hidden;
     /* padding-bottom: 15px;  */
 }
-.tt-title.collapsed+.tt-content, .tt-title-torn.collapsed+* {
-    height: 0px;
-    padding: 0px;
+
+.tt-title.collapsed + .tt-content, .tt-title-torn.collapsed + * {
+    height: 0;
+    padding: 0;
     border-bottom: unset;
 }
+
 .tt-title.collapsed .tt-title-icon, .tt-title-torn.collapsed .tt-title-icon-torn {
     transform: rotate(-90deg);
 }
+
 .tt-cell a {
     min-height: 23px !important;
 }
@@ -89,14 +108,15 @@
     vertical-align: top;
 
 }
+
 .tt-checkbox-wrap input {
     margin: 1px 5px 0 5px; /* top - right - bottom - left */
-    height: 100%;
+    height: 13px;
     position: relative;
     top: -2px;
-    height: 13px;
     cursor: pointer;
 }
+
 .tt-checkbox-wrap.in-title input {
     height: 30px;
 }
@@ -109,6 +129,7 @@
     padding: 0 3px;
     vertical-align: unset;
 }
+
 .tt-input-wrap.in-title input {
     height: 18px;
 }
@@ -123,13 +144,16 @@
     background-color: #00000059;
     display: none;
 }
+
 .tt-black-overlay.active {
     display: block;
 }
+
 .tt-highlight-sector {
     position: relative;
     z-index: 999999999;
 }
+
 .tt-confirmation-popup {
     width: 50%;
     height: fit-content;
@@ -142,9 +166,11 @@
     border-radius: 10px;
     z-index: 99999;
 }
+
 .tt-confirmation-popup.active {
     display: block;
 }
+
 .tt-confirmation-popup .title {
     font-weight: 600;
     width: calc(100% - 20px);
@@ -153,6 +179,7 @@
     margin-left: 10px;
     margin-bottom: 5px;
 }
+
 .tt-confirmation-popup .message {
     min-height: 200px;
     margin: 5px 10px;
@@ -161,30 +188,33 @@
 
 .tt-torn-button {
     cursor: pointer;
-    background: linear-gradient(180deg,#d7d7d7,#bdbdbd 17%,#989898 61%,#7e7e7e 83%,#7c7c7c 87%,#7f7f7f 91%,#868686 96%,#8a8a8a);
+    background: linear-gradient(180deg, #d7d7d7, #bdbdbd 17%, #989898 61%, #7e7e7e 83%, #7c7c7c 87%, #7f7f7f 91%, #868686 96%, #8a8a8a);
     border: 0;
     border-radius: 5px;
     color: #333 !important;
     font-size: 14px;
     font-weight: 700;
     padding: 3px 10px;
-    text-shadow: 0 1px 0 hsla(0,0%,100%,.4);
+    text-shadow: 0 1px 0 hsla(0, 0%, 100%, .4);
     vertical-align: top;
 }
+
 .tt-torn-button:hover {
-    background: linear-gradient(180deg,#fff,#cbcbcb 61%,#b0b0b0 83%,#acacac 91%,#b0b0b0 96%,#b1b1b1)
+    background: linear-gradient(180deg, #fff, #cbcbcb 61%, #b0b0b0 83%, #acacac 91%, #b0b0b0 96%, #b1b1b1)
 }
+
 .tt-torn-button.in-title {
     height: 16px;
     line-height: 16px;
     margin-top: 4px;
 }
+
 .tt-torn-button.disabled {
     color: #777 !important;
     cursor: default;
     text-shadow: 0 -1px 0 #ffffff66;
     box-shadow: 0 1px 0 #ffffffa6;
-    background: transparent linear-gradient(180deg,#999999 0%,#CCCCCC 100%) 0 0 no-repeat;
+    background: transparent linear-gradient(180deg, #999999 0%, #CCCCCC 100%) 0 0 no-repeat;
 }
 
 .tt-loading-placeholder {
@@ -192,26 +222,31 @@
     margin: 10px auto !important;
     left: unset !important;
 }
+
 .tt-loading-placeholder.active {
     display: block;
 }
 
-#tt-player-filter+div {
+#tt-player-filter + div {
     margin-top: 0 !important;
 }
 
 .tt-information-section-hr, .tt-information-section {
     display: none;
 }
+
 .tt-information-section-hr.active, .tt-information-section.active {
     display: block;
 }
+
 .tt-information-section div {
     font-weight: 600;
 }
+
 .tt-information-section div span {
     font-weight: 400;
 }
+
 .tt-information-section div span.red {
     color: red;
 }
@@ -223,9 +258,11 @@
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+
 .area-desktop___2YU-q {
     position: relative;
 }
+
 .tt-nav-textarea {
     min-width: 97%;
     max-width: 97%;
@@ -235,9 +272,11 @@
     box-sizing: border-box;
     padding: 3px;
 }
+
 .tt-nav-textarea::-webkit-scrollbar {
     width: 10px;
 }
+
 .tt-nav-textarea::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: #a9a9a9;
@@ -247,13 +286,13 @@
 /* Chrome, Safari, Edge, Opera */
 .tt-filter input::-webkit-outer-spin-button,
 .tt-filter input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Firefox */
 .tt-filter input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 /* Mobile */
@@ -273,21 +312,26 @@
 }
 
 /* Torn element manipulation */
-#mainContainer, .header .header-wrapper-top>.container {
+#mainContainer, .header .header-wrapper-top > .container {
     margin-left: var(--torntools-align-left, auto) !important;
 }
+
 #pointsLevel {
     display: var(--torntools-hide-upgrade-button, block) !important;
 }
-.info-msg-cont.green, .info-msg-cont.green+hr {
+
+.info-msg-cont.green, .info-msg-cont.green + hr {
     display: var(--torntools-hide-upgrade-info, block) !important;
 }
-.info-msg-cont, .info-msg-cont+hr, .msg-info-wrap, .msg-info-wrap+hr {
+
+.info-msg-cont, .info-msg-cont + hr, .msg-info-wrap, .msg-info-wrap + hr {
     display: var(--torntools-remove-info-boxes, block) !important;
 }
+
 .doctorn-widgets:not(:empty), .doctorn-widget:not(.doctorn-widget--animated) {
     display: var(--torntools-hide-doctorn) !important;
 }
+
 .overview_1MoPG .message_oP8oM * {
     font-size: var(--torntools-chat-font-size) !important;
 }
@@ -308,24 +352,77 @@
     background-color: var(--torntools-disable-gym-highlight-icon-active) !important;
 } */
 
-#nav-home {display: var(--torntools-hide-area-home, block) !important;}
-#nav-items {display: var(--torntools-hide-area-items, block) !important;}
-#nav-city {display: var(--torntools-hide-area-city, block) !important;}
-#nav-job {display: var(--torntools-hide-area-job, block) !important;}
-#nav-gym {display: var(--torntools-hide-area-gym, block) !important;}
-#nav-properties {display: var(--torntools-hide-area-properties, block) !important;}
-#nav-education {display: var(--torntools-hide-area-education, block) !important;}
-#nav-crimes {display: var(--torntools-hide-area-crimes, block) !important;}
-#nav-missions {display: var(--torntools-hide-area-missions, block) !important;}
-#nav-newspaper {display: var(--torntools-hide-area-newspaper, block) !important;}
-#nav-jail {display: var(--torntools-hide-area-jail, block) !important;}
-#nav-hospital {display: var(--torntools-hide-area-hospital, block) !important;}
-#nav-casino {display: var(--torntools-hide-area-casino, block) !important;}
-#nav-forums {display: var(--torntools-hide-area-forums, block) !important;}
-#nav-hall_of_fame {display: var(--torntools-hide-area-hall_of_fame, block) !important;}
-#nav-my_faction {display: var(--torntools-hide-area-my_faction, block) !important;}
-#nav-recruit_citizens {display: var(--torntools-hide-area-recruit_citizens, block) !important;}
-#nav-competitions {display: var(--torntools-hide-area-competitions, block) !important;}
+#nav-home {
+    display: var(--torntools-hide-area-home, block) !important;
+}
+
+#nav-items {
+    display: var(--torntools-hide-area-items, block) !important;
+}
+
+#nav-city {
+    display: var(--torntools-hide-area-city, block) !important;
+}
+
+#nav-job {
+    display: var(--torntools-hide-area-job, block) !important;
+}
+
+#nav-gym {
+    display: var(--torntools-hide-area-gym, block) !important;
+}
+
+#nav-properties {
+    display: var(--torntools-hide-area-properties, block) !important;
+}
+
+#nav-education {
+    display: var(--torntools-hide-area-education, block) !important;
+}
+
+#nav-crimes {
+    display: var(--torntools-hide-area-crimes, block) !important;
+}
+
+#nav-missions {
+    display: var(--torntools-hide-area-missions, block) !important;
+}
+
+#nav-newspaper {
+    display: var(--torntools-hide-area-newspaper, block) !important;
+}
+
+#nav-jail {
+    display: var(--torntools-hide-area-jail, block) !important;
+}
+
+#nav-hospital {
+    display: var(--torntools-hide-area-hospital, block) !important;
+}
+
+#nav-casino {
+    display: var(--torntools-hide-area-casino, block) !important;
+}
+
+#nav-forums {
+    display: var(--torntools-hide-area-forums, block) !important;
+}
+
+#nav-hall_of_fame {
+    display: var(--torntools-hide-area-hall_of_fame, block) !important;
+}
+
+#nav-my_faction {
+    display: var(--torntools-hide-area-my_faction, block) !important;
+}
+
+#nav-recruit_citizens {
+    display: var(--torntools-hide-area-recruit_citizens, block) !important;
+}
+
+#nav-competitions {
+    display: var(--torntools-hide-area-competitions, block) !important;
+}
 
 body.tt-unscrollable {
     overflow-y: hidden !important;
@@ -337,80 +434,96 @@ div[role='main'].tt-modified {
 }
 
 /* Clean Flight */
-.travel-agency-travelling .stage, .travel-agency-travelling .stage+hr, .travel-agency-travelling .popup-info {
+.travel-agency-travelling .stage, .travel-agency-travelling .stage + hr, .travel-agency-travelling .popup-info {
     display: var(--torntools-clean-flight-display) !important;
 }
 
 /* Player list filter */
 
-.filter-container+* {
+.filter-container + * {
     margin-top: 0 !important;
 }
+
 .filter-header {
     margin-bottom: 10px;
     display: flex;
     flex-direction: row-reverse;
 }
+
 .filter-header .statistic span {
     font-weight: 600;
 }
+
 .filter-content {
     display: flex;
     flex-wrap: wrap;
 }
+
 .filter-content.tt-mobile .filter-wrap {
     flex: 1 0 100%;
 }
+
 .filter-wrap {
     flex: 1 0 auto;
     margin-bottom: 10px;
 }
+
 .filter-subwrap {
     flex: 1 0 auto;
     margin-bottom: 10px;
 }
+
 .filter-wrap .filter-heading {
     text-align: center;
     font-weight: 600;
     margin-bottom: 5px;
 }
+
 .filter-slider {
     width: 70%;
-    margin: auto;
-    margin-bottom: 10px;
+    margin: auto auto 10px;
 }
-.filter-slider+.filter-slider-info {
+
+.filter-slider + .filter-slider-info {
     width: 100%;
     text-align: center;
 }
+
 .filter-wrap select {
     width: 40%;
     margin-left: 30%;
 }
-.filter-hidden, .filter-hidden+.tt-user-info {
+
+.filter-hidden, .filter-hidden + .tt-user-info {
     display: none !important;
 }
+
 .filter-multi-wrap {
     width: fit-content;
     margin: auto;
 }
+
 .filter-multi-wrap.tt-mobile {
     width: 80%;
     display: flex;
 }
-.filter-multi-wrap.tt-mobile>* {
+
+.filter-multi-wrap.tt-mobile > * {
     flex: 1 0 auto;
 }
 
 .filter-slider.tt-small-pips .noUi-pips {
     padding-top: 7px;
 }
+
 .filter-slider.tt-small-pips .noUi-marker-large {
     height: 8px !important;
 }
+
 .filter-slider.tt-small-pips .noUi-marker-normal {
     height: 5px !important;
 }
+
 .filter-slider.tt-small-pips .noUi-value-large {
     font-size: 10px !important;
     top: 10px !important;
@@ -422,15 +535,18 @@ div[role='main'].tt-modified {
     display: inline-block;
     vertical-align: top;
 }
+
 .tt-chat-filter div {
     margin-left: 4px;
     margin-right: 4px;
     margin-top: 2px;
 }
+
 .tt-chat-filter input {
     background-color: #F2F2F2;
     margin-top: 1px;
 }
+
 .chat-box-input_1SBQR.tt-modified {
     height: 85px !important;
 }
@@ -509,83 +625,322 @@ div[role='main'].tt-modified {
 }
 
 /* Torn icons */
-#sidebarroot .status-icons___1SnOI>li[class^="icon1_"] { display: var(--torntools-hide-icons-icon1, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon2_"] { display: var(--torntools-hide-icons-icon2, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon3_"] { display: var(--torntools-hide-icons-icon3, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon4_"] { display: var(--torntools-hide-icons-icon4, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon5_"] { display: var(--torntools-hide-icons-icon5, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon6_"] { display: var(--torntools-hide-icons-icon6, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon7_"] { display: var(--torntools-hide-icons-icon7, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon8_"] { display: var(--torntools-hide-icons-icon8, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon9_"] { display: var(--torntools-hide-icons-icon9, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon10_"] { display: var(--torntools-hide-icons-icon10, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon11_"] { display: var(--torntools-hide-icons-icon11, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon12_"] { display: var(--torntools-hide-icons-icon12, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon13_"] { display: var(--torntools-hide-icons-icon13, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon14_"] { display: var(--torntools-hide-icons-icon14, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon15_"] { display: var(--torntools-hide-icons-icon15, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon16_"] { display: var(--torntools-hide-icons-icon16, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon17_"] { display: var(--torntools-hide-icons-icon17, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon18_"] { display: var(--torntools-hide-icons-icon18, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon19_"] { display: var(--torntools-hide-icons-icon19, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon20_"] { display: var(--torntools-hide-icons-icon20, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon21_"] { display: var(--torntools-hide-icons-icon21, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon22_"] { display: var(--torntools-hide-icons-icon22, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon23_"] { display: var(--torntools-hide-icons-icon23, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon24_"] { display: var(--torntools-hide-icons-icon24, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon25_"] { display: var(--torntools-hide-icons-icon25, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon26_"] { display: var(--torntools-hide-icons-icon26, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon27_"] { display: var(--torntools-hide-icons-icon27, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon28_"] { display: var(--torntools-hide-icons-icon28, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon29_"] { display: var(--torntools-hide-icons-icon29, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon30_"] { display: var(--torntools-hide-icons-icon30, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon31_"] { display: var(--torntools-hide-icons-icon31, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon32_"] { display: var(--torntools-hide-icons-icon32, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon33_"] { display: var(--torntools-hide-icons-icon33, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon34_"] { display: var(--torntools-hide-icons-icon34, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon35_"] { display: var(--torntools-hide-icons-icon35, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon36_"] { display: var(--torntools-hide-icons-icon36, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon37_"] { display: var(--torntools-hide-icons-icon37, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon38_"] { display: var(--torntools-hide-icons-icon38, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon39_"] { display: var(--torntools-hide-icons-icon39, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon40_"] { display: var(--torntools-hide-icons-icon40, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon41_"] { display: var(--torntools-hide-icons-icon41, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon42_"] { display: var(--torntools-hide-icons-icon42, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon43_"] { display: var(--torntools-hide-icons-icon43, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon44_"] { display: var(--torntools-hide-icons-icon44, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon45_"] { display: var(--torntools-hide-icons-icon45, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon46_"] { display: var(--torntools-hide-icons-icon46, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon47_"] { display: var(--torntools-hide-icons-icon47, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon48_"] { display: var(--torntools-hide-icons-icon48, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon49_"] { display: var(--torntools-hide-icons-icon49, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon50_"] { display: var(--torntools-hide-icons-icon50, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon51_"] { display: var(--torntools-hide-icons-icon51, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon52_"] { display: var(--torntools-hide-icons-icon52, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon53_"] { display: var(--torntools-hide-icons-icon53, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon54_"] { display: var(--torntools-hide-icons-icon54, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon55_"] { display: var(--torntools-hide-icons-icon55, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon56_"] { display: var(--torntools-hide-icons-icon56, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon57_"] { display: var(--torntools-hide-icons-icon57, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon58_"] { display: var(--torntools-hide-icons-icon58, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon59_"] { display: var(--torntools-hide-icons-icon59, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon60_"] { display: var(--torntools-hide-icons-icon60, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon61_"] { display: var(--torntools-hide-icons-icon61, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon62_"] { display: var(--torntools-hide-icons-icon62, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon63_"] { display: var(--torntools-hide-icons-icon63, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon64_"] { display: var(--torntools-hide-icons-icon64, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon65_"] { display: var(--torntools-hide-icons-icon65, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon66_"] { display: var(--torntools-hide-icons-icon66, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon67_"] { display: var(--torntools-hide-icons-icon67, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon68_"] { display: var(--torntools-hide-icons-icon68, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon69_"] { display: var(--torntools-hide-icons-icon69, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon70_"] { display: var(--torntools-hide-icons-icon70, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon71_"] { display: var(--torntools-hide-icons-icon71, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon72_"] { display: var(--torntools-hide-icons-icon72, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon73_"] { display: var(--torntools-hide-icons-icon73, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon74_"] { display: var(--torntools-hide-icons-icon74, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon75_"] { display: var(--torntools-hide-icons-icon75, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon76_"] { display: var(--torntools-hide-icons-icon76, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon77_"] { display: var(--torntools-hide-icons-icon77, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon78_"] { display: var(--torntools-hide-icons-icon78, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon79_"] { display: var(--torntools-hide-icons-icon79, inline-block) }
-#sidebarroot .status-icons___1SnOI>li[class^="icon80_"] { display: var(--torntools-hide-icons-icon80, inline-block) }
+#sidebarroot .status-icons___1SnOI > li[class^="icon1_"] {
+    display: var(--torntools-hide-icons-icon1, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon2_"] {
+    display: var(--torntools-hide-icons-icon2, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon3_"] {
+    display: var(--torntools-hide-icons-icon3, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon4_"] {
+    display: var(--torntools-hide-icons-icon4, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon5_"] {
+    display: var(--torntools-hide-icons-icon5, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon6_"] {
+    display: var(--torntools-hide-icons-icon6, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon7_"] {
+    display: var(--torntools-hide-icons-icon7, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon8_"] {
+    display: var(--torntools-hide-icons-icon8, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon9_"] {
+    display: var(--torntools-hide-icons-icon9, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon10_"] {
+    display: var(--torntools-hide-icons-icon10, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon11_"] {
+    display: var(--torntools-hide-icons-icon11, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon12_"] {
+    display: var(--torntools-hide-icons-icon12, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon13_"] {
+    display: var(--torntools-hide-icons-icon13, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon14_"] {
+    display: var(--torntools-hide-icons-icon14, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon15_"] {
+    display: var(--torntools-hide-icons-icon15, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon16_"] {
+    display: var(--torntools-hide-icons-icon16, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon17_"] {
+    display: var(--torntools-hide-icons-icon17, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon18_"] {
+    display: var(--torntools-hide-icons-icon18, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon19_"] {
+    display: var(--torntools-hide-icons-icon19, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon20_"] {
+    display: var(--torntools-hide-icons-icon20, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon21_"] {
+    display: var(--torntools-hide-icons-icon21, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon22_"] {
+    display: var(--torntools-hide-icons-icon22, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon23_"] {
+    display: var(--torntools-hide-icons-icon23, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon24_"] {
+    display: var(--torntools-hide-icons-icon24, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon25_"] {
+    display: var(--torntools-hide-icons-icon25, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon26_"] {
+    display: var(--torntools-hide-icons-icon26, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon27_"] {
+    display: var(--torntools-hide-icons-icon27, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon28_"] {
+    display: var(--torntools-hide-icons-icon28, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon29_"] {
+    display: var(--torntools-hide-icons-icon29, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon30_"] {
+    display: var(--torntools-hide-icons-icon30, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon31_"] {
+    display: var(--torntools-hide-icons-icon31, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon32_"] {
+    display: var(--torntools-hide-icons-icon32, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon33_"] {
+    display: var(--torntools-hide-icons-icon33, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon34_"] {
+    display: var(--torntools-hide-icons-icon34, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon35_"] {
+    display: var(--torntools-hide-icons-icon35, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon36_"] {
+    display: var(--torntools-hide-icons-icon36, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon37_"] {
+    display: var(--torntools-hide-icons-icon37, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon38_"] {
+    display: var(--torntools-hide-icons-icon38, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon39_"] {
+    display: var(--torntools-hide-icons-icon39, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon40_"] {
+    display: var(--torntools-hide-icons-icon40, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon41_"] {
+    display: var(--torntools-hide-icons-icon41, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon42_"] {
+    display: var(--torntools-hide-icons-icon42, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon43_"] {
+    display: var(--torntools-hide-icons-icon43, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon44_"] {
+    display: var(--torntools-hide-icons-icon44, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon45_"] {
+    display: var(--torntools-hide-icons-icon45, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon46_"] {
+    display: var(--torntools-hide-icons-icon46, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon47_"] {
+    display: var(--torntools-hide-icons-icon47, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon48_"] {
+    display: var(--torntools-hide-icons-icon48, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon49_"] {
+    display: var(--torntools-hide-icons-icon49, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon50_"] {
+    display: var(--torntools-hide-icons-icon50, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon51_"] {
+    display: var(--torntools-hide-icons-icon51, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon52_"] {
+    display: var(--torntools-hide-icons-icon52, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon53_"] {
+    display: var(--torntools-hide-icons-icon53, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon54_"] {
+    display: var(--torntools-hide-icons-icon54, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon55_"] {
+    display: var(--torntools-hide-icons-icon55, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon56_"] {
+    display: var(--torntools-hide-icons-icon56, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon57_"] {
+    display: var(--torntools-hide-icons-icon57, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon58_"] {
+    display: var(--torntools-hide-icons-icon58, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon59_"] {
+    display: var(--torntools-hide-icons-icon59, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon60_"] {
+    display: var(--torntools-hide-icons-icon60, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon61_"] {
+    display: var(--torntools-hide-icons-icon61, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon62_"] {
+    display: var(--torntools-hide-icons-icon62, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon63_"] {
+    display: var(--torntools-hide-icons-icon63, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon64_"] {
+    display: var(--torntools-hide-icons-icon64, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon65_"] {
+    display: var(--torntools-hide-icons-icon65, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon66_"] {
+    display: var(--torntools-hide-icons-icon66, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon67_"] {
+    display: var(--torntools-hide-icons-icon67, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon68_"] {
+    display: var(--torntools-hide-icons-icon68, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon69_"] {
+    display: var(--torntools-hide-icons-icon69, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon70_"] {
+    display: var(--torntools-hide-icons-icon70, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon71_"] {
+    display: var(--torntools-hide-icons-icon71, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon72_"] {
+    display: var(--torntools-hide-icons-icon72, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon73_"] {
+    display: var(--torntools-hide-icons-icon73, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon74_"] {
+    display: var(--torntools-hide-icons-icon74, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon75_"] {
+    display: var(--torntools-hide-icons-icon75, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon76_"] {
+    display: var(--torntools-hide-icons-icon76, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon77_"] {
+    display: var(--torntools-hide-icons-icon77, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon78_"] {
+    display: var(--torntools-hide-icons-icon78, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon79_"] {
+    display: var(--torntools-hide-icons-icon79, inline-block)
+}
+
+#sidebarroot .status-icons___1SnOI > li[class^="icon80_"] {
+    display: var(--torntools-hide-icons-icon80, inline-block)
+}

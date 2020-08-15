@@ -73,7 +73,7 @@ requireDatabase().then(() => {
 });
 
 function loadMain() {
-	subpageLoaded("main").then(function () {
+	subpageLoaded("main").then(() => {
 		fullInfoBox("main");
 
 		if (ownFaction && settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
@@ -82,7 +82,7 @@ function loadMain() {
 
 function loadInfo() {
 	if (ownFaction) {
-		subpageLoaded("info").then(function () {
+		subpageLoaded("info").then(() => {
 			fullInfoBox("info");
 
 			if (settings.pages.faction.armory_worth) armoryWorth();
@@ -91,7 +91,7 @@ function loadInfo() {
 
 	if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
 
-	requirePlayerList(".members-list .table-body").then(async function () {
+	requirePlayerList(".members-list .table-body").then(async () => {
 		await showUserInfo();
 
 		// Player list filter
@@ -104,7 +104,7 @@ function loadInfo() {
 
 function loadCrimes() {
 	if (!doc.find(".faction-crimes-wrap.tt-modified")) {
-		subpageLoaded("crimes").then(function () {
+		subpageLoaded("crimes").then(() => {
 			if (settings.pages.faction.oc_time && Object.keys(oc).length > 0) {
 				ocTimes(oc, settings.format);
 			} else if (Object.keys(oc).length === 0) {
@@ -162,8 +162,8 @@ function ocTimes(oc, format) {
 	for (let crime of crimes) {
 		let crime_id = crime.find(".details-wrap").getAttribute("data-crime");
 
-        let finish_time;
-        let span = doc.new({ type: "span", class: "tt-oc-time" });
+		let finish_time;
+		let span = doc.new({ type: "span", class: "tt-oc-time" });
 
 		if (oc[crime_id]) {
 			finish_time = oc[crime_id].time_ready;
@@ -202,12 +202,12 @@ function shortenArmoryNews() {
 	doc.find("#tab4-4 .news-list").innerHTML = "";
 	console.log("db", db)
 
-    for (let key in db) {
-        let li = doc.new({ type: "li" });
-        let date = doc.new({ type: "span", class: "date" });
-        let info = doc.new({ type: "span", class: "info" });
-        let a = doc.new({ type: "a", text: db[key].username, attributes: { href: db[key].link } });
-        info.appendChild(a);
+	for (let key in db) {
+		let li = doc.new({ type: "li" });
+		let date = doc.new({ type: "span", class: "date" });
+		let info = doc.new({ type: "span", class: "info" });
+		let a = doc.new({ type: "a", text: db[key].username, attributes: { href: db[key].link } });
+		info.appendChild(a);
 
 		if (db[key].first_date) {
 			let upper_time = db[key].first_date.slice(0, db[key].first_date.length - (db[key].first_date.indexOf("\n") + 4));
@@ -237,23 +237,23 @@ function shortenArmoryNews() {
 		let keywords = ["used", "filled", "lent", "retrieved", "returned", "deposited", "gave"];
 		let inner_span = doc.new("span");
 
-        for (let keyword of keywords) {
-            if (key.includes(keyword)) {
-                if (key.includes("one")) {
-                    let amount_span = doc.new({
-                        type: "span",
-                        text: " " + db[key].count + "x",
-                        attributes: { style: "font-weight: 600" }
-                    });
-                    inner_span.innerHTML += ` ${keyword}`;
-                    inner_span.appendChild(amount_span);
-                    inner_span.innerHTML += key.split(" one")[1];
-                } else {
-                    inner_span.innerText = ` ${keyword}` + key.split(keyword)[1];
-                }
-                break;
-            }
-        }
+		for (let keyword of keywords) {
+			if (key.includes(keyword)) {
+				if (key.includes("one")) {
+					let amount_span = doc.new({
+						type: "span",
+						text: " " + db[key].count + "x",
+						attributes: { style: "font-weight: 600" }
+					});
+					inner_span.innerHTML += ` ${keyword}`;
+					inner_span.appendChild(amount_span);
+					inner_span.innerHTML += key.split(" one")[1];
+				} else {
+					inner_span.innerText = ` ${keyword}` + key.split(keyword)[1];
+				}
+				break;
+			}
+		}
 
 		info.appendChild(inner_span);
 		li.appendChild(date);
@@ -276,8 +276,8 @@ function subpage() {
 }
 
 function subpageLoaded(page) {
-	return new Promise(function (resolve) {
-		let checker = setInterval(function () {
+	return new Promise(resolve => {
+		let checker = setInterval(() => {
 			console.log("checking", page);
 			if (page === "crimes" && doc.find("#faction-crimes .organize-wrap ul.crimes-list li")) {
 				resolve(true);
@@ -297,8 +297,8 @@ function subpageLoaded(page) {
 }
 
 function newstabLoaded(tab) {
-	return new Promise(function (resolve) {
-		let checker = setInterval(function () {
+	return new Promise(resolve => {
+		let checker = setInterval(() => {
 			if (tab === "armory" && doc.find("#tab4-4 .news-list li:not(.last)")) {
 				resolve(true);
 				return clearInterval(checker);
@@ -332,20 +332,20 @@ function openOCs() {
 }
 
 function showNNB() {
-    fetchApi_v2('tornstats', { section: 'api.php', action: 'crimes' })
-        .then(result => {
-            // Populate active crimes
-            let crimes = doc.findAll(".organize-wrap .crimes-list>li");
-            for (let crime of crimes) {
-                for (let player of crime.findAll(".details-list>li")) {
-                    player.find(".level").classList.add("torntools-modified");
-                    if (mobile) {
-                        player.find(".member").classList.add("torntools-modified");
-                        player.find(".stat").classList.add("torntools-modified");
-                        player.find(".member").classList.add("torntools-mobile");
-                        player.find(".level").classList.add("torntools-mobile");
-                        player.find(".stat").classList.add("torntools-mobile");
-                    }
+	fetchApi_v2('tornstats', { section: 'api.php', action: 'crimes' })
+		.then(result => {
+			// Populate active crimes
+			let crimes = doc.findAll(".organize-wrap .crimes-list>li");
+			for (let crime of crimes) {
+				for (let player of crime.findAll(".details-list>li")) {
+					player.find(".level").classList.add("torntools-modified");
+					if (mobile) {
+						player.find(".member").classList.add("torntools-modified");
+						player.find(".stat").classList.add("torntools-modified");
+						player.find(".member").classList.add("torntools-mobile");
+						player.find(".level").classList.add("torntools-mobile");
+						player.find(".stat").classList.add("torntools-mobile");
+					}
 
 					if (player.find(".member").innerText === "Member") {
 						let col = doc.new({
@@ -361,10 +361,10 @@ function showNNB() {
 					let player_id = player.find(".h").getAttribute("href").split("XID=")[1];
 					let nnb = result.members[player_id] ? result.members[player_id].natural_nerve : "N/A";
 
-                    let col = doc.new({ type: "li", class: `tt-nnb ${mobile ? "torntools-mobile" : ""}`, text: nnb });
-                    player.find(".stat").parentElement.insertBefore(col, player.find(".stat"));
-                }
-            }
+					let col = doc.new({ type: "li", class: `tt-nnb ${mobile ? "torntools-mobile" : ""}`, text: nnb });
+					player.find(".stat").parentElement.insertBefore(col, player.find(".stat"));
+				}
+			}
 
 			// Populate new crime selection
 			for (let player of doc.findAll(".plans-list .item")) {
@@ -393,13 +393,13 @@ function showNNB() {
 				let player_id = player.find(".h").getAttribute("href").split("XID=")[1];
 				let nnb = result.members[player_id] ? result.members[player_id].natural_nerve : "N/A";
 
-                let col = doc.new({ type: "li", class: `tt-nnb short ${mobile ? "torntools-mobile" : ""}`, text: nnb });
-                player.find(".act").parentElement.insertBefore(col, player.find(".act"));
-            }
-        })
-        .catch(err => {
-            console.log("ERROR", err);
-        })
+				let col = doc.new({ type: "li", class: `tt-nnb short ${mobile ? "torntools-mobile" : ""}`, text: nnb });
+				player.find(".act").parentElement.insertBefore(col, player.find(".act"));
+			}
+		})
+		.catch(err => {
+			console.log("ERROR", err);
+		})
 }
 
 function fullInfoBox(page) {
@@ -428,11 +428,11 @@ function fullInfoBox(page) {
 		key = "info_page_full";
 	}
 
-    let options_div = doc.new({ type: "div", class: "tt-options" });
+	let options_div = doc.new({ type: "div", class: "tt-options" });
 
-    let setting_div = doc.new({ type: "div", class: "tt-checkbox-wrap in-title" });
-    let checkbox = doc.new({ type: "input", attributes: { type: "checkbox" } });
-    let text = doc.new({ type: "div", text: "Show full page" });
+	let setting_div = doc.new({ type: "div", class: "tt-checkbox-wrap in-title" });
+	let checkbox = doc.new({ type: "input", attributes: { type: "checkbox" } });
+	let text = doc.new({ type: "div", text: "Show full page" });
 
 	if (settings.pages.faction[key]) {
 		checkbox.checked = true;
@@ -444,16 +444,16 @@ function fullInfoBox(page) {
 	options_div.appendChild(setting_div);
 	title.appendChild(options_div);
 
-	checkbox.onclick = function () {
+	checkbox.onclick = () => {
 		info_box.classList.toggle("tt-force-full");
 
-        ttStorage.change({ "settings": { "pages": { "faction": { [key]: checkbox.checked } } } })
-    }
+		ttStorage.change({ "settings": { "pages": { "faction": { [key]: checkbox.checked } } } })
+	}
 }
 
 function upgradesInfoListener() {
-	subpageLoaded("upgrades").then(function () {
-		let upgrades_info_listener = new MutationObserver(function (mutations) {
+	subpageLoaded("upgrades").then(() => {
+		let upgrades_info_listener = new MutationObserver(mutations => {
 			for (let mutation of mutations) {
 				if (mutation.type === "childList") {
 					if (mutation.addedNodes[0]) {
@@ -470,27 +470,27 @@ function upgradesInfoListener() {
 										needed_respect = required_respect - available_respect;
 										if (needed_respect < 0) needed_respect = 0;
 
-                                        let span = doc.new({
-                                            type: "span",
-                                            text: ` (${numberWithCommas(needed_respect)} respect to go)`
-                                        });
-                                        text.appendChild(span);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        });
-        upgrades_info_listener.observe(doc.find(".skill-tree"), { childList: true, subtree: true });
-    });
+										let span = doc.new({
+											type: "span",
+											text: ` (${numberWithCommas(needed_respect)} respect to go)`
+										});
+										text.appendChild(span);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+		upgrades_info_listener.observe(doc.find(".skill-tree"), { childList: true, subtree: true });
+	});
 }
 
 function armoryWorth() {
-    fetchApi_v2('torn', { section: 'faction', selections: 'weapons,armor,temporary,medical,drugs,boosters,cesium,currency' })
-        .then(result => {
-            console.log("result", result);
+	fetchApi_v2('torn', { section: 'faction', selections: 'weapons,armor,temporary,medical,drugs,boosters,cesium,currency' })
+		.then(result => {
+			console.log("result", result);
 
 			let total = 0;
 			let lists = ["weapons", "armor", "temporary", "medical", "drugs", "boosters"];
@@ -511,17 +511,17 @@ function armoryWorth() {
 			// Points
 			total += result.points * torndata.pawnshop.points_value;
 
-            let li = doc.new({ type: "li", text: `Armory value: $${numberWithCommas(total, false)}` });
-            doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
-        })
-        .catch(err => {
-            console.log("ERROR", err);
+			let li = doc.new({ type: "li", text: `Armory value: $${numberWithCommas(total, false)}` });
+			doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
+		})
+		.catch(err => {
+			console.log("ERROR", err);
 
-            if (err.error === 'Incorrect ID-entity relation') {
-                let li = doc.new({ type: "li", text: `Armory value: NO API ACCESS` });
-                doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
-            }
-        })
+			if (err.error === 'Incorrect ID-entity relation') {
+				let li = doc.new({ type: "li", text: `Armory value: NO API ACCESS` });
+				doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
+			}
+		})
 }
 
 async function showUserInfo() {
@@ -655,8 +655,8 @@ function showAvailablePlayers() {
             </div>
         `
 
-        let msg_cont = doc.new({ type: "div", class: "info-msg-cont border-round m-top10" });
-        msg_cont.innerHTML = msg_cont_inner;
+		let msg_cont = doc.new({ type: "div", class: "info-msg-cont border-round m-top10" });
+		msg_cont.innerHTML = msg_cont_inner;
 
 		doc.find("#faction-crimes").insertBefore(msg_cont, doc.find("#faction-crimes").firstElementChild);
 	}
@@ -676,24 +676,24 @@ function showRecommendedNNB() {
 
 	let parent = doc.findAll(".faction-crimes-wrap")[1];
 
-    let heading = parent.find(".plan-crimes[role=heading]");
-    let span = doc.new({ type: "span", class: "tt-span", text: mobile ? "NNB" : "Recommended NNB" });
-    heading.appendChild(span);
+	let heading = parent.find(".plan-crimes[role=heading]");
+	let span = doc.new({ type: "span", class: "tt-span", text: mobile ? "NNB" : "Recommended NNB" });
+	heading.appendChild(span);
 
 
-    for (let crime_type of parent.findAll(".crimes-list .item-wrap")) {
-        let name_div = crime_type.find(".plan-crimes")
-        let inner_span = doc.new({ type: "span", class: "tt-span", text: nnb_dict[name_div.innerText] });
-        name_div.appendChild(inner_span);
-    }
+	for (let crime_type of parent.findAll(".crimes-list .item-wrap")) {
+		let name_div = crime_type.find(".plan-crimes")
+		let inner_span = doc.new({ type: "span", class: "tt-span", text: nnb_dict[name_div.innerText] });
+		name_div.appendChild(inner_span);
+	}
 }
 
 function drugInfo() {
-	let item_info_container_mutation = new MutationObserver(function (mutations) {
+	let item_info_container_mutation = new MutationObserver(mutations => {
 		for (let mutation of mutations) {
 			if (mutation.target.classList.contains("view-item-info") && (mutation.addedNodes.length > 0 || mutation.attributeName === "style")) {
 				let el = mutation.target;
-				itemInfoLoaded(el).then(function () {
+				itemInfoLoaded(el).then(() => {
 					let item_name = el.find("span.bold").innerText;
 					if (item_name.indexOf("The") > -1) item_name = item_name.split("The ")[1];
 
@@ -716,22 +716,22 @@ function drugInfo() {
 						});
 						el.find(".info-msg").appendChild(pros_header);
 
-                        for (let eff of drug_details.pros) {
-                            let pros_div = doc.new({ type: "div", class: "t-green bold item-effect tabbed", text: eff });
-                            el.find(".info-msg").appendChild(pros_div);
-                        }
-                    }
+						for (let eff of drug_details.pros) {
+							let pros_div = doc.new({ type: "div", class: "t-green bold item-effect tabbed", text: eff });
+							el.find(".info-msg").appendChild(pros_div);
+						}
+					}
 
-                    // Cons
-                    if (drug_details.cons) {
-                        let cons_header = doc.new({ type: "div", class: "t-red bold item-effect", text: "Cons:" });
-                        el.find(".info-msg").appendChild(cons_header);
+					// Cons
+					if (drug_details.cons) {
+						let cons_header = doc.new({ type: "div", class: "t-red bold item-effect", text: "Cons:" });
+						el.find(".info-msg").appendChild(cons_header);
 
-                        for (let eff of drug_details.cons) {
-                            let cons_div = doc.new({ type: "div", class: "t-red bold item-effect tabbed", text: eff });
-                            el.find(".info-msg").appendChild(cons_div);
-                        }
-                    }
+						for (let eff of drug_details.cons) {
+							let cons_div = doc.new({ type: "div", class: "t-red bold item-effect tabbed", text: eff });
+							el.find(".info-msg").appendChild(cons_div);
+						}
+					}
 
 					// Cooldown
 					if (drug_details.cooldown) {
@@ -743,10 +743,10 @@ function drugInfo() {
 						el.find(".info-msg").appendChild(cooldown_div);
 					}
 
-                    // Overdose
-                    if (drug_details.overdose) {
-                        let od_header = doc.new({ type: "div", class: "t-red bold item-effect", text: "Overdose:" });
-                        el.find(".info-msg").appendChild(od_header);
+					// Overdose
+					if (drug_details.overdose) {
+						let od_header = doc.new({ type: "div", class: "t-red bold item-effect", text: "Overdose:" });
+						el.find(".info-msg").appendChild(od_header);
 
 						// bars
 						if (drug_details.overdose.bars) {
@@ -777,26 +777,26 @@ function drugInfo() {
 							el.find(".info-msg").appendChild(hosp_div);
 						}
 
-                        // extra
-                        if (drug_details.overdose.extra) {
-                            let extra_div = doc.new({
-                                type: "div",
-                                class: "t-red bold item-effect tabbed",
-                                text: `Extra: ${drug_details.overdose.extra}`
-                            });
-                            el.find(".info-msg").appendChild(extra_div);
-                        }
-                    }
-                });
-            }
-        }
-    });
-    item_info_container_mutation.observe(doc.find("body"), { childList: true, subtree: true, attributes: true });
+						// extra
+						if (drug_details.overdose.extra) {
+							let extra_div = doc.new({
+								type: "div",
+								class: "t-red bold item-effect tabbed",
+								text: `Extra: ${drug_details.overdose.extra}`
+							});
+							el.find(".info-msg").appendChild(extra_div);
+						}
+					}
+				});
+			}
+		}
+	});
+	item_info_container_mutation.observe(doc.find("body"), { childList: true, subtree: true, attributes: true });
 }
 
 function itemInfoLoaded(element) {
-	return new Promise(function (resolve) {
-		let checker = setInterval(function () {
+	return new Promise(resolve => {
+		let checker = setInterval(() => {
 			if (!element.find(".ajax-placeholder")) {
 				resolve(true);
 				return clearInterval(checker);
@@ -909,7 +909,7 @@ function addFilterToTable(list, title) {
 	});
 
 	let level_slider_info = level_slider.nextElementSibling;
-	level_slider.noUiSlider.on('update', function (values) {
+	level_slider.noUiSlider.on('update', values => {
 		values = values.map(x => parseInt(x));
 		level_slider_info.innerHTML = `Level: ${values.join(' - ')}`;
 	});
@@ -926,44 +926,44 @@ function addFilterToTable(list, title) {
 		}
 	});
 
-    let last_action_slider_info = last_action_slider.nextElementSibling;
-    last_action_slider.noUiSlider.on('update', function (values) {
-        values = values.map(x => (timeUntil(parseFloat(x) * 60 * 60 * 1000, { max_unit: "h", hide_nulls: true })));
-        last_action_slider_info.innerHTML = `Min Hours: ${values.join(' - ')}`;
-    });
+	let last_action_slider_info = last_action_slider.nextElementSibling;
+	last_action_slider.noUiSlider.on('update', values => {
+		values = values.map(x => (timeUntil(parseFloat(x) * 60 * 60 * 1000, { max_unit: "h", hide_nulls: true })));
+		last_action_slider_info.innerHTML = `Min Hours: ${values.join(' - ')}`;
+	});
 
-    // Event listeners
-    for (let checkbox of filter_container.findAll(".tt-checkbox-wrap input")) {
-        checkbox.onclick = applyFilters;
-    }
-    for (let dropdown of filter_container.findAll("select")) {
-        dropdown.onchange = applyFilters;
-    }
-    let filter_observer = new MutationObserver(function (mutations) {
-        for (let mutation of mutations) {
-            if (mutation.type === "attributes"
-                && mutation.target.classList
-                && mutation.attributeName === "aria-valuenow"
-                && (mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))) {
-                applyFilters();
-            }
-        }
-    });
-    filter_observer.observe(filter_container, { attributes: true, subtree: true });
+	// Event listeners
+	for (let checkbox of filter_container.findAll(".tt-checkbox-wrap input")) {
+		checkbox.onclick = applyFilters;
+	}
+	for (let dropdown of filter_container.findAll("select")) {
+		dropdown.onchange = applyFilters;
+	}
+	let filter_observer = new MutationObserver(mutations => {
+		for (let mutation of mutations) {
+			if (mutation.type === "attributes"
+				&& mutation.target.classList
+				&& mutation.attributeName === "aria-valuenow"
+				&& (mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))) {
+				applyFilters();
+			}
+		}
+	});
+	filter_observer.observe(filter_container, { attributes: true, subtree: true });
 
-    // Page changing
-    doc.addEventListener("click", function (event) {
-        if (event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, { class: "gallery-wrapper" })) {
-            console.log("click");
-            setTimeout(function () {
-                requirePlayerList(".users-list").then(function () {
-                    console.log("loaded");
-                    populateFactions();
-                    applyFilters();
-                });
-            }, 300);
-        }
-    });
+	// Page changing
+	doc.addEventListener("click", event => {
+		if (event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, { class: "gallery-wrapper" })) {
+			console.log("click");
+			setTimeout(() => {
+				requirePlayerList(".users-list").then(() => {
+					console.log("loaded");
+					populateFactions();
+					applyFilters();
+				});
+			}, 300);
+		}
+	});
 
 	// Initializing
 	for (let state of filters.faction.activity) {
@@ -984,8 +984,8 @@ function addFilterToTable(list, title) {
 	}
 
 	// Look for Search bar changes
-	doc.find("#faction-info-members .table-header .table-cell.member input.search-input").addEventListener("keyup", function () {
-		setTimeout(function () {
+	doc.find("#faction-info-members .table-header .table-cell.member input.search-input").addEventListener("keyup", () => {
+		setTimeout(() => {
 			for (let row of doc.findAll("#faction-info-members .table-body>.table-row")) {
 				if (row.style.display === "none" && row.nextElementSibling && row.nextElementSibling.classList.contains("tt-user-info")) {
 					row.classList.add("filter-hidden");
@@ -1132,10 +1132,10 @@ function addFilterToTable(list, title) {
 		for (let tag of faction_tags) {
 			if (filter_container.find(`#tt-faction-filter option[value='${tag}']`)) continue;
 
-            let option = doc.new({ type: "option", value: tag, text: tag });
-            filter_container.find("#tt-faction-filter").appendChild(option);
-        }
-    }
+			let option = doc.new({ type: "option", value: tag, text: tag });
+			filter_container.find("#tt-faction-filter").appendChild(option);
+		}
+	}
 }
 
 function armoryFilter() {
@@ -1154,14 +1154,14 @@ function armoryFilter() {
 	if (!mobile) {
 		for (let link of doc.findAll("ul[aria-label='faction armoury tabs']>li")) {
 			if (["weapons", "armour"].includes(link.getAttribute("aria-controls").replace("armoury-", ""))) {
-				link.addEventListener("click", function () {
+				link.addEventListener("click", () => {
 					console.log("filter tab")
 					if (doc.find("#ttArmoryFilter")) {
 						doc.find("#ttArmoryFilter").classList.remove("filter-hidden");
 					}
 				});
 			} else {
-				link.addEventListener("click", function () {
+				link.addEventListener("click", () => {
 					console.log("other tab");
 					if (doc.find("#ttArmoryFilter")) {
 						doc.find("#ttArmoryFilter").classList.add("filter-hidden");
@@ -1170,7 +1170,7 @@ function armoryFilter() {
 			}
 		}
 	} else {
-		doc.find(".armoury-drop-list select#armour-nav-list").addEventListener("change", function () {
+		doc.find(".armoury-drop-list select#armour-nav-list").addEventListener("change", () => {
 			if (["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))) {
 				console.log("filter tab")
 				if (doc.find("#ttArmoryFilter")) {
@@ -1185,9 +1185,9 @@ function armoryFilter() {
 		});
 	}
 
-    let unavailable_wrap = doc.new({ type: "div", class: "tt-checkbox-wrap in-title hide-unavailable-option" });
-    let unavailable_checkbox = doc.new({ type: "input", attributes: { type: "checkbox" } });
-    let unavailable_text = doc.new({ type: "div", text: "Hide unavailable" });
+	let unavailable_wrap = doc.new({ type: "div", class: "tt-checkbox-wrap in-title hide-unavailable-option" });
+	let unavailable_checkbox = doc.new({ type: "input", attributes: { type: "checkbox" } });
+	let unavailable_text = doc.new({ type: "div", text: "Hide unavailable" });
 
 	if (filters.faction_armory.hide_unavailable) {
 		unavailable_checkbox.checked = filters.faction_armory.hide_unavailable;
@@ -1202,21 +1202,21 @@ function armoryFilter() {
 
 	armoryItemsLoaded().then(filter);
 
-    let items_added_observer = new MutationObserver(function (mutations) {
-        for (let mutation of mutations) {
-            if (mutation.type === "childList" && mutation.addedNodes[0]) {
-                for (let added_node of mutation.addedNodes) {
-                    if (added_node.classList && added_node.classList.contains("item-list")) {
-                        if (["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))) {
-                            console.log("items added")
-                            filter();
-                        }
-                    }
-                }
-            }
-        }
-    });
-    items_added_observer.observe(doc.find(`#faction-armoury-tabs`), { childList: true, subtree: true });
+	let items_added_observer = new MutationObserver(mutations => {
+		for (let mutation of mutations) {
+			if (mutation.type === "childList" && mutation.addedNodes[0]) {
+				for (let added_node of mutation.addedNodes) {
+					if (added_node.classList && added_node.classList.contains("item-list")) {
+						if (["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))) {
+							console.log("items added")
+							filter();
+						}
+					}
+				}
+			}
+		}
+	});
+	items_added_observer.observe(doc.find(`#faction-armoury-tabs`), { childList: true, subtree: true });
 
 	function filter() {
 		let item_list = doc.findAll(`#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list>li`);
@@ -1231,8 +1231,8 @@ function armoryFilter() {
 			}
 		}
 
-        ttStorage.change({ "filters": { "faction_armory": { "hide_unavailable": unavailable } } });
-    }
+		ttStorage.change({ "filters": { "faction_armory": { "hide_unavailable": unavailable } } });
+	}
 }
 
 const ALLOWED_BLOOD = {
@@ -1261,8 +1261,8 @@ function highlightBloodBags() {
 		const section = doc.find("ul[aria-label='faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
 		if (section !== "medical") return;
 
-        highlight();
-    }).observe(doc.find(`#faction-armoury-tabs`), { childList: true, subtree: true });
+		highlight();
+	}).observe(doc.find(`#faction-armoury-tabs`), { childList: true, subtree: true });
 
 	function highlight() {
 		const allowedBlood = ALLOWED_BLOOD[settings.pages.items.highlight_bloodbags];
@@ -1286,8 +1286,8 @@ function highlightBloodBags() {
 }
 
 function armoryTabsLoaded() {
-	return new Promise(function (resolve) {
-		let checker = setInterval(function () {
+	return new Promise(resolve => {
+		let checker = setInterval(() => {
 			if (doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']")) {
 				resolve(true);
 				return clearInterval(checker);
@@ -1297,8 +1297,8 @@ function armoryTabsLoaded() {
 }
 
 function armoryItemsLoaded() {
-	return new Promise(function (resolve) {
-		let checker = setInterval(function () {
+	return new Promise(resolve => {
+		let checker = setInterval(() => {
 			if (doc.find("#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list>li:not(.ajax-placeholder)")) {
 				resolve(true);
 				return clearInterval(checker);
@@ -1308,8 +1308,8 @@ function armoryItemsLoaded() {
 }
 
 function memberInfoAdded() {
-	return new Promise(function (resolve) {
-		let checker = setInterval(function () {
+	return new Promise(resolve => {
+		let checker = setInterval(() => {
 			if (member_info_added) {
 				resolve(true);
 				return clearInterval(checker);
@@ -1319,8 +1319,8 @@ function memberInfoAdded() {
 }
 
 function warOverviewLoaded() {
-	return new Promise(function (resolve) {
-		let checker = setInterval(function () {
+	return new Promise(resolve => {
+		let checker = setInterval(() => {
 			if (doc.find("#war-react-root ul.f-war-list")) {
 				resolve(true);
 				return clearInterval(checker);
@@ -1330,8 +1330,8 @@ function warOverviewLoaded() {
 }
 
 function warDescriptionLoaded() {
-	return new Promise(function (resolve) {
-		let checker = setInterval(function () {
+	return new Promise(resolve => {
+		let checker = setInterval(() => {
 			if (doc.find("#war-react-root ul.f-war-list > li.descriptions")) {
 				resolve(true);
 				return clearInterval(checker);
@@ -1380,57 +1380,59 @@ function observeDescription() {
 		});
 	});
 
-	new MutationObserver((mutations) => {
-		let estimateCount = 0;
+	requireElement("#war-react-root ul.f-war-list > li.descriptions ul.members-list").then(() => {
+		new MutationObserver((mutations) => {
+			let estimateCount = 0;
 
-		for (let mutation of mutations) {
-			for (let node of mutation.removedNodes) {
-				if (hasClass(node, "your") || hasClass(node, "enemy")) {
-					if (hasClass(mutation.nextSibling, "tt-userinfo-container")) mutation.nextSibling.remove();
+			for (let mutation of mutations) {
+				for (let node of mutation.removedNodes) {
+					if (hasClass(node, "your") || hasClass(node, "enemy")) {
+						if (hasClass(mutation.nextSibling, "tt-userinfo-container")) mutation.nextSibling.remove();
+					}
 				}
-			}
 
-			for (let node of mutation.addedNodes) {
-				if (node && node.classList && (node.classList.contains("your") || node.classList.contains("enemy"))) {
-					const userId = (node.find("a.user.name").getAttribute("data-placeholder") || node.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1];
+				for (let node of mutation.addedNodes) {
+					if (node && node.classList && (node.classList.contains("your") || node.classList.contains("enemy"))) {
+						const userId = (node.find("a.user.name").getAttribute("data-placeholder") || node.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1];
 
-					const container = doc.new({ type: "li", class: "tt-userinfo-container" });
-					node.parentElement.insertBefore(container, node.nextElementSibling);
+						const container = doc.new({ type: "li", class: "tt-userinfo-container" });
+						node.parentElement.insertBefore(container, node.nextElementSibling);
 
-					const row = doc.new({ type: "section", class: "tt-userinfo-row tt-userinfo-row--statsestimate" });
-					container.appendChild(row);
+						const row = doc.new({ type: "section", class: "tt-userinfo-row tt-userinfo-row--statsestimate" });
+						container.appendChild(row);
 
-					if (!hasCachedEstimate(userId)) estimateCount++;
+						if (!hasCachedEstimate(userId)) estimateCount++;
 
-					loadingPlaceholder(row, true);
-					estimateStats(userId, false, estimateCount)
-						.then((result => {
-							loadingPlaceholder(row, false);
-							row.appendChild(doc.new({
-								type: "span",
-								text: `Stat Estimate: ${result.estimate}`,
+						loadingPlaceholder(row, true);
+						estimateStats(userId, false, estimateCount)
+							.then((result => {
+								loadingPlaceholder(row, false);
+								row.appendChild(doc.new({
+									type: "span",
+									text: `Stat Estimate: ${result.estimate}`,
+								}))
 							}))
-						}))
-						.catch((error) => {
-							loadingPlaceholder(row, false);
-							row.appendChild(doc.new({
-								type: "span",
-								class: "tt-userinfo-message",
-								text: error.message,
-								attributes: { color: "error" },
-							}));
-						});
+							.catch((error) => {
+								loadingPlaceholder(row, false);
+								row.appendChild(doc.new({
+									type: "span",
+									class: "tt-userinfo-message",
+									text: error.message,
+									attributes: { color: "error" },
+								}));
+							});
+					}
 				}
 			}
-		}
-	}).observe(doc.find("#war-react-root ul.f-war-list > li.descriptions ul.members-list"), { childList: true, });
+		}).observe(doc.find("#war-react-root ul.f-war-list > li.descriptions ul.members-list"), { childList: true, });
+	})
 }
 
 function highlightOwnOC() {
 	const member = document.find(`.crimes-list > li.item-wrap .team > a[href="/profiles.php?XID=${userdata.player_id}"]`);
 	if (!member) return;
 
-    findParent(member, { class: "item-wrap" }).setAttribute("background-color", "green");
+	findParent(member, { class: "item-wrap" }).setAttribute("background-color", "green");
 }
 
 function showFactionBalance() {

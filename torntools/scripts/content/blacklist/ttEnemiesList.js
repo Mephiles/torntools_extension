@@ -2,7 +2,7 @@ requireDatabase(true).then(() => {
     console.log("TT - Enemies List");
 
     addXHRListener((event) => {
-        const {page, xhr} = event.detail;
+        const { page, xhr } = event.detail;
         if (page !== "userlist") return;
 
         const params = new URLSearchParams(xhr.requestBody);
@@ -22,7 +22,7 @@ requireDatabase(true).then(() => {
 
 function enemiesLoaded() {
     return new Promise((resolve) => {
-        let checker = setInterval(function () {
+        let checker = setInterval(() => {
             if (doc.find(".user-info-blacklist-wrap > li > .clear")) {
                 resolve(true);
                 return clearInterval(checker);

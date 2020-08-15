@@ -1,8 +1,7 @@
 /* GENERAL */
 body {
-    margin: 0;
     padding: 0;
-    margin-bottom: 100px;
+    margin: 0 0 100px;
     font-family: "Segoe UI", Tahoma, sans-serif;
 }
 
@@ -30,9 +29,11 @@ p {
     color: #848484;
     position: relative;
 }
+
 .note.red {
     color: red;
 }
+
 .note.green {
     color: #1bcc43;
 }
@@ -88,13 +89,16 @@ p {
     vertical-align: top;
     background-color: #f5f5f5;
 }
+
 .button:hover {
     border: 1px solid black;
 }
+
 .button.red {
     background-color: #c82333;
     color: white;
 }
+
 .button.green {
     background-color: #149a32;
     color: white;
@@ -128,8 +132,7 @@ p {
     height: 50px;
     line-height: 50px;
     display: flex;
-    margin: auto;
-    margin-top: 30px;
+    margin: 30px auto auto;
     border-top: 1px solid lightgrey;
     border-bottom: 1px solid lightgrey;
 }
@@ -175,15 +178,18 @@ p {
 #changelog .content {
     border: unset;
 }
+
 #changelog .content .header {
     width: 100%;
     display: flex;
 }
+
 #changelog .content .header .contributor {
     flex: 1 0 auto;
     text-align: center;
 }
-#changelog .content>.parent>.heading {
+
+#changelog .content > .parent > .heading {
     cursor: pointer;
     border-bottom: 0.5px solid lightgrey;
     padding: 2px 0 2px 5px;
@@ -191,32 +197,38 @@ p {
     line-height: 23px;
     font-size: 15px;
 }
-#changelog .content>.parent>.heading span {
+
+#changelog .content > .parent > .heading span {
     font-size: 12px;
 }
-#changelog .content>.parent>.heading i {
+
+#changelog .content > .parent > .heading i {
     float: right;
     position: relative;
     top: 7px;
 }
+
 #changelog .content .parent .parent {
     font-weight: 600;
     margin-left: 20px;
 }
+
 #changelog .content .parent .child {
     font-weight: 400;
     margin-left: 20px;
 }
+
 #changelog .content .parent .closeable {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
-    padding: 4px 0px 4px 10px;
+    padding: 4px 0 4px 10px;
 }
 
 #changelog .dkk span, #changelog .mephiles span {
     position: relative;
 }
+
 #changelog .mephiles span:before {
     width: 5px;
     height: 5px;
@@ -228,6 +240,7 @@ p {
     left: -13px;
     top: 5px;
 }
+
 #changelog .dkk span:before {
     width: 5px;
     height: 5px;
@@ -281,6 +294,7 @@ p {
     width: 45%;
     padding: unset;
 }
+
 #preferences .inner-content {
     display: flex;
     font-size: 15px;
@@ -292,24 +306,30 @@ p {
     border-right: 1px solid lightgray;
     background-color: #f1f1f1;
 }
-#preferences .navigation>div {
+
+#preferences .navigation > div {
     padding: 7px;
     border-bottom: 1px solid lightgray;
 }
-#preferences .navigation>div:not(.heading) {
+
+#preferences .navigation > div:not(.heading) {
     white-space: nowrap;
 }
-#preferences .navigation>div:not(.heading):hover {
+
+#preferences .navigation > div:not(.heading):hover {
     background-color: #e2e0e0;
     cursor: pointer;
 }
-#preferences .navigation>div:not(.heading).active {
+
+#preferences .navigation > div:not(.heading).active {
     background-color: #e2e0e0;
 }
-#preferences .navigation>div:not(.heading).active:hover {
+
+#preferences .navigation > div:not(.heading).active:hover {
     cursor: initial;
 }
-#preferences .navigation>div.heading {
+
+#preferences .navigation > div.heading {
     background-color: #b9b9b9;
 }
 
@@ -320,9 +340,11 @@ p {
     border-radius: 5px;
     text-align: center;
 }
+
 .big-message.hidden {
     display: none;
 }
+
 .big-message.error {
     background-color: #f8d7da;
     color: #721c24;
@@ -332,24 +354,30 @@ p {
     border-bottom: 1px solid lightgray;
     width: 100%;
 }
+
 .section {
     margin-bottom: 20px;
     display: none;
     padding: 10px;
 }
+
 .section.active {
     display: block;
 }
+
 .section.active .section {
     display: block;
 }
+
 .section .heading {
     font-weight: 600;
     margin-top: 15px;
 }
+
 .section .heading:first-of-type {
     margin-top: unset;
 }
+
 .section input:not([type=text]) {
     position: relative;
     top: 1px;
@@ -358,10 +386,12 @@ p {
 #preferences .footer {
     padding: 5px;
 }
+
 .actions.right {
     display: flex;
     flex-direction: row-reverse;
 }
+
 /* #preferences .footer .actions * {
     width: 60px;
     height: 30px;
@@ -425,7 +455,7 @@ p {
     position: relative;
 }
 
-.icon>div {
+.icon > div {
     background: url(https://torn.com/images/v2/svg_icons/sprites/user_status_icons_sprite.svg);
     width: inherit;
     height: inherit;
@@ -444,11 +474,11 @@ p {
     color: red;
     border-top: 2px solid;
 
-    -webkit-transform:rotate(-30deg);
-    -moz-transform:rotate(-30deg);
-    -ms-transform:rotate(-30deg);
-    -o-transform:rotate(-30deg);
-    transform:rotate(-30deg);
+    -webkit-transform: rotate(-30deg);
+    -moz-transform: rotate(-30deg);
+    -ms-transform: rotate(-30deg);
+    -o-transform: rotate(-30deg);
+    transform: rotate(-30deg);
 }
 
 .option input[type=text] {
@@ -457,6 +487,7 @@ p {
     outline: none;
     font-size: 12px;
 }
+
 .option input[type=text].short {
     width: 15px;
 }

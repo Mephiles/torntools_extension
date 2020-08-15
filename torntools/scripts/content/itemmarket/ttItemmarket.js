@@ -1,5 +1,5 @@
-requireDatabase().then(function () {
-	itemmarketLoaded().then(function () {
+requireDatabase().then(() => {
+	itemmarketLoaded().then(() => {
 		console.log("TT - Item Market");
 
 		if (subview() === "item_view") {
@@ -14,7 +14,7 @@ requireDatabase().then(function () {
 				el.find("a").setAttribute("href", url);
 			}
 		} else if (subview() === "browse_view") {
-			doc.addEventListener("click", function (event) {
+			doc.addEventListener("click", event => {
 				if (event.target.classList && event.target.classList.contains("bazaar-market-icon")) {
 					let url = event.target.parentElement.getAttribute("href");
 
@@ -71,5 +71,6 @@ function removeConfirmButtons(source = doc) {
 		if (view === "item_view") {
 			icon.setAttribute("data-price", item.find(".cost").innerText.split(": ").pop().substring(1).replaceAll(",", ""));
 		}
-	}s
+	}
+	s
 }

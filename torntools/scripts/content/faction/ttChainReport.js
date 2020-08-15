@@ -1,63 +1,63 @@
-chainReportLoaded().then(function(){
+chainReportLoaded().then(() => {
 	console.log("TT - Faction | Chain Report");
-	
+
 	displayContainer();
 });
 
-function chainReportLoaded(){
-	return new Promise(function(resolve, reject){
-        let checker = setInterval(function(){
-            if(doc.find(".report-title")){
-                resolve(true);
-                return clearInterval(checker);
-            }
-        });
-    });
+function chainReportLoaded() {
+	return new Promise((resolve) => {
+		let checker = setInterval(() => {
+			if (doc.find(".report-title")) {
+				resolve(true);
+				return clearInterval(checker);
+			}
+		});
+	});
 }
 
-function displayContainer(){
-	let options_container = content.newContainer("Chain Report", {first:true, id: "ttChainReport"});
-	
+function displayContainer() {
+	let options_container = content.newContainer("Chain Report", { first: true, id: "ttChainReport" });
+
 	let export_btn = doc.new("div");
-		export_btn.id = "ttExportTableButton";
-		export_btn.innerText = "Export Table to CSV";
+	export_btn.id = "ttExportTableButton";
+	export_btn.innerText = "Export Table to CSV";
 	let export_link = doc.new("a");
-		export_link.id = "ttExportLink";
+	export_link.id = "ttExportLink";
 
 	options_container.find(".content").appendChild(export_btn);
 	options_container.find(".content").appendChild(export_link);
 
-	export_btn.addEventListener("click", function(){
+	export_btn.addEventListener("click", () => {
 		let table = getData();
 		let chain_id = doc.find("#chain-report-react-root .chain-report-wrap .title-black").innerText.split(" #")[1];
 		exportData(table, chain_id);
 	});
 }
 
-function getData(){
+function getData() {
 	let table = []
 	let rows = doc.findAll(".members-names-rows li");
 
-    let headings = [
-        "User", "Total Respect", "Average Respect", "Attacks", "Leaves", 
-        "Mugs", "Hosps", "War hits", "Bonus hits", "Assists", 
-        "Retaliation hits", "Overseas hits", "Draws", "Escapes", "Losses"
+	let headings = [
+		"User", "Total Respect", "Average Respect", "Attacks", "Leaves",
+		"Mugs", "Hosps", "War hits", "Bonus hits", "Assists",
+		"Retaliation hits", "Overseas hits", "Draws", "Escapes", "Losses"
 	]
 
 	table.push(headings);
 
-	for(let row of rows){
+	for (let row of rows) {
 		let table_row = [];
-		let row_index = [...rows].indexOf(row)+1;
+		let row_index = [...rows].indexOf(row) + 1;
 		// console.log("row", row_index);
 
-		for(let heading of headings){
-			if(heading == "User"){
+		for (let heading of headings) {
+			if (heading === "User") {
 				let user = row.find(".user.name").getAttribute("data-placeholder")
 				table_row.push(user);  // username + ID
 				// console.log(user);
 			} else {
-				if(row.classList.contains("bg-gray")){  // didn't take part in chain
+				if (row.classList.contains("bg-gray")) {  // didn't take part in chain
 					table_row.push("-");
 				} else {
 					let column_index = headings.indexOf(heading);
@@ -75,10 +75,10 @@ function getData(){
 	return table;
 }
 
-function exportData(table, chain_id){
+function exportData(table, chain_id) {
 	let csv = `data:text/csv;charset=utf-8,`;
 
-	for(let row of table){
+	for (let row of table) {
 		row = row.join(";");
 		csv += row + "\r\n";
 	}
