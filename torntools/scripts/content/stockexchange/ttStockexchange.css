@@ -81,19 +81,19 @@
 }
 
 .worth-noshares > .logo-stock, .worth-noshares > .logo {
-    border-left: solid 5px #424242;
+    border-left: solid 5px #424242 !important;
 }
 
 .worth-level_1 > .logo-stock, .worth-level_1 > .logo {
-    border-left: solid 5px #ff1f1f;
+    border-left: solid 5px #ff1f1f !important;
 }
 
 .worth-level_2 > .logo-stock, .worth-level_2 > .logo {
-    border-left: solid 5px #F2EA47;
+    border-left: solid 5px #F2EA47 !important;
 }
 
 .worth-level_3 > .logo-stock, .worth-level_3 > .logo {
-    border-left: solid 5px #7be12e;
+    border-left: solid 5px #7be12e !important;
 }
 
 /* Block Formatting */
