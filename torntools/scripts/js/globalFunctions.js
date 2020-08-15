@@ -1878,67 +1878,6 @@ function loadConfirmationPopup(options) {
     });
 }
 
-function fetchApi(http, apiKey) {
-    return new Promise(async (resolve) => {
-        // ttStorage.get("api_history", function (api_history) {
-        //     let selections = http.split("selections=")[1].split(",").filter(x => x !== "");
-        //     let section = http.split("torn.com/")[1].split("/")[0];
-        //     let user_id = http.split("?")[0].split("/")[http.split("?")[0].split("/").length - 1];
-        //     let name = "other";
-
-        //     if (selections.includes("personalstats")) {
-        //         name = user_id === "" ? "userdata" : "profile_stats";
-        //     } else if (selections.length && section === "user") {
-        //         name = "stakeouts";
-        //     }
-
-        //     api_history.torn.push({
-        //         date: new Date().toString(),
-        //         selections: selections,
-        //         section: section,
-        //         user_id: user_id,
-        //         name: name
-        //     });
-        //     ttStorage.set({ "api_history": api_history });
-        // });
-
-        try {
-            const response = await fetch(http + "&key=" + apiKey);
-            const result = await response.json();
-
-            if (result.error) {
-                if (result.error.code === 9) {  // API offline
-                    console.log("API SYSTEM OFFLINE");
-                    setBadge("error");
-
-                    ttStorage.change({ "api": { "online": false, "error": result.error.error } }, function () {
-                        return resolve({ ok: false, error: result.error.error });
-                    });
-                } else {
-                    console.log("API ERROR:", result.error.error);
-
-                    ttStorage.change({ "api": { "online": true, "error": result.error.error } }, function () {
-                        return resolve({ ok: false, error: result.error.error });
-                    });
-                }
-            } else {
-                try {
-                    if (isNaN(await getBadgeText())) {
-                        setBadge("");
-                    }
-                } catch (err) {
-                    console.log("Unable to get Badge.")
-                }
-                ttStorage.change({ "api": { "online": true, "error": "" } }, function () {
-                    return resolve({ ok: true, result: result });
-                });
-            }
-        } catch (err) {
-            console.log("Error Fetching API", err);
-        }
-    });
-}
-
 function onDragOver(event) {
     event.preventDefault();
 }
