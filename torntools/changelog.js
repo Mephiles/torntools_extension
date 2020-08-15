@@ -7,6 +7,7 @@ export default {
 			"Show user balance upon selecting their name on the give cash window. - DKK",
 			"Show warnings if your cooldowns are ending during your flight. - DKK",
 			"Remove confirmation buttons for the item market, revives and item equipping. - DKK",
+			"Show stat requirements for specialty gyms. - DKK",
 		],
 		"Fixes": [
 			"Don't apply the last action filter on other faction pages. - DKK",
