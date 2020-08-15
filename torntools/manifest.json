@@ -31,7 +31,8 @@
 		"scripts/*"
 	],
 	"options_ui": {
-		"page": "views/settings/settings.html"
+		"page": "views/settings/settings.html",
+		"open_in_tab": false
 	},
 	"browser_specific_settings": {
 		"gecko": {
