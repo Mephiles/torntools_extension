@@ -2208,14 +2208,14 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
                         }
                     } else {
                         try {
-                            if (isNaN(await getBadgeText())) {
+                            if (ogLocation === 'torn' && isNaN(await getBadgeText())) {
                                 setBadge("");
                             }
                         } catch (err) {
                             console.log("Unable to get Badge.")
                         }
 
-                        if (location === 'torn' || location === 'torn-proxy') {
+                        if (ogLocation === 'torn') {
                             ttStorage.change({ "api": { "online": true, "error": "" } }, function () {
                                 return resolve(result);
                             });
