@@ -459,7 +459,7 @@ div[role='main'].tt-modified {
     flex-wrap: wrap;
 }
 
-.filter-content.tt-mobile .filter-wrap {
+.tt-mobile .filter-wrap {
     flex: 1 0 100%;
 }
 
@@ -503,12 +503,12 @@ div[role='main'].tt-modified {
     margin: auto;
 }
 
-.filter-multi-wrap.tt-mobile {
+.tt-mobile .filter-multi-wrap {
     width: 80%;
     display: flex;
 }
 
-.filter-multi-wrap.tt-mobile > * {
+.tt-mobile .filter-multi-wrap > * {
     flex: 1 0 auto;
 }
 

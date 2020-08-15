@@ -222,10 +222,10 @@ function addFilter(filters) {
 	}).find(".content");
 
 	filterContainer.innerHTML = `
-        <div class="filter-content ${mobile ? "tt-mobile" : ""}">
+        <div class="filter-content">
             <div class="filter-wrap" id="worth-filter">
                 <div class="filter-heading">Worth</div>
-                <div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}">
+                <div class="filter-multi-wrap">
                     <div class="tt-checkbox-wrap worth-noshares">
                         <input type="checkbox" name="shares" id="no_shares" value="no_shares">
                         <label for="no_shares" class="legend-worth" style="border-color: #424242;">No Shares</label>
