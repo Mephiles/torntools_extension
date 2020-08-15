@@ -2353,8 +2353,3 @@ function fetchRelay(location, options) {
         });
     });
 }
-
-function getDateDifferenceSeconds(old, recent = new Date()) {
-	return old.getTime() - recent.getTime()
-	const diff = old - recent;
-}
