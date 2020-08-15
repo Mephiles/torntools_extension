@@ -1949,7 +1949,7 @@ function injectXHR() {
 
     doc.find("head").appendChild(doc.new({
         type: "script",
-        attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectXHR.js")}
+        attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectXHR.js") }
     }));
     injectedXHR = true;
 }
@@ -1965,7 +1965,7 @@ function injectFetch() {
 
     doc.find("head").appendChild(doc.new({
         type: "script",
-        attributes: {type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectFetch.js")}
+        attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectFetch.js") }
     }));
     injectedFetch = true;
 }
@@ -2017,7 +2017,7 @@ function estimateStats(userId, isIndividual = false, listCount = 0) {
             });
         } else {
             if (!isIndividual && settings.scripts.stats_estimate.cached_only)
-                return reject({message: "No cached result found!"});
+                return reject({ message: "No cached result found!" });
 
             if (!isIndividual) await sleep(listCount * settings.scripts.stats_estimate.delay);
 
@@ -2049,7 +2049,7 @@ function estimateStatsInList(listSelector, userHandler) {
         for (let person of doc.findAll(listSelector)) {
             const response = userHandler(person);
             if (!response) continue;
-            const {userId} = response;
+            const { userId } = response;
             if (!userId) continue;
 
             let container;
@@ -2057,7 +2057,7 @@ function estimateStatsInList(listSelector, userHandler) {
                 container = person.nextElementSibling;
                 container.innerHTML = "";
             } else {
-                container = doc.new({type: "li", class: "tt-userinfo-container"});
+                container = doc.new({ type: "li", class: "tt-userinfo-container" });
                 person.parentElement.insertBefore(container, person.nextElementSibling);
             }
 
@@ -2066,7 +2066,7 @@ function estimateStatsInList(listSelector, userHandler) {
                 row = container.find(".tt-userinfo-row--statsestimate");
                 row.childNodes.forEach((child) => child.remove());
             } else {
-                row = doc.new({type: "section", class: "tt-userinfo-row tt-userinfo-row--statsestimate"});
+                row = doc.new({ type: "section", class: "tt-userinfo-row tt-userinfo-row--statsestimate" });
                 container.appendChild(row);
             }
 
@@ -2087,7 +2087,7 @@ function estimateStatsInList(listSelector, userHandler) {
                         type: "span",
                         class: "tt-userinfo-message",
                         text: error.message,
-                        attributes: {color: "error"},
+                        attributes: { color: "error" },
                     }));
                 })
                 .then(() => resolve());
@@ -2254,7 +2254,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
                                     return reject({ error: result.error.error });
                                 });
                             } else {
-                                console.log("API ERROR:", result.error.error);
+                                console.log("API ERROR:", result);
 
                                 ttStorage.change({ "api": { "online": true, "error": result.error.error } }, function () {
                                     return reject({ error: result.error.error });
