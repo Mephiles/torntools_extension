@@ -113,19 +113,16 @@ function showInformation() {
 
 			stock.find(".qualify-wrap").innerHTML = blockText;
 		} else {
-			const _owned = stock.find(".owned");
+			const owned = parseInt(stock.find(".owned").innerText.split(mobile ? ": " : "\n")[1].replaceAll(",", ""));
 
-			if (_owned) {
-				const owned = parseInt(_owned.innerText.split("\n")[1].replaceAll(",", ""));
 
-				if (owned > 0) {
-					const price = parseFloat(stock.find(".price").innerText.split("\n$")[1].replaceAll(",", ""));
+			if (owned > 0) {
+				const price = parseFloat(stock.find(".price").innerText.split("\n$")[1].replaceAll(",", ""));
 
-					const worth = parseInt(price * owned);
+				const worth = parseInt(price * owned);
 
-					stock.find(".owned").classList.add("tt-modified");
-					stock.find(".owned").innerHTML += `<br/><span color="cyan">$${numberWithCommas(worth, false)}</span>`;
-				}
+				stock.find(".owned").classList.add("tt-modified");
+				stock.find(".owned").innerHTML += `<br/><span color="cyan">$${numberWithCommas(worth, false)}</span>`;
 			}
 		}
 
