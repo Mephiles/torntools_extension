@@ -13,9 +13,16 @@ function interceptFetch(channel) {
 					const page = response.url.substring(response.url.indexOf("torn.com/") + "torn.com/".length, response.url.indexOf(".php"));
 					const json = await response.clone().json();
 
-					window.dispatchEvent(new CustomEvent(channel, {
-						detail: { page, json, fetch: response.clone() }
-					}));
+					const detail = {
+						page,
+						json,
+						fetch: {
+							url: response.url,
+							status: response.status,
+						},
+					}
+
+					window.dispatchEvent(new CustomEvent(channel, { detail }));
 
 					resolve(response);
 				})
