@@ -118,7 +118,8 @@
     color: blue;
 }
 
-.block-bb {
+.tt-mobile .block-bb {
+    margin-right: 2px;
 }
 
 .stock-list .item .owned.tt-modified {
