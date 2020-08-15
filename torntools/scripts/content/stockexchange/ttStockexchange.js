@@ -105,7 +105,7 @@ function showInformation() {
 
 			stock.find(".b-price-wrap > .second-row > .prop-wrap").innerHTML = `
                 <span class="bold">
-                    <span class="t-hide">Price</span>:
+                    Price:
                 </span>
                 $${formatterPrice.format(currentPrice)}
                 <span class="difference ${getDiffClass(priceDiff)}"><i></i>$${formatterPrice.format(Math.abs(priceDiff))}</span>
