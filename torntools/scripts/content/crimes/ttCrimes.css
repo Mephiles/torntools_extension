@@ -30,6 +30,9 @@
     position: relative;
     margin-bottom: 10px;
 }
+#ttQuick .inner-content .item.removable {
+    background-color: #ffd5d5;
+}
 
 #ttQuick .inner-content .item:hover .tt-close-icon {
     opacity: 1;

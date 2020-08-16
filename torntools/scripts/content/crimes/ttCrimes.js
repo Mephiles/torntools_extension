@@ -135,8 +135,6 @@ function markCrimes() {
 			crime.addEventListener("dragstart", onDragStart);
 			crime.addEventListener("dragend", onDragEnd);
 		}
-
-		addButton();
 	}
 }
 
@@ -170,6 +168,8 @@ function showCrimesContainer(quick) {
 		}
 	}
 
+	addButton();
+
 	const safeWrap = doc.new({ type: "div", class: "in-title tt-checkbox-wrap" });
 	const safeSetting = doc.new({ type: "input", id: "safe-crimes", attributes: { type: "checkbox" } });
 	const safeText = doc.new({ type: "label", text: "Only show safe crimes", attributes: { for: "safe-crimes" } });
@@ -192,10 +192,10 @@ function showCrimesContainer(quick) {
 }
 
 function addButton() {
-	let wrap = doc.new({ type: "div", class: "tt-option", id: "add-crime-button" });
+	let wrap = doc.new({ type: "div", class: "tt-option", id: "edit-crime-button" });
 	let icon = doc.new({ type: "i", class: "fas fa-plus" });
 	wrap.appendChild(icon);
-	wrap.innerHTML += " Add";
+	wrap.innerHTML += " Edit";
 
 	doc.find("#ttQuick .tt-title .tt-options").appendChild(wrap);
 
@@ -205,16 +205,44 @@ function addButton() {
 		if (doc.find(".tt-black-overlay").classList.contains("active")) {
 			doc.find(".tt-black-overlay").classList.remove("active");
 			doc.find("form[name='crimes']").classList.remove("tt-highlight-sector");
-			doc.find(".tt-title .tt-options .tt-option#add-crime-button").classList.remove("tt-highlight-sector");
+			doc.find(".tt-title .tt-options .tt-option#edit-crime-button").classList.remove("tt-highlight-sector");
 
-			for (let crime of doc.findAll("form[name='crimes']>ul>li")) {
-				crime.onclick = undefined;
+			for (let crime of doc.findAll("form[name='crimes']>ul>li")) crime.onclick = undefined;
+			for (let quickCrime of doc.findAll('#ttQuick .inner-content>.item')) {
+				quickCrime.onclick = undefined;
+				quickCrime.classList.remove('removable');
 			}
 		} else {
 			doc.find(".tt-black-overlay").classList.add("active");
-			doc.find("form[name='crimes']").classList.add("tt-highlight-sector");
-			doc.find(".tt-title .tt-options .tt-option#add-crime-button").classList.add("tt-highlight-sector");
+			doc.find(".tt-title .tt-options .tt-option#edit-crime-button").classList.add("tt-highlight-sector");
 
+			// Make quick crimes removable
+			for (let quickCrime of doc.findAll('#ttQuick .inner-content>.item')) {
+				quickCrime.classList.add('tt-highlight-sector');
+				quickCrime.classList.add('removable');
+
+				quickCrime.onclick = event => {
+					event.stopPropagation();
+					event.preventDefault();
+
+					if (event.target.classList.contains('item')) event.target.remove();
+					else findParent(event.target, { class: "item" }).remove();
+
+					let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
+						"action": x.getAttribute("action"),
+						"nerve": x.getAttribute("nerve"),
+						"name": x.getAttribute("name"),
+						"icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0],
+						"text": x.find(".text").innerText.split(" (")[0]
+					}));
+					ttStorage.change({ "quick": { "crimes": crimes } }, () => quick.crimes = crimes);
+				}
+			}
+
+			if (!doc.find('.specials-cont-wrap form[name=crimes]>ul>li .item[draggable]')) return;
+
+			doc.find("form[name='crimes']").classList.add("tt-highlight-sector");
+			// Add new crimes
 			for (let crime of doc.findAll("form[name='crimes']>ul>li")) {
 				crime.onclick = event => {
 					event.stopPropagation();
@@ -231,7 +259,7 @@ function addButton() {
 					let crime_icon = target.find(".title.left img").getAttribute("src");
 					let crime_text = target.find(".bonus.left").innerText.trim();
 
-					let div = doc.new({ type: "div", class: "item", attributes: { "nerve": crime_nerve, "name": crime_name, "action": action } });
+					let div = doc.new({ type: "div", class: "item removable tt-highlight-sector", attributes: { "nerve": crime_nerve, "name": crime_name, "action": action } });
 					let pic = doc.new({ type: "div", class: "pic", attributes: { style: `background-image: url(${crime_icon})` } });
 					let text = doc.new({ type: "div", class: "text", text: `${crime_text} (-${crime_nerve} nerve)` });
 					let close_icon = doc.new({ type: "i", class: "fas fa-times tt-close-icon" });
@@ -240,6 +268,23 @@ function addButton() {
 					div.appendChild(text);
 					div.appendChild(close_icon);
 					doc.find("#ttQuick .inner-content").appendChild(div);
+
+					div.onclick = event => {
+						event.stopPropagation();
+						event.preventDefault();
+
+						if (event.target.classList.contains('item')) event.target.remove();
+						else findParent(event.target, { class: "item" }).remove();
+
+						let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
+							"action": x.getAttribute("action"),
+							"nerve": x.getAttribute("nerve"),
+							"name": x.getAttribute("name"),
+							"icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0],
+							"text": x.find(".text").innerText.split(" (")[0]
+						}));
+						ttStorage.change({ "quick": { "crimes": crimes } }, () => quick.crimes = crimes);
+					}
 
 					// Save
 					let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
