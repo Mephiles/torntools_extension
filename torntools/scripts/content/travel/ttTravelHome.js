@@ -359,7 +359,7 @@ function addTableContent(travel_items) {
 
 	// Add rows
 	for (let item of travel_market.stocks) {
-		let time = country_dict[item.country_name.toLowerCase()].time;
+		let time = country_dict[item.country_name.toLowerCase()].time*2;
 		let cost = country_dict[item.country_name.toLowerCase()].cost;
 
 		body_html += addRow(item, time, cost, travel_items);
