@@ -1,5 +1,10 @@
 export default {
-    "v4.10 - August, xxth. 2020": {
+    "v4.11 - August, 16th. 2020": {
+        "Fixes": [
+            'Fix Notifications not appearing on Firefox - Mephiles'
+        ]
+    },
+    "v4.10 - August, 14th. 2020": {
         "Features": [
             "Add OC timer to Information window - Mephiles",
             "Add Chain timer notification - Mephiles",
