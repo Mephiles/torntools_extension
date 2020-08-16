@@ -1,17 +1,25 @@
 console.log("TT - Trade");
 
 requireDatabase(true).then(() => {
-	if (settings.pages.trade.item_values || settings.pages.trade.total_value) {
-		addXHRListener(({ detail: { page, xhr } }) => {
-			if (page !== "trade") return;
+	addXHRListener(({ detail: { page, xhr } }) => {
+		if (page !== "trade") return;
 
-			const params = new URLSearchParams(xhr.requestBody);
-			if (!isActiveTrade(params)) return;
+		const params = new URLSearchParams(xhr.requestBody);
+		if (!isActiveTrade(params)) return;
 
-			tradeLoaded().then(showValues);
-		})
+		tradeLoaded().then(() => {
+			if (settings.pages.trade.item_values || settings.pages.trade.total_value) showValues();
 
-		if (isActiveTrade()) tradeLoaded().then(showValues);
+			showChatButton();
+		});
+	})
+
+	if (isActiveTrade()) {
+		tradeLoaded().then(() => {
+			if (settings.pages.trade.item_values || settings.pages.trade.total_value) showValues();
+
+			showChatButton();
+		});
 	}
 });
 
@@ -123,4 +131,40 @@ function showValues() {
 			});
 		}
 	}
+}
+
+function showChatButton() {
+	let id;
+
+	for (let link of doc.findAll("#trade-container .log > li .desc a")) {
+		let match = link.getAttribute("href").match(/XID=([0-9]*)/i);
+		if (!match || parseInt(match[1]) === userdata.player_id) continue;
+
+		id = parseInt(match[1]);
+		break;
+	}
+	if (!id) return;
+
+	let button = doc.new({
+		type: "span",
+		text: "Open Chat",
+		class: "tt-clickable",
+	});
+
+	button.addEventListener("click", () => {
+		let script = doc.new({
+			type: "script",
+			attributes: { type: "text/javascript" },
+		});
+		script.innerHTML = `chat.r(${id})`;
+
+		doc.find("head").appendChild(script);
+		setTimeout(() => script.remove(), 100);
+	});
+
+	doc.find("#trade-container > .title-black").appendChild(doc.new({
+		type: "div",
+		class: "item-value-option-wrap",
+		children: [button],
+	}));
 }

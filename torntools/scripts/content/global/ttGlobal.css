@@ -251,6 +251,10 @@
     color: red;
 }
 
+.tt-clickable {
+    cursor: pointer;
+}
+
 /* Navbar */
 .tt-nav-section div.tt-title {
     height: 22px;

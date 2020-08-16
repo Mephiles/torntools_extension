@@ -654,10 +654,16 @@ Document.prototype.new = function (newElement) {
 		if (newElement.href) {
 			el.href = newElement.href;
 		}
+		if (newElement.children) {
+			for (let child of newElement.children) {
+				el.appendChild(child);
+			}
+		}
 
 		for (let attr in newElement.attributes) {
 			el.setAttribute(attr, newElement.attributes[attr]);
 		}
+
 
 		return el;
 	}

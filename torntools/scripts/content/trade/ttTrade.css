@@ -47,3 +47,7 @@
     top: 2px;
     margin-left: 4px;
 }
+
+#trade-container > .title-black {
+    position: relative;
+}
