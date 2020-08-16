@@ -1040,14 +1040,12 @@ function addFilterToTable(list, title) {
 			if (li.classList.contains("tt-user-info")) {
 				continue;
 			}
-			li.classList.remove("filter-hidden");
-			if (li.nextElementSibling) li.nextElementSibling.classList.remove("filter-hidden");
+			showRow(li);
 
 			// Level
 			let player_level = parseInt(li.find(".lvl").innerText.trim().replace("Level:", "").trim());
 			if (!(level[0] <= player_level && player_level <= level[1])) {
-				li.classList.add("filter-hidden");
-				if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
+				showRow(li, false);
 				continue;
 			}
 
@@ -1065,8 +1063,7 @@ function addFilterToTable(list, title) {
 					player_last_action = parseInt(li.nextElementSibling.find(".tt-userinfo-field--last_action").getAttribute("last-action"));
 				}
 				if (player_last_action !== "N/A" && !(last_action[0] <= player_last_action)) {
-					li.classList.add("filter-hidden");
-					if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
+					showRow(li, false);
 					continue;
 				}
 			}
@@ -1079,8 +1076,7 @@ function addFilterToTable(list, title) {
 				}
 			}
 			if (!matches_one_activity) {
-				li.classList.add("filter-hidden");
-				if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
+				showRow(li, false);
 				continue;
 			}
 
@@ -1092,8 +1088,7 @@ function addFilterToTable(list, title) {
 				}
 			}
 			if (!matches_one_status) {
-				li.classList.add("filter-hidden");
-				if (li.nextElementSibling) li.nextElementSibling.classList.add("filter-hidden");
+				showRow(li, false);
 			}
 
 			// // Faction
@@ -1117,6 +1112,20 @@ function addFilterToTable(list, title) {
 		});
 
 		updateStatistics();
+	}
+
+	function showRow(row, show = true) {
+		if (show) {
+			row.classList.remove("filter-hidden");
+			if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container")))
+				row.nextElementSibling.classList.remove("filter-hidden");
+		} else {
+			if (show) {
+				row.classList.add("filter-hidden");
+				if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container")))
+					row.nextElementSibling.classList.add("filter-hidden");
+			}
+		}
 	}
 
 	function updateStatistics() {
