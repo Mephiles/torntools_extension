@@ -224,7 +224,7 @@ function addFilter(filters) {
 	filterContainer.innerHTML = `
         <div class="filter-content">
             <div class="filter-wrap" id="worth-filter">
-                <div class="filter-heading">Worth</div>
+                <div class="filter-heading">Available Worth</div>
                 <div class="filter-multi-wrap">
                     <div class="tt-checkbox-wrap worth-noshares">
                         <input type="checkbox" name="shares" id="no_shares" value="no_shares">
