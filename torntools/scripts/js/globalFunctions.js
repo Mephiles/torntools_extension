@@ -1666,14 +1666,17 @@ function sortSections(parent, page) {
 }
 
 function notifyUser(title, message, url) {
-    ttStorage.get("settings", function (settings) {
-        chrome.notifications.create({
-            type: "basic",
-            iconUrl: "images/icon128.png",
-            title: title,
-            message: message,
-            silent: !settings.notifications_sound
-        }, function (id) {
+	ttStorage.get("settings", function (settings) {
+		const notificationOptions = {
+			type: "basic",
+			iconUrl: "images/icon128.png",
+			title: title,
+			message: message
+		}
+
+		if (!usingFirefox()) notificationOptions.silent = !settings.notifications_sound;
+
+        chrome.notifications.create(notificationOptions, function (id) {
             notificationLinkRelations[id] = url;
             console.log("   Notified!");
         });
