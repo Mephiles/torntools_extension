@@ -347,17 +347,14 @@ function addFilterToTable(list, title) {
 
 		// Filtering
 		for (let li of list.findAll(":scope>li")) {
-			li.classList.remove("filter-hidden");
-			if (li.classList.contains("tt-user-info")) {
-				continue;
-			} else if (hasClass(li.nextElementSibling, "tt-user-info")) {
-				li.nextElementSibling.classList.remove("filter-hidden");
-			}
+			if (li.classList.contains("tt-user-info") || li.classList.contains("tt-userinfo-container")) continue;
+
+			showRow(li);
 
 			// Level
 			let player_level = parseInt(li.find(".level").innerText.trim().replace("LEVEL:", "").trim());
 			if (!(level[0] <= player_level && player_level <= level[1])) {
-				li.classList.add("filter-hidden");
+				showRow(li, false);
 				continue;
 			}
 
@@ -369,7 +366,7 @@ function addFilterToTable(list, title) {
 				}
 			}
 			if (!matches_one_activity) {
-				li.classList.add("filter-hidden");
+				showRow(li, false);
 				continue;
 			}
 
@@ -381,7 +378,7 @@ function addFilterToTable(list, title) {
 				}
 			}
 			if (!matches_one_status) {
-				li.classList.add("filter-hidden");
+				showRow(li, false);
 			}
 		}
 
@@ -398,6 +395,18 @@ function addFilterToTable(list, title) {
 		});
 
 		updateStatistics();
+	}
+
+	function showRow(row, show = true) {
+		if (show) {
+			row.classList.remove("filter-hidden");
+			if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container")))
+				row.nextElementSibling.classList.remove("filter-hidden");
+		} else {
+			row.classList.add("filter-hidden");
+			if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container")))
+				row.nextElementSibling.classList.add("filter-hidden");
+		}
 	}
 
 	function updateStatistics() {

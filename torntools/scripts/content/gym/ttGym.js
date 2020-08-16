@@ -10,7 +10,6 @@ const STATS = {};
 requireDatabase().then(function () {
 	gymLoaded().then(function () {
 		addFetchListener((event) => {
-			console.log("DKK event 1", event);
 			if (!event.detail) return;
 			const { page, json, fetch } = event.detail;
 			if (page !== "gym" || !json) return
@@ -18,7 +17,6 @@ requireDatabase().then(function () {
 			const params = new URL(fetch.url).searchParams;
 			const step = params.get("step");
 
-			console.log("DKK event 2", step);
 			switch (step) {
 				case "getInitialGymInfo":
 					disableGyms();
@@ -29,11 +27,9 @@ requireDatabase().then(function () {
 					setupSpecialtyGym();
 					break;
 				case "train":
-					console.log("DKK event 3");
 					if (!json.success) break;
 
 					STATS[json.stat.name] = parseInt(json.stat.newValue.replaceAll(",", ""))
-					console.log("DKK event 4", json.stat.name, STATS);
 					setupSpecialtyGym();
 					break;
 			}
@@ -354,8 +350,6 @@ function disableGymButton(types, disable) {
 }
 
 function setupSpecialtyGym() {
-	console.log("DKK STATS", STATS)
-
 	let container = doc.find("#tt-specialty-gyms .content");
 	if (!container) {
 		container = content.newContainer("Specialty Gym Requirements", {
