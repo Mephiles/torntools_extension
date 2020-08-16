@@ -21,6 +21,7 @@ export default {
             "Sync the 15 minute updater to the stock ticks. - DKK",
             "Ignore punctuation marks for word highlighting. - DKK",
             "Include money value to show trade value. - DKK",
+            "Add a way to ignore cash on hand for max buy in bazaar. - DKK",
         ]
     },
     "v4.11 - August, 16th. 2020": {
