@@ -236,18 +236,15 @@ function addFilterToTable(list, title) {
 		// console.log("Level", level);
 
 		// Filtering
-		for (let li of list.findAll(":scope>li")) {
-			li.classList.remove("filter-hidden");
-			if (li.classList.contains("tt-user-info")) {
-				continue;
-			} else if (li.nextElementSibling && li.nextElementSibling.classList.contains("tt-user-info")) {
-				li.nextElementSibling.classList.remove("filter-hidden");
-			}
+		for (let li of list.findAll(":scope > li")) {
+			if (li.classList.contains("tt-user-info") || li.classList.contains("tt-userinfo-container")) continue;
+
+			showRow(li);
 
 			// Level
 			let player_level = parseInt(li.find(".level").innerText.trim().replace("Level", "").replace("LEVEL", "").replace(":", "").trim());
 			if (!(level[0] <= player_level && player_level <= level[1])) {
-				li.classList.add("filter-hidden");
+				showRow(li, false);
 				continue;
 			}
 
@@ -261,12 +258,12 @@ function addFilterToTable(list, title) {
 			// Activity
 			let matches_one_activity = activity.length === 0;
 			for (let state of activity) {
-				if (li.querySelector(`li[id^='${active_dict[state]}']`)) {
+				if (li.find(`li[id^='${active_dict[state]}']`)) {
 					matches_one_activity = true;
 				}
 			}
 			if (!matches_one_activity) {
-				li.classList.add("filter-hidden");
+				showRow(li, false);
 			}
 		}
 
@@ -282,6 +279,18 @@ function addFilterToTable(list, title) {
 		});
 
 		updateStatistics();
+	}
+
+	function showRow(row, show = true) {
+		if (show) {
+			row.classList.remove("filter-hidden");
+			if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container")))
+				row.nextElementSibling.classList.remove("filter-hidden");
+		} else {
+			row.classList.add("filter-hidden");
+			if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container")))
+				row.nextElementSibling.classList.add("filter-hidden");
+		}
 	}
 
 	function updateStatistics() {

@@ -2030,6 +2030,7 @@ function estimateStatsInList(listSelector, userHandler) {
 				container = doc.new({ type: "li", class: "tt-userinfo-container" });
 				person.parentElement.insertBefore(container, person.nextElementSibling);
 			}
+			if (person.classList.contains("filter-hidden")) container.classList.add("filter-hidden");
 
 			let row;
 			if (container.find(".tt-userinfo-row--statsestimate")) {
@@ -2039,6 +2040,7 @@ function estimateStatsInList(listSelector, userHandler) {
 				row = doc.new({ type: "section", class: "tt-userinfo-row tt-userinfo-row--statsestimate" });
 				container.appendChild(row);
 			}
+
 
 			if (!hasCachedEstimate(userId)) estimateCount++;
 
