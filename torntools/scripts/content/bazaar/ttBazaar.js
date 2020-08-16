@@ -66,10 +66,13 @@ requireDatabase().then(() => {
 					max_span.addEventListener("click", event => {
 						event.stopPropagation();
 						let max = parent.find(".buyAmountInput___Aooaf").max;
-						let price = parseInt(parent.find(".price___3p35J").innerText.replace(/,/g, "").replace("$", ""));
-						let user_money = doc.find("#user-money").innerText.replace(/,/g, "").replace("$", "");
 
-						max = Math.floor(user_money / price) < max ? Math.floor(user_money / price) : max;
+						if (!settings.pages.bazaar.max_buy_ignore_cash) {
+							let price = parseInt(parent.find(".price___3p35J").innerText.replaceAll(",", "").replace("$", ""));
+							let user_money = parseInt(doc.find("#user-money").innerText.replaceAll(",", "").replace("$", ""));
+
+							if (Math.floor(user_money / price) < max) max = Math.floor(user_money / price);
+						}
 
 						parent.find(".buyAmountInput___Aooaf").value = max;
 

@@ -477,7 +477,8 @@ const STORAGE = {
 				"advanced": true,
 			},
 			"bazaar": {
-				"worth": false
+				"worth": false,
+				max_buy_ignore_cash: false,
 			},
 			"company": {
 				"member_info": false
