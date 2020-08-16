@@ -123,20 +123,20 @@ function displayItemProfits(itemlist) {
 		let span = doc.new("span");
 		span.setClass("tt-travel-market-cell")
 		let inner_span = doc.new("span");
-		inner_span.innerText = `${profit < 0 ? "-$" : "+$"}${Math.abs(profit, true)}`;
+		inner_span.innerText = `${profit < 0 ? "-$" : "+$"}${numberWithCommas(Math.abs(profit))}`;
 
-		let triangle_div = doc.new("div");
-		triangle_div.setClass("tt-travel-price-indicator");
+		// let triangle_div = doc.new("div");
+		// triangle_div.setClass("tt-travel-price-indicator");
 
 		if (buy_price > market_price) {
 			span.style.color = "#de0000";
-			triangle_div.style.borderTop = "8px solid #de0000";
+			// triangle_div.style.borderTop = "8px solid #de0000";
 		} else if (buy_price < market_price) {
 			span.style.color = "#00a500";
-			triangle_div.style.borderBottom = "8px solid #00a500"
+			// triangle_div.style.borderBottom = "8px solid #00a500"
 		}
 
-		inner_span.appendChild(triangle_div);
+		// inner_span.appendChild(triangle_div);
 		span.appendChild(inner_span);
 		row.find(".item-info-wrap").insertBefore(span, row.find(".item-info-wrap").find(".stock"));
 	}
