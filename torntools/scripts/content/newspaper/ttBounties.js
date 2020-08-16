@@ -69,16 +69,16 @@ function addFilter(filters) {
     container.find(".tt-title .tt-options").appendChild(option_1);
     container.find(".tt-title .tt-options").appendChild(option_2);
 
-    checkbox_1.onclick = filter;
-    input_2.onkeyup = filter;
+    checkbox_1.onclick = applyFilters;
+    input_2.onkeyup = applyFilters;
 
-    filter();
+    applyFilters();
 
-    function filter() {
+    function applyFilters() {
         let hide_unavailable = checkbox_1.checked;
         let max_level = input_2.value;
 
-        for (let person of doc.findAll(".bounties-list>li:not(.clear)")) {
+        for (let person of doc.findAll(".bounties-list > li:not(.clear):not(.tt-userinfo-container)")) {
             hideRow(person, false);
 
             // Unavailable
