@@ -8,7 +8,7 @@ requireDatabase().then(() => {
 			const { page, uri } = event.detail;
 			if (page !== "stockexchange" || !uri) return;
 
-			if (uri.step === "buy2") {
+			if (["buy2", "split", "stack"].includes(uri.step)) {
 				await stocksLoaded();
 
 				showInformation();
