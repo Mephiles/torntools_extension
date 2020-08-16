@@ -118,12 +118,12 @@ function displayItemProfits(itemlist) {
 		let id = parseInt(row.find(".item img").getAttribute("src").split("items/")[1].split("/")[0]);
 		let market_price = parseInt(itemlist[id].market_value);
 		let buy_price = parseInt(row.find(".cost .c-price").innerText.replace("$", "").replace(/,/g, ""));
-		let profit = (market_price / buy_price * 100).toFixed(0);
+		let profit = parseInt(market_price - buy_price);
 
 		let span = doc.new("span");
 		span.setClass("tt-travel-market-cell")
 		let inner_span = doc.new("span");
-		inner_span.innerText = `${profit}%`;
+		inner_span.innerText = `${profit < 0 ? "-$" : "+$"}${Math.abs(profit, true)}`;
 
 		let triangle_div = doc.new("div");
 		triangle_div.setClass("tt-travel-price-indicator");
