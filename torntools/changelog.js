@@ -8,6 +8,7 @@ export default {
             "Show warnings if your cooldowns are ending during your flight. - DKK",
             "Remove confirmation buttons for the item market, revives and item equipping. - DKK",
             "Show stat requirements for specialty gyms. - DKK",
+            "Add a button to open chat in trades. - DKK",
         ],
         "Fixes": [
             "Don't apply the last action filter on other faction pages. - DKK",
