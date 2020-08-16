@@ -73,12 +73,13 @@ window.addEventListener('load', async () => {
 		if (on_travel_table) await travelTableScript();
 	}
 
+	// Abroad
 	if (await isAbroad()) {
 		if (page === null || page === "travel_table") {
 			if (settings.pages.travel.profits) {
 				displayItemProfits(itemlist.items);
-				addFillMaxButtons();
 			}
+			addFillMaxButtons();
 			if (!doc.find(".info-msg-cont.red")) {
 				updateYATAPrices();
 			}
