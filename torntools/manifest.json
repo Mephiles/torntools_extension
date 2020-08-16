@@ -371,6 +371,16 @@
 		},
 		{
 			"matches": [
+				"https://www.torn.com/events.php*"
+			],
+			"css": [],
+			"js": [
+				"scripts/content/events/ttEvents.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
 				"https://www.torn.com/page.php?*"
 			],
 			"css": [

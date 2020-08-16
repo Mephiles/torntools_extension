@@ -579,6 +579,9 @@ const RANK_TRIGGERS = {
 const FORMATTER_NO_DECIMALS = new Intl.NumberFormat('en-US', {
 	maximumFractionDigits: 0,
 });
+const FORMATTER_VALUES = new Intl.NumberFormat('en-US', {
+	maximumFractionDigits: 3,
+});
 
 let injectedXHR = false;
 let injectedFetch = false;

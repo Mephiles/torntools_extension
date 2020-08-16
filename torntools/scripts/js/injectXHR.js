@@ -29,7 +29,12 @@ function interceptXHR(channel) {
 				else uri = getUrlParams(this.responseURL);
 
 				window.dispatchEvent(new CustomEvent(channel, {
-					detail: { page, json, uri, xhr: { ...this } }
+					detail: {
+						page, json, uri, xhr: {
+							...this,
+							responseURL: this.responseURL,
+						}
+					}
 				}));
 			}
 		});
@@ -37,6 +42,7 @@ function interceptXHR(channel) {
 		return oldXHROpen.apply(this, arguments);
 	}
 	window.XMLHttpRequest.prototype.send = function (body) {
+		console.log("DKK intercept xhr", body)
 		if (typeof xhrSendAdjustments === "object") {
 			for (let key in xhrSendAdjustments) {
 				if (typeof xhrSendAdjustments[key] !== "function") continue;
