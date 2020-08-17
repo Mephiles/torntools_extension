@@ -437,7 +437,7 @@ function displayOCtime() {
 
 				let time_left = timeUntil(new Date(oc[crime_id].time_ready * 1000) - new Date());
 				let div = doc.new({ type: "div" });
-				const keySpan = doc.new({ type: "span", text: 'OC:', class: 'tt-text-link key' });
+				const keySpan = doc.new({ type: "span", text: 'OC: ', class: 'tt-text-link key' });
 				let span = doc.new({
 					type: "span",
 					text: time_left,
