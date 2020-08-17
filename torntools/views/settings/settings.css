@@ -496,11 +496,3 @@ p {
 #about #new-version p {
     text-decoration: underline;
 }
-
-/* Remote server */
-.json-text {
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 10px;
-}

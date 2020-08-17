@@ -789,7 +789,7 @@ function server() {
 			let pre;
 			if (result.data) {
 				let [day, month, year] = dateParts(new Date(result.data.date));
-				doc.find("#server #tt_server_user_info+.date span").innerText = formatDate([day, month, year], settings.format.date);
+				doc.find("#tt_server_info_wrap .date span").innerText = formatDate([day, month, year], settings.format.date);
 				delete result.data.date;
 
 				pre = JSON.stringify(result.data, null, 2);
@@ -798,8 +798,18 @@ function server() {
 			doc.find("#server #tt_server_user_info").innerText = pre;
 
 
-			doc.find("#server_import").onclick = () => {
-				importData();
+			doc.find("#server_import").onclick = () => { importData(); }
+			doc.find('#server_import_text').onclick = () => { importDataText(); }
+			doc.find("#tt_server_info_wrap .json-text-wrap .copy-button").onclick = () => {
+				const copyText = doc.find('#tt_server_info_wrap .json-text-wrap pre').textContent;
+				const tempArea = doc.new({ type: 'textarea', class: 'temp-area' });
+				tempArea.textContent = copyText;
+				doc.find('body').append(tempArea);
+
+				tempArea.select();
+				tempArea.setSelectionRange(0, 99999);
+
+				doc.execCommand('copy');
 			}
 		})
 		.catch(err => {
@@ -812,24 +822,24 @@ function server() {
 		loadConfirmationPopup({
 			title: 'Export',
 			message: `### Following information about you will be exported:
-                            - Player ID
-                            - Player Username
-                            - Client version
-                            - Client database size
-                            - Database
-                                - vault
-                                - stock alerts
-                                - loot alerts
-                                - allies
-                                - custom links
-                                - chat highlight
-                                - hidden icons
-                                - quick items & crimes
-                                - notes
-                                - filter settings
-                                - sorting settings
-                                - watchlist
-                                - preferences
+- Player ID
+- Player Username
+- Client version
+- Client database size
+- Database
+	- vault
+	- stock alerts
+	- loot alerts
+	- allies
+	- custom links
+	- chat highlight
+	- hidden icons
+	- quick items & crimes
+	- notes
+	- filter settings
+	- sorting settings
+	- watchlist
+	- preferences
                     `,
 		})
 			.then(() => {
@@ -1448,7 +1458,7 @@ function exportData() {
 		fetchApi_v2('torntools', { section: `api/${userdata.player_id}/storage/update`, method: 'POST', postData: post_data })
 			.then(result => {
 				console.log("export", result);
-				message(result.message, result.success, { reload: true });
+				message(result.message, result.success, { reload: result.success });
 			})
 			.catch(err => {
 				console.log("ERROR", err);
@@ -1476,8 +1486,9 @@ function importData() {
 					loadConfirmationPopup({
 						title: 'Import',
 						message: `### You are all up-to-date`
-					}).then(() => {
-					});
+					})
+						.then(() => { })
+						.catch(() => { })
 				} else {
 					loadConfirmationPopup({
 						title: 'Import',
@@ -1500,8 +1511,9 @@ function importData() {
 								});
 							}
 
-							message(import_result.message, import_result.success, { reload: true });
-						});
+							message(import_result.message, import_result.success, { reload: import_result.success });
+						})
+						.catch(() => { })
 				}
 
 			});
@@ -1510,6 +1522,46 @@ function importData() {
 			console.log(err);
 			message(err.error, false)
 		});
+}
+
+function importDataText() {
+	loadConfirmationPopup({
+		title: 'Import via Text',
+		message: `### Paste your database below. Be careful to use the exact copy provided by TornTools
+		[TEXTAREA=importvalue]
+`
+	})
+		.then(async ({ importvalue }) => {
+			if (!importvalue || importvalue.trim() === '') {
+				message('Empty value', false);
+				return;
+			}
+
+			try {
+				importvalue = JSON.parse(importvalue);
+			} catch (err) {
+				message('Failed to convert', false);
+				return;
+			}
+
+			const import_storage = importvalue.storage || importvalue;
+			let import_result;
+			for (let key in import_storage) {
+				import_result = await new Promise(function (resolve, reject) {
+					try {
+						ttStorage.set({ [key]: import_storage[key] }, function () {
+							console.log(`${key} imported.`);
+							return resolve({ success: true, message: 'All settings imported' });
+						});
+					} catch (err) {
+						return resolve({ success: false, message: err });
+					}
+				});
+			}
+
+			message(import_result.message, import_result.success, { reload: import_result.success });
+		})
+		.catch(() => { });
 }
 
 function clearRemoteData() {

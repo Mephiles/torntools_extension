@@ -1864,6 +1864,7 @@ function notifyUser(title, message, url) {
 
 function loadConfirmationPopup(options) {
 	return new Promise((resolve, reject) => {
+		const customElements = {}
 		const markdownConverter = new showdown.Converter();
 
 		doc.find(".tt-black-overlay").classList.add("active");
@@ -1872,7 +1873,18 @@ function loadConfirmationPopup(options) {
 		doc.find("body").classList.add("tt-unscrollable");
 
 		doc.find(".tt-confirmation-popup .title").innerText = options.title;
-		doc.find(".tt-confirmation-popup .message").innerHTML = markdownConverter.makeHtml(options.message);
+
+		let markdown = markdownConverter.makeHtml(options.message);
+
+		// Custom convert
+		const textareas = markdown.match(/TEXTAREA=(.*)$/gm) || [];
+		for (let textarea of textareas) {
+			const id = textarea.split("=")[1].replace("]", "");
+			customElements[id] = { type: 'textarea' }
+			markdown = markdown.replace(`[TEXTAREA=${id}]`, `<textarea id='${id}'></textarea>`);
+		}
+
+		doc.find(".tt-confirmation-popup .message").innerHTML = markdown;
 
 		doc.find(".tt-confirmation-popup .actions .button.green").onclick = () => {
 			doc.find(".tt-black-overlay").classList.remove("active");
@@ -1880,7 +1892,12 @@ function loadConfirmationPopup(options) {
 
 			doc.find("body").classList.remove("tt-unscrollable");
 
-			return resolve();
+			// Fill custom elements
+			for (let key in customElements) {
+				customElements[key] = doc.find(`${customElements[key].type}[id='${key}']`).value;
+			}
+
+			return resolve(customElements);
 		}
 		doc.find(".tt-confirmation-popup .actions .button.red").onclick = () => {
 			doc.find(".tt-black-overlay").classList.remove("active");
