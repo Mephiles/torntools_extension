@@ -356,6 +356,9 @@
     background-color: var(--torntools-disable-gym-highlight-icon-active) !important;
 } */
 
+#barEnergy .bar-name___3TJ0p:hover { color: #888888; }
+#barNerve .bar-name___3TJ0p:hover { color: #888888; }
+
 #nav-home {
     display: var(--torntools-hide-area-home, block) !important;
 }

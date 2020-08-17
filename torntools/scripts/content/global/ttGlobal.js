@@ -83,6 +83,10 @@ requireDatabase().then(() => {
 			doc.find("div[role='main']").classList.add("tt-modified");
 		}
 
+		// Links for Energy and Nerve
+		doc.find('#barEnergy .bar-name___3TJ0p').onclick = () => { window.location.href = 'https://www.torn.com/gym.php'; }
+		doc.find('#barNerve .bar-name___3TJ0p').onclick = () => { window.location.href = 'https://www.torn.com/crimes.php'; }
+
 		// Global time reducer
 		setInterval(() => {
 			for (let time of doc.findAll("*[seconds-down]")) {
