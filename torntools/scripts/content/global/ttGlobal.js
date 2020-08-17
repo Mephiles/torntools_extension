@@ -84,6 +84,8 @@ requireDatabase().then(() => {
 		}
 
 		// Links for Energy and Nerve
+		doc.find('#barEnergy .bar-name___3TJ0p').classList.add('tt-text-link');
+		doc.find('#barNerve .bar-name___3TJ0p').classList.add('tt-text-link');
 		doc.find('#barEnergy .bar-name___3TJ0p').onclick = () => { window.location.href = 'https://www.torn.com/gym.php'; }
 		doc.find('#barNerve .bar-name___3TJ0p').onclick = () => { window.location.href = 'https://www.torn.com/crimes.php'; }
 
@@ -411,11 +413,15 @@ function displayOCtime() {
 	crime_ids.reverse();
 
 	if (crime_ids.length === 0) {
-		let div = doc.new({ type: "div", text: `OC: ` });
+		let div = doc.new({ type: "div" });
+		const keySpan = doc.new({ type: "span", text: 'OC:', class: 'tt-text-link key' });
 		let span = doc.new({ type: "span", text: "N/A" });
 
+		div.appendChild(keySpan);
 		div.appendChild(span);
 		doc.find(".tt-information-section").appendChild(div);
+
+		keySpan.onclick = () => { window.location.href = 'https://www.torn.com/factions.php?step=your#/tab=crimes' }
 		return;
 	}
 
@@ -430,7 +436,8 @@ function displayOCtime() {
 				found_oc = true;
 
 				let time_left = timeUntil(new Date(oc[crime_id].time_ready * 1000) - new Date());
-				let div = doc.new({ type: "div", text: `OC: ` });
+				let div = doc.new({ type: "div" });
+				const keySpan = doc.new({ type: "span", text: 'OC:', class: 'tt-text-link key' });
 				let span = doc.new({
 					type: "span",
 					text: time_left,
@@ -439,8 +446,11 @@ function displayOCtime() {
 
 				if (time_left === -1 || !time_left.includes("d")) span.classList.add("red");
 
+				div.appendChild(keySpan);
 				div.appendChild(span);
 				doc.find(".tt-information-section").appendChild(div);
+
+				keySpan.onclick = () => { window.location.href = 'https://www.torn.com/factions.php?step=your#/tab=crimes' }
 			}
 		}
 	}

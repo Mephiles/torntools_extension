@@ -239,12 +239,8 @@
     display: block;
 }
 
-.tt-information-section div {
+.tt-information-section div span.key {
     font-weight: 600;
-}
-
-.tt-information-section div span {
-    font-weight: 400;
 }
 
 .tt-information-section div span.red {
@@ -252,6 +248,11 @@
 }
 
 .tt-clickable {
+    cursor: pointer;
+}
+
+.tt-text-link:hover {
+    color: #888888;
     cursor: pointer;
 }
 
@@ -355,9 +356,6 @@
 #nav-gym.active___T3p3C svg {
     background-color: var(--torntools-disable-gym-highlight-icon-active) !important;
 } */
-
-#barEnergy .bar-name___3TJ0p:hover { color: #888888; }
-#barNerve .bar-name___3TJ0p:hover { color: #888888; }
 
 #nav-home {
     display: var(--torntools-hide-area-home, block) !important;
