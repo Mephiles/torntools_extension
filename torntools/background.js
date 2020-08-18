@@ -626,7 +626,7 @@ function Main_30_seconds() {
 		}
 
 		// Faction data
-		if (settings.pages.faction.oc_time && (!oldOC || !oldOC.date || new Date() - new Date(oldOC) >= 15 * minutes)) {
+		if (settings.pages.faction.oc_time && (!oldOC || !oldOC.date || new Date() - new Date(oldOC.date) >= 15 * minutes)) {
 			console.log('Setting up OC info');
 			await updateOCinfo();
 		}
