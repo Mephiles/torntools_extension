@@ -51,6 +51,18 @@ window.addEventListener('load', async () => {
 	// Flying page
 	const page = getSearchParameters().get("page");
 	if (await isFlying()) {
+		// Landing time
+		if (doc.find('.flight-info .destination-title')) {
+			const landDate = new Date(userdata.travel.timestamp * 1000);
+			const [hours, minutes, seconds] = [landDate.getHours(), landDate.getMinutes(), landDate.getSeconds()];
+
+			const landingTimeDiv = doc.new({ type: 'div', attributes: { style: 'text-align: center;' } });
+			const landingTimeDescription = doc.new({ type: 'span', class: 'description', text: `Landing at ${formatTime([hours, minutes, seconds], settings.format.time)}` });
+			landingTimeDiv.appendChild(landingTimeDescription);
+			doc.find('.flight-info').insertBefore(landingTimeDiv, doc.find('.flight-info .destination-title').nextElementSibling);
+		}
+
+		// Travel Table link
 		let on_travel_table = page === "travel_table";
 
 		let link = doc.new({
@@ -70,7 +82,7 @@ window.addEventListener('load', async () => {
 		doc.find("#top-page-links-list a.last").classList.remove("last");
 		doc.find("#top-page-links-list").insertBefore(link, doc.find("#top-page-links-list .links-footer"));
 
-		if (on_travel_table) await travelTableScript();
+		if (on_travel_table) { travelTableScript(); }
 	}
 
 	// Abroad
@@ -321,12 +333,6 @@ function addFilterToTable(list, title) {
 	applyFilters();
 
 	function applyFilters() {
-		let active_dict = {
-			"online": "icon1_",
-			"idle": "icon62_",
-			"offline": "icon2_"
-		}
-
 		let activity = [];
 		let status = [];
 		// let faction = ``;
@@ -361,7 +367,7 @@ function addFilterToTable(list, title) {
 			// Activity
 			let matches_one_activity = activity.length === 0;
 			for (let state of activity) {
-				if (li.querySelector(`li[id^='${active_dict[state]}']`)) {
+				if (li.querySelector(`li[id^='${ACTIVITY_FILTER_DICT[state]}']`)) {
 					matches_one_activity = true;
 				}
 			}
