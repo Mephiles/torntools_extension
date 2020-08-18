@@ -48,8 +48,8 @@ function addFilterToTable(list, title) {
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="online">Online</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="idle">Idle</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="offline">Offline</div>
-                </div>
-            </div>
+				</div>
+		    </div>
             <div class="filter-wrap" id="faction-filter">
                 <div class="filter-heading">Faction</div>
                 <select name="faction" id="tt-faction-filter">
@@ -200,16 +200,10 @@ function addFilterToTable(list, title) {
 	applyFilters();
 
 	function applyFilters() {
-		let active_dict = {
-			"online": "icon1_",
-			"idle": "icon62_",
-			"offline": "icon2_"
-		}
-
-		let activity = [];
+		let activity = []
 		let faction;
-		let time = [];
-		let level = [];
+		let time = []
+		let level = []
 		let score = []
 
 		// Activity
@@ -265,7 +259,7 @@ function addFilterToTable(list, title) {
 			// Activity
 			let matches_one_activity = activity.length === 0;
 			for (let state of activity) {
-				if (li.querySelector(`li[id^='${active_dict[state]}']`)) {
+				if (li.querySelector(`li[id^='${ACTIVITY_FILTER_DICT[state]}']`)) {
 					matches_one_activity = true;
 				}
 			}

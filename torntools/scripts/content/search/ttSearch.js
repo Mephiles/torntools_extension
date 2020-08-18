@@ -86,21 +86,18 @@ function addFilterToTable(list, title) {
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="offline">Offline</div>
                 </div>
             </div>
-            <!--
-            <div class="filter-wrap" id="faction-filter">
-                <div class="filter-heading">Faction</div>
-                <select name="faction" id="tt-faction-filter">
-                    <option selected value="">none</option>
-                </select>
-            </div>
-            -->
-            <!--
-            <div class="filter-wrap" id="time-filter">
-                <div class="filter-heading">Time</div>
-                <div id="tt-time-filter" class="filter-slider"></div>
-                <div class="filter-slider-info"></div>
-            </div>
-            -->
+			<div class='filter-wrap' id='special-filter'>
+				<div class='filter-heading'>Special</div>
+				<div class='filter-multi-wrap ${mobile ? 'tt-mobile' : ''}'>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='isfedded-yes'>N:<input type='checkbox' value='isfedded-no'>Fedded</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='traveling-yes'>N:<input type='checkbox' value='traveling-no'>Traveling</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='newplayer-yes'>N:<input type='checkbox' value='newplayer-no'>New Player</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='onwall-yes'>N:<input type='checkbox' value='onwall-no'>On Wall</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='incompany-yes'>N:<input type='checkbox' value='incompany-no'>In Company</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='infaction-yes'>N:<input type='checkbox' value='infaction-no'>In Faction</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='isdonator-yes'>N:<input type='checkbox' value='isdonator-no'>Is Donator</div>
+				</div>
+			</div>
             <div class="filter-wrap" id="level-filter">
                 <div class="filter-heading">Level</div>
                 <div id="tt-level-filter" class="filter-slider"></div>
@@ -141,6 +138,26 @@ function addFilterToTable(list, title) {
 	//     values = values.map(x => (time_until(parseFloat(x)*60*60*1000, {max_unit: "h", hide_nulls: true})));
 	//     time_slider_info.innerHTML = `Time: ${values.join(' - ')}`;
 	// });
+
+	// Special
+	for (let key in filters.user_list.special) {
+		switch (filters.user_list.special[key]) {
+			case 'yes':
+				filter_container.find(`#special-filter input[value='${key}-yes']`).checked = true;
+				break;
+			case 'no':
+				filter_container.find(`#special-filter input[value='${key}-no']`).checked = true;
+				break;
+			case 'both':
+				filter_container.find(`#special-filter input[value='${key}-yes']`).checked = true;
+				filter_container.find(`#special-filter input[value='${key}-no']`).checked = true;
+				break;
+			default:
+				filter_container.find(`#special-filter input[value='${key}-yes']`).checked = true;
+				filter_container.find(`#special-filter input[value='${key}-no']`).checked = true;
+				break;
+		}
+	}
 
 	// Level slider
 	let level_slider = filter_container.find('#tt-level-filter');
@@ -205,21 +222,27 @@ function addFilterToTable(list, title) {
 	applyFilters();
 
 	function applyFilters() {
-		let active_dict = {
-			"online": "icon1_",
-			"idle": "icon62_",
-			"offline": "icon2_"
-		}
-
-
-		let activity = [];
+		let activity = []
+		let special = {}
 		// let faction = ``;
-		// let time = [];
-		let level = [];
+		// let time = []
+		let level = []
 
 		// Activity
 		for (let checkbox of doc.findAll("#activity-filter .tt-checkbox-wrap input:checked")) {
 			activity.push(checkbox.getAttribute("value"));
+		}
+		// Special
+		for (let key in filters.user_list.special) {
+			if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked && doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked) {
+				special[key] = 'both';
+			} else if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked) {
+				special[key] = 'yes';
+			} else if (doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked) {
+				special[key] = 'no';
+			} else {
+				special[key] = 'both';
+			}
 		}
 		// Faction
 		// faction = doc.find("#faction-filter select option:checked").value;
@@ -258,12 +281,46 @@ function addFilterToTable(list, title) {
 			// Activity
 			let matches_one_activity = activity.length === 0;
 			for (let state of activity) {
-				if (li.find(`li[id^='${active_dict[state]}']`)) {
+				if (li.find(`li[id^='${ACTIVITY_FILTER_DICT[state]}']`)) {
 					matches_one_activity = true;
 				}
 			}
 			if (!matches_one_activity) {
 				showRow(li, false);
+			}
+
+			// Special
+			for (let key in special) {
+				console.log(key, special[key]);
+				if (special[key] === 'both') continue;
+
+				if (special[key] === 'yes') {
+					let matchesOneIcon = false;
+					for (let icon of SPECIAL_FILTER_DICT[key]) {
+						if (li.querySelector(`li[id^='${icon}']`)) {
+							matchesOneIcon = true;
+							break;
+						}
+					}
+
+					if (!matchesOneIcon) {
+						showRow(li, false);
+						continue;
+					}
+				} else if (special[key] === 'no') {
+					let matchesOneIcon = false;
+					for (let icon of SPECIAL_FILTER_DICT[key]) {
+						if (li.querySelector(`li[id^='${icon}']`)) {
+							matchesOneIcon = true;
+							break;
+						}
+					}
+
+					if (matchesOneIcon) {
+						showRow(li, false);
+						continue;
+					}
+				}
 			}
 		}
 
@@ -273,6 +330,7 @@ function addFilterToTable(list, title) {
 					activity: activity,
 					// faction: faction,
 					// time: time,
+					special: special,
 					level: level
 				}
 			}

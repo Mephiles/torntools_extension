@@ -305,16 +305,40 @@ const STORAGE = {
 			"activity": [],
 			"level": [],
 			"status": [],
-			"last_action": []
+			"last_action": [],
+			'special': {
+				'isfedded': 'both',
+				'newplayer': 'both',
+				'onwall': 'both',
+				'incompany': 'both',
+				'isdonator': 'both'
+			}
 		},
 		"user_list": {
 			"activity": [],
-			"level": []
+			"level": [],
+			'special': {
+				'isfedded': 'both',
+				'traveling': 'both',
+				'newplayer': 'both',
+				'onwall': 'both',
+				'incompany': 'both',
+				'infaction': 'both',
+				'isdonator': 'both'
+			}
 		},
 		"overseas": {
 			"activity": [],
 			"status": [],
-			"level": []
+			"level": [],
+			'special': {
+				'isfedded': 'both',
+				'newplayer': 'both',
+				'onwall': 'both',
+				'incompany': 'both',
+				'infaction': 'both',
+				'isdonator': 'both'
+			}
 		},
 		"bounties": {},
 		"faction_armory": {},
@@ -528,7 +552,41 @@ const TO_MILLIS = {
 	MINUTES: 1000 * 60,
 	HOURS: 1000 * 60 * 60,
 	DAYS: 1000 * 60 * 60 * 24,
-};
+}
+
+const ACTIVITY_FILTER_DICT = {
+	"online": "icon1_",
+	"idle": "icon62_",
+	"offline": "icon2_"
+}
+const SPECIAL_FILTER_DICT = {
+	"isfedded": ["icon70_"],
+	"traveling": ["icon71_"],
+	"newplayer": ["icon72_"],
+	"onwall": [
+		"icon75_",
+		"icon76_"
+	],
+	"incompany": [
+		"icon21_",
+		"icon22_",
+		"icon23_",
+		"icon24_",
+		"icon25_",
+		"icon26_",
+		"icon27_",
+		"icon73_"
+	],
+	"infaction": [
+		"icon9_",
+		"icon74_",
+		"icon81_"
+	],
+	"isdonator": [
+		"icon3_",
+		"icon4_"
+	]
+}
 
 let notificationLinkRelations = {}
 

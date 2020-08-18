@@ -248,7 +248,18 @@ function addFilterToTable(list, title) {
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="idle">Idle</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="offline">Offline</div>
                 </div>
-            </div>
+			</div>
+			<div class='filter-wrap' id='special-filter'>
+				<div class='filter-heading'>Special</div>
+				<div class='filter-multi-wrap ${mobile ? 'tt-mobile' : ''}'>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='isfedded-yes'>N:<input type='checkbox' value='isfedded-no'>Fedded</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='newplayer-yes'>N:<input type='checkbox' value='newplayer-no'>New Player</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='onwall-yes'>N:<input type='checkbox' value='onwall-no'>On Wall</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='incompany-yes'>N:<input type='checkbox' value='incompany-no'>In Company</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='infaction-yes'>N:<input type='checkbox' value='infaction-no'>In Faction</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='isdonator-yes'>N:<input type='checkbox' value='isdonator-no'>Is Donator</div>
+				</div>
+			</div>
             <div class="filter-wrap" id="status-filter">
                 <div class="filter-heading">Status</div>
                 <div class="filter-multi-wrap ${mobile ? 'tt-mobile' : ''}">
@@ -267,6 +278,26 @@ function addFilterToTable(list, title) {
 	// Initializing
 	let level_start = filters.overseas.level[0] || 0;
 	let level_end = filters.overseas.level[1] || 100;
+
+	// Special
+	for (let key in filters.overseas.special) {
+		switch (filters.overseas.special[key]) {
+			case 'yes':
+				filter_container.find(`#special-filter input[value='${key}-yes']`).checked = true;
+				break;
+			case 'no':
+				filter_container.find(`#special-filter input[value='${key}-no']`).checked = true;
+				break;
+			case 'both':
+				filter_container.find(`#special-filter input[value='${key}-yes']`).checked = true;
+				filter_container.find(`#special-filter input[value='${key}-no']`).checked = true;
+				break;
+			default:
+				filter_container.find(`#special-filter input[value='${key}-yes']`).checked = true;
+				filter_container.find(`#special-filter input[value='${key}-no']`).checked = true;
+				break;
+		}
+	}
 
 	// Level slider
 	let level_slider = filter_container.find('#tt-level-filter');
@@ -333,11 +364,12 @@ function addFilterToTable(list, title) {
 	applyFilters();
 
 	function applyFilters() {
-		let activity = [];
-		let status = [];
+		let activity = []
+		let status = []
+		let special = {}
 		// let faction = ``;
-		// let time = [];
-		let level = [];
+		// let time = []
+		let level = []
 
 		// Activity
 		for (let checkbox of doc.findAll("#activity-filter .tt-checkbox-wrap input:checked")) {
@@ -346,6 +378,18 @@ function addFilterToTable(list, title) {
 		// Status
 		for (let checkbox of doc.findAll("#status-filter .tt-checkbox-wrap input:checked")) {
 			status.push(checkbox.getAttribute("value"));
+		}
+		// Special
+		for (let key in filters.overseas.special) {
+			if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked && doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked) {
+				special[key] = 'both';
+			} else if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked) {
+				special[key] = 'yes';
+			} else if (doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked) {
+				special[key] = 'no';
+			} else {
+				special[key] = 'both';
+			}
 		}
 		// Level
 		level.push(parseInt(doc.find("#level-filter .noUi-handle-lower").getAttribute("aria-valuenow")));
@@ -386,6 +430,40 @@ function addFilterToTable(list, title) {
 			if (!matches_one_status) {
 				showRow(li, false);
 			}
+
+			// Special
+			for (let key in special) {
+				console.log(key, special[key]);
+				if (special[key] === 'both') continue;
+
+				if (special[key] === 'yes') {
+					let matchesOneIcon = false;
+					for (let icon of SPECIAL_FILTER_DICT[key]) {
+						if (li.querySelector(`li[id^='${icon}']`)) {
+							matchesOneIcon = true;
+							break;
+						}
+					}
+
+					if (!matchesOneIcon) {
+						showRow(li, false);
+						continue;
+					}
+				} else if (special[key] === 'no') {
+					let matchesOneIcon = false;
+					for (let icon of SPECIAL_FILTER_DICT[key]) {
+						if (li.querySelector(`li[id^='${icon}']`)) {
+							matchesOneIcon = true;
+							break;
+						}
+					}
+
+					if (matchesOneIcon) {
+						showRow(li, false);
+						continue;
+					}
+				}
+			}
 		}
 
 		ttStorage.change({
@@ -416,8 +494,8 @@ function addFilterToTable(list, title) {
 	}
 
 	function updateStatistics() {
-		doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li")].filter(x => (!x.classList.contains("filter-hidden"))).length;
-		doc.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope>li")].length;
+		doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].filter(x => (!x.classList.contains("filter-hidden"))).length;
+		doc.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].length;
 	}
 }
 
