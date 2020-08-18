@@ -53,11 +53,13 @@ window.addEventListener('load', async () => {
 	if (await isFlying()) {
 		// Landing time
 		if (doc.find('.flight-info .destination-title')) {
-			const landDate = new Date(userdata.travel.timestamp * 1000);
-			const [hours, minutes, seconds] = [landDate.getHours(), landDate.getMinutes(), landDate.getSeconds()];
+			const landDate = new Date(userdata.travel.timestamp * 1000) - new Date() < 0 ? 'N/A' : new Date(userdata.travel.timestamp * 1000);
+			let hours, minutes, seconds;
+
+			if (landDate !== 'N/A') [hours, minutes, seconds] = [landDate.getHours(), landDate.getMinutes(), landDate.getSeconds()];
 
 			const landingTimeDiv = doc.new({ type: 'div', attributes: { style: 'text-align: center;' } });
-			const landingTimeDescription = doc.new({ type: 'span', class: 'description', text: `Landing at ${formatTime([hours, minutes, seconds], settings.format.time)}` });
+			const landingTimeDescription = doc.new({ type: 'span', class: 'description', text: `Landing at ${landDate === 'N/A' ? 'N/A' : formatTime([hours, minutes, seconds], settings.format.time)}` });
 			landingTimeDiv.appendChild(landingTimeDescription);
 			doc.find('.flight-info').insertBefore(landingTimeDiv, doc.find('.flight-info .destination-title').nextElementSibling);
 		}
