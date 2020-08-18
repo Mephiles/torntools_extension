@@ -1037,13 +1037,11 @@ function addFilterToTable(list, title) {
 
 		// Filtering
 		for (let li of list.findAll(":scope > li.table-row")) {
-			if (li.classList.contains("tt-user-info")) {
-				continue;
-			}
+			if (li.classList.contains("tt-user-info")) continue;
 			showRow(li);
 
 			// Level
-			let player_level = parseInt(li.find(".lvl").innerText.trim().replace("Level:", "").trim());
+			let player_level = parseInt(li.find(".lvl").innerText.trim());
 			if (!(level[0] <= player_level && player_level <= level[1])) {
 				showRow(li, false);
 				continue;
@@ -1117,13 +1115,13 @@ function addFilterToTable(list, title) {
 	function showRow(row, show = true) {
 		if (show) {
 			row.classList.remove("filter-hidden");
-			if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container")))
+			if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container"))) {
 				row.nextElementSibling.classList.remove("filter-hidden");
+			}
 		} else {
-			if (show) {
-				row.classList.add("filter-hidden");
-				if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container")))
-					row.nextElementSibling.classList.add("filter-hidden");
+			row.classList.add("filter-hidden");
+			if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container"))) {
+				row.nextElementSibling.classList.add("filter-hidden");
 			}
 		}
 	}
