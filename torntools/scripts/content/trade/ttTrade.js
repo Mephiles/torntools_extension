@@ -1,144 +1,170 @@
 console.log("TT - Trade");
 
-let looking = true;
-let checker = setInterval(function(){
-	if(tradeView() && looking){
-		looking = false
-		setTimeout(function(){
-			Main();
-		}, 1000);
-	} else if(!tradeView()){
-		looking = true;
-	}
-}, 500);
+requireDatabase(true).then(() => {
+	addXHRListener(({ detail: { page, xhr } }) => {
+		if (page !== "trade") return;
 
-function Main(){
+		const params = new URLSearchParams(xhr.requestBody);
+		if (!isActiveTrade(params)) return;
+
+		tradeLoaded().then(() => {
+			if (settings.pages.trade.item_values || settings.pages.trade.total_value) showValues();
+
+			showChatButton();
+		});
+	})
+
+	if (isActiveTrade()) {
+		tradeLoaded().then(() => {
+			if (settings.pages.trade.item_values || settings.pages.trade.total_value) showValues();
+
+			showChatButton();
+		});
+	}
+});
+
+function isActiveTrade(params = getHashParameters()) {
+	let step = params.get("step");
+
+	return step === "view" || step === "initiateTrade"
+}
+
+function tradeLoaded() {
+	return requireElement(".user.left, .user.right");
+}
+
+function showValues() {
 	console.log("Trade view!");
 
 	// Show values of adds
 	let logs = doc.findAll(".log li div");
-	for(let log of logs){
+	for (let log of logs) {
 		let text = log.innerText;
 		let total_value = 0;
 
-		if(text.indexOf("added") > -1){
-			text = text.replace(" added", "").replace(" to the trade", "").replace(log.find("a").innerText+" ", "");
-			let items = text.split(",");
+		if (text.includes("added")) {
+			if (text.includes("$")) {
+				total_value = parseInt(text.match(/\$([0-9,]*)/i)[1].replaceAll(",", ""));
+			} else {
+				text = text.replace(" added", "").replace(" to the trade", "").replace(log.find("a").innerText + " ", "");
+				let items = text.split(",");
 
-			for(let item of items){
-				let name = item.split(" x")[0].trim();
-				let quantity = parseInt(item.split(" x")[1]);
+				for (let item of items) {
+					let name = item.split(" x")[0].trim();
+					let quantity = parseInt(item.split(" x")[1]);
 
-				for(let id in itemlist.items){
-					if(itemlist.items[id].name == name){
-						for(let i = 0; i < quantity; i++){
-							total_value += itemlist.items[id].market_value;
+					for (let id in itemlist.items) {
+						if (itemlist.items[id].name === name) {
+							for (let i = 0; i < quantity; i++) {
+								total_value += itemlist.items[id].market_value;
+							}
 						}
 					}
 				}
 			}
 
 			let value_span = doc.new("span");
-				value_span.setClass("tt-add-value");
-				value_span.innerText = `$${numberWithCommas(total_value, shorten=false)}`;
-			
+			value_span.setClass("tt-add-value");
+			value_span.innerText = `$${numberWithCommas(total_value, false)}`;
+
 			log.appendChild(value_span);
+		}
+
+		if (text.indexOf("added") > -1) {
+
+
 		}
 	}
 
-	// Show values of sides
-	for(let side of [doc.find(".user.left .cont .color2 .desc"), doc.find(".user.right .cont .color2 .desc")]){ // color2 - items
-		if(!side){
-			continue;
-		}
+	for (let side of [doc.find(".user.left"), doc.find(".user.right")]) {
+		let totalValue = 0;
 
-		let LIs = side.findAll("li .name");
-		let total_value = 0;
+		let cashInTrade = side.find(".cont .color1 .desc > li .name");
+		if (cashInTrade && cashInTrade.innerText !== "No money in trade") totalValue += parseInt(cashInTrade.innerText.match(/\$([0-9,]*)/i)[1].replaceAll(",", ""));
 
-		for(let li of LIs){
-			let name = li.innerText.split(" x")[0].trim();
-			let quantity = parseInt(li.innerText.split(" x")[1]) || 1;
+		for (let item of side.findAll(".cont .color2 .desc > li .name")) {
+			const name = item.innerText.split(" x")[0].trim();
+			const quantity = parseInt(item.innerText.split(" x")[1]) || 1;
 
-			for(let id in itemlist.items){
-				if(itemlist.items[id].name == name){
-					let item_value = itemlist.items[id].market_value;
-					console.log(name, item_value)
-					total_value += item_value*quantity;
+			const items = findItemsInObject(itemlist.items, { name }, true);
+			if (!items.length) continue;
 
-					// Show item value if enabled
-					if(settings.pages.trade.item_values){
-						let span = doc.new({type: "span", class: "tt-side-item-value", text: `$${numberWithCommas((item_value * quantity), shorten=false)}`});
-						li.appendChild(span);
-					}
-				}
+			const worth = items[0].market_value * quantity;
+			totalValue += worth;
+
+			if (settings.pages.trade.item_values) {
+				let span = doc.new({
+					type: "span",
+					class: "tt-side-item-value",
+					text: `$${numberWithCommas(worth, false)}`
+				});
+				item.appendChild(span);
 			}
-
 		}
 
-		if(total_value != 0 && settings.pages.trade.total_value){
-			let div = doc.new("div");
-				div.setClass("tt-side-value");
-				div.innerText = `Total value: `;
-			let span = doc.new("span");
-				span.innerText = `$${numberWithCommas(total_value, shorten=false)}`;
+		if (totalValue !== 0 && settings.pages.trade.total_value) {
+			let div = doc.new({ type: "div", class: "tt-side-value", text: "Total value: " });
 
-			div.appendChild(span);
-			side.parentElement.parentElement.parentElement.appendChild(div);
+			div.appendChild(doc.new({
+				type: "span",
+				text: `$${numberWithCommas(totalValue, false)}`,
+			}));
+
+			side.appendChild(div);
 		}
 
-		if(settings.pages.trade.item_values){
-			// Add option to hide item values
-			let wrap_1 = doc.new({type: "div", class: "item-value-option-wrap"});
-			let checkbox_1 = doc.new({type: "input", attributes: {type: "checkbox"}});
-			let text_1 = doc.new({type: "span", text: "Hide item values"});
-		
-			wrap_1.appendChild(text_1);
-			wrap_1.appendChild(checkbox_1);
-	
-			let wrap_2 = doc.new({type: "div", class: "item-value-option-wrap"});
-			let checkbox_2 = doc.new({type: "input", attributes: {type: "checkbox"}});
-			let text_2 = doc.new({type: "span", text: "Hide item values"});
-		
-			wrap_2.appendChild(text_2);
-			wrap_2.appendChild(checkbox_2);
-	
-			doc.find(".trade-cont .user.left .title-black").appendChild(wrap_1);
-			doc.find(".trade-cont .user.right .title-black").appendChild(wrap_2);
-	
-			checkbox_1.addEventListener("click", function(){
-				if(checkbox_1.checked){
-					for(let item of doc.findAll(".user.left .tt-side-item-value")){
-						item.style.display = "none";
-					}
-				} else {
-					for(let item of doc.findAll(".user.left .tt-side-item-value")){
-						item.style.display = "block";
-					}
-				}
-			});
-	
-			checkbox_2.addEventListener("click", function(){
-				if(checkbox_2.checked){
-					for(let item of doc.findAll(".user.right .tt-side-item-value")){
-						item.style.display = "none";
-					}
-				} else {
-					for(let item of doc.findAll(".user.right .tt-side-item-value")){
-						item.style.display = "block";
-					}
+		if (settings.pages.trade.item_values) {
+			let wrap = doc.new({ type: "div", class: "item-value-option-wrap" });
+			let checkbox = doc.new({ type: "input", attributes: { type: "checkbox" } });
+
+			wrap.appendChild(doc.new({ type: "span", text: "Hide item values" }));
+			wrap.appendChild(checkbox);
+
+			side.find(".title-black").appendChild(wrap);
+
+			checkbox.addEventListener("click", function () {
+				let style = checkbox.checked ? "none" : "block";
+
+				for (let item of side.findAll(".tt-side-item-value")) {
+					item.style.display = style;
 				}
 			});
 		}
 	}
 }
 
-function tradeView(){
-	let arguments = window.location.hash.replace("#", "").replace("/", "").split("&");
+function showChatButton() {
+	let id;
 
-	for(let argument of arguments){
-		if(argument.split("=")[0] == "step" && (argument.split("=")[1] == "view" || argument.split("=")[1] == "initiateTrade")){
-			return true;
-		}
+	for (let link of doc.findAll("#trade-container .log > li .desc a")) {
+		let match = link.getAttribute("href").match(/XID=([0-9]*)/i);
+		if (!match || parseInt(match[1]) === userdata.player_id) continue;
+
+		id = parseInt(match[1]);
+		break;
 	}
-	return false;
+	if (!id) return;
+
+	let button = doc.new({
+		type: "span",
+		text: "Open Chat",
+		class: "tt-clickable",
+	});
+
+	button.addEventListener("click", () => {
+		let script = doc.new({
+			type: "script",
+			attributes: { type: "text/javascript" },
+		});
+		script.innerHTML = `chat.r(${id})`;
+
+		doc.find("head").appendChild(script);
+		setTimeout(() => script.remove(), 100);
+	});
+
+	doc.find("#trade-container > .title-black").appendChild(doc.new({
+		type: "div",
+		class: "item-value-option-wrap",
+		children: [button],
+	}));
 }

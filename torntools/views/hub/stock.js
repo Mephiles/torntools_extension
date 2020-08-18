@@ -2,12 +2,12 @@ window.onload = () => {
 	init();
 }
 
-function init(){
+function init() {
 	chrome.storage.local.get(["torndata", "userdata", "api_system"], (data) => {
 		const torn_stocks = data["torndata"]["stocks"];
 		const user_stocks = data["userdata"]["stocks"];
 
-		if(!data["api_system"]["online"]){
+		if (!data["api_system"]["online"]) {
 			document.getElementById("error").innerText = data["api_system"]["error"];
 		}
 
@@ -15,12 +15,12 @@ function init(){
 	});
 }
 
-function displayStocks(torn_stocks, user_stocks, date){
+function displayStocks(torn_stocks, user_stocks, date) {
 	const stock_list = document.querySelector("#stock-list");
 
 	document.querySelector("#last-updated").innerText = "Last updated: " + timeAgo(date);
 
-	for(let id in torn_stocks){
+	for (let id in torn_stocks) {
 		let stock = torn_stocks[id];
 		let user = false;
 
@@ -50,8 +50,8 @@ function displayStocks(torn_stocks, user_stocks, date){
 			toggleSlide(div_more);
 		});
 
-		for(let _id in user_stocks){
-			if(user_stocks[_id]["stock_id"] == id){
+		for (let _id in user_stocks) {
+			if (user_stocks[_id]["stock_id"] === id) {
 				li.classList.add("user");
 				user = true;
 			}
@@ -64,7 +64,7 @@ function displayStocks(torn_stocks, user_stocks, date){
 
 		div_more.appendChild(div_more_available_shares);
 
-		if(!user){
+		if (!user) {
 			stock_list.appendChild(li);
 			stock_list.appendChild(div_more);
 		} else {
@@ -119,27 +119,24 @@ function displayStocks(torn_stocks, user_stocks, date){
 	}
 }
 
-function toggleSlide(el){
+function toggleSlide(el) {
 	console.log("HERE")
 	let directionDown;  // down || up
 	let height = parseInt(el.style.height);  // 0 || 200
 	let step = 3;
 	let height_max = 120;
-	
-	if(height != height_max)
-		directionDown = true;
-	else
-		directionDown = false;
+
+	directionDown = height !== height_max;
 
 	let progress = 0;
 
-	if(!directionDown)
+	if (!directionDown)
 		progress = height_max;
 
 	let slider = setInterval(() => {
 		console.log("MOVING");
-		if(directionDown){
-			if(progress < height_max){
+		if (directionDown) {
+			if (progress < height_max) {
 				progress += step;
 				el.style.height = (progress <= height_max ? progress : height_max) + "px";
 			} else {
@@ -147,7 +144,7 @@ function toggleSlide(el){
 				clearInterval(slider);
 			}
 		} else {
-			if(progress > 0){
+			if (progress > 0) {
 				progress -= step;
 				el.style.height = (progress >= 0 ? progress : 0) + "px";
 			} else {
@@ -159,7 +156,7 @@ function toggleSlide(el){
 }
 
 const numberWithCommas = (x) => {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function timeAgo(time) {
@@ -176,7 +173,7 @@ function timeAgo(time) {
 		default:
 			time = +new Date();
 	}
-	var time_formats = [
+	const time_formats = [
 		[60, 'seconds', 1], // 60
 		[120, '1 minute ago', '1 minute from now'], // 60*2
 		[3600, 'minutes', 60], // 60*60, 60
@@ -193,11 +190,11 @@ function timeAgo(time) {
 		[5806080000, 'Last century', 'Next century'], // 60*60*24*7*4*12*100*2
 		[58060800000, 'centuries', 2903040000] // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
 	];
-	var seconds = (+new Date() - time) / 1000,
+	let seconds = (+new Date() - time) / 1000,
 		token = 'ago',
 		list_choice = 1;
 
-	if (seconds == 0) {
+	if (seconds === 0) {
 		return 'Just now'
 	}
 	if (seconds < 0) {
@@ -205,7 +202,7 @@ function timeAgo(time) {
 		token = 'from now';
 		list_choice = 2;
 	}
-	var i = 0,
+	let i = 0,
 		format;
 	while (format = time_formats[i++])
 		if (seconds < format[0]) {

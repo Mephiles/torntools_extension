@@ -1,4 +1,4 @@
-# TornTools (v4.6)  
+# TornTools (v4.11)  
 ##### A browser extension for Torn.com
 &nbsp;  
 **Links**  
@@ -27,6 +27,7 @@
   - Info popup  
   - Player stats  
   - Gym Stats graph  
+  - Quick Bust & Bail  
 
 **Smaller Features**:  
   - Friendly Fire  
@@ -66,6 +67,7 @@
 **Info popup**: Popup to show basic information like location, status, bars etc.  
 **Player stats**: Show stats like networth, xan used, etc. on their Profile page  
 **Gym Stats graph**: Keep track of your overall Gym Stats using TornStats  
+**Quick Bust & Bail**: One-click bust or bail someone out of jail  
 
 **Friendly Fire**: get a warning when you are on an ally faction player's profile (you have to add allies manually in settings)  
 **Shop profits**: Show item profits in shops (profit compared to market value)  
@@ -90,11 +92,23 @@
 **API requests**:   
   - 4 main requests once per minute. 1 request for user's data every 15 seconds    
   - 1 request per search in Market tab  
+  - 1 request per person in Stakeouts  
   - 1 request to TornStats when fetching Player Stats (max 25/minute)  
   - 1 request to TornStats when fetching Gym Stats (max 25/minute)  
 
+**Development focus** (High to Low):
+  - v4.10 (small features, fixes; fixing Import/Export; Torn Proxy) - Mainly Mephiles  
+  - v5.0 (importing DKK & other community scripts, other small features, fixes) - Mainly DKK  
+  - Design improvements - Mainly Yukio  
+  - Stabilizing for different Browsers  
+  - Stabilizing for Mobile Browsers  
+  
 Don't like something? Turn it off in the settings and use the features you do like.  
 
 Any bugs? Ideas? Suggestions? Let me know!  
+
+**Open Source**  
+The code is open to view for everybody.  
+If anyone wants to submit Pull Requests then I won't deny any improvements/additions. You can always contact me about changes you'd like to add/improve so everybody's on the same page.  
 
 Created by: Gregor (**Mephiles[2087524]**)

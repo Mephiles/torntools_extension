@@ -4,7 +4,7 @@
     min-width: 870px;
 }
 
-    /* legend */
+/* legend */
 
 .table .legend {
     display: flex;
@@ -54,7 +54,7 @@
     background-color: #f12c3f;
 }
 
-    /* header */
+/* header */
 
 .table .header.row {
     font-weight: 600;
@@ -83,7 +83,7 @@
     z-index: 9;
 }
 
-    /* body */
+/* body */
 
 .table .row {
     width: 100%;
@@ -155,7 +155,7 @@
 
 /* TABLE LIST */
 .table.list {
-    width: 80%;
+    width: 100%;
     margin-top: 5px;
     min-width: unset;
 }
@@ -175,7 +175,7 @@
     border: 1px solid #a7a7a7;
     padding-left: 4px;
     outline: none;
-    box-shadow: 0px 1px 5px 1px #e8e8e8;
+    box-shadow: 0 1px 5px 1px #e8e8e8;
     margin-right: 4px;
 }
 
@@ -188,9 +188,6 @@
     width: 50%;
 }
 
-#custom_links {
-    width: 90%;
-}
 #custom_links .row .text.name {
     width: 30%;
 }

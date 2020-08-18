@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Torn Tools",
-	"version": "4.9",
+	"version": "5.0",
 	"description": "Tools for Torn users.",
 	"icons": {
 		"128": "images/icon128.png"
@@ -22,7 +22,8 @@
 		"https://yata.alwaysdata.net/*",
 		"https://www.tornstats.com/*",
 		"https://api.torn.com/*",
-		"https://torntools.gregork.com/*"
+		"https://torntools.gregork.com/*",
+		"https://torn-proxy.com/*"
 	],
 	"web_accessible_resources": [
 		"images/*",
@@ -30,7 +31,8 @@
 		"scripts/*"
 	],
 	"options_ui": {
-		"page": "views/settings/settings.html"
+		"page": "views/settings/settings.html",
+		"open_in_tab": false
 	},
 	"browser_specific_settings": {
 		"gecko": {
@@ -48,7 +50,8 @@
 			"css": [
 				"scripts/content/global/ttGlobal.css",
 				"scripts/content/global/ttChat.css",
-				"scripts/libs/nouislider.css"
+				"scripts/libs/nouislider.css",
+				"scripts/libs/fontawesome.css"
 			],
 			"js": [
 				"scripts/libs/nouislider.js",
@@ -368,6 +371,16 @@
 		},
 		{
 			"matches": [
+				"https://www.torn.com/events.php*"
+			],
+			"css": [],
+			"js": [
+				"scripts/content/events/ttEvents.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
 				"https://www.torn.com/page.php?*"
 			],
 			"css": [
@@ -460,6 +473,26 @@
 			],
 			"js": [
 				"scripts/content/preferences/ttPreferences.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/blacklist.php*"
+			],
+			"css": [],
+			"js": [
+				"scripts/content/blacklist/ttEnemiesList.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/halloffame.php*"
+			],
+			"css": [],
+			"js": [
+				"scripts/content/halloffame/ttHallOfFame.js"
 			],
 			"run_at": "document_end"
 		}

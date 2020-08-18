@@ -1,212 +1,208 @@
 console.log("Loading Achievement Functions");
 
-function displayAchievements(achievements, show_completed){
-    if(mobile){
-        let cont = doc.new({type: "div"});
-        let hidden_heading = doc.new({type: "div", class: "tt-title", attributes: {style: "display: none;"}});
-        let options = doc.new({type: "div", class: "tt-options"});
-        hidden_heading.appendChild(options);
-        cont.appendChild(hidden_heading);
-        body.appendChild(cont);
+function displayAchievements(achievements, show_completed) {
+	if (mobile) {
+		let cont = doc.new({ type: "div" });
+		let hidden_heading = doc.new({ type: "div", class: "tt-title", attributes: { style: "display: none;" } });
+		let options = doc.new({ type: "div", class: "tt-options" });
+		hidden_heading.appendChild(options);
+		cont.appendChild(hidden_heading);
+		body.appendChild(cont);
 
-        addTimeToHeader(cont, torndata.date);
+		addTimeToHeader(cont, torndata.date);
 
-        return;
-    }
-    
-    let awards_section = navbar.newSection("Awards", {next_element_heading: "Lists"});
-    console.log(achievements);
-    
-    addTimeToHeader(awards_section, userdata.date);
-    createAchievementTooltip();
-    achievements = fillGoals(achievements, torndata);
-    
-    // add achievements to awards section
-    for(let name in achievements){
-        let current_stat = achievements[name].stats || 0;
-        let next_goal = undefined;
+		return;
+	}
 
-        if(achievements[name].extra != "###")
-            next_goal = getNextGoal(current_stat, achievements[name].goals);
+	let awards_section = navbar.newSection("Awards", { next_element_heading: "Lists" });
+	console.log(achievements);
 
-        if(next_goal == "completed" && !show_completed)
-            continue;
+	addTimeToHeader(awards_section, userdata.date);
+	createAchievementTooltip();
+	achievements = fillGoals(achievements, torndata);
 
-        let achievement_text, new_cell;
-        if(next_goal == "completed"){
-            achievement_text = `${name}: Completed!`;
-            new_cell = navbar.newCell(achievement_text, {parent_element: awards_section, href:"#", class: "tt-completed"});
-        } else {
-            if(achievements[name].extra == "###")
-                achievement_text = `${name}: ${numberWithCommas(current_stat)}`;
-            else
-                achievement_text = `${name}: ${numberWithCommas(current_stat)}/${numberWithCommas(next_goal)}`;
-            
-            new_cell = navbar.newCell(achievement_text, {parent_element: awards_section, href:"#"});
-        }
+	// add achievements to awards section
+	for (let name in achievements) {
+		let current_stat = achievements[name].stats || 0;
+		let next_goal = undefined;
 
-        if(achievements[name].extra != "###"){
-            new_cell.setAttribute("info", JSON.stringify({
-                goals: achievements[name].goals,
-                score: current_stat
-            }));
-            // new_cell.setAttribute("info", `Goals: ${achievements[name].goals.map(x => " "+numberWithCommas(x))}\n Your score: ${numberWithCommas(current_stat)}`);
-            addTooltip(new_cell);
-        }
-    }
+		if (achievements[name].extra !== "###")
+			next_goal = getNextGoal(current_stat, achievements[name].goals);
 
-    // if no content
-    if(doc.findAll(".tt-nav-section div.tt-title+div *").length == 0){
-        awards_section.style.display = "none";
-    }
-    
+		if (next_goal === "completed" && !show_completed)
+			continue;
+
+		let achievement_text, new_cell;
+		if (next_goal === "completed") {
+			achievement_text = `${name}: Completed!`;
+			new_cell = navbar.newCell(achievement_text, { parent_element: awards_section, href: "#", class: "tt-completed" });
+		} else {
+			if (achievements[name].extra === "###")
+				achievement_text = `${name}: ${numberWithCommas(current_stat)}`;
+			else
+				achievement_text = `${name}: ${numberWithCommas(current_stat)}/${numberWithCommas(next_goal)}`;
+
+			new_cell = navbar.newCell(achievement_text, { parent_element: awards_section, href: "#" });
+		}
+
+		if (achievements[name].extra !== "###") {
+			new_cell.setAttribute("info", JSON.stringify({
+				goals: achievements[name].goals,
+				score: current_stat
+			}));
+			// new_cell.setAttribute("info", `Goals: ${achievements[name].goals.map(x => " "+numberWithCommas(x))}\n Your score: ${numberWithCommas(current_stat)}`);
+			addTooltip(new_cell);
+		}
+	}
+
+	// if no content
+	if (doc.findAll(".tt-nav-section div.tt-title+div *").length === 0) {
+		awards_section.style.display = "none";
+	}
+
 }
 
-function addTimeToHeader(section, date){
-    let span = doc.new("span");
-        span.setClass("tt-awards-time");
-        span.setAttribute("seconds", (new Date() - Date.parse(date))/1000);
-        span.innerText = timeAgo(Date.parse(date));
+function addTimeToHeader(section, date) {
+	let span = doc.new("span");
+	span.setClass("tt-awards-time");
+	span.setAttribute("seconds", (new Date() - Date.parse(date)) / 1000);
+	span.innerText = timeAgo(Date.parse(date));
 
-    section.find("div.tt-title .tt-options").appendChild(span);
+	section.find("div.tt-title .tt-options").appendChild(span);
 
-    // increment time
-    let time_increase = setInterval(function(){
-        let time_span = doc.find(".tt-awards-time");
+	// increment time
+	setInterval(function () {
+		let time_span = doc.find(".tt-awards-time");
 
-        let seconds = parseInt(time_span.getAttribute("seconds"));
-        let new_time = timeAgo(new Date() - (seconds+1)*1000);
-
-        time_span.innerText = new_time;
-        time_span.setAttribute("seconds", seconds+1);
-    }, 1000);
+		let seconds = parseInt(time_span.getAttribute("seconds"));
+		time_span.innerText = timeAgo(new Date() - (seconds + 1) * 1000);
+		time_span.setAttribute("seconds", seconds + 1);
+	}, 1000);
 }
 
-function getNextGoal(stat, achievements){
-    let goal;
-    achievements = achievements.sort(function(a, b){return a-b});
+function getNextGoal(stat, achievements) {
+	let goal;
+	achievements = achievements.sort(function (a, b) {
+		return a - b
+	});
 
-    for(let ach of achievements){
-        if(ach > stat){
-            goal = ach;
-            break;
-        }
-    }
-    
-    if(!goal)
-        goal = "completed";
-    
-    return goal;
+	for (let ach of achievements) {
+		if (ach > stat) {
+			goal = ach;
+			break;
+		}
+	}
+
+	if (!goal)
+		goal = "completed";
+
+	return goal;
 }
 
-function fillGoals(achievements, torndata){
-    for(let name in achievements){
-        if(achievements[name].extra == "###")
-            continue;
-            
-        let keyword = achievements[name].keyword;
-        let inclusions = achievements[name].incl || [];
-        let exclusions = achievements[name].excl || [];
+function fillGoals(achievements, torndata) {
+	for (let name in achievements) {
+		if (achievements[name].extra === "###")
+			continue;
 
-        for(let type of [torndata.honors, torndata.medals]){  // loop through honors and medals
-            for(let key in type){
-                let desc = type[key].description.toLowerCase();
+		let keyword = achievements[name].keyword;
+		let inclusions = achievements[name].incl || [];
+		let exclusions = achievements[name].excl || [];
 
-                if(desc.indexOf(keyword) > -1){  // keyword is present in desc.
-                    let includes = inclusions.length == 0 ? true : false;
-                    let excludes = exclusions.length == 0 ? true : false;
+		for (let type of [torndata.honors, torndata.medals]) {  // loop through honors and medals
+			for (let key in type) {
+				let desc = type[key].description.toLowerCase();
 
-                    // check for inclusions and exclusions
-                    for(let incl of inclusions){
-                        if(desc.indexOf(incl) > -1)
-                            includes = true;
-                        else
-                            includes = false;
-                    }
-                    for(let excl of exclusions){
-                        if(desc.indexOf(excl) == -1)
-                            excludes = true;
-                        else
-                            excludes = false;
-                    }
+				if (desc.indexOf(keyword) > -1) {  // keyword is present in desc.
+					let includes = inclusions.length === 0;
+					let excludes = exclusions.length === 0;
 
-                    if(!(includes && excludes))
-                        continue;
+					// check for inclusions and exclusions
+					for (let incl of inclusions) {
+						includes = desc.indexOf(incl) > -1;
+					}
+					for (let excl of exclusions) {
+						excludes = desc.indexOf(excl) === -1;
+					}
 
-                    // get goal
-                    desc = desc.split("for at least")[0];  // remove 'day' numbers from networth
-                    desc = desc.replace(/\D/g,'');  // replace all non-numbers
-                    let goal = parseInt(desc);
+					if (!(includes && excludes))
+						continue;
 
-                    if(!achievements[name].goals){
-                        achievements[name].goals = [];
-                        achievements[name].goals.push(goal);
-                    } else if(!achievements[name].goals.includes(goal) && !isNaN(goal)){
-                        achievements[name].goals.push(goal);
-                    }
-                }
-            }
-        }
-    }
-    return achievements;
+					// get goal
+					desc = desc.split("for at least")[0];  // remove 'day' numbers from networth
+					desc = desc.replace(/\D/g, '');  // replace all non-numbers
+					let goal = parseInt(desc);
+
+					if (!achievements[name].goals) {
+						achievements[name].goals = [];
+						achievements[name].goals.push(goal);
+					} else if (!achievements[name].goals.includes(goal) && !isNaN(goal)) {
+						achievements[name].goals.push(goal);
+					}
+				}
+			}
+		}
+	}
+	return achievements;
 }
 
-function createAchievementTooltip(){
-    // create tooltip
-    let div = doc.new({type: "div", class: "tt-ach-tooltip"});
-    let arrow = doc.new({type: "div", class: "tt-ach-tooltip-arrow"});
-    let text = doc.new({type: "div", class: "tt-ach-tooltip-text"});
+function createAchievementTooltip() {
+	// create tooltip
+	let div = doc.new({ type: "div", class: "tt-ach-tooltip" });
+	let arrow = doc.new({ type: "div", class: "tt-ach-tooltip-arrow" });
+	let text = doc.new({ type: "div", class: "tt-ach-tooltip-text" });
 
-    div.appendChild(arrow);
-    div.appendChild(text);
-    doc.querySelector("body").appendChild(div);
+	div.appendChild(arrow);
+	div.appendChild(text);
+	doc.querySelector("body").appendChild(div);
 }
 
-function addTooltip(cell){
-    cell.addEventListener("mouseenter", function(event){
-        let position = event.target.getBoundingClientRect();
+function addTooltip(cell) {
+	cell.addEventListener("mouseenter", function (event) {
+		let position = event.target.getBoundingClientRect();
 
-        let tooltip = doc.find(".tt-ach-tooltip");
-        tooltip.style.left = String(position.x + 172+7) + "px";
-        tooltip.style.top = String(position.y + Math.abs(document.body.getBoundingClientRect().y)+6) + "px";
-        tooltip.style.display = "block";
-        tooltip.find(".tt-ach-tooltip-text").innerHTML = "";
+		let tooltip = doc.find(".tt-ach-tooltip");
+		tooltip.style.left = String(position.x + 172 + 7) + "px";
+		tooltip.style.top = String(position.y + Math.abs(document.body.getBoundingClientRect().y) + 6) + "px";
+		tooltip.style.display = "block";
+		tooltip.find(".tt-ach-tooltip-text").innerHTML = "";
 
-        let data = JSON.parse(event.target.getAttribute("info"));
-        let line_progress = doc.new({type: "div", class: "line-progress"});
-        tooltip.find(".tt-ach-tooltip-text").appendChild(line_progress);
+		let data = JSON.parse(event.target.getAttribute("info"));
+		let line_progress = doc.new({ type: "div", class: "line-progress" });
+		tooltip.find(".tt-ach-tooltip-text").appendChild(line_progress);
 
-        let added_user = false;
-        for(let goal of data.goals){
-            if(goal > data.score && !added_user){
-                let div = doc.new({type: "div", text: numberWithCommas(data.score)});
-                let inner_div = doc.new({type: "div", class: "point progress"});
-                div.appendChild(inner_div);
-                line_progress.appendChild(div);
-                added_user = true;
-            }
+		let added_user = false;
+		for (let goal of data.goals) {
+			if (goal > data.score && !added_user) {
+				let div = doc.new({ type: "div", text: numberWithCommas(data.score) });
+				let inner_div = doc.new({ type: "div", class: "point progress" });
+				div.appendChild(inner_div);
+				line_progress.appendChild(div);
+				added_user = true;
+			}
 
-            let div = doc.new({type: "div", text: numberWithCommas(goal)});
-            let inner_div = doc.new({type: "div", class: "point"});
-            div.appendChild(inner_div);
-            line_progress.appendChild(div);
-        }
+			if (goal !== data.score) {
+				let div = doc.new({ type: "div", text: numberWithCommas(goal) });
+				let inner_div = doc.new({ type: "div", class: "point" });
+				div.appendChild(inner_div);
+				line_progress.appendChild(div);
+			}
+		}
 
-        if(!added_user){
-            let div = doc.new({type: "div", text: numberWithCommas(data.score)});
-            let inner_div = doc.new({type: "div", class: "point progress"});
-            div.appendChild(inner_div);
-            line_progress.appendChild(div);
-        }
+		if (!added_user) {
+			let div = doc.new({ type: "div", text: numberWithCommas(data.score) });
+			let inner_div = doc.new({ type: "div", class: "point progress" });
+			div.appendChild(inner_div);
+			line_progress.appendChild(div);
+		}
 
-        tooltip.find(".tt-ach-tooltip-text").appendChild(line_progress);
-    });
+		tooltip.find(".tt-ach-tooltip-text").appendChild(line_progress);
+	});
 
-    cell.addEventListener("mouseleave", function(){
-        doc.find(".tt-ach-tooltip").style.display = "none";
-    });
+	cell.addEventListener("mouseleave", function () {
+		doc.find(".tt-ach-tooltip").style.display = "none";
+	});
 }
 
-function getDonations(){
-    return parseInt(doc.find("#church-donate .desc").innerText.split("donated")[1].split("to")[0].trim().replace(/,/g, "").replace("$", ""));
+function getDonations() {
+	return parseInt(doc.find("#church-donate .desc").innerText.split("donated")[1].split("to")[0].trim().replace(/,/g, "").replace("$", ""));
 }
