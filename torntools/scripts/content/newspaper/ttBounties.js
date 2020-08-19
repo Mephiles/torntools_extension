@@ -1,35 +1,54 @@
-requireDatabase().then(function(){
-	bountiesLoaded().then(function(){
-        console.log("TT - Newspaper | Bounties");
-        Main(filters);
+requireDatabase().then(function () {
+    console.log("TT - Newspaper | Bounties");
 
-        let newspaper_content_observer = new MutationObserver(function(mutations){
-            for(let mutation of mutations){
-                if(mutation.type == "childList" && mutation.addedNodes.length > 0){
-                    if(doc.find("#ttBountyContainer")) return;
-                    
-                    ttStorage.get("filters", function(filters){
-                        bountiesLoaded().then(function(){
-                            if(!doc.find("#ttBountyContainer")){
-                                Main(filters);
-                            }
-                        });
-                    });
-                }
-            }
+    addXHRListener((event) => {
+        const {page, xhr} = event.detail;
+        if (page !== "bounties") return;
+
+        const params = new URLSearchParams(xhr.requestBody);
+        if (params.get("step") !== "mainBounties") return;
+
+        bountiesLoaded().then(() => {
+            addFilter(filters);
+
+            if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.bounties)
+                showStatsEstimates();
         });
-        newspaper_content_observer.observe(doc.find(".content-wrapper"), {childList: true, subtree: true});
+    });
+
+    bountiesLoaded().then(() => {
+        addFilter(filters);
+
+        if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.bounties)
+            showStatsEstimates();
     });
 });
 
-function Main(filters){
-    let container = content.newContainer("Bounty Filter", {header_only: true, id: "ttBountyContainer", next_element: doc.find(".bounties-total").nextElementSibling});
+function bountiesLoaded() {
+    return new Promise((resolve) => {
+        let checker = setInterval(function () {
+            if (doc.find(".bounties-list > li > ul > li .reward")) {
+                resolve(true);
+                return clearInterval(checker);
+            }
+        });
+    });
+}
+
+function addFilter(filters) {
+    if (doc.find("#ttBountyContainer")) return;
+
+    let container = content.newContainer("Bounty Filter", {
+        header_only: true,
+        id: "ttBountyContainer",
+        next_element: doc.find(".bounties-total").nextElementSibling
+    });
 
     let option_1 = doc.new({type: "div", class: "tt-checkbox-wrap in-title"});
     let checkbox_1 = doc.new({type: "input", attributes: {type: "checkbox"}});
     let text_1 = doc.new({type: "div", text: "Hide unavailable"});
 
-    if(filters.bounties.hide_unavailable){
+    if (filters.bounties.hide_unavailable) {
         checkbox_1.checked = true;
     }
 
@@ -40,7 +59,7 @@ function Main(filters){
     let text_2 = doc.new({type: "div", text: "Max level"});
     let input_2 = doc.new({type: "input"});
 
-    if(filters.bounties.max_level){
+    if (filters.bounties.max_level) {
         input_2.value = filters.bounties.max_level;
     }
 
@@ -50,45 +69,61 @@ function Main(filters){
     container.find(".tt-title .tt-options").appendChild(option_1);
     container.find(".tt-title .tt-options").appendChild(option_2);
 
-    checkbox_1.onclick = filter;
-    input_2.onkeyup = filter;
+    checkbox_1.onclick = applyFilters;
+    input_2.onkeyup = applyFilters;
 
-    filter();
+    applyFilters();
 
-    function filter(){
-        let people = doc.findAll(".bounties-list>li:not(.clear)");
-
+    function applyFilters() {
         let hide_unavailable = checkbox_1.checked;
         let max_level = input_2.value;
 
-        for(let person of people){
-            person.classList.remove("filter-hidden");
+        for (let person of doc.findAll(".bounties-list > li:not(.clear):not(.tt-userinfo-container)")) {
+            hideRow(person, false);
 
             // Unavailable
-            if(hide_unavailable && person.find(".status .t-red")){
-                person.classList.add("filter-hidden");
+            if (hide_unavailable && person.find(".status .t-red")) {
+                hideRow(person, true);
                 continue;
             }
 
             // Max level
             let person_level = parseInt(person.find(".level").innerText.replace("Level:", ""));
-            if(max_level && person_level > parseInt(max_level)){
-                person.classList.add("filter-hidden");
-                continue;
+            if (max_level && person_level > parseInt(max_level)) {
+                hideRow(person, true);
             }
         }
-        
-        ttStorage.change({"filters": {"bounties": {"hide_unavailable": hide_unavailable, "max_level": parseInt(max_level)}}});
+
+        ttStorage.change({
+            "filters": {
+                "bounties": {
+                    "hide_unavailable": hide_unavailable,
+                    "max_level": parseInt(max_level)
+                }
+            }
+        });
+
+        function hideRow(row, hide) {
+            const userinfoRow = row.nextElementSibling;
+            if (hide) {
+                row.classList.add("filter-hidden");
+
+                if (userinfoRow && userinfoRow.classList && userinfoRow.classList.contains("tt-userinfo-container"))
+                    row.nextElementSibling.classList.add("filter-hidden");
+            } else {
+                row.classList.remove("filter-hidden");
+
+                if (userinfoRow && userinfoRow.classList && userinfoRow.classList.contains("tt-userinfo-container"))
+                    row.nextElementSibling.classList.remove("filter-hidden");
+            }
+        }
     }
 }
 
-function bountiesLoaded(){
-    return new Promise(function(resolve, reject){
-        let checker = setInterval(function(){
-            if(doc.find(".bounties-list>li>ul>li .reward")){
-                resolve(true);
-                return clearInterval(checker);
-            }
-        });
+function showStatsEstimates() {
+    estimateStatsInList(".bounties-list > li:not(.clear)", (row) => {
+        return {
+            userId: row.find(".head .target a").getAttribute("href").match(/profiles\.php\?XID=([0-9]*)/i)[1]
+        };
     });
 }

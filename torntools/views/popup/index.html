@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <!-- <link rel="stylesheet" href="../popup_window_global.css"> -->
     <link rel="stylesheet" href="../../scripts/content/global/ttGlobal.css">
 
@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./market.css">
     <link rel="stylesheet" href="./stocks.css">
     <link rel="stylesheet" href="./calculator.css">
-
+    <title>TT - Popup</title>
 </head>
 <body class="loading">
     <div class="error"></div>
@@ -38,21 +38,25 @@
         <h2 id="location"><span class="link" href="https://www.torn.com/index.php">Placeholder</span></h2>
         <h2 id="status"><span>Placeholder</span></h2>
         <div id="last-update">updated <span></span></div>
-    
+
         <div id="bars">
             <div class="bar" id="energy">
                 <div class="text">
                     <div class="name"><span class="link" href="https://www.torn.com/gym.php">Energy</span></div>
                     <div class="full-in"><span></span></div>
                 </div>
-                <div class="progress"><div></div><span class="stat"></span></div>
+                <div class="progress">
+                    <div></div>
+                    <span class="stat"></span></div>
             </div>
             <div class="bar" id="nerve">
                 <div class="text">
                     <div class="name"><span class="link" href="https://www.torn.com/crimes.php">Nerve</span></div>
                     <div class="full-in"><span></span></div>
                 </div>
-                <div class="progress"><div></div><span class="stat"></span></div>
+                <div class="progress">
+                    <div></div>
+                    <span class="stat"></span></div>
             </div>
             <div class="bar" id="happy">
                 <div class="text">
@@ -60,31 +64,40 @@
                     <div class="full-in"><span></span></div>
                     <div class="resets-in"><span></span></div>
                 </div>
-                <div class="progress"><div></div><span class="stat"></span></div>
+                <div class="progress">
+                    <div></div>
+                    <span class="stat"></span></div>
             </div>
             <div class="bar" id="life">
                 <div class="text">
                     <div class="name"><span class="link" href="https://www.torn.com/item.php">Life</span></div>
                     <div class="full-in"><span></span></div>
                 </div>
-                <div class="progress"><div></div><span class="stat"></span></div>
+                <div class="progress">
+                    <div></div>
+                    <span class="stat"></span></div>
             </div>
             <div class="bar" id="chain">
                 <div class="text">
-                    <div class="name"><span class="link" href="https://www.torn.com/factions.php?step=your#/war/chain">Chain</span></div>
+                    <div class="name"><span class="link" href="https://www.torn.com/factions.php?step=your#/war/chain">Chain</span>
+                    </div>
                     <div class="resets-in"><span></span></div>
                 </div>
-                <div class="progress"><div></div><span class="stat"></span></div>
+                <div class="progress">
+                    <div></div>
+                    <span class="stat"></span></div>
             </div>
             <div class="bar" id="travel">
                 <div class="text">
                     <div class="name"><span class="link" href="https://www.torn.com/index.php">Traveling</span></div>
                     <div class="full-in"><span></span></div>
                 </div>
-                <div class="progress"><div></div><span class="stat"></span></div>
+                <div class="progress">
+                    <div></div>
+                    <span class="stat"></span></div>
             </div>
         </div>
-    
+
         <div class="cooldowns">
             <div class="cd" id="drug">
                 <div class="name">Drug</div>
@@ -99,7 +112,7 @@
                 <div class="time"></div>
             </div>
         </div>
-    
+
         <div class="footer">
             <div class="messages link" href="https://www.torn.com/messages.php">Messages: <span></span></div>
             <div class="events link" href="https://www.torn.com/events.php">Events: <span></span></div>
@@ -132,11 +145,13 @@
         <input type="text" id="search-bar" placeholder="Search.." autofocus><span id="clear-all"><button>Clear</button></span>
         <div id="items-selected"></div>
         <div id="total-value" value="0"></div>
-        <div id="item-list"><hr></div>
+        <div id="item-list">
+            <hr>
+        </div>
     </div>
 
     <script src="../../scripts/js/globalFunctions.js"></script>
     <script src="../../scripts/js/globalDatabase.js"></script>
-	<script src="./index.js"></script>
+    <script src="./index.js"></script>
 </body>
 </html>

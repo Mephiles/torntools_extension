@@ -1,5 +1,5 @@
-var money_key_list = ["networth", "moneymugged", "largestmug", "peopleboughtspent", "receivedbountyvalue", "totalbountyspent", "totalbountyreward", "rehabcost"]
-var key_dict = {
+const money_key_list = ["networth", "moneymugged", "largestmug", "peopleboughtspent", "receivedbountyvalue", "totalbountyspent", "totalbountyreward", "rehabcost"];
+const key_dict = {
     basic: {
         "awards": "Awards",
         "logins": "Logins",
@@ -182,8 +182,7 @@ var key_dict = {
 
         "virusescoded": "Viruses Coded"
     }
-}
-var spyInfo;
+};
 
 requireDatabase().then(function () {
     profileLoaded().then(async function () {
@@ -210,6 +209,7 @@ requireDatabase().then(function () {
 
         if (shouldDisable()) return
 
+        // noinspection EqualityComparisonWithCoercionJS
         if (getUserId() == userdata.player_id) return;
 
         // Profile stats
@@ -226,16 +226,10 @@ requireDatabase().then(function () {
 
             button.addEventListener("click", async function () {
                 button.remove();
-                await displayProfileStats();
-                section_profile_stats.appendChild(doc.new({ type: "hr" }));
-                // Show Spy info
-                showSpyInfo();
+                await fetchStats();
             });
         } else {
-            await displayProfileStats();
-            section_profile_stats.appendChild(doc.new({ type: "hr" }));
-            // Show Spy info
-            showSpyInfo();
+            await fetchStats();
         }
 
 
@@ -339,15 +333,24 @@ requireDatabase().then(function () {
             ttStorage.change({ 'filters': { 'profile_stats': { 'relative_values': checkbox.checked } } });
         }
         if (filters.profile_stats.relative_values) checkbox.click();
+
+        async function fetchStats() {
+            await displayProfileStats();
+            section_profile_stats.appendChild(doc.new({type: "hr"}));
+            // Show Spy info
+            await showSpyInfo();
+        }
     });
 });
 
 function displayCreator() {
     let name = doc.find("#skip-to-content span") || doc.find("#skip-to-content");
 
-    if (name.innerText == "Mephiles' Profile" || name.innerText == "Mephiles [2087524]") {
+    if (name.innerText === "Mephiles' Profile" || name.innerText === "Mephiles [2087524]") {
         let span1 = doc.new({
-            type: "span", text: " - Thanks for using ", attributes: {
+            type: "span",
+            text: " - Thanks for using ",
+            attributes: {
                 style: `font-size: 17px;`
             }
         });
@@ -364,7 +367,7 @@ function displayCreator() {
 }
 
 function profileLoaded() {
-    let promise = new Promise(function (resolve, reject) {
+    let promise = new Promise((resolve) => {
         let counter = 0;
         let checker = setInterval(function () {
             if (document.querySelector(".basic-information ul.info-table li")) {
@@ -403,16 +406,18 @@ function displayAlly(user_faction, allies) {
 }
 
 function showWarning(type) {
-    let title = doc.find(".profile-left-wrapper .title-black");
-    let span = document.createElement("span");
-    span.setClass("tt-warning-message");
+    let text;
+    if (type === 'user')
+        text = "This user is in your faction!";
+    else if (type === 'ally')
+        text = "This user is an ally!";
 
-    if (type == 'user')
-        span.innerText = "This user is in your faction!";
-    else if (type == 'ally')
-        span.innerText = "This user is an ally!";
-
-    title.appendChild(span);
+    doc.find(".profile-left-wrapper .title-black").appendChild(doc.new({
+        type: "span",
+        class: "tt-title-message",
+        text,
+        attributes: {color: "warning"}
+    }));
 }
 
 function displayTargetInfo(targets) {
@@ -427,19 +432,19 @@ function displayTargetInfo(targets) {
         let table = doc.new({ type: "div", class: `tt-table ${mobile ? "tt-mobile" : ""}` });
 
         let headings = [
-            { name: "Wins", type: "win", class: "good tt-item" },
-            { name: "Mugs", type: "mug", class: "good tt-item tt-advanced" },
-            { name: "Leaves", type: "leave", class: "good tt-item tt-advanced" },
-            { name: "Hosps", type: "hosp", class: "good tt-item tt-advanced" },
-            { name: "Arrests", type: "arrest", class: "good tt-item tt-advanced" },
-            { name: "Specials", type: "special", class: "good tt-item tt-advanced" },
-            { name: "Assists", type: "assist", class: "good tt-item tt-advanced" },
-            { name: "Defends", type: "defend", class: "good tt-item tt-advanced" },
-            { name: "Lost", type: "lose", class: "new-section bad tt-item" },
-            { name: "Defends lost", type: "defend_lose", class: "bad tt-item tt-advanced" },
-            { name: "Stalemates", type: "stalemate", class: "bad tt-item" },
-            { name: "Stealths", type: "stealth", class: "new-section neutral tt-item" },
-            { name: "Respect", type: "respect_base", class: "neutral tt-item" }
+            {name: "Wins", type: "win", class: "good tt-item"},
+            {name: "Mugs", type: "mug", class: "good tt-item tt-advanced"},
+            {name: "Leaves", type: "leave", class: "good tt-item tt-advanced"},
+            {name: "Hosps", type: "hosp", class: "good tt-item tt-advanced"},
+            {name: "Arrests", type: "arrest", class: "good tt-item tt-advanced"},
+            {name: "Specials", type: "special", class: "good tt-item tt-advanced"},
+            {name: "Assists", type: "assist", class: "good tt-item tt-advanced"},
+            {name: "Defends", type: "defend", class: "good tt-item tt-advanced"},
+            {name: "Lost", type: "lose", class: "new-section bad tt-item"},
+            {name: "Defends lost", type: "defend_lose", class: "bad tt-item tt-advanced"},
+            {name: "Stalemates", type: "stalemate", class: "bad tt-item"},
+            {name: "Stealths", type: "stealth", class: "new-section neutral tt-item"},
+            {name: "Respect", type: "respect_base", class: "neutral tt-item"}
         ]
 
         // header row
@@ -470,7 +475,7 @@ function displayTargetInfo(targets) {
                 td.classList.add("tt-mobile");
             }
 
-            if (heading.name == "Respect") {
+            if (heading.name === "Respect") {
                 let [value, color] = getRespect(targets, user_id);
                 td.innerText = value;
                 td.style.backgroundColor = color;
@@ -494,66 +499,67 @@ function displayTargetInfo(targets) {
 }
 
 async function displayProfileStats() {
-    const targetID = getUserId();
-    const profileStatsContainer = doc.find("#tt-target-info .profile-stats");
+    let userId = getUserId();
+    let profile_stats = doc.find("#tt-target-info .profile-stats");
+
     let result;
 
-    if (cache && cache.profile_stats[targetID]) {
-        result = cache.profile_stats[targetID];
+    if (cache && cache.profileStats[userId] && cache.battleStatsEstimate[userId]) {
+        result = {
+            stats: cache.profileStats[userId].data,
+            battleStatsEstimate: cache.battleStatsEstimate[userId].data,
+        };
     } else {
-        loadingPlaceholder(profileStatsContainer, true);
-        result = await new Promise(function (resolve, reject) {
-            fetchApi_v2('torn', { section: 'user', objectid: targetID, selections: 'personalstats,crimes' })
-                .then(data => {
-                    console.log("data", data);
-                    fetchRelay('tornstats', { section: 'api.php', action: 'spy', target: targetID })
-                        .then(result => {
-                            console.log("result", result);
-                            const modified_result = { ...data.personalstats, ...data.criminalrecord, spy: result.spy, date: new Date().toString() }
-                            return resolve(modified_result);
-                        })
-                        .catch(err => {
-                            console.log("ERROR", err);
+        loadingPlaceholder(profile_stats, true);
 
-                            if (err.error.indexOf("User not found") > -1) {
-                                return resolve({ error: `Can't display user stats because no TornStats account was found. Please register an account @ www.tornstats.com` });
-                            } else {
-                                return resolve({ error: err });
-                            }
-                        })
+        result = await new Promise((resolve) => {
+            fetchApi_v2('torn', { section: 'user', objectid: userId, selections: 'profile,personalstats,crimes' })
+                .then((result) => {
+                    const data = handleTornProfileData(result);
+                    const timestamp = new Date().getTime();
+
+                    ttStorage.change({
+                        "cache": {
+                            "profileStats": {
+                                [userId]: {
+                                    timestamp,
+                                    ttl: TO_MILLIS.DAYS,
+                                    data: data.stats,
+                                }
+                            },
+                        }
+                    }, () => {
+                        cacheEstimate(userId, timestamp, data.battleStatsEstimate, result.last_action);
+                    });
+
+                    resolve(data);
                 })
-                .catch(err => {
-                    console.log("ERROR", err);
-                    return resolve({ error: err });
-                })
+                .catch(({ error }) => resolve({ error }));
         });
 
-        if (!result.error) ttStorage.change({ "cache": { "profile_stats": { [targetID]: result } } });
-        loadingPlaceholder(profileStatsContainer, false);
+        loadingPlaceholder(profile_stats, false);
     }
 
-    console.log("Final Result", result);
-    spyInfo = result.spy;
+    console.log("Profile Stats", result.stats, result.battleStatsEstimate);
 
     if (result.error) {
-        const errorDiv = doc.new({ type: "div", class: "tt-error-message", text: result.error });
-        profileStatsContainer.appendChild(errorDiv);
+        profile_stats.appendChild(doc.new({type: "div", class: "tt-error-message", text: result.error}));
         return;
     }
 
-    profileStatsContainer.classList.add("populated");
-    let table = doc.new({ type: "div", class: `tt-stats-table ${mobile ? 'tt-mobile' : ""}` });
-    let col_chosen = doc.new({ type: "div", class: "col-chosen active" });
-    let col_other = doc.new({ type: "div", class: "col-other" });
+    profile_stats.classList.add("populated");
+    let table = doc.new({type: "div", class: `tt-stats-table ${mobile ? 'tt-mobile' : ""}`});
+    let col_chosen = doc.new({type: "div", class: "col-chosen active"});
+    let col_other = doc.new({type: "div", class: "col-other"});
 
-    let header = doc.new({ type: "div", class: "tt-row tt-header" });
+    let header = doc.new({type: "div", class: "tt-row tt-header"});
     for (let heading of ["Stat", "Them", "You"]) {
-        let item = doc.new({ type: "div", class: "item", text: heading });
+        let item = doc.new({type: "div", class: "item", text: heading});
         header.appendChild(item);
     }
-    let header_other = doc.new({ type: "div", class: "tt-row tt-header" });
+    let header_other = doc.new({type: "div", class: "tt-row tt-header"});
     for (let heading of ["Stat", "Them", "You"]) {
-        let item = doc.new({ type: "div", class: "item", text: heading });
+        let item = doc.new({type: "div", class: "item", text: heading});
         header_other.appendChild(item);
     }
 
@@ -561,12 +567,12 @@ async function displayProfileStats() {
     col_other.appendChild(header_other)
     table.appendChild(col_chosen);
     table.appendChild(col_other);
-    profileStatsContainer.appendChild(table);
+    profile_stats.appendChild(table);
 
     // Add all to other column
     for (let section in key_dict) {
-        let section_heading = doc.new({ type: "div", class: "tt-row sub-heading" });
-        let inner_text = doc.new({ type: "div", class: "item", text: capitalize(section) });
+        let section_heading = doc.new({type: "div", class: "tt-row sub-heading"});
+        let inner_text = doc.new({type: "div", class: "item", text: capitalize(section)});
         section_heading.appendChild(inner_text);
         col_other.appendChild(section_heading);
 
@@ -580,22 +586,22 @@ async function displayProfileStats() {
         for (let key of keys) {
             let row_title = key_dict[section][key];
 
-            let their_value = result[key] || 0;
+            let their_value = result.stats[key] || 0;
             let your_value = userdata.personalstats[key] || userdata.criminalrecord[key] || 0;
             const relative_value = your_value - their_value;
 
             let their_value_modified, your_value_modified, relative_value_modified;
 
             if (money_key_list.includes(key)) {
-                let neg = their_value < 0 ? true : false;
+                let neg = their_value < 0;
                 their_value_modified = `$${numberWithCommas(Math.abs(their_value), false)}`;
                 if (neg) their_value_modified = "-" + their_value_modified;
 
-                neg = your_value < 0 ? true : false;
+                neg = your_value < 0;
                 your_value_modified = `$${numberWithCommas(Math.abs(your_value), false)}`;
                 if (neg) your_value_modified = "-" + your_value_modified;
 
-                neg = relative_value < 0 ? true : false;
+                neg = relative_value < 0;
                 relative_value_modified = `$${numberWithCommas(Math.abs(relative_value), false)}`;
                 if (neg) relative_value_modified = "-" + relative_value_modified;
             } else {
@@ -665,8 +671,8 @@ async function displayProfileStats() {
     // Fix overflows
     for (let el of table.findAll(".tt-row .item")) {
         if (isOverflownX(el)) {
-            let money = el.innerText.indexOf("$") > -1 ? true : false;
-            let negative = el.innerText.indexOf("-") > -1 ? true : false;
+            let money = el.innerText.indexOf("$") > -1;
+            let negative = el.innerText.indexOf("-") > -1;
             let value = el.innerText.replace(/,/g, "").replace("$", "");
 
             el.setAttribute("true-value", value);
@@ -684,26 +690,71 @@ async function displayProfileStats() {
     }
 
     // Add sortable icon
-    profileStatsContainer.appendChild(doc.new({ type: "i", class: "uk-sortable-handle fas fa-arrows-alt" }));
+    profile_stats.appendChild(doc.new({type: "i", class: "uk-sortable-handle fas fa-arrows-alt"}));
+
+    if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.profile) {
+        doc.find(".profile-right-wrapper > .profile-action .title-black").appendChild(doc.new({
+            type: "span",
+            class: "tt-title-message",
+            text: result.battleStatsEstimate,
+            attributes: {color: "info"}
+        }));
+    }
 }
 
-function showSpyInfo() {
-    console.log("spy info", spyInfo);
-    if (!spyInfo) return;
+async function showSpyInfo() {
+    let user_id = getUserId();
+    let result;
 
-    let spy_section = doc.new({ type: "div", class: "tt-section", attributes: { name: 'spy-info' } });
+    let spySection = doc.new({type: "div", class: "tt-section", attributes: {name: 'spy-info'}});
     if (doc.find("#tt-target-info .content .tt-section[name='target-info'")) {
-        doc.find("#tt-target-info .content").insertBefore(spy_section, doc.find("#tt-target-info .content .tt-section[name='target-info'"));
+        doc.find("#tt-target-info .content").insertBefore(spySection, doc.find("#tt-target-info .content .tt-section[name='target-info'"));
     } else {
-        doc.find("#tt-target-info .content").appendChild(spy_section);
+        doc.find("#tt-target-info .content").appendChild(spySection);
     }
 
-    if (!spyInfo.status) {
-        let div = doc.new({ type: "div", class: "tt-spy-info", text: spyInfo.message });
-        spy_section.appendChild(div);
+    if (cache && cache.spyReport[user_id]) {
+        result = cache.spyReport[user_id].data;
     } else {
-        let heading = doc.new({ type: "div", class: "spy-heading", text: `Spy type: ${spyInfo.type} (${spyInfo.difference})` });
-        spy_section.appendChild(heading);
+        loadingPlaceholder(spySection, true);
+        result = await new Promise((resolve) => {
+            fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${user_id}`)
+                .then(async response => {
+                    let data = await response.json();
+
+                    return resolve(handleTornStatsData(data));
+                });
+        });
+
+        if (!result.error) {
+            ttStorage.change({
+                "cache": {
+                    "spyReport": {
+                        [user_id]: {
+                            timestamp: new Date().getTime(),
+                            ttl: TO_MILLIS.HOURS,
+                            data: result,
+                        }
+                    }
+                }
+            });
+        }
+        loadingPlaceholder(spySection, false);
+    }
+
+    console.log("Spy Information", result.spyreport);
+
+    if (result.error) {
+        spySection.appendChild(doc.new({type: "div", class: "tt-spy-info tt-error-message", text: result.error}));
+    } else if (!result.spyreport.status) {
+        spySection.appendChild(doc.new({type: "div", class: "tt-spy-info", text: result.spyreport.message}));
+    } else {
+        let heading = doc.new({
+            type: "div",
+            class: "spy-heading",
+            text: `Spy type: ${result.spyreport.type} (${result.spyreport.difference})`
+        });
+        spySection.appendChild(heading);
 
         let table = doc.new({ type: "div", class: "spy-table" });
         let header = doc.new({ type: "div", class: "tt-row tt-header" });
@@ -716,23 +767,27 @@ function showSpyInfo() {
         table.appendChild(header);
 
         for (let stat of ["strength", "defense", "speed", "dexterity", "total"]) {
-            let row = doc.new({ type: "div", class: "tt-row" });
-            let item_key = doc.new({ type: "div", class: "item", text: capitalize(stat) });
-            let item_them = doc.new({ type: "div", class: "item", text: numberWithCommas(parseInt(spyInfo[stat]), false) });
+            let row = doc.new({type: "div", class: "tt-row"});
+            let item_key = doc.new({type: "div", class: "item", text: capitalize(stat)});
+            let item_them = doc.new({
+                type: "div",
+                class: "item",
+                text: numberWithCommas(parseInt(result.spyreport[stat]), false),
+                attributes: {
+                    'real-value-you': numberWithCommas(parseInt(userdata[stat]), false),
+                    "relative-value-you": numberWithCommas(parseInt(userdata[stat]) - parseInt(result.spyreport[stat]), false)
+                },
+            });
             let item_you = doc.new({
                 type: "div",
                 class: "item",
                 text: numberWithCommas(parseInt(userdata[stat]), false),
-                attributes: {
-                    'real-value-you': numberWithCommas(parseInt(userdata[stat]), false),
-                    "relative-value-you": numberWithCommas(parseInt(userdata[stat]) - parseInt(spyInfo[stat]), false)
-                }
             });
 
-            if (parseInt(spyInfo[stat]) > parseInt(userdata[stat])) {
+            if (parseInt(result.spyreport[stat]) > parseInt(userdata[stat])) {
                 item_you.classList.add("negative");
                 item_them.classList.add("positive");
-            } else if (parseInt(spyInfo[stat]) < parseInt(userdata[stat])) {
+            } else if (parseInt(result.spyreport[stat]) < parseInt(userdata[stat])) {
                 item_them.classList.add("negative");
                 item_you.classList.add("positive");
             }
@@ -743,23 +798,27 @@ function showSpyInfo() {
             table.appendChild(row);
         }
 
-        let score_row = doc.new({ type: "div", class: "tt-row" });
-        let score_item_key = doc.new({ type: "div", class: "item", text: "Score" });
-        let score_item_them = doc.new({ type: "div", class: "item", text: numberWithCommas(parseInt(spyInfo.target_score), false) });
+        let score_row = doc.new({type: "div", class: "tt-row"});
+        let score_item_key = doc.new({type: "div", class: "item", text: "Score"});
+        let score_item_them = doc.new({
+            type: "div",
+            class: "item",
+            text: numberWithCommas(parseInt(result.spyreport.target_score), false),
+        });
         let score_item_you = doc.new({
             type: "div",
             class: "item",
-            text: numberWithCommas(parseInt(spyInfo.your_score), false),
+            text: numberWithCommas(parseInt(result.spyreport.your_score), false),
             attributes: {
-                'real-value-you': numberWithCommas(parseInt(spyInfo.your_score), false),
-                "relative-value-you": numberWithCommas(parseInt(spyInfo.your_score) - parseInt(spyInfo.target_score), false)
-            }
+                'real-value-you': numberWithCommas(parseInt(result.spyreport.your_score), false),
+                "relative-value-you": numberWithCommas(parseInt(result.spyreport.your_score) - parseInt(result.spyreport.target_score), false)
+            },
         });
 
-        if (parseInt(spyInfo.target_score) > parseInt(spyInfo.your_score)) {
+        if (parseInt(result.spyreport.target_score) > parseInt(result.spyreport.your_score)) {
             score_item_you.classList.add("negative");
             score_item_them.classList.add("positive");
-        } else if (parseInt(spyInfo.target_score) < parseInt(spyInfo.your_score)) {
+        } else if (parseInt(result.spyreport.target_score) < parseInt(result.spyreport.your_score)) {
             score_item_them.classList.add("negative");
             score_item_you.classList.add("positive");
         }
@@ -768,13 +827,13 @@ function showSpyInfo() {
         score_row.appendChild(score_item_them);
         score_row.appendChild(score_item_you);
         table.appendChild(score_row);
-        spy_section.appendChild(table);
+        spySection.appendChild(table);
     }
 
-    spy_section.appendChild(doc.new({ type: "hr" }));
+    spySection.appendChild(doc.new({type: "hr"}));
 
     // Add sortable icon
-    spy_section.appendChild(doc.new({ type: "i", class: "uk-sortable-handle fas fa-arrows-alt" }));
+    spySection.appendChild(doc.new({type: "i", class: "uk-sortable-handle fas fa-arrows-alt"}));
 }
 
 function getUserId() {
@@ -793,7 +852,7 @@ function getRespect(target_list, id) {
         }
     }
 
-    let leaves = target_list[id][respect_type]["leave"].length > 0 ? true : false;
+    let leaves = target_list[id][respect_type]["leave"].length > 0;
 
     if (leaves)
         respect_value = getAverage(target_list[id][respect_type]["leave"]);
@@ -803,29 +862,29 @@ function getRespect(target_list, id) {
         for (let list in target_list[id][respect_type]) {
             let avrg_of_list = getAverage(target_list[id][respect_type][list]);
 
-            if (avrg_of_list != 0)
+            if (avrg_of_list !== 0)
                 averages.push(avrg_of_list);
         }
         respect_value = getAverage(averages);
     }
 
-    if (respect_type == "respect")
+    if (respect_type === "respect")
         respect_value = respect_value + "*";
-    else if (respect_type == "respect_base") {
+    else if (respect_type === "respect_base") {
         if (leaves)
             color = "#dfffdf";
         else
             color = "#fffdcc";
     }
 
-    if (respect_value == "0*")
+    if (respect_value === "0*")
         respect_value = "-"
 
     return [respect_value, color];
 }
 
 function getAverage(arr) {
-    if (arr.length == 0)
+    if (arr.length === 0)
         return 0;
 
     let sum = 0;
@@ -836,8 +895,7 @@ function getAverage(arr) {
 }
 
 function showId() {
-    let text = doc.find(".profile-container .info-table > li .user-info-value").innerText;
-    doc.find("#skip-to-content").innerText = text;
+    doc.find("#skip-to-content").innerText = doc.find(".profile-container .info-table > li .user-info-value").innerText;
 }
 
 function displayLootLevel(loot_times) {
@@ -866,7 +924,7 @@ function displayLootLevel(loot_times) {
         doc.find(".profile-wrapper .profile-status .description .sub-desc").appendChild(span);
 
         // Time decrease
-        let time_decrease = setInterval(function () {
+        setInterval(function () {
             let seconds = parseInt(span.getAttribute("seconds"));
             let time_left = timeUntil((seconds - 1) * 1000);
 
@@ -895,9 +953,9 @@ function addStatusIndicator() {
     doc.find("#skip-to-content").appendChild(text_span);
 
     // Event listener
-    let status_observer = new MutationObserver(function (mutationsList, observer) {
+    let status_observer = new MutationObserver(function (mutationsList) {
         for (let mutation of mutationsList) {
-            if (mutation.type == "childList") {
+            if (mutation.type === "childList") {
                 console.log(doc.find(".icons ul>li"));
                 icon_span.setAttribute("class", doc.find(".icons ul>li").classList[0]);
                 icon_span.style.backgroundPosition = window.getComputedStyle(doc.find(".icons ul>li")).getPropertyValue('background-position');
@@ -921,7 +979,7 @@ function displayStakeoutOptions() {
     stakeout_div.appendChild(watchlist_wrap);
 
     for (let user of watchlist) {
-        if (user.id == user_id) {
+        if (user.id === user_id) {
             input.checked = true;
         }
     }
@@ -983,7 +1041,7 @@ function displayStakeoutOptions() {
             ttStorage.get("watchlist", function (watchlist) {
                 let is_in_list = false;
                 for (let item of watchlist) {
-                    if (item.id == user_id) {
+                    if (item.id === user_id) {
                         is_in_list = true;
                         break;
                     }
@@ -1002,7 +1060,7 @@ function displayStakeoutOptions() {
         } else {
             ttStorage.get("watchlist", function (watchlist) {
                 for (let item of watchlist) {
-                    if (item.id == user_id) {
+                    if (item.id === user_id) {
                         watchlist.splice(watchlist.indexOf(item), 1);
                         break;
                     }
@@ -1011,7 +1069,7 @@ function displayStakeoutOptions() {
             });
         }
 
-        if (checkbox_okay.checked == true || checkbox_lands.checked == true || checkbox_online.checked == true) {
+        if (checkbox_okay.checked === true || checkbox_lands.checked === true || checkbox_online.checked === true) {
             ttStorage.change({
                 "stakeouts": {
                     [user_id]: {
@@ -1049,10 +1107,19 @@ function getStatus() {
 function getTraveling() {
     let desc = doc.find(".main-desc").innerText;
 
-    if (desc.indexOf("Traveling") > -1 || desc.indexOf("Returning") > -1) {
-        return true;
+    return desc.indexOf("Traveling") > -1 || desc.indexOf("Returning") > -1;
+}
+
+function handleTornStatsData(data) {
+    let response = {};
+
+    if (!data.error) {
+        response.spyreport = {...data.spy};
+    } else {
+        response.error = data.error.includes("User not found") ? "Can't display stat spies because no TornStats account was found. Please register an account @ www.tornstats.com" : data.error;
     }
-    return false;
+
+    return response;
 }
 
 function saveProfileStats() {
@@ -1066,37 +1133,3 @@ function saveProfileStats() {
 
     ttStorage.change({ "filters": { "profile_stats": { "chosen_stats": chosen_keys } } });
 }
-
-// function modifyResult(personalstats, criminalrecord, comparison_data, spy_data) {
-//     const record = {
-//         // total: "totalcrimes",
-//         // other: "othercrimes",
-//     };
-//     const comparison = {
-//         "Xanax Taken": { name: "xantaken", field: "amount" },
-//         "Attacks Won": { name: "attackswon", field: "amount" },
-//         "Attacks Lost": { name: "attackslost", field: "amount" },
-//     };
-
-//     for (let key in record) {
-//         if (!(key in criminalrecord)) continue;
-
-//         criminalrecord[record[key]] = criminalrecord[key];
-//         delete criminalrecord[key];
-//     }
-
-//     for (let key in comparison) {
-//         if (!(key in comparison_data)) continue;
-
-//         let r = comparison[key];
-
-//         if (r.field) comparison_data[r.name] = comparison_data[key][r.field]
-//         else comparison_data[r.name] = comparison_data[key];
-
-//         delete comparison_data[key];
-//     }
-//     delete comparison_data["Networth"];
-
-//     let data = { ...personalstats, ...criminalrecord, ...comparison_data, spy: { ...spy_data }, date: new Date().toString() }
-//     return data;
-// }

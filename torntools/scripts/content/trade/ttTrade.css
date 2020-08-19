@@ -30,9 +30,10 @@
 }
 
 /* Options */
-.user.left>.title-black, .user.right>.title-black {
+.user.left > .title-black, .user.right > .title-black {
     position: relative;
 }
+
 .item-value-option-wrap {
     position: absolute;
     right: 10px;
@@ -40,8 +41,13 @@
     color: #acea00;
     font-size: 12px;
 }
+
 .item-value-option-wrap input {
     position: relative;
     top: 2px;
     margin-left: 4px;
+}
+
+#trade-container > .title-black {
+    position: relative;
 }

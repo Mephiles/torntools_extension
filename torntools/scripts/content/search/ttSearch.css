@@ -12,3 +12,18 @@
 #tt-add-all-to-mm-list:hover {
     background-color: gray;
 }
+
+/* Grid System */
+
+.tt-userinfo-grid {
+    grid-template-columns: [c1] 1fr;
+    background-color: #dcdcdc;
+    color: #7b7b7b;
+    line-height: 18px;
+    font-size: 11px;
+    padding-bottom: 2px;
+}
+
+.tt-userinfo-grid .tt-userinfo--stats_estimate {
+    grid-column-start: c1;
+}

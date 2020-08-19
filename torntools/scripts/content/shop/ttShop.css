@@ -22,10 +22,12 @@
 span.buy-act {
     position: relative;
 }
+
 span.buy-act a {
     position: relative;
     top: -7px;
 }
+
 .tt-max-buy {
     position: absolute;
     height: 15px;

@@ -1,10 +1,11 @@
 console.log("START - Background Script");
 import personalized from "../personalized.js";
 
+// noinspection JSUnusedLocalSymbols
 let [seconds, minutes, hours, days] = [1000, 60 * 1000, 60 * 60 * 1000, 24 * 60 * 60 * 1000];
 
-var notifications = {
-	'travel': {},
+let notifications = {
+	"travel": {},
 	"hospital": {},
 	"chain": {},
 	"chain_count": {},
@@ -16,7 +17,7 @@ var notifications = {
 	"energy": {},
 	"happy": {},
 	"life": {},
-	"new_day": {}
+	"new_day": {},
 }
 
 const links = {
@@ -29,7 +30,7 @@ const links = {
 	chain: "https://www.torn.com/factions.php?step=your#/war/chain"
 }
 
-var NPC_FETCH_TIME = 0;
+let NPC_FETCH_TIME = 0;
 
 let userdata, torndata, settings, api_key, proxy_key, chat_highlight, itemlist,
 	travel_market, oc, allies, loot_times, target_list, vault,
@@ -38,9 +39,9 @@ let userdata, torndata, settings, api_key, proxy_key, chat_highlight, itemlist,
 
 // First - set storage
 console.log("Checking Storage.");
-let setup_storage = new Promise(function (resolve, reject) {
+let setup_storage = new Promise(function (resolve) {
 	ttStorage.get(null, function (old_storage) {
-		if (!old_storage || Object.keys(old_storage).length == 0) {  // fresh install
+		if (!old_storage || Object.keys(old_storage).length === 0) {  // fresh install
 			console.log("	Setting new storage.");
 			ttStorage.set(STORAGE, function () {
 				console.log("	Storage set");
@@ -72,20 +73,20 @@ let setup_storage = new Promise(function (resolve, reject) {
 				}
 
 				// Key has new type
-				if (typeof STORAGE[key] != "undefined" && typeof STORAGE[key] != typeof old_storage[key]) {
+				if (typeof STORAGE[key] != "undefined" && typeof STORAGE[key] !== typeof old_storage[key]) {
 					new_local_storage[key] = STORAGE[key];
 					continue;
 				}
 
 				if (typeof STORAGE[key] == "object" && !Array.isArray(STORAGE[key])) {
-					if (Object.keys(STORAGE[key]).length == 0 || key === "chat_highlight")
+					if (Object.keys(STORAGE[key]).length === 0 || key === "chat_highlight")
 						new_local_storage[key] = old_storage[key];
 					else
 						new_local_storage[key] = convertStorage(old_storage[key], STORAGE[key]);
 				} else {
-					if (STORAGE[key] == "force_false")
+					if (STORAGE[key] === "force_false")
 						new_local_storage[key] = false;
-					else if (STORAGE[key] == "force_true")
+					else if (STORAGE[key] === "force_true")
 						new_local_storage[key] = true;
 					else if (typeof STORAGE[key] == "string" && STORAGE[key].indexOf("force_") > -1)
 						new_local_storage[key] = STORAGE[key].split(/_(.+)/)[1];
@@ -107,18 +108,18 @@ setup_storage.then(async function (success) {
 
 	// Check for personalized scripts
 	console.log("Setting up personalized scripts.");
-	if (Object.keys(personalized).length != 0) {
+	if (Object.keys(personalized).length !== 0) {
 		await (function () {
-			return new Promise(function (resolve, reject) {
+			return new Promise(function (resolve) {
 				ttStorage.get("userdata", function (userdata) {
 					if (!userdata)
 						return resolve(userdata);
 
 					let personalized_scripts = {}
 
-					if (personalized.master == userdata.player_id) {
+					if (personalized.master === userdata.player_id) {
 						for (let type in personalized) {
-							if (type == "master") {
+							if (type === "master") {
 								continue;
 							}
 
@@ -145,7 +146,7 @@ setup_storage.then(async function (success) {
 		console.log("	Empty file.");
 	}
 
-	ttStorage.get(null, function (db) {
+	ttStorage.get(null, async db => {
 		userdata = db.userdata;
 		torndata = db.torndata;
 		settings = db.settings;
@@ -176,6 +177,12 @@ setup_storage.then(async function (success) {
 
 		if (api_key) {
 			initiateTasks();
+
+			// Update info about installed extensions
+			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
+
+			// Clear API history
+			await clearAPIhistory();
 		}
 	});
 });
@@ -184,13 +191,7 @@ function initiateTasks() {
 	console.log("Setting up intervals.");
 	setInterval(Main_5_seconds, 5 * seconds);  // 5 seconds
 	setInterval(Main_30_seconds, 30 * seconds);  // 30 seconds
-	setInterval(Main_1_minute, 1 * minutes);  // 1 minute
-
-	// Update info about installed extensions
-	updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
-
-	// Clear API history
-	clearAPIhistory();
+	setInterval(Main_1_minute, minutes);  // 1 minute
 }
 
 function Main_5_seconds() {
@@ -202,7 +203,7 @@ function Main_5_seconds() {
 	console.log(notifications);
 	for (let notification_type in notifications) {
 		for (let notification_key in notifications[notification_type]) {
-			if (notifications[notification_type][notification_key].seen == 0) {
+			if (notifications[notification_type][notification_key].seen === 0) {
 				notifyUser(
 					notifications[notification_type][notification_key].title,
 					notifications[notification_type][notification_key].text,
@@ -212,14 +213,14 @@ function Main_5_seconds() {
 				notifications[notification_type][notification_key].seen = 1;
 			}
 
-			if (notifications[notification_type][notification_key].seen == 1 && (new Date() - notifications[notification_type][notification_key].date) > 7 * 24 * 60 * 60 * 1000) {
+			if (notifications[notification_type][notification_key].seen === 1 && (new Date() - notifications[notification_type][notification_key].date) > 7 * 24 * 60 * 60 * 1000) {
 				// notifications[notification_type][notification_key] = undefined;
 				delete notifications[notification_type][notification_key];
 			}
 		}
 	}
 
-	console.groupEnd("Notifications");
+	console.groupEnd();
 }
 
 function Main_30_seconds() {
@@ -234,7 +235,7 @@ function Main_30_seconds() {
 		}
 
 		if (target_list.show) {
-			if (target_list.last_target == -1) {
+			if (target_list.last_target === -1) {
 				attack_history = "attacksfull";
 			} else {
 				attack_history = "attacks";
@@ -244,7 +245,7 @@ function Main_30_seconds() {
 		// userdata
 		console.log("Setting up userdata.");
 		await (function () {
-			return new Promise(function (resolve, reject) {
+			return new Promise(function (resolve) {
 				const selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,timestamp,inventory,education${attack_history ? `,${attack_history}` : ''}`;
 
 				ttStorage.get(["settings", "userdata"], function ([settings, previous_userdata]) {
@@ -254,7 +255,7 @@ function Main_30_seconds() {
 							// Target list
 							if (userdata.attacks) {
 								let attacks_data = { ...userdata.attacks }
-								updateTargetList(attacks_data, userdata.player_id, target_list, (attack_history == "attacksfull" ? true : false));
+								updateTargetList(attacks_data, userdata.player_id, target_list, (attack_history === "attacksfull"));
 							}
 
 							// Check for new messages
@@ -262,7 +263,7 @@ function Main_30_seconds() {
 							for (let message_key of Object.keys(userdata.messages).reverse()) {
 								let message = userdata.messages[message_key];
 
-								if (message.seen == 0) {
+								if (message.seen === 0) {
 									if (settings.notifications.global && settings.notifications.messages && !notifications.messages[message_key]) {
 										notifications.messages[message_key] = {
 											title: `TornTools - New Message by ${message.name}`,
@@ -283,7 +284,7 @@ function Main_30_seconds() {
 							for (let event_key of Object.keys(userdata.events).reverse()) {
 								let event = userdata.events[event_key];
 
-								if (event.seen == 0) {
+								if (event.seen === 0) {
 									if (settings.notifications.global && settings.notifications.events && !notifications.events[event_key]) {
 										notifications.events[event_key] = {
 											title: `TornTools - New Event`,
@@ -316,11 +317,11 @@ function Main_30_seconds() {
 									let current_status = userdata.status.state;
 									let previous_status = previous_userdata.status.state;
 
-									if (!(current_status == previous_status || current_status == "Traveling" || current_status == "Abroad")) {
-										if (current_status == "Okay") {
-											if (previous_status == "Hospital") {
+									if (!(current_status === previous_status || current_status === "Traveling" || current_status === "Abroad")) {
+										if (current_status === "Okay") {
+											if (previous_status === "Hospital") {
 												notifyUser("TornTools - Status", `You are out of the hospital.`, links.home);
-											} else if (previous_status == "Jail") {
+											} else if (previous_status === "Jail") {
 												notifyUser("TornTools - Status", `You are out of the jail.`, links.home);
 											}
 										} else {
@@ -332,7 +333,7 @@ function Main_30_seconds() {
 								// Check for cooldowns
 								if (previous_userdata.cooldowns && settings.notifications.cooldowns) {
 									for (let cd_type in userdata.cooldowns) {
-										if (userdata.cooldowns[cd_type] == 0 && previous_userdata.cooldowns[cd_type] != 0) {
+										if (userdata.cooldowns[cd_type] === 0 && previous_userdata.cooldowns[cd_type] !== 0) {
 											notifyUser("TornTools - Cooldowns", `Your ${cd_type} cooldown has ended`, links.items);
 										}
 									}
@@ -340,14 +341,14 @@ function Main_30_seconds() {
 
 								// Check for education
 								if (previous_userdata.education_timeleft && settings.notifications.education) {
-									if (userdata.education_timeleft == 0 && previous_userdata.education_timeleft != 0) {
+									if (userdata.education_timeleft === 0 && previous_userdata.education_timeleft !== 0) {
 										notifyUser("TornTools - Education", `You have finished your education course`, links.education);
 									}
 								}
 
 								// Check for travelling
 								if (previous_userdata.travel && settings.notifications.traveling) {
-									if (userdata.travel.time_left == 0 && previous_userdata.travel.time_left != 0) {
+									if (userdata.travel.time_left === 0 && previous_userdata.travel.time_left !== 0) {
 										notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}`, links.home);
 									}
 								}
@@ -380,7 +381,7 @@ function Main_30_seconds() {
 								}
 
 								// Check for hospital notification
-								if (settings.notifications.hospital.length > 0 && userdata.status.state == "Hospital") {
+								if (settings.notifications.hospital.length > 0 && userdata.status.state === "Hospital") {
 									for (let checkpoint of settings.notifications.hospital.sort(function (a, b) {
 										return a - b
 									})) {
@@ -455,7 +456,7 @@ function Main_30_seconds() {
 									console.log("count", chain_count);
 									console.log("next bonus", next_bonus);
 
-									for (let checkpoint of settings.notifications.chain_count.sort((a, b) => { return b - a })) {
+									for (let checkpoint of settings.notifications.chain_count.sort((a, b) => b - a)) {
 										console.log("checkpoint", checkpoint);
 
 										if (next_bonus - chain_count <= parseInt(checkpoint) && !notifications.chain_count[`${next_bonus}_${checkpoint}`]) {
@@ -488,6 +489,7 @@ function Main_30_seconds() {
 
 								// Check for New Day notification
 								let torn_time = new Date(new Date(userdata.timestamp).toUTCString().replace(" GMT", ""));
+								// noinspection EqualityComparisonWithCoercionJS
 								if (
 									settings.notifications.new_day &&
 									torn_time.getHours() == "00" &&
@@ -526,7 +528,7 @@ function Main_30_seconds() {
 			for (let user_id of Object.keys(stakeouts)) {
 				let all_false = true;
 				for (let option in stakeouts[user_id]) {
-					if (stakeouts[user_id][option] == true) {
+					if (stakeouts[user_id][option] === true) {
 						all_false = false;
 					}
 				}
@@ -539,13 +541,13 @@ function Main_30_seconds() {
 					continue;
 				}
 
-				await new Promise(function (resolve, reject) {
+				await new Promise(function (resolve) {
 					fetchApi_v2('torn', { section: 'user', objectid: user_id })
 						.then(stakeout_info => {
 							console.log(`	Checking ${stakeout_info.name} [${user_id}]`);
 
 							if (stakeouts[user_id].online) {
-								if (stakeout_info.last_action.status == "Online" && !notifications.stakeouts[user_id + "_online"]) {
+								if (stakeout_info.last_action.status === "Online" && !notifications.stakeouts[user_id + "_online"]) {
 									console.log("	Adding [online] notification to notifications.");
 									notifications.stakeouts[user_id + "_online"] = {
 										title: `TornTools - Stakeouts`,
@@ -554,12 +556,12 @@ function Main_30_seconds() {
 										seen: 0,
 										date: new Date()
 									}
-								} else if (stakeout_info.last_action.status != "Online") {
+								} else if (stakeout_info.last_action.status !== "Online") {
 									delete notifications.stakeouts[user_id + "_online"];
 								}
 							}
 							if (stakeouts[user_id].okay) {
-								if (stakeout_info.status.state == "Okay" && !notifications.stakeouts[user_id + "_okay"]) {
+								if (stakeout_info.status.state === "Okay" && !notifications.stakeouts[user_id + "_okay"]) {
 									console.log("	Adding [okay] notification to notifications.");
 									notifications.stakeouts[user_id + "_okay"] = {
 										title: `TornTools - Stakeouts`,
@@ -568,21 +570,21 @@ function Main_30_seconds() {
 										seen: 0,
 										date: new Date()
 									}
-								} else if (stakeout_info.status.state != "Okay") {
+								} else if (stakeout_info.status.state !== "Okay") {
 									delete notifications.stakeouts[user_id + "_okay"];
 								}
 							}
 							if (stakeouts[user_id].lands) {
-								if (stakeout_info.status.state != "Traveling" && !notifications.stakeouts[user_id + "_lands"]) {
+								if (stakeout_info.status.state !== "Traveling" && !notifications.stakeouts[user_id + "_lands"]) {
 									console.log("	Adding [lands] notification to notifications.");
 									notifications.stakeouts[user_id + "_lands"] = {
 										title: `TornTools - Stakeouts`,
-										text: `${stakeout_info.name} is now ${stakeout_info.status.state == "Abroad" ? stakeout_info.status.description : "in Torn"}`,
+										text: `${stakeout_info.name} is now ${stakeout_info.status.state === "Abroad" ? stakeout_info.status.description : "in Torn"}`,
 										url: `https://www.torn.com/profiles.php?XID=${user_id}`,
 										seen: 0,
 										date: new Date()
 									}
-								} else if (stakeout_info.status.state == "Traveling") {
+								} else if (stakeout_info.status.state === "Traveling") {
 									delete notifications.stakeouts[user_id + "_lands"];
 								}
 							}
@@ -598,7 +600,7 @@ function Main_30_seconds() {
 		}
 
 		// Torndata
-		if (!old_torndata || !old_torndata.date || new Date() - new Date(old_torndata.date) >= 1 * days) {
+		if (!old_torndata || !old_torndata.date || new Date() - new Date(old_torndata.date) >= days) {
 			console.log("Setting up torndata.")
 			await updateTorndata(old_torndata);
 		}
@@ -633,11 +635,11 @@ function Main_30_seconds() {
 		updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 	});
 
-	console.groupEnd("Main");
+	console.groupEnd();
 }
 
 async function Main_1_minute() {
-	clearCache();
+	await clearCache();
 
 	// Clear API history
 	await clearAPIhistory();
@@ -657,7 +659,7 @@ function updateTargetList(attacks_data, player_id, target_list, first_time) {
 
 		target_list.last_target = fight_id;
 		let fight = attacks_data[fight_id];
-		let opponent_id = fight.attacker_id == player_id ? fight.defender_id : fight.attacker_id;
+		let opponent_id = fight.attacker_id === player_id ? fight.defender_id : fight.attacker_id;
 
 		if (!opponent_id) {
 			continue;
@@ -694,16 +696,16 @@ function updateTargetList(attacks_data, player_id, target_list, first_time) {
 			}
 		}
 
-		if (fight.defender_id == player_id) {  // user defended
-			if (fight.result == "Lost") {
+		if (fight.defender_id === player_id) {  // user defended
+			if (fight.result === "Lost") {
 				target_list.targets[opponent_id].defend++;
 			} else {
 				target_list.targets[opponent_id].defend_lose++;
 			}
-		} else if (fight.attacker_id == player_id) {  // user attacked
-			if (fight.result == "Lost")
+		} else if (fight.attacker_id === player_id) {  // user attacked
+			if (fight.result === "Lost")
 				target_list.targets[opponent_id].lose++;
-			else if (fight.result == "Stalemate")
+			else if (fight.result === "Stalemate")
 				target_list.targets[opponent_id].stalemate++;
 			else {
 				target_list.targets[opponent_id].win++;
@@ -712,7 +714,7 @@ function updateTargetList(attacks_data, player_id, target_list, first_time) {
 				if (!first_time)
 					respect = respect / fight.modifiers.war / fight.modifiers.groupAttack / fight.modifiers.overseas / fight.modifiers.chainBonus;  // get base respect
 
-				if (fight.stealthed == "1")
+				if (fight.stealthed === "1")
 					target_list.targets[opponent_id].stealth++;
 
 				switch (fight.result) {
@@ -758,29 +760,27 @@ function updateTargetList(attacks_data, player_id, target_list, first_time) {
 async function updateExtensions() {
 	console.log("Checking for installed extensions.");
 
-	return new Promise(((resolve, reject) => {
-		ttStorage.get("extensions", async function (extensions) {
-			let browser = false;
-			if (usingChrome()) browser = "chrome";
-			else if (usingFirefox()) browser = "firefox";
+	return new Promise(async (resolve) => {
+		let browser = false;
+		if (usingChrome()) browser = "chrome";
+		else if (usingFirefox()) browser = "firefox";
 
-			if (browser) {
-				const extensions = {
-					"doctorn": false
-				}
-
-				for (let extension in extensions) {
-					extensions[extension] = await detectExtension(browser, extension);
-				}
-
-				ttStorage.change({ extensions }, function () {
-					return resolve(extensions);
-				});
-			} else {
-				console.log("	Using something else than Chrome or Firefox.");
+		if (browser) {
+			const extensions = {
+				"doctorn": false
 			}
-		});
-	}));
+
+			for (let extension in extensions) {
+				extensions[extension] = await detectExtension(browser, extension);
+			}
+
+			ttStorage.change({ extensions }, function () {
+				return resolve(extensions);
+			});
+		} else {
+			console.log("	Using something else than Chrome or Firefox.");
+		}
+	});
 }
 
 async function updateTorndata(oldTorndata) {
@@ -815,19 +815,19 @@ async function updateTorndata(oldTorndata) {
 }
 
 function updateLootTimes() {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		fetchApi_v2('yata', { section: 'loot/timings' })
 			.then(result => {
 
 				let lowestTime = 1e10;
 				for (let id in result) {
 					if (result[id].status === 'hospitalized' && new Date(result[id].hospout * 1000) - new Date() < lowestTime && new Date(result[id].hospout * 1000) - new Date() > 0) {
-						lowestTime = new Date(result[id].hospout * 1000) - new Date() + 1 * minutes;
+						lowestTime = new Date(result[id].hospout * 1000) - new Date() + minutes;
 					} else {
 						const nextLevel = result[id].levels.next;
 						const nextLevelTime = result[id].timings[nextLevel].ts * 1000;
 						if (new Date(nextLevelTime) - new Date() < lowestTime && new Date(nextLevelTime) - new Date() > 0) {
-							if (new Date(nextLevelTime) - new Date() >= 1 * hours + 30 * minutes) lowestTime = 10 * minutes;
+							if (new Date(nextLevelTime) - new Date() >= hours + 30 * minutes) lowestTime = 10 * minutes;
 							else lowestTime = new Date(nextLevelTime) - new Date() + 3 * minutes;
 						}
 					}
@@ -835,9 +835,9 @@ function updateLootTimes() {
 				// console.log("lowest time", lowestTime);
 				if (lowestTime !== 1e10) NPC_FETCH_TIME = lowestTime;
 
-				ttStorage.set({ "loot_times": result }, function () {
+				ttStorage.set({ "loot_times": result }, async () => {
 					console.log("	Loot times set.");
-					checkLootAlerts();
+					await checkLootAlerts();
 					return resolve();
 				});
 			})
@@ -849,7 +849,7 @@ function updateLootTimes() {
 }
 
 function updateNetworthData() {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		fetchApi_v2('torn', { section: 'user', selections: 'personalstats,networth' })
 			.then(data => {
 				let ps = data.personalstats;
@@ -897,17 +897,16 @@ function updateNetworthData() {
 }
 
 function updateStocksData() {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		fetchApi_v2('torn', { section: 'torn', selections: 'stocks' })
 			.then(result => {
 				const stocks = result.stocks;
 
-				let new_date = (new Date()).toString();
-				stocks.date = new_date;
+				stocks.date = (new Date()).toString();
 
-				ttStorage.change({ "torndata": { "stocks": stocks } }, function () {
+				ttStorage.change({ "torndata": { "stocks": stocks } }, async () => {
 					console.log("Stocks info updated.");
-					checkStockAlerts();
+					await checkStockAlerts();
 					return resolve(true);
 				});
 			})
@@ -919,11 +918,10 @@ function updateStocksData() {
 }
 
 function updateOCinfo() {
-	return new Promise(function (resolve, reject) {
+	return new Promise((resolve) => {
 		fetchApi_v2('torn', { section: 'faction', selections: 'crimes' })
 			.then(factiondata => {
-				let new_date = new Date().toString();
-				factiondata.crimes.date = new_date;
+				factiondata.crimes.date = new Date().toString();
 
 				ttStorage.set({ "oc": factiondata.crimes }, function () {
 					console.log("	Faction data set.");
@@ -942,21 +940,30 @@ function updateOCinfo() {
  */
 
 // Check if new version is installed
-chrome.runtime.onInstalled.addListener(function (details) {
+// noinspection JSDeprecatedSymbols
+chrome.runtime.onInstalled.addListener(function () {
 	ttStorage.set({ "updated": true, "new_version": { "available": false } }, function () {
 		console.log("Extension updated:", chrome.runtime.getManifest().version);
 	});
 });
 
 // Messaging
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+// noinspection JSDeprecatedSymbols
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	// console.log(sender.tab ? "from a content script:"+sender.tab.url : "from the extension");
 
 	switch (request.action) {
 		case "initialize":
 			console.log("Initializing app.")
+
 			initiateTasks();
 			sendResponse({ success: true, message: "App initialized." });
+
+			// Update info about installed extensions
+			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
+
+			// Clear API history
+			clearAPIhistory();
 			break;
 		case "fetch":
 			if (request.type === "torndata") {
@@ -981,6 +988,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 // Update available
+// noinspection JSDeprecatedSymbols
 chrome.runtime.onUpdateAvailable.addListener(function (details) {
 	console.log("Details", details);
 
@@ -989,12 +997,13 @@ chrome.runtime.onUpdateAvailable.addListener(function (details) {
 	ttStorage.set({
 		"new_version": {
 			"available": true,
-			"version": details.version
-		}
+			"version": details.version,
+		},
 	});
 });
 
 // Notification links
+// noinspection JSDeprecatedSymbols
 chrome.notifications.onClicked.addListener(function (notification_id) {
 	ttStorage.get("settings", function (settings) {
 		if (settings.notifications_link) {
@@ -1003,12 +1012,15 @@ chrome.notifications.onClicked.addListener(function (notification_id) {
 	});
 });
 
+// noinspection JSDeprecatedSymbols
 chrome.storage.onChanged.addListener((changes, area) => {
 	if (area !== "local") return;
 
 	if (changes.api_key) {
 		console.log("New API Key", api_key, changes.api_key.newValue);
 		api_key = changes.api_key.newValue;
+	} else if (changes.cache) {
+		cache = changes.cache.newValue;
 	}
 	if (changes.proxy_key) {
 		console.log("New Proxy Key", proxy_key, changes.proxy_key.newValue);
@@ -1019,7 +1031,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
 async function checkStockAlerts() {
 	console.group("Checking stock prices");
 
-	await new Promise(function (resolve, reject) {
+	await new Promise(function (resolve) {
 		let notified = false;
 
 		ttStorage.get(["stock_alerts", "torndata"], function ([stock_alerts, torndata]) {
@@ -1068,13 +1080,13 @@ async function checkStockAlerts() {
 		});
 	});
 
-	console.groupEnd("Checking stock prices");
+	console.groupEnd();
 }
 
 async function checkLootAlerts() {
 	console.group("Checking NPC loot times.");
 
-	await new Promise(function (resolve, reject) {
+	await new Promise(function (resolve) {
 		let notified = false;
 
 		ttStorage.get(["loot_alerts", "loot_times"], function ([loot_alerts, loot_times]) {
@@ -1093,7 +1105,7 @@ async function checkLootAlerts() {
 				}
 
 				if (loot_times[npc_id].levels.next <= alert_level && alert_loot_time - current_time <= parseFloat(loot_alerts[npc_id].time) * 60) {
-					if (timeUntil((alert_loot_time - current_time) * 1000) == -1) {
+					if (timeUntil((alert_loot_time - current_time) * 1000) === -1) {
 						continue;
 					}
 
@@ -1118,28 +1130,32 @@ async function checkLootAlerts() {
 		});
 	});
 
-	console.groupEnd("Checking NPC loot times.");
+	console.groupEnd();
 }
 
 async function clearCache() {
 	console.group("Clearing cache");
 
-	await new Promise(function (resolve, reject) {
+	await new Promise((resolve) => {
+		const timestamp = new Date().getTime();
+
 		for (let type in cache) {
 			for (let key in cache[type]) {
-				if (!cache[type][key].date || new Date() - new Date(cache[type][key].date) >= 60 * 1000) {
-					console.log(`	Cleared cache for ${type}: ${key}`)
+				let t = cache[type][key];
+
+				if (!t.timestamp || timestamp > (t.timestamp + t.ttl)) {
 					delete cache[type][key];
 				}
 			}
 		}
+
 		ttStorage.set({ "cache": cache }, function () {
 			console.log("	Cleared cache.");
 			return resolve(true);
 		});
 	});
 
-	console.groupEnd("Clearing cache");
+	console.groupEnd();
 }
 
 async function detectExtension(browserName, ext) {
@@ -1161,7 +1177,7 @@ async function detectExtension(browserName, ext) {
 	const information = ids[ext][browserName];
 
 	if (information.id) {
-		return new Promise(function (resolve, reject) {
+		return new Promise(function (resolve) {
 			chrome.management.get(information.id, function (result) {
 				if (result && result.enabled === true) {
 					resolve(true);
@@ -1174,7 +1190,7 @@ async function detectExtension(browserName, ext) {
 		const getAll = chrome.management.getAll;
 		if (!getAll) return Promise.reject(`Detection for '${ext}' with ${browserName} is not supported!`);
 
-		return new Promise(async function (resolve, reject) {
+		return new Promise(async function (resolve) {
 			const addons = await getAll();
 
 			resolve(addons && !!addons
@@ -1187,7 +1203,7 @@ async function detectExtension(browserName, ext) {
 }
 
 function clearAPIhistory() {
-	return new Promise(function (resolve, reject) {
+	return new Promise(function (resolve) {
 		ttStorage.get("api_history", function (api_history) {
 			let time_limit = 10 * 60 * 60 * 1000;
 
