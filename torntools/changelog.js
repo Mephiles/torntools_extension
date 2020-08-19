@@ -1,5 +1,10 @@
 export default {
-    "v4.11 - August, 16th. 2020": {
+    "v4.10.2 - August, 19th. 2020": {
+        "Fixes": [
+            'Fix OC data not updating - Mephiles'
+        ]
+    },
+    "v4.10.1 - August, 16th. 2020": {
         "Fixes": [
             'Fix Notifications not appearing on Firefox - Mephiles'
         ]
