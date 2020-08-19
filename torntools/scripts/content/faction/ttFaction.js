@@ -831,6 +831,7 @@ function addFilterToTable(list, title) {
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="okay">Okay</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="hospital">Hospital</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="traveling">Traveling</div>
+                    <div class="tt-checkbox-wrap"><input type="checkbox" value="jail">Jail</div>
                 </div>
 			</div>
 			<div class='filter-wrap' id='special-filter'>
