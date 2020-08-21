@@ -1,3 +1,5 @@
+const USABLE_ITEM_TYPES = ["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"];
+
 requireDatabase().then(() => {
 	requireContent().then(() => {
 		console.log("TT - Quick items");
@@ -49,10 +51,14 @@ requireDatabase().then(() => {
 
 		// Quick items
 		if (!shouldDisable()) {
-			for (let item of doc.findAll(".items-cont[aria-expanded=true]>li .title-wrap")) {
-				item.setAttribute("draggable", "true");
-				item.addEventListener("dragstart", onDragStart);
-				item.addEventListener("dragend", onDragEnd);
+			for (let item of doc.findAll(".items-cont[aria-expanded=true] > li")) {
+				if (!USABLE_ITEM_TYPES.includes(item.getAttribute("data-category"))) continue;
+
+				const titleWrap = item.find(".title-wrap");
+
+				titleWrap.setAttribute("draggable", "true");
+				titleWrap.addEventListener("dragstart", onDragStart);
+				titleWrap.addEventListener("dragend", onDragEnd);
 			}
 		}
 
@@ -364,6 +370,8 @@ function addButton() {
 			doc.find(".tt-title .tt-options .tt-option#add-crime-button").classList.remove("tt-highlight-sector");
 
 			for (let item of doc.findAll("ul.items-cont[aria-expanded='true']>li")) {
+				if (!USABLE_ITEM_TYPES.includes(item.getAttribute("data-category"))) continue;
+
 				item.onclick = undefined;
 			}
 		} else {
@@ -372,6 +380,8 @@ function addButton() {
 			doc.find(".tt-title .tt-options .tt-option#add-crime-button").classList.add("tt-highlight-sector");
 
 			for (let item of doc.findAll("ul.items-cont[aria-expanded='true']>li")) {
+				if (!USABLE_ITEM_TYPES.includes(item.getAttribute("data-category"))) continue;
+
 				item.onclick = event => {
 					event.stopPropagation();
 					event.preventDefault();
@@ -534,9 +544,10 @@ function onDragEnd() {
 function addQuickItem(container, innerContent, responseWrap, id, temporary = false) {
 	if (!container) container = doc.find("#ttQuick");
 	if (!innerContent) innerContent = doc.find("#ttQuick .inner-content");
-	if (!responseWrap) responseWrap = doc.find("#ttQuick .response-wrap")
+	if (!responseWrap) responseWrap = doc.find("#ttQuick .response-wrap");
 
-	if (innerContent.find(`.item[item-id='${id}']`)) return
+	if (innerContent.find(`.item[item-id='${id}']`)) return;
+	if (!USABLE_ITEM_TYPES.includes(itemlist.items[id].type)) return;
 
 	let amount = findItemsInList(userdata.inventory, { ID: id })[0];
 	amount = amount ? amount.quantity : 0;
