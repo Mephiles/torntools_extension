@@ -44,23 +44,7 @@ requireDatabase().then(() => {
 	itemsLoaded().then(() => {
 		console.log("TT - Item values");
 
-		// Item values
-		if (settings.pages.items.values) {
-			displayItemPrices(itemlist.items);
-		}
-
-		// Quick items
-		if (!shouldDisable()) {
-			for (let item of doc.findAll(".items-cont[aria-expanded=true] > li")) {
-				if (!USABLE_ITEM_TYPES.includes(item.getAttribute("data-category"))) continue;
-
-				const titleWrap = item.find(".title-wrap");
-
-				titleWrap.setAttribute("draggable", "true");
-				titleWrap.addEventListener("dragstart", onDragStart);
-				titleWrap.addEventListener("dragend", onDragEnd);
-			}
-		}
+		initializeItems();
 
 		// Drug detailed effects
 		if (settings.pages.items.drug_details) {
@@ -187,52 +171,45 @@ requireDatabase().then(() => {
 			item_info_container_mutation.observe(doc.find("body"), { childList: true, subtree: true });
 		}
 
-		// Item Market links
-		if (settings.pages.items.itemmarket_links && !mobile) {
-			addItemMarketLinks();
-		}
-
-		if (settings.pages.items.highlight_bloodbags !== "none") highlightBloodBags();
-
 		// Change item type page
 		let sorting_icons = doc.findAll("ul[role=tablist] li:not(.no-items):not(.m-show):not(.hide)");
 		for (let icon of sorting_icons) {
-			icon.addEventListener("click", () => {
-				itemsLoaded().then(() => {
-					// Item values
-					if (settings.pages.items.values) {
-						displayItemPrices(itemlist.items);
-					}
-
-					if (!shouldDisable()) {
-						// Quick items
-						for (let item of doc.findAll(".items-cont[aria-expanded=true]>li .title-wrap")) {
-							item.setAttribute("draggable", "true");
-							item.addEventListener("dragstart", onDragStart);
-							item.addEventListener("dragend", onDragEnd);
-						}
-					}
-
-					// Item Market links
-					if (settings.pages.items.itemmarket_links) {
-						addItemMarketLinks();
-					}
-				});
-			});
+			icon.addEventListener("click", () => itemsLoaded().then(initializeItems));
 		}
 	});
 });
 
+function initializeItems() {
+	console.log("Showing item information.");
+
+	// Item values
+	if (settings.pages.items.values) {
+		displayItemPrices(itemlist.items);
+	}
+
+	if (!shouldDisable()) {
+		// Quick items
+		for (let item of doc.findAll(".items-cont[aria-expanded=true] > li[data-item]")) {
+			if (!USABLE_ITEM_TYPES.includes(item.getAttribute("data-category"))) continue;
+
+			const titleWrap = item.find(".title-wrap");
+
+			titleWrap.setAttribute("draggable", "true");
+			titleWrap.addEventListener("dragstart", onDragStart);
+			titleWrap.addEventListener("dragend", onDragEnd);
+		}
+	}
+
+	// Item Market links
+	if (settings.pages.items.itemmarket_links && !mobile) {
+		addItemMarketLinks();
+	}
+
+	if (settings.pages.items.highlight_bloodbags !== "none") highlightBloodBags();
+}
+
 function itemsLoaded() {
-	return new Promise(resolve => {
-		let checker = setInterval(() => {
-			let items = doc.find(".items-cont[aria-expanded=true]>li")
-			if (items && [...items.children].length > 1) {
-				resolve(true);
-				return clearInterval(checker);
-			}
-		}, 100);
-	});
+	return requireElement(".items-cont[aria-expanded=true] > li > .title-wrap");
 }
 
 function displayItemPrices(itemlist) {
@@ -455,7 +432,7 @@ const ALLOWED_BLOOD = {
 
 function highlightBloodBags() {
 	const allowedBlood = ALLOWED_BLOOD[settings.pages.items.highlight_bloodbags];
-	const items = doc.findAll("ul.items-cont[aria-expanded=true] > li");
+	const items = doc.findAll("ul.items-cont[aria-expanded=true] > li[data-category='Medical']");
 
 	for (let item of items) {
 		if (!item.find(".name-wrap") || item.find(".name-wrap").classList.contains("tt-good_blood") || item.find(".name-wrap").classList.contains("tt-bad_blood")) continue;
