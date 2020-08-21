@@ -59,7 +59,11 @@ window.addEventListener('load', async () => {
 			if (landDate !== 'N/A') [hours, minutes, seconds] = [landDate.getHours(), landDate.getMinutes(), landDate.getSeconds()];
 
 			const landingTimeDiv = doc.new({ type: 'div', attributes: { style: 'text-align: center;' } });
-			const landingTimeDescription = doc.new({ type: 'span', class: 'description', text: `Landing at ${landDate === 'N/A' ? 'N/A' : formatTime([hours, minutes, seconds], settings.format.time)}` });
+			const landingTimeDescription = doc.new({
+				type: 'span',
+				class: 'description',
+				text: `Landing at ${landDate === 'N/A' ? 'N/A' : formatTime([hours, minutes, seconds], settings.format.time)}`
+			});
 			landingTimeDiv.appendChild(landingTimeDescription);
 			doc.find('.flight-info').insertBefore(landingTimeDiv, doc.find('.flight-info .destination-title').nextElementSibling);
 		}
@@ -84,7 +88,9 @@ window.addEventListener('load', async () => {
 		doc.find("#top-page-links-list a.last").classList.remove("last");
 		doc.find("#top-page-links-list").insertBefore(link, doc.find("#top-page-links-list .links-footer"));
 
-		if (on_travel_table) { travelTableScript(); }
+		if (on_travel_table) {
+			travelTableScript();
+		}
 	}
 
 	// Abroad
