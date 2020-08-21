@@ -246,7 +246,7 @@ function Main_30_seconds() {
 		console.log("Setting up userdata.");
 		await (function () {
 			return new Promise(function (resolve) {
-				const selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,timestamp,inventory,education${attack_history ? `,${attack_history}` : ''}`;
+				const selections = `personalstats,crimes,battlestats,perks,profile,workstats,stocks,travel,bars,cooldowns,money,events,messages,timestamp,ammo,inventory,education${attack_history ? `,${attack_history}` : ''}`;
 
 				ttStorage.get(["settings", "userdata"], function ([settings, previous_userdata]) {
 					fetchApi_v2('torn', { section: 'user', selections: selections })

@@ -363,6 +363,7 @@ const field_db = {
 
 const in_use = {
 	"user": {
+		ammo: ["*"],
 		"battlestats": [
 			"strength", "speed", "dexterity", "defense", "total"
 		],
