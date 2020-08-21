@@ -136,9 +136,6 @@ const DRUG_INFORMATION = {
 			"+25% All Battle Stats",
 			"+75 Happy"
 		],
-		"cons": [
-			"-35% All Battle Stats"
-		],
 		"cooldown": "4-6 hours",
 		"overdose": {
 			"bars": [
@@ -150,6 +147,9 @@ const DRUG_INFORMATION = {
 		"pros": [
 			"+250 Energy",
 			"+75 Happy"
+		],
+		"cons": [
+			"-35% All Battle Stats"
 		],
 		"cooldown": "6-8 hours",
 		"overdose": {
