@@ -2,7 +2,6 @@ requireDatabase(true).then(() => {
 	console.log("TT - Events");
 
 	addXHRListener((event) => {
-		console.log("DKK XHR", event.detail);
 		const { page, xhr } = event.detail;
 		if (page !== "events") return;
 
