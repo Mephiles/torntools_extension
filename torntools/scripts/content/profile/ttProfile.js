@@ -774,7 +774,7 @@ async function showSpyInfo() {
                 class: "item",
                 text: numberWithCommas(parseInt(result.spyreport[stat]), false),
                 attributes: {
-                    'real-value-you': numberWithCommas(parseInt(userdata[stat]), false),
+                    'real-value-you': numberWithCommas(parseInt(result.spyreport[stat]), false),
                     "relative-value-you": numberWithCommas(parseInt(userdata[stat]) - parseInt(result.spyreport[stat]), false)
                 },
             });
