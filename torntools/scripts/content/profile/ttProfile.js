@@ -778,15 +778,15 @@ async function showSpyInfo() {
 				type: "div",
 				class: "item",
 				text: numberWithCommas(parseInt(result.spyreport[stat]), false),
-				attributes: {
-					'real-value-you': numberWithCommas(parseInt(result.spyreport[stat]), false),
-					"relative-value-you": numberWithCommas(parseInt(userdata[stat]) - parseInt(result.spyreport[stat]), false)
-				},
 			});
 			let item_you = doc.new({
 				type: "div",
 				class: "item",
 				text: numberWithCommas(parseInt(userdata[stat]), false),
+				attributes: {
+					'real-value-you': numberWithCommas(parseInt(userdata[stat]), false),
+					"relative-value-you": numberWithCommas(parseInt(userdata[stat]) - parseInt(result.spyreport[stat]), false)
+				},
 			});
 
 			if (parseInt(result.spyreport[stat]) > parseInt(userdata[stat])) {
