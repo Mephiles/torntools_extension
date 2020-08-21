@@ -1,4 +1,4 @@
-requireDatabase(true).then(() => {
+requireDatabase(true).then(async () => {
 	console.log("TT - Events");
 
 	addXHRListener((event) => {
@@ -13,6 +13,10 @@ requireDatabase(true).then(() => {
 	});
 
 	eventsLoaded().then(handleEvents);
+
+	if (await isAbroad()) {
+		warnEnergy();
+	}
 });
 
 function eventsLoaded() {
@@ -43,3 +47,46 @@ function handleEvents() {
 	}
 }
 
+function warnEnergy() {
+	if (doc.find(".travel-home-content")) listen();
+	else new MutationObserver((mutations, observer) => {
+		if (!doc.find(".travel-home-content")) return;
+
+		listen();
+		observer.disconnect();
+	}).observe(doc.find("#mainContainer > .content-wrapper"), { childList: true, subtree: true })
+
+	function listen() {
+		if (!doc.find(".travel-home-content").style.display === "none") show();
+
+		new MutationObserver((mutations) => {
+			if (mutations[0].target.style.display === "none") return;
+
+			show();
+		}).observe(doc.find("#mainContainer > .content-wrapper"), { attributes: true, attributeFilter: ["style"], childList: true, subtree: true });
+	}
+
+	function show() {
+		let content = doc.find(".travel-home-content .msg > p");
+		let search = content.innerText.match(/take around (.*) to reach/i);
+		if (!search) return;
+
+		const splitTime = search[1].split(" ");
+
+		let hours = 0, minutes = 0;
+		if (splitTime.includes("minutes")) minutes = parseInt(splitTime[splitTime.indexOf("minutes") - 1]);
+		if (splitTime.includes("hours")) hours = parseInt(splitTime[splitTime.indexOf("hours") - 1]);
+
+		const fulltime = userdata.energy.fulltime;
+		const flytime = (hours * 60 + minutes) * 60;
+
+		if (fulltime < flytime) {
+			content.appendChild(doc.new("br"));
+			content.appendChild(doc.new({
+				type: "span",
+				text: "Starting this flight will waste some energy!",
+				attributes: { color: "error", },
+			}));
+		}
+	}
+}
