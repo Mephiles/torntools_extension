@@ -576,7 +576,7 @@ function addQuickItem(container, innerContent, responseWrap, id, temporary = fal
 					container.find(`a[data-item='${id}']`).click();
 
 					// adjust container
-					container.style.maxHeight = container.scrollHeight + "px";
+					container.find('.tt-content').style.maxHeight = container.find('.tt-content').scrollHeight + "px";
 				});
 			}
 		});
