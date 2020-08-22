@@ -542,6 +542,7 @@ const STORAGE = {
 				"global": true,
 				"item_market": false,
 				"revives": false,
+				"item_equip": true,
 			},
 		}
 	}
