@@ -1990,6 +1990,8 @@ function onDrop(event) {
 	tempElement.classList.remove("temp");
 	doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px";
 
+	// Firefox opens new tab when dropping item
+	event.preventDefault();
 	event.dataTransfer.clearData();
 }
 
