@@ -511,7 +511,12 @@ function armoryWorth() {
 			// Points
 			total += result.points * torndata.pawnshop.points_value;
 
-			let li = doc.new({ type: "li", text: `Armory value: $${numberWithCommas(total, false)}` });
+			const li = doc.new({ type: 'li' });
+			const span = doc.new({ type: 'span', text: 'Armory value: ', class: 'bold' });
+			const spanValue = doc.new({ type: 'span', text: `$${numberWithCommas(total, false)}` });
+			li.appendChild(span);
+			li.appendChild(spanValue);
+
 			doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
 		})
 		.catch(err => {
