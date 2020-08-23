@@ -24,9 +24,14 @@ export default {
             "Add a way to ignore cash on hand for max buy in bazaar. - DKK",
         ]
     },
-    "v4.11 - August, 16th. 2020": {
+    "v4.10.2 - August, 19th. 2020": {
         "Fixes": [
-            'Fix Notifications not appearing on Firefox - Mephiles'
+            "Fix OC data not updating. - Mephiles",
+        ]
+    },
+    "v4.10.1 - August, 16th. 2020": {
+        "Fixes": [
+            "Fix Notifications not appearing on Firefox. - Mephiles",
         ]
     },
     "v4.10 - August, 14th. 2020": {
