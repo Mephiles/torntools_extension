@@ -17,7 +17,7 @@ function displayAchievements(achievements, show_completed) {
 	let awards_section = navbar.newSection("Awards", { next_element_heading: "Lists" });
 	console.log(achievements);
 
-	addTimeToHeader(awards_section, userdata.date);
+	addTimeToHeader(awards_section, userdata.personalstats.date);
 	createAchievementTooltip();
 	achievements = fillGoals(achievements, torndata);
 
