@@ -1245,6 +1245,10 @@ function usingFirefox() {
 	return navigator.userAgent.includes("Firefox");
 }
 
+function usingYandex() {
+	return navigator.userAgent.includes("YaBrowser");
+}
+
 function getSearchParameters() {
 	return new URL(window.location).searchParams;
 }
@@ -1905,7 +1909,7 @@ function notifyUser(title, message, url) {
 			message: message
 		}
 
-		if (!usingFirefox()) notificationOptions.silent = !settings.notifications_sound;
+		if (hasSilentSupport() && !settings.notifications_sound) notificationOptions.silent = true;
 
 		chrome.notifications.create(notificationOptions, function (id) {
 			notificationLinkRelations[id] = url;
@@ -2386,4 +2390,8 @@ function fetchRelay(location, options) {
 			return resolve(response);
 		});
 	});
+}
+
+function hasSilentSupport() {
+	return !usingFirefox() && (!navigator.userAgent.includes("Mobile Safari") || usingYandex());
 }
