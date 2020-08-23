@@ -679,12 +679,10 @@ function showRecommendedNNB() {
 		"Political Assassination": "~60"
 	}
 
-	let parent = doc.findAll(".faction-crimes-wrap")[1];
+	const parent = doc.find(".faction-crimes-wrap .begin-wrap");
 
-	let heading = parent.find(".plan-crimes[role=heading]");
-	let span = doc.new({ type: "span", class: "tt-span", text: mobile ? "NNB" : "Recommended NNB" });
-	heading.appendChild(span);
-
+	const heading = parent.find(".plan-crimes[role=heading]");
+	heading.appendChild(doc.new({ type: "span", class: "tt-span", text: mobile ? "NNB" : "Recommended NNB" }));
 
 	for (let crime_type of parent.findAll(".crimes-list .item-wrap")) {
 		let name_div = crime_type.find(".plan-crimes")
