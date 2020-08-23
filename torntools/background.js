@@ -232,10 +232,10 @@ function Main_30_seconds() {
 			let apiKey;
 			let usingProxy = false;
 
-			if (proxy_key != undefined && proxy_key != '') {
+			if (proxy_key !== undefined && proxy_key !== '') {
 				apiKey = proxy_key;
 				usingProxy = true;
-			} else if (apiKey != undefined && apiKey != '') {
+			} else if (api_key !== undefined && api_key !== '') {
 				apiKey = api_key;
 			} else {
 				console.log('NO API/PROXY KEY');
