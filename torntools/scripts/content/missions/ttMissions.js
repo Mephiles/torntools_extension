@@ -35,53 +35,71 @@ function showRewards() {
 
 	for (let item of reward_items) {
 		let info = JSON.parse(item.getAttribute("data-ammo-info"));
-		let item_id = info.image;
+
 		let price_points = info.points;
-		let quantity = info.amount;
 
 		// Show if user can buy
 		let actions_wrap = item.find(".act-wrap");
 		actions_wrap.style.boxSizing = "border-box";
 		actions_wrap.style.borderColor = "black";
 		actions_wrap.style.borderImage = "none";
+		actions_wrap.style.borderTop = user_points < price_points ? "1px solid red" : "1px solid #2ef42e";
 
-		if (user_points < price_points)
-			actions_wrap.style.borderTop = "1px solid red";
-		else
-			actions_wrap.style.borderTop = "1px solid #2ef42e";
+		if (info.basicType === "Ammo") {
+			let wrapper = doc.new("div");
 
-		if (!item_id || typeof item_id == "string")
-			continue;
+			const foundAmmo = findItemsInList(userdata.ammo, {
+				size: info.title,
+				type: info.ammoType,
+			});
+			const ammo = foundAmmo.length ? foundAmmo[0].quantity : 0;
 
-		let market_price = itemlist.items[item_id].market_value;
-		item.style.height = "160px";  // to fit value info
+			let divAlreadyOwned = doc.new({ type: "div", text: "Owned: ", class: "tt-total-value" });
+			if (mobile) divAlreadyOwned.style.marginTop = "66px";
+			let spanAlreadyOwned = doc.new("span");
+			spanAlreadyOwned.innerText = `${numberWithCommas(ammo, false)}`;
 
-		// Show one item price
-		let one_item_price = doc.new("span");
-		one_item_price.innerText = `$${numberWithCommas(market_price)}`;
-		one_item_price.setClass("tt-one-item-price");
+			divAlreadyOwned.appendChild(spanAlreadyOwned);
+			wrapper.appendChild(divAlreadyOwned);
+			actions_wrap.insertBefore(wrapper, actions_wrap.find(".actions"));
+		} else if (info.basicType === "Item") {
+			let item_id = info.image;
+			let quantity = info.amount;
 
-		item.find(".img-wrap").appendChild(one_item_price);
+			if (!item_id || typeof item_id == "string")
+				continue;
 
-		// Show total & point value
-		let value_div = doc.new("div");
+			let market_price = itemlist.items[item_id].market_value;
+			item.style.height = "160px";  // to fit value info
 
-		let div_total_value = doc.new({ type: "div", text: "Total value: ", class: "tt-total-value" });
-		if (mobile) div_total_value.style.marginTop = "66px";
-		let span_total_value = doc.new("span");
-		span_total_value.innerText = `$${numberWithCommas(quantity * market_price)}`;
+			// Show one item price
+			let one_item_price = doc.new("span");
+			one_item_price.innerText = `$${numberWithCommas(market_price)}`;
+			one_item_price.setClass("tt-one-item-price");
 
-		let div_point_value = doc.new("div");
-		div_point_value.innerText = "Point value: ";
-		div_point_value.setClass("tt-point-value");
-		let span_point_value = doc.new("span");
-		span_point_value.innerText = `$${numberWithCommas(((quantity * market_price) / price_points).toFixed())}`;
+			item.find(".img-wrap").appendChild(one_item_price);
 
-		div_total_value.appendChild(span_total_value);
-		div_point_value.appendChild(span_point_value);
-		value_div.appendChild(div_total_value);
-		value_div.appendChild(div_point_value);
-		actions_wrap.insertBefore(value_div, actions_wrap.find(".actions"));
+			// Show total & point value
+			let value_div = doc.new("div");
+			const totalValue = quantity * market_price;
+
+			let div_total_value = doc.new({ type: "div", text: "Total value: ", class: "tt-total-value" });
+			if (mobile) div_total_value.style.marginTop = "66px";
+			let span_total_value = doc.new("span");
+			span_total_value.innerText = `$${numberWithCommas(totalValue, totalValue > 10E6 ? 2 : true)}`;
+
+			let div_point_value = doc.new("div");
+			div_point_value.innerText = "Point value: ";
+			div_point_value.setClass("tt-point-value");
+			let span_point_value = doc.new("span");
+			span_point_value.innerText = `$${numberWithCommas((totalValue / price_points).toFixed())}`;
+
+			div_total_value.appendChild(span_total_value);
+			div_point_value.appendChild(span_point_value);
+			value_div.appendChild(div_total_value);
+			value_div.appendChild(div_point_value);
+			actions_wrap.insertBefore(value_div, actions_wrap.find(".actions"));
+		}
 	}
 }
 

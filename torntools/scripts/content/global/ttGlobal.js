@@ -16,12 +16,6 @@ requireDatabase().then(() => {
 	requireNavbar().then(async () => {
 		let _flying = await isFlying();
 
-		// Firefox opens new tab when dropping item
-		doc.body.ondrop = (event) => {
-			event.preventDefault();
-			event.stopPropagation();
-		}
-
 		// Mark Body with Mobile class
 		if (mobile) doc.find("body").classList.add("tt-mobile");
 

@@ -10,10 +10,16 @@ export default {
             "Show stat requirements for specialty gyms. - DKK",
             "Add a button to open chat in trades. - DKK",
             "Show individual price of an sold item or share on the event page on hover. - DKK",
+            "Make energy and nerve clickable to open their respective pages. - Mephiles",
+            "Add Landing time to Travel page. - Mephiles",
         ],
         "Fixes": [
             "Don't apply the last action filter on other faction pages. - DKK",
             "Don't break the profile page if a profile section is turned off. - DKK",
+            "Allow dragging links to the chat again. - DKK",
+            "Show proper cons for Vicodin and Xanax. - DKK",
+            "Fix achievements update time showing wrong time. - Mephiles",
+            "Always show Recommended NNB in the right table. - DKK",
         ],
         "Changes": [
             "Change the caching system to allow for different times to keep it for. - DKK",
@@ -22,11 +28,21 @@ export default {
             "Ignore punctuation marks for word highlighting. - DKK",
             "Include money value to show trade value. - DKK",
             "Add a way to ignore cash on hand for max buy in bazaar. - DKK",
+            "Include a link to the OC in the information window. - Mephiles",
+            "Allow import and export via text. - Mephiles",
+            "Add more special filters for factions, search and overseas. - Mephiles",
+            "Only allow usable items to be added to Quick Items. - DKK",
+            "Reduce API fetches to reduce stress on API servers. Split userdata to Essential and Basic. - Mephiles",
         ]
     },
-    "v4.11 - August, 16th. 2020": {
+    "v4.10.2 - August, 19th. 2020": {
         "Fixes": [
-            'Fix Notifications not appearing on Firefox - Mephiles'
+            "Fix OC data not updating. - Mephiles",
+        ]
+    },
+    "v4.10.1 - August, 16th. 2020": {
+        "Fixes": [
+            "Fix Notifications not appearing on Firefox. - Mephiles",
         ]
     },
     "v4.10 - August, 14th. 2020": {

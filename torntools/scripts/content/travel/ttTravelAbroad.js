@@ -51,6 +51,24 @@ window.addEventListener('load', async () => {
 	// Flying page
 	const page = getSearchParameters().get("page");
 	if (await isFlying()) {
+		// Landing time
+		if (doc.find('.flight-info .destination-title')) {
+			const landDate = new Date(userdata.travel.timestamp * 1000) - new Date() < 0 ? 'N/A' : new Date(userdata.travel.timestamp * 1000);
+			let hours, minutes, seconds;
+
+			if (landDate !== 'N/A') [hours, minutes, seconds] = [landDate.getHours(), landDate.getMinutes(), landDate.getSeconds()];
+
+			const landingTimeDiv = doc.new({ type: 'div', attributes: { style: 'text-align: center;' } });
+			const landingTimeDescription = doc.new({
+				type: 'span',
+				class: 'description',
+				text: `Landing at ${landDate === 'N/A' ? 'N/A' : formatTime([hours, minutes, seconds], settings.format.time)}`
+			});
+			landingTimeDiv.appendChild(landingTimeDescription);
+			doc.find('.flight-info').insertBefore(landingTimeDiv, doc.find('.flight-info .destination-title').nextElementSibling);
+		}
+
+		// Travel Table link
 		let on_travel_table = page === "travel_table";
 
 		let link = doc.new({
@@ -70,11 +88,15 @@ window.addEventListener('load', async () => {
 		doc.find("#top-page-links-list a.last").classList.remove("last");
 		doc.find("#top-page-links-list").insertBefore(link, doc.find("#top-page-links-list .links-footer"));
 
-		if (on_travel_table) await travelTableScript();
+		if (on_travel_table) {
+			travelTableScript();
+		}
 	}
 
 	// Abroad
 	if (await isAbroad()) {
+		warnEnergy();
+
 		if (page === null || page === "travel_table") {
 			if (settings.pages.travel.profits) {
 				displayItemProfits(itemlist.items);
@@ -236,7 +258,18 @@ function addFilterToTable(list, title) {
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="idle">Idle</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="offline">Offline</div>
                 </div>
-            </div>
+			</div>
+			<div class='filter-wrap' id='special-filter'>
+				<div class='filter-heading'>Special</div>
+				<div class='filter-multi-wrap ${mobile ? 'tt-mobile' : ''}'>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='isfedded-yes'>N:<input type='checkbox' value='isfedded-no'>Fedded</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='newplayer-yes'>N:<input type='checkbox' value='newplayer-no'>New Player</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='onwall-yes'>N:<input type='checkbox' value='onwall-no'>On Wall</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='incompany-yes'>N:<input type='checkbox' value='incompany-no'>In Company</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='infaction-yes'>N:<input type='checkbox' value='infaction-no'>In Faction</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='isdonator-yes'>N:<input type='checkbox' value='isdonator-no'>Is Donator</div>
+				</div>
+			</div>
             <div class="filter-wrap" id="status-filter">
                 <div class="filter-heading">Status</div>
                 <div class="filter-multi-wrap ${mobile ? 'tt-mobile' : ''}">
@@ -255,6 +288,26 @@ function addFilterToTable(list, title) {
 	// Initializing
 	let level_start = filters.overseas.level[0] || 0;
 	let level_end = filters.overseas.level[1] || 100;
+
+	// Special
+	for (let key in filters.overseas.special) {
+		switch (filters.overseas.special[key]) {
+			case 'yes':
+				filter_container.find(`#special-filter input[value='${key}-yes']`).checked = true;
+				break;
+			case 'no':
+				filter_container.find(`#special-filter input[value='${key}-no']`).checked = true;
+				break;
+			case 'both':
+				filter_container.find(`#special-filter input[value='${key}-yes']`).checked = true;
+				filter_container.find(`#special-filter input[value='${key}-no']`).checked = true;
+				break;
+			default:
+				filter_container.find(`#special-filter input[value='${key}-yes']`).checked = true;
+				filter_container.find(`#special-filter input[value='${key}-no']`).checked = true;
+				break;
+		}
+	}
 
 	// Level slider
 	let level_slider = filter_container.find('#tt-level-filter');
@@ -321,17 +374,12 @@ function addFilterToTable(list, title) {
 	applyFilters();
 
 	function applyFilters() {
-		let active_dict = {
-			"online": "icon1_",
-			"idle": "icon62_",
-			"offline": "icon2_"
-		}
-
-		let activity = [];
-		let status = [];
+		let activity = []
+		let status = []
+		let special = {}
 		// let faction = ``;
-		// let time = [];
-		let level = [];
+		// let time = []
+		let level = []
 
 		// Activity
 		for (let checkbox of doc.findAll("#activity-filter .tt-checkbox-wrap input:checked")) {
@@ -340,6 +388,18 @@ function addFilterToTable(list, title) {
 		// Status
 		for (let checkbox of doc.findAll("#status-filter .tt-checkbox-wrap input:checked")) {
 			status.push(checkbox.getAttribute("value"));
+		}
+		// Special
+		for (let key in filters.overseas.special) {
+			if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked && doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked) {
+				special[key] = 'both';
+			} else if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked) {
+				special[key] = 'yes';
+			} else if (doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked) {
+				special[key] = 'no';
+			} else {
+				special[key] = 'both';
+			}
 		}
 		// Level
 		level.push(parseInt(doc.find("#level-filter .noUi-handle-lower").getAttribute("aria-valuenow")));
@@ -361,7 +421,7 @@ function addFilterToTable(list, title) {
 			// Activity
 			let matches_one_activity = activity.length === 0;
 			for (let state of activity) {
-				if (li.querySelector(`li[id^='${active_dict[state]}']`)) {
+				if (li.querySelector(`li[id^='${ACTIVITY_FILTER_DICT[state]}']`)) {
 					matches_one_activity = true;
 				}
 			}
@@ -379,6 +439,38 @@ function addFilterToTable(list, title) {
 			}
 			if (!matches_one_status) {
 				showRow(li, false);
+			}
+
+			// Special
+			for (let key in special) {
+				console.log(key, special[key]);
+				if (special[key] === 'both') continue;
+
+				if (special[key] === 'yes') {
+					let matchesOneIcon = false;
+					for (let icon of SPECIAL_FILTER_DICT[key]) {
+						if (li.querySelector(`li[id^='${icon}']`)) {
+							matchesOneIcon = true;
+							break;
+						}
+					}
+
+					if (!matchesOneIcon) {
+						showRow(li, false);
+					}
+				} else if (special[key] === 'no') {
+					let matchesOneIcon = false;
+					for (let icon of SPECIAL_FILTER_DICT[key]) {
+						if (li.querySelector(`li[id^='${icon}']`)) {
+							matchesOneIcon = true;
+							break;
+						}
+					}
+
+					if (matchesOneIcon) {
+						showRow(li, false);
+					}
+				}
 			}
 		}
 
@@ -410,8 +502,8 @@ function addFilterToTable(list, title) {
 	}
 
 	function updateStatistics() {
-		doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li")].filter(x => (!x.classList.contains("filter-hidden"))).length;
-		doc.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope>li")].length;
+		doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].filter(x => (!x.classList.contains("filter-hidden"))).length;
+		doc.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].length;
 	}
 }
 
@@ -787,4 +879,48 @@ async function showUserInfo() {
 			userId: row.find("a.user.name").getAttribute("data-placeholder") ? row.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : row.find("a.user.name").getAttribute("href").split("XID=")[1]
 		};
 	});
+}
+
+function warnEnergy() {
+	if (doc.find(".travel-home-content")) listen();
+	else new MutationObserver((mutations, observer) => {
+		if (!doc.find(".travel-home-content")) return;
+
+		listen();
+		observer.disconnect();
+	}).observe(doc.find("#mainContainer > .content-wrapper"), { childList: true, subtree: true })
+
+	function listen() {
+		if (doc.find(".travel-home-content").getAttribute("style").includes("display: none")) show();
+
+		new MutationObserver((mutations) => {
+			if (mutations[0].target.getAttribute("style").includes("display: none")) return;
+
+			show();
+		}).observe(doc.find(".travel-home-content"), { attributes: true, attributeFilter: ["style"] });
+	}
+
+	function show() {
+		let content = doc.find(".travel-home-content .msg > p");
+		let search = content.innerText.match(/take around (.*) to reach/i)
+		if (!search) return;
+
+		const splitTime = search[1].split(" ");
+
+		let hours = 0, minutes = 0;
+		if (splitTime.includes("minutes")) minutes = parseInt(splitTime[splitTime.indexOf("minutes") - 1]);
+		if (splitTime.includes("hours")) hours = parseInt(splitTime[splitTime.indexOf("hours") - 1]);
+
+		const fulltime = userdata.energy.fulltime;
+		const flytime = (hours * 60 + minutes) * 60;
+
+		if (fulltime < flytime) {
+			content.appendChild(doc.new("br"));
+			content.appendChild(doc.new({
+				type: "span",
+				text: "Starting this flight will waste some energy!",
+				attributes: { color: "error", },
+			}));
+		}
+	}
 }

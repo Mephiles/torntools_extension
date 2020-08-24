@@ -142,12 +142,6 @@ function addFilterToTable(list, title) {
 	applyFilters();
 
 	function applyFilters() {
-		let active_dict = {
-			"online": "icon1_",
-			"idle": "icon62_",
-			"offline": "icon2_"
-		}
-
 		let activity = [];
 		let faction;
 		let time = [];
@@ -197,7 +191,7 @@ function addFilterToTable(list, title) {
 			// Activity
 			let matches_one_activity = activity.length === 0;
 			for (let state of activity) {
-				if (li.querySelector(`li[id^='${active_dict[state]}']`)) {
+				if (li.querySelector(`li[id^='${ACTIVITY_FILTER_DICT[state]}']`)) {
 					matches_one_activity = true;
 				}
 			}

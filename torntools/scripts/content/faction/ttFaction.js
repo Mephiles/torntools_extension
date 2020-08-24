@@ -511,7 +511,12 @@ function armoryWorth() {
 			// Points
 			total += result.points * torndata.pawnshop.points_value;
 
-			let li = doc.new({ type: "li", text: `Armory value: $${numberWithCommas(total, false)}` });
+			const li = doc.new({ type: 'li' });
+			const span = doc.new({ type: 'span', text: 'Armory value: ', class: 'bold' });
+			const spanValue = doc.new({ type: 'span', text: `$${numberWithCommas(total, false)}` });
+			li.appendChild(span);
+			li.appendChild(spanValue);
+
 			doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
 		})
 		.catch(err => {
@@ -674,12 +679,10 @@ function showRecommendedNNB() {
 		"Political Assassination": "~60"
 	}
 
-	let parent = doc.findAll(".faction-crimes-wrap")[1];
+	const parent = doc.find(".faction-crimes-wrap .begin-wrap");
 
-	let heading = parent.find(".plan-crimes[role=heading]");
-	let span = doc.new({ type: "span", class: "tt-span", text: mobile ? "NNB" : "Recommended NNB" });
-	heading.appendChild(span);
-
+	const heading = parent.find(".plan-crimes[role=heading]");
+	heading.appendChild(doc.new({ type: "span", class: "tt-span", text: mobile ? "NNB" : "Recommended NNB" }));
 
 	for (let crime_type of parent.findAll(".crimes-list .item-wrap")) {
 		let name_div = crime_type.find(".plan-crimes")
@@ -831,23 +834,21 @@ function addFilterToTable(list, title) {
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="okay">Okay</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="hospital">Hospital</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="traveling">Traveling</div>
+                    <div class="tt-checkbox-wrap"><input type="checkbox" value="jail">Jail</div>
                 </div>
-            </div>
-            <!--
-            <div class="filter-wrap" id="faction-filter">
-                <div class="filter-heading">Faction</div>
-                <select name="faction" id="tt-faction-filter">
-                    <option selected value="">none</option>
-                </select>
-            </div>
-            -->
-            <!--
-            <div class="filter-wrap" id="time-filter">
-                <div class="filter-heading">Days</div>
-                <div id="tt-time-filter" class="filter-slider"></div>
-                <div class="filter-slider-info"></div>
-            </div>
-            -->
+			</div>
+			<div class='filter-wrap' id='special-filter'>
+				<div class='filter-heading'>Special</div>
+				<div class='filter-multi-wrap ${mobile ? 'tt-mobile' : ''}'>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='isfedded-yes'>N:<input type='checkbox' value='isfedded-no'>Fedded</div>
+					<!-- <div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='traveling-yes'>N:<input type='checkbox' value='traveling-no'>Traveling</div> -->
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='newplayer-yes'>N:<input type='checkbox' value='newplayer-no'>New Player</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='onwall-yes'>N:<input type='checkbox' value='onwall-no'>On Wall</div>
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='incompany-yes'>N:<input type='checkbox' value='incompany-no'>In Company</div>
+					<!-- <div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='infaction-yes'>N:<input type='checkbox' value='infaction-no'>In Faction</div> -->
+					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='isdonator-yes'>N:<input type='checkbox' value='isdonator-no'>Is Donator</div>
+				</div>
+			</div>
             <div class="filter-wrap" id="level-filter">
                 <div class="filter-heading">Level</div>
                 <div id="tt-level-filter" class="filter-slider"></div>
@@ -895,6 +896,26 @@ function addFilterToTable(list, title) {
 	//     values = values.map(x => parseInt(x));
 	//     time_slider_info.innerHTML = `Days: ${values.join(' - ')}`;
 	// });
+
+	// Special
+	for (let key in filters.faction.special) {
+		switch (filters.faction.special[key]) {
+			case 'yes':
+				filter_container.find(`#special-filter input[value='${key}-yes']`).checked = true;
+				break;
+			case 'no':
+				filter_container.find(`#special-filter input[value='${key}-no']`).checked = true;
+				break;
+			case 'both':
+				filter_container.find(`#special-filter input[value='${key}-yes']`).checked = true;
+				filter_container.find(`#special-filter input[value='${key}-no']`).checked = true;
+				break;
+			default:
+				filter_container.find(`#special-filter input[value='${key}-yes']`).checked = true;
+				filter_container.find(`#special-filter input[value='${key}-no']`).checked = true;
+				break;
+		}
+	}
 
 	// Level slider
 	let level_slider = filter_container.find('#tt-level-filter');
@@ -997,18 +1018,13 @@ function addFilterToTable(list, title) {
 	});
 
 	function applyFilters() {
-		let active_dict = {
-			"online": "icon1_",
-			"idle": "icon62_",
-			"offline": "icon2_"
-		}
-
-		let activity = [];
-		let status = [];
+		let activity = []
+		let status = []
+		let special = {}
 		// let faction = ``;
-		// let time = [];
-		let level = [];
-		let last_action = [];
+		// let time = []
+		let level = []
+		let last_action = []
 
 		// Activity
 		for (let checkbox of doc.findAll("#activity-filter .tt-checkbox-wrap input:checked")) {
@@ -1017,6 +1033,18 @@ function addFilterToTable(list, title) {
 		// Status
 		for (let checkbox of doc.findAll("#status-filter .tt-checkbox-wrap input:checked")) {
 			status.push(checkbox.getAttribute("value"));
+		}
+		// Special
+		for (let key in filters.faction.special) {
+			if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked && doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked) {
+				special[key] = 'both';
+			} else if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked) {
+				special[key] = 'yes';
+			} else if (doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked) {
+				special[key] = 'no';
+			} else {
+				special[key] = 'both';
+			}
 		}
 		// // Faction
 		// faction = doc.find("#faction-filter select option:checked").value;
@@ -1069,7 +1097,7 @@ function addFilterToTable(list, title) {
 			// Activity
 			let matches_one_activity = activity.length === 0;
 			for (let state of activity) {
-				if (li.querySelector(`li[id^='${active_dict[state]}']`)) {
+				if (li.querySelector(`li[id^='${ACTIVITY_FILTER_DICT[state]}']`)) {
 					matches_one_activity = true;
 				}
 			}
@@ -1089,6 +1117,40 @@ function addFilterToTable(list, title) {
 				showRow(li, false);
 			}
 
+			// Special
+			for (let key in special) {
+				console.log(key, special[key]);
+				if (special[key] === 'both') continue;
+
+				if (special[key] === 'yes') {
+					let matchesOneIcon = false;
+					for (let icon of SPECIAL_FILTER_DICT[key]) {
+						if (li.querySelector(`li[id^='${icon}']`)) {
+							matchesOneIcon = true;
+							break;
+						}
+					}
+
+					if (!matchesOneIcon) {
+						showRow(li, false);
+						continue;
+					}
+				} else if (special[key] === 'no') {
+					let matchesOneIcon = false;
+					for (let icon of SPECIAL_FILTER_DICT[key]) {
+						if (li.querySelector(`li[id^='${icon}']`)) {
+							matchesOneIcon = true;
+							break;
+						}
+					}
+
+					if (matchesOneIcon) {
+						showRow(li, false);
+						continue;
+					}
+				}
+			}
+
 			// // Faction
 			// if(faction != "" && !li.querySelector(`img[title='${faction}']`)){
 			//     li.classList.add("filter-hidden");
@@ -1102,6 +1164,7 @@ function addFilterToTable(list, title) {
 					activity: activity,
 					// faction: faction,
 					// time: time,
+					special: special,
 					status: status,
 					level: level,
 					last_action: last_action
@@ -1129,8 +1192,8 @@ function addFilterToTable(list, title) {
 	function updateStatistics() {
 		const users = [...list.findAll(":scope>li:not(.tt-user-info)")];
 
-		doc.find(".statistic#showing .filter-total").innerText = users.length;
 		doc.find(".statistic#showing .filter-count").innerText = users.filter(x => (!x.classList.contains("filter-hidden"))).length;
+		doc.find(".statistic#showing .filter-total").innerText = users.length;
 	}
 
 	function populateFactions() {

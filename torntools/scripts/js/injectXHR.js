@@ -42,7 +42,6 @@ function interceptXHR(channel) {
 		return oldXHROpen.apply(this, arguments);
 	}
 	window.XMLHttpRequest.prototype.send = function (body) {
-		console.log("DKK intercept xhr", body)
 		if (typeof xhrSendAdjustments === "object") {
 			for (let key in xhrSendAdjustments) {
 				if (typeof xhrSendAdjustments[key] !== "function") continue;

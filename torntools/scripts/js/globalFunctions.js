@@ -136,9 +136,6 @@ const DRUG_INFORMATION = {
 			"+25% All Battle Stats",
 			"+75 Happy"
 		],
-		"cons": [
-			"-35% All Battle Stats"
-		],
 		"cooldown": "4-6 hours",
 		"overdose": {
 			"bars": [
@@ -150,6 +147,9 @@ const DRUG_INFORMATION = {
 		"pros": [
 			"+250 Energy",
 			"+75 Happy"
+		],
+		"cons": [
+			"-35% All Battle Stats"
 		],
 		"cooldown": "6-8 hours",
 		"overdose": {
@@ -305,16 +305,40 @@ const STORAGE = {
 			"activity": [],
 			"level": [],
 			"status": [],
-			"last_action": []
+			"last_action": [],
+			'special': {
+				'isfedded': 'both',
+				'newplayer': 'both',
+				'onwall': 'both',
+				'incompany': 'both',
+				'isdonator': 'both'
+			}
 		},
 		"user_list": {
 			"activity": [],
-			"level": []
+			"level": [],
+			'special': {
+				'isfedded': 'both',
+				'traveling': 'both',
+				'newplayer': 'both',
+				'onwall': 'both',
+				'incompany': 'both',
+				'infaction': 'both',
+				'isdonator': 'both'
+			}
 		},
 		"overseas": {
 			"activity": [],
 			"status": [],
-			"level": []
+			"level": [],
+			'special': {
+				'isfedded': 'both',
+				'newplayer': 'both',
+				'onwall': 'both',
+				'incompany': 'both',
+				'infaction': 'both',
+				'isdonator': 'both'
+			}
 		},
 		"bounties": {},
 		"faction_armory": {},
@@ -518,6 +542,7 @@ const STORAGE = {
 				"global": true,
 				"item_market": false,
 				"revives": false,
+				"item_equip": true,
 			},
 		}
 	}
@@ -528,7 +553,41 @@ const TO_MILLIS = {
 	MINUTES: 1000 * 60,
 	HOURS: 1000 * 60 * 60,
 	DAYS: 1000 * 60 * 60 * 24,
-};
+}
+
+const ACTIVITY_FILTER_DICT = {
+	"online": "icon1_",
+	"idle": "icon62_",
+	"offline": "icon2_"
+}
+const SPECIAL_FILTER_DICT = {
+	"isfedded": ["icon70_"],
+	"traveling": ["icon71_"],
+	"newplayer": ["icon72_"],
+	"onwall": [
+		"icon75_",
+		"icon76_"
+	],
+	"incompany": [
+		"icon21_",
+		"icon22_",
+		"icon23_",
+		"icon24_",
+		"icon25_",
+		"icon26_",
+		"icon27_",
+		"icon73_"
+	],
+	"infaction": [
+		"icon9_",
+		"icon74_",
+		"icon81_"
+	],
+	"isdonator": [
+		"icon3_",
+		"icon4_"
+	]
+}
 
 let notificationLinkRelations = {}
 
@@ -900,7 +959,7 @@ const navbar = {
 
 			div.innerHTML = `
                 <div class="area-row___34mEZ tt-cell">
-                    <a class="desktopLink___2dcWC ${attr.class || ""}" href="${attr.href || "#"}" target="${attr.link_target || ""}">
+                    <a class="desktopLink___2dcWC ${attr.class || ""}" ${attr.href ? `href='${attr.href}'` : ''} target="${attr.link_target || ""}">
                         <span>${text}</span>
                     </a>
                 </div>
@@ -1186,6 +1245,10 @@ function usingFirefox() {
 	return navigator.userAgent.includes("Firefox");
 }
 
+function usingYandex() {
+	return navigator.userAgent.includes("YaBrowser");
+}
+
 function getSearchParameters() {
 	return new URL(window.location).searchParams;
 }
@@ -1241,19 +1304,34 @@ function toSeconds(time) {
 
 function numberWithCommas(x, shorten = true, formatter) {
 	if (shorten) {
+		let words;
+		if (shorten === true || shorten === 1) {
+			words = {
+				thousand: "k",
+				million: "mil",
+				billion: "bill",
+			};
+		} else {
+			words = {
+				thousand: "k",
+				million: "m",
+				billion: "b",
+			};
+		}
+
 		if (Math.abs(x) >= 1e9) {
 			if (Math.abs(x) % 1e9 === 0)
-				return (x / 1e9).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "bil";
+				return (x / 1e9).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + words.billion;
 			else
-				return (x / 1e9).toFixed(3) + "bil";
+				return (x / 1e9).toFixed(3) + words.billion;
 		} else if (Math.abs(x) >= 1e6) {
 			if (Math.abs(x) % 1e6 === 0)
-				return (x / 1e6) + "mil";
+				return (x / 1e6) + words.million;
 			else
-				return (x / 1e6).toFixed(3) + "mil";
+				return (x / 1e6).toFixed(3) + words.million;
 		} else if (Math.abs(x) >= 1e3) {
 			if (Math.abs(x) % 1e3 === 0)
-				return (x / 1e3) + "k";
+				return (x / 1e3) + words.thousand;
 		}
 	}
 
@@ -1846,7 +1924,7 @@ function notifyUser(title, message, url) {
 			message: message
 		}
 
-		if (!usingFirefox()) notificationOptions.silent = !settings.notifications_sound;
+		if (hasSilentSupport() && !settings.notifications_sound) notificationOptions.silent = true;
 
 		chrome.notifications.create(notificationOptions, function (id) {
 			notificationLinkRelations[id] = url;
@@ -1931,6 +2009,8 @@ function onDrop(event) {
 	tempElement.classList.remove("temp");
 	doc.find("#ttQuick .content").style.maxHeight = doc.find("#ttQuick .content").scrollHeight + "px";
 
+	// Firefox opens new tab when dropping item
+	event.preventDefault();
 	event.dataTransfer.clearData();
 }
 
@@ -2325,4 +2405,8 @@ function fetchRelay(location, options) {
 			return resolve(response);
 		});
 	});
+}
+
+function hasSilentSupport() {
+	return !usingFirefox() && (!navigator.userAgent.includes("Mobile Safari") || usingYandex());
 }
