@@ -1245,6 +1245,10 @@ function usingFirefox() {
 	return navigator.userAgent.includes("Firefox");
 }
 
+function usingYandex() {
+	return navigator.userAgent.includes("YaBrowser");
+}
+
 function getSearchParameters() {
 	return new URL(window.location).searchParams;
 }
@@ -1300,19 +1304,34 @@ function toSeconds(time) {
 
 function numberWithCommas(x, shorten = true, formatter) {
 	if (shorten) {
+		let words;
+		if (shorten === true || shorten === 1) {
+			words = {
+				thousand: "k",
+				million: "mil",
+				billion: "bill",
+			};
+		} else {
+			words = {
+				thousand: "k",
+				million: "m",
+				billion: "b",
+			};
+		}
+
 		if (Math.abs(x) >= 1e9) {
 			if (Math.abs(x) % 1e9 === 0)
-				return (x / 1e9).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "bil";
+				return (x / 1e9).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + words.billion;
 			else
-				return (x / 1e9).toFixed(3) + "bil";
+				return (x / 1e9).toFixed(3) + words.billion;
 		} else if (Math.abs(x) >= 1e6) {
 			if (Math.abs(x) % 1e6 === 0)
-				return (x / 1e6) + "mil";
+				return (x / 1e6) + words.million;
 			else
-				return (x / 1e6).toFixed(3) + "mil";
+				return (x / 1e6).toFixed(3) + words.million;
 		} else if (Math.abs(x) >= 1e3) {
 			if (Math.abs(x) % 1e3 === 0)
-				return (x / 1e3) + "k";
+				return (x / 1e3) + words.thousand;
 		}
 	}
 
@@ -1905,7 +1924,7 @@ function notifyUser(title, message, url) {
 			message: message
 		}
 
-		if (!usingFirefox()) notificationOptions.silent = !settings.notifications_sound;
+		if (hasSilentSupport() && !settings.notifications_sound) notificationOptions.silent = true;
 
 		chrome.notifications.create(notificationOptions, function (id) {
 			notificationLinkRelations[id] = url;
@@ -2386,4 +2405,8 @@ function fetchRelay(location, options) {
 			return resolve(response);
 		});
 	});
+}
+
+function hasSilentSupport() {
+	return !usingFirefox() && (!navigator.userAgent.includes("Mobile Safari") || usingYandex());
 }

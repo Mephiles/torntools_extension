@@ -18,6 +18,8 @@ export default {
             "Don't break the profile page if a profile section is turned off. - DKK",
             "Allow dragging links to the chat again. - DKK",
             "Show proper cons for Vicodin and Xanax. - DKK",
+            "Fix achievements update time showing wrong time. - Mephiles",
+            "Always show Recommended NNB in the right table. - DKK",
         ],
         "Changes": [
             "Change the caching system to allow for different times to keep it for. - DKK",
@@ -30,6 +32,7 @@ export default {
             "Allow import and export via text. - Mephiles",
             "Add more special filters for factions, search and overseas. - Mephiles",
             "Only allow usable items to be added to Quick Items. - DKK",
+            "Reduce API fetches to reduce stress on API servers. Split userdata to Essential and Basic. - Mephiles",
         ]
     },
     "v4.10.2 - August, 19th. 2020": {

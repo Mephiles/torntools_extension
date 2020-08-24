@@ -81,17 +81,18 @@ function showRewards() {
 
 			// Show total & point value
 			let value_div = doc.new("div");
+			const totalValue = quantity * market_price;
 
 			let div_total_value = doc.new({ type: "div", text: "Total value: ", class: "tt-total-value" });
 			if (mobile) div_total_value.style.marginTop = "66px";
 			let span_total_value = doc.new("span");
-			span_total_value.innerText = `$${numberWithCommas(quantity * market_price)}`;
+			span_total_value.innerText = `$${numberWithCommas(totalValue, totalValue > 10E6 ? 2 : true)}`;
 
 			let div_point_value = doc.new("div");
 			div_point_value.innerText = "Point value: ";
 			div_point_value.setClass("tt-point-value");
 			let span_point_value = doc.new("span");
-			span_point_value.innerText = `$${numberWithCommas(((quantity * market_price) / price_points).toFixed())}`;
+			span_point_value.innerText = `$${numberWithCommas((totalValue / price_points).toFixed())}`;
 
 			div_total_value.appendChild(span_total_value);
 			div_point_value.appendChild(span_point_value);
