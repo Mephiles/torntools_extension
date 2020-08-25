@@ -35,14 +35,14 @@ function displayAchievements(achievements, show_completed) {
 		let achievement_text, new_cell;
 		if (next_goal === "completed") {
 			achievement_text = `${name}: Completed!`;
-			new_cell = navbar.newCell(achievement_text, { parent_element: awards_section, href: "#", class: "tt-completed" });
+			new_cell = navbar.newCell(achievement_text, { parent_element: awards_section, class: "tt-completed" });
 		} else {
 			if (achievements[name].extra === "###")
 				achievement_text = `${name}: ${numberWithCommas(current_stat)}`;
 			else
 				achievement_text = `${name}: ${numberWithCommas(current_stat)}/${numberWithCommas(next_goal)}`;
 
-			new_cell = navbar.newCell(achievement_text, { parent_element: awards_section, href: "#" });
+			new_cell = navbar.newCell(achievement_text, { parent_element: awards_section });
 		}
 
 		if (achievements[name].extra !== "###") {

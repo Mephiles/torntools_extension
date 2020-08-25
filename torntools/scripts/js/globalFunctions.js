@@ -959,7 +959,7 @@ const navbar = {
 
 			div.innerHTML = `
                 <div class="area-row___34mEZ tt-cell">
-                    <a class="desktopLink___2dcWC ${attr.class || ""}" href="${attr.href || "#"}" target="${attr.link_target || ""}">
+                    <a class="desktopLink___2dcWC ${attr.class || ""}" ${attr.href ? `href='${attr.href}'` : ''} target="${attr.link_target || ""}">
                         <span>${text}</span>
                     </a>
                 </div>
