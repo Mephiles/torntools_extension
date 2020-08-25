@@ -379,10 +379,8 @@ function addButton() {
 }
 
 function addItemMarketLinks() {
-	let items = doc.findAll(".items-cont[aria-expanded=true]>li");
-
-	for (let item of items) {
-		if (item.find(".tt-market-link") || item.find(":scope > .tt-item-price")) continue;
+	for (let item of doc.findAll(".items-cont[aria-expanded=true] > li")) {
+		if (item.find(".tt-market-link, :scope > .tt-item-price, :scope > .ajax-placeholder")) continue;
 
 		let li = doc.new({
 			type: "li",
