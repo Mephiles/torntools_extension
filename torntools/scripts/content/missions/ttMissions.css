@@ -18,3 +18,11 @@
 .tt-total-value span, .tt-point-value span {
     color: #678c00;
 }
+
+.tt-mission-information {
+    margin-top: 16px;
+}
+
+.tt-mission-information > span {
+    display: block;
+}

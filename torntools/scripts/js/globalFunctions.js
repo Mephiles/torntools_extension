@@ -711,6 +711,9 @@ Document.prototype.new = function (newElement) {
 		if (newElement.text) {
 			el.innerText = newElement.text;
 		}
+		if (newElement.html) {
+			el.innerHTML = newElement.html;
+		}
 		if (newElement.value) {
 			el.value = newElement.value;
 		}

@@ -1,3 +1,7 @@
+const MISSIONS = {
+	"Party Tricks": { task: "Defeat (P) despite their nimble dexterity" },
+};
+
 requireDatabase().then(() => {
 	if (!settings.pages.missions.rewards) return;
 
@@ -6,27 +10,21 @@ requireDatabase().then(() => {
 		if (page !== "loader") return;
 
 		const params = new URLSearchParams(xhr.requestBody);
-		if (params.get("sid") !== "missionsRewards") return;
+		const sid = params.get("sid");
 
-		rewardsLoaded().then(showRewards);
+		if (sid === "missionsRewards") missionsLoaded().then(showRewards);
 	});
 
-	rewardsLoaded().then(() => {
+	missionsLoaded().then(() => {
 		console.log("TT - Missions");
 
+		showMissionInformation();
 		showRewards();
 	});
 });
 
-function rewardsLoaded() {
-	return new Promise((resolve) => {
-		let checker = setInterval(() => {
-			if (doc.find("ul.rewards-list li")) {
-				resolve(true);
-				return clearInterval(checker);
-			}
-		}, 100);
-	});
+function missionsLoaded() {
+	return requireElement("ul.rewards-list li");
 }
 
 function showRewards() {
@@ -103,4 +101,33 @@ function showRewards() {
 	}
 }
 
+function showMissionInformation() {
+	for (let mission of doc.findAll(".giver-cont-wrap > div[id^=mission]:not(.tt-modified)")) {
+		let title = mission.find(".title-black").innerText.split("\n")[0];
+		let task, hint;
 
+		let miss = MISSIONS[title];
+		if (miss) {
+			task = miss.task;
+			hint = miss.hint;
+		} else {
+			task = "Couldn't find information for this mission.";
+			hint = "Contact the developers.";
+		}
+
+		let children = [doc.new({ type: "span", html: `<b>Task:</b> ${task}` })];
+		if (hint) {
+			children.push(
+				doc.new("br"),
+				doc.new({ type: "span", html: `<b>Hint:</b> ${hint}` }),
+			);
+		}
+
+		mission.find(".max-height-fix").appendChild(doc.new({ type: "div", class: "tt-mission-information", children }));
+		mission.classList.add("tt-modified");
+	}
+
+	const missionTitle = "";
+
+	const mission = MISSIONS[missionTitle];
+}
