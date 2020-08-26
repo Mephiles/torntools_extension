@@ -126,8 +126,4 @@ function showMissionInformation() {
 		mission.find(".max-height-fix").appendChild(doc.new({ type: "div", class: "tt-mission-information", children }));
 		mission.classList.add("tt-modified");
 	}
-
-	const missionTitle = "";
-
-	const mission = MISSIONS[missionTitle];
 }
