@@ -27,7 +27,6 @@ async function showTable() {
 	for (let period in values) {
 		if (values[bestPeriod].standard.daily < values[period].standard.daily) bestPeriod = period;
 	}
-	console.log("DKK best", bestPeriod)
 
 	let html = `
 		<h1>2 billion investment</h1>
@@ -79,22 +78,14 @@ async function showTable() {
 
 	function getValue(period, balance) {
 		const DAYS = { "1w": 7, "2w": 14, "1m": 30, "2m": 60, "3m": 90 };
-
 		const apr = (parseFloat(result[period]) * 100) / 10000;
 
-		// const apr = 1 + (parseInt(parseFloat(result[period]) * 100) / 10000 / 365 * DAYS[period]);
-		// const profit = balance * (parseInt(apr * 100000) / 100000);
-
-
-		let response = {
+		return {
 			standard: calc(apr),
 			tcb: calc(apr, 1.1),
 			merit: calc(apr, 1.5),
 			all: calc(apr, 1.65),
 		};
-		console.log("DKK response", response);
-
-		return response;
 
 		function calc(baseRate, boost = 1) {
 			const apr = baseRate * boost;
@@ -108,6 +99,4 @@ async function showTable() {
 			}
 		}
 	}
-
-
 }
