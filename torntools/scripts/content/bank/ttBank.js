@@ -49,15 +49,23 @@ async function showTable() {
 				<td>${names[period]}</td>
 				<td apr="${FORMATTER_PERCENTAGE.format(values[period].standard.apr)}%" rate="${FORMATTER_PERCENTAGE.format(values[period].standard.profitRate)}%">
 					$${numberWithCommas(values[period].standard.total, false, FORMATTER_NO_DECIMALS)}
+					<br/>
+					<span>$${numberWithCommas(values[period].standard.daily, false, FORMATTER_NO_DECIMALS)}</span>
 				</td>
 				<td apr="${FORMATTER_PERCENTAGE.format(values[period].tcb.apr)}%" rate="${FORMATTER_PERCENTAGE.format(values[period].tcb.profitRate)}%">
 					$${numberWithCommas(values[period].tcb.total, false, FORMATTER_NO_DECIMALS)}
+					<br/>
+					<span>$${numberWithCommas(values[period].tcb.daily, false, FORMATTER_NO_DECIMALS)}</span>
 				</td>
 				<td apr="${FORMATTER_PERCENTAGE.format(values[period].merit.apr)}%" rate="${FORMATTER_PERCENTAGE.format(values[period].merit.profitRate)}%">
 					$${numberWithCommas(values[period].merit.total, false, FORMATTER_NO_DECIMALS)}
+					<br/>
+					<span>$${numberWithCommas(values[period].merit.daily, false, FORMATTER_NO_DECIMALS)}</span>
 				</td>
 				<td apr="${FORMATTER_PERCENTAGE.format(values[period].all.apr)}%" rate="${FORMATTER_PERCENTAGE.format(values[period].all.profitRate)}%">
 					$${numberWithCommas(values[period].all.total, false, FORMATTER_NO_DECIMALS)}
+					<br/>
+					<span>$${numberWithCommas(values[period].all.daily, false, FORMATTER_NO_DECIMALS)}</span>
 				</td>
 			</tr>
 		`;
