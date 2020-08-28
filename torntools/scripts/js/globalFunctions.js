@@ -642,6 +642,9 @@ const FORMATTER_NO_DECIMALS = new Intl.NumberFormat('en-US', {
 const FORMATTER_VALUES = new Intl.NumberFormat('en-US', {
 	maximumFractionDigits: 3,
 });
+const FORMATTER_PERCENTAGE = new Intl.NumberFormat('en-US', {
+	maximumFractionDigits: 2,
+});
 
 let injectedXHR = false;
 let injectedFetch = false;

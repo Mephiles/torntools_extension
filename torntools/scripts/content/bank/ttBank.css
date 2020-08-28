@@ -1,0 +1,30 @@
+#ttBank table {
+    margin: auto;
+    width: 100%;
+}
+
+#ttBank tr {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+#ttBank tr:first-child {
+    border-top: none;
+}
+
+#ttBank th {
+    color: #ffffff;
+    background: #4d933c;;
+    border-bottom: 4px solid #808080;
+    border-right: 1px solid #a9a9a9;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#ttBank td {
+    text-align: center;
+}
+
+#ttBank .best td {
+    background-color: lightcoral;
+}
