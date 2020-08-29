@@ -12,6 +12,8 @@ export default {
             "Show individual price of an sold item or share on the event page on hover. - DKK",
             "Make energy and nerve clickable to open their respective pages. - Mephiles",
             "Add Landing time to Travel page. - Mephiles",
+            "Show mission hints and tips. - DKK",
+            "Show banking investment table. - DKK",
         ],
         "Fixes": [
             "Don't apply the last action filter on other faction pages. - DKK",
@@ -20,6 +22,8 @@ export default {
             "Show proper cons for Vicodin and Xanax. - DKK",
             "Fix achievements update time showing wrong time. - Mephiles",
             "Always show Recommended NNB in the right table. - DKK",
+            "Fix showing item value (which also broke max buy and YATA updating). - DKK",
+            "Hide item highlighting when closing the container if the setting is enabled. - DKK",
         ],
         "Changes": [
             "Change the caching system to allow for different times to keep it for. - DKK",
@@ -33,6 +37,10 @@ export default {
             "Add more special filters for factions, search and overseas. - Mephiles",
             "Only allow usable items to be added to Quick Items. - DKK",
             "Reduce API fetches to reduce stress on API servers. Split userdata to Essential and Basic. - Mephiles",
+            "Shorten some mission numbers even more to let it fit the box. - DKK",
+            "Remove links from Achievement cells. - Mephiles",
+            "Adjust minimal 'show more'-button height on profiles. - DKK",
+            "Show illegal product crimes achievements. - DKK",
         ]
     },
     "v4.10.2 - August, 19th. 2020": {
