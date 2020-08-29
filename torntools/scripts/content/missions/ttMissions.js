@@ -1,8 +1,5 @@
 const MISSIONS = {
-	"Introduction: Duke": {
-		task: "Complete 10 Duke contracts, gain Protégé Honor Bar",
-		hint: "This will take a minimum of 7 days. You start with 3 contracts in the beginning, and get 1 new contract per day. Maximum 3 contracts at a time, or 5 in a  3* or higher Logistics Company.",
-	},
+	"Introduction: Duke": { task: "Complete 10 Duke contracts.", },
 	"Show Some Muscle": { task: "Attack (P)" },
 	"Battering Ram": { task: "Attack (P) 3 times" },
 	"New Kid on the Block": { task: "Defeat any 5 players" },
@@ -23,11 +20,11 @@ const MISSIONS = {
 	},
 	"A Thor Loser": {
 		task: "Use Duke's hammer and hit 15 different body parts",
-		hint: "Body Parts = Head, Throat, Chest, Heart, Stomach, Groin, Right and Left Arms, Right and Left Hands, Right and Left Legs, Right and Left Feet",
+		hint: "There are approximately 20-30 different body parts in Torn people. Attempt to find someone tanky to maximize your hits per energy spent (unless you are planning to spend a ton of energy)",
 	},
 	"Bakeout Breakout": {
 		task: "Buy a fruitcake, use cake frosting & lock-picking kits from inventory sent by Duke, then send special fruitcake to any player in jail. Player does not actually receive the item.",
-		hint: "Fruitcake is non tradeable, non sellable. If using a PC, a good way to do this is to have the Jail open in one tab and items in another. Send special fruitcake to the person with the highest # of hours in jail.",
+		hint: "To make the final cake, you only have to use the frosting, or the lock pick. Once one item is used, the other item is also used to make the final product.",
 	},
 	"Bare Knuckle": {
 		task: "Defeat (P) with no weapons or armour equipped",
@@ -41,7 +38,7 @@ const MISSIONS = {
 		task: "Defeat (P) despite their gargantuan strength",
 		hint: "If you have booster capability, serotonin may help. Stacking boosters by attacking easy targets with different temporary boosters consecutively will really help, but may be overkill in terms of cost.",
 	},
-	"Birthday Surprise": { task: "Obtain afro comb/edvd/laptop, place in empty box, gift wrap, send to Duke. Item may vary.", },
+	"Birthday Surprise": { task: "Obtain (an item), place in empty box, giftwrap, send to Duke", },
 	"Bonnie & Clyde": { task: "Defeat (P) and spouse of (P)" },
 	"Bountiful": { task: "Claim 2,3, or 5 bounties", hint: "Make sure to hospitalize the target." },
 	"Bounty on the Mutiny": { task: "Bounty (P) and wait for bounty to be fulfilled", hint: "You cannot claim your own bounties." },
@@ -52,8 +49,8 @@ const MISSIONS = {
 	"Candy from Babies": { task: "Collect $150k or $250k in bounties", hint: "Make sure to hospitalize the target." },
 	"Charity Work": { task: "Mug 2 (P)", hint: "Must be a successful mug. If target was recently mugged, I suggest sending cash to the target, then mugging." },
 	"Cracking Up": {
-		task: "Defeat & Interrogate (P) to find the code for Duke's safe",
-		hint: "Can take 5 times to get target to talk. Contents of the safe will vary. Send contest to Duke afterwards.",
+		task: "Defeat & Interrogate (P) to find the code for Duke's safe, then deliver the contents back to Duke after you open it",
+		hint: "Can take 5 times to get target to talk. Contents of the safe will vary.",
 	},
 	"Critical Education": { task: "Achieve 8 critical hits", hint: "A critical hit mod can help with this." },
 	"Cut Them Down to Size": { task: "Defeat someone your level or higher", hint: "A friend can help by unequipping and dropping to 1 hp." },
@@ -151,10 +148,7 @@ const MISSIONS = {
 		hint: "Make sure they're all out of hosp, activate mission and line them all up in tabbed screens to attack",
 	},
 	"Reconstruction": { task: "Equip kitchen knife/leather gloves, defeat (P) then dump both items.", hint: "Don't have to actually use the kitchen knife." },
-	"Red Faced": {
-		task: "Defeat (P) using a trout as finishing hit",
-		hint: "This mission is highly annoying. It is recommended teaming up with someone who can throw a smoke grenade or some other temp, and can stay in the attack if your trout misses so you can escape and jump back in again for a second attempt.",
-	},
+	"Red Faced": { task: "Defeat (P) using a trout as finishing hit" },
 	"Rising Costs": {
 		task: "Hit (P) with a brick",
 		hint: "If the brick misses, you will have to retry this mission. Could get a friend to throw a smoke so the chance of the brick hitting is greater.",
@@ -171,7 +165,7 @@ const MISSIONS = {
 	},
 	"Sending a Message": { task: "Defeat (P)" },
 	"Sleep Aid": { task: "Defeat (P)" },
-	"Some People": { task: "Send any item (found in the dump) as a parcel to (P)", },
+	"Some People": { task: "Send any item as a parcel to (P)", hint: "Package up a very cheap item inside an empty box." },
 	"Standard Routine": { task: "Defeat (P) with a clubbed weapon, fists or kick", hint: "Non damaging temps ARE allowed, ie: stat booster, smoke, flash" },
 	"Stomach Upset": { task: "Injure (P) stomach", hint: "Easiest with a pillow." },
 	"Swan Step Too Far": {
