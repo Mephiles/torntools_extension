@@ -16,8 +16,9 @@ mapLoaded().then(() => {
 
 		if (!settings.pages.city.closed_highlight) {
 			doc.find("#map").classList.remove("doctorn-highlight-city-finds");
+
 			items_container.addEventListener("click", () => {
-				if (items_container.find(".content").style.maxHeight === "0px") {
+				if (items_container.find(".tt-title").classList.contains("collapsed")) {
 					doc.find("#map").classList.remove("doctorn-highlight-city-finds");
 					for (let item of doc.findAll("#map .leaflet-marker-pane *[item-id]")) {
 						item.classList.remove("cityItem");
