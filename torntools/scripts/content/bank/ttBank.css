@@ -51,7 +51,7 @@
 }
 
 #ttBank .best td {
-    background-color: #ccffb1;
+    background-color: #ccffb1 !important;
 }
 
 #ttBank tr:nth-child(2n+1) td {
