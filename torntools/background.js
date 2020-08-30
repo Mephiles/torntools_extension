@@ -612,7 +612,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 				for (let message_key of Object.keys(userdata.messages).reverse()) {
 					let message = userdata.messages[message_key];
 
-					if (message.seen === 0 || true) {
+					if (message.seen === 0) {
 						if (settings.notifications.global && settings.notifications.messages && !notifications.messages[message_key]) {
 							messages.push({
 								id: message_key,
