@@ -1039,7 +1039,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // Messaging
 // noinspection JSDeprecatedSymbols
-chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	// console.log(sender.tab ? "from a content script:"+sender.tab.url : "from the extension");
 
 	switch (request.action) {
@@ -1053,7 +1053,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 
 			// Clear API history
-			await clearAPIhistory();
+			clearAPIhistory().then(() => console.log("Cleared API history!"));
 			break;
 		case "fetch":
 			if (request.type === "torndata") {
@@ -1062,14 +1062,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 			}
 			break;
 		case 'fetch-relay':
-			fetchApi_v2(request.location, request.options)
-				.then(result => {
-					sendResponse(result);
-				})
-				.catch(err => {
-					sendResponse(err);
-				})
-			break;
+			return fetchApi_v2(request.location, request.options);
 		default:
 			sendResponse({ success: false, message: "Unknown command." });
 			break;
