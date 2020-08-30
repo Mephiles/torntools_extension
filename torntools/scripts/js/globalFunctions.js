@@ -519,7 +519,8 @@ const STORAGE = {
 				"oc_time": true
 			},
 			"jail": {
-				"quick_icons": false
+				"quick_bail": false,
+				"quick_bust": false,
 			}
 		},
 		"scripts": {

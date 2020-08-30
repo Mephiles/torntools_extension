@@ -9,29 +9,7 @@ requireDatabase().then(() => {
 
 		if (shouldDisable()) return;
 
-		// Quick Bail & Bust
-		let quick_wrap = doc.new({ type: "div", class: "tt-checkbox-wrap in-title" });
-		let checkbox = doc.new({ type: "input", id: "tt-quick-option", attributes: { type: "checkbox" } });
-		let text = doc.new({ type: "div", text: "Enable Quick Bail & Bust" });
-		quick_wrap.appendChild(checkbox);
-		quick_wrap.appendChild(text);
-		doc.find("#tt-player-filter .tt-options").appendChild(quick_wrap);
-
-		quick_wrap.onclick = event => {
-			event.stopPropagation();
-		}
-
-		checkbox.onclick = event => {
-			console.log(event.target.checked);
-			modifyActions(event.target.checked);
-
-			ttStorage.change({ "settings": { "pages": { "jail": { "quick_icons": event.target.checked } } } });
-		}
-
-		if (settings.pages.jail.quick_icons) {
-			checkbox.checked = true;
-			modifyActions(true);
-		}
+		showQuick();
 	});
 });
 
@@ -182,7 +160,7 @@ function addFilterToTable(list, title) {
 					populateFactions();
 					applyFilters();
 
-					if (doc.find("#tt-quick-option").checked) modifyActions(true);
+					showQuick();
 				});
 			}, 300);
 		}
@@ -306,43 +284,56 @@ function addFilterToTable(list, title) {
 	}
 }
 
-function modifyActions(enabled) {
-	for (let player of doc.findAll(".users-list>li")) {
-		let buy_link = player.find(".buy") ? player.find(".buy").getAttribute("href") : player.find(".bye").getAttribute("href");
-		let bust_link = player.find(".bust").getAttribute("href");
+function showQuick() {
+	show("tt-quick-bust", "Bust", "quick_bust", ".bust");
+	show("tt-quick-bail", "Bail", "quick_bail", ".buy, .bye");
 
-		if (enabled) {
-			console.log("1", buy_link[buy_link.length - 1] !== "1")
-			if (buy_link[buy_link.length - 1] !== "1") {
-				buy_link += "1";
-			}
-			if (bust_link[bust_link.length - 1] !== "1") {
-				bust_link += "1";
-			}
+	function show(id, text, option, wrapSelector) {
+		if (!doc.find(`#${id}`)) {
+			let wrap = doc.new({ type: "div", class: "tt-checkbox-wrap in-title" });
+			let checkbox = doc.new({ type: "input", id, attributes: { type: "checkbox" } });
+			wrap.appendChild(checkbox);
+			wrap.appendChild(doc.new({ type: "label", text: `Enable Quick ${text}`, attributes: { for: id } }));
+			doc.find("#tt-player-filter .tt-options").appendChild(wrap);
 
-			if (!player.find(".tt-modified-icon")) {
-				let icon_1 = doc.new({ type: "span", class: "tt-modified-icon", text: "Q" });
-				let icon_2 = doc.new({ type: "span", class: "tt-modified-icon", text: "Q" });
+			wrap.onclick = event => {
+				event.stopPropagation();
+			};
 
-				player.find(".buy-icon") ? player.find(".buy-icon").appendChild(icon_1) : player.find(".bye-icon").appendChild(icon_1);
-				player.find(".bust-icon").appendChild(icon_2);
-			}
-		} else {
-			if (buy_link[buy_link.length - 1] === "1") {
-				buy_link = buy_link.slice(0, buy_link.length - 1);
-			}
-			if (bust_link[bust_link.length - 1] === "1") {
-				bust_link = bust_link.slice(0, bust_link.length - 1);
-			}
+			checkbox.onchange = event => {
+				modify(event.target.checked);
 
-			if (player.find(".tt-modified-icon")) {
-				for (let icon of player.findAll(".tt-modified-icon")) {
-					icon.remove();
-				}
+				ttStorage.change({ "settings": { "pages": { "jail": { [option]: event.target.checked } } } });
+			};
+
+			if (settings.pages.jail[option]) {
+				checkbox.checked = true;
+				modify(true);
 			}
+		} else if (doc.find(`#${id}`).checked) {
+			modify(true);
 		}
 
-		player.find(".buy") ? player.find(".buy").setAttribute("href", buy_link) : player.find(".bye").setAttribute("href", buy_link);
-		player.find(".bust").setAttribute("href", bust_link);
+		function modify(enabled) {
+			for (let player of doc.findAll(".users-list > li")) {
+				const actionWrap = player.find(wrapSelector);
+				let bail = actionWrap.getAttribute("href");
+
+				if (enabled) {
+					if (bail[bail.length - 1] !== "1") bail += "1";
+
+					if (!actionWrap.find(".tt-modified-icon")) {
+						actionWrap.find(":scope > span[class$='-icon']").appendChild(doc.new({ type: "span", class: "tt-modified-icon", text: "Q" }));
+					}
+				} else {
+					if (bail[bail.length - 1] === "1") bail = bail.slice(0, bail.length - 1);
+
+					for (let icon of actionWrap.findAll(".tt-modified-icon")) icon.remove();
+				}
+
+				actionWrap.setAttribute("href", bail);
+			}
+		}
 	}
 }
+
