@@ -2408,7 +2408,12 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 
 // Uses fetchApi_v2
 function fetchRelay(location, options) {
-	return chrome.runtime.sendMessage({ action: "fetch-relay", location: location, options: options });
+	return new Promise((resolve, reject) => {
+		chrome.runtime.sendMessage({ action: "fetch-relay", location: location, options: options }, response => {
+			if (response.error) return reject(response);
+			return resolve(response);
+		});
+	});
 }
 
 function hasSilentSupport() {

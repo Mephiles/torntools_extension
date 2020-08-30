@@ -1062,7 +1062,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			}
 			break;
 		case 'fetch-relay':
-			return fetchApi_v2(request.location, request.options);
+			fetchApi_v2(request.location, request.options)
+				.then(result => {
+					sendResponse(result);
+				})
+				.catch(err => {
+					sendResponse(err);
+				});
+			break
 		default:
 			sendResponse({ success: false, message: "Unknown command." });
 			break;
