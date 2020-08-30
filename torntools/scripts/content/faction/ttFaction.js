@@ -13,6 +13,8 @@ requireDatabase().then(() => {
 				newstabLoaded("armory").then(shortenArmoryNews);
 			} else if (step === "getMoneyDepositors") {
 				loadGiveToUser();
+			} else if (step === "crimesInitiate") {
+				loadCrimes();
 			}
 		}
 	});
