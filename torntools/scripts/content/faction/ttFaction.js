@@ -3,8 +3,7 @@ let member_info_added = false;
 
 requireDatabase().then(() => {
 	addXHRListener((event) => {
-		const { page, json, xhr } = event.detail;
-		if (!json) return;
+		const { page, xhr } = event.detail;
 
 		const params = new URLSearchParams(xhr.requestBody);
 		const step = params.get("step");
