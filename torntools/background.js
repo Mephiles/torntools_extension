@@ -39,11 +39,11 @@ let userdata, torndata, settings, api_key, proxy_key, chat_highlight, itemlist,
 
 // First - set storage
 console.log("Checking Storage.");
-let setup_storage = new Promise(function (resolve) {
-	ttStorage.get(null, function (old_storage) {
+let setup_storage = new Promise(resolve => {
+	ttStorage.get(null, old_storage => {
 		if (!old_storage || Object.keys(old_storage).length === 0) {  // fresh install
 			console.log("	Setting new storage.");
-			ttStorage.set(STORAGE, function () {
+			ttStorage.set(STORAGE, () => {
 				console.log("	Storage set");
 				return resolve(true);
 			});
@@ -54,8 +54,8 @@ let setup_storage = new Promise(function (resolve) {
 
 			console.log("	New storage", new_storage);
 
-			ttStorage.clear(function () {
-				ttStorage.set(new_storage, function () {
+			ttStorage.clear(() => {
+				ttStorage.set(new_storage, () => {
 					console.log("	Storage updated.");
 					return resolve(true);
 				});
@@ -101,7 +101,7 @@ let setup_storage = new Promise(function (resolve) {
 	});
 });
 
-setup_storage.then(async function (success) {
+setup_storage.then(async success => {
 	if (!success) {
 		return;
 	}
@@ -109,39 +109,37 @@ setup_storage.then(async function (success) {
 	// Check for personalized scripts
 	console.log("Setting up personalized scripts.");
 	if (Object.keys(personalized).length !== 0) {
-		await (function () {
-			return new Promise(function (resolve) {
-				ttStorage.get("userdata", function (userdata) {
-					if (!userdata)
-						return resolve(userdata);
+		await (() => new Promise(resolve => {
+			ttStorage.get("userdata", userdata => {
+				if (!userdata)
+					return resolve(userdata);
 
-					let personalized_scripts = {}
+				let personalized_scripts = {}
 
-					if (personalized.master === userdata.player_id) {
-						for (let type in personalized) {
-							if (type === "master") {
-								continue;
-							}
-
-							for (let id in personalized[type]) {
-								for (let script of personalized[type][id]) {
-									personalized_scripts[script] = true;
-								}
-							}
+				if (personalized.master === userdata.player_id) {
+					for (let type in personalized) {
+						if (type === "master") {
+							continue;
 						}
-					} else if (personalized.users[userdata.player_id]) {
-						for (let script of personalized.users[userdata.player_id]) {
-							personalized_scripts[script] = true;
+
+						for (let id in personalized[type]) {
+							for (let script of personalized[type][id]) {
+								personalized_scripts[script] = true;
+							}
 						}
 					}
+				} else if (personalized.users[userdata.player_id]) {
+					for (let script of personalized.users[userdata.player_id]) {
+						personalized_scripts[script] = true;
+					}
+				}
 
-					ttStorage.set({ "personalized": personalized_scripts }, function () {
-						console.log("	Personalized scripts set.");
-						return resolve(true);
-					});
+				ttStorage.set({ "personalized": personalized_scripts }, () => {
+					console.log("	Personalized scripts set.");
+					return resolve(true);
 				});
 			});
-		})();
+		}))();
 	} else {
 		console.log("	Empty file.");
 	}
@@ -295,72 +293,6 @@ function Main_30_seconds() {
 		});
 }
 
-function _Main_30_seconds() {
-	console.group("Main");
-
-	ttStorage.get(["api_key", "target_list", "stakeouts", "torndata", "loot_times", 'networth', 'oc', 'settings'], async function ([api_key, target_list, stakeouts, old_torndata, oldLootTimes, oldNetworth, oldOC, settings]) {
-		let attack_history;
-
-		if (api_key === undefined || api_key === '') {
-			console.log("NO API KEY");
-			return;
-		}
-
-		// if (target_list.show) {
-		// 	if (target_list.last_target === -1) {
-		// 		attack_history = "attacksfull";
-		// 	} else {
-		// 		attack_history = "attacks";
-		// 	}
-		// }
-
-		// userdata
-		// console.log("Setting up userdata.");
-		// await updateUserdata_essential();
-
-		// stakeouts
-		// console.log("Setting up stakeouts.");
-		// await updateStakeouts();
-
-		// Torndata
-		// if (!old_torndata || !old_torndata.date || new Date() - new Date(old_torndata.date) >= days) {
-		// 	console.log("Setting up torndata.")
-		// 	await updateTorndata(old_torndata);
-		// }
-
-		// Loot times
-		// NPC_FETCH_TIME -= 30 * seconds;
-		// console.log("NPC FETCH TIME", NPC_FETCH_TIME);
-		// if (!oldLootTimes || NPC_FETCH_TIME <= 10 * seconds) {
-		// 	console.log('Setting up NPC loot times');
-		// 	await updateLootTimes();
-		// }
-
-		// Networth data
-		// if (!oldNetworth || !oldNetworth.current.date || new Date() - new Date(oldNetworth.current.date) >= 5 * minutes) {
-		// 	console.log('Setting up Networth data');
-		// 	await updateNetworthData();
-		// }
-
-		// Stocks data
-		// if (!old_torndata || !old_torndata.stocks || !old_torndata.stocks.date || new Date() - new Date(!old_torndata.stocks.date) >= 15 * minutes) {
-		// 	console.log('Setting up Stocks data');
-		// 	await updateStocksData();
-		// }
-
-		// Faction data
-		// if (settings.pages.faction.oc_time && (!oldOC || !oldOC.date || new Date() - new Date(oldOC.date) >= 15 * minutes)) {
-		// 	console.log('Setting up OC info');
-		// 	await updateOCinfo();
-		// }
-
-		// Doctorn
-		// updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
-	});
-
-	console.groupEnd();
-}
-
 async function Main_1_minute() {
 	await clearCache();
 
@@ -478,7 +410,7 @@ function updateTargetList(player_id, target_list, attackHistory, first_time) {
 				}
 
 				target_list.targets.date = new Date().toString();
-				ttStorage.set({ "target_list": target_list }, function () {
+				ttStorage.set({ "target_list": target_list }, () => {
 					console.log("	Target list set");
 					return resolve();
 				});
@@ -507,9 +439,7 @@ async function updateExtensions() {
 				extensions[extension] = await detectExtension(browser, extension);
 			}
 
-			ttStorage.change({ extensions }, function () {
-				return resolve(extensions);
-			});
+			ttStorage.change({ extensions }, () => resolve(extensions));
 		} else {
 			console.log("	Using something else than Chrome or Firefox.");
 		}
@@ -534,7 +464,7 @@ async function updateTorndata(oldTorndata) {
 
 				torndata.stocks = oldTorndata.stocks;
 
-				ttStorage.set({ "torndata": torndata, "itemlist": itemlist }, function () {
+				ttStorage.set({ "torndata": torndata, "itemlist": itemlist }, () => {
 					console.log("	Torndata info updated.");
 					console.log("	Itemlist info updated.");
 					return resolve({ success: true, message: "Torndata fetched" });
@@ -617,7 +547,7 @@ function updateNetworthData() {
 				}
 
 				// Set Userdata & Networth
-				ttStorage.set({ "networth": networth }, function () {
+				ttStorage.set({ "networth": networth }, () => {
 					console.log("Networth info updated.");
 					return resolve();
 				});
@@ -656,7 +586,7 @@ function updateOCinfo() {
 			.then(factiondata => {
 				factiondata.crimes.date = new Date().toString();
 
-				ttStorage.set({ "oc": factiondata.crimes }, function () {
+				ttStorage.set({ "oc": factiondata.crimes }, () => {
 					console.log("	Faction data set.");
 					return resolve(true);
 				});
@@ -669,7 +599,7 @@ function updateOCinfo() {
 }
 
 function updateUserdata_essential(oldUserdata, oldTargetList) {
-	return new Promise(function (resolve) {
+	return new Promise(resolve => {
 		const selections = `profile,travel,bars,cooldowns,money,events,messages,timestamp`;
 
 		fetchApi_v2('torn', { section: 'user', selections: selections })
@@ -810,9 +740,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 					// Check for bars
 					for (let bar of ["energy", "happy", "nerve", "life"]) {
 						if (oldUserdata[bar] && settings.notifications[bar].length > 0) {
-							let checkpoints = settings.notifications[bar].map(x => (typeof x === "string" && x.includes("%")) ? parseInt(x) / 100 * userdata[bar].maximum : parseInt(x)).sort(function (a, b) {
-								return b - a
-							});
+							let checkpoints = settings.notifications[bar].map(x => (typeof x === "string" && x.includes("%")) ? parseInt(x) / 100 * userdata[bar].maximum : parseInt(x)).sort((a, b) => b - a);
 							// console.log(`${bar} checkpoints previous:`, settings.notifications[bar]);
 							// console.log(`${bar} checkpoints modified:`, checkpoints);
 							for (let checkpoint of checkpoints) {
@@ -836,9 +764,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 
 					// Check for hospital notification
 					if (settings.notifications.hospital.length > 0 && userdata.status.state === "Hospital") {
-						for (let checkpoint of settings.notifications.hospital.sort(function (a, b) {
-							return a - b
-						})) {
+						for (let checkpoint of settings.notifications.hospital.sort((a, b) => a - b)) {
 							let time_left = new Date(userdata.status.until * 1000) - new Date(); // ms
 
 							if (time_left <= parseInt(checkpoint) * 60 * 1000 && !notifications.hospital[checkpoint]) {
@@ -858,9 +784,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 
 					// Check for travel notification
 					if (settings.notifications.landing.length > 0 && userdata.travel.time_left > 0) {
-						for (let checkpoint of settings.notifications.landing.sort(function (a, b) {
-							return a - b
-						})) {
+						for (let checkpoint of settings.notifications.landing.sort((a, b) => a - b)) {
 							let time_left = new Date(userdata.travel.timestamp * 1000) - new Date(); // ms
 
 							if (time_left <= parseInt(checkpoint) * 60 * 1000 && !notifications.travel[checkpoint]) {
@@ -881,9 +805,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 
 					// Check for chain notification
 					if (settings.notifications.chain.length > 0 && userdata.chain.timeout !== 0 && userdata.chain.current >= 10) {
-						for (let checkpoint of settings.notifications.chain.sort(function (a, b) {
-							return a - b
-						})) {
+						for (let checkpoint of settings.notifications.chain.sort((a, b) => a - b)) {
 							let real_timeout = userdata.chain.timeout * 1000 - (new Date() - new Date(userdata.timestamp * 1000));  // ms
 							const chain_count = userdata.chain.current;
 
@@ -965,7 +887,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 				}
 
 				// Set Userdata
-				ttStorage.set({ "userdata": oldUserdata }, async function () {
+				ttStorage.set({ "userdata": oldUserdata }, async () => {
 					console.log("	Userdata essential set.");
 
 					if (shouldFetchAttackData) {
@@ -993,7 +915,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 }
 
 function updateUserdata_basic(oldUserdata, oldTorndata) {
-	return new Promise(function (resolve, reject) {
+	return new Promise((resolve) => {
 		let fetchEducation = true;
 		if (oldTorndata.education && oldUserdata.education_completed.length === Object.keys(oldTorndata.education).length) {
 			fetchEducation = false;
@@ -1009,7 +931,7 @@ function updateUserdata_basic(oldUserdata, oldTorndata) {
 				}
 
 				// Set Userdata
-				ttStorage.set({ "userdata": oldUserdata }, function () {
+				ttStorage.set({ "userdata": oldUserdata }, () => {
 					console.log("	Userdata basic set.");
 					return resolve(true);
 				});
@@ -1022,7 +944,7 @@ function updateUserdata_basic(oldUserdata, oldTorndata) {
 }
 
 function updateStakeouts(oldStakeouts) {
-	return new Promise(async (resolve, reject) => {
+	return new Promise(async () => {
 		if (Object.keys(oldStakeouts).length > 0) {
 			console.log("Checking stakeouts.");
 			for (let user_id of Object.keys(oldStakeouts)) {
@@ -1034,14 +956,14 @@ function updateStakeouts(oldStakeouts) {
 				}
 
 				if (all_false) {
-					ttStorage.get("stakeouts", function (stakeouts) {
+					ttStorage.get("stakeouts", stakeouts => {
 						delete stakeouts[user_id];
 						ttStorage.set({ "stakeouts": stakeouts });
 					});
 					continue;
 				}
 
-				await new Promise(function (resolve) {
+				await new Promise(resolve => {
 					fetchApi_v2('torn', { section: 'user', objectid: user_id })
 						.then(stakeout_info => {
 							console.log(`	Checking ${stakeout_info.name} [${user_id}]`);
@@ -1109,15 +1031,15 @@ function updateStakeouts(oldStakeouts) {
 
 // Check if new version is installed
 // noinspection JSDeprecatedSymbols
-chrome.runtime.onInstalled.addListener(function () {
-	ttStorage.set({ "updated": true, "new_version": { "available": false } }, function () {
+chrome.runtime.onInstalled.addListener(() => {
+	ttStorage.set({ "updated": true, "new_version": { "available": false } }, () => {
 		console.log("Extension updated:", chrome.runtime.getManifest().version);
 	});
 });
 
 // Messaging
 // noinspection JSDeprecatedSymbols
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 	// console.log(sender.tab ? "from a content script:"+sender.tab.url : "from the extension");
 
 	switch (request.action) {
@@ -1131,7 +1053,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 
 			// Clear API history
-			clearAPIhistory();
+			await clearAPIhistory();
 			break;
 		case "fetch":
 			if (request.type === "torndata") {
@@ -1157,7 +1079,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 // Update available
 // noinspection JSDeprecatedSymbols
-chrome.runtime.onUpdateAvailable.addListener(function (details) {
+chrome.runtime.onUpdateAvailable.addListener(details => {
 	console.log("Details", details);
 
 	setBadge("update_available");
@@ -1172,8 +1094,8 @@ chrome.runtime.onUpdateAvailable.addListener(function (details) {
 
 // Notification links
 // noinspection JSDeprecatedSymbols
-chrome.notifications.onClicked.addListener(function (notification_id) {
-	ttStorage.get("settings", function (settings) {
+chrome.notifications.onClicked.addListener(notification_id => {
+	ttStorage.get("settings", settings => {
 		if (settings.notifications_link) {
 			chrome.tabs.create({ url: notificationLinkRelations[notification_id] });
 		}
@@ -1199,10 +1121,10 @@ chrome.storage.onChanged.addListener((changes, area) => {
 async function checkStockAlerts() {
 	console.group("Checking stock prices");
 
-	await new Promise(function (resolve) {
+	await new Promise(resolve => {
 		let notified = false;
 
-		ttStorage.get(["stock_alerts", "torndata"], function ([stock_alerts, torndata]) {
+		ttStorage.get(["stock_alerts", "torndata"], ([stock_alerts, torndata]) => {
 			for (let stock_id in stock_alerts) {
 				if (parseFloat(torndata.stocks[stock_id].current_price) >= parseFloat(stock_alerts[stock_id].reach)) {
 					console.log("	Notifiying of reaching price point.");
@@ -1254,10 +1176,10 @@ async function checkStockAlerts() {
 async function checkLootAlerts() {
 	console.group("Checking NPC loot times.");
 
-	await new Promise(function (resolve) {
+	await new Promise(resolve => {
 		let notified = false;
 
-		ttStorage.get(["loot_alerts", "loot_times"], function ([loot_alerts, loot_times]) {
+		ttStorage.get(["loot_alerts", "loot_times"], ([loot_alerts, loot_times]) => {
 			let current_time = parseInt(((new Date().getTime()) / 1000).toFixed(0));
 
 			for (let npc_id in loot_alerts) {
@@ -1317,7 +1239,7 @@ async function clearCache() {
 			}
 		}
 
-		ttStorage.set({ "cache": cache }, function () {
+		ttStorage.set({ "cache": cache }, () => {
 			console.log("	Cleared cache.");
 			return resolve(true);
 		});
@@ -1345,8 +1267,8 @@ async function detectExtension(browserName, ext) {
 	const information = ids[ext][browserName];
 
 	if (information.id) {
-		return new Promise(function (resolve) {
-			chrome.management.get(information.id, function (result) {
+		return new Promise(resolve => {
+			chrome.management.get(information.id, result => {
 				if (result && result.enabled === true) {
 					resolve(true);
 				} else {
@@ -1358,7 +1280,7 @@ async function detectExtension(browserName, ext) {
 		const getAll = chrome.management.getAll;
 		if (!getAll) return Promise.reject(`Detection for '${ext}' with ${browserName} is not supported!`);
 
-		return new Promise(async function (resolve) {
+		return new Promise(async resolve => {
 			const addons = await getAll();
 
 			resolve(addons && !!addons
@@ -1371,8 +1293,8 @@ async function detectExtension(browserName, ext) {
 }
 
 function clearAPIhistory() {
-	return new Promise(function (resolve) {
-		ttStorage.get("api_history", function (api_history) {
+	return new Promise(resolve => {
+		ttStorage.get("api_history", api_history => {
 			let time_limit = 10 * 60 * 60 * 1000;
 
 			for (let type in api_history) {
@@ -1388,7 +1310,7 @@ function clearAPIhistory() {
 				api_history[type] = data;
 			}
 
-			ttStorage.set({ "api_history": api_history }, function () {
+			ttStorage.set({ "api_history": api_history }, () => {
 				console.log("	API history cleared");
 				return resolve(true);
 			});
