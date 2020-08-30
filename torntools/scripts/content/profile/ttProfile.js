@@ -1,5 +1,6 @@
 const money_key_list = ["networth", "moneymugged", "largestmug", "peopleboughtspent", "receivedbountyvalue", "totalbountyspent", "totalbountyreward", "rehabcost"];
-const key_dict = {
+let key_dict;
+key_dict = {
 	basic: {
 		"awards": "Awards",
 		"logins": "Logins",
@@ -40,7 +41,7 @@ const key_dict = {
 		"bountiescollected": "Bounties: Completed",
 		"totalbountyreward": "Bounties: Rewards",
 		"totalbountyspent": "Bounties: Spent On",
-		"receivedbountyvalue": "Bounties: Recieved",
+		"receivedbountyvalue": "Bounties: Received",
 		"bountiesreceived": "Bounties: Times Bountied"
 	},
 	crimes: {
@@ -66,7 +67,7 @@ const key_dict = {
 		"contractscompleted": "Contracts: Completed",
 		"dukecontractscompleted": "Contracts: Duke",
 		"missionscompleted": "Contracts: Missions Completed",
-		"missioncreditsearned": "Contracts: Miss. Creds Earned"
+		"missioncreditsearned": "Contracts: Miss. Credits Earned"
 	},
 	defends: {
 		"defendswon": "Defends: Won",
@@ -865,10 +866,9 @@ function getRespect(target_list, id) {
 		let averages = [];
 
 		for (let list in target_list[id][respect_type]) {
-			let avrg_of_list = getAverage(target_list[id][respect_type][list]);
+			let average = getAverage(target_list[id][respect_type][list]);
 
-			if (avrg_of_list !== 0)
-				averages.push(avrg_of_list);
+			if (average !== 0) averages.push(average);
 		}
 		respect_value = getAverage(averages);
 	}

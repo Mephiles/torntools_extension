@@ -3,14 +3,14 @@ Thanks, Mauk @DocTorn
 */
 .cityItem {
 	box-sizing: border-box;
-	box-shadow: rgb(0, 0, 0) 0px 0px 20px 10px;
+	box-shadow: rgb(0, 0, 0) 0 0 20px 10px;
 	display: block !important;
 	width: 40px !important;
 	height: 40px !important;
 	left: -20px !important;
 	top: -20px !important;
 	z-index: 999 !important;
-	padding: 10px 0px;
+	padding: 10px 0;
 	border-width: initial;
 	border-style: none;
 	border-color: initial;
@@ -27,7 +27,7 @@ Thanks, Mauk @DocTorn
 	left: -75px !important;
 	top: -75px !important;
 	z-index: 1000 !important;
-	padding: 37.5px 0px;
+	padding: 37.5px 0;
 	background: black;
 }
 
@@ -41,7 +41,7 @@ Thanks, Mauk @DocTorn
 	left: -75px !important;
 	top: -75px !important;
 	z-index: 1000 !important;
-	padding: 37.5px 0px;
+	padding: 37.5px 0;
 	background: black;
 }
 

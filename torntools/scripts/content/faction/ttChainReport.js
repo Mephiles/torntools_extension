@@ -5,14 +5,7 @@ chainReportLoaded().then(() => {
 });
 
 function chainReportLoaded() {
-	return new Promise((resolve) => {
-		let checker = setInterval(() => {
-			if (doc.find(".report-title")) {
-				resolve(true);
-				return clearInterval(checker);
-			}
-		});
-	});
+	return requireElement(".report-title");
 }
 
 function displayContainer() {

@@ -38,7 +38,7 @@ const MISSIONS = {
 		task: "Defeat (P) despite their gargantuan strength",
 		hint: "If you have booster capability, serotonin may help. Stacking boosters by attacking easy targets with different temporary boosters consecutively will really help, but may be overkill in terms of cost.",
 	},
-	"Birthday Surprise": { task: "Obtain (an item), place in empty box, giftwrap, send to Duke", },
+	"Birthday Surprise": { task: "Obtain (an item), place in empty box, gift wrap, send to Duke", },
 	"Bonnie & Clyde": { task: "Defeat (P) and spouse of (P)" },
 	"Bountiful": { task: "Claim 2,3, or 5 bounties", hint: "Make sure to hospitalize the target." },
 	"Bounty on the Mutiny": { task: "Bounty (P) and wait for bounty to be fulfilled", hint: "You cannot claim your own bounties." },

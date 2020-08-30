@@ -15,6 +15,8 @@ const HIGHLIGHT_PLACEHOLDERS = {
 	}
 }
 
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 const DRUG_INFORMATION = {
 	"cannabis": {
 		"pros": [
@@ -1865,7 +1867,7 @@ function flashColor(element, type, speed, min = 0, max = 1) {
 	}
 
 	let increase = a === min;
-	let changer = setInterval(function () {
+	setInterval(function () {
 		if (a <= min) {
 			increase = true;
 		} else if (a >= max) {
@@ -1927,8 +1929,8 @@ function notifyUser(title, message, url) {
 		const notificationOptions = {
 			type: "basic",
 			iconUrl: "images/icon128.png",
-			title: title,
-			message: message
+			title,
+			message,
 		}
 
 		if (hasSilentSupport() && !settings.notifications_sound) notificationOptions.silent = true;

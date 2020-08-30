@@ -32,7 +32,7 @@ span.buy-act a {
     position: absolute;
     height: 15px;
     line-height: 15px;
-    bottom: 0px;
+    bottom: 0;
     left: 7px;
     font-size: 9px;
 }

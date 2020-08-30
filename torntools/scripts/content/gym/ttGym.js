@@ -7,8 +7,8 @@ const GYM_SELECTORS = {
 
 const STATS = {};
 
-requireDatabase().then(function () {
-	gymLoaded().then(function () {
+requireDatabase().then(() => {
+	gymLoaded().then(() => {
 		addFetchListener((event) => {
 			if (!event.detail) return;
 			const { page, json, fetch } = event.detail;
@@ -65,7 +65,7 @@ requireDatabase().then(function () {
 		div.appendChild(div_text);
 		gym_container.find(".content").appendChild(div);
 
-		checkbox.addEventListener("click", function () {
+		checkbox.addEventListener("click", () => {
 			if (checkbox.checked) {
 				disableGymButton(["strength", "speed", "dexterity", "defense"], true);
 			} else {
@@ -76,7 +76,7 @@ requireDatabase().then(function () {
 		disableGyms();
 
 		// Train button listeners
-		new MutationObserver(function (mutations) {
+		new MutationObserver(mutations => {
 			for (let mutation of mutations) {
 				const checkbox = mutation.target.find(".tt-gym-stat-checkbox");
 				if (!checkbox) continue;
@@ -93,8 +93,8 @@ requireDatabase().then(function () {
 });
 
 function gymLoaded() {
-	return new Promise(function (resolve) {
-		let checker = setInterval(function () {
+	return new Promise(resolve => {
+		let checker = setInterval(() => {
 			if (doc.find(".gymButton___3OFdI")) {
 				resolve(true);
 				return clearInterval(checker);
@@ -148,7 +148,7 @@ function displayGraph() {
 			new Chart(ctx, {
 				type: "line",
 				data: {
-					labels: result.data.map(function (x) {
+					labels: result.data.map(x => {
 						let date = new Date(x.timestamp * 1000);
 						return formatDate([date.getDate(), date.getMonth() + 1, 0], settings.format.date);
 					}),
@@ -206,9 +206,7 @@ function displayGraph() {
 						yAxes: [{
 							ticks: {
 								step: 2000000,
-								callback: function (value) {
-									return numberWithCommas(value, mobile)
-								}
+								callback: value => numberWithCommas(value, mobile)
 							},
 						}]
 					},
@@ -224,9 +222,7 @@ function displayGraph() {
 						// enabled: true,
 						// mode: "y",
 						callbacks: {
-							label: function (tooltipItem, data) {
-								return `${data.datasets[tooltipItem.datasetIndex].label}: ${numberWithCommas(tooltipItem.yLabel, false)}`;
-							}
+							label: (tooltipItem, data) => `${data.datasets[tooltipItem.datasetIndex].label}: ${numberWithCommas(tooltipItem.yLabel, false)}`
 						}
 					},
 					hover: {
@@ -240,7 +236,7 @@ function displayGraph() {
 			let update_button = doc.new({ type: "button", text: "Update TornStats", class: "update-button tt-torn-button" });
 			graph_area.appendChild(update_button);
 
-			update_button.addEventListener("click", function () {
+			update_button.addEventListener("click", () => {
 				if (graph_area.find(".response-message")) graph_area.find(".response-message").remove();
 				if (graph_area.find(".tt-info-message")) graph_area.find(".tt-info-message").remove();
 
@@ -311,7 +307,7 @@ function disableGyms() {
 
 		doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).appendChild(checkbox);
 
-		checkbox.onclick = function () {
+		checkbox.onclick = () => {
 			if (!doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked") && checkbox.checked) {
 				disableGymButton([stat], true);
 			} else if (!checkbox.checked) {
@@ -340,7 +336,7 @@ function disableGymButton(types, disable) {
 
 	}
 
-	ttStorage.get("settings", function (settings) {
+	ttStorage.get("settings", settings => {
 		for (let stat of types) {
 			settings.pages.gym[`disable_${stat}`] = disable;
 		}

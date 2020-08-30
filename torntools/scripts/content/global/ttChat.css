@@ -21,12 +21,15 @@
     margin: unset !important;
     width: 120px !important;
 }
+
 .chat-box-wrap_20_R_.tt-modified .chat-box-title_out6E {
     width: 114px !important;
 }
+
 .chat-box-wrap_20_R_.tt-modified .icon_39DmK {
     margin-left: -4px !important;
 }
+
 .chat-box-wrap_20_R_.tt-modified .l_Gk3uN, .chat-box-wrap_20_R_.tt-modified .r_2uwXA {
     display: none;
 }
@@ -36,6 +39,7 @@
     right: -5px;
     top: -7px;
 }
+
 .chat-box-wrap_20_R_.tt-modified .delete_28LGz {
     float: unset !important;
     position: absolute;
@@ -50,6 +54,7 @@
     width: 276px !important;
     height: 339px !important;
 }
+
 .chat-box-wrap_20_R_.tt-modified .chat-box-input_1SBQR {
     position: absolute;
     bottom: 0;
@@ -61,10 +66,12 @@
     height: 340px !important;
     max-height: 340px !important;
 }
+
 .chat-box-wrap_20_R_.tt-modified.find-enabled .viewport_1F0WI {
     height: 310px !important;
     max-height: 310px !important;
 }
+
 .chat-box-wrap_20_R_.tt-modified .message_oP8oM {
     width: 90%;
     border: 1px solid lightgray;
@@ -74,6 +81,7 @@
     margin-left: 7px;
     padding: 2px;
 }
+
 .chat-box-wrap_20_R_.tt-modified .message_oP8oM a {
     position: absolute;
     top: -17px;

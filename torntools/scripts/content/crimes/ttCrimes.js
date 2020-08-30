@@ -259,7 +259,11 @@ function addButton() {
 					let crime_icon = target.find(".title.left img").getAttribute("src");
 					let crime_text = target.find(".bonus.left").innerText.trim();
 
-					let div = doc.new({ type: "div", class: "item removable tt-highlight-sector", attributes: { "nerve": crime_nerve, "name": crime_name, "action": action } });
+					let div = doc.new({
+						type: "div",
+						class: "item removable tt-highlight-sector",
+						attributes: { "nerve": crime_nerve, "name": crime_name, "action": action }
+					});
 					let pic = doc.new({ type: "div", class: "pic", attributes: { style: `background-image: url(${crime_icon})` } });
 					let text = doc.new({ type: "div", class: "text", text: `${crime_text} (-${crime_nerve} nerve)` });
 					let close_icon = doc.new({ type: "i", class: "fas fa-times tt-close-icon" });

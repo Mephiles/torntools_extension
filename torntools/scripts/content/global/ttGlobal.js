@@ -80,8 +80,12 @@ requireDatabase().then(() => {
 		// Links for Energy and Nerve
 		doc.find('#barEnergy .bar-name___3TJ0p').classList.add('tt-text-link');
 		doc.find('#barNerve .bar-name___3TJ0p').classList.add('tt-text-link');
-		doc.find('#barEnergy .bar-name___3TJ0p').onclick = () => { window.location.href = 'https://www.torn.com/gym.php'; }
-		doc.find('#barNerve .bar-name___3TJ0p').onclick = () => { window.location.href = 'https://www.torn.com/crimes.php'; }
+		doc.find('#barEnergy .bar-name___3TJ0p').onclick = () => {
+			window.location.href = 'https://www.torn.com/gym.php';
+		}
+		doc.find('#barNerve .bar-name___3TJ0p').onclick = () => {
+			window.location.href = 'https://www.torn.com/crimes.php';
+		}
 
 		// Global time reducer
 		setInterval(() => {
@@ -415,7 +419,9 @@ function displayOCtime() {
 		div.appendChild(span);
 		doc.find(".tt-information-section").appendChild(div);
 
-		keySpan.onclick = () => { window.location.href = 'https://www.torn.com/factions.php?step=your#/tab=crimes' }
+		keySpan.onclick = () => {
+			window.location.href = 'https://www.torn.com/factions.php?step=your#/tab=crimes'
+		}
 		return;
 	}
 
@@ -444,7 +450,9 @@ function displayOCtime() {
 				div.appendChild(span);
 				doc.find(".tt-information-section").appendChild(div);
 
-				keySpan.onclick = () => { window.location.href = 'https://www.torn.com/factions.php?step=your#/tab=crimes' }
+				keySpan.onclick = () => {
+					window.location.href = 'https://www.torn.com/factions.php?step=your#/tab=crimes'
+				}
 			}
 		}
 	}

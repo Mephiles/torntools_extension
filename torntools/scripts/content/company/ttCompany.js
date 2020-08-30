@@ -18,14 +18,7 @@ window.addEventListener("load", () => {
 });
 
 function companyContentLoaded(aria_controls) {
-	return new Promise((resolve) => {
-		let checker = setInterval(() => {
-			if (!doc.find(`#${aria_controls} .ajax-placeholder:not(.hide)`)) {
-				resolve(true);
-				return clearInterval(checker);
-			}
-		});
-	});
+	return requireElement(`#${aria_controls} .ajax-placeholder:not(.hide)`, true);
 }
 
 function showUserInfo() {

@@ -459,25 +459,12 @@ function getAction(obj) {
 		type: obj.type || "get",
 		data: obj.data || {},
 		async: typeof obj.async !== "undefined" ? obj.async : true,
-		beforeSend: xhr => {
-			// obj.before(xhr);
-		},
 		success: msg => {
-			// if (!checkPageStatus(msg)) return;
 			console.log("success")
 			obj.success(msg);
 		},
 		error: (xhr, ajaxOptions, thrownError) => {
 			console.log("error", thrownError);
-			// if (typeof xhr.error === "function") {
-			//     obj.error(xhr, ajaxOptions, thrownError);
-			// } else {
-			//     informationMessageTemplateIn(xhr.error, true, false, "red");
-			//     $(".info-msg .msg").text("Request error. Please try again.");
-			// }
-		},
-		complete: data => {
-			// obj.complete(data);
 		},
 	};
 	if (options.data.step !== undefined) {
