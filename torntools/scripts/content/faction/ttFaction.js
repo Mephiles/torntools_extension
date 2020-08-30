@@ -14,7 +14,7 @@ requireDatabase().then(() => {
 			} else if (step === "getMoneyDepositors") {
 				loadGiveToUser();
 			} else if (step === "crimesInitiate") {
-				loadCrimes();
+				setTimeout(loadCrimes, 250);
 			}
 		}
 	});
@@ -278,24 +278,18 @@ function subpage() {
 }
 
 function subpageLoaded(page) {
-	return new Promise(resolve => {
-		let checker = setInterval(() => {
-			console.log("checking", page);
-			if (page === "crimes" && doc.find("#faction-crimes .organize-wrap ul.crimes-list li")) {
-				resolve(true);
-				return clearInterval(checker);
-			} else if (page === "main" && !doc.find("#faction-main div[data-title='announcement']+div .ajax-placeholder")) {
-				resolve(true);
-				return clearInterval(checker);
-			} else if (page === "info" && !doc.find("#faction-info .ajax-placeholder")) {
-				resolve(true);
-				return clearInterval(checker);
-			} else if (page === "upgrades" && !doc.find("#faction-upgrades>.ajax-placeholder")) {
-				resolve(true);
-				return clearInterval(checker);
-			}
-		}, 100);
-	});
+	switch (page) {
+		case "crimes":
+			return requireElement("#faction-crimes .organize-wrap ul.crimes-list li");
+		case "main":
+			return requireElement("#faction-main div[data-title='announcement']+div .ajax-placeholder", true);
+		case "info":
+			return requireElement("#faction-info .ajax-placeholder", true);
+		case "upgrades":
+			return requireElement("#faction-upgrades > .ajax-placeholder", true);
+		default:
+			return Promise.resolve();
+	}
 }
 
 function newstabLoaded(tab) {
