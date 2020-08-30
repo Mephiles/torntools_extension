@@ -23,3 +23,11 @@
 .bar-gray-d:not(.positive):not(.negative) {
     color: #ccc;
 }
+
+.tt-race-need-icon {
+    font-size: 40px;
+    bottom: 10px;
+    position: absolute;
+    left: 15px;
+    color: #22ac28;
+}
