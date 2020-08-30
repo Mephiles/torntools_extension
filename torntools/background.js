@@ -203,17 +203,14 @@ function Main_5_seconds() {
 	console.log(notifications);
 	for (let notification_type in notifications) {
 		for (let notification_key in notifications[notification_type]) {
-			if (notifications[notification_type][notification_key].seen === 0) {
-				notifyUser(
-					notifications[notification_type][notification_key].title,
-					notifications[notification_type][notification_key].text,
-					notifications[notification_type][notification_key].url
-				);
+			const notification = notifications[notification_type][notification_key];
+			if (notification.seen === 0 && !notification.skip) {
+				notifyUser(notification.title, notification.text, notification.url);
 
 				notifications[notification_type][notification_key].seen = 1;
 			}
 
-			if (notifications[notification_type][notification_key].seen === 1 && (new Date() - notifications[notification_type][notification_key].date) > 7 * 24 * 60 * 60 * 1000) {
+			if (notification.seen === 1 && (new Date() - notification.date) > 7 * 24 * 60 * 60 * 1000) {
 				// notifications[notification_type][notification_key] = undefined;
 				delete notifications[notification_type][notification_key];
 			}
@@ -282,7 +279,7 @@ function Main_30_seconds() {
 			}
 
 			// Torndata
-			if (!oldTorndata || !oldTorndata.date || new Date() - new Date(oldTorndata.date) >= 1 * days) {
+			if (!oldTorndata || !oldTorndata.date || new Date() - new Date(oldTorndata.date) >= days) {
 				console.log("Setting up torndata.")
 				await updateTorndata(oldTorndata);
 			}
@@ -376,7 +373,7 @@ async function Main_1_minute() {
  */
 
 function updateTargetList(player_id, target_list, attackHistory, first_time) {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		fetchApi_v2('torn', { section: 'user', selections: attackHistory })
 			.then(attacks_data => {
 				console.log("Updating Target list");
@@ -681,18 +678,18 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 
 				// Check for new messages
 				let message_count = 0;
+				let messages = [];
 				for (let message_key of Object.keys(userdata.messages).reverse()) {
 					let message = userdata.messages[message_key];
 
-					if (message.seen === 0) {
+					if (message.seen === 0 || true) {
 						if (settings.notifications.global && settings.notifications.messages && !notifications.messages[message_key]) {
-							notifications.messages[message_key] = {
-								title: `TornTools - New Message by ${message.name}`,
-								text: message.title,
-								url: links.messages,
-								seen: 0,
-								date: new Date()
-							}
+							messages.push({
+								id: message_key,
+								title: message.title,
+								name: message.name,
+							});
+							notifications.messages[message_key] = { skip: true };
 						}
 						message_count++;
 					} else {
@@ -700,8 +697,22 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 					}
 				}
 
+				if (messages.length) {
+					let text = `${messages[0].title} - by ${messages[0].name}`;
+					if (messages.length > 1) text += `\n(and ${messages.length - 1} more messages)`;
+
+					notifications.messages['combined'] = {
+						title: `TornTools - New Messages${messages.length > 1 ? "s" : ""}`,
+						text,
+						url: links.messages,
+						seen: 0,
+						date: new Date(),
+					};
+				}
+
 				// Check for new events
 				let event_count = 0;
+				let events = [];
 				for (let event_key of Object.keys(userdata.events).reverse()) {
 					let event = userdata.events[event_key];
 
@@ -712,23 +723,35 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 						}
 
 						if (settings.notifications.global && settings.notifications.events && !notifications.events[event_key]) {
-							notifications.events[event_key] = {
-								title: `TornTools - New Event`,
-								text: event.event.replace(/<\/?[^>]+(>|$)/g, ""),
-								url: links.events,
-								seen: 0,
-								date: new Date()
-							}
+							events.push({
+								id: event_key,
+								event: event.event,
+							});
+							notifications.events[event_key] = { skip: true }
 						}
+
 						event_count++;
 					} else {
 						break;
 					}
 				}
 
+				if (events.length) {
+					let text = events[0].event.replace(/<\/?[^>]+(>|$)/g, "");
+					if (events.length > 1) text += `\n(and ${events.length - 1} more events)`;
+
+					notifications.events['combined'] = {
+						title: `TornTools - New Event${events.length > 1 ? "s" : ""}`,
+						text,
+						url: links.events,
+						seen: 0,
+						date: new Date(),
+					}
+				}
+
 				// Messages & Events badge
 				if (event_count > 0 && message_count > 0) {
-					setBadge(`${message_count}/${event_count}`, { color: "#1ed2ac" });
+					setBadge(`${message_count}/${events.length}`, { color: "#1ed2ac" });
 				} else if (event_count > 0) {
 					setBadge("new_event", { count: event_count });
 				} else if (message_count > 0) {
