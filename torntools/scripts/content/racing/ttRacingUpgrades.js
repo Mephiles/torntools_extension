@@ -31,8 +31,10 @@ function showUpgrades() {
 
 			const bar = property.find(".bar-gray-d");
 
-			if (difference > 0) bar.classList.add("positive");
-			else if (difference < 0) bar.classList.add("negative");
+			if (difference !== 0) {
+				if (property.find(".bar-tpl-wrap").classList.contains("negative")) bar.classList.add("negative");
+				else bar.classList.add("positive");
+			}
 
 			bar.innerText = `${difference}%`
 		}
