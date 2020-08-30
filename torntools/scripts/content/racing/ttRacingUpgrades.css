@@ -6,3 +6,20 @@
     font-size: 10px;
     line-height: 10px;
 }
+
+.bar-gray-d {
+    font-size: 10px;
+    text-align: right;
+}
+
+.bar-gray-d.negative {
+    color: #ff6464;
+}
+
+.bar-gray-d.positive {
+    color: #65d007;
+}
+
+.bar-gray-d:not(.positive):not(.negative) {
+    color: #ccc;
+}
