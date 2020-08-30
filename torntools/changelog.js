@@ -41,6 +41,7 @@ export default {
             "Remove links from Achievement cells. - Mephiles",
             "Adjust minimal 'show more'-button height on profiles. - DKK",
             "Show illegal product crimes achievements. - DKK",
+            "Combine event and messages notifications if there are multiple. - DKK",
         ]
     },
     "v4.10.2 - August, 19th. 2020": {
