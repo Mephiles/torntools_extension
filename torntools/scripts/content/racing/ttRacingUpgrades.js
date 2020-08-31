@@ -33,14 +33,21 @@ function showUpgrades() {
 
 			if (isNaN(difference)) continue;
 
-			const bar = property.find(".bar-gray-d");
+			const bar = doc.new({ type: "span", text: `${difference}%` });
 
 			if (difference !== 0) {
-				if (property.find(".bar-tpl-wrap").classList.contains("negative")) bar.classList.add("negative");
-				else bar.classList.add("positive");
+				if (property.find(".bar-tpl-wrap").classList.contains("negative")) {
+					bar.innerText = `-${difference}%`;
+					bar.classList.add("negative");
+				} else {
+					bar.innerText = `+${difference}%`;
+					bar.classList.add("positive");
+				}
+			} else {
+				bar.innerText = `${difference}%`;
 			}
 
-			bar.innerText = `${difference}%`
+			property.find(".name").prepend(bar);
 		}
 	}
 

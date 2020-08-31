@@ -12,15 +12,15 @@
     text-align: right;
 }
 
-.bar-gray-d.negative {
+.name span.negative {
     color: #ff6464;
 }
 
-.bar-gray-d.positive {
+.name span.positive {
     color: #65d007;
 }
 
-.bar-gray-d:not(.positive):not(.negative) {
+.name span:not(.positive):not(.negative) {
     color: #ccc;
 }
 
