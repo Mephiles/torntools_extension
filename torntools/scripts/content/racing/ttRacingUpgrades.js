@@ -33,7 +33,7 @@ function showUpgrades() {
 
 			if (isNaN(difference)) continue;
 
-			const bar = doc.new({ type: "span", text: `${difference}%` });
+			const bar = doc.new("span");
 
 			if (difference !== 0) {
 				if (property.find(".bar-tpl-wrap").classList.contains("negative")) {
@@ -65,6 +65,25 @@ function showUpgrades() {
 
 			item.find(".status").style['background-color'] = color;
 			item.find(".status").classList.add("tt-modified");
+
+			item.addEventListener("mouseenter", () => {
+				for (let item of doc.findAll(`.pm-items .unlock`)) {
+					if (item.getAttribute("data-part") === part) {
+						item.find(".title").style["background-color"] = color;
+						item.style.opacity = 1;
+					} else {
+						item.style.opacity = 0.5;
+					}
+				}
+			});
+			item.addEventListener("mouseleave", () => {
+				for (let item of doc.findAll(`.pm-items .unlock`)) {
+					if (item.getAttribute("data-part") === part) {
+						item.find(".title").style["background-color"] = "";
+					}
+					item.style.opacity = 1;
+				}
+			});
 		}
 
 		const elCategory = doc.find(`.pm-categories > li[data-category="${category}"]`);
