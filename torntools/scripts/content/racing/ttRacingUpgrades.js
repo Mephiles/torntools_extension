@@ -1,4 +1,19 @@
 requireDatabase().then(() => {
+	addXHRListener(event => {
+		const { page, xhr } = event.detail;
+
+		const params = new URL(xhr.responseURL).searchParams;
+
+		if (page === "loader2") {
+			if (params.get("sid") === "racingActions" &&
+				params.get("step") === "partsbuy" &&
+				params.get("confirm") === "1") {
+				setTimeout(resetUpgrades, 250);
+				// showUpgrades();
+			}
+		}
+	})
+
 	upgradeView().then(() => {
 		console.log("TT - Racing Upgrades");
 
@@ -20,10 +35,8 @@ function upgradeView() {
 }
 
 function showUpgrades() {
-	let items = document.querySelectorAll(".pm-items-wrap .d-wrap .pm-items .unlock");
-
 	let parts = [];
-	for (let item of items) {
+	for (let item of doc.findAll(".pm-items-wrap .d-wrap .pm-items .unlock")) {
 		parts.push(item.getAttribute("data-part"));
 
 		for (let property of item.findAll(".properties")) {
@@ -57,7 +70,7 @@ function showUpgrades() {
 		if (doc.find(`.pm-items .bought[data-part="${part}"]`)) return;
 
 		const color = `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`
-		needed.push(`<span class="tt-race-upgrade-needed" style="color: ${color};">${part}</span>`);
+		needed.push(`<span class="tt-race-upgrade-needed" part="${part}" style="color: ${color};">${part}</span>`);
 
 		let category;
 		for (let item of doc.findAll(`.pm-items .unlock[data-part="${part}"]`)) {
@@ -66,7 +79,7 @@ function showUpgrades() {
 			item.find(".status").style['background-color'] = color;
 			item.find(".status").classList.add("tt-modified");
 
-			item.addEventListener("mouseenter", () => {
+			item.onmouseenter = () => {
 				for (let item of doc.findAll(`.pm-items .unlock`)) {
 					if (item.getAttribute("data-part") === part) {
 						item.find(".title").style["background-color"] = color;
@@ -75,15 +88,15 @@ function showUpgrades() {
 						item.style.opacity = 0.5;
 					}
 				}
-			});
-			item.addEventListener("mouseleave", () => {
+			};
+			item.onmouseleave = () => {
 				for (let item of doc.findAll(`.pm-items .unlock`)) {
 					if (item.getAttribute("data-part") === part) {
 						item.find(".title").style["background-color"] = "";
 					}
 					item.style.opacity = 1;
 				}
-			});
+			};
 		}
 
 		const elCategory = doc.find(`.pm-categories > li[data-category="${category}"]`);
@@ -106,4 +119,27 @@ function showUpgrades() {
 			</p>
 		`,
 	}));
+}
+
+function resetUpgrades() {
+	for (let item of doc.findAll(".pm-items-wrap .d-wrap .pm-items .unlock")) {
+		const part = item.getAttribute("data-part");
+		if (!doc.find(`.pm-items .bought[data-part="${part}"]`)) continue;
+
+		item.find(".status").style['background-color'] = "";
+		item.find(".status").classList.remove("tt-modified");
+		item.onmouseenter = () => {
+		};
+		item.onmouseleave = () => {
+		};
+
+		for (let item of doc.findAll(`.pm-items .unlock`)) {
+			if (item.getAttribute("data-part") === part) {
+				item.find(".title").style["background-color"] = "";
+			}
+			item.style.opacity = 1;
+		}
+
+		if (doc.find(`.tt-race-upgrade-needed[part="${part}"]`)) doc.find(`.tt-race-upgrade-needed[part="${part}"]`).remove();
+	}
 }

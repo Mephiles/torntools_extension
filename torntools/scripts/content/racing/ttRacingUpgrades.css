@@ -31,3 +31,9 @@
     left: 15px;
     color: #22ac28;
 }
+
+.properties .name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
