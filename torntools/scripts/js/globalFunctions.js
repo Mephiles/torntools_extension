@@ -1820,8 +1820,8 @@ function requirePlayerList(listClass) {
 function getPageStatus() {
 	return new Promise((resolve) => {
 		let checker = setInterval(function () {
-			let page_heading = doc.find("#skip-to-content") || doc.find(".title___2sbYr");
-			let message = doc.find("div[role='main']>.info-msg-cont");
+			let page_heading = doc.find("#skip-to-content, .title___2sbYr, .nonFullScreen .content-title h4");
+			let message = doc.find("div[role='main'] > .info-msg-cont");
 
 			// Page heading
 			if (page_heading) {
