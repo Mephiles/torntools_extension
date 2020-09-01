@@ -4,7 +4,7 @@ const MISSIONS = {
 	"Battering Ram": { task: "Attack (P) 3 times" },
 	"New Kid on the Block": { task: "Defeat any 5 players" },
 	"Against the Odds": { task: "Defeat 2 (P)" },
-	"A Good Day to Get Hard": {
+	"A Good Day To Get Hard": {
 		task: "Achieve a killstreak of 10",
 		hint: "Buying 10 defends works just as well as doing the attacks yourself. If you lose or are killed, you have to start over.",
 	},
