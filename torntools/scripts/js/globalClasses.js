@@ -13,7 +13,7 @@ class ttCustomConsole {
 			for (let i = 0; i < messages.length; i++) {
 				let message = messages[i];
 
-				if (message instanceof Error) {
+				if (isError(message)) {
 					message = `${message.toString()} [${message.fileName}:${message.lineNumber}]`
 				}
 

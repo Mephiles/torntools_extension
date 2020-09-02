@@ -2415,3 +2415,7 @@ function fetchRelay(location, options) {
 function hasSilentSupport() {
 	return !usingFirefox() && (!navigator.userAgent.includes("Mobile Safari") || usingYandex());
 }
+
+function isError(error) {
+	return error && error.stack && error.message && typeof error.stack === 'string' && typeof error.message === 'string';
+}
