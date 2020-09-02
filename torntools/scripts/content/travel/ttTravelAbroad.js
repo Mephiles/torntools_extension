@@ -216,7 +216,7 @@ function updateYATAPrices() {
 	// Table content
 	let rows = doc.findAll(".users-list>li");
 	for (let row of rows) {
-		let id = parseInt(row.find(".item img").getAttribute("src").split("items/")[1].split("/")[0]);
+		let id = parseInt(row.find(".details").getAttribute("itemid"));
 		let quantity = parseInt(row.find(".stck-amount").innerText.replace(/,/g, ""));
 		let price = parseInt(row.find(".cost .c-price").innerText.replace("$", "").replace(/,/g, ""));
 
