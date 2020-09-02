@@ -52,7 +52,7 @@ window.addEventListener('load', async () => {
 	const page = getSearchParameters().get("page");
 	if (await isFlying()) {
 		// Landing time
-		if (doc.find(".flight-info .destination-title" && userdata.travel)) {
+		if (doc.find(".flight-info .destination-title") && userdata.travel) {
 			const landDate = new Date(userdata.travel.timestamp * 1000) - new Date() < 0 ? 'N/A' : new Date(userdata.travel.timestamp * 1000);
 			let hours, minutes, seconds;
 
