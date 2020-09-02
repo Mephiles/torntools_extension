@@ -20,7 +20,8 @@ window.addEventListener("load", () => {
 		connectButton.innerText = "Connected!";
 	} else {
 		connectButton.onclick = () => {
-			const apiKeyFieldValue = doc.find("#preferencesroot .api___2BVZd .input___1n_f_[readonly]").getAttribute("value");
+			const apiKeyFieldValue = doc.find("#newapi").getAttribute("value");
+
 			ttStorage.set({ "api_key": apiKeyFieldValue }, () => {
 				chrome.runtime.sendMessage({ action: "initialize" }, response => {
 					console.log(response.message);
