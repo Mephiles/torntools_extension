@@ -1171,8 +1171,8 @@ function addLinkToList(attributes) {
 		const { link } = attributes;
 
 		const isPreset = select.find(`option[value="${link.text.replaceAll(" ", "_")}"]`)
-			&& LINKS[link.text.replaceAll(" ", "_")]
-			&& LINKS[link.text.replaceAll(" ", "_")].link === link.href;
+			&& LINKS[link.text]
+			&& LINKS[link.text].link === link.href;
 
 		hrefInput.value = link.href;
 		nameInput.value = link.text;
