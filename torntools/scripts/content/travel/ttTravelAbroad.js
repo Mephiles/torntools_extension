@@ -929,6 +929,7 @@ function warnEnergy() {
 
 function showPC() {
 	if (doc.find("#top-page-links-list > .laptop, #top-page-links-list > .tt-computer")) return;
+	if (!findItemsInObject(userdata.inventory, { ID: 61 }, true).length) return;
 
 	doc.find("#top-page-links-list").insertBefore(doc.new({
 		type: "a",
