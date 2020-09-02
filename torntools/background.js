@@ -690,7 +690,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 				}
 
 				// Energy decrease check
-				if (!oldUserdata || oldUserdata.energy.current - userdata.energy.current >= 25) {
+				if (!oldUserdata || !oldUserdata.energy || oldUserdata.energy.current - userdata.energy.current >= 25) {
 					shouldFetchAttackData = true;
 				}
 
@@ -916,7 +916,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 function updateUserdata_basic(oldUserdata, oldTorndata) {
 	return new Promise((resolve) => {
 		let fetchEducation = true;
-		if (oldTorndata.education && oldUserdata.education_completed.length === Object.keys(oldTorndata.education).length) {
+		if (oldTorndata.education && oldUserdata.education_completed && oldUserdata.education_completed.length === Object.keys(oldTorndata.education).length) {
 			fetchEducation = false;
 		}
 
