@@ -14,6 +14,7 @@ export default {
             "Add Landing time to Travel page. - Mephiles",
             "Show mission hints and tips. - DKK",
             "Show banking investment table. - DKK",
+            "Show a link to a computer while travelling if you don't have a laptop. - DKK",
         ],
         "Fixes": [
             "Don't apply the last action filter on other faction pages. - DKK",
@@ -24,6 +25,8 @@ export default {
             "Always show Recommended NNB in the right table. - DKK",
             "Fix showing item value (which also broke max buy and YATA updating). - DKK",
             "Hide item highlighting when closing the container if the setting is enabled. - DKK",
+            "Fix advanced OC information not showing after starting an OC. - DKK",
+            "Fix TornTools not loading on the poker page. - DKK",
         ],
         "Changes": [
             "Change the caching system to allow for different times to keep it for. - DKK",
@@ -42,6 +45,7 @@ export default {
             "Adjust minimal 'show more'-button height on profiles. - DKK",
             "Show illegal product crimes achievements. - DKK",
             "Combine event and messages notifications if there are multiple. - DKK",
+            "Improve the racing helper. - DKK",
         ]
     },
     "v4.10.2 - August, 19th. 2020": {
