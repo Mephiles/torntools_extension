@@ -27,6 +27,7 @@ export default {
             "Hide item highlighting when closing the container if the setting is enabled. - DKK",
             "Fix advanced OC information not showing after starting an OC. - DKK",
             "Fix TornTools not loading on the poker page. - DKK",
+            "Show the travel table more consistent. - DKK",
         ],
         "Changes": [
             "Change the caching system to allow for different times to keep it for. - DKK",
@@ -46,6 +47,7 @@ export default {
             "Show illegal product crimes achievements. - DKK",
             "Combine event and messages notifications if there are multiple. - DKK",
             "Improve the racing helper. - DKK",
+            "Add preset custom links. - DKK",
         ]
     },
     "v4.10.2 - August, 19th. 2020": {
