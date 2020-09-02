@@ -9,6 +9,18 @@ class ttCustomConsole {
 	_custom(color, messages) {
 		if (!this.parentElement) return;
 
+		if (color === "error") {
+			for (let i = 0; i < messages.length; i++) {
+				let message = messages[i];
+
+				if (Error.isError(message)) {
+					message = `${message.toString()} [${message.fileName}:${message.lineNumber}]`
+				}
+
+				messages[i] = message;
+			}
+		}
+
 		const log = doc.new({
 			type: "span",
 			class: "tt-log",
