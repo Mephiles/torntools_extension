@@ -1164,10 +1164,14 @@ function addLinkToList(attributes) {
 	} else if (attributes.link) {
 		const { link } = attributes;
 
+		const isPreset = select.find(`option[value="${link.text.replaceAll(" ", "_")}"]`)
+			&& LINKS[link.text.replaceAll(" ", "_")]
+			&& LINKS[link.text.replaceAll(" ", "_")].link === link.href;
+
 		hrefInput.value = link.href;
 		nameInput.value = link.text;
-		select.value = select.find(`option[value="${link.text.replaceAll(" ", "_")}"]`) ? link.text.replaceAll(" ", "_") : "custom";
-		if (select.value !== "custom") {
+		select.value = isPreset ? link.text.replaceAll(" ", "_") : "custom";
+		if (isPreset) {
 			hrefInput.style.display = "none";
 			nameInput.style.display = "none";
 		}
