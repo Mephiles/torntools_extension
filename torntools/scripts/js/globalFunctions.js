@@ -15,6 +15,8 @@ const HIGHLIGHT_PLACEHOLDERS = {
 	}
 }
 
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 const DRUG_INFORMATION = {
 	"cannabis": {
 		"pros": [
@@ -519,7 +521,8 @@ const STORAGE = {
 				"oc_time": true
 			},
 			"jail": {
-				"quick_icons": false
+				"quick_bail": false,
+				"quick_bust": false,
 			}
 		},
 		"scripts": {
@@ -642,6 +645,9 @@ const FORMATTER_NO_DECIMALS = new Intl.NumberFormat('en-US', {
 const FORMATTER_VALUES = new Intl.NumberFormat('en-US', {
 	maximumFractionDigits: 3,
 });
+const FORMATTER_PERCENTAGE = new Intl.NumberFormat('en-US', {
+	maximumFractionDigits: 2,
+});
 
 let injectedXHR = false;
 let injectedFetch = false;
@@ -710,6 +716,9 @@ Document.prototype.new = function (newElement) {
 		}
 		if (newElement.text) {
 			el.innerText = newElement.text;
+		}
+		if (newElement.html) {
+			el.innerHTML = newElement.html;
 		}
 		if (newElement.value) {
 			el.value = newElement.value;
@@ -1811,8 +1820,8 @@ function requirePlayerList(listClass) {
 function getPageStatus() {
 	return new Promise((resolve) => {
 		let checker = setInterval(function () {
-			let page_heading = doc.find("#skip-to-content") || doc.find(".title___2sbYr");
-			let message = doc.find("div[role='main']>.info-msg-cont");
+			let page_heading = doc.find("#skip-to-content, .title___2sbYr, .nonFullScreen .content-title h4");
+			let message = doc.find("div[role='main'] > .info-msg-cont");
 
 			// Page heading
 			if (page_heading) {
@@ -1858,7 +1867,7 @@ function flashColor(element, type, speed, min = 0, max = 1) {
 	}
 
 	let increase = a === min;
-	let changer = setInterval(function () {
+	setInterval(function () {
 		if (a <= min) {
 			increase = true;
 		} else if (a >= max) {
@@ -1920,8 +1929,8 @@ function notifyUser(title, message, url) {
 		const notificationOptions = {
 			type: "basic",
 			iconUrl: "images/icon128.png",
-			title: title,
-			message: message
+			title,
+			message,
 		}
 
 		if (hasSilentSupport() && !settings.notifications_sound) notificationOptions.silent = true;

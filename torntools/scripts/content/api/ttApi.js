@@ -368,7 +368,7 @@ const in_use = {
 			"strength", "speed", "dexterity", "defense", "total"
 		],
 		"crimes": [
-			"theft", "auto_theft", "drug_deals", "computer_crimes",
+			"selling_illegal_products", "theft", "auto_theft", "drug_deals", "computer_crimes",
 			"murder", "fraud_crimes", "other", "total"
 		],
 		"personalstats": [

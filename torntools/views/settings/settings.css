@@ -392,60 +392,6 @@ p {
     flex-direction: row-reverse;
 }
 
-/* #preferences .footer .actions * {
-    width: 60px;
-    height: 30px;
-    border: 1px solid lightgrey;
-    margin: 15px 10px 0 0;
-    text-align: center;
-    line-height: 30px;
-    border-radius: 7px;
-    color: white;
-    cursor: pointer;
-    font-weight: 600;
-    display: inline-block;
-    vertical-align: top;
-} */
-/* #preferences .footer .actions {
-    width: 29%;
-    display: inline-block;
-    vertical-align: top;
-} */
-/* #preferences .footer {
-    width: 100%;
-    display: flex;
-}
-#preferences .footer>* {
-    flex: 1 0 auto;
-} */
-/* .footer .legend {
-    flex: 1 0 auto;
-}
-.footer .legend div {
-    margin-top: 10px;
-    margin-left: 10px;
-}
-
- */
-/* #preferences #save_settings {
-    background-color: #149a32;
-}
-#preferences #save_settings:hover {
-    background-color: #1bcc43;
-}
-#preferences #reset_settings {
-    background-color: #c82333;
-}
-#preferences #reset_settings:hover {
-    background-color: #f12c3f;
-}
-#preferences #import_settings {
-    background-color: gray;
-}
-#preferences #import_settings:hover {
-    background-color: lightgray;
-} */
-
 .icon {
     width: 17px;
     height: 17px;

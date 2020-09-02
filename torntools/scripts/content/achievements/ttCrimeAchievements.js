@@ -10,6 +10,10 @@ requireDatabase().then(() => {
 
 		// object of all the achievements on this page
 		let achievements = {
+			"Illegal products": {
+				"stats": crimes.selling_illegal_products,
+				"keyword": "bootlegging"
+			},
 			"Theft": {
 				"stats": crimes.theft,
 				"keyword": "theft",

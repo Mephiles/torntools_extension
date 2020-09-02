@@ -305,7 +305,6 @@ function addFilterToTable(list, title) {
 
 					if (!matchesOneIcon) {
 						showRow(li, false);
-						continue;
 					}
 				} else if (special[key] === 'no') {
 					let matchesOneIcon = false;
@@ -318,7 +317,6 @@ function addFilterToTable(list, title) {
 
 					if (matchesOneIcon) {
 						showRow(li, false);
-						continue;
 					}
 				}
 			}

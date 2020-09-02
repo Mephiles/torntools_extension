@@ -379,10 +379,8 @@ function addButton() {
 }
 
 function addItemMarketLinks() {
-	let items = doc.findAll(".items-cont[aria-expanded=true]>li");
-
-	for (let item of items) {
-		if (item.find(".tt-market-link") || item.find(":scope > .tt-item-price")) continue;
+	for (let item of doc.findAll(".items-cont[aria-expanded=true] > li")) {
+		if (item.find(".tt-market-link, :scope > .tt-item-price, :scope > .ajax-placeholder")) continue;
 
 		let li = doc.new({
 			type: "li",
@@ -461,25 +459,12 @@ function getAction(obj) {
 		type: obj.type || "get",
 		data: obj.data || {},
 		async: typeof obj.async !== "undefined" ? obj.async : true,
-		beforeSend: xhr => {
-			// obj.before(xhr);
-		},
 		success: msg => {
-			// if (!checkPageStatus(msg)) return;
 			console.log("success")
 			obj.success(msg);
 		},
 		error: (xhr, ajaxOptions, thrownError) => {
 			console.log("error", thrownError);
-			// if (typeof xhr.error === "function") {
-			//     obj.error(xhr, ajaxOptions, thrownError);
-			// } else {
-			//     informationMessageTemplateIn(xhr.error, true, false, "red");
-			//     $(".info-msg .msg").text("Request error. Please try again.");
-			// }
-		},
-		complete: data => {
-			// obj.complete(data);
 		},
 	};
 	if (options.data.step !== undefined) {

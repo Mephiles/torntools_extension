@@ -2,9 +2,11 @@
 #employees .employee-list.tt-modified {
     background-color: unset;
 }
-#employees .employee-list.tt-modified>li {
+
+#employees .employee-list.tt-modified > li {
     background-color: #F2F2F2;
 }
+
 #employees .employee-list li.tt-user-info {
     line-height: 18px;
     font-size: 11px;
@@ -17,6 +19,7 @@
 .tt-user-info .tt-user-info-inner-wrap {
     margin: auto;
 }
+
 .tt-user-info .tt-user-info-inner-wrap div {
     display: inline-block;
     vertical-align: top;

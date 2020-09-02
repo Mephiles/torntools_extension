@@ -135,9 +135,9 @@ function displayItemProfits(itemlist) {
 	headings.insertBefore(profit_heading, headings.find(".stock-b"));
 
 	// Table content
-	let rows = doc.findAll(".users-list>li");
+	let rows = doc.findAll(".users-list > li");
 	for (let row of rows) {
-		let id = parseInt(row.find(".item img").getAttribute("src").split("items/")[1].split("/")[0]);
+		let id = parseInt(row.find(".details").getAttribute("itemid"));
 		let market_price = parseInt(itemlist[id].market_value);
 		let buy_price = parseInt(row.find(".cost .c-price").innerText.replace("$", "").replace(/,/g, ""));
 		let profit = parseInt(market_price - buy_price);

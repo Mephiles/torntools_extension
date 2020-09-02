@@ -7,6 +7,7 @@
 .tt-gym-locked {
     position: relative;
 }
+
 .tt-gym-locked:after {
     content: "";
     display: block;
@@ -15,8 +16,9 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: hsla(0,0%,90.2%,.5);
+    background-color: hsla(0, 0%, 90.2%, .5);
 }
+
 .tt-gym-locked .propertyValue___3oAOv {
     z-index: 1;
     position: relative;
@@ -30,6 +32,7 @@
     padding: 10px 0;
     margin-bottom: 10px;
 }
+
 .tt-error-message {
     text-align: center;
 }
@@ -43,9 +46,11 @@
     margin-top: 10px;
     margin-left: 5px;
 }
+
 .response-message.failure {
     color: #de0000;
 }
+
 .response-message.success {
     color: #00a500;
 }
@@ -58,16 +63,17 @@
 /* Info */
 #ttEnergyEstimate {
     font-weight: 600;
-} 
+}
 
 /* Options */
-ul.properties___Vhhr7>li {
+ul.properties___Vhhr7 > li {
     position: relative;
 }
+
 .tt-gym-stat-checkbox {
     position: absolute;
-    left: 0px;
-    bottom: 0px;
+    left: 0;
+    bottom: 0;
     z-index: 999;
 }
 

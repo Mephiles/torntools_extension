@@ -495,6 +495,18 @@
 				"scripts/content/halloffame/ttHallOfFame.js"
 			],
 			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/bank.php*"
+			],
+			"css": [
+				"scripts/content/bank/ttBank.css"
+			],
+			"js": [
+				"scripts/content/bank/ttBank.js"
+			],
+			"run_at": "document_end"
 		}
 	]
 }

@@ -1,10 +1,10 @@
-requireDatabase().then(function () {
-	requireContent().then(function () {
+requireDatabase().then(() => {
+	requireContent().then(async () => {
 		console.log("TT - Home");
 
 		// Networth
 		if (settings.pages.home.networth) {
-			displayNetworth();
+			await displayNetworth();
 		}
 
 		// Battle Stats
@@ -18,8 +18,8 @@ async function displayNetworth() {
 	let parent_box = doc.find("h5=General Information").parentElement.nextElementSibling.find("ul.info-cont-wrap");
 	loadingPlaceholder(parent_box, true);
 
-	if (networth.current.date == undefined || new Date() - new Date(networth.current.date) >= 5 * 60 * 1000) {  // 5 minutes
-		networth = await new Promise(function (resolve, reject) {
+	if (networth.current.date === undefined || new Date() - new Date(networth.current.date) >= 5 * 60 * 1000) {  // 5 minutes
+		networth = await new Promise((resolve) => {
 			fetchApi_v2('torn', { section: 'user', selections: "personalstats,networth" })
 				.then(data => {
 					let ps = data.personalstats;
@@ -54,7 +54,7 @@ async function displayNetworth() {
 					}
 
 					// Set Userdata & Networth
-					ttStorage.set({ "networth": networth }, function () {
+					ttStorage.set({ "networth": networth }, () => {
 						console.log("Networth info updated.");
 						return resolve(networth);
 					});
@@ -68,7 +68,7 @@ async function displayNetworth() {
 	loadingPlaceholder(parent_box, false);
 
 	// current networth
-	let networth_text = `$${numberWithCommas(networth.current.value.total, shorten = false)}`;
+	let networth_text = `$${numberWithCommas(networth.current.value.total, false)}`;
 	let networth_row = infoBox.newRow("(Live) Networth", networth_text, { id: "ttLiveNetworth" });
 	networth_row.style.backgroundColor = "#65c90069";
 
@@ -84,7 +84,7 @@ async function displayNetworth() {
 	parent_box.appendChild(networth_row);
 
 	// increment time
-	let time_increase = setInterval(function () {
+	setInterval(() => {
 		let time_span = doc.find("#ttLiveNetworth .networth-info-icon");
 
 		let seconds = parseInt(time_span.getAttribute("seconds"));
@@ -94,8 +94,7 @@ async function displayNetworth() {
 		time_span.setAttribute("seconds", seconds + 1);
 	}, 1000);
 
-	if (!networth.previous.value)
-		return;
+	if (!networth.previous.value) return;
 
 	// networth change
 	let headings = ["Type", "Value", "Change"];
@@ -125,8 +124,7 @@ async function displayNetworth() {
 			previous_value = networth.previous.value[type.replace(" ", "").toLowerCase()];
 		}
 
-		if (current_value == previous_value)
-			continue;
+		if (current_value === previous_value) continue;
 
 		current_value = parseInt(current_value);
 		previous_value = parseInt(previous_value);
@@ -177,12 +175,12 @@ function displayEffectiveBattleStats() {
 		console.log("eff_stat", effective_stat);
 
 		eff_total += parseInt(effective_stat);
-		let row = infoBox.newRow(battle_stats[i], numberWithCommas(effective_stat, shorten = false));
+		let row = infoBox.newRow(battle_stats[i], numberWithCommas(effective_stat, false));
 		row.find(".desc").style.width = mobile ? "180px" : "184px";
 		battle_stats_container.appendChild(row);
 	}
 
-	let total_row = infoBox.newRow("Total", numberWithCommas(eff_total, shorten = false), { last: true });
+	let total_row = infoBox.newRow("Total", numberWithCommas(eff_total, false), { last: true });
 	total_row.find(".desc").style.width = mobile ? "180px" : "184px";
 
 	battle_stats_container.appendChild(total_row);

@@ -1,5 +1,5 @@
-requireDatabase().then(function () {
-	requirePlayerList(".users-list").then(function () {
+requireDatabase().then(() => {
+	requirePlayerList(".users-list").then(() => {
 		console.log("TT - Hospital");
 
 		let list = doc.find(".users-list");
@@ -9,7 +9,7 @@ requireDatabase().then(function () {
 		if (settings.scripts.no_confirm.revives) requireElement("a.revive").then(removeConfirmation);
 
 		// Page changing
-		doc.addEventListener("click", function (event) {
+		doc.addEventListener("click", event => {
 			if (event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, { class: "gallery-wrapper" })) {
 				console.log("click");
 				setTimeout(() => {
@@ -88,7 +88,7 @@ function addFilterToTable(list, title) {
 		});
 
 		let time_slider_info = time_slider.nextElementSibling;
-		time_slider.noUiSlider.on('update', function (values) {
+		time_slider.noUiSlider.on('update', values => {
 			values = values.map(x => (timeUntil(parseFloat(x) * 60 * 60 * 1000, { max_unit: "h", hide_nulls: true })));
 			time_slider_info.innerHTML = `Time: ${values.join(' - ')}`;
 		});
@@ -106,7 +106,7 @@ function addFilterToTable(list, title) {
 		});
 
 		let level_slider_info = level_slider.nextElementSibling;
-		level_slider.noUiSlider.on('update', function (values) {
+		level_slider.noUiSlider.on('update', values => {
 			values = values.map(x => parseInt(x));
 			level_slider_info.innerHTML = `Level: ${values.join(' - ')}`;
 		});
@@ -118,7 +118,7 @@ function addFilterToTable(list, title) {
 		for (let dropdown of filter_container.findAll("select")) {
 			dropdown.onchange = applyFilters;
 		}
-		let filter_observer = new MutationObserver(function (mutations) {
+		let filter_observer = new MutationObserver(mutations => {
 			for (let mutation of mutations) {
 				if (mutation.type === "attributes"
 					&& mutation.target.classList
@@ -239,7 +239,7 @@ function addFilterToTable(list, title) {
 
 function removeConfirmation() {
 	for (let revive of doc.findAll("a.revive:not(.tt-modified)")) {
-		revive.setAttribute("href", revive.getAttribute("href")  + "&step=revive");
+		revive.setAttribute("href", revive.getAttribute("href") + "&step=revive");
 		revive.classList.add("tt-modified");
 	}
 }

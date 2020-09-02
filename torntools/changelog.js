@@ -12,6 +12,8 @@ export default {
             "Show individual price of an sold item or share on the event page on hover. - DKK",
             "Make energy and nerve clickable to open their respective pages. - Mephiles",
             "Add Landing time to Travel page. - Mephiles",
+            "Show mission hints and tips. - DKK",
+            "Show banking investment table. - DKK",
         ],
         "Fixes": [
             "Don't apply the last action filter on other faction pages. - DKK",
@@ -20,6 +22,8 @@ export default {
             "Show proper cons for Vicodin and Xanax. - DKK",
             "Fix achievements update time showing wrong time. - Mephiles",
             "Always show Recommended NNB in the right table. - DKK",
+            "Fix showing item value (which also broke max buy and YATA updating). - DKK",
+            "Hide item highlighting when closing the container if the setting is enabled. - DKK",
         ],
         "Changes": [
             "Change the caching system to allow for different times to keep it for. - DKK",
@@ -33,6 +37,11 @@ export default {
             "Add more special filters for factions, search and overseas. - Mephiles",
             "Only allow usable items to be added to Quick Items. - DKK",
             "Reduce API fetches to reduce stress on API servers. Split userdata to Essential and Basic. - Mephiles",
+            "Shorten some mission numbers even more to let it fit the box. - DKK",
+            "Remove links from Achievement cells. - Mephiles",
+            "Adjust minimal 'show more'-button height on profiles. - DKK",
+            "Show illegal product crimes achievements. - DKK",
+            "Combine event and messages notifications if there are multiple. - DKK",
         ]
     },
     "v4.10.2 - August, 19th. 2020": {
@@ -72,7 +81,7 @@ export default {
             "Add option to display your own vault value in Information window (indicated by *) - Mephiles",
             "Make Travel Destinations table available while flying - Mephiles",
             "Add Data usage estimate on Firefox - DKK",
-            "Allow whole numbers and percentages simultaniously for bar Notifications - Mephiles",
+            "Allow whole numbers and percentages simultaneously for bar Notifications - Mephiles",
             "Change userdata fetch from 15sec to 30sec to cut down on unnecessary API calls - Mephiles",
             "Set 'Force TornTools' setting as default - DKK",
             "Make Travel Table update automatically - DKK",
@@ -166,7 +175,7 @@ export default {
             "Fixed Mobile content overflow",
             "Fixed search bug in Stocks popup",
             "Fixed Firefox notification links not working",
-            "Fixed chain timer inaccuraccy in Info popup",
+            "Fixed chain timer inaccuracy in Info popup",
             "Removed an extra HR from Clean travel page",
             "Fixed Gym script failing to load completely when All gyms were unlocked",
             "Fixed Crimes script running when page was blocked",
@@ -228,7 +237,7 @@ export default {
         "Changes": [
             "Moved 'TornStats NNB', 'recommended NNB', 'auto-open OCs', 'show available member count' under single option: 'OC Advanced'",
             "Made API marking optional (default: false)",
-            "Changed Notifiation cache to 7 days",
+            "Changed Notification cache to 7 days",
             "Split up API settings",
             "Re-designed Gym container to show progress from last update",
             "Re-designed Profile Stats page to display Spy info",
@@ -308,7 +317,7 @@ export default {
             "Added nerve indicator to Quick Crimes",
             "Shop fill max takes into count the 100 item limit",
             "Shop & bazaar fill max take into count user's money",
-            "Made Info popup bars a bit brigther and removed 'Status:' text",
+            "Made Info popup bars a bit brighter and removed 'Status:' text",
             "Disabled simplified header for Info popup",
             "Added time of landing to Info popup travel bar",
             "Updated API info (Profile Stats makes 1 request to Torn's API and 1 to TornStats' API (max 25/minute))"
@@ -519,7 +528,7 @@ export default {
             "Increase 'time ago' counter on achievement pages."
         ],
         "Fixes": [
-            "Fixed settings reseting when closing and re-opening browser.",
+            "Fixed settings resetting when closing and re-opening browser.",
             "Fixed bug where Gym stats had a random comma after the decimal point. (all stats rounded down to a whole number)",
             "Fixed double update notification on profile.php on Firefox",
             "Fixed networth not showing for some users on home.php"
