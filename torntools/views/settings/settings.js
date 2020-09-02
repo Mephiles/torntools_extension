@@ -92,35 +92,23 @@ requireDatabase(false)
 		});
 	})
 	.catch((err) => {
+		console.error(err);
+		let title, message;
 		if (api_key) {
-			loadConfirmationPopup({
-				title: 'Oops',
-				message: `### Something has gone wrong. Please contact the developers and let them know of the following message:
-    (ERROR) ${err}
-    Clicking either 'Cancel' or 'Confirm' will reload the page.
-                `,
-			})
-				.then(() => {
-					location.reload();
-				})
-				.catch(() => {
-					location.reload();
-				})
+			title = "Oops";
+			message = "### Something has gone wrong. Please contact the developers and let them know of the following message:\n" +
+				"(ERROR) ${err}\n" +
+				"Clicking either 'Cancel' or 'Confirm' will reload the page.";
 		} else {
-			loadConfirmationPopup({
-				title: 'API key',
-				message: `### You have not initialized the App by providing your API key
-    Please enter your API key via opening the Extension popup.  
-    Clicking either 'Cancel' or 'Confirm' will reload the page.
-                `,
-			})
-				.then(() => {
-					location.reload();
-				})
-				.catch(() => {
-					location.reload();
-				})
+			title = "API key";
+			message = "### You have not initialized the App by providing your API key\n" +
+				"Please enter your API key via opening the Extension popup.\n" +
+				"Clicking either 'Cancel' or 'Confirm' will reload the page.";
 		}
+
+		loadConfirmationPopup({ title, message })
+			.then(() => location.reload())
+			.catch(() => location.reload())
 	})
 
 function loadPage(name) {
