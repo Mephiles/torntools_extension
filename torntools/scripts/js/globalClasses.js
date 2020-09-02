@@ -43,6 +43,10 @@ class ttCustomConsole {
 
 		if (this.parentElement.children.length) this.parentElement.insertBefore(log, this.parentElement.children[0]);
 		else this.parentElement.appendChild(log);
+
+		function isError(error) {
+			return error && error.stack && error.message && typeof error.stack === 'string' && typeof error.message === 'string';
+		}
 	}
 
 	log(...messages) {
