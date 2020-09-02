@@ -245,7 +245,7 @@ function Main_30_seconds() {
 
 			// Userdata - basic
 			console.log('Fetching userdata - basic');
-			if (!oldUserdata || ((!oldUserdata.personalstats || !oldUserdata.personalstats.date || new Date() - new Date(oldUserdata.personalstats.date) >= 2 * minutes) && oldUserdata.last_action.status !== "Offline")) {
+			if (!oldUserdata || ((!oldUserdata.personalstats || !oldUserdata.personalstats.date || new Date() - new Date(oldUserdata.personalstats.date) >= 2 * minutes) && (!oldUserdata.last_action || oldUserdata.last_action.status !== "Offline"))) {
 				await updateUserdata_basic(oldUserdata, oldTorndata);
 			}
 
@@ -690,7 +690,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 				}
 
 				// Energy decrease check
-				if (oldUserdata.energy.current - userdata.energy.current >= 25) {
+				if (!oldUserdata || oldUserdata.energy.current - userdata.energy.current >= 25) {
 					shouldFetchAttackData = true;
 				}
 
