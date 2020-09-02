@@ -907,7 +907,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 				});
 			})
 			.catch(err => {
-				console.log("ERROR", err);
+				console.error("ERROR", err);
 				return resolve(oldUserdata);
 			})
 	});
@@ -936,7 +936,7 @@ function updateUserdata_basic(oldUserdata, oldTorndata) {
 				});
 			})
 			.catch(err => {
-				console.log("ERROR", err);
+				console.error("ERROR", err);
 				return resolve();
 			})
 	});
