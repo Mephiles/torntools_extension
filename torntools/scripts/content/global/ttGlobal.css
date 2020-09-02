@@ -629,6 +629,26 @@ div[role='main'].tt-modified {
     background-color: #bdecb9b5;
 }
 
+/* Custom TT Console */
+#tt-console {
+    max-height: 400px;
+    overflow: auto;
+    width: 100%;
+    display: inline-block;
+}
+
+#tt-console .tt-log {
+    display: block;
+}
+
+#tt-console .tt-log * {
+    display: inline-block;
+}
+
+#tt-console .tt-log .timestamp {
+    margin-right: 16px;
+}
+
 /* Torn icons */
 #sidebarroot .status-icons___1SnOI > li[class^="icon1_"] {
     display: var(--torntools-hide-icons-icon1, inline-block)

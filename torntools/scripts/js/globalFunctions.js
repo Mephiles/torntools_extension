@@ -8,6 +8,8 @@ chrome = typeof browser !== "undefined" ? browser : chrome;
 
 const doc = document;
 
+const ttConsole = new ttCustomConsole();
+
 const HIGHLIGHT_PLACEHOLDERS = {
 	"$player": {
 		value: () => userdata.name,
@@ -383,6 +385,7 @@ const STORAGE = {
 		// "remove_info_boxes": false,
 		"theme": "default",
 		"force_tt": true,
+		developer: false,
 		"font_size": "12px",
 		"inactivity_alerts_faction": {
 			// "432000000": "#ffc8c8",  // 5 days
@@ -1781,14 +1784,7 @@ function requireNavbar() {
 }
 
 function requireContent() {
-	return new Promise((resolve) => {
-		let checker = setInterval(function () {
-			if (doc.find(".box-title") || doc.find("#equipped-weapons") || doc.find("div.title-black[role=heading]")) {
-				resolve(true);
-				return clearInterval(checker);
-			}
-		});
-	});
+	return requireElement(".box-title, #equipped-weapons, div.title-black[role=heading]");
 }
 
 function requireMessageBox() {
