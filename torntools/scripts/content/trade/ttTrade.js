@@ -87,6 +87,8 @@ function showValues() {
 		if (cashInTrade && cashInTrade.innerText !== "No money in trade") totalValue += parseInt(cashInTrade.innerText.match(/\$([0-9,]*)/i)[1].replaceAll(",", ""));
 
 		for (let item of side.findAll(".cont .color2 .desc > li .name")) {
+			if (item.innerText === "No items in trade") continue;
+
 			const name = item.innerText.split(" x")[0].trim();
 			const quantity = parseInt(item.innerText.split(" x")[1]) || 1;
 
@@ -101,6 +103,8 @@ function showValues() {
 			}
 		}
 		for (let addedStock of side.findAll(".cont .color4 .desc > li .name")) {
+			if (addedStock.innerText === "No shares in trade") continue;
+
 			const match = addedStock.innerText.match(/([a-zA-Z]*) x([0-9,]*) at \$([0-9,.]*)/i);
 
 			const amount = parseInt(match[2].replaceAll(",", ""));
