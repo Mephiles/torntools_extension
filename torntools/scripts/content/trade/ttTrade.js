@@ -112,7 +112,12 @@ function showValues() {
 			const stock = findItemsInObject(torndata.stocks, { acronym: match[1] }, true)[0];
 			const price = parseInt(match[3].replaceAll(",", ""));
 
-			totalValue += stock.current_price * amount;
+			const worth = stock.current_price * amount;
+			totalValue += worth;
+
+			if (settings.pages.trade.item_values) {
+				addedStock.appendChild(doc.new({ type: "span", class: "tt-side-item-value", text: `$${numberWithCommas(worth, false)}` }));
+			}
 		}
 
 		if (totalValue !== 0 && settings.pages.trade.total_value) {
