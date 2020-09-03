@@ -43,8 +43,8 @@ function showValues() {
 	console.log("Trade view!");
 
 	// Show values of adds
-	let logs = doc.findAll(".log li div");
-	for (let log of logs) {
+	for (let log of doc.findAll(".log li div:not(.tt-modified)")) {
+		log.classList.add("tt-modified");
 		let text = log.innerText;
 		let totalValue = 0;
 
@@ -80,7 +80,8 @@ function showValues() {
 		}
 	}
 
-	for (let side of [doc.find(".user.left"), doc.find(".user.right")]) {
+	for (let side of doc.findAll(".user.left:not(.tt-modified), .user.right:not(.tt-modified)")) {
+		side.classList.add("tt-modified");
 		let totalValue = 0;
 
 		let cashInTrade = side.find(".cont .color1 .desc > li .name");
