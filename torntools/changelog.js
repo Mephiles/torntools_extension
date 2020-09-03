@@ -34,7 +34,7 @@ export default {
             "Update the profile view to not completely fail upon any api error. - DKK",
             "Sync the 15 minute updater to the stock ticks. - DKK",
             "Ignore punctuation marks for word highlighting. - DKK",
-            "Include money value to show trade value. - DKK",
+            "Include money value and stocks in trade value. - DKK",
             "Add a way to ignore cash on hand for max buy in bazaar. - DKK",
             "Include a link to the OC in the information window. - Mephiles",
             "Allow import and export via text. - Mephiles",
@@ -50,6 +50,7 @@ export default {
             "Add preset custom links. - DKK",
             "Show full faction description for other factions too. - DKK",
             "Change the profile show more/less button. - DKK",
+            "Show trade value also for finished trades. - DKK",
         ]
     },
     "v4.10.2 - August, 19th. 2020": {
