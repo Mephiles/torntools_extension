@@ -75,11 +75,6 @@ function showValues() {
 
 			log.appendChild(value_span);
 		}
-
-		if (text.indexOf("added") > -1) {
-
-
-		}
 	}
 
 	for (let side of [doc.find(".user.left"), doc.find(".user.right")]) {
