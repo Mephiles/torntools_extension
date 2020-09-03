@@ -547,8 +547,9 @@ async function displayProfileStats() {
 
 	profile_stats.classList.add("populated");
 	let table = doc.new({ type: "div", class: `tt-stats-table ${mobile ? 'tt-mobile' : ""}` });
-	let col_chosen = doc.new({ type: "div", class: "col-chosen active" });
-	let col_other = doc.new({ type: "div", class: "col-other" });
+	let col_chosen = doc.new({ type: "div", class: "col-chosen column active" });
+	let col_other = doc.new({ type: "div", class: "col-other column" });
+	const showExtra = doc.new({ type: "div", class: "show-extra", text: "Show More" });
 
 	let header = doc.new({ type: "div", class: "tt-row tt-header" });
 	for (let heading of ["Stat", "Them", "You"]) {
@@ -565,7 +566,20 @@ async function displayProfileStats() {
 	col_other.appendChild(header_other)
 	table.appendChild(col_chosen);
 	table.appendChild(col_other);
+	profile_stats.appendChild(showExtra);
 	profile_stats.appendChild(table);
+
+	showExtra.addEventListener("click", event => {
+		if (col_chosen.classList.contains("active")) {
+			col_chosen.classList.remove("active");
+			col_other.classList.add("active");
+			showExtra.innerText = "Show Less";
+		} else {
+			col_chosen.classList.add("active");
+			col_other.classList.remove("active");
+			showExtra.innerText = "Show More";
+		}
+	});
 
 	// Add all to other column
 	for (let section in key_dict) {
@@ -630,21 +644,6 @@ async function displayProfileStats() {
 			row.appendChild(their_cell)
 			row.appendChild(your_cell)
 			col_other.appendChild(row);
-		}
-	}
-
-	col_other.onclick = () => {
-		if (!col_other.classList.contains("active")) {
-			col_other.classList.add("active");
-			col_chosen.classList.remove("active");
-			table.classList.add("active");
-		}
-	}
-	col_chosen.onclick = () => {
-		if (!col_chosen.classList.contains("active")) {
-			col_chosen.classList.add("active");
-			col_other.classList.remove("active");
-			table.classList.remove("active");
 		}
 	}
 

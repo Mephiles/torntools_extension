@@ -10,7 +10,7 @@
 }
 
 .profile-stats.populated {
-    width: 160%;
+    width: 100%;
     overflow-x: hidden;
 }
 
@@ -32,18 +32,23 @@
     left: -292px
 }
 
+.profile-stats .show-extra {
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    background-color: #d8fdb4;
+    padding: 4px;
+    margin: 4px;
+}
+
 .col-chosen, .col-other {
-    width: 49.5%;
+    width: 100%;
     display: inline-block;
     vertical-align: top;
     /*min-height: 200px;*/
     position: relative;
     background-color: #e0e0e0;
     cursor: pointer;
-}
-
-.col-chosen {
-    border-right: 2px solid lightgray;
 }
 
 .col-other {
@@ -72,14 +77,8 @@
     background-color: unset;
 }
 
-.col-chosen:not(.active):after {
-    content: "SHOW LESS";
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    font-size: 14px;
-    cursor: pointer;
-    z-index: 99;
+.tt-stats-table .column:not(.active) {
+    display: none;
 }
 
 .col-other.active {
@@ -101,16 +100,6 @@
 
 .col-other.active:hover {
     background-color: unset;
-}
-
-.col-other:not(.active):after {
-    content: "SHOW MORE";
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    font-size: 14px;
-    cursor: pointer;
-    z-index: 99;
 }
 
 .tt-stats-table .active.tt-highlight-sector {
