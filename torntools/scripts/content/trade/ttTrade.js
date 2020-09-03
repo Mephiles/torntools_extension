@@ -1,26 +1,32 @@
 console.log("TT - Trade");
 
+let activeTrade = false;
+
 requireDatabase(true).then(() => {
 	addXHRListener(({ detail: { page, xhr } }) => {
 		if (page !== "trade") return;
 
 		const params = new URLSearchParams(xhr.requestBody);
-		if (!isActiveTrade(params)) return;
+		activeTrade = isActiveTrade(params);
 
 		tradeLoaded().then(() => {
 			if (settings.pages.trade.item_values || settings.pages.trade.total_value) showValues();
 
-			showChatButton();
+			if (activeTrade) {
+				showChatButton();
+			}
 		});
 	})
 
-	if (isActiveTrade()) {
-		tradeLoaded().then(() => {
-			if (settings.pages.trade.item_values || settings.pages.trade.total_value) showValues();
+	activeTrade = isActiveTrade();
 
+	tradeLoaded().then(() => {
+		if (settings.pages.trade.item_values || settings.pages.trade.total_value) showValues();
+
+		if (activeTrade) {
 			showChatButton();
-		});
-	}
+		}
+	});
 });
 
 function isActiveTrade(params = getHashParameters()) {
