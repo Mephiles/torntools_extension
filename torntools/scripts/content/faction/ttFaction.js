@@ -110,6 +110,8 @@ function loadCrimes() {
 	if (doc.find(".faction-crimes-wrap.tt-modified")) return;
 
 	subpageLoaded("crimes").then(() => {
+		if (doc.find(".faction-crimes-wrap.tt-modified")) return;
+
 		if (settings.pages.faction.oc_time && Object.keys(oc).length > 0) {
 			ocTimes(oc, settings.format);
 		} else if (Object.keys(oc).length === 0) {
