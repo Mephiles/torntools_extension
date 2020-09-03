@@ -14,10 +14,6 @@
     overflow-x: hidden;
 }
 
-.profile-stats.populated.tt-mobile {
-    width: 197%;
-}
-
 .tt-stats-table {
     overflow-x: hidden;
     position: relative;
