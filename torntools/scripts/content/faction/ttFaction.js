@@ -1114,7 +1114,6 @@ function addFilterToTable(list, title) {
 
 			// Special
 			for (let key in special) {
-				console.log(key, special[key]);
 				if (special[key] === 'both') continue;
 
 				if (special[key] === 'yes') {
