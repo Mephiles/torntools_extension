@@ -48,6 +48,8 @@ export default {
             "Combine event and messages notifications if there are multiple. - DKK",
             "Improve the racing helper. - DKK",
             "Add preset custom links. - DKK",
+            "Show full faction description for other factions too. - DKK",
+            "Change the profile show more/less button. - DKK",
         ]
     },
     "v4.10.2 - August, 19th. 2020": {
