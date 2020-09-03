@@ -46,11 +46,18 @@ function showValues() {
 	let logs = doc.findAll(".log li div");
 	for (let log of logs) {
 		let text = log.innerText;
-		let total_value = 0;
+		let totalValue = 0;
 
 		if (text.includes("added")) {
 			if (text.includes("$")) {
-				total_value = parseInt(text.match(/\$([0-9,]*)/i)[1].replaceAll(",", ""));
+				totalValue = parseInt(text.match(/\$([0-9,]*)/i)[1].replaceAll(",", ""));
+			} else if (text.includes("shares")) {
+				const match = text.match(/added ([0-9,]*)x ([a-zA-Z]*) shares to the trade/i);
+
+				const amount = parseInt(match[1].replaceAll(",", ""));
+				const stock = findItemsInObject(torndata.stocks, { acronym: match[2] }, true)[0];
+
+				totalValue = stock.current_price * amount;
 			} else {
 				text = text.replace(" added", "").replace(" to the trade", "").replace(log.find("a").innerText + " ", "");
 				let items = text.split(",");
@@ -62,18 +69,14 @@ function showValues() {
 					for (let id in itemlist.items) {
 						if (itemlist.items[id].name === name) {
 							for (let i = 0; i < quantity; i++) {
-								total_value += itemlist.items[id].market_value;
+								totalValue += itemlist.items[id].market_value;
 							}
 						}
 					}
 				}
 			}
 
-			let value_span = doc.new("span");
-			value_span.setClass("tt-add-value");
-			value_span.innerText = `$${numberWithCommas(total_value, false)}`;
-
-			log.appendChild(value_span);
+			log.appendChild(doc.new({ type: "span", class: "tt-add-value", text: `$${numberWithCommas(totalValue, false)}` }));
 		}
 	}
 
@@ -94,24 +97,26 @@ function showValues() {
 			totalValue += worth;
 
 			if (settings.pages.trade.item_values) {
-				let span = doc.new({
-					type: "span",
-					class: "tt-side-item-value",
-					text: `$${numberWithCommas(worth, false)}`
-				});
-				item.appendChild(span);
+				item.appendChild(doc.new({ type: "span", class: "tt-side-item-value", text: `$${numberWithCommas(worth, false)}` }));
 			}
+		}
+		for (let addedStock of side.findAll(".cont .color4 .desc > li .name")) {
+			const match = addedStock.innerText.match(/([a-zA-Z]*) x([0-9,]*) at \$([0-9,.]*)/i);
+
+			const amount = parseInt(match[2].replaceAll(",", ""));
+			const stock = findItemsInObject(torndata.stocks, { acronym: match[1] }, true)[0];
+			const price = parseInt(match[3].replaceAll(",", ""));
+
+			totalValue += stock.current_price * amount;
 		}
 
 		if (totalValue !== 0 && settings.pages.trade.total_value) {
-			let div = doc.new({ type: "div", class: "tt-side-value", text: "Total value: " });
-
-			div.appendChild(doc.new({
-				type: "span",
-				text: `$${numberWithCommas(totalValue, false)}`,
+			side.appendChild(doc.new({
+				type: "div",
+				class: "tt-side-value",
+				text: "Total value: ",
+				children: [doc.new({ type: "span", text: `$${numberWithCommas(totalValue, false)}` })],
 			}));
-
-			side.appendChild(div);
 		}
 
 		if (settings.pages.trade.item_values) {
