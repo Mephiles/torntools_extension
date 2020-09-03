@@ -82,13 +82,13 @@ function loadMain() {
 }
 
 function loadInfo() {
-	if (ownFaction) {
-		subpageLoaded("info").then(() => {
-			fullInfoBox("info");
+	subpageLoaded("info").then(() => {
+		fullInfoBox("info");
 
+		if (ownFaction) {
 			if (settings.pages.faction.armory_worth) armoryWorth();
-		});
-	}
+		}
+	});
 
 	if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
 
