@@ -183,12 +183,13 @@ const key_dict = {
 		virusescoded: "Viruses Coded",
 	},
 };
+let userId;
 
 requireDatabase().then(() => {
 	profileLoaded().then(async () => {
 		console.log("TT - Profile");
 
-		let user_id = getUserId();
+		userId = getUserId();
 		let user_faction = userdata.faction.faction_name;
 
 		if (settings.pages.profile.show_id) {
@@ -211,43 +212,10 @@ requireDatabase().then(() => {
 		if (shouldDisable()) return;
 
 		// noinspection EqualityComparisonWithCoercionJS
-		if (user_id == userdata.player_id) return;
+		if (userId == userdata.player_id) return;
 
 		// Profile notes
-		let notes_container = content.newContainer("Profile Notes", { next_element_heading: "Medals", id: "tt-target-notes" });
-
-		let section_profile_notes = doc.new({ type: "div", class: "tt-section", attributes: { name: "profile-notes" } });
-		let textbox = doc.new({ type: "textarea", class: "tt-profile-notes-textarea" });
-		textbox.maxLength = 128;
-
-		let profiles = profile_notes.profiles;
-
-		if (profiles[user_id]) {
-			textbox.style.height = profiles[user_id].height;
-			textbox.value = profiles[user_id].notes;
-		} else {
-			textbox.style.height = "17px";
-			profiles[user_id] = {};
-		}
-
-		section_profile_notes.appendChild(textbox);
-		notes_container.find(".content").appendChild(section_profile_notes);
-
-		textbox.addEventListener("change", () => {
-			profiles[user_id]["height"] = textbox.style.height;
-			profiles[user_id]["notes"] = textbox.value;
-			ttStorage.set({ profile_notes: { profiles } });
-		});
-		textbox.addEventListener("mouseup", () => {
-			if (textbox.style.height !== notes.height) {
-				console.log("resize");
-				console.log(textbox.style.height);
-
-				profiles[user_id]["height"] = textbox.style.height;
-				profiles[user_id]["notes"] = textbox.value;
-				ttStorage.set({ profile_notes: { profiles } });
-			}
-		});
+		showProfileNotes();
 
 		// Profile stats
 		let info_container = content.newContainer("User Info", { next_element_heading: "Medals", id: "tt-target-info" });
@@ -448,10 +416,9 @@ function showWarning(type) {
 
 function displayTargetInfo(targets) {
 	let section = doc.new({ type: "div", class: "tt-section", attributes: { name: "target-info" } });
-	let user_id = getUserId();
 	doc.find("#tt-target-info .content").appendChild(section);
 
-	if (!targets[user_id]) {
+	if (!targets[userId]) {
 		let span = doc.new({ type: "span", class: "no-btl-data", text: "No battle data on user." });
 		section.appendChild(span);
 	} else {
@@ -502,11 +469,11 @@ function displayTargetInfo(targets) {
 			}
 
 			if (heading.name === "Respect") {
-				let [value, color] = getRespect(targets, user_id);
+				let [value, color] = getRespect(targets, userId);
 				td.innerText = value;
 				td.style.backgroundColor = color;
 			} else {
-				td.innerText = targets[user_id][heading.type];
+				td.innerText = targets[userId][heading.type];
 			}
 
 			row.appendChild(td);
@@ -732,7 +699,7 @@ async function displayProfileStats() {
 }
 
 async function showSpyInfo() {
-	let user_id = getUserId();
+	let userId = getUserId();
 	let result;
 
 	let spySection = doc.new({ type: "div", class: "tt-section", attributes: { name: "spy-info" } });
@@ -742,12 +709,12 @@ async function showSpyInfo() {
 		doc.find("#tt-target-info .content").appendChild(spySection);
 	}
 
-	if (cache && cache.spyReport[user_id]) {
-		result = cache.spyReport[user_id].data;
+	if (cache && cache.spyReport[userId]) {
+		result = cache.spyReport[userId].data;
 	} else {
 		loadingPlaceholder(spySection, true);
 		result = await new Promise((resolve) => {
-			fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${user_id}`)
+			fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${userId}`)
 				.then(async response => {
 					let data = await response.json();
 
@@ -759,7 +726,7 @@ async function showSpyInfo() {
 			ttStorage.change({
 				cache: {
 					spyReport: {
-						[user_id]: {
+						[userId]: {
 							timestamp: new Date().getTime(),
 							ttl: TO_MILLIS.HOURS,
 							data: result,
@@ -866,7 +833,10 @@ async function showSpyInfo() {
 }
 
 function getUserId() {
-	return doc.find(".basic-information ul.info-table li:nth-of-type(1) div:nth-of-type(2)").innerText.split("[")[1].replace("]", "");
+	if (!userId)
+		userId = doc.find(".basic-information ul.info-table li:nth-of-type(1) div:nth-of-type(2)").innerText.split("[")[1].replace("]", "");
+
+	return userId;
 }
 
 function getRespect(target_list, id) {
@@ -994,7 +964,7 @@ function addStatusIndicator() {
 }
 
 function displayStakeoutOptions() {
-	let user_id = getUserId();
+	let userId = getUserId();
 
 	let stakeout_div = doc.new({ type: "div", class: "tt-section", attributes: { name: "stakeouts" } });
 	doc.find("#tt-target-info .content").appendChild(stakeout_div);
@@ -1007,7 +977,7 @@ function displayStakeoutOptions() {
 	stakeout_div.appendChild(watchlist_wrap);
 
 	for (let user of watchlist) {
-		if (user.id === user_id) {
+		if (user.id === userId) {
 			input.checked = true;
 		}
 	}
@@ -1037,10 +1007,10 @@ function displayStakeoutOptions() {
 	option_online.appendChild(checkbox_online);
 	option_online.appendChild(text_online);
 
-	if (stakeouts[user_id]) {
-		checkbox_okay.checked = stakeouts[user_id].okay;
-		checkbox_lands.checked = stakeouts[user_id].lands;
-		checkbox_online.checked = stakeouts[user_id].online;
+	if (stakeouts[userId]) {
+		checkbox_okay.checked = stakeouts[userId].okay;
+		checkbox_lands.checked = stakeouts[userId].lands;
+		checkbox_online.checked = stakeouts[userId].online;
 	}
 
 	stakeout_div.appendChild(option_okay);
@@ -1068,7 +1038,7 @@ function displayStakeoutOptions() {
 			ttStorage.get("watchlist", watchlist => {
 				let is_in_list = false;
 				for (let item of watchlist) {
-					if (item.id === user_id) {
+					if (item.id === userId) {
 						is_in_list = true;
 						break;
 					}
@@ -1076,7 +1046,7 @@ function displayStakeoutOptions() {
 
 				if (!is_in_list) {
 					watchlist.push({
-						id: user_id,
+						id: userId,
 						username: getUsername(),
 						status: getStatus(),
 						traveling: getTraveling(),
@@ -1087,7 +1057,7 @@ function displayStakeoutOptions() {
 		} else {
 			ttStorage.get("watchlist", watchlist => {
 				for (let item of watchlist) {
-					if (item.id === user_id) {
+					if (item.id === userId) {
 						watchlist.splice(watchlist.indexOf(item), 1);
 						break;
 					}
@@ -1099,7 +1069,7 @@ function displayStakeoutOptions() {
 		if (checkbox_okay.checked === true || checkbox_lands.checked === true || checkbox_online.checked === true) {
 			ttStorage.change({
 				stakeouts: {
-					[user_id]: {
+					[userId]: {
 						okay: checkbox_okay.checked,
 						lands: checkbox_lands.checked,
 						online: checkbox_online.checked,
@@ -1108,7 +1078,7 @@ function displayStakeoutOptions() {
 			});
 		} else {
 			ttStorage.get("stakeouts", stakeouts => {
-				delete stakeouts[user_id];
+				delete stakeouts[userId];
 				ttStorage.set({ stakeouts });
 			});
 		}
@@ -1159,4 +1129,36 @@ function saveProfileStats() {
 	}
 
 	ttStorage.change({ filters: { profile_stats: { chosen_stats: chosen_keys } } });
+}
+
+function showProfileNotes() {
+	const textbox = doc.new({ type: "textarea", class: "tt-profile-notes-textarea", attributes: { maxLength: 128 } });
+
+	const profile = profile_notes.profiles[userId];
+	textbox.style.height = profile ? profile.height : "17px";
+	textbox.value = profile ? profile.notes : "";
+
+	textbox.addEventListener("input", save); // change text
+	textbox.addEventListener("mouseup", save); // resize textarea
+
+	const container = content.newContainer("Profile Notes", { next_element_heading: "Medals", id: "tt-target-notes" }).find(".content");
+	container.appendChild(doc.new({ type: "div", class: "tt-section", attributes: { name: "profile-notes" }, children: [textbox] }));
+
+	function save() {
+		ttStorage.change({
+			profile_notes: {
+				profiles: {
+					[userId]: {
+						height: textbox.style.height,
+						notes: textbox.value,
+					},
+				},
+			},
+		}, () => {
+			console.log("Saved profile notes", {
+				height: textbox.style.height,
+				notes: textbox.value,
+			});
+		});
+	}
 }
