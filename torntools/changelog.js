@@ -15,6 +15,8 @@ export default {
             "Show mission hints and tips. - DKK",
             "Show banking investment table. - DKK",
             "Show a link to a computer while travelling if you don't have a laptop. - DKK",
+            "Add an option to hide quite/leave buttons. - DKK",
+            "Add personal notes on profiles. - wootty2000",
         ],
         "Fixes": [
             "Don't apply the last action filter on other faction pages. - DKK",
@@ -25,7 +27,7 @@ export default {
             "Always show Recommended NNB in the right table. - DKK",
             "Fix showing item value (which also broke max buy and YATA updating). - DKK",
             "Hide item highlighting when closing the container if the setting is enabled. - DKK",
-            "Fix advanced OC information not showing after starting an OC. - DKK",
+            "Fix advanced OC information not showing after starting and replanning an OC. - DKK",
             "Fix TornTools not loading on the poker page. - DKK",
             "Show the travel table more consistent. - DKK",
         ],
@@ -51,6 +53,7 @@ export default {
             "Show full faction description for other factions too. - DKK",
             "Change the profile show more/less button. - DKK",
             "Show trade value also for finished trades. - DKK",
+            "Add a limit of 10,000 for bazaar max buy. - DKK",
         ]
     },
     "v4.10.2 - August, 19th. 2020": {
