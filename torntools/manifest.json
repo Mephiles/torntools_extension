@@ -55,6 +55,7 @@
 			],
 			"js": [
 				"scripts/libs/nouislider.js",
+				"scripts/js/globalClasses.js",
 				"scripts/js/globalFunctions.js",
 				"scripts/js/globalDatabase.js",
 				"scripts/js/globalEntry.js",

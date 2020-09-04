@@ -73,6 +73,7 @@ requireDatabase().then(() => {
 
 							if (Math.floor(user_money / price) < max) max = Math.floor(user_money / price);
 						}
+						if (max > 10000) max = 10000;
 
 						parent.find(".buyAmountInput___Aooaf").value = max;
 

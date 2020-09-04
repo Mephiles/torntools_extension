@@ -14,6 +14,7 @@ export default {
             "Add Landing time to Travel page. - Mephiles",
             "Show mission hints and tips. - DKK",
             "Show banking investment table. - DKK",
+            "Show a link to a computer while travelling if you don't have a laptop. - DKK",
         ],
         "Fixes": [
             "Don't apply the last action filter on other faction pages. - DKK",
@@ -24,13 +25,16 @@ export default {
             "Always show Recommended NNB in the right table. - DKK",
             "Fix showing item value (which also broke max buy and YATA updating). - DKK",
             "Hide item highlighting when closing the container if the setting is enabled. - DKK",
+            "Fix advanced OC information not showing after starting an OC. - DKK",
+            "Fix TornTools not loading on the poker page. - DKK",
+            "Show the travel table more consistent. - DKK",
         ],
         "Changes": [
             "Change the caching system to allow for different times to keep it for. - DKK",
             "Update the profile view to not completely fail upon any api error. - DKK",
             "Sync the 15 minute updater to the stock ticks. - DKK",
             "Ignore punctuation marks for word highlighting. - DKK",
-            "Include money value to show trade value. - DKK",
+            "Include money value and stocks in trade value. - DKK",
             "Add a way to ignore cash on hand for max buy in bazaar. - DKK",
             "Include a link to the OC in the information window. - Mephiles",
             "Allow import and export via text. - Mephiles",
@@ -42,6 +46,11 @@ export default {
             "Adjust minimal 'show more'-button height on profiles. - DKK",
             "Show illegal product crimes achievements. - DKK",
             "Combine event and messages notifications if there are multiple. - DKK",
+            "Improve the racing helper. - DKK",
+            "Add preset custom links. - DKK",
+            "Show full faction description for other factions too. - DKK",
+            "Change the profile show more/less button. - DKK",
+            "Show trade value also for finished trades. - DKK",
         ]
     },
     "v4.10.2 - August, 19th. 2020": {

@@ -1,6 +1,5 @@
 const money_key_list = ["networth", "moneymugged", "largestmug", "peopleboughtspent", "receivedbountyvalue", "totalbountyspent", "totalbountyreward", "rehabcost"];
-let key_dict;
-key_dict = {
+const key_dict = {
 	basic: {
 		"awards": "Awards",
 		"logins": "Logins",
@@ -185,8 +184,8 @@ key_dict = {
 	}
 };
 
-requireDatabase().then(function () {
-	profileLoaded().then(async function () {
+requireDatabase().then(() => {
+	profileLoaded().then(async () => {
 		console.log("TT - Profile");
 
 		let user_faction = userdata.faction.faction_name;
@@ -225,7 +224,7 @@ requireDatabase().then(function () {
 			let button = doc.new({ type: "div", class: `fetch-button`, text: "Fetch Info via API" });
 			profile_stats_div.appendChild(button);
 
-			button.addEventListener("click", async function () {
+			button.addEventListener("click", async () => {
 				button.remove();
 				await fetchStats();
 			});
@@ -270,7 +269,7 @@ requireDatabase().then(function () {
 
 		doc.find("#tt-target-info .tt-options").appendChild(edit_button);
 
-		edit_button.onclick = function (event) {
+		edit_button.onclick = event => {
 			event.stopPropagation();
 
 			if (doc.find(".tt-black-overlay").classList.contains("active")) {
@@ -288,7 +287,7 @@ requireDatabase().then(function () {
 
 				// Profile stats
 				for (let row of doc.findAll(".tt-stats-table .active .tt-row:not(.tt-header):not(.sub-heading)")) {
-					row.onclick = function (event) {
+					row.onclick = event => {
 						event.stopPropagation();
 						event.preventDefault();
 
@@ -370,7 +369,7 @@ function displayCreator() {
 function profileLoaded() {
 	let promise = new Promise((resolve) => {
 		let counter = 0;
-		let checker = setInterval(function () {
+		let checker = setInterval(() => {
 			if (document.querySelector(".basic-information ul.info-table li")) {
 				resolve(true);
 				return clearInterval(checker);
@@ -382,9 +381,7 @@ function profileLoaded() {
 		}, 100);
 	});
 
-	return promise.then(function (data) {
-		return data;
-	});
+	return promise.then(data => data);
 }
 
 function displayAlly(user_faction, allies) {
@@ -550,8 +547,9 @@ async function displayProfileStats() {
 
 	profile_stats.classList.add("populated");
 	let table = doc.new({ type: "div", class: `tt-stats-table ${mobile ? 'tt-mobile' : ""}` });
-	let col_chosen = doc.new({ type: "div", class: "col-chosen active" });
-	let col_other = doc.new({ type: "div", class: "col-other" });
+	let col_chosen = doc.new({ type: "div", class: "col-chosen column active" });
+	let col_other = doc.new({ type: "div", class: "col-other column" });
+	const showExtra = doc.new({ type: "div", class: "show-extra", text: "Show More" });
 
 	let header = doc.new({ type: "div", class: "tt-row tt-header" });
 	for (let heading of ["Stat", "Them", "You"]) {
@@ -568,7 +566,20 @@ async function displayProfileStats() {
 	col_other.appendChild(header_other)
 	table.appendChild(col_chosen);
 	table.appendChild(col_other);
+	profile_stats.appendChild(showExtra);
 	profile_stats.appendChild(table);
+
+	showExtra.addEventListener("click", event => {
+		if (col_chosen.classList.contains("active")) {
+			col_chosen.classList.remove("active");
+			col_other.classList.add("active");
+			showExtra.innerText = "Show Less";
+		} else {
+			col_chosen.classList.add("active");
+			col_other.classList.remove("active");
+			showExtra.innerText = "Show More";
+		}
+	});
 
 	// Add all to other column
 	for (let section in key_dict) {
@@ -578,7 +589,7 @@ async function displayProfileStats() {
 		col_other.appendChild(section_heading);
 
 		let keys = Object.keys(key_dict[section]);
-		keys.sort(function (a, b) {
+		keys.sort((a, b) => {
 			if (key_dict[section][a] < key_dict[section][b]) return -1;
 			if (key_dict[section][b] < key_dict[section][a]) return 1;
 			return 0;
@@ -636,21 +647,6 @@ async function displayProfileStats() {
 		}
 	}
 
-	col_other.onclick = function () {
-		if (!col_other.classList.contains("active")) {
-			col_other.classList.add("active");
-			col_chosen.classList.remove("active");
-			table.classList.add("active");
-		}
-	}
-	col_chosen.onclick = function () {
-		if (!col_chosen.classList.contains("active")) {
-			col_chosen.classList.add("active");
-			col_other.classList.remove("active");
-			table.classList.remove("active");
-		}
-	}
-
 	// Move chosen ones
 	for (let stat of filters.profile_stats.chosen_stats) {
 		if (col_other.find(`:scope>[key='${stat}']`)) {
@@ -670,7 +666,7 @@ async function displayProfileStats() {
 		footer_input.checked = true;
 	}
 
-	footer_input.onclick = function () {
+	footer_input.onclick = () => {
 		ttStorage.change({ "filters": { "profile_stats": { "auto_fetch": footer_input.checked } } });
 	};
 
@@ -929,7 +925,7 @@ function displayLootLevel(loot_times) {
 		doc.find(".profile-wrapper .profile-status .description .sub-desc").appendChild(span);
 
 		// Time decrease
-		setInterval(function () {
+		setInterval(() => {
 			let seconds = parseInt(span.getAttribute("seconds"));
 			let time_left = timeUntil((seconds - 1) * 1000);
 
@@ -958,7 +954,7 @@ function addStatusIndicator() {
 	doc.find("#skip-to-content").appendChild(text_span);
 
 	// Event listener
-	let status_observer = new MutationObserver(function (mutationsList) {
+	let status_observer = new MutationObserver(mutationsList => {
 		for (let mutation of mutationsList) {
 			if (mutation.type === "childList") {
 				console.log(doc.find(".icons ul>li"));
@@ -989,7 +985,7 @@ function displayStakeoutOptions() {
 		}
 	}
 
-	input.onclick = function () {
+	input.onclick = () => {
 		saveStakeoutSettings();
 	}
 
@@ -1024,13 +1020,13 @@ function displayStakeoutOptions() {
 	stakeout_div.appendChild(option_lands);
 	stakeout_div.appendChild(option_online);
 
-	checkbox_okay.onclick = function () {
+	checkbox_okay.onclick = () => {
 		saveStakeoutSettings();
 	};
-	checkbox_lands.onclick = function () {
+	checkbox_lands.onclick = () => {
 		saveStakeoutSettings();
 	};
-	checkbox_online.onclick = function () {
+	checkbox_online.onclick = () => {
 		saveStakeoutSettings();
 	};
 
@@ -1043,7 +1039,7 @@ function displayStakeoutOptions() {
 	function saveStakeoutSettings() {
 
 		if (input.checked) {
-			ttStorage.get("watchlist", function (watchlist) {
+			ttStorage.get("watchlist", watchlist => {
 				let is_in_list = false;
 				for (let item of watchlist) {
 					if (item.id === user_id) {
@@ -1063,7 +1059,7 @@ function displayStakeoutOptions() {
 				ttStorage.set({ "watchlist": watchlist });
 			});
 		} else {
-			ttStorage.get("watchlist", function (watchlist) {
+			ttStorage.get("watchlist", watchlist => {
 				for (let item of watchlist) {
 					if (item.id === user_id) {
 						watchlist.splice(watchlist.indexOf(item), 1);
@@ -1085,7 +1081,7 @@ function displayStakeoutOptions() {
 				}
 			});
 		} else {
-			ttStorage.get("stakeouts", function (stakeouts) {
+			ttStorage.get("stakeouts", stakeouts => {
 				delete stakeouts[user_id];
 				ttStorage.set({ "stakeouts": stakeouts });
 			});

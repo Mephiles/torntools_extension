@@ -55,6 +55,9 @@ requireDatabase(false).then(async () => {
 		document.documentElement.style.setProperty("--torntools-hide-upgrade-info", settings.pages.global.hide_upgrade ? "none" : "block");
 	}
 
+	// Hide quit/leave options
+	document.documentElement.style.setProperty("--torntools-hide-leave-button", settings.pages.global.hide_leave ? "none" : "block");
+
 	// Hide Doctorn
 	if ((settings.force_tt && ["home", "city", "travelagency", "war", "items", "crimes", "gym", "bounties", "profile", "faction", "jail"].includes(getCurrentPage()))) {
 		document.documentElement.style.setProperty("--torntools-hide-doctorn", "none");

@@ -72,5 +72,4 @@ function removeConfirmButtons(source = doc) {
 			icon.setAttribute("data-price", item.find(".cost").innerText.split(": ").pop().substring(1).replaceAll(",", ""));
 		}
 	}
-	s
 }

@@ -2,8 +2,7 @@ requireDatabase().then(() => {
 	console.log("Loading Global Script");
 
 	// Add TT Black overlay
-	let overlay = doc.new({ type: "div", class: "tt-black-overlay" });
-	doc.find("body").appendChild(overlay);
+	doc.find("body").appendChild(doc.new({ type: "div", class: "tt-black-overlay" }));
 
 	if (settings.scripts.no_confirm.revives) {
 		injectXHR();
@@ -12,6 +11,9 @@ requireDatabase().then(() => {
 	}
 
 	showToggleChat();
+	if (settings.developer) {
+		showCustomConsole();
+	}
 
 	requireNavbar().then(async () => {
 		let _flying = await isFlying();
@@ -541,4 +543,15 @@ function addReviveListener() {
 	`;
 
 	doc.find("head").appendChild(script);
+}
+
+function showCustomConsole() {
+	const element = doc.new({
+		type: "div",
+		id: "tt-console",
+	});
+
+	ttConsole.parent = element;
+
+	doc.find("#mainContainer").insertBefore(element, doc.find("#mainContainer > .clear"));
 }

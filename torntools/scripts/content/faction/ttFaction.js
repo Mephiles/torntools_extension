@@ -3,7 +3,7 @@ let member_info_added = false;
 
 requireDatabase().then(() => {
 	addXHRListener((event) => {
-		const { page, xhr } = event.detail;
+		const { page, json, xhr } = event.detail;
 
 		const params = new URLSearchParams(xhr.requestBody);
 		const step = params.get("step");
@@ -13,7 +13,10 @@ requireDatabase().then(() => {
 			} else if (step === "getMoneyDepositors") {
 				loadGiveToUser();
 			} else if (step === "crimesInitiate") {
+				//  || (step === "crimesPlane" && json.success)
 				setTimeout(loadCrimes, 250);
+			} else if (step === "crimes") {
+				loadCrimes();
 			}
 		}
 	});
@@ -82,13 +85,13 @@ function loadMain() {
 }
 
 function loadInfo() {
-	if (ownFaction) {
-		subpageLoaded("info").then(() => {
-			fullInfoBox("info");
+	subpageLoaded("info").then(() => {
+		fullInfoBox("info");
 
+		if (ownFaction) {
 			if (settings.pages.faction.armory_worth) armoryWorth();
-		});
-	}
+		}
+	});
 
 	if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
 
@@ -104,25 +107,27 @@ function loadInfo() {
 }
 
 function loadCrimes() {
-	if (!doc.find(".faction-crimes-wrap.tt-modified")) {
-		subpageLoaded("crimes").then(() => {
-			if (settings.pages.faction.oc_time && Object.keys(oc).length > 0) {
-				ocTimes(oc, settings.format);
-			} else if (Object.keys(oc).length === 0) {
-				console.log("NO DATA (might be no API access)");
-			}
+	if (doc.find(".faction-crimes-wrap.tt-modified")) return;
 
-			if (settings.pages.faction.oc_advanced) {
-				openOCs();
-				showAvailablePlayers();
-				showRecommendedNNB();
-				showNNB();
-				highlightOwnOC();
-			}
+	subpageLoaded("crimes").then(() => {
+		if (doc.find(".faction-crimes-wrap.tt-modified")) return;
 
-			doc.find(".faction-crimes-wrap").classList.add("tt-modified");
-		});
-	}
+		if (settings.pages.faction.oc_time && Object.keys(oc).length > 0) {
+			ocTimes(oc, settings.format);
+		} else if (Object.keys(oc).length === 0) {
+			console.log("NO DATA (might be no API access)");
+		}
+
+		if (settings.pages.faction.oc_advanced) {
+			openOCs();
+			showAvailablePlayers();
+			showRecommendedNNB();
+			showNNB();
+			highlightOwnOC();
+		}
+
+		doc.find(".faction-crimes-wrap").classList.add("tt-modified");
+	});
 }
 
 function loadUpgrades() {
@@ -1114,7 +1119,6 @@ function addFilterToTable(list, title) {
 
 			// Special
 			for (let key in special) {
-				console.log(key, special[key]);
 				if (special[key] === 'both') continue;
 
 				if (special[key] === 'yes') {
