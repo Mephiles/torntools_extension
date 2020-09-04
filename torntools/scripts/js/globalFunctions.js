@@ -271,8 +271,7 @@ const STORAGE = {
 		"height": undefined
 	},
 	"profile_notes": {
-		"profiles": {},
-		"height": undefined
+		"profiles": {}
 	},
 	"travel_items": 5,
 	"stakeouts": {},
