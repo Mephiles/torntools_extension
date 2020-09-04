@@ -146,6 +146,7 @@ function resetUpgrades() {
 		const category = findParent(item, { class: "pm-items-wrap" }).getAttribute("category");
 		const counter = doc.find(`.pm-categories > .unlock[data-category="${category}"] .tt-race-need-icon`);
 		counter.innerText = parseInt(counter.innerText) - 1;
+		if (counter.innerText === "0") counter.remove();
 
 		const neededUpgrade = doc.find(`.tt-race-upgrade-needed[part="${part}"]`);
 		if (neededUpgrade) {
