@@ -9,17 +9,17 @@ requireDatabase().then(() => {
 			return;
 
 		// object of all the achievements on this page
-		let achievements = {
+		const achievements = {
 			"Org. crimes": {
-				"stats": personalstats.organisedcrimes,
-				"keyword": "organized crimes"
+				stats: personalstats.organisedcrimes,
+				keyword: "organized crimes",
 			},
-			"Respect": {
-				"stats": personalstats.respectforfaction,
-				"keyword": "respect",
-				"incl": ["earn "]
-			}
-		}
+			Respect: {
+				stats: personalstats.respectforfaction,
+				keyword: "respect",
+				incl: ["earn "],
+			},
+		};
 
 		displayAchievements(achievements, show_completed);
 	});

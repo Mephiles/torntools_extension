@@ -8,21 +8,21 @@ requireDatabase().then(() => {
 			return;
 
 		// object of all the achievements on this page
-		let achievements = {
-			"Intelligence": {
-				"stats": userdata.intelligence,
-				"keyword": "intelligence"
+		const achievements = {
+			Intelligence: {
+				stats: userdata.intelligence,
+				keyword: "intelligence",
 			},
-			"Manual": {
-				"stats": userdata.manual_labor,
-				"keyword": "manual"
+			Manual: {
+				stats: userdata.manual_labor,
+				keyword: "manual",
 			},
-			"Endurance": {
-				"stats": userdata.endurance,
-				"keyword": "endurance",
-				"incl": ["attain"]
-			}
-		}
+			Endurance: {
+				stats: userdata.endurance,
+				keyword: "endurance",
+				incl: ["attain"],
+			},
+		};
 
 		displayAchievements(achievements, show_completed);
 	});

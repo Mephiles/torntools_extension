@@ -1,4 +1,4 @@
-console.log("TT - Loading global functions.")
+console.log("TT - Loading global functions.");
 
 /*
  * Declare some variables.
@@ -11,171 +11,171 @@ const doc = document;
 const ttConsole = new ttCustomConsole();
 
 const HIGHLIGHT_PLACEHOLDERS = {
-	"$player": {
+	$player: {
 		value: () => userdata.name,
-		description: "Your player name."
-	}
-}
+		description: "Your player name.",
+	},
+};
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const DRUG_INFORMATION = {
-	"cannabis": {
-		"pros": [
+	cannabis: {
+		pros: [
 			"Increased crime success rate",
 			"+2-3 Nerve",
 		],
-		"cons": [
+		cons: [
 			"-20% Strength",
 			"-25% Defense",
-			"-35% Speed"
+			"-35% Speed",
 		],
-		"cooldown": "60-90 minutes",
-		"overdose": {
-			"bars": ["-100% Energy & Nerve"],
-			"hosp_time": "5 hours",
-			"extra": "'Spaced Out' honor bar"
-		}
+		cooldown: "60-90 minutes",
+		overdose: {
+			bars: ["-100% Energy & Nerve"],
+			hosp_time: "5 hours",
+			extra: "'Spaced Out' honor bar",
+		},
 	},
-	"ecstasy": {
-		"pros": [
-			"Doubles Happy"
+	ecstasy: {
+		pros: [
+			"Doubles Happy",
 		],
-		"cooldown": "3-4 hours",
-		"overdose": {
-			"bars": ["-100% Energy & Happy"]
-		}
+		cooldown: "3-4 hours",
+		overdose: {
+			bars: ["-100% Energy & Happy"],
+		},
 	},
-	"ketamine": {
-		"pros": [
-			"+50% Defense"
+	ketamine: {
+		pros: [
+			"+50% Defense",
 		],
-		"cons": [
-			"-20% Strength & Speed"
+		cons: [
+			"-20% Strength & Speed",
 		],
-		"cooldown": "45-60 minutes",
-		"overdose": {
-			"bars": ["-100% Energy, Nerve & Happy"],
-			"stats": "-20% Strength & Speed",
-			"hosp_time": "16-17 hours",
-			"extra": "24-27 hours of cooldown"
-		}
+		cooldown: "45-60 minutes",
+		overdose: {
+			bars: ["-100% Energy, Nerve & Happy"],
+			stats: "-20% Strength & Speed",
+			hosp_time: "16-17 hours",
+			extra: "24-27 hours of cooldown",
+		},
 	},
-	"lsd": {
-		"pros": [
+	lsd: {
+		pros: [
 			"+30% Strength",
 			"+50% Defense",
 			"+50 Energy",
 			"+200-500 Happy",
-			"+5 Nerve"
+			"+5 Nerve",
 		],
-		"cons": [
-			"-30% Speed & Dexterity"
+		cons: [
+			"-30% Speed & Dexterity",
 		],
-		"cooldown": "6-8 hours",
-		"overdose": {
-			"bars": [
+		cooldown: "6-8 hours",
+		overdose: {
+			bars: [
 				"-100% Energy, Nerve",
-				"-50% Happy"
+				"-50% Happy",
 			],
-			"stats": "-30% Speed & Dexterity"
-		}
+			stats: "-30% Speed & Dexterity",
+		},
 	},
-	"opium": {
-		"pros": [
+	opium: {
+		pros: [
 			"Removes all hospital time (except Radiation Sickness) and replenishes life by 66.6%",
-			"+50-100 Happy"
+			"+50-100 Happy",
 		],
-		"cooldown": "3-4 hours"
+		cooldown: "3-4 hours",
 	},
-	"pcp": {
-		"pros": [
+	pcp: {
+		pros: [
 			"+20% Strength & Dexterity",
-			"+250 Happy"
+			"+250 Happy",
 		],
-		"cooldown": "4-7 hours",
-		"overdose": {
-			"bars": [
-				"-100% Energy, Nerve & Happy"
+		cooldown: "4-7 hours",
+		overdose: {
+			bars: [
+				"-100% Energy, Nerve & Happy",
 			],
-			"hosp_time": "27 hours",
-			"stats": "-10x(player level) Speed (permanent)"
-		}
+			hosp_time: "27 hours",
+			stats: "-10x(player level) Speed (permanent)",
+		},
 	},
-	"shrooms": {
-		"pros": [
-			"+500 Happy"
+	shrooms: {
+		pros: [
+			"+500 Happy",
 		],
-		"cons": [
+		cons: [
 			"-20% All Battle Stats",
-			"-25 Energy (caps at 0)"
+			"-25 Energy (caps at 0)",
 		],
-		"cooldown": "3-4 hours",
-		"overdose": {
-			"bars": [
-				"-100% Energy, Nerve & Happy"
+		cooldown: "3-4 hours",
+		overdose: {
+			bars: [
+				"-100% Energy, Nerve & Happy",
 			],
-			"hosp_time": "1h 40min"
-		}
+			hosp_time: "1h 40min",
+		},
 	},
-	"speed": {
-		"pros": [
+	speed: {
+		pros: [
 			"+20% Speed",
-			"+50 Happy"
+			"+50 Happy",
 		],
-		"cons": [
-			"-20% Dexterity"
+		cons: [
+			"-20% Dexterity",
 		],
-		"cooldown": "4-6 hours",
-		"overdose": {
-			"bars": [
-				"-100% Energy, Nerve & Happy"
+		cooldown: "4-6 hours",
+		overdose: {
+			bars: [
+				"-100% Energy, Nerve & Happy",
 			],
-			"stats": "-6x(player level) Strength & Defense (permanent)",
-			"hosp_time": "7h 30min"
-		}
+			stats: "-6x(player level) Strength & Defense (permanent)",
+			hosp_time: "7h 30min",
+		},
 	},
-	"vicodin": {
-		"pros": [
+	vicodin: {
+		pros: [
 			"+25% All Battle Stats",
-			"+75 Happy"
+			"+75 Happy",
 		],
-		"cooldown": "4-6 hours",
-		"overdose": {
-			"bars": [
-				"-150 Happy"
-			]
-		}
-	},
-	"xanax": {
-		"pros": [
-			"+250 Energy",
-			"+75 Happy"
-		],
-		"cons": [
-			"-35% All Battle Stats"
-		],
-		"cooldown": "6-8 hours",
-		"overdose": {
-			"bars": [
-				"-100% Energy, Nerve & Happy"
+		cooldown: "4-6 hours",
+		overdose: {
+			bars: [
+				"-150 Happy",
 			],
-			"hosp_time": "3 days 12 hours",
-			"extra": "24 hours of cooldown and increased addiction"
-		}
+		},
 	},
-	"love_juice": {
-		"pros": [
+	xanax: {
+		pros: [
+			"+250 Energy",
+			"+75 Happy",
+		],
+		cons: [
+			"-35% All Battle Stats",
+		],
+		cooldown: "6-8 hours",
+		overdose: {
+			bars: [
+				"-100% Energy, Nerve & Happy",
+			],
+			hosp_time: "3 days 12 hours",
+			extra: "24 hours of cooldown and increased addiction",
+		},
+	},
+	love_juice: {
+		pros: [
 			"Cost of Attacking & Reviving reduced to 15 Energy",
 			"+50% Speed",
-			"+25% Dexterity"
+			"+25% Dexterity",
 		],
-		"cons": [
-			"Only works on Valentine's Day"
+		cons: [
+			"Only works on Valentine's Day",
 		],
-		"cooldown": "5 hours"
+		cooldown: "5 hours",
 	},
-}
+};
 
 const THEME_CLASSES = {
 	default: {
@@ -184,401 +184,401 @@ const THEME_CLASSES = {
 	alternative: {
 		title: "title-black",
 	},
-}
+};
 
 const CHAIN_BONUSES = [
-	10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000
-]
+	10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000,
+];
 
 const STORAGE = {
 	// app settings
-	"api_key": undefined,
-	"proxy_key": undefined,
-	"updated": "force_true",
-	"api": {
-		"count": 0,
-		"limit": 60,
-		"online": true,
-		"error": ""
+	api_key: undefined,
+	proxy_key: undefined,
+	updated: "force_true",
+	api: {
+		count: 0,
+		limit: 60,
+		online: true,
+		error: "",
 	},
-	"extensions": {},
-	"new_version": {},
-	"api_history": {
-		"torn": [],
-		"yata": [],
-		"tornstats": [],
-		'torntools': []
+	extensions: {},
+	new_version: {},
+	api_history: {
+		torn: [],
+		yata: [],
+		tornstats: [],
+		torntools: [],
 	},
 
 	// userdata
-	"itemlist": {},
-	"torndata": {},
-	"userdata": {},
-	"oc": {},  // organized crimes
+	itemlist: {},
+	torndata: {},
+	userdata: {},
+	oc: {},  // organized crimes
 
 	// script data
-	"personalized": {},
-	"mass_messages": {
-		"active": false,
-		"list": [],
-		"index": 0,
-		"subject": undefined,
-		"message": undefined
+	personalized: {},
+	mass_messages: {
+		active: false,
+		list: [],
+		index: 0,
+		subject: undefined,
+		message: undefined,
 	},
-	"loot_times": {},
-	"travel_market": [],
-	"networth": {
-		"previous": {
-			"value": undefined,
-			"date": undefined
+	loot_times: {},
+	travel_market: [],
+	networth: {
+		previous: {
+			value: undefined,
+			date: undefined,
 		},
-		"current": {
-			"value": undefined,
-			"date": undefined
-		}
-	},
-	"target_list": {
-		"last_target": "-1",
-		"show": true,
-		"targets": {}
-	},
-	"vault": {
-		"user": {
-			"initial_money": 0,
-			"current_money": 0
+		current: {
+			value: undefined,
+			date: undefined,
 		},
-		"partner": {
-			"initial_money": 0,
-			"current_money": 0
+	},
+	target_list: {
+		last_target: "-1",
+		show: true,
+		targets: {},
+	},
+	vault: {
+		user: {
+			initial_money: 0,
+			current_money: 0,
 		},
-		"total_money": 0,
-		"initialized": false,
-		"last_transaction": undefined
+		partner: {
+			initial_money: 0,
+			current_money: 0,
+		},
+		total_money: 0,
+		initialized: false,
+		last_transaction: undefined,
 	},
-	"stock_alerts": {},
-	"loot_alerts": {},
-	"allies": [],
-	"custom_links": [],
-	"chat_highlight": {
-		"$player": "#7ca900"
+	stock_alerts: {},
+	loot_alerts: {},
+	allies: [],
+	custom_links: [],
+	chat_highlight: {
+		$player: "#7ca900",
 	},
-	"hide_icons": [],
-	"hide_areas": [],
-	"quick": {
-		"items": [],
-		"crimes": []
+	hide_icons: [],
+	hide_areas: [],
+	quick: {
+		items: [],
+		crimes: [],
 	},
-	"notes": {
-		"text": undefined,
-		"height": undefined
+	notes: {
+		text: undefined,
+		height: undefined,
 	},
-	"profile_notes": {
-		"profiles": {}
+	profile_notes: {
+		profiles: {},
 	},
-	"travel_items": 5,
-	"stakeouts": {},
-	"filters": {
-		"preset_data": {
-			"factions": {
+	travel_items: 5,
+	stakeouts: {},
+	filters: {
+		preset_data: {
+			factions: {
 				"default": "",
-				"data": []
-			}
-		},
-		"travel": {
-			"table_type": "basic",
-			"open": false,
-			"item_type": ["plushie", "flower", "drug", "other"],
-			"country": "all"
-		},
-		"profile_stats": {
-			"auto_fetch": true,
-			"relative_values": false,
-			"chosen_stats": []
-		},
-		"hospital": {
-			"activity": [],
-			"faction": "",
-			"time": [],
-			"level": []
-		},
-		"jail": {
-			"activity": [],
-			"faction": "",
-			"time": [],
-			"level": [],
-			"score": []
-		},
-		"faction": {
-			"activity": [],
-			"level": [],
-			"status": [],
-			"last_action": [],
-			'special': {
-				'isfedded': 'both',
-				'newplayer': 'both',
-				'onwall': 'both',
-				'incompany': 'both',
-				'isdonator': 'both'
-			}
-		},
-		"user_list": {
-			"activity": [],
-			"level": [],
-			'special': {
-				'isfedded': 'both',
-				'traveling': 'both',
-				'newplayer': 'both',
-				'onwall': 'both',
-				'incompany': 'both',
-				'infaction': 'both',
-				'isdonator': 'both'
-			}
-		},
-		"overseas": {
-			"activity": [],
-			"status": [],
-			"level": [],
-			'special': {
-				'isfedded': 'both',
-				'newplayer': 'both',
-				'onwall': 'both',
-				'incompany': 'both',
-				'infaction': 'both',
-				'isdonator': 'both'
-			}
-		},
-		"bounties": {},
-		"faction_armory": {},
-		"container_open": {},
-		"stock_exchange": {
-			"portfolio": {
-				"forecast": [],
-				"worth": [],
-				"name": "",
-				"profitLoss": [],
-				"listedOnly": false,
-			},
-			"market": {
-				"forecast": [],
-				"worth": [],
-				"name": "",
+				data: [],
 			},
 		},
-		"crimes": {
-			"safeCrimes": false,
+		travel: {
+			table_type: "basic",
+			open: false,
+			item_type: ["plushie", "flower", "drug", "other"],
+			country: "all",
+		},
+		profile_stats: {
+			auto_fetch: true,
+			relative_values: false,
+			chosen_stats: [],
+		},
+		hospital: {
+			activity: [],
+			faction: "",
+			time: [],
+			level: [],
+		},
+		jail: {
+			activity: [],
+			faction: "",
+			time: [],
+			level: [],
+			score: [],
+		},
+		faction: {
+			activity: [],
+			level: [],
+			status: [],
+			last_action: [],
+			special: {
+				isfedded: "both",
+				newplayer: "both",
+				onwall: "both",
+				incompany: "both",
+				isdonator: "both",
+			},
+		},
+		user_list: {
+			activity: [],
+			level: [],
+			special: {
+				isfedded: "both",
+				traveling: "both",
+				newplayer: "both",
+				onwall: "both",
+				incompany: "both",
+				infaction: "both",
+				isdonator: "both",
+			},
+		},
+		overseas: {
+			activity: [],
+			status: [],
+			level: [],
+			special: {
+				isfedded: "both",
+				newplayer: "both",
+				onwall: "both",
+				incompany: "both",
+				infaction: "both",
+				isdonator: "both",
+			},
+		},
+		bounties: {},
+		faction_armory: {},
+		container_open: {},
+		stock_exchange: {
+			portfolio: {
+				forecast: [],
+				worth: [],
+				name: "",
+				profitLoss: [],
+				listedOnly: false,
+			},
+			market: {
+				forecast: [],
+				worth: [],
+				name: "",
+			},
+		},
+		crimes: {
+			safeCrimes: false,
 		},
 	},
-	"sorting": {
-		"profile": []
+	sorting: {
+		profile: [],
 	},
-	"cache": {
-		"profileStats": {},
-		"spyReport": {},
-		"battleStatsEstimate": {},
+	cache: {
+		profileStats: {},
+		spyReport: {},
+		battleStatsEstimate: {},
 	},
-	"watchlist": [],
+	watchlist: [],
 
 	// user settings
-	"settings": {
-		"update_notification": true,
-		"notifications_tts": false,
-		"notifications_sound": true,
-		"notifications_link": true,
-		"clean_flight": false,
+	settings: {
+		update_notification: true,
+		notifications_tts: false,
+		notifications_sound: true,
+		notifications_link: true,
+		clean_flight: false,
 		// "remove_info_boxes": false,
-		"theme": "default",
-		"force_tt": true,
+		theme: "default",
+		force_tt: true,
 		developer: false,
-		"font_size": "12px",
-		"inactivity_alerts_faction": {
+		font_size: "12px",
+		inactivity_alerts_faction: {
 			// "432000000": "#ffc8c8",  // 5 days
 			// "259200000": "#fde5c8"  // 3 days
 		},
-		"inactivity_alerts_company": {
+		inactivity_alerts_company: {
 			// "432000000": "#ffc8c8",  // 5 days
 			// "259200000": "#fde5c8"  // 3 days
 		},
-		"notifications": {
-			"global": true,
-			"events": true,
-			"messages": true,
-			"status": true,
-			"traveling": true,
-			"cooldowns": true,
-			"education": true,
-			"new_day": true,
-			"energy": ["100%"],
-			"nerve": ["100%"],
-			"happy": ["100%"],
-			"life": ["100%"],
-			"hospital": [],
-			"landing": [],
-			"chain": [],
-			"chain_count": []
+		notifications: {
+			global: true,
+			events: true,
+			messages: true,
+			status: true,
+			traveling: true,
+			cooldowns: true,
+			education: true,
+			new_day: true,
+			energy: ["100%"],
+			nerve: ["100%"],
+			happy: ["100%"],
+			life: ["100%"],
+			hospital: [],
+			landing: [],
+			chain: [],
+			chain_count: [],
 		},
-		"format": {
-			"date": "eu",
-			"time": "eu"
+		format: {
+			date: "eu",
+			time: "eu",
 		},
-		"tabs": {
-			"market": true,
-			"stocks": true,
-			"calculator": true,
-			"info": true,
-			"default": "info"
+		tabs: {
+			market: true,
+			stocks: true,
+			calculator: true,
+			info: true,
+			"default": "info",
 		},
-		"achievements": {
-			"show": true,
-			"completed": true
+		achievements: {
+			show: true,
+			completed: true,
 		},
-		"pages": {
-			"trade": {
-				"item_values": true,
-				"total_value": true,
+		pages: {
+			trade: {
+				item_values: true,
+				total_value: true,
 			},
-			"home": {
-				"battle_stats": true,
-				"networth": true
+			home: {
+				battle_stats: true,
+				networth: true,
 			},
-			"missions": {
-				"rewards": true
+			missions: {
+				rewards: true,
 			},
-			"city": {
-				"items": true,
-				"items_value": true,
-				"closed_highlight": true
+			city: {
+				items: true,
+				items_value: true,
+				closed_highlight: true,
 			},
-			"profile": {
-				"friendly_warning": true,
-				"show_id": true,
-				"loot_times": true,
-				"status_indicator": true
+			profile: {
+				friendly_warning: true,
+				show_id: true,
+				loot_times: true,
+				status_indicator: true,
 			},
-			"racing": {
-				"upgrades": true
+			racing: {
+				upgrades: true,
 			},
-			"gym": {
-				"estimated_energy": true,
-				"disable_strength": false,
-				"disable_speed": false,
-				"disable_defense": false,
-				"disable_dexterity": false,
-				specialty_gym_1: '',
-				specialty_gym_2: '',
+			gym: {
+				estimated_energy: true,
+				disable_strength: false,
+				disable_speed: false,
+				disable_defense: false,
+				disable_dexterity: false,
+				specialty_gym_1: "",
+				specialty_gym_2: "",
 			},
-			"shop": {
-				"profits": true
+			shop: {
+				profits: true,
 			},
-			"casino": {
-				"global": true,
-				"hilo": true,
-				"blackjack": true
+			casino: {
+				global: true,
+				hilo: true,
+				blackjack: true,
 			},
-			"items": {
-				"values": true,
-				"drug_details": true,
-				"itemmarket_links": false,
-				"highlight_bloodbags": "none"
+			items: {
+				values: true,
+				drug_details: true,
+				itemmarket_links: false,
+				highlight_bloodbags: "none",
 			},
-			"travel": {
-				"profits": true,
-				"destination_table": true,
-				"cooldown_warnings": true,
+			travel: {
+				profits: true,
+				destination_table: true,
+				cooldown_warnings: true,
 			},
-			"api": {
-				"key": true,
-				"pretty": true,
-				"marking": false,
-				"autoDemo": true
+			api: {
+				key: true,
+				pretty: true,
+				marking: false,
+				autoDemo: true,
 			},
-			"faction": {
-				"oc_time": true,
-				"armory": true,
-				"oc_advanced": true,
-				"announcements_page_full": false,
-				"info_page_full": false,
-				"armory_worth": false,
-				"member_info": false,
-				"banking_tools": true,
+			faction: {
+				oc_time: true,
+				armory: true,
+				oc_advanced: true,
+				announcements_page_full: false,
+				info_page_full: false,
+				armory_worth: false,
+				member_info: false,
+				banking_tools: true,
 			},
-			"properties": {
-				"vault_sharing": true
+			properties: {
+				vault_sharing: true,
 			},
-			"stockexchange": {
-				"acronyms": true,
-				"advanced": true,
+			stockexchange: {
+				acronyms: true,
+				advanced: true,
 			},
-			"bazaar": {
-				"worth": false,
+			bazaar: {
+				worth: false,
 				max_buy_ignore_cash: false,
 			},
-			"company": {
-				"member_info": false
+			company: {
+				member_info: false,
 			},
-			"global": {
-				"vault_balance": false,
-				"vault_balance_own": false,
-				"notes": true,
-				"hide_upgrade": false,
-				"align_left": false,
-				"find_chat": true,
-				"hide_chat": false,
-				"collapse_areas": false,
-				"oc_time": true,
+			global: {
+				vault_balance: false,
+				vault_balance_own: false,
+				notes: true,
+				hide_upgrade: false,
+				align_left: false,
+				find_chat: true,
+				hide_chat: false,
+				collapse_areas: false,
+				oc_time: true,
 				hide_leave: false,
 			},
-			"jail": {
-				"quick_bail": false,
-				"quick_bust": false,
-			}
+			jail: {
+				quick_bail: false,
+				quick_bust: false,
+			},
 		},
-		"scripts": {
-			"stats_estimate": {
-				"global": true,
-				"profile": true,
-				"userlist": false,
-				"abroad": false,
-				"hall_of_fame": false,
-				"bounties": false,
-				"enemies_list": false,
-				"faction_wars": false,
-				"faction_members": false,
+		scripts: {
+			stats_estimate: {
+				global: true,
+				profile: true,
+				userlist: false,
+				abroad: false,
+				hall_of_fame: false,
+				bounties: false,
+				enemies_list: false,
+				faction_wars: false,
+				faction_members: false,
 				// TODO - competition
 
-				"delay": 1500,
-				"cached_only": false,
+				delay: 1500,
+				cached_only: false,
 			},
-			"no_confirm": {
-				"global": true,
-				"item_market": false,
-				"revives": false,
-				"item_equip": true,
+			no_confirm: {
+				global: true,
+				item_market: false,
+				revives: false,
+				item_equip: true,
 			},
-		}
-	}
-}
+		},
+	},
+};
 
 const TO_MILLIS = {
 	SECONDS: 1000,
 	MINUTES: 1000 * 60,
 	HOURS: 1000 * 60 * 60,
 	DAYS: 1000 * 60 * 60 * 24,
-}
+};
 
 const ACTIVITY_FILTER_DICT = {
-	"online": "icon1_",
-	"idle": "icon62_",
-	"offline": "icon2_"
-}
+	online: "icon1_",
+	idle: "icon62_",
+	offline: "icon2_",
+};
 const SPECIAL_FILTER_DICT = {
-	"isfedded": ["icon70_"],
-	"traveling": ["icon71_"],
-	"newplayer": ["icon72_"],
-	"onwall": [
+	isfedded: ["icon70_"],
+	traveling: ["icon71_"],
+	newplayer: ["icon72_"],
+	onwall: [
 		"icon75_",
-		"icon76_"
+		"icon76_",
 	],
-	"incompany": [
+	incompany: [
 		"icon21_",
 		"icon22_",
 		"icon23_",
@@ -586,48 +586,48 @@ const SPECIAL_FILTER_DICT = {
 		"icon25_",
 		"icon26_",
 		"icon27_",
-		"icon73_"
+		"icon73_",
 	],
-	"infaction": [
+	infaction: [
 		"icon9_",
 		"icon74_",
-		"icon81_"
+		"icon81_",
 	],
-	"isdonator": [
+	isdonator: [
 		"icon3_",
-		"icon4_"
-	]
-}
+		"icon4_",
+	],
+};
 
-let notificationLinkRelations = {}
+let notificationLinkRelations = {};
 
 const RANKS = {
 	"Absolute beginner": 1,
-	"Beginner": 2,
-	"Inexperienced": 3,
-	"Rookie": 4,
-	"Novice": 5,
+	Beginner: 2,
+	Inexperienced: 3,
+	Rookie: 4,
+	Novice: 5,
 	"Below average": 6,
-	"Average": 7,
-	"Reasonable": 8,
+	Average: 7,
+	Reasonable: 8,
 	"Above average": 9,
-	"Competent": 10,
+	Competent: 10,
 	"Highly competent": 11,
-	"Veteran": 12,
-	"Distinguished": 13,
+	Veteran: 12,
+	Distinguished: 13,
 	"Highly distinguished": 14,
-	"Professional": 15,
-	"Star": 16,
-	"Master": 17,
-	"Outstanding": 18,
-	"Celebrity": 19,
-	"Supreme": 20,
-	"Idolised": 21,
-	"Champion": 22,
-	"Heroic": 23,
-	"Legendary": 24,
-	"Elite": 25,
-	"Invincible": 26
+	Professional: 15,
+	Star: 16,
+	Master: 17,
+	Outstanding: 18,
+	Celebrity: 19,
+	Supreme: 20,
+	Idolised: 21,
+	Champion: 22,
+	Heroic: 23,
+	Legendary: 24,
+	Elite: 25,
+	Invincible: 26,
 };
 
 const RANK_TRIGGERS = {
@@ -646,13 +646,13 @@ const RANK_TRIGGERS = {
 	],
 };
 
-const FORMATTER_NO_DECIMALS = new Intl.NumberFormat('en-US', {
+const FORMATTER_NO_DECIMALS = new Intl.NumberFormat("en-US", {
 	maximumFractionDigits: 0,
 });
-const FORMATTER_VALUES = new Intl.NumberFormat('en-US', {
+const FORMATTER_VALUES = new Intl.NumberFormat("en-US", {
 	maximumFractionDigits: 3,
 });
-const FORMATTER_PERCENTAGE = new Intl.NumberFormat('en-US', {
+const FORMATTER_PERCENTAGE = new Intl.NumberFormat("en-US", {
 	maximumFractionDigits: 2,
 });
 
@@ -675,13 +675,13 @@ Document.prototype.find = function (type) {
 		}
 
 		try {
-			this.querySelector(type)
+			this.querySelector(type);
 		} catch (err) {
 			return undefined;
 		}
 	}
 	return this.querySelector(type);
-}
+};
 Element.prototype.find = function (type) {
 	if (type.indexOf("=") > -1 && type.indexOf("[") === -1) {
 		let key = type.split("=")[0];
@@ -694,20 +694,20 @@ Element.prototype.find = function (type) {
 		}
 
 		try {
-			this.querySelector(type)
+			this.querySelector(type);
 		} catch (err) {
 			return undefined;
 		}
 	}
 	return this.querySelector(type);
-}
+};
 
 Document.prototype.findAll = function (type) {
 	return this.querySelectorAll(type);
-}
+};
 Element.prototype.findAll = function (type) {
 	return this.querySelectorAll(type);
-}
+};
 
 Document.prototype.new = function (newElement) {
 	if (typeof newElement == "string") {
@@ -743,17 +743,16 @@ Document.prototype.new = function (newElement) {
 			el.setAttribute(attr, newElement.attributes[attr]);
 		}
 
-
 		return el;
 	}
-}
+};
 
 Document.prototype.setClass = function (className) {
 	return this.setAttribute("class", className);
-}
+};
 Element.prototype.setClass = function (className) {
 	return this.setAttribute("class", className);
-}
+};
 
 String.prototype.replaceAll = function (text, replace) {
 	let str = this.toString();
@@ -769,7 +768,6 @@ String.prototype.replaceAll = function (text, replace) {
 			}
 		}
 	}
-
 
 	return str;
 };
@@ -843,7 +841,7 @@ const ttStorage = {
 			chrome.storage.local.clear(function () {
 				chrome.storage.local.set(STORAGE, function () {
 					chrome.storage.local.set({
-						"api_key": api_key
+						api_key: api_key,
 					}, function () {
 						chrome.storage.local.get(null, function (data) {
 							console.log("Storage cleared");
@@ -854,8 +852,8 @@ const ttStorage = {
 				});
 			});
 		});
-	}
-}
+	},
+};
 
 const infoBox = {
 	newRow: function (key, value, attr = {}) {
@@ -873,7 +871,7 @@ const infoBox = {
 			let span_left_inner = doc.new({
 				type: "span",
 				text: key,
-				attributes: { style: "background-color: transparent;" }
+				attributes: { style: "background-color: transparent;" },
 			});
 			let span_right = doc.new({ type: "span", class: "desc" });
 			let span_right_inner = doc.new({ type: "span", text: value, attributes: { style: "padding-left: 3px;" } });
@@ -885,8 +883,8 @@ const infoBox = {
 		}
 
 		return li;
-	}
-}
+	},
+};
 
 const navbar = {
 	newSection: function (name, attribute = {}) {
@@ -915,7 +913,7 @@ const navbar = {
                 <div class="content___kMC8x">
                     <div class="areas___2pu_3">
                         <div class="toggle-block___13zU2">
-                            <div class="tt-title tt-nav ${THEME_CLASSES[settings.theme].title} ${collapsed === true || collapsed === undefined ? 'collapsed' : ''}">
+                            <div class="tt-title tt-nav ${THEME_CLASSES[settings.theme].title} ${collapsed === true || collapsed === undefined ? "collapsed" : ""}">
                                 <div class="title-text">${name}</div>
                                 <div class="tt-options"></div>
                                 <i class="tt-title-icon fas fa-caret-down"></i></div>
@@ -930,8 +928,8 @@ const navbar = {
 					sidebarBlock.find(".tt-title").classList.toggle("collapsed");
 					let collapsed = sidebarBlock.find(".tt-title").classList.contains("collapsed");
 
-					ttStorage.change({ "filters": { "container_open": { "navbar": { [name]: collapsed } } } });
-				}
+					ttStorage.change({ filters: { container_open: { navbar: { [name]: collapsed } } } });
+				};
 			}
 
 			return sidebarBlock;
@@ -975,7 +973,7 @@ const navbar = {
 
 			div.innerHTML = `
                 <div class="area-row___34mEZ tt-cell">
-                    <a class="desktopLink___2dcWC ${attr.class || ""}" ${attr.href ? `href='${attr.href}'` : ''} target="${attr.link_target || ""}">
+                    <a class="desktopLink___2dcWC ${attr.class || ""}" ${attr.href ? `href='${attr.href}'` : ""} target="${attr.link_target || ""}">
                         <span>${text}</span>
                     </a>
                 </div>
@@ -983,8 +981,8 @@ const navbar = {
 
 			return div;
 		}
-	}
-}
+	},
+};
 
 const content = {
 	newContainer: function (name, attr = {}) {
@@ -1016,7 +1014,7 @@ const content = {
 		return new_div;
 
 		function createNewContainer(name, attr) {
-			let collapsed = filters.container_open[getCurrentPage() + (attr.collapseId || '')];
+			let collapsed = filters.container_open[getCurrentPage() + (attr.collapseId || "")];
 
 			let div = doc.new({ type: "div" });
 			if (attr.id) div.id = attr.id;
@@ -1040,7 +1038,7 @@ const content = {
                     <div class="tt-options"></div>
                     <i class="tt-title-icon fas fa-caret-down"></i>
                 </div>
-                <div class="cont-gray bottom-rounded content tt-content ${attr.dragzone ? 'tt-dragzone' : ''}"></div>
+                <div class="cont-gray bottom-rounded content tt-content ${attr.dragzone ? "tt-dragzone" : ""}"></div>
             `;
 
 			if (attr.dragzone) {
@@ -1070,8 +1068,8 @@ const content = {
 						}
 					}
 
-					ttStorage.change({ "filters": { "container_open": { [getCurrentPage() + (attr.collapseId || '')]: collapsed } } })
-				}
+					ttStorage.change({ filters: { container_open: { [getCurrentPage() + (attr.collapseId || "")]: collapsed } } });
+				};
 			}
 
 			return div;
@@ -1086,8 +1084,8 @@ const content = {
 		}
 
 		return undefined;
-	}
-}
+	},
+};
 
 /*
  * Load some normal functions.
@@ -1212,22 +1210,22 @@ function romanToArabic(roman) {
 	if (!isNaN(parseInt(roman))) return roman;
 
 	let dict = {
-		"I": 1,
-		"II": 2,
-		"III": 3,
-		"IV": 4,
-		"V": 5,
-		"VI": 6,
-		"VII": 7,
-		"VIII": 8,
-		"IX": 9,
-		"X": 10,
-		"XI": 11,
-		"XII": 12,
-		"XIII": 13,
-		"XIV": 14,
-		"XV": 15,
-	}
+		I: 1,
+		II: 2,
+		III: 3,
+		IV: 4,
+		V: 5,
+		VI: 6,
+		VII: 7,
+		VIII: 8,
+		IX: 9,
+		X: 10,
+		XI: 11,
+		XII: 12,
+		XIII: 13,
+		XIV: 14,
+		XV: 15,
+	};
 
 	return dict[roman];
 }
@@ -1249,7 +1247,7 @@ function arabicToRoman(arabic) {
 		"13": "XIII",
 		"14": "XIV",
 		"15": "XV",
-	}
+	};
 	return dict[arabic];
 }
 
@@ -1360,54 +1358,53 @@ function numberWithCommas(x, shorten = true, formatter) {
 
 function timeAgo(time) {
 	switch (typeof time) {
-		case 'number':
+		case "number":
 			break;
-		case 'string':
+		case "string":
 			time = +new Date(time);
 			break;
-		case 'object':
+		case "object":
 			if (time.constructor === Date) time = time.getTime();
 			break;
 		default:
 			time = +new Date();
 	}
 
-
 	let seconds = (+new Date() - time) / 1000,
-		token = 'ago',
+		token = "ago",
 		list_choice = 1;
 
-	if (seconds === 0) return 'Just now';
+	if (seconds === 0) return "Just now";
 
 	if (seconds < 0) {
 		seconds = Math.abs(seconds);
-		token = 'from now';
+		token = "from now";
 		list_choice = 2;
 	}
 
 	const formats = [
-		[60, 'sec', 1], // 60
-		[120, '1min ago', '1min from now'], // 60*2
-		[3600, 'min', 60], // 60*60, 60
-		[7200, '1h ago', '1h from now'], // 60*60*2
-		[86400, 'h', 3600], // 60*60*24, 60*60
-		[172800, 'Yesterday', 'Tomorrow'], // 60*60*24*2
-		[604800, 'd', 86400], // 60*60*24*7, 60*60*24
-		[1209600, 'Last week', 'Next week'], // 60*60*24*7*4*2
-		[2419200, 'w', 604800], // 60*60*24*7*4, 60*60*24*7
-		[4838400, 'Last month', 'Next month'], // 60*60*24*7*4*2
-		[29030400, 'mon', 2419200], // 60*60*24*7*4*12, 60*60*24*7*4
-		[58060800, 'Last year', 'Next year'], // 60*60*24*7*4*12*2
-		[2903040000, 'y', 29030400], // 60*60*24*7*4*12*100, 60*60*24*7*4*12
-		[5806080000, 'Last century', 'Next century'], // 60*60*24*7*4*12*100*2
-		[58060800000, 'cen', 2903040000] // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
+		[60, "sec", 1], // 60
+		[120, "1min ago", "1min from now"], // 60*2
+		[3600, "min", 60], // 60*60, 60
+		[7200, "1h ago", "1h from now"], // 60*60*2
+		[86400, "h", 3600], // 60*60*24, 60*60
+		[172800, "Yesterday", "Tomorrow"], // 60*60*24*2
+		[604800, "d", 86400], // 60*60*24*7, 60*60*24
+		[1209600, "Last week", "Next week"], // 60*60*24*7*4*2
+		[2419200, "w", 604800], // 60*60*24*7*4, 60*60*24*7
+		[4838400, "Last month", "Next month"], // 60*60*24*7*4*2
+		[29030400, "mon", 2419200], // 60*60*24*7*4*12, 60*60*24*7*4
+		[58060800, "Last year", "Next year"], // 60*60*24*7*4*12*2
+		[2903040000, "y", 29030400], // 60*60*24*7*4*12*100, 60*60*24*7*4*12
+		[5806080000, "Last century", "Next century"], // 60*60*24*7*4*12*100*2
+		[58060800000, "cen", 2903040000], // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
 	];
 	for (let format of formats) {
 		if (seconds < format[0]) {
-			if (typeof format[2] == 'string')
+			if (typeof format[2] == "string")
 				return format[list_choice];
 			else
-				return Math.floor(seconds / format[2]) + '' + format[1] + ' ' + token;
+				return Math.floor(seconds / format[2]) + "" + format[1] + " " + token;
 		}
 	}
 	return time;
@@ -1415,12 +1412,12 @@ function timeAgo(time) {
 
 function setBadge(text, attributes = {}) {
 	const types = {
-		default: { text: '' },
+		default: { text: "" },
 		error: { text: "error", color: "#FF0000" },
-		"update_available": { text: "new", color: "#e0dd11" },
-		"update_installed": { text: "new", color: "#0ad121" },
-		"new_message": { text: () => attributes.count.toString(), color: "#84af03" },
-		"new_event": { text: () => attributes.count.toString(), color: "#009eda" },
+		update_available: { text: "new", color: "#e0dd11" },
+		update_installed: { text: "new", color: "#0ad121" },
+		new_message: { text: () => attributes.count.toString(), color: "#84af03" },
+		new_event: { text: () => attributes.count.toString(), color: "#009eda" },
 	};
 
 	const badge = types[text];
@@ -1453,8 +1450,8 @@ function dateParts(date) {
 		date.getFullYear(),
 		date.getHours(),
 		date.getMinutes(),
-		date.getSeconds()
-	]
+		date.getSeconds(),
+	];
 
 	return data.map((value) => toMultipleDigits(value, 2));
 }
@@ -1487,15 +1484,15 @@ function rotateElement(element, degrees) {
 }
 
 function formatBytes(bytes, decimals = 2) {
-	if (bytes === 0) return '0 Bytes';
+	if (bytes === 0) return "0 Bytes";
 
 	const k = 1024;
 	const dm = decimals < 0 ? 0 : decimals;
-	const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+	const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
 	const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-	return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+	return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
 }
 
 function timeUntil(milliseconds, attributes = {}) {
@@ -1693,7 +1690,7 @@ function sort(table, col, type) {
 			let priority = item.getAttribute("priority");
 
 			if (!priorities[parseInt(priority) - 1])
-				priorities[parseInt(priority) - 1] = []
+				priorities[parseInt(priority) - 1] = [];
 			priorities[parseInt(priority) - 1].push(item.parentElement);
 		}
 
@@ -1767,13 +1764,13 @@ function sort(table, col, type) {
 
 function getCurrentPage() {
 	const pages = {
-		"index": "home",
-		"jailview": "jail",
-		"hospitalview": "hospital",
-		"item": "items",
-		"profiles": "profile",
-		"factions": "faction",
-	}
+		index: "home",
+		jailview: "jail",
+		hospitalview: "hospital",
+		item: "items",
+		profiles: "profile",
+		factions: "faction",
+	};
 
 	let page = window.location.pathname.substring(1);
 
@@ -1898,7 +1895,7 @@ function loadingPlaceholder(element, display) {
 			element.appendChild(doc.new({
 				type: "img",
 				class: "ajax-placeholder m-top10 m-bottom10 tt-loading-placeholder active",
-				attributes: { src: "https://www.torn.com/images/v2/main/ajax-loader.gif" }
+				attributes: { src: "https://www.torn.com/images/v2/main/ajax-loader.gif" },
 			}));
 		}
 	} else {
@@ -1907,12 +1904,12 @@ function loadingPlaceholder(element, display) {
 }
 
 function saveSortingOrder(parent, page) {
-	let names = []
+	let names = [];
 	for (let section of parent.findAll(":scope>.tt-section")) {
 		names.push(section.getAttribute("name"));
 	}
 
-	ttStorage.change({ "sorting": { [page]: names } });
+	ttStorage.change({ sorting: { [page]: names } });
 }
 
 function sortSections(parent, page) {
@@ -1931,7 +1928,7 @@ function notifyUser(title, message, url) {
 			iconUrl: "images/icon128.png",
 			title,
 			message,
-		}
+		};
 
 		if (hasSilentSupport() && !settings.notifications_sound) notificationOptions.silent = true;
 
@@ -1951,7 +1948,7 @@ function notifyUser(title, message, url) {
 
 function loadConfirmationPopup(options) {
 	return new Promise((resolve, reject) => {
-		const customElements = {}
+		const customElements = {};
 		const markdownConverter = new showdown.Converter();
 
 		doc.find(".tt-black-overlay").classList.add("active");
@@ -1967,7 +1964,7 @@ function loadConfirmationPopup(options) {
 		const textareas = markdown.match(/TEXTAREA=(.*)$/gm) || [];
 		for (let textarea of textareas) {
 			const id = textarea.split("=")[1].replace("]", "");
-			customElements[id] = { type: 'textarea' }
+			customElements[id] = { type: "textarea" };
 			markdown = markdown.replace(`[TEXTAREA=${id}]`, `<textarea id='${id}'></textarea>`);
 		}
 
@@ -1985,7 +1982,7 @@ function loadConfirmationPopup(options) {
 			}
 
 			return resolve(customElements);
-		}
+		};
 		doc.find(".tt-confirmation-popup .actions .button.red").onclick = () => {
 			doc.find(".tt-black-overlay").classList.remove("active");
 			doc.find(".tt-confirmation-popup").classList.remove("active");
@@ -1993,7 +1990,7 @@ function loadConfirmationPopup(options) {
 			doc.find("body").classList.remove("tt-unscrollable");
 
 			return reject();
-		}
+		};
 	});
 }
 
@@ -2038,7 +2035,7 @@ function injectXHR() {
 
 	doc.find("head").appendChild(doc.new({
 		type: "script",
-		attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectXHR.js") }
+		attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectXHR.js") },
 	}));
 	injectedXHR = true;
 }
@@ -2054,7 +2051,7 @@ function injectFetch() {
 
 	doc.find("head").appendChild(doc.new({
 		type: "script",
-		attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectFetch.js") }
+		attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectFetch.js") },
 	}));
 	injectedFetch = true;
 }
@@ -2110,7 +2107,7 @@ function estimateStats(userId, isIndividual = false, listCount = 0) {
 
 			if (!isIndividual) await sleep(listCount * settings.scripts.stats_estimate.delay);
 
-			fetchApi_v2('torn', { section: 'user', objectid: userId, selections: 'profile,personalstats,crimes' })
+			fetchApi_v2("torn", { section: "user", objectid: userId, selections: "profile,personalstats,crimes" })
 				.then((result) => {
 					const estimate = handleTornProfileData(result).battleStatsEstimate;
 
@@ -2160,7 +2157,6 @@ function estimateStatsInList(listSelector, userHandler) {
 				container.appendChild(row);
 			}
 
-
 			if (!hasCachedEstimate(userId)) estimateCount++;
 
 			loadingPlaceholder(row, true);
@@ -2170,7 +2166,7 @@ function estimateStatsInList(listSelector, userHandler) {
 					row.appendChild(doc.new({
 						type: "span",
 						text: `Stat Estimate: ${result.estimate}`,
-					}))
+					}));
 				}))
 				.catch((error) => {
 					loadingPlaceholder(row, false);
@@ -2195,38 +2191,38 @@ function cacheEstimate(userId, timestamp, estimate, lastAction) {
 	console.log(`Caching result for '${userId}' for ${days} days.`, estimate);
 
 	ttStorage.change({
-		"cache": {
-			"battleStatsEstimate": {
+		cache: {
+			battleStatsEstimate: {
 				[userId]: {
 					timestamp,
 					ttl: TO_MILLIS.DAYS * days,
 					data: estimate,
-				}
+				},
 			},
-		}
+		},
 	});
 }
 
 function fetchApi_v2(location, options = {/*section, objectid, selections, proxyFail, action, target, postData, from*/ }) {
 	return new Promise(async (resolve, reject) => {
-		ttStorage.get(['api_key', 'proxy_key'], ([api_key, proxy_key]) => {
+		ttStorage.get(["api_key", "proxy_key"], ([api_key, proxy_key]) => {
 			const URLs = {
-				'torn': 'https://api.torn.com/',
-				'yata': 'https://yata.alwaysdata.net/',
-				'torn-proxy': 'https://torn-proxy.com/',
-				'tornstats': 'https://www.tornstats.com/',
+				torn: "https://api.torn.com/",
+				yata: "https://yata.alwaysdata.net/",
+				"torn-proxy": "https://torn-proxy.com/",
+				tornstats: "https://www.tornstats.com/",
 				// 'tornstats': 'https://www.torn-proxy.com/tornstats/',
-				'torntools': 'https://torntools.gregork.com/'
-			}
+				torntools: "https://torntools.gregork.com/",
+			};
 
 			const proxyFail = options.proxyFail;
 			const ogLocation = location;
-			if ((location === 'torn' || location === 'tornstats') && !proxyFail && proxy_key && proxy_key.length === 32) location = 'torn-proxy';
+			if ((location === "torn" || location === "tornstats") && !proxyFail && proxy_key && proxy_key.length === 32) location = "torn-proxy";
 			const base = URLs[location];
 			let section;
-			if (ogLocation === 'tornstats' && location === 'torn-proxy') {
-				section = 'tornstats/' + options.section;
-			} else if (location !== 'tornstats') {
+			if (ogLocation === "tornstats" && location === "torn-proxy") {
+				section = "tornstats/" + options.section;
+			} else if (location !== "tornstats") {
 				section = options.section + "/";
 			} else {
 				section = options.section;
@@ -2237,28 +2233,28 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 			const proxyKey = proxy_key;
 
 			let full_url;
-			if (location === 'torntools') {
-				full_url = `${base}${section || ''}`;
+			if (location === "torntools") {
+				full_url = `${base}${section || ""}`;
 			} else if (proxyKey || apiKey) {
-				full_url = `${base}${section}${objectid}${selections ? 'selections=' + selections : ''}${location !== 'yata' ? proxyKey && !proxyFail ? `&key=${proxyKey}` : `&key=${apiKey}` : ''}`;
-				for (let param of ['action', 'target', 'from']) {
+				full_url = `${base}${section}${objectid}${selections ? "selections=" + selections : ""}${location !== "yata" ? proxyKey && !proxyFail ? `&key=${proxyKey}` : `&key=${apiKey}` : ""}`;
+				for (let param of ["action", "target", "from"]) {
 					if (options[param] === undefined) continue;
-					full_url += `&${param}=${options[param]}`
+					full_url += `&${param}=${options[param]}`;
 				}
 			} else {
-				console.log('NO API KEY IS SET. ABORTING FETCH.');
-				return reject({ error: 'NO API KEY IS SET. ABORTING FETCH.' });
+				console.log("NO API KEY IS SET. ABORTING FETCH.");
+				return reject({ error: "NO API KEY IS SET. ABORTING FETCH." });
 			}
 			// console.log('new fetch', full_url);
 
-			let parameters = {}
+			let parameters = {};
 
 			if (options.method === "POST") {
 				parameters = {
 					method: "POST",
 					headers: { "content-type": "application/json" },
-					body: JSON.stringify(options.postData)
-				}
+					body: JSON.stringify(options.postData),
+				};
 			}
 
 			fetch(full_url, parameters)
@@ -2267,7 +2263,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 					// console.log("result", result);
 
 					logFetch(ogLocation, (options => {
-						if (location === 'torn-proxy') options.proxy = true;
+						if (location === "torn-proxy") options.proxy = true;
 						return options;
 					})(options));
 
@@ -2276,14 +2272,14 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 						if (result.proxy) {
 							// Revoked key
 							if (result.code === 2) {
-								return reject({ error: 'Proxy Key has been revoked.' });
+								return reject({ error: "Proxy Key has been revoked." });
 							} else {
 								options.proxyFail = true;
 								return fetchApi_v2(ogLocation, options);
 							}
 						}
 						// TornTools
-						else if (location === 'torntools') {
+						else if (location === "torntools") {
 							return reject(result);
 						}
 						// Torn API
@@ -2293,28 +2289,28 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 								console.log("API SYSTEM OFFLINE");
 								setBadge("error");
 
-								ttStorage.change({ "api": { "online": false, "error": result.error.error } }, function () {
+								ttStorage.change({ api: { online: false, error: result.error.error } }, function () {
 									return reject({ error: result.error.error });
 								});
 							} else {
 								console.log("API ERROR:", result.error.error);
 
-								ttStorage.change({ "api": { "online": true, "error": result.error.error } }, function () {
+								ttStorage.change({ api: { online: true, error: result.error.error } }, function () {
 									return reject({ error: result.error.error });
 								});
 							}
 						}
 					} else {
 						try {
-							if (ogLocation === 'torn' && isNaN(await getBadgeText())) {
+							if (ogLocation === "torn" && isNaN(await getBadgeText())) {
 								setBadge("");
 							}
 						} catch (err) {
-							console.log("Unable to get Badge.")
+							console.log("Unable to get Badge.");
 						}
 
-						if (ogLocation === 'torn') {
-							ttStorage.change({ "api": { "online": true, "error": "" } }, function () {
+						if (ogLocation === "torn") {
+							ttStorage.change({ api: { online: true, error: "" } }, function () {
 								return resolve(result);
 							});
 						} else {
@@ -2330,15 +2326,15 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 						// Torn Proxy
 						if (result.proxy) {
 							// Revoked key
-							if (result.code === '2') {
-								return reject({ error: 'Proxy Key has been revoked.' });
+							if (result.code === "2") {
+								return reject({ error: "Proxy Key has been revoked." });
 							} else {
 								options.proxyFail = true;
 								return fetchApi_v2(location, options);
 							}
 						}
 						// TornTools
-						else if (location === 'torntools') {
+						else if (location === "torntools") {
 							return reject(result);
 						}
 						// Torn API
@@ -2348,19 +2344,19 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 								console.log("API SYSTEM OFFLINE");
 								setBadge("error");
 
-								ttStorage.change({ "api": { "online": false, "error": result.error.error } }, function () {
+								ttStorage.change({ api: { online: false, error: result.error.error } }, function () {
 									return reject({ error: result.error.error });
 								});
 							} else {
 								console.log("API ERROR:", result);
 
-								ttStorage.change({ "api": { "online": true, "error": result.error.error } }, function () {
+								ttStorage.change({ api: { online: true, error: result.error.error } }, function () {
 									return reject({ error: result.error.error });
 								});
 							}
 						}
 					}
-				})
+				});
 		});
 	});
 
@@ -2372,22 +2368,22 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 			const action = options.action;
 			const target = options.target;
 
-			let type = 'other';
+			let type = "other";
 
 			switch (location) {
-				case 'torn-proxy' || 'torn':
-					if (selections.includes('personalstats')) type = objectid === '' ? 'userdata' : 'profile_stats';
-					else if (selections.length && section === 'user') type = 'stakeouts';
+				case "torn-proxy" || "torn":
+					if (selections.includes("personalstats")) type = objectid === "" ? "userdata" : "profile_stats";
+					else if (selections.length && section === "user") type = "stakeouts";
 					break;
-				case 'tornstats':
-					if (action === 'spy') type = 'spy';
-					else if (action === 'crimes') type = 'OC info';
-					else if (action === 'getStatGraph') type = 'Gym Stats';
+				case "tornstats":
+					if (action === "spy") type = "spy";
+					else if (action === "crimes") type = "OC info";
+					else if (action === "getStatGraph") type = "Gym Stats";
 					break;
-				case 'yata':
-					if (section === 'loot/timings') type = 'Loot timings';
-					else if (section === 'bazaar/abroad/export') type = 'Travel data (pull)';
-					else if (section === 'bazaar/abroad/import') type = 'Travel data (push)';
+				case "yata":
+					if (section === "loot/timings") type = "Loot timings";
+					else if (section === "bazaar/abroad/export") type = "Travel data (pull)";
+					else if (section === "bazaar/abroad/import") type = "Travel data (push)";
 					break;
 			}
 
@@ -2399,9 +2395,9 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 				selections: selections,
 				action: action,
 				target: target,
-				type: type
+				type: type,
 			});
-			ttStorage.set({ "api_history": api_history });
+			ttStorage.set({ api_history: api_history });
 		});
 	}
 }

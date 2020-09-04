@@ -27,7 +27,7 @@ function hofLoaded() {
 function showStatsEstimates() {
 	estimateStatsInList(".hall-of-fame-wrap > .players-list > li", (row) => {
 		return {
-			userId: row.find(".player-info .player a.user.name").getAttribute("href").match(/profiles\.php\?XID=([0-9]*)/i)[1]
+			userId: row.find(".player-info .player a.user.name").getAttribute("href").match(/profiles\.php\?XID=([0-9]*)/i)[1],
 		};
 	});
 }

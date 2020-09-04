@@ -1,15 +1,15 @@
-window.addEventListener('load', () => {
+window.addEventListener("load", () => {
 	console.log("TT - Racing Speed");
 
 	if (flying())
-		return
+		return;
 
 	chrome.storage.local.get(["settings"], function (data) {
 		const settings = data.settings;
 		const show_racing = settings.pages.racing.show;
 
 		if (!show_racing)
-			return
+			return;
 
 		let done = false;
 		let updateSpeed;
@@ -45,7 +45,7 @@ function displaySpeed(race_length) {
 		setTimeout(function () {
 			let second_percentage = racer.querySelector(".time").innerText;
 			if (second_percentage.indexOf(":") > -1)
-				return
+				return;
 			console.log("Second:", second_percentage);
 
 			let difference = parseFloat(second_percentage) - parseFloat(first_percentage);
@@ -68,21 +68,19 @@ function displaySpeed(race_length) {
 
 function raceInProgress() {
 	return !!document.querySelector("#leaderBoard .driver-item .time").innerText;
-
 }
 
 function racingView() {
 	return !!document.querySelector(".drivers-list .track-wrap");
-
 }
 
 function flying() {
 	try {
 		if (document.querySelector("#skip-to-content").innerText === "Traveling") {
 			console.log("TT - User Flying");
-			return true
+			return true;
 		}
 	} catch (err) {
 	}
-	return false
+	return false;
 }

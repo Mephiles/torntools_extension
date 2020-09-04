@@ -14,7 +14,7 @@ class ttCustomConsole {
 				let message = messages[i];
 
 				if (isError(message)) {
-					message = `${message.toString()} [${message.fileName}:${message.lineNumber}]`
+					message = `${message.toString()} [${message.fileName}:${message.lineNumber}]`;
 				}
 
 				messages[i] = message;
@@ -33,19 +33,19 @@ class ttCustomConsole {
 				doc.new({
 					type: "span",
 					class: "message",
-					html: messages.join("<p class='seperator'>&nbsp;-&nbsp;</p>"),
+					html: messages.join("<p class='separator'>&nbsp;-&nbsp;</p>"),
 				}),
 			],
 			attributes: {
 				color,
-			}
+			},
 		});
 
 		if (this.parentElement.children.length) this.parentElement.insertBefore(log, this.parentElement.children[0]);
 		else this.parentElement.appendChild(log);
 
 		function isError(error) {
-			return error && error.stack && error.message && typeof error.stack === 'string' && typeof error.message === 'string';
+			return error && error.stack && error.message && typeof error.stack === "string" && typeof error.message === "string";
 		}
 	}
 

@@ -20,48 +20,48 @@ async function displayNetworth() {
 
 	if (networth.current.date === undefined || new Date() - new Date(networth.current.date) >= 5 * 60 * 1000) {  // 5 minutes
 		networth = await new Promise((resolve) => {
-			fetchApi_v2('torn', { section: 'user', selections: "personalstats,networth" })
+			fetchApi_v2("torn", { section: "user", selections: "personalstats,networth" })
 				.then(data => {
 					let ps = data.personalstats;
 					let new_networth = data.networth;
 					let networth = {
 						current: {
 							date: new Date().toString(),
-							value: new_networth
+							value: new_networth,
 						},
 						previous: {
 							value: {
-								"pending": ps.networthpending,
-								"wallet": ps.networthwallet,
-								"bank": ps.networthbank,
-								"points": ps.networthpoints,
-								"cayman": ps.networthcayman,
-								"vault": ps.networthvault,
-								"piggybank": ps.networthpiggybank,
-								"items": ps.networthitems,
-								"displaycase": ps.networthdisplaycase,
-								"bazaar": ps.networthbazaar,
-								"properties": ps.networthproperties,
-								"stockmarket": ps.networthstockmarket,
-								"auctionhouse": ps.networthauctionhouse,
-								"company": ps.networthcompany,
-								"bookie": ps.networthbookie,
-								"loan": ps.networthloan,
-								"unpaidfees": ps.networthunpaidfees,
-								"total": ps.networth
-							}
-						}
-					}
+								pending: ps.networthpending,
+								wallet: ps.networthwallet,
+								bank: ps.networthbank,
+								points: ps.networthpoints,
+								cayman: ps.networthcayman,
+								vault: ps.networthvault,
+								piggybank: ps.networthpiggybank,
+								items: ps.networthitems,
+								displaycase: ps.networthdisplaycase,
+								bazaar: ps.networthbazaar,
+								properties: ps.networthproperties,
+								stockmarket: ps.networthstockmarket,
+								auctionhouse: ps.networthauctionhouse,
+								company: ps.networthcompany,
+								bookie: ps.networthbookie,
+								loan: ps.networthloan,
+								unpaidfees: ps.networthunpaidfees,
+								total: ps.networth,
+							},
+						},
+					};
 
 					// Set Userdata & Networth
-					ttStorage.set({ "networth": networth }, () => {
+					ttStorage.set({ networth: networth }, () => {
 						console.log("Networth info updated.");
 						return resolve(networth);
 					});
 				})
 				.catch(err => {
 					console.log("ERROR", err);
-				})
+				});
 		});
 	}
 	console.log("Networth", networth);
@@ -74,12 +74,14 @@ async function displayNetworth() {
 
 	// Networth last updated info icon
 	let info_icon = doc.new({
-		type: "i", class: "networth-info-icon", attributes: {
+		type: "i",
+		class: "networth-info-icon",
+		attributes: {
 			seconds: ((new Date() - Date.parse(networth.current.date)) / 1000),
 			title: ("Last updated: " + timeAgo(Date.parse(networth.current.date))),
-			style: `margin-left: 9px;`
-		}
-	})
+			style: "margin-left: 9px;",
+		},
+	});
 	networth_row.find(".desc").appendChild(info_icon);
 	parent_box.appendChild(networth_row);
 
@@ -102,7 +104,7 @@ async function displayNetworth() {
 
 	let li = doc.new({ type: "li", class: "last tt-networth-li" });
 	let table = doc.new({ type: "table", class: "tt-networth-table" });
-	let footer = doc.new({ type: "div", class: "tt-networth-footer", text: `Networth change compared to Torn's last known Networth` });
+	let footer = doc.new({ type: "div", class: "tt-networth-footer", text: "Networth change compared to Torn's last known Networth" });
 
 	// table header
 	let header_row = doc.new("tr");
@@ -137,11 +139,11 @@ async function displayNetworth() {
 		let td_change = doc.new("td");
 
 		if (current_value < previous_value) {
-			td_change.innerText = `-$${numberWithCommas(Math.abs(current_value - previous_value))}`
-			td_change.setClass("negative-change")
+			td_change.innerText = `-$${numberWithCommas(Math.abs(current_value - previous_value))}`;
+			td_change.setClass("negative-change");
 		} else if (current_value > previous_value) {
-			td_change.innerText = `+$${numberWithCommas(current_value - previous_value)}`
-			td_change.setClass("positive-change")
+			td_change.innerText = `+$${numberWithCommas(current_value - previous_value)}`;
+			td_change.setClass("positive-change");
 		}
 
 		tr.appendChild(td_type);
@@ -164,7 +166,7 @@ function displayEffectiveBattleStats() {
 	battle_stats_container.appendChild(heading);
 
 	let eff_total = 0;
-	let battle_stats = ["Strength", "Defense", "Speed", "Dexterity"]
+	let battle_stats = ["Strength", "Defense", "Speed", "Dexterity"];
 
 	for (let i in battle_stats) {
 		let stat = parseInt(battle_stats_container.find(`li:nth-child(${parseInt(i) + 1}) .desc`).innerText.replace(/,/g, ""));

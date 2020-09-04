@@ -1,6 +1,6 @@
 requireDatabase().then(() => {
 	if (page_status === "blocked") {
-		console.log("Exiting Crimes script. Page is blocked.")
+		console.log("Exiting Crimes script. Page is blocked.");
 		return;
 	}
 
@@ -9,12 +9,12 @@ requireDatabase().then(() => {
 
 		let script_tag = doc.new({
 			type: "script",
-			attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/crimes/ttCrimeInject.js") }
+			attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/content/crimes/ttCrimeInject.js") },
 		});
 		doc.find("head").appendChild(script_tag);
 
 		window.addEventListener("tt-crime-finished", handleFormSubmit);
-	})
+	});
 
 	requireMessageBox().then(() => {
 		console.log("TT - Quick crimes");
@@ -53,20 +53,20 @@ requireDatabase().then(() => {
 		doc.addEventListener("click", event => {
 			// Close button
 			if (event.target.classList.contains("tt-close-icon")) {
-				console.log("here")
+				console.log("here");
 				event.stopPropagation();
 
 				let div = findParent(event.target, { class: "item" });
 				div.remove();
 
 				let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
-					"action": x.getAttribute("action"),
-					"nerve": x.getAttribute("nerve"),
-					"name": x.getAttribute("name"),
-					"icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0],
-					"text": x.find(".text").innerText.split(" (")[0]
+					action: x.getAttribute("action"),
+					nerve: x.getAttribute("nerve"),
+					name: x.getAttribute("name"),
+					icon: window.getComputedStyle(x.find(".pic"), false).backgroundImage.split("(\"")[1].split("\")")[0],
+					text: x.find(".text").innerText.split(" (")[0],
 				}));
-				ttStorage.change({ "quick": { "crimes": crimes } }, () => quick.crimes = crimes);
+				ttStorage.change({ quick: { crimes: crimes } }, () => quick.crimes = crimes);
 
 			}
 			// Crime button
@@ -79,8 +79,8 @@ requireDatabase().then(() => {
 				let crime_name = div.getAttribute("name");
 
 				console.log("action", action);
-				console.log("nerve_take", nerve_take)
-				console.log("crime_name", crime_name)
+				console.log("nerve_take", nerve_take);
+				console.log("crime_name", crime_name);
 
 				let form = doc.find(".content-wrapper form[name=crimes]");
 				if (!form) {
@@ -156,7 +156,7 @@ function showCrimesContainer(quick) {
 
 	if (quick.crimes.length > 0) {
 		for (let crime of quick.crimes) {
-			let div = doc.new({ type: "div", class: "item", attributes: { "nerve": crime.nerve, "name": crime.name, "action": crime.action } });
+			let div = doc.new({ type: "div", class: "item", attributes: { nerve: crime.nerve, name: crime.name, action: crime.action } });
 			let pic = doc.new({ type: "div", class: "pic", attributes: { style: `background-image: url(${crime.icon})` } });
 			let text = doc.new({ type: "div", class: "text", text: `${crime.text} (-${crime.nerve} nerve)` });
 			let close_icon = doc.new({ type: "i", class: "fas fa-times tt-close-icon" });
@@ -180,7 +180,7 @@ function showCrimesContainer(quick) {
 	safeSetting.addEventListener("click", () => {
 		document.documentElement.style.setProperty("--torntools-only-safe-crimes", safeSetting.checked ? "none" : "block");
 
-		ttStorage.change({ 'filters': { 'crimes': { 'safeCrimes': safeSetting.checked } } });
+		ttStorage.change({ filters: { crimes: { safeCrimes: safeSetting.checked } } });
 	});
 
 	doc.find("#ttQuick .tt-options").appendChild(safeWrap);
@@ -208,38 +208,38 @@ function addButton() {
 			doc.find(".tt-title .tt-options .tt-option#edit-crime-button").classList.remove("tt-highlight-sector");
 
 			for (let crime of doc.findAll("form[name='crimes']>ul>li")) crime.onclick = undefined;
-			for (let quickCrime of doc.findAll('#ttQuick .inner-content>.item')) {
+			for (let quickCrime of doc.findAll("#ttQuick .inner-content>.item")) {
 				quickCrime.onclick = undefined;
-				quickCrime.classList.remove('removable');
+				quickCrime.classList.remove("removable");
 			}
 		} else {
 			doc.find(".tt-black-overlay").classList.add("active");
 			doc.find(".tt-title .tt-options .tt-option#edit-crime-button").classList.add("tt-highlight-sector");
 
 			// Make quick crimes removable
-			for (let quickCrime of doc.findAll('#ttQuick .inner-content>.item')) {
-				quickCrime.classList.add('tt-highlight-sector');
-				quickCrime.classList.add('removable');
+			for (let quickCrime of doc.findAll("#ttQuick .inner-content>.item")) {
+				quickCrime.classList.add("tt-highlight-sector");
+				quickCrime.classList.add("removable");
 
 				quickCrime.onclick = event => {
 					event.stopPropagation();
 					event.preventDefault();
 
-					if (event.target.classList.contains('item')) event.target.remove();
+					if (event.target.classList.contains("item")) event.target.remove();
 					else findParent(event.target, { class: "item" }).remove();
 
 					let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
-						"action": x.getAttribute("action"),
-						"nerve": x.getAttribute("nerve"),
-						"name": x.getAttribute("name"),
-						"icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0],
-						"text": x.find(".text").innerText.split(" (")[0]
+						action: x.getAttribute("action"),
+						nerve: x.getAttribute("nerve"),
+						name: x.getAttribute("name"),
+						icon: window.getComputedStyle(x.find(".pic"), false).backgroundImage.split("(\"")[1].split("\")")[0],
+						text: x.find(".text").innerText.split(" (")[0],
 					}));
-					ttStorage.change({ "quick": { "crimes": crimes } }, () => quick.crimes = crimes);
-				}
+					ttStorage.change({ quick: { crimes: crimes } }, () => quick.crimes = crimes);
+				};
 			}
 
-			if (!doc.find('.specials-cont-wrap form[name=crimes]>ul>li .item[draggable]')) return;
+			if (!doc.find(".specials-cont-wrap form[name=crimes]>ul>li .item[draggable]")) return;
 
 			doc.find("form[name='crimes']").classList.add("tt-highlight-sector");
 			// Add new crimes
@@ -262,7 +262,7 @@ function addButton() {
 					let div = doc.new({
 						type: "div",
 						class: "item removable tt-highlight-sector",
-						attributes: { "nerve": crime_nerve, "name": crime_name, "action": action }
+						attributes: { nerve: crime_nerve, name: crime_name, action: action },
 					});
 					let pic = doc.new({ type: "div", class: "pic", attributes: { style: `background-image: url(${crime_icon})` } });
 					let text = doc.new({ type: "div", class: "text", text: `${crime_text} (-${crime_nerve} nerve)` });
@@ -277,33 +277,33 @@ function addButton() {
 						event.stopPropagation();
 						event.preventDefault();
 
-						if (event.target.classList.contains('item')) event.target.remove();
+						if (event.target.classList.contains("item")) event.target.remove();
 						else findParent(event.target, { class: "item" }).remove();
 
 						let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
-							"action": x.getAttribute("action"),
-							"nerve": x.getAttribute("nerve"),
-							"name": x.getAttribute("name"),
-							"icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0],
-							"text": x.find(".text").innerText.split(" (")[0]
+							action: x.getAttribute("action"),
+							nerve: x.getAttribute("nerve"),
+							name: x.getAttribute("name"),
+							icon: window.getComputedStyle(x.find(".pic"), false).backgroundImage.split("(\"")[1].split("\")")[0],
+							text: x.find(".text").innerText.split(" (")[0],
 						}));
-						ttStorage.change({ "quick": { "crimes": crimes } }, () => quick.crimes = crimes);
-					}
+						ttStorage.change({ quick: { crimes: crimes } }, () => quick.crimes = crimes);
+					};
 
 					// Save
 					let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
-						"action": x.getAttribute("action"),
-						"nerve": x.getAttribute("nerve"),
-						"name": x.getAttribute("name"),
-						"icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0],
-						"text": x.find(".text").innerText.split(" (")[0]
+						action: x.getAttribute("action"),
+						nerve: x.getAttribute("nerve"),
+						name: x.getAttribute("name"),
+						icon: window.getComputedStyle(x.find(".pic"), false).backgroundImage.split("(\"")[1].split("\")")[0],
+						text: x.find(".text").innerText.split(" (")[0],
 					}));
-					ttStorage.change({ "quick": { "crimes": crimes } }, () => quick.crimes = crimes);
-				}
+					ttStorage.change({ quick: { crimes: crimes } }, () => quick.crimes = crimes);
+				};
 			}
 		}
 
-	}
+	};
 }
 
 // Dragging
@@ -324,7 +324,7 @@ function onDragStart(event) {
 		let crime_icon = event.target.find(".specials-cont-wrap .title.left img").getAttribute("src");
 		let crime_text = event.target.find(".specials-cont-wrap .bonus.left").innerText.trim();
 
-		let div = doc.new({ type: "div", class: "temp item", attributes: { "nerve": crime_nerve, "name": crime_name, "action": action } });
+		let div = doc.new({ type: "div", class: "temp item", attributes: { nerve: crime_nerve, name: crime_name, action: action } });
 		let pic = doc.new({ type: "div", class: "pic", attributes: { style: `background-image: url(${crime_icon})` } });
 		let text = doc.new({ type: "div", class: "text", text: `${crime_text} (-${crime_nerve} nerve)` });
 		let close_icon = doc.new({ type: "i", class: "fas fa-times tt-close-icon" });
@@ -344,20 +344,20 @@ function onDragEnd() {
 	doc.find("#ttQuick .content").classList.remove("drag-progress");
 
 	let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
-		"action": x.getAttribute("action"),
-		"nerve": x.getAttribute("nerve"),
-		"name": x.getAttribute("name"),
-		"icon": window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0],
-		"text": x.find(".text").innerText.split(" (")[0]
+		action: x.getAttribute("action"),
+		nerve: x.getAttribute("nerve"),
+		name: x.getAttribute("name"),
+		icon: window.getComputedStyle(x.find(".pic"), false).backgroundImage.split("(\"")[1].split("\")")[0],
+		text: x.find(".text").innerText.split(" (")[0],
 	}));
-	ttStorage.change({ "quick": { "crimes": crimes } }, () => quick.crimes = crimes);
+	ttStorage.change({ quick: { crimes: crimes } }, () => quick.crimes = crimes);
 }
 
 function toggleCrimes() {
 	if (!doc.find(".specials-cont-wrap > form")) return;
 
 	const SAFE_CRIMES = {
-		"docrime": {
+		docrime: {
 			"search-for-cash": true,
 			"sell-copied-media": true,
 			shoplift: true,
@@ -367,10 +367,10 @@ function toggleCrimes() {
 			assassination: true,
 			"grand-theft-auto": true,
 			kidnapping: {
-				check: () => parseInt(doc.find("#user-money").getAttribute("data-money")) >= 75000
+				check: () => parseInt(doc.find("#user-money").getAttribute("data-money")) >= 75000,
 			},
 		},
-		"docrime2": {
+		docrime2: {
 			// search for cash
 			"search-the-train-station": true,
 			"search-under-the-old-bridge": true,
@@ -390,10 +390,10 @@ function toggleCrimes() {
 			"sci-fi-dvds": true,
 			"thriller-dvds": true,
 		},
-		"docrime3": {
-			"clothes-shop": true
+		docrime3: {
+			"clothes-shop": true,
 		},
-		"docrime4": {
+		docrime4: {
 			// shoplift
 			jacket: true,
 			// pickpocket
@@ -413,10 +413,10 @@ function toggleCrimes() {
 			"steal-a-parked-car": true,
 			// kidnapping
 			mayor: {
-				check: () => parseInt(doc.find("#user-money").getAttribute("data-money")) >= 75000
+				check: () => parseInt(doc.find("#user-money").getAttribute("data-money")) >= 75000,
 			},
 		},
-	}
+	};
 
 	const step = new URLSearchParams(doc.find(".specials-cont-wrap > form").getAttribute("action").substring(10)).get("step");
 	if (!SAFE_CRIMES[step]) return;
@@ -446,12 +446,12 @@ function handleFormSubmit({ detail: { response } }) {
 	if (response.responseText.indexOf("success-message") === -1 && response.responseText.indexOf("ready-message") === -1) {
 		$content.html(response.responseText);
 	} else {
-		let parts = response.responseText.split('<div class="tutorial-cont');
+		let parts = response.responseText.split("<div class=\"tutorial-cont");
 		let top = parts[0];
 		// let middle = doc.createElement("div");
 		// middle.id = "ttQuick";
 		// middle.innerHTML = doc.find("#ttQuick").innerHTML;
-		let bottom = '<div class="tutorial-cont' + parts[1];
+		let bottom = "<div class=\"tutorial-cont" + parts[1];
 
 		doc.find(".content-wrapper").innerHTML = top;
 		// doc.find(".content-wrapper").appendChild(middle);

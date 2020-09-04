@@ -1,7 +1,7 @@
 requireDatabase().then(() => {
 	requireElement(".content-wrapper > .delimiter-999").then(async () => {
 		await showTable();
-	})
+	});
 });
 
 async function showTable() {
@@ -21,7 +21,7 @@ async function showTable() {
 		m1: "1 Month",
 		m2: "2 Months",
 		m3: "3 Months",
-	}
+	};
 
 	let bestPeriod = Object.keys(values)[0];
 	for (let period in values) {
@@ -96,7 +96,7 @@ async function showTable() {
 				daily: profitRate.toFixed(4) * balance / DAYS[period],
 				apr: apr * 100,
 				profitRate: profitRate * 100,
-			}
+			};
 		}
 	}
 }

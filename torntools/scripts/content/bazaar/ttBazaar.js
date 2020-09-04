@@ -8,7 +8,7 @@ requireDatabase().then(() => {
 			// Bazaar worth
 			if (settings.pages.bazaar.worth) {
 				let bazaar_user_id = getSearchParameters().get("userId");
-				fetchApi_v2('torn', { section: 'user', objectid: bazaar_user_id, selections: 'bazaar' })
+				fetchApi_v2("torn", { section: "user", objectid: bazaar_user_id, selections: "bazaar" })
 					.then(result => {
 						let total = 0;
 
@@ -24,7 +24,7 @@ requireDatabase().then(() => {
 					})
 					.catch(err => {
 						console.log("ERROR", err);
-					})
+					});
 			}
 
 			// Highlight item
@@ -87,14 +87,7 @@ requireDatabase().then(() => {
 });
 
 function bazaarLoaded() {
-	return new Promise(resolve => {
-		let checker = setInterval(() => {
-			if (doc.find(".item___2GvHm")) {
-				resolve(true);
-				return clearInterval(checker);
-			}
-		}, 100);
-	});
+	return requireElement(".item___2GvHm");
 }
 
 function visiting() {

@@ -1,4 +1,4 @@
-console.log("TT - Loading global entry.")
+console.log("TT - Loading global entry.");
 
 let mobile = false;
 let page_status;
@@ -7,7 +7,7 @@ function mobileChecker() {
 	return new Promise((resolve) => {
 		if (!window.location.host.includes("torn") || getCurrentPage() === "api") {
 			resolve(false);
-			return
+			return;
 		}
 
 		let checker = setInterval(() => {
@@ -65,7 +65,7 @@ requireDatabase(false).then(async () => {
 
 	// Hide icons
 	for (let icon of hide_icons) {
-		document.documentElement.style.setProperty(`--torntools-hide-icons-${icon}`, 'none');
+		document.documentElement.style.setProperty(`--torntools-hide-icons-${icon}`, "none");
 	}
 
 	// Hide areas
