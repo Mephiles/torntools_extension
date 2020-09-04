@@ -835,6 +835,7 @@ function server() {
 	- sorting settings
 	- watchlist
 	- preferences
+	- profile notes
                     `,
 		})
 			.then(() => {
@@ -1473,6 +1474,7 @@ function exportData() {
 			"sorting",
 			"watchlist",
 			"settings",
+			"profile_notes",
 		];
 
 		for (let key of keys_to_export) {
