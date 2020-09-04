@@ -220,16 +220,15 @@ requireDatabase().then(function () {
 		let section_profile_notes = doc.new({ type: "div", class: "tt-section", attributes: { name: 'profile-notes' } });
 		let textbox = doc.new({ type: "textarea", class: "tt-profile-notes-textarea" });
 		textbox.maxLength = 128;
-		if (profile_notes.height) {
-			textbox.style.height = profile_notes.height;
-		}
 
 		let profiles = profile_notes.profiles;
 
 		if(profiles[user_id]) {
+			textbox.style.height = profiles[user_id]["height"];
 			textbox.value = profiles[user_id]["notes"];
-		} 
+		}
 		else {
+			textbox.style.height = "17px";
 			profiles[user_id] = {};
 		}
 
@@ -237,16 +236,18 @@ requireDatabase().then(function () {
 		notes_container.find(".content").appendChild(section_profile_notes);
 
 		textbox.addEventListener("change", () => {
+				profiles[user_id]["height"] = textbox.style.height;
 				profiles[user_id]["notes"] = textbox.value;
-				ttStorage.set({ "profile_notes": { "profiles": profiles, "height": textbox.style.height } });
+				ttStorage.set({ "profile_notes": { "profiles": profiles } });
 		});
 		textbox.addEventListener("mouseup", () => {
 			if (textbox.style.height !== notes.height) {
 				console.log("resize");
 				console.log(textbox.style.height);
 
+				profiles[user_id]["height"] = textbox.style.height;
 				profiles[user_id]["notes"] = textbox.value;
-				ttStorage.set({ "profile_notes": { "profiles": profiles, "height": textbox.style.height } });
+				ttStorage.set({ "profile_notes": { "profiles": profiles } });
 			}
 		});
 
