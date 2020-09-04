@@ -225,23 +225,11 @@ p {
     padding: 4px 0 4px 10px;
 }
 
-#changelog .dkk span, #changelog .mephiles span {
+#changelog .dkk span, #changelog .mephiles span, #changelog .wootty2000 span {
     position: relative;
 }
 
-#changelog .mephiles span:before {
-    width: 5px;
-    height: 5px;
-    content: "";
-    border-radius: 50%;
-    background-color: green;
-    border: 2px solid green;
-    position: absolute;
-    left: -13px;
-    top: 5px;
-}
-
-#changelog .dkk span:before {
+#changelog .dkk span:before, #changelog .mephiles span:before, #changelog .wootty2000 span:before {
     width: 5px;
     height: 5px;
     content: "";
@@ -251,6 +239,21 @@ p {
     position: absolute;
     left: -13px;
     top: 5px;
+}
+
+#changelog .mephiles span:before {
+    background-color: green;
+    border: 2px solid green;
+}
+
+#changelog .dkk span:before {
+    background-color: #dc8e00;
+    border: 2px solid #dc8e00;
+}
+
+#changelog .wootty2000 span:before {
+    background-color: red;
+    border: 2px solid red;
 }
 
 /* API info */
