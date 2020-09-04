@@ -76,6 +76,7 @@ function showUpgrades() {
 		for (let item of doc.findAll(`.pm-items .unlock[data-part="${part}"]`)) {
 			if (!category) category = findParent(item, { class: "pm-items-wrap" }).getAttribute("category");
 
+			item.classList.add("tt-modified");
 			item.find(".status").style['background-color'] = color;
 			item.find(".status").classList.add("tt-modified");
 
@@ -114,7 +115,7 @@ function showUpgrades() {
 				<br/>
 				<br/>
 				${needed.length ? `
-				<strong>${needed.length}</strong> part available to upgrade: <strong>${needed.join(", ")}</strong>
+				<strong>${needed.length}</strong> part available to upgrade: <strong>${needed.join("<span class='separator'>, </span>")}</strong>
 				` : "Your car is <strong style='color: #789e0c;'>FULLY UPGRADED</strong>"}
 			</p>
 		`,
@@ -124,8 +125,9 @@ function showUpgrades() {
 function resetUpgrades() {
 	for (let item of doc.findAll(".pm-items-wrap .d-wrap .pm-items .unlock")) {
 		const part = item.getAttribute("data-part");
-		if (!doc.find(`.pm-items .bought[data-part="${part}"]`)) continue;
+		if (!item.classList.contains("tt-modified") || !doc.find(`.pm-items .bought[data-part="${part}"]`)) continue;
 
+		item.classList.remove("tt-modified");
 		item.find(".status").style['background-color'] = "";
 		item.find(".status").classList.remove("tt-modified");
 		item.onmouseenter = () => {
@@ -136,10 +138,20 @@ function resetUpgrades() {
 		for (let item of doc.findAll(`.pm-items .unlock`)) {
 			if (item.getAttribute("data-part") === part) {
 				item.find(".title").style["background-color"] = "";
+				item.classList.remove("tt-modified");
 			}
 			item.style.opacity = 1;
 		}
 
-		if (doc.find(`.tt-race-upgrade-needed[part="${part}"]`)) doc.find(`.tt-race-upgrade-needed[part="${part}"]`).remove();
+		const category = findParent(item, { class: "pm-items-wrap" }).getAttribute("category");
+		const counter = doc.find(`.pm-categories > .unlock[data-category="${category}"] .tt-race-need-icon`);
+		counter.innerText = parseInt(counter.innerText) - 1;
+
+		const neededUpgrade = doc.find(`.tt-race-upgrade-needed[part="${part}"]`);
+		if (neededUpgrade) {
+			if (neededUpgrade.nextElementSibling && neededUpgrade.nextElementSibling.classList.contains("separator"))
+				neededUpgrade.nextElementSibling.remove();
+			neededUpgrade.remove();
+		}
 	}
 }
