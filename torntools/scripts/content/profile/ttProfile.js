@@ -1141,7 +1141,7 @@ function showProfileNotes() {
 	textbox.addEventListener("input", save); // change text
 	textbox.addEventListener("mouseup", save); // resize textarea
 
-	const container = content.newContainer("Profile Notes", { next_element_heading: "Medals", id: "tt-target-notes" }).find(".content");
+	const container = content.newContainer("Profile Notes", { next_element_heading: "Medals", id: "tt-target-notes", collapseId: 1 }).find(".content");
 	container.appendChild(doc.new({ type: "div", class: "tt-section", attributes: { name: "profile-notes" }, children: [textbox] }));
 
 	function save() {
