@@ -72,6 +72,7 @@ requireDatabase().then(() => {
 							let user_money = parseInt(doc.find("#user-money").innerText.replaceAll(",", "").replace("$", ""));
 
 							if (Math.floor(user_money / price) < max) max = Math.floor(user_money / price);
+							if (max > 10000) max = 10000;
 						}
 
 						parent.find(".buyAmountInput___Aooaf").value = max;
