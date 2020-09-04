@@ -35,7 +35,7 @@ function addFilterToTable(list, title) {
 			<div class="filter-content ${mobile ? "tt-mobile" : ""}">
 				<div class="filter-wrap" id="activity-filter">
 					<div class="filter-heading">Activity</div>
-					<div class="filter-multi-wrap ${mobile ? 'tt-mobile' : ''}">
+					<div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}">
 						<div class="tt-checkbox-wrap"><input type="checkbox" value="online">Online</div>
 						<div class="tt-checkbox-wrap"><input type="checkbox" value="idle">Idle</div>
 						<div class="tt-checkbox-wrap"><input type="checkbox" value="offline">Offline</div>
@@ -76,39 +76,33 @@ function addFilterToTable(list, title) {
 		filter_container.find("#tt-faction-filter").appendChild(divider_option);
 
 		// Time slider
-		let time_slider = filter_container.find('#tt-time-filter');
+		let time_slider = filter_container.find("#tt-time-filter");
 		noUiSlider.create(time_slider, {
 			start: [time_start, time_end],
 			step: 1,
 			connect: true,
-			range: {
-				'min': 0,
-				'max': 100
-			}
+			range: { min: 0, max: 100 },
 		});
 
 		let time_slider_info = time_slider.nextElementSibling;
-		time_slider.noUiSlider.on('update', values => {
+		time_slider.noUiSlider.on("update", values => {
 			values = values.map(x => (timeUntil(parseFloat(x) * 60 * 60 * 1000, { max_unit: "h", hide_nulls: true })));
-			time_slider_info.innerHTML = `Time: ${values.join(' - ')}`;
+			time_slider_info.innerHTML = `Time: ${values.join(" - ")}`;
 		});
 
 		// Level slider
-		let level_slider = filter_container.find('#tt-level-filter');
+		let level_slider = filter_container.find("#tt-level-filter");
 		noUiSlider.create(level_slider, {
 			start: [level_start, level_end],
 			step: 1,
 			connect: true,
-			range: {
-				'min': 0,
-				'max': 100
-			}
+			range: { min: 0, max: 100 },
 		});
 
 		let level_slider_info = level_slider.nextElementSibling;
-		level_slider.noUiSlider.on('update', values => {
+		level_slider.noUiSlider.on("update", values => {
 			values = values.map(x => parseInt(x));
-			level_slider_info.innerHTML = `Level: ${values.join(' - ')}`;
+			level_slider_info.innerHTML = `Level: ${values.join(" - ")}`;
 		});
 
 		// Event listeners
@@ -166,7 +160,7 @@ function addFilterToTable(list, title) {
 		// console.log("Level", level);
 
 		// Filtering
-		for (let li of list.findAll(":scope>li")) {
+		for (let li of list.findAll(":scope > li")) {
 			li.classList.remove("filter-hidden");
 			if (li.classList.contains("tt-user-info")) {
 				continue;
@@ -206,27 +200,18 @@ function addFilterToTable(list, title) {
 			}
 		}
 
-		ttStorage.change({
-			"filters": {
-				"hospital": {
-					activity: activity,
-					faction: faction,
-					time: time,
-					level: level
-				}
-			}
-		});
+		ttStorage.change({ filters: { hospital: { activity, faction, time, level } } });
 
 		updateStatistics();
 	}
 
 	function updateStatistics() {
-		doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li")].filter(x => (!x.classList.contains("filter-hidden"))).length;
-		doc.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope>li")].length;
+		doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope > li")].filter(x => (!x.classList.contains("filter-hidden"))).length;
+		doc.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope > li")].length;
 	}
 
 	function populateFactions() {
-		let faction_tags = [...list.findAll(":scope>li")].map(x => (x.find(".user.faction img") ? x.find(".user.faction img").getAttribute("title") : x.find("a.user.faction").innerText)).filter(x => x.trim() !== "");
+		let faction_tags = [...list.findAll(":scope > li")].map(x => (x.find(".user.faction img") ? x.find(".user.faction img").getAttribute("title") : x.find("a.user.faction").innerText)).filter(x => x.trim() !== "");
 
 		for (let tag of faction_tags) {
 			if (filter_container.find(`#tt-faction-filter option[value='${tag}']`)) continue;

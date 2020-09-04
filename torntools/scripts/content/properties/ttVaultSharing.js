@@ -12,7 +12,7 @@ requireDatabase().then(() => {
 			vaultLoaded().then(() => {
 				ttStorage.get("vault", vault => {
 					Main(vault);
-				})
+				});
 			});
 		});
 	});
@@ -38,10 +38,10 @@ function Main(vault, need_to_save) {
 	if (!vault.initialized) {
 		split.appendChild(doc.new({ type: "span", class: "divider", text: "- OR -" }));
 	} else {  // Check history for changes
-		for (let transaction of doc.findAll("ul.vault-trans-list>li:not(.title)")) {
+		for (let transaction of doc.findAll("ul.vault-trans-list > li:not(.title)")) {
 			console.log("looping");
 			let date = transaction.find(".date .transaction-date").innerText;
-			let date_parts = date.split("/")
+			let date_parts = date.split("/");
 			let time = transaction.find(".date .transaction-time").innerText;
 
 			let transaction_date = new Date(`${MONTHS[parseInt(date_parts[1]) - 1]} ${date_parts[0]}, ${date_parts[2]} ${time}`);
@@ -73,7 +73,7 @@ function Main(vault, need_to_save) {
 				need_to_save = true;
 
 			} else {
-				console.log("No new transactions.")
+				console.log("No new transactions.");
 				break;
 			}
 		}
@@ -178,19 +178,19 @@ function Main(vault, need_to_save) {
 		vault.user.current_money = user_value;
 		vault.partner.current_money = partner_value;
 		ttStorage.set({
-			"vault": {
-				"initialized": true,
-				"last_transaction": last_transaction.toString(),
-				"total_money": total_money,
-				"user": {
-					"initial_money": vault.initialized ? vault.user.initial_money : user_value,
-					"current_money": user_value
+			vault: {
+				initialized: true,
+				last_transaction: last_transaction.toString(),
+				total_money: total_money,
+				user: {
+					initial_money: vault.initialized ? vault.user.initial_money : user_value,
+					current_money: user_value,
 				},
-				"partner": {
-					"initial_money": vault.initialized ? vault.partner.initial_money : partner_value,
-					"current_money": partner_value
-				}
-			}
+				partner: {
+					initial_money: vault.initialized ? vault.partner.initial_money : partner_value,
+					current_money: partner_value,
+				},
+			},
 		}, () => {
 			console.log("Vault info set.");
 
@@ -240,7 +240,7 @@ function vaultLoaded() {
 
 function getLastTransactionDate() {
 	let date = doc.find("ul.vault-trans-list>li:not(.title) .date .transaction-date").innerText;
-	let date_parts = date.split("/")
+	let date_parts = date.split("/");
 	let time = doc.find("ul.vault-trans-list>li:not(.title) .date .transaction-time").innerText;
 
 	return new Date(`${MONTHS[parseInt(date_parts[1]) - 1]} ${date_parts[0]}, ${date_parts[2]} ${time}`);

@@ -16,7 +16,7 @@ requireDatabase(true).then(() => {
 				showChatButton();
 			}
 		});
-	})
+	});
 
 	activeTrade = isActiveTrade();
 
@@ -32,7 +32,7 @@ requireDatabase(true).then(() => {
 function isActiveTrade(params = getHashParameters()) {
 	let step = params.get("step");
 
-	return step === "view" || step === "initiateTrade"
+	return step === "view" || step === "initiateTrade";
 }
 
 function tradeLoaded() {
@@ -171,8 +171,8 @@ function showChatButton() {
 		let script = doc.new({
 			type: "script",
 			attributes: { type: "text/javascript" },
+			html: `chat.r(${id})`,
 		});
-		script.innerHTML = `chat.r(${id})`;
 
 		doc.find("head").appendChild(script);
 		setTimeout(() => script.remove(), 100);

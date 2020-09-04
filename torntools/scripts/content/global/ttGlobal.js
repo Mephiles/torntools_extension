@@ -36,7 +36,7 @@ requireDatabase().then(() => {
 				areas_header.classList.toggle("collapsed");
 				let collapsed = areas_header.classList.contains("collapsed");
 
-				ttStorage.change({ "settings": { "pages": { "global": { "collapse_areas": collapsed } } } });
+				ttStorage.change({ settings: { pages: { global: { collapse_areas: collapsed } } } });
 			});
 		}
 
@@ -75,20 +75,20 @@ requireDatabase().then(() => {
 
 		// Content margin
 		if (mobile && !_flying && custom_links.length > 0) {
-			console.log("here")
+			console.log("here");
 			doc.find("div[role='main']").classList.add("tt-modified");
 		}
 
 		// Links for Energy and Nerve
 		if (!mobile) {
-			doc.find('#barEnergy .bar-name___3TJ0p').classList.add('tt-text-link');
-			doc.find('#barNerve .bar-name___3TJ0p').classList.add('tt-text-link');
-			doc.find('#barEnergy .bar-name___3TJ0p').onclick = () => {
-				window.location.href = 'https://www.torn.com/gym.php';
-			}
-			doc.find('#barNerve .bar-name___3TJ0p').onclick = () => {
-				window.location.href = 'https://www.torn.com/crimes.php';
-			}
+			doc.find("#barEnergy .bar-name___3TJ0p").classList.add("tt-text-link");
+			doc.find("#barNerve .bar-name___3TJ0p").classList.add("tt-text-link");
+			doc.find("#barEnergy .bar-name___3TJ0p").onclick = () => {
+				window.location.href = "https://www.torn.com/gym.php";
+			};
+			doc.find("#barNerve .bar-name___3TJ0p").onclick = () => {
+				window.location.href = "https://www.torn.com/crimes.php";
+			};
 		}
 
 		// Global time reducer
@@ -121,7 +121,7 @@ requireDatabase().then(() => {
 	});
 
 	chatsLoaded().then(() => {
-		if (shouldDisable()) return
+		if (shouldDisable()) return;
 
 		// Chat highlight
 		let highlights = { ...chat_highlight };
@@ -176,18 +176,18 @@ function addCustomLinks() {
 	if (mobile) {
 		let areas_custom = doc.new({
 			type: "div",
-			class: "areas___2pu_3 areasWrapper areas-mobile___3zY0z torntools-mobile"
+			class: "areas___2pu_3 areasWrapper areas-mobile___3zY0z torntools-mobile",
 		});
 		let div = doc.new({ type: "div" });
 		let swipe_container = doc.new({ type: "div", class: "swiper-container swiper-container-horizontal" });
 		let swipe_wrapper = doc.new({
 			type: "div",
 			class: "swiper-wrapper swiper___nAyWO",
-			attributes: { style: "transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;" }
+			attributes: { style: "transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;" },
 		});
 		let swipe_button_left = doc.new({
 			type: "div",
-			class: "swiper-button___3lZ1n button-prev___2x-Io swiper-button-disabled"
+			class: "swiper-button___3lZ1n button-prev___2x-Io swiper-button-disabled",
 		});
 		let swipe_button_right = doc.new({ type: "div", class: "swiper-button___3lZ1n button-next___1hJxo" });
 
@@ -200,7 +200,7 @@ function addCustomLinks() {
 				href: link.href,
 				class: "mobileLink___33zU1 sidebarMobileLink torntools-mobile",
 				text: link.text,
-				attributes: { target: (link.new_tab ? "_blank" : "") }
+				attributes: { target: (link.new_tab ? "_blank" : "") },
 			});
 
 			area_row.appendChild(a);
@@ -223,7 +223,7 @@ function addCustomLinks() {
 			navbar.newCell(link.text, {
 				parent_element: custom_links_section,
 				href: link.href,
-				link_target: (link.new_tab ? "_blank" : "")
+				link_target: (link.new_tab ? "_blank" : ""),
 			});
 		}
 
@@ -242,19 +242,19 @@ function addNotesBox() {
 	}
 
 	inner_div.appendChild(textbox);
-	cell.appendChild(inner_div)
+	cell.appendChild(inner_div);
 	notes_section.find(".tt-content").appendChild(cell);
 
 	doc.find("#sidebar").insertBefore(notes_section, findParent(doc.find("h2=Areas"), { class: "sidebar-block___1Cqc2" }));
 
 	textbox.addEventListener("change", () => {
-		ttStorage.set({ "notes": { "text": textbox.value, "height": textbox.style.height } });
+		ttStorage.set({ notes: { text: textbox.value, height: textbox.style.height } });
 	});
 	textbox.addEventListener("mouseup", () => {
 		if (textbox.style.height !== notes.height) {
 			console.log("resize");
-			console.log(textbox.style.height)
-			ttStorage.set({ "notes": { "text": textbox.value, "height": textbox.style.height } });
+			console.log(textbox.style.height);
+			ttStorage.set({ notes: { text: textbox.value, height: textbox.style.height } });
 		}
 	});
 }
@@ -269,7 +269,7 @@ function addUpdateNotification() {
 		type: "a",
 		class: "desktopLink___2dcWC",
 		href: settings_page_url,
-		attributes: { target: "_blank", style: "background-color: #B8E28F; min-height: 24px; line-height: 24px;" }
+		attributes: { target: "_blank", style: "background-color: #B8E28F; min-height: 24px; line-height: 24px;" },
 	});
 	let span = doc.new({ type: "span", text: version_text });
 
@@ -286,7 +286,7 @@ function highLightChat(chat_highlight) {
 		let messages = chat.findAll(".message_oP8oM");
 
 		for (let message of messages) {
-			applyChatHighlights(message, chat_highlight)
+			applyChatHighlights(message, chat_highlight);
 		}
 	}
 }
@@ -303,7 +303,7 @@ function applyChatHighlights(message, highlights) {
 	for (let highlight in highlights) {
 		if (!words.includes(highlight.toLowerCase())) continue;
 
-		let color = highlights[highlight]
+		let color = highlights[highlight];
 		if (color.length === 7) color += "6e";
 
 		message.find("span").parentElement.style.backgroundColor = color;
@@ -348,7 +348,7 @@ function addChatFilters() {
 				let viewport = chat.find(".viewport_1F0WI");
 				viewport.scrollTop = viewport.scrollHeight;
 			}
-		}
+		};
 	}
 }
 
@@ -362,12 +362,13 @@ function displayVaultBalance() {
 	}
 
 	let elementHTML = `
-    <span class="name___297H-">Vault:</span>
-    <span class="value___1K0oi money-positive___3pqLW" style="position:relative;left:-3px;">${(settings.pages.global.vault_balance_own && vault.initialized && vault.user.current_money) ? "*" : ""}$${numberWithCommas(money, false)}</span>
-    `
+    	<span class="name___297H-">Vault:</span>
+    	<span class="value___1K0oi money-positive___3pqLW" style="position:relative;left:-3px;">
+			${(settings.pages.global.vault_balance_own && vault.initialized && vault.user.current_money) ? "*" : ""}$${numberWithCommas(money, false)}
+		</span>
+    `;
 
-	let el = doc.new({ type: "p", class: "point-block___xpMEi", attributes: { tabindex: "1" } });
-	el.innerHTML = elementHTML;
+	let el = doc.new({ type: "p", class: "point-block___xpMEi", attributes: { tabindex: "1" }, html: elementHTML });
 
 	let info_cont = doc.find("h2=Information");
 	info_cont.parentElement.find(".points___KTUNl").insertBefore(el, info_cont.parentElement.find(".points___KTUNl .point-block___xpMEi:nth-of-type(2)"));
@@ -377,7 +378,7 @@ function showToggleChat() {
 	const icon = doc.new({
 		id: "tt-hide_chat",
 		type: "i",
-		class: `fas ${settings.pages.global.hide_chat ? "fa-comment" : "fa-comment-slash"}`
+		class: `fas ${settings.pages.global.hide_chat ? "fa-comment" : "fa-comment-slash"}`,
 	});
 
 	icon.addEventListener("click", () => {
@@ -393,7 +394,7 @@ function showToggleChat() {
 
 		document.documentElement.style.setProperty(`--torntools-hide-chat`, settings.pages.global.hide_chat ? "none" : "block");
 
-		ttStorage.set({ "settings": settings });
+		ttStorage.set({ settings: settings });
 	});
 
 	doc.find("#body").prepend(icon);
@@ -416,7 +417,7 @@ function displayOCtime() {
 
 	if (crime_ids.length === 0) {
 		let div = doc.new({ type: "div" });
-		const keySpan = doc.new({ type: "span", text: 'OC:', class: 'tt-text-link key' });
+		const keySpan = doc.new({ type: "span", text: "OC:", class: "tt-text-link key" });
 		let span = doc.new({ type: "span", text: "N/A" });
 
 		div.appendChild(keySpan);
@@ -424,8 +425,8 @@ function displayOCtime() {
 		doc.find(".tt-information-section").appendChild(div);
 
 		keySpan.onclick = () => {
-			window.location.href = 'https://www.torn.com/factions.php?step=your#/tab=crimes'
-		}
+			window.location.href = "https://www.torn.com/factions.php?step=your#/tab=crimes";
+		};
 		return;
 	}
 
@@ -441,11 +442,11 @@ function displayOCtime() {
 
 				let time_left = timeUntil(new Date(oc[crime_id].time_ready * 1000) - new Date());
 				let div = doc.new({ type: "div" });
-				const keySpan = doc.new({ type: "span", text: 'OC: ', class: 'tt-text-link key' });
+				const keySpan = doc.new({ type: "span", text: "OC: ", class: "tt-text-link key" });
 				let span = doc.new({
 					type: "span",
 					text: time_left,
-					attributes: { "seconds-down": parseInt((new Date(oc[crime_id].time_ready * 1000) - new Date()) / 1000) }
+					attributes: { "seconds-down": parseInt((new Date(oc[crime_id].time_ready * 1000) - new Date()) / 1000) },
 				});
 
 				if (time_left === -1 || !time_left.includes("d")) span.classList.add("red");
@@ -455,8 +456,8 @@ function displayOCtime() {
 				doc.find(".tt-information-section").appendChild(div);
 
 				keySpan.onclick = () => {
-					window.location.href = 'https://www.torn.com/factions.php?step=your#/tab=crimes'
-				}
+					window.location.href = "https://www.torn.com/factions.php?step=your#/tab=crimes";
+				};
 			}
 		}
 	}
@@ -546,10 +547,7 @@ function addReviveListener() {
 }
 
 function showCustomConsole() {
-	const element = doc.new({
-		type: "div",
-		id: "tt-console",
-	});
+	const element = doc.new({ type: "div", id: "tt-console" });
 
 	ttConsole.parent = element;
 

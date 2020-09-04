@@ -12,7 +12,7 @@ requireDatabase().then(() => {
 				// showUpgrades();
 			}
 		}
-	})
+	});
 
 	upgradeView().then(() => {
 		console.log("TT - Racing Upgrades");
@@ -69,7 +69,7 @@ function showUpgrades() {
 	parts.forEach(part => {
 		if (doc.find(`.pm-items .bought[data-part="${part}"]`)) return;
 
-		const color = `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`
+		const color = `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`;
 		needed.push(`<span class="tt-race-upgrade-needed" part="${part}" style="color: ${color};">${part}</span>`);
 
 		let category;
@@ -77,11 +77,11 @@ function showUpgrades() {
 			if (!category) category = findParent(item, { class: "pm-items-wrap" }).getAttribute("category");
 
 			item.classList.add("tt-modified");
-			item.find(".status").style['background-color'] = color;
+			item.find(".status").style["background-color"] = color;
 			item.find(".status").classList.add("tt-modified");
 
 			item.onmouseenter = () => {
-				for (let item of doc.findAll(`.pm-items .unlock`)) {
+				for (let item of doc.findAll(".pm-items .unlock")) {
 					if (item.getAttribute("data-part") === part) {
 						item.find(".title").style["background-color"] = color;
 						item.style.opacity = 1;
@@ -91,7 +91,7 @@ function showUpgrades() {
 				}
 			};
 			item.onmouseleave = () => {
-				for (let item of doc.findAll(`.pm-items .unlock`)) {
+				for (let item of doc.findAll(".pm-items .unlock")) {
 					if (item.getAttribute("data-part") === part) {
 						item.find(".title").style["background-color"] = "";
 					}
@@ -106,18 +106,17 @@ function showUpgrades() {
 		} else {
 			elCategory.find(".bg-hover").appendChild(doc.new({ type: "div", class: "tt-race-need-icon", text: 1 }));
 		}
-	})
+	});
 
 	doc.find("#racingAdditionalContainer > .info-msg-cont .msg").appendChild(doc.new({
-		type: "div",
+		type: "p",
+		class: "tt-race-upgrades",
 		html: `
-			<p class="tt-race-upgrades">
-				<br/>
-				<br/>
-				${needed.length ? `
-				<strong>${needed.length}</strong> part available to upgrade: <strong>${needed.join("<span class='separator'>, </span>")}</strong>
-				` : "Your car is <strong style='color: #789e0c;'>FULLY UPGRADED</strong>"}
-			</p>
+			<br/>
+			<br/>
+			${needed.length ? `
+			<strong class="counter">${needed.length}</strong> part available to upgrade: <strong>${needed.join("<span class='separator'>, </span>")}</strong>
+			` : "Your car is <strong style='color: #789e0c;'>FULLY UPGRADED</strong>"}
 		`,
 	}));
 }
@@ -128,14 +127,14 @@ function resetUpgrades() {
 		if (!item.classList.contains("tt-modified") || !doc.find(`.pm-items .bought[data-part="${part}"]`)) continue;
 
 		item.classList.remove("tt-modified");
-		item.find(".status").style['background-color'] = "";
+		item.find(".status").style["background-color"] = "";
 		item.find(".status").classList.remove("tt-modified");
 		item.onmouseenter = () => {
 		};
 		item.onmouseleave = () => {
 		};
 
-		for (let item of doc.findAll(`.pm-items .unlock`)) {
+		for (let item of doc.findAll(".pm-items .unlock")) {
 			if (item.getAttribute("data-part") === part) {
 				item.find(".title").style["background-color"] = "";
 				item.classList.remove("tt-modified");
@@ -147,6 +146,10 @@ function resetUpgrades() {
 		const counter = doc.find(`.pm-categories > .unlock[data-category="${category}"] .tt-race-need-icon`);
 		counter.innerText = parseInt(counter.innerText) - 1;
 		if (counter.innerText === "0") counter.remove();
+
+		const totalCounter = doc.find(".tt-race-upgrades .counter");
+		totalCounter.innerText = parseInt(totalCounter.innerText) - 1;
+		if (totalCounter.innerText === "0") doc.find(".tt-race-upgrades").remove();
 
 		const neededUpgrade = doc.find(`.tt-race-upgrade-needed[part="${part}"]`);
 		if (neededUpgrade) {

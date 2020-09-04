@@ -3,7 +3,7 @@ requireDatabase().then(() => {
 		console.log("TT - Item Market");
 
 		if (subview() === "item_view") {
-			for (let el of doc.findAll("ul.guns-list>li:not(.clear)")) {
+			for (let el of doc.findAll("ul.guns-list > li:not(.clear)")) {
 				let url = el.find("a").getAttribute("href").replace("userID", "userId");
 
 				const price = el.find(".price").innerText.split(" (")[0].replace("$", "").replace(/,/g, "");

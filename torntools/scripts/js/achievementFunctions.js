@@ -48,7 +48,7 @@ function displayAchievements(achievements, show_completed) {
 		if (achievements[name].extra !== "###") {
 			new_cell.setAttribute("info", JSON.stringify({
 				goals: achievements[name].goals,
-				score: current_stat
+				score: current_stat,
 			}));
 			// new_cell.setAttribute("info", `Goals: ${achievements[name].goals.map(x => " "+numberWithCommas(x))}\n Your score: ${numberWithCommas(current_stat)}`);
 			addTooltip(new_cell);
@@ -83,7 +83,7 @@ function addTimeToHeader(section, date) {
 function getNextGoal(stat, achievements) {
 	let goal;
 	achievements = achievements.sort(function (a, b) {
-		return a - b
+		return a - b;
 	});
 
 	for (let ach of achievements) {
@@ -129,7 +129,7 @@ function fillGoals(achievements, torndata) {
 
 					// get goal
 					desc = desc.split("for at least")[0];  // remove 'day' numbers from networth
-					desc = desc.replace(/\D/g, '');  // replace all non-numbers
+					desc = desc.replace(/\D/g, "");  // replace all non-numbers
 					let goal = parseInt(desc);
 
 					if (!achievements[name].goals) {

@@ -1,51 +1,51 @@
 const country_dict = {  // time = minutes
-	"argentina": {
+	argentina: {
 		time: 167,
-		cost: 21000
+		cost: 21000,
 	},
-	"canada": {
+	canada: {
 		time: 41,
-		cost: 9000
+		cost: 9000,
 	},
 	"cayman islands": {
 		time: 35,
-		cost: 10000
+		cost: 10000,
 	},
-	"china": {
+	china: {
 		time: 242,
-		cost: 35000
+		cost: 35000,
 	},
-	"hawaii": {
+	hawaii: {
 		time: 134,
-		cost: 11000
+		cost: 11000,
 	},
-	"japan": {
+	japan: {
 		time: 225,
-		cost: 32000
+		cost: 32000,
 	},
-	"mexico": {
+	mexico: {
 		time: 26,
-		cost: 6500
+		cost: 6500,
 	},
 	"south africa": {
 		time: 297,
-		cost: 40000
+		cost: 40000,
 	},
-	"switzerland": {
+	switzerland: {
 		time: 175,
-		cost: 27000
+		cost: 27000,
 	},
-	"uae": {
+	uae: {
 		time: 271,
-		cost: 32000
+		cost: 32000,
 	},
 	"united kingdom": {
 		time: 159,
-		cost: 18000
-	}
-}
+		cost: 18000,
+	},
+};
 
-window.addEventListener('load', async () => {
+window.addEventListener("load", async () => {
 	console.log("TT - Travel (abroad)");
 
 	// Flying page
@@ -53,19 +53,19 @@ window.addEventListener('load', async () => {
 	if (await isFlying()) {
 		// Landing time
 		if (doc.find(".flight-info .destination-title") && userdata.travel) {
-			const landDate = new Date(userdata.travel.timestamp * 1000) - new Date() < 0 ? 'N/A' : new Date(userdata.travel.timestamp * 1000);
+			const landDate = new Date(userdata.travel.timestamp * 1000) - new Date() < 0 ? "N/A" : new Date(userdata.travel.timestamp * 1000);
 			let hours, minutes, seconds;
 
-			if (landDate !== 'N/A') [hours, minutes, seconds] = [landDate.getHours(), landDate.getMinutes(), landDate.getSeconds()];
+			if (landDate !== "N/A") [hours, minutes, seconds] = [landDate.getHours(), landDate.getMinutes(), landDate.getSeconds()];
 
-			const landingTimeDiv = doc.new({ type: 'div', attributes: { style: 'text-align: center;' } });
+			const landingTimeDiv = doc.new({ type: "div", attributes: { style: "text-align: center;" } });
 			const landingTimeDescription = doc.new({
-				type: 'span',
-				class: 'description',
-				text: `Landing at ${landDate === 'N/A' ? 'N/A' : formatTime([hours, minutes, seconds], settings.format.time)}`
+				type: "span",
+				class: "description",
+				text: `Landing at ${landDate === "N/A" ? "N/A" : formatTime([hours, minutes, seconds], settings.format.time)}`,
 			});
 			landingTimeDiv.appendChild(landingTimeDescription);
-			doc.find('.flight-info').insertBefore(landingTimeDiv, doc.find('.flight-info .destination-title').nextElementSibling);
+			doc.find(".flight-info").insertBefore(landingTimeDiv, doc.find(".flight-info .destination-title").nextElementSibling);
 		}
 
 		// Travel Table link
@@ -77,8 +77,8 @@ window.addEventListener('load', async () => {
 			attributes: {
 				href: on_travel_table ? "https://www.torn.com/index.php" : "https://www.torn.com/index.php?page=travel_table",
 				role: "button",
-				"aria-labelledby": "travel-table"
-			}
+				"aria-labelledby": "travel-table",
+			},
 		});
 		let icon = doc.new({ type: "i", class: "fas fa-plane" });
 		let span = doc.new({ type: "span", text: on_travel_table ? "Home" : "Travel Table" });
@@ -145,7 +145,7 @@ function displayItemProfits(itemlist) {
 		let profit = parseInt(market_price - buy_price);
 
 		let span = doc.new("span");
-		span.setClass("tt-travel-market-cell")
+		span.setClass("tt-travel-market-cell");
 		let inner_span = doc.new("span");
 		inner_span.innerText = `${profit < 0 ? "-$" : "+$"}${numberWithCommas(Math.abs(profit))}`;
 
@@ -190,7 +190,7 @@ function addFillMaxButtons() {
 			max = max > limit ? limit : max;
 			max = Math.floor(user_money / price) < max ? Math.floor(user_money / price) : max;
 
-			console.log(buy_btn.parentElement.find("input[name='amount']"))
+			console.log(buy_btn.parentElement.find("input[name='amount']"));
 			buy_btn.parentElement.find("input[name='amount']").value = max;
 			buy_btn.parentElement.find("input[name='amount']").setAttribute("value", max);
 
@@ -205,13 +205,13 @@ function updateYATAPrices() {
 	console.log("Updating YATA prices");
 
 	let post_data = {
-		"client": "TornTools",
-		"version": chrome.runtime.getManifest().version,
-		"author_name": "Mephiles",
-		"author_id": 2087524,
-		"country": getCountryName(),
-		"items": []
-	}
+		client: "TornTools",
+		version: chrome.runtime.getManifest().version,
+		author_name: "Mephiles",
+		author_id: 2087524,
+		country: getCountryName(),
+		items: [],
+	};
 
 	// Table content
 	let rows = doc.findAll(".users-list>li");
@@ -224,18 +224,18 @@ function updateYATAPrices() {
 		post_data.items.push({
 			id: id,
 			quantity: quantity,
-			cost: price
+			cost: price,
 		});
 	}
 
 	console.log("POST DATA", post_data);
-	fetchRelay('yata', { section: `bazaar/abroad/import`, method: 'POST', postData: post_data })
+	fetchRelay("yata", { section: `bazaar/abroad/import`, method: "POST", postData: post_data })
 		.then(result => {
 			console.log("yata PUSH", result);
 		})
 		.catch(err => {
 			console.log("ERROR", err);
-		})
+		});
 
 	function getCountryName() {
 		return doc.find("#skip-to-content").innerText.slice(0, 3).toLowerCase();
@@ -246,7 +246,7 @@ function addFilterToTable(list, title) {
 	let filter_container = content.newContainer("Filters", {
 		id: "tt-player-filter",
 		class: "filter-container",
-		next_element: title
+		next_element: title,
 	}).find(".content");
 	filter_container.innerHTML = `
         <div class="filter-header">
@@ -255,7 +255,7 @@ function addFilterToTable(list, title) {
         <div class="filter-content ${mobile ? "tt-mobile" : ""}">
             <div class="filter-wrap" id="activity-filter">
                 <div class="filter-heading">Activity</div>
-                <div class="filter-multi-wrap ${mobile ? 'tt-mobile' : ''}">
+                <div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}">
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="online">Online</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="idle">Idle</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="offline">Offline</div>
@@ -263,7 +263,7 @@ function addFilterToTable(list, title) {
 			</div>
 			<div class='filter-wrap' id='special-filter'>
 				<div class='filter-heading'>Special</div>
-				<div class='filter-multi-wrap ${mobile ? 'tt-mobile' : ''}'>
+				<div class='filter-multi-wrap ${mobile ? "tt-mobile" : ""}'>
 					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='isfedded-yes'>N:<input type='checkbox' value='isfedded-no'>Fedded</div>
 					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='newplayer-yes'>N:<input type='checkbox' value='newplayer-no'>New Player</div>
 					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='onwall-yes'>N:<input type='checkbox' value='onwall-no'>On Wall</div>
@@ -274,7 +274,7 @@ function addFilterToTable(list, title) {
 			</div>
             <div class="filter-wrap" id="status-filter">
                 <div class="filter-heading">Status</div>
-                <div class="filter-multi-wrap ${mobile ? 'tt-mobile' : ''}">
+                <div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}">
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="okay">Okay</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="hospital">Hospital</div>
                 </div>
@@ -294,13 +294,13 @@ function addFilterToTable(list, title) {
 	// Special
 	for (let key in filters.overseas.special) {
 		switch (filters.overseas.special[key]) {
-			case 'yes':
+			case "yes":
 				filter_container.find(`#special-filter input[value='${key}-yes']`).checked = true;
 				break;
-			case 'no':
+			case "no":
 				filter_container.find(`#special-filter input[value='${key}-no']`).checked = true;
 				break;
-			case 'both':
+			case "both":
 				filter_container.find(`#special-filter input[value='${key}-yes']`).checked = true;
 				filter_container.find(`#special-filter input[value='${key}-no']`).checked = true;
 				break;
@@ -312,21 +312,21 @@ function addFilterToTable(list, title) {
 	}
 
 	// Level slider
-	let level_slider = filter_container.find('#tt-level-filter');
+	let level_slider = filter_container.find("#tt-level-filter");
 	noUiSlider.create(level_slider, {
 		start: [level_start, level_end],
 		step: 1,
 		connect: true,
 		range: {
-			'min': 0,
-			'max': 100
-		}
+			min: 0,
+			max: 100,
+		},
 	});
 
 	let level_slider_info = level_slider.nextElementSibling;
-	level_slider.noUiSlider.on('update', values => {
+	level_slider.noUiSlider.on("update", values => {
 		values = values.map(x => parseInt(x));
-		level_slider_info.innerHTML = `Level: ${values.join(' - ')}`;
+		level_slider_info.innerHTML = `Level: ${values.join(" - ")}`;
 	});
 
 	// Event listeners
@@ -376,12 +376,12 @@ function addFilterToTable(list, title) {
 	applyFilters();
 
 	function applyFilters() {
-		let activity = []
-		let status = []
-		let special = {}
+		let activity = [];
+		let status = [];
+		let special = {};
 		// let faction = ``;
 		// let time = []
-		let level = []
+		let level = [];
 
 		// Activity
 		for (let checkbox of doc.findAll("#activity-filter .tt-checkbox-wrap input:checked")) {
@@ -394,13 +394,13 @@ function addFilterToTable(list, title) {
 		// Special
 		for (let key in filters.overseas.special) {
 			if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked && doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked) {
-				special[key] = 'both';
+				special[key] = "both";
 			} else if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked) {
-				special[key] = 'yes';
+				special[key] = "yes";
 			} else if (doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked) {
-				special[key] = 'no';
+				special[key] = "no";
 			} else {
-				special[key] = 'both';
+				special[key] = "both";
 			}
 		}
 		// Level
@@ -446,9 +446,9 @@ function addFilterToTable(list, title) {
 			// Special
 			for (let key in special) {
 				console.log(key, special[key]);
-				if (special[key] === 'both') continue;
+				if (special[key] === "both") continue;
 
-				if (special[key] === 'yes') {
+				if (special[key] === "yes") {
 					let matchesOneIcon = false;
 					for (let icon of SPECIAL_FILTER_DICT[key]) {
 						if (li.querySelector(`li[id^='${icon}']`)) {
@@ -460,7 +460,7 @@ function addFilterToTable(list, title) {
 					if (!matchesOneIcon) {
 						showRow(li, false);
 					}
-				} else if (special[key] === 'no') {
+				} else if (special[key] === "no") {
 					let matchesOneIcon = false;
 					for (let icon of SPECIAL_FILTER_DICT[key]) {
 						if (li.querySelector(`li[id^='${icon}']`)) {
@@ -477,15 +477,15 @@ function addFilterToTable(list, title) {
 		}
 
 		ttStorage.change({
-			"filters": {
-				"overseas": {
+			filters: {
+				overseas: {
 					activity: activity,
 					status: status,
 					// faction: faction,
 					// time: time,
-					level: level
-				}
-			}
+					level: level,
+				},
+			},
 		});
 
 		updateStatistics();
@@ -522,7 +522,7 @@ async function travelTableScript() {
 
 	addLegend();
 
-	console.log("travel items", travel_items)
+	console.log("travel items", travel_items);
 	doc.find("#ttTravelTable #tt-items").value = travel_items;
 
 	let table = doc.new({ type: "div", class: "table" });
@@ -553,7 +553,7 @@ function addLegend() {
 		`
 <div class="legend">
     <div class="top-row">
-        <div class="filter-button"><i class="fas ${filters.travel.open ? 'fa-chevron-up' : 'fa-chevron-down'}"></i><div>&nbsp;Filters</div></div>
+        <div class="filter-button"><i class="fas ${filters.travel.open ? "fa-chevron-up" : "fa-chevron-down"}"></i><div>&nbsp;Filters</div></div>
         <div class="table-type-button">
             <span class="table-type" type="advanced">Advanced</span>
             <span>&nbsp;/&nbsp;</span>
@@ -588,14 +588,14 @@ function addLegend() {
         </div>
     </div>
 </div>
-    `
+    `;
 
 	doc.find("#ttTravelTable .content").innerHTML += legend;
 
 	// Set right filters
-	if (!Array.isArray(filters.travel.item_type)) filters.travel.item_type = ["plushie", "flower", "drug", "other"]
+	if (!Array.isArray(filters.travel.item_type)) filters.travel.item_type = ["plushie", "flower", "drug", "other"];
 
-	console.log(filters.travel.item_type)
+	console.log(filters.travel.item_type);
 
 	for (let type of filters.travel.item_type) {
 		doc.find(`#ttTravelTable .legend-content input[name='item'][_type='${type}']`).checked = true;
@@ -610,7 +610,7 @@ function addLegend() {
 			rotateElement(doc.find("#ttTravelTable .content .filter-button i"), 180);
 
 			saveSettings();
-		}
+		};
 	}
 
 	// Switch between modes
@@ -631,7 +631,7 @@ function addLegend() {
 		}
 
 		saveSettings();
-	}
+	};
 	advanced_mode_button.onclick = () => {
 		if (!advanced_mode_button.classList.contains("active")) {
 			advanced_mode_button.classList.add("active");
@@ -644,20 +644,20 @@ function addLegend() {
 		}
 
 		saveSettings();
-	}
+	};
 
 	// Filtering
 	for (let el of doc.findAll("#ttTravelTable .legend-content .row .radio-item input, #ttTravelTable .legend-content .row .checkbox-item input")) {
 		el.onclick = () => {
 			filterTable();
 			saveSettings();
-		}
+		};
 	}
 
 	// Change travel items count
 	doc.find("#ttTravelTable .legend-content #tt-items").onchange = () => {
 		reloadTable();
-	}
+	};
 }
 
 function addTableContent(travel_items) {
@@ -692,7 +692,7 @@ function addTableHeader() {
     <div class="advanced" sort-type="value">Total Profit</div>
     <div class="advanced" sort-type="value">Cash Needed</div>
 </div>
-    `
+    `;
 	doc.find("#ttTravelTable .table").innerHTML += row;
 
 	doc.addEventListener("click", event => {
@@ -714,7 +714,7 @@ function addRow(item, time, cost, travel_items) {
 	let profit_per_item = (total_profit / travel_items).toFixed(0);
 	let update_time = timeAgo(item.timestamp * 1000);
 	let item_types = ["plushie", "flower", "drug"];
-	let background_style = `url(/images/v2/travel_agency/flags/fl_${item.country_name.toLowerCase().replace("united kingdom", "uk").replace(" islands", "").replace(" ", "_")}.svg) center top no-repeat`
+	let background_style = `url(/images/v2/travel_agency/flags/fl_${item.country_name.toLowerCase().replace("united kingdom", "uk").replace(" islands", "").replace(" ", "_")}.svg) center top no-repeat`;
 	let item_type = item_types.includes(item.item_type.toLowerCase()) ? item.item_type.toLowerCase() : "other";
 
 	let row =
@@ -729,40 +729,40 @@ function addRow(item, time, cost, travel_items) {
     <div class="advanced" value="${item.abroad_cost}">$${numberWithCommas(item.abroad_cost, item.abroad_cost >= 1e6)}</div>
     <div class="advanced" value="${market_value}">$${numberWithCommas(market_value, market_value >= 1e6)}</div>
     
-    `
+    `;
 	let profit_per_item_div;
 	if (profit_per_item > 0) {
-		profit_per_item_div = `<div class="positive profit advanced" value="${profit_per_item}">+$${numberWithCommas(profit_per_item, profit_per_item >= 1e6)}</div>`
+		profit_per_item_div = `<div class="positive profit advanced" value="${profit_per_item}">+$${numberWithCommas(profit_per_item, profit_per_item >= 1e6)}</div>`;
 	} else if (profit_per_item < 0) {
-		profit_per_item_div = `<div class="negative profit advanced" value="${profit_per_item}">-$${numberWithCommas(Math.abs(profit_per_item), profit_per_item <= -1e6)}</div>`
+		profit_per_item_div = `<div class="negative profit advanced" value="${profit_per_item}">-$${numberWithCommas(Math.abs(profit_per_item), profit_per_item <= -1e6)}</div>`;
 	} else {
-		profit_per_item_div = `<div class="advanced" value="0">$0</div>`
+		profit_per_item_div = `<div class="advanced" value="0">$0</div>`;
 	}
 	row += profit_per_item_div;
 
 	let profit_per_minute_div;
 	if (profit_per_minute > 0) {
-		profit_per_minute_div = `<div class="positive profit" value="${profit_per_minute}">+$${numberWithCommas(profit_per_minute, profit_per_minute >= 1e6)}</div>`
+		profit_per_minute_div = `<div class="positive profit" value="${profit_per_minute}">+$${numberWithCommas(profit_per_minute, profit_per_minute >= 1e6)}</div>`;
 	} else if (profit_per_minute < 0) {
-		profit_per_minute_div = `<div class="negative profit" value="${profit_per_minute}">-$${numberWithCommas(Math.abs(profit_per_minute), profit_per_minute <= -1e6)}</div>`
+		profit_per_minute_div = `<div class="negative profit" value="${profit_per_minute}">-$${numberWithCommas(Math.abs(profit_per_minute), profit_per_minute <= -1e6)}</div>`;
 	} else {
-		profit_per_minute_div = `<div value="0">$0</div>`
+		profit_per_minute_div = `<div value="0">$0</div>`;
 	}
 	row += profit_per_minute_div;
 
 	let total_profit_div;
 	if (total_profit > 0) {
-		total_profit_div = `<div class="positive profit advanced" value="${total_profit}">+$${numberWithCommas(total_profit, total_profit >= 1e6)}</div>`
+		total_profit_div = `<div class="positive profit advanced" value="${total_profit}">+$${numberWithCommas(total_profit, total_profit >= 1e6)}</div>`;
 	} else if (total_profit < 0) {
-		total_profit_div = `<div class="negative profit advanced" value="${total_profit}">-$${numberWithCommas(Math.abs(total_profit), total_profit <= -1e6)}</div>`
+		total_profit_div = `<div class="negative profit advanced" value="${total_profit}">-$${numberWithCommas(Math.abs(total_profit), total_profit <= -1e6)}</div>`;
 	} else {
-		total_profit_div = `<div class="advanced" value="0">$0</div>`
+		total_profit_div = `<div class="advanced" value="0">$0</div>`;
 	}
 	row += total_profit_div;
 
-	row += `<div class="advanced" value="${item.abroad_cost * travel_items}">$${numberWithCommas((item.abroad_cost * travel_items), item.abroad_cost >= 1e6)}</div>`
+	row += `<div class="advanced" value="${item.abroad_cost * travel_items}">$${numberWithCommas((item.abroad_cost * travel_items), item.abroad_cost >= 1e6)}</div>`;
 
-	row += "</div>"
+	row += "</div>";
 	return row;
 }
 
@@ -771,9 +771,9 @@ function filterTable() {
 	const item_types = [...doc.findAll("#ttTravelTable .legend-content .checkbox-item input[name='item']:checked")].map(x => x.getAttribute("_type"));
 
 	let cols = {
-		"country": 1,
-		"item": 2
-	}
+		country: 1,
+		item: 2,
+	};
 
 	// Switch destination on map
 	// let name = country.replace(/ /g, "-");
@@ -785,7 +785,7 @@ function filterTable() {
 		row.classList.remove("hidden");
 
 		// Country
-		if (country !== 'all' && [...row.children][cols['country'] - 1].getAttribute('country') !== country) {
+		if (country !== "all" && [...row.children][cols["country"] - 1].getAttribute("country") !== country) {
 			row.classList.add("hidden");
 			continue;
 		}
@@ -793,7 +793,7 @@ function filterTable() {
 		// Item type
 		let is_in_list = false;
 		for (let type of item_types) {
-			if (item_types.includes([...row.children][cols['item'] - 1].getAttribute('item'))) {
+			if (item_types.includes([...row.children][cols["item"] - 1].getAttribute("item"))) {
 				is_in_list = true;
 				break;
 			}
@@ -810,15 +810,15 @@ function saveSettings() {
 		table_type: doc.find(".table-type.active") ? doc.find(".table-type.active").getAttribute("type") : "basic",
 		open: !doc.find(".legend-content").classList.contains("collapsed"),
 		item_type: [...doc.findAll(".legend-content input[name='item']:checked")].map(x => x.getAttribute("_type")),
-		country: doc.find(".legend-content input[name='country']:checked").getAttribute("_type")
-	}
+		country: doc.find(".legend-content input[name='country']:checked").getAttribute("_type"),
+	};
 
-	ttStorage.change({ "filters": { "travel": travel } });
+	ttStorage.change({ filters: { travel: travel } });
 }
 
 function reloadTable() {
 	console.log("Reloading table");
-	ttStorage.get(['filters', 'travel_market'], async ([filters, travel_market]) => {
+	ttStorage.get(["filters", "travel_market"], async ([filters, travel_market]) => {
 		if (travel_market.length === 0 || !travel_market.date || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) // 2 minutes
 		{
 			travel_market = await updateTravelMarket();
@@ -856,11 +856,11 @@ function reloadTable() {
 function updateTravelMarket() {
 	console.log("Updating Travel Market info.");
 	return new Promise((resolve) => {
-		fetchRelay('yata', { section: 'bazaar/abroad/export' })
+		fetchRelay("yata", { section: "bazaar/abroad/export" })
 			.then(result => {
 				console.log("Travel market result", result);
 				result.date = new Date().toString();
-				ttStorage.set({ "travel_market": result }, () => {
+				ttStorage.set({ travel_market: result }, () => {
 					console.log("	Travel market info set.");
 					return resolve(result);
 				});
@@ -878,7 +878,7 @@ async function showUserInfo() {
 
 	estimateStatsInList(".users-list > li", (row) => {
 		return {
-			userId: row.find("a.user.name").getAttribute("data-placeholder") ? row.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : row.find("a.user.name").getAttribute("href").split("XID=")[1]
+			userId: row.find("a.user.name").getAttribute("data-placeholder") ? row.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : row.find("a.user.name").getAttribute("href").split("XID=")[1],
 		};
 	});
 }
@@ -890,7 +890,7 @@ function warnEnergy() {
 
 		listen();
 		observer.disconnect();
-	}).observe(doc.find("#mainContainer > .content-wrapper"), { childList: true, subtree: true })
+	}).observe(doc.find("#mainContainer > .content-wrapper"), { childList: true, subtree: true });
 
 	function listen() {
 		if (doc.find(".travel-home-content").getAttribute("style").includes("display: none")) show();
@@ -904,7 +904,7 @@ function warnEnergy() {
 
 	function show() {
 		let content = doc.find(".travel-home-content .msg > p");
-		let search = content.innerText.match(/take around (.*) to reach/i)
+		let search = content.innerText.match(/take around (.*) to reach/i);
 		if (!search) return;
 
 		const splitTime = search[1].split(" ");
@@ -921,7 +921,7 @@ function warnEnergy() {
 			content.appendChild(doc.new({
 				type: "span",
 				text: "Starting this flight will waste some energy!",
-				attributes: { color: "error", },
+				attributes: { color: "error" },
 			}));
 		}
 	}
@@ -958,6 +958,6 @@ function showPC() {
 			role: "button",
 			"aria-labelledby": "computer",
 			href: "pc.php",
-		}
+		},
 	}), doc.find("#top-page-links-list > .events"));
 }

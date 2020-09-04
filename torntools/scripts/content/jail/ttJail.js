@@ -22,7 +22,7 @@ function addFilterToTable(list, title) {
         <div class="filter-content ${mobile ? "tt-mobile" : ""}">
             <div class="filter-wrap" id="activity-filter">
                 <div class="filter-heading">Activity</div>
-                <div class="filter-multi-wrap ${mobile ? 'tt-mobile' : ''}">
+                <div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}">
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="online">Online</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="idle">Idle</div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="offline">Offline</div>
@@ -70,65 +70,59 @@ function addFilterToTable(list, title) {
 	filter_container.find("#tt-faction-filter").appendChild(divider_option);
 
 	// Time slider
-	let time_slider = filter_container.find('#tt-time-filter');
+	let time_slider = filter_container.find("#tt-time-filter");
 	noUiSlider.create(time_slider, {
 		start: [time_start, time_end],
 		step: 1,
 		connect: true,
-		range: {
-			'min': 0,
-			'max': 100
-		}
+		range: { min: 0, max: 100 },
 	});
 
 	let time_slider_info = time_slider.nextElementSibling;
-	time_slider.noUiSlider.on('update', values => {
+	time_slider.noUiSlider.on("update", values => {
 		values = values.map(x => (timeUntil(parseFloat(x) * 60 * 60 * 1000, { max_unit: "h", hide_nulls: true })));
-		time_slider_info.innerHTML = `Time: ${values.join(' - ')}`;
+		time_slider_info.innerHTML = `Time: ${values.join(" - ")}`;
 	});
 
 	// Level slider
-	let level_slider = filter_container.find('#tt-level-filter');
+	let level_slider = filter_container.find("#tt-level-filter");
 	noUiSlider.create(level_slider, {
 		start: [level_start, level_end],
 		step: 1,
 		connect: true,
-		range: {
-			'min': 0,
-			'max': 100
-		}
+		range: { min: 0, max: 100 },
 	});
 
 	let level_slider_info = level_slider.nextElementSibling;
-	level_slider.noUiSlider.on('update', values => {
+	level_slider.noUiSlider.on("update", values => {
 		values = values.map(x => parseInt(x));
-		level_slider_info.innerHTML = `Level: ${values.join(' - ')}`;
+		level_slider_info.innerHTML = `Level: ${values.join(" - ")}`;
 	});
 
 	// Score slider
-	let score_slider = filter_container.find('#tt-score-filter');
+	let score_slider = filter_container.find("#tt-score-filter");
 	noUiSlider.create(score_slider, {
 		start: score_end,
 		step: 500,
 		range: {
-			"min": [0],
+			min: [0],
 			"70%": [150000],
-			"max": [250000]
+			max: [250000],
 		},
 		pips: {
 			mode: "range",
 			density: 5,
 			format: {
 				from: x => x,
-				to: x => numberWithCommas(x, false)
-			}
-		}
+				to: x => numberWithCommas(x, false),
+			},
+		},
 	});
 
 	let score_slider_info = score_slider.nextElementSibling;
-	score_slider.noUiSlider.on('update', values => {
+	score_slider.noUiSlider.on("update", values => {
 		values = values.map(x => numberWithCommas(parseInt(x), false));
-		score_slider_info.innerHTML = `Max Score: ${values.join(' - ')}`;
+		score_slider_info.innerHTML = `Max Score: ${values.join(" - ")}`;
 	});
 
 	// Event listeners
@@ -178,11 +172,11 @@ function addFilterToTable(list, title) {
 	applyFilters();
 
 	function applyFilters() {
-		let activity = []
+		let activity = [];
 		let faction;
-		let time = []
-		let level = []
-		let score = []
+		let time = [];
+		let level = [];
+		let score = [];
 
 		// Activity
 		for (let checkbox of doc.findAll("#activity-filter .tt-checkbox-wrap input:checked")) {
@@ -205,7 +199,7 @@ function addFilterToTable(list, title) {
 		// console.log("Level", level);
 
 		// Filtering
-		for (let li of list.findAll(":scope>li")) {
+		for (let li of list.findAll(":scope > li")) {
 			li.classList.remove("filter-hidden");
 			if (li.classList.contains("tt-user-info")) {
 				continue;
@@ -252,17 +246,7 @@ function addFilterToTable(list, title) {
 			}
 		}
 
-		ttStorage.change({
-			"filters": {
-				"jail": {
-					activity: activity,
-					faction: faction,
-					time: time,
-					level: level,
-					score: score
-				}
-			}
-		});
+		ttStorage.change({ filters: { jail: { activity, faction, time, level, score } } });
 
 		updateStatistics();
 	}
@@ -303,7 +287,7 @@ function showQuick() {
 			checkbox.onchange = event => {
 				modify(event.target.checked);
 
-				ttStorage.change({ "settings": { "pages": { "jail": { [option]: event.target.checked } } } });
+				ttStorage.change({ settings: { pages: { jail: { [option]: event.target.checked } } } });
 			};
 
 			if (settings.pages.jail[option]) {

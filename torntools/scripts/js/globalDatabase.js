@@ -1,14 +1,14 @@
-console.log("TT - Loading global database.")
+console.log("TT - Loading global database.");
 
 let DB;
 
 const DATABASE_STATUSES = {
-	"NOT_INITIALIZED": 0,
-	"LOADING": 1,
-	"LOADED": 2,
-	"ENTRY": 3,
-	"FAILED": 99,
-}
+	NOT_INITIALIZED: 0,
+	LOADING: 1,
+	LOADED: 2,
+	ENTRY: 3,
+	FAILED: 99,
+};
 
 let database_status = DATABASE_STATUSES.NOT_INITIALIZED;
 
@@ -37,7 +37,7 @@ function requireDatabase(requireEntry = true) {
 let userdata, torndata, settings, api_key, proxy_key, chat_highlight, itemlist,
 	travel_market, oc, allies, loot_times, target_list, vault, personalized,
 	mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
-	quick, notes, stakeouts, updated, networth, filters, cache, watchlist, api_history,
+	quick, notes, profile_notes, stakeouts, updated, networth, filters, cache, watchlist, api_history,
 	api, sorting, stock_alerts, hide_areas, travel_items;
 
 (async function () {
@@ -68,6 +68,7 @@ let userdata, torndata, settings, api_key, proxy_key, chat_highlight, itemlist,
 		hide_icons = DB.hide_icons;
 		quick = DB.quick;
 		notes = DB.notes;
+		profile_notes = DB.profile_notes;
 		stakeouts = DB.stakeouts;
 		updated = DB.updated;
 		networth = DB.networth;

@@ -10,18 +10,18 @@ casinoGameLoaded().then(() => {
 
 function Main() {
 	const picture_cards = {
-		"J": 11,
-		"Q": 12,
-		"K": 13,
-		"A": 14
-	}
+		J: 11,
+		Q: 12,
+		K: 13,
+		A: 14,
+	};
 
 	let current_deck = {
-		"hearts": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-		"diamonds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-		"clubs": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-		"spades": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-	}
+		hearts: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+		diamonds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+		clubs: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+		spades: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+	};
 	let last_dealer_card;
 	let last_you_card;
 	let cashed_in = false;
@@ -45,19 +45,19 @@ function Main() {
 			last_dealer_card = undefined;
 			last_you_card = undefined;
 			current_deck = {
-				"hearts": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-				"diamonds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-				"clubs": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-				"spades": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-			}
+				hearts: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+				diamonds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+				clubs: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+				spades: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+			};
 		} else if (doc.find(".deck-wrap").style.display === "block") {
 			console.log("Deck shuffled");
 			current_deck = {
-				"hearts": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-				"diamonds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-				"clubs": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-				"spades": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-			}
+				hearts: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+				diamonds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+				clubs: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+				spades: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+			};
 			setTimeout(calculate, 700);
 		} else {
 			setTimeout(calculate, 700);
@@ -72,11 +72,11 @@ function Main() {
 		last_dealer_card = undefined;
 		last_you_card = undefined;
 		current_deck = {
-			"hearts": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-			"diamonds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-			"clubs": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-			"spades": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-		}
+			hearts: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+			diamonds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+			clubs: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+			spades: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+		};
 	});
 
 	// remove action when chosen option
@@ -97,9 +97,9 @@ function Main() {
 	}
 
 	function calculate() {
-		console.log("=====================================================")
-		console.log("last_dealer_card", last_dealer_card)
-		console.log("last_you_card", last_you_card)
+		console.log("=====================================================");
+		console.log("last_dealer_card", last_dealer_card);
+		console.log("last_you_card", last_you_card);
 
 		let new_dealer_card = getCard("dealer-card", picture_cards, last_dealer_card);
 		console.log("new_dealer_card", new_dealer_card);

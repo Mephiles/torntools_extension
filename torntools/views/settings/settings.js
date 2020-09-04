@@ -217,6 +217,9 @@ function setupChangelog() {
 								} else if (_item.includes("- Mephiles")) {
 									contributor = "mephiles";
 									_item = _item.slice(0, _item.indexOf(" - Mephiles"));
+								} else if (_item.includes("- wootty2000")) {
+									contributor = "wootty2000";
+									_item = _item.slice(0, _item.indexOf(" - wootty2000"));
 								}
 
 								let _item_div = doc.new({ type: "div", class: `child ${contributor}` });

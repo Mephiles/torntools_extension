@@ -20,7 +20,7 @@ function interceptFetch(channel) {
 							url: response.url,
 							status: response.status,
 						},
-					}
+					};
 
 					window.dispatchEvent(new CustomEvent(channel, { detail }));
 
@@ -28,7 +28,7 @@ function interceptFetch(channel) {
 				})
 				.catch((error) => {
 					reject(error);
-				})
+				});
 		});
-	}
+	};
 }

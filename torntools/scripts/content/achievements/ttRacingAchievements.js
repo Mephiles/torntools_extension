@@ -9,24 +9,24 @@ requireDatabase().then(() => {
 			return;
 
 		// object of all the achievements on this page
-		let achievements = {
+		const achievements = {
 			"Races won": {
-				"stats": personalstats.raceswon,
-				"keyword": "races",
-				"incl": ["win"],
-				"excl": ["single car"]
+				stats: personalstats.raceswon,
+				keyword: "races",
+				incl: ["win"],
+				excl: ["single car"],
 			},
-			"Skill": {
-				"stats": personalstats.racingskill,
-				"keyword": "skill",
-				"incl": ["racing"]
+			Skill: {
+				stats: personalstats.racingskill,
+				keyword: "skill",
+				incl: ["racing"],
 			},
-			"Points": {
-				"stats": personalstats.racingpointsearned,
-				"keyword": "points",
-				"incl": ["racing"]
-			}
-		}
+			Points: {
+				stats: personalstats.racingpointsearned,
+				keyword: "points",
+				incl: ["racing"],
+			},
+		};
 
 		displayAchievements(achievements, show_completed);
 	});

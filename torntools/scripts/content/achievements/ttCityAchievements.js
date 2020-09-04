@@ -9,18 +9,18 @@ requireDatabase().then(() => {
 			return;
 
 		// object of all the achievements on this page
-		let achievements = {
+		const achievements = {
 			"City finds": {
-				"stats": personalstats.cityfinds,
-				"keyword": "city",
-				"incl": ["find", "items"]
+				stats: personalstats.cityfinds,
+				keyword: "city",
+				incl: ["find", "items"],
 			},
 			"Dump finds": {
-				"stats": personalstats.dumpfinds,
-				"keyword": "dump",
-				"incl": ["find"]
-			}
-		}
+				stats: personalstats.dumpfinds,
+				keyword: "dump",
+				incl: ["find"],
+			},
+		};
 
 		displayAchievements(achievements, show_completed);
 	});

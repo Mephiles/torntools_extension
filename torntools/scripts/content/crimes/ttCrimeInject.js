@@ -14,13 +14,13 @@
 			}
 
 			try {
-				this.querySelector(type)
+				this.querySelector(type);
 			} catch (err) {
 				return undefined;
 			}
 		}
 		return this.querySelector(type);
-	}
+	};
 	Element.prototype.find = function (type) {
 		if (type.indexOf("=") > -1) {
 			let key = type.split("=")[0];
@@ -34,13 +34,13 @@
 			}
 
 			try {
-				this.querySelector(type)
+				this.querySelector(type);
 			} catch (err) {
 				return undefined;
 			}
 		}
 		return this.querySelector(type);
-	}
+	};
 
 	$(".content-wrapper").off("submit");
 
@@ -48,11 +48,12 @@
 		console.log("TornTools - hijack");
 
 		let loadingPlaceholderContent = `
-        <div class="content-title m-bottom10">
-            <h4 class="left">Crimes</h4>
-            <hr class="page-head-delimiter">
-            <div class="clear"></div>
-        </div>`
+			<div class="content-title m-bottom10">
+				<h4 class="left">Crimes</h4>
+				<hr class="page-head-delimiter">
+				<div class="clear"></div>
+			</div>
+		`;
 
 		loadingPlaceholderContent += `<img class="ajax-placeholder" src="/images/v2/main/ajax-loader.gif" alt="loading"/>`;
 
@@ -77,7 +78,7 @@
 				preventTextSelectionOnDoubleClick({ invokeType: "callback", duration: 500 });
 				formElement.isSubmitting = false;
 
-				window.dispatchEvent(new CustomEvent("tt-crime-finished", { detail: { response }, }));
+				window.dispatchEvent(new CustomEvent("tt-crime-finished", { detail: { response } }));
 
 				const steps = action.split("?"),
 					step = steps[1] ? steps[1].split("=")[1] : "";
@@ -92,7 +93,6 @@
 	});
 
 	// Torn functions
-
 
 	console.log("Quick Crime script injected");
 })();
