@@ -109,15 +109,14 @@ function showUpgrades() {
 	})
 
 	doc.find("#racingAdditionalContainer > .info-msg-cont .msg").appendChild(doc.new({
-		type: "div",
+		type: "p",
+		class: "tt-race-upgrades",
 		html: `
-			<p class="tt-race-upgrades">
-				<br/>
-				<br/>
-				${needed.length ? `
-				<strong>${needed.length}</strong> part available to upgrade: <strong>${needed.join("<span class='separator'>, </span>")}</strong>
-				` : "Your car is <strong style='color: #789e0c;'>FULLY UPGRADED</strong>"}
-			</p>
+			<br/>
+			<br/>
+			${needed.length ? `
+			<strong class="counter">${needed.length}</strong> part available to upgrade: <strong>${needed.join("<span class='separator'>, </span>")}</strong>
+			` : "Your car is <strong style='color: #789e0c;'>FULLY UPGRADED</strong>"}
 		`,
 	}));
 }
@@ -147,6 +146,10 @@ function resetUpgrades() {
 		const counter = doc.find(`.pm-categories > .unlock[data-category="${category}"] .tt-race-need-icon`);
 		counter.innerText = parseInt(counter.innerText) - 1;
 		if (counter.innerText === "0") counter.remove();
+
+		const totalCounter = doc.find(".tt-race-upgrades .counter");
+		totalCounter.innerText = parseInt(totalCounter.innerText) - 1;
+		if (totalCounter.innerText === "0") doc.find(".tt-race-upgrades").remove();
 
 		const neededUpgrade = doc.find(`.tt-race-upgrade-needed[part="${part}"]`);
 		if (neededUpgrade) {
