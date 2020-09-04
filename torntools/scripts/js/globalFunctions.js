@@ -272,6 +272,9 @@ const STORAGE = {
 		"text": undefined,
 		"height": undefined
 	},
+	"profile_notes": {
+		"profiles": {}
+	},
 	"travel_items": 5,
 	"stakeouts": {},
 	"filters": {

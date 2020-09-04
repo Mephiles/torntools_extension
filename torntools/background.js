@@ -35,7 +35,7 @@ let NPC_FETCH_TIME = 0;
 let userdata, torndata, settings, api_key, proxy_key, chat_highlight, itemlist,
 	travel_market, oc, allies, loot_times, target_list, vault,
 	mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
-	quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
+	quick, notes, profile_notes, stakeouts, updated, networth, filters, cache, watchlist;
 
 // First - set storage
 console.log("Checking Storage.");
@@ -166,6 +166,7 @@ setup_storage.then(async success => {
 		hide_icons = db.hide_icons;
 		quick = db.quick;
 		notes = db.notes;
+		profile_notes = db.profile_notes;
 		stakeouts = db.stakeouts;
 		updated = db.updated;
 		networth = db.networth;

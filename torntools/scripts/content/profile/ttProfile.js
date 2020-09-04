@@ -188,6 +188,7 @@ requireDatabase().then(() => {
 	profileLoaded().then(async () => {
 		console.log("TT - Profile");
 
+		let user_id = getUserId();
 		let user_faction = userdata.faction.faction_name;
 
 		if (settings.pages.profile.show_id) {
@@ -210,7 +211,44 @@ requireDatabase().then(() => {
 		if (shouldDisable()) return
 
 		// noinspection EqualityComparisonWithCoercionJS
-		if (getUserId() == userdata.player_id) return;
+		if (user_id == userdata.player_id) return;
+
+		// Profile notes
+		let notes_container = content.newContainer("Profile Notes", { next_element_heading: "Medals", id: "tt-target-notes" });
+
+		let section_profile_notes = doc.new({ type: "div", class: "tt-section", attributes: { name: 'profile-notes' } });
+		let textbox = doc.new({ type: "textarea", class: "tt-profile-notes-textarea" });
+		textbox.maxLength = 128;
+
+		let profiles = profile_notes.profiles;
+
+		if(profiles[user_id]) {
+			textbox.style.height = profiles[user_id]["height"];
+			textbox.value = profiles[user_id]["notes"];
+		}
+		else {
+			textbox.style.height = "17px";
+			profiles[user_id] = {};
+		}
+
+		section_profile_notes.appendChild(textbox);
+		notes_container.find(".content").appendChild(section_profile_notes);
+
+		textbox.addEventListener("change", () => {
+				profiles[user_id]["height"] = textbox.style.height;
+				profiles[user_id]["notes"] = textbox.value;
+				ttStorage.set({ "profile_notes": { "profiles": profiles } });
+		});
+		textbox.addEventListener("mouseup", () => {
+			if (textbox.style.height !== notes.height) {
+				console.log("resize");
+				console.log(textbox.style.height);
+
+				profiles[user_id]["height"] = textbox.style.height;
+				profiles[user_id]["notes"] = textbox.value;
+				ttStorage.set({ "profile_notes": { "profiles": profiles } });
+			}
+		});
 
 		// Profile stats
 		let info_container = content.newContainer("User Info", { next_element_heading: "Medals", id: "tt-target-info" });
