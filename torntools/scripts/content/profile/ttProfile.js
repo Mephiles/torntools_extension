@@ -215,7 +215,7 @@ requireDatabase().then(() => {
 		if (userId == userdata.player_id) return;
 
 		// Profile notes
-		showProfileNotes();
+		if (settings.pages.profile.notes) showProfileNotes();
 
 		// Profile stats
 		let info_container = content.newContainer("User Info", { next_element_heading: "Medals", id: "tt-target-info" });

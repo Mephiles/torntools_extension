@@ -453,6 +453,7 @@ const STORAGE = {
 				show_id: true,
 				loot_times: true,
 				status_indicator: true,
+				notes: true,
 			},
 			racing: {
 				upgrades: true,
