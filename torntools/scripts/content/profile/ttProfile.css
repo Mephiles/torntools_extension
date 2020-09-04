@@ -219,6 +219,16 @@
     overflow-x: auto;
 }
 
+.tt-profile-notes-textarea {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 24px;
+    background-color: #f2f2f2;
+    border: unset;
+    box-sizing: border-box;
+    padding: 3px;
+}
+
 .tt-table {
     width: 774px;
     margin: 5px 0;

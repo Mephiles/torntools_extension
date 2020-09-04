@@ -270,6 +270,10 @@ const STORAGE = {
 		"text": undefined,
 		"height": undefined
 	},
+	"profile_notes": {
+		"profiles": {},
+		"height": undefined
+	},
 	"travel_items": 5,
 	"stakeouts": {},
 	"filters": {
