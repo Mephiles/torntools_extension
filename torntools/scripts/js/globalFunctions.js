@@ -521,7 +521,8 @@ const STORAGE = {
 				"find_chat": true,
 				"hide_chat": false,
 				"collapse_areas": false,
-				"oc_time": true
+				"oc_time": true,
+				hide_leave: false,
 			},
 			"jail": {
 				"quick_bail": false,

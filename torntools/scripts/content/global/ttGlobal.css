@@ -341,6 +341,10 @@
     font-size: var(--torntools-chat-font-size) !important;
 }
 
+.quit-job {
+    display: var(--torntools-hide-leave-button, block) !important;
+}
+
 /* #nav-gym .area-row___34mEZ {
     background-color: var(--torntools-disable-gym-highlight) !important;
 }
