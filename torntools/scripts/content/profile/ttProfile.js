@@ -1132,19 +1132,35 @@ function saveProfileStats() {
 }
 
 function showProfileNotes() {
-	const textbox = doc.new({ type: "textarea", class: "tt-profile-notes-textarea", attributes: { maxLength: 128 } });
+	const textbox = doc.new({ type: "textarea", class: "tt-profile-notes-textarea", attributes: { maxLength: 1024 } });
 
 	const profile = profile_notes.profiles[userId];
 	textbox.style.height = profile ? profile.height : "17px";
 	textbox.value = profile ? profile.notes : "";
 
-	textbox.addEventListener("input", save); // change text
-	textbox.addEventListener("mouseup", save); // resize textarea
+	const container = content.newContainer("Profile Notes", {
+		next_element_heading: "Medals",
+		id: "tt-target-notes",
+		collapseId: 1
+	}).find(".content");
+	container.appendChild(doc.new({
+		type: "div",
+		class: "tt-section",
+		attributes: {name: "profile-notes"},
+		children: [textbox]
+	}));
 
-	const container = content.newContainer("Profile Notes", { next_element_heading: "Medals", id: "tt-target-notes", collapseId: 1 }).find(".content");
-	container.appendChild(doc.new({ type: "div", class: "tt-section", attributes: { name: "profile-notes" }, children: [textbox] }));
+	// Add Save button
+	let save_button = doc.new({type: "div", id: "tt-profile-notes-save", class: "tt-option"});
+	let icon = doc.new({type: "i", class: "fas fa-save"});
+	save_button.appendChild(icon);
+	save_button.innerHTML += " Save";
 
-	function save() {
+	doc.find("#tt-target-notes .tt-options").appendChild(save_button);
+
+	save_button.onclick = event => {
+		event.stopPropagation();
+
 		ttStorage.change({
 			profile_notes: {
 				profiles: {
