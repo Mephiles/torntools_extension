@@ -1,10 +1,10 @@
 let previous_chain_timer;
 let initiated_pages = {
-	"info": false,
-	"market": false,
-	"stocks": false,
-	"calculator": false
-}
+	info: false,
+	market: false,
+	stocks: false,
+	calculator: false,
+};
 
 window.addEventListener("load", () => {
 	loadingPlaceholder(doc.find("body"), true);
@@ -25,7 +25,7 @@ requireDatabase(false)
 		// Setup settings button
 		doc.find(".settings").onclick = () => {
 			window.open("../settings/settings.html");
-		}
+		};
 
 		// Setup links
 		for (let tab of doc.findAll("body>.header .page-tab")) {
@@ -34,7 +34,7 @@ requireDatabase(false)
 				if (doc.find(`body>.header .page-tab.active-tab`).id.split("-")[0] !== name) {
 					loadPage(name);
 				}
-			}
+			};
 
 			if (settings.tabs[name] === false) tab.style.display = "none";
 		}
@@ -74,12 +74,12 @@ function loadPage(name) {
 
 	// Run page script
 	let dict = {
-		"info": mainInfo,
-		"market": mainMarket,
-		"stocks": mainStocks,
-		"calculator": mainCalculator,
-		"initialize": mainInitialize
-	}
+		info: mainInfo,
+		market: mainMarket,
+		stocks: mainStocks,
+		calculator: mainCalculator,
+		initialize: mainInitialize,
+	};
 	if (!initiated_pages[name]) {
 		dict[name]();
 		initiated_pages[name] = true;
@@ -92,7 +92,7 @@ function mainInfo() {
 	for (let link of doc.findAll(".subpage#info .link")) {
 		link.onclick = () => {
 			chrome.tabs.create({ url: link.getAttribute("href") });
-		}
+		};
 	}
 
 	// Update interval
@@ -119,7 +119,7 @@ function mainInfo() {
 
 	// Update time increaser
 	setInterval(() => {
-		let time = doc.find("#last-update span")
+		let time = doc.find("#last-update span");
 		let seconds = parseInt(time.getAttribute("seconds-up"));
 		seconds++;
 
@@ -214,8 +214,8 @@ function mainInfo() {
 				let travel_time = (userdata.travel.timestamp - userdata.travel.departed) * 1000;  // ms
 				let time_left = new Date(userdata.travel.timestamp * 1000) - new Date(); // ms
 				let progress = parseInt((travel_time - time_left) / travel_time * 100);
-				console.log(travel_time)
-				console.log(time_left)
+				console.log(travel_time);
+				console.log(time_left);
 
 				if (timeUntil(time_left) === -1) {
 					doc.find("#travel").style.display = "none";
@@ -308,7 +308,7 @@ function mainMarket() {
 
 		let div = doc.new("div");
 		div.setClass("item");
-		div.id = name.toLowerCase().replace(/\s+/g, '').replace(":", "_");  // remove spaces
+		div.id = name.toLowerCase().replace(/\s+/g, "").replace(":", "_");  // remove spaces
 		div.innerText = name;
 
 		list.appendChild(div);
@@ -353,10 +353,10 @@ function mainMarket() {
 		doc.find("#view-item").style.display = "none";
 		doc.find("#market #item-list").style.display = "none";
 		doc.find("#market-info").style.display = "none";
-	}
+	};
 
 	function showMarketInfo(id) {
-		fetchApi_v2('torn', { section: 'market', objectid: id, selections: 'bazaar,itemmarket' })
+		fetchApi_v2("torn", { section: "market", objectid: id, selections: "bazaar,itemmarket" })
 			.then(result => {
 				console.log("Getting Bazaar & Itemmarket info");
 
@@ -392,7 +392,7 @@ function mainMarket() {
 			.catch(result => {
 				doc.find(".error").style.display = "block";
 				doc.find(".error").innerText = result;
-			})
+			});
 	}
 }
 
@@ -417,12 +417,12 @@ function mainStocks() {
 		let heading = doc.new({
 			type: "div",
 			class: "heading",
-			text: `${name.length > 20 ? torn_stocks[id].acronym : name}`
+			text: `${name.length > 20 ? torn_stocks[id].acronym : name}`,
 		});  // use acronym if name is too long
 		let quantity_span = doc.new({
 			type: "div",
 			class: "heading-quantity",
-			text: ` (${numberWithCommas(quantity)} shares)`
+			text: ` (${numberWithCommas(quantity)} shares)`,
 		});
 		heading.appendChild(quantity_span);
 
@@ -439,17 +439,17 @@ function mainStocks() {
 		let CP_div = doc.new({
 			type: "div",
 			class: "stock-info",
-			text: `Current price: $${numberWithCommas(current_price, false)}`
+			text: `Current price: $${numberWithCommas(current_price, false)}`,
 		});
 		let BP_div = doc.new({
 			type: "div",
 			class: "stock-info",
-			text: `Buy price: $${numberWithCommas(buy_price, false)}`
+			text: `Buy price: $${numberWithCommas(buy_price, false)}`,
 		});
 		let amount_div = doc.new({
 			type: "div",
 			class: "stock-info",
-			text: `Quantity: ${numberWithCommas(quantity, false)}`
+			text: `Quantity: ${numberWithCommas(quantity, false)}`,
 		});
 		let profit = doc.new({ type: "div", class: "profit" });
 		if (total_profit > 0) {
@@ -477,18 +477,17 @@ function mainStocks() {
 			benefit_info.appendChild(collapse_icon_2);
 
 			benefit_info_content = doc.new({ type: "div", class: "content" });
-			let BD_div = doc.new({ type: "div", text: benefit_description })
+			let BD_div = doc.new({ type: "div", text: benefit_description });
 			quantity >= benefit_requirement ? BD_div.setClass("benefit-info desc complete") : BD_div.setClass("benefit-info desc incomplete");
 			let BR_div = doc.new({
 				type: "div",
 				class: "benefit-info",
-				text: `Required stocks: ${numberWithCommas(quantity, false)}/${numberWithCommas(benefit_requirement)}`
+				text: `Required stocks: ${numberWithCommas(quantity, false)}/${numberWithCommas(benefit_requirement)}`,
 			});
 
 			benefit_info_content.appendChild(BR_div);
 			benefit_info_content.appendChild(BD_div);
 		}
-
 
 		// Alerts
 		let alerts_wrap = doc.new({ type: "div", class: "alerts-wrap" });
@@ -518,7 +517,7 @@ function mainStocks() {
 		div.appendChild(profit);
 
 		div.appendChild(stock_info);
-		div.appendChild(stock_info_content)
+		div.appendChild(stock_info_content);
 
 		if (benefit_info) {
 			div.appendChild(benefit_info);
@@ -557,21 +556,21 @@ function mainStocks() {
 		// add event listeners to price alerts
 		reach_input.addEventListener("change", () => {
 			ttStorage.change({
-				"stock_alerts": {
+				stock_alerts: {
 					[id]: {
-						"reach": reach_input.value
-					}
-				}
+						reach: reach_input.value,
+					},
+				},
 			});
 		});
 
 		fall_input.addEventListener("change", () => {
 			ttStorage.change({
-				"stock_alerts": {
+				stock_alerts: {
 					[id]: {
-						"fall": fall_input.value
-					}
-				}
+						fall: fall_input.value,
+					},
+				},
 			});
 		});
 	}
@@ -587,7 +586,7 @@ function mainStocks() {
 		let div = doc.new({
 			type: "div",
 			class: "stock-item",
-			attributes: { name: `${name.toLowerCase()} (${stock.acronym.toLowerCase()})` }
+			attributes: { name: `${name.toLowerCase()} (${stock.acronym.toLowerCase()})` },
 		});
 		let hr = doc.new("hr");
 		let heading = doc.new({ type: "div", class: "heading", text: name });  // use acronym if name is too long
@@ -605,14 +604,14 @@ function mainStocks() {
 		let CP_div = doc.new({
 			type: "div",
 			class: "stock-info",
-			text: `Current price: $${numberWithCommas(current_price, false)}`
+			text: `Current price: $${numberWithCommas(current_price, false)}`,
 		});
 		let Q_div = doc.new({
 			type: "div",
 			class: "stock-info",
 			text: `Available shares: ${numberWithCommas(torn_stocks[id].available_shares, false)}`,
-			attributes: { style: "margin-bottom: 20px;" }
-		})
+			attributes: { style: "margin-bottom: 20px;" },
+		});
 		stock_info_content.appendChild(CP_div);
 		stock_info_content.appendChild(Q_div);
 
@@ -628,17 +627,16 @@ function mainStocks() {
 			benefit_info.appendChild(collapse_icon_2);
 
 			benefit_info_content = doc.new({ type: "div", class: "content" });
-			let BD_div = doc.new({ type: "div", text: benefit_description })
+			let BD_div = doc.new({ type: "div", text: benefit_description });
 			let BR_div = doc.new({
 				type: "div",
 				class: "benefit-info",
-				text: `Required stocks: ${numberWithCommas(benefit_requirement)}`
+				text: `Required stocks: ${numberWithCommas(benefit_requirement)}`,
 			});
 
 			benefit_info_content.appendChild(BR_div);
 			benefit_info_content.appendChild(BD_div);
 		}
-
 
 		// Alerts
 		let alerts_wrap = doc.new({ type: "div", class: "alerts-wrap" });
@@ -667,7 +665,7 @@ function mainStocks() {
 		div.appendChild(heading);
 
 		div.appendChild(stock_info);
-		div.appendChild(stock_info_content)
+		div.appendChild(stock_info_content);
 
 		if (benefit_description) {
 			div.appendChild(benefit_info);
@@ -706,21 +704,21 @@ function mainStocks() {
 		// add event listeners to price alerts
 		reach_input.addEventListener("change", () => {
 			ttStorage.change({
-				"stock_alerts": {
+				stock_alerts: {
 					[id]: {
-						"reach": reach_input.value
-					}
-				}
+						reach: reach_input.value,
+					},
+				},
 			});
 		});
 
 		fall_input.addEventListener("change", () => {
 			ttStorage.change({
-				"stock_alerts": {
+				stock_alerts: {
 					[id]: {
-						"fall": fall_input.value
-					}
-				}
+						fall: fall_input.value,
+					},
+				},
 			});
 		});
 	}
@@ -764,14 +762,14 @@ function mainCalculator() {
 
 		let div = doc.new("div");
 		div.setClass("item");
-		div.id = name.toLowerCase().replace(/\s+/g, '');  // remove spaces
+		div.id = name.toLowerCase().replace(/\s+/g, "");  // remove spaces
 		div.innerText = name;
 
 		let input = doc.new("input");
 		input.setClass("quantity");
 		input.setAttribute("type", "number");
 		if (!usingChrome()) {
-			input.style.right = "51px"
+			input.style.right = "51px";
 		}
 
 		let add_btn = doc.new("button");
@@ -854,11 +852,11 @@ function mainInitialize() {
 	doc.find("#set-button").onclick = () => {
 		api_key = doc.find("#api-field").value;
 
-		ttStorage.set({ "api_key": api_key }, () => {
+		ttStorage.set({ api_key: api_key }, () => {
 			console.log("API key set");
 
 			doc.find("h3").innerText = "Loading..";
-			doc.find("p").innerText = "It will take 30 seconds to fetch your data. You may close this window."
+			doc.find("p").innerText = "It will take 30 seconds to fetch your data. You may close this window.";
 			doc.find("input").style.display = "none";
 			doc.find("button").style.display = "none";
 
@@ -872,5 +870,5 @@ function mainInitialize() {
 				}
 			});
 		});
-	}
+	};
 }
