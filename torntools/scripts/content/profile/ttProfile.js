@@ -1141,21 +1141,19 @@ function showProfileNotes() {
 	const container = content.newContainer("Profile Notes", {
 		next_element_heading: "Medals",
 		id: "tt-target-notes",
-		collapseId: 1
+		collapseId: 1,
 	}).find(".content");
 	container.appendChild(doc.new({
 		type: "div",
 		class: "tt-section",
-		attributes: {name: "profile-notes"},
-		children: [textbox]
+		attributes: { name: "profile-notes" },
+		children: [textbox],
 	}));
 
 	// Add Save button
-	let save_button = doc.new({type: "div", id: "tt-profile-notes-save", class: "tt-option"});
-	let icon = doc.new({type: "i", class: "fas fa-save"});
+	let save_button = doc.new({ type: "div", id: "tt-profile-notes-save", class: "tt-option" });
+	let icon = doc.new({ type: "i", class: "fas fa-save", text: "Save" });
 	save_button.appendChild(icon);
-	save_button.innerHTML += " Save";
-
 	doc.find("#tt-target-notes .tt-options").appendChild(save_button);
 
 	save_button.onclick = event => {
@@ -1176,5 +1174,5 @@ function showProfileNotes() {
 				notes: textbox.value,
 			});
 		});
-	}
+	};
 }
