@@ -354,3 +354,7 @@
 .tt-section:last-of-type hr {
     display: none;
 }
+
+.saved-note {
+    margin-left: 8px;
+}

@@ -1182,6 +1182,13 @@ function showProfileNotes() {
 				height: textbox.style.height,
 				notes: textbox.value,
 			});
+
+			if (!doc.find("#tt-target-notes .saved-note")) {
+				const note = doc.new({ type: "span", class: "saved-note", text: "Saved note." });
+
+				doc.find("#tt-target-notes .tt-title").insertBefore(note, doc.find("#tt-target-notes .tt-title .tt-options"));
+				setTimeout(() => note.remove(), 2500);
+			}
 		});
 	};
 }
