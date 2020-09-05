@@ -266,11 +266,15 @@ requireDatabase().then(() => {
 		});
 
 		// Add Edit button
-		let edit_button = doc.new({ type: "div", id: "tt-edit", class: "tt-option" });
-		let icon = doc.new({ type: "i", class: "fas fa-cog" });
-		edit_button.appendChild(icon);
-		edit_button.innerHTML += " Edit";
-
+		let edit_button = doc.new({
+			type: "div",
+			id: "tt-edit",
+			class: "tt-option",
+			children: [
+				doc.new({ type: "i", class: "fas fa-cog" }),
+				doc.new({ type: "span", class: "text", text: "Edit" }),
+			],
+		});
 		doc.find("#tt-target-info .tt-options").appendChild(edit_button);
 
 		edit_button.onclick = event => {
@@ -1150,10 +1154,15 @@ function showProfileNotes() {
 		children: [textbox],
 	}));
 
-	// Add Save button
-	let save_button = doc.new({ type: "div", id: "tt-profile-notes-save", class: "tt-option" });
-	let icon = doc.new({ type: "i", class: "fas fa-save", text: "Save" });
-	save_button.appendChild(icon);
+	let save_button = doc.new({
+		type: "div",
+		id: "tt-profile-notes-save",
+		class: "tt-option",
+		children: [
+			doc.new({ type: "i", class: "fas fa-save" }),
+			doc.new({ type: "span", class: "text", text: "Save" }),
+		],
+	});
 	doc.find("#tt-target-notes .tt-options").appendChild(save_button);
 
 	save_button.onclick = event => {

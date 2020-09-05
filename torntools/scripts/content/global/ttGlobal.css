@@ -56,6 +56,10 @@
     margin-right: 4px;
 }
 
+.tt-title .tt-options .text {
+    margin-left: 4px;
+}
+
 .tt-title.title-green .tt-options {
     color: white;
 }
