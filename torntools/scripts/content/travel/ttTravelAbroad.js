@@ -562,7 +562,7 @@ function addLegend() {
     </div>
     <div class="legend-content ${filters.travel.open ? "" : "collapsed"}">
         <div class="row">
-            <div>Travel items:&nbsp;<input type="number" id="tt-items"></div>
+            <div>Travel items:&nbsp;<input type="number" id="tt-items" min="5" max="99"></div>
         </div>
         <div class="heading">Items</div>
         <div class="row">
