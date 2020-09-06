@@ -93,7 +93,7 @@ requireDatabase().then(() => {
 });
 
 function gymLoaded() {
-	return requireElement(".gymButton___3OFdI");
+	return requireElement(".gymButton___3OFdI, .jail .button___3AlDV");
 }
 
 function showProgress() {
