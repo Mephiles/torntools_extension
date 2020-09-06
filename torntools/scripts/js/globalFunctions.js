@@ -1743,15 +1743,8 @@ function sort(table, col, type) {
 					a = parseFloat(valueA.replace("$", "").replace(/,/g, ""));
 					b = parseFloat(valueB.replace("$", "").replace(/,/g, ""));
 				} else {
-					a = valueA.toLowerCase();
-					b = valueB.toLowerCase();
-
-					if (a < b)
-						return 1;
-					else if (a > b)
-						return -1;
-					else
-						return 0;
+					a = valueA.toLowerCase().localeCompare(valueB.toLowerCase());
+					b = 0;
 				}
 			} else {
 				a = parseFloat(valueA);
