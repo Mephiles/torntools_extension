@@ -161,6 +161,8 @@
 .tt-confirmation-popup {
     width: 50%;
     height: fit-content;
+    height: -moz-fit-content;
+    max-height: 75%;
     left: 25%;
     padding-bottom: 5px;
     top: 20%;
@@ -169,6 +171,7 @@
     background-color: white;
     border-radius: 10px;
     z-index: 99999;
+    overflow: auto;
 }
 
 .tt-confirmation-popup.active {
