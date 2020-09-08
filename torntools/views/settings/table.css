@@ -132,6 +132,10 @@
     width: 10%;
 }
 
+.table .row .last_attack {
+    width: 15%;
+}
+
 .table .row:last-of-type > * {
     border-bottom: unset;
 }

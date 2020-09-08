@@ -358,6 +358,8 @@ function updateTargetList(player_id, target_list, attackHistory, first_time) {
 						};
 					}
 
+					target_list.targets[opponent_id].last_attack = fight.timestamp_ended * 1000;
+
 					if (fight.defender_id === player_id) {  // user defended
 						if (fight.result === "Lost") {
 							target_list.targets[opponent_id].defend++;
@@ -608,7 +610,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 
 		fetchApi_v2("torn", { section: "user", selections: selections })
 			.then(async userdata => {
-				let shouldFetchAttackData = false;
+				let shouldFetchAttackData = true;
 
 				// Check for new messages
 				let message_count = 0;

@@ -591,6 +591,7 @@ function targetList() {
 		{
 			name: "id", text: "ID", type: "neutral", link: id => `https://www.torn.com/profiles.php?XID=${id}`,
 		},
+		{ name: "last_attack", text: "Last Attack", type: "neutral" },
 		{ name: "win", type: "good" },
 		{ name: "mug", type: "good" },
 		{ name: "leave", type: "good" },
@@ -639,9 +640,7 @@ function targetList() {
 		let row = doc.new({ type: "div", class: "row" });
 
 		for (let heading of headings) {
-			const { name, text, type, link } = heading;
-
-			const settings = {};
+			const { name, type, link } = heading;
 
 			let item;
 			if (link) {
@@ -695,6 +694,11 @@ function targetList() {
 						item.setAttribute("priority", "2");
 					}
 				}
+			} else if (name === "last_attack" && target_list[id].last_attack) {
+				const date = new Date(target_list[id].last_attack);
+
+				item.innerText = date.toLocaleString();
+				item.setAttribute("value", date.toLocaleString());
 			} else {
 				item.innerText = target_list[id][heading.name];
 				item.setAttribute("value", target_list[id][heading.name]);
