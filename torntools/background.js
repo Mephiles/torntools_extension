@@ -310,16 +310,17 @@ async function Main_1_minute() {
 function updateTargetList(player_id, target_list, attackHistory, first_time) {
 	return new Promise((resolve) => {
 		fetchApi_v2("torn", { section: "user", selections: attackHistory })
-			.then(attacks_data => {
-				console.log("Updating Target list");
+			.then(response => {
+				const { attacks } = response;
+				console.log("Updating Target list", { target_list, attacks_data: attacks });
 
-				for (let fight_id in attacks_data) {
+				for (let fight_id in attacks) {
 					if (parseInt(fight_id) <= parseInt(target_list.last_target)) {
 						continue;
 					}
 
 					target_list.last_target = fight_id;
-					let fight = attacks_data[fight_id];
+					let fight = attacks[fight_id];
 					let opponent_id = fight.attacker_id === player_id ? fight.defender_id : fight.attacker_id;
 
 					if (!opponent_id) {
