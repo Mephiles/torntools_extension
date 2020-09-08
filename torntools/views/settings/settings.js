@@ -613,7 +613,7 @@ function targetList() {
 
 		let div = doc.new({
 			type: "div",
-			class: type,
+			class: `${type} ${name}`,
 			attributes: { name },
 			text: text || `${capitalize(heading.name)}s`,
 		});
@@ -632,7 +632,6 @@ function targetList() {
 	}
 
 	// Body
-	console.log("DKK target_list", target_list);
 	for (let id in target_list) {
 		if (id === "date") continue;
 
@@ -646,9 +645,9 @@ function targetList() {
 
 			let item;
 			if (link) {
-				item = doc.new({ type: "a", class: type, attributes: { href: link(id) } });
+				item = doc.new({ type: "a", class: `${type} ${name}`, attributes: { href: link(id) } });
 			} else {
-				item = doc.new({ type: "div", class: type });
+				item = doc.new({ type: "div", class: `${type} ${name}` });
 			}
 
 			if (previousType && previousType !== type) item.classList.add("new-section");

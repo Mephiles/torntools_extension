@@ -102,33 +102,33 @@
     padding-left: 5px;
 }
 
-.table .row > *:nth-child(2),
-.table .row > *:nth-child(3),
-.table .row > *:nth-child(4),
-.table .row > *:nth-child(5),
-.table .row > *:nth-child(6) {
+.table .row .win,
+.table .row .mug,
+.table .row .leave,
+.table .row .hosp,
+.table .row .arrest {
     width: 6%;
 }
 
-.table .header.row > *:nth-child(2) i,
-.table .header.row > *:nth-child(3) i,
-.table .header.row > *:nth-child(4) i,
-.table .header.row > *:nth-child(5) i,
-.table .header.row > *:nth-child(6) i,
-.table .header.row > *:nth-child(7) i,
-.table .header.row > *:nth-child(8) i,
-.table .header.row > *:nth-child(11) i,
-.table .header.row > *:nth-child(13) i,
-.table .header.row > *:nth-child(14) i {
+.table .header.row .win i,
+.table .header.row .mug i,
+.table .header.row .leave i,
+.table .header.row .hosp i,
+.table .header.row .arrest i,
+.table .header.row .special i,
+.table .header.row .assist i,
+.table .header.row .defend_lose i,
+.table .header.row .stealth i,
+.table .header.row .respect i {
     right: -2px;
 }
 
-.table .header.row > *:nth-child(9) i {
+.table .header.row .defend i {
     right: 0;
 }
 
-.table .row > *:nth-child(11),
-.table .row > *:nth-child(12) {
+.table .row .defend_lose,
+.table .row .stalemate {
     width: 10%;
 }
 
