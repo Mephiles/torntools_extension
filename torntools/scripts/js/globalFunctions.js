@@ -1738,7 +1738,10 @@ function sort(table, col, type) {
 			}
 
 			let a, b;
-			if (isNaN(parseFloat(valueA))) {
+			if (Date.parse(valueA)) {
+				a = Date.parse(valueA);
+				b = Date.parse(valueB);
+			} else if (isNaN(parseFloat(valueA))) {
 				if (valueA.indexOf("$") > -1) {
 					a = parseFloat(valueA.replace("$", "").replace(/,/g, ""));
 					b = parseFloat(valueB.replace("$", "").replace(/,/g, ""));
