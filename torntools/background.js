@@ -191,6 +191,9 @@ function initiateTasks() {
 	setInterval(Main_5_seconds, 5 * seconds);  // 5 seconds
 	setInterval(Main_30_seconds, 30 * seconds);  // 30 seconds
 	setInterval(Main_1_minute, minutes);  // 1 minute
+
+	Main_30_seconds();
+	Main_1_minute();
 }
 
 function Main_5_seconds() {
