@@ -96,7 +96,7 @@
     display: flex;
 }
 
-.table .row > * {
+.table .row div, .table .row a {
     border-bottom: 0.5px solid lightgrey;
     width: 7%;
     padding-left: 5px;
