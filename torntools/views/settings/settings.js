@@ -588,7 +588,9 @@ function targetList() {
 	let body = table.find(".body");
 
 	let headings = [
-		{ name: "id", text: "ID", type: "neutral" },
+		{
+			name: "id", text: "ID", type: "neutral", link: id => `https://www.torn.com/profiles.php?XID=${id}`,
+		},
 		{ name: "win", type: "good" },
 		{ name: "mug", type: "good" },
 		{ name: "leave", type: "good" },
@@ -605,66 +607,62 @@ function targetList() {
 	];
 
 	// Header row
-	let type;
+	let previousType;
 	for (let heading of headings) {
-		let div = doc.new("div");
-		div.setAttribute("name", heading.name);
+		const { name, text, type } = heading;
 
-		if ((!type || type !== heading.type) && heading.name !== "id") {
-			div.setClass(`new-section ${heading.type}`);
-		} else {
-			div.setClass(heading.type);
-		}
+		let div = doc.new({
+			type: "div",
+			class: type,
+			attributes: { name },
+			text: text || `${capitalize(heading.name)}s`,
+		});
 
-		if (heading.text) {
-			div.innerText = heading.text;
-		} else {
-			div.innerText = capitalize(heading.name) + "s";
-		}
-
+		if (previousType && previousType !== type) div.classList.add("new-section");
 		// Sorting icon
-		if (heading.name === "id") {
-			let icon = doc.new("i");
-			icon.setClass("fas fa-caret-up");
-			div.appendChild(icon);
-		}
+		if (name === "id") div.appendChild(doc.new({ type: "i", class: "fas fa-caret-up" }));
 
-		type = heading.type;
 		header.appendChild(div);
 
 		div.addEventListener("click", () => {
 			sort(table, headings.indexOf(heading) + 1, "value");
 		});
+
+		previousType = type;
 	}
 
 	// Body
+	console.log("DKK target_list", target_list);
 	for (let id in target_list) {
-		if (id === "date")
-			continue;
+		if (id === "date") continue;
 
-		type = undefined;
-		let row = doc.new("div");
-		row.setClass("row");
+		previousType = undefined;
+		let row = doc.new({ type: "div", class: "row" });
 
 		for (let heading of headings) {
-			let item = doc.new("div");
+			const { name, text, type, link } = heading;
 
-			if ((!type || type !== heading.type) && heading.name !== "id") {
-				item.setClass(`new-section ${heading.type}`);
+			const settings = {};
+
+			let item;
+			if (link) {
+				item = doc.new({ type: "a", class: type, attributes: { href: link(id) } });
 			} else {
-				item.setClass(heading.type);
+				item = doc.new({ type: "div", class: type });
 			}
 
-			if (heading.name === "id") {
+			if (previousType && previousType !== type) item.classList.add("new-section");
+
+			if (name === "id") {
 				item.innerText = id;
 				item.setAttribute("value", id);
-			} else if (heading.name === "respect") {
+			} else if (name === "respect") {
 				let respect_type = getRespectType(target_list[id]);
 
-				let leaves = target_list[id][respect_type]["leave"].length > 0;
+				let leaves = target_list[id][respect_type].leave.length > 0;
 
 				if (leaves) {
-					item.innerText = getAverage(target_list[id][respect_type]["leave"]);
+					item.innerText = getAverage(target_list[id][respect_type].leave);
 					item.setAttribute("value", item.innerText);
 				} else {
 					let averages = [];
@@ -706,7 +704,7 @@ function targetList() {
 			// Percentage values
 			if (["mug", "leave", "hosp", "arrest", "special", "assist", "stealth"].includes(heading.name)) {
 				let value = target_list[id][heading.name];
-				let percentage = (value / target_list[id]["win"] * 100).toFixed();
+				let percentage = (value / target_list[id].win * 100).toFixed();
 				// noinspection EqualityComparisonWithCoercionJS
 				percentage = isNaN(percentage) || percentage == Infinity ? 0 : percentage;
 
@@ -715,8 +713,9 @@ function targetList() {
 			}
 
 			// Finish
-			type = heading.type;
 			row.appendChild(item);
+
+			previousType = type;
 		}
 
 		body.appendChild(row);

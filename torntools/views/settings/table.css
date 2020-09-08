@@ -96,13 +96,13 @@
     display: flex;
 }
 
-.table .row div {
+.table .row > * {
     border-bottom: 0.5px solid lightgrey;
     width: 7%;
     padding-left: 5px;
 }
 
-.table .row div:nth-of-type(2),
+.table .row > div:nth-of-type(2),
 .table .row div:nth-of-type(3),
 .table .row div:nth-of-type(4),
 .table .row div:nth-of-type(5),
