@@ -727,6 +727,8 @@ function targetList() {
 		body.appendChild(row);
 	}
 
+	sort(table, headings.indexOf(findItemsInList(headings, { name: "last_attack" }, true)[0]) + 1, "value");
+
 	function getRespectType(enemy) {
 		let type = "respect";
 
