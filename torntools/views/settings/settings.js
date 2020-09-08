@@ -700,8 +700,11 @@ function targetList() {
 				item.innerText = date.toLocaleString();
 				item.setAttribute("value", date.toLocaleString());
 			} else {
-				item.innerText = target_list[id][heading.name];
-				item.setAttribute("value", target_list[id][heading.name]);
+				let value = target_list[id][heading.name];
+				if (value === undefined) value = "";
+
+				item.innerText = value;
+				item.setAttribute("value", value);
 			}
 
 			// Percentage values
