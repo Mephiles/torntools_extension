@@ -31,6 +31,7 @@ export default {
             "Fix TornTools not loading on the poker page. - DKK",
             "Show the travel table more consistent. - DKK",
             "Show the gym information in jail gym. - DKK",
+            "Fix faction short news. - wootty2000",
         ],
         "Changes": [
             "Change the caching system to allow for different times to keep it for. - DKK",
@@ -59,6 +60,7 @@ export default {
             "Add link to target on target page. - DKK",
             "Add last attack date on target page. - DKK",
             "Show market value on blood bags if highlighting is enabled. - wootty2000",
+            "Added option for Travel Destination to default to the last selected. - wootty2000"
         ]
     },
     "v4.10.2 - August, 19th. 2020": {
