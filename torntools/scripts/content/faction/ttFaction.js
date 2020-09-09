@@ -1336,7 +1336,6 @@ function highlightBloodBags() {
 
 			//Add blood bag value
 			let price = itemlist.items[bloodId].market_value;
-
 			let new_element = doc.new("span");
 
 			new_element.setClass("tt-item-price");
