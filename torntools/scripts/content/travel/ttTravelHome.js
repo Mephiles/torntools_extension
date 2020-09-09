@@ -208,7 +208,10 @@ function addLegend() {
 		doc.find(`#ttTravelTable .legend-content input[name='item'][_type='${type}']`).checked = true;
 	}
 
-	doc.find(`#ttTravelTable .legend-content input[name='country'][_type='${filters.travel.country}']`).checked = true;
+	if (settings.pages.travel.destination_table_last_country)
+		doc.find(`#ttTravelTable .legend-content input[name='country'][_type='${filters.travel.country}']`).checked = true;
+	else
+		doc.find(`#ttTravelTable .legend-content input[name='country'][_type='all']`).checked = true;
 
 	// Open/Close filter
 	for (let el of doc.findAll("#ttTravelTable .content .filter-button *")) {
