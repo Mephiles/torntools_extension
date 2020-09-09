@@ -191,6 +191,9 @@ function initiateTasks() {
 	setInterval(Main_5_seconds, 5 * seconds);  // 5 seconds
 	setInterval(Main_30_seconds, 30 * seconds);  // 30 seconds
 	setInterval(Main_1_minute, minutes);  // 1 minute
+
+	Main_30_seconds();
+	Main_1_minute();
 }
 
 function Main_5_seconds() {
@@ -307,16 +310,17 @@ async function Main_1_minute() {
 function updateTargetList(player_id, target_list, attackHistory, first_time) {
 	return new Promise((resolve) => {
 		fetchApi_v2("torn", { section: "user", selections: attackHistory })
-			.then(attacks_data => {
-				console.log("Updating Target list");
+			.then(response => {
+				const { attacks } = response;
+				console.log("Updating Target list", { target_list, attacks_data: attacks });
 
-				for (let fight_id in attacks_data) {
+				for (let fight_id in attacks) {
 					if (parseInt(fight_id) <= parseInt(target_list.last_target)) {
 						continue;
 					}
 
 					target_list.last_target = fight_id;
-					let fight = attacks_data[fight_id];
+					let fight = attacks[fight_id];
 					let opponent_id = fight.attacker_id === player_id ? fight.defender_id : fight.attacker_id;
 
 					if (!opponent_id) {
@@ -353,6 +357,8 @@ function updateTargetList(player_id, target_list, attackHistory, first_time) {
 							},
 						};
 					}
+
+					target_list.targets[opponent_id].last_attack = fight.timestamp_ended * 1000;
 
 					if (fight.defender_id === player_id) {  // user defended
 						if (fight.result === "Lost") {
@@ -604,7 +610,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 
 		fetchApi_v2("torn", { section: "user", selections: selections })
 			.then(async userdata => {
-				let shouldFetchAttackData = false;
+				let shouldFetchAttackData = true;
 
 				// Check for new messages
 				let message_count = 0;

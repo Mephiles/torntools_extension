@@ -30,6 +30,7 @@ export default {
             "Fix advanced OC information not showing after starting and replanning an OC. - DKK",
             "Fix TornTools not loading on the poker page. - DKK",
             "Show the travel table more consistent. - DKK",
+            "Show the gym information in jail gym. - DKK",
         ],
         "Changes": [
             "Change the caching system to allow for different times to keep it for. - DKK",
@@ -54,6 +55,10 @@ export default {
             "Change the profile show more/less button. - DKK",
             "Show trade value also for finished trades. - DKK",
             "Add a limit of 10,000 for bazaar max buy. - DKK",
+            "Add a limit to flying items. - DKK",
+            "Add link to target on target page. - DKK",
+            "Add last attack date on target page. - DKK",
+            "Show market value on blood bags if highlighting is enabled. - wootty2000",
         ]
     },
     "v4.10.2 - August, 19th. 2020": {

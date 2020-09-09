@@ -1730,28 +1730,24 @@ function sort(table, col, type) {
 		function sortHelper(elementA, elementB) {
 			let valueA, valueB;
 			if (type === "value") {
-				valueA = elementA.find(`div:nth-of-type(${col})`).getAttribute("value");
-				valueB = elementB.find(`div:nth-of-type(${col})`).getAttribute("value");
+				valueA = elementA.find(`*:nth-child(${col})`).getAttribute("value");
+				valueB = elementB.find(`*:nth-child(${col})`).getAttribute("value");
 			} else if (type === "text") {
 				valueA = [...elementA.children][col - 1].innerText;
 				valueB = [...elementB.children][col - 1].innerText;
 			}
 
 			let a, b;
-			if (isNaN(parseFloat(valueA))) {
+			if (Date.parse(valueA)) {
+				a = Date.parse(valueA);
+				b = Date.parse(valueB);
+			} else if (isNaN(parseFloat(valueA))) {
 				if (valueA.indexOf("$") > -1) {
 					a = parseFloat(valueA.replace("$", "").replace(/,/g, ""));
 					b = parseFloat(valueB.replace("$", "").replace(/,/g, ""));
 				} else {
-					a = valueA.toLowerCase();
-					b = valueB.toLowerCase();
-
-					if (a < b)
-						return 1;
-					else if (a > b)
-						return -1;
-					else
-						return 0;
+					a = valueA.toLowerCase().localeCompare(valueB.toLowerCase());
+					b = 0;
 				}
 			} else {
 				a = parseFloat(valueA);
