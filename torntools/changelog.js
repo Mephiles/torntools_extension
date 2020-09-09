@@ -31,6 +31,7 @@ export default {
             "Fix TornTools not loading on the poker page. - DKK",
             "Show the travel table more consistent. - DKK",
             "Show the gym information in jail gym. - DKK",
+            "Fix faction short news. - wootty2000",
         ],
         "Changes": [
             "Change the caching system to allow for different times to keep it for. - DKK",
