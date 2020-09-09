@@ -1327,8 +1327,20 @@ function highlightBloodBags() {
 
 			classes.add("tt-modified");
 
-			if (allowedBlood.includes(parseInt(item.find(".img-wrap").getAttribute("data-id")))) classes.add("tt-good_blood");
-			else classes.add("tt-bad_blood");
+			let bloodId = item.find(".img-wrap").getAttribute("data-id");
+
+			if (allowedBlood.includes(parseInt(bloodId)))
+				classes.add("tt-good_blood");
+			else
+				classes.add("tt-bad_blood");
+
+			//Add blood bag value
+			let price = itemlist.items[bloodId].market_value;
+			let new_element = doc.new("span");
+
+			new_element.setClass("tt-item-price");
+			new_element.innerText = `$${numberWithCommas(price, false)}`;
+			item.find(".name").appendChild(new_element);
 		}
 	}
 }

@@ -164,3 +164,9 @@
 .tt-bad_blood {
     background-color: #f5b2b28a !important;
 }
+
+span.tt-item-price {
+    color: #678c00;
+    float: right;
+    padding-right: 10px;
+}
