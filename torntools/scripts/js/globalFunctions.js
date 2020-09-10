@@ -367,6 +367,16 @@ const STORAGE = {
 		crimes: {
 			safeCrimes: false,
 		},
+		competition: {
+			level: [],
+			special: {
+				isfedded: "both",
+				newplayer: "both",
+				incompany: "both",
+				infaction: "both",
+				isdonator: "both",
+			},
+		},
 	},
 	sorting: {
 		profile: [],
