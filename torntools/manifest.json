@@ -157,7 +157,6 @@
 			],
 			"run_at": "document_idle"
 		},
-
 		{
 			"matches": [
 				"https://www.torn.com/church.php*"
@@ -213,7 +212,6 @@
 			],
 			"run_at": "document_end"
 		},
-
 		{
 			"matches": [
 				"https://www.torn.com/dump.php*"
@@ -515,6 +513,18 @@
 			],
 			"js": [
 				"scripts/content/faction/ttChainReport.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/competition.php*"
+			],
+			"css": [
+				"scripts/content/competition/ttCompetition.css"
+			],
+			"js": [
+				"scripts/content/competition/ttCompetition.js"
 			],
 			"run_at": "document_end"
 		}
