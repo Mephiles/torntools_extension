@@ -1,5 +1,5 @@
 export default {
-    "v5.0 - 2020": {
+    "v5.0 - September, 10th. 2020": {
         "Features": [
             "Show an estimate of an user battle stats on various pages. - DKK",
             "Show forecast and available worth along with a filter on the stock page. - DKK",
