@@ -140,16 +140,6 @@ requireDatabase().then(() => {
 				stats: personalstats.contractscompleted,
 				keyword: "contracts",
 			},
-			"Bounties collected": {
-				stats: personalstats.bountiescollected,
-				keyword: "bounties",
-				incl: ["collect"],
-			},
-			"Bounties collected (money)": {
-				stats: personalstats.totalbountyreward,
-				keyword: "bounty",
-				incl: ["earn", "hunting"],
-			},
 		};
 
 		displayAchievements(achievements, show_completed);

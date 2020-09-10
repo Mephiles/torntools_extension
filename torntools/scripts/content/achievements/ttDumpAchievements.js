@@ -1,6 +1,6 @@
 requireDatabase().then(() => {
 	requireNavbar().then(() => {
-		console.log("TT - City | Achievements");
+		console.log("TT - Dump | Achievements");
 
 		let show_completed = settings.achievements.completed;
 		let personalstats = userdata.personalstats;
@@ -10,10 +10,10 @@ requireDatabase().then(() => {
 
 		// object of all the achievements on this page
 		const achievements = {
-			"City finds": {
-				stats: personalstats.cityfinds,
-				keyword: "city",
-				incl: ["find", "items"],
+			"Dump finds": {
+				stats: personalstats.dumpfinds,
+				keyword: "dump",
+				incl: ["find"],
 			},
 		};
 
