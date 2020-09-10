@@ -1,7 +1,9 @@
 export default {
 	"v5.1 - 2020": {
 		"Features": [],
-		"Fixes": [],
+		"Fixes": [
+			"Fix trade open chat on Firefox.",
+		],
 		"Changes": [],
 	},
 	"v5.0 - September, 10th. 2020": {
