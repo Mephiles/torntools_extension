@@ -616,6 +616,10 @@ async function showUserInfo() {
 
 			if (!hasCachedEstimate(userId)) estimateCount++;
 
+			new MutationObserver((mutations, observer) => {
+				container.style.display = tableRow.style.display === "none" ? "none" : "block";
+			}).observe(tableRow, { attributes: true, attributeFilter: ["style"] });
+
 			loadingPlaceholder(row, true);
 			estimateStats(userId, false, estimateCount)
 				.then((result => {

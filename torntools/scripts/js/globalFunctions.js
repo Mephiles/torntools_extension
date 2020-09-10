@@ -2157,6 +2157,13 @@ function estimateStatsInList(listSelector, userHandler) {
 
 			if (!hasCachedEstimate(userId)) estimateCount++;
 
+			// TODO - Enable if there ever comes a native filter for other pages.
+			/*
+				new MutationObserver((mutations, observer) => {
+					container.style.display = tableRow.style.display === "none" ? "none" : "block";
+				}).observe(tableRow, { attributes: true, attributeFilter: ["style"] });
+			*/
+
 			loadingPlaceholder(row, true);
 			estimateStats(userId, false, estimateCount)
 				.then((result => {
