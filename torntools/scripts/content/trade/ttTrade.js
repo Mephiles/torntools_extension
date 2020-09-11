@@ -168,14 +168,18 @@ function showChatButton() {
 	});
 
 	button.addEventListener("click", () => {
-		let script = doc.new({
-			type: "script",
-			attributes: { type: "text/javascript" },
-			html: `chat.r(${id})`,
-		});
+		if (window.wrappedJSObject) {
+			window.wrappedJSObject.chat.r(id);
+		} else {
+			let script = doc.new({
+				type: "script",
+				attributes: { type: "text/javascript" },
+				html: `chat.r(${id})`,
+			});
 
-		doc.find("head").appendChild(script);
-		setTimeout(() => script.remove(), 100);
+			doc.find("head").appendChild(script);
+			setTimeout(() => script.remove(), 100);
+		}
 	});
 
 	doc.find("#trade-container > .title-black").appendChild(doc.new({

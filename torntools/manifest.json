@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Torn Tools",
-	"version": "5.0",
+	"version": "5.0.1",
 	"description": "Tools for Torn users.",
 	"icons": {
 		"128": "images/icon128.png"
@@ -66,6 +66,22 @@
 		},
 		{
 			"matches": [
+				"https://www.torn.com/index.php*"
+			],
+			"css": [
+				"scripts/content/home/ttHome.css",
+				"scripts/content/travel/ttTravel.css",
+				"scripts/content/achievements/ttAchievements.css"
+			],
+			"js": [
+				"scripts/content/home/ttHome.js",
+				"scripts/content/travel/ttTravelAbroad.js",
+				"scripts/content/achievements/ttHomeAchievements.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
 				"https://www.torn.com/api.html*"
 			],
 			"css": [
@@ -95,6 +111,66 @@
 		},
 		{
 			"matches": [
+				"https://www.torn.com/bank.php*"
+			],
+			"css": [
+				"scripts/content/bank/ttBank.css"
+			],
+			"js": [
+				"scripts/content/bank/ttBank.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/bazaar.php*"
+			],
+			"css": [
+				"scripts/content/bazaar/ttBazaar.css"
+			],
+			"js": [
+				"scripts/content/bazaar/ttBazaar.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/blacklist.php*"
+			],
+			"css": [],
+			"js": [
+				"scripts/content/blacklist/ttEnemiesList.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/bounties.php*"
+			],
+			"css": [
+				"scripts/content/achievements/ttAchievements.css",
+				"scripts/content/newspaper/ttNewspaper.css"
+			],
+			"js": [
+				"scripts/content/achievements/ttBountiesAchievements.js",
+				"scripts/content/newspaper/ttBounties.js"
+			],
+			"run_at": "document_idle"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/church.php*"
+			],
+			"css": [
+				"scripts/content/achievements/ttAchievements.css"
+			],
+			"js": [
+				"scripts/content/achievements/ttChurchAchievements.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
 				"https://www.torn.com/city.php*"
 			],
 			"css": [
@@ -109,17 +185,15 @@
 		},
 		{
 			"matches": [
-				"https://www.torn.com/index.php*"
+				"https://www.torn.com/companies.php*"
 			],
 			"css": [
-				"scripts/content/home/ttHome.css",
-				"scripts/content/travel/ttTravel.css",
-				"scripts/content/achievements/ttAchievements.css"
+				"scripts/content/achievements/ttAchievements.css",
+				"scripts/content/company/ttCompany.css"
 			],
 			"js": [
-				"scripts/content/home/ttHome.js",
-				"scripts/content/travel/ttTravelAbroad.js",
-				"scripts/content/achievements/ttHomeAchievements.js"
+				"scripts/content/achievements/ttJobAchievements.js",
+				"scripts/content/company/ttCompany.js"
 			],
 			"run_at": "document_end"
 		},
@@ -128,10 +202,61 @@
 				"https://www.torn.com/crimes.php*"
 			],
 			"css": [
+				"scripts/content/achievements/ttAchievements.css",
+				"scripts/content/crimes/ttCrimes.css"
+			],
+			"js": [
+				"scripts/libs/jquery-3.4.1.min.js",
+				"scripts/content/achievements/ttCrimeAchievements.js",
+				"scripts/content/crimes/ttCrimes.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/dump.php*"
+			],
+			"css": [
 				"scripts/content/achievements/ttAchievements.css"
 			],
 			"js": [
-				"scripts/content/achievements/ttCrimeAchievements.js"
+				"scripts/content/achievements/ttDumpAchievements.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/education.php*"
+			],
+			"css": [
+				"scripts/content/achievements/ttAchievements.css"
+			],
+			"js": [
+				"scripts/content/achievements/ttEducationAchievements.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/events.php*"
+			],
+			"css": [],
+			"js": [
+				"scripts/content/events/ttEvents.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/factions.php*"
+			],
+			"css": [
+				"scripts/content/faction/ttFaction.css",
+				"scripts/content/achievements/ttAchievements.css"
+			],
+			"js": [
+				"scripts/content/faction/ttFaction.js",
+				"scripts/content/achievements/ttFactionAchievements.js"
 			],
 			"run_at": "document_end"
 		},
@@ -152,53 +277,11 @@
 		},
 		{
 			"matches": [
-				"https://www.torn.com/companies.php*"
+				"https://www.torn.com/halloffame.php*"
 			],
-			"css": [
-				"scripts/content/achievements/ttAchievements.css"
-			],
+			"css": [],
 			"js": [
-				"scripts/content/achievements/ttJobAchievements.js"
-			],
-			"run_at": "document_end"
-		},
-		{
-			"matches": [
-				"https://www.torn.com/factions.php*"
-			],
-			"css": [
-				"scripts/content/faction/ttFaction.css",
-				"scripts/content/achievements/ttAchievements.css"
-			],
-			"js": [
-				"scripts/content/faction/ttFaction.js",
-				"scripts/content/achievements/ttFactionAchievements.js"
-			],
-			"run_at": "document_end"
-		},
-		{
-			"matches": [
-				"https://www.torn.com/war.php?step=chainreport*"
-			],
-			"css": [
-				"scripts/content/faction/ttFaction.css"
-			],
-			"js": [
-				"scripts/content/faction/ttChainReport.js"
-			],
-			"run_at": "document_end"
-		},
-		{
-			"matches": [
-				"https://www.torn.com/jailview.php*"
-			],
-			"css": [
-				"scripts/content/achievements/ttAchievements.css",
-				"scripts/content/jail/ttJail.css"
-			],
-			"js": [
-				"scripts/content/achievements/ttJailAchievements.js",
-				"scripts/content/jail/ttJail.js"
+				"scripts/content/halloffame/ttHallOfFame.js"
 			],
 			"run_at": "document_end"
 		},
@@ -218,29 +301,13 @@
 		},
 		{
 			"matches": [
-				"https://www.torn.com/loader.php?sid=missions*"
+				"https://www.torn.com/imarket.php*"
 			],
 			"css": [
-				"scripts/content/missions/ttMissions.css",
-				"scripts/content/achievements/ttAchievements.css"
+				"scripts/content/itemmarket/ttItemmarket.css"
 			],
 			"js": [
-				"scripts/content/missions/ttMissions.js",
-				"scripts/content/achievements/ttMissionsAchievements.js"
-			],
-			"run_at": "document_end"
-		},
-		{
-			"matches": [
-				"https://www.torn.com/travelagency.php*"
-			],
-			"css": [
-				"scripts/content/travel/ttTravel.css",
-				"scripts/content/achievements/ttAchievements.css"
-			],
-			"js": [
-				"scripts/content/travel/ttTravelHome.js",
-				"scripts/content/achievements/ttTravelAchievements.js"
+				"scripts/content/itemmarket/ttItemmarket.js"
 			],
 			"run_at": "document_end"
 		},
@@ -261,26 +328,53 @@
 		},
 		{
 			"matches": [
-				"https://www.torn.com/trade.php*"
+				"https://www.torn.com/jailview.php*"
 			],
 			"css": [
-				"scripts/content/trade/ttTrade.css"
+				"scripts/content/achievements/ttAchievements.css",
+				"scripts/content/jail/ttJail.css"
 			],
 			"js": [
-				"scripts/content/trade/ttTrade.js"
+				"scripts/content/achievements/ttJailAchievements.js",
+				"scripts/content/jail/ttJail.js"
 			],
 			"run_at": "document_end"
 		},
 		{
 			"matches": [
-				"https://www.torn.com/profiles.php*"
+				"https://www.torn.com/loader.php?sid=blackjack*"
 			],
 			"css": [
-				"scripts/content/profile/ttProfile.css"
+				"scripts/content/casino/ttCasino.css"
 			],
 			"js": [
-				"scripts/libs/Sortable.min.js",
-				"scripts/content/profile/ttProfile.js"
+				"scripts/content/casino/ttBlackjack.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/loader.php?sid=highlow*"
+			],
+			"css": [
+				"scripts/content/casino/ttCasino.css"
+			],
+			"js": [
+				"scripts/content/casino/ttHiLo.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/loader.php?sid=missions*"
+			],
+			"css": [
+				"scripts/content/missions/ttMissions.css",
+				"scripts/content/achievements/ttAchievements.css"
+			],
+			"js": [
+				"scripts/content/missions/ttMissions.js",
+				"scripts/content/achievements/ttMissionsAchievements.js"
 			],
 			"run_at": "document_end"
 		},
@@ -300,13 +394,62 @@
 		},
 		{
 			"matches": [
-				"https://www.torn.com/church.php*"
+				"https://www.torn.com/messages.php*"
 			],
 			"css": [
-				"scripts/content/achievements/ttAchievements.css"
+				"scripts/content/messages/ttMessages.css"
 			],
 			"js": [
-				"scripts/content/achievements/ttChurchAchievements.js"
+				"scripts/content/messages/ttMessages.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/page.php?*"
+			],
+			"css": [
+				"scripts/content/search/ttSearch.css"
+			],
+			"js": [
+				"scripts/content/search/ttSearch.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/preferences.php*"
+			],
+			"css": [
+				"scripts/content/preferences/ttPreferences.css"
+			],
+			"js": [
+				"scripts/content/preferences/ttPreferences.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/profiles.php*"
+			],
+			"css": [
+				"scripts/content/profile/ttProfile.css"
+			],
+			"js": [
+				"scripts/libs/Sortable.min.js",
+				"scripts/content/profile/ttProfile.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/properties.php*"
+			],
+			"css": [
+				"scripts/content/properties/ttProperties.css"
+			],
+			"js": [
+				"scripts/content/properties/ttVaultSharing.js"
 			],
 			"run_at": "document_end"
 		},
@@ -325,113 +468,6 @@
 		},
 		{
 			"matches": [
-				"https://www.torn.com/loader.php?sid=highlow*"
-			],
-			"css": [
-				"scripts/content/casino/ttCasino.css"
-			],
-			"js": [
-				"scripts/content/casino/ttHiLo.js"
-			],
-			"run_at": "document_end"
-		},
-		{
-			"matches": [
-				"https://www.torn.com/loader.php?sid=blackjack*"
-			],
-			"css": [
-				"scripts/content/casino/ttCasino.css"
-			],
-			"js": [
-				"scripts/content/casino/ttBlackjack.js"
-			],
-			"run_at": "document_end"
-		},
-		{
-			"matches": [
-				"https://www.torn.com/messages.php*"
-			],
-			"css": [
-				"scripts/content/messages/ttMessages.css"
-			],
-			"js": [
-				"scripts/content/messages/ttMessages.js"
-			],
-			"run_at": "document_end"
-		},
-		{
-			"matches": [
-				"https://www.torn.com/properties.php*"
-			],
-			"css": [
-				"scripts/content/properties/ttProperties.css"
-			],
-			"js": [
-				"scripts/content/properties/ttVaultSharing.js"
-			],
-			"run_at": "document_end"
-		},
-		{
-			"matches": [
-				"https://www.torn.com/events.php*"
-			],
-			"css": [],
-			"js": [
-				"scripts/content/events/ttEvents.js"
-			],
-			"run_at": "document_end"
-		},
-		{
-			"matches": [
-				"https://www.torn.com/page.php?*"
-			],
-			"css": [
-				"scripts/content/search/ttSearch.css"
-			],
-			"js": [
-				"scripts/content/search/ttSearch.js"
-			],
-			"run_at": "document_end"
-		},
-		{
-			"matches": [
-				"https://www.torn.com/crimes.php*"
-			],
-			"css": [
-				"scripts/content/crimes/ttCrimes.css"
-			],
-			"js": [
-				"scripts/libs/jquery-3.4.1.min.js",
-				"scripts/content/crimes/ttCrimes.js"
-			],
-			"run_at": "document_end"
-		},
-		{
-			"matches": [
-				"https://www.torn.com/bazaar.php*"
-			],
-			"css": [
-				"scripts/content/bazaar/ttBazaar.css"
-			],
-			"js": [
-				"scripts/content/bazaar/ttBazaar.js"
-			],
-			"run_at": "document_end"
-		},
-		{
-			"matches": [
-				"https://www.torn.com/bounties.php*"
-			],
-			"css": [
-				"scripts/content/newspaper/ttNewspaper.css"
-			],
-			"js": [
-				"scripts/content/newspaper/ttBounties.js"
-			],
-			"run_at": "document_idle"
-		},
-		{
-			"matches": [
 				"https://www.torn.com/stockexchange.php*"
 			],
 			"css": [
@@ -444,69 +480,51 @@
 		},
 		{
 			"matches": [
-				"https://www.torn.com/imarket.php*"
+				"https://www.torn.com/trade.php*"
 			],
 			"css": [
-				"scripts/content/itemmarket/ttItemmarket.css"
+				"scripts/content/trade/ttTrade.css"
 			],
 			"js": [
-				"scripts/content/itemmarket/ttItemmarket.js"
+				"scripts/content/trade/ttTrade.js"
 			],
 			"run_at": "document_end"
 		},
 		{
 			"matches": [
-				"https://www.torn.com/companies.php*"
+				"https://www.torn.com/travelagency.php*"
 			],
 			"css": [
-				"scripts/content/company/ttCompany.css"
+				"scripts/content/travel/ttTravel.css",
+				"scripts/content/achievements/ttAchievements.css"
 			],
 			"js": [
-				"scripts/content/company/ttCompany.js"
+				"scripts/content/travel/ttTravelHome.js",
+				"scripts/content/achievements/ttTravelAchievements.js"
 			],
 			"run_at": "document_end"
 		},
 		{
 			"matches": [
-				"https://www.torn.com/preferences.php*"
+				"https://www.torn.com/war.php?step=chainreport*"
 			],
 			"css": [
-				"scripts/content/preferences/ttPreferences.css"
+				"scripts/content/faction/ttFaction.css"
 			],
 			"js": [
-				"scripts/content/preferences/ttPreferences.js"
+				"scripts/content/faction/ttChainReport.js"
 			],
 			"run_at": "document_end"
 		},
 		{
 			"matches": [
-				"https://www.torn.com/blacklist.php*"
-			],
-			"css": [],
-			"js": [
-				"scripts/content/blacklist/ttEnemiesList.js"
-			],
-			"run_at": "document_end"
-		},
-		{
-			"matches": [
-				"https://www.torn.com/halloffame.php*"
-			],
-			"css": [],
-			"js": [
-				"scripts/content/halloffame/ttHallOfFame.js"
-			],
-			"run_at": "document_end"
-		},
-		{
-			"matches": [
-				"https://www.torn.com/bank.php*"
+				"https://www.torn.com/competition.php*"
 			],
 			"css": [
-				"scripts/content/bank/ttBank.css"
+				"scripts/content/competition/ttCompetition.css"
 			],
 			"js": [
-				"scripts/content/bank/ttBank.js"
+				"scripts/content/competition/ttCompetition.js"
 			],
 			"run_at": "document_end"
 		}

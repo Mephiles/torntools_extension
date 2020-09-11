@@ -616,6 +616,10 @@ async function showUserInfo() {
 
 			if (!hasCachedEstimate(userId)) estimateCount++;
 
+			new MutationObserver((mutations, observer) => {
+				container.style.display = tableRow.style.display === "none" ? "none" : "block";
+			}).observe(tableRow, { attributes: true, attributeFilter: ["style"] });
+
 			loadingPlaceholder(row, true);
 			estimateStats(userId, false, estimateCount)
 				.then((result => {
@@ -627,12 +631,18 @@ async function showUserInfo() {
 				}))
 				.catch((error) => {
 					loadingPlaceholder(row, false);
-					row.appendChild(doc.new({
-						type: "span",
-						class: "tt-userinfo-message",
-						text: error.message,
-						attributes: { color: "error" },
-					}));
+
+					if (error.show) {
+						row.appendChild(doc.new({
+							type: "span",
+							class: "tt-userinfo-message",
+							text: error.message,
+							attributes: { color: "error" },
+						}));
+					} else {
+						row.remove();
+						if (container.children.length === 0) container.remove();
+					}
 				});
 		}
 	}
@@ -1456,12 +1466,18 @@ function observeDescription() {
 							}))
 							.catch((error) => {
 								loadingPlaceholder(row, false);
-								row.appendChild(doc.new({
-									type: "span",
-									class: "tt-userinfo-message",
-									text: error.message,
-									attributes: { color: "error" },
-								}));
+
+								if (error.show) {
+									row.appendChild(doc.new({
+										type: "span",
+										class: "tt-userinfo-message",
+										text: error.message,
+										attributes: { color: "error" },
+									}));
+								} else {
+									row.remove();
+									if (container.children.length === 0) container.remove();
+								}
 							});
 					}
 				}
