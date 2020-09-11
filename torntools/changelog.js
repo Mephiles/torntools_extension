@@ -6,6 +6,7 @@ export default {
 		],
 		"Changes": [
 			"Add an option to disable stats estimates on competition page. - DKK",
+			"Add an option to not show the cached only text. - DKK",
 		],
 	},
 	"v5.0 - September, 10th. 2020": {

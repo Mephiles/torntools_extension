@@ -559,6 +559,7 @@ const STORAGE = {
 
 				delay: 1500,
 				cached_only: false,
+				cached_only_show: false,
 			},
 			no_confirm: {
 				global: true,
@@ -2111,7 +2112,7 @@ function estimateStats(userId, isIndividual = false, listCount = 0) {
 			});
 		} else {
 			if (!isIndividual && settings.scripts.stats_estimate.cached_only)
-				return reject({ message: "No cached result found!" });
+				return reject({ message: "No cached result found!", show: settings.scripts.stats_estimate.cached_only_show });
 
 			if (!isIndividual) await sleep(listCount * settings.scripts.stats_estimate.delay);
 
@@ -2125,10 +2126,11 @@ function estimateStats(userId, isIndividual = false, listCount = 0) {
 						estimate,
 						cached: false,
 						apiResult: result,
+						show: true,
 					});
 				})
 				.catch(({ error }) => {
-					reject({ message: error });
+					reject({ message: error, show: true });
 				});
 		}
 	});
@@ -2185,12 +2187,18 @@ function estimateStatsInList(listSelector, userHandler) {
 				}))
 				.catch((error) => {
 					loadingPlaceholder(row, false);
-					row.appendChild(doc.new({
-						type: "span",
-						class: "tt-userinfo-message",
-						text: error.message,
-						attributes: { color: "error" },
-					}));
+
+					if (error.show) {
+						row.appendChild(doc.new({
+							type: "span",
+							class: "tt-userinfo-message",
+							text: error.message,
+							attributes: { color: "error" },
+						}));
+					} else {
+						row.remove();
+						if (container.children.length === 0) container.remove();
+					}
 				})
 				.then(() => resolve());
 		}
