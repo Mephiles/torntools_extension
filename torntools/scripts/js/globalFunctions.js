@@ -555,7 +555,7 @@ const STORAGE = {
 				enemies_list: false,
 				faction_wars: false,
 				faction_members: false,
-				// TODO - competition
+				competition: false,
 
 				delay: 1500,
 				cached_only: false,

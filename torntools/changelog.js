@@ -4,7 +4,9 @@ export default {
 		"Fixes": [
 			"Fix trade open chat on Firefox. - DKK",
 		],
-		"Changes": [],
+		"Changes": [
+			"Add an option to disable stats estimates on competition page. - DKK",
+		],
 	},
 	"v5.0 - September, 10th. 2020": {
 		"Features": [

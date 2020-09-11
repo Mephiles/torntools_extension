@@ -26,7 +26,7 @@ function loadTeamPage() {
 	let title = list.previousElementSibling;
 
 	addFilter(list, title);
-	showStatsEstimates();
+	if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.competition) showStatsEstimates();
 }
 
 function showStatsEstimates() {
