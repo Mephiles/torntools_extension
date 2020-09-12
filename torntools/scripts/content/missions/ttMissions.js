@@ -42,7 +42,7 @@ const MISSIONS = {
 	"Bonnie & Clyde": { task: "Defeat (P) and spouse of (P)" },
 	Bountiful: { task: "Claim 2,3, or 5 bounties", hint: "Make sure to hospitalize the target." },
 	"Bounty on the Mutiny": { task: "Bounty (P) and wait for bounty to be fulfilled", hint: "You cannot claim your own bounties." },
-	"Bring It!": {
+	"Bring it!": {
 		task: "Defeat Duke within 7 days of activating this mission.",
 		hint: "Jump in when he gets looted 5-6 times a day, do not have to land finishing hit.",
 	},
