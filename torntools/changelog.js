@@ -1,4 +1,11 @@
 export default {
+	"v5.1": {
+		"Features": [
+			"Remove zalgo text from chat. - DKK",
+		],
+		"Fixes": [],
+		"Changes": [],
+	},
 	"v5.0.1 - September, 11th. 2020": {
 		"Fixes": [
 			"Fix trade open chat on Firefox. - DKK",

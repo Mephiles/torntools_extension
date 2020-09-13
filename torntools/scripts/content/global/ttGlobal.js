@@ -132,7 +132,7 @@ requireDatabase().then(() => {
 		}
 
 		if (doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")) {
-			highLightChat(highlights);
+			manipulateChat(highlights);
 
 			if (settings.pages.global.find_chat) addChatFilters();
 		}
@@ -142,7 +142,7 @@ requireDatabase().then(() => {
 				return;
 			}
 
-			highLightChat(highlights);
+			manipulateChat(highlights);
 			if (settings.pages.global.find_chat) addChatFilters();
 		});
 
@@ -152,6 +152,7 @@ requireDatabase().then(() => {
 					let message = mutation.addedNodes[0];
 
 					applyChatHighlights(message, highlights);
+					if (settings.pages.global.block_zalgo) removeZalgoText(message);
 				}
 			}
 		});
@@ -280,13 +281,14 @@ function addUpdateNotification() {
 	doc.find("h2=Areas").nextElementSibling.insertBefore(cell, doc.find("h2=Areas").nextElementSibling.firstElementChild);
 }
 
-function highLightChat(chat_highlight) {
-	let chats = doc.findAll(".chat-box-content_2C5UJ .overview_1MoPG");
-	for (let chat of chats) {
-		let messages = chat.findAll(".message_oP8oM");
+function manipulateChat(highlights) {
+	if (highlights || settings.pages.global.block_zalgo) {
+		for (let chat of doc.findAll(".chat-box-content_2C5UJ .overview_1MoPG")) {
+			for (let message of chat.findAll(".message_oP8oM")) {
+				if (highlights) applyChatHighlights(message, highlights);
 
-		for (let message of messages) {
-			applyChatHighlights(message, chat_highlight);
+				if (settings.pages.global.block_zalgo) removeZalgoText(message);
+			}
 		}
 	}
 }
@@ -312,6 +314,15 @@ function applyChatHighlights(message, highlights) {
 
 	function simplify(text) {
 		return text.toLowerCase().replaceAll([".", "?", ":", "!", "\"", "'", ";", "`", ","], "");
+	}
+}
+
+function removeZalgoText(message) {
+	const content = message.find("span");
+
+	if (REGEX_COMBINING_SYMBOL.test(content.innerHTML)) {
+		console.log("Removed zalgo text.", content.innerHTML, content);
+		content.innerHTML = content.innerHTML.replace(REGEX_COMBINING_SYMBOL, "*");
 	}
 }
 
