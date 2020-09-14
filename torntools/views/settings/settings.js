@@ -699,6 +699,7 @@ function targetList() {
 
 				item.innerText = date.toLocaleString();
 				item.setAttribute("value", date.toLocaleString());
+				item.setAttribute("type", "date");
 			} else {
 				let value = target_list[id][heading.name];
 				if (value === undefined) value = "";

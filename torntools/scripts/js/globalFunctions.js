@@ -1743,17 +1743,20 @@ function sort(table, col, type) {
 		return rows;
 
 		function sortHelper(elementA, elementB) {
+			let isDate = false;
 			let valueA, valueB;
 			if (type === "value") {
 				valueA = elementA.find(`*:nth-child(${col})`).getAttribute("value");
 				valueB = elementB.find(`*:nth-child(${col})`).getAttribute("value");
+
+				isDate = elementA.find(`*:nth-child(${col})`).getAttribute("type") === "date";
 			} else if (type === "text") {
 				valueA = [...elementA.children][col - 1].innerText;
 				valueB = [...elementB.children][col - 1].innerText;
 			}
 
 			let a, b;
-			if (Date.parse(valueA)) {
+			if (isDate && Date.parse(valueA) && Date.parse(valueB)) {
 				a = Date.parse(valueA);
 				b = Date.parse(valueB);
 			} else if (isNaN(parseFloat(valueA))) {
