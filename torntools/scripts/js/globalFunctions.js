@@ -2219,6 +2219,11 @@ function cacheEstimate(userId, timestamp, estimate, lastAction) {
 
 	console.log(`Caching result for '${userId}' for ${days} days.`, estimate);
 
+	cache.battleStatsEstimate[userId] = {
+		timestamp,
+		ttl: TO_MILLIS.DAYS * days,
+		data: estimate,
+	};
 	ttStorage.change({
 		cache: {
 			battleStatsEstimate: {
