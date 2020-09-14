@@ -3,7 +3,9 @@ export default {
 		"Features": [
 			"Remove zalgo text from chat. - DKK",
 		],
-		"Fixes": [],
+		"Fixes": [
+			"Don't cache stats estimates if they are disabled on profiles. - DKK",
+		],
 		"Changes": [
 			"Improve stats estimates caching. - DKK",
 		],
