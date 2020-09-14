@@ -9,6 +9,7 @@ export default {
 		],
 		"Changes": [
 			"Improve stats estimates caching. - DKK",
+			"Add an option to only show stats estimates under a certain level. - DKK",
 		],
 	},
 	"v5.0.1 - September, 11th. 2020": {
