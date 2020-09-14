@@ -107,7 +107,7 @@ requireDatabase(false)
 		if (api_key) {
 			title = "Oops";
 			message = "### Something has gone wrong. Please contact the developers and let them know of the following message:\n" +
-				"(ERROR) ${err}\n" +
+				`(ERROR) ${err}\n` +
 				"Clicking either 'Cancel' or 'Confirm' will reload the page.";
 		} else {
 			title = "API key";
