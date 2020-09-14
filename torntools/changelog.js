@@ -5,6 +5,7 @@ export default {
 		],
 		"Fixes": [
 			"Don't cache stats estimates if they are disabled on profiles. - DKK",
+			"Fix settings messages. - DKK",
 		],
 		"Changes": [
 			"Improve stats estimates caching. - DKK",
