@@ -4,7 +4,9 @@ export default {
 			"Remove zalgo text from chat. - DKK",
 		],
 		"Fixes": [],
-		"Changes": [],
+		"Changes": [
+			"Improve stats estimates caching. - DKK",
+		],
 	},
 	"v5.0.1 - September, 11th. 2020": {
 		"Fixes": [
