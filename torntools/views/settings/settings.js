@@ -1519,20 +1519,12 @@ function importData() {
 		.then(result => {
 			console.log("import", result);
 
-			let conflictMessage = `
-\n
-	`;
+			let conflictMessage = `\n`;
 
 			ttStorage.get(null, database => {
 				for (let key in result.data) {
 					if (JSON.stringify(result.data[key]) !== JSON.stringify(database[key])) {
-						conflictMessage += `
-- $
-	{
-		key
-	}
-\n
-	`;
+						conflictMessage += `- ${key}\n`;
 					}
 				}
 
@@ -1540,9 +1532,7 @@ function importData() {
 				if (conflictMessage.trim() === "") {
 					loadConfirmationPopup({
 						title: "Import",
-						message: `
-### You are all up-to-date
-	`,
+						message: `### You are all up-to-date`,
 					})
 						.then(() => {
 						})
@@ -1551,15 +1541,7 @@ function importData() {
 				} else {
 					loadConfirmationPopup({
 						title: "Import",
-						message: `
-### Are you sure that you want to overwrite following items?
-        $
-	{
-		conflictMessage
-	}
-
-                    
-	`,
+						message: `### Are you sure that you want to overwrite following items?\n${conflictMessage}`,
 					})
 						.then(async () => {
 							let import_result;
@@ -1567,13 +1549,7 @@ function importData() {
 								import_result = await new Promise((resolve) => {
 									try {
 										ttStorage.set({ [key]: result.data[key] }, () => {
-											console.log(`
-$
-	{
-		key
-	}
- imported.
-	`);
+											console.log(`${key} imported.`);
 											return resolve({ success: true, message: "All settings imported" });
 										});
 									} catch (err) {
