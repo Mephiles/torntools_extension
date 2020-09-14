@@ -441,6 +441,10 @@ p {
     width: 15px;
 }
 
+.option input[type=number].level {
+    width: 45px;
+}
+
 /* About */
 #about #new-version p {
     text-decoration: underline;

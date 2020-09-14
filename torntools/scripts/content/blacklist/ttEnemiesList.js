@@ -28,6 +28,7 @@ function showStatsEstimates() {
 	estimateStatsInList("ul.user-info-blacklist-wrap > li:not(.clear)", (row) => {
 		return {
 			userId: row.find(".acc-wrapper a.user.name").getAttribute("href").match(/profiles\.php\?XID=([0-9]*)/i)[1],
+			level: parseInt(row.find(".level").innerText),
 		};
 	});
 }

@@ -561,6 +561,7 @@ const STORAGE = {
 				delay: 1500,
 				cached_only: false,
 				cached_only_show: false,
+				max_level: 100,
 			},
 			no_confirm: {
 				global: true,
@@ -2095,6 +2096,7 @@ function handleTornProfileData(data) {
 	response.stats = {
 		...data.personalstats,
 		...data.criminalrecord,
+		level: data.level,
 	};
 	response.battleStatsEstimate = calculateEstimateBattleStats(rank, level, totalCrimes, networth);
 
@@ -2109,7 +2111,7 @@ function hasCachedEstimate(userId) {
 	return cache && cache.battleStatsEstimate && cache.battleStatsEstimate[userId];
 }
 
-function estimateStats(userId, isIndividual = false, listCount = 0) {
+function estimateStats(userId, isIndividual = false, listCount = 0, level) {
 	return new Promise(async (resolve, reject) => {
 		if (hasCachedEstimate(userId)) {
 			return resolve({
@@ -2117,6 +2119,9 @@ function estimateStats(userId, isIndividual = false, listCount = 0) {
 				cached: true,
 			});
 		} else {
+			if (level && settings.scripts.stats_estimate.max_level && settings.scripts.stats_estimate.max_level < level)
+				return reject({ message: "Too high of a level.", show: false });
+
 			if (!isIndividual && settings.scripts.stats_estimate.cached_only)
 				return reject({ message: "No cached result found!", show: settings.scripts.stats_estimate.cached_only_show });
 
@@ -2151,7 +2156,7 @@ function estimateStatsInList(listSelector, userHandler) {
 		for (let person of doc.findAll(listSelector)) {
 			const response = userHandler(person);
 			if (!response) continue;
-			const { userId } = response;
+			const { userId, level } = response;
 			if (!userId) continue;
 
 			let container;
@@ -2183,7 +2188,7 @@ function estimateStatsInList(listSelector, userHandler) {
 			*/
 
 			loadingPlaceholder(row, true);
-			estimateStats(userId, false, estimateCount)
+			estimateStats(userId, false, estimateCount, level)
 				.then((result => {
 					loadingPlaceholder(row, false);
 					row.appendChild(doc.new({

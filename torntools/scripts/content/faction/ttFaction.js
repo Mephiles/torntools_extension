@@ -619,8 +619,10 @@ async function showUserInfo() {
 				container.style.display = tableRow.style.display === "none" ? "none" : "block";
 			}).observe(tableRow, { attributes: true, attributeFilter: ["style"] });
 
+			const level = parseInt(tableRow.find(".lvl").innerText);
+
 			loadingPlaceholder(row, true);
-			estimateStats(userId, false, estimateCount)
+			estimateStats(userId, false, estimateCount, level)
 				.then((result => {
 					loadingPlaceholder(row, false);
 					row.appendChild(doc.new({
@@ -1427,6 +1429,7 @@ function observeDescription() {
 
 			return {
 				userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1],
+				level: parseInt(row.find(".level").innerText),
 			};
 		});
 	});
@@ -1445,6 +1448,7 @@ function observeDescription() {
 				for (let node of mutation.addedNodes) {
 					if (node && node.classList && (node.classList.contains("your") || node.classList.contains("enemy"))) {
 						const userId = (node.find("a.user.name").getAttribute("data-placeholder") || node.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1];
+						const level = parseInt(node.find(".level").innerText);
 
 						const container = doc.new({ type: "li", class: "tt-userinfo-container" });
 						node.parentElement.insertBefore(container, node.nextElementSibling);
@@ -1455,7 +1459,7 @@ function observeDescription() {
 						if (!hasCachedEstimate(userId)) estimateCount++;
 
 						loadingPlaceholder(row, true);
-						estimateStats(userId, false, estimateCount)
+						estimateStats(userId, false, estimateCount, level)
 							.then((result => {
 								loadingPlaceholder(row, false);
 								row.appendChild(doc.new({

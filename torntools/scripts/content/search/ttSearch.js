@@ -343,6 +343,7 @@ function showStatsEstimates() {
 	estimateStatsInList("ul.user-info-list-wrap > li:not(.last)", (row) => {
 		return {
 			userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1],
+			level: parseInt(row.find(".level .value").innerText),
 		};
 	});
 }

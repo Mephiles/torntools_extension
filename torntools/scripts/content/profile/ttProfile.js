@@ -495,12 +495,21 @@ function displayTargetInfo(targets) {
 	section.appendChild(doc.new({ type: "i", class: "uk-sortable-handle fas fa-arrows-alt" }));
 }
 
+function getLevel() {
+	const levelWrap = doc.find(".box-info .box-value");
+
+	return (parseInt(levelWrap.find(".digit-r .digit").innerText) || 0) * 100 +
+		(parseInt(levelWrap.find(".digit-m .digit").innerText) || 0) * 10 +
+		parseInt(levelWrap.find(".digit-l .digit").innerText);
+}
+
 async function displayProfileStats() {
 	let userId = getUserId();
 	let profile_stats = doc.find("#tt-target-info .profile-stats");
 
 	let result;
 
+	const level = getLevel();
 	if (cache && cache.profileStats[userId] && cache.battleStatsEstimate[userId]) {
 		result = {
 			stats: cache.profileStats[userId].data,
@@ -526,8 +535,10 @@ async function displayProfileStats() {
 							},
 						},
 					}, () => {
-						if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.profile) {
-							cacheEstimate(userId, timestamp, data.battleStatsEstimate, result.last_action);
+						if (!level || !settings.scripts.stats_estimate.max_level || settings.scripts.stats_estimate.max_level >= level) {
+							if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.profile)
+								cacheEstimate(userId, timestamp, data.battleStatsEstimate, result.last_action);
+
 						}
 					});
 
@@ -694,13 +705,15 @@ async function displayProfileStats() {
 	// Add sortable icon
 	profile_stats.appendChild(doc.new({ type: "i", class: "uk-sortable-handle fas fa-arrows-alt" }));
 
-	if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.profile) {
-		doc.find(".profile-right-wrapper > .profile-action .title-black").appendChild(doc.new({
-			type: "span",
-			class: "tt-title-message",
-			text: result.battleStatsEstimate,
-			attributes: { color: "info" },
-		}));
+	if (!level || !settings.scripts.stats_estimate.max_level || settings.scripts.stats_estimate.max_level >= level) {
+		if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.profile) {
+			doc.find(".profile-right-wrapper > .profile-action .title-black").appendChild(doc.new({
+				type: "span",
+				class: "tt-title-message",
+				text: result.battleStatsEstimate,
+				attributes: { color: "info" },
+			}));
+		}
 	}
 }
 

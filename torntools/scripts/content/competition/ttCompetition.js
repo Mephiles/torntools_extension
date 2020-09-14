@@ -33,6 +33,7 @@ function showStatsEstimates() {
 	estimateStatsInList("ul.competition-list > li:not(.tt-userinfo-container)", (row) => {
 		return {
 			userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1],
+			level: parseInt(row.find(".level").innerText),
 		};
 	});
 }
