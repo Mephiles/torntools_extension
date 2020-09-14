@@ -526,7 +526,9 @@ async function displayProfileStats() {
 							},
 						},
 					}, () => {
-						cacheEstimate(userId, timestamp, data.battleStatsEstimate, result.last_action);
+						if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.profile) {
+							cacheEstimate(userId, timestamp, data.battleStatsEstimate, result.last_action);
+						}
 					});
 
 					resolve(data);
