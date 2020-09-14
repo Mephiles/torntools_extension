@@ -243,7 +243,6 @@ function shortenArmoryNews() {
 		let keywords = ["used", "filled", "lent", "retrieved", "returned", "deposited", "gave"];
 		let inner_span = doc.new("span");
 
-		console.log("DKK key", key);
 		for (let keyword of keywords) {
 			if (key.includes(keyword)) {
 				if (key.includes("one")) {
