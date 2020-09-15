@@ -1698,7 +1698,9 @@ function sort(table, col, type) {
 
 	let rows = [];
 
-	if (!table.find(`.body .row div:nth-child(${col})`).getAttribute("priority")) {
+	if (!table.find(".body .row")) {
+		rows = [];
+	} else if (!table.find(`.body .row div:nth-child(${col})`).getAttribute("priority")) {
 		rows = [...table.findAll(".body>.row")];
 		rows = sortRows(rows, order, type);
 	} else {
