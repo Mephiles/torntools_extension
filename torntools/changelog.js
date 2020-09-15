@@ -6,6 +6,7 @@ export default {
 		"Fixes": [
 			"Don't cache stats estimates if they are disabled on profiles. - DKK",
 			"Fix settings messages. - DKK",
+			"Fix target table when there are no targets. - DKK",
 		],
 		"Changes": [
 			"Improve stats estimates caching. - DKK",
