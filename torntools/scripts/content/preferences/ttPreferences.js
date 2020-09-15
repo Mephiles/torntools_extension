@@ -9,7 +9,7 @@ window.addEventListener("load", () => {
 
 	settingsLink.onclick = () => {
 		window.open(chrome.runtime.getURL("views/settings/settings.html"));
-	}
+	};
 
 	// Connect button
 	const connectButton = doc.new({ type: "div", class: "in-title tt-torn-button", text: "Connect" });
@@ -20,8 +20,9 @@ window.addEventListener("load", () => {
 		connectButton.innerText = "Connected!";
 	} else {
 		connectButton.onclick = () => {
-			const apiKeyFieldValue = doc.find("#preferencesroot .api___2BVZd .input___1n_f_[readonly]").getAttribute("value");
-			ttStorage.set({ "api_key": apiKeyFieldValue }, () => {
+			const apiKeyFieldValue = doc.find("#newapi").getAttribute("value");
+
+			ttStorage.set({ api_key: apiKeyFieldValue }, () => {
 				chrome.runtime.sendMessage({ action: "initialize" }, response => {
 					console.log(response.message);
 
@@ -30,10 +31,10 @@ window.addEventListener("load", () => {
 						connectButton.innerText = "Connected!";
 
 						connectButton.onclick = () => {
-						}
+						};
 					}
 				});
 			});
-		}
+		};
 	}
 });

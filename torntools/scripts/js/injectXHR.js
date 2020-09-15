@@ -20,7 +20,7 @@ function interceptXHR(channel) {
 			}
 		}
 
-		this.addEventListener('readystatechange', function () {
+		this.addEventListener("readystatechange", function () {
 			if (this.readyState > 3 && this.status === 200) {
 				const page = this.responseURL.substring(this.responseURL.indexOf("torn.com/") + "torn.com/".length, this.responseURL.indexOf(".php"));
 
@@ -33,14 +33,14 @@ function interceptXHR(channel) {
 						page, json, uri, xhr: {
 							...this,
 							responseURL: this.responseURL,
-						}
-					}
+						},
+					},
 				}));
 			}
 		});
 
 		return oldXHROpen.apply(this, arguments);
-	}
+	};
 	window.XMLHttpRequest.prototype.send = function (body) {
 		if (typeof xhrSendAdjustments === "object") {
 			for (let key in xhrSendAdjustments) {
@@ -53,18 +53,18 @@ function interceptXHR(channel) {
 		this.requestBody = body;
 
 		return oldXHRSend.apply(this, arguments);
-	}
+	};
 
 	/*
 	 * JavaScript Get URL Parameter (https://www.kevinleary.net/javascript-get-url-parameters/)
 	 */
 	function getUrlParams(url, prop) {
-		const search = decodeURIComponent(((url) ? url : window.location.href).slice(window.location.href.indexOf('?') + 1));
-		const definitions = search.split('&');
+		const search = decodeURIComponent(((url) ? url : window.location.href).slice(window.location.href.indexOf("?") + 1));
+		const definitions = search.split("&");
 
 		let params = {};
 		definitions.forEach(val => {
-			const parts = val.split('=', 2);
+			const parts = val.split("=", 2);
 
 			params[parts[0]] = parts[1];
 		});

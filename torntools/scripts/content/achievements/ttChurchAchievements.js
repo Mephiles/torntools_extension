@@ -8,12 +8,12 @@ requireDatabase().then(() => {
 			return;
 
 		// object of all the achievements on this page
-		let achievements = {
-			"Donations": {
-				"stats": getDonations(),
-				"keyword": "church"
-			}
-		}
+		const achievements = {
+			Donations: {
+				stats: getDonations(),
+				keyword: "church",
+			},
+		};
 
 		displayAchievements(achievements, show_completed);
 	});

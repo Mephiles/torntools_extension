@@ -11,7 +11,7 @@ requireDatabase().then(() => {
 		let quick_container = content.newContainer("Quick items", {
 			id: "ttQuick",
 			dragzone: true,
-			next_element: doc.find(".equipped-items-wrap")
+			next_element: doc.find(".equipped-items-wrap"),
 		}).find(".content");
 		let inner_content = doc.new({ type: "div", class: "inner-content" });
 		let response_wrap = doc.new({ type: "div", class: "response-wrap" });
@@ -69,98 +69,88 @@ requireDatabase().then(() => {
 
 								// Pros
 								if (drug_details.pros) {
-									let pros_header = doc.new({
+									el.find(".info-msg").appendChild(doc.new({
 										type: "div",
 										class: "t-green bold item-effect m-top10",
-										text: "Pros:"
-									});
-									el.find(".info-msg").appendChild(pros_header);
+										text: "Pros:",
+									}));
 
 									for (let eff of drug_details.pros) {
-										let pros_div = doc.new({
+										el.find(".info-msg").appendChild(doc.new({
 											type: "div",
 											class: "t-green bold item-effect tabbed",
-											text: eff
-										});
-										el.find(".info-msg").appendChild(pros_div);
+											text: eff,
+										}));
 									}
 								}
 
 								// Cons
 								if (drug_details.cons) {
-									let cons_header = doc.new({
+									el.find(".info-msg").appendChild(doc.new({
 										type: "div",
 										class: "t-red bold item-effect",
-										text: "Cons:"
-									});
-									el.find(".info-msg").appendChild(cons_header);
+										text: "Cons:",
+									}));
 
 									for (let eff of drug_details.cons) {
-										let cons_div = doc.new({
+										el.find(".info-msg").appendChild(doc.new({
 											type: "div",
 											class: "t-red bold item-effect tabbed",
-											text: eff
-										});
-										el.find(".info-msg").appendChild(cons_div);
+											text: eff,
+										}));
 									}
 								}
 
 								// Cooldown
 								if (drug_details.cooldown) {
-									let cooldown_div = doc.new({
+									el.find(".info-msg").appendChild(doc.new({
 										type: "div",
 										class: "t-red bold item-effect",
-										text: `Cooldown: ${drug_details.cooldown}`
-									});
-									el.find(".info-msg").appendChild(cooldown_div);
+										text: `Cooldown: ${drug_details.cooldown}`,
+									}));
 								}
 
 								// Overdose
 								if (drug_details.overdose) {
-									let od_header = doc.new({
+									el.find(".info-msg").appendChild(doc.new({
 										type: "div",
 										class: "t-red bold item-effect",
-										text: "Overdose:"
-									});
-									el.find(".info-msg").appendChild(od_header);
+										text: "Overdose:",
+									}));
 
 									// bars
 									if (drug_details.overdose.bars) {
-										let bars_header = doc.new({
+										el.find(".info-msg").appendChild(doc.new({
 											type: "div",
 											class: "t-red bold item-effect tabbed",
-											text: "Bars"
-										});
-										el.find(".info-msg").appendChild(bars_header);
+											text: "Bars",
+										}));
 
 										for (let bar_eff of drug_details.overdose.bars) {
-											let bar_eff_div = doc.new({
+											el.find(".info-msg").appendChild(doc.new({
 												type: "div",
 												class: "t-red bold item-effect double-tabbed",
-												text: bar_eff
-											});
-											el.find(".info-msg").appendChild(bar_eff_div);
+												text: bar_eff,
+											}));
 										}
 									}
 
 									// hospital time
 									if (drug_details.overdose.hosp_time) {
-										let hosp_div = doc.new({
+										el.find(".info-msg").appendChild(doc.new({
 											type: "div",
 											class: "t-red bold item-effect tabbed",
-											text: `Hospital: ${drug_details.overdose.hosp_time}`
-										});
-										el.find(".info-msg").appendChild(hosp_div);
+											text: `Hospital: ${drug_details.overdose.hosp_time}`,
+										}));
 									}
 
 									// extra
 									if (drug_details.overdose.extra) {
-										let extra_div = doc.new({
+										el.find(".info-msg").appendChild(doc.new({
 											type: "div",
 											class: "t-red bold item-effect tabbed",
-											text: `Extra: ${drug_details.overdose.extra}`
-										});
-										el.find(".info-msg").appendChild(extra_div);
+											text: `Extra: ${drug_details.overdose.extra}`,
+										}));
 									}
 								}
 							});
@@ -213,7 +203,7 @@ function itemsLoaded() {
 }
 
 function displayItemPrices(itemlist) {
-	const list = doc.find(".items-cont[aria-expanded=true]")
+	const list = doc.find(".items-cont[aria-expanded=true]");
 	let items = list.findAll(":scope > li[data-item]");
 
 	let total = 0;
@@ -234,7 +224,7 @@ function displayItemPrices(itemlist) {
 			qty = parseInt(parent.find(".qty").innerText.replace("x", ""));
 		}
 		total_price = qty * parseInt(price);
-		if (total_price) total += total_price
+		if (total_price) total += total_price;
 		else if (total_price !== 0) total += price;
 
 		if (parent.find(".tt-item-price"))
@@ -308,15 +298,7 @@ function displayItemPrices(itemlist) {
 }
 
 function useContainerLoaded() {
-	return new Promise(resolve => {
-		let checker = setInterval(() => {
-			let wrap = doc.find("#ttQuick .action-wrap.use-act.use-action");
-			if (wrap) {
-				resolve(true);
-				return clearInterval(checker);
-			}
-		}, 10);
-	});
+	return requireElement("#ttQuick .action-wrap.use-act.use-action");
 }
 
 function itemInfoLoaded(element) {
@@ -370,12 +352,11 @@ function addButton() {
 
 					// Save
 					let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
-					ttStorage.change({ "quick": { "items": items } });
-				}
+					ttStorage.change({ quick: { items } });
+				};
 			}
 		}
-
-	}
+	};
 }
 
 function addItemMarketLinks() {
@@ -385,14 +366,13 @@ function addItemMarketLinks() {
 		let li = doc.new({
 			type: "li",
 			class: "left tt-market-link",
-			attributes: { "data-id": item.getAttribute("data-item") }
+			attributes: { "data-id": item.getAttribute("data-item") },
 		});
 		let a = doc.new({
 			type: "a",
-			href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${item.find(".image-wrap img").getAttribute("alt")}`
+			href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${item.find(".image-wrap img").getAttribute("alt")}`,
 		});
-		let i = doc.new({ type: "i", class: "cql-item-market", attributes: { title: "Open Item Market" } });
-		a.appendChild(i);
+		a.appendChild(doc.new({ type: "i", class: "cql-item-market", attributes: { title: "Open Item Market" } }));
 		li.appendChild(a);
 
 		if (item.classList.contains("item-group")) item.classList.add("tt-modified");
@@ -403,11 +383,11 @@ function addItemMarketLinks() {
 		let actionParent = doc.new({ type: "div" });
 
 		let actionRight = item.find(".actions.right");
-		actionRight.classList.add("tt-modified")
+		actionRight.classList.add("tt-modified");
 
 		actionParent.appendChild(actionRight);
 
-		item.find(".cont-wrap").appendChild(actionParent)
+		item.find(".cont-wrap").appendChild(actionParent);
 
 		if (item.find("ul.actions-wrap .dump")) {
 			item.find("ul.actions-wrap").insertBefore(li, item.find("ul.actions-wrap .dump"));
@@ -426,7 +406,7 @@ const ALLOWED_BLOOD = {
 	"b-": [735, 739], // 735
 	"ab+": [732, 733, 734, 735, 736, 737, 738, 739], // 736
 	"ab-": [733, 735, 737, 739], // 737
-}
+};
 
 function highlightBloodBags() {
 	const allowedBlood = ALLOWED_BLOOD[settings.pages.items.highlight_bloodbags];
@@ -441,7 +421,7 @@ function highlightBloodBags() {
 		const classes = item.find(".name-wrap").classList;
 
 		if (allowedBlood.includes(parseInt(item.getAttribute("data-item")))) classes.add("tt-good_blood");
-		else classes.add("tt-bad_blood")
+		else classes.add("tt-bad_blood");
 	}
 }
 
@@ -460,7 +440,7 @@ function getAction(obj) {
 		data: obj.data || {},
 		async: typeof obj.async !== "undefined" ? obj.async : true,
 		success: msg => {
-			console.log("success")
+			console.log("success");
 			obj.success(msg);
 		},
 		error: (xhr, ajaxOptions, thrownError) => {
@@ -500,7 +480,7 @@ function onDragEnd() {
 	doc.find("#ttQuick .content").classList.remove("drag-progress");
 
 	let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
-	ttStorage.change({ "quick": { "items": items } });
+	ttStorage.change({ quick: { items } });
 }
 
 function addQuickItem(container, innerContent, responseWrap, id, temporary = false) {
@@ -518,14 +498,14 @@ function addQuickItem(container, innerContent, responseWrap, id, temporary = fal
 	let pic = doc.new({
 		type: "div",
 		class: "pic",
-		attributes: { style: `background-image: url(/images/items/${id}/medium.png)` }
+		attributes: { style: `background-image: url(/images/items/${id}/medium.png)` },
 	});
 	let text = doc.new({ type: "div", class: "text", text: itemlist.items[id].name });
 	let quantity = doc.new({
 		type: "div",
 		class: "sub-text tt-quickitems-quantity",
 		attributes: { quantity: amount },
-		text: amount + "x"
+		text: amount + "x",
 	});
 	let closeIcon = doc.new({ type: "i", class: "fas fa-times tt-close-icon" });
 
@@ -540,7 +520,7 @@ function addQuickItem(container, innerContent, responseWrap, id, temporary = fal
 		div.remove();
 
 		let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
-		ttStorage.change({ "quick": { "items": items } });
+		ttStorage.change({ quick: { items: items } });
 	});
 
 	div.addEventListener("click", () => {
@@ -561,9 +541,9 @@ function addQuickItem(container, innerContent, responseWrap, id, temporary = fal
 					container.find(`a[data-item='${id}']`).click();
 
 					// adjust container
-					container.find('.tt-content').style.maxHeight = container.find('.tt-content').scrollHeight + "px";
+					container.find(".tt-content").style.maxHeight = container.find(".tt-content").scrollHeight + "px";
 				});
-			}
+			},
 		});
 	});
 }
@@ -606,7 +586,7 @@ function enableInjectListener() {
 			} else if (step === "getCategoryList" || step === "getNotAllItemsListWithoutGroups") {
 				if (!settings.pages.items.values && !settings.pages.items.itemmarket_links) return;
 
-				const currentTab = doc.find('ul.items-cont.tab-menu-cont[style="display: block;"]') || doc.find('ul.items-cont.tab-menu-cont:not([style])');
+				const currentTab = doc.find("ul.items-cont.tab-menu-cont[style=\"display: block;\"]") || doc.find("ul.items-cont.tab-menu-cont:not([style])");
 				if (!currentTab) return;
 
 				new MutationObserver((mutations, observer) => {
@@ -649,10 +629,7 @@ function updateItemAmount(id, change) {
 }
 
 function addItemListener() {
-	const script = doc.new({
-		type: "script",
-		attributes: { type: "text/javascript" },
-	});
+	const script = doc.new({ type: "script", attributes: { type: "text/javascript" } });
 
 	const sendListener = `
 		(xhr, body) => {

@@ -28,14 +28,14 @@ function displayContainer() {
 }
 
 function getData() {
-	let table = []
+	let table = [];
 	let rows = doc.findAll(".members-names-rows li");
 
 	let headings = [
 		"User", "Total Respect", "Average Respect", "Attacks", "Leaves",
 		"Mugs", "Hosps", "War hits", "Bonus hits", "Assists",
-		"Retaliation hits", "Overseas hits", "Draws", "Escapes", "Losses"
-	]
+		"Retaliation hits", "Overseas hits", "Draws", "Escapes", "Losses",
+	];
 
 	table.push(headings);
 
@@ -46,7 +46,7 @@ function getData() {
 
 		for (let heading of headings) {
 			if (heading === "User") {
-				let user = row.find(".user.name").getAttribute("data-placeholder")
+				let user = row.find(".user.name").getAttribute("data-placeholder");
 				table_row.push(user);  // username + ID
 				// console.log(user);
 			} else {

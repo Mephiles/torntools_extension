@@ -56,6 +56,10 @@
     margin-right: 4px;
 }
 
+.tt-title .tt-options .text {
+    margin-left: 4px;
+}
+
 .tt-title.title-green .tt-options {
     color: white;
 }
@@ -157,6 +161,8 @@
 .tt-confirmation-popup {
     width: 50%;
     height: fit-content;
+    height: -moz-fit-content;
+    max-height: 75%;
     left: 25%;
     padding-bottom: 5px;
     top: 20%;
@@ -165,6 +171,7 @@
     background-color: white;
     border-radius: 10px;
     z-index: 99999;
+    overflow: auto;
 }
 
 .tt-confirmation-popup.active {
@@ -339,6 +346,10 @@
 
 .overview_1MoPG .message_oP8oM * {
     font-size: var(--torntools-chat-font-size) !important;
+}
+
+.quit-job {
+    display: var(--torntools-hide-leave-button, block) !important;
 }
 
 /* #nav-gym .area-row___34mEZ {
@@ -627,6 +638,26 @@ div[role='main'].tt-modified {
 
 *[background-color="green"] {
     background-color: #bdecb9b5;
+}
+
+/* Custom TT Console */
+#tt-console {
+    max-height: 400px;
+    overflow: auto;
+    width: 100%;
+    display: inline-block;
+}
+
+#tt-console .tt-log {
+    display: block;
+}
+
+#tt-console .tt-log * {
+    display: inline-block;
+}
+
+#tt-console .tt-log .timestamp {
+    margin-right: 16px;
 }
 
 /* Torn icons */

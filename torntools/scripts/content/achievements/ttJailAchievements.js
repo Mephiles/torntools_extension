@@ -9,16 +9,16 @@ requireDatabase().then(() => {
 			return;
 
 		// object of all the achievements on this page
-		let achievements = {
-			"Busts": {
-				"stats": personalstats.peoplebusted,
-				"keyword": "bust"
+		const achievements = {
+			Busts: {
+				stats: personalstats.peoplebusted,
+				keyword: "bust",
 			},
-			"Bails": {
-				"stats": personalstats.peoplebought,
-				"keyword": "bails"
-			}
-		}
+			Bails: {
+				stats: personalstats.peoplebought,
+				keyword: "bails",
+			},
+		};
 
 		displayAchievements(achievements, show_completed);
 	});

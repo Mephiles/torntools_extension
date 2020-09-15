@@ -1,194 +1,195 @@
 const money_key_list = ["networth", "moneymugged", "largestmug", "peopleboughtspent", "receivedbountyvalue", "totalbountyspent", "totalbountyreward", "rehabcost"];
-let key_dict;
-key_dict = {
+const key_dict = {
 	basic: {
-		"awards": "Awards",
-		"logins": "Logins",
-		"networth": "Networth",
-		"useractivity": "User Activity",
-		"statenhancersused": "Stat Enhancers Used",
+		awards: "Awards",
+		logins: "Logins",
+		networth: "Networth",
+		useractivity: "User Activity",
+		statenhancersused: "Stat Enhancers Used",
 	},
 	attacks: {
-		"attackswon": "Attacks: Won",
-		"attackslost": "Attacks: Lost",
-		"attacksdraw": "Attacks: Draw",
-		"attacksstealthed": "Attacks: Stealthed",
-		"attackhits": "Attacks: Total Hits",
-		"attackmisses": "Attacks: Misses",
-		"attacksassisted": "Attacks: Assisted",
-		"attackswonabroad": "Attacks: Won Abroad",
-		"highestbeaten": "Attacks: Highest Lvl Beaten",
-		"largestmug": "Attacks: Largest Mug",
-		"moneymugged": "Attacks: Money Mugged",
-		"onehitkills": "Attacks: One Hit Kills",
-		"attackdamage": "Attacks: Total Damage",
-		"yourunaway": "Attacks: Escaped",
-		"unarmoredwon": "Attacks: Unarmored Wins",
-		"weaponsbought": "Attacks: Weapons Bought",
-		"attackcriticalhits": "Attacks: Critical Hits",
-		"bestdamage": "Attacks: Best Damage",
-		"bestkillstreak": "Attacks: Best Killstreak",
-		"arrestsmade": "Attacks: Arrests",
-		"roundsfired": "Attacks: Ammo: Fired",
-		"incendiaryammoused": "Attacks: Ammo: Incendiary",
-		"piercingammoused": "Attacks: Ammo: Piercing",
-		"tracerammoused": "Attacks: Ammo: Tracer",
-		"specialammoused": "Attacks: Ammo: Special Total",
-		"hollowammoused": "Attacks: Ammo: Hollow Point",
+		attackswon: "Attacks: Won",
+		attackslost: "Attacks: Lost",
+		attacksdraw: "Attacks: Draw",
+		attacksstealthed: "Attacks: Stealthed",
+		attackhits: "Attacks: Total Hits",
+		attackmisses: "Attacks: Misses",
+		attacksassisted: "Attacks: Assisted",
+		attackswonabroad: "Attacks: Won Abroad",
+		highestbeaten: "Attacks: Highest Lvl Beaten",
+		largestmug: "Attacks: Largest Mug",
+		moneymugged: "Attacks: Money Mugged",
+		onehitkills: "Attacks: One Hit Kills",
+		attackdamage: "Attacks: Total Damage",
+		yourunaway: "Attacks: Escaped",
+		unarmoredwon: "Attacks: Unarmored Wins",
+		weaponsbought: "Attacks: Weapons Bought",
+		attackcriticalhits: "Attacks: Critical Hits",
+		bestdamage: "Attacks: Best Damage",
+		bestkillstreak: "Attacks: Best Killstreak",
+		arrestsmade: "Attacks: Arrests",
+		roundsfired: "Attacks: Ammo: Fired",
+		incendiaryammoused: "Attacks: Ammo: Incendiary",
+		piercingammoused: "Attacks: Ammo: Piercing",
+		tracerammoused: "Attacks: Ammo: Tracer",
+		specialammoused: "Attacks: Ammo: Special Total",
+		hollowammoused: "Attacks: Ammo: Hollow Point",
 	},
 	bounties: {
-		"bountiesplaced": "Bounties: Placed",
-		"bountiescollected": "Bounties: Completed",
-		"totalbountyreward": "Bounties: Rewards",
-		"totalbountyspent": "Bounties: Spent On",
-		"receivedbountyvalue": "Bounties: Received",
-		"bountiesreceived": "Bounties: Times Bountied"
+		bountiesplaced: "Bounties: Placed",
+		bountiescollected: "Bounties: Completed",
+		totalbountyreward: "Bounties: Rewards",
+		totalbountyspent: "Bounties: Spent On",
+		receivedbountyvalue: "Bounties: Received",
+		bountiesreceived: "Bounties: Times Bountied",
 	},
 	crimes: {
-		"selling_illegal_products": "Crimes: Sell illegal products",
-		"theft": "Crimes: Theft",
-		"auto_theft": "Crimes: Auto theft",
-		"drug_deals": "Crimes: Drug deals",
-		"computer_crimes": "Crimes: Computer",
-		"murder": "Crimes: Murder",
-		"fraud_crimes": "Crimes: Fraud",
-		"other": "Crimes: Other",
-		"total": "Crimes: Total",
-		"organisedcrimes": "Crimes: Organised Crimes"
+		selling_illegal_products: "Crimes: Sell illegal products",
+		theft: "Crimes: Theft",
+		auto_theft: "Crimes: Auto theft",
+		drug_deals: "Crimes: Drug deals",
+		computer_crimes: "Crimes: Computer",
+		murder: "Crimes: Murder",
+		fraud_crimes: "Crimes: Fraud",
+		other: "Crimes: Other",
+		total: "Crimes: Total",
+		organisedcrimes: "Crimes: Organised Crimes",
 	},
 	consumables: {
-		"candyused": "Consumables: Candy",
-		"energydrinkused": "Consumables: Energy Drinks",
-		"consumablesused": "Consumables: Total",
-		"alcoholused": "Consumables: Alcohol",
-		"boostersused": "Consumables: Boosters"
+		candyused: "Consumables: Candy",
+		energydrinkused: "Consumables: Energy Drinks",
+		consumablesused: "Consumables: Total",
+		alcoholused: "Consumables: Alcohol",
+		boostersused: "Consumables: Boosters",
 	},
 	contracts: {
-		"contractscompleted": "Contracts: Completed",
-		"dukecontractscompleted": "Contracts: Duke",
-		"missionscompleted": "Contracts: Missions Completed",
-		"missioncreditsearned": "Contracts: Miss. Credits Earned"
+		contractscompleted: "Contracts: Completed",
+		dukecontractscompleted: "Contracts: Duke",
+		missionscompleted: "Contracts: Missions Completed",
+		missioncreditsearned: "Contracts: Miss. Credits Earned",
 	},
 	defends: {
-		"defendswon": "Defends: Won",
-		"defendslost": "Defends: Lost",
-		"defendsstalemated": "Defends: Stalemated",
-		"defendslostabroad": "Defends: Lost Abroad"
+		defendswon: "Defends: Won",
+		defendslost: "Defends: Lost",
+		defendsstalemated: "Defends: Stalemated",
+		defendslostabroad: "Defends: Lost Abroad",
 	},
 	drugs: {
-		"cantaken": "Drugs: Cannabis",
-		"exttaken": "Drugs: Ecstasy",
-		"lsdtaken": "Drugs: LSD",
-		"shrtaken": "Drugs: Shrooms",
-		"xantaken": "Drugs: Xanax",
-		"victaken": "Drugs: Vicodin",
-		"drugsused": "Drugs: Total",
-		"kettaken": "Drugs: Ketamine",
-		"opitaken": "Drugs: Opium",
-		"spetaken": "Drugs: Speed",
-		"pcptaken": "Drugs: PCP",
-		"overdosed": "Drugs: Overdosed"
+		cantaken: "Drugs: Cannabis",
+		exttaken: "Drugs: Ecstasy",
+		lsdtaken: "Drugs: LSD",
+		shrtaken: "Drugs: Shrooms",
+		xantaken: "Drugs: Xanax",
+		victaken: "Drugs: Vicodin",
+		drugsused: "Drugs: Total",
+		kettaken: "Drugs: Ketamine",
+		opitaken: "Drugs: Opium",
+		spetaken: "Drugs: Speed",
+		pcptaken: "Drugs: PCP",
+		overdosed: "Drugs: Overdosed",
 	},
 	finishers: {
-		"chahits": "Finishers: Mechanical",
-		"axehits": "Finishers: Clubbing",
-		"grehits": "Finishers: Temporary",
-		"pishits": "Finishers: Pistol",
-		"rifhits": "Finishers: Rifle",
-		"smghits": "Finishers: SMG",
-		"piehits": "Finishers: Piercing",
-		"slahits": "Finishers: Slashing",
-		"shohits": "Finishers: Shotgun",
-		"heahits": "Finishers: Heavy Artillery",
-		"machits": "Finishers: Machine Guns",
-		"h2hhits": "Finishers: Unarmed"
+		chahits: "Finishers: Mechanical",
+		axehits: "Finishers: Clubbing",
+		grehits: "Finishers: Temporary",
+		pishits: "Finishers: Pistol",
+		rifhits: "Finishers: Rifle",
+		smghits: "Finishers: SMG",
+		piehits: "Finishers: Piercing",
+		slahits: "Finishers: Slashing",
+		shohits: "Finishers: Shotgun",
+		heahits: "Finishers: Heavy Artillery",
+		machits: "Finishers: Machine Guns",
+		h2hhits: "Finishers: Unarmed",
 	},
 	items: {
-		"itemsbought": "Items: Bought",
-		"itemsboughtabroad": "Items: Bought Abroad",
-		"itemssent": "Items: Sent",
-		"auctionsells": "Items: Auctioned",
-		"cityfinds": "Items: Found in City",
-		"itemsdumped": "Items: Dumped"
+		itemsbought: "Items: Bought",
+		itemsboughtabroad: "Items: Bought Abroad",
+		itemssent: "Items: Sent",
+		auctionsells: "Items: Auctioned",
+		cityfinds: "Items: Found in City",
+		itemsdumped: "Items: Dumped",
 	},
 	refills: {
-		"nerverefills": "Refills: Nerve",
-		"tokenrefills": "Refills: Token",
-		"refills": "Refills: Energy"
+		nerverefills: "Refills: Nerve",
+		tokenrefills: "Refills: Token",
+		refills: "Refills: Energy",
 	},
 	revives: {
-		"revives": "Revives: Given",
-		"revivesreceived": "Revives: Received"
+		revives: "Revives: Given",
+		revivesreceived: "Revives: Received",
 	},
 	travel: {
-		"argtravel": "Travel: Argentina",
-		"mextravel": "Travel: Mexico",
-		"dubtravel": "Travel: UAE",
-		"hawtravel": "Travel: Hawaii",
-		"japtravel": "Travel: Japan",
-		"lontravel": "Travel: UK",
-		"soutravel": "Travel: South Africa",
-		"switravel": "Travel: Switzerland",
-		"chitravel": "Travel: China",
-		"cantravel": "Travel: Canada",
-		"caytravel": "Travel: Cayman Islands",
-		"traveltimes": "Travel: Total",
-		"traveltime": "Travel: Time Spent"
+		argtravel: "Travel: Argentina",
+		mextravel: "Travel: Mexico",
+		dubtravel: "Travel: UAE",
+		hawtravel: "Travel: Hawaii",
+		japtravel: "Travel: Japan",
+		lontravel: "Travel: UK",
+		soutravel: "Travel: South Africa",
+		switravel: "Travel: Switzerland",
+		chitravel: "Travel: China",
+		cantravel: "Travel: Canada",
+		caytravel: "Travel: Cayman Islands",
+		traveltimes: "Travel: Total",
+		traveltime: "Travel: Time Spent",
 	},
 	other: {
-		"auctionswon": "Auctions Won",
+		auctionswon: "Auctions Won",
 
-		"peopleboughtspent": "Bail Fees Spent",
-		"booksread": "Books Read",
-		"bloodwithdrawn": "Blood Bags Filled",
+		peopleboughtspent: "Bail Fees Spent",
+		booksread: "Books Read",
+		bloodwithdrawn: "Blood Bags Filled",
 
-		"classifiedadsplaced": "Classified Ads Placed",
-		"companymailssent": "Company Mail Sent",
+		classifiedadsplaced: "Classified Ads Placed",
+		companymailssent: "Company Mail Sent",
 
-		"dumpfinds": "Dump Finds",
-		"dumpsearches": "Dump Searches",
-		"daysbeendonator": "Days Been A Donator",
+		dumpfinds: "Dump Finds",
+		dumpsearches: "Dump Searches",
+		daysbeendonator: "Days Been A Donator",
 
-		"failedbusts": "Failed Busts",
-		"theyrunaway": "Foes Escaped",
-		"friendmailssent": "Friend Mail Sent",
-		"factionmailssent": "Faction Mail Sent",
+		failedbusts: "Failed Busts",
+		theyrunaway: "Foes Escaped",
+		friendmailssent: "Friend Mail Sent",
+		factionmailssent: "Faction Mail Sent",
 
-		"peoplebusted": "Jail: Busted",
-		"peoplebought": "Jail: Bailed",
-		"jailed": "Jail: Total",
+		peoplebusted: "Jail: Busted",
+		peoplebought: "Jail: Bailed",
+		jailed: "Jail: Total",
 
-		"medicalitemsused": "Meds Used",
-		"medstolen": "Meds Stolen",
-		"meritsbought": "Merits Bought",
-		"rehabcost": "Money Spent On Rehab",
+		medicalitemsused: "Meds Used",
+		medstolen: "Meds Stolen",
+		meritsbought: "Merits Bought",
+		rehabcost: "Money Spent On Rehab",
 
-		"pointsbought": "Points Bought",
-		"personalsplaced": "Personal Ads Placed",
+		pointsbought: "Points Bought",
+		personalsplaced: "Personal Ads Placed",
 
-		"respectforfaction": "Respect Earned",
-		"rehabs": "Rehabs Done",
-		"racingpointsearned": "Racing: Points Earned",
-		"raceswon": "Racing: Won",
-		"racesentered": "Racing: Entered",
+		respectforfaction: "Respect Earned",
+		rehabs: "Rehabs Done",
+		racingpointsearned: "Racing: Points Earned",
+		raceswon: "Racing: Won",
+		racesentered: "Racing: Entered",
 
-		"spousemailssent": "Spouse Mail Sent",
-		"spydone": "Spies Done",
-		"cityitemsbought": "Shop Purchases",
+		spousemailssent: "Spouse Mail Sent",
+		spydone: "Spies Done",
+		cityitemsbought: "Shop Purchases",
 
-		"trainsreceived": "Times Trained",
-		"mailssent": "Total Mail Sent",
-		"hospital": "Times In Hospital",
-		"territorytime": "Territory Time",
+		trainsreceived: "Times Trained",
+		mailssent: "Total Mail Sent",
+		hospital: "Times In Hospital",
+		territorytime: "Territory Time",
 
-		"virusescoded": "Viruses Coded"
-	}
+		virusescoded: "Viruses Coded",
+	},
 };
+let userId;
 
-requireDatabase().then(function () {
-	profileLoaded().then(async function () {
+requireDatabase().then(() => {
+	profileLoaded().then(async () => {
 		console.log("TT - Profile");
 
+		userId = getUserId();
 		let user_faction = userdata.faction.faction_name;
 
 		if (settings.pages.profile.show_id) {
@@ -208,16 +209,19 @@ requireDatabase().then(function () {
 		}
 		displayCreator();
 
-		if (shouldDisable()) return
+		if (shouldDisable()) return;
 
 		// noinspection EqualityComparisonWithCoercionJS
-		if (getUserId() == userdata.player_id) return;
+		if (userId == userdata.player_id) return;
+
+		// Profile notes
+		if (settings.pages.profile.notes) showProfileNotes();
 
 		// Profile stats
 		let info_container = content.newContainer("User Info", { next_element_heading: "Medals", id: "tt-target-info" });
 
-		let section_profile_stats = doc.new({ type: "div", class: "tt-section", attributes: { name: 'profile-stats' } });
-		let profile_stats_div = doc.new({ type: "div", class: `profile-stats ${mobile ? 'tt-mobile' : ""}` });
+		let section_profile_stats = doc.new({ type: "div", class: "tt-section", attributes: { name: "profile-stats" } });
+		let profile_stats_div = doc.new({ type: "div", class: `profile-stats ${mobile ? "tt-mobile" : ""}` });
 		section_profile_stats.appendChild(profile_stats_div);
 		info_container.find(".content").appendChild(section_profile_stats);
 
@@ -225,14 +229,13 @@ requireDatabase().then(function () {
 			let button = doc.new({ type: "div", class: `fetch-button`, text: "Fetch Info via API" });
 			profile_stats_div.appendChild(button);
 
-			button.addEventListener("click", async function () {
+			button.addEventListener("click", async () => {
 				button.remove();
 				await fetchStats();
 			});
 		} else {
 			await fetchStats();
 		}
-
 
 		// Target info
 		if (target_list.show) {
@@ -245,13 +248,13 @@ requireDatabase().then(function () {
 		// Make content sortable
 		sortSections(doc.find("#tt-target-info .content"), "profile");
 		new Sortable(doc.find("#tt-target-info .content"), {
-			handle: '.uk-sortable-handle', // handle's class
+			handle: ".uk-sortable-handle", // handle's class
 			animation: 150,
 			onMove: () => {
 				setTimeout(() => {
 					saveSortingOrder(doc.find("#tt-target-info .content"), "profile");
 				}, 100);
-			}
+			},
 		});
 
 		// Make profile stats sortable
@@ -259,18 +262,22 @@ requireDatabase().then(function () {
 			animation: 150,
 			onMove: () => {
 				setTimeout(saveProfileStats, 100);
-			}
+			},
 		});
 
 		// Add Edit button
-		let edit_button = doc.new({ type: "div", id: "tt-edit", class: "tt-option" });
-		let icon = doc.new({ type: "i", class: "fas fa-cog" });
-		edit_button.appendChild(icon);
-		edit_button.innerHTML += " Edit";
-
+		let edit_button = doc.new({
+			type: "div",
+			id: "tt-edit",
+			class: "tt-option",
+			children: [
+				doc.new({ type: "i", class: "fas fa-cog" }),
+				doc.new({ type: "span", class: "text", text: "Edit" }),
+			],
+		});
 		doc.find("#tt-target-info .tt-options").appendChild(edit_button);
 
-		edit_button.onclick = function (event) {
+		edit_button.onclick = event => {
 			event.stopPropagation();
 
 			if (doc.find(".tt-black-overlay").classList.contains("active")) {
@@ -288,7 +295,7 @@ requireDatabase().then(function () {
 
 				// Profile stats
 				for (let row of doc.findAll(".tt-stats-table .active .tt-row:not(.tt-header):not(.sub-heading)")) {
-					row.onclick = function (event) {
+					row.onclick = event => {
 						event.stopPropagation();
 						event.preventDefault();
 
@@ -301,10 +308,10 @@ requireDatabase().then(function () {
 						}
 
 						saveProfileStats();
-					}
+					};
 				}
 			}
-		}
+		};
 
 		// Add Relative/Whole value setting
 		const checkbox_wrap = doc.new({ type: "div", class: "in-title tt-checkbox-wrap" });
@@ -317,7 +324,7 @@ requireDatabase().then(function () {
 
 		checkbox_wrap.onclick = (event) => {
 			event.stopPropagation();
-		}
+		};
 
 		checkbox.onclick = () => {
 			for (let item of doc.findAll("#tt-target-info *[real-value-you]")) {
@@ -331,8 +338,8 @@ requireDatabase().then(function () {
 				}
 			}
 
-			ttStorage.change({ 'filters': { 'profile_stats': { 'relative_values': checkbox.checked } } });
-		}
+			ttStorage.change({ filters: { profile_stats: { relative_values: checkbox.checked } } });
+		};
 		if (filters.profile_stats.relative_values) checkbox.click();
 
 		async function fetchStats() {
@@ -345,32 +352,24 @@ requireDatabase().then(function () {
 });
 
 function displayCreator() {
-	let name = doc.find("#skip-to-content span") || doc.find("#skip-to-content");
+	let name = doc.find("#skip-to-content span, #skip-to-content");
 
 	if (name.innerText === "Mephiles' Profile" || name.innerText === "Mephiles [2087524]") {
-		let span1 = doc.new({
+		name.appendChild(doc.new({
 			type: "span",
 			text: " - Thanks for using ",
 			attributes: {
-				style: `font-size: 17px;`
-			}
-		});
-
-		let span2 = doc.new({
-			type: "span", text: "TornTools", attributes: {
-				style: `font-size: 17px; color: #6b8817;`
-			}
-		});
-
-		span1.appendChild(span2);
-		name.appendChild(span1);
+				style: "font-size: 17px;",
+			},
+			children: [doc.new({ type: "span", text: "TornTools", attributes: { style: "font-size: 17px; color: #6b8817;" } })],
+		}));
 	}
 }
 
 function profileLoaded() {
 	let promise = new Promise((resolve) => {
 		let counter = 0;
-		let checker = setInterval(function () {
+		let checker = setInterval(() => {
 			if (document.querySelector(".basic-information ul.info-table li")) {
 				resolve(true);
 				return clearInterval(checker);
@@ -382,9 +381,7 @@ function profileLoaded() {
 		}, 100);
 	});
 
-	return promise.then(function (data) {
-		return data;
-	});
+	return promise.then(data => data);
 }
 
 function displayAlly(user_faction, allies) {
@@ -394,13 +391,13 @@ function displayAlly(user_faction, allies) {
 	if (profile_faction === "") return;
 
 	if (user_faction === profile_faction) {
-		showWarning('user');
+		showWarning("user");
 		return;
 	}
 
 	for (let ally of allies) {
 		if (ally.trim() === profile_faction) {
-			showWarning('ally');
+			showWarning("ally");
 			return;
 		}
 	}
@@ -408,26 +405,25 @@ function displayAlly(user_faction, allies) {
 
 function showWarning(type) {
 	let text;
-	if (type === 'user')
+	if (type === "user")
 		text = "This user is in your faction!";
-	else if (type === 'ally')
+	else if (type === "ally")
 		text = "This user is an ally!";
 
 	doc.find(".profile-left-wrapper .title-black").appendChild(doc.new({
 		type: "span",
 		class: "tt-title-message",
 		text,
-		attributes: { color: "warning" }
+		attributes: { color: "warning" },
 	}));
 }
 
 function displayTargetInfo(targets) {
-	let section = doc.new({ type: "div", class: "tt-section", attributes: { name: 'target-info' } });
-	let user_id = getUserId();
+	let section = doc.new({ type: "div", class: "tt-section", attributes: { name: "target-info" } });
 	doc.find("#tt-target-info .content").appendChild(section);
 
-	if (!targets[user_id]) {
-		let span = doc.new({ type: "span", class: "no-btl-data", text: "No battle data on user.", });
+	if (!targets[userId]) {
+		let span = doc.new({ type: "span", class: "no-btl-data", text: "No battle data on user." });
 		section.appendChild(span);
 	} else {
 		let table = doc.new({ type: "div", class: `tt-table ${mobile ? "tt-mobile" : ""}` });
@@ -445,8 +441,8 @@ function displayTargetInfo(targets) {
 			{ name: "Defends lost", type: "defend_lose", class: "bad tt-item tt-advanced" },
 			{ name: "Stalemates", type: "stalemate", class: "bad tt-item" },
 			{ name: "Stealths", type: "stealth", class: "new-section neutral tt-item" },
-			{ name: "Respect", type: "respect_base", class: "neutral tt-item" }
-		]
+			{ name: "Respect", type: "respect_base", class: "neutral tt-item" },
+		];
 
 		// header row
 		let header_row = doc.new("div");
@@ -477,11 +473,11 @@ function displayTargetInfo(targets) {
 			}
 
 			if (heading.name === "Respect") {
-				let [value, color] = getRespect(targets, user_id);
+				let [value, color] = getRespect(targets, userId);
 				td.innerText = value;
 				td.style.backgroundColor = color;
 			} else {
-				td.innerText = targets[user_id][heading.type];
+				td.innerText = targets[userId][heading.type];
 			}
 
 			row.appendChild(td);
@@ -499,12 +495,21 @@ function displayTargetInfo(targets) {
 	section.appendChild(doc.new({ type: "i", class: "uk-sortable-handle fas fa-arrows-alt" }));
 }
 
+function getLevel() {
+	const levelWrap = doc.find(".box-info .box-value");
+
+	return (parseInt(levelWrap.find(".digit-r .digit").innerText) || 0) * 100 +
+		(parseInt(levelWrap.find(".digit-m .digit").innerText) || 0) * 10 +
+		parseInt(levelWrap.find(".digit-l .digit").innerText);
+}
+
 async function displayProfileStats() {
 	let userId = getUserId();
 	let profile_stats = doc.find("#tt-target-info .profile-stats");
 
 	let result;
 
+	const level = getLevel();
 	if (cache && cache.profileStats[userId] && cache.battleStatsEstimate[userId]) {
 		result = {
 			stats: cache.profileStats[userId].data,
@@ -514,23 +519,27 @@ async function displayProfileStats() {
 		loadingPlaceholder(profile_stats, true);
 
 		result = await new Promise((resolve) => {
-			fetchApi_v2('torn', { section: 'user', objectid: userId, selections: 'profile,personalstats,crimes' })
+			fetchApi_v2("torn", { section: "user", objectid: userId, selections: "profile,personalstats,crimes" })
 				.then((result) => {
 					const data = handleTornProfileData(result);
 					const timestamp = new Date().getTime();
 
 					ttStorage.change({
-						"cache": {
-							"profileStats": {
+						cache: {
+							profileStats: {
 								[userId]: {
 									timestamp,
 									ttl: TO_MILLIS.DAYS,
 									data: data.stats,
-								}
+								},
 							},
-						}
+						},
 					}, () => {
-						cacheEstimate(userId, timestamp, data.battleStatsEstimate, result.last_action);
+						if (!level || !settings.scripts.stats_estimate.max_level || settings.scripts.stats_estimate.max_level >= level) {
+							if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.profile)
+								cacheEstimate(userId, timestamp, data.battleStatsEstimate, result.last_action);
+
+						}
 					});
 
 					resolve(data);
@@ -549,9 +558,10 @@ async function displayProfileStats() {
 	}
 
 	profile_stats.classList.add("populated");
-	let table = doc.new({ type: "div", class: `tt-stats-table ${mobile ? 'tt-mobile' : ""}` });
-	let col_chosen = doc.new({ type: "div", class: "col-chosen active" });
-	let col_other = doc.new({ type: "div", class: "col-other" });
+	let table = doc.new({ type: "div", class: `tt-stats-table ${mobile ? "tt-mobile" : ""}` });
+	let col_chosen = doc.new({ type: "div", class: "col-chosen column active" });
+	let col_other = doc.new({ type: "div", class: "col-other column" });
+	const showExtra = doc.new({ type: "div", class: "show-extra", text: "Show More" });
 
 	let header = doc.new({ type: "div", class: "tt-row tt-header" });
 	for (let heading of ["Stat", "Them", "You"]) {
@@ -560,15 +570,27 @@ async function displayProfileStats() {
 	}
 	let header_other = doc.new({ type: "div", class: "tt-row tt-header" });
 	for (let heading of ["Stat", "Them", "You"]) {
-		let item = doc.new({ type: "div", class: "item", text: heading });
-		header_other.appendChild(item);
+		header_other.appendChild(doc.new({ type: "div", class: "item", text: heading }));
 	}
 
 	col_chosen.appendChild(header);
-	col_other.appendChild(header_other)
+	col_other.appendChild(header_other);
 	table.appendChild(col_chosen);
 	table.appendChild(col_other);
+	profile_stats.appendChild(showExtra);
 	profile_stats.appendChild(table);
+
+	showExtra.addEventListener("click", () => {
+		if (col_chosen.classList.contains("active")) {
+			col_chosen.classList.remove("active");
+			col_other.classList.add("active");
+			showExtra.innerText = "Show Less";
+		} else {
+			col_chosen.classList.add("active");
+			col_other.classList.remove("active");
+			showExtra.innerText = "Show More";
+		}
+	});
 
 	// Add all to other column
 	for (let section in key_dict) {
@@ -578,7 +600,7 @@ async function displayProfileStats() {
 		col_other.appendChild(section_heading);
 
 		let keys = Object.keys(key_dict[section]);
-		keys.sort(function (a, b) {
+		keys.sort((a, b) => {
 			if (key_dict[section][a] < key_dict[section][b]) return -1;
 			if (key_dict[section][b] < key_dict[section][a]) return 1;
 			return 0;
@@ -618,7 +640,7 @@ async function displayProfileStats() {
 				type: "div",
 				text: your_value_modified,
 				class: "item",
-				attributes: { 'real-value-you': your_value_modified, 'relative-value-you': relative_value_modified }
+				attributes: { "real-value-you": your_value_modified, "relative-value-you": relative_value_modified },
 			});
 
 			if (their_value > your_value) {
@@ -629,32 +651,17 @@ async function displayProfileStats() {
 				your_cell.classList.add("positive");
 			}
 
-			row.appendChild(key_cell)
-			row.appendChild(their_cell)
-			row.appendChild(your_cell)
+			row.appendChild(key_cell);
+			row.appendChild(their_cell);
+			row.appendChild(your_cell);
 			col_other.appendChild(row);
-		}
-	}
-
-	col_other.onclick = function () {
-		if (!col_other.classList.contains("active")) {
-			col_other.classList.add("active");
-			col_chosen.classList.remove("active");
-			table.classList.add("active");
-		}
-	}
-	col_chosen.onclick = function () {
-		if (!col_chosen.classList.contains("active")) {
-			col_chosen.classList.add("active");
-			col_other.classList.remove("active");
-			table.classList.remove("active");
 		}
 	}
 
 	// Move chosen ones
 	for (let stat of filters.profile_stats.chosen_stats) {
-		if (col_other.find(`:scope>[key='${stat}']`)) {
-			col_chosen.appendChild(col_other.find(`:scope>[key='${stat}']`));
+		if (col_other.find(`:scope > [key='${stat}']`)) {
+			col_chosen.appendChild(col_other.find(`:scope > [key='${stat}']`));
 		}
 	}
 
@@ -664,14 +671,14 @@ async function displayProfileStats() {
 	let footer_input = doc.new({ type: "input", attributes: { type: "checkbox" } });
 	footer_div.appendChild(footer_text);
 	footer_div.appendChild(footer_input);
-	doc.find("#tt-target-info .content .tt-section[name='profile-stats']").insertBefore(footer_div, doc.find("#tt-target-info .content .profile-stats").nextElementSibling)
+	doc.find("#tt-target-info .content .tt-section[name='profile-stats']").insertBefore(footer_div, doc.find("#tt-target-info .content .profile-stats").nextElementSibling);
 
 	if (filters.profile_stats.auto_fetch) {
 		footer_input.checked = true;
 	}
 
-	footer_input.onclick = function () {
-		ttStorage.change({ "filters": { "profile_stats": { "auto_fetch": footer_input.checked } } });
+	footer_input.onclick = () => {
+		ttStorage.change({ filters: { profile_stats: { auto_fetch: footer_input.checked } } });
 	};
 
 	// Fix overflows
@@ -698,33 +705,35 @@ async function displayProfileStats() {
 	// Add sortable icon
 	profile_stats.appendChild(doc.new({ type: "i", class: "uk-sortable-handle fas fa-arrows-alt" }));
 
-	if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.profile) {
-		doc.find(".profile-right-wrapper > .profile-action .title-black").appendChild(doc.new({
-			type: "span",
-			class: "tt-title-message",
-			text: result.battleStatsEstimate,
-			attributes: { color: "info" }
-		}));
+	if (!level || !settings.scripts.stats_estimate.max_level || settings.scripts.stats_estimate.max_level >= level) {
+		if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.profile) {
+			doc.find(".profile-right-wrapper > .profile-action .title-black").appendChild(doc.new({
+				type: "span",
+				class: "tt-title-message",
+				text: result.battleStatsEstimate,
+				attributes: { color: "info" },
+			}));
+		}
 	}
 }
 
 async function showSpyInfo() {
-	let user_id = getUserId();
+	let userId = getUserId();
 	let result;
 
-	let spySection = doc.new({ type: "div", class: "tt-section", attributes: { name: 'spy-info' } });
+	let spySection = doc.new({ type: "div", class: "tt-section", attributes: { name: "spy-info" } });
 	if (doc.find("#tt-target-info .content .tt-section[name='target-info'")) {
 		doc.find("#tt-target-info .content").insertBefore(spySection, doc.find("#tt-target-info .content .tt-section[name='target-info'"));
 	} else {
 		doc.find("#tt-target-info .content").appendChild(spySection);
 	}
 
-	if (cache && cache.spyReport[user_id]) {
-		result = cache.spyReport[user_id].data;
+	if (cache && cache.spyReport[userId]) {
+		result = cache.spyReport[userId].data;
 	} else {
 		loadingPlaceholder(spySection, true);
 		result = await new Promise((resolve) => {
-			fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${user_id}`)
+			fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${userId}`)
 				.then(async response => {
 					let data = await response.json();
 
@@ -734,15 +743,15 @@ async function showSpyInfo() {
 
 		if (!result.error) {
 			ttStorage.change({
-				"cache": {
-					"spyReport": {
-						[user_id]: {
+				cache: {
+					spyReport: {
+						[userId]: {
 							timestamp: new Date().getTime(),
 							ttl: TO_MILLIS.HOURS,
 							data: result,
-						}
-					}
-				}
+						},
+					},
+				},
 			});
 		}
 		loadingPlaceholder(spySection, false);
@@ -758,7 +767,7 @@ async function showSpyInfo() {
 		let heading = doc.new({
 			type: "div",
 			class: "spy-heading",
-			text: `Spy type: ${result.spyreport.type} (${result.spyreport.difference})`
+			text: `Spy type: ${result.spyreport.type} (${result.spyreport.difference})`,
 		});
 		spySection.appendChild(heading);
 
@@ -785,8 +794,8 @@ async function showSpyInfo() {
 				class: "item",
 				text: numberWithCommas(parseInt(userdata[stat]), false),
 				attributes: {
-					'real-value-you': numberWithCommas(parseInt(userdata[stat]), false),
-					"relative-value-you": numberWithCommas(parseInt(userdata[stat]) - parseInt(result.spyreport[stat]), false)
+					"real-value-you": numberWithCommas(parseInt(userdata[stat]), false),
+					"relative-value-you": numberWithCommas(parseInt(userdata[stat]) - parseInt(result.spyreport[stat]), false),
 				},
 			});
 
@@ -816,8 +825,8 @@ async function showSpyInfo() {
 			class: "item",
 			text: numberWithCommas(parseInt(result.spyreport.your_score), false),
 			attributes: {
-				'real-value-you': numberWithCommas(parseInt(result.spyreport.your_score), false),
-				"relative-value-you": numberWithCommas(parseInt(result.spyreport.your_score) - parseInt(result.spyreport.target_score), false)
+				"real-value-you": numberWithCommas(parseInt(result.spyreport.your_score), false),
+				"relative-value-you": numberWithCommas(parseInt(result.spyreport.your_score) - parseInt(result.spyreport.target_score), false),
 			},
 		});
 
@@ -843,7 +852,10 @@ async function showSpyInfo() {
 }
 
 function getUserId() {
-	return doc.find(".basic-information ul.info-table li:nth-of-type(1) div:nth-of-type(2)").innerText.split("[")[1].replace("]", "");
+	if (!userId)
+		userId = doc.find(".basic-information ul.info-table li:nth-of-type(1) div:nth-of-type(2)").innerText.split("[")[1].replace("]", "");
+
+	return userId;
 }
 
 function getRespect(target_list, id) {
@@ -875,15 +887,11 @@ function getRespect(target_list, id) {
 
 	if (respect_type === "respect")
 		respect_value = respect_value + "*";
-	else if (respect_type === "respect_base") {
-		if (leaves)
-			color = "#dfffdf";
-		else
-			color = "#fffdcc";
-	}
+	else if (respect_type === "respect_base")
+		color = leaves ? "#dfffdf" : "#fffdcc";
 
 	if (respect_value === "0*")
-		respect_value = "-"
+		respect_value = "-";
 
 	return [respect_value, color];
 }
@@ -904,7 +912,7 @@ function showId() {
 }
 
 function displayLootLevel(loot_times) {
-	console.log(loot_times)
+	console.log(loot_times);
 	let profile_id = doc.find(`.profile-container .info-table > li .user-info-value`).innerText.split(" [")[1].replace("]", "");
 
 	if (profile_id in loot_times) {
@@ -929,7 +937,7 @@ function displayLootLevel(loot_times) {
 		doc.find(".profile-wrapper .profile-status .description .sub-desc").appendChild(span);
 
 		// Time decrease
-		setInterval(function () {
+		setInterval(() => {
 			let seconds = parseInt(span.getAttribute("seconds"));
 			let time_left = timeUntil((seconds - 1) * 1000);
 
@@ -942,15 +950,19 @@ function displayLootLevel(loot_times) {
 function addStatusIndicator() {
 	let status_icon = doc.find(".icons ul>li");
 	let icon_span = doc.new({
-		type: "div", class: status_icon.classList[0], attributes: {
-			style: `margin-right: 3px; float: left; background-position: ${window.getComputedStyle(status_icon).getPropertyValue('background-position')};`
-		}
+		type: "div",
+		class: status_icon.classList[0],
+		attributes: {
+			style: `margin-right: 3px; float: left; background-position: ${window.getComputedStyle(status_icon).getPropertyValue("background-position")};`,
+		},
 	});
 	if (!mobile) icon_span.style.marginTop = "1px";
 	let text_span = doc.new({
-		type: "span", text: doc.find("#skip-to-content").innerText, attributes: {
-			style: mobile ? `font-size: 17px; color: #333` : `font-size: 22px; color: #333`
-		}
+		type: "span",
+		text: doc.find("#skip-to-content").innerText,
+		attributes: {
+			style: mobile ? "font-size: 17px; color: #333" : "font-size: 22px; color: #333",
+		},
 	});
 
 	doc.find("#skip-to-content").innerText = "";
@@ -958,12 +970,12 @@ function addStatusIndicator() {
 	doc.find("#skip-to-content").appendChild(text_span);
 
 	// Event listener
-	let status_observer = new MutationObserver(function (mutationsList) {
+	let status_observer = new MutationObserver(mutationsList => {
 		for (let mutation of mutationsList) {
 			if (mutation.type === "childList") {
 				console.log(doc.find(".icons ul>li"));
 				icon_span.setAttribute("class", doc.find(".icons ul>li").classList[0]);
-				icon_span.style.backgroundPosition = window.getComputedStyle(doc.find(".icons ul>li")).getPropertyValue('background-position');
+				icon_span.style.backgroundPosition = window.getComputedStyle(doc.find(".icons ul>li")).getPropertyValue("background-position");
 			}
 		}
 	});
@@ -971,12 +983,12 @@ function addStatusIndicator() {
 }
 
 function displayStakeoutOptions() {
-	let user_id = getUserId();
+	let userId = getUserId();
 
-	let stakeout_div = doc.new({ type: "div", class: "tt-section", attributes: { name: 'stakeouts' } });
+	let stakeout_div = doc.new({ type: "div", class: "tt-section", attributes: { name: "stakeouts" } });
 	doc.find("#tt-target-info .content").appendChild(stakeout_div);
 
-	let watchlist_wrap = doc.new({ type: "div", class: "tt-checkbox-wrap", attributes: { style: 'display: none' } });
+	let watchlist_wrap = doc.new({ type: "div", class: "tt-checkbox-wrap", attributes: { style: "display: none;" } });
 	let input = doc.new({ type: "input", attributes: { type: "checkbox" } });
 	let text = doc.new({ type: "div", text: "Add this player to Watch List" });
 	watchlist_wrap.appendChild(input);
@@ -984,14 +996,14 @@ function displayStakeoutOptions() {
 	stakeout_div.appendChild(watchlist_wrap);
 
 	for (let user of watchlist) {
-		if (user.id === user_id) {
+		if (user.id === userId) {
 			input.checked = true;
 		}
 	}
 
-	input.onclick = function () {
+	input.onclick = () => {
 		saveStakeoutSettings();
-	}
+	};
 
 	let heading = doc.new({ type: "div", class: "tt-sub-heading", text: "Let me know when this player:" });
 	stakeout_div.appendChild(heading);
@@ -1014,23 +1026,23 @@ function displayStakeoutOptions() {
 	option_online.appendChild(checkbox_online);
 	option_online.appendChild(text_online);
 
-	if (stakeouts[user_id]) {
-		checkbox_okay.checked = stakeouts[user_id].okay;
-		checkbox_lands.checked = stakeouts[user_id].lands;
-		checkbox_online.checked = stakeouts[user_id].online;
+	if (stakeouts[userId]) {
+		checkbox_okay.checked = stakeouts[userId].okay;
+		checkbox_lands.checked = stakeouts[userId].lands;
+		checkbox_online.checked = stakeouts[userId].online;
 	}
 
 	stakeout_div.appendChild(option_okay);
 	stakeout_div.appendChild(option_lands);
 	stakeout_div.appendChild(option_online);
 
-	checkbox_okay.onclick = function () {
+	checkbox_okay.onclick = () => {
 		saveStakeoutSettings();
 	};
-	checkbox_lands.onclick = function () {
+	checkbox_lands.onclick = () => {
 		saveStakeoutSettings();
 	};
-	checkbox_online.onclick = function () {
+	checkbox_online.onclick = () => {
 		saveStakeoutSettings();
 	};
 
@@ -1041,12 +1053,11 @@ function displayStakeoutOptions() {
 	stakeout_div.appendChild(doc.new({ type: "i", class: "uk-sortable-handle fas fa-arrows-alt" }));
 
 	function saveStakeoutSettings() {
-
 		if (input.checked) {
-			ttStorage.get("watchlist", function (watchlist) {
+			ttStorage.get("watchlist", watchlist => {
 				let is_in_list = false;
 				for (let item of watchlist) {
-					if (item.id === user_id) {
+					if (item.id === userId) {
 						is_in_list = true;
 						break;
 					}
@@ -1054,40 +1065,40 @@ function displayStakeoutOptions() {
 
 				if (!is_in_list) {
 					watchlist.push({
-						id: user_id,
+						id: userId,
 						username: getUsername(),
 						status: getStatus(),
-						traveling: getTraveling()
+						traveling: getTraveling(),
 					});
 				}
-				ttStorage.set({ "watchlist": watchlist });
+				ttStorage.set({ watchlist });
 			});
 		} else {
-			ttStorage.get("watchlist", function (watchlist) {
+			ttStorage.get("watchlist", watchlist => {
 				for (let item of watchlist) {
-					if (item.id === user_id) {
+					if (item.id === userId) {
 						watchlist.splice(watchlist.indexOf(item), 1);
 						break;
 					}
 				}
-				ttStorage.set({ "watchlist": watchlist });
+				ttStorage.set({ watchlist });
 			});
 		}
 
 		if (checkbox_okay.checked === true || checkbox_lands.checked === true || checkbox_online.checked === true) {
 			ttStorage.change({
-				"stakeouts": {
-					[user_id]: {
-						"okay": checkbox_okay.checked,
-						"lands": checkbox_lands.checked,
-						"online": checkbox_online.checked
-					}
-				}
+				stakeouts: {
+					[userId]: {
+						okay: checkbox_okay.checked,
+						lands: checkbox_lands.checked,
+						online: checkbox_online.checked,
+					},
+				},
 			});
 		} else {
-			ttStorage.get("stakeouts", function (stakeouts) {
-				delete stakeouts[user_id];
-				ttStorage.set({ "stakeouts": stakeouts });
+			ttStorage.get("stakeouts", stakeouts => {
+				delete stakeouts[userId];
+				ttStorage.set({ stakeouts });
 			});
 		}
 	}
@@ -1136,5 +1147,63 @@ function saveProfileStats() {
 		}
 	}
 
-	ttStorage.change({ "filters": { "profile_stats": { "chosen_stats": chosen_keys } } });
+	ttStorage.change({ filters: { profile_stats: { chosen_stats: chosen_keys } } });
+}
+
+function showProfileNotes() {
+	const textbox = doc.new({ type: "textarea", class: "tt-profile-notes-textarea", attributes: { maxLength: 1024 } });
+
+	const profile = profile_notes.profiles[userId];
+	textbox.style.height = profile ? profile.height : "17px";
+	textbox.value = profile ? profile.notes : "";
+
+	const container = content.newContainer("Profile Notes", {
+		next_element_heading: "Medals",
+		id: "tt-target-notes",
+		collapseId: 1,
+	}).find(".content");
+	container.appendChild(doc.new({
+		type: "div",
+		class: "tt-section",
+		attributes: { name: "profile-notes" },
+		children: [textbox],
+	}));
+
+	let save_button = doc.new({
+		type: "div",
+		id: "tt-profile-notes-save",
+		class: "tt-option",
+		children: [
+			doc.new({ type: "i", class: "fas fa-save" }),
+			doc.new({ type: "span", class: "text", text: "Save" }),
+		],
+	});
+	doc.find("#tt-target-notes .tt-options").appendChild(save_button);
+
+	save_button.onclick = event => {
+		event.stopPropagation();
+
+		ttStorage.change({
+			profile_notes: {
+				profiles: {
+					[userId]: {
+						height: textbox.style.height,
+						notes: textbox.value,
+					},
+				},
+			},
+		}, () => {
+			console.log("Saved profile notes", {
+				height: textbox.style.height,
+				notes: textbox.value,
+			});
+
+			if (!doc.find("#tt-target-notes .saved-note")) {
+				const note = doc.new({ type: "span", class: "saved-note", text: "Saved note." });
+
+				doc.find("#tt-target-notes .tt-title").insertBefore(note, doc.find("#tt-target-notes .tt-title .tt-options"));
+				setTimeout(() => note.remove(), 2500);
+			}
+		});
+	};
 }

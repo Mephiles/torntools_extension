@@ -90,7 +90,7 @@ function showValueOfItems(container, itemlist) {
 	new_div.id = "tt-city-items-value";
 	new_div.innerText = `City Items value: `;
 	let value_span = doc.new("span");
-	value_span.innerText = `$${numberWithCommas(total_value, false)}`
+	value_span.innerText = `$${numberWithCommas(total_value, false)}`;
 
 	if (extensions.doctorn) {
 		new_div.style.borderTop = "none";

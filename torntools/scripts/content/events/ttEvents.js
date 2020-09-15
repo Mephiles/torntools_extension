@@ -54,7 +54,7 @@ function warnEnergy() {
 
 		listen();
 		observer.disconnect();
-	}).observe(doc.find("#mainContainer > .content-wrapper"), { childList: true, subtree: true })
+	}).observe(doc.find("#mainContainer > .content-wrapper"), { childList: true, subtree: true });
 
 	function listen() {
 		if (!doc.find(".travel-home-content").style.display === "none") show();
@@ -85,7 +85,7 @@ function warnEnergy() {
 			content.appendChild(doc.new({
 				type: "span",
 				text: "Starting this flight will waste some energy!",
-				attributes: { color: "error", },
+				attributes: { color: "error" },
 			}));
 		}
 	}

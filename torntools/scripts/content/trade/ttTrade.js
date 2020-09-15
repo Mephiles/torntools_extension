@@ -1,32 +1,38 @@
 console.log("TT - Trade");
 
+let activeTrade = false;
+
 requireDatabase(true).then(() => {
 	addXHRListener(({ detail: { page, xhr } }) => {
 		if (page !== "trade") return;
 
 		const params = new URLSearchParams(xhr.requestBody);
-		if (!isActiveTrade(params)) return;
+		activeTrade = isActiveTrade(params);
 
 		tradeLoaded().then(() => {
 			if (settings.pages.trade.item_values || settings.pages.trade.total_value) showValues();
 
-			showChatButton();
+			if (activeTrade) {
+				showChatButton();
+			}
 		});
-	})
+	});
 
-	if (isActiveTrade()) {
-		tradeLoaded().then(() => {
-			if (settings.pages.trade.item_values || settings.pages.trade.total_value) showValues();
+	activeTrade = isActiveTrade();
 
+	tradeLoaded().then(() => {
+		if (settings.pages.trade.item_values || settings.pages.trade.total_value) showValues();
+
+		if (activeTrade) {
 			showChatButton();
-		});
-	}
+		}
+	});
 });
 
 function isActiveTrade(params = getHashParameters()) {
 	let step = params.get("step");
 
-	return step === "view" || step === "initiateTrade"
+	return step === "view" || step === "initiateTrade";
 }
 
 function tradeLoaded() {
@@ -37,14 +43,21 @@ function showValues() {
 	console.log("Trade view!");
 
 	// Show values of adds
-	let logs = doc.findAll(".log li div");
-	for (let log of logs) {
+	for (let log of doc.findAll(".log li div:not(.tt-modified)")) {
+		log.classList.add("tt-modified");
 		let text = log.innerText;
-		let total_value = 0;
+		let totalValue = 0;
 
 		if (text.includes("added")) {
 			if (text.includes("$")) {
-				total_value = parseInt(text.match(/\$([0-9,]*)/i)[1].replaceAll(",", ""));
+				totalValue = parseInt(text.match(/\$([0-9,]*)/i)[1].replaceAll(",", ""));
+			} else if (text.includes("shares")) {
+				const match = text.match(/added ([0-9,]*)x ([a-zA-Z]*) shares to the trade/i);
+
+				const amount = parseInt(match[1].replaceAll(",", ""));
+				const stock = findItemsInObject(torndata.stocks, { acronym: match[2] }, true)[0];
+
+				totalValue = stock.current_price * amount;
 			} else {
 				text = text.replace(" added", "").replace(" to the trade", "").replace(log.find("a").innerText + " ", "");
 				let items = text.split(",");
@@ -56,33 +69,27 @@ function showValues() {
 					for (let id in itemlist.items) {
 						if (itemlist.items[id].name === name) {
 							for (let i = 0; i < quantity; i++) {
-								total_value += itemlist.items[id].market_value;
+								totalValue += itemlist.items[id].market_value;
 							}
 						}
 					}
 				}
 			}
 
-			let value_span = doc.new("span");
-			value_span.setClass("tt-add-value");
-			value_span.innerText = `$${numberWithCommas(total_value, false)}`;
-
-			log.appendChild(value_span);
-		}
-
-		if (text.indexOf("added") > -1) {
-
-
+			log.appendChild(doc.new({ type: "span", class: "tt-add-value", text: `$${numberWithCommas(totalValue, false)}` }));
 		}
 	}
 
-	for (let side of [doc.find(".user.left"), doc.find(".user.right")]) {
+	for (let side of doc.findAll(".user.left:not(.tt-modified), .user.right:not(.tt-modified)")) {
+		side.classList.add("tt-modified");
 		let totalValue = 0;
 
 		let cashInTrade = side.find(".cont .color1 .desc > li .name");
 		if (cashInTrade && cashInTrade.innerText !== "No money in trade") totalValue += parseInt(cashInTrade.innerText.match(/\$([0-9,]*)/i)[1].replaceAll(",", ""));
 
 		for (let item of side.findAll(".cont .color2 .desc > li .name")) {
+			if (item.innerText === "No items in trade") continue;
+
 			const name = item.innerText.split(" x")[0].trim();
 			const quantity = parseInt(item.innerText.split(" x")[1]) || 1;
 
@@ -93,24 +100,33 @@ function showValues() {
 			totalValue += worth;
 
 			if (settings.pages.trade.item_values) {
-				let span = doc.new({
-					type: "span",
-					class: "tt-side-item-value",
-					text: `$${numberWithCommas(worth, false)}`
-				});
-				item.appendChild(span);
+				item.appendChild(doc.new({ type: "span", class: "tt-side-item-value", text: `$${numberWithCommas(worth, false)}` }));
+			}
+		}
+		for (let addedStock of side.findAll(".cont .color4 .desc > li .name")) {
+			if (addedStock.innerText === "No shares in trade") continue;
+
+			const match = addedStock.innerText.match(/([a-zA-Z]*) x([0-9,]*) at \$([0-9,.]*)/i);
+
+			const amount = parseInt(match[2].replaceAll(",", ""));
+			const stock = findItemsInObject(torndata.stocks, { acronym: match[1] }, true)[0];
+			const price = parseInt(match[3].replaceAll(",", ""));
+
+			const worth = stock.current_price * amount;
+			totalValue += worth;
+
+			if (settings.pages.trade.item_values) {
+				addedStock.appendChild(doc.new({ type: "span", class: "tt-side-item-value", text: `$${numberWithCommas(worth, false)}` }));
 			}
 		}
 
 		if (totalValue !== 0 && settings.pages.trade.total_value) {
-			let div = doc.new({ type: "div", class: "tt-side-value", text: "Total value: " });
-
-			div.appendChild(doc.new({
-				type: "span",
-				text: `$${numberWithCommas(totalValue, false)}`,
+			side.appendChild(doc.new({
+				type: "div",
+				class: "tt-side-value",
+				text: "Total value: ",
+				children: [doc.new({ type: "span", text: `$${numberWithCommas(totalValue, false)}` })],
 			}));
-
-			side.appendChild(div);
 		}
 
 		if (settings.pages.trade.item_values) {
@@ -152,14 +168,18 @@ function showChatButton() {
 	});
 
 	button.addEventListener("click", () => {
-		let script = doc.new({
-			type: "script",
-			attributes: { type: "text/javascript" },
-		});
-		script.innerHTML = `chat.r(${id})`;
+		if (window.wrappedJSObject) {
+			window.wrappedJSObject.chat.r(id);
+		} else {
+			let script = doc.new({
+				type: "script",
+				attributes: { type: "text/javascript" },
+				html: `chat.r(${id})`,
+			});
 
-		doc.find("head").appendChild(script);
-		setTimeout(() => script.remove(), 100);
+			doc.find("head").appendChild(script);
+			setTimeout(() => script.remove(), 100);
+		}
 	});
 
 	doc.find("#trade-container > .title-black").appendChild(doc.new({

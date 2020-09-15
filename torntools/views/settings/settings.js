@@ -1,7 +1,19 @@
 import changelog from "../../changelog.js";
 
 let version;
-let initiated_pages = {}
+let initiated_pages = {};
+
+const LINKS = {
+	"Bazaar : Management": { link: "https://www.torn.com/bazaar.php#/manage" },
+	"Faction : Armory": { link: "https://www.torn.com/factions.php?step=your#/tab=armoury" },
+	"Faction : Organized Crimes": { link: "https://www.torn.com/factions.php?step=your#/tab=crimes" },
+	"Item Market": { link: "https://www.torn.com/imarket.php" },
+	Museum: { link: "https://www.torn.com/museum.php" },
+	Pharmacy: { link: "https://www.torn.com/shops.php?step=pharmacy" },
+	"Points Market": { link: "https://www.torn.com/pmarket.php" },
+	Raceway: { link: "https://www.torn.com/loader.php?sid=racing" },
+	"Travel Agency": { link: "https://www.torn.com/travelagency.php" },
+};
 
 requireDatabase(false)
 	.then(() => {
@@ -10,7 +22,7 @@ requireDatabase(false)
 
 		console.log("Database", DB);
 
-		ttStorage.set({ "updated": false });
+		ttStorage.set({ updated: false });
 
 		// Navigation bar
 		for (let site of [...doc.findAll(".navbar .site")]) {
@@ -20,7 +32,7 @@ requireDatabase(false)
 
 				doc.find(`.navbar .site#${event.target.id}`).classList.add("active");
 				doc.find(`.container#${event.target.id.replace("-link", "").replace("_", "-")}`).classList.add("active");
-			}
+			};
 		}
 
 		let init_page = getSearchParameters().get("page") || "changelog";
@@ -39,13 +51,11 @@ requireDatabase(false)
 		});
 		doc.find("#change_api_proxy_key").onclick = () => {
 			resetApiProxyKey();
-		}
+		};
 		doc.find("#add_ally").addEventListener("click", event => {
 			addAllyToList(event);
 		});
-		doc.find("#add_link").addEventListener("click", event => {
-			addLinkToList(event);
-		});
+		doc.find("#add_link").addEventListener("click", event => addLinkToList({ event }));
 		doc.find("#add_highlight").addEventListener("click", event => {
 			addHighlightToList(event);
 		});
@@ -54,11 +64,11 @@ requireDatabase(false)
 		});
 		doc.find("#clear_target_list").addEventListener("click", () => {
 			ttStorage.set({
-				"target_list": {
-					"last_target": -1,
-					"show": true,
-					"targets": {}
-				}
+				target_list: {
+					last_target: -1,
+					show: true,
+					targets: {},
+				},
 			});
 			message("Target list reset.", true);
 		});
@@ -68,60 +78,48 @@ requireDatabase(false)
 					doc.find("#allow_notifications").parentElement.classList.add("hidden");
 				}
 			});
-		}
+		};
 		doc.find("#fetch_torndata").onclick = () => {
 			chrome.runtime.sendMessage({ action: "fetch", type: "torndata" }, response => {
 				message(response.message, response.success);
 			});
-		}
+		};
 		doc.find("#save_settings").addEventListener("click", () => {
 			savePreferences(preferences, settings, target_list.show);
 		});
 		preferences.find("#reset_settings").addEventListener("click", () => {
 			loadConfirmationPopup({
-				title: 'Reset settings',
-				message: `### Are you sure you want to delete ALL data except your API key?`
+				title: "Reset settings",
+				message: `### Are you sure you want to delete ALL data except your API key?`,
 			})
 				.then(() => {
 					ttStorage.reset();
 					message("Settings reset.", true);
 				})
 				.catch(() => {
-				})
+				});
 
 		});
 	})
 	.catch((err) => {
+		console.error(err);
+		let title, message;
 		if (api_key) {
-			loadConfirmationPopup({
-				title: 'Oops',
-				message: `### Something has gone wrong. Please contact the developers and let them know of the following message:
-    (ERROR) ${err}
-    Clicking either 'Cancel' or 'Confirm' will reload the page.
-                `,
-			})
-				.then(() => {
-					location.reload();
-				})
-				.catch(() => {
-					location.reload();
-				})
+			title = "Oops";
+			message = "### Something has gone wrong. Please contact the developers and let them know of the following message:\n" +
+				`(ERROR) ${err}\n` +
+				"Clicking either 'Cancel' or 'Confirm' will reload the page.";
 		} else {
-			loadConfirmationPopup({
-				title: 'API key',
-				message: `### You have not initialized the App by providing your API key
-    Please enter your API key via opening the Extension popup.  
-    Clicking either 'Cancel' or 'Confirm' will reload the page.
-                `,
-			})
-				.then(() => {
-					location.reload();
-				})
-				.catch(() => {
-					location.reload();
-				})
+			title = "API key";
+			message = "### You have not initialized the App by providing your API key\n" +
+				"Please enter your API key via opening the Extension popup.\n" +
+				"Clicking either 'Cancel' or 'Confirm' will reload the page.";
 		}
-	})
+
+		loadConfirmationPopup({ title, message })
+			.then(() => location.reload())
+			.catch(() => location.reload());
+	});
 
 function loadPage(name) {
 	console.log("Loading page:", name);
@@ -139,13 +137,13 @@ function loadPage(name) {
 
 	// Run page script
 	let dict = {
-		"changelog": setupChangelog,
-		"preferences": setupPreferences,
-		"target_list": targetList,
-		"api_info": apiInfo,
-		"server": server,
-		"about": about
-	}
+		changelog: setupChangelog,
+		preferences: setupPreferences,
+		target_list: targetList,
+		api_info: apiInfo,
+		server: server,
+		about: about,
+	};
 	if (!(name in initiated_pages) || !initiated_pages[name]) {
 		dict[name]();
 		initiated_pages[name] = true;
@@ -180,7 +178,7 @@ function setupChangelog() {
 
 		heading.addEventListener("click", () => {
 			if (closeable.style.maxHeight) {
-				closeable.style.maxHeight = null
+				closeable.style.maxHeight = null;
 			} else {
 				closeable.style.maxHeight = closeable.scrollHeight + "px";
 			}
@@ -219,6 +217,9 @@ function setupChangelog() {
 								} else if (_item.includes("- Mephiles")) {
 									contributor = "mephiles";
 									_item = _item.slice(0, _item.indexOf(" - Mephiles"));
+								} else if (_item.includes("- wootty2000")) {
+									contributor = "wootty2000";
+									_item = _item.slice(0, _item.indexOf(" - wootty2000"));
 								}
 
 								let _item_div = doc.new({ type: "div", class: `child ${contributor}` });
@@ -246,7 +247,7 @@ function setupChangelog() {
 		}
 
 		// Finish
-		div.appendChild(closeable)
+		div.appendChild(closeable);
 		content.appendChild(div);
 
 		if (Object.keys(changelog).indexOf(ver + sub_ver) === 0) {
@@ -268,6 +269,7 @@ function setupPreferences() {
 	// General
 	preferences.find(`#update_notification input`).checked = settings.update_notification;
 	preferences.find("#force_tt input").checked = settings.force_tt;
+	preferences.find("#developer input").checked = settings.developer;
 	preferences.find(`#format-date-${settings.format.date} input`).checked = true;
 	preferences.find(`#format-time-${settings.format.time} input`).checked = true;
 	preferences.find(`#theme-${settings.theme} input`).checked = true;
@@ -321,8 +323,8 @@ function setupPreferences() {
 				if (optionDiv.find("input[type='checkbox']")) optionDiv.find("input[type='checkbox']").checked = settings[type][page][option];
 				else if (optionDiv.find("input")) optionDiv.find("input").value = settings[type][page][option];
 				else if (optionDiv.find("select")) {
-					const selectedOption = optionDiv.find(`select > option[value='${settings[type][page][option]}']`)
-					if (!selectedOption) optionDiv.find("select > option[value='none']")
+					const selectedOption = optionDiv.find(`select > option[value='${settings[type][page][option]}']`);
+					if (!selectedOption) optionDiv.find("select > option[value='none']");
 
 					optionDiv.find("select").value = settings[type][page][option];
 				}
@@ -363,35 +365,24 @@ function setupPreferences() {
 	}
 
 	// Custom links
-	for (let link of custom_links) {
-		let row = doc.new({ type: "div", class: "row" });
-		let new_tab_input = doc.new({ type: "input", class: "new_tab", attributes: { type: "checkbox" } });
-		let name_input = doc.new({ type: "input", class: "text name", value: link.text });
-		let href_input = doc.new({ type: "input", class: "text href", value: link.href });
-		let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
-		let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
+	custom_links.forEach(link => addLinkToList({ link }));
+	preferences.find("#custom_links .row.input select[name='links']").innerHTML = getCustomLinkOptions();
+	preferences.find("#custom_links .row.input select[name='links']").value = "custom";
+	preferences.find("#custom_links .row.input select[name='links']").addEventListener("change", event => {
+		let hrefInput = preferences.find("#custom_links .row.input .href");
+		let nameInput = preferences.find("#custom_links .row.input .name");
 
-		remove_icon.addEventListener("click", event => {
-			event.target.parentElement.parentElement.remove();
-		});
+		if (event.target.value === "custom") {
+			hrefInput.style.display = "block";
+			nameInput.style.display = "block";
+		} else {
+			hrefInput.style.display = "none";
+			nameInput.style.display = "none";
 
-		remove_icon_wrap.addEventListener("click", event => {
-			event.target.parentElement.remove();
-		});
-
-		remove_icon_wrap.appendChild(remove_icon);
-		row.appendChild(new_tab_input);
-		row.appendChild(name_input);
-		row.appendChild(href_input);
-		row.appendChild(remove_icon_wrap);
-
-		let table_body = preferences.find("#custom_links .body");
-		table_body.insertBefore(row, table_body.find(".row.input"));
-
-		if (link.new_tab === true || link.new_tab === undefined) {
-			new_tab_input.checked = true;
+			hrefInput.value = LINKS[event.target.value.replaceAll("_", " ")].link;
+			nameInput.value = event.target.value.replaceAll("_", " ");
 		}
-	}
+	});
 
 	// Chat highlights
 	for (let name in chat_highlight) {
@@ -401,7 +392,7 @@ function setupPreferences() {
 			type: "input",
 			class: "text color",
 			value: chat_highlight[name],
-			attributes: { type: "color" }
+			attributes: { type: "color" },
 		});
 		let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
 		let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
@@ -427,7 +418,7 @@ function setupPreferences() {
 		globalSection.insertBefore(doc.new({
 			type: "div",
 			class: "tabbed note",
-			text: `${placeholder} - ${HIGHLIGHT_PLACEHOLDERS[placeholder].description}`
+			text: `${placeholder} - ${HIGHLIGHT_PLACEHOLDERS[placeholder].description}`,
 		}), globalSection.find("#chat_highlight+.note").nextElementSibling);
 	}
 
@@ -438,20 +429,20 @@ function setupPreferences() {
 			type: "input",
 			class: "text name",
 			value: loot_times[npc_id].name,
-			attributes: { disabled: true }
+			attributes: { disabled: true },
 		});
 		let level_input = doc.new({
 			type: "input",
 			class: "text level",
 			value: (loot_alerts[npc_id] ? loot_alerts[npc_id].level : ""),
-			attributes: { placeholder: "level.." }
+			attributes: { placeholder: "level.." },
 		});
 		let time_input = doc.new({
 			type: "input",
 			class: "text time",
 			id: `npc-${npc_id}`,
 			value: (loot_alerts[npc_id] ? loot_alerts[npc_id].time : ""),
-			attributes: { placeholder: "minutes.." }
+			attributes: { placeholder: "minutes.." },
 		});
 
 		row.appendChild(name_input);
@@ -491,12 +482,12 @@ function setupPreferences() {
 			if (disableNotifications) option.setAttribute("disabled", true);
 			else option.removeAttribute("disabled");
 		}
-	})
+	});
 
 	// Icons
 	let icons_parent = doc.find("#preferences #icons");
 	for (let i = 1; i < 81; i++) {
-		let outer_div = doc.new({ type: "div", class: `icon` })
+		let outer_div = doc.new({ type: "div", class: `icon` });
 		let inner_div = doc.new({ type: "div", class: `icon${i}` });
 
 		outer_div.appendChild(inner_div);
@@ -514,7 +505,7 @@ function setupPreferences() {
 	for (let area of preferences.findAll("#areas span")) {
 		area.onclick = () => {
 			area.classList.toggle("disabled");
-		}
+		};
 	}
 	for (let area of hide_areas) {
 		preferences.find(`#areas span[name='${area}']`).classList.add("disabled");
@@ -551,7 +542,7 @@ function setupPreferences() {
 		let row = doc.new({ type: "div", class: "row" });
 		let radio_input = doc.new({
 			type: "input",
-			attributes: { type: "radio", name: "filter-faction", value: faction }
+			attributes: { type: "radio", name: "filter-faction", value: faction },
 		});
 		let name_input = doc.new({ type: "input", class: "text name", value: faction });
 		let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
@@ -583,7 +574,7 @@ function setupPreferences() {
 			preferences.find(`.navigation .active`).classList.remove("active");
 			preferences.find(`.inner-content .section[name='${name}']`).classList.add("active");
 			link.classList.add("active");
-		}
+		};
 	}
 }
 
@@ -597,7 +588,10 @@ function targetList() {
 	let body = table.find(".body");
 
 	let headings = [
-		{ name: "id", text: "ID", type: "neutral" },
+		{
+			name: "id", text: "ID", type: "neutral", link: id => `https://www.torn.com/profiles.php?XID=${id}`,
+		},
+		{ name: "last_attack", text: "Last Attack", type: "neutral" },
 		{ name: "win", type: "good" },
 		{ name: "mug", type: "good" },
 		{ name: "leave", type: "good" },
@@ -611,69 +605,62 @@ function targetList() {
 		{ name: "stalemate", type: "bad" },
 		{ name: "stealth", type: "neutral" },
 		{ name: "respect", text: "Respect", type: "neutral" },
-	]
+	];
 
 	// Header row
-	let type;
+	let previousType;
 	for (let heading of headings) {
-		let div = doc.new("div");
-		div.setAttribute("name", heading.name);
+		const { name, text, type } = heading;
 
-		if ((!type || type !== heading.type) && heading.name !== "id") {
-			div.setClass(`new-section ${heading.type}`);
-		} else {
-			div.setClass(heading.type);
-		}
+		let div = doc.new({
+			type: "div",
+			class: `${type} ${name}`,
+			attributes: { name },
+			text: text || `${capitalize(heading.name)}s`,
+		});
 
-		if (heading.text) {
-			div.innerText = heading.text;
-		} else {
-			div.innerText = capitalize(heading.name) + "s";
-		}
-
+		if (previousType && previousType !== type) div.classList.add("new-section");
 		// Sorting icon
-		if (heading.name === "id") {
-			let icon = doc.new("i");
-			icon.setClass("fas fa-caret-up");
-			div.appendChild(icon);
-		}
+		if (name === "id") div.appendChild(doc.new({ type: "i", class: "fas fa-caret-up" }));
 
-		type = heading.type;
 		header.appendChild(div);
 
 		div.addEventListener("click", () => {
 			sort(table, headings.indexOf(heading) + 1, "value");
 		});
+
+		previousType = type;
 	}
 
 	// Body
 	for (let id in target_list) {
-		if (id === "date")
-			continue;
+		if (id === "date") continue;
 
-		type = undefined;
-		let row = doc.new("div");
-		row.setClass("row");
+		previousType = undefined;
+		let row = doc.new({ type: "div", class: "row" });
 
 		for (let heading of headings) {
-			let item = doc.new("div");
+			const { name, type, link } = heading;
 
-			if ((!type || type !== heading.type) && heading.name !== "id") {
-				item.setClass(`new-section ${heading.type}`);
+			let item;
+			if (link) {
+				item = doc.new({ type: "a", class: `${type} ${name}`, attributes: { href: link(id) } });
 			} else {
-				item.setClass(heading.type);
+				item = doc.new({ type: "div", class: `${type} ${name}` });
 			}
 
-			if (heading.name === "id") {
+			if (previousType && previousType !== type) item.classList.add("new-section");
+
+			if (name === "id") {
 				item.innerText = id;
 				item.setAttribute("value", id);
-			} else if (heading.name === "respect") {
+			} else if (name === "respect") {
 				let respect_type = getRespectType(target_list[id]);
 
-				let leaves = target_list[id][respect_type]["leave"].length > 0;
+				let leaves = target_list[id][respect_type].leave.length > 0;
 
 				if (leaves) {
-					item.innerText = getAverage(target_list[id][respect_type]["leave"]);
+					item.innerText = getAverage(target_list[id][respect_type].leave);
 					item.setAttribute("value", item.innerText);
 				} else {
 					let averages = [];
@@ -707,15 +694,24 @@ function targetList() {
 						item.setAttribute("priority", "2");
 					}
 				}
+			} else if (name === "last_attack" && target_list[id].last_attack) {
+				const date = new Date(target_list[id].last_attack);
+
+				item.innerText = date.toLocaleString();
+				item.setAttribute("value", date.toLocaleString());
+				item.setAttribute("type", "date");
 			} else {
-				item.innerText = target_list[id][heading.name];
-				item.setAttribute("value", target_list[id][heading.name]);
+				let value = target_list[id][heading.name];
+				if (value === undefined) value = "";
+
+				item.innerText = value;
+				item.setAttribute("value", value);
 			}
 
 			// Percentage values
 			if (["mug", "leave", "hosp", "arrest", "special", "assist", "stealth"].includes(heading.name)) {
 				let value = target_list[id][heading.name];
-				let percentage = (value / target_list[id]["win"] * 100).toFixed();
+				let percentage = (value / target_list[id].win * 100).toFixed();
 				// noinspection EqualityComparisonWithCoercionJS
 				percentage = isNaN(percentage) || percentage == Infinity ? 0 : percentage;
 
@@ -724,12 +720,15 @@ function targetList() {
 			}
 
 			// Finish
-			type = heading.type;
 			row.appendChild(item);
+
+			previousType = type;
 		}
 
 		body.appendChild(row);
 	}
+
+	sort(table, headings.indexOf(findItemsInList(headings, { name: "last_attack" }, true)[0]) + 1, "value");
 
 	function getRespectType(enemy) {
 		let type = "respect";
@@ -780,7 +779,7 @@ function apiInfo() {
 function server() {
 	loadingPlaceholder(doc.find("#server #tt_server_user_info"), true);
 
-	fetchApi_v2('torntools', { section: `api/${userdata.player_id}/mydata` })
+	fetchApi_v2("torntools", { section: `api/${userdata.player_id}/mydata` })
 		.then(result => {
 			console.log("result", result);
 
@@ -797,35 +796,34 @@ function server() {
 
 			doc.find("#server #tt_server_user_info").innerText = pre;
 
-
 			doc.find("#server_import").onclick = () => {
 				importData();
-			}
-			doc.find('#server_import_text').onclick = () => {
+			};
+			doc.find("#server_import_text").onclick = () => {
 				importDataText();
-			}
+			};
 			doc.find("#tt_server_info_wrap .json-text-wrap .copy-button").onclick = () => {
-				const copyText = doc.find('#tt_server_info_wrap .json-text-wrap pre').textContent;
-				const tempArea = doc.new({ type: 'textarea', class: 'temp-area' });
+				const copyText = doc.find("#tt_server_info_wrap .json-text-wrap pre").textContent;
+				const tempArea = doc.new({ type: "textarea", class: "temp-area" });
 				tempArea.textContent = copyText;
-				doc.find('body').append(tempArea);
+				doc.find("body").append(tempArea);
 
 				tempArea.select();
 				tempArea.setSelectionRange(0, 99999);
 
-				doc.execCommand('copy');
-			}
+				doc.execCommand("copy");
+			};
 		})
 		.catch(err => {
-			console.log('ERROR', err);
+			console.log("ERROR", err);
 			doc.find("#server #tt_server_user_info").innerText = err.error;
 			doc.find("#server_import").setAttribute("style", "display: none;");
 			doc.find("#server_import_text").setAttribute("style", "display: none;");
-		})
+		});
 
 	doc.find("#server_export").onclick = () => {
 		loadConfirmationPopup({
-			title: 'Export',
+			title: "Export",
 			message: `### Following information about you will be exported:
 - Player ID
 - Player Username
@@ -845,26 +843,27 @@ function server() {
 	- sorting settings
 	- watchlist
 	- preferences
+	- profile notes
                     `,
 		})
 			.then(() => {
 				exportData();
 			})
 			.catch(() => {
-			})
-	}
+			});
+	};
 
 	doc.find("#server_clear").onclick = () => {
 		loadConfirmationPopup({
-			title: 'Clear Data',
+			title: "Clear Data",
 			message: `### Are you sure you want to Delete ALL data from the remote server?`,
 		})
 			.then(() => {
 				clearRemoteData();
 			})
 			.catch(() => {
-			})
-	}
+			});
+	};
 }
 
 function about() {
@@ -892,6 +891,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	// General
 	settings.update_notification = preferences.find("#update_notification input").checked;
 	settings.force_tt = preferences.find("#force_tt input").checked;
+	settings.developer = preferences.find("#developer input").checked;
 	settings.format.date = preferences.find("input[name=format-date]:checked").parentElement.id.split("-")[2];
 	settings.format.time = preferences.find("input[name=format-time]:checked").parentElement.id.split("-")[2];
 	settings.theme = preferences.find("input[name=theme]:checked").parentElement.id.split("-")[1];
@@ -941,16 +941,16 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	// Custom links
 	let custom_links = [];
 	for (let link of preferences.findAll("#custom_links .row:not(.input")) {
-		console.log(link.find(".new_tab").checked)
+		console.log(link.find(".new_tab").checked);
 		custom_links.push({
 			text: link.find(".name").value,
 			href: link.find(".href").value,
-			new_tab: link.find(".new_tab").checked
+			new_tab: link.find(".new_tab").checked,
 		});
 	}
 
 	// Loot alerts
-	let alerts = {}
+	let alerts = {};
 	for (let npc of preferences.findAll(`#loot-table .row`)) {
 		let npc_id = npc.find(".time").id.split("-")[1];
 		let level = romanToArabic(npc.find(".level").value);
@@ -958,12 +958,12 @@ function savePreferences(preferences, settings, target_list_enabled) {
 
 		alerts[npc_id] = {
 			level: level,
-			time: time
-		}
+			time: time,
+		};
 	}
 
 	// Chat highlight
-	let highlights = {}
+	let highlights = {};
 	for (let row of preferences.findAll("#chat_highlight .row:not(.input)")) {
 		let name = row.find(".name").value;
 		highlights[name] = row.find(".color").value;
@@ -991,7 +991,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	}
 
 	// Inactivity Faction
-	settings.inactivity_alerts_faction = {}
+	settings.inactivity_alerts_faction = {};
 	let orange_time_faction = String(parseFloat(preferences.find("#faction-inactivity_alerts_first input").value) * 24 * 60 * 60 * 1000);
 	let red_time_faction = String(parseFloat(preferences.find("#faction-inactivity_alerts_second input").value) * 24 * 60 * 60 * 1000);
 	if (!isNaN(orange_time_faction)) {
@@ -1002,7 +1002,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	}
 
 	// Inactivity Company
-	settings.inactivity_alerts_company = {}
+	settings.inactivity_alerts_company = {};
 	let orange_time_company = String(parseFloat(preferences.find("#company-inactivity_alerts_first input").value) * 24 * 60 * 60 * 1000);
 	let red_time_company = String(parseFloat(preferences.find("#company-inactivity_alerts_second input").value) * 24 * 60 * 60 * 1000);
 	if (!isNaN(orange_time_company)) {
@@ -1013,13 +1013,13 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	}
 
 	// Items
-	settings.pages.items.highlight
+	settings.pages.items.highlight;
 
 	// Filters (Faction)
 	let filter_factions = {
 		default: "",
-		data: []
-	}
+		data: [],
+	};
 	for (let row of preferences.findAll("#filter-factions .row:not(.input)")) {
 		let name = row.find(".name").value;
 
@@ -1033,22 +1033,22 @@ function savePreferences(preferences, settings, target_list_enabled) {
 
 	console.log("New settings", settings);
 
-	ttStorage.set({ "settings": settings });
-	ttStorage.set({ "allies": allies });
-	ttStorage.set({ "custom_links": custom_links });
-	ttStorage.set({ "loot_alerts": alerts });
-	ttStorage.set({ "chat_highlight": highlights });
-	ttStorage.set({ "hide_icons": icons });
-	ttStorage.set({ "hide_areas": areas });
+	ttStorage.set({ settings: settings });
+	ttStorage.set({ allies: allies });
+	ttStorage.set({ custom_links: custom_links });
+	ttStorage.set({ loot_alerts: alerts });
+	ttStorage.set({ chat_highlight: highlights });
+	ttStorage.set({ hide_icons: icons });
+	ttStorage.set({ hide_areas: areas });
 	ttStorage.change({
-		"filters": {
-			"preset_data": {
-				"factions": filter_factions
-			}
-		}
+		filters: {
+			preset_data: {
+				factions: filter_factions,
+			},
+		},
 	});
 
-	ttStorage.change({ "target_list": { "show": target_list_enabled } }, () => {
+	ttStorage.change({ target_list: { show: target_list_enabled } }, () => {
 		ttStorage.get("target_list", target_list => {
 			console.log("new target list", target_list);
 		});
@@ -1100,7 +1100,7 @@ function setupValueChanger() {
 function resetApiKey() {
 	let new_api_key = doc.find("#api_field").value;
 
-	ttStorage.set({ "api_key": new_api_key }, () => {
+	ttStorage.set({ api_key: new_api_key }, () => {
 		chrome.runtime.sendMessage({ action: "fetch", type: "torndata" }, () => {
 			message("API key changed.", true);
 		});
@@ -1110,7 +1110,7 @@ function resetApiKey() {
 function resetApiProxyKey() {
 	let new_api_proxy_key = doc.find("#api_proxy_field").value;
 
-	ttStorage.set({ "proxy_key": new_api_proxy_key }, () => {
+	ttStorage.set({ proxy_key: new_api_proxy_key }, () => {
 		message("API Proxy key changed.", true);
 	});
 }
@@ -1119,7 +1119,7 @@ function addAllyToList(event) {
 	let row = doc.new({ type: "div", class: "row" });
 	let text_input = doc.new({ type: "input", class: "text", value: event.target.previousElementSibling.value });
 	let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
-	let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" })
+	let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
 	remove_icon.addEventListener("click", event => {
 		event.target.parentElement.parentElement.remove();
@@ -1140,50 +1140,86 @@ function addAllyToList(event) {
 	event.target.previousElementSibling.value = "";
 }
 
-function addLinkToList(event) {
-	let row = doc.new({ type: "div", class: "row" });
-	let new_tab_input = doc.new({ type: "input", class: "new_tab", attributes: { type: "checkbox" } });
-	let name_input = doc.new({
-		type: "input",
-		class: "text name",
-		value: event.target.previousElementSibling.previousElementSibling.value
-	});
-	let href_input = doc.new({ type: "input", class: "text href", value: event.target.previousElementSibling.value });
-	let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
-	let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
-
-	remove_icon.addEventListener("click", event => {
-		event.target.parentElement.parentElement.remove();
+function addLinkToList(attributes) {
+	const newTab = doc.new({ type: "input", class: "new_tab", attributes: { type: "checkbox" } });
+	const select = doc.new({ type: "select", class: "text preset", attributes: { name: "links" }, html: getCustomLinkOptions() });
+	const nameInput = doc.new({ type: "input", class: "text name" });
+	const hrefInput = doc.new({ type: "input", class: "text href" });
+	const removeIcon = doc.new({
+		type: "div",
+		class: "remove-icon-wrap",
+		children: [doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" })],
 	});
 
-	remove_icon_wrap.addEventListener("click", event => {
-		event.target.parentElement.remove();
-	});
+	removeIcon.addEventListener("click", event => findParent(event.target, { class: "row" }).remove());
 
-	remove_icon_wrap.appendChild(remove_icon);
-	row.appendChild(new_tab_input);
-	row.appendChild(name_input);
-	row.appendChild(href_input);
-	row.appendChild(remove_icon_wrap);
+	if (attributes.event) {
+		const { event } = attributes;
 
-	let table_body = preferences.find("#custom_links .body");
-	table_body.insertBefore(row, table_body.find(".row.input"));
+		const row = event.target.parentElement;
+		const _newTab = row.find(".new_tab");
+		const _select = row.find(".preset");
+		const _nameInput = row.find(".name");
+		const _hrefInput = row.find(".href");
 
-	if (event.target.previousElementSibling.previousElementSibling.previousElementSibling.checked) {
-		new_tab_input.checked = true;
+		newTab.checked = _newTab.checked;
+		select.value = _select.value;
+		if (_select.value !== "custom") {
+			hrefInput.style.display = "none";
+			nameInput.style.display = "none";
+		}
+		nameInput.value = _nameInput.value;
+		hrefInput.value = _hrefInput.value;
+
+		_newTab.checked = true;
+		_select.value = "custom";
+		_nameInput.value = "";
+		_nameInput.style.display = "block";
+		_hrefInput.value = "";
+		_hrefInput.style.display = "block";
+	} else if (attributes.link) {
+		const { link } = attributes;
+
+		const isPreset = select.find(`option[value="${link.text.replaceAll(" ", "_")}"]`)
+			&& LINKS[link.text]
+			&& LINKS[link.text].link === link.href;
+
+		hrefInput.value = link.href;
+		nameInput.value = link.text;
+		select.value = isPreset ? link.text.replaceAll(" ", "_") : "custom";
+		if (isPreset) {
+			hrefInput.style.display = "none";
+			nameInput.style.display = "none";
+		}
+
+		if (link.new_tab || link.new_tab === undefined) newTab.checked = true;
 	}
 
-	// Clear input
-	event.target.previousElementSibling.value = "";
-	event.target.previousElementSibling.previousElementSibling.value = "";
-	event.target.previousElementSibling.previousElementSibling.previousElementSibling.checked = true;
+	select.addEventListener("change", event => {
+		if (event.target.value === "custom") {
+			hrefInput.style.display = "block";
+			nameInput.style.display = "block";
+		} else {
+			hrefInput.style.display = "none";
+			nameInput.style.display = "none";
+
+			hrefInput.value = LINKS[event.target.value.replaceAll("_", " ")].link;
+			nameInput.value = event.target.value.replaceAll("_", " ");
+		}
+	});
+
+	preferences.find("#custom_links .body").insertBefore(doc.new({
+		type: "div",
+		class: "row",
+		children: [newTab, select, nameInput, hrefInput, removeIcon],
+	}), preferences.find("#custom_links .body .row.input"));
 }
 
 function addFactionToFilter(event) {
 	let row = doc.new({ type: "div", class: "row" });
 	let radio_input = doc.new({
 		type: "input",
-		attributes: { type: "radio", name: "filter-faction", value: event.target.previousElementSibling.value }
+		attributes: { type: "radio", name: "filter-faction", value: event.target.previousElementSibling.value },
 	});
 	let name_input = doc.new({ type: "input", class: "text name", value: event.target.previousElementSibling.value });
 	let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
@@ -1219,13 +1255,13 @@ function addHighlightToList(event) {
 	let name_input = doc.new({
 		type: "input",
 		class: "text name",
-		value: event.target.previousElementSibling.previousElementSibling.value
+		value: event.target.previousElementSibling.previousElementSibling.value,
 	});
 	let color_input = doc.new({
 		type: "input",
 		class: "text color",
 		value: event.target.previousElementSibling.value,
-		attributes: { type: "color" }
+		attributes: { type: "color" },
 	});
 	let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
 	let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
@@ -1257,42 +1293,42 @@ function setupApiStatistics() {
 
 	let time_limit = 5 * 60 * 1000;  // (ms) 5 minutes
 	let chartColors = {
-		"red": "rgb(255, 99, 132)",
-		"orange": "rgb(255, 159, 64)",
-		"yellow": "rgb(255, 205, 86)",
-		"green": "rgb(75, 192, 192)",
-		"blue": "rgb(54, 162, 235)",
-		"purple": "rgb(153, 102, 255)",
-		"grey": "rgb(201, 203, 207)"
-	}
+		red: "rgb(255, 99, 132)",
+		orange: "rgb(255, 159, 64)",
+		yellow: "rgb(255, 205, 86)",
+		green: "rgb(75, 192, 192)",
+		blue: "rgb(54, 162, 235)",
+		purple: "rgb(153, 102, 255)",
+		grey: "rgb(201, 203, 207)",
+	};
 
-	let data = {}
+	let data = {};
 	let datasets = [
 		{
 			label: "userdata",
 			backgroundColor: Chart.helpers.color(chartColors.red).alpha(0.5).rgbString(),
 			borderWidth: 1,
-			data: []
+			data: [],
 		},
 		{
 			label: "profile_stats",
 			backgroundColor: Chart.helpers.color(chartColors.blue).alpha(0.5).rgbString(),
 			borderWidth: 1,
-			data: []
+			data: [],
 		},
 		{
 			label: "stakeouts",
 			backgroundColor: Chart.helpers.color(chartColors.purple).alpha(0.5).rgbString(),
 			borderWidth: 1,
-			data: []
+			data: [],
 		},
 		{
 			label: "other",
 			backgroundColor: Chart.helpers.color(chartColors.grey).alpha(0.5).rgbString(),
 			borderWidth: 1,
-			data: []
-		}
-	]
+			data: [],
+		},
+	];
 
 	let torn_api_history = [...api_history.torn].reverse();
 
@@ -1308,11 +1344,11 @@ function setupApiStatistics() {
 			data[fetch_time][fetch.name]++;
 		} else {
 			data[fetch_time] = {
-				"userdata": 0,
-				"profile_stats": 0,
-				"stakeouts": 0,
-				"other": 0
-			}
+				userdata: 0,
+				profile_stats: 0,
+				stakeouts: 0,
+				other: 0,
+			};
 			data[fetch_time][fetch.name]++;
 		}
 	}
@@ -1334,15 +1370,15 @@ function setupApiStatistics() {
 
 	let ctx = doc.find("#torn-api-graph").getContext("2d");
 	new Chart(ctx, {
-		type: 'bar',
+		type: "bar",
 		data: {
 			labels: data_keys,
-			datasets: datasets
+			datasets: datasets,
 		},
 		options: {
 			title: {
 				display: true,
-				text: "Torn API"
+				text: "Torn API",
 			},
 			scales: {
 				yAxes: [{
@@ -1351,16 +1387,16 @@ function setupApiStatistics() {
 							if (Math.floor(value) === value) {
 								return value;
 							}
-						}
+						},
 					},
-				}]
+				}],
 			},
-		}
+		},
 	});
 
 	// Statistics
 	time_limit = 10 * 60 * 60 * 1000;
-	let stats = {}
+	let stats = {};
 
 	for (let fetch of torn_api_history) {
 		let fetch_date = new Date(fetch.date);
@@ -1381,8 +1417,8 @@ function setupApiStatistics() {
 			}
 		} else {
 			stats[fetch_time_hours] = {
-				[fetch_time_minutes]: 1
-			}
+				[fetch_time_minutes]: 1,
+			};
 		}
 	}
 
@@ -1397,8 +1433,8 @@ function setupApiStatistics() {
 
 		for (let minute in stats[hour]) {
 			total_minutes++;
-			total_minute_requests += stats[hour][minute]
-			total_hour_requests += stats[hour][minute]
+			total_minute_requests += stats[hour][minute];
+			total_hour_requests += stats[hour][minute];
 		}
 	}
 
@@ -1409,10 +1445,10 @@ function setupApiStatistics() {
 function exportData() {
 	ttStorage.get(null, async (database) => {
 		if (!database) {
-			return message('No database found.', false);
+			return message("No database found.", false);
 		}
 		if (!database.userdata) {
-			return message('No player ID found.', false);
+			return message("No player ID found.", false);
 		}
 
 		let post_data = {
@@ -1426,11 +1462,11 @@ function exportData() {
 					} else {
 						return resolve(formatBytes(JSON.stringify(DB).length));
 					}
-				}))()
+				}))(),
 			},
 			date: new Date().toString(),
-			storage: {}
-		}
+			storage: {},
+		};
 
 		let keys_to_export = [
 			"vault",
@@ -1445,18 +1481,25 @@ function exportData() {
 			"filters",
 			"sorting",
 			"watchlist",
-			"settings"
-		]
+			"settings",
+			"profile_notes",
+		];
 
 		for (let key of keys_to_export) {
 			if (!(key in database)) {
-				return message(`Database is missing key: ${key}`, false);
+				return message(
+					`Database is missing key: ${key}`
+					, false);
 			}
 
 			post_data.storage[key] = database[key];
 		}
 
-		fetchApi_v2('torntools', { section: `api/${userdata.player_id}/storage/update`, method: 'POST', postData: post_data })
+		fetchApi_v2("torntools", {
+			section:
+				`api/${userdata.player_id}/storage/update`
+			, method: "POST", postData: post_data,
+		})
 			.then(result => {
 				console.log("export", result);
 				message(result.message, result.success, { reload: result.success });
@@ -1464,12 +1507,15 @@ function exportData() {
 			.catch(err => {
 				console.log("ERROR", err);
 				message(err.error, false);
-			})
+			});
 	});
 }
 
 function importData() {
-	fetchApi_v2('torntools', { section: `api/${userdata.player_id}/storage` })
+	fetchApi_v2("torntools", {
+		section:
+			`api/${userdata.player_id}/storage`,
+	})
 		.then(result => {
 			console.log("import", result);
 
@@ -1485,19 +1531,17 @@ function importData() {
 				console.log("CM", conflictMessage);
 				if (conflictMessage.trim() === "") {
 					loadConfirmationPopup({
-						title: 'Import',
-						message: `### You are all up-to-date`
+						title: "Import",
+						message: `### You are all up-to-date`,
 					})
 						.then(() => {
 						})
 						.catch(() => {
-						})
+						});
 				} else {
 					loadConfirmationPopup({
-						title: 'Import',
-						message: `### Are you sure that you want to overwrite following items?
-        ${conflictMessage}
-                    `
+						title: "Import",
+						message: `### Are you sure that you want to overwrite following items?\n${conflictMessage}`,
 					})
 						.then(async () => {
 							let import_result;
@@ -1506,7 +1550,7 @@ function importData() {
 									try {
 										ttStorage.set({ [key]: result.data[key] }, () => {
 											console.log(`${key} imported.`);
-											return resolve({ success: true, message: 'All settings imported' });
+											return resolve({ success: true, message: "All settings imported" });
 										});
 									} catch (err) {
 										return resolve({ success: false, message: err });
@@ -1517,34 +1561,34 @@ function importData() {
 							message(import_result.message, import_result.success, { reload: import_result.success });
 						})
 						.catch(() => {
-						})
+						});
 				}
 
 			});
 		})
 		.catch(err => {
 			console.log(err);
-			message(err.error, false)
+			message(err.error, false);
 		});
 }
 
 function importDataText() {
 	loadConfirmationPopup({
-		title: 'Import via Text',
+		title: "Import via Text",
 		message: `### Paste your database below. Be careful to use the exact copy provided by TornTools
 		[TEXTAREA=importvalue]
-`
+`,
 	})
 		.then(async ({ importvalue }) => {
-			if (!importvalue || importvalue.trim() === '') {
-				message('Empty value', false);
+			if (!importvalue || importvalue.trim() === "") {
+				message("Empty value", false);
 				return;
 			}
 
 			try {
 				importvalue = JSON.parse(importvalue);
 			} catch (err) {
-				message('Failed to convert', false);
+				message("Failed to convert", false);
 				return;
 			}
 
@@ -1555,7 +1599,7 @@ function importDataText() {
 					try {
 						ttStorage.set({ [key]: import_storage[key] }, () => {
 							console.log(`${key} imported.`);
-							return resolve({ success: true, message: 'All settings imported' });
+							return resolve({ success: true, message: "All settings imported" });
 						});
 					} catch (err) {
 						return resolve({ success: false, message: err });
@@ -1570,7 +1614,7 @@ function importDataText() {
 }
 
 function clearRemoteData() {
-	fetchApi_v2('torntools', { section: `api/${userdata.player_id}/storage/clear`, method: 'POST' })
+	fetchApi_v2("torntools", { section: `api/${userdata.player_id}/storage/clear`, method: "POST" })
 		.then(result => {
 			console.log("clear", result);
 			message(result.message, true, { reload: true });
@@ -1579,4 +1623,12 @@ function clearRemoteData() {
 			console.log("ERROR", err);
 			message(err.error, false);
 		});
+}
+
+function getCustomLinkOptions() {
+	let options = "";
+	for (let name in LINKS) options += `<option value="${name.replaceAll(" ", "_")}">${name}</option>`;
+	options += "<option value='custom'>Custom..</option>";
+
+	return options;
 }

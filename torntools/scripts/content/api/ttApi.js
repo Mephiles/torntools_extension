@@ -90,7 +90,7 @@ function markFields(name, id) {
 		let span = doc.new({
 			type: "span",
 			text: field,
-			class: `selection ${in_use[name] && in_use[name][field] ? 'in-use' : ''}`,
+			class: `selection ${in_use[name] && in_use[name][field] ? "in-use" : ""}`,
 		});
 
 		// in_use[name] && in_use[name][field] ? span.setClass("in-use") : null;
@@ -106,25 +106,25 @@ function markFields(name, id) {
 	}
 
 	doc.findAll(".selection").forEach(selection => {
-		selection.addEventListener('click', (event) => {
-			const panel = event.target.closest('div.panel-group');
-			const selections_input = panel.querySelector('input[id*=selections]');
+		selection.addEventListener("click", (event) => {
+			const panel = event.target.closest("div.panel-group");
+			const selections_input = panel.querySelector("input[id*=selections]");
 
 			if (event.ctrlKey) {
-				if (selections_input.value === '') selections_input.value = event.target.innerText;
-				else selections_input.value += ',' + event.target.innerText;
+				if (selections_input.value === "") selections_input.value = event.target.innerText;
+				else selections_input.value += "," + event.target.innerText;
 			} else {
 				selections_input.value = event.target.innerText;
-				panel.find('button').click();
+				panel.find("button").click();
 			}
-		})
-	})
+		});
+	});
 }
 
 function markResponse(type, fields, response_pre) {
 	console.log("marking response");
 	fields = fields.split(",").map(x => x.trim());
-	console.log("fields", fields)
+	console.log("fields", fields);
 
 	const response_data = JSON.parse(response_pre.innerText);
 
@@ -142,9 +142,9 @@ function markResponse(type, fields, response_pre) {
 
 	// Remove fields that are not top-level
 	for (let response_key in response_data) {
-		console.log('1', response_key)
+		console.log("1", response_key);
 		if (typeof response_data[response_key] == "object") {
-			console.log('2', field_db[response_key], top_level_fields)
+			console.log("2", field_db[response_key], top_level_fields);
 			response_key = response_key in field_db ? field_db[response_key] : response_key;
 
 			if (top_level_fields.includes(response_key)) {
@@ -155,7 +155,7 @@ function markResponse(type, fields, response_pre) {
 
 	console.log("top_level_fields", top_level_fields);
 
-	loadResponses(type, response_data, new_pre, 1, false, fields)
+	loadResponses(type, response_data, new_pre, 1, false, fields);
 
 	new_pre.appendChild(doc.new({
 		type: "div",
@@ -209,7 +209,7 @@ function loadResponses(type, response, modifiedSection, level, skipFirstLine, se
 			if (Array.isArray(response[responseField])) {
 				modifiedSection.appendChild(doc.new({
 					type: "span",
-					text: `${indent}"${responseField}": [`
+					text: `${indent}"${responseField}": [`,
 				}));
 
 				let skipLine = false;
@@ -225,7 +225,7 @@ function loadResponses(type, response, modifiedSection, level, skipFirstLine, se
 						if (Array.isArray(item)) {
 							modifiedSection.appendChild(doc.new({
 								type: "span",
-								text: `${getIndent(level + 1)}NOT SUPPORTED`
+								text: `${getIndent(level + 1)}NOT SUPPORTED`,
 							}));
 						} else {
 							showObject({
@@ -247,7 +247,7 @@ function loadResponses(type, response, modifiedSection, level, skipFirstLine, se
 
 				modifiedSection.appendChild(doc.new({
 					type: "div",
-					text: `${indent}]${lastInList(responseField, Object.keys(response)) ? "" : ","}`
+					text: `${indent}]${lastInList(responseField, Object.keys(response)) ? "" : ","}`,
 				}));
 			} else {
 				showObject({
@@ -279,13 +279,13 @@ function loadResponses(type, response, modifiedSection, level, skipFirstLine, se
 		const attributes = {
 			level: level,
 			...attr,
-		}
+		};
 
 		if (attributes.name && attributes.items) {
 			if (!attributes.object)
 				attributes.object = attributes.items[attributes.name];
 			if (!attributes.isLast)
-				attributes.isLast = lastInList(attributes.name, attributes.items)
+				attributes.isLast = lastInList(attributes.name, attributes.items);
 		}
 
 		const indent = getIndent(attributes.level);
@@ -293,12 +293,12 @@ function loadResponses(type, response, modifiedSection, level, skipFirstLine, se
 		if (attributes.name) {
 			modifiedSection.appendChild(doc.new({
 				type: "div",
-				text: `${indent}"${attributes.name}": {`
+				text: `${indent}"${attributes.name}": {`,
 			}));
 		} else {
 			modifiedSection.appendChild(doc.new({
 				type: "div",
-				text: `${indent}{`
+				text: `${indent}{`,
 			}));
 		}
 
@@ -314,13 +314,13 @@ function loadResponses(type, response, modifiedSection, level, skipFirstLine, se
 		const attributes = {
 			level: level,
 			...attr,
-		}
+		};
 
 		if (attributes.name && attributes.items) {
 			if (!attributes.value)
 				attributes.value = attributes.items[attributes.name];
 			if (!attributes.isLast)
-				attributes.isLast = lastInList(attributes.name, attributes.items)
+				attributes.isLast = lastInList(attributes.name, attributes.items);
 		}
 
 		const quotation_marks = typeof attributes.value == "string";
@@ -341,7 +341,7 @@ function loadResponses(type, response, modifiedSection, level, skipFirstLine, se
 
 				if (keys.includes("*") || keys.includes(attributes.name)) span.setClass("in-use");
 
-				console.log('selection', selection, in_use[type][selection])
+				console.log("selection", selection, in_use[type][selection]);
 			}
 		} else {
 			span = doc.new({
@@ -355,23 +355,22 @@ function loadResponses(type, response, modifiedSection, level, skipFirstLine, se
 
 }
 
-
 const field_db = {
-	"criminalrecord": "crimes",
-	"medals_awarded": "medals"
-}
+	criminalrecord: "crimes",
+	medals_awarded: "medals",
+};
 
 const in_use = {
-	"user": {
+	user: {
 		ammo: ["*"],
-		"battlestats": [
-			"strength", "speed", "dexterity", "defense", "total"
+		battlestats: [
+			"strength", "speed", "dexterity", "defense", "total",
 		],
-		"crimes": [
+		crimes: [
 			"selling_illegal_products", "theft", "auto_theft", "drug_deals", "computer_crimes",
-			"murder", "fraud_crimes", "other", "total"
+			"murder", "fraud_crimes", "other", "total",
 		],
-		"personalstats": [
+		personalstats: [
 			"cityfinds",
 			"dumpfinds",
 			"organisedcrimes",
@@ -455,99 +454,99 @@ const in_use = {
 			"traveltime",
 			"itemsboughtabroad",
 		],
-		"perks": ["*"],
-		"profile": ["player_id", "married"],
-		"workstats": ["*"],
-		"stocks": ["*"],
-		"networth": ["*"]
+		perks: ["*"],
+		profile: ["player_id", "married"],
+		workstats: ["*"],
+		stocks: ["*"],
+		networth: ["*"],
 	},
-	"torn": {
-		"honors": [],
-		"medals": []
-	}
-}
+	torn: {
+		honors: [],
+		medals: [],
+	},
+};
 
 const markings = {
-	"user": {
-		"ammo": [],  // Owned ammo types and quantities
-		"attacks": [],  // last 100
-		"attacksfull": [],  // last 1000
-		"bars": [
-			"server_time", "happy", "life", "energy", "nerve", "chain"
+	user: {
+		ammo: [],  // Owned ammo types and quantities
+		attacks: [],  // last 100
+		attacksfull: [],  // last 1000
+		bars: [
+			"server_time", "happy", "life", "energy", "nerve", "chain",
 		],
-		"basic": [
-			"level", "gender", "player_id", "name", "status"
+		basic: [
+			"level", "gender", "player_id", "name", "status",
 		],
-		"battlestats": [
+		battlestats: [
 			"strength", "speed", "dexterity", "defense", "total",
 			"strength_modifier", "defense_modifier", "speed_modifier",
 			"dexterity_modifier", "strength_info", "defense_info",
-			"speed_info", "dexterity_info"
+			"speed_info", "dexterity_info",
 		],
-		"bazaar": [],
-		"cooldowns": [
-			"drug", "medical", "booster"
+		bazaar: [],
+		cooldowns: [
+			"drug", "medical", "booster",
 		],
-		"crimes": [
+		crimes: [
 			"selling_illegal_products", "theft", "auto_theft", "drug_deals",
-			"computer_crimes", "murder", "fraud_crimes", "other", "total"
+			"computer_crimes", "murder", "fraud_crimes", "other", "total",
 		],
-		"discord": [
-			"userID", "discordID"
+		discord: [
+			"userID", "discordID",
 		],
-		"display": [],  // Item display cabinet
-		"education": [
-			"education_current", "education_timeleft", "education_completed"
+		display: [],  // Item display cabinet
+		education: [
+			"education_current", "education_timeleft", "education_completed",
 		],
-		"events": [],
-		"gym": [
-			"active_gym"
+		events: [],
+		gym: [
+			"active_gym",
 		],
-		"hof": [
+		hof: [
 			"attacks", "battlestats", "busts", "defends", "networth",
 			"offences", "revives", "traveled", "workstats", "level",
-			"rank", "respect"
+			"rank", "respect",
 		],
-		"honors": [
-			"honors_awarded", "honors_time"
+		honors: [
+			"honors_awarded", "honors_time",
 		],
-		"icons": [],
-		"inventory": [],
-		"jobpoints": [
-			"jobs", "companies"
+		icons: [],
+		inventory: [],
+		jobpoints: [
+			"jobs", "companies",
 		],
-		"medals": [
-			"medals_awarded", "medals_time"
+		medals: [
+			"medals_awarded", "medals_time",
 		],
-		"merits": [
+		merits: [
 			"Nerve Bar", "Critical Hit Rate", "Life Points", "Crime Experience",
 			"Education Length", "Awareness", "Bank Interest", "Masterful Looting",
 			"Stealth", "Hospitalizing", "Brawn", "Protection", "Sharpness", "Evasion",
 			"Heavy Artillery Mastery", "Machine Gun Mastery", "Rifle Mastery", "SMG Mastery",
 			"Shotgun Mastery", "Pistol Mastery", "Club Mastery", "Piercing Mastery",
-			"Slashing Mastery", "Mechanical Mastery", "Temporary Mastery"
+			"Slashing Mastery", "Mechanical Mastery", "Temporary Mastery",
 		],
-		"messages": [],
-		"money": [
+		messages: [],
+		money: [
 			"points", "cayman_bank", "vault_amount", "networth",
-			"money_onhand", "city_bank"
+			"money_onhand", "city_bank",
 		],
-		"networth": [
+		networth: [
 			"pending", "wallet", "bank", "points", "cayman",
 			"vault", "piggybank", "items", "displaycase",
 			"bazaar", "properties", "stockmarket", "auctionhouse",
 			"company", "bookie", "loan", "unpaidfees", "total",
-			"parsetime"
+			"parsetime",
 		],
-		"notifications": [
-			"messages", "events", "awards", "competition"
+		notifications: [
+			"messages", "events", "awards", "competition",
 		],
-		"perks": [
+		perks: [
 			"job_perks", "property_perks", "stock_perks", "merit_perks",
 			"education_perks", "enhancer_perks", "company_perks", "faction_perks",
-			"book_perks"
+			"book_perks",
 		],
-		"personalstats": [
+		personalstats: [
 			"weaponsbought",
 			"attackmisses",
 			"attackdamage",
@@ -614,32 +613,32 @@ const markings = {
 			"piercingammoused",
 			"spousemailssent",
 		],
-		"profile": [
+		profile: [
 			"rank", "level", "gender", "property", "signup", "awards",
 			"friends", "enemies", "forum_posts", "karma", "age",
 			"role", "donator", "player_id", "name", "property_id",
 			"life", "status", "job", "faction", "married", "basicicons",
-			"states", "last_action"
+			"states", "last_action",
 		],
-		"properties": [],
-		"receivedevents": [],
-		"refills": [
+		properties: [],
+		receivedevents: [],
+		refills: [
 			"energy_refill_used", "nerve_refill_used", "token_refill_used",
-			"special_refills_available"
+			"special_refills_available",
 		],
-		"revives": [],
-		"revivesfull": [],
-		"stocks": [],
-		"timestamp": [],
-		"travel": [
-			"destination", "timestamp", "departed", "time_left"
+		revives: [],
+		revivesfull: [],
+		stocks: [],
+		timestamp: [],
+		travel: [
+			"destination", "timestamp", "departed", "time_left",
 		],
-		"weaponexp": [],
-		"workstats": [
-			"manual_labor", "intelligence", "endurance"
-		]
-	}
-}
+		weaponexp: [],
+		workstats: [
+			"manual_labor", "intelligence", "endurance",
+		],
+	},
+};
 
 function findFieldsContainer(id) {
 	for (let div of doc.findAll(`#${id} .panel-body>p`)) {

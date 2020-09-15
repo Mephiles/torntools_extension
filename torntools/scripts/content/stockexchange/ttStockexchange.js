@@ -50,18 +50,11 @@ requireDatabase().then(() => {
 });
 
 function stocksLoaded() {
-	return new Promise((resolve) => {
-		let checker = setInterval(() => {
-			if (doc.find(".stock-list .item, .portfolio-list-shares > .item-wrap")) {
-				resolve(true);
-				return clearInterval(checker);
-			}
-		}, 100);
-	});
+	return requireElement(".stock-list .item, .portfolio-list-shares > .item-wrap");
 }
 
 function showInformation() {
-	const formatterPrice = new Intl.NumberFormat('en-US', {
+	const formatterPrice = new Intl.NumberFormat("en-US", {
 		minimumFractionDigits: 3,
 		maximumFractionDigits: 3,
 	});
@@ -98,9 +91,9 @@ function showInformation() {
 
 			let blockText = isEarningBlock ? "<span class='block-bb'>(BB)</span>" : "";
 			if (!mobile) {
-				blockText += `You bought at $<span class="bold">${numberWithCommas(buyPrice, false)}</span> worth and <span class="block-wording">${profitClass}</span> <span class="bold block-${profitClass}">${profitChar} $${numberWithCommas(Math.abs(profit), false)}</span>`
+				blockText += `You bought at $<span class="bold">${numberWithCommas(buyPrice, false)}</span> worth and <span class="block-wording">${profitClass}</span> <span class="bold block-${profitClass}">${profitChar} $${numberWithCommas(Math.abs(profit), false)}</span>`;
 			} else {
-				blockText += `Bought $<span class="bold">${numberWithCommas(buyPrice, false)}</span> / <span class="block-wording">${profitClass}</span> <span class="bold block-${profitClass}">${profitChar} $${numberWithCommas(Math.abs(profit), false)}</span>`
+				blockText += `Bought $<span class="bold">${numberWithCommas(buyPrice, false)}</span> / <span class="block-wording">${profitClass}</span> <span class="bold block-${profitClass}">${profitChar} $${numberWithCommas(Math.abs(profit), false)}</span>`;
 			}
 
 			stock.find(".b-price-wrap > .second-row > .prop-wrap").innerHTML = `
@@ -128,7 +121,7 @@ function showInformation() {
 		}
 
 		if (data.acronym !== "TCSE") {
-			const classForecast = `forecast-${data.forecast.toLowerCase().replace(" ", "_")}`
+			const classForecast = `forecast-${data.forecast.toLowerCase().replace(" ", "_")}`;
 
 			const availableWorth = parseInt(data.available_shares) * parseFloat(data.current_price);
 			let classWorth;
@@ -174,13 +167,13 @@ function showInformation() {
 					const diff = sharesForSale - data.available_shares;
 
 					rowSharesForSale.innerHTML = `
-                    <div class="property left"><span>Shares for sale:</span></div>
-                    ${FORMATTER_NO_DECIMALS.format(sharesForSale)}
-                    <span class="difference ${getDiffClass(diff)}">
-                        <i></i>
-                        ${FORMATTER_NO_DECIMALS.format(Math.abs(diff))}
-                    </span>
-                `;
+						<div class="property left"><span>Shares for sale:</span></div>
+						${FORMATTER_NO_DECIMALS.format(sharesForSale)}
+						<span class="difference ${getDiffClass(diff)}">
+							<i></i>
+							${FORMATTER_NO_DECIMALS.format(Math.abs(diff))}
+						</span>
+                	`;
 				}
 
 				const rowForecast = stockProperties.find(":scope > li:nth-child(3)");
@@ -188,22 +181,22 @@ function showInformation() {
 				if (forecast !== data.forecast) {
 					const FORECASTS = {
 						"Very Good": 2,
-						"Good": 1,
-						"Average": 0,
-						"Poor": -1,
+						Good: 1,
+						Average: 0,
+						Poor: -1,
 						"Very Poor": -2,
-					}
+					};
 
 					const diff = FORECASTS[forecast] - FORECASTS[data.forecast];
 
 					rowForecast.innerHTML = `
-                    <div class="property left"><span>Forecast:</span></div>
-                    ${forecast}
-                    <span class="difference ${getDiffClass(diff)}">
-                        <i></i>
-                        ${data.forecast}
-                    </span>
-                `;
+						<div class="property left"><span>Forecast:</span></div>
+						${forecast}
+						<span class="difference ${getDiffClass(diff)}">
+							<i></i>
+							${data.forecast}
+						</span>
+                	`;
 				}
 
 				loaded = true;
@@ -338,12 +331,12 @@ function addFilter(filters) {
 		for (let checkbox of doc.findAll("#forecast-filter input[type='checkbox']:checked")) {
 			forecast.push(checkbox.getAttribute("value"));
 		}
-		const name = doc.find(`#extra-filter #name-filter input`).value;
+		const name = doc.find("#extra-filter #name-filter input").value;
 		if (isPortfolio) {
 			for (let checkbox of doc.findAll("#extra-filter #profit-filter input[type='checkbox']:checked")) {
 				profitLoss.push(checkbox.getAttribute("value"));
 			}
-			listedOnly = doc.find(`#extra-filter #listed-filter input`).checked;
+			listedOnly = doc.find("#extra-filter #listed-filter input").checked;
 		}
 
 		// Filtering
@@ -446,25 +439,12 @@ function addFilter(filters) {
 			filter.listedOnly = listedOnly;
 		}
 
-		ttStorage.change({
-			"filters": {
-				"stock_exchange": {
-					[filterPage]: filter,
-				}
-			}
-		});
+		ttStorage.change({ filters: { stock_exchange: { [filterPage]: filter } } });
 	}
 }
 
 function stockProfileLoaded() {
-	return new Promise((resolve) => {
-		let checker = setInterval(() => {
-			if (doc.find(".item-wrap .stock-list .profile-wrap[style*='display: block;'] .tabs-title, .item .acc-body[style*='display: block;'] .tabs-title")) {
-				resolve(true);
-				return clearInterval(checker);
-			}
-		}, 100);
-	});
+	return requireElement(".item-wrap .stock-list .profile-wrap[style*='display: block;'] .tabs-title, .item .acc-body[style*='display: block;'] .tabs-title");
 }
 
 function getDiffClass(diff) {

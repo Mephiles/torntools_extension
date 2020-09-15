@@ -22,7 +22,7 @@ function companyContentLoaded(aria_controls) {
 }
 
 function showUserInfo() {
-	fetchApi_v2('torn', { section: 'company' })
+	fetchApi_v2("torn", { section: "company" })
 		.then(result => {
 			console.log("result", result);
 
@@ -34,8 +34,8 @@ function showUserInfo() {
 				let li = doc.new({ type: "li", class: "tt-user-info" });
 				let inner_wrap = doc.new({ type: "div", class: "tt-user-info-inner-wrap" });
 				let texts = [
-					`Last action: ${result.company.employees[user_id].last_action.relative}`
-				]
+					`Last action: ${result.company.employees[user_id].last_action.relative}`,
+				];
 
 				for (let text of texts) {
 					let div = doc.new({ type: "div", text: text });
@@ -54,7 +54,7 @@ function showUserInfo() {
 				let checkpoints = settings.inactivity_alerts_company;
 				for (let checkpoint of Object.keys(checkpoints).sort((a, b) => b - a)) {
 					if (new Date() - new Date(result.company.employees[user_id].last_action.timestamp * 1000) >= parseInt(checkpoint)) {
-						console.log(checkpoints[checkpoint])
+						console.log(checkpoints[checkpoint]);
 						user.style.backgroundColor = `${checkpoints[checkpoint]}`;
 						break;
 					}
@@ -63,5 +63,5 @@ function showUserInfo() {
 		})
 		.catch(err => {
 			console.log("ERROR", err);
-		})
+		});
 }

@@ -5,20 +5,20 @@ import personalized from "../personalized.js";
 let [seconds, minutes, hours, days] = [1000, 60 * 1000, 60 * 60 * 1000, 24 * 60 * 60 * 1000];
 
 let notifications = {
-	"travel": {},
-	"hospital": {},
-	"chain": {},
-	"chain_count": {},
-	"loot": {},
-	"events": {},
-	"messages": {},
-	"stakeouts": {},
-	"nerve": {},
-	"energy": {},
-	"happy": {},
-	"life": {},
-	"new_day": {},
-}
+	travel: {},
+	hospital: {},
+	chain: {},
+	chain_count: {},
+	loot: {},
+	events: {},
+	messages: {},
+	stakeouts: {},
+	nerve: {},
+	energy: {},
+	happy: {},
+	life: {},
+	new_day: {},
+};
 
 const links = {
 	stocks: "https://www.torn.com/stockexchange.php?step=portfolio",
@@ -27,15 +27,15 @@ const links = {
 	education: "https://www.torn.com/education.php#/step=main",
 	messages: "https://www.torn.com/messages.php",
 	events: "https://www.torn.com/events.php#/step=all",
-	chain: "https://www.torn.com/factions.php?step=your#/war/chain"
-}
+	chain: "https://www.torn.com/factions.php?step=your#/war/chain",
+};
 
 let NPC_FETCH_TIME = 0;
 
 let userdata, torndata, settings, api_key, proxy_key, chat_highlight, itemlist,
 	travel_market, oc, allies, loot_times, target_list, vault,
 	mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
-	quick, notes, stakeouts, updated, networth, filters, cache, watchlist;
+	quick, notes, profile_notes, stakeouts, updated, networth, filters, cache, watchlist;
 
 // First - set storage
 console.log("Checking Storage.");
@@ -114,7 +114,7 @@ setup_storage.then(async success => {
 				if (!userdata)
 					return resolve(userdata);
 
-				let personalized_scripts = {}
+				let personalized_scripts = {};
 
 				if (personalized.master === userdata.player_id) {
 					for (let type in personalized) {
@@ -134,7 +134,7 @@ setup_storage.then(async success => {
 					}
 				}
 
-				ttStorage.set({ "personalized": personalized_scripts }, () => {
+				ttStorage.set({ personalized: personalized_scripts }, () => {
 					console.log("	Personalized scripts set.");
 					return resolve(true);
 				});
@@ -166,6 +166,7 @@ setup_storage.then(async success => {
 		hide_icons = db.hide_icons;
 		quick = db.quick;
 		notes = db.notes;
+		profile_notes = db.profile_notes;
 		stakeouts = db.stakeouts;
 		updated = db.updated;
 		networth = db.networth;
@@ -190,6 +191,9 @@ function initiateTasks() {
 	setInterval(Main_5_seconds, 5 * seconds);  // 5 seconds
 	setInterval(Main_30_seconds, 30 * seconds);  // 30 seconds
 	setInterval(Main_1_minute, minutes);  // 1 minute
+
+	Main_30_seconds();
+	Main_1_minute();
 }
 
 function Main_5_seconds() {
@@ -219,34 +223,33 @@ function Main_5_seconds() {
 }
 
 function Main_30_seconds() {
-	console.log('Start Main');
+	console.log("Start Main");
 
 	ttStorage.get(
-		['api_key', 'proxy_key', 'settings', 'loot_times', "target_list", "stakeouts", "torndata", 'networth', 'oc', 'userdata'],
+		["api_key", "proxy_key", "settings", "loot_times", "target_list", "stakeouts", "torndata", "networth", "oc", "userdata"],
 		async ([api_key, proxy_key, settings, oldLootTimes, oldTargetList, oldStakeouts, oldTorndata, oldNetworth, oldOC, oldUserdata]) => {
 			let apiKey;
 			let usingProxy = false;
 
-			if (proxy_key !== undefined && proxy_key !== '') {
+			if (proxy_key !== undefined && proxy_key !== "") {
 				apiKey = proxy_key;
 				usingProxy = true;
-			} else if (api_key !== undefined && api_key !== '') {
+			} else if (api_key !== undefined && api_key !== "") {
 				apiKey = api_key;
 			} else {
-				console.log('NO API/PROXY KEY');
+				console.log("NO API/PROXY KEY");
 				return;
 			}
 
 			console.log(`Using Proxy: (${usingProxy}). KEY: (${apiKey})`);
 
 			// Userdata - essential
-			console.log('Fetching userdata - essential');
+			console.log("Fetching userdata - essential");
 			oldUserdata = await updateUserdata_essential(oldUserdata, oldTargetList);
 
 			// Userdata - basic
-			console.log('Fetching userdata - basic');
-			if ((!oldUserdata || !oldUserdata.personalstats || !oldUserdata.personalstats.date || new Date() - new Date(oldUserdata.personalstats.date) >= 2 * minutes) &&
-				oldUserdata.last_action.status !== 'Offline') {
+			console.log("Fetching userdata - basic");
+			if (!oldUserdata || ((!oldUserdata.personalstats || !oldUserdata.personalstats.date || new Date() - new Date(oldUserdata.personalstats.date) >= 2 * minutes) && (!oldUserdata.last_action || oldUserdata.last_action.status !== "Offline"))) {
 				await updateUserdata_basic(oldUserdata, oldTorndata);
 			}
 
@@ -254,42 +257,42 @@ function Main_30_seconds() {
 			NPC_FETCH_TIME -= 30 * seconds;
 			// console.log("NPC FETCH TIME", NPC_FETCH_TIME);
 			if (!oldLootTimes || NPC_FETCH_TIME <= 10 * seconds) {
-				console.log('Setting up NPC loot times');
+				console.log("Setting up NPC loot times");
 				await updateLootTimes();
 			}
 
 			// Networth data
 			if (!oldNetworth || !oldNetworth.current.date || new Date() - new Date(oldNetworth.current.date) >= 5 * minutes) {
-				console.log('Setting up Networth data');
+				console.log("Setting up Networth data");
 				await updateNetworthData();
 			}
 
 			// Stocks data
 			if (!oldTorndata || !oldTorndata.stocks || !oldTorndata.stocks.date || new Date() - new Date(!oldTorndata.stocks.date) >= 15 * minutes) {
-				console.log('Setting up Stocks data');
+				console.log("Setting up Stocks data");
 				await updateStocksData();
 			}
 
 			// Faction data
 			if (settings.pages.faction.oc_time && (!oldOC || !oldOC.date || new Date() - new Date(oldOC.date) >= 15 * minutes)) {
-				console.log('Setting up OC info');
+				console.log("Setting up OC info");
 				await updateOCinfo();
 			}
 
 			// Torndata
 			if (!oldTorndata || !oldTorndata.date || new Date() - new Date(oldTorndata.date) >= days) {
-				console.log("Setting up torndata.")
+				console.log("Setting up torndata.");
 				await updateTorndata(oldTorndata);
 			}
 
 			// Stakeouts
-			console.log('Fetching stakeouts');
+			console.log("Fetching stakeouts");
 			await updateStakeouts(oldStakeouts);
 
 			// Doctorn
 			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 
-			console.log('End Main');
+			console.log("End Main");
 		});
 }
 
@@ -306,17 +309,18 @@ async function Main_1_minute() {
 
 function updateTargetList(player_id, target_list, attackHistory, first_time) {
 	return new Promise((resolve) => {
-		fetchApi_v2('torn', { section: 'user', selections: attackHistory })
-			.then(attacks_data => {
-				console.log("Updating Target list");
+		fetchApi_v2("torn", { section: "user", selections: attackHistory })
+			.then(response => {
+				const { attacks } = response;
+				console.log("Updating Target list", { target_list, attacks_data: attacks });
 
-				for (let fight_id in attacks_data) {
+				for (let fight_id in attacks) {
 					if (parseInt(fight_id) <= parseInt(target_list.last_target)) {
 						continue;
 					}
 
 					target_list.last_target = fight_id;
-					let fight = attacks_data[fight_id];
+					let fight = attacks[fight_id];
 					let opponent_id = fight.attacker_id === player_id ? fight.defender_id : fight.attacker_id;
 
 					if (!opponent_id) {
@@ -342,17 +346,19 @@ function updateTargetList(player_id, target_list, attackHistory, first_time) {
 								mug: [],
 								hosp: [],
 								arrest: [],
-								special: []
+								special: [],
 							},
 							respect_base: {
 								leave: [],
 								mug: [],
 								hosp: [],
 								arrest: [],
-								special: []
-							}
-						}
+								special: [],
+							},
+						};
 					}
+
+					target_list.targets[opponent_id].last_attack = fight.timestamp_ended * 1000;
 
 					if (fight.defender_id === player_id) {  // user defended
 						if (fight.result === "Lost") {
@@ -410,15 +416,15 @@ function updateTargetList(player_id, target_list, attackHistory, first_time) {
 				}
 
 				target_list.targets.date = new Date().toString();
-				ttStorage.set({ "target_list": target_list }, () => {
+				ttStorage.set({ target_list: target_list }, () => {
 					console.log("	Target list set");
 					return resolve();
 				});
 			})
 			.catch(() => {
-				console.log('ERROR', err);
+				console.log("ERROR", err);
 				return resolve();
-			})
+			});
 	});
 }
 
@@ -432,8 +438,8 @@ async function updateExtensions() {
 
 		if (browser) {
 			const extensions = {
-				"doctorn": false
-			}
+				doctorn: false,
+			};
 
 			for (let extension in extensions) {
 				extensions[extension] = await detectExtension(browser, extension);
@@ -455,7 +461,7 @@ async function updateTorndata(oldTorndata) {
 	console.log("Updating torndata");
 
 	return new Promise((resolve) => {
-		fetchApi_v2('torn', { section: 'torn', selections: "honors,medals,items,pawnshop,education" })
+		fetchApi_v2("torn", { section: "torn", selections: "honors,medals,items,pawnshop,education" })
 			.then(torndata => {
 				let itemlist = { items: { ...torndata.items }, date: (new Date).toString() };
 				delete torndata.items;
@@ -464,11 +470,11 @@ async function updateTorndata(oldTorndata) {
 
 				torndata.stocks = oldTorndata.stocks;
 
-				ttStorage.set({ "torndata": torndata, "itemlist": itemlist }, () => {
+				ttStorage.set({ torndata: torndata, itemlist: itemlist }, () => {
 					console.log("	Torndata info updated.");
 					console.log("	Itemlist info updated.");
 					return resolve({ success: true, message: "Torndata fetched" });
-				})
+				});
 			})
 			.catch(err => {
 				console.log("ERROR", err);
@@ -479,12 +485,12 @@ async function updateTorndata(oldTorndata) {
 
 function updateLootTimes() {
 	return new Promise((resolve) => {
-		fetchApi_v2('yata', { section: 'loot/timings' })
+		fetchApi_v2("yata", { section: "loot/timings" })
 			.then(result => {
 
 				let lowestTime = 1e10;
 				for (let id in result) {
-					if (result[id].status === 'hospitalized' && new Date(result[id].hospout * 1000) - new Date() < lowestTime && new Date(result[id].hospout * 1000) - new Date() > 0) {
+					if (result[id].status === "hospitalized" && new Date(result[id].hospout * 1000) - new Date() < lowestTime && new Date(result[id].hospout * 1000) - new Date() > 0) {
 						lowestTime = new Date(result[id].hospout * 1000) - new Date() + minutes;
 					} else {
 						const nextLevel = result[id].levels.next;
@@ -498,7 +504,7 @@ function updateLootTimes() {
 				// console.log("lowest time", lowestTime);
 				if (lowestTime !== 1e10) NPC_FETCH_TIME = lowestTime;
 
-				ttStorage.set({ "loot_times": result }, async () => {
+				ttStorage.set({ loot_times: result }, async () => {
 					console.log("	Loot times set.");
 					await checkLootAlerts();
 					return resolve();
@@ -513,41 +519,41 @@ function updateLootTimes() {
 
 function updateNetworthData() {
 	return new Promise((resolve) => {
-		fetchApi_v2('torn', { section: 'user', selections: 'personalstats,networth' })
+		fetchApi_v2("torn", { section: "user", selections: "personalstats,networth" })
 			.then(data => {
 				let ps = data.personalstats;
 				let new_networth = data.networth;
 				let networth = {
 					current: {
 						date: new Date().toString(),
-						value: new_networth
+						value: new_networth,
 					},
 					previous: {
 						value: {
-							"pending": ps.networthpending,
-							"wallet": ps.networthwallet,
-							"bank": ps.networthbank,
-							"points": ps.networthpoints,
-							"cayman": ps.networthcayman,
-							"vault": ps.networthvault,
-							"piggybank": ps.networthpiggybank,
-							"items": ps.networthitems,
-							"displaycase": ps.networthdisplaycase,
-							"bazaar": ps.networthbazaar,
-							"properties": ps.networthproperties,
-							"stockmarket": ps.networthstockmarket,
-							"auctionhouse": ps.networthauctionhouse,
-							"company": ps.networthcompany,
-							"bookie": ps.networthbookie,
-							"loan": ps.networthloan,
-							"unpaidfees": ps.networthunpaidfees,
-							"total": ps.networth
-						}
-					}
-				}
+							pending: ps.networthpending,
+							wallet: ps.networthwallet,
+							bank: ps.networthbank,
+							points: ps.networthpoints,
+							cayman: ps.networthcayman,
+							vault: ps.networthvault,
+							piggybank: ps.networthpiggybank,
+							items: ps.networthitems,
+							displaycase: ps.networthdisplaycase,
+							bazaar: ps.networthbazaar,
+							properties: ps.networthproperties,
+							stockmarket: ps.networthstockmarket,
+							auctionhouse: ps.networthauctionhouse,
+							company: ps.networthcompany,
+							bookie: ps.networthbookie,
+							loan: ps.networthloan,
+							unpaidfees: ps.networthunpaidfees,
+							total: ps.networth,
+						},
+					},
+				};
 
 				// Set Userdata & Networth
-				ttStorage.set({ "networth": networth }, () => {
+				ttStorage.set({ networth: networth }, () => {
 					console.log("Networth info updated.");
 					return resolve();
 				});
@@ -555,19 +561,19 @@ function updateNetworthData() {
 			.catch(err => {
 				console.log("ERROR", err);
 				return resolve();
-			})
+			});
 	});
 }
 
 function updateStocksData() {
 	return new Promise((resolve) => {
-		fetchApi_v2('torn', { section: 'torn', selections: 'stocks' })
+		fetchApi_v2("torn", { section: "torn", selections: "stocks" })
 			.then(result => {
 				const stocks = result.stocks;
 
 				stocks.date = (new Date()).toString();
 
-				ttStorage.change({ "torndata": { "stocks": stocks } }, async () => {
+				ttStorage.change({ torndata: { stocks: stocks } }, async () => {
 					console.log("Stocks info updated.");
 					await checkStockAlerts();
 					return resolve(true);
@@ -576,17 +582,17 @@ function updateStocksData() {
 			.catch(err => {
 				console.log("ERROR", err);
 				return resolve();
-			})
+			});
 	});
 }
 
 function updateOCinfo() {
 	return new Promise((resolve) => {
-		fetchApi_v2('torn', { section: 'faction', selections: 'crimes' })
+		fetchApi_v2("torn", { section: "faction", selections: "crimes" })
 			.then(factiondata => {
 				factiondata.crimes.date = new Date().toString();
 
-				ttStorage.set({ "oc": factiondata.crimes }, () => {
+				ttStorage.set({ oc: factiondata.crimes }, () => {
 					console.log("	Faction data set.");
 					return resolve(true);
 				});
@@ -594,7 +600,7 @@ function updateOCinfo() {
 			.catch(err => {
 				console.log("ERROR", err);
 				return resolve();
-			})
+			});
 	});
 }
 
@@ -602,9 +608,9 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 	return new Promise(resolve => {
 		const selections = `profile,travel,bars,cooldowns,money,events,messages,timestamp`;
 
-		fetchApi_v2('torn', { section: 'user', selections: selections })
+		fetchApi_v2("torn", { section: "user", selections: selections })
 			.then(async userdata => {
-				let shouldFetchAttackData = false;
+				let shouldFetchAttackData = true;
 
 				// Check for new messages
 				let message_count = 0;
@@ -631,7 +637,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 					let text = `${messages[0].title} - by ${messages[0].name}`;
 					if (messages.length > 1) text += `\n(and ${messages.length - 1} more messages)`;
 
-					notifications.messages['combined'] = {
+					notifications.messages["combined"] = {
 						title: `TornTools - New Messages${messages.length > 1 ? "s" : ""}`,
 						text,
 						url: links.messages,
@@ -647,8 +653,8 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 					let event = userdata.events[event_key];
 
 					if (event.seen === 0) {
-						if ((event.event.includes('attacked') || event.event.includes('mugged') || event.event.includes('arrested') || event.event.includes('hospitalized')) &&
-							!event.event.includes('Someone')) {
+						if ((event.event.includes("attacked") || event.event.includes("mugged") || event.event.includes("arrested") || event.event.includes("hospitalized")) &&
+							!event.event.includes("Someone")) {
 							shouldFetchAttackData = true;
 						}
 
@@ -657,7 +663,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 								id: event_key,
 								event: event.event,
 							});
-							notifications.events[event_key] = { skip: true }
+							notifications.events[event_key] = { skip: true };
 						}
 
 						event_count++;
@@ -670,13 +676,13 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 					let text = events[0].event.replace(/<\/?[^>]+(>|$)/g, "");
 					if (events.length > 1) text += `\n(and ${events.length - 1} more events)`;
 
-					notifications.events['combined'] = {
+					notifications.events["combined"] = {
 						title: `TornTools - New Event${events.length > 1 ? "s" : ""}`,
 						text,
 						url: links.events,
 						seen: 0,
 						date: new Date(),
-					}
+					};
 				}
 
 				// Messages & Events badge
@@ -691,7 +697,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 				}
 
 				// Energy decrease check
-				if (oldUserdata.energy.current - userdata.energy.current >= 25) {
+				if (!oldUserdata || !oldUserdata.energy || oldUserdata.energy.current - userdata.energy.current >= 25) {
 					shouldFetchAttackData = true;
 				}
 
@@ -750,7 +756,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 										text: `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`,
 										url: links.home,
 										seen: 0,
-										date: new Date()
+										date: new Date(),
 									};
 									break;
 									// notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`, links.home);
@@ -773,13 +779,13 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 									text: `You will be out of the Hospital in ${Math.floor(time_left / 1000 / 60)} minutes ${(time_left / 1000 % 60).toFixed(0)} seconds`,
 									url: links.hospital,
 									seen: 0,
-									date: new Date()
+									date: new Date(),
 								};
 								break;
 							}
 						}
 					} else {
-						notifications.hospital = {}
+						notifications.hospital = {};
 					}
 
 					// Check for travel notification
@@ -794,13 +800,13 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 									text: `You will be Landing in ${Math.floor(time_left / 1000 / 60)} minutes ${(time_left / 1000 % 60).toFixed(0)} seconds`,
 									url: links.home,
 									seen: 0,
-									date: new Date()
+									date: new Date(),
 								};
 								break;
 							}
 						}
 					} else {
-						notifications.travel = {}
+						notifications.travel = {};
 					}
 
 					// Check for chain notification
@@ -816,13 +822,13 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 									text: `Chain timer will run out in ${Math.floor(real_timeout / 1000 / 60)} minutes ${(real_timeout / 1000 % 60).toFixed(0)} seconds`,
 									url: links.chain,
 									seen: 0,
-									date: new Date()
-								}
+									date: new Date(),
+								};
 								break;
 							}
 						}
 					} else {
-						notifications.chain = {}
+						notifications.chain = {};
 					}
 
 					// Check for chain count notification
@@ -842,8 +848,8 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 									text: `Chain will reach next Bonus Hit in ${nextBonus(chain_count) - chain_count} hits`,
 									url: links.chain,
 									seen: 0,
-									date: new Date()
-								}
+									date: new Date(),
+								};
 								break;
 							}
 						}
@@ -876,8 +882,8 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 							text: "It's a new day! Hopefully a sunny one.",
 							url: links.home,
 							seen: 0,
-							date: new Date()
-						}
+							date: new Date(),
+						};
 					}
 				}
 
@@ -887,7 +893,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 				}
 
 				// Set Userdata
-				ttStorage.set({ "userdata": oldUserdata }, async () => {
+				ttStorage.set({ userdata: oldUserdata }, async () => {
 					console.log("	Userdata essential set.");
 
 					if (shouldFetchAttackData) {
@@ -901,29 +907,29 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 						}
 
 						// Target list
-						await updateTargetList(userdata.player_id, oldTargetList, attackHistory, (attackHistory === 'attacksfull'));
+						await updateTargetList(userdata.player_id, oldTargetList, attackHistory, (attackHistory === "attacksfull"));
 					}
 
 					return resolve(oldUserdata);
 				});
 			})
 			.catch(err => {
-				console.log("ERROR", err);
+				console.error("ERROR", err);
 				return resolve(oldUserdata);
-			})
+			});
 	});
 }
 
 function updateUserdata_basic(oldUserdata, oldTorndata) {
 	return new Promise((resolve) => {
 		let fetchEducation = true;
-		if (oldTorndata.education && oldUserdata.education_completed.length === Object.keys(oldTorndata.education).length) {
+		if (oldTorndata.education && oldUserdata.education_completed && oldUserdata.education_completed.length === Object.keys(oldTorndata.education).length) {
 			fetchEducation = false;
 		}
 
-		const selections = `personalstats,crimes,battlestats,perks,workstats,stocks,ammo,inventory${fetchEducation ? `,education` : ''}`;
+		const selections = `personalstats,crimes,battlestats,perks,workstats,stocks,ammo,inventory${fetchEducation ? `,education` : ""}`;
 
-		fetchApi_v2('torn', { section: 'user', selections: selections })
+		fetchApi_v2("torn", { section: "user", selections: selections })
 			.then(async userdata => {
 				userdata.personalstats.date = new Date().toString();
 				for (let key in userdata) {
@@ -931,15 +937,15 @@ function updateUserdata_basic(oldUserdata, oldTorndata) {
 				}
 
 				// Set Userdata
-				ttStorage.set({ "userdata": oldUserdata }, () => {
+				ttStorage.set({ userdata: oldUserdata }, () => {
 					console.log("	Userdata basic set.");
 					return resolve(true);
 				});
 			})
 			.catch(err => {
-				console.log("ERROR", err);
+				console.error("ERROR", err);
 				return resolve();
-			})
+			});
 	});
 }
 
@@ -958,13 +964,13 @@ function updateStakeouts(oldStakeouts) {
 				if (all_false) {
 					ttStorage.get("stakeouts", stakeouts => {
 						delete stakeouts[user_id];
-						ttStorage.set({ "stakeouts": stakeouts });
+						ttStorage.set({ stakeouts: stakeouts });
 					});
 					continue;
 				}
 
 				await new Promise(resolve => {
-					fetchApi_v2('torn', { section: 'user', objectid: user_id })
+					fetchApi_v2("torn", { section: "user", objectid: user_id })
 						.then(stakeout_info => {
 							console.log(`	Checking ${stakeout_info.name} [${user_id}]`);
 
@@ -976,8 +982,8 @@ function updateStakeouts(oldStakeouts) {
 										text: `${stakeout_info.name} is now Online`,
 										url: `https://www.torn.com/profiles.php?XID=${user_id}`,
 										seen: 0,
-										date: new Date()
-									}
+										date: new Date(),
+									};
 								} else if (stakeout_info.last_action.status !== "Online") {
 									delete notifications.stakeouts[user_id + "_online"];
 								}
@@ -990,8 +996,8 @@ function updateStakeouts(oldStakeouts) {
 										text: `${stakeout_info.name} is now Okay`,
 										url: `https://www.torn.com/profiles.php?XID=${user_id}`,
 										seen: 0,
-										date: new Date()
-									}
+										date: new Date(),
+									};
 								} else if (stakeout_info.status.state !== "Okay") {
 									delete notifications.stakeouts[user_id + "_okay"];
 								}
@@ -1004,8 +1010,8 @@ function updateStakeouts(oldStakeouts) {
 										text: `${stakeout_info.name} is now ${stakeout_info.status.state === "Abroad" ? stakeout_info.status.description : "in Torn"}`,
 										url: `https://www.torn.com/profiles.php?XID=${user_id}`,
 										seen: 0,
-										date: new Date()
-									}
+										date: new Date(),
+									};
 								} else if (stakeout_info.status.state === "Traveling") {
 									delete notifications.stakeouts[user_id + "_lands"];
 								}
@@ -1015,12 +1021,12 @@ function updateStakeouts(oldStakeouts) {
 						})
 						.catch(err => {
 							console.log("ERROR", err);
-							return resolve()
+							return resolve();
 						});
 				});
 			}
 		} else {
-			console.log('No stakeouts');
+			console.log("No stakeouts");
 		}
 	});
 }
@@ -1032,19 +1038,19 @@ function updateStakeouts(oldStakeouts) {
 // Check if new version is installed
 // noinspection JSDeprecatedSymbols
 chrome.runtime.onInstalled.addListener(() => {
-	ttStorage.set({ "updated": true, "new_version": { "available": false } }, () => {
+	ttStorage.set({ updated: true, new_version: { available: false } }, () => {
 		console.log("Extension updated:", chrome.runtime.getManifest().version);
 	});
 });
 
 // Messaging
 // noinspection JSDeprecatedSymbols
-chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	// console.log(sender.tab ? "from a content script:"+sender.tab.url : "from the extension");
 
 	switch (request.action) {
 		case "initialize":
-			console.log("Initializing app.")
+			console.log("Initializing app.");
 
 			initiateTasks();
 			sendResponse({ success: true, message: "App initialized." });
@@ -1053,7 +1059,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 
 			// Clear API history
-			await clearAPIhistory();
+			clearAPIhistory().then(() => console.log("Cleared API history!"));
 			break;
 		case "fetch":
 			if (request.type === "torndata") {
@@ -1061,14 +1067,14 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 				updateTorndata().then(sendResponse);
 			}
 			break;
-		case 'fetch-relay':
+		case "fetch-relay":
 			fetchApi_v2(request.location, request.options)
 				.then(result => {
 					sendResponse(result);
 				})
 				.catch(err => {
 					sendResponse(err);
-				})
+				});
 			break;
 		default:
 			sendResponse({ success: false, message: "Unknown command." });
@@ -1085,9 +1091,9 @@ chrome.runtime.onUpdateAvailable.addListener(details => {
 	setBadge("update_available");
 
 	ttStorage.set({
-		"new_version": {
-			"available": true,
-			"version": details.version,
+		new_version: {
+			available: true,
+			version: details.version,
 		},
 	});
 });
@@ -1133,15 +1139,15 @@ async function checkStockAlerts() {
 					notifyUser(
 						"TornTools - Stock alerts",
 						`(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has reached $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].reach})`,
-						links.stocks
+						links.stocks,
 					);
 
 					ttStorage.change({
-						"stock_alerts": {
+						stock_alerts: {
 							[stock_id]: {
-								"reach": undefined
-							}
-						}
+								reach: undefined,
+							},
+						},
 					});
 				} else if (parseFloat(torndata.stocks[stock_id].current_price) <= parseFloat(stock_alerts[stock_id].fall)) {
 					console.log("	Notifiying of reaching price point.");
@@ -1150,15 +1156,15 @@ async function checkStockAlerts() {
 					notifyUser(
 						"TornTools - Stock alerts",
 						`(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has fallen to $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].fall})`,
-						links.stocks
+						links.stocks,
 					);
 
 					ttStorage.change({
-						"stock_alerts": {
+						stock_alerts: {
 							[stock_id]: {
-								"fall": undefined
-							}
-						}
+								fall: undefined,
+							},
+						},
 					});
 				}
 			}
@@ -1206,8 +1212,8 @@ async function checkLootAlerts() {
 							text: `${loot_times[npc_id].name} is reaching loot level ${arabicToRoman(alert_level)} in ${timeUntil((alert_loot_time - current_time) * 1000).replace("m", "min")}`,
 							url: `https://www.torn.com/profiles.php?XID=${npc_id}`,
 							seen: 0,
-							date: new Date()
-						}
+							date: new Date(),
+						};
 						console.log("	Added Loot time to notifications.");
 						notified = true;
 					}
@@ -1239,7 +1245,7 @@ async function clearCache() {
 			}
 		}
 
-		ttStorage.set({ "cache": cache }, () => {
+		ttStorage.set({ cache: cache }, () => {
 			console.log("	Cleared cache.");
 			return resolve(true);
 		});
@@ -1250,16 +1256,16 @@ async function clearCache() {
 
 async function detectExtension(browserName, ext) {
 	const ids = {
-		"doctorn": {
-			"chrome": { "id": "kfdghhdnlfeencnfpbpddbceglaamobk" },
-			"firefox": { "name": "DoctorN for Torn" }
+		doctorn: {
+			chrome: { id: "kfdghhdnlfeencnfpbpddbceglaamobk" },
+			firefox: { name: "DoctorN for Torn" },
 		},
 		/* as example
 		"torntools": {
 			"firefox": {"id": "torntools@mephiles.github.com"}
 		}
 		 */
-	}
+	};
 
 	if (!(ext in ids)) return Promise.reject(`Detection for '${ext}' is not supported!`);
 	else if (!(browserName in ids[ext])) return Promise.reject(`Detection for '${ext}' with ${browserName} is not supported!`);
@@ -1272,7 +1278,7 @@ async function detectExtension(browserName, ext) {
 				if (result && result.enabled === true) {
 					resolve(true);
 				} else {
-					resolve(false)
+					resolve(false);
 				}
 			});
 		});
@@ -1310,7 +1316,7 @@ function clearAPIhistory() {
 				api_history[type] = data;
 			}
 
-			ttStorage.set({ "api_history": api_history }, () => {
+			ttStorage.set({ api_history: api_history }, () => {
 				console.log("	API history cleared");
 				return resolve(true);
 			});

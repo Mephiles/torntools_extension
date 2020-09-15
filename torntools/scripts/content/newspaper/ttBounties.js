@@ -25,7 +25,7 @@ requireDatabase().then(() => {
 });
 
 function bountiesLoaded() {
-	return requireElement(".bounties-list > li > ul > li .reward")
+	return requireElement(".bounties-list > li > ul > li .reward");
 }
 
 function addFilter(filters) {
@@ -34,7 +34,7 @@ function addFilter(filters) {
 	let container = content.newContainer("Bounty Filter", {
 		header_only: true,
 		id: "ttBountyContainer",
-		next_element: doc.find(".bounties-total").nextElementSibling
+		next_element: doc.find(".bounties-total").nextElementSibling,
 	});
 
 	let option_1 = doc.new({ type: "div", class: "tt-checkbox-wrap in-title" });
@@ -88,12 +88,12 @@ function addFilter(filters) {
 		}
 
 		ttStorage.change({
-			"filters": {
-				"bounties": {
-					"hide_unavailable": hide_unavailable,
-					"max_level": parseInt(max_level)
-				}
-			}
+			filters: {
+				bounties: {
+					hide_unavailable: hide_unavailable,
+					max_level: parseInt(max_level),
+				},
+			},
 		});
 
 		function hideRow(row, hide) {
@@ -116,7 +116,8 @@ function addFilter(filters) {
 function showStatsEstimates() {
 	estimateStatsInList(".bounties-list > li:not(.clear)", (row) => {
 		return {
-			userId: row.find(".head .target a").getAttribute("href").match(/profiles\.php\?XID=([0-9]*)/i)[1]
+			userId: row.find(".head .target a").getAttribute("href").match(/profiles\.php\?XID=([0-9]*)/i)[1],
+			level: parseInt(row.find(".level").innerText),
 		};
 	});
 }

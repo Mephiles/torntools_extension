@@ -37,11 +37,11 @@ function Main() {
 	let action = getAction(player_cards, dealer_card);
 
 	const action_options = {
-		"S": "Stand",
-		"SP": "Split",
-		"D": "Double Down",
-		"H": "Hit"
-	}
+		S: "Stand",
+		SP: "Split",
+		D: "Double Down",
+		H: "Hit",
+	};
 
 	// display action
 	console.log(action_options[action]);
@@ -79,14 +79,14 @@ function getCards(type) {
 		} else {
 			let val = parseInt(type_cards[0]) + parseInt(type_cards[1]);
 			if (val > 17)
-				val = 17
+				val = 17;
 			return `${val}`;
 		}
 	}
 }
 
 function getAction(player_cards, dealer_card) {
-	let action_table = {
+	const action_table = {
 		"2, 2": {
 			"2": "SP",
 			"3": "SP",
@@ -97,7 +97,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"3, 3": {
 			"2": "SP",
@@ -109,7 +109,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"4, 4": {
 			"2": "H",
@@ -121,7 +121,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"5, 5": {
 			"2": "D",
@@ -133,7 +133,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "D",
 			"9": "D",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"6, 6": {
 			"2": "SP",
@@ -145,7 +145,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"7, 7": {
 			"2": "SP",
@@ -157,7 +157,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"8, 8": {
 			"2": "SP",
@@ -169,7 +169,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "SP",
 			"9": "SP",
 			"10": "SP",
-			"A": "SP",
+			A: "SP",
 		},
 		"9, 9": {
 			"2": "SP",
@@ -181,7 +181,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "SP",
 			"9": "SP",
 			"10": "S",
-			"A": "S",
+			A: "S",
 		},
 		"10, 10": {
 			"2": "S",
@@ -193,7 +193,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "S",
 			"9": "S",
 			"10": "S",
-			"A": "S",
+			A: "S",
 		},
 		"A, A": {
 			"2": "SP",
@@ -205,7 +205,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "SP",
 			"9": "SP",
 			"10": "SP",
-			"A": "SP",
+			A: "SP",
 		},
 		"A, 2": {
 			"2": "H",
@@ -217,7 +217,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"A, 3": {
 			"2": "H",
@@ -229,7 +229,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"A, 4": {
 			"2": "H",
@@ -241,7 +241,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"A, 5": {
 			"2": "H",
@@ -253,7 +253,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"A, 6": {
 			"2": "H",
@@ -265,7 +265,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"A, 7": {
 			"2": "S",
@@ -277,7 +277,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "S",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"A, 8": {
 			"2": "S",
@@ -289,7 +289,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "S",
 			"9": "S",
 			"10": "S",
-			"A": "S",
+			A: "S",
 		},
 		"A, 9": {
 			"2": "S",
@@ -301,7 +301,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "S",
 			"9": "S",
 			"10": "S",
-			"A": "S",
+			A: "S",
 		},
 		"A, 10": {
 			"2": "S",
@@ -313,7 +313,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "S",
 			"9": "S",
 			"10": "S",
-			"A": "S",
+			A: "S",
 		},
 		"5": {
 			"2": "H",
@@ -325,7 +325,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"6": {
 			"2": "H",
@@ -337,7 +337,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"7": {
 			"2": "H",
@@ -349,7 +349,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"8": {
 			"2": "H",
@@ -361,7 +361,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"9": {
 			"2": "H",
@@ -373,7 +373,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"10": {
 			"2": "D",
@@ -385,7 +385,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "D",
 			"9": "D",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"11": {
 			"2": "D",
@@ -397,7 +397,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "D",
 			"9": "D",
 			"10": "D",
-			"A": "H",
+			A: "H",
 		},
 		"12": {
 			"2": "H",
@@ -409,7 +409,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"13": {
 			"2": "S",
@@ -421,7 +421,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"14": {
 			"2": "S",
@@ -433,7 +433,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"15": {
 			"2": "S",
@@ -445,7 +445,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"16": {
 			"2": "S",
@@ -457,7 +457,7 @@ function getAction(player_cards, dealer_card) {
 			"8": "H",
 			"9": "H",
 			"10": "H",
-			"A": "H",
+			A: "H",
 		},
 		"17": {
 			"2": "S",
@@ -469,9 +469,9 @@ function getAction(player_cards, dealer_card) {
 			"8": "S",
 			"9": "S",
 			"10": "S",
-			"A": "S",
+			A: "S",
 		},
-	}
+	};
 
 	return action_table[player_cards][dealer_card];
 }

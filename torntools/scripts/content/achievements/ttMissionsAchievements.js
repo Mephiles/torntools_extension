@@ -9,148 +9,138 @@ requireDatabase().then(() => {
 			return;
 
 		// object of all the achievements on this page
-		let achievements = {
+		const achievements = {
 			"Attacks won": {
-				"stats": personalstats.attackswon,
-				"keyword": "attacks",
-				"incl": ["win"]
+				stats: personalstats.attackswon,
+				keyword: "attacks",
+				incl: ["win"],
 			},
 			"Defends won": {
-				"stats": personalstats.defendswon,
-				"keyword": "defend",
-				"excl": ["achieve", "someone", "and"]
+				stats: personalstats.defendswon,
+				keyword: "defend",
+				excl: ["achieve", "someone", "and"],
 			},
-			"Assists": {
-				"stats": personalstats.attacksassisted,
-				"keyword": "assist",
-				"incl": ["attacks"],
-				"goals": [1]
+			Assists: {
+				stats: personalstats.attacksassisted,
+				keyword: "assist",
+				incl: ["attacks"],
+				goals: [1],
 			},
-			"Stealthed": {
-				"stats": personalstats.attacksstealthed,
-				"keyword": "stealthed attacks"
+			Stealthed: {
+				stats: personalstats.attacksstealthed,
+				keyword: "stealthed attacks",
 			},
-			"Stalemates": {
-				"stats": personalstats.defendsstalemated,
-				"keyword": "stalemate"
+			Stalemates: {
+				stats: personalstats.defendsstalemated,
+				keyword: "stalemate",
 			},
-			"Escapes": {
-				"stats": personalstats.yourunaway,
-				"keyword": "escape",
-				"incl": ["successfully", "foes"]
+			Escapes: {
+				stats: personalstats.yourunaway,
+				keyword: "escape",
+				incl: ["successfully", "foes"],
 			},
 			"Unarmored wins": {
-				"stats": personalstats.unarmoredwon,
-				"keyword": "unarmored"
+				stats: personalstats.unarmoredwon,
+				keyword: "unarmored",
 			},
 			"Current killstreak": {
-				"stats": personalstats.killstreak,
-				"keyword": "",
-				"extra": "###"
+				stats: personalstats.killstreak,
+				keyword: "",
+				extra: "###",
 			},
 			"Best streak": {
-				"stats": personalstats.bestkillstreak,
-				"keyword": "streak",
-				"excl": ["high-low"]
+				stats: personalstats.bestkillstreak,
+				keyword: "streak",
+				excl: ["high-low"],
 			},
 			"Total hits": {
-				"stats": personalstats.attackhits,
-				"keyword": "hits",
-				"excl": ["critical", "finishing"]
+				stats: personalstats.attackhits,
+				keyword: "hits",
+				excl: ["critical", "finishing"],
 			},
 			"Critical hits": {
-				"stats": personalstats.attackcriticalhits,
-				"keyword": "critical"
+				stats: personalstats.attackcriticalhits,
+				keyword: "critical",
 			},
 			"Best damage": {
-				"stats": personalstats.bestdamage,
-				"keyword": "damage",
-				"incl": ["deal at least"]
+				stats: personalstats.bestdamage,
+				keyword: "damage",
+				incl: ["deal at least"],
 			},
 			"One hit kills": {
-				"stats": personalstats.onehitkills,
-				"keyword": "one hit",
-				"incl": ["kills"]
+				stats: personalstats.onehitkills,
+				keyword: "one hit",
+				incl: ["kills"],
 			},
 			"Rounds fired": {
-				"stats": personalstats.roundsfired,
-				"keyword": "rounds",
-				"incl": ["fire"]
+				stats: personalstats.roundsfired,
+				keyword: "rounds",
+				incl: ["fire"],
 			},
 			"Clubbing hits": {
-				"stats": personalstats.axehits,
-				"keyword": "clubbing"
+				stats: personalstats.axehits,
+				keyword: "clubbing",
 			},
 			"Pistol hits": {
-				"stats": personalstats.pishits,
-				"keyword": "pistols"
+				stats: personalstats.pishits,
+				keyword: "pistols",
 			},
 			"Rifle hits": {
-				"stats": personalstats.rifhits,
-				"keyword": "rifles"
+				stats: personalstats.rifhits,
+				keyword: "rifles",
 			},
 			"Shotgun hits": {
-				"stats": personalstats.shohits,
-				"keyword": "shotguns"
+				stats: personalstats.shohits,
+				keyword: "shotguns",
 			},
 			"Piercing hits": {
-				"stats": personalstats.piehits,
-				"keyword": "piercing"
+				stats: personalstats.piehits,
+				keyword: "piercing",
 			},
 			"Slashing hits": {
-				"stats": personalstats.slahits,
-				"keyword": "slashing"
+				stats: personalstats.slahits,
+				keyword: "slashing",
 			},
 			"Heavy hits": {
-				"stats": personalstats.heahits,
-				"keyword": "heavy artillery"
+				stats: personalstats.heahits,
+				keyword: "heavy artillery",
 			},
 			"SMG hits": {
-				"stats": personalstats.smghits,
-				"keyword": "smgs"
+				stats: personalstats.smghits,
+				keyword: "smgs",
 			},
 			"Machine gun hits": {
-				"stats": personalstats.machits,
-				"keyword": "machine guns",
-				"incl": ["guns"]
+				stats: personalstats.machits,
+				keyword: "machine guns",
+				incl: ["guns"],
 			},
 			"Fists or kick hits": {
-				"stats": personalstats.h2hhits,
-				"keyword": "fists or kick"
+				stats: personalstats.h2hhits,
+				keyword: "fists or kick",
 			},
 			"Mechanical hits": {
-				"stats": personalstats.chahits,
-				"keyword": "mechanical weapons"
+				stats: personalstats.chahits,
+				keyword: "mechanical weapons",
 			},
 			"Temporary hits": {
-				"stats": personalstats.grehits,
-				"keyword": "temporary weapons"
+				stats: personalstats.grehits,
+				keyword: "temporary weapons",
 			},
 			"Largest mug": {
-				"stats": personalstats.largestmug,
-				"keyword": "mugging",
-				"incl": ["make", "single"]
+				stats: personalstats.largestmug,
+				keyword: "mugging",
+				incl: ["make", "single"],
 			},
 			"Mission credits": {
-				"stats": personalstats.missioncreditsearned,
-				"keyword": "credits",
-				"incl": ["mission"]
+				stats: personalstats.missioncreditsearned,
+				keyword: "credits",
+				incl: ["mission"],
 			},
-			"Contracts": {
-				"stats": personalstats.contractscompleted,
-				"keyword": "contracts"
+			Contracts: {
+				stats: personalstats.contractscompleted,
+				keyword: "contracts",
 			},
-			"Bounties collected": {
-				"stats": personalstats.bountiescollected,
-				"keyword": "bounties",
-				"incl": ["collect"]
-			},
-			"Bounties collected (money)": {
-				"stats": personalstats.totalbountyreward,
-				"keyword": "bounty",
-				"incl": ["earn", "hunting"]
-			}
-		}
+		};
 
 		displayAchievements(achievements, show_completed);
 	});

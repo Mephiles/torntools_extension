@@ -27,7 +27,7 @@ requireDatabase().then(() => {
 function messageBoxLoaded() {
 	return new Promise((resolve) => {
 		let checker = setInterval(() => {
-			console.log("checking")
+			console.log("checking");
 			if (
 				window.location.hash.indexOf("compose") > -1 && doc.find(".mailbox-container form>div") &&
 				((doc.find("#mailcompose_ifr") && doc.find("#mailcompose_ifr").contentWindow.document.querySelector("#tinymce")) || doc.find("#mailcompose"))) {
@@ -46,9 +46,9 @@ function massMessages(mass_messages) {
 			index: 0,
 			message: "",
 			subject: "",
-			list: mass_messages.list
-		}
-		ttStorage.change({ "mass_messages": mass_messages });
+			list: mass_messages.list,
+		};
+		ttStorage.change({ mass_messages });
 	}
 
 	// Setup namelist
@@ -67,7 +67,7 @@ function massMessages(mass_messages) {
 
 			mass_messages.list.splice(mass_messages.list.indexOf(name), 1);
 			// Update list
-			ttStorage.change({ "mass_messages": { "list": mass_messages.list } });
+			ttStorage.change({ mass_messages: { list: mass_messages.list } });
 		});
 	}
 
@@ -75,9 +75,9 @@ function massMessages(mass_messages) {
 	let input = doc.new({
 		type: "input",
 		attributes: {
-			"type": "text",
-			"placeholder": "Add.."
-		}
+			type: "text",
+			placeholder: "Add..",
+		},
 	});
 	let add_icon = doc.new({ type: "i", class: "fas fa-plus", id: "tt_add_name" });
 
@@ -104,7 +104,7 @@ function massMessages(mass_messages) {
 
 			mass_messages.list.splice(mass_messages.list.indexOf(name), 1);
 			// Update list
-			ttStorage.change({ "mass_messages": { "list": mass_messages.list } });
+			ttStorage.change({ mass_messages: { list: mass_messages.list } });
 		});
 
 		row.appendChild(remove_icon);
@@ -119,7 +119,7 @@ function massMessages(mass_messages) {
 		console.log("NAMES", mass_messages.list);
 
 		// Save list
-		ttStorage.change({ "mass_messages": { "list": mass_messages.list } })
+		ttStorage.change({ mass_messages: { list: mass_messages.list } });
 	});
 
 	// Setup BUTTONS
@@ -128,7 +128,7 @@ function massMessages(mass_messages) {
 	let span = doc.new({
 		type: "span",
 		text: mass_messages.active ? "Enabled" : "Disabled",
-		class: mass_messages.active ? "enabled" : "disabled"
+		class: mass_messages.active ? "enabled" : "disabled",
 	});
 
 	active_button.appendChild(span);
@@ -137,14 +137,14 @@ function massMessages(mass_messages) {
 	// How many left
 	if (mass_messages.active) {
 		let span = doc.new({ type: "span", text: `${mass_messages.list.length - mass_messages.index} letter(s) left`, id: "ttMassMessagesNote" });
-		doc.find(".mailbox-container form>div").appendChild(span);
+		doc.find(".mailbox-container form > div").appendChild(span);
 	}
 
 	// Clear all button
 	let clear_all = doc.new({ type: "div", id: "tt-clear-all", text: "Clear List" });
 	doc.find(".mailbox-container form>div").appendChild(clear_all);
 	clear_all.addEventListener("click", () => {
-		ttStorage.change({ "mass_messages": { "list": [] } }, () => {
+		ttStorage.change({ mass_messages: { list: [] } }, () => {
 			mass_messages.list = [];
 			for (let item of doc.findAll("#ttNameList div:not(.input)")) {
 				item.remove();
@@ -182,12 +182,12 @@ function massMessages(mass_messages) {
 		let message = message_box.contentWindow ? message_box.contentWindow.document.querySelector("#tinymce").innerText : message_box.value;
 
 		ttStorage.change({
-			"mass_messages": {
-				"index": mass_messages.index + 1,
-				"message": message,
-				"active": true,
-				"subject": subject
-			}
+			mass_messages: {
+				index: mass_messages.index + 1,
+				message: message,
+				active: true,
+				subject: subject,
+			},
 		});
 	});
 
@@ -204,12 +204,12 @@ function massMessages(mass_messages) {
 				doc.find("#ttMassMessagesNote").style.display = "none";
 
 				ttStorage.change({
-					"mass_messages": {
-						"index": 0,
-						"message": "",
-						"active": false,
-						"subject": ""
-					}
+					mass_messages: {
+						index: 0,
+						message: "",
+						active: false,
+						subject: "",
+					},
 				});
 
 			} else {
@@ -239,12 +239,12 @@ function massMessages(mass_messages) {
 				doc.find("#ttMassMessagesNote").style.display = "none";
 
 				ttStorage.change({
-					"mass_messages": {
-						"index": 0,
-						"message": "",
-						"active": false,
-						"subject": ""
-					}
+					mass_messages: {
+						index: 0,
+						message: "",
+						active: false,
+						subject: "",
+					},
 				});
 			} else {
 				console.log("ENABLED");

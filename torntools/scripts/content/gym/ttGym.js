@@ -1,8 +1,8 @@
 const GYM_SELECTORS = {
-	"strength": "strength___1GeGr",
-	"speed": "speed___1o1b_",
-	"defense": "defense___311kR",
-	"dexterity": "dexterity___1YdUM",
+	strength: "strength___1GeGr",
+	speed: "speed___1o1b_",
+	defense: "defense___311kR",
+	dexterity: "dexterity___1YdUM",
 };
 
 const STATS = {};
@@ -12,7 +12,7 @@ requireDatabase().then(() => {
 		addFetchListener((event) => {
 			if (!event.detail) return;
 			const { page, json, fetch } = event.detail;
-			if (page !== "gym" || !json) return
+			if (page !== "gym" || !json) return;
 
 			const params = new URL(fetch.url).searchParams;
 			const step = params.get("step");
@@ -29,7 +29,7 @@ requireDatabase().then(() => {
 				case "train":
 					if (!json.success) break;
 
-					STATS[json.stat.name] = parseInt(json.stat.newValue.replaceAll(",", ""))
+					STATS[json.stat.name] = parseInt(json.stat.newValue.replaceAll(",", ""));
 					setupSpecialtyGym();
 					break;
 			}
@@ -93,22 +93,15 @@ requireDatabase().then(() => {
 });
 
 function gymLoaded() {
-	return new Promise(resolve => {
-		let checker = setInterval(() => {
-			if (doc.find(".gymButton___3OFdI")) {
-				resolve(true);
-				return clearInterval(checker);
-			}
-		});
-	});
+	return requireElement(".gymButton___3OFdI, .jail .button___3AlDV");
 }
 
 function showProgress() {
 	let gym_goals = [
 		200, 500, 1000, 2000, 2750, 3000, 3500, 4000,
 		6000, 7000, 8000, 11000, 12420, 18000, 18100, 24140,
-		31260, 36610, 46640, 56520, 67775, 84535, 106305
-	]
+		31260, 36610, 46640, 56520, 67775, 84535, 106305,
+	];
 
 	let in_prog_gym = doc.find(".gymButton___3OFdI.inProgress___1Nd26");
 	if (!in_prog_gym) return;
@@ -137,7 +130,7 @@ function displayGraph() {
 	const graph_area = doc.new({ type: "div", class: "tt-graph-area" });
 	container.appendChild(graph_area);
 
-	fetchApi_v2('tornstats', { section: 'api.php', action: 'getStatGraph', from: ((new Date() - 2 * 24 * 60 * 60 * 1000) / 1000).toFixed(0) })
+	fetchApi_v2("tornstats", { section: "api.php", action: "getStatGraph", from: ((new Date() - 2 * 24 * 60 * 60 * 1000) / 1000).toFixed(0) })
 		.then(result => {
 			let w = mobile ? "312" : "784";
 			let h = mobile ? "200" : "250";
@@ -160,7 +153,7 @@ function displayGraph() {
 							fill: false,
 							pointRadius: 0,
 							pointBackgroundColor: "#3366CC",
-							pointHoverRadius: 5
+							pointHoverRadius: 5,
 						},
 						{
 							label: "Defense",
@@ -169,7 +162,7 @@ function displayGraph() {
 							fill: false,
 							pointRadius: 0,
 							pointBackgroundColor: "#DC3912",
-							pointHoverRadius: 5
+							pointHoverRadius: 5,
 						},
 						{
 							label: "Speed",
@@ -178,7 +171,7 @@ function displayGraph() {
 							fill: false,
 							pointRadius: 0,
 							pointBackgroundColor: "#FF9901",
-							pointHoverRadius: 5
+							pointHoverRadius: 5,
 						},
 						{
 							label: "Dexterity",
@@ -187,7 +180,7 @@ function displayGraph() {
 							fill: false,
 							pointRadius: 0,
 							pointBackgroundColor: "#109618",
-							pointHoverRadius: 5
+							pointHoverRadius: 5,
 						},
 						{
 							label: "Total",
@@ -197,24 +190,24 @@ function displayGraph() {
 							pointRadius: 0,
 							pointBackgroundColor: "#990199",
 							pointHoverRadius: 5,
-							hidden: true
-						}
-					]
+							hidden: true,
+						},
+					],
 				},
 				options: {
 					scales: {
 						yAxes: [{
 							ticks: {
 								step: 2000000,
-								callback: value => numberWithCommas(value, mobile)
+								callback: value => numberWithCommas(value, mobile),
 							},
-						}]
+						}],
 					},
 					legend: {
 						position: mobile ? "bottom" : "right",
 						labels: {
-							boxWidth: 13
-						}
+							boxWidth: 13,
+						},
 					},
 					tooltips: {
 						intersect: false,
@@ -222,14 +215,14 @@ function displayGraph() {
 						// enabled: true,
 						// mode: "y",
 						callbacks: {
-							label: (tooltipItem, data) => `${data.datasets[tooltipItem.datasetIndex].label}: ${numberWithCommas(tooltipItem.yLabel, false)}`
-						}
+							label: (tooltipItem, data) => `${data.datasets[tooltipItem.datasetIndex].label}: ${numberWithCommas(tooltipItem.yLabel, false)}`,
+						},
 					},
 					hover: {
 						intersect: false,
-						mode: "index"
-					}
-				}
+						mode: "index",
+					},
+				},
 			});
 
 			// Update TornStats button
@@ -243,15 +236,15 @@ function displayGraph() {
 				const response_div = doc.new({ type: "div", class: "response-message" });
 				graph_area.appendChild(response_div);
 
-				fetchApi_v2('tornstats', { section: 'api.php', action: 'recordStats' })
+				fetchApi_v2("tornstats", { section: "api.php", action: "recordStats" })
 					.then(result => {
 						console.log("result", result);
 
 						response_div.classList.add("success");
 						response_div.innerText = result.message;
 
-						let gains = []
-						let update_message = `You have gained `
+						let gains = [];
+						let update_message = `You have gained `;
 
 						if (result.deltaStrength !== 0) {
 							gains.push(`${numberWithCommas(result.deltaStrength, false)} Strength`);
@@ -267,7 +260,7 @@ function displayGraph() {
 						}
 
 						update_message += gains.join(", ") + ` since your last update ${result.age}.`;
-						if (gains.length === 0) update_message = `You have not gained any stats since your last update ${result.age}.`
+						if (gains.length === 0) update_message = `You have not gained any stats since your last update ${result.age}.`;
 
 						let info_div = doc.new({ type: "div", class: "tt-info-message", text: update_message });
 						graph_area.appendChild(info_div);
@@ -277,7 +270,7 @@ function displayGraph() {
 
 						response_div.classList.add("failure");
 						response_div.innerText = result.error;
-					})
+					});
 			});
 		})
 		.catch(err => {
@@ -290,7 +283,7 @@ function displayGraph() {
 
 			const div = doc.new({ type: "div", text: text || err.error, class: "tt-error-message" });
 			graph_area.appendChild(div);
-		})
+		});
 }
 
 function disableGyms() {
@@ -301,19 +294,19 @@ function disableGyms() {
 		let checkbox = doc.new({ type: "input", class: "tt-gym-stat-checkbox", attributes: { type: "checkbox" } });
 		checkbox.checked = settings.pages.gym[`disable_${stat}`];
 
-		if (settings.pages.gym[`disable_${stat}`] && !doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.contains("locked___r074J")) {
-			doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.add("tt-gym-locked");
+		if (settings.pages.gym[`disable_${stat}`] && !doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]}`).classList.contains("locked___r074J")) {
+			doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]}`).classList.add("tt-gym-locked");
 		}
 
-		doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).appendChild(checkbox);
+		doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]}`).appendChild(checkbox);
 
 		checkbox.onclick = () => {
-			if (!doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked") && checkbox.checked) {
+			if (!doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked") && checkbox.checked) {
 				disableGymButton([stat], true);
 			} else if (!checkbox.checked) {
 				disableGymButton([stat], false);
 			}
-		}
+		};
 	}
 
 	if (settings.pages.gym.disable_strength && settings.pages.gym.disable_speed && settings.pages.gym.disable_dexterity && settings.pages.gym.disable_defense) {
@@ -325,13 +318,13 @@ function disableGyms() {
 function disableGymButton(types, disable) {
 	for (let stat of types) {
 		if (disable) {
-			if (!doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked")) {
-				doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.add("tt-gym-locked");
-				doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = true;
+			if (!doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked")) {
+				doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]}`).classList.add("tt-gym-locked");
+				doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = true;
 			}
 		} else {
-			doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]}`).classList.remove("tt-gym-locked");
-			doc.find(`ul.properties___Vhhr7>li.${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = false;
+			doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]}`).classList.remove("tt-gym-locked");
+			doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = false;
 		}
 
 	}
@@ -341,7 +334,7 @@ function disableGymButton(types, disable) {
 			settings.pages.gym[`disable_${stat}`] = disable;
 		}
 
-		ttStorage.set({ "settings": settings });
+		ttStorage.set({ settings: settings });
 	});
 }
 
@@ -367,16 +360,18 @@ function setupSpecialtyGym() {
 			id,
 		});
 
-		const selector = doc.new("select");
-		selector.innerHTML = `
+		const selector = doc.new({
+			type: "select",
+			value: settings.pages.gym[id.replaceAll("-", "_")] || "balboas",
+			html: `
                 <option value="balboas">Balboas Gym (def/dex)</option>
                 <option value="frontline">Frontline Fitness (str/spd)</option>
                 <option value="gym3000">Gym 3000 (str)</option>
                 <option value="isoyamas">Mr. Isoyamas (def)</option>
                 <option value="rebound">Total Rebound (spd)</option>
                 <option value="elites">Elites (dex)</option>
-            `;
-		selector.value = settings.pages.gym[id.replaceAll("-", "_")] || "balboas";
+            `,
+		});
 
 		const text = doc.new({
 			type: "p",
@@ -392,10 +387,10 @@ function setupSpecialtyGym() {
 					pages: {
 						gym: {
 							[id.replaceAll("-", "_")]: event.target.value,
-						}
-					}
-				}
-			})
+						},
+					},
+				},
+			});
 		});
 
 		row.appendChild(selector);
@@ -422,24 +417,24 @@ function setupSpecialtyGym() {
 		let primaryStats = {};
 		let secondaryStats = {};
 		for (const stat in STATS) {
-			if (SPECIALITY_GYMS[gym].includes(stat)) primaryStats[stat] = STATS[stat]
-			else secondaryStats[stat] = STATS[stat]
+			if (SPECIALITY_GYMS[gym].includes(stat)) primaryStats[stat] = STATS[stat];
+			else secondaryStats[stat] = STATS[stat];
 		}
 
 		if (Object.keys(primaryStats).length > 1) {
-			const primary = Object.values(primaryStats).reduce((a, b) => a + b)
-			const secondary = Object.values(secondaryStats).reduce((a, b) => a + b)
+			const primary = Object.values(primaryStats).reduce((a, b) => a + b);
+			const secondary = Object.values(secondaryStats).reduce((a, b) => a + b);
 
 			if (primary >= 1.25 * secondary)
-				return `Gain no more than ${numberWithCommas((primary / 1.25) - secondary, false, FORMATTER_NO_DECIMALS)} ${Object.keys(STATS).filter(s => !SPECIALITY_GYMS[gym].includes(s)).join(' and ')}.`
-			else return `Gain ${numberWithCommas((secondary * 1.25) - primary, false, FORMATTER_NO_DECIMALS)} ${SPECIALITY_GYMS[gym].join(' and ')}.`
+				return `Gain no more than ${numberWithCommas((primary / 1.25) - secondary, false, FORMATTER_NO_DECIMALS)} ${Object.keys(STATS).filter(s => !SPECIALITY_GYMS[gym].includes(s)).join(" and ")}.`;
+			else return `Gain ${numberWithCommas((secondary * 1.25) - primary, false, FORMATTER_NO_DECIMALS)} ${SPECIALITY_GYMS[gym].join(" and ")}.`;
 		} else {
-			const primary = parseInt(primaryStats[SPECIALITY_GYMS[gym][0]])
-			let secondary = Object.values(secondaryStats).reduce((a, b) => Math.max(a, b))
+			const primary = parseInt(primaryStats[SPECIALITY_GYMS[gym][0]]);
+			let secondary = Object.values(secondaryStats).reduce((a, b) => Math.max(a, b));
 
 			if (primary >= 1.25 * secondary)
-				return `Gain no more than ${numberWithCommas((primary / 1.25) - secondary, false, FORMATTER_NO_DECIMALS)} ${Object.entries(secondaryStats).filter(a => a[1] === secondary)[0][0]}.`
-			else return `Gain ${numberWithCommas((secondary * 1.25) - primary, false, FORMATTER_NO_DECIMALS)} ${SPECIALITY_GYMS[gym][0]}.`
+				return `Gain no more than ${numberWithCommas((primary / 1.25) - secondary, false, FORMATTER_NO_DECIMALS)} ${Object.entries(secondaryStats).filter(a => a[1] === secondary)[0][0]}.`;
+			else return `Gain ${numberWithCommas((secondary * 1.25) - primary, false, FORMATTER_NO_DECIMALS)} ${SPECIALITY_GYMS[gym][0]}.`;
 		}
 	}
 }

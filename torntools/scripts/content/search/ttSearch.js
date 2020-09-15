@@ -31,21 +31,14 @@ requireDatabase().then(() => {
 });
 
 function searchLoaded() {
-	return new Promise((resolve) => {
-		let checker = setInterval(() => {
-			if (doc.find("ul.user-info-list-wrap li:not(.last)")) {
-				resolve(true);
-				return clearInterval(checker);
-			}
-		}, 100);
-	});
+	return requireElement("ul.user-info-list-wrap li:not(.last)");
 }
 
 function massMessages(theme) {
 	let container = content.newContainer("Search", {
 		first: true,
 		theme: theme,
-		id: "ttSearchContainer"
+		id: "ttSearchContainer",
 	}).find(".content");
 
 	let add_all_to_list = doc.new({ type: "div", id: "tt-add-all-to-mm-list", text: "Add all to List" });
@@ -62,7 +55,7 @@ function massMessages(theme) {
 		console.log("LIST", list);
 		ttStorage.get("mass_messages", mass_messages => {
 			mass_messages.list = [...mass_messages.list, ...list];
-			ttStorage.set({ "mass_messages": mass_messages });
+			ttStorage.set({ mass_messages });
 		});
 	});
 }
@@ -71,8 +64,9 @@ function addFilterToTable(list, title) {
 	let filter_container = content.newContainer("Filters", {
 		id: "tt-player-filter",
 		class: "filter-container",
-		next_element: title
+		next_element: title,
 	}).find(".content");
+
 	filter_container.innerHTML = `
         <div class="filter-header">
             <div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> users</div>
@@ -88,7 +82,7 @@ function addFilterToTable(list, title) {
             </div>
 			<div class='filter-wrap' id='special-filter'>
 				<div class='filter-heading'>Special</div>
-				<div class='filter-multi-wrap ${mobile ? 'tt-mobile' : ''}'>
+				<div class='filter-multi-wrap ${mobile ? "tt-mobile" : ""}'>
 					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='isfedded-yes'>N:<input type='checkbox' value='isfedded-no'>Fedded</div>
 					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='traveling-yes'>N:<input type='checkbox' value='traveling-no'>Traveling</div>
 					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='newplayer-yes'>N:<input type='checkbox' value='newplayer-no'>New Player</div>
@@ -142,13 +136,13 @@ function addFilterToTable(list, title) {
 	// Special
 	for (let key in filters.user_list.special) {
 		switch (filters.user_list.special[key]) {
-			case 'yes':
+			case "yes":
 				filter_container.find(`#special-filter input[value='${key}-yes']`).checked = true;
 				break;
-			case 'no':
+			case "no":
 				filter_container.find(`#special-filter input[value='${key}-no']`).checked = true;
 				break;
-			case 'both':
+			case "both":
 				filter_container.find(`#special-filter input[value='${key}-yes']`).checked = true;
 				filter_container.find(`#special-filter input[value='${key}-no']`).checked = true;
 				break;
@@ -160,21 +154,18 @@ function addFilterToTable(list, title) {
 	}
 
 	// Level slider
-	let level_slider = filter_container.find('#tt-level-filter');
+	let level_slider = filter_container.find("#tt-level-filter");
 	noUiSlider.create(level_slider, {
 		start: [level_start, level_end],
 		step: 1,
 		connect: true,
-		range: {
-			'min': 0,
-			'max': 100
-		}
+		range: { min: 0, max: 100 },
 	});
 
 	let level_slider_info = level_slider.nextElementSibling;
-	level_slider.noUiSlider.on('update', values => {
+	level_slider.noUiSlider.on("update", values => {
 		values = values.map(x => parseInt(x));
-		level_slider_info.innerHTML = `Level: ${values.join(' - ')}`;
+		level_slider_info.innerHTML = `Level: ${values.join(" - ")}`;
 	});
 
 	// Event listeners
@@ -222,11 +213,11 @@ function addFilterToTable(list, title) {
 	applyFilters();
 
 	function applyFilters() {
-		let activity = []
-		let special = {}
+		let activity = [];
+		let special = {};
 		// let faction = ``;
 		// let time = []
-		let level = []
+		let level = [];
 
 		// Activity
 		for (let checkbox of doc.findAll("#activity-filter .tt-checkbox-wrap input:checked")) {
@@ -235,13 +226,13 @@ function addFilterToTable(list, title) {
 		// Special
 		for (let key in filters.user_list.special) {
 			if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked && doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked) {
-				special[key] = 'both';
+				special[key] = "both";
 			} else if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked) {
-				special[key] = 'yes';
+				special[key] = "yes";
 			} else if (doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked) {
-				special[key] = 'no';
+				special[key] = "no";
 			} else {
-				special[key] = 'both';
+				special[key] = "both";
 			}
 		}
 		// Faction
@@ -292,9 +283,9 @@ function addFilterToTable(list, title) {
 			// Special
 			for (let key in special) {
 				console.log(key, special[key]);
-				if (special[key] === 'both') continue;
+				if (special[key] === "both") continue;
 
-				if (special[key] === 'yes') {
+				if (special[key] === "yes") {
 					let matchesOneIcon = false;
 					for (let icon of SPECIAL_FILTER_DICT[key]) {
 						if (li.querySelector(`li[id^='${icon}']`)) {
@@ -306,7 +297,7 @@ function addFilterToTable(list, title) {
 					if (!matchesOneIcon) {
 						showRow(li, false);
 					}
-				} else if (special[key] === 'no') {
+				} else if (special[key] === "no") {
 					let matchesOneIcon = false;
 					for (let icon of SPECIAL_FILTER_DICT[key]) {
 						if (li.querySelector(`li[id^='${icon}']`)) {
@@ -322,17 +313,7 @@ function addFilterToTable(list, title) {
 			}
 		}
 
-		ttStorage.change({
-			"filters": {
-				"user_list": {
-					activity: activity,
-					// faction: faction,
-					// time: time,
-					special: special,
-					level: level
-				}
-			}
-		});
+		ttStorage.change({ filters: { user_list: { activity, special, level } } });
 
 		updateStatistics();
 	}
@@ -361,7 +342,8 @@ function showStatsEstimates() {
 
 	estimateStatsInList("ul.user-info-list-wrap > li:not(.last)", (row) => {
 		return {
-			userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1]
+			userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1],
+			level: parseInt(row.find(".level .value").innerText),
 		};
 	});
 }

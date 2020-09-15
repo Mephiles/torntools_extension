@@ -23,7 +23,7 @@ requireDatabase().then(() => {
 					triangle_div.style.borderTop = "8px solid #de0000";
 				} else if (buy_price < market_price) {
 					span.style.color = "#00a500";
-					triangle_div.style.borderBottom = "8px solid #00a500"
+					triangle_div.style.borderBottom = "8px solid #00a500";
 				}
 
 				span.appendChild(triangle_div);
@@ -53,12 +53,5 @@ requireDatabase().then(() => {
 });
 
 function shopLoaded() {
-	return new Promise((resolve) => {
-		let checker = setInterval(() => {
-			if (doc.find("span.item")) {
-				resolve(true);
-				return clearInterval(checker);
-			}
-		}, 100);
-	});
+	return requireElement("span.item");
 }
