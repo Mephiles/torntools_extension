@@ -879,7 +879,7 @@ async function showUserInfo() {
 	estimateStatsInList(".users-list > li", (row) => {
 		return {
 			userId: row.find("a.user.name").getAttribute("data-placeholder") ? row.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : row.find("a.user.name").getAttribute("href").split("XID=")[1],
-			level: parseInt(row.find(".level").innerText) || 0, // FIXME - Get level.
+			level: parseInt(row.find(".level").innerText.split("\n")[1]) || 0,
 		};
 	});
 }

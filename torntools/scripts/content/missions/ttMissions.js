@@ -156,7 +156,7 @@ const MISSIONS = {
 		task: "Hit (P) with a brick.",
 		hint: "If the brick misses, you will have to retry this mission. Could get a friend to throw a smoke so the chance of the brick hitting is greater.",
 	},
-	"Rolling in It": {
+	"Rolling in it": {
 		task: "Mug (P).",
 		hint: "Must be a successful mug. If target was recently mugged, I suggest sending $1,000 to the target, then mugging.",
 	},
@@ -309,7 +309,7 @@ function showMissionInformation() {
 			hint = miss.hint;
 		} else {
 			task = "Couldn't find information for this mission.";
-			hint = "Contact the developers.";
+			hint = "Contact the TornTools developers.";
 		}
 
 		let children = [doc.new({ type: "span", html: `<b>Task:</b> ${task}` })];

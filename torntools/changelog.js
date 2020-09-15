@@ -7,10 +7,12 @@ export default {
 			"Don't cache stats estimates if they are disabled on profiles. - DKK",
 			"Fix settings messages. - DKK",
 			"Fix target table when there are no targets. - DKK",
+			"Fix 'Rolling in it' mission hint. - DKK",
 		],
 		"Changes": [
 			"Improve stats estimates caching. - DKK",
 			"Add an option to only show stats estimates under a certain level. - DKK",
+			"Improve missing mission information message. - DKK",
 		],
 	},
 	"v5.0.1 - September, 11th. 2020": {
