@@ -306,7 +306,7 @@ function showMissionInformation() {
 			hint = miss.hint;
 		} else {
 			task = "Couldn't find information for this mission.";
-			hint = "Contact the developers.";
+			hint = "Contact the TornTools developers.";
 		}
 
 		let children = [doc.new({ type: "span", html: `<b>Task:</b> ${task}` })];
