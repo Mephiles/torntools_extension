@@ -146,14 +146,18 @@ function loadArmory() {
 
 function loadControls() {
 	const btnGiveToUser = doc.find(".control-tabs > li[aria-controls='option-give-to-user']");
-	btnGiveToUser.addEventListener("click", () => {
-		if (doc.find(".control-tabs > li[aria-controls='option-give-to-user']").getAttribute("aria-selected")) {
+
+	if (btnGiveToUser) {
+		btnGiveToUser.addEventListener("click", () => {
+			if (doc.find(".control-tabs > li[aria-controls='option-give-to-user']").getAttribute("aria-selected")) {
+				loadGiveToUser();
+			}
+		});
+		if (btnGiveToUser.getAttribute("aria-selected")) {
 			loadGiveToUser();
 		}
-	});
-	if (doc.find(".control-tabs > li[aria-controls='option-give-to-user']").getAttribute("aria-selected")) {
-		loadGiveToUser();
 	}
+
 }
 
 function loadGiveToUser() {
