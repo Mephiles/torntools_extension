@@ -1274,13 +1274,17 @@ async function detectExtension(browserName, ext) {
 
 	if (information.id) {
 		return new Promise(resolve => {
-			chrome.management.get(information.id, result => {
-				if (result && result.enabled === true) {
-					resolve(true);
-				} else {
-					resolve(false);
-				}
-			});
+			try {
+				chrome.management.get(information.id, result => {
+					if (result && result.enabled === true) {
+						resolve(true);
+					} else {
+						resolve(false);
+					}
+				});
+			} catch (e) {
+				resolve(false);
+			}
 		});
 	} else if (information.name) {
 		const getAll = chrome.management.getAll;
