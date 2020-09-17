@@ -2,6 +2,7 @@ export default {
 	"v5.1": {
 		"Features": [
 			"Remove zalgo text from chat. - DKK",
+			"Add specials info on company pages. - Mephiles",
 		],
 		"Fixes": [
 			"Don't cache stats estimates if they are disabled on profiles. - DKK",
