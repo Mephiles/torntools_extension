@@ -12,6 +12,7 @@ export default {
 			"Fix 'Rolling in it' mission hint. - DKK",
 			"Fix missions for the Anonymous agent. - DKK",
 			"Fix mission hints not showing when changing agents or completing a mission. - DKK",
+			"Fix the demo automatically opening and the markings when changing your api key on the API page. - DKK",
 		],
 		"Changes": [
 			"Improve stats estimates caching. - DKK",
