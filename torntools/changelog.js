@@ -17,6 +17,7 @@ export default {
 			"Improve stats estimates caching. - DKK",
 			"Add an option to only show stats estimates under a certain level. - DKK",
 			"Improve missing mission information message. - DKK",
+			"Add an option to disable extension checking. - DKK",
 		],
 	},
 	"v5.0.1 - September, 11th. 2020": {
