@@ -193,13 +193,15 @@ requireDatabase().then(() => {
 	if (!settings.pages.missions.rewards) return;
 
 	addXHRListener((event) => {
-		const { page, xhr } = event.detail;
+		const { page, xhr, uri } = event.detail;
 		if (page !== "loader") return;
 
 		const params = new URLSearchParams(xhr.requestBody);
-		const sid = params.get("sid");
+		let sid = params.get("sid");
+		if (!sid && uri && uri.sid) sid = uri.sid;
 
 		if (sid === "missionsRewards") missionsLoaded().then(showRewards);
+		else if (sid === "missions") missionsLoaded().then(showMissionInformation);
 	});
 
 	missionsLoaded().then(() => {
