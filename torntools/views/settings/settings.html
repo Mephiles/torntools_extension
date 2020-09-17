@@ -68,6 +68,7 @@
                 <div class="navigation">
                     <div name="general" class="active">General</div>
                     <div name="global">Global</div>
+                    <div name="sidebar">Sidebar</div>
                     <div name="popup">Popup</div>
                     <div name="api">API Page</div>
                     <div name="notifications">Notifications</div>
@@ -116,9 +117,6 @@
                     </div>
                     <div class="section" name="global">
                         <div class="heading">Global</div>
-                        <div class="option" id="global-notes">
-                            <input type="checkbox">Show small Notes box in the Navigation panel
-                        </div>
                         <div class="option" id="global-hide_upgrade">
                             <input type="checkbox">Hide Level Upgrade info
                         </div>
@@ -129,20 +127,9 @@
                             <input type="checkbox">Align Torn to left
                         </div>
                         <div class="note">(fits more open chats)</div>
-                        <div class="option" id="global-vault_balance">
-                            <input type="checkbox">Display Vault balance under "Money" in Torn's Information tab
-                        </div>
-                        <div class="option tabbed" id="global-vault_balance_own">
-                            <input type="checkbox">Display your own vault share
-                        </div>
                         <div class="option" id="global-find_chat">
                             <input type="checkbox">Display 'find' feature for chatboxes
                         </div>
-                        <div class="option" id="global-oc_time">
-                            <input type="checkbox">
-                            Display OC ready time in Information window
-                        </div>
-                        <div class="note tabbed">(requires Faction API access)</div>
                         <div class="option" id="global-block_zalgo">
                             <input type="checkbox">Block Zalgo in chat <span class="new">New!</span>
                         </div>
@@ -158,6 +145,23 @@
                             </div>
                         </div>
                         <div class="note">Placeholders:</div>
+                    </div>
+                    <div class="section" name="sidebar">
+                        <div class="heading">Global</div>
+                        <div class="option" id="global-notes">
+                            <input type="checkbox">Show small Notes box in the Navigation panel
+                        </div>
+                        <div class="option" id="global-vault_balance">
+                            <input type="checkbox">Display Vault balance under "Money" in Torn's Information tab
+                        </div>
+                        <div class="option tabbed" id="global-vault_balance_own">
+                            <input type="checkbox">Display your own vault share
+                        </div>
+                        <div class="option" id="global-oc_time">
+                            <input type="checkbox">
+                            Display OC ready time in Information window
+                        </div>
+                        <div class="note tabbed">(requires Faction API access)</div>
 
                         <div class="heading">Icons</div>
                         <div id="icons"></div>
@@ -188,10 +192,10 @@
                         <div class="table list" id="custom_links">
                             <div class="body">
                                 <div class="row input">
-                                    <input type="checkbox" class="new_tab" checked>
-                                    <select type="text" class="text preset" name="links"></select>
-                                    <input type="text" class="text name" placeholder="Name..">
-                                    <input type="text" class="text href" placeholder="Link..">
+                                    <input checked class="new_tab" type="checkbox">
+                                    <select class="text preset" name="links" type="text"></select>
+                                    <input class="text name" placeholder="Name.." type="text">
+                                    <input class="text href" placeholder="Link.." type="text">
                                     <div class="add-button" id="add_link">Add</div>
                                 </div>
                                 <div class="tabbed note"><span class="arrow">&#8625;</span>(open in new tab)</div>
