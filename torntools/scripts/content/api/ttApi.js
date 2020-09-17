@@ -2,6 +2,41 @@ requireDatabase(false).then(() => {
 	console.log("TT - API page");
 
 	// auto-fill API key
+	if (settings.pages.api.marking) {
+		doc.find("#api_key").addEventListener("focusout", () => {
+			for (let panel of doc.findAll(".panel-group")) {
+				const name = panel.previousElementSibling.innerText.toLowerCase();
+				const id = panel.find("div[role=tabpanel]").id;
+
+				if (panel.find(".panel-collapse").classList.contains("in")) {
+					requireCondition(() => !findFieldsContainer(id).classList.contains("tt-modified"))
+						.then(() => markFields(name, id));
+				} else {
+					panel.addEventListener("click", markFieldsTimeout);
+				}
+				panel.find("button").addEventListener("click", event => {
+					let response_div = event.target.nextElementSibling;
+					let responses_before = [...response_div.findAll("span")].length;
+
+					responseLoaded(response_div, responses_before).then(loaded => {
+						if (!loaded)
+							return;
+
+						let type = panel.previousElementSibling.innerText.toLowerCase();
+						let fields = panel.find(`#${type[0]}_selections`).value;
+						markResponse(type, fields, response_div.firstElementChild.find("pre"));
+					});
+				});
+
+				function markFieldsTimeout() {
+					setTimeout(() => {
+						markFields(name, id);
+						panel.removeEventListener("click", markFieldsTimeout);
+					}, 500);
+				}
+			}
+		});
+	}
 	requireCondition(() => doc.find("#demo").style.display !== "none", { delay: 100 }).then(() => {
 		if (settings.pages.api.key) {
 			doc.find("#api_key").value = api_key;
@@ -73,6 +108,7 @@ function markFields(name, id) {
 	let strong = doc.new("strong");
 	strong.innerText = "Available fields: ";
 
+	fields_container.classList.add("tt-modified");
 	let fields = fields_container.innerText.replace("Available fields: ", "").split(",").map(x => x.trim());
 
 	// Clear fields
