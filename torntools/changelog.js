@@ -8,6 +8,8 @@ export default {
 			"Fix settings messages. - DKK",
 			"Fix target table when there are no targets. - DKK",
 			"Fix 'Rolling in it' mission hint. - DKK",
+			"Fix missions for the Anonymous agent. - DKK",
+			"Fix mission hints not showing when changing agents or completing a mission. - DKK",
 		],
 		"Changes": [
 			"Improve stats estimates caching. - DKK",
