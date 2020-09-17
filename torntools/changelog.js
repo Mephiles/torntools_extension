@@ -3,6 +3,7 @@ export default {
 		"Features": [
 			"Remove zalgo text from chat. - DKK",
 			"Add specials info on company pages. - Mephiles",
+			"Highlight energy and nerve when their respective refills haven't been used yet. - DKK",
 		],
 		"Fixes": [
 			"Don't cache stats estimates if they are disabled on profiles. - DKK",
