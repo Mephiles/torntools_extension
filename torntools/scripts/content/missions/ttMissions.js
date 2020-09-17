@@ -291,7 +291,7 @@ function showRewards() {
 function showMissionInformation() {
 	for (let mission of doc.findAll(".giver-cont-wrap > div[id^=mission]:not(.tt-modified)")) {
 		let title = mission.find(".title-black").innerText.split("\n");
-		if (title.length === 2) title = title[0];
+		if (title.length === 1 || title.length === 2) title = title[0];
 		else {
 			title = title[1].split(" ");
 
