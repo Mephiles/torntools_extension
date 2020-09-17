@@ -201,7 +201,7 @@ requireDatabase().then(() => {
 		if (!sid && uri && uri.sid) sid = uri.sid;
 
 		if (sid === "missionsRewards") missionsLoaded().then(showRewards);
-		else if (sid === "missions") missionsLoaded().then(showMissionInformation);
+		else if (sid === "missions" || sid === "completeContract") missionsLoaded().then(showMissionInformation);
 	});
 
 	missionsLoaded().then(() => {
