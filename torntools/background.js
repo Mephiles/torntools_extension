@@ -441,8 +441,10 @@ async function updateExtensions() {
 				doctorn: false,
 			};
 
-			for (let extension in extensions) {
-				extensions[extension] = await detectExtension(browser, extension);
+			if (settings.check_extensions) {
+				for (let extension in extensions) {
+					extensions[extension] = await detectExtension(browser, extension);
+				}
 			}
 
 			ttStorage.change({ extensions }, () => resolve(extensions));

@@ -1454,6 +1454,7 @@ const STORAGE = {
 		// "remove_info_boxes": false,
 		theme: "default",
 		force_tt: true,
+		check_extensions: true,
 		developer: false,
 		font_size: "12px",
 		inactivity_alerts_faction: {

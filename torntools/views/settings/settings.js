@@ -269,6 +269,7 @@ function setupPreferences() {
 	// General
 	preferences.find(`#update_notification input`).checked = settings.update_notification;
 	preferences.find("#force_tt input").checked = settings.force_tt;
+	preferences.find("#check_extensions input").checked = settings.check_extensions;
 	preferences.find("#developer input").checked = settings.developer;
 	preferences.find(`#format-date-${settings.format.date} input`).checked = true;
 	preferences.find(`#format-time-${settings.format.time} input`).checked = true;
@@ -891,6 +892,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	// General
 	settings.update_notification = preferences.find("#update_notification input").checked;
 	settings.force_tt = preferences.find("#force_tt input").checked;
+	settings.check_extensions = preferences.find("#check_extensions input").checked;
 	settings.developer = preferences.find("#developer input").checked;
 	settings.format.date = preferences.find("input[name=format-date]:checked").parentElement.id.split("-")[2];
 	settings.format.time = preferences.find("input[name=format-time]:checked").parentElement.id.split("-")[2];
