@@ -527,6 +527,18 @@
 				"scripts/content/competition/ttCompetition.js"
 			],
 			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/joblist.php*"
+			],
+			"css": [
+				"scripts/content/joblist/ttJoblist.css"
+			],
+			"js": [
+				"scripts/content/joblist/ttCorpinfo.js"
+			],
+			"run_at": "document_end"
 		}
 	]
 }
