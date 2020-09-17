@@ -980,3 +980,9 @@ div[role='main'].tt-modified {
 #sidebarroot .status-icons___1SnOI > li[class^="icon80_"] {
     display: var(--torntools-hide-icons-icon80, inline-block)
 }
+
+/* Highlight refills. */
+
+.tt-refill {
+    color: #6e8820;
+}

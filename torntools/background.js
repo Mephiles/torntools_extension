@@ -927,7 +927,7 @@ function updateUserdata_basic(oldUserdata, oldTorndata) {
 			fetchEducation = false;
 		}
 
-		const selections = `personalstats,crimes,battlestats,perks,workstats,stocks,ammo,inventory${fetchEducation ? `,education` : ""}`;
+		const selections = `personalstats,crimes,battlestats,perks,workstats,stocks,ammo,inventory${fetchEducation ? `,education` : ""},refills`;
 
 		fetchApi_v2("torn", { section: "user", selections: selections })
 			.then(async userdata => {

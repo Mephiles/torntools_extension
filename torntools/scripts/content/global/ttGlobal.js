@@ -91,6 +91,8 @@ requireDatabase().then(() => {
 			};
 		}
 
+		highlightRefills();
+
 		// Global time reducer
 		setInterval(() => {
 			for (let time of doc.findAll("*[seconds-down]")) {
@@ -563,4 +565,15 @@ function showCustomConsole() {
 	ttConsole.parent = element;
 
 	doc.find("#mainContainer").insertBefore(element, doc.find("#mainContainer > .clear"));
+}
+
+function highlightRefills() {
+	if (mobile) return;
+
+	if (settings.pages.global.refill_energy && !userdata.refills.energy_refill_used) {
+		doc.find("#barEnergy .bar-name___3TJ0p").classList.add("tt-refill");
+	}
+	if (settings.pages.global.refill_nerve && !userdata.refills.nerve_refill_used) {
+		doc.find("#barNerve .bar-name___3TJ0p").classList.add("tt-refill");
+	}
 }
