@@ -40,7 +40,7 @@ const MISSIONS = {
 	},
 	"Birthday Surprise": { task: "Obtain (an item), place in empty box, gift wrap, send to Duke." },
 	"Bonnie & Clyde": { task: "Defeat (P) and spouse of (P)." },
-	Bountiful: { task: "Claim 2/3/5 bounties.", hint: "Make sure to hospitalize the target." },
+	Bountiful: { task: "Claim 2-5 bounties.", hint: "Make sure to hospitalize the target." },
 	"Bounty on the Mutiny": { task: "Bounty (P) and wait for bounty to be fulfilled.", hint: "You cannot claim your own bounties." },
 	"Bring it!": {
 		task: "Defeat Duke within 7 days of activating this mission.",
