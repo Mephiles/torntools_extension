@@ -2872,14 +2872,26 @@ function requireMessageBox() {
 	return requireElement(".info-msg-cont");
 }
 
-function requireElement(selector, invert = false) {
-	return new Promise((resolve) => {
-		let checker = setInterval(function () {
-			if ((!invert && doc.find(selector)) || (invert && !doc.find(selector))) {
+function requireElement(selector, attributes = {}) {
+	attributes = {
+		parent: doc,
+		...attributes,
+	};
+
+	return requireCondition(() => {
+		if (attributes.invert) {
+			if (!attributes.parent.find(selector)) {
 				resolve(true);
 				return clearInterval(checker);
 			}
-		});
+		} else {
+			if (attributes.parent.find(selector)) {
+				resolve(true);
+				return clearInterval(checker);
+			}
+		}
+	}, {
+		delay: attributes.delay,
 	});
 }
 
