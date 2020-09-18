@@ -299,11 +299,11 @@ function subpageLoaded(page) {
 		case "crimes":
 			return requireElement("#faction-crimes .organize-wrap ul.crimes-list li");
 		case "main":
-			return requireElement("#faction-main div[data-title='announcement']+div .ajax-placeholder", true);
+			return requireElement("#faction-main div[data-title='announcement']+div .ajax-placeholder", { invert: true });
 		case "info":
-			return requireElement("#faction-info .ajax-placeholder", true);
+			return requireElement("#faction-info .ajax-placeholder", { invert: true });
 		case "upgrades":
-			return requireElement("#faction-upgrades > .ajax-placeholder", true);
+			return requireElement("#faction-upgrades > .ajax-placeholder", { invert: true });
 		default:
 			return Promise.resolve();
 	}
@@ -818,7 +818,7 @@ function drugInfo() {
 }
 
 function itemInfoLoaded(element) {
-	return requireElement(".ajax-placeholder", true);
+	return requireElement(".ajax-placeholder", { invert: true });
 }
 
 function addFilterToTable(list, title) {

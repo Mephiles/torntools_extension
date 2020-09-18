@@ -55,7 +55,7 @@ requireDatabase().then(() => {
 });
 
 function itemmarketLoaded() {
-	return requireElement("#item-market-main-wrap .info-msg .msg .ajax-placeholder", true);
+	return requireElement("#item-market-main-wrap .info-msg .msg .ajax-placeholder", { invert: true });
 }
 
 function subview() {

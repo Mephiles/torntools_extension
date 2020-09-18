@@ -247,5 +247,5 @@ function getLastTransactionDate() {
 }
 
 function containerRemoved() {
-	return requireElement("#tt-vault-container", true);
+	return requireElement("#tt-vault-container", { invert: true });
 }

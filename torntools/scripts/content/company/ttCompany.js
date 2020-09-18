@@ -18,7 +18,7 @@ window.addEventListener("load", () => {
 });
 
 function companyContentLoaded(aria_controls) {
-	return requireElement(`#${aria_controls} .ajax-placeholder:not(.hide)`, true);
+	return requireElement(`#${aria_controls} .ajax-placeholder:not(.hide)`, { invert: true });
 }
 
 function showUserInfo() {
