@@ -1603,6 +1603,9 @@ const STORAGE = {
 				quick_bail: false,
 				quick_bust: false,
 			},
+			itemmarket: {
+				market_value: undefined,
+			},
 		},
 		scripts: {
 			stats_estimate: {

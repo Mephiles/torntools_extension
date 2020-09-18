@@ -604,6 +604,10 @@ div[role='main'].tt-modified {
     color: #0ccece;
 }
 
+*[color="green"] {
+    color: #ACEA00;
+}
+
 *[background-color="green"] {
     background-color: #bdecb9b5;
 }
@@ -634,10 +638,6 @@ div[role='main'].tt-modified {
 
 .tt-userinfo-container .tt-userinfo-row .ajax-placeholder {
     flex-grow: 0;
-}
-
-*[background-color="green"] {
-    background-color: #bdecb9b5;
 }
 
 /* Custom TT Console */
