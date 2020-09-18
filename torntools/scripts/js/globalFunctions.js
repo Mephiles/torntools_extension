@@ -2878,19 +2878,7 @@ function requireElement(selector, attributes = {}) {
 		...attributes,
 	};
 
-	return requireCondition(() => {
-		if (attributes.invert) {
-			if (!attributes.parent.find(selector)) {
-				resolve(true);
-				return clearInterval(checker);
-			}
-		} else {
-			if (attributes.parent.find(selector)) {
-				resolve(true);
-				return clearInterval(checker);
-			}
-		}
-	}, {
+	return requireCondition(() => (attributes.invert && !attributes.parent.find(selector)) || (!attributes.invert && attributes.parent.find(selector)), {
 		delay: attributes.delay,
 	});
 }
