@@ -201,7 +201,7 @@ requireDatabase().then(() => {
 		if (!sid && uri && uri.sid) sid = uri.sid;
 
 		if (sid === "missionsRewards") missionsLoaded().then(showRewards);
-		else if (sid === "missions" || sid === "completeContract") missionsLoaded().then(showMissionInformation);
+		else if (sid === "missions" || sid === "completeContract" || sid === "acceptMission") missionsLoaded().then(showMissionInformation);
 		else {
 			console.log("Unknown mission action.", sid);
 		}
