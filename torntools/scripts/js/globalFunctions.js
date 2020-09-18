@@ -2907,13 +2907,18 @@ function requirePlayerList(listClass) {
 }
 
 function requireCondition(condition, attributes = {}) {
+	attributes = {
+		delay: 10,
+		...attributes,
+	};
+
 	return new Promise((resolve) => {
 		let checker = setInterval(function () {
 			if (condition()) {
 				resolve(true);
 				return clearInterval(checker);
 			}
-		}, attributes.delay || 10);
+		}, attributes.delay);
 	});
 }
 
