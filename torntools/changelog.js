@@ -6,6 +6,7 @@ export default {
 			"Highlight energy and nerve when their respective refills haven't been used yet. - DKK",
 			"On the item market, highlight items under their market value. - DKK",
 			"Show last action in the mini profile. - DKK",
+			"Add mid-drug cooldown notification. - DKK",
 		],
 		"Fixes": [
 			"Don't cache stats estimates if they are disabled on profiles. - DKK",
