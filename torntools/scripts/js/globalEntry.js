@@ -10,37 +10,11 @@ function mobileChecker() {
 			return;
 		}
 
-		let checker = setInterval(() => {
-			if (doc.find(".header-menu-icon")) {
-				const display = getComputedStyle(doc.find(".header-menu-icon")).display;
-				if (display === "none") {
-					resolve(false);
-					return clearInterval(checker);
-				} else if (display === "inline-block") {
-					resolve(true);
-					return clearInterval(checker);
-				}
-			}
+		window.addEventListener("load", () => {
+			const browserWidth = window.innerWidth;
 
-			if (doc.find("#top-page-links-list")) {
-				let events_icon = doc.find("#top-page-links-list a[role='button'][aria-labelledby='events']");
-				if (events_icon && window.getComputedStyle(events_icon, ":before").getPropertyValue("content") === "") {
-					resolve(true);
-					return clearInterval(checker);
-				} else {
-					resolve(false);
-					return clearInterval(checker);
-				}
-			}
-
-			if (!doc.find(`.sidebar___BizFX`)) return;
-			if (doc.find(`.sidebar___BizFX`).classList.contains("mobile")) {
-				resolve(true);
-				return clearInterval(checker);
-			} else {
-				resolve(false);
-				return clearInterval(checker);
-			}
+			if (browserWidth <= 600) resolve(true);
+			else resolve(false);
 		});
 	});
 }
