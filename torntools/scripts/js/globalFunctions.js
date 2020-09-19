@@ -1481,6 +1481,7 @@ const STORAGE = {
 			landing: [],
 			chain: [],
 			chain_count: [],
+			drugs: [],
 		},
 		format: {
 			date: "eu",

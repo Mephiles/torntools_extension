@@ -18,6 +18,7 @@ let notifications = {
 	happy: {},
 	life: {},
 	new_day: {},
+	drugs: {},
 };
 
 const links = {
@@ -811,6 +812,27 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 						notifications.travel = {};
 					}
 
+					// Check for drug notification
+					if (settings.notifications.drugs.length && userdata.cooldowns.drug > 0) {
+						for (let checkpoint of settings.notifications.drugs.sort((a, b) => a - b)) {
+							let time_left = userdata.cooldowns.drug * 1000; // ms
+
+							if (time_left <= parseInt(checkpoint) * 60 * 1000 && !notifications.drugs[checkpoint]) {
+								notifications.drugs[checkpoint] = {
+									checkpoint: checkpoint,
+									title: "TornTools - Drugs",
+									text: `Your drug cooldown will end in ${Math.floor(time_left / 1000 / 60)} minutes ${(time_left / 1000 % 60).toFixed(0)} seconds`,
+									url: links.items,
+									seen: 0,
+									date: new Date(),
+								};
+								break;
+							}
+						}
+					} else {
+						notifications.drugs = {};
+					}
+
 					// Check for chain notification
 					if (settings.notifications.chain.length > 0 && userdata.chain.timeout !== 0 && userdata.chain.current >= 10) {
 						for (let checkpoint of settings.notifications.chain.sort((a, b) => a - b)) {
@@ -964,9 +986,9 @@ function updateStakeouts(oldStakeouts) {
 							// Set info
 							oldStakeouts[user_id].info.last_action = stakeout_info.last_action;
 							oldStakeouts[user_id].info.username = stakeout_info.name;
-							
+
 							await new Promise((resolve, reject) => {
-								ttStorage.set({'stakeouts': oldStakeouts}, () => {
+								ttStorage.set({ "stakeouts": oldStakeouts }, () => {
 									return resolve();
 								});
 							});
