@@ -10,7 +10,7 @@ function mobileChecker() {
 			return;
 		}
 
-		window.addEventListener("load", () => {
+		window.addEventListener("DOMContentLoaded", () => {
 			const browserWidth = window.innerWidth;
 
 			if (browserWidth <= 600) resolve(true);
