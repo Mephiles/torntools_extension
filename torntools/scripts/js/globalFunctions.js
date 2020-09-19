@@ -1442,7 +1442,6 @@ const STORAGE = {
 		spyReport: {},
 		battleStatsEstimate: {},
 	},
-	watchlist: [],
 
 	// user settings
 	settings: {
