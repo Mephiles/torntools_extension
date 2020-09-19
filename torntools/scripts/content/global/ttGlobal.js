@@ -59,7 +59,7 @@ requireDatabase().then(() => {
 		for (let icon of doc.findAll(`#sidebarroot .status-icons___1SnOI>li`)) {
 			let name = icon.getAttribute("class").split("_")[0];
 			if (hide_icons.indexOf(name) > -1) {
-				icon.remove();
+				icon.parentElement.appendChild(icon);
 			}
 		}
 
