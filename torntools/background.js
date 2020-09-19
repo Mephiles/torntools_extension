@@ -956,27 +956,22 @@ function updateStakeouts(oldStakeouts) {
 		if (Object.keys(oldStakeouts).length > 0) {
 			console.log("Checking stakeouts.");
 			for (let user_id of Object.keys(oldStakeouts)) {
-				let all_false = true;
-				for (let option in oldStakeouts[user_id]) {
-					if (oldStakeouts[user_id][option] === true) {
-						all_false = false;
-					}
-				}
-
-				if (all_false) {
-					ttStorage.get("stakeouts", stakeouts => {
-						delete stakeouts[user_id];
-						ttStorage.set({ stakeouts: stakeouts });
-					});
-					continue;
-				}
-
 				await new Promise(resolve => {
 					fetchApi_v2("torn", { section: "user", objectid: user_id })
-						.then(stakeout_info => {
+						.then(async stakeout_info => {
 							console.log(`	Checking ${stakeout_info.name} [${user_id}]`);
 
-							if (stakeouts[user_id].online) {
+							// Set info
+							oldStakeouts[user_id].info.last_action = stakeout_info.last_action;
+							oldStakeouts[user_id].info.username = stakeout_info.name;
+							
+							await new Promise((resolve, reject) => {
+								ttStorage.set({'stakeouts': oldStakeouts}, () => {
+									return resolve();
+								});
+							});
+
+							if (oldStakeouts[user_id].online) {
 								if (stakeout_info.last_action.status === "Online" && !notifications.stakeouts[user_id + "_online"]) {
 									console.log("	Adding [online] notification to notifications.");
 									notifications.stakeouts[user_id + "_online"] = {
@@ -990,7 +985,7 @@ function updateStakeouts(oldStakeouts) {
 									delete notifications.stakeouts[user_id + "_online"];
 								}
 							}
-							if (stakeouts[user_id].okay) {
+							if (oldStakeouts[user_id].okay) {
 								if (stakeout_info.status.state === "Okay" && !notifications.stakeouts[user_id + "_okay"]) {
 									console.log("	Adding [okay] notification to notifications.");
 									notifications.stakeouts[user_id + "_okay"] = {
@@ -1004,7 +999,7 @@ function updateStakeouts(oldStakeouts) {
 									delete notifications.stakeouts[user_id + "_okay"];
 								}
 							}
-							if (stakeouts[user_id].lands) {
+							if (oldStakeouts[user_id].lands) {
 								if (stakeout_info.status.state !== "Traveling" && !notifications.stakeouts[user_id + "_lands"]) {
 									console.log("	Adding [lands] notification to notifications.");
 									notifications.stakeouts[user_id + "_lands"] = {
