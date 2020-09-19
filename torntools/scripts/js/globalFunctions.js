@@ -1598,6 +1598,7 @@ const STORAGE = {
 				block_zalgo: true,
 				refill_energy: true,
 				refill_nerve: false,
+				miniprofile_last_action: true,
 			},
 			jail: {
 				quick_bail: false,

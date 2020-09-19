@@ -10,6 +10,10 @@ p {
     margin-bottom: 6px;
 }
 
+label {
+    margin-left: -4px;
+}
+
 .bold {
     font-weight: 600;
 }

@@ -4,6 +4,20 @@ requireDatabase().then(() => {
 	// Add TT Black overlay
 	doc.find("body").appendChild(doc.new({ type: "div", class: "tt-black-overlay" }));
 
+	if (settings.pages.global.miniprofile_last_action) {
+		addFetchListener(event => {
+			if (!event.detail) return;
+			const { page, json, fetch } = event.detail;
+
+			const params = new URL(fetch.url).searchParams;
+			const step = params.get("step");
+
+			if (page === "profiles" && step === "getUserNameContextMenu") {
+				showMiniprofileInformation(json);
+			}
+		});
+	}
+
 	if (settings.scripts.no_confirm.revives) {
 		injectXHR();
 
@@ -484,54 +498,6 @@ function displayOCtime() {
 	}
 }
 
-function onMiniProfile(callback) {
-	if (doc.find(".profile-mini-root")) addListener();
-	else {
-		new MutationObserver((mutations, observer) => {
-			for (let mutation of mutations) {
-				let found = false;
-				for (let node of mutation.addedNodes) {
-					if (node.id !== "profile-mini-root") continue;
-
-					found = true;
-					break;
-				}
-
-				if (found) {
-					addListener();
-					observer.disconnect();
-					break;
-				}
-			}
-		}).observe(doc.find("body"), { childList: true });
-	}
-
-	function addListener() {
-		if (doc.find("#profile-mini-root .mini-profile-wrapper")) triggerCallback();
-
-		new MutationObserver((mutations) => {
-			for (let mutation of mutations) {
-				let found = false;
-				for (let node of mutation.addedNodes) {
-					if (!node.classList.contains("mini-profile-wrapper")) continue;
-
-					found = true;
-					break;
-				}
-
-				if (found) {
-					triggerCallback();
-					break;
-				}
-			}
-		}).observe(doc.find("#profile-mini-root"), { childList: true });
-	}
-
-	function triggerCallback() {
-		requireElement("#profile-mini-root .mini-profile-wrapper .profile-container").then(callback);
-	}
-}
-
 function addReviveListener() {
 	const script = doc.new({
 		type: "script",
@@ -576,4 +542,30 @@ function highlightRefills() {
 	if (settings.pages.global.refill_nerve && !userdata.refills.nerve_refill_used) {
 		doc.find("#barNerve .bar-name___3TJ0p").classList.add("tt-refill");
 	}
+}
+
+function showMiniprofileInformation(information) {
+	const miniProfile = doc.find("#profile-mini-root .mini-profile-wrapper");
+
+	const lastAction = timeAgo(Date.now() - (information.user.lastAction.seconds * 1000));
+
+	const signupDate = new Date(information.user.signUp * 1000);
+	const formattedTime = formatTime([signupDate.getUTCHours(), signupDate.getUTCMinutes(), signupDate.getUTCSeconds()], settings.format.time);
+	const formattedDate = formatDate([signupDate.getUTCDate(), signupDate.getUTCMonth() + 1, signupDate.getUTCFullYear()], settings.format.date);
+
+	requireElement(".-profile-mini-_userProfileWrapper___39cKq", { parent: miniProfile }).then(() => {
+		setTimeout(() => {
+			miniProfile.find(".-profile-mini-_userProfileWrapper___39cKq").appendChild(doc.new({
+				type: "div",
+				class: "tt-mini-data",
+				children: [
+					doc.new({ type: "strong", text: "Last Action: " }),
+					doc.new({ type: "span", text: lastAction }),
+					// doc.new("br"),
+					// doc.new({ type: "strong", text: "Signup: " }),
+					// doc.new({ type: "span", text: `${formattedTime} ${formattedDate}` }),
+				],
+			}));
+		}, 500);
+	});
 }
