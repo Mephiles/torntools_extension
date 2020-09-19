@@ -15,6 +15,8 @@ const LINKS = {
 	"Travel Agency": { link: "https://www.torn.com/travelagency.php" },
 };
 
+const preferenceModifications = new Set();
+
 requireDatabase(false)
 	.then(() => {
 		console.log("Start Settings");
@@ -100,6 +102,8 @@ requireDatabase(false)
 				});
 
 		});
+
+		registerChanges();
 	})
 	.catch((err) => {
 		console.error(err);
@@ -120,6 +124,36 @@ requireDatabase(false)
 			.then(() => location.reload())
 			.catch(() => location.reload());
 	});
+
+function registerChanges() {
+	const defaultKey = "defaultValue";
+
+	window.addEventListener("beforeinput", (evt) => {
+		const target = evt.target;
+		if (defaultKey in target || defaultKey in target.dataset) return;
+
+		target.dataset[defaultKey] = ("" + (target.value || target.textContent)).trim();
+	});
+	window.addEventListener("input", (evt) => {
+		const target = evt.target;
+		const original = defaultKey in target ? target[defaultKey] : target.dataset[defaultKey];
+
+		if (original !== ("" + (target.value || target.textContent)).trim()) {
+			if (!preferenceModifications.has(target)) preferenceModifications.add(target);
+		} else if (preferenceModifications.has(target)) {
+			preferenceModifications.delete(target);
+		}
+	});
+	window.addEventListener("submit", () => preferenceModifications.clear());
+	window.addEventListener("beforeunload", event => {
+		if (!preferenceModifications.size) return;
+
+		const message = "Changes you made may not be saved.";
+
+		event.returnValue = message;
+		return message;
+	});
+}
 
 function loadPage(name) {
 	console.log("Loading page:", name);
@@ -1055,6 +1089,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 			console.log("new target list", target_list);
 		});
 	});
+	preferenceModifications.clear();
 
 	message("Settings saved.", true);
 }
@@ -1546,6 +1581,7 @@ function importData() {
 						message: `### Are you sure that you want to overwrite following items?\n${conflictMessage}`,
 					})
 						.then(async () => {
+							preferenceModifications.clear();
 							let import_result;
 							for (let key in result.data) {
 								import_result = await new Promise((resolve) => {
