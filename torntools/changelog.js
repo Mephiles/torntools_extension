@@ -24,7 +24,7 @@ export default {
 			"Improve missing mission information message. - DKK",
 			"Add an option to disable extension checking. - DKK",
 			"Show stakeout list in the popup. - Mephiles",
-			"Prevent accidental loss of settings when you have unsaved settings.",
+			"Prevent accidental loss of settings when you have unsaved settings. - DKK",
 		],
 	},
 	"v5.0.1 - September, 11th. 2020": {
