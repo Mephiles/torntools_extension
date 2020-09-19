@@ -16,12 +16,14 @@ export default {
 			"Fix mission hints not showing when changing agents, accepting or completing a mission. - DKK",
 			"Fix the demo automatically opening and the markings when changing your api key on the API page. - DKK",
 			"Fix the energy warning while abroad when you already spent that energy. - DKK",
+			"Detect mobile based on width instead of elements. - Mephiles",
 		],
 		"Changes": [
 			"Improve stats estimates caching. - DKK",
 			"Add an option to only show stats estimates under a certain level. - DKK",
 			"Improve missing mission information message. - DKK",
 			"Add an option to disable extension checking. - DKK",
+			"Show stakeout list in the popup. - Mephiles",
 		],
 	},
 	"v5.0.1 - September, 11th. 2020": {
