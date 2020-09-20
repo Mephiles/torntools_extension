@@ -26,6 +26,7 @@ export default {
 			"Add an option to disable extension checking. - DKK",
 			"Show stakeout list in the popup. - Mephiles",
 			"Prevent accidental loss of settings when you have unsaved settings. - DKK",
+			"Change chain notifications to seconds instead of minutes.",
 		],
 	},
 	"v5.0.1 - September, 11th. 2020": {
