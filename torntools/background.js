@@ -817,7 +817,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 						for (let checkpoint of settings.notifications.drugs.sort((a, b) => a - b)) {
 							let time_left = userdata.cooldowns.drug * 1000; // ms
 
-							if (time_left <= parseInt(checkpoint) * 60 * 1000 && !notifications.drugs[checkpoint]) {
+							if (time_left <= parseInt(checkpoint) * 1000 && !notifications.drugs[checkpoint]) {
 								notifications.drugs[checkpoint] = {
 									checkpoint: checkpoint,
 									title: "TornTools - Drugs",
