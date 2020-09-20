@@ -286,15 +286,15 @@ function displayItemPrices(itemlist) {
 
 	if (list.find(":scope > li > .tt-item-price")) list.find(":scope > li > .tt-item-price").parentElement.remove();
 
-	let row = doc.new("li");
-
-	row.appendChild(doc.new({
+	list.insertBefore(doc.new({
 		type: "li",
-		text: `Total Value: $${FORMATTER_NO_DECIMALS.format(total)}`,
-		class: "tt-item-price",
-	}));
-
-	list.insertBefore(row, list.firstElementChild);
+		class: "tt-ignore",
+		children: [doc.new({
+			type: "li",
+			text: `Total Value: $${FORMATTER_NO_DECIMALS.format(total)}`,
+			class: "tt-item-price",
+		})],
+	}), list.firstElementChild);
 }
 
 function useContainerLoaded() {
@@ -360,8 +360,8 @@ function addButton() {
 }
 
 function addItemMarketLinks() {
-	for (let item of doc.findAll(".items-cont[aria-expanded=true] > li")) {
-		if (item.find(".tt-market-link, :scope > .tt-item-price, :scope > .ajax-placeholder")) continue;
+	for (let item of doc.findAll(".items-cont[aria-expanded=true] > li:not(.tt-ignore)")) {
+		if (item.find(".tt-market-link, .tt-item-price, :scope > .ajax-placeholder")) continue;
 
 		let li = doc.new({
 			type: "li",
