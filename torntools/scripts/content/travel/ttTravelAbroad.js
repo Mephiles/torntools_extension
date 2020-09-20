@@ -104,9 +104,11 @@ window.addEventListener("load", async () => {
 				displayItemProfits(itemlist.items);
 			}
 			addFillMaxButtons();
-			if (!doc.find(".info-msg-cont.red")) {
-				updateYATAPrices();
-			}
+
+			let list = doc.find(".users-list");
+			let title = list.previousElementSibling;
+
+			addFilterToItems(list, title);
 		} else if (page === "people") {
 			requirePlayerList(".users-list").then(async () => {
 				await showUserInfo();
@@ -961,4 +963,139 @@ function showPC() {
 			href: "pc.php",
 		},
 	}), doc.find("#top-page-links-list > .events"));
+}
+
+function addFilterToItems(list, title) {
+	let filter_container = content.newContainer("Filters", {
+		id: "tt-item-filter",
+		class: "filter-container",
+		next_element: title,
+		collapseId: "-items",
+		html: `
+			<div class="filter-header">
+				<div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> items</div>
+			</div>
+			<div class="filter-content">
+				${settings.pages.travel.profits ? `
+				<div class="filter-wrap" id="profit-filter">
+					<div class="filter-heading">Profit</div>
+					<div class="filter-multi-wrap">
+						<div class="tt-checkbox-wrap">
+							<input type="radio" name="profit" id="only_profit">
+							<label for="only_profit">Only Profit</label>
+						</div>
+					</div>
+				</div>
+				` : ""}
+				<div class="filter-wrap" id="category-filter">
+					<div class="filter-heading">Categories</div>
+					<div class="filter-multi-wrap">
+						<div class="tt-checkbox-wrap">
+							<input type="checkbox" name="category" id="category_plushie" value="plushie">
+							<label for="category_plushie">Plushies</label>
+						</div>
+						<div class="tt-checkbox-wrap">
+							<input type="checkbox" name="category" id="category_flower" value="flower">
+							<label for="category_flower">Flowers</label>
+						</div>
+						<div class="tt-checkbox-wrap">
+							<input type="checkbox" name="category" id="category_drug" value="drug">
+							<label for="category_drug">Drugs</label>
+						</div>
+						<div class="tt-checkbox-wrap">
+							<input type="checkbox" name="category" id="category_weapon" value="weapon">
+							<label for="category_weapon">Weapons</label>
+						</div>
+						<div class="tt-checkbox-wrap">
+							<input type="checkbox" name="category" id="category_armor" value="armor">
+							<label for="category_armor">Armor</label>
+						</div>
+						<div class="tt-checkbox-wrap">
+							<input type="checkbox" name="category" id="category_other" value="other">
+							<label for="category_other">Other</label>
+						</div>
+					</div>
+				</div>
+			</div>
+    	`,
+	}).find(".content");
+
+	/*
+	 * Initializing filters.
+	 */
+	filter_container.find("#only_profit").checked = filters.abroadItems.profitOnly;
+	for (let category in filters.abroadItems.categories) {
+		filter_container.find(`#category-filter input[name="category"][value="${category}"]`).checked = true;
+	}
+
+	// Event listeners
+	for (let checkbox of filter_container.findAll(".tt-checkbox-wrap input")) {
+		checkbox.onclick = applyFilters;
+	}
+
+	applyFilters();
+
+	function applyFilters() {
+		let profitOnly = settings.pages.travel.profits && filter_container.find("#only_profit").checked;
+		let categories = [];
+
+		// Categories
+		for (let checkbox of filter_container.findAll("#category-filter .tt-checkbox-wrap input:checked")) {
+			categories.push(checkbox.getAttribute("value"));
+		}
+
+		// Filtering
+		for (let li of list.findAll(":scope > li")) {
+			showRow(li);
+
+			// Profit Only
+			if (profitOnly) {
+				// FIXME Check profit.
+				let profit = 0;
+
+				if (profit < 0) {
+					showRow(li, false);
+					continue;
+				}
+			}
+
+			// Categories
+			if (categories.length) {
+				let matchesCategory = false;
+				for (let category of categories) {
+					if (category === "") { // FIXME Add category check.
+						matchesCategory = true;
+						break;
+					}
+				}
+				if (!matchesCategory) {
+					showRow(li, false);
+				}
+			}
+		}
+
+		ttStorage.change({
+			filters: {
+				abroadItems: {
+					profitOnly,
+					categories,
+				},
+			},
+		});
+
+		updateStatistics();
+	}
+
+	function showRow(row, show = true) {
+		if (show) {
+			row.classList.remove("filter-hidden");
+		} else {
+			row.classList.add("filter-hidden");
+		}
+	}
+
+	function updateStatistics() {
+		filter_container.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].filter(x => (!x.classList.contains("filter-hidden"))).length;
+		filter_container.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].length;
+	}
 }

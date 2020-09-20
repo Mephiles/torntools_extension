@@ -1433,6 +1433,10 @@ const STORAGE = {
 				isdonator: "both",
 			},
 		},
+		abroadItems: {
+			profitOnly: false,
+			categories: [],
+		},
 	},
 	sorting: {
 		profile: [],
