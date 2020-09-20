@@ -100,6 +100,9 @@ window.addEventListener("load", async () => {
 		warnEnergy();
 
 		if (page === null || page === "travel_table") {
+			if (!doc.find(".info-msg-cont.red")) {
+				updateYATAPrices();
+			}
 			if (settings.pages.travel.profits) {
 				displayItemProfits(itemlist.items);
 			}
