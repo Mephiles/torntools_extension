@@ -107,6 +107,8 @@ let setup_storage = new Promise(resolve => {
 			 */
 			// Change chain notifications to seconds instead of minutes.
 			for (let i in storage.settings.notifications.chain) {
+				if (storage.settings.notifications.chain[i] < 5) continue;
+
 				storage.settings.notifications.chain[i] = parseFloat(storage.settings.notifications.chain[i]) * 60;
 			}
 
