@@ -12,7 +12,7 @@ export default {
 			"Don't cache stats estimates if they are disabled on profiles. - DKK",
 			"Fix settings messages. - DKK",
 			"Fix target table when there are no targets. - DKK",
-			"Fix 'Rolling in it' and 'Bountifull' mission hint. - DKK",
+			"Fix multiple mission hints. - DKK",
 			"Fix missions for the Anonymous agent. - DKK",
 			"Fix mission hints not showing when changing agents, accepting or completing a mission. - DKK",
 			"Fix the demo automatically opening and the markings when changing your api key on the API page. - DKK",
