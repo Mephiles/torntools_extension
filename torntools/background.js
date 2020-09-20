@@ -52,6 +52,7 @@ let setup_storage = new Promise(resolve => {
 			console.log("Converting old storage.");
 			console.log("	Old storage", old_storage);
 			let new_storage = convertStorage(old_storage, STORAGE);
+			specificMigration({ ...new_storage });
 
 			console.log("	New storage", new_storage);
 
@@ -98,6 +99,18 @@ let setup_storage = new Promise(resolve => {
 			}
 
 			return new_local_storage;
+		}
+
+		function specificMigration(storage) {
+			/*
+			 * 5.0.1 --> 5.1
+			 */
+			// Change chain notifications to seconds instead of minutes.
+			for (let i in storage.settings.notifications.chain) {
+				storage.settings.notifications.chain[i] = parseFloat(storage.settings.notifications.chain[i]) * 60;
+			}
+
+			return storage;
 		}
 	});
 });
