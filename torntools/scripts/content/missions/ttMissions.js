@@ -313,8 +313,14 @@ function showMissionInformation() {
 			task = miss.task;
 			hint = miss.hint;
 		} else {
-			task = "Couldn't find information for this mission.";
-			hint = "Contact the TornTools developers.";
+			if (title.includes("{name}")) {
+				task = "You are using a conflicting script.";
+				hint = "Please remove the script that changes the mission title or contact the TornTools developers.";
+			} else {
+
+				task = "Couldn't find information for this mission.";
+				hint = "Contact the TornTools developers.";
+			}
 		}
 
 		let children = [doc.new({ type: "span", html: `<b>Task:</b> ${task}` })];
