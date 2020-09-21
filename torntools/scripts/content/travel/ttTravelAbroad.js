@@ -973,54 +973,55 @@ function addFilterToItems(list, title) {
 		class: "filter-container",
 		next_element: title,
 		collapseId: "-items",
-		html: `
-			<div class="filter-header">
-				<div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> items</div>
-			</div>
-			<div class="filter-content">
-				${settings.pages.travel.profits ? `
-				<div class="filter-wrap" id="profit-filter">
-					<div class="filter-heading">Profit</div>
-					<div class="filter-multi-wrap">
-						<div class="tt-checkbox-wrap">
-							<input type="radio" name="profit" id="only_profit">
-							<label for="only_profit">Only Profit</label>
-						</div>
-					</div>
-				</div>
-				` : ""}
-				<div class="filter-wrap" id="category-filter">
-					<div class="filter-heading">Categories</div>
-					<div class="filter-multi-wrap">
-						<div class="tt-checkbox-wrap">
-							<input type="checkbox" name="category" id="category_plushie" value="plushie">
-							<label for="category_plushie">Plushies</label>
-						</div>
-						<div class="tt-checkbox-wrap">
-							<input type="checkbox" name="category" id="category_flower" value="flower">
-							<label for="category_flower">Flowers</label>
-						</div>
-						<div class="tt-checkbox-wrap">
-							<input type="checkbox" name="category" id="category_drug" value="drug">
-							<label for="category_drug">Drugs</label>
-						</div>
-						<div class="tt-checkbox-wrap">
-							<input type="checkbox" name="category" id="category_weapon" value="weapon">
-							<label for="category_weapon">Weapons</label>
-						</div>
-						<div class="tt-checkbox-wrap">
-							<input type="checkbox" name="category" id="category_armor" value="armor">
-							<label for="category_armor">Armor</label>
-						</div>
-						<div class="tt-checkbox-wrap">
-							<input type="checkbox" name="category" id="category_other" value="other">
-							<label for="category_other">Other</label>
-						</div>
-					</div>
-				</div>
-			</div>
-    	`,
 	}).find(".content");
+
+	filter_container.innerHTML = `
+		<div class="filter-header">
+			<div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> items</div>
+		</div>
+		<div class="filter-content">
+			${settings.pages.travel.profits ? `
+			<div class="filter-wrap" id="profit-filter">
+				<div class="filter-heading">Profit</div>
+				<div class="filter-multi-wrap">
+					<div class="tt-checkbox-wrap">
+						<input type="checkbox" name="profit" id="only_profit">
+						<label for="only_profit">Only Profit</label>
+					</div>
+				</div>
+			</div>
+			` : ""}
+			<div class="filter-wrap" id="category-filter">
+				<div class="filter-heading">Categories</div>
+				<div class="filter-multi-wrap">
+					<div class="tt-checkbox-wrap">
+						<input type="checkbox" name="category" id="category_plushie" value="plushie">
+						<label for="category_plushie">Plushies</label>
+					</div>
+					<div class="tt-checkbox-wrap">
+						<input type="checkbox" name="category" id="category_flower" value="flower">
+						<label for="category_flower">Flowers</label>
+					</div>
+					<div class="tt-checkbox-wrap">
+						<input type="checkbox" name="category" id="category_drug" value="drug">
+						<label for="category_drug">Drugs</label>
+					</div>
+					<div class="tt-checkbox-wrap">
+						<input type="checkbox" name="category" id="category_weapon" value="weapon">
+						<label for="category_weapon">Weapons</label>
+					</div>
+					<div class="tt-checkbox-wrap">
+						<input type="checkbox" name="category" id="category_armor" value="armor">
+						<label for="category_armor">Armor</label>
+					</div>
+					<div class="tt-checkbox-wrap">
+						<input type="checkbox" name="category" id="category_other" value="other">
+						<label for="category_other">Other</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	`;
 
 	/*
 	 * Initializing filters.
