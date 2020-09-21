@@ -7,6 +7,7 @@ export default {
 			"On the item market, highlight items under their market value. - DKK",
 			"Show last action in the mini profile. - DKK",
 			"Add mid-drug cooldown notification. - DKK",
+			"Add filtering and sorting for items abroad. - DKK",
 		],
 		"Fixes": [
 			"Don't cache stats estimates if they are disabled on profiles. - DKK",
