@@ -1027,7 +1027,7 @@ function addFilterToItems(list, title) {
 	 * Initializing filters.
 	 */
 	filter_container.find("#only_profit").checked = filters.abroadItems.profitOnly;
-	for (let category in filters.abroadItems.categories) {
+	for (let category of filters.abroadItems.categories) {
 		filter_container.find(`#category-filter input[name="category"][value="${category}"]`).checked = true;
 	}
 
@@ -1041,10 +1041,26 @@ function addFilterToItems(list, title) {
 	function applyFilters() {
 		let profitOnly = settings.pages.travel.profits && filter_container.find("#only_profit").checked;
 		let categories = [];
+		let categoriesExtra = [];
 
 		// Categories
 		for (let checkbox of filter_container.findAll("#category-filter .tt-checkbox-wrap input:checked")) {
-			categories.push(checkbox.getAttribute("value"));
+			const value = checkbox.getAttribute("value");
+
+			categories.push(value);
+
+			switch (value) {
+				case "weapon":
+					categoriesExtra.push("primary");
+					categoriesExtra.push("secondary");
+					categoriesExtra.push("melee");
+					break;
+				case "other":
+					categoriesExtra.push("enhancer");
+					// FIXME - Add more missing categories.
+					break;
+			}
+
 		}
 
 		// Filtering
@@ -1052,25 +1068,23 @@ function addFilterToItems(list, title) {
 			showRow(li);
 
 			// Profit Only
-			if (profitOnly) {
-				// FIXME Check profit.
-				let profit = 0;
-
-				if (profit < 0) {
-					showRow(li, false);
-					continue;
-				}
+			if (profitOnly && li.find(".tt-travel-market-cell").getAttribute("value") < 0) {
+				showRow(li, false);
+				continue;
 			}
 
 			// Categories
-			if (categories.length) {
+			if (categories.length || categoriesExtra.length) {
+				const itemCategory = li.find(".type").innerText.split("\n").filter(x => !!x)[1].toLowerCase();
+
 				let matchesCategory = false;
-				for (let category of categories) {
-					if (category === "") { // FIXME Add category check.
+				for (let category of [...categories, ...categoriesExtra]) {
+					if (itemCategory === category) { // FIXME Add category check.
 						matchesCategory = true;
 						break;
 					}
 				}
+
 				if (!matchesCategory) {
 					showRow(li, false);
 				}
