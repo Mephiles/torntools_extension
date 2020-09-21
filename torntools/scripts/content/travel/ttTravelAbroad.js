@@ -149,8 +149,7 @@ function displayItemProfits(itemlist) {
 		let buy_price = parseInt(row.find(".cost .c-price").innerText.replace("$", "").replace(/,/g, ""));
 		let profit = parseInt(market_price - buy_price);
 
-		let span = doc.new("span");
-		span.setClass("tt-travel-market-cell");
+		let span = doc.new({ type: "span", class: "tt-travel-market-cell", attributes: { value: profit } });
 		let inner_span = doc.new("span");
 		inner_span.innerText = `${profit < 0 ? "-$" : "+$"}${numberWithCommas(Math.abs(profit))}`;
 
