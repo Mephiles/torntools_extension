@@ -112,7 +112,7 @@ window.addEventListener("load", async () => {
 			let list = doc.find(".users-list");
 			let title = list.previousElementSibling;
 
-			addFilterToItems(list, title);
+			addFilterToItems(() => doc.find(".users-list"), title);
 		} else if (page === "people") {
 			requirePlayerList(".users-list").then(async () => {
 				await showUserInfo();
@@ -968,7 +968,7 @@ function showPC() {
 	}), doc.find("#top-page-links-list > .events"));
 }
 
-function addFilterToItems(list, title) {
+function addFilterToItems(listGetter, title) {
 	let filter_container = content.newContainer("Filters", {
 		id: "tt-item-filter",
 		class: "filter-container",
@@ -1065,7 +1065,7 @@ function addFilterToItems(list, title) {
 		}
 
 		// Filtering
-		for (let li of list.findAll(":scope > li")) {
+		for (let li of listGetter().findAll(":scope > li")) {
 			showRow(li);
 
 			// Profit Only
@@ -1113,6 +1113,8 @@ function addFilterToItems(list, title) {
 	}
 
 	function updateStatistics() {
+		const list = listGetter();
+
 		filter_container.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].filter(x => (!x.classList.contains("filter-hidden"))).length;
 		filter_container.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].length;
 	}
