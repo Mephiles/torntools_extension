@@ -98,5 +98,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
 
 	if (changes.filters) {
 		filters = changes.filters.newValue;
+	} else if (changes.userdata) {
+		userdata = changes.userdata.newValue;
 	}
 });

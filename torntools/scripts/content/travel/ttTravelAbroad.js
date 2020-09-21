@@ -100,13 +100,19 @@ window.addEventListener("load", async () => {
 		warnEnergy();
 
 		if (page === null || page === "travel_table") {
+			if (!doc.find(".info-msg-cont.red")) {
+				updateYATAPrices();
+			}
 			if (settings.pages.travel.profits) {
 				displayItemProfits(itemlist.items);
 			}
 			addFillMaxButtons();
-			if (!doc.find(".info-msg-cont.red")) {
-				updateYATAPrices();
-			}
+			addItemSortingCapabilities();
+
+			let list = doc.find(".users-list");
+			let title = list.previousElementSibling;
+
+			addFilterToItems(() => doc.find(".users-list"), title);
 		} else if (page === "people") {
 			requirePlayerList(".users-list").then(async () => {
 				await showUserInfo();
@@ -132,7 +138,7 @@ function displayItemProfits(itemlist) {
 	let headings = market.find(".items-list-title");
 	let profit_heading = doc.new("div");
 	profit_heading.innerText = "Profit";
-	profit_heading.setClass("tt-travel-market-heading title-green");
+	profit_heading.setClass("tt-travel-market-heading title-green item-profit");
 
 	headings.insertBefore(profit_heading, headings.find(".stock-b"));
 
@@ -144,8 +150,7 @@ function displayItemProfits(itemlist) {
 		let buy_price = parseInt(row.find(".cost .c-price").innerText.replace("$", "").replace(/,/g, ""));
 		let profit = parseInt(market_price - buy_price);
 
-		let span = doc.new("span");
-		span.setClass("tt-travel-market-cell");
+		let span = doc.new({ type: "span", class: "tt-travel-market-cell", attributes: { value: profit } });
 		let inner_span = doc.new("span");
 		inner_span.innerText = `${profit < 0 ? "-$" : "+$"}${numberWithCommas(Math.abs(profit))}`;
 
@@ -879,6 +884,7 @@ async function showUserInfo() {
 	estimateStatsInList(".users-list > li", (row) => {
 		return {
 			userId: row.find("a.user.name").getAttribute("data-placeholder") ? row.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : row.find("a.user.name").getAttribute("href").split("XID=")[1],
+			level: parseInt(row.find(".level").innerText.split("\n")[1]) || 0,
 		};
 	});
 }
@@ -960,4 +966,286 @@ function showPC() {
 			href: "pc.php",
 		},
 	}), doc.find("#top-page-links-list > .events"));
+}
+
+function addFilterToItems(listGetter, title) {
+	let filter_container = content.newContainer("Filters", {
+		id: "tt-item-filter",
+		class: "filter-container",
+		next_element: title,
+		collapseId: "-items",
+	}).find(".content");
+
+	filter_container.innerHTML = `
+		<div class="filter-header">
+			<div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> items</div>
+		</div>
+		<div class="filter-content">
+			${settings.pages.travel.profits ? `
+			<div class="filter-wrap" id="profit-filter">
+				<div class="filter-heading">Profit</div>
+				<div class="filter-multi-wrap">
+					<div class="tt-checkbox-wrap">
+						<input type="checkbox" name="profit" id="only_profit">
+						<label for="only_profit">Only Profit</label>
+					</div>
+				</div>
+			</div>
+			` : ""}
+			<div class="filter-wrap" id="category-filter">
+				<div class="filter-heading">Categories</div>
+				<div class="filter-multi-wrap">
+					<div class="tt-checkbox-wrap">
+						<input type="checkbox" name="category" id="category_plushie" value="plushie">
+						<label for="category_plushie">Plushies</label>
+					</div>
+					<div class="tt-checkbox-wrap">
+						<input type="checkbox" name="category" id="category_flower" value="flower">
+						<label for="category_flower">Flowers</label>
+					</div>
+					<div class="tt-checkbox-wrap">
+						<input type="checkbox" name="category" id="category_drug" value="drug">
+						<label for="category_drug">Drugs</label>
+					</div>
+					<div class="tt-checkbox-wrap">
+						<input type="checkbox" name="category" id="category_weapon" value="weapon">
+						<label for="category_weapon">Weapons</label>
+					</div>
+					<div class="tt-checkbox-wrap">
+						<input type="checkbox" name="category" id="category_armor" value="armor">
+						<label for="category_armor">Armor</label>
+					</div>
+					<div class="tt-checkbox-wrap">
+						<input type="checkbox" name="category" id="category_other" value="other">
+						<label for="category_other">Other</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	`;
+
+	/*
+	 * Initializing filters.
+	 */
+	filter_container.find("#only_profit").checked = filters.abroadItems.profitOnly;
+	for (let category of filters.abroadItems.categories) {
+		filter_container.find(`#category-filter input[name="category"][value="${category}"]`).checked = true;
+	}
+
+	// Event listeners
+	for (let checkbox of filter_container.findAll(".tt-checkbox-wrap input")) {
+		checkbox.onclick = applyFilters;
+	}
+
+	applyFilters();
+
+	function applyFilters() {
+		let profitOnly = settings.pages.travel.profits && filter_container.find("#only_profit").checked;
+		let categories = [];
+		let categoriesExtra = [];
+
+		// Categories
+		for (let checkbox of filter_container.findAll("#category-filter .tt-checkbox-wrap input:checked")) {
+			const value = checkbox.getAttribute("value");
+
+			categories.push(value);
+
+			switch (value) {
+				case "weapon":
+					categoriesExtra.push("primary");
+					categoriesExtra.push("secondary");
+					categoriesExtra.push("melee");
+					break;
+				case "other":
+					categoriesExtra.push("enhancer");
+					// FIXME - Add more missing categories.
+					break;
+			}
+
+		}
+
+		// Filtering
+		for (let li of listGetter().findAll(":scope > li")) {
+			showRow(li);
+
+			// Profit Only
+			if (profitOnly && li.find(".tt-travel-market-cell").getAttribute("value") < 0) {
+				showRow(li, false);
+				continue;
+			}
+
+			// Categories
+			if (categories.length || categoriesExtra.length) {
+				const itemCategory = li.find(".type").innerText.split("\n").filter(x => !!x)[1].toLowerCase();
+
+				let matchesCategory = false;
+				for (let category of [...categories, ...categoriesExtra]) {
+					if (itemCategory === category) { // FIXME Add category check.
+						matchesCategory = true;
+						break;
+					}
+				}
+
+				if (!matchesCategory) {
+					showRow(li, false);
+				}
+			}
+		}
+
+		ttStorage.change({
+			filters: {
+				abroadItems: {
+					profitOnly,
+					categories,
+				},
+			},
+		});
+
+		updateStatistics();
+	}
+
+	function showRow(row, show = true) {
+		if (show) {
+			row.classList.remove("filter-hidden");
+		} else {
+			row.classList.add("filter-hidden");
+		}
+	}
+
+	function updateStatistics() {
+		const list = listGetter();
+
+		filter_container.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].filter(x => (!x.classList.contains("filter-hidden"))).length;
+		filter_container.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].length;
+	}
+}
+
+function addItemSortingCapabilities() {
+	const headers = [...doc.find(".items-list-title").findAll(".type-b, .name-b, .cost-b, .item-profit, .stock-b, .circulation-b")];
+	const defaultHeader = doc.find(".items-list-title .cost-b");
+
+	for (let header of headers) {
+		header.classList.add("sortable");
+
+		header.addEventListener("click", event => {
+			const order = toggleSorting(header);
+
+			// Remove all other sorting.
+			headers.filter(x => x !== header).map(x => x.find("i")).filter(x => !!x).forEach(x => x.remove());
+
+			if (order === "none") {
+				sort("asc", defaultHeader);
+			} else {
+				sort(order, header);
+			}
+		});
+	}
+
+	if (sorting.abroadItems.column !== "default") {
+		const header = doc.find(`.items-list-title .${sorting.abroadItems.column}`);
+
+		header.appendChild(doc.new({ type: "i", class: `fas ${sorting.abroadItems.order === "asc" ? "fa-caret-down" : "fa-caret-up"} tt-title-icon-torn` }));
+		sort(sorting.abroadItems.order, header);
+	}
+
+	function toggleSorting(header) {
+		const icon = header.find("i");
+		if (icon) {
+			if (icon.classList.contains("fa-caret-down")) {
+				icon.classList.remove("fa-caret-down");
+				icon.classList.add("fa-caret-up");
+				return "desc";
+			} else {
+				icon.remove();
+				return "none";
+			}
+		} else {
+			header.appendChild(doc.new({ type: "i", class: "fas fa-caret-down tt-title-icon-torn" }));
+			return "asc";
+		}
+	}
+
+	function sort(order, header) {
+		const list = doc.find(".travel-agency-market .users-list");
+		const newList = list.cloneNode(false);
+
+		let valueSelector, type;
+		if (header.classList.contains("type-b")) {
+			type = "type-b";
+			valueSelector = ".type";
+		} else if (header.classList.contains("name-b")) {
+			type = "name-b";
+			valueSelector = ".name";
+		} else if (header.classList.contains("cost-b")) {
+			type = "cost-b";
+			valueSelector = ".cost .c-price";
+		} else if (header.classList.contains("item-profit")) {
+			type = "item-profit";
+			valueSelector = ".tt-travel-market-cell";
+		} else if (header.classList.contains("stock-b")) {
+			type = "stock-b";
+			valueSelector = ".stock";
+		} else if (header.classList.contains("circulation-b")) {
+			type = "circulation-b";
+			valueSelector = ".circulation";
+		} else {
+			type = "default";
+			valueSelector = ".cost .c-price";
+		}
+
+		const rows = [...list.childNodes].filter(node => node.nodeName === "LI");
+		if (order === "asc") {
+			rows.sort(((a, b) => {
+				const helper = sortHelper(a.children[0], b.children[0]);
+
+				return helper.a - helper.b;
+			}));
+		} else {
+			rows.sort(((a, b) => {
+				const helper = sortHelper(a.children[0], b.children[0]);
+
+				return helper.b - helper.a;
+			}));
+		}
+		rows.forEach(row => newList.appendChild(row));
+
+		list.parentNode.replaceChild(newList, list);
+
+		ttStorage.change({ sorting: { abroadItems: { column: type, order } } });
+
+		function sortHelper(elementA, elementB) {
+			elementA = elementA.find(valueSelector);
+			elementB = elementB.find(valueSelector);
+
+			let valueA, valueB;
+			if (elementA.hasAttribute("value")) {
+				valueA = elementA.getAttribute("value");
+				valueB = elementB.getAttribute("value");
+			} else {
+				valueA = elementA.innerText;
+				valueB = elementB.innerText;
+
+				if (elementA.find(".t-show, .wai") && valueA.includes("\n")) {
+					valueA = valueA.split("\n").filter(x => !!x)[1];
+					valueB = valueB.split("\n").filter(x => !!x)[1];
+				}
+			}
+
+			let a, b;
+			if (isNaN(parseFloat(valueA))) {
+				if (valueA.includes("$")) {
+					a = parseFloat(valueA.replace("$", "").replace(/,/g, ""));
+					b = parseFloat(valueB.replace("$", "").replace(/,/g, ""));
+				} else {
+					a = valueA.toLowerCase().localeCompare(valueB.toLowerCase());
+					b = 0;
+				}
+			} else {
+				a = parseFloat(valueA.replaceAll(",", ""));
+				b = parseFloat(valueB.replaceAll(",", ""));
+			}
+
+			return { a, b };
+		}
+	}
 }

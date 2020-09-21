@@ -68,6 +68,7 @@
                 <div class="navigation">
                     <div name="general" class="active">General</div>
                     <div name="global">Global</div>
+                    <div name="sidebar">Sidebar</div>
                     <div name="popup">Popup</div>
                     <div name="api">API Page</div>
                     <div name="notifications">Notifications</div>
@@ -98,7 +99,13 @@
                         <div class="option" id="update_notification">
                             <input type="checkbox">Show update notification
                         </div>
-                        <div class="option" id="force_tt"><input type="checkbox">Force TornTools over Doctorn</div>
+                        <div class="option" id="force_tt"><input type="checkbox">Force TornTools over DoctorN</div>
+                        <div class="option" id="check_extensions">
+                            <input id="inputCheckExtensions" type="checkbox">
+                            <label for="inputCheckExtensions">
+                                Check automatically for compatible extensions
+                            </label>
+                        </div>
                         <div class="option" id="font_size">Chat font size: <input type="text" class="short"></div>
                         <div class="option" id="developer">
                             <input type="checkbox">Enable Developer features.
@@ -116,9 +123,6 @@
                     </div>
                     <div class="section" name="global">
                         <div class="heading">Global</div>
-                        <div class="option" id="global-notes">
-                            <input type="checkbox">Show small Notes box in the Navigation panel
-                        </div>
                         <div class="option" id="global-hide_upgrade">
                             <input type="checkbox">Hide Level Upgrade info
                         </div>
@@ -129,20 +133,17 @@
                             <input type="checkbox">Align Torn to left
                         </div>
                         <div class="note">(fits more open chats)</div>
-                        <div class="option" id="global-vault_balance">
-                            <input type="checkbox">Display Vault balance under "Money" in Torn's Information tab
-                        </div>
-                        <div class="option tabbed" id="global-vault_balance_own">
-                            <input type="checkbox">Display your own vault share
-                        </div>
                         <div class="option" id="global-find_chat">
                             <input type="checkbox">Display 'find' feature for chatboxes
                         </div>
-                        <div class="option" id="global-oc_time">
-                            <input type="checkbox">
-                            Display OC ready time in Information window
+                        <div class="option" id="global-block_zalgo">
+                            <input type="checkbox">Block Zalgo in chat <span class="new">New!</span>
                         </div>
-                        <div class="note tabbed">(requires Faction API access)</div>
+                        <div class="option" id="global-miniprofile_last_action">
+                            <input id="inputGlobalMiniprofileLastAction" type="checkbox">
+                            <label for="inputGlobalMiniprofileLastAction">Show Last Action in the mini profiles.</label>
+                            <span class="new">New!</span>
+                        </div>
 
                         <div class="heading">*Chat Highlight</div>
                         <div class="table list" id="chat_highlight">
@@ -155,6 +156,37 @@
                             </div>
                         </div>
                         <div class="note">Placeholders:</div>
+                    </div>
+                    <div class="section" name="sidebar">
+                        <div class="heading">Global</div>
+                        <div class="option" id="global-notes">
+                            <input type="checkbox">Show small Notes box in the Navigation panel
+                        </div>
+                        <div class="option" id="global-vault_balance">
+                            <input type="checkbox">Display Vault balance under "Money" in Torn's Information tab
+                        </div>
+                        <div class="option tabbed" id="global-vault_balance_own">
+                            <input type="checkbox">Display your own vault share
+                        </div>
+                        <div class="option" id="global-oc_time">
+                            <input type="checkbox">
+                            Display OC ready time in Information window
+                        </div>
+                        <div class="note tabbed">(requires Faction API access)</div>
+
+                        <div class="heading">Available Refills</div>
+                        <div class="option" id="global-refill_energy">
+                            <input id="c_global-refill_energy" type="checkbox">
+                            <label for="c_global-refill_energy">
+                                Highlight energy when refill hasn't been used yet
+                            </label>
+                        </div>
+                        <div class="option" id="global-refill_nerve">
+                            <input id="c_global-refill_nerve" type="checkbox">
+                            <label for="c_global-refill_nerve">
+                                Highlight nerve when refill hasn't been used yet
+                            </label>
+                        </div>
 
                         <div class="heading">Icons</div>
                         <div id="icons"></div>
@@ -185,10 +217,10 @@
                         <div class="table list" id="custom_links">
                             <div class="body">
                                 <div class="row input">
-                                    <input type="checkbox" class="new_tab" checked>
-                                    <select type="text" class="text preset" name="links"></select>
-                                    <input type="text" class="text name" placeholder="Name..">
-                                    <input type="text" class="text href" placeholder="Link..">
+                                    <input checked class="new_tab" type="checkbox">
+                                    <select class="text preset" name="links" type="text"></select>
+                                    <input class="text name" placeholder="Name.." type="text">
+                                    <input class="text href" placeholder="Link.." type="text">
                                     <div class="add-button" id="add_link">Add</div>
                                 </div>
                                 <div class="tabbed note"><span class="arrow">&#8625;</span>(open in new tab)</div>
@@ -247,7 +279,7 @@
                         <div class="option multi-nr-input" id="notifications-life">Life: <input type="text"></div>
                         <div class="tabbed note">Separate by commas (5,10%,25%,1700,100%)</div>
                         <div class="option single-nr-input" id="notifications-chain">
-                            Notify me <input type="text" class="short"> minutes before the chain timer ends
+                            Notify me <input type="text"> seconds before the chain timer ends
                         </div>
                         <div class="option single-nr-input" id="notifications-chain_count">
                             Notify me <input type="text" class="short"> hits before reaching a Bonus hit
@@ -257,6 +289,9 @@
                         </div>
                         <div class="option single-nr-input" id="notifications-landing">
                             Notify me <input type="text" class="short"> minutes before landing
+                        </div>
+                        <div class="option single-nr-input" id="notifications-drugs">
+                            Notify me <input type="text"> minutes before the drug cooldowns ends.
                         </div>
 
                         <br>
@@ -433,62 +468,67 @@
 
                     <div class="section" name="stats_estimate">
                         <div class="option heading" id="stats_estimate-global">
-                            <input type="checkbox">Stats Estimate<span class="new">New!</span></div>
+                            <input type="checkbox">Stats Estimate
+                        </div>
                         <div class="option single-nr-input" id="stats_estimate-delay">
-                            Delay <input type="number"> ms<span class="new">New!</span>
+                            Delay <input type="number"> ms
                         </div>
                         <div class="note tabbed">(setting this too low will risk getting your api banned easily)</div>
                         <div class="option" id="stats_estimate-cached_only">
-                            <input type="checkbox">Cached Only <span class="new">New!</span>
+                            <input type="checkbox">Cached Only
                         </div>
                         <div class="note tabbed">(only show cached results, except on the profile page)</div>
                         <div class="option" id="stats_estimate-cached_only_show">
-                            <input type="checkbox">Show that no cached result was found <span class="new">New!</span>
+                            <input type="checkbox">Show that no cached result was found
+                        </div>
+                        <div class="option single-nr-input" id="stats_estimate-max_level">
+                            Max level
+                            <input class="level" type="number" min="0" max="100"> <span class="new">New!</span>
                         </div>
 
                         <div class="heading">Pages</div>
                         <div class="option" id="stats_estimate-profile">
-                            <input type="checkbox">Profiles <span class="new">New!</span>
+                            <input type="checkbox">Profiles
                         </div>
                         <div class="note tabbed">(will show at the same time as data fetch)</div>
                         <div class="option" id="stats_estimate-userlist">
-                            <input type="checkbox">Userlist <span class="new">New!</span>
+                            <input type="checkbox">Userlist
                         </div>
                         <div class="option" id="stats_estimate-faction_members">
-                            <input type="checkbox">Faction Member list <span class="new">New!</span>
+                            <input type="checkbox">Faction Member list
                         </div>
                         <div class="option" id="stats_estimate-faction_wars">
-                            <input type="checkbox">Faction Wars <span class="new">New!</span>
+                            <input type="checkbox">Faction Wars
                         </div>
                         <div class="option" id="stats_estimate-bounties">
-                            <input type="checkbox">Bounty List <span class="new">New!</span>
+                            <input type="checkbox">Bounty List
                         </div>
                         <div class="option" id="stats_estimate-enemies_list">
-                            <input type="checkbox">Enemies List <span class="new">New!</span>
+                            <input type="checkbox">Enemies List
                         </div>
                         <div class="option" id="stats_estimate-hall_of_fame">
-                            <input type="checkbox">Hall of Fame <span class="new">New!</span>
+                            <input type="checkbox">Hall of Fame
                         </div>
                         <div class="option" id="stats_estimate-abroad">
-                            <input type="checkbox">Abroad <span class="new">New!</span>
+                            <input type="checkbox">Abroad
                         </div>
                         <div class="option" id="stats_estimate-competition">
-                            <input type="checkbox">Competition <span class="new">New!</span>
+                            <input type="checkbox">Competition
                         </div>
                     </div>
 
                     <div class="section" name="no_confirm">
                         <div class="option heading" id="no_confirm-global">
-                            <input type="checkbox">No Confirm <span class="new">New!</span>
+                            <input type="checkbox">No Confirm
                         </div>
                         <div class="option" id="no_confirm-item_market">
-                            <input type="checkbox">Item Market <span class="new">New!</span>
+                            <input type="checkbox">Item Market
                         </div>
                         <div class="option" id="no_confirm-revives">
-                            <input type="checkbox">Revives <span class="new">New!</span>
+                            <input type="checkbox">Revives
                         </div>
                         <div class="option" id="no_confirm-item_equip">
-                            <input type="checkbox">Item equipping <span class="new">New!</span>
+                            <input type="checkbox">Item equipping
                         </div>
                     </div>
 
@@ -548,6 +588,11 @@
                         <div class="option" id="bazaar-max_buy_ignore_cash">
                             <input type="checkbox">Ignore the cash on hand for max buy in bazaars.
                         </div>
+                        <div class="option" id="itemmarket-market_value">
+                            Hightlight when an item is <input max="100" min="0" type="number">%
+                            cheaper on the market than it's value.
+                        </div>
+
                         <div class="heading">Filters (factions)</div>
                         <div class="table list" id="filter-factions">
                             <div class="body">
@@ -619,11 +664,9 @@
             <ul>
                 <li>Periodically
                     <ul>
-                        <li>User's stats, crimes, stocks, networth, bars, cooldowns, events, messages, etc. (every
-                            30
-                            seconds)
-                        </li>
+                        <li>User's status, cooldown, money, events and messages. (every 30 seconds)</li>
                         <li>Pull data from YATA servers: loot times, travel market info (1 per minute)</li>
+                        <li>User's stats, perks, items and education. (every 2 minutes)</li>
                         <li>Torn stocks data (every 15 minutes)</li>
                         <li>Torn's honors, medals, item values, point values. Faction's OC info (1 per 24 hours)
                         </li>

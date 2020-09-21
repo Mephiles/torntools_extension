@@ -4,6 +4,20 @@ requireDatabase().then(() => {
 	// Add TT Black overlay
 	doc.find("body").appendChild(doc.new({ type: "div", class: "tt-black-overlay" }));
 
+	if (settings.pages.global.miniprofile_last_action) {
+		addFetchListener(event => {
+			if (!event.detail) return;
+			const { page, json, fetch } = event.detail;
+
+			const params = new URL(fetch.url).searchParams;
+			const step = params.get("step");
+
+			if (page === "profiles" && step === "getUserNameContextMenu") {
+				showMiniprofileInformation(json);
+			}
+		});
+	}
+
 	if (settings.scripts.no_confirm.revives) {
 		injectXHR();
 
@@ -59,7 +73,7 @@ requireDatabase().then(() => {
 		for (let icon of doc.findAll(`#sidebarroot .status-icons___1SnOI>li`)) {
 			let name = icon.getAttribute("class").split("_")[0];
 			if (hide_icons.indexOf(name) > -1) {
-				icon.remove();
+				icon.parentElement.appendChild(icon);
 			}
 		}
 
@@ -90,6 +104,8 @@ requireDatabase().then(() => {
 				window.location.href = "https://www.torn.com/crimes.php";
 			};
 		}
+
+		highlightRefills();
 
 		// Global time reducer
 		setInterval(() => {
@@ -132,7 +148,7 @@ requireDatabase().then(() => {
 		}
 
 		if (doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")) {
-			highLightChat(highlights);
+			manipulateChat(highlights);
 
 			if (settings.pages.global.find_chat) addChatFilters();
 		}
@@ -142,7 +158,7 @@ requireDatabase().then(() => {
 				return;
 			}
 
-			highLightChat(highlights);
+			manipulateChat(highlights);
 			if (settings.pages.global.find_chat) addChatFilters();
 		});
 
@@ -152,6 +168,7 @@ requireDatabase().then(() => {
 					let message = mutation.addedNodes[0];
 
 					applyChatHighlights(message, highlights);
+					if (settings.pages.global.block_zalgo) removeZalgoText(message);
 				}
 			}
 		});
@@ -280,13 +297,14 @@ function addUpdateNotification() {
 	doc.find("h2=Areas").nextElementSibling.insertBefore(cell, doc.find("h2=Areas").nextElementSibling.firstElementChild);
 }
 
-function highLightChat(chat_highlight) {
-	let chats = doc.findAll(".chat-box-content_2C5UJ .overview_1MoPG");
-	for (let chat of chats) {
-		let messages = chat.findAll(".message_oP8oM");
+function manipulateChat(highlights) {
+	if (highlights || settings.pages.global.block_zalgo) {
+		for (let chat of doc.findAll(".chat-box-content_2C5UJ .overview_1MoPG")) {
+			for (let message of chat.findAll(".message_oP8oM")) {
+				if (highlights) applyChatHighlights(message, highlights);
 
-		for (let message of messages) {
-			applyChatHighlights(message, chat_highlight);
+				if (settings.pages.global.block_zalgo) removeZalgoText(message);
+			}
 		}
 	}
 }
@@ -312,6 +330,15 @@ function applyChatHighlights(message, highlights) {
 
 	function simplify(text) {
 		return text.toLowerCase().replaceAll([".", "?", ":", "!", "\"", "'", ";", "`", ","], "");
+	}
+}
+
+function removeZalgoText(message) {
+	const content = message.find("span");
+
+	if (REGEX_COMBINING_SYMBOL.test(content.innerHTML)) {
+		console.log("Removed zalgo text.", content.innerHTML, content);
+		content.innerHTML = content.innerHTML.replace(REGEX_COMBINING_SYMBOL, "*");
 	}
 }
 
@@ -471,54 +498,6 @@ function displayOCtime() {
 	}
 }
 
-function onMiniProfile(callback) {
-	if (doc.find(".profile-mini-root")) addListener();
-	else {
-		new MutationObserver((mutations, observer) => {
-			for (let mutation of mutations) {
-				let found = false;
-				for (let node of mutation.addedNodes) {
-					if (node.id !== "profile-mini-root") continue;
-
-					found = true;
-					break;
-				}
-
-				if (found) {
-					addListener();
-					observer.disconnect();
-					break;
-				}
-			}
-		}).observe(doc.find("body"), { childList: true });
-	}
-
-	function addListener() {
-		if (doc.find("#profile-mini-root .mini-profile-wrapper")) triggerCallback();
-
-		new MutationObserver((mutations) => {
-			for (let mutation of mutations) {
-				let found = false;
-				for (let node of mutation.addedNodes) {
-					if (!node.classList.contains("mini-profile-wrapper")) continue;
-
-					found = true;
-					break;
-				}
-
-				if (found) {
-					triggerCallback();
-					break;
-				}
-			}
-		}).observe(doc.find("#profile-mini-root"), { childList: true });
-	}
-
-	function triggerCallback() {
-		requireElement("#profile-mini-root .mini-profile-wrapper .profile-container").then(callback);
-	}
-}
-
 function addReviveListener() {
 	const script = doc.new({
 		type: "script",
@@ -552,4 +531,41 @@ function showCustomConsole() {
 	ttConsole.parent = element;
 
 	doc.find("#mainContainer").insertBefore(element, doc.find("#mainContainer > .clear"));
+}
+
+function highlightRefills() {
+	if (mobile) return;
+
+	if (settings.pages.global.refill_energy && !userdata.refills.energy_refill_used) {
+		doc.find("#barEnergy .bar-name___3TJ0p").classList.add("tt-refill");
+	}
+	if (settings.pages.global.refill_nerve && !userdata.refills.nerve_refill_used) {
+		doc.find("#barNerve .bar-name___3TJ0p").classList.add("tt-refill");
+	}
+}
+
+function showMiniprofileInformation(information) {
+	const miniProfile = doc.find("#profile-mini-root .mini-profile-wrapper");
+
+	const lastAction = timeAgo(Date.now() - (information.user.lastAction.seconds * 1000));
+
+	const signupDate = new Date(information.user.signUp * 1000);
+	const formattedTime = formatTime([signupDate.getUTCHours(), signupDate.getUTCMinutes(), signupDate.getUTCSeconds()], settings.format.time);
+	const formattedDate = formatDate([signupDate.getUTCDate(), signupDate.getUTCMonth() + 1, signupDate.getUTCFullYear()], settings.format.date);
+
+	requireElement(".-profile-mini-_userProfileWrapper___39cKq", { parent: miniProfile }).then(() => {
+		setTimeout(() => {
+			miniProfile.find(".-profile-mini-_userProfileWrapper___39cKq").appendChild(doc.new({
+				type: "div",
+				class: "tt-mini-data",
+				children: [
+					doc.new({ type: "strong", text: "Last Action: " }),
+					doc.new({ type: "span", text: lastAction }),
+					// doc.new("br"),
+					// doc.new({ type: "strong", text: "Signup: " }),
+					// doc.new({ type: "span", text: `${formattedTime} ${formattedDate}` }),
+				],
+			}));
+		}, 500);
+	});
 }

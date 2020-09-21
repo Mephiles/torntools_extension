@@ -1,4 +1,15 @@
 requireDatabase().then(() => {
+	addXHRListener((event) => {
+		const { page, uri, xhr, json } = event.detail;
+
+		const params = new URLSearchParams(xhr.requestBody);
+		const step = params.get("step");
+
+		if (page === "imarket" && step === "getItems") {
+			highlightCheapItems(json);
+		}
+	});
+
 	itemmarketLoaded().then(() => {
 		console.log("TT - Item Market");
 
@@ -26,6 +37,7 @@ requireDatabase().then(() => {
 					event.target.parentElement.setAttribute("href", url);
 				}
 			});
+			highlightCheapItems();
 		}
 
 		if (settings.scripts.no_confirm.global && settings.scripts.no_confirm.item_market) {
@@ -43,7 +55,7 @@ requireDatabase().then(() => {
 });
 
 function itemmarketLoaded() {
-	return requireElement("#item-market-main-wrap .info-msg .msg .ajax-placeholder", true);
+	return requireElement("#item-market-main-wrap .info-msg .msg .ajax-placeholder", { invert: true });
 }
 
 function subview() {
@@ -71,5 +83,31 @@ function removeConfirmButtons(source = doc) {
 		if (view === "item_view") {
 			icon.setAttribute("data-price", item.find(".cost").innerText.split(": ").pop().substring(1).replaceAll(",", ""));
 		}
+	}
+}
+
+function highlightCheapItems(items) {
+	if (settings.pages.itemmarket.market_value === undefined || settings.pages.itemmarket.market_value === "") return;
+
+	const percentage = 1 - settings.pages.itemmarket.market_value / 100;
+	if (items) {
+		for (let marketItem of items) {
+			if (parseInt(marketItem.price) < itemlist.items[marketItem.itemID].market_value * percentage) {
+				requireElement(`.market-tabs-wrap li[data-item="${marketItem.itemID}"]`).then(() => {
+					doc.find(`.market-tabs-wrap li[data-item="${marketItem.itemID}"] > .title`).setAttribute("color", "green");
+				});
+			}
+		}
+	} else {
+		requireElement(".market-tabs-wrap > div[aria-expanded='true'] > .m-items-list > li").then(() => {
+			for (let marketItem of doc.findAll(".market-tabs-wrap > div[aria-expanded='true'] > .m-items-list > li:not(.clear)")) {
+				const id = marketItem.getAttribute("data-item");
+				const price = parseInt(marketItem.find(".m-item-wrap").getAttribute("aria-label").split(": $")[1].replaceAll(",", ""));
+
+				if (price < itemlist.items[id].market_value * percentage) {
+					doc.find(`.market-tabs-wrap li[data-item="${id}"] > .title`).setAttribute("color", "green");
+				}
+			}
+		});
 	}
 }

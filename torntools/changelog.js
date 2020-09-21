@@ -1,4 +1,35 @@
 export default {
+	"v5.1 - September, xth. 2020": {
+		"Features": [
+			"Remove zalgo text from chat. - DKK",
+			"Add specials info on company pages. - Mephiles",
+			"Highlight energy and nerve when their respective refills haven't been used yet. - DKK",
+			"On the item market, highlight items under their market value. - DKK",
+			"Show last action in the mini profile. - DKK",
+			"Add mid-drug cooldown notification. - DKK",
+			"Add filtering and sorting for items abroad. - DKK",
+		],
+		"Fixes": [
+			"Don't cache stats estimates if they are disabled on profiles. - DKK",
+			"Fix settings messages. - DKK",
+			"Fix target table when there are no targets. - DKK",
+			"Fix multiple mission hints. - DKK",
+			"Fix missions for the Anonymous agent. - DKK",
+			"Fix mission hints not showing when changing agents, accepting or completing a mission. - DKK",
+			"Fix the demo automatically opening and the markings when changing your api key on the API page. - DKK",
+			"Fix the energy warning while abroad when you already spent that energy. - DKK",
+			"Detect mobile based on width instead of elements. - Mephiles",
+		],
+		"Changes": [
+			"Improve stats estimates caching. - DKK",
+			"Add an option to only show stats estimates under a certain level. - DKK",
+			"Improve missing mission information message. - DKK",
+			"Add an option to disable extension checking. - DKK",
+			"Show stakeout list in the popup. - Mephiles",
+			"Prevent accidental loss of settings when you have unsaved settings. - DKK",
+			"Change chain notifications to seconds instead of minutes. - DKK",
+		],
+	},
 	"v5.0.1 - September, 11th. 2020": {
 		"Fixes": [
 			"Fix trade open chat on Firefox. - DKK",
@@ -141,7 +172,7 @@ export default {
 			"Add Quick Bail & Bust and Scores - Mephiles",
 		],
 		"Fixes": [
-			"Fix Doctorn detection not accounting disabled setting - Mephiles",
+			"Fix DoctorN detection not accounting disabled setting - Mephiles",
 			"Fix the buy max abroad to take already bought items into account - DKK",
 			"Format rehab cost as currency - DKK",
 			"Fix gym hiding not working after switching to another gym - DKK",
@@ -199,7 +230,7 @@ export default {
 			"Added option to disable 'find' feature in chat",
 			"Removed duplicates from Profile Stats",
 			"Fixed Market Tab searching - Thanks DKK",
-			"Fixed OC Recommended NNB display when Doctorn is enabled - Thanks DKK",
+			"Fixed OC Recommended NNB display when DoctorN is enabled - Thanks DKK",
 			"Fixed Gym Estimated Energy script when unlocking the last gym",
 			"Fixed Mobile content overflow",
 			"Fixed search bug in Stocks popup",
@@ -222,7 +253,7 @@ export default {
 			"Removed Text-To-Speech from permissions (still usable)",
 			"Improved Travel Destinations table. Clicking on Country filters affects the map and vice-versa",
 			"Added link to TornTools preferences to Torn's Settings page",
-			"Removed options for Doctorn in settings. Auto-detection is enabled for Chrome and Firefox - Thanks DKK",
+			"Removed options for DoctorN in settings. Auto-detection is enabled for Chrome and Firefox - Thanks DKK",
 			"Adjusted 'buy' button position to reduce misclicking",
 		],
 		"API SYSTEM CHANGES": [
@@ -270,7 +301,7 @@ export default {
 			"Split up API settings",
 			"Re-designed Gym container to show progress from last update",
 			"Re-designed Profile Stats page to display Spy info",
-			"Profile script now takes into count if Doctorn is installed",
+			"Profile script now takes into count if DoctorN is installed",
 			"Slightly improved Settings page design",
 		],
 		"Notifications": [
@@ -288,7 +319,7 @@ export default {
 			"Added links to Stocks popup stock names",
 		],
 		"Fixes": [
-			"Fixed Bounty Filter not working well with Doctorn",
+			"Fixed Bounty Filter not working well with DoctorN",
 			"Fixed TornStats integration not working on Firefox",
 			"Fixed Notifications for events, messages, X minutes until landing, X minutes until out of hospital, Stakeouts, NPC loot times (notifications will repeat every 15minutes if time is over 15minutes)",
 			"Fixed Quick Crimes failing to load sometimes",
@@ -338,8 +369,8 @@ export default {
 			"Added Gym Stats graph to Gym page. To use, you need to have a TornStats account ((https://www.tornstats.com/)",
 		],
 		"Fixes": [
-			"Disabled Chat Highlighting when Doctorn is installed and TornTools is not forced",
-			"Disabled Quick Crimes & Quick Items if Doctorn is installed and TornTools is not forced",
+			"Disabled Chat Highlighting when DoctorN is installed and TornTools is not forced",
+			"Disabled Quick Crimes & Quick Items if DoctorN is installed and TornTools is not forced",
 			"Fixed Info popup showing only 0 messages & events",
 		],
 		"Changes": [
@@ -401,7 +432,7 @@ export default {
 			"Added update-available notifier with instructions to manually update on About page",
 			"Added option to hide Level Upgrade info (button and info on Home page)",
 			"Added item type sorting to Travel Destinations table",
-			"Added option to disable item highlighting on City Map if TornTools container is close (similar to Doctorn)",
+			"Added option to disable item highlighting on City Map if TornTools container is close (similar to DoctorN)",
 			"Added option to open Custom Links on same page",
 			"Added back Stock Search function",
 			"Added option to hide item values on Trade view to allow copy-pasting for traders",
@@ -428,14 +459,14 @@ export default {
 	"v4.1": {
 		"Fixes": [
 			"Fixed bug that halted all extension's process",
-			"Fixed Doctorn check not working correctly",
+			"Fixed DoctorN check not working correctly",
 			"Fixed Mail Me link in settings - Thanks KenDoll[2235541]",
 			"Fixed UAE travel achievement",
 		],
 	},
 	"v4.0 - Taking over": {
 		"Features": [
-			"Added option to force TornTools over Doctorn where possible",
+			"Added option to force TornTools over DoctorN where possible",
 			"Added custom Links to navigation panel",
 			"Added Item Stock into Travel Destinations table (replaced flight time) - Powered by YATA",
 			"Added option to collapse TornTools containers (clicking on the heading works too)",
@@ -450,7 +481,7 @@ export default {
 			"IMPORTANT: Torn changed the formatting of dates in Vault transactions. Adjusted TornTools with that. (CLICK save to update the database with the latest correct date)",
 			"Fixed Vault not updating User's shares when looping through old transactions",
 			"Fixed API errors not appearing on Stocks page",
-			"Fixed Doctorn always set as False on Firefox (set using/not using under settings)",
+			"Fixed DoctorN always set as False on Firefox (set using/not using under settings)",
 		],
 		"Changes": [
 			"Removed Hospital from 'remove info boxes' script",

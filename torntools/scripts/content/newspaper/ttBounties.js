@@ -117,6 +117,7 @@ function showStatsEstimates() {
 	estimateStatsInList(".bounties-list > li:not(.clear)", (row) => {
 		return {
 			userId: row.find(".head .target a").getAttribute("href").match(/profiles\.php\?XID=([0-9]*)/i)[1],
+			level: parseInt(row.find(".level").innerText),
 		};
 	});
 }

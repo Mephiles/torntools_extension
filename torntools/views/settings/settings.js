@@ -15,6 +15,8 @@ const LINKS = {
 	"Travel Agency": { link: "https://www.torn.com/travelagency.php" },
 };
 
+const preferenceModifications = new Set();
+
 requireDatabase(false)
 	.then(() => {
 		console.log("Start Settings");
@@ -100,6 +102,8 @@ requireDatabase(false)
 				});
 
 		});
+
+		registerChanges();
 	})
 	.catch((err) => {
 		console.error(err);
@@ -107,7 +111,7 @@ requireDatabase(false)
 		if (api_key) {
 			title = "Oops";
 			message = "### Something has gone wrong. Please contact the developers and let them know of the following message:\n" +
-				"(ERROR) ${err}\n" +
+				`(ERROR) ${err}\n` +
 				"Clicking either 'Cancel' or 'Confirm' will reload the page.";
 		} else {
 			title = "API key";
@@ -120,6 +124,36 @@ requireDatabase(false)
 			.then(() => location.reload())
 			.catch(() => location.reload());
 	});
+
+function registerChanges() {
+	const defaultKey = "defaultValue";
+
+	window.addEventListener("beforeinput", (evt) => {
+		const target = evt.target;
+		if (defaultKey in target || defaultKey in target.dataset) return;
+
+		target.dataset[defaultKey] = ("" + (target.value || target.textContent)).trim();
+	});
+	window.addEventListener("input", (evt) => {
+		const target = evt.target;
+		const original = defaultKey in target ? target[defaultKey] : target.dataset[defaultKey];
+
+		if (original !== ("" + (target.value || target.textContent)).trim()) {
+			if (!preferenceModifications.has(target)) preferenceModifications.add(target);
+		} else if (preferenceModifications.has(target)) {
+			preferenceModifications.delete(target);
+		}
+	});
+	window.addEventListener("submit", () => preferenceModifications.clear());
+	window.addEventListener("beforeunload", event => {
+		if (!preferenceModifications.size) return;
+
+		const message = "Changes you made may not be saved.";
+
+		event.returnValue = message;
+		return message;
+	});
+}
 
 function loadPage(name) {
 	console.log("Loading page:", name);
@@ -269,6 +303,7 @@ function setupPreferences() {
 	// General
 	preferences.find(`#update_notification input`).checked = settings.update_notification;
 	preferences.find("#force_tt input").checked = settings.force_tt;
+	preferences.find("#check_extensions input").checked = settings.check_extensions;
 	preferences.find("#developer input").checked = settings.developer;
 	preferences.find(`#format-date-${settings.format.date} input`).checked = true;
 	preferences.find(`#format-time-${settings.format.time} input`).checked = true;
@@ -699,6 +734,7 @@ function targetList() {
 
 				item.innerText = date.toLocaleString();
 				item.setAttribute("value", date.toLocaleString());
+				item.setAttribute("type", "date");
 			} else {
 				let value = target_list[id][heading.name];
 				if (value === undefined) value = "";
@@ -890,6 +926,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	// General
 	settings.update_notification = preferences.find("#update_notification input").checked;
 	settings.force_tt = preferences.find("#force_tt input").checked;
+	settings.check_extensions = preferences.find("#check_extensions input").checked;
 	settings.developer = preferences.find("#developer input").checked;
 	settings.format.date = preferences.find("input[name=format-date]:checked").parentElement.id.split("-")[2];
 	settings.format.time = preferences.find("input[name=format-time]:checked").parentElement.id.split("-")[2];
@@ -1052,6 +1089,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 			console.log("new target list", target_list);
 		});
 	});
+	preferenceModifications.clear();
 
 	message("Settings saved.", true);
 }
@@ -1518,20 +1556,12 @@ function importData() {
 		.then(result => {
 			console.log("import", result);
 
-			let conflictMessage = `
-\n
-	`;
+			let conflictMessage = `\n`;
 
 			ttStorage.get(null, database => {
 				for (let key in result.data) {
 					if (JSON.stringify(result.data[key]) !== JSON.stringify(database[key])) {
-						conflictMessage += `
-- $
-	{
-		key
-	}
-\n
-	`;
+						conflictMessage += `- ${key}\n`;
 					}
 				}
 
@@ -1539,9 +1569,7 @@ function importData() {
 				if (conflictMessage.trim() === "") {
 					loadConfirmationPopup({
 						title: "Import",
-						message: `
-### You are all up-to-date
-	`,
+						message: `### You are all up-to-date`,
 					})
 						.then(() => {
 						})
@@ -1550,29 +1578,16 @@ function importData() {
 				} else {
 					loadConfirmationPopup({
 						title: "Import",
-						message: `
-### Are you sure that you want to overwrite following items?
-        $
-	{
-		conflictMessage
-	}
-
-                    
-	`,
+						message: `### Are you sure that you want to overwrite following items?\n${conflictMessage}`,
 					})
 						.then(async () => {
+							preferenceModifications.clear();
 							let import_result;
 							for (let key in result.data) {
 								import_result = await new Promise((resolve) => {
 									try {
 										ttStorage.set({ [key]: result.data[key] }, () => {
-											console.log(`
-$
-	{
-		key
-	}
- imported.
-	`);
+											console.log(`${key} imported.`);
 											return resolve({ success: true, message: "All settings imported" });
 										});
 									} catch (err) {

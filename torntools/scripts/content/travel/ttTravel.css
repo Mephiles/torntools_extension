@@ -202,7 +202,7 @@ input[type=number]::-webkit-outer-spin-button {
     display: none;
 }
 
-i.fa-caret-up {
+i.fa-caret-up:not(.tt-title-icon):not(.tt-title-icon-torn) {
     font-size: 19px;
     position: absolute;
     left: 47%;
@@ -285,4 +285,11 @@ i.fa-caret-down:not(.tt-title-icon):not(.tt-title-icon-torn) {
 
 .fa-caret-down:before {
     content: "\f0d7"
+}
+
+/*
+ * Sortable item table.
+ */
+.sortable {
+    cursor: pointer;
 }

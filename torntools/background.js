@@ -18,6 +18,7 @@ let notifications = {
 	happy: {},
 	life: {},
 	new_day: {},
+	drugs: {},
 };
 
 const links = {
@@ -51,6 +52,7 @@ let setup_storage = new Promise(resolve => {
 			console.log("Converting old storage.");
 			console.log("	Old storage", old_storage);
 			let new_storage = convertStorage(old_storage, STORAGE);
+			specificMigration({ ...new_storage });
 
 			console.log("	New storage", new_storage);
 
@@ -97,6 +99,20 @@ let setup_storage = new Promise(resolve => {
 			}
 
 			return new_local_storage;
+		}
+
+		function specificMigration(storage) {
+			/*
+			 * 5.0.1 --> 5.1
+			 */
+			// Change chain notifications to seconds instead of minutes.
+			for (let i in storage.settings.notifications.chain) {
+				if (parseFloat(storage.settings.notifications.chain[i]) > 5) continue;
+
+				storage.settings.notifications.chain[i] = parseFloat(storage.settings.notifications.chain[i]) * 60;
+			}
+
+			return storage;
 		}
 	});
 });
@@ -441,8 +457,10 @@ async function updateExtensions() {
 				doctorn: false,
 			};
 
-			for (let extension in extensions) {
-				extensions[extension] = await detectExtension(browser, extension);
+			if (settings.check_extensions) {
+				for (let extension in extensions) {
+					extensions[extension] = await detectExtension(browser, extension);
+				}
 			}
 
 			ttStorage.change({ extensions }, () => resolve(extensions));
@@ -809,6 +827,27 @@ function updateUserdata_essential(oldUserdata, oldTargetList) {
 						notifications.travel = {};
 					}
 
+					// Check for drug notification
+					if (settings.notifications.drugs.length && userdata.cooldowns.drug > 0) {
+						for (let checkpoint of settings.notifications.drugs.sort((a, b) => a - b)) {
+							let time_left = userdata.cooldowns.drug * 1000; // ms
+
+							if (time_left <= parseInt(checkpoint) * 1000 && !notifications.drugs[checkpoint]) {
+								notifications.drugs[checkpoint] = {
+									checkpoint: checkpoint,
+									title: "TornTools - Drugs",
+									text: `Your drug cooldown will end in ${Math.floor(time_left / 1000 / 60)} minutes ${(time_left / 1000 % 60).toFixed(0)} seconds`,
+									url: links.items,
+									seen: 0,
+									date: new Date(),
+								};
+								break;
+							}
+						}
+					} else {
+						notifications.drugs = {};
+					}
+
 					// Check for chain notification
 					if (settings.notifications.chain.length > 0 && userdata.chain.timeout !== 0 && userdata.chain.current >= 10) {
 						for (let checkpoint of settings.notifications.chain.sort((a, b) => a - b)) {
@@ -927,7 +966,7 @@ function updateUserdata_basic(oldUserdata, oldTorndata) {
 			fetchEducation = false;
 		}
 
-		const selections = `personalstats,crimes,battlestats,perks,workstats,stocks,ammo,inventory${fetchEducation ? `,education` : ""}`;
+		const selections = `personalstats,crimes,battlestats,perks,workstats,stocks,ammo,inventory${fetchEducation ? `,education` : ""},refills`;
 
 		fetchApi_v2("torn", { section: "user", selections: selections })
 			.then(async userdata => {
@@ -954,27 +993,22 @@ function updateStakeouts(oldStakeouts) {
 		if (Object.keys(oldStakeouts).length > 0) {
 			console.log("Checking stakeouts.");
 			for (let user_id of Object.keys(oldStakeouts)) {
-				let all_false = true;
-				for (let option in oldStakeouts[user_id]) {
-					if (oldStakeouts[user_id][option] === true) {
-						all_false = false;
-					}
-				}
-
-				if (all_false) {
-					ttStorage.get("stakeouts", stakeouts => {
-						delete stakeouts[user_id];
-						ttStorage.set({ stakeouts: stakeouts });
-					});
-					continue;
-				}
-
 				await new Promise(resolve => {
 					fetchApi_v2("torn", { section: "user", objectid: user_id })
-						.then(stakeout_info => {
+						.then(async stakeout_info => {
 							console.log(`	Checking ${stakeout_info.name} [${user_id}]`);
 
-							if (stakeouts[user_id].online) {
+							// Set info
+							oldStakeouts[user_id].info.last_action = stakeout_info.last_action;
+							oldStakeouts[user_id].info.username = stakeout_info.name;
+
+							await new Promise((resolve, reject) => {
+								ttStorage.set({ "stakeouts": oldStakeouts }, () => {
+									return resolve();
+								});
+							});
+
+							if (oldStakeouts[user_id].online) {
 								if (stakeout_info.last_action.status === "Online" && !notifications.stakeouts[user_id + "_online"]) {
 									console.log("	Adding [online] notification to notifications.");
 									notifications.stakeouts[user_id + "_online"] = {
@@ -988,7 +1022,7 @@ function updateStakeouts(oldStakeouts) {
 									delete notifications.stakeouts[user_id + "_online"];
 								}
 							}
-							if (stakeouts[user_id].okay) {
+							if (oldStakeouts[user_id].okay) {
 								if (stakeout_info.status.state === "Okay" && !notifications.stakeouts[user_id + "_okay"]) {
 									console.log("	Adding [okay] notification to notifications.");
 									notifications.stakeouts[user_id + "_okay"] = {
@@ -1002,7 +1036,7 @@ function updateStakeouts(oldStakeouts) {
 									delete notifications.stakeouts[user_id + "_okay"];
 								}
 							}
-							if (stakeouts[user_id].lands) {
+							if (oldStakeouts[user_id].lands) {
 								if (stakeout_info.status.state !== "Traveling" && !notifications.stakeouts[user_id + "_lands"]) {
 									console.log("	Adding [lands] notification to notifications.");
 									notifications.stakeouts[user_id + "_lands"] = {

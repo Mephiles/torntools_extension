@@ -495,12 +495,21 @@ function displayTargetInfo(targets) {
 	section.appendChild(doc.new({ type: "i", class: "uk-sortable-handle fas fa-arrows-alt" }));
 }
 
+function getLevel() {
+	const levelWrap = doc.find(".box-info .box-value");
+
+	return (parseInt(levelWrap.find(".digit-r .digit").innerText) || 0) * 100 +
+		(parseInt(levelWrap.find(".digit-m .digit").innerText) || 0) * 10 +
+		parseInt(levelWrap.find(".digit-l .digit").innerText);
+}
+
 async function displayProfileStats() {
 	let userId = getUserId();
 	let profile_stats = doc.find("#tt-target-info .profile-stats");
 
 	let result;
 
+	const level = getLevel();
 	if (cache && cache.profileStats[userId] && cache.battleStatsEstimate[userId]) {
 		result = {
 			stats: cache.profileStats[userId].data,
@@ -526,7 +535,11 @@ async function displayProfileStats() {
 							},
 						},
 					}, () => {
-						cacheEstimate(userId, timestamp, data.battleStatsEstimate, result.last_action);
+						if (!level || !settings.scripts.stats_estimate.max_level || settings.scripts.stats_estimate.max_level >= level) {
+							if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.profile)
+								cacheEstimate(userId, timestamp, data.battleStatsEstimate, result.last_action);
+
+						}
 					});
 
 					resolve(data);
@@ -692,13 +705,15 @@ async function displayProfileStats() {
 	// Add sortable icon
 	profile_stats.appendChild(doc.new({ type: "i", class: "uk-sortable-handle fas fa-arrows-alt" }));
 
-	if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.profile) {
-		doc.find(".profile-right-wrapper > .profile-action .title-black").appendChild(doc.new({
-			type: "span",
-			class: "tt-title-message",
-			text: result.battleStatsEstimate,
-			attributes: { color: "info" },
-		}));
+	if (!level || !settings.scripts.stats_estimate.max_level || settings.scripts.stats_estimate.max_level >= level) {
+		if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.profile) {
+			doc.find(".profile-right-wrapper > .profile-action .title-black").appendChild(doc.new({
+				type: "span",
+				class: "tt-title-message",
+				text: result.battleStatsEstimate,
+				attributes: { color: "info" },
+			}));
+		}
 	}
 }
 
@@ -973,20 +988,18 @@ function displayStakeoutOptions() {
 	let stakeout_div = doc.new({ type: "div", class: "tt-section", attributes: { name: "stakeouts" } });
 	doc.find("#tt-target-info .content").appendChild(stakeout_div);
 
-	let watchlist_wrap = doc.new({ type: "div", class: "tt-checkbox-wrap", attributes: { style: "display: none;" } });
-	let input = doc.new({ type: "input", attributes: { type: "checkbox" } });
-	let text = doc.new({ type: "div", text: "Add this player to Watch List" });
-	watchlist_wrap.appendChild(input);
+	let watchlist_wrap = doc.new({ type: "div", class: "tt-checkbox-wrap" });
+	let addToStakeoutsInput = doc.new({ type: "input", attributes: { type: "checkbox" } });
+	let text = doc.new({ type: "div", text: "Add this player to Stakeouts (no notifications needed)" });
+	watchlist_wrap.appendChild(addToStakeoutsInput);
 	watchlist_wrap.appendChild(text);
 	stakeout_div.appendChild(watchlist_wrap);
 
-	for (let user of watchlist) {
-		if (user.id === userId) {
-			input.checked = true;
-		}
+	if(stakeouts[userId]) {
+		addToStakeoutsInput.checked = true;
 	}
 
-	input.onclick = () => {
+	addToStakeoutsInput.onclick = () => {
 		saveStakeoutSettings();
 	};
 
@@ -1038,45 +1051,16 @@ function displayStakeoutOptions() {
 	stakeout_div.appendChild(doc.new({ type: "i", class: "uk-sortable-handle fas fa-arrows-alt" }));
 
 	function saveStakeoutSettings() {
-		if (input.checked) {
-			ttStorage.get("watchlist", watchlist => {
-				let is_in_list = false;
-				for (let item of watchlist) {
-					if (item.id === userId) {
-						is_in_list = true;
-						break;
-					}
-				}
-
-				if (!is_in_list) {
-					watchlist.push({
-						id: userId,
-						username: getUsername(),
-						status: getStatus(),
-						traveling: getTraveling(),
-					});
-				}
-				ttStorage.set({ watchlist });
-			});
-		} else {
-			ttStorage.get("watchlist", watchlist => {
-				for (let item of watchlist) {
-					if (item.id === userId) {
-						watchlist.splice(watchlist.indexOf(item), 1);
-						break;
-					}
-				}
-				ttStorage.set({ watchlist });
-			});
-		}
-
-		if (checkbox_okay.checked === true || checkbox_lands.checked === true || checkbox_online.checked === true) {
+		if (addToStakeoutsInput.checked === true || checkbox_okay.checked === true || checkbox_lands.checked === true || checkbox_online.checked === true) {
 			ttStorage.change({
 				stakeouts: {
 					[userId]: {
-						okay: checkbox_okay.checked,
-						lands: checkbox_lands.checked,
-						online: checkbox_online.checked,
+						info: {},
+						notifications: {
+							okay: checkbox_okay.checked,
+							lands: checkbox_lands.checked,
+							online: checkbox_online.checked,
+						}
 					},
 				},
 			});

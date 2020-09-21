@@ -95,6 +95,17 @@ function mainInfo() {
 		};
 	}
 
+	// Stakeouts collapsing
+	doc.find('.stakeouts-heading').onclick = () => {
+		doc.find('.stakeouts-heading').classList.toggle('collapsed');
+
+		if(doc.find('.stakeouts-heading i.fa-caret-right')) {
+			doc.find('.stakeouts-heading i.fa-caret-right').setAttribute('class', 'fas fa-caret-down');
+		} else {
+			doc.find('.stakeouts-heading i.fa-caret-down').setAttribute('class', 'fas fa-caret-right');
+		}
+	}
+
 	// Update interval
 	setInterval(() => {
 		updateInfo(settings);
@@ -286,6 +297,27 @@ function mainInfo() {
 			doc.find(".footer .messages span").innerText = message_count;
 			doc.find(".footer .events span").innerText = event_count;
 			doc.find(".footer .money span").innerText = `$${numberWithCommas(userdata.money_onhand, false)}`;
+
+			// Update Stakeouts
+			doc.find('.stakeouts').innerHTML = '';
+			let even = false;
+			for(let userID in stakeouts) {
+				const userStatus = stakeouts[userID].info.last_action? stakeouts[userID].info.last_action.status : 'N/A';
+				const userHTML = `
+					<div class="row"><div class="status ${userStatus.toLowerCase()}">${userStatus}</div><div class="name">| <a>${stakeouts[userID].info.username || userID}</a></div></div>
+					<div class="row"><div class="last-action">Last action: ${stakeouts[userID].info.last_action? stakeouts[userID].info.last_action.relative : 'N/A'}</div></div>
+					<div class="row"></div>
+				`
+
+				const userEL = doc.new({ type: 'div', class: `user ${even? 'even':'odd'}` });
+				userEL.innerHTML = userHTML;
+				userEL.find('.name a').onclick = () => {
+					window.open(`https://www.torn.com/profiles.php?XID=${userID}`);
+				}
+
+				doc.find('.stakeouts').appendChild(userEL);
+				even = even? false : true;
+			}
 		});
 	}
 

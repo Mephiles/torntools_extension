@@ -10,6 +10,10 @@ p {
     margin-bottom: 6px;
 }
 
+label {
+    margin-left: -4px;
+}
+
 .bold {
     font-weight: 600;
 }
@@ -439,6 +443,10 @@ p {
 
 .option input[type=text].short {
     width: 15px;
+}
+
+.option input[type=number].level {
+    width: 45px;
 }
 
 /* About */

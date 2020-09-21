@@ -146,14 +146,18 @@ function loadArmory() {
 
 function loadControls() {
 	const btnGiveToUser = doc.find(".control-tabs > li[aria-controls='option-give-to-user']");
-	btnGiveToUser.addEventListener("click", () => {
-		if (doc.find(".control-tabs > li[aria-controls='option-give-to-user']").getAttribute("aria-selected")) {
+
+	if (btnGiveToUser) {
+		btnGiveToUser.addEventListener("click", () => {
+			if (doc.find(".control-tabs > li[aria-controls='option-give-to-user']").getAttribute("aria-selected")) {
+				loadGiveToUser();
+			}
+		});
+		if (btnGiveToUser.getAttribute("aria-selected")) {
 			loadGiveToUser();
 		}
-	});
-	if (doc.find(".control-tabs > li[aria-controls='option-give-to-user']").getAttribute("aria-selected")) {
-		loadGiveToUser();
 	}
+
 }
 
 function loadGiveToUser() {
@@ -243,7 +247,6 @@ function shortenArmoryNews() {
 		let keywords = ["used", "filled", "lent", "retrieved", "returned", "deposited", "gave"];
 		let inner_span = doc.new("span");
 
-		console.log("DKK key", key);
 		for (let keyword of keywords) {
 			if (key.includes(keyword)) {
 				if (key.includes("one")) {
@@ -296,11 +299,11 @@ function subpageLoaded(page) {
 		case "crimes":
 			return requireElement("#faction-crimes .organize-wrap ul.crimes-list li");
 		case "main":
-			return requireElement("#faction-main div[data-title='announcement']+div .ajax-placeholder", true);
+			return requireElement("#faction-main div[data-title='announcement']+div .ajax-placeholder", { invert: true });
 		case "info":
-			return requireElement("#faction-info .ajax-placeholder", true);
+			return requireElement("#faction-info .ajax-placeholder", { invert: true });
 		case "upgrades":
-			return requireElement("#faction-upgrades > .ajax-placeholder", true);
+			return requireElement("#faction-upgrades > .ajax-placeholder", { invert: true });
 		default:
 			return Promise.resolve();
 	}
@@ -620,8 +623,10 @@ async function showUserInfo() {
 				container.style.display = tableRow.style.display === "none" ? "none" : "block";
 			}).observe(tableRow, { attributes: true, attributeFilter: ["style"] });
 
+			const level = parseInt(tableRow.find(".lvl").innerText);
+
 			loadingPlaceholder(row, true);
-			estimateStats(userId, false, estimateCount)
+			estimateStats(userId, false, estimateCount, level)
 				.then((result => {
 					loadingPlaceholder(row, false);
 					row.appendChild(doc.new({
@@ -813,7 +818,7 @@ function drugInfo() {
 }
 
 function itemInfoLoaded(element) {
-	return requireElement(".ajax-placeholder", true);
+	return requireElement(".ajax-placeholder", { invert: true });
 }
 
 function addFilterToTable(list, title) {
@@ -1428,6 +1433,7 @@ function observeDescription() {
 
 			return {
 				userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1],
+				level: parseInt(row.find(".level").innerText),
 			};
 		});
 	});
@@ -1446,6 +1452,7 @@ function observeDescription() {
 				for (let node of mutation.addedNodes) {
 					if (node && node.classList && (node.classList.contains("your") || node.classList.contains("enemy"))) {
 						const userId = (node.find("a.user.name").getAttribute("data-placeholder") || node.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1];
+						const level = parseInt(node.find(".level").innerText);
 
 						const container = doc.new({ type: "li", class: "tt-userinfo-container" });
 						node.parentElement.insertBefore(container, node.nextElementSibling);
@@ -1456,7 +1463,7 @@ function observeDescription() {
 						if (!hasCachedEstimate(userId)) estimateCount++;
 
 						loadingPlaceholder(row, true);
-						estimateStats(userId, false, estimateCount)
+						estimateStats(userId, false, estimateCount, level)
 							.then((result => {
 								loadingPlaceholder(row, false);
 								row.appendChild(doc.new({
