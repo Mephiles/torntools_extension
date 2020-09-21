@@ -1440,6 +1440,10 @@ const STORAGE = {
 	},
 	sorting: {
 		profile: [],
+		abroadItems: {
+			column: "default",
+			order: "asc",
+		},
 	},
 	cache: {
 		profileStats: {},
