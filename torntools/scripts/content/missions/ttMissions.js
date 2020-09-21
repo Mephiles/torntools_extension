@@ -317,7 +317,6 @@ function showMissionInformation() {
 				task = "You are using a conflicting script.";
 				hint = "Please remove the script that changes the mission title or contact the TornTools developers.";
 			} else {
-
 				task = "Couldn't find information for this mission.";
 				hint = "Contact the TornTools developers.";
 			}
