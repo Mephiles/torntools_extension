@@ -197,7 +197,7 @@ requireDatabase().then(() => {
 
 		const params = new URLSearchParams(xhr.requestBody);
 		let sid = params.get("sid");
-		if (!sid && uri && uri.sid) sid = uri.sid;
+		if (!sid && uri && (uri.sid || uri["?sid"])) sid = uri.sid || uri["?sid"];
 
 		if (page === "loader" || page === "loader2") {
 			if (sid === "missionsRewards") missionsLoaded().then(showRewards);
