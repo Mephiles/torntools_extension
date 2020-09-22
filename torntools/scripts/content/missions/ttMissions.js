@@ -194,16 +194,17 @@ requireDatabase().then(() => {
 
 	addXHRListener((event) => {
 		const { page, xhr, uri } = event.detail;
-		if (page !== "loader") return;
 
 		const params = new URLSearchParams(xhr.requestBody);
 		let sid = params.get("sid");
 		if (!sid && uri && uri.sid) sid = uri.sid;
 
-		if (sid === "missionsRewards") missionsLoaded().then(showRewards);
-		else if (sid === "missions" || sid === "completeContract" || sid === "acceptMission") missionsLoaded().then(showMissionInformation);
-		else {
-			console.log("Unknown mission action.", sid);
+		if (page === "loader" || page === "loader2") {
+			if (sid === "missionsRewards") missionsLoaded().then(showRewards);
+			else if (sid === "missions" || sid === "completeContract" || sid === "acceptMission") missionsLoaded().then(showMissionInformation);
+			else {
+				console.log("Unknown mission action.", sid);
+			}
 		}
 	});
 

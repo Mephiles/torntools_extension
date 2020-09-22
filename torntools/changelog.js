@@ -8,6 +8,7 @@ export default {
 			"Show last action in the mini profile. - DKK",
 			"Add mid-drug cooldown notification. - DKK",
 			"Add filtering and sorting for items abroad. - DKK",
+			"Add no confirm on trades. - DKK",
 		],
 		"Fixes": [
 			"Don't cache stats estimates if they are disabled on profiles. - DKK",
@@ -19,6 +20,7 @@ export default {
 			"Fix the demo automatically opening and the markings when changing your api key on the API page. - DKK",
 			"Fix the energy warning while abroad when you already spent that energy. - DKK",
 			"Detect mobile based on width instead of elements. - Mephiles",
+			"Don't show DoctorN NNB values if 'Force TT' has been enabled. - DKK",
 		],
 		"Changes": [
 			"Improve stats estimates caching. - DKK",

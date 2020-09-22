@@ -343,6 +343,8 @@ function openOCs() {
 }
 
 function showNNB() {
+	if (shouldDisable()) return;
+
 	fetchApi_v2("tornstats", { section: "api.php", action: "crimes" })
 		.then(result => {
 			// Populate active crimes
@@ -407,6 +409,8 @@ function showNNB() {
 				let col = doc.new({ type: "li", class: `tt-nnb short ${mobile ? "torntools-mobile" : ""}`, text: nnb });
 				player.find(".act").parentElement.insertBefore(col, player.find(".act"));
 			}
+
+			doc.findAll(".doctorn-faction-nnb-value").forEach(node => node.style.setProperty("display", "none", "important"));
 		})
 		.catch(err => {
 			console.log("ERROR", err);

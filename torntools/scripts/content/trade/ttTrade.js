@@ -9,25 +9,23 @@ requireDatabase(true).then(() => {
 		const params = new URLSearchParams(xhr.requestBody);
 		activeTrade = isActiveTrade(params);
 
-		tradeLoaded().then(() => {
-			if (settings.pages.trade.item_values || settings.pages.trade.total_value) showValues();
-
-			if (activeTrade) {
-				showChatButton();
-			}
-		});
+		tradeLoaded().then(handleTrade);
 	});
 
 	activeTrade = isActiveTrade();
 
-	tradeLoaded().then(() => {
-		if (settings.pages.trade.item_values || settings.pages.trade.total_value) showValues();
-
-		if (activeTrade) {
-			showChatButton();
-		}
-	});
+	tradeLoaded().then(handleTrade);
 });
+
+function handleTrade() {
+	if (settings.pages.trade.item_values || settings.pages.trade.total_value) showValues();
+
+	if (activeTrade) {
+		showChatButton();
+
+		if (settings.scripts.no_confirm.global && settings.scripts.no_confirm.trades) removeConfirmation();
+	}
+}
 
 function isActiveTrade(params = getHashParameters()) {
 	let step = params.get("step");
@@ -187,4 +185,15 @@ function showChatButton() {
 		class: "item-value-option-wrap",
 		children: [button],
 	}));
+}
+
+function removeConfirmation() {
+	const link = doc.find(".trade-cancel a.btn.accept");
+	if (!link) return;
+
+	let url = link.getAttribute("href");
+
+	if (url.includes("accept") && !url.includes("accept2")) {
+		link.setAttribute("href", url.replace("accept", "accept2"));
+	}
 }
