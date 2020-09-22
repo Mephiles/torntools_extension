@@ -3039,7 +3039,7 @@ function notifyUser(title, message, url) {
 
 		chrome.notifications.create(notificationOptions, function (id) {
 			notificationLinkRelations[id] = url;
-			console.log("   Notified!");
+			console.log("   Notified!", notificationOptions);
 		});
 
 		if (settings.notifications_tts) {
