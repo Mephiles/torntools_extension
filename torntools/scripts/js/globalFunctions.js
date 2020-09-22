@@ -1639,6 +1639,7 @@ const STORAGE = {
 				item_market: false,
 				revives: false,
 				item_equip: true,
+				trades: false,
 			},
 		},
 	},
