@@ -27,7 +27,7 @@ function displayAchievements(achievements, show_completed) {
 		let next_goal = undefined;
 
 		if (achievements[name].extra !== "###")
-			next_goal = getNextGoal(current_stat, achievements[name].goals);
+			next_goal = getNextGoal(current_stat, achievements[name]);
 
 		if (next_goal === "completed" && !show_completed)
 			continue;
@@ -81,19 +81,18 @@ function addTimeToHeader(section, date) {
 }
 
 function getNextGoal(stat, achievements) {
+	let { goals, awarded } = achievements;
 	let goal;
-	achievements = achievements.sort(function (a, b) {
-		return a - b;
-	});
+	goals = goals.sort((a, b) => a - b);
 
-	for (let ach of achievements) {
-		if (ach > stat) {
-			goal = ach;
+	for (let g of goals) {
+		if (g > stat) {
+			goal = g;
 			break;
 		}
 	}
 
-	if (!goal)
+	if (!goal || goals.length === awarded.length)
 		goal = "completed";
 
 	return goal;
@@ -132,12 +131,14 @@ function fillGoals(achievements, torndata) {
 					desc = desc.replace(/\D/g, "");  // replace all non-numbers
 					let goal = parseInt(desc);
 
-					if (!achievements[name].goals) {
-						achievements[name].goals = [];
-						achievements[name].goals.push(goal);
-					} else if (!achievements[name].goals.includes(goal) && !isNaN(goal)) {
-						achievements[name].goals.push(goal);
+					const awarded = userdata[`${type}_awarded`];
+					if (awarded && awarded.includes(key)) {
+						if (!achievements[name].awarded) achievements[name].awarded = [key];
+						else if (!achievements[name].goals.includes(key)) achievements[name].goals.push(key);
 					}
+
+					if (!achievements[name].goals) achievements[name].goals = [goal];
+					else if (!achievements[name].goals.includes(goal) && !isNaN(goal)) achievements[name].goals.push(goal);
 				}
 			}
 		}
