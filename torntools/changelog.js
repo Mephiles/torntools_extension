@@ -21,6 +21,7 @@ export default {
 			"Fix the energy warning while abroad when you already spent that energy. - DKK",
 			"Detect mobile based on width instead of elements. - Mephiles",
 			"Don't show DoctorN NNB values if 'Force TT' has been enabled. - DKK",
+			"Improve medal and honor completion check so it doesn't show completed ones as non-completed. - DKK",
 		],
 		"Changes": [
 			"Improve stats estimates caching. - DKK",
