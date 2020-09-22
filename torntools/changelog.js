@@ -19,6 +19,7 @@ export default {
 			"Fix the demo automatically opening and the markings when changing your api key on the API page. - DKK",
 			"Fix the energy warning while abroad when you already spent that energy. - DKK",
 			"Detect mobile based on width instead of elements. - Mephiles",
+			"Don't show DoctorN NNB values if 'Force TT' has been enabled. - DKK",
 		],
 		"Changes": [
 			"Improve stats estimates caching. - DKK",
