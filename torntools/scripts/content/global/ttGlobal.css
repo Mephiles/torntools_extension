@@ -349,7 +349,7 @@
 }
 
 .quit-job {
-    display: var(--torntools-hide-leave-button, block) !important;
+    display: var(--torntools-hide-leave-button, flex) !important;
 }
 
 /* #nav-gym .area-row___34mEZ {
