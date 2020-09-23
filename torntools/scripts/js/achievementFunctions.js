@@ -131,11 +131,10 @@ function fillGoals(achievements, torndata) {
 					desc = desc.replace(/\D/g, "");  // replace all non-numbers
 					let goal = parseInt(desc);
 
+					if (!achievements[name].awarded) achievements[name].awarded = [];
+
 					const awarded = userdata[`${type}_awarded`];
-					if (awarded && awarded.includes(key)) {
-						if (!achievements[name].awarded) achievements[name].awarded = [key];
-						else if (!achievements[name].goals.includes(key)) achievements[name].goals.push(key);
-					}
+					if (awarded && awarded.includes(key) && !achievements[name].goals.includes(key)) achievements[name].goals.push(key);
 
 					if (!achievements[name].goals) achievements[name].goals = [goal];
 					else if (!achievements[name].goals.includes(goal) && !isNaN(goal)) achievements[name].goals.push(goal);
