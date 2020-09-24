@@ -26,3 +26,8 @@
 .tt-mission-information > span {
     display: block;
 }
+
+.tt-mission-title {
+    text-align: center;
+    margin-bottom: 4px;
+}
