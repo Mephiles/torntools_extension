@@ -105,14 +105,14 @@ requireDatabase(false)
 
 		registerChanges();
 	})
-	.catch((err) => {
+	.catch(err => {
 		console.error(err);
 		let title, message;
 		if (api_key) {
 			title = "Oops";
 			message = "### Something has gone wrong. Please contact the developers and let them know of the following message:\n" +
-				`(ERROR) ${err}\n` +
-				"Clicking either 'Cancel' or 'Confirm' will reload the page.";
+				`(ERROR) ${err}` +
+				"\n\nClicking either 'Cancel' or 'Confirm' will reload the page.";
 		} else {
 			title = "API key";
 			message = "### You have not initialized the App by providing your API key\n" +
