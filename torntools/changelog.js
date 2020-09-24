@@ -1,5 +1,5 @@
 export default {
-	"v5.1 - September, xth. 2020": {
+	"v5.1 - September, 24th. 2020": {
 		"Features": [
 			"Remove zalgo text from chat. - DKK",
 			"Add specials info on company pages. - Mephiles",
