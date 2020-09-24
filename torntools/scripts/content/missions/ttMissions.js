@@ -323,7 +323,15 @@ function showMissionInformation() {
 			}
 		}
 
-		let children = [doc.new({ type: "span", html: `<b>Task:</b> ${task}` })];
+		let children = [
+			doc.new({
+				type: "h6",
+				class: "tt-mission-title",
+				text: "TornTools Mission Information",
+				attributes: { color: "green" },
+			}),
+			doc.new({ type: "span", html: `<b>Task:</b> ${task}` }),
+		];
 		if (hint) {
 			children.push(
 				doc.new("br"),
