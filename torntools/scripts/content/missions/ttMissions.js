@@ -197,7 +197,7 @@ requireDatabase().then(() => {
 
 		const params = new URLSearchParams(xhr.requestBody);
 		let sid = params.get("sid");
-		if (!sid && uri && uri.sid) sid = uri.sid;
+		if (!sid && uri && (uri.sid || uri["?sid"])) sid = uri.sid || uri["?sid"];
 
 		if (page === "loader" || page === "loader2") {
 			if (sid === "missionsRewards") missionsLoaded().then(showRewards);
@@ -323,7 +323,15 @@ function showMissionInformation() {
 			}
 		}
 
-		let children = [doc.new({ type: "span", html: `<b>Task:</b> ${task}` })];
+		let children = [
+			doc.new({
+				type: "h6",
+				class: "tt-mission-title",
+				text: "TornTools Mission Information",
+				attributes: { color: "green" },
+			}),
+			doc.new({ type: "span", html: `<b>Task:</b> ${task}` }),
+		];
 		if (hint) {
 			children.push(
 				doc.new("br"),

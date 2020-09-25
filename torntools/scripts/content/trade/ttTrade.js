@@ -30,7 +30,7 @@ function handleTrade() {
 function isActiveTrade(params = getHashParameters()) {
 	let step = params.get("step");
 
-	return step === "view" || step === "initiateTrade";
+	return step === "view" || step === "initiateTrade" || step === "accept";
 }
 
 function tradeLoaded() {

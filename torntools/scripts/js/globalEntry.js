@@ -30,7 +30,7 @@ requireDatabase(false).then(async () => {
 	}
 
 	// Hide quit/leave options
-	document.documentElement.style.setProperty("--torntools-hide-leave-button", settings.pages.global.hide_leave ? "none" : "block");
+	document.documentElement.style.setProperty("--torntools-hide-leave-button", settings.pages.global.hide_leave ? "none" : "flex");
 
 	// Hide Doctorn
 	if ((settings.force_tt && ["home", "city", "travelagency", "war", "items", "crimes", "gym", "bounties", "profile", "faction", "jail"].includes(getCurrentPage()))) {
