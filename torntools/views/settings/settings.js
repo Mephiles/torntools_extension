@@ -1517,7 +1517,7 @@ function exportData() {
 			"notes",
 			"filters",
 			"sorting",
-			"watchlist",
+			"stakeouts",
 			"settings",
 			"profile_notes",
 		];
