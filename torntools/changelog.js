@@ -1,4 +1,9 @@
 export default {
+	"v5.2 - xxx, xxth. 2020": {
+		"Features": [],
+		"Fixes": [],
+		"Changes": [],
+	},
 	"v5.1.1 - September, 26th. 2020": {
 		"Changes": [
 			"Change watchlist export to stakeouts. - DKK",
