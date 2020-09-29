@@ -1,7 +1,9 @@
 export default {
 	"v5.2 - xxx, xxth. 2020": {
 		"Features": [],
-		"Fixes": [],
+		"Fixes": [
+			"Show right temporary total value. - DKK",
+		],
 		"Changes": [],
 	},
 	"v5.1.1 - September, 26th. 2020": {
