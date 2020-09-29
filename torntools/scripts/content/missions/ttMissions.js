@@ -91,7 +91,7 @@ const MISSIONS = {
 	},
 	"Hands Off": { task: "Defeat 3-5 (P)." },
 	"Hare, Meet Tortoise": {
-		task: "Defeat (P) despite their lightening fast speed.",
+		task: "Defeat (P) despite their lightning fast speed.",
 		hint: "Flash Grenade and Smoke Grenade will reduce their speed. Welding Helmet blocks Flash, but nothing blocks Smoke.",
 	},
 	"Hide and Seek": {
