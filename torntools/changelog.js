@@ -5,7 +5,9 @@ export default {
 			"Show right temporary total value. - DKK",
 			"Fix 'Hare, Meet Tortoise' mission task spelling. - DKK",
 		],
-		"Changes": [],
+		"Changes": [
+			"Update FontAwesome. - DKK",
+		],
 	},
 	"v5.1.1 - September, 26th. 2020": {
 		"Changes": [
