@@ -211,18 +211,11 @@ function displayItemPrices(itemlist) {
 		let id = item.getAttribute("data-item");
 		let price = itemlist[id].market_value;
 		let total_price;
-		let qty;
 
 		let parent = mobile ? item.find(".name-wrap") : (item.find(".bonuses-wrap") || item.find(".name-wrap"));
 		let new_element;
 
-		if (item.find(".bonuses-wrap")) {
-			if ([...item.findAll(".bonuses-wrap *")].length === 0) {
-				qty = parseInt(parent.parentElement.parentElement.parentElement.find(".qty").innerText.replace("x", ""));
-			}
-		} else {
-			qty = parseInt(parent.find(".qty").innerText.replace("x", ""));
-		}
+		const qty = parseInt(item.find(".item-amount.qty").innerText) || 1;
 		total_price = qty * parseInt(price);
 		if (total_price) total += total_price;
 		else if (total_price !== 0) total += price;
@@ -231,39 +224,21 @@ function displayItemPrices(itemlist) {
 			continue;
 
 		if (item.find(".bonuses-wrap")) {
-			new_element = doc.new("li");
-			new_element.setClass("bonus left tt-item-price");
-
-			if (mobile) {
-				new_element.setAttribute("style", `position: absolute; right: -10px; top: 10px; float: unset !important; font-size: 11px;`);
-				parent.find(".name").setAttribute("style", "position: relative; top: -3px;");
-				parent.find(".qty").setAttribute("style", "position: relative; top: -3px;");
-			}
-
-			if ([...item.findAll(".bonuses-wrap *")].length === 0) {
-				qty = parseInt(parent.parentElement.parentElement.parentElement.find(".qty").innerText.replace("x", ""));
-				total_price = qty * parseInt(price);
-			}
+			new_element = doc.new({ type: "li", class: "bonus left tt-item-price" });
 		} else {
-			new_element = doc.new("span");
-			new_element.setClass("tt-item-price");
-
-			if (mobile) {
-				new_element.setAttribute("style", `position: absolute; right: -10px; top: 10px; float: unset !important; font-size: 11px;`);
-				parent.find(".name").setAttribute("style", "position: relative; top: -3px;");
-				parent.find(".qty").setAttribute("style", "position: relative; top: -3px;");
-			}
-
-			qty = parseInt(parent.find(".qty").innerText.replace("x", ""));
-			total_price = qty * parseInt(price);
+			new_element = doc.new({ type: "span", class: "tt-item-price" });
 
 			if (item.find("button.group-arrow")) {
 				new_element.style.paddingRight = "30px";
 			}
 		}
+		if (mobile) {
+			new_element.setAttribute("style", `position: absolute; right: -10px; top: 10px; float: unset !important; font-size: 11px;`);
+			parent.find(".name").setAttribute("style", "position: relative; top: -3px;");
+			parent.find(".qty").setAttribute("style", "position: relative; top: -3px;");
+		}
 
 		if (total_price) {
-			// new_element.innerText = `$${numberWithCommas(price, shorten=false)} | ${qty}x = $${numberWithCommas(total_price, shorten=false)}`;
 			let one_price = doc.new("span");
 			one_price.innerText = `$${numberWithCommas(price, false)} |`;
 			let quantity = doc.new("span");
