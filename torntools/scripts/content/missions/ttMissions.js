@@ -13,7 +13,10 @@ const MISSIONS = {
 		hint: "Guns don't have to be unequipped. DO NOT USE primary or secondary weapons.",
 	},
 	"An Honorary Degree": { task: "Defeat (P) without using any guns.", hint: "Guns don't have to be unequipped. DO NOT USE primary or secondary weapons." },
-	"A Problem at the Tracks": { task: "Defeat 3 (P) without using guns.", hint: "Unequip your guns. You can attack with melee, fists, kick, and temporary." },
+	"A Problem at the Tracks": {
+		task: "Defeat 3 (P) without using guns.",
+		hint: "You don't have to enequip your guns. You can attack with melee, fists, kick, and temporary.",
+	},
 	"Army of One": {
 		task: "Attack (P) 3 times as normal, with mask, with different mask.",
 		hint: "Duke sends you 2 random masks to wear. Make sure one of the attacks has no mask on.",
