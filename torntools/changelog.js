@@ -3,6 +3,7 @@ export default {
 		"Features": [],
 		"Fixes": [
 			"Show right temporary total value. - DKK",
+			"Improve mobile checking on Firefox, fixing the loading issue. - DKK",
 		],
 		"Changes": [
 			"Improve mission information for several missions. - DKK",
