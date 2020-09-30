@@ -1,6 +1,5 @@
 export default {
 	"v5.1.2 - October, xxth. 2020": {
-		"Features": [],
 		"Fixes": [
 			"Show right temporary total value. - DKK",
 			"Improve mobile checking on Firefox, fixing the loading issue. - DKK",
