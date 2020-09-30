@@ -3,9 +3,9 @@ export default {
 		"Features": [],
 		"Fixes": [
 			"Show right temporary total value. - DKK",
-			"Fix 'Hare, Meet Tortoise' mission task spelling. - DKK",
 		],
 		"Changes": [
+			"Improve mission information for several missions. - DKK",
 			"Update FontAwesome. - DKK",
 		],
 	},
