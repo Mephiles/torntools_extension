@@ -418,6 +418,18 @@
 		},
 		{
 			"matches": [
+				"https://www.torn.com/pmarket.php*"
+			],
+			"css": [
+				"scripts/content/achievements/ttAchievements.css"
+			],
+			"js": [
+				"scripts/content/achievements/ttPointsMarketAchievements.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
 				"https://www.torn.com/preferences.php*"
 			],
 			"css": [
