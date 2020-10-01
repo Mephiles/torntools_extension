@@ -1,4 +1,11 @@
 export default {
+	"v5.2 - xxxxxxx, xxth. 2020": {
+		"Features": [],
+		"Fixes": [],
+		"Changes": [
+			"Added sell points award and refill award trackers. - wootty2000 ",
+		],
+	},
 	"v5.1.2 - October, 1st. 2020": {
 		"Fixes": [
 			"Show right temporary total value. - DKK",
@@ -12,7 +19,6 @@ export default {
 	"v5.1.1 - September, 26th. 2020": {
 		"Changes": [
 			"Change watchlist export to stakeouts. - DKK",
-			"Added sell points award and refill award trackers. - wootty2000 ",
 		],
 	},
 	"v5.1 - September, 24th. 2020": {
