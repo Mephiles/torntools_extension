@@ -10,18 +10,16 @@ function mobileChecker() {
 			return;
 		}
 
-
 		if (document.readyState === "complete" || document.readyState === "loaded") check();
 		else window.addEventListener("DOMContentLoaded", check);
 
 		function check() {
 			const browserWidth = window.innerWidth;
 
-
 			if (browserWidth <= 600) resolve(true);
 			else resolve(false);
 		}
- 	});
+	});
 }
 
 requireDatabase(false).then(async () => {
