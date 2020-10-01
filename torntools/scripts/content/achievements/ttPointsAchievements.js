@@ -7,7 +7,7 @@ requireDatabase().then(() => {
 
 		if (!settings.achievements.show)
 			return;
-console.log(personalstats);
+
 		// object of all the achievements on this page
 		const achievements = {
 			"Refill Casino": {
