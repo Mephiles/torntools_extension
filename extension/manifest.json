@@ -1,0 +1,60 @@
+{
+	"manifest_version": 2,
+	"name": "TornTools 2",
+	"version": "1.0.0",
+	"description": "TODO",
+	"icons": {
+		"16": "images/icon_16.png",
+		"48": "images/icon_48.png",
+		"128": "images/icon_128.png"
+	},
+	"browser_action": {
+		"default_title": "TornTools",
+		"default_popup": "pages/popup/index.html",
+		"default_icon": "images/icon_128.png"
+	},
+	"author": "Gregor Kaljulaid - Mephiles[2087524]",
+	"background": {
+		"page": "background.html"
+	},
+	"permissions": [
+		"storage",
+		"notifications",
+		"https://api.torn.com/*"
+	],
+	"web_accessible_resources": [
+		"images/*.png"
+	],
+	"options_ui": {
+		"page": "pages/settings/settings.html",
+		"open_in_tab": false
+	},
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "{3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9}"
+		}
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"https://www.torn.com/*"
+			],
+			"js": [
+				"scripts/content/global/ttGlobal.entry.js"
+			],
+			"run_at": "document_start"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/*"
+			],
+			"css": [
+				"scripts/content/global/ttGlobal.css"
+			],
+			"js": [
+				"scripts/content/global/ttGlobal.js"
+			],
+			"run_at": "document_idle"
+		}
+	]
+}
