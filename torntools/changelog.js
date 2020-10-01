@@ -12,6 +12,7 @@ export default {
 	"v5.1.1 - September, 26th. 2020": {
 		"Changes": [
 			"Change watchlist export to stakeouts. - DKK",
+			"Added sell points award and refill award trackers. - wootty2000 ",
 		],
 	},
 	"v5.1 - September, 24th. 2020": {
