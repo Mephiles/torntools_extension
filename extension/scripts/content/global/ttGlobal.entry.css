@@ -1,0 +1,4 @@
+/* Torn element manipulation */
+#mainContainer, .header .header-wrapper-top > .container {
+    margin-left: var(--torntools-align-left, auto) !important;
+}
