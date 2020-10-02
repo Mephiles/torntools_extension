@@ -15,7 +15,10 @@
 	},
 	"author": "Gregor Kaljulaid - Mephiles[2087524]",
 	"background": {
-		"page": "background.html"
+		"scripts": [
+			"scripts/global/globalFunctions.js",
+			"scripts/background.js"
+		]
 	},
 	"permissions": [
 		"storage",
