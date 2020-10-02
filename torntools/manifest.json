@@ -55,10 +55,11 @@
 			],
 			"js": [
 				"scripts/libs/nouislider.js",
+				"scripts/js/essential.js",
+				"scripts/js/globalEntry.js",
 				"scripts/js/globalClasses.js",
 				"scripts/js/globalFunctions.js",
 				"scripts/js/globalDatabase.js",
-				"scripts/js/globalEntry.js",
 				"scripts/js/achievementFunctions.js",
 				"scripts/content/global/ttGlobal.js"
 			],
