@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "TornTools 2",
 	"version": "1.0.0",
-	"description": "TODO",
+	"description": "Several tools for Torn.",
 	"icons": {
 		"16": "images/icon_16.png",
 		"48": "images/icon_48.png",
@@ -40,6 +40,7 @@
 				"https://www.torn.com/*"
 			],
 			"js": [
+				"scripts/global/globalFunctions.js",
 				"scripts/content/global/ttGlobal.entry.js"
 			],
 			"run_at": "document_start"
