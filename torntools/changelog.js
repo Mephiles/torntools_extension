@@ -4,6 +4,7 @@ export default {
 		"Fixes": [],
 		"Changes": [
 			"Added sell points award and refill award trackers. - wootty2000 ",
+			"Added Shop to 'ignore max buy in bazaars' option. - Mephiles"
 		],
 	},
 	"v5.1.2 - October, 1st. 2020": {
