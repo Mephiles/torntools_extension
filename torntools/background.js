@@ -1,5 +1,4 @@
 console.log("START - Background Script");
-import personalized from "../personalized.js";
 
 // noinspection JSUnusedLocalSymbols
 let [seconds, minutes, hours, days] = [1000, 60 * 1000, 60 * 60 * 1000, 24 * 60 * 60 * 1000];
@@ -122,44 +121,6 @@ setup_storage.then(async success => {
 		return;
 	}
 
-	// Check for personalized scripts
-	console.log("Setting up personalized scripts.");
-	if (Object.keys(personalized).length !== 0) {
-		await (() => new Promise(resolve => {
-			ttStorage.get("userdata", userdata => {
-				if (!userdata)
-					return resolve(userdata);
-
-				let personalized_scripts = {};
-
-				if (personalized.master === userdata.player_id) {
-					for (let type in personalized) {
-						if (type === "master") {
-							continue;
-						}
-
-						for (let id in personalized[type]) {
-							for (let script of personalized[type][id]) {
-								personalized_scripts[script] = true;
-							}
-						}
-					}
-				} else if (personalized.users[userdata.player_id]) {
-					for (let script of personalized.users[userdata.player_id]) {
-						personalized_scripts[script] = true;
-					}
-				}
-
-				ttStorage.set({ personalized: personalized_scripts }, () => {
-					console.log("	Personalized scripts set.");
-					return resolve(true);
-				});
-			});
-		}))();
-	} else {
-		console.log("	Empty file.");
-	}
-
 	ttStorage.get(null, async db => {
 		userdata = db.userdata;
 		torndata = db.torndata;
@@ -173,7 +134,6 @@ setup_storage.then(async success => {
 		loot_times = db.loot_times;
 		target_list = db.target_list;
 		vault = db.vault;
-		// personalized = DB.personalized;
 		mass_messages = db.mass_messages;
 		custom_links = db.custom_links;
 		loot_alerts = db.loot_alerts;
