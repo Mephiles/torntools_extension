@@ -103,10 +103,6 @@ function setupChangelog() {
 	}
 
 	// Ending words
-	let p = document.new("p");
-	p.innerText = "The rest is history..";
-	p.style.textAlign = "center";
-
 	content.appendChild(document.new({ type: "p", text: "The rest is history..", style: { textAlign: "center" } }));
 }
 
