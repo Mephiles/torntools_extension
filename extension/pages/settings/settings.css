@@ -83,21 +83,21 @@ header nav > ul > li.active {
  * Changelog
  */
 
-#changelog .content {
-    border: unset;
+#changelog > section {
+    width: 75%;
 }
 
-#changelog .content .header {
+#changelog > section .header {
     width: 100%;
     display: flex;
 }
 
-#changelog .content .header .contributor {
+#changelog > section .header .contributor {
     flex: 1 0 auto;
     text-align: center;
 }
 
-#changelog .content > .parent > .heading {
+#changelog > section > .parent > .heading {
     cursor: pointer;
     border-bottom: 0.5px solid lightgrey;
     padding: 2px 0 2px 5px;
@@ -106,27 +106,27 @@ header nav > ul > li.active {
     font-size: 15px;
 }
 
-#changelog .content > .parent > .heading span {
+#changelog > section > .parent > .heading span {
     font-size: 12px;
 }
 
-#changelog .content > .parent > .heading i {
+#changelog > section > .parent > .heading i {
     float: right;
     position: relative;
     top: 7px;
 }
 
-#changelog .content .parent .parent {
+#changelog > section .parent .parent {
     font-weight: 600;
     margin-left: 20px;
 }
 
-#changelog .content .parent .child {
+#changelog > section .parent .child {
     font-weight: 400;
     margin-left: 20px;
 }
 
-#changelog .content .parent .closeable {
+#changelog > section .parent .closeable {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;

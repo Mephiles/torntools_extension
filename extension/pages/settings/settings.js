@@ -40,107 +40,65 @@ function showPage(name) {
 }
 
 function setupChangelog() {
-	let content = document.find("#changelog .content");
+	let content = document.find("#changelog > section");
 
-	for (let ver in changelog) {
-		let sub_ver = ver.split(" - ")[1] ? " - " + ver.split(" - ")[1] : "";
-		ver = ver.split(" - ")[0];
+	for (let key in changelog) {
+		const title = key.split(" - ")[1] ? " - " + key.split(" - ")[1] : "";
+		const version = key.split(" - ")[0];
 
 		let div = document.new({ type: "div", class: "parent" });
 
 		// Heading
-		let heading = document.new({ type: "div", class: "heading", text: ver });
-		let span = document.new({ type: "span", text: sub_ver });
+		let heading = document.new({ type: "div", class: "heading", text: version });
 		let icon = document.new({ type: "i", class: "fas fa-chevron-down" });
-		heading.appendChild(span);
+		heading.appendChild(document.new({ type: "span", text: title }));
 		heading.appendChild(icon);
-
-		if (Object.keys(changelog).indexOf(ver + sub_ver) === 0) {
-			heading.style.color = "red";
-		}
-
 		div.appendChild(heading);
 
 		// Closeable
-		let closeable = document.new("div");
-		closeable.setClass("closeable");
-
+		let closeable = document.new({ type: "div", class: "closable hidden" });
 		heading.addEventListener("click", () => {
-			if (closeable.style.maxHeight) {
-				closeable.style.maxHeight = null;
-			} else {
-				closeable.style.maxHeight = closeable.scrollHeight + "px";
-			}
+			if (closeable.classList.contains("hidden")) closeable.classList.remove("hidden");
+			else closeable.classList.add("hidden");
 
 			rotateElement(icon, 180);
 		});
 
 		// Content
-		if (Array.isArray(changelog[ver + sub_ver])) {
-			for (let item of changelog[ver + sub_ver]) {
-				let item_div = document.new("div");
-				item_div.setClass("child");
-				item_div.innerText = "- " + item;
+		for (let title in changelog[key]) {
+			const parent = document.new({ type: "div", class: "parent", children: [document.new({ type: "div", class: "heading", text: title })] });
 
-				closeable.appendChild(item_div);
-			}
-		} else {
-			(function loopKeyInChangelog(grandparent, parent_name, parent_element) {
-				for (let _key in grandparent[parent_name]) {
-					let _div = document.new("div");
-					if (typeof grandparent[parent_name][_key] == "object") {
-						_div.setClass("parent");
-						let _heading = document.new("div");
-						_heading.setClass("heading");
-						_heading.innerText = _key;
+			for (let item of changelog[key][title]) {
+				let contributor;
 
-						_div.appendChild(_heading);
+				for (let c of ["Mephiles", "DKK", "wootty2000"]) {
+					if (!item.includes(`- ${c}`)) continue;
 
-						if (Array.isArray(grandparent[parent_name][_key])) {
-							for (let _item of grandparent[parent_name][_key]) {
-								let contributor;
-
-								if (_item.includes("- DKK")) {
-									contributor = "dkk";
-									_item = _item.slice(0, _item.indexOf(" - DKK"));
-								} else if (_item.includes("- Mephiles")) {
-									contributor = "mephiles";
-									_item = _item.slice(0, _item.indexOf(" - Mephiles"));
-								} else if (_item.includes("- wootty2000")) {
-									contributor = "wootty2000";
-									_item = _item.slice(0, _item.indexOf(" - wootty2000"));
-								}
-
-								let _item_div = document.new({ type: "div", class: `child contributor ${contributor}` });
-								let _item_span = document.new({ type: "span", text: _item });
-								_item_div.appendChild(_item_span);
-								_div.appendChild(_item_div);
-							}
-						} else {
-							loopKeyInChangelog(grandparent[parent_name], _key, _div);
-						}
-
-					} else {
-						_div.setClass("child");
-						_div.innerText = grandparent[parent_name][_key];
-					}
-					parent_element.appendChild(_div);
+					contributor = c.toLowerCase();
+					item = item.slice(0, item.indexOf(`- ${c}`));
+					break;
 				}
-			})(changelog, ver + sub_ver, closeable);
+
+				parent.appendChild(document.new({
+					type: "div",
+					class: `child  contributor ${contributor}`,
+					children: [document.new({ type: "span", text: item })],
+				}));
+			}
+
+			closeable.appendChild(parent);
 		}
 
 		// Bottom border on last element
-		if (ver + sub_ver.split(" ")[0] === "v3") {
-			let hr = document.new("hr");
-			closeable.appendChild(hr);
-		}
+		if (version === "v3") closeable.appendChild(document.new("hr"));
 
 		// Finish
 		div.appendChild(closeable);
 		content.appendChild(div);
 
-		if (Object.keys(changelog).indexOf(ver + sub_ver) === 0) {
+		if (Object.keys(changelog).indexOf(version + title) === 0) {
 			heading.click();
+			heading.style.color = "red";
 		}
 	}
 
@@ -149,7 +107,7 @@ function setupChangelog() {
 	p.innerText = "The rest is history..";
 	p.style.textAlign = "center";
 
-	content.appendChild(p);
+	content.appendChild(document.new({ type: "p", text: "The rest is history..", style: { textAlign: "center" } }));
 }
 
 function setupPreferences() {
