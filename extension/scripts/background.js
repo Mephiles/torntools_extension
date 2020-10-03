@@ -1,4 +1,13 @@
-ttStorage.get().then(async storage => {
+(async () => {
+	await convertDatabase();
+	await migrateDatabase();
+
+	await loadDatabase();
+})();
+
+async function convertDatabase() {
+	let storage = await ttStorage.get();
+
 	if (!storage || !Object.keys(storage).length) {
 		console.log("Setting new storage.");
 		await ttStorage.set(DEFAULT_STORAGE);
@@ -33,4 +42,4 @@ ttStorage.get().then(async storage => {
 
 		return newStorage;
 	}
-});
+}

@@ -5,9 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TornTools 2 - Settings</title>
 
+
+    <link rel="stylesheet" href="../../vendor/fontawesome/fontawesome.css">
+
     <link rel="stylesheet" href="settings.css">
 </head>
 <body>
-    <h1>Settings</h1>
+    <header>
+        <nav class="on-page">
+            <ul>
+                <li to="changelog">Changelog</li>
+                <li to="preferences">Preferences</li>
+                <li to="api_info">API Info</li>
+                <li to="remote">Remote</li>
+                <li to="about">About</li>
+            </ul>
+        </nav>
+        <div class="divider"></div>
+        <nav>
+            <ul>
+                <li><a href="#targets">Targets</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="changelog" class="hidden">
+        <section class="content center">
+            <div class="header">
+                <div class="contributor mephiles"><span>Mephiles [2087524]</span></div>
+                <div class="contributor dkk"><span>DeKleineKobini [2114440]</span></div>
+                <div class="contributor wootty2000"><span>Wootty2000 [2344687]</span></div>
+            </div>
+        </section>
+    </main>
+    <main id="preferences" class="hidden">
+        <h1>Preferences</h1>
+    </main>
+    <main id="api_info" class="hidden">
+        <h1>API Info</h1>
+    </main>
+    <main id="remote" class="hidden">
+        <h1>Remote</h1>
+    </main>
+    <main id="about" class="hidden">
+        <h1>About</h1>
+    </main>
+
+    <!-- <script src="../changelog.js"></script> -->
+    <script src="../../scripts/global/globalData.js"></script>
+    <script src="../../scripts/global/globalFunctions.js"></script>
+    <script src="../../scripts/global/globalDatabase.js"></script>
+    <script type="module" src="./settings.js"></script>
 </body>
 </html>

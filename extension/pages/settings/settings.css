@@ -1,0 +1,160 @@
+/*
+ * General
+ */
+
+html, body {
+    height: 100%;
+}
+
+body {
+    padding: 0;
+    margin: 0 0 100px;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+.hidden {
+    display: none;
+}
+
+main {
+    display: flex;
+    position: relative;
+    height: 100%;
+}
+
+.center {
+    margin: auto;
+}
+
+/*
+ * Navigation
+ */
+
+header {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+}
+
+nav a {
+    text-decoration: none;
+    color: initial;
+}
+
+header nav > ul {
+    list-style: none;
+    display: flex;
+}
+
+header nav > ul > li {
+    flex: 1 0 auto;
+    text-align: center;
+    font-size: 15px;
+    cursor: pointer;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    padding: 10px;
+}
+
+header nav > ul > li.active {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+/*
+ * Sidebar
+ */
+.sidebar {
+    padding: 8px;
+    height: 100%;
+    border: 1px solid black;
+}
+
+.sidebar .title {
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 4px;
+    font-size: 15px;
+}
+
+/*
+ * Changelog
+ */
+
+#changelog .content {
+    border: unset;
+}
+
+#changelog .content .header {
+    width: 100%;
+    display: flex;
+}
+
+#changelog .content .header .contributor {
+    flex: 1 0 auto;
+    text-align: center;
+}
+
+#changelog .content > .parent > .heading {
+    cursor: pointer;
+    border-bottom: 0.5px solid lightgrey;
+    padding: 2px 0 2px 5px;
+    height: 23px;
+    line-height: 23px;
+    font-size: 15px;
+}
+
+#changelog .content > .parent > .heading span {
+    font-size: 12px;
+}
+
+#changelog .content > .parent > .heading i {
+    float: right;
+    position: relative;
+    top: 7px;
+}
+
+#changelog .content .parent .parent {
+    font-weight: 600;
+    margin-left: 20px;
+}
+
+#changelog .content .parent .child {
+    font-weight: 400;
+    margin-left: 20px;
+}
+
+#changelog .content .parent .closeable {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    padding: 4px 0 4px 10px;
+}
+
+.contributor.dkk span:before, .contributor.mephiles span:before, .contributor.wootty2000 span:before {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    content: "";
+    border-radius: 50%;
+    background-color: #dc8e00;
+    border: 2px solid #dc8e00;
+    margin-right: 4px;
+}
+
+.contributor.mephiles span:before {
+    background-color: green;
+    border: 2px solid green;
+}
+
+.contributor.dkk span:before {
+    background-color: orange;
+    border: 2px solid orange;
+}
+
+.contributor.wootty2000 span:before {
+    background-color: red;
+    border: 2px solid red;
+}
