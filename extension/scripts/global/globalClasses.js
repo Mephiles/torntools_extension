@@ -1,1 +1,0 @@
-console.log("TT2 - Loading global classes.");

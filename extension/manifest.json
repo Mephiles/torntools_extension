@@ -16,18 +16,12 @@
 	"author": "Gregor Kaljulaid - Mephiles[2087524]",
 	"background": {
 		"scripts": [
-			"scripts/global/essentials.js",
-			"scripts/global/globalData.js",
-			"scripts/global/globalClasses.js",
-			"scripts/global/globalFunctions.js",
-			"scripts/global/globalDatabase.js",
 			"scripts/background.js"
 		]
 	},
 	"permissions": [
 		"storage",
 		"notifications",
-		"activeTab",
 		"https://api.torn.com/*"
 	],
 	"web_accessible_resources": [
@@ -51,12 +45,7 @@
 				"scripts/content/global/ttGlobal.entry.css"
 			],
 			"js": [
-				"scripts/global/essentials.js",
-				"scripts/content/global/ttGlobal.entry.js",
-				"scripts/global/globalData.js",
-				"scripts/global/globalClasses.js",
-				"scripts/global/globalFunctions.js",
-				"scripts/global/globalDatabase.js"
+				"scripts/content/global/ttGlobal.entry.js"
 			],
 			"run_at": "document_start"
 		},
@@ -70,7 +59,7 @@
 			"js": [
 				"scripts/content/global/ttGlobal.js"
 			],
-			"run_at": "document_start"
+			"run_at": "document_end"
 		}
 	]
 }
