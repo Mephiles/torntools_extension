@@ -22,7 +22,7 @@ function mobileChecker() {
 	});
 }
 
-requireDatabase(false).then(async () => {
+ttStorage.get(["settings", "hide_icons", "hide_areas"], async ([settings, hide_icons, hide_areas]) => {
 	// Align left
 	document.documentElement.style.setProperty("--torntools-align-left", settings.pages.global.align_left ? "20px" : "auto");
 

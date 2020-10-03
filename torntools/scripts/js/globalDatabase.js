@@ -2,16 +2,6 @@ console.log("TT - Loading global database.");
 
 let DB;
 
-const DATABASE_STATUSES = {
-	NOT_INITIALIZED: 0,
-	LOADING: 1,
-	LOADED: 2,
-	ENTRY: 3,
-	FAILED: 99,
-};
-
-let database_status = DATABASE_STATUSES.NOT_INITIALIZED;
-
 function requireDatabase(requireEntry = true) {
 	return new Promise((resolve, reject) => {
 		let checker = setInterval(function () {
