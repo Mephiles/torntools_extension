@@ -6,7 +6,8 @@ export default {
 			"Added sell points award and refill award trackers. - wootty2000",
 			"Added Shop to 'ignore max buy in bazaars' option. - Mephiles",
 			"Remove 'requires faction API access' description from Advanced OC option. - Mephiles",
-			"Improve entry script loading times - DKK",
+			"Improve entry script loading times. - DKK",
+			"Added item count to City Items value. - Mephiles"
 		],
 	},
 	"v5.1.2 - October, 1st. 2020": {
