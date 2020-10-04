@@ -72,6 +72,14 @@ main > section {
     box-sizing: border-box;
 }
 
+main:not(.active) {
+    display: none;
+}
+
+main.active {
+    display: unset;
+}
+
 /*
  * Changelog
  */

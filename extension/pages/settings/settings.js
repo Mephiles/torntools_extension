@@ -15,15 +15,11 @@ let initiatedPages = {};
 function showPage(name) {
 	window.history.replaceState("", "Title", "?page=" + name);
 
-	for (let content of document.findAll(`body > main:not(#${name})`)) {
-		content.classList.add("hidden");
-	}
-	for (let navigation of document.findAll("header nav.on-page > ul > li.active")) {
-		navigation.classList.remove("active");
-	}
+	for (let active of document.findAll("body > main.active, header nav.on-page > ul > li.active"))
+		active.classList.remove("active");
 
 	document.find(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
-	document.find(`#${name}`).classList.remove("hidden");
+	document.find(`#${name}`).classList.add("active");
 
 	let setup = {
 		changelog: setupChangelog,
