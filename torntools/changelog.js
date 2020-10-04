@@ -1,6 +1,8 @@
 export default {
 	"v5.2 - xxxxxxx, xxth. 2020": {
-		"Features": [],
+		"Features": [
+			"Auto-complete usernames in chat. - finally",
+		],
 		"Fixes": [
 			"Properly display item values for weapons and other single items. - DKK",
 			"Fix chain notifications going out too early. - DKK",
@@ -10,7 +12,7 @@ export default {
 			"Added Shop to 'ignore max buy in bazaars' option. - Mephiles",
 			"Remove 'requires faction API access' description from Advanced OC option. - Mephiles",
 			"Improve entry script loading times. - DKK",
-			"Added item count to City Items value. - Mephiles"
+			"Added item count to City Items value. - Mephiles",
 		],
 	},
 	"v5.1.2 - October, 1st. 2020": {
