@@ -62,24 +62,6 @@ header nav > ul > li.active {
 }
 
 /*
- * Sidebar
- */
-.sidebar {
-    padding: 8px;
-    height: 100%;
-    border: 1px solid black;
-}
-
-.sidebar .title {
-    display: block;
-    text-align: center;
-    font-weight: bold;
-    border-bottom: 1px solid lightgray;
-    margin-bottom: 4px;
-    font-size: 15px;
-}
-
-/*
  * Changelog
  */
 
