@@ -151,6 +151,7 @@ requireDatabase().then(() => {
 			manipulateChat(highlights);
 
 			if (settings.pages.global.find_chat) addChatFilters();
+			if (settings.pages.global.autocomplete_chat) addChatUsernameAutocomplete();
 		}
 
 		doc.addEventListener("click", event => {
@@ -160,6 +161,7 @@ requireDatabase().then(() => {
 
 			manipulateChat(highlights);
 			if (settings.pages.global.find_chat) addChatFilters();
+			if (settings.pages.global.autocomplete_chat) addChatUsernameAutocomplete();
 		});
 
 		let chat_observer = new MutationObserver((mutationsList) => {
@@ -376,6 +378,64 @@ function addChatFilters() {
 				viewport.scrollTop = viewport.scrollHeight;
 			}
 		};
+	}
+}
+
+function addChatUsernameAutocomplete() {
+	let chats = doc.findAll(".chat-box_Wjbn9");
+	for (let chat of chats) {
+		let chatMessageList = chat.find(".overview_1MoPG");
+		if (!chatMessageList) continue;
+
+		let chatTextbox = chat.find(".chat-box-textarea_2V28W");
+		if (!chatTextbox) continue;
+		if (chatTextbox.classList.contains("tt-chat-autocomplete")) continue;
+
+		chatTextbox.classList.add("tt-chat-autocomplete");
+
+		let currentUsername = null;
+		let currentSearchValue = null;
+		chatTextbox.addEventListener("keydown", (event) => {
+			if (event.key !== "Tab") {
+				currentUsername = null;
+				currentSearchValue = null;
+				return;
+			}
+
+			event.preventDefault();
+
+			let valueToCursor = chatTextbox.value.substr(0, chatTextbox.selectionStart);
+			let searchValueMatch = valueToCursor.match(/([^A-Za-z0-9\-_]?)([A-Za-z0-9\-_]*)$/);
+
+			if (currentSearchValue === null) {
+				currentSearchValue = searchValueMatch[2].toLowerCase();
+			}
+
+			let usernames = Array.from(chatMessageList.findAll(".message_oP8oM > a")).map((message) => message.innerText.slice(0, -2)).filter((value, index, array) => array.indexOf(value) === index).sort();
+
+			let matchedUsernames = usernames.filter((username) => username.toLowerCase().indexOf(currentSearchValue) === 0);
+
+			if (matchedUsernames.length === 0) {
+				return;
+			}
+
+			let index = 0;
+			if (currentUsername !== null) {
+				index = matchedUsernames.indexOf(currentUsername) + 1;
+			}
+
+			if (index > matchedUsernames.length - 1) {
+				index = 0;
+			}
+
+			currentUsername = matchedUsernames[index];
+
+			let valueStart = searchValueMatch.index + searchValueMatch[1].length;
+			chatTextbox.value = chatTextbox.value.substring(0, valueStart) + currentUsername + chatTextbox.value.substring(valueToCursor.length, chatTextbox.value.length);
+
+			let selectionIndex = valueStart + currentUsername.length;
+			chatTextbox.setSelectionRange(selectionIndex, selectionIndex);
+		});
 	}
 }
 
