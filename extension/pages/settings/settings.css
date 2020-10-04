@@ -1,6 +1,4 @@
-/*
- * General
- */
+/* General */
 
 html, body {
     height: 100%;
@@ -20,9 +18,7 @@ body {
     margin: auto;
 }
 
-/*
- * Navigation
- */
+/* Navigation */
 
 header {
     display: flex;
@@ -55,9 +51,7 @@ header nav > ul > li.active {
     border-bottom: 1px solid black;
 }
 
-/*
- * General pages.
- */
+/* General pages */
 
 main > h2 {
     text-align: center;
@@ -80,9 +74,7 @@ main.active {
     display: unset;
 }
 
-/*
- * Changelog
- */
+/* Changelog */
 
 #changelog > section {
     border: unset;
