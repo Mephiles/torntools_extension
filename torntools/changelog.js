@@ -3,6 +3,7 @@ export default {
 		"Features": [],
 		"Fixes": [
 			"Properly display item values for weapons and other single items. - DKK",
+			"Fix chain notifications going out too early. - DKK",
 		],
 		"Changes": [
 			"Added sell points award and refill award trackers. - wootty2000",
