@@ -92,7 +92,7 @@ function setupChangelog() {
 
 				parent.appendChild(document.new({
 					type: "div",
-					class: `child  contributor ${contributor}`,
+					class: `child ${contributor ? `contributor ${contributor}` : ""}`,
 					children: [document.new({ type: "span", text: item })],
 				}));
 			}

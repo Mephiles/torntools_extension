@@ -145,8 +145,6 @@ main.active {
     height: 5px;
     content: "";
     border-radius: 50%;
-    background-color: #dc8e00;
-    border: 2px solid #dc8e00;
     margin-right: 4px;
 }
 
