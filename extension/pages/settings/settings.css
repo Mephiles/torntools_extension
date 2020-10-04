@@ -134,7 +134,12 @@ main.active {
     padding: 4px 0 4px 10px;
 }
 
-.contributor.dkk span:before, .contributor.mephiles span:before, .contributor.wootty2000 span:before {
+#changelog .contributors .contributor a {
+    text-decoration: none;
+    color: initial;
+}
+
+#changelog .contributor span:before {
     display: inline-block;
     width: 5px;
     height: 5px;
@@ -145,17 +150,22 @@ main.active {
     margin-right: 4px;
 }
 
-.contributor.mephiles span:before {
+#changelog .contributor.mephiles span:before {
     background-color: green;
     border: 2px solid green;
 }
 
-.contributor.dkk span:before {
+#changelog .contributor.dkk span:before {
     background-color: orange;
     border: 2px solid orange;
 }
 
-.contributor.wootty2000 span:before {
+#changelog .contributor.wootty2000 span:before {
     background-color: red;
     border: 2px solid red;
+}
+
+#changelog .contributor.finally span:before {
+    background-color: purple;
+    border: 2px solid purple;
 }

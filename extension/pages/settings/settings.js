@@ -38,6 +38,21 @@ function showPage(name) {
 function setupChangelog() {
 	let content = document.find("#changelog > section");
 
+	const contributorList = document.find("#changelog .contributors");
+	for (let c in CONTRIBUTORS) {
+		contributorList.appendChild(document.new({
+			type: "div",
+			class: `contributor ${c.toLowerCase()}`,
+			html: `
+				<span>
+					<a href="https://www.torn.com/profiles.php?XID=${CONTRIBUTORS[c].id}" target="_blank">
+						${CONTRIBUTORS[c].name} [${CONTRIBUTORS[c].id}]
+					</a>
+				</span>
+			`,
+		}));
+	}
+
 	for (let key in changelog) {
 		const title = key.split(" - ")[1] ? " - " + key.split(" - ")[1] : "";
 		const version = key.split(" - ")[0];
@@ -67,7 +82,7 @@ function setupChangelog() {
 			for (let item of changelog[key][title]) {
 				let contributor;
 
-				for (let c of ["Mephiles", "DKK", "wootty2000"]) {
+				for (let c in CONTRIBUTORS) {
 					if (!item.includes(`- ${c}`)) continue;
 
 					contributor = c.toLowerCase();

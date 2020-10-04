@@ -79,3 +79,22 @@ const DEFAULT_STORAGE = {
 		},
 	},
 };
+
+const CONTRIBUTORS = {
+	Mephiles: {
+		id: 2087524,
+		name: "Mephiles",
+	},
+	DKK: {
+		id: 2114440,
+		name: "DeKleineKobini",
+	},
+	wootty2000: {
+		id: 2344687,
+		name: "wootty2000",
+	},
+	finally: {
+		id: 2060206,
+		name: "finally",
+	},
+};
