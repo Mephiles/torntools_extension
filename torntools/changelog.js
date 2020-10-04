@@ -1,7 +1,9 @@
 export default {
 	"v5.2 - xxxxxxx, xxth. 2020": {
 		"Features": [],
-		"Fixes": [],
+		"Fixes": [
+			"Properly display item values for weapons and other single items. - DKK",
+		],
 		"Changes": [
 			"Added sell points award and refill award trackers. - wootty2000",
 			"Added Shop to 'ignore max buy in bazaars' option. - Mephiles",
