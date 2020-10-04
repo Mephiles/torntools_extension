@@ -229,11 +229,11 @@ label {
     padding: 4px 0 4px 10px;
 }
 
-#changelog .dkk span, #changelog .mephiles span, #changelog .wootty2000 span {
+#changelog .dkk span, #changelog .mephiles span, #changelog .wootty2000 span, #changelog .finally span {
     position: relative;
 }
 
-#changelog .dkk span:before, #changelog .mephiles span:before, #changelog .wootty2000 span:before {
+#changelog .dkk span:before, #changelog .mephiles span:before, #changelog .wootty2000 span:before, #changelog .finally span:before {
     width: 5px;
     height: 5px;
     content: "";
@@ -258,6 +258,11 @@ label {
 #changelog .wootty2000 span:before {
     background-color: red;
     border: 2px solid red;
+}
+
+#changelog .finally span:before {
+    background-color: purple;
+    border: 2px solid purple;
 }
 
 /* API info */

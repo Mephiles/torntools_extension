@@ -245,15 +245,12 @@ function setupChangelog() {
 							for (let _item of grandparent[parent_name][_key]) {
 								let contributor;
 
-								if (_item.includes("- DKK")) {
-									contributor = "dkk";
-									_item = _item.slice(0, _item.indexOf(" - DKK"));
-								} else if (_item.includes("- Mephiles")) {
-									contributor = "mephiles";
-									_item = _item.slice(0, _item.indexOf(" - Mephiles"));
-								} else if (_item.includes("- wootty2000")) {
-									contributor = "wootty2000";
-									_item = _item.slice(0, _item.indexOf(" - wootty2000"));
+								for (let c of ["Mephiles", "DKK", "wootty2000", "finally"]) {
+									if (!_item.includes(`- ${c}`)) continue;
+
+									contributor = c.toLowerCase();
+									_item = _item.slice(0, _item.indexOf(`- ${c}`));
+									break;
 								}
 
 								let _item_div = doc.new({ type: "div", class: `child ${contributor}` });
