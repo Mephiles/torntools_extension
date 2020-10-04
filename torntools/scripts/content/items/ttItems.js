@@ -215,8 +215,8 @@ function displayItemPrices(itemlist) {
 		let parent = mobile ? item.find(".name-wrap") : (item.find(".bonuses-wrap") || item.find(".name-wrap"));
 		let new_element;
 
-		const qty = parseInt(item.find(".item-amount.qty").innerText) || 1;
-		total_price = qty * parseInt(price);
+		const quantity = parseInt(item.find(".item-amount.qty").innerText) || 1;
+		total_price = quantity * parseInt(price);
 		if (total_price) total += total_price;
 		else if (total_price !== 0) total += price;
 
@@ -239,17 +239,13 @@ function displayItemPrices(itemlist) {
 		}
 
 		if (total_price) {
-			let one_price = doc.new("span");
-			one_price.innerText = `$${numberWithCommas(price, false)} |`;
-			let quantity = doc.new("span");
-			quantity.innerText = ` ${qty}x = `;
-			quantity.setClass("tt-item-quantity");
-			let all_price = doc.new("span");
-			all_price.innerText = `$${numberWithCommas(total_price, false)}`;
-
-			new_element.appendChild(one_price);
-			new_element.appendChild(quantity);
-			new_element.appendChild(all_price);
+			if (quantity === 1) {
+				new_element.appendChild(doc.new({ type: "span", text: `$${numberWithCommas(price, false)}` }));
+			} else {
+				new_element.appendChild(doc.new({ type: "span", text: `$${numberWithCommas(price, false)} |` }));
+				new_element.appendChild(doc.new({ type: "span", text: doc.new({ type: "span" }), class: "tt-item-quantity" }));
+				new_element.appendChild(doc.new({ type: "span", text: `$${numberWithCommas(total_price, false)}` }));
+			}
 		} else if (price === 0) {
 			new_element.innerText = `N/A`;
 		} else {
