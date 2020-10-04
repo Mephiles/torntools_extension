@@ -22,11 +22,6 @@ requireDatabase(false)
 			doc.find(".error").innerText = api.error;
 		}
 
-		// Setup settings button
-		doc.find(".settings").onclick = () => {
-			window.open("../settings/settings.html");
-		};
-
 		// Setup links
 		for (let tab of doc.findAll("body>.header .page-tab")) {
 			let name = tab.id.split("-")[0];
@@ -63,6 +58,11 @@ function loadPage(name) {
 			page.classList.remove("active");
 		}
 	}
+
+	// Setup settings button
+	doc.find(".settings").onclick = () => {
+		window.open("../settings/settings.html");
+	};
 
 	// Hide header when initializing
 	if (name === "initialize") doc.find("body>.header").style.display = "none";
