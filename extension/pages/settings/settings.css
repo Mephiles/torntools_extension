@@ -168,55 +168,55 @@ main.active {
     padding: 0;
 }
 
-#preferences > section > nav {
+#preferences nav {
     width: max-content;
     border-right: 1px solid lightgray;
     background-color: #f1f1f1;
 }
 
-#preferences > section > nav ul {
+#preferences nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-#preferences > section > nav ul > li {
+#preferences nav ul > li {
     padding: 7px;
     border-bottom: 1px solid lightgray;
 }
 
-#preferences > section > nav ul > li.header {
+#preferences nav ul > li.header {
     background-color: #b9b9b9;
 }
 
-#preferences > section > nav ul > li[name] {
+#preferences nav ul > li[name] {
     white-space: nowrap;
 }
 
-#preferences > section > nav ul > li[name]:hover {
+#preferences nav ul > li[name]:hover {
     background-color: #e2e0e0;
     cursor: pointer;
 }
 
-#preferences > section > nav ul > li[name].active {
+#preferences nav ul > li[name].active {
     background-color: #e2e0e0;
 }
 
-#preferences > section > nav ul > li[name].active:hover {
+#preferences nav ul > li[name].active:hover {
     cursor: initial;
 }
 
-#preferences > section > .sections {
+#preferences .sections {
     border-bottom: 1px solid lightgray;
     width: 100%;
     padding: 10px;
 }
 
-#preferences > section > .sections > section {
+#preferences .sections > section {
     display: none;
     margin-bottom: 20px;
 }
 
-#preferences > section > .sections > section.active {
+#preferences .sections > section.active {
     display: block;
 }
