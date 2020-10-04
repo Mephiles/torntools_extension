@@ -1597,6 +1597,7 @@ const STORAGE = {
 				hide_upgrade: false,
 				align_left: false,
 				find_chat: true,
+				autocomplete_chat: true,
 				hide_chat: false,
 				collapse_areas: false,
 				oc_time: true,
