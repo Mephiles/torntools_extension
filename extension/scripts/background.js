@@ -1,6 +1,5 @@
 (async () => {
 	await convertDatabase();
-	await migrateDatabase();
 
 	await loadDatabase();
 })();
