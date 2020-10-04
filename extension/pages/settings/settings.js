@@ -118,6 +118,15 @@ function setupChangelog() {
 }
 
 function setupPreferences() {
+	for (let link of document.findAll("#preferences > section > nav ul > li[name]")) {
+		link.addEventListener("click", () => {
+			document.find("#preferences > section > nav ul li[name].active").classList.remove("active");
+			document.find("#preferences > section > .sections > section.active").classList.remove("active");
+
+			link.classList.add("active");
+			document.find(`#preferences > section > .sections > section[name="${link.getAttribute("name")}"]`).classList.add("active");
+		});
+	}
 }
 
 function setupAPIInfo() {
