@@ -22,7 +22,7 @@ function showPage(name) {
 		navigation.classList.remove("active");
 	}
 
-	document.find(`header nav.on-page > ul > li[to="${name}"]`).parentElement.classList.add("active");
+	document.find(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
 	document.find(`#${name}`).classList.remove("hidden");
 
 	let setup = {
