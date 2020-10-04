@@ -16,12 +16,6 @@ body {
     display: none;
 }
 
-main {
-    display: flex;
-    position: relative;
-    height: 100%;
-}
-
 .center {
     margin: auto;
 }
@@ -62,11 +56,28 @@ header nav > ul > li.active {
 }
 
 /*
+ * General pages.
+ */
+
+main > h2 {
+    text-align: center;
+}
+
+main > section {
+    width: 70%;
+    border: 1px solid lightgrey;
+    margin: 0 auto;
+    padding: 10px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/*
  * Changelog
  */
 
 #changelog > section {
-    width: 75%;
+    border: unset;
 }
 
 #changelog > section .header {
