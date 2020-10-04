@@ -35,12 +35,16 @@
         </section>
     </main>
     <main id="preferences">
-        <h2>Preferences</h2>
+        <h2>
+            Preferences&nbsp;-&nbsp;
+            <i id="preferences-show_advanced" class="tooltip fas"><span class="tooltip-text"></span></i>
+        </h2>
         <section>
             <nav>
                 <ul>
                     <li name="general" class="active">General</li>
                     <li name="global">Global</li>
+                    <li name="chat">Chat</li>
                     <li>Sidebar</li>
                     <li>Popup</li>
                     <li>Notifications</li>
@@ -83,12 +87,32 @@
 
             <div class="sections">
                 <section class="active" name="general">
-                    <div class="heading">General</div>
-                    <h4>WIP</h4>
+                    <div class="header">General</div>
+                    <div class="option">
+                        <input id="update_notice" type="checkbox"/>
+                        <label for="update_notice">Show update notice.</label>
+                    </div>
+                    <div class="option advanced">
+                        <input id="developer" type="checkbox"/>
+                        <label for="developer">Enable developer features.</label>
+                    </div>
+
+                    <div class="header wip">Theme</div>
+
+                    <div class="header wip">Date</div>
+
+                    <div class="header wip">Time</div>
                 </section>
                 <section name="global">
-                    <div class="heading">Global</div>
-                    <h4>WIP</h4>
+                    <div class="header">Global</div>
+                </section>
+                <section name="chat">
+                    <div class="header">Chat</div>
+
+                    <div class="option">
+                        <label for="font_size">Chat font size:</label>
+                        <input id="font_size" type="number" min="6" max="24"/>
+                    </div>
                 </section>
             </div>
         </section>

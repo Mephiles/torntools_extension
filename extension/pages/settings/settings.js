@@ -2,17 +2,17 @@ import changelog from "../../changelog.js";
 
 let initiatedPages = {};
 
-(() => {
-	showPage(getSearchParameters().get("page") || "changelog");
+(async () => {
+	await showPage(getSearchParameters().get("page") || "changelog");
 
 	for (let navigation of document.findAll("header nav.on-page > ul > li")) {
-		navigation.addEventListener("click", () => {
-			showPage(navigation.getAttribute("to"));
+		navigation.addEventListener("click", async () => {
+			await showPage(navigation.getAttribute("to"));
 		});
 	}
 })();
 
-function showPage(name) {
+async function showPage(name) {
 	window.history.replaceState("", "Title", "?page=" + name);
 
 	for (let active of document.findAll("body > main.active, header nav.on-page > ul > li.active"))
@@ -30,7 +30,7 @@ function showPage(name) {
 	};
 
 	if (!(name in initiatedPages) || !initiatedPages[name]) {
-		setup[name]();
+		await setup[name]();
 		initiatedPages[name] = true;
 	}
 }
@@ -117,7 +117,18 @@ function setupChangelog() {
 	content.appendChild(document.new({ type: "p", text: "The rest is history..", style: { textAlign: "center" } }));
 }
 
-function setupPreferences() {
+async function setupPreferences() {
+	await loadDatabase();
+
+	const showAdvancedIcon = document.find("#preferences-show_advanced");
+	showAdvanced(filters.preferences.showAdvanced);
+	showAdvancedIcon.addEventListener("click", async () => {
+		const newStatus = !filters.preferences.showAdvanced;
+
+		showAdvanced(newStatus);
+		await ttStorage.change({ filters: { preferences: { showAdvanced: newStatus } } });
+	});
+
 	for (let link of document.findAll("#preferences > section > nav ul > li[name]")) {
 		link.addEventListener("click", () => {
 			document.find("#preferences > section > nav ul li[name].active").classList.remove("active");
@@ -126,6 +137,25 @@ function setupPreferences() {
 			link.classList.add("active");
 			document.find(`#preferences > section > .sections > section[name="${link.getAttribute("name")}"]`).classList.add("active");
 		});
+	}
+
+	function showAdvanced(advanced) {
+		const settings = document.findAll("#preferences .sections > section > .option.advanced");
+		if (advanced) {
+			for (let advancedSetting of settings)
+				advancedSetting.classList.remove("hidden");
+
+			showAdvancedIcon.classList.add("fa-eye-slash");
+			showAdvancedIcon.classList.remove("fa-eye");
+			showAdvancedIcon.find(".tooltip-text").innerText = "Hide advanced options.";
+		} else {
+			for (let advancedSetting of settings)
+				advancedSetting.classList.add("hidden");
+
+			showAdvancedIcon.classList.remove("fa-eye-slash");
+			showAdvancedIcon.classList.add("fa-eye");
+			showAdvancedIcon.find(".tooltip-text").innerText = "Show advanced options.";
+		}
 	}
 }
 

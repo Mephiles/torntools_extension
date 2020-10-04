@@ -78,6 +78,11 @@ const DEFAULT_STORAGE = {
 			},
 		},
 	},
+	filters: {
+		preferences: {
+			showAdvanced: false,
+		},
+	},
 };
 
 const CONTRIBUTORS = {

@@ -1,3 +1,8 @@
+.wip:after {
+    content: " - WIP";
+    color: red;
+}
+
 /* General */
 
 html, body {
@@ -16,6 +21,33 @@ body {
 
 .center {
     margin: auto;
+}
+
+/* Tooltips */
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    width: max-content;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    text-decoration: unset;
+    font-weight: normal;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
 }
 
 /* Navigation */
@@ -162,6 +194,10 @@ main.active {
 
 /* Preferences */
 
+#preferences-show_advanced {
+    cursor: pointer;
+}
+
 #preferences > section {
     display: flex;
     font-size: 15px;
@@ -219,4 +255,13 @@ main.active {
 
 #preferences .sections > section.active {
     display: block;
+}
+
+#preferences .sections > section .header:first-of-type {
+    margin-top: unset;
+}
+
+#preferences .sections > section .header {
+    font-weight: bold;
+    margin-top: 12px;
 }
