@@ -70,17 +70,17 @@ requireDatabase().then(() => {
 		}
 
 		// Remove icons that are hidden
-		function hideIcons (observer) {
+		function hideIcons(observer) {
 			observer.disconnect();
 
 			for (let icon of doc.findAll("#sidebarroot .status-icons___1SnOI>li")) {
 				let name = icon.getAttribute("class").split("_")[0];
-				if (hide_icons.indexOf(name) > -1) {
+				if (!hide_icons.includes(name)) {
 					icon.parentElement.appendChild(icon);
 				}
 			}
 
-			observer.observe(doc.find("#sidebarroot .status-icons___1SnOI"), {childList:true});
+			observer.observe(doc.find("#sidebarroot .status-icons___1SnOI"), { childList: true });
 		}
 
 		hideIcons(new MutationObserver((_, observer) => hideIcons(observer)));
