@@ -2,6 +2,7 @@ export default {
 	"v5.2 - xxxxxxx, xxth. 2020": {
 		"Features": [
 			"Auto-complete usernames in chat. - finally",
+			"Icon bars. - finally",
 		],
 		"Fixes": [
 			"Properly display item values for weapons and other single items. - DKK",
