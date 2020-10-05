@@ -243,7 +243,7 @@ function displayItemPrices(itemlist) {
 				new_element.appendChild(doc.new({ type: "span", text: `$${numberWithCommas(price, false)}` }));
 			} else {
 				new_element.appendChild(doc.new({ type: "span", text: `$${numberWithCommas(price, false)} |` }));
-				new_element.appendChild(doc.new({ type: "span", text: doc.new({ type: "span" }), class: "tt-item-quantity" }));
+				new_element.appendChild(doc.new({ type: "span", text: ` ${qty}x = `, class: "tt-item-quantity" }));
 				new_element.appendChild(doc.new({ type: "span", text: `$${numberWithCommas(total_price, false)}` }));
 			}
 		} else if (price === 0) {
