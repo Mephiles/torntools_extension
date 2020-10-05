@@ -637,6 +637,8 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 						} else {
 							width = barWidth * (userdata[key].current / userdata[key].maximum);							
 						}
+
+						width = Math.min(width, barWidth);
 						
 						canvasContext.fillStyle = barColors[key];
 						canvasContext.fillRect(padding, y, width, barHeight);
