@@ -1025,7 +1025,7 @@ function updateStakeouts(oldStakeouts) {
 								});
 							});
 
-							if (oldStakeouts[user_id].online) {
+							if (oldStakeouts[user_id].notifications.online) {
 								if (stakeout_info.last_action.status === "Online" && !notifications.stakeouts[user_id + "_online"]) {
 									console.log("	Adding [online] notification to notifications.");
 									notifications.stakeouts[user_id + "_online"] = {
@@ -1039,7 +1039,7 @@ function updateStakeouts(oldStakeouts) {
 									delete notifications.stakeouts[user_id + "_online"];
 								}
 							}
-							if (oldStakeouts[user_id].okay) {
+							if (oldStakeouts[user_id].notifications.okay) {
 								if (stakeout_info.status.state === "Okay" && !notifications.stakeouts[user_id + "_okay"]) {
 									console.log("	Adding [okay] notification to notifications.");
 									notifications.stakeouts[user_id + "_okay"] = {
@@ -1053,7 +1053,7 @@ function updateStakeouts(oldStakeouts) {
 									delete notifications.stakeouts[user_id + "_okay"];
 								}
 							}
-							if (oldStakeouts[user_id].lands) {
+							if (oldStakeouts[user_id].notifications.lands) {
 								if (stakeout_info.status.state !== "Traveling" && !notifications.stakeouts[user_id + "_lands"]) {
 									console.log("	Adding [lands] notification to notifications.");
 									notifications.stakeouts[user_id + "_lands"] = {
@@ -1065,6 +1065,20 @@ function updateStakeouts(oldStakeouts) {
 									};
 								} else if (stakeout_info.status.state === "Traveling") {
 									delete notifications.stakeouts[user_id + "_lands"];
+								}
+							}
+							if (oldStakeouts[user_id].notifications.hospital) {
+								if (stakeout_info.status.state === "Hospital" && !notifications.stakeouts[user_id + "_hospital"]) {
+									console.log("	Adding [hospital] notification to notifications.");
+									notifications.stakeouts[user_id + "_hospital"] = {
+										title: `TornTools - Stakeouts`,
+										text: `${stakeout_info.name} is now in Hospital`,
+										url: `https://www.torn.com/profiles.php?XID=${user_id}`,
+										seen: 0,
+										date: new Date(),
+									};
+								} else if (stakeout_info.status.state !== "Hospital") {
+									delete notifications.stakeouts[user_id + "_hospital"];
 								}
 							}
 
