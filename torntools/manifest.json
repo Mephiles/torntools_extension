@@ -90,7 +90,7 @@
 				"scripts/libs/nouislider.css"
 			],
 			"js": [
-				"scripts/libs/nouislider.js",
+				"scripts/js/essential.js",
 				"scripts/js/globalClasses.js",
 				"scripts/js/globalFunctions.js",
 				"scripts/js/globalDatabase.js",
