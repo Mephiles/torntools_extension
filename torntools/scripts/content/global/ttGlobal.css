@@ -573,7 +573,7 @@ div[role='main'].tt-modified {
     height: 40px;
     width: 48px;
     position: fixed;
-    left: 0;
+    left: 5px;
     bottom: 0;
     z-index: 999;
 

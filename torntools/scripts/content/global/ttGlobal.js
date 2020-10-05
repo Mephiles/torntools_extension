@@ -492,7 +492,18 @@ function showToggleChat() {
 		ttStorage.set({ settings: settings });
 	});
 
+	function setToggleChatPosition() {
+		var maxTop = Array.from(document.querySelectorAll("#chatRoot > div > div")).reduce((accumulator, currentValue) => Math.max(accumulator || 0, currentValue.style["top"].replace(/[^\d]/g, ""))) || 0;
+		var iconBottom = ((maxTop / 39 / 2) + 1) * 39;
+
+		icon.style["bottom"] = `${iconBottom}px`;
+	}
+
+	new MutationObserver(() => setToggleChatPosition()).observe(document.querySelector("#chatRoot > div"), {attributes:true, subtree:true});
+
 	doc.find("#body").prepend(icon);
+
+	setToggleChatPosition();
 }
 
 function addInformationSection() {
