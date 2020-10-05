@@ -2,8 +2,7 @@ export default {
 	"v5.2 - xxxxxxx, xxth. 2020": {
 		"Features": [
 			"Auto-complete usernames in chat. - finally",
-			"Icon bars. - finally",
-			"Hospital stakeout. - finally",
+			"Show bars in the icon. - finally",
 		],
 		"Fixes": [
 			"Properly display item values for weapons and other single items. - DKK",
@@ -11,6 +10,7 @@ export default {
 			"Fix icon margin on dynamic change. - finally",
 			"Fix hide chat hidden by chats. - finally",
 			"Update 'Critical Education' mission hints. - DKK",
+			"Fix stakeouts not working. - finally",
 		],
 		"Changes": [
 			"Added sell points award and refill award trackers. - wootty2000",
@@ -18,6 +18,7 @@ export default {
 			"Remove 'requires faction API access' description from Advanced OC option. - Mephiles",
 			"Improve entry script loading times. - DKK",
 			"Added item count to City Items value. - Mephiles",
+			"Allow stakeouts on hospital status. - finally",
 		],
 	},
 	"v5.1.2 - October, 1st. 2020": {
