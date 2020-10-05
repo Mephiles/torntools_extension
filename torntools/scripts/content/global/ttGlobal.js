@@ -70,12 +70,20 @@ requireDatabase().then(() => {
 		}
 
 		// Remove icons that are hidden
-		for (let icon of doc.findAll(`#sidebarroot .status-icons___1SnOI>li`)) {
-			let name = icon.getAttribute("class").split("_")[0];
-			if (hide_icons.indexOf(name) > -1) {
-				icon.parentElement.appendChild(icon);
+		function hideIcons (observer) {
+			observer.disconnect();
+
+			for (let icon of doc.findAll("#sidebarroot .status-icons___1SnOI>li")) {
+				let name = icon.getAttribute("class").split("_")[0];
+				if (hide_icons.indexOf(name) > -1) {
+					icon.parentElement.appendChild(icon);
+				}
 			}
+
+			observer.observe(doc.find("#sidebarroot .status-icons___1SnOI"), {childList:true});
 		}
+
+		hideIcons(new MutationObserver((_, observer) => hideIcons(observer)));
 
 		// Vault balance
 		if (settings.pages.global.vault_balance && !mobile) {
