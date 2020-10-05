@@ -1024,15 +1024,23 @@ function displayStakeoutOptions() {
 	option_online.appendChild(checkbox_online);
 	option_online.appendChild(text_online);
 
+	let option_hospital = doc.new({ type: "div", class: "tt-checkbox-wrap" });
+	let checkbox_hospital = doc.new({ type: "input", attributes: { type: "checkbox" } });
+	let text_hospital = doc.new({ type: "div", text: "is in hospital" });
+	option_hospital.appendChild(checkbox_hospital);
+	option_hospital.appendChild(text_hospital);
+
 	if (stakeouts[userId]) {
-		checkbox_okay.checked = stakeouts[userId].okay;
-		checkbox_lands.checked = stakeouts[userId].lands;
-		checkbox_online.checked = stakeouts[userId].online;
+		checkbox_okay.checked = stakeouts[userId].notifications.okay;
+		checkbox_lands.checked = stakeouts[userId].notifications.lands;
+		checkbox_online.checked = stakeouts[userId].notifications.online;
+		checkbox_hospital.checked = stakeouts[userId].notifications.hospital;
 	}
 
 	stakeout_div.appendChild(option_okay);
 	stakeout_div.appendChild(option_lands);
 	stakeout_div.appendChild(option_online);
+	stakeout_div.appendChild(option_hospital);
 
 	checkbox_okay.onclick = () => {
 		saveStakeoutSettings();
@@ -1043,6 +1051,9 @@ function displayStakeoutOptions() {
 	checkbox_online.onclick = () => {
 		saveStakeoutSettings();
 	};
+	checkbox_hospital.onclick = () => {
+		saveStakeoutSettings();
+	};
 
 	// Add hr
 	stakeout_div.appendChild(doc.new({ type: "hr" }));
@@ -1051,7 +1062,7 @@ function displayStakeoutOptions() {
 	stakeout_div.appendChild(doc.new({ type: "i", class: "uk-sortable-handle fas fa-arrows-alt" }));
 
 	function saveStakeoutSettings() {
-		if (addToStakeoutsInput.checked === true || checkbox_okay.checked === true || checkbox_lands.checked === true || checkbox_online.checked === true) {
+		if (addToStakeoutsInput.checked === true || checkbox_okay.checked === true || checkbox_lands.checked === true || checkbox_online.checked === true || checkbox_hospital.checked === true) {
 			ttStorage.change({
 				stakeouts: {
 					[userId]: {
@@ -1060,6 +1071,7 @@ function displayStakeoutOptions() {
 							okay: checkbox_okay.checked,
 							lands: checkbox_lands.checked,
 							online: checkbox_online.checked,
+							hospital: checkbox_hospital.checked,
 						}
 					},
 				},

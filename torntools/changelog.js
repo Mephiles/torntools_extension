@@ -3,6 +3,7 @@ export default {
 		"Features": [
 			"Auto-complete usernames in chat. - finally",
 			"Icon bars. - finally",
+			"Hospital stakeout. - finally",
 		],
 		"Fixes": [
 			"Properly display item values for weapons and other single items. - DKK",
