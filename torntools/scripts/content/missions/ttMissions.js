@@ -58,7 +58,7 @@ const MISSIONS = {
 		task: "Defeat & Interrogate (P) to find the code for Duke's safe, then deliver the contents back to Duke after you open it.",
 		hint: "Can take 5 times to get target to talk. Contents of the safe will vary.",
 	},
-	"Critical Education": { task: "Achieve 8 critical hits.", hint: "A critical hit mod can help with this." },
+	"Critical Education": { task: "Achieve 6/8 critical hits.", hint: "A critical hit mod can help with this." },
 	"Cut Them Down to Size": { task: "Defeat someone your level or higher.", hint: "A friend can help by unequipping and dropping to 1 hp." },
 	"Dirty Little Secret": {
 		task: "Put a bounty on (P), wait for it to be claimed, attack the person who claimed the bounty.",

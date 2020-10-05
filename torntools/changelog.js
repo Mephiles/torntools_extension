@@ -8,6 +8,7 @@ export default {
 			"Fix chain notifications going out too early. - DKK",
 			"Fix icon margin on dynamic change. - finally",
 			"Fix hide chat hidden by chats. - finally",
+			"Update 'Critical Education' mission hints. - DKK",
 		],
 		"Changes": [
 			"Added sell points award and refill award trackers. - wootty2000",
