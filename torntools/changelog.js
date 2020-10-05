@@ -6,6 +6,7 @@ export default {
 		"Fixes": [
 			"Properly display item values for weapons and other single items. - DKK",
 			"Fix chain notifications going out too early. - DKK",
+			"Fix icon margin on dynamic change. - finally",
 			"Fix hide chat hidden by chats. - finally",
 		],
 		"Changes": [
