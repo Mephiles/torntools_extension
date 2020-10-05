@@ -614,7 +614,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 
 					let barHeight = (canvas.height - ((numBars + 1) * 10)) / numBars;
 					let barWidth = canvas.width - (padding * 2);
-					
+
 					let barColors = {
 						"energy": "#0ac20a",
 						"nerve": "#c20a0a",
@@ -635,11 +635,11 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 							let totalTrip = (userdata[key].timestamp - userdata[key].departed);
 							width = barWidth * ((totalTrip - userdata[key].time_left) / totalTrip);
 						} else {
-							width = barWidth * (userdata[key].current / userdata[key].maximum);							
+							width = barWidth * (userdata[key].current / userdata[key].maximum);
 						}
 
 						width = Math.min(width, barWidth);
-						
+
 						canvasContext.fillStyle = barColors[key];
 						canvasContext.fillRect(padding, y, width, barHeight);
 

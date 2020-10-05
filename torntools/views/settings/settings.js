@@ -314,9 +314,9 @@ function setupPreferences() {
 	// Icon bars
 	for (let key in settings.icon_bars) {
 		let option = preferences.find(`#icon_bars-${key} input`);
-		
+
 		option.checked = settings.icon_bars[key];
-		
+
 		if (!settings.icon_bars.show && key !== "show") option.setAttribute("disabled", true);
 	}
 

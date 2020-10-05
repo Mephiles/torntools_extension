@@ -995,7 +995,7 @@ function displayStakeoutOptions() {
 	watchlist_wrap.appendChild(text);
 	stakeout_div.appendChild(watchlist_wrap);
 
-	if(stakeouts[userId]) {
+	if (stakeouts[userId]) {
 		addToStakeoutsInput.checked = true;
 	}
 
@@ -1072,7 +1072,7 @@ function displayStakeoutOptions() {
 							lands: checkbox_lands.checked,
 							online: checkbox_online.checked,
 							hospital: checkbox_hospital.checked,
-						}
+						},
 					},
 				},
 			});
