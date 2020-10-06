@@ -2865,6 +2865,11 @@ function sortSections(parent, page) {
 	}
 }
 
+const notificationPlayer = new Audio();
+notificationPlayer.autoplay = false;
+notificationPlayer.preload = true;
+notificationPlayer.src = browser.runtime.getURL('notification.wav');
+
 function notifyUser(title, message, url) {
 	ttStorage.get("settings", function (settings) {
 		const notificationOptions = {
@@ -2879,6 +2884,8 @@ function notifyUser(title, message, url) {
 		chrome.notifications.create(notificationOptions, function (id) {
 			notificationLinkRelations[id] = url;
 			console.log("   Notified!", notificationOptions);
+
+			if (usingFirefox() && settings.notifications_sound) notificationPlayer.play();
 		});
 
 		if (settings.notifications_tts) {
