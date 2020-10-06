@@ -2868,7 +2868,7 @@ function sortSections(parent, page) {
 const notificationPlayer = new Audio();
 notificationPlayer.autoplay = false;
 notificationPlayer.preload = true;
-notificationPlayer.src = browser.runtime.getURL('notification.wav');
+notificationPlayer.src = chrome.runtime.getURL('notification.wav');
 
 function notifyUser(title, message, url) {
 	ttStorage.get("settings", function (settings) {
