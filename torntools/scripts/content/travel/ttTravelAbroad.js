@@ -673,10 +673,32 @@ function addTableContent(travel_items) {
 
 	let body_html = ``;
 
+	// Compare current travel time to base times to determine if traveling with Airstrip, WLT or Business Ticket
+	let time_modifier = 1;
+	let cost_modifier = undefined;
+	if (userdata && userdata.status && userdata.status.state === "Traveling" && userdata.travel) {
+		let country = (userdata.travel.destination == "Torn" ? userdata.status.description.split(" ").slice(-1)[0] : userdata.travel.destination).toLowerCase();
+		let base_time = country_dict[country].time;
+		let actual_time = (userdata.travel.timestamp - userdata.travel.departed) / 60;
+		if (Math.abs(actual_time - (base_time * 0.3)) <= 5) {
+			time_modifier = 0.3;
+			cost_modifier = 0;
+		}
+		else if (Math.abs(actual_time - (base_time * 0.5)) <= 5) {
+			time_modifier = 0.5;
+			cost_modifier = 0;
+		}
+		else if (Math.abs(actual_time - (base_time * 0.7)) <= 5) {
+			time_modifier = 0.7;
+			cost_modifier = itemlist.items["396"].market_value;
+		}
+	}
+
 	// Add rows
 	for (let item of travel_market.stocks) {
-		let time = country_dict[item.country_name.toLowerCase()].time * 2;
-		let cost = country_dict[item.country_name.toLowerCase()].cost;
+		let country = country_dict[item.country_name.toLowerCase()];
+		let time = parseFloat((country.time * time_modifier).toFixed(1)).toFixed(0) * 2;
+		let cost = cost_modifier ?? country.cost;
 
 		body_html += addRow(item, time, cost, travel_items);
 	}
