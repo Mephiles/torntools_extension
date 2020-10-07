@@ -23,7 +23,8 @@
 		"https://www.tornstats.com/*",
 		"https://api.torn.com/*",
 		"https://torntools.gregork.com/*",
-		"https://torn-proxy.com/*"
+		"https://torn-proxy.com/*",
+		"https://www.nukefamily.org/*"
 	],
 	"web_accessible_resources": [
 		"images/*",
@@ -49,6 +50,7 @@
 			],
 			"css": [
 				"scripts/content/global/ttGlobal.css",
+				"scripts/content/global/ttCentralHospitalRevive.css",
 				"scripts/content/global/ttChat.css",
 				"scripts/libs/nouislider.css",
 				"scripts/libs/fontawesome.css"

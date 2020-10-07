@@ -1262,6 +1262,7 @@ const STORAGE = {
 		yata: [],
 		tornstats: [],
 		torntools: [],
+		nukefamily: []
 	},
 
 	// userdata
@@ -1615,6 +1616,7 @@ const STORAGE = {
 				refill_energy: true,
 				refill_nerve: false,
 				miniprofile_last_action: true,
+				enable_central_revive: false,
 			},
 			jail: {
 				quick_bail: false,
@@ -3187,6 +3189,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 				tornstats: "https://www.tornstats.com/",
 				// 'tornstats': 'https://www.torn-proxy.com/tornstats/',
 				torntools: "https://torntools.gregork.com/",
+				nukefamily: 'https://www.nukefamily.org/'
 			};
 
 			const proxyFail = options.proxyFail;
@@ -3196,7 +3199,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 			let section;
 			if (ogLocation === "tornstats" && location === "torn-proxy") {
 				section = "tornstats/" + options.section;
-			} else if (location !== "tornstats") {
+			} else if (location !== "tornstats" && location !== 'nukefamily') {
 				section = options.section + "/";
 			} else {
 				section = options.section;
@@ -3207,7 +3210,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 			const proxyKey = proxy_key;
 
 			let full_url;
-			if (location === "torntools") {
+			if (location === "torntools" || location === 'nukefamily') {
 				full_url = `${base}${section || ""}`;
 			} else if (proxyKey || apiKey) {
 				full_url = `${base}${section}${objectid}${selections ? "selections=" + selections : ""}${location !== "yata" ? proxyKey && !proxyFail ? `&key=${proxyKey}` : `&key=${apiKey}` : ""}`;
@@ -3233,8 +3236,18 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 
 			fetch(full_url, parameters)
 				.then(async response => {
-					const result = await response.json();
-					// console.log("result", result);
+					let result = {};
+					try {
+						result = await response.json();
+						console.log("result", result);
+					} catch (err) {
+						console.log("response", response);
+						if (response.status === 200) {
+							result.success = true;
+						} else {
+							result.error = "Unknown error";
+						}
+					}
 
 					logFetch(ogLocation, (options => {
 						if (location === "torn-proxy") options.proxy = true;

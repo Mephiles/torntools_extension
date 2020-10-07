@@ -115,6 +115,9 @@ requireDatabase().then(() => {
 
 		highlightRefills();
 
+		// NUKE REVIVE SCRIPT
+		if (settings.pages.global.enable_central_revive) nukeReviveScript();
+
 		// Global time reducer
 		setInterval(() => {
 			for (let time of doc.findAll("*[seconds-down]")) {
@@ -499,7 +502,7 @@ function showToggleChat() {
 		icon.style["bottom"] = `${iconBottom}px`;
 	}
 
-	new MutationObserver(() => setToggleChatPosition()).observe(document.querySelector("#chatRoot > div"), {attributes:true, subtree:true});
+	new MutationObserver(() => setToggleChatPosition()).observe(document.querySelector("#chatRoot > div"), { attributes: true, subtree: true });
 
 	doc.find("#body").prepend(icon);
 
@@ -647,4 +650,70 @@ function showMiniprofileInformation(information) {
 			}));
 		}, 500);
 	});
+}
+
+function nukeReviveScript() {
+	// HTML - taken from Jox's script 'Central Hospital Revive Request'
+	const reviveButtonHTML = `
+<div id="top-page-links-list" class="content-title-links" role="list" aria-labelledby="top-page-links-button">
+	<a role="button" aria-labelledby="nuke-revive" class="nuke-revive t-clear h c-pointer  m-icon line-h24 right last" href="#" style="padding-left: 10px; padding-right: 10px" id="nuke-revive-link">
+		<span class="icon-wrap svg-icon-wrap">
+			<span class="link-icon-svg nuke-revive">
+			<div id="cf"></div>
+			</span>
+		</span>
+		<span id="nuke-revive" style="color:red">Revive Me</span>
+	</a>
+</div>
+	`
+	const reviveButton = doc.new({ type: 'span' })
+	reviveButton.innerHTML = reviveButtonHTML;
+
+	// Add button to page - taken from Jox's script 'Central Hospital Revive Request'
+	if (!doc.find('#nuke-revive-link')) {
+		let linkReference = doc.find('.links-footer') || doc.find('.content-title .clear') || doc.find('.tutorial-switcher') || doc.find('.links-top-wrap') || doc.find('.forums-main-wrap');
+		if (linkReference) {
+			let linkContainer = linkReference.parentNode;
+			linkContainer.insertBefore(reviveButton, linkReference);
+
+			doc.find('#nuke-revive-link').onclick = () => { callForRevive() };
+		}
+	}
+
+	function callForRevive() {
+		const playerID = userdata.player_id;
+		const playerName = userdata.name;
+		const isInHospital = doc.find('#sidebarroot .status-icons___1SnOI li[class^=icon15]') ? true : false;
+		const faction = userdata.faction.faction_name;
+		const appInfo = `TornTools v${chrome.runtime.getManifest().version}`
+		let country = document.body.dataset.country;
+
+		switch (country) {
+			case 'uk':
+				country = 'United Kingdom';
+				break;
+			case 'uae':
+				country = 'UAE';
+				break;
+			default:
+				country = country.replace(/-/g, " ");
+				country = capitalize(country, everyWord = true);
+				break;
+		}
+
+		if (!isInHospital) {
+			alert('You are not in hospital.');
+			return;
+		}
+
+		const postData = { uid: playerID, Player: playerName, Faction: faction, Country: country, AppInfo: appInfo }
+		fetchRelay('nukefamily', {
+			section: 'dev/reviveme.php',
+			method: 'POST',
+			postData: postData
+		})
+			.then(async response => {
+				console.log('response', response);
+			})
+	}
 }
