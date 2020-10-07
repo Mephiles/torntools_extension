@@ -11,6 +11,7 @@ export default {
 			"Fix hide chat hidden by chats. - finally",
 			"Update 'Critical Education' mission hints. - DKK",
 			"Fix stakeouts not working. - finally",
+			"Fix travel profit calculation while flying. - finally",
 		],
 		"Changes": [
 			"Added sell points award and refill award trackers. - wootty2000",
