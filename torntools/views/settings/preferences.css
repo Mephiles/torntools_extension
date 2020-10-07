@@ -10,5 +10,6 @@
 }
 
 #areas span.disabled {
-    opacity: 0.5;
+    opacity: 0.3;
+    background-color: #ff000069;
 }

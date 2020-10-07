@@ -334,7 +334,7 @@ label {
 }
 
 #preferences .navigation > div:not(.heading).active {
-    background-color: #e2e0e0;
+    background-color: #c1c1c1;
 }
 
 #preferences .navigation > div:not(.heading).active:hover {
@@ -342,7 +342,11 @@ label {
 }
 
 #preferences .navigation > div.heading {
-    background-color: #b9b9b9;
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 2px;
+    background-color: #e0e0e0;
 }
 
 .big-message {
