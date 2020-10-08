@@ -1262,7 +1262,7 @@ const STORAGE = {
 		yata: [],
 		tornstats: [],
 		torntools: [],
-		nukefamily: []
+		nukefamily: [],
 	},
 
 	// userdata
@@ -2875,7 +2875,7 @@ notificationPlayer.preload = true;
 
 let notificationSound = null;
 
-function getNotificationSound (id) {
+function getNotificationSound(id) {
 	return new Promise(resolve => {
 		if (id == -1) {
 			resolve(-1);
@@ -3219,7 +3219,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 				tornstats: "https://www.tornstats.com/",
 				// 'tornstats': 'https://www.torn-proxy.com/tornstats/',
 				torntools: "https://torntools.gregork.com/",
-				nukefamily: 'https://www.nukefamily.org/'
+				nukefamily: "https://www.nukefamily.org/",
 			};
 
 			const proxyFail = options.proxyFail;
@@ -3229,7 +3229,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 			let section;
 			if (ogLocation === "tornstats" && location === "torn-proxy") {
 				section = "tornstats/" + options.section;
-			} else if (location !== "tornstats" && location !== 'nukefamily') {
+			} else if (location !== "tornstats" && location !== "nukefamily") {
 				section = options.section + "/";
 			} else {
 				section = options.section;
@@ -3240,7 +3240,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 			const proxyKey = proxy_key;
 
 			let full_url;
-			if (location === "torntools" || location === 'nukefamily') {
+			if (location === "torntools" || location === "nukefamily") {
 				full_url = `${base}${section || ""}`;
 			} else if (proxyKey || apiKey) {
 				full_url = `${base}${section}${objectid}${selections ? "selections=" + selections : ""}${location !== "yata" ? proxyKey && !proxyFail ? `&key=${proxyKey}` : `&key=${apiKey}` : ""}`;

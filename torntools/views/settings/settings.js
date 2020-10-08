@@ -365,12 +365,15 @@ function setupPreferences() {
 		reader.readAsDataURL(event.target.files[0]);
 	});
 	preferences.find("#notifications_sound-play").addEventListener("click", () => {
-		chrome.runtime.sendMessage({ action: "play-notification-sound", type: preferences.find("#notifications_sound-type").value, volume: preferences.find("#notifications_sound-volume").value });
+		chrome.runtime.sendMessage({
+			action: "play-notification-sound",
+			type: preferences.find("#notifications_sound-type").value,
+			volume: preferences.find("#notifications_sound-volume").value,
+		});
 	});
 	preferences.find("#notifications_sound-stop").addEventListener("click", () => {
 		chrome.runtime.sendMessage({ action: "stop-notification-sound" });
 	});
-	
 
 	// Achievements
 	for (let key in settings.achievements) {
