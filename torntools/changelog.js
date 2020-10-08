@@ -23,7 +23,7 @@ export default {
 			"Allow stakeouts on hospital status. - finally",
 			"Change the notification system. - finally",
 			"Make notifications work in the background. - DKK",
-			"Added a setting to hide the 'Toggle Chat' button. - smikula"
+			"Added a setting to hide the 'Toggle Chat' button. - smikula",
 		],
 	},
 	"v5.1.2 - October, 1st. 2020": {

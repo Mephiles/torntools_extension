@@ -145,11 +145,19 @@
                         </div>
                         <div class="option" id="global-block_zalgo">
                             <input type="checkbox">Block Zalgo in chat <span class="new">New!</span>
-                            <div class="tabbed note">Zalgo - corrupted text that also changes other messages. Example: ǎ̸͖̙̖̥̯̳͕̋͐̃͂̽s̵̢̰̘̳͕̥̆ͅd̴́̊̚͜͝͠</div>
+                            <div class="tabbed note">
+                                Zalgo - corrupted text that also changes other messages.
+                                Example: ǎ̸͖̙̖̥̯̳͕̋͐̃͂̽s̵̢̰̘̳͕̥̆ͅd̴́̊̚͜͝͠
+                            </div>
                         </div>
                         <div class="option" id="global-enable_central_revive">
-                            <input type="checkbox">Enable Nuke Central Hospital Revive script <span class="new">New!</span>
-                            <div class="tabbed note red">Revives cost $1m or 1 Xanax. Requests will go straight to Nuclear Central Hospital's Discord server.</div>
+                            <input type="checkbox">
+                            Enable Nuke Central Hospital Revive script
+                            <span class="new">New!</span>
+                            <div class="tabbed note red">
+                                Revives cost $1m or 1 Xanax.
+                                Requests will go straight to Nuclear Central Hospital's Discord server.
+                            </div>
                         </div>
                         <div class="option" id="global-miniprofile_last_action">
                             <input id="inputGlobalMiniprofileLastAction" type="checkbox">
@@ -265,7 +273,7 @@
                     <div class="section notifications" name="notifications">
                         <div class="heading">Notification Preferences</div>
                         <div class="option" id="notifications_sound">
-                            Sound effect when receiving a notification: 
+                            Sound effect when receiving a notification:
                             <select id="notifications_sound-type">
                                 <option value="-1">Mute</option>
                                 <option value="0">OS default</option>
@@ -280,9 +288,12 @@
                             <i id="notifications_sound-play" class="fas fa-play"></i>
                             <i id="notifications_sound-stop" class="fas fa-stop"></i>
                             <br>
-                            <input id="notifications_sound-upload" type="file" accept=".mp3,.ogg,.wav" style="display: none;">
+                            <input accept=".mp3,.ogg,.wav" id="notifications_sound-upload" style="display: none;"
+                                   type="file">
                         </div>
-                        <div class="tabbed note">(Mute only works in Chrome, OS default might not work in all browsers)</div>
+                        <div class="tabbed note">
+                            (Mute only works in Chrome, OS default might not work in all browsers)
+                        </div>
                         <div class="option" id="notifications_tts">
                             <input type="checkbox">Read notifications using Text-To-Speech
                         </div>
