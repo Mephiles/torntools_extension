@@ -3,6 +3,7 @@ export default {
 		"Features": [
 			"Auto-complete usernames in chat. - finally",
 			"Show bars in the icon. - finally",
+			"Add revive option for Nuclear Central Hospital. - Mephiles",
 		],
 		"Fixes": [
 			"Properly display item values for weapons and other single items. - DKK",
