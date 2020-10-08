@@ -22,6 +22,7 @@ export default {
 			"Added item count to City Items value. - Mephiles",
 			"Allow stakeouts on hospital status. - finally",
 			"Change the notification system. - finally",
+			"Make notifications work in the background. - DKK",
 		],
 	},
 	"v5.1.2 - October, 1st. 2020": {
