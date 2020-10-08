@@ -20,6 +20,7 @@ export default {
 			"Improve entry script loading times. - DKK",
 			"Added item count to City Items value. - Mephiles",
 			"Allow stakeouts on hospital status. - finally",
+			"Added a setting to hide the 'Toggle Chat' button. - smikula"
 		],
 	},
 	"v5.1.2 - October, 1st. 2020": {
