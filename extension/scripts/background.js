@@ -25,8 +25,11 @@ async function convertDatabase() {
 		let newStorage = {};
 
 		for (let key in defaultStorage) {
-			if (!(key in oldStorage) || // key is not in old storage
-				(typeof defaultStorage[key] !== "undefined" && typeof defaultStorage[key] !== typeof oldStorage[key])) { // key has a new type
+			if (
+				!(key in oldStorage) || // key is not in old storage
+				(typeof defaultStorage[key] !== "undefined" && typeof defaultStorage[key] !== typeof oldStorage[key])
+			) {
+				// key has a new type
 				newStorage[key] = defaultStorage[key];
 				continue;
 			}

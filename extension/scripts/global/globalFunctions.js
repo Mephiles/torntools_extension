@@ -58,14 +58,11 @@ Document.prototype.new = function (options) {
 		if (options.value) newElement.value = options.value;
 		if (options.href) newElement.href = options.href;
 
-		for (let child of options.children || [])
-			newElement.appendChild(child);
+		for (let child of options.children || []) newElement.appendChild(child);
 
-		for (let attr in options.attributes)
-			newElement.setAttribute(attr, options.attributes[attr]);
+		for (let attr in options.attributes) newElement.setAttribute(attr, options.attributes[attr]);
 
-		for (let key in options.style)
-			newElement.style[key] = options.style[key];
+		for (let key in options.style) newElement.style[key] = options.style[key];
 
 		return newElement;
 	}

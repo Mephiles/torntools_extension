@@ -1,21 +1,21 @@
 // noinspection JSUnresolvedVariable
 chrome = typeof browser !== "undefined" ? browser : chrome;
 
-const ttStorage = new class {
+const ttStorage = new (class {
 	get(key) {
-		return new Promise(resolve => {
+		return new Promise((resolve) => {
 			if (Array.isArray(key)) {
-				chrome.storage.local.get(key, data => resolve(key.map(i => data[i])));
+				chrome.storage.local.get(key, (data) => resolve(key.map((i) => data[i])));
 			} else if (key) {
-				chrome.storage.local.get([key], data => resolve(data[key]));
+				chrome.storage.local.get([key], (data) => resolve(data[key]));
 			} else {
-				chrome.storage.local.get(null, data => resolve(data));
+				chrome.storage.local.get(null, (data) => resolve(data));
 			}
 		});
 	}
 
 	set(object) {
-		return new Promise(resolve => {
+		return new Promise((resolve) => {
 			chrome.storage.local.set(object, function () {
 				resolve();
 			});
@@ -23,7 +23,7 @@ const ttStorage = new class {
 	}
 
 	clear() {
-		return new Promise(resolve => {
+		return new Promise((resolve) => {
 			chrome.storage.local.clear(function () {
 				resolve();
 			});
@@ -31,7 +31,7 @@ const ttStorage = new class {
 	}
 
 	change(object) {
-		return new Promise(async resolve => {
+		return new Promise(async (resolve) => {
 			for (let key of Object.keys(object)) {
 				const data = recursive(await this.get(key), object[key]);
 
@@ -55,7 +55,7 @@ const ttStorage = new class {
 	}
 
 	reset() {
-		return new Promise(async resolve => {
+		return new Promise(async (resolve) => {
 			const apiKey = await this.get("api_key");
 
 			await this.clear();
@@ -68,7 +68,7 @@ const ttStorage = new class {
 			resolve();
 		});
 	}
-};
+})();
 
 const DEFAULT_STORAGE = {
 	settings: {

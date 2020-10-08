@@ -21,11 +21,11 @@ chrome.storage.onChanged.addListener((changes, area) => {
 		if (changes.settings) {
 			settings = changes.settings.newValue;
 
-			storageListeners.settings.forEach(listener => listener());
+			storageListeners.settings.forEach((listener) => listener());
 		} else if (changes.filters) {
 			filters = changes.filters.newValue;
 
-			storageListeners.filters.forEach(listener => listener());
+			storageListeners.filters.forEach((listener) => listener());
 		}
 	}
 });
