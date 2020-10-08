@@ -1110,9 +1110,14 @@ chrome.runtime.onInstalled.addListener(() => {
 	});
 });
 
+
+const notificationTestPlayer = new Audio();
+notificationTestPlayer.autoplay = false;
+notificationTestPlayer.preload = true;
+
 // Messaging
 // noinspection JSDeprecatedSymbols
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 	// console.log(sender.tab ? "from a content script:"+sender.tab.url : "from the extension");
 
 	switch (request.action) {
@@ -1142,6 +1147,18 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 				.catch(err => {
 					sendResponse(err);
 				});
+			break;
+		case "play-notification-sound":
+			let sound = await getNotificationSound(request.type);
+			if (!sound || Number.isInteger(sound)) {
+				break;
+			}
+			notificationTestPlayer.volume = Number.parseInt(request.volume) / 100;
+			notificationTestPlayer.src = sound;
+			notificationTestPlayer.play();
+			break;
+		case "stop-notification-sound":
+			notificationTestPlayer.pause();
 			break;
 		default:
 			sendResponse({ success: false, message: "Unknown command." });

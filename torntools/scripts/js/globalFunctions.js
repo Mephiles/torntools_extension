@@ -1270,6 +1270,7 @@ const STORAGE = {
 	torndata: {},
 	userdata: {},
 	oc: {},  // organized crimes
+	notifications_custom: undefined,
 
 	// script data
 	personalized: {},
@@ -1454,7 +1455,8 @@ const STORAGE = {
 	settings: {
 		update_notification: true,
 		notifications_tts: false,
-		notifications_sound: true,
+		notifications_sound: "1",
+		notifications_volume: 1,
 		notifications_link: true,
 		icon_bars: {
 			show: true,
@@ -2870,10 +2872,27 @@ function sortSections(parent, page) {
 const notificationPlayer = new Audio();
 notificationPlayer.autoplay = false;
 notificationPlayer.preload = true;
-notificationPlayer.src = chrome.runtime.getURL('notification.wav');
+
+let notificationSound = null;
+
+function getNotificationSound (id) {
+	return new Promise(resolve => {
+		if (id == -1) {
+			resolve(-1);
+		} else if (id == 0) {
+			resolve(0);
+		} else if (!Number.isNaN(Number.parseInt(id))) {
+			resolve(`audio/notification${id}.wav`);
+		} else {
+			ttStorage.get("notifications_custom", sound => {
+				resolve(sound);
+			});
+		}
+	});
+}
 
 function notifyUser(title, message, url) {
-	ttStorage.get("settings", function (settings) {
+	ttStorage.get("settings", async function (settings) {
 		const notificationOptions = {
 			type: "basic",
 			iconUrl: "images/icon128.png",
@@ -2881,13 +2900,24 @@ function notifyUser(title, message, url) {
 			message,
 		};
 
-		if (hasSilentSupport() && !settings.notifications_sound) notificationOptions.silent = true;
+		if (notificationSound != settings.notifications_sound) { //avoid reloading sounds
+			let sound = await getNotificationSound(settings.notifications_sound);
+			if (sound && !Number.isInteger(sound)) {
+				notificationPlayer.src = sound;
+			}
+
+			notificationSound = settings.notifications_sound;
+		}
+
+		notificationPlayer.volume = settings.notifications_volume;
+
+		if ((notificationSound == -1 || notificationSound != 0) && hasSilentSupport()) notificationOptions.silent = true;
 
 		chrome.notifications.create(notificationOptions, function (id) {
 			notificationLinkRelations[id] = url;
 			console.log("   Notified!", notificationOptions);
 
-			if (usingFirefox() && settings.notifications_sound) notificationPlayer.play();
+			if (notificationSound != -1 && notificationSound != 0) notificationPlayer.play();
 		});
 
 		if (settings.notifications_tts) {
