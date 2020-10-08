@@ -15,8 +15,7 @@ let initiatedPages = {};
 async function showPage(name) {
 	window.history.replaceState("", "Title", "?page=" + name);
 
-	for (let active of document.findAll("body > main.active, header nav.on-page > ul > li.active"))
-		active.classList.remove("active");
+	for (let active of document.findAll("body > main.active, header nav.on-page > ul > li.active")) active.classList.remove("active");
 
 	document.find(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
 	document.find(`#${name}`).classList.add("active");
@@ -40,17 +39,19 @@ function setupChangelog() {
 
 	const contributorList = document.find("#changelog .contributors");
 	for (let c in CONTRIBUTORS) {
-		contributorList.appendChild(document.new({
-			type: "div",
-			class: `contributor ${c.toLowerCase()}`,
-			html: `
+		contributorList.appendChild(
+			document.new({
+				type: "div",
+				class: `contributor ${c.toLowerCase()}`,
+				html: `
 				<span>
 					<a href="https://www.torn.com/profiles.php?XID=${CONTRIBUTORS[c].id}" target="_blank">
 						${CONTRIBUTORS[c].name} [${CONTRIBUTORS[c].id}]
 					</a>
 				</span>
-			`,
-		}));
+			,
+			})
+		);
 	}
 
 	for (let key in changelog) {
@@ -90,11 +91,13 @@ function setupChangelog() {
 					break;
 				}
 
-				parent.appendChild(document.new({
-					type: "div",
-					class: `child ${contributor ? `contributor ${contributor}` : ""}`,
-					children: [document.new({ type: "span", text: item })],
-				}));
+				parent.appendChild(
+					document.new({
+						type: "div",
+						class: `child ${contributor ? `contributor ${contributor}` : ""}`,
+						children: [document.new({ type: "span", text: item })],
+					})
+				);
 			}
 
 			closeable.appendChild(parent);
@@ -142,15 +145,13 @@ async function setupPreferences() {
 	function showAdvanced(advanced) {
 		const settings = document.findAll("#preferences .sections > section > .option.advanced");
 		if (advanced) {
-			for (let advancedSetting of settings)
-				advancedSetting.classList.remove("hidden");
+			for (let advancedSetting of settings) advancedSetting.classList.remove("hidden");
 
 			showAdvancedIcon.classList.add("fa-eye-slash");
 			showAdvancedIcon.classList.remove("fa-eye");
 			showAdvancedIcon.find(".tooltip-text").innerText = "Hide advanced options.";
 		} else {
-			for (let advancedSetting of settings)
-				advancedSetting.classList.add("hidden");
+			for (let advancedSetting of settings) advancedSetting.classList.add("hidden");
 
 			showAdvancedIcon.classList.remove("fa-eye-slash");
 			showAdvancedIcon.classList.add("fa-eye");
