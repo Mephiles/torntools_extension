@@ -1262,7 +1262,7 @@ const STORAGE = {
 		yata: [],
 		tornstats: [],
 		torntools: [],
-		nukefamily: []
+		nukefamily: [],
 	},
 
 	// userdata
@@ -1270,6 +1270,7 @@ const STORAGE = {
 	torndata: {},
 	userdata: {},
 	oc: {},  // organized crimes
+	notifications_custom: undefined,
 
 	// script data
 	personalized: {},
@@ -1454,7 +1455,8 @@ const STORAGE = {
 	settings: {
 		update_notification: true,
 		notifications_tts: false,
-		notifications_sound: true,
+		notifications_sound: "1",
+		notifications_volume: 1,
 		notifications_link: true,
 		icon_bars: {
 			show: true,
@@ -2871,10 +2873,27 @@ function sortSections(parent, page) {
 const notificationPlayer = new Audio();
 notificationPlayer.autoplay = false;
 notificationPlayer.preload = true;
-notificationPlayer.src = chrome.runtime.getURL('notification.wav');
+
+let notificationSound = null;
+
+function getNotificationSound(id) {
+	return new Promise(resolve => {
+		if (id == -1) {
+			resolve(-1);
+		} else if (id == 0) {
+			resolve(0);
+		} else if (!Number.isNaN(Number.parseInt(id))) {
+			resolve(`audio/notification${id}.wav`);
+		} else {
+			ttStorage.get("notifications_custom", sound => {
+				resolve(sound);
+			});
+		}
+	});
+}
 
 function notifyUser(title, message, url) {
-	ttStorage.get("settings", function (settings) {
+	ttStorage.get("settings", async function (settings) {
 		const notificationOptions = {
 			type: "basic",
 			iconUrl: "images/icon128.png",
@@ -2882,13 +2901,24 @@ function notifyUser(title, message, url) {
 			message,
 		};
 
-		if (hasSilentSupport() && !settings.notifications_sound) notificationOptions.silent = true;
+		if (notificationSound != settings.notifications_sound) { //avoid reloading sounds
+			let sound = await getNotificationSound(settings.notifications_sound);
+			if (sound && !Number.isInteger(sound)) {
+				notificationPlayer.src = sound;
+			}
+
+			notificationSound = settings.notifications_sound;
+		}
+
+		notificationPlayer.volume = settings.notifications_volume;
+
+		if ((notificationSound == -1 || notificationSound != 0) && hasSilentSupport()) notificationOptions.silent = true;
 
 		chrome.notifications.create(notificationOptions, function (id) {
 			notificationLinkRelations[id] = url;
 			console.log("   Notified!", notificationOptions);
 
-			if (usingFirefox() && settings.notifications_sound) notificationPlayer.play();
+			if (notificationSound != -1 && notificationSound != 0) notificationPlayer.play();
 		});
 
 		if (settings.notifications_tts) {
@@ -3190,7 +3220,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 				tornstats: "https://www.tornstats.com/",
 				// 'tornstats': 'https://www.torn-proxy.com/tornstats/',
 				torntools: "https://torntools.gregork.com/",
-				nukefamily: 'https://www.nukefamily.org/'
+				nukefamily: "https://www.nukefamily.org/",
 			};
 
 			const proxyFail = options.proxyFail;
@@ -3200,7 +3230,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 			let section;
 			if (ogLocation === "tornstats" && location === "torn-proxy") {
 				section = "tornstats/" + options.section;
-			} else if (location !== "tornstats" && location !== 'nukefamily') {
+			} else if (location !== "tornstats" && location !== "nukefamily") {
 				section = options.section + "/";
 			} else {
 				section = options.section;
@@ -3211,7 +3241,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 			const proxyKey = proxy_key;
 
 			let full_url;
-			if (location === "torntools" || location === 'nukefamily') {
+			if (location === "torntools" || location === "nukefamily") {
 				full_url = `${base}${section || ""}`;
 			} else if (proxyKey || apiKey) {
 				full_url = `${base}${section}${objectid}${selections ? "selections=" + selections : ""}${location !== "yata" ? proxyKey && !proxyFail ? `&key=${proxyKey}` : `&key=${apiKey}` : ""}`;

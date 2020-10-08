@@ -3,6 +3,7 @@ export default {
 		"Features": [
 			"Auto-complete usernames in chat. - finally",
 			"Show bars in the icon. - finally",
+			"Add revive option for Nuclear Central Hospital. - Mephiles",
 		],
 		"Fixes": [
 			"Properly display item values for weapons and other single items. - DKK",
@@ -20,6 +21,8 @@ export default {
 			"Improve entry script loading times. - DKK",
 			"Added item count to City Items value. - Mephiles",
 			"Allow stakeouts on hospital status. - finally",
+			"Change the notification system. - finally",
+			"Make notifications work in the background. - DKK",
 			"Added a setting to hide the 'Toggle Chat' button. - smikula"
 		],
 	},

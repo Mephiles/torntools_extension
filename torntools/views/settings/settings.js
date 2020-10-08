@@ -306,7 +306,6 @@ function setupPreferences() {
 	preferences.find(`#format-time-${settings.format.time} input`).checked = true;
 	preferences.find(`#theme-${settings.theme} input`).checked = true;
 	preferences.find("#notifications_tts input").checked = settings.notifications_tts;
-	preferences.find("#notifications_sound input").checked = settings.notifications_sound;
 	preferences.find("#notifications_link input").checked = settings.notifications_link;
 	preferences.find("#clean_flight input").checked = settings.clean_flight;
 	preferences.find("#font_size input").value = settings.font_size.replace(/px/, "");
@@ -341,6 +340,40 @@ function setupPreferences() {
 			preferences.find(`#tab-${tab} input`).checked = settings.tabs[tab];
 		}
 	}
+
+	// Notification sounds
+	preferences.find("#notifications_sound-type").value = settings.notifications_sound;
+	preferences.find("#notifications_sound-volume").value = settings.notifications_volume * 100;
+	if (settings.notifications_sound == "custom") {
+		preferences.find("#notifications_sound-upload").style.display = "inline";
+	}
+	preferences.find("#notifications_sound-type").addEventListener("change", event => {
+		preferences.find("#notifications_sound-upload").style.display = (event.target.value == "custom") ? "inline" : "none";
+	});
+	preferences.find("#notifications_sound-upload").addEventListener("change", event => {
+		if (event.target.files.length == 0) {
+			return;
+		}
+
+		const reader = new FileReader();
+		reader.addEventListener("load", (event) => {
+			if (event.target.result.length > 5242880) {
+				return message("Maximum file size exceeded. (5MB)", false);
+			}
+			ttStorage.set({ notifications_custom: event.target.result });
+		});
+		reader.readAsDataURL(event.target.files[0]);
+	});
+	preferences.find("#notifications_sound-play").addEventListener("click", () => {
+		chrome.runtime.sendMessage({
+			action: "play-notification-sound",
+			type: preferences.find("#notifications_sound-type").value,
+			volume: preferences.find("#notifications_sound-volume").value,
+		});
+	});
+	preferences.find("#notifications_sound-stop").addEventListener("click", () => {
+		chrome.runtime.sendMessage({ action: "stop-notification-sound" });
+	});
 
 	// Achievements
 	for (let key in settings.achievements) {
@@ -951,7 +984,6 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	settings.format.time = preferences.find("input[name=format-time]:checked").parentElement.id.split("-")[2];
 	settings.theme = preferences.find("input[name=theme]:checked").parentElement.id.split("-")[1];
 	settings.notifications_tts = preferences.find("#notifications_tts input").checked;
-	settings.notifications_sound = preferences.find("#notifications_sound input").checked;
 	settings.notifications_link = preferences.find("#notifications_link input").checked;
 	settings.clean_flight = preferences.find("#clean_flight input").checked;
 	settings.font_size = preferences.find("#font_size input").value.replace(/px/, "") + "px";
@@ -969,6 +1001,10 @@ function savePreferences(preferences, settings, target_list_enabled) {
 			settings.tabs[tab] = preferences.find(`#tab-${tab} input`).checked;
 		}
 	}
+
+	// Notification sounds
+	settings.notifications_sound = preferences.find("#notifications_sound-type").value;
+	settings.notifications_volume = Number.parseInt(preferences.find("#notifications_sound-volume").value) / 100;
 
 	// Achievements
 	for (let key in settings.achievements) {
