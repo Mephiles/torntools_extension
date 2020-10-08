@@ -24,7 +24,10 @@ requireDatabase().then(() => {
 		addReviveListener();
 	}
 
-	showToggleChat();
+	if (settings.pages.global.show_toggle_chat) {
+		showToggleChat();
+	}
+
 	if (settings.developer) {
 		showCustomConsole();
 	}
