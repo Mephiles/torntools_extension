@@ -14,7 +14,7 @@ export default {
 		Changes: ["Improve mission information for several missions. - DKK", "Update FontAwesome. - DKK"],
 	},
 	"v5.1.1 - September, 26th. 2020": {
-		Changes: ["Change watchlist export to stakeouts. - DKK",
+		Changes: ["Change watchlist export to stakeouts. - DKK"],
 	},
 	"v5.1 - September, 24th. 2020": {
 		Features: [
@@ -25,7 +25,7 @@ export default {
 			"Show last action in the mini profile. - DKK",
 			"Add mid-drug cooldown notification. - DKK",
 			"Add filtering and sorting for items abroad. - DKK",
-			"Add no confirm on trades. - DKK"
+			"Add no confirm on trades. - DKK,
 		],
 		Fixes: [
 			"Don't cache stats estimates if they are disabled on profiles. - DKK",
