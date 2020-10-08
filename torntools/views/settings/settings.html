@@ -256,13 +256,28 @@
                     </div>
                     <div class="section notifications" name="notifications">
                         <div class="heading">Notification Preferences</div>
+                        <div class="option" id="notifications_sound">
+                            Sound effect when receiving a notification: 
+                            <select id="notifications_sound-type">
+                                <option value="-1">Mute</option>
+                                <option value="0">OS default</option>
+                                <option value="1">Sound 1</option>
+                                <option value="2">Sound 2</option>
+                                <option value="3">Sound 3</option>
+                                <option value="4">Sound 4</option>
+                                <option value="5">Sound 5</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                            <input type="range" min="1" max="100" value="100" id="notifications_sound-volume">
+                            <i id="notifications_sound-play" class="fas fa-play"></i>
+                            <i id="notifications_sound-stop" class="fas fa-stop"></i>
+                            <br>
+                            <input id="notifications_sound-upload" type="file" accept=".mp3,.ogg,.wav" style="display: none;">
+                        </div>
+                        <div class="tabbed note">(Mute only works in Chrome, OS default might not work in all browsers)</div>
                         <div class="option" id="notifications_tts">
                             <input type="checkbox">Read notifications using Text-To-Speech
                         </div>
-                        <div class="option" id="notifications_sound">
-                            <input type="checkbox">Play sound effect when receiving a notification
-                        </div>
-                        <div class="tabbed note">(option works for Chrome only)</div>
                         <div class="option" id="notifications_link">
                             <input type="checkbox">Open the corresponding link when clicking on a notification
                             (turning it off will dismiss the notification)
