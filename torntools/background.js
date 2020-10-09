@@ -1171,7 +1171,7 @@ notificationTestPlayer.preload = true;
 
 // Messaging
 // noinspection JSDeprecatedSymbols
-chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	// console.log(sender.tab ? "from a content script:"+sender.tab.url : "from the extension");
 
 	switch (request.action) {
@@ -1203,13 +1203,14 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 				});
 			break;
 		case "play-notification-sound":
-			let sound = await getNotificationSound(request.type);
-			if (!sound || Number.isInteger(sound)) {
-				break;
-			}
-			notificationTestPlayer.volume = Number.parseInt(request.volume) / 100;
-			notificationTestPlayer.src = sound;
-			notificationTestPlayer.play();
+			getNotificationSound(request.type).then((sound) => {
+				if (!sound || Number.isInteger(sound)) {
+					return;
+				}
+				notificationTestPlayer.volume = Number.parseInt(request.volume) / 100;
+				notificationTestPlayer.src = sound;
+				notificationTestPlayer.play();
+			});
 			break;
 		case "stop-notification-sound":
 			notificationTestPlayer.pause();
