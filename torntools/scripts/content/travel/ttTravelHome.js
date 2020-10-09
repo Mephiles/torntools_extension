@@ -1,4 +1,5 @@
-const country_dict = {  // time = minutes
+const country_dict = {
+	// time = minutes
 	argentina: {
 		time: 167,
 		cost: 21000,
@@ -51,7 +52,8 @@ requireDatabase().then(function () {
 
 		if (settings.pages.travel.cooldown_warnings) showCooldowns();
 
-		if (travel_market.length === 0 || !("date" in travel_market) || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) { // 2 minutes
+		if (travel_market.length === 0 || !("date" in travel_market) || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) {
+			// 2 minutes
 			travel_market = await updateTravelMarket();
 		}
 
@@ -148,8 +150,7 @@ function modifyTimeAndCost() {
 }
 
 function addLegend() {
-	let legend =
-		`
+	let legend = `
 <div class="legend">
     <div class="top-row">
         <div class="filter-button"><i class="fas ${filters.travel.open ? "fa-chevron-up" : "fa-chevron-down"}"></i><div>&nbsp;Filters</div></div>
@@ -210,8 +211,7 @@ function addLegend() {
 
 	if (settings.pages.travel.destination_table_last_country)
 		doc.find(`#ttTravelTable .legend-content input[name='country'][_type='${filters.travel.country}']`).checked = true;
-	else
-		doc.find(`#ttTravelTable .legend-content input[name='country'][_type='all']`).checked = true;
+	else doc.find(`#ttTravelTable .legend-content input[name='country'][_type='all']`).checked = true;
 
 	// Open/Close filter
 	for (let el of doc.findAll("#ttTravelTable .content .filter-button *")) {
@@ -371,8 +371,7 @@ function addTableContent(travel_items) {
 }
 
 function addTableHeader() {
-	let row =
-		`
+	let row = `
 <div class="row header-row">
     <div>Destination</div>
     <div>Item</div>
@@ -393,7 +392,11 @@ function addTableHeader() {
 
 			if (event.target.nodeName === "I") parent = event.target.parentElement;
 
-			sort(doc.find("#ttTravelTable .table"), [...parent.parentElement.children].indexOf(parent) + 1, parent.getAttribute("sort-type") === "value" ? "value" : "text");
+			sort(
+				doc.find("#ttTravelTable .table"),
+				[...parent.parentElement.children].indexOf(parent) + 1,
+				parent.getAttribute("sort-type") === "value" ? "value" : "text"
+			);
 		}
 	});
 }
@@ -405,7 +408,11 @@ function addRow(item, time, cost, travel_items) {
 	let profit_per_item = (total_profit / travel_items).toFixed(0);
 	let update_time = timeAgo(item.timestamp * 1000);
 	let item_types = ["plushie", "flower", "drug"];
-	let background_style = `url(/images/v2/travel_agency/flags/fl_${item.country_name.toLowerCase().replace("united kingdom", "uk").replace(" islands", "").replace(" ", "_")}.svg) center top no-repeat`;
+	let background_style = `url(/images/v2/travel_agency/flags/fl_${item.country_name
+		.toLowerCase()
+		.replace("united kingdom", "uk")
+		.replace(" islands", "")
+		.replace(" ", "_")}.svg) center top no-repeat`;
 	let item_type = item_types.includes(item.item_type.toLowerCase()) ? item.item_type.toLowerCase() : "other";
 
 	let row = `
@@ -430,9 +437,15 @@ function addRow(item, time, cost, travel_items) {
     `;
 	let profit_per_item_div;
 	if (profit_per_item > 0) {
-		profit_per_item_div = `<div class="positive profit advanced" value="${profit_per_item}">+$${numberWithCommas(profit_per_item, profit_per_item >= 1e6)}</div>`;
+		profit_per_item_div = `<div class="positive profit advanced" value="${profit_per_item}">+$${numberWithCommas(
+			profit_per_item,
+			profit_per_item >= 1e6
+		)}</div>`;
 	} else if (profit_per_item < 0) {
-		profit_per_item_div = `<div class="negative profit advanced" value="${profit_per_item}">-$${numberWithCommas(Math.abs(profit_per_item), profit_per_item <= -1e6)}</div>`;
+		profit_per_item_div = `<div class="negative profit advanced" value="${profit_per_item}">-$${numberWithCommas(
+			Math.abs(profit_per_item),
+			profit_per_item <= -1e6
+		)}</div>`;
 	} else {
 		profit_per_item_div = `<div class="advanced" value="0">$0</div>`;
 	}
@@ -440,9 +453,15 @@ function addRow(item, time, cost, travel_items) {
 
 	let profit_per_minute_div;
 	if (profit_per_minute > 0) {
-		profit_per_minute_div = `<div class="positive profit" value="${profit_per_minute}">+$${numberWithCommas(profit_per_minute, profit_per_minute >= 1e6)}</div>`;
+		profit_per_minute_div = `<div class="positive profit" value="${profit_per_minute}">+$${numberWithCommas(
+			profit_per_minute,
+			profit_per_minute >= 1e6
+		)}</div>`;
 	} else if (profit_per_minute < 0) {
-		profit_per_minute_div = `<div class="negative profit" value="${profit_per_minute}">-$${numberWithCommas(Math.abs(profit_per_minute), profit_per_minute <= -1e6)}</div>`;
+		profit_per_minute_div = `<div class="negative profit" value="${profit_per_minute}">-$${numberWithCommas(
+			Math.abs(profit_per_minute),
+			profit_per_minute <= -1e6
+		)}</div>`;
 	} else {
 		profit_per_minute_div = `<div value="0">$0</div>`;
 	}
@@ -452,13 +471,19 @@ function addRow(item, time, cost, travel_items) {
 	if (total_profit > 0) {
 		total_profit_div = `<div class="positive profit advanced" value="${total_profit}">+$${numberWithCommas(total_profit, total_profit >= 1e6)}</div>`;
 	} else if (total_profit < 0) {
-		total_profit_div = `<div class="negative profit advanced" value="${total_profit}">-$${numberWithCommas(Math.abs(total_profit), total_profit <= -1e6)}</div>`;
+		total_profit_div = `<div class="negative profit advanced" value="${total_profit}">-$${numberWithCommas(
+			Math.abs(total_profit),
+			total_profit <= -1e6
+		)}</div>`;
 	} else {
 		total_profit_div = `<div class="advanced" value="0">$0</div>`;
 	}
 	row += total_profit_div;
 
-	row += `<div class="advanced" value="${item.abroad_cost * travel_items}">$${numberWithCommas((item.abroad_cost * travel_items), item.abroad_cost >= 1e6)}</div>`;
+	row += `<div class="advanced" value="${item.abroad_cost * travel_items}">$${numberWithCommas(
+		item.abroad_cost * travel_items,
+		item.abroad_cost >= 1e6
+	)}</div>`;
 
 	row += "</div>";
 	return row;
@@ -466,7 +491,7 @@ function addRow(item, time, cost, travel_items) {
 
 function filterTable() {
 	const country = doc.find("#ttTravelTable .legend-content .radio-item input[name='country']:checked").getAttribute("_type");
-	const item_types = [...doc.findAll("#ttTravelTable .legend-content .checkbox-item input[name='item']:checked")].map(x => x.getAttribute("_type"));
+	const item_types = [...doc.findAll("#ttTravelTable .legend-content .checkbox-item input[name='item']:checked")].map((x) => x.getAttribute("_type"));
 
 	let cols = {
 		country: 1,
@@ -513,7 +538,7 @@ function saveSettings() {
 	let travel = {
 		table_type: doc.find(".table-type.active") ? doc.find(".table-type.active").getAttribute("type") : "basic",
 		open: !doc.find(".legend-content").classList.contains("collapsed"),
-		item_type: [...doc.findAll(".legend-content input[name='item']:checked")].map(x => x.getAttribute("_type")),
+		item_type: [...doc.findAll(".legend-content input[name='item']:checked")].map((x) => x.getAttribute("_type")),
 		country: doc.find(".legend-content input[name='country']:checked").getAttribute("_type"),
 	};
 
@@ -523,8 +548,8 @@ function saveSettings() {
 function reloadTable() {
 	console.log("Reloading table");
 	ttStorage.get(["filters", "travel_market"], async ([filters, travel_market]) => {
-		if (travel_market.length === 0 || !travel_market.date || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) // 2 minutes
-		{
+		if (travel_market.length === 0 || !travel_market.date || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) {
+			// 2 minutes
 			travel_market = await updateTravelMarket();
 		}
 
@@ -561,7 +586,7 @@ function updateTravelMarket() {
 	console.log("Updating Travel Market info.");
 	return new Promise((resolve) => {
 		fetchRelay("yata", { section: "bazaar/abroad/export" })
-			.then(result => {
+			.then((result) => {
 				console.log("Travel market result", result);
 				result.date = new Date().toString();
 				ttStorage.set({ travel_market: result }, function () {
@@ -569,7 +594,7 @@ function updateTravelMarket() {
 					return resolve(result);
 				});
 			})
-			.catch(err => {
+			.catch((err) => {
 				console.log("ERROR", err);
 				return resolve(err);
 			});
@@ -591,7 +616,7 @@ function showCooldowns() {
 		if (!doc.find("*[aria-hidden='false'] .travel-container.full-map .flight-time")) return;
 
 		const timer = doc.find("*[aria-hidden='false'] .travel-container.full-map .flight-time").innerText.split(" - ")[1].split(":");
-		const duration = ((parseInt(timer[0]) * 60) + parseInt(timer[1])) * 60 * 2;
+		const duration = (parseInt(timer[0]) * 60 + parseInt(timer[1])) * 60 * 2;
 
 		if (!doc.find("*[aria-hidden='false'] .tt-cooldowns")) {
 			let travelContainer = doc.find("*[aria-hidden='false'] .travel-container.full-map");

@@ -11,8 +11,7 @@ requireDatabase(true).then(() => {
 		hofLoaded().then(() => {
 			const classes = doc.find(".hall-of-fame-list-wrap .hall-of-fame-wrap").classList;
 			if (!classes.contains("respect") && !classes.contains("battle")) {
-				if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.hall_of_fame)
-					showStatsEstimates();
+				if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.hall_of_fame) showStatsEstimates();
 			}
 		});
 	});
@@ -20,8 +19,7 @@ requireDatabase(true).then(() => {
 	hofLoaded().then(() => {
 		const classes = doc.find(".hall-of-fame-list-wrap .hall-of-fame-wrap").classList;
 		if (!classes.contains("respect") && !classes.contains("battle")) {
-			if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.hall_of_fame)
-				showStatsEstimates();
+			if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.hall_of_fame) showStatsEstimates();
 		}
 	});
 });
@@ -41,7 +39,10 @@ function showStatsEstimates() {
 
 	estimateStatsInList(".hall-of-fame-wrap > .players-list > li", (row) => {
 		return {
-			userId: row.find(".player-info .player a.user.name").getAttribute("href").match(/profiles\.php\?XID=([0-9]*)/i)[1],
+			userId: row
+				.find(".player-info .player a.user.name")
+				.getAttribute("href")
+				.match(/profiles\.php\?XID=([0-9]*)/i)[1],
 			level: parseInt(row.find(levelSelector).innerText),
 		};
 	});

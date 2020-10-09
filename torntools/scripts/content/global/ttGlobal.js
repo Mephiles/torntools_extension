@@ -5,7 +5,7 @@ requireDatabase().then(() => {
 	doc.find("body").appendChild(doc.new({ type: "div", class: "tt-black-overlay" }));
 
 	if (settings.pages.global.miniprofile_last_action) {
-		addFetchListener(event => {
+		addFetchListener((event) => {
 			if (!event.detail) return;
 			const { page, json, fetch } = event.detail;
 
@@ -168,7 +168,7 @@ requireDatabase().then(() => {
 			if (settings.pages.global.autocomplete_chat) addChatUsernameAutocomplete();
 		}
 
-		doc.addEventListener("click", event => {
+		doc.addEventListener("click", (event) => {
 			if (!hasParent(event.target, { class: "chat-box_Wjbn9" })) {
 				return;
 			}
@@ -233,7 +233,7 @@ function addCustomLinks() {
 				href: link.href,
 				class: "mobileLink___33zU1 sidebarMobileLink torntools-mobile",
 				text: link.text,
-				attributes: { target: (link.new_tab ? "_blank" : "") },
+				attributes: { target: link.new_tab ? "_blank" : "" },
 			});
 
 			area_row.appendChild(a);
@@ -256,7 +256,7 @@ function addCustomLinks() {
 			navbar.newCell(link.text, {
 				parent_element: custom_links_section,
 				href: link.href,
-				link_target: (link.new_tab ? "_blank" : ""),
+				link_target: link.new_tab ? "_blank" : "",
 			});
 		}
 
@@ -345,7 +345,7 @@ function applyChatHighlights(message, highlights) {
 	}
 
 	function simplify(text) {
-		return text.toLowerCase().replaceAll([".", "?", ":", "!", "\"", "'", ";", "`", ","], "");
+		return text.toLowerCase().replaceAll([".", "?", ":", "!", '"', "'", ";", "`", ","], "");
 	}
 }
 
@@ -425,7 +425,10 @@ function addChatUsernameAutocomplete() {
 				currentSearchValue = searchValueMatch[2].toLowerCase();
 			}
 
-			let usernames = Array.from(chatMessageList.findAll(".message_oP8oM > a")).map((message) => message.innerText.slice(0, -2)).filter((value, index, array) => array.indexOf(value) === index).sort();
+			let usernames = Array.from(chatMessageList.findAll(".message_oP8oM > a"))
+				.map((message) => message.innerText.slice(0, -2))
+				.filter((value, index, array) => array.indexOf(value) === index)
+				.sort();
 
 			let matchedUsernames = usernames.filter((username) => username.toLowerCase().indexOf(currentSearchValue) === 0);
 
@@ -445,7 +448,8 @@ function addChatUsernameAutocomplete() {
 			currentUsername = matchedUsernames[index];
 
 			let valueStart = searchValueMatch.index + searchValueMatch[1].length;
-			chatTextbox.value = chatTextbox.value.substring(0, valueStart) + currentUsername + chatTextbox.value.substring(valueToCursor.length, chatTextbox.value.length);
+			chatTextbox.value =
+				chatTextbox.value.substring(0, valueStart) + currentUsername + chatTextbox.value.substring(valueToCursor.length, chatTextbox.value.length);
 
 			let selectionIndex = valueStart + currentUsername.length;
 			chatTextbox.setSelectionRange(selectionIndex, selectionIndex);
@@ -465,7 +469,7 @@ function displayVaultBalance() {
 	let elementHTML = `
     	<span class="name___297H-">Vault:</span>
     	<span class="value___1K0oi money-positive___3pqLW" style="position:relative;left:-3px;">
-			${(settings.pages.global.vault_balance_own && vault.initialized && vault.user.current_money) ? "*" : ""}$${numberWithCommas(money, false)}
+			${settings.pages.global.vault_balance_own && vault.initialized && vault.user.current_money ? "*" : ""}$${numberWithCommas(money, false)}
 		</span>
     `;
 
@@ -499,8 +503,11 @@ function showToggleChat() {
 	});
 
 	function setToggleChatPosition() {
-		var maxTop = Array.from(document.querySelectorAll("#chatRoot > div > div")).reduce((accumulator, currentValue) => Math.max(accumulator || 0, currentValue.style["top"].replace(/[^\d]/g, ""))) || 0;
-		var iconBottom = ((maxTop / 39 / 2) + 1) * 39;
+		var maxTop =
+			Array.from(document.querySelectorAll("#chatRoot > div > div")).reduce((accumulator, currentValue) =>
+				Math.max(accumulator || 0, currentValue.style["top"].replace(/[^\d]/g, ""))
+			) || 0;
+		var iconBottom = (maxTop / 39 / 2 + 1) * 39;
 
 		icon.style["bottom"] = `${iconBottom}px`;
 	}
@@ -632,7 +639,7 @@ function highlightRefills() {
 function showMiniprofileInformation(information) {
 	const miniProfile = doc.find("#profile-mini-root .mini-profile-wrapper");
 
-	const lastAction = timeAgo(Date.now() - (information.user.lastAction.seconds * 1000));
+	const lastAction = timeAgo(Date.now() - information.user.lastAction.seconds * 1000);
 
 	const signupDate = new Date(information.user.signUp * 1000);
 	const formattedTime = formatTime([signupDate.getUTCHours(), signupDate.getUTCMinutes(), signupDate.getUTCSeconds()], settings.format.time);
@@ -640,17 +647,19 @@ function showMiniprofileInformation(information) {
 
 	requireElement(".-profile-mini-_userProfileWrapper___39cKq", { parent: miniProfile }).then(() => {
 		setTimeout(() => {
-			miniProfile.find(".-profile-mini-_userProfileWrapper___39cKq").appendChild(doc.new({
-				type: "div",
-				class: "tt-mini-data",
-				children: [
-					doc.new({ type: "strong", text: "Last Action: " }),
-					doc.new({ type: "span", text: lastAction }),
-					// doc.new("br"),
-					// doc.new({ type: "strong", text: "Signup: " }),
-					// doc.new({ type: "span", text: `${formattedTime} ${formattedDate}` }),
-				],
-			}));
+			miniProfile.find(".-profile-mini-_userProfileWrapper___39cKq").appendChild(
+				doc.new({
+					type: "div",
+					class: "tt-mini-data",
+					children: [
+						doc.new({ type: "strong", text: "Last Action: " }),
+						doc.new({ type: "span", text: lastAction }),
+						// doc.new("br"),
+						// doc.new({ type: "strong", text: "Signup: " }),
+						// doc.new({ type: "span", text: `${formattedTime} ${formattedDate}` }),
+					],
+				})
+			);
 		}, 500);
 	});
 }
@@ -668,55 +677,61 @@ function nukeReviveScript() {
 		<span id="nuke-revive" style="color:red">Revive Me</span>
 	</a>
 </div>
-	`
-	const reviveButton = doc.new({ type: 'span' })
+	`;
+	const reviveButton = doc.new({ type: "span" });
 	reviveButton.innerHTML = reviveButtonHTML;
 
 	// Add button to page - taken from Jox's script 'Central Hospital Revive Request'
-	if (!doc.find('#nuke-revive-link')) {
-		let linkReference = doc.find('.links-footer') || doc.find('.content-title .clear') || doc.find('.tutorial-switcher') || doc.find('.links-top-wrap') || doc.find('.forums-main-wrap');
+	if (!doc.find("#nuke-revive-link")) {
+		let linkReference =
+			doc.find(".links-footer") ||
+			doc.find(".content-title .clear") ||
+			doc.find(".tutorial-switcher") ||
+			doc.find(".links-top-wrap") ||
+			doc.find(".forums-main-wrap");
 		if (linkReference) {
 			let linkContainer = linkReference.parentNode;
 			linkContainer.insertBefore(reviveButton, linkReference);
 
-			doc.find('#nuke-revive-link').onclick = () => { callForRevive() };
+			doc.find("#nuke-revive-link").onclick = () => {
+				callForRevive();
+			};
 		}
 	}
 
 	function callForRevive() {
 		const playerID = userdata.player_id;
 		const playerName = userdata.name;
-		const isInHospital = doc.find('#sidebarroot .status-icons___1SnOI li[class^=icon15]') ? true : false;
+		const isInHospital = doc.find("#sidebarroot .status-icons___1SnOI li[class^=icon15]") ? true : false;
 		const faction = userdata.faction.faction_name;
-		const appInfo = `TornTools v${chrome.runtime.getManifest().version}`
+		const appInfo = `TornTools v${chrome.runtime.getManifest().version}`;
 		let country = document.body.dataset.country;
 
 		switch (country) {
-			case 'uk':
-				country = 'United Kingdom';
+			case "uk":
+				country = "United Kingdom";
 				break;
-			case 'uae':
-				country = 'UAE';
+			case "uae":
+				country = "UAE";
 				break;
 			default:
 				country = country.replace(/-/g, " ");
-				country = capitalize(country, everyWord = true);
+				country = capitalize(country, (everyWord = true));
 				break;
 		}
 
 		if (!isInHospital) {
-			alert('You are not in hospital.');
+			alert("You are not in hospital.");
 			return;
 		}
 
-		const postData = { uid: playerID, Player: playerName, Faction: faction, Country: country, AppInfo: appInfo }
-		fetchRelay('nukefamily', {
-			section: 'dev/reviveme.php',
-			method: 'POST',
-			postData: postData
-		})
-			.then(async response => {
-				console.log('response', response);
-			})
+		const postData = { uid: playerID, Player: playerName, Faction: faction, Country: country, AppInfo: appInfo };
+		fetchRelay("nukefamily", {
+			section: "dev/reviveme.php",
+			method: "POST",
+			postData: postData,
+		}).then(async (response) => {
+			console.log("response", response);
+		});
 	}
 }

@@ -9,7 +9,7 @@ requireDatabase().then(() => {
 			if (settings.pages.bazaar.worth) {
 				let bazaar_user_id = getSearchParameters().get("userId");
 				fetchApi_v2("torn", { section: "user", objectid: bazaar_user_id, selections: "bazaar" })
-					.then(result => {
+					.then((result) => {
 						let total = 0;
 
 						for (let item in result.bazaar) {
@@ -22,7 +22,7 @@ requireDatabase().then(() => {
 						div.appendChild(span);
 						doc.find(".info-msg-cont .msg").appendChild(div);
 					})
-					.catch(err => {
+					.catch((err) => {
 						console.log("ERROR", err);
 					});
 			}
@@ -36,8 +36,10 @@ requireDatabase().then(() => {
 
 				let found_item = false;
 				for (let item of doc.findAll(".item___2GvHm")) {
-					if (item.find(".name___IJ_Q-").innerText.trim() === item_name &&
-						item.find(".price___8AdTw").innerText.replace("$", "").replace(/,/g, "") === item_price) {
+					if (
+						item.find(".name___IJ_Q-").innerText.trim() === item_name &&
+						item.find(".price___8AdTw").innerText.replace("$", "").replace(/,/g, "") === item_price
+					) {
 						found_item = true;
 
 						item.style.backgroundColor = "rgba(177, 206, 130, 0.5)";
@@ -56,14 +58,14 @@ requireDatabase().then(() => {
 			}
 
 			// Max buy button
-			document.addEventListener("click", event => {
+			document.addEventListener("click", (event) => {
 				if (event.target.classList.contains("controlPanelButton___3mqHY") && event.target.getAttribute("aria-label").indexOf("Buy") > -1) {
 					let parent = doc.find(".buyMenu____p9jd").parentElement;
 
 					let max_span = doc.new({ type: "span", text: "fill max", class: "tt-max-buy bold" });
 					parent.find(".buy___C9yzh").parentElement.appendChild(max_span);
 
-					max_span.addEventListener("click", event => {
+					max_span.addEventListener("click", (event) => {
 						event.stopPropagation();
 						let max = parent.find(".buyAmountInput___Aooaf").max;
 

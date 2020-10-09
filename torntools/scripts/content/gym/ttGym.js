@@ -33,7 +33,6 @@ requireDatabase().then(() => {
 					setupSpecialtyGym();
 					break;
 			}
-
 		});
 
 		for (let stat of ["strength", "defense", "speed", "dexterity"]) {
@@ -76,7 +75,7 @@ requireDatabase().then(() => {
 		disableGyms();
 
 		// Train button listeners
-		new MutationObserver(mutations => {
+		new MutationObserver((mutations) => {
 			for (let mutation of mutations) {
 				const checkbox = mutation.target.find(".tt-gym-stat-checkbox");
 				if (!checkbox) continue;
@@ -98,9 +97,29 @@ function gymLoaded() {
 
 function showProgress() {
 	let gym_goals = [
-		200, 500, 1000, 2000, 2750, 3000, 3500, 4000,
-		6000, 7000, 8000, 11000, 12420, 18000, 18100, 24140,
-		31260, 36610, 46640, 56520, 67775, 84535, 106305,
+		200,
+		500,
+		1000,
+		2000,
+		2750,
+		3000,
+		3500,
+		4000,
+		6000,
+		7000,
+		8000,
+		11000,
+		12420,
+		18000,
+		18100,
+		24140,
+		31260,
+		36610,
+		46640,
+		56520,
+		67775,
+		84535,
+		106305,
 	];
 
 	let in_prog_gym = doc.find(".gymButton___3OFdI.inProgress___1Nd26");
@@ -131,7 +150,7 @@ function displayGraph() {
 	container.appendChild(graph_area);
 
 	fetchApi_v2("tornstats", { section: "api.php", action: "getStatGraph", from: ((new Date() - 2 * 24 * 60 * 60 * 1000) / 1000).toFixed(0) })
-		.then(result => {
+		.then((result) => {
 			let w = mobile ? "312" : "784";
 			let h = mobile ? "200" : "250";
 			let canvas = doc.new({ type: "canvas", id: "tt-gym-graph", attributes: { width: w, height: h } });
@@ -141,14 +160,14 @@ function displayGraph() {
 			new Chart(ctx, {
 				type: "line",
 				data: {
-					labels: result.data.map(x => {
+					labels: result.data.map((x) => {
 						let date = new Date(x.timestamp * 1000);
 						return formatDate([date.getDate(), date.getMonth() + 1, 0], settings.format.date);
 					}),
 					datasets: [
 						{
 							label: "Strength",
-							data: result.data.map(x => x.strength),
+							data: result.data.map((x) => x.strength),
 							borderColor: ["#3366CC"],
 							fill: false,
 							pointRadius: 0,
@@ -157,7 +176,7 @@ function displayGraph() {
 						},
 						{
 							label: "Defense",
-							data: result.data.map(x => x.defense),
+							data: result.data.map((x) => x.defense),
 							borderColor: ["#DC3912"],
 							fill: false,
 							pointRadius: 0,
@@ -166,7 +185,7 @@ function displayGraph() {
 						},
 						{
 							label: "Speed",
-							data: result.data.map(x => x.speed),
+							data: result.data.map((x) => x.speed),
 							borderColor: ["#FF9901"],
 							fill: false,
 							pointRadius: 0,
@@ -175,7 +194,7 @@ function displayGraph() {
 						},
 						{
 							label: "Dexterity",
-							data: result.data.map(x => x.dexterity),
+							data: result.data.map((x) => x.dexterity),
 							borderColor: ["#109618"],
 							fill: false,
 							pointRadius: 0,
@@ -184,7 +203,7 @@ function displayGraph() {
 						},
 						{
 							label: "Total",
-							data: result.data.map(x => x.total),
+							data: result.data.map((x) => x.total),
 							borderColor: ["#990199"],
 							fill: false,
 							pointRadius: 0,
@@ -196,12 +215,14 @@ function displayGraph() {
 				},
 				options: {
 					scales: {
-						yAxes: [{
-							ticks: {
-								step: 2000000,
-								callback: value => numberWithCommas(value, mobile),
+						yAxes: [
+							{
+								ticks: {
+									step: 2000000,
+									callback: (value) => numberWithCommas(value, mobile),
+								},
 							},
-						}],
+						],
 					},
 					legend: {
 						position: mobile ? "bottom" : "right",
@@ -237,7 +258,7 @@ function displayGraph() {
 				graph_area.appendChild(response_div);
 
 				fetchApi_v2("tornstats", { section: "api.php", action: "recordStats" })
-					.then(result => {
+					.then((result) => {
 						console.log("result", result);
 
 						response_div.classList.add("success");
@@ -265,7 +286,7 @@ function displayGraph() {
 						let info_div = doc.new({ type: "div", class: "tt-info-message", text: update_message });
 						graph_area.appendChild(info_div);
 					})
-					.catch(err => {
+					.catch((err) => {
 						console.log("TornStats API result", err);
 
 						response_div.classList.add("failure");
@@ -273,7 +294,7 @@ function displayGraph() {
 					});
 			});
 		})
-		.catch(err => {
+		.catch((err) => {
 			console.log("TornStats API result", err);
 
 			let text;
@@ -326,10 +347,9 @@ function disableGymButton(types, disable) {
 			doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]}`).classList.remove("tt-gym-locked");
 			doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = false;
 		}
-
 	}
 
-	ttStorage.get("settings", settings => {
+	ttStorage.get("settings", (settings) => {
 		for (let stat of types) {
 			settings.pages.gym[`disable_${stat}`] = disable;
 		}
@@ -341,11 +361,13 @@ function disableGymButton(types, disable) {
 function setupSpecialtyGym() {
 	let container = doc.find("#tt-specialty-gyms .content");
 	if (!container) {
-		container = content.newContainer("Specialty Gym Requirements", {
-			id: "tt-specialty-gyms",
-			adjacent_element: doc.find("#gymroot"),
-			collapseId: 1,
-		}).find(".content");
+		container = content
+			.newContainer("Specialty Gym Requirements", {
+				id: "tt-specialty-gyms",
+				adjacent_element: doc.find("#gymroot"),
+				collapseId: 1,
+			})
+			.find(".content");
 
 		createRow("specialty-gym-1");
 		createRow("specialty-gym-2");
@@ -426,15 +448,19 @@ function setupSpecialtyGym() {
 			const secondary = Object.values(secondaryStats).reduce((a, b) => a + b);
 
 			if (primary >= 1.25 * secondary)
-				return `Gain no more than ${numberWithCommas((primary / 1.25) - secondary, false, FORMATTER_NO_DECIMALS)} ${Object.keys(STATS).filter(s => !SPECIALITY_GYMS[gym].includes(s)).join(" and ")}.`;
-			else return `Gain ${numberWithCommas((secondary * 1.25) - primary, false, FORMATTER_NO_DECIMALS)} ${SPECIALITY_GYMS[gym].join(" and ")}.`;
+				return `Gain no more than ${numberWithCommas(primary / 1.25 - secondary, false, FORMATTER_NO_DECIMALS)} ${Object.keys(STATS)
+					.filter((s) => !SPECIALITY_GYMS[gym].includes(s))
+					.join(" and ")}.`;
+			else return `Gain ${numberWithCommas(secondary * 1.25 - primary, false, FORMATTER_NO_DECIMALS)} ${SPECIALITY_GYMS[gym].join(" and ")}.`;
 		} else {
 			const primary = parseInt(primaryStats[SPECIALITY_GYMS[gym][0]]);
 			let secondary = Object.values(secondaryStats).reduce((a, b) => Math.max(a, b));
 
 			if (primary >= 1.25 * secondary)
-				return `Gain no more than ${numberWithCommas((primary / 1.25) - secondary, false, FORMATTER_NO_DECIMALS)} ${Object.entries(secondaryStats).filter(a => a[1] === secondary)[0][0]}.`;
-			else return `Gain ${numberWithCommas((secondary * 1.25) - primary, false, FORMATTER_NO_DECIMALS)} ${SPECIALITY_GYMS[gym][0]}.`;
+				return `Gain no more than ${numberWithCommas(primary / 1.25 - secondary, false, FORMATTER_NO_DECIMALS)} ${
+					Object.entries(secondaryStats).filter((a) => a[1] === secondary)[0][0]
+				}.`;
+			else return `Gain ${numberWithCommas(secondary * 1.25 - primary, false, FORMATTER_NO_DECIMALS)} ${SPECIALITY_GYMS[gym][0]}.`;
 		}
 	}
 }

@@ -121,8 +121,8 @@ function displayStocks(torn_stocks, user_stocks, date) {
 
 function toggleSlide(el) {
 	console.log("HERE");
-	let directionDown;  // down || up
-	let height = parseInt(el.style.height);  // 0 || 200
+	let directionDown; // down || up
+	let height = parseInt(el.style.height); // 0 || 200
 	let step = 3;
 	let height_max = 120;
 
@@ -130,8 +130,7 @@ function toggleSlide(el) {
 
 	let progress = 0;
 
-	if (!directionDown)
-		progress = height_max;
+	if (!directionDown) progress = height_max;
 
 	let slider = setInterval(() => {
 		console.log("MOVING");
@@ -160,7 +159,6 @@ const numberWithCommas = (x) => {
 };
 
 function timeAgo(time) {
-
 	switch (typeof time) {
 		case "number":
 			break;
@@ -204,12 +202,10 @@ function timeAgo(time) {
 	}
 	let i = 0,
 		format;
-	while (format = time_formats[i++])
+	while ((format = time_formats[i++]))
 		if (seconds < format[0]) {
-			if (typeof format[2] == "string")
-				return format[list_choice];
-			else
-				return Math.floor(seconds / format[2]) + " " + format[1] + " " + token;
+			if (typeof format[2] == "string") return format[list_choice];
+			else return Math.floor(seconds / format[2]) + " " + format[1] + " " + token;
 		}
 	return time;
 }

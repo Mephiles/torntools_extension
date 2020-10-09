@@ -36,7 +36,10 @@ ttStorage.get(["settings", "hide_icons", "hide_areas"], async ([settings, hide_i
 	document.documentElement.style.setProperty("--torntools-hide-leave-button", settings.pages.global.hide_leave ? "none" : "flex");
 
 	// Hide Doctorn
-	if ((settings.force_tt && ["home", "city", "travelagency", "war", "items", "crimes", "gym", "bounties", "profile", "faction", "jail"].includes(getCurrentPage()))) {
+	if (
+		settings.force_tt &&
+		["home", "city", "travelagency", "war", "items", "crimes", "gym", "bounties", "profile", "faction", "jail"].includes(getCurrentPage())
+	) {
 		document.documentElement.style.setProperty("--torntools-hide-doctorn", "none");
 	}
 

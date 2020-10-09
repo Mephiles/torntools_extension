@@ -9,7 +9,7 @@ requireDatabase().then(() => {
 		if (settings.scripts.no_confirm.revives) requireElement("a.revive").then(removeConfirmation);
 
 		// Page changing
-		doc.addEventListener("click", event => {
+		doc.addEventListener("click", (event) => {
 			if (event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, { class: "gallery-wrapper" })) {
 				console.log("click");
 				setTimeout(() => {
@@ -85,8 +85,8 @@ function addFilterToTable(list, title) {
 		});
 
 		let time_slider_info = time_slider.nextElementSibling;
-		time_slider.noUiSlider.on("update", values => {
-			values = values.map(x => (timeUntil(parseFloat(x) * 60 * 60 * 1000, { max_unit: "h", hide_nulls: true })));
+		time_slider.noUiSlider.on("update", (values) => {
+			values = values.map((x) => timeUntil(parseFloat(x) * 60 * 60 * 1000, { max_unit: "h", hide_nulls: true }));
 			time_slider_info.innerHTML = `Time: ${values.join(" - ")}`;
 		});
 
@@ -100,8 +100,8 @@ function addFilterToTable(list, title) {
 		});
 
 		let level_slider_info = level_slider.nextElementSibling;
-		level_slider.noUiSlider.on("update", values => {
-			values = values.map(x => parseInt(x));
+		level_slider.noUiSlider.on("update", (values) => {
+			values = values.map((x) => parseInt(x));
 			level_slider_info.innerHTML = `Level: ${values.join(" - ")}`;
 		});
 
@@ -112,12 +112,14 @@ function addFilterToTable(list, title) {
 		for (let dropdown of filter_container.findAll("select")) {
 			dropdown.onchange = applyFilters;
 		}
-		let filter_observer = new MutationObserver(mutations => {
+		let filter_observer = new MutationObserver((mutations) => {
 			for (let mutation of mutations) {
-				if (mutation.type === "attributes"
-					&& mutation.target.classList
-					&& mutation.attributeName === "aria-valuenow"
-					&& (mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))) {
+				if (
+					mutation.type === "attributes" &&
+					mutation.target.classList &&
+					mutation.attributeName === "aria-valuenow" &&
+					(mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))
+				) {
 					applyFilters();
 				}
 			}
@@ -195,7 +197,7 @@ function addFilterToTable(list, title) {
 			}
 
 			// Faction
-			if (faction && (!li.find(`img[title='${faction}']`) && li.find(`a.user.faction`).innerText !== faction)) {
+			if (faction && !li.find(`img[title='${faction}']`) && li.find(`a.user.faction`).innerText !== faction) {
 				li.classList.add("filter-hidden");
 			}
 		}
@@ -206,12 +208,14 @@ function addFilterToTable(list, title) {
 	}
 
 	function updateStatistics() {
-		doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope > li")].filter(x => (!x.classList.contains("filter-hidden"))).length;
+		doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope > li")].filter((x) => !x.classList.contains("filter-hidden")).length;
 		doc.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope > li")].length;
 	}
 
 	function populateFactions() {
-		let faction_tags = [...list.findAll(":scope > li")].map(x => (x.find(".user.faction img") ? x.find(".user.faction img").getAttribute("title") : x.find("a.user.faction").innerText)).filter(x => x.trim() !== "");
+		let faction_tags = [...list.findAll(":scope > li")]
+			.map((x) => (x.find(".user.faction img") ? x.find(".user.faction img").getAttribute("title") : x.find("a.user.faction").innerText))
+			.filter((x) => x.trim() !== "");
 
 		for (let tag of faction_tags) {
 			if (filter_container.find(`#tt-faction-filter option[value='${tag}']`)) continue;

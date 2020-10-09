@@ -49,12 +49,13 @@ function handleEvents() {
 
 function warnEnergy() {
 	if (doc.find(".travel-home-content")) listen();
-	else new MutationObserver((mutations, observer) => {
-		if (!doc.find(".travel-home-content")) return;
+	else
+		new MutationObserver((mutations, observer) => {
+			if (!doc.find(".travel-home-content")) return;
 
-		listen();
-		observer.disconnect();
-	}).observe(doc.find("#mainContainer > .content-wrapper"), { childList: true, subtree: true });
+			listen();
+			observer.disconnect();
+		}).observe(doc.find("#mainContainer > .content-wrapper"), { childList: true, subtree: true });
 
 	function listen() {
 		if (!doc.find(".travel-home-content").style.display === "none") show();
@@ -73,7 +74,8 @@ function warnEnergy() {
 
 		const splitTime = search[1].split(" ");
 
-		let hours = 0, minutes = 0;
+		let hours = 0,
+			minutes = 0;
 		if (splitTime.includes("minutes")) minutes = parseInt(splitTime[splitTime.indexOf("minutes") - 1]);
 		if (splitTime.includes("hours")) hours = parseInt(splitTime[splitTime.indexOf("hours") - 1]);
 
@@ -82,11 +84,13 @@ function warnEnergy() {
 
 		if (fulltime < flytime) {
 			content.appendChild(doc.new("br"));
-			content.appendChild(doc.new({
-				type: "span",
-				text: "Starting this flight will waste some energy!",
-				attributes: { color: "error" },
-			}));
+			content.appendChild(
+				doc.new({
+					type: "span",
+					text: "Starting this flight will waste some energy!",
+					attributes: { color: "error" },
+				})
+			);
 		}
 	}
 }

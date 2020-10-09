@@ -57,7 +57,10 @@ function showValues() {
 
 				totalValue = stock.current_price * amount;
 			} else {
-				text = text.replace(" added", "").replace(" to the trade", "").replace(log.find("a").innerText + " ", "");
+				text = text
+					.replace(" added", "")
+					.replace(" to the trade", "")
+					.replace(log.find("a").innerText + " ", "");
 				let items = text.split(",");
 
 				for (let item of items) {
@@ -83,7 +86,8 @@ function showValues() {
 		let totalValue = 0;
 
 		let cashInTrade = side.find(".cont .color1 .desc > li .name");
-		if (cashInTrade && cashInTrade.innerText !== "No money in trade") totalValue += parseInt(cashInTrade.innerText.match(/\$([0-9,]*)/i)[1].replaceAll(",", ""));
+		if (cashInTrade && cashInTrade.innerText !== "No money in trade")
+			totalValue += parseInt(cashInTrade.innerText.match(/\$([0-9,]*)/i)[1].replaceAll(",", ""));
 
 		for (let item of side.findAll(".cont .color2 .desc > li .name")) {
 			if (item.innerText === "No items in trade") continue;
@@ -119,12 +123,14 @@ function showValues() {
 		}
 
 		if (totalValue !== 0 && settings.pages.trade.total_value) {
-			side.appendChild(doc.new({
-				type: "div",
-				class: "tt-side-value",
-				text: "Total value: ",
-				children: [doc.new({ type: "span", text: `$${numberWithCommas(totalValue, false)}` })],
-			}));
+			side.appendChild(
+				doc.new({
+					type: "div",
+					class: "tt-side-value",
+					text: "Total value: ",
+					children: [doc.new({ type: "span", text: `$${numberWithCommas(totalValue, false)}` })],
+				})
+			);
 		}
 
 		if (settings.pages.trade.item_values) {
@@ -180,11 +186,13 @@ function showChatButton() {
 		}
 	});
 
-	doc.find("#trade-container > .title-black").appendChild(doc.new({
-		type: "div",
-		class: "item-value-option-wrap",
-		children: [button],
-	}));
+	doc.find("#trade-container > .title-black").appendChild(
+		doc.new({
+			type: "div",
+			class: "item-value-option-wrap",
+			children: [button],
+		})
+	);
 }
 
 function removeConfirmation() {

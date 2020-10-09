@@ -1,11 +1,11 @@
 export default {
 	"v5.2 - xxxxxxx, xxth. 2020": {
-		"Features": [
+		Features: [
 			"Auto-complete usernames in chat. - finally",
 			"Show bars in the icon. - finally",
 			"Add revive option for Nuclear Central Hospital. - Mephiles",
 		],
-		"Fixes": [
+		Fixes: [
 			"Properly display item values for weapons and other single items. - DKK",
 			"Fix chain notifications going out too early. - DKK",
 			"Fix icon margin on dynamic change. - finally",
@@ -14,7 +14,7 @@ export default {
 			"Fix stakeouts not working. - finally",
 			"Fix travel profit calculation while flying. - finally",
 		],
-		"Changes": [
+		Changes: [
 			"Added sell points award and refill award trackers. - wootty2000",
 			"Added Shop to 'ignore max buy in bazaars' option. - Mephiles",
 			"Remove 'requires faction API access' description from Advanced OC option. - Mephiles",
@@ -27,22 +27,14 @@ export default {
 		],
 	},
 	"v5.1.2 - October, 1st. 2020": {
-		"Fixes": [
-			"Show right temporary total value. - DKK",
-			"Improve mobile checking on Firefox, fixing the loading issue. - DKK",
-		],
-		"Changes": [
-			"Improve mission information for several missions. - DKK",
-			"Update FontAwesome. - DKK",
-		],
+		Fixes: ["Show right temporary total value. - DKK", "Improve mobile checking on Firefox, fixing the loading issue. - DKK"],
+		Changes: ["Improve mission information for several missions. - DKK", "Update FontAwesome. - K"],
 	},
 	"v5.1.1 - September, 26th. 2020": {
-		"Changes": [
-			"Change watchlist export to stakeouts. - DKK",
-		],
+		Changes: ["Change watchlist export to stakeouts. - DKK"],
 	},
 	"v5.1 - September, 24th. 2020": {
-		"Features": [
+		Features: [
 			"Remove zalgo text from chat. - DKK",
 			"Add specials info on company pages. - Mephiles",
 			"Highlight energy and nerve when their respective refills haven't been used yet. - DKK",
@@ -52,7 +44,7 @@ export default {
 			"Add filtering and sorting for items abroad. - DKK",
 			"Add no confirm on trades. - DKK",
 		],
-		"Fixes": [
+		Fixes: [
 			"Don't cache stats estimates if they are disabled on profiles. - DKK",
 			"Fix settings messages. - DKK",
 			"Fix target table when there are no targets. - DKK",
@@ -65,7 +57,7 @@ export default {
 			"Don't show DoctorN NNB values if 'Force TT' has been enabled. - DKK",
 			"Improve medal and honor completion check so it doesn't show completed ones as non-completed. - DKK",
 		],
-		"Changes": [
+		Changes: [
 			"Improve stats estimates caching. - DKK",
 			"Add an option to only show stats estimates under a certain level. - DKK",
 			"Improve missing mission information message. - DKK",
@@ -76,16 +68,11 @@ export default {
 		],
 	},
 	"v5.0.1 - September, 11th. 2020": {
-		"Fixes": [
-			"Fix trade open chat on Firefox. - DKK",
-		],
-		"Changes": [
-			"Add an option to disable stats estimates on competition page. - DKK",
-			"Add an option to not show the cached only text. - DKK",
-		],
+		Fixes: ["Fix trade open chat on Firefox. - DKK"],
+		Changes: ["Add an option to disable stats estimates on competition page. - DKK", "Add an option to not show the cached only text. - DKK"],
 	},
 	"v5.0 - September, 10th. 2020": {
-		"Features": [
+		Features: [
 			"Show an estimate of an user battle stats on various pages. - DKK",
 			"Show forecast and available worth along with a filter on the stock page. - DKK",
 			"Show faction balance excess. - DKK",
@@ -103,7 +90,7 @@ export default {
 			"Add an option to hide quite/leave buttons. - DKK",
 			"Add personal notes on profiles. - wootty2000",
 		],
-		"Fixes": [
+		Fixes: [
 			"Don't apply the last action filter on other faction pages. - DKK",
 			"Don't break the profile page if a profile section is turned off. - DKK",
 			"Allow dragging links to the chat again. - DKK",
@@ -118,7 +105,7 @@ export default {
 			"Show the gym information in jail gym. - DKK",
 			"Fix faction short news. - wootty2000",
 		],
-		"Changes": [
+		Changes: [
 			"Change the caching system to allow for different times to keep it for. - DKK",
 			"Update the profile view to not completely fail upon any api error. - DKK",
 			"Sync the 15 minute updater to the stock ticks. - DKK",
@@ -150,17 +137,13 @@ export default {
 		],
 	},
 	"v4.10.2 - August, 19th. 2020": {
-		"Fixes": [
-			"Fix OC data not updating. - Mephiles",
-		],
+		Fixes: ["Fix OC data not updating. - Mephiles"],
 	},
 	"v4.10.1 - August, 16th. 2020": {
-		"Fixes": [
-			"Fix Notifications not appearing on Firefox. - Mephiles",
-		],
+		Fixes: ["Fix Notifications not appearing on Firefox. - Mephiles"],
 	},
 	"v4.10 - August, 14th. 2020": {
-		"Features": [
+		Features: [
 			"Add OC timer to Information window - Mephiles",
 			"Add Chain timer notification - Mephiles",
 			"Add New Day notification - Mephiles",
@@ -171,7 +154,7 @@ export default {
 			"Add option to change Chat Font size - Mephiles",
 			"Add support for Torn Proxy (you API key is still needed for fall-back if Proxy system fails) - Mephiles",
 		],
-		"Fixes": [
+		Fixes: [
 			"Fix Quick Items failing to load if an item has 0 quantity - Mephiles",
 			"Fix Profile script failing if player is not in a faction - Mephiles",
 			"Add missing keywords for Faction armory news shortening script - Mephiles",
@@ -181,7 +164,7 @@ export default {
 			"Fix 'add api key' page loading in Popup when API key has been inserted - Mephiles",
 			"Fix Quick Bail/Bust not loading on pagination change - Mephiles",
 		],
-		"Changes": [
+		Changes: [
 			"Add option to dismiss notifications rather than open the relevant page - Mephiles",
 			"Add option to display your own vault value in Information window (indicated by *) - Mephiles",
 			"Make Travel Destinations table available while flying - Mephiles",
@@ -201,14 +184,14 @@ export default {
 			"Switched Travel Table items category options to checkboxes to allow different combinations - Mephiles",
 			"Changed fetching to be more consistent & to reduce load on YATA - Mephiles",
 		],
-		"Other": [
+		Other: [
 			"Add 'Open Source' disclaimer to Github Readme - Mephiles",
 			"Update the Privacy Policy for TornTools - Mephiles",
 			"Add 'Development focus' section to Github Readme - Mephiles",
 		],
 	},
 	"v4.9 - July, 29th. 2020": {
-		"Features": [
+		Features: [
 			"Highlight good and bad blood bags on the item page and faction armory - DKK",
 			"Add a way to hide all chats - DKK",
 			"Add option to make Areas section collapsible - Mephiles",
@@ -216,7 +199,7 @@ export default {
 			"Add exporting/importing for TornTools settings - Mephiles",
 			"Add Quick Bail & Bust and Scores - Mephiles",
 		],
-		"Fixes": [
+		Fixes: [
 			"Fix DoctorN detection not accounting disabled setting - Mephiles",
 			"Fix the buy max abroad to take already bought items into account - DKK",
 			"Format rehab cost as currency - DKK",
@@ -239,7 +222,7 @@ export default {
 			"Fix Gym stats updating not showing all improved stats - Mephiles",
 			"Fix Travel Agency page artifacts on Mobile - Mephiles",
 		],
-		"Changes": [
+		Changes: [
 			"Add a loading icon for networth on the Home page - Mephiles",
 			"Change popup entry point to improve speed - Mephiles",
 			"Decrease item quantity in Quick Items when sending or using an item - DKK",
@@ -257,7 +240,7 @@ export default {
 		],
 	},
 	"v4.8": {
-		"Features": [
+		Features: [
 			"Added Vault balance to Torn Information window",
 			"Added option to disable individual Gym stats training",
 			"Added Item Market links to Items",
@@ -266,7 +249,7 @@ export default {
 			"Added basic statistics about Torn's API fetches made by TornTools",
 			"Added Crimes stats to Profile Stats",
 		],
-		"Fixes": [
+		Fixes: [
 			"Remove LastPass icon from chat 'Find' field",
 			"Enabled Update TornStats button on mobile Gym page",
 			"Fixed displaying Faction Member info when honors are turned off",
@@ -288,7 +271,7 @@ export default {
 			"Fixed Market tab not showing prices if either bazaar or itemmarket had 0 listings",
 			"Fixed Info popup Events & Messages links stacking up",
 		],
-		"Changes": [
+		Changes: [
 			"Disabled Profile Stats for your own profile",
 			"Improved TornTools containers' design",
 			"Containers now remember their last position",
@@ -308,7 +291,7 @@ export default {
 		],
 	},
 	"v4.7": {
-		"Features": [
+		Features: [
 			"Added detailed info about Drugs on Items page & Faction armory",
 			"Added option to display full Announcements & Info containers on Faction page",
 			"Added option to enable Text-To-Speech for notifications",
@@ -324,7 +307,7 @@ export default {
 			"Added recommended NNB info for OCs",
 			"Added links to notifications",
 		],
-		"Fixes": [
+		Fixes: [
 			"Turned all container arrows the right way",
 			"Fixed Info popup failing for Firefox when Traveling",
 			"Fixed OCs opening when their status was not Ready",
@@ -339,7 +322,7 @@ export default {
 			"Fixed Profile Stats view for Mobile users",
 			"Added all Profile Stats keys as normal text - Thanks Allo",
 		],
-		"Changes": [
+		Changes: [
 			"Moved 'TornStats NNB', 'recommended NNB', 'auto-open OCs', 'show available member count' under single option: 'OC Advanced'",
 			"Made API marking optional (default: false)",
 			"Changed Notification cache to 7 days",
@@ -349,21 +332,19 @@ export default {
 			"Profile script now takes into count if DoctorN is installed",
 			"Slightly improved Settings page design",
 		],
-		"Notifications": [
+		Notifications: [
 			"Switched notification system to allow clicking notifications to open Torn. Firefox users need to manually allow notifications on Preferences page",
 		],
 	},
 	"v4.6": {
-		"Discord": [
-			"Join the Discord (https://discord.gg/ukyK6f6) to report bugs, give suggestions or just chat",
-		],
-		"Features": [
+		Discord: ["Join the Discord (https://discord.gg/ukyK6f6) to report bugs, give suggestions or just chat"],
+		Features: [
 			"Added option to automatically open OCs that are ready to initiate (all players are Okay)",
 			"Added Natural Nerve Bar info to OCs (powered by TornStats)",
 			"Added option to display acronyms on Stock Exchange page",
 			"Added links to Stocks popup stock names",
 		],
-		"Fixes": [
+		Fixes: [
 			"Fixed Bounty Filter not working well with DoctorN",
 			"Fixed TornStats integration not working on Firefox",
 			"Fixed Notifications for events, messages, X minutes until landing, X minutes until out of hospital, Stakeouts, NPC loot times (notifications will repeat every 15minutes if time is over 15minutes)",
@@ -372,11 +353,11 @@ export default {
 			"Fixed Travel Bar showing negative values in Info popup",
 			"Fixed Faction Armory simplification double username. Added keywords 'lent', 'retrieved', 'returned'",
 		],
-		"Changes": [
+		Changes: [
 			"Hopefully increased popup load speed",
 			"Improved layout and functionality of Travel Table. Filters work together now and save automatically",
 		],
-		"MOBILE": [
+		MOBILE: [
 			"Show Custom Links for mobile",
 			"Disabled Notes section for mobile",
 			"Fixed Effective Battle Stats table for mobile",
@@ -389,36 +370,33 @@ export default {
 		],
 	},
 	"v4.5": {
-		"Features": [
+		Features: [
 			"Added Update TornStats button to Gym graph",
 			"Added option to add notifications for X minutes left in hospital & landing in X minutes",
 			"Added Bounty Filter to newspaper",
 			"Added Stakeouts to profiles",
 		],
-		"Fixes": [
+		Fixes: [
 			"Fixed Gym graph labels not using commas",
 			"Fixed Chain timer in Info popup not appearing",
 			"Fixed Gym script not loading for players who have unlocked all gyms",
 		],
-		"Changes": [
-			"Improved design of Info popup (removed unnecessary text & made 'update' text smaller)",
-			"Improved Player Stats readability",
-		],
+		Changes: ["Improved design of Info popup (removed unnecessary text & made 'update' text smaller)", "Improved Player Stats readability"],
 	},
 	"v4.4": {
-		"Features": [
+		Features: [
 			"Added percentages to Energy, Nerve, Happy, Life notifications",
 			"Added Player Stats to Profile pages. To use, you need to have a TornStats account (https://www.tornstats.com/)",
 			"Added Paypal donation button to Settings -> About page",
 			"Added Fill Max button to Travel Market",
 			"Added Gym Stats graph to Gym page. To use, you need to have a TornStats account ((https://www.tornstats.com/)",
 		],
-		"Fixes": [
+		Fixes: [
 			"Disabled Chat Highlighting when DoctorN is installed and TornTools is not forced",
 			"Disabled Quick Crimes & Quick Items if DoctorN is installed and TornTools is not forced",
 			"Fixed Info popup showing only 0 messages & events",
 		],
-		"Changes": [
+		Changes: [
 			"Added nerve indicator to Quick Crimes",
 			"Shop fill max takes into count the 100 item limit",
 			"Shop & bazaar fill max take into count user's money",
@@ -429,13 +407,10 @@ export default {
 		],
 	},
 	"v4.3.1": {
-		"Fixes": [
-			"Fixed Quick Crimes not appearing if user had 0 Quick Items",
-			"Fixed Quick Items drag not working on Firefox",
-		],
+		Fixes: ["Fixed Quick Crimes not appearing if user had 0 Quick Items", "Fixed Quick Items drag not working on Firefox"],
 	},
 	"v4.3": {
-		"Features": [
+		Features: [
 			"Added Notes section to Navigation bar",
 			"Added Fill Max button to city shops & bazaars",
 			"Added Player filters to Faction Info page, Jail page & Hospital page",
@@ -443,7 +418,7 @@ export default {
 			"Added Badge notifications for Events & Messages",
 			"Added Chain cooldown timer to Info popup",
 		],
-		"Fixes": [
+		Fixes: [
 			"Hopefully increased loading speeds for popups",
 			"Fixed double notifications for some messages & events",
 			"Fixed container collapse bubbling when loading site (changes are set before loading the container)",
@@ -454,7 +429,7 @@ export default {
 			"Fixed People list breaking overseas because of the Item profits script",
 			"Fixed Quick items not dragging well",
 		],
-		"Changes": [
+		Changes: [
 			"Simplified links design in popups to reduce clutter",
 			"Separated Trade Item values & Total value to two different options to permanently disable item values",
 			"Removed 'Location:' text from Info popup",
@@ -470,7 +445,7 @@ export default {
 		],
 	},
 	"v4.2": {
-		"Features": [
+		Features: [
 			"Added Info tab popup to display bars, money, events, cooldowns",
 			"Added Estimated Energy progress to Gym (based on estimated goals in wiki and percentage to next gym on Gym page)",
 			"Added notifications for new Events, Messages, Education finish, Cooldown end, Traveling, Bars full, Status change",
@@ -484,25 +459,25 @@ export default {
 			"Added option to hide icons in navigation sidebar",
 			"Added Quick items & crimes (might be a bit buggy, let me know)",
 		],
-		"Fixes": [
+		Fixes: [
 			"Fixed ERROR text not disappearing after API comes back online",
 			"Fixed Chat Highlight not updating when sending a message",
 			"Fixed Armory log script not working when waited too long",
 			"Improved load times of scripts",
 			"Fixed Battle Stats NaN errors",
 		],
-		"Changes": [
+		Changes: [
 			"Changed Networth comparing to Torn's own last known networth (the one shown under General Information)",
 			"Reformatted how Target List is updated. Removed the optional request.",
 			"Changed Travel Destinations table columns order",
 			"Removed 'remove info boxes' script completely",
 		],
-		"IMPORTANT": [
+		IMPORTANT: [
 			"Refactored how info is fetched from Torn. Total requests raised to 7 per minute to keep TornTools up-to-date with user's status, bars etc. for Info popup & notifications",
 		],
 	},
 	"v4.1": {
-		"Fixes": [
+		Fixes: [
 			"Fixed bug that halted all extension's process",
 			"Fixed DoctorN check not working correctly",
 			"Fixed Mail Me link in settings - Thanks KenDoll[2235541]",
@@ -510,7 +485,7 @@ export default {
 		],
 	},
 	"v4.0 - Taking over": {
-		"Features": [
+		Features: [
 			"Added option to force TornTools over DoctorN where possible",
 			"Added custom Links to navigation panel",
 			"Added Item Stock into Travel Destinations table (replaced flight time) - Powered by YATA",
@@ -522,13 +497,13 @@ export default {
 			"Added a button to clear target list data",
 			"Added Chat Highlighting",
 		],
-		"Fixes": [
+		Fixes: [
 			"IMPORTANT: Torn changed the formatting of dates in Vault transactions. Adjusted TornTools with that. (CLICK save to update the database with the latest correct date)",
 			"Fixed Vault not updating User's shares when looping through old transactions",
 			"Fixed API errors not appearing on Stocks page",
 			"Fixed DoctorN always set as False on Firefox (set using/not using under settings)",
 		],
-		"Changes": [
+		Changes: [
 			"Removed Hospital from 'remove info boxes' script",
 			"Simplified container headings (removed TornTools text)",
 			"Further improved design of City Items",
@@ -538,30 +513,25 @@ export default {
 		],
 	},
 	"v3.8.3": {
-		"Fixes": [
-			"Added confirmation message when changing your API key",
-			"Fixed API online set to false when other API errors",
-		],
+		Fixes: ["Added confirmation message when changing your API key", "Fixed API online set to false when other API errors"],
 	},
 	"v3.8.1": {
-		"Fixes": [
-			"Fixed \"Remove info boxes on some pages\" option not disabling",
-		],
+		Fixes: ['Fixed "Remove info boxes on some pages" option not disabling'],
 	},
 	"v3.8": {
-		"Features": [
+		Features: [
 			"Added an Alternative Theme option (black background and green text)",
 			"Added Disk Space Used info under About page (Chrome only)",
 			"Added Date and Time formatting options (Added formatting to: Networth details)",
 			"Added option to Remove Info Boxes that are unnecessary on some pages",
 			"Added 'last updated' info icon for live Networth on Home page",
 		],
-		"Fixes": [
+		Fixes: [
 			"Hopefully fixed sometimes appearing slow popup window switch",
 			"Fixed Trade Calculator showing incorrect total value",
 			"Fixed Allies not saving",
 		],
-		"Changes": [
+		Changes: [
 			"Removed some duplicated achievements (Items: Bazaar Customers, Points sold (both under Home page now))",
 			"Moved Stock Payouts achievement to Home page (previously under Items)",
 			"Changed Preferences' section positions",
@@ -576,13 +546,13 @@ export default {
 		],
 	},
 	"v3.7": {
-		"Features": [
+		Features: [
 			"Added a Travel Destinations table to Travel Agency page",
 			"Accidentally added features in last update: Effective Battle Stats on Home page, Item profits in Travel Market, Item values on Items page",
 			"Added option to reformat Profile headings as USERNAME [ID]",
 			"Added option to Export Chain Report as CSV",
 		],
-		"Fixes": [
+		Fixes: [
 			"Added options for settings: Effective Battle Stats, Item profits in Travel Market, Item values on Items page",
 			"Fixed issue where Accessory pictures were blocking vision of HiLo suggested action (I prevented any items from appearing on screen)",
 			"Fixed disabling Gym buttons as clicking them still used energy before",
@@ -591,7 +561,7 @@ export default {
 			"Fixed Live Networth not showing if there are no details to show",
 			"Fixed HiLo multiple suggestions appearing",
 		],
-		"Changes": [
+		Changes: [
 			"Improved design of Settings page",
 			"Changed the structure of Local Database (You might need to check your settings)",
 			"Reduced API requests needed by 1",
@@ -599,7 +569,7 @@ export default {
 		],
 	},
 	"v3.6.1": {
-		"Features": [
+		Features: [
 			"Added new logo",
 			"Added Target List to Settings page",
 			"Added Blackjack and HiLo helpers to Casino",
@@ -611,11 +581,11 @@ export default {
 			"Added detailed networth information on Home page",
 			"Added bounty reward (money) achievement",
 		],
-		"Fixes": [
+		Fixes: [
 			"Fixed some broken achievements (Home: activity, networth; Items: items dumped, cannabis; Missions: defends, assists)",
 			"Hide empty Awards sections",
 		],
-		"Changes": [
+		Changes: [
 			"Improved Achievements' design",
 			"Improved Missions Reward design",
 			"Improved TornTools info containers",
@@ -625,14 +595,14 @@ export default {
 		],
 	},
 	"v3.5": {
-		"Features": [
+		Features: [
 			"Create and update a target list based on attack history. (not available for use yet; coming with next update)",
 			"Moved City & Dump finds achievements to city.php",
 			"Moved items bought abroad achievement to travelagency.php",
 			"Added Church donations achievement to church.php",
 			"Increase 'time ago' counter on achievement pages.",
 		],
-		"Fixes": [
+		Fixes: [
 			"Fixed settings resetting when closing and re-opening browser.",
 			"Fixed bug where Gym stats had a random comma after the decimal point. (all stats rounded down to a whole number)",
 			"Fixed double update notification on profile.php on Firefox",
@@ -640,13 +610,10 @@ export default {
 		],
 	},
 	"v3.4": {
-		"Features": [
-			"Added Fraud crimes to Crime achievements.",
-			"Added Github link to the extension (at the bottom of the Settings page).",
-		],
+		Features: ["Added Fraud crimes to Crime achievements.", "Added Github link to the extension (at the bottom of the Settings page)."],
 	},
 	"v3.3": {
-		"Features": [
+		Features: [
 			"Added more achievements on pages Home, Items, Missions, Jail, My Faction.",
 			"Added Racing achievements.",
 			"Fixed Racing Upgrades not showing correct values.",
@@ -654,22 +621,17 @@ export default {
 		],
 	},
 	"v3.2": {
-		"Features": [
-			"Show warning on player profiles when the player is in your faction or in an ally faction.",
-			"Show racing upgrade values.",
-		],
+		Features: ["Show warning on player profiles when the player is in your faction or in an ally faction.", "Show racing upgrade values."],
 	},
 	"v3.1": {
-		"Fixes": [
-			"Fixed the extension not updating after an API outage.",
-		],
+		Fixes: ["Fixed the extension not updating after an API outage."],
 	},
 	"v3 - Long time, no see(?)": {
-		"Features": [
+		Features: [
 			"I removed some features either because they were not needed anymore (Torn has them default) or they weren't worth it. (auction, bazaar, forums, mail, profile voting) Let me know of any thoughts or ideas about these.",
 			"Changed the system for saving settings so don't forget to press the Save button.",
 		],
-		"Fixes": [
+		Fixes: [
 			"Fixed long numbers on achievements (shortened to mil)",
 			"Fixed wrong prices in Market",
 			"Fixed Missions prices not appearing if the prices were split into 2 groups",

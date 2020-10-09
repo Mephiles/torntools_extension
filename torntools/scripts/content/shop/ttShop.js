@@ -9,7 +9,7 @@ requireDatabase().then(() => {
 				let id = item.find(".item-desc .item").getAttribute("itemid");
 				let buy_price = parseInt(item.find(".item-desc .price").innerText.replace("$", "").replace(/,/g, ""));
 				let market_price = itemlist.items[id].market_value;
-				let profit = (market_price / buy_price * 100).toFixed(0);
+				let profit = ((market_price / buy_price) * 100).toFixed(0);
 
 				let span = doc.new("span");
 				span.setClass("tt-shop-price");
@@ -36,14 +36,14 @@ requireDatabase().then(() => {
 			let max_span = doc.new({ type: "span", text: "fill max", class: "tt-max-buy bold" });
 			buy_btn.appendChild(max_span);
 
-			max_span.addEventListener("click", event => {
+			max_span.addEventListener("click", (event) => {
 				event.stopPropagation();
 
 				let max = parseInt(buy_btn.parentElement.parentElement.find(".instock").innerText.replace(/,/g, ""));
 				if (!settings.pages.bazaar.max_buy_ignore_cash) {
 					let price = parseInt(buy_btn.parentElement.parentElement.find(".price").innerText.replace(/,/g, "").replace("$", ""));
 					let user_money = doc.find("#user-money").innerText.replace(/,/g, "").replace("$", "");
-					
+
 					if (Math.floor(user_money / price) < max) max = Math.floor(user_money / price);
 				}
 				if (max > 100) max = 100;

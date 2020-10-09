@@ -26,30 +26,29 @@ function displayAchievements(achievements, show_completed) {
 		let current_stat = achievements[name].stats || 0;
 		let next_goal = undefined;
 
-		if (achievements[name].extra !== "###")
-			next_goal = getNextGoal(current_stat, achievements[name]);
+		if (achievements[name].extra !== "###") next_goal = getNextGoal(current_stat, achievements[name]);
 
-		if (next_goal === "completed" && !show_completed)
-			continue;
+		if (next_goal === "completed" && !show_completed) continue;
 
 		let achievement_text, new_cell;
 		if (next_goal === "completed") {
 			achievement_text = `${name}: Completed!`;
 			new_cell = navbar.newCell(achievement_text, { parent_element: awards_section, class: "tt-completed" });
 		} else {
-			if (achievements[name].extra === "###")
-				achievement_text = `${name}: ${numberWithCommas(current_stat)}`;
-			else
-				achievement_text = `${name}: ${numberWithCommas(current_stat)}/${numberWithCommas(next_goal)}`;
+			if (achievements[name].extra === "###") achievement_text = `${name}: ${numberWithCommas(current_stat)}`;
+			else achievement_text = `${name}: ${numberWithCommas(current_stat)}/${numberWithCommas(next_goal)}`;
 
 			new_cell = navbar.newCell(achievement_text, { parent_element: awards_section });
 		}
 
 		if (achievements[name].extra !== "###") {
-			new_cell.setAttribute("info", JSON.stringify({
-				goals: achievements[name].goals,
-				score: current_stat,
-			}));
+			new_cell.setAttribute(
+				"info",
+				JSON.stringify({
+					goals: achievements[name].goals,
+					score: current_stat,
+				})
+			);
 			// new_cell.setAttribute("info", `Goals: ${achievements[name].goals.map(x => " "+numberWithCommas(x))}\n Your score: ${numberWithCommas(current_stat)}`);
 			addTooltip(new_cell);
 		}
@@ -59,7 +58,6 @@ function displayAchievements(achievements, show_completed) {
 	if (doc.findAll(".tt-nav-section div.tt-title+div *").length === 0) {
 		awards_section.style.display = "none";
 	}
-
 }
 
 function addTimeToHeader(section, date) {
@@ -92,26 +90,26 @@ function getNextGoal(stat, achievements) {
 		}
 	}
 
-	if (!goal || goals.length === awarded.length)
-		goal = "completed";
+	if (!goal || goals.length === awarded.length) goal = "completed";
 
 	return goal;
 }
 
 function fillGoals(achievements, torndata) {
 	for (let name in achievements) {
-		if (achievements[name].extra === "###")
-			continue;
+		if (achievements[name].extra === "###") continue;
 
 		let keyword = achievements[name].keyword;
 		let inclusions = achievements[name].incl || [];
 		let exclusions = achievements[name].excl || [];
 
-		for (let type of [torndata.honors, torndata.medals]) {  // loop through honors and medals
+		for (let type of [torndata.honors, torndata.medals]) {
+			// loop through honors and medals
 			for (let key in type) {
 				let desc = type[key].description.toLowerCase();
 
-				if (desc.indexOf(keyword) > -1) {  // keyword is present in desc.
+				if (desc.indexOf(keyword) > -1) {
+					// keyword is present in desc.
 					let includes = inclusions.length === 0;
 					let excludes = exclusions.length === 0;
 
@@ -123,12 +121,11 @@ function fillGoals(achievements, torndata) {
 						excludes = desc.indexOf(excl) === -1;
 					}
 
-					if (!(includes && excludes))
-						continue;
+					if (!(includes && excludes)) continue;
 
 					// get goal
-					desc = desc.split("for at least")[0];  // remove 'day' numbers from networth
-					desc = desc.replace(/\D/g, "");  // replace all non-numbers
+					desc = desc.split("for at least")[0]; // remove 'day' numbers from networth
+					desc = desc.replace(/\D/g, ""); // replace all non-numbers
 					let goal = parseInt(desc);
 
 					if (!achievements[name].awarded) achievements[name].awarded = [];

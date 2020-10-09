@@ -32,22 +32,48 @@ const links = {
 
 let NPC_FETCH_TIME = 0;
 
-let userdata, torndata, settings, api_key, proxy_key, chat_highlight, itemlist,
-	travel_market, oc, allies, loot_times, target_list, vault,
-	mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
-	quick, notes, profile_notes, stakeouts, updated, networth, filters, cache, watchlist;
+let userdata,
+	torndata,
+	settings,
+	api_key,
+	proxy_key,
+	chat_highlight,
+	itemlist,
+	travel_market,
+	oc,
+	allies,
+	loot_times,
+	target_list,
+	vault,
+	mass_messages,
+	custom_links,
+	loot_alerts,
+	extensions,
+	new_version,
+	hide_icons,
+	quick,
+	notes,
+	profile_notes,
+	stakeouts,
+	updated,
+	networth,
+	filters,
+	cache,
+	watchlist;
 
 // First - set storage
 console.log("Checking Storage.");
-let setup_storage = new Promise(resolve => {
-	ttStorage.get(null, old_storage => {
-		if (!old_storage || Object.keys(old_storage).length === 0) {  // fresh install
+let setup_storage = new Promise((resolve) => {
+	ttStorage.get(null, (old_storage) => {
+		if (!old_storage || Object.keys(old_storage).length === 0) {
+			// fresh install
 			console.log("	Setting new storage.");
 			ttStorage.set(STORAGE, () => {
 				console.log("	Storage set");
 				return resolve(true);
 			});
-		} else {  // existing storage
+		} else {
+			// existing storage
 			console.log("Converting old storage.");
 			console.log("	Old storage", old_storage);
 			let new_storage = convertStorage(old_storage, STORAGE);
@@ -80,21 +106,14 @@ let setup_storage = new Promise(resolve => {
 				}
 
 				if (typeof STORAGE[key] == "object" && !Array.isArray(STORAGE[key])) {
-					if (Object.keys(STORAGE[key]).length === 0 || key === "chat_highlight")
-						new_local_storage[key] = old_storage[key];
-					else
-						new_local_storage[key] = convertStorage(old_storage[key], STORAGE[key]);
+					if (Object.keys(STORAGE[key]).length === 0 || key === "chat_highlight") new_local_storage[key] = old_storage[key];
+					else new_local_storage[key] = convertStorage(old_storage[key], STORAGE[key]);
 				} else {
-					if (STORAGE[key] === "force_false")
-						new_local_storage[key] = false;
-					else if (STORAGE[key] === "force_true")
-						new_local_storage[key] = true;
-					else if (typeof STORAGE[key] == "string" && STORAGE[key].indexOf("force_") > -1)
-						new_local_storage[key] = STORAGE[key].split(/_(.+)/)[1];
-					else
-						new_local_storage[key] = old_storage[key];
+					if (STORAGE[key] === "force_false") new_local_storage[key] = false;
+					else if (STORAGE[key] === "force_true") new_local_storage[key] = true;
+					else if (typeof STORAGE[key] == "string" && STORAGE[key].indexOf("force_") > -1) new_local_storage[key] = STORAGE[key].split(/_(.+)/)[1];
+					else new_local_storage[key] = old_storage[key];
 				}
-
 			}
 
 			return new_local_storage;
@@ -116,12 +135,12 @@ let setup_storage = new Promise(resolve => {
 	});
 });
 
-setup_storage.then(async success => {
+setup_storage.then(async (success) => {
 	if (!success) {
 		return;
 	}
 
-	ttStorage.get(null, async db => {
+	ttStorage.get(null, async (db) => {
 		userdata = db.userdata;
 		torndata = db.torndata;
 		settings = db.settings;
@@ -164,9 +183,9 @@ setup_storage.then(async success => {
 
 function initiateTasks() {
 	console.log("Setting up intervals.");
-	setInterval(Main_5_seconds, 5 * seconds);  // 5 seconds
-	setInterval(Main_30_seconds, 30 * seconds);  // 30 seconds
-	setInterval(Main_1_minute, minutes);  // 1 minute
+	setInterval(Main_5_seconds, 5 * seconds); // 5 seconds
+	setInterval(Main_30_seconds, 30 * seconds); // 30 seconds
+	setInterval(Main_1_minute, minutes); // 1 minute
 
 	Main_30_seconds();
 	Main_1_minute();
@@ -188,7 +207,7 @@ function Main_5_seconds() {
 				notifications[notification_type][notification_key].seen = 1;
 			}
 
-			if (notification.seen === 1 && (new Date() - notification.date) > 7 * 24 * 60 * 60 * 1000) {
+			if (notification.seen === 1 && new Date() - notification.date > 7 * 24 * 60 * 60 * 1000) {
 				// notifications[notification_type][notification_key] = undefined;
 				delete notifications[notification_type][notification_key];
 			}
@@ -225,7 +244,11 @@ function Main_30_seconds() {
 
 			// Userdata - basic
 			console.log("Fetching userdata - basic");
-			if (!oldUserdata || ((!oldUserdata.personalstats || !oldUserdata.personalstats.date || new Date() - new Date(oldUserdata.personalstats.date) >= 2 * minutes) && (!oldUserdata.last_action || oldUserdata.last_action.status !== "Offline"))) {
+			if (
+				!oldUserdata ||
+				((!oldUserdata.personalstats || !oldUserdata.personalstats.date || new Date() - new Date(oldUserdata.personalstats.date) >= 2 * minutes) &&
+					(!oldUserdata.last_action || oldUserdata.last_action.status !== "Offline"))
+			) {
 				await updateUserdata_basic(oldUserdata, oldTorndata);
 			}
 
@@ -269,7 +292,8 @@ function Main_30_seconds() {
 			updateExtensions().then((extensions) => console.log("Updated extension information!", extensions));
 
 			console.log("End Main");
-		});
+		}
+	);
 }
 
 async function Main_1_minute() {
@@ -286,7 +310,7 @@ async function Main_1_minute() {
 function updateTargetList(player_id, target_list, attackHistory, first_time) {
 	return new Promise((resolve) => {
 		fetchApi_v2("torn", { section: "user", selections: attackHistory })
-			.then(response => {
+			.then((response) => {
 				const { attacks } = response;
 				console.log("Updating Target list", { target_list, attacks_data: attacks });
 
@@ -336,52 +360,61 @@ function updateTargetList(player_id, target_list, attackHistory, first_time) {
 
 					target_list.targets[opponent_id].last_attack = fight.timestamp_ended * 1000;
 
-					if (fight.defender_id === player_id) {  // user defended
+					if (fight.defender_id === player_id) {
+						// user defended
 						if (fight.result === "Lost") {
 							target_list.targets[opponent_id].defend++;
 						} else {
 							target_list.targets[opponent_id].defend_lose++;
 						}
-					} else if (fight.attacker_id === player_id) {  // user attacked
-						if (fight.result === "Lost")
-							target_list.targets[opponent_id].lose++;
-						else if (fight.result === "Stalemate")
-							target_list.targets[opponent_id].stalemate++;
+					} else if (fight.attacker_id === player_id) {
+						// user attacked
+						if (fight.result === "Lost") target_list.targets[opponent_id].lose++;
+						else if (fight.result === "Stalemate") target_list.targets[opponent_id].stalemate++;
 						else {
 							target_list.targets[opponent_id].win++;
 							let respect = parseFloat(fight.respect_gain);
 
 							if (!first_time)
-								respect = respect / fight.modifiers.war / fight.modifiers.groupAttack / fight.modifiers.overseas / fight.modifiers.chainBonus;  // get base respect
+								respect = respect / fight.modifiers.war / fight.modifiers.groupAttack / fight.modifiers.overseas / fight.modifiers.chainBonus; // get base respect
 
-							if (fight.stealthed === "1")
-								target_list.targets[opponent_id].stealth++;
+							if (fight.stealthed === "1") target_list.targets[opponent_id].stealth++;
 
 							switch (fight.result) {
 								case "Mugged":
 									target_list.targets[opponent_id].mug++;
 
-									first_time ? target_list.targets[opponent_id].respect.mug.push(respect) : target_list.targets[opponent_id].respect_base.mug.push(respect);
+									first_time
+										? target_list.targets[opponent_id].respect.mug.push(respect)
+										: target_list.targets[opponent_id].respect_base.mug.push(respect);
 									break;
 								case "Hospitalized":
 									target_list.targets[opponent_id].hosp++;
 
-									first_time ? target_list.targets[opponent_id].respect.hosp.push(respect) : target_list.targets[opponent_id].respect_base.hosp.push(respect);
+									first_time
+										? target_list.targets[opponent_id].respect.hosp.push(respect)
+										: target_list.targets[opponent_id].respect_base.hosp.push(respect);
 									break;
 								case "Attacked":
 									target_list.targets[opponent_id].leave++;
 
-									first_time ? target_list.targets[opponent_id].respect.leave.push(respect) : target_list.targets[opponent_id].respect_base.leave.push(respect);
+									first_time
+										? target_list.targets[opponent_id].respect.leave.push(respect)
+										: target_list.targets[opponent_id].respect_base.leave.push(respect);
 									break;
 								case "Arrested":
 									target_list.targets[opponent_id].arrest++;
 
-									first_time ? target_list.targets[opponent_id].respect.arrest.push(respect) : target_list.targets[opponent_id].respect_base.arrest.push(respect);
+									first_time
+										? target_list.targets[opponent_id].respect.arrest.push(respect)
+										: target_list.targets[opponent_id].respect_base.arrest.push(respect);
 									break;
 								case "Special":
 									target_list.targets[opponent_id].special++;
 
-									first_time ? target_list.targets[opponent_id].respect.special.push(respect) : target_list.targets[opponent_id].respect_base.special.push(respect);
+									first_time
+										? target_list.targets[opponent_id].respect.special.push(respect)
+										: target_list.targets[opponent_id].respect_base.special.push(respect);
 									break;
 								case "Assist":
 									target_list.targets[opponent_id].assist++;
@@ -440,11 +473,11 @@ async function updateTorndata(oldTorndata) {
 
 	return new Promise((resolve) => {
 		fetchApi_v2("torn", { section: "torn", selections: "honors,medals,items,pawnshop,education" })
-			.then(torndata => {
-				let itemlist = { items: { ...torndata.items }, date: (new Date).toString() };
+			.then((torndata) => {
+				let itemlist = { items: { ...torndata.items }, date: new Date().toString() };
 				delete torndata.items;
 
-				torndata.date = (new Date()).toString();
+				torndata.date = new Date().toString();
 
 				torndata.stocks = oldTorndata.stocks;
 
@@ -454,7 +487,7 @@ async function updateTorndata(oldTorndata) {
 					return resolve({ success: true, message: "Torndata fetched" });
 				});
 			})
-			.catch(err => {
+			.catch((err) => {
 				console.log("ERROR", err);
 				return resolve({ success: false, message: err });
 			});
@@ -464,11 +497,14 @@ async function updateTorndata(oldTorndata) {
 function updateLootTimes() {
 	return new Promise((resolve) => {
 		fetchApi_v2("yata", { section: "loot/timings" })
-			.then(result => {
-
+			.then((result) => {
 				let lowestTime = 1e10;
 				for (let id in result) {
-					if (result[id].status === "hospitalized" && new Date(result[id].hospout * 1000) - new Date() < lowestTime && new Date(result[id].hospout * 1000) - new Date() > 0) {
+					if (
+						result[id].status === "hospitalized" &&
+						new Date(result[id].hospout * 1000) - new Date() < lowestTime &&
+						new Date(result[id].hospout * 1000) - new Date() > 0
+					) {
 						lowestTime = new Date(result[id].hospout * 1000) - new Date() + minutes;
 					} else {
 						const nextLevel = result[id].levels.next;
@@ -488,7 +524,7 @@ function updateLootTimes() {
 					return resolve();
 				});
 			})
-			.catch(err => {
+			.catch((err) => {
 				console.log("ERROR", err);
 				return resolve();
 			});
@@ -498,7 +534,7 @@ function updateLootTimes() {
 function updateNetworthData() {
 	return new Promise((resolve) => {
 		fetchApi_v2("torn", { section: "user", selections: "personalstats,networth" })
-			.then(data => {
+			.then((data) => {
 				let ps = data.personalstats;
 				let new_networth = data.networth;
 				let networth = {
@@ -536,7 +572,7 @@ function updateNetworthData() {
 					return resolve();
 				});
 			})
-			.catch(err => {
+			.catch((err) => {
 				console.log("ERROR", err);
 				return resolve();
 			});
@@ -546,10 +582,10 @@ function updateNetworthData() {
 function updateStocksData() {
 	return new Promise((resolve) => {
 		fetchApi_v2("torn", { section: "torn", selections: "stocks" })
-			.then(result => {
+			.then((result) => {
 				const stocks = result.stocks;
 
-				stocks.date = (new Date()).toString();
+				stocks.date = new Date().toString();
 
 				ttStorage.change({ torndata: { stocks: stocks } }, async () => {
 					console.log("Stocks info updated.");
@@ -557,7 +593,7 @@ function updateStocksData() {
 					return resolve(true);
 				});
 			})
-			.catch(err => {
+			.catch((err) => {
 				console.log("ERROR", err);
 				return resolve();
 			});
@@ -567,7 +603,7 @@ function updateStocksData() {
 function updateOCinfo() {
 	return new Promise((resolve) => {
 		fetchApi_v2("torn", { section: "faction", selections: "crimes" })
-			.then(factiondata => {
+			.then((factiondata) => {
 				factiondata.crimes.date = new Date().toString();
 
 				ttStorage.set({ oc: factiondata.crimes }, () => {
@@ -575,7 +611,7 @@ function updateOCinfo() {
 					return resolve(true);
 				});
 			})
-			.catch(err => {
+			.catch((err) => {
 				console.log("ERROR", err);
 				return resolve();
 			});
@@ -583,11 +619,11 @@ function updateOCinfo() {
 }
 
 function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
-	return new Promise(resolve => {
+	return new Promise((resolve) => {
 		const selections = `profile,travel,bars,cooldowns,money,events,messages,timestamp`;
 
 		fetchApi_v2("torn", { section: "user", selections: selections })
-			.then(async userdata => {
+			.then(async (userdata) => {
 				let shouldFetchAttackData = true;
 
 				// Generate icon with bars
@@ -612,16 +648,16 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 
 					let padding = 10;
 
-					let barHeight = (canvas.height - ((numBars + 1) * 10)) / numBars;
-					let barWidth = canvas.width - (padding * 2);
+					let barHeight = (canvas.height - (numBars + 1) * 10) / numBars;
+					let barWidth = canvas.width - padding * 2;
 
 					let barColors = {
-						"energy": "#0ac20a",
-						"nerve": "#c20a0a",
-						"happy": "#c2b60a",
-						"life": "#0060ff",
-						"chain": "#0ac2b2",
-						"travel": "#8b0ac2",
+						energy: "#0ac20a",
+						nerve: "#c20a0a",
+						happy: "#c2b60a",
+						life: "#0060ff",
+						chain: "#0ac2b2",
+						travel: "#8b0ac2",
 					};
 
 					let y = padding;
@@ -632,7 +668,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 
 						let width = 0;
 						if (key === "travel") {
-							let totalTrip = (userdata[key].timestamp - userdata[key].departed);
+							let totalTrip = userdata[key].timestamp - userdata[key].departed;
 							width = barWidth * ((totalTrip - userdata[key].time_left) / totalTrip);
 						} else {
 							width = barWidth * (userdata[key].current / userdata[key].maximum);
@@ -690,8 +726,13 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 					let event = userdata.events[event_key];
 
 					if (event.seen === 0) {
-						if ((event.event.includes("attacked") || event.event.includes("mugged") || event.event.includes("arrested") || event.event.includes("hospitalized")) &&
-							!event.event.includes("Someone")) {
+						if (
+							(event.event.includes("attacked") ||
+								event.event.includes("mugged") ||
+								event.event.includes("arrested") ||
+								event.event.includes("hospitalized")) &&
+							!event.event.includes("Someone")
+						) {
 							shouldFetchAttackData = true;
 						}
 
@@ -783,11 +824,17 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 					// Check for bars
 					for (let bar of ["energy", "happy", "nerve", "life"]) {
 						if (oldUserdata[bar] && settings.notifications[bar].length > 0) {
-							let checkpoints = settings.notifications[bar].map(x => (typeof x === "string" && x.includes("%")) ? parseInt(x) / 100 * userdata[bar].maximum : parseInt(x)).sort((a, b) => b - a);
+							let checkpoints = settings.notifications[bar]
+								.map((x) => (typeof x === "string" && x.includes("%") ? (parseInt(x) / 100) * userdata[bar].maximum : parseInt(x)))
+								.sort((a, b) => b - a);
 							// console.log(`${bar} checkpoints previous:`, settings.notifications[bar]);
 							// console.log(`${bar} checkpoints modified:`, checkpoints);
 							for (let checkpoint of checkpoints) {
-								if (oldUserdata[bar].current < userdata[bar].current && userdata[bar].current >= checkpoint && !notifications[bar][checkpoint]) {
+								if (
+									oldUserdata[bar].current < userdata[bar].current &&
+									userdata[bar].current >= checkpoint &&
+									!notifications[bar][checkpoint]
+								) {
 									notifications[bar][checkpoint] = {
 										title: "TornTools - Bars",
 										text: `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`,
@@ -813,10 +860,12 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 							if (time_left <= parseInt(checkpoint) * 60 * 1000 && !notifications.hospital[checkpoint]) {
 								notifications.hospital[checkpoint] = {
 									title: "TornTools - Hospital",
-									text: `You will be out of the Hospital in ${Math.floor(time_left / 1000 / 60)} minutes ${(time_left / 1000 % 60).toFixed(0)} seconds`,
+									text: `You will be out of the Hospital in ${Math.floor(time_left / 1000 / 60)} minutes ${((time_left / 1000) % 60).toFixed(
+										0
+									)} seconds`,
 									url: links.hospital,
 									seen: 0,
-									date: new Date(),
+									date: new Date()
 								};
 								break;
 							}
@@ -834,10 +883,10 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 								notifications.travel[checkpoint] = {
 									checkpoint: checkpoint,
 									title: "TornTools - Travel",
-									text: `You will be Landing in ${Math.floor(time_left / 1000 / 60)} minutes ${(time_left / 1000 % 60).toFixed(0)} seconds`,
+									text: `You will be Landing in ${Math.floor(time_left / 1000 / 60)} minutes ${((time_left / 1000) % 60).toFixed(0)} seconds`,
 									url: links.home,
 									seen: 0,
-									date: new Date(),
+									date: new Date()
 								};
 								break;
 							}
@@ -855,10 +904,12 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 								notifications.drugs[checkpoint] = {
 									checkpoint: checkpoint,
 									title: "TornTools - Drugs",
-									text: `Your drug cooldown will end in ${Math.floor(time_left / 1000 / 60)} minutes ${(time_left / 1000 % 60).toFixed(0)} seconds`,
+									text: `Your drug cooldown will end in ${Math.floor(time_left / 1000 / 60)} minutes ${((time_left / 1000) % 60).toFixed(
+										0
+									)} seconds`,
 									url: links.items,
 									seen: 0,
-									date: new Date(),
+									date: new Date()
 								};
 								break;
 							}
@@ -870,17 +921,19 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 					// Check for chain notification
 					if (settings.notifications.chain.length > 0 && userdata.chain.timeout !== 0 && userdata.chain.current >= 10) {
 						for (let checkpoint of settings.notifications.chain.sort((a, b) => a - b)) {
-							let real_timeout = userdata.chain.timeout * 1000 - (new Date() - new Date(userdata.timestamp * 1000));  // ms
+							let real_timeout = userdata.chain.timeout * 1000 - (new Date() - new Date(userdata.timestamp * 1000)); // ms
 							const chain_count = userdata.chain.current;
 
 							if (real_timeout <= parseFloat(checkpoint) * 1000 && !notifications.chain[`${chain_count}_${checkpoint}`]) {
 								notifications.chain[`${chain_count}_${checkpoint}`] = {
 									checkpoint: checkpoint,
 									title: "TornTools - Chain",
-									text: `Chain timer will run out in ${Math.floor(real_timeout / 1000 / 60)} minutes ${(real_timeout / 1000 % 60).toFixed(0)} seconds`,
+									text: `Chain timer will run out in ${Math.floor(real_timeout / 1000 / 60)} minutes ${((real_timeout / 1000) % 60).toFixed(
+										0
+									)} seconds`,
 									url: links.chain,
 									seen: 0,
-									date: new Date(),
+									date: new Date()
 								};
 								break;
 							}
@@ -924,7 +977,6 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 
 							return bonus;
 						}
-
 					}
 
 					// Check for New Day notification
@@ -934,13 +986,14 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 						settings.notifications.new_day &&
 						torn_time.getHours() == "00" &&
 						torn_time.getMinutes() == "00" &&
-						!(torn_time.getDate().toString() in notifications.new_day)) {
+						!(torn_time.getDate().toString() in notifications.new_day)
+					) {
 						notifications.new_day[torn_time.getDate().toString()] = {
 							title: "TornTools - New Day",
 							text: "It's a new day! Hopefully a sunny one.",
 							url: links.home,
 							seen: 0,
-							date: new Date(),
+							date: new Date()
 						};
 					}
 				}
@@ -965,13 +1018,13 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 						}
 
 						// Target list
-						await updateTargetList(userdata.player_id, oldTargetList, attackHistory, (attackHistory === "attacksfull"));
+						await updateTargetList(userdata.player_id, oldTargetList, attackHistory, attackHistory === "attacksfull");
 					}
 
 					return resolve(oldUserdata);
 				});
 			})
-			.catch(err => {
+			.catch((err) => {
 				console.error("ERROR", err);
 				return resolve(oldUserdata);
 			});
@@ -988,7 +1041,7 @@ function updateUserdata_basic(oldUserdata, oldTorndata) {
 		const selections = `personalstats,crimes,battlestats,perks,workstats,stocks,ammo,inventory${fetchEducation ? `,education` : ""},refills,honors,medals`;
 
 		fetchApi_v2("torn", { section: "user", selections: selections })
-			.then(async userdata => {
+			.then(async (userdata) => {
 				userdata.personalstats.date = new Date().toString();
 				for (let key in userdata) {
 					oldUserdata[key] = userdata[key];
@@ -1000,7 +1053,7 @@ function updateUserdata_basic(oldUserdata, oldTorndata) {
 					return resolve(true);
 				});
 			})
-			.catch(err => {
+			.catch((err) => {
 				console.error("ERROR", err);
 				return resolve();
 			});
@@ -1012,9 +1065,9 @@ function updateStakeouts(oldStakeouts) {
 		if (Object.keys(oldStakeouts).length > 0) {
 			console.log("Checking stakeouts.");
 			for (let user_id of Object.keys(oldStakeouts)) {
-				await new Promise(resolve => {
+				await new Promise((resolve) => {
 					fetchApi_v2("torn", { section: "user", objectid: user_id })
-						.then(async stakeout_info => {
+						.then(async (stakeout_info) => {
 							console.log(`	Checking ${stakeout_info.name} [${user_id}]`);
 
 							// Set info
@@ -1022,7 +1075,7 @@ function updateStakeouts(oldStakeouts) {
 							oldStakeouts[user_id].info.username = stakeout_info.name;
 
 							await new Promise((resolve, reject) => {
-								ttStorage.set({ "stakeouts": oldStakeouts }, () => {
+								ttStorage.set({ stakeouts: oldStakeouts }, () => {
 									return resolve();
 								});
 							});
@@ -1060,10 +1113,12 @@ function updateStakeouts(oldStakeouts) {
 									console.log("	Adding [lands] notification to notifications.");
 									notifications.stakeouts[user_id + "_lands"] = {
 										title: `TornTools - Stakeouts`,
-										text: `${stakeout_info.name} is now ${stakeout_info.status.state === "Abroad" ? stakeout_info.status.description : "in Torn"}`,
+										text: `${stakeout_info.name} is now ${
+											stakeout_info.status.state === "Abroad" ? stakeout_info.status.description : "in Torn"
+										}`,
 										url: `https://www.torn.com/profiles.php?XID=${user_id}`,
 										seen: 0,
-										date: new Date(),
+										date: new Date()
 									};
 								} else if (stakeout_info.status.state === "Traveling") {
 									delete notifications.stakeouts[user_id + "_lands"];
@@ -1077,7 +1132,7 @@ function updateStakeouts(oldStakeouts) {
 										text: `${stakeout_info.name} is now in Hospital`,
 										url: `https://www.torn.com/profiles.php?XID=${user_id}`,
 										seen: 0,
-										date: new Date(),
+										date: new Date()
 									};
 								} else if (stakeout_info.status.state !== "Hospital") {
 									delete notifications.stakeouts[user_id + "_hospital"];
@@ -1086,7 +1141,7 @@ function updateStakeouts(oldStakeouts) {
 
 							return resolve(true);
 						})
-						.catch(err => {
+						.catch((err) => {
 							console.log("ERROR", err);
 							return resolve();
 						});
@@ -1109,7 +1164,6 @@ chrome.runtime.onInstalled.addListener(() => {
 		console.log("Extension updated:", chrome.runtime.getManifest().version);
 	});
 });
-
 
 const notificationTestPlayer = new Audio();
 notificationTestPlayer.autoplay = false;
@@ -1141,10 +1195,10 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 			break;
 		case "fetch-relay":
 			fetchApi_v2(request.location, request.options)
-				.then(result => {
+				.then((result) => {
 					sendResponse(result);
 				})
-				.catch(err => {
+				.catch((err) => {
 					sendResponse(err);
 				});
 			break;
@@ -1169,7 +1223,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 
 // Update available
 // noinspection JSDeprecatedSymbols
-chrome.runtime.onUpdateAvailable.addListener(details => {
+chrome.runtime.onUpdateAvailable.addListener((details) => {
 	console.log("Details", details);
 
 	setBadge("update_available");
@@ -1177,15 +1231,15 @@ chrome.runtime.onUpdateAvailable.addListener(details => {
 	ttStorage.set({
 		new_version: {
 			available: true,
-			version: details.version,
-		},
+			version: details.version
+		}
 	});
 });
 
 // Notification links
 // noinspection JSDeprecatedSymbols
-chrome.notifications.onClicked.addListener(notification_id => {
-	ttStorage.get("settings", settings => {
+chrome.notifications.onClicked.addListener((notification_id) => {
+	ttStorage.get("settings", (settings) => {
 		if (settings.notifications_link) {
 			chrome.tabs.create({ url: notificationLinkRelations[notification_id] });
 		}
@@ -1211,7 +1265,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
 async function checkStockAlerts() {
 	console.group("Checking stock prices");
 
-	await new Promise(resolve => {
+	await new Promise((resolve) => {
 		let notified = false;
 
 		ttStorage.get(["stock_alerts", "torndata"], ([stock_alerts, torndata]) => {
@@ -1223,7 +1277,7 @@ async function checkStockAlerts() {
 					notifyUser(
 						"TornTools - Stock alerts",
 						`(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has reached $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].reach})`,
-						links.stocks,
+						links.stocks
 					);
 
 					ttStorage.change({
@@ -1240,7 +1294,7 @@ async function checkStockAlerts() {
 					notifyUser(
 						"TornTools - Stock alerts",
 						`(${torndata.stocks[stock_id].acronym}) ${torndata.stocks[stock_id].name} has fallen to $${torndata.stocks[stock_id].current_price} (alert: $${stock_alerts[stock_id].fall})`,
-						links.stocks,
+						links.stocks
 					);
 
 					ttStorage.change({
@@ -1266,11 +1320,11 @@ async function checkStockAlerts() {
 async function checkLootAlerts() {
 	console.group("Checking NPC loot times.");
 
-	await new Promise(resolve => {
+	await new Promise((resolve) => {
 		let notified = false;
 
 		ttStorage.get(["loot_alerts", "loot_times"], ([loot_alerts, loot_times]) => {
-			let current_time = parseInt(((new Date().getTime()) / 1000).toFixed(0));
+			let current_time = parseInt((new Date().getTime() / 1000).toFixed(0));
 
 			for (let npc_id in loot_alerts) {
 				let alert_level = loot_alerts[npc_id].level;
@@ -1293,10 +1347,12 @@ async function checkLootAlerts() {
 					if (!notifications.loot[checkpoint + "_" + npc_id]) {
 						notifications.loot[checkpoint + "_" + npc_id] = {
 							title: "TornTools - NPC Loot",
-							text: `${loot_times[npc_id].name} is reaching loot level ${arabicToRoman(alert_level)} in ${timeUntil((alert_loot_time - current_time) * 1000).replace("m", "min")}`,
+							text: `${loot_times[npc_id].name} is reaching loot level ${arabicToRoman(alert_level)} in ${timeUntil(
+								(alert_loot_time - current_time) * 1000
+							).replace("m", "min")}`,
 							url: `https://www.torn.com/profiles.php?XID=${npc_id}`,
 							seen: 0,
-							date: new Date(),
+							date: new Date()
 						};
 						console.log("	Added Loot time to notifications.");
 						notified = true;
@@ -1323,7 +1379,7 @@ async function clearCache() {
 			for (let key in cache[type]) {
 				let t = cache[type][key];
 
-				if (!t.timestamp || timestamp > (t.timestamp + t.ttl)) {
+				if (!t.timestamp || timestamp > t.timestamp + t.ttl) {
 					delete cache[type][key];
 				}
 			}
@@ -1357,8 +1413,8 @@ async function detectExtension(browserName, ext) {
 	const information = ids[ext][browserName];
 
 	if (information.id) {
-		return new Promise(resolve => {
-			chrome.management.get(information.id, result => {
+		return new Promise((resolve) => {
+			chrome.management.get(information.id, (result) => {
 				if (result && result.enabled === true) {
 					resolve(true);
 				} else {
@@ -1370,21 +1426,23 @@ async function detectExtension(browserName, ext) {
 		const getAll = chrome.management.getAll;
 		if (!getAll) return Promise.reject(`Detection for '${ext}' with ${browserName} is not supported!`);
 
-		return new Promise(async resolve => {
+		return new Promise(async (resolve) => {
 			const addons = await getAll();
 
-			resolve(addons && !!addons
-				.filter((addon) => addon.type === "extension")
-				.filter((addon) => addon.name === information.name)
-				.filter((addon) => addon.enabled === true)
-				.length);
+			resolve(
+				addons &&
+				!!addons
+					.filter((addon) => addon.type === "extension")
+					.filter((addon) => addon.name === information.name)
+					.filter((addon) => addon.enabled === true).length
+			);
 		});
 	}
 }
 
 function clearAPIhistory() {
-	return new Promise(resolve => {
-		ttStorage.get("api_history", api_history => {
+	return new Promise((resolve) => {
+		ttStorage.get("api_history", (api_history) => {
 			let time_limit = 10 * 60 * 60 * 1000;
 
 			for (let type in api_history) {

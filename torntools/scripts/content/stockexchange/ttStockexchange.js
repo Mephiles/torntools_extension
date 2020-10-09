@@ -45,7 +45,6 @@ requireDatabase().then(() => {
 
 			addFilter(filters);
 		}
-
 	});
 });
 
@@ -60,7 +59,12 @@ function showInformation() {
 	});
 
 	for (let stock of doc.findAll(".stock-list > .item, .portfolio-list-shares > li.item-wrap")) {
-		const stockId = isPortfolio ? stock.find(".logo > a").getAttribute("href").match(/&ID=([0-9]*)/i)[1] : stock.firstElementChild.getAttribute("action").split("ID=")[1];
+		const stockId = isPortfolio
+			? stock
+					.find(".logo > a")
+					.getAttribute("href")
+					.match(/&ID=([0-9]*)/i)[1]
+			: stock.firstElementChild.getAttribute("action").split("ID=")[1];
 
 		const data = torndata.stocks[stockId];
 
@@ -91,9 +95,21 @@ function showInformation() {
 
 			let blockText = isEarningBlock ? "<span class='block-bb'>(BB)</span>" : "";
 			if (!mobile) {
-				blockText += `You bought at $<span class="bold">${numberWithCommas(buyPrice, false)}</span> worth and <span class="block-wording">${profitClass}</span> <span class="bold block-${profitClass}">${profitChar} $${numberWithCommas(Math.abs(profit), false)}</span>`;
+				blockText += `You bought at $<span class="bold">${numberWithCommas(
+					buyPrice,
+					false
+				)}</span> worth and <span class="block-wording">${profitClass}</span> <span class="bold block-${profitClass}">${profitChar} $${numberWithCommas(
+					Math.abs(profit),
+					false
+				)}</span>`;
 			} else {
-				blockText += `Bought $<span class="bold">${numberWithCommas(buyPrice, false)}</span> / <span class="block-wording">${profitClass}</span> <span class="bold block-${profitClass}">${profitChar} $${numberWithCommas(Math.abs(profit), false)}</span>`;
+				blockText += `Bought $<span class="bold">${numberWithCommas(
+					buyPrice,
+					false
+				)}</span> / <span class="block-wording">${profitClass}</span> <span class="bold block-${profitClass}">${profitChar} $${numberWithCommas(
+					Math.abs(profit),
+					false
+				)}</span>`;
 			}
 
 			stock.find(".b-price-wrap > .second-row > .prop-wrap").innerHTML = `
@@ -208,11 +224,13 @@ function showInformation() {
 function addFilter(filters) {
 	if (doc.find("#tt-stock-filter")) return;
 
-	const filterContainer = content.newContainer("Filters", {
-		id: "tt-stock-filter",
-		_class: `${isPortfolio ? "portfolio" : "market"}`,
-		next_element: doc.find(".stock-main-wrap").firstElementChild,
-	}).find(".content");
+	const filterContainer = content
+		.newContainer("Filters", {
+			id: "tt-stock-filter",
+			_class: `${isPortfolio ? "portfolio" : "market"}`,
+			next_element: doc.find(".stock-main-wrap").firstElementChild,
+		})
+		.find(".content");
 
 	filterContainer.innerHTML = `
         <div class="filter-content">
@@ -271,7 +289,9 @@ function addFilter(filters) {
                     <div class="filter-heading">Name</div>
                     <div class="tt-input-wrap" id="name-filter"><label for="name">Name: </label><input type="text" id="name"></div>
                 </div>
-                ${isPortfolio ? ` 
+                ${
+					isPortfolio
+						? ` 
                 <div class="filter-subwrap" id="profit-filter">
                     <div class="filter-heading">Profit / Loss</div>
                     <div class="filter-multi-wrap" id="profit-filter">
@@ -287,7 +307,9 @@ function addFilter(filters) {
                     	</div>
                     </div>
                 </div>
-                ` : ""}
+                `
+						: ""
+				}
             </div>
         </div>
     `;
@@ -341,7 +363,12 @@ function addFilter(filters) {
 
 		// Filtering
 		for (let stock of doc.findAll(".stock-list > .item, .portfolio-list-shares > li.item-wrap")) {
-			const stockId = isPortfolio ? stock.find(".logo > a").getAttribute("href").match(/&ID=([0-9]*)/i)[1] : stock.firstElementChild.getAttribute("action").split("ID=")[1];
+			const stockId = isPortfolio
+				? stock
+						.find(".logo > a")
+						.getAttribute("href")
+						.match(/&ID=([0-9]*)/i)[1]
+				: stock.firstElementChild.getAttribute("action").split("ID=")[1];
 
 			const data = torndata.stocks[stockId];
 
@@ -413,9 +440,11 @@ function addFilter(filters) {
 				const changeClasses = stock.find(".length-wrap .second-row .prop-wrap .change").classList;
 
 				// profit or loss
-				if (profitLoss && profitLoss.length &&
-					!((profitLoss.includes("profit") && changeClasses.contains("up")) ||
-						(profitLoss.includes("loss") && changeClasses.contains("down")))) {
+				if (
+					profitLoss &&
+					profitLoss.length &&
+					!((profitLoss.includes("profit") && changeClasses.contains("up")) || (profitLoss.includes("loss") && changeClasses.contains("down")))
+				) {
 					stock.classList.add("filter-hidden");
 					continue;
 				}

@@ -1,4 +1,5 @@
-const country_dict = {  // time = minutes
+const country_dict = {
+	// time = minutes
 	argentina: {
 		time: 167,
 		cost: 21000,
@@ -183,7 +184,7 @@ function addFillMaxButtons() {
 		let max_span = doc.new({ type: "span", text: "fill max", class: "tt-max-buy bold" });
 		buy_btn.parentElement.appendChild(max_span);
 
-		max_span.addEventListener("click", event => {
+		max_span.addEventListener("click", (event) => {
 			event.stopPropagation();
 
 			let max = parseInt(buy_btn.parentElement.parentElement.find(".stck-amount").innerText.replace(/,/g, ""));
@@ -203,7 +204,6 @@ function addFillMaxButtons() {
 			buy_btn.parentElement.find("input[name='amount']").dispatchEvent(new Event("blur"));
 		});
 	}
-
 }
 
 function updateYATAPrices() {
@@ -235,10 +235,10 @@ function updateYATAPrices() {
 
 	console.log("POST DATA", post_data);
 	fetchRelay("yata", { section: `bazaar/abroad/import`, method: "POST", postData: post_data })
-		.then(result => {
+		.then((result) => {
 			console.log("yata PUSH", result);
 		})
-		.catch(err => {
+		.catch((err) => {
 			console.log("ERROR", err);
 		});
 
@@ -248,11 +248,13 @@ function updateYATAPrices() {
 }
 
 function addFilterToTable(list, title) {
-	let filter_container = content.newContainer("Filters", {
-		id: "tt-player-filter",
-		class: "filter-container",
-		next_element: title,
-	}).find(".content");
+	let filter_container = content
+		.newContainer("Filters", {
+			id: "tt-player-filter",
+			class: "filter-container",
+			next_element: title,
+		})
+		.find(".content");
 	filter_container.innerHTML = `
         <div class="filter-header">
             <div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> users</div>
@@ -324,13 +326,13 @@ function addFilterToTable(list, title) {
 		connect: true,
 		range: {
 			min: 0,
-			max: 100,
+			max: 1,
 		},
 	});
 
 	let level_slider_info = level_slider.nextElementSibling;
-	level_slider.noUiSlider.on("update", values => {
-		values = values.map(x => parseInt(x));
+	level_slider.noUiSlider.on("update", (values) => {
+		values = values.map((x) => parseInt(x));
 		level_slider_info.innerHTML = `Level: ${values.join(" - ")}`;
 	});
 
@@ -341,11 +343,13 @@ function addFilterToTable(list, title) {
 	for (let dropdown of filter_container.findAll("select")) {
 		dropdown.onchange = applyFilters;
 	}
-	let filter_observer = new MutationObserver(mutations => {
+	let filter_observer = new MutationObserver((mutations) => {
 		for (let mutation of mutations) {
-			if (mutation.type === "attributes"
-				&& mutation.attributeName === "aria-valuenow"
-				&& (hasClass(mutation.target, "noUi-handle-lower") || hasClass(mutation.target, "noUi-handle-upper"))) {
+			if (
+				mutation.type === "attributes" &&
+				mutation.attributeName === "aria-valuenow" &&
+				(hasClass(mutation.target, "noUi-handle-lower") || hasClass(mutation.target, "noUi-handle-upper"))
+			) {
 				applyFilters();
 			}
 		}
@@ -353,7 +357,7 @@ function addFilterToTable(list, title) {
 	filter_observer.observe(filter_container, { attributes: true, subtree: true });
 
 	// Page changing
-	doc.addEventListener("click", event => {
+	doc.addEventListener("click", (event) => {
 		if (event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, { class: "gallery-wrapper" })) {
 			console.log("click");
 			setTimeout(() => {
@@ -398,7 +402,10 @@ function addFilterToTable(list, title) {
 		}
 		// Special
 		for (let key in filters.overseas.special) {
-			if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked && doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked) {
+			if (
+				doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked &&
+				doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked
+			) {
 				special[key] = "both";
 			} else if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked) {
 				special[key] = "yes";
@@ -499,17 +506,25 @@ function addFilterToTable(list, title) {
 	function showRow(row, show = true) {
 		if (show) {
 			row.classList.remove("filter-hidden");
-			if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container")))
+			if (
+				row.nextElementSibling &&
+				(row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container"))
+			)
 				row.nextElementSibling.classList.remove("filter-hidden");
 		} else {
 			row.classList.add("filter-hidden");
-			if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container")))
+			if (
+				row.nextElementSibling &&
+				(row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container"))
+			)
 				row.nextElementSibling.classList.add("filter-hidden");
 		}
 	}
 
 	function updateStatistics() {
-		doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].filter(x => (!x.classList.contains("filter-hidden"))).length;
+		doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].filter(
+			(x) => !x.classList.contains("filter-hidden")
+		).length;
 		doc.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].length;
 	}
 }
@@ -518,8 +533,8 @@ function addFilterToTable(list, title) {
 async function travelTableScript() {
 	doc.find(".content-wrapper .travel-agency-travelling").innerHTML = "";
 
-	if (travel_market.length === 0 || !("date" in travel_market) || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) // 2 minutes
-	{
+	if (travel_market.length === 0 || !("date" in travel_market) || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) {
+		// 2 minutes
 		travel_market = await updateTravelMarket();
 	}
 
@@ -554,8 +569,7 @@ async function travelTableScript() {
 }
 
 function addLegend() {
-	let legend =
-		`
+	let legend = `
 <div class="legend">
     <div class="top-row">
         <div class="filter-button"><i class="fas ${filters.travel.open ? "fa-chevron-up" : "fa-chevron-down"}"></i><div>&nbsp;Filters</div></div>
@@ -680,15 +694,13 @@ function addTableContent(travel_items) {
 		let country = (userdata.travel.destination == "Torn" ? userdata.status.description.split(" ").slice(-1)[0] : userdata.travel.destination).toLowerCase();
 		let base_time = country_dict[country].time;
 		let actual_time = (userdata.travel.timestamp - userdata.travel.departed) / 60;
-		if (Math.abs(actual_time - (base_time * 0.3)) <= 5) {
+		if (Math.abs(actual_time - base_time * 0.3) <= 5) {
 			time_modifier = 0.3;
 			cost_modifier = 0;
-		}
-		else if (Math.abs(actual_time - (base_time * 0.5)) <= 5) {
+		} else if (Math.abs(actual_time - base_time * 0.5) <= 5) {
 			time_modifier = 0.5;
 			cost_modifier = 0;
-		}
-		else if (Math.abs(actual_time - (base_time * 0.7)) <= 5) {
+		} else if (Math.abs(actual_time - base_time * 0.7) <= 5) {
 			time_modifier = 0.7;
 			cost_modifier = itemlist.items["396"].market_value;
 		}
@@ -706,8 +718,7 @@ function addTableContent(travel_items) {
 }
 
 function addTableHeader() {
-	let row =
-		`
+	let row = `
 <div class="row header-row">
     <div>Destination</div>
     <div>Item</div>
@@ -722,14 +733,17 @@ function addTableHeader() {
     `;
 	doc.find("#ttTravelTable .table").innerHTML += row;
 
-	doc.addEventListener("click", event => {
-
+	doc.addEventListener("click", (event) => {
 		if (hasParent(event.target, { class: "header-row" })) {
 			let parent = event.target;
 
 			if (event.target.nodeName === "I") parent = event.target.parentElement;
 
-			sort(doc.find("#ttTravelTable .table"), [...parent.parentElement.children].indexOf(parent) + 1, parent.getAttribute("sort-type") === "value" ? "value" : "text");
+			sort(
+				doc.find("#ttTravelTable .table"),
+				[...parent.parentElement.children].indexOf(parent) + 1,
+				parent.getAttribute("sort-type") === "value" ? "value" : "text"
+			);
 		}
 	});
 }
@@ -741,11 +755,14 @@ function addRow(item, time, cost, travel_items) {
 	let profit_per_item = (total_profit / travel_items).toFixed(0);
 	let update_time = timeAgo(item.timestamp * 1000);
 	let item_types = ["plushie", "flower", "drug"];
-	let background_style = `url(/images/v2/travel_agency/flags/fl_${item.country_name.toLowerCase().replace("united kingdom", "uk").replace(" islands", "").replace(" ", "_")}.svg) center top no-repeat`;
+	let background_style = `url(/images/v2/travel_agency/flags/fl_${item.country_name
+		.toLowerCase()
+		.replace("united kingdom", "uk")
+		.replace(" islands", "")
+		.replace(" ", "_")}.svg) center top no-repeat`;
 	let item_type = item_types.includes(item.item_type.toLowerCase()) ? item.item_type.toLowerCase() : "other";
 
-	let row =
-		`
+	let row = `
 <div class="row">
     <div country='${item.country_name.toLowerCase()}'><div class="flag" style="background: ${background_style}"></div>${item.country_name}</div>
     <div item='${item_type}'>
@@ -759,9 +776,15 @@ function addRow(item, time, cost, travel_items) {
     `;
 	let profit_per_item_div;
 	if (profit_per_item > 0) {
-		profit_per_item_div = `<div class="positive profit advanced" value="${profit_per_item}">+$${numberWithCommas(profit_per_item, profit_per_item >= 1e6)}</div>`;
+		profit_per_item_div = `<div class="positive profit advanced" value="${profit_per_item}">+$${numberWithCommas(
+			profit_per_item,
+			profit_per_item >= 1e6
+		)}</div>`;
 	} else if (profit_per_item < 0) {
-		profit_per_item_div = `<div class="negative profit advanced" value="${profit_per_item}">-$${numberWithCommas(Math.abs(profit_per_item), profit_per_item <= -1e6)}</div>`;
+		profit_per_item_div = `<div class="negative profit advanced" value="${profit_per_item}">-$${numberWithCommas(
+			Math.abs(profit_per_item),
+			profit_per_item <= -1e6
+		)}</div>`;
 	} else {
 		profit_per_item_div = `<div class="advanced" value="0">$0</div>`;
 	}
@@ -769,9 +792,15 @@ function addRow(item, time, cost, travel_items) {
 
 	let profit_per_minute_div;
 	if (profit_per_minute > 0) {
-		profit_per_minute_div = `<div class="positive profit" value="${profit_per_minute}">+$${numberWithCommas(profit_per_minute, profit_per_minute >= 1e6)}</div>`;
+		profit_per_minute_div = `<div class="positive profit" value="${profit_per_minute}">+$${numberWithCommas(
+			profit_per_minute,
+			profit_per_minute >= 1e6
+		)}</div>`;
 	} else if (profit_per_minute < 0) {
-		profit_per_minute_div = `<div class="negative profit" value="${profit_per_minute}">-$${numberWithCommas(Math.abs(profit_per_minute), profit_per_minute <= -1e6)}</div>`;
+		profit_per_minute_div = `<div class="negative profit" value="${profit_per_minute}">-$${numberWithCommas(
+			Math.abs(profit_per_minute),
+			profit_per_minute <= -1e6
+		)}</div>`;
 	} else {
 		profit_per_minute_div = `<div value="0">$0</div>`;
 	}
@@ -781,13 +810,19 @@ function addRow(item, time, cost, travel_items) {
 	if (total_profit > 0) {
 		total_profit_div = `<div class="positive profit advanced" value="${total_profit}">+$${numberWithCommas(total_profit, total_profit >= 1e6)}</div>`;
 	} else if (total_profit < 0) {
-		total_profit_div = `<div class="negative profit advanced" value="${total_profit}">-$${numberWithCommas(Math.abs(total_profit), total_profit <= -1e6)}</div>`;
+		total_profit_div = `<div class="negative profit advanced" value="${total_profit}">-$${numberWithCommas(
+			Math.abs(total_profit),
+			total_profit <= -1e6
+		)}</div>`;
 	} else {
 		total_profit_div = `<div class="advanced" value="0">$0</div>`;
 	}
 	row += total_profit_div;
 
-	row += `<div class="advanced" value="${item.abroad_cost * travel_items}">$${numberWithCommas((item.abroad_cost * travel_items), item.abroad_cost >= 1e6)}</div>`;
+	row += `<div class="advanced" value="${item.abroad_cost * travel_items}">$${numberWithCommas(
+		item.abroad_cost * travel_items,
+		item.abroad_cost >= 1e6
+	)}</div>`;
 
 	row += "</div>";
 	return row;
@@ -795,7 +830,7 @@ function addRow(item, time, cost, travel_items) {
 
 function filterTable() {
 	const country = doc.find("#ttTravelTable .legend-content .radio-item input[name='country']:checked").getAttribute("_type");
-	const item_types = [...doc.findAll("#ttTravelTable .legend-content .checkbox-item input[name='item']:checked")].map(x => x.getAttribute("_type"));
+	const item_types = [...doc.findAll("#ttTravelTable .legend-content .checkbox-item input[name='item']:checked")].map((x) => x.getAttribute("_type"));
 
 	let cols = {
 		country: 1,
@@ -836,7 +871,7 @@ function saveSettings() {
 	let travel = {
 		table_type: doc.find(".table-type.active") ? doc.find(".table-type.active").getAttribute("type") : "basic",
 		open: !doc.find(".legend-content").classList.contains("collapsed"),
-		item_type: [...doc.findAll(".legend-content input[name='item']:checked")].map(x => x.getAttribute("_type")),
+		item_type: [...doc.findAll(".legend-content input[name='item']:checked")].map((x) => x.getAttribute("_type")),
 		country: doc.find(".legend-content input[name='country']:checked").getAttribute("_type"),
 	};
 
@@ -846,8 +881,8 @@ function saveSettings() {
 function reloadTable() {
 	console.log("Reloading table");
 	ttStorage.get(["filters", "travel_market"], async ([filters, travel_market]) => {
-		if (travel_market.length === 0 || !travel_market.date || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) // 2 minutes
-		{
+		if (travel_market.length === 0 || !travel_market.date || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) {
+			// 2 minutes
 			travel_market = await updateTravelMarket();
 		}
 
@@ -884,7 +919,7 @@ function updateTravelMarket() {
 	console.log("Updating Travel Market info.");
 	return new Promise((resolve) => {
 		fetchRelay("yata", { section: "bazaar/abroad/export" })
-			.then(result => {
+			.then((result) => {
 				console.log("Travel market result", result);
 				result.date = new Date().toString();
 				ttStorage.set({ travel_market: result }, () => {
@@ -892,7 +927,7 @@ function updateTravelMarket() {
 					return resolve(result);
 				});
 			})
-			.catch(err => {
+			.catch((err) => {
 				console.log("ERROR", err);
 				return resolve(err);
 			});
@@ -900,12 +935,13 @@ function updateTravelMarket() {
 }
 
 async function showUserInfo() {
-	if (!(settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.abroad))
-		return;
+	if (!(settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.abroad)) return;
 
 	estimateStatsInList(".users-list > li", (row) => {
 		return {
-			userId: row.find("a.user.name").getAttribute("data-placeholder") ? row.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : row.find("a.user.name").getAttribute("href").split("XID=")[1],
+			userId: row.find("a.user.name").getAttribute("data-placeholder")
+				? row.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0]
+				: row.find("a.user.name").getAttribute("href").split("XID=")[1],
 			level: parseInt(row.find(".level").innerText.split("\n")[1]) || 0,
 		};
 	});
@@ -913,12 +949,13 @@ async function showUserInfo() {
 
 function warnEnergy() {
 	if (doc.find(".travel-home-content")) listen();
-	else new MutationObserver((mutations, observer) => {
-		if (!doc.find(".travel-home-content")) return;
+	else
+		new MutationObserver((mutations, observer) => {
+			if (!doc.find(".travel-home-content")) return;
 
-		listen();
-		observer.disconnect();
-	}).observe(doc.find("#mainContainer > .content-wrapper"), { childList: true, subtree: true });
+			listen();
+			observer.disconnect();
+		}).observe(doc.find("#mainContainer > .content-wrapper"), { childList: true, subtree: true });
 
 	function listen() {
 		if (doc.find(".travel-home-content").getAttribute("style").includes("display: none")) show();
@@ -937,7 +974,8 @@ function warnEnergy() {
 
 		const splitTime = search[1].split(" ");
 
-		let hours = 0, minutes = 0;
+		let hours = 0,
+			minutes = 0;
 		if (splitTime.includes("minutes")) minutes = parseInt(splitTime[splitTime.indexOf("minutes") - 1]);
 		if (splitTime.includes("hours")) hours = parseInt(splitTime[splitTime.indexOf("hours") - 1]);
 
@@ -946,11 +984,13 @@ function warnEnergy() {
 
 		if (fulltime < flytime) {
 			content.appendChild(doc.new("br"));
-			content.appendChild(doc.new({
-				type: "span",
-				text: "Starting this flight will waste some energy!",
-				attributes: { color: "error" },
-			}));
+			content.appendChild(
+				doc.new({
+					type: "span",
+					text: "Starting this flight will waste some energy!",
+					attributes: { color: "error" },
+				})
+			);
 		}
 	}
 }
@@ -959,10 +999,11 @@ function showPC() {
 	if (doc.find("#top-page-links-list > .laptop, #top-page-links-list > .tt-computer")) return;
 	if (!findItemsInObject(userdata.inventory, { ID: 61 }, true).length) return;
 
-	doc.find("#top-page-links-list").insertBefore(doc.new({
-		type: "a",
-		class: "tt-computer t-clear c-pointer right",
-		html: `
+	doc.find("#top-page-links-list").insertBefore(
+		doc.new({
+			type: "a",
+			class: "tt-computer t-clear c-pointer right",
+			html: `
 			<span class="icon-wrap svg-icon-wrap">
 				<span class="link-icon-svg laptop ">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 16">
@@ -982,28 +1023,34 @@ function showPC() {
 			</span>
 			<span id="pc">Computer</span>
 		`,
-		attributes: {
-			role: "button",
-			"aria-labelledby": "computer",
-			href: "pc.php",
-		},
-	}), doc.find("#top-page-links-list > .events"));
+			attributes: {
+				role: "button",
+				"aria-labelledby": "computer",
+				href: "pc.php",
+			},
+		}),
+		doc.find("#top-page-links-list > .events")
+	);
 }
 
 function addFilterToItems(listGetter, title) {
-	let filter_container = content.newContainer("Filters", {
-		id: "tt-item-filter",
-		class: "filter-container",
-		next_element: title,
-		collapseId: "-items",
-	}).find(".content");
+	let filter_container = content
+		.newContainer("Filters", {
+			id: "tt-item-filter",
+			class: "filter-container",
+			next_element: title,
+			collapseId: "-items",
+		})
+		.find(".content");
 
 	filter_container.innerHTML = `
 		<div class="filter-header">
 			<div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> items</div>
 		</div>
 		<div class="filter-content">
-			${settings.pages.travel.profits ? `
+			${
+				settings.pages.travel.profits
+					? `
 			<div class="filter-wrap" id="profit-filter">
 				<div class="filter-heading">Profit</div>
 				<div class="filter-multi-wrap">
@@ -1013,7 +1060,9 @@ function addFilterToItems(listGetter, title) {
 					</div>
 				</div>
 			</div>
-			` : ""}
+			`
+					: ""
+			}
 			<div class="filter-wrap" id="category-filter">
 				<div class="filter-heading">Categories</div>
 				<div class="filter-multi-wrap">
@@ -1083,7 +1132,6 @@ function addFilterToItems(listGetter, title) {
 					// FIXME - Add more missing categories.
 					break;
 			}
-
 		}
 
 		// Filtering
@@ -1098,11 +1146,16 @@ function addFilterToItems(listGetter, title) {
 
 			// Categories
 			if (categories.length || categoriesExtra.length) {
-				const itemCategory = li.find(".type").innerText.split("\n").filter(x => !!x)[1].toLowerCase();
+				const itemCategory = li
+					.find(".type")
+					.innerText.split("\n")
+					.filter((x) => !!x)[1]
+					.toLowerCase();
 
 				let matchesCategory = false;
 				for (let category of [...categories, ...categoriesExtra]) {
-					if (itemCategory === category) { // FIXME Add category check.
+					if (itemCategory === category) {
+						// FIXME Add category check.
 						matchesCategory = true;
 						break;
 					}
@@ -1137,7 +1190,9 @@ function addFilterToItems(listGetter, title) {
 	function updateStatistics() {
 		const list = listGetter();
 
-		filter_container.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].filter(x => (!x.classList.contains("filter-hidden"))).length;
+		filter_container.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].filter(
+			(x) => !x.classList.contains("filter-hidden")
+		).length;
 		filter_container.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].length;
 	}
 }
@@ -1149,11 +1204,15 @@ function addItemSortingCapabilities() {
 	for (let header of headers) {
 		header.classList.add("sortable");
 
-		header.addEventListener("click", event => {
+		header.addEventListener("click", (event) => {
 			const order = toggleSorting(header);
 
 			// Remove all other sorting.
-			headers.filter(x => x !== header).map(x => x.find("i")).filter(x => !!x).forEach(x => x.remove());
+			headers
+				.filter((x) => x !== header)
+				.map((x) => x.find("i"))
+				.filter((x) => !!x)
+				.forEach((x) => x.remove());
 
 			if (order === "none") {
 				sort("asc", defaultHeader);
@@ -1215,21 +1274,21 @@ function addItemSortingCapabilities() {
 			valueSelector = ".cost .c-price";
 		}
 
-		const rows = [...list.childNodes].filter(node => node.nodeName === "LI");
+		const rows = [...list.childNodes].filter((node) => node.nodeName === "LI");
 		if (order === "asc") {
-			rows.sort(((a, b) => {
+			rows.sort((a, b) => {
 				const helper = sortHelper(a.children[0], b.children[0]);
 
 				return helper.a - helper.b;
-			}));
+			});
 		} else {
-			rows.sort(((a, b) => {
+			rows.sort((a, b) => {
 				const helper = sortHelper(a.children[0], b.children[0]);
 
 				return helper.b - helper.a;
-			}));
+			});
 		}
-		rows.forEach(row => newList.appendChild(row));
+		rows.forEach((row) => newList.appendChild(row));
 
 		list.parentNode.replaceChild(newList, list);
 
@@ -1248,8 +1307,8 @@ function addItemSortingCapabilities() {
 				valueB = elementB.innerText;
 
 				if (elementA.find(".t-show, .wai") && valueA.includes("\n")) {
-					valueA = valueA.split("\n").filter(x => !!x)[1];
-					valueB = valueB.split("\n").filter(x => !!x)[1];
+					valueA = valueA.split("\n").filter((x) => !!x)[1];
+					valueB = valueB.split("\n").filter((x) => !!x)[1];
 				}
 			}
 

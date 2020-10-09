@@ -23,7 +23,7 @@ function companyContentLoaded(aria_controls) {
 
 function showUserInfo() {
 	fetchApi_v2("torn", { section: "company" })
-		.then(result => {
+		.then((result) => {
 			console.log("result", result);
 
 			doc.find("#employees .employee-list").classList.add("tt-modified");
@@ -33,9 +33,7 @@ function showUserInfo() {
 
 				let li = doc.new({ type: "li", class: "tt-user-info" });
 				let inner_wrap = doc.new({ type: "div", class: "tt-user-info-inner-wrap" });
-				let texts = [
-					`Last action: ${result.company.employees[user_id].last_action.relative}`,
-				];
+				let texts = [`Last action: ${result.company.employees[user_id].last_action.relative}`];
 
 				for (let text of texts) {
 					let div = doc.new({ type: "div", text: text });
@@ -61,7 +59,7 @@ function showUserInfo() {
 				}
 			}
 		})
-		.catch(err => {
+		.catch((err) => {
 			console.log("ERROR", err);
 		});
 }

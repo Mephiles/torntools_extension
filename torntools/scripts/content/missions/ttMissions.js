@@ -23,11 +23,14 @@ const MISSIONS = {
 	},
 	"A Thor Loser": {
 		task: "Use Duke's hammer and hit 15 different body parts.",
-		hint: "There are approximately 20-30 different body parts in Torn people. Attempt to find someone tanky to maximize your hits per energy spent (unless you are planning to spend a ton of energy).",
+		hint:
+			"There are approximately 20-30 different body parts in Torn people. Attempt to find someone tanky to maximize your hits per energy spent (unless you are planning to spend a ton of energy).",
 	},
 	"Bakeout Breakout": {
-		task: "Buy a fruitcake, use cake frosting & lock-picking kits from inventory sent by Duke, then send special fruitcake to any player in jail. Player does not actually receive the item.",
-		hint: "To make the final cake, you only have to use the frosting, or the lock pick. Once one item is used, the other item is also used to make the final product.",
+		task:
+			"Buy a fruitcake, use cake frosting & lock-picking kits from inventory sent by Duke, then send special fruitcake to any player in jail. Player does not actually receive the item.",
+		hint:
+			"To make the final cake, you only have to use the frosting, or the lock pick. Once one item is used, the other item is also used to make the final product.",
 	},
 	"Bare Knuckle": {
 		task: "Defeat (P) with no weapons or armour equipped.",
@@ -39,7 +42,8 @@ const MISSIONS = {
 	},
 	"Big Tub of Muscle": {
 		task: "Defeat (P) despite their gargantuan strength.",
-		hint: "If you have booster capability, serotonin may help. Stacking boosters by attacking easy targets with different temporary boosters consecutively will really help, but may be overkill in terms of cost.",
+		hint:
+			"If you have booster capability, serotonin may help. Stacking boosters by attacking easy targets with different temporary boosters consecutively will really help, but may be overkill in terms of cost.",
 	},
 	"Birthday Surprise": { task: "Obtain (an item), place in empty box, gift wrap, send to Duke." },
 	"Bonnie and Clyde": { task: "Defeat (P) and spouse of (P)." },
@@ -62,7 +66,8 @@ const MISSIONS = {
 	"Cut Them Down to Size": { task: "Defeat someone your level or higher.", hint: "A friend can help by unequipping and dropping to 1 hp." },
 	"Dirty Little Secret": {
 		task: "Put a bounty on (P), wait for it to be claimed, attack the person who claimed the bounty.",
-		hint: "Cash prize is still calculated based on old bounty system. If the claimer is anonymous, their ID # still shows up in the mission screen. I usually just put a 100K bounty, so I can pocket most of the prize.",
+		hint:
+			"Cash prize is still calculated based on old bounty system. If the claimer is anonymous, their ID # still shows up in the mission screen. I usually just put a 100K bounty, so I can pocket most of the prize.",
 	},
 	"Double Jeopardy": {
 		task: "Put a bounty on someone, then defeat them.",
@@ -71,7 +76,8 @@ const MISSIONS = {
 	"Drug Problem": { task: "Defeat 4-7 (P)." },
 	"Emotional Debt": {
 		task: "Hit (P) with tear gas or pepper spray.",
-		hint: "Equip a tear gas or pepper spray. Hazmat Suit and the unreleased Delta Helmet blocks tear gas. Every helmet except Combat blocks pepper spray. If the temporary weapon misses, it still counts for this mission.",
+		hint:
+			"Equip a tear gas or pepper spray. Hazmat Suit and the unreleased Delta Helmet blocks tear gas. Every helmet except Combat blocks pepper spray. If the temporary weapon misses, it still counts for this mission.",
 	},
 	Estranged: { task: "Injure one of (P) legs.", hint: "I use a pillow and smoke grenade." },
 	"Family Ties": { task: "Hospitalize (P) 3 times." },
@@ -81,7 +87,8 @@ const MISSIONS = {
 	},
 	Fireworks: {
 		task: "Expend 250/500/750/1250 rounds of ammunition.",
-		hint: "Use a gun with lots of ammo such as minigun, M249 PARA LMG, or Rheinmettall MG 3 and chain or participate in NPC attacks on Duke, Jimmy or Leslie.",
+		hint:
+			"Use a gun with lots of ammo such as minigun, M249 PARA LMG, or Rheinmettall MG 3 and chain or participate in NPC attacks on Duke, Jimmy or Leslie.",
 	},
 	"Forgotten Bills": { task: "Defeat (P)." },
 	Frenzy: { task: "Defeat any 5, 7, 11, 11, or 15 players." },
@@ -107,12 +114,14 @@ const MISSIONS = {
 	},
 	"High Fliers": {
 		task: "Defeat 3 (P) in 3 foreign (countries).",
-		hint: "Other people with same mission can also attack target. Medicine cannot be used overseas, so plan your gear carefully. Give yourself plenty of time in the 72 hour window to fly to 3 different countries. If running out of time, can use Business Class Tickets to fly the fastest round trip.",
+		hint:
+			"Other people with same mission can also attack target. Medicine cannot be used overseas, so plan your gear carefully. Give yourself plenty of time in the 72 hour window to fly to 3 different countries. If running out of time, can use Business Class Tickets to fly the fastest round trip.",
 	},
 	Hobgoblin: { task: "Defeat a player of your choice 5 times." },
 	"Immovable Object": {
 		task: "Defeat (P) despite their impenetrable defense.",
-		hint: "Can use Epinephrine to increase your strength to counter their defense. Can get a friend to join in attack, throw a smoke, and take the defending temporary if there is one.",
+		hint:
+			"Can use Epinephrine to increase your strength to counter their defense. Can get a friend to join in attack, throw a smoke, and take the defending temporary if there is one.",
 	},
 	"Inside Job": { task: "Attack someone and secrete the item into or onto them." },
 	"Keeping Up Appearances": {
@@ -130,7 +139,8 @@ const MISSIONS = {
 	"Meeting the Challenge": { task: "Mug people for a listed total amount." },
 	Motivator: {
 		task: "Lose or stalemate to (P).",
-		hint: "If it looks like you're about to win, time out so this mission doesn't fail. To make losing easier, if you have the ability, you can use the wrong blood bag to drop your health to 1 or fill up empty blood bags until 1 HP.",
+		hint:
+			"If it looks like you're about to win, time out so this mission doesn't fail. To make losing easier, if you have the ability, you can use the wrong blood bag to drop your health to 1 or fill up empty blood bags until 1 HP.",
 	},
 	"No Man is an Island": { task: "Mug at least 2 of 3 (P)." },
 	"No Second Chances": { task: "Defeat (P) on first attempt.", hint: "Get help if needed." },
@@ -260,11 +270,10 @@ function showRewards() {
 			let item_id = info.image;
 			let quantity = info.amount;
 
-			if (!item_id || typeof item_id == "string")
-				continue;
+			if (!item_id || typeof item_id == "string") continue;
 
 			let market_price = itemlist.items[item_id].market_value;
-			item.style.height = "160px";  // to fit value info
+			item.style.height = "160px"; // to fit value info
 
 			// Show one item price
 			let one_item_price = doc.new("span");
@@ -280,7 +289,7 @@ function showRewards() {
 			let div_total_value = doc.new({ type: "div", text: "Total value: ", class: "tt-total-value" });
 			if (mobile) div_total_value.style.marginTop = "66px";
 			let span_total_value = doc.new("span");
-			span_total_value.innerText = `$${numberWithCommas(totalValue, totalValue > 10E6 ? 2 : true)}`;
+			span_total_value.innerText = `$${numberWithCommas(totalValue, totalValue > 10e6 ? 2 : true)}`;
 
 			let div_point_value = doc.new("div");
 			div_point_value.innerText = "Point value: ";
@@ -336,10 +345,7 @@ function showMissionInformation() {
 			doc.new({ type: "span", html: `<b>Task:</b> ${task}` }),
 		];
 		if (hint) {
-			children.push(
-				doc.new("br"),
-				doc.new({ type: "span", html: `<b>Hint:</b> ${hint}` }),
-			);
+			children.push(doc.new("br"), doc.new({ type: "span", html: `<b>Hint:</b> ${hint}` }));
 		}
 
 		mission.find(".max-height-fix").appendChild(doc.new({ type: "div", class: "tt-mission-information", children }));

@@ -1,6 +1,5 @@
 class ttCustomConsole {
-	constructor() {
-	}
+	constructor() {}
 
 	set parent(_parent) {
 		this.parentElement = _parent;

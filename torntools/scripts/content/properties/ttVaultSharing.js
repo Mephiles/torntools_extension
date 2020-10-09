@@ -10,7 +10,7 @@ requireDatabase().then(() => {
 			if (doc.find("#tt-vault-container")) return;
 
 			vaultLoaded().then(() => {
-				ttStorage.get("vault", vault => {
+				ttStorage.get("vault", (vault) => {
 					Main(vault);
 				});
 			});
@@ -37,7 +37,8 @@ function Main(vault, need_to_save) {
 	// divider
 	if (!vault.initialized) {
 		split.appendChild(doc.new({ type: "span", class: "divider", text: "- OR -" }));
-	} else {  // Check history for changes
+	} else {
+		// Check history for changes
 		for (let transaction of doc.findAll("ul.vault-trans-list > li:not(.title)")) {
 			console.log("looping");
 			let date = transaction.find(".date .transaction-date").innerText;
@@ -65,13 +66,12 @@ function Main(vault, need_to_save) {
 				console.log("Amount", amount);
 
 				if (user) {
-					vault.user.current_money = (type === "withdraw" ? vault.user.current_money - amount : vault.user.current_money + amount);
+					vault.user.current_money = type === "withdraw" ? vault.user.current_money - amount : vault.user.current_money + amount;
 				} else {
-					vault.partner.current_money = (type === "withdraw" ? vault.partner.current_money - amount : vault.partner.current_money + amount);
+					vault.partner.current_money = type === "withdraw" ? vault.partner.current_money - amount : vault.partner.current_money + amount;
 				}
 
 				need_to_save = true;
-
 			} else {
 				console.log("No new transactions.");
 				break;
@@ -177,36 +177,39 @@ function Main(vault, need_to_save) {
 
 		vault.user.current_money = user_value;
 		vault.partner.current_money = partner_value;
-		ttStorage.set({
-			vault: {
-				initialized: true,
-				last_transaction: last_transaction.toString(),
-				total_money: total_money,
-				user: {
-					initial_money: vault.initialized ? vault.user.initial_money : user_value,
-					current_money: user_value,
-				},
-				partner: {
-					initial_money: vault.initialized ? vault.partner.initial_money : partner_value,
-					current_money: partner_value,
+		ttStorage.set(
+			{
+				vault: {
+					initialized: true,
+					last_transaction: last_transaction.toString(),
+					total_money: total_money,
+					user: {
+						initial_money: vault.initialized ? vault.user.initial_money : user_value,
+						current_money: user_value,
+					},
+					partner: {
+						initial_money: vault.initialized ? vault.partner.initial_money : partner_value,
+						current_money: partner_value,
+					},
 				},
 			},
-		}, () => {
-			console.log("Vault info set.");
+			() => {
+				console.log("Vault info set.");
 
-			// Saving complete
-			saving_text.innerText = "saved!";
-			saving_img_div.style.display = "none";
+				// Saving complete
+				saving_text.innerText = "saved!";
+				saving_img_div.style.display = "none";
 
-			setTimeout(() => {
-				saving_text.classList.remove("active");
-				saving_text.innerText = "save";
-			}, 1000);
-		});
+				setTimeout(() => {
+					saving_text.classList.remove("active");
+					saving_text.innerText = "save";
+				}, 1000);
+			}
+		);
 	});
 
 	// Withdraw & Deposit reload
-	doc.find("input[value=WITHDRAW]").addEventListener("click", event => {
+	doc.find("input[value=WITHDRAW]").addEventListener("click", (event) => {
 		if (!event.target.parentElement.parentElement.classList.contains("disable")) {
 			let amount = parseInt(doc.find(".withdraw-icon+div input[name=withdraw]").getAttribute("value"));
 
@@ -217,7 +220,7 @@ function Main(vault, need_to_save) {
 			});
 		}
 	});
-	doc.find("input[value=DEPOSIT]").addEventListener("click", event => {
+	doc.find("input[value=DEPOSIT]").addEventListener("click", (event) => {
 		if (!event.target.parentElement.parentElement.classList.contains("disable")) {
 			let amount = parseInt(doc.find(".deposit-icon+div input[name=deposit]").getAttribute("value"));
 

@@ -11,16 +11,14 @@ requireDatabase().then(() => {
 		bountiesLoaded().then(() => {
 			addFilter(filters);
 
-			if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.bounties)
-				showStatsEstimates();
+			if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.bounties) showStatsEstimates();
 		});
 	});
 
 	bountiesLoaded().then(() => {
 		addFilter(filters);
 
-		if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.bounties)
-			showStatsEstimates();
+		if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.bounties) showStatsEstimates();
 	});
 });
 
@@ -116,7 +114,10 @@ function addFilter(filters) {
 function showStatsEstimates() {
 	estimateStatsInList(".bounties-list > li:not(.clear)", (row) => {
 		return {
-			userId: row.find(".head .target a").getAttribute("href").match(/profiles\.php\?XID=([0-9]*)/i)[1],
+			userId: row
+				.find(".head .target a")
+				.getAttribute("href")
+				.match(/profiles\.php\?XID=([0-9]*)/i)[1],
 			level: parseInt(row.find(".level").innerText),
 		};
 	});

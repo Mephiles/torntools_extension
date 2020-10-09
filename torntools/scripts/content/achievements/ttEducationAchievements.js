@@ -9,8 +9,7 @@ requireDatabase().then(() => {
 		if (userdata.intelligence > highestStat) highestStat = userdata.intelligence;
 		if (userdata.endurance > highestStat) highestStat = userdata.endurance;
 
-		if (!settings.achievements.show)
-			return;
+		if (!settings.achievements.show) return;
 
 		// object of all the achievements on this page
 		const achievements = {
@@ -83,8 +82,6 @@ requireDatabase().then(() => {
 				stats: education.length,
 				keyword: "education courses",
 			},
-
-
 		};
 
 		displayAchievements(achievements, show_completed);

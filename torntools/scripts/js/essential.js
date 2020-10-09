@@ -147,15 +147,18 @@ const ttStorage = {
 			let api_key = data.api_key;
 			chrome.storage.local.clear(function () {
 				chrome.storage.local.set(STORAGE, function () {
-					chrome.storage.local.set({
-						api_key: api_key,
-					}, function () {
-						chrome.storage.local.get(null, function (data) {
-							console.log("Storage cleared");
-							console.log("New storage", data);
-							callback ? callback() : null;
-						});
-					});
+					chrome.storage.local.set(
+						{
+							api_key: api_key,
+						},
+						function () {
+							chrome.storage.local.get(null, function (data) {
+								console.log("Storage cleared");
+								console.log("New storage", data);
+								callback ? callback() : null;
+							});
+						}
+					);
 				});
 			});
 		});

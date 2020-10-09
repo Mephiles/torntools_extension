@@ -279,7 +279,7 @@ requireDatabase().then(() => {
 			type: "div",
 			id: "tt-edit",
 			class: "tt-option",
-			children: [doc.new({ type: "i", class: "fas fa-cog" }), doc.new({ type: "span", class: "text", text: "Edit" }],
+			children: [doc.new({ type: "i", class: "fas fa-cog" }), doc.new({ type: "span", class: "text", text: "Edit" })],
 		});
 		doc.find("#tt-target-info .tt-options").appendChild(edit_button);
 
@@ -366,9 +366,9 @@ function displayCreator() {
 				type: "span",
 				text: " - Thanks for using ",
 				attributes: {
-					style: "font-size: 17px;"
+					style: "font-size: 17px;",
 				},
-				children: [doc.new({ type: "span", text: "TornTools", attributes: { style: "font-size: 17px; color: #6b8817;" } })]
+				children: [doc.new({ type: "span", text: "TornTools", attributes: { style: "font-size: 17px; color: #6b8817;" } })],
 			})
 		);
 	}
@@ -420,7 +420,7 @@ function showWarning(type) {
 			type: "span",
 			class: "tt-title-message",
 			text,
-			attributes: { color: "warning" }
+			attributes: { color: "warning" },
 		})
 	);
 }
@@ -540,10 +540,10 @@ async function displayProfileStats() {
 									[userId]: {
 										timestamp,
 										ttl: TO_MILLIS.DAYS,
-										data: data.stats
-									}
-								}
-							}
+										data: data.stats,
+									},
+								},
+							},
 						},
 						() => {
 							if (!level || !settings.scripts.stats_estimate.max_level || settings.scripts.stats_estimate.max_level >= level) {
@@ -726,7 +726,7 @@ async function displayProfileStats() {
 					type: "span",
 					class: "tt-title-message",
 					text: result.battleStatsEstimate,
-					attributes: { color: "info" }
+					attributes: { color: "info" },
 				})
 			);
 		}
@@ -971,8 +971,8 @@ function addStatusIndicator() {
 		type: "span",
 		text: doc.find("#skip-to-content").innerText,
 		attributes: {
-			style: mobile ? "font-size: 17px; color: #333" : "font-size: 22px; color: #333"
-		}
+			style: mobile ? "font-size: 17px; color: #333" : "font-size: 22px; color: #333",
+		},
 	});
 
 	doc.find("#skip-to-content").innerText = "";
@@ -1087,8 +1087,8 @@ function displayStakeoutOptions() {
 							okay: checkbox_okay.checked,
 							lands: checkbox_lands.checked,
 							online: checkbox_online.checked,
-							hospital: checkbox_hospital.checked
-						}
+							hospital: checkbox_hospital.checked,
+						},
 					},
 				},
 			});
@@ -1160,7 +1160,7 @@ function showProfileNotes() {
 		.newContainer("Profile Notes", {
 			next_element_heading: "Medals",
 			id: "tt-target-notes",
-			collapseId: 1
+			collapseId: 1,
 		})
 		.find(".content");
 	container.appendChild(
@@ -1168,7 +1168,7 @@ function showProfileNotes() {
 			type: "div",
 			class: "tt-section",
 			attributes: { name: "profile-notes" },
-			children: [textbox]
+			children: [textbox],
 		})
 	);
 
@@ -1176,7 +1176,7 @@ function showProfileNotes() {
 		type: "div",
 		id: "tt-profile-notes-save",
 		class: "tt-option",
-		children: [doc.new({ type: "i", class: "fas fa-save" }), doc.new({ type: "span", class: "text", text: "Save" })]
+		children: [doc.new({ type: "i", class: "fas fa-save" }), doc.new({ type: "span", class: "text", text: "Save" })],
 	});
 	doc.find("#tt-target-notes .tt-options").appendChild(save_button);
 
@@ -1189,15 +1189,15 @@ function showProfileNotes() {
 					profiles: {
 						[userId]: {
 							height: textbox.style.height,
-							notes: textbox.value
-						}
-					}
-				}
+							notes: textbox.value,
+						},
+					},
+				},
 			},
 			() => {
 				console.log("Saved profile notes", {
 					height: textbox.style.height,
-					notes: textbox.value
+					notes: textbox.value,
 				});
 
 				if (!doc.find("#tt-target-notes .saved-note")) {

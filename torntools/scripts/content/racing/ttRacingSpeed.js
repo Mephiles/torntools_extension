@@ -5,7 +5,6 @@
 // 		const settings = data.settings;
 // 		const show_racing = settings.pages.racing.show;
 
-
 // 		let done = false;
 // 		let updateSpeed;
 // 		setInterval(function () {

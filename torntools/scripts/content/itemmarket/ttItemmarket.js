@@ -25,7 +25,7 @@ requireDatabase().then(() => {
 				el.find("a").setAttribute("href", url);
 			}
 		} else if (subview() === "browse_view") {
-			doc.addEventListener("click", event => {
+			doc.addEventListener("click", (event) => {
 				if (event.target.classList && event.target.classList.contains("bazaar-market-icon")) {
 					let url = event.target.parentElement.getAttribute("href");
 

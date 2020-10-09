@@ -23,15 +23,14 @@ window.addEventListener("load", () => {
 			const apiKeyFieldValue = doc.find("#newapi").getAttribute("value");
 
 			ttStorage.set({ api_key: apiKeyFieldValue }, () => {
-				chrome.runtime.sendMessage({ action: "initialize" }, response => {
+				chrome.runtime.sendMessage({ action: "initialize" }, (response) => {
 					console.log(response.message);
 
 					if (response.success) {
 						connectButton.classList.add("disabled");
 						connectButton.innerText = "Connected!";
 
-						connectButton.onclick = () => {
-						};
+						connectButton.onclick = () => {};
 					}
 				});
 			});

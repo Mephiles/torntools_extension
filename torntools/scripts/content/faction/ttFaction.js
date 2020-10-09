@@ -157,7 +157,6 @@ function loadControls() {
 			loadGiveToUser();
 		}
 	}
-
 }
 
 function loadGiveToUser() {
@@ -310,7 +309,7 @@ function subpageLoaded(page) {
 }
 
 function newstabLoaded(tab) {
-	return new Promise(resolve => {
+	return new Promise((resolve) => {
 		let checker = setInterval(() => {
 			if (tab === "armory" && doc.find("#tab4-4 .news-list li:not(.last)")) {
 				resolve(true);
@@ -346,7 +345,7 @@ function showNNB() {
 	if (shouldDisable()) return;
 
 	fetchApi_v2("tornstats", { section: "api.php", action: "crimes" })
-		.then(result => {
+		.then((result) => {
 			// Populate active crimes
 			let crimes = doc.findAll(".organize-wrap .crimes-list>li");
 			for (let crime of crimes) {
@@ -410,9 +409,9 @@ function showNNB() {
 				player.find(".act").parentElement.insertBefore(col, player.find(".act"));
 			}
 
-			doc.findAll(".doctorn-faction-nnb-value").forEach(node => node.style.setProperty("display", "none", "important"));
+			doc.findAll(".doctorn-faction-nnb-value").forEach((node) => node.style.setProperty("display", "none", "important"));
 		})
-		.catch(err => {
+		.catch((err) => {
 			console.log("ERROR", err);
 		});
 }
@@ -466,7 +465,7 @@ function fullInfoBox(page) {
 
 function upgradesInfoListener() {
 	subpageLoaded("upgrades").then(() => {
-		let upgrades_info_listener = new MutationObserver(mutations => {
+		let upgrades_info_listener = new MutationObserver((mutations) => {
 			for (let mutation of mutations) {
 				if (mutation.type === "childList") {
 					if (mutation.addedNodes[0]) {
@@ -502,7 +501,7 @@ function upgradesInfoListener() {
 
 function armoryWorth() {
 	fetchApi_v2("torn", { section: "faction", selections: "weapons,armor,temporary,medical,drugs,boosters,cesium,currency" })
-		.then(result => {
+		.then((result) => {
 			console.log("result", result);
 
 			let total = 0;
@@ -518,7 +517,6 @@ function armoryWorth() {
 
 			// Cesium
 			if (result.cesium) {
-
 			}
 
 			// Points
@@ -532,7 +530,7 @@ function armoryWorth() {
 
 			doc.find(".f-info-wrap .f-info.right").insertBefore(li, doc.find(".f-info-wrap .f-info.right>li:nth-of-type(2)"));
 		})
-		.catch(err => {
+		.catch((err) => {
 			console.log("ERROR", err);
 
 			if (err.error === "Incorrect ID-entity relation") {
@@ -543,9 +541,7 @@ function armoryWorth() {
 }
 
 async function showUserInfo() {
-	if (!settings.pages.faction.member_info &&
-		!(settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_members))
-		return;
+	if (!settings.pages.faction.member_info && !(settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_members)) return;
 
 	const factionId = doc.find(".faction-info-wrap .faction-info[data-faction]").getAttribute("data-faction");
 
@@ -562,7 +558,9 @@ async function showUserInfo() {
 
 	let estimateCount = 0;
 	for (let tableRow of doc.findAll(".members-list .table-body > li")) {
-		let userId = tableRow.find("a.user.name").getAttribute("data-placeholder") ? tableRow.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0] : tableRow.find("a.user.name").getAttribute("href").split("XID=")[1];
+		let userId = tableRow.find("a.user.name").getAttribute("data-placeholder")
+			? tableRow.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0]
+			: tableRow.find("a.user.name").getAttribute("href").split("XID=")[1];
 
 		const container = doc.new({ type: "section", class: "tt-userinfo-container" });
 		tableRow.parentElement.insertBefore(container, tableRow.nextElementSibling);
@@ -572,25 +570,31 @@ async function showUserInfo() {
 			container.appendChild(row);
 
 			if (!dataInformation.error) {
-				row.appendChild(doc.new({
-					type: "div",
-					class: "tt-userinfo-field--last_action",
-					text: `Last Action: ${dataInformation.members[userId].last_action.relative}`,
-					attributes: { "last-action": ((new Date() - dataInformation.members[userId].last_action.timestamp * 1000) / 1000).toFixed(0) },
-				}));
+				row.appendChild(
+					doc.new({
+						type: "div",
+						class: "tt-userinfo-field--last_action",
+						text: `Last Action: ${dataInformation.members[userId].last_action.relative}`,
+						attributes: { "last-action": ((new Date() - dataInformation.members[userId].last_action.timestamp * 1000) / 1000).toFixed(0) },
+					})
+				);
 
 				if (dataInformation.donations && dataInformation.donations[userId]) {
 					if (dataInformation.donations[userId].money_balance > 0) {
-						row.appendChild(doc.new({
-							type: "div",
-							text: `Money Balance: $${numberWithCommas(dataInformation.donations[userId].money_balance, false)}`,
-						}));
+						row.appendChild(
+							doc.new({
+								type: "div",
+								text: `Money Balance: $${numberWithCommas(dataInformation.donations[userId].money_balance, false)}`,
+							})
+						);
 					}
 					if (dataInformation.donations[userId].points_balance > 0) {
-						row.appendChild(doc.new({
-							type: "div",
-							text: `Point Balance: ${numberWithCommas(dataInformation.donations[userId].points_balance, false)}`,
-						}));
+						row.appendChild(
+							doc.new({
+								type: "div",
+								text: `Point Balance: ${numberWithCommas(dataInformation.donations[userId].points_balance, false)}`,
+							})
+						);
 					}
 				}
 
@@ -608,12 +612,14 @@ async function showUserInfo() {
 
 				if (error === "Incorrect ID-entity relation") error = "No API access.";
 
-				container.appendChild(doc.new({
-					type: "div",
-					class: "tt-userinfo-message",
-					text: error,
-					attributes: { color: "error" },
-				}));
+				container.appendChild(
+					doc.new({
+						type: "div",
+						class: "tt-userinfo-message",
+						text: error,
+						attributes: { color: "error" },
+					})
+				);
 			}
 		}
 
@@ -631,23 +637,27 @@ async function showUserInfo() {
 
 			loadingPlaceholder(row, true);
 			estimateStats(userId, false, estimateCount, level)
-				.then((result => {
+				.then((result) => {
 					loadingPlaceholder(row, false);
-					row.appendChild(doc.new({
-						type: "span",
-						text: `Stat Estimate: ${result.estimate}`,
-					}));
-				}))
+					row.appendChild(
+						doc.new({
+							type: "span",
+							text: `Stat Estimate: ${result.estimate}`,
+						})
+					);
+				})
 				.catch((error) => {
 					loadingPlaceholder(row, false);
 
 					if (error.show) {
-						row.appendChild(doc.new({
-							type: "span",
-							class: "tt-userinfo-message",
-							text: error.message,
-							attributes: { color: "error" },
-						}));
+						row.appendChild(
+							doc.new({
+								type: "span",
+								class: "tt-userinfo-message",
+								text: error.message,
+								attributes: { color: "error" },
+							})
+						);
 					} else {
 						row.remove();
 						if (container.children.length === 0) container.remove();
@@ -674,10 +684,11 @@ function showAvailablePlayers() {
 	display(count);
 
 	function display(number) {
-		doc.find("#faction-crimes").insertBefore(doc.new({
-			type: "div",
-			class: "info-msg-cont border-round m-top10",
-			html: `
+		doc.find("#faction-crimes").insertBefore(
+			doc.new({
+				type: "div",
+				class: "info-msg-cont border-round m-top10",
+				html: `
 				<div class="info-msg border-round">
 					<i class="info-icon"></i>
 					<div class="delimiter">
@@ -687,7 +698,9 @@ function showAvailablePlayers() {
 					</div>
 				</div>
 			`,
-		}), doc.find("#faction-crimes").firstElementChild);
+			}),
+			doc.find("#faction-crimes").firstElementChild
+		);
 	}
 }
 
@@ -716,7 +729,7 @@ function showRecommendedNNB() {
 }
 
 function drugInfo() {
-	let item_info_container_mutation = new MutationObserver(mutations => {
+	let item_info_container_mutation = new MutationObserver((mutations) => {
 		for (let mutation of mutations) {
 			if (mutation.target.classList.contains("view-item-info") && (mutation.addedNodes.length > 0 || mutation.attributeName === "style")) {
 				let el = mutation.target;
@@ -826,11 +839,13 @@ function itemInfoLoaded(element) {
 }
 
 function addFilterToTable(list, title) {
-	let filter_container = content.newContainer("Filters", {
-		id: "tt-player-filter",
-		class: "filter-container",
-		next_element: title,
-	}).find(".content");
+	let filter_container = content
+		.newContainer("Filters", {
+			id: "tt-player-filter",
+			class: "filter-container",
+			next_element: title,
+		})
+		.find(".content");
 
 	filter_container.innerHTML = `
         <div class="filter-header">
@@ -947,8 +962,8 @@ function addFilterToTable(list, title) {
 	});
 
 	let level_slider_info = level_slider.nextElementSibling;
-	level_slider.noUiSlider.on("update", values => {
-		values = values.map(x => parseInt(x));
+	level_slider.noUiSlider.on("update", (values) => {
+		values = values.map((x) => parseInt(x));
 		level_slider_info.innerHTML = `Level: ${values.join(" - ")}`;
 	});
 
@@ -965,8 +980,8 @@ function addFilterToTable(list, title) {
 	});
 
 	let last_action_slider_info = last_action_slider.nextElementSibling;
-	last_action_slider.noUiSlider.on("update", values => {
-		values = values.map(x => (timeUntil(parseFloat(x) * 60 * 60 * 1000, { max_unit: "h", hide_nulls: true })));
+	last_action_slider.noUiSlider.on("update", (values) => {
+		values = values.map((x) => timeUntil(parseFloat(x) * 60 * 60 * 1000, { max_unit: "h", hide_nulls: true }));
 		last_action_slider_info.innerHTML = `Min Hours: ${values.join(" - ")}`;
 	});
 
@@ -977,12 +992,14 @@ function addFilterToTable(list, title) {
 	for (let dropdown of filter_container.findAll("select")) {
 		dropdown.onchange = applyFilters;
 	}
-	let filter_observer = new MutationObserver(mutations => {
+	let filter_observer = new MutationObserver((mutations) => {
 		for (let mutation of mutations) {
-			if (mutation.type === "attributes"
-				&& mutation.target.classList
-				&& mutation.attributeName === "aria-valuenow"
-				&& (mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))) {
+			if (
+				mutation.type === "attributes" &&
+				mutation.target.classList &&
+				mutation.attributeName === "aria-valuenow" &&
+				(mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))
+			) {
 				applyFilters();
 			}
 		}
@@ -990,7 +1007,7 @@ function addFilterToTable(list, title) {
 	filter_observer.observe(filter_container, { attributes: true, subtree: true });
 
 	// Page changing
-	doc.addEventListener("click", event => {
+	doc.addEventListener("click", (event) => {
 		if (event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, { class: "gallery-wrapper" })) {
 			console.log("click");
 			setTimeout(() => {
@@ -1027,7 +1044,11 @@ function addFilterToTable(list, title) {
 			for (let row of doc.findAll("#faction-info-members .table-body>.table-row")) {
 				if (row.style.display === "none" && row.nextElementSibling && row.nextElementSibling.classList.contains("tt-user-info")) {
 					row.classList.add("filter-hidden");
-				} else if ((row.style.display === "flex" || row.style.display === "") && row.nextElementSibling && row.nextElementSibling.classList.contains("tt-user-info")) {
+				} else if (
+					(row.style.display === "flex" || row.style.display === "") &&
+					row.nextElementSibling &&
+					row.nextElementSibling.classList.contains("tt-user-info")
+				) {
 					row.classList.remove("filter-hidden");
 				}
 			}
@@ -1053,7 +1074,10 @@ function addFilterToTable(list, title) {
 		}
 		// Special
 		for (let key in filters.faction.special) {
-			if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked && doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked) {
+			if (
+				doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked &&
+				doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked
+			) {
 				special[key] = "both";
 			} else if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked) {
 				special[key] = "yes";
@@ -1072,7 +1096,7 @@ function addFilterToTable(list, title) {
 		level.push(parseInt(doc.find("#level-filter .noUi-handle-lower").getAttribute("aria-valuenow")));
 		level.push(parseInt(doc.find("#level-filter .noUi-handle-upper").getAttribute("aria-valuenow")));
 		// Last Action
-		last_action.push(parseInt(doc.find("#last-action-filter .noUi-handle-lower").getAttribute("aria-valuenow")) * 60 * 60);  // convert to seconds
+		last_action.push(parseInt(doc.find("#last-action-filter .noUi-handle-lower").getAttribute("aria-valuenow")) * 60 * 60); // convert to seconds
 		// last_action.push(parseInt(doc.find("#last-action-filter .noUi-handle-upper").getAttribute("aria-valuenow"))*60*60);  // convert to seconds
 
 		// console.log("Activity", activity);
@@ -1102,7 +1126,11 @@ function addFilterToTable(list, title) {
 			// Last Action
 			if (settings.pages.faction.member_info && ownFaction) {
 				let player_last_action = "N/A";
-				if (li.nextElementSibling && li.nextElementSibling.find(".tt-userinfo-field--last_action") && li.nextElementSibling.find(".tt-userinfo-field--last_action").getAttribute("last-action")) {
+				if (
+					li.nextElementSibling &&
+					li.nextElementSibling.find(".tt-userinfo-field--last_action") &&
+					li.nextElementSibling.find(".tt-userinfo-field--last_action").getAttribute("last-action")
+				) {
 					player_last_action = parseInt(li.nextElementSibling.find(".tt-userinfo-field--last_action").getAttribute("last-action"));
 				}
 				if (player_last_action !== "N/A" && !(last_action[0] <= player_last_action)) {
@@ -1186,12 +1214,18 @@ function addFilterToTable(list, title) {
 	function showRow(row, show = true) {
 		if (show) {
 			row.classList.remove("filter-hidden");
-			if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container"))) {
+			if (
+				row.nextElementSibling &&
+				(row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container"))
+			) {
 				row.nextElementSibling.classList.remove("filter-hidden");
 			}
 		} else {
 			row.classList.add("filter-hidden");
-			if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container"))) {
+			if (
+				row.nextElementSibling &&
+				(row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container"))
+			) {
 				row.nextElementSibling.classList.add("filter-hidden");
 			}
 		}
@@ -1200,12 +1234,14 @@ function addFilterToTable(list, title) {
 	function updateStatistics() {
 		const users = [...list.findAll(":scope>li:not(.tt-user-info)")];
 
-		doc.find(".statistic#showing .filter-count").innerText = users.filter(x => (!x.classList.contains("filter-hidden"))).length;
+		doc.find(".statistic#showing .filter-count").innerText = users.filter((x) => !x.classList.contains("filter-hidden")).length;
 		doc.find(".statistic#showing .filter-total").innerText = users.length;
 	}
 
 	function populateFactions() {
-		let faction_tags = [...list.findAll(":scope>li")].map(x => (x.find(".user.faction img") ? x.find(".user.faction img").getAttribute("title") : "")).filter(x => x !== "");
+		let faction_tags = [...list.findAll(":scope>li")]
+			.map((x) => (x.find(".user.faction img") ? x.find(".user.faction img").getAttribute("title") : ""))
+			.filter((x) => x !== "");
 
 		for (let tag of faction_tags) {
 			if (filter_container.find(`#tt-faction-filter option[value='${tag}']`)) continue;
@@ -1224,7 +1260,11 @@ function armoryFilter() {
 		all_rounded: true,
 	});
 
-	if (!["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))) {
+	if (
+		!["weapons", "armour"].includes(
+			doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
+		)
+	) {
 		armory_filter.classList.add("filter-hidden");
 	}
 
@@ -1249,7 +1289,11 @@ function armoryFilter() {
 		}
 	} else {
 		doc.find(".armoury-drop-list select#armour-nav-list").addEventListener("change", () => {
-			if (["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))) {
+			if (
+				["weapons", "armour"].includes(
+					doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
+				)
+			) {
 				console.log("filter tab");
 				if (doc.find("#ttArmoryFilter")) {
 					doc.find("#ttArmoryFilter").classList.remove("filter-hidden");
@@ -1280,12 +1324,16 @@ function armoryFilter() {
 
 	armoryItemsLoaded().then(filter);
 
-	let items_added_observer = new MutationObserver(mutations => {
+	let items_added_observer = new MutationObserver((mutations) => {
 		for (let mutation of mutations) {
 			if (mutation.type === "childList" && mutation.addedNodes[0]) {
 				for (let added_node of mutation.addedNodes) {
 					if (added_node.classList && added_node.classList.contains("item-list")) {
-						if (["weapons", "armour"].includes(doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", ""))) {
+						if (
+							["weapons", "armour"].includes(
+								doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
+							)
+						) {
 							console.log("items added");
 							filter();
 						}
@@ -1329,10 +1377,12 @@ function highlightBloodBags() {
 	if (section === "medical") highlight();
 
 	new MutationObserver((mutations) => {
-		if (!mutations
-			.filter((mut) => mut.type === "childList" && mut.addedNodes.length)
-			.flatMap((mut) => Array.from(mut.addedNodes))
-			.some((node) => node.classList && node.classList.contains("item-list")))
+		if (
+			!mutations
+				.filter((mut) => mut.type === "childList" && mut.addedNodes.length)
+				.flatMap((mut) => Array.from(mut.addedNodes))
+				.some((node) => node.classList && node.classList.contains("item-list"))
+		)
 			return;
 
 		const section = doc.find("ul[aria-label='faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
@@ -1358,10 +1408,8 @@ function highlightBloodBags() {
 
 			let bloodId = item.find(".img-wrap").getAttribute("data-id");
 
-			if (allowedBlood.includes(parseInt(bloodId)))
-				classes.add("tt-good_blood");
-			else
-				classes.add("tt-bad_blood");
+			if (allowedBlood.includes(parseInt(bloodId))) classes.add("tt-good_blood");
+			else classes.add("tt-bad_blood");
 
 			//Add blood bag value
 			let price = itemlist.items[bloodId].market_value;
@@ -1383,7 +1431,7 @@ function armoryItemsLoaded() {
 }
 
 function memberInfoAdded() {
-	return new Promise(resolve => {
+	return new Promise((resolve) => {
 		let checker = setInterval(() => {
 			if (member_info_added) {
 				resolve(true);
@@ -1436,7 +1484,9 @@ function observeDescription() {
 			}
 
 			return {
-				userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1],
+				userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(
+					/.* \[([0-9]*)]/i
+				)[1],
 				level: parseInt(row.find(".level").innerText),
 			};
 		});
@@ -1455,7 +1505,9 @@ function observeDescription() {
 
 				for (let node of mutation.addedNodes) {
 					if (node && node.classList && (node.classList.contains("your") || node.classList.contains("enemy"))) {
-						const userId = (node.find("a.user.name").getAttribute("data-placeholder") || node.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1];
+						const userId = (
+							node.find("a.user.name").getAttribute("data-placeholder") || node.find("a.user.name > span").getAttribute("title")
+						).match(/.* \[([0-9]*)]/i)[1];
 						const level = parseInt(node.find(".level").innerText);
 
 						const container = doc.new({ type: "li", class: "tt-userinfo-container" });
@@ -1468,23 +1520,27 @@ function observeDescription() {
 
 						loadingPlaceholder(row, true);
 						estimateStats(userId, false, estimateCount, level)
-							.then((result => {
+							.then((result) => {
 								loadingPlaceholder(row, false);
-								row.appendChild(doc.new({
-									type: "span",
-									text: `Stat Estimate: ${result.estimate}`,
-								}));
-							}))
+								row.appendChild(
+									doc.new({
+										type: "span",
+										text: `Stat Estimate: ${result.estimate}`,
+									})
+								);
+							})
 							.catch((error) => {
 								loadingPlaceholder(row, false);
 
 								if (error.show) {
-									row.appendChild(doc.new({
-										type: "span",
-										class: "tt-userinfo-message",
-										text: error.message,
-										attributes: { color: "error" },
-									}));
+									row.appendChild(
+										doc.new({
+											type: "span",
+											class: "tt-userinfo-message",
+											text: error.message,
+											attributes: { color: "error" },
+										})
+									);
 								} else {
 									row.remove();
 									if (container.children.length === 0) container.remove();

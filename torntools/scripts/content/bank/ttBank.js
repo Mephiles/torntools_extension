@@ -6,7 +6,7 @@ requireDatabase().then(() => {
 
 async function showTable() {
 	const result = (await fetchApi_v2("torn", { section: "torn", selections: "bank" })).bank;
-	const balance = 2E9;
+	const balance = 2e9;
 
 	const values = {
 		w1: getValue("1w", balance),
@@ -71,10 +71,12 @@ async function showTable() {
 	}
 	html += "</tbody></table>";
 
-	content.newContainer("Banking Investment", {
-		id: "ttBank",
-		adjacent_element: doc.find(".content-wrapper > .delimiter-999"),
-	}).find(".content").innerHTML = html;
+	content
+		.newContainer("Banking Investment", {
+			id: "ttBank",
+			adjacent_element: doc.find(".content-wrapper > .delimiter-999"),
+		})
+		.find(".content").innerHTML = html;
 
 	function getValue(period, balance) {
 		const DAYS = { "1w": 7, "2w": 14, "1m": 30, "2m": 60, "3m": 90 };
@@ -89,11 +91,11 @@ async function showTable() {
 
 		function calc(baseRate, boost = 1) {
 			const apr = baseRate * boost;
-			const profitRate = apr / 365 * DAYS[period];
+			const profitRate = (apr / 365) * DAYS[period];
 
 			return {
 				total: profitRate.toFixed(4) * balance,
-				daily: profitRate.toFixed(4) * balance / DAYS[period],
+				daily: (profitRate.toFixed(4) * balance) / DAYS[period],
 				apr: apr * 100,
 				profitRate: profitRate * 100,
 			};
