@@ -60,7 +60,7 @@ const ttStorage = new (class {
 
 			await this.clear();
 			await this.set(DEFAULT_STORAGE);
-			await this.set("api_key", apiKey);
+			await this.set({ api_key: apiKey });
 
 			console.log("Storage cleared");
 			console.log("New storage", await this.get());
