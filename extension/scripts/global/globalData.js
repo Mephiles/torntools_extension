@@ -79,6 +79,7 @@ const DEFAULT_STORAGE = {
 				alignLeft: true,
 				hideLevelUpgrade: true,
 				hideQuitButtons: true,
+				miniProfileLastAction: true,
 				nukeRevive: true,
 			},
 			chat: {
