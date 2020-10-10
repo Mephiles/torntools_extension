@@ -25,7 +25,7 @@ function loadGlobalEntry() {
 
 	// clean flight
 
-	document.documentElement.style.setProperty("--torntools-chat-font-size", `${settings.pages.global.fontSize || 12}px`);
+	document.documentElement.style.setProperty("--torntools-chat-font-size", `${settings.pages.chat.fontSize || 12}px`);
 
 	// mobile check
 }
