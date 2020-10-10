@@ -179,3 +179,12 @@ function requireElement(selector, attributes) {
 function requireSidebar() {
 	return requireElement("#sidebar");
 }
+
+function hasParent(element, attributes = {}) {
+	if (!element.parentElement) return false;
+
+	if (attributes.class && element.parentElement.classList.contains(attributes.class)) return true;
+	if (attributes.id && element.parentElement.id === attributes.id) return true;
+
+	return hasParent(element.parentElement, attributes);
+}

@@ -1,4 +1,9 @@
 export default {
+	"v6.0.0 - Rewrite": {
+		Features: ["Live update settings. - DKK"],
+		Fixes: ["Hide new chat messages while searching. - DKK"],
+		Changes: ["Rewrite core system. - DKK"],
+	},
 	"v5.2 - xxxxxxx, xxth. 2020": {
 		Features: [],
 		Fixes: [],
