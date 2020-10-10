@@ -2,20 +2,20 @@
 	await loadDatabase();
 	console.log("TT: Global Entry - Loading script. ");
 
-	storageListeners.settings.push(loadEntry);
+	storageListeners.settings.push(loadGlobalEntry);
 
-	loadEntry();
+	loadGlobalEntry();
 
 	console.log("TT: Global Entry - Script loaded.");
 })();
 
-function loadEntry() {
+function loadGlobalEntry() {
 	if (settings.pages.global.alignLeft) document.documentElement.classList.add("tt-align-left");
 	else document.documentElement.classList.remove("tt-align-left");
 
-	// hide upgrade button
+	// TODO - Hide level upgrade button
 
-	// hide quit/leave options
+	// TODO - Hide quit and leave buttons.
 
 	// hide icons
 
