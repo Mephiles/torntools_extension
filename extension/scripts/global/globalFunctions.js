@@ -119,3 +119,59 @@ function rotateElement(element, degrees) {
 		element.style.transform = `rotate(${newRotation}deg)`;
 	}, 1);
 }
+
+function requireCondition(condition, attributes = {}) {
+	attributes = {
+		delay: 10,
+		maxCycles: -1,
+		...attributes,
+	};
+
+	return new Promise((resolve, reject) => {
+		if (checkCondition()) return;
+
+		let counter = 0;
+		let checker = setInterval(() => {
+			if (checkCounter(counter++) || checkCondition()) return clearInterval(checker);
+		}, attributes.delay);
+
+		function checkCondition() {
+			let response = condition();
+			if (!response) return;
+
+			if (typeof response === "boolean") {
+				if (response) return resolve();
+			} else if (typeof response === "object") {
+				if (response.success === true) resolve(response.value);
+				else reject(response.value);
+			}
+		}
+
+		function checkCounter(count) {
+			if (attributes.maxCycles <= 0) return false;
+
+			if (count <= attributes.maxCycles) {
+				reject("Maximum cycles reached.");
+				return true;
+			}
+			return false;
+		}
+	});
+}
+
+function requireElement(selector, attributes) {
+	attributes = {
+		invert: false,
+		parent: document,
+		...attributes,
+	};
+
+	return requireCondition(
+		() => (attributes.invert && !attributes.parent.find(selector)) || (!attributes.invert && attributes.parent.find(selector)),
+		attributes
+	);
+}
+
+function requireSidebar() {
+	return requireElement("#sidebar");
+}
