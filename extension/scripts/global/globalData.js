@@ -72,9 +72,12 @@ const ttStorage = new (class {
 
 const DEFAULT_STORAGE = {
 	settings: {
+		updateNotice: true,
+		developer: false,
 		pages: {
 			global: {
 				alignLeft: false,
+				fontSize: 12,
 			},
 		},
 	},

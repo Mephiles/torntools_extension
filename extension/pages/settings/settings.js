@@ -123,6 +123,8 @@ function setupChangelog() {
 async function setupPreferences() {
 	await loadDatabase();
 
+	const _preferences = document.find("#preferences");
+
 	const showAdvancedIcon = document.find("#preferences-show_advanced");
 	showAdvanced(filters.preferences.showAdvanced);
 	showAdvancedIcon.addEventListener("click", async () => {
@@ -132,18 +134,20 @@ async function setupPreferences() {
 		await ttStorage.change({ filters: { preferences: { showAdvanced: newStatus } } });
 	});
 
-	for (let link of document.findAll("#preferences > section > nav ul > li[name]")) {
+	for (let link of _preferences.findAll(":scope > section > nav ul > li[name]")) {
 		link.addEventListener("click", () => {
-			document.find("#preferences > section > nav ul li[name].active").classList.remove("active");
-			document.find("#preferences > section > .sections > section.active").classList.remove("active");
+			_preferences.find(":scope > section > nav ul li[name].active").classList.remove("active");
+			_preferences.find(":scope > section > .sections > section.active").classList.remove("active");
 
 			link.classList.add("active");
-			document.find(`#preferences > section > .sections > section[name="${link.getAttribute("name")}"]`).classList.add("active");
+			_preferences.find(`:scope > section > .sections > section[name="${link.getAttribute("name")}"]`).classList.add("active");
 		});
 	}
 
+	fillSettings();
+
 	function showAdvanced(advanced) {
-		const settings = document.findAll("#preferences .sections > section > .option.advanced");
+		const settings = _preferences.findAll(".sections > section > .option.advanced");
 		if (advanced) {
 			for (let advancedSetting of settings) advancedSetting.classList.remove("hidden");
 
@@ -156,6 +160,50 @@ async function setupPreferences() {
 			showAdvancedIcon.classList.remove("fa-eye-slash");
 			showAdvancedIcon.classList.add("fa-eye");
 			showAdvancedIcon.find(".tooltip-text").innerText = "Show advanced options.";
+		}
+	}
+
+	function fillSettings() {
+		for (let setting of ["updateNotice", "developer"]) {
+			const checkbox = _preferences.find(`#${setting}`);
+			if (!checkbox) continue;
+
+			checkbox.checked = settings[setting];
+		}
+
+		for (let type of ["pages"]) {
+			for (let page in settings[type]) {
+				const isGlobalDisabled = settings[type][page].global === false;
+
+				for (let setting in settings[type][page]) {
+					const input = _preferences.find(`#${page}-${setting}`);
+					if (!input) continue;
+
+					if (setting === "global") {
+						input.addEventListener("change", (event) => {
+							const isGlobalDisabled = !event.target.checked;
+
+							for (let setting in settings[type][page]) {
+								if (setting === "global") continue;
+
+								const input = _preferences.find(`#${page}-${setting}`);
+								if (!input) continue;
+
+								if (isGlobalDisabled) input.createAttribute("disabled");
+								else input.removeAttribute("disabled");
+							}
+						});
+					} else if (isGlobalDisabled) input.createAttribute("disabled");
+
+					const value = settings[type][page][setting];
+					if (input.tagName === "INPUT") {
+						const inputType = input.getAttribute("type");
+
+						if (inputType === "checkbox") input.checked = value;
+						else input.value = value;
+					}
+				}
+			}
 		}
 	}
 }

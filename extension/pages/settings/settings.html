@@ -1,145 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TornTools 2 - Settings</title>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>TornTools 2 - Settings</title>
 
-    <link rel="stylesheet" href="../../vendor/fontawesome/fontawesome.css">
+		<link rel="stylesheet" href="../../vendor/fontawesome/fontawesome.css" />
 
-    <link rel="stylesheet" href="settings.css">
-</head>
-<body>
-    <header>
-        <nav class="on-page">
-            <ul>
-                <li to="changelog">Changelog</li>
-                <li to="preferences">Preferences</li>
-                <li to="api_info">API Info</li>
-                <li to="remote">Remote</li>
-                <li to="about">About</li>
-            </ul>
-        </nav>
-        <div class="divider"></div>
-        <nav>
-            <ul>
-                <li><a href="../targets/targets.html">Targets</a></li>
-            </ul>
-        </nav>
-    </header>
+		<link rel="stylesheet" href="settings.css" />
+	</head>
+	<body>
+		<header>
+			<nav class="on-page">
+				<ul>
+					<li to="changelog">Changelog</li>
+					<li to="preferences">Preferences</li>
+					<li to="api_info">API Info</li>
+					<li to="remote">Remote</li>
+					<li to="about">About</li>
+				</ul>
+			</nav>
+			<div class="divider"></div>
+			<nav>
+				<ul>
+					<li><a href="../targets/targets.html">Targets</a></li>
+				</ul>
+			</nav>
+		</header>
 
-    <main id="changelog">
-        <h2>Changelog</h2>
-        <section class="center">
-            <div class="header contributors"></div>
-        </section>
-    </main>
-    <main id="preferences">
-        <h2>
-            Preferences&nbsp;-&nbsp;
-            <i id="preferences-show_advanced" class="tooltip fas"><span class="tooltip-text"></span></i>
-        </h2>
-        <section>
-            <nav>
-                <ul>
-                    <li name="general" class="active">General</li>
-                    <li name="global">Global</li>
-                    <li name="chat">Chat</li>
-                    <li>Sidebar</li>
-                    <li>Popup</li>
-                    <li>Notifications</li>
-                    <li>Other</li>
+		<main id="changelog">
+			<h2>Changelog</h2>
+			<section class="center">
+				<div class="header contributors"></div>
+			</section>
+		</main>
+		<main id="preferences">
+			<h2>
+				Preferences&nbsp;-&nbsp;
+				<i id="preferences-show_advanced" class="tooltip fas"><span class="tooltip-text"></span></i>
+			</h2>
+			<section>
+				<nav>
+					<ul>
+						<li name="general" class="active">General</li>
+						<li name="global">Global</li>
+						<li name="chat">Chat</li>
+						<li>Sidebar</li>
+						<li>Popup</li>
+						<li>Notifications</li>
+						<li>Other</li>
 
-                    <li class="header">Pages</li>
-                    <li>Home</li>
-                    <li>Items</li>
-                    <li>City</li>
-                    <li>Job</li>
-                    <li>Gym</li>
-                    <li>Properties</li>
-                    <!-- <li>Education</li> -->
-                    <!-- <li>Crimes</li> -->
-                    <!-- <li>Missions</li> -->
-                    <!-- <li>Newspaper</li> -->
-                    <!-- <li>Jail</li> -->
-                    <!-- <li>Hospital</li> -->
-                    <li>Casino</li>
-                    <!-- <li>Forums</li> -->
-                    <!-- <li>Hall of Fame</li> -->
-                    <li>Faction</li>
-                    <!-- <li>Recruit</li> -->
-                    <!-- <li>Competitions</li> -->
-                    <li>Profile</li>
-                    <li>Stock Exchange</li>
-                    <li>Travel</li>
-                    <li>Trade</li>
-                    <li>Raceway</li>
-                    <li>Stores</li>
-                    <li>Item Market</li>
-                    <li>API</li>
+						<li class="header">Pages</li>
+						<li>Home</li>
+						<li>Items</li>
+						<li>City</li>
+						<li>Job</li>
+						<li>Gym</li>
+						<li>Properties</li>
+						<!-- <li>Education</li> -->
+						<!-- <li>Crimes</li> -->
+						<!-- <li>Missions</li> -->
+						<!-- <li>Newspaper</li> -->
+						<!-- <li>Jail</li> -->
+						<!-- <li>Hospital</li> -->
+						<li>Casino</li>
+						<!-- <li>Forums</li> -->
+						<!-- <li>Hall of Fame</li> -->
+						<li>Faction</li>
+						<!-- <li>Recruit</li> -->
+						<!-- <li>Competitions</li> -->
+						<li>Profile</li>
+						<li>Stock Exchange</li>
+						<li>Travel</li>
+						<li>Trade</li>
+						<li>Raceway</li>
+						<li>Stores</li>
+						<li>Item Market</li>
+						<li>API</li>
 
-                    <li class="header">Scripts</li>
-                    <li>Achievements</li>
-                    <li>No Confirm</li>
-                    <li>Stats Estimate</li>
-                </ul>
-            </nav>
+						<li class="header">Scripts</li>
+						<li>Achievements</li>
+						<li>No Confirm</li>
+						<li>Stats Estimate</li>
+					</ul>
+				</nav>
 
-            <div class="sections">
-                <section class="active" name="general">
-                    <div class="header">General</div>
-                    <div class="option">
-                        <input id="update_notice" type="checkbox"/>
-                        <label for="update_notice">Show update notice.</label>
-                    </div>
-                    <div class="option advanced hidden">
-                        <input id="developer" type="checkbox"/>
-                        <label for="developer">Enable developer features.</label>
-                    </div>
+				<div class="sections">
+					<section class="active" name="general">
+						<div class="header">General</div>
+						<div class="option">
+							<input id="updateNotice" type="checkbox" />
+							<label for="updateNotice">Show update notice.</label>
+						</div>
+						<div class="option advanced hidden">
+							<input id="developer" type="checkbox" />
+							<label for="developer">Enable developer features.</label>
+						</div>
 
-                    <div class="header wip">Theme</div>
+						<div class="header wip">Theme</div>
 
-                    <div class="header wip">Date</div>
+						<div class="header wip">Date</div>
 
-                    <div class="header wip">Time</div>
-                </section>
-                <section name="global">
-                    <div class="header">Global</div>
-                </section>
-                <section name="chat">
-                    <div class="header">Chat</div>
+						<div class="header wip">Time</div>
+					</section>
+					<section name="global">
+						<div class="header">Global</div>
 
-                    <div class="option">
-                        <label for="font_size">Chat font size:</label>
-                        <input id="font_size" type="number" min="6" max="24"/>
-                    </div>
-                </section>
-            </div>
-        </section>
-    </main>
-    <main id="api_info">
-        <h2>API Info</h2>
-        <section>
-            <h4>WIP</h4>
-        </section>
-    </main>
-    <main id="remote">
-        <h2>Remote</h2>
-        <section>
-            <h4>WIP</h4>
-        </section>
-    </main>
-    <main id="about">
-        <h2>About</h2>
-        <section>
-            <h4>WIP</h4>
-        </section>
-    </main>
+						<div class="option">
+							<input id="global-alignLeft" type="checkbox" />
+							<label for="global-alignLeft">Align Torn to the left.</label>
+						</div>
+					</section>
+					<section name="chat">
+						<div class="header">Chat</div>
 
-    <!-- <script src="../changelog.js"></script> -->
-    <script src="../../scripts/global/globalData.js"></script>
-    <script src="../../scripts/global/globalFunctions.js"></script>
-    <script src="../../scripts/global/globalDatabase.js"></script>
-    <script type="module" src="./settings.js"></script>
-</body>
+						<div class="option">
+							<label for="global-fontSize">Chat font size:</label>
+							<input id="global-fontSize" type="number" min="6" max="24" />
+						</div>
+					</section>
+				</div>
+			</section>
+		</main>
+		<main id="api_info">
+			<h2>API Info</h2>
+			<section>
+				<h4>WIP</h4>
+			</section>
+		</main>
+		<main id="remote">
+			<h2>Remote</h2>
+			<section>
+				<h4>WIP</h4>
+			</section>
+		</main>
+		<main id="about">
+			<h2>About</h2>
+			<section>
+				<h4>WIP</h4>
+			</section>
+		</main>
+
+		<!-- <script src="../changelog.js"></script> -->
+		<script src="../../scripts/global/globalData.js"></script>
+		<script src="../../scripts/global/globalFunctions.js"></script>
+		<script src="../../scripts/global/globalDatabase.js"></script>
+		<script type="module" src="./settings.js"></script>
+	</body>
 </html>

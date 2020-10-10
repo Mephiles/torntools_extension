@@ -1,3 +1,8 @@
-.tt-align-left .d .container, .tt-align-left .d .header-wrapper-top .container {
-    margin-left: 20px;
+.tt-align-left .d .container,
+.tt-align-left .d .header-wrapper-top .container {
+	margin-left: 20px;
+}
+
+.overview_1MoPG .message_oP8oM * {
+	font-size: var(--torntools-chat-font-size) !important;
 }
