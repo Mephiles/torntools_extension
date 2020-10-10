@@ -40,7 +40,7 @@ function setupChangelog() {
 	const contributorList = document.find("#changelog .contributors");
 	for (let c in CONTRIBUTORS) {
 		contributorList.appendChild(
-			document.new({
+			document.newElement({
 				type: "div",
 				class: `contributor ${c.toLowerCase()}`,
 				html: `
@@ -58,17 +58,17 @@ function setupChangelog() {
 		const title = key.split(" - ")[1] ? " - " + key.split(" - ")[1] : "";
 		const version = key.split(" - ")[0];
 
-		let div = document.new({ type: "div", class: "parent" });
+		let div = document.newElement({ type: "div", class: "parent" });
 
 		// Heading
-		let heading = document.new({ type: "div", class: "heading", text: version });
-		let icon = document.new({ type: "i", class: "fas fa-chevron-down" });
-		heading.appendChild(document.new({ type: "span", text: title }));
+		let heading = document.newElement({ type: "div", class: "heading", text: version });
+		let icon = document.newElement({ type: "i", class: "fas fa-chevron-down" });
+		heading.appendChild(document.newElement({ type: "span", text: title }));
 		heading.appendChild(icon);
 		div.appendChild(heading);
 
 		// Closeable
-		let closeable = document.new({ type: "div", class: "closable hidden" });
+		let closeable = document.newElement({ type: "div", class: "closable hidden" });
 		heading.addEventListener("click", () => {
 			if (closeable.classList.contains("hidden")) closeable.classList.remove("hidden");
 			else closeable.classList.add("hidden");
@@ -78,7 +78,7 @@ function setupChangelog() {
 
 		// Content
 		for (let title in changelog[key]) {
-			const parent = document.new({ type: "div", class: "parent", children: [document.new({ type: "div", class: "heading", text: title })] });
+			const parent = document.newElement({ type: "div", class: "parent", children: [document.newElement({ type: "div", class: "heading", text: title })] });
 
 			for (let item of changelog[key][title]) {
 				let contributor;
@@ -92,10 +92,10 @@ function setupChangelog() {
 				}
 
 				parent.appendChild(
-					document.new({
+					document.newElement({
 						type: "div",
 						class: `child ${contributor ? `contributor ${contributor}` : ""}`,
-						children: [document.new({ type: "span", text: item })],
+						children: [document.newElement({ type: "span", text: item })],
 					})
 				);
 			}
@@ -104,7 +104,7 @@ function setupChangelog() {
 		}
 
 		// Bottom border on last element
-		if (version === "v3") closeable.appendChild(document.new("hr"));
+		if (version === "v3") closeable.appendChild(document.newElement("hr"));
 
 		// Finish
 		div.appendChild(closeable);
@@ -117,7 +117,7 @@ function setupChangelog() {
 	}
 
 	// Ending words
-	content.appendChild(document.new({ type: "p", text: "The rest is history..", style: { textAlign: "center" } }));
+	content.appendChild(document.newElement({ type: "p", text: "The rest is history..", style: { textAlign: "center" } }));
 }
 
 async function setupPreferences() {

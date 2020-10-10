@@ -45,7 +45,7 @@ Element.prototype.setClass = function (className) {
 	return this.setAttribute("class", className);
 };
 
-Document.prototype.new = function (options) {
+Document.prototype.newElement = function (options) {
 	if (typeof options == "string") {
 		return this.createElement(options);
 	} else if (typeof options == "object") {
