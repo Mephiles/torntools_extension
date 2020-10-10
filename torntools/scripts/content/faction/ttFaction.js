@@ -1586,7 +1586,7 @@ function showFactionBalance() {
 	}
 
 	if (alreadyShown) {
-		alreadyShown.find(".money").innerText = FORMATTER_NO_DECIMALS.format(balance);
+		alreadyShown.find(".money").innerText = FORMATTER_NO_DECIMALS.format(balanceFaction - balancePlayers);
 	} else {
 		const row = doc.new({ type: "li", class: "depositor tt-modified" });
 

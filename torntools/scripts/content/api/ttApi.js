@@ -276,7 +276,7 @@ function loadResponses(type, response, modifiedSection, level, skipFirstLine, se
 						showText({
 							value: item,
 							level: level + 1,
-							isLt,
+							isLast,
 						});
 					}
 				}

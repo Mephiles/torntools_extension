@@ -105,7 +105,7 @@ requireDatabase().then(() => {
 											doc.new({
 												type: "div",
 												class: "t-red bold item-effect tabbed",
-												text: f,
+												text: eff,
 											})
 										);
 									}
@@ -147,7 +147,7 @@ requireDatabase().then(() => {
 												doc.new({
 													type: "div",
 													class: "t-red bold item-effect double-tabbed",
-													text: bar_e,
+													text: bar_eff,
 												})
 											);
 										}
