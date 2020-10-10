@@ -4,5 +4,9 @@
 }
 
 .overview_1MoPG .message_oP8oM * {
-	font-size: var(--torntools-chat-font-size) !important;
+	font-size: var(--torntools-chat-font-size, 12px) !important;
+}
+
+.quit-job {
+	display: var(--torntools-hide-leave-button, initial) !important;
 }
