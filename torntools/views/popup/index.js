@@ -455,12 +455,12 @@ function mainStocks() {
 		let heading = doc.new({
 			type: "div",
 			class: "heading",
-			text: `${name.length > 20 ? torn_stocks[id].acronym : name},
+			text: `${name.length > 20 ? torn_stocks[id].acronym : name}`,
 		}); // use acronym if name is too long
 		let quantity_span = doc.new({
 			type: "div",
 			class: "heading-quantity",
-			text: `(${numberWithCommas(quantity)} shares)
+			text: `(${numberWithCommas(quantity)} shares)`
 		});
 		heading.appendChild(quantity_span);
 
