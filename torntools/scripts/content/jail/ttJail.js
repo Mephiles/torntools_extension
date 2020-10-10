@@ -114,7 +114,7 @@ function addFilterToTable(list, title) {
 			density: 5,
 			format: {
 				from: (x) => x,
-				to: (x) => numberWithCommas(x, fal),
+				to: (x) => numberWithCommas(x, false),
 			},
 		},
 	});
