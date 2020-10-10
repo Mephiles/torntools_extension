@@ -34,7 +34,7 @@
 	],
 	"options_ui": {
 		"page": "views/settings/settings.html",
-		"open_in_tab": false
+		"open_in_tab": true
 	},
 	"browser_specific_settings": {
 		"gecko": {
