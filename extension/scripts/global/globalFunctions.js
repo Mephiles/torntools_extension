@@ -142,8 +142,12 @@ function requireCondition(condition, attributes = {}) {
 			if (typeof response === "boolean") {
 				if (response) return resolve();
 			} else if (typeof response === "object") {
-				if (response.success === true) resolve(response.value);
-				else reject(response.value);
+				if (response.hasOwnProperty("success")) {
+					if (response.success === true) resolve(response.value);
+					else reject(response.value);
+				} else {
+					resolve(response);
+				}
 			}
 		}
 
