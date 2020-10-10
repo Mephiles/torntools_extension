@@ -44,12 +44,12 @@ function setupChangelog() {
 				type: "div",
 				class: `contributor ${c.toLowerCase()}`,
 				html: `
-				<span>
-					<a href="https://www.torn.com/profiles.php?XID=${CONTRIBUTORS[c].id}" target="_blank">
-						${CONTRIBUTORS[c].name} [${CONTRIBUTORS[c].id}]
-					</a>
-				</span>
-			,
+					<span>
+						<a href="https://www.torn.com/profiles.php?XID=${CONTRIBUTORS[c].id}" target="_blank">
+							${CONTRIBUTORS[c].name} [${CONTRIBUTORS[c].id}]
+						</a>
+					</span>
+				`,
 			})
 		);
 	}
@@ -160,11 +160,8 @@ async function setupPreferences() {
 	}
 }
 
-function setupAPIInfo() {
-}
+function setupAPIInfo() {}
 
-function setupRemote() {
-}
+function setupRemote() {}
 
-function setupAbout() {
-}
+function setupAbout() {}
