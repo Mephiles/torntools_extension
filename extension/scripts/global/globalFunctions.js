@@ -150,7 +150,7 @@ function requireCondition(condition, attributes = {}) {
 		function checkCounter(count) {
 			if (attributes.maxCycles <= 0) return false;
 
-			if (count <= attributes.maxCycles) {
+			if (count > attributes.maxCycles) {
 				reject("Maximum cycles reached.");
 				return true;
 			}
