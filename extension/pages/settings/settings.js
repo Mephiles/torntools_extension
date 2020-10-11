@@ -150,6 +150,9 @@ async function setupPreferences() {
 
 	fillSettings();
 
+	document.find("#saveSettings").addEventListener("click", async () => await saveSettings());
+	document.find("#resetSettings").addEventListener("click", async () => await ttStorage.reset());
+
 	function showAdvanced(advanced) {
 		const settings = _preferences.findAll(".sections > section > .option.advanced");
 		if (advanced) {
@@ -209,6 +212,33 @@ async function setupPreferences() {
 				}
 			}
 		}
+	}
+
+	async function saveSettings() {
+		for (let setting of ["updateNotice"]) {
+			const checkbox = _preferences.find(`#${setting}`);
+			if (!checkbox) continue;
+
+			settings[setting] = checkbox.checked;
+		}
+
+		for (let type of ["pages"]) {
+			for (let page in settings[type]) {
+				for (let setting in settings[type][page]) {
+					const input = _preferences.find(`#${page}-${setting}`);
+					if (!input) continue;
+
+					if (input.tagName === "INPUT") {
+						const inputType = input.getAttribute("type");
+
+						if (inputType === "checkbox") settings[type][page][setting] = input.checked;
+						else settings[type][page][setting] = input.value;
+					}
+				}
+			}
+		}
+
+		await ttStorage.set({ settings });
 	}
 }
 
