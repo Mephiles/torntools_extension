@@ -78,7 +78,11 @@ function setupChangelog() {
 
 		// Content
 		for (let title in changelog[key]) {
-			const parent = document.newElement({ type: "div", class: "parent", children: [document.newElement({ type: "div", class: "heading", text: title })] });
+			const parent = document.newElement({
+				type: "div",
+				class: "parent",
+				children: [document.newElement({ type: "div", class: "heading", text: title })],
+			});
 
 			for (let item of changelog[key][title]) {
 				let contributor;
