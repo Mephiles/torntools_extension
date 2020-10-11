@@ -4,12 +4,12 @@
 
 	storageListeners.settings.push(loadGlobalEntry);
 
-	loadGlobalEntry();
+	await loadGlobalEntry();
 
 	console.log("TT: Global Entry - Script loaded.");
 })();
 
-function loadGlobalEntry() {
+async function loadGlobalEntry() {
 	if (settings.pages.global.alignLeft) document.documentElement.classList.add("tt-align-left");
 	else document.documentElement.classList.remove("tt-align-left");
 
@@ -28,4 +28,7 @@ function loadGlobalEntry() {
 	document.documentElement.style.setProperty("--torntools-chat-font-size", `${settings.pages.chat.fontSize || 12}px`);
 
 	// mobile check
+	await checkMobile();
+	if (mobile) document.documentElement.classList.add("tt-mobile");
+	else document.documentElement.classList.remove("tt-mobile");
 }

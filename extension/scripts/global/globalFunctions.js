@@ -198,3 +198,23 @@ function findParent(element, attributes = {}) {
 
 	return findParent(element.parentElement, attributes);
 }
+
+function checkMobile() {
+	return new Promise((resolve) => {
+		if (typeof mobile === "boolean") return resolve(mobile);
+
+		if (!window.location.host.includes("torn.com")) {
+			resolve(false);
+			return;
+		}
+
+		if (document.readyState === "complete" || document.readyState === "interactive") check();
+		else window.addEventListener("DOMContentLoaded", check);
+
+		function check() {
+			mobile = window.innerWidth <= 600;
+
+			resolve(mobile);
+		}
+	});
+}

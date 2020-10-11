@@ -114,3 +114,5 @@ const CONTRIBUTORS = {
 		name: "finally",
 	},
 };
+
+let mobile;
