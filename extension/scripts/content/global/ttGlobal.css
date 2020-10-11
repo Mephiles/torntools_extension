@@ -1,3 +1,21 @@
 .hidden {
 	display: none;
 }
+
+/* Search Chat */
+
+.chat-box-input_1SBQR.tt-modified {
+	height: 86px !important;
+}
+
+.tt-chat-filter {
+	margin-left: 4px;
+	padding-top: 2px;
+}
+
+.tt-chat-filter input {
+	margin-left: 4px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	width: 232px;
+}
