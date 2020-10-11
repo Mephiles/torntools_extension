@@ -73,17 +73,17 @@ const ttStorage = new (class {
 const DEFAULT_STORAGE = {
 	settings: {
 		updateNotice: true,
-		developer: true,
+		developer: false,
 		pages: {
 			global: {
-				alignLeft: true,
-				hideLevelUpgrade: true,
-				hideQuitButtons: true,
+				alignLeft: false,
+				hideLevelUpgrade: false,
+				hideQuitButtons: false,
 				miniProfileLastAction: true,
-				nukeRevive: true,
+				nukeRevive: false,
 			},
 			chat: {
-				fontSize: 14,
+				fontSize: 12,
 				searchChat: true,
 				blockZalgo: true,
 			},
