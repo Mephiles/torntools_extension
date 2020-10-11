@@ -12,7 +12,7 @@ const LINKS = {
 	Pharmacy: { link: "https://www.torn.com/shops.php?step=pharmacy" },
 	"Points Market": { link: "https://www.torn.com/pmarket.php" },
 	Raceway: { link: "https://www.torn.com/loader.php?sid=racing" },
-	"Travel Agency": { link: "https://www.torn.com/travelagency.php" }
+	"Travel Agency": { link: "https://www.torn.com/travelagency.php" },
 };
 
 const preferenceModifications = new Set();
@@ -69,8 +69,8 @@ requireDatabase(false)
 				target_list: {
 					last_target: -1,
 					show: true,
-					targets: {}
-				}
+					targets: {},
+				},
 			});
 			message("Target list reset.", true);
 		});
@@ -92,14 +92,13 @@ requireDatabase(false)
 		preferences.find("#reset_settings").addEventListener("click", () => {
 			loadConfirmationPopup({
 				title: "Reset settings",
-				message: `### Are you sure you want to delete ALL data except your API key?`
+				message: `### Are you sure you want to delete ALL data except your API key?`,
 			})
 				.then(() => {
 					ttStorage.reset();
 					message("Settings reset.", true);
 				})
-				.catch(() => {
-				});
+				.catch(() => {});
 		});
 
 		registerChanges();
@@ -177,7 +176,7 @@ function loadPage(name) {
 		target_list: targetList,
 		api_info: apiInfo,
 		server: server,
-		about: about
+		about: about,
 	};
 	if (!(name in initiated_pages) || !initiated_pages[name]) {
 		dict[name]();
@@ -368,7 +367,7 @@ function setupPreferences() {
 		chrome.runtime.sendMessage({
 			action: "play-notification-sound",
 			type: preferences.find("#notifications_sound-type").value,
-			volume: preferences.find("#notifications_sound-volume").value
+			volume: preferences.find("#notifications_sound-volume").value,
 		});
 	});
 	preferences.find("#notifications_sound-stop").addEventListener("click", () => {
@@ -479,7 +478,7 @@ function setupPreferences() {
 			type: "input",
 			class: "text color",
 			value: chat_highlight[name],
-			attributes: { type: "color" }
+			attributes: { type: "color" },
 		});
 		let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
 		let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
@@ -506,7 +505,7 @@ function setupPreferences() {
 			doc.new({
 				type: "div",
 				class: "tabbed note",
-				text: `${placeholder} - ${HIGHLIGHT_PLACEHOLDERS[placeholder].description}`
+				text: `${placeholder} - ${HIGHLIGHT_PLACEHOLDERS[placeholder].description}`,
 			}),
 			globalSection.find("#chat_highlight+.note").nextElementSibling
 		);
@@ -519,20 +518,20 @@ function setupPreferences() {
 			type: "input",
 			class: "text name",
 			value: loot_times[npc_id].name,
-			attributes: { disabled: true }
+			attributes: { disabled: true },
 		});
 		let level_input = doc.new({
 			type: "input",
 			class: "text level",
 			value: loot_alerts[npc_id] ? loot_alerts[npc_id].level : "",
-			attributes: { placeholder: "level.." }
+			attributes: { placeholder: "level.." },
 		});
 		let time_input = doc.new({
 			type: "input",
 			class: "text time",
 			id: `npc-${npc_id}`,
 			value: loot_alerts[npc_id] ? loot_alerts[npc_id].time : "",
-			attributes: { placeholder: "minutes.." }
+			attributes: { placeholder: "minutes.." },
 		});
 
 		row.appendChild(name_input);
@@ -632,7 +631,7 @@ function setupPreferences() {
 		let row = doc.new({ type: "div", class: "row" });
 		let radio_input = doc.new({
 			type: "input",
-			attributes: { type: "radio", name: "filter-faction", value: faction }
+			attributes: { type: "radio", name: "filter-faction", value: faction },
 		});
 		let name_input = doc.new({ type: "input", class: "text name", value: faction });
 		let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
@@ -682,7 +681,7 @@ function targetList() {
 			name: "id",
 			text: "ID",
 			type: "neutral",
-			link: (id) => `https://www.torn.com/profiles.php?XID=${id}`
+			link: (id) => `https://www.torn.com/profiles.php?XID=${id}`,
 		},
 		{ name: "last_attack", text: "Last Attack", type: "neutral" },
 		{ name: "win", type: "good" },
@@ -697,7 +696,7 @@ function targetList() {
 		{ name: "defend_lose", text: "Defends lost", type: "bad" },
 		{ name: "stalemate", type: "bad" },
 		{ name: "stealth", type: "neutral" },
-		{ name: "respect", text: "Respect", type: "neutral" }
+		{ name: "respect", text: "Respect", type: "neutral" },
 	];
 
 	// Header row
@@ -709,7 +708,7 @@ function targetList() {
 			type: "div",
 			class: `${type} ${name}`,
 			attributes: { name },
-			text: text || `${capitalize(heading.name)}s`
+			text: text || `${capitalize(heading.name)}s`,
 		});
 
 		if (previousType && previousType !== type) div.classList.add("new-section");
@@ -936,25 +935,23 @@ function server() {
 	- watchlist
 	- preferences
 	- profile notes
-                    `
+                    `,
 		})
 			.then(() => {
 				exportData();
 			})
-			.catch(() => {
-			});
+			.catch(() => {});
 	};
 
 	doc.find("#server_clear").onclick = () => {
 		loadConfirmationPopup({
 			title: "Clear Data",
-			message: `### Are you sure you want to Delete ALL data from the remote server?`
+			message: `### Are you sure you want to Delete ALL data from the remote server?`,
 		})
 			.then(() => {
 				clearRemoteData();
 			})
-			.catch(() => {
-			});
+			.catch(() => {});
 	};
 }
 
@@ -1046,7 +1043,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 		custom_links.push({
 			text: link.find(".name").value,
 			href: link.find(".href").value,
-			new_tab: link.find(".new_tab").checked
+			new_tab: link.find(".new_tab").checked,
 		});
 	}
 
@@ -1059,7 +1056,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 
 		alerts[npc_id] = {
 			level: level,
-			time: time
+			time: time,
 		};
 	}
 
@@ -1122,7 +1119,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	// Filters (Faction)
 	let filter_factions = {
 		default: "",
-		data: []
+		data: [],
 	};
 	for (let row of preferences.findAll("#filter-factions .row:not(.input)")) {
 		let name = row.find(".name").value;
@@ -1147,9 +1144,9 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	ttStorage.change({
 		filters: {
 			preset_data: {
-				factions: filter_factions
-			}
-		}
+				factions: filter_factions,
+			},
+		},
 	});
 
 	ttStorage.change({ target_list: { show: target_list_enabled } }, () => {
@@ -1251,7 +1248,7 @@ function addLinkToList(attributes) {
 	const removeIcon = doc.new({
 		type: "div",
 		class: "remove-icon-wrap",
-		children: [doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" })]
+		children: [doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" })],
 	});
 
 	removeIcon.addEventListener("click", (event) => findParent(event.target, { class: "row" }).remove());
@@ -1313,7 +1310,7 @@ function addLinkToList(attributes) {
 		doc.new({
 			type: "div",
 			class: "row",
-			children: [newTab, select, nameInput, hrefInput, removeIcon]
+			children: [newTab, select, nameInput, hrefInput, removeIcon],
 		}),
 		preferences.find("#custom_links .body .row.input")
 	);
@@ -1323,7 +1320,7 @@ function addFactionToFilter(event) {
 	let row = doc.new({ type: "div", class: "row" });
 	let radio_input = doc.new({
 		type: "input",
-		attributes: { type: "radio", name: "filter-faction", value: event.target.previousElementSibling.value }
+		attributes: { type: "radio", name: "filter-faction", value: event.target.previousElementSibling.value },
 	});
 	let name_input = doc.new({ type: "input", class: "text name", value: event.target.previousElementSibling.value });
 	let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
@@ -1359,13 +1356,13 @@ function addHighlightToList(event) {
 	let name_input = doc.new({
 		type: "input",
 		class: "text name",
-		value: event.target.previousElementSibling.previousElementSibling.value
+		value: event.target.previousElementSibling.previousElementSibling.value,
 	});
 	let color_input = doc.new({
 		type: "input",
 		class: "text color",
 		value: event.target.previousElementSibling.value,
-		attributes: { type: "color" }
+		attributes: { type: "color" },
 	});
 	let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
 	let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
@@ -1403,7 +1400,7 @@ function setupApiStatistics() {
 		green: "rgb(75, 192, 192)",
 		blue: "rgb(54, 162, 235)",
 		purple: "rgb(153, 102, 255)",
-		grey: "rgb(201, 203, 207)"
+		grey: "rgb(201, 203, 207)",
 	};
 
 	let data = {};
@@ -1412,26 +1409,26 @@ function setupApiStatistics() {
 			label: "userdata",
 			backgroundColor: Chart.helpers.color(chartColors.red).alpha(0.5).rgbString(),
 			borderWidth: 1,
-			data: []
+			data: [],
 		},
 		{
 			label: "profile_stats",
 			backgroundColor: Chart.helpers.color(chartColors.blue).alpha(0.5).rgbString(),
 			borderWidth: 1,
-			data: []
+			data: [],
 		},
 		{
 			label: "stakeouts",
 			backgroundColor: Chart.helpers.color(chartColors.purple).alpha(0.5).rgbString(),
 			borderWidth: 1,
-			data: []
+			data: [],
 		},
 		{
 			label: "other",
 			backgroundColor: Chart.helpers.color(chartColors.grey).alpha(0.5).rgbString(),
 			borderWidth: 1,
-			data: []
-		}
+			data: [],
+		},
 	];
 
 	let torn_api_history = [...api_history.torn].reverse();
@@ -1451,7 +1448,7 @@ function setupApiStatistics() {
 				userdata: 0,
 				profile_stats: 0,
 				stakeouts: 0,
-				other: 0
+				other: 0,
 			};
 			data[fetch_time][fetch.name]++;
 		}
@@ -1477,12 +1474,12 @@ function setupApiStatistics() {
 		type: "bar",
 		data: {
 			labels: data_keys,
-			datasets: datasets
+			datasets: datasets,
 		},
 		options: {
 			title: {
 				display: true,
-				text: "Torn API"
+				text: "Torn API",
 			},
 			scales: {
 				yAxes: [
@@ -1492,12 +1489,12 @@ function setupApiStatistics() {
 								if (Math.floor(value) === value) {
 									return value;
 								}
-							}
-						}
-					}
-				]
-			}
-		}
+							},
+						},
+					},
+				],
+			},
+		},
 	});
 
 	// Statistics
@@ -1523,7 +1520,7 @@ function setupApiStatistics() {
 			}
 		} else {
 			stats[fetch_time_hours] = {
-				[fetch_time_minutes]: 1
+				[fetch_time_minutes]: 1,
 			};
 		}
 	}
@@ -1569,10 +1566,10 @@ function exportData() {
 						} else {
 							return resolve(formatBytes(JSON.stringify(DB).length));
 						}
-					}))()
+					}))(),
 			},
 			date: new Date().toString(),
-			storage: {}
+			storage: {},
 		};
 
 		let keys_to_export = [
@@ -1589,7 +1586,7 @@ function exportData() {
 			"sorting",
 			"stakeouts",
 			"settings",
-			"profile_notes"
+			"profile_notes",
 		];
 
 		for (let key of keys_to_export) {
@@ -1603,7 +1600,7 @@ function exportData() {
 		fetchApi_v2("torntools", {
 			section: `api/${userdata.player_id}/storage/update`,
 			method: "POST",
-			postData: post_data
+			postData: post_data,
 		})
 			.then((result) => {
 				console.log("export", result);
@@ -1618,7 +1615,7 @@ function exportData() {
 
 function importData() {
 	fetchApi_v2("torntools", {
-		section: `api/${userdata.player_id}/storage`
+		section: `api/${userdata.player_id}/storage`,
 	})
 		.then((result) => {
 			console.log("import", result);
@@ -1636,16 +1633,14 @@ function importData() {
 				if (conflictMessage.trim() === "") {
 					loadConfirmationPopup({
 						title: "Import",
-						message: `### You are all up-to-date`
+						message: `### You are all up-to-date`,
 					})
-						.then(() => {
-						})
-						.catch(() => {
-						});
+						.then(() => {})
+						.catch(() => {});
 				} else {
 					loadConfirmationPopup({
 						title: "Import",
-						message: `### Are you sure that you want to overwrite following items?\n${conflictMessage}`
+						message: `### Are you sure that you want to overwrite following items?\n${conflictMessage}`,
 					})
 						.then(async () => {
 							preferenceModifications.clear();
@@ -1665,8 +1660,7 @@ function importData() {
 
 							message(import_result.message, import_result.success, { reload: import_result.success });
 						})
-						.catch(() => {
-						});
+						.catch(() => {});
 				}
 			});
 		})
@@ -1681,7 +1675,7 @@ function importDataText() {
 		title: "Import via Text",
 		message: `### Paste your database below. Be careful to use the exact copy provided by TornTools
 		[TEXTAREA=importvalue]
-`
+`,
 	})
 		.then(async ({ importvalue }) => {
 			if (!importvalue || importvalue.trim() === "") {
@@ -1713,8 +1707,7 @@ function importDataText() {
 
 			message(import_result.message, import_result.success, { reload: import_result.success });
 		})
-		.catch(() => {
-		});
+		.catch(() => {});
 }
 
 function clearRemoteData() {
@@ -1735,4 +1728,8 @@ function getCustomLinkOptions() {
 	options += "<option value='custom'>Custom..</option>";
 
 	return options;
+}
+
+function requestPermission(url) {
+	return chrome.permissions.request({ origins: [url] });
 }
