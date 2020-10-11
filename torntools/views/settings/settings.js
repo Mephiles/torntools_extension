@@ -665,6 +665,14 @@ function setupPreferences() {
 			link.classList.add("active");
 		};
 	}
+
+	for (let option of preferences.findAll("*[require-permission]")) {
+		option.find("input").addEventListener("click", () => {
+			requestPermission(option.getAttribute("require-permission"))
+				.then(() => console.log("Received permission."))
+				.catch(() => console.log("Denied permission."));
+		});
+	}
 }
 
 function targetList() {
@@ -1731,5 +1739,12 @@ function getCustomLinkOptions() {
 }
 
 function requestPermission(url) {
-	return chrome.permissions.request({ origins: [url] });
+	return new Promise((resolve, reject) => {
+		console.log("DKK requestPermission", url);
+
+		chrome.permissions.request({ origins: [url] }, (granted) => {
+			if (granted) resolve();
+			else reject();
+		});
+	});
 }
