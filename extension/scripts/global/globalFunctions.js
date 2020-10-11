@@ -188,3 +188,13 @@ function hasParent(element, attributes = {}) {
 
 	return hasParent(element.parentElement, attributes);
 }
+
+function findParent(element, attributes = {}) {
+	if (!element || !element.parentElement) return undefined;
+
+	if (attributes.class && element.parentElement.classList.contains(attributes.class)) return element.parentElement;
+	if (attributes.id && element.parentElement.id === attributes.id) return element.parentElement;
+	if (attributes.has_attribute && element.parentElement.getAttribute(attributes.has_attribute) !== null) return element.parentElement;
+
+	return findParent(element.parentElement, attributes);
+}

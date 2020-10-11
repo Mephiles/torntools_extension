@@ -29,7 +29,13 @@ function loadGlobal() {
 						if (!addedNode.classList.contains("message_oP8oM")) continue;
 
 						if (settings.pages.chat.searchChat) {
-							const keyword = addedNode.parentElement.parentElement.parentElement.parentElement.find(".tt-chat-filter input").value;
+							const parent = findParent(addedNode, { class: "chat-box_Wjbn9" });
+							if (!parent) continue;
+
+							const input = parent.find(".tt-chat-filter input");
+							if (!input) continue;
+
+							const keyword = input.value;
 							if (keyword) searchChat(addedNode, keyword);
 						}
 					}
