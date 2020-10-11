@@ -8,5 +8,5 @@
 }
 
 .quit-job {
-	display: var(--torntools-hide-leave-button, initial) !important;
+	display: var(--torntools-hide-leave-button, flex) !important;
 }

@@ -15,7 +15,7 @@ function loadGlobalEntry() {
 
 	// TODO - Hide level upgrade button
 
-	document.documentElement.style.setProperty("--torntools-hide-leave-button", settings.pages.global.hideQuitButtons ? "none" : "initial");
+	document.documentElement.style.setProperty("--torntools-hide-leave-button", settings.pages.global.hideQuitButtons ? "none" : "flex");
 
 	// hide icons
 
