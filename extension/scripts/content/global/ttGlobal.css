@@ -9,8 +9,10 @@
 }
 
 .tt-chat-filter {
+	display: flex;
 	margin-left: 4px;
 	padding-top: 2px;
+	align-items: center;
 }
 
 .tt-chat-filter input {
