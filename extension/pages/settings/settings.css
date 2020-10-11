@@ -219,6 +219,7 @@ main.active {
 #preferences nav ul > li {
     padding: 7px;
     border-bottom: 1px solid lightgray;
+    white-space: nowrap;
 }
 
 #preferences nav ul > li.header {
