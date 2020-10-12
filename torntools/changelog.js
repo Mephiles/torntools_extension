@@ -1,5 +1,10 @@
 export default {
-	"v5.2 - xxxxxxx, xxth. 2020": {
+	"v5.3 - xxx, xxth. 2020": {
+		Features: [],
+		Fixes: [],
+		Changes: ["Make nuke family permission optional. - DKK"],
+	},
+	"v5.2 - October, 11th. 2020": {
 		Features: [
 			"Auto-complete usernames in chat. - finally",
 			"Show bars in the icon. - finally",

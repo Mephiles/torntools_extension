@@ -430,8 +430,8 @@ function updateTargetList(player_id, target_list, attackHistory, first_time) {
 					return resolve();
 				});
 			})
-			.catch(() => {
-				console.log("ERROR", err);
+			.catch((error) => {
+				console.log("ERROR", error);
 				return resolve();
 			});
 	});
@@ -865,7 +865,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 									)} seconds`,
 									url: links.hospital,
 									seen: 0,
-									date: new Date()
+									date: new Date(),
 								};
 								break;
 							}
@@ -886,7 +886,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 									text: `You will be Landing in ${Math.floor(time_left / 1000 / 60)} minutes ${((time_left / 1000) % 60).toFixed(0)} seconds`,
 									url: links.home,
 									seen: 0,
-									date: new Date()
+									date: new Date(),
 								};
 								break;
 							}
@@ -909,7 +909,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 									)} seconds`,
 									url: links.items,
 									seen: 0,
-									date: new Date()
+									date: new Date(),
 								};
 								break;
 							}
@@ -933,7 +933,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 									)} seconds`,
 									url: links.chain,
 									seen: 0,
-									date: new Date()
+									date: new Date(),
 								};
 								break;
 							}
@@ -993,7 +993,7 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 							text: "It's a new day! Hopefully a sunny one.",
 							url: links.home,
 							seen: 0,
-							date: new Date()
+							date: new Date(),
 						};
 					}
 				}
@@ -1118,7 +1118,7 @@ function updateStakeouts(oldStakeouts) {
 										}`,
 										url: `https://www.torn.com/profiles.php?XID=${user_id}`,
 										seen: 0,
-										date: new Date()
+										date: new Date(),
 									};
 								} else if (stakeout_info.status.state === "Traveling") {
 									delete notifications.stakeouts[user_id + "_lands"];
@@ -1132,7 +1132,7 @@ function updateStakeouts(oldStakeouts) {
 										text: `${stakeout_info.name} is now in Hospital`,
 										url: `https://www.torn.com/profiles.php?XID=${user_id}`,
 										seen: 0,
-										date: new Date()
+										date: new Date(),
 									};
 								} else if (stakeout_info.status.state !== "Hospital") {
 									delete notifications.stakeouts[user_id + "_hospital"];
@@ -1171,7 +1171,7 @@ notificationTestPlayer.preload = true;
 
 // Messaging
 // noinspection JSDeprecatedSymbols
-chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	// console.log(sender.tab ? "from a content script:"+sender.tab.url : "from the extension");
 
 	switch (request.action) {
@@ -1203,13 +1203,14 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 				});
 			break;
 		case "play-notification-sound":
-			let sound = await getNotificationSound(request.type);
-			if (!sound || Number.isInteger(sound)) {
-				break;
-			}
-			notificationTestPlayer.volume = Number.parseInt(request.volume) / 100;
-			notificationTestPlayer.src = sound;
-			notificationTestPlayer.play();
+			getNotificationSound(request.type).then((sound) => {
+				if (!sound || Number.isInteger(sound)) {
+					return;
+				}
+				notificationTestPlayer.volume = Number.parseInt(request.volume) / 100;
+				notificationTestPlayer.src = sound;
+				notificationTestPlayer.play();
+			});
 			break;
 		case "stop-notification-sound":
 			notificationTestPlayer.pause();
@@ -1231,8 +1232,8 @@ chrome.runtime.onUpdateAvailable.addListener((details) => {
 	ttStorage.set({
 		new_version: {
 			available: true,
-			version: details.version
-		}
+			version: details.version,
+		},
 	});
 });
 
@@ -1352,7 +1353,7 @@ async function checkLootAlerts() {
 							).replace("m", "min")}`,
 							url: `https://www.torn.com/profiles.php?XID=${npc_id}`,
 							seen: 0,
-							date: new Date()
+							date: new Date(),
 						};
 						console.log("	Added Loot time to notifications.");
 						notified = true;
@@ -1431,10 +1432,10 @@ async function detectExtension(browserName, ext) {
 
 			resolve(
 				addons &&
-				!!addons
-					.filter((addon) => addon.type === "extension")
-					.filter((addon) => addon.name === information.name)
-					.filter((addon) => addon.enabled === true).length
+					!!addons
+						.filter((addon) => addon.type === "extension")
+						.filter((addon) => addon.name === information.name)
+						.filter((addon) => addon.enabled === true).length
 			);
 		});
 	}

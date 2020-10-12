@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Torn Tools",
-	"version": "5.1.2",
+	"version": "5.2",
 	"description": "Tools for Torn users.",
 	"icons": {
 		"128": "images/icon128.png"
@@ -20,12 +20,14 @@
 		"storage",
 		"notifications",
 		"background",
+		"https://api.torn.com/*",
 		"https://yata.alwaysdata.net/*",
 		"https://www.tornstats.com/*",
-		"https://api.torn.com/*",
 		"https://torntools.gregork.com/*",
-		"https://torn-proxy.com/*",
-		"https://www.nukefamily.org/*"
+		"https://torn-proxy.com/*"
+	],
+	"optional_permissions": [
+		"https://www.nukefamily.org/"
 	],
 	"web_accessible_resources": [
 		"images/*",
@@ -34,7 +36,7 @@
 	],
 	"options_ui": {
 		"page": "views/settings/settings.html",
-		"open_in_tab": false
+		"open_in_tab": true
 	},
 	"browser_specific_settings": {
 		"gecko": {

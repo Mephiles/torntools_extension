@@ -66,7 +66,7 @@ function addFilterToTable(list, title) {
 		.newContainer("Filters", {
 			id: "tt-player-filter",
 			class: "filter-container",
-			next_element: tit,
+			next_element: title,
 		})
 		.find(".content");
 
