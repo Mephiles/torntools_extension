@@ -1,89 +1,89 @@
 /* Disabling gym buttons */
 .tt-checkbox-wrap {
-    height: 13px;
-    margin-top: 4px;
+	height: 13px;
+	margin-top: 4px;
 }
 
 .tt-gym-locked {
-    position: relative;
+	position: relative;
 }
 
 .tt-gym-locked:after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: hsla(0, 0%, 90.2%, .5);
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: hsla(0, 0%, 90.2%, 0.5);
 }
 
 .tt-gym-locked .propertyValue___3oAOv {
-    z-index: 1;
-    position: relative;
-    text-shadow: none;
-    color: #eee;
+	z-index: 1;
+	position: relative;
+	text-shadow: none;
+	color: #eee;
 }
 
 /* Graph */
 .tt-graph-area {
-    /* background-color: white; */
-    padding: 10px 0;
-    margin-bottom: 10px;
+	/* background-color: white; */
+	padding: 10px 0;
+	margin-bottom: 10px;
 }
 
 .tt-error-message {
-    text-align: center;
+	text-align: center;
 }
 
 .update-button {
-    margin-top: 10px;
-    margin-left: 10px;
+	margin-top: 10px;
+	margin-left: 10px;
 }
 
 .response-message {
-    margin-top: 10px;
-    margin-left: 5px;
+	margin-top: 10px;
+	margin-left: 5px;
 }
 
 .response-message.failure {
-    color: #de0000;
+	color: #de0000;
 }
 
 .response-message.success {
-    color: #00a500;
+	color: #00a500;
 }
 
 .tt-info-message {
-    margin-top: 10px;
-    margin-left: 5px;
+	margin-top: 10px;
+	margin-left: 5px;
 }
 
 /* Info */
 #ttEnergyEstimate {
-    font-weight: 600;
+	font-weight: 600;
 }
 
 /* Options */
 ul.properties___Vhhr7 > li {
-    position: relative;
+	position: relative;
 }
 
 .tt-gym-stat-checkbox {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    z-index: 999;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	z-index: 999;
 }
 
 /* Specialty Gym */
 .specialty-gym-row {
-    display: flex;
-    padding: 2px;
+	display: flex;
+	padding: 2px;
 }
 
 .specialty-gym-information {
-    line-height: 19px;
-    margin-left: 8px;
+	line-height: 19px;
+	margin-left: 8px;
 }

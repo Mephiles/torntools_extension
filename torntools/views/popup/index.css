@@ -1,90 +1,93 @@
 body {
-    width: 300px;
-    font-family: Arial;
-    overflow-x: hidden;
-    font-size: 75%;
+	width: 300px;
+	font-family: Arial;
+	overflow-x: hidden;
+	font-size: 75%;
 }
 
 body.loading *:not(.tt-loading-placeholder) {
-    display: none !important;
+	display: none !important;
 }
 
 .settings {
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    width: 30px;
-    height: 30px;
-    background-image: url("../../images/gears.svg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-color: transparent;
-    border: none;
-    outline: none;
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	width: 30px;
+	height: 30px;
+	background-image: url("../../images/gears.svg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+	outline: none;
 }
 
 .settings:hover {
-    cursor: pointer;
-    border: 0.5px solid lightgrey;
+	cursor: pointer;
+	border: 0.5px solid lightgrey;
 }
 
 .subpage {
-    display: none;
+	display: none;
 }
 
 .subpage.active {
-    display: block;
+	display: block;
 }
 
 .page-tab {
-    background: none;
-    border: none;
-    padding: 0;
-    margin-left: 2px;
-    margin-right: 2px;
-    cursor: pointer;
-    display: inline-block;
+	background: none;
+	border: none;
+	padding: 0;
+	margin-left: 2px;
+	margin-right: 2px;
+	cursor: pointer;
+	display: inline-block;
 }
 
 .active-tab {
-    border-top: 1px solid grey;
-    padding-left: 4px;
-    padding-right: 4px;
+	border-top: 1px solid grey;
+	padding-left: 4px;
+	padding-right: 4px;
 }
 
 .error {
-    margin-bottom: 5px;
-    color: red;
-    display: none;
+	margin-bottom: 5px;
+	color: red;
+	display: none;
 }
 
 #search-bar {
-    width: 170px;
-    background-image: url('../../images/searchicon.svg');
-    background-position: 5px 5px;
-    background-repeat: no-repeat;
-    font-size: 16px;
-    padding: 6px 20px 6px 40px;
-    border: 1px solid #ddd;
-    outline: none;
+	width: 170px;
+	background-image: url("../../images/searchicon.svg");
+	background-position: 5px 5px;
+	background-repeat: no-repeat;
+	font-size: 16px;
+	padding: 6px 20px 6px 40px;
+	border: 1px solid #ddd;
+	outline: none;
 }
 
 /* List of items */
-#market #item-list, #calculator #item-list {
-    padding-top: 5px;
-    padding-left: 10px;
-    max-height: 400px;
-    overflow-y: scroll;
-    font-size: 17px;
-    display: none;
-    position: relative;
+#market #item-list,
+#calculator #item-list {
+	padding-top: 5px;
+	padding-left: 10px;
+	max-height: 400px;
+	overflow-y: scroll;
+	font-size: 17px;
+	display: none;
+	position: relative;
 }
 
-#market #item-list div, #calculator #item-list div {
-    padding-bottom: 2px;
+#market #item-list div,
+#calculator #item-list div {
+	padding-bottom: 2px;
 }
 
-#market #item-list div:hover, #calculator #item-list div:hover {
-    cursor: pointer;
-    background-color: rgba(0, 255, 0, 0.6);
+#market #item-list div:hover,
+#calculator #item-list div:hover {
+	cursor: pointer;
+	background-color: rgba(0, 255, 0, 0.6);
 }

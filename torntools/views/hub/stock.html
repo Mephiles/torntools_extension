@@ -1,81 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" type="text/css" href="./main.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+	<head>
+		<link rel="stylesheet" type="text/css" href="./main.css" />
+		<link
+			rel="stylesheet"
+			href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+			integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+			crossorigin="anonymous"
+		/>
 
-    <style type="text/css">
-        #content #stock-list {
-            width: 100%;
-            padding: 0;
-        }
+		<style type="text/css">
+			#content #stock-list {
+				width: 100%;
+				padding: 0;
+			}
 
-        #content #stock-list .stock {
-            width: 100%;
-            height: 30px;
-            display: flex;
-            flex-direction: row;
-            font-size: 14px;
-            border-bottom: 0.5px solid lightgrey;
-            position: relative;
-        }
+			#content #stock-list .stock {
+				width: 100%;
+				height: 30px;
+				display: flex;
+				flex-direction: row;
+				font-size: 14px;
+				border-bottom: 0.5px solid lightgrey;
+				position: relative;
+			}
 
-        #content #stock-list .user.stock {
-            background-color: #c5eac5;
-        }
+			#content #stock-list .user.stock {
+				background-color: #c5eac5;
+			}
 
-        #content #stock-list .stock * {
-            line-height: 30px;
-        }
+			#content #stock-list .stock * {
+				line-height: 30px;
+			}
 
-        #content #stock-list .stock .price {
-            width: 20%;
-            padding-left: 10px;
-        }
+			#content #stock-list .stock .price {
+				width: 20%;
+				padding-left: 10px;
+			}
 
-        #content #stock-list .stock .name {
-            width: 50%;
-            overflow: hidden;
-            padding-left: 10px;
-        }
+			#content #stock-list .stock .name {
+				width: 50%;
+				overflow: hidden;
+				padding-left: 10px;
+			}
 
-        #content #stock-list .stock .open {
-            font-size: 15px;
-            position: absolute;
-            right: 10px;
-            cursor: pointer;
-        }
+			#content #stock-list .stock .open {
+				font-size: 15px;
+				position: absolute;
+				right: 10px;
+				cursor: pointer;
+			}
 
-        #content #stock-list .more {
-            width: 100%;
-            height: 0;
-            overflow: hidden;
-        }
+			#content #stock-list .more {
+				width: 100%;
+				height: 0;
+				overflow: hidden;
+			}
 
-        #last-updated {
-            font-size: 12px;
-            margin-top: -7px;
-            color: #071580;
-            margin-bottom: 20px;
-        }
-    </style>
-    <title>TT - Stocks</title>
-</head>
-<body>
-    <div id="message"></div>
-    <div id="nav">
-        <a href="./home.html">Home</a>
-        <div class="separator">/</div>
-        <!-- <a href="./bookies.html">Bookies</a> -->
-        <!-- <div class="separator">/</div> -->
-        <a href="#">Stocks</a>
-        <div class="separator">/</div>
-    </div>
-    <div id="last-updated"></div>
-    <div id="content">
-        <ul id="stock-list">
-            <!-- <li class="stock">
+			#last-updated {
+				font-size: 12px;
+				margin-top: -7px;
+				color: #071580;
+				margin-bottom: 20px;
+			}
+		</style>
+		<title>TT - Stocks</title>
+	</head>
+	<body>
+		<div id="message"></div>
+		<div id="nav">
+			<a href="./home.html">Home</a>
+			<div class="separator">/</div>
+			<!-- <a href="./bookies.html">Bookies</a> -->
+			<!-- <div class="separator">/</div> -->
+			<a href="#">Stocks</a>
+			<div class="separator">/</div>
+		</div>
+		<div id="last-updated"></div>
+		<div id="content">
+			<ul id="stock-list">
+				<!-- <li class="stock">
                 <div class="name">Stock1</div>
                 <div class="price">$4,150.15</div>
                 <i class="open fas fa-sort-down"></i>
@@ -105,8 +109,8 @@
                 <i class="open fas fa-sort-down"></i>
             </li>
             <div class="more">text</div> -->
-        </ul>
-    </div>
-    <script type="text/javascript" src="./stock.js"></script>
-</body>
+			</ul>
+		</div>
+		<script type="text/javascript" src="./stock.js"></script>
+	</body>
 </html>

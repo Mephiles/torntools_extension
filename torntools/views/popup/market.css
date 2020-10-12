@@ -1,32 +1,32 @@
 /* Active item information */
 #view-item {
-    display: none;
-    padding-bottom: 2px;
-    border-bottom: 0.5px solid black;
-    font-size: 17px;
-    margin-bottom: 6px;
+	display: none;
+	padding-bottom: 2px;
+	border-bottom: 0.5px solid black;
+	font-size: 17px;
+	margin-bottom: 6px;
 }
 
 #view-item a {
-    color: black;
-    text-decoration: none;
+	color: black;
+	text-decoration: none;
 }
 
 #view-item a:hover {
-    color: green;
+	color: green;
 }
 
 /* Active item price information */
 #market-info {
-    display: none;
+	display: none;
 }
 
 #market-info .heading {
-    font-size: 16px;
-    font-weight: 600;
-    padding-bottom: 2px;
+	font-size: 16px;
+	font-weight: 600;
+	padding-bottom: 2px;
 }
 
 #market-info .price {
-    font-size: 13px;
+	font-size: 13px;
 }

@@ -1,72 +1,72 @@
 #tt-vault-container .content .sub-heading {
-    font-weight: 600;
-    margin-bottom: 15px;
-    text-align: center;
+	font-weight: 600;
+	margin-bottom: 15px;
+	text-align: center;
 }
 
 #tt-vault-container .content .split {
-    position: relative;
-    display: flex;
+	position: relative;
+	display: flex;
 }
 
 #tt-vault-container .content .split .column {
-    flex: 1 0 50%;
+	flex: 1 0 50%;
 }
 
 #tt-vault-container .content .split .column div {
-    text-align: center;
-    font-weight: 600;
+	text-align: center;
+	font-weight: 600;
 }
 
 #tt-vault-container .content .split .column input {
-    width: 40%;
-    margin-top: 7px;
-    margin-left: 30%;
-    padding: 2px;
-    padding-left: 5px;
+	width: 40%;
+	margin-top: 7px;
+	margin-left: 30%;
+	padding: 2px;
+	padding-left: 5px;
 }
 
 #tt-vault-container .content .split .divider {
-    position: absolute;
-    left: 48%;
-    top: 35%;
-    color: #9a9a9a;
+	position: absolute;
+	left: 48%;
+	top: 35%;
+	color: #9a9a9a;
 }
 
 #tt-vault-container .content .save-div {
-    width: 90px;
-    height: 25px;
-    margin: auto;
-    margin-top: 5px;
-    text-align: center;
+	width: 90px;
+	height: 25px;
+	margin: auto;
+	margin-top: 5px;
+	text-align: center;
 }
 
 #tt-vault-container .content .save-div .text {
-    height: 20px;
-    text-align: center;
-    line-height: 20px;
-    cursor: pointer;
-    color: #678c00;
-    display: inline-block;
-    margin-top: 5px;
+	height: 20px;
+	text-align: center;
+	line-height: 20px;
+	cursor: pointer;
+	color: #678c00;
+	display: inline-block;
+	margin-top: 5px;
 }
 
 #tt-vault-container .content .save-div .text:not(.active):hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 #tt-vault-container .content .save-div .text.active {
-    margin-top: unset;
-    color: #828282;
-    cursor: unset;
+	margin-top: unset;
+	color: #828282;
+	cursor: unset;
 }
 
 #tt-vault-container .content .save-div .loading-icon {
-    width: 20px;
-    height: 20px;
-    background-size: cover;
-    position: relative;
-    top: 6px;
-    left: 1px;
-    display: none;
+	width: 20px;
+	height: 20px;
+	background-size: cover;
+	position: relative;
+	top: 6px;
+	left: 1px;
+	display: none;
 }

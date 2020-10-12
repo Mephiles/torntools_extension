@@ -1,113 +1,111 @@
 /* Button */
 #ttMassMessages {
-    position: absolute;
-    right: 20px;
-    top: 10px;
-    padding-left: 6px;
-    padding-right: 6px;
-    height: 26px;
-    line-height: 27px;
-    border-radius: 7px;
-    border: 1px solid black;
-    background-color: white;
-    cursor: pointer;
+	position: absolute;
+	right: 20px;
+	top: 10px;
+	padding-left: 6px;
+	padding-right: 6px;
+	height: 26px;
+	line-height: 27px;
+	border-radius: 7px;
+	border: 1px solid black;
+	background-color: white;
+	cursor: pointer;
 }
 
 #ttMassMessages span.enabled {
-    color: #678c00;
+	color: #678c00;
 }
 
 #ttMassMessages span.disabled {
-    color: red;
+	color: red;
 }
 
 #ttMassMessagesNote {
-    position: absolute;
-    right: 100px;
-    top: 50px;
+	position: absolute;
+	right: 100px;
+	top: 50px;
 }
 
 /* Name list */
 #ttNameList {
-    width: 200px;
-    max-height: 50px;
-    position: absolute;
-    top: 10px;
-    right: 200px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    background-color: #efefef;
-    border: 1px solid lightgray;
+	width: 200px;
+	max-height: 50px;
+	position: absolute;
+	top: 10px;
+	right: 200px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	background-color: #efefef;
+	border: 1px solid lightgray;
 }
 
 #ttNameList > div {
-    width: 100%;
-    height: 15px;
-    line-height: 15px;
-    position: relative;
-    font-size: 14px;
-    padding-left: 3px;
-    padding-bottom: 1px;
+	width: 100%;
+	height: 15px;
+	line-height: 15px;
+	position: relative;
+	font-size: 14px;
+	padding-left: 3px;
+	padding-bottom: 1px;
 }
 
 #ttNameList > div:not(.input):hover {
-    background-color: #dcdcdc;
+	background-color: #dcdcdc;
 }
 
 #ttNameList > div i {
-    position: absolute;
-    right: 6px;
-    top: 1px;
-    cursor: pointer;
-    color: red;
+	position: absolute;
+	right: 6px;
+	top: 1px;
+	cursor: pointer;
+	color: red;
 }
 
 #ttNameList > div.input {
-    position: sticky;
-    bottom: 0;
-    width: 100%;
-    background-color: white;
-    padding-left: 2px;
+	position: sticky;
+	bottom: 0;
+	width: 100%;
+	background-color: white;
+	padding-left: 2px;
 }
 
-
 #ttNameList > div.input input {
-    width: 90%;
-    border: none;
-    outline: none;
+	width: 90%;
+	border: none;
+	outline: none;
 }
 
 #ttNameList > div.input i {
-    color: #1aaf1a;
+	color: #1aaf1a;
 }
 
 /* Clear List button */
 #tt-clear-all {
-    position: absolute;
-    top: 45px;
-    right: 20px;
-    background-color: white;
-    border: 1px solid lightgray;
-    border-radius: 10px;
-    padding: 5px;
-    color: red;
-    cursor: pointer;
+	position: absolute;
+	top: 45px;
+	right: 20px;
+	background-color: white;
+	border: 1px solid lightgray;
+	border-radius: 10px;
+	padding: 5px;
+	color: red;
+	cursor: pointer;
 }
-
 
 /* font-awesome */
 .fas {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    line-height: 1
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	display: inline-block;
+	font-style: normal;
+	font-variant: normal;
+	text-rendering: auto;
+	line-height: 1;
 }
 
 .fa-plus:before {
-    content: "\f067"
+	content: "\f067";
 }
 
 /* font-awesome */

@@ -1,24 +1,24 @@
 .tt-comp-info-wrap {
-    width: 19%;
-    display: inline-block;
-    vertical-align: top;
-    text-align: center;
-    padding: 10px 0;
+	width: 19%;
+	display: inline-block;
+	vertical-align: top;
+	text-align: center;
+	padding: 10px 0;
 }
 .tt-comp-info-wrap .heading {
-    font-weight: 600;
+	font-weight: 600;
 }
 .tt-comp-info-wrap .separator {
-    border-top: 1px solid gray;
-    width: 80%;
-    margin: 3px auto;
+	border-top: 1px solid gray;
+	width: 80%;
+	margin: 3px auto;
 }
 .tt-comp-info-wrap .separator.second {
-    margin: 5px auto;
-    width: 5%;
+	margin: 5px auto;
+	width: 5%;
 }
 
 .tt-comp-info-wrap.mobile {
-    width: 100%;
-    padding: 15px 0;
+	width: 100%;
+	padding: 15px 0;
 }

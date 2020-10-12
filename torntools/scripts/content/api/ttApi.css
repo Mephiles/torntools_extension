@@ -1,44 +1,45 @@
 .tt-tabs {
-    width: 150px;
-    display: flex;
-    position: relative;
-    top: 1px;
+	width: 150px;
+	display: flex;
+	position: relative;
+	top: 1px;
 }
 
 .tt-tabs .tt-tab {
-    flex: 1 0 50%;
-    text-align: center;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    z-index: 0;
-    cursor: pointer;
+	flex: 1 0 50%;
+	text-align: center;
+	background-color: #f5f5f5;
+	border: 1px solid #ccc;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	z-index: 0;
+	cursor: pointer;
 }
 
 .tt-tabs .tt-tab:nth-of-type(2) {
-    position: relative;
-    left: -6px;
+	position: relative;
+	left: -6px;
 }
 
 .tt-tabs .tt-tab.active {
-    z-index: 1;
-    border-bottom: unset;
+	z-index: 1;
+	border-bottom: unset;
 }
 
-pre.modified, pre.original {
-    display: none;
-    border-top-left-radius: unset;
+pre.modified,
+pre.original {
+	display: none;
+	border-top-left-radius: unset;
 }
 
 pre.active {
-    display: block;
+	display: block;
 }
 
 .in-use {
-    color: #23b523;
+	color: #23b523;
 }
 
 .selection {
-    cursor: pointer;
+	cursor: pointer;
 }

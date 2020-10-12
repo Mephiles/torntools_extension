@@ -1,18 +1,18 @@
 .tt-blackjack-action {
-    color: rgb(170, 253, 89);
-    position: relative;
-    top: 15px;
-    font-size: 17px;
+	color: rgb(170, 253, 89);
+	position: relative;
+	top: 15px;
+	font-size: 17px;
 }
 
 .tt-hilo-action {
-    color: rgb(170, 253, 89);
-    position: relative;
-    left: 220px;
-    top: 10px;
-    font-size: 17px;
+	color: rgb(170, 253, 89);
+	position: relative;
+	left: 220px;
+	top: 10px;
+	font-size: 17px;
 }
 
 .items-wrap * {
-    display: none !important;
+	display: none !important;
 }
