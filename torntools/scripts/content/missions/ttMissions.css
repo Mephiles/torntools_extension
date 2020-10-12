@@ -1,33 +1,35 @@
 .tt-one-item-price {
-    color: #35f4be;
-    position: absolute;
-    left: 20px;
-    bottom: 5px;
-    font-size: 11px;
+	color: #35f4be;
+	position: absolute;
+	left: 20px;
+	bottom: 5px;
+	font-size: 11px;
 }
 
 .tt-total-value {
-    margin-top: 60px;
+	margin-top: 60px;
 }
 
-.tt-total-value, .tt-point-value {
-    text-align: left;
-    padding-left: 7px;
+.tt-total-value,
+.tt-point-value {
+	text-align: left;
+	padding-left: 7px;
 }
 
-.tt-total-value span, .tt-point-value span {
-    color: #678c00;
+.tt-total-value span,
+.tt-point-value span {
+	color: #678c00;
 }
 
 .tt-mission-information {
-    margin-top: 16px;
+	margin-top: 16px;
 }
 
 .tt-mission-information > span {
-    display: block;
+	display: block;
 }
 
 .tt-mission-title {
-    text-align: center;
-    margin-bottom: 4px;
+	text-align: center;
+	margin-bottom: 4px;
 }

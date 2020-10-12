@@ -1,92 +1,93 @@
 /* Quick crimes */
-*[draggable=true] {
-    cursor: pointer;
+*[draggable="true"] {
+	cursor: pointer;
 }
 
 #ttQuick {
-    margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 #ttQuick .inner-content {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
-    flex-wrap: wrap;
+	width: 100%;
+	padding: 10px;
+	box-sizing: border-box;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 #ttQuick .content.drag-progress * {
-    pointer-events: none;
+	pointer-events: none;
 }
 
 #ttQuick .inner-content .item {
-    flex: 1 0 auto;
-    border: 1px solid lightgray;
-    margin-right: 10px;
-    padding: 5px;
-    border-radius: 5px;
-    background-color: white;
-    cursor: pointer;
-    position: relative;
-    margin-bottom: 10px;
+	flex: 1 0 auto;
+	border: 1px solid lightgray;
+	margin-right: 10px;
+	padding: 5px;
+	border-radius: 5px;
+	background-color: white;
+	cursor: pointer;
+	position: relative;
+	margin-bottom: 10px;
 }
 
 #ttQuick .inner-content .item.removable {
-    background-color: #ffd5d5;
+	background-color: #ffd5d5;
 }
 
 #ttQuick .inner-content .item:hover .tt-close-icon {
-    opacity: 1;
+	opacity: 1;
 }
 
 #ttQuick .inner-content .item .tt-close-icon {
-    opacity: 0;
-    position: absolute;
-    top: 3px;
-    right: 3px;
-    color: #a7a7a7;
+	opacity: 0;
+	position: absolute;
+	top: 3px;
+	right: 3px;
+	color: #a7a7a7;
 }
 
 #ttQuick .inner-content .item .tt-close-icon:hover {
-    color: gray;
+	color: gray;
 }
 
 #ttQuick .inner-content .temp.item {
-    opacity: 0.2;
-    border: 1px solid gray;
+	opacity: 0.2;
+	border: 1px solid gray;
 }
 
 #ttQuick .inner-content .item .pic {
-    width: 30px;
-    height: 30px;
-    background-size: cover;
-    display: inline-block;
+	width: 30px;
+	height: 30px;
+	background-size: cover;
+	display: inline-block;
 }
 
 #ttQuick .inner-content .item .text {
-    /* text-align: center; */
-    display: inline-block;
-    vertical-align: top;
-    line-height: 30px;
-    margin-left: 10px;
+	/* text-align: center; */
+	display: inline-block;
+	vertical-align: top;
+	line-height: 30px;
+	margin-left: 10px;
 }
 
 /* Font-awesome */
 
-.fa, .fas {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    line-height: 1;
+.fa,
+.fas {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	display: inline-block;
+	font-style: normal;
+	font-variant: normal;
+	text-rendering: auto;
+	line-height: 1;
 }
 
 .fa-times:before {
-    content: "\f00d";
+	content: "\f00d";
 }
 
 .specials-cont-wrap .specials-cont > li:not(.safe-crime) {
-    display: var(--torntools-only-safe-crimes, block);
+	display: var(--torntools-only-safe-crimes, block);
 }

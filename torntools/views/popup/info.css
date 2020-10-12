@@ -1,224 +1,226 @@
 #last-update {
-    position: absolute;
-    right: 10px;
-    top: 60px;
-    color: #d48900;
-    font-size: 11px;
+	position: absolute;
+	right: 10px;
+	top: 60px;
+	color: #d48900;
+	font-size: 11px;
 }
 
 #last-update span {
-    color: black;
-    font-weight: 600;
+	color: black;
+	font-weight: 600;
 }
 
 #location {
-    margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 #status {
-    margin-top: 0;
-    font-size: 13px;
+	margin-top: 0;
+	font-size: 13px;
 }
 
 #status .okay {
-    color: #1dbb00;
+	color: #1dbb00;
 }
 
 #status .hospital {
-    color: red;
+	color: red;
 }
 
 #status .jail {
-    color: rgb(129, 64, 2);
+	color: rgb(129, 64, 2);
 }
 
 /* Bars */
 #bars {
-    width: 100%;
+	width: 100%;
 }
 
 .bar {
-    width: 100%;
-    margin-bottom: 10px;
+	width: 100%;
+	margin-bottom: 10px;
 }
 
-.bar .stat, .bar .full-in span, .bar .resets-in span {
-    font-weight: 600;
+.bar .stat,
+.bar .full-in span,
+.bar .resets-in span {
+	font-weight: 600;
 }
 
 .bar .resets-in span {
-    color: red;
+	color: red;
 }
 
 .bar .text {
-    display: flex;
+	display: flex;
 }
 
 .bar .text * {
-    flex: 1 0 auto;
+	flex: 1 0 auto;
 }
 
 .bar .text .name {
-    text-align: left;
+	text-align: left;
 }
 
 .bar .text .full-in {
-    text-align: right;
-    font-size: 11px;
+	text-align: right;
+	font-size: 11px;
 }
 
 .bar .text .resets-in {
-    text-align: right;
-    font-size: 11px;
-    display: none;
+	text-align: right;
+	font-size: 11px;
+	display: none;
 }
 
 .bar .progress .stat {
-    position: absolute;
-    top: 0;
-    right: 5px;
+	position: absolute;
+	top: 0;
+	right: 5px;
 }
 
 .bar .progress {
-    width: 100%;
-    height: 13px;
-    border: 1px solid lightgray;
-    /* border-radius: 5px; */
-    position: relative;
+	width: 100%;
+	height: 13px;
+	border: 1px solid lightgray;
+	/* border-radius: 5px; */
+	position: relative;
 }
 
 .bar .progress div {
-    width: 0;
-    height: inherit;
-    border-radius: inherit;
+	width: 0;
+	height: inherit;
+	border-radius: inherit;
 }
 
 #energy .progress div {
-    background-color: #9cdc5c;
+	background-color: #9cdc5c;
 }
 
 #nerve .progress div {
-    background-color: #e6815b;
+	background-color: #e6815b;
 }
 
 #happy .progress div {
-    background-color: #f1e053;
+	background-color: #f1e053;
 }
 
 #life .progress div {
-    background-color: #8e97ff;
+	background-color: #8e97ff;
 }
 
 #chain .progress div {
-    background-color: #8F8F8F;
+	background-color: #8f8f8f;
 }
 
 #travel .progress div {
-    background-color: #b2b2ff;
+	background-color: #b2b2ff;
 }
 
 /* Cooldowns */
 .cooldowns {
-    width: 100%;
-    display: flex;
-    text-align: center;
-    margin-top: 15px;
+	width: 100%;
+	display: flex;
+	text-align: center;
+	margin-top: 15px;
 }
 
 .cooldowns .name {
-    font-weight: 600;
+	font-weight: 600;
 }
 
 .cooldowns .time {
-    font-size: 11px;
+	font-size: 11px;
 }
 
 .cooldowns #drug .name {
-    color: #5ec312;
+	color: #5ec312;
 }
 
 .cooldowns #booster .name {
-    color: #d29321;
+	color: #d29321;
 }
 
 .cooldowns #medical .name {
-    color: #5e5eda;
+	color: #5e5eda;
 }
 
 .cooldowns .cd {
-    flex: 1 0 auto;
+	flex: 1 0 auto;
 }
 
 .cooldowns .cd * {
-    width: 100%;
+	width: 100%;
 }
 
 /* Footer */
 .footer {
-    width: 100%;
-    height: 25px;
-    line-height: 25px;
-    background-color: #f7f7f7;
-    display: flex;
-    text-align: center;
-    margin-top: 12px;
+	width: 100%;
+	height: 25px;
+	line-height: 25px;
+	background-color: #f7f7f7;
+	display: flex;
+	text-align: center;
+	margin-top: 12px;
 }
 
 .footer * {
-    flex: 1 0 auto;
+	flex: 1 0 auto;
 }
 
 .link:hover {
-    color: #888888;
-    cursor: pointer;
+	color: #888888;
+	cursor: pointer;
 }
 
 /* Stakeouts */
 .stakeouts-heading {
-    display: flex;
-    margin-top: 10px;
-    margin-bottom: 5px;
-    cursor: pointer;
+	display: flex;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	cursor: pointer;
 }
-.stakeouts-heading>.text {
-    flex-basis: 95%;
-    padding-left: 5px;
+.stakeouts-heading > .text {
+	flex-basis: 95%;
+	padding-left: 5px;
 }
 .tt-title.collapsed + .stakeouts {
-    max-height: 0 !important;
-    overflow: hidden;
+	max-height: 0 !important;
+	overflow: hidden;
 }
 .stakeouts {
-    padding: 0 10px;
+	padding: 0 10px;
 }
 .stakeouts .user {
-    padding: 5px 3px;
+	padding: 5px 3px;
 }
 .stakeouts .user.even {
-    background-color: rgb(241, 241, 241);
+	background-color: rgb(241, 241, 241);
 }
 .stakeouts .user.odd {
-    background-color: rgb(207, 207, 207);
+	background-color: rgb(207, 207, 207);
 }
 .stakeouts .user .row {
-    display: flex;
+	display: flex;
 }
 .stakeouts .user .row .status {
-    padding-right: 5px;
+	padding-right: 5px;
 }
 .stakeouts .user .row .status.online {
-    color: #1dbb00;
-    font-weight: 600;
+	color: #1dbb00;
+	font-weight: 600;
 }
 .stakeouts .user .row .status.idle {
-    color: #fce51d;
-    font-weight: 600;
+	color: #fce51d;
+	font-weight: 600;
 }
 .stakeouts .user .row .name a {
-    text-decoration: none;
-    color: black;
-    cursor: pointer;
+	text-decoration: none;
+	color: black;
+	cursor: pointer;
 }
 .stakeouts .user .row .name a:hover {
-    color: #888888;
+	color: #888888;
 }

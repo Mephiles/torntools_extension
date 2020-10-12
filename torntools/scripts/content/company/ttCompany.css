@@ -1,30 +1,30 @@
 /* User detailed info */
 #employees .employee-list.tt-modified {
-    background-color: unset;
+	background-color: unset;
 }
 
 #employees .employee-list.tt-modified > li {
-    background-color: #F2F2F2;
+	background-color: #f2f2f2;
 }
 
 #employees .employee-list li.tt-user-info {
-    line-height: 18px;
-    font-size: 11px;
-    text-align: center;
-    padding-bottom: 5px;
-    color: #7b7b7b;
-    background-color: #dcdcdc !important;
+	line-height: 18px;
+	font-size: 11px;
+	text-align: center;
+	padding-bottom: 5px;
+	color: #7b7b7b;
+	background-color: #dcdcdc !important;
 }
 
 .tt-user-info .tt-user-info-inner-wrap {
-    margin: auto;
+	margin: auto;
 }
 
 .tt-user-info .tt-user-info-inner-wrap div {
-    display: inline-block;
-    vertical-align: top;
+	display: inline-block;
+	vertical-align: top;
 }
 
 .tt-user-info-inner-wrap .tt-divider {
-    padding: 0 13px;
+	padding: 0 13px;
 }

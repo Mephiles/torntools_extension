@@ -421,7 +421,7 @@ function mainMarket() {
 							doc.new({
 								type: "div",
 								class: "price",
-								text: "No price found."
+								text: "No price found.",
 							})
 						);
 					}
@@ -460,7 +460,7 @@ function mainStocks() {
 		let quantity_span = doc.new({
 			type: "div",
 			class: "heading-quantity",
-			text: `(${numberWithCommas(quantity)} shares)`
+			text: `(${numberWithCommas(quantity)} shares)`,
 		});
 		heading.appendChild(quantity_span);
 
@@ -624,7 +624,7 @@ function mainStocks() {
 		let div = doc.new({
 			type: "div",
 			class: "stock-item",
-			attributes: { name: `${name.toLowerCase()} (${stock.acronym.toLowerCase()})` }
+			attributes: { name: `${name.toLowerCase()} (${stock.acronym.toLowerCase()})` },
 		});
 		let hr = doc.new("hr");
 		let heading = doc.new({ type: "div", class: "heading", text: name }); // use acronym if name is too long
@@ -754,9 +754,9 @@ function mainStocks() {
 			ttStorage.change({
 				stock_alerts: {
 					[id]: {
-						fall: fall_input.value
-					}
-				}
+						fall: fall_input.value,
+					},
+				},
 			});
 		});
 	}

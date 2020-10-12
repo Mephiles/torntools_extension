@@ -1,172 +1,172 @@
 /* OC */
 .tt-oc-time {
-    font-size: 11px;
-    font-weight: 600;
-    display: block;
-    position: relative;
-    top: 8px;
-    right: -7px;
+	font-size: 11px;
+	font-weight: 600;
+	display: block;
+	position: relative;
+	top: 8px;
+	right: -7px;
 }
 
 .crimes-list .tt-nnb {
-    text-align: right;
-    width: 154px;
+	text-align: right;
+	width: 154px;
 }
 
 .crimes-list .level.torntools-modified {
-    width: 100px !important;
+	width: 100px !important;
 }
 
 .crimes-list .member.torntools-modified.torntools-mobile {
-    width: 140px !important;
+	width: 140px !important;
 }
 
 .crimes-list .level.torntools-modified.torntools-mobile {
-    width: 30px !important;
+	width: 30px !important;
 }
 
 .crimes-list .stat.torntools-modified.torntools-mobile {
-    width: 40px !important;
-    padding-left: 5px !important;
+	width: 40px !important;
+	padding-left: 5px !important;
 }
 
 .crimes-list .tt-nnb.torntools-mobile {
-    width: 27px;
+	width: 27px;
 }
 
 .plan-list-scrollbar.plans-list .tt-nnb.short {
-    width: 88px;
+	width: 88px;
 }
 
 .plan-list-scrollbar.plans-list .tt-nnb.short.torntools-mobile {
-    width: 20px;
+	width: 20px;
 }
 
 .plans-list .offences.torntools-modified {
-    width: 55px !important;
+	width: 55px !important;
 }
 
 .plans-list .member.torntools-modified.torntools-mobile {
-    width: 100px !important;
+	width: 100px !important;
 }
 
 .plans-list .level.torntools-modified.torntools-mobile {
-    width: 15px !important;
+	width: 15px !important;
 }
 
 .plans-list .offences.torntools-modified.torntools-mobile {
-    width: 50px !important;
+	width: 50px !important;
 }
 
 .plans-list .act.torntools-modified.torntools-mobile {
-    width: 29px !important;
+	width: 29px !important;
 }
 
 .faction-crimes-wrap:nth-of-type(3) .crimes-list > .item-wrap:nth-of-type(5) > ul > li:not(.plan-crimes),
 .faction-crimes-wrap:nth-of-type(3) .crimes-list > .item-wrap:nth-of-type(6) > ul > li:not(.plan-crimes),
 .faction-crimes-wrap:nth-of-type(3) .crimes-list > .item-wrap:nth-of-type(8) > ul > li:not(.plan-crimes) {
-    line-height: 28px !important;
+	line-height: 28px !important;
 }
 
 /* Recommended NNB */
 .plan-crimes .tt-span {
-    float: right;
+	float: right;
 }
 
 /* Armory logs */
 #tab4-4 .news-list .date .left-date {
-    position: relative;
-    left: -3px;
+	position: relative;
+	left: -3px;
 }
 
 #tab4-4 .news-list .date .separator {
-    position: relative;
-    top: -6px;
+	position: relative;
+	top: -6px;
 }
 
 #tab4-4 .news-list .date .right-date {
-    position: relative;
-    left: 2px;
+	position: relative;
+	left: 2px;
 }
 
 /* Chain Report */
 #ttExportTableButton {
-    width: 120px;
-    padding: 6px;
-    cursor: pointer;
-    color: white;
-    background-color: #9a9a9a;
-    text-align: center;
-    border: 1px solid lightgrey;
-    border-radius: 5px;
+	width: 120px;
+	padding: 6px;
+	cursor: pointer;
+	color: white;
+	background-color: #9a9a9a;
+	text-align: center;
+	border: 1px solid lightgrey;
+	border-radius: 5px;
 }
 
 #ttExportTableButton:hover {
-    background-color: gray;
+	background-color: gray;
 }
 
 /* Announcement & Info page */
 .tt-force-full {
-    overflow-y: unset !important;
-    max-height: unset !important;
+	overflow-y: unset !important;
+	max-height: unset !important;
 }
 
 /* User detailed info */
 .members-list .table-body.tt-modified {
-    background-color: unset;
+	background-color: unset;
 }
 
 .members-list .table-body.tt-modified > li {
-    background-color: #F2F2F2;
+	background-color: #f2f2f2;
 }
 
 .members-list .table-body li.tt-user-info {
-    line-height: 18px;
-    font-size: 11px;
-    text-align: center;
-    padding-bottom: 5px;
-    color: #7b7b7b;
-    background-color: #dcdcdc !important;
+	line-height: 18px;
+	font-size: 11px;
+	text-align: center;
+	padding-bottom: 5px;
+	color: #7b7b7b;
+	background-color: #dcdcdc !important;
 }
 
 .tt-user-info .tt-user-info-inner-wrap {
-    margin: auto;
+	margin: auto;
 }
 
 .tt-user-info .tt-user-info-inner-wrap div {
-    display: inline-block;
-    vertical-align: top;
+	display: inline-block;
+	vertical-align: top;
 }
 
 .tt-user-info-inner-wrap .tt-divider {
-    padding: 0 13px;
+	padding: 0 13px;
 }
 
 #tt-player-filter {
-    margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 /* Drug information */
 .item-effect.tabbed {
-    margin-left: 15px;
+	margin-left: 15px;
 }
 
 .item-effect.double-tabbed {
-    margin-left: 30px;
+	margin-left: 30px;
 }
 
 /* Highlight blood bags */
 
 .tt-good_blood {
-    background-color: #bdecb9b5 !important;
+	background-color: #bdecb9b5 !important;
 }
 
 .tt-bad_blood {
-    background-color: #f5b2b28a !important;
+	background-color: #f5b2b28a !important;
 }
 
 span.tt-item-price {
-    color: #678c00;
-    float: right;
-    padding-right: 10px;
+	color: #678c00;
+	float: right;
+	padding-right: 10px;
 }

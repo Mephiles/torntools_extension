@@ -1,39 +1,39 @@
 .tt-upgrade-text {
-    position: absolute;
-    right: 0;
-    color: green;
-    float: right;
-    font-size: 10px;
-    line-height: 10px;
+	position: absolute;
+	right: 0;
+	color: green;
+	float: right;
+	font-size: 10px;
+	line-height: 10px;
 }
 
 .bar-gray-d {
-    font-size: 10px;
-    text-align: right;
+	font-size: 10px;
+	text-align: right;
 }
 
 .name span.negative {
-    color: #ff6464;
+	color: #ff6464;
 }
 
 .name span.positive {
-    color: #65d007;
+	color: #65d007;
 }
 
 .name span:not(.positive):not(.negative) {
-    color: #ccc;
+	color: #ccc;
 }
 
 .tt-race-need-icon {
-    font-size: 40px;
-    bottom: 10px;
-    position: absolute;
-    left: 15px;
-    color: #22ac28;
+	font-size: 40px;
+	bottom: 10px;
+	position: absolute;
+	left: 15px;
+	color: #22ac28;
 }
 
 .properties .name {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }

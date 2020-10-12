@@ -1,29 +1,29 @@
 #tt-add-all-to-mm-list {
-    width: 120px;
-    padding: 6px;
-    cursor: pointer;
-    color: white;
-    background-color: #9a9a9a;
-    text-align: center;
-    border: 1px solid lightgrey;
-    border-radius: 5px;
+	width: 120px;
+	padding: 6px;
+	cursor: pointer;
+	color: white;
+	background-color: #9a9a9a;
+	text-align: center;
+	border: 1px solid lightgrey;
+	border-radius: 5px;
 }
 
 #tt-add-all-to-mm-list:hover {
-    background-color: gray;
+	background-color: gray;
 }
 
 /* Grid System */
 
 .tt-userinfo-grid {
-    grid-template-columns: [c1] 1fr;
-    background-color: #dcdcdc;
-    color: #7b7b7b;
-    line-height: 18px;
-    font-size: 11px;
-    padding-bottom: 2px;
+	grid-template-columns: [c1] 1fr;
+	background-color: #dcdcdc;
+	color: #7b7b7b;
+	line-height: 18px;
+	font-size: 11px;
+	padding-bottom: 2px;
 }
 
 .tt-userinfo-grid .tt-userinfo--stats_estimate {
-    grid-column-start: c1;
+	grid-column-start: c1;
 }
