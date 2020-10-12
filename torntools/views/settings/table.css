@@ -1,105 +1,106 @@
 /* Target List Table */
 .table {
-    width: 100%;
-    min-width: 870px;
+	width: 100%;
+	min-width: 870px;
 }
 
 /* legend */
 
 .table .legend {
-    display: flex;
-    margin-top: 10px;
-    margin-bottom: 20px;
+	display: flex;
+	margin-top: 10px;
+	margin-bottom: 20px;
 }
 
 .table .legend .item {
-    flex: 1 0 auto;
+	flex: 1 0 auto;
 }
 
 .table .legend .item .marker {
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-    min-width: 40px;
-    float: left;
-    margin-right: 5px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	min-width: 40px;
+	float: left;
+	margin-right: 5px;
 }
 
 .table .legend .item .text {
-    height: 22px;
-    line-height: 22px;
+	height: 22px;
+	line-height: 22px;
 }
 
 .green.marker {
-    border: 1px solid black;
-    background-color: #dfffdf;
+	border: 1px solid black;
+	background-color: #dfffdf;
 }
 
 .yellow.marker {
-    border: 1px solid black;
-    background-color: #fffdcc;
+	border: 1px solid black;
+	background-color: #fffdcc;
 }
 
 .marker.button {
-    border: 1px solid lightgray;
-    border-radius: 4px;
-    padding: 2px 4px;
-    background-color: #c82333;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
+	border: 1px solid lightgray;
+	border-radius: 4px;
+	padding: 2px 4px;
+	background-color: #c82333;
+	color: white;
+	font-weight: 600;
+	cursor: pointer;
 }
 
 .marker.button:hover {
-    background-color: #f12c3f;
+	background-color: #f12c3f;
 }
 
 /* header */
 
 .table .header.row {
-    font-weight: 600;
-    position: sticky;
-    top: -10px;
+	font-weight: 600;
+	position: sticky;
+	top: -10px;
 }
 
 .table .header.row > * {
-    border-bottom: 1px solid black;
-    position: relative;
-    cursor: pointer;
+	border-bottom: 1px solid black;
+	position: relative;
+	cursor: pointer;
 }
 
 .table .header.row i.fa-caret-up {
-    font-size: 19px;
-    position: absolute;
-    right: 5px;
-    z-index: 9;
+	font-size: 19px;
+	position: absolute;
+	right: 5px;
+	z-index: 9;
 }
 
 .table .header.row i.fa-caret-down {
-    font-size: 19px;
-    position: absolute;
-    right: 5px;
-    top: 10px;
-    z-index: 9;
+	font-size: 19px;
+	position: absolute;
+	right: 5px;
+	top: 10px;
+	z-index: 9;
 }
 
 /* body */
 
 .table .row {
-    width: 100%;
-    height: 30px;
-    line-height: 30px;
-    margin: 0;
-    padding: 0;
-    font-weight: 400;
-    text-align: center;
-    display: flex;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	margin: 0;
+	padding: 0;
+	font-weight: 400;
+	text-align: center;
+	display: flex;
 }
 
-.table .row div, .table .row a {
-    border-bottom: 0.5px solid lightgrey;
-    width: 7%;
-    padding-left: 5px;
+.table .row div,
+.table .row a {
+	border-bottom: 0.5px solid lightgrey;
+	width: 7%;
+	padding-left: 5px;
 }
 
 .table .row .win,
@@ -107,7 +108,7 @@
 .table .row .leave,
 .table .row .hosp,
 .table .row .arrest {
-    width: 6%;
+	width: 6%;
 }
 
 .table .header.row .win i,
@@ -120,132 +121,131 @@
 .table .header.row .defend_lose i,
 .table .header.row .stealth i,
 .table .header.row .respect i {
-    right: -2px;
+	right: -2px;
 }
 
 .table .header.row .defend i {
-    right: 0;
+	right: 0;
 }
 
 .table .row .defend_lose,
 .table .row .stalemate {
-    width: 10%;
+	width: 10%;
 }
 
 .table .row .last_attack {
-    width: 15%;
+	width: 15%;
 }
 
 .table .row:last-of-type > * {
-    border-bottom: unset;
+	border-bottom: unset;
 }
 
 .table .row .new-section {
-    border-left: 1px solid grey;
+	border-left: 1px solid grey;
 }
 
 .table .row .good {
-    background-color: #dfffdf;
+	background-color: #dfffdf;
 }
 
 .table .row .bad {
-    background-color: #ffe0e0;
+	background-color: #ffe0e0;
 }
 
 .table .row .neutral {
-    background: white;
+	background: white;
 }
-
 
 /* TABLE LIST */
 .table.list {
-    width: 100%;
-    margin-top: 5px;
-    min-width: unset;
+	width: 100%;
+	margin-top: 5px;
+	min-width: unset;
 }
 
 .table.list .body {
-    position: relative;
+	position: relative;
 }
 
 .table.list .row {
-    height: 25px;
-    font-size: 14px;
-    margin-bottom: 5px;
+	height: 25px;
+	font-size: 14px;
+	margin-bottom: 5px;
 }
 
 .table.list .row .text {
-    border-radius: 4px;
-    border: 1px solid #a7a7a7;
-    padding-left: 4px;
-    outline: none;
-    box-shadow: 0 1px 5px 1px #e8e8e8;
-    margin-right: 4px;
+	border-radius: 4px;
+	border: 1px solid #a7a7a7;
+	padding-left: 4px;
+	outline: none;
+	box-shadow: 0 1px 5px 1px #e8e8e8;
+	margin-right: 4px;
 }
 
-.table.list .row input[type=checkbox] {
-    position: relative;
-    top: 3px;
+.table.list .row input[type="checkbox"] {
+	position: relative;
+	top: 3px;
 }
 
 #ff-table .row .text {
-    width: 50%;
+	width: 50%;
 }
 
 #custom_links .row .text.name {
-    width: 30%;
+	width: 30%;
 }
 
 #custom_links .row .text.href {
-    width: 60%;
+	width: 60%;
 }
 
 #loot-table .row .text.name {
-    width: 30%;
+	width: 30%;
 }
 
 #loot-table .row .text.level {
-    width: 20%;
+	width: 20%;
 }
 
 #loot-table .row .text.time {
-    width: 20%;
+	width: 20%;
 }
 
 .table.list .row .remove-icon-wrap {
-    width: 25px;
-    height: 25px;
-    border: 1px solid lightgray;
-    border-radius: 4px;
-    box-sizing: border-box;
-    padding: unset;
-    cursor: pointer;
+	width: 25px;
+	height: 25px;
+	border: 1px solid lightgray;
+	border-radius: 4px;
+	box-sizing: border-box;
+	padding: unset;
+	cursor: pointer;
 }
 
 .table.list .row .remove-icon-wrap:hover {
-    background: #eaeaea;
+	background: #eaeaea;
 }
 
 .table.list .row .remove-icon {
-    position: relative;
-    top: -4px;
-    color: red;
+	position: relative;
+	top: -4px;
+	color: red;
 }
 
 .table.list .row .add-button {
-    width: 35px;
-    height: 21px;
-    line-height: 21px;
-    border: 1px solid lightgray;
-    text-align: center;
-    position: relative;
-    top: 2px;
-    cursor: pointer;
-    border-radius: 6px;
-    background: #f9f9f9;
-    padding: unset;
+	width: 35px;
+	height: 21px;
+	line-height: 21px;
+	border: 1px solid lightgray;
+	text-align: center;
+	position: relative;
+	top: 2px;
+	cursor: pointer;
+	border-radius: 6px;
+	background: #f9f9f9;
+	padding: unset;
 }
 
 .table.list .row .add-button:hover {
-    background: #c7f77b;
+	background: #c7f77b;
 }

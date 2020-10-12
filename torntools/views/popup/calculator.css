@@ -1,45 +1,44 @@
 #clear-all {
-    float: right;
-    margin-top: 5px;
+	float: right;
+	margin-top: 5px;
 }
 
 #items-selected {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding-left: 10px;
-    font-size: 13px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-left: 10px;
+	font-size: 13px;
 }
 
 #total-value {
-    text-align: right;
-    font-weight: 600;
+	text-align: right;
+	font-weight: 600;
 }
 
 .quantity {
-    max-width: 25px;
-    position: absolute;
-    right: 47px;
-
+	max-width: 25px;
+	position: absolute;
+	right: 47px;
 }
 
 .add {
-    position: absolute;
-    right: 5px;
+	position: absolute;
+	right: 5px;
 }
 
 #item-list div:hover {
-    cursor: default;
-    background-color: white;
+	cursor: default;
+	background-color: white;
 }
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 /* Firefox */
-input[type=number] {
-    -moz-appearance: textfield;
+input[type="number"] {
+	-moz-appearance: textfield;
 }

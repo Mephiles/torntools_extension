@@ -1,53 +1,54 @@
 /* sides */
 .tt-side-value {
-    height: 30px;
-    line-height: 30px;
-    font-size: 15px;
-    text-align: center;
-    border-top: 1px solid lightgrey;
+	height: 30px;
+	line-height: 30px;
+	font-size: 15px;
+	text-align: center;
+	border-top: 1px solid lightgrey;
 }
 
 .tt-side-value span {
-    color: #678c00;
+	color: #678c00;
 }
 
 .tt-side-item-value {
-    float: right;
-    color: #678c00;
+	float: right;
+	color: #678c00;
 }
 
 /* adds */
 .log .desc {
-    position: relative;
-    color: black !important;
+	position: relative;
+	color: black !important;
 }
 
 .tt-add-value {
-    position: absolute;
-    bottom: 2px;
-    right: 3px;
-    color: #678c00;
+	position: absolute;
+	bottom: 2px;
+	right: 3px;
+	color: #678c00;
 }
 
 /* Options */
-.user.left > .title-black, .user.right > .title-black {
-    position: relative;
+.user.left > .title-black,
+.user.right > .title-black {
+	position: relative;
 }
 
 .item-value-option-wrap {
-    position: absolute;
-    right: 10px;
-    top: 0;
-    color: #acea00;
-    font-size: 12px;
+	position: absolute;
+	right: 10px;
+	top: 0;
+	color: #acea00;
+	font-size: 12px;
 }
 
 .item-value-option-wrap input {
-    position: relative;
-    top: 2px;
-    margin-left: 4px;
+	position: relative;
+	top: 2px;
+	margin-left: 4px;
 }
 
 #trade-container > .title-black {
-    position: relative;
+	position: relative;
 }

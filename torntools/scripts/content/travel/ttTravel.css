@@ -1,295 +1,300 @@
 /* ABROAD */
 .travel-agency-market .tt-travel-market-heading {
-    width: 60px;
-    float: left;
-    padding-right: 10px;
-    text-align: right;
-    border-left: 2px solid #ccc;
-    padding-left: 0 !important;
+	width: 60px;
+	float: left;
+	padding-right: 10px;
+	text-align: right;
+	border-left: 2px solid #ccc;
+	padding-left: 0 !important;
 }
 
 .travel-agency-market li.first .tt-travel-market-cell {
-    border-top: 1px solid transparent;
+	border-top: 1px solid transparent;
 }
 
 .travel-agency-market .tt-travel-market-cell {
-    width: 60px;
-    /* text-align: right; */
-    line-height: 34px;
-    padding-left: 10px;
-    display: inline-block;
-    font-size: 12px;
-    border-left: 2px solid #ccc;
-    margin-top: -1px;
-    vertical-align: middle;
+	width: 60px;
+	/* text-align: right; */
+	line-height: 34px;
+	padding-left: 10px;
+	display: inline-block;
+	font-size: 12px;
+	border-left: 2px solid #ccc;
+	margin-top: -1px;
+	vertical-align: middle;
 }
 
-.travel-agency-market .stock-b, .travel-agency-market li .stock {
-    width: 50px !important;
+.travel-agency-market .stock-b,
+.travel-agency-market li .stock {
+	width: 50px !important;
 }
 
-.travel-agency-market .name-b, .travel-agency-market li .name {
-    width: 269px !important;
+.travel-agency-market .name-b,
+.travel-agency-market li .name {
+	width: 269px !important;
 }
 
-.travel-agency-market .circulation-b, .travel-agency-market li .circulation {
-    width: 85px !important;
+.travel-agency-market .circulation-b,
+.travel-agency-market li .circulation {
+	width: 85px !important;
 }
 
 .tt-travel-price-indicator {
-    width: 0;
-    height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    float: left;
-    position: relative;
-    top: 12px;
-    margin-right: 2px;
+	width: 0;
+	height: 0;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	float: left;
+	position: relative;
+	top: 12px;
+	margin-right: 2px;
 }
 
 /* Fill max */
 .deal {
-    position: relative;
+	position: relative;
 }
 
 .deal .buy {
-    margin-top: -14px !important;
-    line-height: 20px !important;
+	margin-top: -14px !important;
+	line-height: 20px !important;
 }
 
 .tt-max-buy {
-    position: absolute;
-    width: 62px;
-    text-align: center;
-    border-left: 2px solid #ccc;
-    height: 15px;
-    line-height: 15px;
-    bottom: -17px;
-    right: 0;
-    font-size: 9px;
+	position: absolute;
+	width: 62px;
+	text-align: center;
+	border-left: 2px solid #ccc;
+	height: 15px;
+	line-height: 15px;
+	bottom: -17px;
+	right: 0;
+	font-size: 9px;
 }
 
 /* HOME */
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    opacity: 1;
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+	opacity: 1;
 }
 
 .travel-agency.tt-mobile .path {
-    display: none !important;
+	display: none !important;
 }
 
 #ttTravelTable .top-row {
-    margin-top: 10px;
-    margin-bottom: 20px;
+	margin-top: 10px;
+	margin-bottom: 20px;
 }
 
 #ttTravelTable .top-row > * {
-    width: 49%;
+	width: 49%;
 }
 
 #ttTravelTable .filter-button {
-    display: inline-block;
+	display: inline-block;
 }
 
 #ttTravelTable .filter-button * {
-    display: inline-block;
-    cursor: pointer;
+	display: inline-block;
+	cursor: pointer;
 }
 
 #ttTravelTable .table-type-button {
-    display: inline-flex;
-    flex-direction: row-reverse;
+	display: inline-flex;
+	flex-direction: row-reverse;
 }
 
 #ttTravelTable .table-type-button span[type] {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 #ttTravelTable .table-type-button span[type].active {
-    font-weight: 600;
+	font-weight: 600;
 }
 
 #ttTravelTable .legend-content:not(.collapsed) {
-    padding-bottom: 20px;
+	padding-bottom: 20px;
 }
 
 #ttTravelTable .legend-content.collapsed {
-    height: 0;
-    overflow-y: hidden;
+	height: 0;
+	overflow-y: hidden;
 }
 
 #ttTravelTable .legend-content .heading {
-    height: 25px;
-    line-height: 25px;
-    font-weight: 600;
-    font-size: 14px;
-    padding-left: 10px;
+	height: 25px;
+	line-height: 25px;
+	font-weight: 600;
+	font-size: 14px;
+	padding-left: 10px;
 }
 
 #ttTravelTable .legend-content #tt-items {
-    width: 32px;
-    padding-left: 5px;
-    border: 1px solid gray;
-    border-radius: 10px;
-    height: 15px;
+	width: 32px;
+	padding-left: 5px;
+	border: 1px solid gray;
+	border-radius: 10px;
+	height: 15px;
 }
 
 #ttTravelTable .legend-content .row {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0;
-    padding-left: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0;
+	padding-left: 20px;
 }
 
-#ttTravelTable .legend-content .row .radio-item, #ttTravelTable .legend-content .row .checkbox-item {
-    margin-bottom: 5px;
+#ttTravelTable .legend-content .row .radio-item,
+#ttTravelTable .legend-content .row .checkbox-item {
+	margin-bottom: 5px;
 }
 
-#ttTravelTable .legend-content .row .radio-item input, #ttTravelTable .legend-content .row .checkbox-item input {
-    position: relative;
-    top: 2px;
-    margin-left: 10px;
-    margin-right: 5px;
+#ttTravelTable .legend-content .row .radio-item input,
+#ttTravelTable .legend-content .row .checkbox-item input {
+	position: relative;
+	top: 2px;
+	margin-left: 10px;
+	margin-right: 5px;
 }
 
 #ttTravelTable .table .header-row {
-    border-top: unset !important;
+	border-top: unset !important;
 }
 
 #ttTravelTable .table .header-row div {
-    position: relative;
-    cursor: pointer;
-    height: 30px;
-    line-height: 20px;
+	position: relative;
+	cursor: pointer;
+	height: 30px;
+	line-height: 20px;
 }
 
 #ttTravelTable .table .row {
-    margin: 0;
-    display: flex;
-    min-height: 25px;
-    border-top: 0.5px solid lightgray;
-    line-height: 20px;
-    align-items: center;
+	margin: 0;
+	display: flex;
+	min-height: 25px;
+	border-top: 0.5px solid lightgray;
+	line-height: 20px;
+	align-items: center;
 }
 
 #ttTravelTable .table .row div {
-    flex-basis: 0;
-    flex-grow: 1;
-    text-align: center;
+	flex-basis: 0;
+	flex-grow: 1;
+	text-align: center;
 }
 
 #ttTravelTable .table .row div .item-image {
-    width: 33px;
-    height: 20px;
-    vertical-align: top;
-    display: inline-block;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
+	width: 33px;
+	height: 20px;
+	vertical-align: top;
+	display: inline-block;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
 }
 
 #ttTravelTable .table .row div a {
-    margin: unset;
-    display: inline-block;
+	margin: unset;
+	display: inline-block;
 }
 
 #ttTravelTable .table .row.hidden {
-    display: none;
+	display: none;
 }
 
 #ttTravelTable .table .row .advanced.hidden {
-    display: none;
+	display: none;
 }
 
 i.fa-caret-up:not(.tt-title-icon):not(.tt-title-icon-torn) {
-    font-size: 19px;
-    position: absolute;
-    left: 47%;
-    top: -10px;
+	font-size: 19px;
+	position: absolute;
+	left: 47%;
+	top: -10px;
 }
 
 i.fa-caret-down:not(.tt-title-icon):not(.tt-title-icon-torn) {
-    font-size: 19px;
-    position: absolute;
-    left: 47%;
-    top: 13px;
+	font-size: 19px;
+	position: absolute;
+	left: 47%;
+	top: 13px;
 }
 
 #ttTravelTable .table .row .flag {
-    width: 15px;
-    height: 15px;
-    display: inline-block;
-    position: relative;
-    top: 3px;
-    margin-right: 3px;
-    background-size: cover !important;
+	width: 15px;
+	height: 15px;
+	display: inline-block;
+	position: relative;
+	top: 3px;
+	margin-right: 3px;
+	background-size: cover !important;
 }
 
 #ttTravelTable .table .row .update-time {
-    font-size: 10px;
+	font-size: 10px;
 }
 
 #ttTravelTable .positive.profit {
-    color: #00a500;
+	color: #00a500;
 }
 
 #ttTravelTable .negative.profit {
-    color: #de0000;
+	color: #de0000;
 }
 
 /* Cooldown Timers */
 
 .travel-wrap {
-    display: flex;
-    width: 100%;
+	display: flex;
+	width: 100%;
 }
 
 .travel-wrap > .cooldown {
-    flex: 1 0 0;
-    line-height: 60px;
-    text-align: center;
+	flex: 1 0 0;
+	line-height: 60px;
+	text-align: center;
 }
 
 .travel-wrap > .cooldown:first-child {
-    border-right: 1px solid rgb(17, 17, 17);
+	border-right: 1px solid rgb(17, 17, 17);
 }
 
 .travel-wrap > .cooldown:last-child {
-    border-left: 1px solid rgb(61, 61, 61);
+	border-left: 1px solid rgb(61, 61, 61);
 }
 
 .travel-wrap > .cooldown:not(:first-child):not(:last-child) {
-    border-right: 1px solid rgb(17, 17, 17);
-    border-left: 1px solid rgb(61, 61, 61);
+	border-right: 1px solid rgb(17, 17, 17);
+	border-left: 1px solid rgb(61, 61, 61);
 }
 
 .travel-wrap > .cooldown.waste {
-    color: red;
+	color: red;
 }
 
 /* font-awesome */
 .fas {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    line-height: 1
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	display: inline-block;
+	font-style: normal;
+	font-variant: normal;
+	text-rendering: auto;
+	line-height: 1;
 }
 
 .fa-caret-up:before {
-    content: "\f0d8"
+	content: "\f0d8";
 }
 
 .fa-caret-down:before {
-    content: "\f0d7"
+	content: "\f0d7";
 }
 
 /*
  * Sortable item table.
  */
 .sortable {
-    cursor: pointer;
+	cursor: pointer;
 }

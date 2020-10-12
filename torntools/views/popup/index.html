@@ -1,162 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
-    <!-- <link rel="stylesheet" href="../popup_window_global.css"> -->
-    <link rel="stylesheet" href="../../scripts/content/global/ttGlobal.css">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+		<!-- <link rel="stylesheet" href="../popup_window_global.css"> -->
+		<link rel="stylesheet" href="../../scripts/content/global/ttGlobal.css" />
 
-    <link rel="stylesheet" href="./index.css">
-    <link rel="stylesheet" href="./initialize.css">
-    <link rel="stylesheet" href="./info.css">
-    <link rel="stylesheet" href="./market.css">
-    <link rel="stylesheet" href="./stocks.css">
-    <link rel="stylesheet" href="./calculator.css">
-    <title>TT - Popup</title>
-</head>
-<body class="loading">
-    <div class="error"></div>
-    <div class="settings"></div>
-    <div class="header">
-        <div class="page-tab active-tab" id="info-html">Info</div>
-        <div class="page-tab" id="market-html">Market</div>
-        <div class="page-tab" id="stocks-html">Stocks</div>
-        <div class="page-tab" id="calculator-html">Calculator</div>
-    </div>
+		<link rel="stylesheet" href="./index.css" />
+		<link rel="stylesheet" href="./initialize.css" />
+		<link rel="stylesheet" href="./info.css" />
+		<link rel="stylesheet" href="./market.css" />
+		<link rel="stylesheet" href="./stocks.css" />
+		<link rel="stylesheet" href="./calculator.css" />
+		<title>TT - Popup</title>
+	</head>
+	<body class="loading">
+		<div class="error"></div>
+		<div class="settings"></div>
+		<div class="header">
+			<div class="page-tab active-tab" id="info-html">Info</div>
+			<div class="page-tab" id="market-html">Market</div>
+			<div class="page-tab" id="stocks-html">Stocks</div>
+			<div class="page-tab" id="calculator-html">Calculator</div>
+		</div>
 
-    <!-- Initialize -->
-    <div class="subpage" id="initialize">
-        <h3>Welcome to Torn<span style="color: green">Tools</span>!</h3>
-        <p>Please enter your API key</p>
-        <input type="text" id="api-field">
-        <button id="set-button">Set</button>
-    </div>
+		<!-- Initialize -->
+		<div class="subpage" id="initialize">
+			<h3>Welcome to Torn<span style="color: green">Tools</span>!</h3>
+			<p>Please enter your API key</p>
+			<input type="text" id="api-field" />
+			<button id="set-button">Set</button>
+		</div>
 
-    <!-- Info popup -->
-    <div class="subpage" id="info">
-        <h2 id="location"><span class="link" href="https://www.torn.com/index.php">Placeholder</span></h2>
-        <h2 id="status"><span>Placeholder</span></h2>
-        <div id="last-update">updated <span></span></div>
+		<!-- Info popup -->
+		<div class="subpage" id="info">
+			<h2 id="location"><span class="link" href="https://www.torn.com/index.php">Placeholder</span></h2>
+			<h2 id="status"><span>Placeholder</span></h2>
+			<div id="last-update">updated <span></span></div>
 
-        <div id="bars">
-            <div class="bar" id="energy">
-                <div class="text">
-                    <div class="name"><span class="link" href="https://www.torn.com/gym.php">Energy</span></div>
-                    <div class="full-in"><span></span></div>
-                </div>
-                <div class="progress">
-                    <div></div>
-                    <span class="stat"></span></div>
-            </div>
-            <div class="bar" id="nerve">
-                <div class="text">
-                    <div class="name"><span class="link" href="https://www.torn.com/crimes.php">Nerve</span></div>
-                    <div class="full-in"><span></span></div>
-                </div>
-                <div class="progress">
-                    <div></div>
-                    <span class="stat"></span></div>
-            </div>
-            <div class="bar" id="happy">
-                <div class="text">
-                    <div class="name"><span class="link" href="https://www.torn.com/properties.php">Happy</span></div>
-                    <div class="full-in"><span></span></div>
-                    <div class="resets-in"><span></span></div>
-                </div>
-                <div class="progress">
-                    <div></div>
-                    <span class="stat"></span></div>
-            </div>
-            <div class="bar" id="life">
-                <div class="text">
-                    <div class="name"><span class="link" href="https://www.torn.com/item.php">Life</span></div>
-                    <div class="full-in"><span></span></div>
-                </div>
-                <div class="progress">
-                    <div></div>
-                    <span class="stat"></span></div>
-            </div>
-            <div class="bar" id="chain">
-                <div class="text">
-                    <div class="name"><span class="link" href="https://www.torn.com/factions.php?step=your#/war/chain">Chain</span>
-                    </div>
-                    <div class="resets-in"><span></span></div>
-                </div>
-                <div class="progress">
-                    <div></div>
-                    <span class="stat"></span></div>
-            </div>
-            <div class="bar" id="travel">
-                <div class="text">
-                    <div class="name"><span class="link" href="https://www.torn.com/index.php">Traveling</span></div>
-                    <div class="full-in"><span></span></div>
-                </div>
-                <div class="progress">
-                    <div></div>
-                    <span class="stat"></span></div>
-            </div>
-        </div>
+			<div id="bars">
+				<div class="bar" id="energy">
+					<div class="text">
+						<div class="name"><span class="link" href="https://www.torn.com/gym.php">Energy</span></div>
+						<div class="full-in"><span></span></div>
+					</div>
+					<div class="progress">
+						<div></div>
+						<span class="stat"></span>
+					</div>
+				</div>
+				<div class="bar" id="nerve">
+					<div class="text">
+						<div class="name"><span class="link" href="https://www.torn.com/crimes.php">Nerve</span></div>
+						<div class="full-in"><span></span></div>
+					</div>
+					<div class="progress">
+						<div></div>
+						<span class="stat"></span>
+					</div>
+				</div>
+				<div class="bar" id="happy">
+					<div class="text">
+						<div class="name"><span class="link" href="https://www.torn.com/properties.php">Happy</span></div>
+						<div class="full-in"><span></span></div>
+						<div class="resets-in"><span></span></div>
+					</div>
+					<div class="progress">
+						<div></div>
+						<span class="stat"></span>
+					</div>
+				</div>
+				<div class="bar" id="life">
+					<div class="text">
+						<div class="name"><span class="link" href="https://www.torn.com/item.php">Life</span></div>
+						<div class="full-in"><span></span></div>
+					</div>
+					<div class="progress">
+						<div></div>
+						<span class="stat"></span>
+					</div>
+				</div>
+				<div class="bar" id="chain">
+					<div class="text">
+						<div class="name"><span class="link" href="https://www.torn.com/factions.php?step=your#/war/chain">Chain</span></div>
+						<div class="resets-in"><span></span></div>
+					</div>
+					<div class="progress">
+						<div></div>
+						<span class="stat"></span>
+					</div>
+				</div>
+				<div class="bar" id="travel">
+					<div class="text">
+						<div class="name"><span class="link" href="https://www.torn.com/index.php">Traveling</span></div>
+						<div class="full-in"><span></span></div>
+					</div>
+					<div class="progress">
+						<div></div>
+						<span class="stat"></span>
+					</div>
+				</div>
+			</div>
 
-        <div class="cooldowns">
-            <div class="cd" id="drug">
-                <div class="name">Drug</div>
-                <div class="time"></div>
-            </div>
-            <div class="cd" id="booster">
-                <div class="name">Booster</div>
-                <div class="time"></div>
-            </div>
-            <div class="cd" id="medical">
-                <div class="name">Medical</div>
-                <div class="time"></div>
-            </div>
-        </div>
+			<div class="cooldowns">
+				<div class="cd" id="drug">
+					<div class="name">Drug</div>
+					<div class="time"></div>
+				</div>
+				<div class="cd" id="booster">
+					<div class="name">Booster</div>
+					<div class="time"></div>
+				</div>
+				<div class="cd" id="medical">
+					<div class="name">Medical</div>
+					<div class="time"></div>
+				</div>
+			</div>
 
-        <div class="footer">
-            <div class="messages link" href="https://www.torn.com/messages.php">Messages: <span></span></div>
-            <div class="events link" href="https://www.torn.com/events.php">Events: <span></span></div>
-            <div class="money">Wallet: <span></span></div>
-        </div>
+			<div class="footer">
+				<div class="messages link" href="https://www.torn.com/messages.php">Messages: <span></span></div>
+				<div class="events link" href="https://www.torn.com/events.php">Events: <span></span></div>
+				<div class="money">Wallet: <span></span></div>
+			</div>
 
-        <div class="stakeouts-heading tt-title collapsed"><div class="text">Stakeouts</div><i class="fas fa-caret-right"></i></div>
-        <div class="stakeouts tt-content"></div>
-    </div>
+			<div class="stakeouts-heading tt-title collapsed">
+				<div class="text">Stakeouts</div>
+				<i class="fas fa-caret-right"></i>
+			</div>
+			<div class="stakeouts tt-content"></div>
+		</div>
 
-    <!-- Market popup -->
-    <div class="subpage" id="market">
-        <h2>Torn Market</h2>
-        <input type="text" id="search-bar" placeholder="Search.." autofocus>
+		<!-- Market popup -->
+		<div class="subpage" id="market">
+			<h2>Torn Market</h2>
+			<input type="text" id="search-bar" placeholder="Search.." autofocus />
 
-        <h3 id="view-item"><a target="_blank"></a></h3>
-        <div id="market-info"></div>
-        <div id="item-list"></div>
-    </div>
+			<h3 id="view-item"><a target="_blank"></a></h3>
+			<div id="market-info"></div>
+			<div id="item-list"></div>
+		</div>
 
-    <!-- Stocks popup -->
-    <div class="subpage" id="stocks">
-        <h2>Torn Stocks</h2>
-        <input type="text" id="search-bar" placeholder="Search.." autofocus>
+		<!-- Stocks popup -->
+		<div class="subpage" id="stocks">
+			<h2>Torn Stocks</h2>
+			<input type="text" id="search-bar" placeholder="Search.." autofocus />
 
-        <div id="user-stocks"></div>
-        <div id="all-stocks" style="display:none"></div>
-    </div>
+			<div id="user-stocks"></div>
+			<div id="all-stocks" style="display: none"></div>
+		</div>
 
-    <!-- Calculator popup -->
-    <div class="subpage" id="calculator">
-        <h2>Price Calculator</h2>
-        <input type="text" id="search-bar" placeholder="Search.." autofocus><span id="clear-all"><button>Clear</button></span>
-        <div id="items-selected"></div>
-        <div id="total-value" value="0"></div>
-        <div id="item-list">
-            <hr>
-        </div>
-    </div>
+		<!-- Calculator popup -->
+		<div class="subpage" id="calculator">
+			<h2>Price Calculator</h2>
+			<input type="text" id="search-bar" placeholder="Search.." autofocus /><span id="clear-all"><button>Clear</button></span>
+			<div id="items-selected"></div>
+			<div id="total-value" value="0"></div>
+			<div id="item-list">
+				<hr />
+			</div>
+		</div>
 
-    <script src="../../scripts/js/essential.js"></script>
-    <script src="../../scripts/js/globalClasses.js"></script>
-    <script src="../../scripts/js/globalFunctions.js"></script>
-    <script src="../../scripts/js/globalDatabase.js"></script>
-    <script src="./index.js"></script>
-</body>
+		<script src="../../scripts/js/essential.js"></script>
+		<script src="../../scripts/js/globalClasses.js"></script>
+		<script src="../../scripts/js/globalFunctions.js"></script>
+		<script src="../../scripts/js/globalDatabase.js"></script>
+		<script src="./index.js"></script>
+	</body>
 </html>

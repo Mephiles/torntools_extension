@@ -17,7 +17,8 @@ Thanks, Mauk @DocTorn
 	border-image: initial;
 	border-radius: 100%;
 	background: rgba(18, 71, 7, 0.5);
-	transition: width 50ms cubic-bezier(0.65, 0.05, 0.36, 1), height 50ms cubic-bezier(0.65, 0.05, 0.36, 1), left 50ms cubic-bezier(0.65, 0.05, 0.36, 1), top 50ms cubic-bezier(0.65, 0.05, 0.36, 1), padding 50ms cubic-bezier(0.65, 0.05, 0.36, 1), background 50ms 0ms;
+	transition: width 50ms cubic-bezier(0.65, 0.05, 0.36, 1), height 50ms cubic-bezier(0.65, 0.05, 0.36, 1), left 50ms cubic-bezier(0.65, 0.05, 0.36, 1),
+		top 50ms cubic-bezier(0.65, 0.05, 0.36, 1), padding 50ms cubic-bezier(0.65, 0.05, 0.36, 1), background 50ms 0ms;
 	animation: svelte-1dz9z41-fade-in 500ms ease-out backwards;
 }
 
@@ -64,7 +65,7 @@ Thanks, Mauk @DocTorn
 	flex: 1 0 25%;
 }
 
-#tt-city-items .items .column>span{
+#tt-city-items .items .column > span {
 	line-height: 18px;
 	font-size: 13px;
 	font-weight: 400;
@@ -72,10 +73,9 @@ Thanks, Mauk @DocTorn
 	text-align: center;
 }
 
-#tt-city-items .items .column>span>a {
+#tt-city-items .items .column > span > a {
 	text-decoration: none;
 }
-
 
 /* Items value */
 #tt-city-items-value {
