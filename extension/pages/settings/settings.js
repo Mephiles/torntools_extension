@@ -217,7 +217,7 @@ async function setupPreferences() {
 	}
 
 	async function saveSettings() {
-		for (let setting of ["updateNotice"]) {
+		for (let setting of ["updateNotice", "developer"]) {
 			const checkbox = _preferences.find(`#${setting}`);
 			if (!checkbox) continue;
 
