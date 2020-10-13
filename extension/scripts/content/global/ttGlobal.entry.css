@@ -1,12 +1,20 @@
+/* Align Torn to the left */
 .tt-align-left .d .container,
 .tt-align-left .d .header-wrapper-top .container {
 	margin-left: 20px;
 }
 
+/* Change chat font size */
 .overview_1MoPG .message_oP8oM * {
 	font-size: var(--torntools-chat-font-size, 12px) !important;
 }
 
+/* Hide quit and leave button */
 .quit-job {
 	display: var(--torntools-hide-leave-button, flex) !important;
+}
+
+/* Block Zalgo text from overflowing */
+.no-zalgo .chat-active_1Sufk .overview_1MoPG .message_oP8oM {
+	overflow: hidden;
 }

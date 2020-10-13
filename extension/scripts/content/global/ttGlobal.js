@@ -20,7 +20,6 @@ function loadGlobal() {
 	requireChatsLoaded()
 		.then(() => {
 			addChatSearch();
-			// TODO - Block Zalgo in chats.
 
 			document.addEventListener("click", (event) => {
 				if (!hasParent(event.target, { class: "chat-box_Wjbn9" })) {

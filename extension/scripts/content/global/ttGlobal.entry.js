@@ -27,6 +27,9 @@ async function loadGlobalEntry() {
 
 	document.documentElement.style.setProperty("--torntools-chat-font-size", `${settings.pages.chat.fontSize || 12}px`);
 
+	if (settings.pages.chat.blockZalgo) document.documentElement.classList.add("no-zalgo");
+	else document.documentElement.classList.remove("no-zalgo");
+
 	// mobile check
 	await checkMobile();
 	if (mobile) document.documentElement.classList.add("tt-mobile");
