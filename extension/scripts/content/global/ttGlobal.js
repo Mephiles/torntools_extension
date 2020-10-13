@@ -32,7 +32,7 @@ function loadGlobal() {
 			new MutationObserver((mutations) => {
 				for (let mutation of mutations) {
 					for (let addedNode of mutation.addedNodes) {
-						if (!addedNode.classList.contains("message_oP8oM")) continue;
+						if (addedNode.classList && !addedNode.classList.contains("message_oP8oM")) continue;
 
 						if (settings.pages.chat.searchChat) {
 							const parent = findParent(addedNode, { class: "chat-box_Wjbn9" });
