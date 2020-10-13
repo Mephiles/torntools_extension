@@ -34,7 +34,7 @@ async function showPage(name) {
 	}
 }
 
-function setupChangelog() {
+async function setupChangelog() {
 	let content = document.find("#changelog > section");
 
 	const contributorList = document.find("#changelog .contributors");
@@ -122,6 +122,8 @@ function setupChangelog() {
 
 	// Ending words
 	content.appendChild(document.newElement({ type: "p", text: "The rest is history..", style: { textAlign: "center" } }));
+
+	await ttStorage.change({ version: { showNotice: false } });
 }
 
 async function setupPreferences() {

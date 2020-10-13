@@ -28,7 +28,8 @@
 		"https://api.torn.com/*"
 	],
 	"web_accessible_resources": [
-		"resources/images/*.png"
+		"resources/images/*.png",
+		"pages/*"
 	],
 	"options_ui": {
 		"page": "pages/settings/settings.html",

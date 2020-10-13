@@ -1,7 +1,8 @@
 (async () => {
 	await convertDatabase();
-
 	await loadDatabase();
+
+	await checkUpdate();
 })();
 
 async function convertDatabase() {
@@ -44,4 +45,16 @@ async function convertDatabase() {
 
 		return newStorage;
 	}
+}
+
+async function checkUpdate() {
+	const oldVersion = settings.previousVersion;
+	const newVersion = chrome.runtime.getManifest().version;
+
+	await ttStorage.change({
+		version: {
+			showNotice: !oldVersion || oldVersion !== newVersion,
+			oldVersion: newVersion,
+		},
+	});
 }

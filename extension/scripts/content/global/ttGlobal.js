@@ -3,6 +3,13 @@
 	console.log("TT: Global - Loading script. ");
 
 	storageListeners.settings.push(loadGlobal);
+	storageListeners.version.push(() => {
+		requireSidebar()
+			.then(async () => {
+				await showUpdateNotice();
+			})
+			.catch((reason) => console.error("TT failed during loading sidebar.", reason));
+	});
 
 	loadGlobal();
 
@@ -43,9 +50,10 @@ function loadGlobal() {
 			}).observe(document.find("#chatRoot"), { childList: true, subtree: true });
 		})
 		.catch((reason) => console.error("TT failed during loading chats.", reason));
+
 	requireSidebar()
-		.then(() => {
-			// TODO - Show update notice.
+		.then(async () => {
+			await showUpdateNotice();
 		})
 		.catch((reason) => console.error("TT failed during loading sidebar.", reason));
 	// TODO - Display custom developer console.
@@ -108,5 +116,47 @@ function searchChat(message, keyword) {
 		message.classList.add("hidden");
 	} else {
 		message.classList.remove("hidden");
+	}
+}
+
+async function showUpdateNotice() {
+	await checkMobile();
+	if (mobile) return;
+
+	const notice = document.find("#ttUpdateNotice");
+
+	if (settings.updateNotice && version.showNotice) {
+		if (notice) return;
+
+		const currentVersion = chrome.runtime.getManifest().version;
+
+		const parent = document.find("h2=Areas").nextElementSibling;
+		parent.insertBefore(
+			document.newElement({
+				type: "div",
+				class: "area-desktop___2YU-q",
+				id: "ttUpdateNotice",
+				children: [
+					document.newElement({
+						type: "div",
+						class: "area-row___34mEZ",
+						children: [
+							document.newElement({
+								type: "a",
+								class: "desktopLink___2dcWC",
+								href: chrome.runtime.getURL("/pages/settings/settings.html"),
+								attributes: { target: "_blank" },
+								children: [document.newElement({ type: "span", text: `TornTools updated: ${currentVersion}` })],
+							}),
+						],
+					}),
+				],
+			}),
+			parent.firstElementChild
+		);
+	} else {
+		if (!notice) return;
+
+		notice.remove();
 	}
 }

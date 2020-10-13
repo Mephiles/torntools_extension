@@ -21,3 +21,12 @@
 	border: 1px solid #ddd;
 	width: 232px;
 }
+
+/* Update Notice */
+
+#ttUpdateNotice a {
+	/* CHECK - Change color based on theme. */
+	background-color: #b8e28f;
+	min-height: 24px;
+	line-height: 24px;
+}
