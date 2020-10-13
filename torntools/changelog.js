@@ -1,7 +1,6 @@
 export default {
-	"v5.3 - xxx, xxth. 2020": {
-		Features: [],
-		Fixes: [],
+	"v5.2.1 - October, 1xth. 2020": {
+		Fixes: ["Fix level filter abroad. - finally", "Fix item market market value highlight settings. - DKK"],
 		Changes: ["Make nuke family permission optional. - DKK"],
 	},
 	"v5.2 - October, 11th. 2020": {
