@@ -1,4 +1,5 @@
 let settings, filters, version;
+let databaseLoaded = false;
 let storageListeners = {
 	settings: [],
 	filters: [],
@@ -6,7 +7,7 @@ let storageListeners = {
 };
 
 async function loadDatabase() {
-	if (settings) return Promise.resolve();
+	if (databaseLoaded) return Promise.resolve();
 
 	const database = await ttStorage.get();
 
@@ -14,6 +15,7 @@ async function loadDatabase() {
 	filters = database.filters;
 	version = database.version;
 
+	databaseLoaded = true;
 	console.log("TT - Database loaded.", database);
 }
 
