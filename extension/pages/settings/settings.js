@@ -132,13 +132,6 @@ async function setupPreferences() {
 	const _preferences = document.find("#preferences");
 
 	const showAdvancedIcon = document.find("#preferences-show_advanced");
-	showAdvanced(filters.preferences.showAdvanced);
-	showAdvancedIcon.addEventListener("click", async () => {
-		const newStatus = !filters.preferences.showAdvanced;
-
-		showAdvanced(newStatus);
-		await ttStorage.change({ filters: { preferences: { showAdvanced: newStatus } } });
-	});
 
 	for (let link of _preferences.findAll(":scope > section > nav ul > li[name]")) {
 		link.addEventListener("click", () => {
@@ -149,6 +142,14 @@ async function setupPreferences() {
 			_preferences.find(`:scope > section > .sections > section[name="${link.getAttribute("name")}"]`).classList.add("active");
 		});
 	}
+
+	showAdvanced(filters.preferences.showAdvanced);
+	showAdvancedIcon.addEventListener("click", async () => {
+		const newStatus = !filters.preferences.showAdvanced;
+
+		showAdvanced(newStatus);
+		await ttStorage.change({ filters: { preferences: { showAdvanced: newStatus } } });
+	});
 
 	fillSettings();
 
