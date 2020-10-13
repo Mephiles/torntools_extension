@@ -59,13 +59,14 @@ async function convertDatabase() {
 }
 
 async function checkUpdate() {
-	const oldVersion = settings.previousVersion;
+	const oldVersion = version.oldVersion;
 	const newVersion = chrome.runtime.getManifest().version;
 
-	await ttStorage.change({
-		version: {
-			showNotice: !oldVersion || oldVersion !== newVersion,
-			oldVersion: newVersion,
-		},
-	});
+	const change = { version: { oldVersion: newVersion } };
+	if (oldVersion !== newVersion) {
+		console.log("New version detected!", newVersion);
+		change.version.showNotice = true;
+	}
+
+	await ttStorage.change(change);
 }
