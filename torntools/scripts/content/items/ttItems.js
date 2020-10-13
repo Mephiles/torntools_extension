@@ -357,8 +357,9 @@ function addButton() {
 }
 
 function addItemMarketLinks() {
-	for (let item of doc.findAll(".items-cont[aria-expanded=true] > li:not(.tt-ignore)")) {
+	for (let item of doc.findAll(".items-cont[aria-expanded=true] > li:not(.tt-ignore):not(.ajax-placeholder)")) {
 		if (item.find(".tt-market-link, .tt-item-price, :scope > .ajax-placeholder")) continue;
+		if (!item.hasAttribute("data-item")) continue;
 
 		let li = doc.new({
 			type: "li",
