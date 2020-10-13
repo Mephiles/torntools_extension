@@ -55,6 +55,7 @@ function loadGlobal() {
 			await showUpdateNotice();
 		})
 		.catch((reason) => console.error("TT failed during loading sidebar.", reason));
+
 	// TODO - Display custom developer console.
 	// TODO - Show Nuke Central Hospital revive request.
 	// TODO - Show last action in the mini profiles.
