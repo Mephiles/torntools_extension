@@ -1,6 +1,7 @@
 class DefaultSetting {
-	constructor(type, defaultValue) {
-		this.type = type;
-		this.defaultValue = defaultValue;
+	constructor(options) {
+		for (let option in options) {
+			this[option] = options[option];
+		}
 	}
 }

@@ -101,30 +101,30 @@ const ttStorage = new (class {
 
 const DEFAULT_STORAGE = {
 	version: {
-		oldVersion: new DefaultSetting("string", undefined),
-		showNotice: new DefaultSetting("boolean", true),
+		oldVersion: new DefaultSetting({ type: "string" }),
+		showNotice: new DefaultSetting({ type: "boolean", defaultValue: true }),
 	},
 	settings: {
-		updateNotice: new DefaultSetting("boolean", true),
-		developer: new DefaultSetting("boolean", false),
+		updateNotice: new DefaultSetting({ type: "boolean", defaultValue: true }),
+		developer: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		pages: {
 			global: {
-				alignLeft: new DefaultSetting("boolean", false),
-				hideLevelUpgrade: new DefaultSetting("boolean", false),
-				hideQuitButtons: new DefaultSetting("boolean", false),
-				miniProfileLastAction: new DefaultSetting("boolean", true),
-				nukeRevive: new DefaultSetting("boolean", false),
+				alignLeft: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				hideLevelUpgrade: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				hideQuitButtons: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				miniProfileLastAction: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				nukeRevive: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			chat: {
-				fontSize: new DefaultSetting("number", 12),
-				searchChat: new DefaultSetting("boolean", true),
-				blockZalgo: new DefaultSetting("boolean", true),
+				fontSize: new DefaultSetting({ type: "number", defaultValue: 12 }),
+				searchChat: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				blockZalgo: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 	},
 	filters: {
 		preferences: {
-			showAdvanced: new DefaultSetting("boolean", false),
+			showAdvanced: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 	},
 };
