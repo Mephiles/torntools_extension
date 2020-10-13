@@ -72,7 +72,7 @@ const ttStorage = new (class {
 
 const DEFAULT_STORAGE = {
 	version: {
-		previousVersion: undefined,
+		oldVersion: undefined,
 		showNotice: true,
 	},
 	settings: {
