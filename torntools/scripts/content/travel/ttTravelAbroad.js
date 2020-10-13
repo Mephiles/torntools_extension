@@ -326,7 +326,7 @@ function addFilterToTable(list, title) {
 		connect: true,
 		range: {
 			min: 0,
-			max: 1,
+			max: 100,
 		},
 	});
 
