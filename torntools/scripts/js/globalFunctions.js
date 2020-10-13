@@ -1560,7 +1560,7 @@ const STORAGE = {
 				quick_bust: false,
 			},
 			itemmarket: {
-				market_value: undefined,
+				market_value: "",
 			},
 		},
 		scripts: {

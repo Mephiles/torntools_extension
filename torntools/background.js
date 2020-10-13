@@ -100,7 +100,7 @@ let setup_storage = new Promise((resolve) => {
 				}
 
 				// Key has new type
-				if (typeof STORAGE[key] != "undefined" && typeof STORAGE[key] !== typeof old_storage[key]) {
+				if (typeof STORAGE[key] != "undefined" && typeof STORAGE[key] !== typeof old_storage[key] && key !== "market_value") {
 					new_local_storage[key] = STORAGE[key];
 					continue;
 				}
