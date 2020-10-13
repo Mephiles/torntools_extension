@@ -35,25 +35,20 @@ async function convertDatabase() {
 						if (defaultStorage[key].hasOwnProperty("defaultValue")) {
 							switch (typeof defaultStorage[key].defaultValue) {
 								case "function":
-									console.log("DKK default", key, "function", defaultStorage[key].defaultValue());
 									newStorage[key] = defaultStorage[key].defaultValue();
 									break;
 								case "boolean":
-									console.log("DKK default", key, "boolean", defaultStorage[key].defaultValue);
 									newStorage[key] = defaultStorage[key].defaultValue;
 									break;
 								default:
-									console.log("DKK default", key, `other (${typeof defaultStorage[key].defaultValue})`, defaultStorage[key].defaultValue);
 									newStorage[key] = defaultStorage[key].defaultValue;
 									break;
 							}
 						}
 					} else {
-						console.log("DKK default 2", key);
 						newStorage[key] = oldStorage[key];
 					}
 				} else {
-					console.log("DKK default 3", key);
 					newStorage[key] = convertGeneral(oldStorage[key], defaultStorage[key]);
 				}
 			}
