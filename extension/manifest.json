@@ -16,6 +16,7 @@
 	"author": "Gregor Kaljulaid - Mephiles[2087524]",
 	"background": {
 		"scripts": [
+			"scripts/global/globalClasses.js",
 			"scripts/global/globalData.js",
 			"scripts/global/globalDatabase.js",
 			"scripts/global/globalFunctions.js",
@@ -49,6 +50,7 @@
 				"scripts/content/global/ttGlobal.entry.css"
 			],
 			"js": [
+				"scripts/global/globalClasses.js",
 				"scripts/global/globalData.js",
 				"scripts/global/globalDatabase.js",
 				"scripts/global/globalFunctions.js",

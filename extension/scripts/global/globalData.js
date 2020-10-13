@@ -56,46 +56,75 @@ const ttStorage = new (class {
 
 	reset() {
 		return new Promise(async (resolve) => {
-			const apiKey = await this.get("api_key");
+			// TODO - Add API key again.
+			// const apiKey = await this.get("api_key");
 
 			await this.clear();
-			await this.set(DEFAULT_STORAGE);
-			await this.set({ api_key: apiKey });
+			await this.set(getDefaultStorage(DEFAULT_STORAGE));
+			// await this.set({ api_key: apiKey });
 
 			console.log("Storage cleared");
 			console.log("New storage", await this.get());
 
 			resolve();
+
+			function getDefaultStorage(defaultStorage) {
+				let newStorage = {};
+
+				for (let key in defaultStorage) {
+					newStorage[key] = {};
+
+					if (typeof defaultStorage[key] === "object") {
+						if (defaultStorage[key] instanceof DefaultSetting) {
+							switch (typeof defaultStorage[key].defaultValue) {
+								case "function":
+									newStorage[key] = defaultStorage[key].defaultValue();
+									break;
+								case "boolean":
+									newStorage[key] = defaultStorage[key].defaultValue;
+									break;
+								default:
+									newStorage[key] = defaultStorage[key].defaultValue;
+									break;
+							}
+						} else {
+							newStorage[key] = getDefaultStorage(defaultStorage[key]);
+						}
+					}
+				}
+
+				return newStorage;
+			}
 		});
 	}
 })();
 
 const DEFAULT_STORAGE = {
 	version: {
-		oldVersion: undefined,
-		showNotice: true,
+		oldVersion: new DefaultSetting("string", undefined),
+		showNotice: new DefaultSetting("boolean", true),
 	},
 	settings: {
-		updateNotice: true,
-		developer: false,
+		updateNotice: new DefaultSetting("boolean", true),
+		developer: new DefaultSetting("boolean", false),
 		pages: {
 			global: {
-				alignLeft: false,
-				hideLevelUpgrade: false,
-				hideQuitButtons: false,
-				miniProfileLastAction: true,
-				nukeRevive: false,
+				alignLeft: new DefaultSetting("boolean", false),
+				hideLevelUpgrade: new DefaultSetting("boolean", false),
+				hideQuitButtons: new DefaultSetting("boolean", false),
+				miniProfileLastAction: new DefaultSetting("boolean", true),
+				nukeRevive: new DefaultSetting("boolean", false),
 			},
 			chat: {
-				fontSize: 12,
-				searchChat: true,
-				blockZalgo: true,
+				fontSize: new DefaultSetting("number", 12),
+				searchChat: new DefaultSetting("boolean", true),
+				blockZalgo: new DefaultSetting("boolean", true),
 			},
 		},
 	},
 	filters: {
 		preferences: {
-			showAdvanced: false,
+			showAdvanced: new DefaultSetting("boolean", false),
 		},
 	},
 };
