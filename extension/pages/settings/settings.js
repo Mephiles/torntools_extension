@@ -156,15 +156,14 @@ async function setupPreferences() {
 	document.find("#resetSettings").addEventListener("click", async () => await ttStorage.reset());
 
 	function showAdvanced(advanced) {
-		const settings = _preferences.findAll(".sections > section > .option.advanced");
 		if (advanced) {
-			for (let advancedSetting of settings) advancedSetting.classList.remove("hidden");
+			_preferences.find(".sections").classList.remove("advanced-hidden");
 
 			showAdvancedIcon.classList.add("fa-eye-slash");
 			showAdvancedIcon.classList.remove("fa-eye");
 			showAdvancedIcon.find(".tooltip-text").innerText = "Hide advanced options.";
 		} else {
-			for (let advancedSetting of settings) advancedSetting.classList.add("hidden");
+			_preferences.find(".sections").classList.add("advanced-hidden");
 
 			showAdvancedIcon.classList.remove("fa-eye-slash");
 			showAdvancedIcon.classList.add("fa-eye");

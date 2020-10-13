@@ -304,3 +304,7 @@ main.active {
 	display: inline-block;
 	vertical-align: top;
 }
+
+#preferences .advanced-hidden .advanced {
+	display: none;
+}
