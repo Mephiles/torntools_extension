@@ -1,6 +1,10 @@
 export default {
 	"v5.2.1 - October, 1xth. 2020": {
-		Fixes: ["Fix level filter abroad. - finally", "Fix item market market value highlight settings. - DKK"],
+		Fixes: [
+			"Fix level filter abroad. - finally",
+			"Fix item market market value highlight settings. - DKK",
+			"Add FontAwesome as JavaScript instead of CSS. - DKK",
+		],
 		Changes: ["Make nuke family permission optional. - DKK"],
 	},
 	"v5.2 - October, 11th. 2020": {
@@ -32,7 +36,7 @@ export default {
 	},
 	"v5.1.2 - October, 1st. 2020": {
 		Fixes: ["Show right temporary total value. - DKK", "Improve mobile checking on Firefox, fixing the loading issue. - DKK"],
-		Changes: ["Improve mission information for several missions. - DKK", "Update FontAwesome. - K"],
+		Changes: ["Improve mission information for several missions. - DKK", "Update FontAwesome. - DKK"],
 	},
 	"v5.1.1 - September, 26th. 2020": {
 		Changes: ["Change watchlist export to stakeouts. - DKK"],
