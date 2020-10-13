@@ -45,11 +45,11 @@
 				"scripts/content/global/ttGlobal.css",
 				"scripts/content/global/ttCentralHospitalRevive.css",
 				"scripts/content/global/ttChat.css",
-				"scripts/libs/nouislider.css",
-				"scripts/libs/fontawesome.css"
+				"scripts/libs/nouislider.css"
 			],
 			"js": [
 				"scripts/libs/nouislider.js",
+				"scripts/libs/fontawesome.js",
 				"scripts/js/essential.js",
 				"scripts/js/globalEntry.js",
 				"scripts/js/globalClasses.js",
@@ -59,6 +59,12 @@
 				"scripts/content/global/ttGlobal.js"
 			],
 			"run_at": "document_start"
+		},
+		{
+			"matches": ["https://www.torn.com/*"],
+			"js": [
+				"scripts/libs/fontawesome.js"
+			]
 		},
 		{
 			"matches": ["https://www.torn.com/index.php*"],
