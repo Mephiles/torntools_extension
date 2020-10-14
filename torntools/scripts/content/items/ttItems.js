@@ -507,7 +507,7 @@ function addQuickItem(container, innerContent, responseWrap, id, temporary = fal
 		attributes: { quantity: amount },
 		text: amount + "x",
 	});
-	let closeIcon = doc.new({ type: "i", class: "fas fa-times tt-close-icon" });
+	let closeIcon = doc.new({ type: "div", class: "tt-close-icon", html: `<i class="fas fa-times"></i>` });
 
 	div.appendChild(pic);
 	div.appendChild(text);

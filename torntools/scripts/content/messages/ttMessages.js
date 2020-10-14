@@ -58,7 +58,7 @@ function massMessages(mass_messages) {
 
 	for (let name of mass_messages.list) {
 		let item = doc.new({ type: "div", text: name });
-		let icon = doc.new({ type: "i", class: "fas fa-times" });
+		let icon = doc.new({ type: "div", html: `<i class="fas fa-times"></i>` });
 
 		item.appendChild(icon);
 		name_list.appendChild(item);
@@ -98,7 +98,7 @@ function massMessages(mass_messages) {
 	add_icon.addEventListener("click", () => {
 		mass_messages.list.push(input.value);
 		let row = doc.new({ type: "div", text: input.value });
-		let remove_icon = doc.new({ type: "i", class: "fas fa-times" });
+		let remove_icon = doc.new({ type: "div", html: `<i class="fas fa-times"></i>` });
 
 		// Remove item
 		remove_icon.addEventListener("click", () => {

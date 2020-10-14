@@ -161,7 +161,7 @@ function showCrimesContainer(quick) {
 			let div = doc.new({ type: "div", class: "item", attributes: { nerve: crime.nerve, name: crime.name, action: crime.action } });
 			let pic = doc.new({ type: "div", class: "pic", attributes: { style: `background-image: url(${crime.icon})` } });
 			let text = doc.new({ type: "div", class: "text", text: `${crime.text} (-${crime.nerve} nerve)` });
-			let close_icon = doc.new({ type: "i", class: "fas fa-times tt-close-icon" });
+			let close_icon = doc.new({ type: "div", class: "tt-close-icon", html: `<i class="fas fa-times"></i>` });
 
 			div.appendChild(pic);
 			div.appendChild(text);
@@ -215,7 +215,7 @@ function addButton() {
 				quickCrime.classList.remove("removable");
 			}
 		} else {
-			doc.find('#ttQuick .tt-title').classList.remove('collapsed');
+			doc.find("#ttQuick .tt-title").classList.remove("collapsed");
 			doc.find(".tt-black-overlay").classList.add("active");
 			doc.find(".tt-title .tt-options .tt-option#edit-crime-button").classList.add("tt-highlight-sector");
 
@@ -269,7 +269,7 @@ function addButton() {
 					});
 					let pic = doc.new({ type: "div", class: "pic", attributes: { style: `background-image: url(${crime_icon})` } });
 					let text = doc.new({ type: "div", class: "text", text: `${crime_text} (-${crime_nerve} nerve)` });
-					let close_icon = doc.new({ type: "i", class: "fas fa-times tt-close-icon" });
+					let close_icon = doc.new({ type: "div", class: "tt-close-icon", html: `<i class="fas fa-times"></i>` });
 
 					div.appendChild(pic);
 					div.appendChild(text);
@@ -329,7 +329,7 @@ function onDragStart(event) {
 		let div = doc.new({ type: "div", class: "temp item", attributes: { nerve: crime_nerve, name: crime_name, action: action } });
 		let pic = doc.new({ type: "div", class: "pic", attributes: { style: `background-image: url(${crime_icon})` } });
 		let text = doc.new({ type: "div", class: "text", text: `${crime_text} (-${crime_nerve} nerve)` });
-		let close_icon = doc.new({ type: "i", class: "fas fa-times tt-close-icon" });
+		let close_icon = doc.new({ type: "div", class: "tt-close-icon", html: `<i class="fas fa-times"></i>` });
 
 		div.appendChild(pic);
 		div.appendChild(text);
