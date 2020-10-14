@@ -4,7 +4,7 @@ export default {
 		Fixes: ["Fix item page crashing when the opening items too fast. - DKK"],
 		Changes: [],
 	},
-	"v5.2.1 - October, 1xth. 2020": {
+	"v5.2.1 - October, 13th. 2020": {
 		Fixes: [
 			"Fix level filter abroad. - finally",
 			"Fix item market market value highlight settings. - DKK",
