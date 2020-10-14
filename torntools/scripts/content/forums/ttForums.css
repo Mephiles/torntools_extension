@@ -1,0 +1,63 @@
+.tt-forums-button {
+	position: relative;
+	width: 32px !important;
+}
+
+.tt-forums-button > .thread-action-icon {
+	background-size: 15px !important;
+}
+
+.tt-forums-button > .tt-forums-button-dropdown {
+	position: absolute;
+	display: none;
+	top: 100%;
+	left: -2px;
+	font-weight: 400;
+	white-space: nowrap;
+	text-align: left;
+	background: white;
+	border: 1px solid #ccc;
+	border-top: 0;
+	z-index: 999;
+}
+
+.tt-forums-button > .tt-forums-button-dropdown > div {
+	padding: 8px;
+}
+
+.tt-forums-button > .tt-forums-button-dropdown > div:hover {
+	background-color: #fafafa;
+	color: black;
+}
+
+.tt-forums-button:hover > .tt-forums-button-dropdown {
+	display: block;
+}
+
+.tt-forums-hide {
+	display: none;
+}
+
+.tt-forums-hide-show {
+	display: block;
+	opacity: 0.5;
+}
+
+.tt-forums-hide-show:hover {
+	opacity: 1;
+}
+
+.tt-forums-hidden {
+	cursor: pointer;
+	text-align: center;
+	padding: 5px !important;
+	border-bottom: 1px solid #ccc;
+}
+
+.thread-list > .tt-forums-hidden::after {
+	content: "";
+	display: block;
+	border-bottom: 10px solid white;
+	border-top: 1px solid #ccc;
+	margin: 5px -5px -5px -5px;
+}
