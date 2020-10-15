@@ -110,6 +110,10 @@ let userdata,
 			return;
 		}
 
+		if (database_status == DATABASE_STATUSES.ENTRY) {
+			return;
+		}
+
 		database_status = DATABASE_STATUSES.LOADED;
 	});
 })();
