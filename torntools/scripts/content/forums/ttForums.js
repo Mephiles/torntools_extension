@@ -179,7 +179,7 @@ function hideForumsPosts() {
 # ${likes} upvotes, ${dislikes} downvotes
 # ${postDate}
 \`\`\`\`\`\`md
-$$$TEXT_CONTENT$$$\`\`\`Source: https://www.torn.com/forums.php#/p=threads&t=${threadId}&to=${postId}`;
+$$$TEXT_CONTENT$$$\`\`\`$$$URLS$$$\nSource: https://www.torn.com/forums.php#/p=threads&t=${threadId}&to=${postId}`;
 
 					let postContent = post.find(".origin-post-content").textContent;
 					let quotesContent = "";
@@ -197,10 +197,22 @@ $$$TEXT_CONTENT$$$\`\`\`Source: https://www.torn.com/forums.php#/p=threads&t=${t
 					postContent = postContent.replace(emoticonRegex, ":$1:");
 					quotesContent = quotesContent.replace(emoticonRegex, ":$1:");
 
-					//Remove images
-					let imageRegex = /\[img(?:\s?\w*\=[^\]]*)*\].*?\[\/img\]/gs;
-					postContent = postContent.replace(imageRegex, "");
-					quotesContent = quotesContent.replace(imageRegex, "");
+					//Remove images, tries to match [url] tags with the same url as the image and removes those as well
+					let imageRegex = /\[url\=(.*?)\]\[img(?:\s?\w*\=[^\]]*)*\]\1\[\/img\]\[\/url\]|\[img(?:\s?\w*\=[^\]]*)*\].*?\[\/img\]/gs;
+					postContent = postContent.replace(imageRegex, "[img]");
+					quotesContent = quotesContent.replace(imageRegex, "[img]");
+
+					//Replace urls
+					let urls = [];
+					let urlRegex = /\[url\=(.*?)\](.*?)\[\/url\]/gs;
+					let urlCallback = (match, url, content) => {
+						urls.push(url);
+						return `[${content}][${urls.length}]`;
+					};
+					quotesContent = quotesContent.replace(urlRegex, urlCallback);
+					postContent = postContent.replace(urlRegex, urlCallback);
+
+					text = text.replace("$$$URLS$$$", urls.map((url, idx) => `[${idx + 1}]: ${url}`).join("\n"));
 
 					//Remove bbcode
 					let bbcodeRegex = /\[(\w+)(?:\s?\w*\=[^\]]*)*\](.*?)\[\/\1\]/gs;
