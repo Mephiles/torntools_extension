@@ -1,6 +1,6 @@
 export default {
 	"v5.3 - xxx, xxth. 2020": {
-		Features: [],
+		Features: ["Add popup mute button. - finally"],
 		Fixes: ["Fix item page crashing when the opening items too fast. - DKK"],
 		Changes: [],
 	},

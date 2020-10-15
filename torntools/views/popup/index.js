@@ -87,7 +87,7 @@ function loadPage(name) {
 }
 
 function mainInfo() {
-	updateInfo(settings);
+	updateInfo();
 
 	for (let link of doc.findAll(".subpage#info .link")) {
 		link.onclick = () => {
@@ -106,9 +106,15 @@ function mainInfo() {
 		}
 	};
 
+	doc.find("#mute").addEventListener("click", () => {
+		ttStorage.get("settings", (settings) => {
+			ttStorage.change({ settings: { notifications: { global: !settings.notifications.global } } }, updateInfo);
+		});
+	});
+
 	// Update interval
 	setInterval(() => {
-		updateInfo(settings);
+		updateInfo();
 	}, 15 * 1000);
 
 	// Global time reducer
@@ -138,9 +144,13 @@ function mainInfo() {
 		time.setAttribute("seconds-up", seconds);
 	}, 1000);
 
-	function updateInfo(settings) {
+	function updateInfo() {
 		console.log("Updating INFO");
-		ttStorage.get("userdata", (userdata) => {
+		ttStorage.get(["userdata", "settings"], ([userdata, settings]) => {
+			let mute = doc.find("#mute");
+			mute.classList = settings.notifications.global ? "unmuted" : "muted";
+			mute.innerHTML = settings.notifications.global ? `Unmuted <i class="fas fa-volume-up"></i>` : `Muted <i class="fas fa-volume-mute"></i>`;
+
 			console.log("Data", userdata);
 
 			let time_diff = parseInt(((new Date().getTime() - new Date(userdata.date).getTime()) / 1000).toFixed(0));
