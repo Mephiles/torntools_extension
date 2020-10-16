@@ -3,6 +3,10 @@
 	cursor: pointer;
 }
 
+form[name="crimes"] img {
+	pointer-events: none;
+}
+
 #ttQuick {
 	margin-bottom: 20px;
 }
