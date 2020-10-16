@@ -1,7 +1,11 @@
 export default {
 	"v5.3 - xxx, xxth. 2020": {
-		Features: ["Add popup mute button. - finally", "Add forum enhancments, hide posts/threads, copy post for discord. - finally"],
-		Fixes: ["Fix item page crashing when the opening items too fast. - DKK"],
+		Features: ["Add popup mute button. - finally", "Add forum enhancements, hide posts/threads, copy post for discord. - finally"],
+		Fixes: [
+			"Fix item page crashing when the opening items too fast. - DKK",
+			"Fix rare condition where the database isn't loaded properly. - finally",
+			"Solve FontAwesome issues by switching to the CSS version again. - finally",
+		],
 		Changes: [],
 	},
 	"v5.2.1 - October, 13th. 2020": {
