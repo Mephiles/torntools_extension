@@ -103,10 +103,12 @@ function fillGoals(achievements, torndata) {
 		let inclusions = achievements[name].incl || [];
 		let exclusions = achievements[name].excl || [];
 
-		for (let type of [torndata.honors, torndata.medals]) {
-			// loop through honors and medals
-			for (let key in type) {
-				let desc = type[key].description.toLowerCase();
+		// loop through honors and medals
+		for (let type of ["honors", "medals"]) {
+			let merits = torndata[type];
+
+			for (let key in merits) {
+				let desc = merits[key].description.toLowerCase();
 
 				if (desc.indexOf(keyword) > -1) {
 					// keyword is present in desc.
@@ -131,7 +133,7 @@ function fillGoals(achievements, torndata) {
 					if (!achievements[name].awarded) achievements[name].awarded = [];
 
 					const awarded = userdata[`${type}_awarded`];
-					if (awarded && awarded.includes(key) && !achievements[name].goals.includes(key)) achievements[name].goals.push(key);
+					if (awarded && awarded.includes(~~key)) achievements[name].stats = Math.max(achievements[name].stats, goal);
 
 					if (!achievements[name].goals) achievements[name].goals = [goal];
 					else if (!achievements[name].goals.includes(goal) && !isNaN(goal)) achievements[name].goals.push(goal);
