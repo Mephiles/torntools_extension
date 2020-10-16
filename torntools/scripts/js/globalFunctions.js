@@ -1562,6 +1562,10 @@ const STORAGE = {
 			itemmarket: {
 				market_value: "",
 			},
+			forums: {
+				hide_threads: {},
+				hide_posts: {},
+			},
 		},
 		scripts: {
 			stats_estimate: {

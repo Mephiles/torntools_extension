@@ -157,6 +157,12 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/forums.php*"],
+			"css": ["scripts/content/forums/ttForums.css"],
+			"js": ["scripts/content/forums/ttForums.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/gym.php*"],
 			"css": ["scripts/content/gym/ttGym.css", "scripts/content/achievements/ttAchievements.css"],
 			"js": ["scripts/libs/Chart.min.js", "scripts/content/gym/ttGym.js", "scripts/content/achievements/ttGymAchievements.js"],
