@@ -91,3 +91,13 @@ body.loading *:not(.tt-loading-placeholder) {
 	cursor: pointer;
 	background-color: rgba(0, 255, 0, 0.6);
 }
+
+#mute {
+	float: right;
+	cursor: pointer;
+	color: #008b00;
+}
+
+#mute.muted {
+	color: #8b0000;
+}
