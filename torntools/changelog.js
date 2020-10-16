@@ -1,5 +1,5 @@
 export default {
-	"v5.3 - xxx, xxth. 2020": {
+	"v5.3 - October, 16th. 2020": {
 		Features: ["Add popup mute button. - finally", "Add forum enhancements, hide posts/threads, copy post for discord. - finally"],
 		Fixes: [
 			"Fix item page crashing when the opening items too fast. - DKK",
