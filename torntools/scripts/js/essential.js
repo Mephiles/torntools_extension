@@ -3,8 +3,9 @@ const doc = document;
 const DATABASE_STATUSES = {
 	NOT_INITIALIZED: 0,
 	LOADING: 1,
-	LOADED: 2,
-	ENTRY: 3,
+	LOADING_ENTRY: 2,
+	LOADED: 3,
+	ENTRY: 4,
 	FAILED: 99,
 };
 
