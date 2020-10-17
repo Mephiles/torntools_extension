@@ -156,7 +156,11 @@ async function setupPreferences() {
 	document.find("#addChatHighlight").addEventListener("click", () => {
 		const inputRow = document.find("#chatHighlight .input");
 
-		const deleteIcon = document.newElement({ type: "button", text: "Delete" });
+		const deleteIcon = document.newElement({
+			type: "button",
+			class: "remove-icon-wrap",
+			children: [document.newElement({ type: "i", class: "remove-icon fas fa-trash-alt" })],
+		});
 		const newRow = document.newElement({
 			type: "li",
 			children: [

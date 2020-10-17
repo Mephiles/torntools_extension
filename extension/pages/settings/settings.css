@@ -361,3 +361,11 @@ main.active {
 #preferences #addChatHighlight {
 	width: 40px;
 }
+
+#preferences #chatHighlight .remove-icon-wrap {
+	width: 25px;
+}
+
+#preferences #chatHighlight .remove-icon {
+	color: red;
+}
