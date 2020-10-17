@@ -31,25 +31,37 @@ async function convertDatabase() {
 
 			if (typeof defaultStorage[key] === "object") {
 				if (defaultStorage[key] instanceof DefaultSetting) {
-					if (defaultStorage[key].type !== typeof oldStorage[key]) {
-						if (defaultStorage[key].hasOwnProperty("defaultValue")) {
-							switch (typeof defaultStorage[key].defaultValue) {
-								case "function":
-									newStorage[key] = defaultStorage[key].defaultValue();
-									break;
-								case "boolean":
-									newStorage[key] = defaultStorage[key].defaultValue;
-									break;
-								default:
-									newStorage[key] = defaultStorage[key].defaultValue;
-									break;
-							}
+					let useCurrent = true;
+
+					if (defaultStorage[key].type === "array") {
+						if (!Array.isArray(oldStorage[key])) {
+							useDefault();
+							useCurrent = false;
 						}
-					} else {
-						newStorage[key] = oldStorage[key];
+					} else if (defaultStorage[key].type !== typeof oldStorage[key]) {
+						useDefault();
+						useCurrent = false;
 					}
+
+					if (useCurrent) newStorage[key] = oldStorage[key];
 				} else {
 					newStorage[key] = convertGeneral(oldStorage[key], defaultStorage[key]);
+				}
+			}
+
+			function useDefault() {
+				if (!defaultStorage[key].hasOwnProperty("defaultValue")) return;
+
+				switch (typeof defaultStorage[key].defaultValue) {
+					case "function":
+						newStorage[key] = defaultStorage[key].defaultValue();
+						break;
+					case "boolean":
+						newStorage[key] = defaultStorage[key].defaultValue;
+						break;
+					default:
+						newStorage[key] = defaultStorage[key].defaultValue;
+						break;
 				}
 			}
 		}

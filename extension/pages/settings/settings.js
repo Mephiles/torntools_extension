@@ -156,23 +156,7 @@ async function setupPreferences() {
 	document.find("#addChatHighlight").addEventListener("click", () => {
 		const inputRow = document.find("#chatHighlight .input");
 
-		const deleteIcon = document.newElement({
-			type: "button",
-			class: "remove-icon-wrap",
-			children: [document.newElement({ type: "i", class: "remove-icon fas fa-trash-alt" })],
-		});
-		const newRow = document.newElement({
-			type: "li",
-			children: [
-				document.newElement({ type: "input", class: "name", value: inputRow.find(".name").value, attributes: { type: "text" } }),
-				document.newElement({ type: "input", class: "color", value: inputRow.find(".color").value, attributes: { type: "color" } }),
-				deleteIcon,
-			],
-		});
-
-		deleteIcon.addEventListener("click", () => newRow.remove());
-
-		document.find("#chatHighlight").insertBefore(newRow, inputRow);
+		addChatHighlightRow(inputRow.find(".name").value, inputRow.find(".color").value);
 
 		inputRow.find(".name").value = "";
 		inputRow.find(".color").value = "#7ca900";
@@ -239,9 +223,31 @@ async function setupPreferences() {
 				}
 			}
 		}
+
+		for (let highlight of settings.pages.chat.highlights) {
+			addChatHighlightRow(highlight.name, highlight.color);
+		}
 	}
 
-	function addChatHighlightRow() {}
+	function addChatHighlightRow(name, color) {
+		const deleteIcon = document.newElement({
+			type: "button",
+			class: "remove-icon-wrap",
+			children: [document.newElement({ type: "i", class: "remove-icon fas fa-trash-alt" })],
+		});
+		const newRow = document.newElement({
+			type: "li",
+			children: [
+				document.newElement({ type: "input", class: "name", value: name, attributes: { type: "text" } }),
+				document.newElement({ type: "input", class: "color", value: color, attributes: { type: "color" } }),
+				deleteIcon,
+			],
+		});
+
+		deleteIcon.addEventListener("click", () => newRow.remove());
+
+		document.find("#chatHighlight").insertBefore(newRow, document.find("#chatHighlight .input"));
+	}
 
 	async function saveSettings() {
 		for (let setting of ["updateNotice", "developer"]) {
@@ -267,7 +273,15 @@ async function setupPreferences() {
 			}
 		}
 
+		settings.pages.chat.highlights = [...document.findAll("#chatHighlight > li:not(.input)")].map((highlight) => {
+			return {
+				name: highlight.find(".name").value,
+				color: highlight.find(".color").value,
+			};
+		});
+
 		await ttStorage.set({ settings });
+		console.log("Settings updated!", { settings });
 	}
 }
 
