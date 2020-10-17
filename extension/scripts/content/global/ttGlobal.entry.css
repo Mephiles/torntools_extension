@@ -9,6 +9,12 @@
 	font-size: var(--torntools-chat-font-size, 12px) !important;
 }
 
+/* Hide upgrade button */
+#pointsLevel,
+.tt-level-upgrade {
+	display: var(--torntools-hide-upgrade-button, block) !important;
+}
+
 /* Hide quit and leave button */
 .quit-job {
 	display: var(--torntools-hide-leave-button, flex) !important;

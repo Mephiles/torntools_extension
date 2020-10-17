@@ -180,6 +180,10 @@ function requireSidebar() {
 	return requireElement("#sidebar");
 }
 
+function requireContent() {
+	return requireElement(".box-title");
+}
+
 function hasParent(element, attributes = {}) {
 	if (!element.parentElement) return false;
 

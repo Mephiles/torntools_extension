@@ -56,6 +56,16 @@ function loadGlobal() {
 		})
 		.catch((reason) => console.error("TT failed during loading sidebar.", reason));
 
+	requireContent().then(() => {
+		if (settings.pages.global.hideLevelUpgrade) {
+			for (let info of document.findAll(".info-msg-cont")) {
+				if (!info.innerText.includes("Congratulations! You have enough experience to go up to level")) continue;
+
+				info.classList.add("tt-level-upgrade");
+			}
+		}
+	});
+
 	// TODO - Display custom developer console.
 	// TODO - Show Nuke Central Hospital revive request.
 	// TODO - Show last action in the mini profiles.

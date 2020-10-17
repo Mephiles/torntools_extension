@@ -13,9 +13,7 @@ async function loadGlobalEntry() {
 	if (settings.pages.global.alignLeft) document.documentElement.classList.add("tt-align-left");
 	else document.documentElement.classList.remove("tt-align-left");
 
-	// TODO - Hide level upgrade button
-	if (settings.pages.global.hideLevelUpgrade) {
-	}
+	document.documentElement.style.setProperty("--torntools-hide-upgrade-button", settings.pages.global.hideLevelUpgrade ? "none" : "block");
 
 	document.documentElement.style.setProperty("--torntools-hide-leave-button", settings.pages.global.hideQuitButtons ? "none" : "flex");
 
