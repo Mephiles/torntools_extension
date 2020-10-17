@@ -6,9 +6,10 @@
 		<title>TornTools 2 - Settings</title>
 		<link rel="icon" type="image/png" href="../../resources/images/icon_128.png" />
 
-		<link rel="stylesheet" href="../../vendor/fontawesome/fontawesome.css" />
-
 		<link rel="stylesheet" href="settings.css" />
+
+		<!--		<script type="text/javascript" src="../../vendor/fontawesome.js"></script>-->
+		<script data-search-pseudo-elements src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
 	</head>
 	<body>
 		<header>
@@ -106,7 +107,6 @@
 					</section>
 					<section name="global">
 						<div class="header">Global</div>
-
 						<div class="option">
 							<input id="global-alignLeft" type="checkbox" />
 							<label for="global-alignLeft">Align Torn to the left.</label>
@@ -130,7 +130,6 @@
 					</section>
 					<section name="chat">
 						<div class="header">Chat</div>
-
 						<div class="option">
 							<label for="chat-fontSize">Chat font size:</label>
 							<input id="chat-fontSize" type="number" min="6" max="24" />
@@ -143,6 +142,15 @@
 							<input id="chat-blockZalgo" type="checkbox" />
 							<label for="chat-blockZalgo">Block Zalgo text.</label>
 						</div>
+
+						<div class="header">Highlights</div>
+						<ul id="chatHighlight" class="list-table">
+							<li class="input">
+								<input type="text" class="name" placeholder="Name.." />
+								<input type="color" class="color" value="#7ca900" />
+								<button id="addChatHighlight">Add</button>
+							</li>
+						</ul>
 					</section>
 				</div>
 			</section>

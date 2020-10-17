@@ -19,6 +19,55 @@ body {
 	margin: auto;
 }
 
+/* List Tables */
+
+ul.list-table {
+	list-style: none;
+	padding: unset;
+	margin: unset;
+}
+
+ul.list-table li {
+	display: flex;
+	align-items: center;
+}
+
+ul.list-table li > *:not(:first-child):not(:last-child) {
+	margin: 0 8px;
+}
+
+ul.list-table li:not(:last-of-type) {
+	margin-bottom: 5px;
+}
+
+ul.list-table input {
+	border-radius: 4px;
+	border: 1px solid #a7a7a7;
+	padding-left: 4px;
+	outline: none;
+	box-shadow: 0 1px 5px 1px #e8e8e8;
+	margin-right: 4px;
+}
+
+ul.list-table button {
+	height: 24px;
+	line-height: 24px;
+	border: 1px solid lightgray;
+	cursor: pointer;
+	border-radius: 6px;
+	background: #f9f9f9;
+	padding: unset;
+}
+
+ul.list-table button:focus {
+	outline: unset;
+	box-shadow: 0 0 1pt 1pt #c7f77b;
+}
+
+ul.list-table button:hover {
+	background: #ddd;
+}
+
 /* General Colors */
 
 *[color="white"] {
@@ -290,7 +339,7 @@ main.active {
 	flex-direction: row-reverse;
 }
 
-#preferences button {
+#preferences footer button {
 	min-width: 60px;
 	padding: 0 4px;
 	height: 30px;
@@ -307,4 +356,8 @@ main.active {
 
 #preferences .advanced-hidden .advanced {
 	display: none;
+}
+
+#preferences #addChatHighlight {
+	width: 40px;
 }

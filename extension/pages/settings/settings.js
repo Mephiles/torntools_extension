@@ -153,6 +153,27 @@ async function setupPreferences() {
 
 	fillSettings();
 
+	document.find("#addChatHighlight").addEventListener("click", () => {
+		const inputRow = document.find("#chatHighlight .input");
+
+		const deleteIcon = document.newElement({ type: "button", text: "Delete" });
+		const newRow = document.newElement({
+			type: "li",
+			children: [
+				document.newElement({ type: "input", class: "name", value: inputRow.find(".name").value, attributes: { type: "text" } }),
+				document.newElement({ type: "input", class: "color", value: inputRow.find(".color").value, attributes: { type: "color" } }),
+				deleteIcon,
+			],
+		});
+
+		deleteIcon.addEventListener("click", () => newRow.remove());
+
+		document.find("#chatHighlight").insertBefore(newRow, inputRow);
+
+		inputRow.find(".name").value = "";
+		inputRow.find(".color").value = "#7ca900";
+	});
+
 	document.find("#saveSettings").addEventListener("click", async () => await saveSettings());
 	document.find("#resetSettings").addEventListener("click", async () => await ttStorage.reset());
 
@@ -215,6 +236,8 @@ async function setupPreferences() {
 			}
 		}
 	}
+
+	function addChatHighlightRow() {}
 
 	async function saveSettings() {
 		for (let setting of ["updateNotice", "developer"]) {
