@@ -14,6 +14,8 @@ async function loadGlobalEntry() {
 	else document.documentElement.classList.remove("tt-align-left");
 
 	// TODO - Hide level upgrade button
+	if (settings.pages.global.hideLevelUpgrade) {
+	}
 
 	document.documentElement.style.setProperty("--torntools-hide-leave-button", settings.pages.global.hideQuitButtons ? "none" : "flex");
 
@@ -27,8 +29,10 @@ async function loadGlobalEntry() {
 
 	document.documentElement.style.setProperty("--torntools-chat-font-size", `${settings.pages.chat.fontSize || 12}px`);
 
-	if (settings.pages.chat.blockZalgo) document.documentElement.classList.add("no-zalgo");
-	else document.documentElement.classList.remove("no-zalgo");
+	requireElement("#chatRoot").then((chats) => {
+		if (settings.pages.chat.blockZalgo) chats.classList.add("no-zalgo");
+		else chats.classList.remove("no-zalgo");
+	});
 
 	// mobile check
 	await checkMobile();
