@@ -150,3 +150,5 @@ const CONTRIBUTORS = {
 };
 
 let mobile;
+
+const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => "DeKleineKobini", description: "Your player name." }]; // TODO
