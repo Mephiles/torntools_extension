@@ -1,0 +1,6 @@
+# Only prettify torntools subfolder
+/*
+!/extension
+
+# Ignore external libs
+/extension/vendor/*

@@ -1,3 +1,5 @@
+let highlights;
+
 (async () => {
 	await loadDatabase();
 	console.log("TT: Global - Loading script. ");
@@ -17,15 +19,30 @@
 })();
 
 function loadGlobal() {
+	highlights = settings.pages.chat.highlights.map((highlight) => {
+		let { name, color } = highlight;
+
+		for (let placeholder of HIGHLIGHT_PLACEHOLDERS) {
+			if (name !== placeholder.name) continue;
+
+			name = placeholder.value();
+			break;
+		}
+
+		return { name: name.toLowerCase(), color: color.length === 7 ? `${color}6e` : color, senderColor: color };
+	});
+
 	requireChatsLoaded()
 		.then(() => {
 			addChatSearch();
+			manipulateChats();
 
 			document.addEventListener("click", (event) => {
 				if (!hasParent(event.target, { class: "chat-box_Wjbn9" })) {
 					return;
 				}
 
+				manipulateChats();
 				addChatSearch();
 			});
 
@@ -44,6 +61,7 @@ function loadGlobal() {
 							const keyword = input.value;
 							if (keyword) searchChat(addedNode, keyword);
 						}
+						applyHighlights(addedNode);
 					}
 				}
 			}).observe(document.find("#chatRoot"), { childList: true, subtree: true });
@@ -126,6 +144,42 @@ function searchChat(message, keyword) {
 		message.classList.add("hidden");
 	} else {
 		message.classList.remove("hidden");
+	}
+}
+
+function manipulateChats() {
+	for (let message of document.findAll(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM .tt-highlight")) {
+		message.style.color = "unset";
+		message.classList.remove("tt-highlight");
+	}
+
+	for (let message of document.findAll(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")) {
+		applyHighlights(message);
+	}
+}
+
+function applyHighlights(message) {
+	if (!highlights.length) return;
+
+	const sender = simplify(message.find("a").innerText);
+	const words = message.find("span").innerText.split(" ").map(simplify);
+
+	const senderHighlights = highlights.filter((highlight) => highlight.name === sender);
+	if (senderHighlights.length) {
+		message.find("a").style.color = senderHighlights[0].senderColor;
+		message.find("a").classList.add("tt-highlight");
+	}
+
+	for (let { name, color } of highlights) {
+		if (!words.includes(name)) continue;
+
+		message.find("span").parentElement.style.backgroundColor = color;
+		message.find("span").classList.add("tt-highlight");
+		break;
+	}
+
+	function simplify(text) {
+		return text.toLowerCase().trim().replaceAll([".", "?", ":", "!", '"', "'", ";", "`", ","], "");
 	}
 }
 
