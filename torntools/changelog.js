@@ -1,7 +1,10 @@
 export default {
 	"v5.3.xxx - xxth. 2020": {
 		Features: [],
-		Fixes: ["Fix Achievement check by including medals/honors. - finally"],
+		Fixes: [
+			"Fix Achievement check by including medals/honors. - finally",
+			"Fix 'Three-peat' mission hints. - smikula"
+		],
 		Changes: [],
 	},
 	"v5.3 - October, 16th. 2020": {
