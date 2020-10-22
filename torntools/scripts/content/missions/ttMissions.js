@@ -193,7 +193,7 @@ const MISSIONS = {
 		task: "Defeat (P) using only a slashing or piercing weapon.",
 		hint: "Equip only a slashing or piercing weapon, armor can remain equipped.",
 	},
-	"Three-Peat": { task: "Defeat any 3 players by leave 1, mug 1 and hosp 1." },
+	"Three-peat": { task: "Defeat any 3 players by leave 1, mug 1 and hosp 1." },
 	"Training Day": { task: "Spend 250e/500e/750e/1000e/1250e gym training." },
 	"Tree Huggers": { task: "Defeat 6-8 (P)." },
 	Undercutters: { task: "Defeat 3 (P)." },

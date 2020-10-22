@@ -1,7 +1,11 @@
 export default {
-	"v5.4 - xxxx, xxth. 2020": {
+	"v5.4. xxx - xxth. 2020": {
 		Features: [],
-		Fixes: ["Fix Achievement check by including medals/honors. - finally", "Fix loading issues on the russian roulette page."],
+		Fixes: [
+			"Fix Achievement check by including medals/honors. - finally",
+			"Fix 'Three-peat' mission hints. - smikula",
+			"Fix loading issues on the russian roulette page. - DKK",
+		],
 		Changes: [],
 	},
 	"v5.3 - October, 16th. 2020": {
