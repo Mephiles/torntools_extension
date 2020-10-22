@@ -84,7 +84,7 @@ ttStorage.get(["settings", "hide_icons", "hide_areas"], async ([settings, hide_i
 	page_status = await getPageStatus();
 	console.log("Page Status:", page_status);
 
-	if (database_status == DATABASE_STATUSES.LOADING) {
+	if (database_status === DATABASE_STATUSES.LOADING) {
 		database_status = DATABASE_STATUSES.LOADING_ENTRY;
 	} else {
 		database_status = DATABASE_STATUSES.ENTRY;

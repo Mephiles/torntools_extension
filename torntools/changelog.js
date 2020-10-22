@@ -1,7 +1,7 @@
 export default {
-	"v5.3.xxx - xxth. 2020": {
+	"v5.4 - xxxx, xxth. 2020": {
 		Features: [],
-		Fixes: ["Fix Achievement check by including medals/honors. - finally"],
+		Fixes: ["Fix Achievement check by including medals/honors. - finally", "Fix loading issues on the russian roulette page."],
 		Changes: [],
 	},
 	"v5.3 - October, 16th. 2020": {
