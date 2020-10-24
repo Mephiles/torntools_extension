@@ -180,7 +180,7 @@ function applyHighlights(message) {
 	}
 
 	function simplify(text) {
-		return text.toLowerCase().trim().replaceAll([".", "?", ":", "!", '"', "'", ";", "`", ","], "");
+		return text.toLowerCase().trim();
 	}
 }
 

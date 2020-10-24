@@ -68,24 +68,6 @@ Document.prototype.newElement = function (options) {
 	}
 };
 
-String.prototype.replaceAll = function (text, replace) {
-	let str = this.toString();
-
-	if (typeof text === "string") {
-		while (str.includes(text)) {
-			str = str.replace(text, replace);
-		}
-	} else if (typeof text === "object") {
-		if (Array.isArray(text)) {
-			for (let t of text) {
-				str = str.replaceAll(t, replace);
-			}
-		}
-	}
-
-	return str;
-};
-
 /*
  * Load some functions.
  */
