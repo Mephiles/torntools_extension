@@ -159,6 +159,7 @@ function manipulateChats() {
 }
 
 function applyHighlights(message) {
+	if (!message) return;
 	if (!highlights.length) return;
 
 	const sender = simplify(message.find("a").innerText);
