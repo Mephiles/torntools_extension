@@ -162,10 +162,10 @@ function applyHighlights(message) {
 	if (!message) return;
 	if (!highlights.length) return;
 
-	const sender = simplify(message.find("a").innerText);
+	const sender = simplify(message.find("a").innerText).slice(0, -1);
 	const words = message.find("span").innerText.split(" ").map(simplify);
 
-	const senderHighlights = highlights.filter((highlight) => highlight.name === sender);
+	const senderHighlights = highlights.filter(({ name }) => name === sender);
 	if (senderHighlights.length) {
 		message.find("a").style.color = senderHighlights[0].senderColor;
 		message.find("a").classList.add("tt-highlight");
