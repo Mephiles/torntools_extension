@@ -5,6 +5,7 @@ export default {
 			"Fix Achievement check by including medals/honors. - finally",
 			"Fix 'Three-peat' mission hints. - smikula",
 			"Fix loading issues on the russian roulette page. - DKK",
+			"Fix 'Frenzy' mission hint. - DKK",
 		],
 		Changes: [],
 	},
