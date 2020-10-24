@@ -6,6 +6,7 @@ export default {
 			"Fix 'Three-peat' mission hints. - smikula",
 			"Fix loading issues on the russian roulette page. - DKK",
 			"Fix 'Frenzy' mission hint. - DKK",
+			"Show correct stalemate count for achievements on the mission page. - DKK",
 		],
 		Changes: [],
 	},

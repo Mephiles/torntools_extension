@@ -30,7 +30,7 @@ requireDatabase().then(() => {
 				keyword: "stealthed attacks",
 			},
 			Stalemates: {
-				stats: personalstats.defendsstalemated,
+				stats: personalstats.defendsstalemated + personalstats.attacksdraw,
 				keyword: "stalemate",
 			},
 			Escapes: {
