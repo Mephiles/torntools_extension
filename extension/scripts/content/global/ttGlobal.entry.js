@@ -33,7 +33,8 @@ async function loadGlobalEntry() {
 	});
 
 	// mobile check
-	await checkMobile();
-	if (mobile) document.documentElement.classList.add("tt-mobile");
-	else document.documentElement.classList.remove("tt-mobile");
+	checkMobile().then((mobile) => {
+		if (mobile) document.documentElement.classList.add("tt-mobile");
+		else document.documentElement.classList.remove("tt-mobile");
+	});
 }
