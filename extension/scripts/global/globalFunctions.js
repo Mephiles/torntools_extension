@@ -367,3 +367,7 @@ function setBadge(type, options) {
 function getBadgeText() {
 	return new Promise((resolve) => chrome.browserAction.getBadgeText({}, resolve));
 }
+
+function isSameUTCDay(date1, date2) {
+	return date1.setUTCHours(24, 0, 0, 0) === date2.setUTCHours(24, 0, 0, 0);
+}

@@ -159,3 +159,10 @@ const CONTRIBUTORS = {
 let mobile;
 
 const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => "DeKleineKobini", description: "Your player name." }]; // TODO
+
+const TO_MILLIS = {
+	SECONDS: 1000,
+	MINUTES: 1000 * 60,
+	HOURS: 1000 * 60 * 60,
+	DAYS: 1000 * 60 * 60 * 24,
+};
