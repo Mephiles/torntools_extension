@@ -1,4 +1,4 @@
-let settings, filters, version;
+let settings, filters, version, api;
 let databaseLoaded = false;
 let storageListeners = {
 	settings: [],
@@ -14,6 +14,7 @@ async function loadDatabase() {
 	settings = database.settings;
 	filters = database.filters;
 	version = database.version;
+	api = database.api;
 
 	databaseLoaded = true;
 	console.log("TT - Database loaded.", database);
@@ -34,6 +35,8 @@ chrome.storage.onChanged.addListener((changes, area) => {
 			version = changes.version.newValue;
 
 			storageListeners.version.forEach((listener) => listener());
+		} else if (changes.api) {
+			api = changes.api.newValue;
 		}
 	}
 });

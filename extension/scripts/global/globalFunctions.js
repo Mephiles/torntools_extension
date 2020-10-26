@@ -204,3 +204,166 @@ function checkMobile() {
 		}
 	});
 }
+
+async function fetchApi(
+	location,
+	options = {
+		// section (torn + yata)
+		// selections (torn)
+		// action (tornstats)
+		// method
+		// body [method === POST]
+		// fakeResponse
+	}
+) {
+	return new Promise((resolve, reject) => {
+		const PLATFORMS = {
+			torn: "https://api.torn.com/",
+			yata: "https://yata.alwaysdata.net/",
+			torn_proxy: "https://torn-proxy.com/",
+			tornstats: "https://www.tornstats.com/",
+			torntools: "https://torntools.gregork.com/",
+			nukefamily: "https://www.nukefamily.org/",
+		};
+
+		let url, path;
+		let params = new URLSearchParams();
+		switch (location) {
+			case "torn":
+				url = usingProxy() ? PLATFORMS.torn_proxy : PLATFORMS.torn;
+
+				path = `${options.section}/${options.id || ""}`;
+
+				params.append("selections", options.selections.join(","));
+				params.append("key", api.torn.key);
+				break;
+			case "tornstats":
+				if (usingProxy()) {
+					url = PLATFORMS.torn_proxy;
+					path = "tornstats/api.php";
+				} else {
+					url = PLATFORMS.tornstats;
+					path = "api.php";
+				}
+
+				params.append("action", options.action);
+				params.append("key", api.torn.key);
+				break;
+			case "yata":
+				url = PLATFORMS.yata;
+				path = `api/v1/${options.section}`;
+				break;
+		}
+
+		const fullUrl = `${url}${path}?${params}`;
+		let parameters = {};
+
+		if (options.method === "POST") {
+			parameters = {
+				method: "POST",
+				headers: { "content-type": "application/json" },
+				body: JSON.stringify(options.body),
+			};
+		}
+
+		fetch(fullUrl, parameters)
+			.then(async (response) => {
+				let result = {};
+
+				try {
+					result = await response.json();
+				} catch (error) {
+					if (response.status === 200) {
+						result.success = true;
+					} else {
+						result.success = false;
+						result.error = "Unknown error";
+					}
+				}
+
+				if (options.fakeResponse) {
+					result = options.fakeResponse;
+				}
+
+				if (result.error) {
+					await handleError(result);
+				} else {
+					if (location === "torn") {
+						await getBadgeText()
+							.then((value) => {
+								if (value === "error") setBadge("default");
+							})
+							.catch(() => console.error("TT - Couldn't get the badge text."));
+
+						await ttStorage.change({ api: { torn: { online: true, error: "" } } });
+					}
+
+					resolve(result);
+				}
+			})
+			.catch(async (error) => handleError(error));
+
+		return fullUrl;
+
+		async function handleError(result) {
+			if (result.proxy) {
+				await ttStorage.change({ api: { torn: { online: true, error: result.proxy_error } } });
+				setBadge("error");
+				reject({ error: result.proxy_error });
+			} else if (location === "torn") {
+				let error, online;
+
+				if (result.proxy) {
+					error = result.proxy_error;
+					online = true;
+				} else {
+					error = result.error.error;
+					online = result.error.code !== 9;
+				}
+
+				await ttStorage.change({ api: { torn: { online, error } } });
+				setBadge("error");
+				reject({ error });
+			} else {
+				reject({ error: result.error });
+			}
+		}
+	});
+
+	function usingProxy() {
+		return api.torn.key && api.torn.key.length === 32;
+	}
+}
+
+function setBadge(type, options) {
+	const TYPES = {
+		default: { text: "" },
+		error: { text: "error", color: "#FF0000" },
+		count: {
+			text: () => {
+				if (options.events && options.messages) return `${options.events}/${options.messages}`;
+				else if (options.events) return options.events.toString();
+				else if (options.messages) return options.events.toString();
+				else return false;
+			},
+			color: () => {
+				if (options.events && options.messages) return "#1ed2ac";
+				else if (options.events) return "#009eda";
+				else if (options.messages) return "#84af03";
+				else return false;
+			},
+		},
+	};
+
+	const badge = TYPES[type];
+	if (typeof badge.text === "function") badge.text = badge.text();
+	if (typeof badge.color === "function") badge.color = badge.color();
+	if (!badge.text) badge.text = "";
+
+	chrome.browserAction.setBadgeText({ text: badge.text || "" });
+	if (badge.color) chrome.browserAction.setBadgeBackgroundColor({ color: badge.color });
+}
+
+function getBadgeText() {
+	return new Promise((resolve) => chrome.browserAction.getBadgeText({}, resolve));
+}

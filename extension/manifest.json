@@ -26,11 +26,16 @@
 	"permissions": [
 		"storage",
 		"notifications",
-		"https://api.torn.com/*"
+		"https://api.torn.com/",
+		"https://torn-proxy.com/"
+	],
+	"optional_permissions": [
+		"https://yata.alwaysdata.net"
 	],
 	"web_accessible_resources": [
 		"resources/images/*.png",
-		"pages/*"
+		"pages/*",
+		"scripts/background.js"
 	],
 	"options_ui": {
 		"page": "pages/settings/settings.html",

@@ -23,7 +23,7 @@ async function showPage(name) {
 	let setup = {
 		changelog: setupChangelog,
 		preferences: setupPreferences,
-		api_info: setupAPIInfo,
+		api: setupAPIInfo,
 		remote: setupRemote,
 		about: setupAbout,
 	};
@@ -250,6 +250,8 @@ async function setupPreferences() {
 	}
 
 	async function saveSettings() {
+		api.torn.key = document.find("#api_key").value;
+
 		for (let setting of ["updateNotice", "developer"]) {
 			const checkbox = _preferences.find(`#${setting}`);
 			if (!checkbox) continue;
@@ -280,12 +282,27 @@ async function setupPreferences() {
 			};
 		});
 
-		await ttStorage.set({ settings });
-		console.log("Settings updated!", { settings });
+		const newStorage = { settings };
+		await ttStorage.set(newStorage);
+		console.log("Settings updated!", newStorage);
 	}
 }
 
-function setupAPIInfo() {}
+async function setupAPIInfo() {
+	await loadDatabase();
+
+	const _api = document.find("#api");
+
+	if (api.torn.key) {
+		_api.find("#api_key").value = api.torn.key;
+	}
+	document.find("#update_api_key").addEventListener("click", async () => {
+		const newStorage = { api: { torn: { key: document.find("#api_key").value } } };
+		await ttStorage.set(newStorage);
+
+		console.log("API key updated!", newStorage);
+	});
+}
 
 function setupRemote() {}
 

@@ -19,6 +19,14 @@ body {
 	margin: auto;
 }
 
+.no-margin {
+	margin: 0;
+}
+
+.first-header {
+	margin-top: 0;
+}
+
 /* List Tables */
 
 ul.list-table {
