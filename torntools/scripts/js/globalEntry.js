@@ -24,7 +24,11 @@ function mobileChecker() {
 
 ttStorage.get(["settings", "hide_icons", "hide_areas"], async ([settings, hide_icons, hide_areas]) => {
 	// Align left
+	if (settings.pages.global.align_left) document.documentElement.classList.add("tt-align-left");
+
 	document.documentElement.style.setProperty("--torntools-align-left", settings.pages.global.align_left ? "20px" : "auto");
+
+	if (getSearchParameters().has("popped")) document.documentElement.classList.add("tt-popout");
 
 	// Upgrade button
 	document.documentElement.style.setProperty("--torntools-hide-upgrade-button", settings.pages.global.hide_upgrade ? "none" : "block");

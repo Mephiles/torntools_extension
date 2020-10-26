@@ -8,7 +8,7 @@ export default {
 			"Fix 'Frenzy' mission hint. - DKK",
 			"Show correct stalemate count for achievements on the mission page. - DKK",
 		],
-		Changes: [],
+		Changes: ["Make left align also work on the popout poker. - DKK"],
 	},
 	"v5.3 - October, 16th. 2020": {
 		Features: ["Add popup mute button. - finally", "Add forum enhancements, hide posts/threads, copy post for discord. - finally"],

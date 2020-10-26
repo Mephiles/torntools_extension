@@ -336,6 +336,10 @@
 	margin-left: var(--torntools-align-left, auto) !important;
 }
 
+.tt-align-left.tt-popout .content-wrapper[role="main"] {
+	margin-left: 0 !important;
+}
+
 #pointsLevel {
 	display: var(--torntools-hide-upgrade-button, block) !important;
 }
