@@ -1,7 +1,11 @@
 /* Align Torn to the left */
 .tt-align-left .d .container,
 .tt-align-left .d .header-wrapper-top .container {
-	margin-left: 20px;
+	margin-left: 20px !important;
+}
+
+.tt-align-left.tt-popout .content-wrapper[role="main"] {
+	margin-left: 0 !important;
 }
 
 /* Change chat font size */

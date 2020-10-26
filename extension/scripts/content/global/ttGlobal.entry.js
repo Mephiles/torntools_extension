@@ -37,4 +37,7 @@ async function loadGlobalEntry() {
 		if (mobile) document.documentElement.classList.add("tt-mobile");
 		else document.documentElement.classList.remove("tt-mobile");
 	});
+
+	if (getSearchParameters().has("popped")) document.documentElement.classList.add("tt-popout");
+	else document.documentElement.classList.remove("tt-popout");
 }
