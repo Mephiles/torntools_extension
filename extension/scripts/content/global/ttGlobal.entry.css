@@ -1,6 +1,5 @@
 /* Align Torn to the left */
-.tt-align-left .d .container,
-.tt-align-left .d .header-wrapper-top .container {
+.tt-align-left .d .container {
 	margin-left: 20px !important;
 }
 
