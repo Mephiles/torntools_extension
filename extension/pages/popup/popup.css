@@ -1,5 +1,5 @@
 body {
-	width: 300px;
+	min-width: 26rem;
 	overflow-x: hidden;
 	font-size: 75%;
 }
@@ -20,4 +20,28 @@ body.loading *:not(.tt-loading-placeholder) {
 	margin-bottom: 5px;
 	color: red;
 	display: none;
+}
+
+/*
+ * Page Navigation
+ */
+
+#pages ul {
+	list-style: none;
+	display: flex;
+	padding: 0;
+	margin: 6px 0;
+}
+
+#pages ul li {
+	/*flex: 1 0 auto;*/
+	text-align: center;
+	font-size: 12px;
+	cursor: pointer;
+	padding: 1px;
+	margin: 0 2px;
+}
+
+#pages ul li.active {
+	border-top: 1px solid black;
 }

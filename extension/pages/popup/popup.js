@@ -5,6 +5,12 @@ let initiatedPages = {};
 
 	await loadDatabase();
 
+	for (let navigation of document.findAll("#pages li")) {
+		navigation.addEventListener("click", async () => {
+			await showPage(navigation.getAttribute("to"));
+		});
+	}
+
 	if (!api.torn.key) {
 		await showPage("initialize");
 	} else {
@@ -16,15 +22,11 @@ let initiatedPages = {};
 })();
 
 async function showPage(name) {
-	/*
-	for (let active of document.findAll("body > main.active, header nav.on-page > ul > li.active")) active.classList.remove("active");
-
-	document.find(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
 	document.find(`#${name}`).classList.add("active");
-	 */
 
-	for (let active of document.findAll("body > main.subpage.active")) active.classList.remove("active");
+	for (let active of document.findAll("body > main.subpage.active, #pages li.active")) active.classList.remove("active");
 
+	document.find(`#pages li[to="${name}"]`).classList.add("active");
 	document.find(`#${name}`).classList.add("active");
 
 	let setup = {
@@ -39,6 +41,8 @@ async function showPage(name) {
 }
 
 async function setupInitialize() {
+	document.find("#pages").classList.add("hidden");
+
 	document.find("#set_api_key").addEventListener("click", () => {
 		const key = document.find("#api_key").value;
 
@@ -49,11 +53,13 @@ async function setupInitialize() {
 				await ttStorage.change({ api: { torn: { key } } });
 
 				chrome.runtime.sendMessage({ action: "initialize" }, async (response) => {
+					document.find("#pages").classList.remove("hidden");
+
 					await showPage("dashboard");
 				});
 			})
 			.catch((error) => {
-				document.find(".error").style.display = "block";
+				document.find(".error").classList.remove("hidden");
 				document.find(".error").innerText = error.error;
 			});
 	});

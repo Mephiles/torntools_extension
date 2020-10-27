@@ -10,7 +10,15 @@
 		<link rel="stylesheet" href="popup.css" />
 	</head>
 	<body class="loading">
-		<div class="error"></div>
+		<div class="hidden error"></div>
+
+		<nav id="pages">
+			<ul>
+				<li to="dashboard">Dashboard</li>
+				<li to="market">Market</li>
+				<li to="stocks">Stocks</li>
+			</ul>
+		</nav>
 
 		<!-- Initialize -->
 		<main id="initialize" class="subpage">
@@ -25,6 +33,16 @@
 			<header>
 				<h1 id="name">Name</h1>
 			</header>
+		</main>
+
+		<!-- Market -->
+		<main id="market" class="subpage">
+			<h1>Market</h1>
+		</main>
+
+		<!-- Stocks -->
+		<main id="stocks" class="subpage">
+			<h1>Stocks</h1>
 		</main>
 
 		<script src="../../scripts/global/globalClasses.js"></script>
