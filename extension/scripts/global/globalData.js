@@ -134,6 +134,7 @@ const DEFAULT_STORAGE = {
 			showAdvanced: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 	},
+	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),
 };
 
@@ -158,7 +159,7 @@ const CONTRIBUTORS = {
 
 let mobile;
 
-const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => "DeKleineKobini", description: "Your player name." }]; // TODO
+const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.name || "", description: "Your player name." }]; // TODO
 
 const TO_MILLIS = {
 	SECONDS: 1000,
