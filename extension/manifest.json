@@ -52,6 +52,7 @@
 				"https://www.torn.com/*"
 			],
 			"css": [
+				"scripts/global/globalStyle.css",
 				"scripts/content/global/ttGlobal.entry.css"
 			],
 			"js": [
