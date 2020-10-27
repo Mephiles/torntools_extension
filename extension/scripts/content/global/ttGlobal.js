@@ -95,7 +95,7 @@ function requireChatsLoaded() {
 
 function addChatSearch() {
 	if (settings.pages.chat.searchChat) {
-		for (let chat of document.findAll(".chat-active_1Sufk")) {
+		for (let chat of document.findAll(".chat-active_1Sufk:not(.chat-box-settings_Ogzjk)")) {
 			if (chat.find(".tt-chat-filter")) continue;
 
 			const id = `search_${chat.find(".chat-box-title_out6E").getAttribute("title")}`;
