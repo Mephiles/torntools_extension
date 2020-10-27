@@ -112,7 +112,7 @@ function timedUpdates() {
 async function updateTorndata() {
 	let newTorndata = await fetchApi("torn", { section: "torn", selections: ["education", "honors", "items", "medals", "pawnshop"] });
 	newTorndata.date = new Date().getTime();
-	if (torndata) newTorndata.stocks = torndata.stocks;
+	newTorndata.stocks = torndata?.stocks;
 
 	await ttStorage.set({ torndata: newTorndata });
 }
