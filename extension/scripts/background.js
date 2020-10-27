@@ -92,26 +92,23 @@ function registerUpdaters() {
 }
 
 function timedUpdates() {
+	if (api.torn.key) {
+		if (!torndata || !isSameUTCDay(new Date(torndata.date), new Date())) {
+			updateTorndata()
+				.then(() => console.log("Updated torndata."))
+				.catch((error) => console.error("Error while updating torndata.", error));
+		}
+	}
+
 	// TODO - Update essential userdata.
 	// TODO - Update basic userdata.
 	// TODO - Update npc times.
 	// TODO - Update networth data.
 	// TODO - Update stocks data.
 	// TODO - Update OC data.
-
-	if (!torndata || !isSameUTCDay(new Date(torndata.date), new Date())) {
-		updateTorndata()
-			.then(() => console.log("Updated torndata."))
-			.catch((error) => console.error("Error while updating torndata.", error));
-	}
 }
 
-/*
- * Update on new torn day.
- */
 async function updateTorndata() {
-	if (!api.torn.key) return;
-
 	let newTorndata = await fetchApi("torn", { section: "torn", selections: ["education", "honors", "items", "medals", "pawnshop"] });
 	newTorndata.date = new Date().getTime();
 	if (torndata) newTorndata.stocks = torndata.stocks;

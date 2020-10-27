@@ -126,7 +126,7 @@ const DEFAULT_STORAGE = {
 				fontSize: new DefaultSetting({ type: "number", defaultValue: 12 }),
 				searchChat: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				blockZalgo: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				highlights: new DefaultSetting({ type: "array", defaultValue: () => [{ name: "$player", color: "#7ca900" }] }),
+				highlights: new DefaultSetting({ type: "array", defaultValue: [{ name: "$player", color: "#7ca900" }] }),
 			},
 		},
 	},
@@ -135,6 +135,7 @@ const DEFAULT_STORAGE = {
 			showAdvanced: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 	},
+	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),
 };
 
 const CONTRIBUTORS = {
