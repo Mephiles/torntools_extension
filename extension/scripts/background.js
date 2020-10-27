@@ -93,15 +93,18 @@ function registerUpdaters() {
 
 function timedUpdates() {
 	if (api.torn.key) {
-		// Update once every torn day.
+		updateUserdata()
+			.then(() => console.log("Updated essential userdata."))
+			.catch((error) => console.error("Error while updating essential userdata.", error));
+
 		if (!torndata || !isSameUTCDay(new Date(torndata.date), new Date())) {
+			// Update once every torn day.
 			updateTorndata()
 				.then(() => console.log("Updated torndata."))
 				.catch((error) => console.error("Error while updating torndata.", error));
 		}
 	}
 
-	// TODO - Update essential userdata.
 	// TODO - Update basic userdata.
 	// TODO - Update npc times.
 	// TODO - Update networth data.
@@ -109,10 +112,29 @@ function timedUpdates() {
 	// TODO - Update OC data.
 }
 
-async function updateTorndata() {
-	let newTorndata = await fetchApi("torn", { section: "torn", selections: ["education", "honors", "items", "medals", "pawnshop"] });
-	newTorndata.date = new Date().getTime();
-	newTorndata.stocks = torndata?.stocks;
+async function updateUserdata() {
+	userdata = await fetchApi("torn", { section: "user", selections: ["profile"] });
+	userdata.date = new Date().getTime();
 
-	await ttStorage.set({ torndata: newTorndata });
+	await ttStorage.set({ userdata });
 }
+
+async function updateTorndata() {
+	torndata = await fetchApi("torn", { section: "torn", selections: ["education", "honors", "items", "medals", "pawnshop"] });
+	torndata.date = new Date().getTime();
+
+	await ttStorage.set({ torndata });
+}
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+	switch (message.action) {
+		case "initialize":
+			timedUpdates();
+
+			sendResponse({ success: true });
+			break;
+		default:
+			sendResponse({ success: false, message: "Unknown action." });
+			break;
+	}
+});
