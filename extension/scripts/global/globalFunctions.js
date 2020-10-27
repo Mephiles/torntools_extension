@@ -214,6 +214,7 @@ async function fetchApi(
 		// method
 		// body [method === POST]
 		// fakeResponse
+		// silent
 	}
 ) {
 	return new Promise((resolve, reject) => {
@@ -235,7 +236,7 @@ async function fetchApi(
 				path = `${options.section}/${options.id || ""}`;
 
 				params.append("selections", options.selections.join(","));
-				params.append("key", api.torn.key);
+				params.append("key", options.key || api.torn.key);
 				break;
 			case "tornstats":
 				if (usingProxy()) {
@@ -247,7 +248,7 @@ async function fetchApi(
 				}
 
 				params.append("action", options.action);
-				params.append("key", api.torn.key);
+				params.append("key", options.key || api.torn.key);
 				break;
 			case "yata":
 				url = PLATFORMS.yata;
@@ -286,9 +287,9 @@ async function fetchApi(
 				}
 
 				if (result.error) {
-					await handleError(result);
+					await handleError(result, options.silent);
 				} else {
-					if (location === "torn") {
+					if (location === "torn" && !options.silent) {
 						await getBadgeText()
 							.then((value) => {
 								if (value === "error") setBadge("default");
@@ -305,10 +306,12 @@ async function fetchApi(
 
 		return fullUrl;
 
-		async function handleError(result) {
+		async function handleError(result, silent) {
 			if (result.proxy) {
-				await ttStorage.change({ api: { torn: { online: true, error: result.proxy_error } } });
-				setBadge("error");
+				if (!silent) {
+					await ttStorage.change({ api: { torn: { online: true, error: result.proxy_error } } });
+					setBadge("error");
+				}
 				reject({ error: result.proxy_error });
 			} else if (location === "torn") {
 				let error, online;
@@ -321,8 +324,10 @@ async function fetchApi(
 					online = result.error.code !== 9;
 				}
 
-				await ttStorage.change({ api: { torn: { online, error } } });
-				setBadge("error");
+				if (!silent) {
+					await ttStorage.change({ api: { torn: { online, error } } });
+					setBadge("error");
+				}
 				reject({ error });
 			} else {
 				reject({ error: result.error });
@@ -371,3 +376,23 @@ function getBadgeText() {
 function isSameUTCDay(date1, date2) {
 	return date1.setUTCHours(24, 0, 0, 0) === date2.setUTCHours(24, 0, 0, 0);
 }
+
+function showLoadingPlaceholder(element, show) {
+	if (show) {
+		if (element.find(".tt-loading-placeholder")) {
+			element.find(".tt-loading-placeholder").classList.add("active");
+		} else {
+			element.appendChild(
+				document.newElement({
+					type: "img",
+					class: "ajax-placeholder m-top10 m-bottom10 tt-loading-placeholder active",
+					attributes: { src: "https://www.torn.com/images/v2/main/ajax-loader.gif" },
+				})
+			);
+		}
+	} else {
+		element.find(".tt-loading-placeholder").classList.remove("active");
+	}
+}
+
+function verifyAPI(key) {}

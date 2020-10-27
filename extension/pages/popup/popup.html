@@ -1,14 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>TornTools 2 - Popup</title>
-	<link rel="icon" type="image/png" href="../../resources/images/icon_128.png" />
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>TornTools 2 - Popup</title>
+		<link rel="icon" type="image/png" href="../../resources/images/icon_128.png" />
 
-	<link rel="stylesheet" href="popup.css">
-</head>
-<body>
-	<h1>Popup</h1>
-</body>
+		<link rel="stylesheet" href="../../scripts/global/globalStyle.css" />
+		<link rel="stylesheet" href="popup.css" />
+	</head>
+	<body class="loading">
+		<div class="error"></div>
+
+		<!-- Initialize -->
+		<main id="initialize" class="subpage">
+			<h2>Welcome to Torn<span style="color: green">Tools</span>!</h2>
+			<label for="api_key">Please enter your API key</label>
+			<input type="text" id="api_key" />
+			<button id="set_api_key">Set</button>
+		</main>
+
+		<!-- Dashboard -->
+		<main id="dashboard" class="subpage">
+			<h1>Dashboard</h1>
+		</main>
+
+		<script src="../../scripts/global/globalClasses.js"></script>
+		<script src="../../scripts/global/globalData.js"></script>
+		<script src="../../scripts/global/globalFunctions.js"></script>
+		<script src="../../scripts/global/globalDatabase.js"></script>
+		<script src="popup.js"></script>
+	</body>
 </html>

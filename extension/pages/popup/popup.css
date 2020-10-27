@@ -1,0 +1,23 @@
+body {
+	width: 300px;
+	overflow-x: hidden;
+	font-size: 75%;
+}
+
+body.loading *:not(.tt-loading-placeholder) {
+	display: none !important;
+}
+
+.subpage {
+	display: none;
+}
+
+.subpage.active {
+	display: block;
+}
+
+.error {
+	margin-bottom: 5px;
+	color: red;
+	display: none;
+}
