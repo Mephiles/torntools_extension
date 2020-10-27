@@ -47,7 +47,10 @@ async function setupInitialize() {
 				console.log("initialize response", response);
 
 				await ttStorage.change({ api: { torn: { key } } });
-				await showPage("dashboard");
+
+				chrome.runtime.sendMessage({ action: "initialize" }, async (response) => {
+					await showPage("dashboard");
+				});
 			})
 			.catch((error) => {
 				document.find(".error").style.display = "block";
@@ -56,4 +59,11 @@ async function setupInitialize() {
 	});
 }
 
-async function setupDashboard() {}
+async function setupDashboard() {
+	updateDashboard();
+	storageListeners.userdata.push(updateDashboard);
+
+	function updateDashboard() {
+		document.find("#name").innerText = userdata.name;
+	}
+}
