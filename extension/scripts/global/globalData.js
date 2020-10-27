@@ -56,12 +56,11 @@ const ttStorage = new (class {
 
 	reset() {
 		return new Promise(async (resolve) => {
-			// TODO - Add API key again.
-			// const apiKey = await this.get("api_key");
+			const apiKey = api.torn.key;
 
 			await this.clear();
 			await this.set(getDefaultStorage(DEFAULT_STORAGE));
-			// await this.set({ api_key: apiKey });
+			await this.change({ api: { torn: { key: apiKey } } });
 
 			console.log("Storage cleared");
 			console.log("New storage", await this.get());
