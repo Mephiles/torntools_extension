@@ -93,6 +93,7 @@ function registerUpdaters() {
 
 function timedUpdates() {
 	if (api.torn.key) {
+		// Update once every torn day.
 		if (!torndata || !isSameUTCDay(new Date(torndata.date), new Date())) {
 			updateTorndata()
 				.then(() => console.log("Updated torndata."))
