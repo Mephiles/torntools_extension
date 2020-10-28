@@ -4,7 +4,7 @@ export default {
 		Fixes: [
 			"Fix Achievement check by including medals/honors. - finally",
 			"Fix 'Three-peat' mission hints. - smikula",
-			"Fix loading issues on the russian roulette page. - DKK",
+			"Fix loading issues on the russian roulette and calendar pages. - DKK",
 			"Fix 'Frenzy' mission hint. - DKK",
 			"Show correct stalemate count for achievements on the mission page. - DKK",
 		],
