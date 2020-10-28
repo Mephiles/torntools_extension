@@ -48,7 +48,7 @@
 						<li name="global">Global</li>
 						<li name="chat">Chat</li>
 						<li>Sidebar</li>
-						<li>Popup</li>
+						<li name="popup">Popup</li>
 						<li>Notifications</li>
 						<li>Other</li>
 
@@ -151,6 +151,35 @@
 								<button id="addChatHighlight">Add</button>
 							</li>
 						</ul>
+					</section>
+					<section name="popup">
+						<div class="header">Tabs</div>
+						<div class="option">
+							<input id="popup-dashboard" type="checkbox" />
+							<label for="popup-dashboard">Enable dashboard.</label>
+						</div>
+						<div class="option">
+							<input id="popup-marketSearch" type="checkbox" />
+							<label for="popup-marketSearch">Enable market search.</label>
+						</div>
+						<div class="option">
+							<input id="popup-stocksOverview" type="checkbox" />
+							<label for="popup-stocksOverview">Enable stocks overview.</label>
+						</div>
+
+						<div class="header">Default tab</div>
+						<div class="option">
+							<input id="popup-defaultTab_dashboard" type="radio" name="defaultTab" value="dashboard" />
+							<label for="popup-defaultTab_dashboard">Dashboard.</label>
+						</div>
+						<div class="option">
+							<input id="popup-defaultTab_market" type="radio" name="defaultTab" value="market" />
+							<label for="popup-defaultTab_market">Market search.</label>
+						</div>
+						<div class="option">
+							<input id="popup-defaultTab_stocks" type="radio" name="defaultTab" value="stocks" />
+							<label for="popup-defaultTab_stocks">Stocks overview.</label>
+						</div>
 					</section>
 				</div>
 			</section>

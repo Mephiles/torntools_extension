@@ -189,6 +189,8 @@ async function setupPreferences() {
 			checkbox.checked = settings[setting];
 		}
 
+		_preferences.find(`input[name="defaultTab"][value="${settings.pages.popup.defaultTab}"]`).checked = true;
+
 		for (let type of ["pages"]) {
 			for (let page in settings[type]) {
 				const isGlobalDisabled = settings[type][page].global === false;
@@ -250,14 +252,14 @@ async function setupPreferences() {
 	}
 
 	async function saveSettings() {
-		api.torn.key = document.find("#api_key").value;
-
 		for (let setting of ["updateNotice", "developer"]) {
 			const checkbox = _preferences.find(`#${setting}`);
 			if (!checkbox) continue;
 
 			settings[setting] = checkbox.checked;
 		}
+
+		settings.pages.popup.defaultTab = _preferences.find(`input[name="defaultTab"]:checked`).value;
 
 		for (let type of ["pages"]) {
 			for (let page in settings[type]) {

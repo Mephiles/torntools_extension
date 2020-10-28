@@ -127,6 +127,12 @@ const DEFAULT_STORAGE = {
 				blockZalgo: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				highlights: new DefaultSetting({ type: "array", defaultValue: [{ name: "$player", color: "#7ca900" }] }),
 			},
+			popup: {
+				dashboard: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				marketSearch: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				stocksOverview: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				defaultTab: new DefaultSetting({ type: "string", defaultValue: "dashboard" }),
+			},
 		},
 	},
 	filters: {

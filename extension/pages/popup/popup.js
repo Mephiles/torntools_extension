@@ -11,10 +11,14 @@ let initiatedPages = {};
 		});
 	}
 
+	if (!settings.pages.popup.dashboard) document.find('#pages li[to="dashboard"]').classList.add("hidden");
+	if (!settings.pages.popup.marketSearch) document.find('#pages li[to="market"]').classList.add("hidden");
+	if (!settings.pages.popup.stocksOverview) document.find('#pages li[to="stocks"]').classList.add("hidden");
+
 	if (!api.torn.key) {
 		await showPage("initialize");
 	} else {
-		await showPage("dashboard");
+		await showPage(settings.pages.popup.defaultTab);
 	}
 
 	showLoadingPlaceholder(document.body, false);
@@ -32,6 +36,8 @@ async function showPage(name) {
 	let setup = {
 		initialize: setupInitialize,
 		dashboard: setupDashboard,
+		market: setupMarketSearch,
+		stocks: setupStocksOverview,
 	};
 
 	if (!(name in initiatedPages) || !initiatedPages[name]) {
@@ -55,7 +61,7 @@ async function setupInitialize() {
 				chrome.runtime.sendMessage({ action: "initialize" }, async (response) => {
 					document.find("#pages").classList.remove("hidden");
 
-					await showPage("dashboard");
+					await showPage(settings.pages.popup.defaultTab);
 				});
 			})
 			.catch((error) => {
@@ -73,3 +79,7 @@ async function setupDashboard() {
 		document.find("#name").innerText = userdata.name;
 	}
 }
+
+async function setupMarketSearch() {}
+
+async function setupStocksOverview() {}
