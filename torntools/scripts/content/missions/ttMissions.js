@@ -22,7 +22,7 @@ const MISSIONS = {
 		hint: "Duke sends you 2 random masks to wear. Make sure one of the attacks has no mask on.",
 	},
 	"A Thor Loser": {
-		task: "Use Duke's hammer and hit 15 different body parts.",
+		task: "Use Duke's hammer and hit 14/15 different body parts.",
 		hint:
 			"There are approximately 20-30 different body parts in Torn people. Attempt to find someone tanky to maximize your hits per energy spent (unless you are planning to spend a ton of energy).",
 	},
