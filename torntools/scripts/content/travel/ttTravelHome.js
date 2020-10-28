@@ -498,14 +498,6 @@ function filterTable() {
 		item: 2,
 	};
 
-	// Switch destination on map
-	if (country !== "all") {
-		let name = country.replace(/ /g, "-");
-		if (country === "cayman islands") name = "cayman";
-		if (country === "united kingdom") name = "uk";
-		doc.find(`div[role='tabpanel'][aria-expanded='true'] .path.to-${name}`).previousElementSibling.click();
-	}
-
 	for (let row of doc.findAll("#ttTravelTable .table .body .row")) {
 		row.classList.remove("hidden");
 
