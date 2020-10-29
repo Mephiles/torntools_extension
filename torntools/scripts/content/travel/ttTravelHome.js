@@ -81,7 +81,7 @@ requireDatabase().then(function () {
 		// Sort by country
 		sort(doc.find("#ttTravelTable .table"), 1, "text");
 
-		filterTable();
+		filterTable(false);
 
 		// Tab listeners
 		for (let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]) {
@@ -259,7 +259,7 @@ function addLegend() {
 	// Filtering
 	for (let el of doc.findAll("#ttTravelTable .legend-content .row .radio-item input, #ttTravelTable .legend-content .row .checkbox-item input")) {
 		el.onclick = function () {
-			filterTable();
+			filterTable(true);
 			saveSettings();
 		};
 	}
@@ -489,7 +489,7 @@ function addRow(item, time, cost, travel_items) {
 	return row;
 }
 
-function filterTable() {
+function filterTable(manual) {
 	const country = doc.find("#ttTravelTable .legend-content .radio-item input[name='country']:checked").getAttribute("_type");
 	const item_types = [...doc.findAll("#ttTravelTable .legend-content .checkbox-item input[name='item']:checked")].map((x) => x.getAttribute("_type"));
 
@@ -497,6 +497,13 @@ function filterTable() {
 		country: 1,
 		item: 2,
 	};
+
+	if (manual && country !== "all") {
+		let name = country.replace(/ /g, "-");
+		if (country === "cayman islands") name = "cayman";
+		if (country === "united kingdom") name = "uk";
+		doc.find(`div[role='tabpanel'][aria-expanded='true'] .path.to-${name}`).previousElementSibling.click();
+	}
 
 	for (let row of doc.findAll("#ttTravelTable .table .body .row")) {
 		row.classList.remove("hidden");
@@ -570,7 +577,7 @@ function reloadTable() {
 		doc.find("#ttTravelTable .header-row i").remove();
 		sort(doc.find("#ttTravelTable .table"), 1, "text");
 
-		filterTable();
+		filterTable(false);
 	});
 }
 
