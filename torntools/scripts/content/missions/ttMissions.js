@@ -195,7 +195,7 @@ const MISSIONS = {
 	},
 	"Three-peat": { task: "Defeat any 3 players by leave 1, mug 1 and hosp 1." },
 	"Training Day": { task: "Spend 250e/500e/750e/1000e/1250e gym training." },
-	"Tree Huggers": { task: "Defeat 6-8 (P)." },
+	"Tree Huggers": { task: "Defeat 5-8 (P)." },
 	Undercutters: { task: "Defeat 3 (P)." },
 	"Unwanted Attention": { task: "Hospitalize 4 (P).", hint: "Must Hospitalize all targets." },
 	Withdrawal: { task: "Injure (P) both arms.", hint: "Can be easier with a pillow. Hands count as arms." },
