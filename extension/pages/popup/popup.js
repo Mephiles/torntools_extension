@@ -30,7 +30,7 @@ async function showPage(name) {
 
 	for (let active of document.findAll("body > main.subpage.active, #pages li.active")) active.classList.remove("active");
 
-	document.find(`#pages li[to="${name}"]`).classList.add("active");
+	document.find(`#pages li[to="${name}"]`)?.classList.add("active");
 	document.find(`#${name}`).classList.add("active");
 
 	let setup = {
