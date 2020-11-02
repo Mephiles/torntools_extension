@@ -3,10 +3,11 @@ export default {
 		Features: [],
 		Fixes: [
 			"Fix Achievement check by including medals/honors. - finally",
-			"Fix 'Three-peat' mission hints. - smikula",
+			"Fix 'Three-peat' mission hint. - smikula",
 			"Fix loading issues on the russian roulette and calendar pages. - DKK",
 			"Fix 'Frenzy' and 'A Thor Loser' mission hints. - DKK",
 			"Show correct stalemate count for achievements on the mission page. - DKK",
+			"Fix 'Tree Huggers' mission hint. - kontamusse",
 		],
 		Changes: [
 			"Make left align also work on the popout poker. - DKK",
