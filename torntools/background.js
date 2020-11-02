@@ -30,8 +30,6 @@ const links = {
 	chain: "https://www.torn.com/factions.php?step=your#/war/chain",
 };
 
-let NPC_FETCH_TIME = 0;
-
 let userdata,
 	torndata,
 	settings,
@@ -43,6 +41,7 @@ let userdata,
 	oc,
 	allies,
 	loot_times,
+	yata,
 	target_list,
 	vault,
 	mass_messages,
@@ -168,6 +167,7 @@ setup_storage.then(async (success) => {
 		filters = db.filters;
 		cache = db.cache;
 		watchlist = db.watchlist;
+		yata = db.yata;
 
 		if (api_key) {
 			initiateTasks();
@@ -253,11 +253,12 @@ function Main_30_seconds() {
 			}
 
 			// Loot Times
-			NPC_FETCH_TIME -= 30 * seconds;
 			// console.log("NPC FETCH TIME", NPC_FETCH_TIME);
-			if (!oldLootTimes || new Date(oldYata.next_loot_update).getTime() >= Date.now()) {
-				console.log("Setting up NPC loot times", NPC_FETCH_TIME);
+			if (!oldLootTimes || !oldYata.next_loot_update || new Date(oldYata.next_loot_update).getTime() <= Date.now()) {
+				console.log("Setting up NPC loot times", oldYata.next_loot_update);
 				await updateLootTimes();
+			} else {
+				console.log("DKK loot", oldLootTimes, oldYata);
 			}
 
 			// Networth data
@@ -543,10 +544,8 @@ function updateLootTimes() {
 					};
 				}
 
-				const nextUpdate = result.next_update;
-				delete result.next_update;
-				ttStorage.set({ loot_times: result, yata: { next_loot_update: nextUpdate } }, async () => {
-					console.log("	Loot times set.", result, nextUpdate);
+				ttStorage.set({ loot_times: npcs, yata: { next_loot_update: result.next_update * 1000 } }, async () => {
+					console.log("	Loot times set.", { loot_times: npcs, yata: { next_loot_update: result.next_update * 1000 } });
 					await checkLootAlerts();
 					return resolve();
 				});
