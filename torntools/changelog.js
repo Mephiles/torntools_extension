@@ -1,5 +1,5 @@
 export default {
-	"v5.4. xxx - xxth. 2020": {
+	"v5.3.1 November, 2nd. 2020": {
 		Features: [],
 		Fixes: [
 			"Fix Achievement check by including medals/honors. - finally",
@@ -8,7 +8,11 @@ export default {
 			"Fix 'Frenzy' and 'A Thor Loser' mission hints. - DKK",
 			"Show correct stalemate count for achievements on the mission page. - DKK",
 		],
-		Changes: ["Make left align also work on the popout poker. - DKK", "Remove travel map auto country select. - DKK", "Switch to YATA's v1 API. - DKK"],
+		Changes: [
+			"Make left align also work on the popout poker. - DKK",
+			"Remove travel map auto country select. - DKK",
+			"Switch to YATA's v1 loot API. - DKK",
+		],
 	},
 	"v5.3 - October, 16th. 2020": {
 		Features: ["Add popup mute button. - finally", "Add forum enhancements, hide posts/threads, copy post for discord. - finally"],
