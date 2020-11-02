@@ -257,8 +257,6 @@ function Main_30_seconds() {
 			if (!oldLootTimes || !oldYata.next_loot_update || new Date(oldYata.next_loot_update).getTime() <= Date.now()) {
 				console.log("Setting up NPC loot times", oldYata.next_loot_update);
 				await updateLootTimes();
-			} else {
-				console.log("DKK loot", oldLootTimes, oldYata);
 			}
 
 			// Networth data
