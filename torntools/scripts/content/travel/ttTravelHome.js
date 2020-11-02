@@ -584,7 +584,7 @@ function reloadTable() {
 function updateTravelMarket() {
 	console.log("Updating Travel Market info.");
 	return new Promise((resolve) => {
-		fetchRelay("yata-v0", { section: "bazaar/abroad/export" })
+		fetchRelay("yata__v0", { section: "bazaar/abroad/export" })
 			.then((result) => {
 				console.log("Travel market result", result);
 				result.date = new Date().toString();

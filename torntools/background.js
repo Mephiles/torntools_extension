@@ -495,7 +495,7 @@ async function updateTorndata(oldTorndata) {
 
 function updateLootTimes() {
 	return new Promise((resolve) => {
-		fetchApi_v2("yata-v1", { section: "loot" })
+		fetchApi_v2("yata__v1", { section: "loot" })
 			.then((result) => {
 				const ALL_NPCS = {
 					4: { name: "Duke" },
@@ -514,13 +514,13 @@ function updateLootTimes() {
 					let levelCurrent;
 					if (time_out < 0) {
 						levelCurrent = 0;
-					} else if (time_out < TO_MILLIS.MINUTES * 30) {
+					} else if (time_out < 60 * 30) {
 						levelCurrent = 1;
-					} else if (time_out < TO_MILLIS.MINUTES * 90) {
+					} else if (time_out < 60 * 90) {
 						levelCurrent = 2;
-					} else if (time_out < TO_MILLIS.MINUTES * 210) {
+					} else if (time_out < 60 * 210) {
 						levelCurrent = 3;
-					} else if (time_out < TO_MILLIS.MINUTES * 450) {
+					} else if (time_out < 60 * 450) {
 						levelCurrent = 4;
 					} else {
 						levelCurrent = 5;

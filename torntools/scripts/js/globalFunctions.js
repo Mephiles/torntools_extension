@@ -3133,8 +3133,8 @@ function fetchApi_v2(
 		ttStorage.get(["api_key", "proxy_key"], ([api_key, proxy_key]) => {
 			const URLs = {
 				torn: "https://api.torn.com/",
-				"yata-v0": "https://yata.alwaysdata.net/",
-				"yata-v1": "https://yata.alwaysdata.net/api/v1/",
+				yata__v0: "https://yata.alwaysdata.net/",
+				yata__v1: "https://yata.alwaysdata.net/api/v1/",
 				"torn-proxy": "https://torn-proxy.com/",
 				tornstats: "https://www.tornstats.com/",
 				// 'tornstats': 'https://www.torn-proxy.com/tornstats/',
@@ -3329,6 +3329,7 @@ function fetchApi_v2(
 					break;
 			}
 
+			location = location.split("__")[0];
 			api_history[location].push({
 				date: new Date().toString(),
 				location: location,
