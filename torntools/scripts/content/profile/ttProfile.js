@@ -934,26 +934,27 @@ function displayLootLevel(loot_times) {
 			// New info hasn't been fetched yet
 			next_level = next_level + 1 > 5 ? 1 : next_level + 1;
 			next_loot_time = loot_times[profile_id].timings[next_level].ts;
-			time_left = timeUntil((next_loot_time - current_time) * 1000);
-		} else {
-			time_left = timeUntil((next_loot_time - current_time) * 1000);
 		}
+		time_left = timeUntil((next_loot_time - current_time) * 1000);
 
+		const maxLevel = time_left === -1;
 		let span = doc.new("span");
 		span.setClass("tt-loot-time");
-		span.innerText = `Next loot level in: ${time_left}`;
+		span.innerText = `Next loot level in: ${maxLevel ? "max level reached" : time_left}`;
 		span.setAttribute("seconds", next_loot_time - current_time);
 
 		doc.find(".profile-wrapper .profile-status .description .sub-desc").appendChild(span);
 
 		// Time decrease
-		setInterval(() => {
-			let seconds = parseInt(span.getAttribute("seconds"));
-			let time_left = timeUntil((seconds - 1) * 1000);
+		if (!maxLevel) {
+			setInterval(() => {
+				let seconds = parseInt(span.getAttribute("seconds"));
+				let time_left = timeUntil((seconds - 1) * 1000);
 
-			span.innerText = `Next loot level in: ${time_left}`;
-			span.setAttribute("seconds", seconds - 1);
-		}, 1000);
+				span.innerText = `Next loot level in: ${time_left}`;
+				span.setAttribute("seconds", seconds - 1);
+			}, 1000);
+		}
 	}
 }
 

@@ -534,10 +534,10 @@ function updateLootTimes() {
 						name: ALL_NPCS[id] ? ALL_NPCS[id].name : "Unknown",
 						timings: {
 							1: { ts: hosp_out },
-							2: { ts: hosp_out + TO_MILLIS.MINUTES * 30 },
-							3: { ts: hosp_out + TO_MILLIS.MINUTES * 90 },
-							4: { ts: hosp_out + TO_MILLIS.MINUTES * 210 },
-							5: { ts: hosp_out + TO_MILLIS.MINUTES * 450 },
+							2: { ts: hosp_out + 60 * 30 },
+							3: { ts: hosp_out + 60 * 90 },
+							4: { ts: hosp_out + 60 * 210 },
+							5: { ts: hosp_out + 60 * 450 },
 						},
 					};
 				}
