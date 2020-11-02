@@ -221,8 +221,8 @@ function Main_30_seconds() {
 	console.log("Start Main");
 
 	ttStorage.get(
-		["api_key", "proxy_key", "settings", "loot_times", "target_list", "stakeouts", "torndata", "networth", "oc", "userdata"],
-		async ([api_key, proxy_key, settings, oldLootTimes, oldTargetList, oldStakeouts, oldTorndata, oldNetworth, oldOC, oldUserdata]) => {
+		["api_key", "proxy_key", "settings", "loot_times", "target_list", "stakeouts", "torndata", "networth", "oc", "userdata", "yata"],
+		async ([api_key, proxy_key, settings, oldLootTimes, oldTargetList, oldStakeouts, oldTorndata, oldNetworth, oldOC, oldUserdata, oldYata]) => {
 			let apiKey;
 			let usingProxy = false;
 
@@ -255,8 +255,8 @@ function Main_30_seconds() {
 			// Loot Times
 			NPC_FETCH_TIME -= 30 * seconds;
 			// console.log("NPC FETCH TIME", NPC_FETCH_TIME);
-			if (!oldLootTimes || NPC_FETCH_TIME <= 10 * seconds) {
-				console.log("Setting up NPC loot times");
+			if (!oldLootTimes || new Date(oldYata.next_loot_update).getTime() >= Date.now()) {
+				console.log("Setting up NPC loot times", NPC_FETCH_TIME);
 				await updateLootTimes();
 			}
 
@@ -496,30 +496,57 @@ async function updateTorndata(oldTorndata) {
 
 function updateLootTimes() {
 	return new Promise((resolve) => {
-		fetchApi_v2("yata", { section: "loot/timings" })
+		fetchApi_v2("yata", { section: "loot" })
 			.then((result) => {
-				let lowestTime = 1e10;
-				for (let id in result) {
-					if (
-						result[id].status === "hospitalized" &&
-						new Date(result[id].hospout * 1000) - new Date() < lowestTime &&
-						new Date(result[id].hospout * 1000) - new Date() > 0
-					) {
-						lowestTime = new Date(result[id].hospout * 1000) - new Date() + minutes;
-					} else {
-						const nextLevel = result[id].levels.next;
-						const nextLevelTime = result[id].timings[nextLevel].ts * 1000;
-						if (new Date(nextLevelTime) - new Date() < lowestTime && new Date(nextLevelTime) - new Date() > 0) {
-							if (new Date(nextLevelTime) - new Date() >= hours + 30 * minutes) lowestTime = 10 * minutes;
-							else lowestTime = new Date(nextLevelTime) - new Date() + 3 * minutes;
-						}
-					}
-				}
-				// console.log("lowest time", lowestTime);
-				if (lowestTime !== 1e10) NPC_FETCH_TIME = lowestTime;
+				const ALL_NPCS = {
+					4: { name: "Duke" },
+					10: { name: "Scrooge" },
+					15: { name: "Leslie" },
+					19: { name: "Jimmy" },
+				};
 
-				ttStorage.set({ loot_times: result }, async () => {
-					console.log("	Loot times set.");
+				const time = Date.now();
+
+				let npcs = {};
+				for (let id in result.hosp_out) {
+					const hosp_out = result.hosp_out[id];
+					const time_out = hosp_out * 1000 - time;
+
+					let levelCurrent;
+					if (time_out < 0) {
+						levelCurrent = 0;
+					} else if (time_out < TO_MILLIS.MINUTES * 30) {
+						levelCurrent = 1;
+					} else if (time_out < TO_MILLIS.MINUTES * 90) {
+						levelCurrent = 2;
+					} else if (time_out < TO_MILLIS.MINUTES * 210) {
+						levelCurrent = 3;
+					} else if (time_out < TO_MILLIS.MINUTES * 450) {
+						levelCurrent = 4;
+					} else {
+						levelCurrent = 5;
+					}
+
+					npcs[id] = {
+						hospout: result.hosp_out[id],
+						levels: {
+							next: levelCurrent === 5 ? 5 : levelCurrent + 1,
+						},
+						name: ALL_NPCS[id] ? ALL_NPCS[id].name : "Unknown",
+						timings: {
+							1: { ts: hosp_out },
+							2: { ts: hosp_out + TO_MILLIS.MINUTES * 30 },
+							3: { ts: hosp_out + TO_MILLIS.MINUTES * 90 },
+							4: { ts: hosp_out + TO_MILLIS.MINUTES * 210 },
+							5: { ts: hosp_out + TO_MILLIS.MINUTES * 450 },
+						},
+					};
+				}
+
+				const nextUpdate = result.next_update;
+				delete result.next_update;
+				ttStorage.set({ loot_times: result, yata: { next_loot_update: nextUpdate } }, async () => {
+					console.log("	Loot times set.", result, nextUpdate);
 					await checkLootAlerts();
 					return resolve();
 				});
