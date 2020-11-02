@@ -495,7 +495,7 @@ async function updateTorndata(oldTorndata) {
 
 function updateLootTimes() {
 	return new Promise((resolve) => {
-		fetchApi_v2("yata", { section: "loot" })
+		fetchApi_v2("yata-v1", { section: "loot" })
 			.then((result) => {
 				const ALL_NPCS = {
 					4: { name: "Duke" },

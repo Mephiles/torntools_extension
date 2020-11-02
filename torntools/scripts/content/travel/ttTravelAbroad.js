@@ -234,7 +234,7 @@ function updateYATAPrices() {
 	}
 
 	console.log("POST DATA", post_data);
-	fetchRelay("yata", { section: `bazaar/abroad/import`, method: "POST", postData: post_data })
+	fetchRelay("yata-v0", { section: `bazaar/abroad/import`, method: "POST", postData: post_data })
 		.then((result) => {
 			console.log("yata PUSH", result);
 		})
@@ -918,7 +918,7 @@ function reloadTable() {
 function updateTravelMarket() {
 	console.log("Updating Travel Market info.");
 	return new Promise((resolve) => {
-		fetchRelay("yata", { section: "bazaar/abroad/export" })
+		fetchRelay("yata-v0", { section: "bazaar/abroad/export" })
 			.then((result) => {
 				console.log("Travel market result", result);
 				result.date = new Date().toString();
