@@ -1,7 +1,7 @@
 export default {
 	"v5.4 - xxx, xxx. 2020": {
 		Features: [],
-		Fixes: [],
+		Fixes: ["Break the travel table less often when flying back from a country with spaces. - Fogest"],
 		Changes: ["Switch to YATA's v1 abroad API. - Fogest"],
 	},
 	"v5.3.1 - November, 2nd. 2020": {
