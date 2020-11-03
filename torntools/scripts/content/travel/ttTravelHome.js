@@ -584,11 +584,11 @@ function reloadTable() {
 function updateTravelMarket() {
 	console.log("Updating Travel Market info.");
 	return new Promise((resolve) => {
-		fetchRelay("yata__v0", { section: "bazaar/abroad/export" })
+		fetchRelay("yata__v1", { section: "travel/export" })
 			.then((result) => {
 				console.log("Travel market result", result);
 				result.date = new Date().toString();
-				ttStorage.set({ travel_market: result }, function () {
+				ttStorage.set({ travel_market: result }, () => {
 					console.log("	Travel market info set.");
 					return resolve(result);
 				});
