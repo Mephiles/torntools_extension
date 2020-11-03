@@ -178,7 +178,7 @@ function addFilterToTable(list, title) {
 			}
 
 			// Time
-			let player_time = toSeconds(li.find(".time").innerText.trim().replace("Time:", "").replace("left:", "").trim()) / 60 / 60;
+			let player_time = toSeconds(li.find(".time").innerText.trim().replace("Time:", "").replace("left:", "").replace("Time left:", "").trim()) / 60 / 60;
 			if (!(time[0] <= player_time && player_time <= time[1])) {
 				li.classList.add("filter-hidden");
 				continue;
