@@ -46,6 +46,149 @@ const country_dict = {
 	},
 };
 
+const country_dict_short = {
+	// time = minutes
+	arg: {
+		long_name: 'Argentina',
+		time: 167,
+		cost: 21000,
+		item_types: {
+			271: 'flower',
+			269: 'plushie',
+			196: 'drug',
+			198: 'drug',
+			204: 'drug',
+			199: 'drug',
+			203: 'drug',
+		}
+	},
+	can: {
+		long_name: 'Canada',
+		time: 41,
+		cost: 9000,
+		item_types: {
+			263: 'flower',
+			261: 'plushie',
+			197: 'drug',
+			196: 'drug',
+			205: 'drug',
+			201: 'drug',
+			206: 'drug',
+		}
+	},
+	cay: {
+		long_name: 'Cayman Islands',
+		time: 35,
+		cost: 10000,
+		item_types: {
+			617: 'flower',
+			618: 'plushie',
+		}
+	},
+	chi: {
+		long_name: 'China',
+		time: 242,
+		cost: 35000,
+		item_types: {
+			276: 'flower',
+			274: 'plushie',
+			197: 'drug',
+			200: 'drug',
+			204: 'drug',
+			201: 'drug',
+			199: 'drug',
+		}
+	},
+	haw: {
+		long_name: 'Hawaii',
+		time: 134,
+		cost: 11000,
+		item_types: {
+			264: 'flower',
+		}
+	},
+	jap: {
+		long_name: 'Japan',
+		time: 225,
+		cost: 32000,
+		item_types: {
+			277: 'flower',
+			205: 'drug',
+			206: 'drug',
+			203: 'drug',
+			197: 'drug',
+			200: 'drug',
+			198: 'drug',
+			204: 'drug',
+		}
+	},
+	mex: {
+		long_name: 'Mexico',
+		time: 26,
+		cost: 6500,
+		item_types: {
+			260: 'flower',
+			258: 'plushie',
+		}
+	},
+	sou: {
+		long_name: 'South Africa',
+		time: 297,
+		cost: 40000,
+		item_types: {
+			282: 'flower',
+			281: 'plushie',
+			200: 'drug',
+			201: 'drug',
+			199: 'drug',
+			206: 'drug',
+			203: 'drug',
+		}
+	},
+	swi: {
+		long_name: 'Switzerland',
+		time: 175,
+		cost: 27000,
+		item_types: {
+			272: 'flower',
+			435: 'flower',
+			273: 'plushie',
+			196: 'drug',
+			198: 'drug',
+			204: 'drug',
+			201: 'drug',
+			199: 'drug',
+			203: 'drug',
+		}
+	},
+	uae: {
+		long_name: 'UAE',
+		time: 271,
+		cost: 32000,
+		item_types: {
+			385: 'flower',
+			384: 'plushie',
+		}
+	},
+	uni: {
+		long_name: 'United Kingdom',
+		time: 159,
+		cost: 18000,
+		item_types: {
+			267: 'flower',
+			268: 'plushie',
+			266: 'plushie',
+			197: 'drug',
+			196: 'drug',
+			198: 'drug',
+			205: 'drug',
+			201: 'drug',
+			206: 'drug',
+			203: 'drug',
+		}
+	},
+};
+
 window.addEventListener("load", async () => {
 	console.log("TT - Travel (abroad)");
 
@@ -234,7 +377,7 @@ function updateYATAPrices() {
 	}
 
 	console.log("POST DATA", post_data);
-	fetchRelay("yata__v0", { section: `bazaar/abroad/import`, method: "POST", postData: post_data })
+	fetchRelay("yata__v1", { section: `travel/import`, method: "POST", postData: post_data })
 		.then((result) => {
 			console.log("yata PUSH", result);
 		})
@@ -702,17 +845,23 @@ function addTableContent(travel_items) {
 			cost_modifier = 0;
 		} else if (Math.abs(actual_time - base_time * 0.7) <= 5) {
 			time_modifier = 0.7;
-			cost_modifier = itemlist.items["396"].market_value;
+			if (((Math.floor(Date.now()/1000) - userdata.travel.departed) / 60) > 7)
+				cost_modifier = 0;
+			else
+				cost_modifier = itemlist.items["396"].market_value;
 		}
 	}
 
 	// Add rows
-	for (let item of travel_market.stocks) {
-		let country = country_dict[item.country_name.toLowerCase()];
-		let time = parseFloat((country.time * time_modifier).toFixed(1)).toFixed(0) * 2;
-		let cost = cost_modifier ?? country.cost;
+	for (let country_yata of Object.keys(travel_market.stocks)) {
+		let country_stocks = travel_market.stocks[country_yata];
+		for (let item of travel_market.stocks[country_yata].stocks) {
+			let country_code_dict_data = country_dict_short[country_yata.toLowerCase()];
+			let time = parseFloat((country_code_dict_data.time * time_modifier).toFixed(1)).toFixed(0) * 2;
+			let cost = cost_modifier ?? country_code_dict_data.cost;
 
-		body_html += addRow(item, time, cost, travel_items);
+			body_html += addRow(item, time, cost, travel_items, travel_market.stocks[country_yata], country_code_dict_data);
+		}
 	}
 	body.innerHTML = body_html;
 }
@@ -748,29 +897,30 @@ function addTableHeader() {
 	});
 }
 
-function addRow(item, time, cost, travel_items) {
-	let market_value = itemlist.items[item.item_id].market_value;
-	let total_profit = (market_value - item.abroad_cost) * travel_items - cost;
+function addRow(item, time, cost, travel_items, country_yata, country_code_dict_data) {
+	let market_value = itemlist.items[item.id].market_value;
+	let total_profit = (market_value - item.cost) * travel_items - cost;
 	let profit_per_minute = (total_profit / time).toFixed(0);
 	let profit_per_item = (total_profit / travel_items).toFixed(0);
-	let update_time = timeAgo(item.timestamp * 1000);
+	let update_time = timeAgo(country_yata.update * 1000);
 	let item_types = ["plushie", "flower", "drug"];
-	let background_style = `url(/images/v2/travel_agency/flags/fl_${item.country_name
+	let background_style = `url(/images/v2/travel_agency/flags/fl_${country_code_dict_data.long_name
 		.toLowerCase()
 		.replace("united kingdom", "uk")
 		.replace(" islands", "")
 		.replace(" ", "_")}.svg) center top no-repeat`;
-	let item_type = item_types.includes(item.item_type.toLowerCase()) ? item.item_type.toLowerCase() : "other";
+	let item_type = item_types.includes(country_code_dict_data.item_types[item.id]) ? country_code_dict_data.item_types[item.id].toLowerCase() : "other";
+	//let item_type = "other";
 
 	let row = `
 <div class="row">
-    <div country='${item.country_name.toLowerCase()}'><div class="flag" style="background: ${background_style}"></div>${item.country_name}</div>
+    <div country='${country_code_dict_data.long_name.toLowerCase()}'><div class="flag" style="background: ${background_style}"></div>${country_code_dict_data.long_name}</div>
     <div item='${item_type}'>
-        <div class="item-image" style='background-image: url(https://www.torn.com/images/items/${item.item_id}/small.png)'></div>
-      <a target="_blank" href="https://www.torn.com/imarket.php#/p=shop&type=${item.item_id}">${item.item_name}</a>
+        <div class="item-image" style='background-image: url(https://www.torn.com/images/items/${item.id}/small.png)'></div>
+      <a target="_blank" href="https://www.torn.com/imarket.php#/p=shop&type=${item.id}">${item.name}</a>
     </div>
-    <div>${item.abroad_quantity.toString()} <br class="advanced"> <span class="update-time">(${update_time})</span></div>
-    <div class="advanced" value="${item.abroad_cost}">$${numberWithCommas(item.abroad_cost, item.abroad_cost >= 1e6)}</div>
+    <div>${item.quantity.toString()} <br class="advanced"> <span class="update-time">(${update_time})</span></div>
+    <div class="advanced" value="${item.cost.toString()}">$${numberWithCommas(item.cost, item.cost >= 1e6)}</div>
     <div class="advanced" value="${market_value}">$${numberWithCommas(market_value, market_value >= 1e6)}</div>
     
     `;
@@ -819,9 +969,9 @@ function addRow(item, time, cost, travel_items) {
 	}
 	row += total_profit_div;
 
-	row += `<div class="advanced" value="${item.abroad_cost * travel_items}">$${numberWithCommas(
-		item.abroad_cost * travel_items,
-		item.abroad_cost >= 1e6
+	row += `<div class="advanced" value="${item.cost * travel_items}">$${numberWithCommas(
+		item.cost * travel_items,
+		item.cost >= 1e6
 	)}</div>`;
 
 	row += "</div>";
@@ -892,11 +1042,15 @@ function reloadTable() {
 		let body_html = ``;
 
 		// Add rows
-		for (let item of travel_market.stocks) {
-			let time = country_dict[item.country_name.toLowerCase()].time;
-			let cost = country_dict[item.country_name.toLowerCase()].cost;
+		for (let country of Object.keys(travel_market.stocks)) {
+			let country_stocks = travel_market.stocks[country];
+			for (let item of travel_market.stocks[country].stocks) {
+				let country_code = country_dict_short[country.toLowerCase()];
+				let time = country_dict_short[country.toLowerCase()].time;
+				let cost = country_dict_short[country.toLowerCase()].cost;
 
-			body_html += addRow(item, time, cost, travel_items);
+				body_html += addRow(item, time, cost, travel_items, travel_market.stocks[country], country_code);
+			}
 		}
 		doc.find("#ttTravelTable .table .body").innerHTML = body_html;
 
@@ -918,7 +1072,7 @@ function reloadTable() {
 function updateTravelMarket() {
 	console.log("Updating Travel Market info.");
 	return new Promise((resolve) => {
-		fetchRelay("yata__v0", { section: "bazaar/abroad/export" })
+		fetchRelay("yata__v1", { section: "travel/export" })
 			.then((result) => {
 				console.log("Travel market result", result);
 				result.date = new Date().toString();
