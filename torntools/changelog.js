@@ -1,6 +1,10 @@
 export default {
-	"v5.3.1 November, 2nd. 2020": {
+	"v5.4 - xxx, xxx. 2020": {
 		Features: [],
+		Fixes: [],
+		Changes: ["Switch to YATA's v1 abroad API. - Fogest"],
+	},
+	"v5.3.1 - November, 2nd. 2020": {
 		Fixes: [
 			"Fix Achievement check by including medals/honors. - finally",
 			"Fix 'Three-peat' mission hint. - smikula",
