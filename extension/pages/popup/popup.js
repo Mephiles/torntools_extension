@@ -69,6 +69,12 @@ async function setupInitialize() {
 				document.find(".error").innerText = error.error;
 			});
 	});
+	
+	document.find("#api_quicklink").addEventListener("click", () => {
+		chrome.tabs.update({
+			url: "https://www.torn.com/preferences.php#tab=api"
+		});
+	});
 }
 
 async function setupDashboard() {
