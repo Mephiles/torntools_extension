@@ -88,7 +88,9 @@ async function setupDashboard() {
 		const dashboard = document.find("#dashboard");
 
 		dashboard.find("#name").innerText = userdata.name;
-		updateBar("energy", userdata.energy);
+		for (let bar of ["energy", "nerve", "happy", "life"]) {
+			updateBar(bar, userdata[bar]);
+		}
 
 		function updateBar(name, bar) {
 			const current = bar?.current || 0;

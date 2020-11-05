@@ -93,10 +93,22 @@ a.bar:hover .bar-label {
 	height: inherit;
 }
 
+.bar-wrap {
+	margin-bottom: 8px;
+}
+
 #energy .progress .value {
-	background: #6cad2b;
-	background: -o-linear-gradient(top, #6cad2b 0, #4d7c1e 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #6cad2b), to(#4d7c1e));
-	background: linear-gradient(180deg, #6cad2b, #4d7c1e);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="$color1", endColorstr="$color2", GradientType=0);
+	background: #7cc833;
+}
+
+#nerve .progress .value {
+	background: #b3382c;
+}
+
+#happy .progress .value {
+	background: #e3e338;
+}
+
+#life .progress .value {
+	background: #7b98ee;
 }
