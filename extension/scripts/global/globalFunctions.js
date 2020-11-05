@@ -458,3 +458,7 @@ function formatTime(time = {}, attributes = {}) {
 function isDefined(object) {
 	return typeof object !== "undefined";
 }
+
+function getNextChainBonus(current) {
+	return CHAIN_BONUSES.find((bonus) => bonus > current);
+}

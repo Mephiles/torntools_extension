@@ -112,3 +112,7 @@ a.bar:hover .bar-label {
 #life .progress .value {
 	background: #7b98ee;
 }
+
+#chain .progress .value {
+	background: #333;
+}

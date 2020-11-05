@@ -88,36 +88,56 @@ async function setupDashboard() {
 		const dashboard = document.find("#dashboard");
 
 		dashboard.find("#name").innerText = userdata.name;
-		for (let bar of ["energy", "nerve", "happy", "life"]) {
+		for (let bar of ["energy", "nerve", "happy", "life", "chain"]) {
 			updateBar(bar, userdata[bar]);
 		}
 
 		function updateBar(name, bar) {
 			const current = bar?.current || 0;
-			const maximum = bar?.maximum || 100;
+			let maximum = bar?.maximum || 100;
+			let tickAt = (userdata.server_time + bar?.ticktime) * 1000;
+			let fullAt = (userdata.server_time + bar.fulltime) * 1000;
+
+			if (current === maximum) fullAt = "full";
+			else if (current > maximum) fullAt = "over";
+
+			if (name === "chain") {
+				if (current === 0) {
+					dashboard.find(`#${name}`).style.setProperty("display", "none");
+					return;
+				}
+				dashboard.find(`#${name}`).style.setProperty("display", null);
+
+				if (current !== maximum) maximum = getNextChainBonus(current);
+				fullAt = (userdata.server_time + bar.timeout) * 1000;
+				tickAt = (userdata.server_time + bar.timeout) * 1000;
+			}
 
 			dashboard.find(`#${name} .progress .value`).style.width = `${(current / maximum) * 100}%`;
 			dashboard.find(`#${name} .bar-info .bar-label`).innerText = `${current}/${maximum}`;
 
 			// noinspection JSValidateTypes
-			dashboard.find(`#${name} .bar-info`).dataset.full_at = current === maximum ? -1 : (userdata.server_time + bar.fulltime) * 1000;
+			dashboard.find(`#${name} .bar-info`).dataset.full_at = fullAt;
 			// noinspection JSValidateTypes
-			dashboard.find(`#${name} .bar-info`).dataset.tick_at = (userdata.server_time + bar?.ticktime) * 1000;
+			dashboard.find(`#${name} .bar-info`).dataset.tick_at = tickAt;
 
 			updateBarTimer(dashboard.find(`#${name}`));
 		}
 	}
 
 	function updateBarTimer(bar) {
+		const name = bar.id;
 		const current = Date.now();
 
-		const dataset = bar.find(`.bar-info`).dataset;
+		const barInfo = bar.find(`.bar-info`);
+		const dataset = barInfo.dataset;
 
-		const full_at = parseInt(dataset.full_at);
-		const tick_at = parseInt(dataset.tick_at);
+		const full_at = parseInt(dataset.full_at) || dataset.full_at;
+		const tick_at = parseInt(dataset.tick_at) || dataset.tick_at;
 
 		let full;
-		if (full_at === -1) full = "FULL";
+		if (full_at === "full" || full_at === "over") full = "FULL";
+		else if (name === "chain") full = `${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer", hideHours: true })}`;
 		else full = `Full in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" })}`;
 
 		dataset.full = full;
