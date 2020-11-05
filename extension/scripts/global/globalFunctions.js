@@ -395,7 +395,21 @@ function showLoadingPlaceholder(element, show) {
 	}
 }
 
-function verifyAPI(key) {}
+function changeAPIKey(key) {
+	return new Promise((resolve, reject) => {
+		fetchApi("torn", { section: "user", selections: ["profile"], key, silent: true })
+			.then(async () => {
+				await ttStorage.change({ api: { torn: { key } } });
+
+				chrome.runtime.sendMessage({ action: "initialize" }, async () => {
+					resolve();
+				});
+			})
+			.catch((error) => {
+				reject(error.error);
+			});
+	});
+}
 
 function toSeconds(milliseconds) {
 	if (!milliseconds) return toSeconds(Date.now());

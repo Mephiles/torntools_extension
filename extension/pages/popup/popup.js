@@ -52,18 +52,13 @@ async function setupInitialize() {
 	document.find("#set_api_key").addEventListener("click", () => {
 		const key = document.find("#api_key").value;
 
-		fetchApi("torn", { section: "user", selections: ["profile"], key, silent: true })
-			.then(async (response) => {
-				console.log("initialize response", response);
+		changeAPIKey(key)
+			.then(async () => {
+				document.find("#pages").classList.remove("hidden");
 
-				await ttStorage.change({ api: { torn: { key } } });
-
-				chrome.runtime.sendMessage({ action: "initialize" }, async (response) => {
-					document.find("#pages").classList.remove("hidden");
-
-					await showPage(settings.pages.popup.defaultTab);
-				});
+				await showPage(settings.pages.popup.defaultTab);
 			})
+
 			.catch((error) => {
 				document.find(".error").classList.remove("hidden");
 				document.find(".error").innerText = error.error;
