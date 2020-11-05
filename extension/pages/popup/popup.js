@@ -69,10 +69,10 @@ async function setupInitialize() {
 				document.find(".error").innerText = error.error;
 			});
 	});
-	
+
 	document.find("#api_quicklink").addEventListener("click", () => {
 		chrome.tabs.update({
-			url: "https://www.torn.com/preferences.php#tab=api"
+			url: "https://www.torn.com/preferences.php#tab=api",
 		});
 	});
 }
@@ -81,8 +81,54 @@ async function setupDashboard() {
 	updateDashboard();
 	storageListeners.userdata.push(updateDashboard);
 
+	setTimeout(() => {
+		setInterval(() => {
+			for (let bar of dashboard.findAll(".bar")) {
+				updateBarTimer(bar);
+			}
+		}, 1000);
+	}, 1000 - (new Date().getTime() % 1000));
+
 	function updateDashboard() {
-		document.find("#name").innerText = userdata.name;
+		const dashboard = document.find("#dashboard");
+
+		dashboard.find("#name").innerText = userdata.name;
+		updateBar("energy", userdata.energy);
+
+		function updateBar(name, bar) {
+			const current = bar?.current || 0;
+			const maximum = bar?.maximum || 100;
+
+			dashboard.find(`#${name} .progress .value`).style.width = `${(current / maximum) * 100}%`;
+			dashboard.find(`#${name} .bar-info .bar-label`).innerText = `${current}/${maximum}`;
+
+			// noinspection JSValidateTypes
+			dashboard.find(`#${name} .bar-info`).dataset.full_at = current === maximum ? -1 : (userdata.server_time + bar.fulltime) * 1000;
+			// noinspection JSValidateTypes
+			dashboard.find(`#${name} .bar-info`).dataset.tick_at = (userdata.server_time + bar?.ticktime) * 1000;
+
+			updateBarTimer(dashboard.find(`#${name}`));
+		}
+	}
+
+	function updateBarTimer(bar) {
+		const current = Date.now();
+
+		const dataset = bar.find(`.bar-info`).dataset;
+
+		const full_at = parseInt(dataset.full_at);
+		const tick_at = parseInt(dataset.tick_at);
+
+		let full, tick;
+		if (full_at === -1) full = "FULL";
+		else {
+			full = __timeUntil(full_at - current);
+		}
+
+		tick = __timeUntil(tick_at - current);
+
+		dataset.full = full;
+		dataset.tick = tick;
 	}
 }
 

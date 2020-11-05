@@ -113,8 +113,7 @@ function timedUpdates() {
 }
 
 async function updateUserdata() {
-	userdata = await fetchApi("torn", { section: "user", selections: ["profile"] });
-	userdata.date = new Date().getTime();
+	userdata = await fetchApi("torn", { section: "user", selections: ["profile", "bars"] });
 
 	await ttStorage.set({ userdata });
 }

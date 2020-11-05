@@ -22,6 +22,10 @@ body.loading *:not(.tt-loading-placeholder) {
 	display: none;
 }
 
+h1 {
+	margin: 0 0 8px 0;
+}
+
 /*
  * Page Navigation
  */
@@ -44,4 +48,55 @@ body.loading *:not(.tt-loading-placeholder) {
 
 #pages ul li.active {
 	border-top: 1px solid black;
+}
+
+/*
+ * Dashboard
+ */
+
+/* Bars */
+
+a.bar,
+a.bar:focus,
+a.bar:hover {
+	text-decoration: inherit;
+	color: inherit;
+}
+
+a.bar .bar-info:before {
+	float: right;
+	content: attr(data-tick);
+}
+
+a.bar:hover .bar-info:before {
+	content: attr(data-full);
+	font-weight: 700;
+}
+
+a.bar:hover .bar-label {
+	display: none;
+}
+
+.bar .bar-label {
+	float: right;
+	margin-right: 1em;
+}
+
+.bar .progress {
+	width: 100%;
+	height: 12px;
+	background-color: #ccc;
+}
+
+.bar .progress .value {
+	width: 0;
+	height: inherit;
+}
+
+#energy .progress .value {
+	background: #6cad2b;
+	background: -o-linear-gradient(top, #6cad2b 0, #4d7c1e 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #6cad2b), to(#4d7c1e));
+	background: linear-gradient(180deg, #6cad2b, #4d7c1e);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="$color1", endColorstr="$color2", GradientType=0);
 }

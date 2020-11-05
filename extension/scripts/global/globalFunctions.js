@@ -396,3 +396,64 @@ function showLoadingPlaceholder(element, show) {
 }
 
 function verifyAPI(key) {}
+
+function toSeconds(milliseconds) {
+	if (!milliseconds) return toSeconds(Date.now());
+	else if (typeof milliseconds === "object" && milliseconds instanceof Date) return toSeconds(milliseconds.getTime());
+	else if (!isNaN(milliseconds)) return Math.trunc(milliseconds / 1000);
+	else return toSeconds(Date.now());
+}
+
+function __timeUntil(milliseconds, attributes = {}) {
+	milliseconds = parseFloat(milliseconds);
+	if (milliseconds < 0) return -1;
+
+	let days = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
+	let hours = Math.floor((milliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	let minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));
+	let seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
+
+	switch (attributes.max_unit) {
+		case "h":
+			hours = hours + days * 24;
+			days = undefined;
+			break;
+		// case "m":
+		//     minutes = minutes + days*24 + hours*60;
+		//     days = undefined;
+		//     hours = undefined;
+		//     break;
+		// case "s":
+		//     seconds = seconds + days*24 + hours*60 + minutes*60;
+		//     days = undefined;
+		//     hours = undefined;
+		//     minutes = undefined;
+		//     break;
+		default:
+			break;
+	}
+
+	let time_left;
+
+	if (days) {
+		time_left = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+	} else if (hours) {
+		time_left = `${hours}h ${minutes}m ${seconds}s`;
+	} else if (minutes) {
+		time_left = `${minutes}m ${seconds}s`;
+	} else if (seconds) {
+		time_left = `${seconds}s`;
+	} else if (milliseconds === 0) {
+		time_left = "0s";
+	}
+
+	if (attributes.hide_nulls) {
+		time_left += " ";
+
+		while (time_left !== time_left.replace(/\s[0][A-Za-z]\s/, " ")) {
+			time_left = time_left.replace(/\s[0][A-Za-z]\s/, " ");
+		}
+	}
+
+	return time_left.trim();
+}
