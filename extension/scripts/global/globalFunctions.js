@@ -418,56 +418,43 @@ function toSeconds(milliseconds) {
 	else return toSeconds(Date.now());
 }
 
-function __timeUntil(milliseconds, attributes = {}) {
-	milliseconds = parseFloat(milliseconds);
-	if (milliseconds < 0) return -1;
+function toMultipleDigits(number, digits = 2) {
+	if (number === undefined) return undefined;
+	return number.toString().length < digits ? toMultipleDigits(`0${number}`, digits) : number;
+}
 
-	let days = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
-	let hours = Math.floor((milliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-	let minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));
-	let seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
+function formatTime(time = {}, attributes = {}) {
+	time = {
+		milliseconds: undefined,
+		seconds: undefined,
+		...time,
+	};
+	attributes = {
+		type: "normal",
+		showDays: false,
+		hideHours: false,
+		hideSeconds: false,
+		...attributes,
+	};
 
-	switch (attributes.max_unit) {
-		case "h":
-			hours = hours + days * 24;
-			days = undefined;
-			break;
-		// case "m":
-		//     minutes = minutes + days*24 + hours*60;
-		//     days = undefined;
-		//     hours = undefined;
-		//     break;
-		// case "s":
-		//     seconds = seconds + days*24 + hours*60 + minutes*60;
-		//     days = undefined;
-		//     hours = undefined;
-		//     minutes = undefined;
-		//     break;
+	switch (attributes.type) {
+		case "timer":
+			let date;
+			if (isDefined(time.milliseconds)) date = new Date(time.milliseconds);
+			else if (isDefined(time.seconds)) date = new Date(time.seconds * 1000);
+
+			let parts = [];
+			if (attributes.showDays) parts.push(Math.floor(date.getTime() / TO_MILLIS.DAYS));
+			if (!attributes.hideHours) parts.push(date.getUTCHours());
+			parts.push(date.getUTCMinutes());
+			if (!attributes.hideSeconds) parts.push(date.getUTCSeconds());
+
+			return parts.map((p) => toMultipleDigits(p, 2)).join(":");
 		default:
-			break;
+			return -1;
 	}
+}
 
-	let time_left;
-
-	if (days) {
-		time_left = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-	} else if (hours) {
-		time_left = `${hours}h ${minutes}m ${seconds}s`;
-	} else if (minutes) {
-		time_left = `${minutes}m ${seconds}s`;
-	} else if (seconds) {
-		time_left = `${seconds}s`;
-	} else if (milliseconds === 0) {
-		time_left = "0s";
-	}
-
-	if (attributes.hide_nulls) {
-		time_left += " ";
-
-		while (time_left !== time_left.replace(/\s[0][A-Za-z]\s/, " ")) {
-			time_left = time_left.replace(/\s[0][A-Za-z]\s/, " ");
-		}
-	}
-
-	return time_left.trim();
+function isDefined(object) {
+	return typeof object !== "undefined";
 }

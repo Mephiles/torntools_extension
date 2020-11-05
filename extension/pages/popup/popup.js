@@ -114,16 +114,8 @@ async function setupDashboard() {
 		const full_at = parseInt(dataset.full_at);
 		const tick_at = parseInt(dataset.tick_at);
 
-		let full, tick;
-		if (full_at === -1) full = "FULL";
-		else {
-			full = __timeUntil(full_at - current);
-		}
-
-		tick = __timeUntil(tick_at - current);
-
-		dataset.full = full;
-		dataset.tick = tick;
+		dataset.full = full_at === -1 ? "FULL" : formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" });
+		dataset.tick = formatTime({ seconds: toSeconds(tick_at - current) }, { type: "timer", hideHours: true });
 	}
 }
 
