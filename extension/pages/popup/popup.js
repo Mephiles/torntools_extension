@@ -140,6 +140,15 @@ async function setupDashboard() {
 		else if (name === "chain") full = `${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer", hideHours: true })}`;
 		else full = `Full in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" })}`;
 
+		if (name === "happy") {
+			if (full_at === "over") {
+				full = `Resets in ${formatTime({ seconds: toSeconds(tick_at - current) }, { type: "timer", hideHours: true })}`;
+				barInfo.classList.add("reset-timer");
+			} else {
+				barInfo.classList.remove("reset-timer");
+			}
+		}
+
 		dataset.full = full;
 		dataset.tick = formatTime({ seconds: toSeconds(tick_at - current) }, { type: "timer", hideHours: true });
 	}
