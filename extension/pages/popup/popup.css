@@ -120,6 +120,35 @@ a.bar:hover .bar-label {
 #chain .progress .value {
 	background: #333;
 }
+
 #chain.cooldown .progress .value {
 	background: #999;
+}
+
+/* Cooldowns */
+
+.cooldowns {
+	display: flex;
+	width: 100%;
+	text-align: center;
+}
+
+.cooldowns .cooldown {
+	flex: 1 0 auto;
+}
+
+.cooldown-name {
+	font-weight: bold;
+}
+
+#drug-cooldown .cooldown-name {
+	color: #32b72e;
+}
+
+#booster-cooldown .cooldown-name {
+	color: #f17827;
+}
+
+#medical-cooldown .cooldown-name {
+	color: #5783fd;
 }

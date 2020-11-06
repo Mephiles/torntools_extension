@@ -81,6 +81,9 @@ async function setupDashboard() {
 			for (let bar of dashboard.findAll(".bar")) {
 				updateBarTimer(bar);
 			}
+			for (let cooldown of dashboard.findAll(".cooldown")) {
+				updateCooldownTimer(cooldown);
+			}
 		}, 1000);
 	}, 1000 - (new Date().getTime() % 1000));
 
@@ -90,6 +93,9 @@ async function setupDashboard() {
 		dashboard.find("#name").innerText = userdata.name;
 		for (let bar of ["energy", "nerve", "happy", "life", "chain"]) {
 			updateBar(bar, userdata[bar]);
+		}
+		for (let cooldown of ["drug", "booster", "medical"]) {
+			updateCooldown(cooldown, userdata.cooldowns[cooldown]);
 		}
 
 		function updateBar(name, bar) {
@@ -130,6 +136,12 @@ async function setupDashboard() {
 
 			updateBarTimer(dashboard.find(`#${name}`));
 		}
+
+		function updateCooldown(name, cooldown) {
+			dashboard.find(`#${name}-cooldown`).dataset.completed_at = (userdata.timestamp + cooldown) * 1000;
+
+			updateCooldownTimer(dashboard.find(`#${name}-cooldown`));
+		}
 	}
 
 	function updateBarTimer(bar) {
@@ -161,6 +173,15 @@ async function setupDashboard() {
 
 		dataset.full = full;
 		dataset.tick = formatTime({ seconds: toSeconds(tick_at - current) }, { type: "timer", hideHours: true });
+	}
+
+	function updateCooldownTimer(cooldown) {
+		const dataset = cooldown.dataset;
+		const current = Date.now();
+
+		const completed_at = parseInt(dataset.completed_at) || dataset.completed_at;
+
+		cooldown.find(".cooldown-label").innerText = formatTime({ milliseconds: completed_at - current }, { type: "timer" });
 	}
 }
 

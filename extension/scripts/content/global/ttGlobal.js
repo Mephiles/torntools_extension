@@ -162,6 +162,10 @@ function applyHighlights(message) {
 	if (!message) return;
 	if (!highlights.length) return;
 
+	if (typeof message.find !== "function") {
+		console.error("ERROR - message.find isn't a function", typeof message.find, typeof message, message.constructor.name);
+	}
+
 	const sender = simplify(message.find("a").innerText).slice(0, -1);
 	const words = message.find("span").innerText.split(" ").map(simplify);
 
