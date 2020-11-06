@@ -139,7 +139,7 @@ async function setupDashboard() {
 		}
 
 		function updateTravelBar() {
-			if (!userdata.travel.timestamp) {
+			if (!userdata.travel.time_left) {
 				dashboard.find(`#traveling`).classList.add("hidden");
 				return;
 			}
