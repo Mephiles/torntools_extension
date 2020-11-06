@@ -1216,7 +1216,10 @@ const STORAGE = {
 		message: undefined,
 	},
 	loot_times: {},
-	yata: {},
+	yata: {
+		next_loot_update: undefined,
+		error: false,
+	},
 	travel_market: [],
 	networth: {
 		previous: {
@@ -3225,7 +3228,7 @@ function fetchApi_v2(
 							return reject(result);
 						}
 						// Torn API
-						else {
+						else if (ogLocation === "torn") {
 							// API offline
 							if (result.error.code === 9) {
 								console.log("API SYSTEM OFFLINE");
@@ -3241,6 +3244,8 @@ function fetchApi_v2(
 									return reject({ error: result.error.error });
 								});
 							}
+						} else if (location.includes("yata")) {
+							reject(result.error);
 						}
 					} else {
 						try {
@@ -3280,7 +3285,7 @@ function fetchApi_v2(
 							return reject(result);
 						}
 						// Torn API
-						else {
+						else if (ogLocation === "torn") {
 							// API offline
 							if (result.error.code === 9) {
 								console.log("API SYSTEM OFFLINE");
@@ -3296,6 +3301,8 @@ function fetchApi_v2(
 									return reject({ error: result.error.error });
 								});
 							}
+						} else if (location.includes("yata")) {
+							reject(result.error);
 						}
 					}
 				});

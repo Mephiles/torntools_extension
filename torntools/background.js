@@ -254,9 +254,12 @@ function Main_30_seconds() {
 
 			// Loot Times
 			// console.log("NPC FETCH TIME", NPC_FETCH_TIME);
-			if (!oldLootTimes || !oldYata.next_loot_update || new Date(oldYata.next_loot_update).getTime() <= Date.now()) {
-				console.log("Setting up NPC loot times", oldYata.next_loot_update);
-				await updateLootTimes();
+			// oldLootTimes = undefined
+			// oldYata = { error: true
+			if ((!oldLootTimes && (!oldYata || !oldYata.error)) || new Date(oldYata.next_loot_update).getTime() <= Date.now()) {
+				updateLootTimes()
+					.then(() => console.log("NPC loot times are set up."))
+					.catch((error) => console.error("Error while updating loot times.", error));
 			}
 
 			// Networth data
@@ -494,7 +497,7 @@ async function updateTorndata(oldTorndata) {
 }
 
 function updateLootTimes() {
-	return new Promise((resolve) => {
+	return new Promise((resolve, reject) => {
 		fetchApi_v2("yata__v1", { section: "loot" })
 			.then((result) => {
 				const ALL_NPCS = {
@@ -542,15 +545,17 @@ function updateLootTimes() {
 					};
 				}
 
-				ttStorage.set({ loot_times: npcs, yata: { next_loot_update: result.next_update * 1000 } }, async () => {
+				ttStorage.set({ loot_times: npcs, yata: { next_loot_update: result.next_update * 1000, error: false } }, async () => {
 					console.log("	Loot times set.", { loot_times: npcs, yata: { next_loot_update: result.next_update * 1000 } });
 					await checkLootAlerts();
 					return resolve();
 				});
 			})
-			.catch((err) => {
-				console.log("ERROR", err);
-				return resolve();
+			.catch((error) => {
+				ttStorage.set({ yata: { next_loot_update: Date.now() + TO_MILLIS.HOURS, error: true } }, () => resolve());
+
+				console.log(`Error while pulling YATA's loot timings. Attempting again at ${new Date(Date.now() + TO_MILLIS.HOURS).toString()}`);
+				return reject(error.error);
 			});
 	});
 }
