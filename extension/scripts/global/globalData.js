@@ -165,7 +165,7 @@ const CONTRIBUTORS = {
 
 let mobile;
 
-const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.name || "", description: "Your player name." }]; // TODO
+const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.name || "", description: "Your player name." }];
 
 const TO_MILLIS = {
 	SECONDS: 1000,
