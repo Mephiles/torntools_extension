@@ -94,6 +94,7 @@ async function setupDashboard() {
 		for (let bar of ["energy", "nerve", "happy", "life", "chain"]) {
 			updateBar(bar, userdata[bar]);
 		}
+		updateTravelBar();
 		for (let cooldown of ["drug", "booster", "medical"]) {
 			updateCooldown(cooldown, userdata.cooldowns[cooldown]);
 		}
@@ -137,6 +138,25 @@ async function setupDashboard() {
 			updateBarTimer(dashboard.find(`#${name}`));
 		}
 
+		function updateTravelBar() {
+			if (!userdata.travel.timestamp) {
+				dashboard.find(`#traveling`).classList.add("hidden");
+				return;
+			}
+			dashboard.find(`#traveling`).classList.remove("hidden");
+
+			dashboard.find(`#traveling .progress .value`).style.width = `${
+				(userdata.travel.time_left / (userdata.travel.timestamp - userdata.travel.departed)) * 100
+			}%`;
+			// dashboard.find("#traveling .bar-info .bar-label").innerText = "TODO";
+
+			// noinspection JSValidateTypes
+			dashboard.find(`#traveling .bar-info`).dataset.tick_at = userdata.travel.timestamp * 1000;
+			dashboard.find(`#traveling .bar-info`).dataset.full_at = userdata.travel.timestamp * 1000;
+
+			updateBarTimer(dashboard.find(`#traveling`));
+		}
+
 		function updateCooldown(name, cooldown) {
 			dashboard.find(`#${name}-cooldown`).dataset.completed_at = (userdata.timestamp + cooldown) * 1000;
 
@@ -156,9 +176,14 @@ async function setupDashboard() {
 
 		let full;
 		if (full_at === "full" || full_at === "over") full = "FULL";
-		else if (name === "chain" || (name === "happy" && full_at === "over")) {
+		else if (name === "chain" || (name === "happy" && full_at === "over"))
 			full = `${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer", hideHours: true })}`;
-		} else full = `Full in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" })}`;
+		else if (name === "traveling") full = `${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" })}`;
+		else full = `Full in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" })}`;
+
+		let tick;
+		if (name === "traveling") tick = formatTime({ seconds: toSeconds(tick_at - current) }, { type: "timer" });
+		else tick = formatTime({ seconds: toSeconds(tick_at - current) }, { type: "timer", hideHours: true });
 
 		if (name === "happy") {
 			if (full_at === "over") {
@@ -172,7 +197,7 @@ async function setupDashboard() {
 		}
 
 		dataset.full = full;
-		dataset.tick = formatTime({ seconds: toSeconds(tick_at - current) }, { type: "timer", hideHours: true });
+		dataset.tick = tick;
 	}
 
 	function updateCooldownTimer(cooldown) {

@@ -125,6 +125,10 @@ a.bar:hover .bar-label {
 	background: #999;
 }
 
+#traveling .progress .value {
+	background: #d961ee;
+}
+
 /* Cooldowns */
 
 .cooldowns {
