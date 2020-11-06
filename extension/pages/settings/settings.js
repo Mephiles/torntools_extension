@@ -190,6 +190,8 @@ async function setupPreferences() {
 		}
 
 		_preferences.find(`input[name="defaultTab"][value="${settings.pages.popup.defaultTab}"]`).checked = true;
+		_preferences.find(`input[name="formatDate"][value="${settings.formatting.date}"]`).checked = true;
+		_preferences.find(`input[name="formatTime"][value="${settings.formatting.time}"]`).checked = true;
 
 		for (let type of ["pages"]) {
 			for (let page in settings[type]) {
@@ -260,6 +262,8 @@ async function setupPreferences() {
 		}
 
 		settings.pages.popup.defaultTab = _preferences.find(`input[name="defaultTab"]:checked`).value;
+		settings.formatting.date = _preferences.find(`input[name="formatDate"]:checked`).value;
+		settings.formatting.time = _preferences.find(`input[name="formatTime"]:checked`).value;
 
 		for (let type of ["pages"]) {
 			for (let page in settings[type]) {

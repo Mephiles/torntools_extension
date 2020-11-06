@@ -113,6 +113,10 @@ const DEFAULT_STORAGE = {
 	settings: {
 		updateNotice: new DefaultSetting({ type: "boolean", defaultValue: true }),
 		developer: new DefaultSetting({ type: "boolean", defaultValue: false }),
+		formatting: {
+			date: new DefaultSetting({ type: "string", defaultValue: "eu" }),
+			time: new DefaultSetting({ type: "string", defaultValue: "eu" }),
+		},
 		pages: {
 			global: {
 				alignLeft: new DefaultSetting({ type: "boolean", defaultValue: false }),
