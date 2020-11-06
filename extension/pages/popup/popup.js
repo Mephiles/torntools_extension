@@ -145,9 +145,10 @@ async function setupDashboard() {
 			}
 			dashboard.find(`#traveling`).classList.remove("hidden");
 
-			dashboard.find(`#traveling .progress .value`).style.width = `${
-				(userdata.travel.time_left / (userdata.travel.timestamp - userdata.travel.departed)) * 100
-			}%`;
+			const maximum = userdata.travel.timestamp - userdata.travel.departed;
+			const current = maximum - userdata.travel.time_left;
+
+			dashboard.find(`#traveling .progress .value`).style.width = `${(current / maximum) * 100}%`;
 			// dashboard.find("#traveling .bar-info .bar-label").innerText = "TODO";
 
 			// noinspection JSValidateTypes
@@ -178,7 +179,7 @@ async function setupDashboard() {
 		if (full_at === "full" || full_at === "over") full = "FULL";
 		else if (name === "chain" || (name === "happy" && full_at === "over"))
 			full = `${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer", hideHours: true })}`;
-		else if (name === "traveling") full = `${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" })}`;
+		else if (name === "traveling") full = `Landing in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" })}`;
 		else full = `Full in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" })}`;
 
 		let tick;
