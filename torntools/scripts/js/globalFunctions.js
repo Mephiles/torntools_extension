@@ -3160,7 +3160,7 @@ function fetchApi_v2(
 			const proxyKey = proxy_key;
 
 			let full_url;
-			if (location === "torntools" || location === "nukefamily" || location.includes("yata")) {
+			if (location !== "torn" && location !== "tornstats" && location !== "torn-proxy") {
 				full_url = `${base}${section || ""}`;
 			} else if (proxyKey || apiKey) {
 				full_url = `${base}${section}${objectid}${selections ? "selections=" + selections : ""}${
