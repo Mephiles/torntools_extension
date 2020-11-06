@@ -120,3 +120,6 @@ a.bar:hover .bar-label {
 #chain .progress .value {
 	background: #333;
 }
+#chain.cooldown .progress .value {
+	background: #999;
+}

@@ -103,14 +103,21 @@ async function setupDashboard() {
 
 			if (name === "chain") {
 				if (current === 0) {
-					dashboard.find(`#${name}`).style.setProperty("display", "none");
+					dashboard.find(`#${name}`).classList.add("hidden");
 					return;
 				}
-				dashboard.find(`#${name}`).style.setProperty("display", null);
+				dashboard.find(`#${name}`).classList.remove("hidden");
 
 				if (current !== maximum) maximum = getNextChainBonus(current);
-				fullAt = (userdata.server_time + bar.timeout) * 1000;
-				tickAt = (userdata.server_time + bar.timeout) * 1000;
+				if (bar.cooldown !== 0) {
+					dashboard.find(`#${name}`).classList.add("cooldown");
+					fullAt = (userdata.server_time + bar.cooldown) * 1000;
+					tickAt = (userdata.server_time + bar.cooldown) * 1000;
+				} else {
+					dashboard.find(`#${name}`).classList.remove("cooldown");
+					fullAt = (userdata.server_time + bar.timeout) * 1000;
+					tickAt = (userdata.server_time + bar.timeout) * 1000;
+				}
 			}
 
 			dashboard.find(`#${name} .progress .value`).style.width = `${(current / maximum) * 100}%`;
@@ -137,16 +144,19 @@ async function setupDashboard() {
 
 		let full;
 		if (full_at === "full" || full_at === "over") full = "FULL";
-		else if (name === "chain") full = `${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer", hideHours: true })}`;
-		else full = `Full in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" })}`;
+		else if (name === "chain" || (name === "happy" && full_at === "over")) {
+			full = `${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer", hideHours: true })}`;
+		} else full = `Full in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" })}`;
 
 		if (name === "happy") {
 			if (full_at === "over") {
-				full = `Resets in ${formatTime({ seconds: toSeconds(tick_at - current) }, { type: "timer", hideHours: true })}`;
+				full = `Resets in ${full}`;
 				barInfo.classList.add("reset-timer");
 			} else {
 				barInfo.classList.remove("reset-timer");
 			}
+		} else if (name === "chain") {
+			if (bar.classList.contains("cooldown")) full = `Cooldown over in ${full}`;
 		}
 
 		dataset.full = full;
