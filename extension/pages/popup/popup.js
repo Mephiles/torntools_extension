@@ -149,7 +149,7 @@ async function setupDashboard() {
 			const current = maximum - userdata.travel.time_left;
 
 			dashboard.find(`#traveling .progress .value`).style.width = `${(current / maximum) * 100}%`;
-			// dashboard.find("#traveling .bar-info .bar-label").innerText = "TODO";
+			dashboard.find("#traveling .bar-info .bar-label").innerText = formatTime(userdata.travel.timestamp * 1000);
 
 			// noinspection JSValidateTypes
 			dashboard.find(`#traveling .bar-info`).dataset.tick_at = userdata.travel.timestamp * 1000;

@@ -424,6 +424,8 @@ function toMultipleDigits(number, digits = 2) {
 }
 
 function formatTime(time = {}, attributes = {}) {
+	if (typeof time === "number") return formatTime({ milliseconds: time, attributes });
+
 	time = {
 		milliseconds: undefined,
 		seconds: undefined,
@@ -437,9 +439,29 @@ function formatTime(time = {}, attributes = {}) {
 		...attributes,
 	};
 
+	let date;
 	switch (attributes.type) {
+		case "normal":
+			if (isDefined(time.milliseconds)) date = new Date(time.milliseconds);
+			else if (isDefined(time.seconds)) date = new Date(time.seconds * 1000);
+
+			let hours = toMultipleDigits(date.getHours());
+			let minutes = toMultipleDigits(date.getMinutes());
+			let seconds = toMultipleDigits(date.getSeconds());
+
+			switch (settings.formatting.time) {
+				case "us":
+					const afternoon = hours >= 12;
+					hours = toMultipleDigits(hours % 12 || 12);
+
+					return seconds ? `${hours}:${minutes}:${seconds} ${afternoon ? "PM" : "AM"}` : `${hours}:${minutes} ${afternoon ? "PM" : "AM"}`;
+				case "eu":
+				default:
+					return seconds ? `${hours}:${minutes}:${seconds}` : `${hours}:${minutes}`;
+			}
+
+			return date.toString();
 		case "timer":
-			let date;
 			if (isDefined(time.milliseconds)) date = new Date(time.milliseconds);
 			else if (isDefined(time.seconds)) date = new Date(time.seconds * 1000);
 
