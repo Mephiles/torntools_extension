@@ -49,7 +49,7 @@
 						<li name="chat">Chat</li>
 						<li>Sidebar</li>
 						<li name="popup">Popup</li>
-						<li>Notifications</li>
+						<li name="notifications">Notifications</li>
 						<li>Other</li>
 
 						<li class="header">Pages</li>
@@ -167,6 +167,7 @@
 								<button id="addChatHighlight">Add</button>
 							</li>
 						</ul>
+						<!-- FIXME - Add a note for the placeholders. -->
 					</section>
 					<section name="popup">
 						<div class="header">Tabs</div>
@@ -196,6 +197,122 @@
 							<input id="popup-defaultTab_stocks" type="radio" name="defaultTab" value="stocks" />
 							<label for="popup-defaultTab_stocks">Stocks overview.</label>
 						</div>
+					</section>
+					<section name="notifications">
+						<div class="header">Notification Preferences</div>
+						<div class="option">
+							<label for="notification-sound">Sound effect:</label>
+							<select id="notification-sound">
+								<option value="default">OS default</option>
+								<option value="mute">Mute</option>
+								<option value="1">Sound 1</option>
+								<option value="2">Sound 2</option>
+								<option value="3">Sound 3</option>
+								<option value="4">Sound 4</option>
+								<option value="5">Sound 5</option>
+								<option value="custom">Custom</option>
+							</select>
+							<input id="notification-volume" type="range" min="1" max="100" />
+							<i id="notification-sound-play" class="fas fa-play"></i>
+							<i id="notification-sound-stop" class="fas fa-stop"></i>
+							<br />
+							<input id="notification-sound-upload" class="hidden" type="file" accept=".mp3,.ogg,.wav" />
+						</div>
+						<div class="tabbed note">(Mute only works in Chrome, OS default might not work in all browsers)</div>
+						<div class="option">
+							<input id="notification-tts" type="checkbox" />
+							<label for="notification-tts">Use text-to-speech.</label>
+						</div>
+						<div class="option">
+							<input id="notification-link" type="checkbox" />
+							<label for="notification-link">Open the corresponding link when clicking a notification.</label>
+						</div>
+
+						<div class="option header">
+							<input id="notification_type-global" type="checkbox" />
+							<label for="notification_type-global">Notification Types</label>
+						</div>
+						<div class="option">
+							<input id="notification_type-events" type="checkbox" />
+							<label for="notification_type-events">Events</label>
+						</div>
+						<div class="option">
+							<input id="notification_type-messages" type="checkbox" />
+							<label for="notification_type-messages">Messages</label>
+						</div>
+						<div class="option">
+							<input id="notification_type-status" type="checkbox" />
+							<label for="notification_type-status">Status Change</label>
+						</div>
+						<div class="option">
+							<input id="notification_type-traveling" type="checkbox" />
+							<label for="notification_type-traveling">Traveling</label>
+						</div>
+						<div class="option">
+							<input id="notification_type-cooldowns" type="checkbox" />
+							<label for="notification_type-cooldowns">Cooldowns</label>
+						</div>
+						<div class="option">
+							<input id="notification_type-education" type="checkbox" />
+							<label for="notification_type-education">Education</label>
+						</div>
+						<div class="option">
+							<input id="notification_type-newDay" type="checkbox" />
+							<label for="notification_type-newDay">New Day</label>
+						</div>
+						<div class="option">
+							<label for="notification_type-energy">Energy:</label>
+							<input id="notification_type-energy" type="text" />
+						</div>
+						<div class="option">
+							<label for="notification_type-nerve">Nerve:</label>
+							<input id="notification_type-nerve" type="text" />
+						</div>
+						<div class="option">
+							<label for="notification_type-happy">Happy:</label>
+							<input id="notification_type-happy" type="text" />
+						</div>
+						<div class="option">
+							<label for="notification_type-life">Life:</label>
+							<input id="notification_type-life" type="text" />
+						</div>
+						<div class="tabbed note">Separate by commas (5,10%,25%,1700,100%)</div>
+						<div class="option">
+							<label for="notification_type-chainTimer">Notify me</label>
+							<input id="notification_type-chainTimer" type="text" />
+							<label for="notification_type-chainTimer">seconds before the chain timer ends.</label>
+						</div>
+						<div class="option">
+							<label for="notification_type-chainBonus">Notify me</label>
+							<input id="notification_type-chainBonus" type="text" />
+							<label for="notification_type-chainBonus">hits before reaching a chain bonus hit.</label>
+						</div>
+						<div class="option">
+							<label for="notification_type-leavingHospital">Notify me</label>
+							<input id="notification_type-leavingHospital" type="text" />
+							<label for="notification_type-leavingHospital">minutes before getting out of the hospital.</label>
+						</div>
+						<div class="option">
+							<label for="notification_type-landing">Notify me</label>
+							<input id="notification_type-landing" type="text" />
+							<label for="notification_type-landing">minutes before landing.</label>
+						</div>
+						<div class="option">
+							<label for="notification_type-cooldownDrug">Notify me</label>
+							<input id="notification_type-cooldownDrug" type="text" />
+							<label for="notification_type-cooldownDrug">minutes before the drug cooldown ends.</label>
+						</div>
+						<div class="option">
+							<label for="notification_type-cooldownBooster">Notify me</label>
+							<input id="notification_type-cooldownBooster" type="text" />
+							<label for="notification_type-cooldownBooster">minutes before the booster cooldown ends.</label>
+						</div>
+						<div class="option">
+							<label for="notification_type-cooldownMedical">Notify me</label>
+							<input id="notification_type-cooldownMedical" type="text" />
+							<label for="notification_type-cooldownMedical">minutes before the medical cooldown ends.</label>
+						</div>
+						<div class="tabbed note">Separate by commas (5,60,120)</div>
 					</section>
 				</div>
 			</section>

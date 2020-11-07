@@ -1,3 +1,9 @@
+const notificationPlayer = getAudioPlayer();
+const notificationTestPlayer = getAudioPlayer();
+
+let notificationSound = null;
+let notificationRelations = {};
+
 (async () => {
 	await convertDatabase();
 	await loadDatabase();
@@ -40,7 +46,7 @@ async function convertDatabase() {
 							useDefault();
 							useCurrent = false;
 						}
-					} else if (defaultStorage[key].type !== typeof oldStorage[key]) {
+					} else if (!defaultStorage[key].type.split("|").some((value) => value === typeof oldStorage[key])) {
 						useDefault();
 						useCurrent = false;
 					}
@@ -125,6 +131,45 @@ async function updateTorndata() {
 	await ttStorage.set({ torndata });
 }
 
+async function notifyUser(title, message, url) {
+	const options = {
+		type: "basic",
+		iconUrl: "resources/images/icon_128.png",
+		title,
+		message,
+	};
+
+	if (notificationSound !== settings.notifications.sound) {
+		let sound = await getNotificationSound(settings.notifications.sound);
+
+		if (sound && sound !== "mute") {
+			// noinspection JSValidateTypes
+			notificationPlayer.src = sound;
+		}
+
+		notificationSound = settings.notifications.sound;
+	}
+	notificationPlayer.volume = settings.notifications.volume / 100;
+
+	if (notificationSound !== "default" && hasSilentSupport()) options.silent = true;
+
+	chrome.notifications.create(options, (id) => {
+		notificationRelations[id] = url;
+		console.log("Notified!", options);
+
+		if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play();
+	});
+
+	if (settings.notifications.tts) {
+		window.speechSynthesis.speak(new SpeechSynthesisUtterance(title));
+		window.speechSynthesis.speak(new SpeechSynthesisUtterance(message));
+	}
+
+	function hasSilentSupport() {
+		return !usingFirefox() && (!navigator.userAgent.includes("Mobile Safari") || usingYandex());
+	}
+}
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	switch (message.action) {
 		case "initialize":
@@ -132,8 +177,28 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 			sendResponse({ success: true });
 			break;
+		case "play-notification-sound":
+			getNotificationSound(message.sound).then((sound) => {
+				if (!sound) return;
+
+				notificationTestPlayer.volume = message.volume / 100;
+				// noinspection JSValidateTypes
+				notificationTestPlayer.src = sound;
+				// noinspection JSIgnoredPromiseFromCall
+				notificationTestPlayer.play();
+			});
+			break;
+		case "stop-notification-sound":
+			notificationTestPlayer.pause();
+			break;
 		default:
 			sendResponse({ success: false, message: "Unknown action." });
 			break;
+	}
+});
+
+chrome.notifications.onClicked.addListener((id) => {
+	if (settings.notifications.link) {
+		chrome.tabs.create({ url: notificationRelations[id] });
 	}
 });

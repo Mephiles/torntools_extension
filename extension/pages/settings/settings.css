@@ -11,10 +11,6 @@ body {
 	font-family: "Segoe UI", Tahoma, sans-serif;
 }
 
-.hidden {
-	display: none;
-}
-
 .center {
 	margin: auto;
 }
@@ -376,4 +372,20 @@ main.active {
 
 #preferences #chatHighlight .remove-icon {
 	color: red;
+}
+
+.tabbed {
+	padding-left: 20px;
+}
+
+.note {
+	font-size: 11px;
+	margin-left: 10px;
+	color: #848484;
+	position: relative;
+}
+
+#notification-sound-play,
+#notification-sound-stop {
+	cursor: pointer;
 }

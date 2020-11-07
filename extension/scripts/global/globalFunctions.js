@@ -459,8 +459,6 @@ function formatTime(time = {}, attributes = {}) {
 				default:
 					return seconds ? `${hours}:${minutes}:${seconds}` : `${hours}:${minutes}`;
 			}
-
-			return date.toString();
 		case "timer":
 			if (isDefined(time.milliseconds)) date = new Date(time.milliseconds);
 			else if (isDefined(time.seconds)) date = new Date(time.seconds * 1000);
@@ -483,4 +481,42 @@ function isDefined(object) {
 
 function getNextChainBonus(current) {
 	return CHAIN_BONUSES.find((bonus) => bonus > current);
+}
+
+function getNotificationSound(type) {
+	return new Promise((resolve) => {
+		switch (type) {
+			case "1":
+			case "2":
+			case "3":
+			case "4":
+			case "5":
+				return resolve(`resources/audio/notification${type}.wav`);
+			case "custom":
+				return resolve(settings.notifications.soundCustom);
+			default:
+				return resolve(false);
+		}
+	});
+}
+
+function getAudioPlayer() {
+	const audioPlayer = new Audio();
+	audioPlayer.autoplay = false;
+	// noinspection JSValidateTypes
+	audioPlayer.preload = true;
+
+	return audioPlayer;
+}
+
+function usingChrome() {
+	return navigator.userAgent.includes("Chrome");
+}
+
+function usingFirefox() {
+	return navigator.userAgent.includes("Firefox");
+}
+
+function usingYandex() {
+	return navigator.userAgent.includes("YaBrowser");
 }

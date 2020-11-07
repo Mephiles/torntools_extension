@@ -131,7 +131,7 @@ async function setupPreferences() {
 
 	const _preferences = document.find("#preferences");
 
-	const showAdvancedIcon = document.find("#preferences-show_advanced");
+	const showAdvancedIcon = _preferences.find("#preferences-show_advanced");
 
 	for (let link of _preferences.findAll(":scope > section > nav ul > li[name]")) {
 		link.addEventListener("click", () => {
@@ -153,7 +153,7 @@ async function setupPreferences() {
 
 	fillSettings();
 
-	document.find("#addChatHighlight").addEventListener("click", () => {
+	_preferences.find("#addChatHighlight").addEventListener("click", () => {
 		const inputRow = document.find("#chatHighlight .input");
 
 		addChatHighlightRow(inputRow.find(".name").value, inputRow.find(".color").value);
@@ -162,8 +162,61 @@ async function setupPreferences() {
 		inputRow.find(".color").value = "#7ca900";
 	});
 
-	document.find("#saveSettings").addEventListener("click", async () => await saveSettings());
-	document.find("#resetSettings").addEventListener("click", async () => await ttStorage.reset());
+	_preferences.find("#saveSettings").addEventListener("click", async () => await saveSettings());
+	_preferences.find("#resetSettings").addEventListener("click", async () => await ttStorage.reset());
+
+	_preferences.find("#notification_type-global").addEventListener("click", (event) => {
+		let disable = !event.target.checked;
+
+		for (let notificationType in settings.notifications.types) {
+			if (notificationType === "global") continue;
+
+			if (disable) _preferences.find(`#notification_type-${notificationType}`).setAttribute("disabled", true);
+			else _preferences.find(`#notification_type-${notificationType}`).removeAttribute("disabled");
+		}
+	});
+	_preferences.find("#notification-sound").addEventListener("change", (event) => {
+		let value = event.target.value;
+
+		if (value === "custom") {
+			_preferences.find("#notification-sound-upload").classList.remove("hidden");
+		} else {
+			_preferences.find("#notification-sound-upload").classList.add("hidden");
+		}
+
+		if (value === "mute" || value === "default") {
+			_preferences.find("#notification-volume").classList.add("hidden");
+			_preferences.find("#notification-sound-play").classList.add("hidden");
+			_preferences.find("#notification-sound-stop").classList.add("hidden");
+		} else {
+			_preferences.find("#notification-volume").classList.remove("hidden");
+			_preferences.find("#notification-sound-play").classList.remove("hidden");
+			_preferences.find("#notification-sound-stop").classList.remove("hidden");
+		}
+	});
+	_preferences.find("#notification-sound-play").addEventListener("click", () => {
+		chrome.runtime.sendMessage({
+			action: "play-notification-sound",
+			sound: _preferences.find("#notification-sound").value,
+			volume: parseInt(_preferences.find("#notification-volume").value),
+		});
+	});
+	_preferences.find("#notification-sound-stop").addEventListener("click", () => {
+		chrome.runtime.sendMessage({ action: "stop-notification-sound" });
+	});
+	_preferences.find("#notification-sound-upload").addEventListener("change", (event) => {
+		if (!event.target.files.length) return;
+
+		const reader = new FileReader();
+		reader.addEventListener("load", (event) => {
+			if (event.target.result.length > 5242880) {
+				return message("Maximum file size exceeded. (5MB)", false);
+			}
+
+			ttStorage.change({ settings: { notifications: { soundCustom: event.target.result } } });
+		});
+		reader.readAsDataURL(event.target.files[0]);
+	});
 
 	function showAdvanced(advanced) {
 		if (advanced) {
@@ -231,6 +284,41 @@ async function setupPreferences() {
 		for (let highlight of settings.pages.chat.highlights) {
 			addChatHighlightRow(highlight.name, highlight.color);
 		}
+
+		const notificationsDisabled = !settings.notifications.types.global;
+		for (let notificationType in settings.notifications.types) {
+			let option;
+
+			if (Array.isArray(settings.notifications.types[notificationType])) {
+				option = _preferences.find(`#notification_type-${notificationType}[type="text"]`);
+				option.value = settings.notifications.types[notificationType].join(",");
+			} else {
+				option = _preferences.find(`#notification_type-${notificationType}`);
+				option.checked = settings.notifications.types[notificationType];
+			}
+
+			if (notificationsDisabled && notificationType !== "global") option.setAttribute("disabled", true);
+		}
+
+		_preferences.find("#notification-sound").value = settings.notifications.sound;
+		_preferences.find("#notification-tts").checked = settings.notifications.tts;
+		_preferences.find("#notification-link").checked = settings.notifications.link;
+		_preferences.find("#notification-volume").value = settings.notifications.volume;
+		// noinspection JSIncompatibleTypesComparison
+		if (settings.notifications.sound === "custom") {
+			_preferences.find("#notification-sound-upload").classList.remove("hidden");
+		} else {
+			// noinspection JSIncompatibleTypesComparison
+			if (settings.notifications.sound === "mute" || settings.notifications.sound === "default") {
+				_preferences.find("#notification-volume").classList.add("hidden");
+				_preferences.find("#notification-sound-play").classList.add("hidden");
+				_preferences.find("#notification-sound-stop").classList.add("hidden");
+			} else {
+				_preferences.find("#notification-volume").classList.remove("hidden");
+				_preferences.find("#notification-sound-play").classList.remove("hidden");
+				_preferences.find("#notification-sound-stop").classList.remove("hidden");
+			}
+		}
 	}
 
 	function addChatHighlightRow(name, color) {
@@ -261,21 +349,27 @@ async function setupPreferences() {
 			settings[setting] = checkbox.checked;
 		}
 
-		settings.pages.popup.defaultTab = _preferences.find(`input[name="defaultTab"]:checked`).value;
 		settings.formatting.date = _preferences.find(`input[name="formatDate"]:checked`).value;
 		settings.formatting.time = _preferences.find(`input[name="formatTime"]:checked`).value;
 
 		for (let type of ["pages"]) {
 			for (let page in settings[type]) {
 				for (let setting in settings[type][page]) {
-					const input = _preferences.find(`#${page}-${setting}`);
+					const input = _preferences.find(`#${page}-${setting}, input[name="${setting}"]:checked`);
 					if (!input) continue;
 
 					if (input.tagName === "INPUT") {
-						const inputType = input.getAttribute("type");
-
-						if (inputType === "checkbox") settings[type][page][setting] = input.checked;
-						else settings[type][page][setting] = input.value;
+						switch (input.getAttribute("type")) {
+							case "number":
+								settings[type][page][setting] = parseInt(input.value);
+								break;
+							case "checkbox":
+								settings[type][page][setting] = input.checked;
+								break;
+							default:
+								settings[type][page][setting] = input.value;
+								break;
+						}
 					}
 				}
 			}
@@ -287,6 +381,19 @@ async function setupPreferences() {
 				color: highlight.find(".color").value,
 			};
 		});
+
+		for (let notificationType in settings.notifications.types) {
+			if (Array.isArray(settings.notifications.types[notificationType])) {
+				settings.notifications.types[notificationType] = _preferences.find(`#notification_type-${notificationType}[type="text"]`).value.split(",");
+			} else {
+				settings.notifications.types[notificationType] = _preferences.find(`#notification_type-${notificationType}`).checked;
+			}
+		}
+
+		settings.notifications.tts = _preferences.find("#notification-tts").checked;
+		settings.notifications.link = _preferences.find("#notification-link").checked;
+		settings.notifications.volume = parseInt(_preferences.find("#notification-volume").value);
+		settings.notifications.sound = _preferences.find(`#notification-sound`).value;
 
 		const newStorage = { settings };
 		await ttStorage.set(newStorage);
