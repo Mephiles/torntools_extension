@@ -524,3 +524,44 @@ function usingFirefox() {
 function usingYandex() {
 	return navigator.userAgent.includes("YaBrowser");
 }
+
+function formatNumber(number, options) {
+	options = {
+		shorten: true,
+		formatter: false,
+		...options,
+	};
+
+	if (options.formatter) {
+		return formatter.format(number);
+	}
+
+	if (options.shorten) {
+		let words;
+		if (options.shorten === true || options.shorten === 1) {
+			words = {
+				thousand: "k",
+				million: "mil",
+				billion: "bill",
+			};
+		} else {
+			words = {
+				thousand: "k",
+				million: "m",
+				billion: "b",
+			};
+		}
+
+		if (Math.abs(number) >= 1e9) {
+			if (Math.abs(number) % 1e9 === 0) return (number / 1e9).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + words.billion;
+			else return (number / 1e9).toFixed(3) + words.billion;
+		} else if (Math.abs(number) >= 1e6) {
+			if (Math.abs(number) % 1e6 === 0) return number / 1e6 + words.million;
+			else return (number / 1e6).toFixed(3) + words.million;
+		} else if (Math.abs(number) >= 1e3) {
+			if (Math.abs(number) % 1e3 === 0) return number / 1e3 + words.thousand;
+		}
+	}
+
+	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

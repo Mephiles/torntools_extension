@@ -98,6 +98,7 @@ async function setupDashboard() {
 		for (let cooldown of ["drug", "booster", "medical"]) {
 			updateCooldown(cooldown, userdata.cooldowns[cooldown]);
 		}
+		updateExtra();
 
 		function updateBar(name, bar) {
 			const current = bar?.current || 0;
@@ -162,6 +163,12 @@ async function setupDashboard() {
 			dashboard.find(`#${name}-cooldown`).dataset.completed_at = (userdata.timestamp + cooldown) * 1000;
 
 			updateCooldownTimer(dashboard.find(`#${name}-cooldown`));
+		}
+
+		function updateExtra() {
+			dashboard.find(".extra .events .count").innerText = Object.values(userdata.events).filter((event) => !event.seen).length;
+			dashboard.find(".extra .messages .count").innerText = Object.values(userdata.messages).filter((message) => !message.seen).length;
+			dashboard.find(".extra .wallet .count").innerText = `$${formatNumber(userdata.money_onhand, { shorten: false })}`;
 		}
 	}
 

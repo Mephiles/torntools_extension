@@ -156,3 +156,21 @@ a.bar:hover .bar-label {
 #medical-cooldown .cooldown-name {
 	color: #5783fd;
 }
+
+/* Extra Information */
+
+.extra {
+	display: flex;
+	width: 100%;
+	text-align: center;
+}
+
+.extra > * {
+	flex: 1 0 auto;
+}
+.extra a,
+.extra a:focus,
+.extra a:hover {
+	text-decoration: inherit;
+	color: inherit;
+}
