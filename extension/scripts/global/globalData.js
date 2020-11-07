@@ -207,3 +207,13 @@ const TO_MILLIS = {
 };
 
 const CHAIN_BONUSES = [10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000];
+
+const LINKS = {
+	events: "https://www.torn.com/events.php#/step=all",
+	messages: "https://www.torn.com/messages.php",
+	stocks: "https://www.torn.com/stockexchange.php?step=portfolio",
+	home: "https://www.torn.com/index.php",
+	items: "https://www.torn.com/item.php",
+	education: "https://www.torn.com/education.php#/step=main",
+	chain: "https://www.torn.com/factions.php?step=your#/war/chain",
+};

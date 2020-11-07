@@ -4,6 +4,11 @@ const notificationTestPlayer = getAudioPlayer();
 let notificationSound = null;
 let notificationRelations = {};
 
+let notifications = {
+	events: {},
+	messages: {},
+};
+
 (async () => {
 	await convertDatabase();
 	await loadDatabase();
@@ -94,7 +99,26 @@ async function checkUpdate() {
 function registerUpdaters() {
 	timedUpdates();
 
+	setInterval(sendNotifications, 5 * TO_MILLIS.SECONDS);
 	setInterval(timedUpdates, 30 * TO_MILLIS.SECONDS);
+}
+
+async function sendNotifications() {
+	for (let type in notifications) {
+		for (let key in notifications[type]) {
+			const { skip, seen, date, title, message, url } = notifications[type][key];
+
+			if (!skip && !seen) {
+				await notifyUser(title, message, url);
+
+				notifications[type][key].seen = true;
+			}
+
+			if (seen && Date.now() - date > 3 * TO_MILLIS.DAYS) {
+				delete notifications[type][key];
+			}
+		}
+	}
 }
 
 function timedUpdates() {
@@ -119,9 +143,77 @@ function timedUpdates() {
 }
 
 async function updateUserdata() {
-	userdata = await fetchApi("torn", { section: "user", selections: ["profile", "bars", "cooldowns", "timestamp", "travel"] });
+	userdata = await fetchApi("torn", { section: "user", selections: ["profile", "bars", "cooldowns", "timestamp", "travel", "events", "messages"] });
 
 	await ttStorage.set({ userdata });
+
+	let data = {};
+
+	notifyEventMessages();
+
+	function notifyEventMessages() {
+		let eventCount = 0;
+		let events = [];
+		for (let key of Object.keys(userdata.events).reverse()) {
+			const event = userdata.events[key];
+			if (event.seen) break;
+
+			if (settings.notifications.types.global && settings.notifications.types.events && !notifications.events[key]) {
+				if (
+					(event.event.includes("attacked") ||
+						event.event.includes("mugged") ||
+						event.event.includes("arrested") ||
+						event.event.includes("hospitalized")) &&
+					!event.event.includes("Someone")
+				) {
+					data.fetchAttacks = true;
+				}
+
+				events.push({ id: key, event: event.event });
+				notifications.events[key] = { skip: true };
+			}
+
+			eventCount++;
+		}
+		if (events.length) {
+			let message = events.last().event.replace(/<\/?[^>]+(>|$)/g, "");
+			if (events.length > 1) message += `\n(and ${events.length - 1} more event${events.length > 2 ? "s" : ""}`;
+
+			notifications.events.combined = {
+				title: `TornTools - New Event${events.length > 1 ? "s" : ""}`,
+				message,
+				url: LINKS.events,
+				date: Date.now(),
+			};
+		}
+
+		let messageCount = 0;
+		let messages = [];
+		for (let key of Object.keys(userdata.messages).reverse()) {
+			const message = userdata.messages[key];
+			if (message.seen) break;
+
+			if (settings.notifications.types.global && settings.notifications.types.messages && !notifications.messages[key]) {
+				messages.push({ id: key, title: message.title, name: message.name });
+				notifications.messages[key] = { skip: true };
+			}
+
+			messageCount++;
+		}
+		if (messages.length) {
+			let message = `${messages.last().title} - by ${messages.last().name}`;
+			if (messages.length > 1) message += `\n(and ${messages.length - 1} more message${messages.length > 2 ? "s" : ""})`;
+
+			notifications.messages.combined = {
+				title: `TornTools - New Message${messages.length > 1 ? "s" : ""}`,
+				message,
+				url: LINKS.messages,
+				date: Date.now(),
+			};
+		}
+
+		setBadge("count", { events: eventCount, messages: messageCount });
+	}
 }
 
 async function updateTorndata() {
