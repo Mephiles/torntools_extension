@@ -1,0 +1,181 @@
+/*
+ * Dashboard
+ */
+
+/* Country and status */
+#dashboard > header a#country,
+#dashboard > header a#country:focus,
+a#dashboard > header #country:hover {
+	text-decoration: inherit;
+	color: inherit;
+}
+
+#dashboard > header #status.okay {
+	color: #4c914c;
+}
+
+#dashboard > header #status.hospital {
+	color: #fa4e4e;
+}
+
+#dashboard > header #status.jail {
+	color: #b37f1e;
+}
+
+#dashboard > header h1 {
+	margin-bottom: 0;
+}
+
+#dashboard > header h3 {
+	margin: 0 0 8px 0;
+}
+
+/* Bars */
+
+#dashboard a.bar,
+#dashboard a.bar:focus,
+#dashboard a.bar:hover {
+	text-decoration: inherit;
+	color: inherit;
+}
+
+#dashboard a.bar .bar-info.reset-timer:before {
+	color: red;
+}
+
+#dashboard a.bar .bar-info:before {
+	float: right;
+	content: attr(data-tick);
+}
+
+#dashboard a.bar:hover .bar-info:before {
+	content: attr(data-full);
+	font-weight: 700;
+}
+
+#dashboard a.bar:hover .bar-label {
+	display: none;
+}
+
+#dashboard .bar .bar-label {
+	float: right;
+	margin-right: 1em;
+}
+
+#dashboard .bar .progress {
+	width: 100%;
+	height: 12px;
+	background-color: #ccc;
+}
+
+#dashboard .bar .progress .value {
+	width: 0;
+	height: inherit;
+}
+
+#dashboard .bar-wrap {
+	margin-bottom: 8px;
+}
+
+#dashboard #energy .progress .value {
+	background: #7cc833;
+}
+
+#dashboard #nerve .progress .value {
+	background: #b3382c;
+}
+
+#dashboard #happy .progress .value {
+	background: #e3e338;
+}
+
+#dashboard #life .progress .value {
+	background: #7b98ee;
+}
+
+#dashboard #chain .progress .value {
+	background: #333;
+}
+
+#dashboard #chain.cooldown .progress .value {
+	background: #999;
+}
+
+#dashboard #traveling .progress .value {
+	background: #d961ee;
+}
+
+/* Cooldowns */
+
+#dashboard .cooldowns {
+	display: flex;
+	width: 100%;
+	text-align: center;
+}
+
+#dashboard .cooldowns .cooldown {
+	flex: 1 0 auto;
+}
+
+#dashboard .cooldown-name {
+	font-weight: bold;
+}
+
+#dashboard #drug-cooldown .cooldown-name {
+	color: #32b72e;
+}
+
+#dashboard #booster-cooldown .cooldown-name {
+	color: #f17827;
+}
+
+#dashboard #medical-cooldown .cooldown-name {
+	color: #5783fd;
+}
+
+/* Extra Information */
+
+#dashboard .extra {
+	display: flex;
+	width: 100%;
+	text-align: center;
+
+	margin: 8px 0;
+	padding: 4px 0;
+	background-color: #f9f9f9;
+}
+
+#dashboard .extra > * {
+	flex: 1 0 auto;
+}
+
+#dashboard .extra a,
+#dashboard .extra a:focus,
+#dashboard .extra a:hover {
+	text-decoration: inherit;
+	color: inherit;
+}
+
+/* Actions */
+
+#dashboard .actions #last-update {
+	font-weight: bold;
+}
+
+#dashboard .actions #mute-notifications {
+	float: right;
+	cursor: pointer;
+}
+
+#dashboard .actions #mute-notifications.enabled {
+	color: green;
+}
+
+#dashboard .actions #mute-notifications.disabled {
+	color: red;
+}
+
+#dashboard .actions #mute-notifications i {
+	width: 15px;
+	text-align: center;
+}
