@@ -151,6 +151,8 @@ async function setupPreferences() {
 		await ttStorage.change({ filters: { preferences: { showAdvanced: newStatus } } });
 	});
 
+	storageListeners.settings.push(fillSettings);
+
 	fillSettings();
 
 	_preferences.find("#addChatHighlight").addEventListener("click", () => {
@@ -264,11 +266,12 @@ async function setupPreferences() {
 								const input = _preferences.find(`#${page}-${setting}`);
 								if (!input) continue;
 
-								if (isGlobalDisabled) input.createAttribute("disabled");
+								if (isGlobalDisabled) input.setAttribute("disabled", true);
 								else input.removeAttribute("disabled");
 							}
 						});
-					} else if (isGlobalDisabled) input.createAttribute("disabled");
+					} else if (isGlobalDisabled) input.setAttribute("disabled", true);
+					else input.removeAttribute("disabled");
 
 					const value = settings[type][page][setting];
 					if (input.tagName === "INPUT") {
@@ -298,6 +301,7 @@ async function setupPreferences() {
 			}
 
 			if (notificationsDisabled && notificationType !== "global") option.setAttribute("disabled", true);
+			else option.removeAttribute("disabled");
 		}
 
 		_preferences.find("#notification-sound").value = settings.notifications.sound;
