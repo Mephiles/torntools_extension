@@ -207,3 +207,26 @@ a.bar:hover .bar-label {
 	text-decoration: inherit;
 	color: inherit;
 }
+
+/* Actions */
+
+#dashboard .actions #last-update {
+	font-weight: bold;
+}
+
+#dashboard .actions #mute-notifications {
+	float: right;
+	cursor: pointer;
+}
+
+#dashboard .actions #mute-notifications.enabled {
+	color: green;
+}
+#dashboard .actions #mute-notifications.disabled {
+	color: red;
+}
+
+#dashboard .actions #mute-notifications i {
+	width: 15px;
+	text-align: center;
+}

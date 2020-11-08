@@ -443,11 +443,14 @@ function formatTime(time = {}, attributes = {}) {
 		...attributes,
 	};
 
+	let millis = 0;
+	if (isDefined(time.milliseconds)) millis += time.milliseconds;
+	if (isDefined(time.seconds)) millis += time.seconds * TO_MILLIS.SECONDS;
+
 	let date;
 	switch (attributes.type) {
 		case "normal":
-			if (isDefined(time.milliseconds)) date = new Date(time.milliseconds);
-			else if (isDefined(time.seconds)) date = new Date(time.seconds * 1000);
+			date = new Date(millis);
 
 			let hours = toMultipleDigits(date.getHours());
 			let minutes = toMultipleDigits(date.getMinutes());
@@ -464,8 +467,7 @@ function formatTime(time = {}, attributes = {}) {
 					return seconds ? `${hours}:${minutes}:${seconds}` : `${hours}:${minutes}`;
 			}
 		case "timer":
-			if (isDefined(time.milliseconds)) date = new Date(time.milliseconds);
-			else if (isDefined(time.seconds)) date = new Date(time.seconds * 1000);
+			date = new Date(millis);
 
 			let parts = [];
 			if (attributes.showDays) parts.push(Math.floor(date.getTime() / TO_MILLIS.DAYS));
@@ -474,6 +476,36 @@ function formatTime(time = {}, attributes = {}) {
 			if (!attributes.hideSeconds) parts.push(date.getUTCSeconds());
 
 			return parts.map((p) => toMultipleDigits(p, 2)).join(":");
+		case "ago":
+			let timeAgo = Date.now() - millis;
+
+			let token = "ago";
+			if (timeAgo < 0) {
+				token = "from now";
+				timeAgo = Math.abs(timeAgo);
+			}
+
+			const UNITS = [
+				{ unit: "day", millis: TO_MILLIS.DAYS },
+				{ unit: "hour", millis: TO_MILLIS.HOURS },
+				{ unit: "minute", millis: TO_MILLIS.MINUTES },
+				{ unit: "second", millis: TO_MILLIS.SECONDS },
+				{ text: "just now", millis: 0 },
+			];
+
+			for (let unit of UNITS) {
+				if (timeAgo < unit.millis) continue;
+
+				if (unit.unit) {
+					let amount = Math.floor(timeAgo / unit.millis);
+
+					return `${amount} ${unit.unit}${amount > 1 ? "s" : ""} ${token}`;
+				} else if (unit.text) {
+					return unit.text;
+				}
+			}
+
+			return timeAgo;
 		default:
 			return -1;
 	}

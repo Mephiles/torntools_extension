@@ -73,23 +73,47 @@ async function setupInitialize() {
 }
 
 async function setupDashboard() {
+	const dashboard = document.find("#dashboard");
+
+	dashboard.find("#mute-notifications").classList.add(settings.notifications.types.global ? "enabled" : "disabled");
+	dashboard.find("#mute-notifications i").classList.add(settings.notifications.types.global ? "fa-bell" : "fa-bell-slash");
+	dashboard.find("#mute-notifications span").innerText = settings.notifications.types.global ? "Notifications enabled" : "Notifications disabled";
+	dashboard.find("#mute-notifications").addEventListener("click", () => {
+		let newStatus = !settings.notifications.types.global;
+
+		ttStorage.change({ settings: { notifications: { types: { global: newStatus } } } });
+
+		if (newStatus) {
+			dashboard.find("#mute-notifications").classList.add("enabled");
+			dashboard.find("#mute-notifications").classList.remove("disabled");
+			dashboard.find("#mute-notifications i").classList.add("fa-bell");
+			dashboard.find("#mute-notifications i").classList.remove("fa-bell-slash");
+			dashboard.find("#mute-notifications span").innerText = "Notifications enabled";
+		} else {
+			dashboard.find("#mute-notifications").classList.remove("enabled");
+			dashboard.find("#mute-notifications").classList.add("disabled");
+			dashboard.find("#mute-notifications i").classList.remove("fa-bell");
+			dashboard.find("#mute-notifications i").classList.add("fa-bell-slash");
+			dashboard.find("#mute-notifications span").innerText = "Notifications disabled";
+		}
+	});
+
 	updateDashboard();
 	storageListeners.userdata.push(updateDashboard);
 
-	setTimeout(() => {
-		setInterval(() => {
-			for (let bar of dashboard.findAll(".bar")) {
-				updateBarTimer(bar);
-			}
-			for (let cooldown of dashboard.findAll(".cooldowns .cooldown")) {
-				updateCooldownTimer(cooldown);
-			}
-		}, 1000);
-	}, 1000 - (new Date().getTime() % 1000));
+	// setTimeout(() => {
+	setInterval(() => {
+		for (let bar of dashboard.findAll(".bar")) {
+			updateBarTimer(bar);
+		}
+		for (let cooldown of dashboard.findAll(".cooldowns .cooldown")) {
+			updateCooldownTimer(cooldown);
+		}
+		updateUpdateTimer();
+	}, 1000);
+	// }, 1000 - (new Date().getTime() % 1000));
 
 	function updateDashboard() {
-		const dashboard = document.find("#dashboard");
-
 		// Country and status
 		updateStatus();
 		// Bars
@@ -103,6 +127,7 @@ async function setupDashboard() {
 		}
 		// Extra information
 		updateExtra();
+		updateActions();
 
 		function updateStatus() {
 			if (userdata.travel.time_left) {
@@ -189,6 +214,13 @@ async function setupDashboard() {
 			dashboard.find(".extra .messages .count").innerText = Object.values(userdata.messages).filter((message) => !message.seen).length;
 			dashboard.find(".extra .wallet .count").innerText = `$${formatNumber(userdata.money_onhand, { shorten: false })}`;
 		}
+
+		function updateActions() {
+			// noinspection JSValidateTypes
+			dashboard.find("#last-update").dataset.updated_at = userdata.date;
+
+			updateUpdateTimer();
+		}
 	}
 
 	function updateBarTimer(bar) {
@@ -233,8 +265,14 @@ async function setupDashboard() {
 
 		const completed_at = parseInt(dataset.completed_at) || dataset.completed_at;
 
-		console.log("CD", cooldown);
 		cooldown.find(".cooldown-label").innerText = formatTime({ milliseconds: completed_at - current }, { type: "timer" });
+	}
+
+	function updateUpdateTimer() {
+		const current = Date.now();
+		const updatedAt = parseInt(dashboard.find("#last-update").dataset.updated_at);
+
+		dashboard.find("#last-update").innerText = formatTime({ milliseconds: updatedAt }, { type: "ago" });
 	}
 }
 

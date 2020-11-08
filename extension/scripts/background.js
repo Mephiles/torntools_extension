@@ -144,6 +144,7 @@ function timedUpdates() {
 
 async function updateUserdata() {
 	userdata = await fetchApi("torn", { section: "user", selections: ["profile", "bars", "cooldowns", "timestamp", "travel", "events", "messages", "money"] });
+	userdata.date = Date.now();
 
 	await ttStorage.set({ userdata });
 
@@ -218,7 +219,7 @@ async function updateUserdata() {
 
 async function updateTorndata() {
 	torndata = await fetchApi("torn", { section: "torn", selections: ["education", "honors", "items", "medals", "pawnshop"] });
-	torndata.date = new Date().getTime();
+	torndata.date = Date.now();
 
 	await ttStorage.set({ torndata });
 }
