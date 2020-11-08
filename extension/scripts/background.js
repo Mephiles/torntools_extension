@@ -150,9 +150,9 @@ async function updateUserdata() {
 
 	let data = {};
 
-	notifyEventMessages();
+	notifyEventMessages().catch(() => console.error("Error while sending event and message notifications."));
 
-	function notifyEventMessages() {
+	async function notifyEventMessages() {
 		let eventCount = 0;
 		let events = [];
 		for (let key of Object.keys(userdata.events).reverse()) {
@@ -213,7 +213,7 @@ async function updateUserdata() {
 			};
 		}
 
-		setBadge("count", { events: eventCount, messages: messageCount });
+		await setBadge("count", { events: eventCount, messages: messageCount });
 	}
 }
 

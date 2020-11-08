@@ -295,8 +295,8 @@ async function fetchApi(
 				} else {
 					if (location === "torn" && !options.silent) {
 						await getBadgeText()
-							.then((value) => {
-								if (value === "error") setBadge("default");
+							.then(async (value) => {
+								if (value === "error") await setBadge("default");
 							})
 							.catch(() => console.error("TT - Couldn't get the badge text."));
 
@@ -314,7 +314,7 @@ async function fetchApi(
 			if (result.proxy) {
 				if (!silent) {
 					await ttStorage.change({ api: { torn: { online: true, error: result.proxy_error } } });
-					setBadge("error");
+					await setBadge("error");
 				}
 				reject({ error: result.proxy_error });
 			} else if (location === "torn") {
@@ -330,7 +330,7 @@ async function fetchApi(
 
 				if (!silent) {
 					await ttStorage.change({ api: { torn: { online, error } } });
-					setBadge("error");
+					await setBadge("error");
 				}
 				reject({ error });
 			} else {
