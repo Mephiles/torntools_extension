@@ -614,6 +614,28 @@ function capitalizeText(text, options) {
 		.trim();
 }
 
-function isTradable(id) {
-	return true; // FIXME
+function isSellable(id) {
+	const item = torndata.items[id];
+
+	return (
+		item &&
+		!["Book", "Unused"].includes(item.type) &&
+		![
+			373, // Parcel
+			374, // Present
+			375, // Present
+			376, // Present
+			820, // Piggy Bank
+			920, // Halloween Basket
+			1003, // Halloween Basket
+			1004, // Halloween Basket
+			1005, // Halloween Basket
+			1006, // Halloween Basket
+			1007, // Halloween Basket
+			1008, // Halloween Basket
+			1009, // Halloween Basket
+			1010, // Halloween Basket
+			1011, // Halloween Basket
+		].includes(item.id)
+	);
 }

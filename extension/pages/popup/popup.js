@@ -339,6 +339,7 @@ async function setupMarketSearch() {
 
 	function showMarketInfo(id) {
 		let viewItem = document.find("#market #item-information");
+		viewItem.find(".market").classList.add("hidden");
 
 		fetchApi("torn", { section: "market", id, selections: ["bazaar", "itemmarket"] })
 			.then((result) => {
@@ -352,13 +353,15 @@ async function setupMarketSearch() {
 					if (type === "itemmarket") text = "Item Market";
 					else text = capitalizeText(type);
 
-					list.appendChild(document.newElement({ type: "div", class: "heading", text }));
+					let wrap = document.newElement({ type: "div" });
+
+					wrap.appendChild(document.newElement({ type: "h4", text }));
 
 					if (result[type]) {
 						found = true;
 
 						for (let item of result[type].slice(0, 3)) {
-							list.appendChild(
+							wrap.appendChild(
 								document.newElement({
 									type: "div",
 									class: "price",
@@ -367,21 +370,23 @@ async function setupMarketSearch() {
 							);
 						}
 					} else {
-						list.appendChild(
+						wrap.appendChild(
 							document.newElement({
 								type: "div",
-								class: "price",
+								class: "price no-price",
 								text: "No price found.",
 							})
 						);
 					}
+
+					list.appendChild(wrap);
 				}
 
-				if (!isTradable(id) && !found) {
-					list.innerHTML = "Item is not tradable!";
+				if (!isSellable(id) && !found) {
+					list.classList.add("untradable");
+					list.innerHTML = "Item is not sellable!";
 				}
-
-				console.log("Getting Bazaar & Itemmarket info", result);
+				viewItem.find(".market").classList.remove("hidden");
 			})
 			.catch((error) => {
 				document.find(".error").classList.remove("hidden");

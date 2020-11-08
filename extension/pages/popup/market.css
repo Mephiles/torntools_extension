@@ -31,9 +31,54 @@
 
 /* Item Information */
 
+#market #item-information {
+	display: flex;
+}
+
 #market #item-information .image {
-	float: right;
+	/*float: right;*/
 	width: 96px;
-	height: 96px;
 	object-fit: contain;
+}
+
+#market #item-information .info-wrap {
+	width: 100%;
+}
+
+#market #item-information .name-wrap {
+	margin: 0;
+}
+
+#market #item-information .name,
+#market #item-information .name:focus,
+#market #item-information .name:hover {
+	text-decoration: underline;
+	color: inherit;
+}
+
+#market #item-information .circulation,
+#market #item-information .value {
+	font-weight: bold;
+}
+
+#market #item-information .market {
+	display: flex;
+	margin-top: 4px;
+}
+
+#market #item-information .market.untradable {
+	color: red;
+}
+
+#market #item-information .market > * {
+	flex: 1 0 auto;
+	text-align: center;
+}
+
+#market #item-information .market h4 {
+	margin: 0;
+}
+
+#market #item-information .market .price.no-price {
+	color: red;
 }
