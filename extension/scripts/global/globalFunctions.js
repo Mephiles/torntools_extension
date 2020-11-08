@@ -565,3 +565,14 @@ function formatNumber(number, options) {
 
 	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+function capitalizeText(text, everyWord = false) {
+	if (!everyWord) return text[0].toUpperCase() + text.slice(1);
+
+	return text
+		.trim()
+		.split(" ")
+		.map((word) => capitalizeText(word))
+		.join(" ")
+		.trim();
+}

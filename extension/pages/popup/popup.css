@@ -54,6 +54,34 @@ h1 {
  * Dashboard
  */
 
+/* Country and status */
+#dashboard > header a#country,
+#dashboard > header a#country:focus,
+a#dashboard > header #country:hover {
+	text-decoration: inherit;
+	color: inherit;
+}
+
+#dashboard > header #status.okay {
+	color: #4c914c;
+}
+
+#dashboard > header #status.hospital {
+	color: #fa4e4e;
+}
+
+#dashboard > header #status.jail {
+	color: #b37f1e;
+}
+
+#dashboard > header h1 {
+	margin-bottom: 0;
+}
+
+#dashboard > header h3 {
+	margin: 0 0 8px 0;
+}
+
 /* Bars */
 
 a.bar,
@@ -172,6 +200,7 @@ a.bar:hover .bar-label {
 .extra > * {
 	flex: 1 0 auto;
 }
+
 .extra a,
 .extra a:focus,
 .extra a:hover {

@@ -90,15 +90,34 @@ async function setupDashboard() {
 	function updateDashboard() {
 		const dashboard = document.find("#dashboard");
 
-		dashboard.find("#name").innerText = userdata.name;
+		// Country and status
+		updateStatus();
+		// Bars
 		for (let bar of ["energy", "nerve", "happy", "life", "chain"]) {
 			updateBar(bar, userdata[bar]);
 		}
 		updateTravelBar();
+		// Cooldowns
 		for (let cooldown of ["drug", "booster", "medical"]) {
 			updateCooldown(cooldown, userdata.cooldowns[cooldown]);
 		}
+		// Extra information
 		updateExtra();
+
+		function updateStatus() {
+			if (userdata.travel.time_left) {
+				dashboard.find("#country").innerText = `Traveling to ${userdata.travel.destination}`;
+				dashboard.find(".status-wrap").classList.add("hidden");
+			} else {
+				dashboard.find("#country").innerText = userdata.travel.destination;
+
+				const status = userdata.status.state === "abroad" ? "okay" : userdata.status.state.toLowerCase();
+
+				dashboard.find("#status").innerText = capitalizeText(status);
+				dashboard.find("#status").setAttribute("class", status);
+				dashboard.find(".status-wrap").classList.remove("hidden");
+			}
+		}
 
 		function updateBar(name, bar) {
 			const current = bar?.current || 0;
