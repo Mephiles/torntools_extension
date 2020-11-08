@@ -285,7 +285,7 @@ async function setupDashboard() {
 	}
 
 	function updateUpdateTimer() {
-		const current = Date.now();
+		Date.now();
 		const updatedAt = parseInt(dashboard.find("#last-update").dataset.updated_at);
 
 		dashboard.find("#last-update").innerText = formatTime({ milliseconds: updatedAt }, { type: "ago" });

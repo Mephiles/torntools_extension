@@ -263,6 +263,7 @@ async function notifyUser(title, message, url) {
 	}
 }
 
+// noinspection JSDeprecatedSymbols
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	switch (message.action) {
 		case "initialize":
@@ -290,6 +291,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	}
 });
 
+// noinspection JSDeprecatedSymbols
 chrome.notifications.onClicked.addListener((id) => {
 	if (settings.notifications.link) {
 		chrome.tabs.create({ url: notificationRelations[id] });
