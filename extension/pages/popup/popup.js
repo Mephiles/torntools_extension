@@ -81,7 +81,7 @@ async function setupDashboard() {
 			for (let bar of dashboard.findAll(".bar")) {
 				updateBarTimer(bar);
 			}
-			for (let cooldown of dashboard.findAll(".cooldown")) {
+			for (let cooldown of dashboard.findAll(".cooldowns .cooldown")) {
 				updateCooldownTimer(cooldown);
 			}
 		}, 1000);
@@ -214,6 +214,7 @@ async function setupDashboard() {
 
 		const completed_at = parseInt(dataset.completed_at) || dataset.completed_at;
 
+		console.log("CD", cooldown);
 		cooldown.find(".cooldown-label").innerText = formatTime({ milliseconds: completed_at - current }, { type: "timer" });
 	}
 }
