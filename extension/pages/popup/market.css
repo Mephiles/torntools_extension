@@ -1,0 +1,39 @@
+/*
+ * Market
+ */
+
+/* Search Bar */
+
+#market #search-bar {
+	border: 1px solid #ddd;
+	outline: none;
+	font-size: 16px;
+}
+
+#market .item-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	font-size: 14px;
+
+	max-height: 400px;
+	overflow-y: scroll;
+}
+
+#market .item-list > li {
+	padding: 1px 2px;
+	cursor: pointer;
+}
+
+#market .item-list > li:hover {
+	background-color: #d6d6d6;
+}
+
+/* Item Information */
+
+#market #item-information .image {
+	float: right;
+	width: 96px;
+	height: 96px;
+	object-fit: contain;
+}

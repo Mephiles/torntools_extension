@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="../../scripts/global/globalStyle.css" />
 		<link rel="stylesheet" href="popup.css" />
 		<link rel="stylesheet" href="dashboard.css" />
+		<link rel="stylesheet" href="market.css" />
 
 		<script type="text/javascript" src="../../vendor/fontawesome/fontawesome.js"></script>
 	</head>
@@ -153,6 +154,18 @@
 		<!-- Market -->
 		<main id="market" class="subpage">
 			<h1>Market</h1>
+			<!--suppress HtmlFormInputWithoutLabel -->
+			<input id="search-bar" type="text" placeholder="Search.." autofocus />
+			<ul class="item-list hidden"></ul>
+
+			<article id="item-information" class="hidden">
+				<img class="image" />
+				<h3><a target="_blank" class="name"></a></h3>
+				<div>Circulation: <span class="circulation"></span></div>
+				<div>Market Value: <span class="value"></span></div>
+
+				<div class="market"></div>
+			</article>
 		</main>
 
 		<!-- Stocks -->

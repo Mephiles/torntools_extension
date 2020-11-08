@@ -222,7 +222,7 @@ async function setupDashboard() {
 		function updateExtra() {
 			dashboard.find(".extra .events .count").innerText = Object.values(userdata.events).filter((event) => !event.seen).length;
 			dashboard.find(".extra .messages .count").innerText = Object.values(userdata.messages).filter((message) => !message.seen).length;
-			dashboard.find(".extra .wallet .count").innerText = `$${formatNumber(userdata.money_onhand, { shorten: false })}`;
+			dashboard.find(".extra .wallet .count").innerText = `$${formatNumber(userdata.money_onhand)}`;
 		}
 
 		function updateActions() {
@@ -292,6 +292,152 @@ async function setupDashboard() {
 	}
 }
 
-async function setupMarketSearch() {}
+async function setupMarketSearch() {
+	// setup itemlist
+	let itemSelection = document.find("#market .item-list");
+
+	for (let id in torndata.items) {
+		let name = torndata.items[id].name;
+
+		let div = document.newElement({ type: "li", class: "item", id: name.toLowerCase().replace(/\s+/g, "").replace(":", "_"), text: name });
+
+		itemSelection.appendChild(div);
+
+		// display item if clicked on it
+		div.addEventListener("click", async () => {
+			itemSelection.classList.add("hidden");
+
+			showMarketInfo(id);
+		});
+	}
+
+	// setup searchbar
+	document.find("#market #search-bar").addEventListener("keyup", (event) => {
+		let keyword = event.target.value.toLowerCase();
+
+		if (!keyword) {
+			itemSelection.classList.add("hidden");
+			return;
+		}
+
+		for (let item of document.findAll("#market .item-list li")) {
+			if (item.textContent.toLowerCase().includes(keyword)) {
+				item.classList.remove("hidden");
+				itemSelection.classList.remove("hidden");
+			} else {
+				item.classList.add("hidden");
+			}
+		}
+	});
+
+	document.find("#market #search-bar").onclick = (event) => {
+		event.target.value = "";
+
+		document.find("#market .item-list").classList.add("hidden");
+		document.find("#market #item-information").classList.add("hidden");
+	};
+
+	function showMarketInfo(id) {
+		let viewItem = document.find("#market #item-information");
+
+		fetchApi("torn", { section: "market", id, selections: ["bazaar", "itemmarket"] })
+			.then((result) => {
+				const list = viewItem.find(".market");
+				list.innerHTML = "";
+
+				let found = false;
+
+				for (let type of Object.keys(result)) {
+					let text;
+					if (type === "itemmarket") text = "Item Market";
+					else text = capitalizeText(type);
+
+					list.appendChild(document.newElement({ type: "div", class: "heading", text }));
+
+					if (result[type]) {
+						found = true;
+
+						for (let item of result[type].slice(0, 3)) {
+							list.appendChild(
+								document.newElement({
+									type: "div",
+									class: "price",
+									text: `${item.quantity}x | $${formatNumber(item.cost)}`,
+								})
+							);
+						}
+					} else {
+						list.appendChild(
+							document.newElement({
+								type: "div",
+								class: "price",
+								text: "No price found.",
+							})
+						);
+					}
+				}
+
+				if (!isTradable(id) && !found) {
+					list.innerHTML = "Item is not tradable!";
+				}
+
+				console.log("Getting Bazaar & Itemmarket info", result);
+			})
+			.catch((error) => {
+				document.find(".error").classList.remove("hidden");
+				document.find(".error").innerText = error.error;
+			});
+
+		viewItem.find(".image").src = `https://www.torn.com/images/items/${id}/large.png`;
+
+		const item = torndata.items[id];
+		viewItem.find(".circulation").innerText = formatNumber(item.circulation);
+		viewItem.find(".value").innerText = `$${formatNumber(item.market_value)}`;
+		viewItem.find(".name").innerText = item.name;
+		viewItem.find(".name").href = `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${item.name}`;
+
+		viewItem.classList.remove("hidden");
+	}
+
+	//
+	// function showMarketInfo(id) {
+	// 	fetchApi("torn", { section: "market", id })
+	// 		.then((result) => {
+	// 			console.log("Getting Bazaar & Itemmarket info");
+	//
+	// 			let list = document.find("#market-info");
+	// 			list.classList.remove("hidden");
+	// 			list.innerHTML = "";
+	//
+	// 			for (let type of Object.keys(result)) {
+	// 				list.appendChild(document.newElement({ type: "div", class: "heading", text: capitalizeText(type) }));
+	//
+	// 				if (result[type]) {
+	// 					for (let i = 0; i < 3; i++) {
+	// 						list.appendChild(
+	// 							document.newElement({
+	// 								type: "div",
+	// 								class: "price",
+	// 								text: `${result[type][i].quantity}x | $${formatNumber(result[type][i].cost)}`,
+	// 							})
+	// 						);
+	// 					}
+	// 				} else {
+	// 					list.appendChild(
+	// 						document.newElement({
+	// 							type: "div",
+	// 							class: "price",
+	// 							text: "No price found.",
+	// 						})
+	// 					);
+	// 				}
+	// 			}
+	// 		})
+	// 		.catch((result) => {
+	// 			document.find(".error").classList.remove("hidden");
+	// 			document.find(".error").innerText = result;
+	// 		});
+	// }
+}
 
 async function setupStocksOverview() {}

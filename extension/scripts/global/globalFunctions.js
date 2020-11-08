@@ -559,7 +559,7 @@ function usingYandex() {
 
 function formatNumber(number, options) {
 	options = {
-		shorten: true,
+		shorten: false,
 		formatter: false,
 		...options,
 	};
@@ -598,8 +598,13 @@ function formatNumber(number, options) {
 	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function capitalizeText(text, everyWord = false) {
-	if (!everyWord) return text[0].toUpperCase() + text.slice(1);
+function capitalizeText(text, options) {
+	options = {
+		everyWord: false,
+		...options,
+	};
+
+	if (!options.everyWord) return text[0].toUpperCase() + text.slice(1);
 
 	return text
 		.trim()
@@ -607,4 +612,8 @@ function capitalizeText(text, everyWord = false) {
 		.map((word) => capitalizeText(word))
 		.join(" ")
 		.trim();
+}
+
+function isTradable(id) {
+	return true; // FIXME
 }

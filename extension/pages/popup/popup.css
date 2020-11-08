@@ -19,7 +19,6 @@ body.loading *:not(.tt-loading-placeholder) {
 .error {
 	margin-bottom: 5px;
 	color: red;
-	display: none;
 }
 
 h1 {
