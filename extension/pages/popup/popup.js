@@ -114,6 +114,7 @@ async function setupDashboard() {
 		}
 		updateUpdateTimer();
 	}, 1000);
+
 	// }, 1000 - (new Date().getTime() % 1000));
 
 	function updateDashboard() {
@@ -182,31 +183,37 @@ async function setupDashboard() {
 			dashboard.find(`#${name} .bar-info`).dataset.full_at = fullAt;
 			// noinspection JSValidateTypes
 			dashboard.find(`#${name} .bar-info`).dataset.tick_at = tickAt;
+			if (bar.interval) {
+				// noinspection JSValidateTypes
+				dashboard.find(`#${name} .bar-info`).dataset.tick_time = bar.interval * 1000;
+			}
 
 			updateBarTimer(dashboard.find(`#${name}`));
 		}
 
 		function updateTravelBar() {
 			if (!userdata.travel.time_left) {
-				dashboard.find(`#traveling`).classList.add("hidden");
+				dashboard.find("#traveling").classList.add("hidden");
 				return;
 			}
-			dashboard.find(`#traveling`).classList.remove("hidden");
+			dashboard.find("#traveling").classList.remove("hidden");
 
 			const maximum = userdata.travel.timestamp - userdata.travel.departed;
 			const current = maximum - userdata.travel.time_left;
 
-			dashboard.find(`#traveling .progress .value`).style.width = `${(current / maximum) * 100}%`;
+			dashboard.find("#traveling .progress .value").style.width = `${(current / maximum) * 100}%`;
 			dashboard.find("#traveling .bar-info .bar-label").innerText = formatTime(userdata.travel.timestamp * 1000);
 
 			// noinspection JSValidateTypes
-			dashboard.find(`#traveling .bar-info`).dataset.tick_at = userdata.travel.timestamp * 1000;
-			dashboard.find(`#traveling .bar-info`).dataset.full_at = userdata.travel.timestamp * 1000;
+			dashboard.find("#traveling .bar-info").dataset.tick_at = userdata.travel.timestamp * 1000;
+			// noinspection JSValidateTypes
+			dashboard.find("#traveling .bar-info").dataset.full_at = userdata.travel.timestamp * 1000;
 
-			updateBarTimer(dashboard.find(`#traveling`));
+			updateBarTimer(dashboard.find("#traveling"));
 		}
 
 		function updateCooldown(name, cooldown) {
+			// noinspection JSValidateTypes
 			dashboard.find(`#${name}-cooldown`).dataset.completed_at = (userdata.timestamp + cooldown) * 1000;
 
 			updateCooldownTimer(dashboard.find(`#${name}-cooldown`));
@@ -230,11 +237,17 @@ async function setupDashboard() {
 		const name = bar.id;
 		const current = Date.now();
 
-		const barInfo = bar.find(`.bar-info`);
+		const barInfo = bar.find(".bar-info");
 		const dataset = barInfo.dataset;
 
-		const full_at = parseInt(dataset.full_at) || dataset.full_at;
-		const tick_at = parseInt(dataset.tick_at) || dataset.tick_at;
+		let full_at = parseInt(dataset.full_at) || dataset.full_at;
+		let tick_at = parseInt(dataset.tick_at);
+		if (full_at <= current) full_at = "full";
+
+		if (tick_at <= current) {
+			if (name === "traveling" || name === "chain") tick_at = current;
+			else tick_at += parseInt(dataset.tick_time);
+		}
 
 		let full;
 		if (full_at === "full" || full_at === "over") full = "FULL";
