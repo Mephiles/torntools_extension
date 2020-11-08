@@ -30,11 +30,30 @@ h1 {
  * Page Navigation
  */
 
+#pages #settings {
+	float: right;
+	width: 32px;
+	height: 32px;
+	font-size: 32px;
+	text-align: center;
+	cursor: pointer;
+}
+
+#pages {
+	display: flex;
+	margin: -6px 0;
+}
+
+#pages .right-nav {
+	justify-content: flex-end;
+}
+
 #pages ul {
 	list-style: none;
 	display: flex;
 	padding: 0;
 	margin: 6px 0;
+	flex: 1;
 }
 
 #pages ul li {
@@ -222,6 +241,7 @@ a.bar:hover .bar-label {
 #dashboard .actions #mute-notifications.enabled {
 	color: green;
 }
+
 #dashboard .actions #mute-notifications.disabled {
 	color: red;
 }

@@ -5,11 +5,14 @@ let initiatedPages = {};
 
 	await loadDatabase();
 
-	for (let navigation of document.findAll("#pages li")) {
+	for (let navigation of document.findAll("#pages .main-nav li")) {
 		navigation.addEventListener("click", async () => {
 			await showPage(navigation.getAttribute("to"));
 		});
 	}
+	document.find("#pages .right-nav li[to='settings']").addEventListener("click", () => {
+		chrome.runtime.openOptionsPage();
+	});
 
 	if (!settings.pages.popup.dashboard) document.find('#pages li[to="dashboard"]').classList.add("hidden");
 	if (!settings.pages.popup.marketSearch) document.find('#pages li[to="market"]').classList.add("hidden");
