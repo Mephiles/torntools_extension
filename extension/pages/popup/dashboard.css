@@ -111,10 +111,12 @@ a#dashboard > header #country:hover {
 	display: flex;
 	width: 100%;
 	text-align: center;
+	justify-content: space-around;
 }
 
 #dashboard .cooldowns .cooldown {
-	flex: 1 0 auto;
+	text-decoration: none;
+	color: inherit;
 }
 
 #dashboard .cooldown-name {
@@ -139,6 +141,7 @@ a#dashboard > header #country:hover {
 	display: flex;
 	width: 100%;
 	text-align: center;
+	justify-content: space-around;
 
 	margin: 8px 0;
 	padding: 4px 0;
@@ -150,10 +153,6 @@ body.light #dashboard .extra {
 
 body.dark #dashboard .extra {
 	background-color: #383838;
-}
-
-#dashboard .extra > * {
-	flex: 1 0 auto;
 }
 
 #dashboard .extra a,
