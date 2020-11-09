@@ -1,0 +1,130 @@
+/* Preferences */
+
+#preferences-show_advanced {
+	cursor: pointer;
+}
+
+#preferences > section:first-of-type {
+	display: flex;
+	font-size: 15px;
+	padding: 0;
+}
+
+#preferences nav {
+	width: max-content;
+	border-right: 1px solid lightgray;
+	background-color: #f1f1f1;
+}
+
+#preferences nav ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+#preferences nav ul > li {
+	padding: 7px;
+	border-bottom: 1px solid lightgray;
+	white-space: nowrap;
+}
+
+#preferences nav ul > li.header {
+	background-color: #b9b9b9;
+}
+
+#preferences nav ul > li[name] {
+	white-space: nowrap;
+}
+
+#preferences nav ul > li[name]:hover {
+	background-color: #e2e0e0;
+	cursor: pointer;
+}
+
+#preferences nav ul > li[name].active {
+	background-color: #e2e0e0;
+}
+
+#preferences nav ul > li[name].active:hover {
+	cursor: initial;
+}
+
+#preferences .sections {
+	border-bottom: 1px solid lightgray;
+	width: 100%;
+	padding: 10px;
+}
+
+#preferences .sections > section {
+	display: none;
+	margin-bottom: 20px;
+}
+
+#preferences .sections > section.active {
+	display: block;
+}
+
+#preferences .sections > section .header:first-of-type {
+	margin-top: unset;
+}
+
+#preferences .sections > section .header {
+	font-weight: bold;
+	margin-top: 12px;
+}
+
+#preferences footer {
+	padding: 5px;
+}
+
+#preferences .actions.right {
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+#preferences footer button {
+	min-width: 60px;
+	padding: 0 4px;
+	height: 30px;
+	border: 1px solid lightgrey;
+	margin-right: 10px;
+	text-align: center;
+	line-height: 30px;
+	border-radius: 7px;
+	cursor: pointer;
+	font-weight: 600;
+	display: inline-block;
+	vertical-align: top;
+}
+
+#preferences .advanced-hidden .advanced {
+	display: none;
+}
+
+#preferences #addChatHighlight {
+	width: 40px;
+}
+
+#preferences #chatHighlight .remove-icon-wrap {
+	width: 25px;
+}
+
+#preferences #chatHighlight .remove-icon {
+	color: red;
+}
+
+#preferences .tabbed {
+	padding-left: 20px;
+}
+
+#preferences .note {
+	font-size: 11px;
+	margin-left: 10px;
+	color: #848484;
+	position: relative;
+}
+
+#preferences #notification-sound-play,
+#preferences #notification-sound-stop {
+	cursor: pointer;
+}

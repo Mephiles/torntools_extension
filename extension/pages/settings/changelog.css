@@ -1,0 +1,85 @@
+/* Changelog */
+
+#changelog > section {
+	border: unset;
+}
+
+#changelog > section .header {
+	width: 100%;
+	display: flex;
+}
+
+#changelog > section .header .contributor {
+	flex: 1 0 auto;
+	text-align: center;
+}
+
+#changelog > section > .parent > .heading {
+	cursor: pointer;
+	border-bottom: 0.5px solid lightgrey;
+	padding: 2px 0 2px 5px;
+	height: 23px;
+	line-height: 23px;
+	font-size: 15px;
+}
+
+#changelog > section > .parent > .heading span {
+	font-size: 12px;
+}
+
+#changelog > section > .parent > .heading i {
+	float: right;
+	position: relative;
+	top: 7px;
+}
+
+#changelog > section .parent .parent {
+	font-weight: 600;
+	margin-left: 20px;
+}
+
+#changelog > section .parent .child {
+	font-weight: 400;
+	margin-left: 20px;
+}
+
+#changelog > section .parent .closeable {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.2s ease-out;
+	padding: 4px 0 4px 10px;
+}
+
+#changelog .contributors .contributor a {
+	text-decoration: none;
+	color: initial;
+}
+
+#changelog .contributor span:before {
+	display: inline-block;
+	width: 5px;
+	height: 5px;
+	content: "";
+	border-radius: 50%;
+	margin-right: 4px;
+}
+
+#changelog .contributor.mephiles span:before {
+	background-color: green;
+	border: 2px solid green;
+}
+
+#changelog .contributor.dkk span:before {
+	background-color: orange;
+	border: 2px solid orange;
+}
+
+#changelog .contributor.wootty2000 span:before {
+	background-color: red;
+	border: 2px solid red;
+}
+
+#changelog .contributor.finally span:before {
+	background-color: purple;
+	border: 2px solid purple;
+}
