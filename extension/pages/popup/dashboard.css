@@ -142,7 +142,14 @@ a#dashboard > header #country:hover {
 
 	margin: 8px 0;
 	padding: 4px 0;
+}
+
+body.light #dashboard .extra {
 	background-color: #f9f9f9;
+}
+
+body.dark #dashboard .extra {
+	background-color: #383838;
 }
 
 #dashboard .extra > * {

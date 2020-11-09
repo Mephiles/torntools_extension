@@ -5,6 +5,9 @@ let initiatedPages = {};
 
 	await loadDatabase();
 
+	// noinspection JSCheckFunctionSignatures
+	document.body.classList.add(settings.themes.pages);
+
 	for (let navigation of document.findAll("#pages .main-nav li")) {
 		navigation.addEventListener("click", async () => {
 			await showPage(navigation.getAttribute("to"));

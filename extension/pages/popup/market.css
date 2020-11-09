@@ -5,9 +5,17 @@
 /* Search Bar */
 
 #market #search-bar {
-	border: 1px solid #ddd;
 	outline: none;
 	font-size: 16px;
+}
+
+body.light #market #search-bar {
+	border: 1px solid #ddd;
+}
+
+body.dark #market #search-bar {
+	border: 1px solid #777;
+	background-color: #bfbfbf;
 }
 
 #market .item-list {
@@ -25,8 +33,12 @@
 	cursor: pointer;
 }
 
-#market .item-list > li:hover {
+body.light #market .item-list > li:hover {
 	background-color: #d6d6d6;
+}
+
+body.dark #market .item-list > li:hover {
+	background-color: #505050;
 }
 
 /* Item Information */

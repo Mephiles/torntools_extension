@@ -243,16 +243,17 @@ async function setupPreferences() {
 			checkbox.checked = settings[setting];
 		}
 
-		_preferences.find(`input[name="defaultTab"][value="${settings.pages.popup.defaultTab}"]`).checked = true;
+		// _preferences.find(`input[name="defaultTab"][value="${settings.pages.popup.defaultTab}"]`).checked = true;
 		_preferences.find(`input[name="formatDate"][value="${settings.formatting.date}"]`).checked = true;
 		_preferences.find(`input[name="formatTime"][value="${settings.formatting.time}"]`).checked = true;
+		_preferences.find(`input[name="themePage"][value="${settings.themes.pages}"]`).checked = true;
 
 		for (let type of ["pages"]) {
 			for (let page in settings[type]) {
 				const isGlobalDisabled = settings[type][page].global === false;
 
 				for (let setting in settings[type][page]) {
-					const input = _preferences.find(`#${page}-${setting}`);
+					const input = _preferences.find(`#${page}-${setting}, input[name="${setting}"][value="${settings[type][page][setting]}"]`);
 					if (!input) continue;
 
 					if (setting === "global") {
@@ -277,6 +278,7 @@ async function setupPreferences() {
 						const inputType = input.getAttribute("type");
 
 						if (inputType === "checkbox") input.checked = value;
+						else if (inputType === "radio") input.checked = true;
 						else input.value = value;
 					}
 				}
@@ -371,8 +373,9 @@ async function setupPreferences() {
 			settings[setting] = checkbox.checked;
 		}
 
-		settings.formatting.date = _preferences.find(`input[name="formatDate"]:checked`).value;
-		settings.formatting.time = _preferences.find(`input[name="formatTime"]:checked`).value;
+		settings.formatting.date = _preferences.find("input[name='formatDate']:checked").value;
+		settings.formatting.time = _preferences.find("input[name='formatTime']:checked").value;
+		settings.themes.pages = _preferences.find("input[name='themePage']:checked").value;
 
 		for (let type of ["pages"]) {
 			for (let page in settings[type]) {

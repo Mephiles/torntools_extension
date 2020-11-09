@@ -145,6 +145,9 @@ const DEFAULT_STORAGE = {
 				cooldownMedical: new DefaultSetting({ type: "array", defaultValue: [] }),
 			},
 		},
+		themes: {
+			pages: new DefaultSetting({ type: "string", defaultValue: () => (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") }),
+		},
 		pages: {
 			global: {
 				alignLeft: new DefaultSetting({ type: "boolean", defaultValue: false }),
