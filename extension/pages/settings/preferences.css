@@ -12,8 +12,16 @@
 
 #preferences nav {
 	width: max-content;
+}
+
+body.light #preferences nav {
 	border-right: 1px solid lightgray;
 	background-color: #f1f1f1;
+}
+
+body.dark #preferences nav {
+	border-right: 1px solid #444;
+	background-color: #5a5a5a;
 }
 
 #preferences nav ul {
@@ -28,8 +36,20 @@
 	white-space: nowrap;
 }
 
-#preferences nav ul > li.header {
+body.light #preferences nav ul > li {
+	border-bottom: 1px solid lightgray;
+}
+
+body.dark #preferences nav ul > li {
+	border-bottom: 1px solid #444;
+}
+
+body.light #preferences nav ul > li.header {
 	background-color: #b9b9b9;
+}
+
+body.dark #preferences nav ul > li.header {
+	background-color: #353535;
 }
 
 #preferences nav ul > li[name] {
@@ -37,12 +57,17 @@
 }
 
 #preferences nav ul > li[name]:hover {
-	background-color: #e2e0e0;
 	cursor: pointer;
 }
 
-#preferences nav ul > li[name].active {
+body.light #preferences nav ul > li[name].active,
+body.light #preferences nav ul > li[name]:hover {
 	background-color: #e2e0e0;
+}
+
+body.dark #preferences nav ul > li[name].active,
+body.dark #preferences nav ul > li[name]:hover {
+	background-color: #404040;
 }
 
 #preferences nav ul > li[name].active:hover {
@@ -50,9 +75,16 @@
 }
 
 #preferences .sections {
-	border-bottom: 1px solid lightgray;
 	width: 100%;
 	padding: 10px;
+}
+
+body.light #preferences .sections {
+	border-bottom: 1px solid lightgray;
+}
+
+body.dark #preferences .sections {
+	border-bottom: 1px solid #333;
 }
 
 #preferences .sections > section {

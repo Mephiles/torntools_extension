@@ -80,15 +80,15 @@ ul.list-table button:hover {
 /* General Colors */
 
 *[color="white"] {
-	color: white;
+	color: white !important;
 }
 
 *[background-color="green"] {
-	background-color: #149a32;
+	background-color: #149a32 !important;
 }
 
 *[background-color="red"] {
-	background-color: #c82333;
+	background-color: #c82333 !important;
 }
 
 /* Tooltips */
@@ -128,7 +128,7 @@ header {
 
 nav a {
 	text-decoration: none;
-	color: initial;
+	color: inherit;
 }
 
 header nav > ul {
@@ -141,14 +141,33 @@ header nav > ul > li {
 	text-align: center;
 	font-size: 15px;
 	cursor: pointer;
-	border-top: 1px solid lightgray;
-	border-bottom: 1px solid lightgray;
 	padding: 10px;
 }
 
-header nav > ul > li.active {
+body.light header nav > ul > li {
+	border-top: 1px solid lightgray;
+	border-bottom: 1px solid lightgray;
+}
+
+body.dark header nav > ul > li {
+	border-top: 1px solid #4e4d4d;
+	border-bottom: 1px solid #4e4d4d;
+}
+
+body.light header nav > ul > li.active {
 	border-top: 1px solid black;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid #000000;
+}
+
+body.dark header nav > ul > li.active {
+	border-top: 1px solid #a7a7a7;
+	border-bottom: 1px solid #a7a7a7;
+}
+
+body.dark input:not([type="checkbox"]):not([type="radio"]),
+body.dark select,
+body.dark button {
+	background-color: #bfbfbf;
 }
 
 /* General pages */
@@ -159,11 +178,18 @@ main > h2 {
 
 main > section {
 	width: 70%;
-	border: 1px solid lightgrey;
 	margin: 0 auto;
 	padding: 10px;
 	font-size: 14px;
 	box-sizing: border-box;
+}
+
+body.light main > section {
+	border: 1px solid lightgrey;
+}
+
+body.dark main > section {
+	border: 1px solid #333;
 }
 
 main > section:not(:first-of-type) {

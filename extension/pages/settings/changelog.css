@@ -23,6 +23,10 @@
 	font-size: 15px;
 }
 
+#changelog > section > .parent > .heading.current {
+	color: red;
+}
+
 #changelog > section > .parent > .heading span {
 	font-size: 12px;
 }
@@ -52,7 +56,7 @@
 
 #changelog .contributors .contributor a {
 	text-decoration: none;
-	color: initial;
+	color: inherit;
 }
 
 #changelog .contributor span:before {

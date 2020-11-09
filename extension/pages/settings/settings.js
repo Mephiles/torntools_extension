@@ -121,7 +121,7 @@ async function setupChangelog() {
 
 		if (Object.keys(changelog).indexOf(version + title) === 0) {
 			heading.click();
-			heading.style.color = "red";
+			heading.classList.add("current");
 		}
 	}
 
@@ -132,6 +132,8 @@ async function setupChangelog() {
 }
 
 async function setupPreferences() {
+	await loadDatabase();
+
 	const _preferences = document.find("#preferences");
 
 	const showAdvancedIcon = _preferences.find("#preferences-show_advanced");
@@ -426,10 +428,23 @@ async function setupPreferences() {
 		const newStorage = { settings };
 		await ttStorage.set(newStorage);
 		console.log("Settings updated!", newStorage);
+
+		switch (settings.themes.pages) {
+			case "dark":
+				document.body.classList.add("dark");
+				document.body.classList.remove("light");
+				break;
+			case "light":
+				document.body.classList.remove("dark");
+				document.body.classList.add("light");
+				break;
+		}
 	}
 }
 
 async function setupAPIInfo() {
+	await loadDatabase();
+
 	const _api = document.find("#api");
 
 	if (api.torn.key) {
