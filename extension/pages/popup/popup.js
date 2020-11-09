@@ -1,7 +1,7 @@
 let initiatedPages = {};
 
 (async () => {
-	document.body.style.minWidth = `${Math.min(416, screen.availWidth * 0.95)}px`;
+	document.body.style.minWidth = `${Math.min(416, screen.availWidth * 0.8)}px`;
 
 	showLoadingPlaceholder(document.body, true);
 
