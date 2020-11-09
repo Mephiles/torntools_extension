@@ -152,7 +152,7 @@ async function setupDashboard() {
 
 				const status = userdata.status.state === "abroad" ? "okay" : userdata.status.state.toLowerCase();
 
-				dashboard.find("#status").innerText = status;
+				dashboard.find("#status").innerText = capitalizeText(status);
 				dashboard.find("#status").setAttribute("class", status);
 				dashboard.find(".status-wrap").classList.remove("hidden");
 
