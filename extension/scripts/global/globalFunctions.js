@@ -225,7 +225,6 @@ async function fetchApi(
 		const PLATFORMS = {
 			torn: "https://api.torn.com/",
 			yata: "https://yata.alwaysdata.net/",
-			torn_proxy: "https://torn-proxy.com/",
 			tornstats: "https://www.tornstats.com/",
 			torntools: "https://torntools.gregork.com/",
 			nukefamily: "https://www.nukefamily.org/",
@@ -235,7 +234,7 @@ async function fetchApi(
 		let params = new URLSearchParams();
 		switch (location) {
 			case "torn":
-				url = usingProxy() ? PLATFORMS.torn_proxy : PLATFORMS.torn;
+				url = PLATFORMS.torn;
 
 				path = `${options.section}/${options.id || ""}`;
 
@@ -243,13 +242,8 @@ async function fetchApi(
 				params.append("key", options.key || api.torn.key);
 				break;
 			case "tornstats":
-				if (usingProxy()) {
-					url = PLATFORMS.torn_proxy;
-					path = "tornstats/api.php";
-				} else {
-					url = PLATFORMS.tornstats;
-					path = "api.php";
-				}
+				url = PLATFORMS.tornstats;
+				path = "api.php";
 
 				params.append("action", options.action);
 				params.append("key", options.key || api.torn.key);
@@ -311,22 +305,11 @@ async function fetchApi(
 		return fullUrl;
 
 		async function handleError(result, silent) {
-			if (result.proxy) {
-				if (!silent) {
-					await ttStorage.change({ api: { torn: { online: true, error: result.proxy_error } } });
-					await setBadge("error");
-				}
-				reject({ error: result.proxy_error });
-			} else if (location === "torn") {
+			if (location === "torn") {
 				let error, online;
 
-				if (result.proxy) {
-					error = result.proxy_error;
-					online = true;
-				} else {
-					error = result.error.error;
-					online = result.error.code !== 9;
-				}
+				error = result.error.error;
+				online = result.error.code !== 9;
 
 				if (!silent) {
 					await ttStorage.change({ api: { torn: { online, error } } });
@@ -338,10 +321,6 @@ async function fetchApi(
 			}
 		}
 	});
-
-	function usingProxy() {
-		return api.torn.key && api.torn.key.length === 32;
-	}
 }
 
 async function setBadge(type, options) {
