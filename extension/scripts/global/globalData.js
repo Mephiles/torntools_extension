@@ -148,6 +148,7 @@ const DEFAULT_STORAGE = {
 		themes: {
 			pages: new DefaultSetting({ type: "string", defaultValue: "default" }),
 		},
+		iconBars: {},
 		pages: {
 			global: {
 				alignLeft: new DefaultSetting({ type: "boolean", defaultValue: false }),
@@ -167,6 +168,15 @@ const DEFAULT_STORAGE = {
 				marketSearch: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				stocksOverview: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				defaultTab: new DefaultSetting({ type: "string", defaultValue: "dashboard" }),
+			},
+			icon: {
+				global: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				energy: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				nerve: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				happy: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				life: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				chain: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				travel: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 	},

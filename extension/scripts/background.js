@@ -16,6 +16,10 @@ let notifications = {
 	await checkUpdate();
 
 	registerUpdaters();
+
+	storageListeners.settings.push(() => {
+		showIconBars();
+	});
 })();
 
 async function convertDatabase() {
@@ -150,6 +154,7 @@ async function updateUserdata() {
 
 	let data = {};
 
+	showIconBars();
 	notifyEventMessages().catch(() => console.error("Error while sending event and message notifications."));
 
 	async function notifyEventMessages() {
@@ -214,6 +219,63 @@ async function updateUserdata() {
 		}
 
 		await setBadge("count", { events: eventCount, messages: messageCount });
+	}
+}
+
+function showIconBars() {
+	if (!settings.pages.icon.global) {
+		chrome.browserAction.setIcon({ path: "resources/images/icon_128.png" });
+	} else {
+		let barCount = 0;
+		if (settings.pages.icon.energy) barCount++;
+		if (settings.pages.icon.nerve) barCount++;
+		if (settings.pages.icon.happy) barCount++;
+		if (settings.pages.icon.life) barCount++;
+		if (settings.pages.icon.chain && userdata.chain && userdata.chain.current > 0) barCount++;
+		if (settings.pages.icon.travel && userdata.travel && userdata.travel.time_left > 0) barCount++;
+
+		const canvas = document.newElement({ type: "canvas", attributes: { width: 128, height: 128 } });
+
+		const canvasContext = canvas.getContext("2d");
+		canvasContext.fillStyle = "#fff";
+		canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+
+		const padding = 10;
+		const barHeight = (canvas.height - (barCount + 1) * 10) / barCount;
+		const barWidth = canvas.width - padding * 2;
+
+		const BAR_COLORS = {
+			energy: "#7cc833",
+			nerve: "#b3382c",
+			happy: "#e3e338",
+			life: "#7b98ee",
+			chain: "#333",
+			travel: "#d961ee",
+		};
+
+		let y = padding;
+
+		Object.keys(BAR_COLORS).forEach((key) => {
+			if (!settings.pages.icon[key] || !userdata[key]) return;
+			if (key === "chain" && userdata.chain.current === 0) return;
+
+			let width;
+			if (key === "travel") {
+				let totalTrip = userdata[key].timestamp - userdata[key].departed;
+				width = barWidth * ((totalTrip - userdata[key].time_left) / totalTrip);
+			} else {
+				width = barWidth * (userdata[key].current / userdata[key].maximum);
+			}
+
+			width = Math.min(width, barWidth);
+
+			canvasContext.fillStyle = BAR_COLORS[key];
+			canvasContext.fillRect(padding, y, width, barHeight);
+
+			y += barHeight + padding;
+		});
+
+		chrome.browserAction.setIcon({ imageData: canvasContext.getImageData(0, 0, canvas.width, canvas.height) });
 	}
 }
 
