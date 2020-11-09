@@ -121,6 +121,7 @@ async function setupDashboard() {
 			updateCooldownTimer(cooldown);
 		}
 		updateUpdateTimer();
+		updateStatusTimer();
 	}, 1000);
 
 	// }, 1000 - (new Date().getTime() % 1000));
@@ -150,9 +151,16 @@ async function setupDashboard() {
 
 				const status = userdata.status.state === "abroad" ? "okay" : userdata.status.state.toLowerCase();
 
-				dashboard.find("#status").innerText = capitalizeText(status);
+				dashboard.find("#status").innerText = status;
 				dashboard.find("#status").setAttribute("class", status);
 				dashboard.find(".status-wrap").classList.remove("hidden");
+
+				if (userdata.status.until) {
+					// noinspection JSValidateTypes
+					dashboard.find("#status").dataset.until = userdata.status.until * 1000;
+				} else delete dashboard.find("#status").dataset.until;
+
+				updateStatusTimer();
 			}
 		}
 
@@ -238,6 +246,18 @@ async function setupDashboard() {
 			dashboard.find("#last-update").dataset.updated_at = userdata.date;
 
 			updateUpdateTimer();
+		}
+	}
+
+	function updateStatusTimer() {
+		const current = Date.now();
+		const status = dashboard.find("#status");
+		if (!status.dataset.until) return;
+
+		if (status.classList.contains("jail")) {
+			status.innerText = `Jailed for ${formatTime({ milliseconds: status.dataset.until - current }, { type: "timer" })}`;
+		} else if (status.classList.contains("hospital")) {
+			status.innerText = `Hospitalized for ${formatTime({ milliseconds: status.dataset.until - current }, { type: "timer" })}`;
 		}
 	}
 
