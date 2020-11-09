@@ -5,6 +5,11 @@ let initiatedPages = {};
 (async () => {
 	await showPage(getSearchParameters().get("page") || "changelog");
 
+	await loadDatabase();
+
+	// noinspection JSCheckFunctionSignatures
+	document.body.classList.add(settings.themes.pages);
+
 	for (let navigation of document.findAll("header nav.on-page > ul > li")) {
 		navigation.addEventListener("click", async () => {
 			await showPage(navigation.getAttribute("to"));
@@ -127,8 +132,6 @@ async function setupChangelog() {
 }
 
 async function setupPreferences() {
-	await loadDatabase();
-
 	const _preferences = document.find("#preferences");
 
 	const showAdvancedIcon = _preferences.find("#preferences-show_advanced");
@@ -427,8 +430,6 @@ async function setupPreferences() {
 }
 
 async function setupAPIInfo() {
-	await loadDatabase();
-
 	const _api = document.find("#api");
 
 	if (api.torn.key) {

@@ -11,6 +11,11 @@ body {
 	font-family: "Segoe UI", Tahoma, sans-serif;
 }
 
+body.dark {
+	background-color: #232323;
+	color: #aaa;
+}
+
 .center {
 	margin: auto;
 }
