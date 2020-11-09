@@ -151,9 +151,8 @@ async function setupPreferences() {
 		await ttStorage.change({ filters: { preferences: { showAdvanced: newStatus } } });
 	});
 
-	storageListeners.settings.push(fillSettings);
-
 	fillSettings();
+	storageListeners.settings.push(updateSettings);
 
 	_preferences.find("#addChatHighlight").addEventListener("click", () => {
 		const inputRow = document.find("#chatHighlight .input");
@@ -321,6 +320,25 @@ async function setupPreferences() {
 				_preferences.find("#notification-volume").classList.remove("hidden");
 				_preferences.find("#notification-sound-play").classList.remove("hidden");
 				_preferences.find("#notification-sound-stop").classList.remove("hidden");
+			}
+		}
+	}
+
+	function updateSettings() {
+		updateGlobalNotifications();
+
+		function updateGlobalNotifications() {
+			const isGlobalDisabled = settings.notifications.types.global === false;
+
+			for (let type in settings.notifications.types) {
+				let option = _preferences.find(`#notification_type-${type}`);
+
+				if (type === "global") {
+					option.checked = !isGlobalDisabled;
+				} else {
+					if (isGlobalDisabled) option.setAttribute("disabled", true);
+					else option.removeAttribute("disabled");
+				}
 			}
 		}
 	}
