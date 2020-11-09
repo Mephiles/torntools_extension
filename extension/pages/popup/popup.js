@@ -8,6 +8,11 @@ let initiatedPages = {};
 	// noinspection JSCheckFunctionSignatures
 	document.body.classList.add(settings.themes.pages);
 
+	if (api.torn.error) {
+		document.find(".error").classList.remove("hidden");
+		document.find(".error").innerText = api.torn.error;
+	}
+
 	for (let navigation of document.findAll("#pages .main-nav li")) {
 		navigation.addEventListener("click", async () => {
 			await showPage(navigation.getAttribute("to"));
