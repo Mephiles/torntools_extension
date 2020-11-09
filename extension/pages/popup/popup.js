@@ -420,13 +420,12 @@ async function setupMarketSearch() {
 				document.find(".error").innerText = error.error;
 			});
 
-		viewItem.find(".image").src = `https://www.torn.com/images/items/${id}/large.png`;
-
 		const item = torndata.items[id];
 		viewItem.find(".circulation").innerText = formatNumber(item.circulation);
 		viewItem.find(".value").innerText = `$${formatNumber(item.market_value)}`;
 		viewItem.find(".name").innerText = item.name;
 		viewItem.find(".name").href = `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${item.name}`;
+		viewItem.find(".image").src = item.image;
 
 		viewItem.classList.remove("hidden");
 	}
