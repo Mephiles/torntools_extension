@@ -1,11 +1,13 @@
 export default {
 	"v6.0.0 - Rewrite": {
-		Features: ["Live update settings. - DKK"],
+		Features: ["Live update settings. - DKK", "Add dark mode for the popup. - DKK"],
 		Fixes: ["Hide new chat messages while searching. - DKK"],
 		Changes: [
 			"Rewrite core system. - DKK",
 			"Improve update notice so it only shows when another version was installed. - DKK",
 			"Prevent Zalgo overflow instead of fully replacing it. - DKK",
+			"Redesign popup dashboard. - DKK",
+			"Show image, circulation and market value with market search in the popup. - DKK",
 		],
 	},
 	"v5.2 - xxxxxxx, xxth. 2020": {
