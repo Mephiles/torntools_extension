@@ -1,6 +1,8 @@
 let initiatedPages = {};
 
 (async () => {
+	document.body.style.minWidth = `${Math.min(416, screen.availWidth * 0.95)}px`;
+
 	showLoadingPlaceholder(document.body, true);
 
 	await loadDatabase();
