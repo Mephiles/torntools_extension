@@ -230,3 +230,85 @@ const LINKS = {
 	education: "https://www.torn.com/education.php#/step=main",
 	chain: "https://www.torn.com/factions.php?step=your#/war/chain",
 };
+
+// noinspection SpellCheckingInspection
+const API_USAGE = {
+	user: {
+		name: true,
+		server_time: true,
+		happy: {
+			current: true,
+			maximum: true,
+			interval: true,
+			ticktime: true,
+			fulltime: true,
+		},
+		life: {
+			current: true,
+			maximum: true,
+			interval: true,
+			ticktime: true,
+			fulltime: true,
+		},
+		energy: {
+			current: true,
+			maximum: true,
+			interval: true,
+			ticktime: true,
+			fulltime: true,
+		},
+		nerve: {
+			current: true,
+			maximum: true,
+			interval: true,
+			ticktime: true,
+			fulltime: true,
+		},
+		chain: {
+			current: true,
+			maximum: true,
+			timeout: true,
+			cooldown: true,
+		},
+		status: {
+			description: false,
+			state: true,
+			until: true,
+		},
+		travel: {
+			destination: true,
+			timestamp: true,
+			departed: true,
+			time_left: true,
+		},
+		events: {
+			"*": {
+				event: true,
+				seen: true,
+			},
+		},
+		messages: {
+			"*": {
+				name: true,
+				title: true,
+				seen: true,
+			},
+		},
+		money_onhand: true,
+	},
+	properties: {},
+	faction: {},
+	company: {},
+	item_market: {},
+	torn: {
+		items: {
+			"*": {
+				name: true,
+				type: true,
+				market_value: true,
+				circulation: true,
+				image: true,
+			},
+		},
+	},
+};
