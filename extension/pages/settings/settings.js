@@ -7,8 +7,7 @@ let initiatedPages = {};
 
 	await loadDatabase();
 
-	// noinspection JSCheckFunctionSignatures
-	document.body.classList.add(settings.themes.pages);
+	document.body.classList.add(getPageTheme());
 
 	for (let navigation of document.findAll("header nav.on-page > ul > li")) {
 		navigation.addEventListener("click", async () => {
@@ -429,16 +428,9 @@ async function setupPreferences() {
 		await ttStorage.set(newStorage);
 		console.log("Settings updated!", newStorage);
 
-		switch (settings.themes.pages) {
-			case "dark":
-				document.body.classList.add("dark");
-				document.body.classList.remove("light");
-				break;
-			case "light":
-				document.body.classList.remove("dark");
-				document.body.classList.add("light");
-				break;
-		}
+		// noinspection BadExpressionStatementJS
+		["dark", "light"].forEach((theme) => document.body.classList.remove(theme));
+		document.body.classList.add(getPageTheme());
 	}
 }
 

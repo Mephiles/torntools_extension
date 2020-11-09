@@ -146,7 +146,7 @@ const DEFAULT_STORAGE = {
 			},
 		},
 		themes: {
-			pages: new DefaultSetting({ type: "string", defaultValue: () => (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") }),
+			pages: new DefaultSetting({ type: "string", defaultValue: "default" }),
 		},
 		pages: {
 			global: {

@@ -5,8 +5,7 @@ let initiatedPages = {};
 
 	await loadDatabase();
 
-	// noinspection JSCheckFunctionSignatures
-	document.body.classList.add(settings.themes.pages);
+	document.body.classList.add(getPageTheme());
 
 	if (api.torn.error) {
 		document.find(".error").classList.remove("hidden");
