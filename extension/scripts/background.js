@@ -154,6 +154,9 @@ async function updateUserdata() {
 	let selections = ["profile", "bars", "cooldowns", "timestamp", "travel", "events", "messages", "money"];
 	if (updateBasic) {
 		selections = selections.concat("personalstats");
+
+		if (!userdata.education || !userdata.education_completed || userdata.education_completed.length !== Object.keys(torndata.education).length)
+			selections.push("education");
 	}
 
 	const oldUserdata = { ...userdata };
@@ -172,6 +175,7 @@ async function updateUserdata() {
 	await notifyStatusChange().catch((error) => console.error("Error while sending status change notifications.", error));
 	await notifyCooldownOver().catch((error) => console.error("Error while sending cooldown notifications.", error));
 	await notifyTraveling().catch((error) => console.error("Error while sending travel notifications.", error));
+	await notifyEducation().catch((error) => console.error("Error while sending education notifications.", error));
 
 	return { updateBasic };
 
@@ -272,7 +276,14 @@ async function updateUserdata() {
 		if (!settings.notifications.types.global || !settings.notifications.types.traveling || !oldUserdata.travel) return;
 		if (userdata.travel.time_left !== 0 || oldUserdata.travel.time_left === 0) return;
 
-		await notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}`, links.home);
+		await notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}.`, LINKS.home);
+	}
+
+	async function notifyEducation() {
+		if (!settings.notifications.types.global || !settings.notifications.types.education || !oldUserdata.travel) return;
+		if (userdata.education_timeleft !== 0 || oldUserdata.education_timeleft === 0) return;
+
+		await notifyUser("TornTools - Education", `You have finished your education course.`, LINKS.education);
 	}
 }
 
