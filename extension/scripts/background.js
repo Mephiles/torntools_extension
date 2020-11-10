@@ -8,6 +8,10 @@ let notifications = {
 	events: {},
 	messages: {},
 	newDay: {},
+	energy: {},
+	happy: {},
+	nerve: {},
+	life: {},
 };
 
 (async () => {
@@ -178,6 +182,7 @@ async function updateUserdata() {
 	await notifyTraveling().catch((error) => console.error("Error while sending travel notifications.", error));
 	await notifyEducation().catch((error) => console.error("Error while sending education notifications.", error));
 	await notifyNewDay().catch((error) => console.error("Error while sending new day notification.", error));
+	await notifyBars().catch((error) => console.error("Error while sending bar notification.", error));
 
 	return { updateBasic };
 
@@ -301,6 +306,34 @@ async function updateUserdata() {
 			url: LINKS.home,
 			date,
 		};
+	}
+
+	async function notifyBars() {
+		if (!settings.notifications.types.global) return;
+
+		for (let bar of ["energy", "happy", "nerve", "life"]) {
+			if (!settings.notifications.types[bar].length || !oldUserdata[bar]) return;
+
+			const checkpoints = settings.notifications.types[bar]
+				.map((checkpoint) =>
+					typeof checkpoint === "string" && checkpoint.includes("%") ? (parseInt(checkpoint) / 100) * userdata[bar].maximum : parseInt(checkpoint)
+				)
+				.sort((a, b) => b - a);
+
+			for (let checkpoint of checkpoints) {
+				if (oldUserdata[bar].current < userdata[bar].current && userdata[bar].current >= checkpoint && !notifications[bar][checkpoint]) {
+					notifications[bar][checkpoint] = {
+						title: "TornTools - Bars",
+						message: `Your ${capitalizeText(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}.`,
+						url: LINKS.home,
+						date: new Date(),
+					};
+					break;
+				} else if (userdata[bar].current < checkpoint && notifications[bar][checkpoint]) {
+					delete notifications[bar][checkpoint];
+				}
+			}
+		}
 	}
 }
 
