@@ -149,7 +149,7 @@ function timedUpdates() {
 async function updateUserdata() {
 	const now = Date.now();
 
-	let updateBasic = !userdata.dateBasic || now - userdata.dateBasic > TO_MILLIS.MINUTES * 2;
+	let updateBasic = !userdata.dateBasic || now - userdata.dateBasic >= TO_MILLIS.MINUTES * 2;
 
 	let selections = ["profile", "bars", "cooldowns", "timestamp", "travel", "events", "messages", "money"];
 	if (updateBasic) {
@@ -158,8 +158,8 @@ async function updateUserdata() {
 
 	const oldUserdata = { ...userdata };
 	userdata = await fetchApi("torn", { section: "user", selections });
-	userdata.date = Date.now();
-	userdata.dateBasic = updateBasic ? Date.now() : oldUserdata.dateBasic;
+	userdata.date = now;
+	userdata.dateBasic = updateBasic ? now : oldUserdata.dateBasic;
 
 	await ttStorage.set({ userdata });
 
