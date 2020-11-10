@@ -166,7 +166,7 @@ async function updateUserdata() {
 	let data = {};
 
 	showIconBars();
-	notifyEventMessages().catch(() => console.error("Error while sending event and message notifications."));
+	await notifyEventMessages().catch(() => console.error("Error while sending event and message notifications."));
 
 	async function notifyEventMessages() {
 		let eventCount = 0;
@@ -230,6 +230,7 @@ async function updateUserdata() {
 		}
 
 		await setBadge("count", { events: eventCount, messages: messageCount });
+		console.log("DKK l");
 	}
 }
 
