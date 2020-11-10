@@ -169,7 +169,7 @@ async function updateUserdata() {
 
 	showIconBars();
 	await notifyEventMessages().catch(() => console.error("Error while sending event and message notifications."));
-	notifyStatusChange();
+	await notifyStatusChange().catch(() => console.error("Error while sending status change notifications."));
 
 	return { updateBasic };
 
@@ -237,7 +237,7 @@ async function updateUserdata() {
 		await setBadge("count", { events: eventCount, messages: messageCount });
 	}
 
-	function notifyStatusChange() {
+	async function notifyStatusChange() {
 		if (!settings.notifications.types.global || !settings.notifications.types.status || !oldUserdata.status) return;
 
 		const previous = oldUserdata.status.state;
