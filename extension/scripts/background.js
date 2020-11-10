@@ -168,9 +168,9 @@ async function updateUserdata() {
 	};
 
 	showIconBars();
-	await notifyEventMessages().catch(() => console.error("Error while sending event and message notifications."));
-	await notifyStatusChange().catch(() => console.error("Error while sending status change notifications."));
-	await notifyCooldownOver().catch(() => console.error("Error while sending cooldown notifications."));
+	await notifyEventMessages().catch((error) => console.error("Error while sending event and message notifications.", error));
+	await notifyStatusChange().catch((error) => console.error("Error while sending status change notifications.", error));
+	await notifyCooldownOver().catch((error) => console.error("Error while sending cooldown notifications.", error));
 
 	return { updateBasic };
 
@@ -261,7 +261,7 @@ async function updateUserdata() {
 		if (!settings.notifications.types.global || !settings.notifications.types.cooldowns || !oldUserdata.cooldowns) return;
 
 		for (let type in userdata.cooldowns) {
-			if (userdata.cooldowns[key] || !oldUserdata.cooldowns[key]) continue;
+			if (userdata.cooldowns[type] || !oldUserdata.cooldowns[type]) continue;
 
 			await notifyUser("TornTools - Cooldown", `Your ${type} cooldown has ended.`, LINKS.items);
 		}
