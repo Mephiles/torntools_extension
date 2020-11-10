@@ -154,7 +154,6 @@ async function updateUserdata() {
 	let selections = ["profile", "bars", "cooldowns", "timestamp", "travel", "events", "messages", "money"];
 	if (updateBasic) {
 		selections = selections.concat("personalstats");
-		console.log("DKK - Updating basic userdata!", selections);
 	}
 
 	const oldUserdata = { ...userdata };
