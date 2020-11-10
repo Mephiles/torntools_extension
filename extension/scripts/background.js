@@ -128,7 +128,7 @@ async function sendNotifications() {
 function timedUpdates() {
 	if (api.torn.key) {
 		updateUserdata()
-			.then(() => console.log("Updated essential userdata."))
+			.then(({ updateBasic }) => console.log(`Updated essential${updateBasic ? "+basic" : ""} userdata.`))
 			.catch((error) => console.error("Error while updating essential userdata.", error));
 
 		if (!torndata || !isSameUTCDay(new Date(torndata.date), new Date())) {
@@ -163,10 +163,15 @@ async function updateUserdata() {
 
 	await ttStorage.set({ userdata });
 
-	let data = {};
+	let data = {
+		fetchAttacks: !oldUserdata || oldUserdata.energy.current - userdata.energy.current >= 25,
+	};
 
 	showIconBars();
 	await notifyEventMessages().catch(() => console.error("Error while sending event and message notifications."));
+	notifyStatusChange();
+
+	return { updateBasic };
 
 	async function notifyEventMessages() {
 		let eventCount = 0;
@@ -230,7 +235,25 @@ async function updateUserdata() {
 		}
 
 		await setBadge("count", { events: eventCount, messages: messageCount });
-		console.log("DKK l");
+	}
+
+	function notifyStatusChange() {
+		if (!settings.notifications.types.global || !settings.notifications.types.status || !oldUserdata.status) return;
+
+		const previous = oldUserdata.status.state;
+		const current = userdata.status.state;
+
+		if (current === previous || current === "Traveling" || current === "Abroad") return;
+
+		if (current === "Okay") {
+			if (previous === "Hospital") {
+				notifyUser("TornTools - Status", `You are out of the hospital.`, LINKS.home);
+			} else if (previous === "Jail") {
+				notifyUser("TornTools - Status", `You are out of the jail.`, LINKS.home);
+			}
+		} else {
+			notifyUser("TornTools - Status", userdata.status.description, LINKS.home);
+		}
 	}
 }
 
