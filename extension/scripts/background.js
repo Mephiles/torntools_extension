@@ -171,6 +171,7 @@ async function updateUserdata() {
 	await notifyEventMessages().catch((error) => console.error("Error while sending event and message notifications.", error));
 	await notifyStatusChange().catch((error) => console.error("Error while sending status change notifications.", error));
 	await notifyCooldownOver().catch((error) => console.error("Error while sending cooldown notifications.", error));
+	await notifyTraveling().catch((error) => console.error("Error while sending travel notifications.", error));
 
 	return { updateBasic };
 
@@ -265,6 +266,13 @@ async function updateUserdata() {
 
 			await notifyUser("TornTools - Cooldown", `Your ${type} cooldown has ended.`, LINKS.items);
 		}
+	}
+
+	async function notifyTraveling() {
+		if (!settings.notifications.types.global || !settings.notifications.types.traveling || !oldUserdata.travel) return;
+		if (userdata.travel.time_left !== 0 || oldUserdata.travel.time_left === 0) return;
+
+		await notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}`, links.home);
 	}
 }
 
