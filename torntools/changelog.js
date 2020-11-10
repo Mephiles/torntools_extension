@@ -1,7 +1,11 @@
 export default {
 	"v5.4 - xxxx, xxx. 2020": {
 		Features: [],
-		Fixes: ["Fix TT not working on a popped out poker window. - DKK", "Fix travel table not loading while in Torn. - Fogest"],
+		Fixes: [
+			"Fix TT not working on a popped out poker window. - DKK",
+			"Fix travel table not loading while in Torn. - Fogest",
+			"Backport v6 left align to solve news ticker not left aligning. - DKK",
+		],
 		Changes: [],
 	},
 	"v5.3.2 - November, 6th. 2020": {

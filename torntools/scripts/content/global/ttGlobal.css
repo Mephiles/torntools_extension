@@ -330,10 +330,9 @@
 	max-width: unset !important;
 }
 
-/* Torn element manipulation */
-#mainContainer,
-.header .header-wrapper-top > .container {
-	margin-left: var(--torntools-align-left, auto) !important;
+/* Align Torn to the left */
+.tt-align-left .d .container {
+	margin-left: 20px !important;
 }
 
 .tt-align-left.tt-popout .content-wrapper[role="main"] {
