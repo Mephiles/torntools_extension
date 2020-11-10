@@ -29,7 +29,7 @@
 		"https://api.torn.com/"
 	],
 	"optional_permissions": [
-		"https://yata.alwaysdata.net"
+		"https://yata.alwaysdata.net/"
 	],
 	"web_accessible_resources": [
 		"resources/images/*.png",
