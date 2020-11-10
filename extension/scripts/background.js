@@ -247,12 +247,12 @@ async function updateUserdata() {
 
 		if (current === "Okay") {
 			if (previous === "Hospital") {
-				notifyUser("TornTools - Status", `You are out of the hospital.`, LINKS.home);
+				await notifyUser("TornTools - Status", `You are out of the hospital.`, LINKS.home);
 			} else if (previous === "Jail") {
-				notifyUser("TornTools - Status", `You are out of the jail.`, LINKS.home);
+				await notifyUser("TornTools - Status", `You are out of the jail.`, LINKS.home);
 			}
 		} else {
-			notifyUser("TornTools - Status", userdata.status.description, LINKS.home);
+			await notifyUser("TornTools - Status", userdata.status.description, LINKS.home);
 		}
 	}
 }
