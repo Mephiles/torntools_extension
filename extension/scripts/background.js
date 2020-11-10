@@ -147,8 +147,20 @@ function timedUpdates() {
 }
 
 async function updateUserdata() {
-	userdata = await fetchApi("torn", { section: "user", selections: ["profile", "bars", "cooldowns", "timestamp", "travel", "events", "messages", "money"] });
+	const now = Date.now();
+
+	let updateBasic = !userdata.dateBasic || now - userdata.dateBasic > TO_MILLIS.MINUTES * 2;
+
+	let selections = ["profile", "bars", "cooldowns", "timestamp", "travel", "events", "messages", "money"];
+	if (updateBasic) {
+		selections = selections.concat("personalstats");
+		console.log("DKK - Updating basic userdata!", selections);
+	}
+
+	const oldUserdata = { ...userdata };
+	userdata = await fetchApi("torn", { section: "user", selections });
 	userdata.date = Date.now();
+	userdata.dateBasic = updateBasic ? Date.now() : oldUserdata.dateBasic;
 
 	await ttStorage.set({ userdata });
 
