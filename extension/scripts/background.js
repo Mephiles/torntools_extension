@@ -7,6 +7,7 @@ let notificationRelations = {};
 let notifications = {
 	events: {},
 	messages: {},
+	newDay: {},
 };
 
 (async () => {
@@ -176,6 +177,7 @@ async function updateUserdata() {
 	await notifyCooldownOver().catch((error) => console.error("Error while sending cooldown notifications.", error));
 	await notifyTraveling().catch((error) => console.error("Error while sending travel notifications.", error));
 	await notifyEducation().catch((error) => console.error("Error while sending education notifications.", error));
+	await notifyNewDay().catch((error) => console.error("Error while sending new day notification.", error));
 
 	return { updateBasic };
 
@@ -284,6 +286,21 @@ async function updateUserdata() {
 		if (userdata.education_timeleft !== 0 || oldUserdata.education_timeleft === 0) return;
 
 		await notifyUser("TornTools - Education", `You have finished your education course.`, LINKS.education);
+	}
+
+	async function notifyNewDay() {
+		if (!settings.notifications.types.global || !settings.notifications.types.newDay) return;
+
+		const date = new Date();
+		const utc = `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`;
+		if (date.getUTCHours() !== 0 || date.getUTCMinutes() !== 0 || utc in notifications.newDay) return;
+
+		notifications.newDay[utc] = {
+			title: "TornTools - New Day",
+			message: "It's a new day! Hopefully a sunny one.",
+			url: LINKS.home,
+			date,
+		};
 	}
 }
 
