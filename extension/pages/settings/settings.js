@@ -413,7 +413,11 @@ async function setupPreferences() {
 
 		for (let notificationType in settings.notifications.types) {
 			if (Array.isArray(settings.notifications.types[notificationType])) {
-				settings.notifications.types[notificationType] = _preferences.find(`#notification_type-${notificationType}[type="text"]`).value.split(",");
+				settings.notifications.types[notificationType] = _preferences
+					.find(`#notification_type-${notificationType}[type="text"]`)
+					.value.split(",")
+					.filter((x) => x)
+					.map((x) => (!isNaN(x) ? parseFloat(x) : x));
 			} else {
 				settings.notifications.types[notificationType] = _preferences.find(`#notification_type-${notificationType}`).checked;
 			}
