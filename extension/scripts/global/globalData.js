@@ -271,7 +271,7 @@ const API_USAGE = {
 			cooldown: true,
 		},
 		status: {
-			description: false,
+			description: true,
 			state: true,
 			until: true,
 		},
@@ -295,6 +295,15 @@ const API_USAGE = {
 			},
 		},
 		money_onhand: true,
+		cooldowns: {
+			drug: true,
+			medical: true,
+			booster: true,
+		},
+		education: {
+			education_timeleft: true,
+			education_completed: true,
+		},
 	},
 	properties: {},
 	faction: {},
@@ -309,6 +318,9 @@ const API_USAGE = {
 				circulation: true,
 				image: true,
 			},
+		},
+		education: {
+			"*": {},
 		},
 	},
 };
