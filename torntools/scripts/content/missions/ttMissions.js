@@ -91,7 +91,7 @@ const MISSIONS = {
 			"Use a gun with lots of ammo such as minigun, M249 PARA LMG, or Rheinmettall MG 3 and chain or participate in NPC attacks on Duke, Jimmy or Leslie.",
 	},
 	"Forgotten Bills": { task: "Defeat (P)." },
-	Frenzy: { task: "Defeat any 5, 7, 8, 11, or 15 players." },
+	Frenzy: { task: "Defeat any 5-15 players." },
 	"Get Things Jumping": { task: "Cause 2k/8k/10k/50k damage, receive 1k/4k/5k/25k." },
 	Graffiti: { task: "Hit (P) with pepper spray.", hint: "Equip pepper spray temp item. If you miss, must retry mission." },
 	Guardian: { task: "Defeat (P)." },
