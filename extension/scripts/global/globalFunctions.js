@@ -630,3 +630,7 @@ function getPageTheme() {
 
 	return theme;
 }
+
+function applyPlural(check) {
+	return check !== 1 ? "s" : "s";
+}

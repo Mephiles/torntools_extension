@@ -12,6 +12,7 @@ let notifications = {
 	happy: {},
 	nerve: {},
 	life: {},
+	travel: {},
 };
 
 (async () => {
@@ -179,10 +180,14 @@ async function updateUserdata() {
 	await notifyEventMessages().catch((error) => console.error("Error while sending event and message notifications.", error));
 	await notifyStatusChange().catch((error) => console.error("Error while sending status change notifications.", error));
 	await notifyCooldownOver().catch((error) => console.error("Error while sending cooldown notifications.", error));
-	await notifyTraveling().catch((error) => console.error("Error while sending travel notifications.", error));
+	await notifyTravelLanding().catch((error) => console.error("Error while sending travel landing notifications.", error));
 	await notifyEducation().catch((error) => console.error("Error while sending education notifications.", error));
 	await notifyNewDay().catch((error) => console.error("Error while sending new day notification.", error));
 	await notifyBars().catch((error) => console.error("Error while sending bar notification.", error));
+	await notifyChain().catch((error) => console.error("Error while sending chain notifications.", error));
+	await notifyHospital().catch((error) => console.error("Error while sending hospital notifications.", error));
+	await notifyTraveling().catch((error) => console.error("Error while sending traveling notifications.", error));
+	await notifySpecificCooldowns().catch((error) => console.error("Error while sending specific cooldown notifications.", error));
 
 	return { updateBasic };
 
@@ -218,7 +223,7 @@ async function updateUserdata() {
 				title: `TornTools - New Event${events.length > 1 ? "s" : ""}`,
 				message,
 				url: LINKS.events,
-				date: Date.now(),
+				date: now,
 			};
 		}
 
@@ -243,7 +248,7 @@ async function updateUserdata() {
 				title: `TornTools - New Message${messages.length > 1 ? "s" : ""}`,
 				message,
 				url: LINKS.messages,
-				date: Date.now(),
+				date: now,
 			};
 		}
 
@@ -279,7 +284,7 @@ async function updateUserdata() {
 		}
 	}
 
-	async function notifyTraveling() {
+	async function notifyTravelLanding() {
 		if (!settings.notifications.types.global || !settings.notifications.types.traveling || !oldUserdata.travel) return;
 		if (userdata.travel.time_left !== 0 || oldUserdata.travel.time_left === 0) return;
 
@@ -304,7 +309,7 @@ async function updateUserdata() {
 			title: "TornTools - New Day",
 			message: "It's a new day! Hopefully a sunny one.",
 			url: LINKS.home,
-			date,
+			date: now,
 		};
 	}
 
@@ -326,7 +331,7 @@ async function updateUserdata() {
 						title: "TornTools - Bars",
 						message: `Your ${capitalizeText(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}.`,
 						url: LINKS.home,
-						date: new Date(),
+						date: now,
 					};
 					break;
 				} else if (userdata[bar].current < checkpoint && notifications[bar][checkpoint]) {
@@ -334,6 +339,44 @@ async function updateUserdata() {
 				}
 			}
 		}
+	}
+
+	async function notifyChain() {
+		// TODO - Notify chains.
+	}
+
+	async function notifyHospital() {
+		// TODO - Notify hospital.
+	}
+
+	async function notifyTraveling() {
+		if (!settings.notifications.types.global) return;
+
+		if (settings.notifications.types.landing.length && userdata.travel.time_left) {
+			for (let checkpoint of settings.notifications.types.landing.sort((a, b) => a - b)) {
+				let timeLeft = userdata.travel.timestamp * 1000 - now;
+
+				if (timeLeft <= parseFloat(checkpoint) * TO_MILLIS.MINUTES && !notifications.travel[checkpoint]) {
+					const minutes = Math.floor(timeLeft / 1000 / 60);
+					const seconds = (timeLeft / 1000) % 60;
+
+					notifications.travel[checkpoint] = {
+						checkpoint: checkpoint,
+						title: "TornTools - Travel",
+						message: `You will be Landing in ${minutes} minute${applyPlural(minutes)} ${seconds.toFixed(0)} second${applyPlural(seconds)}`,
+						url: LINKS.home,
+						date: now,
+					};
+					break;
+				}
+			}
+		} else {
+			notifications.travel = {};
+		}
+	}
+
+	async function notifySpecificCooldowns() {
+		// TODO - Notify for specific cooldowns.
 	}
 }
 
