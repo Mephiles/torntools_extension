@@ -8,6 +8,8 @@ export default {
 			"Prevent Zalgo overflow instead of fully replacing it. - DKK",
 			"Redesign popup dashboard. - DKK",
 			"Show image, circulation and market value with market search in the popup. - DKK",
+			"Don't make an additional api call for 'basic' userdata. - DKK",
+			"Allow decimals in all 'minute' notifications. - DKK",
 		],
 	},
 	"v5.2 - xxxxxxx, xxth. 2020": {
