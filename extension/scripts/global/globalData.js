@@ -229,6 +229,7 @@ const LINKS = {
 	items: "https://www.torn.com/item.php",
 	education: "https://www.torn.com/education.php#/step=main",
 	chain: "https://www.torn.com/factions.php?step=your#/war/chain",
+	hospital: "https://www.torn.com/hospitalview.php",
 };
 
 // noinspection SpellCheckingInspection

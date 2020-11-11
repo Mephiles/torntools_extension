@@ -16,6 +16,7 @@ let notifications = {
 	drugs: {},
 	boosters: {},
 	medical: {},
+	hospital: {},
 };
 
 (async () => {
@@ -349,7 +350,25 @@ async function updateUserdata() {
 	}
 
 	async function notifyHospital() {
-		// TODO - Notify hospital.
+		if (!settings.notifications.types.global) return;
+
+		if (settings.notifications.types.leavingHospital.length && userdata.status.state === "Hospital") {
+			for (let checkpoint of settings.notifications.types.leavingHospital.sort((a, b) => a - b)) {
+				let timeLeft = userdata.status.until * 1000 - now;
+
+				if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications.hospital[checkpoint]) continue;
+
+				notifications.hospital[checkpoint] = {
+					title: "TornTools - Hospital",
+					message: `You will be out of the hospital in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
+					url: LINKS.hospital,
+					date: now,
+				};
+				break;
+			}
+		} else {
+			notifications.hospital = {};
+		}
 	}
 
 	async function notifyTraveling() {
