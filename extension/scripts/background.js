@@ -13,6 +13,9 @@ let notifications = {
 	nerve: {},
 	life: {},
 	travel: {},
+	drugs: {},
+	boosters: {},
+	medical: {},
 };
 
 (async () => {
@@ -364,7 +367,7 @@ async function updateUserdata() {
 				notifications.travel[checkpoint] = {
 					checkpoint: checkpoint,
 					title: "TornTools - Travel",
-					message: `You will be Landing in ${minutes} minute${applyPlural(minutes)} ${seconds.toFixed(0)} second${applyPlural(seconds)}`,
+					message: `You will be landing in ${minutes} minute${applyPlural(minutes)} ${seconds.toFixed(0)} second${applyPlural(seconds)}`,
 					url: LINKS.home,
 					date: now,
 				};
@@ -376,8 +379,33 @@ async function updateUserdata() {
 	}
 
 	async function notifySpecificCooldowns() {
-		// TODO - Notify for specific cooldowns.
-	}
+		if (!settings.notifications.types.global) return;
+
+		const COOLDOWNS = [
+			{ name: "drug", title: "Drugs", setting: "cooldownDrug", memory: "drugs" },
+			{ name: "booster", title: "Boosters", setting: "cooldownBooster", memory: "boosters" },
+			{ name: "medical", title: "Medical", setting: "cooldownMedical", memory: "medical" },
+		];
+
+		for (let cooldown of COOLDOWNS) {
+			if (settings.notifications.types[cooldown.setting].length && userdata.cooldowns[cooldown.name] > 0) {
+				for (let checkpoint of settings.notifications.types[cooldown.setting].sort((a, b) => a - b)) {
+					let timeLeft = userdata.cooldowns[cooldown.name] * 1000;
+
+					if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications[cooldown.memory][checkpoint]) continue;
+
+					notifications[cooldown.memory][checkpoint] = {
+						title: `TornTools - ${cooldown.title}`,
+						message: `Your ${cooldown.name} cooldown will end in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
+						url: LINKS.items,
+						date: now,
+					};
+				}
+			} else {
+				notifications[cooldown.memory] = {};
+			}
+		}
+	} // 437 - vs. 411
 }
 
 function showIconBars() {

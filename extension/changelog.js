@@ -1,6 +1,6 @@
 export default {
 	"v6.0.0 - Rewrite": {
-		Features: ["Live update settings. - DKK", "Add dark mode for the popup. - DKK"],
+		Features: ["Live update settings. - DKK", "Add dark mode for the popup. - DKK", "Add booster and medical cooldown timed notifications. - DKK"],
 		Fixes: ["Hide new chat messages while searching. - DKK"],
 		Changes: [
 			"Rewrite core system. - DKK",

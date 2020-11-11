@@ -72,6 +72,10 @@ Array.prototype.last = function () {
 	return this[this.length - 1];
 };
 
+Array.prototype.insertAt = function (index, ...elements) {
+	this.splice(index, 0, ...elements);
+};
+
 /*
  * Load some functions.
  */
@@ -427,6 +431,7 @@ function formatTime(time = {}, attributes = {}) {
 	if (isDefined(time.seconds)) millis += time.seconds * TO_MILLIS.SECONDS;
 
 	let date;
+	let parts;
 	switch (attributes.type) {
 		case "normal":
 			date = new Date(millis);
@@ -448,13 +453,27 @@ function formatTime(time = {}, attributes = {}) {
 		case "timer":
 			date = new Date(millis);
 
-			let parts = [];
+			parts = [];
 			if (attributes.showDays) parts.push(Math.floor(date.getTime() / TO_MILLIS.DAYS));
 			if (!attributes.hideHours) parts.push(date.getUTCHours());
 			parts.push(date.getUTCMinutes());
 			if (!attributes.hideSeconds) parts.push(date.getUTCSeconds());
 
 			return parts.map((p) => toMultipleDigits(p, 2)).join(":");
+		case "wordTimer":
+			date = new Date(millis);
+
+			parts = [];
+			if (attributes.showDays) parts.push(Math.floor(date.getTime() / TO_MILLIS.DAYS));
+			if (!attributes.hideHours && date.getUTCHours()) parts.push(`${date.getUTCHours()} hour${applyPlural(date.getUTCHours())}`);
+			if (date.getUTCMinutes()) parts.push(`${date.getUTCMinutes()} minute${applyPlural(date.getUTCMinutes())}`);
+			if (!attributes.hideSeconds && date) parts.push(`${date.getUTCSeconds()} second${applyPlural(date.getUTCSeconds())}`);
+
+			if (parts.length > 1) {
+				parts.insertAt(parts.length - 1, "and");
+			}
+
+			return parts.join(" ");
 		case "ago":
 			let timeAgo = Date.now() - millis;
 
