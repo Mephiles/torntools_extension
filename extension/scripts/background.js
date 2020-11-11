@@ -356,19 +356,19 @@ async function updateUserdata() {
 			for (let checkpoint of settings.notifications.types.landing.sort((a, b) => a - b)) {
 				let timeLeft = userdata.travel.timestamp * 1000 - now;
 
-				if (timeLeft <= parseFloat(checkpoint) * TO_MILLIS.MINUTES && !notifications.travel[checkpoint]) {
-					const minutes = Math.floor(timeLeft / 1000 / 60);
-					const seconds = (timeLeft / 1000) % 60;
+				if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications.travel[checkpoint]) continue;
 
-					notifications.travel[checkpoint] = {
-						checkpoint: checkpoint,
-						title: "TornTools - Travel",
-						message: `You will be Landing in ${minutes} minute${applyPlural(minutes)} ${seconds.toFixed(0)} second${applyPlural(seconds)}`,
-						url: LINKS.home,
-						date: now,
-					};
-					break;
-				}
+				const minutes = Math.floor(timeLeft / 1000 / 60);
+				const seconds = (timeLeft / 1000) % 60;
+
+				notifications.travel[checkpoint] = {
+					checkpoint: checkpoint,
+					title: "TornTools - Travel",
+					message: `You will be Landing in ${minutes} minute${applyPlural(minutes)} ${seconds.toFixed(0)} second${applyPlural(seconds)}`,
+					url: LINKS.home,
+					date: now,
+				};
+				break;
 			}
 		} else {
 			notifications.travel = {};
