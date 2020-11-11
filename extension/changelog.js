@@ -10,6 +10,7 @@ export default {
 			"Show image, circulation and market value with market search in the popup. - DKK",
 			"Don't make an additional api call for 'basic' userdata. - DKK",
 			"Allow decimals in all 'minute' notifications. - DKK",
+			"Show hours in notifications instead of a lot of minutes. - DKK",
 		],
 	},
 	"v5.2 - xxxxxxx, xxth. 2020": {
