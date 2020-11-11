@@ -361,13 +361,9 @@ async function updateUserdata() {
 
 				if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications.travel[checkpoint]) continue;
 
-				const minutes = Math.floor(timeLeft / 1000 / 60);
-				const seconds = (timeLeft / 1000) % 60;
-
 				notifications.travel[checkpoint] = {
-					checkpoint: checkpoint,
 					title: "TornTools - Travel",
-					message: `You will be landing in ${minutes} minute${applyPlural(minutes)} ${seconds.toFixed(0)} second${applyPlural(seconds)}`,
+					message: `You will be landing in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
 					url: LINKS.home,
 					date: now,
 				};
