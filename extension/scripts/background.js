@@ -17,6 +17,8 @@ let notifications = {
 	boosters: {},
 	medical: {},
 	hospital: {},
+	chain: {},
+	chainCount: {},
 };
 
 (async () => {
@@ -346,7 +348,49 @@ async function updateUserdata() {
 	}
 
 	async function notifyChain() {
-		// TODO - Notify chains.
+		if (!settings.notifications.types.global) return;
+
+		if (settings.notifications.types.chainTimer.length > 0 && userdata.chain.timeout !== 0 && userdata.chain.current >= 10) {
+			const timeout = userdata.chain.timeout * 1000 - (now - userdata.timestamp * 1000); // ms
+			const count = userdata.chain.current;
+
+			for (let checkpoint of settings.notifications.types.chainTimer.sort((a, b) => a - b)) {
+				const key = `${count}_${checkpoint}`;
+				if (timeout > parseInt(checkpoint) * TO_MILLIS.SECONDS || notifications.chain[key]) continue;
+
+				notifications.chain[key] = {
+					title: "TornTools - Chain",
+					text: `Chain timer will run out in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
+					url: LINKS.chain,
+					date: now,
+				};
+				break;
+			}
+		} else {
+			notifications.chain = {};
+		}
+
+		if (settings.notifications.types.chainBonus.length > 0 && userdata.chain.timeout !== 0 && userdata.chain.current >= 10) {
+			const count = userdata.chain.current;
+			const nextBonus = getNextChainBonus(count);
+
+			for (let checkpoint of settings.notifications.types.chainBonus.sort((a, b) => b - a)) {
+				const key = `${nextBonus}_${checkpoint}`;
+
+				if (nextBonus - count > parseInt(checkpoint) || notifications.chainCount[key]) continue;
+
+				notifications.chainCount[key] = {
+					title: "TornTools - Chain",
+					text: `Chain will reach next Bonus Hit in ${nextBonus - count} hits.`,
+					url: LINKS.chain,
+					seen: 0,
+					date: now,
+				};
+				break;
+			}
+		} else {
+			notifications.chainCount = {};
+		}
 	}
 
 	async function notifyHospital() {
@@ -420,7 +464,7 @@ async function updateUserdata() {
 				notifications[cooldown.memory] = {};
 			}
 		}
-	} // 437 - vs. 411
+	}
 }
 
 function showIconBars() {
