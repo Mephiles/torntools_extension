@@ -126,7 +126,7 @@ const DEFAULT_STORAGE = {
 			requireInteraction: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			searchOpenTab: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			types: {
-				global: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				global: new DefaultSetting({ type: "boolean", defaultValue: () => Notification.permission === "granted" }),
 				events: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				messages: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				status: new DefaultSetting({ type: "boolean", defaultValue: true }),
