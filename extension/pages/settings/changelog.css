@@ -58,9 +58,10 @@
 	padding: 4px 0 4px 10px;
 }
 
-#changelog a {
+#changelog .contributors .contributor a {
 	text-decoration: none;
 	color: inherit;
+	margin-left: -4px;
 }
 
 #changelog .contributor span:before {

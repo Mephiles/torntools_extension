@@ -61,30 +61,42 @@ async function setupChangelog() {
 			.flat()
 			.map((log) => log.contributor)
 			.filter((value, i, self) => self.indexOf(value) === i)
-			.map((contributor) => ({
-				key: contributor,
-				...CONTRIBUTORS[contributor],
-			}));
+			.map((contributor) => {
+				if (contributor in CONTRIBUTORS) {
+					return {
+						key: contributor,
+						...CONTRIBUTORS[contributor],
+					};
+				} else {
+					return {
+						key: contributor,
+						name: contributor,
+					};
+				}
+			});
 
 		const contributorsWrap = document.newElement({
 			type: "div",
-			class: "parent",
+			class: "parent contributors",
 			children: [document.newElement({ type: "div", class: "heading", text: "Contributors" })],
 		});
 		contributors.forEach((contributor, index, self) => {
 			const child = document.newElement({
 				type: "div",
 				class: `child contributor`,
-				html: `
+			});
+
+			if (contributor.id)
+				child.innerHTML = `
 					<span>
 						<a href="https://www.torn.com/profiles.php?XID=${contributor.id}" target="_blank">
 							${contributor.name} [${contributor.id}]
 						</a>
 					</span>
-				`,
-			});
+				`;
+			else child.appendChild(document.newElement({ type: "span", text: contributor.name }));
 
-			child.style.setProperty("--contributor-color", contributor.color);
+			if (contributor.color) child.style.setProperty("--contributor-color", contributor.color);
 
 			contributorsWrap.appendChild(child);
 		});
@@ -106,7 +118,7 @@ async function setupChangelog() {
 
 				const contributor = contributors.filter((x) => x.key === log.contributor);
 				if (contributor.length) {
-					child.style.setProperty("--contributor-color", contributor[0].color);
+					if (contributor[0].color) child.style.setProperty("--contributor-color", contributor[0].color);
 				}
 
 				parent.appendChild(child);
@@ -130,7 +142,7 @@ async function setupChangelog() {
 			let parts = [];
 
 			parts.push(getVersion());
-			if (entry.date) parts.push(`${MONTHS[entry.date.getUTCMonth()]}, ${entry.date.getUTCDate()}th ${entry.date.getUTCFullYear()}`);
+			if (entry.date) parts.push(`${MONTHS[entry.date.getMonth()]}, ${entry.date.getDate()}th ${entry.date.getFullYear()}`);
 			if (entry.title) parts.push(entry.title);
 
 			return parts.join(" - ");

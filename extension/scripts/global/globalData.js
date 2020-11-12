@@ -210,6 +210,20 @@ const CONTRIBUTORS = {
 		name: "finally",
 		color: "purple",
 	},
+	Fogest: {
+		id: 2254826,
+		name: "Fogest",
+		color: "chartreuse",
+	},
+	smikula: {
+		name: "smikula",
+		color: "#fbff09",
+	},
+	kontamusse: {
+		id: 2408039,
+		name: "kontamusse",
+		color: "#58e4e4",
+	},
 };
 
 let mobile;
