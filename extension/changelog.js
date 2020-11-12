@@ -18,6 +18,7 @@ export default [
 				{ message: "Don't make an additional api call for 'basic' userdata.", contributor: "DeKleineKobini" },
 				{ message: "Allow decimals in all 'minute' notifications.", contributor: "DeKleineKobini" },
 				{ message: "Add an option to keep notifications open till you click on them.", contributor: "DeKleineKobini" },
+				{ message: "Add an option to focus on an existing tab if it exists.", contributor: "DeKleineKobini" },
 			],
 		},
 	},

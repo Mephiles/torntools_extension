@@ -550,7 +550,21 @@ async function notifyUser(title, message, url) {
 
 	if (settings.notifications.link)
 		notification.onclick = () => {
-			chrome.tabs.create({ url });
+			if (settings.notifications.searchOpenTab) {
+				chrome.tabs.query({ url: "https://www.torn.com/index.php" }, (result) => {
+					if (result.length) {
+						const tab = result[0];
+
+						chrome.tabs.highlight({ windowId: tab.windowId, tabs: tab.index }, (result) => {
+							console.log("DKK result", result);
+						});
+					} else {
+						chrome.tabs.create({ url });
+					}
+				});
+			} else {
+				chrome.tabs.create({ url });
+			}
 		};
 
 	if (settings.notifications.tts) {

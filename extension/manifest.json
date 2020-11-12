@@ -26,6 +26,7 @@
 	"permissions": [
 		"storage",
 		"notifications",
+		"tabs",
 		"https://api.torn.com/"
 	],
 	"optional_permissions": [
