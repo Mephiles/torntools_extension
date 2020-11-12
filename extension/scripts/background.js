@@ -360,7 +360,7 @@ async function updateUserdata() {
 
 				notifications.chain[key] = {
 					title: "TornTools - Chain",
-					text: `Chain timer will run out in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
+					message: `Chain timer will run out in ${formatTime({ milliseconds: timeout }, { type: "wordTimer" })}.`,
 					url: LINKS.chain,
 					date: now,
 				};
@@ -381,7 +381,7 @@ async function updateUserdata() {
 
 				notifications.chainCount[key] = {
 					title: "TornTools - Chain",
-					text: `Chain will reach next Bonus Hit in ${nextBonus - count} hits.`,
+					messages: `Chain will reach next Bonus Hit in ${nextBonus - count} hits.`,
 					url: LINKS.chain,
 					seen: 0,
 					date: now,
