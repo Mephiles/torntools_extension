@@ -203,7 +203,17 @@ async function setupPreferences() {
 	});
 
 	_preferences.find("#saveSettings").addEventListener("click", async () => await saveSettings());
-	_preferences.find("#resetSettings").addEventListener("click", async () => await ttStorage.reset());
+	_preferences.find("#resetSettings").addEventListener("click", () => {
+		loadConfirmationPopup({
+			title: "Reset settings",
+			message: `### Are you sure you want to delete ALL data except your API key?`,
+		})
+			.then(async () => {
+				await ttStorage.reset();
+				message("Settings reset.", true);
+			})
+			.catch((error) => console.error(error));
+	});
 
 	_preferences.find("#notification_type-global").addEventListener("click", (event) => {
 		let disable = !event.target.checked;
@@ -502,3 +512,32 @@ async function setupAPIInfo() {
 function setupRemote() {}
 
 function setupAbout() {}
+
+function loadConfirmationPopup(options) {
+	return new Promise((resolve, reject) => {
+		document.find("#tt-black-overlay").classList.remove("hidden");
+		document.find("#tt-confirmation-popup").classList.remove("hidden");
+
+		document.find("body").classList.add("tt-unscrollable");
+
+		document.find("#tt-confirmation-popup .title").innerText = options.title;
+		document.find("#tt-confirmation-popup .message").innerHTML = options.message;
+
+		document.find("#tt-confirmation-popup #popupConfirm").onclick = () => {
+			document.find("#tt-black-overlay").classList.add("hidden");
+			document.find("#tt-confirmation-popup").classList.add("hidden");
+
+			document.find("body").classList.remove("tt-unscrollable");
+
+			resolve();
+		};
+		document.find("#tt-confirmation-popup #popupCancel").onclick = () => {
+			document.find("#tt-black-overlay").classList.add("hidden");
+			document.find("#tt-confirmation-popup").classList.add("hidden");
+
+			document.find("body").classList.remove("tt-unscrollable");
+
+			reject();
+		};
+	});
+}

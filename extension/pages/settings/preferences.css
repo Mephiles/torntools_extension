@@ -109,26 +109,6 @@ body.dark #preferences .sections {
 	padding: 5px;
 }
 
-#preferences .actions.right {
-	display: flex;
-	flex-direction: row-reverse;
-}
-
-#preferences footer button {
-	min-width: 60px;
-	padding: 0 4px;
-	height: 30px;
-	border: 1px solid lightgrey;
-	margin-right: 10px;
-	text-align: center;
-	line-height: 30px;
-	border-radius: 7px;
-	cursor: pointer;
-	font-weight: 600;
-	display: inline-block;
-	vertical-align: top;
-}
-
 #preferences .advanced-hidden .advanced {
 	display: none;
 }

@@ -14,6 +14,16 @@
 		<script type="text/javascript" src="../../vendor/fontawesome/fontawesome.js"></script>
 	</head>
 	<body>
+		<div id="tt-black-overlay" class="hidden"></div>
+		<div id="tt-confirmation-popup" class="hidden">
+			<h1 class="title"></h1>
+			<div class="message"></div>
+			<div class="actions right">
+				<button id="popupConfirm" color="white" background-color="green">Confirm</button>
+				<button id="popupCancel" color="white" background-color="red">Cancel</button>
+			</div>
+		</div>
+
 		<header>
 			<nav class="on-page">
 				<ul>
@@ -403,7 +413,6 @@
 			</section>
 		</main>
 
-		<!-- <script src="../changelog.js"></script> -->
 		<script src="../../scripts/global/globalClasses.js"></script>
 		<script src="../../scripts/global/globalData.js"></script>
 		<script src="../../scripts/global/globalFunctions.js"></script>
