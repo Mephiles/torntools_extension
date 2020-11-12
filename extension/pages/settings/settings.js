@@ -210,7 +210,10 @@ async function setupPreferences() {
 		})
 			.then(async () => {
 				await ttStorage.reset();
-				message("Settings reset.", true);
+
+				chrome.runtime.sendMessage({ action: "initialize" }, () => {
+					message("Settings reset.", true);
+				});
 			})
 			.catch((error) => console.error(error));
 	});
