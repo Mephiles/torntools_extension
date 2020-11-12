@@ -5,7 +5,7 @@ export default [
 			minor: 0,
 			build: 0,
 		},
-		date: new Date(2020, 12, 1),
+		date: false,
 		title: "Starting again.",
 		logs: {
 			features: [
@@ -21,37 +21,87 @@ export default [
 				{ message: "Show image, circulation and market value with market search in the popup.", contributor: "DeKleineKobini" },
 				{ message: "Don't make an additional api call for 'basic' userdata.", contributor: "DeKleineKobini" },
 				{ message: "Allow decimals in all 'minute' notifications.", contributor: "DeKleineKobini" },
-				{ message: "Testing.", contributor: "Mephiles" },
 			],
+		},
+	},
+	{
+		version: {
+			major: 5,
+			minor: 3,
+			build: 2,
+		},
+		date: new Date(2020, 11, 6),
+		logs: {
+			fixes: [
+				{ message: "Break the travel table less often when flying back from a country with spaces.", contributor: "Fogest" },
+				{ message: "Don't include your api key to YATA's API.", contributor: "DeKleineKobini" },
+				{ message: "Stop hammering YATA's API when a YATA error occurred.", contributor: "DeKleineKobini" },
+			],
+			changes: [{ message: "Switch to YATA's v1 abroad API.", contributor: "Fogest" }],
 		},
 	},
 ];
 
 // export default {
-// "v6.0.0 - Rewrite": {
-// 		Features: ["Live update settings. - DKK", "Add dark mode for the popup. - DKK", "Add booster and medical cooldown timed notifications. - DKK"],
-// 		Fixes: ["Hide new chat messages while searching. - DKK"],
+// "v5.3.1 - November, 2nd. 2020": {
+// 	Fixes: [
+// 		"Fix Achievement check by including medals/honors. - finally",
+// 		"Fix 'Three-peat' mission hint. - smikula",
+// 		"Fix loading issues on the russian roulette and calendar pages. - DKK",
+// 		"Fix 'Frenzy' and 'A Thor Loser' mission hints. - DKK",
+// 		"Show correct stalemate count for achievements on the mission page. - DKK",
+// 		"Fix 'Tree Huggers' mission hint. - kontamusse",
+// 	],
 // 		Changes: [
-// 			"Rewrite core system. - DKK",
-// 			"Improve update notice so it only shows when another version was installed. - DKK",
-// 			"Prevent Zalgo overflow instead of fully replacing it. - DKK",
-// 			"Redesign popup dashboard. - DKK",
-// 			"Show image, circulation and market value with market search in the popup. - DKK",
-// 			"Don't make an additional api call for 'basic' userdata. - DKK",
-// 			"Allow decimals in all 'minute' notifications. - DKK",
-// 			"Show hours in notifications instead of a lot of minutes. - DKK",
-// 		],
-// 	},
-// 	"v5.2 - xxxxxxx, xxth. 2020": {
-// 		Features: [],
-// 		Fixes: [],
+// 		"Make left align also work on the popout poker. - DKK",
+// 		"Remove travel map auto country select. - DKK",
+// 		"Switch to YATA's v1 loot API. - DKK",
+// 	],
+// },
+// "v5.3 - October, 16th. 2020": {
+// 	Features: ["Add popup mute button. - finally", "Add forum enhancements, hide posts/threads, copy post for discord. - finally"],
+// 		Fixes: [
+// 		"Fix item page crashing when the opening items too fast. - DKK",
+// 		"Fix rare condition where the database isn't loaded properly. - finally",
+// 		"Solve FontAwesome issues by switching to the CSS version again. - finally",
+// 	],
+// 		Changes: [],
+// },
+// "v5.2.1 - October, 13th. 2020": {
+// 	Fixes: [
+// 		"Fix level filter abroad. - finally",
+// 		"Fix item market market value highlight settings. - DKK",
+// 		"Add FontAwesome as JavaScript instead of CSS. - DKK",
+// 	],
+// 		Changes: ["Make nuke family permission optional. - DKK"],
+// },
+// "v5.2 - October, 11th. 2020": {
+// 	Features: [
+// 		"Auto-complete usernames in chat. - finally",
+// 		"Show bars in the icon. - finally",
+// 		"Add revive option for Nuclear Central Hospital. - Mephiles",
+// 	],
+// 		Fixes: [
+// 		"Properly display item values for weapons and other single items. - DKK",
+// 		"Fix chain notifications going out too early. - DKK",
+// 		"Fix icon margin on dynamic change. - finally",
+// 		"Fix hide chat hidden by chats. - finally",
+// 		"Update 'Critical Education' mission hints. - DKK",
+// 		"Fix stakeouts not working. - finally",
+// 		"Fix travel profit calculation while flying. - finally",
+// 	],
 // 		Changes: [
-// 			"Added sell points award and refill award trackers. - wootty2000",
-// 			"Added Shop to 'ignore max buy in bazaars' option. - Mephiles",
-// 			"Remove 'requires faction API access' description from Advanced OC option. - Mephiles",
-// 			"Improve entry script loading times - DKK",
-// 		],
-// 	},
+// 		"Added sell points award and refill award trackers. - wootty2000",
+// 		"Added Shop to 'ignore max buy in bazaars' option. - Mephiles",
+// 		"Remove 'requires faction API access' description from Advanced OC option. - Mephiles",
+// 		"Improve entry script loading times. - DKK",
+// 		"Added item count to City Items value. - Mephiles",
+// 		"Allow stakeouts on hospital status. - finally",
+// 		"Change the notification system. - finally",
+// 		"Make notifications work in the background. - DKK",
+// 		"Added a setting to hide the 'Toggle Chat' button. - smikula",
+// 	],
+// },
 // 	"v5.1.2 - October, 1st. 2020": {
 // 		Fixes: ["Show right temporary total value. - DKK", "Improve mobile checking on Firefox, fixing the loading issue. - DKK"],
 // 		Changes: ["Improve mission information for several missions. - DKK", "Update FontAwesome. - DKK"],
