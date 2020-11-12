@@ -533,32 +533,25 @@ async function updateTorndata() {
 
 async function notifyUser(title, message, url) {
 	const options = {
-		type: "basic",
-		iconUrl: "resources/images/icon_128.png",
-		title,
-		message,
+		icon: "resources/images/icon_128.png",
+		body: message,
+		requireInteraction: settings.notifications.requireInteraction,
 	};
-
-	if (notificationSound !== settings.notifications.sound) {
-		let sound = await getNotificationSound(settings.notifications.sound);
-
-		if (sound && sound !== "mute") {
-			// noinspection JSValidateTypes
-			notificationPlayer.src = sound;
-		}
-
-		notificationSound = settings.notifications.sound;
-	}
-	notificationPlayer.volume = settings.notifications.volume / 100;
-
 	if (notificationSound !== "default" && hasSilentSupport()) options.silent = true;
 
-	chrome.notifications.create(options, (id) => {
-		notificationRelations[id] = url;
-		console.log("Notified!", options);
+	await setupSoundPlayer();
 
-		if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play();
-	});
+	let notification = new Notification(title, options);
+
+	if (notificationSound !== "default" && notificationSound !== "mute")
+		notification.onshow = () => {
+			notificationPlayer.play();
+		};
+
+	if (settings.notifications.link)
+		notification.onclick = () => {
+			chrome.tabs.create({ url });
+		};
 
 	if (settings.notifications.tts) {
 		window.speechSynthesis.speak(new SpeechSynthesisUtterance(title));
@@ -567,6 +560,20 @@ async function notifyUser(title, message, url) {
 
 	function hasSilentSupport() {
 		return !usingFirefox() && (!navigator.userAgent.includes("Mobile Safari") || usingYandex());
+	}
+
+	async function setupSoundPlayer() {
+		if (notificationSound !== settings.notifications.sound) {
+			let sound = await getNotificationSound(settings.notifications.sound);
+
+			if (sound && sound !== "mute") {
+				// noinspection JSValidateTypes
+				notificationPlayer.src = sound;
+			}
+
+			notificationSound = settings.notifications.sound;
+		}
+		notificationPlayer.volume = settings.notifications.volume / 100;
 	}
 }
 

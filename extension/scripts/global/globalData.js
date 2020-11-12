@@ -123,6 +123,7 @@ const DEFAULT_STORAGE = {
 			tts: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			link: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			volume: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			requireInteraction: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			types: {
 				global: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				events: new DefaultSetting({ type: "boolean", defaultValue: true }),
