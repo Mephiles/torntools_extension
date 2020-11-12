@@ -555,9 +555,7 @@ async function notifyUser(title, message, url) {
 					if (result.length) {
 						const tab = result[0];
 
-						chrome.tabs.highlight({ windowId: tab.windowId, tabs: tab.index }, (result) => {
-							console.log("DKK result", result);
-						});
+						chrome.tabs.highlight({ windowId: tab.windowId, tabs: tab.index });
 					} else {
 						chrome.tabs.create({ url });
 					}
