@@ -468,7 +468,7 @@ async function updateUserdata() {
 }
 
 function showIconBars() {
-	if (!settings.pages.icon.global) {
+	if (!settings?.pages.icon.global) {
 		chrome.browserAction.setIcon({ path: "resources/images/icon_128.png" });
 	} else {
 		let barCount = 0;
