@@ -193,18 +193,22 @@ const CONTRIBUTORS = {
 	Mephiles: {
 		id: 2087524,
 		name: "Mephiles",
+		color: "green",
 	},
-	DKK: {
+	DeKleineKobini: {
 		id: 2114440,
 		name: "DeKleineKobini",
+		color: "orange",
 	},
 	wootty2000: {
 		id: 2344687,
 		name: "wootty2000",
+		color: "red",
 	},
 	finally: {
 		id: 2060206,
 		name: "finally",
+		color: "purple",
 	},
 };
 
@@ -325,3 +329,5 @@ const API_USAGE = {
 		},
 	},
 };
+
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];

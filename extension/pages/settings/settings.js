@@ -41,38 +41,15 @@ async function showPage(name) {
 async function setupChangelog() {
 	let content = document.find("#changelog > section");
 
-	const contributorList = document.find("#changelog .contributors");
-	for (let c in CONTRIBUTORS) {
-		contributorList.appendChild(
-			document.newElement({
-				type: "div",
-				class: `contributor ${c.toLowerCase()}`,
-				html: `
-					<span>
-						<a href="https://www.torn.com/profiles.php?XID=${CONTRIBUTORS[c].id}" target="_blank">
-							${CONTRIBUTORS[c].name} [${CONTRIBUTORS[c].id}]
-						</a>
-					</span>
-				`,
-			})
-		);
-	}
-
-	for (let key in changelog) {
-		const title = key.split(" - ")[1] ? " - " + key.split(" - ")[1] : "";
-		const version = key.split(" - ")[0];
-
-		let div = document.newElement({ type: "div", class: "parent" });
-
-		// Heading
-		let heading = document.newElement({ type: "div", class: "heading", text: version });
-		let icon = document.newElement({ type: "i", class: "fas fa-chevron-down" });
-		heading.appendChild(document.newElement({ type: "span", text: title }));
+	changelog.forEach((entry, index, allEntries) => {
+		const wrapper = document.newElement({ type: "div", class: "parent" });
+		const heading = document.newElement({ type: "div", class: "heading", text: getTitle() });
+		const icon = document.newElement({ type: "i", class: "fas fa-chevron-down" });
 		heading.appendChild(icon);
-		div.appendChild(heading);
+		wrapper.appendChild(heading);
 
 		// Closeable
-		let closeable = document.newElement({ type: "div", class: "closable hidden" });
+		const closeable = document.newElement({ type: "div", class: "closable hidden" });
 		heading.addEventListener("click", () => {
 			if (closeable.classList.contains("hidden")) closeable.classList.remove("hidden");
 			else closeable.classList.add("hidden");
@@ -80,49 +57,95 @@ async function setupChangelog() {
 			rotateElement(icon, 180);
 		});
 
-		// Content
-		for (let title in changelog[key]) {
+		const contributors = Object.values(entry.logs)
+			.flat()
+			.map((log) => log.contributor)
+			.filter((value, i, self) => self.indexOf(value) === i)
+			.map((contributor) => ({
+				key: contributor,
+				...CONTRIBUTORS[contributor],
+			}));
+
+		const contributorsWrap = document.newElement({
+			type: "div",
+			class: "parent",
+			children: [document.newElement({ type: "div", class: "heading", text: "Contributors" })],
+		});
+		contributors.forEach((contributor, index, self) => {
+			const child = document.newElement({
+				type: "div",
+				class: `child contributor`,
+				html: `
+					<span>
+						<a href="https://www.torn.com/profiles.php?XID=${contributor.id}" target="_blank">
+							${contributor.name} [${contributor.id}]
+						</a>
+					</span>
+				`,
+			});
+
+			child.style.setProperty("--contributor-color", contributor.color);
+
+			contributorsWrap.appendChild(child);
+		});
+		closeable.appendChild(contributorsWrap);
+
+		for (let title in entry.logs) {
 			const parent = document.newElement({
 				type: "div",
 				class: "parent",
-				children: [document.newElement({ type: "div", class: "heading", text: title })],
+				children: [document.newElement({ type: "div", class: "heading", text: capitalizeText(title) })],
 			});
 
-			for (let item of changelog[key][title]) {
-				let contributor;
+			for (let log of entry.logs[title]) {
+				const child = document.newElement({
+					type: "div",
+					class: `child contributor`,
+					children: [document.newElement({ type: "span", text: log.message })],
+				});
 
-				for (let c in CONTRIBUTORS) {
-					if (!item.includes(`- ${c}`)) continue;
-
-					contributor = c.toLowerCase();
-					item = item.slice(0, item.indexOf(`- ${c}`));
-					break;
+				const contributor = contributors.filter((x) => x.key === log.contributor);
+				if (contributor.length) {
+					child.style.setProperty("--contributor-color", contributor[0].color);
 				}
 
-				parent.appendChild(
-					document.newElement({
-						type: "div",
-						class: `child ${contributor ? `contributor ${contributor}` : ""}`,
-						children: [document.newElement({ type: "span", text: item })],
-					})
-				);
+				parent.appendChild(child);
 			}
 
 			closeable.appendChild(parent);
 		}
 
 		// Bottom border on last element
-		if (version === "v3") closeable.appendChild(document.newElement("hr"));
-
-		// Finish
-		div.appendChild(closeable);
-		content.appendChild(div);
-
-		if (Object.keys(changelog).indexOf(version + title) === 0) {
+		if (index + 1 === allEntries.length) closeable.appendChild(document.newElement("hr"));
+		if (index === 0) {
 			heading.click();
 			heading.classList.add("current");
 		}
-	}
+
+		// Finish
+		wrapper.appendChild(closeable);
+		content.appendChild(wrapper);
+
+		function getTitle() {
+			let parts = [];
+
+			parts.push(getVersion());
+			if (entry.date) parts.push(`${MONTHS[entry.date.getUTCMonth()]}, ${entry.date.getUTCDate()}th ${entry.date.getUTCFullYear()}`);
+			if (entry.title) parts.push(entry.title);
+
+			return parts.join(" - ");
+
+			function getVersion() {
+				let parts = [];
+
+				parts.push(`v${entry.version.major}`);
+				parts.push(entry.version.minor);
+				if (entry.version.build) parts.push(entry.version.build);
+
+				return parts.join(".");
+			}
+		}
+	});
 
 	// Ending words
 	content.appendChild(document.newElement({ type: "p", text: "The rest is history..", style: { textAlign: "center" } }));
