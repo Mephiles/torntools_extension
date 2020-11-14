@@ -190,6 +190,7 @@ const DEFAULT_STORAGE = {
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),
+	stakeouts: new DefaultSetting({ type: "object", defaultValue: {} }),
 };
 
 const CONTRIBUTORS = {

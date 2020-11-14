@@ -1,10 +1,11 @@
-let settings, filters, version, api, userdata, torndata;
+let settings, filters, version, api, userdata, torndata, stakeouts;
 let databaseLoaded = false;
 let storageListeners = {
 	settings: [],
 	filters: [],
 	version: [],
 	userdata: [],
+	stakeouts: [],
 };
 
 async function loadDatabase() {
@@ -18,6 +19,7 @@ async function loadDatabase() {
 	api = database.api;
 	userdata = database.userdata;
 	torndata = database.torndata;
+	stakeouts = database.stakeouts;
 
 	databaseLoaded = true;
 	console.log("TT - Database loaded.", database);
@@ -46,6 +48,10 @@ chrome.storage.onChanged.addListener((changes, area) => {
 			api = changes.api.newValue;
 		} else if (changes.torndata) {
 			torndata = changes.torndata.newValue;
+		} else if (changes.stakeouts) {
+			stakeouts = changes.stakeouts.newValue;
+
+			storageListeners.stakeouts.forEach((listener) => listener());
 		}
 	}
 });
