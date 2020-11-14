@@ -319,7 +319,7 @@ async function fetchApi(
 					await ttStorage.change({ api: { torn: { online, error } } });
 					await setBadge("error");
 				}
-				reject({ error });
+				reject({ ...result.error });
 			} else {
 				reject({ error: result.error });
 			}

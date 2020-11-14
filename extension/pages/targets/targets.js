@@ -69,7 +69,7 @@ async function setupStakeouts() {
 	function fillStakeouts() {
 		console.log("ST", stakeouts);
 		for (let id in stakeouts) {
-			addStakeout(id);
+			addStakeout(id, stakeouts[id]);
 		}
 	}
 
@@ -77,11 +77,44 @@ async function setupStakeouts() {
 		const row = document.newElement({ type: "tr", class: "row" });
 
 		row.appendChild(document.newElement({ type: "td", class: "id", text: id }));
+		if (data?.info) {
+			row.appendChild(document.newElement({ type: "td", class: "name", text: data.info.name }));
+			row.appendChild(
+				document.newElement({
+					type: "td",
+					class: `status ${data.info.last_action.status.toLowerCase()}`,
+					text: data.info.last_action.status,
+				})
+			);
+			row.appendChild(document.newElement({ type: "td", class: "last-action", text: data.info.last_action.relative }));
+		} else {
+			row.appendChild(document.newElement({ type: "td", class: "name", text: "" }));
+			row.appendChild(document.newElement({ type: "td", class: "status", text: "" }));
+			row.appendChild(document.newElement({ type: "td", class: "last-action", text: "" }));
+		}
 
 		stakeoutList.appendChild(row);
 	}
 
-	function updateStakeouts() {}
+	function updateStakeouts() {
+		for (let id in stakeouts) {
+			const row = stakeoutList.find(`tr .id=${id}`).parentElement;
+
+			console.log("updateStakeouts", id, row);
+
+			row.find(".status").classList.remove("offline", "idle", "online");
+			if (stakeouts[id]?.info) {
+				row.find(".name").innerText = stakeouts[id].info.name;
+				row.find(".status").innerText = stakeouts[id].info.last_action.status;
+				row.find(".status").classList.add(stakeouts[id].info.last_action.status.toLowerCase());
+				row.find(".last-action").innerText = stakeouts[id].info.last_action.relative;
+			} else {
+				row.find(".name").innerText = "";
+				row.find(".status").innerText = "";
+				row.find(".last-action").innerText = "";
+			}
+		}
+	}
 
 	async function saveSettings() {
 		const newStakeouts = {};

@@ -143,6 +143,10 @@ function timedUpdates() {
 			.then(({ updateBasic }) => console.log(`Updated essential${updateBasic ? "+basic" : ""} userdata.`))
 			.catch((error) => console.error("Error while updating essential userdata.", error));
 
+		updateStakeouts()
+			.then(() => console.log("Updated stakeouts."))
+			.catch((error) => console.error("Error while updating stakeouts.", error));
+
 		if (!torndata || !isSameUTCDay(new Date(torndata.date), new Date())) {
 			// Update once every torn day.
 			updateTorndata()
@@ -522,6 +526,28 @@ function showIconBars() {
 
 		chrome.browserAction.setIcon({ imageData: canvasContext.getImageData(0, 0, canvas.width, canvas.height) });
 	}
+}
+
+async function updateStakeouts() {
+	for (const id in stakeouts) {
+		let data;
+		try {
+			data = await fetchApi("torn", { section: "user", selections: ["profile"], id, silent: true });
+		} catch (e) {
+			console.log("STAKEOUT error", e);
+			continue;
+		}
+
+		stakeouts[id].info = {
+			name: data.name,
+			last_action: {
+				status: data.last_action.status,
+				relative: data.last_action.relative,
+			},
+		};
+	}
+
+	await ttStorage.change({ stakeouts });
 }
 
 async function updateTorndata() {

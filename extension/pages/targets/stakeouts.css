@@ -1,0 +1,20 @@
+#stakeouts #stakeoutList .status:before {
+	content: "";
+	height: 12px;
+	width: 12px;
+	border-radius: 50%;
+	display: inline-block;
+	margin-right: 4px;
+}
+
+#stakeouts #stakeoutList .status.offline:before {
+	background-color: #bbb;
+}
+
+#stakeouts #stakeoutList .status.idle:before {
+	background-color: orange;
+}
+
+#stakeouts #stakeoutList .status.online:before {
+	background-color: green;
+}
