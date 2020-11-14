@@ -41,9 +41,37 @@ async function showPage(name) {
 async function setupTargetList() {}
 
 async function setupStakeouts() {
+	const _preferences = document.find("#stakeouts");
+
+	fillStakeouts();
+	storageListeners.stakeouts.push(updateStakeouts);
+
+	_preferences.find("#saveStakeouts").addEventListener("click", async () => await saveSettings());
+	_preferences.find("#resetStakeouts").addEventListener("click", () => {
+		loadConfirmationPopup({
+			title: "Reset stakeouts",
+			message: `<h3>Are you sure you want to delete all stakeouts?</h3>`,
+		})
+			.then(async () => {
+				await ttStorage.set({ stakeouts: {} });
+			})
+			.catch((error) => console.error(error));
+	});
+
 	document.find("#addStakeout").addEventListener("click", async () => {
 		const id = parseInt(document.find("#stakeoutId").value);
 
 		document.find("#stakeoutId").value = "";
 	});
+
+	function fillStakeouts() {}
+
+	function updateStakeouts() {}
+
+	async function saveSettings() {
+		const newStakeouts = {};
+
+		await ttStorage.set({ stakeouts: newStakeouts });
+		console.log("Stakeouts updated!", newStakeouts);
+	}
 }
