@@ -8,6 +8,7 @@ export default [
 				{ message: "Live update settings.", contributor: "DeKleineKobini" },
 				{ message: "Add dark mode for the popup.", contributor: "DeKleineKobini" },
 				{ message: "Add booster and medical cooldown timed notifications.", contributor: "DeKleineKobini" },
+				{ message: "Show stakeouts on the target page.", contributor: "DeKleineKobini" },
 			],
 			fixes: [{ message: "Hide new chat messages while searching.", contributor: "DeKleineKobini" }],
 			changes: [
