@@ -94,10 +94,6 @@ ul.list-table button:hover {
 	visibility: visible;
 }
 
-body.tt-unscrollable {
-	overflow-y: hidden !important;
-}
-
 /* Popup */
 
 #tt-confirmation-popup {

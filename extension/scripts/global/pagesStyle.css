@@ -67,6 +67,10 @@ body.dark button {
 	background-color: #bfbfbf;
 }
 
+body.tt-unscrollable {
+	overflow-y: hidden !important;
+}
+
 /* General pages */
 
 main > h2 {
