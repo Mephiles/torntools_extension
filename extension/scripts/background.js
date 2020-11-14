@@ -535,11 +535,11 @@ async function updateStakeouts() {
 		try {
 			data = await fetchApi("torn", { section: "user", selections: ["profile"], id, silent: true });
 		} catch (e) {
+			// TODO Improve error handling.
 			console.log("STAKEOUT error", e);
 			continue;
 		}
 
-		console.log("STAKEOUT", id, stakeouts[id].alerts);
 		if (stakeouts[id].alerts) {
 			const { okay, hospital, landing, online } = stakeouts[id].alerts;
 			const now = Date.now();
@@ -549,7 +549,7 @@ async function updateStakeouts() {
 				if (data.status.state === "Okay" && !notifications.stakeouts[key]) {
 					notifications.stakeouts[key] = {
 						title: `TornTools - Stakeouts`,
-						message: `${stakeout_info.name} is now okay.`,
+						message: `${data.name} is now okay.`,
 						url: `https://www.torn.com/profiles.php?XID=${id}`,
 						date: now,
 					};
@@ -558,8 +558,30 @@ async function updateStakeouts() {
 				}
 			}
 			if (hospital) {
+				const key = `${id}_hospital`;
+				if (data.status.state === "Hospital" && !notifications.stakeouts[key]) {
+					notifications.stakeouts[key] = {
+						title: `TornTools - Stakeouts`,
+						message: `${data.name} is now in the hospital.`,
+						url: `https://www.torn.com/profiles.php?XID=${id}`,
+						date: now,
+					};
+				} else if (data.status.state !== "Hospital") {
+					delete notifications.stakeouts[key];
+				}
 			}
 			if (landing) {
+				const key = `${id}_landing`;
+				if (data.last_action.status !== "Traveling" && !notifications.stakeouts[key]) {
+					notifications.stakeouts[key] = {
+						title: `TornTools - Stakeouts`,
+						message: `${data.name} is now ${data.status.state === "abroad" ? data.status.description : "in Torn"}.`,
+						url: `https://www.torn.com/profiles.php?XID=${id}`,
+						date: now,
+					};
+				} else if (data.last_action.status !== "Traveling") {
+					delete notifications.stakeouts[key];
+				}
 			}
 			if (online) {
 				const key = `${id}_online`;
