@@ -1,5 +1,5 @@
 export default {
-	"v5.4 - xxxx, xxx. 2020": {
+	"v5.3.3 - November, 11th. 2020": {
 		Features: [],
 		Fixes: [
 			"Fix TT not working on a popped out poker window. - DKK",
