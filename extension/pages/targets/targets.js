@@ -77,7 +77,7 @@ async function setupStakeouts() {
 		const row = document.newElement({ type: "tr", class: "row" });
 
 		row.appendChild(document.newElement({ type: "td", class: "id", text: id }));
-		if (data?.info) {
+		if (Object.keys(data?.info).length) {
 			row.appendChild(document.newElement({ type: "td", class: "name", text: data.info.name }));
 			row.appendChild(
 				document.newElement({
@@ -162,8 +162,6 @@ async function setupStakeouts() {
 	function updateStakeouts() {
 		for (let id in stakeouts) {
 			const row = stakeoutList.find(`tr .id=${id}`).parentElement;
-
-			console.log("updateStakeouts", id, row);
 
 			row.find(".status").classList.remove("offline", "idle", "online");
 			if (stakeouts[id]?.info) {
