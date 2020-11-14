@@ -1,3 +1,7 @@
+#stakeouts #stakeoutList {
+	width: 100%;
+}
+
 #stakeouts #stakeoutList .status:before {
 	content: "";
 	height: 12px;
@@ -17,4 +21,9 @@
 
 #stakeouts #stakeoutList .status.online:before {
 	background-color: green;
+}
+
+#stakeouts .alerts-wrap {
+	display: flex;
+	justify-content: space-between;
 }

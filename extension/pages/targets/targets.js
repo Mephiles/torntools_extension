@@ -107,6 +107,56 @@ async function setupStakeouts() {
 				children: [deleteButton],
 			})
 		);
+
+		const alerts = [];
+
+		alerts.push(
+			document.newElement({
+				type: "div",
+				children: [
+					document.newElement({ type: "input", id: `okay-${id}`, class: "okay", attributes: { type: "checkbox" } }),
+					document.newElement({ type: "label", attributes: { for: `okay-${id}` }, text: "is okay" }),
+				],
+			}),
+			document.newElement({
+				type: "div",
+				children: [
+					document.newElement({ type: "input", id: `hospital-${id}`, class: "hospital", attributes: { type: "checkbox" } }),
+					document.newElement({ type: "label", attributes: { for: `hospital-${id}` }, text: "is in hospital" }),
+				],
+			}),
+			document.newElement({
+				type: "div",
+				children: [
+					document.newElement({ type: "input", id: `landing-${id}`, class: "landing", attributes: { type: "checkbox" } }),
+					document.newElement({ type: "label", attributes: { for: `landing-${id}` }, text: "lands" }),
+				],
+			}),
+			document.newElement({
+				type: "div",
+				children: [
+					document.newElement({ type: "input", id: `online-${id}`, class: "online", attributes: { type: "checkbox" } }),
+					document.newElement({ type: "label", attributes: { for: `online-${id}` }, text: "comes online" }),
+				],
+			})
+		);
+		console.log("DKK", data?.alerts.hospital, data?.alerts.online);
+
+		row.appendChild(
+			document.newElement({
+				type: "td",
+				class: "alerts-wrap",
+				children: alerts,
+			})
+		);
+
+		if (data?.alerts) {
+			for (let key in data.alerts) {
+				if (!data.alerts[key]) continue;
+				row.find(`.${key}`).checked = true;
+			}
+		}
+
 		stakeoutList.appendChild(row);
 	}
 
@@ -122,6 +172,7 @@ async function setupStakeouts() {
 				row.find(".status").innerText = stakeouts[id].info.last_action.status;
 				row.find(".status").classList.add(stakeouts[id].info.last_action.status.toLowerCase());
 				row.find(".last-action").innerText = stakeouts[id].info.last_action.relative;
+				row.find(".last-action").innerText = stakeouts[id].info.last_action.relative;
 			} else {
 				row.find(".name").innerText = "";
 				row.find(".status").innerText = "";
@@ -134,12 +185,17 @@ async function setupStakeouts() {
 		const newStakeouts = {};
 
 		for (let row of stakeoutList.findAll("tr.row")) {
-			newStakeouts[parseInt(row.find(".id").innerText)] = {};
-		}
-		for (let id in stakeouts) {
-			if (!(id in newStakeouts)) continue;
+			const id = parseInt(row.find(".id").innerText);
 
-			newStakeouts[id] = stakeouts[id];
+			newStakeouts[id] = {
+				info: id in stakeouts ? stakeouts[id].info : {},
+				alerts: {
+					okay: row.find(".okay").checked,
+					hospital: row.find(".hospital").checked,
+					landing: row.find(".landing").checked,
+					online: row.find(".online").checked,
+				},
+			};
 		}
 
 		await ttStorage.set({ stakeouts: newStakeouts });

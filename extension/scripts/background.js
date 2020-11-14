@@ -19,6 +19,7 @@ let notifications = {
 	hospital: {},
 	chain: {},
 	chainCount: {},
+	stakeouts: {},
 };
 
 (async () => {
@@ -538,6 +539,43 @@ async function updateStakeouts() {
 			continue;
 		}
 
+		console.log("STAKEOUT", id, stakeouts[id].alerts);
+		if (stakeouts[id].alerts) {
+			const { okay, hospital, landing, online } = stakeouts[id].alerts;
+			const now = Date.now();
+
+			if (okay) {
+				const key = `${id}_okay`;
+				if (data.status.state === "Okay" && !notifications.stakeouts[key]) {
+					notifications.stakeouts[key] = {
+						title: `TornTools - Stakeouts`,
+						message: `${stakeout_info.name} is now okay.`,
+						url: `https://www.torn.com/profiles.php?XID=${id}`,
+						date: now,
+					};
+				} else if (data.status.state !== "Okay") {
+					delete notifications.stakeouts[key];
+				}
+			}
+			if (hospital) {
+			}
+			if (landing) {
+			}
+			if (online) {
+				const key = `${id}_online`;
+				if (data.last_action.status === "Online" && !notifications.stakeouts[key]) {
+					notifications.stakeouts[key] = {
+						title: `TornTools - Stakeouts`,
+						message: `${data.name} is now online.`,
+						url: `https://www.torn.com/profiles.php?XID=${id}`,
+						date: now,
+					};
+				} else if (data.last_action.status !== "Online") {
+					delete notifications.stakeouts[key];
+				}
+			}
+		}
+
 		stakeouts[id].info = {
 			name: data.name,
 			last_action: {
@@ -546,6 +584,13 @@ async function updateStakeouts() {
 			},
 		};
 	}
+
+	/*
+	okay: false,
+	hospital: false,
+	lands: false,
+	online: false,
+	 */
 
 	await ttStorage.change({ stakeouts });
 }
