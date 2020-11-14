@@ -283,7 +283,11 @@ async function setupDashboard() {
 		else if (name === "chain" || (name === "happy" && full_at === "over"))
 			full = `${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer", hideHours: true })}`;
 		else if (name === "traveling") full = `Landing in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" })}`;
-		else full = `Full in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" })}`;
+		else {
+			full = `Full in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" })}`;
+
+			if (settings.pages.popup.hoverBarTime) full += ` (${formatTime({ milliseconds: full_at }, { type: "normal" })})`;
+		}
 
 		let tick;
 		if (name === "traveling") tick = formatTime({ seconds: toSeconds(tick_at - current) }, { type: "timer" });
