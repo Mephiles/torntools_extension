@@ -1,0 +1,114 @@
+/* General */
+
+body {
+	padding: 0;
+	margin: 0 0 100px;
+	font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body.dark {
+	background-color: #232323;
+	color: #aaa;
+}
+
+.center {
+	margin: auto;
+}
+
+/* Navigation */
+
+header {
+	display: flex;
+	justify-content: center;
+	margin-top: 12px;
+}
+
+nav a {
+	text-decoration: none;
+	color: inherit;
+}
+
+header nav > ul {
+	list-style: none;
+	display: flex;
+}
+
+header nav > ul > li {
+	flex: 1 0 auto;
+	text-align: center;
+	font-size: 15px;
+	cursor: pointer;
+	padding: 10px;
+}
+
+body.light header nav > ul > li {
+	border-top: 1px solid lightgray;
+	border-bottom: 1px solid lightgray;
+}
+
+body.dark header nav > ul > li {
+	border-top: 1px solid #4e4d4d;
+	border-bottom: 1px solid #4e4d4d;
+}
+
+body.light header nav > ul > li.active {
+	border-top: 1px solid black;
+	border-bottom: 1px solid #000000;
+}
+
+body.dark header nav > ul > li.active {
+	border-top: 1px solid #a7a7a7;
+	border-bottom: 1px solid #a7a7a7;
+}
+
+body.dark input:not([type="checkbox"]):not([type="radio"]),
+body.dark select,
+body.dark button {
+	background-color: #bfbfbf;
+}
+
+/* General pages */
+
+main > h2 {
+	text-align: center;
+}
+
+main > section {
+	width: 70%;
+	margin: 0 auto;
+	padding: 10px;
+	font-size: 14px;
+	box-sizing: border-box;
+}
+
+body.light main > section {
+	border: 1px solid lightgrey;
+}
+
+body.dark main > section {
+	border: 1px solid #333;
+}
+
+main > section:not(:first-of-type) {
+	border-top: unset;
+}
+
+button.fancy-button {
+	min-width: 60px;
+	padding: 0 4px;
+	height: 30px;
+	border: 1px solid lightgrey;
+	margin-right: 10px;
+	text-align: center;
+	line-height: 30px;
+	border-radius: 7px;
+	cursor: pointer;
+	font-weight: 600;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.actions.right {
+	display: flex;
+	flex-direction: row-reverse;
+}

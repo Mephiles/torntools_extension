@@ -21,3 +21,17 @@
 	z-index: 100;
 	background-color: #00000059;
 }
+
+/* General Colors */
+
+*[color="white"] {
+	color: white !important;
+}
+
+*[background-color="green"] {
+	background-color: #149a32 !important;
+}
+
+*[background-color="red"] {
+	background-color: #c82333 !important;
+}

@@ -40,4 +40,10 @@ async function showPage(name) {
 
 async function setupTargetList() {}
 
-async function setupStakeouts() {}
+async function setupStakeouts() {
+	document.find("#addStakeout").addEventListener("click", async () => {
+		const id = parseInt(document.find("#stakeoutId").value);
+
+		document.find("#stakeoutId").value = "";
+	});
+}

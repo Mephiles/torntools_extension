@@ -6,6 +6,7 @@
 		<link rel="icon" type="image/png" href="../../resources/images/icon_128.png" />
 
 		<link rel="stylesheet" href="../../scripts/global/globalStyle.css" />
+		<link rel="stylesheet" href="../../scripts/global/pagesStyle.css" />
 		<link rel="stylesheet" href="targets.css" />
 		<link rel="stylesheet" href="stakeouts.css" />
 
@@ -26,6 +27,22 @@
 		</main>
 		<main id="stakeouts" class="hidden">
 			<h2>Stakeouts</h2>
+
+			<section>
+				<div>
+					<label for="stakeoutId">Add a new player to the stakeouts:</label>
+					<input id="stakeoutId" placeholder="ID" type="number" min="1" />
+					<button id="addStakeout">Add</button>
+				</div>
+			</section>
+			<section>
+				<footer>
+					<div class="actions right">
+						<button id="saveSettings" class="fancy-button" color="white" background-color="green">Save</button>
+						<button id="resetSettings" class="fancy-button" color="white" background-color="red">Reset</button>
+					</div>
+				</footer>
+			</section>
 		</main>
 
 		<script src="../../scripts/global/globalClasses.js"></script>
