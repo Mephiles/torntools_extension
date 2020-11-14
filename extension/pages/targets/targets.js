@@ -93,6 +93,20 @@ async function setupStakeouts() {
 			row.appendChild(document.newElement({ type: "td", class: "last-action", text: "" }));
 		}
 
+		const deleteButton = document.newElement({
+			type: "button",
+			class: "delete",
+			children: [document.newElement({ type: "i", class: "remove-icon fas fa-trash-alt" })],
+		});
+		deleteButton.addEventListener("click", () => row.remove());
+
+		row.appendChild(
+			document.newElement({
+				type: "td",
+				class: "delete-wrap",
+				children: [deleteButton],
+			})
+		);
 		stakeoutList.appendChild(row);
 	}
 

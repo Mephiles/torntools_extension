@@ -1,0 +1,21 @@
+#stakeouts #stakeoutList .delete-wrap {
+	text-align: center;
+}
+
+#stakeouts #stakeoutList .delete {
+	width: 25px;
+}
+
+#stakeouts #stakeoutList .delete i {
+	color: red;
+}
+
+table button {
+	height: 24px;
+	line-height: 24px;
+	border: 1px solid lightgray;
+	cursor: pointer;
+	border-radius: 6px;
+	background: #f9f9f9;
+	padding: unset;
+}
