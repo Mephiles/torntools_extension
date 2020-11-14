@@ -201,14 +201,6 @@ main > section:not(:first-of-type) {
 	border-top: unset;
 }
 
-main:not(.active) {
-	display: none;
-}
-
-main.active {
-	display: unset;
-}
-
 body.tt-unscrollable {
 	overflow-y: hidden !important;
 }

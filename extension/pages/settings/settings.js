@@ -19,10 +19,11 @@ let initiatedPages = {};
 async function showPage(name) {
 	window.history.replaceState("", "Title", "?page=" + name);
 
-	for (let active of document.findAll("body > main.active, header nav.on-page > ul > li.active")) active.classList.remove("active");
-
+	for (let active of document.findAll("header nav.on-page > ul > li.active")) active.classList.remove("active");
 	document.find(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
-	document.find(`#${name}`).classList.add("active");
+
+	for (let active of document.findAll("body > main:not(.hidden)")) active.classList.add("hidden");
+	document.find(`#${name}`).classList.remove("hidden");
 
 	let setup = {
 		changelog: setupChangelog,
@@ -80,7 +81,7 @@ async function setupChangelog() {
 			class: "parent contributors",
 			children: [document.newElement({ type: "div", class: "heading", text: "Contributors" })],
 		});
-		contributors.forEach((contributor, index, self) => {
+		contributors.forEach((contributor) => {
 			const child = document.newElement({
 				type: "div",
 				class: `child contributor`,

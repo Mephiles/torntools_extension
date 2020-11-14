@@ -42,11 +42,11 @@
 			</nav>
 		</header>
 
-		<main id="changelog">
+		<main id="changelog" class="hidden">
 			<h2>Changelog</h2>
 			<section class="center"></section>
 		</main>
-		<main id="preferences">
+		<main id="preferences" class="hidden">
 			<h2>
 				Preferences&nbsp;-&nbsp;
 				<i id="preferences-show_advanced" class="tooltip fas"><span class="tooltip-text"></span></i>
@@ -187,7 +187,9 @@
 						<div class="header">Highlights</div>
 						<ul id="chatHighlight" class="list-table">
 							<li class="input">
+								<!--suppress HtmlFormInputWithoutLabel -->
 								<input type="text" class="name" placeholder="Name.." />
+								<!--suppress HtmlFormInputWithoutLabel -->
 								<input type="color" class="color" value="#7ca900" />
 								<button id="addChatHighlight">Add</button>
 							</li>
@@ -272,6 +274,7 @@
 								<option value="5">Sound 5</option>
 								<option value="custom">Custom</option>
 							</select>
+							<!--suppress HtmlFormInputWithoutLabel -->
 							<input id="notification-volume" type="range" min="1" max="100" />
 							<i id="notification-sound-play" class="fas fa-play"></i>
 							<i id="notification-sound-stop" class="fas fa-stop"></i>
@@ -393,7 +396,7 @@
 				</footer>
 			</section>
 		</main>
-		<main id="api">
+		<main id="api" class="hidden">
 			<h2>API</h2>
 			<section>
 				<h4 class="first-header">Requests</h4>
@@ -406,13 +409,13 @@
 				<h4>WIP</h4>
 			</section>
 		</main>
-		<main id="remote">
+		<main id="remote" class="hidden">
 			<h2>Remote</h2>
 			<section>
 				<h4>WIP</h4>
 			</section>
 		</main>
-		<main id="about">
+		<main id="about" class="hidden">
 			<h2>About</h2>
 			<section>
 				<h4>WIP</h4>
