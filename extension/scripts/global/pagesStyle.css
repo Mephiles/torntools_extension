@@ -116,3 +116,43 @@ button.fancy-button {
 	display: flex;
 	flex-direction: row-reverse;
 }
+
+/* Popup */
+
+#tt-confirmation-popup {
+	width: 50%;
+	height: fit-content;
+	height: -moz-fit-content;
+	max-height: 75%;
+	left: 25%;
+	padding-bottom: 5px;
+	top: 20%;
+	position: fixed;
+	border-radius: 10px;
+	z-index: 99999;
+	overflow: auto;
+}
+
+body.light #tt-confirmation-popup {
+	background-color: white;
+}
+
+body.dark #tt-confirmation-popup {
+	background-color: #4e4d4d;
+	color: #d7d7d7;
+}
+
+#tt-confirmation-popup .title {
+	font-weight: 600;
+	width: calc(100% - 20px);
+	border-bottom: 1px solid lightgray;
+	padding-bottom: 1px;
+	margin-left: 10px;
+	margin-bottom: 5px;
+}
+
+#tt-confirmation-popup .message {
+	min-height: 200px;
+	margin: 5px 10px;
+	border-bottom: 1px solid lightgray;
+}

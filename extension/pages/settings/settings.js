@@ -207,7 +207,7 @@ async function setupPreferences() {
 	_preferences.find("#resetSettings").addEventListener("click", () => {
 		loadConfirmationPopup({
 			title: "Reset settings",
-			message: `### Are you sure you want to delete ALL data except your API key?`,
+			message: `<h3>Are you sure you want to delete ALL data except your API key?</h3>`,
 		})
 			.then(async () => {
 				await ttStorage.reset();
