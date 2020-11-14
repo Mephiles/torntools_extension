@@ -3,9 +3,8 @@ import changelog from "../../changelog.js";
 let initiatedPages = {};
 
 (async () => {
-	await showPage(getSearchParameters().get("page") || "changelog");
-
 	await loadDatabase();
+	await showPage(getSearchParameters().get("page") || "changelog");
 
 	document.body.classList.add(getPageTheme());
 
@@ -167,8 +166,6 @@ async function setupChangelog() {
 }
 
 async function setupPreferences() {
-	await loadDatabase();
-
 	const _preferences = document.find("#preferences");
 
 	const showAdvancedIcon = _preferences.find("#preferences-show_advanced");
@@ -492,8 +489,6 @@ async function setupPreferences() {
 }
 
 async function setupAPIInfo() {
-	await loadDatabase();
-
 	const _api = document.find("#api");
 
 	if (api.torn.key) {

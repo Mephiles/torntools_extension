@@ -1,9 +1,8 @@
 let initiatedPages = {};
 
 (async () => {
-	await showPage(getSearchParameters().get("page") || "targetList");
-
 	await loadDatabase();
+	await showPage(getSearchParameters().get("page") || "targetList");
 
 	document.body.classList.add(getPageTheme());
 	storageListeners.settings.push(() => {
@@ -42,6 +41,7 @@ async function setupTargetList() {}
 
 async function setupStakeouts() {
 	const _preferences = document.find("#stakeouts");
+	const stakeoutList = _preferences.find("#stakeoutList");
 
 	fillStakeouts();
 	storageListeners.stakeouts.push(updateStakeouts);
@@ -59,17 +59,41 @@ async function setupStakeouts() {
 	});
 
 	document.find("#addStakeout").addEventListener("click", async () => {
-		const id = parseInt(document.find("#stakeoutId").value);
+		if (!document.find("#stakeoutId").value) return;
+
+		addStakeout(parseInt(document.find("#stakeoutId").value));
 
 		document.find("#stakeoutId").value = "";
 	});
 
-	function fillStakeouts() {}
+	function fillStakeouts() {
+		console.log("ST", stakeouts);
+		for (let id in stakeouts) {
+			addStakeout(id);
+		}
+	}
+
+	function addStakeout(id, data = {}) {
+		const row = document.newElement({ type: "tr", class: "row" });
+
+		row.appendChild(document.newElement({ type: "td", class: "id", text: id }));
+
+		stakeoutList.appendChild(row);
+	}
 
 	function updateStakeouts() {}
 
 	async function saveSettings() {
 		const newStakeouts = {};
+
+		for (let row of stakeoutList.findAll("tr.row")) {
+			newStakeouts[parseInt(row.find(".id").innerText)] = {};
+		}
+		for (let id in stakeouts) {
+			if (!(id in newStakeouts)) continue;
+
+			newStakeouts[id] = stakeouts[id];
+		}
 
 		await ttStorage.set({ stakeouts: newStakeouts });
 		console.log("Stakeouts updated!", newStakeouts);
