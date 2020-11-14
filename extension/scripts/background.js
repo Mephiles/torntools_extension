@@ -541,7 +541,7 @@ async function updateStakeouts() {
 		}
 
 		if (stakeouts[id].alerts) {
-			const { okay, hospital, landing, online } = stakeouts[id].alerts;
+			const { okay, hospital, landing, online, life } = stakeouts[id].alerts;
 			const now = Date.now();
 
 			if (okay) {
@@ -593,6 +593,19 @@ async function updateStakeouts() {
 						date: now,
 					};
 				} else if (data.last_action.status !== "Online") {
+					delete notifications.stakeouts[key];
+				}
+			}
+			if (life) {
+				const key = `${id}_life`;
+				if (data.life.current <= data.life.maximum * (life / 100) && !notifications.stakeouts[key]) {
+					notifications.stakeouts[key] = {
+						title: `TornTools - Stakeouts`,
+						message: `${data.name}'${data.name.endsWith("s") ? "" : "s"} life has dropped below ${life}%.`,
+						url: `https://www.torn.com/profiles.php?XID=${id}`,
+						date: now,
+					};
+				} else if (data.life.current > data.life.maximum * (life / 100)) {
 					delete notifications.stakeouts[key];
 				}
 			}

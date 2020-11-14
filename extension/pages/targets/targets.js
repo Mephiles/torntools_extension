@@ -77,7 +77,7 @@ async function setupStakeouts() {
 		const row = document.newElement({ type: "tr", class: "row" });
 
 		row.appendChild(document.newElement({ type: "td", class: "id", text: id }));
-		if (Object.keys(data?.info).length) {
+		if (data?.info && Object.keys(data.info).length) {
 			row.appendChild(document.newElement({ type: "td", class: "name", text: data.info.name }));
 			row.appendChild(
 				document.newElement({
@@ -138,6 +138,21 @@ async function setupStakeouts() {
 					document.newElement({ type: "input", id: `online-${id}`, class: "online", attributes: { type: "checkbox" } }),
 					document.newElement({ type: "label", attributes: { for: `online-${id}` }, text: "comes online" }),
 				],
+			}),
+			// document.newElement({
+			// 	type: "div",
+			// 	children: [
+			// 		document.newElement({ type: "input", id: `life-${id}`, class: "life", attributes: { type: "checkbox" } }),
+			// 		document.newElement({ type: "label", attributes: { for: `life-${id}` }, text: "life drops" }),
+			// 	],
+			// })
+			document.newElement({
+				type: "div",
+				children: [
+					document.newElement({ type: "label", attributes: { for: `life-${id}` }, text: "life drops below" }),
+					document.newElement({ type: "input", id: `life-${id}`, class: "life", attributes: { type: "number", min: 1, max: 100 } }),
+					document.newElement({ type: "label", attributes: { for: `life-${id}` }, text: "%" }),
+				],
 			})
 		);
 
@@ -152,7 +167,16 @@ async function setupStakeouts() {
 		if (data?.alerts) {
 			for (let key in data.alerts) {
 				if (!data.alerts[key]) continue;
-				row.find(`.${key}`).checked = true;
+
+				switch (typeof data.alerts[key]) {
+					case "boolean":
+						row.find(`.${key}`).checked = true;
+						break;
+					case "number":
+					case "string":
+						row.find(`.${key}`).value = data.alerts[key];
+						break;
+				}
 			}
 		}
 
@@ -164,11 +188,10 @@ async function setupStakeouts() {
 			const row = stakeoutList.find(`tr .id=${id}`).parentElement;
 
 			row.find(".status").classList.remove("offline", "idle", "online");
-			if (stakeouts[id]?.info) {
+			if (stakeouts[id]?.info && Object.keys(stakeouts[id].info).length) {
 				row.find(".name").innerText = stakeouts[id].info.name;
 				row.find(".status").innerText = stakeouts[id].info.last_action.status;
 				row.find(".status").classList.add(stakeouts[id].info.last_action.status.toLowerCase());
-				row.find(".last-action").innerText = stakeouts[id].info.last_action.relative;
 				row.find(".last-action").innerText = stakeouts[id].info.last_action.relative;
 			} else {
 				row.find(".name").innerText = "";
@@ -191,6 +214,8 @@ async function setupStakeouts() {
 					hospital: row.find(".hospital").checked,
 					landing: row.find(".landing").checked,
 					online: row.find(".online").checked,
+					// life: row.find(".life").checked,
+					life: parseInt(row.find(".life").value),
 				},
 			};
 		}
