@@ -140,7 +140,6 @@ async function setupStakeouts() {
 				],
 			})
 		);
-		console.log("DKK", data?.alerts.hospital, data?.alerts.online);
 
 		row.appendChild(
 			document.newElement({
