@@ -2,7 +2,7 @@ export default [
 	{
 		version: { major: 6, minor: 0, build: 0 },
 		date: false,
-		title: "Starting again.",
+		title: "Starting new.",
 		logs: {
 			features: [
 				{ message: "Live update settings.", contributor: "DeKleineKobini" },
@@ -26,8 +26,19 @@ export default [
 		},
 	},
 	{
+		version: { major: 5, minor: 3, build: 3 },
+		date: new Date(2020, 10, 11),
+		logs: {
+			fixes: [
+				{ message: "Fix TT not working on a popped out poker window.", contributor: "DeKleineKobini" },
+				{ message: "Fix travel table not loading while in Torn.", contributor: "Fogest" },
+				{ message: "Backport v6 left align to solve news ticker not left aligning.", contributor: "DeKleineKobini" },
+			],
+		},
+	},
+	{
 		version: { major: 5, minor: 3, build: 2 },
-		date: new Date(2020, 11, 6),
+		date: new Date(2020, 10, 6),
 		logs: {
 			fixes: [
 				{ message: "Break the travel table less often when flying back from a country with spaces.", contributor: "Fogest" },
