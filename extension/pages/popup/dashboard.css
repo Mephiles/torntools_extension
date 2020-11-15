@@ -185,3 +185,49 @@ body.dark #dashboard .extra {
 	width: 15px;
 	text-align: center;
 }
+
+/* Stakeouts */
+
+#dashboard .stakeouts .heading {
+	display: flex;
+}
+
+#dashboard .stakeouts .user {
+	padding: 4px;
+}
+
+body.light #dashboard .stakeouts .user:nth-child(odd) {
+	background-color: #f5f5f5;
+}
+
+body.light #dashboard .stakeouts .user:nth-child(even) {
+	background-color: #e3e3e3;
+}
+
+body.dark #dashboard .stakeouts .user:nth-child(odd) {
+	background-color: #3c3c3c;
+}
+
+body.dark #dashboard .stakeouts .user:nth-child(even) {
+	background-color: #2b2b2b;
+}
+
+#dashboard .stakeouts a {
+	text-decoration: none;
+	color: inherit;
+}
+
+#dashboard .stakeouts i {
+	cursor: pointer;
+	font-size: 16px;
+	flex: 1;
+	text-align: end;
+}
+
+#dashboard .stakeouts .status.online {
+	color: green;
+}
+
+#dashboard .stakeouts .status.idle {
+	color: orange;
+}

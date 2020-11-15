@@ -352,7 +352,36 @@ async function setupDashboard() {
 			stakeoutList.innerHTML = "";
 
 			for (const id in stakeouts) {
-				stakeoutList.appendChild(document.newElement({ type: "div", children: [document.newElement({ type: "span", text: id })] }));
+				let status, name, lastAction;
+
+				if (stakeouts[id].info && Object.keys(stakeouts[id].info).length) {
+					status = stakeouts[id].info.last_action.status;
+					name = stakeouts[id].info.name;
+					lastAction = stakeouts[id].info.last_action.relative;
+				} else {
+					status = "N/A";
+					name = id;
+					lastAction = "N/A";
+				}
+
+				stakeoutList.appendChild(
+					document.newElement({
+						type: "div",
+						class: "user",
+						children: [
+							document.newElement({
+								type: "div",
+								class: "row",
+								html: `
+									<span class="status ${status.toLowerCase()}">${status}</span>
+									<span class="divider">|</span>
+									<a href="https://www.torn.com/profiles.php?XID=${id}" target="_blank">${name}</a>
+								`,
+							}),
+							document.newElement({ type: "div", class: "row", html: `<span>Last action: ${lastAction}</span>` }),
+						],
+					})
+				);
 			}
 		} else dashboard.find(".stakeouts").classList.add("hidden");
 	}
