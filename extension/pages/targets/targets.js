@@ -65,9 +65,14 @@ async function setupStakeouts() {
 	});
 
 	document.find("#addStakeout").addEventListener("click", async () => {
-		if (!document.find("#stakeoutId").value) return;
+		const id = document.find("#stakeoutId").value;
+		if (!id) return;
 
-		addStakeout(parseInt(document.find("#stakeoutId").value));
+		if (document.find(`#stakeout_${id}`)) {
+			sendMessage("This id already has a stakeout.", false);
+		} else {
+			addStakeout(parseInt(id));
+		}
 
 		document.find("#stakeoutId").value = "";
 	});
@@ -80,7 +85,7 @@ async function setupStakeouts() {
 	}
 
 	function addStakeout(id, data = {}) {
-		const row = document.newElement({ type: "tr", class: "row" });
+		const row = document.newElement({ type: "tr", class: "row", id: `stakeout_${id}` });
 
 		row.appendChild(document.newElement({ type: "td", class: "id", text: id }));
 		if (data?.info && Object.keys(data.info).length) {
