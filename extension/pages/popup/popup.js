@@ -112,8 +112,9 @@ async function setupDashboard() {
 
 	updateDashboard();
 	storageListeners.userdata.push(updateDashboard);
+	updateStakeouts();
+	storageListeners.stakeouts.push(updateStakeouts);
 
-	// setTimeout(() => {
 	setInterval(() => {
 		for (let bar of dashboard.findAll(".bar")) {
 			updateBarTimer(bar);
@@ -125,7 +126,20 @@ async function setupDashboard() {
 		updateStatusTimer();
 	}, 1000);
 
-	// }, 1000 - (new Date().getTime() % 1000));
+	dashboard.find(".stakeouts .heading a").href = `${chrome.extension.getURL("pages/targets/targets.html")}?page=stakeouts`;
+	dashboard.find(".stakeouts .heading i").addEventListener("click", () => {
+		const stakeoutSection = dashboard.find(".stakeouts .stakeout-list");
+
+		if (stakeoutSection.classList.contains("hidden")) {
+			stakeoutSection.classList.remove("hidden");
+			dashboard.find(".stakeouts .heading i").classList.add("fa-caret-down");
+			dashboard.find(".stakeouts .heading i").classList.remove("fa-caret-right");
+		} else {
+			stakeoutSection.classList.add("hidden");
+			dashboard.find(".stakeouts .heading i").classList.remove("fa-caret-down");
+			dashboard.find(".stakeouts .heading i").classList.add("fa-caret-right");
+		}
+	});
 
 	function updateDashboard() {
 		// Country and status
@@ -142,6 +156,7 @@ async function setupDashboard() {
 		// Extra information
 		updateExtra();
 		updateActions();
+		setupStakeouts();
 
 		function updateStatus() {
 			if (userdata.travel.time_left) {
@@ -248,6 +263,11 @@ async function setupDashboard() {
 
 			updateUpdateTimer();
 		}
+
+		function setupStakeouts() {
+			if (settings.pages.popup.showStakeouts && Object.keys(stakeouts).length) dashboard.find(".stakeouts").classList.remove("hidden");
+			else dashboard.find(".stakeouts").classList.add("hidden");
+		}
 	}
 
 	function updateStatusTimer() {
@@ -322,6 +342,20 @@ async function setupDashboard() {
 		const updatedAt = parseInt(dashboard.find("#last-update").dataset.updated_at);
 
 		dashboard.find("#last-update").innerText = formatTime({ milliseconds: updatedAt }, { type: "ago" });
+	}
+
+	function updateStakeouts() {
+		if (settings.pages.popup.showStakeouts && Object.keys(stakeouts).length) {
+			dashboard.find(".stakeouts").classList.remove("hidden");
+
+			const _stakeouts = dashboard.find(".stakeouts");
+
+			for (const id in stakeouts) {
+				_stakeouts
+					.find(".stakeout-list")
+					.appendChild(document.newElement({ type: "div", children: [document.newElement({ type: "span", text: id })] }));
+			}
+		} else dashboard.find(".stakeouts").classList.add("hidden");
 	}
 }
 

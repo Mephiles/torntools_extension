@@ -22,6 +22,10 @@
 	background-color: #00000059;
 }
 
+.no-margin {
+	margin: 0;
+}
+
 /* General Colors */
 
 *[color="white"] {

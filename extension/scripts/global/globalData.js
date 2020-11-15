@@ -171,6 +171,7 @@ const DEFAULT_STORAGE = {
 				stocksOverview: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				defaultTab: new DefaultSetting({ type: "string", defaultValue: "dashboard" }),
 				hoverBarTime: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				showStakeouts: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			icon: {
 				global: new DefaultSetting({ type: "boolean", defaultValue: true }),
