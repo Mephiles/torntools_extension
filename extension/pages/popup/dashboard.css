@@ -39,6 +39,10 @@ a#dashboard > header #country:hover {
 	color: inherit;
 }
 
+#dashboard .bar-info {
+	margin-bottom: 1px;
+}
+
 #dashboard a.bar .bar-info.reset-timer:before {
 	color: red;
 }
