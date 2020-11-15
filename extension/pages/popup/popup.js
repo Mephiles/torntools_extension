@@ -348,12 +348,11 @@ async function setupDashboard() {
 		if (settings.pages.popup.showStakeouts && Object.keys(stakeouts).length) {
 			dashboard.find(".stakeouts").classList.remove("hidden");
 
-			const _stakeouts = dashboard.find(".stakeouts");
+			const stakeoutList = dashboard.find(".stakeouts .stakeout-list");
+			stakeoutList.innerHTML = "";
 
 			for (const id in stakeouts) {
-				_stakeouts
-					.find(".stakeout-list")
-					.appendChild(document.newElement({ type: "div", children: [document.newElement({ type: "span", text: id })] }));
+				stakeoutList.appendChild(document.newElement({ type: "div", children: [document.newElement({ type: "span", text: id })] }));
 			}
 		} else dashboard.find(".stakeouts").classList.add("hidden");
 	}
