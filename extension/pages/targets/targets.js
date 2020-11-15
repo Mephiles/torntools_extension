@@ -2,7 +2,7 @@ let initiatedPages = {};
 
 (async () => {
 	await loadDatabase();
-	await showPage(getSearchParameters().get("page") || "targetList");
+	await showPage(getSearchParameters().get("page") || "attackHistory");
 
 	document.body.classList.add(getPageTheme());
 	storageListeners.settings.push(() => {
@@ -27,7 +27,7 @@ async function showPage(name) {
 	document.find(`#${name}`).classList.remove("hidden");
 
 	let setup = {
-		targetList: setupTargetList,
+		attackHistory: setupAttackHistory,
 		stakeouts: setupStakeouts,
 	};
 
@@ -37,7 +37,7 @@ async function showPage(name) {
 	}
 }
 
-async function setupTargetList() {}
+async function setupAttackHistory() {}
 
 async function setupStakeouts() {
 	const _preferences = document.find("#stakeouts");
