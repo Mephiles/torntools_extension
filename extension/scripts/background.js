@@ -181,7 +181,7 @@ async function updateUserdata() {
 	userdata.date = now;
 	userdata.dateBasic = updateBasic ? now : oldUserdata.dateBasic;
 
-	await ttStorage.set({ userdata });
+	await ttStorage.set({ userdata: { ...oldUserdata, ...userdata } });
 
 	let data = {
 		fetchAttacks: !oldUserdata || oldUserdata.energy.current - userdata.energy.current >= 25,
