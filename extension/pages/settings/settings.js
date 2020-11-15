@@ -269,6 +269,18 @@ async function setupPreferences() {
 		reader.readAsDataURL(event.target.files[0]);
 	});
 
+	const chatSection = _preferences.find(".sections section[name='chat']");
+	for (let placeholder of HIGHLIGHT_PLACEHOLDERS) {
+		chatSection.insertBefore(
+			document.newElement({
+				type: "div",
+				class: "tabbed note",
+				text: `${placeholder.name} - ${placeholder.description}`,
+			}),
+			chatSection.find("#chatHighlight+.note").nextElementSibling
+		);
+	}
+
 	function showAdvanced(advanced) {
 		if (advanced) {
 			_preferences.find(".sections").classList.remove("advanced-hidden");
