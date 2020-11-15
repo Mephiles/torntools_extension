@@ -192,6 +192,10 @@ body.dark #dashboard .extra {
 
 /* Stakeouts */
 
+#dashboard .stakeouts {
+	margin-top: 8px;
+}
+
 #dashboard .stakeouts .heading {
 	display: flex;
 }
