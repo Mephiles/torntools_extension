@@ -616,6 +616,7 @@ async function updateStakeouts() {
 			last_action: {
 				status: data.last_action.status,
 				relative: data.last_action.relative,
+				timestamp: data.last_action.timestamp * 1000,
 			},
 		};
 	}

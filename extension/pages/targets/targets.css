@@ -19,3 +19,9 @@ table button {
 	background: #f9f9f9;
 	padding: unset;
 }
+
+/* Sortable tables */
+
+table.sortable th {
+	cursor: pointer;
+}

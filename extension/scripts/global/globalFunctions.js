@@ -186,6 +186,7 @@ function hasParent(element, attributes = {}) {
 function findParent(element, attributes = {}) {
 	if (!element || !element.parentElement) return undefined;
 
+	if (attributes.tag && element.parentElement.tagName === attributes.tag) return element.parentElement;
 	if (attributes.class && element.parentElement.classList.contains(attributes.class)) return element.parentElement;
 	if (attributes.id && element.parentElement.id === attributes.id) return element.parentElement;
 	if (attributes.has_attribute && element.parentElement.getAttribute(attributes.has_attribute) !== null) return element.parentElement;
@@ -652,4 +653,95 @@ function getPageTheme() {
 
 function applyPlural(check) {
 	return check !== 1 ? "s" : "s";
+}
+
+function sortTable(table, columnPlace) {
+	let order;
+
+	let header = table.find(`th:nth-child(${columnPlace})`);
+	if (header.find("i.fa-caret-down")) {
+		header.find("i.fa-caret-down").classList.add("fa-caret-up");
+		header.find("i.fa-caret-down").classList.remove("fa-caret-down");
+
+		order = "asc";
+	} else if (header.find("i.fa-caret-up")) {
+		header.find("i.fa-caret-up").classList.add("fa-caret-down");
+		header.find("i.fa-caret-up").classList.remove("fa-caret-up");
+
+		order = "desc";
+	} else {
+		header.appendChild(
+			document.newElement({
+				type: "i",
+				class: "fas fa-caret-up",
+			})
+		);
+
+		order = "asc";
+	}
+	for (let h of table.findAll("th")) {
+		if (h === header) continue;
+
+		if (h.find("i")) h.find("i").remove();
+	}
+
+	let rows;
+	if (!table.find("tr:not(.heading)")) rows = [];
+	else {
+		rows = [...table.findAll("tr:not(.header)")];
+		rows = sortRows(rows);
+	}
+
+	for (let row of rows) table.appendChild(row);
+
+	function sortRows(rows) {
+		if (order === "asc") {
+			rows.sort((a, b) => {
+				const helper = sortHelper(a, b);
+
+				return helper.a - helper.b;
+			});
+		} else if (order === "desc") {
+			rows.sort((a, b) => {
+				const helper = sortHelper(a, b);
+
+				return helper.b - helper.a;
+			});
+		}
+
+		return rows;
+
+		function sortHelper(elementA, elementB) {
+			let isDate = false;
+			let valueA, valueB;
+			if (elementA.find(`*:nth-child(${columnPlace})`).hasAttribute("value")) {
+				valueA = elementA.find(`*:nth-child(${columnPlace})`).getAttribute("value");
+				valueB = elementB.find(`*:nth-child(${columnPlace})`).getAttribute("value");
+
+				isDate = elementA.find(`*:nth-child(${columnPlace})`).getAttribute("type") === "date";
+			} else {
+				valueA = [...elementA.children][columnPlace - 1].innerText;
+				valueB = [...elementB.children][columnPlace - 1].innerText;
+			}
+
+			let a, b;
+			if (isDate && Date.parse(valueA) && Date.parse(valueB)) {
+				a = Date.parse(valueA);
+				b = Date.parse(valueB);
+			} else if (isNaN(parseFloat(valueA))) {
+				if (valueA.indexOf("$") > -1) {
+					a = parseFloat(valueA.replace("$", "").replace(/,/g, ""));
+					b = parseFloat(valueB.replace("$", "").replace(/,/g, ""));
+				} else {
+					a = valueA.toLowerCase().localeCompare(valueB.toLowerCase());
+					b = 0;
+				}
+			} else {
+				a = parseFloat(valueA);
+				b = parseFloat(valueB);
+			}
+
+			return { a, b };
+		}
+	}
 }

@@ -89,19 +89,43 @@ async function setupStakeouts() {
 
 		row.appendChild(document.newElement({ type: "td", class: "id", text: id }));
 		if (data?.info && Object.keys(data.info).length) {
+			let statusValue;
+			switch (data.info.last_action.status.toLowerCase()) {
+				case "offline":
+					statusValue = 3;
+					break;
+				case "idle":
+					statusValue = 2;
+					break;
+				case "online":
+					statusValue = 1;
+					break;
+				default:
+					statusValue = 0;
+					break;
+			}
+
 			row.appendChild(document.newElement({ type: "td", class: "name", text: data.info.name }));
 			row.appendChild(
 				document.newElement({
 					type: "td",
 					class: `status ${data.info.last_action.status.toLowerCase()}`,
 					text: data.info.last_action.status,
+					attributes: { value: statusValue },
 				})
 			);
-			row.appendChild(document.newElement({ type: "td", class: "last-action", text: data.info.last_action.relative }));
+			row.appendChild(
+				document.newElement({
+					type: "td",
+					class: "last-action",
+					text: data.info.last_action.relative,
+					attributes: { value: Date.now() - data.info.last_action.timestamp },
+				})
+			);
 		} else {
 			row.appendChild(document.newElement({ type: "td", class: "name", text: "" }));
-			row.appendChild(document.newElement({ type: "td", class: "status", text: "" }));
-			row.appendChild(document.newElement({ type: "td", class: "last-action", text: "" }));
+			row.appendChild(document.newElement({ type: "td", class: "status", text: "", attributes: { value: 0 } }));
+			row.appendChild(document.newElement({ type: "td", class: "last-action", text: "", attributes: { value: 0 } }));
 		}
 
 		const deleteButton = document.newElement({

@@ -1,3 +1,14 @@
+document.addEventListener("click", (event) => {
+	if (event.target.tagName === "TH") {
+		let clickedHeader = event.target;
+
+		const table = findParent(clickedHeader, { tag: "TABLE" });
+		if (!table || !table.classList.contains("sortable")) return;
+
+		sortTable(table, [...table.findAll("th")].indexOf(clickedHeader) + 1);
+	}
+});
+
 function loadConfirmationPopup(options) {
 	return new Promise((resolve, reject) => {
 		document.find("#tt-black-overlay").classList.remove("hidden");
