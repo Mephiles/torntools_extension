@@ -22,6 +22,6 @@ table button {
 
 /* Sortable tables */
 
-table.sortable th {
+table.sortable th:not(.no-sorting) {
 	cursor: pointer;
 }
