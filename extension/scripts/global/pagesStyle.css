@@ -15,6 +15,24 @@ body.dark {
 	margin: auto;
 }
 
+#message {
+	position: sticky;
+	width: 30%;
+	margin-left: 35%;
+	text-align: center;
+	top: 0;
+	height: 25px;
+	line-height: 25px;
+	font-size: 15px;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	max-height: 0;
+	overflow: hidden;
+	/* transition: max-height 0.5s ease-out; */
+	z-index: 9;
+	color: black;
+}
+
 /* Navigation */
 
 header {

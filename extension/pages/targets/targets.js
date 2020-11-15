@@ -54,6 +54,12 @@ async function setupStakeouts() {
 		})
 			.then(async () => {
 				await ttStorage.set({ stakeouts: {} });
+
+				sendMessage("Stakeouts reset.", true);
+
+				for (let row of document.findAll("#stakeoutList tr.row")) {
+					row.remove();
+				}
 			})
 			.catch((error) => console.error(error));
 	});
@@ -222,5 +228,7 @@ async function setupStakeouts() {
 
 		await ttStorage.set({ stakeouts: newStakeouts });
 		console.log("Stakeouts updated!", newStakeouts);
+
+		sendMessage("Stakeouts saved.", true);
 	}
 }

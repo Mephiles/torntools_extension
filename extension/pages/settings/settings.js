@@ -210,7 +210,7 @@ async function setupPreferences() {
 				await ttStorage.reset();
 
 				chrome.runtime.sendMessage({ action: "initialize" }, () => {
-					message("Settings reset.", true);
+					sendMessage("Settings reset.", true, { reload: true });
 				});
 			})
 			.catch((error) => console.error(error));
@@ -261,7 +261,7 @@ async function setupPreferences() {
 		const reader = new FileReader();
 		reader.addEventListener("load", (event) => {
 			if (event.target.result.length > 5242880) {
-				return message("Maximum file size exceeded. (5MB)", false);
+				return sendMessage("Maximum file size exceeded. (5MB)", false);
 			}
 
 			ttStorage.change({ settings: { notifications: { soundCustom: event.target.result } } });
@@ -485,6 +485,8 @@ async function setupPreferences() {
 		// noinspection BadExpressionStatementJS
 		["dark", "light"].forEach((theme) => document.body.classList.remove(theme));
 		document.body.classList.add(getPageTheme());
+
+		sendMessage("Settings saved.", true);
 	}
 }
 
@@ -497,13 +499,13 @@ async function setupAPIInfo() {
 	document.find("#update_api_key").addEventListener("click", async () => {
 		changeAPIKey(document.find("#api_key").value)
 			.then(() => {
-				// FIXME - Better message handling.
+				sendMessage("API Key updated", true);
 				console.log("TT - Updated api key!");
 			})
 			.catch((error) => {
-				// FIXME - Better error handling.
+				sendMessage(error, false);
 				console.log("TT - Couldn't update API key!", error);
-				document.find("#api_key").value = "";
+				document.find("#api_key").value = api.torn.key || "";
 			});
 	});
 }

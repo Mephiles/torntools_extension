@@ -26,3 +26,29 @@ function loadConfirmationPopup(options) {
 		};
 	});
 }
+
+function sendMessage(text, good, options = {}) {
+	options = {
+		reload: false,
+		...options,
+	};
+
+	const message = document.find("#message");
+	if (!message) return;
+
+	message.classList.remove("hidden");
+	message.innerText = text;
+	message.style.backgroundColor = good ? "#30e202" : "#ff19199e";
+	message.style.maxHeight = message.scrollHeight + "px";
+
+	if (options.reload) {
+		setTimeout(() => {
+			location.reload();
+		}, 1200);
+	} else {
+		setTimeout(() => {
+			message.innerText = "";
+			message.classList.add("hidden");
+		}, 1500);
+	}
+}
