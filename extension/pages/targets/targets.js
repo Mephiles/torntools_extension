@@ -61,7 +61,7 @@ async function setupStakeouts() {
 					row.remove();
 				}
 			})
-			.catch((error) => console.error(error));
+			.catch(() => {});
 	});
 
 	document.find("#addStakeout").addEventListener("click", async () => {

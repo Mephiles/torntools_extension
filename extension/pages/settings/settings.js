@@ -213,7 +213,7 @@ async function setupPreferences() {
 					sendMessage("Settings reset.", true, { reload: true });
 				});
 			})
-			.catch((error) => console.error(error));
+			.catch(() => {});
 	});
 
 	_preferences.find("#notification_type-global").addEventListener("click", (event) => {
