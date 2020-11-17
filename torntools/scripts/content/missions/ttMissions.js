@@ -167,7 +167,7 @@ const MISSIONS = {
 	"Red Faced": { task: "Defeat (P) using a trout as finishing hit." },
 	"Rising Costs": {
 		task: "Hit (P) with a brick.",
-		hint: "If the brick misses, you will have to retry this mission. Could get a friend to throw a smoke so the chance of the brick hitting is greater.",
+		hint: "If the brick misses, you will have to retry this mission. Could get a friend to throw a tear gas so the chance of the brick hitting is greater.",
 	},
 	"Rolling in it": {
 		task: "Mug (P).",
