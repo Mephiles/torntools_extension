@@ -394,9 +394,11 @@ async function setupPreferences() {
 		updateGlobalNotifications();
 
 		function updateGlobalNotifications() {
-			const isGlobalDisabled = settings?.notifications.types.global === false;
+			if (!settings) return;
 
-			for (let type in settings?.notifications.types) {
+			const isGlobalDisabled = settings.notifications.types.global === false;
+
+			for (let type in settings.notifications.types) {
 				let option = _preferences.find(`#notification_type-${type}`);
 
 				if (type === "global") {

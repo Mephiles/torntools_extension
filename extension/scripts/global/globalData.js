@@ -56,7 +56,7 @@ const ttStorage = new (class {
 
 	reset() {
 		return new Promise(async (resolve) => {
-			const apiKey = api?.torn.key;
+			const apiKey = api ? api.torn.key : undefined;
 
 			await this.clear();
 			await this.set(getDefaultStorage(DEFAULT_STORAGE));
@@ -192,6 +192,11 @@ const DEFAULT_STORAGE = {
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	stakeouts: new DefaultSetting({ type: "object", defaultValue: {} }),
+	attackHistory: {
+		fetchData: new DefaultSetting({ type: "boolean", defaultValue: true }),
+		lastAttack: new DefaultSetting({ type: "number", defaultValue: 0 }),
+		history: new DefaultSetting({ type: "object", defaultValue: {} }),
+	},
 };
 
 const CONTRIBUTORS = {

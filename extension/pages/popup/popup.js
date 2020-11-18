@@ -42,7 +42,7 @@ async function showPage(name) {
 
 	for (let active of document.findAll("body > main.subpage.active, #pages li.active")) active.classList.remove("active");
 
-	document.find(`#pages li[to="${name}"]`)?.classList.add("active");
+	if (document.find(`#pages li[to="${name}"]`)) document.find(`#pages li[to="${name}"]`).classList.add("active");
 	document.find(`#${name}`).classList.add("active");
 
 	let setup = {
@@ -181,9 +181,9 @@ async function setupDashboard() {
 		}
 
 		function updateBar(name, bar) {
-			const current = bar?.current || 0;
-			let maximum = bar?.maximum || 100;
-			let tickAt = (userdata.server_time + bar?.ticktime) * 1000;
+			const current = bar ? bar.current : 0;
+			let maximum = bar ? bar.maximum : 100;
+			let tickAt = (userdata.server_time + (bar ? bar.ticktime : 0)) * 1000;
 			let fullAt = (userdata.server_time + bar.fulltime) * 1000;
 
 			if (current === maximum) fullAt = "full";

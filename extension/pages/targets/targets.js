@@ -88,7 +88,7 @@ async function setupStakeouts() {
 		const row = document.newElement({ type: "tr", class: "row", id: `stakeout_${id}` });
 
 		row.appendChild(document.newElement({ type: "td", class: "id", text: id }));
-		if (data?.info && Object.keys(data.info).length) {
+		if (data && data.info && Object.keys(data.info).length) {
 			let statusValue;
 			switch (data.info.last_action.status.toLowerCase()) {
 				case "offline":
@@ -199,7 +199,7 @@ async function setupStakeouts() {
 			})
 		);
 
-		if (data?.alerts) {
+		if (data && data.alerts) {
 			for (let key in data.alerts) {
 				if (!data.alerts[key]) continue;
 
@@ -223,7 +223,7 @@ async function setupStakeouts() {
 			const row = stakeoutList.find(`tr .id=${id}`).parentElement;
 
 			row.find(".status").classList.remove("offline", "idle", "online");
-			if (stakeouts[id]?.info && Object.keys(stakeouts[id].info).length) {
+			if (stakeouts[id] && stakeouts[id].info && Object.keys(stakeouts[id].info).length) {
 				row.find(".name").innerText = stakeouts[id].info.name;
 				row.find(".status").innerText = stakeouts[id].info.last_action.status;
 				row.find(".status").classList.add(stakeouts[id].info.last_action.status.toLowerCase());

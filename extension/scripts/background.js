@@ -174,6 +174,8 @@ async function updateUserdata() {
 
 		if (!userdata.education || !userdata.education_completed || userdata.education_completed.length !== Object.keys(torndata.education).length)
 			selections.push("education");
+
+		if (attackHistory.fetchData) selections.push(Object.keys(attackHistory.history).length ? "attacks" : "attacksfull");
 	}
 
 	const oldUserdata = { ...userdata };
@@ -181,13 +183,10 @@ async function updateUserdata() {
 	userdata.date = now;
 	userdata.dateBasic = updateBasic ? now : oldUserdata.dateBasic;
 
+	await checkAttacks().catch((error) => console.error("Error while checking personal stats for attack changes.", error));
+
 	await ttStorage.set({ userdata: { ...oldUserdata, ...userdata } });
 
-	let data = {
-		fetchAttacks: !oldUserdata || oldUserdata.energy.current - userdata.energy.current >= 25,
-	};
-
-	showIconBars();
 	await notifyEventMessages().catch((error) => console.error("Error while sending event and message notifications.", error));
 	await notifyStatusChange().catch((error) => console.error("Error while sending status change notifications.", error));
 	await notifyCooldownOver().catch((error) => console.error("Error while sending cooldown notifications.", error));
@@ -202,6 +201,59 @@ async function updateUserdata() {
 
 	return { updateBasic };
 
+	async function checkAttacks() {
+		let fetchData = false;
+
+		if (userdata.attacks) {
+			await updateAttackHistory();
+
+			delete userdata.attacks;
+		}
+
+		if (oldUserdata.personalstats && userdata.personalstats)
+			for (let stat of ["killstreak", "defendsstalemated", "attacksdraw", "defendslost"]) {
+				if (oldUserdata.personalstats[stat] !== userdata.personalstats[stat]) continue;
+
+				fetchData = true;
+				break;
+			}
+		await ttStorage.change({ attackHistory: { fetchData } });
+
+		async function updateAttackHistory() {
+			let lastAttack = 0;
+			for (let attackId in userdata.attacks) {
+				if (parseInt(attackId) <= attackHistory.lastAttack) continue;
+
+				if (parseInt(attackId) > lastAttack) lastAttack = parseInt(attackId);
+
+				const attack = userdata.attacks[attackId];
+
+				const enemyId = attack.attacker_id === userdata.player_id ? attack.defender_id : attack.attacker_id;
+				if (!enemyId) continue;
+
+				// Setup the data so there are no missing keys.
+				if (!attackHistory.history[enemyId]) attackHistory.history[enemyId] = {};
+				attackHistory.history[enemyId] = {
+					...attackHistory.history[enemyId],
+				};
+
+				// Manipulate the data to be correct.
+				attackHistory.history[enemyId].lastAttack = attack.timestamp_ended * 1000;
+
+				if (attack.defender_id === userdata.player_id) {
+					if (attack.result === "Lost") {
+						attackHistory.history[enemyId].defend++;
+					} else {
+						attackHistory.history[enemyId].defend_lose++;
+					}
+				} else if (attack.attacker_id === userdata.player_id) {
+				}
+			}
+
+			await ttStorage.change({ attackHistory: { lastAttack, history: attackHistory.history } });
+		}
+	}
+
 	async function notifyEventMessages() {
 		let eventCount = 0;
 		let events = [];
@@ -210,16 +262,6 @@ async function updateUserdata() {
 			if (event.seen) break;
 
 			if (settings.notifications.types.global && settings.notifications.types.events && !notifications.events[key]) {
-				if (
-					(event.event.includes("attacked") ||
-						event.event.includes("mugged") ||
-						event.event.includes("arrested") ||
-						event.event.includes("hospitalized")) &&
-					!event.event.includes("Someone")
-				) {
-					data.fetchAttacks = true;
-				}
-
 				events.push({ id: key, event: event.event });
 				notifications.events[key] = { skip: true };
 			}
@@ -473,7 +515,7 @@ async function updateUserdata() {
 }
 
 function showIconBars() {
-	if (!settings?.pages.icon.global) {
+	if (!settings || !settings.pages.icon.global) {
 		chrome.browserAction.setIcon({ path: "resources/images/icon_128.png" });
 	} else {
 		let barCount = 0;

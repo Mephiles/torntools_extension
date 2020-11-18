@@ -1,7 +1,7 @@
 document.addEventListener("click", (event) => {
 	if (event.target.tagName === "TH") {
 		let clickedHeader = event.target;
-		if (clickedHeader.getAttribute("class")?.split(" ").includes("no-sorting")) return;
+		if (clickedHeader.getAttribute("class") && clickedHeader.getAttribute("class").split(" ").includes("no-sorting")) return;
 
 		const table = findParent(clickedHeader, { tag: "TABLE" });
 		if (!table || !table.classList.contains("sortable")) return;
