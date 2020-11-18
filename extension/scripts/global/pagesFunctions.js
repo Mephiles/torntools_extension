@@ -14,8 +14,8 @@ document.addEventListener("click", (event) => {
 checkMobile().then((mobile) => {
 	console.log("TT - Mobile Checking", mobile);
 
-	if (mobile) document.documentElement.classList.add("tt-mobile");
-	else document.documentElement.classList.remove("tt-mobile");
+	if (mobile) document.body.classList.add("tt-mobile");
+	else document.body.classList.remove("tt-mobile");
 });
 
 function loadConfirmationPopup(options) {
