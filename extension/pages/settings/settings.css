@@ -10,6 +10,10 @@
 
 /* General */
 
+body {
+	min-width: 600px;
+}
+
 .first-header {
 	margin-top: 0;
 }

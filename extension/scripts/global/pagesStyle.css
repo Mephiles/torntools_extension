@@ -96,11 +96,18 @@ main > h2 {
 }
 
 main > section {
-	width: 70%;
 	margin: 0 auto;
 	padding: 10px;
 	font-size: 14px;
 	box-sizing: border-box;
+}
+
+body:not(.tt-mobile) main > section {
+	width: 70%;
+}
+
+body.tt-mobile main > section {
+	width: 95%;
 }
 
 body.light main > section {

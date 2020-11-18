@@ -10,6 +10,12 @@ document.addEventListener("click", (event) => {
 	}
 });
 
+// mobile check
+checkMobile().then((mobile) => {
+	if (mobile) document.documentElement.classList.add("tt-mobile");
+	else document.documentElement.classList.remove("tt-mobile");
+});
+
 function loadConfirmationPopup(options) {
 	return new Promise((resolve, reject) => {
 		document.find("#tt-black-overlay").classList.remove("hidden");
