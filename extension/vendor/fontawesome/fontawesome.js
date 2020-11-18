@@ -7,5 +7,5 @@ fetch(chrome.runtime.getURL("/vendor/fontawesome/fontawesome.css"))
 			return chrome.runtime.getURL(`/vendor/fontawesome${match}`);
 		});
 
-		document.find("head").appendChild(document.newElement({ type: "style", html: css }));
+		document.querySelector("head").appendChild(document.newElement({ type: "style", html: css }));
 	});
