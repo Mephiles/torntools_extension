@@ -33,8 +33,12 @@ async function showPage(name) {
 	};
 
 	if (!(name in initiatedPages) || !initiatedPages[name]) {
-		await setup[name]();
-		initiatedPages[name] = true;
+		try {
+			await setup[name]();
+			initiatedPages[name] = true;
+		} catch (e) {
+			console.error(`Error while loading ${name}.`, e);
+		}
 	}
 }
 
