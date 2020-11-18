@@ -76,6 +76,13 @@ Array.prototype.insertAt = function (index, ...elements) {
 	this.splice(index, 0, ...elements);
 };
 
+if (!Array.prototype.flat)
+	Object.defineProperty(Array.prototype, "flat", {
+		value(depth = 1) {
+			return this.reduce((flat, toFlatten) => flat.concat(Array.isArray(toFlatten) && depth > 1 ? toFlatten.flat(depth - 1) : toFlatten), []);
+		},
+	});
+
 /*
  * Load some functions.
  */
