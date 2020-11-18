@@ -426,13 +426,12 @@
 			</section>
 		</main>
 
-		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/eruda/2.4.1/eruda.min.js"
-			integrity="sha512-RrQDQUon0OiQVjKQYkMuhtLgx8R/4niagIVdHltxcAJa1+cc8FJFFOhtLuK3YJAoo5mdfAFh98ZQwbDKJgFIpg=="
-			crossorigin="anonymous"
-		></script>
+		<script src="https://cdn.jsdelivr.net/npm/eruda@2.4.1/eruda.min.js"></script>
 		<script>
 			eruda.init();
+
+			let cnsl = eruda.get("console");
+			cnsl.config.set("catchGlobalErr", true);
 		</script>
 		<script src="../../vendor/fontawesome/fontawesome.js"></script>
 		<script src="../../scripts/global/globalClasses.js"></script>
