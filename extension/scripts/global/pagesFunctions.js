@@ -12,6 +12,8 @@ document.addEventListener("click", (event) => {
 
 // mobile check
 checkMobile().then((mobile) => {
+	console.log("TT - Mobile Checking", mobile);
+
 	if (mobile) document.documentElement.classList.add("tt-mobile");
 	else document.documentElement.classList.remove("tt-mobile");
 });
