@@ -205,11 +205,6 @@ function checkMobile() {
 	return new Promise((resolve) => {
 		if (typeof mobile === "boolean") return resolve(mobile);
 
-		if (!window.location.host.includes("torn.com")) {
-			resolve(false);
-			return;
-		}
-
 		if (document.readyState === "complete" || document.readyState === "interactive") check();
 		else window.addEventListener("DOMContentLoaded", check);
 
