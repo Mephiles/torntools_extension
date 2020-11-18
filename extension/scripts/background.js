@@ -30,6 +30,7 @@ let notifications = {
 
 	registerUpdaters();
 
+	showIconBars();
 	storageListeners.settings.push(() => {
 		showIconBars();
 	});
@@ -515,9 +516,12 @@ async function updateUserdata() {
 }
 
 function showIconBars() {
+	console.log("DKK - showIconBars", !settings, !settings.pages.icon.global);
 	if (!settings || !settings.pages.icon.global) {
+		console.log("DKK - showIconBars a");
 		chrome.browserAction.setIcon({ path: "resources/images/icon_128.png" });
 	} else {
+		console.log("DKK - showIconBars b");
 		let barCount = 0;
 		if (settings.pages.icon.energy) barCount++;
 		if (settings.pages.icon.nerve) barCount++;

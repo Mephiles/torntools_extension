@@ -150,7 +150,6 @@ const DEFAULT_STORAGE = {
 		themes: {
 			pages: new DefaultSetting({ type: "string", defaultValue: "default" }),
 		},
-		iconBars: {},
 		pages: {
 			global: {
 				alignLeft: new DefaultSetting({ type: "boolean", defaultValue: false }),
