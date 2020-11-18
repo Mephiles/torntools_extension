@@ -30,9 +30,9 @@ let notifications = {
 
 	registerUpdaters();
 
-	showIconBars();
-	storageListeners.settings.push(() => {
-		showIconBars();
+	await showIconBars();
+	storageListeners.settings.push(async () => {
+		await showIconBars();
 	});
 })();
 
@@ -188,6 +188,7 @@ async function updateUserdata() {
 
 	await ttStorage.set({ userdata: { ...oldUserdata, ...userdata } });
 
+	await showIconBars().catch((error) => console.error("Error while updating the icon bars.", error));
 	await notifyEventMessages().catch((error) => console.error("Error while sending event and message notifications.", error));
 	await notifyStatusChange().catch((error) => console.error("Error while sending status change notifications.", error));
 	await notifyCooldownOver().catch((error) => console.error("Error while sending cooldown notifications.", error));
@@ -515,13 +516,10 @@ async function updateUserdata() {
 	}
 }
 
-function showIconBars() {
-	console.log("DKK - showIconBars", !settings, !settings.pages.icon.global);
+async function showIconBars() {
 	if (!settings || !settings.pages.icon.global) {
-		console.log("DKK - showIconBars a");
 		chrome.browserAction.setIcon({ path: "resources/images/icon_128.png" });
 	} else {
-		console.log("DKK - showIconBars b");
 		let barCount = 0;
 		if (settings.pages.icon.energy) barCount++;
 		if (settings.pages.icon.nerve) barCount++;
