@@ -1645,7 +1645,7 @@ const RANKS = {
 	Outstanding: 18,
 	Celebrity: 19,
 	Supreme: 20,
-	Idolised: 21,
+	Idolized: 21,
 	Champion: 22,
 	Heroic: 23,
 	Legendary: 24,
