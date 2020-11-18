@@ -12,7 +12,7 @@ document.addEventListener("click", (event) => {
 
 // mobile check
 checkMobile().then((mobile) => {
-	console.log("TT - Mobile Checking", mobile);
+	console.log("TT - Mobile Checking", mobile, { availWidth: screen.availWidth, innerWidth: window.innerWidth });
 
 	if (mobile) document.documentElement.classList.add("tt-mobile");
 	else document.documentElement.classList.remove("tt-mobile");
