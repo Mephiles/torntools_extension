@@ -10,6 +10,8 @@ export default [
 				{ message: "Add booster and medical cooldown timed notifications.", contributor: "DeKleineKobini" },
 				{ message: "Show stakeouts on the target page.", contributor: "DeKleineKobini" },
 				{ message: "Add stakeouts when health drops below a certain percentage.", contributor: "DeKleineKobini" },
+				{ message: "Add unused energy and nerve refill highlighting", contributor: "Natty_Boh" },
+
 			],
 			fixes: [{ message: "Hide new chat messages while searching.", contributor: "DeKleineKobini" }],
 			changes: [

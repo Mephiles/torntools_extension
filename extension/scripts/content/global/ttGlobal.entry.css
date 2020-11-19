@@ -27,3 +27,13 @@
 .no-zalgo .chat-active_1Sufk .overview_1MoPG .message_oP8oM {
 	overflow: hidden;
 }
+
+/* Highlight energy */
+#barEnergy .bar-name___3TJ0p {
+	color: var(--torntools-highlight-energy, #333) !important;
+}
+
+/* Highlight nerve */
+#barNerve .bar-name___3TJ0p {
+	color: var(--torntools-highlight-nerve, #333) !important;
+}

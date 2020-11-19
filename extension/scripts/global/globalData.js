@@ -164,6 +164,10 @@ const DEFAULT_STORAGE = {
 				blockZalgo: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				highlights: new DefaultSetting({ type: "array", defaultValue: [{ name: "$player", color: "#7ca900" }] }),
 			},
+			sidebar: {
+				highlightEnergy: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				highlightNerve: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			},
 			popup: {
 				dashboard: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				marketSearch: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -232,6 +236,11 @@ const CONTRIBUTORS = {
 		id: 2408039,
 		name: "kontamusse",
 		color: "#58e4e4",
+	},
+	Natty_Boh: {
+		id: 1651049,
+		name: "Natty_Boh",
+		color: "blue",
 	},
 };
 
