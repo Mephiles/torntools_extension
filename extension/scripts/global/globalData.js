@@ -237,6 +237,11 @@ const CONTRIBUTORS = {
 		name: "kontamusse",
 		color: "#58e4e4",
 	},
+	Natty_Boh: {
+		id: 1651049,
+		name: "Natty_Boh",
+		color: "blue",
+	},
 };
 
 let mobile;
