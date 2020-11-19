@@ -169,7 +169,7 @@ async function updateUserdata() {
 
 	let updateBasic = !userdata.dateBasic || now - userdata.dateBasic >= TO_MILLIS.MINUTES * 2;
 
-	let selections = ["profile", "bars", "cooldowns", "timestamp", "travel", "events", "messages", "money"];
+	let selections = ["profile", "bars", "cooldowns", "timestamp", "travel", "events", "messages", "money", "refills"];
 	if (updateBasic) {
 		selections = selections.concat("personalstats");
 
