@@ -517,7 +517,7 @@ async function updateUserdata() {
 }
 
 async function showIconBars() {
-	if (!settings || !settings.pages.icon.global) {
+	if (!settings || !userdata || !settings.pages.icon.global) {
 		chrome.browserAction.setIcon({ path: "resources/images/icon_128.png" });
 	} else {
 		let barCount = 0;
@@ -525,8 +525,8 @@ async function showIconBars() {
 		if (settings.pages.icon.nerve) barCount++;
 		if (settings.pages.icon.happy) barCount++;
 		if (settings.pages.icon.life) barCount++;
-		if (settings.pages.icon.chain && userdata && userdata.chain && userdata.chain.current > 0) barCount++;
-		if (settings.pages.icon.travel && userdata && userdata.travel && userdata.travel.time_left > 0) barCount++;
+		if (settings.pages.icon.chain && userdata.chain && userdata.chain.current > 0) barCount++;
+		if (settings.pages.icon.travel && userdata.travel && userdata.travel.time_left > 0) barCount++;
 
 		const canvas = document.newElement({ type: "canvas", attributes: { width: 128, height: 128 } });
 
