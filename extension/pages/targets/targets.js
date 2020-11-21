@@ -91,7 +91,7 @@ async function setupAttackHistory() {
 
 	function updateHistory() {
 		for (let id in attackHistory.history) {
-			const row = historyList.find(`history_${id}`);
+			const row = historyList.find(`#history_${id}`);
 
 			if (row) {
 				// TODO - Live update attack history.
