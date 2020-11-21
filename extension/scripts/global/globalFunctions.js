@@ -657,27 +657,46 @@ function applyPlural(check) {
 	return check !== 1 ? "s" : "s";
 }
 
-function sortTable(table, columnPlace) {
-	let order;
-
+function sortTable(table, columnPlace, order = "asc") {
 	let header = table.find(`th:nth-child(${columnPlace})`);
-	if (header.find("i.fa-caret-down")) {
+	if (order) {
+		if (header.find("i")) {
+			switch (order) {
+				case "asc":
+					header.find("i.fa-caret-down").classList.add("fa-caret-up");
+					header.find("i.fa-caret-down").classList.remove("fa-caret-down");
+					break;
+				case "desc":
+					header.find("i.fa-caret-up").classList.add("fa-caret-down");
+					header.find("i.fa-caret-up").classList.remove("fa-caret-up");
+					break;
+				case "none":
+				default:
+					header.find("i").remove();
+					break;
+			}
+		} else {
+			switch (order) {
+				case "asc":
+					header.appendChild(document.newElement({ type: "i", class: "fas fa-caret-up" }));
+					break;
+				case "desc":
+					header.appendChild(document.newElement({ type: "i", class: "fas fa-caret-down" }));
+					break;
+			}
+		}
+	} else if (header.find("i.fa-caret-down")) {
 		header.find("i.fa-caret-down").classList.add("fa-caret-up");
 		header.find("i.fa-caret-down").classList.remove("fa-caret-down");
 
 		order = "asc";
-	} else if (header.find("i.fa-caret-up")) {
+	} else if (header.find("i.fa-caret-up") || order === "desc") {
 		header.find("i.fa-caret-up").classList.add("fa-caret-down");
 		header.find("i.fa-caret-up").classList.remove("fa-caret-up");
 
 		order = "desc";
 	} else {
-		header.appendChild(
-			document.newElement({
-				type: "i",
-				class: "fas fa-caret-up",
-			})
-		);
+		header.appendChild(document.newElement({ type: "i", class: "fas fa-caret-up" }));
 
 		order = "asc";
 	}

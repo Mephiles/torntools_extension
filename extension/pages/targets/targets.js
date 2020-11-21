@@ -37,17 +37,73 @@ async function showPage(name) {
 	}
 }
 
-async function setupAttackHistory() {}
+async function setupAttackHistory() {
+	const _attackHistory = document.find("#attackHistory");
+	const historyList = _attackHistory.find("#attacksList");
+
+	fillHistory();
+	sortTable(historyList, 3, "desc");
+	storageListeners.stakeouts.push(updateHistory);
+
+	function fillHistory() {
+		for (let id in attackHistory.history) {
+			addHistoryRow(id, attackHistory.history[id]);
+		}
+	}
+
+	function addHistoryRow(id, data = {}) {
+		const row = document.newElement({ type: "tr", class: "row", id: `stakeout_${id}` });
+
+		row.appendChild(document.newElement({ type: "td", class: "id", text: id }));
+		row.appendChild(document.newElement({ type: "td", class: "name", text: data.name }));
+		row.appendChild(document.newElement({ type: "td", class: "last-attack", text: "TODO", attributes: { value: data.lastAttack } })); // TODO - Show last attack date.
+		for (let type of [
+			"win",
+			"mug",
+			"leave",
+			"hospitalise",
+			"arrest",
+			"special",
+			"assist",
+			"defend",
+			"lose",
+			"defend_lost",
+			"stalemate",
+			"escapes",
+			"stealth",
+		]) {
+			// TODO - Colors
+			console.log(type);
+			row.appendChild(document.newElement({ type: "td", class: type, text: data[type].toString(), attributes: { value: data[type] } }));
+		}
+		// TODO - Stealth
+
+		const deleteButton = document.newElement({
+			type: "button",
+			class: "delete",
+			children: [document.newElement({ type: "i", class: "remove-icon fas fa-trash-alt" })],
+		});
+		deleteButton.addEventListener("click", () => row.remove());
+
+		historyList.appendChild(row);
+	}
+
+	function updateHistory() {
+		for (let id in attackHistory.history) {
+			// TODO - Live update attack history.
+		}
+	}
+}
 
 async function setupStakeouts() {
-	const _preferences = document.find("#stakeouts");
-	const stakeoutList = _preferences.find("#stakeoutList");
+	const _stakeouts = document.find("#stakeouts");
+	const stakeoutList = _stakeouts.find("#stakeoutList");
 
 	fillStakeouts();
 	storageListeners.stakeouts.push(updateStakeouts);
 
-	_preferences.find("#saveStakeouts").addEventListener("click", async () => await saveSettings());
-	_preferences.find("#resetStakeouts").addEventListener("click", () => {
+	_stakeouts.find("#saveStakeouts").addEventListener("click", async () => await saveStakeouts());
+	_stakeouts.find("#resetStakeouts").addEventListener("click", () => {
 		loadConfirmationPopup({
 			title: "Reset stakeouts",
 			message: `<h3>Are you sure you want to delete all stakeouts?</h3>`,
@@ -78,7 +134,6 @@ async function setupStakeouts() {
 	});
 
 	function fillStakeouts() {
-		console.log("ST", stakeouts);
 		for (let id in stakeouts) {
 			addStakeout(id, stakeouts[id]);
 		}
@@ -236,7 +291,7 @@ async function setupStakeouts() {
 		}
 	}
 
-	async function saveSettings() {
+	async function saveStakeouts() {
 		const newStakeouts = {};
 
 		for (let row of stakeoutList.findAll("tr.row")) {

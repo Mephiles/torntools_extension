@@ -218,6 +218,7 @@ async function updateUserdata() {
 				fetchData = true;
 				break;
 			}
+
 		await ttStorage.change({ attackHistory: { fetchData } });
 
 		async function updateAttackHistory() {
