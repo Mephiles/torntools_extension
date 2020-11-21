@@ -176,7 +176,7 @@ async function updateUserdata() {
 		if (!userdata.education || !userdata.education_completed || userdata.education_completed.length !== Object.keys(torndata.education).length)
 			selections.push("education");
 	}
-	if (attackHistory.fetchData) selections.push(Object.keys(attackHistory.history).length ? "attacks" : "attacksfull");
+	if (attackHistory.fetchData) selections.push("attacks");
 
 	const oldUserdata = { ...userdata };
 	userdata = await fetchApi("torn", { section: "user", selections });
@@ -222,7 +222,6 @@ async function updateUserdata() {
 		await ttStorage.change({ attackHistory: { fetchData } });
 
 		async function updateAttackHistory() {
-			console.log("TT - Update attack history.");
 			let lastAttack = 0;
 			for (let attackId in userdata.attacks) {
 				if (parseInt(attackId) <= attackHistory.lastAttack) continue;
