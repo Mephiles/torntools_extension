@@ -75,6 +75,7 @@ a#dashboard > header #country:hover {
 #dashboard .bar .progress .value {
 	width: 0;
 	height: inherit;
+	max-width: 100%;
 }
 
 #dashboard .bar-wrap {
