@@ -6,7 +6,6 @@ let storageListeners = {
 	version: [],
 	userdata: [],
 	stakeouts: [],
-	attackHistory: [],
 };
 
 async function loadDatabase() {
@@ -21,7 +20,6 @@ async function loadDatabase() {
 	userdata = database.userdata;
 	torndata = database.torndata;
 	stakeouts = database.stakeouts;
-	attackHistory = database.attackHistory;
 
 	databaseLoaded = true;
 	console.log("TT - Database loaded.", database);
@@ -54,10 +52,6 @@ chrome.storage.onChanged.addListener((changes, area) => {
 			stakeouts = changes.stakeouts.newValue;
 
 			storageListeners.stakeouts.forEach((listener) => listener());
-		} else if (changes.attackHistory) {
-			attackHistory = changes.attackHistory.newValue;
-
-			storageListeners.attackHistory.forEach((listener) => listener());
 		}
 	}
 });

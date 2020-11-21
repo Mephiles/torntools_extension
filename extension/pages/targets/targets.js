@@ -43,7 +43,6 @@ async function setupAttackHistory() {
 
 	fillHistory();
 	sortTable(historyList, 3, "desc");
-	storageListeners.attackHistory.push(updateHistory);
 
 	function fillHistory() {
 		for (let id in attackHistory.history) {
@@ -94,18 +93,6 @@ async function setupAttackHistory() {
 		}
 
 		historyList.appendChild(row);
-	}
-
-	function updateHistory() {
-		for (let id in attackHistory.history) {
-			const row = historyList.find(`#history_${id}`);
-
-			if (row) {
-				// TODO - Live update attack history.
-			} else {
-				addHistoryRow(id, attackHistory.history[id]);
-			}
-		}
 	}
 }
 
