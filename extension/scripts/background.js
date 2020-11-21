@@ -525,8 +525,8 @@ async function showIconBars() {
 		if (settings.pages.icon.nerve) barCount++;
 		if (settings.pages.icon.happy) barCount++;
 		if (settings.pages.icon.life) barCount++;
-		if (settings.pages.icon.chain && userdata.chain && userdata.chain.current > 0) barCount++;
-		if (settings.pages.icon.travel && userdata.travel && userdata.travel.time_left > 0) barCount++;
+		if (settings.pages.icon.chain && userdata && userdata.chain && userdata.chain.current > 0) barCount++;
+		if (settings.pages.icon.travel && userdata && userdata.travel && userdata.travel.time_left > 0) barCount++;
 
 		const canvas = document.newElement({ type: "canvas", attributes: { width: 128, height: 128 } });
 
