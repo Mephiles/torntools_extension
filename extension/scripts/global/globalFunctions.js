@@ -512,6 +512,45 @@ function formatTime(time = {}, attributes = {}) {
 	}
 }
 
+function formatDate(date = {}, attributes = {}) {
+	if (typeof date === "number") return formatDate({ milliseconds: date, attributes });
+
+	date = {
+		milliseconds: undefined,
+		...date,
+	};
+	attributes = {
+		showYear: false,
+		...attributes,
+	};
+
+	let millis = 0;
+	if (isDefined(date.milliseconds)) millis += date.milliseconds;
+	if (isDefined(date.seconds)) millis += date.seconds * TO_MILLIS.SECONDS;
+
+	const _date = new Date(millis);
+	let parts = [];
+	let separator;
+
+	switch (settings.formatting.date) {
+		case "us":
+			separator = "/";
+
+			parts.push(_date.getMonth() + 1, _date.getDate());
+			if (attributes.showYear) parts.push(_date.getFullYear());
+			break;
+		case "eu":
+		default:
+			separator = ".";
+
+			parts.push(_date.getDate(), _date.getMonth() + 1);
+			if (attributes.showYear) parts.push(_date.getFullYear());
+			break;
+	}
+
+	return parts.map((p) => toMultipleDigits(p)).join(separator);
+}
+
 function isDefined(object) {
 	return typeof object !== "undefined";
 }

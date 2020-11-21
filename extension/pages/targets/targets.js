@@ -56,7 +56,14 @@ async function setupAttackHistory() {
 
 		row.appendChild(document.newElement({ type: "td", class: "id", text: id }));
 		row.appendChild(document.newElement({ type: "td", class: "name", text: data.name }));
-		row.appendChild(document.newElement({ type: "td", class: "last-attack", text: "TODO", attributes: { value: data.lastAttack } })); // TODO - Show last attack date.
+		row.appendChild(
+			document.newElement({
+				type: "td",
+				class: "last-attack",
+				text: `${formatDate({ milliseconds: data.lastAttack }, { showYear: true })}, ${formatTime({ milliseconds: data.lastAttack })}`,
+				attributes: { value: data.lastAttack },
+			})
+		);
 		for (let type of [
 			"win",
 			"mug",
