@@ -175,9 +175,8 @@ async function updateUserdata() {
 
 		if (!userdata.education || !userdata.education_completed || userdata.education_completed.length !== Object.keys(torndata.education).length)
 			selections.push("education");
-
-		if (attackHistory.fetchData) selections.push(Object.keys(attackHistory.history).length ? "attacks" : "attacksfull");
 	}
+	if (attackHistory.fetchData) selections.push(Object.keys(attackHistory.history).length ? "attacks" : "attacksfull");
 
 	const oldUserdata = { ...userdata };
 	userdata = await fetchApi("torn", { section: "user", selections });
@@ -214,7 +213,7 @@ async function updateUserdata() {
 
 		if (oldUserdata.personalstats && userdata.personalstats)
 			for (let stat of ["killstreak", "defendsstalemated", "attacksdraw", "defendslost"]) {
-				if (oldUserdata.personalstats[stat] !== userdata.personalstats[stat]) continue;
+				if (oldUserdata.personalstats[stat] === userdata.personalstats[stat]) continue;
 
 				fetchData = true;
 				break;
@@ -222,10 +221,10 @@ async function updateUserdata() {
 		await ttStorage.change({ attackHistory: { fetchData } });
 
 		async function updateAttackHistory() {
+			console.log("TT - Update attack history.");
 			let lastAttack = 0;
 			for (let attackId in userdata.attacks) {
 				if (parseInt(attackId) <= attackHistory.lastAttack) continue;
-
 				if (parseInt(attackId) > lastAttack) lastAttack = parseInt(attackId);
 
 				const attack = userdata.attacks[attackId];
@@ -236,6 +235,22 @@ async function updateUserdata() {
 				// Setup the data so there are no missing keys.
 				if (!attackHistory.history[enemyId]) attackHistory.history[enemyId] = {};
 				attackHistory.history[enemyId] = {
+					name: "",
+					defend: 0,
+					defend_lost: 0,
+					lose: 0,
+					stalemate: 0,
+					win: 0,
+					stealth: 0,
+					mug: 0,
+					hospitalise: 0,
+					leave: 0,
+					arrest: 0,
+					assist: 0,
+					special: 0,
+					escapes: 0,
+					respect: [],
+					respect_base: [],
 					...attackHistory.history[enemyId],
 				};
 
@@ -243,16 +258,64 @@ async function updateUserdata() {
 				attackHistory.history[enemyId].lastAttack = attack.timestamp_ended * 1000;
 
 				if (attack.defender_id === userdata.player_id) {
-					if (attack.result === "Lost") {
+					if (attack.attacker_name) attackHistory.history[enemyId].name = attack.attacker_name;
+
+					if (attack.result === "Assist") {
+						// Ignore group attacks that isn't the finishing hit
+					} else if (["Lost", "Timeout", "Escape", "Stalemate"].includes(attack.result)) {
 						attackHistory.history[enemyId].defend++;
 					} else {
-						attackHistory.history[enemyId].defend_lose++;
+						attackHistory.history[enemyId].defend_lost++;
 					}
 				} else if (attack.attacker_id === userdata.player_id) {
+					if (attack.defender_name) attackHistory.history[enemyId].name = attack.defender_name;
+
+					if (attack.result === "Lost" || attack.result === "Timeout") attackHistory.history[enemyId].lose++;
+					else if (attack.result === "Stalemate") attackHistory.history[enemyId].stalemate++;
+					else if (attack.result === "Assist") attackHistory.history[enemyId].assist++;
+					else if (attack.result === "Escape") attackHistory.history[enemyId].escapes++;
+					else {
+						attackHistory.history[enemyId].win++;
+
+						let hasBaseRespect = attack.modifiers;
+
+						let respect = attack.respect_gain;
+						if (hasBaseRespect) {
+							if (respect === attack.modifiers.chainBonus) {
+								respect = 1;
+								hasBaseRespect = false;
+							} else {
+								if (attack.result === "Mugged") respect /= 0.75;
+
+								respect /= attack.modifiers.war / attack.modifiers.groupAttack / attack.modifiers.overseas / attack.modifiers.chainBonus;
+							}
+						}
+						if (attack.stealthed) attackHistory.history[enemyId].stealth++;
+
+						attackHistory.history[enemyId][hasBaseRespect ? "respect_base" : "respect"].push(respect);
+
+						switch (attack.result) {
+							case "Mugged":
+								attackHistory.history[enemyId].mug++;
+								break;
+							case "Hospitalized":
+								attackHistory.history[enemyId].hospitalise++;
+								break;
+							case "Attacked":
+								attackHistory.history[enemyId].leave++;
+								break;
+							case "Arrested":
+								attackHistory.history[enemyId].arrest++;
+								break;
+							case "Special":
+								attackHistory.history[enemyId].special++;
+								break;
+						}
+					}
 				}
 			}
 
-			await ttStorage.change({ attackHistory: { lastAttack, history: attackHistory.history } });
+			await ttStorage.change({ attackHistory: { lastAttack, history: { ...attackHistory.history } } });
 		}
 	}
 
