@@ -25,6 +25,10 @@ h1 {
 	margin: 0 0 8px 0;
 }
 
+.bar-title{
+	margin-bottom: 2px;
+}
+
 /* Dark Mode */
 
 body.dark {
