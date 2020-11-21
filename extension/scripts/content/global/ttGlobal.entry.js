@@ -28,12 +28,18 @@ async function loadGlobalEntry() {
 
 	document.documentElement.style.setProperty("--torntools-chat-font-size", `${settings.pages.chat.fontSize || 12}px`);
 
-	// sidebar 
-	document.documentElement.style.setProperty("--torntools-highlight-energy", 
-		!userdata.refills.energy_refill_used && settings.pages.sidebar.highlightEnergy ? `#6e8820` : "#333");
-	document.documentElement.style.setProperty("--torntools-highlight-nerve", 
-		!userdata.refills.nerve_refill_used && settings.pages.sidebar.highlightNerve ? `#6e8820` : "#333");
-		
+	if (hasAPIData()) {
+		// Highlight refills.
+		document.documentElement.style.setProperty(
+			"--torntools-highlight-energy",
+			!userdata.refills.energy_refill_used && settings.pages.sidebar.highlightEnergy ? `#6e8820` : "#333"
+		);
+		document.documentElement.style.setProperty(
+			"--torntools-highlight-nerve",
+			!userdata.refills.nerve_refill_used && settings.pages.sidebar.highlightNerve ? `#6e8820` : "#333"
+		);
+	}
+
 	requireElement("#chatRoot").then((chats) => {
 		if (settings.pages.chat.blockZalgo) chats.classList.add("no-zalgo");
 		else chats.classList.remove("no-zalgo");

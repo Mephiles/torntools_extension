@@ -747,3 +747,7 @@ function sortTable(table, columnPlace) {
 		}
 	}
 }
+
+function hasAPIData() {
+	return api.torn.key && userdata && Object.keys(userdata).length;
+}
