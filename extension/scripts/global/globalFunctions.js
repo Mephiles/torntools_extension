@@ -657,7 +657,7 @@ function applyPlural(check) {
 	return check !== 1 ? "s" : "s";
 }
 
-function sortTable(table, columnPlace, order = "asc") {
+function sortTable(table, columnPlace, order) {
 	let header = table.find(`th:nth-child(${columnPlace})`);
 	if (order) {
 		if (header.find("i")) {

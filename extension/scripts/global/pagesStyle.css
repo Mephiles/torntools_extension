@@ -181,3 +181,9 @@ body.dark #tt-confirmation-popup {
 	margin: 5px 10px;
 	border-bottom: 1px solid lightgray;
 }
+
+/* Sortable tables */
+
+table.sortable th:not(.no-sorting) {
+	cursor: pointer;
+}

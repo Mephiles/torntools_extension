@@ -1,7 +1,3 @@
-#stakeouts #stakeoutList {
-	width: 100%;
-}
-
 #stakeouts #stakeoutList .status:before {
 	content: "";
 	height: 12px;

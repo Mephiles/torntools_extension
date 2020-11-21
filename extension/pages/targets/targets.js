@@ -43,7 +43,7 @@ async function setupAttackHistory() {
 
 	fillHistory();
 	sortTable(historyList, 3, "desc");
-	storageListeners.stakeouts.push(updateHistory);
+	storageListeners.attackHistory.push(updateHistory);
 
 	function fillHistory() {
 		for (let id in attackHistory.history) {
@@ -52,7 +52,7 @@ async function setupAttackHistory() {
 	}
 
 	function addHistoryRow(id, data = {}) {
-		const row = document.newElement({ type: "tr", class: "row", id: `stakeout_${id}` });
+		const row = document.newElement({ type: "tr", class: "row", id: `history_${id}` });
 
 		row.appendChild(document.newElement({ type: "td", class: "id", text: id }));
 		row.appendChild(document.newElement({ type: "td", class: "name", text: data.name }));
@@ -72,25 +72,32 @@ async function setupAttackHistory() {
 			"escapes",
 			"stealth",
 		]) {
-			// TODO - Colors
-			console.log(type);
-			row.appendChild(document.newElement({ type: "td", class: type, text: data[type].toString(), attributes: { value: data[type] } }));
+			row.appendChild(document.newElement({ type: "td", class: `data ${type}`, text: data[type].toString(), attributes: { value: data[type] } }));
 		}
-		// TODO - Stealth
+		if (data.respect_base.length) {
+			const respect = parseFloat((data.respect_base.reduce((a, b) => a + b, 0) / data.respect_base.length || 0).toFixed(2));
 
-		const deleteButton = document.newElement({
-			type: "button",
-			class: "delete",
-			children: [document.newElement({ type: "i", class: "remove-icon fas fa-trash-alt" })],
-		});
-		deleteButton.addEventListener("click", () => row.remove());
+			row.appendChild(document.newElement({ type: "td", class: "data respect", text: respect.toString(), attributes: { value: respect } }));
+		} else if (data.respect.length) {
+			const respect = parseFloat((data.respect.reduce((a, b) => a + b, 0) / data.respect.length || 0).toFixed(2));
+
+			row.appendChild(document.newElement({ type: "td", class: "data respect", text: `${respect}*`, attributes: { value: respect } }));
+		} else {
+			row.appendChild(document.newElement({ type: "td", class: "data respect", text: "-", attributes: { value: -1 } }));
+		}
 
 		historyList.appendChild(row);
 	}
 
 	function updateHistory() {
 		for (let id in attackHistory.history) {
-			// TODO - Live update attack history.
+			const row = historyList.find(`history_${id}`);
+
+			if (row) {
+				// TODO - Live update attack history.
+			} else {
+				addHistoryRow(id, attackHistory.history[id]);
+			}
 		}
 	}
 }

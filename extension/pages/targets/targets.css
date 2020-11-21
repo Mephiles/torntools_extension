@@ -24,8 +24,25 @@ table button {
 	padding: unset;
 }
 
-/* Sortable tables */
+/* Styles tables */
 
-table.sortable th:not(.no-sorting) {
-	cursor: pointer;
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+body.light table tr.header {
+	border-bottom: 2px solid black;
+}
+
+body.dark table tr.header {
+	border-bottom: 2px solid white;
+}
+
+body.light table tr:not(.header):not(:last-child) {
+	border-bottom: 1px solid #5b5b5b;
+}
+
+body.dark table tr:not(.header):not(:last-child) {
+	border-bottom: 1px solid #a7a7a7;
 }

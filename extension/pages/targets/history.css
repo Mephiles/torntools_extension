@@ -1,3 +1,51 @@
-#attackHistory #attacksList {
-	width: 100%;
+#attackHistory #attacksList .data {
+	text-align: center;
+}
+
+body.light #attackHistory #attacksList .win,
+body.light #attackHistory #attacksList .lose,
+body.light #attackHistory #attacksList .stealth {
+	border-left: 2px solid black;
+}
+
+body.dark #attackHistory #attacksList .win,
+body.dark #attackHistory #attacksList .lose,
+body.dark #attackHistory #attacksList .stealth {
+	border-left: 2px solid white;
+}
+
+body.light #attackHistory #attacksList .win,
+body.light #attackHistory #attacksList .mug,
+body.light #attackHistory #attacksList .leave,
+body.light #attackHistory #attacksList .hospitalise,
+body.light #attackHistory #attacksList .arrest,
+body.light #attackHistory #attacksList .special,
+body.light #attackHistory #attacksList .defend,
+body.light #attackHistory #attacksList .assist {
+	background-color: #8be38b;
+}
+
+body.dark #attackHistory #attacksList .win,
+body.dark #attackHistory #attacksList .mug,
+body.dark #attackHistory #attacksList .leave,
+body.dark #attackHistory #attacksList .hospitalise,
+body.dark #attackHistory #attacksList .arrest,
+body.dark #attackHistory #attacksList .special,
+body.dark #attackHistory #attacksList .defend,
+body.dark #attackHistory #attacksList .assist {
+	background-color: #3cac3c;
+}
+
+body.light #attackHistory #attacksList .lose,
+body.light #attackHistory #attacksList .defend_lost,
+body.light #attackHistory #attacksList .stalemate,
+body.light #attackHistory #attacksList .escapes {
+	background-color: #ee7171;
+}
+
+body.dark #attackHistory #attacksList .lose,
+body.dark #attackHistory #attacksList .defend_lost,
+body.dark #attackHistory #attacksList .stalemate,
+body.dark #attackHistory #attacksList .escapes {
+	background-color: #ac4d3c;
 }
