@@ -25,12 +25,11 @@ h1 {
 	margin: 0 0 8px 0;
 }
 
-
 /* Dark Mode */
 
 body.dark {
 	background-color: #232323;
-	color: #aaa;
+	color: #f8f8f8;
 }
 
 /*
