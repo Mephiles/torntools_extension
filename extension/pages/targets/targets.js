@@ -63,10 +63,14 @@ async function setupAttackHistory() {
 				attributes: { value: data.lastAttack },
 			})
 		);
-		row.appendChild(document.newElement({ type: "td", class: `data win`, text: data.win.toString(), attributes: { value: data.win } }));
+		const totalWins = data.win;
+		row.appendChild(document.newElement({ type: "td", class: `data win`, text: totalWins.toString(), attributes: { value: totalWins } }));
 		for (let type of ["mug", "leave", "hospitalise", "arrest", "special", "stealth"]) {
-			// text: data[type].toString()
 			let element = document.newElement({ type: "td", class: `data ${type}`, text: "%", attributes: { value: data[type] } });
+
+			const percentage = Math.round((data[type] / totalWins) * 100) || 0;
+
+			element.innerText = `${percentage}%`;
 
 			element.dataset.amount = data[type].toString();
 			element.dataset.percentage = "25";
