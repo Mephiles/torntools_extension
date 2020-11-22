@@ -44,6 +44,10 @@ async function setupAttackHistory() {
 	fillHistory();
 	sortTable(historyList, 3, "desc");
 
+	_attackHistory.find("#percentageHistory").addEventListener("click", (event) => {
+		_attackHistory.find("#attacksList").classList[event.target.checked ? "add" : "remove"]("switched");
+	});
+
 	_attackHistory.find("#resetHistory").addEventListener("click", () => {
 		loadConfirmationPopup({
 			title: "Reset attack history",
