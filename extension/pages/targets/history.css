@@ -1,3 +1,7 @@
+body:not(.tt-mobile) main#attackHistory > section {
+	width: 75%;
+}
+
 #attackHistory #attacksList .data {
 	text-align: center;
 }
