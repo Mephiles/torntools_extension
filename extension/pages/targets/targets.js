@@ -63,23 +63,22 @@ async function setupAttackHistory() {
 				attributes: { value: data.lastAttack },
 			})
 		);
-		for (let type of [
-			"win",
-			"mug",
-			"leave",
-			"hospitalise",
-			"arrest",
-			"special",
-			"assist",
-			"defend",
-			"lose",
-			"defend_lost",
-			"stalemate",
-			"escapes",
-			"stealth",
-		]) {
+		row.appendChild(document.newElement({ type: "td", class: `data win`, text: data.win.toString(), attributes: { value: data.win } }));
+		for (let type of ["mug", "leave", "hospitalise", "arrest", "special", "stealth"]) {
+			// text: data[type].toString()
+			let element = document.newElement({ type: "td", class: `data ${type}`, text: "%", attributes: { value: data[type] } });
+
+			element.dataset.amount = data[type].toString();
+			element.dataset.percentage = "25";
+
+			row.appendChild(element);
+		}
+		row.appendChild(document.newElement({ type: "td", class: `data assist`, text: data.assist.toString(), attributes: { value: data.assist } }));
+		row.appendChild(document.newElement({ type: "td", class: `data defend`, text: data.defend.toString(), attributes: { value: data.defend } }));
+		for (let type of ["lose", "stalemate", "escapes", "defend_lost"]) {
 			row.appendChild(document.newElement({ type: "td", class: `data ${type}`, text: data[type].toString(), attributes: { value: data[type] } }));
 		}
+
 		if (data.respect_base.length) {
 			const respect = parseFloat((data.respect_base.reduce((a, b) => a + b, 0) / data.respect_base.length || 0).toFixed(2));
 

@@ -20,6 +20,7 @@ async function loadDatabase() {
 	userdata = database.userdata;
 	torndata = database.torndata;
 	stakeouts = database.stakeouts;
+	attackHistory = database.attackHistory;
 
 	databaseLoaded = true;
 	console.log("TT - Database loaded.", database);
