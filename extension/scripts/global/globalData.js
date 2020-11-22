@@ -169,6 +169,7 @@ const DEFAULT_STORAGE = {
 				fontSize: new DefaultSetting({ type: "number", defaultValue: 12 }),
 				searchChat: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				blockZalgo: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				completeUsernames: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				highlights: new DefaultSetting({ type: "array", defaultValue: [{ name: "$player", color: "#7ca900" }] }),
 			},
 			sidebar: {

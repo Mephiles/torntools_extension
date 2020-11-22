@@ -50,6 +50,7 @@ function loadGlobal() {
 		.then(() => {
 			addChatSearch();
 			manipulateChats();
+			addChatUsernameAutocomplete();
 
 			document.addEventListener("click", (event) => {
 				if (!hasParent(event.target, { class: "chat-box_Wjbn9" })) {
@@ -58,6 +59,7 @@ function loadGlobal() {
 
 				manipulateChats();
 				addChatSearch();
+				addChatUsernameAutocomplete();
 			});
 
 			new MutationObserver((mutations) => {
@@ -255,4 +257,49 @@ function showMiniprofileInformation(information) {
 			);
 		}, 500);
 	});
+}
+
+function addChatUsernameAutocomplete() {
+	if (!settings.pages.chat.completeUsernames) return;
+
+	for (let chat of document.findAll(".chat-box_Wjbn9")) {
+		const messageList = chat.find(".overview_1MoPG");
+		if (!messageList) continue;
+
+		const textarea = chat.find(".chat-box-textarea_2V28W");
+		if (!textarea || textarea.classList.contains("tt-chat-autocomplete")) continue;
+		textarea.classList.add("tt-chat-autocomplete");
+
+		let currentUsername, currentSearchValue;
+		textarea.addEventListener("keydown", (event) => {
+			if (event.key !== "Tab") {
+				currentUsername = null;
+				currentSearchValue = null;
+				return;
+			}
+			event.preventDefault();
+
+			const valueToCursor = textarea.value.substr(0, textarea.selectionStart);
+			const searchValueMatch = valueToCursor.match(/([^A-Za-z0-9\-_]?)([A-Za-z0-9\-_]*)$/);
+
+			if (currentSearchValue === null) currentSearchValue = searchValueMatch[2].toLowerCase();
+
+			const matchedUsernames = Array.from(messageList.findAll(".message_oP8oM > a"))
+				.map((message) => message.innerText.slice(0, -2))
+				.filter((username, index, array) => array.indexOf(username) === index && username.toLowerCase().includes(currentSearchValue))
+				.sort();
+			if (!matchedUsernames.length) return;
+
+			let index = currentUsername !== null ? matchedUsernames.indexOf(currentUsername) + 1 : 0;
+			if (index > matchedUsernames.length - 1) index = 0;
+
+			currentUsername = matchedUsernames[index];
+
+			let valueStart = searchValueMatch.index + searchValueMatch[1].length;
+			textarea.value = textarea.value.substring(0, valueStart) + currentUsername + textarea.value.substring(valueToCursor.length, textarea.value.length);
+
+			let selectionIndex = valueStart + currentUsername.length;
+			textarea.setSelectionRange(selectionIndex, selectionIndex);
+		});
+	}
 }
