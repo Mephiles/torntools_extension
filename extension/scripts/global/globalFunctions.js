@@ -772,23 +772,48 @@ function sortTable(table, columnPlace, order) {
 		return rows;
 
 		function sortHelper(elementA, elementB) {
-			let isDate = false;
-			let valueA, valueB;
-			if (elementA.find(`*:nth-child(${columnPlace})`).hasAttribute("value")) {
-				valueA = elementA.find(`*:nth-child(${columnPlace})`).getAttribute("value");
-				valueB = elementB.find(`*:nth-child(${columnPlace})`).getAttribute("value");
+			elementA = elementA.find(`*:nth-child(${columnPlace})`);
+			elementB = elementB.find(`*:nth-child(${columnPlace})`);
 
-				isDate = elementA.find(`*:nth-child(${columnPlace})`).getAttribute("type") === "date";
+			let valueA, valueB;
+			if (elementA.hasAttribute("sort-type")) {
+				switch (elementA.getAttribute("sort-type")) {
+					case "date":
+						valueA = elementA.getAttribute("value");
+						valueB = elementB.getAttribute("value");
+
+						if (Date.parse(valueA)) valueA = Date.parse(valueA);
+						if (Date.parse(valueB)) valueA = Date.parse(valueB);
+						break;
+					case "css-dataset":
+						valueA =
+							elementA.dataset[
+								getComputedStyle(elementA)
+									.getPropertyValue("--currentValue")
+									.match(/attr\(data-(.*)\)/i)[1]
+							];
+						valueB =
+							elementB.dataset[
+								getComputedStyle(elementB)
+									.getPropertyValue("--currentValue")
+									.match(/attr\(data-(.*)\)/i)[1]
+							];
+						break;
+					default:
+						console.warn("Attempting to sort by a non-existing type.", elementA.getAttribute("sort-type"));
+						return;
+				}
+			} else if (elementA.hasAttribute("value")) {
+				valueA = elementA.getAttribute("value");
+				valueB = elementB.getAttribute("value");
 			} else {
-				valueA = [...elementA.children][columnPlace - 1].innerText;
-				valueB = [...elementB.children][columnPlace - 1].innerText;
+				valueA = elementA.innerText;
+				valueB = elementB.innerText;
 			}
 
 			let a, b;
-			if (isDate && Date.parse(valueA) && Date.parse(valueB)) {
-				a = Date.parse(valueA);
-				b = Date.parse(valueB);
-			} else if (isNaN(parseFloat(valueA))) {
+			if (isNaN(parseFloat(valueA))) {
+				console.log("DKK y", valueA, valueB);
 				if (valueA.indexOf("$") > -1) {
 					a = parseFloat(valueA.replace("$", "").replace(/,/g, ""));
 					b = parseFloat(valueB.replace("$", "").replace(/,/g, ""));

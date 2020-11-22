@@ -11,6 +11,22 @@ body:not(.tt-mobile) main#attackHistory > section {
 	text-align: center;
 }
 
+#attackHistory #attacksList .data.switchable:before {
+	content: var(--currentValue);
+}
+
+#attackHistory #attacksList:not(.switched) .data.switchable {
+	--currentValue: attr(data-amount);
+}
+
+#attackHistory #attacksList.switched .data.switchable {
+	--currentValue: attr(data-percentage);
+}
+
+#attackHistory #attacksList.switched .data.switchable:after {
+	content: "%";
+}
+
 body.light #attackHistory #attacksList .win,
 body.light #attackHistory #attacksList .lose,
 body.light #attackHistory #attacksList .respect {

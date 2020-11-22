@@ -89,14 +89,12 @@ async function setupAttackHistory() {
 		const totalWins = data.win;
 		row.appendChild(document.newElement({ type: "td", class: `data win`, text: totalWins.toString(), attributes: { value: totalWins } }));
 		for (let type of ["mug", "leave", "hospitalise", "arrest", "special", "stealth"]) {
-			let element = document.newElement({ type: "td", class: `data ${type}`, text: "%", attributes: { value: data[type] } });
+			let element = document.newElement({ type: "td", class: `data switchable ${type}`, attributes: { "sort-type": "css-dataset" } });
 
 			const percentage = Math.round((data[type] / totalWins) * 100) || 0;
 
-			element.innerText = `${percentage}%`;
-
 			element.dataset.amount = data[type].toString();
-			element.dataset.percentage = "25";
+			element.dataset.percentage = percentage.toString();
 
 			row.appendChild(element);
 		}
