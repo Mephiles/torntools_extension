@@ -2,6 +2,11 @@ body:not(.tt-mobile) main#attackHistory > section {
 	width: 75%;
 }
 
+#attackHistory #attacksList .id a {
+	text-decoration: none;
+	color: inherit;
+}
+
 #attackHistory #attacksList .data {
 	text-align: center;
 }

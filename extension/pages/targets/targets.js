@@ -51,9 +51,15 @@ async function setupAttackHistory() {
 	}
 
 	function addHistoryRow(id, data = {}) {
-		const row = document.newElement({ type: "tr", class: "row", id: `history_${id}` });
+		const row = document.newElement({ type: "tr", class: "row" });
 
-		row.appendChild(document.newElement({ type: "td", class: "id", text: id }));
+		row.appendChild(
+			document.newElement({
+				type: "td",
+				class: "id",
+				children: [document.newElement({ type: "a", text: id, href: `https://www.torn.com/profiles.php?XID=${id}`, attributes: { target: "_blank" } })],
+			})
+		);
 		row.appendChild(document.newElement({ type: "td", class: "name", text: data.name }));
 		row.appendChild(
 			document.newElement({
