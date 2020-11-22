@@ -157,7 +157,6 @@ function timedUpdates() {
 		}
 	}
 
-	// TODO - Update basic userdata.
 	// TODO - Update npc times.
 	// TODO - Update networth data.
 	// TODO - Update stocks data.
