@@ -53,6 +53,8 @@ chrome.storage.onChanged.addListener((changes, area) => {
 			stakeouts = changes.stakeouts.newValue;
 
 			storageListeners.stakeouts.forEach((listener) => listener());
+		} else if (changes.attackHistory) {
+			attackHistory = changes.attackHistory.newValue;
 		}
 	}
 });

@@ -213,10 +213,7 @@ async function updateUserdata() {
 			let fetchData = ["killstreak", "defendsstalemated", "attacksdraw", "defendslost"].some(
 				(stat) => oldUserdata.personalstats[stat] !== userdata.personalstats[stat]
 			);
-			if (fetchData) console.log("DKK - Fetch attacks.");
 
-			fetchData = true;
-			console.log("DKK fetchData 2", fetchData);
 			await ttStorage.change({ attackHistory: { fetchData } });
 		}
 
@@ -314,7 +311,6 @@ async function updateUserdata() {
 				}
 			}
 
-			console.log("DKK lastAttack", lastAttack);
 			await ttStorage.change({ attackHistory: { lastAttack, fetchData: false, history: { ...attackHistory.history } } });
 		}
 	}

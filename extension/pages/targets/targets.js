@@ -44,6 +44,23 @@ async function setupAttackHistory() {
 	fillHistory();
 	sortTable(historyList, 3, "desc");
 
+	_attackHistory.find("#resetHistory").addEventListener("click", () => {
+		loadConfirmationPopup({
+			title: "Reset attack history",
+			message: `<h3>Are you sure you want to delete the attack history?</h3>`,
+		})
+			.then(async () => {
+				await ttStorage.reset("attackHistory");
+
+				sendMessage("Attack history reset.", true);
+
+				for (let row of _attackHistory.findAll("tr.row")) {
+					row.remove();
+				}
+			})
+			.catch(() => {});
+	});
+
 	function fillHistory() {
 		for (let id in attackHistory.history) {
 			addHistoryRow(id, attackHistory.history[id]);
@@ -119,7 +136,7 @@ async function setupStakeouts() {
 			message: `<h3>Are you sure you want to delete all stakeouts?</h3>`,
 		})
 			.then(async () => {
-				await ttStorage.set({ stakeouts: {} });
+				await ttStorage.reset("stakeouts");
 
 				sendMessage("Stakeouts reset.", true);
 

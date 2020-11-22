@@ -54,18 +54,24 @@ const ttStorage = new (class {
 		});
 	}
 
-	reset() {
+	reset(key) {
 		return new Promise(async (resolve) => {
-			const apiKey = api ? api.torn.key : undefined;
+			if (["attackHistory"].includes(key)) {
+				await this.set({ [key]: getDefaultStorage(DEFAULT_STORAGE[key]) });
 
-			await this.clear();
-			await this.set(getDefaultStorage(DEFAULT_STORAGE));
-			await this.change({ api: { torn: { key: apiKey } } });
+				resolve();
+			} else {
+				const apiKey = api ? api.torn.key : undefined;
 
-			console.log("Storage cleared");
-			console.log("New storage", await this.get());
+				await this.clear();
+				await this.set(getDefaultStorage(DEFAULT_STORAGE));
+				await this.change({ api: { torn: { key: apiKey } } });
 
-			resolve();
+				console.log("Storage cleared");
+				console.log("New storage", await this.get());
+
+				resolve();
+			}
 
 			function getDefaultStorage(defaultStorage) {
 				let newStorage = {};
