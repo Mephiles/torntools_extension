@@ -203,26 +203,25 @@ async function updateUserdata() {
 	return { updateBasic };
 
 	async function checkAttacks() {
-		let fetchData = false;
-
 		if (userdata.attacks) {
 			await updateAttackHistory();
 
 			delete userdata.attacks;
 		}
 
-		if (oldUserdata.personalstats && userdata.personalstats)
-			for (let stat of ["killstreak", "defendsstalemated", "attacksdraw", "defendslost"]) {
-				if (oldUserdata.personalstats[stat] === userdata.personalstats[stat]) continue;
+		if (oldUserdata.personalstats && userdata.personalstats) {
+			let fetchData = ["killstreak", "defendsstalemated", "attacksdraw", "defendslost"].some(
+				(stat) => oldUserdata.personalstats[stat] !== userdata.personalstats[stat]
+			);
+			if (fetchData) console.log("DKK - Fetch attacks.");
 
-				fetchData = true;
-				break;
-			}
-
-		await ttStorage.change({ attackHistory: { fetchData } });
+			fetchData = true;
+			console.log("DKK fetchData 2", fetchData);
+			await ttStorage.change({ attackHistory: { fetchData } });
+		}
 
 		async function updateAttackHistory() {
-			let lastAttack = 0;
+			let lastAttack = attackHistory.lastAttack;
 			for (let attackId in userdata.attacks) {
 				if (parseInt(attackId) <= attackHistory.lastAttack) continue;
 				if (parseInt(attackId) > lastAttack) lastAttack = parseInt(attackId);
@@ -315,7 +314,8 @@ async function updateUserdata() {
 				}
 			}
 
-			await ttStorage.change({ attackHistory: { lastAttack, history: { ...attackHistory.history } } });
+			console.log("DKK lastAttack", lastAttack);
+			await ttStorage.change({ attackHistory: { lastAttack, fetchData: false, history: { ...attackHistory.history } } });
 		}
 	}
 
