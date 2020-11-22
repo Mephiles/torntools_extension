@@ -161,6 +161,7 @@ const DEFAULT_STORAGE = {
 				alignLeft: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				hideLevelUpgrade: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				hideQuitButtons: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				keepAttackHistory: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				miniProfileLastAction: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				nukeRevive: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},

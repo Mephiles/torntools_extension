@@ -202,6 +202,8 @@ async function updateUserdata() {
 	return { updateBasic };
 
 	async function checkAttacks() {
+		if (!settings.pages.global.keepAttackHistory) return;
+
 		if (userdata.attacks) {
 			await updateAttackHistory();
 
