@@ -12,7 +12,10 @@ function interceptFetch(channel) {
 				.apply(this, arguments)
 				.then(async (response) => {
 					const page = response.url.substring(response.url.indexOf("torn.com/") + "torn.com/".length, response.url.indexOf(".php"));
-					const json = await response.clone().json();
+					let json = {};
+					try {
+						json = await response.clone().json();
+					} catch {}
 
 					const detail = {
 						page,
