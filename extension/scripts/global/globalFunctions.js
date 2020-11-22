@@ -426,6 +426,7 @@ function formatTime(time = {}, attributes = {}) {
 		showDays: false,
 		hideHours: false,
 		hideSeconds: false,
+		short: false,
 		...attributes,
 	};
 
@@ -467,10 +468,13 @@ function formatTime(time = {}, attributes = {}) {
 			date = new Date(millis);
 
 			parts = [];
-			if (attributes.showDays) parts.push(Math.floor(date.getTime() / TO_MILLIS.DAYS));
-			if (!attributes.hideHours && date.getUTCHours()) parts.push(`${date.getUTCHours()} hour${applyPlural(date.getUTCHours())}`);
-			if (date.getUTCMinutes()) parts.push(`${date.getUTCMinutes()} minute${applyPlural(date.getUTCMinutes())}`);
-			if (!attributes.hideSeconds && date) parts.push(`${date.getUTCSeconds()} second${applyPlural(date.getUTCSeconds())}`);
+			if (attributes.showDays)
+				parts.push(`${Math.floor(date.getTime() / TO_MILLIS.DAYS)} day${applyPlural(Math.floor(date.getTime() / TO_MILLIS.DAYS))}`);
+			if (!attributes.hideHours && date.getUTCHours())
+				parts.push(`${date.getUTCHours()} ${attributes.short ? "hr" : "hour"}${applyPlural(date.getUTCHours())}`);
+			if (date.getUTCMinutes()) parts.push(`${date.getUTCMinutes()} ${attributes.short ? "min" : "minutes"}${applyPlural(date.getUTCMinutes())}`);
+			if (!attributes.hideSeconds && date)
+				parts.push(`${date.getUTCSeconds()} ${attributes.short ? "sec" : "second"}${applyPlural(date.getUTCSeconds())}`);
 
 			if (parts.length > 1) {
 				parts.insertAt(parts.length - 1, "and");
@@ -833,4 +837,40 @@ function sortTable(table, columnPlace, order) {
 
 function hasAPIData() {
 	return api.torn.key && userdata && Object.keys(userdata).length;
+}
+
+function injectXHR() {
+	if (injectedXHR) return;
+
+	document.find("head").appendChild(
+		document.newElement({
+			type: "script",
+			attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/global/xhr.inject.js") },
+		})
+	);
+	injectedXHR = true;
+}
+
+function addXHRListener(callback) {
+	injectXHR();
+
+	window.addEventListener("tt-xhr", callback);
+}
+
+function injectFetch() {
+	if (injectedFetch) return;
+
+	document.find("head").appendChild(
+		document.newElement({
+			type: "script",
+			attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/global/fetch.inject.js") },
+		})
+	);
+	injectedFetch = true;
+}
+
+function addFetchListener(callback) {
+	injectFetch();
+
+	window.addEventListener("tt-fetch", callback);
 }

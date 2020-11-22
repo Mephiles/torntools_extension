@@ -252,6 +252,7 @@ const CONTRIBUTORS = {
 };
 
 let mobile;
+let injectedXHR, injectedFetch;
 
 const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.name || "", description: "Your player name." }];
 

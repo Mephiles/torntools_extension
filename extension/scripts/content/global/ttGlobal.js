@@ -32,6 +32,20 @@ function loadGlobal() {
 		return { name: name.toLowerCase(), color: color.length === 7 ? `${color}6e` : color, senderColor: color };
 	});
 
+	if (settings.pages.global.miniProfileLastAction) {
+		addFetchListener((event) => {
+			if (!event.detail) return;
+			const { page, json, fetch } = event.detail;
+
+			const params = new URL(fetch.url).searchParams;
+			const step = params.get("step");
+
+			if (page === "profiles" && step === "getUserNameContextMenu") {
+				showMiniprofileInformation(json);
+			}
+		});
+	}
+
 	requireChatsLoaded()
 		.then(() => {
 			addChatSearch();
@@ -86,7 +100,6 @@ function loadGlobal() {
 
 	// TODO - Display custom developer console.
 	// TODO - Show Nuke Central Hospital revive request.
-	// TODO - Show last action in the mini profiles.
 }
 
 function requireChatsLoaded() {
@@ -224,4 +237,22 @@ async function showUpdateNotice() {
 
 		notice.remove();
 	}
+}
+
+function showMiniprofileInformation(information) {
+	const miniProfile = document.find("#profile-mini-root .mini-profile-wrapper");
+
+	const lastAction = formatTime({ milliseconds: Date.now() - information.user.lastAction.seconds * 1000 }, { type: "wordTimer", short: true });
+
+	requireElement(".-profile-mini-_userProfileWrapper___39cKq", { parent: miniProfile }).then(() => {
+		setTimeout(() => {
+			miniProfile.find(".-profile-mini-_userProfileWrapper___39cKq").appendChild(
+				document.newElement({
+					type: "div",
+					class: "tt-mini-data",
+					children: [document.newElement({ type: "strong", text: "Last Action: " }), document.newElement({ type: "span", text: lastAction })],
+				})
+			);
+		}, 500);
+	});
 }
