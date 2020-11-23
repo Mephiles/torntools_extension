@@ -60,7 +60,7 @@ body.dark #attackHistory #attacksList .special,
 body.dark #attackHistory #attacksList .stealth,
 body.dark #attackHistory #attacksList .defend,
 body.dark #attackHistory #attacksList .assist {
-	background-color: #3cac3c;
+	background-color: #50ac50c7;
 }
 
 body.light #attackHistory #attacksList .lose,
