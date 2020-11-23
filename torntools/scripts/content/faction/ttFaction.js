@@ -570,12 +570,15 @@ async function showUserInfo() {
 			container.appendChild(row);
 
 			if (!dataInformation.error) {
+				let lastAction = (Date.now() - dataInformation.members[userId].last_action.timestamp * 1000) / 1000;
+				if (lastAction < 0) lastAction = 0;
+
 				row.appendChild(
 					doc.new({
 						type: "div",
 						class: "tt-userinfo-field--last_action",
 						text: `Last Action: ${dataInformation.members[userId].last_action.relative}`,
-						attributes: { "last-action": ((new Date() - dataInformation.members[userId].last_action.timestamp * 1000) / 1000).toFixed(0) },
+						attributes: { "last-action": lastAction.toFixed(0) },
 					})
 				);
 

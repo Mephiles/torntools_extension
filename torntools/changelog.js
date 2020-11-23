@@ -1,6 +1,10 @@
 export default {
 	"v5.x - xxx, xx. 2020": {
-		Fixes: ["Update 'Rising Costs' hint. - DKK", "Fix an issue with an old rank name. - h4xnoodle"],
+		Fixes: [
+			"Update 'Rising Costs' hint. - DKK",
+			"Fix an issue with an old rank name. - h4xnoodle",
+			"Add safety measure for faction filter when your computer clock is out of sync. - DKK",
+		],
 	},
 	"v5.3.3 - November, 11th. 2020": {
 		Fixes: [
