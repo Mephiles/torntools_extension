@@ -10,8 +10,7 @@ export default [
 				{ message: "Add booster and medical cooldown timed notifications.", contributor: "DeKleineKobini" },
 				{ message: "Show attack history and stakeouts on the target page.", contributor: "DeKleineKobini" },
 				{ message: "Add stakeouts when health drops below a certain percentage.", contributor: "DeKleineKobini" },
-				{ message: "Add unused energy and nerve refill highlighting", contributor: "Natty_Boh" }
-
+				{ message: "Add unused energy and nerve refill highlighting", contributor: "Natty_Boh" },
 			],
 			fixes: [{ message: "Hide new chat messages while searching.", contributor: "DeKleineKobini" }],
 			changes: [
@@ -23,9 +22,10 @@ export default [
 				{ message: "Allow decimals in all 'minute' notifications.", contributor: "DeKleineKobini" },
 				{ message: "Add an option to keep notifications open till you click on them.", contributor: "DeKleineKobini" },
 				{ message: "Add an option to focus on an existing tab if it exists.", contributor: "DeKleineKobini" },
-				{ message: "Disable notifications by default if no permission was granted.", contributor: "DeKleineKobini" }
-			]
-		}
+				{ message: "Disable notifications by default if no permission was granted.", contributor: "DeKleineKobini" },
+				{ message: "Improve chat features when using multiple tabs at the same time.", contributor: "DeKleineKobini" },
+			],
+		},
 	},
 	{
 		version: { major: 5, minor: 3, build: 3 },
@@ -34,9 +34,9 @@ export default [
 			fixes: [
 				{ message: "Fix TT not working on a popped out poker window.", contributor: "DeKleineKobini" },
 				{ message: "Fix travel table not loading while in Torn.", contributor: "Fogest" },
-				{ message: "Backport v6 left align to solve news ticker not left aligning.", contributor: "DeKleineKobini" }
-			]
-		}
+				{ message: "Backport v6 left align to solve news ticker not left aligning.", contributor: "DeKleineKobini" },
+			],
+		},
 	},
 	{
 		version: { major: 5, minor: 3, build: 2 },
@@ -45,10 +45,10 @@ export default [
 			fixes: [
 				{ message: "Break the travel table less often when flying back from a country with spaces.", contributor: "Fogest" },
 				{ message: "Don't include your api key to YATA's API.", contributor: "DeKleineKobini" },
-				{ message: "Stop hammering YATA's API when a YATA error occurred.", contributor: "DeKleineKobini" }
+				{ message: "Stop hammering YATA's API when a YATA error occurred.", contributor: "DeKleineKobini" },
 			],
-			changes: [{ message: "Switch to YATA's v1 abroad API.", contributor: "Fogest" }]
-		}
+			changes: [{ message: "Switch to YATA's v1 abroad API.", contributor: "Fogest" }],
+		},
 	},
 	{
 		version: { major: 5, minor: 3, build: 1 },
@@ -60,14 +60,14 @@ export default [
 				{ message: "Fix loading issues on the russian roulette and calendar pages.", contributor: "DeKleineKobini" },
 				{ message: "Fix 'Frenzy' and 'A Thor Loser' mission hints.", contributor: "DeKleineKobini" },
 				{ message: "Show correct stalemate count for achievements on the mission page.", contributor: "DeKleineKobini" },
-				{ message: "Fix 'Tree Huggers' mission hint.", contributor: "kontamusse" }
+				{ message: "Fix 'Tree Huggers' mission hint.", contributor: "kontamusse" },
 			],
 			changes: [
 				{ message: "Make left align also work on the popout poker.", contributor: "DeKleineKobini" },
 				{ message: "Remove travel map auto country select.", contributor: "DeKleineKobini" },
-				{ message: "Switch to YATA's v1 loot API.", contributor: "DeKleineKobini" }
-			]
-		}
+				{ message: "Switch to YATA's v1 loot API.", contributor: "DeKleineKobini" },
+			],
+		},
 	},
 	{
 		version: { major: 5, minor: 3, build: 0 },
@@ -75,14 +75,14 @@ export default [
 		logs: {
 			features: [
 				{ message: "Add popup mute button.", contributor: "finally" },
-				{ message: "Add forum enhancements, hide posts/threads, copy post for discord.", contributor: "finally" }
+				{ message: "Add forum enhancements, hide posts/threads, copy post for discord.", contributor: "finally" },
 			],
 			fixes: [
 				{ message: "Fix item page crashing when the opening items too fast.", contributor: "DeKleineKobini" },
 				{ message: "Fix rare condition where the database isn't loaded properly.", contributor: "finally" },
-				{ message: "Solve FontAwesome issues by switching to the CSS version again.", contributor: "finally" }
-			]
-		}
+				{ message: "Solve FontAwesome issues by switching to the CSS version again.", contributor: "finally" },
+			],
+		},
 	},
 	{
 		version: { major: 5, minor: 2, build: 1 },
@@ -91,10 +91,10 @@ export default [
 			fixes: [
 				{ message: "Fix level filter abroad.", contributor: "finally" },
 				{ message: "Fix item market market value highlight settings.", contributor: "DeKleineKobini" },
-				{ message: "Add FontAwesome as JavaScript instead of CSS.", contributor: "DeKleineKobini" }
+				{ message: "Add FontAwesome as JavaScript instead of CSS.", contributor: "DeKleineKobini" },
 			],
-			changes: [{ message: "Make nuke family permission optional.", contributor: "DeKleineKobini" }]
-		}
+			changes: [{ message: "Make nuke family permission optional.", contributor: "DeKleineKobini" }],
+		},
 	},
 	{
 		version: { major: 5, minor: 2, build: 0 },
@@ -103,7 +103,7 @@ export default [
 			features: [
 				{ message: "Auto-complete usernames in chat.", contributor: "finally" },
 				{ message: "Show bars in the icon.", contributor: "finally" },
-				{ message: "Add revive option for Nuclear Central Hospital.", contributor: "Mephiles" }
+				{ message: "Add revive option for Nuclear Central Hospital.", contributor: "Mephiles" },
 			],
 			fixes: [
 				{ message: "Properly display item values for weapons and other single items.", contributor: "DeKleineKobini" },
@@ -112,7 +112,7 @@ export default [
 				{ message: "Fix hide chat hidden by chats.", contributor: "finally" },
 				{ message: "Update 'Critical Education' mission hints.", contributor: "DeKleineKobini" },
 				{ message: "Fix stakeouts not working.", contributor: "finally" },
-				{ message: "Fix travel profit calculation while flying.", contributor: "finally" }
+				{ message: "Fix travel profit calculation while flying.", contributor: "finally" },
 			],
 			changes: [
 				{ message: "Added sell points award and refill award trackers.", contributor: "wootty2000" },
@@ -123,9 +123,9 @@ export default [
 				{ message: "Allow stakeouts on hospital status.", contributor: "finally" },
 				{ message: "Change the notification system.", contributor: "finally" },
 				{ message: "Make notifications work in the background.", contributor: "DeKleineKobini" },
-				{ message: "Added a setting to hide the 'Toggle Chat' button.", contributor: "smikula" }
-			]
-		}
+				{ message: "Added a setting to hide the 'Toggle Chat' button.", contributor: "smikula" },
+			],
+		},
 	},
 	{
 		version: { major: 5, minor: 1, build: 2 },
@@ -133,18 +133,18 @@ export default [
 		logs: {
 			fixes: [
 				{ message: "Show right temporary total value.", contributor: "DeKleineKobini" },
-				{ message: "Improve mobile checking on Firefox, fixing the loading issue.", contributor: "DeKleineKobini" }
+				{ message: "Improve mobile checking on Firefox, fixing the loading issue.", contributor: "DeKleineKobini" },
 			],
 			changes: [
 				{ message: "Improve mission information for several missions.", contributor: "DeKleineKobini" },
-				{ message: "Update FontAwesome.", contributor: "DeKleineKobini" }
-			]
-		}
+				{ message: "Update FontAwesome.", contributor: "DeKleineKobini" },
+			],
+		},
 	},
 	{
 		version: { major: 5, minor: 1, build: 1 },
 		date: new Date(2020, 8, 26),
-		logs: { changes: [{ message: "Change watchlist export to stakeouts.", contributor: "DeKleineKobini" }] }
+		logs: { changes: [{ message: "Change watchlist export to stakeouts.", contributor: "DeKleineKobini" }] },
 	},
 	{
 		version: { major: 5, minor: 1, build: 0 },
@@ -158,7 +158,7 @@ export default [
 				{ message: "Show last action in the mini profile.", contributor: "DeKleineKobini" },
 				{ message: "Add mid-drug cooldown notification.", contributor: "DeKleineKobini" },
 				{ message: "Add filtering and sorting for items abroad.", contributor: "DeKleineKobini" },
-				{ message: "Add no confirm on trades.", contributor: "DeKleineKobini" }
+				{ message: "Add no confirm on trades.", contributor: "DeKleineKobini" },
 			],
 			fixes: [
 				{ message: "Don't cache stats estimates if they are disabled on profiles.", contributor: "DeKleineKobini" },
@@ -171,7 +171,7 @@ export default [
 				{ message: "Fix the energy warning while abroad when you already spent that energy.", contributor: "DeKleineKobini" },
 				{ message: "Detect mobile based on width instead of elements.", contributor: "Mephiles" },
 				{ message: "Don't show DoctorN NNB values if 'Force TT' has been enabled.", contributor: "DeKleineKobini" },
-				{ message: "Improve medal and honor completion check so it doesn't show completed ones as non-completed.", contributor: "DeKleineKobini" }
+				{ message: "Improve medal and honor completion check so it doesn't show completed ones as non-completed.", contributor: "DeKleineKobini" },
 			],
 			changes: [
 				{ message: "Improve stats estimates caching.", contributor: "DeKleineKobini" },
@@ -180,9 +180,9 @@ export default [
 				{ message: "Add an option to disable extension checking.", contributor: "DeKleineKobini" },
 				{ message: "Show stakeout list in the popup.", contributor: "Mephiles" },
 				{ message: "Prevent accidental loss of settings when you have unsaved settings.", contributor: "DeKleineKobini" },
-				{ message: "Change chain notifications to seconds instead of minutes.", contributor: "DeKleineKobini" }
-			]
-		}
+				{ message: "Change chain notifications to seconds instead of minutes.", contributor: "DeKleineKobini" },
+			],
+		},
 	},
 	{
 		version: { major: 5, minor: 0, build: 1 },
@@ -191,9 +191,9 @@ export default [
 			fixes: [{ message: "Fix trade open chat on Firefox.", contributor: "DeKleineKobini" }],
 			changes: [
 				{ message: "Add an option to disable stats estimates on competition page.", contributor: "DeKleineKobini" },
-				{ message: "Add an option to not show the cached only text.", contributor: "DeKleineKobini" }
-			]
-		}
+				{ message: "Add an option to not show the cached only text.", contributor: "DeKleineKobini" },
+			],
+		},
 	},
 	{
 		version: { major: 5, minor: 0, build: 0 },
@@ -215,7 +215,7 @@ export default [
 				{ message: "Show banking investment table.", contributor: "DeKleineKobini" },
 				{ message: "Show a link to a computer while travelling if you don't have a laptop.", contributor: "DeKleineKobini" },
 				{ message: "Add an option to hide quite/leave buttons.", contributor: "DeKleineKobini" },
-				{ message: "Add personal notes on profiles.", contributor: "wootty2000" }
+				{ message: "Add personal notes on profiles.", contributor: "wootty2000" },
 			],
 			fixes: [
 				{ message: "Don't apply the last action filter on other faction pages.", contributor: "DeKleineKobini" },
@@ -230,7 +230,7 @@ export default [
 				{ message: "Fix TornTools not loading on the poker page.", contributor: "DeKleineKobini" },
 				{ message: "Show the travel table more consistent.", contributor: "DeKleineKobini" },
 				{ message: "Show the gym information in jail gym.", contributor: "DeKleineKobini" },
-				{ message: "Fix faction short news.", contributor: "wootty2000" }
+				{ message: "Fix faction short news.", contributor: "wootty2000" },
 			],
 			changes: [
 				{ message: "Change the caching system to allow for different times to keep it for.", contributor: "DeKleineKobini" },
@@ -260,19 +260,19 @@ export default [
 				{ message: "Add last attack date on target page.", contributor: "DeKleineKobini" },
 				{ message: "Show market value on blood bags if highlighting is enabled.", contributor: "wootty2000" },
 				{ message: "Added option for Travel Destination to default to the last selected.", contributor: "wootty2000" },
-				{ message: "Added education award tracker. Moved dump and bounty award trackers.", contributor: "wootty2000 " }
-			]
-		}
+				{ message: "Added education award tracker. Moved dump and bounty award trackers.", contributor: "wootty2000 " },
+			],
+		},
 	},
 	{
 		version: { major: 4, minor: 10, build: 2 },
 		date: new Date(2020, 7, 19),
-		logs: { fixes: [{ message: "Fix OC data not updating.", contributor: "Mephiles" }] }
+		logs: { fixes: [{ message: "Fix OC data not updating.", contributor: "Mephiles" }] },
 	},
 	{
 		version: { major: 4, minor: 10, build: 1 },
 		date: new Date(2020, 7, 16),
-		logs: { fixes: [{ message: "Fix Notifications not appearing on Firefox.", contributor: "Mephiles" }] }
+		logs: { fixes: [{ message: "Fix Notifications not appearing on Firefox.", contributor: "Mephiles" }] },
 	},
 	{
 		version: { major: 4, minor: 10, build: 0 },
@@ -287,7 +287,7 @@ export default [
 				{ message: "Add Chain count notification", contributor: "Mephiles" },
 				{ message: "Add a Connect button to Torn Preferences page", contributor: "Mephiles" },
 				{ message: "Add option to change Chat Font size", contributor: "Mephiles" },
-				{ message: "Add support for Torn Proxy (you API key is still needed for fall-back if Proxy system fails)", contributor: "Mephiles" }
+				{ message: "Add support for Torn Proxy (you API key is still needed for fall-back if Proxy system fails)", contributor: "Mephiles" },
 			],
 			fixes: [
 				{ message: "Fix Quick Items failing to load if an item has 0 quantity", contributor: "Mephiles" },
@@ -297,7 +297,7 @@ export default [
 				{ message: "Fix Gym Estimate progress being off by 1 gym", contributor: "Mephiles" },
 				{ message: "Fix Quick Crimes/Items not working on some browsers", contributor: "DeKleineKobini" },
 				{ message: "Fix 'add api key' page loading in Popup when API key has been inserted", contributor: "Mephiles" },
-				{ message: "Fix Quick Bail/Bust not loading on pagination change", contributor: "Mephiles" }
+				{ message: "Fix Quick Bail/Bust not loading on pagination change", contributor: "Mephiles" },
 			],
 			changes: [
 				{ message: "Add option to dismiss notifications rather than open the relevant page", contributor: "Mephiles" },
@@ -317,14 +317,14 @@ export default [
 				{ message: "Add images to Travel Table items", contributor: "Mephiles" },
 				{ message: "Disable Watch List option to avoid confusion (will be added in future updates)", contributor: "Mephiles" },
 				{ message: "Switched Travel Table items category options to checkboxes to allow different combinations", contributor: "Mephiles" },
-				{ message: "Changed fetching to be more consistent & to reduce load on YATA", contributor: "Mephiles" }
+				{ message: "Changed fetching to be more consistent & to reduce load on YATA", contributor: "Mephiles" },
 			],
 			other: [
 				{ message: "Add 'Open Source' disclaimer to Github Readme", contributor: "Mephiles" },
 				{ message: "Update the Privacy Policy for TornTools", contributor: "Mephiles" },
-				{ message: "Add 'Development focus' section to Github Readme", contributor: "Mephiles" }
-			]
-		}
+				{ message: "Add 'Development focus' section to Github Readme", contributor: "Mephiles" },
+			],
+		},
 	},
 	{
 		version: { major: 4, minor: 9, build: 0 },
@@ -336,7 +336,7 @@ export default [
 				{ message: "Add option to make Areas section collapsible", contributor: "Mephiles" },
 				{ message: "Add sortability option for Profile sections", contributor: "Mephiles" },
 				{ message: "Add exporting/importing for TornTools settings", contributor: "Mephiles" },
-				{ message: "Add Quick Bail & Bust and Scores", contributor: "Mephiles" }
+				{ message: "Add Quick Bail & Bust and Scores", contributor: "Mephiles" },
 			],
 			fixes: [
 				{ message: "Fix DoctorN detection not accounting disabled setting", contributor: "Mephiles" },
@@ -359,7 +359,7 @@ export default [
 				{ message: "Fix Badge issues", contributor: "DeKleineKobini" },
 				{ message: "Fix Faction armory news", contributor: "DeKleineKobini" },
 				{ message: "Fix Gym stats updating not showing all improved stats", contributor: "Mephiles" },
-				{ message: "Fix Travel Agency page artifacts on Mobile", contributor: "Mephiles" }
+				{ message: "Fix Travel Agency page artifacts on Mobile", contributor: "Mephiles" },
 			],
 			changes: [
 				{ message: "Add a loading icon for networth on the Home page", contributor: "Mephiles" },
@@ -375,9 +375,9 @@ export default [
 				{ message: "Add link to Torn to Info popup's location text", contributor: "Mephiles" },
 				{ message: "Improve overall system performance and stability", contributor: "DeKleineKobini" },
 				{ message: "Improve Preferences page design", contributor: "Mephiles" },
-				{ message: "Enable Gym graph on Mobile", contributor: "Mephiles" }
-			]
-		}
+				{ message: "Enable Gym graph on Mobile", contributor: "Mephiles" },
+			],
+		},
 	},
 	{
 		version: { major: 4, minor: 8, build: 0 },
@@ -389,7 +389,7 @@ export default [
 				{ message: "Added Faction Armory filter to hide items that are Unavailable", contributor: "Mephiles" },
 				{ message: "Show item quantities for Quick Items", contributor: "Mephiles" },
 				{ message: "Added basic statistics about Torn's API fetches made by TornTools", contributor: "Mephiles" },
-				{ message: "Added Crimes stats to Profile Stats", contributor: "Mephiles" }
+				{ message: "Added Crimes stats to Profile Stats", contributor: "Mephiles" },
 			],
 			fixes: [
 				{ message: "Remove LastPass icon from chat 'Find' field", contributor: "Mephiles" },
@@ -398,7 +398,7 @@ export default [
 				{
 					message:
 						"Fixed and redesigned Filters for Hospital, Jail, Faction, Player search, Bounties, Overseas player list (all enabled on Mobile now)",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
 				{ message: "Fixed 'view full page' when visiting other Factions", contributor: "Mephiles" },
 				{ message: "Added option to disable 'find' feature in chat", contributor: "Mephiles" },
@@ -415,7 +415,7 @@ export default [
 				{ message: "Fixed Crimes script running when page was blocked", contributor: "Mephiles" },
 				{ message: "Fixed TornStats NNB visual issue", contributor: "Mephiles" },
 				{ message: "Fixed Market tab not showing prices if either bazaar or itemmarket had 0 listings", contributor: "Mephiles" },
-				{ message: "Fixed Info popup Events & Messages links stacking up", contributor: "Mephiles" }
+				{ message: "Fixed Info popup Events & Messages links stacking up", contributor: "Mephiles" },
 			],
 			changes: [
 				{ message: "Disabled Profile Stats for your own profile", contributor: "Mephiles" },
@@ -428,14 +428,14 @@ export default [
 				{ message: "Improved Travel Destinations table. Clicking on Country filters affects the map and vice-versa", contributor: "Mephiles" },
 				{ message: "Added link to TornTools preferences to Torn's Settings page", contributor: "Mephiles" },
 				{ message: "Removed options for DoctorN in settings. Auto-detection is enabled for Chrome and Firefox", contributor: "DeKleineKobini" },
-				{ message: "Adjusted 'buy' button position to reduce misclicking", contributor: "Mephiles" }
+				{ message: "Adjusted 'buy' button position to reduce misclicking", contributor: "Mephiles" },
 			],
 			"api system changes": [
 				{ message: "Networth info is only fetched when visiting Home page with a cache time of 5 minutes", contributor: "Mephiles" },
 				{ message: "Stocks data is fetched every 15 minutes", contributor: "Mephiles" },
-				{ message: "Torn's data & OC info is fetched every 24 hours", contributor: "Mephiles" }
-			]
-		}
+				{ message: "Torn's data & OC info is fetched every 24 hours", contributor: "Mephiles" },
+			],
+		},
 	},
 	{
 		version: { major: 4, minor: 7, build: 0 },
@@ -452,12 +452,12 @@ export default [
 				{ message: "Added 'find' feature for chat boxes", contributor: "Mephiles" },
 				{
 					message: "Added option to display details about Faction members including Inactivity alerts (requires Faction API access)",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
 				{ message: "Added option to display details about Company members including Inactivity alerts", contributor: "Mephiles" },
 				{ message: "Added 'members available' info for OCs", contributor: "Mephiles" },
 				{ message: "Added recommended NNB info for OCs", contributor: "Mephiles" },
-				{ message: "Added links to notifications", contributor: "Mephiles" }
+				{ message: "Added links to notifications", contributor: "Mephiles" },
 			],
 			fixes: [
 				{ message: "Turned all container arrows the right way", contributor: "Mephiles" },
@@ -472,12 +472,12 @@ export default [
 				{ message: "Fixed Stakeouts continuing requests if user was no longer watched", contributor: "Mephiles" },
 				{ message: "Fixed TTS working even when disabled", contributor: "Mephiles" },
 				{ message: "Fixed Profile Stats view for Mobile users", contributor: "Mephiles" },
-				{ message: "Added all Profile Stats keys as normal text", contributor: "Thanks Allo" }
+				{ message: "Added all Profile Stats keys as normal text", contributor: "Thanks Allo" },
 			],
 			changes: [
 				{
 					message: "Moved 'TornStats NNB', 'recommended NNB', 'auto-open OCs', 'show available member count' under single option: 'OC Advanced'",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
 				{ message: "Made API marking optional (default: false)", contributor: "Mephiles" },
 				{ message: "Changed Notification cache to 7 days", contributor: "Mephiles" },
@@ -485,16 +485,16 @@ export default [
 				{ message: "Re-designed Gym container to show progress from last update", contributor: "Mephiles" },
 				{ message: "Re-designed Profile Stats page to display Spy info", contributor: "Mephiles" },
 				{ message: "Profile script now takes into count if DoctorN is installed", contributor: "Mephiles" },
-				{ message: "Slightly improved Settings page design", contributor: "Mephiles" }
+				{ message: "Slightly improved Settings page design", contributor: "Mephiles" },
 			],
 			notifications: [
 				{
 					message:
 						"Switched notification system to allow clicking notifications to open Torn. Firefox users need to manually allow notifications on Preferences page",
-					contributor: "Mephiles"
-				}
-			]
-		}
+					contributor: "Mephiles",
+				},
+			],
+		},
 	},
 	{
 		version: { major: 4, minor: 6, build: 0 },
@@ -504,7 +504,7 @@ export default [
 				{ message: "Added option to automatically open OCs that are ready to initiate (all players are Okay)", contributor: "Mephiles" },
 				{ message: "Added Natural Nerve Bar info to OCs (powered by TornStats)", contributor: "Mephiles" },
 				{ message: "Added option to display acronyms on Stock Exchange page", contributor: "Mephiles" },
-				{ message: "Added links to Stocks popup stock names", contributor: "Mephiles" }
+				{ message: "Added links to Stocks popup stock names", contributor: "Mephiles" },
 			],
 			fixes: [
 				{ message: "Fixed Bounty Filter not working well with DoctorN", contributor: "Mephiles" },
@@ -512,16 +512,16 @@ export default [
 				{
 					message:
 						"Fixed Notifications for events, messages, X minutes until landing, X minutes until out of hospital, Stakeouts, NPC loot times (notifications will repeat every 15minutes if time is over 15minutes)",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
 				{ message: "Fixed Quick Crimes failing to load sometimes", contributor: "Mephiles" },
 				{ message: "Fixed Global Scripts (like chat filter) not running when traveling", contributor: "Mephiles" },
 				{ message: "Fixed Travel Bar showing negative values in Info popup", contributor: "Mephiles" },
-				{ message: "Fixed Faction Armory simplification double username. Added keywords 'lent', 'retrieved', 'returned'", contributor: "Mephiles" }
+				{ message: "Fixed Faction Armory simplification double username. Added keywords 'lent', 'retrieved', 'returned'", contributor: "Mephiles" },
 			],
 			changes: [
 				{ message: "Hopefully increased popup load speed", contributor: "Mephiles" },
-				{ message: "Improved layout and functionality of Travel Table. Filters work together now and save automatically", contributor: "Mephiles" }
+				{ message: "Improved layout and functionality of Travel Table. Filters work together now and save automatically", contributor: "Mephiles" },
 			],
 			mobile: [
 				{ message: "Show Custom Links for mobile", contributor: "Mephiles" },
@@ -532,9 +532,9 @@ export default [
 				{ message: "Fixed Item Values for mobile", contributor: "Mephiles" },
 				{ message: "Fixed Mission Values for mobile", contributor: "Mephiles" },
 				{ message: "Disabled Jail, Hospital, Faction filters for mobile (fill be re-added when fixed)", contributor: "Mephiles" },
-				{ message: "Fixed Profile Stats design for mobile", contributor: "Mephiles" }
-			]
-		}
+				{ message: "Fixed Profile Stats design for mobile", contributor: "Mephiles" },
+			],
+		},
 	},
 	{
 		version: { major: 4, minor: 5, build: 0 },
@@ -543,18 +543,18 @@ export default [
 				{ message: "Added Update TornStats button to Gym graph", contributor: "Mephiles" },
 				{ message: "Added option to add notifications for X minutes left in hospital & landing in X minutes", contributor: "Mephiles" },
 				{ message: "Added Bounty Filter to newspaper", contributor: "Mephiles" },
-				{ message: "Added Stakeouts to profiles", contributor: "Mephiles" }
+				{ message: "Added Stakeouts to profiles", contributor: "Mephiles" },
 			],
 			fixes: [
 				{ message: "Fixed Gym graph labels not using commas", contributor: "Mephiles" },
 				{ message: "Fixed Chain timer in Info popup not appearing", contributor: "Mephiles" },
-				{ message: "Fixed Gym script not loading for players who have unlocked all gyms", contributor: "Mephiles" }
+				{ message: "Fixed Gym script not loading for players who have unlocked all gyms", contributor: "Mephiles" },
 			],
 			changes: [
 				{ message: "Improved design of Info popup (removed unnecessary text & made 'update' text smaller)", contributor: "Mephiles" },
-				{ message: "Improved Player Stats readability", contributor: "Mephiles" }
-			]
-		}
+				{ message: "Improved Player Stats readability", contributor: "Mephiles" },
+			],
+		},
 	},
 	{
 		version: { major: 4, minor: 4, build: 0 },
@@ -563,19 +563,19 @@ export default [
 				{ message: "Added percentages to Energy, Nerve, Happy, Life notifications", contributor: "Mephiles" },
 				{
 					message: "Added Player Stats to Profile pages. To use, you need to have a TornStats account (https://www.tornstats.com/)",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
 				{ message: "Added Paypal donation button to Settings -> About page", contributor: "Mephiles" },
 				{ message: "Added Fill Max button to Travel Market", contributor: "Mephiles" },
 				{
 					message: "Added Gym Stats graph to Gym page. To use, you need to have a TornStats account ((https://www.tornstats.com/)",
-					contributor: "Mephiles"
-				}
+					contributor: "Mephiles",
+				},
 			],
 			fixes: [
 				{ message: "Disabled Chat Highlighting when DoctorN is installed and TornTools is not forced", contributor: "Mephiles" },
 				{ message: "Disabled Quick Crimes & Quick Items if DoctorN is installed and TornTools is not forced", contributor: "Mephiles" },
-				{ message: "Fixed Info popup showing only 0 messages & events", contributor: "Mephiles" }
+				{ message: "Fixed Info popup showing only 0 messages & events", contributor: "Mephiles" },
 			],
 			changes: [
 				{ message: "Added nerve indicator to Quick Crimes", contributor: "Mephiles" },
@@ -584,18 +584,18 @@ export default [
 				{ message: "Made Info popup bars a bit brighter and removed 'Status:' text", contributor: "Mephiles" },
 				{ message: "Disabled simplified header for Info popup", contributor: "Mephiles" },
 				{ message: "Added time of landing to Info popup travel bar", contributor: "Mephiles" },
-				{ message: "Updated API info (Profile Stats makes 1 request to Torn's API and 1 to TornStats' API (max 25/minute))", contributor: "Mephiles" }
-			]
-		}
+				{ message: "Updated API info (Profile Stats makes 1 request to Torn's API and 1 to TornStats' API (max 25/minute))", contributor: "Mephiles" },
+			],
+		},
 	},
 	{
 		version: { major: 4, minor: 3, build: 1 },
 		logs: {
 			fixes: [
 				{ message: "Fixed Quick Crimes not appearing if user had 0 Quick Items", contributor: "Mephiles" },
-				{ message: "Fixed Quick Items drag not working on Firefox", contributor: "Mephiles" }
-			]
-		}
+				{ message: "Fixed Quick Items drag not working on Firefox", contributor: "Mephiles" },
+			],
+		},
 	},
 	{
 		version: { major: 4, minor: 3, build: 0 },
@@ -606,7 +606,7 @@ export default [
 				{ message: "Added Player filters to Faction Info page, Jail page & Hospital page", contributor: "Mephiles" },
 				{ message: "Added Country filter to Travel Destinations table & made legend collapsible", contributor: "Mephiles" },
 				{ message: "Added Badge notifications for Events & Messages", contributor: "Mephiles" },
-				{ message: "Added Chain cooldown timer to Info popup", contributor: "Mephiles" }
+				{ message: "Added Chain cooldown timer to Info popup", contributor: "Mephiles" },
 			],
 			fixes: [
 				{ message: "Hopefully increased loading speeds for popups", contributor: "Mephiles" },
@@ -617,12 +617,12 @@ export default [
 				{ message: "Fixed Energy Estimate script on Gym page for users who have company special (+30% experience gain)", contributor: "Mephiles" },
 				{ message: "Fixed Quick crimes", contributor: "Mephiles" },
 				{ message: "Fixed People list breaking overseas because of the Item profits script", contributor: "Mephiles" },
-				{ message: "Fixed Quick items not dragging well", contributor: "Mephiles" }
+				{ message: "Fixed Quick items not dragging well", contributor: "Mephiles" },
 			],
 			changes: [
 				{ message: "Simplified links design in popups to reduce clutter", contributor: "Mephiles" },
 				{ message: "Separated Trade Item values & Total value to two different options to permanently disable item values", contributor: "Mephiles" },
-				{ message: "Removed 'Location:' text from Info popup", contributor: "Mephiles" }
+				{ message: "Removed 'Location:' text from Info popup", contributor: "Mephiles" },
 			],
 			"thanks - rockyroxanne [2282703]": [
 				{ message: "Changed bar colors in Info popup", contributor: "Mephiles" },
@@ -630,13 +630,13 @@ export default [
 				{ message: "Added Happy reset timer to Info popup", contributor: "Mephiles" },
 				{
 					message: "Improved design of Preferences page (slightly increased white space around sections and made container bigger)",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
 				{ message: "Added Messages section to Info popup", contributor: "Mephiles" },
 				{ message: "Added links to Info popup messages & events", contributor: "Mephiles" },
-				{ message: "Added Travel bar to Info popup", contributor: "Mephiles" }
-			]
-		}
+				{ message: "Added Travel bar to Info popup", contributor: "Mephiles" },
+			],
+		},
 	},
 	{
 		version: { major: 4, minor: 2, build: 0 },
@@ -645,46 +645,46 @@ export default [
 				{ message: "Added Info tab popup to display bars, money, events, cooldowns", contributor: "Mephiles" },
 				{
 					message: "Added Estimated Energy progress to Gym (based on estimated goals in wiki and percentage to next gym on Gym page)",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
 				{
 					message: "Added notifications for new Events, Messages, Education finish, Cooldown end, Traveling, Bars full, Status change",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
 				{ message: "Added update-available notifier with instructions to manually update on About page", contributor: "Mephiles" },
 				{ message: "Added option to hide Level Upgrade info (button and info on Home page)", contributor: "Mephiles" },
 				{ message: "Added item type sorting to Travel Destinations table", contributor: "Mephiles" },
 				{
 					message: "Added option to disable item highlighting on City Map if TornTools container is close (similar to DoctorN)",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
 				{ message: "Added option to open Custom Links on same page", contributor: "Mephiles" },
 				{ message: "Added back Stock Search function", contributor: "Mephiles" },
 				{ message: "Added option to hide item values on Trade view to allow copy-pasting for traders", contributor: "Mephiles" },
 				{ message: "Added option to hide icons in navigation sidebar", contributor: "Mephiles" },
-				{ message: "Added Quick items & crimes (might be a bit buggy, let me know)", contributor: "Mephiles" }
+				{ message: "Added Quick items & crimes (might be a bit buggy, let me know)", contributor: "Mephiles" },
 			],
 			fixes: [
 				{ message: "Fixed ERROR text not disappearing after API comes back online", contributor: "Mephiles" },
 				{ message: "Fixed Chat Highlight not updating when sending a message", contributor: "Mephiles" },
 				{ message: "Fixed Armory log script not working when waited too long", contributor: "Mephiles" },
 				{ message: "Improved load times of scripts", contributor: "Mephiles" },
-				{ message: "Fixed Battle Stats NaN errors", contributor: "Mephiles" }
+				{ message: "Fixed Battle Stats NaN errors", contributor: "Mephiles" },
 			],
 			changes: [
 				{ message: "Changed Networth comparing to Torn's own last known networth (the one shown under General Information)", contributor: "Mephiles" },
 				{ message: "Reformatted how Target List is updated. Removed the optional request.", contributor: "Mephiles" },
 				{ message: "Changed Travel Destinations table columns order", contributor: "Mephiles" },
-				{ message: "Removed 'remove info boxes' script completely", contributor: "Mephiles" }
+				{ message: "Removed 'remove info boxes' script completely", contributor: "Mephiles" },
 			],
 			important: [
 				{
 					message:
 						"Refactored how info is fetched from Torn. Total requests raised to 7 per minute to keep TornTools up-to-date with user's status, bars etc. for Info popup & notifications",
-					contributor: "Mephiles"
-				}
-			]
-		}
+					contributor: "Mephiles",
+				},
+			],
+		},
 	},
 	{
 		version: { major: 4, minor: 1, build: 0 },
@@ -693,9 +693,9 @@ export default [
 				{ message: "Fixed bug that halted all extension's process", contributor: "Mephiles" },
 				{ message: "Fixed DoctorN check not working correctly", contributor: "Mephiles" },
 				{ message: "Fixed Mail Me link in settings", contributor: "Thanks KenDoll[2235541]" },
-				{ message: "Fixed UAE travel achievement", contributor: "Mephiles" }
-			]
-		}
+				{ message: "Fixed UAE travel achievement", contributor: "Mephiles" },
+			],
+		},
 	},
 	{
 		version: { major: 4, minor: 0, build: 0 },
@@ -710,17 +710,17 @@ export default [
 				{ message: "Added an error badge to extension icon if API is down", contributor: "Mephiles" },
 				{ message: "Added alerts for NPC loot times", contributor: "Mephiles" },
 				{ message: "Added a button to clear target list data", contributor: "Mephiles" },
-				{ message: "Added Chat Highlighting", contributor: "Mephiles" }
+				{ message: "Added Chat Highlighting", contributor: "Mephiles" },
 			],
 			fixes: [
 				{
 					message:
 						"IMPORTANT: Torn changed the formatting of dates in Vault transactions. Adjusted TornTools with that. (CLICK save to update the database with the latest correct date)",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
 				{ message: "Fixed Vault not updating User's shares when looping through old transactions", contributor: "Mephiles" },
 				{ message: "Fixed API errors not appearing on Stocks page", contributor: "Mephiles" },
-				{ message: "Fixed DoctorN always set as False on Firefox (set using/not using under settings)", contributor: "Mephiles" }
+				{ message: "Fixed DoctorN always set as False on Firefox (set using/not using under settings)", contributor: "Mephiles" },
 			],
 			changes: [
 				{ message: "Removed Hospital from 'remove info boxes' script", contributor: "Mephiles" },
@@ -728,23 +728,23 @@ export default [
 				{ message: "Further improved design of City Items", contributor: "Mephiles" },
 				{ message: "Improved design of tables on Settings page (NPC Loot, Friendly Fire, Custom links)", contributor: "Mephiles" },
 				{ message: "Improved design of Settings page in smaller windows", contributor: "Mephiles" },
-				{ message: "Added current API key preview in Change API key input", contributor: "Mephiles" }
-			]
+				{ message: "Added current API key preview in Change API key input", contributor: "Mephiles" },
+			],
 		},
-		title: "Taking over"
+		title: "Taking over",
 	},
 	{
 		version: { major: 3, minor: 8, build: 3 },
 		logs: {
 			fixes: [
 				{ message: "Added confirmation message when changing your API key", contributor: "Mephiles" },
-				{ message: "Fixed API online set to false when other API errors", contributor: "Mephiles" }
-			]
-		}
+				{ message: "Fixed API online set to false when other API errors", contributor: "Mephiles" },
+			],
+		},
 	},
 	{
 		version: { major: 3, minor: 8, build: 1 },
-		logs: { fixes: [{ message: "Fixed \"Remove info boxes on some pages\" option not disabling", contributor: "Mephiles" }] }
+		logs: { fixes: [{ message: 'Fixed "Remove info boxes on some pages" option not disabling', contributor: "Mephiles" }] },
 	},
 	{
 		version: { major: 3, minor: 8, build: 0 },
@@ -754,27 +754,27 @@ export default [
 				{ message: "Added Disk Space Used info under About page (Chrome only)", contributor: "Mephiles" },
 				{ message: "Added Date and Time formatting options (Added formatting to: Networth details)", contributor: "Mephiles" },
 				{ message: "Added option to Remove Info Boxes that are unnecessary on some pages", contributor: "Mephiles" },
-				{ message: "Added 'last updated' info icon for live Networth on Home page", contributor: "Mephiles" }
+				{ message: "Added 'last updated' info icon for live Networth on Home page", contributor: "Mephiles" },
 			],
 			fixes: [
 				{ message: "Hopefully fixed sometimes appearing slow popup window switch", contributor: "Mephiles" },
 				{ message: "Fixed Trade Calculator showing incorrect total value", contributor: "Mephiles" },
-				{ message: "Fixed Allies not saving", contributor: "Mephiles" }
+				{ message: "Fixed Allies not saving", contributor: "Mephiles" },
 			],
 			changes: [
 				{ message: "Removed some duplicated achievements (Items: Bazaar Customers, Points sold (both under Home page now))", contributor: "Mephiles" },
 				{ message: "Moved Stock Payouts achievement to Home page (previously under Items)", contributor: "Mephiles" },
 				{ message: "Changed Preferences' section positions", contributor: "Mephiles" },
 				{ message: "Improved the design of City Items (hovering on an item in the list now reveals it on the map also)", contributor: "Mephiles" },
-				{ message: "Updated icons (Settings, Portfolio, Search icon)", contributor: "Mephiles" }
+				{ message: "Updated icons (Settings, Portfolio, Search icon)", contributor: "Mephiles" },
 			],
 			"credits and thanks to lugburz [2386297]": [
 				{ message: "Added NPC loot times", contributor: "Mephiles" },
 				{ message: "Added OC finish times", contributor: "Mephiles" },
 				{ message: "Added Faction Armory simplification", contributor: "Mephiles" },
-				{ message: "Licensed my extension under the GNU General Public License", contributor: "Mephiles" }
-			]
-		}
+				{ message: "Licensed my extension under the GNU General Public License", contributor: "Mephiles" },
+			],
+		},
 	},
 	{
 		version: { major: 3, minor: 7, build: 0 },
@@ -784,34 +784,34 @@ export default [
 				{
 					message:
 						"Accidentally added features in last update: Effective Battle Stats on Home page, Item profits in Travel Market, Item values on Items page",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
 				{ message: "Added option to reformat Profile headings as USERNAME [ID]", contributor: "Mephiles" },
-				{ message: "Added option to Export Chain Report as CSV", contributor: "Mephiles" }
+				{ message: "Added option to Export Chain Report as CSV", contributor: "Mephiles" },
 			],
 			fixes: [
 				{
 					message: "Added options for settings: Effective Battle Stats, Item profits in Travel Market, Item values on Items page",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
 				{
 					message:
 						"Fixed issue where Accessory pictures were blocking vision of HiLo suggested action (I prevented any items from appearing on screen)",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
 				{ message: "Fixed disabling Gym buttons as clicking them still used energy before", contributor: "Mephiles" },
 				{ message: "Fixed issue where disabling/enabling Gym buttons would clear preferences", contributor: "Mephiles" },
 				{ message: "Fixed issue where Effective Battle Stats would show NaN", contributor: "Mephiles" },
 				{ message: "Fixed Live Networth not showing if there are no details to show", contributor: "Mephiles" },
-				{ message: "Fixed HiLo multiple suggestions appearing", contributor: "Mephiles" }
+				{ message: "Fixed HiLo multiple suggestions appearing", contributor: "Mephiles" },
 			],
 			changes: [
 				{ message: "Improved design of Settings page", contributor: "Mephiles" },
 				{ message: "Changed the structure of Local Database (You might need to check your settings)", contributor: "Mephiles" },
 				{ message: "Reduced API requests needed by 1", contributor: "Mephiles" },
-				{ message: "Improved popups' designs", contributor: "Mephiles" }
-			]
-		}
+				{ message: "Improved popups' designs", contributor: "Mephiles" },
+			],
+		},
 	},
 	{
 		version: { major: 3, minor: 6, build: 1 },
@@ -825,18 +825,18 @@ export default [
 				{ message: "Added attack history info about user on Profile page", contributor: "Mephiles" },
 				{
 					message: "Added percentage profit of items in stores (ie. 137% means that the market value is 137% of the store buy price)",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
 				{ message: "Added info tooltips for achievements", contributor: "Mephiles" },
 				{ message: "Added detailed networth information on Home page", contributor: "Mephiles" },
-				{ message: "Added bounty reward (money) achievement", contributor: "Mephiles" }
+				{ message: "Added bounty reward (money) achievement", contributor: "Mephiles" },
 			],
 			fixes: [
 				{
 					message: "Fixed some broken achievements (Home: activity, networth; Items: items dumped, cannabis; Missions: defends, assists)",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
-				{ message: "Hide empty Awards sections", contributor: "Mephiles" }
+				{ message: "Hide empty Awards sections", contributor: "Mephiles" },
 			],
 			changes: [
 				{ message: "Improved Achievements' design", contributor: "Mephiles" },
@@ -844,9 +844,9 @@ export default [
 				{ message: "Improved TornTools info containers", contributor: "Mephiles" },
 				{ message: "Highlight new settings on Settings page", contributor: "Mephiles" },
 				{ message: "Reset settings button resets extension's whole storage (except the API key)", contributor: "Mephiles" },
-				{ message: "Shortened '1000' to 'k'", contributor: "Mephiles" }
-			]
-		}
+				{ message: "Shortened '1000' to 'k'", contributor: "Mephiles" },
+			],
+		},
 	},
 	{
 		version: { major: 3, minor: 5, build: 0 },
@@ -854,32 +854,32 @@ export default [
 			features: [
 				{
 					message: "Create and update a target list based on attack history. (not available for use yet; coming with next update)",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
 				{ message: "Moved City & Dump finds achievements to city.php", contributor: "Mephiles" },
 				{ message: "Moved items bought abroad achievement to travelagency.php", contributor: "Mephiles" },
 				{ message: "Added Church donations achievement to church.php", contributor: "Mephiles" },
-				{ message: "Increase 'time ago' counter on achievement pages.", contributor: "Mephiles" }
+				{ message: "Increase 'time ago' counter on achievement pages.", contributor: "Mephiles" },
 			],
 			fixes: [
 				{ message: "Fixed settings resetting when closing and re-opening browser.", contributor: "Mephiles" },
 				{
 					message: "Fixed bug where Gym stats had a random comma after the decimal point. (all stats rounded down to a whole number)",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
 				{ message: "Fixed double update notification on profile.php on Firefox", contributor: "Mephiles" },
-				{ message: "Fixed networth not showing for some users on home.php", contributor: "Mephiles" }
-			]
-		}
+				{ message: "Fixed networth not showing for some users on home.php", contributor: "Mephiles" },
+			],
+		},
 	},
 	{
 		version: { major: 3, minor: 4, build: 0 },
 		logs: {
 			features: [
 				{ message: "Added Fraud crimes to Crime achievements.", contributor: "Mephiles" },
-				{ message: "Added Github link to the extension (at the bottom of the Settings page).", contributor: "Mephiles" }
-			]
-		}
+				{ message: "Added Github link to the extension (at the bottom of the Settings page).", contributor: "Mephiles" },
+			],
+		},
 	},
 	{
 		version: { major: 3, minor: 3, build: 0 },
@@ -888,22 +888,22 @@ export default [
 				{ message: "Added more achievements on pages Home, Items, Missions, Jail, My Faction.", contributor: "Mephiles" },
 				{ message: "Added Racing achievements.", contributor: "Mephiles" },
 				{ message: "Fixed Racing Upgrades not showing correct values.", contributor: "Mephiles" },
-				{ message: "Re-added notification when a new version of TornTools is installed.", contributor: "Mephiles" }
-			]
-		}
+				{ message: "Re-added notification when a new version of TornTools is installed.", contributor: "Mephiles" },
+			],
+		},
 	},
 	{
 		version: { major: 3, minor: 2, build: 0 },
 		logs: {
 			features: [
 				{ message: "Show warning on player profiles when the player is in your faction or in an ally faction.", contributor: "Mephiles" },
-				{ message: "Show racing upgrade values.", contributor: "Mephiles" }
-			]
-		}
+				{ message: "Show racing upgrade values.", contributor: "Mephiles" },
+			],
+		},
 	},
 	{
 		version: { major: 3, minor: 1, build: 0 },
-		logs: { fixes: [{ message: "Fixed the extension not updating after an API outage.", contributor: "Mephiles" }] }
+		logs: { fixes: [{ message: "Fixed the extension not updating after an API outage.", contributor: "Mephiles" }] },
 	},
 	{
 		version: { major: 3, minor: 0, build: 0 },
@@ -912,20 +912,20 @@ export default [
 				{
 					message:
 						"I removed some features either because they were not needed anymore (Torn has them default) or they weren't worth it. (auction, bazaar, forums, mail, profile voting) Let me know of any thoughts or ideas about these.",
-					contributor: "Mephiles"
+					contributor: "Mephiles",
 				},
-				{ message: "Changed the system for saving settings so don't forget to press the Save button.", contributor: "Mephiles" }
+				{ message: "Changed the system for saving settings so don't forget to press the Save button.", contributor: "Mephiles" },
 			],
 			fixes: [
 				{ message: "Fixed long numbers on achievements (shortened to mil)", contributor: "Mephiles" },
 				{ message: "Fixed wrong prices in Market", contributor: "Mephiles" },
 				{ message: "Fixed Missions prices not appearing if the prices were split into 2 groups", contributor: "Mephiles" },
 				{ message: "Fixed API page not working properly (the API key was inserted as 'unknown')", contributor: "Mephiles" },
-				{ message: "Updated API request info", contributor: "Mephiles" }
-			]
+				{ message: "Updated API request info", contributor: "Mephiles" },
+			],
 		},
-		title: "Long time, no see(?)"
-	}
+		title: "Long time, no see(?)",
+	},
 ];
 
 // export default {

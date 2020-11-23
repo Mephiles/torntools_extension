@@ -48,23 +48,19 @@ function loadGlobal() {
 
 	requireChatsLoaded()
 		.then(() => {
-			addChatSearch();
-			manipulateChats();
-			addChatUsernameAutocomplete();
-
-			document.addEventListener("click", (event) => {
-				if (!hasParent(event.target, { class: "chat-box_Wjbn9" })) {
-					return;
-				}
-
-				manipulateChats();
-				addChatSearch();
-				addChatUsernameAutocomplete();
-			});
-
 			new MutationObserver((mutations) => {
 				for (let mutation of mutations) {
 					for (let addedNode of mutation.addedNodes) {
+						console.log("DKK addedNodes", addedNode);
+						if (addedNode.classList && addedNode.classList.contains("chat-box_Wjbn9")) {
+							setTimeout(() => {
+								addChatSearch();
+								addChatUsernameAutocomplete();
+							});
+						} else if (addedNode.classList && addedNode.classList.contains("chat-box-content_2C5UJ")) {
+							manipulateChats();
+						}
+
 						if (addedNode.classList && !addedNode.classList.contains("message_oP8oM")) continue;
 
 						if (settings.pages.chat.searchChat) {
@@ -81,6 +77,20 @@ function loadGlobal() {
 					}
 				}
 			}).observe(document.find("#chatRoot"), { childList: true, subtree: true });
+
+			addChatSearch();
+			manipulateChats();
+			addChatUsernameAutocomplete();
+
+			document.addEventListener("click", (event) => {
+				if (!hasParent(event.target, { class: "chat-box_Wjbn9" })) {
+					return;
+				}
+
+				manipulateChats();
+				addChatSearch();
+				addChatUsernameAutocomplete();
+			});
 		})
 		.catch((reason) => console.error("TT failed during loading chats.", reason));
 
