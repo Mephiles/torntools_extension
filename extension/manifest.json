@@ -35,7 +35,8 @@
 	"web_accessible_resources": [
 		"resources/images/*.png",
 		"pages/*",
-		"scripts/background.js"
+		"scripts/background.js",
+		"scripts/*.inject.js"
 	],
 	"options_ui": {
 		"page": "pages/settings/settings.html",
@@ -73,6 +74,18 @@
 			],
 			"js": [
 				"scripts/content/global/ttGlobal.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/index.php*"
+			],
+			"css": [
+				"scripts/content/home/ttHome.css"
+			],
+			"js": [
+				"scripts/content/home/ttHome.js"
 			],
 			"run_at": "document_end"
 		}

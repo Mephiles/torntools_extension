@@ -193,6 +193,10 @@ const DEFAULT_STORAGE = {
 				chain: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				travel: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			home: {
+				networthDetails: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				effectiveStats: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 	},
 	filters: {
