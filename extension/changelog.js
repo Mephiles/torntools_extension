@@ -11,6 +11,7 @@ export default [
 				{ message: "Show attack history and stakeouts on the target page.", contributor: "DeKleineKobini" },
 				{ message: "Add stakeouts when health drops below a certain percentage.", contributor: "DeKleineKobini" },
 				{ message: "Add unused energy and nerve refill highlighting", contributor: "Natty_Boh" },
+				{ message: "Highlight specific chat titles.", contributor: "DeKleineKobini" },
 			],
 			fixes: [{ message: "Hide new chat messages while searching.", contributor: "DeKleineKobini" }],
 			changes: [

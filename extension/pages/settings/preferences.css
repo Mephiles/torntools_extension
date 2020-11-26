@@ -113,15 +113,18 @@ body.dark #preferences .sections {
 	display: none;
 }
 
-#preferences #addChatHighlight {
+#preferences #addChatHighlight,
+#preferences #addChatTitleHighlight {
 	width: 40px;
 }
 
-#preferences #chatHighlight .remove-icon-wrap {
+#preferences #chatHighlight .remove-icon-wrap,
+#preferences #chatTitleHighlight .remove-icon-wrap {
 	width: 25px;
 }
 
-#preferences #chatHighlight .remove-icon {
+#preferences #chatHighlight .remove-icon,
+#preferences #chatTitleHighlight .remove-icon {
 	color: red;
 }
 

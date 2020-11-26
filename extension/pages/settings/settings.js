@@ -203,6 +203,15 @@ async function setupPreferences() {
 		inputRow.find(".name").value = "";
 		inputRow.find(".color").value = "#7ca900";
 	});
+	_preferences.find("#addChatTitleHighlight").addEventListener("click", () => {
+		const inputRow = document.find("#chatTitleHighlight .input");
+
+		addChatTitleHighlightRow(inputRow.find(".title").value, inputRow.find(".color").value);
+
+		inputRow.find(".title").value = "";
+		inputRow.find(".color").value = "green";
+	});
+	_preferences.find("#chatTitleHighlight .input .color").innerHTML = getChatTitleColorOptions();
 
 	_preferences.find("#saveSettings").addEventListener("click", async () => await saveSettings());
 	_preferences.find("#resetSettings").addEventListener("click", () => {
@@ -354,6 +363,9 @@ async function setupPreferences() {
 		for (let highlight of settings.pages.chat.highlights) {
 			addChatHighlightRow(highlight.name, highlight.color);
 		}
+		for (let highlight of settings.pages.chat.titleHighlights) {
+			addChatTitleHighlightRow(highlight.title, highlight.color);
+		}
 
 		const notificationsDisabled = !settings.notifications.types.global;
 		for (let notificationType in settings.notifications.types) {
@@ -424,7 +436,7 @@ async function setupPreferences() {
 		const newRow = document.newElement({
 			type: "li",
 			children: [
-				document.newElement({ type: "input", class: "name", value: name, attributes: { type: "text" } }),
+				document.newElement({ type: "input", class: "name", value: name, attributes: { type: "text", placeholder: "Name.." } }),
 				document.newElement({ type: "input", class: "color", value: color, attributes: { type: "color" } }),
 				deleteIcon,
 			],
@@ -432,7 +444,43 @@ async function setupPreferences() {
 
 		deleteIcon.addEventListener("click", () => newRow.remove());
 
-		document.find("#chatHighlight").insertBefore(newRow, document.find("#chatHighlight .input"));
+		_preferences.find("#chatHighlight").insertBefore(newRow, _preferences.find("#chatHighlight .input"));
+	}
+
+	function addChatTitleHighlightRow(title, color) {
+		const deleteIcon = document.newElement({
+			type: "button",
+			class: "remove-icon-wrap",
+			children: [document.newElement({ type: "i", class: "remove-icon fas fa-trash-alt" })],
+		});
+		const newRow = document.newElement({
+			type: "li",
+			children: [
+				document.newElement({ type: "input", class: "title", value: title, attributes: { type: "text", placeholder: "Title.." } }),
+				document.newElement({
+					type: "select",
+					class: "color",
+					value: color,
+					attributes: { type: "color" },
+					html: getChatTitleColorOptions(),
+				}),
+				deleteIcon,
+			],
+		});
+
+		deleteIcon.addEventListener("click", () => newRow.remove());
+
+		_preferences.find("#chatTitleHighlight").insertBefore(newRow, _preferences.find("#chatTitleHighlight .input"));
+	}
+
+	function getChatTitleColorOptions() {
+		let options = [];
+
+		for (const color in CHAT_TITLE_COLORS) {
+			options.push(`<option value="${color}">${capitalizeText(color, { everyWord: true })}</option>`);
+		}
+
+		return options.join("");
 	}
 
 	async function saveSettings() {
@@ -473,6 +521,12 @@ async function setupPreferences() {
 		settings.pages.chat.highlights = [...document.findAll("#chatHighlight > li:not(.input)")].map((highlight) => {
 			return {
 				name: highlight.find(".name").value,
+				color: highlight.find(".color").value,
+			};
+		});
+		settings.pages.chat.titleHighlights = [...document.findAll("#chatTitleHighlight > li:not(.input)")].map((highlight) => {
+			return {
+				title: highlight.find(".title").value,
 				color: highlight.find(".color").value,
 			};
 		});

@@ -56,6 +56,7 @@ function loadGlobal() {
 							setTimeout(() => {
 								addChatSearch();
 								addChatUsernameAutocomplete();
+								addChatColoring();
 							});
 						} else if (addedNode.classList && addedNode.classList.contains("chat-box-content_2C5UJ")) {
 							manipulateChats();
@@ -79,8 +80,9 @@ function loadGlobal() {
 			}).observe(document.find("#chatRoot"), { childList: true, subtree: true });
 
 			addChatSearch();
-			manipulateChats();
 			addChatUsernameAutocomplete();
+			addChatColoring();
+			manipulateChats();
 
 			document.addEventListener("click", (event) => {
 				if (!hasParent(event.target, { class: "chat-box_Wjbn9" })) {
@@ -90,6 +92,7 @@ function loadGlobal() {
 				manipulateChats();
 				addChatSearch();
 				addChatUsernameAutocomplete();
+				manipulateChats();
 			});
 		})
 		.catch((reason) => console.error("TT failed during loading chats.", reason));
@@ -312,4 +315,32 @@ function addChatUsernameAutocomplete() {
 			textarea.setSelectionRange(selectionIndex, selectionIndex);
 		});
 	}
+}
+
+function addChatColoring() {
+	console.log(
+		"DKK",
+		settings.pages.chat.titleHighlights.map((entry) => {
+			return {
+				...entry,
+				colors: CHAT_TITLE_COLORS[entry.color],
+				element: document.find(`.chat-box-title_out6E[title="${entry.title}"]`),
+			};
+		})
+	);
+
+	settings.pages.chat.titleHighlights
+		.map((entry) => {
+			return {
+				colors: CHAT_TITLE_COLORS[entry.color],
+				element: findParent(document.find(`.chat-box-title_out6E[title="${entry.title}"]`), { class: "chat-box-head_1qkkk" }),
+			};
+		})
+		.filter((entry) => entry.colors && entry.colors.length === 3 && entry.element)
+		.forEach((entry) => {
+			entry.element.classList.add("chat-colored");
+			entry.element.style.setProperty("--highlight-color__1", entry.colors[0]);
+			entry.element.style.setProperty("--highlight-color__2", entry.colors[1]);
+			entry.element.style.setProperty("--highlight-color__3", entry.colors[2]);
+		});
 }

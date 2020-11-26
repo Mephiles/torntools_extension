@@ -22,6 +22,24 @@
 	width: 232px;
 }
 
+/* Colored Chat */
+
+.chat-colored.chat-box-head_1qkkk .chat-box-title_out6E,
+.chat-colored.chat-box-head_1qkkk .l_Gk3uN,
+.chat-colored.chat-box-head_1qkkk .r_2uwXA {
+	background: var(--highlight-color__1);
+	background: linear-gradient(0deg, var(--highlight-color__1) 0%, var(--highlight-color__2) 100%, var(--highlight-color__3) 100%);
+	height: inherit;
+}
+
+.chat-colored.chat-box-head_1qkkk .l_Gk3uN {
+	border-radius: 5px 0 0 0;
+}
+
+.chat-colored.chat-box-head_1qkkk .r_2uwXA {
+	border-radius: 0 5px 0 0;
+}
+
 /* Update Notice */
 
 #ttUpdateNotice a {

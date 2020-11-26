@@ -171,6 +171,7 @@ const DEFAULT_STORAGE = {
 				blockZalgo: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				completeUsernames: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				highlights: new DefaultSetting({ type: "array", defaultValue: [{ name: "$player", color: "#7ca900" }] }),
+				titleHighlights: new DefaultSetting({ type: "array", defaultValue: [] }),
 			},
 			sidebar: {
 				highlightEnergy: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -376,3 +377,8 @@ const API_USAGE = {
 };
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+const CHAT_TITLE_COLORS = {
+	green: ["rgba(0,80,0,1)", "rgba(0,120,0,1)", "rgba(0,240,0,1)"],
+	brown: ["rgba(78,43,0,1)", "rgba(87,54,0,1)", "rgba(45,28,0,1)"],
+};
