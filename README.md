@@ -10,6 +10,7 @@
 ## Features
 
 **Bigger Features**:
+- Align Torn to the left
 - Popup
 - Stakeouts
 - Chat Highlighting
@@ -17,6 +18,11 @@
 
 **Smaller Features**:  
 - Attack History 
+- Chat Title Highlighting
+- Filter Chat
+- Hide level upgrade
+- Hide leave/quit buttons
+- Show unused refills.
  
 ## API Requests
 
