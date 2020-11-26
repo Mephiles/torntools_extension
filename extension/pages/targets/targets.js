@@ -171,7 +171,13 @@ async function setupStakeouts() {
 	function addStakeout(id, data = {}) {
 		const row = document.newElement({ type: "tr", class: "row", id: `stakeout_${id}` });
 
-		row.appendChild(document.newElement({ type: "td", class: "id", text: id }));
+		row.appendChild(
+			document.newElement({
+				type: "td",
+				class: "id",
+				children: [document.newElement({ type: "a", text: id, href: `https://www.torn.com/profiles.php?XID=${id}`, attributes: { target: "_blank" } })],
+			})
+		);
 		if (data && data.info && Object.keys(data.info).length) {
 			let statusValue;
 			switch (data.info.last_action.status.toLowerCase()) {

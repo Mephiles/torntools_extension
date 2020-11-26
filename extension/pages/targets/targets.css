@@ -46,3 +46,8 @@ body.light table tr:not(.header):not(:last-child) {
 body.dark table tr:not(.header):not(:last-child) {
 	border-bottom: 1px solid #a7a7a7;
 }
+
+.id a {
+	text-decoration: none;
+	color: inherit;
+}
