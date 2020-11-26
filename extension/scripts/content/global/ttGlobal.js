@@ -318,16 +318,7 @@ function addChatUsernameAutocomplete() {
 }
 
 function addChatColoring() {
-	console.log(
-		"DKK",
-		settings.pages.chat.titleHighlights.map((entry) => {
-			return {
-				...entry,
-				colors: CHAT_TITLE_COLORS[entry.color],
-				element: document.find(`.chat-box-title_out6E[title="${entry.title}"]`),
-			};
-		})
-	);
+	[...document.findAll(".chat-colored")].forEach((chat) => chat.classList.remove("chat-colored"));
 
 	settings.pages.chat.titleHighlights
 		.map((entry) => {
@@ -336,11 +327,10 @@ function addChatColoring() {
 				element: findParent(document.find(`.chat-box-title_out6E[title="${entry.title}"]`), { class: "chat-box-head_1qkkk" }),
 			};
 		})
-		.filter((entry) => entry.colors && entry.colors.length === 3 && entry.element)
+		.filter((entry) => entry.colors && entry.colors.length === 2 && entry.element)
 		.forEach((entry) => {
 			entry.element.classList.add("chat-colored");
 			entry.element.style.setProperty("--highlight-color__1", entry.colors[0]);
 			entry.element.style.setProperty("--highlight-color__2", entry.colors[1]);
-			entry.element.style.setProperty("--highlight-color__3", entry.colors[2]);
 		});
 }

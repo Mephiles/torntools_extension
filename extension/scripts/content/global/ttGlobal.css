@@ -28,7 +28,7 @@
 .chat-colored.chat-box-head_1qkkk .l_Gk3uN,
 .chat-colored.chat-box-head_1qkkk .r_2uwXA {
 	background: var(--highlight-color__1);
-	background: linear-gradient(0deg, var(--highlight-color__1) 0%, var(--highlight-color__2) 100%, var(--highlight-color__3) 100%);
+	background: linear-gradient(0deg, var(--highlight-color__1) 0%, var(--highlight-color__2) 100%);
 	height: inherit;
 }
 

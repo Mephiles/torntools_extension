@@ -379,6 +379,9 @@ const API_USAGE = {
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const CHAT_TITLE_COLORS = {
-	green: ["rgba(0,80,0,1)", "rgba(0,120,0,1)", "rgba(0,240,0,1)"],
-	brown: ["rgba(78,43,0,1)", "rgba(87,54,0,1)", "rgba(45,28,0,1)"],
+	blue: ["rgb(10,60,173)", "rgb(22,109,236)"],
+	brown: ["rgb(109,53,4)", "rgb(146,69,4)"],
+	orange: ["rgb(227,130,5)", "rgb(234,164,50)"],
+	purple: ["rgb(94,7,119)", "rgb(184,9,241)"],
+	red: ["rgb(123,4,4)", "rgb(255,3,3)"],
 };
