@@ -209,7 +209,7 @@ async function setupPreferences() {
 		addChatTitleHighlightRow(inputRow.find(".title").value, inputRow.find(".color").value);
 
 		inputRow.find(".title").value = "";
-		inputRow.find(".color").value = "green";
+		inputRow.find(".color").selectedIndex = 0;
 	});
 	_preferences.find("#chatTitleHighlight .input .color").innerHTML = getChatTitleColorOptions();
 
