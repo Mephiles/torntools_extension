@@ -731,13 +731,6 @@ async function updateStakeouts() {
 		};
 	}
 
-	/*
-	okay: false,
-	hospital: false,
-	lands: false,
-	online: false,
-	 */
-
 	await ttStorage.change({ stakeouts });
 }
 

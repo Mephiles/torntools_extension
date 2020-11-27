@@ -472,7 +472,7 @@ function formatTime(time = {}, attributes = {}) {
 				parts.push(`${Math.floor(date.getTime() / TO_MILLIS.DAYS)} day${applyPlural(Math.floor(date.getTime() / TO_MILLIS.DAYS))}`);
 			if (!attributes.hideHours && date.getUTCHours())
 				parts.push(`${date.getUTCHours()} ${attributes.short ? "hr" : "hour"}${applyPlural(date.getUTCHours())}`);
-			if (date.getUTCMinutes()) parts.push(`${date.getUTCMinutes()} ${attributes.short ? "min" : "minutes"}${applyPlural(date.getUTCMinutes())}`);
+			if (date.getUTCMinutes()) parts.push(`${date.getUTCMinutes()} ${attributes.short ? "min" : "minute"}${applyPlural(date.getUTCMinutes())}`);
 			if (!attributes.hideSeconds && date)
 				parts.push(`${date.getUTCSeconds()} ${attributes.short ? "sec" : "second"}${applyPlural(date.getUTCSeconds())}`);
 
@@ -697,7 +697,7 @@ function getPageTheme() {
 }
 
 function applyPlural(check) {
-	return check !== 1 ? "s" : "s";
+	return check !== 1 ? "s" : "";
 }
 
 function sortTable(table, columnPlace, order) {
