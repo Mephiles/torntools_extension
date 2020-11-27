@@ -240,3 +240,9 @@ body.dark #dashboard .stakeouts .user:nth-child(even) {
 #dashboard .stakeouts .status.idle {
 	color: orange;
 }
+#dashboard .stakeouts .delete-stakeout-wrap {
+	float: right;
+}
+#dashboard .stakeouts .delete-stakeout {
+	font-size: 12px;
+}

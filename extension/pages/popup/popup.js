@@ -364,6 +364,17 @@ async function setupDashboard() {
 					lastAction = "N/A";
 				}
 
+				const removeStakeoutButton = document.newElement({
+					type: "div",
+					class: "delete-stakeout-wrap",
+					children: [document.newElement({ type: "i", class: "delete-stakeout fas fa-trash-alt" })],
+				});
+				removeStakeoutButton.addEventListener("click", () => {
+					delete stakeouts[id];
+
+					ttStorage.set({ stakeouts });
+				});
+
 				stakeoutList.appendChild(
 					document.newElement({
 						type: "div",
@@ -377,6 +388,7 @@ async function setupDashboard() {
 									<span class="divider">|</span>
 									<a href="https://www.torn.com/profiles.php?XID=${id}" target="_blank">${name}</a>
 								`,
+								children: [removeStakeoutButton],
 							}),
 							document.newElement({ type: "div", class: "row", html: `<span>Last action: ${lastAction}</span>` }),
 						],
