@@ -233,16 +233,30 @@ body.dark #dashboard .stakeouts .user:nth-child(even) {
 	text-align: end;
 }
 
-#dashboard .stakeouts .status.online {
-	color: green;
+#dashboard .stakeouts .status:before {
+	content: "";
+	height: 12px;
+	width: 12px;
+	border-radius: 50%;
+	display: inline-block;
 }
 
-#dashboard .stakeouts .status.idle {
-	color: orange;
+#dashboard .stakeouts .status.offline:before {
+	background-color: #bbb;
 }
+
+#dashboard .stakeouts .status.idle:before {
+	background-color: orange;
+}
+
+#dashboard .stakeouts .status.online:before {
+	background-color: green;
+}
+
 #dashboard .stakeouts .delete-stakeout-wrap {
 	float: right;
 }
+
 #dashboard .stakeouts .delete-stakeout {
 	font-size: 12px;
 }

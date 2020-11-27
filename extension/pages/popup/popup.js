@@ -406,8 +406,7 @@ async function setupDashboard() {
 								type: "div",
 								class: "row",
 								html: `
-									<span class="status ${status.toLowerCase()}">${status}</span>
-									<span class="divider">|</span>
+									<span class="status ${status.toLowerCase()}"></span>
 									<a href="https://www.torn.com/profiles.php?XID=${id}" target="_blank">${name}</a>
 								`,
 								children: [removeStakeoutButton],
