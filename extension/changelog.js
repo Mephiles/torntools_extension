@@ -25,6 +25,7 @@ export default [
 				{ message: "Add an option to focus on an existing tab if it exists.", contributor: "DeKleineKobini" },
 				{ message: "Disable notifications by default if no permission was granted.", contributor: "DeKleineKobini" },
 				{ message: "Improve chat features when using multiple tabs at the same time.", contributor: "DeKleineKobini" },
+				{ message: "Add the ability to remove stakeouts from the popup.", contributor: "DeKleineKobini" },
 			],
 		},
 	},
