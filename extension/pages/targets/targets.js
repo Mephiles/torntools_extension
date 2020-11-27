@@ -309,6 +309,8 @@ async function setupStakeouts() {
 	}
 
 	function updateStakeouts() {
+		[...stakeoutList.findAll("tr:not(.header)")].filter((row) => !(parseInt(row.find(".id").innerText) in stakeouts)).forEach((row) => row.remove());
+
 		for (let id in stakeouts) {
 			const row = stakeoutList.find(`tr .id=${id}`).parentElement;
 
