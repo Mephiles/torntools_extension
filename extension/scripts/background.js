@@ -273,23 +273,25 @@ async function updateUserdata() {
 					else if (attack.result === "Escape") attackHistory.history[enemyId].escapes++;
 					else {
 						attackHistory.history[enemyId].win++;
-
-						let hasBaseRespect = attack.modifiers;
-
-						let respect = attack.respect_gain;
-						if (hasBaseRespect) {
-							if (respect === attack.modifiers.chainBonus) {
-								respect = 1;
-								hasBaseRespect = false;
-							} else {
-								if (attack.result === "Mugged") respect /= 0.75;
-
-								respect /= attack.modifiers.war / attack.modifiers.groupAttack / attack.modifiers.overseas / attack.modifiers.chainBonus;
-							}
-						}
 						if (attack.stealthed) attackHistory.history[enemyId].stealth++;
 
-						attackHistory.history[enemyId][hasBaseRespect ? "respect_base" : "respect"].push(respect);
+						let respect = attack.respect_gain;
+						if (respect !== 0) {
+							let hasBaseRespect = attack.modifiers;
+
+							if (hasBaseRespect) {
+								if (respect === attack.modifiers.chainBonus) {
+									respect = 1;
+									hasBaseRespect = false;
+								} else {
+									if (attack.result === "Mugged") respect /= 0.75;
+
+									respect /= attack.modifiers.war / attack.modifiers.groupAttack / attack.modifiers.overseas / attack.modifiers.chainBonus;
+								}
+							}
+
+							attackHistory.history[enemyId][hasBaseRespect ? "respect_base" : "respect"].push(respect);
+						}
 
 						switch (attack.result) {
 							case "Mugged":
