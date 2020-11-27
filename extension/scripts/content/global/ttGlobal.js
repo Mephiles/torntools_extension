@@ -257,7 +257,7 @@ async function showUpdateNotice() {
 function showMiniprofileInformation(information) {
 	const miniProfile = document.find("#profile-mini-root .mini-profile-wrapper");
 
-	const lastAction = formatTime({ milliseconds: Date.now() - information.user.lastAction.seconds * 1000 }, { type: "wordTimer", short: true });
+	const lastAction = formatTime({ seconds: information.user.lastAction.seconds }, { type: "wordTimer", short: true });
 
 	requireElement(".-profile-mini-_userProfileWrapper___39cKq", { parent: miniProfile }).then(() => {
 		setTimeout(() => {
