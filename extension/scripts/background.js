@@ -722,6 +722,10 @@ async function updateStakeouts() {
 				relative: data.last_action.relative,
 				timestamp: data.last_action.timestamp * 1000,
 			},
+			life: {
+				current: data.life.current,
+				maximum: data.life.maximum,
+			},
 		};
 	}
 

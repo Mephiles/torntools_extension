@@ -246,3 +246,29 @@ body.dark #dashboard .stakeouts .user:nth-child(even) {
 #dashboard .stakeouts .delete-stakeout {
 	font-size: 12px;
 }
+
+#dashboard .stakeouts .detailed {
+	display: flex;
+}
+
+#dashboard .stakeouts .detailed > * {
+	flex: 1;
+}
+
+#dashboard .stakeouts .detailed .lastAction {
+	text-align: right;
+}
+
+#dashboard .stakeouts .progress {
+	width: 85%;
+	height: 10px;
+	background-color: #ccc;
+	display: inline-block;
+}
+
+#dashboard .stakeouts .progress .value {
+	width: 0;
+	height: inherit;
+	max-width: 100%;
+	background: #7b98ee;
+}

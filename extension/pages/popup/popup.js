@@ -352,16 +352,20 @@ async function setupDashboard() {
 			stakeoutList.innerHTML = "";
 
 			for (const id in stakeouts) {
-				let status, name, lastAction;
+				let status, name, lastAction, lifeCurrent, lifeMaximum;
 
 				if (stakeouts[id].info && Object.keys(stakeouts[id].info).length) {
 					status = stakeouts[id].info.last_action.status;
 					name = stakeouts[id].info.name;
 					lastAction = stakeouts[id].info.last_action.relative;
+					lifeCurrent = stakeouts[id].info.life.current;
+					lifeMaximum = stakeouts[id].info.life.maximum;
 				} else {
 					status = "N/A";
 					name = id;
 					lastAction = "N/A";
+					lifeCurrent = 0;
+					lifeMaximum = 100;
 				}
 
 				const removeStakeoutButton = document.newElement({
@@ -373,6 +377,24 @@ async function setupDashboard() {
 					delete stakeouts[id];
 
 					ttStorage.set({ stakeouts });
+				});
+
+				const lifeBar = document.newElement({
+					type: "div",
+					children: [
+						document.newElement({ type: "span", text: "Life: " }),
+						document.newElement({
+							type: "div",
+							class: "progress",
+							children: [
+								document.newElement({
+									type: "div",
+									class: "value",
+									style: { width: `${((lifeCurrent / lifeMaximum) * 100).toFixed(0)}%` },
+								}),
+							],
+						}),
+					],
 				});
 
 				stakeoutList.appendChild(
@@ -390,7 +412,11 @@ async function setupDashboard() {
 								`,
 								children: [removeStakeoutButton],
 							}),
-							document.newElement({ type: "div", class: "row", html: `<span>Last action: ${lastAction}</span>` }),
+							document.newElement({
+								type: "div",
+								class: "row detailed",
+								children: [lifeBar, document.newElement({ type: "span", class: "lastAction", text: `Last action: ${lastAction}` })],
+							}),
 						],
 					})
 				);
