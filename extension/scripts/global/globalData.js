@@ -351,9 +351,11 @@ const API_USAGE = {
 			medical: true,
 			booster: true,
 		},
-		education: {
-			education_timeleft: true,
-			education_completed: true,
+		education_timeleft: true,
+		education_completed: true,
+		refills: {
+			energy_refill_used: true,
+			nerve_refill_used: true,
 		},
 	},
 	properties: {},
