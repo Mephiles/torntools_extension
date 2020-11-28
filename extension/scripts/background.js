@@ -143,7 +143,7 @@ function timedUpdates() {
 	if (api.torn.key) {
 		updateUserdata()
 			.then(({ updateBasic }) => console.log(`Updated essential${updateBasic ? "+basic" : ""} userdata.`))
-			.catch((error) => console.error("Error while updating essential userdata.", error));
+			.catch((error) => console.error("Error while updating userdata.", error));
 
 		updateStakeouts()
 			.then(() => console.log("Updated stakeouts."))
@@ -155,11 +155,16 @@ function timedUpdates() {
 				.then(() => console.log("Updated torndata."))
 				.catch((error) => console.error("Error while updating torndata.", error));
 		}
+
+		if (!torndata || !torndata.stocks || !isSameStockTick(new Date(torndata.stocks.date), new Date())) {
+			updateStocks()
+				.then(() => console.log("Updated stocks."))
+				.catch((error) => console.error("Error while updating stocks.", error));
+		}
 	}
 
 	// TODO - Update npc times.
 	// TODO - Update networth data.
-	// TODO - Update stocks data.
 	// TODO - Update OC data.
 }
 
@@ -170,7 +175,7 @@ async function updateUserdata() {
 
 	let selections = ["profile", "bars", "cooldowns", "timestamp", "travel", "events", "messages", "money", "refills"];
 	if (updateBasic) {
-		selections = selections.concat("personalstats");
+		selections = selections.concat("personalstats", "stocks");
 
 		if (!userdata.education || !userdata.education_completed || userdata.education_completed.length !== Object.keys(torndata.education).length)
 			selections.push("education");
@@ -735,10 +740,20 @@ async function updateStakeouts() {
 }
 
 async function updateTorndata() {
+	const oldTorndata = { ...torndata };
 	torndata = await fetchApi("torn", { section: "torn", selections: ["education", "honors", "items", "medals", "pawnshop"] });
 	torndata.date = Date.now();
 
+	torndata.stocks = oldTorndata.stocks;
+
 	await ttStorage.set({ torndata });
+}
+
+async function updateStocks() {
+	let stocks = (await fetchApi("torn", { section: "torn", selections: ["stocks"] })).stocks;
+	stocks.date = Date.now();
+
+	await ttStorage.change({ torndata: { stocks } });
 }
 
 async function notifyUser(title, message, url) {

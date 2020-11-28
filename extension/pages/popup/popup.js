@@ -541,50 +541,57 @@ async function setupMarketSearch() {
 
 		viewItem.classList.remove("hidden");
 	}
-
-	//
-	// function showMarketInfo(id) {
-	// 	fetchApi("torn", { section: "market", id })
-	// 		.then((result) => {
-	// 			console.log("Getting Bazaar & Itemmarket info");
-	//
-	// 			let list = document.find("#market-info");
-	// 			list.classList.remove("hidden");
-	// 			list.innerHTML = "";
-	//
-	// 			for (let type of Object.keys(result)) {
-	// 				list.appendChild(document.newElement({ type: "div", class: "heading", text: capitalizeText(type) }));
-	//
-	// 				if (result[type]) {
-	// 					for (let i = 0; i < 3; i++) {
-	// 						list.appendChild(
-	// 							document.newElement({
-	// 								type: "div",
-	// 								class: "price",
-	// 								text: `${result[type][i].quantity}x | $${formatNumber(result[type][i].cost)}`,
-	// 							})
-	// 						);
-	// 					}
-	// 				} else {
-	// 					list.appendChild(
-	// 						document.newElement({
-	// 							type: "div",
-	// 							class: "price",
-	// 							text: "No price found.",
-	// 						})
-	// 					);
-	// 				}
-	// 			}
-	// 		})
-	// 		.catch((result) => {
-	// 			document.find(".error").classList.remove("hidden");
-	// 			document.find(".error").innerText = result;
-	// 		});
-	// }
 }
 
 async function loadMarketSearch() {
 	document.find("#market #search-bar").focus();
 }
 
-async function setupStocksOverview() {}
+async function setupStocksOverview() {
+	const stocksOverview = document.find("#stocks");
+
+	for (let buyId in userdata.stocks) {
+		const stock = userdata.stocks[buyId];
+		const id = stock.stock_id;
+
+		const profit = ((torndata.stocks[id].current_price - stock.bought_price) * stock.shares).removeDecimals();
+
+		stocksOverview.find("#user-stocks").appendChild(
+			document.newElement({
+				type: "div",
+				class: "stock-wrap",
+				children: [
+					document.newElement("hr"),
+					document.newElement({
+						type: "a",
+						class: "heading",
+						href: `https://www.torn.com/stockexchange.php?stock=${torndata.stocks[id].acronym}`,
+						attributes: { target: "_blank" },
+						children: [
+							document.newElement({
+								type: "span",
+								class: "name",
+								text: `${torndata.stocks[id][torndata.stocks[id].name.length > 20 ? "acronym" : "name"]}`,
+							}),
+							document.newElement("br"),
+							document.newElement({ type: "span", class: "quantity", text: `(${formatNumber(stock.shares, { shorten: 2 })} shares)` }),
+						],
+					}),
+					document.newElement({
+						type: "div",
+						class: `profit ${getProfitClass(profit)}`,
+						text: `${getProfitIndicator(profit)}$${formatNumber(Math.abs(profit))}`,
+					}),
+				],
+			})
+		);
+	}
+
+	function getProfitClass(profit) {
+		return profit > 0 ? "positive" : profit < 0 ? "negative" : "";
+	}
+
+	function getProfitIndicator(profit) {
+		return profit > 0 ? "+" : profit < 0 ? "-" : "";
+	}
+}

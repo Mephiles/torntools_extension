@@ -1,0 +1,45 @@
+#stocks #stock-search-bar {
+	outline: none;
+	font-size: 16px;
+}
+
+body.light #stocks #stock-search-bar {
+	border: 1px solid #ddd;
+}
+
+body.dark #stocks #stock-search-bar {
+	border: 1px solid #777;
+	background-color: #bfbfbf;
+}
+
+#stocks #user-stocks .stock-wrap {
+	position: relative;
+}
+
+#stocks #user-stocks .heading {
+	text-decoration: none;
+	color: inherit;
+	cursor: pointer;
+}
+
+#stocks #user-stocks .heading .name {
+	font-size: 16px;
+	margin-top: 8px;
+	font-weight: bold;
+}
+
+#stocks #user-stocks .profit {
+	position: absolute;
+	top: 8px;
+	right: 4px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#stocks #user-stocks .profit.positive {
+	color: #76cd2d;
+}
+
+#stocks #user-stocks .profit.negative {
+	color: #ec3f3f;
+}
