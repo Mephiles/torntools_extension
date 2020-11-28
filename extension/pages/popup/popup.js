@@ -1,3 +1,14 @@
+const SETUP_PAGES = {
+	initialize: setupInitialize,
+	dashboard: setupDashboard,
+	market: setupMarketSearch,
+	stocks: setupStocksOverview,
+};
+const LOAD_PAGES = {
+	market: loadMarketSearch,
+	// stocks: setupStocksOverview,
+};
+
 let initiatedPages = {};
 
 (async () => {
@@ -45,16 +56,12 @@ async function showPage(name) {
 	if (document.find(`#pages li[to="${name}"]`)) document.find(`#pages li[to="${name}"]`).classList.add("active");
 	document.find(`#${name}`).classList.add("active");
 
-	let setup = {
-		initialize: setupInitialize,
-		dashboard: setupDashboard,
-		market: setupMarketSearch,
-		stocks: setupStocksOverview,
-	};
-
-	if (!(name in initiatedPages) || !initiatedPages[name]) {
-		await setup[name]();
+	if ((name in SETUP_PAGES && !(name in initiatedPages)) || !initiatedPages[name]) {
+		await SETUP_PAGES[name]();
 		initiatedPages[name] = true;
+	}
+	if (name in LOAD_PAGES) {
+		await LOAD_PAGES[name]();
 	}
 }
 
@@ -574,6 +581,10 @@ async function setupMarketSearch() {
 	// 			document.find(".error").innerText = result;
 	// 		});
 	// }
+}
+
+async function loadMarketSearch() {
+	document.find("#market #search-bar").focus();
 }
 
 async function setupStocksOverview() {}
