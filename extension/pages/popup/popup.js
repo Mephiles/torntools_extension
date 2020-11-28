@@ -554,7 +554,7 @@ async function setupStocksOverview() {
 		const stock = userdata.stocks[buyId];
 		const id = stock.stock_id;
 
-		const profit = ((torndata.stocks[id].current_price - stock.bought_price) * stock.shares).removeDecimals();
+		const profit = ((torndata.stocks[id].current_price - stock.bought_price) * stock.shares).dropDecimals();
 
 		const wrapper = document.newElement({ type: "div", class: "stock-wrap" });
 		wrapper.appendChild(document.newElement("hr"));

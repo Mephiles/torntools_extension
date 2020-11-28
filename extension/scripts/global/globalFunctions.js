@@ -76,8 +76,8 @@ Array.prototype.insertAt = function (index, ...elements) {
 	this.splice(index, 0, ...elements);
 };
 
-Number.prototype.removeDecimals = function () {
-	return parseInt(this.toFixed(0));
+Number.prototype.dropDecimals = function () {
+	return parseInt(this.toString());
 };
 
 if (!Array.prototype.flat)
@@ -390,7 +390,7 @@ function isSameUTCDay(date1, date2) {
 
 function isSameStockTick(date1, date2) {
 	return (
-		(date1.getUTCMinutes() / 15).removeDecimals() === (date2.getUTCMinutes() / 15).removeDecimals() &&
+		(date1.getUTCMinutes() / 15).dropDecimals() === (date2.getUTCMinutes() / 15).dropDecimals() &&
 		date1.getUTCHours() === date2.getUTCHours() &&
 		date1.getUTCDate() === date2.getUTCDate() &&
 		date1.getUTCMonth() === date2.getUTCMonth() &&
