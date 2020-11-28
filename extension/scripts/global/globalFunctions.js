@@ -60,7 +60,8 @@ Document.prototype.newElement = function (options) {
 
 		for (let child of options.children || []) newElement.appendChild(child);
 
-		for (let attr in options.attributes) newElement.setAttribute(attr, options.attributes[attr]);
+		for (let attribute in options.attributes) newElement.setAttribute(attribute, options.attributes[attribute]);
+		for (let event in options.events) newElement.addEventListener(event, options.events[event]);
 
 		for (let key in options.style) newElement.style[key] = options.style[key];
 
@@ -98,26 +99,43 @@ function getSearchParameters() {
 	return new URL(window.location).searchParams;
 }
 
-function rotateElement(element, degrees) {
-	let startDegrees = element.style.transform ? parseInt(element.style.transform.replace("rotate(", "").replace("deg)", "")) : 0;
+function getUUID() {
+	return "_" + Math.random().toString(36).substr(2, 9);
+}
 
-	startDegrees = startDegrees % 360;
+function rotateElement(element, degrees) {
+	let uuid;
+	if (element.hasAttribute("rotate-id")) uuid = element.getAttribute("rotate-id");
+	else {
+		uuid = getUUID();
+		element.setAttribute("rotate-id", uuid);
+	}
+
+	if (rotatingElements[uuid]) {
+		clearInterval(rotatingElements[uuid].interval);
+		element.style.transform = `rotate(${rotatingElements[uuid].totalDegrees}deg)`;
+	}
+
+	let startDegrees = (element.style.transform ? parseInt(element.style.transform.replace("rotate(", "").replace("deg)", "")) : 0) % 360;
 	element.style.transform = `rotate(${startDegrees}deg)`;
 
 	const totalDegrees = startDegrees + degrees;
 	const step = 1000 / degrees;
 
-	let rotater = setInterval(function () {
-		const currentRotation = element.style.transform ? parseInt(element.style.transform.replace("rotate(", "").replace("deg)", "")) : 0;
-		let newRotation = currentRotation + step;
+	rotatingElements[uuid] = {
+		interval: setInterval(function () {
+			const currentRotation = element.style.transform ? parseInt(element.style.transform.replace("rotate(", "").replace("deg)", "")) : 0;
+			let newRotation = currentRotation + step;
 
-		if (currentRotation < totalDegrees && newRotation > totalDegrees) {
-			newRotation = totalDegrees;
-			clearInterval(rotater);
-		}
+			if (currentRotation < totalDegrees && newRotation > totalDegrees) {
+				newRotation = totalDegrees;
+				clearInterval(rotatingElements[uuid].interval);
+			}
 
-		element.style.transform = `rotate(${newRotation}deg)`;
-	}, 1);
+			element.style.transform = `rotate(${newRotation}deg)`;
+		}, 1),
+		totalDegrees,
+	};
 }
 
 function requireCondition(condition, attributes = {}) {
@@ -372,7 +390,7 @@ function isSameUTCDay(date1, date2) {
 
 function isSameStockTick(date1, date2) {
 	return (
-		date1.getUTCMinutes() % 15 === date2.getUTCMinutes() % 15 &&
+		(date1.getUTCMinutes() / 15).removeDecimals() === (date2.getUTCMinutes() / 15).removeDecimals() &&
 		date1.getUTCHours() === date2.getUTCHours() &&
 		date1.getUTCDate() === date2.getUTCDate() &&
 		date1.getUTCMonth() === date2.getUTCMonth() &&
@@ -618,8 +636,17 @@ function formatNumber(number, options) {
 	options = {
 		shorten: false,
 		formatter: false,
+		decimals: -1,
 		...options,
 	};
+	if (typeof number !== "number") {
+		if (isNaN(number)) return number;
+		else number = parseFloat(number);
+	}
+
+	if (options.decimals !== -1) {
+		number = options.decimals === 1 ? parseInt(number) : parseFloat(number.toFixed(options.decimals));
+	}
 
 	if (options.formatter) {
 		return formatter.format(number);

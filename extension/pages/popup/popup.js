@@ -556,35 +556,138 @@ async function setupStocksOverview() {
 
 		const profit = ((torndata.stocks[id].current_price - stock.bought_price) * stock.shares).removeDecimals();
 
-		stocksOverview.find("#user-stocks").appendChild(
+		const wrapper = document.newElement({ type: "div", class: "stock-wrap" });
+		wrapper.appendChild(document.newElement("hr"));
+
+		// Heading
+		wrapper.appendChild(
 			document.newElement({
-				type: "div",
-				class: "stock-wrap",
+				type: "a",
+				class: "heading",
+				href: `https://www.torn.com/stockexchange.php?stock=${torndata.stocks[id].acronym}`,
+				attributes: { target: "_blank" },
 				children: [
-					document.newElement("hr"),
 					document.newElement({
-						type: "a",
-						class: "heading",
-						href: `https://www.torn.com/stockexchange.php?stock=${torndata.stocks[id].acronym}`,
-						attributes: { target: "_blank" },
-						children: [
-							document.newElement({
-								type: "span",
-								class: "name",
-								text: `${torndata.stocks[id][torndata.stocks[id].name.length > 20 ? "acronym" : "name"]}`,
-							}),
-							document.newElement("br"),
-							document.newElement({ type: "span", class: "quantity", text: `(${formatNumber(stock.shares, { shorten: 2 })} shares)` }),
-						],
+						type: "span",
+						class: "name",
+						text: `${torndata.stocks[id][torndata.stocks[id].name.length > 35 ? "acronym" : "name"]}`,
 					}),
+					document.newElement("br"),
 					document.newElement({
-						type: "div",
-						class: `profit ${getProfitClass(profit)}`,
-						text: `${getProfitIndicator(profit)}$${formatNumber(Math.abs(profit))}`,
+						type: "span",
+						class: "quantity",
+						text: `(${formatNumber(stock.shares, { shorten: 2 })} share${applyPlural(stock.shares)})`,
 					}),
 				],
 			})
 		);
+		wrapper.appendChild(
+			document.newElement({
+				type: "div",
+				class: `profit ${getProfitClass(profit)}`,
+				text: `${getProfitIndicator(profit)}$${formatNumber(Math.abs(profit))}`,
+			})
+		);
+
+		// Price Information
+		const priceContent = document.newElement({
+			type: "div",
+			class: "content price hidden",
+			children: [
+				document.newElement({
+					type: "span",
+					text: `Current price: $${formatNumber(torndata.stocks[id].current_price, { decimals: 3 })}`,
+				}),
+				document.newElement({
+					type: "span",
+					text: `Bought at: $${formatNumber(stock.bought_price, { decimals: 3 })}`,
+				}),
+			],
+		});
+		const priceHeading = document.newElement({
+			type: "div",
+			class: "heading",
+			children: [
+				document.newElement({ type: "span", class: "title", text: "Price Information" }),
+				document.newElement({ type: "i", class: "fas fa-chevron-down" }),
+			],
+			events: {
+				click: (event) => {
+					priceContent.classList[priceContent.classList.contains("hidden") ? "remove" : "add"]("hidden");
+
+					rotateElement((event.target.classList.contains("heading") ? event.target : event.target.parentElement).find("i"), 180);
+				},
+			},
+		});
+
+		wrapper.appendChild(document.newElement({ type: "div", class: "information-section", children: [priceHeading, priceContent] }));
+
+		// Benefit Information
+		if (torndata.stocks[id].benefit) {
+			const benefitContent = document.newElement({
+				type: "div",
+				class: "content benefit hidden",
+				children: [
+					document.newElement({
+						type: "span",
+						text: `Required stocks: ${formatNumber(stock.shares)}/${formatNumber(torndata.stocks[id].benefit.requirement)}`,
+					}),
+					document.newElement("br"),
+					document.newElement({
+						type: "span",
+						class: `description ${stock.shares >= torndata.stocks[id].benefit.requirement ? "completed" : "not-completed"}`,
+						text: `${torndata.stocks[id].benefit.description}.`,
+					}),
+				],
+			});
+			const benefitHeading = document.newElement({
+				type: "div",
+				class: "heading",
+				children: [
+					document.newElement({ type: "span", class: "title", text: "Benefit Information" }),
+					document.newElement({
+						type: "i",
+						class: "fas fa-chevron-down",
+					}),
+				],
+				events: {
+					click: (event) => {
+						benefitContent.classList[benefitContent.classList.contains("hidden") ? "remove" : "add"]("hidden");
+
+						rotateElement((event.target.classList.contains("heading") ? event.target : event.target.parentElement).find("i"), 180);
+					},
+				},
+			});
+
+			wrapper.appendChild(document.newElement({ type: "div", class: "information-section", children: [benefitHeading, benefitContent] }));
+		}
+
+		const alertContent = document.newElement({
+			type: "div",
+			class: "content alerts hidden",
+			children: [
+				document.newElement({
+					type: "span",
+					text: `TODO`,
+				}),
+			],
+		});
+		const alertHeading = document.newElement({
+			type: "div",
+			class: "heading",
+			children: [document.newElement({ type: "span", class: "title", text: "Alerts" }), document.newElement({ type: "i", class: "fas fa-chevron-down" })],
+			events: {
+				click: (event) => {
+					alertContent.classList[alertContent.classList.contains("hidden") ? "remove" : "add"]("hidden");
+
+					rotateElement((event.target.classList.contains("heading") ? event.target : event.target.parentElement).find("i"), 180);
+				},
+			},
+		});
+
+		wrapper.appendChild(document.newElement({ type: "div", class: "information-section", children: [alertHeading, alertContent] }));
+
+		stocksOverview.find("#user-stocks").appendChild(wrapper);
 	}
 
 	function getProfitClass(profit) {

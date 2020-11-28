@@ -260,6 +260,8 @@ const CONTRIBUTORS = {
 let mobile;
 let injectedXHR, injectedFetch;
 
+let rotatingElements = {};
+
 const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.name || "", description: "Your player name." }];
 
 const TO_MILLIS = {
