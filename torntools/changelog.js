@@ -1,5 +1,5 @@
 export default {
-	"v5.x - xxx, xx. 2020": {
+	"v5.3.4 - November, 29th. 2020": {
 		Fixes: [
 			"Update 'Rising Costs' hint. - DKK",
 			"Fix an issue with an old rank name. - h4xnoodle",
