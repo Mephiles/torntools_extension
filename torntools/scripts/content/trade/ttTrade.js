@@ -98,7 +98,7 @@ function showValues() {
 			const items = findItemsInObject(itemlist.items, { name }, true);
 			if (!items.length) continue;
 
-			const worth = items[0].market_value * quantity;
+			const worth = parseInt(items[0].market_value * quantity);
 			totalValue += worth;
 
 			if (settings.pages.trade.item_values) {
@@ -114,7 +114,7 @@ function showValues() {
 			const stock = findItemsInObject(torndata.stocks, { acronym: match[1] }, true)[0];
 			const price = parseInt(match[3].replaceAll(",", ""));
 
-			const worth = stock.current_price * amount;
+			const worth = parseInt(stock.current_price * amount);
 			totalValue += worth;
 
 			if (settings.pages.trade.item_values) {

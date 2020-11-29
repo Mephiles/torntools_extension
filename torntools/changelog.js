@@ -5,7 +5,8 @@ export default {
 			"Fix an issue with an old rank name. - h4xnoodle",
 			"Add safety measure for faction filter when your computer clock is out of sync. - DKK",
 			'Fix wrong Piercing Weapons achievement 2,500 goal. - Mephiles',
-			'Fix trade logs showing money values for comments. - Mephiles'
+			'Fix trade logs showing money values for comments. - Mephiles',
+			'Fix trailing ".0,000,001" issues in trade calculations. - Mephiles'
 		],
 	},
 	"v5.3.3 - November, 11th. 2020": {
