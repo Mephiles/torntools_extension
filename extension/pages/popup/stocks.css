@@ -1,3 +1,4 @@
+/* Search bar */
 #stocks #stock-search-bar {
 	outline: none;
 	font-size: 16px;
@@ -11,21 +12,92 @@ body.dark #stocks #stock-search-bar {
 	border: 1px solid #777;
 }
 
-#stocks #user-stocks .stock-wrap {
+/* Stocks */
+
+#stocks .stock-list .stock-wrap {
 	position: relative;
 }
 
-#stocks #user-stocks .heading {
+#stocks .stock-list .heading {
 	text-decoration: none;
 	color: inherit;
 	cursor: pointer;
 }
 
-#stocks #user-stocks .heading .name {
+#stocks .stock-list .heading .name {
 	font-size: 16px;
 	margin-top: 8px;
 	font-weight: bold;
 }
+
+#stocks .stock-list .information-section .heading {
+	padding: 1px 4px;
+}
+
+body.light #stocks .stock-list .information-section .heading {
+	background-color: #eee;
+}
+
+body.dark #stocks .stock-list .information-section .heading {
+	background-color: #353535;
+}
+
+#stocks .stock-list .information-section .heading .title {
+	font-weight: bold;
+}
+
+#stocks .stock-list .information-section .heading i {
+	float: right;
+}
+
+#stocks .stock-list .information-section .content {
+	margin: 4px 10px;
+}
+
+#stocks .stock-list .information-section {
+	margin-top: 2px;
+}
+
+#stocks .stock-list .information-section .content.price {
+	display: flex;
+}
+
+#stocks .stock-list .information-section .content.price > * {
+	flex: 1;
+}
+
+#stocks .stock-list .information-section .content.benefit .description {
+	font-weight: bold;
+}
+
+#stocks .stock-list .information-section .content.alerts {
+	display: flex;
+}
+
+#stocks .stock-list .information-section .content.alerts > * {
+	flex: 1;
+	margin-left: 6px;
+	margin-right: 6px;
+}
+
+#stocks .stock-list .information-section .content.alerts .title {
+	font-weight: bold;
+	text-align: center;
+	width: 100%;
+	display: inline-block;
+}
+
+#stocks .stock-list .information-section .content.alerts input[type="number"] {
+	float: right;
+	right: 25px;
+	width: 60px;
+	font-size: 10px;
+	height: 12px;
+	padding: 0;
+	margin: 0;
+}
+
+/* Stocks - Users */
 
 #stocks #user-stocks .profit {
 	position: absolute;
@@ -43,77 +115,10 @@ body.dark #stocks #stock-search-bar {
 	color: #ec3f3f;
 }
 
-#stocks #user-stocks .information-section {
-	margin-top: 2px;
-}
-
-#stocks #user-stocks .information-section .heading {
-	padding: 1px 4px;
-}
-
-body.light #stocks #user-stocks .information-section .heading {
-	background-color: #eee;
-}
-
-body.dark #stocks #user-stocks .information-section .heading {
-	background-color: #353535;
-}
-
-#stocks #user-stocks .information-section .heading .title {
-	font-weight: bold;
-}
-
-#stocks #user-stocks .information-section .heading i {
-	float: right;
-}
-
-#stocks #user-stocks .information-section .content {
-	margin: 4px 10px;
-}
-
-#stocks #user-stocks .information-section .content.price {
-	display: flex;
-}
-
-#stocks #user-stocks .information-section .content.price > * {
-	flex: 1;
-}
-
-#stocks #user-stocks .information-section .content.benefit .description {
-	font-weight: bold;
-}
-
 #stocks #user-stocks .information-section .content.benefit .description.completed {
 	color: #36b320;
 }
 
 #stocks #user-stocks .information-section .content.benefit .description.not-completed {
 	color: #e44204;
-}
-
-#stocks #user-stocks .information-section .content.alerts {
-	display: flex;
-}
-
-#stocks #user-stocks .information-section .content.alerts > * {
-	flex: 1;
-	margin-left: 6px;
-	margin-right: 6px;
-}
-
-#stocks #user-stocks .information-section .content.alerts .title {
-	font-weight: bold;
-	text-align: center;
-	width: 100%;
-	display: inline-block;
-}
-
-#stocks #user-stocks .information-section .content.alerts input[type="number"] {
-	float: right;
-	right: 25px;
-	width: 60px;
-	font-size: 10px;
-	height: 12px;
-	padding: 0;
-	margin: 0;
 }
