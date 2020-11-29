@@ -763,8 +763,8 @@ async function updateStocks() {
 
 	console.log("DKK stocks ???");
 	if (oldStocks) {
-		console.log("DKK stocks", Object.keys(settings.notifications.types).join(","));
-		for (let id in settings.notifications.types) {
+		console.log("DKK stocks", Object.keys(settings.notifications.types.stocks).join(","));
+		for (let id in settings.notifications.types.stocks) {
 			const alerts = settings.notifications.types[id];
 			console.log("DKK stock", id, alerts);
 
