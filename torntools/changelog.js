@@ -4,7 +4,8 @@ export default {
 			"Update 'Rising Costs' hint. - DKK",
 			"Fix an issue with an old rank name. - h4xnoodle",
 			"Add safety measure for faction filter when your computer clock is out of sync. - DKK",
-			'Fix wrong Piercing Weapons achievement 2,500 goal - Mephiles'
+			'Fix wrong Piercing Weapons achievement 2,500 goal. - Mephiles',
+			'Fix trade logs showing money values for comments. - Mephiles'
 		],
 	},
 	"v5.3.3 - November, 11th. 2020": {
