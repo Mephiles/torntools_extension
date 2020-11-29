@@ -156,6 +156,7 @@ function timedUpdates() {
 				.catch((error) => console.error("Error while updating torndata.", error));
 		}
 
+		// noinspection JSCheckFunctionSignatures
 		if (!torndata || !torndata.stocks || !isSameStockTick(new Date(torndata.stocks.date), new Date())) {
 			updateStocks()
 				.then(() => console.log("Updated stocks."))

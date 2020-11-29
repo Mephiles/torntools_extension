@@ -16,6 +16,7 @@ let initiatedPages = {};
 })();
 
 async function showPage(name) {
+	// noinspection DuplicatedCode
 	window.history.replaceState("", "Title", "?page=" + name);
 
 	for (let active of document.findAll("header nav.on-page > ul > li.active")) active.classList.remove("active");

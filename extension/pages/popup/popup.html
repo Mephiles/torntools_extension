@@ -167,7 +167,8 @@
 			<ul class="item-list hidden"></ul>
 
 			<article id="item-information" class="hidden">
-				<img class="image" />
+				<!--suppress RequiredAttributes -->
+				<img class="image" alt="Item Image" />
 				<div class="info-wrap">
 					<h3 class="name-wrap"><a target="_blank" class="name"></a></h3>
 					<div>Circulation: <span class="circulation"></span></div>
@@ -180,6 +181,7 @@
 		<!-- Stocks -->
 		<main id="stocks" class="subpage">
 			<h1>Stocks</h1>
+			<!--suppress HtmlFormInputWithoutLabel -->
 			<input id="stock-search-bar" type="text" placeholder="Search.." autofocus />
 
 			<div class="stock-list" id="user-stocks"></div>

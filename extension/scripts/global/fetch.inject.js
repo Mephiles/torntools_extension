@@ -6,6 +6,7 @@
 
 function interceptFetch(channel) {
 	const oldFetch = window.fetch;
+	// noinspection JSValidateTypes
 	window.fetch = function () {
 		return new Promise((resolve, reject) => {
 			oldFetch
