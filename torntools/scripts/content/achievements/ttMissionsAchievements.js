@@ -95,6 +95,7 @@ requireDatabase().then(() => {
 			"Piercing hits": {
 				stats: personalstats.piehits,
 				keyword: "piercing",
+				incl: ['weapons']
 			},
 			"Slashing hits": {
 				stats: personalstats.slahits,
