@@ -15,7 +15,6 @@ body.light #market #search-bar {
 
 body.dark #market #search-bar {
 	border: 1px solid #777;
-	background-color: #bfbfbf;
 }
 
 #market .item-list {

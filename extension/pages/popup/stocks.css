@@ -9,7 +9,6 @@ body.light #stocks #stock-search-bar {
 
 body.dark #stocks #stock-search-bar {
 	border: 1px solid #777;
-	background-color: #bfbfbf;
 }
 
 #stocks #user-stocks .stock-wrap {
@@ -90,4 +89,31 @@ body.dark #stocks #user-stocks .information-section .heading {
 
 #stocks #user-stocks .information-section .content.benefit .description.not-completed {
 	color: #e44204;
+}
+
+#stocks #user-stocks .information-section .content.alerts {
+	display: flex;
+}
+
+#stocks #user-stocks .information-section .content.alerts > * {
+	flex: 1;
+	margin-left: 6px;
+	margin-right: 6px;
+}
+
+#stocks #user-stocks .information-section .content.alerts .title {
+	font-weight: bold;
+	text-align: center;
+	width: 100%;
+	display: inline-block;
+}
+
+#stocks #user-stocks .information-section .content.alerts input[type="number"] {
+	float: right;
+	right: 25px;
+	width: 60px;
+	font-size: 10px;
+	height: 12px;
+	padding: 0;
+	margin: 0;
 }

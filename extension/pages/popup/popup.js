@@ -662,30 +662,124 @@ async function setupStocksOverview() {
 			wrapper.appendChild(document.newElement({ type: "div", class: "information-section", children: [benefitHeading, benefitContent] }));
 		}
 
-		const alertContent = document.newElement({
-			type: "div",
-			class: "content alerts hidden",
-			children: [
-				document.newElement({
-					type: "span",
-					text: `TODO`,
-				}),
-			],
-		});
-		const alertHeading = document.newElement({
-			type: "div",
-			class: "heading",
-			children: [document.newElement({ type: "span", class: "title", text: "Alerts" }), document.newElement({ type: "i", class: "fas fa-chevron-down" })],
-			events: {
-				click: (event) => {
-					alertContent.classList[alertContent.classList.contains("hidden") ? "remove" : "add"]("hidden");
+		// Alerts
+		if (id !== "0") {
+			const alertContent = document.newElement({
+				type: "div",
+				class: "content alerts hidden",
+				children: [
+					document.newElement({
+						type: "div",
+						children: [
+							document.newElement({ type: "span", class: "title", text: "Price" }),
+							document.newElement({
+								type: "div",
+								children: [
+									document.newElement({ type: "label", attributes: { for: `stock-${buyId}-alert__reaches` }, text: "reaches" }),
+									document.newElement({
+										type: "input",
+										id: `stock-${buyId}-alert__reaches`,
+										attributes: { type: "number", min: 0 },
+										value: () => {
+											if (!(id in settings.notifications.types.stocks)) return "";
 
-					rotateElement((event.target.classList.contains("heading") ? event.target : event.target.parentElement).find("i"), 180);
+											return settings.notifications.types.stocks[id].priceReaches || "";
+										},
+										events: {
+											change: async (event) => {
+												await ttStorage.change({
+													settings: {
+														notifications: { types: { stocks: { [id]: { priceReaches: parseFloat(event.target.value) } } } },
+													},
+												});
+											},
+										},
+									}),
+								],
+							}),
+							document.newElement({
+								type: "div",
+								children: [
+									document.newElement({ type: "label", attributes: { for: `stock-${buyId}-alert__falls` }, text: "falls to" }),
+									document.newElement({
+										type: "input",
+										id: `stock-${buyId}-alert__falls`,
+										attributes: { type: "number", min: 0 },
+										value: () => {
+											if (!(id in settings.notifications.types.stocks)) return "";
+
+											return settings.notifications.types.stocks[id].priceFalls || "";
+										},
+										events: {
+											change: async (event) => {
+												await ttStorage.change({
+													settings: {
+														notifications: { types: { stocks: { [id]: { priceFalls: parseFloat(event.target.value) } } } },
+													},
+												});
+											},
+										},
+									}),
+								],
+							}),
+						],
+					}),
+					document.newElement({
+						type: "div",
+						children: [
+							document.newElement({ type: "span", class: "title", text: "Available Stocks" }),
+							document.newElement({
+								type: "div",
+								children: [
+									document.newElement({
+										type: "input",
+										id: `stock-${buyId}-alert__dump`,
+										attributes: () => {
+											let attributes = {
+												type: "checkbox",
+											};
+
+											if (id in settings.notifications.types.stocks && settings.notifications.types.stocks[id].systemDumps)
+												attributes.checked = true;
+
+											return attributes;
+										},
+										events: {
+											change: async (event) => {
+												await ttStorage.change({
+													settings: { notifications: { types: { stocks: { [id]: { systemDumps: event.target.checked } } } } },
+												});
+											},
+										},
+									}),
+									document.newElement({ type: "label", attributes: { for: `stock-${buyId}-alert__dump` }, text: "system dump" }),
+								],
+							}),
+						],
+					}),
+				],
+			});
+			const alertHeading = document.newElement({
+				type: "div",
+				class: "heading",
+				children: [
+					document.newElement({ type: "span", class: "title", text: "Alerts" }),
+					document.newElement({
+						type: "i",
+						class: "fas fa-chevron-down",
+					}),
+				],
+				events: {
+					click: (event) => {
+						alertContent.classList[alertContent.classList.contains("hidden") ? "remove" : "add"]("hidden");
+
+						rotateElement((event.target.classList.contains("heading") ? event.target : event.target.parentElement).find("i"), 180);
+					},
 				},
-			},
-		});
+			});
 
-		wrapper.appendChild(document.newElement({ type: "div", class: "information-section", children: [alertHeading, alertContent] }));
+			wrapper.appendChild(document.newElement({ type: "div", class: "information-section", children: [alertHeading, alertContent] }));
+		}
 
 		stocksOverview.find("#user-stocks").appendChild(wrapper);
 	}

@@ -12,6 +12,7 @@ export default [
 				{ message: "Add stakeouts when health drops below a certain percentage.", contributor: "DeKleineKobini" },
 				{ message: "Add unused energy and nerve refill highlighting", contributor: "Natty_Boh" },
 				{ message: "Highlight specific chat titles.", contributor: "DeKleineKobini" },
+				{ message: "Add an alert for stock system dumps.", contributor: "DeKleineKobini" },
 			],
 			fixes: [{ message: "Hide new chat messages while searching.", contributor: "DeKleineKobini" }],
 			changes: [

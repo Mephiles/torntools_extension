@@ -55,12 +55,20 @@ Document.prototype.newElement = function (options) {
 		if (options.class) newElement.setAttribute("class", options.class);
 		if (options.text) newElement.innerText = options.text;
 		if (options.html) newElement.innerHTML = options.html;
-		if (options.value) newElement.value = options.value;
+		if (options.value) {
+			if (typeof options.value === "function") newElement.value = options.value();
+			else newElement.value = options.value;
+		}
 		if (options.href) newElement.href = options.href;
 
 		for (let child of options.children || []) newElement.appendChild(child);
 
-		for (let attribute in options.attributes) newElement.setAttribute(attribute, options.attributes[attribute]);
+		if (options.attributes) {
+			let attributes = options.attributes;
+			if (typeof attributes === "function") attributes = attributes();
+
+			for (let attribute in attributes) newElement.setAttribute(attribute, attributes[attribute]);
+		}
 		for (let event in options.events) newElement.addEventListener(event, options.events[event]);
 
 		for (let key in options.style) newElement.style[key] = options.style[key];

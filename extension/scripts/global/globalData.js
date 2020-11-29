@@ -151,6 +151,7 @@ const DEFAULT_STORAGE = {
 				cooldownDrug: new DefaultSetting({ type: "array", defaultValue: [] }),
 				cooldownBooster: new DefaultSetting({ type: "array", defaultValue: [] }),
 				cooldownMedical: new DefaultSetting({ type: "array", defaultValue: [] }),
+				stocks: new DefaultSetting({ type: "object", defaultValue: {} }),
 			},
 		},
 		themes: {

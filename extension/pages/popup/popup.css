@@ -32,6 +32,12 @@ body.dark {
 	color: #f8f8f8;
 }
 
+body.dark input:not([type="checkbox"]):not([type="radio"]),
+body.dark select,
+body.dark button {
+	background-color: #bfbfbf;
+}
+
 /*
  * Page Navigation
  */

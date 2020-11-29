@@ -754,10 +754,40 @@ async function updateTorndata() {
 }
 
 async function updateStocks() {
+	const oldStocks = { ...torndata.stocks };
 	let stocks = (await fetchApi("torn", { section: "torn", selections: ["stocks"] })).stocks;
 	stocks.date = Date.now();
 
 	await ttStorage.change({ torndata: { stocks } });
+
+	console.log("DKK stocks ???");
+	if (oldStocks) {
+		console.log("DKK stocks", Object.keys(settings.notifications.types).join(","));
+		for (let id in settings.notifications.types) {
+			const alerts = settings.notifications.types[id];
+			console.log("DKK stock", id, alerts);
+
+			if (alerts.priceFalls && oldStocks[id].current_price > stocks[id].current_price && stocks[id].current_price <= alerts.priceFalls) {
+				await notifyUser(
+					"TornTools - Stock Alerts",
+					`(${stocks[id].acronym}) ${stocks[id].name} has fallen to $${formatNumber(stocks[id].current_price)} (alert: $${formatNumber(
+						alerts.priceFalls
+					)})!`,
+					LINKS.stocks
+				);
+			} else if (alerts.priceReaches && oldStocks[id].current_price < stocks[id].current_price && stocks[id].current_price >= alerts.priceReaches) {
+				await notifyUser(
+					"TornTools - Stock Alerts",
+					`(${stocks[id].acronym}) ${stocks[id].name} has reached $${formatNumber(stocks[id].current_price)} (alert: $${formatNumber(
+						alerts.priceReaches
+					)})!`,
+					LINKS.stocks
+				);
+			} else if (alerts.systemDumps && oldStocks[id].total_shares < stocks[id].total_shares) {
+				await notifyUser("TornTools - Stock Alerts", `(${stocks[id].acronym}) ${stocks[id].name} has dumped new shares!`, LINKS.stocks);
+			}
+		}
+	}
 }
 
 async function notifyUser(title, message, url) {
