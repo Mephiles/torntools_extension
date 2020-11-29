@@ -288,10 +288,14 @@ async function updateUserdata() {
 								if (respect === attack.modifiers.chainBonus) {
 									respect = 1;
 									hasBaseRespect = false;
+								} else if (attack.modifiers.war) {
+									respect =
+										respect / attack.modifiers.war / attack.modifiers.groupAttack / attack.modifiers.overseas / attack.modifiers.chainBonus;
+									hasBaseRespect = false;
 								} else {
 									if (attack.result === "Mugged") respect /= 0.75;
 
-									respect /= attack.modifiers.war / attack.modifiers.groupAttack / attack.modifiers.overseas / attack.modifiers.chainBonus;
+									respect = respect / attack.modifiers.groupAttack / attack.modifiers.overseas / attack.modifiers.chainBonus;
 								}
 							}
 
