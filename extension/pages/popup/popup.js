@@ -605,23 +605,8 @@ async function setupStocksOverview() {
 				}),
 			],
 		});
-		const priceHeading = document.newElement({
-			type: "div",
-			class: "heading",
-			children: [
-				document.newElement({ type: "span", class: "title", text: "Price Information" }),
-				document.newElement({ type: "i", class: "fas fa-chevron-down" }),
-			],
-			events: {
-				click: (event) => {
-					priceContent.classList[priceContent.classList.contains("hidden") ? "remove" : "add"]("hidden");
 
-					rotateElement((event.target.classList.contains("heading") ? event.target : event.target.parentElement).find("i"), 180);
-				},
-			},
-		});
-
-		wrapper.appendChild(document.newElement({ type: "div", class: "information-section", children: [priceHeading, priceContent] }));
+		wrapper.appendChild(document.newElement({ type: "div", class: "information-section", children: [getPriceHeadingElement(priceContent), priceContent] }));
 
 		// Benefit Information
 		if (torndata.stocks[id].benefit) {
@@ -641,26 +626,14 @@ async function setupStocksOverview() {
 					}),
 				],
 			});
-			const benefitHeading = document.newElement({
-				type: "div",
-				class: "heading",
-				children: [
-					document.newElement({ type: "span", class: "title", text: "Benefit Information" }),
-					document.newElement({
-						type: "i",
-						class: "fas fa-chevron-down",
-					}),
-				],
-				events: {
-					click: (event) => {
-						benefitContent.classList[benefitContent.classList.contains("hidden") ? "remove" : "add"]("hidden");
 
-						rotateElement((event.target.classList.contains("heading") ? event.target : event.target.parentElement).find("i"), 180);
-					},
-				},
-			});
-
-			wrapper.appendChild(document.newElement({ type: "div", class: "information-section", children: [benefitHeading, benefitContent] }));
+			wrapper.appendChild(
+				document.newElement({
+					type: "div",
+					class: "information-section",
+					children: [getBenefitHeadingElement(benefitContent), benefitContent],
+				})
+			);
 		}
 
 		// Alerts
@@ -704,23 +677,8 @@ async function setupStocksOverview() {
 				}),
 			],
 		});
-		const priceHeading = document.newElement({
-			type: "div",
-			class: "heading",
-			children: [
-				document.newElement({ type: "span", class: "title", text: "Price Information" }),
-				document.newElement({ type: "i", class: "fas fa-chevron-down" }),
-			],
-			events: {
-				click: (event) => {
-					priceContent.classList[priceContent.classList.contains("hidden") ? "remove" : "add"]("hidden");
 
-					rotateElement((event.target.classList.contains("heading") ? event.target : event.target.parentElement).find("i"), 180);
-				},
-			},
-		});
-
-		wrapper.appendChild(document.newElement({ type: "div", class: "information-section", children: [priceHeading, priceContent] }));
+		wrapper.appendChild(document.newElement({ type: "div", class: "information-section", children: [getPriceHeadingElement(priceContent), priceContent] }));
 
 		// Benefit Information
 		if (torndata.stocks[id].benefit) {
@@ -733,26 +691,14 @@ async function setupStocksOverview() {
 					document.newElement({ type: "span", class: `description`, text: `${torndata.stocks[id].benefit.description}.` }),
 				],
 			});
-			const benefitHeading = document.newElement({
-				type: "div",
-				class: "heading",
-				children: [
-					document.newElement({ type: "span", class: "title", text: "Benefit Information" }),
-					document.newElement({
-						type: "i",
-						class: "fas fa-chevron-down",
-					}),
-				],
-				events: {
-					click: (event) => {
-						benefitContent.classList[benefitContent.classList.contains("hidden") ? "remove" : "add"]("hidden");
 
-						rotateElement((event.target.classList.contains("heading") ? event.target : event.target.parentElement).find("i"), 180);
-					},
-				},
-			});
-
-			wrapper.appendChild(document.newElement({ type: "div", class: "information-section", children: [benefitHeading, benefitContent] }));
+			wrapper.appendChild(
+				document.newElement({
+					type: "div",
+					class: "information-section",
+					children: [getBenefitHeadingElement(benefitContent), benefitContent],
+				})
+			);
 		}
 
 		// Alerts
@@ -913,5 +859,44 @@ async function setupStocksOverview() {
 		});
 
 		wrapper.appendChild(document.newElement({ type: "div", class: "information-section", children: [alertHeading, alertContent] }));
+	}
+
+	function getPriceHeadingElement(priceContent) {
+		return document.newElement({
+			type: "div",
+			class: "heading",
+			children: [
+				document.newElement({ type: "span", class: "title", text: "Price Information" }),
+				document.newElement({ type: "i", class: "fas fa-chevron-down" }),
+			],
+			events: {
+				click: (event) => {
+					priceContent.classList[priceContent.classList.contains("hidden") ? "remove" : "add"]("hidden");
+
+					rotateElement((event.target.classList.contains("heading") ? event.target : event.target.parentElement).find("i"), 180);
+				},
+			},
+		});
+	}
+
+	function getBenefitHeadingElement(benefitContent) {
+		return document.newElement({
+			type: "div",
+			class: "heading",
+			children: [
+				document.newElement({ type: "span", class: "title", text: "Benefit Information" }),
+				document.newElement({
+					type: "i",
+					class: "fas fa-chevron-down",
+				}),
+			],
+			events: {
+				click: (event) => {
+					benefitContent.classList[benefitContent.classList.contains("hidden") ? "remove" : "add"]("hidden");
+
+					rotateElement((event.target.classList.contains("heading") ? event.target : event.target.parentElement).find("i"), 180);
+				},
+			},
+		});
 	}
 }
