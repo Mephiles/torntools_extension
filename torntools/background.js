@@ -34,7 +34,6 @@ let userdata,
 	torndata,
 	settings,
 	api_key,
-	proxy_key,
 	chat_highlight,
 	itemlist,
 	travel_market,
@@ -221,22 +220,16 @@ function Main_30_seconds() {
 	console.log("Start Main");
 
 	ttStorage.get(
-		["api_key", "proxy_key", "settings", "loot_times", "target_list", "stakeouts", "torndata", "networth", "oc", "userdata", "yata"],
-		async ([api_key, proxy_key, settings, oldLootTimes, oldTargetList, oldStakeouts, oldTorndata, oldNetworth, oldOC, oldUserdata, oldYata]) => {
+		["api_key", "settings", "loot_times", "target_list", "stakeouts", "torndata", "networth", "oc", "userdata", "yata"],
+		async ([api_key, settings, oldLootTimes, oldTargetList, oldStakeouts, oldTorndata, oldNetworth, oldOC, oldUserdata, oldYata]) => {
 			let apiKey;
-			let usingProxy = false;
 
-			if (proxy_key !== undefined && proxy_key !== "") {
-				apiKey = proxy_key;
-				usingProxy = true;
-			} else if (api_key !== undefined && api_key !== "") {
+			if (api_key !== undefined && api_key !== "") {
 				apiKey = api_key;
 			} else {
 				console.log("NO API/PROXY KEY");
 				return;
 			}
-
-			console.log(`Using Proxy: (${usingProxy}). KEY: (${apiKey})`);
 
 			// Userdata - essential
 			console.log("Fetching userdata - essential");
@@ -1285,10 +1278,6 @@ chrome.storage.onChanged.addListener((changes, area) => {
 		api_key = changes.api_key.newValue;
 	} else if (changes.cache) {
 		cache = changes.cache.newValue;
-	}
-	if (changes.proxy_key) {
-		console.log("New Proxy Key", proxy_key, changes.proxy_key.newValue);
-		proxy_key = changes.proxy_key.newValue;
 	}
 });
 
