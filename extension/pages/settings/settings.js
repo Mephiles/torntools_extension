@@ -370,6 +370,7 @@ async function setupPreferences() {
 
 		const notificationsDisabled = !settings.notifications.types.global;
 		for (let notificationType in settings.notifications.types) {
+			if (notificationType === "stocks") continue
 			let option;
 
 			if (Array.isArray(settings.notifications.types[notificationType])) {
@@ -535,6 +536,8 @@ async function setupPreferences() {
 		});
 
 		for (let notificationType in settings.notifications.types) {
+			if (notificationType === "stocks") continue
+
 			if (Array.isArray(settings.notifications.types[notificationType])) {
 				settings.notifications.types[notificationType] = _preferences
 					.find(`#notification_type-${notificationType}[type="text"]`)
