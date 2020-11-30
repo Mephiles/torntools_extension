@@ -374,9 +374,11 @@ async function setupPreferences() {
 
 			if (Array.isArray(settings.notifications.types[notificationType])) {
 				option = _preferences.find(`#notification_type-${notificationType}[type="text"]`);
+				if (!option) continue;
 				option.value = settings.notifications.types[notificationType].join(",");
 			} else {
 				option = _preferences.find(`#notification_type-${notificationType}`);
+				if (!option) continue;
 				option.checked = settings.notifications.types[notificationType];
 			}
 
