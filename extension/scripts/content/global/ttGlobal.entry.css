@@ -18,6 +18,10 @@
 	display: var(--torntools-hide-upgrade-button, block) !important;
 }
 
+.tt-level-upgrade + hr {
+	display: var(--torntools-hide-upgrade-button, block) !important;
+}
+
 /* Hide quit and leave button */
 .quit-job {
 	display: var(--torntools-hide-leave-button, flex) !important;
