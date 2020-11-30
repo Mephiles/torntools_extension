@@ -319,7 +319,6 @@ async function setupPreferences() {
 			checkbox.checked = settings[setting];
 		}
 
-		// _preferences.find(`input[name="defaultTab"][value="${settings.pages.popup.defaultTab}"]`).checked = true;
 		_preferences.find(`input[name="formatDate"][value="${settings.formatting.date}"]`).checked = true;
 		_preferences.find(`input[name="formatTime"][value="${settings.formatting.time}"]`).checked = true;
 		_preferences.find(`input[name="themePage"][value="${settings.themes.pages}"]`).checked = true;

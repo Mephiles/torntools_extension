@@ -265,13 +265,6 @@ async function setupStakeouts() {
 					document.newElement({ type: "label", attributes: { for: `online-${id}` }, text: "comes online" }),
 				],
 			}),
-			// document.newElement({
-			// 	type: "div",
-			// 	children: [
-			// 		document.newElement({ type: "input", id: `life-${id}`, class: "life", attributes: { type: "checkbox" } }),
-			// 		document.newElement({ type: "label", attributes: { for: `life-${id}` }, text: "life drops" }),
-			// 	],
-			// })
 			document.newElement({
 				type: "div",
 				children: [
