@@ -765,7 +765,7 @@ async function updateStocks() {
 		for (let id in settings.notifications.types.stocks) {
 			const alerts = settings.notifications.types.stocks[id];
 
-			if (alerts.priceFalls && oldStocks[id].current_price > stocks[id].current_price && stocks[id].current_price <= alerts.priceFalls) {
+			if (alerts.priceFalls && oldStocks[id].current_price > alerts.priceFalls && stocks[id].current_price <= alerts.priceFalls) {
 				await notifyUser(
 					"TornTools - Stock Alerts",
 					`(${stocks[id].acronym}) ${stocks[id].name} has fallen to $${formatNumber(stocks[id].current_price)} (alert: $${formatNumber(
@@ -773,7 +773,7 @@ async function updateStocks() {
 					)})!`,
 					LINKS.stocks
 				);
-			} else if (alerts.priceReaches && oldStocks[id].current_price < stocks[id].current_price && stocks[id].current_price >= alerts.priceReaches) {
+			} else if (alerts.priceReaches && oldStocks[id].current_price < alerts.priceFalls && stocks[id].current_price >= alerts.priceReaches) {
 				await notifyUser(
 					"TornTools - Stock Alerts",
 					`(${stocks[id].acronym}) ${stocks[id].name} has reached $${formatNumber(stocks[id].current_price)} (alert: $${formatNumber(
