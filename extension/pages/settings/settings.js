@@ -369,7 +369,7 @@ async function setupPreferences() {
 
 		const notificationsDisabled = !settings.notifications.types.global;
 		for (let notificationType in settings.notifications.types) {
-			if (notificationType === "stocks") continue
+			if (notificationType === "stocks") continue;
 			let option;
 
 			if (Array.isArray(settings.notifications.types[notificationType])) {
@@ -418,7 +418,9 @@ async function setupPreferences() {
 			const isGlobalDisabled = settings.notifications.types.global === false;
 
 			for (let type in settings.notifications.types) {
+				if (notificationType === "stocks") continue;
 				let option = _preferences.find(`#notification_type-${type}`);
+				if (!option) continue;
 
 				if (type === "global") {
 					option.checked = !isGlobalDisabled;
@@ -535,7 +537,7 @@ async function setupPreferences() {
 		});
 
 		for (let notificationType in settings.notifications.types) {
-			if (notificationType === "stocks") continue
+			if (notificationType === "stocks") continue;
 
 			if (Array.isArray(settings.notifications.types[notificationType])) {
 				settings.notifications.types[notificationType] = _preferences
