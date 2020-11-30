@@ -51,7 +51,6 @@ function loadGlobal() {
 			new MutationObserver((mutations) => {
 				for (let mutation of mutations) {
 					for (let addedNode of mutation.addedNodes) {
-						console.log("DKK addedNodes", addedNode);
 						if (addedNode.classList && addedNode.classList.contains("chat-box_Wjbn9")) {
 							setTimeout(() => {
 								addChatSearch();

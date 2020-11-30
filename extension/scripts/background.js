@@ -761,12 +761,9 @@ async function updateStocks() {
 
 	await ttStorage.change({ torndata: { stocks } });
 
-	console.log("DKK stocks ???");
 	if (oldStocks) {
-		console.log("DKK stocks", Object.keys(settings.notifications.types.stocks).join(","));
 		for (let id in settings.notifications.types.stocks) {
 			const alerts = settings.notifications.types.stocks[id];
-			console.log("DKK stock", id, alerts);
 
 			if (alerts.priceFalls && oldStocks[id].current_price > stocks[id].current_price && stocks[id].current_price <= alerts.priceFalls) {
 				await notifyUser(
