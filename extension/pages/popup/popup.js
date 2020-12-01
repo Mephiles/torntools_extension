@@ -253,7 +253,7 @@ async function setupDashboard() {
 
 		function updateCooldown(name, cooldown) {
 			// noinspection JSValidateTypes
-			dashboard.find(`#${name}-cooldown`).dataset.completed_at = (userdata.timestamp + cooldown) * 1000;
+			dashboard.find(`#${name}-cooldown`).dataset.completed_at = userdata.timestamp ? (userdata.timestamp + cooldown) * 1000 : 0;
 
 			updateCooldownTimer(dashboard.find(`#${name}-cooldown`));
 		}
@@ -341,7 +341,11 @@ async function setupDashboard() {
 
 		const completed_at = parseInt(dataset.completed_at) || dataset.completed_at;
 
-		cooldown.find(".cooldown-label").innerText = formatTime({ milliseconds: completed_at - current }, { type: "timer" });
+		if (completed_at) {
+			cooldown.find(".cooldown-label").innerText = formatTime({ milliseconds: completed_at - current }, { type: "timer" });
+		} else {
+			cooldown.find(".cooldown-label").innerText = formatTime({ milliseconds: 0 }, { type: "timer" });
+		}
 	}
 
 	function updateUpdateTimer() {
