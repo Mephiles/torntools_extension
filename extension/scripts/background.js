@@ -502,7 +502,7 @@ async function updateUserdata() {
 
 				notifications.chainCount[key] = {
 					title: "TornTools - Chain",
-					messages: `Chain will reach next Bonus Hit in ${nextBonus - count} hits.`,
+					message: `Chain will reach the next bonus hit in ${nextBonus - count} hit${applyPlural(nextBonus - count)}.`,
 					url: LINKS.chain,
 					seen: 0,
 					date: now,

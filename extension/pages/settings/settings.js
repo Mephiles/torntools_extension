@@ -418,7 +418,7 @@ async function setupPreferences() {
 			const isGlobalDisabled = settings.notifications.types.global === false;
 
 			for (let type in settings.notifications.types) {
-				if (notificationType === "stocks") continue;
+				if (type === "stocks") continue;
 				let option = _preferences.find(`#notification_type-${type}`);
 				if (!option) continue;
 
