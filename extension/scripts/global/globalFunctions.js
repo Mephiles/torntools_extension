@@ -238,7 +238,7 @@ function checkMobile() {
 		else window.addEventListener("DOMContentLoaded", check);
 
 		function check() {
-			mobile = (screen.availWidth || window.innerWidth) <= 600;
+			mobile = window.innerWidth <= 600;
 
 			resolve(mobile);
 		}
