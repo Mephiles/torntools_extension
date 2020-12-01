@@ -289,7 +289,7 @@ async function updateUserdata() {
 								if (respect === attack.modifiers.chainBonus) {
 									respect = 1;
 									hasBaseRespect = false;
-								} else if (attack.modifiers.war) {
+								} else if (attack.modifiers.war > 1) {
 									respect =
 										respect / attack.modifiers.war / attack.modifiers.groupAttack / attack.modifiers.overseas / attack.modifiers.chainBonus;
 									hasBaseRespect = false;
