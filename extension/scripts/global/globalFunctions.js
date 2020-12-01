@@ -88,6 +88,10 @@ Number.prototype.dropDecimals = function () {
 	return parseInt(this.toString());
 };
 
+String.prototype.camelCase = function (lowerCamelCase) {
+	return (this.trim().charAt(0)[lowerCamelCase ? "toLowerCase" : "toUpperCase"]() + this.slice(1)).trim().replaceAll(" ", "");
+};
+
 if (!Array.prototype.flat)
 	Object.defineProperty(Array.prototype, "flat", {
 		value(depth = 1) {
@@ -921,4 +925,58 @@ function addFetchListener(callback) {
 	injectFetch();
 
 	window.addEventListener("tt-fetch", callback);
+}
+
+function createContainer(title, attributes) {
+	attributes = {
+		id: title.camelCase(true),
+		parentElement: false,
+		...attributes,
+	};
+
+	const container = _createContainer(title, attributes);
+
+	let parentElement;
+	if (attributes.parentElement) parentElement = attributes.parentElement;
+	else throw new Error("Not yet supported!");
+
+	parentElement.appendChild(container);
+
+	return { container, content: container.find(".content") };
+
+	function _createContainer(title, attributes) {
+		if (document.find(`#${attributes.id}`)) {
+			const container = document.find(`#${attributes.id}`);
+
+			container.find(".content").innerHTML = "";
+
+			return container;
+		}
+
+		const container = document.newElement({ type: "div", class: "tt-container", id: attributes.id });
+
+		// FIXME - Remove 'title-green'.
+		container.innerHTML = `
+			<div class="title">
+				<div>${title}</div>
+			</div>
+			<div class="content"></div>
+		`;
+
+		return container;
+	}
+}
+
+function removeContainer(title, attributes) {
+	attributes = {
+		id: title.camelCase(true),
+		...attributes,
+	};
+
+	if (!attributes.id) return;
+
+	const container = document.find(`#${attributes.id}`);
+	if (!container) return;
+
+	container.remove();
 }

@@ -39,3 +39,16 @@
 *[background-color="red"] {
 	background-color: #c82333 !important;
 }
+
+/* Containers */
+
+.tt-container .title {
+	padding-left: 10px;
+	height: 30px;
+	line-height: 30px;
+	color: #fff;
+	font-size: 13px;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.65);
+	letter-spacing: 1px;
+	background: repeating-linear-gradient(90deg, #627e0d, #627e0d 2px, #6e8820 0, #6e8820 4px);
+}
