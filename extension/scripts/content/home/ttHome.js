@@ -36,7 +36,8 @@ async function displayEffectiveBattleStats() {
 		for (let i = 0; i < stats.length; i++) {
 			const base = parseInt(statsContainer.find(`li:nth-child(${i + 1}) .desc`).innerText.replace(/,/g, ""));
 			let modifier = statsContainer.find(`li:nth-child(${i + 1}) .mod`).innerText;
-			modifier = parseInt(modifier.slice(1, -1)) / 100 + (modifier.charAt(0) === "+" ? 1 : 0);
+			if (modifier.charAt(0) === "+") modifier = modifier = parseInt(modifier.slice(1, -1)) / 100 + 1;
+			else modifier = modifier = 1 - parseInt(modifier.slice(1, -1)) / 100;
 			const effective = (base * modifier).dropDecimals();
 
 			effectiveTotal += effective;
