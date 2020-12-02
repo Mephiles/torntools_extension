@@ -1,3 +1,5 @@
+"use strict";
+
 // noinspection JSUnresolvedVariable
 chrome = typeof browser !== "undefined" ? browser : chrome;
 

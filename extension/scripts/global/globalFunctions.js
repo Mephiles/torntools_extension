@@ -1,3 +1,5 @@
+"use strict";
+
 console.log("TT - Loading global functions.");
 
 /*

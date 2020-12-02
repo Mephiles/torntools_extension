@@ -1,3 +1,5 @@
+"use strict";
+
 const notificationPlayer = getAudioPlayer();
 const notificationTestPlayer = getAudioPlayer();
 

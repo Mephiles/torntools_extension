@@ -1,3 +1,5 @@
+"use strict";
+
 let settings, filters, version, api, userdata, torndata, stakeouts, attackHistory;
 let databaseLoaded = false;
 let storageListeners = {

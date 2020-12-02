@@ -1,3 +1,5 @@
+"use strict";
+
 document.addEventListener("click", (event) => {
 	if (event.target.tagName === "TH") {
 		let clickedHeader = event.target;

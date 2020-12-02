@@ -1,3 +1,5 @@
+"use strict";
+
 const SETUP_PAGES = {
 	initialize: setupInitialize,
 	dashboard: setupDashboard,

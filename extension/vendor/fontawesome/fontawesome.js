@@ -1,3 +1,5 @@
+"use strict";
+
 fetch(chrome.runtime.getURL("/vendor/fontawesome/fontawesome.css"))
 	.then((response) => response.text())
 	.then((css) => {
@@ -7,5 +9,8 @@ fetch(chrome.runtime.getURL("/vendor/fontawesome/fontawesome.css"))
 			return chrome.runtime.getURL(`/vendor/fontawesome${match}`);
 		});
 
-		document.querySelector("head").appendChild(document.newElement({ type: "style", html: css }));
+		const style = document.createElement("style");
+		style.innerHTML = css;
+
+		document.querySelector("head").appendChild(style);
 	});

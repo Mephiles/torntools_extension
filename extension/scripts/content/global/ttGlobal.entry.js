@@ -1,3 +1,5 @@
+"use strict";
+
 (async () => {
 	await loadDatabase();
 	console.log("TT: Global Entry - Loading script. ");
