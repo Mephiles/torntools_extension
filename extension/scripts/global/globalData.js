@@ -392,3 +392,12 @@ const CHAT_TITLE_COLORS = {
 	purple: ["rgb(94,7,119)", "rgb(184,9,241)"],
 	red: ["rgb(123,4,4)", "rgb(255,3,3)"],
 };
+
+const THEMES = {
+	default: {
+		containerClass: "theme-default",
+	},
+	alternative: {
+		containerClass: "theme-alternative",
+	},
+};

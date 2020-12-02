@@ -955,9 +955,9 @@ function createContainer(title, attributes) {
 			return container;
 		}
 
-		const container = document.newElement({ type: "div", class: "tt-container", id: attributes.id });
+		const theme = THEMES["default"]; // FIXME - As setting.
+		const container = document.newElement({ type: "div", class: `tt-container ${theme.containerClass}`, id: attributes.id });
 
-		// FIXME - Remove 'title-green'.
 		container.innerHTML = `
 			<div class="title">
 				<div>${title}</div>
