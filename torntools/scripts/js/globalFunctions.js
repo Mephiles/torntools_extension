@@ -56,7 +56,7 @@ const DRUG_INFORMATION = {
 		},
 	},
 	opium: {
-		pros: ["Removes all hospital time (except Radiation Sickness) and replenishes life by 66.6%", "+50-100 Happy"],
+		pros: ["Removes all hospital time (except Radiation Sickness) and replenishes life to 66.6%", "+50-100 Happy"],
 		cooldown: "3-4 hours",
 	},
 	pcp: {
