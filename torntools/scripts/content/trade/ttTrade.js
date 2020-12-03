@@ -55,7 +55,7 @@ function showValues() {
 				const amount = parseInt(match[1].replaceAll(",", ""));
 				const stock = findItemsInObject(torndata.stocks, { acronym: match[2] }, true)[0];
 
-				totalValue = stock.current_price * amount;
+				totalValue = parseInt(stock.current_price * amount);
 			} else {
 				text = text
 					.replace(" added", "")
