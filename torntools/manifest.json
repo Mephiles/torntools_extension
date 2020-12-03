@@ -23,8 +23,7 @@
 		"https://api.torn.com/*",
 		"https://yata.alwaysdata.net/*",
 		"https://www.tornstats.com/*",
-		"https://torntools.gregork.com/*",
-		"https://torn-proxy.com/*"
+		"https://torntools.gregork.com/*"
 	],
 	"optional_permissions": ["https://www.nukefamily.org/"],
 	"web_accessible_resources": ["images/*", "views/*", "scripts/*"],

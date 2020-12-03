@@ -1181,7 +1181,6 @@ const CHAIN_BONUSES = [10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000
 const STORAGE = {
 	// app settings
 	api_key: undefined,
-	proxy_key: undefined,
 	updated: "force_true",
 	api: {
 		count: 0,
@@ -3133,26 +3132,21 @@ function fetchApi_v2(
 	}
 ) {
 	return new Promise(async (resolve, reject) => {
-		ttStorage.get(["api_key", "proxy_key"], ([api_key, proxy_key]) => {
+		ttStorage.get(["api_key"], ([api_key]) => {
 			const URLs = {
 				torn: "https://api.torn.com/",
 				yata__v0: "https://yata.alwaysdata.net/",
 				yata__v1: "https://yata.alwaysdata.net/api/v1/",
-				"torn-proxy": "https://torn-proxy.com/",
 				tornstats: "https://www.tornstats.com/",
 				// 'tornstats': 'https://www.torn-proxy.com/tornstats/',
 				torntools: "https://torntools.gregork.com/",
 				nukefamily: "https://www.nukefamily.org/",
 			};
 
-			const proxyFail = options.proxyFail;
 			const ogLocation = location;
-			if ((location === "torn" || location === "tornstats") && !proxyFail && proxy_key && proxy_key.length === 32) location = "torn-proxy";
 			const base = URLs[location];
 			let section;
-			if (ogLocation === "tornstats" && location === "torn-proxy") {
-				section = "tornstats/" + options.section;
-			} else if (location !== "tornstats" && location !== "nukefamily") {
+			if (location !== "tornstats" && location !== "nukefamily") {
 				section = options.section + "/";
 			} else {
 				section = options.section;
@@ -3160,15 +3154,12 @@ function fetchApi_v2(
 			const objectid = options.objectid ? options.objectid + "?" : "?";
 			const selections = options.selections || "";
 			const apiKey = api_key;
-			const proxyKey = proxy_key;
 
 			let full_url;
-			if (location !== "torn" && location !== "tornstats" && location !== "torn-proxy") {
+			if (location !== "torn" && location !== "tornstats") {
 				full_url = `${base}${section || ""}`;
-			} else if (proxyKey || apiKey) {
-				full_url = `${base}${section}${objectid}${selections ? "selections=" + selections : ""}${
-					location !== "yata" ? (proxyKey && !proxyFail ? `&key=${proxyKey}` : `&key=${apiKey}`) : ""
-				}`;
+			} else if (apiKey) {
+				full_url = `${base}${section}${objectid}${selections ? "selections=" + selections : ""}${location !== "yata" ? `&key=${apiKey}` : ""}`;
 				for (let param of ["action", "target", "from"]) {
 					if (options[param] === undefined) continue;
 					full_url += `&${param}=${options[param]}`;
@@ -3204,27 +3195,11 @@ function fetchApi_v2(
 						}
 					}
 
-					logFetch(
-						ogLocation,
-						((options) => {
-							if (location === "torn-proxy") options.proxy = true;
-							return options;
-						})(options)
-					);
+					logFetch(ogLocation, options);
 
 					if (result.error) {
 						// Torn Proxy
-						if (result.proxy) {
-							// Revoked key
-							if (result.code === 2) {
-								return reject({ error: "Proxy Key has been revoked." });
-							} else {
-								options.proxyFail = true;
-								return fetchApi_v2(ogLocation, options);
-							}
-						}
-						// TornTools
-						else if (location === "torntools") {
+						if (location === "torntools") {
 							return reject(result);
 						}
 						// Torn API
@@ -3270,18 +3245,8 @@ function fetchApi_v2(
 					console.log("result", result);
 
 					if (result.error) {
-						// Torn Proxy
-						if (result.proxy) {
-							// Revoked key
-							if (result.code === "2") {
-								return reject({ error: "Proxy Key has been revoked." });
-							} else {
-								options.proxyFail = true;
-								return fetchApi_v2(location, options);
-							}
-						}
 						// TornTools
-						else if (location === "torntools") {
+						if (location === "torntools") {
 							return reject(result);
 						}
 						// Torn API
@@ -3320,7 +3285,7 @@ function fetchApi_v2(
 			let type = "other";
 
 			switch (location) {
-				case "torn-proxy" || "torn":
+				case "torn":
 					if (selections.includes("personalstats")) type = objectid === "" ? "userdata" : "profile_stats";
 					else if (selections.length && section === "user") type = "stakeouts";
 					break;

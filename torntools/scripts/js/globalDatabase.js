@@ -28,7 +28,6 @@ let userdata,
 	torndata,
 	settings,
 	api_key,
-	proxy_key,
 	chat_highlight,
 	itemlist,
 	travel_market,
@@ -72,7 +71,6 @@ let userdata,
 		torndata = DB.torndata;
 		settings = DB.settings;
 		api_key = DB.api_key;
-		proxy_key = DB.proxy_key;
 		chat_highlight = DB.chat_highlight;
 		itemlist = DB.itemlist;
 		travel_market = DB.travel_market;

@@ -51,9 +51,6 @@ requireDatabase(false)
 		doc.find("#change_api_key").addEventListener("click", () => {
 			resetApiKey();
 		});
-		doc.find("#change_api_proxy_key").onclick = () => {
-			resetApiProxyKey();
-		};
 		doc.find("#add_ally").addEventListener("click", (event) => {
 			addAllyToList(event);
 		});
@@ -859,9 +856,6 @@ function apiInfo() {
 	doc.find("#api_field").value = api_key;
 	setupApiStatistics();
 
-	// Fill in API Proxy key
-	doc.find("#api_proxy_field").value = proxy_key;
-
 	// Set new version text
 	if (new_version.available) {
 		doc.find("#about #new-version span").innerText = new_version.version;
@@ -1212,14 +1206,6 @@ function resetApiKey() {
 		chrome.runtime.sendMessage({ action: "fetch", type: "torndata" }, () => {
 			message("API key changed.", true);
 		});
-	});
-}
-
-function resetApiProxyKey() {
-	let new_api_proxy_key = doc.find("#api_proxy_field").value;
-
-	ttStorage.set({ proxy_key: new_api_proxy_key }, () => {
-		message("API Proxy key changed.", true);
 	});
 }
 
