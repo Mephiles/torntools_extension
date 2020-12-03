@@ -258,18 +258,17 @@ async function showUpdateNotice() {
 function showMiniprofileInformation(information) {
 	const miniProfile = document.find("#profile-mini-root .mini-profile-wrapper");
 
-	const lastAction = formatTime({ seconds: information.user.lastAction.seconds }, { type: "wordTimer", short: true });
+	const lastAction = formatTime({ seconds: information.user.lastAction.seconds }, { type: "wordTimer", showDays: true });
 
 	requireElement(".-profile-mini-_userProfileWrapper___39cKq", { parent: miniProfile }).then(() => {
-		setTimeout(() => {
-			miniProfile.find(".-profile-mini-_userProfileWrapper___39cKq").appendChild(
-				document.newElement({
-					type: "div",
-					class: "tt-mini-data",
-					children: [document.newElement({ type: "strong", text: "Last Action: " }), document.newElement({ type: "span", text: lastAction })],
-				})
-			);
-		}, 500);
+		const data = document.newElement({
+			type: "div",
+			class: "tt-mini-data",
+			children: [document.newElement({ type: "strong", text: "Last Action: " }), document.newElement({ type: "span", text: lastAction })],
+		});
+		miniProfile.find(".-profile-mini-_userProfileWrapper___39cKq").appendChild(data);
+
+		miniProfile.style.top = `${parseInt(miniProfile.style.top.replace("px", "")) - data.clientHeight + 1}px`;
 	});
 }
 
