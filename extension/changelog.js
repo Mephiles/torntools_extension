@@ -27,6 +27,7 @@ export default [
 				{ message: "Disable notifications by default if no permission was granted.", contributor: "DeKleineKobini" },
 				{ message: "Improve chat features when using multiple tabs at the same time.", contributor: "DeKleineKobini" },
 				{ message: "Add the ability to remove stakeouts from the popup.", contributor: "DeKleineKobini" },
+				{ message: "Remove mini profile last action delay.", contributor: "DeKleineKobini" },
 			],
 		},
 	},
