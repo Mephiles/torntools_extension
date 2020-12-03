@@ -513,7 +513,7 @@ function formatTime(time = {}, attributes = {}) {
 			date = new Date(millis);
 
 			parts = [];
-			if (attributes.showDays)
+			if (attributes.showDays && (date.getTime() / TO_MILLIS.DAYS).dropDecimals() > 0)
 				parts.push(`${Math.floor(date.getTime() / TO_MILLIS.DAYS)} day${applyPlural(Math.floor(date.getTime() / TO_MILLIS.DAYS))}`);
 			if (!attributes.hideHours && date.getUTCHours())
 				parts.push(`${date.getUTCHours()} ${attributes.short ? "hr" : "hour"}${applyPlural(date.getUTCHours())}`);
