@@ -158,6 +158,7 @@ const DEFAULT_STORAGE = {
 		},
 		themes: {
 			pages: new DefaultSetting({ type: "string", defaultValue: "default" }),
+			containers: new DefaultSetting({ type: "string", defaultValue: "default" }),
 		},
 		pages: {
 			global: {

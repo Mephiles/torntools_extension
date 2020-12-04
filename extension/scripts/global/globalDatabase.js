@@ -32,21 +32,22 @@ async function loadDatabase() {
 chrome.storage.onChanged.addListener((changes, area) => {
 	if (area === "local") {
 		if (changes.settings) {
+			console.log("Settings", changes);
 			settings = changes.settings.newValue;
 
-			storageListeners.settings.forEach((listener) => listener());
+			storageListeners.settings.forEach((listener) => listener(changes.settings.oldValue));
 		} else if (changes.filters) {
 			filters = changes.filters.newValue;
 
-			storageListeners.filters.forEach((listener) => listener());
+			storageListeners.filters.forEach((listener) => listener(changes.filters.oldValue));
 		} else if (changes.version) {
 			version = changes.version.newValue;
 
-			storageListeners.version.forEach((listener) => listener());
+			storageListeners.version.forEach((listener) => listener(changes.version.oldValue));
 		} else if (changes.userdata) {
 			userdata = changes.userdata.newValue;
 
-			storageListeners.userdata.forEach((listener) => listener());
+			storageListeners.userdata.forEach((listener) => listener(changes.userdata.oldValue));
 		} else if (changes.api) {
 			api = changes.api.newValue;
 		} else if (changes.torndata) {
@@ -54,7 +55,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
 		} else if (changes.stakeouts) {
 			stakeouts = changes.stakeouts.newValue;
 
-			storageListeners.stakeouts.forEach((listener) => listener());
+			storageListeners.stakeouts.forEach((listener) => listener(changes.stakeouts.oldValue));
 		} else if (changes.attackHistory) {
 			attackHistory = changes.attackHistory.newValue;
 		}

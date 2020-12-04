@@ -955,7 +955,7 @@ function createContainer(title, attributes) {
 			return container;
 		}
 
-		const theme = THEMES["default"]; // FIXME - As setting.
+		const theme = THEMES[settings.themes.containers];
 		const container = document.newElement({ type: "div", class: `tt-container ${theme.containerClass}`, id: attributes.id });
 
 		container.innerHTML = `
