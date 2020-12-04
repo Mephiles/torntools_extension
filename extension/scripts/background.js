@@ -174,7 +174,8 @@ function timedUpdates() {
 async function updateUserdata() {
 	const now = Date.now();
 
-	let updateBasic = !userdata.dateBasic || now - userdata.dateBasic >= TO_MILLIS.MINUTES * 2;
+	let updateBasic =
+		!userdata.dateBasic || (now - userdata.dateBasic >= TO_MILLIS.MINUTES * 2 && now - userdata.last_action.timestamp * 1000 <= TO_MILLIS.MINUTES * 5);
 
 	let selections = ["profile", "bars", "cooldowns", "timestamp", "travel", "events", "messages", "money", "refills"];
 	if (updateBasic) {

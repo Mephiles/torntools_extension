@@ -362,6 +362,9 @@ const API_USAGE = {
 			energy_refill_used: true,
 			nerve_refill_used: true,
 		},
+		last_action: {
+			timestamp: true,
+		},
 	},
 	properties: {},
 	faction: {},
