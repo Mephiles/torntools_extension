@@ -793,12 +793,9 @@ async function updateStocks() {
 
 async function updateNetworth() {
 	let networth = (await fetchApi("torn", { section: "user", selections: ["networth"] })).networth;
-	console.log(networth);
 	networth.date = Date.now();
 
 	await ttStorage.change({ userdata: { networth } });
-
-	console.log("DKK updated networth");
 }
 
 async function notifyUser(title, message, url) {

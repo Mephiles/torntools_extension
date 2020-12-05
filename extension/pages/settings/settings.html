@@ -452,14 +452,37 @@
 		<main id="api" class="hidden">
 			<h2>API</h2>
 			<section>
-				<h4 class="first-header">Requests</h4>
+				<h4 class="first-header">Change API Key</h4>
 				<div>
 					<label for="api_key">API Key: </label>
 					<input id="api_key" type="text" placeholder="API key.." />
 					<button id="update_api_key">Update</button>
 				</div>
 
-				<h4>WIP</h4>
+				<h4>API Usage</h4>
+				<ul>
+					<li>
+						Background
+						<ul>
+							<li>
+								User's information, status, cooldown, money, events and messages. (every 30 seconds)
+								<ul>
+									<li>User's personal stats, stock inventory and educations. (every 2 minutes, when active on Torn)</li>
+									<li>User's attack history. (whenever an attack or defend is detected)</li>
+								</ul>
+							</li>
+							<li>Stakeout target's information. (every 30 seconds, 1 request per stakeout)</li>
+							<li>Torn's stock data. (every 15 minutes)</li>
+							<li>Torn's items, point values, honors and medals. (daily)</li>
+						</ul>
+					</li>
+					<li>
+						Individually
+						<ul>
+							<li>Live Networth - 1 request</li>
+						</ul>
+					</li>
+				</ul>
 			</section>
 		</main>
 		<main id="remote" class="hidden">
