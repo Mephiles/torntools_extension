@@ -791,6 +791,16 @@ async function updateStocks() {
 	}
 }
 
+async function updateNetworth() {
+	let networth = (await fetchApi("torn", { section: "user", selections: ["networth"] })).networth;
+	console.log(networth);
+	networth.date = Date.now();
+
+	await ttStorage.change({ userdata: { networth } });
+
+	console.log("DKK updated networth");
+}
+
 async function notifyUser(title, message, url) {
 	const options = {
 		icon: "resources/images/icon_128.png",
@@ -867,9 +877,22 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				// noinspection JSIgnoredPromiseFromCall
 				notificationTestPlayer.play();
 			});
+			sendResponse({ success: true });
 			break;
 		case "stop-notification-sound":
 			notificationTestPlayer.pause();
+			break;
+
+		case "updateData":
+			switch (message.type) {
+				case "networth":
+					updateNetworth().then(() => {});
+					sendResponse({ success: true });
+					break;
+				default:
+					sendResponse({ success: false, message: "Unknown data type." });
+					break;
+			}
 			break;
 		default:
 			sendResponse({ success: false, message: "Unknown action." });

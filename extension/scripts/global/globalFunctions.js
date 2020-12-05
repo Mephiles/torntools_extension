@@ -933,6 +933,7 @@ function createContainer(title, attributes) {
 	attributes = {
 		id: title.camelCase(true),
 		parentElement: false,
+		showHeader: true,
 		...attributes,
 	};
 
@@ -959,9 +960,7 @@ function createContainer(title, attributes) {
 		const container = document.newElement({ type: "div", class: `tt-container ${theme.containerClass}`, id: attributes.id });
 
 		container.innerHTML = `
-			<div class="title">
-				<div>${title}</div>
-			</div>
+			${attributes.showHeader ? `<div class="title"><div>${title}</div></div>` : ""}
 			<div class="content"></div>
 		`;
 
