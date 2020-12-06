@@ -369,59 +369,58 @@ async function updateUserdata() {
 	}
 
 	async function notifyEventMessages() {
-		if (!userdata.events) {
-			console.log("DKK - No events.");
-			return;
-		}
-
 		let eventCount = 0;
-		let events = [];
-		for (let key of Object.keys(userdata.events).reverse()) {
-			const event = userdata.events[key];
-			if (event.seen) break;
+		if (settings.apiUsage.user.events) {
+			let events = [];
+			for (let key of Object.keys(userdata.events).reverse()) {
+				const event = userdata.events[key];
+				if (event.seen) break;
 
-			if (settings.notifications.types.global && settings.notifications.types.events && !notifications.events[key]) {
-				events.push({ id: key, event: event.event });
-				notifications.events[key] = { skip: true };
+				if (settings.notifications.types.global && settings.notifications.types.events && !notifications.events[key]) {
+					events.push({ id: key, event: event.event });
+					notifications.events[key] = { skip: true };
+				}
+
+				eventCount++;
 			}
+			if (events.length) {
+				let message = events.last().event.replace(/<\/?[^>]+(>|$)/g, "");
+				if (events.length > 1) message += `\n(and ${events.length - 1} more event${events.length > 2 ? "s" : ""}`;
 
-			eventCount++;
-		}
-		if (events.length) {
-			let message = events.last().event.replace(/<\/?[^>]+(>|$)/g, "");
-			if (events.length > 1) message += `\n(and ${events.length - 1} more event${events.length > 2 ? "s" : ""}`;
-
-			notifications.events.combined = {
-				title: `TornTools - New Event${events.length > 1 ? "s" : ""}`,
-				message,
-				url: LINKS.events,
-				date: now,
-			};
+				notifications.events.combined = {
+					title: `TornTools - New Event${events.length > 1 ? "s" : ""}`,
+					message,
+					url: LINKS.events,
+					date: now,
+				};
+			}
 		}
 
 		let messageCount = 0;
-		let messages = [];
-		for (let key of Object.keys(userdata.messages).reverse()) {
-			const message = userdata.messages[key];
-			if (message.seen) break;
+		if (settings.apiUsage.user.messages) {
+			let messages = [];
+			for (let key of Object.keys(userdata.messages).reverse()) {
+				const message = userdata.messages[key];
+				if (message.seen) break;
 
-			if (settings.notifications.types.global && settings.notifications.types.messages && !notifications.messages[key]) {
-				messages.push({ id: key, title: message.title, name: message.name });
-				notifications.messages[key] = { skip: true };
+				if (settings.notifications.types.global && settings.notifications.types.messages && !notifications.messages[key]) {
+					messages.push({ id: key, title: message.title, name: message.name });
+					notifications.messages[key] = { skip: true };
+				}
+
+				messageCount++;
 			}
+			if (messages.length) {
+				let message = `${messages.last().title} - by ${messages.last().name}`;
+				if (messages.length > 1) message += `\n(and ${messages.length - 1} more message${messages.length > 2 ? "s" : ""})`;
 
-			messageCount++;
-		}
-		if (messages.length) {
-			let message = `${messages.last().title} - by ${messages.last().name}`;
-			if (messages.length > 1) message += `\n(and ${messages.length - 1} more message${messages.length > 2 ? "s" : ""})`;
-
-			notifications.messages.combined = {
-				title: `TornTools - New Message${messages.length > 1 ? "s" : ""}`,
-				message,
-				url: LINKS.messages,
-				date: now,
-			};
+				notifications.messages.combined = {
+					title: `TornTools - New Message${messages.length > 1 ? "s" : ""}`,
+					message,
+					url: LINKS.messages,
+					date: now,
+				};
+			}
 		}
 
 		await setBadge("count", { events: eventCount, messages: messageCount });
@@ -447,7 +446,8 @@ async function updateUserdata() {
 	}
 
 	async function notifyCooldownOver() {
-		if (!settings.notifications.types.global || !settings.notifications.types.cooldowns || !oldUserdata.cooldowns) return;
+		if (!settings.apiUsage.user.cooldowns || !settings.notifications.types.global || !settings.notifications.types.cooldowns || !oldUserdata.cooldowns)
+			return;
 
 		for (let type in userdata.cooldowns) {
 			if (userdata.cooldowns[type] || !oldUserdata.cooldowns[type]) continue;
@@ -457,14 +457,14 @@ async function updateUserdata() {
 	}
 
 	async function notifyTravelLanding() {
-		if (!settings.notifications.types.global || !settings.notifications.types.traveling || !oldUserdata.travel) return;
+		if (!settings.apiUsage.user.travel || !settings.notifications.types.global || !settings.notifications.types.traveling || !oldUserdata.travel) return;
 		if (userdata.travel.time_left !== 0 || oldUserdata.travel.time_left === 0) return;
 
 		await notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}.`, LINKS.home);
 	}
 
 	async function notifyEducation() {
-		if (!settings.notifications.types.global || !settings.notifications.types.education || !oldUserdata.travel) return;
+		if (!settings.apiUsage.user.education || !settings.notifications.types.global || !settings.notifications.types.education || !oldUserdata.travel) return;
 		if (userdata.education_timeleft !== 0 || oldUserdata.education_timeleft === 0) return;
 
 		await notifyUser("TornTools - Education", `You have finished your education course.`, LINKS.education);
@@ -486,7 +486,7 @@ async function updateUserdata() {
 	}
 
 	async function notifyBars() {
-		if (!settings.notifications.types.global) return;
+		if (!settings.apiUsage.user.bars || !settings.notifications.types.global) return;
 
 		for (let bar of ["energy", "happy", "nerve", "life"]) {
 			if (!settings.notifications.types[bar].length || !oldUserdata[bar]) return;
@@ -514,7 +514,7 @@ async function updateUserdata() {
 	}
 
 	async function notifyChain() {
-		if (!settings.notifications.types.global) return;
+		if (!settings.apiUsage.user.bars || !settings.notifications.types.global) return;
 
 		if (settings.notifications.types.chainTimer.length > 0 && userdata.chain.timeout !== 0 && userdata.chain.current >= 10) {
 			const timeout = userdata.chain.timeout * 1000 - (now - userdata.timestamp * 1000); // ms
@@ -582,7 +582,7 @@ async function updateUserdata() {
 	}
 
 	async function notifyTraveling() {
-		if (!settings.notifications.types.global) return;
+		if (!settings.apiUsage.user.travel || !settings.notifications.types.global) return;
 
 		if (settings.notifications.types.landing.length && userdata.travel.time_left) {
 			for (let checkpoint of settings.notifications.types.landing.sort((a, b) => a - b)) {
@@ -604,7 +604,7 @@ async function updateUserdata() {
 	}
 
 	async function notifySpecificCooldowns() {
-		if (!settings.notifications.types.global) return;
+		if (!settings.apiUsage.user.cooldowns || !settings.notifications.types.global) return;
 
 		const COOLDOWNS = [
 			{ name: "drug", title: "Drugs", setting: "cooldownDrug", memory: "drugs" },
@@ -634,7 +634,7 @@ async function updateUserdata() {
 }
 
 async function showIconBars() {
-	if (!hasAPIData() || !settings || !settings.pages.icon.global) {
+	if (!settings.apiUsage.user.bars || !hasAPIData() || !settings || !settings.pages.icon.global) {
 		chrome.browserAction.setIcon({ path: "resources/images/icon_128.png" });
 	} else {
 		let barCount = 0;

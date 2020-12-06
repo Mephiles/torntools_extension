@@ -33,7 +33,7 @@ async function displayNetworth() {
 		networthInterval = false;
 	}
 
-	if (settings.pages.home.networthDetails) {
+	if (settings.apiUsage.user.networth && settings.pages.home.networthDetails && hasAPIData()) {
 		const { content } = createContainer("Live Networth", {
 			showHeader: false,
 			parentElement: document.find("h5=General Information").parentElement.nextElementSibling.find("ul.info-cont-wrap"),

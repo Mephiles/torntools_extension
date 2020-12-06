@@ -125,12 +125,14 @@ async function setupDashboard() {
 	storageListeners.stakeouts.push(updateStakeouts);
 
 	setInterval(() => {
-		for (let bar of dashboard.findAll(".bar")) {
-			updateBarTimer(bar);
-		}
-		for (let cooldown of dashboard.findAll(".cooldowns .cooldown")) {
-			updateCooldownTimer(cooldown);
-		}
+		if (settings.apiUsage.user.bars)
+			for (let bar of dashboard.findAll(".bar")) {
+				updateBarTimer(bar);
+			}
+		if (settings.apiUsage.user.cooldowns)
+			for (let cooldown of dashboard.findAll(".cooldowns .cooldown")) {
+				updateCooldownTimer(cooldown);
+			}
 		updateUpdateTimer();
 		updateStatusTimer();
 	}, 1000);
@@ -152,16 +154,18 @@ async function setupDashboard() {
 
 	function updateDashboard() {
 		// Country and status
-		updateStatus();
+		if (settings.apiUsage.user.travel) updateStatus();
 		// Bars
-		for (let bar of ["energy", "nerve", "happy", "life", "chain"]) {
-			updateBar(bar, userdata[bar]);
-		}
-		updateTravelBar();
+		if (settings.apiUsage.user.bars)
+			for (let bar of ["energy", "nerve", "happy", "life", "chain"]) {
+				updateBar(bar, userdata[bar]);
+			}
+		if (settings.apiUsage.user.travel) updateTravelBar();
 		// Cooldowns
-		for (let cooldown of ["drug", "booster", "medical"]) {
-			updateCooldown(cooldown, userdata.cooldowns[cooldown]);
-		}
+		if (settings.apiUsage.user.cooldowns)
+			for (let cooldown of ["drug", "booster", "medical"]) {
+				updateCooldown(cooldown, userdata.cooldowns[cooldown]);
+			}
 		// Extra information
 		updateExtra();
 		updateActions();
@@ -261,9 +265,11 @@ async function setupDashboard() {
 		}
 
 		function updateExtra() {
-			dashboard.find(".extra .events .count").innerText = Object.values(userdata.events).filter((event) => !event.seen).length;
-			dashboard.find(".extra .messages .count").innerText = Object.values(userdata.messages).filter((message) => !message.seen).length;
-			dashboard.find(".extra .wallet .count").innerText = `$${formatNumber(userdata.money_onhand)}`;
+			if (settings.apiUsage.user.events)
+				dashboard.find(".extra .events .count").innerText = Object.values(userdata.events).filter((event) => !event.seen).length;
+			if (settings.apiUsage.user.messages)
+				dashboard.find(".extra .messages .count").innerText = Object.values(userdata.messages).filter((message) => !message.seen).length;
+			if (settings.apiUsage.user.money) dashboard.find(".extra .wallet .count").innerText = `$${formatNumber(userdata.money_onhand)}`;
 		}
 
 		function updateActions() {
@@ -274,7 +280,8 @@ async function setupDashboard() {
 		}
 
 		function setupStakeouts() {
-			if (settings.pages.popup.showStakeouts && Object.keys(stakeouts).length) dashboard.find(".stakeouts").classList.remove("hidden");
+			if (settings.pages.popup.showStakeouts && Object.keys(stakeouts).length && !(Object.keys(stakeouts).length === 1 && stakeouts.date))
+				dashboard.find(".stakeouts").classList.remove("hidden");
 			else dashboard.find(".stakeouts").classList.add("hidden");
 		}
 	}
@@ -358,7 +365,7 @@ async function setupDashboard() {
 	}
 
 	function updateStakeouts() {
-		if (settings.pages.popup.showStakeouts && Object.keys(stakeouts).length) {
+		if (settings.pages.popup.showStakeouts && Object.keys(stakeouts).length && !(Object.keys(stakeouts).length === 1 && stakeouts.date)) {
 			dashboard.find(".stakeouts").classList.remove("hidden");
 
 			const stakeoutList = dashboard.find(".stakeouts .stakeout-list");
@@ -559,78 +566,58 @@ async function setupStocksOverview() {
 	const userStocks = stocksOverview.find("#user-stocks");
 	const allStocks = stocksOverview.find("#all-stocks");
 
-	for (let buyId in userdata.stocks) {
-		const stock = userdata.stocks[buyId];
-		const id = stock.stock_id;
+	if (settings.apiUsage.user.stocks) {
+		for (let buyId in userdata.stocks) {
+			const stock = userdata.stocks[buyId];
+			const id = stock.stock_id;
 
-		const profit = ((torndata.stocks[id].current_price - stock.bought_price) * stock.shares).dropDecimals();
+			const profit = ((torndata.stocks[id].current_price - stock.bought_price) * stock.shares).dropDecimals();
 
-		const wrapper = document.newElement({ type: "div", class: "stock-wrap" });
-		wrapper.appendChild(document.newElement("hr"));
+			const wrapper = document.newElement({ type: "div", class: "stock-wrap" });
+			wrapper.appendChild(document.newElement("hr"));
 
-		// Heading
-		wrapper.appendChild(
-			document.newElement({
-				type: "a",
-				class: "heading",
-				href: `https://www.torn.com/stockexchange.php?stock=${torndata.stocks[id].acronym}`,
-				attributes: { target: "_blank" },
+			// Heading
+			wrapper.appendChild(
+				document.newElement({
+					type: "a",
+					class: "heading",
+					href: `https://www.torn.com/stockexchange.php?stock=${torndata.stocks[id].acronym}`,
+					attributes: { target: "_blank" },
+					children: [
+						document.newElement({
+							type: "span",
+							class: "name",
+							text: `${torndata.stocks[id][torndata.stocks[id].name.length > 35 ? "acronym" : "name"]}`,
+						}),
+						document.newElement("br"),
+						document.newElement({
+							type: "span",
+							class: "quantity",
+							text: `(${formatNumber(stock.shares, { shorten: 2 })} share${applyPlural(stock.shares)})`,
+						}),
+					],
+				})
+			);
+			wrapper.appendChild(
+				document.newElement({
+					type: "div",
+					class: `profit ${getProfitClass(profit)}`,
+					text: `${getProfitIndicator(profit)}$${formatNumber(Math.abs(profit))}`,
+				})
+			);
+
+			// Price Information
+			const priceContent = document.newElement({
+				type: "div",
+				class: "content price hidden",
 				children: [
 					document.newElement({
 						type: "span",
-						class: "name",
-						text: `${torndata.stocks[id][torndata.stocks[id].name.length > 35 ? "acronym" : "name"]}`,
+						text: `Current price: $${formatNumber(torndata.stocks[id].current_price, { decimals: 3 })}`,
 					}),
-					document.newElement("br"),
 					document.newElement({
 						type: "span",
-						class: "quantity",
-						text: `(${formatNumber(stock.shares, { shorten: 2 })} share${applyPlural(stock.shares)})`,
-					}),
-				],
-			})
-		);
-		wrapper.appendChild(
-			document.newElement({
-				type: "div",
-				class: `profit ${getProfitClass(profit)}`,
-				text: `${getProfitIndicator(profit)}$${formatNumber(Math.abs(profit))}`,
-			})
-		);
-
-		// Price Information
-		const priceContent = document.newElement({
-			type: "div",
-			class: "content price hidden",
-			children: [
-				document.newElement({
-					type: "span",
-					text: `Current price: $${formatNumber(torndata.stocks[id].current_price, { decimals: 3 })}`,
-				}),
-				document.newElement({
-					type: "span",
-					text: `Bought at: $${formatNumber(stock.bought_price, { decimals: 3 })}`,
-				}),
-			],
-		});
-
-		wrapper.appendChild(document.newElement({ type: "div", class: "information-section", children: [getPriceHeadingElement(priceContent), priceContent] }));
-
-		// Benefit Information
-		if (torndata.stocks[id].benefit) {
-			const benefitContent = document.newElement({
-				type: "div",
-				class: "content benefit hidden",
-				children: [
-					document.newElement({
-						type: "span",
-						text: `Required stocks: ${formatNumber(stock.shares)}/${formatNumber(torndata.stocks[id].benefit.requirement)}`,
-					}),
-					document.newElement("br"),
-					document.newElement({
-						type: "span",
-						class: `description ${stock.shares >= torndata.stocks[id].benefit.requirement ? "completed" : "not-completed"}`,
-						text: `${torndata.stocks[id].benefit.description}.`,
+						text: `Bought at: $${formatNumber(stock.bought_price, { decimals: 3 })}`,
 					}),
 				],
 			});
@@ -639,15 +626,43 @@ async function setupStocksOverview() {
 				document.newElement({
 					type: "div",
 					class: "information-section",
-					children: [getBenefitHeadingElement(benefitContent), benefitContent],
+					children: [getPriceHeadingElement(priceContent), priceContent],
 				})
 			);
+
+			// Benefit Information
+			if (torndata.stocks[id].benefit) {
+				const benefitContent = document.newElement({
+					type: "div",
+					class: "content benefit hidden",
+					children: [
+						document.newElement({
+							type: "span",
+							text: `Required stocks: ${formatNumber(stock.shares)}/${formatNumber(torndata.stocks[id].benefit.requirement)}`,
+						}),
+						document.newElement("br"),
+						document.newElement({
+							type: "span",
+							class: `description ${stock.shares >= torndata.stocks[id].benefit.requirement ? "completed" : "not-completed"}`,
+							text: `${torndata.stocks[id].benefit.description}.`,
+						}),
+					],
+				});
+
+				wrapper.appendChild(
+					document.newElement({
+						type: "div",
+						class: "information-section",
+						children: [getBenefitHeadingElement(benefitContent), benefitContent],
+					})
+				);
+			}
+
+			// Alerts
+			if (id !== "0") addAlertsSection(wrapper, id, buyId);
+
+			userStocks.appendChild(wrapper);
 		}
-
-		// Alerts
-		if (id !== "0") addAlertsSection(wrapper, id, buyId);
-
-		userStocks.appendChild(wrapper);
 	}
 
 	for (let id in torndata.stocks) {
