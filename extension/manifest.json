@@ -42,11 +42,6 @@
 		"page": "pages/settings/settings.html",
 		"open_in_tab": true
 	},
-	"browser_specific_settings": {
-		"gecko": {
-			"id": "{3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9}"
-		}
-	},
 	"content_scripts": [
 		{
 			"matches": [
@@ -82,10 +77,12 @@
 				"https://www.torn.com/index.php*"
 			],
 			"css": [
-				"scripts/content/home/ttHome.css"
+				"scripts/content/home/ttHome.css",
+				"scripts/content/home/ttFlying.css"
 			],
 			"js": [
-				"scripts/content/home/ttHome.js"
+				"scripts/content/home/ttHome.js",
+				"scripts/content/home/ttFlying.js"
 			],
 			"run_at": "document_end"
 		}

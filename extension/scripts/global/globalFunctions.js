@@ -213,7 +213,7 @@ function requireSidebar() {
 }
 
 function requireContent() {
-	return requireElement(".box-title");
+	return requireElement(".box-title, .title-black[role=heading], .title-black > div[role=heading], .travel-agency-travelling");
 }
 
 function hasParent(element, attributes = {}) {
@@ -980,4 +980,36 @@ function removeContainer(title, attributes) {
 	if (!container) return;
 
 	container.remove();
+}
+
+function findItemsInObject(object, attributes = {}, options = {}) {
+	options = {
+		single: false,
+		...options,
+	};
+
+	let items = [];
+	if (!object || Object.keys(attributes).length === 0) return options.single ? false : items;
+
+	for (let id in object) {
+		const item = {
+			id,
+			...object[id],
+		};
+		if (!Object.keys(attributes).every((attribute) => item[attribute] === attributes[attribute])) continue;
+
+		if (options.single) return item;
+
+		items.push(item);
+	}
+
+	return options.single ? false : items;
+}
+
+function isFlying() {
+	return document.body.dataset.traveling;
+}
+
+function isAbroad() {
+	return document.body.dataset.abroad;
 }

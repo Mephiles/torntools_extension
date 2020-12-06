@@ -3,6 +3,8 @@
 let networthInterval = false;
 
 (async () => {
+	if (isFlying() || isAbroad()) return;
+
 	await loadDatabase();
 	console.log("TT: Home - Loading script. ");
 

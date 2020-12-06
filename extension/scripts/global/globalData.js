@@ -173,6 +173,7 @@ const DEFAULT_STORAGE = {
 				education: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				attacks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				networth: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				inventory: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		themes: {
