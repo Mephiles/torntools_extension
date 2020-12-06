@@ -22,7 +22,29 @@ async function loadGlobalEntry() {
 
 	// hide icons
 
-	// hide areas
+	for (let area of [
+		"home",
+		"items",
+		"city",
+		"job",
+		"gym",
+		"properties",
+		"education",
+		"crimes",
+		"missions",
+		"newspaper",
+		"jail",
+		"hospital",
+		"casino",
+		"forums",
+		"hall_of_fame",
+		"my_faction",
+		"recruit_citizens",
+		"competitions",
+		"community_events",
+	]) {
+		document.documentElement.style.setProperty(`--torntools-hide-area-${area}`, settings.hideAreas.includes(area) ? "none" : "initial");
+	}
 
 	// hide chats
 

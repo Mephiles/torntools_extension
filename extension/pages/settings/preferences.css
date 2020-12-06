@@ -105,6 +105,10 @@ body.dark #preferences .sections {
 	margin-top: 12px;
 }
 
+#preferences .sections > section .header.extra-mb {
+	margin-bottom: 4px;
+}
+
 #preferences footer {
 	padding: 5px;
 }
@@ -112,6 +116,23 @@ body.dark #preferences .sections {
 #preferences .advanced-hidden .advanced {
 	display: none;
 }
+
+#preferences .tabbed {
+	padding-left: 20px;
+}
+
+#preferences .note {
+	font-size: 11px;
+	margin-left: 10px;
+	color: #848484;
+	position: relative;
+}
+
+#preferences .option input.single.seconds {
+	width: 45px;
+}
+
+/* Chat Highlighting */
 
 #preferences #addChatHighlight,
 #preferences #addChatTitleHighlight {
@@ -128,22 +149,35 @@ body.dark #preferences .sections {
 	color: red;
 }
 
-#preferences .tabbed {
-	padding-left: 20px;
-}
-
-#preferences .note {
-	font-size: 11px;
-	margin-left: 10px;
-	color: #848484;
-	position: relative;
-}
+/* Notifications */
 
 #preferences #notification-sound-play,
 #preferences #notification-sound-stop {
 	cursor: pointer;
 }
 
-#preferences .option input.single.seconds {
-	width: 45px;
+/* Hide Areas */
+
+#preferences #hide-areas span {
+	padding: 1px 5px;
+	border-radius: 4px;
+	cursor: pointer;
+	position: relative;
+	display: inline-block;
+	margin-bottom: 4px;
+}
+
+body.light #preferences #hide-areas span {
+	background-color: #f9f9f9;
+	border: 1px solid lightgray;
+}
+
+body.dark #preferences #hide-areas span {
+	background-color: #383838;
+	border: 1px solid #333;
+}
+
+#preferences #hide-areas span.disabled {
+	opacity: 0.6;
+	background-color: rgba(255, 0, 0, 0.6) !important;
 }

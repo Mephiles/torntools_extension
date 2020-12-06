@@ -180,6 +180,7 @@ const DEFAULT_STORAGE = {
 			pages: new DefaultSetting({ type: "string", defaultValue: "default" }),
 			containers: new DefaultSetting({ type: "string", defaultValue: "default" }),
 		},
+		hideAreas: new DefaultSetting({ type: "array", defaultValue: [] }),
 		pages: {
 			global: {
 				alignLeft: new DefaultSetting({ type: "boolean", defaultValue: false }),

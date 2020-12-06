@@ -297,6 +297,13 @@ async function setupPreferences() {
 		);
 	}
 
+	for (let area of _preferences.findAll("#hide-areas span")) {
+		area.addEventListener("click", () => area.classList.toggle("disabled"));
+	}
+	for (let area of settings.hideAreas) {
+		_preferences.find(`#hide-areas span[name="${area}"]`).classList.add("disabled");
+	}
+
 	function showAdvanced(advanced) {
 		if (advanced) {
 			_preferences.find(".sections").classList.remove("advanced-hidden");
@@ -536,18 +543,20 @@ async function setupPreferences() {
 			}
 		}
 
-		settings.pages.chat.highlights = [...document.findAll("#chatHighlight > li:not(.input)")].map((highlight) => {
+		settings.pages.chat.highlights = [..._preferences.findAll("#chatHighlight > li:not(.input)")].map((highlight) => {
 			return {
 				name: highlight.find(".name").value,
 				color: highlight.find(".color").value,
 			};
 		});
-		settings.pages.chat.titleHighlights = [...document.findAll("#chatTitleHighlight > li:not(.input)")].map((highlight) => {
+		settings.pages.chat.titleHighlights = [..._preferences.findAll("#chatTitleHighlight > li:not(.input)")].map((highlight) => {
 			return {
 				title: highlight.find(".title").value,
 				color: highlight.find(".color").value,
 			};
 		});
+
+		settings.hideAreas = [..._preferences.findAll("#hide-areas span.disabled")].map((area) => area.getAttribute("name"));
 
 		settings.apiUsage.delayEssential = parseInt(_preferences.find("#api_usage-essential").value);
 		settings.apiUsage.delayBasic = parseInt(_preferences.find("#api_usage-basic").value);
