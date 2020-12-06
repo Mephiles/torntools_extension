@@ -156,6 +156,11 @@ const DEFAULT_STORAGE = {
 				stocks: new DefaultSetting({ type: "object", defaultValue: {} }),
 			},
 		},
+		apiUsage: {
+			delayEssential: new DefaultSetting({ type: "number", defaultValue: 30 }),
+			delayBasic: new DefaultSetting({ type: "number", defaultValue: 120 }),
+			delayStakeouts: new DefaultSetting({ type: "number", defaultValue: 30 }),
+		},
 		themes: {
 			pages: new DefaultSetting({ type: "string", defaultValue: "default" }),
 			containers: new DefaultSetting({ type: "string", defaultValue: "default" }),

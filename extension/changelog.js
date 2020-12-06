@@ -13,6 +13,7 @@ export default [
 				{ message: "Add unused energy and nerve refill highlighting", contributor: "Natty_Boh" },
 				{ message: "Highlight specific chat titles.", contributor: "DeKleineKobini" },
 				{ message: "Add an alert for stock system dumps.", contributor: "DeKleineKobini" },
+				{ message: "Customizable api usage.", contributor: "DeKleineKobini" },
 			],
 			fixes: [{ message: "Hide new chat messages while searching.", contributor: "DeKleineKobini" }],
 			changes: [

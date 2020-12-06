@@ -143,3 +143,7 @@ body.dark #preferences .sections {
 #preferences #notification-sound-stop {
 	cursor: pointer;
 }
+
+#preferences .option input.single.seconds {
+	width: 45px;
+}

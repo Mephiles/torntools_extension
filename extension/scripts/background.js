@@ -144,11 +144,17 @@ async function sendNotifications() {
 function timedUpdates() {
 	if (api.torn.key) {
 		updateUserdata()
-			.then(({ updateBasic }) => console.log(`Updated essential${updateBasic ? "+basic" : ""} userdata.`))
+			.then(({ updated, types }) => {
+				if (updated) console.log(`Updated ${types.join("+")} userdata.`);
+				else console.log("Skipped this userdata update.");
+			})
 			.catch((error) => console.error("Error while updating userdata.", error));
 
 		updateStakeouts()
-			.then(() => console.log("Updated stakeouts."))
+			.then(({ updated, success, failed }) => {
+				if (updated) console.log("Updated stakeouts.", { success, failed });
+				else console.log("Skipped this stakeout update.");
+			})
 			.catch((error) => console.error("Error while updating stakeouts.", error));
 
 		if (!torndata || !isSameUTCDay(new Date(torndata.date), new Date())) {
@@ -174,17 +180,32 @@ function timedUpdates() {
 async function updateUserdata() {
 	const now = Date.now();
 
+	let updatedTypes = [];
+	let updateEssential = !userdata || now - userdata.date + 100 >= TO_MILLIS.SECONDS * settings.apiUsage.delayEssential;
 	let updateBasic =
-		!userdata.dateBasic || (now - userdata.dateBasic >= TO_MILLIS.MINUTES * 2 && now - userdata.last_action.timestamp * 1000 <= TO_MILLIS.MINUTES * 5);
+		updateEssential &&
+		(!userdata.dateBasic ||
+			(now - userdata.dateBasic + 100 >= TO_MILLIS.SECONDS * settings.apiUsage.delayBasic &&
+				now - userdata.last_action.timestamp * 1000 <= TO_MILLIS.MINUTES * 5));
 
-	let selections = ["profile", "bars", "cooldowns", "timestamp", "travel", "events", "messages", "money", "refills"];
+	let selections = [];
+	if (updateEssential) {
+		updatedTypes.push("essential");
+		selections = selections.concat("profile", "bars", "cooldowns", "timestamp", "travel", "events", "messages", "money", "refills");
+	}
 	if (updateBasic) {
 		selections = selections.concat("personalstats", "stocks");
 
 		if (!userdata.education || !userdata.education_completed || userdata.education_completed.length !== Object.keys(torndata.education).length)
 			selections.push("education");
+
+		updatedTypes.push("basic");
 	}
-	if (attackHistory.fetchData) selections.push("attacks");
+	if (attackHistory.fetchData) {
+		selections.push("attacks");
+		updatedTypes.push("attack history");
+	}
+	if (!selections.length) return { updated: false };
 
 	const oldUserdata = { ...userdata };
 	userdata = await fetchApi("torn", { section: "user", selections });
@@ -208,7 +229,7 @@ async function updateUserdata() {
 	await notifyTraveling().catch((error) => console.error("Error while sending traveling notifications.", error));
 	await notifySpecificCooldowns().catch((error) => console.error("Error while sending specific cooldown notifications.", error));
 
-	return { updateBasic };
+	return { updated: true, types: updatedTypes };
 
 	async function checkAttacks() {
 		if (!settings.pages.global.keepAttackHistory) return;
@@ -649,13 +670,21 @@ async function showIconBars() {
 }
 
 async function updateStakeouts() {
+	const now = Date.now();
+
+	if (stakeouts.date && now - stakeouts.date + 100 >= TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts) return { updated: false };
+
+	let success = 0;
+	let failed = 0;
 	for (const id in stakeouts) {
 		let data;
 		try {
 			data = await fetchApi("torn", { section: "user", selections: ["profile"], id, silent: true });
+			success++;
 		} catch (e) {
 			// TODO Improve error handling.
 			console.log("STAKEOUT error", e);
+			failed++;
 			continue;
 		}
 
@@ -743,8 +772,10 @@ async function updateStakeouts() {
 			},
 		};
 	}
+	stakeouts.date = now;
 
 	await ttStorage.change({ stakeouts });
+	return { updated: true, success, failed };
 }
 
 async function updateTorndata() {

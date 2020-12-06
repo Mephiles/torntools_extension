@@ -49,7 +49,7 @@
 		<main id="preferences" class="hidden">
 			<h2>
 				Preferences
-				<span class="hidden">
+				<span>
 					&nbsp;-&nbsp;
 					<i id="preferences-show_advanced" class="tooltip fas"><span class="tooltip-text"></span></i>
 				</span>
@@ -59,6 +59,7 @@
 					<ul>
 						<li name="general" class="active">General</li>
 						<li name="global">Global</li>
+						<li name="api-usage">API Usage</li>
 						<li name="chat">Chat</li>
 						<li name="sidebar">Sidebar</li>
 						<li name="popup">Popup</li>
@@ -178,6 +179,24 @@
 						<div class="option wip">
 							<input id="global-nukeRevive" type="checkbox" />
 							<label for="global-nukeRevive">Show revive request button. Linked to Nuke Central Hospital.</label>
+						</div>
+					</section>
+					<section name="api-usage">
+						<div class="header">API Usage</div>
+						<div class="option">
+							<label for="api_usage-essential">Update essential data every</label>
+							<input id="api_usage-essential" type="number" min="30" class="single seconds" />
+							<label for="api_usage-essential">seconds</label>
+						</div>
+						<div class="option advanced">
+							<label for="api_usage-basic">Update basic data every</label>
+							<input id="api_usage-basic" type="number" min="30" class="single seconds" />
+							<label for="api_usage-basic">seconds</label>
+						</div>
+						<div class="option">
+							<label for="api_usage-stakeouts">Update stakeouts every</label>
+							<input id="api_usage-stakeouts" type="number" min="30" class="single seconds" />
+							<label for="api_usage-stakeouts">seconds</label>
 						</div>
 					</section>
 					<section name="chat">
