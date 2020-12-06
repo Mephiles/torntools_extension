@@ -365,6 +365,8 @@ async function setupDashboard() {
 			stakeoutList.innerHTML = "";
 
 			for (const id in stakeouts) {
+				if (isNaN(id)) continue;
+
 				let status, name, lastAction, lifeCurrent, lifeMaximum;
 
 				if (stakeouts[id].info && Object.keys(stakeouts[id].info).length) {

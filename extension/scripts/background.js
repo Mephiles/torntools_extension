@@ -672,11 +672,13 @@ async function showIconBars() {
 async function updateStakeouts() {
 	const now = Date.now();
 
-	if (stakeouts.date && now - stakeouts.date + 100 >= TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts) return { updated: false };
+	if (stakeouts.date && now - stakeouts.date + 100 < TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts) return { updated: false };
 
 	let success = 0;
 	let failed = 0;
 	for (const id in stakeouts) {
+		if (isNaN(id)) continue;
+
 		let data;
 		try {
 			data = await fetchApi("torn", { section: "user", selections: ["profile"], id, silent: true });

@@ -167,6 +167,8 @@ async function setupStakeouts() {
 
 	function fillStakeouts() {
 		for (let id in stakeouts) {
+
+			if (isNaN(id)) continue;
 			addStakeout(id, stakeouts[id]);
 		}
 	}
@@ -308,6 +310,8 @@ async function setupStakeouts() {
 		[...stakeoutList.findAll("tr:not(.header)")].filter((row) => !(parseInt(row.find(".id").innerText) in stakeouts)).forEach((row) => row.remove());
 
 		for (let id in stakeouts) {
+			if (isNaN(id)) continue;
+
 			const row = stakeoutList.find(`tr .id=${id}`).parentElement;
 
 			row.find(".status").classList.remove("offline", "idle", "online");
