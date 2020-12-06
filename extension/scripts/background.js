@@ -369,6 +369,11 @@ async function updateUserdata() {
 	}
 
 	async function notifyEventMessages() {
+		if (!userdata.events) {
+			console.log("DKK - No events.");
+			return;
+		}
+
 		let eventCount = 0;
 		let events = [];
 		for (let key of Object.keys(userdata.events).reverse()) {
