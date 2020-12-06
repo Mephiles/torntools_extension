@@ -144,8 +144,8 @@ async function sendNotifications() {
 function timedUpdates() {
 	if (api.torn.key) {
 		updateUserdata()
-			.then(({ updated, types }) => {
-				if (updated) console.log(`Updated ${types.join("+")} userdata.`);
+			.then(({ updated, types, selections }) => {
+				if (updated) console.log(`Updated ${types.join("+")} userdata.`, selections);
 				else console.log("Skipped this userdata update.");
 			})
 			.catch((error) => console.error("Error while updating userdata.", error));
@@ -192,19 +192,33 @@ async function updateUserdata() {
 
 	let selections = [];
 	if (updateEssential) {
+		selections.push("profile", "timestamp");
+
+		for (let selection of ["bars", "cooldowns", "travel", "events", "messages", "money", "refills"]) {
+			if (!settings.apiUsage.user[selection]) continue;
+
+			selections.push(selection);
+		}
 		updatedTypes.push("essential");
-		selections = selections.concat("profile", "bars", "cooldowns", "timestamp", "travel", "events", "messages", "money", "refills");
 	}
 	if (updateBasic) {
-		selections = selections.concat("personalstats", "stocks");
+		for (let selection of ["personalstats", "stocks"]) {
+			if (!settings.apiUsage.user[selection]) continue;
 
-		if (!userdata.education || !userdata.education_completed || userdata.education_completed.length !== Object.keys(torndata.education).length)
+			selections.push(selection);
+		}
+
+		if (
+			settings.apiUsage.user.education &&
+			(!userdata.education || !userdata.education_completed || userdata.education_completed.length !== Object.keys(torndata.education).length)
+		)
 			selections.push("education");
 
 		updatedTypes.push("basic");
 	}
-	if (attackHistory.fetchData) {
+	if (attackHistory.fetchData && settings.apiUsage.user.attacks) {
 		selections.push("attacks");
+
 		updatedTypes.push("attack history");
 	}
 	if (!selections.length) return { updated: false };
@@ -231,7 +245,7 @@ async function updateUserdata() {
 	await notifyTraveling().catch((error) => console.error("Error while sending traveling notifications.", error));
 	await notifySpecificCooldowns().catch((error) => console.error("Error while sending specific cooldown notifications.", error));
 
-	return { updated: true, types: updatedTypes };
+	return { updated: true, types: updatedTypes, selections };
 
 	async function checkAttacks() {
 		if (!settings.pages.global.keepAttackHistory) return;
@@ -827,10 +841,13 @@ async function updateStocks() {
 }
 
 async function updateNetworth() {
+	if (!settings.apiUsage.user.networth) return;
+
 	let networth = (await fetchApi("torn", { section: "user", selections: ["networth"] })).networth;
 	networth.date = Date.now();
 
 	await ttStorage.change({ userdata: { networth } });
+	console.log("Updated networth data.");
 }
 
 async function notifyUser(title, message, url) {

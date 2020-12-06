@@ -366,6 +366,11 @@ async function setupPreferences() {
 		_preferences.find("#api_usage-essential").value = settings.apiUsage.delayEssential;
 		_preferences.find("#api_usage-basic").value = settings.apiUsage.delayBasic;
 		_preferences.find("#api_usage-stakeouts").value = settings.apiUsage.delayStakeouts;
+		for (let type of ["user"]) {
+			for (let selection in settings.apiUsage[type]) {
+				_preferences.find(`#api_usage-${type}_${selection}`).checked = settings.apiUsage[type][selection];
+			}
+		}
 
 		for (let highlight of settings.pages.chat.highlights) {
 			addChatHighlightRow(highlight.name, highlight.color);
@@ -547,6 +552,11 @@ async function setupPreferences() {
 		settings.apiUsage.delayEssential = parseInt(_preferences.find("#api_usage-essential").value);
 		settings.apiUsage.delayBasic = parseInt(_preferences.find("#api_usage-basic").value);
 		settings.apiUsage.delayStakeouts = parseInt(_preferences.find("#api_usage-stakeouts").value);
+		for (let type of ["user"]) {
+			for (let selection in settings.apiUsage[type]) {
+				settings.apiUsage[type][selection] = _preferences.find(`#api_usage-${type}_${selection}`).checked;
+			}
+		}
 
 		for (let notificationType in settings.notifications.types) {
 			if (notificationType === "stocks") continue;

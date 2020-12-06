@@ -183,13 +183,14 @@
 					</section>
 					<section name="api-usage">
 						<div class="header">API Usage</div>
+						<div class="note">All api usage is checked every 30 seconds.</div>
 						<div class="option">
-							<label for="api_usage-essential">Update essential data every</label>
+							<label for="api_usage-essential">Update essential userdata every</label>
 							<input id="api_usage-essential" type="number" min="30" class="single seconds" />
 							<label for="api_usage-essential">seconds</label>
 						</div>
 						<div class="option advanced">
-							<label for="api_usage-basic">Update basic data every</label>
+							<label for="api_usage-basic">Update basic userdata every</label>
 							<input id="api_usage-basic" type="number" min="30" class="single seconds" />
 							<label for="api_usage-basic">seconds</label>
 						</div>
@@ -197,6 +198,53 @@
 							<label for="api_usage-stakeouts">Update stakeouts every</label>
 							<input id="api_usage-stakeouts" type="number" min="30" class="single seconds" />
 							<label for="api_usage-stakeouts">seconds</label>
+						</div>
+
+						<div class="header advanced">User Selections</div>
+						<div class="note advanced">Disabling certain selections will silently disable certain features that rely on that api selection.</div>
+						<div class="option advanced">
+							<input id="api_usage-user_bars" type="checkbox" />
+							<label for="api_usage-user_bars">Bars</label>
+						</div>
+						<div class="option advanced">
+							<input id="api_usage-user_cooldowns" type="checkbox" />
+							<label for="api_usage-user_cooldowns">Cooldowns</label>
+						</div>
+						<div class="option advanced">
+							<input id="api_usage-user_travel" type="checkbox" />
+							<label for="api_usage-user_travel">Travel</label>
+						</div>
+						<div class="option advanced">
+							<input id="api_usage-user_events" type="checkbox" />
+							<label for="api_usage-user_events">Events</label>
+						</div>
+						<div class="option advanced">
+							<input id="api_usage-user_messages" type="checkbox" />
+							<label for="api_usage-user_messages">Messages</label>
+						</div>
+						<div class="option advanced">
+							<input id="api_usage-user_money" type="checkbox" />
+							<label for="api_usage-user_money">Money</label>
+						</div>
+						<div class="option advanced">
+							<input id="api_usage-user_refills" type="checkbox" />
+							<label for="api_usage-user_refills">Refills</label>
+						</div>
+						<div class="option advanced">
+							<input id="api_usage-user_personalstats" type="checkbox" />
+							<label for="api_usage-user_personalstats">Personal Stats</label>
+						</div>
+						<div class="option advanced">
+							<input id="api_usage-user_stocks" type="checkbox" />
+							<label for="api_usage-user_stocks">Stocks</label>
+						</div>
+						<div class="option advanced">
+							<input id="api_usage-user_education" type="checkbox" />
+							<label for="api_usage-user_education">Education</label>
+						</div>
+						<div class="option advanced">
+							<input id="api_usage-user_attacks" type="checkbox" />
+							<label for="api_usage-user_attacks">Attacks</label>
 						</div>
 					</section>
 					<section name="chat">
