@@ -1007,9 +1007,11 @@ function findItemsInObject(object, attributes = {}, options = {}) {
 }
 
 function isFlying() {
-	return document.body.dataset.traveling;
+	// noinspection EqualityComparisonWithCoercionJS
+	return document.body.dataset.traveling == true;
 }
 
 function isAbroad() {
-	return document.body.dataset.abroad;
+	// noinspection EqualityComparisonWithCoercionJS
+	return document.body.dataset.abroad == true;
 }
