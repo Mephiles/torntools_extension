@@ -152,8 +152,10 @@ function timedUpdates() {
 
 		updateStakeouts()
 			.then(({ updated, success, failed }) => {
-				if (updated) console.log("Updated stakeouts.", { success, failed });
-				else console.log("Skipped this stakeout update.");
+				if (updated) {
+					if (success || failed) console.log("Updated stakeouts.", { success, failed });
+					else console.log("No stakeouts to update.");
+				} else console.log("Skipped this stakeout update.");
 			})
 			.catch((error) => console.error("Error while updating stakeouts.", error));
 
