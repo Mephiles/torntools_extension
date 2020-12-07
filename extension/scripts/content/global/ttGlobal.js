@@ -131,8 +131,6 @@ function loadGlobal() {
 			showComputerLink().catch((reason) => console.error("TT failed while trying to show the computer link.", reason));
 		})
 		.catch((reason) => console.error("TT failed during loading content.", reason));
-
-	// TODO - Show Nuke Central Hospital revive request.
 }
 
 function requireChatsLoaded() {
