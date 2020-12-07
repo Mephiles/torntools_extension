@@ -295,7 +295,15 @@ async function setupPreferences() {
 	}
 
 	for (let area of _preferences.findAll("#hide-areas span")) {
-		area.addEventListener("click", () => area.classList.toggle("disabled"));
+	}
+
+	const hideAreasParent = _preferences.find("#hide-areas");
+	for (let area of ALL_AREAS) {
+		const areaWrap = document.newElement({ type: "span", text: area.text, attributes: { name: area.class } });
+
+		hideAreasParent.appendChild(areaWrap);
+
+		areaWrap.addEventListener("click", () => areaWrap.classList.toggle("disabled"));
 	}
 
 	const hideIconsParent = _preferences.find("#hide-icons");

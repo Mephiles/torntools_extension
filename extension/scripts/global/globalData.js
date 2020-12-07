@@ -429,3 +429,25 @@ const THEMES = {
 };
 
 const ALL_ICONS = Array.from({ length: 80 }, (x, i) => `icon${i + 1}`);
+
+const ALL_AREAS = [
+	{ class: "home", text: "Home" },
+	{ class: "items", text: "Items" },
+	{ class: "city", text: "City" },
+	{ class: "job", text: "Job" },
+	{ class: "gym", text: "Gym" },
+	{ class: "properties", text: "Properties" },
+	{ class: "education", text: "Education" },
+	{ class: "crimes", text: "Crimes" },
+	{ class: "missions", text: "Missions" },
+	{ class: "newspaper", text: "Newspaper" },
+	{ class: "jail", text: "Jail" },
+	{ class: "hospital", text: "Hospital" },
+	{ class: "casino", text: "Casino" },
+	{ class: "forums", text: "Forums" },
+	{ class: "hall_of_fame", text: "Hall of Fame" },
+	{ class: "my_faction", text: "My Faction" },
+	{ class: "recruit_citizens", text: "Recruit Citizens" },
+	{ class: "competitions", text: "Competitions" },
+	{ class: "community_events", text: "Community Events" },
+];
