@@ -302,6 +302,7 @@ async function setupPreferences() {
 		const areaWrap = document.newElement({ type: "span", text: area.text, attributes: { name: area.class } });
 
 		hideAreasParent.appendChild(areaWrap);
+		if (ALL_AREAS.indexOf(area) + 1 !== ALL_AREAS.length) hideAreasParent.appendChild(document.createTextNode("\n"));
 
 		areaWrap.addEventListener("click", () => areaWrap.classList.toggle("disabled"));
 	}
