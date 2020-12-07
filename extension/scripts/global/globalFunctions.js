@@ -871,7 +871,6 @@ function sortTable(table, columnPlace, order) {
 
 			let a, b;
 			if (isNaN(parseFloat(valueA))) {
-				console.log("DKK y", valueA, valueB);
 				if (valueA.indexOf("$") > -1) {
 					a = parseFloat(valueA.replace("$", "").replace(/,/g, ""));
 					b = parseFloat(valueB.replace("$", "").replace(/,/g, ""));

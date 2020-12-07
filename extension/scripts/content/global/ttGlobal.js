@@ -115,7 +115,6 @@ function loadGlobal() {
 				// Remove icons that are hidden
 				function moveIcons(observer) {
 					try {
-						console.log("DKK moveIcons start");
 						observer.disconnect();
 
 						for (let icon of document.findAll("#sidebarroot .status-icons___1SnOI > li")) {
@@ -125,10 +124,7 @@ function loadGlobal() {
 						}
 
 						observer.observe(document.find("#sidebarroot .status-icons___1SnOI"), { childList: true });
-						console.log("DKK moveIcons exit");
-					} catch (e) {
-						console.error("DKK moveIcons error", e);
-					}
+					} catch (e) {}
 				}
 
 				moveIcons(new MutationObserver((mutations, observer) => moveIcons(observer)));
@@ -139,7 +135,6 @@ function loadGlobal() {
 
 	requireContent()
 		.then(() => {
-			console.log("DKK requireContent");
 			if (settings.pages.global.hideLevelUpgrade) {
 				for (let info of document.findAll(".info-msg-cont")) {
 					if (!info.innerText.includes("Congratulations! You have enough experience to go up to level")) continue;
