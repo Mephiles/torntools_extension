@@ -20,7 +20,6 @@ async function loadGlobalEntry() {
 
 	document.documentElement.style.setProperty("--torntools-hide-leave-button", settings.pages.global.hideQuitButtons ? "none" : "flex");
 
-	// hide icons
 	for (let icon of ALL_ICONS) {
 		document.documentElement.style.setProperty(`--torntools-hide-icons-${icon}`, settings.hideIcons.includes(icon) ? "none" : "initial");
 	}
@@ -60,4 +59,12 @@ async function loadGlobalEntry() {
 
 	if (getSearchParameters().has("popped")) document.documentElement.classList.add("tt-popout");
 	else document.documentElement.classList.remove("tt-popout");
+
+	await forceUpdate(); /*.catch(() => {});*/
+}
+
+async function forceUpdate() {
+	await requireContent();
+
+	document.find(".status-icons___1SnOI").setAttribute("updated", Date.now());
 }

@@ -112,21 +112,6 @@ function loadGlobal() {
 			await showUpdateNotice();
 
 			if (!initiatedIconMoving) {
-				// Remove icons that are hidden
-				function moveIcons(observer) {
-					try {
-						observer.disconnect();
-
-						for (let icon of document.findAll("#sidebarroot .status-icons___1SnOI > li")) {
-							if (!settings.hideIcons.includes(icon.getAttribute("class").split("_")[0])) continue;
-
-							icon.parentElement.appendChild(icon);
-						}
-
-						observer.observe(document.find("#sidebarroot .status-icons___1SnOI"), { childList: true });
-					} catch (e) {}
-				}
-
 				moveIcons(new MutationObserver((mutations, observer) => moveIcons(observer)));
 				initiatedIconMoving = true;
 			}
@@ -143,9 +128,7 @@ function loadGlobal() {
 				}
 			}
 
-			showComputerLink()
-				.then(() => {})
-				.catch((reason) => console.error("TT failed while trying to show the computer link.", reason));
+			showComputerLink().catch((reason) => console.error("TT failed while trying to show the computer link.", reason));
 		})
 		.catch((reason) => console.error("TT failed during loading content.", reason));
 
@@ -406,4 +389,15 @@ async function showComputerLink() {
 		}),
 		document.find("#top-page-links-list > .events")
 	);
+}
+
+function moveIcons(observer) {
+	observer.disconnect();
+
+	for (let icon of document.findAll("#sidebarroot .status-icons___1SnOI > li")) {
+		if (!settings.hideIcons.includes(icon.getAttribute("class").split("_")[0])) continue;
+
+		icon.parentElement.appendChild(icon);
+	}
+	observer.observe(document.find("#sidebarroot .status-icons___1SnOI"), { childList: true, attributes: true });
 }
