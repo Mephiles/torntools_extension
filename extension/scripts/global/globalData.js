@@ -181,6 +181,7 @@ const DEFAULT_STORAGE = {
 			containers: new DefaultSetting({ type: "string", defaultValue: "default" }),
 		},
 		hideAreas: new DefaultSetting({ type: "array", defaultValue: [] }),
+		hideIcons: new DefaultSetting({ type: "array", defaultValue: [] }),
 		pages: {
 			global: {
 				alignLeft: new DefaultSetting({ type: "boolean", defaultValue: false }),
@@ -426,3 +427,5 @@ const THEMES = {
 		containerClass: "theme-alternative",
 	},
 };
+
+const ALL_ICONS = Array.from({ length: 80 }, (x, i) => `icon${i + 1}`);

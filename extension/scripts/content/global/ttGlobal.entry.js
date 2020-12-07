@@ -21,6 +21,9 @@ async function loadGlobalEntry() {
 	document.documentElement.style.setProperty("--torntools-hide-leave-button", settings.pages.global.hideQuitButtons ? "none" : "flex");
 
 	// hide icons
+	for (let icon of ALL_ICONS) {
+		document.documentElement.style.setProperty(`--torntools-hide-icons-${icon}`, settings.hideIcons.includes(icon) ? "none" : "initial");
+	}
 
 	for (let area of [
 		"home",

@@ -1,6 +1,7 @@
 "use strict";
 
 let highlights;
+let initiatedIconMoving = false;
 
 (async () => {
 	await loadDatabase();
@@ -109,6 +110,30 @@ function loadGlobal() {
 	requireSidebar()
 		.then(async () => {
 			await showUpdateNotice();
+
+			if (!initiatedIconMoving) {
+				// Remove icons that are hidden
+				function moveIcons(observer) {
+					try {
+						console.log("DKK moveIcons start");
+						observer.disconnect();
+
+						for (let icon of document.findAll("#sidebarroot .status-icons___1SnOI > li")) {
+							if (!settings.hideIcons.includes(icon.getAttribute("class").split("_")[0])) continue;
+
+							icon.parentElement.appendChild(icon);
+						}
+
+						observer.observe(document.find("#sidebarroot .status-icons___1SnOI"), { childList: true });
+						console.log("DKK moveIcons exit");
+					} catch (e) {
+						console.error("DKK moveIcons error", e);
+					}
+				}
+
+				moveIcons(new MutationObserver((mutations, observer) => moveIcons(observer)));
+				initiatedIconMoving = true;
+			}
 		})
 		.catch((reason) => console.error("TT failed during loading sidebar.", reason));
 

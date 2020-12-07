@@ -195,9 +195,6 @@ async function setupPreferences() {
 		await ttStorage.change({ filters: { preferences: { showAdvanced: newStatus } } });
 	});
 
-	fillSettings();
-	storageListeners.settings.push(updateSettings);
-
 	_preferences.find("#addChatHighlight").addEventListener("click", () => {
 		const inputRow = document.find("#chatHighlight .input");
 
@@ -300,9 +297,20 @@ async function setupPreferences() {
 	for (let area of _preferences.findAll("#hide-areas span")) {
 		area.addEventListener("click", () => area.classList.toggle("disabled"));
 	}
-	for (let area of settings.hideAreas) {
-		_preferences.find(`#hide-areas span[name="${area}"]`).classList.add("disabled");
+
+	const hideIconsParent = _preferences.find("#hide-icons");
+	for (let icon of ALL_ICONS) {
+		const iconsWrap = document.newElement({ type: "div", class: `icon`, children: [document.newElement({ type: "div", class: icon })] });
+
+		hideIconsParent.appendChild(iconsWrap);
+
+		iconsWrap.addEventListener("click", () => {
+			iconsWrap.classList.toggle("disabled");
+		});
 	}
+
+	fillSettings();
+	storageListeners.settings.push(updateSettings);
 
 	function showAdvanced(advanced) {
 		if (advanced) {
@@ -425,6 +433,13 @@ async function setupPreferences() {
 				_preferences.find("#notification-sound-play").classList.remove("hidden");
 				_preferences.find("#notification-sound-stop").classList.remove("hidden");
 			}
+		}
+
+		for (let area of settings.hideAreas) {
+			_preferences.find(`#hide-areas span[name="${area}"]`).classList.add("disabled");
+		}
+		for (let icon of settings.hideIcons) {
+			_preferences.find(`#hide-icons .${icon}`).parentElement.classList.add("disabled");
 		}
 	}
 
@@ -557,6 +572,7 @@ async function setupPreferences() {
 		});
 
 		settings.hideAreas = [..._preferences.findAll("#hide-areas span.disabled")].map((area) => area.getAttribute("name"));
+		settings.hideIcons = [..._preferences.findAll("#hide-icons .icon.disabled > div")].map((area) => area.getAttribute("class"));
 
 		settings.apiUsage.delayEssential = parseInt(_preferences.find("#api_usage-essential").value);
 		settings.apiUsage.delayBasic = parseInt(_preferences.find("#api_usage-basic").value);
