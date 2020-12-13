@@ -492,18 +492,22 @@ async function showOCTime() {
 		const timeLeft = factiondata.userCrime - Date.now();
 
 		const timeLeftElement = document.newElement({ type: "span", class: "countdown" });
-		if (timeLeft <= TO_MILLIS.HOURS * 8) timeLeftElement.setAttribute("color", "red");
-		else if (timeLeft <= TO_MILLIS.HOURS * 12) timeLeftElement.setAttribute("color", "darkorange");
-
-		if (timeLeft > 0) {
-			timeLeftElement.innerText = formatTime({ milliseconds: timeLeft }, { type: "wordTimer", extraShort: true, showDays: true });
-
-			// noinspection JSValidateTypes
-			timeLeftElement.dataset.seconds = (timeLeft / 1000).dropDecimals();
-			timeLeftElement.dataset.timeSettings = JSON.stringify({ type: "wordTimer", extraShort: true, showDays: true });
-			timeLeftElement.classList.add("automatic");
+		if (factiondata.userCrime === -1) {
+			timeLeftElement.innerText = "No active OC.";
 		} else {
-			timeLeftElement.innerText = "Ready";
+			if (timeLeft <= TO_MILLIS.HOURS * 8) timeLeftElement.setAttribute("color", "red");
+			else if (timeLeft <= TO_MILLIS.HOURS * 12) timeLeftElement.setAttribute("color", "darkorange");
+
+			if (timeLeft > 0) {
+				timeLeftElement.innerText = formatTime({ milliseconds: timeLeft }, { type: "wordTimer", extraShort: true, showDays: true });
+
+				// noinspection JSValidateTypes
+				timeLeftElement.dataset.seconds = (timeLeft / 1000).dropDecimals();
+				timeLeftElement.dataset.timeSettings = JSON.stringify({ type: "wordTimer", extraShort: true, showDays: true });
+				timeLeftElement.classList.add("automatic");
+			} else {
+				timeLeftElement.innerText = "Ready";
+			}
 		}
 
 		document.find(".tt-sidebar-information").appendChild(
