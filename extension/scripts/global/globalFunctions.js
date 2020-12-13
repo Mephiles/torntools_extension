@@ -933,6 +933,7 @@ function createContainer(title, attributes) {
 		id: title.camelCase(true),
 		parentElement: false,
 		nextElement: false,
+		previousElement: false,
 		showHeader: true,
 		collapsible: true,
 		...attributes,
@@ -943,9 +944,11 @@ function createContainer(title, attributes) {
 	let parentElement;
 	if (attributes.parentElement) parentElement = attributes.parentElement;
 	else if (attributes.nextElement) parentElement = attributes.nextElement.parentElement;
+	else if (attributes.previousElement) parentElement = attributes.previousElement.parentElement;
 	else throw new Error("Not yet supported!");
 
 	if (attributes.nextElement) parentElement.insertBefore(container, attributes.nextElement);
+	if (attributes.previousElement) parentElement.insertBefore(container, attributes.previousElement.nextSibling);
 	else parentElement.appendChild(container);
 
 	return { container, content: container.find(".content") };

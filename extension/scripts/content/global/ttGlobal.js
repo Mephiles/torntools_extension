@@ -406,7 +406,7 @@ async function showNotes() {
 	if (settings.pages.sidebar.notes && !(await checkMobile())) {
 		const { content } = createContainer("Notes", {
 			id: "sidebarNotes",
-			nextElement: findParent(document.find("h2=Areas"), { class: "sidebar-block___1Cqc2" }),
+			previousElement: findParent(document.find("h2=Information"), { class: "sidebar-block___1Cqc2" }),
 		});
 
 		// noinspection JSUnusedGlobalSymbols
