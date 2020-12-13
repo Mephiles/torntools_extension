@@ -18,7 +18,13 @@ checkMobile().then((mobile) => {
 	else document.body.classList.remove("tt-mobile");
 });
 
-function loadConfirmationPopup(options) {
+function loadConfirmationPopup(options = {}) {
+	options = {
+		title: "Title",
+		message: "A message here.",
+		...options,
+	};
+
 	return new Promise((resolve, reject) => {
 		document.find("#tt-black-overlay").classList.remove("hidden");
 		document.find("#tt-confirmation-popup").classList.remove("hidden");
