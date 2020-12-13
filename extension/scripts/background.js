@@ -172,6 +172,11 @@ function timedUpdates() {
 				.then(() => console.log("Updated stocks."))
 				.catch((error) => console.error("Error while updating stocks.", error));
 		}
+
+		if (!factiondata || Date.now() - factiondata.date >= TO_MILLIS.MINUTES * 15)
+			updateFactiondata()
+				.then(() => console.log("Updated factiondata."))
+				.catch((error) => console.error("Error while updating factiondata.", error));
 	}
 
 	// TODO - Update npc times.
@@ -853,6 +858,31 @@ async function updateNetworth() {
 
 	await ttStorage.change({ userdata: { networth } });
 	console.log("Updated networth data.");
+}
+
+async function updateFactiondata() {
+	if (!userdata || !userdata.faction.faction_id) {
+		factiondata = {};
+	} else {
+		factiondata = await fetchApi("torn", { section: "faction", selections: ["crimes"], silent: true, succeedOnError: true });
+		delete factiondata.error;
+	}
+
+	factiondata.date = Date.now();
+
+	if (factiondata.crimes) {
+		factiondata.userCrime = -1;
+
+		for (let id of Object.keys(factiondata.crimes).reverse()) {
+			const crime = factiondata.crimes[id];
+
+			if (crime.initiated || !crime.participants.map((value) => parseInt(Object.keys(value)[0])).includes(userdata.player_id)) continue;
+
+			factiondata.userCrime = crime.time_ready * 1000;
+		}
+	}
+
+	await ttStorage.set({ factiondata });
 }
 
 async function notifyUser(title, message, url) {

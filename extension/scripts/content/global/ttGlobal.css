@@ -2,6 +2,14 @@
 	display: none;
 }
 
+/* Sidebar Sections */
+
+.tt-sidebar-information .title {
+	font-weight: bold;
+	text-decoration: none;
+	color: inherit;
+}
+
 /* Search Chat */
 
 .chat-box-input_1SBQR.tt-modified {

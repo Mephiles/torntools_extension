@@ -23,8 +23,19 @@ let initiatedIconMoving = false;
 			})
 			.catch((reason) => console.error("TT failed during loading sidebar.", reason));
 	});
+	storageListeners.factiondata.push(async (oldFactiondata) => {
+		if (
+			(!oldFactiondata && factiondata) ||
+			(oldFactiondata && !factiondata) ||
+			(!oldFactiondata.userCrime && factiondata.userCrime) ||
+			(oldFactiondata.userCrime && !factiondata.userCrime)
+		) {
+			await showOCTime();
+		}
+	});
 
 	loadGlobal();
+	loadGlobalOnce();
 
 	console.log("TT: Global - Script loaded.");
 })();
@@ -116,7 +127,10 @@ function loadGlobal() {
 				initiatedIconMoving = true;
 			}
 
+			await addInformationSection().catch((error) => console.error("Couldn't show the information section.", error));
+
 			await showNotes().catch((error) => console.error("Couldn't show the sidebar notes.", error));
+			await showOCTime().catch((error) => console.error("Couldn't show the oc time.", error));
 		})
 		.catch((reason) => console.error("TT failed during loading sidebar.", reason));
 
@@ -133,6 +147,24 @@ function loadGlobal() {
 			showComputerLink().catch((reason) => console.error("TT failed while trying to show the computer link.", reason));
 		})
 		.catch((reason) => console.error("TT failed during loading content.", reason));
+}
+
+function loadGlobalOnce() {
+	setInterval(() => {
+		for (let countdown of document.findAll(".countdown.automatic[data-seconds]")) {
+			const seconds = parseInt(countdown.dataset.seconds) - 1;
+
+			if (seconds <= 0) {
+				countdown.removeAttribute("seconds-down");
+				countdown.innerText = "Ready";
+				continue;
+			}
+
+			countdown.innerText = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
+			// noinspection JSValidateTypes
+			countdown.dataset.seconds = seconds;
+		}
+	}, 1000);
 }
 
 function requireChatsLoaded() {
@@ -431,5 +463,55 @@ async function showNotes() {
 		);
 	} else {
 		removeContainer("Notes", { id: "sidebarNotes" });
+	}
+}
+
+async function addInformationSection() {
+	if (await checkMobile()) return;
+
+	document
+		.find("#sidebarroot .user-information___u408H .content___3HChF")
+		.appendChild(document.newElement({ type: "hr", class: "delimiter___neME6 tt-sidebar-information-divider hidden" }));
+	document
+		.find("#sidebarroot .user-information___u408H .content___3HChF")
+		.appendChild(document.newElement({ type: "div", class: "tt-sidebar-information hidden" }));
+}
+
+function showInformationSection() {
+	document.find(".tt-sidebar-information-divider").classList.remove("hidden");
+	document.find(".tt-sidebar-information").classList.remove("hidden");
+}
+
+async function showOCTime() {
+	const timer = document.find("#ocTimer");
+	if (timer) timer.remove();
+
+	if (settings.pages.sidebar.ocTimer && !(await checkMobile()) && factiondata && factiondata.userCrime) {
+		showInformationSection();
+
+		const timeLeft = factiondata.userCrime - Date.now();
+
+		const timeLeftElement = document.newElement({ type: "span", class: "countdown" });
+		if (timeLeft <= TO_MILLIS.HOURS * 8) timeLeftElement.setAttribute("color", "red");
+		else if (timeLeft <= TO_MILLIS.HOURS * 12) timeLeftElement.setAttribute("color", "darkorange");
+
+		if (timeLeft > 0) {
+			timeLeftElement.innerText = formatTime({ milliseconds: timeLeft }, { type: "wordTimer", extraShort: true, showDays: true });
+
+			// noinspection JSValidateTypes
+			timeLeftElement.dataset.seconds = (timeLeft / 1000).dropDecimals();
+			timeLeftElement.dataset.timeSettings = JSON.stringify({ type: "wordTimer", extraShort: true, showDays: true });
+			timeLeftElement.classList.add("automatic");
+		} else {
+			timeLeftElement.innerText = "Ready";
+		}
+
+		document.find(".tt-sidebar-information").appendChild(
+			document.newElement({
+				type: "section",
+				id: "ocTimer",
+				children: [document.newElement({ type: "a", class: "title", text: "OC: ", href: LINKS.organizedCrimes }), timeLeftElement],
+			})
+		);
 	}
 }

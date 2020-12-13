@@ -32,6 +32,14 @@
 	color: white !important;
 }
 
+*[color="red"] {
+	color: red !important;
+}
+
+*[color="darkorange"] {
+	color: darkorange !important;
+}
+
 *[background-color="green"] {
 	background-color: #149a32 !important;
 }

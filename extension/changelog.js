@@ -30,6 +30,8 @@ export default [
 				{ message: "Add the ability to remove stakeouts from the popup.", contributor: "DeKleineKobini" },
 				{ message: "Remove mini profile last action delay.", contributor: "DeKleineKobini" },
 				{ message: "Show computer icon on every page while abroad or flying.", contributor: "DeKleineKobini" },
+				{ message: "Hide OC timer when there is an error.", contributor: "DeKleineKobini" },
+				{ message: "Make OC timer red when under 8 hours left and orange when under 12 hours left.", contributor: "DeKleineKobini" },
 			],
 		},
 	},

@@ -203,6 +203,7 @@ const DEFAULT_STORAGE = {
 				notes: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				highlightEnergy: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				highlightNerve: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				ocTimer: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			popup: {
 				dashboard: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -235,6 +236,7 @@ const DEFAULT_STORAGE = {
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),
+	factiondata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	stakeouts: new DefaultSetting({ type: "object", defaultValue: {} }),
 	attackHistory: {
 		fetchData: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -316,6 +318,7 @@ const LINKS = {
 	education: "https://www.torn.com/education.php#/step=main",
 	chain: "https://www.torn.com/factions.php?step=your#/war/chain",
 	hospital: "https://www.torn.com/hospitalview.php",
+	organizedCrimes: "https://www.torn.com/factions.php?step=your#/tab=crimes",
 };
 
 // noinspection SpellCheckingInspection

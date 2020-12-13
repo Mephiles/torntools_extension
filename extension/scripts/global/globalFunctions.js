@@ -251,18 +251,21 @@ function checkMobile() {
 	});
 }
 
-async function fetchApi(
-	location,
+async function fetchApi(location, options) {
 	options = {
-		// section (torn + yata)
-		// selections (torn)
-		// action (tornstats)
-		// method
-		// body [method === POST]
-		// fakeResponse
-		// silent
-	}
-) {
+		fakeResponse: false,
+		section: "",
+		id: "",
+		selections: [],
+		key: "",
+		action: "",
+		method: "GET",
+		body: false,
+		silent: false,
+		succeedOnError: false,
+		...options,
+	};
+
 	return new Promise((resolve, reject) => {
 		const PLATFORMS = {
 			torn: "https://api.torn.com/",
@@ -327,7 +330,7 @@ async function fetchApi(
 				}
 
 				if (result.error) {
-					await handleError(result, options.silent);
+					await handleError(result);
 				} else {
 					if (location === "torn" && !options.silent) {
 						await getBadgeText()
@@ -346,14 +349,19 @@ async function fetchApi(
 
 		return fullUrl;
 
-		async function handleError(result, silent) {
+		async function handleError(result) {
+			if (options.succeedOnError) {
+				resolve(result);
+				return;
+			}
+
 			if (location === "torn") {
 				let error, online;
 
 				error = result.error.error;
 				online = result.error.code !== 9;
 
-				if (!silent) {
+				if (!options.silent) {
 					await ttStorage.change({ api: { torn: { online, error } } });
 					await setBadge("error");
 				}
@@ -472,6 +480,7 @@ function formatTime(time = {}, attributes = {}) {
 		hideHours: false,
 		hideSeconds: false,
 		short: false,
+		extraShort: false,
 		agoFilter: false,
 		...attributes,
 	};
@@ -515,15 +524,28 @@ function formatTime(time = {}, attributes = {}) {
 
 			parts = [];
 			if (attributes.showDays && (date.getTime() / TO_MILLIS.DAYS).dropDecimals() > 0)
-				parts.push(`${Math.floor(date.getTime() / TO_MILLIS.DAYS)} day${applyPlural(Math.floor(date.getTime() / TO_MILLIS.DAYS))}`);
-			if (!attributes.hideHours && date.getUTCHours())
-				parts.push(`${date.getUTCHours()} ${attributes.short ? "hr" : "hour"}${applyPlural(date.getUTCHours())}`);
-			if (date.getUTCMinutes()) parts.push(`${date.getUTCMinutes()} ${attributes.short ? "min" : "minute"}${applyPlural(date.getUTCMinutes())}`);
-			if (!attributes.hideSeconds && date)
-				parts.push(`${date.getUTCSeconds()} ${attributes.short ? "sec" : "second"}${applyPlural(date.getUTCSeconds())}`);
+				parts.push(formatUnit(Math.floor(date.getTime() / TO_MILLIS.DAYS), { normal: "day", short: "day", extraShort: "d" }));
+			if (!attributes.hideHours && date.getUTCHours()) parts.push(formatUnit(date.getUTCHours(), { normal: "hour", short: "hr", extraShort: "h" }));
+			if (date.getUTCMinutes()) parts.push(formatUnit(date.getUTCMinutes(), { normal: "minute", short: "min", extraShort: "m" }));
+			if (!attributes.hideSeconds && date.getUTCSeconds())
+				parts.push(formatUnit(date.getUTCSeconds(), { normal: "second", short: "sec", extraShort: "s" }));
 
-			if (parts.length > 1) {
+			if (parts.length > 1 && !attributes.extraShort) {
 				parts.insertAt(parts.length - 1, "and");
+			}
+
+			function formatUnit(amount, unit) {
+				let formatted = `${amount}`;
+
+				if (attributes.extraShort) {
+					formatted += unit.extraShort;
+				} else if (attributes.short) {
+					formatted += ` ${unit.short}${applyPlural(amount)}`;
+				} else {
+					formatted += ` ${unit.normal}${applyPlural(amount)}`;
+				}
+
+				return formatted;
 			}
 
 			return parts.join(" ");
