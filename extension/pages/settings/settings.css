@@ -39,7 +39,8 @@ ul.list-table li:not(:last-of-type) {
 	margin-bottom: 5px;
 }
 
-ul.list-table input {
+ul.list-table input,
+ul.list-table select {
 	border-radius: 4px;
 	border: 1px solid #a7a7a7;
 	padding-left: 4px;

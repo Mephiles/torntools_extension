@@ -140,13 +140,25 @@ body.dark #preferences .sections {
 }
 
 #preferences #chatHighlight .remove-icon-wrap,
-#preferences #chatTitleHighlight .remove-icon-wrap {
+#preferences #chatTitleHighlight .remove-icon-wrap,
+#preferences #chatHighlight .add-icon-wrap,
+#preferences #chatTitleHighlight .add-icon-wrap {
 	width: 25px;
 }
 
 #preferences #chatHighlight .remove-icon,
 #preferences #chatTitleHighlight .remove-icon {
 	color: red;
+}
+
+#preferences #chatHighlight .add-icon,
+#preferences #chatTitleHighlight .add-icon {
+	color: green;
+}
+
+#preferences #chatTitleHighlight select.color {
+	height: 21px;
+	margin-top: 2px;
 }
 
 /* Notifications */
