@@ -361,7 +361,7 @@ async function setupDashboard() {
 		Date.now();
 		const updatedAt = parseInt(dashboard.find("#last-update").dataset.updated_at);
 
-		dashboard.find("#last-update").innerText = formatTime({ milliseconds: updatedAt }, { type: "ago" });
+		dashboard.find("#last-update").innerText = formatTime({ milliseconds: updatedAt }, { type: "ago", agoFilter: TO_MILLIS.SECONDS });
 	}
 
 	function updateStakeouts() {

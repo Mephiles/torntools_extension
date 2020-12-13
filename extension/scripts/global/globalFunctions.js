@@ -472,6 +472,7 @@ function formatTime(time = {}, attributes = {}) {
 		hideHours: false,
 		hideSeconds: false,
 		short: false,
+		agoFilter: false,
 		...attributes,
 	};
 
@@ -543,7 +544,10 @@ function formatTime(time = {}, attributes = {}) {
 				{ text: "just now", millis: 0 },
 			];
 
-			for (let unit of UNITS) {
+			let _units = UNITS;
+			if (attributes.agoFilter) _units = UNITS.filter((value) => value.millis <= attributes.agoFilter);
+
+			for (let unit of _units) {
 				if (timeAgo < unit.millis) continue;
 
 				if (unit.unit) {
