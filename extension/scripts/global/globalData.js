@@ -231,6 +231,7 @@ const DEFAULT_STORAGE = {
 		preferences: {
 			showAdvanced: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
+		containers: new DefaultSetting({ type: "object", defaultValue: {} }),
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),

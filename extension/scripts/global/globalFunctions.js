@@ -966,7 +966,7 @@ function createContainer(title, attributes) {
 		containerClasses.push(theme.containerClass);
 		const container = document.newElement({ type: "div", class: containerClasses.join(" "), id: attributes.id });
 
-		const collapsed = attributes.collapsible && false; // TODO - Actual settable.
+		const collapsed = attributes.collapsible && (attributes.id in filters.containers ? filters.containers[attributes.id] : false);
 
 		let html = "";
 		if (attributes.showHeader)
@@ -980,8 +980,10 @@ function createContainer(title, attributes) {
 		container.innerHTML = html;
 
 		if (attributes.collapsible) {
-			container.find(".title").addEventListener("click", () => {
+			container.find(".title").addEventListener("click", async () => {
 				container.find(".title").classList.toggle("collapsed");
+
+				await ttStorage.change({ filters: { containers: { [attributes.id]: container.find(".title").classList.contains("collapsed") } } });
 			});
 		}
 
