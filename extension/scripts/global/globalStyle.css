@@ -49,6 +49,8 @@
 	font-size: 13px;
 	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.65);
 	letter-spacing: 1px;
+	display: flex;
+	white-space: nowrap;
 }
 
 .tt-container.theme-default .title {
@@ -59,4 +61,44 @@
 .tt-container.theme-alternative .title {
 	color: rgb(172, 234, 0);
 	background: repeating-linear-gradient(90deg, #242424, #242424 2px, #2e2e2e 0, #2e2e2e 4px);
+}
+
+.tt-container.collapsible .title {
+	cursor: pointer;
+}
+
+.tt-container .title .text {
+	width: -webkit-fill-available;
+	width: -moz-available;
+}
+
+.tt-container .title .icon {
+	line-height: inherit;
+	min-width: 30px;
+	font-size: 16px;
+	text-align: center;
+	position: static !important;
+	margin: auto;
+}
+
+.tt-container .title.collapsed .icon {
+	transform: rotate(-90deg);
+}
+
+.tt-container .title.collapsed + .content {
+	display: none;
+}
+
+.tt-container .title .options {
+	width: 100%;
+	display: flex;
+	flex-direction: row-reverse;
+	color: #acea00;
+}
+
+#sidebarroot .tt-container .title {
+	height: 22px;
+	line-height: 22px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
 }

@@ -200,6 +200,7 @@ const DEFAULT_STORAGE = {
 				titleHighlights: new DefaultSetting({ type: "array", defaultValue: [] }),
 			},
 			sidebar: {
+				notes: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				highlightEnergy: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				highlightNerve: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
@@ -238,6 +239,12 @@ const DEFAULT_STORAGE = {
 		fetchData: new DefaultSetting({ type: "boolean", defaultValue: true }),
 		lastAttack: new DefaultSetting({ type: "number", defaultValue: 0 }),
 		history: new DefaultSetting({ type: "object", defaultValue: {} }),
+	},
+	notes: {
+		sidebar: {
+			text: new DefaultSetting({ type: "string", defaultValue: "" }),
+			height: new DefaultSetting({ type: "string", defaultValue: "22px" }),
+		},
 	},
 };
 

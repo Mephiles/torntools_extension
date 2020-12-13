@@ -1,6 +1,6 @@
 "use strict";
 
-let settings, filters, version, api, userdata, torndata, stakeouts, attackHistory;
+let settings, filters, version, api, userdata, torndata, stakeouts, attackHistory, notes;
 let databaseLoaded = false;
 let storageListeners = {
 	settings: [],
@@ -8,6 +8,7 @@ let storageListeners = {
 	version: [],
 	userdata: [],
 	stakeouts: [],
+	notes: [],
 };
 
 async function loadDatabase() {
@@ -23,6 +24,7 @@ async function loadDatabase() {
 	torndata = database.torndata;
 	stakeouts = database.stakeouts;
 	attackHistory = database.attackHistory;
+	notes = database.notes;
 
 	databaseLoaded = true;
 	console.log("TT - Database loaded.", database);
@@ -58,6 +60,10 @@ chrome.storage.onChanged.addListener((changes, area) => {
 			storageListeners.stakeouts.forEach((listener) => listener(changes.stakeouts.oldValue));
 		} else if (changes.attackHistory) {
 			attackHistory = changes.attackHistory.newValue;
+		} else if (changes.notes) {
+			notes = changes.notes.newValue;
+
+			storageListeners.notes.forEach((listener) => listener(changes.notes.oldValue));
 		}
 	}
 });

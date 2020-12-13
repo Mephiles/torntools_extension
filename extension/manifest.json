@@ -36,11 +36,17 @@
 		"resources/images/*.png",
 		"pages/*",
 		"scripts/background.js",
-		"scripts/*.inject.js"
+		"scripts/*.inject.js",
+		"vendor/*"
 	],
 	"options_ui": {
 		"page": "pages/settings/settings.html",
 		"open_in_tab": true
+	},
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "{3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9}"
+		}
 	},
 	"content_scripts": [
 		{
@@ -52,6 +58,7 @@
 				"scripts/content/global/ttGlobal.entry.css"
 			],
 			"js": [
+				"vendor/fontawesome/fontawesome.js",
 				"scripts/global/globalClasses.js",
 				"scripts/global/globalData.js",
 				"scripts/global/globalDatabase.js",

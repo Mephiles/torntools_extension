@@ -932,7 +932,9 @@ function createContainer(title, attributes) {
 	attributes = {
 		id: title.camelCase(true),
 		parentElement: false,
+		nextElement: false,
 		showHeader: true,
+		collapsible: true,
 		...attributes,
 	};
 
@@ -940,9 +942,11 @@ function createContainer(title, attributes) {
 
 	let parentElement;
 	if (attributes.parentElement) parentElement = attributes.parentElement;
+	else if (attributes.nextElement) parentElement = attributes.nextElement.parentElement;
 	else throw new Error("Not yet supported!");
 
-	parentElement.appendChild(container);
+	if (attributes.nextElement) parentElement.insertBefore(container, attributes.nextElement);
+	else parentElement.appendChild(container);
 
 	return { container, content: container.find(".content") };
 
@@ -955,13 +959,31 @@ function createContainer(title, attributes) {
 			return container;
 		}
 
-		const theme = THEMES[settings.themes.containers];
-		const container = document.newElement({ type: "div", class: `tt-container ${theme.containerClass}`, id: attributes.id });
+		let containerClasses = ["tt-container"];
+		if (attributes.collapsible) containerClasses.push("collapsible");
 
-		container.innerHTML = `
-			${attributes.showHeader ? `<div class="title"><div>${title}</div></div>` : ""}
-			<div class="content"></div>
-		`;
+		const theme = THEMES[settings.themes.containers];
+		containerClasses.push(theme.containerClass);
+		const container = document.newElement({ type: "div", class: containerClasses.join(" "), id: attributes.id });
+
+		const collapsed = attributes.collapsible && false; // TODO - Actual settable.
+
+		let html = "";
+		if (attributes.showHeader)
+			html += `
+				<div class="title ${collapsed ? "collapsed" : ""}">
+					<div class="text">${title}</div>
+					<div class="options"></div>
+					${attributes.collapsible ? '<i class="icon fas fa-caret-down"/>' : ""}
+				</div>`;
+		html += '<div class="content"></div>';
+		container.innerHTML = html;
+
+		if (attributes.collapsible) {
+			container.find(".title").addEventListener("click", () => {
+				container.find(".title").classList.toggle("collapsed");
+			});
+		}
 
 		return container;
 	}

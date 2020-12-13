@@ -48,3 +48,16 @@
 	min-height: 24px;
 	line-height: 24px;
 }
+
+/* Sidebar Notes */
+
+#sidebarNotes .notes {
+	width: 100%;
+	min-height: 22px;
+	background-color: #f2f2f2;
+	box-sizing: border-box;
+	border: unset;
+	padding: 3px;
+	resize: vertical;
+	border-radius: 0 5px 5px 0;
+}

@@ -115,6 +115,8 @@ function loadGlobal() {
 				moveIcons(new MutationObserver((mutations, observer) => moveIcons(observer)));
 				initiatedIconMoving = true;
 			}
+
+			await showNotes().catch((error) => console.error("Couldn't show the sidebar notes.", error));
 		})
 		.catch((reason) => console.error("TT failed during loading sidebar.", reason));
 
@@ -398,4 +400,36 @@ function moveIcons(observer) {
 		icon.parentElement.appendChild(icon);
 	}
 	observer.observe(document.find("#sidebarroot .status-icons___1SnOI"), { childList: true, attributes: true });
+}
+
+async function showNotes() {
+	if (settings.pages.sidebar.notes && !(await checkMobile())) {
+		const { content } = createContainer("Notes", {
+			id: "sidebarNotes",
+			nextElement: findParent(document.find("h2=Areas"), { class: "sidebar-block___1Cqc2" }),
+		});
+
+		// noinspection JSUnusedGlobalSymbols
+		content.appendChild(
+			document.newElement({
+				type: "textarea",
+				class: "notes",
+				value: notes.sidebar.text,
+				style: { height: notes.sidebar.height },
+				events: {
+					async mouseup(event) {
+						if (event.target.style.height === notes.sidebar.height) return;
+
+						console.log("Resized sidebar notes.", event.target.style.height);
+						await ttStorage.change({ notes: { sidebar: { height: event.target.style.height } } });
+					},
+					async change(event) {
+						await ttStorage.change({ notes: { sidebar: { text: event.target.value } } });
+					},
+				},
+			})
+		);
+	} else {
+		removeContainer("Notes", { id: "sidebarNotes" });
+	}
 }
