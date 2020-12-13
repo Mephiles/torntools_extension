@@ -321,6 +321,18 @@ const LINKS = {
 	organizedCrimes: "https://www.torn.com/factions.php?step=your#/tab=crimes",
 };
 
+const CUSTOM_LINKS_PRESET = {
+	"Bazaar : Management": { link: "https://www.torn.com/bazaar.php#/manage" },
+	"Faction : Armory": { link: "https://www.torn.com/factions.php?step=your#/tab=armoury" },
+	"Faction : Organized Crimes": { link: "https://www.torn.com/factions.php?step=your#/tab=crimes" },
+	"Item Market": { link: "https://www.torn.com/imarket.php" },
+	Museum: { link: "https://www.torn.com/museum.php" },
+	Pharmacy: { link: "https://www.torn.com/shops.php?step=pharmacy" },
+	"Points Market": { link: "https://www.torn.com/pmarket.php" },
+	Raceway: { link: "https://www.torn.com/loader.php?sid=racing" },
+	"Travel Agency": { link: "https://www.torn.com/travelagency.php" },
+};
+
 // noinspection SpellCheckingInspection
 const API_USAGE = {
 	user: {

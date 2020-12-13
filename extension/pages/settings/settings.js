@@ -282,6 +282,25 @@ async function setupPreferences() {
 		reader.readAsDataURL(event.target.files[0]);
 	});
 
+	_preferences.find("#customLinks .input select.preset").innerHTML = getCustomLinkOptions();
+	_preferences.find("#customLinks .input select.preset").value = "custom";
+	_preferences.find("#customLinks .input select.preset").addEventListener("change", (event) => {
+		let hrefInput = preferences.find("#customLinks .input .href");
+		let nameInput = preferences.find("#customLinks .input .name");
+
+		if (event.target.value === "custom") {
+			hrefInput.style.display = "block";
+			nameInput.style.display = "block";
+		} else {
+			hrefInput.style.display = "none";
+			nameInput.style.display = "none";
+
+			hrefInput.value = LINKS[event.target.value.replaceAll("_", " ")].link;
+			nameInput.value = event.target.value.replaceAll("_", " ");
+		}
+	});
+	_preferences.find("#addCustomLink").addEventListener("click", (event) => addLinkToList({ event }));
+
 	const chatSection = _preferences.find(".sections section[name='chat']");
 	for (let placeholder of HIGHLIGHT_PLACEHOLDERS) {
 		chatSection.insertBefore(
@@ -529,6 +548,14 @@ async function setupPreferences() {
 		}
 
 		return options.join("");
+	}
+
+	function getCustomLinkOptions() {
+		let options = "";
+		for (let name in CUSTOM_LINKS_PRESET) options += `<option value="${name.replaceAll(" ", "_")}">${name}</option>`;
+		options += "<option value='custom'>Custom..</option>";
+
+		return options;
 	}
 
 	async function saveSettings() {
