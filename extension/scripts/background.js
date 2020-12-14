@@ -22,6 +22,7 @@ let notifications = {
 	chain: {},
 	chainCount: {},
 	stakeouts: {},
+	random: {},
 };
 
 (async () => {
@@ -702,12 +703,16 @@ async function updateStakeouts() {
 
 	let success = 0;
 	let failed = 0;
-	for (const id in stakeouts) {
+	for (let id in stakeouts) {
 		if (isNaN(id)) continue;
+		id = parseInt(id);
+
+		let selections = ["profile"];
+		if (id === 4) selections.push("personalstats");
 
 		let data;
 		try {
-			data = await fetchApi("torn", { section: "user", selections: ["profile"], id, silent: true });
+			data = await fetchApi("torn", { section: "user", selections, id, silent: true });
 			success++;
 		} catch (e) {
 			// TODO Improve error handling.
@@ -787,7 +792,7 @@ async function updateStakeouts() {
 			}
 		}
 
-		stakeouts[id].info = {
+		let info = {
 			name: data.name,
 			last_action: {
 				status: data.last_action.status,
@@ -798,7 +803,25 @@ async function updateStakeouts() {
 				current: data.life.current,
 				maximum: data.life.maximum,
 			},
+			extra: {},
 		};
+
+		if (id === 4) {
+			const key = `${id}_dump_${data.personalstats.itemsdumped}`;
+			if (stakeouts[id].extra && data.personalstats.itemsdumped > stakeouts[id].extra.itemsdumped && !notifications.random[key]) {
+				notifications.random[key] = {
+					title: `TornTools - Stakeouts`,
+					message: `${data.name} has dumped ${data.personalstats.itemsdumped - stakeouts[id].extra.itemsdumped} items.`,
+					url: LINKS.dump,
+					date: now,
+				};
+				console.log("DKK - DUKE DUMP");
+			}
+
+			info.extra.itemsdumped = data.personalstats.itemsdumped;
+		}
+
+		stakeouts[id].info = info;
 	}
 	stakeouts.date = now;
 

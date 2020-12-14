@@ -319,6 +319,7 @@ const LINKS = {
 	chain: "https://www.torn.com/factions.php?step=your#/war/chain",
 	hospital: "https://www.torn.com/hospitalview.php",
 	organizedCrimes: "https://www.torn.com/factions.php?step=your#/tab=crimes",
+	dump: "https://www.torn.com/dump.php",
 };
 
 const CUSTOM_LINKS_PRESET = {
