@@ -741,7 +741,7 @@ async function setupStocksOverview() {
 		}
 
 		for (let item of allStocks.findAll(".stock-wrap")) {
-			if (item.getAttribute("name").includes(keyword)) {
+			if (item.getAttribute("name").includes(keyword) || keyword === "*") {
 				item.classList.remove("hidden");
 			} else {
 				item.classList.add("hidden");
