@@ -1,6 +1,6 @@
 export default {
-	"v5.3.5 - December, xxxth. 2020": {
-		Fixes: [],
+	"v5.3.5 - December, 16th. 2020": {
+		Fixes: ["Fix armory shortening. - Mephiles"],
 		Changes: ["Remove proxy support. - DKK"],
 	},
 	"v5.3.4 - November, 29th. 2020": {
