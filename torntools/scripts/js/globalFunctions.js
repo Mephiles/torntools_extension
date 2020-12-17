@@ -1867,11 +1867,13 @@ const navbar = {
 		return newCellBlock;
 
 		function createNewCellBlock(text, attr) {
-			let div = doc.new({ type: "div", class: "area-desktop___2YU-q" });
+			let div = doc.new({ type: "div", class: "area-desktop___2YU-q area-desktop___2N3Jp" });
 
 			div.innerHTML = `
-                <div class="area-row___34mEZ tt-cell">
-                    <a class="desktopLink___2dcWC ${attr.class || ""}" ${attr.href ? `href='${attr.href}'` : ""} target="${attr.link_target || ""}">
+                <div class="area-row___34mEZ area-row___1VM_l tt-cell">
+                    <a class="desktopLink___2dcWC desktopLink___1p2Dr ${attr.class || ""}" ${attr.href ? `href='${attr.href}'` : ""} target="${
+				attr.link_target || ""
+			}">
                         <span>${text}</span>
                     </a>
                 </div>
@@ -2530,7 +2532,12 @@ function hasParent(element, attributes = {}) {
 function findParent(element, attributes = {}) {
 	if (!element || !element.parentElement) return undefined;
 
-	if (attributes.class && element.parentElement.classList.contains(attributes.class)) return element.parentElement;
+	if (
+		attributes.class &&
+		((Array.isArray(attributes.class) && attributes.class.some((value) => element.parentElement.classList.contains(value))) ||
+			element.parentElement.classList.contains(attributes.class))
+	)
+		return element.parentElement;
 	if (attributes.id && element.parentElement.id === attributes.id) return element.parentElement;
 	if (attributes.has_attribute && element.parentElement.getAttribute(attributes.has_attribute) !== null) return element.parentElement;
 

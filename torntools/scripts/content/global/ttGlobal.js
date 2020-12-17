@@ -76,14 +76,14 @@ requireDatabase().then(() => {
 		function hideIcons(observer) {
 			observer.disconnect();
 
-			for (let icon of doc.findAll("#sidebarroot .status-icons___1SnOI>li")) {
+			for (let icon of doc.findAll("#sidebarroot .status-icons___1SnOI > li, #sidebar .status-icons___2xEXb > li")) {
 				let name = icon.getAttribute("class").split("_")[0];
 				if (hide_icons.includes(name)) {
 					icon.parentElement.appendChild(icon);
 				}
 			}
 
-			observer.observe(doc.find("#sidebarroot .status-icons___1SnOI"), { childList: true });
+			observer.observe(doc.find("#sidebarroot .status-icons___1SnOI, #sidebar .status-icons___2xEXb"), { childList: true });
 		}
 
 		hideIcons(new MutationObserver((_, observer) => hideIcons(observer)));
@@ -106,12 +106,12 @@ requireDatabase().then(() => {
 
 		// Links for Energy and Nerve
 		if (!mobile) {
-			doc.find("#barEnergy .bar-name___3TJ0p").classList.add("tt-text-link");
-			doc.find("#barNerve .bar-name___3TJ0p").classList.add("tt-text-link");
-			doc.find("#barEnergy .bar-name___3TJ0p").onclick = () => {
+			doc.find("#barEnergy .bar-name___3TJ0p, #barEnergy .bar-name___3WKHM").classList.add("tt-text-link");
+			doc.find("#barNerve .bar-name___3TJ0p, #barEnergy .bar-name___3WKHM").classList.add("tt-text-link");
+			doc.find("#barEnergy .bar-name___3TJ0p, #barEnergy .bar-name___3WKHM").onclick = () => {
 				window.location.href = "https://www.torn.com/gym.php";
 			};
-			doc.find("#barNerve .bar-name___3TJ0p").onclick = () => {
+			doc.find("#barNerve .bar-name___3TJ0p, #barEnergy .bar-name___3WKHM").onclick = () => {
 				window.location.href = "https://www.torn.com/crimes.php";
 			};
 		}
@@ -260,7 +260,10 @@ function addCustomLinks() {
 			});
 		}
 
-		doc.find("#sidebar").insertBefore(custom_links_section, findParent(doc.find("h2=Areas"), { class: "sidebar-block___1Cqc2" }));
+		doc.find("#sidebar").insertBefore(
+			custom_links_section,
+			findParent(doc.find("h2=Areas"), { class: ["sidebar-block___1Cqc2", "sidebar-block___181mP"] })
+		);
 	}
 }
 
@@ -523,8 +526,8 @@ function addInformationSection() {
 	let hr = doc.new({ type: "hr", class: "delimiter___neME6 tt-information-section-hr" });
 	let div = doc.new({ type: "div", class: "tt-information-section" });
 
-	doc.find("#sidebarroot .user-information___u408H .content___3HChF").appendChild(hr);
-	doc.find("#sidebarroot .user-information___u408H .content___3HChF").appendChild(div);
+	doc.find("#sidebarroot .user-information___u408H .content___3HChF, #sidebarroot .user-information___1By-5 .content___2bobA").appendChild(hr);
+	doc.find("#sidebarroot .user-information___u408H .content___3HChF, #sidebarroot .user-information___1By-5 .content___2bobA").appendChild(div);
 }
 
 function displayOCtime() {
