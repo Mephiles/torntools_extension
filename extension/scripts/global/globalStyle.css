@@ -48,6 +48,54 @@
 	background-color: #c82333 !important;
 }
 
+/* Sidebar Areas */
+
+.tt-sidebar-area {
+	margin-top: 2px;
+	overflow: hidden;
+}
+
+/*noinspection CssOverwrittenProperties*/
+.tt-sidebar-area > div {
+	position: relative;
+	cursor: pointer;
+	overflow: hidden;
+	vertical-align: top;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+	background-color: #f2f2f2;
+	background-color: var(--default-bg-panel-color);
+}
+
+/*noinspection CssOverwrittenProperties*/
+.tt-sidebar-area a {
+	overflow: hidden;
+	color: #333;
+	color: var(--default-content-font-color);
+	text-decoration: none;
+	height: 100%;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-pack: start;
+	-ms-flex-pack: start;
+	justify-content: flex-start;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: row;
+	flex-direction: row;
+}
+
+.tt-sidebar-area a span {
+	float: none;
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 10px;
+}
+
 /* Containers */
 
 .tt-container .title {
@@ -59,6 +107,7 @@
 	letter-spacing: 1px;
 	display: flex;
 	white-space: nowrap;
+	margin: initial;
 }
 
 .tt-container.theme-default .title {

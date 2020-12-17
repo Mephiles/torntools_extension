@@ -231,24 +231,41 @@ function requireContent() {
 	return requireElement(".box-title, .title-black[role=heading], .title-black > div[role=heading], .travel-agency-travelling");
 }
 
-function hasParent(element, attributes = {}) {
+function hasParent(element, options = {}) {
+	options = {
+		class: false,
+		id: false,
+		...options,
+	};
+
 	if (!element.parentElement) return false;
 
-	if (attributes.class && element.parentElement.classList.contains(attributes.class)) return true;
-	if (attributes.id && element.parentElement.id === attributes.id) return true;
+	if (options.class && element.parentElement.classList.contains(options.class)) return true;
+	if (options.id && element.parentElement.id === options.id) return true;
 
-	return hasParent(element.parentElement, attributes);
+	return hasParent(element.parentElement, options);
 }
 
-function findParent(element, attributes = {}) {
+function findParent(element, options = {}) {
+	options = {
+		tag: false,
+		class: false,
+		id: false,
+		useRegex: false,
+		...options,
+	};
+
 	if (!element || !element.parentElement) return undefined;
 
-	if (attributes.tag && element.parentElement.tagName === attributes.tag) return element.parentElement;
-	if (attributes.class && element.parentElement.classList.contains(attributes.class)) return element.parentElement;
-	if (attributes.id && element.parentElement.id === attributes.id) return element.parentElement;
-	if (attributes.has_attribute && element.parentElement.getAttribute(attributes.has_attribute) !== null) return element.parentElement;
+	if (options.tag && element.parentElement.tagName === options.tag) return element.parentElement;
+	if (
+		options.class &&
+		((!options.useRegex && element.parentElement.classList.contains(options.class)) ||
+			(options.useRegex && [...element.parentElement.classList].some((value) => value.match(options.class))))
+	)
+		return element.parentElement;
 
-	return findParent(element.parentElement, attributes);
+	return findParent(element.parentElement, options);
 }
 
 function checkMobile() {

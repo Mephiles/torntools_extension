@@ -120,12 +120,14 @@ function loadGlobal() {
 
 	requireSidebar()
 		.then(async () => {
-			await showUpdateNotice();
+			await showUpdateNotice().catch((error) => console.error("Couldn't show an update notice", error));
 
-			if (!initiatedIconMoving) {
-				moveIcons(new MutationObserver((mutations, observer) => moveIcons(observer)));
-				initiatedIconMoving = true;
-			}
+			new Promise(() => {
+				if (!initiatedIconMoving) {
+					moveIcons(new MutationObserver((mutations, observer) => moveIcons(observer)));
+					initiatedIconMoving = true;
+				}
+			}).catch((error) => console.error("Couldn't hide the icons.", error));
 
 			await addInformationSection().catch((error) => console.error("Couldn't show the information section.", error));
 
@@ -277,16 +279,14 @@ async function showUpdateNotice() {
 		parent.insertBefore(
 			document.newElement({
 				type: "div",
-				class: "area-desktop___2YU-q",
+				class: "tt-sidebar-area",
 				id: "ttUpdateNotice",
 				children: [
 					document.newElement({
 						type: "div",
-						class: "area-row___34mEZ",
 						children: [
 							document.newElement({
 								type: "a",
-								class: "desktopLink___2dcWC",
 								href: chrome.runtime.getURL("/pages/settings/settings.html"),
 								attributes: { target: "_blank" },
 								children: [document.newElement({ type: "span", text: `TornTools updated: ${currentVersion}` })],
@@ -309,13 +309,13 @@ function showMiniprofileInformation(information) {
 
 	const lastAction = formatTime({ seconds: information.user.lastAction.seconds }, { type: "wordTimer", showDays: true });
 
-	requireElement(".-profile-mini-_userProfileWrapper___39cKq", { parent: miniProfile }).then(() => {
+	requireElement("div[class^='-profile-mini-_userProfileWrapper']", { parent: miniProfile }).then(() => {
 		const data = document.newElement({
 			type: "div",
 			class: "tt-mini-data",
 			children: [document.newElement({ type: "strong", text: "Last Action: " }), document.newElement({ type: "span", text: lastAction })],
 		});
-		miniProfile.find(".-profile-mini-_userProfileWrapper___39cKq").appendChild(data);
+		miniProfile.find("div[class^='-profile-mini-_userProfileWrapper']").appendChild(data);
 
 		miniProfile.style.top = `${parseInt(miniProfile.style.top.replace("px", "")) - data.clientHeight + 1}px`;
 	});
@@ -426,19 +426,19 @@ async function showComputerLink() {
 function moveIcons(observer) {
 	observer.disconnect();
 
-	for (let icon of document.findAll("#sidebarroot .status-icons___1SnOI > li")) {
+	for (let icon of document.findAll("#sidebarroot ul[class^='status-icons'] > li")) {
 		if (!settings.hideIcons.includes(icon.getAttribute("class").split("_")[0])) continue;
 
 		icon.parentElement.appendChild(icon);
 	}
-	observer.observe(document.find("#sidebarroot .status-icons___1SnOI"), { childList: true, attributes: true });
+	observer.observe(document.find("#sidebarroot ul[class^='status-icons']"), { childList: true, attributes: true });
 }
 
 async function showNotes() {
 	if (settings.pages.sidebar.notes && !(await checkMobile())) {
 		const { content } = createContainer("Notes", {
 			id: "sidebarNotes",
-			previousElement: findParent(document.find("h2=Information"), { class: "sidebar-block___1Cqc2" }),
+			previousElement: findParent(document.find("h2=Information"), { class: /sidebar-block/i, useRegex: true }),
 		});
 
 		// noinspection JSUnusedGlobalSymbols
@@ -470,10 +470,10 @@ async function addInformationSection() {
 	if (await checkMobile()) return;
 
 	document
-		.find("#sidebarroot .user-information___u408H .content___3HChF")
-		.appendChild(document.newElement({ type: "hr", class: "delimiter___neME6 tt-sidebar-information-divider hidden" }));
+		.find("#sidebarroot div[class^='user-information'] div[class^='content']")
+		.appendChild(document.newElement({ type: "hr", class: "tt-sidebar-information-divider hidden" }));
 	document
-		.find("#sidebarroot .user-information___u408H .content___3HChF")
+		.find("#sidebarroot div[class^='user-information'] div[class^='content']")
 		.appendChild(document.newElement({ type: "div", class: "tt-sidebar-information hidden" }));
 }
 

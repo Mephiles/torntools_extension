@@ -178,10 +178,6 @@ function timedUpdates() {
 				.then(() => console.log("Updated factiondata."))
 				.catch((error) => console.error("Error while updating factiondata.", error));
 	}
-
-	// TODO - Update npc times.
-	// TODO - Update networth data.
-	// TODO - Update OC data.
 }
 
 async function updateUserdata() {
@@ -710,7 +706,6 @@ async function updateStakeouts() {
 			data = await fetchApi("torn", { section: "user", selections: ["profile"], id, silent: true });
 			success++;
 		} catch (e) {
-			// TODO Improve error handling.
 			console.log("STAKEOUT error", e);
 			failed++;
 			continue;

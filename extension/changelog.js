@@ -32,6 +32,7 @@ export default [
 				{ message: "Show computer icon on every page while abroad or flying.", contributor: "DeKleineKobini" },
 				{ message: "Hide OC timer when there is an error.", contributor: "DeKleineKobini" },
 				{ message: "Make OC timer red when under 8 hours left and orange when under 12 hours left.", contributor: "DeKleineKobini" },
+				{ message: "Don't use hardcoded classes with variable names to improve reliability.", contributor: "DeKleineKobini" },
 			],
 		},
 	},

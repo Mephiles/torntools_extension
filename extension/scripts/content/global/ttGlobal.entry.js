@@ -66,5 +66,5 @@ async function loadGlobalEntry() {
 async function forceUpdate() {
 	await requireContent();
 
-	document.find(".status-icons___1SnOI").setAttribute("updated", Date.now());
+	document.find("#sidebarroot ul[class^='status-icons']").setAttribute("updated", Date.now());
 }

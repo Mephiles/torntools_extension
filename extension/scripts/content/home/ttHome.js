@@ -21,8 +21,6 @@ let networthInterval = false;
 })();
 
 function loadHome() {
-	// FIXME - Check travel state.
-
 	requireContent().then(async () => {
 		await displayNetworth();
 		await displayEffectiveBattleStats();
@@ -68,10 +66,8 @@ async function displayNetworth() {
 			let seconds = parseInt(infoIcon.getAttribute("seconds")) + 1;
 
 			infoIcon.setAttribute("title", `Last updated: ${formatTime({ milliseconds: Date.now() - seconds * 1000 }, { type: "ago" })}`);
-			infoIcon.setAttribute("seconds", seconds);
+			infoIcon.setAttribute("seconds", `${seconds}`);
 		}, 1000);
-
-		// FIXME - Compare old stuff.
 
 		const table = document.newElement({
 			type: "table",
@@ -84,12 +80,6 @@ async function displayNetworth() {
 			],
 		});
 
-		/*
-		"properties": 562500,
-		"loan": 0,
-		"unpaidfees": 0,
-		"total": 8916331537,
-		 */
 		for (let type of [
 			"Cash (Wallet and Vault)",
 			"Points",
