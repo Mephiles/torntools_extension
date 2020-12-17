@@ -149,11 +149,6 @@ body.dark #preferences .sections {
 
 /* Chat Highlighting */
 
-#preferences #addChatHighlight,
-#preferences #addChatTitleHighlight {
-	width: 40px;
-}
-
 #preferences #chatTitleHighlight select.color {
 	height: 21px;
 	margin-top: 2px;
@@ -190,4 +185,25 @@ body.dark #preferences #hide-areas span {
 #preferences #hide-areas span.disabled {
 	opacity: 0.6;
 	background-color: rgba(255, 0, 0, 0.6) !important;
+}
+
+/* Custom Links */
+
+#preferences #customLinks > li {
+	display: flex;
+}
+
+#preferences #customLinks > li .name,
+#preferences #customLinks > li .href {
+	flex: 1;
+}
+
+#preferences #customLinks .move-up-icon-wrap,
+#preferences #customLinks .move-down-icon-wrap {
+	width: 25px;
+}
+
+#preferences #customLinks .move-up-icon-wrap,
+#preferences #customLinks .move-down-icon-wrap {
+	color: gray;
 }
