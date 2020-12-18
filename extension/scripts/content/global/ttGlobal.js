@@ -471,7 +471,7 @@ async function addInformationSection() {
 
 	document
 		.find("#sidebarroot div[class^='user-information'] div[class^='content']")
-		.appendChild(document.newElement({ type: "hr", class: "tt-sidebar-information-divider hidden" }));
+		.appendChild(document.newElement({ type: "hr", class: "tt-sidebar-information-divider tt-delimiter hidden" }));
 	document
 		.find("#sidebarroot div[class^='user-information'] div[class^='content']")
 		.appendChild(document.newElement({ type: "div", class: "tt-sidebar-information hidden" }));

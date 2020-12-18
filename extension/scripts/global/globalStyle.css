@@ -26,6 +26,18 @@
 	margin: 0;
 }
 
+.tt-delimiter {
+	overflow: hidden;
+	height: 0;
+	border-left: none;
+	border-right: none;
+	border-top: #ccc;
+	border-top: 1px solid var(--sidebar-horizontal-divider-bg-color);
+	border-bottom: #fff;
+	border-bottom: 1px solid var(--sidebar-horizontal-divider-shadow-color);
+	margin-bottom: 5px;
+}
+
 /* General Colors */
 
 *[color="white"] {
