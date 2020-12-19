@@ -281,7 +281,7 @@ function addNotesBox() {
 	cell.appendChild(inner_div);
 	notes_section.find(".tt-content").appendChild(cell);
 
-	doc.find("#sidebar").insertBefore(notes_section, findParent(doc.find("h2=Areas"), { class: "sidebar-block___1Cqc2" }));
+	doc.find("#sidebar").insertBefore(notes_section, findParent(doc.find("h2=Areas"), { class: ["sidebar-block___1Cqc2", "sidebar-block___181mP"] }));
 
 	textbox.addEventListener("change", () => {
 		ttStorage.set({ notes: { text: textbox.value, height: textbox.style.height } });
@@ -523,7 +523,7 @@ function showToggleChat() {
 }
 
 function addInformationSection() {
-	let hr = doc.new({ type: "hr", class: "delimiter___neME6 tt-information-section-hr" });
+	let hr = doc.new({ type: "hr", class: "delimiter___neME6 delimiter___3kh4j tt-information-section-hr" });
 	let div = doc.new({ type: "div", class: "tt-information-section" });
 
 	doc.find("#sidebarroot .user-information___u408H .content___3HChF, #sidebarroot .user-information___1By-5 .content___2bobA").appendChild(hr);
