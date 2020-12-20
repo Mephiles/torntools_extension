@@ -492,6 +492,9 @@ async function setupPreferences() {
 		for (let icon of settings.hideIcons) {
 			_preferences.find(`#hide-icons .${icon}`).parentElement.classList.add("disabled");
 		}
+		for (let link of settings.customLinks) {
+			addCustomLink(link);
+		}
 	}
 
 	function updateSettings() {
@@ -641,7 +644,7 @@ async function setupPreferences() {
 
 	function getCustomLinkOptions() {
 		let options = "<option value='custom'>Custom..</option>";
-		for (let name in CUSTOM_LINKS_PRESET) options += `<option value="${name.replaceAll(" ", "_")}">${name}</option>`;
+		for (let name in CUSTOM_LINKS_PRESET) options += `<option value="${name}">${name}</option>`;
 
 		return options;
 	}
@@ -702,6 +705,15 @@ async function setupPreferences() {
 			}
 		}
 
+		settings.customLinks = [..._preferences.findAll("#customLinks > li:not(.input)")].map((link) => {
+			return {
+				newTab: link.find(".newTab").checked,
+				preset: link.find(".preset").value,
+				location: link.find(".location").value,
+				name: link.find(".name").value,
+				href: link.find(".href").value,
+			};
+		});
 		settings.pages.chat.highlights = [..._preferences.findAll("#chatHighlight > li:not(.input)")].map((highlight) => {
 			return {
 				name: highlight.find(".name").value,

@@ -182,6 +182,7 @@ const DEFAULT_STORAGE = {
 		},
 		hideAreas: new DefaultSetting({ type: "array", defaultValue: [] }),
 		hideIcons: new DefaultSetting({ type: "array", defaultValue: [] }),
+		customLinks: new DefaultSetting({ type: "array", defaultValue: [] }),
 		pages: {
 			global: {
 				alignLeft: new DefaultSetting({ type: "boolean", defaultValue: false }),
