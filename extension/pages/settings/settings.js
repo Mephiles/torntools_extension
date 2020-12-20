@@ -282,12 +282,18 @@ async function setupPreferences() {
 		reader.readAsDataURL(event.target.files[0]);
 	});
 
+	new Sortable(_preferences.find("#customLinks"), {
+		draggable: "li:not(.input)",
+		handle: ".move-icon-wrap",
+		ghostClass: "dragging",
+	});
 	_preferences.find("#customLinks .input select.preset").innerHTML = getCustomLinkOptions();
 	_preferences.find("#customLinks .input select.preset").value = "custom";
 	_preferences.find("#customLinks .input select.preset").addEventListener("change", (event) => {
 		let hrefInput = _preferences.find("#customLinks .input .href");
 		let nameInput = _preferences.find("#customLinks .input .name");
 
+		// noinspection DuplicatedCode
 		if (event.target.value === "custom") {
 			hrefInput.classList.remove("hidden");
 			nameInput.classList.remove("hidden");
@@ -316,7 +322,9 @@ async function setupPreferences() {
 		inputRow.find(".preset").value = "custom";
 		inputRow.find(".location").value = "above";
 		inputRow.find(".name").value = "";
+		inputRow.find(".name").classList.remove("hidden");
 		inputRow.find(".href").value = "";
+		inputRow.find(".href").classList.remove("hidden");
 	});
 
 	const chatSection = _preferences.find(".sections section[name='chat']");
@@ -566,32 +574,6 @@ async function setupPreferences() {
 	}
 
 	function addCustomLink(data) {
-		/*
-			<!--suppress HtmlFormInputWithoutLabel -->
-								<input type="checkbox" class="newTab" />
-								<!--suppress HtmlFormInputWithoutLabel -->
-								<select class="preset">
-									<option>Custom..</option>
-								</select>
-								<!--suppress HtmlFormInputWithoutLabel -->
-								<select class="location">
-									<option>Under 'Home'</option>
-								</select>
-								<!--suppress HtmlFormInputWithoutLabel -->
-								<input type="text" class="name" placeholder="Name.." />
-								<!--suppress HtmlFormInputWithoutLabel -->
-								<input type="text" class="href" placeholder="Link.." />
-								<button class="add-icon-wrap" id="addCustomLink">
-									<i class="add-icon fas fa-plus"></i>
-								</button>
-								<button class="move-up-icon-wrap">
-									<i class="move-up fas fa-arrow-up"></i>
-								</button>
-								<button class="move-down-icon-wrap">
-									<i class="move-down fas fa-arrow-down"></i>
-								</button>
-		 */
-
 		const newRow = document.newElement({
 			type: "li",
 			children: [
@@ -606,6 +588,7 @@ async function setupPreferences() {
 							let hrefInput = newRow.find(".href");
 							let nameInput = newRow.find(".name");
 
+							// noinspection DuplicatedCode
 							if (event.target.value === "custom") {
 								hrefInput.classList.remove("hidden");
 								nameInput.classList.remove("hidden");
@@ -642,25 +625,9 @@ async function setupPreferences() {
 					class: "remove-icon-wrap",
 					children: [document.newElement({ type: "i", class: "remove-icon fas fa-trash-alt" })],
 					events: {
-						click: () => {
-							newRow.remove();
-							checkCustomLinkOrder();
-						},
+						click: () => newRow.remove(),
 					},
 				}),
-				// document.newElement({
-				// 	type: "button",
-				// 	class: "move-up-icon-wrap",
-				// 	children: [document.newElement({ type: "i", class: "move-up-icon fas fa-arrow-up" })],
-				// 	events: { click: () => checkCustomLinkOrder() },
-				// }),
-				// document.newElement({
-				// 	type: "button",
-				// 	class: "move-down-icon-wrap",
-				// 	children: [document.newElement({ type: "i", class: "move-down-icon fas fa-arrow-down" })],
-				// 	attributes: () => {},
-				// 	events: { click: () => checkCustomLinkOrder() },
-				// }),
 				document.newElement({
 					type: "div",
 					class: "move-icon-wrap",
@@ -669,8 +636,7 @@ async function setupPreferences() {
 			],
 		});
 
-		// _preferences.find("#customLinks").insertBefore(newRow, _preferences.find("#customLinks .input"));
-		checkCustomLinkOrder();
+		_preferences.find("#customLinks").insertBefore(newRow, _preferences.find("#customLinks .input"));
 	}
 
 	function getCustomLinkOptions() {
@@ -698,21 +664,6 @@ async function setupPreferences() {
 		}
 
 		return options;
-	}
-
-	function checkCustomLinkOrder() {
-		console.log("DKK checkCustomLinkOrder");
-		let x = 0;
-		const last = _preferences.find("#customLinks").children.length - 2;
-		for (let row of _preferences.findAll("#customLinks li:not(.input)")) {
-			if (x === 0) row.find(".move-up-icon-wrap").setAttribute("disabled", true);
-			else row.find(".move-up-icon-wrap").removeAttribute("disabled");
-
-			if (x === last) row.find(".move-down-icon-wrap").setAttribute("disabled", true);
-			else row.find(".move-down-icon-wrap").removeAttribute("disabled");
-
-			x++;
-		}
 	}
 
 	async function saveSettings() {

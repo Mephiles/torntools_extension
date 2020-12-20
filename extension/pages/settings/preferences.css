@@ -199,18 +199,11 @@ body.dark #preferences #hide-areas span {
 	flex: 1;
 }
 
-#preferences #customLinks .move-up-icon-wrap,
+#preferences #customLinks .move-icon-wrap,
 #preferences #customLinks .move-down-icon-wrap {
-	width: 25px;
+	margin: 0 8px;
 }
 
-#preferences #customLinks .move-up-icon-wrap,
-#preferences #customLinks .move-down-icon-wrap {
-	color: gray;
-}
-
-#preferences #customLinks .move-up-icon-wrap[disabled],
-#preferences #customLinks .move-down-icon-wrap[disabled] {
-	opacity: 0.2;
-	cursor: initial;
+#preferences #customLinks .dragging {
+	background-color: red;
 }
