@@ -171,3 +171,39 @@
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
+
+#sidebarroot .pill {
+	position: relative;
+	cursor: pointer;
+	overflow: hidden;
+	vertical-align: top;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+	background-color: #f2f2f2;
+	background-color: var(--default-bg-panel-color);
+	margin-top: 2px;
+	overflow: hidden;
+}
+
+#sidebarroot .pill a {
+	overflow: hidden;
+	color: #333;
+	color: var(--default-content-font-color);
+	text-decoration: none;
+	height: 100%;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-pack: start;
+	-ms-flex-pack: start;
+	justify-content: flex-start;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: row;
+	flex-direction: row;
+	line-height: 22px;
+	margin-left: 8px;
+}

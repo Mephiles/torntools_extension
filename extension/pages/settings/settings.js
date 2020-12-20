@@ -657,10 +657,10 @@ async function setupPreferences() {
 
 		for (let area of ALL_AREAS) {
 			options += `
-				<option value="above_${area.text.toLowerCase().replaceAll(" ", "_")}">
+				<option value="above_${area.class}">
 					Above ${area.text}
 				</option>
-				<option value="under_${area.text.toLowerCase().replaceAll(" ", "_")}">
+				<option value="under_${area.class}">
 					Under ${area.text}
 				</option>
 			`;

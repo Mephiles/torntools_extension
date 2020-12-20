@@ -133,6 +133,7 @@ function loadGlobal() {
 
 			await showNotes().catch((error) => console.error("Couldn't show the sidebar notes.", error));
 			await showOCTime().catch((error) => console.error("Couldn't show the oc time.", error));
+			await showCustomLinks().catch((error) => console.error("Couldn't show the custom links.", error));
 		})
 		.catch((reason) => console.error("TT failed during loading sidebar.", reason));
 
@@ -517,5 +518,90 @@ async function showOCTime() {
 				children: [document.newElement({ type: "a", class: "title", text: "OC: ", href: LINKS.organizedCrimes }), timeLeftElement],
 			})
 		);
+	}
+}
+
+async function showCustomLinks() {
+	const areas = findParent(document.find("h2=Areas"), { class: /sidebar-block/i, useRegex: true });
+
+	if (settings.customLinks.filter((link) => link.location === "above")) {
+		const { content } = createContainer("Custom Links", { id: "customLinksAbove", nextElement: areas });
+
+		for (let link of settings.customLinks.filter((link) => link.location === "above")) {
+			content.appendChild(
+				document.newElement({
+					type: "div",
+					class: "pill",
+					children: [
+						document.newElement({
+							type: "a",
+							href: link.href,
+							text: link.name,
+							attributes: {
+								target: link.newTab ? "_blank" : "_self",
+							},
+						}),
+					],
+				})
+			);
+		}
+	} else {
+		removeContainer("Custom Links", { id: "customLinksAbove" });
+	}
+
+	if (settings.customLinks.filter((link) => link.location === "under")) {
+		const { content } = createContainer("Custom Links", { id: "customLinksUnder", previousElement: areas });
+
+		for (let link of settings.customLinks.filter((link) => link.location === "under")) {
+			content.appendChild(
+				document.newElement({
+					type: "div",
+					class: "pill",
+					children: [
+						document.newElement({
+							type: "a",
+							href: link.href,
+							text: link.name,
+							attributes: {
+								target: link.newTab ? "_blank" : "",
+							},
+						}),
+					],
+				})
+			);
+		}
+	} else {
+		removeContainer("Custom Links", { id: "customLinksUnder" });
+	}
+
+	for (let link of areas.findAll(".custom-link")) link.remove();
+	for (let link of settings.customLinks.filter((link) => link.location !== "above" && link.location !== "under")) {
+		const locationSplit = link.location.split("_");
+
+		const location = locationSplit.splice(1).join("_");
+		const area = ALL_AREAS.filter((area) => area.class === location);
+		if (!area) continue;
+		let target = areas.find(`#nav-${area[0].class}`);
+		if (!target) continue;
+
+		if (locationSplit[0] === "under") target = target.nextSibling;
+
+		const pill = document.newElement({
+			type: "div",
+			class: "pill custom-link",
+			children: [
+				document.newElement({
+					type: "a",
+					href: link.href,
+					text: link.name,
+					attributes: {
+						target: link.newTab ? "_blank" : "",
+					},
+				}),
+			],
+		});
+		const parent = areas.find("div[class^='toggle-content']");
+		if (target) parent.insertBefore(pill, target);
+		else parent.appendChild(pill);
 	}
 }

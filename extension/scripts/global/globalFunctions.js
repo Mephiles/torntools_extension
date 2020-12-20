@@ -1011,7 +1011,7 @@ function createContainer(title, options = {}) {
 	else throw new Error("Not yet supported!");
 
 	if (options.nextElement) parentElement.insertBefore(container, options.nextElement);
-	if (options.previousElement) parentElement.insertBefore(container, options.previousElement.nextSibling);
+	else if (options.previousElement) parentElement.insertBefore(container, options.previousElement.nextSibling);
 	else parentElement.appendChild(container);
 
 	return { container, content: container.find(".content") };
