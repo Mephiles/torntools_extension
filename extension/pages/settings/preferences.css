@@ -199,9 +199,9 @@ body.dark #preferences #hide-areas span {
 	flex: 1;
 }
 
-#preferences #customLinks .move-icon-wrap,
-#preferences #customLinks .move-down-icon-wrap {
-	margin: 0 8px;
+#preferences #customLinks .remove-icon-wrap,
+#preferences #customLinks .add-icon-wrap {
+	margin-left: auto;
 }
 
 #preferences #customLinks .dragging {
