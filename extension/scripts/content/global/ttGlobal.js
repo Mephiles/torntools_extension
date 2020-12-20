@@ -525,7 +525,7 @@ async function showCustomLinks() {
 	if (!(await checkMobile())) {
 		const areas = findParent(document.find("h2=Areas"), { class: /sidebar-block/i, useRegex: true });
 
-		if (settings.customLinks.filter((link) => link.location === "above")) {
+		if (settings.customLinks.filter((link) => link.location === "above").length) {
 			const { content } = createContainer("Custom Links", { id: "customLinksAbove", nextElement: areas });
 
 			for (let link of settings.customLinks.filter((link) => link.location === "above")) {
@@ -550,7 +550,7 @@ async function showCustomLinks() {
 			removeContainer("Custom Links", { id: "customLinksAbove" });
 		}
 
-		if (settings.customLinks.filter((link) => link.location === "under")) {
+		if (settings.customLinks.filter((link) => link.location === "under").length) {
 			const { content } = createContainer("Custom Links", { id: "customLinksUnder", previousElement: areas });
 
 			for (let link of settings.customLinks.filter((link) => link.location === "under")) {
