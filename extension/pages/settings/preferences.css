@@ -211,3 +211,11 @@ body.dark #preferences #hide-areas span {
 #preferences #customLinks .dragging {
 	background-color: red;
 }
+
+#preferences .arrow {
+	position: absolute;
+	font-size: 26px;
+	left: -2px;
+	top: -13px;
+	transform: rotate(-90deg);
+}
