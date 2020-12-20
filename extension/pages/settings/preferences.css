@@ -191,6 +191,7 @@ body.dark #preferences #hide-areas span {
 
 #preferences #customLinks > li {
 	display: flex;
+	transform: none !important;
 }
 
 #preferences #customLinks > li .name,
@@ -206,4 +207,10 @@ body.dark #preferences #hide-areas span {
 #preferences #customLinks .move-up-icon-wrap,
 #preferences #customLinks .move-down-icon-wrap {
 	color: gray;
+}
+
+#preferences #customLinks .move-up-icon-wrap[disabled],
+#preferences #customLinks .move-down-icon-wrap[disabled] {
+	opacity: 0.2;
+	cursor: initial;
 }

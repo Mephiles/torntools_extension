@@ -285,21 +285,39 @@ async function setupPreferences() {
 	_preferences.find("#customLinks .input select.preset").innerHTML = getCustomLinkOptions();
 	_preferences.find("#customLinks .input select.preset").value = "custom";
 	_preferences.find("#customLinks .input select.preset").addEventListener("change", (event) => {
-		let hrefInput = preferences.find("#customLinks .input .href");
-		let nameInput = preferences.find("#customLinks .input .name");
+		let hrefInput = _preferences.find("#customLinks .input .href");
+		let nameInput = _preferences.find("#customLinks .input .name");
 
 		if (event.target.value === "custom") {
-			hrefInput.style.display = "block";
-			nameInput.style.display = "block";
+			hrefInput.classList.remove("hidden");
+			nameInput.classList.remove("hidden");
 		} else {
-			hrefInput.style.display = "none";
-			nameInput.style.display = "none";
+			hrefInput.classList.add("hidden");
+			nameInput.classList.add("hidden");
 
-			hrefInput.value = LINKS[event.target.value.replaceAll("_", " ")].link;
+			hrefInput.value = CUSTOM_LINKS_PRESET[event.target.value.replaceAll("_", " ")].link;
 			nameInput.value = event.target.value.replaceAll("_", " ");
 		}
 	});
-	_preferences.find("#addCustomLink").addEventListener("click", (event) => addLinkToList({ event }));
+	_preferences.find("#customLinks .input select.location").innerHTML = getCustomLinkLocations();
+	_preferences.find("#customLinks .input select.location").value = "above";
+	_preferences.find("#addCustomLink").addEventListener("click", () => {
+		const inputRow = document.find("#customLinks .input");
+
+		addCustomLink({
+			newTab: inputRow.find(".newTab").checked,
+			preset: inputRow.find(".preset").value,
+			location: inputRow.find(".location").value,
+			name: inputRow.find(".name").value,
+			href: inputRow.find(".href").value,
+		});
+
+		inputRow.find(".newTab").checked = false;
+		inputRow.find(".preset").value = "custom";
+		inputRow.find(".location").value = "above";
+		inputRow.find(".name").value = "";
+		inputRow.find(".href").value = "";
+	});
 
 	const chatSection = _preferences.find(".sections section[name='chat']");
 	for (let placeholder of HIGHLIGHT_PLACEHOLDERS) {
@@ -311,9 +329,6 @@ async function setupPreferences() {
 			}),
 			chatSection.find("#chatHighlight+.note").nextElementSibling
 		);
-	}
-
-	for (let area of _preferences.findAll("#hide-areas span")) {
 	}
 
 	const hideAreasParent = _preferences.find("#hide-areas");
@@ -550,12 +565,154 @@ async function setupPreferences() {
 		return options.join("");
 	}
 
+	function addCustomLink(data) {
+		/*
+			<!--suppress HtmlFormInputWithoutLabel -->
+								<input type="checkbox" class="newTab" />
+								<!--suppress HtmlFormInputWithoutLabel -->
+								<select class="preset">
+									<option>Custom..</option>
+								</select>
+								<!--suppress HtmlFormInputWithoutLabel -->
+								<select class="location">
+									<option>Under 'Home'</option>
+								</select>
+								<!--suppress HtmlFormInputWithoutLabel -->
+								<input type="text" class="name" placeholder="Name.." />
+								<!--suppress HtmlFormInputWithoutLabel -->
+								<input type="text" class="href" placeholder="Link.." />
+								<button class="add-icon-wrap" id="addCustomLink">
+									<i class="add-icon fas fa-plus"></i>
+								</button>
+								<button class="move-up-icon-wrap">
+									<i class="move-up fas fa-arrow-up"></i>
+								</button>
+								<button class="move-down-icon-wrap">
+									<i class="move-down fas fa-arrow-down"></i>
+								</button>
+		 */
+
+		const newRow = document.newElement({
+			type: "li",
+			children: [
+				document.newElement({ type: "input", class: "newTab", attributes: { type: "checkbox" } }),
+				document.newElement({
+					type: "select",
+					class: "preset",
+					value: data.preset,
+					html: getCustomLinkOptions(),
+					events: {
+						change: (event) => {
+							let hrefInput = newRow.find(".href");
+							let nameInput = newRow.find(".name");
+
+							if (event.target.value === "custom") {
+								hrefInput.classList.remove("hidden");
+								nameInput.classList.remove("hidden");
+							} else {
+								hrefInput.classList.add("hidden");
+								nameInput.classList.add("hidden");
+
+								hrefInput.value = CUSTOM_LINKS_PRESET[event.target.value.replaceAll("_", " ")].link;
+								nameInput.value = event.target.value.replaceAll("_", " ");
+							}
+						},
+					},
+				}),
+				document.newElement({
+					type: "select",
+					class: "location",
+					value: data.location,
+					html: getCustomLinkLocations(),
+				}),
+				document.newElement({
+					type: "input",
+					class: `name ${data.preset === "custom" ? "" : "hidden"}`,
+					value: data.name,
+					attributes: { type: "text", placeholder: "Name.." },
+				}),
+				document.newElement({
+					type: "input",
+					class: `href ${data.preset === "custom" ? "" : "hidden"}`,
+					value: data.href,
+					attributes: { type: "text", placeholder: "Name.." },
+				}),
+				document.newElement({
+					type: "button",
+					class: "remove-icon-wrap",
+					children: [document.newElement({ type: "i", class: "remove-icon fas fa-trash-alt" })],
+					events: {
+						click: () => {
+							newRow.remove();
+							checkCustomLinkOrder();
+						},
+					},
+				}),
+				// document.newElement({
+				// 	type: "button",
+				// 	class: "move-up-icon-wrap",
+				// 	children: [document.newElement({ type: "i", class: "move-up-icon fas fa-arrow-up" })],
+				// 	events: { click: () => checkCustomLinkOrder() },
+				// }),
+				// document.newElement({
+				// 	type: "button",
+				// 	class: "move-down-icon-wrap",
+				// 	children: [document.newElement({ type: "i", class: "move-down-icon fas fa-arrow-down" })],
+				// 	attributes: () => {},
+				// 	events: { click: () => checkCustomLinkOrder() },
+				// }),
+				document.newElement({
+					type: "div",
+					class: "move-icon-wrap",
+					children: [document.newElement({ type: "i", class: "move-icon fas fa-bars" })],
+				}),
+			],
+		});
+
+		// _preferences.find("#customLinks").insertBefore(newRow, _preferences.find("#customLinks .input"));
+		checkCustomLinkOrder();
+	}
+
 	function getCustomLinkOptions() {
-		let options = "";
+		let options = "<option value='custom'>Custom..</option>";
 		for (let name in CUSTOM_LINKS_PRESET) options += `<option value="${name.replaceAll(" ", "_")}">${name}</option>`;
-		options += "<option value='custom'>Custom..</option>";
 
 		return options;
+	}
+
+	function getCustomLinkLocations() {
+		let options = `
+			<option value='above'>Above all the areas</option>
+			<option value='under'>Under all the areas</option>
+		`;
+
+		for (let area of ALL_AREAS) {
+			options += `
+				<option value="above_${area.text.toLowerCase().replaceAll(" ", "_")}">
+					Above ${area.text}
+				</option>
+				<option value="under_${area.text.toLowerCase().replaceAll(" ", "_")}">
+					Under ${area.text}
+				</option>
+			`;
+		}
+
+		return options;
+	}
+
+	function checkCustomLinkOrder() {
+		console.log("DKK checkCustomLinkOrder");
+		let x = 0;
+		const last = _preferences.find("#customLinks").children.length - 2;
+		for (let row of _preferences.findAll("#customLinks li:not(.input)")) {
+			if (x === 0) row.find(".move-up-icon-wrap").setAttribute("disabled", true);
+			else row.find(".move-up-icon-wrap").removeAttribute("disabled");
+
+			if (x === last) row.find(".move-down-icon-wrap").setAttribute("disabled", true);
+			else row.find(".move-down-icon-wrap").removeAttribute("disabled");
+
+			x++;
+		}
 	}
 
 	async function saveSettings() {
