@@ -4,8 +4,7 @@
 	await loadDatabase();
 	console.log("TT: Items - Loading script. ");
 
-	// storageListeners.settings.push(loadHome);
-
+	storageListeners.settings.push(loadItems);
 	loadItems();
 
 	console.log("TT: Items - Script loaded.");
