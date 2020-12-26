@@ -1001,6 +1001,7 @@ function createContainer(title, options = {}) {
 		collapsible: true,
 		applyRounding: true,
 		spacer: false,
+		contentBackground: true,
 		...options,
 	};
 
@@ -1046,7 +1047,7 @@ function createContainer(title, options = {}) {
 					<div class="options"></div>
 					${options.collapsible ? '<i class="icon fas fa-caret-down"/>' : ""}
 				</div>`;
-		html += '<div class="content"></div>';
+		html += `<div class="content ${options.contentBackground ? "background" : ""}"></div>`;
 		container.innerHTML = html;
 
 		if (options.collapsible) {
@@ -1061,15 +1062,19 @@ function createContainer(title, options = {}) {
 	}
 }
 
-function removeContainer(title, attributes) {
-	attributes = {
+function findContainer(title, options = {}) {
+	options = {
 		id: title.camelCase(true),
-		...attributes,
+		...options,
 	};
 
-	if (!attributes.id) return;
+	if (!options.id) return false;
 
-	const container = document.find(`#${attributes.id}`);
+	return document.find(`#${options.id}`);
+}
+
+function removeContainer(title, options = {}) {
+	const container = findContainer(title, options);
 	if (!container) return;
 
 	container.remove();
