@@ -110,6 +110,10 @@
 
 /* Containers */
 
+.tt-container.spacer {
+	margin-bottom: 10px;
+}
+
 .tt-container .title {
 	padding-left: 10px;
 	height: 30px;
@@ -134,6 +138,10 @@
 
 .tt-container.collapsible .title {
 	cursor: pointer;
+}
+
+.tt-container.spacer .title {
+	margin-top: 10px;
 }
 
 .tt-container .title .text {

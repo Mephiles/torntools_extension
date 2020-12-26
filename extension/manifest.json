@@ -92,6 +92,18 @@
 				"scripts/content/home/ttFlying.js"
 			],
 			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/item.php*"
+			],
+			"css": [
+				"scripts/content/items/ttItems.css"
+			],
+			"js": [
+				"scripts/content/items/ttItems.js"
+			],
+			"run_at": "document_end"
 		}
 	]
 }

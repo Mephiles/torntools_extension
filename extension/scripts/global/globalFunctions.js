@@ -1000,6 +1000,7 @@ function createContainer(title, options = {}) {
 		showHeader: true,
 		collapsible: true,
 		applyRounding: true,
+		spacer: false,
 		...options,
 	};
 
@@ -1029,6 +1030,7 @@ function createContainer(title, options = {}) {
 		let containerClasses = ["tt-container"];
 		if (options.collapsible) containerClasses.push("collapsible");
 		if (options.applyRounding) containerClasses.push("rounding");
+		if (options.spacer) containerClasses.push("spacer");
 
 		const theme = THEMES[settings.themes.containers];
 		containerClasses.push(theme.containerClass);
