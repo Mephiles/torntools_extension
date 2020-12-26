@@ -424,6 +424,8 @@ async function setupPreferences() {
 						if (inputType === "checkbox") input.checked = value;
 						else if (inputType === "radio") input.checked = true;
 						else input.value = value;
+					} else if (input.tagName === "SELECT") {
+						input.value = value;
 					}
 				}
 			}
@@ -700,6 +702,8 @@ async function setupPreferences() {
 								settings[type][page][setting] = input.value;
 								break;
 						}
+					} else if (input.tagName === "SELECT") {
+						settings[type][page][setting] = input.value;
 					}
 				}
 			}
