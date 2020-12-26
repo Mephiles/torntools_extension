@@ -37,6 +37,7 @@ async function displayNetworth() {
 		const { content } = createContainer("Live Networth", {
 			collapsible: false,
 			showHeader: false,
+			applyRounding: false,
 			parentElement: document.find("h5=General Information").parentElement.nextElementSibling.find("ul.info-cont-wrap"),
 		});
 
@@ -167,7 +168,7 @@ async function displayNetworth() {
 async function displayEffectiveBattleStats() {
 	if (settings.pages.home.effectiveStats) {
 		const statsContainer = document.find("h5=Battle Stats").parentElement.nextElementSibling.find("ul.info-cont-wrap");
-		const { content } = createContainer("Effective Battle Stats", { collapsible: false, parentElement: statsContainer });
+		const { content } = createContainer("Effective Battle Stats", { collapsible: false, applyRounding: false, parentElement: statsContainer });
 
 		let effectiveTotal = 0;
 		const stats = ["Strength", "Defense", "Speed", "Dexterity"];
