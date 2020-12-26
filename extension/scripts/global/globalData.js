@@ -231,7 +231,7 @@ const DEFAULT_STORAGE = {
 				quickItems: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				values: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				drugDetails: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				marketLinks: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				marketLinks: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				highlightBloodBags: new DefaultSetting({ type: "string", defaultValue: "none" }),
 			},
 		},
