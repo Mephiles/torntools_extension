@@ -1104,6 +1104,26 @@ function findItemsInObject(object, attributes = {}, options = {}) {
 	return options.single ? false : items;
 }
 
+function findItemsInList(list, attributes = {}, options = {}) {
+	options = {
+		single: false,
+		...options,
+	};
+
+	let items = [];
+	if (!list || list.length === 0) return options.single ? false : items;
+
+	for (let item of list) {
+		if (!Object.keys(attributes).every((attribute) => item[attribute] === attributes[attribute])) continue;
+
+		if (options.single) return item;
+
+		items.push(item);
+	}
+
+	return options.single ? false : items;
+}
+
 function isFlying() {
 	// noinspection EqualityComparisonWithCoercionJS
 	return document.body.dataset.traveling == true;
@@ -1112,4 +1132,37 @@ function isFlying() {
 function isAbroad() {
 	// noinspection EqualityComparisonWithCoercionJS
 	return document.body.dataset.abroad == true;
+}
+
+function getCookie(cname) {
+	const name = cname + "=";
+
+	for (let cookie of decodeURIComponent(document.cookie).split(";")) {
+		cookie = cookie.trimLeft();
+
+		if (cookie.includes(name)) {
+			return cookie.substring(name.length);
+		}
+	}
+	return "";
+}
+
+function getRFC() {
+	const rfc = getCookie("rfc_v");
+	if (!rfc) {
+		const cookies = document.cookie.split("; ");
+		for (let i in cookies) {
+			let cookie = cookies[i].split("=");
+			if (cookie[0] === "rfc_v") {
+				return cookie[1];
+			}
+		}
+	}
+	return rfc;
+}
+
+function addRFC(url) {
+	url = url || "";
+	url += (url.split("?").length > 1 ? "&" : "?") + "rfcv=" + getRFC();
+	return url;
 }

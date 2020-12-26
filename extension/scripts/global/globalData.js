@@ -257,6 +257,9 @@ const DEFAULT_STORAGE = {
 			height: new DefaultSetting({ type: "string", defaultValue: "22px" }),
 		},
 	},
+	quick: {
+		items: new DefaultSetting({ type: "array", defaultValue: [180] }),
+	},
 };
 
 const CONTRIBUTORS = {
