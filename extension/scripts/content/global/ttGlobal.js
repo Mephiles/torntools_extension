@@ -120,7 +120,7 @@ function loadGlobal() {
 
 	requireSidebar()
 		.then(async () => {
-			await showUpdateNotice().catch((error) => console.error("Couldn't show an update notice", error));
+			showUpdateNotice().catch((error) => console.error("Couldn't show an update notice", error));
 
 			new Promise(() => {
 				if (!initiatedIconMoving) {
@@ -131,21 +131,23 @@ function loadGlobal() {
 
 			await addInformationSection().catch((error) => console.error("Couldn't show the information section.", error));
 
-			await showNotes().catch((error) => console.error("Couldn't show the sidebar notes.", error));
-			await showOCTime().catch((error) => console.error("Couldn't show the oc time.", error));
-			await showCustomLinks().catch((error) => console.error("Couldn't show the custom links.", error));
+			showNotes().catch((error) => console.error("Couldn't show the sidebar notes.", error));
+			showOCTime().catch((error) => console.error("Couldn't show the oc time.", error));
+			showCustomLinks().catch((error) => console.error("Couldn't show the custom links.", error));
 		})
 		.catch((reason) => console.error("TT failed during loading sidebar.", reason));
 
 	requireContent()
 		.then(() => {
-			if (settings.pages.global.hideLevelUpgrade) {
-				for (let info of document.findAll(".info-msg-cont")) {
-					if (!info.innerText.includes("Congratulations! You have enough experience to go up to level")) continue;
+			new Promise(() => {
+				if (settings.pages.global.hideLevelUpgrade) {
+					for (let info of document.findAll(".info-msg-cont")) {
+						if (!info.innerText.includes("Congratulations! You have enough experience to go up to level")) continue;
 
-					info.classList.add("tt-level-upgrade");
+						info.classList.add("tt-level-upgrade");
+					}
 				}
-			}
+			}).catch((error) => console.error("Couldn't hide the level upgrade notice!", error));
 
 			showComputerLink().catch((reason) => console.error("TT failed while trying to show the computer link.", reason));
 		})

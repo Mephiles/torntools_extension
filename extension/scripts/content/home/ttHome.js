@@ -22,8 +22,8 @@ let networthInterval = false;
 
 function loadHome() {
 	requireContent().then(async () => {
-		await displayNetworth();
-		await displayEffectiveBattleStats();
+		await displayNetworth().catch((error) => console.error("Couldn't load the live networth.", error));
+		await displayEffectiveBattleStats().catch((error) => console.error("Couldn't load the effective battle stats.", error));
 	});
 }
 
