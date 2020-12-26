@@ -227,6 +227,13 @@ const DEFAULT_STORAGE = {
 				networthDetails: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				effectiveStats: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			items: {
+				quickItems: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				values: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				drugDetails: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				marketLinks: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				highlightBloodBags: new DefaultSetting({ type: "string", defaultValue: "none" }),
+			},
 		},
 	},
 	filters: {

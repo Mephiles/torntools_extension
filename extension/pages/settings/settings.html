@@ -69,7 +69,7 @@
 
 						<li class="header">Pages</li>
 						<li name="home">Home</li>
-						<li>Items</li>
+						<li name="items">Items</li>
 						<li>City</li>
 						<li>Job</li>
 						<li>Gym</li>
@@ -548,6 +548,41 @@
 						<div class="option">
 							<input id="home-effectiveStats" type="checkbox" />
 							<label for="home-effectiveStats">Show effective battle stats on the homepage.</label>
+						</div>
+					</section>
+					<section name="items">
+						<div class="header">Items</div>
+						<div class="option">
+							<input id="items-quickItems" type="checkbox" />
+							<label for="items-quickItems">Show the quick items container.</label>
+						</div>
+						<div class="option">
+							<input id="items-values" type="checkbox" />
+							<label for="items-values">Display item values.</label>
+						</div>
+						<div class="option">
+							<input id="items-drugDetails" type="checkbox" />
+							<label for="items-drugDetails">Show details about drugs.</label>
+							<label for="items-drugDetails" class="tabbed note">Also affects the faction armory.</label>
+						</div>
+						<div class="option">
+							<input id="items-marketLinks" type="checkbox" />
+							<label for="items-marketLinks">Add link icons to the item market.</label>
+						</div>
+						<label class="option">
+							<label for="items-highlightBloodBags">Highlight blood bags for:</label>
+							<select id="items-highlightBloodBags">
+								<option value="none">none</option>
+								<option value="o+">O+</option>
+								<option value="o-">O-</option>
+								<option value="a+">A+</option>
+								<option value="a-">A-</option>
+								<option value="b+">B+</option>
+								<option value="b-">B-</option>
+								<option value="ab+">AB+</option>
+								<option value="ab-">AB-</option>
+							</select>
+							<label for="items-drugDetails" class="tabbed note">Also affects the faction armory.</label>
 						</div>
 					</section>
 				</div>
