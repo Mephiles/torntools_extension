@@ -45,21 +45,50 @@ function loadItemsOnce() {
 }
 
 async function loadQuickItems() {
+	const USABLE_ITEM_TYPES = ["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"];
+
 	if (settings.pages.items.quickItems) {
-		const { content } = createContainer("Quick Items", {
+		const { content, options } = createContainer("Quick Items", {
 			nextElement: document.find(".equipped-items-wrap"),
 			spacer: true,
 		});
 		content.appendChild(document.newElement({ type: "div", class: "inner-content" }));
 		content.appendChild(document.newElement({ type: "div", class: "response-wrap" }));
+		options.appendChild(
+			document.newElement({
+				type: "div",
+				class: "option",
+				id: "edit-items-button",
+				children: [document.newElement({ type: "i", class: "fas fa-plus" }), " Add"],
+				events: {
+					click: (event) => {
+						event.stopPropagation();
+
+						document.find("ul.items-cont[aria-expanded='true']").classList.toggle("tt-overlay-item");
+						options.find("#edit-items-button").classList.toggle("tt-overlay-item");
+						if (document.find(".tt-overlay").classList.toggle("hidden")) {
+							for (let item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
+								if (!USABLE_ITEM_TYPES.includes(item.getAttribute("data-category"))) continue;
+
+								item.removeEventListener("click", onTornItemClick);
+							}
+						} else {
+							for (let item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
+								if (!USABLE_ITEM_TYPES.includes(item.getAttribute("data-category"))) continue;
+
+								item.addEventListener("click", onTornItemClick);
+							}
+						}
+					},
+				},
+			})
+		);
 
 		for (let id of quick.items) {
 			addQuickItem(content, id, false);
 		}
 
 		function addQuickItem(content, id, temporary = false) {
-			const USABLE_ITEM_TYPES = ["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"];
-
 			if (!content) content = findContainer("Quick Items");
 			const innerContent = content.find(".inner-content");
 			const responseWrap = content.find(".response-wrap");
@@ -140,6 +169,18 @@ async function loadQuickItems() {
 				})
 			);
 			innerContent.appendChild(itemWrap);
+		}
+
+		async function onTornItemClick(event) {
+			event.stopPropagation();
+			event.preventDefault();
+
+			const target = findParent(event.target, { hasAttribute: "data-item" });
+			const id = parseInt(target.getAttribute("data-item"));
+
+			addQuickItem(content, id, false);
+
+			await ttStorage.change({ quick: { items: [...content.findAll(".item")].map((x) => parseInt(x.getAttribute("item-id"))) } });
 		}
 	} else {
 		removeContainer("Quick Items");

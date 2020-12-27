@@ -78,7 +78,13 @@ Document.prototype.newElement = function (options = {}) {
 		}
 		if (options.href) newElement.href = options.href;
 
-		for (let child of options.children || []) newElement.appendChild(child);
+		for (let child of options.children || []) {
+			if (typeof child === "string") {
+				newElement.appendChild(document.createTextNode(child));
+			} else {
+				newElement.appendChild(child);
+			}
+		}
 
 		if (options.attributes) {
 			let attributes = options.attributes;
@@ -252,6 +258,7 @@ function findParent(element, options = {}) {
 		class: false,
 		id: false,
 		useRegex: false,
+		hasAttribute: false,
 		...options,
 	};
 
@@ -264,6 +271,7 @@ function findParent(element, options = {}) {
 			(options.useRegex && [...element.parentElement.classList].some((value) => value.match(options.class))))
 	)
 		return element.parentElement;
+	if (options.hasAttribute && element.parentElement.getAttribute(options.hasAttribute) !== null) return element.parentElement;
 
 	return findParent(element.parentElement, options);
 }
@@ -1017,7 +1025,7 @@ function createContainer(title, options = {}) {
 	else if (options.previousElement) parentElement.insertBefore(container, options.previousElement.nextSibling);
 	else parentElement.appendChild(container);
 
-	return { container, content: container.find(".content") };
+	return { container, content: container.find(".content"), options: container.find(".options") };
 
 	function _createContainer(title, options = {}) {
 		if (document.find(`#${options.id}`)) {

@@ -155,6 +155,7 @@ function loadGlobal() {
 }
 
 function loadGlobalOnce() {
+	document.body.appendChild(document.newElement({ type: "div", class: "tt-overlay hidden" }));
 	setInterval(() => {
 		for (let countdown of document.findAll(".countdown.automatic[data-seconds]")) {
 			const seconds = parseInt(countdown.dataset.seconds) - 1;

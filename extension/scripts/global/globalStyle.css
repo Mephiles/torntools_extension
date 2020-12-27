@@ -38,6 +38,21 @@
 	margin-bottom: 5px;
 }
 
+.tt-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+	background-color: #00000059;
+}
+
+.tt-overlay-item {
+	position: relative;
+	z-index: 999999999;
+}
+
 /* General Colors */
 
 *[color="white"] {
@@ -178,6 +193,14 @@
 	width: 100%;
 	display: flex;
 	flex-direction: row-reverse;
+}
+
+.tt-container.theme-default .options {
+	/*color: #acea00;*/
+	color: white;
+}
+
+.tt-container.theme-alternative .options {
 	color: #acea00;
 }
 
