@@ -1150,9 +1150,8 @@ function getCookie(cname) {
 function getRFC() {
 	const rfc = getCookie("rfc_v");
 	if (!rfc) {
-		const cookies = document.cookie.split("; ");
-		for (let i in cookies) {
-			let cookie = cookies[i].split("=");
+		for (let cookie of document.cookie.split("; ")) {
+			cookie = cookie.split("=");
 			if (cookie[0] === "rfc_v") {
 				return cookie[1];
 			}
