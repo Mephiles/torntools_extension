@@ -481,3 +481,21 @@ function getDiffClass(diff) {
 	else if (diff < 0) return "down";
 	else return "";
 }
+
+let totalPortfolio = doc.new({
+  type: 'div',
+  id: 'tt-totalPortfolio',
+  class: 'm-top10 tt-title title-green all-rounded'
+});
+let totalPortfolioValue = 0;
+// Loops through all the li elements (stock blocks)
+for (let element of document.findAll('.stock-main-wrap>ul.stock-cont>li.item-wrap')) {
+	totalPortfolioValue += parseInt(element.find('.item .info .c-price-wrap .first-row span').innerText.replace('Worth: ', '').replace('$', '').replace(/,/g, '').trim());
+}
+totalPortfolioValue = new Intl.NumberFormat('en-US', {
+	style: 'currency',
+	currency: 'USD',}).format(totalPortfolioValue).slice(0, -3);
+document.querySelector("#info_wrapper").insertAdjacentElement("beforeBegin", totalPortfolio);
+totalPortfolio.style.fontSize = "18px;
+totalPortfolio.innerHTML = `Total Portfolio Value : ${totalPortfolioValue}`;
+totalPortfolio.insertAdjacentHTML("afterEnd", "<br>");
