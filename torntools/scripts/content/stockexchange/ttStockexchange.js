@@ -45,6 +45,8 @@ requireDatabase().then(() => {
 
 			addFilter(filters);
 		}
+		
+		showTotalPortfolioValue();
 	});
 });
 
@@ -480,4 +482,14 @@ function getDiffClass(diff) {
 	if (diff > 0) return "up";
 	else if (diff < 0) return "down";
 	else return "";
+}
+
+function showTotalPortfolioValue() {
+	let totalPortfolioValue = 0;
+	for (let element of document.findAll('.stock-main-wrap>ul.stock-cont>li.item-wrap')) {
+		totalPortfolioValue += parseInt(element.find('.item .info .c-price-wrap .first-row span').innerText.replace('Worth: ', '').replace('$', '').replace(/,/g, '').trim());
+	}
+	totalPortfolioValue = numberWithCommas(totalPortfolioValue);
+	totalPortfolioValue = "$" + totalPortfolioValue.toString();
+	document.find(".title").innerText += ` (Total Value ${totalPortfolioValue})`;
 }
