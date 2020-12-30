@@ -24,4 +24,5 @@ We have prettier formatting to help you follow our coding conventions.
       * If it are global constants use UPPERCASE.
     * Operators ( = + - * / ) and commas are followed by spaces.
     * Statements end with a semicolon.
-  
+  * All features should be in a function.
+    * The function should be called after it's verified that all required elements are present.
