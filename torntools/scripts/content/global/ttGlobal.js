@@ -778,5 +778,5 @@ function addPeopleBoxFilter() {
 			}
 		};
 	};
-};
+}
 
