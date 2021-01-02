@@ -1,5 +1,7 @@
 "use strict";
 
+let pendingActions = {};
+
 (async () => {
 	await loadDatabase();
 	console.log("TT: Items - Loading script. ");
@@ -13,12 +15,15 @@
 })();
 
 function loadItems() {
-	requireContent().then(async () => {
+	requireContent().then(() => {
 		loadQuickItems().catch((error) => console.error("Couldn't load the quick items.", error));
 		showItemValues().catch((error) => console.error("Couldn't show the item values.", error));
 		showDrugDetails().catch((error) => console.error("Couldn't show drug details.", error));
 		showItemMarketIcons().catch((error) => console.error("Couldn't show the market icons.", error));
 		highlightBloodBags().catch((error) => console.error("Couldn't highlight the correct blood bags.", error));
+	});
+	requireItemsLoaded().then(() => {
+		initializeItems();
 	});
 }
 
@@ -42,6 +47,67 @@ function loadItemsOnce() {
 			timer.dataset.secondsLeft = `${secondsLeft}`;
 		}
 	}, 1000);
+
+	addXHRListener((event) => {
+		console.log("DKK XHR", event.detail);
+		const { page, json, xhr } = event.detail;
+
+		if (page === "item" && json) {
+			const params = new URLSearchParams(xhr.requestBody);
+			const step = params.get("step");
+
+			if (step === "useItem") {
+				if (!json.success) return;
+
+				if (params.get("step") !== "useItem") return;
+				if (params.has("fac") && params.get("fac") !== "0") return;
+
+				const item = params.get("itemID");
+
+				updateItemAmount(item, -1);
+			} else if (step === "sendItemAction") {
+				if (!json.success) return;
+
+				const actionId = json.confirm ? json.itemID : params.get("XID");
+				const item = json.confirm ? params.get("itemID") : pendingActions[actionId].item;
+				const amount = json.amount;
+
+				if (json.confirm) pendingActions[actionId] = { item };
+				else {
+					delete pendingActions[actionId];
+
+					updateItemAmount(item, -amount);
+				}
+			}
+			// TODO - Update item list features.
+		}
+	});
+
+	requireItemsLoaded().then(() => {
+		for (let icon of document.findAll("ul[role=tablist] li:not(.no-items):not(.m-show):not(.hide)")) {
+			icon.addEventListener("click", () => requireItemsLoaded().then(initializeItems));
+		}
+	});
+}
+
+function requireItemsLoaded() {
+	return requireElement(".items-cont[aria-expanded=true] > li > .title-wrap");
+}
+
+function initializeItems() {
+	new Promise((resolve) => {
+		// Quick items
+		for (let item of doc.findAll(".items-cont[aria-expanded=true] > li[data-item]")) {
+			if (!USABLE_ITEM_TYPES.includes(item.getAttribute("data-category"))) continue;
+
+			const titleWrap = item.find(".title-wrap");
+
+			titleWrap.setAttribute("draggable", "true");
+			titleWrap.addEventListener("dragstart", onDragStart);
+			titleWrap.addEventListener("dragend", onDragEnd);
+		}
+		resolve();
+	}).catch((error) => console.error("Couldn't make the items draggable for quick items.", error));
 }
 
 async function loadQuickItems() {
@@ -88,89 +154,6 @@ async function loadQuickItems() {
 			addQuickItem(content, id, false);
 		}
 
-		function addQuickItem(content, id, temporary = false) {
-			if (!content) content = findContainer("Quick Items");
-			const innerContent = content.find(".inner-content");
-			const responseWrap = content.find(".response-wrap");
-
-			if (innerContent.find(`.item[item-id='${id}']`)) return;
-			if (!USABLE_ITEM_TYPES.includes(torndata.items[id].type)) return;
-
-			let itemWrap = document.newElement({
-				type: "div",
-				class: temporary ? "temp item" : "item",
-				attributes: { "item-id": id },
-				events: {
-					click: () => {
-						console.log("Clicked Quick item");
-						getAction({
-							type: "post",
-							action: "item.php",
-							data: { step: "useItem", id: id, itemID: id },
-							success: (str) => {
-								const response = JSON.parse(str);
-
-								const links = ["<a href='#' class='close-act t-blue h'>Close</a>"];
-								if (response.links) {
-									for (let link of response.links) {
-										links.push(`<a class="t-blue h m-left10 ${link.class}" href="${link.url}" ${link.attr}>${link.title}</a>`);
-									}
-								}
-
-								responseWrap.style.display = "block";
-								responseWrap.innerHTML = `
-									<div class="action-wrap use-act use-action">
-										<form data-action="useItem" method="post">
-    										<p>${response.text}</p>
-    										<p>${links.join("")}</p>
-											<div class="clear"></div>
-										</form>
-									</div>
-								`;
-
-								for (let count of responseWrap.findAll(".counter-wrap")) {
-									count.classList.add("tt-modified");
-									count.innerText = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer" });
-								}
-							},
-						});
-					},
-				},
-			});
-			itemWrap.appendChild(
-				document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } })
-			);
-			if (hasAPIData()) {
-				itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: torndata.items[id].name }));
-
-				if (settings.apiUsage.user.inventory) {
-					let amount = findItemsInList(userdata.inventory, { ID: id }, { single: true });
-					amount = amount ? amount.quantity : 0;
-
-					itemWrap.appendChild(
-						document.newElement({ type: "div", class: "sub-text quantity", attributes: { quantity: amount }, text: amount + "x" })
-					);
-				}
-			} else {
-				itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: id }));
-			}
-			itemWrap.appendChild(
-				document.newElement({
-					type: "i",
-					class: "fas fa-times tt-close-icon",
-					events: {
-						click: async (event) => {
-							event.stopPropagation();
-							itemWrap.remove();
-
-							await ttStorage.change({ quick: { items: [...content.findAll(".item")].map((x) => parseInt(x.getAttribute("item-id"))) } });
-						},
-					},
-				})
-			);
-			innerContent.appendChild(itemWrap);
-		}
-
 		async function onTornItemClick(event) {
 			event.stopPropagation();
 			event.preventDefault();
@@ -187,26 +170,146 @@ async function loadQuickItems() {
 	}
 }
 
+function addQuickItem(content, id, temporary = false) {
+	if (!content) content = findContainer("Quick Items").find(".content");
+	const innerContent = content.find(".inner-content");
+	const responseWrap = content.find(".response-wrap");
+
+	if (innerContent.find(`.item[item-id='${id}']`)) return;
+	if (!USABLE_ITEM_TYPES.includes(torndata.items[id].type)) return;
+
+	let itemWrap = document.newElement({
+		type: "div",
+		class: temporary ? "temp item" : "item",
+		attributes: { "item-id": id },
+		events: {
+			click: () => {
+				getAction({
+					type: "post",
+					action: "item.php",
+					data: { step: "useItem", id: id, itemID: id },
+					success: (str) => {
+						const response = JSON.parse(str);
+
+						const links = ["<a href='#' class='close-act t-blue h'>Close</a>"];
+						if (response.links) {
+							for (let link of response.links) {
+								links.push(`<a class="t-blue h m-left10 ${link.class}" href="${link.url}" ${link.attr}>${link.title}</a>`);
+							}
+						}
+
+						responseWrap.style.display = "block";
+						responseWrap.innerHTML = `
+									<div class="action-wrap use-act use-action">
+										<form data-action="useItem" method="post">
+    										<p>${response.text}</p>
+    										<p>${links.join("")}</p>
+											<div class="clear"></div>
+										</form>
+									</div>
+								`;
+
+						for (let count of responseWrap.findAll(".counter-wrap")) {
+							count.classList.add("tt-modified");
+							count.innerText = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer" });
+						}
+						updateItemAmount(id, -1);
+					},
+				});
+			},
+		},
+	});
+	itemWrap.appendChild(document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } }));
+	if (hasAPIData()) {
+		itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: torndata.items[id].name }));
+
+		if (settings.apiUsage.user.inventory) {
+			let amount = findItemsInList(userdata.inventory, { ID: id }, { single: true });
+			amount = amount ? amount.quantity : 0;
+
+			itemWrap.appendChild(document.newElement({ type: "div", class: "sub-text quantity", attributes: { quantity: amount }, text: amount + "x" }));
+		}
+	} else {
+		itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: id }));
+	}
+	itemWrap.appendChild(
+		document.newElement({
+			type: "i",
+			class: "fas fa-times tt-close-icon",
+			events: {
+				click: async (event) => {
+					event.stopPropagation();
+					itemWrap.remove();
+
+					await ttStorage.change({ quick: { items: [...content.findAll(".item")].map((x) => parseInt(x.getAttribute("item-id"))) } });
+				},
+			},
+		})
+	);
+	innerContent.appendChild(itemWrap);
+}
+
+function onDragStart(event) {
+	event.dataTransfer.setData("text/plain", null);
+
+	setTimeout(() => {
+		document.find("#quickItems .content").classList.add("drag-progress");
+		if (document.find("#quickItems .temp.item")) return;
+
+		let id = event.target.parentElement.getAttribute("data-item");
+
+		addQuickItem(undefined, id, true);
+		enableInjectListener();
+	}, 10);
+}
+
+async function onDragEnd() {
+	if (document.find("#quickItems .temp.item")) {
+		document.find("#quickItems .temp.item").remove();
+	}
+
+	document.find("#quickItems .content").classList.remove("drag-progress");
+
+	let items = [...document.findAll("#quickItems .item")].map((x) => x.getAttribute("item-id"));
+	await ttStorage.change({ quick: { items } });
+}
+
+function updateItemAmount(id, change) {
+	const quickQuantity = findContainer("Quick Items", { selector: `.item[item-id="${id}"] .quantity` });
+	if (quickQuantity) {
+		let newQuantity = parseInt(quickQuantity.getAttribute("quantity")) + change;
+
+		quickQuantity.innerText = newQuantity + "x";
+		quickQuantity.setAttribute("quantity", newQuantity);
+	}
+
+	// TODO - Update item value quantities.
+}
+
 async function showItemValues() {
 	if (settings.pages.items.values && hasAPIData()) {
+		// TODO - Show item values.
 	} else {
 	}
 }
 
 async function showDrugDetails() {
 	if (settings.pages.items.drugDetails) {
+		// TODO - Show extra drug details.
 	} else {
 	}
 }
 
 async function showItemMarketIcons() {
 	if (settings.pages.items.marketLinks && !(await checkMobile())) {
+		// TODO - Display market links.
 	} else {
 	}
 }
 
 async function highlightBloodBags() {
 	if (settings.pages.items.marketLinks && !(await checkMobile())) {
+		// TODO - Highlight blood bags.
 	} else {
 	}
 }

@@ -1073,12 +1073,17 @@ function createContainer(title, options = {}) {
 function findContainer(title, options = {}) {
 	options = {
 		id: title.camelCase(true),
+		selector: false,
 		...options,
 	};
 
 	if (!options.id) return false;
 
-	return document.find(`#${options.id}`);
+	const container = document.find(`#${options.id}`);
+	if (!container) return false;
+
+	if (options.selector) return container.find(options.selector);
+	else return container;
 }
 
 function removeContainer(title, options = {}) {
