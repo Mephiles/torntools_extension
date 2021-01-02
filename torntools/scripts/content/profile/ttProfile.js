@@ -1218,11 +1218,7 @@ function showProfileNotes() {
 function ageToWords() {
 	document.findAll(".box-name.t-gray-9.bold")[2].remove();
 	let newAge = doc.new({ type: "div", class: "box-name t-gray-9 bold" });
-	let age = "";
-	for (let number of document.find(".box-info.age").findAll(".digit")) {
-		age += number.innerText;
-	}
-	age = Number(age);
+	let age = parseInt([...document.findAll(".box-info.age .digit")].map(x => x.innerText).join(''));
 	let dateCurrent = new Date();
 	let utimeTarget = dateCurrent.getTime() + age * 86400 * 1000;
 	let dateTarget = new Date(utimeTarget);
