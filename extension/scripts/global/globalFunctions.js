@@ -1010,6 +1010,7 @@ function createContainer(title, options = {}) {
 		applyRounding: true,
 		spacer: false,
 		contentBackground: true,
+		allowDragging: false,
 		...options,
 	};
 
@@ -1063,6 +1064,28 @@ function createContainer(title, options = {}) {
 				container.find(".title").classList.toggle("collapsed");
 
 				await ttStorage.change({ filters: { containers: { [options.id]: container.find(".title").classList.contains("collapsed") } } });
+			});
+		}
+		if (options.allowDragging) {
+			let content = container.find(".content");
+			content.addEventListener("dragover", (event) => event.preventDefault());
+			content.addEventListener("drop", (event) => {
+				content.find(".temp.item").classList.remove("temp");
+				container.find(".content").style.maxHeight = container.find(".content").scrollHeight + "px";
+
+				// Firefox opens new tab when dropping item
+				event.preventDefault();
+				event.dataTransfer.clearData();
+			});
+			content.addEventListener("dragenter", () => {
+				if (content.find(".temp.item")) {
+					content.find(".temp.item").style.opacity = "1";
+				}
+			});
+			content.addEventListener("dragleave", () => {
+				if (content.find(".temp.item")) {
+					content.find(".temp.item").style.opacity = "0.2";
+				}
 			});
 		}
 

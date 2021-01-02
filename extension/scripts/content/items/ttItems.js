@@ -95,28 +95,27 @@ function requireItemsLoaded() {
 }
 
 function initializeItems() {
-	new Promise((resolve) => {
-		// Quick items
-		for (let item of doc.findAll(".items-cont[aria-expanded=true] > li[data-item]")) {
-			if (!USABLE_ITEM_TYPES.includes(item.getAttribute("data-category"))) continue;
-
-			const titleWrap = item.find(".title-wrap");
-
-			titleWrap.setAttribute("draggable", "true");
-			titleWrap.addEventListener("dragstart", onDragStart);
-			titleWrap.addEventListener("dragend", onDragEnd);
-		}
-		resolve();
-	}).catch((error) => console.error("Couldn't make the items draggable for quick items.", error));
+	setupQuickDragListeners().catch((error) => console.error("Couldn't make the items draggable for quick items.", error));
 }
 
-async function loadQuickItems() {
-	const USABLE_ITEM_TYPES = ["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"];
+const quickItems = {
+	updateQuantity(id, change) {
+		const quickQuantity = findContainer("Quick Items", { selector: `.item[item-id="${id}"] .quantity` });
+		if (!quickQuantity) return;
 
+		let newQuantity = parseInt(quickQuantity.getAttribute("quantity")) + change;
+
+		quickQuantity.innerText = newQuantity + "x";
+		quickQuantity.setAttribute("quantity", newQuantity);
+	},
+};
+
+async function loadQuickItems() {
 	if (settings.pages.items.quickItems) {
 		const { content, options } = createContainer("Quick Items", {
 			nextElement: document.find(".equipped-items-wrap"),
 			spacer: true,
+			allowDragging: true,
 		});
 		content.appendChild(document.newElement({ type: "div", class: "inner-content" }));
 		content.appendChild(document.newElement({ type: "div", class: "response-wrap" }));
@@ -134,15 +133,15 @@ async function loadQuickItems() {
 						options.find("#edit-items-button").classList.toggle("tt-overlay-item");
 						if (document.find(".tt-overlay").classList.toggle("hidden")) {
 							for (let item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
-								if (!USABLE_ITEM_TYPES.includes(item.getAttribute("data-category"))) continue;
+								if (!allowQuickItem(item.getAttribute("data-category"))) continue;
 
-								item.removeEventListener("click", onTornItemClick);
+								item.removeEventListener("click", onItemClickQuickEdit);
 							}
 						} else {
 							for (let item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
-								if (!USABLE_ITEM_TYPES.includes(item.getAttribute("data-category"))) continue;
+								if (!allowQuickItem(item.getAttribute("data-category"))) continue;
 
-								item.addEventListener("click", onTornItemClick);
+								item.addEventListener("click", onItemClickQuickEdit);
 							}
 						}
 					},
@@ -151,32 +150,20 @@ async function loadQuickItems() {
 		);
 
 		for (let id of quick.items) {
-			addQuickItem(content, id, false);
-		}
-
-		async function onTornItemClick(event) {
-			event.stopPropagation();
-			event.preventDefault();
-
-			const target = findParent(event.target, { hasAttribute: "data-item" });
-			const id = parseInt(target.getAttribute("data-item"));
-
-			addQuickItem(content, id, false);
-
-			await ttStorage.change({ quick: { items: [...content.findAll(".item")].map((x) => parseInt(x.getAttribute("item-id"))) } });
+			addQuickItem(id, false);
 		}
 	} else {
 		removeContainer("Quick Items");
 	}
 }
 
-function addQuickItem(content, id, temporary = false) {
-	if (!content) content = findContainer("Quick Items").find(".content");
+function addQuickItem(id, temporary = false) {
+	const content = findContainer("Quick Items", { selector: ".content" });
 	const innerContent = content.find(".inner-content");
 	const responseWrap = content.find(".response-wrap");
 
 	if (innerContent.find(`.item[item-id='${id}']`)) return;
-	if (!USABLE_ITEM_TYPES.includes(torndata.items[id].type)) return;
+	if (!allowQuickItem(torndata.items[id].type)) return;
 
 	let itemWrap = document.newElement({
 		type: "div",
@@ -241,7 +228,7 @@ function addQuickItem(content, id, temporary = false) {
 					event.stopPropagation();
 					itemWrap.remove();
 
-					await ttStorage.change({ quick: { items: [...content.findAll(".item")].map((x) => parseInt(x.getAttribute("item-id"))) } });
+					await saveQuickItems();
 				},
 			},
 		})
@@ -249,29 +236,62 @@ function addQuickItem(content, id, temporary = false) {
 	innerContent.appendChild(itemWrap);
 }
 
-function onDragStart(event) {
-	event.dataTransfer.setData("text/plain", null);
-
-	setTimeout(() => {
-		document.find("#quickItems .content").classList.add("drag-progress");
-		if (document.find("#quickItems .temp.item")) return;
-
-		let id = event.target.parentElement.getAttribute("data-item");
-
-		addQuickItem(undefined, id, true);
-		enableInjectListener();
-	}, 10);
+function allowQuickItem(category) {
+	return ["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category);
 }
 
-async function onDragEnd() {
-	if (document.find("#quickItems .temp.item")) {
-		document.find("#quickItems .temp.item").remove();
+async function saveQuickItems() {
+	const content = findContainer("Quick Items", { selector: ".content" });
+
+	await ttStorage.change({ quick: { items: [...content.findAll(".item")].map((x) => parseInt(x.getAttribute("item-id"))) } });
+}
+
+async function setupQuickDragListeners() {
+	for (let item of document.findAll(".items-cont[aria-expanded=true] > li[data-item]")) {
+		if (!allowQuickItem(item.getAttribute("data-category"))) continue;
+
+		const titleWrap = item.find(".title-wrap");
+
+		titleWrap.setAttribute("draggable", "true");
+		titleWrap.addEventListener("dragstart", onDragStart);
+		titleWrap.addEventListener("dragend", onDragEnd);
 	}
 
-	document.find("#quickItems .content").classList.remove("drag-progress");
+	function onDragStart(event) {
+		event.dataTransfer.setData("text/plain", null);
 
-	let items = [...document.findAll("#quickItems .item")].map((x) => x.getAttribute("item-id"));
-	await ttStorage.change({ quick: { items } });
+		setTimeout(() => {
+			document.find("#quickItems .content").classList.add("drag-progress");
+			if (document.find("#quickItems .temp.item")) return;
+
+			let id = parseInt(event.target.parentElement.getAttribute("data-item"));
+
+			addQuickItem(id, true);
+			// enableInjectListener();
+		}, 10);
+	}
+
+	async function onDragEnd(event) {
+		if (document.find("#quickItems .temp.item")) {
+			document.find("#quickItems .temp.item").remove();
+		}
+
+		document.find("#quickItems .content").classList.remove("drag-progress");
+
+		await saveQuickItems();
+	}
+}
+
+async function onItemClickQuickEdit(event) {
+	event.stopPropagation();
+	event.preventDefault();
+
+	const target = findParent(event.target, { hasAttribute: "data-item" });
+	const id = parseInt(target.getAttribute("data-item"));
+
+	addQuickItem(id, false);
+
+	await saveQuickItems();
 }
 
 function updateItemAmount(id, change) {
