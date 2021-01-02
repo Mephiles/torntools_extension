@@ -747,33 +747,36 @@ function nukeReviveScript() {
 
 // Code for adding chat filter for People Box
 function addPeopleBoxFilter() {
-	let peopleBox = document.find(".chat-box-people_SPbEh");
+	if (document.find(".chat-box-people_SPbEh").findAll(".tt-chat-filter").length === 0) {
+		let peopleBox = document.find(".chat-box-people_SPbEh");
 	
-	peopleBox.nextElementSibling.classList.add("tt-modified");
+		peopleBox.nextElementSibling.classList.add("tt-modified");
 	
-	let filter_wrap = doc.new({ type: "div", class: "tt-chat-filter" });
-	let filter_text = doc.new({ type: "div", text: "Find:" });
-	let filter_input = doc.new({ type: "input", id: "---search---" });
+		let filter_wrap = doc.new({ type: "div", class: "tt-chat-filter" });
+		let filter_text = doc.new({ type: "div", text: "Find:" });
+		let filter_input = doc.new({ type: "input", id: "---search---" });
 	
-	filter_wrap.appendChild(filter_text);
-	filter_wrap.appendChild(filter_input);
+		filter_wrap.appendChild(filter_text);
+		filter_wrap.appendChild(filter_input);
 
-	peopleBox.find(".chat-box-content_2C5UJ").appendChild(filter_wrap);
+		peopleBox.find(".chat-box-content_2C5UJ").appendChild(filter_wrap);
 
 		// Filtering process
-	filter_input.onkeyup = () => {
-		let keyword = filter_input.value.toLowerCase();
+		filter_input.onkeyup = () => {
+			let keyword = filter_input.value.toLowerCase();
 		
-		for (let player of peopleBox.findAll(".started-chat_1InmJ")) {
-			player.style.display = "block";
+			for (let player of peopleBox.findAll(".started-chat_1InmJ")) {
+				player.style.display = "block";
 
-			if (keyword && player.find(".bold").innerText.toLowerCase().indexOf(keyword) === -1) {
-				player.style.display = "none";
+				if (keyword && player.find(".bold").innerText.toLowerCase().indexOf(keyword) === -1) {
+					player.style.display = "none";
+				}
 			}
-		}
 
-		if (!keyword) {
-			peopleBox.find(".viewport_1F0WI").scrollTo(0,0);
-		}
+			if (!keyword) {
+				peopleBox.find(".viewport_1F0WI").scrollTo(0,0);
+			}
+		};
 	};
-}
+};
+
