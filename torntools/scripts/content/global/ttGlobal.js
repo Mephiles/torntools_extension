@@ -164,7 +164,10 @@ requireDatabase().then(() => {
 		if (doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")) {
 			manipulateChat(highlights);
 
-			if (settings.pages.global.find_chat) addChatFilters();
+			if (settings.pages.global.find_chat) {
+				addChatFilters();
+				addPeopleBoxFilter();
+			}
 			if (settings.pages.global.autocomplete_chat) addChatUsernameAutocomplete();
 		}
 
@@ -174,7 +177,10 @@ requireDatabase().then(() => {
 			}
 
 			manipulateChat(highlights);
-			if (settings.pages.global.find_chat) addChatFilters();
+			if (settings.pages.global.find_chat) {
+				addChatFilters();
+				addPeopleBoxFilter();
+			}
 			if (settings.pages.global.autocomplete_chat) addChatUsernameAutocomplete();
 		});
 
@@ -370,7 +376,7 @@ function addChatFilters() {
 		chat.nextElementSibling.classList.add("tt-modified");
 
 		let filter_wrap = doc.new({ type: "div", class: "tt-chat-filter" });
-		let filter_text = doc.new({ type: "div", text: "find:" });
+		let filter_text = doc.new({ type: "div", text: "Find:" });
 		let filter_input = doc.new({ type: "input", id: "---search---" });
 
 		filter_wrap.appendChild(filter_text);
@@ -737,4 +743,37 @@ function nukeReviveScript() {
 			console.log("response", response);
 		});
 	}
+}
+
+// Code for adding chat filter for People Box
+function addPeopleBoxFilter() {
+	let peopleBox = document.find(".chat-box-people_SPbEh");
+	
+	peopleBox.nextElementSibling.classList.add("tt-modified");
+	
+	let filter_wrap = doc.new({ type: "div", class: "tt-chat-filter" });
+	let filter_text = doc.new({ type: "div", text: "Find:" });
+	let filter_input = doc.new({ type: "input", id: "---search---" });
+	
+	filter_wrap.appendChild(filter_text);
+	filter_wrap.appendChild(filter_input);
+
+	peopleBox.find(".chat-box-content_2C5UJ").appendChild(filter_wrap);
+
+		// Filtering process
+	filter_input.onkeyup = () => {
+		let keyword = filter_input.value.toLowerCase();
+		
+		for (let player of peopleBox.findAll(".started-chat_1InmJ")) {
+			player.style.display = "block";
+
+			if (keyword && player.find(".bold").innerText.toLowerCase().indexOf(keyword) === -1) {
+				player.style.display = "none";
+			}
+		}
+
+		if (!keyword) {
+			peopleBox.find(".viewport_1F0WI").scrollTo(0,0);
+		}
+	};
 }
