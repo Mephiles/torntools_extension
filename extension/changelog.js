@@ -37,6 +37,40 @@ export default [
 		},
 	},
 	{
+		version: { major: 5, minor: 4, build: 0 },
+		date: new Date(2020, 11, 16),
+		logs: {
+			features: [
+				{ message: "Show total Portfolio Value.", contributor: "bandirao" },
+				{ message: "Allow chat filtering for people with recent interactions.", contributor: "bandirao" },
+				{ message: "Show age as words.", contributor: "bandirao" },
+				{ message: "Hide completed education courses.", contributor: "bandirao" },
+			],
+		},
+	},
+	{
+		version: { major: 5, minor: 3, build: 5 },
+		date: new Date(2020, 11, 16),
+		logs: {
+			fixes: [{ message: "Fix armory shortening.", contributor: "Mephiles" }],
+			changes: [{ message: "Remove proxy support.", contributor: "DeKleineKobini" }],
+		},
+	},
+	{
+		version: { major: 5, minor: 3, build: 4 },
+		date: new Date(2020, 10, 29),
+		logs: {
+			fixes: [
+				{ message: "Update 'Rising Costs' hint.", contributor: "DeKleineKobini" },
+				{ message: "Fix an issue with an old rank name.", contributor: "h4xnoodle" },
+				{ message: "Add safety measure for faction filter when your computer clock is out of sync.", contributor: "DeKleineKobini" },
+				{ message: "Fix wrong Piercing Weapons achievement 2,500 goal.", contributor: "Mephiles" },
+				{ message: "Fix trade logs showing money values for comments.", contributor: "Mephiles" },
+				{ message: "Fix trailing '.0,000,001' issues in trade calculations.", contributor: "Mephiles" },
+			],
+		},
+	},
+	{
 		version: { major: 5, minor: 3, build: 3 },
 		date: new Date(2020, 10, 11),
 		logs: {
