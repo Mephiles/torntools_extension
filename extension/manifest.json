@@ -101,6 +101,7 @@
 				"scripts/content/items/ttItems.css"
 			],
 			"js": [
+				"vendor/jquery/jquery.js",
 				"scripts/content/items/ttItems.js"
 			],
 			"run_at": "document_end"

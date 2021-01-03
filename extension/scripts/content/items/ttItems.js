@@ -337,30 +337,24 @@ async function highlightBloodBags() {
 /*
  * Torn Function
  */
-function getAction(obj) {
-	obj.success = obj.success || (() => {});
-	obj.before = obj.before || (() => {});
-	obj.complete = obj.complete || (() => {});
-	const url = obj.action || window.location.protocol + "//" + window.location.hostname + location.pathname;
-	const options = {
-		url: "https://www.torn.com/" + addRFC(url),
-		type: obj.type || "get",
-		data: obj.data || {},
-		async: typeof obj.async !== "undefined" ? obj.async : true,
-		success: (msg) => {
-			console.log("success");
-			obj.success(msg);
-		},
-		error: (xhr, ajaxOptions, thrownError) => {
-			console.error("Error during action call.", thrownError);
-		},
+function getAction(options) {
+	options = {
+		success: () => {},
+		action: location.pathname,
+		type: "get",
+		data: {},
+		async: false,
+		...options,
 	};
-	if (options.data.step !== undefined) {
-	}
-	if (obj.file) {
-		options.cache = false;
-		options.contentType = false;
-		options.processData = false;
-	}
-	return $.ajax(options);
+
+	return $.ajax({
+		url: "https://www.torn.com/" + addRFC(options.action),
+		type: options.type,
+		data: options.data,
+		async: options.async,
+		success: (msg) => options.success(msg),
+		error: (xhr, ajaxOptions, error) => {
+			console.error("Error during action call.", error);
+		},
+	});
 }
