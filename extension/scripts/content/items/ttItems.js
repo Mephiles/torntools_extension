@@ -343,7 +343,7 @@ function getAction(options) {
 		action: location.pathname,
 		type: "get",
 		data: {},
-		async: false,
+		async: true,
 		...options,
 	};
 
