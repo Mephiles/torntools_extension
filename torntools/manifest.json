@@ -140,7 +140,7 @@
 		{
 			"matches": ["https://www.torn.com/education.php*"],
 			"css": ["scripts/content/achievements/ttAchievements.css"],
-			"js": ["scripts/content/achievements/ttEducationAchievements.js"],
+			"js": ["scripts/content/achievements/ttEducationAchievements.js", "scripts/content/education/ttEducation.js"],
 			"run_at": "document_end"
 		},
 		{
