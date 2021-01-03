@@ -97,18 +97,6 @@ function initializeItems() {
 	setupQuickDragListeners().catch((error) => console.error("Couldn't make the items draggable for quick items.", error));
 }
 
-const quickItems = {
-	updateQuantity(id, change) {
-		const quickQuantity = findContainer("Quick Items", { selector: `.item[item-id="${id}"] .quantity` });
-		if (!quickQuantity) return;
-
-		let newQuantity = parseInt(quickQuantity.getAttribute("quantity")) + change;
-
-		quickQuantity.innerText = newQuantity + "x";
-		quickQuantity.setAttribute("quantity", newQuantity);
-	},
-};
-
 async function loadQuickItems() {
 	if (settings.pages.items.quickItems) {
 		const { content, options } = createContainer("Quick Items", {
