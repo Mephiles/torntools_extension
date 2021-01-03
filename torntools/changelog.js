@@ -1,5 +1,5 @@
 export default {
-	"v5.3.6 - December, 16th. 2020": {
+	"v5.4 - xxxx, xxth. 2021": {
 		Changes: [
 			"Show total Portfolio Value. - Sashank999",
 			"Allow chat filtering for people with recent interactions. - Sashank999",
