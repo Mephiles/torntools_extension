@@ -1,6 +1,6 @@
 export default {
 	"v5.4 - xxxx, xxth. 2021": {
-		Changes: [
+		Features: [
 			"Show total Portfolio Value. - Sashank999",
 			"Allow chat filtering for people with recent interactions. - Sashank999",
 			"Show age as words. - Sashank999",
