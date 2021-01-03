@@ -49,7 +49,6 @@ function loadItemsOnce() {
 	}, 1000);
 
 	addXHRListener((event) => {
-		console.log("DKK XHR", event.detail);
 		const { page, json, xhr } = event.detail;
 
 		if (page === "item" && json) {
