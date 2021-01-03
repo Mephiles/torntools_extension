@@ -302,6 +302,16 @@ const CONTRIBUTORS = {
 		name: "Natty_Boh",
 		color: "blue",
 	},
+	h4xnoodle: {
+		id: 2315090,
+		name: "h4xnoodle",
+		color: "teal",
+	},
+	bandirao: {
+		id: 1936821,
+		name: "bandirao",
+		color: "greenyellow",
+	},
 };
 
 let mobile;
