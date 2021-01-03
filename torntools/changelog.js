@@ -4,6 +4,7 @@ export default {
 			"Show total Portfolio Value. - Sashank999",
 			"Allow chat filtering for people with recent interactions. - Sashank999",
 			"Show age as words. - Sashank999",
+			"Hide completed education courses. - Sashank999",
 		],
 	},
 	"v5.3.5 - December, 16th. 2020": {
