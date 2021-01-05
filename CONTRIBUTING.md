@@ -24,6 +24,11 @@ We have prettier formatting to help you follow our coding conventions.
       * If it are global constants use UPPERCASE.
     * Operators ( = + - * / ) and commas are followed by spaces.
     * Statements end with a semicolon.
+  * All features should be in a function.
+    * The function should be called after it's verified that all required elements are present.
+    * Checking if the feature is enabled should happen in the function.
+      * All features should have a setting where it can be disabled.
+      * If it's not enabled, the function should remove all things is adds.
 
 ## Development Tips
 
