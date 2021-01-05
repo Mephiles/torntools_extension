@@ -69,7 +69,7 @@
 
 						<li class="header">Pages</li>
 						<li name="home">Home</li>
-						<li>Items</li>
+						<li name="items">Items</li>
 						<li>City</li>
 						<li>Job</li>
 						<li>Gym</li>
@@ -115,7 +115,7 @@
 							<input id="themes-pages__default" type="radio" name="themePage" value="default" />
 							<label for="themes-pages__default">OS Default</label>
 						</div>
-						<div class="tabbed note">Might not work on every browser, will use light theme if not supported.</div>
+						<label for="themes-pages__default" class="tabbed note">Might not work on every browser, will use light theme if not supported.</label>
 						<div class="option">
 							<input id="themes-pages__light" type="radio" name="themePage" value="light" />
 							<label for="themes-pages__light">Light</label>
@@ -308,7 +308,7 @@
 							<input id="sidebar-ocTimer" type="checkbox" />
 							<label for="sidebar-ocTimer">Show OC ready time in sidebar.</label>
 						</div>
-						<div class="note tabbed">(requires faction API access)</div>
+						<label for="sidebar-ocTimer" class="note tabbed">(requires faction API access)</label>
 
 						<div class="header">Refills</div>
 						<div class="option">
@@ -435,7 +435,7 @@
 							<br />
 							<input id="notification-sound-upload" class="hidden" type="file" accept=".mp3,.ogg,.wav" />
 						</div>
-						<div class="tabbed note">(Mute only works in Chrome, OS default might not work in all browsers)</div>
+						<label for="notification-sound" class="tabbed note">(Mute only works in Chrome, OS default might not work in all browsers)</label>
 						<div class="option">
 							<input id="notification-tts" type="checkbox" />
 							<label for="notification-tts">Use text-to-speech.</label>
@@ -549,6 +549,41 @@
 							<input id="home-effectiveStats" type="checkbox" />
 							<label for="home-effectiveStats">Show effective battle stats on the homepage.</label>
 						</div>
+					</section>
+					<section name="items">
+						<div class="header">Items</div>
+						<div class="option">
+							<input id="items-quickItems" type="checkbox" />
+							<label for="items-quickItems">Show the quick items container.</label>
+						</div>
+						<div class="option">
+							<input id="items-values" type="checkbox" />
+							<label for="items-values">Display item values.</label>
+						</div>
+						<div class="option">
+							<input id="items-drugDetails" type="checkbox" />
+							<label for="items-drugDetails">Show details about drugs.</label>
+						</div>
+						<label for="items-drugDetails" class="tabbed note">Also affects the faction armory.</label>
+						<div class="option">
+							<input id="items-marketLinks" type="checkbox" />
+							<label for="items-marketLinks">Add link icons to the item market.</label>
+						</div>
+						<div class="option">
+							<label for="items-highlightBloodBags">Highlight blood bags for:</label>
+							<select id="items-highlightBloodBags">
+								<option value="none">none</option>
+								<option value="o+">O+</option>
+								<option value="o-">O-</option>
+								<option value="a+">A+</option>
+								<option value="a-">A-</option>
+								<option value="b+">B+</option>
+								<option value="b-">B-</option>
+								<option value="ab+">AB+</option>
+								<option value="ab-">AB-</option>
+							</select>
+						</div>
+						<label for="items-highlightBloodBags" class="tabbed note">Also affects the faction armory.</label>
 					</section>
 				</div>
 			</section>

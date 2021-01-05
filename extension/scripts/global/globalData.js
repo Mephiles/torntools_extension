@@ -227,6 +227,13 @@ const DEFAULT_STORAGE = {
 				networthDetails: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				effectiveStats: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			items: {
+				quickItems: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				values: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				drugDetails: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				marketLinks: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				highlightBloodBags: new DefaultSetting({ type: "string", defaultValue: "none" }),
+			},
 		},
 	},
 	filters: {
@@ -249,6 +256,9 @@ const DEFAULT_STORAGE = {
 			text: new DefaultSetting({ type: "string", defaultValue: "" }),
 			height: new DefaultSetting({ type: "string", defaultValue: "22px" }),
 		},
+	},
+	quick: {
+		items: new DefaultSetting({ type: "array", defaultValue: [180] }),
 	},
 };
 

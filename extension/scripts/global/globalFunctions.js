@@ -78,7 +78,13 @@ Document.prototype.newElement = function (options = {}) {
 		}
 		if (options.href) newElement.href = options.href;
 
-		for (let child of options.children || []) newElement.appendChild(child);
+		for (let child of options.children || []) {
+			if (typeof child === "string") {
+				newElement.appendChild(document.createTextNode(child));
+			} else {
+				newElement.appendChild(child);
+			}
+		}
 
 		if (options.attributes) {
 			let attributes = options.attributes;
@@ -252,6 +258,7 @@ function findParent(element, options = {}) {
 		class: false,
 		id: false,
 		useRegex: false,
+		hasAttribute: false,
 		...options,
 	};
 
@@ -264,6 +271,7 @@ function findParent(element, options = {}) {
 			(options.useRegex && [...element.parentElement.classList].some((value) => value.match(options.class))))
 	)
 		return element.parentElement;
+	if (options.hasAttribute && element.parentElement.getAttribute(options.hasAttribute) !== null) return element.parentElement;
 
 	return findParent(element.parentElement, options);
 }
@@ -999,6 +1007,10 @@ function createContainer(title, options = {}) {
 		previousElement: false,
 		showHeader: true,
 		collapsible: true,
+		applyRounding: true,
+		spacer: false,
+		contentBackground: true,
+		allowDragging: false,
 		...options,
 	};
 
@@ -1014,7 +1026,7 @@ function createContainer(title, options = {}) {
 	else if (options.previousElement) parentElement.insertBefore(container, options.previousElement.nextSibling);
 	else parentElement.appendChild(container);
 
-	return { container, content: container.find(".content") };
+	return { container, content: container.find(".content"), options: container.find(".options") };
 
 	function _createContainer(title, options = {}) {
 		if (document.find(`#${options.id}`)) {
@@ -1027,6 +1039,8 @@ function createContainer(title, options = {}) {
 
 		let containerClasses = ["tt-container"];
 		if (options.collapsible) containerClasses.push("collapsible");
+		if (options.applyRounding) containerClasses.push("rounding");
+		if (options.spacer) containerClasses.push("spacer");
 
 		const theme = THEMES[settings.themes.containers];
 		containerClasses.push(theme.containerClass);
@@ -1042,7 +1056,7 @@ function createContainer(title, options = {}) {
 					<div class="options"></div>
 					${options.collapsible ? '<i class="icon fas fa-caret-down"/>' : ""}
 				</div>`;
-		html += '<div class="content"></div>';
+		html += `<div class="content ${options.contentBackground ? "background" : ""}"></div>`;
 		container.innerHTML = html;
 
 		if (options.collapsible) {
@@ -1052,20 +1066,51 @@ function createContainer(title, options = {}) {
 				await ttStorage.change({ filters: { containers: { [options.id]: container.find(".title").classList.contains("collapsed") } } });
 			});
 		}
+		if (options.allowDragging) {
+			let content = container.find(".content");
+			content.addEventListener("dragover", (event) => event.preventDefault());
+			content.addEventListener("drop", (event) => {
+				content.find(".temp.item").classList.remove("temp");
+				container.find(".content").style.maxHeight = container.find(".content").scrollHeight + "px";
+
+				// Firefox opens new tab when dropping item
+				event.preventDefault();
+				event.dataTransfer.clearData();
+			});
+			content.addEventListener("dragenter", () => {
+				if (content.find(".temp.item")) {
+					content.find(".temp.item").style.opacity = "1";
+				}
+			});
+			content.addEventListener("dragleave", () => {
+				if (content.find(".temp.item")) {
+					content.find(".temp.item").style.opacity = "0.2";
+				}
+			});
+		}
 
 		return container;
 	}
 }
 
-function removeContainer(title, attributes) {
-	attributes = {
+function findContainer(title, options = {}) {
+	options = {
 		id: title.camelCase(true),
-		...attributes,
+		selector: false,
+		...options,
 	};
 
-	if (!attributes.id) return;
+	if (!options.id) return false;
 
-	const container = document.find(`#${attributes.id}`);
+	const container = document.find(`#${options.id}`);
+	if (!container) return false;
+
+	if (options.selector) return container.find(options.selector);
+	else return container;
+}
+
+function removeContainer(title, options = {}) {
+	const container = findContainer(title, options);
 	if (!container) return;
 
 	container.remove();
@@ -1095,6 +1140,26 @@ function findItemsInObject(object, attributes = {}, options = {}) {
 	return options.single ? false : items;
 }
 
+function findItemsInList(list, attributes = {}, options = {}) {
+	options = {
+		single: false,
+		...options,
+	};
+
+	let items = [];
+	if (!list || list.length === 0) return options.single ? false : items;
+
+	for (let item of list) {
+		if (!Object.keys(attributes).every((attribute) => item[attribute] === attributes[attribute])) continue;
+
+		if (options.single) return item;
+
+		items.push(item);
+	}
+
+	return options.single ? false : items;
+}
+
 function isFlying() {
 	// noinspection EqualityComparisonWithCoercionJS
 	return document.body.dataset.traveling == true;
@@ -1103,4 +1168,36 @@ function isFlying() {
 function isAbroad() {
 	// noinspection EqualityComparisonWithCoercionJS
 	return document.body.dataset.abroad == true;
+}
+
+function getCookie(cname) {
+	const name = cname + "=";
+
+	for (let cookie of decodeURIComponent(document.cookie).split(";")) {
+		cookie = cookie.trimLeft();
+
+		if (cookie.includes(name)) {
+			return cookie.substring(name.length);
+		}
+	}
+	return "";
+}
+
+function getRFC() {
+	const rfc = getCookie("rfc_v");
+	if (!rfc) {
+		for (let cookie of document.cookie.split("; ")) {
+			cookie = cookie.split("=");
+			if (cookie[0] === "rfc_v") {
+				return cookie[1];
+			}
+		}
+	}
+	return rfc;
+}
+
+function addRFC(url) {
+	url = url || "";
+	url += (url.split("?").length > 1 ? "&" : "?") + "rfcv=" + getRFC();
+	return url;
 }

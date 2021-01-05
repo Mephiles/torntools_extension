@@ -155,6 +155,7 @@ function loadGlobal() {
 }
 
 function loadGlobalOnce() {
+	document.body.appendChild(document.newElement({ type: "div", class: "tt-overlay hidden" }));
 	setInterval(() => {
 		for (let countdown of document.findAll(".countdown.automatic[data-seconds]")) {
 			const seconds = parseInt(countdown.dataset.seconds) - 1;
@@ -441,6 +442,8 @@ async function showNotes() {
 	if (settings.pages.sidebar.notes && !(await checkMobile())) {
 		const { content } = createContainer("Notes", {
 			id: "sidebarNotes",
+			applyRounding: false,
+			contentBackground: false,
 			previousElement: findParent(document.find("h2=Information"), { class: /sidebar-block/i, useRegex: true }),
 		});
 
@@ -528,7 +531,7 @@ async function showCustomLinks() {
 		const areas = findParent(document.find("h2=Areas"), { class: /sidebar-block/i, useRegex: true });
 
 		if (settings.customLinks.filter((link) => link.location === "above").length) {
-			const { content } = createContainer("Custom Links", { id: "customLinksAbove", nextElement: areas });
+			const { content } = createContainer("Custom Links", { id: "customLinksAbove", applyRounding: false, contentBackground: false, nextElement: areas });
 
 			for (let link of settings.customLinks.filter((link) => link.location === "above")) {
 				content.appendChild(
@@ -553,7 +556,12 @@ async function showCustomLinks() {
 		}
 
 		if (settings.customLinks.filter((link) => link.location === "under").length) {
-			const { content } = createContainer("Custom Links", { id: "customLinksUnder", previousElement: areas });
+			const { content } = createContainer("Custom Links", {
+				id: "customLinksUnder",
+				applyRounding: false,
+				contentBackground: false,
+				previousElement: areas,
+			});
 
 			for (let link of settings.customLinks.filter((link) => link.location === "under")) {
 				content.appendChild(
