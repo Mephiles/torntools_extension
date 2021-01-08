@@ -1,4 +1,4 @@
-quireDatabase().then(() => {
+requireDatabase().then(() => {
 	console.log("TT - Education");
 	let observer = new MutationObserver(hideCompletedCategories);
 	observer.observe(doc.find(".content-wrapper.m-left20"), {childList: true, subtree: true});
