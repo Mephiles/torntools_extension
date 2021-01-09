@@ -18,6 +18,7 @@ Start reading our code and you'll get the hang of it. We optimize for readabilit
   * We follow a certain pattern for our files.
     * Content scripts are placed in the `torntools/scripts/content` folder, in a folder based on the page it loads on. The name is the page it loads on prefixed by `tt` and in camelCase.
   * All code should be formatted using Prettier.
+    * We indent using tabs with a width of 4.
     * Operators ( = + - * / ) and commas are followed by spaces.
     * Statements end with a semicolon.
   * We also use some standard formatting conventions.
