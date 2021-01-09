@@ -13,4 +13,4 @@ function addPropertyValues() {
 			property.find(".title").innerText += ` ($${propertyValue})`
 		};
 	};
-};
+}
