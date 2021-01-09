@@ -749,13 +749,13 @@ function nukeReviveScript() {
 function addPeopleBoxFilter() {
 	if (document.find(".chat-box-people_SPbEh").findAll(".tt-chat-filter").length === 0) {
 		let peopleBox = document.find(".chat-box-people_SPbEh");
-	
+
 		peopleBox.nextElementSibling.classList.add("tt-modified");
-	
+
 		let filter_wrap = doc.new({ type: "div", class: "tt-chat-filter" });
 		let filter_text = doc.new({ type: "div", text: "Find:" });
 		let filter_input = doc.new({ type: "input", id: "---search---" });
-	
+
 		filter_wrap.appendChild(filter_text);
 		filter_wrap.appendChild(filter_input);
 
@@ -764,7 +764,7 @@ function addPeopleBoxFilter() {
 		// Filtering process
 		filter_input.onkeyup = () => {
 			let keyword = filter_input.value.toLowerCase();
-		
+
 			for (let player of peopleBox.findAll(".started-chat_1InmJ")) {
 				player.style.display = "block";
 
@@ -774,9 +774,8 @@ function addPeopleBoxFilter() {
 			}
 
 			if (!keyword) {
-				peopleBox.find(".viewport_1F0WI").scrollTo(0,0);
+				peopleBox.find(".viewport_1F0WI").scrollTo(0, 0);
 			}
 		};
-	};
+	}
 }
-

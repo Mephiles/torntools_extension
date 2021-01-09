@@ -49,143 +49,143 @@ const country_dict = {
 const country_dict_short = {
 	// time = minutes
 	arg: {
-		long_name: 'Argentina',
+		long_name: "Argentina",
 		time: 167,
 		cost: 21000,
 		item_types: {
-			271: 'flower',
-			269: 'plushie',
-			196: 'drug',
-			198: 'drug',
-			204: 'drug',
-			199: 'drug',
-			203: 'drug',
-		}
+			271: "flower",
+			269: "plushie",
+			196: "drug",
+			198: "drug",
+			204: "drug",
+			199: "drug",
+			203: "drug",
+		},
 	},
 	can: {
-		long_name: 'Canada',
+		long_name: "Canada",
 		time: 41,
 		cost: 9000,
 		item_types: {
-			263: 'flower',
-			261: 'plushie',
-			197: 'drug',
-			196: 'drug',
-			205: 'drug',
-			201: 'drug',
-			206: 'drug',
-		}
+			263: "flower",
+			261: "plushie",
+			197: "drug",
+			196: "drug",
+			205: "drug",
+			201: "drug",
+			206: "drug",
+		},
 	},
 	cay: {
-		long_name: 'Cayman Islands',
+		long_name: "Cayman Islands",
 		time: 35,
 		cost: 10000,
 		item_types: {
-			617: 'flower',
-			618: 'plushie',
-		}
+			617: "flower",
+			618: "plushie",
+		},
 	},
 	chi: {
-		long_name: 'China',
+		long_name: "China",
 		time: 242,
 		cost: 35000,
 		item_types: {
-			276: 'flower',
-			274: 'plushie',
-			197: 'drug',
-			200: 'drug',
-			204: 'drug',
-			201: 'drug',
-			199: 'drug',
-		}
+			276: "flower",
+			274: "plushie",
+			197: "drug",
+			200: "drug",
+			204: "drug",
+			201: "drug",
+			199: "drug",
+		},
 	},
 	haw: {
-		long_name: 'Hawaii',
+		long_name: "Hawaii",
 		time: 134,
 		cost: 11000,
 		item_types: {
-			264: 'flower',
-		}
+			264: "flower",
+		},
 	},
 	jap: {
-		long_name: 'Japan',
+		long_name: "Japan",
 		time: 225,
 		cost: 32000,
 		item_types: {
-			277: 'flower',
-			205: 'drug',
-			206: 'drug',
-			203: 'drug',
-			197: 'drug',
-			200: 'drug',
-			198: 'drug',
-			204: 'drug',
-		}
+			277: "flower",
+			205: "drug",
+			206: "drug",
+			203: "drug",
+			197: "drug",
+			200: "drug",
+			198: "drug",
+			204: "drug",
+		},
 	},
 	mex: {
-		long_name: 'Mexico',
+		long_name: "Mexico",
 		time: 26,
 		cost: 6500,
 		item_types: {
-			260: 'flower',
-			258: 'plushie',
-		}
+			260: "flower",
+			258: "plushie",
+		},
 	},
 	sou: {
-		long_name: 'South Africa',
+		long_name: "South Africa",
 		time: 297,
 		cost: 40000,
 		item_types: {
-			282: 'flower',
-			281: 'plushie',
-			200: 'drug',
-			201: 'drug',
-			199: 'drug',
-			206: 'drug',
-			203: 'drug',
-		}
+			282: "flower",
+			281: "plushie",
+			200: "drug",
+			201: "drug",
+			199: "drug",
+			206: "drug",
+			203: "drug",
+		},
 	},
 	swi: {
-		long_name: 'Switzerland',
+		long_name: "Switzerland",
 		time: 175,
 		cost: 27000,
 		item_types: {
-			272: 'flower',
-			435: 'flower',
-			273: 'plushie',
-			196: 'drug',
-			198: 'drug',
-			204: 'drug',
-			201: 'drug',
-			199: 'drug',
-			203: 'drug',
-		}
+			272: "flower",
+			435: "flower",
+			273: "plushie",
+			196: "drug",
+			198: "drug",
+			204: "drug",
+			201: "drug",
+			199: "drug",
+			203: "drug",
+		},
 	},
 	uae: {
-		long_name: 'UAE',
+		long_name: "UAE",
 		time: 271,
 		cost: 32000,
 		item_types: {
-			385: 'flower',
-			384: 'plushie',
-		}
+			385: "flower",
+			384: "plushie",
+		},
 	},
 	uni: {
-		long_name: 'United Kingdom',
+		long_name: "United Kingdom",
 		time: 159,
 		cost: 18000,
 		item_types: {
-			267: 'flower',
-			268: 'plushie',
-			266: 'plushie',
-			197: 'drug',
-			196: 'drug',
-			198: 'drug',
-			205: 'drug',
-			201: 'drug',
-			206: 'drug',
-			203: 'drug',
-		}
+			267: "flower",
+			268: "plushie",
+			266: "plushie",
+			197: "drug",
+			196: "drug",
+			198: "drug",
+			205: "drug",
+			201: "drug",
+			206: "drug",
+			203: "drug",
+		},
 	},
 };
 
@@ -627,10 +627,7 @@ function addRow(item, time, cost, travel_items, country_yata, country_code_dict_
 	}
 	row += total_profit_div;
 
-	row += `<div class="advanced" value="${item.cost * travel_items}">$${numberWithCommas(
-		item.cost * travel_items,
-		item.cost >= 1e6
-	)}</div>`;
+	row += `<div class="advanced" value="${item.cost * travel_items}">$${numberWithCommas(item.cost * travel_items, item.cost >= 1e6)}</div>`;
 
 	row += "</div>";
 	return row;

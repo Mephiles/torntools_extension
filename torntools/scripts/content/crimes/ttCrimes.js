@@ -215,7 +215,7 @@ function addButton() {
 				quickCrime.classList.remove("removable");
 			}
 		} else {
-			doc.find('#ttQuick .tt-title').classList.remove('collapsed');
+			doc.find("#ttQuick .tt-title").classList.remove("collapsed");
 			doc.find(".tt-black-overlay").classList.add("active");
 			doc.find(".tt-title .tt-options .tt-option#edit-crime-button").classList.add("tt-highlight-sector");
 
