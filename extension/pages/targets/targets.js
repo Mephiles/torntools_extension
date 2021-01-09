@@ -167,8 +167,8 @@ async function setupStakeouts() {
 
 	function fillStakeouts() {
 		for (let id in stakeouts) {
-
 			if (isNaN(id)) continue;
+
 			addStakeout(id, stakeouts[id]);
 		}
 	}
