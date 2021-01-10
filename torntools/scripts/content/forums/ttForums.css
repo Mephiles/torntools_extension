@@ -61,3 +61,11 @@
 	border-top: 1px solid #ccc;
 	margin: 5px -5px -5px -5px;
 }
+
+.tt-bug-warning {
+	font-size: 16px !important;
+	height: 59px !important;
+	line-height: 16px !important;
+	color: #ffffff !important;
+	padding : 0px 16px 0px 16px !important;
+}

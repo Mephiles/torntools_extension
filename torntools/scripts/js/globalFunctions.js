@@ -1566,6 +1566,7 @@ const STORAGE = {
 				market_value: "",
 			},
 			forums: {
+				show_bug_warning: true,
 				hide_threads: {},
 				hide_posts: {},
 			},

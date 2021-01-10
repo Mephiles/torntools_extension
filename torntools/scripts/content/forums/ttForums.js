@@ -18,6 +18,11 @@ requireDatabase().then(() => {
 
 	hideForumsThreads();
 	hideForumsPosts();
+	
+	let observer = new MutationObserver(bniWarning);
+	observer.observe(doc.find("div#forums-page-wrap"), {childList: true});
+	bniWarning();
+	
 });
 
 function hideForumsThreads() {
@@ -304,4 +309,25 @@ $$$TEXT_CONTENT$$$\`\`\`$$$URLS$$$\nSource: https://www.torn.com/forums.php#/p=t
 			}
 		});
 	});
+}
+
+function bniWarning() {
+	if (
+		settings.pages.forums.show_bug_warning &&
+		window.location.hash.includes("f=19") &&
+		doc.findAll(".title.title-black.t-hide").length === 1 &&
+		doc.title === "Bugs & Issues | TORN"
+	) {
+		let ttBugWarning = doc.new({
+			type: "div",
+			id: "ttBugWarning",
+			html:
+				"<br>Please try disabling TornTools to make sure if the issue persists.&nbsp;Contact <a href='https://www.torn.com/profiles.php?XID=2087524' style='color:#f2f2f2'>Mephiles [2087524]</a> in case of issues caused by TornTools.<br><br>",
+			class: "title-green tt-bug-warning",
+		});
+		doc.find("ul.title.title-black").insertAdjacentElement(
+			"afterEnd",
+			ttBugWarning
+		);
+	}
 }
