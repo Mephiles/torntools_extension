@@ -402,12 +402,14 @@ function displayAlly(user_faction, allies) {
 
 	if (user_faction === profile_faction) {
 		showWarning("user");
+		disableAllyAttack();
 		return;
 	}
 
 	for (let ally of allies) {
 		if (ally.trim() === profile_faction) {
 			showWarning("ally");
+			disableAllyAttack();
 			return;
 		}
 	}
@@ -1249,4 +1251,18 @@ function ageToWords() {
 	newAge.innerText = dateString;
 	document.find(".box-info.age").find(".block-value").insertAdjacentElement("afterEnd", newAge);
 	newAge.insertAdjacentHTML("beforeBegin", "<br>");
+}
+
+function disableAllyAttack() {
+	if (settings.pages.profile.block_ally_attacks) {
+		let crossSvg =
+			'<svg xmlns="http://www.w3.org/2000/svg" class="default___25YWq " filter="" fill="rgba(217, 54, 0, 0.5)" stroke="#d4d4d4" stroke-width="0" width="46" height="46" viewBox="551.393 356 44 44"><path d="M556.393,363l12.061,14-12.061,14,1,1,14-11.94,14,11.94,1-1-12.06-14,12.06-14-1-1-14,11.94-14-11.94Z"></path></svg>';
+		let attackButton = doc.find("a.profile-button-attack");
+		attackButton.children[0].insertAdjacentHTML("afterEnd", crossSvg);
+		attackButton.style.pointerEvents = "none";
+		doc.find("a.profile-button-attack").children[0].style.fill =
+			"rgba(153, 153, 153, 0.4)";
+		attackButton.classList.remove("active");
+		attackButton.classList.add("cross", "disabled");
+	}
 }
