@@ -312,10 +312,22 @@ $$$TEXT_CONTENT$$$\`\`\`$$$URLS$$$\nSource: https://www.torn.com/forums.php#/p=t
 }
 
 function bniWarning() {
-	if (settings.pages.forums.show_bug_warning && window.location.hash.includes("f=19") && doc.findAll(".title.title-black.t-hide").length === 1 && doc.title === "Bugs & Issues | TORN") {
-		let ttBugWarning = doc.new({type: "div", id: "ttBugWarning"});
-		ttBugWarning.style.cssText = "background: repeating-linear-gradient(90deg,#627e0d,#627e0d 2px,#6e8820 0,#6e8820 4px); font-size: 16px; height: 59px; line-height: 16px; color: #ffffff; font-weight: 700; text-shadow: 1px 1px 2px rgba(0,0,0,.65); padding-left: 16px; padding-right: 16px;"
-		ttBugWarning.innerHTML = "<br>Please try disabling TornTools to make sure if the issue persists.&nbsp;Contact <a href='https://www.torn.com/profiles.php?XID=2087524' style='color:#f2f2f2'>Mephiles [2087524]</a> in case of issues caused by TornTools.<br><br>";
-		document.find(".title.title-black.t-hide").insertAdjacentElement("afterEnd", ttBugWarning);
-	};
+	if (
+		settings.pages.forums.show_bug_warning &&
+		window.location.hash.includes("f=19") &&
+		doc.findAll(".title.title-black.t-hide").length === 1 &&
+		doc.title === "Bugs & Issues | TORN"
+	) {
+		let ttBugWarning = doc.new({
+			type: "div",
+			id: "ttBugWarning",
+			html:
+				"<br>Please try disabling TornTools to make sure if the issue persists.&nbsp;Contact <a href='https://www.torn.com/profiles.php?XID=2087524' style='color:#f2f2f2'>Mephiles [2087524]</a> in case of issues caused by TornTools.<br><br>",
+			class: "title-green tt-bug-warning",
+		});
+		doc.find("ul.title.title-black").insertAdjacentElement(
+			"afterEnd",
+			ttBugWarning
+		);
+	}
 }
