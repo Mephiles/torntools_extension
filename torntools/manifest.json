@@ -260,7 +260,7 @@
 		{
 			"matches": ["https://www.torn.com/properties.php*"],
 			"css": ["scripts/content/properties/ttProperties.css"],
-			"js": ["scripts/content/properties/ttVaultSharing.js"],
+			"js": ["scripts/content/properties/ttVaultSharing.js", "scripts/content/properties/ttProperties.js"],
 			"run_at": "document_end"
 		},
 		{
