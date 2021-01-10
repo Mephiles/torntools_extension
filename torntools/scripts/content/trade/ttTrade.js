@@ -46,7 +46,7 @@ function showValues() {
 		let text = log.innerText;
 		let totalValue = 0;
 
-		if (!text.includes('says:') && text.includes("added")) {
+		if (!text.includes("says:") && text.includes("added")) {
 			if (text.includes("$")) {
 				totalValue = parseInt(text.match(/\$([0-9,]*)/i)[1].replaceAll(",", ""));
 			} else if (text.includes("shares")) {

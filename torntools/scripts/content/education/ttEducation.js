@@ -11,5 +11,5 @@ function hideCompletedCategories() {
       if (category.find(".bar-green-wrap-white-bg").style.width === "100%")
         category.style.opacity = "0.2";
     }
-  };
+  }
 }

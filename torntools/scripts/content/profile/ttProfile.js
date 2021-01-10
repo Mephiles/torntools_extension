@@ -354,7 +354,7 @@ requireDatabase().then(() => {
 			// Show Spy info
 			await showSpyInfo();
 		}
-		
+
 		// Age to Words
 		ageToWords();
 	});
@@ -1218,34 +1218,19 @@ function showProfileNotes() {
 function ageToWords() {
 	document.findAll(".box-name.t-gray-9.bold")[2].remove();
 	let newAge = doc.new({ type: "div", class: "box-name t-gray-9 bold" });
-	let age = parseInt([...document.findAll(".box-info.age .digit")].map(x => x.innerText).join(''));
+	let age = parseInt([...document.findAll(".box-info.age .digit")].map((x) => x.innerText).join(""));
 	let dateCurrent = new Date();
 	let utimeTarget = dateCurrent.getTime() + age * 86400 * 1000;
 	let dateTarget = new Date(utimeTarget);
-	let diffYear = parseInt(
-		dateTarget.getUTCFullYear() - dateCurrent.getUTCFullYear()
-	);
+	let diffYear = parseInt(dateTarget.getUTCFullYear() - dateCurrent.getUTCFullYear());
 	let diffMonth = parseInt(dateTarget.getUTCMonth() - dateCurrent.getUTCMonth());
 	let diffDay = parseInt(dateTarget.getUTCDate() - dateCurrent.getUTCDate());
-	let daysInMonth = [
-    31,
-    dateTarget.getUTCFullYear() % 4 ? 29 : 28,
-    31,
-    30,
-    31,
-    30,
-    31,
-    31,
-    30,
-    31,
-    30,
-    31,
-];
+	let daysInMonth = [31, dateTarget.getUTCFullYear() % 4 ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 	let dateString = "";
 	while (true) {
 		dateString = "";
 		dateString += diffYear > 0 ? diffYear + " years " : "";
-	
+
 		if (diffMonth < 0) {
 			diffYear -= 1;
 			diffMonth += 12;
@@ -1262,9 +1247,6 @@ function ageToWords() {
 		break;
 	}
 	newAge.innerText = dateString;
-	document
-		.find(".box-info.age")
-		.find(".block-value")
-		.insertAdjacentElement("afterEnd", newAge);
+	document.find(".box-info.age").find(".block-value").insertAdjacentElement("afterEnd", newAge);
 	newAge.insertAdjacentHTML("beforeBegin", "<br>");
 }
