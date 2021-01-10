@@ -5,6 +5,9 @@ export default {
 			"Allow chat filtering for people with recent interactions. - Sashank999",
 			"Show age as words. - Sashank999",
 			"Hide completed education courses. - Sashank999",
+			"Disable Attacks on Ally - Sashannk999",
+			"Warning on Forums Bugs and Issues section on TT - Sashank999",
+			"Show total value of properties beside their name - Sashank999",
 		],
 	},
 	"v5.3.5 - December, 16th. 2020": {
