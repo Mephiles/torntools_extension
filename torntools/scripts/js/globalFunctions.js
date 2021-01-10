@@ -1475,6 +1475,7 @@ const STORAGE = {
 				show_id: true,
 				loot_times: true,
 				status_indicator: true,
+				block_ally_attacks: true,
 				notes: true,
 			},
 			racing: {
