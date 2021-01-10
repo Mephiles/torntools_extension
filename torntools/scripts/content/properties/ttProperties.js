@@ -6,7 +6,7 @@ requireDatabase().then(() => {
 });
 
 function addPropertyValues() {
-	for (let property of doc.find(".properties-list").children) {
+	for (let property of doc.findAll(".properties-list > *")) {
 		let propertyValue = null;
 		if (property.find("ul.info") !== null) {
 			propertyValue = numberWithCommas(
