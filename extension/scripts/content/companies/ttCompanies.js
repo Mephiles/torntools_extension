@@ -19,13 +19,13 @@ function loadCompaniesOnce() {
 
 		if (page === "companies" && json) {
 			if (json.result && json.result.msg) {
-				if (json.result.msg.money) showMuggableCash().catch((error) => console.error("Couldn't show the muggable cash.", error));
+				if (json.result.msg.money) showMuggableCash(json).catch((error) => console.error("Couldn't show the muggable cash.", error));
 			}
 		}
 	});
 }
 
-async function showMuggableCash() {
+async function showMuggableCash(json) {
 	if (!settings.pages.companies.specialMugMoney) return;
 
 	const api = hasAPIData() && settings.apiUsage.user.merits;
