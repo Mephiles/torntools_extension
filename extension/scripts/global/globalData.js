@@ -499,3 +499,14 @@ const ALL_AREAS = [
 	{ class: "competitions", text: "Competitions" },
 	{ class: "community_events", text: "Community Events" },
 ];
+
+const ALLOWED_BLOOD = {
+	"o+": [738, 739], // 738
+	"o-": [739], // 739
+	"a+": [732, 733, 738, 739], // 732
+	"a-": [733, 739], // 733
+	"b+": [734, 735, 738, 739], // 734
+	"b-": [735, 739], // 735
+	"ab+": [732, 733, 734, 735, 736, 737, 738, 739], // 736
+	"ab-": [733, 735, 737, 739], // 737
+};

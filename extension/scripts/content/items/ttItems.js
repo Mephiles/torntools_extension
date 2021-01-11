@@ -17,10 +17,6 @@ let pendingActions = {};
 function loadItems() {
 	requireContent().then(() => {
 		loadQuickItems().catch((error) => console.error("Couldn't load the quick items.", error));
-		showItemValues().catch((error) => console.error("Couldn't show the item values.", error));
-		showDrugDetails().catch((error) => console.error("Couldn't show drug details.", error));
-		showItemMarketIcons().catch((error) => console.error("Couldn't show the market icons.", error));
-		highlightBloodBags().catch((error) => console.error("Couldn't highlight the correct blood bags.", error));
 	});
 	requireItemsLoaded().then(() => {
 		initializeItems();
@@ -95,6 +91,10 @@ function requireItemsLoaded() {
 
 function initializeItems() {
 	setupQuickDragListeners().catch((error) => console.error("Couldn't make the items draggable for quick items.", error));
+	highlightBloodBags().catch((error) => console.error("Couldn't highlight the correct blood bags.", error));
+	showItemValues().catch((error) => console.error("Couldn't show the item values.", error));
+	showDrugDetails().catch((error) => console.error("Couldn't show drug details.", error));
+	showItemMarketIcons().catch((error) => console.error("Couldn't show the market icons.", error));
 }
 
 async function loadQuickItems() {
@@ -315,9 +315,23 @@ async function showItemMarketIcons() {
 }
 
 async function highlightBloodBags() {
-	if (settings.pages.items.marketLinks && !(await checkMobile())) {
-		// TODO - Highlight blood bags.
+	// noinspection JSIncompatibleTypesComparison
+	if (settings.pages.items.highlightBloodBags !== "none") {
+		const allowedBlood = ALLOWED_BLOOD[settings.pages.items.highlightBloodBags];
+
+		for (let item of document.findAll("ul.items-cont[aria-expanded=true] > li[data-category='Medical']")) {
+			if (!item.find(".name-wrap") || item.find(".name-wrap").classList.contains("good-blood") || item.find(".name-wrap").classList.contains("bad-blood"))
+				continue;
+
+			if (!item.getAttribute("data-sort").includes("Blood Bag : ")) continue; // is not a filled blood bag
+			if (parseInt(item.getAttribute("data-item")) === 1012) continue; // is an irradiated blood bag
+
+			item.find(".name-wrap").classList.add(allowedBlood.includes(parseInt(item.getAttribute("data-item"))) ? "good-blood" : "bad-blood");
+		}
 	} else {
+		for (let bb of document.findAll(".good-blood, .bad-blood")) {
+			bb.classList.remove("good-blood", "bad-blood");
+		}
 	}
 }
 

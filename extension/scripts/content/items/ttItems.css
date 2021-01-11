@@ -74,3 +74,15 @@
 #quickItems .ajax-placeholder {
 	left: 0 !important;
 }
+
+/*
+ * Blood Bags
+ */
+
+.good-blood {
+	background-color: #bdecb9b5 !important;
+}
+
+.bad-blood {
+	background-color: #f5b2b28a !important;
+}
