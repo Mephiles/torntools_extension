@@ -320,6 +320,7 @@ const CONTRIBUTORS = {
 
 let mobile;
 let injectedXHR, injectedFetch;
+let mouseX, mouseY;
 
 let rotatingElements = {};
 

@@ -54,20 +54,6 @@ function loadGlobal() {
 		return { name: name.toLowerCase(), color: color.length === 7 ? `${color}6e` : color, senderColor: color };
 	});
 
-	if (settings.pages.global.miniProfileLastAction) {
-		addFetchListener((event) => {
-			if (!event.detail) return;
-			const { page, json, fetch } = event.detail;
-
-			const params = new URL(fetch.url).searchParams;
-			const step = params.get("step");
-
-			if (page === "profiles" && step === "getUserNameContextMenu") {
-				showMiniprofileInformation(json);
-			}
-		});
-	}
-
 	requireChatsLoaded()
 		.then(() => {
 			new MutationObserver((mutations) => {
@@ -171,6 +157,24 @@ function loadGlobalOnce() {
 			countdown.dataset.seconds = seconds;
 		}
 	}, 1000);
+
+	if (settings.pages.global.miniProfileLastAction) {
+		addFetchListener((event) => {
+			if (!event.detail) return;
+			const { page, json, fetch } = event.detail;
+
+			const params = new URL(fetch.url).searchParams;
+			const step = params.get("step");
+
+			if (page === "profiles" && step === "getUserNameContextMenu") {
+				showMiniprofileInformation(json);
+			}
+		});
+		document.addEventListener("mousemove", (event) => {
+			mouseX = event.x;
+			mouseY = event.y;
+		});
+	}
 }
 
 function requireChatsLoaded() {
@@ -321,7 +325,8 @@ function showMiniprofileInformation(information) {
 		});
 		miniProfile.find("div[class^='-profile-mini-_userProfileWrapper']").appendChild(data);
 
-		miniProfile.style.top = `${parseInt(miniProfile.style.top.replace("px", "")) - data.clientHeight + 1}px`;
+		const profileY = parseInt(miniProfile.style.top.replace("px", ""));
+		if (mouseY > profileY) miniProfile.style.top = `${profileY - data.clientHeight + 1}px`;
 	});
 }
 
