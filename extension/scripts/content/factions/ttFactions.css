@@ -1,0 +1,17 @@
+/*
+ * Blood Bags
+ */
+
+.good-blood {
+	background-color: #bdecb9b5 !important;
+}
+
+.bad-blood {
+	background-color: #f5b2b28a !important;
+}
+
+.tt-item-price {
+	color: #678c00;
+	float: right;
+	padding-right: 10px;
+}

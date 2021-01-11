@@ -134,6 +134,17 @@ function getSearchParameters() {
 	return new URL(window.location).searchParams;
 }
 
+function getHashParameters() {
+	let hash = window.location.hash;
+
+	if (hash.startsWith("#/")) hash = hash.substring(2);
+	else if (hash.startsWith("#") || hash.startsWith("/")) hash = hash.substring(1);
+
+	if (!hash.startsWith("!")) hash = "?" + hash;
+
+	return new URLSearchParams(hash);
+}
+
 function getUUID() {
 	return "_" + Math.random().toString(36).substr(2, 9);
 }

@@ -320,8 +320,8 @@ async function highlightBloodBags() {
 		const allowedBlood = ALLOWED_BLOOD[settings.pages.items.highlightBloodBags];
 
 		for (let item of document.findAll("ul.items-cont[aria-expanded=true] > li[data-category='Medical']")) {
-			if (!item.find(".name-wrap") || item.find(".name-wrap").classList.contains("good-blood") || item.find(".name-wrap").classList.contains("bad-blood"))
-				continue;
+			if (!item.find(".name-wrap")) continue;
+			item.find(".name-wrap").classList.remove("good-blood", "bad-blood");
 
 			if (!item.getAttribute("data-sort").includes("Blood Bag : ")) continue; // is not a filled blood bag
 			if (parseInt(item.getAttribute("data-item")) === 1012) continue; // is an irradiated blood bag

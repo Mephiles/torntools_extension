@@ -117,6 +117,18 @@
 				"scripts/content/companies/ttCompanies.js"
 			],
 			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/factions.php*"
+			],
+			"css": [
+				"scripts/content/factions/ttFactions.css"
+			],
+			"js": [
+				"scripts/content/factions/ttFactions.js"
+			],
+			"run_at": "document_end"
 		}
 	]
 }

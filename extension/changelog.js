@@ -65,7 +65,7 @@ export default [
 			fixes: [
 				{ message: "Update 'Rising Costs' hint.", contributor: "DeKleineKobini" },
 				{ message: "Fix an issue with an old rank name.", contributor: "h4xnoodle" },
-				{ message: "Add safety measure for faction filter when your computer clock is out of sync.", contributor: "DeKleineKobini" },
+				{ message: "Add safety measure for factions filter when your computer clock is out of sync.", contributor: "DeKleineKobini" },
 				{ message: "Fix wrong Piercing Weapons achievement 2,500 goal.", contributor: "Mephiles" },
 				{ message: "Fix trade logs showing money values for comments.", contributor: "Mephiles" },
 				{ message: "Fix trailing '.0,000,001' issues in trade calculations.", contributor: "Mephiles" },
@@ -162,7 +162,7 @@ export default [
 			changes: [
 				{ message: "Added sell points award and refill award trackers.", contributor: "wootty2000" },
 				{ message: "Added Shop to 'ignore max buy in bazaars' option.", contributor: "Mephiles" },
-				{ message: "Remove 'requires faction API access' description from Advanced OC option.", contributor: "Mephiles" },
+				{ message: "Remove 'requires factions API access' description from Advanced OC option.", contributor: "Mephiles" },
 				{ message: "Improve entry script loading times.", contributor: "DeKleineKobini" },
 				{ message: "Added item count to City Items value.", contributor: "Mephiles" },
 				{ message: "Allow stakeouts on hospital status.", contributor: "finally" },
@@ -247,7 +247,7 @@ export default [
 			features: [
 				{ message: "Show an estimate of an user battle stats on various pages.", contributor: "DeKleineKobini" },
 				{ message: "Show forecast and available worth along with a filter on the stock page.", contributor: "DeKleineKobini" },
-				{ message: "Show faction balance excess.", contributor: "DeKleineKobini" },
+				{ message: "Show factions balance excess.", contributor: "DeKleineKobini" },
 				{ message: "Show user balance upon selecting their name on the give cash window.", contributor: "DeKleineKobini" },
 				{ message: "Show warnings if your cooldowns are ending during your flight.", contributor: "DeKleineKobini" },
 				{ message: "Remove confirmation buttons for the item market, revives and item equipping.", contributor: "DeKleineKobini" },
@@ -263,7 +263,7 @@ export default [
 				{ message: "Add personal notes on profiles.", contributor: "wootty2000" },
 			],
 			fixes: [
-				{ message: "Don't apply the last action filter on other faction pages.", contributor: "DeKleineKobini" },
+				{ message: "Don't apply the last action filter on other factions pages.", contributor: "DeKleineKobini" },
 				{ message: "Don't break the profile page if a profile section is turned off.", contributor: "DeKleineKobini" },
 				{ message: "Allow dragging links to the chat again.", contributor: "DeKleineKobini" },
 				{ message: "Show proper cons for Vicodin and Xanax.", contributor: "DeKleineKobini" },
@@ -275,7 +275,7 @@ export default [
 				{ message: "Fix TornTools not loading on the poker page.", contributor: "DeKleineKobini" },
 				{ message: "Show the travel table more consistent.", contributor: "DeKleineKobini" },
 				{ message: "Show the gym information in jail gym.", contributor: "DeKleineKobini" },
-				{ message: "Fix faction short news.", contributor: "wootty2000" },
+				{ message: "Fix factions short news.", contributor: "wootty2000" },
 			],
 			changes: [
 				{ message: "Change the caching system to allow for different times to keep it for.", contributor: "DeKleineKobini" },
@@ -296,7 +296,7 @@ export default [
 				{ message: "Combine event and messages notifications if there are multiple.", contributor: "DeKleineKobini" },
 				{ message: "Improve the racing helper.", contributor: "DeKleineKobini" },
 				{ message: "Add preset custom links.", contributor: "DeKleineKobini" },
-				{ message: "Show full faction description for other factions too.", contributor: "DeKleineKobini" },
+				{ message: "Show full factions description for other factions too.", contributor: "DeKleineKobini" },
 				{ message: "Change the profile show more/less button.", contributor: "DeKleineKobini" },
 				{ message: "Show trade value also for finished trades.", contributor: "DeKleineKobini" },
 				{ message: "Add a limit of 10,000 for bazaar max buy.", contributor: "DeKleineKobini" },
@@ -336,7 +336,7 @@ export default [
 			],
 			fixes: [
 				{ message: "Fix Quick Items failing to load if an item has 0 quantity", contributor: "Mephiles" },
-				{ message: "Fix Profile script failing if player is not in a faction", contributor: "Mephiles" },
+				{ message: "Fix Profile script failing if player is not in a factions", contributor: "Mephiles" },
 				{ message: "Add missing keywords for Faction armory news shortening script", contributor: "Mephiles" },
 				{ message: "Fix Calculator popup gear icon not working", contributor: "Mephiles" },
 				{ message: "Fix Gym Estimate progress being off by 1 gym", contributor: "Mephiles" },
@@ -376,7 +376,7 @@ export default [
 		date: new Date(2020, 6, 29),
 		logs: {
 			features: [
-				{ message: "Highlight good and bad blood bags on the item page and faction armory", contributor: "DeKleineKobini" },
+				{ message: "Highlight good and bad blood bags on the item page and factions armory", contributor: "DeKleineKobini" },
 				{ message: "Add a way to hide all chats", contributor: "DeKleineKobini" },
 				{ message: "Add option to make Areas section collapsible", contributor: "Mephiles" },
 				{ message: "Add sortability option for Profile sections", contributor: "Mephiles" },
@@ -411,7 +411,7 @@ export default [
 				{ message: "Change popup entry point to improve speed", contributor: "Mephiles" },
 				{ message: "Decrease item quantity in Quick Items when sending or using an item", contributor: "DeKleineKobini" },
 				{ message: "Improve containers' design", contributor: "DeKleineKobini" },
-				{ message: "Show faction member information for other factions", contributor: "DeKleineKobini" },
+				{ message: "Show factions member information for other factions", contributor: "DeKleineKobini" },
 				{ message: "Add an option to disable all notifications", contributor: "DeKleineKobini" },
 				{ message: "Add placeholders to chat highlights", contributor: "DeKleineKobini" },
 				{ message: "Highlight keywords in chats", contributor: "DeKleineKobini" },
@@ -941,7 +941,7 @@ export default [
 		version: { major: 3, minor: 2, build: 0 },
 		logs: {
 			features: [
-				{ message: "Show warning on player profiles when the player is in your faction or in an ally faction.", contributor: "Mephiles" },
+				{ message: "Show warning on player profiles when the player is in your factions or in an ally factions.", contributor: "Mephiles" },
 				{ message: "Show racing upgrade values.", contributor: "Mephiles" },
 			],
 		},
