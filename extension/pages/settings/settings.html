@@ -65,40 +65,41 @@
 						<li name="sidebar">Sidebar</li>
 						<li name="popup">Popup</li>
 						<li name="notifications">Notifications</li>
-						<li>Other</li>
+						<!-- <li>Other</li> -->
 
 						<li class="header">Pages</li>
 						<li name="home">Home</li>
 						<li name="items">Items</li>
-						<li>City</li>
-						<li>Job</li>
-						<li>Gym</li>
-						<li>Properties</li>
+						<!-- <li>City</li> -->
+						<!-- <li>Job</li> -->
+						<li name="companies">Companies</li>
+						<!-- <li>Gym</li> -->
+						<!-- <li>Properties</li> -->
 						<!-- <li>Education</li> -->
 						<!-- <li>Crimes</li> -->
 						<!-- <li>Missions</li> -->
 						<!-- <li>Newspaper</li> -->
 						<!-- <li>Jail</li> -->
 						<!-- <li>Hospital</li> -->
-						<li>Casino</li>
+						<!-- <li>Casino</li> -->
 						<!-- <li>Forums</li> -->
 						<!-- <li>Hall of Fame</li> -->
-						<li>Faction</li>
+						<!-- <li>Faction</li> -->
 						<!-- <li>Recruit</li> -->
 						<!-- <li>Competitions</li> -->
-						<li>Profile</li>
-						<li>Stock Exchange</li>
-						<li>Travel</li>
-						<li>Trade</li>
-						<li>Raceway</li>
-						<li>Stores</li>
-						<li>Item Market</li>
-						<li>API</li>
+						<!-- <li>Profile</li> -->
+						<!-- <li>Stock Exchange</li> -->
+						<!-- <li>Travel</li> -->
+						<!-- <li>Trade</li> -->
+						<!-- <li>Raceway</li> -->
+						<!-- <li>Stores</li> -->
+						<!-- <li>Item Market</li> -->
+						<!-- <li>API</li> -->
 
 						<li class="header">Scripts</li>
-						<li>Achievements</li>
-						<li>No Confirm</li>
-						<li>Stats Estimate</li>
+						<!-- <li>Achievements</li> -->
+						<!-- <li>No Confirm</li> -->
+						<!-- <li>Stats Estimate</li> -->
 					</ul>
 				</nav>
 
@@ -114,8 +115,11 @@
 						<div class="option">
 							<input id="themes-pages__default" type="radio" name="themePage" value="default" />
 							<label for="themes-pages__default">OS Default</label>
+							<br />
+							<label for="themes-pages__default" class="tabbed note"
+								>Might not work on every browser, will use light theme if not supported.</label
+							>
 						</div>
-						<label for="themes-pages__default" class="tabbed note">Might not work on every browser, will use light theme if not supported.</label>
 						<div class="option">
 							<input id="themes-pages__light" type="radio" name="themePage" value="light" />
 							<label for="themes-pages__light">Light</label>
@@ -251,6 +255,10 @@
 							<input id="api_usage-user_inventory" type="checkbox" />
 							<label for="api_usage-user_inventory">Inventory</label>
 						</div>
+						<div class="option advanced">
+							<input id="api_usage-user_merits" type="checkbox" />
+							<label for="api_usage-user_merits">Merits</label>
+						</div>
 					</section>
 					<section name="chat">
 						<div class="header">Chat</div>
@@ -307,8 +315,9 @@
 						<div class="option">
 							<input id="sidebar-ocTimer" type="checkbox" />
 							<label for="sidebar-ocTimer">Show OC ready time in sidebar.</label>
+							<br />
+							<label for="sidebar-ocTimer" class="note tabbed">(requires faction API access)</label>
 						</div>
-						<label for="sidebar-ocTimer" class="note tabbed">(requires faction API access)</label>
 
 						<div class="header">Refills</div>
 						<div class="option">
@@ -434,8 +443,9 @@
 							<i id="notification-sound-stop" class="fas fa-stop"></i>
 							<br />
 							<input id="notification-sound-upload" class="hidden" type="file" accept=".mp3,.ogg,.wav" />
+							<br />
+							<label for="notification-sound" class="tabbed note">(Mute only works in Chrome, OS default might not work in all browsers)</label>
 						</div>
-						<label for="notification-sound" class="tabbed note">(Mute only works in Chrome, OS default might not work in all browsers)</label>
 						<div class="option">
 							<input id="notification-tts" type="checkbox" />
 							<label for="notification-tts">Use text-to-speech.</label>
@@ -563,8 +573,9 @@
 						<div class="option">
 							<input id="items-drugDetails" type="checkbox" />
 							<label for="items-drugDetails">Show details about drugs.</label>
+							<br />
+							<label for="items-drugDetails" class="tabbed note">Also affects the faction armory.</label>
 						</div>
-						<label for="items-drugDetails" class="tabbed note">Also affects the faction armory.</label>
 						<div class="option">
 							<input id="items-marketLinks" type="checkbox" />
 							<label for="items-marketLinks">Add link icons to the item market.</label>
@@ -582,8 +593,18 @@
 								<option value="ab+">AB+</option>
 								<option value="ab-">AB-</option>
 							</select>
+							<br />
+							<label for="items-highlightBloodBags" class="tabbed note">Also affects the faction armory.</label>
 						</div>
-						<label for="items-highlightBloodBags" class="tabbed note">Also affects the faction armory.</label>
+					</section>
+					<section name="companies">
+						<div class="header">Job Specials</div>
+						<div class="option">
+							<input id="companies-specialMugMoney" type="checkbox" />
+							<label for="companies-specialMugMoney">Show potential mug result when seeing the cash on hand.</label>
+							<br />
+							<label for="companies-specialMugMoney" class="note">Applicable in a 3* Hair Salon</label>
+						</div>
 					</section>
 				</div>
 			</section>

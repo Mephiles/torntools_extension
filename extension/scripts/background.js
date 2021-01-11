@@ -203,7 +203,7 @@ async function updateUserdata() {
 		updatedTypes.push("essential");
 	}
 	if (updateBasic) {
-		for (let selection of ["personalstats", "stocks", "inventory"]) {
+		for (let selection of ["personalstats", "stocks", "inventory", "merits"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selections.push(selection);

@@ -174,6 +174,7 @@ const DEFAULT_STORAGE = {
 				attacks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				networth: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				inventory: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				merits: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		themes: {
@@ -233,6 +234,9 @@ const DEFAULT_STORAGE = {
 				drugDetails: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				marketLinks: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				highlightBloodBags: new DefaultSetting({ type: "string", defaultValue: "none" }),
+			},
+			companies: {
+				specialMugMoney: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 	},
