@@ -53,6 +53,12 @@
 	z-index: 999999999;
 }
 
+/* Replace Torn classes */
+
+.mt10 {
+	margin-top: 10px;
+}
+
 /* General Colors */
 
 *[color="white"] {
@@ -63,8 +69,22 @@
 	color: red !important;
 }
 
+*[color="tRed"] {
+	color: #d83500;
+	color: var(--default-red-color);
+}
+
 *[color="darkorange"] {
 	color: darkorange !important;
+}
+
+*[color="green"] {
+	color: green !important;
+}
+
+*[color="tGreen"] {
+	color: #678c00 !important;
+	color: var(--default-green-color) !important;
 }
 
 *[background-color="green"] {

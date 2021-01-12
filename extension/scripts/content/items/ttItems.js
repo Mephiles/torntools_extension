@@ -87,14 +87,19 @@ function loadItemsOnce() {
 				new MutationObserver((mutations, observer) => {
 					if (document.find("li.ajax-item-loader")) return;
 
-					// TODO - Update item list features.
 					highlightBloodBags().catch((error) => console.error("Couldn't highlight the correct blood bags.", error));
 					showItemValues().catch((error) => console.error("Couldn't show the item values.", error));
-					// showDrugDetails().catch((error) => console.error("Couldn't show drug details.", error));
 					showItemMarketIcons().catch((error) => console.error("Couldn't show the market icons.", error));
 
 					observer.disconnect();
 				}).observe(tab, { subtree: true, childList: true });
+			}
+		} else if (page === "inventory" && json) {
+			const params = new URLSearchParams(xhr.requestBody);
+			const step = params.get("step");
+
+			if (step === "info") {
+				showDrugDetails(parseInt(params.get("itemID"))).catch((error) => console.error("Couldn't show drug details.", error));
 			}
 		}
 	});
@@ -114,7 +119,6 @@ function initializeItems() {
 	setupQuickDragListeners().catch((error) => console.error("Couldn't make the items draggable for quick items.", error));
 	highlightBloodBags().catch((error) => console.error("Couldn't highlight the correct blood bags.", error));
 	showItemValues().catch((error) => console.error("Couldn't show the item values.", error));
-	showDrugDetails().catch((error) => console.error("Couldn't show drug details.", error));
 	showItemMarketIcons().catch((error) => console.error("Couldn't show the market icons.", error));
 }
 
@@ -419,10 +423,83 @@ async function showItemValues() {
 	}
 }
 
-async function showDrugDetails() {
+async function showDrugDetails(id) {
 	if (settings.pages.items.drugDetails) {
-		// TODO - Show extra drug details.
-	} else {
+		const element = document.find(".show-item-info");
+
+		requireElement(".ajax-placeholder", { invert: true, parent: element }).then(() => {
+			const details = DRUG_INFORMATION[id];
+			if (!details) return;
+
+			// Remove current info
+			for (const effect of element.findAll(".item-effect")) {
+				effect.remove();
+			}
+
+			const info = element.find(".info-msg");
+			// Pros
+			if (details.pros) {
+				info.appendChild(document.newElement({ type: "div", class: "item-effect mt10", text: "Pros:", attributes: { color: "tGreen" } }));
+
+				for (let effect of details.pros) {
+					info.appendChild(document.newElement({ type: "div", class: "item-effect tabbed", text: effect, attributes: { color: "tGreen" } }));
+				}
+			}
+
+			// Cons
+			if (details.cons) {
+				info.appendChild(document.newElement({ type: "div", class: "item-effect", text: "Con", attributes: { color: "tRed" } }));
+
+				for (let effect of details.cons) {
+					info.appendChild(document.newElement({ type: "div", class: "item-effect tabbed", text: effect, attributes: { color: "tRed" } }));
+				}
+			}
+
+			// Cooldown
+			if (details.cooldown) {
+				info.appendChild(
+					document.newElement({ type: "div", class: "item-effect", text: `Cooldown: ${details.cooldown}`, attributes: { color: "tRed" } })
+				);
+			}
+
+			// Overdose
+			if (details.overdose) {
+				info.appendChild(document.newElement({ type: "div", class: "item-effect", text: "Overdose:", attributes: { color: "tRed" } }));
+
+				// bars
+				if (details.overdose.bars) {
+					info.appendChild(document.newElement({ type: "div", class: "item-effect tabbed", text: "Bars", attributes: { color: "tRed" } }));
+
+					for (let effect of details.overdose.bars) {
+						info.appendChild(document.newElement({ type: "div", class: "item-effect double-tabbed", text: effect, attributes: { color: "tRed" } }));
+					}
+				}
+
+				// hospital time
+				if (details.overdose.hosp_time) {
+					info.appendChild(
+						document.newElement({
+							type: "div",
+							class: "item-effect tabbed",
+							text: `Hospital: ${details.overdose.hosp_time}`,
+							attributes: { color: "tRed" },
+						})
+					);
+				}
+
+				// extra
+				if (details.overdose.extra) {
+					info.appendChild(
+						document.newElement({
+							type: "div",
+							class: "item-effect tabbed",
+							text: `Extra: ${details.overdose.extra}`,
+							attributes: { color: "tRed" },
+						})
+					);
+				}
+			}
+		});
 	}
 }
 

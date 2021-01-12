@@ -511,3 +511,97 @@ const ALLOWED_BLOOD = {
 	"ab+": [732, 733, 734, 735, 736, 737, 738, 739], // 736
 	"ab-": [733, 735, 737, 739], // 737
 };
+
+const DRUG_INFORMATION = {
+	196: {
+		pros: ["Increased crime success rate", "+2-3 Nerve"],
+		cons: ["-20% Strength", "-25% Defense", "-35% Speed"],
+		cooldown: "60-90 minutes",
+		overdose: {
+			bars: ["-100% Energy & Nerve"],
+			hosp_time: "5 hours",
+			extra: "'Spaced Out' honor bar",
+		},
+	},
+	197: {
+		pros: ["Doubles Happy"],
+		cooldown: "3-4 hours",
+		overdose: {
+			bars: ["-100% Energy & Happy"],
+		},
+	},
+	198: {
+		pros: ["+50% Defense"],
+		cons: ["-20% Strength & Speed"],
+		cooldown: "45-60 minutes",
+		overdose: {
+			bars: ["-100% Energy, Nerve & Happy"],
+			stats: "-20% Strength & Speed",
+			hosp_time: "16-17 hours",
+			extra: "24-27 hours of cooldown",
+		},
+	},
+	199: {
+		pros: ["+30% Strength", "+50% Defense", "+50 Energy", "+200-500 Happy", "+5 Nerve"],
+		cons: ["-30% Speed & Dexterity"],
+		cooldown: "6-8 hours",
+		overdose: {
+			bars: ["-100% Energy, Nerve", "-50% Happy"],
+			stats: "-30% Speed & Dexterity",
+		},
+	},
+	200: {
+		pros: ["Removes all hospital time (except Radiation Sickness) and replenishes life to 66.6%", "+50-100 Happy"],
+		cooldown: "3-4 hours",
+	},
+	201: {
+		pros: ["+20% Strength & Dexterity", "+250 Happy"],
+		cooldown: "4-7 hours",
+		overdose: {
+			bars: ["-100% Energy, Nerve & Happy"],
+			hosp_time: "27 hours",
+			stats: "-10x(player level) Speed (permanent)",
+		},
+	},
+	203: {
+		pros: ["+500 Happy"],
+		cons: ["-20% All Battle Stats", "-25 Energy (caps at 0)"],
+		cooldown: "3-4 hours",
+		overdose: {
+			bars: ["-100% Energy, Nerve & Happy"],
+			hosp_time: "1h 40min",
+		},
+	},
+	204: {
+		pros: ["+20% Speed", "+50 Happy"],
+		cons: ["-20% Dexterity"],
+		cooldown: "4-6 hours",
+		overdose: {
+			bars: ["-100% Energy, Nerve & Happy"],
+			stats: "-6x(player level) Strength & Defense (permanent)",
+			hosp_time: "7h 30min",
+		},
+	},
+	205: {
+		pros: ["+25% All Battle Stats", "+75 Happy"],
+		cooldown: "4-6 hours",
+		overdose: {
+			bars: ["-150 Happy"],
+		},
+	},
+	206: {
+		pros: ["+250 Energy", "+75 Happy"],
+		cons: ["-35% All Battle Stats"],
+		cooldown: "6-8 hours",
+		overdose: {
+			bars: ["-100% Energy, Nerve & Happy"],
+			hosp_time: "3 days 12 hours",
+			extra: "24 hours of cooldown and increased addiction",
+		},
+	},
+	870: {
+		pros: ["Cost of Attacking & Reviving reduced to 15 Energy", "+50% Speed", "+25% Dexterity"],
+		cons: ["Only works on Valentine's Day"],
+		cooldown: "5 hours",
+	},
+};
