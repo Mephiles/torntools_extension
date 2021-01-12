@@ -1254,7 +1254,7 @@ function ageToWords() {
 }
 
 function disableAllyAttack() {
-	if (settings.pages.profile.block_ally_attacks) {
+	if (settings.pages.profile.block_ally_attacks && doc.find("a.profile-button.profile-button-attack") !== null) {
 		let crossSvg =
 			'<svg xmlns="http://www.w3.org/2000/svg" class="default___25YWq " filter="" fill="rgba(217, 54, 0, 0.5)" stroke="#d4d4d4" stroke-width="0" width="46" height="46" viewBox="551.393 356 44 44"><path d="M556.393,363l12.061,14-12.061,14,1,1,14-11.94,14,11.94,1-1-12.06-14,12.06-14-1-1-14,11.94-14-11.94Z"></path></svg>';
 		let attackButton = doc.find("a.profile-button-attack");
