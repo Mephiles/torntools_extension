@@ -59,19 +59,23 @@ function loadGlobal() {
 			new MutationObserver((mutations) => {
 				for (let mutation of mutations) {
 					for (let addedNode of mutation.addedNodes) {
+						// FIXME - Don't use the torn classes.
 						if (addedNode.classList && addedNode.classList.contains("chat-box_Wjbn9")) {
 							setTimeout(() => {
 								addChatSearch();
 								addChatUsernameAutocomplete();
 								addChatColoring();
 							});
+							// FIXME - Don't use the torn classes.
 						} else if (addedNode.classList && addedNode.classList.contains("chat-box-content_2C5UJ")) {
 							manipulateChats();
 						}
 
+						// FIXME - Don't use the torn classes.
 						if (addedNode.classList && !addedNode.classList.contains("message_oP8oM")) continue;
 
 						if (settings.pages.chat.searchChat) {
+							// FIXME - Don't use the torn classes.
 							const parent = findParent(addedNode, { class: "chat-box_Wjbn9" });
 							if (!parent) continue;
 
@@ -92,6 +96,7 @@ function loadGlobal() {
 			manipulateChats();
 
 			document.addEventListener("click", (event) => {
+				// FIXME - Don't use the torn classes.
 				if (!hasParent(event.target, { class: "chat-box_Wjbn9" })) {
 					return;
 				}
@@ -178,15 +183,16 @@ function loadGlobalOnce() {
 }
 
 function requireChatsLoaded() {
+	// FIXME - Don't use the torn classes.
 	return requireElement(".overview_1MoPG");
 }
 
 function addChatSearch() {
 	if (settings.pages.chat.searchChat) {
-		for (let chat of document.findAll(".chat-active_1Sufk:not(.chat-box-settings_Ogzjk)")) {
+		for (let chat of document.findAll("[class^='chat-active']:not([class^='chat-box-settings'])")) {
 			if (chat.find(".tt-chat-filter")) continue;
 
-			const id = `search_${chat.find(".chat-box-title_out6E").getAttribute("title")}`;
+			const id = `search_${chat.find("[class^='chat-box-title']").getAttribute("title")}`;
 
 			let wrap = document.newElement({ type: "div", class: "tt-chat-filter" });
 			let label = document.newElement({ type: "label", text: "Search:", attributes: { for: id } });
@@ -199,26 +205,26 @@ function addChatSearch() {
 			searchInput.addEventListener("input", () => {
 				const keyword = searchInput.value.toLowerCase();
 
-				for (let message of chat.findAll(".overview_1MoPG .message_oP8oM")) {
+				for (let message of chat.findAll("[class^='overview'] [class^='message']")) {
 					searchChat(message, keyword);
 				}
 
 				if (!keyword) {
-					const viewport = chat.find(".viewport_1F0WI");
+					const viewport = chat.find("[class^='viewport']");
 					viewport.scrollTop = viewport.scrollHeight;
 				}
 			});
 
-			const chatInput = chat.find(".chat-box-input_1SBQR");
+			const chatInput = chat.find("[class^='chat-box-input']");
 			chatInput.insertBefore(wrap, chatInput.firstElementChild);
 			chatInput.classList.add("tt-modified");
 		}
 	} else {
-		for (let chat of document.findAll(".chat-active_1Sufk")) {
-			for (let message of document.findAll(".overview_1MoPG .message_oP8oM")) {
+		for (let chat of document.findAll("[class^='chat-active']")) {
+			for (let message of document.findAll("[class^='overview'] [class^='message']")) {
 				message.classList.remove("hidden");
 			}
-			const viewport = chat.find(".viewport_1F0WI");
+			const viewport = chat.find("[class^='viewport']");
 			viewport.scrollTop = viewport.scrollHeight;
 
 			const searchInput = document.find(".tt-chat-filter");
@@ -236,12 +242,12 @@ function searchChat(message, keyword) {
 }
 
 function manipulateChats() {
-	for (let message of document.findAll(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM .tt-highlight")) {
+	for (let message of document.findAll("[class^='chat-box-content'] [class^='overview'] [class^='message'] .tt-highlight")) {
 		message.style.color = "unset";
 		message.classList.remove("tt-highlight");
 	}
 
-	for (let message of document.findAll(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")) {
+	for (let message of document.findAll("[class^='chat-box-content'] [class^='overview'] [class^='message']")) {
 		applyHighlights(message);
 	}
 }
@@ -333,11 +339,11 @@ function showMiniprofileInformation(information) {
 function addChatUsernameAutocomplete() {
 	if (!settings.pages.chat.completeUsernames) return;
 
-	for (let chat of document.findAll(".chat-box_Wjbn9")) {
-		const messageList = chat.find(".overview_1MoPG");
+	for (let chat of document.findAll("[class^='chat-box']")) {
+		const messageList = chat.find("[class^='overview']");
 		if (!messageList) continue;
 
-		const textarea = chat.find(".chat-box-textarea_2V28W");
+		const textarea = chat.find("[class^='chat-box-textarea']");
 		if (!textarea || textarea.classList.contains("tt-chat-autocomplete")) continue;
 		textarea.classList.add("tt-chat-autocomplete");
 
@@ -355,7 +361,7 @@ function addChatUsernameAutocomplete() {
 
 			if (currentSearchValue === null) currentSearchValue = searchValueMatch[2].toLowerCase();
 
-			const matchedUsernames = Array.from(messageList.findAll(".message_oP8oM > a"))
+			const matchedUsernames = Array.from(messageList.findAll("[class^='message'] > a"))
 				.map((message) => message.innerText.slice(0, -2))
 				.filter((username, index, array) => array.indexOf(username) === index && username.toLowerCase().includes(currentSearchValue))
 				.sort();
@@ -382,7 +388,8 @@ function addChatColoring() {
 		.map((entry) => {
 			return {
 				colors: CHAT_TITLE_COLORS[entry.color],
-				element: findParent(document.find(`.chat-box-title_out6E[title="${entry.title}"]`), { class: "chat-box-head_1qkkk" }),
+				// FIXME - Don't use the torn classes.
+				element: findParent(document.find(`[class^='chat-box-title'][title="${entry.title}"]`), { class: "chat-box-head_1qkkk" }),
 			};
 		})
 		.filter((entry) => entry.colors && entry.colors.length === 2 && entry.element)
@@ -401,6 +408,7 @@ async function showComputerLink() {
 	document.find("#top-page-links-list").insertBefore(
 		document.newElement({
 			type: "a",
+			// FIXME - Don't use the torn classes.
 			class: "tt-computer t-clear c-pointer right",
 			html: `
 				<span class="icon-wrap svg-icon-wrap">
