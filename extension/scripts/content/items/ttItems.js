@@ -57,9 +57,16 @@ function loadItemsOnce() {
 				if (params.get("step") !== "useItem") return;
 				if (params.has("fac") && params.get("fac") !== "0") return;
 
-				const item = params.get("itemID");
-
-				updateItemAmount(item, -1);
+				if (json.items) {
+					for (const item of json.items.itemAppear) {
+						updateItemAmount(parseInt(item.ID), parseInt(item.qty));
+					}
+					for (const item of json.items.itemDisappear) {
+						updateItemAmount(parseInt(item.ID), -parseInt(item.qty));
+					}
+				} else {
+					updateItemAmount(parseInt(params.get("itemID")), -1);
+				}
 			} else if (step === "sendItemAction") {
 				if (!json.success) return;
 
@@ -188,20 +195,30 @@ function addQuickItem(id, temporary = false) {
 
 						responseWrap.style.display = "block";
 						responseWrap.innerHTML = `
-									<div class="action-wrap use-act use-action">
-										<form data-action="useItem" method="post">
-    										<p>${response.text}</p>
-    										<p>${links.join("")}</p>
-											<div class="clear"></div>
-										</form>
-									</div>
-								`;
+							<div class="action-wrap use-act use-action">
+								<form data-action="useItem" method="post">
+									<p>${response.text}</p>
+									<p>${links.join("")}</p>
+									<div class="clear"></div>
+								</form>
+							</div>
+						`;
 
 						for (let count of responseWrap.findAll(".counter-wrap")) {
 							count.classList.add("tt-modified");
 							count.innerText = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer" });
 						}
-						updateItemAmount(id, -1);
+
+						if (response.items) {
+							for (const item of response.items.itemAppear) {
+								updateItemAmount(parseInt(item.ID), parseInt(item.qty));
+							}
+							for (const item of response.items.itemDisappear) {
+								updateItemAmount(parseInt(item.ID), -parseInt(item.qty));
+							}
+						} else {
+							updateItemAmount(id, -1);
+						}
 					},
 				});
 			},
