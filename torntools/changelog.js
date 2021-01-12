@@ -9,6 +9,7 @@ export default {
 			"Warning on Forums Bugs and Issues section on TT - Sashank999",
 			"Show total value of properties beside their name - Sashank999",
 		],
+		Fixes: ["Use the new Torn classes. - DKK"],
 	},
 	"v5.3.5 - December, 16th. 2020": {
 		Fixes: ["Fix armory shortening. - Mephiles"],
