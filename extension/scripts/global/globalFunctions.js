@@ -1040,13 +1040,7 @@ function createContainer(title, options = {}) {
 	return { container, content: container.find(".content"), options: container.find(".options") };
 
 	function _createContainer(title, options = {}) {
-		if (document.find(`#${options.id}`)) {
-			const container = document.find(`#${options.id}`);
-
-			container.find(".content").innerHTML = "";
-
-			return container;
-		}
+		if (document.find(`#${options.id}`)) document.find(`#${options.id}`).remove();
 
 		let containerClasses = ["tt-container"];
 		if (options.collapsible) containerClasses.push("collapsible");
