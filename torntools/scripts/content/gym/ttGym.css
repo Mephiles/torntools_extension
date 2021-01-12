@@ -19,7 +19,7 @@
 	background-color: hsla(0, 0%, 90.2%, 0.5);
 }
 
-.tt-gym-locked .propertyValue___3oAOv {
+.tt-gym-locked [class^="propertyValue"] {
 	z-index: 1;
 	position: relative;
 	text-shadow: none;
@@ -66,7 +66,7 @@
 }
 
 /* Options */
-ul.properties___Vhhr7 > li {
+ul[class^="properties"] > li {
 	position: relative;
 }
 

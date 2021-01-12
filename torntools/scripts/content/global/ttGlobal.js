@@ -42,7 +42,7 @@ requireDatabase().then(() => {
 		if (!mobile) addInformationSection();
 
 		// Make Areas collapsible
-		if (!doc.find(".header-arrow___1Ph0g") && !mobile) {
+		if (!doc.find("[class='header-arrow']") && !mobile) {
 			let areas_i = doc.new({ type: "i", class: "tt-title-icon-torn fas fa-caret-down" });
 			let areas_header = doc.find("h2=Areas");
 			areas_header.classList.add("tt-title-torn");
@@ -76,14 +76,14 @@ requireDatabase().then(() => {
 		function hideIcons(observer) {
 			observer.disconnect();
 
-			for (let icon of doc.findAll("#sidebarroot .status-icons___1SnOI > li, #sidebar .status-icons___2xEXb > li")) {
+			for (let icon of doc.findAll("#sidebarroot [class^='status-icons'] > li, #sidebar [class^='status-icons'] > li")) {
 				let name = icon.getAttribute("class").split("_")[0];
 				if (hide_icons.includes(name)) {
 					icon.parentElement.appendChild(icon);
 				}
 			}
 
-			observer.observe(doc.find("#sidebarroot .status-icons___1SnOI, #sidebar .status-icons___2xEXb"), { childList: true });
+			observer.observe(doc.find("#sidebarroot [class^='status-icons'], #sidebar [class^='status-icons']"), { childList: true });
 		}
 
 		hideIcons(new MutationObserver((_, observer) => hideIcons(observer)));
@@ -106,12 +106,12 @@ requireDatabase().then(() => {
 
 		// Links for Energy and Nerve
 		if (!mobile) {
-			doc.find("#barEnergy .bar-name___3TJ0p, #barEnergy .bar-name___3WKHM").classList.add("tt-text-link");
-			doc.find("#barNerve .bar-name___3TJ0p, #barEnergy .bar-name___3WKHM").classList.add("tt-text-link");
-			doc.find("#barEnergy .bar-name___3TJ0p, #barEnergy .bar-name___3WKHM").onclick = () => {
+			doc.find("#barEnergy [class^='bar-name']").classList.add("tt-text-link");
+			doc.find("#barNerve [class^='bar-name']").classList.add("tt-text-link");
+			doc.find("#barEnergy [class^='bar-name']").onclick = () => {
 				window.location.href = "https://www.torn.com/gym.php";
 			};
-			doc.find("#barNerve .bar-name___3TJ0p, #barEnergy .bar-name___3WKHM").onclick = () => {
+			doc.find("#barNerve [class^='bar-name']").onclick = () => {
 				window.location.href = "https://www.torn.com/crimes.php";
 			};
 		}
@@ -215,29 +215,30 @@ function addCustomLinks() {
 	if (mobile) {
 		let areas_custom = doc.new({
 			type: "div",
-			class: "areas___2pu_3 areasWrapper areas-mobile___3zY0z torntools-mobile",
+			class: "areas___2pu_3 areasWrapper areas-mobile___3zY0z torntools-mobile", // FIXME - Use right classes.
 		});
 		let div = doc.new({ type: "div" });
 		let swipe_container = doc.new({ type: "div", class: "swiper-container swiper-container-horizontal" });
 		let swipe_wrapper = doc.new({
 			type: "div",
-			class: "swiper-wrapper swiper___nAyWO",
+			class: "swiper-wrapper swiper___nAyWO", // FIXME - Use right classes.
 			attributes: { style: "transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;" },
 		});
 		let swipe_button_left = doc.new({
 			type: "div",
-			class: "swiper-button___3lZ1n button-prev___2x-Io swiper-button-disabled",
+			class: "swiper-button___3lZ1n button-prev___2x-Io swiper-button-disabled", // FIXME - Use right classes.
 		});
 		let swipe_button_right = doc.new({ type: "div", class: "swiper-button___3lZ1n button-next___1hJxo" });
+		// FIXME - Use right classes.
 
 		for (let link of custom_links) {
-			let slide = doc.new({ type: "div", class: "swiper-slide slide___1oBWA" });
-			let area = doc.new({ type: "div", class: "area-mobile___1XJcq" });
-			let area_row = doc.new({ type: "div", class: "area-row___34mEZ torntools-mobile" });
+			let slide = doc.new({ type: "div", class: "swiper-slide slide___1oBWA" }); // FIXME - Use right classes.
+			let area = doc.new({ type: "div", class: "area-mobile___1XJcq" }); // FIXME - Use right classes.
+			let area_row = doc.new({ type: "div", class: "area-row___34mEZ torntools-mobile" }); // FIXME - Use right classes.
 			let a = doc.new({
 				type: "a",
 				href: link.href,
-				class: "mobileLink___33zU1 sidebarMobileLink torntools-mobile",
+				class: "mobileLink___33zU1 sidebarMobileLink torntools-mobile", // FIXME - Use right classes.
 				text: link.text,
 				attributes: { target: link.new_tab ? "_blank" : "" },
 			});
@@ -254,7 +255,7 @@ function addCustomLinks() {
 		div.appendChild(swipe_container);
 		areas_custom.appendChild(div);
 
-		doc.find("#sidebar .content___kMC8x").insertBefore(areas_custom, doc.find("#sidebar .content___kMC8x .user-information-mobile___EaRKJ"));
+		doc.find("#sidebar [class^='content']").insertBefore(areas_custom, doc.find("#sidebar [class^='content'] [class^='user-information-mobile']"));
 	} else {
 		let custom_links_section = navbar.newSection("Custom Links", { next_element_heading: "Areas" });
 
@@ -268,17 +269,17 @@ function addCustomLinks() {
 
 		doc.find("#sidebar").insertBefore(
 			custom_links_section,
-			findParent(doc.find("h2=Areas"), { class: ["sidebar-block___1Cqc2", "sidebar-block___181mP"] })
+			findParent(doc.find("h2=Areas"), { class: ["sidebar-block___1Cqc2", "sidebar-block___181mP"] }) // FIXME - Use right classes.
 		);
 	}
 }
 
 function addNotesBox() {
 	let notes_section = navbar.newSection("Notes", { next_element_heading: "Areas" });
-	let cell = doc.new({ type: "div", class: "area-desktop___2YU-q" });
-	let inner_div = doc.new({ type: "div", class: "area-row___34mEZ" });
+	let cell = doc.new({ type: "div", class: "area-desktop___2YU-q" }); // FIXME - Use right classes.
+	let inner_div = doc.new({ type: "div", class: "area-row___34mEZ" }); // FIXME - Use right classes.
 	let textbox = doc.new({ type: "textarea", class: "tt-nav-textarea", value: notes.text || "" });
-
+	// [class^='
 	if (notes.height) {
 		textbox.style.height = notes.height;
 	}
@@ -287,7 +288,7 @@ function addNotesBox() {
 	cell.appendChild(inner_div);
 	notes_section.find(".tt-content").appendChild(cell);
 
-	doc.find("#sidebar").insertBefore(notes_section, findParent(doc.find("h2=Areas"), { class: ["sidebar-block___1Cqc2", "sidebar-block___181mP"] }));
+	doc.find("#sidebar").insertBefore(notes_section, findParent(doc.find("h2=Areas"), { class: ["sidebar-block___1Cqc2", "sidebar-block___181mP"] })); // FIXME - Use right classes.
 
 	textbox.addEventListener("change", () => {
 		ttStorage.set({ notes: { text: textbox.value, height: textbox.style.height } });
@@ -305,11 +306,11 @@ function addUpdateNotification() {
 	let version_text = `TornTools updated: ${chrome.runtime.getManifest().version}`;
 	let settings_page_url = chrome.runtime.getURL("/views/settings/settings.html");
 
-	let cell = doc.new({ type: "div", class: "area-desktop___2YU-q" });
-	let inner_div = doc.new({ type: "div", class: "area-row___34mEZ" });
+	let cell = doc.new({ type: "div", class: "area-desktop___2YU-q" }); // FIXME - Use right classes.
+	let inner_div = doc.new({ type: "div", class: "area-row___34mEZ" }); // FIXME - Use right classes.
 	let a = doc.new({
 		type: "a",
-		class: "desktopLink___2dcWC",
+		class: "desktopLink___2dcWC", // FIXME - Use right classes.
 		href: settings_page_url,
 		attributes: { target: "_blank", style: "background-color: #B8E28F; min-height: 24px; line-height: 24px;" },
 	});
@@ -475,6 +476,7 @@ function displayVaultBalance() {
 		money = vault.user.current_money;
 	}
 
+	// FIXME - Use right classes.
 	let elementHTML = `
     	<span class="name___297H-">Vault:</span>
     	<span class="value___1K0oi money-positive___3pqLW" style="position:relative;left:-3px;">
@@ -482,10 +484,11 @@ function displayVaultBalance() {
 		</span>
     `;
 
+	// FIXME - Use right classes.
 	let el = doc.new({ type: "p", class: "point-block___xpMEi", attributes: { tabindex: "1" }, html: elementHTML });
 
 	let info_cont = doc.find("h2=Information");
-	info_cont.parentElement.find(".points___KTUNl").insertBefore(el, info_cont.parentElement.find(".points___KTUNl .point-block___xpMEi:nth-of-type(2)"));
+	info_cont.parentElement.find("[class^='points']").insertBefore(el, info_cont.parentElement.find("[class^='points'] [class^='point-block']:nth-of-type(2)"));
 }
 
 function showToggleChat() {
@@ -529,11 +532,11 @@ function showToggleChat() {
 }
 
 function addInformationSection() {
-	let hr = doc.new({ type: "hr", class: "delimiter___neME6 delimiter___3kh4j tt-information-section-hr" });
+	let hr = doc.new({ type: "hr", class: "delimiter___neME6 delimiter___3kh4j tt-information-section-hr" }); // FIXME - Use right classes.
 	let div = doc.new({ type: "div", class: "tt-information-section" });
 
-	doc.find("#sidebarroot .user-information___u408H .content___3HChF, #sidebarroot .user-information___1By-5 .content___2bobA").appendChild(hr);
-	doc.find("#sidebarroot .user-information___u408H .content___3HChF, #sidebarroot .user-information___1By-5 .content___2bobA").appendChild(div);
+	doc.find("#sidebarroot [class^='user-information'] [class^='content']").appendChild(hr);
+	doc.find("#sidebarroot [class^='user-information'] [class^='content']").appendChild(div);
 }
 
 function displayOCtime() {
@@ -638,10 +641,10 @@ function highlightRefills() {
 	if (mobile) return;
 
 	if (settings.pages.global.refill_energy && !userdata.refills.energy_refill_used) {
-		doc.find("#barEnergy .bar-name___3TJ0p").classList.add("tt-refill");
+		doc.find("#barEnergy [class^='bar-name']").classList.add("tt-refill");
 	}
 	if (settings.pages.global.refill_nerve && !userdata.refills.nerve_refill_used) {
-		doc.find("#barNerve .bar-name___3TJ0p").classList.add("tt-refill");
+		doc.find("#barNerve [class^='bar-name']").classList.add("tt-refill");
 	}
 }
 
@@ -654,9 +657,9 @@ function showMiniprofileInformation(information) {
 	const formattedTime = formatTime([signupDate.getUTCHours(), signupDate.getUTCMinutes(), signupDate.getUTCSeconds()], settings.format.time);
 	const formattedDate = formatDate([signupDate.getUTCDate(), signupDate.getUTCMonth() + 1, signupDate.getUTCFullYear()], settings.format.date);
 
-	requireElement(".-profile-mini-_userProfileWrapper___39cKq", { parent: miniProfile }).then(() => {
+	requireElement("[class^='-profile-mini-_userProfileWrapper']", { parent: miniProfile }).then(() => {
 		setTimeout(() => {
-			miniProfile.find(".-profile-mini-_userProfileWrapper___39cKq").appendChild(
+			miniProfile.find("[class^='-profile-mini-_userProfileWrapper']").appendChild(
 				doc.new({
 					type: "div",
 					class: "tt-mini-data",
@@ -711,7 +714,7 @@ function nukeReviveScript() {
 	function callForRevive() {
 		const playerID = userdata.player_id;
 		const playerName = userdata.name;
-		const isInHospital = doc.find("#sidebarroot .status-icons___1SnOI li[class^=icon15]") ? true : false;
+		const isInHospital = !!doc.find("#sidebarroot [class^='status-icons'] li[class^=icon15]");
 		const faction = userdata.faction.faction_name;
 		const appInfo = `TornTools v${chrome.runtime.getManifest().version}`;
 		let country = document.body.dataset.country;

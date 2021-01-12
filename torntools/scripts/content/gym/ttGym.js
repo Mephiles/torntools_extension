@@ -1,8 +1,8 @@
 const GYM_SELECTORS = {
-	strength: "strength___1GeGr",
-	speed: "speed___1o1b_",
-	defense: "defense___311kR",
-	dexterity: "dexterity___1YdUM",
+	strength: "[class^='strength']",
+	speed: "[class^='speed']",
+	defense: "[class^='defense']",
+	dexterity: "[class^='dexterity']",
 };
 
 const STATS = {};
@@ -87,12 +87,12 @@ requireDatabase().then(() => {
 					classList.remove("tt-gym-locked");
 				}
 			}
-		}).observe(doc.find("ul.properties___Vhhr7"), { classList: true, attributes: true, subtree: true });
+		}).observe(doc.find("ul[class^='properties']"), { classList: true, attributes: true, subtree: true });
 	});
 });
 
 function gymLoaded() {
-	return requireElement(".gymButton___3OFdI, .jail .button___3AlDV");
+	return requireElement("[class^='gymButton'], .jail [class^='button']");
 }
 
 function showProgress() {
@@ -122,11 +122,11 @@ function showProgress() {
 		106305,
 	];
 
-	let in_prog_gym = doc.find(".gymButton___3OFdI.inProgress___1Nd26");
+	let in_prog_gym = doc.find("[class^='gymButton'][class^='inProgress']");
 	if (!in_prog_gym) return;
 
 	let index = parseInt(in_prog_gym.id.split("-")[1]) - 2;
-	let percentage = parseInt(in_prog_gym.find(".percentage___1vHCw").innerText.replace("%", ""));
+	let percentage = parseInt(in_prog_gym.find("[class^='percentage']").innerText.replace("%", ""));
 	let goal = gym_goals[index];
 	for (let perk of userdata.company_perks) {
 		if (perk.indexOf("increased gym experience") > -1) {
@@ -315,14 +315,15 @@ function disableGyms() {
 		let checkbox = doc.new({ type: "input", class: "tt-gym-stat-checkbox", attributes: { type: "checkbox" } });
 		checkbox.checked = settings.pages.gym[`disable_${stat}`];
 
-		if (settings.pages.gym[`disable_${stat}`] && !doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]}`).classList.contains("locked___r074J")) {
-			doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]}`).classList.add("tt-gym-locked");
+		if (settings.pages.gym[`disable_${stat}`] && !doc.find(`ul[class^='properties'] > li.${GYM_SELECTORS[stat]}`).classList.contains("locked___r074J")) {
+			// FIXME - Check class.
+			doc.find(`ul[class^='properties'] > li.${GYM_SELECTORS[stat]}`).classList.add("tt-gym-locked");
 		}
 
-		doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]}`).appendChild(checkbox);
+		doc.find(`ul[class^='properties'] > li.${GYM_SELECTORS[stat]}`).appendChild(checkbox);
 
 		checkbox.onclick = () => {
-			if (!doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked") && checkbox.checked) {
+			if (!doc.find(`ul[class^='properties'] > li.${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked") && checkbox.checked) {
 				disableGymButton([stat], true);
 			} else if (!checkbox.checked) {
 				disableGymButton([stat], false);
@@ -339,13 +340,13 @@ function disableGyms() {
 function disableGymButton(types, disable) {
 	for (let stat of types) {
 		if (disable) {
-			if (!doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked")) {
-				doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]}`).classList.add("tt-gym-locked");
-				doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = true;
+			if (!doc.find(`ul[class^='properties'] > li.${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked")) {
+				doc.find(`ul[class^='properties'] > li.${GYM_SELECTORS[stat]}`).classList.add("tt-gym-locked");
+				doc.find(`ul[class^='properties'] > li.${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = true;
 			}
 		} else {
-			doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]}`).classList.remove("tt-gym-locked");
-			doc.find(`ul.properties___Vhhr7 > li.${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = false;
+			doc.find(`ul[class^='properties'] > li.${GYM_SELECTORS[stat]}`).classList.remove("tt-gym-locked");
+			doc.find(`ul[class^='properties'] > li.${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = false;
 		}
 	}
 

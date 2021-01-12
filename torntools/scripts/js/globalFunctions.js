@@ -1808,6 +1808,7 @@ const navbar = {
 				collapsed = filters.container_open.navbar[name];
 			}
 
+			// FIXME - Use right classes.
 			let sidebarBlock = doc.new({ type: "div", class: "sidebar-block___1Cqc2 tt-nav-section" });
 			sidebarBlock.innerHTML = `
                 <div class="content___kMC8x">
@@ -1860,7 +1861,7 @@ const navbar = {
 			})();
 		}
 
-		let toggleContent = attribute.parent_element.find(".toggle-content___3XKOC");
+		let toggleContent = attribute.parent_element.find("[class^='toggle-content']");
 		let newCellBlock = createNewCellBlock(text, attribute);
 
 		if (attribute.first) toggleContent.insertBefore(newCellBlock, toggleContent.firstElementChild);
@@ -1869,8 +1870,9 @@ const navbar = {
 		return newCellBlock;
 
 		function createNewCellBlock(text, attr) {
-			let div = doc.new({ type: "div", class: "area-desktop___2YU-q area-desktop___2N3Jp" });
+			let div = doc.new({ type: "div", class: "area-desktop___2YU-q area-desktop___2N3Jp" }); // FIXME - Use right classes.
 
+			// FIXME - Use right classes.
 			div.innerHTML = `
                 <div class="area-row___34mEZ area-row___1VM_l tt-cell">
                     <a class="desktopLink___2dcWC desktopLink___1p2Dr ${attr.class || ""}" ${attr.href ? `href='${attr.href}'` : ""} target="${
