@@ -73,8 +73,22 @@ function loadItemsOnce() {
 
 					updateItemAmount(item, -amount);
 				}
+			} else if (step === "getCategoryList" || step === "getNotAllItemsListWithoutGroups" || step === "getItemsListByItemId") {
+				const tab = document.find("ul.items-cont.tab-menu-cont[style='display: block;'], ul.items-cont.tab-menu-cont:not([style])");
+				if (!tab) return;
+
+				new MutationObserver((mutations, observer) => {
+					if (document.find("li.ajax-item-loader")) return;
+
+					// TODO - Update item list features.
+					highlightBloodBags().catch((error) => console.error("Couldn't highlight the correct blood bags.", error));
+					showItemValues().catch((error) => console.error("Couldn't show the item values.", error));
+					// showDrugDetails().catch((error) => console.error("Couldn't show drug details.", error));
+					showItemMarketIcons().catch((error) => console.error("Couldn't show the market icons.", error));
+
+					observer.disconnect();
+				}).observe(tab, { subtree: true, childList: true });
 			}
-			// TODO - Update item list features.
 		}
 	});
 
@@ -352,7 +366,7 @@ async function showItemValues() {
 				if (quantity === 1) {
 					priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(price)}` }));
 				} else {
-					priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(price)} |` }));
+					priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(price)} | ` }));
 					priceElement.appendChild(document.newElement({ type: "span", text: `${quantity}x = `, class: "tt-item-quantity" }));
 					priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(totalPrice)}` }));
 				}
