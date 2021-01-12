@@ -290,13 +290,101 @@ function updateItemAmount(id, change) {
 		quickQuantity.setAttribute("quantity", newQuantity);
 	}
 
-	// TODO - Update item value quantities.
+	for (const item of document.findAll(`.items-cont > li[data-item="${id}"]`)) {
+		const priceElement = item.find(".tt-item-price");
+		if (!priceElement) continue;
+		const quantityElement = priceElement.find(".tt-item-quantity");
+
+		let price = torndata.items[id].market_value;
+		let newQuantity = parseInt(quantityElement.innerText.match(/([0-9]*)x = /i)[1]) + change;
+
+		if (newQuantity === 1) {
+			priceElement.innerHTML = "";
+			priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(price)}` }));
+		} else {
+			quantityElement.innerText = `${newQuantity}x = `;
+			priceElement.find("span:last-child").innerText = `$${formatNumber(price * newQuantity)}`;
+		}
+	}
 }
 
 async function showItemValues() {
-	if (settings.pages.items.values && hasAPIData()) {
-		// TODO - Show item values.
+	if (settings.pages.items.values && hasAPIData() && settings.apiUsage.user.inventory) {
+		const list = document.find(".items-cont[aria-expanded=true]");
+		const type = list.getAttribute("data-info");
+
+		let total;
+		if (type === "All") total = userdata.inventory.map((x) => x.quantity * x.market_price).reduce((a, b) => (a += b), 0);
+		else
+			total = userdata.inventory
+				.filter((x) => x.type === type)
+				.map((x) => x.quantity * x.market_price)
+				.reduce((a, b) => (a += b), 0);
+
+		for (let item of list.findAll(":scope > li[data-item]")) {
+			const id = item.getAttribute("data-item");
+			const price = torndata.items[id].market_value;
+
+			const parent = mobile ? item.find(".name-wrap") : item.find(".bonuses-wrap") || item.find(".name-wrap");
+
+			const quantity = parseInt(item.find(".item-amount.qty").innerText) || 1;
+			const totalPrice = quantity * parseInt(price);
+
+			if (parent.find(".tt-item-price")) continue;
+
+			let priceElement;
+			if (item.find(".bonuses-wrap")) {
+				priceElement = document.newElement({ type: "li", class: "bonus left tt-item-price" });
+			} else {
+				priceElement = document.newElement({ type: "span", class: "tt-item-price" });
+
+				if (item.find("button.group-arrow")) {
+					priceElement.style.paddingRight = "30px";
+				}
+			}
+			if (mobile) {
+				priceElement.setAttribute("style", `position: absolute; right: -10px; top: 10px; float: unset !important; font-size: 11px;`);
+				parent.find(".name").setAttribute("style", "position: relative; top: -3px;");
+				parent.find(".qty").setAttribute("style", "position: relative; top: -3px;");
+			}
+
+			if (totalPrice) {
+				if (quantity === 1) {
+					priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(price)}` }));
+				} else {
+					priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(price)} |` }));
+					priceElement.appendChild(document.newElement({ type: "span", text: `${quantity}x = `, class: "tt-item-quantity" }));
+					priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(totalPrice)}` }));
+				}
+			} else if (price === 0) {
+				priceElement.innerText = `N/A`;
+			} else {
+				priceElement.innerText = `$${formatNumber(price)}`;
+			}
+
+			parent.appendChild(priceElement);
+		}
+
+		if (list.find(":scope > li > .tt-item-price")) list.find(":scope > li > .tt-item-price").parentElement.remove();
+
+		list.insertBefore(
+			document.newElement({
+				type: "li",
+				class: "tt-ignore",
+				children: [
+					document.newElement({
+						type: "li",
+						text: `Total Value: $${formatNumber(total, { decimals: 0 })}`,
+						class: "tt-item-price",
+					}),
+				],
+			}),
+			list.firstElementChild
+		);
 	} else {
+		for (const price of document.findAll(".tt-item-price, #category-wrap .tt-ignore")) {
+			price.remove();
+		}
 	}
 }
 

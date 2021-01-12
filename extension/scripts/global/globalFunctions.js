@@ -741,7 +741,7 @@ function formatNumber(number, options = {}) {
 	}
 
 	if (options.decimals !== -1) {
-		number = options.decimals === 1 ? parseInt(number) : parseFloat(number.toFixed(options.decimals));
+		number = options.decimals === 0 ? parseInt(number) : parseFloat(number.toFixed(options.decimals));
 	}
 
 	if (options.formatter) {

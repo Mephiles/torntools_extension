@@ -35,6 +35,7 @@ export default [
 				{ message: "Make OC timer red when under 8 hours left and orange when under 12 hours left.", contributor: "DeKleineKobini" },
 				{ message: "Don't use hardcoded classes with variable names to improve reliability.", contributor: "DeKleineKobini" },
 				{ message: "Decrease quick item usage delay.", contributor: "DeKleineKobini" },
+				{ message: "Improve item value total method of calculation.", contributor: "DeKleineKobini" },
 			],
 		},
 	},
