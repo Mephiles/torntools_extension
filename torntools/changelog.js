@@ -1,13 +1,13 @@
 export default {
-	"v5.4 - xxxx, xxth. 2021": {
+	"v5.4 - January, 12th. 2021": {
 		Features: [
 			"Show total Portfolio Value. - Sashank999",
 			"Allow chat filtering for people with recent interactions. - Sashank999",
 			"Show age as words. - Sashank999",
 			"Hide completed education courses. - Sashank999",
-			"Disable Attacks on Ally - Sashank999",
-			"Warning on Forums Bugs and Issues section on TT - Sashank999",
-			"Show total value of properties beside their name - Sashank999",
+			"Disable Attacks on allies. - Sashank999",
+			"Warning on Bugs & Issues subforum. - Sashank999",
+			"Show total value of properties besides their name. - Sashank999",
 		],
 		Fixes: ["Use the new Torn classes. - DKK"],
 	},
