@@ -1,4 +1,4 @@
-# TornTools (v5.2)  
+# TornTools (v5.4)  
 ##### A browser extension for Torn.com
 &nbsp;  
 **Links**  
