@@ -115,6 +115,22 @@ String.prototype.camelCase = function (lowerCamelCase) {
 	return (this.trim().charAt(0)[lowerCamelCase ? "toLowerCase" : "toUpperCase"]() + this.slice(1)).trim().replaceAll(" ", "");
 };
 
+DOMTokenList.prototype.contains = function (className) {
+	const classes = [...this];
+	if (className.startsWith("^=")) {
+		className = className.substring(2, className.length);
+
+		for (const name of classes) {
+			if (!name.startsWith(className)) continue;
+
+			return true;
+		}
+		return false;
+	} else {
+		return classes.includes(className);
+	}
+};
+
 if (!Array.prototype.flat)
 	Object.defineProperty(Array.prototype, "flat", {
 		value(depth = 1) {
@@ -268,7 +284,6 @@ function findParent(element, options = {}) {
 		tag: false,
 		class: false,
 		id: false,
-		useRegex: false,
 		hasAttribute: false,
 		...options,
 	};
@@ -276,12 +291,7 @@ function findParent(element, options = {}) {
 	if (!element || !element.parentElement) return undefined;
 
 	if (options.tag && element.parentElement.tagName === options.tag) return element.parentElement;
-	if (
-		options.class &&
-		((!options.useRegex && element.parentElement.classList.contains(options.class)) ||
-			(options.useRegex && [...element.parentElement.classList].some((value) => value.match(options.class))))
-	)
-		return element.parentElement;
+	if (options.class && element.parentElement.classList.contains(options.class)) return element.parentElement;
 	if (options.hasAttribute && element.parentElement.getAttribute(options.hasAttribute) !== null) return element.parentElement;
 
 	return findParent(element.parentElement, options);
@@ -485,7 +495,7 @@ function showLoadingPlaceholder(element, show) {
 			element.appendChild(
 				document.newElement({
 					type: "img",
-					class: "ajax-placeholder m-top10 m-bottom10 tt-loading-placeholder active",
+					class: "ajax-placeholder mt10 mb10 tt-loading-placeholder active",
 					attributes: { src: "https://www.torn.com/images/v2/main/ajax-loader.gif" },
 				})
 			);

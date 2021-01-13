@@ -13,7 +13,7 @@
 
 /* Search Chat */
 
-.chat-box-input_1SBQR.tt-modified {
+[class*="chat-box-input_"].tt-modified {
 	height: 86px !important;
 }
 
@@ -33,19 +33,19 @@
 
 /* Colored Chat */
 
-.chat-colored.chat-box-head_1qkkk .chat-box-title_out6E,
-.chat-colored.chat-box-head_1qkkk .l_Gk3uN,
-.chat-colored.chat-box-head_1qkkk .r_2uwXA {
+.chat-colored[class*="chat-box-head_"] [class*="chat-box-title_out6E_"],
+.chat-colored[class*="chat-box-head_"] [class*="l_"],
+.chat-colored[class*="chat-box-head_"] [class*="r_"] {
 	background: var(--highlight-color__1);
 	background: linear-gradient(0deg, var(--highlight-color__1) 0%, var(--highlight-color__2) 100%);
 	height: inherit;
 }
 
-.chat-colored.chat-box-head_1qkkk .l_Gk3uN {
+.chat-colored[class*="chat-box-head_"] [class*="l_"] {
 	border-radius: 5px 0 0 0;
 }
 
-.chat-colored.chat-box-head_1qkkk .r_2uwXA {
+.chat-colored[class*="chat-box-head_"] [class*="r_"] {
 	border-radius: 0 5px 0 0;
 }
 

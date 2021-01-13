@@ -59,24 +59,20 @@ function loadGlobal() {
 			new MutationObserver((mutations) => {
 				for (let mutation of mutations) {
 					for (let addedNode of mutation.addedNodes) {
-						// FIXME - Don't use the torn classes.
-						if (addedNode.classList && addedNode.classList.contains("chat-box_Wjbn9")) {
+						if (addedNode.classList && addedNode.classList.contains("^=chat-box_")) {
 							setTimeout(() => {
 								addChatSearch();
 								addChatUsernameAutocomplete();
 								addChatColoring();
 							});
-							// FIXME - Don't use the torn classes.
-						} else if (addedNode.classList && addedNode.classList.contains("chat-box-content_2C5UJ")) {
+						} else if (addedNode.classList && addedNode.classList.contains("^=chat-box-content_")) {
 							manipulateChats();
 						}
 
-						// FIXME - Don't use the torn classes.
-						if (addedNode.classList && !addedNode.classList.contains("message_oP8oM")) continue;
+						if (addedNode.classList && !addedNode.classList.contains("^=message_")) continue;
 
 						if (settings.pages.chat.searchChat) {
-							// FIXME - Don't use the torn classes.
-							const parent = findParent(addedNode, { class: "chat-box_Wjbn9" });
+							const parent = findParent(addedNode, { class: "^=chat-box_" });
 							if (!parent) continue;
 
 							const input = parent.find(".tt-chat-filter input");
@@ -96,10 +92,7 @@ function loadGlobal() {
 			manipulateChats();
 
 			document.addEventListener("click", (event) => {
-				// FIXME - Don't use the torn classes.
-				if (!hasParent(event.target, { class: "chat-box_Wjbn9" })) {
-					return;
-				}
+				if (!hasParent(event.target, { class: "^=chat-box_" })) return;
 
 				manipulateChats();
 				addChatSearch();
@@ -183,16 +176,15 @@ function loadGlobalOnce() {
 }
 
 function requireChatsLoaded() {
-	// FIXME - Don't use the torn classes.
-	return requireElement(".overview_1MoPG");
+	return requireElement("[class*='overview_']");
 }
 
 function addChatSearch() {
 	if (settings.pages.chat.searchChat) {
-		for (let chat of document.findAll("[class^='chat-active']:not([class^='chat-box-settings'])")) {
+		for (let chat of document.findAll("[class*='chat-active_']:not([class*='chat-box-settings_'])")) {
 			if (chat.find(".tt-chat-filter")) continue;
 
-			const id = `search_${chat.find("[class^='chat-box-title']").getAttribute("title")}`;
+			const id = `search_${chat.find("[class*='chat-box-title_']").getAttribute("title")}`;
 
 			let wrap = document.newElement({ type: "div", class: "tt-chat-filter" });
 			let label = document.newElement({ type: "label", text: "Search:", attributes: { for: id } });
@@ -205,26 +197,26 @@ function addChatSearch() {
 			searchInput.addEventListener("input", () => {
 				const keyword = searchInput.value.toLowerCase();
 
-				for (let message of chat.findAll("[class^='overview'] [class^='message']")) {
+				for (let message of chat.findAll("[class*='overview_'] [class*='message_']")) {
 					searchChat(message, keyword);
 				}
 
 				if (!keyword) {
-					const viewport = chat.find("[class^='viewport']");
+					const viewport = chat.find("[class*='viewport_']");
 					viewport.scrollTop = viewport.scrollHeight;
 				}
 			});
 
-			const chatInput = chat.find("[class^='chat-box-input']");
+			const chatInput = chat.find("[class*='chat-box-input_']");
 			chatInput.insertBefore(wrap, chatInput.firstElementChild);
 			chatInput.classList.add("tt-modified");
 		}
 	} else {
-		for (let chat of document.findAll("[class^='chat-active']")) {
-			for (let message of document.findAll("[class^='overview'] [class^='message']")) {
+		for (let chat of document.findAll("[class*='chat-active_']")) {
+			for (let message of document.findAll("[class*='overview_'] [class*='message_']")) {
 				message.classList.remove("hidden");
 			}
-			const viewport = chat.find("[class^='viewport']");
+			const viewport = chat.find("[class*='viewport_']");
 			viewport.scrollTop = viewport.scrollHeight;
 
 			const searchInput = document.find(".tt-chat-filter");
@@ -242,12 +234,12 @@ function searchChat(message, keyword) {
 }
 
 function manipulateChats() {
-	for (let message of document.findAll("[class^='chat-box-content'] [class^='overview'] [class^='message'] .tt-highlight")) {
+	for (let message of document.findAll("[class*='chat-box-content_'] [class*='overview_'] [class*='message_'] .tt-highlight")) {
 		message.style.color = "unset";
 		message.classList.remove("tt-highlight");
 	}
 
-	for (let message of document.findAll("[class^='chat-box-content'] [class^='overview'] [class^='message']")) {
+	for (let message of document.findAll("[class*='chat-box-content_'] [class*='overview_'] [class*='message_']")) {
 		applyHighlights(message);
 	}
 }
@@ -323,13 +315,13 @@ function showMiniprofileInformation(information) {
 
 	const lastAction = formatTime({ seconds: information.user.lastAction.seconds }, { type: "wordTimer", showDays: true });
 
-	requireElement("div[class^='-profile-mini-_userProfileWrapper']", { parent: miniProfile }).then(() => {
+	requireElement("div[class*='-profile-mini-_userProfileWrapper']", { parent: miniProfile }).then(() => {
 		const data = document.newElement({
 			type: "div",
 			class: "tt-mini-data",
 			children: [document.newElement({ type: "strong", text: "Last Action: " }), document.newElement({ type: "span", text: lastAction })],
 		});
-		miniProfile.find("div[class^='-profile-mini-_userProfileWrapper']").appendChild(data);
+		miniProfile.find("div[class*='-profile-mini-_userProfileWrapper']").appendChild(data);
 
 		const profileY = parseInt(miniProfile.style.top.replace("px", ""));
 		if (mouseY > profileY) miniProfile.style.top = `${profileY - data.clientHeight + 1}px`;
@@ -339,11 +331,11 @@ function showMiniprofileInformation(information) {
 function addChatUsernameAutocomplete() {
 	if (!settings.pages.chat.completeUsernames) return;
 
-	for (let chat of document.findAll("[class^='chat-box']")) {
-		const messageList = chat.find("[class^='overview']");
+	for (let chat of document.findAll("[class*='chat-box_']")) {
+		const messageList = chat.find("[class*='overview_']");
 		if (!messageList) continue;
 
-		const textarea = chat.find("[class^='chat-box-textarea']");
+		const textarea = chat.find("[class*='chat-box-textarea_']");
 		if (!textarea || textarea.classList.contains("tt-chat-autocomplete")) continue;
 		textarea.classList.add("tt-chat-autocomplete");
 
@@ -361,7 +353,7 @@ function addChatUsernameAutocomplete() {
 
 			if (currentSearchValue === null) currentSearchValue = searchValueMatch[2].toLowerCase();
 
-			const matchedUsernames = Array.from(messageList.findAll("[class^='message'] > a"))
+			const matchedUsernames = Array.from(messageList.findAll("[class*='message_'] > a"))
 				.map((message) => message.innerText.slice(0, -2))
 				.filter((username, index, array) => array.indexOf(username) === index && username.toLowerCase().includes(currentSearchValue))
 				.sort();
@@ -388,8 +380,7 @@ function addChatColoring() {
 		.map((entry) => {
 			return {
 				colors: CHAT_TITLE_COLORS[entry.color],
-				// FIXME - Don't use the torn classes.
-				element: findParent(document.find(`[class^='chat-box-title'][title="${entry.title}"]`), { class: "chat-box-head_1qkkk" }),
+				element: findParent(document.find(`[class*='chat-box-title_'][title="${entry.title}"]`), { class: "^=chat-box-head_" }),
 			};
 		})
 		.filter((entry) => entry.colors && entry.colors.length === 2 && entry.element)
@@ -408,8 +399,7 @@ async function showComputerLink() {
 	document.find("#top-page-links-list").insertBefore(
 		document.newElement({
 			type: "a",
-			// FIXME - Don't use the torn classes.
-			class: "tt-computer t-clear c-pointer right",
+			class: "tt-computer clr cp fr",
 			html: `
 				<span class="icon-wrap svg-icon-wrap">
 					<span class="link-icon-svg laptop ">
@@ -443,12 +433,12 @@ async function showComputerLink() {
 function moveIcons(observer) {
 	observer.disconnect();
 
-	for (let icon of document.findAll("#sidebarroot ul[class^='status-icons'] > li")) {
+	for (let icon of document.findAll("#sidebarroot ul[class*='status-icons_'] > li")) {
 		if (!settings.hideIcons.includes(icon.getAttribute("class").split("_")[0])) continue;
 
 		icon.parentElement.appendChild(icon);
 	}
-	observer.observe(document.find("#sidebarroot ul[class^='status-icons']"), { childList: true, attributes: true });
+	observer.observe(document.find("#sidebarroot ul[class*='status-icons_']"), { childList: true, attributes: true });
 }
 
 async function showNotes() {
@@ -457,7 +447,7 @@ async function showNotes() {
 			id: "sidebarNotes",
 			applyRounding: false,
 			contentBackground: false,
-			previousElement: findParent(document.find("h2=Information"), { class: /sidebar-block/i, useRegex: true }),
+			previousElement: findParent(document.find("h2=Information"), { class: "^=sidebar-block_" }),
 		});
 
 		// noinspection JSUnusedGlobalSymbols
@@ -489,10 +479,10 @@ async function addInformationSection() {
 	if (await checkMobile()) return;
 
 	document
-		.find("#sidebarroot div[class^='user-information'] div[class^='content']")
+		.find("#sidebarroot div[class*='user-information_'] div[class*='content_']")
 		.appendChild(document.newElement({ type: "hr", class: "tt-sidebar-information-divider tt-delimiter hidden" }));
 	document
-		.find("#sidebarroot div[class^='user-information'] div[class^='content']")
+		.find("#sidebarroot div[class*='user-information_'] div[class*='content_']")
 		.appendChild(document.newElement({ type: "div", class: "tt-sidebar-information hidden" }));
 }
 
@@ -541,7 +531,7 @@ async function showOCTime() {
 
 async function showCustomLinks() {
 	if (!(await checkMobile())) {
-		const areas = findParent(document.find("h2=Areas"), { class: /sidebar-block/i, useRegex: true });
+		const areas = findParent(document.find("h2=Areas"), { class: "^=sidebar-block_" });
 
 		if (settings.customLinks.filter((link) => link.location === "above").length) {
 			const { content } = createContainer("Custom Links", { id: "customLinksAbove", applyRounding: false, contentBackground: false, nextElement: areas });
@@ -624,7 +614,7 @@ async function showCustomLinks() {
 					}),
 				],
 			});
-			const parent = areas.find("div[class^='toggle-content']");
+			const parent = areas.find("div[class*='toggle-content_']");
 			if (target) parent.insertBefore(pill, target);
 			else parent.appendChild(pill);
 		}

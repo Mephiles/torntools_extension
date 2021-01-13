@@ -33,12 +33,12 @@
 }
 
 /* Highlight energy */
-#barEnergy p[class^="bar-name"] {
+#barEnergy p[class*="bar-name_"] {
 	color: var(--torntools-highlight-energy, #333) !important;
 }
 
 /* Highlight nerve */
-#barNerve p[class^="bar-name"] {
+#barNerve p[class*="bar-name_"] {
 	color: var(--torntools-highlight-nerve, #333) !important;
 }
 
@@ -120,322 +120,322 @@
 }
 
 /* Torn icons */
-#sidebarroot ul[class^="status-icons"] > li[class^="icon1_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon1_"] {
 	display: var(--torntools-hide-icons-icon1, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon2_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon2_"] {
 	display: var(--torntools-hide-icons-icon2, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon3_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon3_"] {
 	display: var(--torntools-hide-icons-icon3, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon4_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon4_"] {
 	display: var(--torntools-hide-icons-icon4, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon5_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon5_"] {
 	display: var(--torntools-hide-icons-icon5, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon6_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon6_"] {
 	display: var(--torntools-hide-icons-icon6, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon7_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon7_"] {
 	display: var(--torntools-hide-icons-icon7, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon8_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon8_"] {
 	display: var(--torntools-hide-icons-icon8, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon9_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon9_"] {
 	display: var(--torntools-hide-icons-icon9, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon10_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon10_"] {
 	display: var(--torntools-hide-icons-icon10, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon11_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon11_"] {
 	display: var(--torntools-hide-icons-icon11, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon12_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon12_"] {
 	display: var(--torntools-hide-icons-icon12, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon13_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon13_"] {
 	display: var(--torntools-hide-icons-icon13, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon14_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon14_"] {
 	display: var(--torntools-hide-icons-icon14, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon15_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon15_"] {
 	display: var(--torntools-hide-icons-icon15, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon16_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon16_"] {
 	display: var(--torntools-hide-icons-icon16, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon17_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon17_"] {
 	display: var(--torntools-hide-icons-icon17, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon18_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon18_"] {
 	display: var(--torntools-hide-icons-icon18, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon19_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon19_"] {
 	display: var(--torntools-hide-icons-icon19, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon20_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon20_"] {
 	display: var(--torntools-hide-icons-icon20, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon21_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon21_"] {
 	display: var(--torntools-hide-icons-icon21, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon22_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon22_"] {
 	display: var(--torntools-hide-icons-icon22, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon23_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon23_"] {
 	display: var(--torntools-hide-icons-icon23, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon24_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon24_"] {
 	display: var(--torntools-hide-icons-icon24, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon25_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon25_"] {
 	display: var(--torntools-hide-icons-icon25, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon26_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon26_"] {
 	display: var(--torntools-hide-icons-icon26, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon27_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon27_"] {
 	display: var(--torntools-hide-icons-icon27, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon28_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon28_"] {
 	display: var(--torntools-hide-icons-icon28, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon29_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon29_"] {
 	display: var(--torntools-hide-icons-icon29, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon30_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon30_"] {
 	display: var(--torntools-hide-icons-icon30, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon31_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon31_"] {
 	display: var(--torntools-hide-icons-icon31, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon32_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon32_"] {
 	display: var(--torntools-hide-icons-icon32, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon33_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon33_"] {
 	display: var(--torntools-hide-icons-icon33, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon34_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon34_"] {
 	display: var(--torntools-hide-icons-icon34, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon35_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon35_"] {
 	display: var(--torntools-hide-icons-icon35, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon36_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon36_"] {
 	display: var(--torntools-hide-icons-icon36, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon37_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon37_"] {
 	display: var(--torntools-hide-icons-icon37, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon38_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon38_"] {
 	display: var(--torntools-hide-icons-icon38, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon39_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon39_"] {
 	display: var(--torntools-hide-icons-icon39, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon40_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon40_"] {
 	display: var(--torntools-hide-icons-icon40, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon41_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon41_"] {
 	display: var(--torntools-hide-icons-icon41, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon42_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon42_"] {
 	display: var(--torntools-hide-icons-icon42, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon43_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon43_"] {
 	display: var(--torntools-hide-icons-icon43, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon44_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon44_"] {
 	display: var(--torntools-hide-icons-icon44, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon45_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon45_"] {
 	display: var(--torntools-hide-icons-icon45, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon46_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon46_"] {
 	display: var(--torntools-hide-icons-icon46, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon47_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon47_"] {
 	display: var(--torntools-hide-icons-icon47, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon48_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon48_"] {
 	display: var(--torntools-hide-icons-icon48, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon49_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon49_"] {
 	display: var(--torntools-hide-icons-icon49, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon50_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon50_"] {
 	display: var(--torntools-hide-icons-icon50, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon51_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon51_"] {
 	display: var(--torntools-hide-icons-icon51, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon52_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon52_"] {
 	display: var(--torntools-hide-icons-icon52, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon53_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon53_"] {
 	display: var(--torntools-hide-icons-icon53, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon54_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon54_"] {
 	display: var(--torntools-hide-icons-icon54, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon55_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon55_"] {
 	display: var(--torntools-hide-icons-icon55, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon56_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon56_"] {
 	display: var(--torntools-hide-icons-icon56, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon57_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon57_"] {
 	display: var(--torntools-hide-icons-icon57, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon58_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon58_"] {
 	display: var(--torntools-hide-icons-icon58, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon59_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon59_"] {
 	display: var(--torntools-hide-icons-icon59, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon60_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon60_"] {
 	display: var(--torntools-hide-icons-icon60, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon61_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon61_"] {
 	display: var(--torntools-hide-icons-icon61, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon62_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon62_"] {
 	display: var(--torntools-hide-icons-icon62, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon63_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon63_"] {
 	display: var(--torntools-hide-icons-icon63, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon64_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon64_"] {
 	display: var(--torntools-hide-icons-icon64, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon65_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon65_"] {
 	display: var(--torntools-hide-icons-icon65, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon66_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon66_"] {
 	display: var(--torntools-hide-icons-icon66, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon67_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon67_"] {
 	display: var(--torntools-hide-icons-icon67, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon68_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon68_"] {
 	display: var(--torntools-hide-icons-icon68, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon69_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon69_"] {
 	display: var(--torntools-hide-icons-icon69, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon70_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon70_"] {
 	display: var(--torntools-hide-icons-icon70, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon71_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon71_"] {
 	display: var(--torntools-hide-icons-icon71, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon72_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon72_"] {
 	display: var(--torntools-hide-icons-icon72, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon73_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon73_"] {
 	display: var(--torntools-hide-icons-icon73, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon74_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon74_"] {
 	display: var(--torntools-hide-icons-icon74, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon75_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon75_"] {
 	display: var(--torntools-hide-icons-icon75, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon76_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon76_"] {
 	display: var(--torntools-hide-icons-icon76, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon77_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon77_"] {
 	display: var(--torntools-hide-icons-icon77, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon78_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon78_"] {
 	display: var(--torntools-hide-icons-icon78, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon79_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon79_"] {
 	display: var(--torntools-hide-icons-icon79, inline-block);
 }
 
-#sidebarroot ul[class^="status-icons"] > li[class^="icon80_"] {
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon80_"] {
 	display: var(--torntools-hide-icons-icon80, inline-block);
 }
