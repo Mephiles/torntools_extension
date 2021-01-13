@@ -2445,6 +2445,8 @@ function formatDate([day, month, year], formatting) {
 	switch (formatting) {
 		case "us":
 			return year ? `${month}/${day}/${year}` : `${month}/${day}`;
+		case "iso":
+			return year ? `${year}-${month}-${day}` : `${month}-${day}`;
 		case "eu":
 			return year ? `${day}.${month}.${year}` : `${day}.${month}`;
 		default:

@@ -1,4 +1,8 @@
 export default {
+	"v5.4.1 - xxxxxx, xxth. 2021": {
+		Fixes: [],
+		Changes: ["Add ISO date formatting. - DKK"],
+	},
 	"v5.4 - January, 12th. 2021": {
 		Features: [
 			"Show total Portfolio Value. - Sashank999",
