@@ -479,10 +479,10 @@ async function addInformationSection() {
 	if (await checkMobile()) return;
 
 	document
-		.find("#sidebarroot div[class*='user-information_'] div[class*='content_']")
+		.find("#sidebarroot div[class*='user-information_'] div[class*='toggle-content_'] div[class*='content_']")
 		.appendChild(document.newElement({ type: "hr", class: "tt-sidebar-information-divider tt-delimiter hidden" }));
 	document
-		.find("#sidebarroot div[class*='user-information_'] div[class*='content_']")
+		.find("#sidebarroot div[class*='user-information_'] div[class*='toggle-content_'] div[class*='content_']")
 		.appendChild(document.newElement({ type: "div", class: "tt-sidebar-information hidden" }));
 }
 
