@@ -670,6 +670,11 @@ function formatDate(date = {}, options = {}) {
 			parts.push(_date.getMonth() + 1, _date.getDate());
 			if (options.showYear) parts.push(_date.getFullYear());
 			break;
+		case "iso":
+			separator = "-";
+
+			parts.push(_date.getFullYear(), _date.getMonth() + 1, _date.getDate());
+			break;
 		case "eu":
 		default:
 			separator = ".";
