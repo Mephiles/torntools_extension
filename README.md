@@ -30,6 +30,7 @@
 - 2 stakeout requests per minute per stakeout
 - 1 daily request for general data like items
 - 1 request per search in the market popup tab
+- up to 2 requests per job special usage (depends on the special and the situation)
 
 Any bugs? Ideas? Suggestions? Let us know!  
 

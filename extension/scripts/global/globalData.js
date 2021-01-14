@@ -437,6 +437,9 @@ const API_USAGE = {
 		last_action: {
 			timestamp: true,
 		},
+		merits: {
+			"Masterful Looting": true,
+		},
 	},
 	properties: {},
 	faction: {},

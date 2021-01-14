@@ -116,9 +116,9 @@
 							<input id="themes-pages__default" type="radio" name="themePage" value="default" />
 							<label for="themes-pages__default">OS Default</label>
 							<br />
-							<label for="themes-pages__default" class="tabbed note"
-								>Might not work on every browser, will use light theme if not supported.</label
-							>
+							<label for="themes-pages__default" class="tabbed note">
+								Might not work on every browser, will use light theme if not supported.
+							</label>
 						</div>
 						<div class="option">
 							<input id="themes-pages__light" type="radio" name="themePage" value="light" />
@@ -637,15 +637,19 @@
 						Background
 						<ul>
 							<li>
-								User's information, status, cooldown, money, events and messages. (every 30 seconds)
+								User's information, status, cooldown, money, events, messages and refills. (every 30 seconds (configurable))
 								<ul>
-									<li>User's personal stats, stock inventory and educations. (every 2 minutes, when active on Torn)</li>
+									<li>
+										User's personal stats, stock inventory, educations and merit allocation. (every 2 minutes (configurable), when active on
+										Torn)
+									</li>
 									<li>User's attack history. (whenever an attack or defend is detected)</li>
 								</ul>
 							</li>
-							<li>Stakeout target's information. (every 30 seconds, 1 request per stakeout)</li>
-							<li>Torn's stock data. (every 15 minutes)</li>
-							<li>Torn's items, point values, honors and medals. (daily)</li>
+							<li>Stakeout target's information. (every 30 seconds (configurable), 1 request per stakeout)</li>
+							<li>Faction crime data. (every 15 minutes)</li>
+							<li>Torn's stock data. (every 15 minutes, synced with the stock ticks)</li>
+							<li>Torn's items, point values, honors, medals and educations. (daily)</li>
 						</ul>
 					</li>
 					<li>
