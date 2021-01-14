@@ -1813,14 +1813,14 @@ const navbar = {
 			sidebarBlock.innerHTML = `
                 <div class="content___kMC8x">
                     <div class="areas___2pu_3">
-                        <div class="toggle-block___13zU2">
+                        <div class="toggle-block___jneNE">
                             <div class="tt-title tt-nav ${THEME_CLASSES[settings.theme].title} ${
 				collapsed === true || collapsed === undefined ? "collapsed" : ""
 			}">
                                 <div class="title-text">${name}</div>
                                 <div class="tt-options"></div>
                                 <i class="tt-title-icon fas fa-caret-down"></i></div>
-                            <div class="toggle-content___3XKOC tt-content"></div>
+                            <div class="toggle-content___2PGBT tt-content"></div>
                         </div>
                     </div>
                 </div>
