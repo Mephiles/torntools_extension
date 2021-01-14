@@ -22,11 +22,6 @@ requireDatabase(false)
 			doc.find(".error").innerText = api.error;
 		}
 
-		// Setup settings button
-		doc.find(".settings").onclick = () => {
-			window.open("../settings/settings.html");
-		};
-
 		// Setup links
 		for (let tab of doc.findAll("body>.header .page-tab")) {
 			let name = tab.id.split("-")[0];
@@ -64,6 +59,11 @@ function loadPage(name) {
 		}
 	}
 
+	// Setup settings button
+	doc.find(".settings").onclick = () => {
+		window.open("../settings/settings.html");
+	};
+
 	// Hide header when initializing
 	if (name === "initialize") doc.find("body>.header").style.display = "none";
 	else {
@@ -87,7 +87,7 @@ function loadPage(name) {
 }
 
 function mainInfo() {
-	updateInfo(settings);
+	updateInfo();
 
 	for (let link of doc.findAll(".subpage#info .link")) {
 		link.onclick = () => {
@@ -95,9 +95,26 @@ function mainInfo() {
 		};
 	}
 
+	// Stakeouts collapsing
+	doc.find(".stakeouts-heading").onclick = () => {
+		doc.find(".stakeouts-heading").classList.toggle("collapsed");
+
+		if (doc.find(".stakeouts-heading i.fa-caret-right")) {
+			doc.find(".stakeouts-heading i.fa-caret-right").setAttribute("class", "fas fa-caret-down");
+		} else {
+			doc.find(".stakeouts-heading i.fa-caret-down").setAttribute("class", "fas fa-caret-right");
+		}
+	};
+
+	doc.find("#mute").addEventListener("click", () => {
+		ttStorage.get("settings", (settings) => {
+			ttStorage.change({ settings: { notifications: { global: !settings.notifications.global } } }, updateInfo);
+		});
+	});
+
 	// Update interval
 	setInterval(() => {
-		updateInfo(settings);
+		updateInfo();
 	}, 15 * 1000);
 
 	// Global time reducer
@@ -127,9 +144,13 @@ function mainInfo() {
 		time.setAttribute("seconds-up", seconds);
 	}, 1000);
 
-	function updateInfo(settings) {
+	function updateInfo() {
 		console.log("Updating INFO");
-		ttStorage.get("userdata", userdata => {
+		ttStorage.get(["userdata", "settings"], ([userdata, settings]) => {
+			let mute = doc.find("#mute");
+			mute.classList = settings.notifications.global ? "unmuted" : "muted";
+			mute.innerHTML = settings.notifications.global ? `Unmuted <i class="fas fa-volume-up"></i>` : `Muted <i class="fas fa-volume-mute"></i>`;
+
 			console.log("Data", userdata);
 
 			let time_diff = parseInt(((new Date().getTime() - new Date(userdata.date).getTime()) / 1000).toFixed(0));
@@ -145,7 +166,10 @@ function mainInfo() {
 			}
 
 			// Update status
-			let status = userdata.status.state.toLowerCase() === "traveling" || userdata.status.state.toLowerCase() === "abroad" ? "okay" : userdata.status.state.toLowerCase();
+			let status =
+				userdata.status.state.toLowerCase() === "traveling" || userdata.status.state.toLowerCase() === "abroad"
+					? "okay"
+					: userdata.status.state.toLowerCase();
 			doc.find("#status span").innerText = capitalize(status);
 			doc.find("#status span").setClass(status);
 
@@ -188,7 +212,7 @@ function mainInfo() {
 
 				// Progress
 				if (current_stat < max_stat) {
-					let progress = (current_stat / max_stat * 100).toFixed(0);
+					let progress = ((current_stat / max_stat) * 100).toFixed(0);
 					doc.find(`#${bar} .progress div`).style.width = `${progress}%`;
 				} else {
 					doc.find(`#${bar} .progress div`).style.width = `100%`;
@@ -211,9 +235,9 @@ function mainInfo() {
 			// Update travel bar
 			if (userdata.travel.time_left !== 0) {
 				doc.find("#travel").style.display = "block";
-				let travel_time = (userdata.travel.timestamp - userdata.travel.departed) * 1000;  // ms
+				let travel_time = (userdata.travel.timestamp - userdata.travel.departed) * 1000; // ms
 				let time_left = new Date(userdata.travel.timestamp * 1000) - new Date(); // ms
-				let progress = parseInt((travel_time - time_left) / travel_time * 100);
+				let progress = parseInt(((travel_time - time_left) / travel_time) * 100);
 				console.log(travel_time);
 				console.log(time_left);
 
@@ -286,6 +310,29 @@ function mainInfo() {
 			doc.find(".footer .messages span").innerText = message_count;
 			doc.find(".footer .events span").innerText = event_count;
 			doc.find(".footer .money span").innerText = `$${numberWithCommas(userdata.money_onhand, false)}`;
+
+			// Update Stakeouts
+			doc.find(".stakeouts").innerHTML = "";
+			let even = false;
+			for (let userID in stakeouts) {
+				const userStatus = stakeouts[userID].info.last_action ? stakeouts[userID].info.last_action.status : "N/A";
+				const userHTML = `
+					<div class="row"><div class="status ${userStatus.toLowerCase()}">${userStatus}</div><div class="name">| <a>${
+					stakeouts[userID].info.username || userID
+				}</a></div></div>
+					<div class="row"><div class="last-action">Last action: ${stakeouts[userID].info.last_action ? stakeouts[userID].info.last_action.relative : "N/A"}</div></div>
+					<div class="row"></div>
+				`;
+
+				const userEL = doc.new({ type: "div", class: `user ${even ? "even" : "odd"}` });
+				userEL.innerHTML = userHTML;
+				userEL.find(".name a").onclick = () => {
+					window.open(`https://www.torn.com/profiles.php?XID=${userID}`);
+				};
+
+				doc.find(".stakeouts").appendChild(userEL);
+				even = even ? false : true;
+			}
 		});
 	}
 
@@ -308,7 +355,7 @@ function mainMarket() {
 
 		let div = doc.new("div");
 		div.setClass("item");
-		div.id = name.toLowerCase().replace(/\s+/g, "").replace(":", "_");  // remove spaces
+		div.id = name.toLowerCase().replace(/\s+/g, "").replace(":", "_"); // remove spaces
 		div.innerText = name;
 
 		list.appendChild(div);
@@ -328,7 +375,7 @@ function mainMarket() {
 	}
 
 	// setup searchbar
-	doc.find("#market #search-bar").addEventListener("keyup", event => {
+	doc.find("#market #search-bar").addEventListener("keyup", (event) => {
 		let keyword = event.target.value.toLowerCase();
 		let items = doc.findAll("#market #item-list div");
 
@@ -347,7 +394,7 @@ function mainMarket() {
 		}
 	});
 
-	doc.find("#market #search-bar").onclick = event => {
+	doc.find("#market #search-bar").onclick = (event) => {
 		event.target.value = "";
 
 		doc.find("#view-item").style.display = "none";
@@ -357,7 +404,7 @@ function mainMarket() {
 
 	function showMarketInfo(id) {
 		fetchApi_v2("torn", { section: "market", objectid: id, selections: "bazaar,itemmarket" })
-			.then(result => {
+			.then((result) => {
 				console.log("Getting Bazaar & Itemmarket info");
 
 				let list = doc.find("#market-info");
@@ -380,16 +427,17 @@ function mainMarket() {
 							list.appendChild(price_div);
 						}
 					} else {
-						list.appendChild(doc.new({
-							type: "div",
-							class: "price",
-							text: "No price found.",
-						}));
+						list.appendChild(
+							doc.new({
+								type: "div",
+								class: "price",
+								text: "No price found.",
+							})
+						);
 					}
-
 				}
 			})
-			.catch(result => {
+			.catch((result) => {
 				doc.find(".error").style.display = "block";
 				doc.find(".error").innerText = result;
 			});
@@ -418,11 +466,11 @@ function mainStocks() {
 			type: "div",
 			class: "heading",
 			text: `${name.length > 20 ? torn_stocks[id].acronym : name}`,
-		});  // use acronym if name is too long
+		}); // use acronym if name is too long
 		let quantity_span = doc.new({
 			type: "div",
 			class: "heading-quantity",
-			text: ` (${numberWithCommas(quantity)} shares)`,
+			text: `(${numberWithCommas(quantity)} shares)`,
 		});
 		heading.appendChild(quantity_span);
 
@@ -527,7 +575,7 @@ function mainStocks() {
 		parent.appendChild(div);
 
 		// add event listeners to open collapsibles
-		stock_info.addEventListener("click", event => {
+		stock_info.addEventListener("click", (event) => {
 			let content = event.target.nodeName === "I" ? event.target.parentElement.nextElementSibling : event.target.nextElementSibling;
 
 			if (content.style.maxHeight) {
@@ -540,7 +588,7 @@ function mainStocks() {
 		});
 
 		if (benefit_info) {
-			benefit_info.addEventListener("click", event => {
+			benefit_info.addEventListener("click", (event) => {
 				let content = event.target.nodeName === "I" ? event.target.parentElement.nextElementSibling : event.target.nextElementSibling;
 
 				if (content.style.maxHeight) {
@@ -589,7 +637,7 @@ function mainStocks() {
 			attributes: { name: `${name.toLowerCase()} (${stock.acronym.toLowerCase()})` },
 		});
 		let hr = doc.new("hr");
-		let heading = doc.new({ type: "div", class: "heading", text: name });  // use acronym if name is too long
+		let heading = doc.new({ type: "div", class: "heading", text: name }); // use acronym if name is too long
 
 		heading.addEventListener("click", () => {
 			chrome.tabs.create({ url: `https://www.torn.com/stockexchange.php?torntools_redirect=${name}` });
@@ -675,7 +723,7 @@ function mainStocks() {
 		parent.appendChild(div);
 
 		// add event listeners to open collapsibles
-		stock_info.addEventListener("click", event => {
+		stock_info.addEventListener("click", (event) => {
 			let content = event.target.nodeName === "I" ? event.target.parentElement.nextElementSibling : event.target.nextElementSibling;
 
 			if (content.style.maxHeight) {
@@ -688,7 +736,7 @@ function mainStocks() {
 		});
 
 		if (benefit_description) {
-			benefit_info.addEventListener("click", event => {
+			benefit_info.addEventListener("click", (event) => {
 				let content = event.target.nodeName === "I" ? event.target.parentElement.nextElementSibling : event.target.nextElementSibling;
 
 				if (content.style.maxHeight) {
@@ -724,7 +772,7 @@ function mainStocks() {
 	}
 
 	// setup searchbar
-	doc.find("#stocks #search-bar").addEventListener("keyup", event => {
+	doc.find("#stocks #search-bar").addEventListener("keyup", (event) => {
 		let keyword = event.target.value.toLowerCase();
 		let stocks = doc.findAll("#all-stocks>div");
 
@@ -746,7 +794,7 @@ function mainStocks() {
 		}
 	});
 
-	doc.find("#stocks #search-bar").addEventListener("click", event => {
+	doc.find("#stocks #search-bar").addEventListener("click", (event) => {
 		event.target.value = "";
 
 		doc.find("#all-stocks").style.display = "none";
@@ -762,7 +810,7 @@ function mainCalculator() {
 
 		let div = doc.new("div");
 		div.setClass("item");
-		div.id = name.toLowerCase().replace(/\s+/g, "");  // remove spaces
+		div.id = name.toLowerCase().replace(/\s+/g, ""); // remove spaces
 		div.innerText = name;
 
 		let input = doc.new("input");
@@ -797,9 +845,9 @@ function mainCalculator() {
 
 			// increase total
 			let total_value = parseInt(doc.find("#total-value").getAttribute("value"));
-			doc.find("#total-value").setAttribute("value", total_value + (item_price * quantity));
+			doc.find("#total-value").setAttribute("value", total_value + item_price * quantity);
 
-			doc.find("#total-value").innerText = `Total: $${numberWithCommas(total_value + (item_price * quantity), false)}`;
+			doc.find("#total-value").innerText = `Total: $${numberWithCommas(total_value + item_price * quantity, false)}`;
 
 			// clear input box
 			input.value = "";
@@ -807,7 +855,7 @@ function mainCalculator() {
 	}
 
 	// setup searchbar
-	doc.find("#calculator #search-bar").addEventListener("keyup", event => {
+	doc.find("#calculator #search-bar").addEventListener("keyup", (event) => {
 		let keyword = event.target.value.toLowerCase();
 		let items = doc.findAll("#calculator #item-list div");
 
@@ -826,7 +874,7 @@ function mainCalculator() {
 		}
 	});
 
-	doc.find("#calculator #search-bar").addEventListener("click", event => {
+	doc.find("#calculator #search-bar").addEventListener("click", (event) => {
 		event.target.value = "";
 
 		doc.find("#item-list").style.display = "none";
@@ -860,7 +908,7 @@ function mainInitialize() {
 			doc.find("input").style.display = "none";
 			doc.find("button").style.display = "none";
 
-			chrome.runtime.sendMessage({ action: "initialize" }, response => {
+			chrome.runtime.sendMessage({ action: "initialize" }, (response) => {
 				console.log(response.message);
 				doc.find("h3").innerText = response.message;
 				doc.find("p").innerText = "(you may close this window)";

@@ -1,22 +1,23 @@
 #nav {
-    width: 100%;
-    height: 40px;
-    overflow-x: auto;
-    display: flex;
-    flex-direction: row;
-    border-top: 2px solid black;
+	width: 100%;
+	height: 40px;
+	overflow-x: auto;
+	display: flex;
+	flex-direction: row;
+	border-top: 2px solid black;
 }
 
-#nav a, #nav div.separator {
-    color: black;
-    text-decoration: none;
-    font-size: 15px;
-    padding-left: 5px;
-    padding-right: 5px;
-    line-height: 40px;
-    font-style: italic;
+#nav a,
+#nav div.separator {
+	color: black;
+	text-decoration: none;
+	font-size: 15px;
+	padding-left: 5px;
+	padding-right: 5px;
+	line-height: 40px;
+	font-style: italic;
 }
 
 ul {
-    list-style: none;
+	list-style: none;
 }

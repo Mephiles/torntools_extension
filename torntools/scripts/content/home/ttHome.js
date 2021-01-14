@@ -18,10 +18,11 @@ async function displayNetworth() {
 	let parent_box = doc.find("h5=General Information").parentElement.nextElementSibling.find("ul.info-cont-wrap");
 	loadingPlaceholder(parent_box, true);
 
-	if (networth.current.date === undefined || new Date() - new Date(networth.current.date) >= 5 * 60 * 1000) {  // 5 minutes
+	if (networth.current.date === undefined || new Date() - new Date(networth.current.date) >= 5 * 60 * 1000) {
+		// 5 minutes
 		networth = await new Promise((resolve) => {
 			fetchApi_v2("torn", { section: "user", selections: "personalstats,networth" })
-				.then(data => {
+				.then((data) => {
 					let ps = data.personalstats;
 					let new_networth = data.networth;
 					let networth = {
@@ -59,7 +60,7 @@ async function displayNetworth() {
 						return resolve(networth);
 					});
 				})
-				.catch(err => {
+				.catch((err) => {
 					console.log("ERROR", err);
 				});
 		});
@@ -77,8 +78,8 @@ async function displayNetworth() {
 		type: "i",
 		class: "networth-info-icon",
 		attributes: {
-			seconds: ((new Date() - Date.parse(networth.current.date)) / 1000),
-			title: ("Last updated: " + timeAgo(Date.parse(networth.current.date))),
+			seconds: (new Date() - Date.parse(networth.current.date)) / 1000,
+			title: "Last updated: " + timeAgo(Date.parse(networth.current.date)),
 			style: "margin-left: 9px;",
 		},
 	});
@@ -171,7 +172,12 @@ function displayEffectiveBattleStats() {
 	for (let i in battle_stats) {
 		let stat = parseInt(battle_stats_container.find(`li:nth-child(${parseInt(i) + 1}) .desc`).innerText.replace(/,/g, ""));
 		let stat_modifier = battle_stats_container.find(`li:nth-child(${parseInt(i) + 1}) .mod`).innerText;
-		let effective_stat = (stat * (stat_modifier.indexOf("+") > -1 ? 1 + (parseInt(stat_modifier.replace("+", "").replace("%", "")) / 100) : 1 - (parseInt(stat_modifier.replace("−", "").replace("%", "")) / 100))).toFixed(0);  // Not a normal minus symbol "−" (not "-")
+		let effective_stat = (
+			stat *
+			(stat_modifier.indexOf("+") > -1
+				? 1 + parseInt(stat_modifier.replace("+", "").replace("%", "")) / 100
+				: 1 - parseInt(stat_modifier.replace("−", "").replace("%", "")) / 100)
+		).toFixed(0); // Not a normal minus symbol "−" (not "-")
 		console.log("stat", stat);
 		console.log("modifier", stat_modifier);
 		console.log("eff_stat", effective_stat);

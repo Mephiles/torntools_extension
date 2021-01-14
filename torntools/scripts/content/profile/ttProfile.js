@@ -1,4 +1,13 @@
-const money_key_list = ["networth", "moneymugged", "largestmug", "peopleboughtspent", "receivedbountyvalue", "totalbountyspent", "totalbountyreward", "rehabcost"];
+const money_key_list = [
+	"networth",
+	"moneymugged",
+	"largestmug",
+	"peopleboughtspent",
+	"receivedbountyvalue",
+	"totalbountyspent",
+	"totalbountyreward",
+	"rehabcost",
+];
 const key_dict = {
 	basic: {
 		awards: "Awards",
@@ -270,14 +279,11 @@ requireDatabase().then(() => {
 			type: "div",
 			id: "tt-edit",
 			class: "tt-option",
-			children: [
-				doc.new({ type: "i", class: "fas fa-cog" }),
-				doc.new({ type: "span", class: "text", text: "Edit" }),
-			],
+			children: [doc.new({ type: "i", class: "fas fa-cog" }), doc.new({ type: "span", class: "text", text: "Edit" })],
 		});
 		doc.find("#tt-target-info .tt-options").appendChild(edit_button);
 
-		edit_button.onclick = event => {
+		edit_button.onclick = (event) => {
 			event.stopPropagation();
 
 			if (doc.find(".tt-black-overlay").classList.contains("active")) {
@@ -295,7 +301,7 @@ requireDatabase().then(() => {
 
 				// Profile stats
 				for (let row of doc.findAll(".tt-stats-table .active .tt-row:not(.tt-header):not(.sub-heading)")) {
-					row.onclick = event => {
+					row.onclick = (event) => {
 						event.stopPropagation();
 						event.preventDefault();
 
@@ -348,6 +354,9 @@ requireDatabase().then(() => {
 			// Show Spy info
 			await showSpyInfo();
 		}
+
+		// Age to Words
+		ageToWords();
 	});
 });
 
@@ -355,14 +364,16 @@ function displayCreator() {
 	let name = doc.find("#skip-to-content span, #skip-to-content");
 
 	if (name.innerText === "Mephiles' Profile" || name.innerText === "Mephiles [2087524]") {
-		name.appendChild(doc.new({
-			type: "span",
-			text: " - Thanks for using ",
-			attributes: {
-				style: "font-size: 17px;",
-			},
-			children: [doc.new({ type: "span", text: "TornTools", attributes: { style: "font-size: 17px; color: #6b8817;" } })],
-		}));
+		name.appendChild(
+			doc.new({
+				type: "span",
+				text: " - Thanks for using ",
+				attributes: {
+					style: "font-size: 17px;",
+				},
+				children: [doc.new({ type: "span", text: "TornTools", attributes: { style: "font-size: 17px; color: #6b8817;" } })],
+			})
+		);
 	}
 }
 
@@ -376,12 +387,11 @@ function profileLoaded() {
 			} else if (counter > 10000) {
 				resolve(false);
 				return clearInterval(checker);
-			} else
-				counter++;
+			} else counter++;
 		}, 100);
 	});
 
-	return promise.then(data => data);
+	return promise.then((data) => data);
 }
 
 function displayAlly(user_faction, allies) {
@@ -392,12 +402,14 @@ function displayAlly(user_faction, allies) {
 
 	if (user_faction === profile_faction) {
 		showWarning("user");
+		disableAllyAttack();
 		return;
 	}
 
 	for (let ally of allies) {
 		if (ally.trim() === profile_faction) {
 			showWarning("ally");
+			disableAllyAttack();
 			return;
 		}
 	}
@@ -405,17 +417,17 @@ function displayAlly(user_faction, allies) {
 
 function showWarning(type) {
 	let text;
-	if (type === "user")
-		text = "This user is in your faction!";
-	else if (type === "ally")
-		text = "This user is an ally!";
+	if (type === "user") text = "This user is in your faction!";
+	else if (type === "ally") text = "This user is an ally!";
 
-	doc.find(".profile-left-wrapper .title-black").appendChild(doc.new({
-		type: "span",
-		class: "tt-title-message",
-		text,
-		attributes: { color: "warning" },
-	}));
+	doc.find(".profile-left-wrapper .title-black").appendChild(
+		doc.new({
+			type: "span",
+			class: "tt-title-message",
+			text,
+			attributes: { color: "warning" },
+		})
+	);
 }
 
 function displayTargetInfo(targets) {
@@ -498,9 +510,11 @@ function displayTargetInfo(targets) {
 function getLevel() {
 	const levelWrap = doc.find(".box-info .box-value");
 
-	return (parseInt(levelWrap.find(".digit-r .digit").innerText) || 0) * 100 +
+	return (
+		(parseInt(levelWrap.find(".digit-r .digit").innerText) || 0) * 100 +
 		(parseInt(levelWrap.find(".digit-m .digit").innerText) || 0) * 10 +
-		parseInt(levelWrap.find(".digit-l .digit").innerText);
+		parseInt(levelWrap.find(".digit-l .digit").innerText)
+	);
 }
 
 async function displayProfileStats() {
@@ -524,23 +538,25 @@ async function displayProfileStats() {
 					const data = handleTornProfileData(result);
 					const timestamp = new Date().getTime();
 
-					ttStorage.change({
-						cache: {
-							profileStats: {
-								[userId]: {
-									timestamp,
-									ttl: TO_MILLIS.DAYS,
-									data: data.stats,
+					ttStorage.change(
+						{
+							cache: {
+								profileStats: {
+									[userId]: {
+										timestamp,
+										ttl: TO_MILLIS.DAYS,
+										data: data.stats,
+									},
 								},
 							},
 						},
-					}, () => {
-						if (!level || !settings.scripts.stats_estimate.max_level || settings.scripts.stats_estimate.max_level >= level) {
-							if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.profile)
-								cacheEstimate(userId, timestamp, data.battleStatsEstimate, result.last_action);
-
+						() => {
+							if (!level || !settings.scripts.stats_estimate.max_level || settings.scripts.stats_estimate.max_level >= level) {
+								if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.profile)
+									cacheEstimate(userId, timestamp, data.battleStatsEstimate, result.last_action);
+							}
 						}
-					});
+					);
 
 					resolve(data);
 				})
@@ -561,7 +577,7 @@ async function displayProfileStats() {
 	let table = doc.new({ type: "div", class: `tt-stats-table ${mobile ? "tt-mobile" : ""}` });
 	let col_chosen = doc.new({ type: "div", class: "col-chosen column active" });
 	let col_other = doc.new({ type: "div", class: "col-other column" });
-	const showExtra = doc.new({ type: "div", class: "show-extra", text: "Show More" });
+	const showExtra = doc.new({ type: "div", class: "show-extra", text: "Show the full list." });
 
 	let header = doc.new({ type: "div", class: "tt-row tt-header" });
 	for (let heading of ["Stat", "Them", "You"]) {
@@ -584,11 +600,11 @@ async function displayProfileStats() {
 		if (col_chosen.classList.contains("active")) {
 			col_chosen.classList.remove("active");
 			col_other.classList.add("active");
-			showExtra.innerText = "Show Less";
+			showExtra.innerText = "Show the custom list.";
 		} else {
 			col_chosen.classList.add("active");
 			col_other.classList.remove("active");
-			showExtra.innerText = "Show More";
+			showExtra.innerText = "Show the full list.";
 		}
 	});
 
@@ -671,7 +687,10 @@ async function displayProfileStats() {
 	let footer_input = doc.new({ type: "input", attributes: { type: "checkbox" } });
 	footer_div.appendChild(footer_text);
 	footer_div.appendChild(footer_input);
-	doc.find("#tt-target-info .content .tt-section[name='profile-stats']").insertBefore(footer_div, doc.find("#tt-target-info .content .profile-stats").nextElementSibling);
+	doc.find("#tt-target-info .content .tt-section[name='profile-stats']").insertBefore(
+		footer_div,
+		doc.find("#tt-target-info .content .profile-stats").nextElementSibling
+	);
 
 	if (filters.profile_stats.auto_fetch) {
 		footer_input.checked = true;
@@ -707,12 +726,14 @@ async function displayProfileStats() {
 
 	if (!level || !settings.scripts.stats_estimate.max_level || settings.scripts.stats_estimate.max_level >= level) {
 		if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.profile) {
-			doc.find(".profile-right-wrapper > .profile-action .title-black").appendChild(doc.new({
-				type: "span",
-				class: "tt-title-message",
-				text: result.battleStatsEstimate,
-				attributes: { color: "info" },
-			}));
+			doc.find(".profile-right-wrapper > .profile-action .title-black").appendChild(
+				doc.new({
+					type: "span",
+					class: "tt-title-message",
+					text: result.battleStatsEstimate,
+					attributes: { color: "info" },
+				})
+			);
 		}
 	}
 }
@@ -733,12 +754,11 @@ async function showSpyInfo() {
 	} else {
 		loadingPlaceholder(spySection, true);
 		result = await new Promise((resolve) => {
-			fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${userId}`)
-				.then(async response => {
-					let data = await response.json();
+			fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${userId}`).then(async (response) => {
+				let data = await response.json();
 
-					return resolve(handleTornStatsData(data));
-				});
+				return resolve(handleTornStatsData(data));
+			});
 		});
 
 		if (!result.error) {
@@ -852,8 +872,7 @@ async function showSpyInfo() {
 }
 
 function getUserId() {
-	if (!userId)
-		userId = doc.find(".basic-information ul.info-table li:nth-of-type(1) div:nth-of-type(2)").innerText.split("[")[1].replace("]", "");
+	if (!userId) userId = doc.find(".basic-information ul.info-table li:nth-of-type(1) div:nth-of-type(2)").innerText.split("[")[1].replace("]", "");
 
 	return userId;
 }
@@ -872,8 +891,7 @@ function getRespect(target_list, id) {
 
 	let leaves = target_list[id][respect_type]["leave"].length > 0;
 
-	if (leaves)
-		respect_value = getAverage(target_list[id][respect_type]["leave"]);
+	if (leaves) respect_value = getAverage(target_list[id][respect_type]["leave"]);
 	else {
 		let averages = [];
 
@@ -885,20 +903,16 @@ function getRespect(target_list, id) {
 		respect_value = getAverage(averages);
 	}
 
-	if (respect_type === "respect")
-		respect_value = respect_value + "*";
-	else if (respect_type === "respect_base")
-		color = leaves ? "#dfffdf" : "#fffdcc";
+	if (respect_type === "respect") respect_value = respect_value + "*";
+	else if (respect_type === "respect_base") color = leaves ? "#dfffdf" : "#fffdcc";
 
-	if (respect_value === "0*")
-		respect_value = "-";
+	if (respect_value === "0*") respect_value = "-";
 
 	return [respect_value, color];
 }
 
 function getAverage(arr) {
-	if (arr.length === 0)
-		return 0;
+	if (arr.length === 0) return 0;
 
 	let sum = 0;
 	for (let item of arr) {
@@ -916,34 +930,36 @@ function displayLootLevel(loot_times) {
 	let profile_id = doc.find(`.profile-container .info-table > li .user-info-value`).innerText.split(" [")[1].replace("]", "");
 
 	if (profile_id in loot_times) {
-		let current_time = parseInt(((new Date().getTime()) / 1000).toFixed(0));
+		let current_time = parseInt((new Date().getTime() / 1000).toFixed(0));
 		let next_level = loot_times[profile_id].levels.next;
 		let next_loot_time = loot_times[profile_id].timings[next_level].ts;
 		let time_left;
 
-		if (next_loot_time - current_time <= 60) {  // New info hasn't been fetched yet
+		if (next_loot_time - current_time <= 60) {
+			// New info hasn't been fetched yet
 			next_level = next_level + 1 > 5 ? 1 : next_level + 1;
 			next_loot_time = loot_times[profile_id].timings[next_level].ts;
-			time_left = timeUntil((next_loot_time - current_time) * 1000);
-		} else {
-			time_left = timeUntil((next_loot_time - current_time) * 1000);
 		}
+		time_left = timeUntil((next_loot_time - current_time) * 1000);
 
+		const maxLevel = time_left === -1;
 		let span = doc.new("span");
 		span.setClass("tt-loot-time");
-		span.innerText = `Next loot level in: ${time_left}`;
-		span.setAttribute("seconds", (next_loot_time - current_time));
+		span.innerText = `Next loot level in: ${maxLevel ? "max level reached" : time_left}`;
+		span.setAttribute("seconds", next_loot_time - current_time);
 
 		doc.find(".profile-wrapper .profile-status .description .sub-desc").appendChild(span);
 
 		// Time decrease
-		setInterval(() => {
-			let seconds = parseInt(span.getAttribute("seconds"));
-			let time_left = timeUntil((seconds - 1) * 1000);
+		if (!maxLevel) {
+			setInterval(() => {
+				let seconds = parseInt(span.getAttribute("seconds"));
+				let time_left = timeUntil((seconds - 1) * 1000);
 
-			span.innerText = `Next loot level in: ${time_left}`;
-			span.setAttribute("seconds", seconds - 1);
-		}, 1000);
+				span.innerText = `Next loot level in: ${time_left}`;
+				span.setAttribute("seconds", seconds - 1);
+			}, 1000);
+		}
 	}
 }
 
@@ -970,7 +986,7 @@ function addStatusIndicator() {
 	doc.find("#skip-to-content").appendChild(text_span);
 
 	// Event listener
-	let status_observer = new MutationObserver(mutationsList => {
+	let status_observer = new MutationObserver((mutationsList) => {
 		for (let mutation of mutationsList) {
 			if (mutation.type === "childList") {
 				console.log(doc.find(".icons ul>li"));
@@ -988,20 +1004,18 @@ function displayStakeoutOptions() {
 	let stakeout_div = doc.new({ type: "div", class: "tt-section", attributes: { name: "stakeouts" } });
 	doc.find("#tt-target-info .content").appendChild(stakeout_div);
 
-	let watchlist_wrap = doc.new({ type: "div", class: "tt-checkbox-wrap", attributes: { style: "display: none;" } });
-	let input = doc.new({ type: "input", attributes: { type: "checkbox" } });
-	let text = doc.new({ type: "div", text: "Add this player to Watch List" });
-	watchlist_wrap.appendChild(input);
+	let watchlist_wrap = doc.new({ type: "div", class: "tt-checkbox-wrap" });
+	let addToStakeoutsInput = doc.new({ type: "input", attributes: { type: "checkbox" } });
+	let text = doc.new({ type: "div", text: "Add this player to Stakeouts (no notifications needed)" });
+	watchlist_wrap.appendChild(addToStakeoutsInput);
 	watchlist_wrap.appendChild(text);
 	stakeout_div.appendChild(watchlist_wrap);
 
-	for (let user of watchlist) {
-		if (user.id === userId) {
-			input.checked = true;
-		}
+	if (stakeouts[userId]) {
+		addToStakeoutsInput.checked = true;
 	}
 
-	input.onclick = () => {
+	addToStakeoutsInput.onclick = () => {
 		saveStakeoutSettings();
 	};
 
@@ -1026,15 +1040,23 @@ function displayStakeoutOptions() {
 	option_online.appendChild(checkbox_online);
 	option_online.appendChild(text_online);
 
+	let option_hospital = doc.new({ type: "div", class: "tt-checkbox-wrap" });
+	let checkbox_hospital = doc.new({ type: "input", attributes: { type: "checkbox" } });
+	let text_hospital = doc.new({ type: "div", text: "is in hospital" });
+	option_hospital.appendChild(checkbox_hospital);
+	option_hospital.appendChild(text_hospital);
+
 	if (stakeouts[userId]) {
-		checkbox_okay.checked = stakeouts[userId].okay;
-		checkbox_lands.checked = stakeouts[userId].lands;
-		checkbox_online.checked = stakeouts[userId].online;
+		checkbox_okay.checked = stakeouts[userId].notifications.okay;
+		checkbox_lands.checked = stakeouts[userId].notifications.lands;
+		checkbox_online.checked = stakeouts[userId].notifications.online;
+		checkbox_hospital.checked = stakeouts[userId].notifications.hospital;
 	}
 
 	stakeout_div.appendChild(option_okay);
 	stakeout_div.appendChild(option_lands);
 	stakeout_div.appendChild(option_online);
+	stakeout_div.appendChild(option_hospital);
 
 	checkbox_okay.onclick = () => {
 		saveStakeoutSettings();
@@ -1045,6 +1067,9 @@ function displayStakeoutOptions() {
 	checkbox_online.onclick = () => {
 		saveStakeoutSettings();
 	};
+	checkbox_hospital.onclick = () => {
+		saveStakeoutSettings();
+	};
 
 	// Add hr
 	stakeout_div.appendChild(doc.new({ type: "hr" }));
@@ -1053,50 +1078,28 @@ function displayStakeoutOptions() {
 	stakeout_div.appendChild(doc.new({ type: "i", class: "uk-sortable-handle fas fa-arrows-alt" }));
 
 	function saveStakeoutSettings() {
-		if (input.checked) {
-			ttStorage.get("watchlist", watchlist => {
-				let is_in_list = false;
-				for (let item of watchlist) {
-					if (item.id === userId) {
-						is_in_list = true;
-						break;
-					}
-				}
-
-				if (!is_in_list) {
-					watchlist.push({
-						id: userId,
-						username: getUsername(),
-						status: getStatus(),
-						traveling: getTraveling(),
-					});
-				}
-				ttStorage.set({ watchlist });
-			});
-		} else {
-			ttStorage.get("watchlist", watchlist => {
-				for (let item of watchlist) {
-					if (item.id === userId) {
-						watchlist.splice(watchlist.indexOf(item), 1);
-						break;
-					}
-				}
-				ttStorage.set({ watchlist });
-			});
-		}
-
-		if (checkbox_okay.checked === true || checkbox_lands.checked === true || checkbox_online.checked === true) {
+		if (
+			addToStakeoutsInput.checked === true ||
+			checkbox_okay.checked === true ||
+			checkbox_lands.checked === true ||
+			checkbox_online.checked === true ||
+			checkbox_hospital.checked === true
+		) {
 			ttStorage.change({
 				stakeouts: {
 					[userId]: {
-						okay: checkbox_okay.checked,
-						lands: checkbox_lands.checked,
-						online: checkbox_online.checked,
+						info: {},
+						notifications: {
+							okay: checkbox_okay.checked,
+							lands: checkbox_lands.checked,
+							online: checkbox_online.checked,
+							hospital: checkbox_hospital.checked,
+						},
 					},
 				},
 			});
 		} else {
-			ttStorage.get("stakeouts", stakeouts => {
+			ttStorage.get("stakeouts", (stakeouts) => {
 				delete stakeouts[userId];
 				ttStorage.set({ stakeouts });
 			});
@@ -1132,7 +1135,9 @@ function handleTornStatsData(data) {
 	if (!data.error) {
 		response.spyreport = { ...data.spy };
 	} else {
-		response.error = data.error.includes("User not found") ? "Can't display stat spies because no TornStats account was found. Please register an account @ www.tornstats.com" : data.error;
+		response.error = data.error.includes("User not found")
+			? "Can't display stat spies because no TornStats account was found. Please register an account @ www.tornstats.com"
+			: data.error;
 	}
 
 	return response;
@@ -1157,53 +1162,107 @@ function showProfileNotes() {
 	textbox.style.height = profile ? profile.height : "17px";
 	textbox.value = profile ? profile.notes : "";
 
-	const container = content.newContainer("Profile Notes", {
-		next_element_heading: "Medals",
-		id: "tt-target-notes",
-		collapseId: 1,
-	}).find(".content");
-	container.appendChild(doc.new({
-		type: "div",
-		class: "tt-section",
-		attributes: { name: "profile-notes" },
-		children: [textbox],
-	}));
+	const container = content
+		.newContainer("Profile Notes", {
+			next_element_heading: "Medals",
+			id: "tt-target-notes",
+			collapseId: 1,
+		})
+		.find(".content");
+	container.appendChild(
+		doc.new({
+			type: "div",
+			class: "tt-section",
+			attributes: { name: "profile-notes" },
+			children: [textbox],
+		})
+	);
 
 	let save_button = doc.new({
 		type: "div",
 		id: "tt-profile-notes-save",
 		class: "tt-option",
-		children: [
-			doc.new({ type: "i", class: "fas fa-save" }),
-			doc.new({ type: "span", class: "text", text: "Save" }),
-		],
+		children: [doc.new({ type: "i", class: "fas fa-save" }), doc.new({ type: "span", class: "text", text: "Save" })],
 	});
 	doc.find("#tt-target-notes .tt-options").appendChild(save_button);
 
-	save_button.onclick = event => {
+	save_button.onclick = (event) => {
 		event.stopPropagation();
 
-		ttStorage.change({
-			profile_notes: {
-				profiles: {
-					[userId]: {
-						height: textbox.style.height,
-						notes: textbox.value,
+		ttStorage.change(
+			{
+				profile_notes: {
+					profiles: {
+						[userId]: {
+							height: textbox.style.height,
+							notes: textbox.value,
+						},
 					},
 				},
 			},
-		}, () => {
-			console.log("Saved profile notes", {
-				height: textbox.style.height,
-				notes: textbox.value,
-			});
+			() => {
+				console.log("Saved profile notes", {
+					height: textbox.style.height,
+					notes: textbox.value,
+				});
 
-			if (!doc.find("#tt-target-notes .saved-note")) {
-				const note = doc.new({ type: "span", class: "saved-note", text: "Saved note." });
+				if (!doc.find("#tt-target-notes .saved-note")) {
+					const note = doc.new({ type: "span", class: "saved-note", text: "Saved note." });
 
-				doc.find("#tt-target-notes .tt-title").insertBefore(note, doc.find("#tt-target-notes .tt-title .tt-options"));
-				setTimeout(() => note.remove(), 2500);
+					doc.find("#tt-target-notes .tt-title").insertBefore(note, doc.find("#tt-target-notes .tt-title .tt-options"));
+					setTimeout(() => note.remove(), 2500);
+				}
 			}
-		});
+		);
 	};
+}
+
+function ageToWords() {
+	document.findAll(".box-name.t-gray-9.bold")[2].remove();
+	let newAge = doc.new({ type: "div", class: "box-name t-gray-9 bold" });
+	let age = parseInt([...document.findAll(".box-info.age .digit")].map((x) => x.innerText).join(""));
+	let dateCurrent = new Date();
+	let utimeTarget = dateCurrent.getTime() + age * 86400 * 1000;
+	let dateTarget = new Date(utimeTarget);
+	let diffYear = parseInt(dateTarget.getUTCFullYear() - dateCurrent.getUTCFullYear());
+	let diffMonth = parseInt(dateTarget.getUTCMonth() - dateCurrent.getUTCMonth());
+	let diffDay = parseInt(dateTarget.getUTCDate() - dateCurrent.getUTCDate());
+	let daysInMonth = [31, dateTarget.getUTCFullYear() % 4 ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+	let dateString = "";
+	while (true) {
+		dateString = "";
+		dateString += diffYear > 0 ? diffYear + " years " : "";
+
+		if (diffMonth < 0) {
+			diffYear -= 1;
+			diffMonth += 12;
+			continue;
+		}
+		dateString += diffMonth > 0 ? diffMonth + " months " : "";
+
+		if (diffDay < 0) {
+			diffMonth -= 1;
+			diffDay += daysInMonth[(11 + dateTarget.getUTCMonth()) % 12];
+			continue;
+		}
+		dateString += diffDay > 0 ? diffDay + " days" : "";
+		break;
+	}
+	newAge.innerText = dateString;
+	document.find(".box-info.age").find(".block-value").insertAdjacentElement("afterEnd", newAge);
+	newAge.insertAdjacentHTML("beforeBegin", "<br>");
+}
+
+function disableAllyAttack() {
+	if (settings.pages.profile.block_ally_attacks && doc.find("a.profile-button.profile-button-attack") !== null) {
+		// FIXME - Use right classes.
+		let crossSvg =
+			'<svg xmlns="http://www.w3.org/2000/svg" class="default___25YWq" filter="" fill="rgba(217, 54, 0, 0.5)" stroke="#d4d4d4" stroke-width="0" width="46" height="46" viewBox="551.393 356 44 44"><path d="M556.393,363l12.061,14-12.061,14,1,1,14-11.94,14,11.94,1-1-12.06-14,12.06-14-1-1-14,11.94-14-11.94Z"></path></svg>';
+		let attackButton = doc.find("a.profile-button-attack");
+		attackButton.children[0].insertAdjacentHTML("afterEnd", crossSvg);
+		attackButton.style.pointerEvents = "none";
+		doc.find("a.profile-button-attack").children[0].style.fill = "rgba(153, 153, 153, 0.4)";
+		attackButton.classList.remove("active");
+		attackButton.classList.add("cross", "disabled");
+	}
 }

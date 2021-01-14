@@ -1,0 +1,6 @@
+# Only prettify torntools subfolder
+/*
+!/torntools
+
+# Ignore external libs
+/torntools/scripts/libs/*

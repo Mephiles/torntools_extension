@@ -6,8 +6,6 @@ console.log("TT - Loading global functions.");
 
 chrome = typeof browser !== "undefined" ? browser : chrome;
 
-const doc = document;
-
 const ttConsole = new ttCustomConsole();
 
 const HIGHLIGHT_PLACEHOLDERS = {
@@ -21,15 +19,8 @@ const MONTHS = ["January", "February", "March", "April", "May", "June", "July", 
 
 const DRUG_INFORMATION = {
 	cannabis: {
-		pros: [
-			"Increased crime success rate",
-			"+2-3 Nerve",
-		],
-		cons: [
-			"-20% Strength",
-			"-25% Defense",
-			"-35% Speed",
-		],
+		pros: ["Increased crime success rate", "+2-3 Nerve"],
+		cons: ["-20% Strength", "-25% Defense", "-35% Speed"],
 		cooldown: "60-90 minutes",
 		overdose: {
 			bars: ["-100% Energy & Nerve"],
@@ -38,21 +29,15 @@ const DRUG_INFORMATION = {
 		},
 	},
 	ecstasy: {
-		pros: [
-			"Doubles Happy",
-		],
+		pros: ["Doubles Happy"],
 		cooldown: "3-4 hours",
 		overdose: {
 			bars: ["-100% Energy & Happy"],
 		},
 	},
 	ketamine: {
-		pros: [
-			"+50% Defense",
-		],
-		cons: [
-			"-20% Strength & Speed",
-		],
+		pros: ["+50% Defense"],
+		cons: ["-20% Strength & Speed"],
 		cooldown: "45-60 minutes",
 		overdose: {
 			bars: ["-100% Energy, Nerve & Happy"],
@@ -62,118 +47,1123 @@ const DRUG_INFORMATION = {
 		},
 	},
 	lsd: {
-		pros: [
-			"+30% Strength",
-			"+50% Defense",
-			"+50 Energy",
-			"+200-500 Happy",
-			"+5 Nerve",
-		],
-		cons: [
-			"-30% Speed & Dexterity",
-		],
+		pros: ["+30% Strength", "+50% Defense", "+50 Energy", "+200-500 Happy", "+5 Nerve"],
+		cons: ["-30% Speed & Dexterity"],
 		cooldown: "6-8 hours",
 		overdose: {
-			bars: [
-				"-100% Energy, Nerve",
-				"-50% Happy",
-			],
+			bars: ["-100% Energy, Nerve", "-50% Happy"],
 			stats: "-30% Speed & Dexterity",
 		},
 	},
 	opium: {
-		pros: [
-			"Removes all hospital time (except Radiation Sickness) and replenishes life by 66.6%",
-			"+50-100 Happy",
-		],
+		pros: ["Removes all hospital time (except Radiation Sickness) and replenishes life to 66.6%", "+50-100 Happy"],
 		cooldown: "3-4 hours",
 	},
 	pcp: {
-		pros: [
-			"+20% Strength & Dexterity",
-			"+250 Happy",
-		],
+		pros: ["+20% Strength & Dexterity", "+250 Happy"],
 		cooldown: "4-7 hours",
 		overdose: {
-			bars: [
-				"-100% Energy, Nerve & Happy",
-			],
+			bars: ["-100% Energy, Nerve & Happy"],
 			hosp_time: "27 hours",
 			stats: "-10x(player level) Speed (permanent)",
 		},
 	},
 	shrooms: {
-		pros: [
-			"+500 Happy",
-		],
-		cons: [
-			"-20% All Battle Stats",
-			"-25 Energy (caps at 0)",
-		],
+		pros: ["+500 Happy"],
+		cons: ["-20% All Battle Stats", "-25 Energy (caps at 0)"],
 		cooldown: "3-4 hours",
 		overdose: {
-			bars: [
-				"-100% Energy, Nerve & Happy",
-			],
+			bars: ["-100% Energy, Nerve & Happy"],
 			hosp_time: "1h 40min",
 		},
 	},
 	speed: {
-		pros: [
-			"+20% Speed",
-			"+50 Happy",
-		],
-		cons: [
-			"-20% Dexterity",
-		],
+		pros: ["+20% Speed", "+50 Happy"],
+		cons: ["-20% Dexterity"],
 		cooldown: "4-6 hours",
 		overdose: {
-			bars: [
-				"-100% Energy, Nerve & Happy",
-			],
+			bars: ["-100% Energy, Nerve & Happy"],
 			stats: "-6x(player level) Strength & Defense (permanent)",
 			hosp_time: "7h 30min",
 		},
 	},
 	vicodin: {
-		pros: [
-			"+25% All Battle Stats",
-			"+75 Happy",
-		],
+		pros: ["+25% All Battle Stats", "+75 Happy"],
 		cooldown: "4-6 hours",
 		overdose: {
-			bars: [
-				"-150 Happy",
-			],
+			bars: ["-150 Happy"],
 		},
 	},
 	xanax: {
-		pros: [
-			"+250 Energy",
-			"+75 Happy",
-		],
-		cons: [
-			"-35% All Battle Stats",
-		],
+		pros: ["+250 Energy", "+75 Happy"],
+		cons: ["-35% All Battle Stats"],
 		cooldown: "6-8 hours",
 		overdose: {
-			bars: [
-				"-100% Energy, Nerve & Happy",
-			],
+			bars: ["-100% Energy, Nerve & Happy"],
 			hosp_time: "3 days 12 hours",
 			extra: "24 hours of cooldown and increased addiction",
 		},
 	},
 	love_juice: {
-		pros: [
-			"Cost of Attacking & Reviving reduced to 15 Energy",
-			"+50% Speed",
-			"+25% Dexterity",
-		],
-		cons: [
-			"Only works on Valentine's Day",
-		],
+		pros: ["Cost of Attacking & Reviving reduced to 15 Energy", "+50% Speed", "+25% Dexterity"],
+		cons: ["Only works on Valentine's Day"],
 		cooldown: "5 hours",
+	},
+};
+
+const COMPANY_INFORMATION = {
+	"Adult Novelties": {
+		1: {
+			name: "Blackmail",
+			cost: "1",
+			effect: "Money",
+		},
+		3: {
+			name: "Voyeur",
+			cost: "20",
+			effect: "Erotic DVD",
+		},
+		5: {
+			name: "Party Supplies",
+			cost: "500",
+			effect: "Pack of Trojans",
+		},
+		7: {
+			name: "Bondage",
+			cost: "Passive",
+			effect: "25% enemy speed reduction",
+		},
+		10: {
+			name: "Indecent",
+			cost: "Passive",
+			effect: "100% bonus to Erotic DVDs",
+		},
+	},
+	"Amusement Park": {
+		1: {
+			name: "Dauntless",
+			cost: "1",
+			effect: "1 nerve",
+		},
+		3: {
+			name: "Free Ride",
+			cost: "10",
+			effect: "250 happiness for target",
+		},
+		5: {
+			name: "Unflinching",
+			cost: "Passive",
+			effect: "10 maximum nerve",
+		},
+		7: {
+			name: "Adrenaline Rush",
+			cost: "Passive",
+			effect: "25% epinephrine effect & duration",
+		},
+		10: {
+			name: "Thrill Seeker",
+			cost: "Passive",
+			effect: "10% crime skill and experience gain (Temporarily Unavailable)",
+		},
+	},
+	"Candle Shop": {
+		1: {
+			name: "Warming Therapy",
+			cost: "1",
+			effect: "50 happiness",
+		},
+		3: {
+			name: "Illumination",
+			cost: "Passive",
+			effect: "50% awareness",
+		},
+		5: {
+			name: "Calming Therapy",
+			cost: "1",
+			effect: "2 nerve",
+		},
+		7: {
+			name: "Reinvigorating Therapy",
+			cost: "1",
+			effect: "5 energy",
+		},
+		10: {
+			name: "Meditation",
+			cost: "250",
+			effect: "View someone's true level if they are level holding",
+		},
+	},
+	"Car Dealership": {
+		1: {
+			name: "Test Drive",
+			cost: "5",
+			effect: "Racing point",
+		},
+		3: {
+			name: "Discount parts",
+			cost: "Passive",
+			effect: "75% cost discount on car parts",
+		},
+		5: {
+			name: "Salesman",
+			cost: "Passive",
+			effect: "No item market fees",
+		},
+		7: {
+			name: "Two-Faced",
+			cost: "Passive",
+			effect: "25% fraud success & skill gain (Temporarily Unavailable)",
+		},
+		10: {
+			name: "Getaway car",
+			cost: "Passive",
+			effect: "Escape button always enabled",
+		},
+	},
+	"Clothing Store": {
+		1: {
+			name: "Fashion Show",
+			cost: "1",
+			effect: "Experience",
+		},
+		3: {
+			name: "Nine to five",
+			cost: "10",
+			effect: "100 Endurance",
+		},
+		5: {
+			name: "Activewear",
+			cost: "Passive",
+			effect: "+25% Passive Dexterity",
+		},
+		7: {
+			name: "Secret pockets",
+			cost: "Passive",
+			effect: "+75% Mug Protection",
+		},
+		10: {
+			name: "Tailoring",
+			cost: "Passive",
+			effect: "+20% Armor Bonus",
+		},
+	},
+	"Cruise Line Agency": {
+		1: {
+			name: "Bursar",
+			cost: "1",
+			effect: "25 casino tokens",
+		},
+		3: {
+			name: "Portage",
+			cost: "Passive",
+			effect: "2 extra travel items",
+		},
+		5: {
+			name: "R&R",
+			cost: "1",
+			effect: "Drug addiction reduction",
+		},
+		7: {
+			name: "Destination Report",
+			cost: "10",
+			effect: "View stock analysis of all items at a selected country",
+		},
+		10: {
+			name: "Freight",
+			cost: "Passive",
+			effect: "3 extra travel items",
+		},
+	},
+	"Cyber Cafe": {
+		1: {
+			name: "Ub3rg33k",
+			cost: "Passive",
+			effect: "50% virus coding time reduction",
+		},
+		3: {
+			name: "Clone Data",
+			cost: "25",
+			effect: "Virus",
+		},
+		5: {
+			name: "Proxy Hacking",
+			cost: "25",
+			effect: "Cancel a target's virus programming",
+		},
+		7: {
+			name: "IP Tracing",
+			cost: "25",
+			effect: "View lister of anonymous bounties",
+		},
+		10: {
+			name: "Financial Phishing",
+			cost: "25",
+			effect: "View details of someone's investment account",
+		},
+	},
+	"Detective Agency": {
+		1: {
+			name: "References",
+			cost: "2",
+			effect: "View someone's employment and faction history",
+		},
+		3: {
+			name: "Deputised",
+			cost: "Passive",
+			effect: "Able to Arrest those who meet the required threshold after defeat",
+		},
+		5: {
+			name: "Friend or Foe",
+			cost: "100",
+			effect: "See who's friended / blacklisted you (or a target)",
+		},
+		7: {
+			name: "Watchlist",
+			cost: "50",
+			effect: "Anonymously extend a target's flight time by 1:30 - 2:00 hours",
+		},
+		10: {
+			name: "Most Wanted",
+			cost: "25",
+			effect: "View a list of people with the highest wanted rewards",
+		},
+	},
+	Farm: {
+		1: {
+			name: "Fullfillment",
+			cost: "1",
+			effect: "50 happiness",
+		},
+		3: {
+			name: "Animal Instinct",
+			cost: "Passive",
+			effect: "25% hunting reward",
+		},
+		5: {
+			name: "Special K",
+			cost: "5",
+			effect: "Ketamine drug",
+		},
+		7: {
+			name: "Fertilizer",
+			cost: "100",
+			effect: "Small explosive device",
+		},
+		10: {
+			name: "Early Riser",
+			cost: "1",
+			effect: "7 energy",
+		},
+	},
+	"Firework Stand": {
+		1: {
+			name: "Audaciousness",
+			cost: "1",
+			effect: "1 nerve",
+		},
+		3: {
+			name: "Illumination",
+			cost: "Passive",
+			effect: "50% awareness",
+		},
+		5: {
+			name: "Pyromania",
+			cost: "Passive",
+			effect: "25% flame-thrower damage & accuracy",
+		},
+		7: {
+			name: "Explosives Expert",
+			cost: "5",
+			effect: "Random bomb parts (Temporarily Unavailable)",
+		},
+		10: {
+			name: "Inferno",
+			cost: "25",
+			effect: "Random incendiary ammunition, supplying currently equipped weapons if applicable",
+		},
+	},
+	"Fitness Center": {
+		1: {
+			name: "Healthy Mind",
+			cost: "1",
+			effect: "30 minute education time reduction",
+		},
+		3: {
+			name: "Goal Oriented",
+			cost: "Passive",
+			effect: "50% reduction of happiness loss in gym",
+		},
+		5: {
+			name: "Roid Rage",
+			cost: "1",
+			effect: "Strength",
+		},
+		7: {
+			name: "Athlete",
+			cost: "Passive",
+			effect: "3% life regeneration per tick",
+		},
+		10: {
+			name: "Training Regime",
+			cost: "Passive",
+			effect: "3% gym gains",
+		},
+	},
+	"Flower Shop": {
+		1: {
+			name: "Rare Import",
+			cost: "3",
+			effect: "Special flower",
+		},
+		3: {
+			name: "Cultivation",
+			cost: "Passive",
+			effect: "25% illegal production success & skill gain (Temporarily Unavailable)",
+		},
+		5: {
+			name: "Herbal Cleansing",
+			cost: "1",
+			effect: "Drug addiction reduction",
+		},
+		7: {
+			name: "Over Capacity",
+			cost: "Passive",
+			effect: "Buy 5 additional special flowers abroad",
+		},
+		10: {
+			name: "Floral Contacts",
+			cost: "10",
+			effect: "View stock analysis of flowers in all countries",
+		},
+	},
+	"Furniture Store": {
+		1: {
+			name: "Coffee Break",
+			cost: "1",
+			effect: "3 energy",
+		},
+		3: {
+			name: "Heavy Lifting",
+			cost: "1",
+			effect: "Strength",
+		},
+		5: {
+			name: "Removal",
+			cost: "Passive",
+			effect: "25% theft success rate and skill gain (Temporarily Unavailable)",
+		},
+		7: {
+			name: "Beefcake",
+			cost: "Passive",
+			effect: "25% passive strength",
+		},
+		10: {
+			name: "Brute Force",
+			cost: "Passive",
+			effect: "100% fist & kick damage",
+		},
+	},
+	"Game Shop": {
+		1: {
+			name: "Ub3rg33k",
+			cost: "Passive",
+			effect: "50% virus coding time reduction",
+		},
+		3: {
+			name: "Early Release",
+			cost: "100",
+			effect: "Money",
+		},
+		5: {
+			name: "Gamer",
+			cost: "Passive",
+			effect: "100% console happiness",
+		},
+		7: {
+			name: "Power Levelling",
+			cost: "10",
+			effect: "View progress to your next level",
+		},
+		10: {
+			name: "Overpowered",
+			cost: "1",
+			effect: "1 nerve, 5 energy, 50 happiness",
+		},
+	},
+	"Gas Station": {
+		1: {
+			name: "Molotov Cocktail",
+			cost: "3",
+			effect: "+1 Molotov Cocktail Temporary weapon",
+		},
+		3: {
+			name: "Fueled",
+			cost: "Passive",
+			effect: "+25% bonus to Speed",
+		},
+		5: {
+			name: "Cauterize",
+			cost: "Passive",
+			effect: "Occasional 20% healing during combat",
+		},
+		7: {
+			name: "Fireproof",
+			cost: "Passive",
+			effect: "-50% reduction to Burning damage received",
+		},
+		10: {
+			name: "Blaze of Glory",
+			cost: "Passive",
+			effect: "+50% bonus to Burning damage dealt",
+		},
+	},
+	"Gents Strip Club": {
+		1: {
+			name: "Happy Hour",
+			cost: "1",
+			effect: "Money",
+		},
+		3: {
+			name: "Free Drinks",
+			cost: "1",
+			effect: "1 nerve",
+		},
+		5: {
+			name: "High Heels",
+			cost: "500",
+			effect: "Pair of high heels",
+		},
+		7: {
+			name: "Dancer's flair",
+			cost: "Passive",
+			effect: "25% passive dexterity",
+		},
+		10: {
+			name: "Aspiring Workout",
+			cost: "Passive",
+			effect: "10% dexterity gym gains",
+		},
+	},
+	"Grocery Store": {
+		1: {
+			name: "Bagged Down",
+			cost: "2",
+			effect: "Bag of candy",
+		},
+		3: {
+			name: "Fast Metabolism",
+			cost: "Passive",
+			effect: "10% consumable cooldown reduction",
+		},
+		5: {
+			name: "Bottled Up",
+			cost: "5",
+			effect: "Bottle of alcohol",
+		},
+		7: {
+			name: "Absorption",
+			cost: "Passive",
+			effect: "10% consumable boost",
+		},
+		10: {
+			name: "Canned in",
+			cost: "12",
+			effect: "Can of energy drink",
+		},
+	},
+	"Gun Shop": {
+		1: {
+			name: "Sales Discount",
+			cost: "Passive",
+			effect: "20% discount on standard ammo cost",
+		},
+		3: {
+			name: "Surplus",
+			cost: "15",
+			effect: "Random special ammunition, supplying currently equipped weapons if applicable",
+		},
+		5: {
+			name: "Skilled Analysis",
+			cost: "Passive",
+			effect: "Target equipment and ammo is always visible",
+		},
+		7: {
+			name: "Bandoleer",
+			cost: "Passive",
+			effect: "1 extra clip for guns during combat",
+		},
+		10: {
+			name: "Firearms Expert",
+			cost: "Passive",
+			effect: "10% primary & secondary weapon damage",
+		},
+	},
+	"Hair Salon": {
+		1: {
+			name: "Debate",
+			cost: "1",
+			effect: "Experience",
+		},
+		3: {
+			name: "Gossip",
+			cost: "10",
+			effect: "View someone's money on hand",
+		},
+		5: {
+			name: "Rumors",
+			cost: "Passive",
+			effect: "Reduced enemy stealth",
+		},
+		7: {
+			name: "Cutting corners",
+			cost: "1",
+			effect: "30 minute education time reduction",
+		},
+		10: {
+			name: "Sweeney's Revenge",
+			cost: "Passive",
+			effect: "20% slashing weapon damage",
+		},
+	},
+	"Ladies Strip Club": {
+		1: {
+			name: "Happy Hour",
+			cost: "1",
+			effect: "Money",
+		},
+		3: {
+			name: "Free Drinks",
+			cost: "1",
+			effect: "1 nerve",
+		},
+		5: {
+			name: "Thong",
+			cost: "300",
+			effect: "Thong",
+		},
+		7: {
+			name: "Hench",
+			cost: "Passive",
+			effect: "25% passive defense",
+		},
+		10: {
+			name: "Aspiring Workout",
+			cost: "Passive",
+			effect: "10% defense gym gains",
+		},
+	},
+	"Law Firm": {
+		1: {
+			name: "Bail Bondsman",
+			cost: "Passive",
+			effect: "50% decreased bail costs",
+		},
+		3: {
+			name: "Background Check",
+			cost: "10",
+			effect: "View someone's stats",
+		},
+		5: {
+			name: "Closing Argument",
+			cost: "Passive",
+			effect: "Easier to bust more people at once",
+		},
+		7: {
+			name: "Loophole",
+			cost: "Passive",
+			effect: "20% organised crime skill",
+		},
+		10: {
+			name: "Educated Decisions",
+			cost: "Passive",
+			effect: "View success chance of potential busts",
+		},
+	},
+	"Lingerie Store": {
+		1: {
+			name: "Lingerie Party",
+			cost: "1",
+			effect: "Experience",
+		},
+		3: {
+			name: "Nine to Five",
+			cost: "10",
+			effect: "100 endurance",
+		},
+		5: {
+			name: "Concealment",
+			cost: "Passive",
+			effect: "2 extra travel items",
+		},
+		7: {
+			name: "Born Free",
+			cost: "Passive",
+			effect: "50% dexterity when not wearing armor",
+		},
+		10: {
+			name: "Free as the Wind Blows",
+			cost: "Passive",
+			effect: "50% speed when not wearing armor",
+		},
+	},
+	"Logistics Management": {
+		1: {
+			name: "Efficiency",
+			cost: "1",
+			effect: "Speed",
+		},
+		3: {
+			name: "Organized",
+			cost: "Passive",
+			effect: "Increases available open contracts from 3 to 5",
+		},
+		5: {
+			name: "Repatriated",
+			cost: "Passive",
+			effect: "Allows traveling back to Torn from abroad while in hospital",
+		},
+		7: {
+			name: "Contraband",
+			cost: "50",
+			effect: "Large quantity of a foreign item",
+		},
+		10: {
+			name: "Logistics Report",
+			cost: "250",
+			effect: "Targeted company productivity boost",
+		},
+	},
+	"Meat Warehouse": {
+		1: {
+			name: "Blood Thirst",
+			cost: "1",
+			effect: "1 nerve",
+		},
+		3: {
+			name: "Butcher",
+			cost: "Passive",
+			effect: "10% melee weapon damage",
+		},
+		5: {
+			name: "Carnage",
+			cost: "Passive",
+			effect: "10 maximum nerve",
+		},
+		7: {
+			name: "Huntsman",
+			cost: "Passive",
+			effect: "25% hunting skill gain",
+		},
+		10: {
+			name: "Vampiric",
+			cost: "Passive",
+			effect: "3% life regeneration per tick",
+		},
+	},
+	"Mechanic Shop": {
+		1: {
+			name: "Machinist",
+			cost: "5",
+			effect: "Racing point",
+		},
+		3: {
+			name: "Discount Parts",
+			cost: "Passive",
+			effect: "75% cost discount on car parts",
+		},
+		5: {
+			name: "Junkyard Dog",
+			cost: "10",
+			effect: "Random car",
+		},
+		7: {
+			name: "Refurbish",
+			cost: "Passive",
+			effect: "Lose no car parts after crashing",
+		},
+		10: {
+			name: "Driver",
+			cost: "Passive",
+			effect: "50% driving skill gain",
+		},
+	},
+	"Mining Corporation": {
+		1: {
+			name: "Salty",
+			cost: "5",
+			effect: "Salt Shaker",
+		},
+		3: {
+			name: "Thirsty Work",
+			cost: "Passive",
+			effect: "30% alcohol cooldown reduction",
+		},
+		5: {
+			name: "Rock Salt",
+			cost: "1",
+			effect: "Gain defense",
+		},
+		7: {
+			name: "Essential Salts",
+			cost: "Passive",
+			effect: "10% maximum life",
+		},
+		10: {
+			name: "Preserved Meat",
+			cost: "25",
+			effect: "Boost current life to 150% of maximum",
+		},
+	},
+	"Music Store": {
+		1: {
+			name: "Ambience",
+			cost: "1",
+			effect: "50 happiness",
+		},
+		3: {
+			name: "Well Tuned",
+			cost: "Passive",
+			effect: "30% increased gym experience",
+		},
+		5: {
+			name: "High-fidelity",
+			cost: "Passive",
+			effect: "Reduced enemy stealth",
+		},
+		7: {
+			name: "Deafened",
+			cost: "10",
+			effect: "Guaranteed stealth",
+		},
+		10: {
+			name: "The Score",
+			cost: "Passive",
+			effect: "15% passive all stats",
+		},
+	},
+	Nightclub: {
+		1: {
+			name: "Criminal Connections",
+			cost: "1",
+			effect: "Experience",
+		},
+		3: {
+			name: "Target Market",
+			cost: "Passive",
+			effect: "25% illicit services success & skill gain (Temporarily Unavailable)",
+		},
+		5: {
+			name: "Suppression",
+			cost: "1",
+			effect: "Drug addiction reduction",
+		},
+		7: {
+			name: "Tolerance",
+			cost: "Passive",
+			effect: "50% drug overdose chance reduction",
+		},
+		10: {
+			name: "Restraint",
+			cost: "Passive",
+			effect: "Education is unaffected by drug addiction",
+		},
+	},
+	"Oil Rig": {
+		1: {
+			name: "Danger Money",
+			cost: "1",
+			effect: "Money",
+		},
+		3: {
+			name: "Embargo",
+			cost: "50",
+			effect: "Half a target's happiness",
+		},
+		5: {
+			name: "Oil Mogul",
+			cost: "3",
+			effect: "Reduce bank investment time by 1 hour",
+		},
+		7: {
+			name: "Tax Haven",
+			cost: "Passive",
+			effect: "10% increase of Cayman Islands interest rate",
+		},
+		10: {
+			name: "Fat Cat",
+			cost: "Passive",
+			effect: "50% investment banking limit",
+		},
+	},
+	"Private Security Firm": {
+		1: {
+			name: "Off the Grid",
+			cost: "20",
+			effect: "72 hour bounty protection",
+		},
+		3: {
+			name: "Tactical Breach",
+			cost: "Passive",
+			effect: "50% flash grenade intensity",
+		},
+		5: {
+			name: "Open Arsenal",
+			cost: "75",
+			effect: "Primary or Secondary weapon",
+		},
+		7: {
+			name: "Regulation",
+			cost: "Passive",
+			effect: "25% full set armor bonus",
+		},
+		10: {
+			name: "Mercenary",
+			cost: "1",
+			effect: "3 mission credits",
+		},
+	},
+	"Property Broker": {
+		1: {
+			name: "Commission",
+			cost: "1",
+			effect: "Money",
+		},
+		3: {
+			name: "Job Satisfaction",
+			cost: "1",
+			effect: "50 happiness",
+		},
+		5: {
+			name: "Vendor",
+			cost: "Passive",
+			effect: "No item market or auction house fees",
+		},
+		7: {
+			name: "Insider Trading",
+			cost: "150",
+			effect: "Random property",
+		},
+		10: {
+			name: "Interior Connections",
+			cost: "Passive",
+			effect: "10% property upgrade cost reduction",
+		},
+	},
+	Pub: {
+		1: {
+			name: "Pub Lunch",
+			cost: "1",
+			effect: "3 energy",
+		},
+		3: {
+			name: "Drunken Master",
+			cost: "Passive",
+			effect: "10% melee weapon damage",
+		},
+		5: {
+			name: "Liquid Courage",
+			cost: "25",
+			effect: "Refill nerve bar",
+		},
+		7: {
+			name: "Lightweight",
+			cost: "Passive",
+			effect: "50% bottle of alcohol boost",
+		},
+		10: {
+			name: "Buzzed",
+			cost: "Passive",
+			effect: "15 maximum nerve",
+		},
+	},
+	Restaurant: {
+		1: {
+			name: "Free Meals",
+			cost: "1",
+			effect: "3 energy",
+		},
+		3: {
+			name: "Butcher",
+			cost: "Passive",
+			effect: "10% melee weapon damage",
+		},
+		5: {
+			name: "Flambayed",
+			cost: "50",
+			effect: "Flame thrower",
+		},
+		7: {
+			name: "Healthy Diet",
+			cost: "Passive",
+			effect: "2% life regeneration per tick",
+		},
+		10: {
+			name: "Professional Metabolism",
+			cost: "Passive",
+			effect: "25% consumable cooldown reduction",
+		},
+	},
+	"Software Corporation": {
+		1: {
+			name: "Ub3rg33k",
+			cost: "Passive",
+			effect: "50% virus coding time reduction",
+		},
+		3: {
+			name: "Proxy Hacking",
+			cost: "25",
+			effect: "Cancel a target's virus programming",
+		},
+		5: {
+			name: "Intricate Hack",
+			cost: "250",
+			effect: "Steals 1-3% of a company's funds",
+		},
+		7: {
+			name: "Hack the Planet",
+			cost: "Passive",
+			effect: "+ 25% computer crime success & skill gain (Temporarily Unavailable)",
+		},
+		10: {
+			name: "Corporate Espionage",
+			cost: "50",
+			effect: "View financial details of a company",
+		},
+	},
+	"Sweet Shop": {
+		1: {
+			name: "Sweet Tooth",
+			cost: "1",
+			effect: "50 happiness",
+		},
+		3: {
+			name: "Sugar Rush",
+			cost: "2",
+			effect: "Bag of candy",
+		},
+		5: {
+			name: "Gluttony",
+			cost: "10",
+			effect: "1,000 happiness",
+		},
+		7: {
+			name: "Energy Rush",
+			cost: "15",
+			effect: "Can of energy drink",
+		},
+		10: {
+			name: "Voracious",
+			cost: "30",
+			effect: "4,500 happiness",
+		},
+	},
+	"Television Network": {
+		1: {
+			name: "Propaganda",
+			cost: "5",
+			effect: "1 faction respect",
+		},
+		3: {
+			name: "Scoop",
+			cost: "Passive",
+			effect: "50% newspaper advertising cost reduction",
+		},
+		5: {
+			name: "Inside Story",
+			cost: "15",
+			effect: "View someone's stats & money",
+		},
+		7: {
+			name: "Bad Publicity",
+			cost: "Passive",
+			effect: "25% extortion success rate and skill gain (Temporarily Unavailable)",
+		},
+		10: {
+			name: "Press Pass",
+			cost: "25",
+			effect: "Receive special privileges",
+		},
+	},
+	Theater: {
+		1: {
+			name: "Stagecraft",
+			cost: "1",
+			effect: "Experience",
+		},
+		3: {
+			name: "Dramatics",
+			cost: "10",
+			effect: "Guaranteed stealth",
+		},
+		5: {
+			name: "Masked",
+			cost: "Passive",
+			effect: "Cannot be targeted by spies",
+		},
+		7: {
+			name: "Twinlike",
+			cost: "Passive",
+			effect: "25% forgery success rate and skill gain (Temporarily Unavailable)",
+		},
+		10: {
+			name: "Disguised",
+			cost: "Passive",
+			effect: "Hidden travelling status & destination",
+		},
+	},
+	"Toy Shop": {
+		1: {
+			name: "Memory Lane",
+			cost: "1",
+			effect: "50 happiness",
+		},
+		3: {
+			name: "Jumble Sale",
+			cost: "3",
+			effect: "Special plushie",
+		},
+		5: {
+			name: "Gamer",
+			cost: "Passive",
+			effect: "100% console happiness",
+		},
+		7: {
+			name: "Over Capacity",
+			cost: "Passive",
+			effect: "Able to bring back +5 plushies from abroad",
+		},
+		10: {
+			name: "Toy Importer",
+			cost: "10",
+			effect: "View stock analysis of plushies in all countries",
+		},
+	},
+	Zoo: {
+		1: {
+			name: "Fulfillment",
+			cost: "1",
+			effect: "50 happiness",
+		},
+		3: {
+			name: "Animal Instinct",
+			cost: "Passive",
+			effect: "25% hunting reward",
+		},
+		5: {
+			name: "Special K",
+			cost: "5",
+			effect: "Ketamine drug",
+		},
+		7: {
+			name: "Eye of the Tiger",
+			cost: "Passive",
+			effect: "70% Awareness",
+		},
+		10: {
+			name: "Seasoned Poacher",
+			cost: "Passive",
+			effect: "+3.00 Accuracy",
+		},
 	},
 };
 
@@ -186,14 +1176,11 @@ const THEME_CLASSES = {
 	},
 };
 
-const CHAIN_BONUSES = [
-	10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000,
-];
+const CHAIN_BONUSES = [10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000];
 
 const STORAGE = {
 	// app settings
 	api_key: undefined,
-	proxy_key: undefined,
 	updated: "force_true",
 	api: {
 		count: 0,
@@ -208,13 +1195,15 @@ const STORAGE = {
 		yata: [],
 		tornstats: [],
 		torntools: [],
+		nukefamily: [],
 	},
 
 	// userdata
 	itemlist: {},
 	torndata: {},
 	userdata: {},
-	oc: {},  // organized crimes
+	oc: {}, // organized crimes
+	notifications_custom: undefined,
 
 	// script data
 	personalized: {},
@@ -226,6 +1215,10 @@ const STORAGE = {
 		message: undefined,
 	},
 	loot_times: {},
+	yata: {
+		next_loot_update: undefined,
+		error: false,
+	},
 	travel_market: [],
 	networth: {
 		previous: {
@@ -280,7 +1273,7 @@ const STORAGE = {
 	filters: {
 		preset_data: {
 			factions: {
-				"default": "",
+				default: "",
 				data: [],
 			},
 		},
@@ -377,27 +1370,45 @@ const STORAGE = {
 				isdonator: "both",
 			},
 		},
+		abroadItems: {
+			profitOnly: false,
+			categories: [],
+		},
 	},
 	sorting: {
 		profile: [],
+		abroadItems: {
+			column: "default",
+			order: "asc",
+		},
 	},
 	cache: {
 		profileStats: {},
 		spyReport: {},
 		battleStatsEstimate: {},
 	},
-	watchlist: [],
 
 	// user settings
 	settings: {
 		update_notification: true,
 		notifications_tts: false,
-		notifications_sound: true,
+		notifications_sound: "1",
+		notifications_volume: 1,
 		notifications_link: true,
+		icon_bars: {
+			show: true,
+			energy: true,
+			nerve: true,
+			happy: true,
+			life: true,
+			chain: true,
+			travel: true,
+		},
 		clean_flight: false,
 		// "remove_info_boxes": false,
 		theme: "default",
 		force_tt: true,
+		check_extensions: true,
 		developer: false,
 		font_size: "12px",
 		inactivity_alerts_faction: {
@@ -425,6 +1436,7 @@ const STORAGE = {
 			landing: [],
 			chain: [],
 			chain_count: [],
+			drugs: [],
 		},
 		format: {
 			date: "eu",
@@ -435,7 +1447,7 @@ const STORAGE = {
 			stocks: true,
 			calculator: true,
 			info: true,
-			"default": "info",
+			default: "info",
 		},
 		achievements: {
 			show: true,
@@ -463,6 +1475,7 @@ const STORAGE = {
 				show_id: true,
 				loot_times: true,
 				status_indicator: true,
+				block_ally_attacks: true,
 				notes: true,
 			},
 			racing: {
@@ -534,15 +1547,29 @@ const STORAGE = {
 				hide_upgrade: false,
 				align_left: false,
 				find_chat: true,
+				autocomplete_chat: true,
 				hide_chat: false,
+				show_toggle_chat: true,
 				collapse_areas: false,
 				oc_time: true,
 				hide_leave: false,
 				block_zalgo: true,
+				refill_energy: true,
+				refill_nerve: false,
+				miniprofile_last_action: true,
+				enable_central_revive: false,
 			},
 			jail: {
 				quick_bail: false,
 				quick_bust: false,
+			},
+			itemmarket: {
+				market_value: "",
+			},
+			forums: {
+				show_bug_warning: true,
+				hide_threads: {},
+				hide_posts: {},
 			},
 		},
 		scripts: {
@@ -568,6 +1595,7 @@ const STORAGE = {
 				item_market: false,
 				revives: false,
 				item_equip: true,
+				trades: false,
 			},
 		},
 	},
@@ -589,29 +1617,10 @@ const SPECIAL_FILTER_DICT = {
 	isfedded: ["icon70_"],
 	traveling: ["icon71_"],
 	newplayer: ["icon72_"],
-	onwall: [
-		"icon75_",
-		"icon76_",
-	],
-	incompany: [
-		"icon21_",
-		"icon22_",
-		"icon23_",
-		"icon24_",
-		"icon25_",
-		"icon26_",
-		"icon27_",
-		"icon73_",
-	],
-	infaction: [
-		"icon9_",
-		"icon74_",
-		"icon81_",
-	],
-	isdonator: [
-		"icon3_",
-		"icon4_",
-	],
+	onwall: ["icon75_", "icon76_"],
+	incompany: ["icon21_", "icon22_", "icon23_", "icon24_", "icon25_", "icon26_", "icon27_", "icon73_"],
+	infaction: ["icon9_", "icon74_", "icon81_"],
+	isdonator: ["icon3_", "icon4_"],
 };
 
 let notificationLinkRelations = {};
@@ -637,7 +1646,7 @@ const RANKS = {
 	Outstanding: 18,
 	Celebrity: 19,
 	Supreme: 20,
-	Idolised: 21,
+	Idolized: 21,
 	Champion: 22,
 	Heroic: 23,
 	Legendary: 24,
@@ -650,15 +1659,7 @@ const RANK_TRIGGERS = {
 	crimes: [100, 5000, 10000, 20000, 30000, 50000],
 	networth: [5000000, 50000000, 500000000, 5000000000, 50000000000],
 
-	stats: [
-		"under 2k",
-		"2k - 25k",
-		"20k - 250k",
-		"200k - 2.5m",
-		"2m - 25m",
-		"20m - 250m",
-		"over 200m",
-	],
+	stats: ["under 2k", "2k - 25k", "20k - 250k", "200k - 2.5m", "2m - 25m", "20m - 250m", "over 200m"],
 };
 
 const FORMATTER_NO_DECIMALS = new Intl.NumberFormat("en-US", {
@@ -679,45 +1680,6 @@ let injectedFetch = false;
 /*
  * Add prototype functions.
  */
-
-Document.prototype.find = function (type) {
-	if (type.indexOf("=") > -1 && type.indexOf("[") === -1) {
-		let key = type.split("=")[0];
-		let value = type.split("=")[1];
-
-		for (let element of document.querySelectorAll(key)) {
-			if (element.innerText === value) {
-				return element;
-			}
-		}
-
-		try {
-			this.querySelector(type);
-		} catch (err) {
-			return undefined;
-		}
-	}
-	return this.querySelector(type);
-};
-Element.prototype.find = function (type) {
-	if (type.indexOf("=") > -1 && type.indexOf("[") === -1) {
-		let key = type.split("=")[0];
-		let value = type.split("=")[1];
-
-		for (let element of document.querySelectorAll(key)) {
-			if (element.innerText === value) {
-				return element;
-			}
-		}
-
-		try {
-			this.querySelector(type);
-		} catch (err) {
-			return undefined;
-		}
-	}
-	return this.querySelector(type);
-};
 
 Document.prototype.findAll = function (type) {
 	return this.querySelectorAll(type);
@@ -793,85 +1755,6 @@ String.prototype.replaceAll = function (text, replace) {
  * Load some functions.
  */
 
-const ttStorage = {
-	get: function (key, callback) {
-		new Promise((resolve) => {
-			if (Array.isArray(key)) {
-				let arr = [];
-				chrome.storage.local.get(key, function (data) {
-					for (let item of key) {
-						arr.push(data[item]);
-					}
-					return resolve(arr);
-				});
-			} else if (key === null) {
-				chrome.storage.local.get(null, function (data) {
-					return resolve(data);
-				});
-			} else {
-				chrome.storage.local.get([key], function (data) {
-					return resolve(data[key]);
-				});
-			}
-		}).then(function (data) {
-			callback(data);
-		});
-	},
-	set: function (object, callback) {
-		chrome.storage.local.set(object, function () {
-			callback ? callback() : null;
-		});
-	},
-	change: function (keys_to_change, callback) {
-		for (let top_level_key of Object.keys(keys_to_change)) {
-			chrome.storage.local.get(top_level_key, function (data) {
-				let database = data[top_level_key];
-				database = recursive(database, keys_to_change[top_level_key]);
-
-				function recursive(parent, keys_to_change) {
-					for (let key in keys_to_change) {
-						if (parent && key in parent && typeof keys_to_change[key] === "object" && !Array.isArray(keys_to_change[key])) {
-							parent[key] = recursive(parent[key], keys_to_change[key]);
-						} else if (parent) {
-							parent[key] = keys_to_change[key];
-						} else {
-							parent = { [key]: keys_to_change[key] };
-						}
-					}
-					return parent;
-				}
-
-				chrome.storage.local.set({ [top_level_key]: database }, function () {
-					callback ? callback() : null;
-				});
-			});
-		}
-	},
-	clear: function (callback) {
-		chrome.storage.local.clear(function () {
-			callback ? callback() : null;
-		});
-	},
-	reset: function (callback) {
-		chrome.storage.local.get(["api_key"], function (data) {
-			let api_key = data.api_key;
-			chrome.storage.local.clear(function () {
-				chrome.storage.local.set(STORAGE, function () {
-					chrome.storage.local.set({
-						api_key: api_key,
-					}, function () {
-						chrome.storage.local.get(null, function (data) {
-							console.log("Storage cleared");
-							console.log("New storage", data);
-							callback ? callback() : null;
-						});
-					});
-				});
-			});
-		});
-	},
-};
-
 const infoBox = {
 	newRow: function (key, value, attr = {}) {
 		// process
@@ -925,16 +1808,19 @@ const navbar = {
 				collapsed = filters.container_open.navbar[name];
 			}
 
+			// FIXME - Use right classes.
 			let sidebarBlock = doc.new({ type: "div", class: "sidebar-block___1Cqc2 tt-nav-section" });
 			sidebarBlock.innerHTML = `
                 <div class="content___kMC8x">
                     <div class="areas___2pu_3">
-                        <div class="toggle-block___13zU2">
-                            <div class="tt-title tt-nav ${THEME_CLASSES[settings.theme].title} ${collapsed === true || collapsed === undefined ? "collapsed" : ""}">
+                        <div class="toggle-block___jneNE">
+                            <div class="tt-title tt-nav ${THEME_CLASSES[settings.theme].title} ${
+				collapsed === true || collapsed === undefined ? "collapsed" : ""
+			}">
                                 <div class="title-text">${name}</div>
                                 <div class="tt-options"></div>
                                 <i class="tt-title-icon fas fa-caret-down"></i></div>
-                            <div class="toggle-content___3XKOC tt-content"></div>
+                            <div class="toggle-content___2PGBT tt-content"></div>
                         </div>
                     </div>
                 </div>
@@ -975,22 +1861,23 @@ const navbar = {
 			})();
 		}
 
-		let toggleContent = attribute.parent_element.find(".toggle-content___3XKOC");
+		let toggleContent = attribute.parent_element.find("[class^='toggle-content']");
 		let newCellBlock = createNewCellBlock(text, attribute);
 
-		if (attribute.first)
-			toggleContent.insertBefore(newCellBlock, toggleContent.firstElementChild);
-		else
-			toggleContent.appendChild(newCellBlock);
+		if (attribute.first) toggleContent.insertBefore(newCellBlock, toggleContent.firstElementChild);
+		else toggleContent.appendChild(newCellBlock);
 
 		return newCellBlock;
 
 		function createNewCellBlock(text, attr) {
-			let div = doc.new({ type: "div", class: "area-desktop___2YU-q" });
+			let div = doc.new({ type: "div", class: "area-desktop___2YU-q area-desktop___2N3Jp" }); // FIXME - Use right classes.
 
+			// FIXME - Use right classes.
 			div.innerHTML = `
-                <div class="area-row___34mEZ tt-cell">
-                    <a class="desktopLink___2dcWC ${attr.class || ""}" ${attr.href ? `href='${attr.href}'` : ""} target="${attr.link_target || ""}">
+                <div class="area-row___34mEZ area-row___1VM_l tt-cell">
+                    <a class="desktopLink___2dcWC desktopLink___1p2Dr ${attr.class || ""}" ${attr.href ? `href='${attr.href}'` : ""} target="${
+				attr.link_target || ""
+			}">
                         <span>${text}</span>
                     </a>
                 </div>
@@ -1019,14 +1906,10 @@ const content = {
 
 		let new_div = createNewContainer(name, attr);
 
-		if (attr.first)
-			parent_element.insertBefore(new_div, parent_element.find(".content-title").nextElementSibling);
-		else if (attr.next_element)
-			parent_element.insertBefore(new_div, attr.next_element);
-		else if (attr.adjacent_element)
-			parent_element.insertAdjacentElement(attr.adjacent_element_position || "afterend", new_div);
-		else
-			parent_element.appendChild(new_div);
+		if (attr.first) parent_element.insertBefore(new_div, parent_element.find(".content-title").nextElementSibling);
+		else if (attr.next_element) parent_element.insertBefore(new_div, attr.next_element);
+		else if (attr.adjacent_element) parent_element.insertAdjacentElement(attr.adjacent_element_position || "afterend", new_div);
+		else parent_element.appendChild(new_div);
 
 		return new_div;
 
@@ -1096,8 +1979,7 @@ const content = {
 		let headings = doc.findAll(".content-wrapper .title-black");
 
 		for (let heading of headings) {
-			if (heading.innerText === name)
-				return heading.parentElement.parentElement;
+			if (heading.innerText === name) return heading.parentElement.parentElement;
 		}
 
 		return undefined;
@@ -1249,21 +2131,21 @@ function romanToArabic(roman) {
 
 function arabicToRoman(arabic) {
 	let dict = {
-		"1": "I",
-		"2": "II",
-		"3": "III",
-		"4": "IV",
-		"5": "V",
-		"6": "VI",
-		"7": "VII",
-		"8": "VIII",
-		"9": "IX",
-		"10": "X",
-		"11": "XI",
-		"12": "XII",
-		"13": "XIII",
-		"14": "XIV",
-		"15": "XV",
+		1: "I",
+		2: "II",
+		3: "III",
+		4: "IV",
+		5: "V",
+		6: "VI",
+		7: "VII",
+		8: "VIII",
+		9: "IX",
+		10: "X",
+		11: "XI",
+		12: "XII",
+		13: "XIII",
+		14: "XIV",
+		15: "XV",
 	};
 	return dict[arabic];
 }
@@ -1304,10 +2186,14 @@ function isOverflownY(element) {
 }
 
 function capitalize(text, everyWord = false) {
-	if (!everyWord)
-		return text[0].toUpperCase() + text.slice(1);
+	if (!everyWord) return text[0].toUpperCase() + text.slice(1);
 
-	return text.trim().split(" ").map((word) => capitalize(word)).join(" ").trim();
+	return text
+		.trim()
+		.split(" ")
+		.map((word) => capitalize(word))
+		.join(" ")
+		.trim();
 }
 
 function lastInList(item, list) {
@@ -1351,18 +2237,13 @@ function numberWithCommas(x, shorten = true, formatter) {
 		}
 
 		if (Math.abs(x) >= 1e9) {
-			if (Math.abs(x) % 1e9 === 0)
-				return (x / 1e9).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + words.billion;
-			else
-				return (x / 1e9).toFixed(3) + words.billion;
+			if (Math.abs(x) % 1e9 === 0) return (x / 1e9).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + words.billion;
+			else return (x / 1e9).toFixed(3) + words.billion;
 		} else if (Math.abs(x) >= 1e6) {
-			if (Math.abs(x) % 1e6 === 0)
-				return (x / 1e6) + words.million;
-			else
-				return (x / 1e6).toFixed(3) + words.million;
+			if (Math.abs(x) % 1e6 === 0) return x / 1e6 + words.million;
+			else return (x / 1e6).toFixed(3) + words.million;
 		} else if (Math.abs(x) >= 1e3) {
-			if (Math.abs(x) % 1e3 === 0)
-				return (x / 1e3) + words.thousand;
+			if (Math.abs(x) % 1e3 === 0) return x / 1e3 + words.thousand;
 		}
 	}
 
@@ -1418,10 +2299,8 @@ function timeAgo(time) {
 	];
 	for (let format of formats) {
 		if (seconds < format[0]) {
-			if (typeof format[2] == "string")
-				return format[list_choice];
-			else
-				return Math.floor(seconds / format[2]) + "" + format[1] + " " + token;
+			if (typeof format[2] == "string") return format[list_choice];
+			else return Math.floor(seconds / format[2]) + "" + format[1] + " " + token;
 		}
 	}
 	return time;
@@ -1461,14 +2340,7 @@ function secondsToDays(x) {
 }
 
 function dateParts(date) {
-	let data = [
-		date.getDate(),
-		date.getMonth() + 1,
-		date.getFullYear(),
-		date.getHours(),
-		date.getMinutes(),
-		date.getSeconds(),
-	];
+	let data = [date.getDate(), date.getMonth() + 1, date.getFullYear(), date.getHours(), date.getMinutes(), date.getSeconds()];
 
 	return data.map((value) => toMultipleDigits(value, 2));
 }
@@ -1573,6 +2445,8 @@ function formatDate([day, month, year], formatting) {
 	switch (formatting) {
 		case "us":
 			return year ? `${month}/${day}/${year}` : `${month}/${day}`;
+		case "iso":
+			return year ? `${year}-${month}-${day}` : `${month}-${day}`;
 		case "eu":
 			return year ? `${day}.${month}.${year}` : `${day}.${month}`;
 		default:
@@ -1655,10 +2529,8 @@ function findItemsInObject(object, attributes = {}, single = false) {
 function hasParent(element, attributes = {}) {
 	if (!element.parentElement) return false;
 
-	if (attributes.class && element.parentElement.classList.contains(attributes.class))
-		return true;
-	if (attributes.id && element.parentElement.id === attributes.id)
-		return true;
+	if (attributes.class && element.parentElement.classList.contains(attributes.class)) return true;
+	if (attributes.id && element.parentElement.id === attributes.id) return true;
 
 	return hasParent(element.parentElement, attributes);
 }
@@ -1666,12 +2538,14 @@ function hasParent(element, attributes = {}) {
 function findParent(element, attributes = {}) {
 	if (!element || !element.parentElement) return undefined;
 
-	if (attributes.class && element.parentElement.classList.contains(attributes.class))
+	if (
+		attributes.class &&
+		((Array.isArray(attributes.class) && attributes.class.some((value) => element.parentElement.classList.contains(value))) ||
+			element.parentElement.classList.contains(attributes.class))
+	)
 		return element.parentElement;
-	if (attributes.id && element.parentElement.id === attributes.id)
-		return element.parentElement;
-	if (attributes.has_attribute && element.parentElement.getAttribute(attributes.has_attribute) !== null)
-		return element.parentElement;
+	if (attributes.id && element.parentElement.id === attributes.id) return element.parentElement;
+	if (attributes.has_attribute && element.parentElement.getAttribute(attributes.has_attribute) !== null) return element.parentElement;
 
 	return findParent(element.parentElement, attributes);
 }
@@ -1690,10 +2564,12 @@ function sort(table, col, type) {
 		if (currentI) currentI.remove();
 
 		// new header
-		columnHeader.appendChild(doc.new({
-			type: "i",
-			class: "fas fa-caret-down",
-		}));
+		columnHeader.appendChild(
+			doc.new({
+				type: "i",
+				class: "fas fa-caret-down",
+			})
+		);
 	}
 
 	let rows = [];
@@ -1708,14 +2584,12 @@ function sort(table, col, type) {
 		for (let item of table.findAll(`.body>.row div:nth-child(${col})`)) {
 			let priority = item.getAttribute("priority");
 
-			if (!priorities[parseInt(priority) - 1])
-				priorities[parseInt(priority) - 1] = [];
+			if (!priorities[parseInt(priority) - 1]) priorities[parseInt(priority) - 1] = [];
 			priorities[parseInt(priority) - 1].push(item.parentElement);
 		}
 
 		for (let priority of priorities) {
-			if (priority === undefined)
-				continue;
+			if (priority === undefined) continue;
 
 			rows = [...rows, ...sortRows(priority, order, type)];
 		}
@@ -1723,8 +2597,7 @@ function sort(table, col, type) {
 
 	let body = doc.new("div");
 
-	for (let row of rows)
-		body.appendChild(row);
+	for (let row of rows) body.appendChild(row);
 
 	table.find(".body").innerHTML = body.innerHTML;
 
@@ -1780,24 +2653,6 @@ function sort(table, col, type) {
 	}
 }
 
-function getCurrentPage() {
-	const pages = {
-		index: "home",
-		jailview: "jail",
-		hospitalview: "hospital",
-		item: "items",
-		profiles: "profile",
-		factions: "faction",
-	};
-
-	let page = window.location.pathname.substring(1);
-
-	if (page.endsWith(".php")) page = page.substring(0, page.length - 4);
-	else if (page.endsWith(".html")) page = page.substring(0, page.length - 5);
-
-	return pages[page] || page;
-}
-
 function requireNavbar() {
 	return requireElement("#sidebar");
 }
@@ -1810,21 +2665,28 @@ function requireMessageBox() {
 	return requireElement(".info-msg-cont");
 }
 
-function requireElement(selector, invert = false) {
-	return new Promise((resolve) => {
-		let checker = setInterval(function () {
-			if ((!invert && doc.find(selector)) || (invert && !doc.find(selector))) {
-				resolve(true);
-				return clearInterval(checker);
-			}
-		});
+function requireElement(selector, attributes = {}) {
+	attributes = {
+		parent: doc,
+		...attributes,
+	};
+
+	return requireCondition(() => (attributes.invert && !attributes.parent.find(selector)) || (!attributes.invert && attributes.parent.find(selector)), {
+		delay: attributes.delay,
 	});
 }
 
 function requirePlayerList(listClass) {
 	return new Promise((resolve) => {
 		let checker = setInterval(function () {
-			if (!((doc.find(`${listClass}>*`) && doc.find(`${listClass}>*`).classList.contains("ajax-placeholder")) || doc.find(`${listClass}>* .ajax-placeholder`)) && (doc.find(`${listClass}`) && doc.find(`${listClass}`).firstElementChild)) {
+			if (
+				!(
+					(doc.find(`${listClass}>*`) && doc.find(`${listClass}>*`).classList.contains("ajax-placeholder")) ||
+					doc.find(`${listClass}>* .ajax-placeholder`)
+				) &&
+				doc.find(`${listClass}`) &&
+				doc.find(`${listClass}`).firstElementChild
+			) {
 				resolve(true);
 				return clearInterval(checker);
 			}
@@ -1832,42 +2694,28 @@ function requirePlayerList(listClass) {
 	});
 }
 
-function getPageStatus() {
+function requireCondition(condition, attributes = {}) {
+	attributes = {
+		delay: 10,
+		...attributes,
+	};
+
 	return new Promise((resolve) => {
 		let checker = setInterval(function () {
-			let page_heading = doc.find("#skip-to-content, .title___2sbYr, .nonFullScreen .content-title h4");
-			let message = doc.find("div[role='main'] > .info-msg-cont");
-
-			// Page heading
-			if (page_heading) {
-				switch (page_heading.innerText) {
-					case "Please Validate":
-						resolve("captcha");
-						return clearInterval(checker);
-					case "Error":
-						resolve("blocked");
-						return clearInterval(checker);
-				}
-			}
-
-			// Page info message
-			if (message) {
-				if (message.innerText.includes("a page which is blocked when")) {
-					resolve("blocked");
-					return clearInterval(checker);
-				}
-			}
-
-			if (page_heading || message) {
-				resolve("okay");
+			if (condition()) {
+				resolve(true);
 				return clearInterval(checker);
 			}
-		});
+		}, attributes.delay);
 	});
 }
 
 function flashColor(element, type, speed, min = 0, max = 1) {
-	let [r, g, b, a] = element.style.backgroundColor.split("(")[1].split(")")[0].split(",").map(x => parseFloat(x.trim()));
+	let [r, g, b, a] = element.style.backgroundColor
+		.split("(")[1]
+		.split(")")[0]
+		.split(",")
+		.map((x) => parseFloat(x.trim()));
 
 	let interval;
 	switch (speed) {
@@ -1910,11 +2758,13 @@ function loadingPlaceholder(element, display) {
 		if (element.find(".tt-loading-placeholder")) {
 			element.find(".tt-loading-placeholder").classList.add("active");
 		} else {
-			element.appendChild(doc.new({
-				type: "img",
-				class: "ajax-placeholder m-top10 m-bottom10 tt-loading-placeholder active",
-				attributes: { src: "https://www.torn.com/images/v2/main/ajax-loader.gif" },
-			}));
+			element.appendChild(
+				doc.new({
+					type: "img",
+					class: "ajax-placeholder m-top10 m-bottom10 tt-loading-placeholder active",
+					attributes: { src: "https://www.torn.com/images/v2/main/ajax-loader.gif" },
+				})
+			);
 		}
 	} else {
 		element.find(".tt-loading-placeholder").classList.remove("active");
@@ -1939,8 +2789,30 @@ function sortSections(parent, page) {
 	}
 }
 
+const notificationPlayer = new Audio();
+notificationPlayer.autoplay = false;
+notificationPlayer.preload = true;
+
+let notificationSound = null;
+
+function getNotificationSound(id) {
+	return new Promise((resolve) => {
+		if (id == -1) {
+			resolve(-1);
+		} else if (id == 0) {
+			resolve(0);
+		} else if (!Number.isNaN(Number.parseInt(id))) {
+			resolve(`audio/notification${id}.wav`);
+		} else {
+			ttStorage.get("notifications_custom", (sound) => {
+				resolve(sound);
+			});
+		}
+	});
+}
+
 function notifyUser(title, message, url) {
-	ttStorage.get("settings", function (settings) {
+	ttStorage.get("settings", async function (settings) {
 		const notificationOptions = {
 			type: "basic",
 			iconUrl: "images/icon128.png",
@@ -1948,11 +2820,25 @@ function notifyUser(title, message, url) {
 			message,
 		};
 
-		if (hasSilentSupport() && !settings.notifications_sound) notificationOptions.silent = true;
+		if (notificationSound != settings.notifications_sound) {
+			//avoid reloading sounds
+			let sound = await getNotificationSound(settings.notifications_sound);
+			if (sound && !Number.isInteger(sound)) {
+				notificationPlayer.src = sound;
+			}
+
+			notificationSound = settings.notifications_sound;
+		}
+
+		notificationPlayer.volume = settings.notifications_volume;
+
+		if ((notificationSound == -1 || notificationSound != 0) && hasSilentSupport()) notificationOptions.silent = true;
 
 		chrome.notifications.create(notificationOptions, function (id) {
 			notificationLinkRelations[id] = url;
-			console.log("   Notified!");
+			console.log("   Notified!", notificationOptions);
+
+			if (notificationSound != -1 && notificationSound != 0) notificationPlayer.play();
 		});
 
 		if (settings.notifications_tts) {
@@ -2051,10 +2937,12 @@ function calculateEstimateBattleStats(rank, level, totalCrimes, networth) {
 function injectXHR() {
 	if (injectedXHR) return;
 
-	doc.find("head").appendChild(doc.new({
-		type: "script",
-		attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectXHR.js") },
-	}));
+	doc.find("head").appendChild(
+		doc.new({
+			type: "script",
+			attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectXHR.js") },
+		})
+	);
 	injectedXHR = true;
 }
 
@@ -2067,10 +2955,12 @@ function addXHRListener(callback) {
 function injectFetch() {
 	if (injectedFetch) return;
 
-	doc.find("head").appendChild(doc.new({
-		type: "script",
-		attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectFetch.js") },
-	}));
+	doc.find("head").appendChild(
+		doc.new({
+			type: "script",
+			attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/js/injectFetch.js") },
+		})
+	);
 	injectedFetch = true;
 }
 
@@ -2081,7 +2971,7 @@ function addFetchListener(callback) {
 }
 
 function sleep(millis) {
-	return new Promise((resolve => setTimeout(resolve, millis)));
+	return new Promise((resolve) => setTimeout(resolve, millis));
 }
 
 function handleTornProfileData(data) {
@@ -2191,23 +3081,27 @@ function estimateStatsInList(listSelector, userHandler) {
 
 			loadingPlaceholder(row, true);
 			estimateStats(userId, false, estimateCount, level)
-				.then((result => {
+				.then((result) => {
 					loadingPlaceholder(row, false);
-					row.appendChild(doc.new({
-						type: "span",
-						text: `Stat Estimate: ${result.estimate}`,
-					}));
-				}))
+					row.appendChild(
+						doc.new({
+							type: "span",
+							text: `Stat Estimate: ${result.estimate}`,
+						})
+					);
+				})
 				.catch((error) => {
 					loadingPlaceholder(row, false);
 
 					if (error.show) {
-						row.appendChild(doc.new({
-							type: "span",
-							class: "tt-userinfo-message",
-							text: error.message,
-							attributes: { color: "error" },
-						}));
+						row.appendChild(
+							doc.new({
+								type: "span",
+								class: "tt-userinfo-message",
+								text: error.message,
+								attributes: { color: "error" },
+							})
+						);
 					} else {
 						row.remove();
 						if (container.children.length === 0) container.remove();
@@ -2222,7 +3116,7 @@ function cacheEstimate(userId, timestamp, estimate, lastAction) {
 	let days = 7;
 
 	if (estimate === RANK_TRIGGERS.stats[RANK_TRIGGERS.stats.length - -1]) days = 31;
-	else if (lastAction && (new Date().getTime() - new Date(lastAction.timestamp).getTime()) > (TO_MILLIS.DAYS * 180)) days = 31;
+	else if (lastAction && new Date().getTime() - new Date(lastAction.timestamp).getTime() > TO_MILLIS.DAYS * 180) days = 31;
 
 	console.log(`Caching result for '${userId}' for ${days} days.`, estimate);
 
@@ -2244,26 +3138,28 @@ function cacheEstimate(userId, timestamp, estimate, lastAction) {
 	});
 }
 
-function fetchApi_v2(location, options = {/*section, objectid, selections, proxyFail, action, target, postData, from*/ }) {
+function fetchApi_v2(
+	location,
+	options = {
+		/*section, objectid, selections, proxyFail, action, target, postData, from*/
+	}
+) {
 	return new Promise(async (resolve, reject) => {
-		ttStorage.get(["api_key", "proxy_key"], ([api_key, proxy_key]) => {
+		ttStorage.get(["api_key"], ([api_key]) => {
 			const URLs = {
 				torn: "https://api.torn.com/",
-				yata: "https://yata.alwaysdata.net/",
-				"torn-proxy": "https://torn-proxy.com/",
+				yata__v0: "https://yata.alwaysdata.net/",
+				yata__v1: "https://yata.alwaysdata.net/api/v1/",
 				tornstats: "https://www.tornstats.com/",
 				// 'tornstats': 'https://www.torn-proxy.com/tornstats/',
 				torntools: "https://torntools.gregork.com/",
+				nukefamily: "https://www.nukefamily.org/",
 			};
 
-			const proxyFail = options.proxyFail;
 			const ogLocation = location;
-			if ((location === "torn" || location === "tornstats") && !proxyFail && proxy_key && proxy_key.length === 32) location = "torn-proxy";
 			const base = URLs[location];
 			let section;
-			if (ogLocation === "tornstats" && location === "torn-proxy") {
-				section = "tornstats/" + options.section;
-			} else if (location !== "tornstats") {
+			if (location !== "tornstats" && location !== "nukefamily") {
 				section = options.section + "/";
 			} else {
 				section = options.section;
@@ -2271,13 +3167,12 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 			const objectid = options.objectid ? options.objectid + "?" : "?";
 			const selections = options.selections || "";
 			const apiKey = api_key;
-			const proxyKey = proxy_key;
 
 			let full_url;
-			if (location === "torntools") {
+			if (location !== "torn" && location !== "tornstats") {
 				full_url = `${base}${section || ""}`;
-			} else if (proxyKey || apiKey) {
-				full_url = `${base}${section}${objectid}${selections ? "selections=" + selections : ""}${location !== "yata" ? proxyKey && !proxyFail ? `&key=${proxyKey}` : `&key=${apiKey}` : ""}`;
+			} else if (apiKey) {
+				full_url = `${base}${section}${objectid}${selections ? "selections=" + selections : ""}${location !== "yata" ? `&key=${apiKey}` : ""}`;
 				for (let param of ["action", "target", "from"]) {
 					if (options[param] === undefined) continue;
 					full_url += `&${param}=${options[param]}`;
@@ -2299,32 +3194,29 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 			}
 
 			fetch(full_url, parameters)
-				.then(async response => {
-					const result = await response.json();
-					// console.log("result", result);
+				.then(async (response) => {
+					let result = {};
+					try {
+						result = await response.json();
+						console.log("result", result);
+					} catch (err) {
+						console.log("response", response);
+						if (response.status === 200) {
+							result.success = true;
+						} else {
+							result.error = "Unknown error";
+						}
+					}
 
-					logFetch(ogLocation, (options => {
-						if (location === "torn-proxy") options.proxy = true;
-						return options;
-					})(options));
+					logFetch(ogLocation, options);
 
 					if (result.error) {
 						// Torn Proxy
-						if (result.proxy) {
-							// Revoked key
-							if (result.code === 2) {
-								return reject({ error: "Proxy Key has been revoked." });
-							} else {
-								options.proxyFail = true;
-								return fetchApi_v2(ogLocation, options);
-							}
-						}
-						// TornTools
-						else if (location === "torntools") {
+						if (location === "torntools") {
 							return reject(result);
 						}
 						// Torn API
-						else {
+						else if (ogLocation === "torn") {
 							// API offline
 							if (result.error.code === 9) {
 								console.log("API SYSTEM OFFLINE");
@@ -2340,6 +3232,8 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 									return reject({ error: result.error.error });
 								});
 							}
+						} else if (location.includes("yata")) {
+							reject(result.error);
 						}
 					} else {
 						try {
@@ -2359,27 +3253,17 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 						}
 					}
 				})
-				.catch(result => {
+				.catch((result) => {
 					// const result = await response.json();
 					console.log("result", result);
 
 					if (result.error) {
-						// Torn Proxy
-						if (result.proxy) {
-							// Revoked key
-							if (result.code === "2") {
-								return reject({ error: "Proxy Key has been revoked." });
-							} else {
-								options.proxyFail = true;
-								return fetchApi_v2(location, options);
-							}
-						}
 						// TornTools
-						else if (location === "torntools") {
+						if (location === "torntools") {
 							return reject(result);
 						}
 						// Torn API
-						else {
+						else if (ogLocation === "torn") {
 							// API offline
 							if (result.error.code === 9) {
 								console.log("API SYSTEM OFFLINE");
@@ -2395,6 +3279,8 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 									return reject({ error: result.error.error });
 								});
 							}
+						} else if (location.includes("yata")) {
+							reject(result.error);
 						}
 					}
 				});
@@ -2402,7 +3288,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 	});
 
 	function logFetch(location, options = {}) {
-		ttStorage.get("api_history", api_history => {
+		ttStorage.get("api_history", (api_history) => {
 			const section = options.section ? options.section + "/" : "";
 			const objectid = options.objectid ? options.objectid + "?" : "?";
 			const selections = options.selections || "";
@@ -2412,7 +3298,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 			let type = "other";
 
 			switch (location) {
-				case "torn-proxy" || "torn":
+				case "torn":
 					if (selections.includes("personalstats")) type = objectid === "" ? "userdata" : "profile_stats";
 					else if (selections.length && section === "user") type = "stakeouts";
 					break;
@@ -2428,6 +3314,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 					break;
 			}
 
+			location = location.split("__")[0];
 			api_history[location].push({
 				date: new Date().toString(),
 				location: location,
@@ -2446,7 +3333,7 @@ function fetchApi_v2(location, options = {/*section, objectid, selections, proxy
 // Uses fetchApi_v2
 function fetchRelay(location, options) {
 	return new Promise((resolve, reject) => {
-		chrome.runtime.sendMessage({ action: "fetch-relay", location: location, options: options }, response => {
+		chrome.runtime.sendMessage({ action: "fetch-relay", location: location, options: options }, (response) => {
 			if (response.error) return reject(response);
 			return resolve(response);
 		});

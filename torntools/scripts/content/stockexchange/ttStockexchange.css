@@ -1,176 +1,180 @@
 /* General UI */
 
 #tt-stock-filter.portfolio {
-    margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 .filter-wrap {
-    padding: 5px;
-    margin-bottom: 5px;
-    flex-basis: 0 !important;
+	padding: 5px;
+	margin-bottom: 5px;
+	flex-basis: 0 !important;
 }
 
 .tt-input-wrap input {
-    height: 10px;
-    border-radius: 3px;
-    margin-left: 4px;
-    padding: 0 3px;
-    vertical-align: unset;
+	height: 10px;
+	border-radius: 3px;
+	margin-left: 4px;
+	padding: 0 3px;
+	vertical-align: unset;
 }
 
-.tt-input-wrap input[type='text'] {
-    width: 75%;
-    height: initial;
+.tt-input-wrap input[type="text"] {
+	width: 75%;
+	height: initial;
 }
 
 .tt-checkbox-wrap > * {
-    display: inline-block;
-    vertical-align: middle;
+	display: inline-block;
+	vertical-align: middle;
 }
 
 .tt-mobile #tt-stock-filter .filter-content {
-    flex-flow: column;
+	flex-flow: column;
 }
 
 /* Legend UI */
 
 .legend-worth {
-    border-left: 2px solid;
-    background-color: white;
-    height: 16px;
-    line-height: 16px;
-    padding: 2px;
-    border-radius: 0 5px 5px 0;
-    margin-bottom: 2px;
+	border-left: 2px solid;
+	background-color: white;
+	height: 16px;
+	line-height: 16px;
+	padding: 2px;
+	border-radius: 0 5px 5px 0;
+	margin-bottom: 2px;
 }
 
 .legend-forecast {
-    background-color: white;
-    height: 16px;
-    line-height: 16px;
-    padding: 2px;
-    border-radius: 0 5px 5px 0;
-    margin-bottom: 2px;
+	background-color: white;
+	height: 16px;
+	line-height: 16px;
+	padding: 2px;
+	border-radius: 0 5px 5px 0;
+	margin-bottom: 2px;
 }
 
 /* Forecast Colors */
 
 .forecast-very_good {
-    background: #6bff71 !important;
+	background: #6bff71 !important;
 }
 
 .forecast-good {
-    background: #cbff8f !important;
+	background: #cbff8f !important;
 }
 
 .forecast-average {
 }
 
 .forecast-poor {
-    background: #ffdedc !important;
+	background: #ffdedc !important;
 }
 
 .forecast-very_poor {
-    background: #ffb0ac !important;
+	background: #ffb0ac !important;
 }
 
 /* Worth Colors */
 
 .worth > .logo-stock {
-    width: 75px !important;
+	width: 75px !important;
 }
 
 .worth > .logo {
-    width: 145px !important;
+	width: 145px !important;
 }
 
-.worth-noshares > .logo-stock, .worth-noshares > .logo {
-    border-left: solid 5px #424242 !important;
+.worth-noshares > .logo-stock,
+.worth-noshares > .logo {
+	border-left: solid 5px #424242 !important;
 }
 
-.worth-level_1 > .logo-stock, .worth-level_1 > .logo {
-    border-left: solid 5px #ff1f1f !important;
+.worth-level_1 > .logo-stock,
+.worth-level_1 > .logo {
+	border-left: solid 5px #ff1f1f !important;
 }
 
-.worth-level_2 > .logo-stock, .worth-level_2 > .logo {
-    border-left: solid 5px #F2EA47 !important;
+.worth-level_2 > .logo-stock,
+.worth-level_2 > .logo {
+	border-left: solid 5px #f2ea47 !important;
 }
 
-.worth-level_3 > .logo-stock, .worth-level_3 > .logo {
-    border-left: solid 5px #7be12e !important;
+.worth-level_3 > .logo-stock,
+.worth-level_3 > .logo {
+	border-left: solid 5px #7be12e !important;
 }
 
 /* Block Formatting */
 
 .block-wording {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 .block-profit {
-    color: green;
+	color: green;
 }
 
 .block-loss {
-    color: red;
+	color: red;
 }
 
 .block-break-even {
-    color: blue;
+	color: blue;
 }
 
 .tt-mobile .block-bb {
-    margin-right: 2px;
+	margin-right: 2px;
 }
 
 .stock-list .item .owned.tt-modified {
-    line-height: 20px !important;
+	line-height: 20px !important;
 }
 
 /* Stock Formatting */
 
 .tt-mobile .b-price-wrap .second-row .prop-wrap {
-    white-space: normal;
+	white-space: normal;
 }
 
 .difference {
-    cursor: default;
-    font-size: 12px;
-    margin-left: 2px;
-    color: green;
-    font-weight: 400;
-    font-family: Arial;
-    white-space: nowrap;
+	cursor: default;
+	font-size: 12px;
+	margin-left: 2px;
+	color: green;
+	font-weight: 400;
+	font-family: Arial;
+	white-space: nowrap;
 }
 
 .difference:not(.up):not(.down) {
-    color: #a57b00;
+	color: #a57b00;
 }
 
 .difference.up {
-    color: green;
+	color: green;
 }
 
 .difference.down {
-    color: red;
+	color: red;
 }
 
 .difference i {
-    padding-left: 13px;
-    height: 9px;
-    display: inline-block;
+	padding-left: 13px;
+	height: 9px;
+	display: inline-block;
 }
 
 .difference:not(.up):not(.down) i {
-    background: url("https://torn.com/images/v2/stock/up_down_steady.png") 0 -16px no-repeat;
-    height: 16px;
-    display: inline-block;
-    vertical-align: middle;
+	background: url("https://torn.com/images/v2/stock/up_down_steady.png") 0 -16px no-repeat;
+	height: 16px;
+	display: inline-block;
+	vertical-align: middle;
 }
 
 .difference.up i {
-    background: url("https://torn.com/images/v2/stock/up_down_steady.png") 0 -7px no-repeat;
+	background: url("https://torn.com/images/v2/stock/up_down_steady.png") 0 -7px no-repeat;
 }
 
 .difference.down i {
-    background: url("https://torn.com/images/v2/stock/up_down_steady.png") 0 1px no-repeat;
+	background: url("https://torn.com/images/v2/stock/up_down_steady.png") 0 1px no-repeat;
 }

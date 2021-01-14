@@ -32,7 +32,9 @@ function loadTeamPage() {
 function showStatsEstimates() {
 	estimateStatsInList("ul.competition-list > li:not(.tt-userinfo-container)", (row) => {
 		return {
-			userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1],
+			userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(
+				/.* \[([0-9]*)]/i
+			)[1],
 			level: parseInt(row.find(".level").innerText),
 		};
 	});
@@ -41,11 +43,13 @@ function showStatsEstimates() {
 function addFilter(list, title) {
 	if (doc.find("#tt-player-filter")) return;
 
-	let filter_container = content.newContainer("Filters", {
-		id: "tt-player-filter",
-		class: "filter-container",
-		next_element: title,
-	}).find(".content");
+	let filter_container = content
+		.newContainer("Filters", {
+			id: "tt-player-filter",
+			class: "filter-container",
+			next_element: title,
+		})
+		.find(".content");
 
 	filter_container.innerHTML = `
         <div class="filter-header">
@@ -107,8 +111,8 @@ function addFilter(list, title) {
 	});
 
 	let level_slider_info = level_slider.nextElementSibling;
-	level_slider.noUiSlider.on("update", values => {
-		values = values.map(x => parseInt(x));
+	level_slider.noUiSlider.on("update", (values) => {
+		values = values.map((x) => parseInt(x));
 		level_slider_info.innerHTML = `Level: ${values.join(" - ")}`;
 	});
 
@@ -119,12 +123,14 @@ function addFilter(list, title) {
 	for (let dropdown of filter_container.findAll("select")) {
 		dropdown.onchange = applyFilters;
 	}
-	let filter_observer = new MutationObserver(mutations => {
+	let filter_observer = new MutationObserver((mutations) => {
 		for (let mutation of mutations) {
-			if (mutation.type === "attributes"
-				&& mutation.target.classList
-				&& mutation.attributeName === "aria-valuenow"
-				&& (mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))) {
+			if (
+				mutation.type === "attributes" &&
+				mutation.target.classList &&
+				mutation.attributeName === "aria-valuenow" &&
+				(mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))
+			) {
 				applyFilters();
 			}
 		}
@@ -132,7 +138,7 @@ function addFilter(list, title) {
 	filter_observer.observe(filter_container, { attributes: true, subtree: true });
 
 	// Page changing
-	doc.addEventListener("click", event => {
+	doc.addEventListener("click", (event) => {
 		if (event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, { class: "gallery-wrapper" })) {
 			console.log("click");
 			setTimeout(() => {
@@ -152,7 +158,10 @@ function addFilter(list, title) {
 
 		// Special
 		for (let key in filters.competition.special) {
-			if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked && doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked) {
+			if (
+				doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked &&
+				doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked
+			) {
 				special[key] = "both";
 			} else if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked) {
 				special[key] = "yes";
@@ -225,12 +234,18 @@ function addFilter(list, title) {
 	function showRow(row, show = true) {
 		if (show) {
 			row.classList.remove("filter-hidden");
-			if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container"))) {
+			if (
+				row.nextElementSibling &&
+				(row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container"))
+			) {
 				row.nextElementSibling.classList.remove("filter-hidden");
 			}
 		} else {
 			row.classList.add("filter-hidden");
-			if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container"))) {
+			if (
+				row.nextElementSibling &&
+				(row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container"))
+			) {
 				row.nextElementSibling.classList.add("filter-hidden");
 			}
 		}
@@ -239,8 +254,7 @@ function addFilter(list, title) {
 	function updateStatistics() {
 		const users = [...list.findAll(":scope > li:not(.tt-userinfo-container)")];
 
-		doc.find(".statistic#showing .filter-count").innerText = users.filter(x => (!x.classList.contains("filter-hidden"))).length;
+		doc.find(".statistic#showing .filter-count").innerText = users.filter((x) => !x.classList.contains("filter-hidden")).length;
 		doc.find(".statistic#showing .filter-total").innerText = users.length;
 	}
-
 }

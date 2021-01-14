@@ -1,13 +1,11 @@
 requireDatabase().then(() => {
-	addXHRListener(event => {
+	addXHRListener((event) => {
 		const { page, xhr } = event.detail;
 
 		const params = new URL(xhr.responseURL).searchParams;
 
 		if (page === "loader2") {
-			if (params.get("sid") === "racingActions" &&
-				params.get("step") === "partsbuy" &&
-				params.get("confirm") === "1") {
+			if (params.get("sid") === "racingActions" && params.get("step") === "partsbuy" && params.get("confirm") === "1") {
 				setTimeout(resetUpgrades, 250);
 				// showUpgrades();
 			}
@@ -66,7 +64,7 @@ function showUpgrades() {
 
 	parts = parts.filter((value, index, self) => self.indexOf(value) === index);
 	let needed = [];
-	parts.forEach(part => {
+	parts.forEach((part) => {
 		if (doc.find(`.pm-items .bought[data-part="${part}"]`)) return;
 
 		const color = `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`;
@@ -108,17 +106,23 @@ function showUpgrades() {
 		}
 	});
 
-	doc.find("#racingAdditionalContainer > .info-msg-cont .msg").appendChild(doc.new({
-		type: "p",
-		class: "tt-race-upgrades",
-		html: `
+	doc.find("#racingAdditionalContainer > .info-msg-cont .msg").appendChild(
+		doc.new({
+			type: "p",
+			class: "tt-race-upgrades",
+			html: `
 			<br/>
 			<br/>
-			${needed.length ? `
+			${
+				needed.length
+					? `
 			<strong class="counter">${needed.length}</strong> part available to upgrade: <strong>${needed.join("<span class='separator'>, </span>")}</strong>
-			` : "Your car is <strong style='color: #789e0c;'>FULLY UPGRADED</strong>"}
+			`
+					: "Your car is <strong style='color: #789e0c;'>FULLY UPGRADED</strong>"
+			}
 		`,
-	}));
+		})
+	);
 }
 
 function resetUpgrades() {
@@ -129,10 +133,8 @@ function resetUpgrades() {
 		item.classList.remove("tt-modified");
 		item.find(".status").style["background-color"] = "";
 		item.find(".status").classList.remove("tt-modified");
-		item.onmouseenter = () => {
-		};
-		item.onmouseleave = () => {
-		};
+		item.onmouseenter = () => {};
+		item.onmouseleave = () => {};
 
 		for (let item of doc.findAll(".pm-items .unlock")) {
 			if (item.getAttribute("data-part") === part) {
@@ -153,8 +155,7 @@ function resetUpgrades() {
 
 		const neededUpgrade = doc.find(`.tt-race-upgrade-needed[part="${part}"]`);
 		if (neededUpgrade) {
-			if (neededUpgrade.nextElementSibling && neededUpgrade.nextElementSibling.classList.contains("separator"))
-				neededUpgrade.nextElementSibling.remove();
+			if (neededUpgrade.nextElementSibling && neededUpgrade.nextElementSibling.classList.contains("separator")) neededUpgrade.nextElementSibling.remove();
 			neededUpgrade.remove();
 		}
 	}

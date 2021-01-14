@@ -1,47 +1,73 @@
-only_wants_database = true;
-
 requireDatabase(false).then(() => {
+	console.log("TT - API page");
+
 	// auto-fill API key
-	let demo_page_checker = setInterval(() => {
-		if (document.querySelector("#demo").style.display !== "none") {
-			// apply API key
-			if (settings.pages.api.key) {
-				doc.find("#api_key").value = api_key;
-				doc.find("#api_key").focus();
-			}
+	if (settings.pages.api.marking) {
+		doc.find("#api_key").addEventListener("focusout", () => {
+			for (let panel of doc.findAll(".panel-group")) {
+				const name = panel.previousElementSibling.innerText.toLowerCase();
+				const id = panel.find("div[role=tabpanel]").id;
 
-			if (settings.pages.api.marking) {
-				// Show fields in use
-				for (let panel of doc.findAll(".panel-group")) {
+				if (panel.find(".panel-collapse").classList.contains("in")) {
+					requireCondition(() => !findFieldsContainer(id).classList.contains("tt-modified")).then(() => markFields(name, id));
+				} else {
 					panel.addEventListener("click", markFieldsTimeout);
-					panel.find("button").addEventListener("click", event => {
-						let response_div = event.target.nextElementSibling;
-						let responses_before = [...response_div.findAll("span")].length;
+				}
+				panel.find("button").addEventListener("click", (event) => {
+					let response_div = event.target.nextElementSibling;
+					let responses_before = [...response_div.findAll("span")].length;
 
-						responseLoaded(response_div, responses_before).then(loaded => {
-							if (!loaded)
-								return;
+					responseLoaded(response_div, responses_before).then((loaded) => {
+						if (!loaded) return;
 
-							let type = panel.previousElementSibling.innerText.toLowerCase();
-							let fields = panel.find(`#${type[0]}_selections`).value;
-							markResponse(type, fields, response_div.firstElementChild.find("pre"));
-						});
+						let type = panel.previousElementSibling.innerText.toLowerCase();
+						let fields = panel.find(`#${type[0]}_selections`).value;
+						markResponse(type, fields, response_div.firstElementChild.find("pre"));
 					});
+				});
 
-					function markFieldsTimeout() {
-						setTimeout(() => {
-							let name = panel.previousElementSibling.innerText.toLowerCase();
-							let id = panel.find("div[role=tabpanel]").id;
-							markFields(name, id);
-							panel.removeEventListener("click", markFieldsTimeout);
-						}, 500);
-					}
+				function markFieldsTimeout() {
+					setTimeout(() => {
+						markFields(name, id);
+						panel.removeEventListener("click", markFieldsTimeout);
+					}, 500);
 				}
 			}
-
-			clearInterval(demo_page_checker);
+		});
+	}
+	requireCondition(() => doc.find("#demo").style.display !== "none", { delay: 100 }).then(() => {
+		if (settings.pages.api.key) {
+			doc.find("#api_key").value = api_key;
+			doc.find("#api_key").focus();
 		}
-	}, 500);
+		if (settings.pages.api.marking) {
+			// Show fields in use
+			for (let panel of doc.findAll(".panel-group")) {
+				panel.addEventListener("click", markFieldsTimeout);
+				panel.find("button").addEventListener("click", (event) => {
+					let response_div = event.target.nextElementSibling;
+					let responses_before = [...response_div.findAll("span")].length;
+
+					responseLoaded(response_div, responses_before).then((loaded) => {
+						if (!loaded) return;
+
+						let type = panel.previousElementSibling.innerText.toLowerCase();
+						let fields = panel.find(`#${type[0]}_selections`).value;
+						markResponse(type, fields, response_div.firstElementChild.find("pre"));
+					});
+				});
+
+				function markFieldsTimeout() {
+					setTimeout(() => {
+						let name = panel.previousElementSibling.innerText.toLowerCase();
+						let id = panel.find("div[role=tabpanel]").id;
+						markFields(name, id);
+						panel.removeEventListener("click", markFieldsTimeout);
+					}, 500);
+				}
+			}
+		}
+	});
 
 	// auto-set all responses to Pretty
 	if (settings.pages.api.pretty) {
@@ -52,7 +78,9 @@ requireDatabase(false).then(() => {
 	}
 
 	if (settings.pages.api.autoDemo) {
-		doc.find(".demoLink").click();
+		setTimeout(() => {
+			doc.find(".demoLink").click();
+		}, 75);
 	}
 });
 
@@ -69,7 +97,7 @@ function responseLoaded(response_div, responses_before) {
 		}, 100);
 	});
 
-	return promise.then(data => data);
+	return promise.then((data) => data);
 }
 
 function markFields(name, id) {
@@ -77,7 +105,11 @@ function markFields(name, id) {
 	let strong = doc.new("strong");
 	strong.innerText = "Available fields: ";
 
-	let fields = fields_container.innerText.replace("Available fields: ", "").split(",").map(x => x.trim());
+	fields_container.classList.add("tt-modified");
+	let fields = fields_container.innerText
+		.replace("Available fields: ", "")
+		.split(",")
+		.map((x) => x.trim());
 
 	// Clear fields
 	fields_container.innerText = "";
@@ -105,7 +137,7 @@ function markFields(name, id) {
 		}
 	}
 
-	doc.findAll(".selection").forEach(selection => {
+	doc.findAll(".selection").forEach((selection) => {
 		selection.addEventListener("click", (event) => {
 			const panel = event.target.closest("div.panel-group");
 			const selections_input = panel.querySelector("input[id*=selections]");
@@ -123,7 +155,7 @@ function markFields(name, id) {
 
 function markResponse(type, fields, response_pre) {
 	console.log("marking response");
-	fields = fields.split(",").map(x => x.trim());
+	fields = fields.split(",").map((x) => x.trim());
 	console.log("fields", fields);
 
 	const response_data = JSON.parse(response_pre.innerText);
@@ -133,10 +165,12 @@ function markResponse(type, fields, response_pre) {
 		class: "modified",
 	});
 
-	new_pre.appendChild(doc.new({
-		type: "span",
-		text: "{",
-	}));
+	new_pre.appendChild(
+		doc.new({
+			type: "span",
+			text: "{",
+		})
+	);
 
 	let top_level_fields = [...fields];
 
@@ -157,10 +191,12 @@ function markResponse(type, fields, response_pre) {
 
 	loadResponses(type, response_data, new_pre, 1, false, fields);
 
-	new_pre.appendChild(doc.new({
-		type: "div",
-		text: "}",
-	}));
+	new_pre.appendChild(
+		doc.new({
+			type: "div",
+			text: "",
+		})
+	);
 
 	response_pre.classList.add("original");
 	response_pre.parentElement.insertBefore(new_pre, response_pre);
@@ -200,33 +236,33 @@ function loadResponses(type, response, modifiedSection, level, skipFirstLine, se
 	for (let responseField in response) {
 		if (!response.hasOwnProperty(responseField)) continue;
 
-		if (!skipLine)
-			modifiedSection.appendChild(doc.new("br"));
-		else
-			skipLine = false;
+		if (!skipLine) modifiedSection.appendChild(doc.new("br"));
+		else skipLine = false;
 
 		if (typeof response[responseField] === "object") {
 			if (Array.isArray(response[responseField])) {
-				modifiedSection.appendChild(doc.new({
-					type: "span",
-					text: `${indent}"${responseField}": [`,
-				}));
+				modifiedSection.appendChild(
+					doc.new({
+						type: "span",
+						text: `${indent}"${responseField}": [`,
+					})
+				);
 
 				let skipLine = false;
 				for (let item of response[responseField]) {
 					const isLast = lastInList(item, response[responseField]);
 
-					if (!skipLine)
-						modifiedSection.appendChild(doc.new("br"));
-					else
-						skipLine = false;
+					if (!skipLine) modifiedSection.appendChild(doc.new("br"));
+					else skipLine = false;
 
 					if (typeof item === "object") {
 						if (Array.isArray(item)) {
-							modifiedSection.appendChild(doc.new({
-								type: "span",
-								text: `${getIndent(level + 1)}NOT SUPPORTED`,
-							}));
+							modifiedSection.appendChild(
+								doc.new({
+									type: "span",
+									text: `${getIndent(level + 1)}NOT SUPPORTED`,
+								})
+							);
 						} else {
 							showObject({
 								object: item,
@@ -245,10 +281,12 @@ function loadResponses(type, response, modifiedSection, level, skipFirstLine, se
 					}
 				}
 
-				modifiedSection.appendChild(doc.new({
-					type: "div",
-					text: `${indent}]${lastInList(responseField, Object.keys(response)) ? "" : ","}`,
-				}));
+				modifiedSection.appendChild(
+					doc.new({
+						type: "div",
+						text: `${indent}]${lastInList(responseField, Object.keys(response)) ? "" : ","}`,
+					})
+				);
 			} else {
 				showObject({
 					name: responseField,
@@ -282,32 +320,36 @@ function loadResponses(type, response, modifiedSection, level, skipFirstLine, se
 		};
 
 		if (attributes.name && attributes.items) {
-			if (!attributes.object)
-				attributes.object = attributes.items[attributes.name];
-			if (!attributes.isLast)
-				attributes.isLast = lastInList(attributes.name, attributes.items);
+			if (!attributes.object) attributes.object = attributes.items[attributes.name];
+			if (!attributes.isLast) attributes.isLast = lastInList(attributes.name, attributes.items);
 		}
 
 		const indent = getIndent(attributes.level);
 
 		if (attributes.name) {
-			modifiedSection.appendChild(doc.new({
-				type: "div",
-				text: `${indent}"${attributes.name}": {`,
-			}));
+			modifiedSection.appendChild(
+				doc.new({
+					type: "div",
+					text: `${indent}"${attributes.name}": {`,
+				})
+			);
 		} else {
-			modifiedSection.appendChild(doc.new({
-				type: "div",
-				text: `${indent}{`,
-			}));
+			modifiedSection.appendChild(
+				doc.new({
+					type: "div",
+					text: `${indent}{`,
+				})
+			);
 		}
 
 		loadResponses(type, attributes.object, modifiedSection, attributes.level + 1, true, selections);
 
-		modifiedSection.appendChild(doc.new({
-			type: "div",
-			text: `${indent}}${attributes.isLast ? "" : ","}`,
-		}));
+		modifiedSection.appendChild(
+			doc.new({
+				type: "div",
+				text: `${indent}}${attributes.isLast ? "" : ","}`,
+			})
+		);
 	}
 
 	function showText(attr) {
@@ -317,10 +359,8 @@ function loadResponses(type, response, modifiedSection, level, skipFirstLine, se
 		};
 
 		if (attributes.name && attributes.items) {
-			if (!attributes.value)
-				attributes.value = attributes.items[attributes.name];
-			if (!attributes.isLast)
-				attributes.isLast = lastInList(attributes.name, attributes.items);
+			if (!attributes.value) attributes.value = attributes.items[attributes.name];
+			if (!attributes.isLast) attributes.isLast = lastInList(attributes.name, attributes.items);
 		}
 
 		const quotation_marks = typeof attributes.value == "string";
@@ -352,7 +392,6 @@ function loadResponses(type, response, modifiedSection, level, skipFirstLine, se
 
 		modifiedSection.appendChild(span);
 	}
-
 }
 
 const field_db = {
@@ -363,13 +402,8 @@ const field_db = {
 const in_use = {
 	user: {
 		ammo: ["*"],
-		battlestats: [
-			"strength", "speed", "dexterity", "defense", "total",
-		],
-		crimes: [
-			"selling_illegal_products", "theft", "auto_theft", "drug_deals", "computer_crimes",
-			"murder", "fraud_crimes", "other", "total",
-		],
+		battlestats: ["strength", "speed", "dexterity", "defense", "total"],
+		crimes: ["selling_illegal_products", "theft", "auto_theft", "drug_deals", "computer_crimes", "murder", "fraud_crimes", "other", "total"],
 		personalstats: [
 			"cityfinds",
 			"dumpfinds",
@@ -468,82 +502,100 @@ const in_use = {
 
 const markings = {
 	user: {
-		ammo: [],  // Owned ammo types and quantities
-		attacks: [],  // last 100
-		attacksfull: [],  // last 1000
-		bars: [
-			"server_time", "happy", "life", "energy", "nerve", "chain",
-		],
-		basic: [
-			"level", "gender", "player_id", "name", "status",
-		],
+		ammo: [], // Owned ammo types and quantities
+		attacks: [], // last 100
+		attacksfull: [], // last 1000
+		bars: ["server_time", "happy", "life", "energy", "nerve", "chain"],
+		basic: ["level", "gender", "player_id", "name", "status"],
 		battlestats: [
-			"strength", "speed", "dexterity", "defense", "total",
-			"strength_modifier", "defense_modifier", "speed_modifier",
-			"dexterity_modifier", "strength_info", "defense_info",
-			"speed_info", "dexterity_info",
+			"strength",
+			"speed",
+			"dexterity",
+			"defense",
+			"total",
+			"strength_modifier",
+			"defense_modifier",
+			"speed_modifier",
+			"dexterity_modifier",
+			"strength_info",
+			"defense_info",
+			"speed_info",
+			"dexterity_info",
 		],
 		bazaar: [],
-		cooldowns: [
-			"drug", "medical", "booster",
-		],
-		crimes: [
-			"selling_illegal_products", "theft", "auto_theft", "drug_deals",
-			"computer_crimes", "murder", "fraud_crimes", "other", "total",
-		],
-		discord: [
-			"userID", "discordID",
-		],
-		display: [],  // Item display cabinet
-		education: [
-			"education_current", "education_timeleft", "education_completed",
-		],
+		cooldowns: ["drug", "medical", "booster"],
+		crimes: ["selling_illegal_products", "theft", "auto_theft", "drug_deals", "computer_crimes", "murder", "fraud_crimes", "other", "total"],
+		discord: ["userID", "discordID"],
+		display: [], // Item display cabinet
+		education: ["education_current", "education_timeleft", "education_completed"],
 		events: [],
-		gym: [
-			"active_gym",
-		],
-		hof: [
-			"attacks", "battlestats", "busts", "defends", "networth",
-			"offences", "revives", "traveled", "workstats", "level",
-			"rank", "respect",
-		],
-		honors: [
-			"honors_awarded", "honors_time",
-		],
+		gym: ["active_gym"],
+		hof: ["attacks", "battlestats", "busts", "defends", "networth", "offences", "revives", "traveled", "workstats", "level", "rank", "respect"],
+		honors: ["honors_awarded", "honors_time"],
 		icons: [],
 		inventory: [],
-		jobpoints: [
-			"jobs", "companies",
-		],
-		medals: [
-			"medals_awarded", "medals_time",
-		],
+		jobpoints: ["jobs", "companies"],
+		medals: ["medals_awarded", "medals_time"],
 		merits: [
-			"Nerve Bar", "Critical Hit Rate", "Life Points", "Crime Experience",
-			"Education Length", "Awareness", "Bank Interest", "Masterful Looting",
-			"Stealth", "Hospitalizing", "Brawn", "Protection", "Sharpness", "Evasion",
-			"Heavy Artillery Mastery", "Machine Gun Mastery", "Rifle Mastery", "SMG Mastery",
-			"Shotgun Mastery", "Pistol Mastery", "Club Mastery", "Piercing Mastery",
-			"Slashing Mastery", "Mechanical Mastery", "Temporary Mastery",
+			"Nerve Bar",
+			"Critical Hit Rate",
+			"Life Points",
+			"Crime Experience",
+			"Education Length",
+			"Awareness",
+			"Bank Interest",
+			"Masterful Looting",
+			"Stealth",
+			"Hospitalizing",
+			"Brawn",
+			"Protection",
+			"Sharpness",
+			"Evasion",
+			"Heavy Artillery Mastery",
+			"Machine Gun Mastery",
+			"Rifle Mastery",
+			"SMG Mastery",
+			"Shotgun Mastery",
+			"Pistol Mastery",
+			"Club Mastery",
+			"Piercing Mastery",
+			"Slashing Mastery",
+			"Mechanical Mastery",
+			"Temporary Mastery",
 		],
 		messages: [],
-		money: [
-			"points", "cayman_bank", "vault_amount", "networth",
-			"money_onhand", "city_bank",
-		],
+		money: ["points", "cayman_bank", "vault_amount", "networth", "money_onhand", "city_bank"],
 		networth: [
-			"pending", "wallet", "bank", "points", "cayman",
-			"vault", "piggybank", "items", "displaycase",
-			"bazaar", "properties", "stockmarket", "auctionhouse",
-			"company", "bookie", "loan", "unpaidfees", "total",
+			"pending",
+			"wallet",
+			"bank",
+			"points",
+			"cayman",
+			"vault",
+			"piggybank",
+			"items",
+			"displaycase",
+			"bazaar",
+			"properties",
+			"stockmarket",
+			"auctionhouse",
+			"company",
+			"bookie",
+			"loan",
+			"unpaidfees",
+			"total",
 			"parsetime",
 		],
-		notifications: [
-			"messages", "events", "awards", "competition",
-		],
+		notifications: ["messages", "events", "awards", "competition"],
 		perks: [
-			"job_perks", "property_perks", "stock_perks", "merit_perks",
-			"education_perks", "enhancer_perks", "company_perks", "faction_perks",
+			"job_perks",
+			"property_perks",
+			"stock_perks",
+			"merit_perks",
+			"education_perks",
+			"enhancer_perks",
+			"company_perks",
+			"faction_perks",
 			"book_perks",
 		],
 		personalstats: [
@@ -614,29 +666,41 @@ const markings = {
 			"spousemailssent",
 		],
 		profile: [
-			"rank", "level", "gender", "property", "signup", "awards",
-			"friends", "enemies", "forum_posts", "karma", "age",
-			"role", "donator", "player_id", "name", "property_id",
-			"life", "status", "job", "faction", "married", "basicicons",
-			"states", "last_action",
+			"rank",
+			"level",
+			"gender",
+			"property",
+			"signup",
+			"awards",
+			"friends",
+			"enemies",
+			"forum_posts",
+			"karma",
+			"age",
+			"role",
+			"donator",
+			"player_id",
+			"name",
+			"property_id",
+			"life",
+			"status",
+			"job",
+			"faction",
+			"married",
+			"basicicons",
+			"states",
+			"last_action",
 		],
 		properties: [],
 		receivedevents: [],
-		refills: [
-			"energy_refill_used", "nerve_refill_used", "token_refill_used",
-			"special_refills_available",
-		],
+		refills: ["energy_refill_used", "nerve_refill_used", "token_refill_used", "special_refills_available"],
 		revives: [],
 		revivesfull: [],
 		stocks: [],
 		timestamp: [],
-		travel: [
-			"destination", "timestamp", "departed", "time_left",
-		],
+		travel: ["destination", "timestamp", "departed", "time_left"],
 		weaponexp: [],
-		workstats: [
-			"manual_labor", "intelligence", "endurance",
-		],
+		workstats: ["manual_labor", "intelligence", "endurance"],
 	},
 };
 

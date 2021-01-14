@@ -28,14 +28,19 @@ function interceptXHR(channel) {
 				if (isJsonString(this.response)) json = JSON.parse(this.response);
 				else uri = getUrlParams(this.responseURL);
 
-				window.dispatchEvent(new CustomEvent(channel, {
-					detail: {
-						page, json, uri, xhr: {
-							...this,
-							responseURL: this.responseURL,
+				window.dispatchEvent(
+					new CustomEvent(channel, {
+						detail: {
+							page,
+							json,
+							uri,
+							xhr: {
+								...this,
+								responseURL: this.responseURL,
+							},
 						},
-					},
-				}));
+					})
+				);
 			}
 		});
 
@@ -59,17 +64,17 @@ function interceptXHR(channel) {
 	 * JavaScript Get URL Parameter (https://www.kevinleary.net/javascript-get-url-parameters/)
 	 */
 	function getUrlParams(url, prop) {
-		const search = decodeURIComponent(((url) ? url : window.location.href).slice(window.location.href.indexOf("?") + 1));
+		const search = decodeURIComponent((url ? url : window.location.href).slice(window.location.href.indexOf("?") + 1));
 		const definitions = search.split("&");
 
 		let params = {};
-		definitions.forEach(val => {
+		definitions.forEach((val) => {
 			const parts = val.split("=", 2);
 
 			params[parts[0]] = parts[1];
 		});
 
-		return (prop && prop in params) ? params[prop] : params;
+		return prop && prop in params ? params[prop] : params;
 	}
 
 	// Global functions

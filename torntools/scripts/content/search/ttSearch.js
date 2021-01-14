@@ -25,8 +25,7 @@ requireDatabase().then(() => {
 
 		addFilterToTable(list, title);
 
-		if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.userlist)
-			showStatsEstimates();
+		if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.userlist) showStatsEstimates();
 	});
 });
 
@@ -35,11 +34,13 @@ function searchLoaded() {
 }
 
 function massMessages(theme) {
-	let container = content.newContainer("Search", {
-		first: true,
-		theme: theme,
-		id: "ttSearchContainer",
-	}).find(".content");
+	let container = content
+		.newContainer("Search", {
+			first: true,
+			theme: theme,
+			id: "ttSearchContainer",
+		})
+		.find(".content");
 
 	let add_all_to_list = doc.new({ type: "div", id: "tt-add-all-to-mm-list", text: "Add all to List" });
 	container.appendChild(add_all_to_list);
@@ -53,7 +54,7 @@ function massMessages(theme) {
 		}
 
 		console.log("LIST", list);
-		ttStorage.get("mass_messages", mass_messages => {
+		ttStorage.get("mass_messages", (mass_messages) => {
 			mass_messages.list = [...mass_messages.list, ...list];
 			ttStorage.set({ mass_messages });
 		});
@@ -61,11 +62,13 @@ function massMessages(theme) {
 }
 
 function addFilterToTable(list, title) {
-	let filter_container = content.newContainer("Filters", {
-		id: "tt-player-filter",
-		class: "filter-container",
-		next_element: title,
-	}).find(".content");
+	let filter_container = content
+		.newContainer("Filters", {
+			id: "tt-player-filter",
+			class: "filter-container",
+			next_element: title,
+		})
+		.find(".content");
 
 	filter_container.innerHTML = `
         <div class="filter-header">
@@ -163,8 +166,8 @@ function addFilterToTable(list, title) {
 	});
 
 	let level_slider_info = level_slider.nextElementSibling;
-	level_slider.noUiSlider.on("update", values => {
-		values = values.map(x => parseInt(x));
+	level_slider.noUiSlider.on("update", (values) => {
+		values = values.map((x) => parseInt(x));
 		level_slider_info.innerHTML = `Level: ${values.join(" - ")}`;
 	});
 
@@ -175,12 +178,14 @@ function addFilterToTable(list, title) {
 	for (let dropdown of filter_container.findAll("select")) {
 		dropdown.onchange = applyFilters;
 	}
-	let filter_observer = new MutationObserver(mutations => {
+	let filter_observer = new MutationObserver((mutations) => {
 		for (let mutation of mutations) {
-			if (mutation.type === "attributes"
-				&& mutation.target.classList
-				&& mutation.attributeName === "aria-valuenow"
-				&& (mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))) {
+			if (
+				mutation.type === "attributes" &&
+				mutation.target.classList &&
+				mutation.attributeName === "aria-valuenow" &&
+				(mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))
+			) {
 				applyFilters();
 			}
 		}
@@ -188,7 +193,7 @@ function addFilterToTable(list, title) {
 	filter_observer.observe(filter_container, { attributes: true, subtree: true });
 
 	// Page changing
-	doc.addEventListener("click", event => {
+	doc.addEventListener("click", (event) => {
 		if (event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, { class: "gallery-wrapper" })) {
 			console.log("click");
 			setTimeout(() => {
@@ -225,7 +230,10 @@ function addFilterToTable(list, title) {
 		}
 		// Special
 		for (let key in filters.user_list.special) {
-			if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked && doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked) {
+			if (
+				doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked &&
+				doc.find(`#tt-player-filter #special-filter input[value='${key}-no']`).checked
+			) {
 				special[key] = "both";
 			} else if (doc.find(`#tt-player-filter #special-filter input[value='${key}-yes']`).checked) {
 				special[key] = "yes";
@@ -321,20 +329,25 @@ function addFilterToTable(list, title) {
 	function showRow(row, show = true) {
 		if (show) {
 			row.classList.remove("filter-hidden");
-			if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container")))
+			if (
+				row.nextElementSibling &&
+				(row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container"))
+			)
 				row.nextElementSibling.classList.remove("filter-hidden");
 		} else {
 			row.classList.add("filter-hidden");
-			if (row.nextElementSibling && (row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container")))
+			if (
+				row.nextElementSibling &&
+				(row.nextElementSibling.classList.contains("tt-user-info") || row.nextElementSibling.classList.contains("tt-userinfo-container"))
+			)
 				row.nextElementSibling.classList.add("filter-hidden");
 		}
 	}
 
 	function updateStatistics() {
-		doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li")].filter(x => (!x.classList.contains("filter-hidden"))).length;
+		doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li")].filter((x) => !x.classList.contains("filter-hidden")).length;
 		doc.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope>li")].length;
 	}
-
 }
 
 function showStatsEstimates() {
@@ -342,7 +355,9 @@ function showStatsEstimates() {
 
 	estimateStatsInList("ul.user-info-list-wrap > li:not(.last)", (row) => {
 		return {
-			userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(/.* \[([0-9]*)]/i)[1],
+			userId: (row.find("a.user.name").getAttribute("data-placeholder") || row.find("a.user.name > span").getAttribute("title")).match(
+				/.* \[([0-9]*)]/i
+			)[1],
 			level: parseInt(row.find(".level .value").innerText),
 		};
 	});

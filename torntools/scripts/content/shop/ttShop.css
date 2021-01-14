@@ -1,38 +1,38 @@
 /* Shop profits */
 .tt-shop-price {
-    position: absolute;
-    top: 25px;
-    right: 50px;
-    font-weight: 400;
-    font-size: 11px;
+	position: absolute;
+	top: 25px;
+	right: 50px;
+	font-weight: 400;
+	font-size: 11px;
 }
 
 .tt-shop-price-indicator {
-    width: 0;
-    height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    float: left;
-    position: relative;
-    top: 5px;
-    margin-right: 2px;
+	width: 0;
+	height: 0;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	float: left;
+	position: relative;
+	top: 5px;
+	margin-right: 2px;
 }
 
 /* Fill max */
 span.buy-act {
-    position: relative;
+	position: relative;
 }
 
 span.buy-act a {
-    position: relative;
-    top: -7px;
+	position: relative;
+	top: -7px;
 }
 
 .tt-max-buy {
-    position: absolute;
-    height: 15px;
-    line-height: 15px;
-    bottom: 0;
-    left: 7px;
-    font-size: 9px;
+	position: absolute;
+	height: 15px;
+	line-height: 15px;
+	bottom: 0;
+	left: 7px;
+	font-size: 9px;
 }

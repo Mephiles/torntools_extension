@@ -5,7 +5,7 @@ const MISSIONS = {
 	"New Kid on the Block": { task: "Defeat any 5 players." },
 	"Against the Odds": { task: "Defeat 2 (P)." },
 	"A Good Day To Get Hard": {
-		task: "Achieve a killstreak of 10.",
+		task: "Achieve a killstreak of 7-10.",
 		hint: "Buying 10 defends works just as well as doing the attacks yourself. If you lose or are killed, you have to start over.",
 	},
 	"A Kimpossible Task": {
@@ -13,18 +13,24 @@ const MISSIONS = {
 		hint: "Guns don't have to be unequipped. DO NOT USE primary or secondary weapons.",
 	},
 	"An Honorary Degree": { task: "Defeat (P) without using any guns.", hint: "Guns don't have to be unequipped. DO NOT USE primary or secondary weapons." },
-	"A Problem at the Tracks": { task: "Defeat 3 (P) without using guns.", hint: "Unequip your guns. You can attack with melee, fists, kick, and temporary." },
+	"A Problem at the Tracks": {
+		task: "Defeat 3 (P) without using guns.",
+		hint: "You don't have to enequip your guns. You can attack with melee, fists, kick, and temporary.",
+	},
 	"Army of One": {
 		task: "Attack (P) 3 times as normal, with mask, with different mask.",
 		hint: "Duke sends you 2 random masks to wear. Make sure one of the attacks has no mask on.",
 	},
 	"A Thor Loser": {
-		task: "Use Duke's hammer and hit 15 different body parts.",
-		hint: "There are approximately 20-30 different body parts in Torn people. Attempt to find someone tanky to maximize your hits per energy spent (unless you are planning to spend a ton of energy).",
+		task: "Use Duke's hammer and hit 14/15 different body parts.",
+		hint:
+			"There are approximately 20-30 different body parts in Torn people. Attempt to find someone tanky to maximize your hits per energy spent (unless you are planning to spend a ton of energy).",
 	},
 	"Bakeout Breakout": {
-		task: "Buy a fruitcake, use cake frosting & lock-picking kits from inventory sent by Duke, then send special fruitcake to any player in jail. Player does not actually receive the item.",
-		hint: "To make the final cake, you only have to use the frosting, or the lock pick. Once one item is used, the other item is also used to make the final product.",
+		task:
+			"Buy a fruitcake, use cake frosting & lock-picking kits from inventory sent by Duke, then send special fruitcake to any player in jail. Player does not actually receive the item.",
+		hint:
+			"To make the final cake, you only have to use the frosting, or the lock pick. Once one item is used, the other item is also used to make the final product.",
 	},
 	"Bare Knuckle": {
 		task: "Defeat (P) with no weapons or armour equipped.",
@@ -36,17 +42,18 @@ const MISSIONS = {
 	},
 	"Big Tub of Muscle": {
 		task: "Defeat (P) despite their gargantuan strength.",
-		hint: "If you have booster capability, serotonin may help. Stacking boosters by attacking easy targets with different temporary boosters consecutively will really help, but may be overkill in terms of cost.",
+		hint:
+			"If you have booster capability, serotonin may help. Stacking boosters by attacking easy targets with different temporary boosters consecutively will really help, but may be overkill in terms of cost.",
 	},
 	"Birthday Surprise": { task: "Obtain (an item), place in empty box, gift wrap, send to Duke." },
-	"Bonnie & Clyde": { task: "Defeat (P) and spouse of (P)." },
-	Bountiful: { task: "Claim 2/3/5 bounties.", hint: "Make sure to hospitalize the target." },
+	"Bonnie and Clyde": { task: "Defeat (P) and spouse of (P)." },
+	Bountiful: { task: "Claim 2-5 bounties.", hint: "Make sure to hospitalize the target." },
 	"Bounty on the Mutiny": { task: "Bounty (P) and wait for bounty to be fulfilled.", hint: "You cannot claim your own bounties." },
 	"Bring it!": {
 		task: "Defeat Duke within 7 days of activating this mission.",
 		hint: "Jump in when he gets looted 5-6 times a day, do not have to land finishing hit.",
 	},
-	"Candy from Babies": { task: "Collect $150k/$250k in bounties.", hint: "Make sure to hospitalize the target." },
+	"Candy From Babies": { task: "Collect $150k/$250k in bounties.", hint: "Doesn't have to be in a single bounty. Make sure to hospitalize the target(s)." },
 	"Charity Work": {
 		task: "Mug 2 (P).",
 		hint: "Must be a successful mug. If target was recently mugged, I suggest sending cash to the target, then mugging.",
@@ -55,11 +62,12 @@ const MISSIONS = {
 		task: "Defeat & Interrogate (P) to find the code for Duke's safe, then deliver the contents back to Duke after you open it.",
 		hint: "Can take 5 times to get target to talk. Contents of the safe will vary.",
 	},
-	"Critical Education": { task: "Achieve 8 critical hits.", hint: "A critical hit mod can help with this." },
+	"Critical Education": { task: "Achieve 6/8 critical hits.", hint: "A critical hit mod can help with this." },
 	"Cut Them Down to Size": { task: "Defeat someone your level or higher.", hint: "A friend can help by unequipping and dropping to 1 hp." },
 	"Dirty Little Secret": {
 		task: "Put a bounty on (P), wait for it to be claimed, attack the person who claimed the bounty.",
-		hint: "Cash prize is still calculated based on old bounty system. If the claimer is anonymous, their ID # still shows up in the mission screen. I usually just put a 100K bounty, so I can pocket most of the prize.",
+		hint:
+			"Cash prize is still calculated based on old bounty system. If the claimer is anonymous, their ID # still shows up in the mission screen. I usually just put a 100K bounty, so I can pocket most of the prize.",
 	},
 	"Double Jeopardy": {
 		task: "Put a bounty on someone, then defeat them.",
@@ -68,7 +76,8 @@ const MISSIONS = {
 	"Drug Problem": { task: "Defeat 4-7 (P)." },
 	"Emotional Debt": {
 		task: "Hit (P) with tear gas or pepper spray.",
-		hint: "Equip a tear gas or pepper spray. Hazmat Suit and the unreleased Delta Helmet blocks tear gas. Every helmet except Combat blocks pepper spray. If the temporary weapon misses, it still counts for this mission.",
+		hint:
+			"Equip a tear gas or pepper spray. Hazmat Suit and the unreleased Delta Helmet blocks tear gas. Every helmet except Combat blocks pepper spray. If the temporary weapon misses, it still counts for this mission.",
 	},
 	Estranged: { task: "Injure one of (P) legs.", hint: "I use a pillow and smoke grenade." },
 	"Family Ties": { task: "Hospitalize (P) 3 times." },
@@ -78,10 +87,11 @@ const MISSIONS = {
 	},
 	Fireworks: {
 		task: "Expend 250/500/750/1250 rounds of ammunition.",
-		hint: "Use a gun with lots of ammo such as minigun, M249 PARA LMG, or Rheinmettall MG 3 and chain or participate in NPC attacks on Duke, Jimmy or Leslie.",
+		hint:
+			"Use a gun with lots of ammo such as minigun, M249 PARA LMG, or Rheinmettall MG 3 and chain or participate in NPC attacks on Duke, Jimmy or Leslie.",
 	},
 	"Forgotten Bills": { task: "Defeat (P)." },
-	Frenzy: { task: "Defeat any 5, 7, 11, 11, or 15 players." },
+	Frenzy: { task: "Defeat any 5-15 players." },
 	"Get Things Jumping": { task: "Cause 2k/8k/10k/50k damage, receive 1k/4k/5k/25k." },
 	Graffiti: { task: "Hit (P) with pepper spray.", hint: "Equip pepper spray temp item. If you miss, must retry mission." },
 	Guardian: { task: "Defeat (P)." },
@@ -91,7 +101,7 @@ const MISSIONS = {
 	},
 	"Hands Off": { task: "Defeat 3-5 (P)." },
 	"Hare, Meet Tortoise": {
-		task: "Defeat (P) despite their lightening fast speed.",
+		task: "Defeat (P) despite their lightning fast speed.",
 		hint: "Flash Grenade and Smoke Grenade will reduce their speed. Welding Helmet blocks Flash, but nothing blocks Smoke.",
 	},
 	"Hide and Seek": {
@@ -104,12 +114,14 @@ const MISSIONS = {
 	},
 	"High Fliers": {
 		task: "Defeat 3 (P) in 3 foreign (countries).",
-		hint: "Other people with same mission can also attack target. Medicine cannot be used overseas, so plan your gear carefully. Give yourself plenty of time in the 72 hour window to fly to 3 different countries. If running out of time, can use Business Class Tickets to fly the fastest round trip.",
+		hint:
+			"Other people with same mission can also attack target. Medicine cannot be used overseas, so plan your gear carefully. Give yourself plenty of time in the 72 hour window to fly to 3 different countries. If running out of time, can use Business Class Tickets to fly the fastest round trip.",
 	},
 	Hobgoblin: { task: "Defeat a player of your choice 5 times." },
 	"Immovable Object": {
 		task: "Defeat (P) despite their impenetrable defense.",
-		hint: "Can use Epinephrine to increase your strength to counter their defense. Can get a friend to join in attack, throw a smoke, and take the defending temporary if there is one.",
+		hint:
+			"Can use Epinephrine to increase your strength to counter their defense. Can get a friend to join in attack, throw a smoke, and take the defending temporary if there is one.",
 	},
 	"Inside Job": { task: "Attack someone and secrete the item into or onto them." },
 	"Keeping Up Appearances": {
@@ -119,15 +131,16 @@ const MISSIONS = {
 	"Kiss of Death": { task: "Defeat (P) and use only the kiss option.", hint: "A kiss option shows up below leave/mug/hosp." },
 	"Lack of Awareness": { task: "Defeat (P)." },
 	"Lost and Found": { task: "Put (P) in hospital for 12 hours.", hint: "Takes at minimum 3 attacks, unless you have max merits/faction perks." },
-	"Loud and Clear": { task: "Use 5/7/11 explosive grenades.", hint: "Grenades must be a type that causes damage." },
+	"Loud and Clear": { task: "Use 5/7/9/11 explosive grenades.", hint: "Grenades must be a type that causes damage." },
 	"Loyal Customer": { task: "Defeat (P)." },
 	"Make it Slow": { task: "Defeat (P) in no fewer than 9 turns in a single attack.", hint: "Survive for at least 9 turns then defeat the target." },
-	"Marriage Counselling": { task: "Defeat the spouse of (P)." },
+	"Marriage Counseling": { task: "Defeat the spouse of (P)." },
 	Massacrist: { task: "Defeat (P)." },
 	"Meeting the Challenge": { task: "Mug people for a listed total amount." },
 	Motivator: {
 		task: "Lose or stalemate to (P).",
-		hint: "If it looks like you're about to win, time out so this mission doesn't fail. To make losing easier, if you have the ability, you can use the wrong blood bag to drop your health to 1 or fill up empty blood bags until 1 HP.",
+		hint:
+			"If it looks like you're about to win, time out so this mission doesn't fail. To make losing easier, if you have the ability, you can use the wrong blood bag to drop your health to 1 or fill up empty blood bags until 1 HP.",
 	},
 	"No Man is an Island": { task: "Mug at least 2 of 3 (P)." },
 	"No Second Chances": { task: "Defeat (P) on first attempt.", hint: "Get help if needed." },
@@ -154,7 +167,7 @@ const MISSIONS = {
 	"Red Faced": { task: "Defeat (P) using a trout as finishing hit." },
 	"Rising Costs": {
 		task: "Hit (P) with a brick.",
-		hint: "If the brick misses, you will have to retry this mission. Could get a friend to throw a smoke so the chance of the brick hitting is greater.",
+		hint: "If the brick misses, you will have to retry this mission. Could get a friend to throw a tear gas so the chance of the brick hitting is greater.",
 	},
 	"Rolling in it": {
 		task: "Mug (P).",
@@ -180,9 +193,9 @@ const MISSIONS = {
 		task: "Defeat (P) using only a slashing or piercing weapon.",
 		hint: "Equip only a slashing or piercing weapon, armor can remain equipped.",
 	},
-	"Three-Peat": { task: "Defeat any 3 players by leave 1, mug 1 and hosp 1." },
+	"Three-peat": { task: "Defeat any 3 players by leave 1, mug 1 and hosp 1." },
 	"Training Day": { task: "Spend 250e/500e/750e/1000e/1250e gym training." },
-	"Tree Huggers": { task: "Defeat 6-8 (P)." },
+	"Tree Huggers": { task: "Defeat 5-8 (P)." },
 	Undercutters: { task: "Defeat 3 (P)." },
 	"Unwanted Attention": { task: "Hospitalize 4 (P).", hint: "Must Hospitalize all targets." },
 	Withdrawal: { task: "Injure (P) both arms.", hint: "Can be easier with a pillow. Hands count as arms." },
@@ -193,13 +206,19 @@ requireDatabase().then(() => {
 	if (!settings.pages.missions.rewards) return;
 
 	addXHRListener((event) => {
-		const { page, xhr } = event.detail;
-		if (page !== "loader") return;
+		const { page, xhr, uri } = event.detail;
 
 		const params = new URLSearchParams(xhr.requestBody);
-		const sid = params.get("sid");
+		let sid = params.get("sid");
+		if (!sid && uri && (uri.sid || uri["?sid"])) sid = uri.sid || uri["?sid"];
 
-		if (sid === "missionsRewards") missionsLoaded().then(showRewards);
+		if (page === "loader" || page === "loader2") {
+			if (sid === "missionsRewards") missionsLoaded().then(showRewards);
+			else if (sid === "missions" || sid === "completeContract" || sid === "acceptMission") missionsLoaded().then(showMissionInformation);
+			else {
+				console.log("Unknown mission action.", sid);
+			}
+		}
 	});
 
 	missionsLoaded().then(() => {
@@ -251,11 +270,10 @@ function showRewards() {
 			let item_id = info.image;
 			let quantity = info.amount;
 
-			if (!item_id || typeof item_id == "string")
-				continue;
+			if (!item_id || typeof item_id == "string") continue;
 
 			let market_price = itemlist.items[item_id].market_value;
-			item.style.height = "160px";  // to fit value info
+			item.style.height = "160px"; // to fit value info
 
 			// Show one item price
 			let one_item_price = doc.new("span");
@@ -271,7 +289,7 @@ function showRewards() {
 			let div_total_value = doc.new({ type: "div", text: "Total value: ", class: "tt-total-value" });
 			if (mobile) div_total_value.style.marginTop = "66px";
 			let span_total_value = doc.new("span");
-			span_total_value.innerText = `$${numberWithCommas(totalValue, totalValue > 10E6 ? 2 : true)}`;
+			span_total_value.innerText = `$${numberWithCommas(totalValue, totalValue > 10e6 ? 2 : true)}`;
 
 			let div_point_value = doc.new("div");
 			div_point_value.innerText = "Point value: ";
@@ -291,7 +309,7 @@ function showRewards() {
 function showMissionInformation() {
 	for (let mission of doc.findAll(".giver-cont-wrap > div[id^=mission]:not(.tt-modified)")) {
 		let title = mission.find(".title-black").innerText.split("\n");
-		if (title.length === 2) title = title[0];
+		if (title.length === 1 || title.length === 2) title = title[0];
 		else {
 			title = title[1].split(" ");
 
@@ -308,16 +326,26 @@ function showMissionInformation() {
 			task = miss.task;
 			hint = miss.hint;
 		} else {
-			task = "Couldn't find information for this mission.";
-			hint = "Contact the TornTools developers.";
+			if (title.includes("{name}")) {
+				task = "You are using a conflicting script.";
+				hint = "Please remove the script that changes the mission title or contact the TornTools developers.";
+			} else {
+				task = "Couldn't find information for this mission.";
+				hint = "Contact the TornTools developers.";
+			}
 		}
 
-		let children = [doc.new({ type: "span", html: `<b>Task:</b> ${task}` })];
+		let children = [
+			doc.new({
+				type: "h6",
+				class: "tt-mission-title",
+				text: "TornTools Mission Information",
+				attributes: { color: "green" },
+			}),
+			doc.new({ type: "span", html: `<b>Task:</b> ${task}` }),
+		];
 		if (hint) {
-			children.push(
-				doc.new("br"),
-				doc.new({ type: "span", html: `<b>Hint:</b> ${hint}` }),
-			);
+			children.push(doc.new("br"), doc.new({ type: "span", html: `<b>Hint:</b> ${hint}` }));
 		}
 
 		mission.find(".max-height-fix").appendChild(doc.new({ type: "div", class: "tt-mission-information", children }));

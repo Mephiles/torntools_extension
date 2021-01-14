@@ -83,8 +83,7 @@ function Main() {
 	for (let div of [doc.find(".actions-wrap .low"), doc.find(".actions-wrap .high")]) {
 		div.addEventListener("click", () => {
 			console.log("click");
-			if (doc.find(".tt-hilo-action"))
-				doc.find(".tt-hilo-action").remove();
+			if (doc.find(".tt-hilo-action")) doc.find(".tt-hilo-action").remove();
 
 			setTimeout(() => {
 				let new_you_card = getCard("you-card", picture_cards, last_you_card);
@@ -127,24 +126,20 @@ function getCard(type, picture_cards, last_type_card) {
 
 	for (let card_element of card_elements) {
 		let name = card_element.classList[0];
-		if (name.indexOf("back") > -1)
-			continue;
+		if (name.indexOf("back") > -1) continue;
 
 		let suit = name.split("-")[1];
 		let value = name.split("-")[2];
 
-		if (isNaN(parseInt(value)))
-			value = picture_cards[value];
-		else
-			value = parseInt(value);
+		if (isNaN(parseInt(value))) value = picture_cards[value];
+		else value = parseInt(value);
 
 		possible_cards.push({ [suit]: value });
 	}
 
 	console.log("possible cards", possible_cards);
 
-	if (!last_type_card || possible_cards.length === 1)
-		return possible_cards[0];
+	if (!last_type_card || possible_cards.length === 1) return possible_cards[0];
 	else if (possible_cards[0][Object.keys(possible_cards[0])[0]] === last_type_card[Object.keys(last_type_card)[0]]) {
 		return possible_cards[1];
 	} else if (possible_cards[1][Object.keys(possible_cards[1])[0]] === last_type_card[Object.keys(last_type_card)[0]]) {
@@ -168,10 +163,8 @@ function getAction(deck, _card) {
 	// all cards
 	for (let suit in deck) {
 		for (let card of deck[suit]) {
-			if (card > _card[player_suit])
-				higher_cards.push(card);
-			else if (card < _card[player_suit])
-				lower_cards.push(card);
+			if (card > _card[player_suit]) higher_cards.push(card);
+			else if (card < _card[player_suit]) lower_cards.push(card);
 			else if (card === _card[player_suit]) {
 				higher_cards.push(card);
 				lower_cards.push(card);
@@ -190,12 +183,9 @@ function getAction(deck, _card) {
 	console.log("higher_possibilities", higher_possibility);
 	console.log("--------------------------------");
 
-	if (lower_possibility < higher_possibility)
-		return "Higher";
-	else if (lower_possibility > higher_possibility)
-		return "Lower";
-	else
-		return "50/50";
+	if (lower_possibility < higher_possibility) return "Higher";
+	else if (lower_possibility > higher_possibility) return "Lower";
+	else return "50/50";
 }
 
 function casinoGameLoaded() {
@@ -212,5 +202,5 @@ function casinoGameLoaded() {
 		}, 100);
 	});
 
-	return promise.then(data => data);
+	return promise.then((data) => data);
 }

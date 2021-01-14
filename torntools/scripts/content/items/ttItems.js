@@ -8,17 +8,19 @@ requireDatabase().then(() => {
 		injectXHR();
 
 		// Quick items
-		let quick_container = content.newContainer("Quick items", {
-			id: "ttQuick",
-			dragzone: true,
-			next_element: doc.find(".equipped-items-wrap"),
-		}).find(".content");
+		let quick_container = content
+			.newContainer("Quick items", {
+				id: "ttQuick",
+				dragzone: true,
+				next_element: doc.find(".equipped-items-wrap"),
+			})
+			.find(".content");
 		let inner_content = doc.new({ type: "div", class: "inner-content" });
 		let response_wrap = doc.new({ type: "div", class: "response-wrap" });
 		quick_container.appendChild(inner_content);
 		quick_container.appendChild(response_wrap);
 
-		document.addEventListener("click", event => {
+		document.addEventListener("click", (event) => {
 			if (event.target.classList.contains("close-act") && hasParent(event.target, { id: "ttQuick" })) {
 				doc.find("#ttQuick .response-wrap").style.display = "none";
 			}
@@ -48,7 +50,7 @@ requireDatabase().then(() => {
 
 		// Drug detailed effects
 		if (settings.pages.items.drug_details) {
-			let item_info_container_mutation = new MutationObserver(mutations => {
+			let item_info_container_mutation = new MutationObserver((mutations) => {
 				for (let mutation of mutations) {
 					if (mutation.type === "childList") {
 						if (mutation.addedNodes[0] && mutation.addedNodes[0].classList && mutation.addedNodes[0].classList.contains("show-item-info")) {
@@ -69,88 +71,108 @@ requireDatabase().then(() => {
 
 								// Pros
 								if (drug_details.pros) {
-									el.find(".info-msg").appendChild(doc.new({
-										type: "div",
-										class: "t-green bold item-effect m-top10",
-										text: "Pros:",
-									}));
+									el.find(".info-msg").appendChild(
+										doc.new({
+											type: "div",
+											class: "t-green bold item-effect m-top10",
+											text: "Pros:",
+										})
+									);
 
 									for (let eff of drug_details.pros) {
-										el.find(".info-msg").appendChild(doc.new({
-											type: "div",
-											class: "t-green bold item-effect tabbed",
-											text: eff,
-										}));
+										el.find(".info-msg").appendChild(
+											doc.new({
+												type: "div",
+												class: "t-green bold item-effect tabbed",
+												text: eff,
+											})
+										);
 									}
 								}
 
 								// Cons
 								if (drug_details.cons) {
-									el.find(".info-msg").appendChild(doc.new({
-										type: "div",
-										class: "t-red bold item-effect",
-										text: "Cons:",
-									}));
+									el.find(".info-msg").appendChild(
+										doc.new({
+											type: "div",
+											class: "t-red bold item-effect",
+											text: "Con",
+										})
+									);
 
 									for (let eff of drug_details.cons) {
-										el.find(".info-msg").appendChild(doc.new({
-											type: "div",
-											class: "t-red bold item-effect tabbed",
-											text: eff,
-										}));
+										el.find(".info-msg").appendChild(
+											doc.new({
+												type: "div",
+												class: "t-red bold item-effect tabbed",
+												text: eff,
+											})
+										);
 									}
 								}
 
 								// Cooldown
 								if (drug_details.cooldown) {
-									el.find(".info-msg").appendChild(doc.new({
-										type: "div",
-										class: "t-red bold item-effect",
-										text: `Cooldown: ${drug_details.cooldown}`,
-									}));
+									el.find(".info-msg").appendChild(
+										doc.new({
+											type: "div",
+											class: "t-red bold item-effect",
+											text: `Cooldown: ${drug_details.cooldown}`,
+										})
+									);
 								}
 
 								// Overdose
 								if (drug_details.overdose) {
-									el.find(".info-msg").appendChild(doc.new({
-										type: "div",
-										class: "t-red bold item-effect",
-										text: "Overdose:",
-									}));
+									el.find(".info-msg").appendChild(
+										doc.new({
+											type: "div",
+											class: "t-red bold item-effect",
+											text: "Overdose:",
+										})
+									);
 
 									// bars
 									if (drug_details.overdose.bars) {
-										el.find(".info-msg").appendChild(doc.new({
-											type: "div",
-											class: "t-red bold item-effect tabbed",
-											text: "Bars",
-										}));
+										el.find(".info-msg").appendChild(
+											doc.new({
+												type: "div",
+												class: "t-red bold item-effect tabbed",
+												text: "Bars",
+											})
+										);
 
 										for (let bar_eff of drug_details.overdose.bars) {
-											el.find(".info-msg").appendChild(doc.new({
-												type: "div",
-												class: "t-red bold item-effect double-tabbed",
-												text: bar_eff,
-											}));
+											el.find(".info-msg").appendChild(
+												doc.new({
+													type: "div",
+													class: "t-red bold item-effect double-tabbed",
+													text: bar_eff,
+												})
+											);
 										}
 									}
 
 									// hospital time
 									if (drug_details.overdose.hosp_time) {
-										el.find(".info-msg").appendChild(doc.new({
-											type: "div",
-											class: "t-red bold item-effect tabbed",
-											text: `Hospital: ${drug_details.overdose.hosp_time}`,
-										}));
+										el.find(".info-msg").appendChild(
+											doc.new({
+												type: "div",
+												class: "t-red bold item-effect tabbed",
+												text: `Hospital: ${drug_details.overdose.hosp_time}`,
+											})
+										);
 									}
 
 									// extra
 									if (drug_details.overdose.extra) {
-										el.find(".info-msg").appendChild(doc.new({
-											type: "div",
-											class: "t-red bold item-effect tabbed",
-											text: `Extra: ${drug_details.overdose.extra}`,
-										}));
+										el.find(".info-msg").appendChild(
+											doc.new({
+												type: "div",
+												class: "t-red bold item-effect tabbed",
+												text: `Extra: ${drug_details.overdose.extra}`,
+											})
+										);
 									}
 								}
 							});
@@ -211,70 +233,40 @@ function displayItemPrices(itemlist) {
 		let id = item.getAttribute("data-item");
 		let price = itemlist[id].market_value;
 		let total_price;
-		let qty;
 
-		let parent = mobile ? item.find(".name-wrap") : (item.find(".bonuses-wrap") || item.find(".name-wrap"));
+		let parent = mobile ? item.find(".name-wrap") : item.find(".bonuses-wrap") || item.find(".name-wrap");
 		let new_element;
 
-		if (item.find(".bonuses-wrap")) {
-			if ([...item.findAll(".bonuses-wrap *")].length === 0) {
-				qty = parseInt(parent.parentElement.parentElement.parentElement.find(".qty").innerText.replace("x", ""));
-			}
-		} else {
-			qty = parseInt(parent.find(".qty").innerText.replace("x", ""));
-		}
-		total_price = qty * parseInt(price);
+		const quantity = parseInt(item.find(".item-amount.qty").innerText) || 1;
+		total_price = quantity * parseInt(price);
 		if (total_price) total += total_price;
 		else if (total_price !== 0) total += price;
 
-		if (parent.find(".tt-item-price"))
-			continue;
+		if (parent.find(".tt-item-price")) continue;
 
 		if (item.find(".bonuses-wrap")) {
-			new_element = doc.new("li");
-			new_element.setClass("bonus left tt-item-price");
-
-			if (mobile) {
-				new_element.setAttribute("style", `position: absolute; right: -10px; top: 10px; float: unset !important; font-size: 11px;`);
-				parent.find(".name").setAttribute("style", "position: relative; top: -3px;");
-				parent.find(".qty").setAttribute("style", "position: relative; top: -3px;");
-			}
-
-			if ([...item.findAll(".bonuses-wrap *")].length === 0) {
-				qty = parseInt(parent.parentElement.parentElement.parentElement.find(".qty").innerText.replace("x", ""));
-				total_price = qty * parseInt(price);
-			}
+			new_element = doc.new({ type: "li", class: "bonus left tt-item-price" });
 		} else {
-			new_element = doc.new("span");
-			new_element.setClass("tt-item-price");
-
-			if (mobile) {
-				new_element.setAttribute("style", `position: absolute; right: -10px; top: 10px; float: unset !important; font-size: 11px;`);
-				parent.find(".name").setAttribute("style", "position: relative; top: -3px;");
-				parent.find(".qty").setAttribute("style", "position: relative; top: -3px;");
-			}
-
-			qty = parseInt(parent.find(".qty").innerText.replace("x", ""));
-			total_price = qty * parseInt(price);
+			new_element = doc.new({ type: "span", class: "tt-item-price" });
 
 			if (item.find("button.group-arrow")) {
 				new_element.style.paddingRight = "30px";
 			}
 		}
+		if (mobile) {
+			new_element.setAttribute("style", `position: absolute; right: -10px; top: 10px; float: unset !important; font-size: 11px;`);
+			parent.find(".name").setAttribute("style", "position: relative; top: -3px;");
+			parent.find(".qty").setAttribute("style", "position: relative; top: -3px;");
+		}
 
 		if (total_price) {
-			// new_element.innerText = `$${numberWithCommas(price, shorten=false)} | ${qty}x = $${numberWithCommas(total_price, shorten=false)}`;
-			let one_price = doc.new("span");
-			one_price.innerText = `$${numberWithCommas(price, false)} |`;
-			let quantity = doc.new("span");
-			quantity.innerText = ` ${qty}x = `;
-			quantity.setClass("tt-item-quantity");
-			let all_price = doc.new("span");
-			all_price.innerText = `$${numberWithCommas(total_price, false)}`;
-
-			new_element.appendChild(one_price);
-			new_element.appendChild(quantity);
-			new_element.appendChild(all_price);
+			if (quantity === 1) {
+				new_element.appendChild(doc.new({ type: "span", text: `$${numberWithCommas(price, false)}` }));
+			} else {
+				new_element.appendChild(doc.new({ type: "span", text: `$${numberWithCommas(price, false)} |` }));
+				new_element.appendChild(doc.new({ type: "span", text: ` ${quantity}x = `, class: "tt-item-quantity" }));
+				new_element.appendChild(doc.new({ type: "span", text: `$${numberWithCommas(total_price, false)}` }));
+			}
 		} else if (price === 0) {
 			new_element.innerText = `N/A`;
 		} else {
@@ -286,15 +278,20 @@ function displayItemPrices(itemlist) {
 
 	if (list.find(":scope > li > .tt-item-price")) list.find(":scope > li > .tt-item-price").parentElement.remove();
 
-	let row = doc.new("li");
-
-	row.appendChild(doc.new({
-		type: "li",
-		text: `Total Value: $${FORMATTER_NO_DECIMALS.format(total)}`,
-		class: "tt-item-price",
-	}));
-
-	list.insertBefore(row, list.firstElementChild);
+	list.insertBefore(
+		doc.new({
+			type: "li",
+			class: "tt-ignore",
+			children: [
+				doc.new({
+					type: "li",
+					text: `Total Value: $${FORMATTER_NO_DECIMALS.format(total)}`,
+					class: "tt-item-price",
+				}),
+			],
+		}),
+		list.firstElementChild
+	);
 }
 
 function useContainerLoaded() {
@@ -302,7 +299,7 @@ function useContainerLoaded() {
 }
 
 function itemInfoLoaded(element) {
-	return new Promise(resolve => {
+	return new Promise((resolve) => {
 		let checker = setInterval(() => {
 			if (!element.find(".ajax-placeholder")) {
 				resolve(true);
@@ -320,7 +317,7 @@ function addButton() {
 
 	doc.find("#ttQuick .tt-title .tt-options").appendChild(wrap);
 
-	wrap.onclick = event => {
+	wrap.onclick = (event) => {
 		event.stopPropagation();
 
 		if (doc.find(".tt-black-overlay").classList.contains("active")) {
@@ -341,7 +338,7 @@ function addButton() {
 			for (let item of doc.findAll("ul.items-cont[aria-expanded='true']>li")) {
 				if (!USABLE_ITEM_TYPES.includes(item.getAttribute("data-category"))) continue;
 
-				item.onclick = event => {
+				item.onclick = (event) => {
 					event.stopPropagation();
 					event.preventDefault();
 
@@ -351,7 +348,7 @@ function addButton() {
 					addQuickItem(undefined, undefined, undefined, id);
 
 					// Save
-					let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
+					let items = [...doc.findAll("#ttQuick .item")].map((x) => x.getAttribute("item-id"));
 					ttStorage.change({ quick: { items } });
 				};
 			}
@@ -360,8 +357,9 @@ function addButton() {
 }
 
 function addItemMarketLinks() {
-	for (let item of doc.findAll(".items-cont[aria-expanded=true] > li")) {
-		if (item.find(".tt-market-link, :scope > .tt-item-price, :scope > .ajax-placeholder")) continue;
+	for (let item of doc.findAll(".items-cont[aria-expanded=true] > li:not(.tt-ignore):not(.ajax-placeholder)")) {
+		if (item.find(".tt-market-link, .tt-item-price, :scope > .ajax-placeholder")) continue;
+		if (!item.hasAttribute("data-item")) continue;
 
 		let li = doc.new({
 			type: "li",
@@ -413,7 +411,12 @@ function highlightBloodBags() {
 	const items = doc.findAll("ul.items-cont[aria-expanded=true] > li[data-category='Medical']");
 
 	for (let item of items) {
-		if (!item.find(".name-wrap") || item.find(".name-wrap").classList.contains("tt-good_blood") || item.find(".name-wrap").classList.contains("tt-bad_blood")) continue;
+		if (
+			!item.find(".name-wrap") ||
+			item.find(".name-wrap").classList.contains("tt-good_blood") ||
+			item.find(".name-wrap").classList.contains("tt-bad_blood")
+		)
+			continue;
 
 		if (!item.getAttribute("data-sort").includes("Blood Bag : ")) continue; // is not a filled blood bag
 		if (item.getAttribute("data-item") === "1012") continue; // is an irradiated blood bag
@@ -427,19 +430,16 @@ function highlightBloodBags() {
 
 // Torn functions
 function getAction(obj) {
-	obj.success = obj.success || (() => {
-	});
-	obj.before = obj.before || (() => {
-	});
-	obj.complete = obj.complete || (() => {
-	});
+	obj.success = obj.success || (() => {});
+	obj.before = obj.before || (() => {});
+	obj.complete = obj.complete || (() => {});
 	const url = obj.action || window.location.protocol + "//" + window.location.hostname + location.pathname;
 	const options = {
 		url: "https://www.torn.com/" + addRFC(url),
 		type: obj.type || "get",
 		data: obj.data || {},
 		async: typeof obj.async !== "undefined" ? obj.async : true,
-		success: msg => {
+		success: (msg) => {
 			console.log("success");
 			obj.success(msg);
 		},
@@ -479,7 +479,7 @@ function onDragEnd() {
 
 	doc.find("#ttQuick .content").classList.remove("drag-progress");
 
-	let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
+	let items = [...doc.findAll("#ttQuick .item")].map((x) => x.getAttribute("item-id"));
 	ttStorage.change({ quick: { items } });
 }
 
@@ -515,11 +515,11 @@ function addQuickItem(container, innerContent, responseWrap, id, temporary = fal
 	div.appendChild(closeIcon);
 	innerContent.appendChild(div);
 
-	closeIcon.addEventListener("click", event => {
+	closeIcon.addEventListener("click", (event) => {
 		event.stopPropagation();
 		div.remove();
 
-		let items = [...doc.findAll("#ttQuick .item")].map(x => x.getAttribute("item-id"));
+		let items = [...doc.findAll("#ttQuick .item")].map((x) => x.getAttribute("item-id"));
 		ttStorage.change({ quick: { items: items } });
 	});
 
@@ -529,7 +529,7 @@ function addQuickItem(container, innerContent, responseWrap, id, temporary = fal
 			type: "post",
 			action: "item.php",
 			data: { step: "actionForm", id: id, action: "use" },
-			success: str => {
+			success: (str) => {
 				if (container.find(".action-wrap")) {
 					container.find(".action-wrap").remove();
 				}
@@ -586,7 +586,7 @@ function enableInjectListener() {
 			} else if (step === "getCategoryList" || step === "getNotAllItemsListWithoutGroups") {
 				if (!settings.pages.items.values && !settings.pages.items.itemmarket_links) return;
 
-				const currentTab = doc.find("ul.items-cont.tab-menu-cont[style=\"display: block;\"]") || doc.find("ul.items-cont.tab-menu-cont:not([style])");
+				const currentTab = doc.find('ul.items-cont.tab-menu-cont[style="display: block;"]') || doc.find("ul.items-cont.tab-menu-cont:not([style])");
 				if (!currentTab) return;
 
 				new MutationObserver((mutations, observer) => {
@@ -636,7 +636,9 @@ function addItemListener() {
 			if (!body || !body.includes("step=actionForm")) return body;
 		
 			const params = getParams(body);
-			${settings.scripts.no_confirm.item_equip ? `
+			${
+				settings.scripts.no_confirm.item_equip
+					? `
 				if (params.action === "equip" && confirm !== 1) {
 					return paramsToBody({
 						step: params.step,
@@ -645,7 +647,9 @@ function addItemListener() {
 						id: params.id,
 					});
 				}
-			` : ""}
+			`
+					: ""
+			}
 	
 			return body;
 		}

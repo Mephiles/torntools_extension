@@ -7,7 +7,7 @@ requireDatabase().then(() => {
 			massMessages(mass_messages);
 		}
 
-		document.addEventListener("click", event => {
+		document.addEventListener("click", (event) => {
 			if (event.target.href === "https://www.torn.com/messages.php#/p=compose") {
 				console.log("click");
 				ttStorage.get(["personalized", "mass_messages"], ([personalized, mass_messages]) => {
@@ -29,8 +29,10 @@ function messageBoxLoaded() {
 		let checker = setInterval(() => {
 			console.log("checking");
 			if (
-				window.location.hash.indexOf("compose") > -1 && doc.find(".mailbox-container form>div") &&
-				((doc.find("#mailcompose_ifr") && doc.find("#mailcompose_ifr").contentWindow.document.querySelector("#tinymce")) || doc.find("#mailcompose"))) {
+				window.location.hash.indexOf("compose") > -1 &&
+				doc.find(".mailbox-container form>div") &&
+				((doc.find("#mailcompose_ifr") && doc.find("#mailcompose_ifr").contentWindow.document.querySelector("#tinymce")) || doc.find("#mailcompose"))
+			) {
 				resolve(true);
 				return clearInterval(checker);
 			}
@@ -192,7 +194,7 @@ function massMessages(mass_messages) {
 	});
 
 	// Enable/Disable mass messages
-	active_button.addEventListener("click", event => {
+	active_button.addEventListener("click", (event) => {
 		if (event.target.nodeName === "DIV") {
 			if (event.target.firstElementChild.innerText === "Enabled") {
 				console.log("DISABLED");
@@ -211,7 +213,6 @@ function massMessages(mass_messages) {
 						subject: "",
 					},
 				});
-
 			} else {
 				console.log("ENABLED");
 				event.target.firstElementChild.innerText = "Enabled";

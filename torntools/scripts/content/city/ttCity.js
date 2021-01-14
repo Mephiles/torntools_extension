@@ -1,37 +1,39 @@
-mapLoaded().then(() => {
-	console.log("TT - City");
+requireDatabase().then(() => {
+	mapLoaded().then(() => {
+		console.log("TT - City");
 
-	if (!settings.pages.city.items && !settings.pages.city.items_value) {
-		return;
-	}
-
-	let items_container = content.newContainer("City Items", { first: true, id: "tt-city-items", theme: settings.theme, all_rounded: false });
-
-	if (settings.pages.city.items_value) {
-		showValueOfItems(items_container, itemlist);
-	}
-
-	if (settings.pages.city.items && !shouldDisable()) {
-		displayItems(items_container, itemlist);
-
-		if (!settings.pages.city.closed_highlight) {
-			doc.find("#map").classList.remove("doctorn-highlight-city-finds");
-
-			items_container.addEventListener("click", () => {
-				if (items_container.find(".tt-title").classList.contains("collapsed")) {
-					doc.find("#map").classList.remove("doctorn-highlight-city-finds");
-					for (let item of doc.findAll("#map .leaflet-marker-pane *[item-id]")) {
-						item.classList.remove("cityItem");
-					}
-				} else {
-					doc.find("#map").classList.add("doctorn-highlight-city-finds");
-					for (let item of doc.findAll("#map .leaflet-marker-pane *[item-id]")) {
-						item.classList.add("cityItem");
-					}
-				}
-			});
+		if (!settings.pages.city.items && !settings.pages.city.items_value) {
+			return;
 		}
-	}
+
+		let items_container = content.newContainer("City Items", { first: true, id: "tt-city-items", theme: settings.theme, all_rounded: false });
+
+		if (settings.pages.city.items_value) {
+			showValueOfItems(items_container, itemlist);
+		}
+
+		if (settings.pages.city.items && !shouldDisable()) {
+			displayItems(items_container, itemlist);
+
+			if (!settings.pages.city.closed_highlight) {
+				doc.find("#map").classList.remove("doctorn-highlight-city-finds");
+
+				items_container.addEventListener("click", () => {
+					if (items_container.find(".tt-title").classList.contains("collapsed")) {
+						doc.find("#map").classList.remove("doctorn-highlight-city-finds");
+						for (let item of doc.findAll("#map .leaflet-marker-pane *[item-id]")) {
+							item.classList.remove("cityItem");
+						}
+					} else {
+						doc.find("#map").classList.add("doctorn-highlight-city-finds");
+						for (let item of doc.findAll("#map .leaflet-marker-pane *[item-id]")) {
+							item.classList.add("cityItem");
+						}
+					}
+				});
+			}
+		}
+	});
 });
 
 function mapLoaded() {
@@ -88,7 +90,7 @@ function showValueOfItems(container, itemlist) {
 
 	let new_div = doc.new("div");
 	new_div.id = "tt-city-items-value";
-	new_div.innerText = `City Items value: `;
+	new_div.innerText = `City Items value (${items.length}): `;
 	let value_span = doc.new("span");
 	value_span.innerText = `$${numberWithCommas(total_value, false)}`;
 

@@ -15,6 +15,8 @@ const LINKS = {
 	"Travel Agency": { link: "https://www.torn.com/travelagency.php" },
 };
 
+const preferenceModifications = new Set();
+
 requireDatabase(false)
 	.then(() => {
 		console.log("Start Settings");
@@ -49,17 +51,14 @@ requireDatabase(false)
 		doc.find("#change_api_key").addEventListener("click", () => {
 			resetApiKey();
 		});
-		doc.find("#change_api_proxy_key").onclick = () => {
-			resetApiProxyKey();
-		};
-		doc.find("#add_ally").addEventListener("click", event => {
+		doc.find("#add_ally").addEventListener("click", (event) => {
 			addAllyToList(event);
 		});
-		doc.find("#add_link").addEventListener("click", event => addLinkToList({ event }));
-		doc.find("#add_highlight").addEventListener("click", event => {
+		doc.find("#add_link").addEventListener("click", (event) => addLinkToList({ event }));
+		doc.find("#add_highlight").addEventListener("click", (event) => {
 			addHighlightToList(event);
 		});
-		doc.find("#add_filter_faction").addEventListener("click", event => {
+		doc.find("#add_filter_faction").addEventListener("click", (event) => {
 			addFactionToFilter(event);
 		});
 		doc.find("#clear_target_list").addEventListener("click", () => {
@@ -73,14 +72,14 @@ requireDatabase(false)
 			message("Target list reset.", true);
 		});
 		doc.find("#allow_notifications").onclick = () => {
-			Notification.requestPermission().then(permission => {
+			Notification.requestPermission().then((permission) => {
 				if (permission === "granted") {
 					doc.find("#allow_notifications").parentElement.classList.add("hidden");
 				}
 			});
 		};
 		doc.find("#fetch_torndata").onclick = () => {
-			chrome.runtime.sendMessage({ action: "fetch", type: "torndata" }, response => {
+			chrome.runtime.sendMessage({ action: "fetch", type: "torndata" }, (response) => {
 				message(response.message, response.success);
 			});
 		};
@@ -96,22 +95,24 @@ requireDatabase(false)
 					ttStorage.reset();
 					message("Settings reset.", true);
 				})
-				.catch(() => {
-				});
-
+				.catch(() => {});
 		});
+
+		registerChanges();
 	})
 	.catch((err) => {
 		console.error(err);
 		let title, message;
 		if (api_key) {
 			title = "Oops";
-			message = "### Something has gone wrong. Please contact the developers and let them know of the following message:\n" +
-				`(ERROR) ${err}\n` +
-				"Clicking either 'Cancel' or 'Confirm' will reload the page.";
+			message =
+				"### Something has gone wrong. Please contact the developers and let them know of the following message:\n" +
+				`(ERROR) ${err}` +
+				"\n\nClicking either 'Cancel' or 'Confirm' will reload the page.";
 		} else {
 			title = "API key";
-			message = "### You have not initialized the App by providing your API key\n" +
+			message =
+				"### You have not initialized the App by providing your API key\n" +
 				"Please enter your API key via opening the Extension popup.\n" +
 				"Clicking either 'Cancel' or 'Confirm' will reload the page.";
 		}
@@ -120,6 +121,36 @@ requireDatabase(false)
 			.then(() => location.reload())
 			.catch(() => location.reload());
 	});
+
+function registerChanges() {
+	const defaultKey = "defaultValue";
+
+	window.addEventListener("beforeinput", (evt) => {
+		const target = evt.target;
+		if (defaultKey in target || defaultKey in target.dataset) return;
+
+		target.dataset[defaultKey] = ("" + (target.value || target.textContent)).trim();
+	});
+	window.addEventListener("input", (evt) => {
+		const target = evt.target;
+		const original = defaultKey in target ? target[defaultKey] : target.dataset[defaultKey];
+
+		if (original !== ("" + (target.value || target.textContent)).trim()) {
+			if (!preferenceModifications.has(target)) preferenceModifications.add(target);
+		} else if (preferenceModifications.has(target)) {
+			preferenceModifications.delete(target);
+		}
+	});
+	window.addEventListener("submit", () => preferenceModifications.clear());
+	window.addEventListener("beforeunload", (event) => {
+		if (!preferenceModifications.size) return;
+
+		const message = "Changes you made may not be saved.";
+
+		event.returnValue = message;
+		return message;
+	});
+}
 
 function loadPage(name) {
 	console.log("Loading page:", name);
@@ -211,15 +242,12 @@ function setupChangelog() {
 							for (let _item of grandparent[parent_name][_key]) {
 								let contributor;
 
-								if (_item.includes("- DKK")) {
-									contributor = "dkk";
-									_item = _item.slice(0, _item.indexOf(" - DKK"));
-								} else if (_item.includes("- Mephiles")) {
-									contributor = "mephiles";
-									_item = _item.slice(0, _item.indexOf(" - Mephiles"));
-								} else if (_item.includes("- wootty2000")) {
-									contributor = "wootty2000";
-									_item = _item.slice(0, _item.indexOf(" - wootty2000"));
+								for (let c of ["Mephiles", "DKK", "wootty2000", "finally"]) {
+									if (!_item.includes(`- ${c}`)) continue;
+
+									contributor = c.toLowerCase();
+									_item = _item.slice(0, _item.indexOf(`- ${c}`));
+									break;
 								}
 
 								let _item_div = doc.new({ type: "div", class: `child ${contributor}` });
@@ -230,7 +258,6 @@ function setupChangelog() {
 						} else {
 							loopKeyInChangelog(grandparent[parent_name], _key, _div);
 						}
-
 					} else {
 						_div.setClass("child");
 						_div.innerText = grandparent[parent_name][_key];
@@ -269,15 +296,37 @@ function setupPreferences() {
 	// General
 	preferences.find(`#update_notification input`).checked = settings.update_notification;
 	preferences.find("#force_tt input").checked = settings.force_tt;
+	preferences.find("#check_extensions input").checked = settings.check_extensions;
 	preferences.find("#developer input").checked = settings.developer;
 	preferences.find(`#format-date-${settings.format.date} input`).checked = true;
 	preferences.find(`#format-time-${settings.format.time} input`).checked = true;
 	preferences.find(`#theme-${settings.theme} input`).checked = true;
 	preferences.find("#notifications_tts input").checked = settings.notifications_tts;
-	preferences.find("#notifications_sound input").checked = settings.notifications_sound;
 	preferences.find("#notifications_link input").checked = settings.notifications_link;
 	preferences.find("#clean_flight input").checked = settings.clean_flight;
 	preferences.find("#font_size input").value = settings.font_size.replace(/px/, "");
+
+	// Icon bars
+	for (let key in settings.icon_bars) {
+		let option = preferences.find(`#icon_bars-${key} input`);
+
+		option.checked = settings.icon_bars[key];
+
+		if (!settings.icon_bars.show && key !== "show") option.setAttribute("disabled", true);
+	}
+
+	preferences.find("#icon_bars-show input").addEventListener("click", (event) => {
+		const disableIcon = !event.target.checked;
+
+		for (let key in settings.icon_bars) {
+			if (key === "show") continue;
+
+			let option = preferences.find(`#icon_bars-${key} input`);
+
+			if (disableIcon) option.setAttribute("disabled", true);
+			else option.removeAttribute("disabled");
+		}
+	});
 
 	// Tabs
 	for (let tab in settings.tabs) {
@@ -287,6 +336,40 @@ function setupPreferences() {
 			preferences.find(`#tab-${tab} input`).checked = settings.tabs[tab];
 		}
 	}
+
+	// Notification sounds
+	preferences.find("#notifications_sound-type").value = settings.notifications_sound;
+	preferences.find("#notifications_sound-volume").value = settings.notifications_volume * 100;
+	if (settings.notifications_sound == "custom") {
+		preferences.find("#notifications_sound-upload").style.display = "inline";
+	}
+	preferences.find("#notifications_sound-type").addEventListener("change", (event) => {
+		preferences.find("#notifications_sound-upload").style.display = event.target.value == "custom" ? "inline" : "none";
+	});
+	preferences.find("#notifications_sound-upload").addEventListener("change", (event) => {
+		if (event.target.files.length == 0) {
+			return;
+		}
+
+		const reader = new FileReader();
+		reader.addEventListener("load", (event) => {
+			if (event.target.result.length > 5242880) {
+				return message("Maximum file size exceeded. (5MB)", false);
+			}
+			ttStorage.set({ notifications_custom: event.target.result });
+		});
+		reader.readAsDataURL(event.target.files[0]);
+	});
+	preferences.find("#notifications_sound-play").addEventListener("click", () => {
+		chrome.runtime.sendMessage({
+			action: "play-notification-sound",
+			type: preferences.find("#notifications_sound-type").value,
+			volume: preferences.find("#notifications_sound-volume").value,
+		});
+	});
+	preferences.find("#notifications_sound-stop").addEventListener("click", () => {
+		chrome.runtime.sendMessage({ action: "stop-notification-sound" });
+	});
 
 	// Achievements
 	for (let key in settings.achievements) {
@@ -304,7 +387,7 @@ function setupPreferences() {
 
 				// Global option for pages. Disabled all options if global is disabled
 				if (option === "global" && optionDiv.classList.contains("heading")) {
-					optionDiv.find("input").addEventListener("click", event => {
+					optionDiv.find("input").addEventListener("click", (event) => {
 						let disabledGlobal = !event.target.checked;
 
 						for (let option in settings[type][page]) {
@@ -348,11 +431,11 @@ function setupPreferences() {
 		let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
 		let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
-		remove_icon.addEventListener("click", event => {
+		remove_icon.addEventListener("click", (event) => {
 			event.target.parentElement.parentElement.remove();
 		});
 
-		remove_icon_wrap.addEventListener("click", event => {
+		remove_icon_wrap.addEventListener("click", (event) => {
 			event.target.parentElement.remove();
 		});
 
@@ -365,10 +448,10 @@ function setupPreferences() {
 	}
 
 	// Custom links
-	custom_links.forEach(link => addLinkToList({ link }));
+	custom_links.forEach((link) => addLinkToList({ link }));
 	preferences.find("#custom_links .row.input select[name='links']").innerHTML = getCustomLinkOptions();
 	preferences.find("#custom_links .row.input select[name='links']").value = "custom";
-	preferences.find("#custom_links .row.input select[name='links']").addEventListener("change", event => {
+	preferences.find("#custom_links .row.input select[name='links']").addEventListener("change", (event) => {
 		let hrefInput = preferences.find("#custom_links .row.input .href");
 		let nameInput = preferences.find("#custom_links .row.input .name");
 
@@ -397,11 +480,11 @@ function setupPreferences() {
 		let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
 		let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
-		remove_icon.addEventListener("click", event => {
+		remove_icon.addEventListener("click", (event) => {
 			event.target.parentElement.parentElement.remove();
 		});
 
-		remove_icon_wrap.addEventListener("click", event => {
+		remove_icon_wrap.addEventListener("click", (event) => {
 			event.target.parentElement.remove();
 		});
 
@@ -415,11 +498,14 @@ function setupPreferences() {
 	}
 	const globalSection = preferences.find(".section[name='global']");
 	for (let placeholder in HIGHLIGHT_PLACEHOLDERS) {
-		globalSection.insertBefore(doc.new({
-			type: "div",
-			class: "tabbed note",
-			text: `${placeholder} - ${HIGHLIGHT_PLACEHOLDERS[placeholder].description}`,
-		}), globalSection.find("#chat_highlight+.note").nextElementSibling);
+		globalSection.insertBefore(
+			doc.new({
+				type: "div",
+				class: "tabbed note",
+				text: `${placeholder} - ${HIGHLIGHT_PLACEHOLDERS[placeholder].description}`,
+			}),
+			globalSection.find("#chat_highlight+.note").nextElementSibling
+		);
 	}
 
 	// Loot alerts
@@ -434,14 +520,14 @@ function setupPreferences() {
 		let level_input = doc.new({
 			type: "input",
 			class: "text level",
-			value: (loot_alerts[npc_id] ? loot_alerts[npc_id].level : ""),
+			value: loot_alerts[npc_id] ? loot_alerts[npc_id].level : "",
 			attributes: { placeholder: "level.." },
 		});
 		let time_input = doc.new({
 			type: "input",
 			class: "text time",
 			id: `npc-${npc_id}`,
-			value: (loot_alerts[npc_id] ? loot_alerts[npc_id].time : ""),
+			value: loot_alerts[npc_id] ? loot_alerts[npc_id].time : "",
 			attributes: { placeholder: "minutes.." },
 		});
 
@@ -548,11 +634,11 @@ function setupPreferences() {
 		let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
 		let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
-		remove_icon.addEventListener("click", event => {
+		remove_icon.addEventListener("click", (event) => {
 			event.target.parentElement.parentElement.remove();
 		});
 
-		remove_icon_wrap.addEventListener("click", event => {
+		remove_icon_wrap.addEventListener("click", (event) => {
 			event.target.parentElement.remove();
 		});
 
@@ -576,6 +662,14 @@ function setupPreferences() {
 			link.classList.add("active");
 		};
 	}
+
+	for (let option of preferences.findAll("*[require-permission]")) {
+		option.find("input").addEventListener("click", () => {
+			requestPermission(option.getAttribute("require-permission"))
+				.then(() => console.log("Received permission."))
+				.catch(() => console.log("Denied permission."));
+		});
+	}
 }
 
 function targetList() {
@@ -589,7 +683,10 @@ function targetList() {
 
 	let headings = [
 		{
-			name: "id", text: "ID", type: "neutral", link: id => `https://www.torn.com/profiles.php?XID=${id}`,
+			name: "id",
+			text: "ID",
+			type: "neutral",
+			link: (id) => `https://www.torn.com/profiles.php?XID=${id}`,
 		},
 		{ name: "last_attack", text: "Last Attack", type: "neutral" },
 		{ name: "win", type: "good" },
@@ -711,7 +808,7 @@ function targetList() {
 			// Percentage values
 			if (["mug", "leave", "hosp", "arrest", "special", "assist", "stealth"].includes(heading.name)) {
 				let value = target_list[id][heading.name];
-				let percentage = (value / target_list[id].win * 100).toFixed();
+				let percentage = ((value / target_list[id].win) * 100).toFixed();
 				// noinspection EqualityComparisonWithCoercionJS
 				percentage = isNaN(percentage) || percentage == Infinity ? 0 : percentage;
 
@@ -744,8 +841,7 @@ function targetList() {
 	}
 
 	function getAverage(arr) {
-		if (arr.length === 0)
-			return 0;
+		if (arr.length === 0) return 0;
 
 		let sum = 0;
 		for (let item of arr) {
@@ -759,9 +855,6 @@ function apiInfo() {
 	// Fill in API key
 	doc.find("#api_field").value = api_key;
 	setupApiStatistics();
-
-	// Fill in API Proxy key
-	doc.find("#api_proxy_field").value = proxy_key;
 
 	// Set new version text
 	if (new_version.available) {
@@ -780,7 +873,7 @@ function server() {
 	loadingPlaceholder(doc.find("#server #tt_server_user_info"), true);
 
 	fetchApi_v2("torntools", { section: `api/${userdata.player_id}/mydata` })
-		.then(result => {
+		.then((result) => {
 			console.log("result", result);
 
 			loadingPlaceholder(doc.find("#server #tt_server_user_info"), false);
@@ -814,7 +907,7 @@ function server() {
 				doc.execCommand("copy");
 			};
 		})
-		.catch(err => {
+		.catch((err) => {
 			console.log("ERROR", err);
 			doc.find("#server #tt_server_user_info").innerText = err.error;
 			doc.find("#server_import").setAttribute("style", "display: none;");
@@ -849,8 +942,7 @@ function server() {
 			.then(() => {
 				exportData();
 			})
-			.catch(() => {
-			});
+			.catch(() => {});
 	};
 
 	doc.find("#server_clear").onclick = () => {
@@ -861,8 +953,7 @@ function server() {
 			.then(() => {
 				clearRemoteData();
 			})
-			.catch(() => {
-			});
+			.catch(() => {});
 	};
 }
 
@@ -870,11 +961,11 @@ function about() {
 	// About info
 	doc.find("#about #version span").innerText = `v${version}`;
 	if (chrome.storage.local.getBytesInUse) {
-		chrome.storage.local.getBytesInUse(data => {
+		chrome.storage.local.getBytesInUse((data) => {
 			doc.find("#about #data-used span").innerText = formatBytes(data);
 		});
 	} else {
-		setTimeout(() => doc.find("#about #data-used span").innerText = formatBytes(JSON.stringify(DB).length), 0);
+		setTimeout(() => (doc.find("#about #data-used span").innerText = formatBytes(JSON.stringify(DB).length)), 0);
 	}
 
 	// Set new version text
@@ -891,15 +982,20 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	// General
 	settings.update_notification = preferences.find("#update_notification input").checked;
 	settings.force_tt = preferences.find("#force_tt input").checked;
+	settings.check_extensions = preferences.find("#check_extensions input").checked;
 	settings.developer = preferences.find("#developer input").checked;
 	settings.format.date = preferences.find("input[name=format-date]:checked").parentElement.id.split("-")[2];
 	settings.format.time = preferences.find("input[name=format-time]:checked").parentElement.id.split("-")[2];
 	settings.theme = preferences.find("input[name=theme]:checked").parentElement.id.split("-")[1];
 	settings.notifications_tts = preferences.find("#notifications_tts input").checked;
-	settings.notifications_sound = preferences.find("#notifications_sound input").checked;
 	settings.notifications_link = preferences.find("#notifications_link input").checked;
 	settings.clean_flight = preferences.find("#clean_flight input").checked;
 	settings.font_size = preferences.find("#font_size input").value.replace(/px/, "") + "px";
+
+	// Icon bars
+	for (let key in settings.icon_bars) {
+		settings.icon_bars[key] = preferences.find(`#icon_bars-${key} input`).checked;
+	}
 
 	// Tabs
 	for (let tab in settings.tabs) {
@@ -909,6 +1005,10 @@ function savePreferences(preferences, settings, target_list_enabled) {
 			settings.tabs[tab] = preferences.find(`#tab-${tab} input`).checked;
 		}
 	}
+
+	// Notification sounds
+	settings.notifications_sound = preferences.find("#notifications_sound-type").value;
+	settings.notifications_volume = Number.parseInt(preferences.find("#notifications_sound-volume").value) / 100;
 
 	// Achievements
 	for (let key in settings.achievements) {
@@ -972,7 +1072,10 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	// Notifications
 	for (let notification in settings.notifications) {
 		if (preferences.find(`#notifications-${notification} input[type='text']`)) {
-			settings.notifications[notification] = preferences.find(`#notifications-${notification} input[type='text']`).value.split(",").filter(x => x !== "");
+			settings.notifications[notification] = preferences
+				.find(`#notifications-${notification} input[type='text']`)
+				.value.split(",")
+				.filter((x) => x !== "");
 		} else {
 			settings.notifications[notification] = preferences.find(`#notifications-${notification} input[type='checkbox']`).checked;
 		}
@@ -1049,10 +1152,11 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	});
 
 	ttStorage.change({ target_list: { show: target_list_enabled } }, () => {
-		ttStorage.get("target_list", target_list => {
+		ttStorage.get("target_list", (target_list) => {
 			console.log("new target list", target_list);
 		});
 	});
+	preferenceModifications.clear();
 
 	message("Settings saved.", true);
 }
@@ -1081,16 +1185,14 @@ function message(text, good, options = {}) {
 }
 
 function setupValueChanger() {
-	doc.find("#num_per .switch-input").addEventListener("click", event => {
+	doc.find("#num_per .switch-input").addEventListener("click", (event) => {
 		let rows = doc.findAll("#target_list .table .body .row");
 
 		for (let row of rows) {
 			for (let item of row.findAll("div")) {
 				if (item.getAttribute("percentage")) {
-					if (event.target.checked)
-						item.innerText = item.getAttribute("percentage") + "%";
-					else
-						item.innerText = item.getAttribute("value");
+					if (event.target.checked) item.innerText = item.getAttribute("percentage") + "%";
+					else item.innerText = item.getAttribute("value");
 				}
 			}
 		}
@@ -1107,25 +1209,17 @@ function resetApiKey() {
 	});
 }
 
-function resetApiProxyKey() {
-	let new_api_proxy_key = doc.find("#api_proxy_field").value;
-
-	ttStorage.set({ proxy_key: new_api_proxy_key }, () => {
-		message("API Proxy key changed.", true);
-	});
-}
-
 function addAllyToList(event) {
 	let row = doc.new({ type: "div", class: "row" });
 	let text_input = doc.new({ type: "input", class: "text", value: event.target.previousElementSibling.value });
 	let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
 	let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
-	remove_icon.addEventListener("click", event => {
+	remove_icon.addEventListener("click", (event) => {
 		event.target.parentElement.parentElement.remove();
 	});
 
-	remove_icon_wrap.addEventListener("click", event => {
+	remove_icon_wrap.addEventListener("click", (event) => {
 		event.target.parentElement.remove();
 	});
 
@@ -1151,7 +1245,7 @@ function addLinkToList(attributes) {
 		children: [doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" })],
 	});
 
-	removeIcon.addEventListener("click", event => findParent(event.target, { class: "row" }).remove());
+	removeIcon.addEventListener("click", (event) => findParent(event.target, { class: "row" }).remove());
 
 	if (attributes.event) {
 		const { event } = attributes;
@@ -1180,9 +1274,7 @@ function addLinkToList(attributes) {
 	} else if (attributes.link) {
 		const { link } = attributes;
 
-		const isPreset = select.find(`option[value="${link.text.replaceAll(" ", "_")}"]`)
-			&& LINKS[link.text]
-			&& LINKS[link.text].link === link.href;
+		const isPreset = select.find(`option[value="${link.text.replaceAll(" ", "_")}"]`) && LINKS[link.text] && LINKS[link.text].link === link.href;
 
 		hrefInput.value = link.href;
 		nameInput.value = link.text;
@@ -1195,7 +1287,7 @@ function addLinkToList(attributes) {
 		if (link.new_tab || link.new_tab === undefined) newTab.checked = true;
 	}
 
-	select.addEventListener("change", event => {
+	select.addEventListener("change", (event) => {
 		if (event.target.value === "custom") {
 			hrefInput.style.display = "block";
 			nameInput.style.display = "block";
@@ -1208,11 +1300,14 @@ function addLinkToList(attributes) {
 		}
 	});
 
-	preferences.find("#custom_links .body").insertBefore(doc.new({
-		type: "div",
-		class: "row",
-		children: [newTab, select, nameInput, hrefInput, removeIcon],
-	}), preferences.find("#custom_links .body .row.input"));
+	preferences.find("#custom_links .body").insertBefore(
+		doc.new({
+			type: "div",
+			class: "row",
+			children: [newTab, select, nameInput, hrefInput, removeIcon],
+		}),
+		preferences.find("#custom_links .body .row.input")
+	);
 }
 
 function addFactionToFilter(event) {
@@ -1229,11 +1324,11 @@ function addFactionToFilter(event) {
 		radio_input.checked = true;
 	}
 
-	remove_icon.addEventListener("click", event => {
+	remove_icon.addEventListener("click", (event) => {
 		event.target.parentElement.parentElement.remove();
 	});
 
-	remove_icon_wrap.addEventListener("click", event => {
+	remove_icon_wrap.addEventListener("click", (event) => {
 		event.target.parentElement.remove();
 	});
 
@@ -1266,11 +1361,11 @@ function addHighlightToList(event) {
 	let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
 	let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
 
-	remove_icon.addEventListener("click", event => {
+	remove_icon.addEventListener("click", (event) => {
 		event.target.parentElement.parentElement.remove();
 	});
 
-	remove_icon_wrap.addEventListener("click", event => {
+	remove_icon_wrap.addEventListener("click", (event) => {
 		event.target.parentElement.remove();
 	});
 
@@ -1291,7 +1386,7 @@ function setupApiStatistics() {
 	console.log("api history", api_history);
 	if (!api_history) return;
 
-	let time_limit = 5 * 60 * 1000;  // (ms) 5 minutes
+	let time_limit = 5 * 60 * 1000; // (ms) 5 minutes
 	let chartColors = {
 		red: "rgb(255, 99, 132)",
 		orange: "rgb(255, 159, 64)",
@@ -1366,7 +1461,7 @@ function setupApiStatistics() {
 	// console.log(datasets)
 
 	// Replace labels
-	datasets.map(x => x.label = capitalize(x.label.replace(/_/g, " ")));
+	datasets.map((x) => (x.label = capitalize(x.label.replace(/_/g, " "))));
 
 	let ctx = doc.find("#torn-api-graph").getContext("2d");
 	new Chart(ctx, {
@@ -1381,15 +1476,17 @@ function setupApiStatistics() {
 				text: "Torn API",
 			},
 			scales: {
-				yAxes: [{
-					ticks: {
-						callback: value => {
-							if (Math.floor(value) === value) {
-								return value;
-							}
+				yAxes: [
+					{
+						ticks: {
+							callback: (value) => {
+								if (Math.floor(value) === value) {
+									return value;
+								}
+							},
 						},
 					},
-				}],
+				],
 			},
 		},
 	});
@@ -1456,13 +1553,14 @@ function exportData() {
 			name: database.userdata.name,
 			client: {
 				version: chrome.runtime.getManifest().version,
-				disk_space: await (() => new Promise(resolve => {
-					if (chrome.storage.local.getBytesInUse) {
-						chrome.storage.local.getBytesInUse(data => resolve(data.toString()));
-					} else {
-						return resolve(formatBytes(JSON.stringify(DB).length));
-					}
-				}))(),
+				disk_space: await (() =>
+					new Promise((resolve) => {
+						if (chrome.storage.local.getBytesInUse) {
+							chrome.storage.local.getBytesInUse((data) => resolve(data.toString()));
+						} else {
+							return resolve(formatBytes(JSON.stringify(DB).length));
+						}
+					}))(),
 			},
 			date: new Date().toString(),
 			storage: {},
@@ -1480,31 +1578,29 @@ function exportData() {
 			"notes",
 			"filters",
 			"sorting",
-			"watchlist",
+			"stakeouts",
 			"settings",
 			"profile_notes",
 		];
 
 		for (let key of keys_to_export) {
 			if (!(key in database)) {
-				return message(
-					`Database is missing key: ${key}`
-					, false);
+				return message(`Database is missing key: ${key}`, false);
 			}
 
 			post_data.storage[key] = database[key];
 		}
 
 		fetchApi_v2("torntools", {
-			section:
-				`api/${userdata.player_id}/storage/update`
-			, method: "POST", postData: post_data,
+			section: `api/${userdata.player_id}/storage/update`,
+			method: "POST",
+			postData: post_data,
 		})
-			.then(result => {
+			.then((result) => {
 				console.log("export", result);
 				message(result.message, result.success, { reload: result.success });
 			})
-			.catch(err => {
+			.catch((err) => {
 				console.log("ERROR", err);
 				message(err.error, false);
 			});
@@ -1513,15 +1609,14 @@ function exportData() {
 
 function importData() {
 	fetchApi_v2("torntools", {
-		section:
-			`api/${userdata.player_id}/storage`,
+		section: `api/${userdata.player_id}/storage`,
 	})
-		.then(result => {
+		.then((result) => {
 			console.log("import", result);
 
 			let conflictMessage = `\n`;
 
-			ttStorage.get(null, database => {
+			ttStorage.get(null, (database) => {
 				for (let key in result.data) {
 					if (JSON.stringify(result.data[key]) !== JSON.stringify(database[key])) {
 						conflictMessage += `- ${key}\n`;
@@ -1534,16 +1629,15 @@ function importData() {
 						title: "Import",
 						message: `### You are all up-to-date`,
 					})
-						.then(() => {
-						})
-						.catch(() => {
-						});
+						.then(() => {})
+						.catch(() => {});
 				} else {
 					loadConfirmationPopup({
 						title: "Import",
 						message: `### Are you sure that you want to overwrite following items?\n${conflictMessage}`,
 					})
 						.then(async () => {
+							preferenceModifications.clear();
 							let import_result;
 							for (let key in result.data) {
 								import_result = await new Promise((resolve) => {
@@ -1560,13 +1654,11 @@ function importData() {
 
 							message(import_result.message, import_result.success, { reload: import_result.success });
 						})
-						.catch(() => {
-						});
+						.catch(() => {});
 				}
-
 			});
 		})
-		.catch(err => {
+		.catch((err) => {
 			console.log(err);
 			message(err.error, false);
 		});
@@ -1609,17 +1701,16 @@ function importDataText() {
 
 			message(import_result.message, import_result.success, { reload: import_result.success });
 		})
-		.catch(() => {
-		});
+		.catch(() => {});
 }
 
 function clearRemoteData() {
 	fetchApi_v2("torntools", { section: `api/${userdata.player_id}/storage/clear`, method: "POST" })
-		.then(result => {
+		.then((result) => {
 			console.log("clear", result);
 			message(result.message, true, { reload: true });
 		})
-		.catch(err => {
+		.catch((err) => {
 			console.log("ERROR", err);
 			message(err.error, false);
 		});
@@ -1631,4 +1722,15 @@ function getCustomLinkOptions() {
 	options += "<option value='custom'>Custom..</option>";
 
 	return options;
+}
+
+function requestPermission(url) {
+	return new Promise((resolve, reject) => {
+		console.log("DKK requestPermission", url);
+
+		chrome.permissions.request({ origins: [url] }, (granted) => {
+			if (granted) resolve();
+			else reject();
+		});
+	});
 }

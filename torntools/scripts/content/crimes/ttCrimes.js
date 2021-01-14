@@ -36,7 +36,7 @@ requireDatabase().then(() => {
 			requireMessageBox().then(() => {
 				if (doc.find("#ttQuick")) return;
 
-				ttStorage.get("quick", quick => {
+				ttStorage.get("quick", (quick) => {
 					showCrimesContainer(quick);
 				});
 				in_progress = false;
@@ -45,12 +45,11 @@ requireDatabase().then(() => {
 			crimesLoaded().then(() => {
 				markCrimes();
 			});
-
 		});
 		content_observer.observe(content_wrapper, { childList: true, subtree: true });
 
 		// quick crimes listener
-		doc.addEventListener("click", event => {
+		doc.addEventListener("click", (event) => {
 			// Close button
 			if (event.target.classList.contains("tt-close-icon")) {
 				console.log("here");
@@ -59,19 +58,20 @@ requireDatabase().then(() => {
 				let div = findParent(event.target, { class: "item" });
 				div.remove();
 
-				let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
+				let crimes = [...doc.findAll("#ttQuick .item")].map((x) => ({
 					action: x.getAttribute("action"),
 					nerve: x.getAttribute("nerve"),
 					name: x.getAttribute("name"),
-					icon: window.getComputedStyle(x.find(".pic"), false).backgroundImage.split("(\"")[1].split("\")")[0],
+					icon: window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0],
 					text: x.find(".text").innerText.split(" (")[0],
 				}));
-				ttStorage.change({ quick: { crimes: crimes } }, () => quick.crimes = crimes);
-
+				ttStorage.change({ quick: { crimes: crimes } }, () => (quick.crimes = crimes));
 			}
 			// Crime button
-			else if ((event.target.classList.contains("item") && hasParent(event.target, { id: "ttQuick" })) ||
-				(hasParent(event.target, { class: "item" }) && hasParent(event.target, { id: "ttQuick" }))) {
+			else if (
+				(event.target.classList.contains("item") && hasParent(event.target, { id: "ttQuick" })) ||
+				(hasParent(event.target, { class: "item" }) && hasParent(event.target, { id: "ttQuick" }))
+			) {
 				let div = event.target.classList.contains("item") ? event.target : findParent(event.target, { class: "item" });
 
 				let action = div.getAttribute("action");
@@ -150,7 +150,9 @@ function crimesLoaded() {
 }
 
 function showCrimesContainer(quick) {
-	let quick_container = content.newContainer("Crimes", { id: "ttQuick", dragzone: true, next_element: doc.find(".tutorial-cont") }).find(".content"); /*doc.find("#module-desc") || doc.find(".title-black[role=heading]") || doc.find(".users-list-title")*/
+	let quick_container = content
+		.newContainer("Crimes", { id: "ttQuick", dragzone: true, next_element: doc.find(".tutorial-cont") })
+		.find(".content"); /*doc.find("#module-desc") || doc.find(".title-black[role=heading]") || doc.find(".users-list-title")*/
 	let inner_content = doc.new({ type: "div", class: "inner-content" });
 	quick_container.appendChild(inner_content);
 
@@ -199,7 +201,7 @@ function addButton() {
 
 	doc.find("#ttQuick .tt-title .tt-options").appendChild(wrap);
 
-	wrap.onclick = event => {
+	wrap.onclick = (event) => {
 		event.stopPropagation();
 
 		if (doc.find(".tt-black-overlay").classList.contains("active")) {
@@ -213,6 +215,7 @@ function addButton() {
 				quickCrime.classList.remove("removable");
 			}
 		} else {
+			doc.find("#ttQuick .tt-title").classList.remove("collapsed");
 			doc.find(".tt-black-overlay").classList.add("active");
 			doc.find(".tt-title .tt-options .tt-option#edit-crime-button").classList.add("tt-highlight-sector");
 
@@ -221,21 +224,21 @@ function addButton() {
 				quickCrime.classList.add("tt-highlight-sector");
 				quickCrime.classList.add("removable");
 
-				quickCrime.onclick = event => {
+				quickCrime.onclick = (event) => {
 					event.stopPropagation();
 					event.preventDefault();
 
 					if (event.target.classList.contains("item")) event.target.remove();
 					else findParent(event.target, { class: "item" }).remove();
 
-					let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
+					let crimes = [...doc.findAll("#ttQuick .item")].map((x) => ({
 						action: x.getAttribute("action"),
 						nerve: x.getAttribute("nerve"),
 						name: x.getAttribute("name"),
-						icon: window.getComputedStyle(x.find(".pic"), false).backgroundImage.split("(\"")[1].split("\")")[0],
+						icon: window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0],
 						text: x.find(".text").innerText.split(" (")[0],
 					}));
-					ttStorage.change({ quick: { crimes: crimes } }, () => quick.crimes = crimes);
+					ttStorage.change({ quick: { crimes: crimes } }, () => (quick.crimes = crimes));
 				};
 			}
 
@@ -244,7 +247,7 @@ function addButton() {
 			doc.find("form[name='crimes']").classList.add("tt-highlight-sector");
 			// Add new crimes
 			for (let crime of doc.findAll("form[name='crimes']>ul>li")) {
-				crime.onclick = event => {
+				crime.onclick = (event) => {
 					event.stopPropagation();
 					event.preventDefault();
 
@@ -273,36 +276,35 @@ function addButton() {
 					div.appendChild(close_icon);
 					doc.find("#ttQuick .inner-content").appendChild(div);
 
-					div.onclick = event => {
+					div.onclick = (event) => {
 						event.stopPropagation();
 						event.preventDefault();
 
 						if (event.target.classList.contains("item")) event.target.remove();
 						else findParent(event.target, { class: "item" }).remove();
 
-						let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
+						let crimes = [...doc.findAll("#ttQuick .item")].map((x) => ({
 							action: x.getAttribute("action"),
 							nerve: x.getAttribute("nerve"),
 							name: x.getAttribute("name"),
-							icon: window.getComputedStyle(x.find(".pic"), false).backgroundImage.split("(\"")[1].split("\")")[0],
+							icon: window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0],
 							text: x.find(".text").innerText.split(" (")[0],
 						}));
-						ttStorage.change({ quick: { crimes: crimes } }, () => quick.crimes = crimes);
+						ttStorage.change({ quick: { crimes: crimes } }, () => (quick.crimes = crimes));
 					};
 
 					// Save
-					let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
+					let crimes = [...doc.findAll("#ttQuick .item")].map((x) => ({
 						action: x.getAttribute("action"),
 						nerve: x.getAttribute("nerve"),
 						name: x.getAttribute("name"),
-						icon: window.getComputedStyle(x.find(".pic"), false).backgroundImage.split("(\"")[1].split("\")")[0],
+						icon: window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0],
 						text: x.find(".text").innerText.split(" (")[0],
 					}));
-					ttStorage.change({ quick: { crimes: crimes } }, () => quick.crimes = crimes);
+					ttStorage.change({ quick: { crimes: crimes } }, () => (quick.crimes = crimes));
 				};
 			}
 		}
-
 	};
 }
 
@@ -343,14 +345,14 @@ function onDragEnd() {
 
 	doc.find("#ttQuick .content").classList.remove("drag-progress");
 
-	let crimes = [...doc.findAll("#ttQuick .item")].map(x => ({
+	let crimes = [...doc.findAll("#ttQuick .item")].map((x) => ({
 		action: x.getAttribute("action"),
 		nerve: x.getAttribute("nerve"),
 		name: x.getAttribute("name"),
-		icon: window.getComputedStyle(x.find(".pic"), false).backgroundImage.split("(\"")[1].split("\")")[0],
+		icon: window.getComputedStyle(x.find(".pic"), false).backgroundImage.split('("')[1].split('")')[0],
 		text: x.find(".text").innerText.split(" (")[0],
 	}));
-	ttStorage.change({ quick: { crimes: crimes } }, () => quick.crimes = crimes);
+	ttStorage.change({ quick: { crimes: crimes } }, () => (quick.crimes = crimes));
 }
 
 function toggleCrimes() {
@@ -446,12 +448,12 @@ function handleFormSubmit({ detail: { response } }) {
 	if (response.responseText.indexOf("success-message") === -1 && response.responseText.indexOf("ready-message") === -1) {
 		$content.html(response.responseText);
 	} else {
-		let parts = response.responseText.split("<div class=\"tutorial-cont");
+		let parts = response.responseText.split('<div class="tutorial-cont');
 		let top = parts[0];
 		// let middle = doc.createElement("div");
 		// middle.id = "ttQuick";
 		// middle.innerHTML = doc.find("#ttQuick").innerHTML;
-		let bottom = "<div class=\"tutorial-cont" + parts[1];
+		let bottom = '<div class="tutorial-cont' + parts[1];
 
 		doc.find(".content-wrapper").innerHTML = top;
 		// doc.find(".content-wrapper").appendChild(middle);

@@ -79,8 +79,8 @@ function addFilterToTable(list, title) {
 	});
 
 	let time_slider_info = time_slider.nextElementSibling;
-	time_slider.noUiSlider.on("update", values => {
-		values = values.map(x => (timeUntil(parseFloat(x) * 60 * 60 * 1000, { max_unit: "h", hide_nulls: true })));
+	time_slider.noUiSlider.on("update", (values) => {
+		values = values.map((x) => timeUntil(parseFloat(x) * 60 * 60 * 1000, { max_unit: "h", hide_nulls: true }));
 		time_slider_info.innerHTML = `Time: ${values.join(" - ")}`;
 	});
 
@@ -94,8 +94,8 @@ function addFilterToTable(list, title) {
 	});
 
 	let level_slider_info = level_slider.nextElementSibling;
-	level_slider.noUiSlider.on("update", values => {
-		values = values.map(x => parseInt(x));
+	level_slider.noUiSlider.on("update", (values) => {
+		values = values.map((x) => parseInt(x));
 		level_slider_info.innerHTML = `Level: ${values.join(" - ")}`;
 	});
 
@@ -113,15 +113,15 @@ function addFilterToTable(list, title) {
 			mode: "range",
 			density: 5,
 			format: {
-				from: x => x,
-				to: x => numberWithCommas(x, false),
+				from: (x) => x,
+				to: (x) => numberWithCommas(x, false),
 			},
 		},
 	});
 
 	let score_slider_info = score_slider.nextElementSibling;
-	score_slider.noUiSlider.on("update", values => {
-		values = values.map(x => numberWithCommas(parseInt(x), false));
+	score_slider.noUiSlider.on("update", (values) => {
+		values = values.map((x) => numberWithCommas(parseInt(x), false));
 		score_slider_info.innerHTML = `Max Score: ${values.join(" - ")}`;
 	});
 
@@ -132,12 +132,14 @@ function addFilterToTable(list, title) {
 	for (let dropdown of filter_container.findAll("select")) {
 		dropdown.onchange = applyFilters;
 	}
-	let filter_observer = new MutationObserver(mutations => {
+	let filter_observer = new MutationObserver((mutations) => {
 		for (let mutation of mutations) {
-			if (mutation.type === "attributes"
-				&& mutation.target.classList
-				&& mutation.attributeName === "aria-valuenow"
-				&& (mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))) {
+			if (
+				mutation.type === "attributes" &&
+				mutation.target.classList &&
+				mutation.attributeName === "aria-valuenow" &&
+				(mutation.target.classList.contains("noUi-handle-lower") || mutation.target.classList.contains("noUi-handle-upper"))
+			) {
 				applyFilters();
 			}
 		}
@@ -145,7 +147,7 @@ function addFilterToTable(list, title) {
 	filter_observer.observe(filter_container, { attributes: true, subtree: true });
 
 	// Page changing
-	doc.addEventListener("click", event => {
+	doc.addEventListener("click", (event) => {
 		if (event.target.classList && !event.target.classList.contains("gallery-wrapper") && hasParent(event.target, { class: "gallery-wrapper" })) {
 			console.log("click");
 			setTimeout(() => {
@@ -215,14 +217,18 @@ function addFilterToTable(list, title) {
 			}
 
 			// Time
-			let player_time = toSeconds(li.find(".time").innerText.trim().replace("Time", "").replace("TIME", "").replace(":", "").replace("left:", "").trim()) / 60 / 60; // to hours
+			let player_time =
+				toSeconds(li.find(".time").innerText.trim().replace("Time", "").replace("TIME", "").replace(":", "").replace("left:", "").trim()) / 60 / 60; // to hours
 			if (!(time[0] <= player_time && player_time <= time[1])) {
 				li.classList.add("filter-hidden");
 				continue;
 			}
 
 			// Score
-			let player_score = player_level * toSeconds(li.find(".time").innerText.trim().replace("Time", "").replace("TIME", "").replace(":", "").replace("left:", "").trim()) / 60;  // to minutes
+			let player_score =
+				(player_level *
+					toSeconds(li.find(".time").innerText.trim().replace("Time", "").replace("TIME", "").replace(":", "").replace("left:", "").trim())) /
+				60; // to minutes
 			if (player_score > score[0]) {
 				li.classList.add("filter-hidden");
 				continue;
@@ -241,7 +247,7 @@ function addFilterToTable(list, title) {
 			}
 
 			// Faction
-			if (faction !== "" && (!li.find(`img[title='${faction}']`) && li.find(`a.user.faction`).innerText !== faction)) {
+			if (faction !== "" && !li.find(`img[title='${faction}']`) && li.find(`a.user.faction`).innerText !== faction) {
 				li.classList.add("filter-hidden");
 			}
 		}
@@ -252,12 +258,14 @@ function addFilterToTable(list, title) {
 	}
 
 	function updateStatistics() {
-		doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li")].filter(x => (!x.classList.contains("filter-hidden"))).length;
+		doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li")].filter((x) => !x.classList.contains("filter-hidden")).length;
 		doc.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope>li")].length;
 	}
 
 	function populateFactions() {
-		let faction_tags = [...list.findAll(":scope>li")].map(x => (x.find(".user.faction img") ? x.find(".user.faction img").getAttribute("title") : x.find("a.user.faction").innerText)).filter(x => x.trim() !== "");
+		let faction_tags = [...list.findAll(":scope>li")]
+			.map((x) => (x.find(".user.faction img") ? x.find(".user.faction img").getAttribute("title") : x.find("a.user.faction").innerText))
+			.filter((x) => x.trim() !== "");
 
 		for (let tag of faction_tags) {
 			if (filter_container.find(`#tt-faction-filter option[value='${tag}']`)) continue;
@@ -280,11 +288,11 @@ function showQuick() {
 			wrap.appendChild(doc.new({ type: "label", text: `Enable Quick ${text}`, attributes: { for: id } }));
 			doc.find("#tt-player-filter .tt-options").appendChild(wrap);
 
-			wrap.onclick = event => {
+			wrap.onclick = (event) => {
 				event.stopPropagation();
 			};
 
-			checkbox.onchange = event => {
+			checkbox.onchange = (event) => {
 				modify(event.target.checked);
 
 				ttStorage.change({ settings: { pages: { jail: { [option]: event.target.checked } } } });
@@ -320,4 +328,3 @@ function showQuick() {
 		}
 	}
 }
-

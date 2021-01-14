@@ -2,16 +2,6 @@ console.log("TT - Loading global database.");
 
 let DB;
 
-const DATABASE_STATUSES = {
-	NOT_INITIALIZED: 0,
-	LOADING: 1,
-	LOADED: 2,
-	ENTRY: 3,
-	FAILED: 99,
-};
-
-let database_status = DATABASE_STATUSES.NOT_INITIALIZED;
-
 function requireDatabase(requireEntry = true) {
 	return new Promise((resolve, reject) => {
 		let checker = setInterval(function () {
@@ -34,11 +24,42 @@ function requireDatabase(requireEntry = true) {
 }
 
 // Pre-load database
-let userdata, torndata, settings, api_key, proxy_key, chat_highlight, itemlist,
-	travel_market, oc, allies, loot_times, target_list, vault, personalized,
-	mass_messages, custom_links, loot_alerts, extensions, new_version, hide_icons,
-	quick, notes, profile_notes, stakeouts, updated, networth, filters, cache, watchlist, api_history,
-	api, sorting, stock_alerts, hide_areas, travel_items;
+let userdata,
+	torndata,
+	settings,
+	api_key,
+	chat_highlight,
+	itemlist,
+	travel_market,
+	oc,
+	allies,
+	loot_times,
+	target_list,
+	vault,
+	personalized,
+	mass_messages,
+	custom_links,
+	loot_alerts,
+	extensions,
+	new_version,
+	hide_icons,
+	quick,
+	notes,
+	profile_notes,
+	stakeouts,
+	updated,
+	networth,
+	filters,
+	cache,
+	watchlist,
+	api_history,
+	api,
+	sorting,
+	stock_alerts,
+	hide_areas,
+	travel_items,
+	notifications_custom,
+	yata;
 
 (async function () {
 	database_status = DATABASE_STATUSES.LOADING;
@@ -50,7 +71,6 @@ let userdata, torndata, settings, api_key, proxy_key, chat_highlight, itemlist,
 		torndata = DB.torndata;
 		settings = DB.settings;
 		api_key = DB.api_key;
-		proxy_key = DB.proxy_key;
 		chat_highlight = DB.chat_highlight;
 		itemlist = DB.itemlist;
 		travel_market = DB.travel_market;
@@ -81,6 +101,8 @@ let userdata, torndata, settings, api_key, proxy_key, chat_highlight, itemlist,
 		stock_alerts = DB.stock_alerts;
 		hide_areas = DB.hide_areas;
 		travel_items = DB.travel_items;
+		notifications_custom = DB.notifications_custom;
+		yata = DB.yata;
 
 		if (!api_key) {
 			database_status = DATABASE_STATUSES.FAILED;
@@ -88,7 +110,11 @@ let userdata, torndata, settings, api_key, proxy_key, chat_highlight, itemlist,
 			return;
 		}
 
-		database_status = DATABASE_STATUSES.LOADED;
+		if (database_status === DATABASE_STATUSES.LOADING_ENTRY) {
+			database_status = DATABASE_STATUSES.ENTRY;
+		} else {
+			database_status = DATABASE_STATUSES.LOADED;
+		}
 	});
 })();
 
@@ -98,5 +124,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
 
 	if (changes.filters) {
 		filters = changes.filters.newValue;
+	} else if (changes.userdata) {
+		userdata = changes.userdata.newValue;
 	}
 });

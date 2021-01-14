@@ -10,44 +10,23 @@ function mobileChecker() {
 			return;
 		}
 
-		let checker = setInterval(() => {
-			if (doc.find(".header-menu-icon")) {
-				const display = getComputedStyle(doc.find(".header-menu-icon")).display;
-				if (display === "none") {
-					resolve(false);
-					return clearInterval(checker);
-				} else if (display === "inline-block") {
-					resolve(true);
-					return clearInterval(checker);
-				}
-			}
+		if (document.readyState === "complete" || document.readyState === "loaded") check();
+		else window.addEventListener("DOMContentLoaded", check);
 
-			if (doc.find("#top-page-links-list")) {
-				let events_icon = doc.find("#top-page-links-list a[role='button'][aria-labelledby='events']");
-				if (events_icon && window.getComputedStyle(events_icon, ":before").getPropertyValue("content") === "") {
-					resolve(true);
-					return clearInterval(checker);
-				} else {
-					resolve(false);
-					return clearInterval(checker);
-				}
-			}
+		function check() {
+			const browserWidth = window.innerWidth;
 
-			if (!doc.find(`.sidebar___BizFX`)) return;
-			if (doc.find(`.sidebar___BizFX`).classList.contains("mobile")) {
-				resolve(true);
-				return clearInterval(checker);
-			} else {
-				resolve(false);
-				return clearInterval(checker);
-			}
-		});
+			if (browserWidth <= 600) resolve(true);
+			else resolve(false);
+		}
 	});
 }
 
-requireDatabase(false).then(async () => {
+ttStorage.get(["settings", "hide_icons", "hide_areas"], async ([settings, hide_icons, hide_areas]) => {
 	// Align left
-	document.documentElement.style.setProperty("--torntools-align-left", settings.pages.global.align_left ? "20px" : "auto");
+	if (settings.pages.global.align_left) document.documentElement.classList.add("tt-align-left");
+
+	if (getSearchParameters().has("popped")) document.documentElement.classList.add("tt-popout");
 
 	// Upgrade button
 	document.documentElement.style.setProperty("--torntools-hide-upgrade-button", settings.pages.global.hide_upgrade ? "none" : "block");
@@ -56,10 +35,13 @@ requireDatabase(false).then(async () => {
 	}
 
 	// Hide quit/leave options
-	document.documentElement.style.setProperty("--torntools-hide-leave-button", settings.pages.global.hide_leave ? "none" : "block");
+	document.documentElement.style.setProperty("--torntools-hide-leave-button", settings.pages.global.hide_leave ? "none" : "flex");
 
 	// Hide Doctorn
-	if ((settings.force_tt && ["home", "city", "travelagency", "war", "items", "crimes", "gym", "bounties", "profile", "faction", "jail"].includes(getCurrentPage()))) {
+	if (
+		settings.force_tt &&
+		["home", "city", "travelagency", "war", "items", "crimes", "gym", "bounties", "profile", "faction", "jail"].includes(getCurrentPage())
+	) {
 		document.documentElement.style.setProperty("--torntools-hide-doctorn", "none");
 	}
 
@@ -104,5 +86,9 @@ requireDatabase(false).then(async () => {
 	page_status = await getPageStatus();
 	console.log("Page Status:", page_status);
 
-	database_status = DATABASE_STATUSES.ENTRY;
+	if (database_status === DATABASE_STATUSES.LOADING) {
+		database_status = DATABASE_STATUSES.LOADING_ENTRY;
+	} else {
+		database_status = DATABASE_STATUSES.ENTRY;
+	}
 });

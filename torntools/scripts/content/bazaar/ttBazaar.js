@@ -9,7 +9,7 @@ requireDatabase().then(() => {
 			if (settings.pages.bazaar.worth) {
 				let bazaar_user_id = getSearchParameters().get("userId");
 				fetchApi_v2("torn", { section: "user", objectid: bazaar_user_id, selections: "bazaar" })
-					.then(result => {
+					.then((result) => {
 						let total = 0;
 
 						for (let item in result.bazaar) {
@@ -22,7 +22,7 @@ requireDatabase().then(() => {
 						div.appendChild(span);
 						doc.find(".info-msg-cont .msg").appendChild(div);
 					})
-					.catch(err => {
+					.catch((err) => {
 						console.log("ERROR", err);
 					});
 			}
@@ -35,9 +35,11 @@ requireDatabase().then(() => {
 				let item_name = itemlist.items[item_id].name;
 
 				let found_item = false;
-				for (let item of doc.findAll(".item___2GvHm")) {
-					if (item.find(".name___IJ_Q-").innerText.trim() === item_name &&
-						item.find(".price___8AdTw").innerText.replace("$", "").replace(/,/g, "") === item_price) {
+				for (let item of doc.findAll("[class^='item']")) {
+					if (
+						item.find("[class^='name']").innerText.trim() === item_name &&
+						item.find("[class^='price']").innerText.replace("$", "").replace(/,/g, "") === item_price
+					) {
 						found_item = true;
 
 						item.style.backgroundColor = "rgba(177, 206, 130, 0.5)";
@@ -56,29 +58,29 @@ requireDatabase().then(() => {
 			}
 
 			// Max buy button
-			document.addEventListener("click", event => {
-				if (event.target.classList.contains("controlPanelButton___3mqHY") && event.target.getAttribute("aria-label").indexOf("Buy") > -1) {
-					let parent = doc.find(".buyMenu____p9jd").parentElement;
+			document.addEventListener("click", (event) => {
+				if (event.target.classList.contains("[class^='controlPanelButton']") && event.target.getAttribute("aria-label").indexOf("Buy") > -1) {
+					let parent = doc.find("[class^='buyMenu']").parentElement;
 
 					let max_span = doc.new({ type: "span", text: "fill max", class: "tt-max-buy bold" });
-					parent.find(".buy___C9yzh").parentElement.appendChild(max_span);
+					parent.find("[class^='buy']").parentElement.appendChild(max_span);
 
-					max_span.addEventListener("click", event => {
+					max_span.addEventListener("click", (event) => {
 						event.stopPropagation();
-						let max = parent.find(".buyAmountInput___Aooaf").max;
+						let max = parent.find("[class^='buyAmountInput']").max;
 
 						if (!settings.pages.bazaar.max_buy_ignore_cash) {
-							let price = parseInt(parent.find(".price___3p35J").innerText.replaceAll(",", "").replace("$", ""));
+							let price = parseInt(parent.find("[class^='price']").innerText.replaceAll(",", "").replace("$", ""));
 							let user_money = parseInt(doc.find("#user-money").innerText.replaceAll(",", "").replace("$", ""));
 
 							if (Math.floor(user_money / price) < max) max = Math.floor(user_money / price);
 						}
 						if (max > 10000) max = 10000;
 
-						parent.find(".buyAmountInput___Aooaf").value = max;
+						parent.find("[class^='buyAmountInput']").value = max;
 
 						// for value to be accepted
-						parent.find(".buyAmountInput___Aooaf").dispatchEvent(new Event("input", { bubbles: true }));
+						parent.find("[class^='buyAmountInput']").dispatchEvent(new Event("input", { bubbles: true }));
 					});
 				}
 			});
@@ -87,7 +89,7 @@ requireDatabase().then(() => {
 });
 
 function bazaarLoaded() {
-	return requireElement(".item___2GvHm");
+	return requireElement("[class^='item']");
 }
 
 function visiting() {

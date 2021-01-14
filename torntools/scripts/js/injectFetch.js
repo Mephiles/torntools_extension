@@ -8,7 +8,8 @@ function interceptFetch(channel) {
 	const oldFetch = window.fetch;
 	window.fetch = function () {
 		return new Promise((resolve, reject) => {
-			oldFetch.apply(this, arguments)
+			oldFetch
+				.apply(this, arguments)
 				.then(async (response) => {
 					const page = response.url.substring(response.url.indexOf("torn.com/") + "torn.com/".length, response.url.indexOf(".php"));
 					const json = await response.clone().json();

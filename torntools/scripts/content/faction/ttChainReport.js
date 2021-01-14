@@ -32,9 +32,21 @@ function getData() {
 	let rows = doc.findAll(".members-names-rows li");
 
 	let headings = [
-		"User", "Total Respect", "Average Respect", "Attacks", "Leaves",
-		"Mugs", "Hosps", "War hits", "Bonus hits", "Assists",
-		"Retaliation hits", "Overseas hits", "Draws", "Escapes", "Losses",
+		"User",
+		"Total Respect",
+		"Average Respect",
+		"Attacks",
+		"Leaves",
+		"Mugs",
+		"Hosps",
+		"War hits",
+		"Bonus hits",
+		"Assists",
+		"Retaliation hits",
+		"Overseas hits",
+		"Draws",
+		"Escapes",
+		"Losses",
 	];
 
 	table.push(headings);
@@ -47,10 +59,11 @@ function getData() {
 		for (let heading of headings) {
 			if (heading === "User") {
 				let user = row.find(".user.name").getAttribute("data-placeholder");
-				table_row.push(user);  // username + ID
+				table_row.push(user); // username + ID
 				// console.log(user);
 			} else {
-				if (row.classList.contains("bg-gray")) {  // didn't take part in chain
+				if (row.classList.contains("bg-gray")) {
+					// didn't take part in chain
 					table_row.push("-");
 				} else {
 					let column_index = headings.indexOf(heading);

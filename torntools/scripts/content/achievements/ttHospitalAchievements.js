@@ -5,8 +5,7 @@ requireDatabase().then(() => {
 		let show_completed = settings.achievements.completed;
 		let personalstats = userdata.personalstats;
 
-		if (!settings.achievements.show)
-			return;
+		if (!settings.achievements.show) return;
 
 		// object of all the achievements on this page
 		let achievements = {

@@ -1,30 +1,30 @@
 /* Networth */
 .tt-networth-li {
-    padding: 5px 3px 3px 7px;
+	padding: 5px 3px 3px 7px;
 }
 
 .tt-networth-table {
-    width: 100%;
+	width: 100%;
 }
 
 .tt-networth-table th {
-    font-weight: 600;
-    padding-bottom: 5px;
+	font-weight: 600;
+	padding-bottom: 5px;
 }
 
 .tt-networth-table td {
-    padding-bottom: 4px !important;
+	padding-bottom: 4px !important;
 }
 
 .tt-networth-table .negative-change {
-    color: #de0000;
+	color: #de0000;
 }
 
 .tt-networth-table .positive-change {
-    color: #00a500;
+	color: #00a500;
 }
 
 .tt-networth-footer {
-    padding-top: 4px;
-    border-top: 1px solid lightgrey;
+	padding-top: 4px;
+	border-top: 1px solid lightgrey;
 }

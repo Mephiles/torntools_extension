@@ -1,35 +1,35 @@
 .json-text-wrap {
-    position: relative;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 10px;
+	position: relative;
+	background-color: #f5f5f5;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding: 10px;
 }
 
 .copy-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 3px 5px;
-    border-radius: 6px;
-    font-size: 10px;
-    cursor: pointer;
-    font-family: 'Roboto', sans-serif;
-    color: #6f6f6f;
-    background-color: #e8e8e8;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	padding: 3px 5px;
+	border-radius: 6px;
+	font-size: 10px;
+	cursor: pointer;
+	font-family: "Roboto", sans-serif;
+	color: #6f6f6f;
+	background-color: #e8e8e8;
 }
 .copy-button:hover {
-    color: black !important;
+	color: black !important;
 }
 
 .temp-area {
-    position: relative;
-    left: -1000%;
+	position: relative;
+	left: -1000%;
 }
 
 .tt-confirmation-popup .message textarea {
-    width: 95%;
-    height: 250px;
-    min-width: 95%;
-    max-width: 95%;
+	width: 95%;
+	height: 250px;
+	min-width: 95%;
+	max-width: 95%;
 }

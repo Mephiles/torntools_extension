@@ -5,8 +5,7 @@ requireDatabase().then(() => {
 		let show_completed = settings.achievements.completed;
 		let personalstats = userdata.personalstats;
 
-		if (!settings.achievements.show)
-			return;
+		if (!settings.achievements.show) return;
 
 		// object of all the achievements on this page
 		const achievements = {
@@ -31,7 +30,7 @@ requireDatabase().then(() => {
 				keyword: "stealthed attacks",
 			},
 			Stalemates: {
-				stats: personalstats.defendsstalemated,
+				stats: personalstats.defendsstalemated + personalstats.attacksdraw,
 				keyword: "stalemate",
 			},
 			Escapes: {
@@ -96,6 +95,7 @@ requireDatabase().then(() => {
 			"Piercing hits": {
 				stats: personalstats.piehits,
 				keyword: "piercing",
+				incl: ["weapons"],
 			},
 			"Slashing hits": {
 				stats: personalstats.slahits,

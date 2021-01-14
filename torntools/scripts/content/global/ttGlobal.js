@@ -4,13 +4,30 @@ requireDatabase().then(() => {
 	// Add TT Black overlay
 	doc.find("body").appendChild(doc.new({ type: "div", class: "tt-black-overlay" }));
 
+	if (settings.pages.global.miniprofile_last_action) {
+		addFetchListener((event) => {
+			if (!event.detail) return;
+			const { page, json, fetch } = event.detail;
+
+			const params = new URL(fetch.url).searchParams;
+			const step = params.get("step");
+
+			if (page === "profiles" && step === "getUserNameContextMenu") {
+				showMiniprofileInformation(json);
+			}
+		});
+	}
+
 	if (settings.scripts.no_confirm.revives) {
 		injectXHR();
 
 		addReviveListener();
 	}
 
-	showToggleChat();
+	if (settings.pages.global.show_toggle_chat) {
+		showToggleChat();
+	}
+
 	if (settings.developer) {
 		showCustomConsole();
 	}
@@ -25,7 +42,7 @@ requireDatabase().then(() => {
 		if (!mobile) addInformationSection();
 
 		// Make Areas collapsible
-		if (!doc.find(".header-arrow___1Ph0g") && !mobile) {
+		if (!doc.find("[class='header-arrow']") && !mobile) {
 			let areas_i = doc.new({ type: "i", class: "tt-title-icon-torn fas fa-caret-down" });
 			let areas_header = doc.find("h2=Areas");
 			areas_header.classList.add("tt-title-torn");
@@ -56,12 +73,20 @@ requireDatabase().then(() => {
 		}
 
 		// Remove icons that are hidden
-		for (let icon of doc.findAll(`#sidebarroot .status-icons___1SnOI>li`)) {
-			let name = icon.getAttribute("class").split("_")[0];
-			if (hide_icons.indexOf(name) > -1) {
-				icon.remove();
+		function hideIcons(observer) {
+			observer.disconnect();
+
+			for (let icon of doc.findAll("#sidebarroot [class^='status-icons'] > li, #sidebar [class^='status-icons'] > li")) {
+				let name = icon.getAttribute("class").split("_")[0];
+				if (hide_icons.includes(name)) {
+					icon.parentElement.appendChild(icon);
+				}
 			}
+
+			observer.observe(doc.find("#sidebarroot [class^='status-icons'], #sidebar [class^='status-icons']"), { childList: true });
 		}
+
+		hideIcons(new MutationObserver((_, observer) => hideIcons(observer)));
 
 		// Vault balance
 		if (settings.pages.global.vault_balance && !mobile) {
@@ -81,15 +106,20 @@ requireDatabase().then(() => {
 
 		// Links for Energy and Nerve
 		if (!mobile) {
-			doc.find("#barEnergy .bar-name___3TJ0p").classList.add("tt-text-link");
-			doc.find("#barNerve .bar-name___3TJ0p").classList.add("tt-text-link");
-			doc.find("#barEnergy .bar-name___3TJ0p").onclick = () => {
+			doc.find("#barEnergy [class^='bar-name']").classList.add("tt-text-link");
+			doc.find("#barNerve [class^='bar-name']").classList.add("tt-text-link");
+			doc.find("#barEnergy [class^='bar-name']").onclick = () => {
 				window.location.href = "https://www.torn.com/gym.php";
 			};
-			doc.find("#barNerve .bar-name___3TJ0p").onclick = () => {
+			doc.find("#barNerve [class^='bar-name']").onclick = () => {
 				window.location.href = "https://www.torn.com/crimes.php";
 			};
 		}
+
+		highlightRefills();
+
+		// NUKE REVIVE SCRIPT
+		if (settings.pages.global.enable_central_revive) nukeReviveScript();
 
 		// Global time reducer
 		setInterval(() => {
@@ -134,16 +164,24 @@ requireDatabase().then(() => {
 		if (doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")) {
 			manipulateChat(highlights);
 
-			if (settings.pages.global.find_chat) addChatFilters();
+			if (settings.pages.global.find_chat) {
+				addChatFilters();
+				addPeopleBoxFilter();
+			}
+			if (settings.pages.global.autocomplete_chat) addChatUsernameAutocomplete();
 		}
 
-		doc.addEventListener("click", event => {
+		doc.addEventListener("click", (event) => {
 			if (!hasParent(event.target, { class: "chat-box_Wjbn9" })) {
 				return;
 			}
 
 			manipulateChat(highlights);
-			if (settings.pages.global.find_chat) addChatFilters();
+			if (settings.pages.global.find_chat) {
+				addChatFilters();
+				addPeopleBoxFilter();
+			}
+			if (settings.pages.global.autocomplete_chat) addChatUsernameAutocomplete();
 		});
 
 		let chat_observer = new MutationObserver((mutationsList) => {
@@ -177,31 +215,32 @@ function addCustomLinks() {
 	if (mobile) {
 		let areas_custom = doc.new({
 			type: "div",
-			class: "areas___2pu_3 areasWrapper areas-mobile___3zY0z torntools-mobile",
+			class: "areas___2pu_3 areasWrapper areas-mobile___3zY0z torntools-mobile", // FIXME - Use right classes.
 		});
 		let div = doc.new({ type: "div" });
 		let swipe_container = doc.new({ type: "div", class: "swiper-container swiper-container-horizontal" });
 		let swipe_wrapper = doc.new({
 			type: "div",
-			class: "swiper-wrapper swiper___nAyWO",
+			class: "swiper-wrapper swiper___nAyWO", // FIXME - Use right classes.
 			attributes: { style: "transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;" },
 		});
 		let swipe_button_left = doc.new({
 			type: "div",
-			class: "swiper-button___3lZ1n button-prev___2x-Io swiper-button-disabled",
+			class: "swiper-button___3lZ1n button-prev___2x-Io swiper-button-disabled", // FIXME - Use right classes.
 		});
 		let swipe_button_right = doc.new({ type: "div", class: "swiper-button___3lZ1n button-next___1hJxo" });
+		// FIXME - Use right classes.
 
 		for (let link of custom_links) {
-			let slide = doc.new({ type: "div", class: "swiper-slide slide___1oBWA" });
-			let area = doc.new({ type: "div", class: "area-mobile___1XJcq" });
-			let area_row = doc.new({ type: "div", class: "area-row___34mEZ torntools-mobile" });
+			let slide = doc.new({ type: "div", class: "swiper-slide slide___1oBWA" }); // FIXME - Use right classes.
+			let area = doc.new({ type: "div", class: "area-mobile___1XJcq" }); // FIXME - Use right classes.
+			let area_row = doc.new({ type: "div", class: "area-row___1VM_l torntools-mobile" });
 			let a = doc.new({
 				type: "a",
 				href: link.href,
-				class: "mobileLink___33zU1 sidebarMobileLink torntools-mobile",
+				class: "mobileLink___33zU1 sidebarMobileLink torntools-mobile", // FIXME - Use right classes.
 				text: link.text,
-				attributes: { target: (link.new_tab ? "_blank" : "") },
+				attributes: { target: link.new_tab ? "_blank" : "" },
 			});
 
 			area_row.appendChild(a);
@@ -216,7 +255,7 @@ function addCustomLinks() {
 		div.appendChild(swipe_container);
 		areas_custom.appendChild(div);
 
-		doc.find("#sidebar .content___kMC8x").insertBefore(areas_custom, doc.find("#sidebar .content___kMC8x .user-information-mobile___EaRKJ"));
+		doc.find("#sidebar [class^='content']").insertBefore(areas_custom, doc.find("#sidebar [class^='content'] [class^='user-information-mobile']"));
 	} else {
 		let custom_links_section = navbar.newSection("Custom Links", { next_element_heading: "Areas" });
 
@@ -224,20 +263,23 @@ function addCustomLinks() {
 			navbar.newCell(link.text, {
 				parent_element: custom_links_section,
 				href: link.href,
-				link_target: (link.new_tab ? "_blank" : ""),
+				link_target: link.new_tab ? "_blank" : "",
 			});
 		}
 
-		doc.find("#sidebar").insertBefore(custom_links_section, findParent(doc.find("h2=Areas"), { class: "sidebar-block___1Cqc2" }));
+		doc.find("#sidebar").insertBefore(
+			custom_links_section,
+			findParent(doc.find("h2=Areas"), { class: ["sidebar-block___1Cqc2", "sidebar-block___181mP"] }) // FIXME - Use right classes.
+		);
 	}
 }
 
 function addNotesBox() {
 	let notes_section = navbar.newSection("Notes", { next_element_heading: "Areas" });
-	let cell = doc.new({ type: "div", class: "area-desktop___2YU-q" });
-	let inner_div = doc.new({ type: "div", class: "area-row___34mEZ" });
+	let cell = doc.new({ type: "div", class: "area-desktop___2N3Jp" });
+	let inner_div = doc.new({ type: "div", class: "area-row___1VM_l" });
 	let textbox = doc.new({ type: "textarea", class: "tt-nav-textarea", value: notes.text || "" });
-
+	// [class^='
 	if (notes.height) {
 		textbox.style.height = notes.height;
 	}
@@ -246,7 +288,7 @@ function addNotesBox() {
 	cell.appendChild(inner_div);
 	notes_section.find(".tt-content").appendChild(cell);
 
-	doc.find("#sidebar").insertBefore(notes_section, findParent(doc.find("h2=Areas"), { class: "sidebar-block___1Cqc2" }));
+	doc.find("#sidebar").insertBefore(notes_section, findParent(doc.find("h2=Areas"), { class: ["sidebar-block___1Cqc2", "sidebar-block___181mP"] })); // FIXME - Use right classes.
 
 	textbox.addEventListener("change", () => {
 		ttStorage.set({ notes: { text: textbox.value, height: textbox.style.height } });
@@ -264,11 +306,11 @@ function addUpdateNotification() {
 	let version_text = `TornTools updated: ${chrome.runtime.getManifest().version}`;
 	let settings_page_url = chrome.runtime.getURL("/views/settings/settings.html");
 
-	let cell = doc.new({ type: "div", class: "area-desktop___2YU-q" });
-	let inner_div = doc.new({ type: "div", class: "area-row___34mEZ" });
+	let cell = doc.new({ type: "div", class: "area-desktop___2N3Jp" });
+	let inner_div = doc.new({ type: "div", class: "area-row___1VM_l" });
 	let a = doc.new({
 		type: "a",
-		class: "desktopLink___2dcWC",
+		class: "desktopLink___1p2Dr",
 		href: settings_page_url,
 		attributes: { target: "_blank", style: "background-color: #B8E28F; min-height: 24px; line-height: 24px;" },
 	});
@@ -313,7 +355,7 @@ function applyChatHighlights(message, highlights) {
 	}
 
 	function simplify(text) {
-		return text.toLowerCase().replaceAll([".", "?", ":", "!", "\"", "'", ";", "`", ","], "");
+		return text.toLowerCase().replaceAll([".", "?", ":", "!", '"', "'", ";", "`", ","], "");
 	}
 }
 
@@ -335,7 +377,7 @@ function addChatFilters() {
 		chat.nextElementSibling.classList.add("tt-modified");
 
 		let filter_wrap = doc.new({ type: "div", class: "tt-chat-filter" });
-		let filter_text = doc.new({ type: "div", text: "find:" });
+		let filter_text = doc.new({ type: "div", text: "Find:" });
 		let filter_input = doc.new({ type: "input", id: "---search---" });
 
 		filter_wrap.appendChild(filter_text);
@@ -363,6 +405,68 @@ function addChatFilters() {
 	}
 }
 
+function addChatUsernameAutocomplete() {
+	let chats = doc.findAll(".chat-box_Wjbn9");
+	for (let chat of chats) {
+		let chatMessageList = chat.find(".overview_1MoPG");
+		if (!chatMessageList) continue;
+
+		let chatTextbox = chat.find(".chat-box-textarea_2V28W");
+		if (!chatTextbox) continue;
+		if (chatTextbox.classList.contains("tt-chat-autocomplete")) continue;
+
+		chatTextbox.classList.add("tt-chat-autocomplete");
+
+		let currentUsername = null;
+		let currentSearchValue = null;
+		chatTextbox.addEventListener("keydown", (event) => {
+			if (event.key !== "Tab") {
+				currentUsername = null;
+				currentSearchValue = null;
+				return;
+			}
+
+			event.preventDefault();
+
+			let valueToCursor = chatTextbox.value.substr(0, chatTextbox.selectionStart);
+			let searchValueMatch = valueToCursor.match(/([^A-Za-z0-9\-_]?)([A-Za-z0-9\-_]*)$/);
+
+			if (currentSearchValue === null) {
+				currentSearchValue = searchValueMatch[2].toLowerCase();
+			}
+
+			let usernames = Array.from(chatMessageList.findAll(".message_oP8oM > a"))
+				.map((message) => message.innerText.slice(0, -2))
+				.filter((value, index, array) => array.indexOf(value) === index)
+				.sort();
+
+			let matchedUsernames = usernames.filter((username) => username.toLowerCase().indexOf(currentSearchValue) === 0);
+
+			if (matchedUsernames.length === 0) {
+				return;
+			}
+
+			let index = 0;
+			if (currentUsername !== null) {
+				index = matchedUsernames.indexOf(currentUsername) + 1;
+			}
+
+			if (index > matchedUsernames.length - 1) {
+				index = 0;
+			}
+
+			currentUsername = matchedUsernames[index];
+
+			let valueStart = searchValueMatch.index + searchValueMatch[1].length;
+			chatTextbox.value =
+				chatTextbox.value.substring(0, valueStart) + currentUsername + chatTextbox.value.substring(valueToCursor.length, chatTextbox.value.length);
+
+			let selectionIndex = valueStart + currentUsername.length;
+			chatTextbox.setSelectionRange(selectionIndex, selectionIndex);
+		});
+	}
+}
+
 function displayVaultBalance() {
 	if (!networth || !networth.current || !networth.current.value) return;
 
@@ -372,17 +476,19 @@ function displayVaultBalance() {
 		money = vault.user.current_money;
 	}
 
+	// FIXME - Use right classes.
 	let elementHTML = `
     	<span class="name___297H-">Vault:</span>
     	<span class="value___1K0oi money-positive___3pqLW" style="position:relative;left:-3px;">
-			${(settings.pages.global.vault_balance_own && vault.initialized && vault.user.current_money) ? "*" : ""}$${numberWithCommas(money, false)}
+			${settings.pages.global.vault_balance_own && vault.initialized && vault.user.current_money ? "*" : ""}$${numberWithCommas(money, false)}
 		</span>
     `;
 
+	// FIXME - Use right classes.
 	let el = doc.new({ type: "p", class: "point-block___xpMEi", attributes: { tabindex: "1" }, html: elementHTML });
 
 	let info_cont = doc.find("h2=Information");
-	info_cont.parentElement.find(".points___KTUNl").insertBefore(el, info_cont.parentElement.find(".points___KTUNl .point-block___xpMEi:nth-of-type(2)"));
+	info_cont.parentElement.find("[class^='points']").insertBefore(el, info_cont.parentElement.find("[class^='points'] [class^='point-block']:nth-of-type(2)"));
 }
 
 function showToggleChat() {
@@ -408,15 +514,29 @@ function showToggleChat() {
 		ttStorage.set({ settings: settings });
 	});
 
+	function setToggleChatPosition() {
+		var maxTop =
+			Array.from(document.querySelectorAll("#chatRoot > div > div")).reduce((accumulator, currentValue) =>
+				Math.max(accumulator || 0, currentValue.style["top"].replace(/[^\d]/g, ""))
+			) || 0;
+		var iconBottom = (maxTop / 39 / 2 + 1) * 39;
+
+		icon.style["bottom"] = `${iconBottom}px`;
+	}
+
+	new MutationObserver(() => setToggleChatPosition()).observe(document.querySelector("#chatRoot > div"), { attributes: true, subtree: true });
+
 	doc.find("#body").prepend(icon);
+
+	setToggleChatPosition();
 }
 
 function addInformationSection() {
-	let hr = doc.new({ type: "hr", class: "delimiter___neME6 tt-information-section-hr" });
+	let hr = doc.new({ type: "hr", class: "delimiter___neME6 delimiter___3kh4j tt-information-section-hr" }); // FIXME - Use right classes.
 	let div = doc.new({ type: "div", class: "tt-information-section" });
 
-	doc.find("#sidebarroot .user-information___u408H .content___3HChF").appendChild(hr);
-	doc.find("#sidebarroot .user-information___u408H .content___3HChF").appendChild(div);
+	doc.find("#sidebarroot [class^='user-information'] [class^='content']").appendChild(hr);
+	doc.find("#sidebarroot [class^='user-information'] [class^='content']").appendChild(div);
 }
 
 function displayOCtime() {
@@ -482,54 +602,6 @@ function displayOCtime() {
 	}
 }
 
-function onMiniProfile(callback) {
-	if (doc.find(".profile-mini-root")) addListener();
-	else {
-		new MutationObserver((mutations, observer) => {
-			for (let mutation of mutations) {
-				let found = false;
-				for (let node of mutation.addedNodes) {
-					if (node.id !== "profile-mini-root") continue;
-
-					found = true;
-					break;
-				}
-
-				if (found) {
-					addListener();
-					observer.disconnect();
-					break;
-				}
-			}
-		}).observe(doc.find("body"), { childList: true });
-	}
-
-	function addListener() {
-		if (doc.find("#profile-mini-root .mini-profile-wrapper")) triggerCallback();
-
-		new MutationObserver((mutations) => {
-			for (let mutation of mutations) {
-				let found = false;
-				for (let node of mutation.addedNodes) {
-					if (!node.classList.contains("mini-profile-wrapper")) continue;
-
-					found = true;
-					break;
-				}
-
-				if (found) {
-					triggerCallback();
-					break;
-				}
-			}
-		}).observe(doc.find("#profile-mini-root"), { childList: true });
-	}
-
-	function triggerCallback() {
-		requireElement("#profile-mini-root .mini-profile-wrapper .profile-container").then(callback);
-	}
-}
-
 function addReviveListener() {
 	const script = doc.new({
 		type: "script",
@@ -563,4 +635,150 @@ function showCustomConsole() {
 	ttConsole.parent = element;
 
 	doc.find("#mainContainer").insertBefore(element, doc.find("#mainContainer > .clear"));
+}
+
+function highlightRefills() {
+	if (mobile) return;
+
+	if (settings.pages.global.refill_energy && !userdata.refills.energy_refill_used) {
+		doc.find("#barEnergy [class^='bar-name']").classList.add("tt-refill");
+	}
+	if (settings.pages.global.refill_nerve && !userdata.refills.nerve_refill_used) {
+		doc.find("#barNerve [class^='bar-name']").classList.add("tt-refill");
+	}
+}
+
+function showMiniprofileInformation(information) {
+	const miniProfile = doc.find("#profile-mini-root .mini-profile-wrapper");
+
+	const lastAction = timeAgo(Date.now() - information.user.lastAction.seconds * 1000);
+
+	const signupDate = new Date(information.user.signUp * 1000);
+	const formattedTime = formatTime([signupDate.getUTCHours(), signupDate.getUTCMinutes(), signupDate.getUTCSeconds()], settings.format.time);
+	const formattedDate = formatDate([signupDate.getUTCDate(), signupDate.getUTCMonth() + 1, signupDate.getUTCFullYear()], settings.format.date);
+
+	requireElement("[class^='-profile-mini-_userProfileWrapper']", { parent: miniProfile }).then(() => {
+		setTimeout(() => {
+			miniProfile.find("[class^='-profile-mini-_userProfileWrapper']").appendChild(
+				doc.new({
+					type: "div",
+					class: "tt-mini-data",
+					children: [
+						doc.new({ type: "strong", text: "Last Action: " }),
+						doc.new({ type: "span", text: lastAction }),
+						// doc.new("br"),
+						// doc.new({ type: "strong", text: "Signup: " }),
+						// doc.new({ type: "span", text: `${formattedTime} ${formattedDate}` }),
+					],
+				})
+			);
+		}, 500);
+	});
+}
+
+function nukeReviveScript() {
+	// HTML - taken from Jox's script 'Central Hospital Revive Request'
+	const reviveButtonHTML = `
+<div id="top-page-links-list" class="content-title-links" role="list" aria-labelledby="top-page-links-button">
+	<a role="button" aria-labelledby="nuke-revive" class="nuke-revive t-clear h c-pointer  m-icon line-h24 right last" href="#" style="padding-left: 10px; padding-right: 10px" id="nuke-revive-link">
+		<span class="icon-wrap svg-icon-wrap">
+			<span class="link-icon-svg nuke-revive">
+			<div id="cf"></div>
+			</span>
+		</span>
+		<span id="nuke-revive" style="color:red">Revive Me</span>
+	</a>
+</div>
+	`;
+	const reviveButton = doc.new({ type: "span" });
+	reviveButton.innerHTML = reviveButtonHTML;
+
+	// Add button to page - taken from Jox's script 'Central Hospital Revive Request'
+	if (!doc.find("#nuke-revive-link")) {
+		let linkReference =
+			doc.find(".links-footer") ||
+			doc.find(".content-title .clear") ||
+			doc.find(".tutorial-switcher") ||
+			doc.find(".links-top-wrap") ||
+			doc.find(".forums-main-wrap");
+		if (linkReference) {
+			let linkContainer = linkReference.parentNode;
+			linkContainer.insertBefore(reviveButton, linkReference);
+
+			doc.find("#nuke-revive-link").onclick = () => {
+				callForRevive();
+			};
+		}
+	}
+
+	function callForRevive() {
+		const playerID = userdata.player_id;
+		const playerName = userdata.name;
+		const isInHospital = !!doc.find("#sidebarroot [class^='status-icons'] li[class^=icon15]");
+		const faction = userdata.faction.faction_name;
+		const appInfo = `TornTools v${chrome.runtime.getManifest().version}`;
+		let country = document.body.dataset.country;
+
+		switch (country) {
+			case "uk":
+				country = "United Kingdom";
+				break;
+			case "uae":
+				country = "UAE";
+				break;
+			default:
+				country = country.replace(/-/g, " ");
+				country = capitalize(country, (everyWord = true));
+				break;
+		}
+
+		if (!isInHospital) {
+			alert("You are not in hospital.");
+			return;
+		}
+
+		const postData = { uid: playerID, Player: playerName, Faction: faction, Country: country, AppInfo: appInfo };
+		fetchRelay("nukefamily", {
+			section: "dev/reviveme.php",
+			method: "POST",
+			postData: postData,
+		}).then(async (response) => {
+			console.log("response", response);
+		});
+	}
+}
+
+// Code for adding chat filter for People Box
+function addPeopleBoxFilter() {
+	if (document.find(".chat-box-people_SPbEh").findAll(".tt-chat-filter").length === 0) {
+		let peopleBox = document.find(".chat-box-people_SPbEh");
+
+		peopleBox.nextElementSibling.classList.add("tt-modified");
+
+		let filter_wrap = doc.new({ type: "div", class: "tt-chat-filter" });
+		let filter_text = doc.new({ type: "div", text: "Find:" });
+		let filter_input = doc.new({ type: "input", id: "---search---" });
+
+		filter_wrap.appendChild(filter_text);
+		filter_wrap.appendChild(filter_input);
+
+		peopleBox.find(".chat-box-content_2C5UJ").appendChild(filter_wrap);
+
+		// Filtering process
+		filter_input.onkeyup = () => {
+			let keyword = filter_input.value.toLowerCase();
+
+			for (let player of peopleBox.findAll(".started-chat_1InmJ")) {
+				player.style.display = "block";
+
+				if (keyword && player.find(".bold").innerText.toLowerCase().indexOf(keyword) === -1) {
+					player.style.display = "none";
+				}
+			}
+
+			if (!keyword) {
+				peopleBox.find(".viewport_1F0WI").scrollTo(0, 0);
+			}
+		};
+	}
 }
