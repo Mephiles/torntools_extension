@@ -132,6 +132,11 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/displaycase.php*"],
+			"js": ["scripts/content/displaycase/ttDisplayCase.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/dump.php*"],
 			"css": ["scripts/content/achievements/ttAchievements.css"],
 			"js": ["scripts/content/achievements/ttDumpAchievements.js"],

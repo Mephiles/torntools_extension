@@ -1571,6 +1571,9 @@ const STORAGE = {
 				hide_threads: {},
 				hide_posts: {},
 			},
+			displaycase: {
+				worth: false,
+			},
 		},
 		scripts: {
 			stats_estimate: {
