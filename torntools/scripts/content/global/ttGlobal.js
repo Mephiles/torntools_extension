@@ -234,7 +234,7 @@ function addCustomLinks() {
 		for (let link of custom_links) {
 			let slide = doc.new({ type: "div", class: "swiper-slide slide___1oBWA" }); // FIXME - Use right classes.
 			let area = doc.new({ type: "div", class: "area-mobile___1XJcq" }); // FIXME - Use right classes.
-			let area_row = doc.new({ type: "div", class: "area-row___34mEZ torntools-mobile" }); // FIXME - Use right classes.
+			let area_row = doc.new({ type: "div", class: "area-row___1VM_l torntools-mobile" });
 			let a = doc.new({
 				type: "a",
 				href: link.href,
@@ -276,8 +276,8 @@ function addCustomLinks() {
 
 function addNotesBox() {
 	let notes_section = navbar.newSection("Notes", { next_element_heading: "Areas" });
-	let cell = doc.new({ type: "div", class: "area-desktop___2YU-q" }); // FIXME - Use right classes.
-	let inner_div = doc.new({ type: "div", class: "area-row___34mEZ" }); // FIXME - Use right classes.
+	let cell = doc.new({ type: "div", class: "area-desktop___2N3Jp" });
+	let inner_div = doc.new({ type: "div", class: "area-row___1VM_l" });
 	let textbox = doc.new({ type: "textarea", class: "tt-nav-textarea", value: notes.text || "" });
 	// [class^='
 	if (notes.height) {
@@ -306,11 +306,11 @@ function addUpdateNotification() {
 	let version_text = `TornTools updated: ${chrome.runtime.getManifest().version}`;
 	let settings_page_url = chrome.runtime.getURL("/views/settings/settings.html");
 
-	let cell = doc.new({ type: "div", class: "area-desktop___2YU-q" }); // FIXME - Use right classes.
-	let inner_div = doc.new({ type: "div", class: "area-row___34mEZ" }); // FIXME - Use right classes.
+	let cell = doc.new({ type: "div", class: "area-desktop___2N3Jp" });
+	let inner_div = doc.new({ type: "div", class: "area-row___1VM_l" });
 	let a = doc.new({
 		type: "a",
-		class: "desktopLink___2dcWC", // FIXME - Use right classes.
+		class: "desktopLink___1p2Dr",
 		href: settings_page_url,
 		attributes: { target: "_blank", style: "background-color: #B8E28F; min-height: 24px; line-height: 24px;" },
 	});
