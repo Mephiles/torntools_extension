@@ -1182,13 +1182,11 @@ function findItemsInList(list, attributes = {}, options = {}) {
 }
 
 function isFlying() {
-	// noinspection EqualityComparisonWithCoercionJS
-	return document.body.dataset.traveling == true;
+	return document.body.dataset.traveling === "true" || document.body.dataset.traveling === true;
 }
 
 function isAbroad() {
-	// noinspection EqualityComparisonWithCoercionJS
-	return document.body.dataset.abroad == true;
+	return document.body.dataset.abroad === "true" || document.body.dataset.abroad === true;
 }
 
 function getCookie(cname) {
