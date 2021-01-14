@@ -5,10 +5,10 @@ requireDatabase().then(() => {
 
 function displayCabinetWorth() {
 	if (settings.pages.displaycase.worth) {
-		let display_user_id = window.location.href.split("/")[4];
+		let displayUserId = window.location.href.split("/")[4];
 		fetchApi_v2("torn", {
 			section: "user",
-			objectid: display_user_id,
+			objectid: displayUserId,
 			selections: "display",
 		}).then((result) => {
 			let totalValue = 0;
@@ -17,11 +17,15 @@ function displayCabinetWorth() {
 					result.display[item].market_price *
 					result.display[item].quantity;
 			}
-			doc.find(
-				"div.msg.right-round"
-			).innerHTML += `<br>This display cabinet is worth <b><span style="color: #678c00">${
-				"$" + numberWithCommas(totalValue, false)
-			}</span></b>`;
+			let displayCabinetWorthSpan = doc.new({
+				type: "span",
+				html: `<br>This display cabinet is worth <b><span style="color: #678c00">${
+					"$" + numberWithCommas(totalValue, false)
+				}</span></b>`,
+			});
+			doc.find("div.msg.right-round").appendChild(
+				displayCabinetWorthSpan
+			);
 		});
 	}
 }
