@@ -48,8 +48,8 @@ async function showMuggableCash(json) {
 				silent: true,
 				succeedOnError: true,
 			});
-			console.log("DKK company resultCompany", resultCompany, resultCompany.company.rating <= 7);
-			if (resultCompany.company && resultCompany.company.rating <= 7) {
+			console.log("DKK company resultCompany", resultCompany, resultCompany.company.rating >= 7);
+			if (resultCompany.company && resultCompany.company.rating >= 7) {
 				console.log("DKK company 7* CLOTHING 1", { min: percentageMin, max: percentageMax });
 				percentageMin /= 4;
 				percentageMax /= 4;
