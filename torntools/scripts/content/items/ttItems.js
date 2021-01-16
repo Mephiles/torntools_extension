@@ -698,11 +698,11 @@ function showMissingPlushies() {
 				type: "div",
 				id: "tt-needed-plushies-div",
 			});
-			for (let plushieNumber in neededPlushies) {
+			for (let plushieNumber of neededPlushies) {
 				let plushieImgSrc = `https://www.torn.com/images/items/${
-					plushieSet[neededPlushies[plushieNumber]]
+					plushieSet[plushieNumber]
 				}/large.png`;
-				let rawHTML = `<div class='tt-needed-div title-wrap title'><img class='tt-needed-img' src=${plushieImgSrc}></img><span class='tt-needed-name'>${neededPlushies[plushieNumber]}</span></div>`;
+				let rawHTML = `<div class='tt-needed-div title-wrap title'><img class='tt-needed-img' src=${plushieImgSrc}></img><span class='tt-needed-name'>${plushieNumber}</span></div>`;
 				neededPlushiesDiv.innerHTML += rawHTML;
 			}
 			neededPlushiesDiv.lastChild.style.borderRadius = "0px 0px 5px 5px";
@@ -747,11 +747,11 @@ function showMissingFlowers() {
 				type: "div",
 				id: "tt-needed-flowers-div",
 			});
-			for (let flowerNumber in neededFlowers) {
+			for (let flowerNumber of neededFlowers) {
 				let flowerImgSrc = `https://www.torn.com/images/items/${
-					flowerSet[neededFlowers[flowerNumber]]
+					flowerSet[flowerNumber]
 				}/large.png`;
-				let rawHTML = `<div class='tt-needed-div title-wrap title'><img class='tt-needed-img' src=${flowerImgSrc}></img><span class='tt-needed-name'>${neededFlowers[flowerNumber]}</span></div>`;
+				let rawHTML = `<div class='tt-needed-div title-wrap title'><img class='tt-needed-img' src=${flowerImgSrc}></img><span class='tt-needed-name'>${flowerNumber}</span></div>`;
 				neededFlowersDiv.innerHTML += rawHTML;
 			}
 			neededFlowersDiv.lastChild.style.borderRadius = "0px 0px 5px 5px";
