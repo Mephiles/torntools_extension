@@ -151,3 +151,23 @@ li.item-group.tt-modified .group-arrow {
 .tt-bad_blood {
 	background-color: #f5b2b28a !important;
 }
+
+.tt-needed-div {
+	pointer-events: none;
+	background-color: #ffffff;
+	opacity: 0.4;
+	border-bottom: 1px solid #ccc;
+}
+
+.tt-needed-img {
+	line-height: 32px;
+	width: 58px;
+	height: 30px;
+	vertical-align: bottom;
+	border-right: 2px solid #ccc;
+}
+
+.tt-needed-name {
+	line-height: 32px;
+	padding-left: 10px;
+}

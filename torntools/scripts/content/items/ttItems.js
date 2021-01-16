@@ -39,6 +39,10 @@ requireDatabase().then(() => {
 		if (settings.scripts.no_confirm.global && settings.scripts.no_confirm.item_equip) {
 			addItemListener();
 		}
+		
+		showMissingPlushies();
+		showMissingFlowers();
+		
 	});
 });
 
@@ -665,3 +669,97 @@ function addItemListener() {
 
 	doc.find("head").appendChild(script);
 }
+
+function showMissingPlushies() {
+	if (settings.pages.items.show_missing_plushies) {
+		let plushieSet = {
+			"Sheep Plushie": 186,
+			"Teddy Bear Plushie": 187,
+			"Kitten Plushie": 215,
+			"Jaguar Plushie": 258,
+			"Wolverine Plushie": 261,
+			"Nessie Plushie": 266,
+			"Red Fox Plushie": 268,
+			"Monkey Plushie": 269,
+			"Chamois Plushie": 273,
+			"Panda Plushie": 274,
+			"Lion Plushie": 281,
+			"Camel Plushie": 384,
+			"Stingray Plushie": 618,
+		};
+		let plushiesAvailable = userdata.inventory
+			.filter((x) => x.type === "Plushie")
+			.map((x) => x.name);
+		if (plushiesAvailable.length > 0) {
+			let neededPlushies = Object.keys(plushieSet).filter(
+				(x) => !plushiesAvailable.includes(x)
+			);
+			let neededPlushiesDiv = doc.new({
+				type: "div",
+				id: "tt-needed-plushies-div",
+			});
+			for (let plushieNumber of neededPlushies) {
+				let plushieImgSrc = `https://www.torn.com/images/items/${
+					plushieNumber
+				}/large.png`;
+				let rawHTML = `<div class='tt-needed-div title-wrap title'><img class='tt-needed-img' src=${plushieImgSrc}></img><span class='tt-needed-name'>${plushieNumber}</span></div>`;
+				neededPlushiesDiv.innerHTML += rawHTML;
+			}
+			neededPlushiesDiv.lastChild.style.borderRadius = "0px 0px 5px 5px";
+			doc.find(".main-items-cont-wrap").insertAdjacentElement(
+				"afterEnd",
+				neededPlushiesDiv
+			);
+		}
+	}
+}
+
+function showMissingFlowers() {
+	if (settings.pages.items.show_missing_flowers) {
+		let flowerSet = {
+			Dahlia: 260,
+			Crocus: 263,
+			Orchid: 264,
+			Heather: 267,
+			"Ceibo Flower": 271,
+			Edelweiss: 272,
+			Peony: 276,
+			"Cherry Blossom": 277,
+			"African Violet": 282,
+			"Tribulus Omanense": 385,
+			"Banana Orchid": 617,
+		};
+		let flowersAvailable = userdata.inventory
+			.filter((x) => x.type === "Flower")
+			.map((x) => x.name);
+		if (flowersAvailable.length > 0) {
+			for (let flowerPresent of doc.findAll(
+				"#flowers-items > :not(.tt-ignore)"
+			)) {
+				flowersAvailable.push(
+					flowerPresent.find("span.name").innerText
+				);
+			}
+			let neededFlowers = Object.keys(flowerSet).filter(
+				(x) => !flowersAvailable.includes(x)
+			);
+			let neededFlowersDiv = doc.new({
+				type: "div",
+				id: "tt-needed-flowers-div",
+			});
+			for (let flowerNumber of neededFlowers) {
+				let flowerImgSrc = `https://www.torn.com/images/items/${
+					flowerNumber
+				}/large.png`;
+				let rawHTML = `<div class='tt-needed-div title-wrap title'><img class='tt-needed-img' src=${flowerImgSrc}></img><span class='tt-needed-name'>${flowerNumber}</span></div>`;
+				neededFlowersDiv.innerHTML += rawHTML;
+			}
+			neededFlowersDiv.lastChild.style.borderRadius = "0px 0px 5px 5px";
+			doc.find(".main-items-cont-wrap").insertAdjacentElement(
+				"afterEnd",
+				neededFlowersDiv
+			);
+		}
+	}
+}
+
