@@ -1264,5 +1264,17 @@ function disableAllyAttack() {
 		doc.find("a.profile-button-attack").children[0].style.fill = "rgba(153, 153, 153, 0.4)";
 		attackButton.classList.remove("active");
 		attackButton.classList.add("cross", "disabled");
+		doc.find(".empty-block").appendChild(
+			doc.new({
+				type: "span",
+				class: "tt-title-message",
+				text:
+					"Attacks on allies are disabled. Please enable it in TornTools Settings if you want so.",
+				attributes: {
+					color: "warning",
+					style: "padding: 9px 10px 10px 10px; font-size: 13px;",
+				},
+			})
+		);
 	}
 }
