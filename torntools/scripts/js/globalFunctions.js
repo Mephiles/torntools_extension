@@ -1756,6 +1756,22 @@ String.prototype.replaceAll = function (text, replace) {
 	return str;
 };
 
+DOMTokenList.prototype.contains = function (className) {
+	const classes = [...this];
+	if (className.startsWith("^=")) {
+		className = className.substring(2, className.length);
+
+		for (const name of classes) {
+			if (!name.startsWith(className)) continue;
+
+			return true;
+		}
+		return false;
+	} else {
+		return classes.includes(className);
+	}
+};
+
 /*
  * Load some functions.
  */
@@ -2874,7 +2890,7 @@ function loadConfirmationPopup(options) {
 		for (let textarea of textareas) {
 			const id = textarea.split("=")[1].replace("]", "");
 			customElements[id] = { type: "textarea" };
-			markdown = markdown.replace(`[TEXTAREA=${id}]`, `<textarea id='${id}'></textarea>`);
+			markdown = markdown.replace(`[TEXTAREA=${id}]`, `<textarea id="${id}"></textarea>`);
 		}
 
 		doc.find(".tt-confirmation-popup .message").innerHTML = markdown;

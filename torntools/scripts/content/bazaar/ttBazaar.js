@@ -35,7 +35,7 @@ requireDatabase().then(() => {
 				let item_name = itemlist.items[item_id].name;
 
 				let found_item = false;
-				for (let item of doc.findAll("[class*='item_']")) {
+				for (let item of doc.findAll("[class*='rowItems_'] [class*='item_']")) {
 					if (
 						item.find("[class*='name_']").innerText.trim() === item_name &&
 						item.find("[class*='price_']").innerText.replace("$", "").replace(/,/g, "") === item_price
@@ -59,7 +59,7 @@ requireDatabase().then(() => {
 
 			// Max buy button
 			document.addEventListener("click", (event) => {
-				if (event.target.classList.contains("[class*='controlPanelButton_']") && event.target.getAttribute("aria-label").indexOf("Buy") > -1) {
+				if (event.target.classList.contains("^=controlPanelButton") && event.target.getAttribute("aria-label").includes("Buy")) {
 					let parent = doc.find("[class*='buyMenu_']").parentElement;
 
 					let max_span = doc.new({ type: "span", text: "fill max", class: "tt-max-buy bold" });
@@ -89,7 +89,7 @@ requireDatabase().then(() => {
 });
 
 function bazaarLoaded() {
-	return requireElement("[class*='item_']");
+	return requireElement("[class*='rowItems_']");
 }
 
 function visiting() {
