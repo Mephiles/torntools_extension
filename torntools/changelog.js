@@ -1,6 +1,7 @@
 export default {
 	"v5.4.1 - xxxxxx, xxth. 2021": {
-		Fixes: [],
+		Features: ["Show missing flowers and plushies in the inventory. - Sashank999"],
+		Fixes: ["Use the new Torn classes. - Sashank999", "Solve some problems regarding the new class names. - DKK"],
 		Changes: ["Add ISO date formatting. - DKK"],
 	},
 	"v5.4 - January, 12th. 2021": {
