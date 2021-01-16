@@ -104,8 +104,7 @@
 }
 
 *[color="tRed"] {
-	color: #d83500;
-	color: var(--default-red-color);
+	color: var(--default-red-color, #d83500);
 }
 
 *[color="darkorange"] {
@@ -117,8 +116,7 @@
 }
 
 *[color="tGreen"] {
-	color: #678c00 !important;
-	color: var(--default-green-color) !important;
+	color: var(--default-green-color, #678c00) !important;
 }
 
 *[background-color="green"] {
