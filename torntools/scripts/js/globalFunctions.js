@@ -1503,8 +1503,8 @@ const STORAGE = {
 				drug_details: true,
 				itemmarket_links: false,
 				highlight_bloodbags: "none",
-				show_missing_plushies: true,
-				show_missing_flowers: true,
+				show_missing_plushies: false,
+				show_missing_flowers: false,
 			},
 			travel: {
 				profits: true,
