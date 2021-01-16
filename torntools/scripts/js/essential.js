@@ -53,7 +53,7 @@ Element.prototype.find = function (type) {
 function getPageStatus() {
 	return new Promise((resolve) => {
 		let checker = setInterval(function () {
-			let page_heading = doc.find("#skip-to-content, [class^='title'], .nonFullScreen .content-title h4 .fullScreen .content-title h4");
+			let page_heading = doc.find("#skip-to-content, [class*='title_'], .nonFullScreen .content-title h4 .fullScreen .content-title h4");
 			let message = doc.find("div[role='main'] > .info-msg-cont");
 
 			// Page heading

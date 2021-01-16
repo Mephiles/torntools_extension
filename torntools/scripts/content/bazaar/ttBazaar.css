@@ -19,7 +19,7 @@
 }
 
 /* Fill max */
-[class^="buy"] {
+[class*="buy_"] {
 	height: 27px !important;
 }
 

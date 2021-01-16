@@ -49,7 +49,7 @@ function Main(vault, need_to_save) {
 
 			if (transaction_date > new Date(vault.last_transaction)) {
 				console.log("found");
-				let username = doc.find("[class^='menu-info-row'] a").innerText;
+				let username = doc.find("[class*='menu-info-row_'] a").innerText;
 				let user = true;
 				let type = "withdraw";
 				let amount = parseInt(transaction.find("li.amount").innerText.replace("$", "").replace(/,/g, ""));

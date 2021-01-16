@@ -1866,7 +1866,7 @@ const navbar = {
 			})();
 		}
 
-		let toggleContent = attribute.parent_element.find("[class^='toggle-content']");
+		let toggleContent = attribute.parent_element.find("[class*='toggle-content_']");
 		let newCellBlock = createNewCellBlock(text, attribute);
 
 		if (attribute.first) toggleContent.insertBefore(newCellBlock, toggleContent.firstElementChild);

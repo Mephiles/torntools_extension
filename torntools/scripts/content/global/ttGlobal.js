@@ -76,14 +76,14 @@ requireDatabase().then(() => {
 		function hideIcons(observer) {
 			observer.disconnect();
 
-			for (let icon of doc.findAll("#sidebarroot [class^='status-icons'] > li, #sidebar [class^='status-icons'] > li")) {
+			for (let icon of doc.findAll("#sidebarroot [class*='status-icons_'] > li")) {
 				let name = icon.getAttribute("class").split("_")[0];
 				if (hide_icons.includes(name)) {
 					icon.parentElement.appendChild(icon);
 				}
 			}
 
-			observer.observe(doc.find("#sidebarroot [class^='status-icons'], #sidebar [class^='status-icons']"), { childList: true });
+			observer.observe(doc.find("#sidebarroot [class*='status-icons_']"), { childList: true });
 		}
 
 		hideIcons(new MutationObserver((_, observer) => hideIcons(observer)));
@@ -106,12 +106,12 @@ requireDatabase().then(() => {
 
 		// Links for Energy and Nerve
 		if (!mobile) {
-			doc.find("#barEnergy [class^='bar-name']").classList.add("tt-text-link");
-			doc.find("#barNerve [class^='bar-name']").classList.add("tt-text-link");
-			doc.find("#barEnergy [class^='bar-name']").onclick = () => {
+			doc.find("#barEnergy [class*='bar-name_']").classList.add("tt-text-link");
+			doc.find("#barNerve [class*='bar-name_']").classList.add("tt-text-link");
+			doc.find("#barEnergy [class*='bar-name_']").onclick = () => {
 				window.location.href = "https://www.torn.com/gym.php";
 			};
-			doc.find("#barNerve [class^='bar-name']").onclick = () => {
+			doc.find("#barNerve [class*='bar-name_']").onclick = () => {
 				window.location.href = "https://www.torn.com/crimes.php";
 			};
 		}
@@ -255,7 +255,7 @@ function addCustomLinks() {
 		div.appendChild(swipe_container);
 		areas_custom.appendChild(div);
 
-		doc.find("#sidebar [class^='content']").insertBefore(areas_custom, doc.find("#sidebar [class^='content'] [class^='user-information-mobile']"));
+		doc.find("#sidebar [class*='content_']").insertBefore(areas_custom, doc.find("#sidebar [class*='content_'] [class*='user-information-mobile_']"));
 	} else {
 		let custom_links_section = navbar.newSection("Custom Links", { next_element_heading: "Areas" });
 
@@ -279,7 +279,7 @@ function addNotesBox() {
 	let cell = doc.new({ type: "div", class: "area-desktop___2N3Jp" });
 	let inner_div = doc.new({ type: "div", class: "area-row___1VM_l" });
 	let textbox = doc.new({ type: "textarea", class: "tt-nav-textarea", value: notes.text || "" });
-	// [class^='
+	// [class*='
 	if (notes.height) {
 		textbox.style.height = notes.height;
 	}
@@ -488,7 +488,9 @@ function displayVaultBalance() {
 	let el = doc.new({ type: "p", class: "point-block___xpMEi", attributes: { tabindex: "1" }, html: elementHTML });
 
 	let info_cont = doc.find("h2=Information");
-	info_cont.parentElement.find("[class^='points']").insertBefore(el, info_cont.parentElement.find("[class^='points'] [class^='point-block']:nth-of-type(2)"));
+	info_cont.parentElement
+		.find("[class*='points_']")
+		.insertBefore(el, info_cont.parentElement.find("[class*='points_'] [class*='point-block_']:nth-of-type(2)"));
 }
 
 function showToggleChat() {
@@ -535,8 +537,8 @@ function addInformationSection() {
 	let hr = doc.new({ type: "hr", class: "delimiter___neME6 delimiter___3kh4j tt-information-section-hr" }); // FIXME - Use right classes.
 	let div = doc.new({ type: "div", class: "tt-information-section" });
 
-	doc.find("#sidebarroot [class^='user-information'] [class^='content']").appendChild(hr);
-	doc.find("#sidebarroot [class^='user-information'] [class^='content']").appendChild(div);
+	doc.find("#sidebarroot [class*='user-information_'] [class*='content_']").appendChild(hr);
+	doc.find("#sidebarroot [class*='user-information_'] [class*='content_']").appendChild(div);
 }
 
 function displayOCtime() {
@@ -641,10 +643,10 @@ function highlightRefills() {
 	if (mobile) return;
 
 	if (settings.pages.global.refill_energy && !userdata.refills.energy_refill_used) {
-		doc.find("#barEnergy [class^='bar-name']").classList.add("tt-refill");
+		doc.find("#barEnergy [class*='bar-name_']").classList.add("tt-refill");
 	}
 	if (settings.pages.global.refill_nerve && !userdata.refills.nerve_refill_used) {
-		doc.find("#barNerve [class^='bar-name']").classList.add("tt-refill");
+		doc.find("#barNerve [class*='bar-name_']").classList.add("tt-refill");
 	}
 }
 
@@ -657,9 +659,9 @@ function showMiniprofileInformation(information) {
 	const formattedTime = formatTime([signupDate.getUTCHours(), signupDate.getUTCMinutes(), signupDate.getUTCSeconds()], settings.format.time);
 	const formattedDate = formatDate([signupDate.getUTCDate(), signupDate.getUTCMonth() + 1, signupDate.getUTCFullYear()], settings.format.date);
 
-	requireElement("[class^='-profile-mini-_userProfileWrapper']", { parent: miniProfile }).then(() => {
+	requireElement("[class*='-profile-mini-_userProfileWrapper']", { parent: miniProfile }).then(() => {
 		setTimeout(() => {
-			miniProfile.find("[class^='-profile-mini-_userProfileWrapper']").appendChild(
+			miniProfile.find("[class*='-profile-mini-_userProfileWrapper']").appendChild(
 				doc.new({
 					type: "div",
 					class: "tt-mini-data",
@@ -714,7 +716,7 @@ function nukeReviveScript() {
 	function callForRevive() {
 		const playerID = userdata.player_id;
 		const playerName = userdata.name;
-		const isInHospital = !!doc.find("#sidebarroot [class^='status-icons'] li[class^=icon15]");
+		const isInHospital = !!doc.find("#sidebarroot [class*='status-icons_'] li[class*=icon15]");
 		const faction = userdata.faction.faction_name;
 		const appInfo = `TornTools v${chrome.runtime.getManifest().version}`;
 		let country = document.body.dataset.country;
