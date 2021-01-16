@@ -55,30 +55,42 @@
 
 /* Replace Torn classes */
 
-/* TODO - Replaces m-top10 */
+/* CHECK - Replaces m-top10 */
 .mt10 {
 	margin-top: 10px;
 }
 
-/* TODO - Replaces m-bottom10 */
+/* CHECK - Replaces m-bottom10 */
 .mb10 {
 	margin-bottom: 10px;
 }
 
-/* TODO - Replaces t-clear */
+/* CHECK - Replaces t-clear */
 .clr {
 	color: var(--default-color, #333);
 	text-decoration: none;
 }
 
-/* TODO - Replaces c-pointer */
+/* CHECK - Replaces c-pointer */
 .cp {
 	cursor: pointer;
 }
 
-/* TODO - Replaces right */
+/* CHECK - Replaces right */
 .fr {
 	float: right;
+}
+
+[class*="torn-icon-"] {
+	background: url("https://www.torn.com/images/v2/city/location_icons_34x34px.svg") no-repeat;
+	height: 34px;
+	width: 34px;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.torn-icon-item-market {
+	background-position: -68px -34px;
 }
 
 /* General Colors */

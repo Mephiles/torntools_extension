@@ -36,6 +36,7 @@ export default [
 				{ message: "Don't use hardcoded classes with variable names to improve reliability.", contributor: "DeKleineKobini" },
 				{ message: "Decrease quick item usage delay.", contributor: "DeKleineKobini" },
 				{ message: "Improve item value total method of calculation.", contributor: "DeKleineKobini" },
+				{ message: "Show item market icon outside container.", contributor: "DeKleineKobini" },
 			],
 		},
 	},

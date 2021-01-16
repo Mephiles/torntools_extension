@@ -811,6 +811,8 @@ function capitalizeText(text, options = {}) {
 }
 
 function isSellable(id) {
+	if (!torndata || !torndata.items) return true;
+
 	const item = torndata.items[id];
 
 	return (
