@@ -39,10 +39,9 @@ requireDatabase().then(() => {
 		if (settings.scripts.no_confirm.global && settings.scripts.no_confirm.item_equip) {
 			addItemListener();
 		}
-		
+
 		showMissingPlushies();
 		showMissingFlowers();
-		
 	});
 });
 
@@ -687,29 +686,20 @@ function showMissingPlushies() {
 			"Camel Plushie": 384,
 			"Stingray Plushie": 618,
 		};
-		let plushiesAvailable = userdata.inventory
-			.filter((x) => x.type === "Plushie")
-			.map((x) => x.name);
+		let plushiesAvailable = userdata.inventory.filter((x) => x.type === "Plushie").map((x) => x.name);
 		if (plushiesAvailable.length > 0) {
-			let neededPlushies = Object.keys(plushieSet).filter(
-				(x) => !plushiesAvailable.includes(x)
-			);
+			let neededPlushies = Object.keys(plushieSet).filter((x) => !plushiesAvailable.includes(x));
 			let neededPlushiesDiv = doc.new({
 				type: "div",
 				id: "tt-needed-plushies-div",
 			});
 			for (let plushieNumber of neededPlushies) {
-				let plushieImgSrc = `https://www.torn.com/images/items/${
-					plushieNumber
-				}/large.png`;
-				let rawHTML = `<div class='tt-needed-div title-wrap title'><img class='tt-needed-img' src=${plushieImgSrc}></img><span class='tt-needed-name'>${plushieNumber}</span></div>`;
+				let plushieImgSrc = `https://www.torn.com/images/items/${plushieNumber}/large.png`;
+				let rawHTML = `<div class="tt-needed-div title-wrap title"><img class="tt-needed-img" src="${plushieImgSrc}" alt=""/><span class="tt-needed-name">${plushieNumber}</span></div>`;
 				neededPlushiesDiv.innerHTML += rawHTML;
 			}
 			neededPlushiesDiv.lastChild.style.borderRadius = "0px 0px 5px 5px";
-			doc.find(".main-items-cont-wrap").insertAdjacentElement(
-				"afterEnd",
-				neededPlushiesDiv
-			);
+			doc.find(".main-items-cont-wrap").insertAdjacentElement("afterEnd", neededPlushiesDiv);
 		}
 	}
 }
@@ -729,37 +719,23 @@ function showMissingFlowers() {
 			"Tribulus Omanense": 385,
 			"Banana Orchid": 617,
 		};
-		let flowersAvailable = userdata.inventory
-			.filter((x) => x.type === "Flower")
-			.map((x) => x.name);
+		let flowersAvailable = userdata.inventory.filter((x) => x.type === "Flower").map((x) => x.name);
 		if (flowersAvailable.length > 0) {
-			for (let flowerPresent of doc.findAll(
-				"#flowers-items > :not(.tt-ignore)"
-			)) {
-				flowersAvailable.push(
-					flowerPresent.find("span.name").innerText
-				);
+			for (let flowerPresent of doc.findAll("#flowers-items > :not(.tt-ignore)")) {
+				flowersAvailable.push(flowerPresent.find("span.name").innerText);
 			}
-			let neededFlowers = Object.keys(flowerSet).filter(
-				(x) => !flowersAvailable.includes(x)
-			);
+			let neededFlowers = Object.keys(flowerSet).filter((x) => !flowersAvailable.includes(x));
 			let neededFlowersDiv = doc.new({
 				type: "div",
 				id: "tt-needed-flowers-div",
 			});
 			for (let flowerNumber of neededFlowers) {
-				let flowerImgSrc = `https://www.torn.com/images/items/${
-					flowerNumber
-				}/large.png`;
-				let rawHTML = `<div class='tt-needed-div title-wrap title'><img class='tt-needed-img' src=${flowerImgSrc}></img><span class='tt-needed-name'>${flowerNumber}</span></div>`;
+				let flowerImgSrc = `https://www.torn.com/images/items/${flowerNumber}/large.png`;
+				let rawHTML = `<div class="tt-needed-div title-wrap title"><img class="tt-needed-img" src="${flowerImgSrc}" alt=""/><span class="tt-needed-name">${flowerNumber}</span></div>`;
 				neededFlowersDiv.innerHTML += rawHTML;
 			}
 			neededFlowersDiv.lastChild.style.borderRadius = "0px 0px 5px 5px";
-			doc.find(".main-items-cont-wrap").insertAdjacentElement(
-				"afterEnd",
-				neededFlowersDiv
-			);
+			doc.find(".main-items-cont-wrap").insertAdjacentElement("afterEnd", neededFlowersDiv);
 		}
 	}
 }
-
