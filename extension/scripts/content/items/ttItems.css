@@ -91,17 +91,12 @@
  * Item values 
  */
 
-span.tt-item-price {
-	color: #678c00;
-	float: right;
-	padding-right: 10px;
-}
-
-li.tt-item-price {
+.tt-item-price {
 	color: #678c00;
 	width: unset !important;
 	padding-left: 10px !important;
 	padding-right: 10px !important;
+	white-space: pre;
 }
 
 .tt-item-quantity {
