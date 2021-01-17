@@ -606,7 +606,7 @@ const MISSING_ITEMS = {
 		MISSING_ITEMS._show("needed-plushies", "#plushies-items", "missingPlushies", SETS.PLUSHIES);
 	},
 	_show: (name, categorySelector, settingName, itemSet) => {
-		if (document.find(`#${name}`)) document.find(name).remove();
+		if (document.find(`#${name}`)) document.find(`#${name}`).remove();
 
 		if (
 			document.find(`#category-wrap > ${categorySelector}[aria-expanded='true']`) &&
