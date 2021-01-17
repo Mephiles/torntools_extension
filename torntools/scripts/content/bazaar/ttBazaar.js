@@ -59,7 +59,7 @@ requireDatabase().then(() => {
 
 			// Max buy button
 			document.addEventListener("click", (event) => {
-				if (event.target.classList.contains("^=controlPanelButton") && event.target.getAttribute("aria-label").includes("Buy")) {
+				if (event.target.classList.contains("^=controlPanelButton_") && event.target.getAttribute("aria-label").includes("Buy")) {
 					let parent = doc.find("[class*='buyMenu_']").parentElement;
 
 					let max_span = doc.new({ type: "span", text: "fill max", class: "tt-max-buy bold" });
