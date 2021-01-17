@@ -35,10 +35,10 @@ requireDatabase().then(() => {
 				let item_name = itemlist.items[item_id].name;
 
 				let found_item = false;
-				for (let item of doc.findAll("div[class*='item_']:not([class*='insensitive'])")) {
+				for (let item of doc.findAll("[class*='rowItems_'] [class*='item_']")) {
 					if (
-						item.find("[class*='name']").innerText.trim() === item_name &&
-						item.find("[class*='price']").innerText.replace(/["$,"]/g, "") === item_price
+						item.find("[class*='name_']").innerText.trim() === item_name &&
+						item.find("[class*='price_']").innerText.replace("$", "").replace(/,/g, "") === item_price
 					) {
 						found_item = true;
 
@@ -53,26 +53,25 @@ requireDatabase().then(() => {
 					let span = doc.new({ type: "span", class: "not-bold", text: `Could not find item. Please try using the Search function.` });
 
 					div.appendChild(span);
-					requireElement(".msg.right-round").then(() => doc.find(".msg.right-round").appendChild(div), undefined);
+					doc.find(".info-msg-cont .msg").appendChild(div);
 				}
 			}
 
 			// Max buy button
 			document.addEventListener("click", (event) => {
-				if (Object.values(event.target.classList).some((x) => /controlPanelButton/) && event.target.getAttribute("aria-label") && event.target.getAttribute("aria-label").indexOf("Buy") > -1) {
-					let parent = doc.find("[class*='buyMenu']").parentElement;
+				if (event.target.classList.contains("^=controlPanelButton") && event.target.getAttribute("aria-label").includes("Buy")) {
+					let parent = doc.find("[class*='buyMenu_']").parentElement;
 
-					let max_span = doc.new({ type: "span", text: "Fill max", class: "tt-max-buy bold" });
-					parent.find("[class*='buy_']").insertAdjacentElement("afterEnd", max_span);
-					
-					let max = parseInt(parent.find("[class*='buyAmountInput_']").max);
-					
+					let max_span = doc.new({ type: "span", text: "fill max", class: "tt-max-buy bold" });
+					parent.find("[class*='buy_']").parentElement.appendChild(max_span);
+
 					max_span.addEventListener("click", (event) => {
 						event.stopPropagation();
+						let max = parent.find("[class*='buyAmountInput_']").max;
 
 						if (!settings.pages.bazaar.max_buy_ignore_cash) {
-							let price = parseInt(parent.find("span[class^='price']").innerText.replace(/["$,"]/g, ""));
-							let user_money = parseInt(doc.find("#user-money").innerText.replace(/["$,"]/g, ""));
+							let price = parseInt(parent.find("[class*='price_']").innerText.replaceAll(",", "").replace("$", ""));
+							let user_money = parseInt(doc.find("#user-money").innerText.replaceAll(",", "").replace("$", ""));
 
 							if (Math.floor(user_money / price) < max) max = Math.floor(user_money / price);
 						}
@@ -90,7 +89,7 @@ requireDatabase().then(() => {
 });
 
 function bazaarLoaded() {
-	return requireElement("[class^='item']");
+	return requireElement("[class*='rowItems_']");
 }
 
 function visiting() {
