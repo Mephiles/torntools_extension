@@ -533,7 +533,7 @@ async function showItemMarketIcons() {
 						document.newElement({
 							type: "a",
 							href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${name}`,
-							children: [document.newElement({ type: "i", class: "torn-icon-item-market", attributes: { title: "Open Item Market" } })], // TODO - Don't use a torn class.
+							children: [document.newElement({ type: "i", class: "torn-icon-item-market", attributes: { title: "Open Item Market" } })],
 						}),
 					],
 				})
