@@ -622,7 +622,7 @@ const MISSING_ITEMS = {
 				wrapper.appendChild(
 					document.newElement({
 						type: "div",
-						class: "needed-item title-wrap title",
+						class: "needed-item",
 						children: [
 							document.newElement({
 								type: "img",
