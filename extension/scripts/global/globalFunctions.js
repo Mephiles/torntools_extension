@@ -330,7 +330,7 @@ async function fetchApi(location, options = {}) {
 	return new Promise((resolve, reject) => {
 		const PLATFORMS = {
 			torn: "https://api.torn.com/",
-			yata: "https://yata.alwaysdata.net/",
+			yata: "https://yata.yt/",
 			tornstats: "https://www.tornstats.com/",
 			torntools: "https://torntools.gregork.com/",
 			nukefamily: "https://www.nukefamily.org/",
