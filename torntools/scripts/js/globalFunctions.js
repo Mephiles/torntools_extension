@@ -3169,8 +3169,7 @@ function fetchApi_v2(
 		ttStorage.get(["api_key"], ([api_key]) => {
 			const URLs = {
 				torn: "https://api.torn.com/",
-				yata__v0: "https://yata.alwaysdata.net/",
-				yata__v1: "https://yata.alwaysdata.net/api/v1/",
+				yata__v1: "https://yata.yt/api/v1/",
 				tornstats: "https://www.tornstats.com/",
 				// 'tornstats': 'https://www.torn-proxy.com/tornstats/',
 				torntools: "https://torntools.gregork.com/",
