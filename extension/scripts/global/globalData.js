@@ -234,6 +234,8 @@ const DEFAULT_STORAGE = {
 				drugDetails: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				marketLinks: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				highlightBloodBags: new DefaultSetting({ type: "string", defaultValue: "none" }),
+				missingFlowers: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				missingPlushies: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			companies: {
 				specialMugMoney: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -440,6 +442,14 @@ const API_USAGE = {
 		merits: {
 			"Masterful Looting": true,
 		},
+		inventory: {
+			"*": {
+				ID: true,
+				type: true,
+				quantity: true,
+				market_price: true,
+			},
+		},
 	},
 	properties: {},
 	faction: {},
@@ -607,4 +617,35 @@ const DRUG_INFORMATION = {
 		cons: ["Only works on Valentine's Day"],
 		cooldown: "5 hours",
 	},
+};
+
+const SETS = {
+	FLOWERS: [
+		{ name: "Dahlia", id: 260 },
+		{ name: "Crocus", id: 263 },
+		{ name: "Orchid", id: 264 },
+		{ name: "Heather", id: 267 },
+		{ name: "Ceibo Flower", id: 271 },
+		{ name: "Edelweiss", id: 272 },
+		{ name: "Peony", id: 276 },
+		{ name: "Cherry Blossom", id: 277 },
+		{ name: "African Violet", id: 282 },
+		{ name: "Tribulus Omanense", id: 385 },
+		{ name: "Banana Orchid", id: 617 },
+	],
+	PLUSHIES: [
+		{ name: "Sheep Plushie", id: 186 },
+		{ name: "Teddy Bear Plushie", id: 187 },
+		{ name: "Kitten Plushie", id: 215 },
+		{ name: "Jaguar Plushie", id: 258 },
+		{ name: "Wolverine Plushie", id: 261 },
+		{ name: "Nessie Plushie", id: 266 },
+		{ name: "Red Fox Plushie", id: 268 },
+		{ name: "Monkey Plushie", id: 269 },
+		{ name: "Chamois Plushie", id: 273 },
+		{ name: "Panda Plushie", id: 274 },
+		{ name: "Lion Plushie", id: 281 },
+		{ name: "Camel Plushie", id: 384 },
+		{ name: "Stingray Plushie", id: 618 },
+	],
 };

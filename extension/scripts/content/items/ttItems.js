@@ -120,6 +120,8 @@ function initializeItems() {
 	highlightBloodBags().catch((error) => console.error("Couldn't highlight the correct blood bags.", error));
 	showItemValues().catch((error) => console.error("Couldn't show the item values.", error));
 	showItemMarketIcons().catch((error) => console.error("Couldn't show the market icons.", error));
+	MISSING_ITEMS.showFlowers((error) => console.error("Couldn't show the missing flowers.", error)).catch();
+	MISSING_ITEMS.showPlushies((error) => console.error("Couldn't show the missing plushies.", error)).catch();
 }
 
 async function loadQuickItems() {
@@ -595,3 +597,44 @@ function getAction(options) {
 		},
 	});
 }
+
+const MISSING_ITEMS = {
+	showFlowers: async () => {
+		MISSING_ITEMS._show("needed-flowers", "#flowers-items", "missingFlowers", SETS.FLOWERS);
+	},
+	showPlushies: async () => {
+		MISSING_ITEMS._show("needed-plushies", "#plushies-items", "missingPlushies", SETS.PLUSHIES);
+	},
+	_show: (name, categorySelector, settingName, itemSet) => {
+		if (document.find(`#${name}`)) document.find(name).remove();
+
+		if (
+			document.find(`#category-wrap > ${categorySelector}[aria-expanded='true']`) &&
+			settings.pages.items[settingName] &&
+			hasAPIData() &&
+			settings.apiUsage.user.inventory
+		) {
+			const needed = itemSet.filter((x) => !userdata.inventory.some((y) => x.id === y.ID));
+			if (needed.length <= 0) return;
+
+			const wrapper = document.newElement({ type: "div", id: name });
+			for (const item of needed.sort((a, b) => a.name.localeCompare(b.name))) {
+				wrapper.appendChild(
+					document.newElement({
+						type: "div",
+						class: "needed-item title-wrap title",
+						children: [
+							document.newElement({
+								type: "img",
+								attributes: { src: `https://www.torn.com/images/items/${item.id}/large.png`, alt: "" },
+							}),
+							document.newElement({ type: "span", text: item.name }),
+						],
+					})
+				);
+			}
+			document.find(".main-items-cont-wrap").insertAdjacentElement("afterend", wrapper);
+			// TODO - Market links
+		}
+	},
+};
