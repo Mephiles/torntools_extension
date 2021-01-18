@@ -670,6 +670,16 @@ function setupPreferences() {
 				.catch(() => console.log("Denied permission."));
 		});
 	}
+	
+	for (let game of preferences.findAll("#casinogames span")) {
+		game.onclick = () => {
+			game.classList.toggle("disabled");
+		};
+	}
+	for (let game of hide_casino_games) {
+		preferences.find(`#casinogames span[name='${game}']`).classList.add("disabled");
+	}
+	
 }
 
 function targetList() {
@@ -1117,6 +1127,11 @@ function savePreferences(preferences, settings, target_list_enabled) {
 
 	// Items
 	settings.pages.items.highlight;
+	
+	const hiddenGames = [];
+	for (let game of preferences.findAll("#casinogames span.disabled")) {
+		hiddenGames.push(game.getAttribute("name"));
+	}
 
 	// Filters (Faction)
 	let filter_factions = {
@@ -1143,6 +1158,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	ttStorage.set({ chat_highlight: highlights });
 	ttStorage.set({ hide_icons: icons });
 	ttStorage.set({ hide_areas: areas });
+	ttStorage.set({ hide_casino_games: hiddenGames });
 	ttStorage.change({
 		filters: {
 			preset_data: {
