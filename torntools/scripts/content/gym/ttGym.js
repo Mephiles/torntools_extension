@@ -317,13 +317,13 @@ function disableGyms() {
 
 		if (settings.pages.gym[`disable_${stat}`] && !doc.find(`ul[class*='properties_'] > li${GYM_SELECTORS[stat]}`).classList.contains("locked___r074J")) {
 			// FIXME - Check class.
-			doc.find(`ul[class*='properties_'] > li.${GYM_SELECTORS[stat]}`).classList.add("tt-gym-locked");
+			doc.find(`ul[class*='properties_'] > li${GYM_SELECTORS[stat]}`).classList.add("tt-gym-locked");
 		}
 
-		doc.find(`ul[class*='properties_'] > li.${GYM_SELECTORS[stat]}`).appendChild(checkbox);
+		doc.find(`ul[class*='properties_'] > li${GYM_SELECTORS[stat]}`).appendChild(checkbox);
 
 		checkbox.onclick = () => {
-			if (!doc.find(`ul[class*='properties_'] > li.${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked") && checkbox.checked) {
+			if (!doc.find(`ul[class*='properties_'] > li${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked") && checkbox.checked) {
 				disableGymButton([stat], true);
 			} else if (!checkbox.checked) {
 				disableGymButton([stat], false);
@@ -340,13 +340,13 @@ function disableGyms() {
 function disableGymButton(types, disable) {
 	for (let stat of types) {
 		if (disable) {
-			if (!doc.find(`ul[class*='properties_'] > li.${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked")) {
-				doc.find(`ul[class*='properties_'] > li.${GYM_SELECTORS[stat]}`).classList.add("tt-gym-locked");
-				doc.find(`ul[class*='properties_'] > li.${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = true;
+			if (!doc.find(`ul[class*='properties_'] > li${GYM_SELECTORS[stat]}`).classList.contains("tt-gym-locked")) {
+				doc.find(`ul[class*='properties_'] > li${GYM_SELECTORS[stat]}`).classList.add("tt-gym-locked");
+				doc.find(`ul[class*='properties_'] > li${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = true;
 			}
 		} else {
-			doc.find(`ul[class*='properties_'] > li.${GYM_SELECTORS[stat]}`).classList.remove("tt-gym-locked");
-			doc.find(`ul[class*='properties_'] > li.${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = false;
+			doc.find(`ul[class*='properties_'] > li${GYM_SELECTORS[stat]}`).classList.remove("tt-gym-locked");
+			doc.find(`ul[class*='properties_'] > li${GYM_SELECTORS[stat]} .tt-gym-stat-checkbox`).checked = false;
 		}
 	}
 
