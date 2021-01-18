@@ -302,7 +302,6 @@ function checkMobile() {
 	return new Promise((resolve) => {
 		if (typeof mobile === "boolean") return resolve(mobile);
 
-		console.log("DKK checkMobile", document.readyState);
 		if (document.readyState === "complete" || document.readyState === "interactive") check();
 		else window.addEventListener("DOMContentLoaded", check);
 
@@ -1224,3 +1223,51 @@ function addRFC(url) {
 	url += (url.split("?").length > 1 ? "&" : "?") + "rfcv=" + getRFC();
 	return url;
 }
+
+// TODO - Use in ttItems.js
+const ITEM_VALUE_UTILITIES = {
+	showTotal: (list, type) => {
+		if (!hasAPIData() || !settings.apiUsage.user.inventory) return;
+
+		let total;
+		if (type === "All") total = userdata.inventory.map((x) => x.quantity * x.market_price).reduce((a, b) => (a += b), 0);
+		else
+			total = userdata.inventory
+				.filter((x) => x.type === type)
+				.map((x) => x.quantity * x.market_price)
+				.reduce((a, b) => (a += b), 0);
+
+		if (list.find(":scope > li.tt-ignore > .tt-item-price"))
+			list.find(":scope > li.tt-ignore > .tt-item-price").innerText = `Total Value: $${formatNumber(total, { decimals: 0 })}`;
+		else {
+			list.insertBefore(
+				document.newElement({
+					type: "li",
+					class: "tt-ignore",
+					children: [
+						document.newElement({
+							type: "li",
+							text: `Total Value: $${formatNumber(total, { decimals: 0 })}`,
+							class: "tt-item-price",
+						}),
+					],
+				}),
+				list.firstElementChild
+			);
+		}
+	},
+	addValue: (priceElement, quantity, price) => {
+		const totalPrice = quantity * price;
+		if (totalPrice) {
+			if (quantity > 1) {
+				priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(price)} | ` }));
+				priceElement.appendChild(document.newElement({ type: "span", text: `${quantity}x = `, class: "tt-item-quantity" }));
+			}
+			priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(totalPrice)}` }));
+		} else if (price === 0) {
+			priceElement.innerText = `N/A`;
+		} else {
+			priceElement.innerText = `$${formatNumber(price)}`;
+		}
+	},
+};
