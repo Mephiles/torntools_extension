@@ -1256,6 +1256,7 @@ const STORAGE = {
 		$player: "#7ca900",
 	},
 	hide_icons: [],
+	hide_casino_games: [],
 	hide_areas: [],
 	quick: {
 		items: [],

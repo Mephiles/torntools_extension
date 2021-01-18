@@ -57,6 +57,7 @@ let userdata,
 	sorting,
 	stock_alerts,
 	hide_areas,
+	hide_casino_games,
 	travel_items,
 	notifications_custom,
 	yata;
@@ -100,6 +101,7 @@ let userdata,
 		sorting = DB.sorting;
 		stock_alerts = DB.stock_alerts;
 		hide_areas = DB.hide_areas;
+		hide_casino_games = DB.hide_casino_games;
 		travel_items = DB.travel_items;
 		notifications_custom = DB.notifications_custom;
 		yata = DB.yata;
