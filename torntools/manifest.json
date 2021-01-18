@@ -108,6 +108,12 @@
 			"run_at": "document_idle"
 		},
 		{
+			"matches": ["https://www.torn.com/casino.php*"],
+			"css": ["scripts/content/casino/ttCasino.css"],
+			"js": ["scripts/content/casino/ttCasino.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/church.php*"],
 			"css": ["scripts/content/achievements/ttAchievements.css"],
 			"js": ["scripts/content/achievements/ttChurchAchievements.js"],
