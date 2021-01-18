@@ -95,6 +95,7 @@ Document.prototype.newElement = function (options = {}) {
 		for (let event in options.events) newElement.addEventListener(event, options.events[event]);
 
 		for (let key in options.style) newElement.style[key] = options.style[key];
+		for (let key in options.dataset) newElement.dataset[key] = options.dataset[key];
 
 		return newElement;
 	}
@@ -301,6 +302,7 @@ function checkMobile() {
 	return new Promise((resolve) => {
 		if (typeof mobile === "boolean") return resolve(mobile);
 
+		console.log("DKK checkMobile", document.readyState);
 		if (document.readyState === "complete" || document.readyState === "interactive") check();
 		else window.addEventListener("DOMContentLoaded", check);
 
