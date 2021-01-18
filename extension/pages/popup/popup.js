@@ -79,7 +79,6 @@ async function setupInitialize() {
 
 				await showPage(settings.pages.popup.defaultTab);
 			})
-
 			.catch((error) => {
 				document.find(".error").classList.remove("hidden");
 				document.find(".error").innerText = error.error;

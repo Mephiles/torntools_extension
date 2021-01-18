@@ -58,8 +58,7 @@ async function setupChangelog() {
 		// Closeable
 		const closeable = document.newElement({ type: "div", class: "closable hidden" });
 		heading.addEventListener("click", () => {
-			if (closeable.classList.contains("hidden")) closeable.classList.remove("hidden");
-			else closeable.classList.add("hidden");
+			closeable.classList.toggle("hidden");
 
 			rotateElement(icon, 180);
 		});
