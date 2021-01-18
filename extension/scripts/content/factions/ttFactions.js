@@ -56,14 +56,16 @@ function loadFactions() {
 }
 
 function loadFactionsOnce() {
-	requireElement(".factions-tabs").then(() => {
-		document.find(".factions-tabs li[data-case=main]").addEventListener("click", loadMain);
-		document.find(".factions-tabs li[data-case=info]").addEventListener("click", loadInfo);
-		document.find(".factions-tabs li[data-case=crimes]").addEventListener("click", loadCrimes);
-		document.find(".factions-tabs li[data-case=upgrades]").addEventListener("click", loadUpgrades);
-		document.find(".factions-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
-		document.find(".factions-tabs li[data-case=controls]").addEventListener("click", loadControls);
-	});
+	if (getSearchParameters().get("step") === "your") {
+		requireElement(".factions-tabs").then(() => {
+			document.find(".factions-tabs li[data-case=main]").addEventListener("click", loadMain);
+			document.find(".factions-tabs li[data-case=info]").addEventListener("click", loadInfo);
+			document.find(".factions-tabs li[data-case=crimes]").addEventListener("click", loadCrimes);
+			document.find(".factions-tabs li[data-case=upgrades]").addEventListener("click", loadUpgrades);
+			document.find(".factions-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
+			document.find(".factions-tabs li[data-case=controls]").addEventListener("click", loadControls);
+		});
+	}
 }
 
 function loadMain() {}
