@@ -2562,7 +2562,7 @@ function findParent(element, attributes = {}) {
 	if (
 		attributes.class &&
 		((Array.isArray(attributes.class) && attributes.class.some((value) => element.parentElement.classList.contains(value))) ||
-			element.parentElement.classList.contains(attributes.class))
+			(!Array.isArray(attributes.class) && element.parentElement.classList.contains(attributes.class)))
 	)
 		return element.parentElement;
 	if (attributes.id && element.parentElement.id === attributes.id) return element.parentElement;
