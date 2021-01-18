@@ -233,14 +233,16 @@ label {
 #changelog .dkk span,
 #changelog .mephiles span,
 #changelog .wootty2000 span,
-#changelog .finally span {
+#changelog .finally span,
+#changelog .sashank999 span {
 	position: relative;
 }
 
 #changelog .dkk span:before,
 #changelog .mephiles span:before,
 #changelog .wootty2000 span:before,
-#changelog .finally span:before {
+#changelog .finally span:before,
+#changelog .sashank999 span:before {
 	width: 5px;
 	height: 5px;
 	content: "";
@@ -270,6 +272,11 @@ label {
 #changelog .finally span:before {
 	background-color: purple;
 	border: 2px solid purple;
+}
+
+#changelog .sashank999 span:before {
+	background-color: greenyellow;
+	border: 2px solid greenyellow;
 }
 
 /* API info */

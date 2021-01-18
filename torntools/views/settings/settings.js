@@ -242,7 +242,7 @@ function setupChangelog() {
 							for (let _item of grandparent[parent_name][_key]) {
 								let contributor;
 
-								for (let c of ["Mephiles", "DKK", "wootty2000", "finally"]) {
+								for (let c of ["Mephiles", "DKK", "Sashank999", "finally"]) {
 									if (!_item.includes(`- ${c}`)) continue;
 
 									contributor = c.toLowerCase();
@@ -670,7 +670,7 @@ function setupPreferences() {
 				.catch(() => console.log("Denied permission."));
 		});
 	}
-	
+
 	for (let game of preferences.findAll("#casinogames span")) {
 		game.onclick = () => {
 			game.classList.toggle("disabled");
@@ -679,7 +679,6 @@ function setupPreferences() {
 	for (let game of hide_casino_games) {
 		preferences.find(`#casinogames span[name='${game}']`).classList.add("disabled");
 	}
-	
 }
 
 function targetList() {
@@ -1127,7 +1126,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 
 	// Items
 	settings.pages.items.highlight;
-	
+
 	const hiddenGames = [];
 	for (let game of preferences.findAll("#casinogames span.disabled")) {
 		hiddenGames.push(game.getAttribute("name"));
