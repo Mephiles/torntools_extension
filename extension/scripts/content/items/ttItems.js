@@ -371,12 +371,13 @@ async function showItemValues() {
 
 			let priceElement;
 			if (item.find(".bonuses-wrap")) {
+				// TODO - Don't use Torn class.
 				priceElement = document.newElement({ type: "li", class: "bonus left tt-item-price" });
 			} else {
 				priceElement = document.newElement({ type: "span", class: "tt-item-price" });
 
 				if (item.find("button.group-arrow")) {
-					priceElement.style.paddingRight = "30px";
+					priceElement.style.setProperty("padding-right", "30px", "important");
 				}
 			}
 			if (mobile) {
@@ -528,9 +529,8 @@ async function showItemMarketIcons() {
 
 			parent.appendChild(
 				document.newElement({
-					type: "li",
+					type: "div",
 					class: "market-link",
-					attributes: { "data-id": item.getAttribute("data-item") },
 					children: [
 						document.newElement({
 							type: "a",
