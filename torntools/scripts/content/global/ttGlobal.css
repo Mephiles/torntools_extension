@@ -301,6 +301,13 @@
 	background-color: #a9a9a9;
 }
 
+.bold {
+	font-weight: 600;
+}
+.money-color {
+	color: #678c00;
+}
+
 /* hide arrows on number inputs */
 /* Chrome, Safari, Edge, Opera */
 .tt-filter input::-webkit-outer-spin-button,

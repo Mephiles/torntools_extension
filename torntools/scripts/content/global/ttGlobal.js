@@ -478,8 +478,8 @@ function displayVaultBalance() {
 
 	// FIXME - Use right classes.
 	let elementHTML = `
-    	<span class="name___297H-">Vault:</span>
-    	<span class="value___1K0oi money-positive___3pqLW" style="position:relative;left:-3px;">
+    	<span class="bold">Vault:</span>
+    	<span class="money-color">
 			${settings.pages.global.vault_balance_own && vault.initialized && vault.user.current_money ? "*" : ""}$${numberWithCommas(money, false)}
 		</span>
     `;
