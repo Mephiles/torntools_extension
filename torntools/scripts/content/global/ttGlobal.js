@@ -537,8 +537,8 @@ function addInformationSection() {
 	let hr = doc.new({ type: "hr", class: "delimiter___neME6 delimiter___3kh4j tt-information-section-hr" }); // FIXME - Use right classes.
 	let div = doc.new({ type: "div", class: "tt-information-section" });
 
-	doc.find("#sidebarroot [class*='user-information_'] [class*='content_']").appendChild(hr);
-	doc.find("#sidebarroot [class*='user-information_'] [class*='content_']").appendChild(div);
+	doc.find("#sidebarroot [class*='user-information_'] [class*='content_']:not([class*='toggle-'])").appendChild(hr);
+	doc.find("#sidebarroot [class*='user-information_'] [class*='content_']:not([class*='toggle-'])").appendChild(div);
 }
 
 function displayOCtime() {
