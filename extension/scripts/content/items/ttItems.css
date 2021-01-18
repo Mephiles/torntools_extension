@@ -99,6 +99,10 @@
 	white-space: pre;
 }
 
+span.tt-item-price {
+	float: right;
+}
+
 .tt-item-quantity {
 	color: black;
 	font-weight: 600;
