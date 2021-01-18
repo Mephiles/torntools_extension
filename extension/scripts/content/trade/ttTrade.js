@@ -31,26 +31,36 @@ function loadTradeOnce() {
 		if (page === "trade") {
 			loadTrade();
 		} else if (page === "inventory") {
-			const step = new URLSearchParams(xhr.requestBody).get("step");
+			const params = new URLSearchParams(xhr.requestBody);
+
+			const step = params.get("step");
 			switch (step) {
 				case "getList":
 				case "getListById":
-					ITEM_VALUES.showValues(json.queue || false, json.list).catch((error) => console.error("Couldn't show the item values.", error));
+					ITEM_VALUES.showValues(params.get("type") || false, json.list).catch((error) => console.error("Couldn't show the item values.", error));
 					break;
 			}
 		}
 	});
 }
 
+function getItemCurrentList() {
+	return document.find(".category-wrap ul.items-cont[style*='display:block;'], .category-wrap ul.items-cont[style*='display: block;']");
+}
+
 const ITEM_VALUES = {
 	showValues: async (type, items) => {
+		ITEM_VALUE_UTILITIES.removeTotal();
+
 		if (settings.pages.items.values) {
-			const list = document.find(".category-wrap ul.items-cont[style*='display:block;'], .category-wrap ul.items-cont[style*='display: block;']");
+			const list = getItemCurrentList();
+
+			if (type) ITEM_VALUE_UTILITIES.showTotal(list, type);
 
 			for (const item of items) {
 				if (parseInt(item.untradable)) continue;
 
-				requireElement(`li[data-reactid*='$${item.armoryID}'] .name-wrap`, { parent: list }).then(() => {
+				requireElement(`li[data-reactid*='$${item.armoryID}'] .name-wrap`, { parent: list }).then(async () => {
 					const parent = list.find(`li[data-reactid*='$${item.armoryID}'] .name-wrap`);
 					if (parent.find(".tt-item-price")) {
 						if (type) return;
@@ -71,8 +81,6 @@ const ITEM_VALUES = {
 					} else parent.insertAdjacentElement("afterend", priceElement);
 				});
 			}
-
-			if (type) ITEM_VALUE_UTILITIES.showTotal(list, type);
 		} else {
 			for (const price of document.findAll(".tt-item-price, #category-wrap .tt-ignore")) {
 				price.remove();

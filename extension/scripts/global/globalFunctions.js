@@ -1237,9 +1237,7 @@ const ITEM_VALUE_UTILITIES = {
 				.map((x) => x.quantity * x.market_price)
 				.reduce((a, b) => (a += b), 0);
 
-		if (list.find(":scope > li.tt-ignore > .tt-item-price"))
-			list.find(":scope > li.tt-ignore > .tt-item-price").innerText = `Total Value: $${formatNumber(total, { decimals: 0 })}`;
-		else {
+		setTimeout(() => {
 			list.insertBefore(
 				document.newElement({
 					type: "li",
@@ -1254,7 +1252,11 @@ const ITEM_VALUE_UTILITIES = {
 				}),
 				list.firstElementChild
 			);
-		}
+		}, 0);
+	},
+	removeTotal: () => {
+		const total = document.find(".tt-ignore .tt-item-price");
+		if (total) total.parentElement.remove();
 	},
 	addValue: (priceElement, quantity, price) => {
 		const totalPrice = quantity * price;
