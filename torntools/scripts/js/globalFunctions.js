@@ -740,9 +740,9 @@ const COMPANY_INFORMATION = {
 			effect: "1 nerve",
 		},
 		3: {
-			name: "Butcher",
+			name: "Blood Splatter",
 			cost: "Passive",
-			effect: "10% melee weapon damage",
+			effect: "50% reduction in crime experience penalties",
 		},
 		5: {
 			name: "Carnage",

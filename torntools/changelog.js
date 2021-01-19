@@ -1,8 +1,8 @@
 export default {
-	"v5.5 - xxxxxx, xxth. 2021": {
+	"v5.5 - January, 19th. 2021": {
 		Features: ["Show missing flowers and plushies in the inventory. - Sashank999", "Disable some casino games. - Sashank999"],
 		Fixes: ["Use the new Torn classes. - Sashank999", "Solve some problems regarding the new class names. - DKK"],
-		Changes: ["Add ISO date formatting. - DKK", "Switch to new YATA domain. - DKK"],
+		Changes: ["Add ISO date formatting. - DKK", "Switch to new YATA domain. - DKK", "Update Meat Warehouse 3* special. - DKK"],
 	},
 	"v5.4 - January, 12th. 2021": {
 		Features: [
