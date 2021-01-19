@@ -485,44 +485,48 @@ function getDiffClass(diff) {
 }
 
 function showTotalPortfolioValue() {
-	let totalPortfolioValue = 0;
-	for (let element of document.findAll(
-		"div.stock-main-wrap>ul.stock-cont>li.item-wrap"
-	)) {
-		totalPortfolioValue += parseInt(
-			element
-				.find(".item .info .c-price-wrap .first-row span")
-				.innerText.replace("Worth: ", "")
-				.replace(/[$,]/g, "")
-				.trim()
+	if (getSearchParameters().get("step")) {
+		let totalPortfolioValue = 0;
+		for (let element of document.findAll(
+			"div.stock-main-wrap>ul.stock-cont>li.item-wrap"
+		)) {
+			totalPortfolioValue += parseInt(
+				element
+					.find(".item .info .c-price-wrap .first-row span")
+					.innerText.replace("Worth: ", "")
+					.replace(/[$,]/g, "")
+					.trim()
+			);
+		}
+		totalPortfolioValue =
+			"$" + numberWithCommas(totalPortfolioValue).toString();
+
+		let profitsSum = (lossSum = rawText = null);
+		doc.findAll(".bold.block-profit").forEach(
+			(x) => (profitsSum += parseInt(x.innerText.replace(/[$\+, ]/g, "")))
+		);
+		doc.findAll(".bold.block-loss").forEach(
+			(x) =>
+				(lossSum += Math.abs(
+					parseInt(x.innerText.replace(/[$\+, ]/g, ""))
+				))
+		);
+		let totalSum = Math.abs(profitsSum - lossSum);
+		if (profitsSum > lossSum)
+			rawText = `Profit: <span style='color: #678c00;'>+$${numberWithCommas(
+				totalSum
+			)}</span>`;
+		else if (profitsSum < lossSum)
+			rawText = `Loss: <span style='color: red;'>-$${numberWithCommas(
+				totalSum
+			)}</span>`;
+
+		doc.find("div.stock-main-wrap div.title").appendChild(
+			doc.new({
+				type: "span",
+				attributes: { style: "font-weight: 400;color: #bfbfbf;" },
+				html: ` ( Value: <span style='color: #678c00;'>${totalPortfolioValue}</span> | ${rawText} )`,
+			})
 		);
 	}
-	totalPortfolioValue =
-		"$" + numberWithCommas(totalPortfolioValue).toString();
-
-	let profitsSum = (lossSum = rawText = null);
-	doc.findAll(".bold.block-profit").forEach(
-		(x) => (profitsSum += parseInt(x.innerText.replace(/[$\+, ]/g, "")))
-	);
-	doc.findAll(".bold.block-loss").forEach(
-		(x) =>
-			(lossSum += Math.abs(parseInt(x.innerText.replace(/[$\+, ]/g, ""))))
-	);
-	let totalSum = Math.abs(profitsSum - lossSum);
-	if (profitsSum > lossSum)
-		rawText = `Profit: <span style='color: #678c00;'>+$${numberWithCommas(
-			totalSum
-		)}</span>`;
-	else if (profitsSum < lossSum)
-		rawText = `Loss: <span style='color: red;'>-$${numberWithCommas(
-			totalSum
-		)}</span>`;
-
-	doc.find("div.stock-main-wrap div.title").appendChild(
-		doc.new({
-			type: "span",
-			attributes: { style: "font-weight: 400;color: #bfbfbf;" },
-			html: ` ( Value: <span style='color: #678c00;'>${totalPortfolioValue}</span> | ${rawText} )`,
-		})
-	);
 }
