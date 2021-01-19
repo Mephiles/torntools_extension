@@ -1273,7 +1273,12 @@ const ITEM_VALUE_UTILITIES = {
 		}
 	},
 	INVENTORY: {
-		showValues: async (type, items) => {
+		showValues: async (type, items, options = {}) => {
+			options = {
+				ignoreUntradable: true,
+				...options,
+			};
+
 			ITEM_VALUE_UTILITIES.removeTotal();
 
 			if (settings.pages.items.values) {
@@ -1282,7 +1287,7 @@ const ITEM_VALUE_UTILITIES = {
 				if (type) ITEM_VALUE_UTILITIES.showTotal(list, type);
 
 				for (const item of items) {
-					if (parseInt(item.untradable)) continue;
+					if (options.ignoreUntradable && parseInt(item.untradable)) continue;
 
 					requireElement(`li[data-reactid*='$${item.armoryID}'] .name-wrap`, { parent: list }).then(async () => {
 						const itemRow = list.find(`li[data-reactid*='$${item.armoryID}']`);
@@ -1297,10 +1302,18 @@ const ITEM_VALUE_UTILITIES = {
 						const quantity = parseInt(item.Qty) || 1;
 
 						const valueWrap = itemRow.find(".info-wrap");
-						if (valueWrap && (!valueWrap.innerText.trim() || valueWrap.innerText.startsWith("$"))) {
+
+						if (valueWrap && valueWrap.clientWidth && (!valueWrap.innerText.trim() || valueWrap.innerText.startsWith("$"))) {
 							valueWrap.innerHTML = "";
 							valueWrap.classList.add("tt-item-price-color");
 							ITEM_VALUE_UTILITIES.addValue(valueWrap, quantity, price);
+						} else if (valueWrap && valueWrap.clientWidth) {
+							valueWrap.style.setProperty("position", "relative");
+
+							const priceElement = document.newElement({ type: "span", class: "tt-item-price" });
+							ITEM_VALUE_UTILITIES.addValue(priceElement, quantity, price);
+
+							valueWrap.appendChild(priceElement);
 						} else {
 							const priceElement = document.newElement({ type: "span", class: "tt-item-price" });
 							if (item.groupItem && quantity !== 1) priceElement.style.setProperty("padding-right", "98px", "important");
@@ -1323,22 +1336,21 @@ const ITEM_VALUE_UTILITIES = {
 		getItemCurrentList: () => {
 			return document.find(".category-wrap ul.items-cont[style*='display:block;'], .category-wrap ul.items-cont[style*='display: block;']");
 		},
-		addListener: () => {
+		addListener: (options = {}) => {
 			addXHRListener(({ detail: { page, xhr, json } }) => {
 				if (page === "inventory") {
-					console.log("DKK xhr");
-					ITEM_VALUE_UTILITIES.INVENTORY.handleInventoryRequest(xhr, json);
+					ITEM_VALUE_UTILITIES.INVENTORY.handleInventoryRequest(xhr, json, options);
 				}
 			});
 		},
-		handleInventoryRequest: (xhr, json) => {
+		handleInventoryRequest: (xhr, json, options = {}) => {
 			const params = new URLSearchParams(xhr.requestBody);
 
 			const step = params.get("step");
 			switch (step) {
 				case "getList":
 				case "getListById":
-					ITEM_VALUE_UTILITIES.INVENTORY.showValues(params.get("type") || false, json.list).catch((error) =>
+					ITEM_VALUE_UTILITIES.INVENTORY.showValues(params.get("type") || false, json.list, options).catch((error) =>
 						console.error("Couldn't show the item values.", error)
 					);
 					break;
