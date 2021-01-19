@@ -39,9 +39,6 @@ requireDatabase().then(() => {
 		if (settings.scripts.no_confirm.global && settings.scripts.no_confirm.item_equip) {
 			addItemListener();
 		}
-
-		showMissingPlushies();
-		showMissingFlowers();
 	});
 });
 
@@ -197,6 +194,13 @@ requireDatabase().then(() => {
 function initializeItems() {
 	console.log("Showing item information.");
 
+	try {
+		doc.find("#tt-needed-plushies-div").style.display = "none";
+	} catch (err) {}
+	try {
+		doc.find("#tt-needed-flowers-div").style.display = "none";
+	} catch (err) {}
+
 	// Item values
 	if (settings.pages.items.values) {
 		displayItemPrices(itemlist.items);
@@ -221,6 +225,8 @@ function initializeItems() {
 	}
 
 	if (settings.pages.items.highlight_bloodbags !== "none") highlightBloodBags();
+	showMissingPlushies();
+	showMissingFlowers();
 }
 
 function itemsLoaded() {
@@ -671,6 +677,12 @@ function addItemListener() {
 
 function showMissingPlushies() {
 	if (settings.pages.items.show_missing_plushies) {
+		if (doc.find("ul#plushies-items").getAttribute("aria-hidden") === 'true') return
+		else if (doc.find("#tt-needed-plushies-div")) {
+			doc.find("#tt-needed-plushies-div").style.display = "block";
+			return;
+		}
+
 		let plushieSet = {
 			"Sheep Plushie": 186,
 			"Teddy Bear Plushie": 187,
@@ -706,6 +718,12 @@ function showMissingPlushies() {
 
 function showMissingFlowers() {
 	if (settings.pages.items.show_missing_flowers) {
+		if (doc.find("ul#flowers-items").getAttribute("aria-hidden") === "true") return;
+		else if (doc.find("#tt-needed-flowers-div")) {
+			doc.find("#tt-needed-flowers-div").style.display = "block";
+			return;
+		}
+
 		let flowerSet = {
 			Dahlia: 260,
 			Crocus: 263,
