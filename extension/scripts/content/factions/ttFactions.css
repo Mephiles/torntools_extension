@@ -10,8 +10,9 @@
 	background-color: #f5b2b28a !important;
 }
 
-.tt-item-price {
-	color: #678c00;
+.tt-blood-price {
+	color: rgb(103, 140, 0);
 	float: right;
 	padding-right: 10px;
+	font-weight: normal;
 }

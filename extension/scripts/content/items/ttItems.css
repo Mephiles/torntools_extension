@@ -88,45 +88,6 @@
 }
 
 /*
- * Item values 
- */
-
-.tt-item-price {
-	color: #678c00;
-	width: unset !important;
-	padding-left: 10px !important;
-	padding-right: 10px !important;
-	white-space: pre;
-}
-
-span.tt-item-price {
-	float: right;
-}
-
-.tt-item-quantity {
-	color: black;
-	font-weight: 600;
-}
-
-.tt-mobile .tt-item-price {
-	position: absolute;
-	right: -10px;
-	top: 10px;
-	float: unset;
-	font-size: 11px;
-}
-
-.tt-mobile .needed-item .tt-item-price {
-	right: 0;
-}
-
-.tt-mobile .items-cont .name,
-.tt-mobile .items-cont .qty {
-	position: relative;
-	top: -3px;
-}
-
-/*
  * Drug information
  */
 

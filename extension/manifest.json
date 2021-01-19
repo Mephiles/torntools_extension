@@ -141,6 +141,33 @@
 				"scripts/content/trade/ttTrade.js"
 			],
 			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/itemuseparcel.php*"
+			],
+			"js": [
+				"scripts/content/itemuseparcel/ttItemUseParcel.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/bazaar.php*"
+			],
+			"js": [
+				"scripts/content/bazaar/ttBazaar.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/displaycase.php*"
+			],
+			"js": [
+				"scripts/content/displaycase/ttDisplayCase.js"
+			],
+			"run_at": "document_end"
 		}
 	]
 }

@@ -65,6 +65,8 @@ function loadFactionsOnce() {
 			document.find(".factions-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
 			document.find(".factions-tabs li[data-case=controls]").addEventListener("click", loadControls);
 		});
+
+		ITEM_VALUE_UTILITIES.INVENTORY.addListener();
 	}
 }
 
@@ -126,7 +128,7 @@ async function highlightBloodBags() {
 
 			if (hasAPIData()) {
 				item.find(".name").appendChild(
-					document.newElement({ type: "span", class: "tt-item-price", text: `$${formatNumber(torndata.items[itemId].market_value)}` })
+					document.newElement({ type: "span", class: "tt-blood-price", text: `$${formatNumber(torndata.items[itemId].market_value)}` })
 				);
 			}
 		}
