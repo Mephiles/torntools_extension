@@ -307,6 +307,12 @@
 .money-color {
 	color: #678c00;
 }
+.tt-point-block {
+	line-height: 19px;
+}
+.tt-point-block .money-color {
+	font-size: 13px;
+}
 
 /* hide arrows on number inputs */
 /* Chrome, Safari, Edge, Opera */

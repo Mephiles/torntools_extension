@@ -485,7 +485,7 @@ function displayVaultBalance() {
     `;
 
 	// FIXME - Use right classes.
-	let el = doc.new({ type: "p", class: "point-block___xpMEi", attributes: { tabindex: "1" }, html: elementHTML });
+	let el = doc.new({ type: "p", class: "tt-point-block", attributes: { tabindex: "1" }, html: elementHTML });
 
 	let info_cont = doc.find("h2=Information");
 	info_cont.parentElement
