@@ -30,7 +30,7 @@
 		"https://api.torn.com/"
 	],
 	"optional_permissions": [
-		"https://yata.alwaysdata.net/"
+		"https://yata.yt/"
 	],
 	"web_accessible_resources": [
 		"resources/images/*.png",
@@ -127,6 +127,18 @@
 			],
 			"js": [
 				"scripts/content/factions/ttFactions.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/trade.php*"
+			],
+			"css": [
+				"scripts/content/trade/ttTrade.css"
+			],
+			"js": [
+				"scripts/content/trade/ttTrade.js"
 			],
 			"run_at": "document_end"
 		}
