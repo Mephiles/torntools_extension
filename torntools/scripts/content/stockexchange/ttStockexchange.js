@@ -486,46 +486,20 @@ function getDiffClass(diff) {
 
 function showTotalPortfolioValue() {
 	if (getSearchParameters().get("step")) {
-		let totalPortfolioValue = 0;
-		for (let element of document.findAll(
-			"div.stock-main-wrap>ul.stock-cont>li.item-wrap"
-		)) {
-			totalPortfolioValue += parseInt(
-				element
-					.find(".item .info .c-price-wrap .first-row span")
-					.innerText.replace("Worth: ", "")
-					.replace(/[$,]/g, "")
-					.trim()
-			);
-		}
-		totalPortfolioValue =
-			"$" + numberWithCommas(totalPortfolioValue).toString();
+		const totalValue = [...doc.findAll(".stock-main-wrap ul.stock-cont > li.item-wrap")]
+			.map((x) => parseInt(x.querySelector(".item .info .c-price-wrap .first-row span").innerText.replace("Worth: ", "").replace(/[$,]/g, "").trim()))
+			.reduce((a, b) => (a += b), 0);
+		const profits = [...doc.findAll(".block-profit, .block-loss")].map((x) => parseInt(x.innerText.replace(/[$+, ]/g, ""))).reduce((a, b) => (a += b), 0);
 
-		let profitsSum = (lossSum = rawText = null);
-		doc.findAll(".bold.block-profit").forEach(
-			(x) => (profitsSum += parseInt(x.innerText.replace(/[$\+, ]/g, "")))
-		);
-		doc.findAll(".bold.block-loss").forEach(
-			(x) =>
-				(lossSum += Math.abs(
-					parseInt(x.innerText.replace(/[$\+, ]/g, ""))
-				))
-		);
-		let totalSum = Math.abs(profitsSum - lossSum);
-		if (profitsSum > lossSum)
-			rawText = `Profit: <span style='color: #678c00;'>+$${numberWithCommas(
-				totalSum
-			)}</span>`;
-		else if (profitsSum < lossSum)
-			rawText = `Loss: <span style='color: red;'>-$${numberWithCommas(
-				totalSum
-			)}</span>`;
+		let rawText;
+		if (profits > 0) rawText = `Profit: <span style="color: #678c00;">+$${numberWithCommas(Math.abs(profits))}</span>`;
+		else if (profits < 0) rawText = `Loss: <span style="color: red;">-$${numberWithCommas(Math.abs(profits))}</span>`;
 
 		doc.find("div.stock-main-wrap div.title").appendChild(
 			doc.new({
 				type: "span",
 				attributes: { style: "font-weight: 400;color: #bfbfbf;" },
-				html: ` ( Value: <span style='color: #678c00;'>${totalPortfolioValue}</span> | ${rawText} )`,
+				html: ` ( Value: <span style="color: #678c00;">$${numberWithCommas(totalValue)}</span> | ${rawText} )`,
 			})
 		);
 	}
