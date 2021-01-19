@@ -1296,8 +1296,8 @@ const ITEM_VALUE_UTILITIES = {
 						const price = parseInt(item.averageprice) || 0;
 						const quantity = parseInt(item.Qty) || 1;
 
-						const valueWrap = itemRow.find(".info-wrap[title='Market value']");
-						if (valueWrap) {
+						const valueWrap = itemRow.find(".info-wrap");
+						if (valueWrap && (!valueWrap.innerText.trim() || valueWrap.innerText.startsWith("$"))) {
 							valueWrap.innerHTML = "";
 							valueWrap.classList.add("tt-item-price-color");
 							ITEM_VALUE_UTILITIES.addValue(valueWrap, quantity, price);
