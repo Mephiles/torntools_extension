@@ -143,7 +143,7 @@ const COMPANY_INFORMATION = {
 		1: {
 			name: "Dauntless",
 			cost: "1",
-			effect: "1 nerve",
+			effect: "2 nerve",
 		},
 		3: {
 			name: "Free Ride",
@@ -359,7 +359,7 @@ const COMPANY_INFORMATION = {
 		1: {
 			name: "Audaciousness",
 			cost: "1",
-			effect: "1 nerve",
+			effect: "2 nerve",
 		},
 		3: {
 			name: "Illumination",
@@ -526,7 +526,7 @@ const COMPANY_INFORMATION = {
 		3: {
 			name: "Free Drinks",
 			cost: "1",
-			effect: "1 nerve",
+			effect: "2 nerve",
 		},
 		5: {
 			name: "High Heels",
@@ -634,7 +634,7 @@ const COMPANY_INFORMATION = {
 		3: {
 			name: "Free Drinks",
 			cost: "1",
-			effect: "1 nerve",
+			effect: "2 nerve",
 		},
 		5: {
 			name: "Thong",
@@ -737,7 +737,7 @@ const COMPANY_INFORMATION = {
 		1: {
 			name: "Blood Thirst",
 			cost: "1",
-			effect: "1 nerve",
+			effect: "2 nerve",
 		},
 		3: {
 			name: "Blood Splatter",
