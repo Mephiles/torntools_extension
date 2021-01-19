@@ -18,9 +18,10 @@
 
 &nbsp;  
 **Open Source**  
-The code is open to view for everybody.  
+The code is open for everybody and contributions are welcome.  
 If you want to submit Pull Requests then we are happy to accept any improvements/additions. You can always contact us via Discord, Github Issues, or any other platform about changes you'd like to apply so everybody's on the same page.  
 
+&nbsp;  
 Initially created by: Gregor Kaljulaid (**Mephiles[2087524]**)  
 Co-developer: **DeKleineKobini[2114440]**
 
