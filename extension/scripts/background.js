@@ -915,8 +915,11 @@ async function notifyUser(title, message, url) {
 		};
 
 	if (settings.notifications.tts) {
-		window.speechSynthesis.speak(new SpeechSynthesisUtterance(title));
-		window.speechSynthesis.speak(new SpeechSynthesisUtterance(message));
+		const ttsTitle = new SpeechSynthesisUtterance(title);
+		const ttsMessage = new SpeechSynthesisUtterance(message);
+		ttsTitle.volume = ttsMessage.volume = settings.notifications.volume / 100;
+		window.speechSynthesis.speak(ttsTitle);
+		window.speechSynthesis.speak(ttsMessage);
 	}
 
 	function hasSilentSupport() {
