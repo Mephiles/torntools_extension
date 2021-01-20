@@ -318,6 +318,11 @@ const CONTRIBUTORS = {
 		name: "bandirao",
 		color: "greenyellow",
 	},
+	Tesa: {
+		id: 2639608,
+		name: "Tesa",
+		color: "white",
+	},
 };
 
 let mobile;

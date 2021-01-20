@@ -38,6 +38,7 @@ export default [
 				{ message: "Improve item value total method of calculation.", contributor: "DeKleineKobini" },
 				{ message: "Show item market icon outside container.", contributor: "DeKleineKobini" },
 				{ message: "Show item market value while adding items in parcels, trades, bazaar and display case.", contributor: "DeKleineKobini" },
+				{ message: "Apply notification volume for tts.", contributor: "Tesa" },
 			],
 		},
 	},
