@@ -218,10 +218,11 @@ function requireCondition(condition, options = {}) {
 
 		function checkCondition() {
 			let response = condition();
-			if (!response) return;
+			if (!response) return false;
 
 			if (typeof response === "boolean") {
-				if (response) return resolve();
+				if (response) resolve();
+				else reject();
 			} else if (typeof response === "object") {
 				if (response.hasOwnProperty("success")) {
 					if (response.success === true) resolve(response.value);
@@ -230,6 +231,7 @@ function requireCondition(condition, options = {}) {
 					resolve(response);
 				}
 			}
+			return true;
 		}
 
 		function checkCounter(count) {

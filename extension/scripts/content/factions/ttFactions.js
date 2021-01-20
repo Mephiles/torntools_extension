@@ -57,13 +57,13 @@ function loadFactions() {
 
 function loadFactionsOnce() {
 	if (getSearchParameters().get("step") === "your") {
-		requireElement(".factions-tabs").then(() => {
-			document.find(".factions-tabs li[data-case=main]").addEventListener("click", loadMain);
-			document.find(".factions-tabs li[data-case=info]").addEventListener("click", loadInfo);
-			document.find(".factions-tabs li[data-case=crimes]").addEventListener("click", loadCrimes);
-			document.find(".factions-tabs li[data-case=upgrades]").addEventListener("click", loadUpgrades);
-			document.find(".factions-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
-			document.find(".factions-tabs li[data-case=controls]").addEventListener("click", loadControls);
+		requireElement(".faction-tabs").then(() => {
+			document.find(".faction-tabs li[data-case=main]").addEventListener("click", loadMain);
+			document.find(".faction-tabs li[data-case=info]").addEventListener("click", loadInfo);
+			document.find(".faction-tabs li[data-case=crimes]").addEventListener("click", loadCrimes);
+			document.find(".faction-tabs li[data-case=upgrades]").addEventListener("click", loadUpgrades);
+			document.find(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
+			document.find(".faction-tabs li[data-case=controls]").addEventListener("click", loadControls);
 		});
 
 		ITEM_VALUE_UTILITIES.INVENTORY.addListener();
