@@ -329,7 +329,7 @@ span.tt-item-price {
 	float: right;
 }
 
-.title-wrap {
+#inventory-container .title-wrap {
 	position: relative;
 }
 
