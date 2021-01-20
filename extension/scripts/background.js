@@ -550,7 +550,6 @@ async function updateUserdata() {
 					title: "TornTools - Chain",
 					message: `Chain will reach the next bonus hit in ${nextBonus - count} hit${applyPlural(nextBonus - count)}.`,
 					url: LINKS.chain,
-					seen: 0,
 					date: now,
 				};
 				break;
