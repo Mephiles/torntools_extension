@@ -388,12 +388,7 @@ async function updateUserdata() {
 				let message = events.last().event.replace(/<\/?[^>]+(>|$)/g, "");
 				if (events.length > 1) message += `\n(and ${events.length - 1} more event${events.length > 2 ? "s" : ""}`;
 
-				notifications.events.combined = {
-					title: `TornTools - New Event${events.length > 1 ? "s" : ""}`,
-					message,
-					url: LINKS.events,
-					date: now,
-				};
+				notifications.events.combined = newNotification(`New Event${applyPlural(events.length)}`, message, LINKS.events);
 			}
 		}
 
@@ -415,12 +410,7 @@ async function updateUserdata() {
 				let message = `${messages.last().title} - by ${messages.last().name}`;
 				if (messages.length > 1) message += `\n(and ${messages.length - 1} more message${messages.length > 2 ? "s" : ""})`;
 
-				notifications.messages.combined = {
-					title: `TornTools - New Message${messages.length > 1 ? "s" : ""}`,
-					message,
-					url: LINKS.messages,
-					date: now,
-				};
+				notifications.events.combined = newNotification(`New Message${applyPlural(messages.length)}`, message, LINKS.messages);
 			}
 		}
 
@@ -478,12 +468,7 @@ async function updateUserdata() {
 		const utc = `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`;
 		if (date.getUTCHours() !== 0 || date.getUTCMinutes() !== 0 || utc in notifications.newDay) return;
 
-		notifications.newDay[utc] = {
-			title: "TornTools - New Day",
-			message: "It's a new day! Hopefully a sunny one.",
-			url: LINKS.home,
-			date: now,
-		};
+		notifications.newDay[utc] = newNotification(`New Day`, "It's a new day! Hopefully a sunny one.", LINKS.home);
 	}
 
 	async function notifyBars() {
@@ -500,12 +485,11 @@ async function updateUserdata() {
 
 			for (let checkpoint of checkpoints) {
 				if (oldUserdata[bar].current < userdata[bar].current && userdata[bar].current >= checkpoint && !notifications[bar][checkpoint]) {
-					notifications[bar][checkpoint] = {
-						title: "TornTools - Bars",
-						message: `Your ${capitalizeText(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}.`,
-						url: LINKS.home,
-						date: now,
-					};
+					notifications[bar][checkpoint] = newNotification(
+						`Bars`,
+						`Your ${capitalizeText(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}.`,
+						LINKS.home
+					);
 					break;
 				} else if (userdata[bar].current < checkpoint && notifications[bar][checkpoint]) {
 					delete notifications[bar][checkpoint];
@@ -525,12 +509,11 @@ async function updateUserdata() {
 				const key = `${count}_${checkpoint}`;
 				if (timeout > parseInt(checkpoint) * TO_MILLIS.SECONDS || notifications.chain[key]) continue;
 
-				notifications.chain[key] = {
-					title: "TornTools - Chain",
-					message: `Chain timer will run out in ${formatTime({ milliseconds: timeout }, { type: "wordTimer" })}.`,
-					url: LINKS.chain,
-					date: now,
-				};
+				notifications.chain[key] = newNotification(
+					`Chain`,
+					`Chain timer will run out in ${formatTime({ milliseconds: timeout }, { type: "wordTimer" })}.`,
+					LINKS.chain
+				);
 				break;
 			}
 		} else {
@@ -546,12 +529,11 @@ async function updateUserdata() {
 
 				if (nextBonus - count > parseInt(checkpoint) || notifications.chainCount[key]) continue;
 
-				notifications.chainCount[key] = {
-					title: "TornTools - Chain",
-					message: `Chain will reach the next bonus hit in ${nextBonus - count} hit${applyPlural(nextBonus - count)}.`,
-					url: LINKS.chain,
-					date: now,
-				};
+				notifications.chainCount[key] = newNotification(
+					`Chain`,
+					`Chain will reach the next bonus hit in ${nextBonus - count} hit${applyPlural(nextBonus - count)}.`,
+					LINKS.chain
+				);
 				break;
 			}
 		} else {
@@ -568,12 +550,11 @@ async function updateUserdata() {
 
 				if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications.hospital[checkpoint]) continue;
 
-				notifications.hospital[checkpoint] = {
-					title: "TornTools - Hospital",
-					message: `You will be out of the hospital in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
-					url: LINKS.hospital,
-					date: now,
-				};
+				notifications.hospital[checkpoint] = newNotification(
+					`Hospital`,
+					`You will be out of the hospital in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
+					LINKS.hospital
+				);
 				break;
 			}
 		} else {
@@ -590,12 +571,11 @@ async function updateUserdata() {
 
 				if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications.travel[checkpoint]) continue;
 
-				notifications.travel[checkpoint] = {
-					title: "TornTools - Travel",
-					message: `You will be landing in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
-					url: LINKS.home,
-					date: now,
-				};
+				notifications.travel[checkpoint] = newNotification(
+					`Travel`,
+					`You will be landing in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
+					LINKS.home
+				);
 				break;
 			}
 		} else {
@@ -619,12 +599,11 @@ async function updateUserdata() {
 
 					if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications[cooldown.memory][checkpoint]) continue;
 
-					notifications[cooldown.memory][checkpoint] = {
-						title: `TornTools - ${cooldown.title}`,
-						message: `Your ${cooldown.name} cooldown will end in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
-						url: LINKS.items,
-						date: now,
-					};
+					notifications[cooldown.memory][checkpoint] = newNotification(
+						cooldown.title,
+						`Your ${cooldown.name} cooldown will end in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
+						LINKS.items
+					);
 				}
 			} else {
 				notifications[cooldown.memory] = {};
@@ -717,12 +696,7 @@ async function updateStakeouts() {
 			if (okay) {
 				const key = `${id}_okay`;
 				if (data.status.state === "Okay" && !notifications.stakeouts[key]) {
-					notifications.stakeouts[key] = {
-						title: `TornTools - Stakeouts`,
-						message: `${data.name} is now okay.`,
-						url: `https://www.torn.com/profiles.php?XID=${id}`,
-						date: now,
-					};
+					notifications.stakeouts[key] = newNotification("Stakeouts", `${data.name} is now okay.`, `https://www.torn.com/profiles.php?XID=${id}`);
 				} else if (data.status.state !== "Okay") {
 					delete notifications.stakeouts[key];
 				}
@@ -730,12 +704,11 @@ async function updateStakeouts() {
 			if (hospital) {
 				const key = `${id}_hospital`;
 				if (data.status.state === "Hospital" && !notifications.stakeouts[key]) {
-					notifications.stakeouts[key] = {
-						title: `TornTools - Stakeouts`,
-						message: `${data.name} is now in the hospital.`,
-						url: `https://www.torn.com/profiles.php?XID=${id}`,
-						date: now,
-					};
+					notifications.stakeouts[key] = newNotification(
+						"Stakeouts",
+						`${data.name} is now in the hospital.`,
+						`https://www.torn.com/profiles.php?XID=${id}`
+					);
 				} else if (data.status.state !== "Hospital") {
 					delete notifications.stakeouts[key];
 				}
@@ -743,12 +716,11 @@ async function updateStakeouts() {
 			if (landing) {
 				const key = `${id}_landing`;
 				if (data.last_action.status !== "Traveling" && !notifications.stakeouts[key]) {
-					notifications.stakeouts[key] = {
-						title: `TornTools - Stakeouts`,
-						message: `${data.name} is now ${data.status.state === "abroad" ? data.status.description : "in Torn"}.`,
-						url: `https://www.torn.com/profiles.php?XID=${id}`,
-						date: now,
-					};
+					notifications.stakeouts[key] = newNotification(
+						"Stakeouts",
+						`${data.name} is now ${data.status.state === "abroad" ? data.status.description : "in Torn"}.`,
+						`https://www.torn.com/profiles.php?XID=${id}`
+					);
 				} else if (data.last_action.status !== "Traveling") {
 					delete notifications.stakeouts[key];
 				}
@@ -756,12 +728,7 @@ async function updateStakeouts() {
 			if (online) {
 				const key = `${id}_online`;
 				if (data.last_action.status === "Online" && !notifications.stakeouts[key]) {
-					notifications.stakeouts[key] = {
-						title: `TornTools - Stakeouts`,
-						message: `${data.name} is now online.`,
-						url: `https://www.torn.com/profiles.php?XID=${id}`,
-						date: now,
-					};
+					notifications.stakeouts[key] = newNotification("Stakeouts", `${data.name} is now online.`, `https://www.torn.com/profiles.php?XID=${id}`);
 				} else if (data.last_action.status !== "Online") {
 					delete notifications.stakeouts[key];
 				}
@@ -769,12 +736,11 @@ async function updateStakeouts() {
 			if (life) {
 				const key = `${id}_life`;
 				if (data.life.current <= data.life.maximum * (life / 100) && !notifications.stakeouts[key]) {
-					notifications.stakeouts[key] = {
-						title: `TornTools - Stakeouts`,
-						message: `${data.name}'${data.name.endsWith("s") ? "" : "s"} life has dropped below ${life}%.`,
-						url: `https://www.torn.com/profiles.php?XID=${id}`,
-						date: now,
-					};
+					notifications.stakeouts[key] = newNotification(
+						"Stakeouts",
+						`${data.name}'${data.name.endsWith("s") ? "" : "s"} life has dropped below ${life}%.`,
+						`https://www.torn.com/profiles.php?XID=${id}`
+					);
 				} else if (data.life.current > data.life.maximum * (life / 100)) {
 					delete notifications.stakeouts[key];
 				}
@@ -877,6 +843,15 @@ async function updateFactiondata() {
 	}
 
 	await ttStorage.set({ factiondata });
+}
+
+function newNotification(title, message, link) {
+	return {
+		title: `TornTools - ${title}`,
+		message,
+		url: link,
+		date: Date.now(),
+	};
 }
 
 async function notifyUser(title, message, url) {
