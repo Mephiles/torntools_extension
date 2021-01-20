@@ -1,2 +1,5 @@
 # IDE Settings
 .idea
+
+# VS Code settings
+.vscode
