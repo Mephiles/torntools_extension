@@ -361,3 +361,19 @@ span.tt-item-price {
 	position: relative;
 	top: -3px;
 }
+
+/*
+ * Drug information
+ */
+
+.item-effect {
+	font-weight: 700;
+}
+
+.item-effect.tabbed {
+	margin-left: 15px;
+}
+
+.item-effect.double-tabbed {
+	margin-left: 30px;
+}

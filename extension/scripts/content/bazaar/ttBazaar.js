@@ -10,8 +10,17 @@
 })();
 
 function loadBazaarOnce() {
-	const userId = getSearchParameters().get("userId");
-	if (!userId || (hasAPIData() && userdata.player_id)) {
+	if (isOwnBazaar()) {
 		ITEM_VALUE_UTILITIES.INVENTORY.addListener();
 	}
+	// FIXME - Checking the same item twice won't send out a new request.
+	// Viewing the bazaar	- BROKEN
+	// Adding items			- working
+	// Managing items		- BROKEN
+	DRUG_DETAILS.addListener({ isXHR: isOwnBazaar(), isFetch: true, react: true });
+}
+
+function isOwnBazaar() {
+	const userId = getSearchParameters().get("userId");
+	return !userId || (hasAPIData() && userdata.player_id);
 }

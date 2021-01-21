@@ -66,7 +66,9 @@ function loadFactionsOnce() {
 			document.find(".faction-tabs li[data-case=controls]").addEventListener("click", loadControls);
 		});
 
+		// TODO - Combine listeners.
 		ITEM_VALUE_UTILITIES.INVENTORY.addListener();
+		DRUG_DETAILS.addListener({ react: true });
 	}
 }
 

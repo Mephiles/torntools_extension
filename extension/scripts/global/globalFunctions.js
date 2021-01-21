@@ -252,7 +252,10 @@ function requireElement(selector, attributes) {
 		parent: document,
 		...attributes,
 	};
-
+	// return requireCondition(() => {
+	// 	console.log("DKK requireElement", selector, { invert: attributes.invert, element: attributes.parent.find(selector) });
+	// 	return (attributes.invert && !attributes.parent.find(selector)) || (!attributes.invert && attributes.parent.find(selector));
+	// }, attributes);
 	return requireCondition(
 		() => (attributes.invert && !attributes.parent.find(selector)) || (!attributes.invert && attributes.parent.find(selector)),
 		attributes
@@ -1362,12 +1365,32 @@ const ITEM_VALUE_UTILITIES = {
 };
 
 const DRUG_DETAILS = {
-	showDetails: async (id) => {
+	showDetails: async (id, options = {}) => {
+		options = {
+			react: false,
+			...options,
+		};
+
 		if (settings.pages.items.drugDetails) {
-			const element = document.find(".show-item-info");
-			await requireElement(".ajax-placeholder", { invert: true, parent: element });
+			console.log("DKK showDetails 1", id, options.react);
+			let element;
+			await sleep(0);
+
+			if (options.react && document.find(".info-active .show-item-info[data-reactid]")) {
+				const reactid = document.find(".info-active .show-item-info").dataset.reactid;
+
+				console.log("DKK showDetails a", reactid);
+				await requireElement(`[data-reactid="${reactid}"] .ajax-placeholder`, { invert: true });
+
+				element = document.find(`[data-reactid="${reactid}"]`);
+			} else {
+				element = document.find(".show-item-info, .view-item-info[style*='display: block;'], .buy-show-item-info");
+				await requireElement(".ajax-placeholder", { invert: true, parent: element });
+			}
+			console.log("DKK showDetails 2", element);
 
 			const details = DRUG_INFORMATION[id];
+			console.log("DKK showDetails 3", details);
 			if (!details) return;
 
 			// Remove current info
@@ -1440,19 +1463,41 @@ const DRUG_DETAILS = {
 			}
 		}
 	},
-	addListener: function () {
-		addXHRListener(({ detail: { page, xhr, json } }) => {
-			if (page === "inventory") {
-				this.handleInventoryRequest(xhr, json, options);
-			}
-		});
+	addListener: function (options = {}) {
+		options = {
+			isXHR: true,
+			isFetch: false,
+			...options,
+		};
+
+		console.log("DKK addListener", options);
+		if (options.isXHR) {
+			addXHRListener(({ detail: { page, xhr, json } }) => {
+				console.log("DKK xhr", page);
+				if (page === "inventory") {
+					this.handleInventoryRequest(xhr, json, options);
+				}
+			});
+		}
+		if (options.isFetch) {
+			addFetchListener(({ detail: { page, fetch, json } }) => {
+				if (page === "inventory") {
+					this.handleInventoryRequest(fetch, json, options);
+				}
+			});
+		}
 	},
-	handleInventoryRequest: function (xhr, json) {
-		const params = new URLSearchParams(xhr.requestBody);
+	handleInventoryRequest: function (request, json, options) {
+		console.log("DKK handleInventoryRequest", request, json, options);
+		const params = request.url ? new URL(request.url).searchParams : new URLSearchParams(request.requestBody);
 
 		const step = params.get("step");
 		if (step !== "info") return;
 
-		this.showDetails(json.itemID).catch((error) => console.error("Couldn't show drug details.", error));
+		this.showDetails(json.itemID, options).catch((error) => console.error("Couldn't show drug details.", error));
 	},
 };
+
+function sleep(millis) {
+	return new Promise((resolve) => setTimeout(resolve, millis));
+}

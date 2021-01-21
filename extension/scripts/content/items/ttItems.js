@@ -491,7 +491,7 @@ async function highlightBloodBags() {
 /*
  * Torn Function
  */
-function getAction(options) {
+function getAction(options = {}) {
 	options = {
 		success: () => {},
 		action: location.pathname,

@@ -168,6 +168,15 @@
 				"scripts/content/displaycase/ttDisplayCase.js"
 			],
 			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/imarket.php*"
+			],
+			"js": [
+				"scripts/content/imarket/ttItemMarket.js"
+			],
+			"run_at": "document_end"
 		}
 	]
 }
