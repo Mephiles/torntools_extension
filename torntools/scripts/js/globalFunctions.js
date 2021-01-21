@@ -1488,6 +1488,7 @@ const STORAGE = {
 				disable_speed: false,
 				disable_defense: false,
 				disable_dexterity: false,
+				hide_gym_highlight: false,
 				specialty_gym_1: "",
 				specialty_gym_2: "",
 			},
