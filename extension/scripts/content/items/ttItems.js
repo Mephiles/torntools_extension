@@ -366,8 +366,7 @@ async function showItemValues() {
 
 			let priceElement;
 			if (item.find(".bonuses-wrap")) {
-				// TODO - Don't use Torn class.
-				priceElement = document.newElement({ type: "li", class: "bonus left tt-item-price" });
+				priceElement = document.newElement({ type: "li", class: "tt-item-price fl" });
 			} else {
 				priceElement = document.newElement({ type: "span", class: "tt-item-price" });
 

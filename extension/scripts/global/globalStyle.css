@@ -81,6 +81,11 @@
 	float: right;
 }
 
+/* CHECK - Replaces left */
+.fl {
+	float: left;
+}
+
 [class*="torn-icon-"] {
 	background: url("https://www.torn.com/images/v2/city/location_icons_34x34px.svg") no-repeat;
 	height: 34px;
