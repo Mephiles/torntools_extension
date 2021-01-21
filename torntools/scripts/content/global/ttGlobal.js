@@ -195,6 +195,9 @@ requireDatabase().then(() => {
 			}
 		});
 		chat_observer.observe(doc.find("#chatRoot"), { childList: true, subtree: true });
+		
+		hideGymHighlight();
+		
 	});
 });
 
@@ -783,4 +786,18 @@ function addPeopleBoxFilter() {
 			}
 		};
 	}
+}
+
+function hideGymHighlight() {
+	if (settings.pages.gym.hide_gym_highlight) {
+		if (mobile) {
+			doc.find("a[href='/gym.php'] svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_mobile)");
+			doc.find("a[href='/gym.php'] svg").setAttribute("filter", "url(#svg_sidebar_mobile)");
+			doc.find("#nav-gym").classList.remove(Object.values(doc.find("#nav-gym").classList)[1]);
+		} else {
+			doc.find("a[href='/gym.php'] svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_desktop)");
+			doc.find("#nav-gym").classList.remove(Object.values(doc.find("#nav-gym").classList)[1]);
+		}
+	}
+	
 }
