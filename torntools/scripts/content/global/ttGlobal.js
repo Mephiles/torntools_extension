@@ -790,14 +790,14 @@ function addPeopleBoxFilter() {
 
 function hideGymHighlight() {
 	if (settings.pages.gym.hide_gym_highlight) {
+		let navGym = doc.find("#nav-gym");
+		let navGymClass = navGym.className.substring(navGym.className.indexOf("available"));
 		if (mobile) {
 			doc.find("a[href='/gym.php'] svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_mobile)");
 			doc.find("a[href='/gym.php'] svg").setAttribute("filter", "url(#svg_sidebar_mobile)");
-			doc.find("#nav-gym").classList.remove(Object.values(doc.find("#nav-gym").classList)[1]);
 		} else {
 			doc.find("a[href='/gym.php'] svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_desktop)");
-			doc.find("#nav-gym").classList.remove(Object.values(doc.find("#nav-gym").classList)[1]);
 		}
+		navGym.classList.remove(navGymClass);
 	}
-	
 }
