@@ -615,11 +615,11 @@ const DRUG_INFORMATION = {
 		overdose: {
 			bars: ["-100% Energy, Nerve & Happy"],
 			hosp_time: "3 days 12 hours",
-			extra: "24 hours of cooldown and increased addiction",
+			extra: "24 hours of cooldown and increased addiction.",
 		},
 	},
 	870: {
-		pros: ["Cost of Attacking & Reviving reduced to 15 Energy", "+50% Speed", "+25% Dexterity"],
+		pros: ["Cost of attacking and reviving reduced by 15 energy.", "+50% Speed", "+25% Dexterity"],
 		cons: ["Only works on Valentine's Day"],
 		cooldown: "5 hours",
 	},
