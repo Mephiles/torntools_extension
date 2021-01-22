@@ -311,7 +311,30 @@ function addQuickItem(data, temporary = false) {
 function allowQuickItem(id, category) {
 	return (
 		["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category) ||
-		[220, 221, 222, 226, 229, 239, 242, 246, 256, 257, 392, 394, 581, 611, 616, 742, 833, 840, 1042].includes(id)
+		[
+			// Temporary Items
+			220,
+			221,
+			222,
+			226,
+			229,
+			239,
+			242,
+			246,
+			256,
+			257,
+			392,
+			394,
+			581,
+			611,
+			616,
+			742,
+			833,
+			840,
+			1042,
+			// Others
+			403,
+		].includes(id)
 	);
 }
 
