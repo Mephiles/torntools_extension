@@ -453,6 +453,7 @@ const API_USAGE = {
 				type: true,
 				quantity: true,
 				market_price: true,
+				equipped: true,
 			},
 		},
 	},
