@@ -45,13 +45,13 @@ function loadItemsOnce() {
 	}, 1000);
 
 	addXHRListener((event) => {
-		const { page, json, xhr } = event.detail;
+		const { page, json, xhr, uri } = event.detail;
 
-		if (page === "item" && json) {
+		if (page === "item") {
 			const params = new URLSearchParams(xhr.requestBody);
 			const step = params.get("step");
 
-			if (step === "useItem") {
+			if (json && step === "useItem") {
 				if (!json.success) return;
 
 				if (params.get("step") !== "useItem") return;
@@ -67,7 +67,7 @@ function loadItemsOnce() {
 				} else {
 					updateItemAmount(parseInt(params.get("itemID")), -1);
 				}
-			} else if (step === "sendItemAction") {
+			} else if (json && step === "sendItemAction") {
 				if (!json.success) return;
 
 				const actionId = json.confirm ? json.itemID : params.get("XID");
@@ -80,7 +80,7 @@ function loadItemsOnce() {
 
 					updateItemAmount(item, -amount);
 				}
-			} else if (step === "getCategoryList" || step === "getNotAllItemsListWithoutGroups" || step === "getItemsListByItemId") {
+			} else if (json && (step === "getCategoryList" || step === "getNotAllItemsListWithoutGroups" || step === "getItemsListByItemId")) {
 				const tab = document.find("ul.items-cont.tab-menu-cont[style='display: block;'], ul.items-cont.tab-menu-cont:not([style])");
 				if (!tab) return;
 
@@ -93,6 +93,28 @@ function loadItemsOnce() {
 
 					observer.disconnect();
 				}).observe(tab, { subtree: true, childList: true });
+			} else if (step === "actionForm") {
+				const action = params.get("action");
+
+				if (action === "equip" && hasAPIData()) {
+					const responseElement = document.newElement({ html: xhr.response });
+					const text = responseElement.find("h5, [data-status]").innerText.trim();
+
+					const regexResult = text.match(/You (unequipped|equipped) your (.*)\./i);
+					if (regexResult) {
+						const itemName = regexResult[2];
+						const equipAction = regexResult[1];
+
+						const item = findItemsInObject(torndata.items, { name: itemName }, { single: true });
+						if (!item) return;
+
+						const equipPosition = getEquipPosition(item.id, item.type);
+						[...document.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) => x.classList.remove("equipped"));
+
+						if (equipAction === "equipped" && document.find(`.item[data-id="${item.id}"]`))
+							document.find(`.item[data-id="${item.id}"]`).classList.add("equipped");
+					}
+				}
 			}
 		} else if (page === "inventory" && json) {
 			DRUG_DETAILS.handleInventoryRequest(xhr, json);
@@ -142,13 +164,13 @@ async function loadQuickItems() {
 						options.find("#edit-items-button").classList.toggle("tt-overlay-item");
 						if (document.find(".tt-overlay").classList.toggle("hidden")) {
 							for (let item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
-								if (!allowQuickItem(item.getAttribute("data-category"))) continue;
+								if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
 								item.removeEventListener("click", onItemClickQuickEdit);
 							}
 						} else {
 							for (let item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
-								if (!allowQuickItem(item.getAttribute("data-category"))) continue;
+								if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
 								item.addEventListener("click", onItemClickQuickEdit);
 							}
@@ -158,67 +180,96 @@ async function loadQuickItems() {
 			})
 		);
 
-		for (let id of quick.items) {
-			addQuickItem(id, false);
+		for (const quickItem of quick.items) {
+			addQuickItem(quickItem, false);
 		}
 	} else {
 		removeContainer("Quick Items");
 	}
 }
 
-function addQuickItem(id, temporary = false) {
+function addQuickItem(data, temporary = false) {
 	const content = findContainer("Quick Items", { selector: ".content" });
 	const innerContent = content.find(".inner-content");
 	const responseWrap = content.find(".response-wrap");
 
-	if (innerContent.find(`.item[item-id='${id}']`)) return;
-	if (!allowQuickItem(torndata.items[id].type)) return;
+	const { id, xid } = data;
+
+	if (innerContent.find(`.item[data-id='${id}']`)) return;
+	if (!allowQuickItem(id, torndata.items[id].type)) return;
+
+	let equipPosition;
+	if (isEquipable(id, torndata.items[id].type)) {
+		equipPosition = getEquipPosition(id, torndata.items[id].type);
+		data.equipPosition = equipPosition;
+	}
 
 	let itemWrap = document.newElement({
 		type: "div",
 		class: temporary ? "temp item" : "item",
-		attributes: { "item-id": id },
+		dataset: data,
 		events: {
 			click: () => {
+				const data = isEquipable(id, torndata.items[id].type)
+					? { step: "actionForm", confirm: 1, action: "equip", id: xid }
+					: { step: "useItem", id: id, itemID: id };
+
 				getAction({
 					type: "post",
 					action: "item.php",
-					data: { step: "useItem", id: id, itemID: id },
+					data,
 					success: (str) => {
-						const response = JSON.parse(str);
+						if (JSON.isValid(str)) {
+							const response = JSON.parse(str);
 
-						const links = ["<a href='#' class='close-act t-blue h'>Close</a>"];
-						if (response.links) {
-							for (let link of response.links) {
-								links.push(`<a class="t-blue h m-left10 ${link.class}" href="${link.url}" ${link.attr}>${link.title}</a>`);
+							const links = ["<a href='#' class='close-act t-blue h'>Close</a>"];
+							if (response.links) {
+								for (let link of response.links) {
+									links.push(`<a class="t-blue h m-left10 ${link.class}" href="${link.url}" ${link.attr}>${link.title}</a>`);
+								}
 							}
-						}
 
-						responseWrap.style.display = "block";
-						responseWrap.innerHTML = `
-							<div class="action-wrap use-act use-action">
-								<form data-action="useItem" method="post">
-									<p>${response.text}</p>
-									<p>${links.join("")}</p>
-									<div class="clear"></div>
-								</form>
-							</div>
-						`;
+							responseWrap.style.display = "block";
+							responseWrap.innerHTML = `
+								<div class="action-wrap use-act use-action">
+									<form data-action="useItem" method="post">
+										<p>${response.text}</p>
+										<p>${links.join("")}</p>
+										<div class="clear"></div>
+									</form>
+								</div>
+							`;
 
-						for (let count of responseWrap.findAll(".counter-wrap")) {
-							count.classList.add("tt-modified");
-							count.innerText = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer" });
-						}
-
-						if (response.items) {
-							for (const item of response.items.itemAppear) {
-								updateItemAmount(parseInt(item.ID), parseInt(item.qty));
+							for (let count of responseWrap.findAll(".counter-wrap")) {
+								count.classList.add("tt-modified");
+								count.innerText = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer" });
 							}
-							for (const item of response.items.itemDisappear) {
-								updateItemAmount(parseInt(item.ID), -parseInt(item.qty));
+
+							if (response.items) {
+								for (const item of response.items.itemAppear) {
+									updateItemAmount(parseInt(item.ID), parseInt(item.qty));
+								}
+								for (const item of response.items.itemDisappear) {
+									updateItemAmount(parseInt(item.ID), -parseInt(item.qty));
+								}
+							} else {
+								updateItemAmount(id, -1);
 							}
 						} else {
-							updateItemAmount(id, -1);
+							responseWrap.style.display = "block";
+							responseWrap.innerHTML = str;
+
+							[...innerContent.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) => x.classList.remove("equipped"));
+
+							if (str.includes(" equipped ")) {
+								[...innerContent.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) =>
+									x.classList.remove("equipped")
+								);
+								itemWrap.classList.add("equipped");
+							} else if (str.includes(" unequipped "))
+								[...innerContent.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) =>
+									x.classList.remove("equipped")
+								);
 						}
 					},
 				});
@@ -230,10 +281,12 @@ function addQuickItem(id, temporary = false) {
 		itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: torndata.items[id].name }));
 
 		if (settings.apiUsage.user.inventory) {
-			let amount = findItemsInList(userdata.inventory, { ID: id }, { single: true });
-			amount = amount ? amount.quantity : 0;
+			const inventoryItem = findItemsInList(userdata.inventory, { ID: id }, { single: true });
+			const amount = inventoryItem ? inventoryItem.quantity : 0;
 
 			itemWrap.appendChild(document.newElement({ type: "div", class: "sub-text quantity", attributes: { quantity: amount }, text: amount + "x" }));
+
+			if (inventoryItem.equipped) itemWrap.classList.add("equipped");
 		}
 	} else {
 		itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: id }));
@@ -255,19 +308,58 @@ function addQuickItem(id, temporary = false) {
 	innerContent.appendChild(itemWrap);
 }
 
-function allowQuickItem(category) {
-	return ["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category);
+function allowQuickItem(id, category) {
+	return (
+		["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category) ||
+		[220, 221, 222, 226, 229, 239, 242, 246, 256, 257, 392, 394, 581, 611, 616, 742, 833, 840, 1042].includes(id)
+	);
+}
+
+function isEquipable(id, category) {
+	return ["Temporary"].includes(category);
+}
+
+function getEquipPosition(id, category) {
+	// 4 = Body Armor
+	// 6 = Helmet
+	// 7 = Pants
+	// 8 = Boots
+	// 9 = Gloves
+	// 10 = CLOTHING - Jacket
+	switch (category) {
+		case "Primary":
+			return 1;
+		case "Secondary":
+			return 2;
+		case "Melee":
+			return 3;
+		case "Temporary":
+			return 5;
+		case "Defensive":
+			return -1; // TODO - Get right position;
+		default:
+			return false;
+	}
 }
 
 async function saveQuickItems() {
 	const content = findContainer("Quick Items", { selector: ".content" });
 
-	await ttStorage.change({ quick: { items: [...content.findAll(".item")].map((x) => parseInt(x.getAttribute("item-id"))) } });
+	await ttStorage.change({
+		quick: {
+			items: [...content.findAll(".item")].map((x) => {
+				let data = { id: parseInt(x.dataset.id) };
+				if (x.dataset.xid) data.xid = x.dataset.xid;
+
+				return data;
+			}),
+		},
+	});
 }
 
 async function setupQuickDragListeners() {
 	for (let item of document.findAll(".items-cont[aria-expanded=true] > li[data-item]")) {
-		if (!allowQuickItem(item.getAttribute("data-category"))) continue;
+		if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
 		const titleWrap = item.find(".title-wrap");
 
@@ -283,14 +375,19 @@ async function setupQuickDragListeners() {
 			document.find("#quickItems .content").classList.add("drag-progress");
 			if (document.find("#quickItems .temp.item")) return;
 
-			let id = parseInt(event.target.parentElement.getAttribute("data-item"));
+			const id = parseInt(event.target.parentElement.dataset.item);
 
-			addQuickItem(id, true);
+			let data = { id };
+			if (isEquipable(id, event.target.parentElement.dataset.category)) {
+				data.xid = parseInt(event.target.parentElement.find(".actions[xid]").getAttribute("xid"));
+			}
+
+			addQuickItem(data, true);
 			// enableInjectListener();
 		}, 10);
 	}
 
-	async function onDragEnd(event) {
+	async function onDragEnd() {
 		if (document.find("#quickItems .temp.item")) {
 			document.find("#quickItems .temp.item").remove();
 		}
@@ -306,15 +403,20 @@ async function onItemClickQuickEdit(event) {
 	event.preventDefault();
 
 	const target = findParent(event.target, { hasAttribute: "data-item" });
-	const id = parseInt(target.getAttribute("data-item"));
+	const id = parseInt(target.dataset.item);
 
-	addQuickItem(id, false);
+	let data = { id };
+	if (isEquipable(id, target.dataset.category)) {
+		data.xid = parseInt(target.find(".actions[xid]").getAttribute("xid"));
+	}
+
+	addQuickItem(data, false);
 
 	await saveQuickItems();
 }
 
 function updateItemAmount(id, change) {
-	const quickQuantity = findContainer("Quick Items", { selector: `.item[item-id="${id}"] .quantity` });
+	const quickQuantity = findContainer("Quick Items", { selector: `.item[data-id="${id}"] .quantity` });
 	if (quickQuantity) {
 		let newQuantity = parseInt(quickQuantity.getAttribute("quantity")) + change;
 

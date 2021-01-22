@@ -38,6 +38,7 @@ function interceptXHR(channel) {
 							uri,
 							xhr: {
 								...this,
+								response: this.response,
 								responseURL: this.responseURL,
 							},
 						},

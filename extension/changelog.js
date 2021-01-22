@@ -40,6 +40,7 @@ export default [
 				{ message: "Show item market value while adding items in parcels, trades, bazaar and display case.", contributor: "DeKleineKobini" },
 				{ message: "Apply notification volume for tts.", contributor: "Tesa" },
 				{ message: "Show drug details in every place where you can see item details.", contributor: "DeKleineKobini" },
+				{ message: "Allow temporary items as quick items.", contributor: "DeKleineKobini" },
 			],
 		},
 	},

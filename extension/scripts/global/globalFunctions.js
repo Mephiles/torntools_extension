@@ -139,6 +139,15 @@ if (!Array.prototype.flat)
 		},
 	});
 
+JSON.isValid = (str) => {
+	try {
+		JSON.parse(str);
+		return true;
+	} catch {
+		return false;
+	}
+};
+
 /*
  * Load some functions.
  */
