@@ -49,6 +49,10 @@
 	background-color: var(--default-bg-green-color, rgba(110, 160, 55, 0.15));
 }
 
+#quickItems .inner-content .item[data-equip-position] {
+	border: 1px solid gold;
+}
+
 #quickItems .inner-content .item .pic {
 	width: 60px;
 	height: 30px;
