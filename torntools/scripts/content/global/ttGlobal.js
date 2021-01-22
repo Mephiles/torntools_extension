@@ -195,6 +195,9 @@ requireDatabase().then(() => {
 			}
 		});
 		chat_observer.observe(doc.find("#chatRoot"), { childList: true, subtree: true });
+		
+		hideGymHighlight();
+		
 	});
 });
 
@@ -782,5 +785,19 @@ function addPeopleBoxFilter() {
 				peopleBox.find(".viewport_1F0WI").scrollTo(0, 0);
 			}
 		};
+	}
+}
+
+function hideGymHighlight() {
+	if (settings.pages.gym.hide_gym_highlight) {
+		let navGym = doc.find("#nav-gym");
+		let navGymClass = navGym.className.substring(navGym.className.indexOf("available"));
+		if (mobile) {
+			doc.find("a[href='/gym.php'] svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_mobile)");
+			doc.find("a[href='/gym.php'] svg").setAttribute("filter", "url(#svg_sidebar_mobile)");
+		} else {
+			doc.find("a[href='/gym.php'] svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_desktop)");
+		}
+		navGym.classList.remove(navGymClass);
 	}
 }
