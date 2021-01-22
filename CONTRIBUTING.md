@@ -36,9 +36,12 @@ We have prettier formatting to help you follow our coding conventions.
     * We indent using tabs with a width of 4.
     * Operators ( = + - * / ) and commas are followed by spaces.
     * Statements end with a semicolon.
-* We also use some standard formatting conventions.
+    * Strings are surrounded by `"`'s.
+* We also use some standard naming conventions.
     * Identifier names (variables and functions) start with a letter and use camelCase.
         * If it are global constants use UPPERCASE.
+* All code should work on as much browsers as possible.
+    * Optional Chaining isn't supported by Kiwi Browser.
 
 ## Development Tips
 
