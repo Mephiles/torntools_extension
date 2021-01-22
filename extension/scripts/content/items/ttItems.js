@@ -468,7 +468,7 @@ function updateItemAmount(id, change) {
 async function showItemValues() {
 	if (settings.pages.items.values && hasAPIData() && settings.apiUsage.user.inventory) {
 		const list = document.find(".items-cont[aria-expanded=true]");
-		const type = list.getAttribute("data-info");
+		const type = list.dataset.info;
 
 		let total;
 		if (type === "All") total = userdata.inventory.map((x) => x.quantity * x.market_price).reduce((a, b) => (a += b), 0);
@@ -479,7 +479,7 @@ async function showItemValues() {
 				.reduce((a, b) => (a += b), 0);
 
 		for (let item of list.findAll(":scope > li[data-item]")) {
-			const id = item.getAttribute("data-item");
+			const id = item.dataset.item;
 			const price = torndata.items[id].market_value;
 
 			const parent = mobile ? item.find(".name-wrap") : item.find(".bonuses-wrap") || item.find(".name-wrap");
@@ -554,7 +554,7 @@ async function showItemMarketIcons() {
 
 			if (item.classList.contains("item-group")) item.classList.add("tt-modified");
 
-			const id = parseInt(item.getAttribute("data-item"));
+			const id = parseInt(item.dataset.item);
 			if (!isSellable(id)) continue;
 
 			let parent = item.find(".outside-actions");
@@ -600,10 +600,10 @@ async function highlightBloodBags() {
 			if (!item.find(".name-wrap")) continue;
 			item.find(".name-wrap").classList.remove("good-blood", "bad-blood");
 
-			if (!item.getAttribute("data-sort").includes("Blood Bag : ")) continue; // is not a filled blood bag
-			if (parseInt(item.getAttribute("data-item")) === 1012) continue; // is an irradiated blood bag
+			if (!item.dataset.sort.includes("Blood Bag : ")) continue; // is not a filled blood bag
+			if (parseInt(item.dataset.item) === 1012) continue; // is an irradiated blood bag
 
-			item.find(".name-wrap").classList.add(allowedBlood.includes(parseInt(item.getAttribute("data-item"))) ? "good-blood" : "bad-blood");
+			item.find(".name-wrap").classList.add(allowedBlood.includes(parseInt(item.dataset.item)) ? "good-blood" : "bad-blood");
 		}
 	} else {
 		for (let bb of document.findAll(".good-blood, .bad-blood")) {

@@ -123,7 +123,7 @@ async function highlightBloodBags() {
 
 			if (!item.find(".name").innerText.split(" x")[0].includes("Blood Bag : ")) continue; // is not a filled blood bag
 
-			const itemId = parseInt(item.find(".img-wrap").getAttribute("data-id"));
+			const itemId = parseInt(item.find(".img-wrap").dataset.id);
 			if (itemId === 1012) continue; // is an irradiated blood bag
 
 			item.find(".name").classList.add(allowedBlood.includes(itemId) ? "good-blood" : "bad-blood");
