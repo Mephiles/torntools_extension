@@ -13,11 +13,7 @@ function loadBazaarOnce() {
 	if (isOwnBazaar()) {
 		ITEM_VALUE_UTILITIES.INVENTORY.addListener();
 	}
-	// FIXME - Checking the same item twice won't send out a new request.
-	// Viewing the bazaar	- BROKEN
-	// Adding items			- working
-	// Managing items		- BROKEN
-	DRUG_DETAILS.addListener({ isXHR: isOwnBazaar(), isFetch: true, react: true });
+	DRUG_DETAILS.addMutationObserver("[class*='itemsContainner_'], [class*='core-layout_'] [class*='items_']");
 }
 
 function isOwnBazaar() {

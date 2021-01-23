@@ -1377,6 +1377,7 @@ const DRUG_DETAILS = {
 	showDetails: async function (id, options = {}) {
 		options = {
 			react: false,
+			target: document,
 			...options,
 		};
 
@@ -1384,14 +1385,14 @@ const DRUG_DETAILS = {
 			let element;
 			await sleep(0);
 
-			if (options.react && document.find(".info-active .show-item-info[data-reactid]")) {
-				const reactid = document.find(".info-active .show-item-info").dataset.reactid;
+			if (options.react && options.target.find(".info-active .show-item-info[data-reactid]")) {
+				const reactid = options.target.find(".info-active .show-item-info").dataset.reactid;
 
 				await requireElement(`[data-reactid="${reactid}"] .ajax-placeholder`, { invert: true });
 
-				element = document.find(`[data-reactid="${reactid}"]`);
+				element = options.target.find(`[data-reactid="${reactid}"]`);
 			} else {
-				element = document.find(".show-item-info, .view-item-info[style*='display: block;'], .buy-show-item-info");
+				element = options.target.find(".show-item-info, .view-item-info[style*='display: block;'], .buy-show-item-info");
 				await requireElement(".ajax-placeholder", { invert: true, parent: element });
 			}
 
@@ -1504,33 +1505,21 @@ const DRUG_DETAILS = {
 	},
 	addMutationObserver: function (parentSelector) {
 		requireElement(parentSelector).then(() => {
-			new MutationObserver((mutations) => {
-				console.log("DKK observe", mutations);
-				const detailMutations = mutations.filter((mutation) =>
-					[...mutation.addedNodes].some((node) => {
-						console.log(
-							"DKK node",
-							node,
-							node.nodeType === Node.ELEMENT_NODE,
-							node.classList.contains("show-item-info") && !node.find(".ajax-placeholder"),
-							mutation.target.classList.contains("show-item-info") && node.classList.contains("info-wrap")
-						);
+			new MutationObserver(async (mutations) => {
+				const viewMutations = mutations.filter((mutation) => [...mutation.addedNodes].some((node) => node.classList.contains("^=view_")));
+				if (!viewMutations.length) return;
 
-						return (
-							node.nodeType === Node.ELEMENT_NODE &&
-							((node.classList.contains("show-item-info") && !node.find(".ajax-placeholder")) ||
-								(mutation.target.classList.contains("show-item-info") && node.classList.contains("info-wrap")))
-						);
-					})
-				);
-				if (!detailMutations.length) {
-					return;
-				}
-
-				const target = detailMutations[0].target;
-				if (!target.find(".info-wrap")) {
-					console.log("DKK observe no info", detailMutations[0].addedNodes[1].innerHTML);
-					return;
+				const newNodes = viewMutations[0].addedNodes;
+				let target;
+				if ([...newNodes].some((node) => node.find(":scope > [class*='preloader_']"))) {
+					target = await new Promise((resolve) => {
+						new MutationObserver((mutations1, observer) => {
+							observer.disconnect();
+							resolve(mutations1[1].target);
+						}).observe(newNodes[0], { childList: true });
+					});
+				} else {
+					target = newNodes[0];
 				}
 
 				const id = parseInt(
@@ -1540,9 +1529,7 @@ const DRUG_DETAILS = {
 						.match(/armory-info-([0-9]*)/i)[1]
 				);
 
-				this.showDetails(id, { parent: target }).catch((error) => console.error("Couldn't show drug details.", error));
-
-				console.log("DKK observe", detailMutations);
+				this.showDetails(id, { target }).catch((error) => console.error("Couldn't show drug details.", error));
 			}).observe(document.find(parentSelector), { subtree: true, childList: true });
 		});
 	},
