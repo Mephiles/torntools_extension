@@ -6,10 +6,11 @@
 	await loadDatabase();
 	console.log("TT: Flying - Loading script. ");
 
-	storageListeners.settings.push(loadFlying);
-	loadFlying();
+	loadFlyingOnce();
 
 	console.log("TT: Flying - Script loaded.");
 })();
 
-function loadFlying() {}
+function loadFlyingOnce() {
+	DRUG_DETAILS.addListener();
+}

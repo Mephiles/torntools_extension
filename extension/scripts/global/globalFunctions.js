@@ -1392,7 +1392,9 @@ const DRUG_DETAILS = {
 
 				element = options.target.find(`[data-reactid="${reactid}"]`);
 			} else {
-				element = options.target.find(".show-item-info, .view-item-info[style*='display: block;'], .buy-show-item-info");
+				element = options.target.find(
+					".show-item-info, .view-item-info[style*='display: block;'], .buy-show-item-info, .item-info-wrap + .details[aria-expanded='true']"
+				);
 				await requireElement(".ajax-placeholder", { invert: true, parent: element });
 			}
 
