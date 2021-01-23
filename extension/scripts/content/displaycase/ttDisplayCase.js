@@ -14,9 +14,5 @@ function loadDisplayCaseOnce() {
 	if (!userId || (hasAPIData() && userdata.player_id)) {
 		ITEM_VALUE_UTILITIES.INVENTORY.addListener({ ignoreUntradable: false });
 	}
-	// FIXME - Checking the same item twice won't send out a new request.
-	// Viewing the display case	- BROKEN
-	// Adding items				- working
-	// Managing items			- working
 	DRUG_DETAILS.addListener({ react: true });
 }

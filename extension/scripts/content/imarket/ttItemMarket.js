@@ -10,6 +10,5 @@
 })();
 
 function loadItemMarketOnce() {
-	// FIXME - Checking the same item twice won't send out a new request.
 	DRUG_DETAILS.addListener();
 }

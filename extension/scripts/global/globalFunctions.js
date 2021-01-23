@@ -1374,21 +1374,19 @@ const ITEM_VALUE_UTILITIES = {
 };
 
 const DRUG_DETAILS = {
-	showDetails: async (id, options = {}) => {
+	showDetails: async function (id, options = {}) {
 		options = {
 			react: false,
 			...options,
 		};
 
 		if (settings.pages.items.drugDetails) {
-			console.log("DKK showDetails 1", id, options.react);
 			let element;
 			await sleep(0);
 
 			if (options.react && document.find(".info-active .show-item-info[data-reactid]")) {
 				const reactid = document.find(".info-active .show-item-info").dataset.reactid;
 
-				console.log("DKK showDetails a", reactid);
 				await requireElement(`[data-reactid="${reactid}"] .ajax-placeholder`, { invert: true });
 
 				element = document.find(`[data-reactid="${reactid}"]`);
@@ -1396,79 +1394,81 @@ const DRUG_DETAILS = {
 				element = document.find(".show-item-info, .view-item-info[style*='display: block;'], .buy-show-item-info");
 				await requireElement(".ajax-placeholder", { invert: true, parent: element });
 			}
-			console.log("DKK showDetails 2", element);
 
 			const details = DRUG_INFORMATION[id];
-			console.log("DKK showDetails 3", details);
 			if (!details) return;
 
-			// Remove current info
-			for (const effect of element.findAll(".item-effect")) {
-				effect.remove();
+			this._showDetails(element.find(".info-msg"), details);
+
+			if (document.find(`.info-wrap[aria-labelledby="armory-info-${id}-"]`)) {
+				this._showDetails(document.find(`.info-wrap[aria-labelledby="armory-info-${id}-"] .info-msg`), details);
 			}
+		}
+	},
+	_showDetails: (parent, details) => {
+		// Remove current info
+		[...parent.findAll(".item-effect")].forEach((effect) => effect.remove());
 
-			const info = element.find(".info-msg");
-			// Pros
-			if (details.pros) {
-				info.appendChild(document.newElement({ type: "div", class: "item-effect mt10", text: "Pros:", attributes: { color: "tGreen" } }));
+		// Pros
+		if (details.pros) {
+			parent.appendChild(document.newElement({ type: "div", class: "item-effect mt10", text: "Pros:", attributes: { color: "tGreen" } }));
 
-				for (let effect of details.pros) {
-					info.appendChild(document.newElement({ type: "div", class: "item-effect tabbed", text: effect, attributes: { color: "tGreen" } }));
+			for (let effect of details.pros) {
+				parent.appendChild(document.newElement({ type: "div", class: "item-effect tabbed", text: effect, attributes: { color: "tGreen" } }));
+			}
+		}
+
+		// Cons
+		if (details.cons) {
+			parent.appendChild(document.newElement({ type: "div", class: "item-effect", text: "Con", attributes: { color: "tRed" } }));
+
+			for (let effect of details.cons) {
+				parent.appendChild(document.newElement({ type: "div", class: "item-effect tabbed", text: effect, attributes: { color: "tRed" } }));
+			}
+		}
+
+		// Cooldown
+		if (details.cooldown) {
+			parent.appendChild(
+				document.newElement({ type: "div", class: "item-effect", text: `Cooldown: ${details.cooldown}`, attributes: { color: "tRed" } })
+			);
+		}
+
+		// Overdose
+		if (details.overdose) {
+			parent.appendChild(document.newElement({ type: "div", class: "item-effect", text: "Overdose:", attributes: { color: "tRed" } }));
+
+			// bars
+			if (details.overdose.bars) {
+				parent.appendChild(document.newElement({ type: "div", class: "item-effect tabbed", text: "Bars", attributes: { color: "tRed" } }));
+
+				for (let effect of details.overdose.bars) {
+					parent.appendChild(document.newElement({ type: "div", class: "item-effect double-tabbed", text: effect, attributes: { color: "tRed" } }));
 				}
 			}
 
-			// Cons
-			if (details.cons) {
-				info.appendChild(document.newElement({ type: "div", class: "item-effect", text: "Con", attributes: { color: "tRed" } }));
-
-				for (let effect of details.cons) {
-					info.appendChild(document.newElement({ type: "div", class: "item-effect tabbed", text: effect, attributes: { color: "tRed" } }));
-				}
-			}
-
-			// Cooldown
-			if (details.cooldown) {
-				info.appendChild(
-					document.newElement({ type: "div", class: "item-effect", text: `Cooldown: ${details.cooldown}`, attributes: { color: "tRed" } })
+			// hospital time
+			if (details.overdose.hosp_time) {
+				parent.appendChild(
+					document.newElement({
+						type: "div",
+						class: "item-effect tabbed",
+						text: `Hospital: ${details.overdose.hosp_time}`,
+						attributes: { color: "tRed" },
+					})
 				);
 			}
 
-			// Overdose
-			if (details.overdose) {
-				info.appendChild(document.newElement({ type: "div", class: "item-effect", text: "Overdose:", attributes: { color: "tRed" } }));
-
-				// bars
-				if (details.overdose.bars) {
-					info.appendChild(document.newElement({ type: "div", class: "item-effect tabbed", text: "Bars", attributes: { color: "tRed" } }));
-
-					for (let effect of details.overdose.bars) {
-						info.appendChild(document.newElement({ type: "div", class: "item-effect double-tabbed", text: effect, attributes: { color: "tRed" } }));
-					}
-				}
-
-				// hospital time
-				if (details.overdose.hosp_time) {
-					info.appendChild(
-						document.newElement({
-							type: "div",
-							class: "item-effect tabbed",
-							text: `Hospital: ${details.overdose.hosp_time}`,
-							attributes: { color: "tRed" },
-						})
-					);
-				}
-
-				// extra
-				if (details.overdose.extra) {
-					info.appendChild(
-						document.newElement({
-							type: "div",
-							class: "item-effect tabbed",
-							text: `Extra: ${details.overdose.extra}`,
-							attributes: { color: "tRed" },
-						})
-					);
-				}
+			// extra
+			if (details.overdose.extra) {
+				parent.appendChild(
+					document.newElement({
+						type: "div",
+						class: "item-effect tabbed",
+						text: `Extra: ${details.overdose.extra}`,
+						attributes: { color: "tRed" },
+					})
+				);
 			}
 		}
 	},
@@ -1479,10 +1479,8 @@ const DRUG_DETAILS = {
 			...options,
 		};
 
-		console.log("DKK addListener", options);
 		if (options.isXHR) {
 			addXHRListener(({ detail: { page, xhr, json } }) => {
-				console.log("DKK xhr", page);
 				if (page === "inventory") {
 					this.handleInventoryRequest(xhr, json, options);
 				}
@@ -1497,13 +1495,56 @@ const DRUG_DETAILS = {
 		}
 	},
 	handleInventoryRequest: function (request, json, options) {
-		console.log("DKK handleInventoryRequest", request, json, options);
 		const params = request.url ? new URL(request.url).searchParams : new URLSearchParams(request.requestBody);
 
 		const step = params.get("step");
 		if (step !== "info") return;
 
 		this.showDetails(json.itemID, options).catch((error) => console.error("Couldn't show drug details.", error));
+	},
+	addMutationObserver: function (parentSelector) {
+		requireElement(parentSelector).then(() => {
+			new MutationObserver((mutations) => {
+				console.log("DKK observe", mutations);
+				const detailMutations = mutations.filter((mutation) =>
+					[...mutation.addedNodes].some((node) => {
+						console.log(
+							"DKK node",
+							node,
+							node.nodeType === Node.ELEMENT_NODE,
+							node.classList.contains("show-item-info") && !node.find(".ajax-placeholder"),
+							mutation.target.classList.contains("show-item-info") && node.classList.contains("info-wrap")
+						);
+
+						return (
+							node.nodeType === Node.ELEMENT_NODE &&
+							((node.classList.contains("show-item-info") && !node.find(".ajax-placeholder")) ||
+								(mutation.target.classList.contains("show-item-info") && node.classList.contains("info-wrap")))
+						);
+					})
+				);
+				if (!detailMutations.length) {
+					return;
+				}
+
+				const target = detailMutations[0].target;
+				if (!target.find(".info-wrap")) {
+					console.log("DKK observe no info", detailMutations[0].addedNodes[1].innerHTML);
+					return;
+				}
+
+				const id = parseInt(
+					target
+						.find(".info-wrap")
+						.getAttribute("aria-labelledby")
+						.match(/armory-info-([0-9]*)/i)[1]
+				);
+
+				this.showDetails(id, { parent: target }).catch((error) => console.error("Couldn't show drug details.", error));
+
+				console.log("DKK observe", detailMutations);
+			}).observe(document.find(parentSelector), { subtree: true, childList: true });
+		});
 	},
 };
 
