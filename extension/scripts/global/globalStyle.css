@@ -53,6 +53,10 @@
 	z-index: 999999999;
 }
 
+.relative {
+	position: relative;
+}
+
 /* Replace Torn classes */
 
 /* CHECK - Replaces m-top10 */
@@ -332,10 +336,6 @@
 
 span.tt-item-price {
 	float: right;
-}
-
-#inventory-container .title-wrap {
-	position: relative;
 }
 
 span.tt-item-price {

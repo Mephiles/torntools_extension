@@ -1290,6 +1290,7 @@ const ITEM_VALUE_UTILITIES = {
 		showValues: async (type, items, options = {}) => {
 			options = {
 				ignoreUntradable: true,
+				addRelative: false,
 				...options,
 			};
 
@@ -1312,6 +1313,8 @@ const ITEM_VALUE_UTILITIES = {
 							else parent.find(".tt-item-price").remove();
 						}
 
+						if (options.addRelative) parent.parentElement.classList.add("relative");
+
 						const price = parseInt(item.averageprice) || 0;
 						const quantity = parseInt(item.Qty) || 1;
 
@@ -1321,7 +1324,7 @@ const ITEM_VALUE_UTILITIES = {
 							valueWrap.innerHTML = "";
 							valueWrap.classList.add("tt-item-price-color");
 							ITEM_VALUE_UTILITIES.addValue(valueWrap, quantity, price);
-						} else if (valueWrap && valueWrap.clientWidth) {
+						} else if (valueWrap && valueWrap.clientWidth && (!valueWrap.nextSibling || !valueWrap.nextSibling.childElementCount)) {
 							valueWrap.style.setProperty("position", "relative");
 
 							const priceElement = document.newElement({ type: "span", class: "tt-item-price" });

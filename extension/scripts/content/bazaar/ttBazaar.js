@@ -11,7 +11,7 @@
 
 function loadBazaarOnce() {
 	if (isOwnBazaar()) {
-		ITEM_VALUE_UTILITIES.INVENTORY.addListener();
+		ITEM_VALUE_UTILITIES.INVENTORY.addListener({ addRelative: true });
 	}
 	DRUG_DETAILS.addMutationObserver("[class*='itemsContainner_'], [class*='core-layout_'] [class*='items_']");
 }
