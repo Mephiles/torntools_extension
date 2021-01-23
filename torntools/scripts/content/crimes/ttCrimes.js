@@ -24,6 +24,7 @@ requireDatabase().then(() => {
 		showCrimesContainer(quick);
 
 		crimesLoaded().then(() => {
+			toggleCrimes();
 			markCrimes();
 		});
 
@@ -43,6 +44,7 @@ requireDatabase().then(() => {
 			});
 
 			crimesLoaded().then(() => {
+				toggleCrimes();
 				markCrimes();
 			});
 		});
@@ -141,7 +143,7 @@ function markCrimes() {
 function crimesLoaded() {
 	return new Promise((resolve) => {
 		let checker = setInterval(() => {
-			if ([...doc.findAll("form[name=crimes]>ul>li")].length > 1) {
+			if ([...doc.findAll("form[name=crimes]>ul>li")].length > 1 && doc.find("#user-money")) {
 				resolve(true);
 				return clearInterval(checker);
 			}
@@ -186,8 +188,6 @@ function showCrimesContainer(quick) {
 	});
 
 	doc.find("#ttQuick .tt-options").appendChild(safeWrap);
-
-	toggleCrimes();
 
 	safeSetting.checked = filters.crimes.safeCrimes;
 	document.documentElement.style.setProperty("--torntools-only-safe-crimes", filters.crimes.safeCrimes ? "none" : "block");
