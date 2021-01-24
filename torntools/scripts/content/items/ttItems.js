@@ -274,7 +274,6 @@ function initializeItems() {
 	showMissingPlushies();
 	showMissingFlowers();
 	showBookEffects();
-	showECanGains();
 	
 }
 
@@ -805,25 +804,6 @@ function showMissingFlowers() {
 			doc.find(".main-items-cont-wrap").insertAdjacentElement("afterEnd", neededFlowersDiv);
 		}
 	}
-}
-
-function showECanGains() {
-	let facECanPerc = parseInt(userdata.faction_perks.filter((x) => /energy drinks/i.test(x)).map((x) => {
-		x.replace(/[^0-9\.]/g, "");
-	})[0]);
-	let jobECanPerc = parseInt(userdata.company_perks.filter((x) => /boost/i.test(x)).map((x) => {
-		x.replace(/[^0-9\.]/g, "");
-	})[0]);
-	doc.findAll("[data-category='Energy Drink']").forEach((ECan) => {
-		if (!ECan.find("span#tt-e-can")) {
-			let baseE = parseInt(itemlist.items[ECan.getAttribute("data-item")].effect.split(" ").map((x) => parseInt(x)).filter((x) => !isNaN(x))[0]);
-			let totalEnergy = baseE;
-			if (!isNaN(facECanPerc)) totalEnergy += (facECanPerc / 100) * baseE;
-			if (!isNaN(jobECanPerc)) totalEnergy += (jobECanPerc / 100) * baseE;
-			rawHTML = `<span id='tt-e-can' class='tt-item-price' style='padding-left: 5px;float: none;'>${totalEnergy}E</span>`;
-			ECan.find("span.qty.bold.t-hide").insertAdjacentHTML("afterEnd", rawHTML);
-		}
-	});
 }
 
 function showBookEffects() {
