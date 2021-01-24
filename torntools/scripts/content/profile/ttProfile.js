@@ -205,10 +205,6 @@ requireDatabase().then(() => {
 			showId();
 		}
 
-		if (settings.pages.profile.friendly_warning) {
-			displayAlly(user_faction, allies);
-		}
-
 		if (settings.pages.profile.loot_times) {
 			displayLootLevel(loot_times);
 		}
@@ -217,11 +213,18 @@ requireDatabase().then(() => {
 			addStatusIndicator();
 		}
 		displayCreator();
+		
+		// Age to Words
+		ageToWords();
 
 		if (shouldDisable()) return;
 
 		// noinspection EqualityComparisonWithCoercionJS
 		if (userId == userdata.player_id) return;
+		
+		if (settings.pages.profile.friendly_warning) {
+			displayAlly(user_faction, allies);
+		}
 
 		// Profile notes
 		if (settings.pages.profile.notes) showProfileNotes();
@@ -355,8 +358,6 @@ requireDatabase().then(() => {
 			await showSpyInfo();
 		}
 
-		// Age to Words
-		ageToWords();
 	});
 });
 
