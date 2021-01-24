@@ -808,7 +808,7 @@ function showMissingFlowers() {
 
 function showBookEffects() {
 	doc.findAll("[data-category='Book']").forEach((book) =>{
-		if (doc.find("span#tt-book-effect")) return;
+		if (book.find("span.tt-book-effect")) return;
 		book.find("span.qty.bold.t-hide").insertAdjacentHTML("afterEnd", `<span class='tt-book-effect'> - ${BOOK_DESCRIPTIONS[parseInt(book.getAttribute("data-item"))]}</span>`);
 	});
 }
