@@ -771,13 +771,13 @@ function showECanGains() {
 		x.replace(/[^0-9\.]/g, "");
 	})[0]);
 	doc.findAll("[data-category='Energy Drink']").forEach((eCanElement) => {
-		if (!eCanElement.find("span#tt-e-can")) {
+		if (!eCanElement.find("span.tt-e-can")) {
 			let baseE = parseInt(itemlist.items[eCanElement.getAttribute("data-item")].effect.split(" ").map((x) => parseInt(x)).filter((x) => !isNaN(x))[0]);
 			let totalEnergy = baseE;
 			if (!isNaN(facECanPerc)) totalEnergy += (facECanPerc / 100) * baseE;
 			if (!isNaN(jobECanPerc)) totalEnergy += (jobECanPerc / 100) * baseE;
-			rawHTML = `<span id='tt-e-can' class='tt-item-price' style='padding-left: 5px;float: none;'>${totalEnergy}E</span>`;
-			eCanElement.find("span.qty.bold.t-hide").insertAdjacentHTML("afterEnd", rawHTML);
+			rawHTML = `<span class='tt-item-price tt-e-can'>${totalEnergy}E</span>`;
+			eCanElement.find("span.name-wrap").insertAdjacentHTML("beforeEnd", rawHTML);
 		}
 	});
 }
