@@ -274,7 +274,7 @@ function initializeItems() {
 	showMissingPlushies();
 	showMissingFlowers();
 	showBookEffects();
-	
+	showECanGains();
 }
 
 function itemsLoaded() {
@@ -810,5 +810,28 @@ function showBookEffects() {
 	doc.findAll("[data-category='Book']").forEach((book) =>{
 		if (book.find("span.tt-book-effect")) return;
 		book.find("span.qty.bold.t-hide").insertAdjacentHTML("afterEnd", `<span class='tt-book-effect'> - ${BOOK_DESCRIPTIONS[parseInt(book.getAttribute("data-item"))]}</span>`);
+  });
+}
+    
+function showECanGains() {
+	// Get every element in array that matches string 'energy drinks'
+	let facECanPerc = parseInt(userdata.faction_perks.filter((x) => /energy drinks/i.test(x)).map((x) => {
+		// Replace everything other than numbers
+		x.replace(/[^0-9\.]/g, "");
+	})[0]);
+	// Get every element in array that matches string 'boost'
+	let jobECanPerc = parseInt(userdata.company_perks.filter((x) => /boost/i.test(x)).map((x) => {
+		// Replace everything other than numbers
+		x.replace(/[^0-9\.]/g, "");
+	})[0]);
+	doc.findAll("[data-category='Energy Drink']").forEach((eCanElement) => {
+		if (!eCanElement.find("span.tt-e-can")) {
+			let baseE = parseInt(itemlist.items[eCanElement.getAttribute("data-item")].effect.split(" ").map((x) => parseInt(x)).filter((x) => !isNaN(x))[0]);
+			let totalEnergy = baseE;
+			if (!isNaN(facECanPerc)) totalEnergy += (facECanPerc / 100) * baseE;
+			if (!isNaN(jobECanPerc)) totalEnergy += (jobECanPerc / 100) * baseE;
+			rawHTML = `<span class='tt-item-price tt-e-can'>${totalEnergy}E</span>`;
+			eCanElement.find("span.name-wrap").insertAdjacentHTML("beforeEnd", rawHTML);
+		}
 	});
 }

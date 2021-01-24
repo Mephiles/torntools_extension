@@ -105,7 +105,7 @@ const DRUG_INFORMATION = {
 		},
 	},
 	love_juice: {
-		pros: ["Cost of Attacking & Reviving reduced to 15 Energy", "+50% Speed", "+25% Dexterity"],
+		pros: ["Cost of Attacking & Reviving reduced to 10 Energy", "+50% Speed", "+25% Dexterity"],
 		cons: ["Only works on Valentine's Day"],
 		cooldown: "5 hours",
 	},

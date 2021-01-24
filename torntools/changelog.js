@@ -1,4 +1,9 @@
 export default {
+	"v5.6 - xxxx, xxth. 2021": {
+		Features: [],
+		Fixes: [],
+		Changes: ["Update Love Juice information to reflect the new change.. - DKK"],
+	},
 	"v5.5 - January, 19th. 2021": {
 		Features: ["Show missing flowers and plushies in the inventory. - Sashank999", "Disable some casino games. - Sashank999"],
 		Fixes: ["Use the new Torn classes. - Sashank999", "Solve some problems regarding the new class names. - DKK"],
