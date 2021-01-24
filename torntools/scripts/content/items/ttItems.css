@@ -171,3 +171,8 @@ li.item-group.tt-modified .group-arrow {
     line-height: 32px;
     padding-left: 10px;
 }
+
+/* Book effects */
+.tt-book-effect {
+    color: #3070e6;
+}
