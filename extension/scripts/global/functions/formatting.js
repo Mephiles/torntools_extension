@@ -128,7 +128,7 @@ function formatTime(time = {}, options = {}) {
 				if (unit.unit) {
 					let amount = Math.floor(timeAgo / unit.millis);
 
-					return `${amount} ${unit.unit}${amount > 1 ? "s" : ""} ${token}`;
+					return `${amount} ${unit.unit}${applyPlural(amount)} ${token}`;
 				} else if (unit.text) {
 					return unit.text;
 				}

@@ -8,7 +8,7 @@ function injectFetch() {
 	document.find("head").appendChild(
 		document.newElement({
 			type: "script",
-			attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/global/fetch.inject.js") },
+			attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/global/inject/fetch.inject.js") },
 		})
 	);
 	injectedFetch = true;
@@ -26,7 +26,7 @@ function injectXHR() {
 	document.find("head").appendChild(
 		document.newElement({
 			type: "script",
-			attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/global/xhr.inject.js") },
+			attributes: { type: "text/javascript", src: chrome.runtime.getURL("/scripts/global/inject/xhr.inject.js") },
 		})
 	);
 	injectedXHR = true;

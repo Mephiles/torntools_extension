@@ -3,6 +3,60 @@
 let rotatingElements = {};
 let mobile;
 
+Document.prototype.newElement = function (options = {}) {
+	if (typeof options == "string") {
+		return this.createElement(options);
+	} else if (typeof options == "object") {
+		options = {
+			type: "div",
+			id: false,
+			class: false,
+			text: false,
+			html: false,
+			value: false,
+			href: false,
+			children: [],
+			attributes: {},
+			events: {},
+			style: {},
+			...options,
+		};
+
+		let newElement = this.createElement(options.type);
+
+		if (options.id) newElement.id = options.id;
+		if (options.class) newElement.setClass(options.class);
+		if (options.text) newElement.innerText = options.text;
+		if (options.html) newElement.innerHTML = options.html;
+		if (options.value) {
+			if (typeof options.value === "function") newElement.value = options.value();
+			else newElement.value = options.value;
+		}
+		if (options.href) newElement.href = options.href;
+
+		for (let child of options.children || []) {
+			if (typeof child === "string") {
+				newElement.appendChild(document.createTextNode(child));
+			} else {
+				newElement.appendChild(child);
+			}
+		}
+
+		if (options.attributes) {
+			let attributes = options.attributes;
+			if (typeof attributes === "function") attributes = attributes();
+
+			for (let attribute in attributes) newElement.setAttribute(attribute, attributes[attribute]);
+		}
+		for (let event in options.events) newElement.addEventListener(event, options.events[event]);
+
+		for (let key in options.style) newElement.style[key] = options.style[key];
+		for (let key in options.dataset) newElement.dataset[key] = options.dataset[key];
+
+		return newElement;
+	}
+};
+
 DOMTokenList.prototype.contains = function (className) {
 	const classes = [...this];
 	if (className.startsWith("^=")) {
@@ -275,7 +329,7 @@ function sortTable(table, columnPlace, order) {
 
 			let a, b;
 			if (isNaN(parseFloat(valueA))) {
-				if (valueA.indexOf("$") > -1) {
+				if (valueA.includes("$")) {
 					a = parseFloat(valueA.replace("$", "").replace(/,/g, ""));
 					b = parseFloat(valueB.replace("$", "").replace(/,/g, ""));
 				} else {
@@ -300,7 +354,7 @@ function showLoadingPlaceholder(element, show) {
 			element.appendChild(
 				document.newElement({
 					type: "img",
-					class: "ajax-placeholder mt10 mb10 tt-loading-placeholder active",
+					class: "ajax-placeholder mt10 mb10 tt-loading-placeholder active", // FIXME - Don't use Torn classes.
 					attributes: { src: "https://www.torn.com/images/v2/main/ajax-loader.gif" },
 				})
 			);
