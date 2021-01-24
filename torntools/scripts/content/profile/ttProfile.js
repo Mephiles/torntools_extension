@@ -217,6 +217,9 @@ requireDatabase().then(() => {
 			addStatusIndicator();
 		}
 		displayCreator();
+		
+		// Age to Words
+		ageToWords();
 
 		if (shouldDisable()) return;
 
@@ -355,8 +358,6 @@ requireDatabase().then(() => {
 			await showSpyInfo();
 		}
 
-		// Age to Words
-		ageToWords();
 	});
 });
 
@@ -395,6 +396,8 @@ function profileLoaded() {
 }
 
 function displayAlly(user_faction, allies) {
+	if (userId == userdata.player_id) return;
+	
 	let faction_cell = doc.find(".basic-information ul.info-table li:nth-of-type(3) div:nth-of-type(2)");
 	let profile_faction = faction_cell.find("a") ? faction_cell.find("a").innerText : "";
 
