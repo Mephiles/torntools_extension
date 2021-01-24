@@ -205,10 +205,6 @@ requireDatabase().then(() => {
 			showId();
 		}
 
-		if (settings.pages.profile.friendly_warning) {
-			displayAlly(user_faction, allies);
-		}
-
 		if (settings.pages.profile.loot_times) {
 			displayLootLevel(loot_times);
 		}
@@ -225,6 +221,10 @@ requireDatabase().then(() => {
 
 		// noinspection EqualityComparisonWithCoercionJS
 		if (userId == userdata.player_id) return;
+		
+		if (settings.pages.profile.friendly_warning) {
+			displayAlly(user_faction, allies);
+		}
 
 		// Profile notes
 		if (settings.pages.profile.notes) showProfileNotes();
@@ -396,8 +396,6 @@ function profileLoaded() {
 }
 
 function displayAlly(user_faction, allies) {
-	if (userId == userdata.player_id) return;
-	
 	let faction_cell = doc.find(".basic-information ul.info-table li:nth-of-type(3) div:nth-of-type(2)");
 	let profile_faction = faction_cell.find("a") ? faction_cell.find("a").innerText : "";
 
