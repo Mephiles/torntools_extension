@@ -227,6 +227,7 @@ function initializeItems() {
 	if (settings.pages.items.highlight_bloodbags !== "none") highlightBloodBags();
 	showMissingPlushies();
 	showMissingFlowers();
+	showECanGains();
 }
 
 function itemsLoaded() {
@@ -756,4 +757,27 @@ function showMissingFlowers() {
 			doc.find(".main-items-cont-wrap").insertAdjacentElement("afterEnd", neededFlowersDiv);
 		}
 	}
+}
+
+function showECanGains() {
+	// Get every element in array that matches string 'energy drinks'
+	let facECanPerc = parseInt(userdata.faction_perks.filter((x) => /energy drinks/i.test(x)).map((x) => {
+		// Replace everything other than numbers
+		x.replace(/[^0-9\.]/g, "");
+	})[0]);
+	// Get every element in array that matches string 'boost'
+	let jobECanPerc = parseInt(userdata.company_perks.filter((x) => /boost/i.test(x)).map((x) => {
+		// Replace everything other than numbers
+		x.replace(/[^0-9\.]/g, "");
+	})[0]);
+	doc.findAll("[data-category='Energy Drink']").forEach((eCanElement) => {
+		if (!eCanElement.find("span.tt-e-can")) {
+			let baseE = parseInt(itemlist.items[eCanElement.getAttribute("data-item")].effect.split(" ").map((x) => parseInt(x)).filter((x) => !isNaN(x))[0]);
+			let totalEnergy = baseE;
+			if (!isNaN(facECanPerc)) totalEnergy += (facECanPerc / 100) * baseE;
+			if (!isNaN(jobECanPerc)) totalEnergy += (jobECanPerc / 100) * baseE;
+			rawHTML = `<span class='tt-item-price tt-e-can'>${totalEnergy}E</span>`;
+			eCanElement.find("span.name-wrap").insertAdjacentHTML("beforeEnd", rawHTML);
+		}
+	});
 }
