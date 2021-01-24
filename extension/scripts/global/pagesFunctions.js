@@ -78,3 +78,15 @@ function sendMessage(text, good, options = {}) {
 		}, 1500);
 	}
 }
+
+function getPageTheme() {
+	let theme = settings.themes.pages;
+
+	// noinspection JSIncompatibleTypesComparison
+	if (theme === "default") {
+		if (window.matchMedia) return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+		return "light";
+	}
+
+	return theme;
+}
