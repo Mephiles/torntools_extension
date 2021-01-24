@@ -325,8 +325,6 @@ const CONTRIBUTORS = {
 	},
 };
 
-let mouseX, mouseY;
-
 const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.name || "", description: "Your player name." }];
 
 const CUSTOM_LINKS_PRESET = {
