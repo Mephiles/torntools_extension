@@ -1582,7 +1582,7 @@ const STORAGE = {
 			displaycase: {
 				worth: false,
 			},
-			attack : {
+			attack: {
 				warn_when_stacking: true,
 			},
 		},
