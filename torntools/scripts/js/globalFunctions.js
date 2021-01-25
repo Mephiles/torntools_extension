@@ -1507,6 +1507,7 @@ const STORAGE = {
 				highlight_bloodbags: "none",
 				show_missing_plushies: false,
 				show_missing_flowers: false,
+				show_alcohol_nerve_gains: true,
 			},
 			travel: {
 				profits: true,
