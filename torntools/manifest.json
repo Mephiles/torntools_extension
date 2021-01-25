@@ -215,6 +215,12 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/loader.php?sid=attack*"],
+			"css": ["scripts/content/loader/ttLoader.css"],
+			"js": ["scripts/content/loader/ttLoader.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/loader.php?sid=highlow*"],
 			"css": ["scripts/content/casino/ttCasino.css"],
 			"js": ["scripts/content/casino/ttHiLo.js"],
