@@ -227,7 +227,7 @@ function initializeItems() {
 	if (settings.pages.items.highlight_bloodbags !== "none") highlightBloodBags();
 	showMissingPlushies();
 	showMissingFlowers();
-	showECanGains();
+	if (settings.pages.items.show_e_can_gains) showECanGains();
 }
 
 function itemsLoaded() {
