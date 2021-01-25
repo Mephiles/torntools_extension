@@ -195,10 +195,12 @@ requireDatabase().then(() => {
 			}
 		});
 		chat_observer.observe(doc.find("#chatRoot"), { childList: true, subtree: true });
-		
-		hideGymHighlight();
-		
 	});
+	
+	hideGymHighlight();
+		
+	if (settings.pages.global.highlight_chain_timer) chainTimerHighlight();
+	
 });
 
 function chatsLoaded() {
@@ -800,4 +802,16 @@ function hideGymHighlight() {
 		}
 		navGym.classList.remove(navGymClass);
 	}
+}
+
+function chainTimerHighlight() {
+	let blinkIntervalId;
+	let chainObserver = new MutationObserver(() => {
+		let chainTimerParts = doc.find("a#barChain [class^='bar-timeleft_']").innerHTML.split(":");
+		let chainTimer = parseInt(chainTimerParts[0]) * 60 + parseInt(chainTimerParts[1]);
+		if (chainTimer === 0 || chainTimer > 60) clearInterval(blinkIntervalId);
+		if (blinkIntervalId) return;
+		if (chainTimer !== 0 && chainTimer < 60) blinkIntervalId = setInterval(() => doc.find("a#barChain").classList.toggle("tt-blink"), 700);
+	});
+	chainObserver.observe(doc.find("a#barChain div[class^='progress-line_']"), {attributes: true});
 }
