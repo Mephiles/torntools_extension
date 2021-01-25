@@ -1002,3 +1002,7 @@ div[role="main"].tt-modified {
 .tt-refill {
 	color: #6e8820;
 }
+
+.tt-blink {
+	background-color: #ff0a0ab3;
+}

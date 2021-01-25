@@ -1508,6 +1508,7 @@ const STORAGE = {
 				show_missing_plushies: false,
 				show_missing_flowers: false,
 				show_candy_happy_gains: true,
+				show_e_can_gains: true,
 			},
 			travel: {
 				profits: true,
@@ -1563,6 +1564,7 @@ const STORAGE = {
 				refill_nerve: false,
 				miniprofile_last_action: true,
 				enable_central_revive: false,
+				highlight_chain_timer: true,
 			},
 			jail: {
 				quick_bail: false,
