@@ -228,6 +228,7 @@ function initializeItems() {
 	showMissingPlushies();
 	showMissingFlowers();
 	showECanGains();
+	if (settings.pages.items.show_candy_happy_gains) showCandyGains();
 }
 
 function itemsLoaded() {
@@ -778,6 +779,29 @@ function showECanGains() {
 			if (!isNaN(jobECanPerc)) totalEnergy += (jobECanPerc / 100) * baseE;
 			rawHTML = `<span class='tt-item-price tt-e-can'>${totalEnergy}E</span>`;
 			eCanElement.find("span.name-wrap").insertAdjacentHTML("beforeEnd", rawHTML);
+		}
+	});
+}
+
+function showCandyGains() {
+	// Get every element in array that matches string 'candies'
+	let facCandyPerc = parseInt(userdata.faction_perks.filter((x) => /candies/i.test(x)).map((x) => {
+		// Replace everything other than numbers
+		x.replace(/[^0-9\.]/g, "");
+	})[0]);
+	// Get every element in array that matches string 'boost'
+	let jobCandyPerc = parseInt(userdata.company_perks.filter((x) => /boost/i.test(x)).map((x) => {
+		// Replace everything other than numbers
+		x.replace(/[^0-9\.]/g, "");
+	})[0]);
+	doc.findAll("[data-category='Candy']").forEach((candy) => {
+		if (!candy.find("span.tt-candy")) {
+			let baseHappy = parseInt(itemlist.items[candy.getAttribute("data-item")].effect.split(" ").map((x) => parseInt(x)).filter((x) => !isNaN(x))[0]);
+			let totalHappy = baseHappy;
+			if (!isNaN(facCandyPerc)) totalHappy += (facCandyPerc / 100) * baseHappy;
+			if (!isNaN(jobCandyPerc)) totalHappy += (jobCandyPerc / 100) * baseHappy;
+			rawHTML = `<span class='tt-candy'>${totalHappy}H</span>`;
+			candy.find("span.name-wrap span.qty.bold.t-hide").insertAdjacentHTML("beforeEnd", rawHTML);
 		}
 	});
 }
