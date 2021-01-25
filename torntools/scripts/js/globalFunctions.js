@@ -1562,6 +1562,7 @@ const STORAGE = {
 				refill_nerve: false,
 				miniprofile_last_action: true,
 				enable_central_revive: false,
+				highlight_chain_timer: true,
 			},
 			jail: {
 				quick_bail: false,
