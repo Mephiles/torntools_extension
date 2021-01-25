@@ -1582,6 +1582,9 @@ const STORAGE = {
 			displaycase: {
 				worth: false,
 			},
+			attack : {
+				warn_when_stacking: true,
+			},
 		},
 		scripts: {
 			stats_estimate: {
