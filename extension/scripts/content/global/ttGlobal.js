@@ -316,6 +316,7 @@ function showMiniprofileInformation(information) {
 	const lastAction = formatTime({ seconds: information.user.lastAction.seconds }, { type: "wordTimer", showDays: true });
 
 	requireElement("div[class*='-profile-mini-_userProfileWrapper']", { parent: miniProfile }).then(() => {
+		const oldHeight = miniProfile.clientHeight;
 		const data = document.newElement({
 			type: "div",
 			class: "tt-mini-data",
@@ -323,8 +324,13 @@ function showMiniprofileInformation(information) {
 		});
 		miniProfile.find("div[class*='-profile-mini-_userProfileWrapper']").appendChild(data);
 
-		const profileY = parseInt(miniProfile.style.top.replace("px", ""));
-		if (mouseY > profileY) miniProfile.style.top = `${profileY - data.clientHeight + 1}px`;
+		const profileBounding = miniProfile.getBoundingClientRect();
+		if (profileBounding.top < mouseY) {
+			const profileY = parseInt(miniProfile.style.top.replace("px", ""));
+			const heightDifference = miniProfile.clientHeight - oldHeight;
+
+			miniProfile.style.top = `${profileY - heightDifference}px`;
+		}
 	});
 }
 
