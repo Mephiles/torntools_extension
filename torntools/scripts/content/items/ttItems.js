@@ -274,7 +274,9 @@ function initializeItems() {
 	showMissingPlushies();
 	showMissingFlowers();
 	showBookEffects();
-	showECanGains();
+	if (settings.pages.items.show_candy_happy_gains) showCandyGains();
+	if (settings.pages.items.show_e_can_gains) showECanGains();
+	if (settings.pages.items.show_alcohol_nerve_gains) showAlcoholNerveGains();
 }
 
 function itemsLoaded() {
@@ -812,7 +814,7 @@ function showBookEffects() {
 		book.find("span.qty.bold.t-hide").insertAdjacentHTML("afterEnd", `<span class='tt-book-effect'> - ${BOOK_DESCRIPTIONS[parseInt(book.getAttribute("data-item"))]}</span>`);
   });
 }
-    
+
 function showECanGains() {
 	// Get every element in array that matches string 'energy drinks'
 	let facECanPerc = parseInt(userdata.faction_perks.filter((x) => /energy drinks/i.test(x)).map((x) => {
@@ -830,8 +832,57 @@ function showECanGains() {
 			let totalEnergy = baseE;
 			if (!isNaN(facECanPerc)) totalEnergy += (facECanPerc / 100) * baseE;
 			if (!isNaN(jobECanPerc)) totalEnergy += (jobECanPerc / 100) * baseE;
-			rawHTML = `<span class='tt-item-price tt-e-can'>${totalEnergy}E</span>`;
+			const rawHTML = `<span class='tt-item-price tt-e-can'>${totalEnergy}E</span>`;
 			eCanElement.find("span.name-wrap").insertAdjacentHTML("beforeEnd", rawHTML);
+		}
+	});
+}
+
+function showAlcoholNerveGains() {
+	// Get every element in array that matches string 'alcohol'
+	let facAlcoholGainPerc = parseInt(userdata.faction_perks.filter((x) => /alcohol/i.test(x)).map((x) => {
+		// Replace everything other than numbers
+		x.replace(/[^0-9\.]/g, "");
+	})[0]);
+	// Get every element in array that matches string 'boost'
+	let jobAlcoholGainPerc = parseInt(userdata.company_perks.filter((x) => /boost/i.test(x)).map((x) => {
+		// Replace everything other than numbers
+		x.replace(/[^0-9\.]/g, "");
+	})[0]);
+	doc.findAll("[data-category='Alcohol']").forEach((alcoholicDrink) => {
+		if (!alcoholicDrink.find("span.tt-candy")) {
+			let baseNerve = parseInt(itemlist.items[alcoholicDrink.getAttribute("data-item")].effect.split(" ").map((x) => parseInt(x)).filter((x) => !isNaN(x))[0]);
+			let totalNerve = baseNerve;
+			if (!isNaN(facAlcoholGainPerc)) totalNerve += (facAlcoholGainPerc / 100) * baseNerve;
+			if (!isNaN(jobAlcoholGainPerc)) totalNerve += (jobAlcoholGainPerc / 100) * baseNerve;
+			let maxNerve = Math.ceil(totalNerve);
+			let minNerve = Math.floor(totalNerve);
+			let nerveRange = maxNerve === minNerve ? maxNerve : `${minNerve} - ${maxNerve}`;
+			const rawHTML = `<span class='tt-candy'>${nerveRange} N</span>`;
+			alcoholicDrink.find("span.name-wrap span.qty.bold.t-hide").insertAdjacentHTML("beforeEnd", rawHTML);
+		}
+	});
+}
+
+function showCandyGains() {
+	// Get every element in array that matches string 'candies'
+	let facCandyPerc = parseInt(userdata.faction_perks.filter((x) => /candy/i.test(x)).map((x) => {
+		// Replace everything other than numbers
+		x.replace(/[^0-9\.]/g, "");
+	})[0]);
+	// Get every element in array that matches string 'boost'
+	let jobCandyPerc = parseInt(userdata.company_perks.filter((x) => /boost/i.test(x)).map((x) => {
+		// Replace everything other than numbers
+		x.replace(/[^0-9\.]/g, "");
+	})[0]);
+	doc.findAll("[data-category='Candy']").forEach((candy) => {
+		if (!candy.find("span.tt-candy")) {
+			let baseHappy = parseInt(itemlist.items[candy.getAttribute("data-item")].effect.split(" ").map((x) => parseInt(x)).filter((x) => !isNaN(x))[0]);
+			let totalHappy = baseHappy;
+			if (!isNaN(facCandyPerc)) totalHappy += (facCandyPerc / 100) * baseHappy;
+			if (!isNaN(jobCandyPerc)) totalHappy += (jobCandyPerc / 100) * baseHappy;
+			const rawHTML = `<span class='tt-candy'>${totalHappy}H</span>`;
+			candy.find("span.name-wrap span.qty.bold.t-hide").insertAdjacentHTML("beforeEnd", rawHTML);
 		}
 	});
 }
