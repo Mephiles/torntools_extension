@@ -785,7 +785,7 @@ function showECanGains() {
 
 function showCandyGains() {
 	// Get every element in array that matches string 'candies'
-	let facCandyPerc = parseInt(userdata.faction_perks.filter((x) => /candies/i.test(x)).map((x) => {
+	let facCandyPerc = parseInt(userdata.faction_perks.filter((x) => /candy/i.test(x)).map((x) => {
 		// Replace everything other than numbers
 		x.replace(/[^0-9\.]/g, "");
 	})[0]);
