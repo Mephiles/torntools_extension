@@ -216,8 +216,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=attack*"],
-			"css": ["scripts/content/loader/ttLoader.css"],
-			"js": ["scripts/content/loader/ttLoader.js"],
+			"css": ["scripts/content/loader/ttAttackLoader.css"],
+			"js": ["scripts/content/loader/ttAttackLoader.js"],
 			"run_at": "document_end"
 		},
 		{
