@@ -417,7 +417,7 @@ function showNNB() {
 }
 
 function fullInfoBox(page) {
-	let info_box;
+	let info_box, facDescription;
 	if (getSearchParameters().get("step") === "profile") {
 		info_box = doc.find("#factions div[data-title='description']").nextElementSibling;
 	} else if (page === "main") {
@@ -426,6 +426,8 @@ function fullInfoBox(page) {
 		info_box = doc.find("#faction-info .faction-info-wrap.faction-description .faction-info");
 	}
 
+	facDescription = info_box.parentElement.find("div.faction-description");
+	
 	let title = info_box.previousElementSibling;
 
 	if (title.classList.contains("tt-modified")) return;
@@ -448,7 +450,7 @@ function fullInfoBox(page) {
 
 	if (settings.pages.faction[key]) {
 		checkbox.checked = true;
-		info_box.classList.toggle("tt-force-full");
+		facDescription.classList.toggle("tt-force-full");
 	}
 
 	setting_div.appendChild(checkbox);
@@ -457,7 +459,7 @@ function fullInfoBox(page) {
 	title.appendChild(options_div);
 
 	checkbox.onclick = () => {
-		info_box.classList.toggle("tt-force-full");
+		facDescription.classList.toggle("tt-force-full");
 
 		ttStorage.change({ settings: { pages: { faction: { [key]: checkbox.checked } } } });
 	};
