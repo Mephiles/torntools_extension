@@ -172,6 +172,11 @@ li.item-group.tt-modified .group-arrow {
 	padding-left: 10px;
 }
 
+/* Book effects */
+.tt-book-effect {
+    color: #3070e6;
+}
+
 .tt-e-can-alcohol-candy {
 	color: rgb(103, 140, 0);
 	padding-left: 10px;
