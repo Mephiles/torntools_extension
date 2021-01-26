@@ -1,5 +1,5 @@
 export default {
-	"v5.6 - xxxx, xxth. 2021": {
+	"v5.6 - January, 27th. 2021": {
 		Features: [
 			"Disable gym highlight. - Sashank999",
 			"Show energy gains from cans. - Sashank999",
@@ -7,8 +7,10 @@ export default {
 			"Highlight chain timer when it's under a minute. - Sashank999",
 			"Show happy gains from candy. - Sashank999",
 			"Show nerve gains from alcohol. - Sashank999",
+			"Show education course finish time. - Sashank999",
+			"Show investment finish time. - Sashank999",
 		],
-		Fixes: [],
+		Fixes: ["Fix full faction description not working. - Sashank999"],
 		Changes: ["Update Love Juice information to reflect the new change. - DKK"],
 	},
 	"v5.5 - January, 19th. 2021": {
