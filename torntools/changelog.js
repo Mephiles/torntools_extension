@@ -11,7 +11,7 @@ export default {
 			"Show investment finish time. - Sashank999",
 		],
 		Fixes: ["Fix full faction description not working. - Sashank999"],
-		Changes: ["Update Love Juice information to reflect the new change. - DKK"],
+		Changes: ["Update Love Juice information to reflect the new change. - DKK", "Add ELO stat to stat list. - DKK"],
 	},
 	"v5.5 - January, 19th. 2021": {
 		Features: ["Show missing flowers and plushies in the inventory. - Sashank999", "Disable some casino games. - Sashank999"],

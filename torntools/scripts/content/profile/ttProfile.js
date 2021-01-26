@@ -43,6 +43,7 @@ const key_dict = {
 		tracerammoused: "Attacks: Ammo: Tracer",
 		specialammoused: "Attacks: Ammo: Special Total",
 		hollowammoused: "Attacks: Ammo: Hollow Point",
+		elo: "Attacks: Elo rating",
 	},
 	bounties: {
 		bountiesplaced: "Bounties: Placed",
