@@ -838,7 +838,7 @@ function showECanGains() {
 			})[0]
 	);
 	doc.findAll("[data-category='Energy Drink']").forEach((eCanElement) => {
-		if (!eCanElement.find("span.tt-e-can")) {
+		if (!eCanElement.find("span.tt-e-can-alcohol-candy")) {
 			let baseE = parseInt(
 				itemlist.items[eCanElement.getAttribute("data-item")].effect
 					.split(" ")
@@ -848,7 +848,7 @@ function showECanGains() {
 			let totalEnergy = baseE;
 			if (!isNaN(facECanPerc)) totalEnergy += (facECanPerc / 100) * baseE;
 			if (!isNaN(jobECanPerc)) totalEnergy += (jobECanPerc / 100) * baseE;
-			const rawHTML = `<span class='tt-item-price tt-e-can'>${totalEnergy}E</span>`;
+			const rawHTML = `<span class='tt-e-can-alcohol-candy'>${totalEnergy}E</span>`;
 			eCanElement.find("span.name-wrap").insertAdjacentHTML("beforeEnd", rawHTML);
 		}
 	});
@@ -874,7 +874,7 @@ function showAlcoholNerveGains() {
 			})[0]
 	);
 	doc.findAll("[data-category='Alcohol']").forEach((alcoholicDrink) => {
-		if (!alcoholicDrink.find("span.tt-candy")) {
+		if (!alcoholicDrink.find("span.tt-e-can-alcohol-candy")) {
 			let baseNerve = parseInt(
 				itemlist.items[alcoholicDrink.getAttribute("data-item")].effect
 					.split(" ")
@@ -887,7 +887,7 @@ function showAlcoholNerveGains() {
 			let maxNerve = Math.ceil(totalNerve);
 			let minNerve = Math.floor(totalNerve);
 			let nerveRange = maxNerve === minNerve ? maxNerve : `${minNerve} - ${maxNerve}`;
-			const rawHTML = `<span class='tt-candy'>${nerveRange} N</span>`;
+			const rawHTML = `<span class='tt-e-can-alcohol-candy'>${nerveRange} N</span>`;
 			alcoholicDrink.find("span.name-wrap span.qty.bold.t-hide").insertAdjacentHTML("beforeEnd", rawHTML);
 		}
 	});
@@ -913,7 +913,7 @@ function showCandyGains() {
 			})[0]
 	);
 	doc.findAll("[data-category='Candy']").forEach((candy) => {
-		if (!candy.find("span.tt-candy")) {
+		if (!candy.find("span.tt-e-can-alcohol-candy")) {
 			let baseHappy = parseInt(
 				itemlist.items[candy.getAttribute("data-item")].effect
 					.split(" ")
@@ -923,7 +923,7 @@ function showCandyGains() {
 			let totalHappy = baseHappy;
 			if (!isNaN(facCandyPerc)) totalHappy += (facCandyPerc / 100) * baseHappy;
 			if (!isNaN(jobCandyPerc)) totalHappy += (jobCandyPerc / 100) * baseHappy;
-			const rawHTML = `<span class='tt-candy'>${totalHappy}H</span>`;
+			const rawHTML = `<span class='tt-e-can-alcohol-candy'>${totalHappy}H</span>`;
 			candy.find("span.name-wrap span.qty.bold.t-hide").insertAdjacentHTML("beforeEnd", rawHTML);
 		}
 	});

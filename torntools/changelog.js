@@ -1,8 +1,15 @@
 export default {
 	"v5.6 - xxxx, xxth. 2021": {
-		Features: [],
+		Features: [
+			"Disable gym highlight. - Sashank999",
+			"Show energy gains from cans. - Sashank999",
+			"Show a warning when you try to attack while stacking. - Sashank999",
+			"Highlight chain timer when it's under a minute. - Sashank999",
+			"Show happy gains from candy. - Sashank999",
+			"Show nerve gains from alcohol. - Sashank999",
+		],
 		Fixes: [],
-		Changes: ["Update Love Juice information to reflect the new change.. - DKK"],
+		Changes: ["Update Love Juice information to reflect the new change. - DKK"],
 	},
 	"v5.5 - January, 19th. 2021": {
 		Features: ["Show missing flowers and plushies in the inventory. - Sashank999", "Disable some casino games. - Sashank999"],

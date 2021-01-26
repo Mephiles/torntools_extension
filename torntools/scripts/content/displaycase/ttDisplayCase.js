@@ -13,19 +13,13 @@ function displayCabinetWorth() {
 		}).then((result) => {
 			let totalValue = 0;
 			for (let item in result.display) {
-				totalValue +=
-					result.display[item].market_price *
-					result.display[item].quantity;
+				totalValue += result.display[item].market_price * result.display[item].quantity;
 			}
 			let displayCabinetWorthSpan = doc.new({
 				type: "span",
-				html: `<br>This display cabinet is worth <b><span style="color: #678c00">${
-					"$" + numberWithCommas(totalValue, false)
-				}</span></b>`,
+				html: `<br>This display cabinet is worth <b><span style="color: #678c00">${"$" + numberWithCommas(totalValue, false)}</span></b>`,
 			});
-			doc.find("div.msg.right-round").appendChild(
-				displayCabinetWorthSpan
-			);
+			doc.find("div.msg.right-round").appendChild(displayCabinetWorthSpan);
 		});
 	}
 }

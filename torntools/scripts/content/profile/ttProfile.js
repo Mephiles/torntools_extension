@@ -213,7 +213,7 @@ requireDatabase().then(() => {
 			addStatusIndicator();
 		}
 		displayCreator();
-		
+
 		// Age to Words
 		ageToWords();
 
@@ -221,7 +221,7 @@ requireDatabase().then(() => {
 
 		// noinspection EqualityComparisonWithCoercionJS
 		if (userId == userdata.player_id) return;
-		
+
 		if (settings.pages.profile.friendly_warning) {
 			displayAlly(user_faction, allies);
 		}
@@ -357,7 +357,6 @@ requireDatabase().then(() => {
 			// Show Spy info
 			await showSpyInfo();
 		}
-
 	});
 });
 
@@ -1269,8 +1268,7 @@ function disableAllyAttack() {
 			doc.new({
 				type: "span",
 				class: "tt-title-message",
-				text:
-					"Attacks on allies are disabled. Please enable it in TornTools Settings if you want so.",
+				text: "Attacks on allies are disabled. Please enable it in TornTools Settings if you want so.",
 				attributes: {
 					color: "warning",
 					style: "padding: 9px 10px 10px 10px; font-size: 13px;",

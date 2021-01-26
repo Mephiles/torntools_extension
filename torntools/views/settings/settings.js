@@ -69,7 +69,7 @@ requireDatabase(false)
 					targets: {},
 				},
 			});
-			message("Target list reset.", true);
+			message("Target list reset.", true, {reload: true });
 		});
 		doc.find("#allow_notifications").onclick = () => {
 			Notification.requestPermission().then((permission) => {

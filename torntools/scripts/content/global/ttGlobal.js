@@ -196,11 +196,10 @@ requireDatabase().then(() => {
 		});
 		chat_observer.observe(doc.find("#chatRoot"), { childList: true, subtree: true });
 	});
-	
+
 	hideGymHighlight();
-		
+
 	if (settings.pages.global.highlight_chain_timer) chainTimerHighlight();
-	
 });
 
 function chatsLoaded() {
@@ -813,5 +812,5 @@ function chainTimerHighlight() {
 		if (blinkIntervalId) return;
 		if (chainTimer !== 0 && chainTimer < 60) blinkIntervalId = setInterval(() => doc.find("a#barChain").classList.toggle("tt-blink"), 700);
 	});
-	chainObserver.observe(doc.find("a#barChain div[class^='progress-line_']"), {attributes: true});
+	chainObserver.observe(doc.find("a#barChain div[class^='progress-line_']"), { attributes: true });
 }
