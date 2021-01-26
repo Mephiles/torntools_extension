@@ -422,11 +422,12 @@ function fullInfoBox(page) {
 		info_box = doc.find("#factions div[data-title='description']").nextElementSibling;
 	} else if (page === "main") {
 		info_box = doc.find("div[data-title='announcement']").nextElementSibling;
+		facDescription = info_box;
 	} else if (page === "info") {
 		info_box = doc.find("#faction-info .faction-info-wrap.faction-description .faction-info");
 	}
 
-	facDescription = info_box.parentElement.find("div.faction-description");
+	facDescription ? facDescription = info_box : facDescription = info_box.parentElement.find("div.faction-description");
 	
 	let title = info_box.previousElementSibling;
 
