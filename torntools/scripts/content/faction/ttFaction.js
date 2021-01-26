@@ -427,8 +427,8 @@ function fullInfoBox(page) {
 		info_box = doc.find("#faction-info .faction-info-wrap.faction-description .faction-info");
 	}
 
-	facDescription ? facDescription = info_box : facDescription = info_box.parentElement.find("div.faction-description");
-	
+	if (!facDescription) facDescription = info_box.parentElement.find("div.faction-description");
+
 	let title = info_box.previousElementSibling;
 
 	if (title.classList.contains("tt-modified")) return;
