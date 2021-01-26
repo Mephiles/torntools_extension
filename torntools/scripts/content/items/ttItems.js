@@ -273,7 +273,7 @@ function initializeItems() {
 	if (settings.pages.items.highlight_bloodbags !== "none") highlightBloodBags();
 	showMissingPlushies();
 	showMissingFlowers();
-	showBookEffects();
+	if (settings.pages.items.show_book_effects) showBookEffects();
 	if (settings.pages.items.show_candy_happy_gains) showCandyGains();
 	if (settings.pages.items.show_e_can_gains) showECanGains();
 	if (settings.pages.items.show_alcohol_nerve_gains) showAlcoholNerveGains();
@@ -727,7 +727,7 @@ function addItemListener() {
 
 function showMissingPlushies() {
 	if (settings.pages.items.show_missing_plushies) {
-		if (doc.find("ul#plushies-items").getAttribute("aria-hidden") === 'true') return
+		if (doc.find("ul#plushies-items").getAttribute("aria-hidden") === "true") return;
 		else if (doc.find("#tt-needed-plushies-div")) {
 			doc.find("#tt-needed-plushies-div").style.display = "block";
 			return;
@@ -809,26 +809,42 @@ function showMissingFlowers() {
 }
 
 function showBookEffects() {
-	doc.findAll("[data-category='Book']").forEach((book) =>{
+	doc.findAll("[data-category='Book']").forEach((book) => {
 		if (book.find("span.tt-book-effect")) return;
-		book.find("span.qty.bold.t-hide").insertAdjacentHTML("afterEnd", `<span class='tt-book-effect'> - ${BOOK_DESCRIPTIONS[parseInt(book.getAttribute("data-item"))]}</span>`);
-  });
+		book.find("span.qty.bold.t-hide").insertAdjacentHTML(
+			"afterEnd",
+			`<span class='tt-book-effect'> - ${BOOK_DESCRIPTIONS[parseInt(book.getAttribute("data-item"))]}</span>`
+		);
+	});
 }
 
 function showECanGains() {
 	// Get every element in array that matches string 'energy drinks'
-	let facECanPerc = parseInt(userdata.faction_perks.filter((x) => /energy drinks/i.test(x)).map((x) => {
-		// Replace everything other than numbers
-		x.replace(/[^0-9\.]/g, "");
-	})[0]);
+	let facECanPerc = parseInt(
+		userdata.faction_perks
+			.filter((x) => /energy drinks/i.test(x))
+			.map((x) => {
+				// Replace everything other than numbers
+				x.replace(/[^0-9\.]/g, "");
+			})[0]
+	);
 	// Get every element in array that matches string 'boost'
-	let jobECanPerc = parseInt(userdata.company_perks.filter((x) => /boost/i.test(x)).map((x) => {
-		// Replace everything other than numbers
-		x.replace(/[^0-9\.]/g, "");
-	})[0]);
+	let jobECanPerc = parseInt(
+		userdata.company_perks
+			.filter((x) => /boost/i.test(x))
+			.map((x) => {
+				// Replace everything other than numbers
+				x.replace(/[^0-9\.]/g, "");
+			})[0]
+	);
 	doc.findAll("[data-category='Energy Drink']").forEach((eCanElement) => {
 		if (!eCanElement.find("span.tt-e-can")) {
-			let baseE = parseInt(itemlist.items[eCanElement.getAttribute("data-item")].effect.split(" ").map((x) => parseInt(x)).filter((x) => !isNaN(x))[0]);
+			let baseE = parseInt(
+				itemlist.items[eCanElement.getAttribute("data-item")].effect
+					.split(" ")
+					.map((x) => parseInt(x))
+					.filter((x) => !isNaN(x))[0]
+			);
 			let totalEnergy = baseE;
 			if (!isNaN(facECanPerc)) totalEnergy += (facECanPerc / 100) * baseE;
 			if (!isNaN(jobECanPerc)) totalEnergy += (jobECanPerc / 100) * baseE;
@@ -840,18 +856,31 @@ function showECanGains() {
 
 function showAlcoholNerveGains() {
 	// Get every element in array that matches string 'alcohol'
-	let facAlcoholGainPerc = parseInt(userdata.faction_perks.filter((x) => /alcohol/i.test(x)).map((x) => {
-		// Replace everything other than numbers
-		x.replace(/[^0-9\.]/g, "");
-	})[0]);
+	let facAlcoholGainPerc = parseInt(
+		userdata.faction_perks
+			.filter((x) => /alcohol/i.test(x))
+			.map((x) => {
+				// Replace everything other than numbers
+				x.replace(/[^0-9\.]/g, "");
+			})[0]
+	);
 	// Get every element in array that matches string 'boost'
-	let jobAlcoholGainPerc = parseInt(userdata.company_perks.filter((x) => /boost/i.test(x)).map((x) => {
-		// Replace everything other than numbers
-		x.replace(/[^0-9\.]/g, "");
-	})[0]);
+	let jobAlcoholGainPerc = parseInt(
+		userdata.company_perks
+			.filter((x) => /boost/i.test(x))
+			.map((x) => {
+				// Replace everything other than numbers
+				x.replace(/[^0-9\.]/g, "");
+			})[0]
+	);
 	doc.findAll("[data-category='Alcohol']").forEach((alcoholicDrink) => {
 		if (!alcoholicDrink.find("span.tt-candy")) {
-			let baseNerve = parseInt(itemlist.items[alcoholicDrink.getAttribute("data-item")].effect.split(" ").map((x) => parseInt(x)).filter((x) => !isNaN(x))[0]);
+			let baseNerve = parseInt(
+				itemlist.items[alcoholicDrink.getAttribute("data-item")].effect
+					.split(" ")
+					.map((x) => parseInt(x))
+					.filter((x) => !isNaN(x))[0]
+			);
 			let totalNerve = baseNerve;
 			if (!isNaN(facAlcoholGainPerc)) totalNerve += (facAlcoholGainPerc / 100) * baseNerve;
 			if (!isNaN(jobAlcoholGainPerc)) totalNerve += (jobAlcoholGainPerc / 100) * baseNerve;
@@ -866,18 +895,31 @@ function showAlcoholNerveGains() {
 
 function showCandyGains() {
 	// Get every element in array that matches string 'candies'
-	let facCandyPerc = parseInt(userdata.faction_perks.filter((x) => /candy/i.test(x)).map((x) => {
-		// Replace everything other than numbers
-		x.replace(/[^0-9\.]/g, "");
-	})[0]);
+	let facCandyPerc = parseInt(
+		userdata.faction_perks
+			.filter((x) => /candy/i.test(x))
+			.map((x) => {
+				// Replace everything other than numbers
+				x.replace(/[^0-9\.]/g, "");
+			})[0]
+	);
 	// Get every element in array that matches string 'boost'
-	let jobCandyPerc = parseInt(userdata.company_perks.filter((x) => /boost/i.test(x)).map((x) => {
-		// Replace everything other than numbers
-		x.replace(/[^0-9\.]/g, "");
-	})[0]);
+	let jobCandyPerc = parseInt(
+		userdata.company_perks
+			.filter((x) => /boost/i.test(x))
+			.map((x) => {
+				// Replace everything other than numbers
+				x.replace(/[^0-9\.]/g, "");
+			})[0]
+	);
 	doc.findAll("[data-category='Candy']").forEach((candy) => {
 		if (!candy.find("span.tt-candy")) {
-			let baseHappy = parseInt(itemlist.items[candy.getAttribute("data-item")].effect.split(" ").map((x) => parseInt(x)).filter((x) => !isNaN(x))[0]);
+			let baseHappy = parseInt(
+				itemlist.items[candy.getAttribute("data-item")].effect
+					.split(" ")
+					.map((x) => parseInt(x))
+					.filter((x) => !isNaN(x))[0]
+			);
 			let totalHappy = baseHappy;
 			if (!isNaN(facCandyPerc)) totalHappy += (facCandyPerc / 100) * baseHappy;
 			if (!isNaN(jobCandyPerc)) totalHappy += (jobCandyPerc / 100) * baseHappy;
