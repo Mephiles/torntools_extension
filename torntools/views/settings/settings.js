@@ -70,6 +70,7 @@ requireDatabase(false)
 				},
 			});
 			message("Target list reset.", true);
+			location.reload();
 		});
 		doc.find("#allow_notifications").onclick = () => {
 			Notification.requestPermission().then((permission) => {
