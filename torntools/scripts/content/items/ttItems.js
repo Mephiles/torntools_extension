@@ -1,7 +1,7 @@
 const USABLE_ITEM_TYPES = ["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"];
 const BOOK_DESCRIPTIONS = {
 	744: "Incr. Str by 5% up to 10m upon completion.",
-	745: "Incr. Spe by 5% up to 10m upon completion.",
+	745: "Incr. Spd by 5% up to 10m upon completion.",
 	746: "Incr. Def by 5% up to 10m upon completion.",
 	747: "Incr. Dex by 5% up to 10m upon completion.",
 	748: "Incr. all working stats by 5% up to 2.5k each upon completion.",
@@ -11,12 +11,12 @@ const BOOK_DESCRIPTIONS = {
 	752: "Provides a passive 25% bonus to all stats (31 days).",
 	753: "Provides a passive 100% bonus to Str (31 days).",
 	754: "Provides a passive 100% bonus to Def (31 days).",
-	755: "Provides a passive 100% bonus to Spe (31 days).",
+	755: "Provides a passive 100% bonus to Spd (31 days).",
 	756: "Provides a passive 100% bonus to Dex (31 days).",
 	757: "Incr. all gym gains by 20% (31 days).",
 	758: "Incr. Str gym gains by 30% (31 days).",
 	759: "Incr. Def gym gains by 30% (31 days).",
-	760: "Incr. Spe gym gains by 30% (31 days).",
+	760: "Incr. Spd gym gains by 30% (31 days).",
 	761: "Incr. Dex gym gains by 30% (31 days).",
 	762: "Incr. crime skill & crime EXP gain by 25% (31 days).",
 	763: "Incr. all EXP gain by 25% (31 days).",
