@@ -315,7 +315,7 @@ function disableGyms() {
 		let checkbox = doc.new({ type: "input", class: "tt-gym-stat-checkbox", attributes: { type: "checkbox" } });
 		checkbox.checked = settings.pages.gym[`disable_${stat}`];
 
-		if (settings.pages.gym[`disable_${stat}`] && !doc.find(`ul[class*='properties_'] > li${GYM_SELECTORS[stat]}`).classList.contains("locked___r074J")) {
+		if (settings.pages.gym[`disable_${stat}`] && !doc.find(`ul[class*='properties_'] > li${GYM_SELECTORS[stat]}`).classList.contains("^=locked_")) {
 			// FIXME - Check class.
 			doc.find(`ul[class*='properties_'] > li${GYM_SELECTORS[stat]}`).classList.add("tt-gym-locked");
 		}
