@@ -271,17 +271,14 @@ function addCustomLinks() {
 			});
 		}
 
-		doc.find("#sidebar").insertBefore(
-			custom_links_section,
-			findParent(doc.find("h2=Areas"), { class: "^=sidebar-block_" })
-		);
+		doc.find("#sidebar").insertBefore(custom_links_section, findParent(doc.find("h2=Areas"), { class: "^=sidebar-block_" }));
 	}
 }
 
 function addNotesBox() {
 	let notes_section = navbar.newSection("Notes", { next_element_heading: "Areas" });
-	let cell = doc.new({ type: "div", class: "area-desktop___2N3Jp" });  // FIXME - Use right classes.
-	let inner_div = doc.new({ type: "div", class: "area-row___1VM_l" });  // FIXME - Use right classes.
+	let cell = doc.new({ type: "div", class: "area-desktop___2N3Jp" }); // FIXME - Use right classes.
+	let inner_div = doc.new({ type: "div", class: "area-row___1VM_l" }); // FIXME - Use right classes.
 	let textbox = doc.new({ type: "textarea", class: "tt-nav-textarea", value: notes.text || "" });
 	// [class*='
 	if (notes.height) {
@@ -292,7 +289,7 @@ function addNotesBox() {
 	cell.appendChild(inner_div);
 	notes_section.find(".tt-content").appendChild(cell);
 
-	doc.find("#sidebar").insertBefore(notes_section, findParent(doc.find("h2=Areas"), { class: ["sidebar-block___1Cqc2", "sidebar-block___181mP"] })); // FIXME - Use right classes.
+	doc.find("#sidebar").insertBefore(notes_section, findParent(doc.find("h2=Areas"), { class: "^=sidebar-block_" }));
 
 	textbox.addEventListener("change", () => {
 		ttStorage.set({ notes: { text: textbox.value, height: textbox.style.height } });
@@ -310,11 +307,11 @@ function addUpdateNotification() {
 	let version_text = `TornTools updated: ${chrome.runtime.getManifest().version}`;
 	let settings_page_url = chrome.runtime.getURL("/views/settings/settings.html");
 
-	let cell = doc.new({ type: "div", class: "area-desktop___2N3Jp" });  // FIXME - Use right classes.
-	let inner_div = doc.new({ type: "div", class: "area-row___1VM_l" });  // FIXME - Use right classes.
+	let cell = doc.new({ type: "div", class: "area-desktop___2N3Jp" }); // FIXME - Use right classes.
+	let inner_div = doc.new({ type: "div", class: "area-row___1VM_l" }); // FIXME - Use right classes.
 	let a = doc.new({
 		type: "a",
-		class: "desktopLink___1p2Dr",  // FIXME - Use right classes.
+		class: "desktopLink___1p2Dr", // FIXME - Use right classes.
 		href: settings_page_url,
 		attributes: { target: "_blank", style: "background-color: #B8E28F; min-height: 24px; line-height: 24px;" },
 	});
