@@ -18,27 +18,20 @@
 		"scripts": [
 			"scripts/global/globalClasses.js",
 			"scripts/global/globalData.js",
-			"scripts/global/globalDatabase.js",
-			"scripts/global/globalFunctions.js",
+			"scripts/global/functions/api.js",
+			"scripts/global/functions/browser.js",
+			"scripts/global/functions/database.js",
+			"scripts/global/functions/dom.js",
+			"scripts/global/functions/extension.js",
+			"scripts/global/functions/formatting.js",
+			"scripts/global/functions/torn.js",
+			"scripts/global/functions/utilities.js",
 			"scripts/background.js"
 		]
 	},
-	"permissions": [
-		"storage",
-		"notifications",
-		"tabs",
-		"https://api.torn.com/"
-	],
-	"optional_permissions": [
-		"https://yata.yt/"
-	],
-	"web_accessible_resources": [
-		"resources/images/*.png",
-		"pages/*",
-		"scripts/background.js",
-		"scripts/*.inject.js",
-		"vendor/*"
-	],
+	"permissions": ["storage", "notifications", "tabs", "https://api.torn.com/"],
+	"optional_permissions": ["https://yata.yt/"],
+	"web_accessible_resources": ["resources/images/*.png", "pages/*", "scripts/background.js", "scripts/*.inject.js", "vendor/*"],
 	"options_ui": {
 		"page": "pages/settings/settings.html",
 		"open_in_tab": true
@@ -50,132 +43,81 @@
 	},
 	"content_scripts": [
 		{
-			"matches": [
-				"https://www.torn.com/*"
-			],
-			"css": [
-				"scripts/global/globalStyle.css",
-				"scripts/content/global/ttGlobal.entry.css"
-			],
+			"matches": ["https://www.torn.com/*"],
+			"css": ["scripts/global/globalStyle.css", "scripts/global/functions/dom.css", "scripts/content/global/ttGlobal.entry.css"],
 			"js": [
 				"vendor/fontawesome/fontawesome.js",
 				"scripts/global/globalClasses.js",
 				"scripts/global/globalData.js",
-				"scripts/global/globalDatabase.js",
-				"scripts/global/globalFunctions.js",
+				"scripts/global/functions/api.js",
+				"scripts/global/functions/browser.js",
+				"scripts/global/functions/containers.js",
+				"scripts/global/functions/dom.js",
+				"scripts/global/functions/database.js",
+				"scripts/global/functions/extension.js",
+				"scripts/global/functions/formatting.js",
+				"scripts/global/functions/listeners.js",
+				"scripts/global/functions/requires.js",
+				"scripts/global/functions/torn.js",
+				"scripts/global/functions/utilities.js",
 				"scripts/content/global/ttGlobal.entry.js"
 			],
 			"run_at": "document_start"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/*"
-			],
-			"css": [
-				"scripts/content/global/ttGlobal.css"
-			],
-			"js": [
-				"scripts/content/global/ttGlobal.js"
-			],
+			"matches": ["https://www.torn.com/*"],
+			"css": ["scripts/content/global/ttGlobal.css"],
+			"js": ["scripts/global/features.js", "scripts/content/global/ttGlobal.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/index.php*"
-			],
-			"css": [
-				"scripts/content/home/ttHome.css",
-				"scripts/content/home/ttFlying.css"
-			],
-			"js": [
-				"scripts/content/home/ttHome.js",
-				"scripts/content/home/ttFlying.js"
-			],
+			"matches": ["https://www.torn.com/index.php*"],
+			"css": ["scripts/content/home/ttHome.css", "scripts/content/home/ttFlying.css"],
+			"js": ["scripts/content/home/ttHome.js", "scripts/content/home/ttFlying.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/item.php*"
-			],
-			"css": [
-				"scripts/content/items/ttItems.css"
-			],
-			"js": [
-				"vendor/jquery/jquery.js",
-				"scripts/content/items/ttItems.js"
-			],
+			"matches": ["https://www.torn.com/item.php*"],
+			"css": ["scripts/content/items/ttItems.css"],
+			"js": ["vendor/jquery/jquery.js", "scripts/content/items/ttItems.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/companies.php*"
-			],
-			"css": [
-				"scripts/content/companies/ttCompanies.css"
-			],
-			"js": [
-				"scripts/content/companies/ttCompanies.js"
-			],
+			"matches": ["https://www.torn.com/companies.php*"],
+			"css": ["scripts/content/companies/ttCompanies.css"],
+			"js": ["scripts/content/companies/ttCompanies.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/factions.php*"
-			],
-			"css": [
-				"scripts/content/factions/ttFactions.css"
-			],
-			"js": [
-				"scripts/content/factions/ttFactions.js"
-			],
+			"matches": ["https://www.torn.com/factions.php*"],
+			"css": ["scripts/content/factions/ttFactions.css"],
+			"js": ["scripts/content/factions/ttFactions.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/trade.php*"
-			],
-			"css": [
-				"scripts/content/trade/ttTrade.css"
-			],
-			"js": [
-				"scripts/content/trade/ttTrade.js"
-			],
+			"matches": ["https://www.torn.com/trade.php*"],
+			"css": ["scripts/content/trade/ttTrade.css"],
+			"js": ["scripts/content/trade/ttTrade.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/itemuseparcel.php*"
-			],
-			"js": [
-				"scripts/content/itemuseparcel/ttItemUseParcel.js"
-			],
+			"matches": ["https://www.torn.com/itemuseparcel.php*"],
+			"js": ["scripts/content/itemuseparcel/ttItemUseParcel.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/bazaar.php*"
-			],
-			"js": [
-				"scripts/content/bazaar/ttBazaar.js"
-			],
+			"matches": ["https://www.torn.com/bazaar.php*"],
+			"js": ["scripts/content/bazaar/ttBazaar.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/displaycase.php*"
-			],
-			"js": [
-				"scripts/content/displaycase/ttDisplayCase.js"
-			],
+			"matches": ["https://www.torn.com/displaycase.php*"],
+			"js": ["scripts/content/displaycase/ttDisplayCase.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/imarket.php*"
-			],
-			"js": [
-				"scripts/content/imarket/ttItemMarket.js"
-			],
+			"matches": ["https://www.torn.com/imarket.php*"],
+			"js": ["scripts/content/imarket/ttItemMarket.js"],
 			"run_at": "document_end"
 		}
 	]

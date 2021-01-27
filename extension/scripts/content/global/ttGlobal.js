@@ -2,6 +2,7 @@
 
 let highlights;
 let initiatedIconMoving = false;
+let mouseX, mouseY;
 
 (async () => {
 	await loadDatabase();

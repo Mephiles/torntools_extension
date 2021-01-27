@@ -897,10 +897,6 @@ async function notifyUser(title, message, url) {
 		window.speechSynthesis.speak(ttsMessage);
 	}
 
-	function hasSilentSupport() {
-		return !usingFirefox() && (!navigator.userAgent.includes("Mobile Safari") || usingYandex());
-	}
-
 	async function setupSoundPlayer() {
 		if (notificationSound !== settings.notifications.sound) {
 			let sound = await getNotificationSound(settings.notifications.sound);
@@ -963,3 +959,29 @@ chrome.notifications.onClicked.addListener((id) => {
 		chrome.tabs.create({ url: notificationRelations[id] });
 	}
 });
+
+function getNotificationSound(type) {
+	return new Promise((resolve) => {
+		switch (type) {
+			case "1":
+			case "2":
+			case "3":
+			case "4":
+			case "5":
+				return resolve(`resources/audio/notification${type}.wav`);
+			case "custom":
+				return resolve(settings.notifications.soundCustom);
+			default:
+				return resolve(false);
+		}
+	});
+}
+
+function getAudioPlayer() {
+	const audioPlayer = new Audio();
+	audioPlayer.autoplay = false;
+	// noinspection JSValidateTypes
+	audioPlayer.preload = true;
+
+	return audioPlayer;
+}

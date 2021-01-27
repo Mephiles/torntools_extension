@@ -1,13 +1,3 @@
-.tt-loading-placeholder {
-	display: none;
-	margin: 10px auto !important;
-	left: unset !important;
-}
-
-.tt-loading-placeholder.active {
-	display: block;
-}
-
 .hidden {
 	display: none !important;
 }
