@@ -803,8 +803,21 @@ async function updateStocks() {
 					)})!`,
 					LINKS.stocks
 				);
-			} else if (alerts.systemDumps && oldStocks[id].total_shares < stocks[id].total_shares) {
+			}
+
+			if (alerts.systemDumps && oldStocks[id].total_shares < stocks[id].total_shares) {
 				await notifyUser("TornTools - Stock Alerts", `(${stocks[id].acronym}) ${stocks[id].name} has dumped new shares!`, LINKS.stocks);
+			} else if (
+				alerts.availableReaches &&
+				oldStocks[id].available_shares < stocks[id].available_shares &&
+				oldStocks[id].available_shares < alerts.availableReaches &&
+				stocks[id].available_shares >= alerts.availableReaches
+			) {
+				await notifyUser(
+					"TornTools - Stock Alerts",
+					`(${stocks[id].acronym}) ${stocks[id].name} has ${formatNumber(stocks[id].available_shares)} available shares!`,
+					LINKS.stocks
+				);
 			}
 		}
 	}
