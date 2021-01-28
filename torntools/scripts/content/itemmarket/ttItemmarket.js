@@ -25,18 +25,8 @@ requireDatabase().then(() => {
 				el.find("a").setAttribute("href", url);
 			}
 		} else if (subview() === "browse_view") {
-			doc.addEventListener("click", (event) => {
-				if (event.target.classList && event.target.classList.contains("bazaar-market-icon")) {
-					let url = event.target.parentElement.getAttribute("href");
-
-					let price = findParent(event.target, { class: "item" }).find(".cost-price").innerText.replace("$", "").replace(/,/g, "");
-					let itemId = doc.find(".wai-hover").getAttribute("itemid");
-
-					url += `&tt_itemid=${itemId}&tt_itemprice=${price}`;
-
-					event.target.parentElement.setAttribute("href", url);
-				}
-			});
+			doc.addEventListener("click", addTTParamstoHref);
+			doc.addEventListener("contextmenu", addTTParamstoHref);
 			highlightCheapItems();
 		}
 
@@ -109,5 +99,15 @@ function highlightCheapItems(items) {
 				}
 			}
 		});
+	}
+}
+
+function addTTParamstoHref(event) {
+	if (event.target.classList && event.target.classList.contains("bazaar-market-icon")) {
+		let url = event.target.parentElement.getAttribute("href");
+		let price = findParent(event.target, { class: "item" }).find(".cost-price").innerText.replace("$", "").replace(/,/g, "");
+		let itemId = doc.find(".wai-hover").getAttribute("itemid");
+		url += `&tt_itemid=${itemId}&tt_itemprice=${price}`;
+		event.target.parentElement.setAttribute("href", url);
 	}
 }
