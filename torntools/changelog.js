@@ -1,4 +1,7 @@
 export default {
+	"v5.6.1 - January, xxth. 2021": {
+		Fixes: ["Fix notes showing in the wrong location. - DKK", "Fix mission hints not showing. - DKK"],
+	},
 	"v5.6 - January, 27th. 2021": {
 		Features: [
 			"Disable gym highlight. - Sashank999",
