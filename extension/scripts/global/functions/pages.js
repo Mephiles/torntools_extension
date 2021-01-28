@@ -1,22 +1,32 @@
 "use strict";
 
-document.addEventListener("click", (event) => {
-	if (event.target.tagName === "TH") {
-		let clickedHeader = event.target;
-		if (clickedHeader.getAttribute("class") && clickedHeader.getAttribute("class").split(" ").includes("no-sorting")) return;
+function initializeInternalPage(options = {}) {
+	options = {
+		sortTables: false,
+		...options,
+	};
 
-		const table = findParent(clickedHeader, { tag: "TABLE" });
-		if (!table || !table.classList.contains("sortable")) return;
+	// Check if the user is on mobile.
+	checkMobile().then((mobile) => {
+		if (mobile) document.body.classList.add("tt-mobile");
+		else document.body.classList.remove("tt-mobile");
+	});
 
-		sortTable(table, [...table.findAll("th")].indexOf(clickedHeader) + 1);
+	// Add sorting functionality to tables.
+	if (options.sortTables) {
+		document.addEventListener("click", (event) => {
+			if (event.target.tagName === "TH") {
+				let clickedHeader = event.target;
+				if (clickedHeader.getAttribute("class") && clickedHeader.getAttribute("class").split(" ").includes("no-sorting")) return;
+
+				const table = findParent(clickedHeader, { tag: "TABLE" });
+				if (!table || !table.classList.contains("sortable")) return;
+
+				sortTable(table, [...table.findAll("th")].indexOf(clickedHeader) + 1);
+			}
+		});
 	}
-});
-
-// mobile check
-checkMobile().then((mobile) => {
-	if (mobile) document.body.classList.add("tt-mobile");
-	else document.body.classList.remove("tt-mobile");
-});
+}
 
 function loadConfirmationPopup(options = {}) {
 	options = {

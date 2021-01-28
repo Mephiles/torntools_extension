@@ -5,6 +5,7 @@ import changelog from "../../changelog.js";
 let initiatedPages = {};
 
 (async () => {
+	initializeInternalPage({ sortTables: true });
 	await loadDatabase();
 	await showPage(getSearchParameters().get("page") || "changelog");
 
