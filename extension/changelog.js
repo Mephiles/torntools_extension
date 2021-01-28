@@ -45,15 +45,59 @@ export default [
 		},
 	},
 	{
-		version: { major: 5, minor: 4, build: 0 },
-		date: new Date(2020, 11, 16),
+		version: { major: 5, minor: 6, build: 0 },
+		date: new Date(2021, 0, 27),
 		logs: {
 			features: [
-				{ message: "Show total Portfolio Value.", contributor: "bandirao" },
+				{ message: "Disable gym highlight.", contributor: "bandirao" },
+				{ message: "Show energy gains from cans.", contributor: "bandirao" },
+				{ message: "Show a warning when you try to attack while stacking.", contributor: "bandirao" },
+				{ message: "Highlight chain timer when it's under a minute.", contributor: "bandirao" },
+				{ message: "Show happy gains from candy.", contributor: "bandirao" },
+				{ message: "Show nerve gains from alcohol.", contributor: "bandirao" },
+				{ message: "Show education course finish time.", contributor: "bandirao" },
+				{ message: "Show investment finish time.", contributor: "bandirao" },
+			],
+			fixes: [{ message: "Fix full faction description not working.", contributor: "bandirao" }],
+			changes: [
+				{ message: "Update Love Juice information to reflect the new change.", contributor: "DeKleineKobini" },
+				{ message: "Add ELO stat to stat list.", contributor: "DeKleineKobini" },
+			],
+		},
+	},
+	{
+		version: { major: 5, minor: 5, build: 0 },
+		date: new Date(2021, 0, 19),
+		logs: {
+			features: [
+				{ message: "Show missing flowers and plushies in the inventory.", contributor: "bandirao" },
+				{ message: "Disable some casino games.", contributor: "bandirao" },
+			],
+			fixes: [
+				{ message: "Use the new Torn class.", contributor: "bandirao" },
+				{ message: "Solve some problems regarding the new class names.", contributor: "DeKleineKobini" },
+			],
+			changes: [
+				{ message: "Add ISO date formatting.", contributor: "DeKleineKobini" },
+				{ message: "Switch to new YATA domain.", contributor: "DeKleineKobini" },
+				{ message: "Update company specials.", contributor: "DeKleineKobini" },
+			],
+		},
+	},
+	{
+		version: { major: 5, minor: 4, build: 0 },
+		date: new Date(2021, 0, 12),
+		logs: {
+			features: [
+				{ message: "Show total portfolio value.", contributor: "bandirao" },
 				{ message: "Allow chat filtering for people with recent interactions.", contributor: "bandirao" },
 				{ message: "Show age as words.", contributor: "bandirao" },
 				{ message: "Hide completed education courses.", contributor: "bandirao" },
+				{ message: "Disable attacks on allies.", contributor: "bandirao" },
+				{ message: "Show a TornTools warning on the Bugs & Issues subforum.", contributor: "bandirao" },
+				{ message: "Show total value of properties.", contributor: "bandirao" },
 			],
+			fixes: [{ message: "Use the new Torn class.", contributor: "DeKleineKobini" }],
 		},
 	},
 	{
