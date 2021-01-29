@@ -90,6 +90,7 @@ function loadItemsOnce() {
 					highlightBloodBags().catch((error) => console.error("Couldn't highlight the correct blood bags.", error));
 					showItemValues().catch((error) => console.error("Couldn't show the item values.", error));
 					showItemMarketIcons().catch((error) => console.error("Couldn't show the market icons.", error));
+					updateXIDs().catch(() => {});
 
 					observer.disconnect();
 				}).observe(tab, { subtree: true, childList: true });
@@ -743,4 +744,23 @@ async function showItemValuesMissingSets() {
 			price.remove();
 		}
 	}
+}
+
+async function updateXIDs() {
+	const items = [...document.findAll("ul.items-cont > li .actions[xid]")].filter((x) => {
+		const itemid = parseInt(x.getAttribute("itemid"));
+		return quick.items.some((y) => y.id === itemid);
+	});
+	if (!items.length) return;
+
+	const quickContainer = findContainer("Quick Items", { selector: ".content" });
+	items.forEach((x) => {
+		const itemid = parseInt(x.getAttribute("itemid"));
+		const xid = x.getAttribute("xid");
+
+		quick.items.find((y) => y.id === itemid).xid = xid;
+		quickContainer.find(`.item[data-id="${itemid}"]`).dataset.xid = xid;
+	});
+
+	await ttStorage.change({ quick: { items: quick.items } });
 }
