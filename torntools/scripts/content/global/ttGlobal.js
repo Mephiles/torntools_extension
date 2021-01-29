@@ -199,7 +199,7 @@ requireDatabase().then(() => {
 
 	hideGymHighlight();
 
-	if (settings.pages.global.highlight_chain_timer) chainTimerHighlight();
+	if (userdata.faction.faction_id && settings.pages.global.highlight_chain_timer && settings.pages.global.highlight_chain_length >= 10) chainTimerHighlight();
 });
 
 function chatsLoaded() {
@@ -803,11 +803,13 @@ function hideGymHighlight() {
 function chainTimerHighlight() {
 	let blinkIntervalId;
 	let chainObserver = new MutationObserver(() => {
-		let chainTimerParts = doc.find("a#barChain [class^='bar-timeleft_']").innerHTML.split(":");
-		let chainTimer = parseInt(chainTimerParts[0]) * 60 + parseInt(chainTimerParts[1]);
-		if (chainTimer === 0 || chainTimer > 60) clearInterval(blinkIntervalId);
-		if (blinkIntervalId) return;
-		if (chainTimer !== 0 && chainTimer < 60) blinkIntervalId = setInterval(() => doc.find("a#barChain").classList.toggle("tt-blink"), 700);
+		if (doc.find("a#barChain [class^='bar-value_']").innerText.split("/")[1] >= settings.pages.global.highlight_chain_length) {
+			let chainTimerParts = doc.find("a#barChain [class^='bar-timeleft_']").innerHTML.split(":");
+			let chainTimer = parseInt(chainTimerParts[0]) * 60 + parseInt(chainTimerParts[1]);
+			if (chainTimer === 0 || chainTimer > 60) clearInterval(blinkIntervalId);
+			if (blinkIntervalId) return;
+			if (chainTimer !== 0 && chainTimer < 60) blinkIntervalId = setInterval(() => doc.find("a#barChain").classList.toggle("tt-blink"), 700);
+		}
 	});
-	chainObserver.observe(doc.find("a#barChain div[class^='progress-line_']"), { attributes: true });
+	chainObserver.observe(doc.find("a#barChain [class^='bar-value_']"), { characterData: true });
 }
