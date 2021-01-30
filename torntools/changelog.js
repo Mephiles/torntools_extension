@@ -1,5 +1,10 @@
 export default {
-	"v5.6.1 - January, xxth. 2021": {
+	"v5.7 - xxxxxx, xx. 2021": {
+		Features: [],
+		Fixes: [],
+		Changes: [],
+	},
+	"v5.6.1 - January, 29th. 2021": {
 		Fixes: ["Fix notes showing in the wrong location. - DKK", "Fix mission hints not showing. - DKK"],
 	},
 	"v5.6 - January, 27th. 2021": {
