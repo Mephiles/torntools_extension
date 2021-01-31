@@ -9,21 +9,14 @@ function warReportLoaded() {
 }
 
 function displayContainer() {
-	let options_container = content.newContainer("War Report", { first: true, id: "ttWarReport" });
-	let export_btn = doc.new({
-		type: "div",
-		id: "ttExportTableButton",
-		text: "Export Table to CSV",
-	});
-	let export_link = doc.new({
-		type: "a",
-		id: "ttExportLink",
-	});
+	let rawHTML = '<div id="ttWarReport"><div class="m-top10 tt-title title-green all-rounded"><div class="title-text">War Report</div><div class="tt-options"></div><i id="ttExportButton" class="tt-title-icon fa fa-table" style=""></i><span id="ttExportButton" class="tt-title title-text" style="padding-left: 2px;padding-right: 12px;font-size: larger;">CSV</span><a id="ttExportLink"></a></div></div>';
 
-	options_container.find(".content").appendChild(export_btn);
-	options_container.find(".content").appendChild(export_link);
+	doc.find(".content-title").insertAdjacentHTML("afterEnd", rawHTML);
 
-	export_btn.addEventListener("click", () => {
+	doc.find("#ttWarReport i#ttExportButton").addEventListener("click", () => {
+		getTableAndExport();
+	});
+	doc.find("#ttWarReport span#ttExportButton").addEventListener("click", () => {
 		getTableAndExport();
 	});
 }
