@@ -36,6 +36,7 @@ function formatTime(time = {}, options = {}) {
 		short: false,
 		extraShort: false,
 		agoFilter: false,
+		daysToHours: false,
 		...options,
 	};
 
@@ -68,7 +69,7 @@ function formatTime(time = {}, options = {}) {
 
 			parts = [];
 			if (options.showDays) parts.push(Math.floor(date.getTime() / TO_MILLIS.DAYS));
-			if (!options.hideHours) parts.push(date.getUTCHours());
+			if (!options.hideHours) parts.push(date.getUTCHours() + (options.daysToHours ? 24 * Math.floor(millis / TO_MILLIS.DAYS) : 0));
 			parts.push(date.getUTCMinutes());
 			if (!options.hideSeconds) parts.push(date.getUTCSeconds());
 
