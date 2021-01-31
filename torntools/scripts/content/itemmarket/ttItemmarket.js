@@ -105,6 +105,8 @@ function highlightCheapItems(items) {
 function addTTParamstoHref(event) {
 	if (event.target.classList && event.target.classList.contains("bazaar-market-icon")) {
 		let url = event.target.parentElement.getAttribute("href");
+		// If url already has string "tt_itemid=XXX&tt_itemprice=", return
+		if (/tt_itemid=.*&tt_itemprice=/.test(url)) return;
 		let price = findParent(event.target, { class: "item" }).find(".cost-price").innerText.replace("$", "").replace(/,/g, "");
 		let itemId = doc.find(".wai-hover").getAttribute("itemid");
 		url += `&tt_itemid=${itemId}&tt_itemprice=${price}`;
