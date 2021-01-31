@@ -42,6 +42,7 @@ We have prettier formatting to help you follow our coding conventions.
         * If it are global constants use UPPERCASE.
 * All code should work on as much browsers as possible.
     * Optional Chaining isn't supported by Kiwi Browser.
+* Any changes should be added in the `extension/changelog.js` file under the first unreleased version.
 
 ## Development Tips
 
