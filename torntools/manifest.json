@@ -26,7 +26,7 @@
 		"https://torntools.gregork.com/*"
 	],
 	"optional_permissions": ["https://www.nukefamily.org/"],
-	"web_accessible_resources": ["images/*", "views/*", "scripts/*"],
+	"web_accessible_resources": ["audio/notification*", "images/*", "views/*", "scripts/*"],
 	"options_ui": {
 		"page": "views/settings/settings.html",
 		"open_in_tab": true
