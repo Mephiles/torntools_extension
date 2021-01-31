@@ -1586,6 +1586,7 @@ const STORAGE = {
 			},
 			attack: {
 				warn_when_stacking: true,
+				warn_when_attack_timeout: true,
 			},
 		},
 		scripts: {
