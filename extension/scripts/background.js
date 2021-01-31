@@ -783,7 +783,7 @@ async function updateStocks() {
 
 	await ttStorage.change({ torndata: { stocks } });
 
-	if (oldStocks) {
+	if (oldStocks && settings.notifications.types.global) {
 		for (let id in settings.notifications.types.stocks) {
 			const alerts = settings.notifications.types.stocks[id];
 
