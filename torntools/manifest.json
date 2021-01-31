@@ -311,6 +311,12 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/war.php?step=warreport*"],
+			"css": ["scripts/content/faction/ttFaction.css"],
+			"js": ["scripts/content/faction/ttWarReport.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/competition.php*"],
 			"css": ["scripts/content/competition/ttCompetition.css"],
 			"js": ["scripts/content/competition/ttCompetition.js"],
