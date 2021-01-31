@@ -9,19 +9,23 @@ function warReportLoaded() {
 }
 
 function displayContainer() {
-	let rawHTML = '<div id="ttWarReport"><div class="m-top10 tt-title title-green all-rounded"><div class="title-text">War Report</div><div class="tt-options"></div><i id="ttExportButton" class="tt-title-icon fa fa-table" style=""></i><span id="ttExportButton" class="tt-title title-text" style="padding-left: 2px;padding-right: 12px;font-size: larger;">CSV</span><a id="ttExportLink"></a></div></div>';
+	const container = content.newContainer("Chain Report", { first: true, id: "ttChainReport", header_only: true, all_rounded: true });
 
-	doc.find(".content-title").insertAdjacentHTML("afterEnd", rawHTML);
+	const option = document.new({
+		type: "div",
+		class: "tt-option",
+		id: "ttExportButton",
+		html: `
+			<i class="fa fa-table"></i>
+			<span class="text">CSV</span>
+			<a id="ttExportLink" />`,
+	});
+	option.addEventListener("click", () => getTableAndExport(container));
 
-	doc.find("#ttWarReport i#ttExportButton").addEventListener("click", () => {
-		getTableAndExport();
-	});
-	doc.find("#ttWarReport span#ttExportButton").addEventListener("click", () => {
-		getTableAndExport();
-	});
+	container.find(".tt-options").appendChild(option);
 }
 
-function getTableAndExport() {
+function getTableAndExport(container) {
 	let table = "data:text/csv;charset=utf-8,";
 	table += doc.find("span.enemy").innerText + "\r\n";
 	table += "Members;Level;Points;Joins;Clears\r\n";
@@ -47,7 +51,7 @@ function getTableAndExport() {
 	}
 	let war_id = getSearchParameters().get("warID");
 	let encodedUri = encodeURI(table);
-	doc.find("#ttExportLink").setAttribute("href", encodedUri);
-	doc.find("#ttExportLink").setAttribute("download", `war_report_[${war_id}].csv`);
-	doc.find("#ttExportLink").click();
+	container.find("#ttExportLink").setAttribute("href", encodedUri);
+	container.find("#ttExportLink").setAttribute("download", `war_report_[${war_id}].csv`);
+	container.find("#ttExportLink").click();
 }

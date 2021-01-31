@@ -1956,7 +1956,7 @@ const content = {
 			if (attr.header_only) containerClasses.push("no-content");
 			if (attr.all_rounded) containerClasses.push("all-rounded");
 
-			if (collapsed === true || collapsed === undefined) {
+			if (attr.header_only || collapsed === true || collapsed === undefined) {
 				containerClasses.push("collapsed");
 
 				if (attr.all_rounded !== false && !attr.header_only) containerClasses.push("all-rounded");

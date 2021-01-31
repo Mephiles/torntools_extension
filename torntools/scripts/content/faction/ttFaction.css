@@ -170,3 +170,7 @@ span.tt-item-price {
 	float: right;
 	padding-right: 10px;
 }
+
+#ttExportButton {
+	padding-right: 12px;
+}
