@@ -4,8 +4,13 @@ export default {
 		Fixes: ["Don't show the attack warning on attack logs. - Sashank999", "Fix achievements section not showing. - Sashank999"],
 		Changes: ["Only highlight chain timers over a configurable amount. - Sashank999"],
 	},
-	"v5.6.1 - January, 29th. 2021": {
-		Fixes: ["Fix notes showing in the wrong location. - DKK", "Fix mission hints not showing. - DKK"],
+	"v5.6.1 - January, xxth. 2021": {
+		Fixes: [
+			"Fix notes showing in the wrong location. - DKK",
+			"Fix mission hints not showing. - DKK",
+			"Fix Achievements Section not closing properly. - Sashank999",
+			"Add tt_itemprice & tt_itemid to URL not working in bazaar when right clicked. - Sashank999",
+		],
 	},
 	"v5.6 - January, 27th. 2021": {
 		Features: [
