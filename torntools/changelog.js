@@ -1,5 +1,5 @@
 export default {
-  "v5.7 - xxxxxx, xx. 2021": {
+	"v5.7 - xxxxxx, xx. 2021": {
 		Features: [],
 		Fixes: ["Don't show the attack warning on attack logs. - Sashank999", "Fix achievements section not showing. - Sashank999"],
 		Changes: ["Only highlight chain timers over a configurable amount. - Sashank999"],

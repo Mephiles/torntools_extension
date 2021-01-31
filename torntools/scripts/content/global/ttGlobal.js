@@ -148,9 +148,9 @@ requireDatabase().then(() => {
 				time.setAttribute("seconds-up", seconds);
 			}
 		}, 1000);
-		
-		if (userdata.faction.faction_id && settings.pages.global.highlight_chain_timer && settings.pages.global.highlight_chain_length >= 10) chainTimerHighlight();
-		
+
+		if (userdata.faction.faction_id && settings.pages.global.highlight_chain_timer && settings.pages.global.highlight_chain_length >= 10)
+			chainTimerHighlight();
 	});
 
 	chatsLoaded().then(() => {
@@ -201,7 +201,6 @@ requireDatabase().then(() => {
 	});
 
 	hideGymHighlight();
-
 });
 
 function chatsLoaded() {
