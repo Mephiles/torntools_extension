@@ -1,6 +1,7 @@
 requireDatabase().then(() => {
 	console.log("TT - Loader");
 	if (settings.pages.attack.warn_when_stacking && getSearchParameters().get("ID") === null) displayWarning();
+	if (settings.pages.attack.warn_when_attack_timeout) requireElement("div[class^='labelsContainer_'] span[class^='labelTitle_'] span[id^='timeout-value']").then(warnAttackTimeout);
 });
 
 function displayWarning() {
@@ -9,4 +10,16 @@ function displayWarning() {
 		doc.find("a[href='#skip-to-content']").insertAdjacentHTML("afterEnd", rawHTML);
 		doc.find("button.tt-overlay-button").addEventListener("click", (event) => (event.target.parentElement.style.display = "none"));
 	}
+}
+
+function warnAttackTimeout() {
+	let timeoutIntervalId;
+	let attackObserver = new MutationObserver(() => {
+		let attackTimerParts = doc.find("div[class^='labelsContainer_'] span[class^='labelTitle_'] span[id^='timeout-value']").innerText.split(":");
+		let attackTimer = parseInt(attackTimerParts[0]) * 60 + parseInt(attackTimerParts[1]);
+		if (attackTimer === 0 || attackTimer > 60 || doc.find("div[class^='dialogButtons_']")) clearInterval(timeoutIntervalId);
+		if (timeoutIntervalId) return;
+		if (attackTimer !== 0 && attackTimer < 60) timeoutIntervalId = setInterval(() => new Audio(chrome.runtime.getURL(`/audio/notification${settings.notifications_sound}.wav`)).play(), 1000);
+	});
+	attackObserver.observe(doc.find("div[class^='labelsContainer_'] span[class^='labelTitle_'] span[id^='timeout-value']"), { characterData: true, childList: true, subtree: true });
 }
