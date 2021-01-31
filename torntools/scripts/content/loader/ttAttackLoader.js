@@ -1,6 +1,6 @@
 requireDatabase().then(() => {
 	console.log("TT - Loader");
-	if (settings.pages.attack.warn_when_stacking) displayWarning();
+	if (settings.pages.attack.warn_when_stacking && getSearchParameters().get("ID") === null) displayWarning();
 });
 
 function displayWarning() {

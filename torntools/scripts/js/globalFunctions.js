@@ -1567,6 +1567,7 @@ const STORAGE = {
 				miniprofile_last_action: true,
 				enable_central_revive: false,
 				highlight_chain_timer: true,
+				highlight_chain_length: 10,
 			},
 			jail: {
 				quick_bail: false,
@@ -1844,14 +1845,14 @@ const navbar = {
 			sidebarBlock.innerHTML = `
                 <div class="content___kMC8x">
                     <div class="areas___2pu_3">
-                        <div class="toggle-block___jneNE">
+                        <div class="toggle-block___358Y7">
                             <div class="tt-title tt-nav ${THEME_CLASSES[settings.theme].title} ${
 				collapsed === true || collapsed === undefined ? "collapsed" : ""
 			}">
                                 <div class="title-text">${name}</div>
                                 <div class="tt-options"></div>
                                 <i class="tt-title-icon fas fa-caret-down"></i></div>
-                            <div class="toggle-content___2PGBT tt-content"></div>
+                            <div class="toggle-content___3YEYV tt-content"></div>
                         </div>
                     </div>
                 </div>
