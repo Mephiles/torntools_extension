@@ -10,12 +10,15 @@ function warReportLoaded() {
 
 function displayContainer() {
 	let options_container = content.newContainer("War Report", { first: true, id: "ttWarReport" });
-
-	let export_btn = doc.new("div");
-	export_btn.id = "ttExportTableButton";
-	export_btn.innerText = "Export Table to CSV";
-	let export_link = doc.new("a");
-	export_link.id = "ttExportLink";
+	let export_btn = doc.new({
+		type: "div",
+		id: "ttExportTableButton",
+		text: "Export Table to CSV",
+	});
+	let export_link = doc.new({
+		type: "a",
+		id: "ttExportLink",
+	});
 
 	options_container.find(".content").appendChild(export_btn);
 	options_container.find(".content").appendChild(export_link);
