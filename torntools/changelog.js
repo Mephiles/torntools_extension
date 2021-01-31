@@ -1,8 +1,8 @@
 export default {
 	"v5.7 - xxxxxx, xx. 2021": {
 		Features: [],
-		Fixes: [],
-		Changes: [],
+		Fixes: ["Don't show the attack warning on attack logs. - Sashank999", "Fix achievements section not showing. - Sashank999"],
+		Changes: ["Only highlight chain timers over a configurable amount. - Sashank999"],
 	},
 	"v5.6.1 - January, 29th. 2021": {
 		Fixes: ["Fix notes showing in the wrong location. - DKK", "Fix mission hints not showing. - DKK"],
