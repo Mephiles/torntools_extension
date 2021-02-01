@@ -34,8 +34,8 @@ const ITEM_VALUE_UTILITIES = {
 			);
 		}, 0);
 	},
-	removeTotal: () => {
-		const total = document.find(".tt-ignore .tt-item-price");
+	removeTotal: (list) => {
+		const total = list.find(".tt-ignore .tt-item-price");
 		if (total) total.parentElement.remove();
 	},
 	addValue: (priceElement, quantity, price) => {
@@ -60,11 +60,10 @@ const ITEM_VALUE_UTILITIES = {
 				...options,
 			};
 
-			ITEM_VALUE_UTILITIES.removeTotal();
+			const list = ITEM_VALUE_UTILITIES.INVENTORY.getItemCurrentList();
+			ITEM_VALUE_UTILITIES.removeTotal(list);
 
 			if (settings.pages.items.values) {
-				const list = ITEM_VALUE_UTILITIES.INVENTORY.getItemCurrentList();
-
 				if (type) ITEM_VALUE_UTILITIES.showTotal(list, type);
 
 				for (const item of items) {
