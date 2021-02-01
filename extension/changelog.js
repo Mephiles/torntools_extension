@@ -355,7 +355,7 @@ export default [
 				{ message: "Add last attack date on target page.", contributor: "DeKleineKobini" },
 				{ message: "Show market value on blood bags if highlighting is enabled.", contributor: "wootty2000" },
 				{ message: "Added option for Travel Destination to default to the last selected.", contributor: "wootty2000" },
-				{ message: "Added education award tracker. Moved dump and bounty award trackers.", contributor: "wootty2000 " },
+				{ message: "Added education award tracker. Moved dump and bounty award trackers.", contributor: "wootty2000" },
 			],
 		},
 	},
