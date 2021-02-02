@@ -1491,6 +1491,9 @@ const STORAGE = {
 				hide_gym_highlight: false,
 				specialty_gym_1: "",
 				specialty_gym_2: "",
+				warn_when_stacking: true,
+				warn_when_chain: true,
+				warn_when_chain_length: 10,
 			},
 			shop: {
 				profits: true,
