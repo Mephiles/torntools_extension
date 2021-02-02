@@ -3200,12 +3200,14 @@ function fetchApi_v2(
 			const selections = options.selections || "";
 			const apiKey = api_key;
 
+			if (location === "torn") options.comment = "TornTools";
+
 			let full_url;
 			if (location !== "torn" && location !== "tornstats") {
 				full_url = `${base}${section || ""}`;
 			} else if (apiKey) {
 				full_url = `${base}${section}${objectid}${selections ? "selections=" + selections : ""}${location !== "yata" ? `&key=${apiKey}` : ""}`;
-				for (let param of ["action", "target", "from"]) {
+				for (let param of ["action", "target", "from", "comment"]) {
 					if (options[param] === undefined) continue;
 					full_url += `&${param}=${options[param]}`;
 				}
