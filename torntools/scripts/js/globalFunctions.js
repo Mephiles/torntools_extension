@@ -1566,7 +1566,7 @@ const STORAGE = {
 				refill_nerve: false,
 				miniprofile_last_action: true,
 				enable_central_revive: false,
-				highlight_chain_timer: true,
+				highlight_chain_timer: false,
 				highlight_chain_length: 10,
 			},
 			jail: {
@@ -1585,7 +1585,7 @@ const STORAGE = {
 				worth: false,
 			},
 			attack: {
-				warn_when_stacking: true,
+				warn_when_stacking: false,
 				warn_when_attack_timeout: true,
 			},
 		},
