@@ -1507,10 +1507,10 @@ const STORAGE = {
 				highlight_bloodbags: "none",
 				show_missing_plushies: false,
 				show_missing_flowers: false,
-				show_book_effects: true, // Debate: false by default
-				show_alcohol_nerve_gains: true, // Debate: false by default
-				show_candy_happy_gains: true, // Debate: false by default
-				show_e_can_gains: true, // Debate: false by default
+				show_book_effects: true,
+				show_alcohol_nerve_gains: true,
+				show_candy_happy_gains: true,
+				show_e_can_gains: true,
 			},
 			travel: {
 				profits: true,
@@ -1566,7 +1566,7 @@ const STORAGE = {
 				refill_nerve: false,
 				miniprofile_last_action: true,
 				enable_central_revive: false,
-				highlight_chain_timer: true,
+				highlight_chain_timer: false,
 				highlight_chain_length: 10,
 			},
 			jail: {
@@ -1585,7 +1585,7 @@ const STORAGE = {
 				worth: false,
 			},
 			attack: {
-				warn_when_stacking: true, // Debate: false by default
+				warn_when_stacking: false,
 				warn_when_attack_timeout: true,
 			},
 		},
