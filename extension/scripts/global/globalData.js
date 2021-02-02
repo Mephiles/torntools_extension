@@ -157,6 +157,7 @@ const DEFAULT_STORAGE = {
 			},
 		},
 		apiUsage: {
+			comment: new DefaultSetting({ type: "string", defaultValue: "" }),
 			delayEssential: new DefaultSetting({ type: "number", defaultValue: 30 }),
 			delayBasic: new DefaultSetting({ type: "number", defaultValue: 120 }),
 			delayStakeouts: new DefaultSetting({ type: "number", defaultValue: 30 }),

@@ -431,6 +431,7 @@ async function setupPreferences() {
 			}
 		}
 
+		_preferences.find("#api_usage-comment").value = settings.apiUsage.comment;
 		_preferences.find("#api_usage-essential").value = settings.apiUsage.delayEssential;
 		_preferences.find("#api_usage-basic").value = settings.apiUsage.delayBasic;
 		_preferences.find("#api_usage-stakeouts").value = settings.apiUsage.delayStakeouts;
@@ -734,6 +735,7 @@ async function setupPreferences() {
 		settings.hideAreas = [..._preferences.findAll("#hide-areas span.disabled")].map((area) => area.getAttribute("name"));
 		settings.hideIcons = [..._preferences.findAll("#hide-icons .icon.disabled > div")].map((area) => area.getAttribute("class"));
 
+		settings.apiUsage.comment = _preferences.find("#api_usage-comment").value;
 		settings.apiUsage.delayEssential = parseInt(_preferences.find("#api_usage-essential").value);
 		settings.apiUsage.delayBasic = parseInt(_preferences.find("#api_usage-basic").value);
 		settings.apiUsage.delayStakeouts = parseInt(_preferences.find("#api_usage-stakeouts").value);
