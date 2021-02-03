@@ -11,10 +11,7 @@ function displayWarning() {
 		doc.find("button.tt-silver-button.tt-ok-button").addEventListener("click", (event) => event.target.parentElement.style.display = "none");
 		doc.find("button.tt-silver-button.tt-dnd-button").addEventListener("click", (event) => {
 			event.target.parentElement.style.display = "none";
-			ttStorage.get("settings", (settings) => {
-				settings.disable_attack_stacked_warning_until = new Date(new Date().getTime() + 30*60*1000).toString();
-				ttStorage.set({ settings: settings });
-			});
+			ttStorage.change({ settings: { disable_attack_stacked_warning_until:"" } });
 		});
 	}
 }
