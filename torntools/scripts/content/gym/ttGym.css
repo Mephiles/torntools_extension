@@ -87,3 +87,51 @@ ul[class*="properties_"] > li {
 	line-height: 19px;
 	margin-left: 8px;
 }
+
+.tt-overlay-div {
+	position: fixed;
+	display: block;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 100001;
+}
+
+.tt-overlay-text {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 50px;
+	color: white;
+	transform: translate(-50%, -50%);
+}
+
+.tt-silver-button {
+	color: #333;
+	background-image: linear-gradient(#d7d7d7, #767676 78%, #767676 82%, #888);
+	box-shadow: inset 2px 0 3px hsla(0, 0%, 96.9%, 0.3), inset -2px 0 3px hsla(0, 0%, 96.9%, 0.3);
+	margin: 8px 0;
+	width: 120px;
+	text-transform: uppercase;
+	user-select: none;
+	height: 24px;
+	padding: 0 10px;
+	font-size: 14px;
+	font-weight: 700;
+	text-shadow: 0 1px 0 hsla(0, 0%, 100%, 0.4);
+	border-radius: 3px;
+	border: none;
+	cursor: pointer;
+	white-space: nowrap;
+	position: absolute;
+	top: 60%;
+	transform: translate(-50%, -50%);
+}
+
+.tt-ok-button {
+	left: 50%;
+}
