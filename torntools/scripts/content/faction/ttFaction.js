@@ -74,8 +74,6 @@ requireDatabase().then(() => {
 			loadInfo();
 		}
 		
-		displayWarOverTimes();
-		
 	});
 });
 
@@ -97,6 +95,7 @@ function loadInfo() {
 	});
 
 	if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
+	displayWarOverTimes();
 
 	requirePlayerList(".members-list .table-body").then(async () => {
 		await showUserInfo();
