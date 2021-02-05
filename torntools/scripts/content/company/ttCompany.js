@@ -4,6 +4,7 @@ window.addEventListener("load", () => {
 	switch (getHashParameters().get("option")) {
 		case "employees":
 			if (settings.pages.company.member_info) showUserInfo();
+			changeEmployeesEffectivenessColor();
 			break;
 		default:
 			break;
@@ -13,6 +14,7 @@ window.addEventListener("load", () => {
 	doc.find("ul.company-tabs>li[aria-controls='employees']").addEventListener("click", () => {
 		companyContentLoaded("employees").then(() => {
 			if (settings.pages.company.member_info) showUserInfo();
+			changeEmployeesEffectivenessColor();
 		});
 	});
 });
@@ -63,3 +65,13 @@ function showUserInfo() {
 			console.log("ERROR", err);
 		});
 }
+
+function changeEmployeesEffectivenessColor() {
+	requireElement("div.employee-list-wrap").then(() => {
+		for (let playerEffectiveness of doc.findAll("ul.employee-list div.effectiveness.clearfix")) {
+			if (playerEffectiveness.getAttribute("aria-label").split(":").map((x) => x.replace(/[a-zA-Z ;]/g, "")).map((x) => parseInt(x)).filter((x) => !isNaN(x)).some((x) => x < 0)) {
+				playerEffectiveness.find("p.effectiveness-value").style.color = "red";
+			}
+		}
+	});
+};
