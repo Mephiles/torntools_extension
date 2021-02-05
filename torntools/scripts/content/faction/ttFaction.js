@@ -73,6 +73,7 @@ requireDatabase().then(() => {
 
 			loadInfo();
 		}
+		
 	});
 });
 
@@ -80,7 +81,8 @@ function loadMain() {
 	subpageLoaded("main").then(() => {
 		fullInfoBox("main");
 
-		if (ownFaction && settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
+		if (ownFaction && settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();		
+		displayWarOverTimes();
 	});
 }
 
@@ -94,6 +96,7 @@ function loadInfo() {
 	});
 
 	if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
+	if (!ownFaction) displayWarOverTimes();
 
 	requirePlayerList(".members-list .table-body").then(async () => {
 		await showUserInfo();
@@ -1641,4 +1644,16 @@ function suggestBalance() {
 	function getBalance(id) {
 		return parseInt(doc.find(`.depositor .user.name[href='/profiles.php?XID=${id}']`).parentElement.find(".amount .money").getAttribute("data-value")) || 0;
 	}
+}
+
+function displayWarOverTimes() {
+	doc.findAll("ul.f-war-list.war-new div.status-wrap div.timer").forEach((timer) => {
+		let timerParts = timer.innerText.split(":").map((x) => parseInt(x));
+		let time = timerParts[0]*24*60*60 + timerParts[1]*60*60 + timerParts[2]*60 + timerParts[3];
+		let overDate = new Date(new Date().setSeconds(time));
+		let formattedDate = formatDate([overDate.getDate(), overDate.getMonth() + 1, overDate.getFullYear()], settings.format.date);
+		let formattedTime = formatTime([overDate.getHours(), overDate.getMinutes(), overDate.getSeconds()], settings.format.time);
+		let rawHTML = `<div class="timer">${formattedTime} ${formattedDate}</div>`;
+		timer.insertAdjacentHTML("afterEnd", rawHTML);
+	});
 }
