@@ -81,7 +81,8 @@ function loadMain() {
 	subpageLoaded("main").then(() => {
 		fullInfoBox("main");
 
-		if (ownFaction && settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
+		if (ownFaction && settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();		
+		displayWarOverTimes();
 	});
 }
 
