@@ -20,7 +20,7 @@
 	transform: translate(-50%, -50%);
 }
 
-.tt-overlay-button {
+.tt-silver-button {
 	color: #333;
 	background-image: linear-gradient(#d7d7d7, #767676 78%, #767676 82%, #888);
 	box-shadow: inset 2px 0 3px hsla(0, 0%, 96.9%, 0.3), inset -2px 0 3px hsla(0, 0%, 96.9%, 0.3);
@@ -39,6 +39,14 @@
 	white-space: nowrap;
 	position: absolute;
 	top: 60%;
-	left: 50%;
 	transform: translate(-50%, -50%);
+}
+
+.tt-ok-button {
+	left: 39%;
+}
+
+.tt-dnd-button {
+	left: 56%;
+	width: fit-content !important;
 }
