@@ -73,7 +73,6 @@ requireDatabase().then(() => {
 
 			loadInfo();
 		}
-		
 	});
 });
 
@@ -81,7 +80,7 @@ function loadMain() {
 	subpageLoaded("main").then(() => {
 		fullInfoBox("main");
 
-		if (ownFaction && settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();		
+		if (ownFaction && settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
 		displayWarOverTimes();
 	});
 }
@@ -546,135 +545,139 @@ function armoryWorth() {
 		});
 }
 
-async function showUserInfo() {
-	if (!settings.pages.faction.member_info && !(settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_members)) return;
+function showUserInfo() {
+	if (!settings.pages.faction.member_info && !(settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_members))
+		return Promise.resolve();
 
-	const factionId = doc.find(".faction-info-wrap .faction-info[data-faction]").getAttribute("data-faction");
+	return new Promise(async (resolve) => {
+		const factionId = doc.find(".faction-info-wrap .faction-info[data-faction]").getAttribute("data-faction");
 
-	doc.find(".members-list .table-body").classList.add("tt-modified");
+		doc.find(".members-list .table-body").classList.add("tt-modified");
 
-	let dataInformation;
-	if (settings.pages.faction.member_info) {
-		dataInformation = await new Promise((resolve) => {
-			fetchApi_v2("torn", { section: "faction", objectid: factionId, selections: `${ownFaction ? "donations," : ""}basic` })
-				.then((result) => resolve(result))
-				.catch((result) => resolve(result));
-		});
-	}
-
-	let estimateCount = 0;
-	for (let tableRow of doc.findAll(".members-list .table-body > li")) {
-		let userId = tableRow.find("a.user.name").getAttribute("data-placeholder")
-			? tableRow.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0]
-			: tableRow.find("a.user.name").getAttribute("href").split("XID=")[1];
-
-		const container = doc.new({ type: "section", class: "tt-userinfo-container" });
-		tableRow.parentElement.insertBefore(container, tableRow.nextElementSibling);
-
+		let dataInformation;
 		if (settings.pages.faction.member_info) {
-			const row = doc.new({ type: "section", class: "tt-userinfo-row" });
-			container.appendChild(row);
-
-			if (!dataInformation.error) {
-				let lastAction = (Date.now() - dataInformation.members[userId].last_action.timestamp * 1000) / 1000;
-				if (lastAction < 0) lastAction = 0;
-
-				row.appendChild(
-					doc.new({
-						type: "div",
-						class: "tt-userinfo-field--last_action",
-						text: `Last Action: ${dataInformation.members[userId].last_action.relative}`,
-						attributes: { "last-action": lastAction.toFixed(0) },
-					})
-				);
-
-				if (dataInformation.donations && dataInformation.donations[userId]) {
-					if (dataInformation.donations[userId].money_balance > 0) {
-						row.appendChild(
-							doc.new({
-								type: "div",
-								text: `Money Balance: $${numberWithCommas(dataInformation.donations[userId].money_balance, false)}`,
-							})
-						);
-					}
-					if (dataInformation.donations[userId].points_balance > 0) {
-						row.appendChild(
-							doc.new({
-								type: "div",
-								text: `Point Balance: ${numberWithCommas(dataInformation.donations[userId].points_balance, false)}`,
-							})
-						);
-					}
-				}
-
-				// Activity notifications
-				const checkpoints = settings.inactivity_alerts_faction;
-				for (let checkpoint of Object.keys(checkpoints).sort((a, b) => b - a)) {
-					if (new Date() - new Date(dataInformation.members[userId].last_action.timestamp * 1000) >= parseInt(checkpoint)) {
-						console.log(checkpoints[checkpoint]);
-						tableRow.style.backgroundColor = `${checkpoints[checkpoint]}`;
-						break;
-					}
-				}
-			} else {
-				let error = dataInformation.error;
-
-				if (error === "Incorrect ID-entity relation") error = "No API access.";
-
-				container.appendChild(
-					doc.new({
-						type: "div",
-						class: "tt-userinfo-message",
-						text: error,
-						attributes: { color: "error" },
-					})
-				);
-			}
+			dataInformation = await new Promise((resolve) => {
+				fetchApi_v2("torn", { section: "faction", objectid: factionId, selections: `${ownFaction ? "donations," : ""}basic` })
+					.then((result) => resolve(result))
+					.catch((result) => resolve(result));
+			});
 		}
 
-		if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_members) {
-			const row = doc.new({ type: "section", class: "tt-userinfo-row" });
-			container.appendChild(row);
+		let estimateCount = 0;
+		for (let tableRow of doc.findAll(".members-list .table-body > li")) {
+			let userId = tableRow.find("a.user.name").getAttribute("data-placeholder")
+				? tableRow.find("a.user.name").getAttribute("data-placeholder").split(" [")[1].split("]")[0]
+				: tableRow.find("a.user.name").getAttribute("href").split("XID=")[1];
 
-			if (!hasCachedEstimate(userId)) estimateCount++;
+			const container = doc.new({ type: "section", class: "tt-userinfo-container" });
+			tableRow.parentElement.insertBefore(container, tableRow.nextElementSibling);
 
-			new MutationObserver((mutations, observer) => {
-				container.style.display = tableRow.style.display === "none" ? "none" : "block";
-			}).observe(tableRow, { attributes: true, attributeFilter: ["style"] });
+			if (settings.pages.faction.member_info) {
+				const row = doc.new({ type: "section", class: "tt-userinfo-row" });
+				container.appendChild(row);
 
-			const level = parseInt(tableRow.find(".lvl").innerText);
+				if (!dataInformation.error) {
+					let lastAction = (Date.now() - dataInformation.members[userId].last_action.timestamp * 1000) / 1000;
+					if (lastAction < 0) lastAction = 0;
 
-			loadingPlaceholder(row, true);
-			estimateStats(userId, false, estimateCount, level)
-				.then((result) => {
-					loadingPlaceholder(row, false);
 					row.appendChild(
 						doc.new({
-							type: "span",
-							text: `Stat Estimate: ${result.estimate}`,
+							type: "div",
+							class: "tt-userinfo-field--last_action",
+							text: `Last Action: ${dataInformation.members[userId].last_action.relative}`,
+							attributes: { "last-action": lastAction.toFixed(0) },
 						})
 					);
-				})
-				.catch((error) => {
-					loadingPlaceholder(row, false);
 
-					if (error.show) {
+					if (dataInformation.donations && dataInformation.donations[userId]) {
+						if (dataInformation.donations[userId].money_balance > 0) {
+							row.appendChild(
+								doc.new({
+									type: "div",
+									text: `Money Balance: $${numberWithCommas(dataInformation.donations[userId].money_balance, false)}`,
+								})
+							);
+						}
+						if (dataInformation.donations[userId].points_balance > 0) {
+							row.appendChild(
+								doc.new({
+									type: "div",
+									text: `Point Balance: ${numberWithCommas(dataInformation.donations[userId].points_balance, false)}`,
+								})
+							);
+						}
+					}
+
+					// Activity notifications
+					const checkpoints = settings.inactivity_alerts_faction;
+					for (let checkpoint of Object.keys(checkpoints).sort((a, b) => b - a)) {
+						if (new Date() - new Date(dataInformation.members[userId].last_action.timestamp * 1000) >= parseInt(checkpoint)) {
+							console.log(checkpoints[checkpoint]);
+							tableRow.style.backgroundColor = `${checkpoints[checkpoint]}`;
+							break;
+						}
+					}
+				} else {
+					let error = dataInformation.error;
+
+					if (error === "Incorrect ID-entity relation") error = "No API access.";
+
+					container.appendChild(
+						doc.new({
+							type: "div",
+							class: "tt-userinfo-message",
+							text: error,
+							attributes: { color: "error" },
+						})
+					);
+				}
+			}
+
+			if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_members) {
+				const row = doc.new({ type: "section", class: "tt-userinfo-row" });
+				container.appendChild(row);
+
+				if (!hasCachedEstimate(userId)) estimateCount++;
+
+				new MutationObserver((mutations, observer) => {
+					container.style.display = tableRow.style.display === "none" ? "none" : "block";
+				}).observe(tableRow, { attributes: true, attributeFilter: ["style"] });
+
+				const level = parseInt(tableRow.find(".lvl").innerText);
+
+				loadingPlaceholder(row, true);
+				estimateStats(userId, false, estimateCount, level)
+					.then((result) => {
+						loadingPlaceholder(row, false);
 						row.appendChild(
 							doc.new({
 								type: "span",
-								class: "tt-userinfo-message",
-								text: error.message,
-								attributes: { color: "error" },
+								text: `Stat Estimate: ${result.estimate}`,
 							})
 						);
-					} else {
-						row.remove();
-						if (container.children.length === 0) container.remove();
-					}
-				});
+					})
+					.catch((error) => {
+						loadingPlaceholder(row, false);
+
+						if (error.show) {
+							row.appendChild(
+								doc.new({
+									type: "span",
+									class: "tt-userinfo-message",
+									text: error.message,
+									attributes: { color: "error" },
+								})
+							);
+						} else {
+							row.remove();
+							if (container.children.length === 0) container.remove();
+						}
+					});
+			}
 		}
-	}
-	member_info_added = true;
+		member_info_added = true;
+		resolve();
+	});
 }
 
 function showAvailablePlayers() {
@@ -1649,7 +1652,7 @@ function suggestBalance() {
 function displayWarOverTimes() {
 	doc.findAll("ul.f-war-list.war-new div.status-wrap div.timer").forEach((timer) => {
 		let timerParts = timer.innerText.split(":").map((x) => parseInt(x));
-		let time = timerParts[0]*24*60*60 + timerParts[1]*60*60 + timerParts[2]*60 + timerParts[3];
+		let time = timerParts[0] * 24 * 60 * 60 + timerParts[1] * 60 * 60 + timerParts[2] * 60 + timerParts[3];
 		let overDate = new Date(new Date().setSeconds(time));
 		let formattedDate = formatDate([overDate.getDate(), overDate.getMonth() + 1, overDate.getFullYear()], settings.format.date);
 		let formattedTime = formatTime([overDate.getHours(), overDate.getMinutes(), overDate.getSeconds()], settings.format.time);
