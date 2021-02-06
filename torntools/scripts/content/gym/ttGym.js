@@ -88,9 +88,9 @@ requireDatabase().then(() => {
 				}
 			}
 		}).observe(doc.find("ul[class*='properties_']"), { classList: true, attributes: true, subtree: true });
-		
-		if (settings.pages.gym.warn_when_stacking || settings.pages.attack.warn_when_chain && settings.pages.attack.warn_when_chain_length >= 10) displayWarning();
-		
+
+		if (settings.pages.gym.warn_when_stacking || (settings.pages.attack.warn_when_chain && settings.pages.attack.warn_when_chain_length >= 10))
+			displayWarning();
 	});
 });
 
@@ -480,5 +480,5 @@ function displayWarning() {
 	}
 	if (!okButton) return;
 	doc.find("a[href='#skip-to-content']").insertAdjacentHTML("afterEnd", rawHTML);
-	doc.find("button.tt-silver-button.tt-ok-button").addEventListener("click", (event) => event.target.parentElement.style.display = "none");
+	doc.find("button.tt-silver-button.tt-ok-button").addEventListener("click", (event) => (event.target.parentElement.style.display = "none"));
 }
