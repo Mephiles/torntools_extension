@@ -244,8 +244,10 @@ async function setupPreferences() {
 
 		if (value === "custom") {
 			_preferences.find("#notification-sound-upload").classList.remove("hidden");
+			_preferences.find("#notification-sound-upload + br").classList.remove("hidden");
 		} else {
 			_preferences.find("#notification-sound-upload").classList.add("hidden");
+			_preferences.find("#notification-sound-upload + br").classList.add("hidden");
 		}
 
 		if (value === "mute" || value === "default") {
@@ -476,6 +478,7 @@ async function setupPreferences() {
 		// noinspection JSIncompatibleTypesComparison
 		if (settings.notifications.sound === "custom") {
 			_preferences.find("#notification-sound-upload").classList.remove("hidden");
+			_preferences.find("#notification-sound-upload + br").classList.remove("hidden");
 		} else {
 			// noinspection JSIncompatibleTypesComparison
 			if (settings.notifications.sound === "mute" || settings.notifications.sound === "default") {
