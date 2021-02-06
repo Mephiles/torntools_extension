@@ -380,7 +380,7 @@ function addChatFilters() {
 
 		let filter_wrap = doc.new({ type: "div", class: "tt-chat-filter" });
 		let filter_text = doc.new({ type: "div", text: "Find:" });
-		let filter_input = doc.new({ type: "input", id: "---search---" });
+		let filter_input = doc.new({ type: "input" });
 
 		filter_wrap.appendChild(filter_text);
 		filter_wrap.appendChild(filter_input);
@@ -761,7 +761,7 @@ function addPeopleBoxFilter() {
 
 		let filter_wrap = doc.new({ type: "div", class: "tt-chat-filter" });
 		let filter_text = doc.new({ type: "div", text: "Find:" });
-		let filter_input = doc.new({ type: "input", id: "---search---" });
+		let filter_input = doc.new({ type: "input" });
 
 		filter_wrap.appendChild(filter_text);
 		filter_wrap.appendChild(filter_input);
