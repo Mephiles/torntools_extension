@@ -105,8 +105,6 @@ async function showTable() {
 }
 
 function showInvestmentOverTime() {
-	let overDate = new Date(new Date().setSeconds(userdata.city_bank.time_left));
-	let formattedDate = formatDate([overDate.getDate(), overDate.getMonth() + 1, overDate.getFullYear()], settings.format.date);
-	let formattedTime = formatTime([overDate.getHours(), overDate.getMinutes(), overDate.getSeconds()], settings.format.time);
-	doc.find("p.m-clear").insertAdjacentHTML("afterEnd", `<span>Investment will be completed on <b>${formattedDate} ${formattedTime}</b></span>`);
+	let overDate = formatDateObject(new Date(new Date().setSeconds(userdata.city_bank.time_left)));
+	doc.find("p.m-clear").insertAdjacentHTML("afterEnd", `<span>Investment will be completed on <b>${overDate.formattedDate} ${overDate.formattedTime}</b></span>`);
 }

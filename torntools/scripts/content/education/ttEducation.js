@@ -15,8 +15,6 @@ function hideCompletedCategories() {
 }
 
 function showEducationCourseOverTime() {
-	let overDate = new Date(new Date().setSeconds(userdata.education_timeleft));
-	let formattedDate = formatDate([overDate.getDate(), overDate.getMonth() + 1, overDate.getFullYear()], settings.format.date);
-	let formattedTime = formatTime([overDate.getHours(), overDate.getMinutes(), overDate.getSeconds()], settings.format.time);
-	doc.find("div.msg.right-round span.bold.hasCountdown").insertAdjacentHTML("afterEnd", `<span>&nbsp;<b>(${formattedDate} ${formattedTime})</b></span>`);
+	let overDate = formatDateObject(new Date(new Date().setSeconds(userdata.education_timeleft)));
+	doc.find("div.msg.right-round span.bold.hasCountdown").insertAdjacentHTML("afterEnd", `<span>&nbsp;<b>(${overDate.formattedDate} ${overDate.formattedTime})</b></span>`);
 }
