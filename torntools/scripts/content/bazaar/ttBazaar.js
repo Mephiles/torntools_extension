@@ -82,7 +82,12 @@ requireDatabase().then(() => {
 						// for value to be accepted
 						parent.find("[class*='buyAmountInput_']").dispatchEvent(new Event("input", { bubbles: true }));
 					});
-				}
+					
+					let rawHTML = "<span id='tt-total-cost'></span>";
+					let bazaarItemPrice = parseInt(doc.find("[class*='buyMenu_'] [class*='price_']").innerText.split("$")[1].replace(/,/g, ""));
+					doc.find("[class*='buyMenu_'] [class*='amount_']").insertAdjacentHTML("beforeEnd", rawHTML);
+					doc.find("[class*='buyMenu_'] [class*='buyForm_'] input[class*='numberInput_']").addEventListener("keyup", (event) => doc.find("span#tt-total-cost").innerHTML = "$" + numberWithCommas(bazaarItemPrice * event.target.value, false));
+				};
 			});
 		}
 	});
