@@ -1652,10 +1652,8 @@ function displayWarOverTimes() {
 			if (!timer.parentElement.find("div.timer.tt-timer")) {
 				let timerParts = timer.innerText.split(":").map((x) => parseInt(x));
 				let time = timerParts[0]*24*60*60 + timerParts[1]*60*60 + timerParts[2]*60 + timerParts[3];
-				let overDate = new Date(new Date().setSeconds(time));
-				let formattedDate = formatDate([overDate.getDate(), overDate.getMonth() + 1, overDate.getFullYear()], settings.format.date);
-				let formattedTime = formatTime([overDate.getHours(), overDate.getMinutes(), overDate.getSeconds()], settings.format.time);
-				let rawHTML = `<div class="timer tt-timer">${formattedTime} ${formattedDate}</div>`;
+				let overDate = formatDateObject(new Date(new Date().setSeconds(time)));
+				let rawHTML = `<div class="timer tt-timer">${overDate.formattedTime} ${overDate.formattedDate}</div>`;
 				timer.insertAdjacentHTML("afterEnd", rawHTML);
 			}
 		});
