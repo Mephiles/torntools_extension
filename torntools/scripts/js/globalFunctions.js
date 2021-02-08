@@ -1546,6 +1546,7 @@ const STORAGE = {
 			},
 			bazaar: {
 				worth: false,
+				display_total_price: true,
 				max_buy_ignore_cash: false,
 			},
 			company: {

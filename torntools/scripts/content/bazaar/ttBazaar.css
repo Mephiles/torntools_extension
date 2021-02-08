@@ -41,3 +41,8 @@
 .not-bold {
 	font-weight: 400 !important;
 }
+
+#tt-total-cost {
+	float: right;
+	color: #678c00;
+}

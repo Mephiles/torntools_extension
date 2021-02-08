@@ -81,6 +81,7 @@
 						<div name="profile">Profile</div>
 						<div name="home">Home</div>
 						<div name="items">Items</div>
+						<div name="bazaar">Bazaar</div>
 						<div name="city">City</div>
 						<div name="company">Company</div>
 						<div name="gym">Gym</div>
@@ -402,6 +403,14 @@
 								(also affects Faction armory)
 							</div>
 						</div>
+						<div class="section" name="bazaar">
+							<div class="heading">Bazaar</div>
+							<div class="option" id="bazaar-max_buy_ignore_cash">
+								<input type="checkbox" />Ignore the cash on hand for max buy in bazaars & shops.
+							</div>
+							<div class="option" id="bazaar-worth"><input type="checkbox" />Display how much a Bazaar is worth</div>
+							<div class="option" id="bazaar-display_total_price"><input type="checkbox" />Display the total cost of the buying item in bazaar<span class="new">New!</span></div>
+						</div>
 						<div class="section" name="city">
 							<div class="heading">City</div>
 							<div class="option" id="city-items"><input type="checkbox" />*Highlight items on City map</div>
@@ -556,12 +565,8 @@
 							<!-- <div class="option" id="remove_info_boxes"><input type="checkbox">Remove info boxes on some pages</div> -->
 							<!-- <div class="tabbed note">(crimes)</div> -->
 							<div class="option" id="properties-vault_sharing"><input type="checkbox" />Keep track of each user's money in Vault</div>
-							<div class="option" id="bazaar-worth"><input type="checkbox" />Display how much a Bazaar is worth</div>
 							<div class="option" id="displaycase-worth">
 								<input type="checkbox" />Display how much a Display Case is worth<span class="new">New!</span>
-							</div>
-							<div class="option" id="bazaar-max_buy_ignore_cash">
-								<input type="checkbox" />Ignore the cash on hand for max buy in bazaars & shops.
 							</div>
 							<div class="option" id="itemmarket-market_value">
 								Highlight when an item is over <input max="100" min="0" type="number" />% cheaper on the market than it's value.
