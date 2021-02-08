@@ -1,6 +1,11 @@
 export default {
 	"v5.7 - xxxxxx, xx. 2021": {
-		Features: ["Add option to export War Report as CSV. - Sashank999", "Show end time of Wars on faction pages. - Sashank999", "Show employee effectiveness in red if has negatives in effectiveness. - Sashank999"],
+		Features: [
+			"Add option to export War Report as CSV. - Sashank999",
+			"Show end time of Wars on faction pages. - Sashank999",
+			"Show employee effectiveness in red if has negatives in effectiveness. - Sashank999",
+			"Show total price to buy an item in bazaar. - Sashank999"
+			  ],
 		Fixes: [
 			"Don't show the attack warning on attack logs. - Sashank999",
 			"Fix achievements section not showing. - Sashank999",
