@@ -111,6 +111,29 @@
 							<input id="updateNotice" type="checkbox" />
 							<label for="updateNotice">Show update notice.</label>
 						</div>
+						<div class="option">
+							<input id="featureDisplay" type="checkbox" />
+							<label for="featureDisplay">Display running features on every page.</label>
+							<div id="featureDisplayDemo">
+								<!--suppress HtmlFormInputWithoutLabel -->
+								<input type="radio" name="featureDisplayPosition" value="top-left" class="top left" />
+								<!--suppress HtmlFormInputWithoutLabel -->
+								<input type="radio" name="featureDisplayPosition" value="top-right" class="top right" checked />
+								<!--suppress HtmlFormInputWithoutLabel -->
+								<input type="radio" name="featureDisplayPosition" value="bottom-left" class="bottom left" />
+								<!--suppress HtmlFormInputWithoutLabel -->
+								<input type="radio" name="featureDisplayPosition" value="bottom-right" class="bottom right" />
+							</div>
+							<span class="tabbed note">Position for container</span>
+						</div>
+						<div class="option tabbed">
+							<input id="featureDisplayOnlyFails" type="checkbox" />
+							<label for="featureDisplayOnlyFails">Only display failed features</label>
+						</div>
+						<div class="option tabbed">
+							<input id="featureDisplayHideDisabled" type="checkbox" />
+							<label for="featureDisplayHideDisabled">Hide disabled features</label>
+						</div>
 
 						<div class="header">Page Theme</div>
 						<div class="option">

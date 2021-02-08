@@ -107,11 +107,11 @@ Element.prototype.findAll = function (selector) {
 	return this.querySelectorAll(selector);
 };
 
-Document.prototype.setClass = function (className) {
-	return this.setAttribute("class", className);
+Document.prototype.setClass = function (...classNames) {
+	this.setAttribute("class", classNames.join(" "));
 };
-Element.prototype.setClass = function (className) {
-	return this.setAttribute("class", className);
+Element.prototype.setClass = function (...classNames) {
+	this.setAttribute("class", classNames.join(" "));
 };
 
 function checkMobile() {

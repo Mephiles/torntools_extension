@@ -60,6 +60,7 @@
 				"scripts/global/functions/requires.js",
 				"scripts/global/functions/torn.js",
 				"scripts/global/functions/utilities.js",
+				"scripts/global/featureManager.js",
 				"scripts/content/global/ttGlobal.entry.js"
 			],
 			"run_at": "document_start"
