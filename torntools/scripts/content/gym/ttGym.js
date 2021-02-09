@@ -471,10 +471,11 @@ function setupSpecialtyGym() {
 
 function displayWarning() {
 	let rawHTML, okButton;
-	if (doc.find("a#barEnergy [class^='bar-value_']").innerText.split("/")[0] > doc.find("a#barEnergy [class^='bar-value_']").innerText.split("/")[1]) {
+	let userEnergy = doc.find("a#barEnergy [class^='bar-value_']").innerText.split("/");
+	if (parseInt(userEnergy[0]) > parseInt(userEnergy[1])) {
 		rawHTML = `<div class='tt-overlay-div'><span class='tt-overlay-text'>Warning! You have stacked energy. Beware!</span><button class="tt-silver-button tt-ok-button">OK</button></div>`;
 		okButton = true;
-	} else if (doc.find("a#barChain [class^='bar-value_']").innerText.split("/")[0] >= settings.pages.attack.warn_when_chain_length) {
+	} else if (parseInt(doc.find("a#barChain [class^='bar-value_']").innerText.split("/")[0]) >= parseInt(settings.pages.attack.warn_when_chain_length)) {
 		rawHTML = `<div class='tt-overlay-div'><span class='tt-overlay-text'>Warning! Your faction is chaining !</span><button class="tt-silver-button tt-ok-button">OK</button></div>`;
 		okButton = true;
 	}
