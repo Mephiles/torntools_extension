@@ -11,6 +11,7 @@ export default {
 			"Fix achievements section not showing. - Sashank999",
 			"Show a warning when you try to train while stacking. - Sashank999",
 			"Fix an interaction between chrome, torn tools, the faction page, that would cause chrome to suggest addresses in the chat box. - WizardRubic",
+			"Fix 'fill max' button not working in bazaar. - Sashank999",
 		],
 		Changes: [
 			"Only highlight chain timers over a configurable amount. - Sashank999",
