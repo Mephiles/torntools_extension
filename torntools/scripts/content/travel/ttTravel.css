@@ -298,3 +298,11 @@ i.fa-caret-down:not(.tt-title-icon):not(.tt-title-icon-torn) {
 .sortable {
 	cursor: pointer;
 }
+
+.tt-times {
+	padding-top: 8px;
+	color: black;
+	font-size: large;
+	text-align: center;
+	display: block;
+}
