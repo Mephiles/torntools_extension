@@ -799,6 +799,10 @@ function hideGymHighlight() {
 		} else {
 			doc.find("a[href='/gym.php'] svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_desktop)");
 		}
+
+		const svg = navGym.find("svg");
+		if (svg) svg.setAttribute("fill", svg.getAttribute("fill").replace("_green", ""));
+
 		navGym.classList.remove(gymClass);
 	}
 }
