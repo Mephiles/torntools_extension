@@ -151,6 +151,8 @@ requireDatabase().then(() => {
 
 		if (userdata.faction.faction_id && settings.pages.global.highlight_chain_timer && settings.pages.global.highlight_chain_length >= 10)
 			chainTimerHighlight();
+
+		hideGymHighlight();
 	});
 
 	chatsLoaded().then(() => {
@@ -199,8 +201,6 @@ requireDatabase().then(() => {
 		});
 		chat_observer.observe(doc.find("#chatRoot"), { childList: true, subtree: true });
 	});
-
-	hideGymHighlight();
 });
 
 function chatsLoaded() {
@@ -789,15 +789,17 @@ function addPeopleBoxFilter() {
 
 function hideGymHighlight() {
 	if (settings.pages.gym.hide_gym_highlight) {
-		let navGym = doc.find("#nav-gym");
-		let navGymClass = navGym.className.substring(navGym.className.indexOf("available"));
+		const navGym = doc.find("#nav-gym");
+		const gymClass = [...navGym.classList].find((name) => name.includes("available___"));
+		if (!gymClass) return;
+
 		if (mobile) {
 			doc.find("a[href='/gym.php'] svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_mobile)");
 			doc.find("a[href='/gym.php'] svg").setAttribute("filter", "url(#svg_sidebar_mobile)");
 		} else {
 			doc.find("a[href='/gym.php'] svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_desktop)");
 		}
-		navGym.classList.remove(navGymClass);
+		navGym.classList.remove(gymClass);
 	}
 }
 
