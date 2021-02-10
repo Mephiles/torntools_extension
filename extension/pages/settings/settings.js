@@ -382,7 +382,7 @@ async function setupPreferences() {
 	}
 
 	function fillSettings() {
-		for (let setting of ["updateNotice"]) {
+		for (let setting of ["updateNotice", "featureDisplay", "featureDisplayOnlyFails", "featureDisplayHideDisabled"]) {
 			const checkbox = _preferences.find(`#${setting}`);
 			if (!checkbox) continue;
 
@@ -393,6 +393,7 @@ async function setupPreferences() {
 		_preferences.find(`input[name="formatTime"][value="${settings.formatting.time}"]`).checked = true;
 		_preferences.find(`input[name="themePage"][value="${settings.themes.pages}"]`).checked = true;
 		_preferences.find(`input[name="themeContainers"][value="${settings.themes.containers}"]`).checked = true;
+		_preferences.find(`input[name="featureDisplayPosition"][value="${settings.featureDisplayPosition}"]`).checked = true;
 
 		for (let type of ["pages"]) {
 			for (let page in settings[type]) {
@@ -676,7 +677,7 @@ async function setupPreferences() {
 	}
 
 	async function saveSettings() {
-		for (let setting of ["updateNotice"]) {
+		for (let setting of ["updateNotice", "featureDisplay", "featureDisplayOnlyFails", "featureDisplayHideDisabled"]) {
 			const checkbox = _preferences.find(`#${setting}`);
 			if (!checkbox) continue;
 
@@ -687,6 +688,7 @@ async function setupPreferences() {
 		settings.formatting.time = _preferences.find("input[name='formatTime']:checked").value;
 		settings.themes.pages = _preferences.find("input[name='themePage']:checked").value;
 		settings.themes.containers = _preferences.find("input[name='themeContainers']:checked").value;
+		settings.featureDisplayPosition = _preferences.find("input[name='featureDisplayPosition']:checked").value;
 
 		for (let type of ["pages"]) {
 			for (let page in settings[type]) {

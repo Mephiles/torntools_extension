@@ -15,6 +15,7 @@ export default [
 				{ message: "Add alerts for stock system dumps and available shares.", contributor: "DeKleineKobini" },
 				{ message: "Customizable api usage.", contributor: "DeKleineKobini" },
 				{ message: "Show muggable money when using a company special to show money on hand.", contributor: "DeKleineKobini" },
+				{ message: "Display features on each page including their status: running/disabled/failed.", contributor: "Mephiles" },
 			],
 			fixes: [{ message: "Hide new chat messages while searching.", contributor: "DeKleineKobini" }],
 			changes: [

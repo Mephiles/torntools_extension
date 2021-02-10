@@ -372,3 +372,92 @@ span.tt-item-price {
 .item-effect.double-tabbed {
 	margin-left: 30px;
 }
+
+/* Feature Status popup */
+
+#tt-page-status {
+	background-color: white;
+	padding: 7px 14px;
+	width: 150px;
+	border-radius: 10px;
+	border: 2px solid lightgray;
+}
+
+#tt-page-status.top-left {
+	position: absolute;
+	top: 90px;
+	left: 16px;
+}
+
+#tt-page-status.top-right {
+	position: absolute;
+	top: 90px;
+	right: 16px;
+}
+
+#tt-page-status.bottom-left {
+	position: fixed;
+	left: 16px;
+	bottom: 16px;
+}
+
+#tt-page-status.bottom-right {
+	position: fixed;
+	right: 16px;
+	bottom: 50px;
+}
+
+#tt-page-status.hidden,
+#tt-page-status.only-fails .tt-page-status-feature:not(.failed),
+#tt-page-status.hide-disabled .tt-page-status-feature.disabled,
+.tt-page-status-header.collapsed + .tt-page-status-content {
+	display: none;
+}
+
+.tt-page-status-header {
+	border-bottom: 2px solid lightgray;
+	font-weight: 600;
+	margin-bottom: 5px;
+	display: inline-flex;
+	width: 100%;
+	cursor: pointer;
+}
+
+.tt-page-status-header.collapsed {
+	border-bottom: none;
+	margin-bottom: 0;
+}
+
+.tt-page-status-header.collapsed i {
+	transform: rotate(-90deg);
+}
+
+.tt-page-status-header span {
+	width: 100%;
+}
+
+.tt-page-status-scope-heading {
+	text-align: center;
+	font-style: italic;
+	margin-bottom: 3px;
+}
+
+.tt-page-status-feature {
+	padding: 1px 0;
+}
+
+.tt-page-status-feature-icon i {
+	margin-right: 3px;
+}
+
+.tt-page-status-feature-icon.disabled i {
+	color: orange;
+}
+
+.tt-page-status-feature-icon.failed i {
+	color: red;
+}
+
+.tt-page-status-feature-icon.success i {
+	color: green;
+}

@@ -11,9 +11,27 @@
 
 function loadBazaarOnce() {
 	if (isOwnBazaar()) {
-		ITEM_VALUE_UTILITIES.INVENTORY.addListener({ addRelative: true });
+		featureManager.new({
+			name: "Item Values",
+			scope: "items",
+			enabled: settings.pages.items.values,
+			func: async () => {
+				ITEM_VALUE_UTILITIES.INVENTORY.addListener({ addRelative: true });
+			},
+			runWhenDisabled: true,
+		});
+		featureManager.load("Item Values");
 	}
-	DRUG_DETAILS.addMutationObserver("[class*='itemsContainner_'], [class*='core-layout_'] [class*='items_']");
+	featureManager.new({
+		name: "Drug Details",
+		scope: "items",
+		enabled: settings.pages.items.drugDetails,
+		func: async () => {
+			DRUG_DETAILS.addMutationObserver("[class*='itemsContainner_'], [class*='core-layout_'] [class*='items_']");
+		},
+		runWhenDisabled: true,
+	});
+	featureManager.load("Drug Details");
 }
 
 function isOwnBazaar() {

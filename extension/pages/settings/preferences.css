@@ -219,3 +219,34 @@ body.dark #preferences #hide-areas span {
 	top: -13px;
 	transform: rotate(-90deg);
 }
+
+/* FeatureDisplayDemo */
+#featureDisplayDemo {
+	border: 1px solid lightgray;
+	border-radius: 10px;
+	padding: 3px;
+	width: 70px;
+	height: 40px;
+	position: relative;
+	margin-left: 40px;
+}
+
+#featureDisplayDemo input[type="radio"] {
+	position: absolute;
+}
+
+#featureDisplayDemo .top {
+	top: 1px;
+}
+
+#featureDisplayDemo .bottom {
+	bottom: 1px;
+}
+
+#featureDisplayDemo .left {
+	left: 1px;
+}
+
+#featureDisplayDemo .right {
+	right: 1px;
+}
