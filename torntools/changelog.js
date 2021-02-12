@@ -1,11 +1,17 @@
 export default {
+	"v5.7.1 - xxxxx, xxth. 2021": {
+		Features: [],
+		Fixes: [],
+		Changes: [
+			"Add setting for 'Show flight times before flying'. - Sashank999",
+		],
+	},
 	"v5.7 - February, 11th. 2021": {
 		Features: [
 			"Add option to export War Report as CSV. - Sashank999",
 			"Show end time of Wars on faction pages. - Sashank999",
 			"Show employee effectiveness in red if has negatives in effectiveness. - Sashank999",
-			"Show total price to buy an item in bazaar. - Sashank999",
-			"Show flight times before flying. - Sashank999"
+			"Show total price to buy an item in bazaar. - Sashank999"
 		],
 		Fixes: [
 			"Don't show the attack warning on attack logs. - Sashank999",
