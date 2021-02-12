@@ -1519,6 +1519,7 @@ const STORAGE = {
 				profits: true,
 				destination_table: true,
 				cooldown_warnings: true,
+				land_and_return_times: true,
 				destination_table_last_country: true,
 			},
 			api: {
