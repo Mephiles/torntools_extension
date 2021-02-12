@@ -9,4 +9,4 @@ torntools/personalized.js
 # Node.js files
 node_modules/
 package.json
-package_lock.json
+package-lock.json
