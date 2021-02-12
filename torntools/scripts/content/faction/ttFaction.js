@@ -73,7 +73,6 @@ requireDatabase().then(() => {
 
 			loadInfo();
 		}
-		
 	});
 });
 
@@ -81,7 +80,7 @@ function loadMain() {
 	subpageLoaded("main").then(() => {
 		fullInfoBox("main");
 
-		if (ownFaction && settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();		
+		if (ownFaction && settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
 		displayWarOverTimes();
 	});
 }
@@ -1651,7 +1650,7 @@ function displayWarOverTimes() {
 		doc.findAll("ul.f-war-list.war-new div.status-wrap div.timer").forEach((timer) => {
 			if (!timer.parentElement.find("div.timer.tt-timer")) {
 				let timerParts = timer.innerText.split(":").map((x) => parseInt(x));
-				let time = timerParts[0]*24*60*60 + timerParts[1]*60*60 + timerParts[2]*60 + timerParts[3];
+				let time = timerParts[0] * 24 * 60 * 60 + timerParts[1] * 60 * 60 + timerParts[2] * 60 + timerParts[3];
 				let overDate = formatDateObject(new Date(new Date().setSeconds(time)));
 				let rawHTML = `<div class="timer tt-timer">${overDate.formattedTime} ${overDate.formattedDate}</div>`;
 				timer.insertAdjacentHTML("afterEnd", rawHTML);

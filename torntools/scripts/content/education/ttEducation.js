@@ -16,5 +16,8 @@ function hideCompletedCategories() {
 
 function showEducationCourseOverTime() {
 	let overDate = formatDateObject(new Date(new Date().setSeconds(userdata.education_timeleft)));
-	doc.find("div.msg.right-round span.bold.hasCountdown").insertAdjacentHTML("afterEnd", `<span>&nbsp;<b>(${overDate.formattedDate} ${overDate.formattedTime})</b></span>`);
+	doc.find("div.msg.right-round span.bold.hasCountdown").insertAdjacentHTML(
+		"afterEnd",
+		`<span>&nbsp;<b>(${overDate.formattedDate} ${overDate.formattedTime})</b></span>`
+	);
 }

@@ -7,15 +7,15 @@ requireDatabase().then(() => {
 
 async function showTable() {
 	const result = (await fetchApi_v2("torn", { section: "torn", selections: "bank" })).bank;
-		const balance = 2e9;
+	const balance = 2e9;
 
 	const values = {
 		w1: getValue("1w", balance),
 		w2: getValue("2w", balance),
 		m1: getValue("1m", balance),
 		m2: getValue("2m", balance),
-m3: getValue("3m", balance)
-	}
+		m3: getValue("3m", balance),
+	};
 	const names = {
 		w1: "1 Week",
 		w2: "2 Weeks",
@@ -106,5 +106,8 @@ m3: getValue("3m", balance)
 
 function showInvestmentOverTime() {
 	let overDate = formatDateObject(new Date(new Date().setSeconds(userdata.city_bank.time_left)));
-	doc.find("p.m-clear").insertAdjacentHTML("afterEnd", `<span>Investment will be completed on <b>${overDate.formattedDate} ${overDate.formattedTime}</b></span>`);
+	doc.find("p.m-clear").insertAdjacentHTML(
+		"afterEnd",
+		`<span>Investment will be completed on <b>${overDate.formattedDate} ${overDate.formattedTime}</b></span>`
+	);
 }

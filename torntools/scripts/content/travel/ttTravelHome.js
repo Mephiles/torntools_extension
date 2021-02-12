@@ -270,9 +270,9 @@ requireDatabase().then(function () {
 		}, 2 * 60 * 1000);
 
 		doc.find("div.travel-agency:not([id])").addEventListener("click", () => {
-			if (event.target.classList.contains("raceway") && event.target.hasAttribute("data-race") && event.target.getAttribute("role") === "button") addLandAndReturnTimes()
+			if (event.target.classList.contains("raceway") && event.target.hasAttribute("data-race") && event.target.getAttribute("role") === "button")
+				addLandAndReturnTimes();
 		});
-		
 	});
 });
 
@@ -812,12 +812,20 @@ function showCooldowns() {
 
 function addLandAndReturnTimes() {
 	let ttTimes = doc.find("span.tt-times");
-	let travelTime = doc.find("div[role='tabpanel'][aria-hidden='false'] div.travel-container.full-map div.flight-time").innerText.split("-")[1].trim().split(":").map((x) => parseInt(x));
+	let travelTime = doc
+		.find("div[role='tabpanel'][aria-hidden='false'] div.travel-container.full-map div.flight-time")
+		.innerText.split("-")[1]
+		.trim()
+		.split(":")
+		.map((x) => parseInt(x));
 	let landDate = formatDateObject(new Date(new Date().setSeconds(travelTime[0] * 60 * 60 + travelTime[1] * 60)));
 	let returnDate = formatDateObject(new Date(new Date().setSeconds(2 * travelTime[0] * 60 * 60 + 2 * travelTime[1] * 60)));
 	if (ttTimes) {
 		ttTimes.innerHTML = `Land at: ${landDate.formattedTime} ${landDate.formattedDate} | Return at: ${returnDate.formattedTime} ${returnDate.formattedDate}`;
 	} else {
-		doc.find("div.travel-agency:not([id])").insertAdjacentHTML("afterEnd", `<span class="tt-times">Land at: ${landDate.formattedTime} ${landDate.formattedDate} | Return at: ${returnDate.formattedDate} ${returnDate.formattedTime}</span>`);
+		doc.find("div.travel-agency:not([id])").insertAdjacentHTML(
+			"afterEnd",
+			`<span class="tt-times">Land at: ${landDate.formattedTime} ${landDate.formattedDate} | Return at: ${returnDate.formattedDate} ${returnDate.formattedTime}</span>`
+		);
 	}
 }

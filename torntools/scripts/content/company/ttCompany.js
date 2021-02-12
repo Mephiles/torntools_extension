@@ -69,9 +69,18 @@ function showUserInfo() {
 function changeEmployeesEffectivenessColor() {
 	requireElement("div.employee-list-wrap").then(() => {
 		for (let playerEffectiveness of doc.findAll("ul.employee-list div.effectiveness.clearfix")) {
-			if (playerEffectiveness.getAttribute("aria-label").split(":").slice(1).map((x) => x.replace(/[a-zA-Z ;]/g, "")).map((x) => parseInt(x)).filter((x) => !isNaN(x)).some((x) => x < 0)) {
+			if (
+				playerEffectiveness
+					.getAttribute("aria-label")
+					.split(":")
+					.slice(1)
+					.map((x) => x.replace(/[a-zA-Z ;]/g, ""))
+					.map((x) => parseInt(x))
+					.filter((x) => !isNaN(x))
+					.some((x) => x < 0)
+			) {
 				playerEffectiveness.find("p.effectiveness-value").style.color = "red";
 			}
 		}
 	});
-};
+}

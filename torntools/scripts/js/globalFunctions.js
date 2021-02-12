@@ -3180,7 +3180,7 @@ function cacheEstimate(userId, timestamp, estimate, lastAction) {
 function formatDateObject(givenDate) {
 	let formattedDate = formatDate([givenDate.getDate(), givenDate.getMonth() + 1, givenDate.getFullYear()], settings.format.date);
 	let formattedTime = formatTime([givenDate.getHours(), givenDate.getMinutes(), givenDate.getSeconds()], settings.format.time);
-	return {formattedDate, formattedTime};
+	return { formattedDate, formattedTime };
 }
 
 function fetchApi_v2(
