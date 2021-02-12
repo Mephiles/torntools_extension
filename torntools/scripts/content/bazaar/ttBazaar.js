@@ -67,7 +67,7 @@ requireDatabase().then(() => {
 
 					max_span.addEventListener("click", (event) => {
 						event.stopPropagation();
-						let max = parent.find("[class*='buyAmountInput_']").max;
+						let max = parseInt(parent.find("[class*='info_'] [class*='amount_']").innerText.replace(/\D/g, ""));
 
 						if (!settings.pages.bazaar.max_buy_ignore_cash) {
 							let price = parseInt(parent.find("[class*='price_']").innerText.replaceAll(",", "").replace("$", ""));
