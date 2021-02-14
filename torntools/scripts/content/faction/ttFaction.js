@@ -79,6 +79,7 @@ requireDatabase().then(() => {
 function loadMain() {
 	subpageLoaded("main").then(() => {
 		fullInfoBox("main");
+		foldFactionDesc();
 
 		if (ownFaction && settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
 		displayWarOverTimes();
@@ -88,6 +89,7 @@ function loadMain() {
 function loadInfo() {
 	subpageLoaded("info").then(() => {
 		fullInfoBox("info");
+		foldFactionDesc();
 
 		if (ownFaction) {
 			if (settings.pages.faction.armory_worth) armoryWorth();
@@ -1656,5 +1658,22 @@ function displayWarOverTimes() {
 				timer.insertAdjacentHTML("afterEnd", rawHTML);
 			}
 		});
+	});
+}
+
+function foldFactionDesc() {
+	let rawHTML = "<i class='tt-collapse-desc fas fa-caret-down' style='padding-top: 9px;padding-left: 7px;'></i>";
+	doc.find("div[role='main'] div.tt-checkbox-wrap").insertAdjacentHTML("beforeEnd", rawHTML);
+	doc.find("i.tt-collapse-desc").addEventListener("click", (event) => {
+		event.target.classList.toggle("fa-caret-down");
+		event.target.classList.toggle("fa-caret-right");
+		let facDesc = doc.find("div[role='main'] div.cont-gray10");
+		if (facDesc.style.display == "none") {
+			facDesc.toggleAttribute("style");
+		} else {
+			facDesc.style.display = "none";
+		}
+		doc.find("div[role='main'] div.tt-options").parentElement.classList.toggle("active");
+		doc.find("div[role='main'] div.tt-options").parentElement.classList.toggle("all-rounded");
 	});
 }
