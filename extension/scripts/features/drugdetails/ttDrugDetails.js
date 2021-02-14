@@ -31,62 +31,62 @@
 				addMutationObserver("[class*='itemsContainner_'], [class*='core-layout_'] [class*='items_']");
 				break;
 		}
-	}
 
-	function setupXHR(options = {}) {
-		addXHRListener(({ detail: { page, xhr, json } }) => {
-			if (!json || page !== "inventory") return;
+		function setupXHR(options = {}) {
+			addXHRListener(({ detail: { page, xhr, json } }) => {
+				if (!json || page !== "inventory") return;
 
-			handleRequest(xhr, json, options);
-		});
-	}
+				handleRequest(xhr, json, options);
+			});
+		}
 
-	function setupFetch(options = {}) {
-		addFetchListener(({ detail: { page, fetch, json } }) => {
-			if (!fetch || page !== "inventory") return;
+		function setupFetch(options = {}) {
+			addFetchListener(({ detail: { page, fetch, json } }) => {
+				if (!fetch || page !== "inventory") return;
 
-			handleRequest(fetch, json, options);
-		});
-	}
+				handleRequest(fetch, json, options);
+			});
+		}
 
-	function handleRequest(request, json, options = {}) {
-		const params = request.url ? new URL(request.url).searchParams : new URLSearchParams(request.requestBody);
+		function handleRequest(request, json, options = {}) {
+			const params = request.url ? new URL(request.url).searchParams : new URLSearchParams(request.requestBody);
 
-		const step = params.get("step");
-		if (step !== "info") return;
+			const step = params.get("step");
+			if (step !== "info") return;
 
-		showDetails(json.itemID, options).catch((error) => console.error("Couldn't show drug details.", error));
-	}
+			showDetails(json.itemID, options).catch((error) => console.error("Couldn't show drug details.", error));
+		}
 
-	function addMutationObserver(selector) {
-		requireElement(selector).then(() => {
-			new MutationObserver(async (mutations) => {
-				const viewMutations = mutations.filter((mutation) => [...mutation.addedNodes].some((node) => node.classList.contains("^=view_")));
-				if (!viewMutations.length) return;
+		function addMutationObserver(selector) {
+			requireElement(selector).then(() => {
+				new MutationObserver(async (mutations) => {
+					const viewMutations = mutations.filter((mutation) => [...mutation.addedNodes].some((node) => node.classList.contains("^=view_")));
+					if (!viewMutations.length) return;
 
-				const newNodes = viewMutations[0].addedNodes;
-				let target;
-				if ([...newNodes].some((node) => node.find(":scope > [class*='preloader_']"))) {
-					target = await new Promise((resolve) => {
-						new MutationObserver((mutations1, observer) => {
-							observer.disconnect();
-							resolve(mutations1[1].target);
-						}).observe(newNodes[0], { childList: true });
-					});
-				} else {
-					target = newNodes[0];
-				}
+					const newNodes = viewMutations[0].addedNodes;
+					let target;
+					if ([...newNodes].some((node) => node.find(":scope > [class*='preloader_']"))) {
+						target = await new Promise((resolve) => {
+							new MutationObserver((mutations1, observer) => {
+								observer.disconnect();
+								resolve(mutations1[1].target);
+							}).observe(newNodes[0], { childList: true });
+						});
+					} else {
+						target = newNodes[0];
+					}
 
-				const id = parseInt(
-					target
-						.find(".info-wrap")
-						.getAttribute("aria-labelledby")
-						.match(/armory-info-([0-9]*)/i)[1]
-				);
+					const id = parseInt(
+						target
+							.find(".info-wrap")
+							.getAttribute("aria-labelledby")
+							.match(/armory-info-([0-9]*)/i)[1]
+					);
 
-				this.showDetails(id, { target }).catch((error) => console.error("Couldn't show drug details.", error));
-			}).observe(document.find(parentSelector), { subtree: true, childList: true });
-		});
+					this.showDetails(id, { target }).catch((error) => console.error("Couldn't show drug details.", error));
+				}).observe(document.find(parentSelector), { subtree: true, childList: true });
+			});
+		}
 	}
 
 	async function showDetails(id, options = {}) {
