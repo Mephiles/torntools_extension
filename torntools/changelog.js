@@ -1,6 +1,6 @@
 export default {
 	"v5.7.1 - xxxxx, xxth. 2021": {
-		Features: [],
+		Features: ["Add an arrow for folding Faction Description. - Sashank999"],
 		Fixes: [],
 		Changes: ["Add setting for 'Show flight times before flying'. - Sashank999"],
 	},
