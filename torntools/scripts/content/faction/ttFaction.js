@@ -1662,6 +1662,7 @@ function displayWarOverTimes() {
 }
 
 function foldFactionDesc() {
+	if (!doc.find("div[role='main'] i.tt-collapse-desc")) {
 	let rawHTML = "<i class='tt-collapse-desc fas fa-caret-down' style='padding-top: 9px;padding-left: 7px;'></i>";
 	doc.find("div[role='main'] div.tt-checkbox-wrap").insertAdjacentHTML("beforeEnd", rawHTML);
 	doc.find("i.tt-collapse-desc").addEventListener("click", (event) => {
@@ -1675,5 +1676,6 @@ function foldFactionDesc() {
 		}
 		doc.find("div[role='main'] div.tt-options").parentElement.classList.toggle("active");
 		doc.find("div[role='main'] div.tt-options").parentElement.classList.toggle("all-rounded");
-	});
+	});	
+	}
 }
