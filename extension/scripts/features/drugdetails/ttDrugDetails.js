@@ -6,9 +6,17 @@
 	if (page === "factions" && getSearchParameters().get("step") !== "your") return;
 	if (page === "home" || page === "flying") return;
 
-	featureManager.registerFeature("Drug Details", "items", () => settings.pages.items.drugDetails, initialiseDrugDetails, null, null, {
-		storage: ["settings.pages.items.drugDetails"],
-	});
+	featureManager.registerFeature(
+		"Drug Details",
+		"items",
+		() => settings.pages.items.drugDetails,
+		initialiseDrugDetails,
+		null, // NTH - Live reload
+		null, // NTH - Live reload
+		{
+			storage: ["settings.pages.items.drugDetails"],
+		}
+	);
 
 	function initialiseDrugDetails() {
 		switch (page) {
@@ -22,12 +30,12 @@
 			case "displaycase":
 				setupXHR({ react: true, changeListener: true });
 				break;
-			case "factions": // TODO - Finish testing.
+			case "factions":
 				setupXHR({
 					react: () => document.find("#faction-armoury-tabs > ul > li[aria-selected='true']").getAttribute("aria-controls") === "armoury-donate",
 				});
 				break;
-			case "bazaar": // TODO - Finish testing.
+			case "bazaar":
 				addMutationObserver("[class*='itemsContainner_'], [class*='core-layout_'] [class*='items_']");
 				break;
 		}
@@ -83,8 +91,8 @@
 							.match(/armory-info-([0-9]*)/i)[1]
 					);
 
-					this.showDetails(id, { target }).catch((error) => console.error("Couldn't show drug details.", error));
-				}).observe(document.find(parentSelector), { subtree: true, childList: true });
+					showDetails(id, { target }).catch((error) => console.error("Couldn't show drug details.", error));
+				}).observe(document.find(selector), { subtree: true, childList: true });
 			});
 		}
 	}
@@ -114,7 +122,7 @@
 		const details = DRUG_INFORMATION[id];
 		if (!details) return;
 
-		for (const info of [element.find(".info-msg"), document.find(`.info-wrap[aria-labelledby="armory-info-${id}-"]`)]) {
+		for (const info of [element.find(".info-msg"), document.find(`.info-wrap[aria-labelledby="armory-info-${id}-"] .info-msg`)]) {
 			if (!info) continue;
 
 			const hasInformation = info.classList.contains("tt-modified");
@@ -134,6 +142,7 @@
 		}
 
 		function show(parent, details) {
+			console.log("DKK drugs", parent);
 			// Remove current info
 			parent.classList.add("tt-modified");
 			[...parent.findAll(".item-effect")].forEach((effect) => effect.remove());
