@@ -118,7 +118,7 @@ function loadItemsOnce() {
 				}
 			}
 		} else if (page === "inventory" && json) {
-			DRUG_DETAILS.handleInventoryRequest(xhr, json);
+			// DRUG_DETAILS.handleInventoryRequest(xhr, json);
 		}
 	});
 

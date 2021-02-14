@@ -171,7 +171,12 @@ function findParent(element, options = {}) {
 	if (!element || !element.parentElement) return undefined;
 
 	if (options.tag && element.parentElement.tagName === options.tag) return element.parentElement;
-	if (options.class && element.parentElement.classList.contains(options.class)) return element.parentElement;
+	if (
+		options.class &&
+		((Array.isArray(options.class) && options.class.some((c) => element.parentElement.classList.contains(c))) ||
+			(!Array.isArray(options.class) && element.parentElement.classList.contains(options.class)))
+	)
+		return element.parentElement;
 	if (options.hasAttribute && element.parentElement.getAttribute(options.hasAttribute) !== null) return element.parentElement;
 
 	return findParent(element.parentElement, options);

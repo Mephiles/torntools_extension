@@ -68,7 +68,6 @@ function loadFactionsOnce() {
 
 		// TODO - Combine listeners.
 		ITEM_VALUE_UTILITIES.INVENTORY.addListener({ addRelative: true });
-		DRUG_DETAILS.addListener({ react: true });
 	}
 }
 

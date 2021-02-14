@@ -242,3 +242,17 @@ function addRFC(url) {
 	url += (url.split("?").length > 1 ? "&" : "?") + "rfcv=" + getRFC();
 	return url;
 }
+
+function getPage() {
+	let page = location.pathname.substring(1, location.pathname.length - 4);
+
+	switch (page) {
+		case "index":
+			if (isFlying()) page = "flying";
+			else if (isAbroad()) page = "abroad";
+			else page = "home";
+			break;
+	}
+
+	return page;
+}

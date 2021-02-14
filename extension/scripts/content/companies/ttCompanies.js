@@ -14,15 +14,24 @@
 function loadCompanies() {}
 
 function loadCompaniesOnce() {
-	addXHRListener(async (event) => {
-		const { page, json } = event.detail;
+	featureManager.new({
+		name: "Muggable Cash",
+		scope: "companies",
+		enabled: settings.pages.companies.specialMugMoney,
+		func: async () => {
+			addXHRListener(async (event) => {
+				const { page, json } = event.detail;
 
-		if (page === "companies" && json) {
-			if (json.result && json.result.msg) {
-				if (json.result.msg.money) showMuggableCash(json).catch((error) => console.error("Couldn't show the muggable cash.", error));
-			}
-		}
+				if (page === "companies" && json) {
+					if (json.result && json.result.msg) {
+						if (json.result.msg.money) showMuggableCash(json).catch((error) => console.error("Couldn't show the muggable cash.", error));
+					}
+				}
+			});
+		},
+		runWhenDisabled: true,
 	});
+	featureManager.load("Muggable Cash");
 }
 
 async function showMuggableCash(json) {

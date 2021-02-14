@@ -24,7 +24,6 @@
 	console.log("TT: Global Entry - Script loaded.");
 
 	requireContent().then(() => {
-		console.log("DKK xxx");
 		featureManager.createPopup();
 	});
 })();

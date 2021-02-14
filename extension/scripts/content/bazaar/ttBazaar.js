@@ -27,7 +27,7 @@ function loadBazaarOnce() {
 		scope: "items",
 		enabled: settings.pages.items.drugDetails,
 		func: async () => {
-			DRUG_DETAILS.addMutationObserver("[class*='itemsContainner_'], [class*='core-layout_'] [class*='items_']");
+			// DRUG_DETAILS.addMutationObserver("[class*='itemsContainner_'], [class*='core-layout_'] [class*='items_']");
 		},
 		runWhenDisabled: true,
 	});

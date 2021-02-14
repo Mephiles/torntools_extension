@@ -273,34 +273,4 @@ const DRUG_DETAILS = {
 
 		this.showDetails(json.itemID, options).catch((error) => console.error("Couldn't show drug details.", error));
 	},
-	addMutationObserver: function (parentSelector) {
-		requireElement(parentSelector).then(() => {
-			new MutationObserver(async (mutations) => {
-				const viewMutations = mutations.filter((mutation) => [...mutation.addedNodes].some((node) => node.classList.contains("^=view_")));
-				if (!viewMutations.length) return;
-
-				const newNodes = viewMutations[0].addedNodes;
-				let target;
-				if ([...newNodes].some((node) => node.find(":scope > [class*='preloader_']"))) {
-					target = await new Promise((resolve) => {
-						new MutationObserver((mutations1, observer) => {
-							observer.disconnect();
-							resolve(mutations1[1].target);
-						}).observe(newNodes[0], { childList: true });
-					});
-				} else {
-					target = newNodes[0];
-				}
-
-				const id = parseInt(
-					target
-						.find(".info-wrap")
-						.getAttribute("aria-labelledby")
-						.match(/armory-info-([0-9]*)/i)[1]
-				);
-
-				this.showDetails(id, { target }).catch((error) => console.error("Couldn't show drug details.", error));
-			}).observe(document.find(parentSelector), { subtree: true, childList: true });
-		});
-	},
 };

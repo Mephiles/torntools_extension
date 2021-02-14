@@ -14,5 +14,4 @@ function loadDisplayCaseOnce() {
 	if (!userId || (hasAPIData() && userdata.player_id)) {
 		ITEM_VALUE_UTILITIES.INVENTORY.addListener({ ignoreUntradable: false, addRelative: true });
 	}
-	DRUG_DETAILS.addListener({ react: true });
 }

@@ -10,10 +10,12 @@ class FeatureManager {
     */
 
 	constructor() {
+		this.containerID = "tt-page-status";
 		this.features = [];
+		this.initialized = [];
+
 		this.popupLoaded = false;
 		this.resultQueue = [];
-		this.containerID = "tt-page-status";
 	}
 
 	display() {
@@ -172,11 +174,11 @@ class FeatureManager {
 		}
 
 		if (options.enabled === false)
-			row.innerHTML = `<span class="tt-page-status-feature-icon disabled"><i class="fas fa-times-circle"></i></span><span class='tt-page-status-feature-text'>${options.name}</span>`;
+			row.innerHTML = `<span class="tt-page-status-feature-icon disabled"><i class="fas fa-times-circle"></i></span><span class="tt-page-status-feature-text">${options.name}</span>`;
 		else if (options.success)
-			row.innerHTML = `<span class="tt-page-status-feature-icon success"><i class="fas fa-check"></i></span><span class='tt-page-status-feature-text'>${options.name}</span>`;
+			row.innerHTML = `<span class="tt-page-status-feature-icon success"><i class="fas fa-check"></i></span><span class="tt-page-status-feature-text">${options.name}</span>`;
 		else
-			row.innerHTML = `<span class="tt-page-status-feature-icon failed"><i class="fas fa-times-circle"></i></span><span class='tt-page-status-feature-text'>${options.name}</span>`;
+			row.innerHTML = `<span class="tt-page-status-feature-icon failed"><i class="fas fa-times-circle"></i></span><span class="tt-page-status-feature-text">${options.name}</span>`;
 	}
 
 	removeResult(name) {
@@ -187,6 +189,90 @@ class FeatureManager {
 		for (let element of document.findAll(".tt-page-status-feature")) {
 			element.remove();
 		}
+	}
+
+	/*
+	 *	New feature manager code
+	 */
+
+	registerFeature(name, scope, enabled, initialise, execute, cleanup, loadListeners) {
+		const oldFeature = this.findFeature(name);
+		if (oldFeature) throw "Feature already registered.";
+
+		const newFeature = { name, scope, enabled, initialise, execute, cleanup, loadListeners };
+
+		console.log("[TornTools] FeatureManager - Registered new feature.", newFeature);
+		this.features.push(newFeature);
+
+		this.startFeature(newFeature).catch((error) => console.error(`[TornTools] FeatureManager - Failed to start "${name}."`, error));
+		this.startLoadListeners(newFeature);
+	}
+
+	findFeature(name) {
+		return this.features.find((feature) => feature.name === name);
+	}
+
+	async startFeature(feature) {
+		try {
+			console.log("[TornTools] FeatureManager - Starting feature.", feature);
+			if (feature.enabled && (typeof feature.enabled !== "function" || feature.enabled())) {
+				if (!this.initialized.includes(name)) {
+					await this.executeFunction(feature.initialise);
+					this.initialized.push(name);
+				}
+				await this.executeFunction(feature.execute);
+
+				this.addResult({ success: true, name: feature.name, scope: feature.scope, status: "loaded" }).catch((error) =>
+					console.error(`[TornTools] FeatureManager - Couldn't log result for ${feature.name}`, error)
+				);
+			} else {
+				await this.executeFunction(feature.cleanup);
+
+				this.addResult({ enabled: false, name: feature.name, scope: feature.scope, status: "disabled" }).catch((error) =>
+					console.error(`[TornTools] FeatureManager - Couldn't log result for ${feature.name}`, error)
+				);
+			}
+		} catch (error) {
+			this.addResult({ success: false, name: feature.name, scope: feature.scope, status: "failed" }).catch((error2) =>
+				console.error(`[TornTools] FeatureManager - Couldn't log result for ${feature.name}`, error2)
+			)
+		}
+	}
+
+	startLoadListeners(feature) {
+		if (!feature.loadListeners) return;
+
+		if (feature.loadListeners.storage) {
+			const storageKeys = feature.loadListeners.storage.reduce((previousValue, currentValue) => {
+				const path = currentValue.split(".");
+				const area = path[0];
+				if (!previousValue[area]) previousValue[area] = [];
+				previousValue[area].push(path.slice(1));
+				return previousValue;
+			}, {});
+
+			if (storageKeys.settings) {
+				storageListeners.settings.push((oldSettings) => {
+					if (!storageKeys.settings.some((path) => rec(settings, path) !== rec(oldSettings, path))) return;
+
+					this.startFeature(feature);
+				});
+			}
+		}
+
+		function rec(parent, path) {
+			if (!parent) return false;
+			if (path.length > 1) return rec(parent[path[0]], path.slice(1));
+
+			return parent[path[0]];
+		}
+	}
+
+	async executeFunction(func) {
+		if (!func) return;
+
+		if (func.constructor.name === "AsyncFunction") func().catch(() => {});
+		else func();
 	}
 }
 

@@ -73,8 +73,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/index.php*"],
-			"css": ["scripts/content/home/ttHome.css", "scripts/content/home/ttFlying.css"],
-			"js": ["scripts/content/home/ttHome.js", "scripts/content/home/ttFlying.js"],
+			"css": ["scripts/content/home/ttHome.css"],
+			"js": ["scripts/content/home/ttHome.js"],
 			"run_at": "document_end"
 		},
 		{
@@ -117,8 +117,15 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.torn.com/imarket.php*"],
-			"js": ["scripts/content/imarket/ttItemMarket.js"],
+			"matches": [
+				"https://www.torn.com/index.php*",
+				"https://www.torn.com/item.php*",
+				"https://www.torn.com/imarket.php*",
+				"https://www.torn.com/displaycase.php*",
+				"https://www.torn.com/factions.php*",
+				"https://www.torn.com/bazaar.php*"
+			],
+			"js": ["scripts/features/drugdetails/ttDrugDetails.js"],
 			"run_at": "document_end"
 		}
 	]
