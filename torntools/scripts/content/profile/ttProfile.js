@@ -358,11 +358,11 @@ requireDatabase().then(() => {
 			// Show Spy info
 			await showSpyInfo();
 		}
-		
+
 		let observer = new MutationObserver(() => {
 			if (!doc.find("div.profile-wrapper div.profile-buttons  span.tt-title-message")) displayProfileStats();
 		});
-		observer.observe(doc.find("div.profile-wrapper div.profile-buttons"), {childList: true, subtree: true});
+		observer.observe(doc.find("div.profile-wrapper div.profile-buttons"), { childList: true, subtree: true });
 	});
 });
 
