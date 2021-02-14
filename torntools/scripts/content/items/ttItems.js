@@ -85,9 +85,8 @@ requireDatabase().then(() => {
 		if (settings.scripts.no_confirm.global && settings.scripts.no_confirm.item_equip) {
 			addItemListener();
 		}
-		
+
 		showXanaxWarning();
-		
 	});
 });
 
@@ -937,14 +936,18 @@ function showXanaxWarning() {
 		if (event.target.classList.contains("option-use") && event.target.getAttribute("aria-label") === "Take Xanax") {
 			requireElement("div.action-wrap.use-act.use-action[style*='display: block'] span.bold").then(() => {
 				let actionWrap = doc.find("div.action-wrap.use-act.use-action[style*='display: block']");
-				if (actionWrap.find("span.bold").innerText.trim() === "Xanax" && !actionWrap.find("span.tt-xan-warning") && doc.find("a#barEnergy p[class*='bar-value_']").innerHTML.contains("1000/")) {
+				if (
+					actionWrap.find("span.bold").innerText.trim() === "Xanax" &&
+					!actionWrap.find("span.tt-xan-warning") &&
+					doc.find("a#barEnergy p[class*='bar-value_']").innerHTML.contains("1000/")
+				) {
 					actionWrap.find("h5#wai-action-desc").insertAdjacentHTML("afterEnd", "<span class='tt-xan-warning'>Warning ! You are at 1000E !</span>");
 				}
-            });
-		};
+			});
+		}
 	});
 	if (doc.find("div#ttQuick div.item[item-id='206']") && doc.find("a#barEnergy p[class*='bar-value_']").innerHTML.contains("1000/")) {
 		doc.find("div#ttQuick div.item[item-id='206']").style.backgroundColor = "#ff7979";
 		doc.find("div#ttQuick div.item[item-id='206']").style.pointerEvents = "none";
 	}
-};
+}
