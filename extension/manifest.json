@@ -125,6 +125,7 @@
 				"https://www.torn.com/factions.php*",
 				"https://www.torn.com/bazaar.php*"
 			],
+			"css": ["scripts/features/drugdetails/ttDrugDetails.css"],
 			"js": ["scripts/features/drugdetails/ttDrugDetails.js"],
 			"run_at": "document_end"
 		}
