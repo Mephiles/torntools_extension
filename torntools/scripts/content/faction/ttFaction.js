@@ -1663,19 +1663,19 @@ function displayWarOverTimes() {
 
 function foldFactionDesc() {
 	if (!doc.find("div[role='main'] i.tt-collapse-desc")) {
-	let rawHTML = "<i class='tt-collapse-desc fas fa-caret-down' style='padding-top: 9px;padding-left: 7px;'></i>";
-	doc.find("div[role='main'] div.tt-checkbox-wrap").insertAdjacentHTML("beforeEnd", rawHTML);
-	doc.find("i.tt-collapse-desc").addEventListener("click", (event) => {
-		event.target.classList.toggle("fa-caret-down");
-		event.target.classList.toggle("fa-caret-right");
-		let facDesc = doc.find("div[role='main'] div.cont-gray10");
-		if (facDesc.style.display == "none") {
-			facDesc.toggleAttribute("style");
-		} else {
-			facDesc.style.display = "none";
-		}
-		doc.find("div[role='main'] div.tt-options").parentElement.classList.toggle("active");
-		doc.find("div[role='main'] div.tt-options").parentElement.classList.toggle("all-rounded");
-	});	
+		let rawHTML = "<i class='tt-collapse-desc fas fa-caret-down' style='padding-top: 9px;padding-left: 7px;'></i>";
+		doc.find("div[role='main'] div.tt-checkbox-wrap").insertAdjacentHTML("beforeEnd", rawHTML);
+		doc.find("i.tt-collapse-desc").addEventListener("click", (event) => {
+			event.target.classList.toggle("fa-caret-down");
+			event.target.classList.toggle("fa-caret-right");
+			let facDesc = doc.find("div[role='main'] div.cont-gray10");
+			if (facDesc.style.display == "none") {
+				facDesc.toggleAttribute("style");
+			} else {
+				facDesc.style.display = "none";
+			}
+			doc.find("div[role='main'] div.tt-options").parentElement.classList.toggle("active");
+			doc.find("div[role='main'] div.tt-options").parentElement.classList.toggle("all-rounded");
+		});
 	}
 }
