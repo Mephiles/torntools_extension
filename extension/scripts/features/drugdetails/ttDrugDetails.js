@@ -142,7 +142,6 @@
 		}
 
 		function show(parent, details) {
-			console.log("DKK drugs", parent);
 			// Remove current info
 			parent.classList.add("tt-modified");
 			[...parent.findAll(".item-effect")].forEach((effect) => effect.remove());
@@ -214,16 +213,13 @@
 		}
 
 		function watchChanges(element, details) {
-			console.log("DKK watchChanges", element);
 			new MutationObserver((mutations, observer) => {
-				console.log("DKK watchChanges mutations 1", [...mutations]);
 				const filteredMutations = [...mutations].filter((mutation) =>
 					[...mutation.addedNodes].some((node) => node.nodeType === Node.ELEMENT_NODE && node.classList.contains("info-wrap"))
 				);
 				if (!filteredMutations.length) return;
 
 				const newElement = findElement();
-				console.log("DKK watchChanges mutations 2", newElement);
 				show(newElement.find(".info-msg"), details);
 				watchChanges(newElement, details);
 				observer.disconnect();

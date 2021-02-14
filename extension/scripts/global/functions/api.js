@@ -140,5 +140,5 @@ function changeAPIKey(key) {
 }
 
 function hasAPIData() {
-	return api.torn.key && !api.torn.error && userdata && Object.keys(userdata).length;
+	return api.torn.key && !api.torn.error && userdata && !!Object.keys(userdata).length;
 }

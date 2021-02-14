@@ -68,7 +68,7 @@
 		{
 			"matches": ["https://www.torn.com/*"],
 			"css": ["scripts/content/global/ttGlobal.css"],
-			"js": ["scripts/global/features.js", "scripts/content/global/ttGlobal.js"],
+			"js": ["scripts/content/global/ttGlobal.js"],
 			"run_at": "document_end"
 		},
 		{
@@ -96,27 +96,6 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.torn.com/trade.php*"],
-			"css": ["scripts/content/trade/ttTrade.css"],
-			"js": ["scripts/content/trade/ttTrade.js"],
-			"run_at": "document_end"
-		},
-		{
-			"matches": ["https://www.torn.com/itemuseparcel.php*"],
-			"js": ["scripts/content/itemuseparcel/ttItemUseParcel.js"],
-			"run_at": "document_end"
-		},
-		{
-			"matches": ["https://www.torn.com/bazaar.php*"],
-			"js": ["scripts/content/bazaar/ttBazaar.js"],
-			"run_at": "document_end"
-		},
-		{
-			"matches": ["https://www.torn.com/displaycase.php*"],
-			"js": ["scripts/content/displaycase/ttDisplayCase.js"],
-			"run_at": "document_end"
-		},
-		{
 			"matches": [
 				"https://www.torn.com/index.php*",
 				"https://www.torn.com/item.php*",
@@ -127,6 +106,19 @@
 			],
 			"css": ["scripts/features/drugdetails/ttDrugDetails.css"],
 			"js": ["scripts/features/drugdetails/ttDrugDetails.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"https://www.torn.com/bazaar.php*",
+				"https://www.torn.com/displaycase.php*",
+				"https://www.torn.com/factions.php*",
+				"https://www.torn.com/item.php*",
+				"https://www.torn.com/itemuseparcel.php*",
+				"https://www.torn.com/trade.php*"
+			],
+			"css": ["scripts/features/itemvalues/ttItemValues.css"],
+			"js": ["scripts/features/itemvalues/ttItemValues.js"],
 			"run_at": "document_end"
 		}
 	]

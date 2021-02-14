@@ -467,6 +467,7 @@ function updateItemAmount(id, change) {
 }
 
 async function showItemValues() {
+	// FIXME - Move to feature script.
 	if (settings.pages.items.values && hasAPIData() && settings.apiUsage.user.inventory) {
 		const list = document.find(".items-cont[aria-expanded=true]");
 		const type = list.dataset.info;

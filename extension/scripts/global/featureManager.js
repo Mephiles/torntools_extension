@@ -216,9 +216,9 @@ class FeatureManager {
 		try {
 			console.log("[TornTools] FeatureManager - Starting feature.", feature);
 			if (feature.enabled && (typeof feature.enabled !== "function" || feature.enabled())) {
-				if (!this.initialized.includes(name)) {
+				if (!this.initialized.includes(feature.name)) {
 					await this.executeFunction(feature.initialise);
-					this.initialized.push(name);
+					this.initialized.push(feature.name);
 				}
 				await this.executeFunction(feature.execute);
 
@@ -235,7 +235,7 @@ class FeatureManager {
 		} catch (error) {
 			this.addResult({ success: false, name: feature.name, scope: feature.scope, status: "failed" }).catch((error2) =>
 				console.error(`[TornTools] FeatureManager - Couldn't log result for ${feature.name}`, error2)
-			)
+			);
 		}
 	}
 
