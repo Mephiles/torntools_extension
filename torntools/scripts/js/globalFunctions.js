@@ -1257,6 +1257,7 @@ const STORAGE = {
 	},
 	hide_icons: [],
 	hide_casino_games: [],
+	hide_stock_blocks: [],
 	hide_areas: [],
 	quick: {
 		items: [],
