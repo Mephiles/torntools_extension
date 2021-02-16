@@ -679,6 +679,15 @@ function setupPreferences() {
 	for (let game of hide_casino_games) {
 		preferences.find(`#casinogames span[name='${game}']`).classList.add("disabled");
 	}
+	
+	for (let stockBlock of preferences.findAll("div#stock-blocks span")) {
+		stockBlock.onclick = () => {
+			stockBlock.classList.toggle("disabled");
+		};
+	}
+	for (let stockBlock of hide_stock_blocks) {
+		preferences.find(`#stock-blocks span[name='${stockBlock}']`).classList.add("disabled");
+	}
 }
 
 function targetList() {
@@ -1131,6 +1140,11 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	for (let game of preferences.findAll("#casinogames span.disabled")) {
 		hiddenGames.push(game.getAttribute("name"));
 	}
+	
+	const hiddenStockBlocks = [];
+	for (let stockBlock of preferences.findAll("#stock-blocks span.disabled")) {
+		hiddenStockBlocks.push(stockBlock.getAttribute("name"));
+	}
 
 	// Filters (Faction)
 	let filter_factions = {
@@ -1158,6 +1172,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	ttStorage.set({ hide_icons: icons });
 	ttStorage.set({ hide_areas: areas });
 	ttStorage.set({ hide_casino_games: hiddenGames });
+	ttStorage.set({ hide_stock_blocks: hiddenStockBlocks });
 	ttStorage.change({
 		filters: {
 			preset_data: {
