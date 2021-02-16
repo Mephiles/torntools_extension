@@ -38,7 +38,7 @@ requireDatabase().then(() => {
 					}
 				}
 			}
-			
+
 			hideStockBlocks();
 		}
 
@@ -512,7 +512,8 @@ function hideStockBlocks() {
 		for (let hideStockBlock of hide_stock_blocks) {
 			doc.find(`div.stock-main-wrap li.item.item-wrap[data-stock=${hideStockBlock.toLowerCase()}]`).style.display = "none";
 		}
-		let rawHTML = '<div class="info-msg-cont gray border-round m-top10"><div class="info-msg border-round" style="background-color: #627e0d;"><i class="info-icon"></i><div class="delimiter"><div class="msg right-round" style="background-color: #627e0d;color: #627e0d;">Some stock blocks have been disabled by TornTools. Please re-enable them in Settings.</div></div></div></div>';
+		let rawHTML =
+			'<div class="info-msg-cont gray border-round m-top10"><div class="info-msg border-round" style="background-color: #627e0d;"><i class="info-icon"></i><div class="delimiter"><div class="msg right-round" style="background-color: #627e0d;color: #627e0d;">Some stock blocks have been disabled by TornTools. Please re-enable them in Settings.</div></div></div></div>';
 		doc.find("div.stock-main-wrap div.title-black.top-round.m-top10").insertAdjacentHTML("beforeBegin", rawHTML);
 	}
 }
