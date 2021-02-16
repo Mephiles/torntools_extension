@@ -58,6 +58,7 @@ let userdata,
 	stock_alerts,
 	hide_areas,
 	hide_casino_games,
+	hide_stock_blocks,
 	travel_items,
 	notifications_custom,
 	yata;
@@ -102,6 +103,7 @@ let userdata,
 		stock_alerts = DB.stock_alerts;
 		hide_areas = DB.hide_areas;
 		hide_casino_games = DB.hide_casino_games;
+		hide_stock_blocks = DB.hide_stock_blocks;
 		travel_items = DB.travel_items;
 		notifications_custom = DB.notifications_custom;
 		yata = DB.yata;
