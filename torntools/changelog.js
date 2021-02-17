@@ -1,7 +1,7 @@
 export default {
 	"v5.7.1 - xxxxx, xxth. 2021": {
 		Features: [],
-		Fixes: [],
+		Fixes: ["Battle stat disappeared from profile when sending user money. - Sashank999"],
 		Changes: ["Add setting for 'Show flight times before flying'. - Sashank999"],
 	},
 	"v5.7 - February, 11th. 2021": {
