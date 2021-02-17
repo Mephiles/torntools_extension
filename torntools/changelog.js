@@ -4,7 +4,7 @@ export default {
 			"Add an arrow for folding Faction Description. - Sashank999",
 			"Show warning when taking Xanax while the user is already at 1000E. - Sashank999",
 		],
-		Fixes: [],
+		Fixes: ["Battle stat disappeared from profile when sending user money. - Sashank999"],
 		Changes: ["Add setting for 'Show flight times before flying'. - Sashank999"],
 	},
 	"v5.7 - February, 11th. 2021": {
