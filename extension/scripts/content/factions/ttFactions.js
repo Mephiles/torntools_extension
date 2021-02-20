@@ -1,7 +1,5 @@
 "use strict";
 
-let ownFaction = false;
-
 (async () => {
 	await loadDatabase();
 	console.log("TT: Factions - Loading script.");
@@ -16,37 +14,14 @@ let ownFaction = false;
 function loadFactions() {
 	requireContent().then(() => {
 		if (getSearchParameters().get("step") === "your") {
-			ownFaction = true;
-
 			switch (getSubpage()) {
-				case "main":
-					loadMain();
-					break;
-				case "info":
-					loadInfo();
-					break;
-				case "crimes":
-					loadCrimes();
-					break;
-				case "upgrades":
-					loadUpgrades();
-					break;
 				case "armoury":
 					loadArmory();
-					break;
-				case "controls":
-					loadControls();
 					break;
 				default:
 					break;
 			}
-		} else {
-			ownFaction = hasAPIData() && userdata.faction ? parseInt(getSearchParameters().get("ID")) === userdata.faction.faction_id : false;
-
-			loadInfo();
 		}
-
-		// setupQuickDragListeners().catch((error) => console.error("Couldn't make the items draggable for quick items.", error));
 	});
 
 	function getSubpage() {
@@ -58,23 +33,10 @@ function loadFactions() {
 function loadFactionsOnce() {
 	if (getSearchParameters().get("step") === "your") {
 		requireElement(".faction-tabs").then(() => {
-			document.find(".faction-tabs li[data-case=main]").addEventListener("click", loadMain);
-			document.find(".faction-tabs li[data-case=info]").addEventListener("click", loadInfo);
-			document.find(".faction-tabs li[data-case=crimes]").addEventListener("click", loadCrimes);
-			document.find(".faction-tabs li[data-case=upgrades]").addEventListener("click", loadUpgrades);
 			document.find(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
-			document.find(".faction-tabs li[data-case=controls]").addEventListener("click", loadControls);
 		});
 	}
 }
-
-function loadMain() {}
-
-function loadInfo() {}
-
-function loadCrimes() {}
-
-function loadUpgrades() {}
 
 function loadArmory() {
 	requireElement("#faction-armoury-tabs > ul.tabs > li[aria-selected='true']").then(() => {
@@ -104,8 +66,6 @@ function loadArmory() {
 		}
 	}
 }
-
-function loadControls() {}
 
 async function highlightBloodBags() {
 	// noinspection JSIncompatibleTypesComparison
