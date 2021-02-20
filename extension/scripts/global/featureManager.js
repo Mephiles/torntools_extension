@@ -181,30 +181,20 @@ class FeatureManager {
 			row.innerHTML = `<span class="tt-page-status-feature-icon failed"><i class="fas fa-times-circle"></i></span><span class="tt-page-status-feature-text">${options.name}</span>`;
 	}
 
-	removeResult(name) {
-		document.find(`.tt-page-status-feature-${name.toLowerCase().replace(/ /g, " - ")}`).remove();
-	}
-
-	clear() {
-		for (let element of document.findAll(".tt-page-status-feature")) {
-			element.remove();
-		}
-	}
-
 	/*
 	 *	New feature manager code
 	 */
 
-	registerFeature(name, scope, enabled, initialise, execute, cleanup, loadListeners) {
+	registerFeature(name, scope, enabled, initialise, execute, cleanup, loadListeners, apiCheck) {
 		const oldFeature = this.findFeature(name);
 		if (oldFeature) throw "Feature already registered.";
 
-		const newFeature = { name, scope, enabled, initialise, execute, cleanup, loadListeners };
+		const newFeature = { name, scope, enabled, initialise, execute, cleanup, loadListeners, apiCheck };
 
 		console.log("[TornTools] FeatureManager - Registered new feature.", newFeature);
 		this.features.push(newFeature);
 
-		this.startFeature(newFeature).catch((error) => console.error(`[TornTools] FeatureManager - Failed to start "${name}."`, error));
+		this.startFeature(newFeature).catch((error) => console.error(`[TornTools] FeatureManager - Failed to start "${name}".`, error));
 		this.startLoadListeners(newFeature);
 	}
 
@@ -216,26 +206,29 @@ class FeatureManager {
 		try {
 			console.log("[TornTools] FeatureManager - Starting feature.", feature);
 			if (feature.enabled && (typeof feature.enabled !== "function" || feature.enabled())) {
+				if (feature.apiCheck && (typeof feature.apiCheck !== "function" || feature.apiCheck())) {
+					await this.executeFunction(feature.cleanup).catch(() => {});
+
+					this.showResult(feature, "information", { message: "API data missing" });
+					return;
+				}
+
 				if (!this.initialized.includes(feature.name)) {
 					await this.executeFunction(feature.initialise);
 					this.initialized.push(feature.name);
 				}
 				await this.executeFunction(feature.execute);
 
-				this.addResult({ success: true, name: feature.name, scope: feature.scope, status: "loaded" }).catch((error) =>
-					console.error(`[TornTools] FeatureManager - Couldn't log result for ${feature.name}`, error)
-				);
+				this.showResult(feature, "loaded");
 			} else {
 				await this.executeFunction(feature.cleanup);
 
-				this.addResult({ enabled: false, name: feature.name, scope: feature.scope, status: "disabled" }).catch((error) =>
-					console.error(`[TornTools] FeatureManager - Couldn't log result for ${feature.name}`, error)
-				);
+				this.showResult(feature, "disabled");
 			}
 		} catch (error) {
-			this.addResult({ success: false, name: feature.name, scope: feature.scope, status: "failed" }).catch((error2) =>
-				console.error(`[TornTools] FeatureManager - Couldn't log result for ${feature.name}`, error2)
-			);
+			await this.executeFunction(feature.cleanup).catch(() => {});
+
+			this.showResult(feature, "failed");
 		}
 	}
 
@@ -255,7 +248,9 @@ class FeatureManager {
 				storageListeners.settings.push((oldSettings) => {
 					if (!storageKeys.settings.some((path) => rec(settings, path) !== rec(oldSettings, path))) return;
 
-					this.startFeature(feature);
+					this.startFeature(feature).catch((error) =>
+						console.error(`[TornTools] FeatureManager - Failed to start "${name}" during live reload.`, error)
+					);
 				});
 			}
 		}
@@ -273,6 +268,69 @@ class FeatureManager {
 
 		if (func.constructor.name === "AsyncFunction") func().catch(() => {});
 		else func();
+	}
+
+	showResult(feature, status, options) {
+		if (!this.popupLoaded) {
+			// FIXME - Solve queue!
+			// this.resultQueue.push([feature, status, options]);
+			return;
+		}
+
+		new Promise(async (resolve) => {
+			if (await checkMobile()) return resolve();
+
+			let row = document.find(`#tt-page-status-feature-${feature.name.toLowerCase().replace(/ /g, "-")}`);
+			if (row) {
+				row.setClass(`tt-page-status-feature ${status}`);
+				row.find(".tt-page-status-feature-icon i").setClass(`fas ${getIcon()}`);
+				if (options.message) row.find(".tt-page-status-feature-icon i").setAttribute("title", options.message);
+			} else {
+				row = document.newElement({
+					type: "div",
+					class: `tt-page-status-feature ${status}`,
+					id: `tt-page-status-feature-${feature.name.toLowerCase().replace(/ /g, "-")}`,
+					html: `
+						<span class="tt-page-status-feature-icon"><i class="fas ${getIcon()}"></i></span>
+						<span class="tt-page-status-feature-text">${options.name}</span>`,
+					attributes: () => {
+						if (options.message) return { title: options.message };
+						else return false;
+					},
+				});
+
+				let scopeElement = document.find(`.tt-page-status-content #scope-${feature.scope}`);
+				if (!scopeElement) {
+					scopeElement = document.newElement({
+						type: "div",
+						id: "scope-" + feature.scope,
+						children: [
+							document.newElement({
+								type: "div",
+								class: "tt-page-status-scope-heading",
+								text: `— ${feature.scope} —`,
+							}),
+						],
+					});
+					document.find(".tt-page-status-content").appendChild(scopeElement);
+				}
+				scopeElement.appendChild(row);
+			}
+		}).catch((error) => {
+			console.error(`[TornTools] FeatureManager - Couldn't log result for ${feature.name}`, error, options);
+		});
+
+		function getIcon() {
+			switch (status) {
+				case "disabled":
+				case "error":
+					return "fa-times-circle";
+				case "success":
+					return "fa-check";
+				default:
+					return "fa-question-circle";
+			}
+		}
 	}
 }
 
