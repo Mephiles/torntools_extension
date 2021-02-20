@@ -4,6 +4,7 @@ const EVENT_CHANNELS = {
 	FETCH: "tt-fetch",
 	XHR: "tt-xhr",
 	ITEM_AMOUNT: "tt-item-amount",
+	ITEM_SWITCH_TAB: "tt-item-switch-tab",
 };
 
 let injectedXHR, injectedFetch;

@@ -53,6 +53,9 @@
 		window.addEventListener(EVENT_CHANNELS.ITEM_AMOUNT, (event) => {
 			updateItemAmount(event.detail.item, event.detail.amount);
 		});
+		window.addEventListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, () => {
+			setupQuickDragListeners();
+		});
 	}
 
 	async function loadQuickItems() {
@@ -98,6 +101,10 @@
 		for (const quickItem of quick.items) {
 			addQuickItem(quickItem, false);
 		}
+
+		requireItemsLoaded().then(() => {
+			setupQuickDragListeners();
+		});
 	}
 
 	function addQuickItem(data, temporary = false) {
@@ -256,11 +263,12 @@
 		});
 	}
 
-	async function setupQuickDragListeners() {
+	function setupQuickDragListeners() {
 		for (let item of document.findAll(".items-cont[aria-expanded=true] > li[data-item]")) {
 			if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
 			const titleWrap = item.find(".title-wrap");
+			if (titleWrap.hasAttribute("draggable")) continue;
 
 			titleWrap.setAttribute("draggable", "true");
 			titleWrap.addEventListener("dragstart", onDragStart);

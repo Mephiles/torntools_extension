@@ -47,6 +47,16 @@ let pendingActions = {};
 		}
 	});
 
+	requireItemsLoaded().then(() => {
+		for (let icon of document.findAll("ul[role=tablist] li:not(.no-items):not(.m-show):not(.hide)")) {
+			icon.addEventListener("click", async () => {
+				await requireItemsLoaded();
+
+				window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.ITEM_SWITCH_TAB, { tab: icon.dataset.type }));
+			});
+		}
+	});
+
 	await loadDatabase();
 	console.log("TT: Items - Loading script. ");
 
