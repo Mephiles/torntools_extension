@@ -74,7 +74,7 @@
 		{
 			"matches": ["https://www.torn.com/item.php*"],
 			"css": ["scripts/content/items/ttItems.css"],
-			"js": ["vendor/jquery/jquery.js", "scripts/content/items/ttItems.js"],
+			"js": ["scripts/content/items/ttItems.js"],
 			"run_at": "document_end"
 		},
 		{
@@ -125,6 +125,12 @@
 			"matches": ["https://www.torn.com/index.php*"],
 			"css": ["scripts/features/livenetworth/ttLiveNetworth.css"],
 			"js": ["scripts/features/livenetworth/ttLiveNetworth.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/item.php*"],
+			"css": ["scripts/features/quickitems/ttQuickItems.css"],
+			"js": ["vendor/jquery/jquery.js", "scripts/features/quickitems/ttQuickItems.js"],
 			"run_at": "document_end"
 		}
 	]

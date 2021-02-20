@@ -1,5 +1,11 @@
 "use strict";
 
+const EVENT_CHANNELS = {
+	FETCH: "tt-fetch",
+	XHR: "tt-xhr",
+	ITEM_AMOUNT: "tt-item-amount",
+};
+
 let injectedXHR, injectedFetch;
 
 function injectFetch() {
@@ -17,7 +23,7 @@ function injectFetch() {
 function addFetchListener(callback) {
 	injectFetch();
 
-	window.addEventListener("tt-fetch", callback);
+	window.addEventListener(EVENT_CHANNELS.FETCH, callback);
 }
 
 function injectXHR() {
