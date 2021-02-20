@@ -6,7 +6,7 @@
 		"items",
 		() => settings.pages.items.quickItems,
 		initialiseQuickItems,
-		loadQuickItems(),
+		loadQuickItems,
 		() => removeContainer("Quick Items"),
 		{
 			storage: ["settings.pages.items.quickItems"],

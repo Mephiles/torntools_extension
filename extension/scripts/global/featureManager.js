@@ -229,6 +229,7 @@ class FeatureManager {
 			await this.executeFunction(feature.cleanup).catch(() => {});
 
 			this.showResult(feature, "failed");
+			console.error(`[TornTools] FeatureManager - Failed to start "${name}".`, error);
 		}
 	}
 
@@ -323,7 +324,7 @@ class FeatureManager {
 		function getIcon() {
 			switch (status) {
 				case "disabled":
-				case "error":
+				case "failed":
 					return "fa-times-circle";
 				case "loaded":
 					return "fa-check";
