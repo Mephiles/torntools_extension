@@ -14,7 +14,8 @@
 		() => removeContainer("Effective Battle Stats"),
 		{
 			storage: ["settings.pages.home.effectiveStats"],
-		}
+		},
+		null
 	);
 
 	async function showEffectiveBattleStats() {

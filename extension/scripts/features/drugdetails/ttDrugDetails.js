@@ -15,7 +15,8 @@
 		null, // NTH - Live reload
 		{
 			storage: ["settings.pages.items.drugDetails"],
-		}
+		},
+		null
 	);
 
 	function initialiseDrugDetails() {

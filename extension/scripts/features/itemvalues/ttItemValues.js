@@ -23,7 +23,8 @@
 		null, // FIXME - Check this.
 		{
 			storage: ["settings.pages.items.values"],
-		}
+		},
+		null
 	);
 
 	function initialiseItemValues() {
