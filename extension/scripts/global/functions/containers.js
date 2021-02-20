@@ -66,7 +66,6 @@ function createContainer(title, options = {}) {
 			content.addEventListener("dragover", (event) => event.preventDefault());
 			content.addEventListener("drop", (event) => {
 				content.find(".temp.item").classList.remove("temp");
-				container.find(".content").style.maxHeight = container.find(".content").scrollHeight + "px";
 
 				// Firefox opens new tab when dropping item
 				event.preventDefault();
