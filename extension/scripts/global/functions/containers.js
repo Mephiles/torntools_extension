@@ -65,7 +65,7 @@ function createContainer(title, options = {}) {
 			let content = container.find(".content");
 			content.addEventListener("dragover", (event) => event.preventDefault());
 			content.addEventListener("drop", (event) => {
-				content.find(".temp.item").classList.remove("temp");
+				if (content.find(".temp.item")) content.find(".temp.item").classList.remove("temp");
 
 				// Firefox opens new tab when dropping item
 				event.preventDefault();
