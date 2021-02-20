@@ -206,7 +206,7 @@ class FeatureManager {
 		try {
 			console.log("[TornTools] FeatureManager - Starting feature.", feature);
 			if (feature.enabled && (typeof feature.enabled !== "function" || feature.enabled())) {
-				if (feature.apiCheck && (typeof feature.apiCheck !== "function" || feature.apiCheck())) {
+				if ("apiCheck" in feature && (feature.apiCheck === false || (typeof feature.apiCheck === "function" && !feature.apiCheck()))) {
 					await this.executeFunction(feature.cleanup).catch(() => {});
 
 					this.showResult(feature, "information", { message: "API data missing" });
@@ -270,7 +270,7 @@ class FeatureManager {
 		else func();
 	}
 
-	showResult(feature, status, options) {
+	showResult(feature, status, options = {}) {
 		if (!this.popupLoaded) {
 			// FIXME - Solve queue!
 			// this.resultQueue.push([feature, status, options]);
@@ -292,7 +292,7 @@ class FeatureManager {
 					id: `tt-page-status-feature-${feature.name.toLowerCase().replace(/ /g, "-")}`,
 					html: `
 						<span class="tt-page-status-feature-icon"><i class="fas ${getIcon()}"></i></span>
-						<span class="tt-page-status-feature-text">${options.name}</span>`,
+						<span class="tt-page-status-feature-text">${feature.name}</span>`,
 					attributes: () => {
 						if (options.message) return { title: options.message };
 						else return false;
@@ -325,7 +325,7 @@ class FeatureManager {
 				case "disabled":
 				case "error":
 					return "fa-times-circle";
-				case "success":
+				case "loaded":
 					return "fa-check";
 				default:
 					return "fa-question-circle";
