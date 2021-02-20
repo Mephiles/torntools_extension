@@ -4,9 +4,12 @@ let pendingActions = {};
 
 (async () => {
 	addXHRListener((event) => {
-		const { page, json } = event.detail;
+		const { page, json, xhr } = event.detail;
 
 		if (page === "item") {
+			const params = new URLSearchParams(xhr.requestBody);
+			const step = params.get("step");
+
 			if (json && step === "useItem") {
 				if (!json.success) return;
 

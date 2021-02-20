@@ -15,7 +15,6 @@
 	);
 
 	function initialiseQuickItems() {
-		// FIXME - Call `setupQuickDragListeners` (under `initializeItems`)
 		document.addEventListener("click", (event) => {
 			if (event.target.classList.contains("close-act")) {
 				const responseWrap = findParent(event.target, { class: "response-wrap" });
@@ -37,9 +36,12 @@
 		}, 1000);
 
 		addXHRListener(async (event) => {
-			const { page, json } = event.detail;
+			const { page, json, xhr } = event.detail;
 
 			if (page === "item") {
+				const params = new URLSearchParams(xhr.requestBody);
+				const step = params.get("step");
+
 				if (json && (step === "getCategoryList" || step === "getNotAllItemsListWithoutGroups" || step === "getItemsListByItemId")) {
 					await requireElement("li.ajax-item-loader", { invert: true });
 
