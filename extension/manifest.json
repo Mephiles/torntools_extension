@@ -72,12 +72,6 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.torn.com/index.php*"],
-			"css": ["scripts/content/home/ttHome.css"],
-			"js": ["scripts/content/home/ttHome.js"],
-			"run_at": "document_end"
-		},
-		{
 			"matches": ["https://www.torn.com/item.php*"],
 			"css": ["scripts/content/items/ttItems.css"],
 			"js": ["vendor/jquery/jquery.js", "scripts/content/items/ttItems.js"],
@@ -119,6 +113,18 @@
 			],
 			"css": ["scripts/features/itemvalues/ttItemValues.css"],
 			"js": ["scripts/features/itemvalues/ttItemValues.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/index.php*"],
+			"css": ["scripts/features/effectivestats/ttEffectiveStats.css"],
+			"js": ["scripts/features/effectivestats/ttEffectiveStats.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/index.php*"],
+			"css": ["scripts/features/livenetworth/ttLiveNetworth.css"],
+			"js": ["scripts/features/livenetworth/ttLiveNetworth.js"],
 			"run_at": "document_end"
 		}
 	]
