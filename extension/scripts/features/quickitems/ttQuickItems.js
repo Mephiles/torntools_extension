@@ -35,26 +35,14 @@
 			}
 		}, 1000);
 
-		addXHRListener(async (event) => {
-			const { page, json, xhr } = event.detail;
-
-			if (page === "item") {
-				const params = new URLSearchParams(xhr.requestBody);
-				const step = params.get("step");
-
-				if (json && (step === "getCategoryList" || step === "getNotAllItemsListWithoutGroups" || step === "getItemsListByItemId")) {
-					await requireElement("li.ajax-item-loader", { invert: true });
-
-					updateXIDs().catch(() => {});
-				}
-			}
-		});
-
 		window.addEventListener(EVENT_CHANNELS.ITEM_AMOUNT, (event) => {
 			updateItemAmount(event.detail.item, event.detail.amount);
 		});
 		window.addEventListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, () => {
 			setupQuickDragListeners();
+		});
+		window.addEventListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, () => {
+			updateXIDs().catch(() => {});
 		});
 	}
 

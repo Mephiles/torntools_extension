@@ -43,6 +43,17 @@ let pendingActions = {};
 
 					window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.ITEM_AMOUNT, { item, amount: -amount, reason: "sending" }));
 				}
+			} else if (json && (step === "getCategoryList" || step === "getNotAllItemsListWithoutGroups" || step === "getItemsListByItemId")) {
+				const tab = document.find("ul.items-cont.tab-menu-cont[style='display: block;'], ul.items-cont.tab-menu-cont:not([style])");
+				if (!tab) return;
+
+				new MutationObserver((mutations, observer) => {
+					if (document.find("li.ajax-item-loader")) return;
+
+					window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.ITEM_ITEMS_LOADED, { tab }));
+
+					observer.disconnect();
+				}).observe(tab, { subtree: true, childList: true });
 			}
 		}
 	});
@@ -95,7 +106,6 @@ function loadItemsOnce() {
 
 					highlightBloodBags().catch((error) => console.error("Couldn't highlight the correct blood bags.", error));
 					showItemValues().catch((error) => console.error("Couldn't show the item values.", error));
-					showItemMarketIcons().catch((error) => console.error("Couldn't show the market icons.", error));
 
 					observer.disconnect();
 				}).observe(tab, { subtree: true, childList: true });
@@ -139,7 +149,6 @@ function requireItemsLoaded() {
 function initializeItems() {
 	highlightBloodBags().catch((error) => console.error("Couldn't highlight the correct blood bags.", error));
 	showItemValues().catch((error) => console.error("Couldn't show the item values.", error));
-	showItemMarketIcons().catch((error) => console.error("Couldn't show the market icons.", error));
 	MISSING_ITEMS.showFlowers((error) => console.error("Couldn't show the missing flowers.", error)).catch();
 	MISSING_ITEMS.showPlushies((error) => console.error("Couldn't show the missing plushies.", error)).catch();
 }
@@ -263,52 +272,6 @@ async function showItemValues() {
 	} else {
 		for (const price of document.findAll(".tt-item-price, #category-wrap .tt-ignore")) {
 			price.remove();
-		}
-	}
-}
-
-async function showItemMarketIcons() {
-	if (settings.pages.items.marketLinks && !(await checkMobile())) {
-		let isFirst = true;
-		let lastItem;
-		for (const item of document.findAll(".items-cont[aria-expanded=true] > li[data-item]:not(.tt-ignore):not(.ajax-placeholder)")) {
-			if (item.find(".market-link")) continue;
-
-			if (item.classList.contains("item-group")) item.classList.add("tt-modified");
-
-			const id = parseInt(item.dataset.item);
-			if (!isSellable(id)) continue;
-
-			let parent = item.find(".outside-actions");
-			if (!parent) {
-				parent = document.newElement({ type: "div", class: `outside-actions ${isFirst ? "first-action" : ""}` });
-
-				item.appendChild(parent);
-			}
-
-			const name = item.find(".thumbnail-wrap").getAttribute("aria-label");
-
-			parent.appendChild(
-				document.newElement({
-					type: "div",
-					class: "market-link",
-					children: [
-						document.newElement({
-							type: "a",
-							href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${name}`,
-							children: [document.newElement({ type: "i", class: "torn-icon-item-market", attributes: { title: "Open Item Market" } })],
-						}),
-					],
-				})
-			);
-
-			isFirst = false;
-			lastItem = item;
-		}
-		if (lastItem && lastItem.find(".outside-actions")) lastItem.find(".outside-actions").classList.add("last-action");
-	} else {
-		for (const link of document.findAll(".market-link")) {
-			link.remove();
 		}
 	}
 }

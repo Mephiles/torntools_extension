@@ -132,6 +132,12 @@
 			"css": ["scripts/features/quickitems/ttQuickItems.css"],
 			"js": ["vendor/jquery/jquery.js", "scripts/features/quickitems/ttQuickItems.js"],
 			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/item.php*"],
+			"css": ["scripts/features/marketicons/ttMarketIcons.css"],
+			"js": ["scripts/features/marketicons/ttMarketIcons.js"],
+			"run_at": "document_end"
 		}
 	]
 }

@@ -11,39 +11,6 @@
 }
 
 /*
- * Market Icon
- */
-
-.outside-actions {
-	display: flex;
-	position: absolute;
-	top: 0;
-	left: 100%;
-	z-index: 1;
-	background-color: var(--default-bg-panel-color, #f2f2f2);
-	border: 1px solid var(--default-panel-divider-outer-side-color, #ccc);
-	margin: -2px 0 0 4px;
-}
-
-.outside-actions.first-action {
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-}
-
-.outside-actions.last-action {
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
-}
-
-.outside-actions .torn-icon-item-market {
-	height: 30px !important;
-}
-
-.needed-item .outside-actions {
-	height: 32px;
-}
-
-/*
  * Missing plushies and flowers
  */
 
