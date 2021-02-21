@@ -1,5 +1,9 @@
 "use strict";
 
+const CUSTOM_API_ERROR = {
+	NO_NETWORK: "tt-no_networth",
+};
+
 async function fetchApi(location, options = {}) {
 	options = {
 		fakeResponse: false,
@@ -105,7 +109,23 @@ async function fetchApi(location, options = {}) {
 				return;
 			}
 
-			if (location === "torn") {
+			if (result.constructor.name === "TypeError") {
+				let error = result.message;
+				let isLocal = false;
+				let code;
+
+				if (error === "Failed to fetch") {
+					error = "Network issues";
+					isLocal = true;
+					code = CUSTOM_API_ERROR.NO_NETWORK;
+				}
+
+				if (location === "torn" && !options.silent) {
+					await ttStorage.change({ api: { torn: { online: false, error } } });
+					await setBadge("error");
+				}
+				reject({ error, isLocal, code });
+			} else if (location === "torn") {
 				let error, online;
 
 				error = result.error.error;

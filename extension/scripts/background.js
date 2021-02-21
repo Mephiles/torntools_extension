@@ -148,7 +148,7 @@ function timedUpdates() {
 				if (updated) console.log(`Updated ${types.join("+")} userdata.`, selections);
 				else console.log("Skipped this userdata update.");
 			})
-			.catch((error) => console.error("Error while updating userdata.", error));
+			.catch((error) => logError("updating userdata", error));
 
 		updateStakeouts()
 			.then(({ updated, success, failed }) => {
@@ -157,26 +157,34 @@ function timedUpdates() {
 					else console.log("No stakeouts to update.");
 				} else console.log("Skipped this stakeout update.");
 			})
-			.catch((error) => console.error("Error while updating stakeouts.", error));
+			.catch((error) => logError("updating stakeouts", error));
 
 		if (!torndata || !isSameUTCDay(new Date(torndata.date), new Date())) {
 			// Update once every torn day.
 			updateTorndata()
 				.then(() => console.log("Updated torndata."))
-				.catch((error) => console.error("Error while updating torndata.", error));
+				.catch((error) => logError("updating torndata", error));
 		}
 
 		// noinspection JSCheckFunctionSignatures
 		if (!torndata || !torndata.stocks || !isSameStockTick(new Date(torndata.stocks.date), new Date())) {
 			updateStocks()
 				.then(() => console.log("Updated stocks."))
-				.catch((error) => console.error("Error while updating stocks.", error));
+				.catch((error) => logError("updating stocks", error));
 		}
 
 		if (!factiondata || Date.now() - factiondata.date >= TO_MILLIS.MINUTES * 15)
 			updateFactiondata()
 				.then(() => console.log("Updated factiondata."))
-				.catch((error) => console.error("Error while updating factiondata.", error));
+				.catch((error) => logError("updating factiondata", error));
+	}
+
+	function logError(message, error) {
+		if (error.code === CUSTOM_API_ERROR.NO_NETWORK) {
+			console.warn(`Error due to no internet while ${message}.`);
+		} else {
+			console.error("Error while ${message}.", error);
+		}
 	}
 }
 
