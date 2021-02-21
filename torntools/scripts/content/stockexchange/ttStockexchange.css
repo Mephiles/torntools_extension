@@ -1,6 +1,7 @@
 /* General UI */
 
-#tt-stock-filter.portfolio, #tt-hide-stocks.portfolio {
+#tt-stock-filter.portfolio,
+#tt-hide-stocks.portfolio {
 	margin-bottom: 10px;
 }
 
@@ -215,10 +216,10 @@ div#tt-hide-stocks tr > td:nth-child(4) {
 
 button.unhide-portfolio {
 	border: #333 2px solid;
-    border-radius: 5px;
-    color: black;
-    cursor: pointer;
-    background-color: #f2f2f2;
-    margin-top: 3px;
-    margin-bottom: 3px;
+	border-radius: 5px;
+	color: black;
+	cursor: pointer;
+	background-color: #f2f2f2;
+	margin-top: 3px;
+	margin-bottom: 3px;
 }
