@@ -2,6 +2,7 @@
 
 let settings, filters, version, api, userdata, torndata, stakeouts, attackHistory, notes, factiondata, quick;
 let databaseLoaded = false;
+let databaseLoading = false;
 let storageListeners = {
 	settings: [],
 	filters: [],
@@ -14,6 +15,12 @@ let storageListeners = {
 
 async function loadDatabase() {
 	if (databaseLoaded) return Promise.resolve();
+	if (databaseLoading) {
+		await sleep(75);
+		return await loadDatabase();
+	}
+
+	databaseLoading = true;
 
 	const database = await ttStorage.get();
 

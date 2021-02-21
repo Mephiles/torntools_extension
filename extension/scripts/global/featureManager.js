@@ -191,6 +191,7 @@ class FeatureManager {
 	}
 
 	async startFeature(feature) {
+		await loadDatabase();
 		try {
 			console.log("[TornTools] FeatureManager - Starting feature.", feature);
 			if (feature.enabled && (typeof feature.enabled !== "function" || feature.enabled())) {
