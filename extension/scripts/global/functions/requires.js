@@ -65,3 +65,7 @@ function requireContent() {
 	// return requireElement(".box-title, .title-black[role=heading], .title-black > div[role=heading], .travel-agency-travelling");
 	return requireElement("#skip-to-content, #react-root");
 }
+
+function requireItemsLoaded() {
+	return requireElement(".items-cont[aria-expanded=true] > li > .title-wrap");
+}

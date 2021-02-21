@@ -326,6 +326,29 @@
 		return ["Temporary"].includes(category);
 	}
 
+	function getEquipPosition(id, category) {
+		// 4 = Body Armor
+		// 6 = Helmet
+		// 7 = Pants
+		// 8 = Boots
+		// 9 = Gloves
+		// 10 = CLOTHING - Jacket
+		switch (category) {
+			case "Primary":
+				return 1;
+			case "Secondary":
+				return 2;
+			case "Melee":
+				return 3;
+			case "Temporary":
+				return 5;
+			case "Defensive":
+				return -1; // TODO - Get right position;
+			default:
+				return false;
+		}
+	}
+
 	function updateItemAmount(id, change) {
 		const quickQuantity = findContainer("Quick Items", { selector: `.item[data-id="${id}"] .quantity` });
 		if (quickQuantity) {

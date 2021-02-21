@@ -88,20 +88,26 @@
 		},
 		{
 			"matches": ["https://www.torn.com/*"],
-			"css": ["scripts/content/global/ttGlobal.css"],
-			"js": ["scripts/content/global/ttGlobal.js"],
+			"css": ["scripts/features/octime/ttOCTime.css", "scripts/features/updatenotice/ttUpdateNotice.css"],
+			"js": [
+				"scripts/content_old/global/ttGlobal.js",
+				"scripts/content/global/ttGlobal.js",
+				"scripts/features/octime/ttOCTime.js",
+				"scripts/features/customlinks/ttCustomLinks.js",
+				"scripts/features/updatenotice/ttUpdateNotice.js"
+			],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/companies.php*"],
-			"css": ["scripts/content/companies/ttCompanies.css"],
-			"js": ["scripts/content/companies/ttCompanies.js"],
+			"css": ["scripts/content_old/companies/ttCompanies.css"],
+			"js": ["scripts/content_old/companies/ttCompanies.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/factions.php*"],
-			"css": ["scripts/content/factions/ttFactions.css"],
-			"js": ["scripts/content/factions/ttFactions.js"],
+			"css": ["scripts/content_old/factions/ttFactions.css"],
+			"js": ["scripts/content_old/factions/ttFactions.js"],
 			"run_at": "document_end"
 		},
 		{
@@ -138,9 +144,10 @@
 		},
 		{
 			"matches": ["https://www.torn.com/item.php*"],
-			"css": ["scripts/content/items/ttItems.css", "scripts/features/quickitems/ttQuickItems.css", "scripts/features/marketicons/ttMarketIcons.css"],
+			"css": ["scripts/content_old/items/ttItems.css", "scripts/features/quickitems/ttQuickItems.css", "scripts/features/marketicons/ttMarketIcons.css"],
 			"js": [
 				"vendor/jquery/jquery.js",
+				"scripts/content_old/items/ttItems.js",
 				"scripts/content/items/ttItems.js",
 				"scripts/features/quickitems/ttQuickItems.js",
 				"scripts/features/marketicons/ttMarketIcons.js"

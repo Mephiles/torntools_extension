@@ -1,0 +1,17 @@
+[class*="chat-box-input_"].tt-modified {
+	height: 86px !important;
+}
+
+.tt-chat-filter {
+	display: flex;
+	margin-left: 4px;
+	padding-top: 2px;
+	align-items: center;
+}
+
+.tt-chat-filter input {
+	margin-left: 4px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	width: 232px;
+}

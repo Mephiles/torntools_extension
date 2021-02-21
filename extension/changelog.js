@@ -115,7 +115,7 @@ export default [
 		logs: {
 			fixes: [
 				{ message: "Update 'Rising Costs' hint.", contributor: "DeKleineKobini" },
-				{ message: "Fix an issue with an old rank name.", contributor: "h4xnoodle" },
+				{ message: "Fix an issue with an content_old rank name.", contributor: "h4xnoodle" },
 				{ message: "Add safety measure for factions filter when your computer clock is out of sync.", contributor: "DeKleineKobini" },
 				{ message: "Fix wrong Piercing Weapons achievement 2,500 goal.", contributor: "Mephiles" },
 				{ message: "Fix trade logs showing money values for comments.", contributor: "Mephiles" },
@@ -442,7 +442,7 @@ export default [
 				{ message: "Fix item value and item market links not showing when scrolling through your items", contributor: "DeKleineKobini" },
 				{ message: "Fix API history cleaning to stop storage build-up", contributor: "Mephiles" },
 				{ message: "Fix NPC loot notifications Text-To-Speech saying 'meter' instead of 'minute'", contributor: "Mephiles" },
-				{ message: "Fix Gym Graph old data issue", contributor: "Mephiles" },
+				{ message: "Fix Gym Graph content_old data issue", contributor: "Mephiles" },
 				{ message: "Adjust Faction filter to Torn's new layout", contributor: "Mephiles" },
 				{ message: "Fix Company users' info not appearing", contributor: "Mephiles" },
 				{ message: "Fix Torn's data fetch not running correctly", contributor: "Mephiles" },
@@ -814,7 +814,7 @@ export default [
 						"IMPORTANT: Torn changed the formatting of dates in Vault transactions. Adjusted TornTools with that. (CLICK save to update the database with the latest correct date)",
 					contributor: "Mephiles",
 				},
-				{ message: "Fixed Vault not updating User's shares when looping through old transactions", contributor: "Mephiles" },
+				{ message: "Fixed Vault not updating User's shares when looping through content_old transactions", contributor: "Mephiles" },
 				{ message: "Fixed API errors not appearing on Stocks page", contributor: "Mephiles" },
 				{ message: "Fixed DoctorN always set as False on Firefox (set using/not using under settings)", contributor: "Mephiles" },
 			],
