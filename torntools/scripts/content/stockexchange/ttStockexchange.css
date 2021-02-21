@@ -1,6 +1,6 @@
 /* General UI */
 
-#tt-stock-filter.portfolio {
+#tt-stock-filter.portfolio, #tt-hide-stocks.portfolio {
 	margin-bottom: 10px;
 }
 
@@ -177,4 +177,48 @@
 
 .difference.down i {
 	background: url("https://torn.com/images/v2/stock/up_down_steady.png") 0 1px no-repeat;
+}
+
+button.hide-portfolio {
+	float: right;
+	border-color: silver;
+	color: white;
+	background-color: #627e0d;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+div#tt-hide-stocks td {
+	border: black 2px solid;
+}
+
+div#tt-hide-stocks table {
+	width: 100%;
+	text-align: center;
+	background-color: white;
+	font-size: 14px;
+}
+
+div#tt-hide-stocks tr > td:nth-child(1) {
+	font-weight: bold;
+	font-size: 18px;
+	vertical-align: middle;
+}
+
+div#tt-hide-stocks tr > td:nth-child(3) {
+	color: blue;
+}
+
+div#tt-hide-stocks tr > td:nth-child(4) {
+	color: #678c00;
+}
+
+button.unhide-portfolio {
+	border: #333 2px solid;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+    background-color: #f2f2f2;
+    margin-top: 3px;
+    margin-bottom: 3px;
 }
