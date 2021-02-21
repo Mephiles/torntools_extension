@@ -1,0 +1,3 @@
+#barEnergy p[class*="bar-name_"] {
+	color: var(--torntools-highlight-energy, #333) !important;
+}

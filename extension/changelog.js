@@ -214,7 +214,7 @@ export default [
 				{ message: "Added sell points award and refill award trackers.", contributor: "wootty2000" },
 				{ message: "Added Shop to 'ignore max buy in bazaars' option.", contributor: "Mephiles" },
 				{ message: "Remove 'requires factions API access' description from Advanced OC option.", contributor: "Mephiles" },
-				{ message: "Improve entry script loading times.", contributor: "DeKleineKobini" },
+				{ message: "Improve alignleft script loading times.", contributor: "DeKleineKobini" },
 				{ message: "Added item count to City Items value.", contributor: "Mephiles" },
 				{ message: "Allow stakeouts on hospital status.", contributor: "finally" },
 				{ message: "Change the notification system.", contributor: "finally" },
@@ -459,7 +459,7 @@ export default [
 			],
 			changes: [
 				{ message: "Add a loading icon for networth on the Home page", contributor: "Mephiles" },
-				{ message: "Change popup entry point to improve speed", contributor: "Mephiles" },
+				{ message: "Change popup alignleft point to improve speed", contributor: "Mephiles" },
 				{ message: "Decrease item quantity in Quick Items when sending or using an item", contributor: "DeKleineKobini" },
 				{ message: "Improve containers' design", contributor: "DeKleineKobini" },
 				{ message: "Show factions member information for other factions", contributor: "DeKleineKobini" },

@@ -18,18 +18,6 @@ class FeatureManager {
 		this.resultQueue = [];
 	}
 
-	display() {
-		let container = document.find(`#${this.containerID}`);
-		if (!container) return;
-
-		container.setClass(
-			settings.featureDisplay ? "" : "hidden",
-			settings.featureDisplayPosition,
-			settings.featureDisplayOnlyFails ? "only-fails" : "",
-			settings.featureDisplayHideDisabled ? "hide-disabled" : ""
-		);
-	}
-
 	async createPopup() {
 		if (await checkMobile()) return;
 
@@ -81,8 +69,8 @@ class FeatureManager {
 		let updated = false;
 		for (let _feature of this.features) {
 			if (_feature.name === feature.name) {
-				console.log("	updating previous entry");
-				this.features[this.features.indexOf(_feature)] = feature; // update previous entry
+				console.log("	updating previous alignleft");
+				this.features[this.features.indexOf(_feature)] = feature; // update previous alignleft
 				updated = true;
 			}
 		}
@@ -332,6 +320,18 @@ class FeatureManager {
 					return "fa-question-circle";
 			}
 		}
+	}
+
+	display() {
+		let container = document.find(`#${this.containerID}`);
+		if (!container) return;
+
+		container.setClass(
+			settings.featureDisplay ? "" : "hidden",
+			settings.featureDisplayPosition,
+			settings.featureDisplayOnlyFails ? "only-fails" : "",
+			settings.featureDisplayHideDisabled ? "hide-disabled" : ""
+		);
 	}
 }
 
