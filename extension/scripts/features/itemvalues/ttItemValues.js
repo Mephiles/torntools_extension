@@ -19,8 +19,8 @@
 		"items",
 		() => settings.pages.items.values,
 		initialiseItemValues,
-		null, // FIXME - Check this.
-		null, // FIXME - Check this.
+		null,
+		null,
 		{
 			storage: ["settings.pages.items.values"],
 		},

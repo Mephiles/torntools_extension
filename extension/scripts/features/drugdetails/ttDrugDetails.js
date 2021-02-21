@@ -11,8 +11,8 @@
 		"items",
 		() => settings.pages.items.drugDetails,
 		initialiseDrugDetails,
-		null, // NTH - Live reload
-		null, // NTH - Live reload
+		null,
+		null,
 		{
 			storage: ["settings.pages.items.drugDetails"],
 		},
