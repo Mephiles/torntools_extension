@@ -1258,6 +1258,7 @@ const STORAGE = {
 	hide_icons: [],
 	hide_casino_games: [],
 	hide_stock_blocks: [],
+	hidden_portfolio: {},
 	hide_areas: [],
 	quick: {
 		items: [],
