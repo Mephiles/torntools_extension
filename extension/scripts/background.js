@@ -699,7 +699,6 @@ async function updateStakeouts() {
 
 		if (stakeouts[id].alerts) {
 			const { okay, hospital, landing, online, life } = stakeouts[id].alerts;
-			const now = Date.now();
 
 			if (okay) {
 				const key = `${id}_okay`;
