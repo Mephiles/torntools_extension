@@ -134,12 +134,12 @@
 		if (!hasAPIData() || !settings.apiUsage.user.inventory) return;
 
 		let total;
-		if (type === "All") total = userdata.inventory.map((x) => x.quantity * x.market_price).reduce((a, b) => (a += b), 0);
+		if (type === "All") total = userdata.inventory.map((x) => x.quantity * x.market_price).totalSum();
 		else
 			total = userdata.inventory
 				.filter((x) => x.type === type)
 				.map((x) => x.quantity * x.market_price)
-				.reduce((a, b) => (a += b), 0);
+				.totalSum();
 
 		setTimeout(() => {
 			list.insertBefore(

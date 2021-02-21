@@ -49,14 +49,6 @@
 			});
 		}
 
-		function setupFetch(options = {}) {
-			addFetchListener(({ detail: { page, fetch, json } }) => {
-				if (!fetch || page !== "inventory") return;
-
-				handleRequest(fetch, json, options);
-			});
-		}
-
 		function handleRequest(request, json, options = {}) {
 			const params = request.url ? new URL(request.url).searchParams : new URLSearchParams(request.requestBody);
 

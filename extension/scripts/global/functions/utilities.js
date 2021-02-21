@@ -8,6 +8,9 @@ Array.prototype.last = function () {
 Array.prototype.insertAt = function (index, ...elements) {
 	this.splice(index, 0, ...elements);
 };
+Array.prototype.totalSum = function () {
+	return this.reduce((a, b) => (a += b), 0);
+};
 
 if (!Array.prototype.flat)
 	Object.defineProperty(Array.prototype, "flat", {
