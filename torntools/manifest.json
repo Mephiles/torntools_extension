@@ -221,6 +221,22 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/loader.php?sid=view*"],
+			"js": ["scripts/content/loader/ttCasinoStatistics.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/bookies.php*"],
+			"include_globs" : ["*#/stats/*"],
+			"js": ["scripts/content/loader/ttCasinoStatistics.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/loader.php?sid=view*"],
+			"js": ["scripts/content/loader/ttCasinoStatistics.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/loader.php?sid=highlow*"],
 			"css": ["scripts/content/casino/ttCasino.css"],
 			"js": ["scripts/content/casino/ttHiLo.js"],
