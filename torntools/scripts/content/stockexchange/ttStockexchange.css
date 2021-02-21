@@ -1,7 +1,6 @@
 /* General UI */
 
-#tt-stock-filter.portfolio,
-#tt-hide-stocks.portfolio {
+#tt-stock-filter.portfolio, #tt-hide-stocks.portfolio {
 	margin-bottom: 10px;
 }
 
@@ -190,7 +189,11 @@ button.hide-portfolio {
 }
 
 div#tt-hide-stocks td {
-	border: black 2px solid;
+	border-bottom:  1px solid;
+}
+
+div#tt-hide-stocks tr.heading {
+	border-bottom: black 2px solid;
 }
 
 div#tt-hide-stocks table {
@@ -216,10 +219,10 @@ div#tt-hide-stocks tr > td:nth-child(4) {
 
 button.unhide-portfolio {
 	border: #333 2px solid;
-	border-radius: 5px;
-	color: black;
-	cursor: pointer;
-	background-color: #f2f2f2;
-	margin-top: 3px;
-	margin-bottom: 3px;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+    background-color: #f2f2f2;
+    margin-top: 3px;
+    margin-bottom: 3px;
 }
