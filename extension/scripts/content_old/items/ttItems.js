@@ -1,7 +1,5 @@
 "use strict";
 
-let pendingActions = {};
-
 (async () => {
 	await loadDatabase();
 	console.log("TT: Items - Loading script. ");
