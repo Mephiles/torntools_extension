@@ -80,6 +80,7 @@
 				if (options.ignoreUntradable && parseInt(item.untradable)) continue;
 
 				requireElement(`li[data-reactid*='$${item.armoryID}'] .name-wrap`, { parent: list }).then(async () => {
+					await sleep(0);
 					const itemRow = list.find(`li[data-reactid*='$${item.armoryID}']`);
 
 					const parent = itemRow.find(".name-wrap");
