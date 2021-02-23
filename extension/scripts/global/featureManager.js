@@ -18,51 +18,6 @@ class FeatureManager {
 		this.resultQueue = [];
 	}
 
-	async createPopup() {
-		if (await checkMobile()) return;
-
-		let collapsed = this.containerID in filters.containers ? filters.containers[this.containerID] : false;
-
-		document.body.appendChild(
-			document.newElement({
-				id: this.containerID,
-				type: "div",
-				class: settings.featureDisplayPosition,
-				children: [
-					document.newElement({
-						type: "div",
-						class: `tt-page-status-header ${collapsed ? "collapsed" : ""}`,
-						children: [
-							document.newElement({
-								type: "span",
-								text: "TornTools activated",
-							}),
-							document.newElement({
-								type: "i",
-								class: "icon fas fa-caret-down",
-							}),
-						],
-					}),
-					document.newElement({
-						type: "div",
-						class: "tt-page-status-content",
-					}),
-				],
-			})
-		);
-
-		document.find(".tt-page-status-header").onclick = () => {
-			let toggleResult = document.find(".tt-page-status-header").classList.toggle("collapsed");
-			ttStorage.change({ filters: { containers: { [this.containerID]: toggleResult } } });
-		};
-
-		this.popupLoaded = true;
-
-		if (this.resultQueue.length > 0) {
-			for (let item of this.resultQueue) this.addResult(item);
-		}
-	}
-
 	new(feature) {
 		console.log("Adding feature:", feature);
 		// Check if feature is in list
@@ -129,10 +84,7 @@ class FeatureManager {
 	async addResult(options) {
 		if (await checkMobile()) return;
 
-		if (!this.popupLoaded) {
-			this.resultQueue.push(options);
-			return;
-		}
+		if (!this.popupLoaded) return;
 
 		let row;
 		if (document.find(`#tt-page-status-feature-${options.name.toLowerCase().replace(/ /g, "-")}`)) {
@@ -262,8 +214,7 @@ class FeatureManager {
 
 	showResult(feature, status, options = {}) {
 		if (!this.popupLoaded) {
-			// FIXME - Solve queue!
-			// this.resultQueue.push([feature, status, options]);
+			this.resultQueue.push([feature, status, options]);
 			return;
 		}
 
@@ -333,6 +284,43 @@ class FeatureManager {
 			settings.featureDisplayOnlyFails ? "only-fails" : "",
 			settings.featureDisplayHideDisabled ? "hide-disabled" : ""
 		);
+	}
+
+	async createPopup() {
+		if (await checkMobile()) return;
+
+		let collapsed = this.containerID in filters.containers ? filters.containers[this.containerID] : false;
+
+		document.body.appendChild(
+			document.newElement({
+				id: this.containerID,
+				type: "div",
+				class: settings.featureDisplayPosition,
+				children: [
+					document.newElement({
+						type: "div",
+						class: `tt-page-status-header ${collapsed ? "collapsed" : ""}`,
+						children: [
+							document.newElement({ type: "span", text: "TornTools activated" }),
+							document.newElement({ type: "i", class: "icon fas fa-caret-down" }),
+						],
+					}),
+					document.newElement({ type: "div", class: "tt-page-status-content" }),
+				],
+			})
+		);
+
+		document.find(".tt-page-status-header").onclick = () => {
+			let toggleResult = document.find(".tt-page-status-header").classList.toggle("collapsed");
+			ttStorage.change({ filters: { containers: { [this.containerID]: toggleResult } } });
+		};
+
+		this.popupLoaded = true;
+
+		for (let item of this.resultQueue) {
+			const [feature, status, options] = item;
+			this.showResult(feature, status, options);
+		}
 	}
 }
 
