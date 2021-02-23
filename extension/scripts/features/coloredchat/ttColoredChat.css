@@ -1,4 +1,4 @@
-.chat-colored[class*="chat-box-head_"] [class*="chat-box-title_out6E_"],
+.chat-colored[class*="chat-box-head_"] [class*="chat-box-title_"],
 .chat-colored[class*="chat-box-head_"] [class*="l_"],
 .chat-colored[class*="chat-box-head_"] [class*="r_"] {
 	background: var(--highlight-color__1);

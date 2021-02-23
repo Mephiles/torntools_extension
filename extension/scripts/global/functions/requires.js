@@ -69,3 +69,7 @@ function requireContent() {
 function requireItemsLoaded() {
 	return requireElement(".items-cont[aria-expanded=true] > li > .title-wrap");
 }
+
+function requireChatsLoaded() {
+	return requireElement("[class*='overview_']");
+}

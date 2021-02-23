@@ -39,7 +39,7 @@ function loadGlobal() {
 							setTimeout(() => {
 								addChatSearch();
 								addChatUsernameAutocomplete();
-								addChatColoring();
+								// addChatColoring();
 							});
 						} else if (addedNode.classList && addedNode.classList.contains("^=chat-box-content_")) {
 							manipulateChats();
@@ -64,7 +64,6 @@ function loadGlobal() {
 
 			addChatSearch();
 			addChatUsernameAutocomplete();
-			addChatColoring();
 			manipulateChats();
 
 			document.addEventListener("click", (event) => {
@@ -141,10 +140,6 @@ function loadGlobalOnce() {
 			mouseY = event.y;
 		});
 	}
-}
-
-function requireChatsLoaded() {
-	return requireElement("[class*='overview_']");
 }
 
 function addChatSearch() {
@@ -305,24 +300,6 @@ function addChatUsernameAutocomplete() {
 			textarea.setSelectionRange(selectionIndex, selectionIndex);
 		});
 	}
-}
-
-function addChatColoring() {
-	[...document.findAll(".chat-colored")].forEach((chat) => chat.classList.remove("chat-colored"));
-
-	settings.pages.chat.titleHighlights
-		.map((entry) => {
-			return {
-				colors: CHAT_TITLE_COLORS[entry.color],
-				element: findParent(document.find(`[class*='chat-box-title_'][title="${entry.title}"]`), { class: "^=chat-box-head_" }),
-			};
-		})
-		.filter((entry) => entry.colors && entry.colors.length === 2 && entry.element)
-		.forEach((entry) => {
-			entry.element.classList.add("chat-colored");
-			entry.element.style.setProperty("--highlight-color__1", entry.colors[0]);
-			entry.element.style.setProperty("--highlight-color__2", entry.colors[1]);
-		});
 }
 
 async function showComputerLink() {
