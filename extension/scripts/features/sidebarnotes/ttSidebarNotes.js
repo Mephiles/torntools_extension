@@ -2,99 +2,51 @@
 
 (async () => {
 	featureManager.registerFeature(
-		"Update Notice",
+		"Sidebar Notes",
 		"global",
-		() => settings.customLinks.length,
+		() => settings.pages.sidebar.notes,
 		null,
-		showLinks,
-		removeLinks,
+		showNotes,
+		removeNotes,
 		{
-			storage: ["settings.customLinks"],
+			storage: ["settings.pages.sidebar.notes"],
 		},
 		null
 	);
 
-	async function showLinks() {
+	async function showNotes() {
+		if (await checkMobile()) return;
 		await requireSidebar();
 
-		if (!(await checkMobile())) {
-			showOutside("above", "customLinksAbove");
-			showOutside("under", "customLinksUnder");
-			showInside();
-		} else {
-			// FIXME - Mobile custom links.
-		}
+		const { content } = createContainer("Notes", {
+			id: "sidebarNotes",
+			applyRounding: false,
+			contentBackground: false,
+			previousElement: findParent(document.find("h2=Information"), { class: "^=sidebar-block_" }),
+		});
 
-		function showOutside(filter, id) {
-			if (!settings.customLinks.filter((link) => link.location === filter).length) {
-				removeContainer("Custom Links", { id });
-				return;
-			}
+		content.appendChild(
+			document.newElement({
+				type: "textarea",
+				class: "notes",
+				value: notes.sidebar.text,
+				style: { height: notes.sidebar.height },
+				events: {
+					async mouseup(event) {
+						if (event.target.style.height === notes.sidebar.height) return;
 
-			const { content } = createContainer("Custom Links", {
-				id,
-				applyRounding: false,
-				contentBackground: false,
-				nextElement: areas,
-			});
-
-			for (let link of settings.customLinks.filter((link) => link.location === filter)) {
-				content.appendChild(
-					document.newElement({
-						type: "div",
-						class: "pill",
-						children: [
-							document.newElement({
-								type: "a",
-								href: link.href,
-								text: link.name,
-								attributes: {
-									target: link.newTab ? "_blank" : "_self",
-								},
-							}),
-						],
-					})
-				);
-			}
-		}
-
-		function showInside() {
-			for (let link of settings.customLinks.filter((link) => link.location !== "above" && link.location !== "under")) {
-				const locationSplit = link.location.split("_");
-
-				const location = locationSplit.splice(1).join("_");
-				const area = ALL_AREAS.filter((area) => area.class === location);
-				if (!area) continue;
-				let target = areas.find(`#nav-${area[0].class}`);
-				if (!target) continue;
-
-				if (locationSplit[0] === "under") target = target.nextSibling;
-
-				const pill = document.newElement({
-					type: "div",
-					class: "pill custom-link",
-					children: [
-						document.newElement({
-							type: "a",
-							href: link.href,
-							text: link.name,
-							attributes: {
-								target: link.newTab ? "_blank" : "",
-							},
-						}),
-					],
-				});
-				const parent = areas.find("div[class*='toggle-content_']");
-				if (target) parent.insertBefore(pill, target);
-				else parent.appendChild(pill);
-			}
-		}
+						console.log("Resized sidebar notes.", event.target.style.height);
+						await ttStorage.change({ notes: { sidebar: { height: event.target.style.height } } });
+					},
+					async change(event) {
+						await ttStorage.change({ notes: { sidebar: { text: event.target.value } } });
+					},
+				},
+			})
+		);
 	}
 
-	function removeLinks() {
-		removeContainer("Custom Links", { id: "customLinksAbove" });
-		removeContainer("Custom Links", { id: "customLinksUnder" });
-
-		for (let link of areas.findAll(".custom-link")) link.remove();
+	function removeNotes() {
+		removeContainer("Notes", { id: "sidebarNotes" });
 	}
 })();
