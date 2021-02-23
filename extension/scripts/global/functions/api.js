@@ -23,7 +23,7 @@ async function fetchApi(location, options = {}) {
 		const PLATFORMS = {
 			torn: "https://api.torn.com/",
 			yata: "https://yata.yt/",
-			tornstats: "https://www.tornstats.com/",
+			tornstats: "https://www.beta.tornstats.com/",
 			torntools: "https://torntools.gregork.com/",
 			nukefamily: "https://www.nukefamily.org/",
 		};
