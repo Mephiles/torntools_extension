@@ -35,7 +35,7 @@
 				id,
 				applyRounding: false,
 				contentBackground: false,
-				nextElement: areas,
+				nextElement: findParent(document.find("h2=Areas"), { class: "^=sidebar-block_" }),
 			});
 
 			for (let link of settings.customLinks.filter((link) => link.location === filter)) {
