@@ -92,7 +92,8 @@
 				"scripts/features/octime/ttOCTime.css",
 				"scripts/features/updatenotice/ttUpdateNotice.css",
 				"scripts/features/sidebarnotes/ttSidebarNotes.css",
-				"scripts/features/coloredchat/ttColoredChat.css"
+				"scripts/features/coloredchat/ttColoredChat.css",
+				"scripts/features/searchchat/ttSearchChat.css"
 			],
 			"js": [
 				"scripts/content_old/global/ttGlobal.js",
@@ -101,7 +102,8 @@
 				"scripts/features/customlinks/ttCustomLinks.js",
 				"scripts/features/updatenotice/ttUpdateNotice.js",
 				"scripts/features/sidebarnotes/ttSidebarNotes.js",
-				"scripts/features/coloredchat/ttColoredChat.js"
+				"scripts/features/coloredchat/ttColoredChat.js",
+				"scripts/features/searchchat/ttSearchChat.js"
 			],
 			"run_at": "document_end"
 		},

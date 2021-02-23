@@ -37,9 +37,9 @@ function loadGlobal() {
 					for (let addedNode of mutation.addedNodes) {
 						if (addedNode.classList && addedNode.classList.contains("^=chat-box_")) {
 							setTimeout(() => {
-								addChatSearch();
+								// TODO - addChatSearch();
 								addChatUsernameAutocomplete();
-								// addChatColoring();
+								// TODO - addChatColoring();
 							});
 						} else if (addedNode.classList && addedNode.classList.contains("^=chat-box-content_")) {
 							manipulateChats();
@@ -47,22 +47,22 @@ function loadGlobal() {
 
 						if (addedNode.classList && !addedNode.classList.contains("^=message_")) continue;
 
-						if (settings.pages.chat.searchChat) {
-							const parent = findParent(addedNode, { class: "^=chat-box_" });
-							if (!parent) continue;
-
-							const input = parent.find(".tt-chat-filter input");
-							if (!input) continue;
-
-							const keyword = input.value;
-							if (keyword) searchChat(addedNode, keyword);
-						}
+						// TODO - Implement
+						// if (settings.pages.chat.searchChat) {
+						// 	const parent = findParent(addedNode, { class: "^=chat-box_" });
+						// 	if (!parent) continue;
+						//
+						// 	const input = parent.find(".tt-chat-filter input");
+						// 	if (!input) continue;
+						//
+						// 	const keyword = input.value;
+						// 	if (keyword) searchChat(addedNode, keyword);
+						// }
 						applyHighlights(addedNode);
 					}
 				}
 			}).observe(document.find("#chatRoot"), { childList: true, subtree: true });
 
-			addChatSearch();
 			addChatUsernameAutocomplete();
 			manipulateChats();
 
@@ -70,7 +70,7 @@ function loadGlobal() {
 				if (!hasParent(event.target, { class: "^=chat-box_" })) return;
 
 				manipulateChats();
-				addChatSearch();
+				// TODO - addChatSearch();
 				addChatUsernameAutocomplete();
 				manipulateChats();
 			});
@@ -139,52 +139,6 @@ function loadGlobalOnce() {
 			mouseX = event.x;
 			mouseY = event.y;
 		});
-	}
-}
-
-function addChatSearch() {
-	if (settings.pages.chat.searchChat) {
-		for (let chat of document.findAll("[class*='chat-active_']:not([class*='chat-box-settings_'])")) {
-			if (chat.find(".tt-chat-filter")) continue;
-
-			const id = `search_${chat.find("[class*='chat-box-title_']").getAttribute("title")}`;
-
-			let wrap = document.newElement({ type: "div", class: "tt-chat-filter" });
-			let label = document.newElement({ type: "label", text: "Search:", attributes: { for: id } });
-			let searchInput = document.newElement({ type: "input", id });
-
-			wrap.appendChild(label);
-			wrap.appendChild(searchInput);
-
-			// Filtering process
-			searchInput.addEventListener("input", () => {
-				const keyword = searchInput.value.toLowerCase();
-
-				for (let message of chat.findAll("[class*='overview_'] [class*='message_']")) {
-					searchChat(message, keyword);
-				}
-
-				if (!keyword) {
-					const viewport = chat.find("[class*='viewport_']");
-					viewport.scrollTop = viewport.scrollHeight;
-				}
-			});
-
-			const chatInput = chat.find("[class*='chat-box-input_']");
-			chatInput.insertBefore(wrap, chatInput.firstElementChild);
-			chatInput.classList.add("tt-modified");
-		}
-	} else {
-		for (let chat of document.findAll("[class*='chat-active_']")) {
-			for (let message of document.findAll("[class*='overview_'] [class*='message_']")) {
-				message.classList.remove("hidden");
-			}
-			const viewport = chat.find("[class*='viewport_']");
-			viewport.scrollTop = viewport.scrollHeight;
-
-			const searchInput = document.find(".tt-chat-filter");
-			if (searchInput) searchInput.remove();
-		}
 	}
 }
 
