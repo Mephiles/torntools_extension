@@ -208,7 +208,7 @@ class FeatureManager {
 	async executeFunction(func) {
 		if (!func) return;
 
-		if (func.constructor.name === "AsyncFunction") func().catch(() => {});
+		if (func.constructor.name === "AsyncFunction") await func();
 		else func();
 	}
 
