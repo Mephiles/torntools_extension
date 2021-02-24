@@ -1546,6 +1546,7 @@ const STORAGE = {
 			stockexchange: {
 				acronyms: true,
 				advanced: true,
+				hide_stock_block : true,
 			},
 			bazaar: {
 				worth: false,
