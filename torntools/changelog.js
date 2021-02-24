@@ -1,10 +1,10 @@
 export default {
 	"v5.7.1 - xxxxx, xxth. 2021": {
 		Features: [
-                "Add an arrow for folding Faction Description. - Sashank999"
+                "Add an arrow for folding Faction Description. - Sashank999",
                 "Show warning when taking Xanax while the user is already at 1000E. - Sashank999",
-		    	      "Add setting to hide some portfolio and stock blocks. - Sashank999",
-    ],
+		"Add setting to hide some portfolio and stock blocks. - Sashank999",
+    		],
 		Fixes: [],
 		Changes: ["Add setting for 'Show flight times before flying'. - Sashank999"],
 	},
