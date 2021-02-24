@@ -38,7 +38,7 @@ requireDatabase().then(() => {
 					}
 				}
 			}
-			
+
 			hideStockBlocks();
 		}
 
@@ -513,7 +513,8 @@ function hideStockBlocks() {
 		for (let hideStockBlock of hide_stock_blocks) {
 			doc.find(`div.stock-main-wrap li.item.item-wrap[data-stock=${hideStockBlock.toLowerCase()}]`).style.display = "none";
 		}
-		let rawHTML = '<div class="info-msg-cont gray border-round m-top10"><div class="info-msg border-round" style="background-color: #627e0d;"><i class="info-icon"></i><div class="delimiter"><div class="msg right-round" style="background-color: #627e0d;color: #627e0d;">Some stock blocks have been disabled by TornTools. Please re-enable them in Settings.</div></div></div></div>';
+		let rawHTML =
+			'<div class="info-msg-cont gray border-round m-top10"><div class="info-msg border-round" style="background-color: #627e0d;"><i class="info-icon"></i><div class="delimiter"><div class="msg right-round" style="background-color: #627e0d;color: #627e0d;">Some stock blocks have been disabled by TornTools. Please re-enable them in Settings.</div></div></div></div>';
 		doc.find("div.stock-main-wrap div.title-black").insertAdjacentHTML("beforeBegin", rawHTML);
 	}
 }
@@ -526,7 +527,7 @@ function hidePortfolio() {
 		});
 		doc.find("div.stock-main-wrap ul.stock-cont").addEventListener("click", (event) => {
 			if (event.target.localName === "button") {
-				let id = findParent(event.target, {class: "item-wrap"}).getAttribute("id");
+				let id = findParent(event.target, { class: "item-wrap" }).getAttribute("id");
 				let stock_block_row = doc.find(`div.stock-main-wrap li.item-wrap[id="${id}"]`);
 				let newHideStockIDKey = {};
 				newHideStockIDKey[id] = {};
@@ -535,23 +536,26 @@ function hidePortfolio() {
 				newHideStockIDKey[id].time_bought = stock_block_row.find("li.info div.length-wrap div.first-row").innerText.split(":")[1].split("(")[0].trim();
 				newHideStockIDKey[id].bought_price = stock_block_row.find("li.info div.c-price-wrap div.first-row").innerText.split(":")[1];
 				hidden_portfolio = Object.assign(newHideStockIDKey, hidden_portfolio);
-				ttStorage.set({hidden_portfolio : hidden_portfolio});
+				ttStorage.set({ hidden_portfolio: hidden_portfolio });
 				stock_block_row.style.display = "none";
 				addHiddenStocksTable();
 			}
 		});
-	};
-	for (let stock_block_id of Object.keys(hidden_portfolio)) doc.find(`div.stock-main-wrap li.item-wrap[data-stock][id=\"${stock_block_id}\"]`).style.display = "none";
+	}
+	for (let stock_block_id of Object.keys(hidden_portfolio))
+		doc.find(`div.stock-main-wrap li.item-wrap[data-stock][id=\"${stock_block_id}\"]`).style.display = "none";
 	addHiddenStocksTable();
 }
 
 function addHiddenStocksTable() {
 	if (Object.keys(hidden_portfolio).length && !doc.findAll("div#tt-hide-stocks").length) {
-		content.newContainer("Hidden Portfolio", {
-			id: "tt-hide-stocks",
-			_class: "portfolio",
-			next_element: doc.find("div#info_wrapper"),
-		}).find(".content").innerHTML = `<table>
+		content
+			.newContainer("Hidden Portfolio", {
+				id: "tt-hide-stocks",
+				_class: "portfolio",
+				next_element: doc.find("div#info_wrapper"),
+			})
+			.find(".content").innerHTML = `<table>
 				<tr class="heading">
 					<td>Name</td>
 					<td>Shares</td>
@@ -565,8 +569,9 @@ function addHiddenStocksTable() {
 		doc.findAll("div#tt-hide-stocks table tr[id]").forEach((x) => x.remove());
 	}
 	for (let stock_block_id of Object.keys(hidden_portfolio)) {
-		doc.find("div#tt-hide-stocks table tr.heading").insertAdjacentHTML("afterEnd",
-		`<tr id=\"stock-${stock_block_id}\">
+		doc.find("div#tt-hide-stocks table tr.heading").insertAdjacentHTML(
+			"afterEnd",
+			`<tr id=\"stock-${stock_block_id}\">
 			<td>${hidden_portfolio[stock_block_id].stock_name}</td>
 			<td>${hidden_portfolio[stock_block_id].shares}</td>
 			<td style="">${hidden_portfolio[stock_block_id].time_bought}</td>
@@ -576,11 +581,11 @@ function addHiddenStocksTable() {
 		);
 	}
 	if (doc.find("div#tt-hide-stocks table")) {
-	doc.find("div#tt-hide-stocks table").addEventListener("click", () => {
+		doc.find("div#tt-hide-stocks table").addEventListener("click", () => {
 			if (event.target.localName === "button") {
 				let id = event.target.getAttribute("id");
 				delete hidden_portfolio[id];
-				ttStorage.set({hidden_portfolio : hidden_portfolio});
+				ttStorage.set({ hidden_portfolio: hidden_portfolio });
 				doc.find(`div#tt-hide-stocks table tr#stock-${id}`).remove();
 				doc.find(`div.stock-main-wrap li.item-wrap[id="${id}"]`).style.display = "";
 			}
