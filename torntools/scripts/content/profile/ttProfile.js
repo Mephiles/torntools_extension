@@ -127,6 +127,7 @@ const key_dict = {
 	},
 	revives: {
 		revives: "Revives: Given",
+		reviveskill: "Revives: Skill",
 		revivesreceived: "Revives: Received",
 	},
 	travel: {
