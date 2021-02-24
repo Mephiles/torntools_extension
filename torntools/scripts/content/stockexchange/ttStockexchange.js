@@ -520,7 +520,7 @@ function hideStockBlocks() {
 
 function hidePortfolio() {
 	if (settings.pages.stockexchange.hide_stock_block) {
-		let buttonHTML = "<button class='hide-portfolio'>Hide this stock block</button>";
+		let buttonHTML = "<button class='hide-portfolio'>Hide</button>";
 		doc.findAll("div.stock-main-wrap ul.stock-cont > *").forEach((stock_block) => {
 			stock_block.find("div.qualify-wrap").insertAdjacentHTML("beforeEnd", buttonHTML);
 		});
