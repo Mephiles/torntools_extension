@@ -317,6 +317,7 @@
 	width: 150px;
 	border-radius: 10px;
 	border: 2px solid lightgray;
+	z-index: 5;
 }
 
 #tt-page-status.top-left {
