@@ -1257,6 +1257,8 @@ const STORAGE = {
 	},
 	hide_icons: [],
 	hide_casino_games: [],
+	hide_stock_blocks: [],
+	hidden_portfolio: {},
 	hide_areas: [],
 	quick: {
 		items: [],
@@ -1544,6 +1546,7 @@ const STORAGE = {
 			stockexchange: {
 				acronyms: true,
 				advanced: true,
+				hide_stock_block: true,
 			},
 			bazaar: {
 				worth: false,

@@ -127,6 +127,7 @@ const key_dict = {
 	},
 	revives: {
 		revives: "Revives: Given",
+		reviveskill: "Revives: Skill",
 		revivesreceived: "Revives: Received",
 	},
 	travel: {
@@ -599,8 +600,10 @@ async function displayProfileStats() {
 	col_other.appendChild(header_other);
 	table.appendChild(col_chosen);
 	table.appendChild(col_other);
-	profile_stats.appendChild(showExtra);
-	profile_stats.appendChild(table);
+	if (!doc.find("div#tt-target-info div[name='profile-stats'] div.tt-stats-table")) {
+		profile_stats.appendChild(showExtra);
+		profile_stats.appendChild(table);
+	}
 
 	showExtra.addEventListener("click", () => {
 		if (col_chosen.classList.contains("active")) {
@@ -691,12 +694,14 @@ async function displayProfileStats() {
 	let footer_div = doc.new({ type: "div", class: "tt-footer" });
 	let footer_text = doc.new({ type: "div", text: "Automatically load info" });
 	let footer_input = doc.new({ type: "input", attributes: { type: "checkbox" } });
-	footer_div.appendChild(footer_text);
-	footer_div.appendChild(footer_input);
-	doc.find("#tt-target-info .content .tt-section[name='profile-stats']").insertBefore(
-		footer_div,
-		doc.find("#tt-target-info .content .profile-stats").nextElementSibling
-	);
+	if (!doc.find("div#tt-target-info div.tt-footer")) {
+		footer_div.appendChild(footer_text);
+		footer_div.appendChild(footer_input);
+		doc.find("#tt-target-info .content .tt-section[name='profile-stats']").insertBefore(
+			footer_div,
+			doc.find("#tt-target-info .content .profile-stats").nextElementSibling
+		);
+	}
 
 	if (filters.profile_stats.auto_fetch) {
 		footer_input.checked = true;
