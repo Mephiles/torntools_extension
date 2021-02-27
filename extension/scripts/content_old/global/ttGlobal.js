@@ -39,7 +39,6 @@ function loadGlobal() {
 							setTimeout(() => {
 								// TODO - addChatSearch();
 								addChatUsernameAutocomplete();
-								// TODO - addChatColoring();
 							});
 						} else if (addedNode.classList && addedNode.classList.contains("^=chat-box-content_")) {
 							manipulateChats();
