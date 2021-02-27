@@ -108,59 +108,87 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/bazaar.php*"],
+			"css": ["scripts/features/drugdetails/ttDrugDetails.css", "scripts/features/itemvalues/ttItemValues.css"],
+			"js": ["scripts/features/drugdetails/ttDrugDetails.js", "scripts/features/itemvalues/ttItemValues.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/companies.php*"],
 			"css": ["scripts/content_old/companies/ttCompanies.css"],
 			"js": ["scripts/content_old/companies/ttCompanies.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.torn.com/factions.php*"],
-			"css": ["scripts/content_old/factions/ttFactions.css"],
-			"js": ["scripts/content_old/factions/ttFactions.js"],
+			"matches": ["https://www.torn.com/displaycase.php*"],
+			"css": ["scripts/features/drugdetails/ttDrugDetails.css", "scripts/features/itemvalues/ttItemValues.css"],
+			"js": ["scripts/features/drugdetails/ttDrugDetails.js", "scripts/features/itemvalues/ttItemValues.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/index.php*",
-				"https://www.torn.com/item.php*",
-				"https://www.torn.com/imarket.php*",
-				"https://www.torn.com/displaycase.php*",
-				"https://www.torn.com/factions.php*",
-				"https://www.torn.com/bazaar.php*"
+			"matches": ["https://www.torn.com/factions.php*"],
+			"css": [
+				"scripts/content_old/factions/ttFactions.css",
+				"scripts/features/drugdetails/ttDrugDetails.css",
+				"scripts/features/itemvalues/ttItemValues.css"
 			],
+			"js": [
+				"scripts/content_old/factions/ttFactions.js",
+				"scripts/features/drugdetails/ttDrugDetails.js",
+				"scripts/features/itemvalues/ttItemValues.js"
+			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/imarket.php*"],
 			"css": ["scripts/features/drugdetails/ttDrugDetails.css"],
 			"js": ["scripts/features/drugdetails/ttDrugDetails.js"],
 			"run_at": "document_end"
 		},
 		{
-			"matches": [
-				"https://www.torn.com/bazaar.php*",
-				"https://www.torn.com/displaycase.php*",
-				"https://www.torn.com/factions.php*",
-				"https://www.torn.com/item.php*",
-				"https://www.torn.com/itemuseparcel.php*",
-				"https://www.torn.com/trade.php*"
-			],
-			"css": ["scripts/features/itemvalues/ttItemValues.css"],
-			"js": ["scripts/features/itemvalues/ttItemValues.js"],
-			"run_at": "document_end"
-		},
-		{
 			"matches": ["https://www.torn.com/index.php*"],
-			"css": ["scripts/features/effectivestats/ttEffectiveStats.css", "scripts/features/livenetworth/ttLiveNetworth.css"],
-			"js": ["scripts/features/effectivestats/ttEffectiveStats.js", "scripts/features/livenetworth/ttLiveNetworth.js"],
+			"css": [
+				"scripts/features/effectivestats/ttEffectiveStats.css",
+				"scripts/features/livenetworth/ttLiveNetworth.css",
+				"scripts/features/drugdetails/ttDrugDetails.css"
+			],
+			"js": [
+				"scripts/features/effectivestats/ttEffectiveStats.js",
+				"scripts/features/livenetworth/ttLiveNetworth.js",
+				"scripts/features/drugdetails/ttDrugDetails.js"
+			],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/item.php*"],
-			"css": ["scripts/content_old/items/ttItems.css", "scripts/features/quickitems/ttQuickItems.css", "scripts/features/marketicons/ttMarketIcons.css"],
+			"css": [
+				"scripts/content_old/items/ttItems.css",
+				"scripts/features/quickitems/ttQuickItems.css",
+				"scripts/features/marketicons/ttMarketIcons.css",
+				"scripts/features/drugdetails/ttDrugDetails.css",
+				"scripts/features/itemvalues/ttItemValues.css"
+			],
 			"js": [
 				"vendor/jquery/jquery.js",
 				"scripts/content_old/items/ttItems.js",
 				"scripts/content/items/ttItems.js",
 				"scripts/features/quickitems/ttQuickItems.js",
-				"scripts/features/marketicons/ttMarketIcons.js"
+				"scripts/features/marketicons/ttMarketIcons.js",
+				"scripts/features/drugdetails/ttDrugDetails.js",
+				"scripts/features/itemvalues/ttItemValues.js"
 			],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/itemuseparcel.php*"],
+			"css": ["scripts/features/itemvalues/ttItemValues.css"],
+			"js": ["scripts/features/itemvalues/ttItemValues.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/trade.php*"],
+			"css": ["scripts/features/itemvalues/ttItemValues.css"],
+			"js": ["scripts/features/itemvalues/ttItemValues.js"],
 			"run_at": "document_end"
 		}
 	]
