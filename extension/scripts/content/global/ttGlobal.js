@@ -14,8 +14,14 @@
 		new MutationObserver((mutations) => {
 			for (let mutation of mutations) {
 				for (let addedNode of mutation.addedNodes) {
-					if (addedNode.classList && addedNode.classList.contains("^=chat-box_")) {
-						window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.CHAT_NEW, { chat: addedNode }));
+					if (addedNode.classList) {
+						if (addedNode.classList.contains("^=chat-box_")) {
+							window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.CHAT_NEW, { detail: { chat: addedNode } }));
+						} else if (addedNode.classList.contains("^=chat-box-input_")) {
+							window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.CHAT_OPENED, { detail: { chat: mutation.target } }));
+						} else if (addedNode.classList.contains("^=message_")) {
+							window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.CHAT_MESSAGE, { detail: { chat: addedNode, message: addedNode } }));
+						}
 					}
 				}
 			}

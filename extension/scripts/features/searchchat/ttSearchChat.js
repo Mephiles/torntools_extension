@@ -1,11 +1,11 @@
 "use strict";
 
 (async () => {
-	featureManager.registerFeature(
+	const feature = featureManager.registerFeature(
 		"Search Chat",
 		"global",
 		() => settings.pages.chat.searchChat,
-		null,
+		initialiseSearchChat,
 		showSearch,
 		removeSearch,
 		{
@@ -14,43 +14,55 @@
 		null
 	);
 
+	function initialiseSearchChat() {
+		window.addEventListener(EVENT_CHANNELS.CHAT_OPENED, (event) => {
+			if (!feature.enabled()) return;
+
+			addSearch(event.detail.chat);
+		});
+	}
+
 	async function showSearch() {
 		for (let chat of document.findAll("[class*='chat-active_']:not([class*='chat-box-settings_'])")) {
-			if (chat.find(".tt-chat-filter")) continue;
-
-			const id = `search_${chat.find("[class*='chat-box-title_']").getAttribute("title")}`;
-
-			const chatInput = chat.find("[class*='chat-box-input_']");
-			chatInput.insertBefore(
-				document.newElement({
-					type: "div",
-					class: "tt-chat-filter",
-					children: [
-						document.newElement({ type: "label", text: "Search:", attributes: { for: id } }),
-						document.newElement({
-							type: "input",
-							id,
-							events: {
-								input: (event) => {
-									const keyword = event.target.value.toLowerCase();
-
-									for (let message of chat.findAll("[class*='overview_'] [class*='message_']")) {
-										searchChat(message, keyword);
-									}
-
-									if (!keyword) {
-										const viewport = chat.find("[class*='viewport_']");
-										viewport.scrollTop = viewport.scrollHeight;
-									}
-								},
-							},
-						}),
-					],
-				}),
-				chatInput.firstElementChild
-			);
-			chatInput.classList.add("tt-modified");
+			addSearch(chat);
 		}
+	}
+
+	function addSearch(chat) {
+		if (chat.find(".tt-chat-filter")) return;
+
+		const id = `search_${chat.find("[class*='chat-box-title_']").getAttribute("title")}`;
+
+		const chatInput = chat.find("[class*='chat-box-input_']");
+		chatInput.insertBefore(
+			document.newElement({
+				type: "div",
+				class: "tt-chat-filter",
+				children: [
+					document.newElement({ type: "label", text: "Search:", attributes: { for: id } }),
+					document.newElement({
+						type: "input",
+						id,
+						events: {
+							input: (event) => {
+								const keyword = event.target.value.toLowerCase();
+
+								for (let message of chat.findAll("[class*='overview_'] [class*='message_']")) {
+									searchChat(message, keyword);
+								}
+
+								if (!keyword) {
+									const viewport = chat.find("[class*='viewport_']");
+									viewport.scrollTop = viewport.scrollHeight;
+								}
+							},
+						},
+					}),
+				],
+			}),
+			chatInput.firstElementChild
+		);
+		chatInput.classList.add("tt-modified");
 	}
 
 	function removeSearch() {

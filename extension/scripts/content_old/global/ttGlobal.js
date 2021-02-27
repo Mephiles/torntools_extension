@@ -65,7 +65,7 @@ function loadGlobal() {
 			addChatUsernameAutocomplete();
 			manipulateChats();
 
-			document.addEventListener("click", (event) => {
+			document.find("#chatRoot").addEventListener("click", (event) => {
 				if (!hasParent(event.target, { class: "^=chat-box_" })) return;
 
 				manipulateChats();
