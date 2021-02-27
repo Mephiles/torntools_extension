@@ -73,7 +73,20 @@ DOMTokenList.prototype.contains = function (className) {
 	}
 };
 
-function _find(element, selector) {
+function _find(element, selector, options = {}) {
+	options = {
+		text: false,
+		...options,
+	};
+
+	if (options.text) {
+		for (const element of document.querySelectorAll(selector)) {
+			if (element.innerText === options.text) {
+				return element;
+			}
+		}
+	}
+
 	if (selector.includes("=") && !selector.includes("[")) {
 		const key = selector.split("=")[0];
 		const value = selector.split("=")[1];
@@ -93,11 +106,11 @@ function _find(element, selector) {
 	return element.querySelector(selector);
 }
 
-Document.prototype.find = function (selector) {
-	return _find(this, selector);
+Document.prototype.find = function (selector, options = {}) {
+	return _find(this, selector, options);
 };
-Element.prototype.find = function (selector) {
-	return _find(this, selector);
+Element.prototype.find = function (selector, options = {}) {
+	return _find(this, selector, options);
 };
 
 Document.prototype.findAll = function (selector) {

@@ -26,7 +26,9 @@
 			.map((entry) => {
 				return {
 					colors: CHAT_TITLE_COLORS[entry.color],
-					element: findParent(document.find(`[class*='chat-box-title_'][title="${entry.title}"]`), { class: "^=chat-box-head_" }),
+					element: findParent(document.find(`[class*='chat-box-title_'][title^="${entry.title}"]`, { text: entry.title }), {
+						class: "^=chat-box-head_",
+					}),
 				};
 			})
 			.filter((entry) => entry.colors && entry.colors.length === 2 && entry.element)
