@@ -136,6 +136,8 @@ class FeatureManager {
 
 		this.startFeature(newFeature).catch((error) => console.error(`[TornTools] FeatureManager - Failed to start "${name}".`, error));
 		this.startLoadListeners(newFeature);
+
+		return newFeature;
 	}
 
 	findFeature(name) {

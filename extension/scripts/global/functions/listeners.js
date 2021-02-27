@@ -6,6 +6,7 @@ const EVENT_CHANNELS = {
 	ITEM_AMOUNT: "tt-item-amount",
 	ITEM_SWITCH_TAB: "tt-item-switch-tab",
 	ITEM_ITEMS_LOADED: "tt-item-items-loaded",
+	CHAT_NEW: "tt-chat-box",
 };
 
 let injectedXHR, injectedFetch;

@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	featureManager.registerFeature(
+	const feature = featureManager.registerFeature(
 		"Colored Chat",
 		"global",
 		() => settings.pages.chat.titleHighlights.length,
@@ -15,7 +15,11 @@
 	);
 
 	function initialiseColoredChats() {
-		// FIXME - Update colors upon a new chat.
+		window.addEventListener(EVENT_CHANNELS.CHAT_NEW, () => {
+			if (!feature.enabled()) return;
+
+			showColoredChats();
+		});
 	}
 
 	async function showColoredChats() {
