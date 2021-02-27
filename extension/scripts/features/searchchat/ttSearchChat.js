@@ -20,6 +20,18 @@
 
 			addSearch(event.detail.chat);
 		});
+		window.addEventListener(EVENT_CHANNELS.CHAT_MESSAGE, (event) => {
+			if (!feature.enabled()) return;
+
+			const parent = findParent(event.detail.message, { class: "^=chat-box_" });
+			if (!parent) return;
+
+			const input = parent.find(".tt-chat-filter input");
+			if (!input) return;
+
+			const keyword = input.value;
+			if (keyword) searchChat(event.detail.message, keyword);
+		});
 	}
 
 	async function showSearch() {

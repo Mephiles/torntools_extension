@@ -20,7 +20,7 @@
 						} else if (addedNode.classList.contains("^=chat-box-input_")) {
 							window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.CHAT_OPENED, { detail: { chat: mutation.target } }));
 						} else if (addedNode.classList.contains("^=message_")) {
-							window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.CHAT_MESSAGE, { detail: { chat: addedNode, message: addedNode } }));
+							window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.CHAT_MESSAGE, { detail: { message: addedNode } }));
 						}
 					}
 				}
