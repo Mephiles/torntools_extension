@@ -37,7 +37,6 @@ function loadGlobal() {
 					for (let addedNode of mutation.addedNodes) {
 						if (addedNode.classList && addedNode.classList.contains("^=chat-box_")) {
 							setTimeout(() => {
-								// TODO - addChatSearch();
 								addChatUsernameAutocomplete();
 							});
 						} else if (addedNode.classList && addedNode.classList.contains("^=chat-box-content_")) {
@@ -46,17 +45,6 @@ function loadGlobal() {
 
 						if (addedNode.classList && !addedNode.classList.contains("^=message_")) continue;
 
-						// TODO - Implement
-						// if (settings.pages.chat.searchChat) {
-						// 	const parent = findParent(addedNode, { class: "^=chat-box_" });
-						// 	if (!parent) continue;
-						//
-						// 	const input = parent.find(".tt-chat-filter input");
-						// 	if (!input) continue;
-						//
-						// 	const keyword = input.value;
-						// 	if (keyword) searchChat(addedNode, keyword);
-						// }
 						applyHighlights(addedNode);
 					}
 				}
@@ -68,8 +56,6 @@ function loadGlobal() {
 			document.find("#chatRoot").addEventListener("click", (event) => {
 				if (!hasParent(event.target, { class: "^=chat-box_" })) return;
 
-				manipulateChats();
-				// TODO - addChatSearch();
 				addChatUsernameAutocomplete();
 				manipulateChats();
 			});
