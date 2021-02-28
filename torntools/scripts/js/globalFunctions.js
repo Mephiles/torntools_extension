@@ -1471,6 +1471,7 @@ const STORAGE = {
 			city: {
 				items: true,
 				items_value: true,
+				items_images: true,
 				closed_highlight: true,
 			},
 			profile: {
@@ -1546,7 +1547,7 @@ const STORAGE = {
 			stockexchange: {
 				acronyms: true,
 				advanced: true,
-				hide_stock_block: true,
+				hide_stock_block : true,
 			},
 			bazaar: {
 				worth: false,
