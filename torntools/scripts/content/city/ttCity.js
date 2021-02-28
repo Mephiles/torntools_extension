@@ -56,22 +56,18 @@ function displayItems(container, itemlist) {
 			let item = Object.keys(items)[index];
 			if (!item) break;
 			
-			let span = doc.new({type: "span", attributes: {style: "display: flex; flex-flow: row;"}});
-			let newDiv = doc.new({type: "div", attributes: {style: "margin-left: -12px;"}});
+			let span = doc.new({type: "span"});
+			let newDiv = doc.new({type: "div"});
 			let canvas, context, image, a;
 			if (settings.pages.city.items_images) {
-				canvas = doc.new({type: "canvas", class: "torn-item item-plate item-converted", attributes: {role: "img", width: "60", height: "30", style: "opacity: 1;height: fit-content;width: fit-content;"}});
-				context = canvas.getContext('2d');
-				image = doc.new({type: "img", attributes: {src: itemlist.items[+item].image}});
-				image.onload = () => context.drawImage(image, 0, 0, 60, 30);
-				span.appendChild(canvas);
+				span.appendChild(doc.new({type: "img", class: "torn-item item-plate item-converted", attributes: {src: itemlist.items[+item].image}}));
 			}
 			if (items[item] !== "1") {
 				a = doc.new({type: "a", text: itemlist.items[item].name, attributes: {href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=${item}`}});
 			} else {
 				a = doc.new({type: "a", text: `${itemlist.items[item].name} (x${items[item]})`, attributes: {href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=${item}`}});
 			}
-			let inner_span = doc.new({type: "span", text: ` ($${numberWithCommas(itemlist.items[item].market_value)})`, attributes: {style: "color: #678c00;"}});	
+			let inner_span = doc.new({type: "span", text: ` ($${numberWithCommas(itemlist.items[item].market_value)})`});	
 			span.addEventListener("mouseenter", () => {
 				let cityFindItem = doc.find(`#map img[item-id='${item}']`);
 				if (cityFindItem) cityFindItem.classList.add("cityItem_hover");
@@ -80,11 +76,13 @@ function displayItems(container, itemlist) {
 				let cityFindItem = doc.find(`#map img[item-id='${item}']`);
 				if (cityFindItem) cityFindItem.classList.remove("cityItem_hover");
 			});	
+			let hr = doc.new({type: "hr", class: "delimiter-999 m-top10 m-bottom10"});
 			
 			newDiv.appendChild(a);
 			newDiv.appendChild(inner_span);
 			span.appendChild(newDiv);
 			col.appendChild(span);
+			col.appendChild(hr);
 			index++;
 		}
 
