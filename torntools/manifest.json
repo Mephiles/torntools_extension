@@ -227,7 +227,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/bookies.php*"],
-			"include_globs" : ["*#/stats/*"],
+			"include_globs" : ["*#/stats*"],
 			"js": ["scripts/content/loader/ttCasinoStatistics.js"],
 			"run_at": "document_end"
 		},
