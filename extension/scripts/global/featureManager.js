@@ -197,7 +197,18 @@ class FeatureManager {
 				if (!(key in storageKeys)) continue;
 
 				storageListeners[key].push((oldSettings) => {
-					if (!storageKeys[key].some((path) => rec(getter(), path) !== rec(oldSettings, path))) return;
+					if (
+						!storageKeys[key].some((path) => {
+							const newValue = rec(getter(), path);
+							const oldValue = rec(oldSettings, path);
+
+							if (Array.isArray(newValue) && Array.isArray(oldValue)) return !newValue.equals(oldValue);
+							else if (newValue instanceof Object && oldValue instanceof Object) return !newValue.equals(oldValue);
+
+							return newValue !== oldValue;
+						})
+					)
+						return;
 
 					this.startFeature(feature).catch((error) =>
 						console.error(`[TornTools] FeatureManager - Failed to start "${feature.name}" during live reload.`, error)

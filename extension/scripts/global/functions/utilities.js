@@ -2,22 +2,97 @@
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-Array.prototype.last = function () {
-	return this[this.length - 1];
-};
-Array.prototype.insertAt = function (index, ...elements) {
-	this.splice(index, 0, ...elements);
-};
-Array.prototype.totalSum = function () {
-	return this.reduce((a, b) => (a += b), 0);
-};
+Object.defineProperty(Array.prototype, "last", {
+	value() {
+		return this[this.length - 1];
+	},
+	enumerable: false,
+});
+Object.defineProperty(Array.prototype, "insertAt", {
+	value(index, ...elements) {
+		this.splice(index, 0, ...elements);
+	},
+	enumerable: false,
+});
+Object.defineProperty(Array.prototype, "totalSum", {
+	value() {
+		return this.reduce((a, b) => (a += b), 0);
+	},
+	enumerable: false,
+});
+Object.defineProperty(Array.prototype, "equals", {
+	value(other) {
+		if (!other) return false;
+
+		if (this.length !== other.length) return false;
+
+		for (let i = 0; i < this.length; i++) {
+			if (Array.isArray(this[i]) && Array.isArray(other[i])) {
+				if (!this[i].equals(other[i])) return false;
+			} else if (this[i] instanceof Object && other[i] instanceof Object) {
+				if (!this[i].equals(other[i])) return false;
+			} else if (this[i] !== other[i]) {
+				console.log("DKK array equals", { a: this[i], b: other[i] });
+				return false;
+			}
+		}
+		return true;
+	},
+	enumerable: false,
+});
 
 if (!Array.prototype.flat)
 	Object.defineProperty(Array.prototype, "flat", {
 		value(depth = 1) {
 			return this.reduce((flat, toFlatten) => flat.concat(Array.isArray(toFlatten) && depth > 1 ? toFlatten.flat(depth - 1) : toFlatten), []);
 		},
+		enumerable: false,
 	});
+
+Object.defineProperty(Object.prototype, "equals", {
+	value(other) {
+		for (const property in this) {
+			if (this.hasOwnProperty(property) !== other.hasOwnProperty(property)) return false;
+			else if (typeof this[property] !== typeof other[property]) return false;
+		}
+		for (const property in other) {
+			if (this.hasOwnProperty(property) !== other.hasOwnProperty(property)) return false;
+			else if (typeof this[property] !== typeof other[property]) return false;
+
+			if (!this.hasOwnProperty(property)) continue;
+
+			if (Array.isArray(this[property]) && Array.isArray(other[property])) {
+				if (!this[property].equals(other[property])) return false;
+			} else if (this[property] instanceof Object && this[property] instanceof Object) {
+				if (!this[property].equals(other[property])) return false;
+			} else if (this[property] !== other[property]) return false;
+		}
+
+		return true;
+	},
+	enumerable: false,
+});
+
+// Object.prototype.equals = function (other) {
+// 	for (const property in this) {
+// 		if (this.hasOwnProperty(property) !== other.hasOwnProperty(property)) return false;
+// 		else if (typeof this[property] !== typeof other[property]) return false;
+// 	}
+// 	for (const property in other) {
+// 		if (this.hasOwnProperty(property) !== other.hasOwnProperty(property)) return false;
+// 		else if (typeof this[property] !== typeof other[property]) return false;
+//
+// 		if (!this.hasOwnProperty(property)) continue;
+//
+// 		if (Array.isArray(this[property]) && Array.isArray(other[property])) {
+// 			if (!this[property].equals(other[property])) return false;
+// 		} else if (this[property] instanceof Object && this[property] instanceof Object) {
+// 			if (!this[property].equals(other[property])) return false;
+// 		} else if (this[property] !== other[property]) return false;
+// 	}
+//
+// 	return true;
+// };
 
 JSON.isValid = (str) => {
 	try {
