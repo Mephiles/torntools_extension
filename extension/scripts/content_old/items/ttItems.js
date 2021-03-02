@@ -43,6 +43,7 @@ function loadItemsOnce() {
 					observer.disconnect();
 				}).observe(tab, { subtree: true, childList: true });
 			} else if (step === "actionForm") {
+				// FIXME - Move to quick items file
 				const action = params.get("action");
 
 				if (action === "equip" && hasAPIData()) {

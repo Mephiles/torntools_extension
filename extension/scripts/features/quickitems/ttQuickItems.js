@@ -96,7 +96,7 @@
 	}
 
 	function addQuickItem(data, temporary = false) {
-		const content = findContainer("Quick Items", { selector: ".content" });
+		const content = findContainer("Quick Items", { selector: ":scope > main" });
 		const innerContent = content.find(".inner-content");
 		const responseWrap = content.find(".response-wrap");
 
@@ -237,7 +237,7 @@
 	}
 
 	async function saveQuickItems() {
-		const content = findContainer("Quick Items", { selector: ".content" });
+		const content = findContainer("Quick Items", { selector: ":scope > main" });
 
 		await ttStorage.change({
 			quick: {
@@ -267,7 +267,7 @@
 			event.dataTransfer.setData("text/plain", null);
 
 			setTimeout(() => {
-				document.find("#quickItems .content").classList.add("drag-progress");
+				document.find("#quickItems > main").classList.add("drag-progress");
 				if (document.find("#quickItems .temp.item")) return;
 
 				const id = parseInt(event.target.parentElement.dataset.item);
@@ -286,7 +286,7 @@
 				document.find("#quickItems .temp.item").remove();
 			}
 
-			document.find("#quickItems .content").classList.remove("drag-progress");
+			document.find("#quickItems > main").classList.remove("drag-progress");
 
 			await saveQuickItems();
 		}

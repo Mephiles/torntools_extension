@@ -27,7 +27,7 @@ function createContainer(title, options = {}) {
 	else if (options.previousElement) parentElement.insertBefore(container, options.previousElement.nextSibling);
 	else parentElement.appendChild(container);
 
-	return { container, content: container.find(".content"), options: container.find(".options") };
+	return { container, content: container.find(":scope > main"), options: container.find(".options") };
 
 	function _createContainer(title, options = {}) {
 		if (document.find(`#${options.id}`)) document.find(`#${options.id}`).remove();
@@ -51,7 +51,7 @@ function createContainer(title, options = {}) {
 					<div class="options"></div>
 					${options.collapsible ? '<i class="icon fas fa-caret-down"/>' : ""}
 				</div>`;
-		html += `<div class="content ${options.contentBackground ? "background" : ""}"></div>`;
+		html += `<main class="${options.contentBackground ? "background" : ""}"></main>`;
 		container.innerHTML = html;
 
 		if (options.collapsible) {
@@ -62,7 +62,7 @@ function createContainer(title, options = {}) {
 			});
 		}
 		if (options.allowDragging) {
-			let content = container.find(".content");
+			let content = container.find(":scope > main");
 			content.addEventListener("dragover", (event) => event.preventDefault());
 			content.addEventListener("drop", (event) => {
 				if (content.find(".temp.item")) content.find(".temp.item").classList.remove("temp");
