@@ -18,7 +18,7 @@
 		await requireSidebar();
 
 		const selector = "#sidebarroot ul[class*='status-icons_']";
-		if (document.find(selector) || true) {
+		if (document.find(selector)) {
 			new MutationObserver((mutations, observer) => {
 				observer.disconnect();
 				moveIcons();
