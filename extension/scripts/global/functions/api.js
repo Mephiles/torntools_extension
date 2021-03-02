@@ -1,7 +1,7 @@
 "use strict";
 
 const CUSTOM_API_ERROR = {
-	NO_NETWORK: "tt-no_networth",
+	NO_NETWORK: "tt-no_network",
 };
 
 async function fetchApi(location, options = {}) {
