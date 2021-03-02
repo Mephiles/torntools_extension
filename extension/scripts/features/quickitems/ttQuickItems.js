@@ -44,6 +44,9 @@
 		window.addEventListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, () => {
 			updateXIDs().catch(() => {});
 		});
+		window.addEventListener(EVENT_CHANNELS.ITEM_EQUIPPED, (event) => {
+			updateEquippedItem(event.detail.item, event.detail.equip);
+		});
 	}
 
 	async function loadQuickItems() {
@@ -376,6 +379,15 @@
 		});
 
 		await ttStorage.change({ quick: { items: quick.items } });
+	}
+
+	function updateEquippedItem(id, isEquip) {
+		const item = torndata.items[id];
+
+		const equipPosition = getEquipPosition(item.id, item.type);
+		[...document.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) => x.classList.remove("equipped"));
+
+		if (isEquip && document.find(`.item[data-id="${item.id}"]`)) document.find(`.item[data-id="${item.id}"]`).classList.add("equipped");
 	}
 
 	/*

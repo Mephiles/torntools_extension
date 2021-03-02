@@ -42,29 +42,6 @@ function loadItemsOnce() {
 
 					observer.disconnect();
 				}).observe(tab, { subtree: true, childList: true });
-			} else if (step === "actionForm") {
-				// FIXME - Move to quick items file
-				const action = params.get("action");
-
-				if (action === "equip" && hasAPIData()) {
-					const responseElement = document.newElement({ html: xhr.response });
-					const text = responseElement.find("h5, [data-status]").innerText.trim();
-
-					const regexResult = text.match(/You (unequipped|equipped) your (.*)\./i);
-					if (regexResult) {
-						const itemName = regexResult[2];
-						const equipAction = regexResult[1];
-
-						const item = findItemsInObject(torndata.items, { name: itemName }, { single: true });
-						if (!item) return;
-
-						const equipPosition = getEquipPosition(item.id, item.type);
-						[...document.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) => x.classList.remove("equipped"));
-
-						if (equipAction === "equipped" && document.find(`.item[data-id="${item.id}"]`))
-							document.find(`.item[data-id="${item.id}"]`).classList.add("equipped");
-					}
-				}
 			}
 		}
 	});
@@ -85,29 +62,6 @@ function initializeItems() {
 	showItemValues().catch((error) => console.error("Couldn't show the item values.", error));
 	MISSING_ITEMS.showFlowers((error) => console.error("Couldn't show the missing flowers.", error)).catch();
 	MISSING_ITEMS.showPlushies((error) => console.error("Couldn't show the missing plushies.", error)).catch();
-}
-
-function getEquipPosition(id, category) {
-	// 4 = Body Armor
-	// 6 = Helmet
-	// 7 = Pants
-	// 8 = Boots
-	// 9 = Gloves
-	// 10 = CLOTHING - Jacket
-	switch (category) {
-		case "Primary":
-			return 1;
-		case "Secondary":
-			return 2;
-		case "Melee":
-			return 3;
-		case "Temporary":
-			return 5;
-		case "Defensive":
-			return -1; // TODO - Get right position;
-		default:
-			return false;
-	}
 }
 
 function updateItemAmount(id, change) {

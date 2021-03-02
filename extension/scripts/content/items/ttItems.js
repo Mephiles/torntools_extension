@@ -56,6 +56,24 @@ let pendingActions = {};
 
 					observer.disconnect();
 				}).observe(tab, { subtree: true, childList: true });
+			} else if (step === "actionForm") {
+				const action = params.get("action");
+
+				if (action === "equip" && hasAPIData()) {
+					const responseElement = document.newElement({ html: xhr.response });
+					const text = responseElement.find("h5, [data-status]").innerText.trim();
+
+					const regexResult = text.match(/You (unequipped|equipped) your (.*)\./i);
+					if (regexResult) {
+						const itemName = regexResult[2];
+						const equipAction = regexResult[1];
+
+						const item = findItemsInObject(torndata.items, { name: itemName }, { single: true });
+						if (!item) return;
+
+						window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.ITEM_EQUIPPED, { detail: { equip: equipAction === "equipped", item: item.id } }));
+					}
+				}
 			}
 		}
 	});

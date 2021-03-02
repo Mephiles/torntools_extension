@@ -6,6 +6,7 @@ const EVENT_CHANNELS = {
 	ITEM_AMOUNT: "tt-item-amount",
 	ITEM_SWITCH_TAB: "tt-item-switch-tab",
 	ITEM_ITEMS_LOADED: "tt-item-items-loaded",
+	ITEM_EQUIPPED: "tt-item-equipped",
 	CHAT_NEW: "tt-chat-box-new",
 	CHAT_OPENED: "tt-chat-box-opened",
 	CHAT_MESSAGE: "tt-chat-message",
