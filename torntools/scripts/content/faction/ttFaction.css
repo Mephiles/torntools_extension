@@ -174,3 +174,11 @@ span.tt-item-price {
 #ttExportButton {
 	padding-right: 12px;
 }
+
+.torn-msg > div.info-msg {
+	background-color: #627e0d;
+}
+
+.torn-msg div.msg {
+	color: #627e0d !important;
+}

@@ -697,7 +697,7 @@ function showAvailablePlayers() {
 		doc.find("#faction-crimes").insertBefore(
 			doc.new({
 				type: "div",
-				class: "info-msg-cont border-round m-top10",
+				class: "info-msg-cont border-round m-top10 torn-msg",
 				html: `
 				<div class="info-msg border-round">
 					<i class="info-icon"></i>
@@ -1272,7 +1272,7 @@ function armoryFilter() {
 
 	if (
 		!["weapons", "armour"].includes(
-			doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
+			doc.find("ul[aria-label='Faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
 		)
 	) {
 		armory_filter.classList.add("filter-hidden");
@@ -1280,7 +1280,7 @@ function armoryFilter() {
 
 	// Switching page
 	if (!mobile) {
-		for (let link of doc.findAll("ul[aria-label='faction armoury tabs']>li")) {
+		for (let link of doc.findAll("ul[aria-label='Faction armoury tabs']>li")) {
 			if (["weapons", "armour"].includes(link.getAttribute("aria-controls").replace("armoury-", ""))) {
 				link.addEventListener("click", () => {
 					console.log("filter tab");
@@ -1301,7 +1301,7 @@ function armoryFilter() {
 		doc.find(".armoury-drop-list select#armour-nav-list").addEventListener("change", () => {
 			if (
 				["weapons", "armour"].includes(
-					doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
+					doc.find("ul[aria-label='Faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
 				)
 			) {
 				console.log("filter tab");
@@ -1341,7 +1341,7 @@ function armoryFilter() {
 					if (added_node.classList && added_node.classList.contains("item-list")) {
 						if (
 							["weapons", "armour"].includes(
-								doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
+								doc.find("ul[aria-label='Faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
 							)
 						) {
 							console.log("items added");
@@ -1383,7 +1383,7 @@ const ALLOWED_BLOOD = {
 };
 
 function highlightBloodBags() {
-	const section = doc.find("ul[aria-label='faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
+	const section = doc.find("ul[aria-label='Faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
 	if (section === "medical") highlight();
 
 	new MutationObserver((mutations) => {
@@ -1395,7 +1395,7 @@ function highlightBloodBags() {
 		)
 			return;
 
-		const section = doc.find("ul[aria-label='faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
+		const section = doc.find("ul[aria-label='Faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
 		if (section !== "medical") return;
 
 		highlight();
@@ -1433,7 +1433,7 @@ function highlightBloodBags() {
 }
 
 function armoryTabsLoaded() {
-	return requireElement("ul[aria-label='faction armoury tabs'] > li[aria-selected='true']");
+	return requireElement("ul[aria-label='Faction armoury tabs'] > li[aria-selected='true']");
 }
 
 function armoryItemsLoaded() {
