@@ -1293,6 +1293,7 @@ const STORAGE = {
 		},
 		hospital: {
 			activity: [],
+			revives_enabled: false,
 			faction: "",
 			time: [],
 			level: [],

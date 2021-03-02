@@ -41,6 +41,12 @@ function addFilterToTable(list, title) {
 						<div class="tt-checkbox-wrap"><input type="checkbox" value="offline">Offline</div>
 					</div>
 				</div>
+				<div class="filter-wrap" id="revive-filter">
+					<div class="filter-heading">Revives</div>
+					<div class="filter-multi-wrap ">
+						<div class="tt-checkbox-wrap"><input type="checkbox" value="revives-enabled">Enabled</div>
+					</div>
+				</div>
 				<div class="filter-wrap" id="faction-filter">
 					<div class="filter-heading">Faction</div>
 					<select name="faction" id="tt-faction-filter">
@@ -132,6 +138,9 @@ function addFilterToTable(list, title) {
 		if (filters.hospital.faction.default) {
 			doc.find(`#faction-filter option[value='${filters.hospital.faction}']`).selected = true;
 		}
+		if (filters.hospital.faction.revives_enabled) {
+			doc.find(`#revive-filter input`).checked = true;
+		}
 	}
 
 	populateFactions();
@@ -140,6 +149,7 @@ function addFilterToTable(list, title) {
 	function applyFilters() {
 		let activity = [];
 		let faction;
+		let revives_enabled;
 		let time = [];
 		let level = [];
 
@@ -149,6 +159,8 @@ function addFilterToTable(list, title) {
 		}
 		// Faction
 		faction = doc.find("#faction-filter select option:checked").value;
+		// Revives enabled
+		revives_enabled = doc.find("#revive-filter input").checked;
 		// Time
 		time.push(parseInt(doc.find("#time-filter .noUi-handle-lower").getAttribute("aria-valuenow")));
 		time.push(parseInt(doc.find("#time-filter .noUi-handle-upper").getAttribute("aria-valuenow")));
@@ -200,9 +212,15 @@ function addFilterToTable(list, title) {
 			if (faction && !li.find(`img[title='${faction}']`) && li.find(`a.user.faction`).innerText !== faction) {
 				li.classList.add("filter-hidden");
 			}
+			
+			// Revives enabled
+			if (revives_enabled && li.find("a.revive").classList.contains("reviveNotAvailable")) {
+				li.classList.add("filter-hidden");
+			}
+			
 		}
 
-		ttStorage.change({ filters: { hospital: { activity, faction, time, level } } });
+		ttStorage.change({ filters: { hospital: { activity, revives_enabled, faction, time, level } } });
 
 		updateStatistics();
 	}
