@@ -172,7 +172,7 @@ class FeatureManager {
 			await this.executeFunction(feature.cleanup).catch(() => {});
 
 			this.showResult(feature, "failed");
-			console.error(`[TornTools] FeatureManager - Failed to start "${name}".`, error);
+			console.error(`[TornTools] FeatureManager - Failed to start "${feature.name}".`, error);
 		}
 	}
 
