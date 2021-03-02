@@ -109,6 +109,12 @@ const DRUG_INFORMATION = {
 		cons: ["Only works on Valentine's Day"],
 		cooldown: "5 hours",
 	},
+	felovax:{
+		pros: ["Use Felovax while in jail to instantly get transfered to hospital.","You can then use Zylkene to get out of hospital instantly."],
+	},
+	zylkene:{
+		pros: ["Use Zylkene while in hospital to instantly get out.","Use after Felovax (optional but the combination works well - Jail->Hospital->Okay)."],
+	},
 };
 
 const COMPANY_INFORMATION = {
