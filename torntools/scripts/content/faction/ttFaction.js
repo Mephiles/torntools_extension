@@ -697,7 +697,7 @@ function showAvailablePlayers() {
 		doc.find("#faction-crimes").insertBefore(
 			doc.new({
 				type: "div",
-				class: "info-msg-cont border-round m-top10",
+				class: "info-msg-cont border-round m-top10 torn-msg",
 				html: `
 				<div class="info-msg border-round">
 					<i class="info-icon"></i>
