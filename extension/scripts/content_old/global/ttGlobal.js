@@ -62,17 +62,6 @@ function loadGlobal() {
 		})
 		.catch((reason) => console.error("TT failed during loading chats.", reason));
 
-	requireSidebar()
-		.then(async () => {
-			new Promise(() => {
-				if (!initiatedIconMoving) {
-					moveIcons(new MutationObserver((mutations, observer) => moveIcons(observer)));
-					initiatedIconMoving = true;
-				}
-			}).catch((error) => console.error("Couldn't hide the icons.", error));
-		})
-		.catch((reason) => console.error("TT failed during loading sidebar.", reason));
-
 	requireContent()
 		.then(() => {
 			new Promise(() => {
@@ -278,15 +267,4 @@ async function showComputerLink() {
 		}),
 		document.find("#top-page-links-list > .events")
 	);
-}
-
-function moveIcons(observer) {
-	observer.disconnect();
-
-	for (let icon of document.findAll("#sidebarroot ul[class*='status-icons_'] > li")) {
-		if (!settings.hideIcons.includes(icon.getAttribute("class").split("_")[0])) continue;
-
-		icon.parentElement.appendChild(icon);
-	}
-	observer.observe(document.find("#sidebarroot ul[class*='status-icons_']"), { childList: true, attributes: true });
 }
