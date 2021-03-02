@@ -116,14 +116,6 @@ function loadGlobalOnce() {
 	}
 }
 
-function searchChat(message, keyword) {
-	if (keyword && !message.find("span").innerText.toLowerCase().includes(keyword)) {
-		message.classList.add("hidden");
-	} else {
-		message.classList.remove("hidden");
-	}
-}
-
 function manipulateChats() {
 	for (let message of document.findAll("[class*='chat-box-content_'] [class*='overview_'] [class*='message_'] .tt-highlight")) {
 		message.style.color = "unset";
