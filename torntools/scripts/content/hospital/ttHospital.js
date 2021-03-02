@@ -212,12 +212,11 @@ function addFilterToTable(list, title) {
 			if (faction && !li.find(`img[title='${faction}']`) && li.find(`a.user.faction`).innerText !== faction) {
 				li.classList.add("filter-hidden");
 			}
-			
+
 			// Revives enabled
 			if (revives_enabled && li.find("a.revive").classList.contains("reviveNotAvailable")) {
 				li.classList.add("filter-hidden");
 			}
-			
 		}
 
 		ttStorage.change({ filters: { hospital: { activity, revives_enabled, faction, time, level } } });
