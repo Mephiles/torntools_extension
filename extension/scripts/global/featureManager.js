@@ -188,12 +188,19 @@ class FeatureManager {
 				return previousValue;
 			}, {});
 
-			if (storageKeys.settings) {
-				storageListeners.settings.push((oldSettings) => {
-					if (!storageKeys.settings.some((path) => rec(settings, path) !== rec(oldSettings, path))) return;
+			for (const [key, getter] of [
+				["settings", () => settings],
+				["userdata", () => userdata],
+				["version", () => version],
+				["factiondata", () => factiondata],
+			]) {
+				if (!(key in storageKeys)) continue;
+
+				storageListeners[key].push((oldSettings) => {
+					if (!storageKeys[key].some((path) => rec(getter(), path) !== rec(oldSettings, path))) return;
 
 					this.startFeature(feature).catch((error) =>
-						console.error(`[TornTools] FeatureManager - Failed to start "${name}" during live reload.`, error)
+						console.error(`[TornTools] FeatureManager - Failed to start "${feature.name}" during live reload.`, error)
 					);
 				});
 			}
