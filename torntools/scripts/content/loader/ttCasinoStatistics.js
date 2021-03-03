@@ -1,5 +1,9 @@
 requireDatabase().then(() => {
 	console.log("TT - Casino Statistics");
+	if (!window.location.toString().includes("Lottery")) {
+		addNetTotal("overall");
+		addNetTotal("your");
+	};
 	window.addEventListener("hashchange", () => {
 		if (!window.location.toString().includes("Lottery")) {
 			addNetTotal("overall");
