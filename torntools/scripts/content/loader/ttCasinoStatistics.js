@@ -1,11 +1,17 @@
 requireDatabase().then(() => {
 	console.log("TT - Casino Statistics");
-	window.addEventListener("hashchange", () => {
-		if (!window.location.toString().includes("Lottery")) {
-			addNetTotal("overall");
-			addNetTotal("your");
-		}
-	});
+	if (!window.location.toString().includes("Lottery")) {
+		addNetTotal("overall");
+		addNetTotal("your");
+	};
+	if (window.location.toString().includes("bookies")) {
+		window.addEventListener("hashchange", () => {
+			if (!window.location.toString().includes("Lottery")) {
+				addNetTotal("overall");
+				addNetTotal("your");
+			};
+		});
+	};
 });
 
 function addNetTotal(overallOrYour) {
