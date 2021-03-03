@@ -138,7 +138,7 @@ function addFilterToTable(list, title) {
 		if (filters.hospital.faction.default) {
 			doc.find(`#faction-filter option[value='${filters.hospital.faction}']`).selected = true;
 		}
-		if (filters.hospital.faction.revives_enabled) {
+		if (filters.hospital.revives_enabled) {
 			doc.find(`#revive-filter input`).checked = true;
 		}
 	}
