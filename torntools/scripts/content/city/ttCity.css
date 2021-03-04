@@ -73,6 +73,7 @@ Thanks, Mauk @DocTorn
 	text-align: center;
 	display: flex;
 	flex-flow: row;
+	height: 36px;
 }
 
 #tt-city-items .items .column > span > img {
@@ -83,7 +84,7 @@ Thanks, Mauk @DocTorn
 
 #tt-city-items .items .column > span > div {
 	margin-left: 4px;
-	display: grid;
+	display: inline;
 }
 
 #tt-city-items .items .column > span > div > a {
