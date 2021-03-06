@@ -4,7 +4,7 @@
 	featureManager.adjustFeature("Hide Level Upgrade", null, hideUpgrade, showUpgrade);
 
 	async function hideUpgrade() {
-		// await requireContent();
+		await requireContent();
 
 		for (const info of document.findAll(".info-msg-cont")) {
 			if (!info.innerText.includes("Congratulations! You have enough experience to go up to level")) continue;
