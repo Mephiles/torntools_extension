@@ -154,6 +154,11 @@ class FeatureManager {
 			else feature[key] = [feature[key], func];
 		}
 
+		if (feature.hasLoaded && this.isEnabled(feature)) {
+			this.executeFunction(initialise).catch(() => {});
+			this.executeFunction(execute).catch(() => {});
+		}
+
 		console.log("[TornTools] FeatureManager - Adjusted feature.", feature);
 		return feature;
 	}
@@ -162,10 +167,17 @@ class FeatureManager {
 		return this.features.find((feature) => feature.name === name);
 	}
 
+	isEnabled(feature) {
+		if (typeof feature === "function") return feature();
+
+		return feature.enabled;
+	}
+
 	async startFeature(feature) {
 		await loadDatabase();
 		try {
 			console.log("[TornTools] FeatureManager - Starting feature.", feature);
+			feature.hasLoaded = true;
 			if (feature.enabled && (typeof feature.enabled !== "function" || feature.enabled())) {
 				if ("apiCheck" in feature && (feature.apiCheck === false || (typeof feature.apiCheck === "function" && !feature.apiCheck()))) {
 					await this.executeFunction(feature.cleanup).catch(() => {});
