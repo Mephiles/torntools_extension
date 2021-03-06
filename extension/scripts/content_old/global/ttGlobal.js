@@ -64,16 +64,6 @@ function loadGlobal() {
 
 	requireContent()
 		.then(() => {
-			new Promise(() => {
-				if (settings.pages.global.hideLevelUpgrade) {
-					for (let info of document.findAll(".info-msg-cont")) {
-						if (!info.innerText.includes("Congratulations! You have enough experience to go up to level")) continue;
-
-						info.classList.add("tt-level-upgrade");
-					}
-				}
-			}).catch((error) => console.error("Couldn't hide the level upgrade notice!", error));
-
 			showComputerLink().catch((reason) => console.error("TT failed while trying to show the computer link.", reason));
 		})
 		.catch((reason) => console.error("TT failed during loading content.", reason));
