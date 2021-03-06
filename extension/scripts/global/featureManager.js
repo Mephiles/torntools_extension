@@ -140,6 +140,24 @@ class FeatureManager {
 		return newFeature;
 	}
 
+	adjustFeature(name, initialise, execute, cleanup) {
+		const feature = this.findFeature(name);
+		if (!feature) throw "Feature not found.";
+
+		for (const [key, func] of [
+			["initialise", initialise],
+			["execute", execute],
+			["cleanup", cleanup],
+		]) {
+			if (!feature[key]) feature[key] = [func];
+			else if (Array.isArray(feature[key])) feature[key].push(func);
+			else feature[key] = [feature[key], func];
+		}
+
+		console.log("[TornTools] FeatureManager - Adjusted feature.", feature);
+		return feature;
+	}
+
 	findFeature(name) {
 		return this.features.find((feature) => feature.name === name);
 	}
@@ -227,6 +245,13 @@ class FeatureManager {
 
 	async executeFunction(func) {
 		if (!func) return;
+
+		if (Array.isArray(func)) {
+			for (const f of func) {
+				await this.executeFunction(f);
+			}
+			return;
+		}
 
 		if (func.constructor.name === "AsyncFunction") await func();
 		else func();
