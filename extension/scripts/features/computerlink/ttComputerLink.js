@@ -6,17 +6,19 @@
 	featureManager.registerFeature(
 		"Computer Link",
 		"global",
-		() => settings.updateNotice, // TODO
+		() => settings.updateNotice, // TODO - Add option.
 		null,
 		showComputer,
 		removeComputer,
 		{
-			storage: ["settings.updateNotice"], // TODO
+			storage: ["settings.updateNotice"], // TODO - Add option.
 		},
 		() => {
+			// TODO - Allow without API access.
 			if (!settings.apiUsage.user.inventory) return "No API access.";
 			else if (!findItemsInObject(userdata.inventory, { ID: 61 }, { single: true })) return "No computer found!";
 			else if (document.find("#top-page-links-list > .laptop")) return "Already has a laptop link.";
+			// TODO - Works for mobile?
 		}
 	);
 

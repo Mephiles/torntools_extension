@@ -11,7 +11,9 @@
 		{
 			storage: ["settings.pages.sidebar.ocTimer", "factiondata.userCrime"],
 		},
-		() => factiondata && factiondata.userCrime
+		() => {
+			if (!hasAPIData() || !factiondata || !factiondata.userCrime) return "No API access.";
+		}
 	);
 
 	async function showTimer() {

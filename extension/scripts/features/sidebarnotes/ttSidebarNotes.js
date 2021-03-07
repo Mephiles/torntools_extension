@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.sidebar.notes"],
 		},
-		null
+		null // TODO - Check for mobile.
 	);
 
 	async function showNotes() {

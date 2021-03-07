@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.items.marketLinks"],
 		},
-		null
+		null // TODO - Check for mobile.
 	);
 
 	function initialiseMarketIcons() {

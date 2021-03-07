@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.updateNotice", "version.showNotice"],
 		},
-		null
+		null // TODO - Check for mobile.
 	);
 
 	async function showNotice() {

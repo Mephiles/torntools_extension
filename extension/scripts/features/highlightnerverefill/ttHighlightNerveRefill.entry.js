@@ -11,7 +11,9 @@
 		{
 			storage: ["settings.pages.sidebar.highlightNerve", "settings.apiUsage.user.refills", "userdata.refills.nerve_refill_used"],
 		},
-		() => hasAPIData() && settings.apiUsage.user.refills
+		() => {
+			if (!hasAPIData() || !settings.apiUsage.user.refills) return "No API access.";
+		}
 	);
 
 	function applyStyle() {

@@ -17,7 +17,9 @@ let networthInterval = false;
 		{
 			storage: ["settings.pages.home.networthDetails", "settings.apiUsage.user.networth", "userdata.networth.date"],
 		},
-		() => hasAPIData() && settings.apiUsage.user.networth
+		() => {
+			if (!hasAPIData() || !settings.apiUsage.user.networth) return "No API access.";
+		}
 	);
 
 	async function showNetworth() {
