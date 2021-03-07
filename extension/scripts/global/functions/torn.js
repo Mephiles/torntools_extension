@@ -244,13 +244,11 @@ function addRFC(url) {
 }
 
 function getPage() {
-	let page = location.pathname.substring(1, location.pathname.length - 4);
+	let page = location.pathname.substring(1, location.pathname.indexOf(".html") || location.pathname.indexOf(".php"));
 
 	switch (page) {
 		case "index":
-			if (isFlying()) page = "flying";
-			else if (isAbroad()) page = "abroad";
-			else page = "home";
+			page = "home";
 			break;
 	}
 
