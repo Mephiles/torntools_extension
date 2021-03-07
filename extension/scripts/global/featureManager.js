@@ -125,11 +125,11 @@ class FeatureManager {
 	 *	New feature manager code
 	 */
 
-	registerFeature(name, scope, enabled, initialise, execute, cleanup, loadListeners, apiCheck) {
+	registerFeature(name, scope, enabled, initialise, execute, cleanup, loadListeners, requirements) {
 		const oldFeature = this.findFeature(name);
 		if (oldFeature) throw "Feature already registered.";
 
-		const newFeature = { name, scope, enabled, initialise, execute, cleanup, loadListeners, apiCheck };
+		const newFeature = { name, scope, enabled, initialise, execute, cleanup, loadListeners, requirements };
 
 		console.log("[TornTools] FeatureManager - Registered new feature.", newFeature);
 		this.features.push(newFeature);
@@ -154,7 +154,7 @@ class FeatureManager {
 			else feature[key] = [feature[key], func];
 		}
 
-		if (feature.hasLoaded && this.isEnabled(feature)) {
+		if (feature.hasLoaded && getValue(feature.enabled)) {
 			this.executeFunction(initialise).catch(() => {});
 			this.executeFunction(execute).catch(() => {});
 		}
@@ -167,23 +167,21 @@ class FeatureManager {
 		return this.features.find((feature) => feature.name === name);
 	}
 
-	isEnabled(feature) {
-		if (typeof feature === "function") return feature();
-
-		return feature.enabled;
-	}
-
 	async startFeature(feature) {
 		await loadDatabase();
 		try {
 			console.log("[TornTools] FeatureManager - Starting feature.", feature);
 			feature.hasLoaded = true;
-			if (feature.enabled && (typeof feature.enabled !== "function" || feature.enabled())) {
-				if ("apiCheck" in feature && (feature.apiCheck === false || (typeof feature.apiCheck === "function" && !feature.apiCheck()))) {
-					await this.executeFunction(feature.cleanup).catch(() => {});
+			if (getValue(feature.enabled)) {
+				if ("requirements" in feature) {
+					const requirements = getValue(featureManager.requirements);
 
-					this.showResult(feature, "information", { message: "API data missing" });
-					return;
+					if (typeof requirements === "string") {
+						await this.executeFunction(feature.cleanup).catch(() => {});
+
+						this.showResult(feature, "information", { message: requirements });
+						return;
+					}
 				}
 
 				if (!this.initialized.includes(feature.name)) {

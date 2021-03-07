@@ -182,3 +182,7 @@ function getCookie(cname) {
 	}
 	return "";
 }
+
+function getValue(x) {
+	return typeof x === "function" ? x() : x;
+}
