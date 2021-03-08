@@ -9,7 +9,7 @@
 		() => settings.pages.chat.highlights.length,
 		initialiseHighlights,
 		readSettings,
-		null,
+		removeHighlights,
 		{
 			storage: ["settings.pages.chat.highlights"],
 		},
@@ -46,10 +46,7 @@
 		});
 
 		requireChatsLoaded().then(() => {
-			for (let message of document.findAll("[class*='chat-box-content_'] [class*='overview_'] [class*='message_'] .tt-highlight")) {
-				message.style.color = "unset";
-				message.classList.remove("tt-highlight");
-			}
+			removeHighlights();
 
 			for (let message of document.findAll("[class*='chat-box-content_'] [class*='overview_'] [class*='message_']")) {
 				applyHighlights(message);
@@ -81,6 +78,13 @@
 
 		function simplify(text) {
 			return text.toLowerCase().trim();
+		}
+	}
+
+	function removeHighlights() {
+		for (let message of document.findAll("[class*='chat-box-content_'] [class*='overview_'] [class*='message_'] .tt-highlight")) {
+			message.style.color = "unset";
+			message.classList.remove("tt-highlight");
 		}
 	}
 })();
