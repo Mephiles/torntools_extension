@@ -3,15 +3,15 @@ requireDatabase().then(() => {
 	if (!window.location.toString().includes("Lottery")) {
 		addNetTotal("overall");
 		addNetTotal("your");
-	};
+	}
 	if (window.location.toString().includes("bookies")) {
 		window.addEventListener("hashchange", () => {
 			if (!window.location.toString().includes("Lottery")) {
 				addNetTotal("overall");
 				addNetTotal("your");
-			};
+			}
 		});
-	};
+	}
 });
 
 function addNetTotal(overallOrYour) {
@@ -22,13 +22,22 @@ function addNetTotal(overallOrYour) {
 			if (x.innerText.includes("Total money won") || x.innerText.includes("Total money gain")) totalWon = x;
 			if (x.innerText.includes("Total money lost") || x.innerText.includes("Total money loss")) totalLost = x;
 		}
-		let netTotal = "$" + numberWithCommas(parseInt(totalWon.parentElement.find("li.stat-value").innerText.replace(/[$,]/g, "")) - parseInt(totalLost.parentElement.find("li.stat-value").innerText.replace(/[$,]/g, "")), false);
-		totalLost.parentElement.parentElement.insertAdjacentHTML("afterEnd", `<li id="tt-net-total">
+		let netTotal =
+			"$" +
+			numberWithCommas(
+				parseInt(totalWon.parentElement.find("li.stat-value").innerText.replace(/[$,]/g, "")) -
+					parseInt(totalLost.parentElement.find("li.stat-value").innerText.replace(/[$,]/g, "")),
+				false
+			);
+		totalLost.parentElement.parentElement.insertAdjacentHTML(
+			"afterEnd",
+			`<li id="tt-net-total">
 			<ul class="item">
 				<li class="stat" style="color: #acea00;">Net total<span class="m-show">:</span></li>
 				<li class="stat-value">${netTotal}</li>
 				<li class="clear"></li>
 			</ul>
-		</li>`)
+		</li>`
+		);
 	});
 }
