@@ -107,7 +107,8 @@
 				"scripts/features/coloredchat/ttColoredChat.js",
 				"scripts/features/searchchat/ttSearchChat.js",
 				"scripts/features/computerlink/ttComputerLink.js",
-				"scripts/features/chathighlight/ttChatHighlight.js"
+				"scripts/features/chathighlight/ttChatHighlight.js",
+				"scripts/features/chatautocomplete/ttChatAutocomplete.js"
 			],
 			"run_at": "document_end"
 		},
