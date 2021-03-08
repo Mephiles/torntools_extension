@@ -1,6 +1,5 @@
 "use strict";
 
-let highlights;
 let initiatedIconMoving = false;
 let mouseX, mouseY;
 
@@ -17,19 +16,6 @@ let mouseX, mouseY;
 })();
 
 function loadGlobal() {
-	highlights = settings.pages.chat.highlights.map((highlight) => {
-		let { name, color } = highlight;
-
-		for (let placeholder of HIGHLIGHT_PLACEHOLDERS) {
-			if (name !== placeholder.name) continue;
-
-			name = placeholder.value();
-			break;
-		}
-
-		return { name: name.toLowerCase(), color: color.length === 7 ? `${color}6e` : color, senderColor: color };
-	});
-
 	requireChatsLoaded()
 		.then(() => {
 			new MutationObserver((mutations) => {
