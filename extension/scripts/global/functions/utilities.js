@@ -186,3 +186,17 @@ function getCookie(cname) {
 function getValue(x) {
 	return typeof x === "function" ? x() : x;
 }
+
+async function getValueAsync(x) {
+	if (typeof x === "function") {
+		if (x.constructor.name === "AsyncFunction") return await x();
+		else {
+			const value = x();
+
+			if (value instanceof Promise) return await value;
+			else return value;
+		}
+	}
+
+	return x;
+}

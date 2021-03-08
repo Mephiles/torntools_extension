@@ -174,7 +174,7 @@ class FeatureManager {
 			feature.hasLoaded = true;
 			if (getValue(feature.enabled)) {
 				if ("requirements" in feature) {
-					const requirements = getValue(featureManager.requirements);
+					const requirements = await getValueAsync(feature.requirements);
 
 					if (typeof requirements === "string") {
 						await this.executeFunction(feature.cleanup).catch(() => {});
