@@ -59,22 +59,6 @@
 	margin-bottom: 10px;
 }
 
-/* CHECK - Replaces t-clear */
-.clr {
-	color: var(--default-color, #333);
-	text-decoration: none;
-}
-
-/* CHECK - Replaces c-pointer */
-.cp {
-	cursor: pointer;
-}
-
-/* CHECK - Replaces right */
-.fr {
-	float: right;
-}
-
 /* CHECK - Replaces left */
 .fl {
 	float: left;

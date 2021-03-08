@@ -14,25 +14,24 @@
 			storage: ["settings.updateNotice"], // TODO - Add option.
 		},
 		() => {
-			// TODO - Allow without API access.
-			if (!settings.apiUsage.user.inventory) return "No API access.";
-			else if (!findItemsInObject(userdata.inventory, { ID: 61 }, { single: true })) return "No computer found!";
-			else if (document.find("#top-page-links-list > .laptop")) return "Already has a laptop link.";
-			// TODO - Works for mobile?
+			if (hasAPIData() && settings.apiUsage.user.inventory && !findItemsInObject(userdata.inventory, { ID: 61 }, { single: true }))
+				return "No computer found!";
+			else if (!document.find("#top-page-links-list")) return "No icon bar present.";
+			else if (document.find("#top-page-links-list > .laptop")) return "Already has a laptop.";
 		}
 	);
 
 	async function showComputer() {
-		await requireSidebar();
-		if (!document.find("#top-page-links-list") || document.find("#top-page-links-list > .tt-computer")) return;
+		await requireContent();
+		if (document.find("#top-page-links-list > .tt-computer")) return;
 
 		document.find("#top-page-links-list").insertBefore(
 			document.newElement({
 				type: "a",
-				class: "tt-computer clr cp fr",
+				class: "tt-computer",
 				html: `
 					<span class="icon-wrap svg-icon-wrap">
-						<span class="link-icon-svg laptop ">
+						<span class="link-icon-svg laptop">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 16">
 								<defs>
 									<style>.cls-1{opacity:0.35;}.cls-2{fill:#fff;}.cls-3{fill:#777;}</style>
@@ -48,7 +47,7 @@
 							</svg>
 						</span>
 					</span>
-					<span id="pc">Computer</span>
+					${(await checkMobile()) ? "" : '<span id="pc">Computer</span>'}
 				`,
 				attributes: {
 					role: "button",
