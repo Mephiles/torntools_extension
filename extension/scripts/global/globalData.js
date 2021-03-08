@@ -333,8 +333,6 @@ const CONTRIBUTORS = {
 	},
 };
 
-const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.name || "", description: "Your player name." }];
-
 const CUSTOM_LINKS_PRESET = {
 	"Bazaar : Management": { link: "https://www.torn.com/bazaar.php#/manage" },
 	"Faction : Armory": { link: "https://www.torn.com/factions.php?step=your#/tab=armoury" },
@@ -346,6 +344,8 @@ const CUSTOM_LINKS_PRESET = {
 	Raceway: { link: "https://www.torn.com/loader.php?sid=racing" },
 	"Travel Agency": { link: "https://www.torn.com/travelagency.php" },
 };
+
+const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.name || "", description: "Your player name." }];
 
 // noinspection SpellCheckingInspection
 const API_USAGE = {

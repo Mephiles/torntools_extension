@@ -39,25 +39,17 @@ function loadGlobal() {
 							setTimeout(() => {
 								addChatUsernameAutocomplete();
 							});
-						} else if (addedNode.classList && addedNode.classList.contains("^=chat-box-content_")) {
-							manipulateChats();
 						}
-
-						if (addedNode.classList && !addedNode.classList.contains("^=message_")) continue;
-
-						applyHighlights(addedNode);
 					}
 				}
 			}).observe(document.find("#chatRoot"), { childList: true, subtree: true });
 
 			addChatUsernameAutocomplete();
-			manipulateChats();
 
 			document.find("#chatRoot").addEventListener("click", (event) => {
 				if (!hasParent(event.target, { class: "^=chat-box_" })) return;
 
 				addChatUsernameAutocomplete();
-				manipulateChats();
 			});
 		})
 		.catch((reason) => console.error("TT failed during loading chats.", reason));
@@ -97,43 +89,6 @@ function loadGlobalOnce() {
 			mouseX = event.x;
 			mouseY = event.y;
 		});
-	}
-}
-
-function manipulateChats() {
-	for (let message of document.findAll("[class*='chat-box-content_'] [class*='overview_'] [class*='message_'] .tt-highlight")) {
-		message.style.color = "unset";
-		message.classList.remove("tt-highlight");
-	}
-
-	for (let message of document.findAll("[class*='chat-box-content_'] [class*='overview_'] [class*='message_']")) {
-		applyHighlights(message);
-	}
-}
-
-function applyHighlights(message) {
-	if (!message || typeof message.find !== "function") return;
-	if (!highlights.length) return;
-
-	const sender = simplify(message.find("a").innerText).slice(0, -1);
-	const words = message.find("span").innerText.split(" ").map(simplify);
-
-	const senderHighlights = highlights.filter(({ name }) => name === sender);
-	if (senderHighlights.length) {
-		message.find("a").style.color = senderHighlights[0].senderColor;
-		message.find("a").classList.add("tt-highlight");
-	}
-
-	for (let { name, color } of highlights) {
-		if (!words.includes(name)) continue;
-
-		message.find("span").parentElement.style.backgroundColor = color;
-		message.find("span").classList.add("tt-highlight");
-		break;
-	}
-
-	function simplify(text) {
-		return text.toLowerCase().trim();
 	}
 }
 

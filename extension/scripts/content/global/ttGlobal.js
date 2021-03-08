@@ -16,8 +16,10 @@
 				for (let addedNode of mutation.addedNodes) {
 					if (addedNode.classList) {
 						if (addedNode.classList.contains("^=chat-box_")) {
+							console.log("DKK new chat 1");
 							window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.CHAT_NEW, { detail: { chat: addedNode } }));
 						} else if (addedNode.classList.contains("^=chat-box-input_")) {
+							console.log("DKK new chat 2");
 							window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.CHAT_OPENED, { detail: { chat: mutation.target } }));
 						} else if (addedNode.classList.contains("^=message_")) {
 							window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.CHAT_MESSAGE, { detail: { message: addedNode } }));

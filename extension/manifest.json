@@ -106,7 +106,8 @@
 				"scripts/features/sidebarnotes/ttSidebarNotes.js",
 				"scripts/features/coloredchat/ttColoredChat.js",
 				"scripts/features/searchchat/ttSearchChat.js",
-				"scripts/features/computerlink/ttComputerLink.js"
+				"scripts/features/computerlink/ttComputerLink.js",
+				"scripts/features/chathighlight/ttChatHighlight.js"
 			],
 			"run_at": "document_end"
 		},
