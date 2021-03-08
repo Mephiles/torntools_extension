@@ -6,12 +6,12 @@
 	featureManager.registerFeature(
 		"Computer Link",
 		"global",
-		() => settings.updateNotice, // TODO - Add option.
+		() => settings.pages.travel.computer,
 		null,
 		showComputer,
 		removeComputer,
 		{
-			storage: ["settings.updateNotice"], // TODO - Add option.
+			storage: ["settings.pages.travel.computer"],
 		},
 		() => {
 			if (hasAPIData() && settings.apiUsage.user.inventory && !findItemsInObject(userdata.inventory, { ID: 61 }, { single: true }))

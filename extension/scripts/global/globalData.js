@@ -245,6 +245,9 @@ const DEFAULT_STORAGE = {
 			companies: {
 				specialMugMoney: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			travel: {
+				computer: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 	},
 	filters: {
