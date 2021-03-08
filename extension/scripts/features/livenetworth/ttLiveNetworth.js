@@ -3,9 +3,7 @@
 let networthInterval = false;
 
 (async () => {
-	const page = getPage();
-
-	if (page !== "home") return;
+	if (isFlying() || isAbroad()) return;
 
 	featureManager.registerFeature(
 		"Live Networth",

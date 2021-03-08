@@ -1,9 +1,7 @@
 "use strict";
 
 (async () => {
-	const page = getPage();
-
-	if (page !== "home") return;
+	if (isFlying() || isAbroad()) return;
 
 	featureManager.registerFeature(
 		"Effective Battle Stats",
