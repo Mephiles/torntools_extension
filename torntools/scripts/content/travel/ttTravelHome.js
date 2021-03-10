@@ -851,23 +851,14 @@ function warnOnTimeout() {
 		} else {
 			return;
 		}
-		let rawHTML = `<div id="tt-timeout-warning"><div class="patter-left" style="
-    height: 30px;
-    margin: 0px 0px 0px 10px;
-"></div><div class="travel-wrap" style="
-    height: 30px;
-    text-align: center;
-    display: block;
-    margin: 0px;
-"><span style="
-    top: 15%;
-    position: relative;
-    color: white;
-    font-size: large;
-">Warning: Your ${timeoutFor} ends before you return to TORN !</span></div><div class="patter-right" style="
-    height: 30px;
-    margin: 0px 10px 0px 0px;
-"></div><div class="clear"></div></div>`;
+		let rawHTML = `<div id="tt-timeout-warning">
+			<div class="patter-left"></div>
+			<div class="travel-wrap">
+				<span>Warning: Your ${timeoutFor} ends before you return to TORN !</span>
+			</div>
+			<div class="patter-right"></div>
+			<div class="clear"></div>
+		</div>`;
 		doc.find("div.travel-agency div.travel-container.full-map[style='display: block;']").insertAdjacentHTML("beforeBegin", rawHTML);
 		}
 	}
