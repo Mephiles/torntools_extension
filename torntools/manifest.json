@@ -221,6 +221,16 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/loader.php?sid=view*", "https://www.torn.com/loader.php?sid=rouletteStatistics"],
+			"js": ["scripts/content/loader/ttCasinoStatistics.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/bookies.php*"],
+			"js": ["scripts/content/loader/ttCasinoStatistics.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/loader.php?sid=highlow*"],
 			"css": ["scripts/content/casino/ttCasino.css"],
 			"js": ["scripts/content/casino/ttHiLo.js"],

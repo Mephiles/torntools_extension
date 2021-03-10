@@ -2,9 +2,6 @@ name: Run Prettier
 on:
     push:
         branches: [master]
-    pull_request:
-        branches: [master]
-        types: [opened]
     workflow_dispatch:
 jobs:
     build:

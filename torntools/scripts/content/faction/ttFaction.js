@@ -79,6 +79,7 @@ requireDatabase().then(() => {
 function loadMain() {
 	subpageLoaded("main").then(() => {
 		fullInfoBox("main");
+		foldFactionDesc();
 
 		if (ownFaction && settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
 		displayWarOverTimes();
@@ -88,6 +89,7 @@ function loadMain() {
 function loadInfo() {
 	subpageLoaded("info").then(() => {
 		fullInfoBox("info");
+		foldFactionDesc();
 
 		if (ownFaction) {
 			if (settings.pages.faction.armory_worth) armoryWorth();
@@ -695,7 +697,7 @@ function showAvailablePlayers() {
 		doc.find("#faction-crimes").insertBefore(
 			doc.new({
 				type: "div",
-				class: "info-msg-cont border-round m-top10",
+				class: "info-msg-cont border-round m-top10 torn-msg",
 				html: `
 				<div class="info-msg border-round">
 					<i class="info-icon"></i>
@@ -1270,7 +1272,7 @@ function armoryFilter() {
 
 	if (
 		!["weapons", "armour"].includes(
-			doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
+			doc.find("ul[aria-label='Faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
 		)
 	) {
 		armory_filter.classList.add("filter-hidden");
@@ -1278,7 +1280,7 @@ function armoryFilter() {
 
 	// Switching page
 	if (!mobile) {
-		for (let link of doc.findAll("ul[aria-label='faction armoury tabs']>li")) {
+		for (let link of doc.findAll("ul[aria-label='Faction armoury tabs']>li")) {
 			if (["weapons", "armour"].includes(link.getAttribute("aria-controls").replace("armoury-", ""))) {
 				link.addEventListener("click", () => {
 					console.log("filter tab");
@@ -1299,7 +1301,7 @@ function armoryFilter() {
 		doc.find(".armoury-drop-list select#armour-nav-list").addEventListener("change", () => {
 			if (
 				["weapons", "armour"].includes(
-					doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
+					doc.find("ul[aria-label='Faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
 				)
 			) {
 				console.log("filter tab");
@@ -1339,7 +1341,7 @@ function armoryFilter() {
 					if (added_node.classList && added_node.classList.contains("item-list")) {
 						if (
 							["weapons", "armour"].includes(
-								doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
+								doc.find("ul[aria-label='Faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
 							)
 						) {
 							console.log("items added");
@@ -1381,7 +1383,7 @@ const ALLOWED_BLOOD = {
 };
 
 function highlightBloodBags() {
-	const section = doc.find("ul[aria-label='faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
+	const section = doc.find("ul[aria-label='Faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
 	if (section === "medical") highlight();
 
 	new MutationObserver((mutations) => {
@@ -1393,7 +1395,7 @@ function highlightBloodBags() {
 		)
 			return;
 
-		const section = doc.find("ul[aria-label='faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
+		const section = doc.find("ul[aria-label='Faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
 		if (section !== "medical") return;
 
 		highlight();
@@ -1431,7 +1433,7 @@ function highlightBloodBags() {
 }
 
 function armoryTabsLoaded() {
-	return requireElement("ul[aria-label='faction armoury tabs'] > li[aria-selected='true']");
+	return requireElement("ul[aria-label='Faction armoury tabs'] > li[aria-selected='true']");
 }
 
 function armoryItemsLoaded() {
@@ -1657,4 +1659,23 @@ function displayWarOverTimes() {
 			}
 		});
 	});
+}
+
+function foldFactionDesc() {
+	if (!doc.find("div[role='main'] i.tt-collapse-desc")) {
+		let rawHTML = "<i class='tt-collapse-desc fas fa-caret-down' style='padding-top: 9px;padding-left: 7px;'></i>";
+		doc.find("div[role='main'] div.tt-checkbox-wrap").insertAdjacentHTML("beforeEnd", rawHTML);
+		doc.find("i.tt-collapse-desc").addEventListener("click", (event) => {
+			event.target.classList.toggle("fa-caret-down");
+			event.target.classList.toggle("fa-caret-right");
+			let facDesc = doc.find("div[role='main'] div.cont-gray10");
+			if (facDesc.style.display == "none") {
+				facDesc.toggleAttribute("style");
+			} else {
+				facDesc.style.display = "none";
+			}
+			doc.find("div[role='main'] div.tt-options").parentElement.classList.toggle("active");
+			doc.find("div[role='main'] div.tt-options").parentElement.classList.toggle("all-rounded");
+		});
+	}
 }

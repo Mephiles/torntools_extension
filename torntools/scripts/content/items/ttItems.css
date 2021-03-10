@@ -182,3 +182,7 @@ li.item-group.tt-modified .group-arrow {
 	padding-left: 10px;
 	float: none;
 }
+
+.tt-xan-warning {
+	color: red;
+}
