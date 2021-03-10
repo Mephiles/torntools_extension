@@ -97,7 +97,7 @@ requireDatabase(false)
 				})
 				.catch(() => {});
 		});
-		
+
 		registerChanges();
 		searchPreferences();
 	})
@@ -138,7 +138,15 @@ function searchPreferences() {
 	function ttSearch() {
 		if (!ttBlackSearchOverlay.find("input#tt-search-input").value.toLowerCase().trim()) return;
 		doc.findAll(".searched").forEach((option) => option.classList.remove("searched"));
-		let searchResults = doc.evaluate("//div[@id='preferences']//div[@class='inner-content']//div[input][contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + ttBlackSearchOverlay.find("input#tt-search-input").value.toLowerCase() + "')]", doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+		let searchResults = doc.evaluate(
+			"//div[@id='preferences']//div[@class='inner-content']//div[input][contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" +
+				ttBlackSearchOverlay.find("input#tt-search-input").value.toLowerCase() +
+				"')]",
+			doc,
+			null,
+			XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+			null
+		);
 		let searchDiv = "";
 		if (searchResults.snapshotLength > 0) {
 			for (let i = 0; i < searchResults.snapshotLength; i++) {
@@ -156,18 +164,20 @@ function searchPreferences() {
 			ttBlackSearchOverlay.classList.remove("active");
 			if (event.target.innerText.trim() !== "No Results" && event.target.getAttribute("id")) {
 				doc.find(`div#preferences div.inner-content div.navigation div[name='${event.target.getAttribute("id")}']`).click();
-				for (let option of [...doc.findAll(`div#preferences div.inner-content div.sections div[name='${event.target.getAttribute("id")}'] div.option`)]) {
+				for (let option of [
+					...doc.findAll(`div#preferences div.inner-content div.sections div[name='${event.target.getAttribute("id")}'] div.option`),
+				]) {
 					if (option.innerText.replace("New!", "").trim() === event.target.innerText.trim()) {
 						option.classList.add("searched");
 						break;
-					};
-				};
-			};
+					}
+				}
+			}
 			ttBlackSearchOverlay.find("div#tt-search-overlay").innerHTML = "";
 		});
 		searchResults = null;
-	};
-};
+	}
+}
 
 function registerChanges() {
 	const defaultKey = "defaultValue";
@@ -726,7 +736,7 @@ function setupPreferences() {
 	for (let game of hide_casino_games) {
 		preferences.find(`#casinogames span[name='${game}']`).classList.add("disabled");
 	}
-	
+
 	for (let stockBlock of preferences.findAll("div#stock-blocks span")) {
 		stockBlock.onclick = () => {
 			stockBlock.classList.toggle("disabled");
@@ -1187,7 +1197,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	for (let game of preferences.findAll("#casinogames span.disabled")) {
 		hiddenGames.push(game.getAttribute("name"));
 	}
-	
+
 	const hiddenStockBlocks = [];
 	for (let stockBlock of preferences.findAll("#stock-blocks span.disabled")) {
 		hiddenStockBlocks.push(stockBlock.getAttribute("name"));

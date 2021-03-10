@@ -490,11 +490,11 @@ div#tt-black-search-overlay > div {
 
 div#tt-black-search-overlay i.far.fa-times-circle {
 	position: fixed;
-    top: 13.5%;
-    left: 15%;
-    font-size: 27px;
-    background-color: white;
-    border-radius: 50%;
+	top: 13.5%;
+	left: 15%;
+	font-size: 27px;
+	background-color: white;
+	border-radius: 50%;
 }
 
 div#tt-black-search-overlay input#tt-search-input {
@@ -507,7 +507,7 @@ div#tt-black-search-overlay input#tt-search-input {
 }
 
 div#tt-black-search-overlay i#tt-search-button {
-	    margin-left: 10px;
+	margin-left: 10px;
 	border: #acea00 3px solid;
 	border-color: rgb(133, 133, 133);
 	color: #acea00;
@@ -516,10 +516,10 @@ div#tt-black-search-overlay i#tt-search-button {
 	position: absolute;
 	padding-bottom: 6px;
 	padding-left: 12px;
-    width: 39px;
-    padding-top: 9px;
-    height: 30px;
-    font-size: 27px;
+	width: 39px;
+	padding-top: 9px;
+	height: 30px;
+	font-size: 27px;
 }
 
 div#tt-search-overlay {
