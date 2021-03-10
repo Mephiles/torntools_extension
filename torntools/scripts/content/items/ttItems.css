@@ -24,7 +24,7 @@ li.tt-item-price {
 
 #ttQuick .inner-content {
 	width: 100%;
-	padding: 10px;
+	padding: 5px;
 	box-sizing: border-box;
 }
 
@@ -35,13 +35,13 @@ li.tt-item-price {
 #ttQuick .inner-content .item {
 	display: inline-block;
 	border: 1px solid lightgray;
-	margin-right: 10px;
 	padding: 5px;
 	border-radius: 5px;
 	background-color: white;
 	cursor: pointer;
 	position: relative;
-	margin-bottom: 10px;
+	margin-right: 5px;
+    margin-bottom: 5px;
 }
 
 #ttQuick .inner-content .item:hover .tt-close-icon {
