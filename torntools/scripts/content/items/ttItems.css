@@ -41,7 +41,7 @@ li.tt-item-price {
 	cursor: pointer;
 	position: relative;
 	margin-right: 5px;
-    margin-bottom: 5px;
+	margin-bottom: 5px;
 }
 
 #ttQuick .inner-content .item:hover .tt-close-icon {

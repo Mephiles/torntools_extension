@@ -32,8 +32,8 @@ form[name="crimes"] img {
 	cursor: pointer;
 	position: relative;
 	margin-bottom: 5px;
-    margin-right: 5px;
-    height: 33px;
+	margin-right: 5px;
+	height: 33px;
 }
 
 #ttQuick .inner-content .item.removable {
