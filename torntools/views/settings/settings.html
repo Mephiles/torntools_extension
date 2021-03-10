@@ -38,6 +38,14 @@
 			<div class="site" id="about-link">About</div>
 		</div>
 		<div class="tt-black-overlay"></div>
+		<div id="tt-black-search-overlay" class="container">
+			<div>
+				<i class="far fa-times-circle"></i>
+				<input type="text" id="tt-search-input">
+				<i class="fas fa-search fa-3x" id="tt-search-button"></i>
+				<div id="tt-search-overlay"></div>
+			</div>
+		</div>
 		<div class="tt-confirmation-popup">
 			<h1 class="title"></h1>
 			<div class="message"></div>
@@ -63,6 +71,10 @@
 		<!-- PREFERENCES -->
 		<div id="preferences" class="container subpage">
 			<h2>Preferences</h2>
+			<div id="tt-dummy-search">
+				<input id="tt-search-input" type="text" placeholder="Search here...">
+				<i id="tt-search-button" class="fas fa-search"></i>
+			</div>
 			<div class="content">
 				<div class="big-message error hidden">
 					I do not have permission to display Notifications.
