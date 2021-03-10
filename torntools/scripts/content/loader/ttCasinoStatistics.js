@@ -1,12 +1,12 @@
 requireDatabase().then(() => {
 	console.log("TT - Casino Statistics");
-	if (!window.location.toString().includes("Lottery")) {
+	if (!window.location.href.includes("Lottery") && (window.location.href.includes("Statistics") || window.location.href.includes("stats/"))) {
 		addNetTotal("overall");
 		addNetTotal("your");
 	}
-	if (window.location.toString().includes("bookies")) {
+	if (window.location.href.includes("bookies")) {
 		window.addEventListener("hashchange", () => {
-			if (!window.location.toString().includes("Lottery")) {
+			if (!window.location.href.includes("Lottery") && window.location.href.includes("stats/")) {
 				addNetTotal("overall");
 				addNetTotal("your");
 			}
