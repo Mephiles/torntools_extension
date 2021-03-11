@@ -1,8 +1,6 @@
 "use strict";
 
 (async () => {
-	let highlights;
-
 	const feature = featureManager.registerFeature(
 		"Chat Autocomplete",
 		"global",
