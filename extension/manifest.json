@@ -97,7 +97,6 @@
 				"scripts/features/computerlink/ttComputerLink.css"
 			],
 			"js": [
-				"scripts/content_old/global/ttGlobal.js",
 				"scripts/content/global/ttGlobal.js",
 				"scripts/features/hidelevelupgrade/ttHideLevelUpgrade.js",
 				"scripts/features/octime/ttOCTime.js",
