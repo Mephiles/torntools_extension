@@ -835,32 +835,37 @@ function addLandAndReturnTimes() {
 
 function warnOnTimeout() {
 	doc.addEventListener("click", (event) => {
-	if (event.target.className.trim() === "torn-btn btn-dark-bg" && doc.findAll("div.travel-confirm[style='display: block;']").length && !doc.findAll("div.travel-agency div[id*='tab4'][aria-hidden='false'] div#tt-timeout-warning").length) {
-		let travelTimeArray = doc.findAll("div.travel-confirm[style='display: block;'] span.bold.white")[1].innerText.split(" ");
-		let travelTime;
-		if (travelTimeArray.length === 2) {
-			travelTime = travelTimeArray[0] * 60;
-		} else if (travelTimeArray.length === 5) {
-			travelTime = travelTimeArray[0] * 60 * 60 + travelTimeArray[3] * 60;
-		}
-		let timeoutFor;
-		if (2 * travelTime >= userdata.education_timeleft) {
-			timeoutFor = "education course";
-		} else if (2 * travelTime >= userdata.city_bank.time_left) {
-			timeoutFor = "bank investment";
-		} else {
-			return;
-		}
-		let rawHTML = `<div id="tt-timeout-warning">
+		if (
+			event.target.className.trim() === "torn-btn btn-dark-bg" &&
+			doc.findAll("div.travel-confirm[style='display: block;']").length &&
+			!doc.findAll("div.travel-agency div[id*='tab4'][aria-hidden='false'] div#tt-timeout-warning").length
+		) {
+			let travelTimeArray = doc.findAll("div.travel-confirm[style='display: block;'] span.bold.white")[1].innerText.split(" ");
+			let travelTime;
+			if (travelTimeArray.length === 2) {
+				travelTime = travelTimeArray[0] * 60;
+			} else if (travelTimeArray.length === 5) {
+				travelTime = travelTimeArray[0] * 60 * 60 + travelTimeArray[3] * 60;
+			}
+			let timeoutFor;
+			if (2 * travelTime >= userdata.education_timeleft && 2 * travelTime >= userdata.city_bank.time_left) {
+				timeoutFor = "education course and bank investment";
+			} else if (2 * travelTime >= userdata.education_timeleft) {
+				timeoutFor = "education course";
+			} else if (2 * travelTime >= userdata.city_bank.time_left) {
+				timeoutFor = "bank investment";
+			} else {
+				return;
+			}
+			let rawHTML = `<div id="tt-timeout-warning">
 			<div class="patter-left"></div>
 			<div class="travel-wrap">
-				<span>Warning: Your ${timeoutFor} ends before you return to TORN !</span>
+				<span>Warning: Your ${timeoutFor} end(s) before you return to TORN !</span>
 			</div>
 			<div class="patter-right"></div>
 			<div class="clear"></div>
 		</div>`;
-		doc.find("div.travel-agency div.travel-container.full-map[style='display: block;']").insertAdjacentHTML("beforeBegin", rawHTML);
+			doc.find("div.travel-agency div.travel-container.full-map[style='display: block;']").insertAdjacentHTML("beforeBegin", rawHTML);
 		}
-	}
-)
+	});
 }
