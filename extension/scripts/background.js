@@ -4,9 +4,9 @@ const notificationPlayer = getAudioPlayer();
 const notificationTestPlayer = getAudioPlayer();
 
 let notificationSound = null;
-let notificationRelations = {};
+const notificationRelations = {};
 
-let notifications = {
+const notifications = {
 	events: {},
 	messages: {},
 	newDay: {},
@@ -39,7 +39,7 @@ let notifications = {
 })();
 
 async function convertDatabase() {
-	let storage = await ttStorage.get();
+	const storage = await ttStorage.get();
 
 	if (!storage || !Object.keys(storage).length) {
 		console.log("Setting new storage.");
@@ -47,7 +47,7 @@ async function convertDatabase() {
 	} else {
 		console.log("Old storage.", storage);
 
-		let newStorage = convertGeneral(storage, DEFAULT_STORAGE);
+		const newStorage = convertGeneral(storage, DEFAULT_STORAGE);
 
 		await ttStorage.clear();
 		await ttStorage.set(newStorage);
@@ -56,9 +56,9 @@ async function convertDatabase() {
 	}
 
 	function convertGeneral(oldStorage, defaultStorage) {
-		let newStorage = {};
+		const newStorage = {};
 
-		for (let key in defaultStorage) {
+		for (const key in defaultStorage) {
 			if (!oldStorage) oldStorage = {};
 			if (!key in oldStorage) oldStorage[key] = {};
 
@@ -124,8 +124,8 @@ function registerUpdaters() {
 }
 
 async function sendNotifications() {
-	for (let type in notifications) {
-		for (let key in notifications[type]) {
+	for (const type in notifications) {
+		for (const key in notifications[type]) {
 			const { skip, seen, date, title, message, url } = notifications[type][key];
 
 			if (!skip && !seen) {
@@ -191,19 +191,19 @@ function timedUpdates() {
 async function updateUserdata() {
 	const now = Date.now();
 
-	let updatedTypes = [];
-	let updateEssential = !userdata || now - userdata.date + 100 >= TO_MILLIS.SECONDS * settings.apiUsage.delayEssential;
-	let updateBasic =
+	const updatedTypes = [];
+	const updateEssential = !userdata || now - userdata.date + 100 >= TO_MILLIS.SECONDS * settings.apiUsage.delayEssential;
+	const updateBasic =
 		updateEssential &&
 		(!userdata.dateBasic ||
 			(now - userdata.dateBasic + 100 >= TO_MILLIS.SECONDS * settings.apiUsage.delayBasic &&
 				now - userdata.last_action.timestamp * 1000 <= TO_MILLIS.MINUTES * 5));
 
-	let selections = [];
+	const selections = [];
 	if (updateEssential) {
 		selections.push("profile", "timestamp");
 
-		for (let selection of ["bars", "cooldowns", "travel", "events", "messages", "money", "refills"]) {
+		for (const selection of ["bars", "cooldowns", "travel", "events", "messages", "money", "refills"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selections.push(selection);
@@ -211,7 +211,7 @@ async function updateUserdata() {
 		updatedTypes.push("essential");
 	}
 	if (updateBasic) {
-		for (let selection of ["personalstats", "stocks", "inventory", "merits"]) {
+		for (const selection of ["personalstats", "stocks", "inventory", "merits"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selections.push(selection);
@@ -266,7 +266,7 @@ async function updateUserdata() {
 		}
 
 		if (oldUserdata.personalstats && userdata.personalstats) {
-			let fetchData = ["killstreak", "defendsstalemated", "attacksdraw", "defendslost"].some(
+			const fetchData = ["killstreak", "defendsstalemated", "attacksdraw", "defendslost"].some(
 				(stat) => oldUserdata.personalstats[stat] !== userdata.personalstats[stat]
 			);
 
@@ -274,8 +274,8 @@ async function updateUserdata() {
 		}
 
 		async function updateAttackHistory() {
-			let lastAttack = attackHistory.lastAttack;
-			for (let attackId in userdata.attacks) {
+			const lastAttack = attackHistory.lastAttack;
+			for (const attackId in userdata.attacks) {
 				if (parseInt(attackId) <= attackHistory.lastAttack) continue;
 				if (parseInt(attackId) > lastAttack) lastAttack = parseInt(attackId);
 
@@ -380,8 +380,8 @@ async function updateUserdata() {
 	async function notifyEventMessages() {
 		let eventCount = 0;
 		if (settings.apiUsage.user.events) {
-			let events = [];
-			for (let key of Object.keys(userdata.events).reverse()) {
+			const events = [];
+			for (const key of Object.keys(userdata.events).reverse()) {
 				const event = userdata.events[key];
 				if (event.seen) break;
 
@@ -402,8 +402,8 @@ async function updateUserdata() {
 
 		let messageCount = 0;
 		if (settings.apiUsage.user.messages) {
-			let messages = [];
-			for (let key of Object.keys(userdata.messages).reverse()) {
+			const messages = [];
+			for (const key of Object.keys(userdata.messages).reverse()) {
 				const message = userdata.messages[key];
 				if (message.seen) break;
 
@@ -448,7 +448,7 @@ async function updateUserdata() {
 		if (!settings.apiUsage.user.cooldowns || !settings.notifications.types.global || !settings.notifications.types.cooldowns || !oldUserdata.cooldowns)
 			return;
 
-		for (let type in userdata.cooldowns) {
+		for (const type in userdata.cooldowns) {
 			if (userdata.cooldowns[type] || !oldUserdata.cooldowns[type]) continue;
 
 			await notifyUser("TornTools - Cooldown", `Your ${type} cooldown has ended.`, LINKS.items);
@@ -482,7 +482,7 @@ async function updateUserdata() {
 	async function notifyBars() {
 		if (!settings.apiUsage.user.bars || !settings.notifications.types.global) return;
 
-		for (let bar of ["energy", "happy", "nerve", "life"]) {
+		for (const bar of ["energy", "happy", "nerve", "life"]) {
 			if (!settings.notifications.types[bar].length || !oldUserdata[bar]) return;
 
 			const checkpoints = settings.notifications.types[bar]
@@ -491,7 +491,7 @@ async function updateUserdata() {
 				)
 				.sort((a, b) => b - a);
 
-			for (let checkpoint of checkpoints) {
+			for (const checkpoint of checkpoints) {
 				if (oldUserdata[bar].current < userdata[bar].current && userdata[bar].current >= checkpoint && !notifications[bar][checkpoint]) {
 					notifications[bar][checkpoint] = newNotification(
 						`Bars`,
@@ -513,7 +513,7 @@ async function updateUserdata() {
 			const timeout = userdata.chain.timeout * 1000 - (now - userdata.timestamp * 1000); // ms
 			const count = userdata.chain.current;
 
-			for (let checkpoint of settings.notifications.types.chainTimer.sort((a, b) => a - b)) {
+			for (const checkpoint of settings.notifications.types.chainTimer.sort((a, b) => a - b)) {
 				const key = `${count}_${checkpoint}`;
 				if (timeout > parseInt(checkpoint) * TO_MILLIS.SECONDS || notifications.chain[key]) continue;
 
@@ -532,7 +532,7 @@ async function updateUserdata() {
 			const count = userdata.chain.current;
 			const nextBonus = getNextChainBonus(count);
 
-			for (let checkpoint of settings.notifications.types.chainBonus.sort((a, b) => b - a)) {
+			for (const checkpoint of settings.notifications.types.chainBonus.sort((a, b) => b - a)) {
 				const key = `${nextBonus}_${checkpoint}`;
 
 				if (nextBonus - count > parseInt(checkpoint) || notifications.chainCount[key]) continue;
@@ -553,8 +553,8 @@ async function updateUserdata() {
 		if (!settings.notifications.types.global) return;
 
 		if (settings.notifications.types.leavingHospital.length && userdata.status.state === "Hospital") {
-			for (let checkpoint of settings.notifications.types.leavingHospital.sort((a, b) => a - b)) {
-				let timeLeft = userdata.status.until * 1000 - now;
+			for (const checkpoint of settings.notifications.types.leavingHospital.sort((a, b) => a - b)) {
+				const timeLeft = userdata.status.until * 1000 - now;
 
 				if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications.hospital[checkpoint]) continue;
 
@@ -574,8 +574,8 @@ async function updateUserdata() {
 		if (!settings.apiUsage.user.travel || !settings.notifications.types.global) return;
 
 		if (settings.notifications.types.landing.length && userdata.travel.time_left) {
-			for (let checkpoint of settings.notifications.types.landing.sort((a, b) => a - b)) {
-				let timeLeft = userdata.travel.timestamp * 1000 - now;
+			for (const checkpoint of settings.notifications.types.landing.sort((a, b) => a - b)) {
+				const timeLeft = userdata.travel.timestamp * 1000 - now;
 
 				if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications.travel[checkpoint]) continue;
 
@@ -600,9 +600,9 @@ async function updateUserdata() {
 			{ name: "medical", title: "Medical", setting: "cooldownMedical", memory: "medical" },
 		];
 
-		for (let cooldown of COOLDOWNS) {
+		for (const cooldown of COOLDOWNS) {
 			if (settings.notifications.types[cooldown.setting].length && userdata.cooldowns[cooldown.name] > 0) {
-				for (let checkpoint of settings.notifications.types[cooldown.setting].sort((a, b) => a - b)) {
+				for (const checkpoint of settings.notifications.types[cooldown.setting].sort((a, b) => a - b)) {
 					let timeLeft = userdata.cooldowns[cooldown.name] * 1000;
 
 					if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications[cooldown.memory][checkpoint]) continue;
@@ -684,7 +684,7 @@ async function updateStakeouts() {
 
 	let success = 0;
 	let failed = 0;
-	for (let id in stakeouts) {
+	for (const id in stakeouts) {
 		if (isNaN(id)) continue;
 
 		let data;
@@ -791,7 +791,7 @@ async function updateStocks() {
 	await ttStorage.change({ torndata: { stocks } });
 
 	if (oldStocks && settings.notifications.types.global) {
-		for (let id in settings.notifications.types.stocks) {
+		for (const id in settings.notifications.types.stocks) {
 			const alerts = settings.notifications.types.stocks[id];
 
 			if (alerts.priceFalls && oldStocks[id].current_price > alerts.priceFalls && stocks[id].current_price <= alerts.priceFalls) {
@@ -853,7 +853,7 @@ async function updateFactiondata() {
 	if (factiondata.crimes) {
 		factiondata.userCrime = -1;
 
-		for (let id of Object.keys(factiondata.crimes).reverse()) {
+		for (const id of Object.keys(factiondata.crimes).reverse()) {
 			const crime = factiondata.crimes[id];
 
 			if (crime.initiated || !crime.participants.map((value) => parseInt(Object.keys(value)[0])).includes(userdata.player_id)) continue;

@@ -12,7 +12,7 @@ function interceptXHR(channel) {
 
 	window.XMLHttpRequest.prototype.open = function (method, url) {
 		if (typeof xhrOpenAdjustments === "object") {
-			for (let key in xhrOpenAdjustments) {
+			for (const key in xhrOpenAdjustments) {
 				if (typeof xhrOpenAdjustments[key] !== "function") continue;
 
 				const adjustments = xhrOpenAdjustments[key]({ ...this }, method, url);
@@ -51,7 +51,7 @@ function interceptXHR(channel) {
 	};
 	window.XMLHttpRequest.prototype.send = function (body) {
 		if (typeof xhrSendAdjustments === "object") {
-			for (let key in xhrSendAdjustments) {
+			for (const key in xhrSendAdjustments) {
 				if (typeof xhrSendAdjustments[key] !== "function") continue;
 
 				body = xhrSendAdjustments[key]({ ...this }, body);
@@ -70,7 +70,7 @@ function interceptXHR(channel) {
 		const search = decodeURIComponent((url ? url : window.location.href).slice(window.location.href.indexOf("?") + 1));
 		const definitions = search.split("&");
 
-		let params = {};
+		const params = {};
 		definitions.forEach((val) => {
 			const parts = val.split("=", 2);
 
@@ -95,9 +95,9 @@ function interceptXHR(channel) {
 
 // noinspection JSUnusedGlobalSymbols
 function getParams(body) {
-	let params = {};
+	const params = {};
 
-	for (let param of body.split("&")) {
+	for (const param of body.split("&")) {
 		const split = param.split("=");
 
 		params[split[0]] = split[1];
@@ -108,9 +108,9 @@ function getParams(body) {
 
 // noinspection JSUnusedGlobalSymbols
 function paramsToBody(params) {
-	let _params = [];
+	const _params = [];
 
-	for (let key in params) {
+	for (const key in params) {
 		_params.push(key + "=" + params[key]);
 	}
 

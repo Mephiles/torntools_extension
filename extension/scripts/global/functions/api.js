@@ -29,7 +29,7 @@ async function fetchApi(location, options = {}) {
 		};
 
 		let url, path;
-		let params = new URLSearchParams();
+		const params = new URLSearchParams();
 		switch (location) {
 			case "torn":
 				url = PLATFORMS.torn;
@@ -54,7 +54,7 @@ async function fetchApi(location, options = {}) {
 		}
 
 		const fullUrl = `${url}${path}?${params}`;
-		let parameters = {};
+		const parameters = {};
 
 		if (options.method === "POST") {
 			parameters = {

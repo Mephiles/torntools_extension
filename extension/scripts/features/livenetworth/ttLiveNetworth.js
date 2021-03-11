@@ -34,11 +34,11 @@ let networthInterval = false;
 			applyRounding: false,
 			parentElement: document.find("h5=General Information").parentElement.nextElementSibling.find("ul.info-cont-wrap"),
 		});
-		let networthRow = newRow("(Live) Networth", `$${formatNumber(userdata.networth.total)}`);
+		const networthRow = newRow("(Live) Networth", `$${formatNumber(userdata.networth.total)}`);
 		networthRow.style.backgroundColor = "#65c90069";
 
 		// Networth last updated info icon
-		let infoIcon = document.newElement({
+		const infoIcon = document.newElement({
 			type: "i",
 			class: "networth-info-icon",
 			attributes: {
@@ -52,7 +52,7 @@ let networthInterval = false;
 
 		// Update 'last updated'
 		networthInterval = setInterval(() => {
-			let seconds = parseInt(infoIcon.getAttribute("seconds")) + 1;
+			const seconds = parseInt(infoIcon.getAttribute("seconds")) + 1;
 
 			infoIcon.setAttribute("title", `Last updated: ${formatTime({ milliseconds: Date.now() - seconds * 1000 }, { type: "ago" })}`);
 			infoIcon.setAttribute("seconds", `${seconds}`);
@@ -69,7 +69,7 @@ let networthInterval = false;
 			],
 		});
 
-		for (let type of getNetworthTypes()) {
+		for (const type of getNetworthTypes()) {
 			addToTable(type);
 		}
 

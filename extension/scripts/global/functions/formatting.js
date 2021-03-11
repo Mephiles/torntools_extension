@@ -51,8 +51,8 @@ function formatTime(time = {}, options = {}) {
 			date = new Date(millis);
 
 			let hours = toMultipleDigits(date.getHours());
-			let minutes = toMultipleDigits(date.getMinutes());
-			let seconds = toMultipleDigits(date.getSeconds());
+			const minutes = toMultipleDigits(date.getMinutes());
+			const seconds = toMultipleDigits(date.getSeconds());
 
 			switch (settings.formatting.time) {
 				case "us":
@@ -123,11 +123,11 @@ function formatTime(time = {}, options = {}) {
 			let _units = UNITS;
 			if (options.agoFilter) _units = UNITS.filter((value) => value.millis <= options.agoFilter);
 
-			for (let unit of _units) {
+			for (const unit of _units) {
 				if (timeAgo < unit.millis) continue;
 
 				if (unit.unit) {
-					let amount = Math.floor(timeAgo / unit.millis);
+					const amount = Math.floor(timeAgo / unit.millis);
 
 					return `${amount} ${unit.unit}${applyPlural(amount)} ${token}`;
 				} else if (unit.text) {
@@ -158,7 +158,7 @@ function formatDate(date = {}, options = {}) {
 	if (isDefined(date.seconds)) millis += date.seconds * TO_MILLIS.SECONDS;
 
 	const _date = new Date(millis);
-	let parts = [];
+	const parts = [];
 	let separator;
 
 	switch (settings.formatting.date) {

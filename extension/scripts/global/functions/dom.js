@@ -1,6 +1,6 @@
 "use strict";
 
-let rotatingElements = {};
+const rotatingElements = {};
 let mobile;
 
 Object.defineProperty(Document.prototype, "newElement", {
@@ -23,7 +23,7 @@ Object.defineProperty(Document.prototype, "newElement", {
 				...options,
 			};
 
-			let newElement = this.createElement(options.type);
+			const newElement = this.createElement(options.type);
 
 			if (options.id) newElement.id = options.id;
 			if (options.class) newElement.setClass(options.class);
@@ -35,7 +35,7 @@ Object.defineProperty(Document.prototype, "newElement", {
 			}
 			if (options.href) newElement.href = options.href;
 
-			for (let child of options.children || []) {
+			for (const child of options.children || []) {
 				if (typeof child === "string") {
 					newElement.appendChild(document.createTextNode(child));
 				} else {
@@ -47,12 +47,12 @@ Object.defineProperty(Document.prototype, "newElement", {
 				let attributes = options.attributes;
 				if (typeof attributes === "function") attributes = attributes();
 
-				for (let attribute in attributes) newElement.setAttribute(attribute, attributes[attribute]);
+				for (const attribute in attributes) newElement.setAttribute(attribute, attributes[attribute]);
 			}
-			for (let event in options.events) newElement.addEventListener(event, options.events[event]);
+			for (const event in options.events) newElement.addEventListener(event, options.events[event]);
 
-			for (let key in options.style) newElement.style[key] = options.style[key];
-			for (let key in options.dataset) newElement.dataset[key] = options.dataset[key];
+			for (const key in options.style) newElement.style[key] = options.style[key];
+			for (const key in options.dataset) newElement.dataset[key] = options.dataset[key];
 
 			return newElement;
 		}
@@ -97,7 +97,7 @@ function _find(element, selector, options = {}) {
 		const key = selector.split("=")[0];
 		const value = selector.split("=")[1];
 
-		for (let element of document.querySelectorAll(key)) {
+		for (const element of document.querySelectorAll(key)) {
 			if (element.innerText === value) {
 				return element;
 			}
@@ -232,7 +232,7 @@ function rotateElement(element, degrees) {
 		element.style.transform = `rotate(${rotatingElements[uuid].totalDegrees}deg)`;
 	}
 
-	let startDegrees = (element.style.transform ? parseInt(element.style.transform.replace("rotate(", "").replace("deg)", "")) : 0) % 360;
+	const startDegrees = (element.style.transform ? parseInt(element.style.transform.replace("rotate(", "").replace("deg)", "")) : 0) % 360;
 	element.style.transform = `rotate(${startDegrees}deg)`;
 
 	const totalDegrees = startDegrees + degrees;
@@ -255,7 +255,7 @@ function rotateElement(element, degrees) {
 }
 
 function sortTable(table, columnPlace, order) {
-	let header = table.find(`th:nth-child(${columnPlace})`);
+	const header = table.find(`th:nth-child(${columnPlace})`);
 	if (order) {
 		if (header.find("i")) {
 			switch (order) {
@@ -297,7 +297,7 @@ function sortTable(table, columnPlace, order) {
 
 		order = "asc";
 	}
-	for (let h of table.findAll("th")) {
+	for (const h of table.findAll("th")) {
 		if (h === header) continue;
 
 		if (h.find("i")) h.find("i").remove();
@@ -310,7 +310,7 @@ function sortTable(table, columnPlace, order) {
 		rows = sortRows(rows);
 	}
 
-	for (let row of rows) table.appendChild(row);
+	for (const row of rows) table.appendChild(row);
 
 	function sortRows(rows) {
 		if (order === "asc") {

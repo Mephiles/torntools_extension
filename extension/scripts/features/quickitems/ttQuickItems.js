@@ -23,7 +23,7 @@
 			}
 		});
 		setInterval(() => {
-			for (let timer of document.findAll(".counter-wrap.tt-modified")) {
+			for (const timer of document.findAll(".counter-wrap.tt-modified")) {
 				let secondsLeft;
 				if ("secondsLeft" in timer.dataset) secondsLeft = parseInt(timer.dataset.secondsLeft);
 				else secondsLeft = parseInt(timer.dataset.time);
@@ -72,13 +72,13 @@
 						document.find("ul.items-cont[aria-expanded='true']").classList.toggle("tt-overlay-item");
 						options.find("#edit-items-button").classList.toggle("tt-overlay-item");
 						if (document.find(".tt-overlay").classList.toggle("hidden")) {
-							for (let item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
+							for (const item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
 								if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
 								item.removeEventListener("click", onItemClickQuickEdit);
 							}
 						} else {
-							for (let item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
+							for (const item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
 								if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
 								item.addEventListener("click", onItemClickQuickEdit);
@@ -114,7 +114,7 @@
 			data.equipPosition = equipPosition;
 		}
 
-		let itemWrap = document.newElement({
+		const itemWrap = document.newElement({
 			type: "div",
 			class: temporary ? "temp item" : "item",
 			dataset: data,
@@ -134,7 +134,7 @@
 
 								const links = ["<a href='#' class='close-act t-blue h'>Close</a>"];
 								if (response.links) {
-									for (let link of response.links) {
+									for (const link of response.links) {
 										links.push(`<a class="t-blue h m-left10 ${link.class}" href="${link.url}" ${link.attr}>${link.title}</a>`);
 									}
 								}
@@ -150,7 +150,7 @@
 								</div>
 							`;
 
-								for (let count of responseWrap.findAll(".counter-wrap")) {
+								for (const count of responseWrap.findAll(".counter-wrap")) {
 									count.classList.add("tt-modified");
 									count.innerText = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer" });
 								}
@@ -229,7 +229,7 @@
 		const target = findParent(event.target, { hasAttribute: "data-item" });
 		const id = parseInt(target.dataset.item);
 
-		let data = { id };
+		const data = { id };
 		if (isEquipable(id, target.dataset.category)) {
 			data.xid = parseInt(target.find(".actions[xid]").getAttribute("xid"));
 		}
@@ -245,7 +245,7 @@
 		await ttStorage.change({
 			quick: {
 				items: [...content.findAll(".item")].map((x) => {
-					let data = { id: parseInt(x.dataset.id) };
+					const data = { id: parseInt(x.dataset.id) };
 					if (x.dataset.xid) data.xid = x.dataset.xid;
 
 					return data;
@@ -255,7 +255,7 @@
 	}
 
 	function setupQuickDragListeners() {
-		for (let item of document.findAll(".items-cont[aria-expanded=true] > li[data-item]")) {
+		for (const item of document.findAll(".items-cont[aria-expanded=true] > li[data-item]")) {
 			if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
 			const titleWrap = item.find(".title-wrap");
@@ -275,7 +275,7 @@
 
 				const id = parseInt(event.target.parentElement.dataset.item);
 
-				let data = { id };
+				const data = { id };
 				if (isEquipable(id, event.target.parentElement.dataset.category)) {
 					data.xid = parseInt(event.target.parentElement.find(".actions[xid]").getAttribute("xid"));
 				}
@@ -355,7 +355,7 @@
 	function updateItemAmount(id, change) {
 		const quickQuantity = findContainer("Quick Items", { selector: `.item[data-id="${id}"] .quantity` });
 		if (quickQuantity) {
-			let newQuantity = parseInt(quickQuantity.getAttribute("quantity")) + change;
+			const newQuantity = parseInt(quickQuantity.getAttribute("quantity")) + change;
 
 			quickQuantity.innerText = newQuantity + "x";
 			quickQuantity.setAttribute("quantity", newQuantity);

@@ -35,7 +35,7 @@
 	}
 
 	async function showSearch() {
-		for (let chat of document.findAll("[class*='chat-active_']:not([class*='chat-box-settings_'])")) {
+		for (const chat of document.findAll("[class*='chat-active_']:not([class*='chat-box-settings_'])")) {
 			addSearch(chat);
 		}
 	}
@@ -59,7 +59,7 @@
 							input: (event) => {
 								const keyword = event.target.value.toLowerCase();
 
-								for (let message of chat.findAll("[class*='overview_'] [class*='message_']")) {
+								for (const message of chat.findAll("[class*='overview_'] [class*='message_']")) {
 									searchChat(message, keyword);
 								}
 
@@ -78,8 +78,8 @@
 	}
 
 	function removeSearch() {
-		for (let chat of document.findAll("[class*='chat-active_']:not([class*='chat-box-settings_'])")) {
-			for (let message of document.findAll("[class*='overview_'] [class*='message_']")) {
+		for (const chat of document.findAll("[class*='chat-active_']:not([class*='chat-box-settings_'])")) {
+			for (const message of document.findAll("[class*='overview_'] [class*='message_']")) {
 				message.classList.remove("hidden");
 			}
 			const viewport = chat.find("[class*='viewport_']");

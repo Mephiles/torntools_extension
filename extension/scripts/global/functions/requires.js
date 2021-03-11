@@ -11,12 +11,12 @@ function requireCondition(condition, options = {}) {
 		if (checkCondition()) return;
 
 		let counter = 0;
-		let checker = setInterval(() => {
+		const checker = setInterval(() => {
 			if (checkCounter(counter++) || checkCondition()) return clearInterval(checker);
 		}, options.delay);
 
 		function checkCondition() {
-			let response = condition();
+			const response = condition();
 			if (!response) return false;
 
 			if (typeof response === "boolean") {

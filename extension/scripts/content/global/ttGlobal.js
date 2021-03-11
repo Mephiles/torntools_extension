@@ -3,7 +3,7 @@
 (async () => {
 	storageListeners.settings.push((oldSettings) => {
 		if (oldSettings.themes.containers !== settings.themes.containers) {
-			for (let container of document.findAll(`.${THEMES[oldSettings.themes.containers].containerClass}`)) {
+			for (const container of document.findAll(`.${THEMES[oldSettings.themes.containers].containerClass}`)) {
 				container.classList.remove(THEMES[oldSettings.themes.containers].containerClass);
 				container.classList.add(THEMES[settings.themes.containers].containerClass);
 			}
@@ -14,8 +14,8 @@
 
 	requireChatsLoaded().then(() => {
 		new MutationObserver((mutations) => {
-			for (let mutation of mutations) {
-				for (let addedNode of mutation.addedNodes) {
+			for (const mutation of mutations) {
+				for (const addedNode of mutation.addedNodes) {
 					if (addedNode.classList) {
 						if (addedNode.classList.contains("^=chat-box_")) {
 							console.log("DKK new chat 1");
@@ -33,7 +33,7 @@
 	});
 
 	setInterval(() => {
-		for (let countdown of document.findAll(".countdown.automatic[data-seconds]")) {
+		for (const countdown of document.findAll(".countdown.automatic[data-seconds]")) {
 			const seconds = parseInt(countdown.dataset.seconds) - 1;
 
 			if (seconds <= 0) {

@@ -1,6 +1,6 @@
 "use strict";
 
-let initiatedPages = {};
+const initiatedPages = {};
 
 (async () => {
 	initializeInternalPage({ sortTables: true });
@@ -13,7 +13,7 @@ let initiatedPages = {};
 		document.body.classList.add(getPageTheme());
 	});
 
-	for (let navigation of document.findAll("header nav.on-page > ul > li")) {
+	for (const navigation of document.findAll("header nav.on-page > ul > li")) {
 		navigation.addEventListener("click", async () => {
 			await showPage(navigation.getAttribute("to"));
 		});
@@ -24,13 +24,13 @@ async function showPage(name) {
 	// noinspection DuplicatedCode
 	window.history.replaceState("", "Title", "?page=" + name);
 
-	for (let active of document.findAll("header nav.on-page > ul > li.active")) active.classList.remove("active");
+	for (const active of document.findAll("header nav.on-page > ul > li.active")) active.classList.remove("active");
 	document.find(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
 
-	for (let active of document.findAll("body > main:not(.hidden)")) active.classList.add("hidden");
+	for (const active of document.findAll("body > main:not(.hidden)")) active.classList.add("hidden");
 	document.find(`#${name}`).classList.remove("hidden");
 
-	let setup = {
+	const setup = {
 		attackHistory: setupAttackHistory,
 		stakeouts: setupStakeouts,
 	};
@@ -62,7 +62,7 @@ async function setupAttackHistory() {
 
 				sendMessage("Attack history reset.", true);
 
-				for (let row of _attackHistory.findAll("tr.row")) {
+				for (const row of _attackHistory.findAll("tr.row")) {
 					row.remove();
 				}
 			})
@@ -70,7 +70,7 @@ async function setupAttackHistory() {
 	});
 
 	function fillHistory() {
-		for (let id in attackHistory.history) {
+		for (const id in attackHistory.history) {
 			addHistoryRow(id, attackHistory.history[id]);
 		}
 	}
@@ -96,8 +96,8 @@ async function setupAttackHistory() {
 		);
 		const totalWins = data.win;
 		row.appendChild(document.newElement({ type: "td", class: `data win`, text: totalWins.toString(), attributes: { value: totalWins } }));
-		for (let type of ["mug", "leave", "hospitalise", "arrest", "special", "stealth"]) {
-			let element = document.newElement({ type: "td", class: `data switchable ${type}`, attributes: { "sort-type": "css-dataset" } });
+		for (const type of ["mug", "leave", "hospitalise", "arrest", "special", "stealth"]) {
+			const element = document.newElement({ type: "td", class: `data switchable ${type}`, attributes: { "sort-type": "css-dataset" } });
 
 			const percentage = Math.round((data[type] / totalWins) * 100) || 0;
 
@@ -108,7 +108,7 @@ async function setupAttackHistory() {
 		}
 		row.appendChild(document.newElement({ type: "td", class: `data assist`, text: data.assist.toString(), attributes: { value: data.assist } }));
 		row.appendChild(document.newElement({ type: "td", class: `data defend`, text: data.defend.toString(), attributes: { value: data.defend } }));
-		for (let type of ["lose", "stalemate", "escapes", "defend_lost"]) {
+		for (const type of ["lose", "stalemate", "escapes", "defend_lost"]) {
 			row.appendChild(document.newElement({ type: "td", class: `data ${type}`, text: data[type].toString(), attributes: { value: data[type] } }));
 		}
 
@@ -146,7 +146,7 @@ async function setupStakeouts() {
 
 				sendMessage("Stakeouts reset.", true);
 
-				for (let row of document.findAll("#stakeoutList tr.row")) {
+				for (const row of document.findAll("#stakeoutList tr.row")) {
 					row.remove();
 				}
 			})
@@ -167,7 +167,7 @@ async function setupStakeouts() {
 	});
 
 	function fillStakeouts() {
-		for (let id in stakeouts) {
+		for (const id in stakeouts) {
 			if (isNaN(id)) continue;
 
 			addStakeout(id, stakeouts[id]);
@@ -289,7 +289,7 @@ async function setupStakeouts() {
 		);
 
 		if (data && data.alerts) {
-			for (let key in data.alerts) {
+			for (const key in data.alerts) {
 				if (!data.alerts[key]) continue;
 
 				switch (typeof data.alerts[key]) {
@@ -310,7 +310,7 @@ async function setupStakeouts() {
 	function updateStakeouts() {
 		[...stakeoutList.findAll("tr:not(.header)")].filter((row) => !(parseInt(row.find(".id").innerText) in stakeouts)).forEach((row) => row.remove());
 
-		for (let id in stakeouts) {
+		for (const id in stakeouts) {
 			if (isNaN(id)) continue;
 
 			const row = stakeoutList.find(`tr .id=${id}`).parentElement;
@@ -332,7 +332,7 @@ async function setupStakeouts() {
 	async function saveStakeouts() {
 		const newStakeouts = {};
 
-		for (let row of stakeoutList.findAll("tr.row")) {
+		for (const row of stakeoutList.findAll("tr.row")) {
 			const id = parseInt(row.find(".id").innerText);
 
 			newStakeouts[id] = {

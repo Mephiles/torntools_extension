@@ -2,7 +2,7 @@
 
 import changelog from "../../changelog.js";
 
-let initiatedPages = {};
+const initiatedPages = {};
 
 (async () => {
 	initializeInternalPage({ sortTables: true });
@@ -11,7 +11,7 @@ let initiatedPages = {};
 
 	document.body.classList.add(getPageTheme());
 
-	for (let navigation of document.findAll("header nav.on-page > ul > li")) {
+	for (const navigation of document.findAll("header nav.on-page > ul > li")) {
 		navigation.addEventListener("click", async () => {
 			await showPage(navigation.getAttribute("to"));
 		});
@@ -22,13 +22,13 @@ async function showPage(name) {
 	// noinspection DuplicatedCode
 	window.history.replaceState("", "Title", "?page=" + name);
 
-	for (let active of document.findAll("header nav.on-page > ul > li.active")) active.classList.remove("active");
+	for (const active of document.findAll("header nav.on-page > ul > li.active")) active.classList.remove("active");
 	document.find(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
 
-	for (let active of document.findAll("body > main:not(.hidden)")) active.classList.add("hidden");
+	for (const active of document.findAll("body > main:not(.hidden)")) active.classList.add("hidden");
 	document.find(`#${name}`).classList.remove("hidden");
 
-	let setup = {
+	const setup = {
 		changelog: setupChangelog,
 		preferences: setupPreferences,
 		api: setupAPIInfo,
@@ -47,7 +47,7 @@ async function showPage(name) {
 }
 
 async function setupChangelog() {
-	let content = document.find("#changelog > section");
+	const content = document.find("#changelog > section");
 
 	changelog.forEach((entry, index, allEntries) => {
 		const wrapper = document.newElement({ type: "div", class: "parent" });
@@ -109,14 +109,14 @@ async function setupChangelog() {
 		});
 		closeable.appendChild(contributorsWrap);
 
-		for (let title in entry.logs) {
+		for (const title in entry.logs) {
 			const parent = document.newElement({
 				type: "div",
 				class: "parent",
 				children: [document.newElement({ type: "div", class: "heading", text: capitalizeText(title) })],
 			});
 
-			for (let log of entry.logs[title]) {
+			for (const log of entry.logs[title]) {
 				const child = document.newElement({
 					type: "div",
 					class: `child contributor`,
@@ -146,7 +146,7 @@ async function setupChangelog() {
 		content.appendChild(wrapper);
 
 		function getTitle() {
-			let parts = [];
+			const parts = [];
 
 			parts.push(getVersion());
 			if (entry.date) parts.push(`${MONTHS[entry.date.getMonth()]}, ${entry.date.getDate()}th ${entry.date.getFullYear()}`);
@@ -155,7 +155,7 @@ async function setupChangelog() {
 			return parts.join(" - ");
 
 			function getVersion() {
-				let parts = [];
+				const parts = [];
 
 				parts.push(`v${entry.version.major}`);
 				parts.push(entry.version.minor);
@@ -177,7 +177,7 @@ async function setupPreferences() {
 
 	const showAdvancedIcon = _preferences.find("#preferences-show_advanced");
 
-	for (let link of _preferences.findAll(":scope > section > nav ul > li[name]")) {
+	for (const link of _preferences.findAll(":scope > section > nav ul > li[name]")) {
 		link.addEventListener("click", () => {
 			_preferences.find(":scope > section > nav ul li[name].active").classList.remove("active");
 			_preferences.find(":scope > section > .sections > section.active").classList.remove("active");
@@ -230,9 +230,9 @@ async function setupPreferences() {
 	});
 
 	_preferences.find("#notification_type-global").addEventListener("click", (event) => {
-		let disable = !event.target.checked;
+		const disable = !event.target.checked;
 
-		for (let notificationType in settings.notifications.types) {
+		for (const notificationType in settings.notifications.types) {
 			if (notificationType === "global") continue;
 
 			if (disable) _preferences.find(`#notification_type-${notificationType}`).setAttribute("disabled", true);
@@ -240,7 +240,7 @@ async function setupPreferences() {
 		}
 	});
 	_preferences.find("#notification-sound").addEventListener("change", (event) => {
-		let value = event.target.value;
+		const value = event.target.value;
 
 		if (value === "custom") {
 			_preferences.find("#notification-sound-upload").classList.remove("hidden");
@@ -292,8 +292,8 @@ async function setupPreferences() {
 	_preferences.find("#customLinks .input select.preset").innerHTML = getCustomLinkOptions();
 	_preferences.find("#customLinks .input select.preset").value = "custom";
 	_preferences.find("#customLinks .input select.preset").addEventListener("change", (event) => {
-		let hrefInput = _preferences.find("#customLinks .input .href");
-		let nameInput = _preferences.find("#customLinks .input .name");
+		const hrefInput = _preferences.find("#customLinks .input .href");
+		const nameInput = _preferences.find("#customLinks .input .name");
 
 		// noinspection DuplicatedCode
 		if (event.target.value === "custom") {
@@ -330,7 +330,7 @@ async function setupPreferences() {
 	});
 
 	const chatSection = _preferences.find(".sections section[name='chat']");
-	for (let placeholder of HIGHLIGHT_PLACEHOLDERS) {
+	for (const placeholder of HIGHLIGHT_PLACEHOLDERS) {
 		chatSection.insertBefore(
 			document.newElement({
 				type: "div",
@@ -342,7 +342,7 @@ async function setupPreferences() {
 	}
 
 	const hideAreasParent = _preferences.find("#hide-areas");
-	for (let area of ALL_AREAS) {
+	for (const area of ALL_AREAS) {
 		const areaWrap = document.newElement({ type: "span", text: area.text, attributes: { name: area.class } });
 
 		hideAreasParent.appendChild(areaWrap);
@@ -352,7 +352,7 @@ async function setupPreferences() {
 	}
 
 	const hideIconsParent = _preferences.find("#hide-icons");
-	for (let icon of ALL_ICONS) {
+	for (const icon of ALL_ICONS) {
 		const iconsWrap = document.newElement({ type: "div", class: `icon`, children: [document.newElement({ type: "div", class: icon })] });
 
 		hideIconsParent.appendChild(iconsWrap);
@@ -382,7 +382,7 @@ async function setupPreferences() {
 	}
 
 	function fillSettings() {
-		for (let setting of ["updateNotice", "featureDisplay", "featureDisplayOnlyFails", "featureDisplayHideDisabled"]) {
+		for (const setting of ["updateNotice", "featureDisplay", "featureDisplayOnlyFails", "featureDisplayHideDisabled"]) {
 			const checkbox = _preferences.find(`#${setting}`);
 			if (!checkbox) continue;
 
@@ -395,11 +395,11 @@ async function setupPreferences() {
 		_preferences.find(`input[name="themeContainers"][value="${settings.themes.containers}"]`).checked = true;
 		_preferences.find(`input[name="featureDisplayPosition"][value="${settings.featureDisplayPosition}"]`).checked = true;
 
-		for (let type of ["pages"]) {
-			for (let page in settings[type]) {
+		for (const type of ["pages"]) {
+			for (const page in settings[type]) {
 				const isGlobalDisabled = settings[type][page].global === false;
 
-				for (let setting in settings[type][page]) {
+				for (const setting in settings[type][page]) {
 					const input = _preferences.find(`#${page}-${setting}, input[name="${setting}"][value="${settings[type][page][setting]}"]`);
 					if (!input) continue;
 
@@ -407,7 +407,7 @@ async function setupPreferences() {
 						input.addEventListener("change", (event) => {
 							const isGlobalDisabled = !event.target.checked;
 
-							for (let setting in settings[type][page]) {
+							for (const setting in settings[type][page]) {
 								if (setting === "global") continue;
 
 								const input = _preferences.find(`#${page}-${setting}`);
@@ -438,21 +438,21 @@ async function setupPreferences() {
 		_preferences.find("#api_usage-essential").value = settings.apiUsage.delayEssential;
 		_preferences.find("#api_usage-basic").value = settings.apiUsage.delayBasic;
 		_preferences.find("#api_usage-stakeouts").value = settings.apiUsage.delayStakeouts;
-		for (let type of ["user"]) {
-			for (let selection in settings.apiUsage[type]) {
+		for (const type of ["user"]) {
+			for (const selection in settings.apiUsage[type]) {
 				_preferences.find(`#api_usage-${type}_${selection}`).checked = settings.apiUsage[type][selection];
 			}
 		}
 
-		for (let highlight of settings.pages.chat.highlights) {
+		for (const highlight of settings.pages.chat.highlights) {
 			addChatHighlightRow(highlight.name, highlight.color);
 		}
-		for (let highlight of settings.pages.chat.titleHighlights) {
+		for (const highlight of settings.pages.chat.titleHighlights) {
 			addChatTitleHighlightRow(highlight.title, highlight.color);
 		}
 
 		const notificationsDisabled = !settings.notifications.types.global;
-		for (let notificationType in settings.notifications.types) {
+		for (const notificationType in settings.notifications.types) {
 			if (notificationType === "stocks") continue;
 			let option;
 
@@ -493,13 +493,13 @@ async function setupPreferences() {
 			}
 		}
 
-		for (let area of settings.hideAreas) {
+		for (const area of settings.hideAreas) {
 			_preferences.find(`#hide-areas span[name="${area}"]`).classList.add("disabled");
 		}
-		for (let icon of settings.hideIcons) {
+		for (const icon of settings.hideIcons) {
 			_preferences.find(`#hide-icons .${icon}`).parentElement.classList.add("disabled");
 		}
-		for (let link of settings.customLinks) {
+		for (const link of settings.customLinks) {
 			addCustomLink(link);
 		}
 	}
@@ -512,9 +512,9 @@ async function setupPreferences() {
 
 			const isGlobalDisabled = settings.notifications.types.global === false;
 
-			for (let type in settings.notifications.types) {
+			for (const type in settings.notifications.types) {
 				if (type === "stocks") continue;
-				let option = _preferences.find(`#notification_type-${type}`);
+				const option = _preferences.find(`#notification_type-${type}`);
 				if (!option) continue;
 
 				if (type === "global") {
@@ -574,7 +574,7 @@ async function setupPreferences() {
 	}
 
 	function getChatTitleColorOptions() {
-		let options = [];
+		const options = [];
 
 		for (const color in CHAT_TITLE_COLORS) {
 			options.push(`<option value="${color}">${capitalizeText(color, { everyWord: true })}</option>`);
@@ -595,8 +595,8 @@ async function setupPreferences() {
 					html: getCustomLinkOptions(),
 					events: {
 						change: (event) => {
-							let hrefInput = newRow.find(".href");
-							let nameInput = newRow.find(".name");
+							const hrefInput = newRow.find(".href");
+							const nameInput = newRow.find(".name");
 
 							// noinspection DuplicatedCode
 							if (event.target.value === "custom") {
@@ -651,7 +651,7 @@ async function setupPreferences() {
 
 	function getCustomLinkOptions() {
 		let options = "<option value='custom'>Custom..</option>";
-		for (let name in CUSTOM_LINKS_PRESET) options += `<option value="${name}">${name}</option>`;
+		for (const name in CUSTOM_LINKS_PRESET) options += `<option value="${name}">${name}</option>`;
 
 		return options;
 	}
@@ -662,7 +662,7 @@ async function setupPreferences() {
 			<option value='under'>Under all the areas</option>
 		`;
 
-		for (let area of ALL_AREAS) {
+		for (const area of ALL_AREAS) {
 			options += `
 				<option value="above_${area.class}">
 					Above ${area.text}
@@ -677,7 +677,7 @@ async function setupPreferences() {
 	}
 
 	async function saveSettings() {
-		for (let setting of ["updateNotice", "featureDisplay", "featureDisplayOnlyFails", "featureDisplayHideDisabled"]) {
+		for (const setting of ["updateNotice", "featureDisplay", "featureDisplayOnlyFails", "featureDisplayHideDisabled"]) {
 			const checkbox = _preferences.find(`#${setting}`);
 			if (!checkbox) continue;
 
@@ -690,9 +690,9 @@ async function setupPreferences() {
 		settings.themes.containers = _preferences.find("input[name='themeContainers']:checked").value;
 		settings.featureDisplayPosition = _preferences.find("input[name='featureDisplayPosition']:checked").value;
 
-		for (let type of ["pages"]) {
-			for (let page in settings[type]) {
-				for (let setting in settings[type][page]) {
+		for (const type of ["pages"]) {
+			for (const page in settings[type]) {
+				for (const setting in settings[type][page]) {
 					const input = _preferences.find(`#${page}-${setting}, input[name="${setting}"]:checked`);
 					if (!input) continue;
 
@@ -744,13 +744,13 @@ async function setupPreferences() {
 		settings.apiUsage.delayEssential = parseInt(_preferences.find("#api_usage-essential").value);
 		settings.apiUsage.delayBasic = parseInt(_preferences.find("#api_usage-basic").value);
 		settings.apiUsage.delayStakeouts = parseInt(_preferences.find("#api_usage-stakeouts").value);
-		for (let type of ["user"]) {
-			for (let selection in settings.apiUsage[type]) {
+		for (const type of ["user"]) {
+			for (const selection in settings.apiUsage[type]) {
 				settings.apiUsage[type][selection] = _preferences.find(`#api_usage-${type}_${selection}`).checked;
 			}
 		}
 
-		for (let notificationType in settings.notifications.types) {
+		for (const notificationType in settings.notifications.types) {
 			if (notificationType === "stocks") continue;
 
 			if (Array.isArray(settings.notifications.types[notificationType])) {

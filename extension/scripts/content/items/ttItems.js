@@ -1,6 +1,6 @@
 "use strict";
 
-let pendingActions = {};
+const pendingActions = {};
 
 (async () => {
 	addXHRListener((event) => {
@@ -79,7 +79,7 @@ let pendingActions = {};
 	});
 
 	requireItemsLoaded().then(() => {
-		for (let icon of document.findAll("ul[role=tablist] li:not(.no-items):not(.m-show):not(.hide)")) {
+		for (const icon of document.findAll("ul[role=tablist] li:not(.no-items):not(.m-show):not(.hide)")) {
 			icon.addEventListener("click", async () => {
 				await requireItemsLoaded();
 

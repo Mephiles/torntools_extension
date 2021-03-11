@@ -22,7 +22,7 @@ class FeatureManager {
 		console.log("Adding feature:", feature);
 		// Check if feature is in list
 		let updated = false;
-		for (let _feature of this.features) {
+		for (const _feature of this.features) {
 			if (_feature.name === feature.name) {
 				console.log("	updating previous alignleft");
 				this.features[this.features.indexOf(_feature)] = feature; // update previous alignleft
@@ -42,7 +42,7 @@ class FeatureManager {
 	async load(name) {
 		console.log("this.features", this.features);
 		console.log("Loading feature:", name);
-		let feature = this.findFeatureByName(name);
+		const feature = this.findFeatureByName(name);
 		console.log("feature:", feature);
 
 		// Feature is disabled
@@ -77,7 +77,7 @@ class FeatureManager {
 
 	reload(name) {
 		console.log("Reloading feature:", name);
-		// let feature = this.findFeatureByName(name);
+		// const feature = this.findFeatureByName(name);
 		this.load(name);
 	}
 
@@ -97,7 +97,7 @@ class FeatureManager {
 			});
 
 			if (!document.find(`.tt-page-status-content #scope-${options.scope}`)) {
-				let scopeElement = document.newElement({
+				const scopeElement = document.newElement({
 					type: "div",
 					id: "scope-" + options.scope,
 				});
@@ -330,7 +330,7 @@ class FeatureManager {
 	}
 
 	display() {
-		let container = document.find(`#${this.containerID}`);
+		const container = document.find(`#${this.containerID}`);
 		if (!container) return;
 
 		container.setClass(
@@ -344,7 +344,7 @@ class FeatureManager {
 	async createPopup() {
 		if (await checkMobile()) return;
 
-		let collapsed = this.containerID in filters.containers ? filters.containers[this.containerID] : false;
+		const collapsed = this.containerID in filters.containers ? filters.containers[this.containerID] : false;
 
 		document.body.appendChild(
 			document.newElement({
@@ -366,13 +366,13 @@ class FeatureManager {
 		);
 
 		document.find(".tt-page-status-header").onclick = () => {
-			let toggleResult = document.find(".tt-page-status-header").classList.toggle("collapsed");
+			const toggleResult = document.find(".tt-page-status-header").classList.toggle("collapsed");
 			ttStorage.change({ filters: { containers: { [this.containerID]: toggleResult } } });
 		};
 
 		this.popupLoaded = true;
 
-		for (let item of this.resultQueue) {
+		for (const item of this.resultQueue) {
 			const [feature, status, options] = item;
 			this.showResult(feature, status, options);
 		}

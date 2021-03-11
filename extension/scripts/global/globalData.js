@@ -34,11 +34,11 @@ const ttStorage = new (class {
 
 	change(object) {
 		return new Promise(async (resolve) => {
-			for (let key of Object.keys(object)) {
+			for (const key of Object.keys(object)) {
 				const data = recursive(await this.get(key), object[key]);
 
 				function recursive(parent, toChange) {
-					for (let key in toChange) {
+					for (const key in toChange) {
 						if (parent && key in parent && typeof toChange[key] === "object" && !Array.isArray(toChange[key])) {
 							parent[key] = recursive(parent[key], toChange[key]);
 						} else if (parent) {
@@ -76,9 +76,9 @@ const ttStorage = new (class {
 			}
 
 			function getDefaultStorage(defaultStorage) {
-				let newStorage = {};
+				const newStorage = {};
 
-				for (let key in defaultStorage) {
+				for (const key in defaultStorage) {
 					newStorage[key] = {};
 
 					if (typeof defaultStorage[key] === "object") {

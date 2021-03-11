@@ -25,7 +25,7 @@
 		window.addEventListener(EVENT_CHANNELS.CHAT_OPENED, (event) => {
 			if (!feature.enabled()) return;
 
-			for (let message of event.detail.chat.findAll("[class*='message_']")) {
+			for (const message of event.detail.chat.findAll("[class*='message_']")) {
 				applyHighlights(message);
 			}
 		});
@@ -35,7 +35,7 @@
 		highlights = settings.pages.chat.highlights.map((highlight) => {
 			let { name, color } = highlight;
 
-			for (let placeholder of HIGHLIGHT_PLACEHOLDERS) {
+			for (const placeholder of HIGHLIGHT_PLACEHOLDERS) {
 				if (name !== placeholder.name) continue;
 
 				name = placeholder.value();
@@ -48,7 +48,7 @@
 		requireChatsLoaded().then(() => {
 			removeHighlights();
 
-			for (let message of document.findAll("[class*='chat-box-content_'] [class*='overview_'] [class*='message_']")) {
+			for (const message of document.findAll("[class*='chat-box-content_'] [class*='overview_'] [class*='message_']")) {
 				applyHighlights(message);
 			}
 		});
@@ -68,7 +68,7 @@
 			message.find("a").classList.add("tt-highlight");
 		}
 
-		for (let { name, color } of highlights) {
+		for (const { name, color } of highlights) {
 			if (!words.includes(name)) continue;
 
 			message.find("span").parentElement.style.backgroundColor = color;
@@ -82,7 +82,7 @@
 	}
 
 	function removeHighlights() {
-		for (let message of document.findAll("[class*='chat-box-content_'] [class*='overview_'] [class*='message_'] .tt-highlight")) {
+		for (const message of document.findAll("[class*='chat-box-content_'] [class*='overview_'] [class*='message_'] .tt-highlight")) {
 			message.style.color = "unset";
 			message.classList.remove("tt-highlight");
 		}

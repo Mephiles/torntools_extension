@@ -3,7 +3,7 @@
 let settings, filters, version, api, userdata, torndata, stakeouts, attackHistory, notes, factiondata, quick;
 let databaseLoaded = false;
 let databaseLoading = false;
-let storageListeners = {
+const storageListeners = {
 	settings: [],
 	filters: [],
 	version: [],
@@ -43,7 +43,7 @@ async function loadDatabase() {
 // noinspection JSDeprecatedSymbols
 chrome.storage.onChanged.addListener((changes, area) => {
 	if (area === "local") {
-		for (let key in changes) {
+		for (const key in changes) {
 			switch (key) {
 				case "settings":
 					settings = changes.settings.newValue;

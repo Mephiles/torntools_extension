@@ -73,7 +73,7 @@
 	}
 
 	async function removeHighlights() {
-		for (let highlight of document.findAll(".good-blood, .bad-blood")) {
+		for (const highlight of document.findAll(".good-blood, .bad-blood")) {
 			highlight.classList.remove("good-blood", "bad-blood");
 
 			const price = highlight.find(".tt-item-price");

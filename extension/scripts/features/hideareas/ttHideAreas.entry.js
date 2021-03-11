@@ -15,7 +15,7 @@
 	);
 
 	function applyStyle() {
-		for (let area of ALL_AREAS.map((area) => area.class)) {
+		for (const area of ALL_AREAS.map((area) => area.class)) {
 			document.documentElement.style.setProperty(`--torntools-hide-area-${area}`, settings.hideAreas.includes(area) ? "none" : "initial");
 		}
 	}

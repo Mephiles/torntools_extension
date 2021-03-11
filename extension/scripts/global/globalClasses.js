@@ -2,7 +2,7 @@
 
 class DefaultSetting {
 	constructor(options) {
-		for (let option in options) {
+		for (const option in options) {
 			this[option] = options[option];
 		}
 	}

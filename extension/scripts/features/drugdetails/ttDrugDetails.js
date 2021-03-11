@@ -143,7 +143,7 @@
 			if (details.pros) {
 				parent.appendChild(document.newElement({ type: "div", class: "item-effect mt10", text: "Pros:", attributes: { color: "tGreen" } }));
 
-				for (let effect of details.pros) {
+				for (const effect of details.pros) {
 					parent.appendChild(document.newElement({ type: "div", class: "item-effect tabbed", text: effect, attributes: { color: "tGreen" } }));
 				}
 			}
@@ -152,7 +152,7 @@
 			if (details.cons) {
 				parent.appendChild(document.newElement({ type: "div", class: "item-effect", text: "Con", attributes: { color: "tRed" } }));
 
-				for (let effect of details.cons) {
+				for (const effect of details.cons) {
 					parent.appendChild(document.newElement({ type: "div", class: "item-effect tabbed", text: effect, attributes: { color: "tRed" } }));
 				}
 			}
@@ -172,7 +172,7 @@
 				if (details.overdose.bars) {
 					parent.appendChild(document.newElement({ type: "div", class: "item-effect tabbed", text: "Bars", attributes: { color: "tRed" } }));
 
-					for (let effect of details.overdose.bars) {
+					for (const effect of details.overdose.bars) {
 						parent.appendChild(
 							document.newElement({ type: "div", class: "item-effect double-tabbed", text: effect, attributes: { color: "tRed" } })
 						);

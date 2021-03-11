@@ -32,7 +32,7 @@ function createContainer(title, options = {}) {
 	function _createContainer(title, options = {}) {
 		if (document.find(`#${options.id}`)) document.find(`#${options.id}`).remove();
 
-		let containerClasses = ["tt-container"];
+		const containerClasses = ["tt-container"];
 		if (options.collapsible) containerClasses.push("collapsible");
 		if (options.applyRounding) containerClasses.push("rounding");
 		if (options.spacer) containerClasses.push("spacer");
@@ -62,7 +62,7 @@ function createContainer(title, options = {}) {
 			});
 		}
 		if (options.allowDragging) {
-			let content = container.find(":scope > main");
+			const content = container.find(":scope > main");
 			content.addEventListener("dragover", (event) => event.preventDefault());
 			content.addEventListener("drop", (event) => {
 				if (content.find(".temp.item")) content.find(".temp.item").classList.remove("temp");

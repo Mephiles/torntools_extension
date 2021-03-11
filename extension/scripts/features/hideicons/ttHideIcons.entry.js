@@ -28,14 +28,14 @@
 	}
 
 	function applyStyle() {
-		for (let icon of ALL_ICONS) {
+		for (const icon of ALL_ICONS) {
 			document.documentElement.style.setProperty(`--torntools-hide-icons-${icon}`, settings.hideIcons.includes(icon) ? "none" : "initial");
 		}
 		moveIcons();
 	}
 
 	function moveIcons() {
-		for (let icon of document.findAll("#sidebarroot ul[class*='status-icons_'] > li")) {
+		for (const icon of document.findAll("#sidebarroot ul[class*='status-icons_'] > li")) {
 			if (!settings.hideIcons.includes(icon.getAttribute("class").split("_")[0])) continue;
 
 			icon.parentElement.appendChild(icon);

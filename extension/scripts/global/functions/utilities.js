@@ -120,10 +120,10 @@ function findItemsInObject(object, attributes = {}, options = {}) {
 		...options,
 	};
 
-	let items = [];
+	const items = [];
 	if (!object || Object.keys(attributes).length === 0) return options.single ? false : items;
 
-	for (let id in object) {
+	for (const id in object) {
 		const item = {
 			id,
 			...object[id],
@@ -144,10 +144,10 @@ function findItemsInList(list, attributes = {}, options = {}) {
 		...options,
 	};
 
-	let items = [];
+	const items = [];
 	if (!list || list.length === 0) return options.single ? false : items;
 
-	for (let item of list) {
+	for (const item of list) {
 		if (!Object.keys(attributes).every((attribute) => item[attribute] === attributes[attribute])) continue;
 
 		if (options.single) return item;

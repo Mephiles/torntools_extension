@@ -47,7 +47,7 @@ function loadItemsOnce() {
 	});
 
 	requireItemsLoaded().then(() => {
-		for (let icon of document.findAll("ul[role=tablist] li:not(.no-items):not(.m-show):not(.hide)")) {
+		for (const icon of document.findAll("ul[role=tablist] li:not(.no-items):not(.m-show):not(.hide)")) {
 			icon.addEventListener("click", () => requireItemsLoaded().then(initializeItems));
 		}
 	});
@@ -70,8 +70,8 @@ function updateItemAmount(id, change) {
 		if (!priceElement) continue;
 		const quantityElement = priceElement.find(".tt-item-quantity");
 
-		let price = torndata.items[id].market_value;
-		let newQuantity = parseInt(quantityElement.innerText.match(/([0-9]*)x = /i)[1]) + change;
+		const price = torndata.items[id].market_value;
+		const newQuantity = parseInt(quantityElement.innerText.match(/([0-9]*)x = /i)[1]) + change;
 
 		if (newQuantity === 1) {
 			priceElement.innerHTML = "";
@@ -97,7 +97,7 @@ async function showItemValues() {
 				.map((x) => x.quantity * x.market_price)
 				.totalSum();
 
-		for (let item of list.findAll(":scope > li[data-item]")) {
+		for (const item of list.findAll(":scope > li[data-item]")) {
 			const id = item.dataset.item;
 			const price = torndata.items[id].market_value;
 
@@ -169,7 +169,7 @@ async function highlightBloodBags() {
 	if (settings.pages.items.highlightBloodBags !== "none") {
 		const allowedBlood = ALLOWED_BLOOD[settings.pages.items.highlightBloodBags];
 
-		for (let item of document.findAll("ul.items-cont[aria-expanded=true] > li[data-category='Medical']")) {
+		for (const item of document.findAll("ul.items-cont[aria-expanded=true] > li[data-category='Medical']")) {
 			if (!item.find(".name-wrap")) continue;
 			item.find(".name-wrap").classList.remove("good-blood", "bad-blood");
 
@@ -179,7 +179,7 @@ async function highlightBloodBags() {
 			item.find(".name-wrap").classList.add(allowedBlood.includes(parseInt(item.dataset.item)) ? "good-blood" : "bad-blood");
 		}
 	} else {
-		for (let bb of document.findAll(".good-blood, .bad-blood")) {
+		for (const bb of document.findAll(".good-blood, .bad-blood")) {
 			bb.classList.remove("good-blood", "bad-blood");
 		}
 	}

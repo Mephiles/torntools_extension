@@ -27,7 +27,7 @@ let initiatedPages = {};
 		document.find(".error").innerText = api.torn.error;
 	}
 
-	for (let navigation of document.findAll("#pages .main-nav li")) {
+	for (const navigation of document.findAll("#pages .main-nav li")) {
 		navigation.addEventListener("click", async () => {
 			await showPage(navigation.getAttribute("to"));
 		});
@@ -53,7 +53,7 @@ let initiatedPages = {};
 async function showPage(name) {
 	document.find(`#${name}`).classList.add("active");
 
-	for (let active of document.findAll("body > main.subpage.active, #pages li.active")) active.classList.remove("active");
+	for (const active of document.findAll("body > main.subpage.active, #pages li.active")) active.classList.remove("active");
 
 	if (document.find(`#pages li[to="${name}"]`)) document.find(`#pages li[to="${name}"]`).classList.add("active");
 	document.find(`#${name}`).classList.add("active");
@@ -99,7 +99,7 @@ async function setupDashboard() {
 	dashboard.find("#mute-notifications i").classList.add(settings.notifications.types.global ? "fa-bell" : "fa-bell-slash");
 	dashboard.find("#mute-notifications span").innerText = settings.notifications.types.global ? "Notifications enabled" : "Notifications disabled";
 	dashboard.find("#mute-notifications").addEventListener("click", () => {
-		let newStatus = !settings.notifications.types.global;
+		const newStatus = !settings.notifications.types.global;
 
 		ttStorage.change({ settings: { notifications: { types: { global: newStatus } } } });
 
@@ -125,11 +125,11 @@ async function setupDashboard() {
 
 	setInterval(() => {
 		if (settings.apiUsage.user.bars)
-			for (let bar of dashboard.findAll(".bar")) {
+			for (const bar of dashboard.findAll(".bar")) {
 				updateBarTimer(bar);
 			}
 		if (settings.apiUsage.user.cooldowns)
-			for (let cooldown of dashboard.findAll(".cooldowns .cooldown")) {
+			for (const cooldown of dashboard.findAll(".cooldowns .cooldown")) {
 				updateCooldownTimer(cooldown);
 			}
 		updateUpdateTimer();
@@ -156,13 +156,13 @@ async function setupDashboard() {
 		if (settings.apiUsage.user.travel) updateStatus();
 		// Bars
 		if (settings.apiUsage.user.bars)
-			for (let bar of ["energy", "nerve", "happy", "life", "chain"]) {
+			for (const bar of ["energy", "nerve", "happy", "life", "chain"]) {
 				updateBar(bar, userdata[bar]);
 			}
 		if (settings.apiUsage.user.travel) updateTravelBar();
 		// Cooldowns
 		if (settings.apiUsage.user.cooldowns)
-			for (let cooldown of ["drug", "booster", "medical"]) {
+			for (const cooldown of ["drug", "booster", "medical"]) {
 				updateCooldown(cooldown, userdata.cooldowns[cooldown]);
 			}
 		// Extra information
@@ -449,12 +449,12 @@ async function setupDashboard() {
 
 async function setupMarketSearch() {
 	// setup itemlist
-	let itemSelection = document.find("#market .item-list");
+	const itemSelection = document.find("#market .item-list");
 
-	for (let id in torndata.items) {
-		let name = torndata.items[id].name;
+	for (const id in torndata.items) {
+		const name = torndata.items[id].name;
 
-		let div = document.newElement({ type: "li", class: "item", id: name.toLowerCase().replace(/\s+/g, "").replace(":", "_"), text: name });
+		const div = document.newElement({ type: "li", class: "item", id: name.toLowerCase().replace(/\s+/g, "").replace(":", "_"), text: name });
 
 		itemSelection.appendChild(div);
 
@@ -468,14 +468,14 @@ async function setupMarketSearch() {
 
 	// setup searchbar
 	document.find("#market #search-bar").addEventListener("keyup", (event) => {
-		let keyword = event.target.value.toLowerCase();
+		const keyword = event.target.value.toLowerCase();
 
 		if (!keyword) {
 			itemSelection.classList.add("hidden");
 			return;
 		}
 
-		for (let item of document.findAll("#market .item-list li")) {
+		for (const item of document.findAll("#market .item-list li")) {
 			if (item.textContent.toLowerCase().includes(keyword)) {
 				item.classList.remove("hidden");
 				itemSelection.classList.remove("hidden");
@@ -492,7 +492,7 @@ async function setupMarketSearch() {
 	});
 
 	function showMarketInfo(id) {
-		let viewItem = document.find("#market #item-information");
+		const viewItem = document.find("#market #item-information");
 		viewItem.find(".market").classList.add("hidden");
 
 		fetchApi("torn", { section: "market", id, selections: ["bazaar", "itemmarket"] })
@@ -502,19 +502,19 @@ async function setupMarketSearch() {
 
 				let found = false;
 
-				for (let type of Object.keys(result)) {
+				for (const type of Object.keys(result)) {
 					let text;
 					if (type === "itemmarket") text = "Item Market";
 					else text = capitalizeText(type);
 
-					let wrap = document.newElement({ type: "div" });
+					const wrap = document.newElement({ type: "div" });
 
 					wrap.appendChild(document.newElement({ type: "h4", text }));
 
 					if (result[type]) {
 						found = true;
 
-						for (let item of result[type].slice(0, 3)) {
+						for (const item of result[type].slice(0, 3)) {
 							wrap.appendChild(
 								document.newElement({
 									type: "div",
@@ -568,7 +568,7 @@ async function setupStocksOverview() {
 	const allStocks = stocksOverview.find("#all-stocks");
 
 	if (settings.apiUsage.user.stocks) {
-		for (let buyId in userdata.stocks) {
+		for (const buyId in userdata.stocks) {
 			const stock = userdata.stocks[buyId];
 			const id = stock.stock_id;
 
@@ -666,7 +666,7 @@ async function setupStocksOverview() {
 		}
 	}
 
-	for (let id in torndata.stocks) {
+	for (const id in torndata.stocks) {
 		if (id === "date") continue;
 		const wrapper = document.newElement({
 			type: "div",
@@ -733,7 +733,7 @@ async function setupStocksOverview() {
 
 	// setup searchbar
 	stocksOverview.find("#stock-search-bar").addEventListener("keyup", (event) => {
-		let keyword = event.target.value.toLowerCase();
+		const keyword = event.target.value.toLowerCase();
 
 		if (!keyword) {
 			userStocks.classList.remove("hidden");
@@ -741,7 +741,7 @@ async function setupStocksOverview() {
 			return;
 		}
 
-		for (let item of allStocks.findAll(".stock-wrap")) {
+		for (const item of allStocks.findAll(".stock-wrap")) {
 			if (item.getAttribute("name").includes(keyword) || keyword === "*") {
 				item.classList.remove("hidden");
 			} else {
