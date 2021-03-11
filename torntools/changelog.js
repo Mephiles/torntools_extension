@@ -7,6 +7,7 @@ export default {
 			"Add Hospital filter to show only revive-enabled players. - Sashank999",
 			"Show net total on casino statistics. - Sashank999",
 			"Add Search in TT Preferences page. - Sashank999",
+			"Warning when user if about to fly but education or bank investement or both would timeout before return. - Sashank999",
 		],
 		Fixes: ["Battle stat disappeared from profile when sending user money. - Sashank999"],
 		Changes: ["Add setting for 'Show flight times before flying'. - Sashank999"],
