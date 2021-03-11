@@ -10,6 +10,12 @@ const EVENT_CHANNELS = {
 	CHAT_NEW: "tt-chat-box-new",
 	CHAT_OPENED: "tt-chat-box-opened",
 	CHAT_MESSAGE: "tt-chat-message",
+	// new channels
+	FACTION_ARMORY_TAB: "faction-armory-tab",
+};
+
+const CUSTOM_LISTENERS = {
+	[EVENT_CHANNELS.FACTION_ARMORY_TAB]: [],
 };
 
 let injectedXHR, injectedFetch;
@@ -48,4 +54,15 @@ function addXHRListener(callback) {
 	injectXHR();
 
 	window.addEventListener("tt-xhr", callback);
+}
+
+function triggerCustomListener(channel, details) {
+	console.log("DKK triggerCustomListener", channel, details);
+	for (const listener of CUSTOM_LISTENERS[channel]) {
+		listener(details);
+	}
+}
+
+function registerCustomListener(channel, callback) {
+	CUSTOM_LISTENERS[channel].push(callback);
 }

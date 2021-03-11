@@ -133,14 +133,15 @@
 		{
 			"matches": ["https://www.torn.com/factions.php*"],
 			"css": [
-				"scripts/content_old/factions/ttFactions.css",
 				"scripts/features/drugdetails/ttDrugDetails.css",
-				"scripts/features/itemvalues/ttItemValues.css"
+				"scripts/features/itemvalues/ttItemValues.css",
+				"scripts/features/highlightbloodbags/ttHighlightBloodBags.css"
 			],
 			"js": [
-				"scripts/content_old/factions/ttFactions.js",
+				"scripts/content/factions/ttFactions.js",
 				"scripts/features/drugdetails/ttDrugDetails.js",
-				"scripts/features/itemvalues/ttItemValues.js"
+				"scripts/features/itemvalues/ttItemValues.js",
+				"scripts/features/highlightbloodbags/ttHighlightBloodBags.js"
 			],
 			"run_at": "document_end"
 		},
