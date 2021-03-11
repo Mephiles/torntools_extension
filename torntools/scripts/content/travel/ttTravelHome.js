@@ -273,9 +273,8 @@ requireDatabase().then(function () {
 			if (event.target.classList.contains("raceway") && event.target.hasAttribute("data-race") && event.target.getAttribute("role") === "button")
 				addLandAndReturnTimes();
 		});
-		
+
 		warnOnTimeout();
-		
 	});
 });
 
