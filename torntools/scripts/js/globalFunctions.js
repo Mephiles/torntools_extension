@@ -3204,7 +3204,7 @@ function fetchApi_v2(
 			const URLs = {
 				torn: "https://api.torn.com/",
 				yata__v1: "https://yata.yt/api/v1/",
-				tornstats: "https://www.tornstats.com/",
+				tornstats: "https://beta.tornstats.com/api/v1/",
 				// 'tornstats': 'https://www.torn-proxy.com/tornstats/',
 				torntools: "https://torntools.gregork.com/",
 				nukefamily: "https://www.nukefamily.org/",
@@ -3228,10 +3228,14 @@ function fetchApi_v2(
 			if (location !== "torn" && location !== "tornstats") {
 				full_url = `${base}${section || ""}`;
 			} else if (apiKey) {
-				full_url = `${base}${section}${objectid}${selections ? "selections=" + selections : ""}${location !== "yata" ? `&key=${apiKey}` : ""}`;
-				for (let param of ["action", "target", "from", "comment"]) {
-					if (options[param] === undefined) continue;
-					full_url += `&${param}=${options[param]}`;
+				if (location === "tornstats") {
+					full_url = `${base}${apiKey}/${options.action}`;
+				} else {
+					full_url = `${base}${section}${objectid}${selections ? "selections=" + selections : ""}${location !== "yata" ? `&key=${apiKey}` : ""}`;
+					for (let param of ["action", "target", "from", "comment"]) {
+						if (options[param] === undefined) continue;
+						full_url += `&${param}=${options[param]}`;
+					}
 				}
 			} else {
 				console.log("NO API KEY IS SET. ABORTING FETCH.");
