@@ -111,10 +111,12 @@ function Main() {
 		console.log("Action", action);
 
 		// show action
-		let span = doc.new("span");
-		span.setClass("tt-hilo-action");
-		span.innerText = action;
-		doc.find(".actions-wrap").appendChild(span);
+		if (doc.find(".actions-wrap .tt-hilo-action")) {
+			doc.find(".actions-wrap .tt-hilo-action").innerText = action;
+		} else {
+			let span = doc.new({type: "span", class: "tt-hilo-action", text: action});
+			doc.find(".actions-wrap").appendChild(span);
+		}
 	}
 }
 
