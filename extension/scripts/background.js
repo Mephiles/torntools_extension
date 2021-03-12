@@ -274,7 +274,7 @@ async function updateUserdata() {
 		}
 
 		async function updateAttackHistory() {
-			const lastAttack = attackHistory.lastAttack;
+			let lastAttack = attackHistory.lastAttack;
 			for (const attackId in userdata.attacks) {
 				if (parseInt(attackId) <= attackHistory.lastAttack) continue;
 				if (parseInt(attackId) > lastAttack) lastAttack = parseInt(attackId);
