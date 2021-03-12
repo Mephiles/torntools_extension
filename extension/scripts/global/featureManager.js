@@ -312,6 +312,7 @@ class FeatureManager {
 				}
 				scopeElement.appendChild(row);
 			}
+			this.checkScopes();
 		}).catch((error) => {
 			console.error(`[TornTools] FeatureManager - Couldn't log result for ${feature.name}`, error, options);
 		});
@@ -336,9 +337,10 @@ class FeatureManager {
 		container.setClass(
 			settings.featureDisplay ? "" : "hidden",
 			settings.featureDisplayPosition,
-			settings.featureDisplayOnlyFails ? "only-fails" : "",
+			settings.featureDisplayOnlyFailed ? "only-fails" : "",
 			settings.featureDisplayHideDisabled ? "hide-disabled" : ""
 		);
+		this.checkScopes();
 	}
 
 	async createPopup() {
@@ -350,7 +352,12 @@ class FeatureManager {
 			document.newElement({
 				id: this.containerID,
 				type: "div",
-				class: settings.featureDisplayPosition,
+				class: `
+					${settings.featureDisplay ? "" : "hidden"}
+					${settings.featureDisplayPosition} 
+					${settings.featureDisplayOnlyFailed ? "only-fails" : ""}
+					${settings.featureDisplayHideDisabled ? "hide-disabled" : ""}
+				`,
 				children: [
 					document.newElement({
 						type: "div",
@@ -376,6 +383,23 @@ class FeatureManager {
 			const [feature, status, options] = item;
 			this.showResult(feature, status, options);
 		}
+		this.checkScopes();
+	}
+
+	checkScopes() {
+		let hasContent = false;
+		for (const scope of document.findAll(".tt-page-status-content > div")) {
+			let isEmpty = [...scope.findAll(".tt-page-status-feature")].every((element) => window.getComputedStyle(element).display === "none");
+
+			if (isEmpty) {
+				scope.classList.add("hidden");
+			} else {
+				scope.classList.remove("hidden");
+				hasContent = true;
+			}
+		}
+
+		document.find("#tt-page-status").classList[hasContent ? "remove" : "add"]("hidden");
 	}
 }
 
