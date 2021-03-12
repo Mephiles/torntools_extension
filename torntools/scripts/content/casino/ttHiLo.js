@@ -34,7 +34,7 @@ function Main() {
 	});
 
 	// Continue game button
-	let continue_button = doc.find(".action-c[data-step=continue]");
+	let continue_button = doc.find(".action-btn-wrap[data-step=continue]");
 	continue_button.addEventListener("click", () => {
 		if (cashed_in) {
 			return;
@@ -125,7 +125,7 @@ function getCard(type, picture_cards, last_type_card) {
 	console.log("card_elements", card_elements);
 
 	for (let card_element of card_elements) {
-		let name = card_element.classList[0];
+		let name = card_element.classList[1];
 		if (name.indexOf("back") > -1) continue;
 
 		let suit = name.split("-")[1];
@@ -189,18 +189,5 @@ function getAction(deck, _card) {
 }
 
 function casinoGameLoaded() {
-	let promise = new Promise((resolve) => {
-		let counter = 0;
-		let checker = setInterval(() => {
-			if (doc.find(".startGame")) {
-				resolve(true);
-				return clearInterval(checker);
-			} else if (counter > 100) {
-				resolve(false);
-				return clearInterval(checker);
-			}
-		}, 100);
-	});
-
-	return promise.then((data) => data);
+	return requireElement("div.startGame").then((data) => data);
 }
