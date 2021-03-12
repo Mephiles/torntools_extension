@@ -152,8 +152,9 @@ function displayGraph() {
 	const graph_area = doc.new({ type: "div", class: "tt-graph-area" });
 	container.appendChild(graph_area);
 
-	fetchApi_v2("tornstats", { section: "api.php", action: "getStatGraph", from: ((new Date() - 2 * 24 * 60 * 60 * 1000) / 1000).toFixed(0) })
+	fetchApi_v2("tornstats", { action: "battlestats/graph" })
 		.then((result) => {
+			if (!result.status) throw result.message;
 			let w = mobile ? "312" : "784";
 			let h = mobile ? "200" : "250";
 			let canvas = doc.new({ type: "canvas", id: "tt-gym-graph", attributes: { width: w, height: h } });
@@ -260,7 +261,7 @@ function displayGraph() {
 				const response_div = doc.new({ type: "div", class: "response-message" });
 				graph_area.appendChild(response_div);
 
-				fetchApi_v2("tornstats", { section: "api.php", action: "recordStats" })
+				fetchApi_v2("tornstats", { action: "battlestats/record" })
 					.then((result) => {
 						console.log("result", result);
 
@@ -301,7 +302,9 @@ function displayGraph() {
 			console.log("TornStats API result", err);
 
 			let text;
-			if (err.error.indexOf("User not found") > -1) {
+			if (err.indexOf("Not enough data found") > -1) {
+				text = "Not enough data found on TornStats.";
+			} else if (err.indexOf("User not found") > -1) {
 				text = "Can't display graph because no TornStats account was found. Please register an account @ www.tornstats.com";
 			}
 
