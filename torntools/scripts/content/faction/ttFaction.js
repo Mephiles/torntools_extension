@@ -348,7 +348,7 @@ function openOCs() {
 function showNNB() {
 	if (shouldDisable()) return;
 
-	fetchApi_v2("tornstats", { section: "api.php", action: "crimes" })
+	fetchApi_v2("tornstats", { action: "crimes" })
 		.then((result) => {
 			// Populate active crimes
 			let crimes = doc.findAll(".organize-wrap .crimes-list>li");
