@@ -3,7 +3,7 @@
 (async () => {
 	featureManager.registerFeature(
 		"OC Time",
-		"global",
+		"sidebar",
 		() => settings.pages.sidebar.ocTimer,
 		null,
 		showTimer,

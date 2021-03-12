@@ -3,7 +3,7 @@
 (async () => {
 	featureManager.registerFeature(
 		"Update Notice",
-		"global",
+		"sidebar",
 		() => settings.updateNotice,
 		null,
 		showNotice,

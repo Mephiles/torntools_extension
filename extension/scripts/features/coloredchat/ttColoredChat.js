@@ -3,7 +3,7 @@
 (async () => {
 	const feature = featureManager.registerFeature(
 		"Colored Chat",
-		"global",
+		"chat",
 		() => settings.pages.chat.titleHighlights.length,
 		initialiseColoredChats,
 		showColoredChats,

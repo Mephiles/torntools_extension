@@ -3,7 +3,7 @@
 (async () => {
 	featureManager.registerFeature(
 		"Highlight Energy Refill",
-		"global",
+		"sidebar",
 		() => settings.pages.sidebar.highlightEnergy,
 		null,
 		applyStyle,

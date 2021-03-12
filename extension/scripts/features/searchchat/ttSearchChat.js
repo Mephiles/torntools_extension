@@ -3,7 +3,7 @@
 (async () => {
 	const feature = featureManager.registerFeature(
 		"Search Chat",
-		"global",
+		"chat",
 		() => settings.pages.chat.searchChat,
 		initialiseSearchChat,
 		showSearch,

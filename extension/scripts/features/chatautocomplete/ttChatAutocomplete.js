@@ -3,7 +3,7 @@
 (async () => {
 	const feature = featureManager.registerFeature(
 		"Chat Autocomplete",
-		"global",
+		"chat",
 		() => settings.pages.chat.completeUsernames,
 		initialiseAutocomplete,
 		readSettings,

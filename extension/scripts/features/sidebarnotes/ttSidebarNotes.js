@@ -3,7 +3,7 @@
 (async () => {
 	featureManager.registerFeature(
 		"Sidebar Notes",
-		"global",
+		"sidebar",
 		() => settings.pages.sidebar.notes,
 		null,
 		showNotes,

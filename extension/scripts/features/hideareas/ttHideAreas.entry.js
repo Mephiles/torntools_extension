@@ -3,7 +3,7 @@
 (async () => {
 	featureManager.registerFeature(
 		"Hide Areas",
-		"global",
+		"sidebar",
 		() => settings.hideAreas.length,
 		null,
 		applyStyle,

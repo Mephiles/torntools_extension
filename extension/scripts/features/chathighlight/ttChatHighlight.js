@@ -5,7 +5,7 @@
 
 	const feature = featureManager.registerFeature(
 		"Chat Highlight",
-		"global",
+		"chat",
 		() => settings.pages.chat.highlights.length,
 		initialiseHighlights,
 		readSettings,

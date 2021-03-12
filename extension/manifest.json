@@ -121,7 +121,7 @@
 		{
 			"matches": ["https://www.torn.com/companies.php*"],
 			"css": [],
-			"js": ["scripts/feature/companyspecials/ttCompanySpecials.js"],
+			"js": ["scripts/features/companyspecials/ttCompanySpecials.js"],
 			"run_at": "document_end"
 		},
 		{

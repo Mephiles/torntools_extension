@@ -3,7 +3,7 @@
 (async () => {
 	featureManager.registerFeature(
 		"Hide Icons",
-		"global",
+		"sidebar",
 		() => settings.hideIcons.length,
 		initialiseHideIcons,
 		applyStyle,

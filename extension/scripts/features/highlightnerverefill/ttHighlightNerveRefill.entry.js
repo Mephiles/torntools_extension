@@ -3,7 +3,7 @@
 (async () => {
 	featureManager.registerFeature(
 		"Highlight Nerve Refill",
-		"global",
+		"sidebar",
 		() => settings.pages.sidebar.highlightNerve,
 		null,
 		applyStyle,

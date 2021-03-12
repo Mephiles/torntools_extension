@@ -4,7 +4,7 @@
 	// noinspection JSIncompatibleTypesComparison
 	featureManager.registerFeature(
 		"Chat Font Size",
-		"global",
+		"chat",
 		() => settings.pages.chat.fontSize !== 12,
 		null,
 		applySize,

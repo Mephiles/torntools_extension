@@ -3,7 +3,7 @@
 (async () => {
 	featureManager.registerFeature(
 		"Block Zalgo",
-		"global",
+		"chat",
 		() => settings.pages.chat.blockZalgo,
 		null,
 		hideZalgo,

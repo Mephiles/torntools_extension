@@ -3,7 +3,7 @@
 (async () => {
 	featureManager.registerFeature(
 		"Custom Links",
-		"global",
+		"sidebar",
 		() => settings.customLinks.length,
 		null,
 		showLinks,
