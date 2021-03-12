@@ -120,8 +120,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/companies.php*"],
-			"css": ["scripts/content_old/companies/ttCompanies.css"],
-			"js": ["scripts/content_old/companies/ttCompanies.js"],
+			"css": [],
+			"js": ["scripts/feature/companyspecials/ttCompanySpecials.js"],
 			"run_at": "document_end"
 		},
 		{

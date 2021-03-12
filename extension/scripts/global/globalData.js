@@ -243,7 +243,7 @@ const DEFAULT_STORAGE = {
 				missingPlushies: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			companies: {
-				specialMugMoney: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				specials: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			travel: {
 				computer: new DefaultSetting({ type: "boolean", defaultValue: true }),
