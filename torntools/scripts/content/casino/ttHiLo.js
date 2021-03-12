@@ -114,7 +114,7 @@ function Main() {
 		if (doc.find(".actions-wrap .tt-hilo-action")) {
 			doc.find(".actions-wrap .tt-hilo-action").innerText = action;
 		} else {
-			let span = doc.new({type: "span", class: "tt-hilo-action", text: action});
+			let span = doc.new({ type: "span", class: "tt-hilo-action", text: action });
 			doc.find(".actions-wrap").appendChild(span);
 		}
 	}
