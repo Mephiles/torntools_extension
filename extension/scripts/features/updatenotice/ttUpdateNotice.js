@@ -11,11 +11,12 @@
 		{
 			storage: ["settings.updateNotice", "version.showNotice"],
 		},
-		null // TODO - Check for mobile.
+		async () => {
+			if (await checkMobile()) return "Not supported on mobile!";
+		}
 	);
 
 	async function showNotice() {
-		if (await checkMobile()) return;
 		await requireSidebar();
 
 		if (!version.showNotice) {

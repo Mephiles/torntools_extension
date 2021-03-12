@@ -346,7 +346,7 @@
 			case "Temporary":
 				return 5;
 			case "Defensive":
-				return -1; // TODO - Get right position;
+				return -1; // CHECKME - Get right position;
 			default:
 				return false;
 		}

@@ -11,11 +11,12 @@
 		{
 			storage: ["settings.pages.sidebar.notes"],
 		},
-		null // TODO - Check for mobile.
+		async () => {
+			if (await checkMobile()) return "Not supported on mobile!";
+		}
 	);
 
 	async function showNotes() {
-		if (await checkMobile()) return;
 		await requireSidebar();
 
 		const { content } = createContainer("Notes", {

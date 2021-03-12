@@ -11,7 +11,9 @@
 		{
 			storage: ["settings.pages.items.marketLinks"],
 		},
-		null // TODO - Check for mobile.
+		async () => {
+			if (await checkMobile()) return "Not supported on mobile!";
+		}
 	);
 
 	function initialiseMarketIcons() {
@@ -24,7 +26,6 @@
 	}
 
 	async function showMarketIcons() {
-		if (await checkMobile()) return;
 		await requireItemsLoaded();
 
 		let isFirst = true;
