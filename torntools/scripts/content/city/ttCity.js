@@ -46,28 +46,36 @@ function displayItems(container, itemlist) {
 	let items = getItemIDsOnMap();
 
 	// Add items to box
-	let items_span = doc.new({type: "div", class: "items"});
+	let items_span = doc.new({ type: "div", class: "items" });
 
 	let index = 0;
 	for (let i = 0; i < 4; i++) {
-		let col = doc.new({type: "div", class: "column"});
+		let col = doc.new({ type: "div", class: "column" });
 
 		for (let j = 0; j < Object.keys(items).length / 4; j++) {
 			let item = Object.keys(items)[index];
 			if (!item) break;
-			
-			let span = doc.new({type: "span"});
-			let newDiv = doc.new({type: "div"});
+
+			let span = doc.new({ type: "span" });
+			let newDiv = doc.new({ type: "div" });
 			let canvas, context, image, a;
 			if (settings.pages.city.items_images) {
-				span.appendChild(doc.new({type: "img", class: "torn-item item-plate item-converted", attributes: {src: itemlist.items[+item].image}}));
+				span.appendChild(doc.new({ type: "img", class: "torn-item item-plate item-converted", attributes: { src: itemlist.items[+item].image } }));
 			}
 			if (items[item] !== "1") {
-				a = doc.new({type: "a", text: itemlist.items[item].name, attributes: {href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=${item}`}});
+				a = doc.new({
+					type: "a",
+					text: itemlist.items[item].name,
+					attributes: { href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=${item}` },
+				});
 			} else {
-				a = doc.new({type: "a", text: `${itemlist.items[item].name} (x${items[item]})`, attributes: {href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=${item}`}});
+				a = doc.new({
+					type: "a",
+					text: `${itemlist.items[item].name} (x${items[item]})`,
+					attributes: { href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=${item}` },
+				});
 			}
-			let inner_span = doc.new({type: "span", text: ` ($${numberWithCommas(itemlist.items[item].market_value)})`});	
+			let inner_span = doc.new({ type: "span", text: ` ($${numberWithCommas(itemlist.items[item].market_value)})` });
 			span.addEventListener("mouseenter", () => {
 				let cityFindItem = doc.find(`#map img[item-id='${item}']`);
 				if (cityFindItem) cityFindItem.classList.add("cityItem_hover");
@@ -75,9 +83,9 @@ function displayItems(container, itemlist) {
 			span.addEventListener("mouseleave", () => {
 				let cityFindItem = doc.find(`#map img[item-id='${item}']`);
 				if (cityFindItem) cityFindItem.classList.remove("cityItem_hover");
-			});	
-			let hr = doc.new({type: "hr", class: "delimiter-999 m-top10 m-bottom10"});
-			
+			});
+			let hr = doc.new({ type: "hr", class: "delimiter-999 m-top10 m-bottom10" });
+
 			newDiv.appendChild(a);
 			newDiv.appendChild(inner_span);
 			span.appendChild(newDiv);
@@ -100,8 +108,8 @@ function showValueOfItems(container, itemlist) {
 		total_value += parseInt(itemlist.items[id].market_value);
 	}
 
-	let new_div = doc.new({type: "div", id: "tt-city-items-value", text: `City Items value (${Object.keys(items).length}): `});
-	let value_span = doc.new({type: "span", text: `$${numberWithCommas(total_value, false)}`});
+	let new_div = doc.new({ type: "div", id: "tt-city-items-value", text: `City Items value (${Object.keys(items).length}): ` });
+	let value_span = doc.new({ type: "span", text: `$${numberWithCommas(total_value, false)}` });
 
 	if (extensions.doctorn) {
 		new_div.style.borderTop = "none";
