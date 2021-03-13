@@ -286,9 +286,6 @@ function displayGraph() {
 
 						update_message += gains.join(", ") + ` since your last update ${result.age}.`;
 						if (gains.length === 0) update_message = `You have not gained any stats since your last update ${result.age}.`;
-
-						let info_div = doc.new({ type: "div", class: "tt-info-message", text: update_message });
-						graph_area.appendChild(info_div);
 					})
 					.catch((err) => {
 						console.log("TornStats API result", err);
