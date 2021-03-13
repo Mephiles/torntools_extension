@@ -71,10 +71,28 @@ Thanks, Mauk @DocTorn
 	font-weight: 400;
 	display: block;
 	text-align: center;
+	display: flex;
+	flex-flow: row;
+	height: 36px;
 }
 
-#tt-city-items .items .column > span > a {
+#tt-city-items .items .column > span > img {
+	opacity: 1;
+	height: 35px;
+	width: 60px;
+}
+
+#tt-city-items .items .column > span > div {
+	margin-left: 4px;
+	display: inline;
+}
+
+#tt-city-items .items .column > span > div > a {
 	text-decoration: none;
+}
+
+#tt-city-items .items .column > span > div > span {
+	color: var(--default-green-color, #678c00;);
 }
 
 /* Items value */

@@ -9,7 +9,7 @@ export default {
 			"Add Search in TT Preferences page. - Sashank999",
 			"Warning when user if about to fly but education or bank investement or both would timeout before return. - Sashank999",
 		],
-		Fixes: ["Battle stat disappeared from profile when sending user money. - Sashank999"],
+		Fixes: ["Battle stat disappeared from profile when sending user money. - Sashank999", "Fix HighLow helper not working. - Sashank999"],
 		Changes: ["Add setting for 'Show flight times before flying'. - Sashank999", "Update to new beta TS API. - Sashank999"],
 	},
 	"v5.7 - February, 11th. 2021": {

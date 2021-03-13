@@ -1478,6 +1478,7 @@ const STORAGE = {
 			city: {
 				items: true,
 				items_value: true,
+				items_images: true,
 				closed_highlight: true,
 			},
 			profile: {
