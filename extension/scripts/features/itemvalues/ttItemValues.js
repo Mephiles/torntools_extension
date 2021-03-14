@@ -2,7 +2,6 @@
 
 (async () => {
 	const page = getPage();
-	if (page === "item") return; // TODO - Switch later.
 
 	if (page === "displaycase") {
 		const userId = location.hash.startsWith("#display/") ? parseInt(location.hash.substring(9)) || false : false;
@@ -14,7 +13,7 @@
 		if (userId && hasAPIData() && userdata.player_id !== userId) return;
 	} else if (page === "faction" && getSearchParameters().get("step") !== "your") return;
 
-	featureManager.registerFeature(
+	const feature = featureManager.registerFeature(
 		"Item Values",
 		"items",
 		() => settings.pages.items.values,
@@ -39,6 +38,22 @@
 				setupXHR({ ignoreUntradable: true, addRelative: true });
 				break;
 			case "item": // TODO - Finish testing.
+				const listener = ({ tab }) => {
+					if (!feature.enabled()) return;
+
+					showItemValues(tab);
+					console.log("DKK items", tab);
+				};
+
+				console.log("DKK init 1");
+				CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(listener);
+				CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(listener);
+				CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_AMOUNT].push(({ item, amount }) => {
+					console.log("DKK ITEM_AMOUNT");
+					updateItemAmount(item, amount);
+				});
+
+				console.log("DKK init 2");
 				break;
 		}
 
@@ -134,6 +149,9 @@
 	function showTotal(list, type) {
 		if (!hasAPIData() || !settings.apiUsage.user.inventory) return;
 
+		console.log("DKK showTotal", list.find(".tt-item-price.price-total"), list.find(".tt-item-price.price-total")?.parentElement);
+		if (list.find(".tt-item-price.price-total")) list.find(".tt-item-price.price-total").parentElement.remove();
+
 		let total;
 		if (type === "All") total = userdata.inventory.map((x) => x.quantity * x.market_price).totalSum();
 		else
@@ -143,20 +161,23 @@
 				.totalSum();
 
 		setTimeout(() => {
-			list.insertBefore(
-				document.newElement({
-					type: "li",
-					class: "tt-ignore",
-					children: [
-						document.newElement({
-							type: "li",
-							text: `Total Value: $${formatNumber(total, { decimals: 0 })}`,
-							class: "tt-item-price",
-						}),
-					],
-				}),
-				list.firstElementChild
-			);
+			if (list.find(".tt-item-price.price-total"))
+				list.find(".tt-item-price.price-total").innerText = `Total Value: $${formatNumber(total, { decimals: 0 })}`;
+			else
+				list.insertBefore(
+					document.newElement({
+						type: "li",
+						class: "tt-ignore",
+						children: [
+							document.newElement({
+								type: "li",
+								text: `Total Value: $${formatNumber(total, { decimals: 0 })}`,
+								class: "tt-item-price price-total",
+							}),
+						],
+					}),
+					list.firstElementChild
+				);
 		}, 0);
 	}
 
@@ -177,6 +198,71 @@
 			priceElement.innerText = `N/A`;
 		} else {
 			priceElement.innerText = `$${formatNumber(price)}`;
+		}
+	}
+
+	function showItemValues(list) {
+		if (!list.dataset) return;
+
+		showTotal(list, list.dataset.info);
+
+		for (const item of list.findAll(":scope > li[data-item]")) {
+			const id = item.dataset.item;
+			const price = torndata.items[id].market_value;
+
+			const parent = mobile ? item.find(".name-wrap") : item.find(".bonuses-wrap") || item.find(".name-wrap");
+
+			const quantity = parseInt(item.find(".item-amount.qty").innerText) || 1;
+			const totalPrice = quantity * parseInt(price);
+
+			if (parent.find(".tt-item-price")) continue;
+
+			let priceElement;
+			if (item.find(".bonuses-wrap")) {
+				priceElement = document.newElement({ type: "li", class: "tt-item-price fl" });
+			} else {
+				priceElement = document.newElement({ type: "span", class: "tt-item-price" });
+
+				if (item.find("button.group-arrow")) {
+					priceElement.style.setProperty("padding-right", "30px", "important");
+				}
+			}
+
+			if (totalPrice) {
+				if (quantity === 1) {
+					priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(price)}` }));
+				} else {
+					priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(price)} | ` }));
+					priceElement.appendChild(document.newElement({ type: "span", text: `${quantity}x = `, class: "tt-item-quantity" }));
+					priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(totalPrice)}` }));
+				}
+			} else if (price === 0) {
+				priceElement.innerText = `N/A`;
+			} else {
+				priceElement.innerText = `$${formatNumber(price)}`;
+			}
+
+			parent.appendChild(priceElement);
+		}
+	}
+
+	function updateItemAmount(id, change) {
+		console.log("DKK updateItemAmount", id, change);
+		for (const item of document.findAll(`.items-cont > li[data-item="${id}"]`)) {
+			const priceElement = item.find(".tt-item-price");
+			if (!priceElement) continue;
+			const quantityElement = priceElement.find(".tt-item-quantity");
+
+			const price = torndata.items[id].market_value;
+			const newQuantity = parseInt(quantityElement.innerText.match(/([0-9]*)x = /i)[1]) + change;
+
+			if (newQuantity === 1) {
+				priceElement.innerHTML = "";
+				priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(price)}` }));
+			} else {
+				quantityElement.innerText = `${newQuantity}x = `;
+				priceElement.find("span:last-child").innerText = `$${formatNumber(price * newQuantity)}`;
+			}
 		}
 	}
 })();

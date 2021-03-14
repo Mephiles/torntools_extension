@@ -21,16 +21,19 @@ const pendingActions = {};
 						window.dispatchEvent(
 							new CustomEvent(EVENT_CHANNELS.ITEM_AMOUNT, { detail: { item: parseInt(item.ID), amount: parseInt(item.qty), reason: "usage" } })
 						);
+						triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: parseInt(item.ID), amount: parseInt(item.qty), reason: "usage" });
 					}
 					for (const item of json.items.itemDisappear) {
 						window.dispatchEvent(
 							new CustomEvent(EVENT_CHANNELS.ITEM_AMOUNT, { detail: { item: parseInt(item.ID), amount: -parseInt(item.qty), reason: "usage" } })
 						);
+						triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: parseInt(item.ID), amount: -parseInt(item.qty), reason: "usage" });
 					}
 				} else {
 					window.dispatchEvent(
 						new CustomEvent(EVENT_CHANNELS.ITEM_AMOUNT, { detail: { item: parseInt(params.get("itemID")), amount: -1, reason: "usage" } })
 					);
+					triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: parseInt(params.get("itemID")), amount: -1, reason: "usage" });
 				}
 			} else if (json && step === "sendItemAction") {
 				if (!json.success) return;
@@ -43,7 +46,9 @@ const pendingActions = {};
 				else {
 					delete pendingActions[actionId];
 
+					console.log("DKK trigger amount 4");
 					window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.ITEM_AMOUNT, { detail: { item, amount: -amount, reason: "sending" } }));
+					triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item, amount: -amount, reason: "sending" });
 				}
 			} else if (json && (step === "getCategoryList" || step === "getNotAllItemsListWithoutGroups" || step === "getItemsListByItemId")) {
 				const tab = document.find("ul.items-cont.tab-menu-cont[style='display: block;'], ul.items-cont.tab-menu-cont:not([style])");
