@@ -32,7 +32,6 @@ Object.defineProperty(Array.prototype, "equals", {
 			} else if (this[i] instanceof Object && other[i] instanceof Object) {
 				if (!this[i].equals(other[i])) return false;
 			} else if (this[i] !== other[i]) {
-				console.log("DKK array equals", { a: this[i], b: other[i] });
 				return false;
 			}
 		}

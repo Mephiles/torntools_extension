@@ -1,7 +1,5 @@
 (async () => {
-	console.log("DKK factions 1");
 	if (getSearchParameters().get("step") === "your") {
-		console.log("DKK factions 2");
 		await requireElement(".faction-tabs");
 
 		document.find(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);

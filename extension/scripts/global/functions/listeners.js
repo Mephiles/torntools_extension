@@ -59,7 +59,6 @@ function addXHRListener(callback) {
 }
 
 function triggerCustomListener(channel, details) {
-	console.log("DKK triggerCustomListener", channel, details);
 	for (const listener of CUSTOM_LISTENERS[channel]) {
 		listener(details);
 	}
