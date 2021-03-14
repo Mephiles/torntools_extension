@@ -99,6 +99,7 @@ requireDatabase(false)
 		});
 
 		registerChanges();
+		searchPreferences();
 	})
 	.catch((err) => {
 		console.error(err);
@@ -121,6 +122,62 @@ requireDatabase(false)
 			.then(() => location.reload())
 			.catch(() => location.reload());
 	});
+
+function searchPreferences() {
+	let ttBlackSearchOverlay = doc.find("div#tt-black-search-overlay");
+	doc.find("div#preferences i#tt-search-button").parentElement.addEventListener("click", () => ttBlackSearchOverlay.classList.add("active"));
+
+	ttBlackSearchOverlay.find("i.far.fa-times-circle").addEventListener("click", () => {
+		ttBlackSearchOverlay.find("div#tt-search-overlay").innerHTML = "";
+		ttBlackSearchOverlay.classList.remove("active");
+	});
+	ttBlackSearchOverlay.find("i#tt-search-button").addEventListener("click", ttSearch);
+	ttBlackSearchOverlay.find("input#tt-search-input").addEventListener("keydown", (event) => {
+		if (event.keyCode === 13) ttSearch();
+	});
+	function ttSearch() {
+		if (!ttBlackSearchOverlay.find("input#tt-search-input").value.toLowerCase().trim()) return;
+		doc.findAll(".searched").forEach((option) => option.classList.remove("searched"));
+		let searchResults = doc.evaluate(
+			"//div[@id='preferences']//div[@class='inner-content']//div[input][contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" +
+				ttBlackSearchOverlay.find("input#tt-search-input").value.toLowerCase() +
+				"')]",
+			doc,
+			null,
+			XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+			null
+		);
+		let searchDiv = "";
+		if (searchResults.snapshotLength > 0) {
+			for (let i = 0; i < searchResults.snapshotLength; i++) {
+				let searchOption = searchResults.snapshotItem(i);
+				let optionName = searchOption.innerText.replace("New!", "").replace("\n", "").trim();
+				let divName = findParent(searchOption, { has_attribute: "name" }).getAttribute("name");
+				if (optionName.trim()) searchDiv += `<span id="${divName}">${optionName}<br></span><hr>`;
+			}
+		} else {
+			searchDiv = "<span id='no-result'>No Results</span>";
+		}
+		ttBlackSearchOverlay.find("div#tt-search-overlay").innerHTML = searchDiv;
+		ttBlackSearchOverlay.find("div#tt-search-overlay").addEventListener("click", (event) => {
+			event.stopPropagation();
+			ttBlackSearchOverlay.classList.remove("active");
+			if (event.target.innerText.trim() !== "No Results" && event.target.getAttribute("id")) {
+				doc.find(`div#preferences div.inner-content div.navigation div[name='${event.target.getAttribute("id")}']`).click();
+				for (let option of [
+					...doc.findAll(`div#preferences div.inner-content div.sections div[name='${event.target.getAttribute("id")}'] div.option`),
+				]) {
+					if (option.innerText.replace("New!", "").trim() === event.target.innerText.trim()) {
+						option.classList.add("searched");
+						break;
+					}
+				}
+			}
+			ttBlackSearchOverlay.find("div#tt-search-overlay").innerHTML = "";
+		});
+		searchResults = null;
+	}
+}
 
 function registerChanges() {
 	const defaultKey = "defaultValue";
@@ -955,7 +1012,7 @@ function server() {
 	- watchlist
 	- preferences
 	- profile notes
-                    `,
+					`,
 		})
 			.then(() => {
 				exportData();

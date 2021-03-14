@@ -46,31 +46,51 @@ function displayItems(container, itemlist) {
 	let items = getItemIDsOnMap();
 
 	// Add items to box
-	let items_span = doc.new("div");
-	items_span.setClass("items");
+	let items_span = doc.new({ type: "div", class: "items" });
 
 	let index = 0;
 	for (let i = 0; i < 4; i++) {
-		let col = doc.new("div");
-		col.setClass("column");
+		let col = doc.new({ type: "div", class: "column" });
 
-		for (let j = 0; j < items.length / 4; j++) {
-			let id = items[index];
-			if (!id) break;
+		for (let j = 0; j < Object.keys(items).length / 4; j++) {
+			let item = Object.keys(items)[index];
+			if (!item) break;
 
-			let span = doc.new("span");
-			let a = doc.new("a");
-			a.setAttribute("href", `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${itemlist.items[id].name}`);
-			a.innerText = itemlist.items[id].name;
-			let inner_span = doc.new("span");
-			inner_span.innerText = ` ($${numberWithCommas(itemlist.items[id].market_value)})`;
+			let span = doc.new({ type: "span" });
+			let newDiv = doc.new({ type: "div" });
+			let canvas, context, image, a;
+			if (settings.pages.city.items_images) {
+				span.appendChild(doc.new({ type: "img", class: "torn-item item-plate item-converted", attributes: { src: itemlist.items[+item].image } }));
+			}
+			if (items[item] !== "1") {
+				a = doc.new({
+					type: "a",
+					text: itemlist.items[item].name,
+					attributes: { href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=${item}` },
+				});
+			} else {
+				a = doc.new({
+					type: "a",
+					text: `${itemlist.items[item].name} (x${items[item]})`,
+					attributes: { href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=${item}` },
+				});
+			}
+			let inner_span = doc.new({ type: "span", text: ` ($${numberWithCommas(itemlist.items[item].market_value)})` });
+			span.addEventListener("mouseenter", () => {
+				let cityFindItem = doc.find(`#map img[item-id='${item}']`);
+				if (cityFindItem) cityFindItem.classList.add("cityItem_hover");
+			});
+			span.addEventListener("mouseleave", () => {
+				let cityFindItem = doc.find(`#map img[item-id='${item}']`);
+				if (cityFindItem) cityFindItem.classList.remove("cityItem_hover");
+			});
+			let hr = doc.new({ type: "hr", class: "delimiter-999 m-top10 m-bottom10" });
 
-			span.addEventListener("mouseenter", () => doc.find(`#map img[item-id='${id}']`).classList.add("cityItem_hover"));
-			span.addEventListener("mouseleave", () => doc.find(`#map img[item-id='${id}']`).classList.remove("cityItem_hover"));
-
-			span.appendChild(a);
-			span.appendChild(inner_span);
+			newDiv.appendChild(a);
+			newDiv.appendChild(inner_span);
+			span.appendChild(newDiv);
 			col.appendChild(span);
+			col.appendChild(hr);
 			index++;
 		}
 
@@ -84,15 +104,12 @@ function showValueOfItems(container, itemlist) {
 	let items = getItemIDsOnMap();
 
 	let total_value = 0;
-	for (let id of items) {
+	for (let id of Object.keys(items)) {
 		total_value += parseInt(itemlist.items[id].market_value);
 	}
 
-	let new_div = doc.new("div");
-	new_div.id = "tt-city-items-value";
-	new_div.innerText = `City Items value (${items.length}): `;
-	let value_span = doc.new("span");
-	value_span.innerText = `$${numberWithCommas(total_value, false)}`;
+	let new_div = doc.new({ type: "div", id: "tt-city-items-value", text: `City Items value (${Object.keys(items).length}): ` });
+	let value_span = doc.new({ type: "span", text: `$${numberWithCommas(total_value, false)}` });
 
 	if (extensions.doctorn) {
 		new_div.style.borderTop = "none";
@@ -105,14 +122,18 @@ function showValueOfItems(container, itemlist) {
 }
 
 function getItemIDsOnMap() {
-	let items = [];
+	let items = {};
 
 	// Find items
 	for (let el of doc.findAll("#map .leaflet-marker-pane *")) {
 		let src = el.getAttribute("src");
 		if (src.indexOf("https://www.torn.com/images/items/") > -1) {
 			let id = src.split("items/")[1].split("/")[0];
-			items.push(id);
+			if (id in items) {
+				items[id] += 1;
+			} else {
+				items[id] = 1;
+			}
 			el.setAttribute("item-id", id);
 			if (settings.pages.city.closed_highlight && !shouldDisable()) {
 				el.classList.add("cityItem");

@@ -471,6 +471,101 @@ label {
 	width: 45px;
 }
 
+div#tt-black-search-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+	background-color: #00000059;
+}
+
+div#tt-black-search-overlay > div {
+	top: 12%;
+	left: 18%;
+	height: 80%;
+	position: fixed;
+}
+
+div#tt-black-search-overlay i.far.fa-times-circle {
+	position: fixed;
+	top: 13.5%;
+	left: 15%;
+	font-size: 27px;
+	background-color: white;
+	border-radius: 50%;
+}
+
+div#tt-black-search-overlay input#tt-search-input {
+	width: 790px;
+	height: 40px;
+	font-size: large;
+	border: #acea00 solid;
+	border-radius: 15px;
+	padding-left: 10px;
+}
+
+div#tt-black-search-overlay i#tt-search-button {
+	margin-left: 10px;
+	border: #acea00 3px solid;
+	border-color: rgb(133, 133, 133);
+	color: #acea00;
+	background-color: white;
+	border-radius: 15px;
+	position: absolute;
+	padding-bottom: 6px;
+	padding-left: 12px;
+	width: 39px;
+	padding-top: 9px;
+	height: 30px;
+	font-size: 27px;
+}
+
+div#tt-search-overlay {
+	background-color: #f2f2f2;
+	overflow-y: scroll;
+	overflow-wrap: break-word;
+	font-size: large;
+	font-family: Arial;
+	border-radius: 15px;
+	width: 860px;
+	margin-top: 10px;
+	height: 500px;
+	padding-left: 10px;
+	padding-top: 10px;
+}
+
+div#preferences div#tt-dummy-search {
+	position: absolute;
+	top: 16%;
+	right: 20%;
+}
+
+div#preferences input#tt-search-input {
+	margin-left: 200px;
+}
+
+div#preferences i#tt-search-button {
+	border: black 2px solid;
+	width: 15px;
+	height: 14px;
+	padding-top: 3px;
+	padding-left: 3px;
+	border-color: rgb(133, 133, 133);
+}
+
+span#no-result {
+	position: absolute;
+	top: 45%;
+	left: 42%;
+	font-size: larger;
+}
+
+.searched {
+	background-color: yellow !important;
+}
+
 /* About */
 #about #new-version p {
 	text-decoration: underline;

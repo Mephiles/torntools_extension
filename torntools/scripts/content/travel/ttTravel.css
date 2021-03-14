@@ -306,3 +306,27 @@ i.fa-caret-down:not(.tt-title-icon):not(.tt-title-icon-torn) {
 	text-align: center;
 	display: block;
 }
+
+div#tt-warn-timeout div.patter-left {
+	height: 30px;
+	margin: 0px 0px 0px 10px;
+}
+
+div#tt-warn-timeout div.patter-right {
+	height: 30px;
+	margin: 0px 10px 0px 0px;
+}
+
+div#tt-warn-timeout div.travel-wrap {
+	height: 30px;
+	text-align: center;
+	display: block;
+	margin: 0px;
+}
+
+div#tt-warn-timeout span {
+	top: 15%;
+	position: relative;
+	color: white;
+	font-size: large;
+}
