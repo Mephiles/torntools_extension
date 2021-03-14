@@ -42,18 +42,13 @@
 					if (!feature.enabled()) return;
 
 					showItemValues(tab);
-					console.log("DKK items", tab);
 				};
 
-				console.log("DKK init 1");
 				CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(listener);
 				CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(listener);
 				CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_AMOUNT].push(({ item, amount }) => {
-					console.log("DKK ITEM_AMOUNT");
 					updateItemAmount(item, amount);
 				});
-
-				console.log("DKK init 2");
 				break;
 		}
 
@@ -149,7 +144,6 @@
 	function showTotal(list, type) {
 		if (!hasAPIData() || !settings.apiUsage.user.inventory) return;
 
-		console.log("DKK showTotal", list.find(".tt-item-price.price-total"), list.find(".tt-item-price.price-total")?.parentElement);
 		if (list.find(".tt-item-price.price-total")) list.find(".tt-item-price.price-total").parentElement.remove();
 
 		let total;
@@ -247,7 +241,6 @@
 	}
 
 	function updateItemAmount(id, change) {
-		console.log("DKK updateItemAmount", id, change);
 		for (const item of document.findAll(`.items-cont > li[data-item="${id}"]`)) {
 			const priceElement = item.find(".tt-item-price");
 			if (!priceElement) continue;

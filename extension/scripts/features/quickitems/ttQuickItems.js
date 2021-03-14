@@ -35,8 +35,8 @@
 			}
 		}, 1000);
 
-		window.addEventListener(EVENT_CHANNELS.ITEM_AMOUNT, (event) => {
-			updateItemAmount(event.detail.item, event.detail.amount);
+		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_AMOUNT].push(({ item, amount }) => {
+			updateItemAmount(item, amount);
 		});
 		window.addEventListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, () => {
 			setupQuickDragListeners();
@@ -141,29 +141,39 @@
 
 								responseWrap.style.display = "block";
 								responseWrap.innerHTML = `
-								<div class="action-wrap use-act use-action">
-									<form data-action="useItem" method="post">
-										<p>${response.text}</p>
-										<p>${links.join("")}</p>
-										<div class="clear"></div>
-									</form>
-								</div>
-							`;
+									<div class="action-wrap use-act use-action">
+										<form data-action="useItem" method="post">
+											<p>${response.text}</p>
+											<p>${links.join("")}</p>
+											<div class="clear"></div>
+										</form>
+									</div>
+								`;
 
 								for (const count of responseWrap.findAll(".counter-wrap")) {
 									count.classList.add("tt-modified");
 									count.innerText = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer" });
 								}
 
-								if (response.items) {
-									for (const item of response.items.itemAppear) {
-										updateItemAmount(parseInt(item.ID), parseInt(item.qty));
+								if (response.success) {
+									if (response.items) {
+										for (const item of response.items.itemAppear) {
+											triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, {
+												item: parseInt(item.ID),
+												amount: parseInt(item.qty),
+												reason: "usage",
+											});
+										}
+										for (const item of response.items.itemDisappear) {
+											triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, {
+												item: parseInt(item.ID),
+												amount: -parseInt(item.qty),
+												reason: "usage",
+											});
+										}
+									} else {
+										triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: id, amount: -1, reason: "usage" });
 									}
-									for (const item of response.items.itemDisappear) {
-										updateItemAmount(parseInt(item.ID), -parseInt(item.qty));
-									}
-								} else {
-									updateItemAmount(id, -1);
 								}
 							} else {
 								responseWrap.style.display = "block";

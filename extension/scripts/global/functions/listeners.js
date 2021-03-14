@@ -3,7 +3,6 @@
 const EVENT_CHANNELS = {
 	FETCH: "tt-fetch",
 	XHR: "tt-xhr",
-	ITEM_AMOUNT: "tt-item-amount",
 	ITEM_SWITCH_TAB: "tt-item-switch-tab",
 	ITEM_ITEMS_LOADED: "tt-item-items-loaded",
 	ITEM_EQUIPPED: "tt-item-equipped",
@@ -12,6 +11,7 @@ const EVENT_CHANNELS = {
 	CHAT_MESSAGE: "tt-chat-message",
 	// new channels
 	FACTION_ARMORY_TAB: "faction-armory-tab",
+	ITEM_AMOUNT: "item-amount",
 };
 
 const CUSTOM_LISTENERS = {

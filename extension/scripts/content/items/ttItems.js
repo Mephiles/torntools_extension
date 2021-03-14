@@ -46,7 +46,6 @@ const pendingActions = {};
 				else {
 					delete pendingActions[actionId];
 
-					console.log("DKK trigger amount 4");
 					window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.ITEM_AMOUNT, { detail: { item, amount: -amount, reason: "sending" } }));
 					triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item, amount: -amount, reason: "sending" });
 				}
