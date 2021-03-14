@@ -18,11 +18,11 @@
 				for (const addedNode of mutation.addedNodes) {
 					if (addedNode.classList) {
 						if (addedNode.classList.contains("^=chat-box_")) {
-							window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.CHAT_NEW, { detail: { chat: addedNode } }));
+							triggerCustomListener(EVENT_CHANNELS.CHAT_NEW, { chat: addedNode });
 						} else if (addedNode.classList.contains("^=chat-box-input_")) {
-							window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.CHAT_OPENED, { detail: { chat: mutation.target } }));
+							triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: mutation.target });
 						} else if (addedNode.classList.contains("^=message_")) {
-							window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.CHAT_MESSAGE, { detail: { message: addedNode } }));
+							triggerCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, { message: addedNode });
 						}
 					}
 				}

@@ -15,7 +15,7 @@
 	);
 
 	function initialiseColoredChats() {
-		window.addEventListener(EVENT_CHANNELS.CHAT_NEW, () => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_NEW].push(() => {
 			if (!feature.enabled()) return;
 
 			showColoredChats();

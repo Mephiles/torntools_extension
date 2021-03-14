@@ -56,7 +56,6 @@ const pendingActions = {};
 				new MutationObserver((mutations, observer) => {
 					if (document.find("li.ajax-item-loader")) return;
 
-					window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.ITEM_ITEMS_LOADED, { detail: { tab } }));
 					triggerCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, { tab, initial: false });
 
 					observer.disconnect();
@@ -76,7 +75,7 @@ const pendingActions = {};
 						const item = findItemsInObject(torndata.items, { name: itemName }, { single: true });
 						if (!item) return;
 
-						window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.ITEM_EQUIPPED, { detail: { equip: equipAction === "equipped", item: item.id } }));
+						triggerCustomListener(EVENT_CHANNELS.ITEM_EQUIPPED, { equip: equipAction === "equipped", item: item.id });
 					}
 				}
 			}
@@ -88,7 +87,6 @@ const pendingActions = {};
 			icon.addEventListener("click", async () => {
 				await requireItemsLoaded();
 
-				window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.ITEM_SWITCH_TAB, { tab: icon.dataset.type }));
 				triggerCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, { tab: icon.dataset.type });
 			});
 		}

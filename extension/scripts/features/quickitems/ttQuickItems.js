@@ -38,14 +38,14 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_AMOUNT].push(({ item, amount }) => {
 			updateItemAmount(item, amount);
 		});
-		window.addEventListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, () => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(() => {
 			setupQuickDragListeners();
 		});
-		window.addEventListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, () => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(() => {
 			updateXIDs().catch(() => {});
 		});
-		window.addEventListener(EVENT_CHANNELS.ITEM_EQUIPPED, (event) => {
-			updateEquippedItem(event.detail.item, event.detail.equip);
+		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_EQUIPPED].push(({ item, equip }) => {
+			updateEquippedItem(item, equip);
 		});
 	}
 

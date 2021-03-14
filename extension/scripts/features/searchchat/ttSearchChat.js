@@ -15,22 +15,22 @@
 	);
 
 	function initialiseSearchChat() {
-		window.addEventListener(EVENT_CHANNELS.CHAT_OPENED, (event) => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {
 			if (!feature.enabled()) return;
 
-			addSearch(event.detail.chat);
+			addSearch(chat);
 		});
-		window.addEventListener(EVENT_CHANNELS.CHAT_MESSAGE, (event) => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_MESSAGE].push(({ message }) => {
 			if (!feature.enabled()) return;
 
-			const parent = findParent(event.detail.message, { class: "^=chat-box_" });
+			const parent = findParent(message, { class: "^=chat-box_" });
 			if (!parent) return;
 
 			const input = parent.find(".tt-chat-filter input");
 			if (!input) return;
 
 			const keyword = input.value;
-			if (keyword) searchChat(event.detail.message, keyword);
+			if (keyword) searchChat(message, keyword);
 		});
 	}
 

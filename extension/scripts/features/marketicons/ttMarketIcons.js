@@ -17,12 +17,8 @@
 	);
 
 	function initialiseMarketIcons() {
-		window.addEventListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, () => {
-			showMarketIcons().catch(() => {});
-		});
-		window.addEventListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, () => {
-			showMarketIcons().catch(() => {});
-		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(showMarketIcons);
+		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(showMarketIcons);
 	}
 
 	async function showMarketIcons() {

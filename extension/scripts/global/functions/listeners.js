@@ -1,24 +1,29 @@
 "use strict";
 
 const EVENT_CHANNELS = {
+	// Using events on the window.
 	FETCH: "tt-fetch",
 	XHR: "tt-xhr",
-	ITEM_SWITCH_TAB: "tt-item-switch-tab",
-	ITEM_ITEMS_LOADED: "tt-item-items-loaded",
-	ITEM_EQUIPPED: "tt-item-equipped",
-	CHAT_NEW: "tt-chat-box-new",
-	CHAT_OPENED: "tt-chat-box-opened",
-	CHAT_MESSAGE: "tt-chat-message",
-	// new channels
+	// Callbacks
+	CHAT_MESSAGE: "chat-message",
+	CHAT_NEW: "chat-box-new",
+	CHAT_OPENED: "chat-box-opened",
 	FACTION_ARMORY_TAB: "faction-armory-tab",
 	ITEM_AMOUNT: "item-amount",
+	ITEM_EQUIPPED: "item-equipped",
+	ITEM_ITEMS_LOADED: "item-items-loaded",
+	ITEM_SWITCH_TAB: "item-switch-tab",
 };
 
 const CUSTOM_LISTENERS = {
+	[EVENT_CHANNELS.CHAT_MESSAGE]: [],
+	[EVENT_CHANNELS.CHAT_NEW]: [],
+	[EVENT_CHANNELS.CHAT_OPENED]: [],
 	[EVENT_CHANNELS.FACTION_ARMORY_TAB]: [],
-	[EVENT_CHANNELS.ITEM_SWITCH_TAB]: [],
-	[EVENT_CHANNELS.ITEM_ITEMS_LOADED]: [],
 	[EVENT_CHANNELS.ITEM_AMOUNT]: [],
+	[EVENT_CHANNELS.ITEM_EQUIPPED]: [],
+	[EVENT_CHANNELS.ITEM_ITEMS_LOADED]: [],
+	[EVENT_CHANNELS.ITEM_SWITCH_TAB]: [],
 };
 
 let injectedXHR, injectedFetch;

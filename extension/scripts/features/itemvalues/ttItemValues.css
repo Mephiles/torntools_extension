@@ -13,9 +13,6 @@
 
 span.tt-item-price {
 	float: right;
-}
-
-span.tt-item-price {
 	position: absolute;
 	right: 0;
 	line-height: 34px;

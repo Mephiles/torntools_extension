@@ -17,15 +17,15 @@
 	);
 
 	function initialiseHighlights() {
-		window.addEventListener(EVENT_CHANNELS.CHAT_MESSAGE, (event) => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_MESSAGE].push(({ message }) => {
 			if (!feature.enabled()) return;
 
-			applyHighlights(event.detail.message);
+			applyHighlights(message);
 		});
-		window.addEventListener(EVENT_CHANNELS.CHAT_OPENED, (event) => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {
 			if (!feature.enabled()) return;
 
-			for (const message of event.detail.chat.findAll("[class*='message_']")) {
+			for (const message of chat.findAll("[class*='message_']")) {
 				applyHighlights(message);
 			}
 		});

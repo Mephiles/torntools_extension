@@ -15,10 +15,10 @@
 	);
 
 	function initialiseAutocomplete() {
-		window.addEventListener(EVENT_CHANNELS.CHAT_OPENED, (event) => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {
 			if (!feature.enabled()) return;
 
-			addAutocomplete(event.detail.chat);
+			addAutocomplete(chat);
 		});
 	}
 
