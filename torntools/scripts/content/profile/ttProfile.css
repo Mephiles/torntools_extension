@@ -115,6 +115,9 @@
 	font-size: 13px;
 	line-height: 16px;
 	overflow: hidden;
+	box-sizing: border-box;
+	padding-left: 10px;
+	border-right: 2px solid lightgray;
 }
 
 .tt-row .item:last-of-type {
@@ -125,12 +128,6 @@
 .tt-row.sub-heading .item {
 	font-weight: 600;
 	font-size: 14px !important;
-}
-
-.tt-row .item {
-	box-sizing: border-box;
-	padding-left: 10px;
-	border-right: 2px solid lightgray;
 }
 
 .col-chosen.tt-highlight-sector .tt-row:not(.tt-header):not(.sub-heading):hover {
