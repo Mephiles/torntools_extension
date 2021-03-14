@@ -262,7 +262,7 @@ function Main_30_seconds() {
 			}
 
 			// Stocks data
-			if (!oldTorndata || !oldTorndata.stocks || !oldTorndata.stocks.date || new Date() - new Date(!oldTorndata.stocks.date) >= 15 * minutes) {
+			if (!oldTorndata || !oldTorndata.stocks || !oldTorndata.stocks.date || new Date() - new Date(oldTorndata.stocks.date) >= 15 * minutes) {
 				console.log("Setting up Stocks data");
 				await updateStocksData();
 			}
