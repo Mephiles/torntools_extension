@@ -1,7 +1,4 @@
 # TornTools (v5.6)  
-
-[![CodeFactor](https://www.codefactor.io/repository/github/sashank999/torntools_extension/badge)](https://www.codefactor.io/repository/github/sashank999/torntools_extension)
-
 *A browser extension for Torn.com*  
 &nbsp;  
 **Links**  
