@@ -20,21 +20,31 @@
 	);
 
 	function initialiseBloodBags() {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_ARMORY_TAB].push((details) => {
-			if (!feature.enabled()) return;
+		if (page === "item") {
+			const listener = () => {
+				if (!feature.enabled()) return;
 
-			const { section } = details;
-			if (section !== "medical") return;
+				highlightBloodBags();
+			};
 
-			highlightBloodBags();
-		});
+			CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(listener);
+			CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(listener);
+		} else if (page === "factions") {
+			CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_ARMORY_TAB].push(({ section }) => {
+				if (!feature.enabled() || section !== "medical") return;
+
+				highlightBloodBags();
+			});
+		}
 	}
 
 	async function highlightBloodBags() {
 		// TODO - Implement for the items page.
 		await requireContent();
 
-		if (page === "factions") {
+		if (page === "item") {
+			await requireItemsLoaded();
+		} else if (page === "factions") {
 			if (getCurrentTab() === "armoury") {
 				await requireElement("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']");
 
@@ -44,22 +54,29 @@
 
 		const allowedBlood = ALLOWED_BLOOD[settings.pages.items.highlightBloodBags];
 
-		for (const item of document.findAll("#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list > li")) {
-			if (!item.find(".name")) continue;
-			item.find(".name").classList.remove("good-blood", "bad-blood");
-			if (item.find(".tt-item-price")) item.find(".tt-item-price").remove();
+		for (const item of document.findAll(
+			"ul.items-cont[aria-expanded=true] > li[data-category='Medical'], #faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list > li"
+		)) {
+			if (!item.find(".name-wrap, .name")) continue;
+			item.find(".name-wrap, .name").classList.remove("good-blood", "bad-blood");
 
-			if (!item.find(".name").innerText.split(" x")[0].includes("Blood Bag : ")) continue; // is not a filled blood bag
+			// Filter out items that aren't blood bags.
+			if (page === "item" && !item.dataset.sort.includes("Blood Bag : ")) continue;
+			else if (page === "factions" && !item.find(".name").innerText.split(" x")[0].includes("Blood Bag : ")) continue;
 
-			const itemId = parseInt(item.find(".img-wrap").dataset.id);
+			const itemId = parseInt(item.dataset.item || item.find(".img-wrap").dataset.id);
 			if (itemId === 1012) continue; // is an irradiated blood bag
 
-			item.find(".name").classList.add(allowedBlood.includes(itemId) ? "good-blood" : "bad-blood");
+			item.find(".name-wrap, .name").classList.add(allowedBlood.includes(itemId) ? "good-blood" : "bad-blood");
 
-			if (page === "factions" && hasAPIData()) {
-				item.find(".name").appendChild(
-					document.newElement({ type: "span", class: "tt-blood-price", text: `$${formatNumber(torndata.items[itemId].market_value)}` })
-				);
+			if (page === "factions") {
+				if (item.find(".tt-item-price")) item.find(".tt-item-price").remove();
+
+				if (hasAPIData()) {
+					item.find(".name").appendChild(
+						document.newElement({ type: "span", class: "tt-blood-price", text: `$${formatNumber(torndata.items[itemId].market_value)}` })
+					);
+				}
 			}
 		}
 	}

@@ -172,7 +172,8 @@
 				"scripts/features/quickitems/ttQuickItems.css",
 				"scripts/features/marketicons/ttMarketIcons.css",
 				"scripts/features/drugdetails/ttDrugDetails.css",
-				"scripts/features/itemvalues/ttItemValues.css"
+				"scripts/features/itemvalues/ttItemValues.css",
+				"scripts/features/highlightbloodbags/ttHighlightBloodBags.css"
 			],
 			"js": [
 				"vendor/jquery/jquery.js",
@@ -181,7 +182,8 @@
 				"scripts/features/quickitems/ttQuickItems.js",
 				"scripts/features/marketicons/ttMarketIcons.js",
 				"scripts/features/drugdetails/ttDrugDetails.js",
-				"scripts/features/itemvalues/ttItemValues.js"
+				"scripts/features/itemvalues/ttItemValues.js",
+				"scripts/features/highlightbloodbags/ttHighlightBloodBags.js"
 			],
 			"run_at": "document_end"
 		},

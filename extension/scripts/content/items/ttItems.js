@@ -53,6 +53,7 @@ const pendingActions = {};
 					if (document.find("li.ajax-item-loader")) return;
 
 					window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.ITEM_ITEMS_LOADED, { detail: { tab } }));
+					triggerCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, { tab, initial: false });
 
 					observer.disconnect();
 				}).observe(tab, { subtree: true, childList: true });
@@ -84,6 +85,7 @@ const pendingActions = {};
 				await requireItemsLoaded();
 
 				window.dispatchEvent(new CustomEvent(EVENT_CHANNELS.ITEM_SWITCH_TAB, { tab: icon.dataset.type }));
+				triggerCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, { tab: icon.dataset.type });
 			});
 		}
 	});

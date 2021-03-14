@@ -37,7 +37,6 @@ function loadItemsOnce() {
 				new MutationObserver((mutations, observer) => {
 					if (document.find("li.ajax-item-loader")) return;
 
-					highlightBloodBags().catch((error) => console.error("Couldn't highlight the correct blood bags.", error));
 					showItemValues().catch((error) => console.error("Couldn't show the item values.", error));
 
 					observer.disconnect();
@@ -53,12 +52,7 @@ function loadItemsOnce() {
 	});
 }
 
-function requireItemsLoaded() {
-	return requireElement(".items-cont[aria-expanded=true] > li > .title-wrap");
-}
-
 function initializeItems() {
-	highlightBloodBags().catch((error) => console.error("Couldn't highlight the correct blood bags.", error));
 	showItemValues().catch((error) => console.error("Couldn't show the item values.", error));
 	MISSING_ITEMS.showFlowers((error) => console.error("Couldn't show the missing flowers.", error)).catch();
 	MISSING_ITEMS.showPlushies((error) => console.error("Couldn't show the missing plushies.", error)).catch();
@@ -160,27 +154,6 @@ async function showItemValues() {
 	} else {
 		for (const price of document.findAll(".tt-item-price, #category-wrap .tt-ignore")) {
 			price.remove();
-		}
-	}
-}
-
-async function highlightBloodBags() {
-	// noinspection JSIncompatibleTypesComparison
-	if (settings.pages.items.highlightBloodBags !== "none") {
-		const allowedBlood = ALLOWED_BLOOD[settings.pages.items.highlightBloodBags];
-
-		for (const item of document.findAll("ul.items-cont[aria-expanded=true] > li[data-category='Medical']")) {
-			if (!item.find(".name-wrap")) continue;
-			item.find(".name-wrap").classList.remove("good-blood", "bad-blood");
-
-			if (!item.dataset.sort.includes("Blood Bag : ")) continue; // is not a filled blood bag
-			if (parseInt(item.dataset.item) === 1012) continue; // is an irradiated blood bag
-
-			item.find(".name-wrap").classList.add(allowedBlood.includes(parseInt(item.dataset.item)) ? "good-blood" : "bad-blood");
-		}
-	} else {
-		for (const bb of document.findAll(".good-blood, .bad-blood")) {
-			bb.classList.remove("good-blood", "bad-blood");
 		}
 	}
 }
