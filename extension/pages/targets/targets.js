@@ -168,7 +168,7 @@ async function setupStakeouts() {
 
 	function fillStakeouts() {
 		for (const id in stakeouts) {
-			if (isNaN(id)) continue;
+			if (isNaN(parseInt(id))) continue;
 
 			addStakeout(id, stakeouts[id]);
 		}
@@ -311,7 +311,7 @@ async function setupStakeouts() {
 		[...stakeoutList.findAll("tr:not(.header)")].filter((row) => !(parseInt(row.find(".id").innerText) in stakeouts)).forEach((row) => row.remove());
 
 		for (const id in stakeouts) {
-			if (isNaN(id)) continue;
+			if (isNaN(parseInt(id))) continue;
 
 			const row = stakeoutList.find(`tr .id=${id}`).parentElement;
 

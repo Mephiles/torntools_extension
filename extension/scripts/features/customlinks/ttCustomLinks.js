@@ -65,7 +65,7 @@
 				const location = locationSplit.splice(1).join("_");
 				const area = ALL_AREAS.filter((area) => area.class === location);
 				if (!area) continue;
-				const target = areas.find(`#nav-${area[0].class}`);
+				let target = areas.find(`#nav-${area[0].class}`);
 				if (!target) continue;
 
 				if (locationSplit[0] === "under") target = target.nextSibling;

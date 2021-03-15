@@ -335,17 +335,21 @@ async function updateUserdata() {
 							let hasBaseRespect = attack.modifiers;
 
 							if (hasBaseRespect) {
-								if (respect === attack.modifiers.chainBonus) {
+								if (respect === attack.modifiers.chain_bonus) {
 									respect = 1;
 									hasBaseRespect = false;
 								} else if (attack.modifiers.war > 1) {
 									respect =
-										respect / attack.modifiers.war / attack.modifiers.groupAttack / attack.modifiers.overseas / attack.modifiers.chainBonus;
+										respect /
+										attack.modifiers.war /
+										attack.modifiers.group_attack /
+										attack.modifiers.overseas /
+										attack.modifiers.chain_bonus;
 									hasBaseRespect = false;
 								} else {
 									if (attack.result === "Mugged") respect /= 0.75;
 
-									respect = respect / attack.modifiers.groupAttack / attack.modifiers.overseas / attack.modifiers.chainBonus;
+									respect = respect / attack.modifiers.group_attack / attack.modifiers.overseas / attack.modifiers.chain_bonus;
 								}
 							}
 
@@ -685,7 +689,7 @@ async function updateStakeouts() {
 	let success = 0;
 	let failed = 0;
 	for (const id in stakeouts) {
-		if (isNaN(id)) continue;
+		if (isNaN(parseInt(id))) continue;
 
 		let data;
 		try {

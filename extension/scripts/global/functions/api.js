@@ -38,7 +38,10 @@ async function fetchApi(location, options = {}) {
 
 				params.append("selections", options.selections.join(","));
 				params.append("key", options.key || api.torn.key);
-				if (settings.apiUsage.comment) params.append("comment", settings.apiUsage.comment);
+				if (settings.apiUsage.comment) {
+					// noinspection JSCheckFunctionSignatures
+					params.append("comment", settings.apiUsage.comment);
+				}
 				break;
 			case "tornstats":
 				url = PLATFORMS.tornstats;
@@ -54,7 +57,7 @@ async function fetchApi(location, options = {}) {
 		}
 
 		const fullUrl = `${url}${path}?${params}`;
-		const parameters = {};
+		let parameters = {};
 
 		if (options.method === "POST") {
 			parameters = {

@@ -59,7 +59,7 @@ class FeatureManager {
 			return;
 		}
 
-		await new Promise((resolve, reject) => {
+		await new Promise((resolve) => {
 			feature
 				.func()
 				.then(() => {

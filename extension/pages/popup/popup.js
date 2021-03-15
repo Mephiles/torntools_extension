@@ -347,7 +347,7 @@ async function setupDashboard() {
 		const dataset = cooldown.dataset;
 		const current = Date.now();
 
-		const completed_at = !isNaN(dataset.completed_at) ? parseInt(dataset.completed_at) : false;
+		const completed_at = !isNaN(parseInt(dataset.completed_at)) ? parseInt(dataset.completed_at) : false;
 
 		cooldown.find(".cooldown-label").innerText = formatTime({ milliseconds: completed_at ? completed_at - current : 0 }, { type: "timer" });
 
@@ -373,7 +373,7 @@ async function setupDashboard() {
 			stakeoutList.innerHTML = "";
 
 			for (const id in stakeouts) {
-				if (isNaN(id)) continue;
+				if (isNaN(parseInt(id))) continue;
 
 				let status, name, lastAction, lifeCurrent, lifeMaximum;
 

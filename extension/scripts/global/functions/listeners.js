@@ -73,7 +73,3 @@ function triggerCustomListener(channel, details) {
 		listener(details);
 	}
 }
-
-function registerCustomListener(channel, callback) {
-	CUSTOM_LISTENERS[channel].push(callback);
-}

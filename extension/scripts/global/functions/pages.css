@@ -147,6 +147,7 @@ button.fancy-button {
 #tt-confirmation-popup {
 	width: 50%;
 	height: fit-content;
+	/*noinspection CssInvalidPropertyValue*/
 	height: -moz-fit-content;
 	max-height: 75%;
 	left: 25%;

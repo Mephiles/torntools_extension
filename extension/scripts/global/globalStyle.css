@@ -2,6 +2,7 @@
 	display: none !important;
 }
 
+/*noinspection CssUnusedSymbol*/
 .tt-black-overlay {
 	position: fixed;
 	top: 0;
@@ -190,6 +191,7 @@
 }
 
 .tt-container .title .text {
+	/*noinspection CssInvalidPropertyValue*/
 	width: -webkit-fill-available;
 	width: -moz-available;
 }
