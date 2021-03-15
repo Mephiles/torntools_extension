@@ -1,6 +1,6 @@
 #quickItems .inner-content {
 	width: 100%;
-	padding: 10px;
+	padding: 0 5px 5px 5px;
 	box-sizing: border-box;
 }
 
@@ -11,13 +11,12 @@
 #quickItems .inner-content .item {
 	display: inline-block;
 	border: 1px solid lightgray;
-	margin-right: 10px;
 	padding: 5px;
 	border-radius: 5px;
 	background-color: white;
 	cursor: pointer;
 	position: relative;
-	margin-bottom: 10px;
+	margin: 5px 5px 0 0;
 }
 
 #quickItems .inner-content .item:hover .tt-close-icon {
