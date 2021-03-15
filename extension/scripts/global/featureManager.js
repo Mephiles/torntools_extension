@@ -125,11 +125,16 @@ class FeatureManager {
 	 *	New feature manager code
 	 */
 
-	registerFeature(name, scope, enabled, initialise, execute, cleanup, loadListeners, requirements) {
+	registerFeature(name, scope, enabled, initialise, execute, cleanup, loadListeners, requirements, options) {
+		options = {
+			triggerCallback: false,
+			...options,
+		};
+
 		const oldFeature = this.findFeature(name);
 		if (oldFeature) throw "Feature already registered.";
 
-		const newFeature = { name, scope, enabled, initialise, execute, cleanup, loadListeners, requirements };
+		const newFeature = { name, scope, enabled, initialise, execute, cleanup, loadListeners, requirements, options };
 
 		console.log("[TornTools] FeatureManager - Registered new feature.", newFeature);
 		this.features.push(newFeature);
@@ -190,6 +195,10 @@ class FeatureManager {
 				await this.executeFunction(feature.execute);
 
 				this.showResult(feature, "loaded");
+
+				if (feature.options.triggerCallback) {
+					triggerCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, { name: feature.name });
+				}
 			} else {
 				if (feature.hasLoaded) {
 					console.log("[TornTools] FeatureManager - Disabling feature.", feature);

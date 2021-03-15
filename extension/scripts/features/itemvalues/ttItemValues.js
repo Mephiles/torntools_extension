@@ -25,7 +25,8 @@
 		},
 		() => {
 			if (page === "item" && !hasAPIData()) return "No API data!";
-		}
+		},
+		{ triggerCallback: true }
 	);
 
 	function initialiseItemValues() {

@@ -13,6 +13,8 @@ const EVENT_CHANNELS = {
 	ITEM_EQUIPPED: "item-equipped",
 	ITEM_ITEMS_LOADED: "item-items-loaded",
 	ITEM_SWITCH_TAB: "item-switch-tab",
+	// Feature callbacks
+	FEATURE_ENABLED: "feature-enabled",
 };
 
 const CUSTOM_LISTENERS = {
@@ -24,6 +26,8 @@ const CUSTOM_LISTENERS = {
 	[EVENT_CHANNELS.ITEM_EQUIPPED]: [],
 	[EVENT_CHANNELS.ITEM_ITEMS_LOADED]: [],
 	[EVENT_CHANNELS.ITEM_SWITCH_TAB]: [],
+
+	[EVENT_CHANNELS.FEATURE_ENABLED]: [],
 };
 
 let injectedXHR, injectedFetch;
