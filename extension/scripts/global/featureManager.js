@@ -170,7 +170,6 @@ class FeatureManager {
 	async startFeature(feature) {
 		await loadDatabase();
 		try {
-			feature.hasLoaded = true;
 			if (getValue(feature.enabled)) {
 				console.log("[TornTools] FeatureManager - Starting feature.", feature);
 				if ("requirements" in feature) {
@@ -192,8 +191,10 @@ class FeatureManager {
 
 				this.showResult(feature, "loaded");
 			} else {
-				console.log("[TornTools] FeatureManager - Disabling feature.", feature);
-				await this.executeFunction(feature.cleanup);
+				if (feature.hasLoaded) {
+					console.log("[TornTools] FeatureManager - Disabling feature.", feature);
+					await this.executeFunction(feature.cleanup);
+				}
 
 				this.showResult(feature, "disabled");
 			}
@@ -203,6 +204,7 @@ class FeatureManager {
 			this.showResult(feature, "failed");
 			console.error(`[TornTools] FeatureManager - Failed to start "${feature.name}".`, error);
 		}
+		feature.hasLoaded = true;
 	}
 
 	startLoadListeners(feature) {
