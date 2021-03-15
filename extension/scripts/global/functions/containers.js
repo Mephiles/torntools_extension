@@ -49,7 +49,7 @@ function createContainer(title, options = {}) {
 				<div class="title ${collapsed ? "collapsed" : ""}">
 					<div class="text">${title}</div>
 					<div class="options"></div>
-					${options.collapsible ? '<i class="icon fas fa-caret-down"/>' : ""}
+					${options.collapsible ? '<i class="icon fas fa-caret-down"></i>' : ""}
 				</div>`;
 		html += `<main class="${options.contentBackground ? "background" : ""}"></main>`;
 		container.innerHTML = html;

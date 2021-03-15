@@ -13,7 +13,6 @@
 	display: flex;
 }
 
-/*noinspection CssUnusedSymbol*/
 #changelog > section .header .contributor {
 	flex: 1 0 auto;
 	text-align: center;
@@ -52,7 +51,7 @@
 	margin-left: 20px;
 }
 
-/*noinspection CssUnusedSymbol*/
+/*noinspection CssUnusedSymbol,CssUnusedSymbol*/
 #changelog > section .parent .closeable {
 	max-height: 0;
 	overflow: hidden;

@@ -1,11 +1,9 @@
-/*noinspection CssUnusedSymbol*/
 .tt-loading-placeholder {
 	display: none;
 	margin: 10px auto !important;
 	left: unset !important;
 }
 
-/*noinspection CssUnusedSymbol*/
 .tt-loading-placeholder.active {
 	display: block;
 }

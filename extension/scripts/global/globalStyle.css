@@ -125,7 +125,7 @@
 	background-color: var(--default-bg-panel-color);
 }
 
-/*noinspection CssOverwrittenProperties*/
+/*noinspection CssOverwrittenProperties,DuplicatedCode*/
 .tt-sidebar-area a {
 	overflow: hidden;
 	color: #333;
@@ -254,6 +254,7 @@
 	margin-top: 2px;
 }
 
+/*noinspection DuplicatedCode*/
 #sidebarroot .pill a {
 	overflow: hidden;
 	color: var(--default-content-font-color, #333);

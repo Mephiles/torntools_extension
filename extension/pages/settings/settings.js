@@ -18,6 +18,7 @@ const initiatedPages = {};
 	}
 })();
 
+// noinspection DuplicatedCode
 async function showPage(name) {
 	// noinspection DuplicatedCode
 	window.history.replaceState("", "Title", "?page=" + name);
