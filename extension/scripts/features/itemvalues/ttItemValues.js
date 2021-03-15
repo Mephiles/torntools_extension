@@ -23,7 +23,9 @@
 		{
 			storage: ["settings.pages.items.values"],
 		},
-		null
+		() => {
+			if (page === "item" && !hasAPIData()) return "No API data!";
+		}
 	);
 
 	function initialiseItemValues() {
