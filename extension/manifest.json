@@ -44,6 +44,7 @@
 	"content_scripts": [
 		{
 			"matches": ["https://www.torn.com/*"],
+			"exclude_matches": ["https://www.torn.com/api.html*"],
 			"css": [
 				"scripts/global/globalStyle.css",
 				"scripts/global/functions/dom.css",
@@ -88,6 +89,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/*"],
+			"exclude_matches": ["https://www.torn.com/api.html*"],
 			"css": [
 				"scripts/features/octime/ttOCTime.css",
 				"scripts/features/updatenotice/ttUpdateNotice.css",
