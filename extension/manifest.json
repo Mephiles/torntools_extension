@@ -168,22 +168,22 @@
 		{
 			"matches": ["https://www.torn.com/item.php*"],
 			"css": [
-				"scripts/content_old/items/ttItems.css",
 				"scripts/features/quickitems/ttQuickItems.css",
 				"scripts/features/marketicons/ttMarketIcons.css",
 				"scripts/features/drugdetails/ttDrugDetails.css",
 				"scripts/features/itemvalues/ttItemValues.css",
-				"scripts/features/highlightbloodbags/ttHighlightBloodBags.css"
+				"scripts/features/highlightbloodbags/ttHighlightBloodBags.css",
+				"scripts/features/missingsets/ttMissingSets.css"
 			],
 			"js": [
 				"vendor/jquery/jquery.js",
-				"scripts/content_old/items/ttItems.js",
 				"scripts/content/items/ttItems.js",
 				"scripts/features/quickitems/ttQuickItems.js",
 				"scripts/features/marketicons/ttMarketIcons.js",
 				"scripts/features/drugdetails/ttDrugDetails.js",
 				"scripts/features/itemvalues/ttItemValues.js",
-				"scripts/features/highlightbloodbags/ttHighlightBloodBags.js"
+				"scripts/features/highlightbloodbags/ttHighlightBloodBags.js",
+				"scripts/features/missingsets/ttMissingSets.js"
 			],
 			"run_at": "document_end"
 		},
