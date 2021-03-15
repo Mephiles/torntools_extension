@@ -18,8 +18,8 @@
 		"items",
 		() => settings.pages.items.values,
 		initialiseItemValues,
-		null,
-		null,
+		startValues,
+		removeValues,
 		{
 			storage: ["settings.pages.items.values"],
 		},
@@ -258,6 +258,21 @@
 				quantityElement.innerText = `${newQuantity}x = `;
 				priceElement.find("span:last-child").innerText = `$${formatNumber(price * newQuantity)}`;
 			}
+		}
+	}
+
+	async function startValues() {
+		if (page === "item") {
+			await requireItemsLoaded();
+
+			showItemValues(document.find(".itemsList[aria-expanded='true']"));
+		}
+	}
+
+	function removeValues() {
+		for (const value of document.findAll(".tt-item-price")) {
+			if (value.classList.contains("price-total")) value.parentElement.remove();
+			else value.remove();
 		}
 	}
 })();
