@@ -39,6 +39,12 @@
 
 			showFlowers();
 		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_ENABLED].push(({ name }) => {
+			if (!featureFlowers.enabled()) return;
+
+			if (name === "Item Values") showMarketValues();
+			else if (name === "Market Icons") showMarketIcons();
+		});
 	}
 
 	function initialisePlushies() {
@@ -49,6 +55,12 @@
 			}
 
 			showPlushies();
+		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_ENABLED].push(({ name }) => {
+			if (!featurePlushies.enabled()) return;
+
+			if (name === "Item Values") showMarketValues();
+			else if (name === "Market Icons") showMarketIcons();
 		});
 	}
 
@@ -101,47 +113,64 @@
 			isFirst = false;
 		}
 		document.find(".main-items-cont-wrap").insertAdjacentElement("afterend", wrapper);
+	}
 
-		function addItemValue(missingItem) {
-			if (!settings.pages.items.values) return;
-			if (!hasAPIData()) return;
+	function addItemValue(missingItem) {
+		if (!settings.pages.items.values) return;
+		if (!hasAPIData()) return;
 
-			missingItem.find(":scope > span").insertAdjacentElement(
-				"afterend",
-				document.newElement({
-					type: "span",
-					class: "tt-item-price",
-					text: `$${formatNumber(torndata.items[parseInt(missingItem.dataset.id)].market_value)}`,
-				})
-			);
+		missingItem.find(":scope > span").insertAdjacentElement(
+			"afterend",
+			document.newElement({
+				type: "span",
+				class: "tt-item-price",
+				text: `$${formatNumber(torndata.items[parseInt(missingItem.dataset.id)].market_value)}`,
+			})
+		);
+	}
+
+	function showMarketValues() {
+		for (const missingItem of document.findAll(".needed-item")) {
+			addItemValue(missingItem);
+		}
+	}
+
+	async function addMarketIcon(missingItem, first, last) {
+		if (!settings.pages.items.marketLinks) return;
+		if (await checkMobile()) return;
+		if (missingItem.find(".market-link")) return;
+
+		let parent = missingItem.find(".outside-actions");
+		if (!parent) {
+			parent = document.newElement({ type: "div", class: `outside-actions ${first ? "first-action" : ""} ${last ? "last-action" : ""}` });
+
+			missingItem.appendChild(parent);
 		}
 
-		async function addMarketIcon(missingItem, first, last) {
-			if (!settings.pages.items.marketLinks) return;
-			if (await checkMobile()) return;
+		const name = missingItem.dataset.name;
 
-			let parent = missingItem.find(".outside-actions");
-			if (!parent) {
-				parent = document.newElement({ type: "div", class: `outside-actions ${first ? "first-action" : ""} ${last ? "last-action" : ""}` });
+		parent.appendChild(
+			document.newElement({
+				type: "div",
+				class: "market-link",
+				children: [
+					document.newElement({
+						type: "a",
+						href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${name}`,
+						children: [document.newElement({ type: "i", class: "torn-icon-item-market", attributes: { title: "Open Item Market" } })],
+					}),
+				],
+			})
+		);
+	}
 
-				missingItem.appendChild(parent);
-			}
+	function showMarketIcons() {
+		const items = [...document.findAll(".needed-item")];
+		let isFirst = true;
+		for (const missingItem of items) {
+			const isLast = items.indexOf(missingItem) === items.length - 1;
 
-			const name = missingItem.dataset.name;
-
-			parent.appendChild(
-				document.newElement({
-					type: "div",
-					class: "market-link",
-					children: [
-						document.newElement({
-							type: "a",
-							href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${name}`,
-							children: [document.newElement({ type: "i", class: "torn-icon-item-market", attributes: { title: "Open Item Market" } })],
-						}),
-					],
-				})
-			);
+			addMarketIcon(missingItem, isFirst, isLast);
 		}
 	}
 })();

@@ -13,7 +13,8 @@
 		},
 		async () => {
 			if (await checkMobile()) return "Not supported on mobile!";
-		}
+		},
+		{ triggerCallback: true }
 	);
 
 	function initialiseMarketIcons() {
