@@ -28,6 +28,7 @@
 				if ("secondsLeft" in timer.dataset) secondsLeft = parseInt(timer.dataset.secondsLeft);
 				else secondsLeft = parseInt(timer.dataset.time);
 				secondsLeft--;
+				if (secondsLeft < 0) secondsLeft = 0;
 
 				timer.innerText = formatTime({ seconds: secondsLeft }, { type: "timer" });
 
