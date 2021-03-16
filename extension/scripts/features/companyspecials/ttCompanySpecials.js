@@ -1,7 +1,9 @@
 "use strict";
 
 (async () => {
-	// FIXME - Test feature again.
+	const data = {};
+
+	// TODO - Test muggable cash again
 	const feature = featureManager.registerFeature(
 		"Company Specials",
 		"companies",
@@ -24,6 +26,7 @@
 			if (page === "companies" && json) {
 				if (json.result && json.result.msg) {
 					if (json.result.msg.money) showMuggableCash(json).catch((error) => console.error("Couldn't show the muggable cash.", error));
+					if (json.result.msg.total) calculateSpies(json).catch((error) => console.error("Couldn't help with the spies.", error));
 				}
 			}
 		});
@@ -75,5 +78,66 @@
 			})
 		);
 		if (!api) jobInfo.appendChild(document.newElement({ type: "li", text: "* Might not be entirely accurate due to missing API information." }));
+	}
+
+	async function calculateSpies(json) {
+		const user = parseInt(json.result.user.userID);
+
+		const stats = ["strength", "speed", "dexterity", "defence", "total"];
+		const result = {};
+		const missing = [];
+		const remembered = [];
+		for (let [key, value] of Object.entries(json.result.msg)) {
+			if (!stats.includes(key)) continue;
+
+			if (value === "N/A") {
+				if (data[user] && data[user][key] !== -1) {
+					value = data[user][key];
+					remembered.push(key);
+				} else {
+					value = -1;
+					missing.push(key);
+				}
+			} else {
+				value = parseInt(value.replaceAll(",", ""));
+			}
+
+			result[key] = value;
+		}
+
+		await requireElement(".specials-confirm-cont ul.job-info > li");
+
+		if (missing.length === 1) {
+			const missingStat = missing[0];
+
+			result[missingStat] = Object.entries(result)
+				.filter(([stat]) => missingStat !== stat)
+				.map(([, value]) => value)
+				.totalSum();
+
+			const position = stats.indexOf(missingStat) + 1;
+			console.log("DKK spy", position, `.specials-confirm-cont ul.job-info > li:nth-child(${position})`);
+			const element = document.find(`.specials-confirm-cont ul.job-info > li:nth-child(${position})`);
+
+			element.setAttribute("color", "tGreen");
+			element.innerText = `${element.innerText.split(" ")[0]} ${formatStat(result[missingStat])}`;
+			// FIXME - Show calculated stat
+		}
+		for (const stat of remembered) {
+			const position = stats.indexOf(stat) + 1;
+			const element = document.find(`.specials-confirm-cont ul.job-info > li:nth-child(${position})`);
+
+			element.setAttribute("color", "tGreen");
+			element.innerText = `${element.innerText.split(" ")[0]} ${formatStat(result[missingStat])}`;
+		}
+		data[user] = result;
+
+		console.log("TT - Detected stat spy: ", result);
+
+		// FIXME - Send data to TornStats
+
+		function formatStat(value) {
+			return formatNumber(value);
+		}
 	}
 })();
