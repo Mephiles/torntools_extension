@@ -258,15 +258,9 @@ function displayGraph() {
 				if (graph_area.find(".response-message")) graph_area.find(".response-message").remove();
 				if (graph_area.find(".tt-info-message")) graph_area.find(".tt-info-message").remove();
 
-				const response_div = doc.new({ type: "div", class: "response-message" });
-				graph_area.appendChild(response_div);
-
 				fetchApi_v2("tornstats", { action: "battlestats/record" })
 					.then((result) => {
 						console.log("result", result);
-
-						response_div.classList.add("success");
-						response_div.innerText = result.message;
 
 						let gains = [];
 						let update_message = `You have gained `;
