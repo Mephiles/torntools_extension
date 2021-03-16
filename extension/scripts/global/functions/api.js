@@ -58,12 +58,13 @@ async function fetchApi(location, options = {}) {
 		}
 
 		if (options.params) {
-			for (const [key, value] in Object.entries(options.params)) {
+			for (const [key, value] of Object.entries(options.params)) {
+				// noinspection JSCheckFunctionSignatures
 				params.append(key, value);
 			}
 		}
 
-		const fullUrl = `${url}${path}?${params}`;
+		const fullUrl = `${url}${path}${params.toString() ? "?" + params : ""}`;
 		let parameters = {};
 
 		if (options.method === "POST") {
