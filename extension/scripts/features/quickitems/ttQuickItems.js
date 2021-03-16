@@ -365,7 +365,8 @@
 	function updateItemAmount(id, change) {
 		const quickQuantity = findContainer("Quick Items", { selector: `.item[data-id="${id}"] .quantity` });
 		if (quickQuantity) {
-			const newQuantity = parseInt(quickQuantity.getAttribute("quantity")) + change;
+			let newQuantity = parseInt(quickQuantity.getAttribute("quantity")) + change;
+			if (newQuantity < 0) newQuantity = 0;
 
 			quickQuantity.innerText = newQuantity + "x";
 			quickQuantity.setAttribute("quantity", newQuantity);
