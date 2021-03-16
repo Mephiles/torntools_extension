@@ -152,8 +152,9 @@ function displayGraph() {
 	const graph_area = doc.new({ type: "div", class: "tt-graph-area" });
 	container.appendChild(graph_area);
 
-	fetchApi_v2("tornstats", { section: "api.php", action: "getStatGraph", from: ((new Date() - 2 * 24 * 60 * 60 * 1000) / 1000).toFixed(0) })
+	fetchApi_v2("tornstats", { action: "battlestats/graph" })
 		.then((result) => {
+			if (!result.status) throw result.message;
 			let w = mobile ? "312" : "784";
 			let h = mobile ? "200" : "250";
 			let canvas = doc.new({ type: "canvas", id: "tt-gym-graph", attributes: { width: w, height: h } });
@@ -257,29 +258,23 @@ function displayGraph() {
 				if (graph_area.find(".response-message")) graph_area.find(".response-message").remove();
 				if (graph_area.find(".tt-info-message")) graph_area.find(".tt-info-message").remove();
 
-				const response_div = doc.new({ type: "div", class: "response-message" });
-				graph_area.appendChild(response_div);
-
-				fetchApi_v2("tornstats", { section: "api.php", action: "recordStats" })
+				fetchApi_v2("tornstats", { action: "battlestats/record" })
 					.then((result) => {
 						console.log("result", result);
-
-						response_div.classList.add("success");
-						response_div.innerText = result.message;
 
 						let gains = [];
 						let update_message = `You have gained `;
 
-						if (result.deltaStrength !== 0) {
+						if (result.deltaStrength) {
 							gains.push(`${numberWithCommas(result.deltaStrength, false)} Strength`);
 						}
-						if (result.deltaDefense !== 0) {
+						if (result.deltaDefense) {
 							gains.push(`${numberWithCommas(result.deltaDefense, false)} Defense`);
 						}
-						if (result.deltaDexterity !== 0) {
+						if (result.deltaDexterity) {
 							gains.push(`${numberWithCommas(result.deltaDexterity, false)} Dexterity`);
 						}
-						if (result.deltaSpeed !== 0) {
+						if (result.deltaSpeed) {
 							gains.push(`${numberWithCommas(result.deltaSpeed, false)} Speed`);
 						}
 
@@ -301,7 +296,9 @@ function displayGraph() {
 			console.log("TornStats API result", err);
 
 			let text;
-			if (err.error.indexOf("User not found") > -1) {
+			if (err.indexOf("Not enough data found") > -1) {
+				text = "Not enough data found on TornStats.";
+			} else if (err.indexOf("User not found") > -1) {
 				text = "Can't display graph because no TornStats account was found. Please register an account @ www.tornstats.com";
 			}
 

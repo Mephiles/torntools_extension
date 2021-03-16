@@ -765,10 +765,9 @@ async function showSpyInfo() {
 	} else {
 		loadingPlaceholder(spySection, true);
 		result = await new Promise((resolve) => {
-			fetch(`https://www.tornstats.com/api.php?key=${api_key}&action=spy&target=${userId}`).then(async (response) => {
-				let data = await response.json();
-
-				return resolve(handleTornStatsData(data));
+			fetchApi_v2("tornstats", { action: `spy/${userId}` })
+			.then(async (response) => {
+				return resolve(handleTornStatsData(response));
 			});
 		});
 
@@ -788,7 +787,7 @@ async function showSpyInfo() {
 		loadingPlaceholder(spySection, false);
 	}
 
-	console.log("Spy Information", result.spyreport);
+	console.log("Spy Information", result.spyreport ? result.spyreport : "None");
 
 	if (result.error) {
 		spySection.appendChild(doc.new({ type: "div", class: "tt-spy-info tt-error-message", text: result.error }));
@@ -1143,12 +1142,14 @@ function getTraveling() {
 function handleTornStatsData(data) {
 	let response = {};
 
-	if (!data.error) {
+	if (data.spy.status) {
 		response.spyreport = { ...data.spy };
 	} else {
-		response.error = data.error.includes("User not found")
-			? "Can't display stat spies because no TornStats account was found. Please register an account @ www.tornstats.com"
-			: data.error;
+		if (data.spy.message.includes("User not found")) {
+			response.error = "Can't display stat spies because no TornStats account was found. Please register an account @ www.tornstats.com";
+		} else {
+			response.error = data.spy.message;
+		}
 	}
 
 	return response;
