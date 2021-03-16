@@ -765,8 +765,7 @@ async function showSpyInfo() {
 	} else {
 		loadingPlaceholder(spySection, true);
 		result = await new Promise((resolve) => {
-			fetchApi_v2("tornstats", { action: `spy/${userId}` })
-			.then(async (response) => {
+			fetchApi_v2("tornstats", { action: `spy/${userId}` }).then(async (response) => {
 				return resolve(handleTornStatsData(response));
 			});
 		});
