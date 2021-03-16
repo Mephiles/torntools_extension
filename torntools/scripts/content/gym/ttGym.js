@@ -271,16 +271,16 @@ function displayGraph() {
 						let gains = [];
 						let update_message = `You have gained `;
 
-						if (result.deltaStrength && result.deltaStrength !== 0) {
+						if (result.deltaStrength) {
 							gains.push(`${numberWithCommas(result.deltaStrength, false)} Strength`);
 						}
-						if (result.deltaDefense && result.deltaDefense !== 0) {
+						if (result.deltaDefense) {
 							gains.push(`${numberWithCommas(result.deltaDefense, false)} Defense`);
 						}
-						if (result.deltaDexterity && result.deltaDexterity !== 0) {
+						if (result.deltaDexterity) {
 							gains.push(`${numberWithCommas(result.deltaDexterity, false)} Dexterity`);
 						}
-						if (result.deltaSpeed && result.deltaSpeed !== 0) {
+						if (result.deltaSpeed) {
 							gains.push(`${numberWithCommas(result.deltaSpeed, false)} Speed`);
 						}
 
