@@ -134,7 +134,37 @@
 
 		console.log("TT - Detected stat spy: ", result);
 
-		// FIXME - Send data to TornStats
+		if (settings.external.tornstats) {
+			document.find(".specials-confirm-cont ul.job-info").appendChild(
+				document.newElement({
+					type: "button",
+					class: "external-service",
+					text: "Save to TornStats",
+					events: {
+						click() {
+							// FIXME - Send data to TornStats
+							fetchApi("tornstats", {
+								section: "store/spy",
+								method: "POST",
+								params: {
+									player_id: json.result.user.userID,
+									player_name: "DeKleineKobini",
+									player_level: 1,
+									player_faction: "39H",
+									...data[user],
+								},
+							})
+								.then((response) => {
+									console.log("DKK store TS spy", response);
+								})
+								.catch((error) => {
+									console.error("DKK store TS spy", error);
+								});
+						},
+					},
+				})
+			);
+		}
 
 		function formatStat(value) {
 			return formatNumber(value);

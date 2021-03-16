@@ -57,6 +57,12 @@ async function fetchApi(location, options = {}) {
 				break;
 		}
 
+		if (options.params) {
+			for (const [key, value] in Object.entries(options.params)) {
+				params.append(key, value);
+			}
+		}
+
 		const fullUrl = `${url}${path}?${params}`;
 		let parameters = {};
 
