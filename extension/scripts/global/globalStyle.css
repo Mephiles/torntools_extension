@@ -2,6 +2,7 @@
 	display: none !important;
 }
 
+/*noinspection CssUnusedSymbol*/
 .tt-black-overlay {
 	position: fixed;
 	top: 0;
@@ -57,27 +58,6 @@
 /* CHECK - Replaces m-bottom10 */
 .mb10 {
 	margin-bottom: 10px;
-}
-
-/* CHECK - Replaces t-clear */
-.clr {
-	color: var(--default-color, #333);
-	text-decoration: none;
-}
-
-/* CHECK - Replaces c-pointer */
-.cp {
-	cursor: pointer;
-}
-
-/* CHECK - Replaces right */
-.fr {
-	float: right;
-}
-
-/* CHECK - Replaces left */
-.fl {
-	float: left;
 }
 
 [class*="torn-icon-"] {
@@ -145,7 +125,7 @@
 	background-color: var(--default-bg-panel-color);
 }
 
-/*noinspection CssOverwrittenProperties*/
+/*noinspection CssOverwrittenProperties,DuplicatedCode*/
 .tt-sidebar-area a {
 	overflow: hidden;
 	color: #333;
@@ -211,6 +191,7 @@
 }
 
 .tt-container .title .text {
+	/*noinspection CssInvalidPropertyValue*/
 	width: -webkit-fill-available;
 	width: -moz-available;
 }
@@ -236,7 +217,7 @@
 	transform: rotate(-90deg);
 }
 
-.tt-container .title.collapsed + .content {
+.tt-container .title.collapsed + main {
 	display: none;
 }
 
@@ -273,6 +254,7 @@
 	margin-top: 2px;
 }
 
+/*noinspection DuplicatedCode*/
 #sidebarroot .pill a {
 	overflow: hidden;
 	color: var(--default-content-font-color, #333);
@@ -295,85 +277,21 @@
 	margin-left: 8px;
 }
 
-.tt-container .content {
+.tt-container > main {
 	margin-top: initial !important;
 }
 
-.tt-container.rounding .content {
+.tt-container.rounding > main {
 	border-radius: 0 0 5px 5px;
 }
 
-.tt-container .content.background {
+.tt-container > main.background {
 	background-color: var(--default-bg-panel-color, #f2f2f2);
 }
 
 /*
- * Item values
+ * Feature Status popup
  */
-
-.tt-item-price-color,
-.tt-item-price {
-	color: #678c00;
-}
-
-.tt-item-price {
-	width: unset !important;
-	padding-left: 10px !important;
-	padding-right: 10px !important;
-	white-space: pre;
-	font-weight: normal;
-}
-
-span.tt-item-price {
-	float: right;
-}
-
-span.tt-item-price {
-	position: absolute;
-	right: 0;
-	line-height: 34px;
-}
-
-.tt-item-quantity {
-	color: black;
-	font-weight: 600;
-}
-
-.tt-mobile .tt-item-price {
-	position: absolute;
-	right: -10px;
-	top: 10px;
-	float: unset;
-	font-size: 11px;
-}
-
-.tt-mobile .needed-item .tt-item-price {
-	right: 0;
-}
-
-.tt-mobile .items-cont .name,
-.tt-mobile .items-cont .qty {
-	position: relative;
-	top: -3px;
-}
-
-/*
- * Drug information
- */
-
-.item-effect {
-	font-weight: 700;
-}
-
-.item-effect.tabbed {
-	margin-left: 15px;
-}
-
-.item-effect.double-tabbed {
-	margin-left: 30px;
-}
-
-/* Feature Status popup */
 
 #tt-page-status {
 	background-color: white;
@@ -381,6 +299,7 @@ span.tt-item-price {
 	width: 150px;
 	border-radius: 10px;
 	border: 2px solid lightgray;
+	z-index: 5;
 }
 
 #tt-page-status.top-left {
@@ -450,14 +369,33 @@ span.tt-item-price {
 	margin-right: 3px;
 }
 
+.tt-page-status-feature.disabled i {
+	color: orange;
+}
+
+.tt-page-status-feature.failed i {
+	color: red;
+}
+
+.tt-page-status-feature.loaded i {
+	color: green;
+}
+
+.tt-page-status-feature.information i {
+	color: blue;
+}
+
+/* FIXME - Old FM */
 .tt-page-status-feature-icon.disabled i {
 	color: orange;
 }
 
+/* FIXME - Old FM */
 .tt-page-status-feature-icon.failed i {
 	color: red;
 }
 
+/* FIXME - Old FM */
 .tt-page-status-feature-icon.success i {
 	color: green;
 }

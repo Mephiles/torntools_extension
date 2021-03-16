@@ -1,0 +1,15 @@
+.chat-colored[class*="chat-box-head_"] [class*="chat-box-title_"],
+.chat-colored[class*="chat-box-head_"] [class*="l_"],
+.chat-colored[class*="chat-box-head_"] [class*="r_"] {
+	background: var(--highlight-color__1);
+	background: linear-gradient(0deg, var(--highlight-color__1) 0%, var(--highlight-color__2) 100%);
+	height: inherit;
+}
+
+.chat-colored[class*="chat-box-head_"] [class*="l_"] {
+	border-radius: 5px 0 0 0;
+}
+
+.chat-colored[class*="chat-box-head_"] [class*="r_"] {
+	border-radius: 0 5px 0 0;
+}

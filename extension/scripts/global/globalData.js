@@ -34,11 +34,11 @@ const ttStorage = new (class {
 
 	change(object) {
 		return new Promise(async (resolve) => {
-			for (let key of Object.keys(object)) {
+			for (const key of Object.keys(object)) {
 				const data = recursive(await this.get(key), object[key]);
 
 				function recursive(parent, toChange) {
-					for (let key in toChange) {
+					for (const key in toChange) {
 						if (parent && key in parent && typeof toChange[key] === "object" && !Array.isArray(toChange[key])) {
 							parent[key] = recursive(parent[key], toChange[key]);
 						} else if (parent) {
@@ -76,9 +76,9 @@ const ttStorage = new (class {
 			}
 
 			function getDefaultStorage(defaultStorage) {
-				let newStorage = {};
+				const newStorage = {};
 
-				for (let key in defaultStorage) {
+				for (const key in defaultStorage) {
 					newStorage[key] = {};
 
 					if (typeof defaultStorage[key] === "object") {
@@ -243,7 +243,10 @@ const DEFAULT_STORAGE = {
 				missingPlushies: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			companies: {
-				specialMugMoney: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				specials: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
+			travel: {
+				computer: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 	},
@@ -330,8 +333,6 @@ const CONTRIBUTORS = {
 	},
 };
 
-const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.name || "", description: "Your player name." }];
-
 const CUSTOM_LINKS_PRESET = {
 	"Bazaar : Management": { link: "https://www.torn.com/bazaar.php#/manage" },
 	"Faction : Armory": { link: "https://www.torn.com/factions.php?step=your#/tab=armoury" },
@@ -344,10 +345,13 @@ const CUSTOM_LINKS_PRESET = {
 	"Travel Agency": { link: "https://www.torn.com/travelagency.php" },
 };
 
+const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.name || "", description: "Your player name." }];
+
 // noinspection SpellCheckingInspection
 const API_USAGE = {
 	user: {
 		name: true,
+		player_id: true,
 		server_time: true,
 		happy: {
 			current: true,
@@ -428,15 +432,97 @@ const API_USAGE = {
 		inventory: {
 			"*": {
 				ID: true,
+				name: true,
 				type: true,
 				quantity: true,
-				market_price: true,
 				equipped: true,
+				market_price: true,
+			},
+		},
+		attacks: {
+			timestamp_ended: true,
+			attacker_id: true,
+			attacker_name: true,
+			defender_id: true,
+			defender_name: true,
+			result: true,
+			stealthed: true,
+			respect_gain: true,
+			modifiers: {
+				war: true,
+				// 	retaliation: true,
+				group_attack: true,
+				overseas: true,
+				chain_bonus: true,
+			},
+		},
+		networth: {
+			pending: true,
+			wallet: true,
+			bank: true,
+			points: true,
+			cayman: true,
+			vault: true,
+			piggybank: true,
+			items: true,
+			displaycase: true,
+			bazaar: true,
+			// properties: true,
+			stockmarket: true,
+			auctionhouse: true,
+			company: true,
+			bookie: true,
+			// loan: true,
+			// unpaidfees: true,
+			total: true,
+			// parsetime: true,
+		},
+		personalstats: {
+			networthpending: true,
+			networthwallet: true,
+			networthbank: true,
+			networthpoints: true,
+			networthcayman: true,
+			networthvault: true,
+			networthpiggybank: true,
+			networthitems: true,
+			networthdisplaycase: true,
+			networthbazaar: true,
+			// networthproperties: true,
+			networthstockmarket: true,
+			networthauctionhouse: true,
+			networthcompany: true,
+			networthbookie: true,
+			// networthloan: true,
+			// networthunpaidfees: true,
+			networth: true,
+		},
+		stocks: {
+			"*": {
+				stock_id: true,
+				shares: true,
+				bought_price: true,
 			},
 		},
 	},
 	properties: {},
-	faction: {},
+	faction: {
+		crimes: {
+			// crime_id: true,
+			// crime_name: true,
+			participants: true,
+			// time_started: true,
+			time_ready: true,
+			// time_left: true,
+			// time_completed: true,
+			initiated: true,
+			// initiated_by: true,
+			// planned_by: true,
+			// success: true,
+			// money_gain: true,
+			// respect_gain: true,
+		},
+	},
 	company: {},
 	item_market: {},
 	torn: {
@@ -449,10 +535,51 @@ const API_USAGE = {
 				image: true,
 			},
 		},
+		stocks: {
+			"*": {
+				name: true,
+				acronym: true,
+				current_price: true,
+				total_shares: true,
+				available_shares: true,
+				// forecast: true,
+				// demand: true,
+				benefit: {
+					requirement: true,
+					description: true,
+				},
+			},
+		},
 		education: {
 			"*": {},
 		},
 	},
+};
+
+const API_SELECTIONS = {
+	user: [
+		"profile",
+		"timestamp",
+		"bars",
+		"cooldowns",
+		"travel",
+		"events",
+		"messages",
+		"money",
+		"refills",
+		"personalstats",
+		"stocks",
+		"inventory",
+		"merits",
+		"education",
+		"attacks",
+		"networth",
+	],
+	properties: [],
+	faction: ["crimes"],
+	company: [],
+	item_market: [],
+	torn: ["education", "honors", "items", "medals", "stocks", "pawnshop"],
 };
 
 const CHAT_TITLE_COLORS = {

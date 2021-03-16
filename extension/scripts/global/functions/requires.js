@@ -11,12 +11,12 @@ function requireCondition(condition, options = {}) {
 		if (checkCondition()) return;
 
 		let counter = 0;
-		let checker = setInterval(() => {
+		const checker = setInterval(() => {
 			if (checkCounter(counter++) || checkCondition()) return clearInterval(checker);
 		}, options.delay);
 
 		function checkCondition() {
-			let response = condition();
+			const response = condition();
 			if (!response) return false;
 
 			if (typeof response === "boolean") {
@@ -64,4 +64,12 @@ function requireSidebar() {
 function requireContent() {
 	// return requireElement(".box-title, .title-black[role=heading], .title-black > div[role=heading], .travel-agency-travelling");
 	return requireElement("#skip-to-content, #react-root");
+}
+
+function requireItemsLoaded() {
+	return requireElement(".items-cont[aria-expanded=true] > li > .title-wrap");
+}
+
+function requireChatsLoaded() {
+	return requireElement("[class*='overview_']");
 }

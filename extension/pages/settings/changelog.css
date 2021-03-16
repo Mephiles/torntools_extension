@@ -51,6 +51,7 @@
 	margin-left: 20px;
 }
 
+/*noinspection CssUnusedSymbol,CssUnusedSymbol*/
 #changelog > section .parent .closeable {
 	max-height: 0;
 	overflow: hidden;

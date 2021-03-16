@@ -1,84 +1,103 @@
 "use strict";
 
-let rotatingElements = {};
+const rotatingElements = {};
 let mobile;
 
-Document.prototype.newElement = function (options = {}) {
-	if (typeof options == "string") {
-		return this.createElement(options);
-	} else if (typeof options == "object") {
-		options = {
-			type: "div",
-			id: false,
-			class: false,
-			text: false,
-			html: false,
-			value: false,
-			href: false,
-			children: [],
-			attributes: {},
-			events: {},
-			style: {},
-			...options,
-		};
+Object.defineProperty(Document.prototype, "newElement", {
+	value(options = {}) {
+		if (typeof options == "string") {
+			return this.createElement(options);
+		} else if (typeof options == "object") {
+			options = {
+				type: "div",
+				id: false,
+				class: false,
+				text: false,
+				html: false,
+				value: false,
+				href: false,
+				children: [],
+				attributes: {},
+				events: {},
+				style: {},
+				...options,
+			};
 
-		let newElement = this.createElement(options.type);
+			const newElement = this.createElement(options.type);
 
-		if (options.id) newElement.id = options.id;
-		if (options.class) newElement.setClass(options.class);
-		if (options.text) newElement.innerText = options.text;
-		if (options.html) newElement.innerHTML = options.html;
-		if (options.value) {
-			if (typeof options.value === "function") newElement.value = options.value();
-			else newElement.value = options.value;
+			if (options.id) newElement.id = options.id;
+			if (options.class) newElement.setClass(options.class);
+			if (options.text) newElement.innerText = options.text;
+			if (options.html) newElement.innerHTML = options.html;
+			if (options.value) {
+				if (typeof options.value === "function") newElement.value = options.value();
+				else newElement.value = options.value;
+			}
+			if (options.href) newElement.href = options.href;
+
+			for (const child of options.children || []) {
+				if (typeof child === "string") {
+					newElement.appendChild(document.createTextNode(child));
+				} else {
+					newElement.appendChild(child);
+				}
+			}
+
+			if (options.attributes) {
+				let attributes = options.attributes;
+				if (typeof attributes === "function") attributes = attributes();
+
+				for (const attribute in attributes) newElement.setAttribute(attribute, attributes[attribute]);
+			}
+			for (const event in options.events) newElement.addEventListener(event, options.events[event]);
+
+			for (const key in options.style) newElement.style[key] = options.style[key];
+			for (const key in options.dataset) newElement.dataset[key] = options.dataset[key];
+
+			return newElement;
 		}
-		if (options.href) newElement.href = options.href;
+	},
+	enumerable: false,
+});
 
-		for (let child of options.children || []) {
-			if (typeof child === "string") {
-				newElement.appendChild(document.createTextNode(child));
-			} else {
-				newElement.appendChild(child);
+Object.defineProperty(DOMTokenList.prototype, "contains", {
+	value(className) {
+		const classes = [...this];
+		if (className.startsWith("^=")) {
+			className = className.substring(2, className.length);
+
+			for (const name of classes) {
+				if (!name.startsWith(className)) continue;
+
+				return true;
+			}
+			return false;
+		} else {
+			return classes.includes(className);
+		}
+	},
+	enumerable: false,
+});
+
+function _find(element, selector, options = {}) {
+	options = {
+		text: false,
+		...options,
+	};
+
+	if (options.text) {
+		for (const element of document.querySelectorAll(selector)) {
+			if (element.innerText === options.text) {
+				return element;
 			}
 		}
-
-		if (options.attributes) {
-			let attributes = options.attributes;
-			if (typeof attributes === "function") attributes = attributes();
-
-			for (let attribute in attributes) newElement.setAttribute(attribute, attributes[attribute]);
-		}
-		for (let event in options.events) newElement.addEventListener(event, options.events[event]);
-
-		for (let key in options.style) newElement.style[key] = options.style[key];
-		for (let key in options.dataset) newElement.dataset[key] = options.dataset[key];
-
-		return newElement;
 	}
-};
 
-DOMTokenList.prototype.contains = function (className) {
-	const classes = [...this];
-	if (className.startsWith("^=")) {
-		className = className.substring(2, className.length);
-
-		for (const name of classes) {
-			if (!name.startsWith(className)) continue;
-
-			return true;
-		}
-		return false;
-	} else {
-		return classes.includes(className);
-	}
-};
-
-function _find(element, selector) {
 	if (selector.includes("=") && !selector.includes("[")) {
 		const key = selector.split("=")[0];
 		const value = selector.split("=")[1];
 
-		for (let element of document.querySelectorAll(key)) {
+		for (const element of document.querySelectorAll(key)) {
 			if (element.innerText === value) {
 				return element;
 			}
@@ -93,26 +112,44 @@ function _find(element, selector) {
 	return element.querySelector(selector);
 }
 
-Document.prototype.find = function (selector) {
-	return _find(this, selector);
-};
-Element.prototype.find = function (selector) {
-	return _find(this, selector);
-};
+Object.defineProperty(Document.prototype, "find", {
+	value(selector, options = {}) {
+		return _find(this, selector, options);
+	},
+	enumerable: false,
+});
+Object.defineProperty(Element.prototype, "find", {
+	value(selector, options = {}) {
+		return _find(this, selector, options);
+	},
+	enumerable: false,
+});
 
-Document.prototype.findAll = function (selector) {
-	return this.querySelectorAll(selector);
-};
-Element.prototype.findAll = function (selector) {
-	return this.querySelectorAll(selector);
-};
+Object.defineProperty(Document.prototype, "findAll", {
+	value(selector) {
+		return this.querySelectorAll(selector);
+	},
+	enumerable: false,
+});
+Object.defineProperty(Element.prototype, "findAll", {
+	value(selector) {
+		return this.querySelectorAll(selector);
+	},
+	enumerable: false,
+});
 
-Document.prototype.setClass = function (...classNames) {
-	this.setAttribute("class", classNames.join(" "));
-};
-Element.prototype.setClass = function (...classNames) {
-	this.setAttribute("class", classNames.join(" "));
-};
+Object.defineProperty(Document.prototype, "setClass", {
+	value(...classNames) {
+		this.setAttribute("class", classNames.join(" "));
+	},
+	enumerable: false,
+});
+Object.defineProperty(Element.prototype, "setClass", {
+	value(...classNames) {
+		this.setAttribute("class", classNames.join(" "));
+	},
+	enumerable: false,
+});
 
 function checkMobile() {
 	return new Promise((resolve) => {
@@ -171,7 +208,12 @@ function findParent(element, options = {}) {
 	if (!element || !element.parentElement) return undefined;
 
 	if (options.tag && element.parentElement.tagName === options.tag) return element.parentElement;
-	if (options.class && element.parentElement.classList.contains(options.class)) return element.parentElement;
+	if (
+		options.class &&
+		((Array.isArray(options.class) && options.class.some((c) => element.parentElement.classList.contains(c))) ||
+			(!Array.isArray(options.class) && element.parentElement.classList.contains(options.class)))
+	)
+		return element.parentElement;
 	if (options.hasAttribute && element.parentElement.getAttribute(options.hasAttribute) !== null) return element.parentElement;
 
 	return findParent(element.parentElement, options);
@@ -190,7 +232,7 @@ function rotateElement(element, degrees) {
 		element.style.transform = `rotate(${rotatingElements[uuid].totalDegrees}deg)`;
 	}
 
-	let startDegrees = (element.style.transform ? parseInt(element.style.transform.replace("rotate(", "").replace("deg)", "")) : 0) % 360;
+	const startDegrees = (element.style.transform ? parseInt(element.style.transform.replace("rotate(", "").replace("deg)", "")) : 0) % 360;
 	element.style.transform = `rotate(${startDegrees}deg)`;
 
 	const totalDegrees = startDegrees + degrees;
@@ -213,7 +255,7 @@ function rotateElement(element, degrees) {
 }
 
 function sortTable(table, columnPlace, order) {
-	let header = table.find(`th:nth-child(${columnPlace})`);
+	const header = table.find(`th:nth-child(${columnPlace})`);
 	if (order) {
 		if (header.find("i")) {
 			switch (order) {
@@ -255,7 +297,7 @@ function sortTable(table, columnPlace, order) {
 
 		order = "asc";
 	}
-	for (let h of table.findAll("th")) {
+	for (const h of table.findAll("th")) {
 		if (h === header) continue;
 
 		if (h.find("i")) h.find("i").remove();
@@ -268,7 +310,7 @@ function sortTable(table, columnPlace, order) {
 		rows = sortRows(rows);
 	}
 
-	for (let row of rows) table.appendChild(row);
+	for (const row of rows) table.appendChild(row);
 
 	function sortRows(rows) {
 		if (order === "asc") {

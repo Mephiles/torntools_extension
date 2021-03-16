@@ -1,7 +1,7 @@
 "use strict";
 
 const CUSTOM_API_ERROR = {
-	NO_NETWORK: "tt-no_networth",
+	NO_NETWORK: "tt-no_network",
 };
 
 async function fetchApi(location, options = {}) {
@@ -23,13 +23,13 @@ async function fetchApi(location, options = {}) {
 		const PLATFORMS = {
 			torn: "https://api.torn.com/",
 			yata: "https://yata.yt/",
-			tornstats: "https://www.tornstats.com/",
+			tornstats: "https://www.beta.tornstats.com/",
 			torntools: "https://torntools.gregork.com/",
 			nukefamily: "https://www.nukefamily.org/",
 		};
 
 		let url, path;
-		let params = new URLSearchParams();
+		const params = new URLSearchParams();
 		switch (location) {
 			case "torn":
 				url = PLATFORMS.torn;
@@ -38,7 +38,10 @@ async function fetchApi(location, options = {}) {
 
 				params.append("selections", options.selections.join(","));
 				params.append("key", options.key || api.torn.key);
-				if (settings.apiUsage.comment) params.append("comment", settings.apiUsage.comment);
+				if (settings.apiUsage.comment) {
+					// noinspection JSCheckFunctionSignatures
+					params.append("comment", settings.apiUsage.comment);
+				}
 				break;
 			case "tornstats":
 				url = PLATFORMS.tornstats;
@@ -160,5 +163,5 @@ function changeAPIKey(key) {
 }
 
 function hasAPIData() {
-	return api.torn.key && !api.torn.error && userdata && Object.keys(userdata).length;
+	return api.torn.key && !api.torn.error && userdata && !!Object.keys(userdata).length;
 }

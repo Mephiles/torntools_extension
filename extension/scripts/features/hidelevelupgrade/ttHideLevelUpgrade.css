@@ -1,0 +1,8 @@
+#pointsLevel,
+.tt-level-upgrade {
+	display: var(--torntools-hide-upgrade-button, block) !important;
+}
+
+.tt-level-upgrade + hr {
+	display: var(--torntools-hide-upgrade-button, block) !important;
+}

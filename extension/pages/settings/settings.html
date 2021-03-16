@@ -90,7 +90,7 @@
 						<!-- <li>Competitions</li> -->
 						<!-- <li>Profile</li> -->
 						<!-- <li>Stock Exchange</li> -->
-						<!-- <li>Travel</li> -->
+						<li name="travel">Travel</li>
 						<!-- <li>Trade</li> -->
 						<!-- <li>Raceway</li> -->
 						<!-- <li>Stores</li> -->
@@ -127,8 +127,8 @@
 							<span class="tabbed note">Position for container</span>
 						</div>
 						<div class="option tabbed">
-							<input id="featureDisplayOnlyFails" type="checkbox" />
-							<label for="featureDisplayOnlyFails">Only display failed features</label>
+							<input id="featureDisplayOnlyFailed" type="checkbox" />
+							<label for="featureDisplayOnlyFailed">Only display failed features</label>
 						</div>
 						<div class="option tabbed">
 							<input id="featureDisplayHideDisabled" type="checkbox" />
@@ -644,10 +644,17 @@
 					<section name="companies">
 						<div class="header">Job Specials</div>
 						<div class="option">
-							<input id="companies-specialMugMoney" type="checkbox" />
-							<label for="companies-specialMugMoney">Show potential mug result when seeing the cash on hand.</label>
+							<input id="companies-specials" type="checkbox" />
+							<label for="companies-specials">Help with several different company specials.</label>
 							<br />
-							<label for="companies-specialMugMoney" class="note">Applicable in a 3* Hair Salon</label>
+							<label for="companies-specials" class="note">Applicable in a 3* Hair Salon</label>
+						</div>
+					</section>
+					<section name="travel">
+						<div class="header">Travel</div>
+						<div class="option">
+							<input id="travel-computer" type="checkbox" />
+							<label for="travel-computer">Show a computer link while flying or abroad.</label>
 						</div>
 					</section>
 				</div>

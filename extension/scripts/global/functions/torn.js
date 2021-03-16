@@ -1,6 +1,6 @@
 "use strict";
 
-const ALL_ICONS = Array.from({ length: 80 }, (x, i) => `icon${i + 1}`);
+const ALL_ICONS = Array.from({ length: 81 }, (x, i) => `icon${i + 1}`);
 
 const ALL_AREAS = [
 	{ class: "home", text: "Home" },
@@ -241,4 +241,18 @@ function addRFC(url) {
 	url = url || "";
 	url += (url.split("?").length > 1 ? "&" : "?") + "rfcv=" + getRFC();
 	return url;
+}
+
+function getPage() {
+	let page = location.pathname.substring(1);
+	if (page.endsWith(".php")) page = page.substring(0, page.length - 4);
+	else if (page.endsWith(".html")) page = page.substring(0, page.length - 3);
+
+	switch (page) {
+		case "index":
+			page = "home";
+			break;
+	}
+
+	return page;
 }

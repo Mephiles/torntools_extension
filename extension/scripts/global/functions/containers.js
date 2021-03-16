@@ -27,12 +27,12 @@ function createContainer(title, options = {}) {
 	else if (options.previousElement) parentElement.insertBefore(container, options.previousElement.nextSibling);
 	else parentElement.appendChild(container);
 
-	return { container, content: container.find(".content"), options: container.find(".options") };
+	return { container, content: container.find(":scope > main"), options: container.find(".options") };
 
 	function _createContainer(title, options = {}) {
 		if (document.find(`#${options.id}`)) document.find(`#${options.id}`).remove();
 
-		let containerClasses = ["tt-container"];
+		const containerClasses = ["tt-container"];
 		if (options.collapsible) containerClasses.push("collapsible");
 		if (options.applyRounding) containerClasses.push("rounding");
 		if (options.spacer) containerClasses.push("spacer");
@@ -49,9 +49,9 @@ function createContainer(title, options = {}) {
 				<div class="title ${collapsed ? "collapsed" : ""}">
 					<div class="text">${title}</div>
 					<div class="options"></div>
-					${options.collapsible ? '<i class="icon fas fa-caret-down"/>' : ""}
+					${options.collapsible ? '<i class="icon fas fa-caret-down"></i>' : ""}
 				</div>`;
-		html += `<div class="content ${options.contentBackground ? "background" : ""}"></div>`;
+		html += `<main class="${options.contentBackground ? "background" : ""}"></main>`;
 		container.innerHTML = html;
 
 		if (options.collapsible) {
@@ -62,11 +62,10 @@ function createContainer(title, options = {}) {
 			});
 		}
 		if (options.allowDragging) {
-			let content = container.find(".content");
+			const content = container.find(":scope > main");
 			content.addEventListener("dragover", (event) => event.preventDefault());
 			content.addEventListener("drop", (event) => {
-				content.find(".temp.item").classList.remove("temp");
-				container.find(".content").style.maxHeight = container.find(".content").scrollHeight + "px";
+				if (content.find(".temp.item")) content.find(".temp.item").classList.remove("temp");
 
 				// Firefox opens new tab when dropping item
 				event.preventDefault();

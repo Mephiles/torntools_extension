@@ -1,0 +1,3 @@
+#barNerve p[class*="bar-name_"] {
+	color: var(--torntools-highlight-nerve, #333) !important;
+}

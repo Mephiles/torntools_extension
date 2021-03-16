@@ -16,7 +16,7 @@ function initializeInternalPage(options = {}) {
 	if (options.sortTables) {
 		document.addEventListener("click", (event) => {
 			if (event.target.tagName === "TH") {
-				let clickedHeader = event.target;
+				const clickedHeader = event.target;
 				if (clickedHeader.getAttribute("class") && clickedHeader.getAttribute("class").split(" ").includes("no-sorting")) return;
 
 				const table = findParent(clickedHeader, { tag: "TABLE" });
@@ -90,7 +90,7 @@ function sendMessage(text, good, options = {}) {
 }
 
 function getPageTheme() {
-	let theme = settings.themes.pages;
+	const theme = settings.themes.pages;
 
 	// noinspection JSIncompatibleTypesComparison
 	if (theme === "default") {
