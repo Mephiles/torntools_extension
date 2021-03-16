@@ -23,7 +23,7 @@ async function fetchApi(location, options = {}) {
 		const PLATFORMS = {
 			torn: "https://api.torn.com/",
 			yata: "https://yata.yt/",
-			tornstats: "https://www.beta.tornstats.com/",
+			tornstats: "https://beta.tornstats.com/",
 			torntools: "https://torntools.gregork.com/",
 			nukefamily: "https://www.nukefamily.org/",
 		};
@@ -45,10 +45,11 @@ async function fetchApi(location, options = {}) {
 				break;
 			case "tornstats":
 				url = PLATFORMS.tornstats;
-				path = "api.php";
 
-				params.append("action", options.action);
-				params.append("key", options.key || api.torn.key);
+				let pathSections = ["api", "v1", options.key || api.torn.key];
+				if (options.section) pathSections.push(options.section);
+
+				path = pathSections.join("/");
 				break;
 			case "yata":
 				url = PLATFORMS.yata;

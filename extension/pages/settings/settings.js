@@ -363,6 +363,15 @@ async function setupPreferences() {
 		});
 	}
 
+	_preferences.find("#external-tornstats").addEventListener("click", (event) => {
+		chrome.permissions.request({ origins: ["https://beta.tornstats.com/"] }, (granted) => {
+			if (!granted) {
+				sendMessage("Can't enable this without accepting the permission.", false);
+				event.target.checked = false;
+			}
+		});
+	});
+
 	fillSettings();
 	storageListeners.settings.push(updateSettings);
 
@@ -395,6 +404,8 @@ async function setupPreferences() {
 		_preferences.find(`input[name="themePage"][value="${settings.themes.pages}"]`).checked = true;
 		_preferences.find(`input[name="themeContainers"][value="${settings.themes.containers}"]`).checked = true;
 		_preferences.find(`input[name="featureDisplayPosition"][value="${settings.featureDisplayPosition}"]`).checked = true;
+
+		_preferences.find("#external-tornstats").checked = settings.external.tornstats;
 
 		for (const type of ["pages"]) {
 			for (const page in settings[type]) {
@@ -690,6 +701,8 @@ async function setupPreferences() {
 		settings.themes.pages = _preferences.find("input[name='themePage']:checked").value;
 		settings.themes.containers = _preferences.find("input[name='themeContainers']:checked").value;
 		settings.featureDisplayPosition = _preferences.find("input[name='featureDisplayPosition']:checked").value;
+
+		settings.external.tornstats = _preferences.find("#external-tornstats").checked;
 
 		for (const type of ["pages"]) {
 			for (const page in settings[type]) {

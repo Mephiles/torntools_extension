@@ -249,6 +249,9 @@ const DEFAULT_STORAGE = {
 				computer: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
+		external: {
+			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),
+		},
 	},
 	filters: {
 		preferences: {

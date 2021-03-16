@@ -30,7 +30,7 @@
 		]
 	},
 	"permissions": ["storage", "notifications", "tabs", "https://api.torn.com/"],
-	"optional_permissions": ["https://yata.yt/"],
+	"optional_permissions": ["https://beta.tornstats.com/", "https://yata.yt/"],
 	"web_accessible_resources": ["resources/images/*.png", "pages/*", "scripts/background.js", "scripts/*.inject.js", "vendor/*"],
 	"options_ui": {
 		"page": "pages/settings/settings.html",
