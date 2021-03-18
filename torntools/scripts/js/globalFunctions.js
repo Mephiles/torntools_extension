@@ -109,12 +109,6 @@ const DRUG_INFORMATION = {
 		cons: ["Only works on Valentine's Day"],
 		cooldown: "5 hours",
 	},
-	felovax: {
-		pros: ["Use Felovax while in jail to instantly get transfered to hospital.", "You can then use Zylkene to get out of hospital instantly."],
-	},
-	zylkene: {
-		pros: ["Use Zylkene while in hospital to instantly get out.", "Use after Felovax (optional but the combination works well - Jail->Hospital->Okay)."],
-	},
 };
 
 const COMPANY_INFORMATION = {
@@ -1187,6 +1181,7 @@ const CHAIN_BONUSES = [10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000
 const STORAGE = {
 	// app settings
 	api_key: undefined,
+	last_trade_post_time: "",
 	updated: "force_true",
 	api: {
 		count: 0,
@@ -1341,6 +1336,10 @@ const STORAGE = {
 			activity: [],
 			status: [],
 			level: [],
+			faction: {
+				issamefaction: "yes",
+				nofaction: true,
+			},
 			special: {
 				isfedded: "both",
 				newplayer: "both",
@@ -1554,7 +1553,7 @@ const STORAGE = {
 			stockexchange: {
 				acronyms: true,
 				advanced: true,
-				hide_stock_block: true,
+				hide_stock_block : true,
 			},
 			bazaar: {
 				worth: false,
@@ -1571,6 +1570,7 @@ const STORAGE = {
 				hide_upgrade: false,
 				align_left: false,
 				find_chat: true,
+				trade_chat_timer: true,
 				autocomplete_chat: true,
 				hide_chat: false,
 				show_toggle_chat: true,
@@ -1628,6 +1628,7 @@ const STORAGE = {
 				global: true,
 				item_market: false,
 				revives: false,
+				revives_success_chance: 90,
 				item_equip: true,
 				trades: false,
 			},
