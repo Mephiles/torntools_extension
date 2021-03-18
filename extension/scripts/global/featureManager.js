@@ -287,14 +287,14 @@ class FeatureManager {
 			let isEmpty = [...scope.findAll(".tt-page-status-feature")].every((element) => window.getComputedStyle(element).display === "none");
 
 			if (isEmpty) {
-				scope.classList.add("hidden");
+				scope.classList.add("no-content");
 			} else {
-				scope.classList.remove("hidden");
+				scope.classList.remove("no-content");
 				hasContent = true;
 			}
 		}
 
-		document.find("#tt-page-status").classList[hasContent ? "remove" : "add"]("hidden");
+		document.find("#tt-page-status").classList[hasContent ? "remove" : "add"]("no-content");
 	}
 }
 

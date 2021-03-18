@@ -385,6 +385,10 @@
 	color: blue;
 }
 
+#tt-page-status .no-content {
+	display: none;
+}
+
 /* FIXME - Old FM */
 .tt-page-status-feature-icon.disabled i {
 	color: orange;
