@@ -26,6 +26,7 @@ function requireDatabase(requireEntry = true) {
 // Pre-load database
 let userdata,
 	torndata,
+	last_trade_post_time,
 	settings,
 	api_key,
 	chat_highlight,
@@ -71,6 +72,7 @@ let userdata,
 
 		userdata = DB.userdata;
 		torndata = DB.torndata;
+		last_trade_post_time = DB.last_trade_post_time;
 		settings = DB.settings;
 		api_key = DB.api_key;
 		chat_highlight = DB.chat_highlight;
