@@ -164,6 +164,8 @@ label {
 }
 
 .container h2 {
+	left: 50%;
+    width: 100%;
 	text-align: center;
 	margin-top: 20px;
 	margin-bottom: 20px;
@@ -537,21 +539,24 @@ div#tt-search-overlay {
 }
 
 div#preferences div#tt-dummy-search {
-	position: absolute;
-	top: 16%;
-	right: 20%;
+	margin-left: 40%;
+    width: 100%;
+    top: 16.5%;
+    position: absolute;
+    left: 10%
 }
 
 div#preferences input#tt-search-input {
+	display: inline;
 	margin-left: 200px;
 }
 
 div#preferences i#tt-search-button {
+	display: inline;
 	border: black 2px solid;
 	width: 15px;
 	height: 14px;
-	padding-top: 3px;
-	padding-left: 3px;
+	padding: 2px;
 	border-color: rgb(133, 133, 133);
 }
 
