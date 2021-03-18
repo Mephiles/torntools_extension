@@ -1006,3 +1006,22 @@ div[role="main"].tt-modified {
 .tt-blink {
 	background-color: #ff0a0ab3;
 }
+
+.tt-trade-chat-timer {
+	margin-top: 0px;
+    height: 15px;
+    width: max-content;
+    float: left;
+    margin-left: 5px;
+    color: white;
+    border-radius: 5px;
+    padding: 2px 2px 0px 2px;
+}
+
+.tt-trade-chat-timer.green {
+	background: green;
+}
+
+.tt-trade-chat-timer.red {
+	background: red;
+}
