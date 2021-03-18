@@ -109,6 +109,12 @@ const DRUG_INFORMATION = {
 		cons: ["Only works on Valentine's Day"],
 		cooldown: "5 hours",
 	},
+	felovax: {
+		pros: ["Use Felovax while in jail to instantly get transfered to hospital.", "You can then use Zylkene to get out of hospital instantly."],
+	},
+	zylkene: {
+		pros: ["Use Zylkene while in hospital to instantly get out.", "Use after Felovax (optional but the combination works well - Jail->Hospital->Okay)."],
+	},
 };
 
 const COMPANY_INFORMATION = {
@@ -1336,10 +1342,6 @@ const STORAGE = {
 			activity: [],
 			status: [],
 			level: [],
-			faction: {
-				issamefaction: "yes",
-				nofaction: true,
-			},
 			special: {
 				isfedded: "both",
 				newplayer: "both",
@@ -1553,7 +1555,7 @@ const STORAGE = {
 			stockexchange: {
 				acronyms: true,
 				advanced: true,
-				hide_stock_block : true,
+				hide_stock_block: true,
 			},
 			bazaar: {
 				worth: false,
@@ -1628,7 +1630,6 @@ const STORAGE = {
 				global: true,
 				item_market: false,
 				revives: false,
-				revives_success_chance: 90,
 				item_equip: true,
 				trades: false,
 			},
