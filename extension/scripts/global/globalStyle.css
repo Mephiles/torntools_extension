@@ -388,18 +388,3 @@
 #tt-page-status .no-content {
 	display: none;
 }
-
-/* FIXME - Old FM */
-.tt-page-status-feature-icon.disabled i {
-	color: orange;
-}
-
-/* FIXME - Old FM */
-.tt-page-status-feature-icon.failed i {
-	color: red;
-}
-
-/* FIXME - Old FM */
-.tt-page-status-feature-icon.success i {
-	color: green;
-}
