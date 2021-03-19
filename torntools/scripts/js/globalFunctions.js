@@ -1187,6 +1187,7 @@ const CHAIN_BONUSES = [10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000
 const STORAGE = {
 	// app settings
 	api_key: undefined,
+	last_trade_post_time: "",
 	updated: "force_true",
 	api: {
 		count: 0,
@@ -1571,6 +1572,7 @@ const STORAGE = {
 				hide_upgrade: false,
 				align_left: false,
 				find_chat: true,
+				trade_chat_timer: true,
 				autocomplete_chat: true,
 				hide_chat: false,
 				show_toggle_chat: true,
