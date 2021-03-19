@@ -1009,13 +1009,13 @@ div[role="main"].tt-modified {
 
 .tt-trade-chat-timer {
 	margin-top: 0;
-    height: 15px;
-    width: max-content;
-    float: left;
-    margin-left: 5px;
-    color: white;
-    border-radius: 5px;
-    padding: 2px 2px 0 2px;
+	height: 15px;
+	width: max-content;
+	float: left;
+	margin-left: 5px;
+	color: white;
+	border-radius: 5px;
+	padding: 2px 2px 0 2px;
 }
 
 .tt-trade-chat-timer.green {
