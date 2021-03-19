@@ -165,7 +165,7 @@ label {
 
 .container h2 {
 	left: 50%;
-    width: 100%;
+	width: 100%;
 	text-align: center;
 	margin-top: 20px;
 	margin-bottom: 20px;
@@ -292,21 +292,21 @@ label {
 }
 
 /* #api_info .actions .button {
-    width: fit-content;
-    padding: 0 3px;
-    height: 30px;
-    border: 1px solid lightgrey;
-    margin: 15px 10px 0 0;
-    text-align: center;
-    line-height: 30px;
-    border-radius: 7px;
-    color: white;
-    cursor: pointer;
-    font-weight: 600;
-    background-color: gray;
+	width: fit-content;
+	padding: 0 3px;
+	height: 30px;
+	border: 1px solid lightgrey;
+	margin: 15px 10px 0 0;
+	text-align: center;
+	line-height: 30px;
+	border-radius: 7px;
+	color: white;
+	cursor: pointer;
+	font-weight: 600;
+	background-color: gray;
 }
 #api_info .actions .button:hover {
-    background-color: lightgray;
+	background-color: lightgray;
 } */
 /* Target list */
 
@@ -539,11 +539,11 @@ div#tt-search-overlay {
 }
 
 div#preferences div#tt-dummy-search {
-	margin-left: 40%;
-    width: 100%;
-    top: 16.5%;
-    position: absolute;
-    left: 10%
+	height: 20px;
+	margin: 20px;
+	position: absolute;
+	top: 13%;
+	right: 20%;
 }
 
 div#preferences input#tt-search-input {
