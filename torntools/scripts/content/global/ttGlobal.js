@@ -756,8 +756,8 @@ function nukeReviveScript() {
 
 // Code for adding chat filter for People Box
 function addPeopleBoxFilter() {
-	if (doc.findAll("div[class*='chat-box-people_SPbEh'] .tt-chat-filter").length === 0) {
-		let peopleBox = document.find("div[class*='chat-box-people_SPbEh']");
+	if (doc.findAll("div[class*='chat-box-people_'] .tt-chat-filter").length === 0) {
+		let peopleBox = document.find("div[class*='chat-box-people_']");
 
 		peopleBox.nextElementSibling.classList.add("tt-modified");
 
