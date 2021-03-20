@@ -164,11 +164,8 @@ label {
 }
 
 .container h2 {
-	left: 50%;
-	width: 100%;
-	text-align: center;
-	margin-top: 20px;
-	margin-bottom: 20px;
+	margin-left: 45%;
+    display: inline;
 }
 
 .container .content {
@@ -539,16 +536,16 @@ div#tt-search-overlay {
 }
 
 div#preferences div#tt-dummy-search {
-	height: 20px;
-	margin: 20px;
-	position: absolute;
-	top: 13%;
-	right: 20%;
+	display: inline;
 }
 
 div#preferences input#tt-search-input {
 	display: inline;
-	margin-left: 200px;
+	margin-left: 10%;
+}
+
+div#preferences > div:first-child {
+	margin: 20px;
 }
 
 div#preferences i#tt-search-button {
