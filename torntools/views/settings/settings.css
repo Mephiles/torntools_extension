@@ -164,9 +164,8 @@ label {
 }
 
 .container h2 {
-	text-align: center;
-	margin-top: 20px;
-	margin-bottom: 20px;
+	margin-left: 45%;
+    display: inline;
 }
 
 .container .content {
@@ -290,21 +289,21 @@ label {
 }
 
 /* #api_info .actions .button {
-    width: fit-content;
-    padding: 0 3px;
-    height: 30px;
-    border: 1px solid lightgrey;
-    margin: 15px 10px 0 0;
-    text-align: center;
-    line-height: 30px;
-    border-radius: 7px;
-    color: white;
-    cursor: pointer;
-    font-weight: 600;
-    background-color: gray;
+	width: fit-content;
+	padding: 0 3px;
+	height: 30px;
+	border: 1px solid lightgrey;
+	margin: 15px 10px 0 0;
+	text-align: center;
+	line-height: 30px;
+	border-radius: 7px;
+	color: white;
+	cursor: pointer;
+	font-weight: 600;
+	background-color: gray;
 }
 #api_info .actions .button:hover {
-    background-color: lightgray;
+	background-color: lightgray;
 } */
 /* Target list */
 
@@ -537,21 +536,24 @@ div#tt-search-overlay {
 }
 
 div#preferences div#tt-dummy-search {
-	position: absolute;
-	top: 16%;
-	right: 20%;
+	display: inline;
 }
 
 div#preferences input#tt-search-input {
-	margin-left: 200px;
+	display: inline;
+	margin-left: 10%;
+}
+
+div#preferences > div:first-child {
+	margin: 20px;
 }
 
 div#preferences i#tt-search-button {
+	display: inline;
 	border: black 2px solid;
 	width: 15px;
 	height: 14px;
-	padding-top: 3px;
-	padding-left: 3px;
+	padding: 2px;
 	border-color: rgb(133, 133, 133);
 }
 
