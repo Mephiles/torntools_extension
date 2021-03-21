@@ -182,3 +182,11 @@ span.tt-item-price {
 .torn-msg div.msg {
 	color: #627e0d !important;
 }
+
+div#ttContribExport {
+	font-weight: normal;
+}
+
+div#ttContribExport div#ttExportButton {
+	width: 39px;
+}
