@@ -1683,7 +1683,7 @@ function foldFactionDesc() {
 
 function exportChallengeContributionsCSV() {
 	requireElement("div#factions div#faction-upgrades div.body div#stu-confirmation").then(() => {
-	let rawHTML = `<div id="ttContribExport" class="tt-title title-green">
+		let rawHTML = `<div id="ttContribExport" class="tt-title title-green">
                     <div class="title-text">Export Challenge Contributions</div>
 					<div class="tt-options">
 						<div id="ttExportButton" class="tt-option">
@@ -1693,28 +1693,62 @@ function exportChallengeContributionsCSV() {
 						</div>
 					</div>
 				</div>`;
-	let contributionsObserver = new MutationObserver(() => {
-		if (!doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div#ttContribExport") && doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div.contributions-wrap")) {
-				doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div.contributions-wrap").insertAdjacentHTML("beforeBegin", rawHTML);
-				doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div#ttContribExport div#ttExportButton").addEventListener("click", () => {
-				let upgradeName = doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div[role='alert'] div.name").innerText;
-				let totalTable = "data:text/csv;charset=utf-8," + "Number;Name;Profile Link;Ex Member;Contributions\r\n" + upgradeName + "\r\n";
-				for (const memberLi of [...doc.findAll("div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div.contributions-wrap ul.flexslides li:not(.slide)")]) {
-					let memberLabel = memberLi.find('div.player a').getAttribute("aria-label");
-					if (memberLi.classList.contains("ex-member")) {
-						totalTable += memberLi.find("div.numb").innerText + ";" + memberLabel.split(" ")[0] + ";" + memberLi.find('div.player a').href + ";" + "Yes;" + memberLabel.split(" ")[1].replace(/[()]/g, "") + "\r\n";
-					} else {
-						totalTable += memberLi.find("div.numb").innerText + ";" + memberLabel.split(" ")[0] + ";" + memberLi.find('div.player a').href + ";" + "No;" + memberLabel.split(" ")[1].replace(/[()]/g, "") + "\r\n";
-					};
-				};
-				let encodedUri = encodeURI(totalTable);
-				let ttExportLink = doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div#ttContribExport div#ttExportButton #ttExportLink");
-				ttExportLink.setAttribute("href", encodedUri);
-				ttExportLink.setAttribute("download", `${upgradeName.replace(" ","_")}_contributors.csv`);
-				ttExportLink.click();
-			});
-		};
+		let contributionsObserver = new MutationObserver(() => {
+			if (
+				!doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div#ttContribExport") &&
+				doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div.contributions-wrap")
+			) {
+				doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div.contributions-wrap").insertAdjacentHTML(
+					"beforeBegin",
+					rawHTML
+				);
+				doc.find(
+					"div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div#ttContribExport div#ttExportButton"
+				).addEventListener("click", () => {
+					let upgradeName = doc.find(
+						"div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div[role='alert'] div.name"
+					).innerText;
+					let totalTable = "data:text/csv;charset=utf-8," + "Number;Name;Profile Link;Ex Member;Contributions\r\n" + upgradeName + "\r\n";
+					for (const memberLi of [
+						...doc.findAll(
+							"div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div.contributions-wrap ul.flexslides li:not(.slide)"
+						),
+					]) {
+						let memberLabel = memberLi.find("div.player a").getAttribute("aria-label");
+						if (memberLi.classList.contains("ex-member")) {
+							totalTable +=
+								memberLi.find("div.numb").innerText +
+								";" +
+								memberLabel.split(" ")[0] +
+								";" +
+								memberLi.find("div.player a").href +
+								";" +
+								"Yes;" +
+								memberLabel.split(" ")[1].replace(/[()]/g, "") +
+								"\r\n";
+						} else {
+							totalTable +=
+								memberLi.find("div.numb").innerText +
+								";" +
+								memberLabel.split(" ")[0] +
+								";" +
+								memberLi.find("div.player a").href +
+								";" +
+								"No;" +
+								memberLabel.split(" ")[1].replace(/[()]/g, "") +
+								"\r\n";
+						}
+					}
+					let encodedUri = encodeURI(totalTable);
+					let ttExportLink = doc.find(
+						"div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div#ttContribExport div#ttExportButton #ttExportLink"
+					);
+					ttExportLink.setAttribute("href", encodedUri);
+					ttExportLink.setAttribute("download", `${upgradeName.replace(" ", "_")}_contributors.csv`);
+					ttExportLink.click();
+				});
+			}
+		});
+		contributionsObserver.observe(doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation"), { childList: true, subtree: true });
 	});
-	contributionsObserver.observe(doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation"), { childList: true, subtree: true });
-});
 }
