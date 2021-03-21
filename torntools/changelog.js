@@ -1,14 +1,14 @@
 export default {
 	"v5.8 - xxxxx, xxth. 2021": {
 		Features: [
-			"Add Revives Skill to profile stat comparision table. - Sashank999",
+			"Add Revives Skill to profile stat comparison table. - Sashank999",
 			"Add an arrow for folding Faction Description. - Sashank999",
 			"Show warning when taking Xanax while the user is already at 1000E. - Sashank999",
 			"Add setting to hide some portfolio and stock blocks. - Sashank999",
 			"Add Hospital filter to show only revive-enabled players. - Sashank999",
 			"Show net total on casino statistics. - Sashank999",
 			"Add Search in TT Preferences page. - Sashank999",
-			"Warning when user if about to fly but education or bank investement or both would timeout before return. - Sashank999",
+			"Warning when user if about to fly but education or bank investment or both would timeout before return. - Sashank999",
 			"Show a timer between posts in trade chat. - Sashank999",
 		],
 		Fixes: ["Battle stat disappeared from profile when sending user money. - Sashank999", "Fix HighLow helper not working. - Sashank999"],
