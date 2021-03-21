@@ -1,6 +1,7 @@
 export default {
 	"v5.8 - xxxxx, xxth. 2021": {
 		Features: [
+			"Add Revives Skill to profile stat comparision table. - Sashank999",
 			"Add an arrow for folding Faction Description. - Sashank999",
 			"Show warning when taking Xanax while the user is already at 1000E. - Sashank999",
 			"Add setting to hide some portfolio and stock blocks. - Sashank999",
