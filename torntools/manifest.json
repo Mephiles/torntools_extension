@@ -22,7 +22,7 @@
 		"background",
 		"https://api.torn.com/*",
 		"https://yata.yt/*",
-		"https://www.tornstats.com/*",
+		"https://beta.tornstats.com/*",
 		"https://torntools.gregork.com/*"
 	],
 	"optional_permissions": ["https://www.nukefamily.org/"],
