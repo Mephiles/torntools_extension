@@ -112,7 +112,7 @@
 
 			result[missingStat] = Object.entries(result)
 				.filter(([stat]) => missingStat !== stat)
-				.map(([, value]) => value)
+				.map(([stat, value]) => (stat === "total" ? -value : value))
 				.totalSum();
 
 			const position = stats.indexOf(missingStat) + 1;
