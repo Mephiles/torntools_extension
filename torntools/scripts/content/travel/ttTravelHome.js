@@ -557,7 +557,7 @@ function addTableHeader() {
 
 function addRow(item, time, cost, travel_items, country_yata, country_code_dict_data) {
 	let market_value = itemlist.items[item.id].market_value;
-	let total_profit = (market_value - item.cost) * travel_items - cost;
+	let total_profit = (market_value - item.cost) * Math.min(travel_items, item.quantity) - cost;
 	let profit_per_minute = (total_profit / time).toFixed(0);
 	let profit_per_item = (total_profit / travel_items).toFixed(0);
 	let update_time = timeAgo(country_yata.update * 1000);
