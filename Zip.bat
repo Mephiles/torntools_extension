@@ -1,1 +1,1 @@
-"%ProgramFiles%\WinRAR\Rar.exe" a -ep1 -idq -r -y ".\versions\version_5.x.zip" ".\torntools\"
+"%ProgramFiles%\WinRAR\Rar.exe" a -ep1 -idq -r -y ".\versions\torntools_5.x.zip" ".\torntools\"
