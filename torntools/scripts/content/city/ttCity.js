@@ -62,7 +62,7 @@ function displayItems(container, itemlist) {
 			if (settings.pages.city.items_images) {
 				span.appendChild(doc.new({ type: "img", class: "torn-item item-plate item-converted", attributes: { src: itemlist.items[+item].image } }));
 			}
-			if (items[item] !== "1") {
+			if (items[item] === 1) {
 				a = doc.new({
 					type: "a",
 					text: itemlist.items[item].name,
@@ -75,7 +75,7 @@ function displayItems(container, itemlist) {
 					attributes: { href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=${item}` },
 				});
 			}
-			let inner_span = doc.new({ type: "span", text: ` ($${numberWithCommas(itemlist.items[item].market_value)})` });
+			let inner_span = doc.new({ type: "span", text: ` ($${numberWithCommas(itemlist.items[item].market_value * items[item])})` });
 			span.addEventListener("mouseenter", () => {
 				let cityFindItem = doc.find(`#map img[item-id='${item}']`);
 				if (cityFindItem) cityFindItem.classList.add("cityItem_hover");
@@ -105,10 +105,16 @@ function showValueOfItems(container, itemlist) {
 
 	let total_value = 0;
 	for (let id of Object.keys(items)) {
-		total_value += parseInt(itemlist.items[id].market_value);
+		total_value += parseInt(itemlist.items[id].market_value) * items[id];
 	}
 
-	let new_div = doc.new({ type: "div", id: "tt-city-items-value", text: `City Items value (${Object.keys(items).length}): ` });
+	let new_div = doc.new({
+		type: "div",
+		id: "tt-city-items-value",
+		text: `City Items value (${Object.keys(items)
+			.map((id) => items[id])
+			.reduce((a, b) => (a += b), 0)}): `,
+	});
 	let value_span = doc.new({ type: "span", text: `$${numberWithCommas(total_value, false)}` });
 
 	if (extensions.doctorn) {
