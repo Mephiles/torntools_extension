@@ -1,5 +1,5 @@
 export default {
-	"v5.8 - xxxxx, xxth. 2021": {
+	"v5.8 - March, 25th. 2021": {
 		Features: [
 			"Add Revives Skill to profile stat comparison table. - Sashank999",
 			"Export faction upgrade challenge contributions as CSV. - Sashank999",
