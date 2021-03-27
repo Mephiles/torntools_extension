@@ -385,6 +385,10 @@
 	color: blue;
 }
 
+#tt-page-status.no-content {
+	display: none;
+}
+
 #tt-page-status .no-content {
 	display: none;
 }
