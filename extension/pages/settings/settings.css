@@ -72,6 +72,11 @@ ul.list-table button:hover {
 	background: #ddd;
 }
 
+ul.inline {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
 /* Tooltips */
 
 /* Tooltip container */
