@@ -116,49 +116,48 @@
 				.totalSum();
 
 			const position = stats.indexOf(missingStat) + 1;
-			console.log("DKK spy", position, `.specials-confirm-cont ul.job-info > li:nth-child(${position})`);
 			const element = document.find(`.specials-confirm-cont ul.job-info > li:nth-child(${position})`);
 
 			element.setAttribute("color", "tGreen");
+			element.classList.add("missing");
 			element.innerText = `${element.innerText.split(" ")[0]} ${formatStat(result[missingStat])}`;
-			// FIXME - Show calculated stat
 		}
 		for (const stat of remembered) {
 			const position = stats.indexOf(stat) + 1;
 			const element = document.find(`.specials-confirm-cont ul.job-info > li:nth-child(${position})`);
 
 			element.setAttribute("color", "tGreen");
-			element.innerText = `${element.innerText.split(" ")[0]} ${formatStat(result[missingStat])}`;
+			element.classList.add("remembered");
+			element.innerText = `${element.innerText.split(" ")[0]} ${formatStat(result[remembered])}`;
 		}
 		data[user] = result;
 
 		console.log("TT - Detected stat spy: ", result);
 
 		if (settings.external.tornstats) {
-			document.find(".specials-confirm-cont ul.job-info").appendChild(
+			document.find(".specials-confirm-cont").appendChild(
 				document.newElement({
 					type: "button",
-					class: "external-service",
+					class: "external-service tt-btn",
 					text: "Save to TornStats",
 					events: {
 						click() {
-							// FIXME - Send data to TornStats
 							fetchApi("tornstats", {
 								section: "store/spy",
 								method: "POST",
 								params: {
-									player_id: json.result.user.userID,
-									player_name: "DeKleineKobini",
-									player_level: 1,
-									player_faction: "39H",
+									player_id: parseInt(json.result.user.userID),
+									player_name: json.result.user.playername,
+									player_level: parseInt(json.result.user.level),
 									...data[user],
 								},
 							})
 								.then((response) => {
 									console.log("DKK store TS spy", response);
+									// FIXME - Show message (response.message)
 								})
 								.catch((error) => {
-									console.error("DKK store TS spy", error);
+									console.error("Couldn't store your spy to TornStats.", error);
 								});
 						},
 					},
