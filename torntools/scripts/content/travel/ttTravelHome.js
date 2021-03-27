@@ -847,12 +847,12 @@ function warnOnTimeout() {
 				travelTime = travelTimeArray[0] * 60 * 60 + travelTimeArray[3] * 60;
 			}
 			let timeoutFor;
-			if (2 * travelTime >= userdata.education_timeleft && 2 * travelTime >= userdata.city_bank.time_left) {
-				timeoutFor = "education course and bank investment";
-			} else if (2 * travelTime >= userdata.education_timeleft) {
+			if (userdata.education_timeleft && 2 * travelTime >= userdata.education_timeleft) {
 				timeoutFor = "education course";
-			} else if (2 * travelTime >= userdata.city_bank.time_left) {
+			} else if (userdata.city_bank.time_left && 2 * travelTime >= userdata.city_bank.time_left) {
 				timeoutFor = "bank investment";
+			} else if (userdata.education_timeleft && userdata.city_bank.time_left && 2 * travelTime >= userdata.education_timeleft && 2 * travelTime >= userdata.city_bank.time_left) {
+				timeoutFor = "education course and bank investment";
 			} else {
 				return;
 			}
