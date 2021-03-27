@@ -1,4 +1,9 @@
 export default {
+	"v5.9 - xxxx, xxth. 2021": {
+		Features: [],
+		Fixes: [],
+		Changes: [],
+	},
 	"v5.8 - March, 25th. 2021": {
 		Features: [
 			"Add Revives Skill to profile stat comparison table. - Sashank999",
