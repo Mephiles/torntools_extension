@@ -1,0 +1,36 @@
+.tt-travel {
+	cursor: pointer;
+	color: #7f7f7f;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+	line-height: 24px;
+	float: right;
+	margin-right: 30px;
+}
+
+.tt-travel i {
+	padding: 5px;
+	font-size: 15px;
+}
+
+@media screen and (max-width: 600px) {
+	.tt-travel {
+		margin-right: 0;
+	}
+
+	.tt-travel:before {
+		background: linear-gradient(transparent 9%, rgba(64, 64, 64, 0.35) 50%, transparent 93%);
+		content: "";
+		height: 46px;
+		left: 0;
+		position: absolute;
+		width: 1px;
+	}
+
+	.tt-travel span {
+		display: none;
+	}
+}
+
+#travelDestinations main {
+	padding: 4px;
+}

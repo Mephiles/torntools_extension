@@ -21,7 +21,7 @@ function createContainer(title, options = {}) {
 	if (options.parentElement) parentElement = options.parentElement;
 	else if (options.nextElement) parentElement = options.nextElement.parentElement;
 	else if (options.previousElement) parentElement = options.previousElement.parentElement;
-	else throw new Error("Not yet supported!");
+	else parentElement = document.find(".content-wrapper");
 
 	if (options.nextElement) parentElement.insertBefore(container, options.nextElement);
 	else if (options.previousElement) parentElement.insertBefore(container, options.previousElement.nextSibling);
