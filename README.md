@@ -1,4 +1,4 @@
-![TornTools Logo](https://github.com/Mephiles/torntools_extension/blob/master/torntools/images/icon128.png)
+![TornTools Logo](torntools/images/icon128.png)
 # TornTools (v5.6)  
 *A browser extension for Torn.com*  
 ![Chrome Extension Version](https://img.shields.io/chrome-web-store/v/hjpaapdjcgbmeikfnahipphknonhlhib?style=for-the-badge)
