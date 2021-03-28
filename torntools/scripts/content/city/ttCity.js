@@ -59,7 +59,7 @@ function displayItems(container, itemlist) {
 			span.appendChild(doc.new({ type: "img", class: "torn-item item-plate item-converted", attributes: { src: itemlist.items[+item].image } }));
 		}
 		let a;
-		if (items[item] !== "1") {
+		if (items[item] === 1) {
 			a = doc.new({
 				type: "a",
 				text: itemlist.items[item].name,
