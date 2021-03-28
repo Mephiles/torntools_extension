@@ -2,7 +2,7 @@
     <img align="left" src="torntools/images/icon48.png">
 </div>
 <div style="display:inline-block;">
-    <h2>TornTools (v5.6)</h2>
+    <h2>TornTools</h2>
 </div>
 
 *A browser extension for Torn.com*  
