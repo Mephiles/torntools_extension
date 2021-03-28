@@ -12,7 +12,7 @@
 		startTable,
 		removeTable,
 		{
-			storage: ["settings.pages.travel.table"],
+			storage: ["settings.pages.travel.table", "settings.external.yata"],
 		},
 		() => {
 			if (!settings.external.yata) return "YATA not enabled";
