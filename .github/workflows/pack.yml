@@ -71,10 +71,10 @@ jobs:
             version="${version//./\\.}"
             replaceLineWith="${newChangelogEntries}\n\t\"$version - $(date +%B), $(date +%d)th. $(date +%Y)\"\:\ \{"
             sed -i "2s/.*/\t\"$version - $(date +%B), $(date +%d)th. $(date +%Y)\"\:\ \{/" ./torntools/changelog.js
-            sed -i "s/\t\"version\"\: .*/\t\"version\"\: \"${{ github.event.inputs.new_version }}\"\,/" ./torntools/manifest.json
             zip -q -r "torntools_${{ github.event.inputs.new_version }}.zip" ./torntools
             mv "torntools_${{ github.event.inputs.new_version }}.zip" ./versions/
             sed -i "2s/.*/${replaceLineWith}/" ./torntools/changelog.js
+            rm -f entries.txt releaseBody.md
       - name: Release
         uses: ncipollo/release-action@v1
         with:
@@ -83,9 +83,6 @@ jobs:
           tag: "${{ github.event.inputs.new_version }}"
           bodyFile: "./releaseBody.md"
           token: ${{ secrets.GH_TOKEN }}
-      - name: Remove Temprary Files
-        run: |
-          rm -f entries.txt releaseBody.md
       - name: Add & Commit
         uses: EndBug/add-and-commit@v7.0.0
         with:
