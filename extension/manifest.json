@@ -202,6 +202,12 @@
 			"css": ["scripts/features/itemvalues/ttItemValues.css"],
 			"js": ["scripts/features/itemvalues/ttItemValues.js"],
 			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/travelagency.php*"],
+			"css": ["scripts/features/traveltable/ttTravelTable.css"],
+			"js": ["scripts/features/traveltable/ttTravelTable.js"],
+			"run_at": "document_end"
 		}
 	]
 }

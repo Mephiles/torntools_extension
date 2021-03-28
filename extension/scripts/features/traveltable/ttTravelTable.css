@@ -31,6 +31,10 @@
 	}
 }
 
+#travelDestinations {
+	margin-top: 8px;
+}
+
 #travelDestinations main {
 	padding: 4px;
 }
