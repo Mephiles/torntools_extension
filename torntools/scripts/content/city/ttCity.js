@@ -58,21 +58,22 @@ function displayItems(container, itemlist) {
 		if (settings.pages.city.items_images) {
 			span.appendChild(doc.new({ type: "img", class: "torn-item item-plate item-converted", attributes: { src: itemlist.items[+item].image } }));
 		}
-		let a;
+		let a, inner_span;
 		if (items[item] === 1) {
 			a = doc.new({
 				type: "a",
 				text: itemlist.items[item].name,
 				attributes: { href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=${item}` },
 			});
+			inner_span = doc.new({ type: "span", text: ` ($${numberWithCommas(itemlist.items[item].market_value)})` });
 		} else {
 			a = doc.new({
 				type: "a",
 				text: `${itemlist.items[item].name} (x${items[item]})`,
 				attributes: { href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=${item}` },
 			});
+			inner_span = doc.new({ type: "span", text: ` ($${numberWithCommas(items[item] * itemlist.items[item].market_value)})` });
 		}
-		let inner_span = doc.new({ type: "span", text: ` ($${numberWithCommas(itemlist.items[item].market_value)})` });
 		span.addEventListener("mouseenter", () => {
 			let cityFindItem = doc.find(`#map img[item-id='${item}']`);
 			if (cityFindItem) cityFindItem.classList.add("cityItem_hover");
