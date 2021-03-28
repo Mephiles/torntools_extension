@@ -1,4 +1,9 @@
 export default {
+	"v5.9 - xxxx, xxth. 2021": {
+		Features: [],
+		Fixes: ["Solve duplicate items on the map being ignored. - DKK", "Not unhiding hidden portfolio fixed. - Sashank999", "City Finds Alignment on Mobile. - Sashank999", "Don't warn when course and bank investement are completed on Travel. - Sashank999"],
+		Changes: [],
+	},
 	"v5.8 - March, 25th. 2021": {
 		Features: [
 			"Add Revives Skill to profile stat comparison table. - Sashank999",
