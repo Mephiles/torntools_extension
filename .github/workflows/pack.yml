@@ -75,6 +75,7 @@ jobs:
             mv "torntools_${{ github.event.inputs.new_version }}.zip" ./versions/
             sed -i "2s/.*/${replaceLineWith}/" ./torntools/changelog.js
             rm -f entries.txt releaseBody.md
+            sed "$(grep -nF "TornTools " README.md | cut -d: -f1)s,.*,    <h2>TornTools (v${{ github.event.inputs.new_version }})</h2>," README.md
       - name: Release
         uses: ncipollo/release-action@v1
         with:
