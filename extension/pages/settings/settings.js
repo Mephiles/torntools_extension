@@ -702,6 +702,7 @@ async function setupPreferences() {
 		settings.featureDisplayPosition = _preferences.find("input[name='featureDisplayPosition']:checked").value;
 
 		settings.external.tornstats = _preferences.find("#external-tornstats").checked;
+		settings.external.yata = _preferences.find("#external-yata").checked;
 
 		for (const type of ["pages"]) {
 			for (const page in settings[type]) {
