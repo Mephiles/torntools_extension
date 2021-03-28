@@ -59,10 +59,24 @@ Thanks, Mauk @DocTorn
 #tt-city-items .items {
 	display: flex;
 	margin-top: 10px;
+	flex-wrap: wrap;
 }
 
 #tt-city-items .items .column {
 	flex: 1 0 25%;
+	width: 120px;
+    height: 58px;
+}
+	
+@media screen and (max-width:600px) {
+	#tt-city-items .items .column {
+		flex: 1 0 25%;
+		width: 153px;
+		height: 76px;
+	}
+	#tt-city-items .items .column > span {
+		height: 54px;
+	}
 }
 
 #tt-city-items .items .column > span {
@@ -72,7 +86,6 @@ Thanks, Mauk @DocTorn
 	text-align: center;
 	display: flex;
 	flex-flow: row;
-	height: 36px;
 }
 
 #tt-city-items .items .column > span > img {
@@ -83,7 +96,8 @@ Thanks, Mauk @DocTorn
 
 #tt-city-items .items .column > span > div {
 	margin-left: 4px;
-	display: inline;
+	display: flex;
+    flex-flow: column;
 }
 
 #tt-city-items .items .column > span > div > a {
@@ -91,7 +105,7 @@ Thanks, Mauk @DocTorn
 }
 
 #tt-city-items .items .column > span > div > span {
-	color: var(--default-green-color, #678c00;);
+	color: var(--default-green-color, #678c00);
 }
 
 /* Items value */

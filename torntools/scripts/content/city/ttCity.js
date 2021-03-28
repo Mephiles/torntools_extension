@@ -48,53 +48,47 @@ function displayItems(container, itemlist) {
 	// Add items to box
 	let items_span = doc.new({ type: "div", class: "items" });
 
-	let index = 0;
-	for (let i = 0; i < 4; i++) {
-		let col = doc.new({ type: "div", class: "column" });
+	for (let i = 0; i < Object.keys(items).length; i++) {
+		let item = Object.keys(items)[i];
+		if (!item) break;
 
-		for (let j = 0; j < Object.keys(items).length / 4; j++) {
-			let item = Object.keys(items)[index];
-			if (!item) break;
-
-			let span = doc.new({ type: "span" });
-			let newDiv = doc.new({ type: "div" });
-			let canvas, context, image, a;
-			if (settings.pages.city.items_images) {
-				span.appendChild(doc.new({ type: "img", class: "torn-item item-plate item-converted", attributes: { src: itemlist.items[+item].image } }));
-			}
-			if (items[item] === 1) {
-				a = doc.new({
-					type: "a",
-					text: itemlist.items[item].name,
-					attributes: { href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=${item}` },
-				});
-			} else {
-				a = doc.new({
-					type: "a",
-					text: `${itemlist.items[item].name} (x${items[item]})`,
-					attributes: { href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=${item}` },
-				});
-			}
-			let inner_span = doc.new({ type: "span", text: ` ($${numberWithCommas(itemlist.items[item].market_value * items[item])})` });
-			span.addEventListener("mouseenter", () => {
-				let cityFindItem = doc.find(`#map img[item-id='${item}']`);
-				if (cityFindItem) cityFindItem.classList.add("cityItem_hover");
-			});
-			span.addEventListener("mouseleave", () => {
-				let cityFindItem = doc.find(`#map img[item-id='${item}']`);
-				if (cityFindItem) cityFindItem.classList.remove("cityItem_hover");
-			});
-			let hr = doc.new({ type: "hr", class: "delimiter-999 m-top10 m-bottom10" });
-
-			newDiv.appendChild(a);
-			newDiv.appendChild(inner_span);
-			span.appendChild(newDiv);
-			col.appendChild(span);
-			col.appendChild(hr);
-			index++;
+		let outerDiv = doc.new({ type: "div", class: "column" });
+		let span = doc.new({ type: "span" });
+		let div = doc.new({ type: "div" });
+		if (settings.pages.city.items_images) {
+			span.appendChild(doc.new({ type: "img", class: "torn-item item-plate item-converted", attributes: { src: itemlist.items[+item].image } }));
 		}
-
-		items_span.appendChild(col);
+		let a, inner_span;
+		if (items[item] === 1) {
+			a = doc.new({
+				type: "a",
+				text: itemlist.items[item].name,
+				attributes: { href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=${item}` },
+			});
+			inner_span = doc.new({ type: "span", text: ` ($${numberWithCommas(itemlist.items[item].market_value)})` });
+		} else {
+			a = doc.new({
+				type: "a",
+				text: `${itemlist.items[item].name} (x${items[item]})`,
+				attributes: { href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=${item}` },
+			});
+			inner_span = doc.new({ type: "span", text: ` ($${numberWithCommas(items[item] * itemlist.items[item].market_value)})` });
+		}
+		span.addEventListener("mouseenter", () => {
+			let cityFindItem = doc.find(`#map img[item-id='${item}']`);
+			if (cityFindItem) cityFindItem.classList.add("cityItem_hover");
+		});
+		span.addEventListener("mouseleave", () => {
+			let cityFindItem = doc.find(`#map img[item-id='${item}']`);
+			if (cityFindItem) cityFindItem.classList.remove("cityItem_hover");
+		});
+		let hr = doc.new({ type: "hr", class: "delimiter-999 m-top10 m-bottom10" });
+		div.appendChild(a);
+		div.appendChild(inner_span);
+		span.appendChild(div);
+		outerDiv.appendChild(span);
+		outerDiv.appendChild(hr);
+		items_span.appendChild(outerDiv);
 	}
 	content.appendChild(items_span);
 }
