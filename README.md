@@ -1,6 +1,11 @@
+![TornTools Logo](https://github.com/Mephiles/torntools_extension/blob/master/torntools/images/icon128.png)
 # TornTools (v5.6)  
 *A browser extension for Torn.com*  
-&nbsp;  
+&nbsp;
+![Chrome Extension Version](https://img.shields.io/chrome-web-store/v/hjpaapdjcgbmeikfnahipphknonhlhib?style=for-the-badge)
+![Firefox Extension Version](https://img.shields.io/amo/v/%7B3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9%7D?style=for-the-badge)
+![Github Version](https://img.shields.io/github/v/tag/Mephiles/torntools_extension?style=for-the-badge)
+
 **Links**  
   - [Original Thread](https://www.torn.com/forums.php#/p=threads&f=67&t=16054539&b=0&a=0&start=0&to=19000313)  
   - [New Thread by Armpit [2137519]](https://www.torn.com/forums.php#/p=threads&f=67&t=16170566&b=0&a=0)  
