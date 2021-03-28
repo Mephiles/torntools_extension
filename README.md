@@ -4,7 +4,6 @@
 <div style="display:inline-block;">
     <h2>TornTools (v5.6)</h2>
 </div>
-<br>
 
 *A browser extension for Torn.com*  
 ![Chrome Extension Version](https://img.shields.io/chrome-web-store/v/hjpaapdjcgbmeikfnahipphknonhlhib?style=for-the-badge)
