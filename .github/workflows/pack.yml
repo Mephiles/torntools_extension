@@ -74,6 +74,7 @@ jobs:
             zip -q -r "torntools_${{ github.event.inputs.new_version }}.zip" ./torntools
             mv "torntools_${{ github.event.inputs.new_version }}.zip" ./versions/
             sed -i "2s/.*/${replaceLineWith}/" ./torntools/changelog.js
+            sed -i "$(grep -nF '"version": ' manifest.json | cut -d: -f1)s,.*,\t\"version\"\: \"$version\"\,," manifest.json
             rm -f entries.txt releaseBody.md
       - name: Release
         uses: ncipollo/release-action@v1
