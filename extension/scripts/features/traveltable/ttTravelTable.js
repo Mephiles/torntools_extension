@@ -1,17 +1,18 @@
 "use strict";
 
 (async () => {
-	if (!isFlying()) return;
+	const page = getPage();
+	if (page === "home" && !isFlying()) return;
 
 	featureManager.registerFeature(
 		"Travel Table",
 		"flying",
-		() => true,
+		() => settings.pages.travel.table,
 		null,
 		startTable,
 		removeTable,
 		{
-			// storage: ["settings.pages.sidebar.ocTimer", "factiondata.userCrime"],
+			storage: ["settings.pages.travel.table"],
 		},
 		null
 	);

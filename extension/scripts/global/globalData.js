@@ -247,6 +247,7 @@ const DEFAULT_STORAGE = {
 			},
 			travel: {
 				computer: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				table: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		external: {
