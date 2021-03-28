@@ -307,24 +307,24 @@ i.fa-caret-down:not(.tt-title-icon):not(.tt-title-icon-torn) {
 	display: block;
 }
 
-div#tt-warn-timeout div.patter-left {
+div#tt-timeout-warning div.patter-left {
 	height: 30px;
 	margin: 0 0 0 10px;
 }
 
-div#tt-warn-timeout div.patter-right {
+div#tt-timeout-warning div.patter-right {
 	height: 30px;
 	margin: 0 10px 0 0;
 }
 
-div#tt-warn-timeout div.travel-wrap {
+div#tt-timeout-warning div.travel-wrap {
 	height: 30px;
 	text-align: center;
 	display: block;
 	margin: 0;
 }
 
-div#tt-warn-timeout span {
+div#tt-timeout-warning span {
 	top: 15%;
 	position: relative;
 	color: white;
