@@ -581,13 +581,13 @@ function addHiddenStocksTable() {
 		);
 	}
 	if (doc.find("div#tt-hide-stocks table")) {
-		doc.find("div#tt-hide-stocks table").addEventListener("click", () => {
+		doc.find("div#tt-hide-stocks table").addEventListener("click", (event) => {
 			if (event.target.localName === "button") {
 				let id = event.target.getAttribute("id");
 				delete hidden_portfolio[id];
 				ttStorage.set({ hidden_portfolio: hidden_portfolio });
 				doc.find(`div#tt-hide-stocks table tr#stock-${id}`).remove();
-				doc.find(`div.stock-main-wrap li.item-wrap[id="${id}"]`).style.display = "";
+				doc.find(`div.stock-main-wrap li.item-wrap[id="${id}"]`).style.display = "block";
 			}
 		});
 	}
