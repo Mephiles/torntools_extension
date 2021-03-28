@@ -1,7 +1,7 @@
 export default {
 	"v5.9 - xxxx, xxth. 2021": {
 		Features: [],
-		Fixes: ["Solve duplicate items on the map being ignored. - DKK"],
+		Fixes: ["Solve duplicate items on the map being ignored. - DKK", "Not unhiding hidden portfolio fixed. - Sashank999"],
 		Changes: [],
 	},
 	"v5.8 - March, 25th. 2021": {
