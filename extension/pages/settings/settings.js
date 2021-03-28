@@ -364,12 +364,10 @@ async function setupPreferences() {
 	}
 
 	_preferences.find("#external-tornstats").addEventListener("click", (event) => {
-		chrome.permissions.request({ origins: ["https://beta.tornstats.com/"] }, (granted) => {
-			if (!granted) {
-				sendMessage("Can't enable this without accepting the permission.", false);
-				event.target.checked = false;
-			}
-		});
+		requestOrigin("https://beta.tornstats.com/", event);
+	});
+	_preferences.find("#external-yata").addEventListener("click", (event) => {
+		requestOrigin("https://yata.yt/", event);
 	});
 
 	fillSettings();
@@ -406,6 +404,7 @@ async function setupPreferences() {
 		_preferences.find(`input[name="featureDisplayPosition"][value="${settings.featureDisplayPosition}"]`).checked = true;
 
 		_preferences.find("#external-tornstats").checked = settings.external.tornstats;
+		_preferences.find("#external-yata").checked = settings.external.yata;
 
 		for (const type of ["pages"]) {
 			for (const page in settings[type]) {
@@ -794,6 +793,17 @@ async function setupPreferences() {
 		document.body.classList.add(getPageTheme());
 
 		sendMessage("Settings saved.", true);
+	}
+
+	function requestOrigin(origin, event) {
+		if (!event.target.checked) return;
+
+		chrome.permissions.request({ origins: [origin] }, (granted) => {
+			if (!granted) {
+				sendMessage("Can't enable this without accepting the permission.", false);
+				event.target.checked = false;
+			}
+		});
 	}
 }
 

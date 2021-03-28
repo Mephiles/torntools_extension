@@ -6,7 +6,7 @@
 
 	featureManager.registerFeature(
 		"Travel Table",
-		"flying",
+		"travel",
 		() => settings.pages.travel.table,
 		null,
 		startTable,
@@ -14,7 +14,9 @@
 		{
 			storage: ["settings.pages.travel.table"],
 		},
-		null
+		() => {
+			if (!settings.external.yata) return "YATA not enabled";
+		}
 	);
 
 	function startTable() {
