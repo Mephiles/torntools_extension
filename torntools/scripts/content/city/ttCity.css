@@ -65,10 +65,10 @@ Thanks, Mauk @DocTorn
 #tt-city-items .items .column {
 	flex: 1 0 25%;
 	width: 120px;
-    height: 58px;
+	height: 58px;
 }
-	
-@media screen and (max-width:600px) {
+
+@media screen and (max-width: 600px) {
 	#tt-city-items .items .column {
 		flex: 1 0 25%;
 		width: 153px;
@@ -97,7 +97,7 @@ Thanks, Mauk @DocTorn
 #tt-city-items .items .column > span > div {
 	margin-left: 4px;
 	display: flex;
-    flex-flow: column;
+	flex-flow: column;
 }
 
 #tt-city-items .items .column > span > div > a {
