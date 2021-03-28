@@ -1,4 +1,4 @@
-<div style="display: inline;"><img src="torntools/images/icon48.png" style="float: left; display: inline;"><h2 style="display: inline;">TornTools (v5.6)</h2></div>
+<img src="torntools/images/icon48.png" style="float: left; display: inline;"><h2 style="display: inline;">TornTools (v5.6)</h2>
 
 *A browser extension for Torn.com*  
 ![Chrome Extension Version](https://img.shields.io/chrome-web-store/v/hjpaapdjcgbmeikfnahipphknonhlhib?style=for-the-badge)
