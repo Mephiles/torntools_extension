@@ -71,9 +71,10 @@ jobs:
             version="${version//./\\.}"
             replaceLineWith="${newChangelogEntries}\n\t\"$version - $(date +%B), $(date +%d)th. $(date +%Y)\"\:\ \{"
             sed -i "2s/.*/\t\"$version - $(date +%B), $(date +%d)th. $(date +%Y)\"\:\ \{/" ./torntools/changelog.js
-            zip -q -r "torntools_${{ github.event.inputs.new_version }}.zip" ./torntools
-            mv "torntools_${{ github.event.inputs.new_version }}.zip" ./versions/
+            zip -q -r "torntools_$version.zip" ./torntools
+            mv "torntools_$version.zip" ./versions/
             sed -i "2s/.*/${replaceLineWith}/" ./torntools/changelog.js
+            sed -i "$(grep -nF '"version": ' manifest.json | cut -d: -f1)s,.*,\t\"version\"\: \"$version\"\,," manifest.json
             rm -f entries.txt releaseBody.md
       - name: Release
         uses: ncipollo/release-action@v1
