@@ -1,5 +1,10 @@
-![TornTools Logo](torntools/images/icon128.png)
-# TornTools (v5.6)  
+<div style="display:inline-block;vertical-align:top;">
+    <img align="left" src="torntools/images/icon48.png">
+</div>
+<div style="display:inline-block;">
+    <h2>TornTools</h2>
+</div>
+
 *A browser extension for Torn.com*  
 ![Chrome Extension Version](https://img.shields.io/chrome-web-store/v/hjpaapdjcgbmeikfnahipphknonhlhib?style=for-the-badge)
 ![Firefox Extension Version](https://img.shields.io/amo/v/%7B3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9%7D?style=for-the-badge)
