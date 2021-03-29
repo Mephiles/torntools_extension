@@ -6,6 +6,7 @@ export default {
 			"Not unhiding hidden portfolio fixed. - Sashank999",
 			"City Finds Alignment on Mobile. - Sashank999",
 			"Don't warn when course and bank investement are completed on Travel. - Sashank999",
+			"Fix travel count not being correct. - Sashank999",
 		],
 		Changes: [],
 	},

@@ -422,9 +422,9 @@ function addLegend() {
 
 function setTravelItems() {
 	// Travel items calculation
-	let airstrip = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "AIRSTRIP";
-	let wlt = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "PRIVATE";
-	let business = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "BUSINESS";
+	let airstrip = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "Airstrip";
+	let wlt = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "Private";
+	let business = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "Business";
 
 	let suitcase = 0,
 		job_perk = 0,
