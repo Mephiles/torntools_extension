@@ -180,6 +180,7 @@ const DEFAULT_STORAGE = {
 				networth: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				inventory: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				merits: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				perks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		themes: {
@@ -583,6 +584,7 @@ const API_SELECTIONS = {
 		"education",
 		"attacks",
 		"networth",
+		"perks",
 	],
 	properties: [],
 	faction: ["crimes"],
