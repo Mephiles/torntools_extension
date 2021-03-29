@@ -1,3 +1,5 @@
+/* Travel Icon */
+
 .tt-travel {
 	cursor: pointer;
 	color: #7f7f7f;
@@ -31,10 +33,52 @@
 	}
 }
 
+/* Container */
+
 #travelDestinations {
 	margin-top: 8px;
 }
 
 #travelDestinations main {
 	padding: 4px;
+}
+
+/* Legend */
+
+#travelDestinations .legend .top-row {
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+#travelDestinations .legend .top-row > * {
+	width: 49%;
+}
+
+#travelDestinations .legend .top-row .filter-icon {
+	display: inline-block;
+}
+
+#travelDestinations .legend .top-row .filter-icon > * {
+	display: inline-block;
+	cursor: pointer;
+}
+
+#travelDestinations .legend .top-row .filter-icon i {
+	text-align: center;
+	height: 12px;
+	width: 12px;
+}
+
+#travelDestinations .legend .top-row .table-type-wrap {
+	display: inline-flex;
+	white-space: pre;
+	justify-content: flex-end;
+}
+
+#travelDestinations .legend .top-row .table-type-wrap span[type] {
+	cursor: pointer;
+}
+
+#travelDestinations .legend .top-row .table-type-wrap span[type].active {
+	font-weight: 600;
 }

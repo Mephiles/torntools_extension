@@ -25,6 +25,71 @@
 
 		function createTable() {
 			const { content } = createContainer("Travel Destinations");
+			addLegend();
+
+			function addLegend() {
+				let isOpen = filters.travel.open;
+
+				content.appendChild(
+					document.newElement({
+						type: "div",
+						class: "legend",
+						html: `
+							<div class="top-row">
+								<div class="filter-icon">
+									<i class="fas fa-chevron-${isOpen ? "down" : "right"}"></i>
+									<span>Filters</span>
+								</div>
+								<div class="table-type-wrap">
+									<span class="table-type" type="basic">Basic</span>
+									<span> / </span>
+									<span class="table-type" type="advanced">Advanced</span>
+								</div>
+							</div>
+							<div class="filter-content ${isOpen ? "" : "hidden"}">
+							 	<span>Content</span>
+							</div>
+						`,
+					})
+				);
+
+				content.find(".filter-icon").addEventListener("click", (event) => {
+					if (event.target.classList.contains("filter-icon")) return;
+
+					const isOpen = !content.find(".filter-content").classList.toggle("hidden");
+
+					const iconClasses = content.find(".filter-icon i").classList;
+					if (isOpen) {
+						iconClasses.remove("fa-chevron-right");
+						iconClasses.add("fa-chevron-down");
+					} else {
+						iconClasses.remove("fa-chevron-down");
+						iconClasses.add("fa-chevron-right");
+					}
+					ttStorage.change({ filters: { travel: { open: isOpen } } });
+				});
+
+				content.find(`.table-type[type=${filters.travel.type}]`).classList.add("active");
+				const typeBasic = content.find(".table-type[type='basic']");
+				const typeAdvanced = content.find(".table-type[type='advanced']");
+
+				typeBasic.addEventListener("click", () => {
+					typeBasic.classList.add("active");
+					typeAdvanced.classList.remove("active");
+
+					// TODO - Change the actual type.
+
+					ttStorage.change({ filters: { travel: { type: "basic" } } });
+				});
+				typeAdvanced.addEventListener("click", () => {
+					typeAdvanced.classList.add("active");
+					typeBasic.classList.remove("active");
+
+					// TODO - Change the actual type.
+
+					ttStorage.change({ filters: { travel: { type: "advanced" } } });
+				});
+			}
 		}
 
 		function startFlyingTable() {

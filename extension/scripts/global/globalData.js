@@ -260,6 +260,10 @@ const DEFAULT_STORAGE = {
 			showAdvanced: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 		containers: new DefaultSetting({ type: "object", defaultValue: {} }),
+		travel: {
+			open: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			type: new DefaultSetting({ type: "string", defaultValue: "basic" }),
+		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),
