@@ -3,9 +3,9 @@ export default {
 		Features: [],
 		Fixes: [
 			"Solve duplicate items on the map being ignored. - DKK",
-			"Not unhiding hidden portfolio fixed. - Sashank999",
-			"City Finds Alignment on Mobile. - Sashank999",
-			"Don't warn when course and bank investement are completed on Travel. - Sashank999",
+			"Fix showing hidden portfolio stocks. - Sashank999",
+			"Improve city finds alignment on Mobile. - Sashank999",
+			"Don't warn when education course and bank investment are completed during travel. - Sashank999",
 			"Fix travel count not being correct. - Sashank999",
 		],
 		Changes: [],
