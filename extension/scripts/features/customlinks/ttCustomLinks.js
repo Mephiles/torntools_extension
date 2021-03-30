@@ -35,7 +35,7 @@
 				id,
 				applyRounding: false,
 				contentBackground: false,
-				nextElement: findParent(document.find("h2=Areas"), { class: "^=sidebar-block_" }),
+				[filter === "above" ? "nextElement" : "previousElement"]: findParent(document.find("h2=Areas"), { class: "^=sidebar-block_" }),
 			});
 
 			for (const link of settings.customLinks.filter((link) => link.location === filter)) {
@@ -59,6 +59,9 @@
 		}
 
 		function showInside() {
+			for (const link of document.findAll(".custom-link")) link.remove();
+
+			const areas = findParent(document.find("h2=Areas"), { class: "^=sidebar-block_" });
 			for (const link of settings.customLinks.filter((link) => link.location !== "above" && link.location !== "under")) {
 				const locationSplit = link.location.split("_");
 
@@ -95,6 +98,6 @@
 		removeContainer("Custom Links", { id: "customLinksAbove" });
 		removeContainer("Custom Links", { id: "customLinksUnder" });
 
-		for (const link of areas.findAll(".custom-link")) link.remove();
+		for (const link of document.findAll(".custom-link")) link.remove();
 	}
 })();
