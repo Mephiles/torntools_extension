@@ -52,12 +52,8 @@ function displayItems(container, itemlist) {
 		let item = Object.keys(items)[i];
 		if (!item) break;
 
-		let outerDiv = doc.new({ type: "div", class: "column" });
-		let span = doc.new({ type: "span" });
+		let outerDiv = doc.new({ type: "div", class: "item" });
 		let div = doc.new({ type: "div" });
-		if (settings.pages.city.items_images) {
-			span.appendChild(doc.new({ type: "img", class: "torn-item item-plate item-converted", attributes: { src: itemlist.items[+item].image } }));
-		}
 		let a, inner_span;
 		if (items[item] === 1) {
 			a = doc.new({
@@ -74,20 +70,17 @@ function displayItems(container, itemlist) {
 			});
 			inner_span = doc.new({ type: "span", text: ` ($${numberWithCommas(items[item] * itemlist.items[item].market_value)})` });
 		}
-		span.addEventListener("mouseenter", () => {
+		outerDiv.addEventListener("mouseenter", () => {
 			let cityFindItem = doc.find(`#map img[item-id='${item}']`);
 			if (cityFindItem) cityFindItem.classList.add("cityItem_hover");
 		});
-		span.addEventListener("mouseleave", () => {
+		outerDiv.addEventListener("mouseleave", () => {
 			let cityFindItem = doc.find(`#map img[item-id='${item}']`);
 			if (cityFindItem) cityFindItem.classList.remove("cityItem_hover");
 		});
-		let hr = doc.new({ type: "hr", class: "delimiter-999 m-top10 m-bottom10" });
 		div.appendChild(a);
 		div.appendChild(inner_span);
-		span.appendChild(div);
-		outerDiv.appendChild(span);
-		outerDiv.appendChild(hr);
+		outerDiv.appendChild(div);
 		items_span.appendChild(outerDiv);
 	}
 	content.appendChild(items_span);
