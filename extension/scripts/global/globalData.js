@@ -514,6 +514,10 @@ const API_USAGE = {
 				bought_price: true,
 			},
 		},
+		enhancer_perks: true,
+		// job_perks: true,
+		faction_perks: true,
+		// book_perk: true,
 	},
 	properties: {},
 	faction: {

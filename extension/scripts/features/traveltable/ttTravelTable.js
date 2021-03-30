@@ -165,15 +165,50 @@
 					ttStorage.change({ filters: { travel: { type: "advanced" } } });
 				});
 
-				content.find("#travel-items").value = 0;
+				content.find("#travel-items").value = getTravelCount();
 
 				function getTravelCount() {
-					let suitcase = 0;
+					let count = 5;
 
-					// if (hasAPIData() && settings.apiUsage.user.perks) {
-					// }
+					console.log("DKK getTravelCount 1");
+					if (hasAPIData() && settings.apiUsage.user.perks) {
+						count += userdata.enhancer_perks
+							.map((perk) => perk.match(/\+ ([0-9]+) Travel items \(.* Suitcase\)/i))
+							.filter((result) => !!result)
+							.map((result) => parseInt(result[1]))
+							.totalSum();
+						// TODO - Add job perk capacity.
+						// count += userdata.job_perks
+						// 	.map((perk) => perk.match(/\+ Increases maximum traveling capacity by ([0-9]+)/i))
+						// 	.filter((result) => !!result)
+						// 	.map((result) => parseInt(result[1]))
+						// 	.totalSum();
+						count += userdata.faction_perks
+							.map((perk) => perk.match(/\+ Increases maximum traveling capacity by ([0-9]+)/i))
+							.filter((result) => !!result)
+							.map((result) => parseInt(result[1]))
+							.totalSum();
+						// TODO - Add book perk capacity.
+						// count += userdata.book_perk
+						// 	.map((perk) => perk.match(/\+ Increases maximum traveling capacity by ([0-9]+)/i))
+						// 	.filter((result) => !!result)
+						// 	.map((result) => parseInt(result[1]))
+						// 	.totalSum();
+					}
 
-					return suitcase;
+					if (page === "travelagency") {
+						if (document.find("#tab-menu4 > ul > li[aria-selected='true'] .travel-name").innerText.toLowerCase() !== "standard") {
+							count += 10;
+						}
+					} else if (page === "home") {
+						// TODO - Add travel type count.
+					}
+
+					console.log("DKK travel type");
+
+					console.log("DKK getTravelCount 2", count);
+
+					return count;
 				}
 			}
 		}
