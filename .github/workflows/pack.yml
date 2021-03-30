@@ -82,7 +82,7 @@ jobs:
       - name: Release
         uses: ncipollo/release-action@v1
         with:
-          artifact: "./versions/torntools_${{ env.version }}.zip"
+          artifacts: versions/torntools_${{ env.version }}.zip
           name: "Release: v${{ env.version }}"
           tag: "${{ env.version }}"
           bodyFile: "./releaseBody.md"
