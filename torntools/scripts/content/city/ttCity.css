@@ -17,8 +17,7 @@ Thanks, Mauk @DocTorn
 	border-image: initial;
 	border-radius: 100%;
 	background: rgba(18, 71, 7, 0.5);
-	transition: width 50ms cubic-bezier(0.65, 0.05, 0.36, 1), height 50ms cubic-bezier(0.65, 0.05, 0.36, 1), left 50ms cubic-bezier(0.65, 0.05, 0.36, 1),
-		top 50ms cubic-bezier(0.65, 0.05, 0.36, 1), padding 50ms cubic-bezier(0.65, 0.05, 0.36, 1), background 50ms 0ms;
+	transition: width 50ms cubic-bezier(0.65, 0.05, 0.36, 1), height 50ms cubic-bezier(0.65, 0.05, 0.36, 1), left 50ms cubic-bezier(0.65, 0.05, 0.36, 1), top 50ms cubic-bezier(0.65, 0.05, 0.36, 1), padding 50ms cubic-bezier(0.65, 0.05, 0.36, 1), background 50ms 0ms;
 	animation: svelte-1dz9z41-fade-in 500ms ease-out backwards;
 }
 
@@ -48,10 +47,9 @@ Thanks, Mauk @DocTorn
 
 /* Items list */
 #tt-city-items .content {
-	display: block;
 	padding-left: 7px;
 	padding-right: 7px;
-	padding-bottom: 26px !important;
+	padding-bottom: 14px !important;
 	padding-top: 0 !important;
 	font-size: 15px;
 	font-weight: 600;
@@ -59,55 +57,30 @@ Thanks, Mauk @DocTorn
 
 #tt-city-items .items {
 	display: flex;
-	margin-top: 10px;
 	flex-wrap: wrap;
+	margin-top: 10px;
 }
 
-#tt-city-items .items .column {
+#tt-city-items .items .item {
 	flex: 1 0 25%;
-	width: 120px;
-	height: 58px;
 }
 
-@media screen and (max-width: 600px) {
-	#tt-city-items .items .column {
-		flex: 1 0 25%;
-		width: 153px;
-		height: 76px;
-	}
-	#tt-city-items .items .column > span {
-		height: 54px;
-	}
-}
-
-#tt-city-items .items .column > span {
+#tt-city-items .items .item > div {
 	line-height: 18px;
 	font-size: 13px;
 	font-weight: 400;
+	display: block;
 	text-align: center;
-	display: flex;
-	flex-flow: row;
 }
 
-#tt-city-items .items .column > span > img {
-	opacity: 1;
-	height: 35px;
-	width: 60px;
+#tt-city-items .items .item > div > span {
+	color: var(--default-green-color, #678c00);
 }
 
-#tt-city-items .items .column > span > div {
-	margin-left: 4px;
-	display: flex;
-	flex-flow: column;
-}
-
-#tt-city-items .items .column > span > div > a {
+#tt-city-items .items .item > div > a {
 	text-decoration: none;
 }
 
-#tt-city-items .items .column > span > div > span {
-	color: var(--default-green-color, #678c00);
-}
 
 /* Items value */
 #tt-city-items-value {
