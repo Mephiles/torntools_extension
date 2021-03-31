@@ -36,6 +36,7 @@ function createContainer(title, options = {}) {
 		if (options.collapsible) containerClasses.push("collapsible");
 		if (options.applyRounding) containerClasses.push("rounding");
 		if (options.spacer) containerClasses.push("spacer");
+		if (options.class) containerClasses.push(options.class.split(" "));
 
 		const theme = THEMES[settings.themes.containers];
 		containerClasses.push(theme.containerClass);

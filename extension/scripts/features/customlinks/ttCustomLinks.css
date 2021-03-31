@@ -1,0 +1,37 @@
+.tt-custom-link-container {
+	margin-bottom: 2px;
+}
+
+#sidebarroot .pill {
+	position: relative;
+	cursor: pointer;
+	overflow: hidden;
+	vertical-align: top;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+	background-color: var(--default-bg-panel-color);
+	margin-top: 2px;
+}
+
+/*noinspection DuplicatedCode*/
+#sidebarroot .pill a {
+	overflow: hidden;
+	color: var(--default-font-color);
+	text-decoration: none;
+	height: 100%;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-pack: start;
+	-ms-flex-pack: start;
+	justify-content: flex-start;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: row;
+	flex-direction: row;
+	line-height: 22px;
+	margin-left: 8px;
+}

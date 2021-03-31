@@ -33,6 +33,7 @@
 
 			const { content } = createContainer("Custom Links", {
 				id,
+				class: "tt-custom-link-container",
 				applyRounding: false,
 				contentBackground: false,
 				[filter === "above" ? "nextElement" : "previousElement"]: findParent(document.find("h2=Areas"), { class: "^=sidebar-block_" }),

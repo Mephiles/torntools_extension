@@ -92,11 +92,13 @@
 			"exclude_matches": ["https://www.torn.com/api.html*"],
 			"css": [
 				"scripts/features/octime/ttOCTime.css",
+				"scripts/features/customlinks/ttCustomLinks.css",
 				"scripts/features/updatenotice/ttUpdateNotice.css",
 				"scripts/features/sidebarnotes/ttSidebarNotes.css",
 				"scripts/features/coloredchat/ttColoredChat.css",
 				"scripts/features/searchchat/ttSearchChat.css",
-				"scripts/features/computerlink/ttComputerLink.css"
+				"scripts/features/computerlink/ttComputerLink.css",
+				"scripts/features/miniprofileinformation/ttMiniprofileInformation.css"
 			],
 			"js": [
 				"scripts/content/global/ttGlobal.js",

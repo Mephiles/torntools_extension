@@ -17,9 +17,8 @@
 	);
 
 	function applyStyle() {
-		document.documentElement.style.setProperty(
-			"--torntools-highlight-energy",
-			!userdata.refills.energy_refill_used && settings.pages.sidebar.highlightEnergy ? `#6e8820` : "#333"
-		);
+		if (!userdata.refills.energy_refill_used && settings.pages.sidebar.highlightEnergy)
+			document.documentElement.classList.add("tt-highlight-energy-refill");
+		else document.documentElement.classList.remove("tt-highlight-energy-refill");
 	}
 })();

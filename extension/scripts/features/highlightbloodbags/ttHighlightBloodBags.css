@@ -3,16 +3,23 @@
  */
 
 .good-blood {
-	background-color: #bdecb9b5 !important;
+	background-color: var(--default-bg-green-hover-color) !important;
 }
 
 .bad-blood {
-	background-color: #f5b2b28a !important;
+	background-color: var(--default-bg-red-hover-color) !important;
 }
 
 .tt-blood-price {
-	color: rgb(103, 140, 0);
 	float: right;
 	padding-right: 10px;
 	font-weight: normal;
+}
+
+body:not(.dark-mode) .tt-blood-price {
+	color: rgb(103, 140, 0);
+}
+
+body.dark-mode .tt-blood-price {
+	color: #99cc00;
 }

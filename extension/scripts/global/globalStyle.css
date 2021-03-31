@@ -83,7 +83,7 @@
 }
 
 *[color="tRed"] {
-	color: var(--default-red-color, #d83500);
+	color: var(--default-red-color);
 }
 
 *[color="darkorange"] {
@@ -95,7 +95,7 @@
 }
 
 *[color="tGreen"] {
-	color: var(--default-green-color, #678c00) !important;
+	color: var(--default-green-color) !important;
 }
 
 *[background-color="green"] {
@@ -243,40 +243,6 @@
 	border-bottom-right-radius: 5px;
 }
 
-#sidebarroot .pill {
-	position: relative;
-	cursor: pointer;
-	overflow: hidden;
-	vertical-align: top;
-	border-bottom-right-radius: 5px;
-	border-top-right-radius: 5px;
-	background-color: var(--default-bg-panel-color, #f2f2f2);
-	margin-top: 2px;
-}
-
-/*noinspection DuplicatedCode*/
-#sidebarroot .pill a {
-	overflow: hidden;
-	color: var(--default-content-font-color, #333);
-	text-decoration: none;
-	height: 100%;
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center;
-	-webkit-box-pack: start;
-	-ms-flex-pack: start;
-	justify-content: flex-start;
-	-webkit-box-orient: horizontal;
-	-webkit-box-direction: normal;
-	-ms-flex-direction: row;
-	flex-direction: row;
-	line-height: 22px;
-	margin-left: 8px;
-}
-
 .tt-container > main {
 	margin-top: initial !important;
 }
@@ -286,7 +252,7 @@
 }
 
 .tt-container > main.background {
-	background-color: var(--default-bg-panel-color, #f2f2f2);
+	background-color: var(--default-bg-panel-color);
 }
 
 /*
@@ -294,12 +260,20 @@
  */
 
 #tt-page-status {
-	background-color: white;
 	padding: 7px 14px;
 	width: 150px;
 	border-radius: 10px;
-	border: 2px solid lightgray;
 	z-index: 5;
+}
+
+body:not(.dark-mode) #tt-page-status {
+	background-color: #fff;
+	border: 1px solid lightgray;
+}
+
+body.dark-mode #tt-page-status {
+	background-color: #333;
+	border: 1px solid #444;
 }
 
 #tt-page-status.top-left {
