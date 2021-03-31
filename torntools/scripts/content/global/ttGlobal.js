@@ -829,24 +829,27 @@ function tradeChatPostTimer() {
 				if (dontPost) dontPost.style.display = "none";
 			}, 60 * 1000 - (new Date() - new Date(last_trade_post_time)));
 		} else {
-			if (doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_']")) doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_']").insertAdjacentHTML("afterBegin", canPostHTML);
+			if (doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_']"))
+				doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_']").insertAdjacentHTML("afterBegin", canPostHTML);
 		}
-		if (doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] textarea")) doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] textarea").addEventListener("keypress", (event) => {
-			if (event.keyCode == 13 && doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer")) {
-				let new_last_trade_post_time = new Date().toString();
-				ttStorage.set({ last_trade_post_time: new_last_trade_post_time });
-				last_trade_post_time = new_last_trade_post_time;
-				doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").lastElementChild.style.display =
-					"none";
-				doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").firstElementChild.style.display =
-					"block";
-				setTimeout(() => {
-					let canPost = doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").lastElementChild;
-					let dontPost = doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").firstElementChild;
-					if (canPost) canPost.style.display = "block";
-					if (dontPost) dontPost.style.display = "none";
-				}, 60000);
-			}
-		});
+		if (doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] textarea"))
+			doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] textarea").addEventListener("keypress", (event) => {
+				if (event.keyCode == 13 && doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer")) {
+					let new_last_trade_post_time = new Date().toString();
+					ttStorage.set({ last_trade_post_time: new_last_trade_post_time });
+					last_trade_post_time = new_last_trade_post_time;
+					doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").lastElementChild.style.display =
+						"none";
+					doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").firstElementChild.style.display =
+						"block";
+					setTimeout(() => {
+						let canPost = doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").lastElementChild;
+						let dontPost = doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer")
+							.firstElementChild;
+						if (canPost) canPost.style.display = "block";
+						if (dontPost) dontPost.style.display = "none";
+					}, 60000);
+				}
+			});
 	}
 }
