@@ -52,7 +52,7 @@
 						document.newElement({
 							type: "a",
 							href: `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${name}`,
-							children: [document.newElement({ type: "i", class: "torn-icon-item-market", attributes: { title: "Open Item Market" } })],
+							children: [document.newElement({ type: "i", class: "item-market-icon", attributes: { title: "Open Item Market" } })],
 						}),
 					],
 				})

@@ -17,9 +17,7 @@
 	);
 
 	function applyStyle() {
-		document.documentElement.style.setProperty(
-			"--torntools-highlight-nerve",
-			!userdata.refills.nerve_refill_used && settings.pages.sidebar.highlightNerve ? `#6e8820` : "#333"
-		);
+		if (!userdata.refills.nerve_refill_used && settings.pages.sidebar.highlightNerve) document.documentElement.classList.add("tt-highlight-nerve-refill");
+		else document.documentElement.classList.remove("tt-highlight-nerve-refill");
 	}
 })();

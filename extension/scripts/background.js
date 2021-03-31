@@ -173,7 +173,7 @@ function timedUpdates() {
 				.catch((error) => logError("updating stocks", error));
 		}
 
-		if (!factiondata || Date.now() - factiondata.date >= TO_MILLIS.MINUTES * 15)
+		if (!factiondata || !factiondata.date || Date.now() - factiondata.date >= TO_MILLIS.MINUTES * 15)
 			updateFactiondata()
 				.then(() => console.log("Updated factiondata."))
 				.catch((error) => logError("updating factiondata", error));

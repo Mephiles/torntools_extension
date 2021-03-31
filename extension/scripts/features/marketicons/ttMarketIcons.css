@@ -19,8 +19,23 @@
 	border-bottom-right-radius: 5px;
 }
 
-.outside-actions .torn-icon-item-market {
-	height: 30px !important;
+.outside-actions .item-market-icon {
+	height: 34px;
+	width: 34px;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+body:not(.darkmode) .outside-actions .item-market-icon {
+	background: url(/images/v2/city/location_icons_34x34px.svg) no-repeat;
+}
+
+body.dark-mode .outside-actions .item-market-icon {
+	background: url(/images/v2/city/location_icons_34x34px_dark.svg) no-repeat;
+}
+
+.outside-actions .item-market-icon {
+	background-position: -68px -34px !important;
 }
 
 .needed-item .outside-actions {

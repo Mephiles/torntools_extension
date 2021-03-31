@@ -8,6 +8,7 @@
 
 #liveNetworth table tr > * {
 	padding-bottom: 4px;
+	color: var(--default-font-color);
 }
 
 #liveNetworth table th {

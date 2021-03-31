@@ -3,6 +3,16 @@
 	color: #678c00;
 }
 
+body:not(.dark-mode) .tt-item-price-color,
+body:not(.dark-mode) .tt-item-price {
+	color: rgb(103, 140, 0);
+}
+
+body.dark-mode .tt-item-price-color,
+body.dark-mode .tt-item-price {
+	color: #99cc00;
+}
+
 .tt-item-price {
 	width: unset !important;
 	padding-left: 10px !important;
@@ -19,8 +29,15 @@ span.tt-item-price {
 }
 
 .tt-item-quantity {
-	color: black;
 	font-weight: 600;
+}
+
+body:not(.dark-mode) .tt-item-quantity {
+	color: black;
+}
+
+body.dark-mode .tt-item-quantity {
+	color: #ddd;
 }
 
 .tt-mobile .tt-item-price {

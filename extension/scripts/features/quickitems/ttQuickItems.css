@@ -10,13 +10,21 @@
 
 #quickItems .inner-content .item {
 	display: inline-block;
-	border: 1px solid lightgray;
 	padding: 5px;
 	border-radius: 5px;
-	background-color: white;
 	cursor: pointer;
 	position: relative;
 	margin: 5px 5px 0 0;
+}
+
+body:not(.dark-mode) #quickItems .inner-content .item {
+	border: 1px solid lightgray;
+	background-color: white;
+}
+
+body.dark-mode #quickItems .inner-content .item {
+	border: 1px solid #444;
+	background-color: #333;
 }
 
 #quickItems .inner-content .item:hover .tt-close-icon {
@@ -40,12 +48,16 @@
 	border: 1px solid gray;
 }
 
-#quickItems .inner-content .item.equipped {
-	background-color: var(--default-bg-green-color, rgba(110, 160, 55, 0.15));
+body:not(.dark-mode) #quickItems .inner-content .item.equipped {
+	background-color: var(--default-bg-green-color);
+}
+
+body.dark-mode #quickItems .inner-content .item.equipped {
+	background-color: var(--default-bg-green-color);
 }
 
 #quickItems .inner-content .item[data-equip-position] {
-	border: 1px solid gold;
+	border: 1px solid gold !important;
 }
 
 #quickItems .inner-content .item .pic {
@@ -68,10 +80,10 @@
 #quickItems .response-wrap {
 	display: none;
 	padding: 10px;
-	background-color: white;
+	background-color: var(--items-cont-bg-color);
 	text-align: center;
-	border-top: 1px solid lightgray;
-	border-bottom: 1px solid lightgray;
+	border-top: 1px solid var(--items-cont-description-border-top-color);
+	border-bottom: 1px solid var(--items-cont-description-border-top-color);
 }
 
 #quickItems .ajax-placeholder {
