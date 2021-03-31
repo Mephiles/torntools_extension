@@ -139,7 +139,9 @@ function searchPreferences() {
 		if (!ttBlackSearchOverlay.find("input#tt-search-input").value.toLowerCase().trim()) return;
 		doc.findAll(".searched").forEach((option) => option.classList.remove("searched"));
 		let searchResults = doc.evaluate(
-			"//div[@id='preferences']//div[@class='inner-content']//div[input][contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" +
+			"//div[@id='preferences']//div[@class='inner-content']//div[@class='sections']//div[input][contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" +
+				ttBlackSearchOverlay.find("input#tt-search-input").value.toLowerCase() +
+				"')] | //div[@id='preferences']//div[@class='inner-content']//div[@class='sections']//div[@class='heading'][contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" +
 				ttBlackSearchOverlay.find("input#tt-search-input").value.toLowerCase() +
 				"')]",
 			doc,
