@@ -141,9 +141,9 @@ function searchPreferences() {
 		let searchResults = doc.evaluate(
 			"//div[@id='preferences']//div[@class='inner-content']//div[@class='sections']//div[input][contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" +
 				ttBlackSearchOverlay.find("input#tt-search-input").value.toLowerCase() +
-			"')] | //div[@id='preferences']//div[@class='inner-content']//div[@class='sections']//div[@class='heading'][contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" +
+				"')] | //div[@id='preferences']//div[@class='inner-content']//div[@class='sections']//div[@class='heading'][contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" +
 				ttBlackSearchOverlay.find("input#tt-search-input").value.toLowerCase() +
-			"')]",
+				"')]",
 			doc,
 			null,
 			XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
