@@ -3,10 +3,17 @@
 .tt-travel {
 	cursor: pointer;
 	color: #7f7f7f;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
 	line-height: 24px;
 	float: right;
 	margin-right: 30px;
+}
+
+body:not(.dark-mode) {
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+body.dark-mode {
+	text-shadow: none;
 }
 
 .tt-travel i {
