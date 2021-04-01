@@ -422,9 +422,9 @@ function addLegend() {
 
 function setTravelItems() {
 	// Travel items calculation
-	let airstrip = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "Airstrip";
-	let wlt = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "Private";
-	let business = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "Business";
+	let airstrip = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "AIRSTRIP";
+	let wlt = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "PRIVATE";
+	let business = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "BUSINESS";
 
 	let suitcase = 0,
 		job_perk = 0,
@@ -847,24 +847,19 @@ function warnOnTimeout() {
 				travelTime = travelTimeArray[0] * 60 * 60 + travelTimeArray[3] * 60;
 			}
 			let timeoutFor;
-			if (
-				userdata.education_timeleft &&
-				userdata.city_bank.time_left &&
-				2 * travelTime >= userdata.education_timeleft &&
-				2 * travelTime >= userdata.city_bank.time_left
-			) {
-				timeoutFor = "education course and bank investment";
+			if (userdata.education_timeleft && userdata.city_bank.time_left && 2 * travelTime >= userdata.education_timeleft && 2 * travelTime >= userdata.city_bank.time_left) {
+				timeoutFor = "education course and bank investment end";
 			} else if (userdata.education_timeleft && 2 * travelTime >= userdata.education_timeleft) {
-				timeoutFor = "education course";
+				timeoutFor = "education course ends";
 			} else if (userdata.city_bank.time_left && 2 * travelTime >= userdata.city_bank.time_left) {
-				timeoutFor = "bank investment";
+				timeoutFor = "bank investment ends";
 			} else {
 				return;
 			}
 			let rawHTML = `<div id="tt-timeout-warning">
 			<div class="patter-left"></div>
 			<div class="travel-wrap">
-				<span>Warning: Your ${timeoutFor} end(s) before you return to TORN !</span>
+				<span>Warning: Your ${timeoutFor} before you return to TORN !</span>
 			</div>
 			<div class="patter-right"></div>
 			<div class="clear"></div>
