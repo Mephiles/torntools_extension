@@ -50,7 +50,7 @@ Thanks, Mauk @DocTorn
 #tt-city-items .content {
 	padding-left: 7px;
 	padding-right: 7px;
-	padding-bottom: 14px !important;
+	padding-bottom: 26px !important;
 	padding-top: 0 !important;
 	font-size: 15px;
 	font-weight: 600;
@@ -79,6 +79,7 @@ Thanks, Mauk @DocTorn
 }
 
 #tt-city-items .items .item > div > a {
+	color: var(--default-blue-color, #74c0fc);
 	text-decoration: none;
 }
 
@@ -91,5 +92,5 @@ Thanks, Mauk @DocTorn
 
 #tt-city-items-value span {
 	font-weight: 400;
-	color: #678c00;
+	color: var(--default-green-color, #678c00);
 }
