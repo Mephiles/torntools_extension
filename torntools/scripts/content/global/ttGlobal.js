@@ -307,7 +307,7 @@ function addUpdateNotification() {
 		type: "a",
 		class: "desktopLink___1p2Dr", // FIXME - Use right classes.
 		href: settings_page_url,
-		attributes: { target: "_blank", style: "background-color: #B8E28F; min-height: 24px; line-height: 24px;" },
+		attributes: { target: "_blank", style: "background-color: #B8E28F; min-height: 24px; line-height: 24px; color: #333;" },
 	});
 	let span = doc.new({ type: "span", text: version_text });
 
