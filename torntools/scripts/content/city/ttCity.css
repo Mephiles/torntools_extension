@@ -48,7 +48,7 @@ Thanks, Mauk @DocTorn
 
 /* Items list */
 #tt-city-items .tt-title{
-	border-radius: 5px 5px 0px 0px !important;
+	border-radius: 5px 5px 0 0 !important;
 }
 
 #tt-city-items .content {
@@ -67,7 +67,7 @@ Thanks, Mauk @DocTorn
 	flex-wrap: wrap;
 }
 
-#tt-city-items .items .column {
+#tt-city-items .items .item {
 	flex: 1 0 25%;
 	width: 120px;
 	height: 58px;
@@ -84,7 +84,7 @@ Thanks, Mauk @DocTorn
 	}
 }
 
-#tt-city-items .items .column > span {
+#tt-city-items .items .item > span {
 	line-height: 18px;
 	font-size: 13px;
 	font-weight: 400;
@@ -93,23 +93,24 @@ Thanks, Mauk @DocTorn
 	flex-flow: row;
 }
 
-#tt-city-items .items .column > span > img {
+#tt-city-items .items .item > span > img {
 	opacity: 1;
 	height: 35px;
 	width: 60px;
 }
 
-#tt-city-items .items .column > span > div {
+#tt-city-items .items .item > span > div {
 	margin-left: 4px;
 	display: flex;
 	flex-flow: column;
 }
 
-#tt-city-items .items .column > span > div > a {
+#tt-city-items .items .item > span > div > a {
+	color: var(--default-blue-color, #74c0fc);
 	text-decoration: none;
 }
 
-#tt-city-items .items .column > span > div > span {
+#tt-city-items .items .item > span > div > span {
 	color: var(--default-green-color, #678c00);
 }
 
