@@ -47,6 +47,10 @@ Thanks, Mauk @DocTorn
 }
 
 /* Items list */
+#tt-city-items .tt-title{
+	border-radius: 5px 5px 0px 0px !important;
+}
+
 #tt-city-items .content {
 	display: block;
 	padding-left: 7px;
