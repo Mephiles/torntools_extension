@@ -44,6 +44,11 @@ li.tt-item-price {
 	margin-bottom: 5px;
 }
 
+.dark-mode #ttQuick .inner-content .item {
+	background-color: #696969;
+    color: white;
+}
+
 #ttQuick .inner-content .item:hover .tt-close-icon {
 	opacity: 1;
 }
@@ -80,6 +85,10 @@ li.tt-item-price {
 	text-align: center;
 	font-size: 10px;
 	color: gray;
+}
+
+.dark-mode #ttQuick .inner-content .item .sub-text {
+	color: white;
 }
 
 #ttQuick .response-wrap {
