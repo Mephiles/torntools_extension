@@ -77,3 +77,12 @@
 .point.progress:after {
 	border-color: #da1313 !important;
 }
+
+.dark-mode .tt-ach-tooltip-arrow {
+	border-right-color: #333;
+}
+
+.dark-mode .tt-ach-tooltip-text {
+	background-color: #333;
+    border-color: #333;
+}
