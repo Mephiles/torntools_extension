@@ -264,6 +264,8 @@ const DEFAULT_STORAGE = {
 		travel: {
 			open: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			type: new DefaultSetting({ type: "string", defaultValue: "basic" }),
+			categories: new DefaultSetting({ type: "array", defaultValue: [] }),
+			countries: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
@@ -282,8 +284,8 @@ const DEFAULT_STORAGE = {
 		},
 	},
 	quick: {
-		items: new DefaultSetting({ type: "array", defaultValue: [] })
-// TODO - Put correct quick item in.
+		items: new DefaultSetting({ type: "array", defaultValue: [] }),
+		// TODO - Put correct quick item in.
 	},
 };
 

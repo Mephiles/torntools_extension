@@ -47,14 +47,14 @@
 								</div>
 							</div>
 							<div class="legend-content ${isOpen ? "" : "hidden"}">
-								<div class="row">
+								<div class="row flex">
 									<div>
 										<label for="travel-items">Travel items: </label>
 										<input id="travel-items" type="number" min="5"/>
 									</div>
 								</div>
 								<div class="heading">Items</div>
-								<div class="row">
+								<div class="row flex categories">
 									<div class="checkbox-item">
 										<input id="travel-item-plushies" type="checkbox" name="item" category="plushie">
 										<label for="travel-item-plushies">Plushies</label>
@@ -73,56 +73,28 @@
 									</div>
 								</div>
 								<div class="heading">Countries</div>
-								<div class="row">
-									<div class="radio-item">
-										<input id="travel-country-all" type="radio" name="travel-country" country="all">
-										<label for="travel-country-all">All</label>
+								<div class="row countries">
+									<div class="flex">
+										<span>Short flights</span>
+										<img class="flag" src="/images/v2/travel_agency/flags/fl_mexico.svg" country="mexico" alt="Mexico" title="Mexico"/>
+										<img class="flag" src="/images/v2/travel_agency/flags/fl_cayman.svg" country="cayman_islands" alt="Cayman Islands" title="Cayman Islands"/>
+										<img class="flag" src="/images/v2/travel_agency/flags/fl_canada.svg" country="canada" alt="Canada" title="Canada"/>
 									</div>
-									<div class="radio-item">
-										<input id=travel-country-mexico" type="radio" name="travel-country" country="mexico">
-										<label for="travel-country-mexico">Mexico</label>
+									<div class="flex">
+										<span>Medium flights</span>
+										<img class="flag" src="/images/v2/travel_agency/flags/fl_hawaii.svg" country="hawaii" alt="Hawaii" title="Hawaii"/>
+										<img class="flag" src="/images/v2/travel_agency/flags/fl_uk.svg" country="united_kingdom" alt="United Kingdom" title="United Kingdom"/>
+										<img class="flag" src="/images/v2/travel_agency/flags/fl_argentina.svg" country="argentina" alt="Argentina" title="Argentina"/>
+										<img class="flag" src="/images/v2/travel_agency/flags/fl_switzerland.svg" country="switzerland" alt="Switzerland" title="Switzerland"/>
 									</div>
-									<div class="radio-item">
-										<input id="travel-country-caymans" type="radio" name="travel-country" country="cayman islands">
-										<label for="travel-country-caymans">Cayman Islands</label>
+									<div class="flex">
+										<span>Long flights</span>
+										<img class="flag" src="/images/v2/travel_agency/flags/fl_japan.svg" country="japan"  alt="Japan" title="Japan"/>
+										<img class="flag" src="/images/v2/travel_agency/flags/fl_china.svg" country="china" alt="China" title="China"/>
+										<img class="flag" src="/images/v2/travel_agency/flags/fl_uae.svg" country="uae" alt="UAE" title="UAE"/>
+										<img class="flag" src="/images/v2/travel_agency/flags/fl_south_africa.svg" country="south_africa" alt="South Africa" title="South Africa"/>
 									</div>
-									<div class="radio-item">
-										<input id="travel-country-canada" type="radio" name="travel-country" country="canada">
-										<label for="travel-country-canada">Canada</label>
-									</div>
-									<div class="radio-item">
-										<input id="travel-country-hawaii" type="radio" name="travel-country" country="hawaii">
-										<label for="travel-country-hawaii">Hawaii</label>
-									</div>
-									<div class="radio-item">
-										<input id="travel-country-uk" type="radio" name="travel-country" country="united kingdom">
-										<label for="travel-country-uk">United Kingdom</label>
-									</div>
-									<div class="radio-item">
-										<input id="travel-country-argentina" type="radio" name="travel-country" country="argentina">
-										<label for="travel-country-argentina">Argentina</label>
-									</div>
-									<div class="radio-item">
-										<input id="travel-country-switzerland" type="radio" name="travel-country" country="switzerland">
-										<label for="travel-country-switzerland">Switzerland</label>
-									</div>
-									<div class="radio-item">
-										<input id="travel-country-japan" type="radio" name="travel-country" country="japan">
-										<label for="travel-country-japan">Japan</label>
-									</div>
-									<div class="radio-item">
-										<input id="travel-country-china" type="radio" name="travel-country" country="china">
-										<label for="travel-country-china">China</label>
-									</div>
-									<div class="radio-item">
-										<input id="travel-country-uae" type="radio" name="travel-country" country="uae">
-										<label for="travel-country-uae">UAE</label>
-									</div>
-									<div class="radio-item">
-										<input id="travel-country-sa" type="radio" name="travel-country" country="south africa">
-										<label for="travel-country-sa">South Africa</label>
-									</div>
-								</div>
+								<div/>
 							</div>
 						`,
 					})
@@ -167,33 +139,74 @@
 
 				content.find("#travel-items").value = getTravelCount();
 
+				for (const category of filters.travel.categories) {
+					const element = content.find(`.categories input[name="item"][category="${category}"]`);
+					if (element) element.checked = true;
+				}
+				for (const country of filters.travel.countries) {
+					const element = content.find(`.countries .flag[country="${country}"]`);
+					if (element) element.classList.add("selected");
+				}
+
+				// Check for legend changes
+				content.find("#travel-items").addEventListener("change", () => updateTable());
+				for (const item of content.findAll(".categories input[name='item']")) {
+					item.addEventListener("change", () => {
+						ttStorage.change({ filters: { travel: { categories: getSelectedCategories() } } });
+
+						updateTable();
+					});
+				}
+				for (const item of content.findAll(".countries .flag")) {
+					item.addEventListener("click", (event) => {
+						event.target.classList.toggle("selected");
+
+						ttStorage.change({ filters: { travel: { countries: getSelectedCountries() } } });
+
+						updateTable();
+					});
+				}
+
+				function getSelectedCategories() {
+					return [...content.findAll(".categories input[name='item']:checked")].map((el) => el.getAttribute("category"));
+				}
+
+				function getSelectedCountries() {
+					return [...content.findAll(".countries .flag.selected")].map((el) => el.getAttribute("country"));
+				}
+
+				function updateTable() {
+					const amount = parseInt(content.find("#travel-items").value);
+					const categories = getSelectedCategories();
+					const countries = getSelectedCategories();
+
+					console.log("DKK updateTable", { amount, categories, countries });
+				}
+
 				function getTravelCount() {
 					let count = 5;
 
-					console.log("DKK getTravelCount 1");
 					if (hasAPIData() && settings.apiUsage.user.perks) {
 						count += userdata.enhancer_perks
 							.map((perk) => perk.match(/\+ ([0-9]+) Travel items \(.* Suitcase\)/i))
 							.filter((result) => !!result)
 							.map((result) => parseInt(result[1]))
 							.totalSum();
-						// TODO - Add job perk capacity.
-						// count += userdata.job_perks
-						// 	.map((perk) => perk.match(/\+ Increases maximum traveling capacity by ([0-9]+)/i))
-						// 	.filter((result) => !!result)
-						// 	.map((result) => parseInt(result[1]))
-						// 	.totalSum();
+						// CHECK - Improve job perk checking.
+						count += userdata.job_perks
+							.filter((perk) => perk.includes("travel capacity"))
+							.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
+							.totalSum();
 						count += userdata.faction_perks
 							.map((perk) => perk.match(/\+ Increases maximum traveling capacity by ([0-9]+)/i))
 							.filter((result) => !!result)
 							.map((result) => parseInt(result[1]))
 							.totalSum();
-						// TODO - Add book perk capacity.
-						// count += userdata.book_perk
-						// 	.map((perk) => perk.match(/\+ Increases maximum traveling capacity by ([0-9]+)/i))
-						// 	.filter((result) => !!result)
-						// 	.map((result) => parseInt(result[1]))
-						// 	.totalSum();
+						// CHECK - Improve book perk checking.
+						count += userdata.book_perks
+							.filter((perk) => perk.includes("travel capacity"))
+							.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
+							.totalSum();
 					}
 
 					if (page === "travelagency") {
@@ -201,12 +214,8 @@
 							count += 10;
 						}
 					} else if (page === "home") {
-						// TODO - Add travel type count.
+						// FIXME - Add travel type count.
 					}
-
-					console.log("DKK travel type");
-
-					console.log("DKK getTravelCount 2", count);
 
 					return count;
 				}
