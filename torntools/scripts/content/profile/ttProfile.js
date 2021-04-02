@@ -986,7 +986,7 @@ function addStatusIndicator() {
 		type: "span",
 		text: doc.find("#skip-to-content").innerText,
 		attributes: {
-			style: mobile ? "font-size: 17px; color: #333" : "font-size: 22px; color: #333",
+			style: mobile ? "font-size: 17px; color: #999" : "font-size: 22px; color: #999",
 		},
 	});
 
