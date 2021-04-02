@@ -283,11 +283,15 @@ div.tt-title.title-green {
 }
 
 .dark-mode .tt-nav-section .tt-content [class*="desktopLink_"]:not(.tt-completed) {
-	color: black;
+	color: #ddd;
 }
 
 .dark-mode .tt-nav-section .tt-content [class*="desktopLink_"] {
-	background-color: white;
+	background-color: var(--default-bg-panel-color, #333);
+}
+
+.dark-mode .tt-nav-section .tt-content [class*="desktopLink_"]:hover {
+	background-color: var(--default-bg-panel-active-color, #444);
 }
 
 .dark-mode .tt-nav-section .tt-content [class*="area-row_"] {
