@@ -97,11 +97,20 @@ body.dark-mode {
 
 /* TODO */
 
-#travelDestinations .legend .legend-content .heading {
-	text-decoration: underline;
+#travelDestinations .legend .legend-content .heading,
+#travelDestinations .legend .legend-content .heading-wrap {
 	line-height: 20px;
 	padding-left: 15px;
-	/*font-weight: bold;*/
+}
+
+#travelDestinations .legend .legend-content .heading,
+#travelDestinations .legend .legend-content .heading-text {
+	text-decoration: underline;
+}
+
+#travelDestinations .legend .legend-content .countries-select-all,
+#travelDestinations .legend .legend-content .countries-select-none {
+	cursor: pointer;
 }
 
 #travelDestinations .legend .legend-content #travel-items {

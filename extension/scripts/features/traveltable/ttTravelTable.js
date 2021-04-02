@@ -72,7 +72,9 @@
 										<label for="travel-item-other">Other</label>
 									</div>
 								</div>
-								<div class="heading">Countries</div>
+								<div class="heading-wrap">
+									<span class="heading-text">Countries</span> (<span class="countries-select-all">all</span> / <span class="countries-select-none">none</span>)
+								</div>
 								<div class="row countries">
 									<div class="flex">
 										<span>Short flights</span>
@@ -137,6 +139,21 @@
 					ttStorage.change({ filters: { travel: { type: "advanced" } } });
 				});
 
+				content.find(".countries-select-all").addEventListener("click", () => {
+					for (const country of content.findAll(".countries .flag")) country.classList.add("selected");
+
+					ttStorage.change({ filters: { travel: { countries: getSelectedCountries() } } });
+
+					updateTable();
+				});
+				content.find(".countries-select-none").addEventListener("click", () => {
+					for (const country of content.findAll(".countries .flag")) country.classList.remove("selected");
+
+					ttStorage.change({ filters: { travel: { countries: getSelectedCountries() } } });
+
+					updateTable();
+				});
+
 				content.find("#travel-items").value = getTravelCount();
 
 				for (const category of filters.travel.categories) {
@@ -178,7 +195,7 @@
 				function updateTable() {
 					const amount = parseInt(content.find("#travel-items").value);
 					const categories = getSelectedCategories();
-					const countries = getSelectedCategories();
+					const countries = getSelectedCountries();
 
 					console.log("DKK updateTable", { amount, categories, countries });
 				}
