@@ -100,6 +100,10 @@ li.tt-item-price {
 	border-bottom: 1px solid lightgray;
 }
 
+.dark-mode #ttQuick .response-wrap {
+	background-color: #333 !important;
+}
+
 #ttQuick .ajax-placeholder {
 	left: 0 !important;
 }
