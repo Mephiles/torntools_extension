@@ -70,5 +70,5 @@
 
 .dark-mode #ttBank tbody tr:nth-child(even) td {
 	color: white;
-    background: #666;
+	background: #666;
 }

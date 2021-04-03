@@ -987,7 +987,6 @@ function addStatusIndicator() {
 		class: "tt-profile-title",
 		text: doc.find("#skip-to-content").innerText,
 	});
-	
 
 	doc.find("#skip-to-content").innerText = "";
 	doc.find("#skip-to-content").appendChild(icon_span);

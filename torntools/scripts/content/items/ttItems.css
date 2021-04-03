@@ -46,7 +46,7 @@ li.tt-item-price {
 
 .dark-mode #ttQuick .inner-content .item {
 	background-color: #696969;
-    color: white;
+	color: white;
 }
 
 #ttQuick .inner-content .item:hover .tt-close-icon {

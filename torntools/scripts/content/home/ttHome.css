@@ -17,7 +17,7 @@
 }
 
 .dark-mode table.tt-networth-table td {
-    color: white;
+	color: white;
 }
 
 .tt-networth-table .negative-change {
@@ -34,5 +34,5 @@
 }
 
 .dark-mode .tt-box-section-heading {
-	background: repeating-linear-gradient(90deg,#627e0d,#627e0d 2px,#6e8820 0,#6e8820 4px);
+	background: repeating-linear-gradient(90deg, #627e0d, #627e0d 2px, #6e8820 0, #6e8820 4px);
 }
