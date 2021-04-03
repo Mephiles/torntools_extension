@@ -62,9 +62,8 @@
 	cursor: pointer;
 }
 
-.dark-mode .col-chosen.column.active > *,
-.dark-mode .col-other.column.active > * {
-	background-color: #333;
+.dark-mode .col-chosen.column.active > *, .dark-mode .col-other.column.active > * {
+    background-color: #333;
 }
 
 .col-other {
@@ -163,8 +162,7 @@
 	color: #00a500;
 }
 
-.dark-mode .positive,
-.dark-mode .negative {
+.dark-mode .positive, .dark-mode .negative {
 	font-weight: 800;
 }
 
@@ -217,6 +215,7 @@
 }
 
 .spy-table {
+	color: #333;
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
