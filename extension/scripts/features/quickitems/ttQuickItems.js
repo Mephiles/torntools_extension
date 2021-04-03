@@ -381,13 +381,17 @@
 		});
 		if (!items.length) return;
 
-		const quickContainer = findContainer("Quick Items", { selector: ".content" });
+		const quickContainer = findContainer("Quick Items", { selector: "main" });
 		items.forEach((x) => {
-			const itemid = parseInt(x.getAttribute("itemid"));
-			const xid = x.getAttribute("xid");
+			try {
+				const itemid = parseInt(x.getAttribute("itemid"));
+				const xid = x.getAttribute("xid");
 
-			quick.items.find((y) => y.id === itemid).xid = xid;
-			quickContainer.find(`.item[data-id="${itemid}"]`).dataset.xid = xid;
+				quick.items.find((y) => y.id === itemid).xid = xid;
+				quickContainer.find(`.item[data-id="${itemid}"]`).dataset.xid = xid;
+			} catch (error) {
+				console.error("Couldn't update item ids!", error);
+			}
 		});
 
 		await ttStorage.change({ quick: { items: quick.items } });
