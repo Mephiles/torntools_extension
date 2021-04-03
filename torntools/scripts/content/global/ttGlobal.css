@@ -286,16 +286,12 @@ div.tt-title.title-green {
 	color: #ddd;
 }
 
-.dark-mode .tt-nav-section .tt-content [class*="desktopLink_"] {
-	background-color: var(--default-bg-panel-color, #333);
-}
-
 .dark-mode .tt-nav-section .tt-content [class*="desktopLink_"]:hover {
 	background-color: var(--default-bg-panel-active-color, #444);
 }
 
 .dark-mode .tt-nav-section .tt-content [class*="area-row_"] {
-	background-color: #f2f2f2;
+	background-color: var(--default-bg-panel-color, #333);
 }
 
 [class*="area-desktop_"] {
