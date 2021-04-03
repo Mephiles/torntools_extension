@@ -57,3 +57,18 @@
 #ttBank tr:nth-child(2n + 1) td {
 	background: #ebebeb;
 }
+
+.dark-mode #ttBank .best td {
+	background-color: #ccffb1 !important;
+	color: #333 !important;
+}
+
+.dark-mode #ttBank tr:nth-child(odd) td {
+	color: white;
+	background: #555;
+}
+
+.dark-mode #ttBank tbody tr:nth-child(even) td {
+	color: white;
+    background: #666;
+}
