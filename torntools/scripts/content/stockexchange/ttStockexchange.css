@@ -34,7 +34,7 @@
 }
 
 .dark-mode #extra-filter .tt-checkbox-wrap > label {
-    color: #ddd;
+	color: #ddd;
 }
 
 .tt-mobile #tt-stock-filter .filter-content {
@@ -80,11 +80,21 @@
 	background: #ffb0ac !important;
 }
 
-.dark-mode .forecast-good, .dark-mode .forecast-very_good, .dark-mode .forecast-poor, .dark-mode .forecast-very_poor {
+.dark-mode .forecast-good,
+.dark-mode .forecast-very_good,
+.dark-mode .forecast-poor,
+.dark-mode .forecast-very_poor {
 	opacity: 0.8;
 }
 
-.dark-mode .forecast-very_good, .dark-mode .forecast-very_good .name, .dark-mode .forecast-good, .dark-mode .forecast-good .name, .dark-mode .forecast-poor, .dark-mode .forecast-poor .name, .dark-mode .forecast-very_poor, .dark-mode .forecast-very_poor .name {
+.dark-mode .forecast-very_good,
+.dark-mode .forecast-very_good .name,
+.dark-mode .forecast-good,
+.dark-mode .forecast-good .name,
+.dark-mode .forecast-poor,
+.dark-mode .forecast-poor .name,
+.dark-mode .forecast-very_poor,
+.dark-mode .forecast-very_poor .name {
 	color: #333 !important;
 }
 
