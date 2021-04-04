@@ -301,10 +301,14 @@ i.fa-caret-down:not(.tt-title-icon):not(.tt-title-icon-torn) {
 
 .tt-times {
 	padding-top: 8px;
-	color: black;
+	color: #333;
 	font-size: large;
 	text-align: center;
 	display: block;
+}
+
+.dark-mode .tt-times {
+	color: white !important;
 }
 
 div#tt-timeout-warning div.patter-left {
