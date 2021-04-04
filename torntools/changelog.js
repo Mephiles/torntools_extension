@@ -1,6 +1,6 @@
 export default {
 	"v5.9 - xxxx, xxth. 2021": {
-		Features: [],
+		Features: ["Filter faction members by position. - Sashank999"],
 		Fixes: [
 			"Solve duplicate items on the map being ignored. - DKK",
 			"Fix showing hidden portfolio stocks. - Sashank999",
