@@ -9,7 +9,7 @@ export default {
 			"Fix travel count not being correct. - Sashank999",
 			"Chat highlight not working. - Sashank999",
 		],
-		Changes: [],
+		Changes: ["Dark Mode for TornTools. - Sashank999"],
 	},
 	"v5.8 - March, 25th. 2021": {
 		Features: [
