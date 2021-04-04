@@ -154,6 +154,15 @@ async function fetchApi(location, options = {}) {
 	});
 }
 
+function fetchRelay(location, options = {}) {
+	return new Promise((resolve, reject) => {
+		chrome.runtime.sendMessage({ action: "fetchRelay", location, options }, (response) => {
+			if (response.error) return reject(response);
+			else return resolve(response);
+		});
+	});
+}
+
 function changeAPIKey(key) {
 	return new Promise((resolve, reject) => {
 		fetchApi("torn", { section: "user", selections: ["profile"], key, silent: true })

@@ -959,7 +959,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		case "stop-notification-sound":
 			notificationTestPlayer.pause();
 			break;
-
 		case "updateData":
 			switch (message.type) {
 				case "networth":
@@ -971,6 +970,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 					break;
 			}
 			break;
+		case "fetchRelay":
+			fetchApi(message.location, message.options)
+				.then((result) => sendResponse(result))
+				.catch((error) => sendResponse(error));
+			return true;
 		default:
 			sendResponse({ success: false, message: "Unknown action." });
 			break;

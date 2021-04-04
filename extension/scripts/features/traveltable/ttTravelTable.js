@@ -19,13 +19,30 @@
 		}
 	);
 
-	function startTable() {
+	async function startTable() {
 		if (page === "home") startFlyingTable();
-		else createTable();
+		else await createTable();
 
-		function createTable() {
+		async function createTable() {
 			const { content } = createContainer("Travel Destinations");
 			addLegend();
+
+			const data = await pullInformation();
+			console.log("DKK travel data", data);
+
+			const table = document.newElement({
+				type: "table",
+				id: "tt-travel-table",
+				html: `
+					<tr class="table-header">
+						<th>Country</th>
+						<th>Item</th>
+						<th>Stock</th>
+					</tr>
+				`,
+			});
+
+			content.appendChild(table);
 
 			function addLegend() {
 				let isOpen = filters.travel.open;
@@ -236,6 +253,11 @@
 
 					return count;
 				}
+			}
+
+			async function pullInformation() {
+				// FIXME - Add some kind of local cache.
+				return fetchRelay("yata", { section: "travel/export/" });
 			}
 		}
 
