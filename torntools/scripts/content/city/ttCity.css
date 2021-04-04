@@ -47,7 +47,7 @@ Thanks, Mauk @DocTorn
 }
 
 /* Items list */
-#tt-city-items .tt-title {
+#tt-city-items .tt-title{
 	border-radius: 5px 5px 0 0 !important;
 }
 
@@ -113,6 +113,8 @@ Thanks, Mauk @DocTorn
 #tt-city-items .items .item > span > div > span {
 	color: var(--default-green-color, #678c00);
 }
+
+
 
 /* Items value */
 #tt-city-items-value {
