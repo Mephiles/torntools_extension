@@ -7,8 +7,16 @@ requireDatabase().then(() => {
 		}
 
 		let items_container;
-		if (settings.pages.city.items_images) items_container = content.newContainer("City Items", { first: true, id: "tt-city-items", theme: settings.theme, all_rounded: false });
-		else items_container = content.newContainer("City Items", { first: true, id: "tt-city-items", class: "no-images", theme: settings.theme, all_rounded: false });
+		if (settings.pages.city.items_images)
+			items_container = content.newContainer("City Items", { first: true, id: "tt-city-items", theme: settings.theme, all_rounded: false });
+		else
+			items_container = content.newContainer("City Items", {
+				first: true,
+				id: "tt-city-items",
+				class: "no-images",
+				theme: settings.theme,
+				all_rounded: false,
+			});
 
 		if (settings.pages.city.items_value) {
 			showValueOfItems(items_container, itemlist);
