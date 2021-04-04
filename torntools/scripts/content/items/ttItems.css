@@ -44,6 +44,11 @@ li.tt-item-price {
 	margin-bottom: 5px;
 }
 
+.dark-mode #ttQuick .inner-content .item {
+	background-color: #696969;
+	color: white;
+}
+
 #ttQuick .inner-content .item:hover .tt-close-icon {
 	opacity: 1;
 }
@@ -82,6 +87,10 @@ li.tt-item-price {
 	color: gray;
 }
 
+.dark-mode #ttQuick .inner-content .item .sub-text {
+	color: white;
+}
+
 #ttQuick .response-wrap {
 	display: none;
 	padding: 10px;
@@ -89,6 +98,10 @@ li.tt-item-price {
 	text-align: center;
 	border-top: 1px solid lightgray;
 	border-bottom: 1px solid lightgray;
+}
+
+.dark-mode #ttQuick .response-wrap {
+	background-color: #333 !important;
 }
 
 #ttQuick .ajax-placeholder {

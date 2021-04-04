@@ -307,7 +307,7 @@ function addUpdateNotification() {
 		type: "a",
 		class: "desktopLink___1p2Dr", // FIXME - Use right classes.
 		href: settings_page_url,
-		attributes: { target: "_blank", style: "background-color: #B8E28F; min-height: 24px; line-height: 24px;" },
+		attributes: { target: "_blank", style: "background-color: #B8E28F; min-height: 24px; line-height: 24px; color: #333;" },
 	});
 	let span = doc.new({ type: "span", text: version_text });
 
@@ -784,17 +784,25 @@ function hideGymHighlight() {
 	if (settings.pages.gym.hide_gym_highlight) {
 		const navGym = doc.find("#nav-gym");
 		const gymClass = [...navGym.classList].find((name) => name.includes("available___"));
+		const svg = navGym.find("svg");
 		if (!gymClass) return;
 
-		if (mobile) {
-			doc.find("a[href='/gym.php'] svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_mobile)");
-			doc.find("a[href='/gym.php'] svg").setAttribute("filter", "url(#svg_sidebar_mobile)");
+		if (isDarkMode()) {
+			if (!mobile) {
+				svg.setAttribute("fill", "url(#sidebar_svg_gradient_regular_mobile)");
+				svg.setAttribute("filter", "url(#svg_sidebar_mobile)");
+			} else {
+				svg.setAttribute("fill", svg.getAttribute("fill").replace("_green", ""));
+				svg.setAttribute("filter", svg.getAttribute("filter").replace("_green", ""));
+			}
 		} else {
-			doc.find("a[href='/gym.php'] svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_desktop)");
+			if (mobile) {
+				svg.setAttribute("fill", "url(#sidebar_svg_gradient_regular_mobile)");
+				svg.setAttribute("filter", "url(#svg_sidebar_mobile)");
+			} else {
+				svg.setAttribute("fill", "url(#sidebar_svg_gradient_regular_desktop)");
+			}
 		}
-
-		const svg = navGym.find("svg");
-		if (svg) svg.setAttribute("fill", svg.getAttribute("fill").replace("_green", ""));
 
 		navGym.classList.remove(gymClass);
 	}

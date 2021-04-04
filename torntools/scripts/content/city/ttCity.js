@@ -6,7 +6,9 @@ requireDatabase().then(() => {
 			return;
 		}
 
-		let items_container = content.newContainer("City Items", { first: true, id: "tt-city-items", theme: settings.theme, all_rounded: false });
+		let items_container;
+		if (settings.pages.city.items_images) items_container = content.newContainer("City Items", { first: true, id: "tt-city-items", theme: settings.theme, all_rounded: false });
+		else items_container = content.newContainer("City Items", { first: true, id: "tt-city-items", class: "no-images", theme: settings.theme, all_rounded: false });
 
 		if (settings.pages.city.items_value) {
 			showValueOfItems(items_container, itemlist);
@@ -52,7 +54,7 @@ function displayItems(container, itemlist) {
 		let item = Object.keys(items)[i];
 		if (!item) break;
 
-		let outerDiv = doc.new({ type: "div", class: "column" });
+		let outerDiv = doc.new({ type: "div", class: "item" });
 		let span = doc.new({ type: "span" });
 		let div = doc.new({ type: "div" });
 		if (settings.pages.city.items_images) {
@@ -82,12 +84,14 @@ function displayItems(container, itemlist) {
 			let cityFindItem = doc.find(`#map img[item-id='${item}']`);
 			if (cityFindItem) cityFindItem.classList.remove("cityItem_hover");
 		});
-		let hr = doc.new({ type: "hr", class: "delimiter-999 m-top10 m-bottom10" });
 		div.appendChild(a);
 		div.appendChild(inner_span);
 		span.appendChild(div);
 		outerDiv.appendChild(span);
-		outerDiv.appendChild(hr);
+		if (settings.pages.city.items_images) {
+			let hr = doc.new({ type: "hr", class: "delimiter-999 m-top10 m-bottom10" });
+			outerDiv.appendChild(hr);
+		}
 		items_span.appendChild(outerDiv);
 	}
 	content.appendChild(items_span);

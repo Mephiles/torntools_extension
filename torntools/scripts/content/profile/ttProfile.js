@@ -984,10 +984,8 @@ function addStatusIndicator() {
 	if (!mobile) icon_span.style.marginTop = "1px";
 	let text_span = doc.new({
 		type: "span",
+		class: "tt-profile-title",
 		text: doc.find("#skip-to-content").innerText,
-		attributes: {
-			style: mobile ? "font-size: 17px; color: #333" : "font-size: 22px; color: #333",
-		},
 	});
 
 	doc.find("#skip-to-content").innerText = "";

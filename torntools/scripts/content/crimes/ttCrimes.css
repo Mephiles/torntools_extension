@@ -36,6 +36,11 @@ form[name="crimes"] img {
 	height: 33px;
 }
 
+.dark-mode #ttQuick .inner-content .item {
+	background-color: #696969;
+	color: white;
+}
+
 #ttQuick .inner-content .item.removable {
 	background-color: #ffd5d5;
 }
