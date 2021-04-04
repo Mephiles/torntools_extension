@@ -5,6 +5,19 @@
 }
 
 /* Profile stats */
+.tt-profile-title {
+	font-size: 22px;
+	color: #333;
+}
+
+.tt-mobile .tt-profile-title {
+	font-size: 17px !important;
+}
+
+.dark-mode .tt-profile-title {
+	color: #999;
+}
+
 .content.tt-content {
 	overflow: hidden !important;
 }
@@ -33,6 +46,7 @@
 	cursor: pointer;
 	text-align: center;
 	background-color: #d8fdb4;
+	color: #333;
 	padding: 4px;
 	margin: 4px;
 }
@@ -46,6 +60,11 @@
 	position: relative;
 	background-color: #e0e0e0;
 	cursor: pointer;
+}
+
+.dark-mode .col-chosen.column.active > *,
+.dark-mode .col-other.column.active > * {
+	background-color: #333;
 }
 
 .col-other {
@@ -144,6 +163,11 @@
 	color: #00a500;
 }
 
+.dark-mode .positive,
+.dark-mode .negative {
+	font-weight: 800;
+}
+
 .negative {
 	color: #de0000;
 }
@@ -193,6 +217,7 @@
 }
 
 .spy-table {
+	color: #333;
 	margin-top: 5px;
 	margin-bottom: 5px;
 }

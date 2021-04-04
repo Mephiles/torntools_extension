@@ -71,7 +71,6 @@ async function displayNetworth() {
 	// current networth
 	let networth_text = `$${numberWithCommas(networth.current.value.total, false)}`;
 	let networth_row = infoBox.newRow("(Live) Networth", networth_text, { id: "ttLiveNetworth" });
-	networth_row.style.backgroundColor = "#65c90069";
 
 	// Networth last updated info icon
 	let info_icon = doc.new({

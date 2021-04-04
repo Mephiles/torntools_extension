@@ -7,6 +7,10 @@
 	white-space: nowrap;
 }
 
+.tt-title.title-green {
+	background: repeating-linear-gradient(90deg, #627e0d, #627e0d 2px, #6e8820 0, #6e8820 4px) !important;
+}
+
 .tt-title-torn {
 	cursor: pointer !important;
 }
@@ -276,6 +280,22 @@
 	line-height: 22px;
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
+}
+
+.dark-mode .tt-nav-section .tt-content [class*="desktopLink_"]:not(.tt-completed) {
+	color: #ddd;
+}
+
+.dark-mode .tt-nav-section .tt-content [class*="desktopLink_"] {
+	background-color: var(--default-bg-panel-color, #333);
+}
+
+.dark-mode .tt-nav-section .tt-content [class*="desktopLink_"]:hover {
+	background-color: var(--default-bg-panel-active-color, #444);
+}
+
+.dark-mode .tt-nav-section .tt-content [class*="area-row_"] {
+	background-color: #f2f2f2;
 }
 
 [class*="area-desktop_"] {
@@ -1024,4 +1044,8 @@ div[role="main"].tt-modified {
 
 .tt-trade-chat-timer.red {
 	background: red;
+}
+
+.tt-mini-data {
+	color: #333;
 }

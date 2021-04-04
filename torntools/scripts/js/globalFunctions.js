@@ -2214,6 +2214,10 @@ function usingYandex() {
 	return navigator.userAgent.includes("YaBrowser");
 }
 
+function isDarkMode() {
+	return hasClass(doc.body, "dark-mode");
+}
+
 function getSearchParameters() {
 	return new URL(window.location).searchParams;
 }

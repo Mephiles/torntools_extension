@@ -21,8 +21,17 @@
 	z-index: 999;
 }
 
+.dark-mode .tt-forums-button > .tt-forums-button-dropdown {
+	border-color: #444444 !important;
+	border-radius: 0 0 5px 5px !important;
+}
+
 .tt-forums-button > .tt-forums-button-dropdown > div {
 	padding: 8px;
+}
+
+.dark-mode .tt-forums-button > .tt-forums-button-dropdown > div {
+	background-color: #444444;
 }
 
 .tt-forums-button > .tt-forums-button-dropdown > div:hover {
@@ -68,4 +77,5 @@
 	line-height: 16px !important;
 	color: #ffffff !important;
 	padding: 0 16px !important;
+	background: repeating-linear-gradient(90deg, #627e0d, #627e0d 2px, #6e8820 0, #6e8820 4px) !important;
 }
