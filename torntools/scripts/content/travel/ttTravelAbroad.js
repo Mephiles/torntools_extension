@@ -676,7 +676,12 @@ function addFilterToTable(list, title) {
 async function travelTableScript() {
 	doc.find(".content-wrapper .travel-agency-travelling").innerHTML = "";
 
-	if (travel_market.length === 0 || typeof travel_items !== "object" || !("date" in travel_market) || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) {
+	if (
+		travel_market.length === 0 ||
+		typeof travel_items !== "object" ||
+		!("date" in travel_market) ||
+		new Date() - new Date(travel_market.date) >= 2 * 60 * 1000
+	) {
 		// 2 minutes
 		travel_market = await updateTravelMarket();
 	}
