@@ -31,6 +31,8 @@ requireDatabase().then(() => {
 	if (settings.developer) {
 		showCustomConsole();
 	}
+	
+	easterEggs();
 
 	requireNavbar().then(async () => {
 		let _flying = await isFlying();
@@ -860,4 +862,8 @@ function tradeChatPostTimer() {
 				}
 			});
 	}
+}
+
+function easterEggs() {
+	if (doc.find("[src*='competition.php?c=EasterEggs']")) alert("There is an easter egg on this page !");
 }
