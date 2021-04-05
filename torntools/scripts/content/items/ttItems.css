@@ -17,6 +17,10 @@ li.tt-item-price {
 	font-weight: 600;
 }
 
+.dark-mode .tt-item-quantity {
+	color: white !important;
+}
+
 /* Quick items */
 #ttQuick {
 	margin-bottom: 20px;
@@ -46,7 +50,7 @@ li.tt-item-price {
 
 .dark-mode #ttQuick .inner-content .item {
 	background-color: #696969;
-	color: white;
+    color: white;
 }
 
 #ttQuick .inner-content .item:hover .tt-close-icon {
