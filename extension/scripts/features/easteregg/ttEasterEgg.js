@@ -1,7 +1,7 @@
 "use strict";
 (async () => {
 	const year = new Date().getUTCFullYear();
-	const now = /*Date.now()*/ Date.UTC(year, 3, 7);
+	const now = Date.now();
 
 	if (Date.UTC(year, 3, 5, 12) > now || Date.UTC(year, 3, 25, 12) < now) return;
 
