@@ -65,17 +65,21 @@ const pendingActions = {};
 
 				if (action === "equip" && hasAPIData()) {
 					const responseElement = document.newElement({ html: xhr.response });
-					const text = responseElement.find("h5, [data-status]").innerText.trim();
+					const textElement = responseElement.find("h5, [data-status]");
 
-					const regexResult = text.match(/You (unequipped|equipped) your (.*)\./i);
-					if (regexResult) {
-						const itemName = regexResult[2];
-						const equipAction = regexResult[1];
+					if (textElement) {
+						const text = textElement.innerText.trim();
 
-						const item = findItemsInObject(torndata.items, { name: itemName }, { single: true });
-						if (!item) return;
+						const regexResult = text.match(/You (unequipped|equipped) your (.*)\./i);
+						if (regexResult) {
+							const itemName = regexResult[2];
+							const equipAction = regexResult[1];
 
-						triggerCustomListener(EVENT_CHANNELS.ITEM_EQUIPPED, { equip: equipAction === "equipped", item: item.id });
+							const item = findItemsInObject(torndata.items, { name: itemName }, { single: true });
+							if (!item) return;
+
+							triggerCustomListener(EVENT_CHANNELS.ITEM_EQUIPPED, { equip: equipAction === "equipped", item: item.id });
+						}
 					}
 				}
 			}
