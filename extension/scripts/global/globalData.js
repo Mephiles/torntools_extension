@@ -336,7 +336,7 @@ const CONTRIBUTORS = {
 	Tesa: {
 		id: 2639608,
 		name: "Tesa",
-		color: "white",
+		color: "brown",
 	},
 };
 
