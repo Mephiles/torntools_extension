@@ -1578,6 +1578,7 @@ const STORAGE = {
 				show_toggle_chat: true,
 				collapse_areas: false,
 				oc_time: true,
+				easter_eggs: true,
 				hide_leave: false,
 				block_zalgo: true,
 				refill_energy: true,
