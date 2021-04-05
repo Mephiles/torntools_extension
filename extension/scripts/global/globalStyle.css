@@ -72,40 +72,6 @@
 	background-position: -68px -34px;
 }
 
-/* General Colors */
-
-*[color="white"] {
-	color: white !important;
-}
-
-*[color="red"] {
-	color: red !important;
-}
-
-*[color="tRed"] {
-	color: var(--default-red-color);
-}
-
-*[color="darkorange"] {
-	color: darkorange !important;
-}
-
-*[color="green"] {
-	color: green !important;
-}
-
-*[color="tGreen"] {
-	color: var(--default-green-color) !important;
-}
-
-*[background-color="green"] {
-	background-color: #149a32 !important;
-}
-
-*[background-color="red"] {
-	background-color: #c82333 !important;
-}
-
 /* Sidebar Areas */
 
 .tt-sidebar-area {

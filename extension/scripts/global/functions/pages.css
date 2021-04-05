@@ -135,6 +135,15 @@ button.fancy-button {
 	font-weight: 600;
 	display: inline-block;
 	vertical-align: top;
+	color: white;
+}
+
+button.fancy-button.positive {
+	background-color: #149a32;
+}
+
+button.fancy-button.negative {
+	background-color: #c82333;
 }
 
 .actions.right {

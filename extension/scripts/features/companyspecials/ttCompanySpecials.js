@@ -118,7 +118,6 @@
 			const position = stats.indexOf(missingStat) + 1;
 			const element = document.find(`.specials-confirm-cont ul.job-info > li:nth-child(${position})`);
 
-			element.setAttribute("color", "tGreen");
 			element.classList.add("missing");
 			element.innerText = `${element.innerText.split(" ")[0]} ${formatStat(result[missingStat])}`;
 		}
@@ -126,7 +125,6 @@
 			const position = stats.indexOf(stat) + 1;
 			const element = document.find(`.specials-confirm-cont ul.job-info > li:nth-child(${position})`);
 
-			element.setAttribute("color", "tGreen");
 			element.classList.add("remembered");
 			element.innerText = `${element.innerText.split(" ")[0]} ${formatStat(result[remembered])}`;
 		}

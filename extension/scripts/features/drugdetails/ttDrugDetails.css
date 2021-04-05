@@ -9,3 +9,11 @@
 .item-effect.double-tabbed {
 	margin-left: 30px;
 }
+
+.item-effect.pro {
+	color: var(--default-green-color);
+}
+
+.item-effect.con {
+	color: var(--default-red-color);
+}
