@@ -32,7 +32,7 @@ requireDatabase().then(() => {
 		showCustomConsole();
 	}
 	
-	easterEggs();
+	if (settings.pages.global.easter_eggs && new Date().getMonth() === 3 && new Date().getDate() >= 5 && new Date().getDate() <= 25) easterEggs();
 
 	requireNavbar().then(async () => {
 		let _flying = await isFlying();
@@ -865,5 +865,9 @@ function tradeChatPostTimer() {
 }
 
 function easterEggs() {
+	let easterEggsObserver = new MutationObserver(() => {
+		if (doc.find("[src*='competition.php?c=EasterEggs'][src*='step=eggImage'][src*='access_token=']")) alert("There is an easter egg on this page !");
+	});
+	easterEggsObserver.observe(doc, {childList: true, subtree: true});
 	if (doc.find("[src*='competition.php?c=EasterEggs']")) alert("There is an easter egg on this page !");
 }
