@@ -31,7 +31,7 @@
 			timeLeftElement.innerText = "No active OC.";
 		} else {
 			if (timeLeft <= TO_MILLIS.HOURS * 8) timeLeftElement.classList.add("short");
-			else if (timeLeft <= TO_MILLIS.HOURS * 12 || true) timeLeftElement.classList.add("medium");
+			else if (timeLeft <= TO_MILLIS.HOURS * 12) timeLeftElement.classList.add("medium");
 
 			if (timeLeft > 0) {
 				timeLeftElement.innerText = formatTime({ milliseconds: timeLeft }, { type: "wordTimer", extraShort: true, showDays: true });
