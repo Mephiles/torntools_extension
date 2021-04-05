@@ -248,6 +248,9 @@ const DEFAULT_STORAGE = {
 			travel: {
 				computer: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			events: {
+				easterEggs: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		external: {
 			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),
@@ -275,8 +278,8 @@ const DEFAULT_STORAGE = {
 		},
 	},
 	quick: {
-		items: new DefaultSetting({ type: "array", defaultValue: [] })
-// TODO - Put correct quick item in.
+		items: new DefaultSetting({ type: "array", defaultValue: [] }),
+		// TODO - Put correct quick item in.
 	},
 };
 
