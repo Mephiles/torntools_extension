@@ -21,7 +21,7 @@
 					observer.disconnect();
 					break;
 				}
-			}).observe(container, { childList: true, subtree: true });
+			}).observe(container, { childList: true });
 		}
 	}
 
