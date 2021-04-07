@@ -2,8 +2,7 @@ requireDatabase().then(() => {
 	console.log("Loading Global Script");
 
 	// Add TT Black overlay
-	const ttBlackOverlay = doc.new({ type: "div", class: "tt-black-overlay" });
-	doc.find("body").appendChild(ttBlackOverlay);
+	doc.find("body").appendChild(doc.new({ type: "div", class: "tt-black-overlay" }));
 
 	if (settings.pages.global.miniprofile_last_action) {
 		addFetchListener((event) => {
@@ -884,7 +883,7 @@ function easterEggs() {
 				text: "There is an Easter Egg on this page !",
 				children: doc.new({type: "button", class: "tt-easter-egg-button", text: "Close"}),
 			});
-			ttBlackOverlay.appendChild(ttEasterEggDiv);
+			doc.find(".tt-black-overlay").appendChild(ttEasterEggDiv);
 			ttEasterEggDiv.find("button").addEventListener("click", () => ttEasterEggDiv.remove());
 			easterEggsObserver.disconnect();
 		}
