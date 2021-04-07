@@ -38,9 +38,9 @@ function showUpgrades() {
 		parts.push(item.getAttribute("data-part"));
 
 		for (let property of item.findAll(".properties")) {
-			let statOld = parseInt(property.find(".progressbar").style.width);
-			let statNew = parseInt(property.find(".progressbar").style.width);
-			let difference = statNew - statOld;
+			const statNew = parseFloat(property.find(".progressbar.progress-light-green, .progressbar.progress-red").style.width) / 100;
+			const statOld = (statNew * parseFloat(property.find(".progressbar.progress-light-gray").style.width)) / 100;
+			const difference = Math.round((statNew - statOld) * 100);
 
 			if (isNaN(difference)) continue;
 
@@ -160,3 +160,86 @@ function resetUpgrades() {
 		}
 	}
 }
+
+// region temp
+
+function abbreviateTitle(titleText, limited = false) {
+	let titleResult = titleText.trim();
+	const abbreviations = {
+		SPEED: "Spd",
+		ACCELERATION: "Acc",
+		HANDLING: limited ? "Hand" : "Hnd",
+		BRAKING: limited ? "Brake" : "Brk",
+		TARMAC: limited ? "Tarmac" : "Tar",
+		DIRT: limited ? "Dirt" : "Dir",
+		SAFETY: limited ? "Safe" : "Saf",
+	};
+
+	if (titleResult.slice(-1) === ":") {
+		titleResult = titleResult.slice(0, -1);
+	}
+
+	switch (titleResult) {
+		case "Top Speed":
+			titleResult = abbreviations.SPEED;
+			break;
+		case "Acceleration":
+			titleResult = abbreviations.ACCELERATION;
+			break;
+		case "Handling":
+			titleResult = abbreviations.HANDLING;
+			break;
+		case "Braking":
+			titleResult = abbreviations.BRAKING;
+			break;
+		case "Tarmac":
+			titleResult = abbreviations.TARMAC;
+			break;
+		case "DIRT":
+			titleResult = abbreviations.DIRT;
+			break;
+		case "Safety":
+			titleResult = abbreviations.SAFETY;
+			break;
+		default:
+	}
+
+	return titleResult;
+}
+
+function displayValue(titleText, baseValue, additionValue, positive = false, negative = false, reverse = false, part = false) {
+	const settings = {
+		accuracy: 2,
+		details: true,
+	};
+
+	let titleResult;
+	if (positive) {
+		titleResult = titleText + ": ";
+		if (!part) {
+			titleResult += additionValue + "%";
+		}
+		if (settings.details) {
+			titleResult += " (+" + +(additionValue - baseValue).toFixed(settings.accuracy) + "%)";
+		}
+	} else if (negative) {
+		titleResult = titleText + ": ";
+		if (!part) {
+			titleResult += baseValue + "%";
+		}
+		if (settings.details) {
+			titleResult += " (" + +(baseValue - additionValue).toFixed(settings.accuracy) + "%)";
+		}
+	} else if (reverse) {
+		titleResult = +baseValue.toFixed(settings.accuracy) + "%: " + titleText;
+	} else {
+		titleResult = titleText + ": ";
+		if (!part) {
+			titleResult += +baseValue.toFixed(settings.accuracy) + "%";
+		}
+	}
+
+	return titleResult;
+}
+
+// endregion
