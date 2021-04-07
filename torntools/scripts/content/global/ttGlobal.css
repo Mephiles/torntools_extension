@@ -1053,26 +1053,3 @@ div[role="main"].tt-modified {
 .tt-mini-data {
 	color: #333;
 }
-
-//
-.tt-easter-egg-div {
-	top: 40%;
-	left: 40%;
-	color: white;
-	position: absolute;
-	background-color: #333;
-	width: 300px;
-	height: fit-content;
-	border-radius: 10px;
-	padding: 20px;
-	font-size: large;
-}
-
-.tt-easter-egg-button {
-	position: relative;
-    left: 40%;
-    margin-top: 10px;
-    color: #ffffff;
-    background-color: grey;
-    border-radius: 10px;
-}
