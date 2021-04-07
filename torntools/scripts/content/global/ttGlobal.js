@@ -31,9 +31,10 @@ requireDatabase().then(() => {
 	if (settings.developer) {
 		showCustomConsole();
 	}
-	
-	let nowDate = new Date();
-	if (nowDate.getUTCMonth() === 3 && nowDate.getUTCDate() >= 5 && nowDate.getUTCDate() <= 25 && settings.pages.global.easter_eggs) easterEggs();
+
+	const year = new Date().getUTCFullYear();
+	const now = Date.now();
+	if (Date.UTC(year, 3, 5, 12) <= now && Date.UTC(year, 3, 25, 12) >= now) easterEggs();
 
 	requireNavbar().then(async () => {
 		let _flying = await isFlying();
@@ -866,26 +867,45 @@ function tradeChatPostTimer() {
 }
 
 function easterEggs() {
-	let easterEggsObserver = new MutationObserver(funcFoundEasterEgg);
-	easterEggsObserver.observe(doc, {childList: true, subtree: true});
-	funcFoundEasterEgg();
-	function funcFoundEasterEgg() {
-		const egg = doc.find("[src^='competition.php?c=EasterEggs'][src*='step=eggImage'][src*='access_token=']");
-		if (egg) {
-			const newCanvas = document.new({ type: "canvas", attributes: { width: egg.width, height: egg.height } });
-			const context = newCanvas.getContext("2d");
-			context.drawImage(egg, 0, 0);
-			if (!context.getImageData(0, 0, canvas.width, canvas.height).data.some((d) => d !== 0)) return;
-			ttBlackOverlay.classList.add("active");
-			const ttEasterEggDiv = doc.new({
-				type: "div",
-				class: "tt-easter-egg-div",
-				text: "There is an Easter Egg on this page !",
-				children: doc.new({type: "button", class: "tt-easter-egg-button", text: "Close"}),
-			});
-			doc.find(".tt-black-overlay").appendChild(ttEasterEggDiv);
-			ttEasterEggDiv.find("button").addEventListener("click", () => ttEasterEggDiv.remove());
-			easterEggsObserver.disconnect();
+	const mainContainer = doc.find("#mainContainer");
+	if (!mainContainer) return;
+
+	const EGG_SELECTOR = "img[src^='competition.php?c=EasterEggs'][src*='step=eggImage'][src*='access_token=']";
+
+	for (const egg of doc.findAll(EGG_SELECTOR)) {
+		highlightEgg(egg);
+	}
+	new MutationObserver((mutations, observer) => {
+		for (const node of mutations.flatMap((mutation) => [...mutation.addedNodes])) {
+			if (node.nodeType !== Node.ELEMENT_NODE || !node.find(EGG_SELECTOR)) continue;
+
+			highlightEgg(node.find(EGG_SELECTOR));
+			observer.disconnect();
+			break;
 		}
+	}).observe(mainContainer, { childList: true });
+
+	function highlightEgg(egg) {
+		const canvas = document.new({ type: "canvas", attributes: { width: egg.width, height: egg.height } });
+		const context = canvas.getContext("2d");
+		context.drawImage(egg, 0, 0);
+
+		// Check if the egg has any non-transparent pixels, to make sure it's not a fake egg.
+		if (!context.getImageData(0, 0, canvas.width, canvas.height).data.some((d) => d !== 0)) return;
+
+		const overlay = doc.find(".tt-black-overlay");
+
+		overlay.classList.add("active");
+		const ttEasterEggDiv = doc.new({
+			type: "div",
+			class: "tt-easter-egg-div",
+			text: "There is an Easter Egg on this page !",
+			children: doc.new({ type: "button", class: "tt-easter-egg-button", text: "Close" }),
+		});
+		doc.find(".tt-black-overlay").appendChild(ttEasterEggDiv);
+		ttEasterEggDiv.find("button").addEventListener("click", () => {
+			ttEasterEggDiv.remove();
+			overlay.classList.remove("active");
+		});
 	}
 }
