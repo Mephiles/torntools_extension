@@ -2,7 +2,8 @@ requireDatabase().then(() => {
 	console.log("Loading Global Script");
 
 	// Add TT Black overlay
-	doc.find("body").appendChild(doc.new({ type: "div", class: "tt-black-overlay" }));
+	const ttBlackOverlay = doc.new({ type: "div", class: "tt-black-overlay" });
+	doc.find("body").appendChild(ttBlackOverlay);
 
 	if (settings.pages.global.miniprofile_last_action) {
 		addFetchListener((event) => {
@@ -32,7 +33,8 @@ requireDatabase().then(() => {
 		showCustomConsole();
 	}
 	
-	if (settings.pages.global.easter_eggs && new Date().getMonth() === 3 && new Date().getDate() >= 5 && new Date().getDate() <= 25) easterEggs();
+	let nowDate = new Date();
+	if (nowDate.getUTCMonth() === 3 && nowDate.getUTCDate() >= 5 && nowDate.getUTCDate() <= 25 && settings.pages.global.easter_eggs) easterEggs();
 
 	requireNavbar().then(async () => {
 		let _flying = await isFlying();
@@ -865,9 +867,26 @@ function tradeChatPostTimer() {
 }
 
 function easterEggs() {
-	let easterEggsObserver = new MutationObserver(() => {
-		if (doc.find("[src*='competition.php?c=EasterEggs'][src*='step=eggImage'][src*='access_token=']")) alert("There is an easter egg on this page !");
-	});
+	let easterEggsObserver = new MutationObserver(funcFoundEasterEgg);
 	easterEggsObserver.observe(doc, {childList: true, subtree: true});
-	if (doc.find("[src*='competition.php?c=EasterEggs']")) alert("There is an easter egg on this page !");
+	funcFoundEasterEgg();
+	function funcFoundEasterEgg() {
+		const egg = doc.find("[src^='competition.php?c=EasterEggs'][src*='step=eggImage'][src*='access_token=']");
+		if (egg) {
+			const newCanvas = document.new({ type: "canvas", attributes: { width: egg.width, height: egg.height } });
+			const context = newCanvas.getContext("2d");
+			context.drawImage(egg, 0, 0);
+			if (!context.getImageData(0, 0, canvas.width, canvas.height).data.some((d) => d !== 0)) return;
+			ttBlackOverlay.classList.add("active");
+			const ttEasterEggDiv = doc.new({
+				type: "div",
+				class: "tt-easter-egg-div",
+				text: "There is an Easter Egg on this page !",
+				children: doc.new({type: "button", class: "tt-easter-egg-button", text: "Close"}),
+			});
+			ttBlackOverlay.appendChild(ttEasterEggDiv);
+			ttEasterEggDiv.find("button").addEventListener("click", () => ttEasterEggDiv.remove());
+			easterEggsObserver.disconnect();
+		}
+	}
 }
