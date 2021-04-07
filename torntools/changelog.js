@@ -1,13 +1,15 @@
 export default {
 	"v5.9 - xxxx, xxth. 2021": {
-		Features: [],
+		Features: ["Filter faction members by position. - Sashank999"],
 		Fixes: [
 			"Solve duplicate items on the map being ignored. - DKK",
 			"Fix showing hidden portfolio stocks. - Sashank999",
+			"Completed Education Courses not dimming. - Sashank999",
 			"Improve city finds alignment on Mobile. - Sashank999",
 			"Don't warn when education course and bank investment are completed during travel. - Sashank999",
 			"Fix travel count not being correct. - Sashank999",
 			"Chat highlight not working. - Sashank999",
+			"Racing upgrades not appearing. - DKK",
 		],
 		Changes: ["Dark Mode for TornTools. - Sashank999"],
 	},

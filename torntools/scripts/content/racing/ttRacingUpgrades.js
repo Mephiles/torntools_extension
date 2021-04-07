@@ -38,9 +38,9 @@ function showUpgrades() {
 		parts.push(item.getAttribute("data-part"));
 
 		for (let property of item.findAll(".properties")) {
-			let statOld = parseInt(property.find(".bar-gray-light-wrap-d").style.width);
-			let statNew = parseInt(property.find(".bar-color-wrap-d").style.width);
-			let difference = statNew - statOld;
+			const statNew = parseFloat(property.find(".progressbar.progress-light-green, .progressbar.progress-red").style.width) / 100;
+			const statOld = (statNew * parseFloat(property.find(".progressbar.progress-light-gray").style.width)) / 100;
+			const difference = Math.round((statNew - statOld) * 100);
 
 			if (isNaN(difference)) continue;
 

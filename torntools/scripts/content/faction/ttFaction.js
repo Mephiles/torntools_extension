@@ -897,6 +897,12 @@ function addFilterToTable(list, title) {
                 <div id="tt-level-filter" class="filter-slider"></div>
                 <div class="filter-slider-info"></div>
             </div>
+			<div class="filter-wrap" id="position-filter">
+                <div class="filter-heading">Position</div>
+                <select name="position" id="position-filter">
+					<option value="None" selected>None</option>
+				</select>
+            </div>
             <div class="filter-wrap ${settings.pages.faction.member_info && ownFaction ? "" : "filter-hidden"}" id="last-action-filter">
                 <div class="filter-heading">Last Action</div>
                 <div id="tt-last-action-filter" class="filter-slider"></div>
@@ -960,6 +966,14 @@ function addFilterToTable(list, title) {
 		}
 	}
 
+	// Positions
+	doc.findAll("#faction-info-members .table-body .position span").forEach((positionSpan) => {
+		let filterContainerSelect = filter_container.find("#position-filter select");
+		let position = positionSpan.innerText;
+		if (!filterContainerSelect.innerHTML.includes(">" + position + "<"))
+			filterContainerSelect.insertAdjacentHTML("beforeEnd", `<option value="${position}">${position}</option>`);
+	});
+
 	// Level slider
 	let level_slider = filter_container.find("#tt-level-filter");
 	noUiSlider.create(level_slider, {
@@ -1003,6 +1017,7 @@ function addFilterToTable(list, title) {
 	for (let dropdown of filter_container.findAll("select")) {
 		dropdown.onchange = applyFilters;
 	}
+	filter_container.find("#position-filter select").addEventListener("change", () => applyFilters());
 	let filter_observer = new MutationObserver((mutations) => {
 		for (let mutation of mutations) {
 			if (
@@ -1149,6 +1164,19 @@ function addFilterToTable(list, title) {
 					continue;
 				}
 			}
+
+			// Position
+			if (filter_container.find("#position-filter select").value === "None") showRow(li);
+			else if (
+				filter_container.find("#position-filter select").value !== "None" &&
+				filter_container.find("#position-filter select").value === li.find(".position").innerText
+			)
+				showRow(li);
+			else if (
+				filter_container.find("#position-filter select").value !== "None" &&
+				filter_container.find("#position-filter select").value !== li.find(".position").innerText
+			)
+				showRow(li, false);
 
 			// Activity
 			let matches_one_activity = activity.length === 0;
