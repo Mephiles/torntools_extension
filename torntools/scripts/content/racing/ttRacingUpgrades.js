@@ -38,8 +38,8 @@ function showUpgrades() {
 		parts.push(item.getAttribute("data-part"));
 
 		for (let property of item.findAll(".properties")) {
-			let statOld = parseInt(property.find(".bar-gray-light-wrap-d").style.width);
-			let statNew = parseInt(property.find(".bar-color-wrap-d").style.width);
+			let statOld = parseInt(property.find(".progressbar").style.width);
+			let statNew = parseInt(property.find(".progressbar").style.width);
 			let difference = statNew - statOld;
 
 			if (isNaN(difference)) continue;
