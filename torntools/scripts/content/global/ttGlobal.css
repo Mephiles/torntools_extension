@@ -664,6 +664,11 @@ div[role="main"].tt-modified {
 	width: -webkit-fill-available;
 }
 
+.dark-mode .tt-userinfo-container {
+	background-color: #333;
+    color: #DDD;
+}
+
 .tt-userinfo-container .tt-userinfo-row {
 	display: flex;
 	justify-content: center;
