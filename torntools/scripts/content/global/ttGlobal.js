@@ -891,7 +891,7 @@ function easterEggs() {
 		context.drawImage(egg, 0, 0);
 
 		// Check if the egg has any non-transparent pixels, to make sure it's not a fake egg.
-		if (!context.getImageData(0, 0, canvas.width, canvas.height).data.some((d) => d !== 0)) return;
+		if (!canvas.width || !context.getImageData(0, 0, canvas.width, canvas.height).data.some((d) => d !== 0)) return;
 
 		const overlay = doc.find(".tt-black-overlay");
 
