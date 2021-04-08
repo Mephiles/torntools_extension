@@ -121,7 +121,7 @@
 }
 
 .dark-mode .members-list .table-body.tt-modified > li {
-	background-color: #333
+	background-color: #333;
 }
 
 .members-list .table-body li.tt-user-info {
