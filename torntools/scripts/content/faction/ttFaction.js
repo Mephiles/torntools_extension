@@ -1509,7 +1509,7 @@ function observeWarlist() {
 			if (!found) return;
 
 			observeDescription();
-		}).observe(doc.find("#war-react-root ul.f-war-list"), { childList: true });
+		}).observe(doc.find("ul.f-war-list"), { childList: true });
 	});
 }
 

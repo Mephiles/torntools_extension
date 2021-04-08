@@ -24,6 +24,10 @@
 	vertical-align: middle;
 }
 
+.dark-mode .travel-agency-market .tt-travel-market-cell {
+	border-left: 2px solid #222;
+}
+
 .travel-agency-market .stock-b,
 .travel-agency-market li .stock {
 	width: 50px !important;
@@ -70,6 +74,10 @@
 	bottom: -17px;
 	right: 0;
 	font-size: 9px;
+}
+
+.dark-mode .tt-max-buy {
+	border-left: 2px solid #222 !important;
 }
 
 /* HOME */
