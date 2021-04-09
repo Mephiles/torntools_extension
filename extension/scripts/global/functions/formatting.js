@@ -113,11 +113,11 @@ function formatTime(time = {}, options = {}) {
 			}
 
 			const UNITS = [
-				{ unit: "day", millis: TO_MILLIS.DAYS },
-				{ unit: "hour", millis: TO_MILLIS.HOURS },
-				{ unit: "minute", millis: TO_MILLIS.MINUTES },
-				{ unit: "second", millis: TO_MILLIS.SECONDS },
-				{ text: "just now", millis: 0 },
+				{ unit: options.short ? "day" : "d", millis: TO_MILLIS.DAYS },
+				{ unit: options.short ? "hr" : "hour", millis: TO_MILLIS.HOURS },
+				{ unit: options.short ? "min" : "minute", millis: TO_MILLIS.MINUTES },
+				{ unit: options.short ? "sec" : "second", millis: TO_MILLIS.SECONDS },
+				{ text: options.short ? "now" : "just now", millis: 0 },
 			];
 
 			let _units = UNITS;

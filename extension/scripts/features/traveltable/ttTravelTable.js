@@ -1,8 +1,6 @@
 "use strict";
 
 (async () => {
-	await sleep(1000);
-
 	const page = getPage();
 	if (page === "home" && !isFlying()) return;
 
@@ -76,8 +74,14 @@
 			}
 
 			if (filters.travel.type === "basic") {
+				table.classList.add("basic");
 				for (const advanced of table.findAll(".advanced:not(.hidden)")) {
 					advanced.classList.add("hidden");
+				}
+			} else {
+				table.classList.add("advanced");
+				for (const basic of table.findAll(".basic:not(.hidden)")) {
+					basic.classList.add("hidden");
 				}
 			}
 
@@ -122,6 +126,14 @@
 									<div class="checkbox-item">
 										<input id="travel-item-drugs" type="checkbox" name="item" category="drug">
 										<label for="travel-item-drugs">Drugs</label>
+									</div>
+									<div class="checkbox-item">
+										<input id="travel-item-temporaries" type="checkbox" name="item" category="temporary">
+										<label for="travel-item-temporaries">Temporaries</label>
+									</div>
+									<div class="checkbox-item">
+										<input id="travel-item-weapons" type="checkbox" name="item" category="weapon">
+										<label for="travel-item-weapons">Weapons</label>
 									</div>
 			                     	<div class="checkbox-item">
 										<input id="travel-item-other" type="checkbox" name="item" category="other">
@@ -182,6 +194,12 @@
 					typeBasic.classList.add("active");
 					typeAdvanced.classList.remove("active");
 
+					table.classList.add("basic");
+					table.classList.remove("advanced");
+
+					for (const basic of content.findAll("table .basic.hidden")) {
+						basic.classList.remove("hidden");
+					}
 					for (const advanced of content.findAll("table .advanced:not(.hidden)")) {
 						advanced.classList.add("hidden");
 					}
@@ -192,8 +210,14 @@
 					typeAdvanced.classList.add("active");
 					typeBasic.classList.remove("active");
 
+					table.classList.add("advanced");
+					table.classList.remove("basic");
+
 					for (const advanced of content.findAll("table .advanced.hidden")) {
 						advanced.classList.remove("hidden");
+					}
+					for (const basic of content.findAll("table .basic:not(.hidden)")) {
+						basic.classList.add("hidden");
 					}
 
 					ttStorage.change({ filters: { travel: { type: "advanced" } } });
@@ -319,10 +343,21 @@
 			function toRow(item, country, lastUpdate) {
 				let category = torndata.items[item.id].type.toLowerCase();
 				switch (category) {
+					case "plushie":
+					case "flower":
+					case "drug":
+					case "temporary":
+						break;
 					case "melee":
 					case "primary":
 					case "secondary":
 						category = "weapon";
+						break;
+					case "alcohol":
+					case "clothing":
+					case "other":
+					default:
+						category = "other";
 						break;
 				}
 
@@ -347,16 +382,20 @@
 					class: "row",
 					html: `
 						<td class="country">
-							<img class="flag" src="/images/v2/travel_agency/flags/fl_${country.image}.svg" alt="${country.name}" title="${country.name}"/>
-							<span class="name">${country.name}</span>
+							<div>
+								<img class="flag" src="/images/v2/travel_agency/flags/fl_${country.image}.svg" alt="${country.name}" title="${country.name}"/>
+								<span class="name basic">${country.name}</span>
+							</div>
 						</td>
 						<td class="item">
-							<img class="flag" src="/images/items/${item.id}/small.png" alt="${country.name}" title="${country.name}"/>
+							<img class="flag basic" src="/images/items/${item.id}/small.png" alt="${country.name}" title="${country.name}"/>
 							<span>${item.name}</span>
 						</td>
 						<td class="stock">
 							<span>${formatNumber(item.quantity)}</span>		
-							<span>(${formatTime({ seconds: lastUpdate }, { type: "ago" })})</span>					
+							<br class="advanced"/>		
+							<span class="update basic">(${formatTime({ seconds: lastUpdate }, { type: "ago" })})</span>		
+							<span class="update advanced">(${formatTime({ seconds: lastUpdate }, { type: "ago", short: true })})</span>				
 						</td>
 						<td class="buy-price advanced">
 							$${formatNumber(item.cost)}
@@ -368,7 +407,7 @@
 							$${formatNumber(profitItem)}
 						</td>
 						<td class="profit-minute">
-							${profitMinute}
+							<span>${profitMinute}</span>
 						</td>
 						<td class="profit  advanced">
 							$${formatNumber(profit)}
