@@ -330,6 +330,7 @@
 					}
 				} else if (page === "home") {
 					// FIXME - Add travel type count.
+					count += 10;
 				}
 
 				return count;
