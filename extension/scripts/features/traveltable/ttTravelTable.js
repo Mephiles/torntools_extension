@@ -1,8 +1,24 @@
 "use strict";
 
 (async () => {
+	await sleep(1000);
+
 	const page = getPage();
 	if (page === "home" && !isFlying()) return;
+
+	const COUNTRIES = {
+		arg: { name: "Argentina", image: "argentina", tag: "argentina", cost: 21000 },
+		can: { name: "Canada", image: "canada", tag: "canada", cost: 9000 },
+		cay: { name: "Cayman Islands", image: "cayman", tag: "cayman_islands", cost: 10000 },
+		chi: { name: "China", image: "china", tag: "china", cost: 35000 },
+		haw: { name: "Hawaii", image: "hawaii", tag: "hawaii", cost: 11000 },
+		jap: { name: "Japan", image: "japan", tag: "japan", cost: 32000 },
+		mex: { name: "Mexico", image: "mexico", tag: "mexico", cost: 6500 },
+		sou: { name: "South Africa", image: "south_africa", tag: "south_africa", cost: 40000 },
+		swi: { name: "Switzerland", image: "switzerland", tag: "switzerland", cost: 27000 },
+		uae: { name: "UAE", image: "uae", tag: "uae", cost: 32000 },
+		uni: { name: "United Kingdom", image: "uk", tag: "united_kingdom", cost: 18000 },
+	};
 
 	featureManager.registerFeature(
 		"Travel Table",
@@ -15,7 +31,8 @@
 			storage: ["settings.pages.travel.table", "settings.external.yata"],
 		},
 		() => {
-			if (!settings.external.yata) return "YATA not enabled";
+			if (!hasAPIData()) return "No API data!";
+			else if (!settings.external.yata) return "YATA not enabled";
 		}
 	);
 
@@ -25,22 +42,44 @@
 
 		async function createTable() {
 			const { content } = createContainer("Travel Destinations");
-			addLegend();
+			const amount = getTravelCount();
 
-			const data = await pullInformation();
-			console.log("DKK travel data", data);
+			addLegend();
 
 			const table = document.newElement({
 				type: "table",
 				id: "tt-travel-table",
 				html: `
-					<tr class="table-header">
-						<th>Country</th>
-						<th>Item</th>
-						<th>Stock</th>
+					<tr class="row header">
+						<th class="country">Country</th>
+						<th class="item">Item</th>
+						<th class="stock">Stock</th>
+						<th class="buy-price advanced">Buy Price</th>
+						<th class="market-value advanced">Market Value</th>
+						<th class="profit-item advanced" >Profit / Item</th>
+						<th class="profit-minute" >Profit / Minute</th>
+						<th class="profit advanced">Total Profit</th>
+						<th class="money advanced">Cash Needed</th>
 					</tr>
 				`,
 			});
+
+			const data = await pullInformation();
+			console.log("DKK travel data", data);
+			for (const code of Object.keys(data.stocks)) {
+				const country = COUNTRIES[code];
+				const lastUpdate = data.stocks[code].update;
+
+				for (const item of data.stocks[code].stocks) {
+					table.appendChild(toRow(item, country, lastUpdate));
+				}
+			}
+
+			if (filters.travel.type === "basic") {
+				for (const advanced of table.findAll(".advanced:not(.hidden)")) {
+					advanced.classList.add("hidden");
+				}
+			}
 
 			content.appendChild(table);
 
@@ -143,7 +182,9 @@
 					typeBasic.classList.add("active");
 					typeAdvanced.classList.remove("active");
 
-					// TODO - Change the actual type.
+					for (const advanced of content.findAll("table .advanced:not(.hidden)")) {
+						advanced.classList.add("hidden");
+					}
 
 					ttStorage.change({ filters: { travel: { type: "basic" } } });
 				});
@@ -151,7 +192,9 @@
 					typeAdvanced.classList.add("active");
 					typeBasic.classList.remove("active");
 
-					// TODO - Change the actual type.
+					for (const advanced of content.findAll("table .advanced.hidden")) {
+						advanced.classList.remove("hidden");
+					}
 
 					ttStorage.change({ filters: { travel: { type: "advanced" } } });
 				});
@@ -171,7 +214,7 @@
 					updateTable();
 				});
 
-				content.find("#travel-items").value = getTravelCount();
+				content.find("#travel-items").value = amount;
 
 				for (const category of filters.travel.categories) {
 					const element = content.find(`.categories input[name="item"][category="${category}"]`);
@@ -183,7 +226,7 @@
 				}
 
 				// Check for legend changes
-				content.find("#travel-items").addEventListener("change", () => updateTable());
+				content.find("#travel-items").addEventListener("change", () => updateAmount());
 				for (const item of content.findAll(".categories input[name='item']")) {
 					item.addEventListener("change", () => {
 						ttStorage.change({ filters: { travel: { categories: getSelectedCategories() } } });
@@ -210,54 +253,137 @@
 				}
 
 				function updateTable() {
-					const amount = parseInt(content.find("#travel-items").value);
 					const categories = getSelectedCategories();
 					const countries = getSelectedCountries();
 
-					console.log("DKK updateTable", { amount, categories, countries });
+					for (const row of content.findAll("table tr:not(.header)")) {
+						const { country, category } = row.dataset;
+
+						if ((categories.length > 0 && !categories.includes(category)) || (countries.length > 0 && !countries.includes(country)))
+							row.classList.add("hidden");
+						else row.classList.remove("hidden");
+					}
 				}
 
-				function getTravelCount() {
-					let count = 5;
+				function updateAmount() {
+					const amount = parseInt(content.find("#travel-items").value);
 
-					if (hasAPIData() && settings.apiUsage.user.perks) {
-						count += userdata.enhancer_perks
-							.map((perk) => perk.match(/\+ ([0-9]+) Travel items \(.* Suitcase\)/i))
-							.filter((result) => !!result)
-							.map((result) => parseInt(result[1]))
-							.totalSum();
-						// CHECK - Improve job perk checking.
-						count += userdata.job_perks
-							.filter((perk) => perk.includes("travel capacity"))
-							.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
-							.totalSum();
-						count += userdata.faction_perks
-							.map((perk) => perk.match(/\+ Increases maximum traveling capacity by ([0-9]+)/i))
-							.filter((result) => !!result)
-							.map((result) => parseInt(result[1]))
-							.totalSum();
-						// CHECK - Improve book perk checking.
-						count += userdata.book_perks
-							.filter((perk) => perk.includes("travel capacity"))
-							.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
-							.totalSum();
-					}
+					// TODO - Update item amount in the table.
 
-					if (page === "travelagency") {
-						if (document.find("#tab-menu4 > ul > li[aria-selected='true'] .travel-name").innerText.toLowerCase() !== "standard") {
-							count += 10;
-						}
-					} else if (page === "home") {
-						// FIXME - Add travel type count.
-					}
-
-					return count;
+					console.log("DKK updateTable", { amount });
 				}
+			}
+
+			function getTravelCount() {
+				let count = 5;
+
+				if (hasAPIData() && settings.apiUsage.user.perks) {
+					count += userdata.enhancer_perks
+						.map((perk) => perk.match(/\+ ([0-9]+) Travel items \(.* Suitcase\)/i))
+						.filter((result) => !!result)
+						.map((result) => parseInt(result[1]))
+						.totalSum();
+					// CHECK - Improve job perk checking.
+					count += userdata.job_perks
+						.filter((perk) => perk.includes("travel capacity"))
+						.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
+						.totalSum();
+					count += userdata.faction_perks
+						.map((perk) => perk.match(/\+ Increases maximum traveling capacity by ([0-9]+)/i))
+						.filter((result) => !!result)
+						.map((result) => parseInt(result[1]))
+						.totalSum();
+					// CHECK - Improve book perk checking.
+					count += userdata.book_perks
+						.filter((perk) => perk.includes("travel capacity"))
+						.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
+						.totalSum();
+				}
+
+				if (page === "travelagency") {
+					if (document.find("#tab-menu4 > ul > li[aria-selected='true'] .travel-name").innerText.toLowerCase() !== "standard") {
+						count += 10;
+					}
+				} else if (page === "home") {
+					// FIXME - Add travel type count.
+				}
+
+				return count;
 			}
 
 			async function pullInformation() {
 				// FIXME - Add some kind of local cache.
 				return fetchRelay("yata", { section: "travel/export/" });
+			}
+
+			function toRow(item, country, lastUpdate) {
+				let category = torndata.items[item.id].type.toLowerCase();
+				switch (category) {
+					case "melee":
+					case "primary":
+					case "secondary":
+						category = "weapon";
+						break;
+				}
+
+				const cost = item.cost;
+				let totalCost = amount * cost;
+
+				if (page === "travelagency") {
+					if (document.find("#tab-menu4 > ul > li[aria-selected='true'] .travel-name").innerText.toLowerCase() === "standard") {
+						totalCost += country.cost;
+					}
+				}
+
+				const value = torndata.items[item.id].market_value;
+				const profitItem = value - cost;
+				const profitMinute = "TODO";
+				const profit = amount * value - totalCost;
+				const money = "TODO";
+
+				// noinspection HtmlUnknownTarget
+				const row = document.newElement({
+					type: "tr",
+					class: "row",
+					html: `
+						<td class="country">
+							<img class="flag" src="/images/v2/travel_agency/flags/fl_${country.image}.svg" alt="${country.name}" title="${country.name}"/>
+							<span class="name">${country.name}</span>
+						</td>
+						<td class="item">
+							<img class="flag" src="/images/items/${item.id}/small.png" alt="${country.name}" title="${country.name}"/>
+							<span>${item.name}</span>
+						</td>
+						<td class="stock">
+							<span>${formatNumber(item.quantity)}</span>		
+							<span>(${formatTime({ seconds: lastUpdate }, { type: "ago" })})</span>					
+						</td>
+						<td class="buy-price advanced">
+							$${formatNumber(item.cost)}
+						</td>
+						<td class="market-value advanced">
+							$${formatNumber(value)}
+						</td>
+						<td class="profit-item advanced">
+							$${formatNumber(profitItem)}
+						</td>
+						<td class="profit-minute">
+							${profitMinute}
+						</td>
+						<td class="profit  advanced">
+							$${formatNumber(profit)}
+						</td>
+						<td class="money advanced">
+							$${formatNumber(totalCost)}
+						</td>
+					`,
+					dataset: {
+						country: country.tag,
+						category,
+					},
+				});
+
+				return row;
 			}
 		}
 

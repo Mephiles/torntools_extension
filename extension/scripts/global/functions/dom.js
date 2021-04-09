@@ -20,6 +20,7 @@ Object.defineProperty(Document.prototype, "newElement", {
 				attributes: {},
 				events: {},
 				style: {},
+				dataset: {},
 				...options,
 			};
 

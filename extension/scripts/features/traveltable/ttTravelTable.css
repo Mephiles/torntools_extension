@@ -100,7 +100,42 @@ body.dark-mode {
 #tt-travel-table {
 	width: 100%;
 	margin-top: 10px;
+	/*table-layout: fixed;*/
 }
+
+#tt-travel-table td {
+	color: var(--default-color);
+}
+
+/*#tt-travel-table th.country {*/
+/*	width: 50px;*/
+/*}*/
+
+/*#tt-travel-table td.country {*/
+/*	text-align: center;*/
+/*}*/
+
+/*#tt-travel-table .row {*/
+/*	!*display: flex;*!*/
+/*}*/
+
+/*#tt-travel-table .row .country {*/
+/*	!*width: 50px;*!*/
+/*	!*display: flex;*!*/
+/*	!*justify-content: center;*!*/
+/*}*/
+
+/*body:not(.tt-mobile) #tt-travel-table .row .item {*/
+/*	!*width: 180px;*!*/
+/*}*/
+
+/*body.tt-mobile #tt-travel-table .row .item {*/
+/*	!*flex: 1;*!*/
+/*}*/
+
+/*#tt-travel-table .row .stock {*/
+/*	!*margin-right: 5px;*!*/
+/*}*/
 
 /* TODO */
 
