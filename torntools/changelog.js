@@ -12,7 +12,7 @@ export default {
 			"Warn to check user faction chat when chain is near to bonus hit. - Sashank999",
 			"Racing upgrades not appearing. - DKK",
 		],
-		Changes: ["Dark Mode for TornTools. - Sashank999"],
+		Changes: ["Dark Mode for TornTools. - Sashank999", "Show travel table while racing. - Sashank999"],
 	},
 	"v5.8 - March, 25th. 2021": {
 		Features: [
