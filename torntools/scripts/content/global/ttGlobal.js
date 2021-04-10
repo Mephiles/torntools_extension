@@ -153,6 +153,12 @@ requireDatabase().then(() => {
 			chainTimerHighlight();
 
 		hideGymHighlight();
+
+		if (settings.pages.profile.show_chain_warning) {
+			let miniProfilesObserver = new MutationObserver(chainBonusWatch);
+			miniProfilesObserver.observe(doc.body, {childList: true});
+			chainBonusWatch();
+		}
 	});
 
 	chatsLoaded().then(() => {
@@ -860,4 +866,26 @@ function tradeChatPostTimer() {
 				}
 			});
 	}
+}
+
+function chainBonusWatch() {
+	doc.findAll(".profile-button-attack[aria-label*='Attack']").forEach((attackButton) => {
+		if (!attackButton.classList.contains("tt-mouseenter")) {
+			attackButton.classList.add("tt-mouseenter");
+			attackButton.addEventListener("mouseenter", () => {
+				let chainParts = doc.find("a#barChain [class^='bar-value_']").innerText.split("/");
+				if (!doc.find(".tt-fac-chain-bonus-warning") && chainParts[0] > 10 && chainParts[1] - chainParts[0] < 20) {
+					let rawHTML = `<div class="tt-fac-chain-bonus-warning">
+						<div>
+							<span>Chain is approaching bonus hit ! Please check your faction chat !</span>
+						</div>
+					</div>`
+					doc.body.insertAdjacentHTML("afterBegin", rawHTML);
+				};
+			});
+			attackButton.addEventListener("mouseleave", () => {
+				if (doc.find(".tt-fac-chain-bonus-warning")) doc.find("div.tt-fac-chain-bonus-warning").remove();
+			});
+		}
+	})
 }

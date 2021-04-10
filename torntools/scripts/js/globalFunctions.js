@@ -1489,6 +1489,7 @@ const STORAGE = {
 				status_indicator: true,
 				block_ally_attacks: false,
 				notes: true,
+				show_chain_warning: false,
 			},
 			racing: {
 				upgrades: true,
