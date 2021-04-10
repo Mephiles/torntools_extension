@@ -153,11 +153,12 @@ requireDatabase().then(() => {
 			chainTimerHighlight();
 
 		hideGymHighlight();
-		let miniProfilesObserver = new MutationObserver(() => {
+
+		if (settings.pages.profile.show_chain_warning) {
+			let miniProfilesObserver = new MutationObserver(chainBonusWatch);
+			miniProfilesObserver.observe(doc.body, {childList: true});
 			chainBonusWatch();
-		})
-		miniProfilesObserver.observe(doc.body, {childList: true});
-		chainBonusWatch();
+		}
 	});
 
 	chatsLoaded().then(() => {
