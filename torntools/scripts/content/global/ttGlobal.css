@@ -1061,25 +1061,25 @@ div[role="main"].tt-modified {
 }
 
 .tt-fac-chain-bonus-warning {
-    position: fixed;
+	position: fixed;
 	height: max-content;
 	width: 210px;
-    background-color: #f2f2f2;
-    border-radius: 5px;
-    z-index: 999999;
-    top: 45%;
+	background-color: #f2f2f2;
+	border-radius: 5px;
+	z-index: 999999;
+	top: 45%;
 	left: 45%;
 }
 
 .tt-fac-chain-bonus-warning > div {
 	text-align: center;
-    color: #333;
-    font-size: large;
-    margin: 5%;
+	color: #333;
+	font-size: large;
+	margin: 5%;
 }
 
 .dark-mode .tt-fac-chain-bonus-warning > div {
-    color: white !important;
+	color: white !important;
 }
 
 .dark-mode .tt-fac-chain-bonus-warning {

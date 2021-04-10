@@ -156,7 +156,7 @@ requireDatabase().then(() => {
 
 		if (settings.pages.profile.show_chain_warning) {
 			let miniProfilesObserver = new MutationObserver(chainBonusWatch);
-			miniProfilesObserver.observe(doc.body, {childList: true});
+			miniProfilesObserver.observe(doc.body, { childList: true });
 			chainBonusWatch();
 		}
 	});
@@ -879,13 +879,13 @@ function chainBonusWatch() {
 						<div>
 							<span>Chain is approaching bonus hit ! Please check your faction chat !</span>
 						</div>
-					</div>`
+					</div>`;
 					doc.body.insertAdjacentHTML("afterBegin", rawHTML);
-				};
+				}
 			});
 			attackButton.addEventListener("mouseleave", () => {
 				if (doc.find(".tt-fac-chain-bonus-warning")) doc.find("div.tt-fac-chain-bonus-warning").remove();
 			});
 		}
-	})
+	});
 }
