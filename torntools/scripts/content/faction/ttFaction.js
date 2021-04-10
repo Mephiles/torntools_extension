@@ -9,7 +9,7 @@ requireDatabase().then(() => {
 		const step = params.get("step");
 		if (page === "factions") {
 			if (step === "mainnews" && parseInt(params.get("type")) === 4 && settings.pages.faction.armory) {
-				newstabLoaded("armory").then(shortenArmoryNews);
+				//newstabLoaded("armory").then(shortenArmoryNews);
 			} else if (step === "getMoneyDepositors") {
 				loadGiveToUser();
 			} else if (step === "crimesInitiate") {
