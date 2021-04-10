@@ -107,6 +107,7 @@ function loadInfo() {
 		let title = list.previousElementSibling;
 
 		addFilterToTable(list, title);
+		addNumbersToMembers();
 	});
 }
 
@@ -1778,5 +1779,13 @@ function exportChallengeContributionsCSV() {
 			}
 		});
 		contributionsObserver.observe(doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation"), { childList: true, subtree: true });
+	});
+}
+
+function addNumbersToMembers() {
+	let memberIndex = 1;
+	doc.findAll("div#faction-info-members ul.table-body li.table-row").forEach((memberRow) => {
+		memberRow.insertAdjacentHTML("afterBegin", `<span class="tt-member-index">${memberIndex}</span>`);
+		memberIndex++;
 	});
 }
