@@ -189,8 +189,11 @@ const country_dict_short = {
 	},
 };
 
+let hasMap;
+
 requireDatabase().then(async () => {
 	if (doc.find(".content-wrapper .info-msg-cont").classList.contains("red") && !doc.find(".travel-map")) {
+		hasMap = false;
 		if (travel_market.length === 0 || !("date" in travel_market) || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) {
 			// 2 minutes
 			travel_market = await updateTravelMarket();
@@ -199,6 +202,7 @@ requireDatabase().then(async () => {
 		let container = content.newContainer("Travel Destinations", { id: "ttTravelTable" }).find(".content");
 
 		addLegend();
+		doc.find("#ttTravelTable #tt-items").value = travel_items;
 
 		let table = doc.new({ type: "div", class: "table" });
 		container.appendChild(table);
@@ -217,6 +221,7 @@ requireDatabase().then(async () => {
 			reloadTable();
 		}, 2 * 60 * 1000);
 	} else {
+		hasMap = true;
 		mapLoaded().then(async () => {
 			console.log("TT - Travel (home)");
 
@@ -677,7 +682,7 @@ function filterTable(manual) {
 		item: 2,
 	};
 
-	if (manual && country !== "all") {
+	if (hasMap && manual && country !== "all") {
 		let name = country.replace(/ /g, "-");
 		if (country === "cayman islands") name = "cayman";
 		if (country === "united kingdom") name = "uk";
