@@ -195,115 +195,115 @@ requireDatabase().then(async () => {
 			// 2 minutes
 			travel_market = await updateTravelMarket();
 		}
-		
+
 		let container = content.newContainer("Travel Destinations", { id: "ttTravelTable" }).find(".content");
-		
+
 		addLegend();
-		
+
 		let table = doc.new({ type: "div", class: "table" });
 		container.appendChild(table);
-		ttStorage.get("travel_items", (travelItems) => addTableContent(travelItems))
+		ttStorage.get("travel_items", (travelItems) => addTableContent(travelItems));
 		if (filters.travel.table_type === "basic") {
 			doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
 		} else if (filters.travel.table_type === "advanced") {
 			doc.find("#ttTravelTable .table-type-button span[type='advanced']").click();
 		}
-		
+
 		sort(doc.find("#ttTravelTable .table"), 1, "text");
-		
+
 		filterTable(false);
-		
+
 		setInterval(function () {
 			reloadTable();
 		}, 2 * 60 * 1000);
 	} else {
-	mapLoaded().then(async () => {
-		console.log("TT - Travel (home)");
+		mapLoaded().then(async () => {
+			console.log("TT - Travel (home)");
 
-		if (settings.pages.travel.cooldown_warnings) showCooldowns();
+			if (settings.pages.travel.cooldown_warnings) showCooldowns();
 
-		if (travel_market.length === 0 || !("date" in travel_market) || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) {
-			// 2 minutes
-			travel_market = await updateTravelMarket();
-		}
+			if (travel_market.length === 0 || !("date" in travel_market) || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) {
+				// 2 minutes
+				travel_market = await updateTravelMarket();
+			}
 
-		modifyTimeAndCost();
+			modifyTimeAndCost();
 
-		let container = content.newContainer("Travel Destinations", { id: "ttTravelTable" }).find(".content");
+			let container = content.newContainer("Travel Destinations", { id: "ttTravelTable" }).find(".content");
 
-		addLegend();
-		setTravelItems();
+			addLegend();
+			setTravelItems();
 
-		let travel_items = doc.find("#ttTravelTable #tt-items").value;
+			let travel_items = doc.find("#ttTravelTable #tt-items").value;
 
-		let table = doc.new({ type: "div", class: "table" });
-		container.appendChild(table);
+			let table = doc.new({ type: "div", class: "table" });
+			container.appendChild(table);
 
-		addTableContent(travel_items);
+			addTableContent(travel_items);
 
-		// Set initial table mode
-		if (filters.travel.table_type === "basic") {
-			doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
-		} else if (filters.travel.table_type === "advanced") {
-			doc.find("#ttTravelTable .table-type-button span[type='advanced']").click();
-		}
+			// Set initial table mode
+			if (filters.travel.table_type === "basic") {
+				doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
+			} else if (filters.travel.table_type === "advanced") {
+				doc.find("#ttTravelTable .table-type-button span[type='advanced']").click();
+			}
 
-		// Sort by country
-		sort(doc.find("#ttTravelTable .table"), 1, "text");
+			// Sort by country
+			sort(doc.find("#ttTravelTable .table"), 1, "text");
 
-		filterTable(false);
+			filterTable(false);
 
-		// Tab listeners
-		for (let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]) {
-			// tab.classList.remove("ui-state-disabled");  // Testing purposes
-			tab.addEventListener("click", function () {
-				setTravelItems();
-				reloadTable();
-			});
-		}
+			// Tab listeners
+			for (let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]) {
+				// tab.classList.remove("ui-state-disabled");  // Testing purposes
+				tab.addEventListener("click", function () {
+					setTravelItems();
+					reloadTable();
+				});
+			}
 
-		// Destination listeners
-		if (!mobile) {
-			for (let destination of doc.findAll(`div[role='tabpanel'][aria-expanded='true']>div[role='button']`)) {
-				destination.addEventListener("click", function () {
-					console.log(destination);
-					let country = destination.getAttribute("data-race") ? destination.getAttribute("data-race").replace(/-/g, " ") : "all";
+			// Destination listeners
+			if (!mobile) {
+				for (let destination of doc.findAll(`div[role='tabpanel'][aria-expanded='true']>div[role='button']`)) {
+					destination.addEventListener("click", function () {
+						console.log(destination);
+						let country = destination.getAttribute("data-race") ? destination.getAttribute("data-race").replace(/-/g, " ") : "all";
+						if (country === "cayman") country = "cayman islands";
+						if (country === "uk") country = "united kingdom";
+
+						doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
+					});
+				}
+			} else {
+				for (let destination of doc.findAll(`.tab-menu-cont .travel-info-table li.travel-info-table-list`)) {
+					let country = destination.find(".city-flag").classList[1].replace(/-/g, " ");
 					if (country === "cayman") country = "cayman islands";
 					if (country === "uk") country = "united kingdom";
 
-					doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
-				});
+					destination.addEventListener("click", function () {
+						doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
+					});
+				}
 			}
-		} else {
-			for (let destination of doc.findAll(`.tab-menu-cont .travel-info-table li.travel-info-table-list`)) {
-				let country = destination.find(".city-flag").classList[1].replace(/-/g, " ");
-				if (country === "cayman") country = "cayman islands";
-				if (country === "uk") country = "united kingdom";
 
-				destination.addEventListener("click", function () {
-					doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
-				});
+			// mobile
+			if (mobile) {
+				doc.find(".travel-agency").classList.add("tt-mobile");
 			}
-		}
 
-		// mobile
-		if (mobile) {
-			doc.find(".travel-agency").classList.add("tt-mobile");
-		}
+			// Updater
+			setInterval(function () {
+				reloadTable();
+			}, 2 * 60 * 1000);
 
-		// Updater
-		setInterval(function () {
-			reloadTable();
-		}, 2 * 60 * 1000);
+			doc.find("div.travel-agency:not([id])").addEventListener("click", () => {
+				if (event.target.classList.contains("raceway") && event.target.hasAttribute("data-race") && event.target.getAttribute("role") === "button")
+					addLandAndReturnTimes();
+			});
 
-		doc.find("div.travel-agency:not([id])").addEventListener("click", () => {
-			if (event.target.classList.contains("raceway") && event.target.hasAttribute("data-race") && event.target.getAttribute("role") === "button")
-				addLandAndReturnTimes();
+			warnOnTimeout();
 		});
-
-		warnOnTimeout();
-		});
-	};
+	}
 });
 
 function modifyTimeAndCost() {

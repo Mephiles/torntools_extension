@@ -256,9 +256,10 @@ i.fa-caret-down:not(.tt-title-icon):not(.tt-title-icon-torn) {
 	color: #de0000;
 }
 
-.dark-mode #ttTravelTable .positive.profit, .dark-mode #ttTravelTable .negative.profit {
+.dark-mode #ttTravelTable .positive.profit,
+.dark-mode #ttTravelTable .negative.profit {
 	font-size: 15px;
-    font-weight: 700;
+	font-weight: 700;
 }
 
 /* Cooldown Timers */
