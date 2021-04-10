@@ -189,7 +189,34 @@ const country_dict_short = {
 	},
 };
 
-requireDatabase().then(function () {
+requireDatabase().then(async () => {
+	if (doc.find(".content-wrapper .info-msg-cont").classList.contains("red") && !doc.find(".travel-map")) {
+		if (travel_market.length === 0 || !("date" in travel_market) || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) {
+			// 2 minutes
+			travel_market = await updateTravelMarket();
+		}
+		
+		let container = content.newContainer("Travel Destinations", { id: "ttTravelTable" }).find(".content");
+		
+		addLegend();
+		
+		let table = doc.new({ type: "div", class: "table" });
+		container.appendChild(table);
+		ttStorage.get("travel_items", (travelItems) => addTableContent(travelItems))
+		if (filters.travel.table_type === "basic") {
+			doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
+		} else if (filters.travel.table_type === "advanced") {
+			doc.find("#ttTravelTable .table-type-button span[type='advanced']").click();
+		}
+		
+		sort(doc.find("#ttTravelTable .table"), 1, "text");
+		
+		filterTable(false);
+		
+		setInterval(function () {
+			reloadTable();
+		}, 2 * 60 * 1000);
+	} else {
 	mapLoaded().then(async () => {
 		console.log("TT - Travel (home)");
 
@@ -275,7 +302,8 @@ requireDatabase().then(function () {
 		});
 
 		warnOnTimeout();
-	});
+		});
+	};
 });
 
 function modifyTimeAndCost() {
