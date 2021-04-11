@@ -107,7 +107,7 @@ function loadInfo() {
 		let title = list.previousElementSibling;
 
 		addFilterToTable(list, title);
-		addNumbersToMembers();
+		if (settings.pages.faction.member_index) addNumbersToMembers();
 	});
 }
 
