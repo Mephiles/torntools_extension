@@ -1783,9 +1783,5 @@ function exportChallengeContributionsCSV() {
 }
 
 function addNumbersToMembers() {
-	let memberIndex = 1;
-	doc.findAll("div#faction-info-members ul.table-body li.table-row").forEach((memberRow) => {
-		memberRow.insertAdjacentHTML("afterBegin", `<span class="tt-member-index">${memberIndex}</span>`);
-		memberIndex++;
-	});
+	doc.findAll("div#faction-info-members ul.table-body li.table-row").forEach((memberRow, memberIndex) => memberRow.insertAdjacentHTML("afterBegin", `<span class="tt-member-index">${memberIndex}</span>`));
 }
