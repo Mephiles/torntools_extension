@@ -5,6 +5,10 @@ body {
 	font-size: 75%;
 }
 
+body.dark-mode {
+	background-color: #333 !important;
+}
+
 body.loading *:not(.tt-loading-placeholder) {
 	display: none !important;
 }
@@ -36,6 +40,10 @@ body.loading *:not(.tt-loading-placeholder) {
 	display: block;
 }
 
+.dark-mode .subpage.active {
+	color: white;
+}
+
 .page-tab {
 	background: none;
 	border: none;
@@ -46,10 +54,18 @@ body.loading *:not(.tt-loading-placeholder) {
 	display: inline-block;
 }
 
+.dark-mode .page-tab {
+	color: white;
+}
+
 .active-tab {
 	border-top: 1px solid grey;
 	padding-left: 4px;
 	padding-right: 4px;
+}
+
+.dark-mode .active-tab {
+	border-color: white;
 }
 
 .error {
@@ -67,6 +83,11 @@ body.loading *:not(.tt-loading-placeholder) {
 	padding: 6px 20px 6px 40px;
 	border: 1px solid #ddd;
 	outline: none;
+}
+
+.dark-mode #search-bar {
+    background-color: #333;
+    color: white !important;
 }
 
 /* List of items */
