@@ -1,6 +1,6 @@
 export default {
 	"v5.9 - xxxx, xxth. 2021": {
-		Features: ["Filter faction members by position. - Sashank999", "Dark Mode for TT Settings. - Sashank999"],
+		Features: ["Filter faction members by position. - Sashank999"],
 		Fixes: [
 			"Solve duplicate items on the map being ignored. - DKK",
 			"Fix showing hidden portfolio stocks. - Sashank999",
@@ -10,6 +10,7 @@ export default {
 			"Fix travel count not being correct. - Sashank999",
 			"Chat highlight not working. - Sashank999",
 			"Warn to check user faction chat when chain is near to bonus hit. - Sashank999",
+			"Add numbers to faction member list. - Sashank999",
 			"Racing upgrades not appearing. - DKK",
 		],
 		Changes: ["Dark Mode for TornTools. - Sashank999", "Show travel table while racing. - Sashank999"],
