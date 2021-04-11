@@ -8,6 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       # Runs a set of commands using the runners shell
-      - name: Update the changelog.js
+      - name: Whatever
         run: |
-            git diff ttSettingsDarkMode master
+            git diff ttSettingsDarkMode..master
