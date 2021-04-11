@@ -159,6 +159,8 @@ requireDatabase().then(() => {
 			miniProfilesObserver.observe(doc.body, { childList: true });
 			chainBonusWatch();
 		}
+
+		ttSettingsLink();
 	});
 
 	chatsLoaded().then(() => {
@@ -888,4 +890,13 @@ function chainBonusWatch() {
 			});
 		}
 	});
+}
+
+function ttSettingsLink() {
+	doc.find("div.areasWrapper [class*='toggle-content__']").appendChild(newAreasLink({
+		id: "tt-nav-settings",
+		href: "/home.php#TornTools",
+		svgHTML: `<img src="${chrome.runtime.getURL('images/icongrey48.png')}" style="height: 21px;">`,
+		linkName: "TornTools Settings",
+	}));
 }

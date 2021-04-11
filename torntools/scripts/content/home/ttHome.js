@@ -11,6 +11,17 @@ requireDatabase().then(() => {
 		if (settings.pages.home.battle_stats && !shouldDisable()) {
 			displayEffectiveBattleStats();
 		}
+
+		if (window.location.hash.includes("TornTools")) {
+			let ttIframeHTML = `<iframe src="${chrome.runtime.getURL('views/settings/settings.html')}" style="
+				height: 1350px;
+				width: 1085px;
+				background-color: white;
+			"> </iframe>`;
+			doc.find("div#sidebarroot").style.marginLeft = "-15%";
+			doc.find("div.content-wrapper div.content").style.display = "none";
+			doc.find("div.content-wrapper div.content").insertAdjacentHTML("beforeBegin", ttIframeHTML);
+		};
 	});
 });
 
