@@ -75,7 +75,9 @@ requireDatabase().then(() => {
 					};
 				});
 			} else {
-				doc.findAll("[class*='itemDescription__']").forEach((buyMenu) => maxBuy(buyMenu, "[class*='description__'] [class*='amountValue_']"));
+				let moreItemsObserver = new MutationObserver(moreItemsObserverFunction);
+				moreItemsObserver.observe(doc.find("#react-root .ReactVirtualized__Grid__innerScrollContainer"), {childList: true, subtree: true});
+				moreItemsObserverFunction();
 			};
 		};
 	});
@@ -109,3 +111,10 @@ function maxBuy(parent, amountOfStockSelector) {
 		parent.find("[class*='buyAmountInput_']").dispatchEvent(new Event("input", { bubbles: true }));
 	});
 }
+
+function moreItemsObserverFunction() {
+	doc.findAll("[class*='itemDescription__']").forEach((buyMenu) => {
+		maxBuy(buyMenu, "[class*='description__'] [class*='amountValue_']");
+		buyMenu.classList.add("tt-max-buy");
+	});
+};
