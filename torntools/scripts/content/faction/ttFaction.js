@@ -107,6 +107,7 @@ function loadInfo() {
 		let title = list.previousElementSibling;
 
 		addFilterToTable(list, title);
+		if (settings.pages.faction.member_index) addNumbersToMembers();
 	});
 }
 
@@ -1779,4 +1780,10 @@ function exportChallengeContributionsCSV() {
 		});
 		contributionsObserver.observe(doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation"), { childList: true, subtree: true });
 	});
+}
+
+function addNumbersToMembers() {
+	doc.findAll("div#faction-info-members ul.table-body li.table-row").forEach((memberRow, memberIndex) =>
+		memberRow.insertAdjacentHTML("afterbegin", `<span class="tt-member-index">${memberIndex + 1}</span>`)
+	);
 }
