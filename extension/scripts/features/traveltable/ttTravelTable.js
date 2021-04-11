@@ -325,14 +325,7 @@
 						.totalSum();
 				}
 
-				if (page === "travelagency") {
-					if (document.find("#tab-menu4 > ul > li[aria-selected='true'] .travel-name").innerText.toLowerCase() !== "standard") {
-						count += 10;
-					}
-				} else if (page === "home") {
-					// FIXME - Add travel type count.
-					count += 10;
-				}
+				if (getTravelType() !== "standard") count += 10;
 
 				return count;
 			}
@@ -366,11 +359,7 @@
 				const cost = item.cost;
 				let totalCost = amount * cost;
 
-				if (page === "travelagency") {
-					if (document.find("#tab-menu4 > ul > li[aria-selected='true'] .travel-name").innerText.toLowerCase() === "standard") {
-						totalCost += country.cost;
-					}
-				}
+				if (getTravelType() === "standard") totalCost += country.cost;
 
 				const value = torndata.items[item.id].market_value;
 				const profitItem = value - cost;
@@ -480,6 +469,18 @@
 			function hideTable() {
 				document.find(".travel-agency-travelling").classList.remove("hidden");
 				findContainer("Travel Destinations").classList.add("hidden");
+			}
+		}
+
+		function getTravelType() {
+			if (page === "travelagency") {
+				const element = document.find("#tab-menu4 > ul > li[aria-selected='true'] .travel-name");
+
+				// FIXME - Add travel type count.
+				if (!element) return "TBD";
+				else return element.innerText.toLowerCase();
+			} else if (page === "home") {
+				return "TBD";
 			}
 		}
 	}
