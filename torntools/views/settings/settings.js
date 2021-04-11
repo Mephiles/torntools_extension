@@ -100,6 +100,7 @@ requireDatabase(false)
 
 		registerChanges();
 		searchPreferences();
+		if (window.self !== window.top) doc.body.style.backgroundColor = "#191919";
 	})
 	.catch((err) => {
 		console.error(err);
