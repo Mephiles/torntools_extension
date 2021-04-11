@@ -58,43 +58,26 @@ requireDatabase().then(() => {
 			}
 
 			// Max buy button
-			document.addEventListener("click", (event) => {
-				if (event.target.classList.contains("^=controlPanelButton_") && event.target.getAttribute("aria-label").includes("Buy")) {
-					let parent = doc.find("[class*='buyMenu_']").parentElement;
+			if (!mobile) {
+				doc.addEventListener("click", (event) => {
+					if (event.target.classList.contains("^=controlPanelButton_") && event.target.getAttribute("aria-label").includes("Buy")) {
+						maxBuy(doc.find("[class*='buyMenu_']").parentElement, "[class*='info_'] [class*='amount_']");
 
-					let max_span = doc.new({ type: "span", text: "fill max", class: "tt-max-buy bold" });
-					parent.find("[class*='buy_']").parentElement.appendChild(max_span);
-
-					max_span.addEventListener("click", (event) => {
-						event.stopPropagation();
-						let max = parseInt(parent.find("[class*='info_'] [class*='amount_']").innerText.replace(/\D/g, ""));
-
-						if (!settings.pages.bazaar.max_buy_ignore_cash) {
-							let price = parseInt(parent.find("[class*='price_']").innerText.replaceAll(",", "").replace("$", ""));
-							let user_money = parseInt(doc.find("#user-money").innerText.replaceAll(",", "").replace("$", ""));
-
-							if (Math.floor(user_money / price) < max) max = Math.floor(user_money / price);
-						}
-						if (max > 10000) max = 10000;
-
-						parent.find("[class*='buyAmountInput_']").value = max;
-
-						// for value to be accepted
-						parent.find("[class*='buyAmountInput_']").dispatchEvent(new Event("input", { bubbles: true }));
-					});
-
-					if (settings.pages.bazaar.display_total_price) {
-						let rawHTML = "<span id='tt-total-cost'></span>";
-						let bazaarItemPrice = parseInt(doc.find("[class*='buyMenu_'] [class*='price_']").innerText.split("$")[1].replace(/,/g, ""));
-						doc.find("[class*='buyMenu_'] [class*='amount_']").insertAdjacentHTML("beforeEnd", rawHTML);
-						doc.find("[class*='buyMenu_'] [class*='buyForm_'] input[class*='numberInput_']").addEventListener(
-							"keyup",
-							(event) => (doc.find("span#tt-total-cost").innerHTML = "$" + numberWithCommas(bazaarItemPrice * event.target.value, false))
-						);
-					}
-				}
-			});
-		}
+						if (settings.pages.bazaar.display_total_price) {
+							let rawHTML = "<span id='tt-total-cost'></span>";
+							let bazaarItemPrice = parseInt(doc.find("[class*='buyMenu_'] [class*='price_']").innerText.split("$")[1].replace(/,/g, ""));
+							doc.find("[class*='buyMenu_'] [class*='amount_']").insertAdjacentHTML("beforeEnd", rawHTML);
+							doc.find("[class*='buyMenu_'] [class*='buyForm_'] input[class*='numberInput_']").addEventListener(
+								"keyup",
+								(event) => (doc.find("span#tt-total-cost").innerHTML = "$" + numberWithCommas(bazaarItemPrice * event.target.value, false))
+							);
+						};
+					};
+				});
+			} else {
+				doc.findAll("[class*='itemDescription__']").forEach((buyMenu) => maxBuy(buyMenu, "[class*='description__'] [class*='amountValue_']"));
+			};
+		};
 	});
 });
 
@@ -104,4 +87,25 @@ function bazaarLoaded() {
 
 function visiting() {
 	return window.location.search.indexOf("userId") > -1;
+}
+
+function maxBuy(parent, amountOfStockSelector) {
+	let max_span = doc.new({ type: "span", text: "fill max", class: "tt-max-buy bold" });
+	parent.find("[class*='buy_']").parentElement.appendChild(max_span);
+
+	max_span.addEventListener("click", (event) => {
+		event.stopPropagation();
+		let max = parseInt(parent.find(amountOfStockSelector).innerText.replace(/\D/g, ""));	
+		if (!settings.pages.bazaar.max_buy_ignore_cash) {
+			let price = parseInt(parent.find("[class*='price_']").innerText.replace(/[,$]/g, ""));
+			let user_money = parseInt(doc.find("#user-money").innerText.replace(/[,$]/g, ""));	
+			if (Math.floor(user_money / price) < max) max = Math.floor(user_money / price);
+		}
+		if (max > 10000) max = 10000;
+
+		parent.find("[class*='buyAmountInput_']").value = max;
+
+		// for value to be accepted
+		parent.find("[class*='buyAmountInput_']").dispatchEvent(new Event("input", { bubbles: true }));
+	});
 }
