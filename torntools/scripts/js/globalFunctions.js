@@ -1489,6 +1489,7 @@ const STORAGE = {
 				status_indicator: true,
 				block_ally_attacks: false,
 				notes: true,
+				show_chain_warning: false,
 			},
 			racing: {
 				upgrades: true,
@@ -1547,6 +1548,7 @@ const STORAGE = {
 				info_page_full: false,
 				armory_worth: false,
 				member_info: false,
+				member_index: true,
 				banking_tools: true,
 			},
 			properties: {
