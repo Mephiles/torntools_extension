@@ -22,7 +22,7 @@ function displayContainer() {
 
 	export_btn.addEventListener("click", () => {
 		let table = getData();
-		let chain_id = doc.find("#chain-report-react-root .chain-report-wrap .title-black").innerText.split(" #")[1];
+		let chain_id = doc.find(".chain-report-wrap .title-black").innerText.split(" #")[1];
 		exportData(table, chain_id);
 	});
 }

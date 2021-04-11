@@ -37,6 +37,7 @@ requireDatabase(false)
 		// Show loaded page
 		loadingPlaceholder(doc.find("body"), false);
 		doc.find("body").classList.remove("loading");
+		if (settings.page_theme === "dark") doc.body.classList.add("dark-mode");
 	})
 	.catch(() => {
 		if (api_key) return;
