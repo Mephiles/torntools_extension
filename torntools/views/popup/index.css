@@ -86,8 +86,8 @@ body.loading *:not(.tt-loading-placeholder) {
 }
 
 .dark-mode #search-bar {
-    background-color: #333;
-    color: white !important;
+	background-color: #333;
+	color: white !important;
 }
 
 /* List of items */
