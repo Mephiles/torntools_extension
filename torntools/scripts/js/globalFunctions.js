@@ -1418,6 +1418,7 @@ const STORAGE = {
 		clean_flight: false,
 		// "remove_info_boxes": false,
 		theme: "default",
+		page_theme: "light",
 		force_tt: true,
 		check_extensions: true,
 		developer: false,

@@ -8,6 +8,11 @@
 	padding-left: 30px;
 }
 
+.dark-mode #stocks #search-bar {
+	background-color: #333;
+    color: white !important;
+}
+
 .portfolio {
 	width: 42px;
 	height: 30px;
@@ -59,6 +64,11 @@
 	background-color: #eaeaea;
 	padding-left: 3px;
 	padding-right: 3px;
+}
+
+.dark-mode .stock-item div.stock-info-heading,
+.dark-mode .stock-item div.benefit-info-heading {
+	color: #333;
 }
 
 .stock-item .heading-quantity {
