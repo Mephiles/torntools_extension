@@ -542,7 +542,7 @@ div#tt-black-search-overlay i.far.fa-times-circle {
 
 .dark-mode div#tt-black-search-overlay i.far.fa-times-circle {
 	color: white;
-    background-color: #333;
+	background-color: #333;
 }
 
 div#tt-black-search-overlay input#tt-search-input {
@@ -556,7 +556,7 @@ div#tt-black-search-overlay input#tt-search-input {
 
 .dark-mode div#tt-black-search-overlay input#tt-search-input {
 	background-color: #333;
-    color: white;
+	color: white;
 }
 
 div#tt-black-search-overlay i#tt-search-button {
