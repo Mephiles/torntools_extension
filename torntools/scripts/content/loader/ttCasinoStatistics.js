@@ -1,6 +1,6 @@
 requireDatabase().then(() => {
 	console.log("TT - Casino Statistics");
-	if (!window.location.href.includes("Lottery") && (window.location.href.includes("Statistics") || window.location.href.includes("stats/"))) {
+	if (!window.location.href.includes("Lottery") && (window.location.href.includes("Statistics") || window.location.href.includes("Stats"))) {
 		addNetTotal("overall");
 		addNetTotal("your");
 	}
