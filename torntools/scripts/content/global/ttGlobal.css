@@ -294,10 +294,6 @@
 	background-color: var(--default-bg-panel-active-color, #444);
 }
 
-.dark-mode #sidebar > div.tt-nav-section:nth-child(2) .tt-content [class*="area-row_"] {
-	background-color: #f2f2f2;
-}
-
 .dark-mode .tt-nav-section .tt-content [class*="area-row_"] {
 	background-color: #333;
 }
@@ -314,6 +310,11 @@
 	border: unset;
 	box-sizing: border-box;
 	padding: 3px;
+}
+
+.dark-mode .tt-nav-textarea {
+	background-color: #333 !important;
+	color: white !important;
 }
 
 .tt-nav-textarea::-webkit-scrollbar {
@@ -1057,4 +1058,30 @@ div[role="main"].tt-modified {
 
 .tt-mini-data {
 	color: #333;
+}
+
+.tt-fac-chain-bonus-warning {
+	position: fixed;
+	height: max-content;
+	width: 210px;
+	background-color: #f2f2f2;
+	border-radius: 5px;
+	z-index: 999999;
+	top: 45%;
+	left: 45%;
+}
+
+.tt-fac-chain-bonus-warning > div {
+	text-align: center;
+	color: #333;
+	font-size: large;
+	margin: 5%;
+}
+
+.dark-mode .tt-fac-chain-bonus-warning > div {
+	color: white !important;
+}
+
+.dark-mode .tt-fac-chain-bonus-warning {
+	background-color: #333 !important;
 }
