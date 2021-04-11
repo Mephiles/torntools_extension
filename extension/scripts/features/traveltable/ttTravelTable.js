@@ -86,7 +86,8 @@
 				}
 			}
 
-			content.appendChild(table);
+			content.appendChild(document.newElement({ type: "div", class: "table-wrap", children: [table] }));
+			updateTable();
 
 			function addLegend() {
 				let isOpen = filters.travel.open;
@@ -269,33 +270,33 @@
 					});
 				}
 
-				function getSelectedCategories() {
-					return [...content.findAll(".categories input[name='item']:checked")].map((el) => el.getAttribute("category"));
-				}
-
-				function getSelectedCountries() {
-					return [...content.findAll(".countries .flag.selected")].map((el) => el.getAttribute("country"));
-				}
-
-				function updateTable() {
-					const categories = getSelectedCategories();
-					const countries = getSelectedCountries();
-
-					for (const row of content.findAll("table tr:not(.header)")) {
-						const { country, category } = row.dataset;
-
-						if ((categories.length > 0 && !categories.includes(category)) || (countries.length > 0 && !countries.includes(country)))
-							row.classList.add("hidden");
-						else row.classList.remove("hidden");
-					}
-				}
-
 				function updateAmount() {
 					const amount = parseInt(content.find("#travel-items").value);
 
-					// TODO - Update item amount in the table.
+					// FIXME - Update item amount in the table.
 
 					console.log("DKK updateTable", { amount });
+				}
+			}
+
+			function getSelectedCategories() {
+				return [...content.findAll(".categories input[name='item']:checked")].map((el) => el.getAttribute("category"));
+			}
+
+			function getSelectedCountries() {
+				return [...content.findAll(".countries .flag.selected")].map((el) => el.getAttribute("country"));
+			}
+
+			function updateTable() {
+				const categories = getSelectedCategories();
+				const countries = getSelectedCountries();
+
+				for (const row of table.findAll("tr:not(.header)")) {
+					const { country, category } = row.dataset;
+
+					if ((categories.length > 0 && !categories.includes(category)) || (countries.length > 0 && !countries.includes(country)))
+						row.classList.add("hidden");
+					else row.classList.remove("hidden");
 				}
 			}
 
@@ -375,11 +376,11 @@
 						<td class="country">
 							<div>
 								<img class="flag" src="/images/v2/travel_agency/flags/fl_${country.image}.svg" alt="${country.name}" title="${country.name}"/>
-								<span class="name basic">${country.name}</span>
+								<span class="name">${country.name}</span>
 							</div>
 						</td>
 						<td class="item">
-							<img class="flag basic" src="/images/items/${item.id}/small.png" alt="${country.name}" title="${country.name}"/>
+							<img class="flag" src="/images/items/${item.id}/small.png" alt="${country.name}" title="${country.name}"/>
 							<span>${item.name}</span>
 						</td>
 						<td class="stock">

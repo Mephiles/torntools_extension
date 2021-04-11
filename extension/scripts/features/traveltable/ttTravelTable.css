@@ -97,49 +97,18 @@ body.dark-mode {
 
 /* Actual Table */
 
+.table-wrap {
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
 #tt-travel-table {
 	width: 100%;
 	margin-top: 10px;
-	display: grid;
-}
-
-#tt-travel-table.basic {
-	grid-template-columns: 120px 1fr 150px 1fr;
-}
-
-#tt-travel-table.advanced {
-	grid-template-columns: repeat(9, 1fr);
-}
-
-#tt-travel-table thead,
-#tt-travel-table tbody,
-#tt-travel-table tr {
-	display: contents;
 }
 
 #tt-travel-table td {
 	color: var(--default-color);
-}
-
-#tt-travel-table td.country > div {
-	display: flex;
-	align-items: center;
-}
-
-#tt-travel-table td.country > div .name {
-	margin-left: 2px;
-}
-
-#tt-travel-table.advanced td.country > div {
-	justify-content: center;
-}
-
-#tt-travel-table.basic td.stock .update {
-	float: right;
-}
-
-#tt-travel-table.basic td.profit-minute span {
-	float: right;
 }
 
 /*#tt-travel-table td.country {*/
@@ -156,9 +125,17 @@ body.dark-mode {
 /*	!*justify-content: center;*!*/
 /*}*/
 
-/*body:not(.tt-mobile) #tt-travel-table .row .item {*/
-/*	!*width: 180px;*!*/
-/*}*/
+#tt-travel-table .row .country .name {
+	white-space: nowrap;
+}
+
+#tt-travel-table .row .item {
+	white-space: nowrap;
+}
+
+#tt-travel-table .row .stock .update {
+	white-space: nowrap;
+}
 
 /*body.tt-mobile #tt-travel-table .row .item {*/
 /*	!*flex: 1;*!*/
