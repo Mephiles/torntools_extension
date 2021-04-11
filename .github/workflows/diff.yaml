@@ -1,0 +1,13 @@
+  
+name: Whatever
+on:
+  workflow_dispatch:
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      # Runs a set of commands using the runners shell
+      - name: Update the changelog.js
+        run: |
+            git diff ttSettingsDarkMode master
