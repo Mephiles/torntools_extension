@@ -31,6 +31,7 @@
 		() => {
 			if (!hasAPIData()) return "No API data!";
 			else if (!settings.external.yata) return "YATA not enabled";
+			else if (isCaptcha()) return "Captcha present.";
 		}
 	);
 

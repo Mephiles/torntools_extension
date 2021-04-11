@@ -256,3 +256,7 @@ function getPage() {
 
 	return page;
 }
+
+function isCaptcha() {
+	return !!document.find(".captcha");
+}
