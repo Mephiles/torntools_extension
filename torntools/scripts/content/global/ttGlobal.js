@@ -160,7 +160,7 @@ requireDatabase().then(() => {
 			chainBonusWatch();
 		}
 
-		if (settings.pages.global.show_settings_areas_link) ttSettingsLink();
+		if (settings.pages.global.show_settings_areas_link && !mobile) ttSettingsLink();
 	});
 
 	chatsLoaded().then(() => {
