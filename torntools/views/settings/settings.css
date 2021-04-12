@@ -5,6 +5,10 @@ body {
 	font-family: "Segoe UI", Tahoma, sans-serif;
 }
 
+body.dark-mode {
+	background-color: #333;
+}
+
 p {
 	margin-top: 6px;
 	margin-bottom: 6px;
@@ -142,6 +146,10 @@ label {
 	border-bottom: 1px solid lightgrey;
 }
 
+.dark-mode .navbar {
+	color: white;
+}
+
 .navbar .site {
 	flex: 1 0 auto;
 	text-align: center;
@@ -152,6 +160,10 @@ label {
 .navbar .site.active {
 	border-top: 1px solid black;
 	border-bottom: 1px solid black;
+}
+
+.dark-mode .navbar .site.active {
+	background-color: #666;
 }
 
 /* Containers & content */
@@ -178,6 +190,10 @@ label {
 }
 
 /* Changelog */
+
+.dark-mode #changelog {
+	color: white;
+}
 
 #changelog .content {
 	border: unset;
@@ -284,6 +300,10 @@ label {
 	margin-top: 20px;
 }
 
+.dark-mode #api_info {
+	color: white;
+}
+
 #api_info .input-field .label {
 	margin-bottom: 3px;
 }
@@ -313,7 +333,15 @@ label {
 	overflow: auto;
 }
 
+.dark-mode #target_list {
+	color: white;
+}
+
 /* Preferences */
+
+.dark-mode #preferences {
+	color: white;
+}
 
 #preferences .content {
 	width: 45%;
@@ -331,6 +359,10 @@ label {
 	background-color: #f1f1f1;
 }
 
+.dark-mode #preferences .navigation {
+	background-color: #333 !important;
+}
+
 #preferences .navigation > div {
 	padding: 7px;
 	border-bottom: 1px solid lightgray;
@@ -345,8 +377,16 @@ label {
 	cursor: pointer;
 }
 
+.dark-mode #preferences .navigation > div:not(.heading):hover {
+	color: #333;
+}
+
 #preferences .navigation > div:not(.heading).active {
 	background-color: #c1c1c1;
+}
+
+.dark-mode #preferences .navigation > div:not(.heading).active {
+	color: #333;
 }
 
 #preferences .navigation > div:not(.heading).active:hover {
@@ -359,6 +399,10 @@ label {
 	font-size: 16px;
 	padding: 2px;
 	background-color: #e0e0e0;
+}
+
+.dark-mode #preferences .navigation > div.heading {
+	color: #333;
 }
 
 .big-message {
@@ -496,6 +540,11 @@ div#tt-black-search-overlay i.far.fa-times-circle {
 	border-radius: 50%;
 }
 
+.dark-mode div#tt-black-search-overlay i.far.fa-times-circle {
+	color: white;
+	background-color: #333;
+}
+
 div#tt-black-search-overlay input#tt-search-input {
 	width: 790px;
 	height: 40px;
@@ -503,6 +552,11 @@ div#tt-black-search-overlay input#tt-search-input {
 	border: #acea00 solid;
 	border-radius: 15px;
 	padding-left: 10px;
+}
+
+.dark-mode div#tt-black-search-overlay input#tt-search-input {
+	background-color: #333;
+	color: white;
 }
 
 div#tt-black-search-overlay i#tt-search-button {
@@ -521,6 +575,10 @@ div#tt-black-search-overlay i#tt-search-button {
 	font-size: 27px;
 }
 
+.dark-mode div#tt-black-search-overlay i#tt-search-button {
+	background-color: #333 !important;
+}
+
 div#tt-search-overlay {
 	background-color: #f2f2f2;
 	overflow-y: scroll;
@@ -535,8 +593,16 @@ div#tt-search-overlay {
 	padding-top: 10px;
 }
 
+.dark-mode div#tt-search-overlay {
+	background-color: #a0a0a0 !important;
+}
+
 div#preferences div#tt-dummy-search {
 	display: inline;
+}
+
+.dark-mode div#preferences div#tt-dummy-search input {
+	background-color: white !important;
 }
 
 div#preferences input#tt-search-input {
@@ -571,4 +637,13 @@ span#no-result {
 /* About */
 #about #new-version p {
 	text-decoration: underline;
+}
+
+.dark-mode #about {
+	color: white;
+}
+
+.dark-mode #about a[href] {
+	color: #74c0fc;
+	text-decoration: none;
 }

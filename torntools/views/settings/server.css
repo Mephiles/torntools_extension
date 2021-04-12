@@ -1,9 +1,22 @@
+.dark-mode #server {
+	color: white;
+}
+
+.dark-mode #server a[href] {
+	color: #74c0fc;
+	text-decoration: none;
+}
+
 .json-text-wrap {
 	position: relative;
 	background-color: #f5f5f5;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	padding: 10px;
+}
+
+.dark-mode .json-text-wrap {
+	background-color: #666 !important;
 }
 
 .copy-button {
