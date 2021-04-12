@@ -1583,6 +1583,7 @@ const STORAGE = {
 				oc_time: true,
 				hide_leave: false,
 				block_zalgo: true,
+				show_settings_areas_link: true,
 				refill_energy: true,
 				refill_nerve: false,
 				miniprofile_last_action: true,
