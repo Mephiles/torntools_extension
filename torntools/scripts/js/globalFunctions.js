@@ -1583,6 +1583,7 @@ const STORAGE = {
 				oc_time: true,
 				hide_leave: false,
 				block_zalgo: true,
+				show_settings_areas_link: true,
 				refill_energy: true,
 				refill_nerve: false,
 				miniprofile_last_action: true,
@@ -1940,6 +1941,14 @@ const navbar = {
 
 			return div;
 		}
+	},
+	newAreasLink: function (attributes = {}) {
+		let exampleAreasLink = doc.findAll("div#sidebarroot div[id*='nav-'][class*='area-desktop_']")[9].cloneNode(true);
+		if (attributes.id) exampleAreasLink.id = attributes.id;
+		if (attributes.href) exampleAreasLink.find("a[href]").href = attributes.href;
+		if (attributes.svgHTML) exampleAreasLink.find("svg").outerHTML = attributes.svgHTML;
+		if (attributes.linkName) exampleAreasLink.find("span[class*='linkName_']").innerText = attributes.linkName;
+		return exampleAreasLink;
 	},
 };
 

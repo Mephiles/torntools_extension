@@ -11,6 +11,7 @@ export default {
 			"Chat highlight not working. - Sashank999",
 			"Warn to check user faction chat when chain is near to bonus hit. - Sashank999",
 			"Add numbers to faction member list. - Sashank999",
+			"TT Settings in Dark Mode. - Sashank999",
 			"Racing upgrades not appearing. - DKK",
 			"Fix hospital filter being broken on tablet mode. - DKK",
 		],

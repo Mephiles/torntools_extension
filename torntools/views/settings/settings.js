@@ -100,6 +100,7 @@ requireDatabase(false)
 
 		registerChanges();
 		searchPreferences();
+		if (window.self !== window.top && settings.page_theme === "dark") doc.body.style.backgroundColor = "#191919";
 		if (settings.page_theme === "dark") doc.body.classList.add("dark-mode");
 	})
 	.catch((err) => {
