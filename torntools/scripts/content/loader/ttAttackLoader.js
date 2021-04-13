@@ -2,7 +2,7 @@ requireDatabase().then(() => {
 	console.log("TT - Loader");
 	if (settings.pages.attack.warn_when_stacking && getSearchParameters().get("ID") === null) displayWarning();
 	if (settings.pages.attack.warn_when_attack_timeout) requireElement("div[class^='labelsContainer_'] span[class^='labelTitle_'] span[id^='timeout-value']").then(warnAttackTimeout);
-	battleStatOnAttackPage();
+	if (settings.scripts.stats_estimate.attack_page) battleStatOnAttackPage();
 });
 
 function displayWarning() {
@@ -94,13 +94,13 @@ async function battleStatOnAttackPage() {
 		if (!mobile) {
 			if (boxTitle.getAttribute("aria-describedby").includes(`player-name_${userdata.name}`)) statEstEntry.firstElementChild.innerText = `Battle Stats: ${numberWithCommas(userdata.total, true)}`;
 			else statEstEntry.firstElementChild.innerText = `Stats Estimate: ${result.battleStatsEstimate ? numberWithCommas(result.battleStatsEstimate, true) : "Error"}`;
-		} else if (mobile) {
+		} else {
 			if (result.battleStatsEstimate.includes("under ")) result.battleStatsEstimate = result.battleStatsEstimate.replace("under ", "<");
 			if (result.battleStatsEstimate.includes("over ")) result.battleStatsEstimate = result.battleStatsEstimate.replace("over ", ">");
 			if (boxTitle.getAttribute("aria-describedby").includes(`player-name_${userdata.name}`)) statEstEntry.firstElementChild.innerText = `Stats: ${numberWithCommas(userdata.total, true)}`;
 			else statEstEntry.firstElementChild.innerText = `Stats: ${result.battleStatsEstimate ? numberWithCommas(result.battleStatsEstimate, true) : "Error"}`;
-			textEntries.classList.add("tt-change-margin");
 		}
+		textEntries.classList.add("tt-change-margin");
 		textEntries.insertAdjacentElement("afterBegin", statEstEntry);
 	});
 }
