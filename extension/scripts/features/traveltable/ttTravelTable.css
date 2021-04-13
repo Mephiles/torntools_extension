@@ -125,17 +125,17 @@ body.dark-mode {
 /*	!*justify-content: center;*!*/
 /*}*/
 
-#tt-travel-table .row .country .name {
-	white-space: nowrap;
-}
+/*#tt-travel-table .row .country .name {*/
+/*	white-space: nowrap;*/
+/*}*/
 
-#tt-travel-table .row .item {
-	white-space: nowrap;
-}
+/*#tt-travel-table .row .item {*/
+/*	white-space: nowrap;*/
+/*}*/
 
-#tt-travel-table .row .stock .update {
-	white-space: nowrap;
-}
+/*#tt-travel-table .row .stock .update {*/
+/*	white-space: nowrap;*/
+/*}*/
 
 /*body.tt-mobile #tt-travel-table .row .item {*/
 /*	!*flex: 1;*!*/
@@ -144,6 +144,100 @@ body.dark-mode {
 /*#tt-travel-table .row .stock {*/
 /*	!*margin-right: 5px;*!*/
 /*}*/
+
+#tt-travel-table .row.header {
+	border-top: unset !important;
+}
+
+#tt-travel-table .header-row div {
+	position: relative;
+	cursor: pointer;
+	height: 30px;
+	line-height: 20px;
+}
+
+#tt-travel-table .row {
+	margin: 0;
+	display: flex;
+	min-height: 23px;
+	border-top: 1px solid lightgray;
+	line-height: 20px;
+	align-items: center;
+}
+
+#tt-travel-table .row > div {
+	flex-basis: 0;
+	flex-grow: 1;
+	text-align: center;
+}
+
+#tt-travel-table .row .item .icon {
+	width: 33px;
+	height: 20px;
+	vertical-align: top;
+	display: inline-block;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+/*#tt-travel-table .row div a {*/
+/*	margin: unset;*/
+/*	display: inline-block;*/
+/*}*/
+
+/*.dark-mode #tt-travel-table .row div a {*/
+/*	text-decoration: none;*/
+/*	color: #74c0fc;*/
+/*}*/
+
+/*i.fa-caret-up:not(.tt-title-icon):not(.tt-title-icon-torn) {*/
+/*	font-size: 19px;*/
+/*	position: absolute;*/
+/*	left: 47%;*/
+/*	top: -10px;*/
+/*}*/
+
+/*i.fa-caret-down:not(.tt-title-icon):not(.tt-title-icon-torn) {*/
+/*	font-size: 19px;*/
+/*	position: absolute;*/
+/*	left: 47%;*/
+/*	top: 13px;*/
+/*}*/
+
+#tt-travel-table .row .country {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#tt-travel-table .row .country .flag {
+	width: 18px;
+	height: 18px;
+	margin-right: 4px;
+}
+
+/* TODO */
+#tt-travel-table .row .stock .update {
+	font-size: 10px;
+}
+
+/* TODO */
+#tt-travel-table .positive.profit {
+	color: #00a500;
+}
+
+/* TODO */
+#tt-travel-table .negative.profit {
+	color: #de0000;
+}
+
+/* TODO */
+.dark-mode #tt-travel-table .positive.profit,
+.dark-mode #tt-travel-table .negative.profit {
+	font-size: 15px;
+	font-weight: 700;
+}
 
 /* TODO */
 

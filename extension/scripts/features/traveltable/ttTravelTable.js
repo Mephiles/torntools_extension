@@ -46,20 +46,20 @@
 			addLegend();
 
 			const table = document.newElement({
-				type: "table",
+				type: "div",
 				id: "tt-travel-table",
 				html: `
-					<tr class="row header">
-						<th class="country">Country</th>
-						<th class="item">Item</th>
-						<th class="stock">Stock</th>
-						<th class="buy-price advanced">Buy Price</th>
-						<th class="market-value advanced">Market Value</th>
-						<th class="profit-item advanced" >Profit / Item</th>
-						<th class="profit-minute" >Profit / Minute</th>
-						<th class="profit advanced">Total Profit</th>
-						<th class="money advanced">Cash Needed</th>
-					</tr>
+					<div class="row header">
+						<div class="country">Country</div>
+						<div class="item">Item</div>
+						<div class="stock">Stock</div>
+						<div class="buy-price advanced">Buy Price</div>
+						<div class="market-value advanced">Market Value</div>
+						<div class="profit-item advanced" >Profit / Item</div>
+						<div class="profit-minute" >Profit / Minute</div>
+						<div class="profit advanced">Total Profit</div>
+						<div class="money advanced">Cash Needed</div>
+					</div>
 				`,
 			});
 
@@ -199,10 +199,10 @@
 					table.classList.add("basic");
 					table.classList.remove("advanced");
 
-					for (const basic of content.findAll("table .basic.hidden")) {
+					for (const basic of table.findAll(".basic.hidden")) {
 						basic.classList.remove("hidden");
 					}
-					for (const advanced of content.findAll("table .advanced:not(.hidden)")) {
+					for (const advanced of table.findAll(".advanced:not(.hidden)")) {
 						advanced.classList.add("hidden");
 					}
 
@@ -215,10 +215,10 @@
 					table.classList.add("advanced");
 					table.classList.remove("basic");
 
-					for (const advanced of content.findAll("table .advanced.hidden")) {
+					for (const advanced of table.findAll(".advanced.hidden")) {
 						advanced.classList.remove("hidden");
 					}
-					for (const basic of content.findAll("table .basic:not(.hidden)")) {
+					for (const basic of table.findAll(".basic:not(.hidden)")) {
 						basic.classList.add("hidden");
 					}
 
@@ -291,7 +291,7 @@
 				const categories = getSelectedCategories();
 				const countries = getSelectedCountries();
 
-				for (const row of table.findAll("tr:not(.header)")) {
+				for (const row of table.findAll(".row:not(.header)")) {
 					const { country, category } = row.dataset;
 
 					if ((categories.length > 0 && !categories.includes(category)) || (countries.length > 0 && !countries.includes(country)))
@@ -370,43 +370,41 @@
 
 				// noinspection HtmlUnknownTarget
 				const row = document.newElement({
-					type: "tr",
+					type: "div",
 					class: "row",
 					html: `
-						<td class="country">
-							<div>
-								<img class="flag" src="/images/v2/travel_agency/flags/fl_${country.image}.svg" alt="${country.name}" title="${country.name}"/>
-								<span class="name">${country.name}</span>
-							</div>
-						</td>
-						<td class="item">
-							<img class="flag" src="/images/items/${item.id}/small.png" alt="${country.name}" title="${country.name}"/>
+						<div class="country">
+							<img class="flag" src="/images/v2/travel_agency/flags/fl_${country.image}.svg" alt="${country.name}" title="${country.name}"/>
+							<span class="name">${country.name}</span>
+						</div>
+						<div class="item">
+							<img class="icon" src="/images/items/${item.id}/small.png" alt="${item.name}" title="${item.name}"/>
 							<span>${item.name}</span>
-						</td>
-						<td class="stock">
+						</div>
+						<div class="stock">
 							<span>${formatNumber(item.quantity)}</span>		
 							<br class="advanced"/>		
 							<span class="update basic">(${formatTime({ seconds: lastUpdate }, { type: "ago" })})</span>		
 							<span class="update advanced">(${formatTime({ seconds: lastUpdate }, { type: "ago", short: true })})</span>				
-						</td>
-						<td class="buy-price advanced">
+						</div>
+						<div class="buy-price advanced">
 							$${formatNumber(item.cost)}
-						</td>
-						<td class="market-value advanced">
+						</div>
+						<div class="market-value advanced">
 							$${formatNumber(value)}
-						</td>
-						<td class="profit-item advanced">
+						</div>
+						<div class="profit-item advanced">
 							$${formatNumber(profitItem)}
-						</td>
-						<td class="profit-minute">
+						</div>
+						<div class="profit-minute">
 							<span>${profitMinute}</span>
-						</td>
-						<td class="profit  advanced">
+						</div>
+						<div class="profit advanced">
 							$${formatNumber(profit)}
-						</td>
-						<td class="money advanced">
+						</div>
+						<div class="money advanced">
 							$${formatNumber(totalCost)}
-						</td>
+						</div>
 					`,
 					dataset: {
 						country: country.tag,
