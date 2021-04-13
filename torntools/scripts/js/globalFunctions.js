@@ -1615,7 +1615,7 @@ const STORAGE = {
 			stats_estimate: {
 				global: true,
 				profile: true,
-				attack_page: true,
+				attack_page: false,
 				userlist: false,
 				abroad: false,
 				hall_of_fame: false,
