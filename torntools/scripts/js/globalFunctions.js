@@ -1609,6 +1609,7 @@ const STORAGE = {
 				warn_when_stacking: false,
 				warn_when_attack_timeout: true,
 				disable_attack_stacked_warning_until: "",
+				show_battle_stats: true,
 			},
 		},
 		scripts: {
