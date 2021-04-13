@@ -10,6 +10,7 @@ requireDatabase().then(() => {
 				let bazaar_user_id = getSearchParameters().get("userId");
 				fetchApi_v2("torn", { section: "user", objectid: bazaar_user_id, selections: "bazaar" })
 					.then((result) => {
+						console.log(result);
 						let total = 0;
 
 						for (let item in result.bazaar) {
@@ -74,9 +75,9 @@ requireDatabase().then(() => {
 						};
 					};
 				});
-			} else {
+			} else if (mobile) {
 				let moreItemsObserver = new MutationObserver(moreItemsObserverFunction);
-				moreItemsObserver.observe(doc.find("#react-root .ReactVirtualized__Grid__innerScrollContainer"), {childList: true, subtree: true});
+				moreItemsObserver.observe(doc.find(".ReactVirtualized__Grid__innerScrollContainer"), {childList: true});
 				moreItemsObserverFunction();
 			};
 		};
@@ -113,8 +114,7 @@ function maxBuy(parent, amountOfStockSelector) {
 }
 
 function moreItemsObserverFunction() {
-	doc.findAll("[class*='itemDescription__']").forEach((buyMenu) => {
+	doc.findAll(".ReactVirtualized__Grid__innerScrollContainer [class*='itemDescription__']").forEach((buyMenu) => {
 		maxBuy(buyMenu, "[class*='description__'] [class*='amountValue_']");
-		buyMenu.classList.add("tt-max-buy");
 	});
 };
