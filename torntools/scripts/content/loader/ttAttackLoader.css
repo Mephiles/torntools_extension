@@ -50,3 +50,11 @@
 	left: 56%;
 	width: fit-content !important;
 }
+
+.tt-change-margin > * {
+    margin-left: 5px !important;
+}
+
+.tt-stat {
+	margin-left: 0;
+}
