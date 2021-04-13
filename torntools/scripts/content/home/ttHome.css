@@ -45,3 +45,8 @@
 	width: 1085px;
 	background-color: white;
 }
+
+#sidebarroot.tt-modified {
+	left: 0%;
+	position: absolute;
+}

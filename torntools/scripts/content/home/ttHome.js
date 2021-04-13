@@ -14,7 +14,7 @@ requireDatabase().then(() => {
 
 		if (window.location.hash.includes("TornTools")) {
 			let ttIframeHTML = `<iframe id="ttIframe" src="${chrome.runtime.getURL("views/settings/settings.html")}"></iframe>`;
-			doc.find("div#sidebarroot").style.marginLeft = "-15%";
+			doc.find("div#sidebarroot").classList.add("tt-modified");
 			doc.find("div.content-wrapper div.content").style.display = "none";
 			doc.find("div.content-wrapper div.content").insertAdjacentHTML("beforeBegin", ttIframeHTML);
 			doc.find("a[role='button'].activity-log").insertAdjacentHTML(
