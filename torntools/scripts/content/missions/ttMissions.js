@@ -133,7 +133,7 @@ const MISSIONS = {
 	"Lost and Found": { task: "Put (P) in hospital for 12 hours.", hint: "Takes at minimum 3 attacks, unless you have max merits/faction perks." },
 	"Loud and Clear": { task: "Use 5/7/9/11 explosive grenades.", hint: "Grenades must be a type that causes damage." },
 	"Loyal Customer": { task: "Defeat (P)." },
-	"Make it Slow": { task: "Defeat (P) in no fewer than 7 or 9 turns in a single attack.", hint: "Survive for at least 9 turns then defeat the target." },
+	"Make it Slow": { task: "Defeat (P) in no fewer than 7 or 9 turns in a single attack.", hint: "Survive for at least 7 or 9 turns then defeat the target." },
 	"Marriage Counseling": { task: "Defeat the spouse of (P)." },
 	Massacrist: { task: "Defeat (P)." },
 	"Meeting the Challenge": { task: "Mug people for a listed total amount." },
