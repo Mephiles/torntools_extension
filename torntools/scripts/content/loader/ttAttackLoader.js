@@ -3,6 +3,7 @@ requireDatabase().then(() => {
 	if (settings.pages.attack.warn_when_stacking && getSearchParameters().get("ID") === null) displayWarning();
 	if (settings.pages.attack.warn_when_attack_timeout)
 		requireElement("div[class^='labelsContainer_'] span[class^='labelTitle_'] span[id^='timeout-value']").then(warnAttackTimeout);
+	battleStatOnAttackPage();
 });
 
 function displayWarning() {
@@ -41,5 +42,66 @@ function warnAttackTimeout() {
 		characterData: true,
 		childList: true,
 		subtree: true,
+	});
+}
+
+async function battleStatOnAttackPage() {
+	let result;
+	let userId = getSearchParameters().get("user2ID");
+	if (cache && cache.profileStats[userId] && cache.battleStatsEstimate[userId]) {
+		result = {
+			stats: cache.profileStats[userId].data,
+			battleStatsEstimate: cache.battleStatsEstimate[userId].data,
+		};
+	} else {
+		result = await new Promise((resolve) => {
+			fetchApi_v2("torn", { section: "user", objectid: userId, selections: "profile,personalstats,crimes" })
+				.then((result) => {
+					const data = handleTornProfileData(result);
+					const timestamp = new Date().getTime();
+	
+					ttStorage.change(
+						{
+							cache: {
+								profileStats: {
+									[userId]: {
+										timestamp,
+										ttl: TO_MILLIS.DAYS,
+										data: data.stats,
+									},
+								},
+							},
+						},
+						() => {
+							if (!settings.scripts.stats_estimate.max_level) {
+								if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.profile)
+									cacheEstimate(userId, timestamp, data.battleStatsEstimate, result.last_action);
+							}
+						}
+					);
+	
+					resolve(data);
+				})
+				.catch(({ error }) => resolve({ error }));
+		});
+	}
+	if (result.error) result.battleStatsEstimate = "";
+	console.log("Opponent Battle Stats", result.battleStatsEstimate);
+	doc.findAll("div[aria-describedby*='player-name_']").forEach((boxTitle) => {
+		const textEntries = boxTitle.find("div[class*='textEntries__']");
+		const statEstEntry = textEntries.firstElementChild.cloneNode(true);
+		statEstEntry.firstElementChild.remove();
+		statEstEntry.classList.add("tt-stat");
+		if (!mobile) {
+			if (boxTitle.getAttribute("aria-describedby").includes(`player-name_${userdata.name}`)) statEstEntry.firstElementChild.innerText = `Battle Stats: ${numberWithCommas(userdata.total, true)}`;
+			else statEstEntry.firstElementChild.innerText = `Stats Estimate: ${result.battleStatsEstimate ? numberWithCommas(result.battleStatsEstimate, true) : "Error"}`;
+		} else if (mobile) {
+			if (result.battleStatsEstimate.includes("under ")) result.battleStatsEstimate = result.battleStatsEstimate.replace("under ", "<");
+			if (result.battleStatsEstimate.includes("over ")) result.battleStatsEstimate = result.battleStatsEstimate.replace("over ", ">");
+			if (boxTitle.getAttribute("aria-describedby").includes(`player-name_${userdata.name}`)) statEstEntry.firstElementChild.innerText = `Stats: ${numberWithCommas(userdata.total, true)}`;
+			else statEstEntry.firstElementChild.innerText = `Stats: ${result.battleStatsEstimate ? numberWithCommas(result.battleStatsEstimate, true) : "Error"}`;
+			textEntries.classList.add("tt-change-margin");
+		}
+		textEntries.insertAdjacentElement("afterBegin", statEstEntry);
 	});
 }
