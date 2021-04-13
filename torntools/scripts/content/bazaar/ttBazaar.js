@@ -72,15 +72,15 @@ requireDatabase().then(() => {
 								"keyup",
 								(event) => (doc.find("span#tt-total-cost").innerHTML = "$" + numberWithCommas(bazaarItemPrice * event.target.value, false))
 							);
-						};
-					};
+						}
+					}
 				});
 			} else if (mobile) {
 				let moreItemsObserver = new MutationObserver(moreItemsObserverFunction);
-				moreItemsObserver.observe(doc.find(".ReactVirtualized__Grid__innerScrollContainer"), {childList: true});
+				moreItemsObserver.observe(doc.find(".ReactVirtualized__Grid__innerScrollContainer"), { childList: true });
 				moreItemsObserverFunction();
-			};
-		};
+			}
+		}
 	});
 });
 
@@ -98,10 +98,10 @@ function maxBuy(parent, amountOfStockSelector) {
 
 	max_span.addEventListener("click", (event) => {
 		event.stopPropagation();
-		let max = parseInt(parent.find(amountOfStockSelector).innerText.replace(/\D/g, ""));	
+		let max = parseInt(parent.find(amountOfStockSelector).innerText.replace(/\D/g, ""));
 		if (!settings.pages.bazaar.max_buy_ignore_cash) {
 			let price = parseInt(parent.find("[class*='price_']").innerText.replace(/[,$]/g, ""));
-			let user_money = parseInt(doc.find("#user-money").innerText.replace(/[,$]/g, ""));	
+			let user_money = parseInt(doc.find("#user-money").innerText.replace(/[,$]/g, ""));
 			if (Math.floor(user_money / price) < max) max = Math.floor(user_money / price);
 		}
 		if (max > 10000) max = 10000;
@@ -117,4 +117,4 @@ function moreItemsObserverFunction() {
 	doc.findAll(".ReactVirtualized__Grid__innerScrollContainer [class*='itemDescription__']").forEach((buyMenu) => {
 		maxBuy(buyMenu, "[class*='description__'] [class*='amountValue_']");
 	});
-};
+}
