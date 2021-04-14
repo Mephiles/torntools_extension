@@ -68,9 +68,7 @@ function addFilter(filters) {
                 </div>
 			</div>
             <div class="filter-wrap" id="extra-filter">
-                <div class="filter-subwrap" style="
-    text-align: center;
-">
+                <div class="filter-subwrap">
                     <div class="filter-heading">Name</div>
                     <div class="tt-input-wrap" id="name-filter"><input type="text" id="name"></div>
                 </div>
@@ -78,11 +76,8 @@ function addFilter(filters) {
 			<div class="filter-wrap" id="profit-filter">
                 <div class="filter-heading">Profit / Loss</div>
                 <div class="filter-multi-wrap" id="profit-filter">
-                    <div class="tt-checkbox-wrap"><input type="checkbox" id="profit" value="profit" style="
-    color: white;
-"><label for="profit" style="
-    color: #dddddd;
-">Profit</label></div>
+                    <div class="tt-checkbox-wrap"><input type="checkbox" id="profit" value="profit">
+					<label for="profit">Profit</label></div>
                     <div class="tt-checkbox-wrap"><input type="checkbox" id="loss" value="loss"><label for="loss">Loss</label></div>
                 </div>
             </div>

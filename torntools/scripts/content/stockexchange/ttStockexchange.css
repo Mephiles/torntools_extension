@@ -8,6 +8,7 @@
 .filter-wrap {
 	padding: 5px;
 	margin-bottom: 5px;
+	text-align: center;
 	flex-basis: 0 !important;
 }
 
@@ -35,6 +36,10 @@
 
 .dark-mode #extra-filter .tt-checkbox-wrap > label, .dark-mode #profit-filter .tt-checkbox-wrap > label {
 	color: #ddd;
+}
+
+.dark-mode #profit-filter .tt-checkbox-wrap input[value='loss'] {
+	margin-right: 10px;
 }
 
 .tt-mobile #tt-stock-filter .filter-content {
