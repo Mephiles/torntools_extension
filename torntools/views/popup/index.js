@@ -453,12 +453,14 @@ function mainStocks() {
 	for (let buy_id in user_stocks) {
 		let parent = doc.find("#user-stocks");
 		let stock = user_stocks[buy_id];
-		let id = stock.stock_id;
+		let id = stock.stock_id - 1;
 		let name = torn_stocks[id].name;
 
-		let buy_price = stock.bought_price;
+		let transaction_ids = Object.keys(stock.transactions);
+		let last_transaction_id = transaction_ids[transaction_ids.length - 1];
+		let buy_price = stock.transactions[last_transaction_id].bought_price;
 		let current_price = torn_stocks[id].current_price;
-		let quantity = stock.shares;
+		let quantity = stock.total_shares;
 		let total_profit = ((current_price - buy_price) * quantity).toFixed(0);
 
 		let div = doc.new({ type: "div", class: "stock-item" });
@@ -655,14 +657,7 @@ function mainStocks() {
 			class: "stock-info",
 			text: `Current price: $${numberWithCommas(current_price, false)}`,
 		});
-		let Q_div = doc.new({
-			type: "div",
-			class: "stock-info",
-			text: `Available shares: ${numberWithCommas(torn_stocks[id].available_shares, false)}`,
-			attributes: { style: "margin-bottom: 20px;" },
-		});
 		stock_info_content.appendChild(CP_div);
-		stock_info_content.appendChild(Q_div);
 
 		// Benefit info
 		let benefit_description, benefit_requirement, benefit_info, benefit_info_content;
