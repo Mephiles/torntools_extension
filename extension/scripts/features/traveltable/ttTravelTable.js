@@ -273,9 +273,22 @@
 				function updateAmount() {
 					const amount = parseInt(content.find("#travel-items").value);
 
-					// FIXME - Update item amount in the table.
+					for (const row of table.findAll(".row:not(.header)")) {
+						const { value, cost, travelCost, time } = row.dataset;
+						if (!cost) continue;
 
-					console.log("DKK updateTable", { amount });
+						const totalCost = amount * cost + travelCost;
+
+						if (value && value !== "N/A") {
+							const profit = amount * value - totalCost;
+							const profitMinute = (profit / (time * 2)).dropDecimals();
+
+							row.find(".profit-minute").innerText = formatNumber(profitMinute, { shorten: true, currency: true });
+							row.find(".profit").innerText = formatNumber(profit, { shorten: true, currency: true });
+						}
+
+						row.find(".money").innerText = formatNumber(totalCost, { shorten: true, currency: true });
+					}
 				}
 			}
 
@@ -404,7 +417,7 @@
 							${formatNumber(profitItem, { shorten: true, currency: true })}
 						</div>
 						<div class="profit-minute ${getValueClass(profitMinute)}">
-							<span>${formatNumber(profitMinute, { shorten: true, currency: true })}</span>
+							${formatNumber(profitMinute, { shorten: true, currency: true })}
 						</div>
 						<div class="profit advanced ${getValueClass(profit)}">
 							${formatNumber(profit, { shorten: true, currency: true })}
@@ -416,6 +429,10 @@
 					dataset: {
 						country: country.tag,
 						category,
+						value,
+						cost,
+						travelCost: getTravelType() === "standard" ? country.cost : 0,
+						time: country.time,
 					},
 				});
 			}
