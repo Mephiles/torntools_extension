@@ -191,6 +191,8 @@ function formatNumber(number, options = {}) {
 		shorten: false,
 		formatter: false,
 		decimals: -1,
+		currency: false,
+		forceOperation: false,
 		...options,
 	};
 	if (typeof number !== "number") {
@@ -205,6 +207,10 @@ function formatNumber(number, options = {}) {
 	if (options.formatter) {
 		return formatter.format(number);
 	}
+
+	const abstract = Math.abs(number);
+	const operation = number < 0 ? "-" : options.forceOperation ? "+" : "";
+	let text;
 
 	if (options.shorten) {
 		let words;
@@ -222,18 +228,26 @@ function formatNumber(number, options = {}) {
 			};
 		}
 
-		if (Math.abs(number) >= 1e9) {
-			if (Math.abs(number) % 1e9 === 0) return (number / 1e9).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + words.billion;
-			else return (number / 1e9).toFixed(3) + words.billion;
-		} else if (Math.abs(number) >= 1e6) {
-			if (Math.abs(number) % 1e6 === 0) return number / 1e6 + words.million;
-			else return (number / 1e6).toFixed(3) + words.million;
-		} else if (Math.abs(number) >= 1e3) {
-			if (Math.abs(number) % 1e3 === 0) return number / 1e3 + words.thousand;
+		if (abstract >= 1e9) {
+			if (abstract % 1e9 === 0) text = (abstract / 1e9).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + words.billion;
+			else text = (abstract / 1e9).toFixed(3) + words.billion;
+		} else if (abstract >= 1e6) {
+			if (abstract % 1e6 === 0) text = abstract / 1e6 + words.million;
+			else text = (abstract / 1e6).toFixed(3) + words.million;
+		} else if (abstract >= 1e3) {
+			if (abstract % 1e3 === 0) text = abstract / 1e3 + words.thousand;
 		}
 	}
 
-	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	if (!text) text = abstract.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+	// if (options.currency) {
+	// 	return `${number >= 0 ? (options.forceOperation ? "+" : "") : "-"}$${Math.abs(number)
+	// 		.toString()
+	// 		.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+	// }
+
+	return `${operation}${options.currency ? "$" : ""}${text}`;
 }
 
 function capitalizeText(text, options = {}) {

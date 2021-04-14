@@ -5,17 +5,17 @@
 	if (page === "home" && !isFlying()) return;
 
 	const COUNTRIES = {
-		arg: { name: "Argentina", image: "argentina", tag: "argentina", cost: 21000 },
-		can: { name: "Canada", image: "canada", tag: "canada", cost: 9000 },
-		cay: { name: "Cayman Islands", image: "cayman", tag: "cayman_islands", cost: 10000 },
-		chi: { name: "China", image: "china", tag: "china", cost: 35000 },
-		haw: { name: "Hawaii", image: "hawaii", tag: "hawaii", cost: 11000 },
-		jap: { name: "Japan", image: "japan", tag: "japan", cost: 32000 },
-		mex: { name: "Mexico", image: "mexico", tag: "mexico", cost: 6500 },
-		sou: { name: "South Africa", image: "south_africa", tag: "south_africa", cost: 40000 },
-		swi: { name: "Switzerland", image: "switzerland", tag: "switzerland", cost: 27000 },
-		uae: { name: "UAE", image: "uae", tag: "uae", cost: 32000 },
-		uni: { name: "United Kingdom", image: "uk", tag: "united_kingdom", cost: 18000 },
+		arg: { name: "Argentina", image: "argentina", tag: "argentina", cost: 21000, time: 167 },
+		can: { name: "Canada", image: "canada", tag: "canada", cost: 9000, time: 41 },
+		cay: { name: "Cayman Islands", image: "cayman", tag: "cayman_islands", cost: 10000, time: 35 },
+		chi: { name: "China", image: "china", tag: "china", cost: 35000, time: 242 },
+		haw: { name: "Hawaii", image: "hawaii", tag: "hawaii", cost: 11000, time: 134 },
+		jap: { name: "Japan", image: "japan", tag: "japan", cost: 32000, time: 225 },
+		mex: { name: "Mexico", image: "mexico", tag: "mexico", cost: 6500, time: 26 },
+		sou: { name: "South Africa", image: "south_africa", tag: "south_africa", cost: 40000, time: 297 },
+		swi: { name: "Switzerland", image: "switzerland", tag: "switzerland", cost: 27000, time: 175 },
+		uae: { name: "UAE", image: "uae", tag: "uae", cost: 32000, time: 271 },
+		uni: { name: "United Kingdom", image: "uk", tag: "united_kingdom", cost: 1800, time: 159 },
 	};
 
 	featureManager.registerFeature(
@@ -362,14 +362,21 @@
 
 				if (getTravelType() === "standard") totalCost += country.cost;
 
-				const value = torndata.items[item.id].market_value;
-				const profitItem = value - cost;
-				const profitMinute = "TODO";
-				const profit = amount * value - totalCost;
-				const money = "TODO";
+				let value = torndata.items[item.id].market_value;
+				let profitItem, profitMinute, profit;
+				if (value !== 0) {
+					profitItem = value - cost;
+					profit = amount * value - totalCost;
+					profitMinute = (profit / (country.time * 2)).dropDecimals();
+				} else {
+					value = "N/A";
+					profitItem = "N/A";
+					profitMinute = "N/A";
+					profit = "N/A";
+				}
 
 				// noinspection HtmlUnknownTarget
-				const row = document.newElement({
+				return document.newElement({
 					type: "div",
 					class: "row",
 					html: `
@@ -377,33 +384,33 @@
 							<img class="flag" src="/images/v2/travel_agency/flags/fl_${country.image}.svg" alt="${country.name}" title="${country.name}"/>
 							<span class="name">${country.name}</span>
 						</div>
-						<div class="item">
+						<a class="item" target="_blank" href="https://www.torn.com/imarket.php#/p=shop&type=${item.id}">
 							<img class="icon" src="/images/items/${item.id}/small.png" alt="${item.name}" title="${item.name}"/>
-							<span>${item.name}</span>
-						</div>
+							<span>${item.name}</a>
+						</a>
 						<div class="stock">
 							<span>${formatNumber(item.quantity)}</span>		
-							<br class="advanced"/>		
-							<span class="update basic">(${formatTime({ seconds: lastUpdate }, { type: "ago" })})</span>		
+							<div class="break advanced"></div>		
+							<span class="update basic">&nbsp;(${formatTime({ seconds: lastUpdate }, { type: "ago" })})</span>		
 							<span class="update advanced">(${formatTime({ seconds: lastUpdate }, { type: "ago", short: true })})</span>				
 						</div>
 						<div class="buy-price advanced">
-							$${formatNumber(item.cost)}
+							${formatNumber(item.cost, { shorten: true, currency: true })}
 						</div>
 						<div class="market-value advanced">
-							$${formatNumber(value)}
+							${formatNumber(value, { shorten: true, currency: true })}
 						</div>
-						<div class="profit-item advanced">
-							$${formatNumber(profitItem)}
+						<div class="profit-item advanced ${getValueClass(profitItem)}">
+							${formatNumber(profitItem, { shorten: true, currency: true })}
 						</div>
-						<div class="profit-minute">
-							<span>${profitMinute}</span>
+						<div class="profit-minute ${getValueClass(profitMinute)}">
+							<span>${formatNumber(profitMinute, { shorten: true, currency: true })}</span>
 						</div>
-						<div class="profit advanced">
-							$${formatNumber(profit)}
+						<div class="profit advanced ${getValueClass(profit)}">
+							${formatNumber(profit, { shorten: true, currency: true })}
 						</div>
 						<div class="money advanced">
-							$${formatNumber(totalCost)}
+							${formatNumber(totalCost, { shorten: true, currency: true })}
 						</div>
 					`,
 					dataset: {
@@ -411,8 +418,12 @@
 						category,
 					},
 				});
+			}
 
-				return row;
+			function getValueClass(value) {
+				if (value === "N/A") return "";
+
+				return value > 0 ? "positive" : "negative";
 			}
 		}
 
