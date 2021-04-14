@@ -15,22 +15,22 @@ requireDatabase().then(() => {
 			}
 		});
 
-				for (let stock of doc.findAll(".stock-list > .item")) {
-					const heading = stock.firstElementChild; // heading
+		for (let stock of doc.findAll(".stock-list > .item")) {
+			const heading = stock.firstElementChild; // heading
 
-					const name = heading.find(".name").innerText;
+			const name = heading.find(".name").innerText;
 
-					// Open torntools redirect
-					if (ttRedirect && name === ttRedirect) stock.firstElementChild.click();
+			// Open torntools redirect
+			if (ttRedirect && name === ttRedirect) stock.firstElementChild.click();
 
-					if (settings.pages.stockexchange.acronyms) {
-						const acronym = stock.getAttribute("data-stock").toUpperCase();
+			if (settings.pages.stockexchange.acronyms) {
+				const acronym = stock.getAttribute("data-stock").toUpperCase();
 
-						stock.find(".name").innerText = `(${acronym}) ${name}`;
-					}
-				}
+				stock.find(".name").innerText = `(${acronym}) ${name}`;
+			}
+		}
 
-			hideStockBlocks();
+		hideStockBlocks();
 
 		if (settings.pages.stockexchange.advanced) addFilter(filters);
 
@@ -158,7 +158,10 @@ function addFilter(filters) {
 			if (
 				profitLoss &&
 				profitLoss.length &&
-				!((profitLoss.includes("profit") && stockChangeClassName.includes("up")) || (profitLoss.includes("loss") && stockChangeClassName.includes("down")))
+				!(
+					(profitLoss.includes("profit") && stockChangeClassName.includes("up")) ||
+					(profitLoss.includes("loss") && stockChangeClassName.includes("down"))
+				)
 			) {
 				stock.classList.add("filter-hidden");
 				continue;
@@ -183,23 +186,22 @@ function stockProfileLoaded() {
 }
 
 function showTotalPortfolioValue() {
-		const totalValue = [...doc.findAll("[class*='stockOwned__'] [class*='value__']")]
-			.map((x) => parseInt(x.innerText.replace(/[$,]/g, "").trim()))
-			.reduce((a, b) => (a += b), 0);
-		const profits = [...doc.findAll(".block-profit, .block-loss")].map((x) => parseInt(x.innerText.replace(/[$+, ]/g, ""))).reduce((a, b) => (a += b), 0);
+	const totalValue = [...doc.findAll("[class*='stockOwned__'] [class*='value__']")]
+		.map((x) => parseInt(x.innerText.replace(/[$,]/g, "").trim()))
+		.reduce((a, b) => (a += b), 0);
+	const profits = [...doc.findAll(".block-profit, .block-loss")].map((x) => parseInt(x.innerText.replace(/[$+, ]/g, ""))).reduce((a, b) => (a += b), 0);
 
-		let rawText;
-		if (profits > 0) rawText = `Profit: <span style="color: #678c00;">+$${numberWithCommas(Math.abs(profits))}</span>`;
-		else if (profits < 0) rawText = `Loss: <span style="color: red;">-$${numberWithCommas(Math.abs(profits))}</span>`;
+	let rawText;
+	if (profits > 0) rawText = `Profit: <span style="color: #678c00;">+$${numberWithCommas(Math.abs(profits))}</span>`;
+	else if (profits < 0) rawText = `Loss: <span style="color: red;">-$${numberWithCommas(Math.abs(profits))}</span>`;
 
-		doc.find("div.stock-main-wrap div.title").appendChild(
-			doc.new({
-				type: "span",
-				attributes: { style: "font-weight: 400;color: #bfbfbf;" },
-				html: ` ( Value: <span style="color: #678c00;">$${numberWithCommas(totalValue)}</span> | ${rawText} )`,
-			})
-		);
-
+	doc.find("div.stock-main-wrap div.title").appendChild(
+		doc.new({
+			type: "span",
+			attributes: { style: "font-weight: 400;color: #bfbfbf;" },
+			html: ` ( Value: <span style="color: #678c00;">$${numberWithCommas(totalValue)}</span> | ${rawText} )`,
+		})
+	);
 }
 
 function hideStockBlocks() {

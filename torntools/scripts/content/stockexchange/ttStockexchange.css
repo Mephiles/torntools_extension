@@ -34,11 +34,12 @@
 	vertical-align: middle;
 }
 
-.dark-mode #extra-filter .tt-checkbox-wrap > label, .dark-mode #profit-filter .tt-checkbox-wrap > label {
+.dark-mode #extra-filter .tt-checkbox-wrap > label,
+.dark-mode #profit-filter .tt-checkbox-wrap > label {
 	color: #ddd;
 }
 
-.dark-mode #profit-filter .tt-checkbox-wrap input[value='loss'] {
+.dark-mode #profit-filter .tt-checkbox-wrap input[value="loss"] {
 	margin-right: 10px;
 }
 
