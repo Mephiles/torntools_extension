@@ -15,6 +15,7 @@ export default {
 			"TT Settings in Dark Mode. - Sashank999",
 			"Racing upgrades not appearing. - DKK",
 			"Fix hospital filter being broken on tablet mode. - DKK",
+			"Filters on Stocks 3.0. - Sashank999",
 		],
 		Changes: ["Dark Mode for TornTools. - Sashank999", "Show travel table while racing. - Sashank999"],
 	},
