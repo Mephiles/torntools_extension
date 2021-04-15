@@ -3,7 +3,7 @@ requireDatabase().then(() => {
 		const { page, xhr } = event.detail;
 
 		const params = new URL(xhr.responseURL).searchParams;
-		enlistView().then(winPercentage);
+		if (settings.pages.racing.win_percentage) enlistView().then(winPercentage);
 
 		if (page === "loader2") {
 			if (params.get("sid") === "racingActions" && params.get("step") === "partsbuy" && params.get("confirm") === "1") {
@@ -13,7 +13,7 @@ requireDatabase().then(() => {
 		}
 	});
 
-	enlistView().then(winPercentage);
+	if (settings.pages.racing.win_percentage) enlistView().then(winPercentage);
 
 	upgradeView().then(() => {
 		console.log("TT - Racing Upgrades");

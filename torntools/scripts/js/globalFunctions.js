@@ -1494,6 +1494,7 @@ const STORAGE = {
 			},
 			racing: {
 				upgrades: true,
+				win_percentage: true,
 			},
 			gym: {
 				estimated_energy: true,
