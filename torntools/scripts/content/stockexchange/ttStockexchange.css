@@ -29,17 +29,27 @@
 	height: initial;
 }
 
+#change-filter .tt-checkbox-wrap,
+#total-profit-filter .tt-checkbox-wrap {
+	display: flex;
+    justify-content: space-between;
+}
+
+label[for='up'] {
+	margin-right: 10px;
+}
+
 .tt-checkbox-wrap > * {
 	display: inline-block;
 	vertical-align: middle;
 }
 
-.dark-mode #extra-filter .tt-checkbox-wrap > label,
-.dark-mode #profit-filter .tt-checkbox-wrap > label {
+.dark-mode #change-filter .tt-checkbox-wrap > label,
+.dark-mode #total-profit-filter .tt-checkbox-wrap > label {
 	color: #ddd;
 }
 
-.dark-mode #profit-filter .tt-checkbox-wrap input[value="loss"] {
+.dark-mode #change-filter .tt-checkbox-wrap input[value="loss"] {
 	margin-right: 10px;
 }
 

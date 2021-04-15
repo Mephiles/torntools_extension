@@ -1357,8 +1357,9 @@ const STORAGE = {
 		stock_exchange: {
 			owned: true,
 			name: "",
-			profitLoss: [],
-			benfit: false,
+			change: [],
+			totalProfitLoss: [],
+			benefit: false,
 		},
 		crimes: {
 			safeCrimes: false,

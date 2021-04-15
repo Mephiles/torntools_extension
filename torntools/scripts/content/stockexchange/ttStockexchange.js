@@ -58,27 +58,53 @@ function addFilter(filters) {
 			<div class="filter-wrap" id="owned-filter">
 				<div class="filter-subwrap">
                     <div class="filter-heading">Show owned</div>
-                    <div class="tt-checkbox-wrap"><input type="checkbox" id="owned-yes" value="yes"><label for="yes">Yes</label></div>
+                    <div class="tt-checkbox-wrap">
+						<input type="checkbox" id="owned-yes" value="yes">
+						<label for="yes">Yes</label>
+					</div>
                 </div>
 			</div>
 			<div class="filter-wrap" id="benefit-filter">
 				<div class="filter-subwrap">
                     <div class="filter-heading">Show benefit blocks</div>
-                    <div class="tt-checkbox-wrap"><input type="checkbox" id="benefit-yes" value="yes"><label for="yes">Yes</label></div>
+                    <div class="tt-checkbox-wrap">
+						<input type="checkbox" id="benefit-yes" value="yes">
+						<label for="yes">Yes</label>
+					</div>
                 </div>
 			</div>
             <div class="filter-wrap" id="extra-filter">
                 <div class="filter-subwrap">
                     <div class="filter-heading">Name</div>
-                    <div class="tt-input-wrap" id="name-filter"><input type="text" id="name"></div>
+                    <div class="tt-input-wrap" id="name-filter">
+						<input type="text" id="name">
+					</div>
                 </div>
             </div>
-			<div class="filter-wrap" id="profit-filter">
-                <div class="filter-heading">Profit / Loss</div>
-                <div class="filter-multi-wrap" id="profit-filter">
-                    <div class="tt-checkbox-wrap"><input type="checkbox" id="profit" value="profit">
-					<label for="profit">Profit</label></div>
-                    <div class="tt-checkbox-wrap"><input type="checkbox" id="loss" value="loss"><label for="loss">Loss</label></div>
+			<div class="filter-wrap" id="change-filter">
+                <div class="filter-heading">Price Up / Down</div>
+                <div class="filter-multi-wrap" id="change-filter">
+                    <div class="tt-checkbox-wrap">
+						<input type="checkbox" id="up" value="up">
+						<label for="up">Up</label>
+					</div>
+                    <div class="tt-checkbox-wrap">
+						<input type="checkbox" id="down" value="down">
+						<label for="down">Down</label>
+					</div>
+                </div>
+            </div>
+			<div class="filter-wrap" id="total-profit-filter">
+                <div class="filter-heading">Total Profit / Loss</div>
+                <div class="filter-multi-wrap" id="total-profit-filter">
+                    <div class="tt-checkbox-wrap">
+						<input type="checkbox" id="profit" value="profit">
+						<label for="profit">Profit</label>
+					</div>
+                    <div class="tt-checkbox-wrap">
+						<input type="checkbox" id="loss" value="loss">
+						<label for="loss">Loss</label>
+					</div>
                 </div>
             </div>
         </div>
@@ -90,12 +116,13 @@ function addFilter(filters) {
 	filterContainer.find(`#extra-filter #name-filter input`).oninput = applyFilters;
 
 	// Initializing
-	for (let state of filters.stock_exchange.profitLoss) {
-		filterContainer.find(`#profit-filter input[type='checkbox'][value='${state}']`).checked = true;
+	for (let state of filters.stock_exchange.change) {
+		filterContainer.find(`#change-filter input[type='checkbox'][value='${state}']`).checked = true;
 	}
-
+	for (let state of filters.stock_exchange.totalProfitLoss) {
+		filterContainer.find(`#total-profit-filter input[type='checkbox'][value='${state}']`).checked = true;
+	}
 	if (filters.stock_exchange.owned) filterContainer.find("#owned-filter input").checked = true;
-
 	if (filters.stock_exchange.benefit) filterContainer.find("#benefit-filter input").checked = true;
 
 	filterContainer.find(`#extra-filter #name-filter input`).value = filters.stock_exchange.name;
@@ -103,21 +130,29 @@ function addFilter(filters) {
 	applyFilters();
 
 	function applyFilters() {
-		let profitLoss = [];
-		let owned, benfit;
+		let change = [];
+		let totalProfitLoss = [];
+		let owned, benefit;
 
 		const name = doc.find("#extra-filter #name-filter input").value;
-		for (let checkbox of doc.findAll("#profit-filter input[type='checkbox']:checked")) {
-			profitLoss.push(checkbox.getAttribute("value"));
+		for (let checkbox of doc.findAll("#change-filter input[type='checkbox']:checked")) {
+			change.push(checkbox.getAttribute("value"));
+		}
+		for (let checkbox of doc.findAll("#total-profit-filter input[type='checkbox']:checked")) {
+			totalProfitLoss.push(checkbox.getAttribute("value"));
 		}
 		owned = doc.find("#tt-stock-filter #owned-filter input[type='checkbox']").checked;
 		benefit = doc.find("#tt-stock-filter #benefit-filter input[type='checkbox']").checked;
 
 		// Filtering
-		for (let stock of doc.findAll("#stockmarketroot [class*='stockMarket__'] > *:not(#panel-InfoTab)")) {
+		for (let stock of doc.findAll("#stockmarketroot [class*='stockMarket__'] > *:not(#panel-InfoTab, #panel-ManagerTab)")) {
 			const stockAcronym = stock.find("[class*='logoContainer__'] img").src.split("/").pop().replace(".svg", "");
-			const data = torndata.stocks.filter((stockEntry) => {
+			const stockID = torndata.stocks.findIndex((stockEntry) => {
 				return stockEntry.acronym === stockAcronym;
+			});
+			const data = torndata.stocks[stockID];
+			const userStockData = userdata.stocks.filter((x) => {
+				return x.stock_id === stockID + 1;
 			})[0];
 
 			// Owned
@@ -127,7 +162,7 @@ function addFilter(filters) {
 			}
 
 			// Benefit
-			if (benefit && stock.find("#DividendTab [class*='dividendInfo'] > p:nth-of-type(2)").className.includes("Inactive__")) {
+			if (benefit && stock.find("#DividendTab [class*='dividendInfo'] > p:nth-of-type(2)").innerText === "Inactive") {
 				stock.classList.add("filter-hidden");
 				continue;
 			}
@@ -154,15 +189,31 @@ function addFilter(filters) {
 
 			const stockChangeClassName = stock.find("[class*='changePrice___'] > *").className;
 
-			// profit or loss
+			// Change
 			if (
-				profitLoss &&
-				profitLoss.length &&
+				change &&
+				change.length &&
 				!(
-					(profitLoss.includes("profit") && stockChangeClassName.includes("up")) ||
-					(profitLoss.includes("loss") && stockChangeClassName.includes("down"))
+					(change.includes("up") && stockChangeClassName.includes("up")) ||
+					(change.includes("down") && stockChangeClassName.includes("down"))
 				)
 			) {
+				stock.classList.add("filter-hidden");
+				continue;
+			}
+
+			// Total profit or loss
+			if (totalProfitLoss.length && userStockData) { // If owned only
+				let stockTransactions = Object.keys(userStockData.transactions);
+				let lastTransaction = userStockData.transactions[stockTransactions[stockTransactions.length - 1]];
+				let profitOrLoss = Math.floor(((data.current_price - lastTransaction.bought_price) * lastTransaction.shares));
+				if (!(
+					(totalProfitLoss.includes("profit") && profitOrLoss > 0) || (totalProfitLoss.includes("loss") && profitOrLoss < 0)
+				)) {
+					stock.classList.add("filter-hidden");
+					continue;
+				}
+			} else if (totalProfitLoss.length && !userStockData) {
 				stock.classList.add("filter-hidden");
 				continue;
 			}
@@ -173,8 +224,9 @@ function addFilter(filters) {
 		let filter = {
 			owned: owned,
 			name: name,
-			profitLoss: profitLoss,
-			benfit: benefit,
+			change: change,
+			totalProfitLoss: totalProfitLoss,
+			benefit: benefit,
 		};
 
 		ttStorage.change({ filters: { stock_exchange: filter } });
@@ -189,16 +241,32 @@ function showTotalPortfolioValue() {
 	const totalValue = [...doc.findAll("[class*='stockOwned__'] [class*='value__']")]
 		.map((x) => parseInt(x.innerText.replace(/[$,]/g, "").trim()))
 		.reduce((a, b) => (a += b), 0);
-	const profits = [...doc.findAll(".block-profit, .block-loss")].map((x) => parseInt(x.innerText.replace(/[$+, ]/g, ""))).reduce((a, b) => (a += b), 0);
+	const profits = [...doc.findAll("#stockmarketroot [class*='stockMarket__'] > *:not(#panel-InfoTab, #panel-ManagerTab)")]
+		.map((x) => {
+			const stockAcronym = x.find("[class*='logoContainer__'] img").src.split("/").pop().replace(".svg", "");
+			const stockID = torndata.stocks.findIndex((stockEntry) => {
+				return stockEntry.acronym === stockAcronym;
+			});
+			const data = torndata.stocks[stockID];
+			const userStockData = userdata.stocks.filter((x) => {
+				return x.stock_id === stockID + 1;
+			})[0];
+			if (!userStockData) return 0;
+			let stockTransactions = Object.keys(userStockData.transactions);
+			let lastTransaction = userStockData.transactions[stockTransactions[stockTransactions.length - 1]];
+			let profitOrLoss = Math.floor(((data.current_price - lastTransaction.bought_price) * lastTransaction.shares));
+			return profitOrLoss;
+		})
+		.reduce((a, b) => (a += b), 0);
 
 	let rawText;
-	if (profits > 0) rawText = `Profit: <span style="color: #678c00;">+$${numberWithCommas(Math.abs(profits))}</span>`;
+	if (profits > 0) rawText = `Profit: <span style="color: #678c00;">+$${numberWithCommas(profits)}</span>`;
 	else if (profits < 0) rawText = `Loss: <span style="color: red;">-$${numberWithCommas(Math.abs(profits))}</span>`;
 
-	doc.find("div.stock-main-wrap div.title").appendChild(
+	doc.find("div.content-title h4").appendChild(
 		doc.new({
 			type: "span",
-			attributes: { style: "font-weight: 400;color: #bfbfbf;" },
+			attributes: { style: "font-weight: 400;color: #999999;" },
 			html: ` ( Value: <span style="color: #678c00;">$${numberWithCommas(totalValue)}</span> | ${rawText} )`,
 		})
 	);
