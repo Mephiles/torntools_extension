@@ -266,7 +266,7 @@ function showTotalPortfolioValue() {
 	doc.find("div.content-title h4").appendChild(
 		doc.new({
 			type: "span",
-			attributes: { style: "font-weight: 400;color: #999999;" },
+			class: "tt-total-stock-value",
 			html: ` ( Value: <span style="color: #678c00;">$${numberWithCommas(totalValue)}</span> | ${rawText} )`,
 		})
 	);

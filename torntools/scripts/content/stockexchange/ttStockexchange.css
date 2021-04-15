@@ -1,5 +1,11 @@
 /* General UI */
 
+.tt-total-stock-value {
+	color: #999999;
+	font-size: 17px;
+	font-weight: normal;
+}
+
 #tt-stock-filter.portfolio,
 #tt-hide-stocks.portfolio {
 	margin-bottom: 10px;
