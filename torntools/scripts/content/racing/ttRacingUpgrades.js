@@ -170,8 +170,15 @@ function resetUpgrades() {
 
 function winPercentage() {
 	if (doc.find(".tt-win-percentage")) return;
-	doc.findAll(".enlist-info").forEach((stat)=> {
-		let values = stat.find(".enlisted-stat").innerText.split("• ").filter((x) => x.trim().includes("Races")).map((x) => x.split(":")[1].trim())
-		stat.find(".enlisted-stat").insertAdjacentHTML("beforeEnd", `<li class="tt-win-percentage">• Win Percentage: ${(values[0]/values[1]).toFixed(2)*100}% </li>`);
-	})
+	doc.findAll(".enlist-info").forEach((stat) => {
+		let values = stat
+			.find(".enlisted-stat")
+			.innerText.split("• ")
+			.filter((x) => x.trim().includes("Races"))
+			.map((x) => x.split(":")[1].trim());
+		stat.find(".enlisted-stat").insertAdjacentHTML(
+			"beforeEnd",
+			`<li class="tt-win-percentage">• Win Percentage: ${(values[0] / values[1]).toFixed(2) * 100}% </li>`
+		);
+	});
 }
