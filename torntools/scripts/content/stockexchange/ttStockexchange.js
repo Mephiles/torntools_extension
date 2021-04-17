@@ -147,13 +147,15 @@ function addFilter(filters) {
 		// Filtering
 		for (let stock of doc.findAll("#stockmarketroot [class*='stockMarket__'] > *:not(#panel-InfoTab, #panel-ManagerTab)")) {
 			const stockAcronym = stock.find("[class*='logoContainer__'] img").src.split("/").pop().replace(".svg", "");
-			const stockID = torndata.stocks.findIndex((stockEntry) => {
-				return stockEntry.acronym === stockAcronym;
-			});
+			let stockID;
+			for (let i=1; i <= 31; i++) {
+				if (torndata.stocks[i] && torndata.stocks[i].acronym && stockAcronym === torndata.stocks[i].acronym) {
+					stockID = i;
+					break;
+				}
+			}
 			const data = torndata.stocks[stockID];
-			const userStockData = userdata.stocks.filter((x) => {
-				return x.stock_id === stockID + 1;
-			})[0];
+			const userStockData = userdata.stocks[stockID];
 
 			// Owned
 			if (owned && stock.find("[class*='stockOwned__'] [class*='count__']").innerText === "None") {
@@ -244,13 +246,15 @@ function showTotalPortfolioValue() {
 	const profits = [...doc.findAll("#stockmarketroot [class*='stockMarket__'] > *:not(#panel-InfoTab, #panel-ManagerTab)")]
 		.map((x) => {
 			const stockAcronym = x.find("[class*='logoContainer__'] img").src.split("/").pop().replace(".svg", "");
-			const stockID = torndata.stocks.findIndex((stockEntry) => {
-				return stockEntry.acronym === stockAcronym;
-			});
+			let stockID;
+			for (let i=1; i <= 31; i++) {
+				if (torndata.stocks[i] && torndata.stocks[i].acronym && stockAcronym === torndata.stocks[i].acronym) {
+					stockID = i;
+					break;
+				}
+			}
 			const data = torndata.stocks[stockID];
-			const userStockData = userdata.stocks.filter((x) => {
-				return x.stock_id === stockID + 1;
-			})[0];
+			const userStockData = userdata.stocks[stockID];
 			if (!userStockData) return 0;
 			let stockTransactions = Object.keys(userStockData.transactions);
 			let lastTransaction = userStockData.transactions[stockTransactions[stockTransactions.length - 1]];

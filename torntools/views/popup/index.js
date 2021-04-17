@@ -453,7 +453,7 @@ function mainStocks() {
 	for (let buy_id in user_stocks) {
 		let parent = doc.find("#user-stocks");
 		let stock = user_stocks[buy_id];
-		let id = stock.stock_id - 1;
+		let id = stock.stock_id;
 		let name = torn_stocks[id].name;
 
 		let transaction_ids = Object.keys(stock.transactions);
