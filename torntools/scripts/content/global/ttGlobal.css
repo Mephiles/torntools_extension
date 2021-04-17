@@ -1101,3 +1101,13 @@ div[role="main"].tt-modified {
 .tt-user-alias {
 	position: relative;
 }
+
+.tt-user-alias > div.tt-alias {
+	position: absolute;
+	right: -4px;
+	bottom: 0;
+	color: #e0e0e0;
+	background-color: #00000061;
+	line-height: normal;
+	padding: 0 2px;
+}

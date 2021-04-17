@@ -1,6 +1,10 @@
 export default {
 	"v5.9 - xxxx, xxth. 2021": {
-		Features: ["Filter faction members by position. - Sashank999", "Battle Stat on Attack Page. - Sashank999", "Win percentage on Racing Upgrades. - Sashank999"],
+		Features: [
+			"Filter faction members by position. - Sashank999",
+			"Battle Stat on Attack Page. - Sashank999",
+			"Win Percentage on Racing Upgrades. - Sashank999",
+		],
 		Fixes: [
 			"Solve duplicate items on the map being ignored. - DKK",
 			"Fix showing hidden portfolio stocks. - Sashank999",
@@ -15,6 +19,7 @@ export default {
 			"TT Settings in Dark Mode. - Sashank999",
 			"Racing upgrades not appearing. - DKK",
 			"Fix hospital filter being broken on tablet mode. - DKK",
+			"Filters on Stocks 3.0. - Sashank999",
 		],
 		Changes: ["Dark Mode for TornTools. - Sashank999", "Show travel table while racing. - Sashank999"],
 	},

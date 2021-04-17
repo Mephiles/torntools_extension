@@ -913,7 +913,7 @@ function aliasUsers() {
 		for (const userID of Object.keys(users_alias)) {
 			doc.findAll(`.m-hide a[href*='/profiles.php?XID=${userID}']`).forEach((userIdA) => {
 				userIdA.classList.add("tt-user-alias");
-				userIdA.setAttribute("user-alias", users_alias[userID]);
+				userIdA.insertAdjacentHTML("beforeEnd", `<div class='tt-alias'>${users_alias[userID]}</div>`)
 			});
 		};
 	})
