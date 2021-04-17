@@ -32,7 +32,7 @@ requireDatabase().then(() => {
 		showCustomConsole();
 	}
 
-	hideUsers();
+	aliasUsers();
 
 	requireNavbar().then(async () => {
 		let _flying = await isFlying();
@@ -185,7 +185,7 @@ requireDatabase().then(() => {
 			}
 			if (settings.pages.global.trade_chat_timer) tradeChatPostTimer();
 			if (settings.pages.global.autocomplete_chat) addChatUsernameAutocomplete();
-			if (Object.keys(users_alias).length) hideUsersChat();
+			if (Object.keys(users_alias).length) aliasUsersChat();
 		}
 
 		doc.addEventListener("click", (event) => {
@@ -200,7 +200,7 @@ requireDatabase().then(() => {
 			}
 			if (settings.pages.global.trade_chat_timer) tradeChatPostTimer();
 			if (settings.pages.global.autocomplete_chat) addChatUsernameAutocomplete();
-			if (Object.keys(users_alias).length) hideUsersChat();
+			if (Object.keys(users_alias).length) aliasUsersChat();
 		});
 
 		let chat_observer = new MutationObserver((mutationsList) => {
@@ -210,7 +210,7 @@ requireDatabase().then(() => {
 
 					applyChatHighlights(message, highlights);
 					if (settings.pages.global.block_zalgo) removeZalgoText(message);
-					if (Object.keys(users_alias).length) hideUsersChat(message);
+					if (Object.keys(users_alias).length) aliasUsersChat(message);
 				}
 			}
 		});
@@ -908,7 +908,7 @@ function ttSettingsLink() {
 	);
 }
 
-function hideUsers() {
+function aliasUsers() {
 	requireElement(".m-hide a[href*='/profiles.php?XID=']").then(() => {
 		for (const userID of Object.keys(users_alias)) {
 			doc.findAll(`.m-hide a[href*='/profiles.php?XID=${userID}']`).forEach((userIdA) => {
@@ -919,7 +919,7 @@ function hideUsers() {
 	})
 }
 
-function hideUsersChat(message = "") {
+function aliasUsersChat(message = "") {
 	if (message) {
 		let profileA = message.find(`a[href*='/profiles.php?XID=']`);
 		let messageUserId = profileA.href.split("=")[1];
