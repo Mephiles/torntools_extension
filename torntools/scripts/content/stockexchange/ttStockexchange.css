@@ -38,10 +38,10 @@
 #change-filter .tt-checkbox-wrap,
 #total-profit-filter .tt-checkbox-wrap {
 	display: flex;
-    justify-content: space-between;
+	justify-content: space-between;
 }
 
-label[for='up'] {
+label[for="up"] {
 	margin-right: 10px;
 }
 

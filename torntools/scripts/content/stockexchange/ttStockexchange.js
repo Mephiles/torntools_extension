@@ -148,7 +148,7 @@ function addFilter(filters) {
 		for (let stock of doc.findAll("#stockmarketroot [class*='stockMarket__'] > *:not(#panel-InfoTab, #panel-ManagerTab)")) {
 			const stockAcronym = stock.find("[class*='logoContainer__'] img").src.split("/").pop().replace(".svg", "");
 			let stockID;
-			for (let i=1; i <= 31; i++) {
+			for (let i = 1; i <= 31; i++) {
 				if (torndata.stocks[i] && torndata.stocks[i].acronym && stockAcronym === torndata.stocks[i].acronym) {
 					stockID = i;
 					break;
@@ -195,23 +195,19 @@ function addFilter(filters) {
 			if (
 				change &&
 				change.length &&
-				!(
-					(change.includes("up") && stockChangeClassName.includes("up")) ||
-					(change.includes("down") && stockChangeClassName.includes("down"))
-				)
+				!((change.includes("up") && stockChangeClassName.includes("up")) || (change.includes("down") && stockChangeClassName.includes("down")))
 			) {
 				stock.classList.add("filter-hidden");
 				continue;
 			}
 
 			// Total profit or loss
-			if (totalProfitLoss.length && userStockData) { // If owned only
+			if (totalProfitLoss.length && userStockData) {
+				// If owned only
 				let stockTransactions = Object.keys(userStockData.transactions);
 				let lastTransaction = userStockData.transactions[stockTransactions[stockTransactions.length - 1]];
-				let profitOrLoss = Math.floor(((data.current_price - lastTransaction.bought_price) * lastTransaction.shares));
-				if (!(
-					(totalProfitLoss.includes("profit") && profitOrLoss > 0) || (totalProfitLoss.includes("loss") && profitOrLoss < 0)
-				)) {
+				let profitOrLoss = Math.floor((data.current_price - lastTransaction.bought_price) * lastTransaction.shares);
+				if (!((totalProfitLoss.includes("profit") && profitOrLoss > 0) || (totalProfitLoss.includes("loss") && profitOrLoss < 0))) {
 					stock.classList.add("filter-hidden");
 					continue;
 				}
@@ -247,7 +243,7 @@ function showTotalPortfolioValue() {
 		.map((x) => {
 			const stockAcronym = x.find("[class*='logoContainer__'] img").src.split("/").pop().replace(".svg", "");
 			let stockID;
-			for (let i=1; i <= 31; i++) {
+			for (let i = 1; i <= 31; i++) {
 				if (torndata.stocks[i] && torndata.stocks[i].acronym && stockAcronym === torndata.stocks[i].acronym) {
 					stockID = i;
 					break;
@@ -258,7 +254,7 @@ function showTotalPortfolioValue() {
 			if (!userStockData) return 0;
 			let stockTransactions = Object.keys(userStockData.transactions);
 			let lastTransaction = userStockData.transactions[stockTransactions[stockTransactions.length - 1]];
-			let profitOrLoss = Math.floor(((data.current_price - lastTransaction.bought_price) * lastTransaction.shares));
+			let profitOrLoss = Math.floor((data.current_price - lastTransaction.bought_price) * lastTransaction.shares);
 			return profitOrLoss;
 		})
 		.reduce((a, b) => (a += b), 0);
