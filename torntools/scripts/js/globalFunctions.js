@@ -1355,18 +1355,11 @@ const STORAGE = {
 		faction_armory: {},
 		container_open: {},
 		stock_exchange: {
-			portfolio: {
-				forecast: [],
-				worth: [],
-				name: "",
-				profitLoss: [],
-				listedOnly: false,
-			},
-			market: {
-				forecast: [],
-				worth: [],
-				name: "",
-			},
+			owned: true,
+			name: "",
+			change: [],
+			totalProfitLoss: [],
+			benefit: false,
 		},
 		crimes: {
 			safeCrimes: false,
