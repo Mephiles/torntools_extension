@@ -32,6 +32,8 @@ requireDatabase().then(() => {
 		showCustomConsole();
 	}
 
+	hideUsers();
+
 	requireNavbar().then(async () => {
 		let _flying = await isFlying();
 
@@ -183,6 +185,7 @@ requireDatabase().then(() => {
 			}
 			if (settings.pages.global.trade_chat_timer) tradeChatPostTimer();
 			if (settings.pages.global.autocomplete_chat) addChatUsernameAutocomplete();
+			if (Object.keys(users_alias).length) hideUsersChat();
 		}
 
 		doc.addEventListener("click", (event) => {
@@ -197,6 +200,7 @@ requireDatabase().then(() => {
 			}
 			if (settings.pages.global.trade_chat_timer) tradeChatPostTimer();
 			if (settings.pages.global.autocomplete_chat) addChatUsernameAutocomplete();
+			if (Object.keys(users_alias).length) hideUsersChat();
 		});
 
 		let chat_observer = new MutationObserver((mutationsList) => {
@@ -206,6 +210,7 @@ requireDatabase().then(() => {
 
 					applyChatHighlights(message, highlights);
 					if (settings.pages.global.block_zalgo) removeZalgoText(message);
+					if (Object.keys(users_alias).length) hideUsersChat(message);
 				}
 			}
 		});
@@ -901,4 +906,30 @@ function ttSettingsLink() {
 			linkName: "TornTools Settings",
 		})
 	);
+}
+
+function hideUsers() {
+	requireElement(".m-hide a[href*='/profiles.php?XID=']").then(() => {
+		for (const userID of Object.keys(users_alias)) {
+			doc.findAll(`.m-hide a[href*='/profiles.php?XID=${userID}']`).forEach((userIdA) => {
+				userIdA.classList.add("tt-user-alias");
+				userIdA.setAttribute("user-alias", users_alias[userID]);
+			});
+		};
+	})
+}
+
+function hideUsersChat(message = "") {
+	if (message) {
+		let profileA = message.find(`a[href*='/profiles.php?XID=']`);
+		let messageUserId = profileA.href.split("=")[1];
+		if (Object.keys(users_alias).includes(messageUserId)) profileA.innerText = users_alias[messageUserId] + ": ";
+	} else {
+		for (const userID of Object.keys(users_alias)) {
+			doc.findAll(`#chatRoot a[href*='/profiles.php?XID=${userID}']`).forEach((profileA) => {
+				let messageUserId = profileA.href.split("=")[1];
+				profileA.innerText = users_alias[messageUserId] + ": ";
+			})
+		}
+	}
 }

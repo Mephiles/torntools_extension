@@ -1085,3 +1085,19 @@ div[role="main"].tt-modified {
 .dark-mode .tt-fac-chain-bonus-warning {
 	background-color: #333 !important;
 }
+
+.tt-user-alias::after{
+	text-align: center;
+	content: attr(user-alias);
+	position: absolute;
+	left: 0;
+	top: -5px;
+	width: 50%;
+    margin-left: 25%;
+    color: black;
+	background-color: #efefef;
+}
+
+.tt-user-alias {
+	position: relative;
+}

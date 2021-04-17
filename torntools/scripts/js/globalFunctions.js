@@ -1262,6 +1262,7 @@ const STORAGE = {
 	chat_highlight: {
 		$player: "#7ca900",
 	},
+	users_alias: {},
 	hide_icons: [],
 	hide_casino_games: [],
 	hide_stock_blocks: [],

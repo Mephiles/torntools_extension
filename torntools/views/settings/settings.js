@@ -58,6 +58,9 @@ requireDatabase(false)
 		doc.find("#add_highlight").addEventListener("click", (event) => {
 			addHighlightToList(event);
 		});
+		doc.find("#add_id").addEventListener("click", (event) => {
+			addIdToList(event);
+		});
 		doc.find("#add_filter_faction").addEventListener("click", (event) => {
 			addFactionToFilter(event);
 		});
@@ -568,6 +571,35 @@ function setupPreferences() {
 			}),
 			globalSection.find("#chat_highlight+.note").nextElementSibling
 		);
+	}
+
+	// Hide Users
+	for (let userId in users_alias) {
+		let row = doc.new({ type: "div", class: "row" });
+		let id_input = doc.new({ type: "input", class: "text name", value: userId });
+		let text_input = doc.new({
+			type: "input",
+			class: "text descr",
+			value: users_alias[userId],
+		});
+		let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+		let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
+
+		remove_icon.addEventListener("click", (event) => {
+			event.target.parentElement.parentElement.remove();
+		});
+
+		remove_icon_wrap.addEventListener("click", (event) => {
+			event.target.parentElement.remove();
+		});
+
+		remove_icon_wrap.appendChild(remove_icon);
+		row.appendChild(id_input);
+		row.appendChild(text_input);
+		row.appendChild(remove_icon_wrap);
+
+		let table_body = preferences.find("#users_alias .body");
+		table_body.insertBefore(row, table_body.find(".row.input"));
 	}
 
 	// Loot alerts
@@ -1150,6 +1182,13 @@ function savePreferences(preferences, settings, target_list_enabled) {
 		highlights[name] = row.find(".color").value;
 	}
 
+	// Users Alias
+	let users_aliases = {};
+	for (let row of preferences.findAll("#users_alias .row:not(.input)")) {
+		let id = row.find(".name").value;
+		users_aliases[id] = row.find(".descr").value;
+	}
+
 	// Notifications
 	for (let notification in settings.notifications) {
 		if (preferences.find(`#notifications-${notification} input[type='text']`)) {
@@ -1232,6 +1271,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	ttStorage.set({ custom_links: custom_links });
 	ttStorage.set({ loot_alerts: alerts });
 	ttStorage.set({ chat_highlight: highlights });
+	ttStorage.set({ users_alias: users_aliases });
 	ttStorage.set({ hide_icons: icons });
 	ttStorage.set({ hide_areas: areas });
 	ttStorage.set({ hide_casino_games: hiddenGames });
@@ -1475,6 +1515,42 @@ function addHighlightToList(event) {
 	event.target.previousElementSibling.previousElementSibling.value = "";
 }
 
+function addIdToList(event) {
+	let row = doc.new({ type: "div", class: "row" });
+	let name_input = doc.new({
+		type: "input",
+		class: "text name",
+		value: event.target.previousElementSibling.previousElementSibling.value,
+	});
+	let text_input = doc.new({
+		type: "input",
+		class: "text descr",
+		value: event.target.previousElementSibling.value,
+	});
+	let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+	let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
+
+	remove_icon.addEventListener("click", (event) => {
+		event.target.parentElement.parentElement.remove();
+	});
+
+	remove_icon_wrap.addEventListener("click", (event) => {
+		event.target.parentElement.remove();
+	});
+
+	remove_icon_wrap.appendChild(remove_icon);
+	row.appendChild(name_input);
+	row.appendChild(text_input);
+	row.appendChild(remove_icon_wrap);
+
+	let table_body = preferences.find("#users_alias .body");
+	table_body.insertBefore(row, table_body.find(".row.input"));
+
+	// Clear input
+	event.target.previousElementSibling.value = "None";
+	event.target.previousElementSibling.previousElementSibling.value = "";
+}
+
 function setupApiStatistics() {
 	console.log("api history", api_history);
 	if (!api_history) return;
@@ -1666,6 +1742,7 @@ function exportData() {
 			"allies",
 			"custom_links",
 			"chat_highlight",
+			"users_alias",
 			"hide_icons",
 			"quick",
 			"notes",
