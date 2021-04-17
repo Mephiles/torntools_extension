@@ -1085,3 +1085,15 @@ div[role="main"].tt-modified {
 .dark-mode .tt-fac-chain-bonus-warning {
 	background-color: #333 !important;
 }
+
+.tt-upkeep > div {
+	background-color: var(--sidebar-area-bg-available) !important;
+}
+
+.tt-mobile .tt-upkeep > div {
+	background-color: unset !important;
+}
+
+.tt-mobile .tt-upkeep span:not([class*='svgIconWrap']) {
+	color: #85b200 !important;
+}
