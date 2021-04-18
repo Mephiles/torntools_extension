@@ -21,6 +21,7 @@ export default {
 			"Racing upgrades not appearing. - DKK",
 			"Fix hospital filter being broken on tablet mode. - DKK",
 			"Filters on Stocks 3.0. - Sashank999",
+			"Fix Faction Enhancements on mobile. - Sashank999",
 		],
 		Changes: ["Dark Mode for TornTools. - Sashank999", "Show travel table while racing. - Sashank999"],
 	},
