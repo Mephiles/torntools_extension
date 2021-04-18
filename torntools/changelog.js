@@ -21,7 +21,7 @@ export default {
 			"Fix hospital filter being broken on tablet mode. - DKK",
 			"Filters on Stocks 3.0. - Sashank999",
 		],
-		Changes: ["Dark Mode for TornTools. - Sashank999", "Show travel table while racing. - Sashank999"],
+		Changes: ["Dark Mode for TornTools. - Sashank999", "Show travel table while racing. - Sashank999", "Show faction filter always when on Jail page. - Sashank999"],
 	},
 	"v5.8 - March, 25th. 2021": {
 		Features: [
