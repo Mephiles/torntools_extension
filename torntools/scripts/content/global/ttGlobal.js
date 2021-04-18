@@ -163,6 +163,8 @@ requireDatabase().then(() => {
 		}
 
 		if (settings.pages.global.show_settings_areas_link && !mobile) ttSettingsLink();
+
+		upkeepMoreThan();
 	});
 
 	chatsLoaded().then(() => {
@@ -908,6 +910,7 @@ function ttSettingsLink() {
 	);
 }
 
+
 function aliasUsers() {
 	requireElement(".m-hide a[href*='/profiles.php?XID=']").then(() => {
 		for (const userID of Object.keys(users_alias)) {
@@ -930,6 +933,17 @@ function aliasUsersChat(message = "") {
 				let messageUserId = profileA.href.split("=")[1];
 				profileA.innerText = users_alias[messageUserId] + ": ";
 			})
+
+function upkeepMoreThan() {
+	if (-networth.current.value.unpaidfees >= settings.pages.global.upkeep_more_than) {
+		doc.find("#sidebarroot #nav-properties").classList.add("tt-upkeep");
+		if (isDarkMode()) {
+			doc.find("#sidebarroot #nav-properties svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_green_mobile)");
+		} else if (!isDarkMode() && mobile) {
+			doc.find("#sidebarroot #nav-properties svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_green_mobile)");
+		} else {
+			doc.find("#sidebarroot #nav-properties svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_desktop_green)");
+
 		}
 	}
 }
