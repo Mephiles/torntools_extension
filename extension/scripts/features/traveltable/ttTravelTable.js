@@ -513,11 +513,11 @@
 			if (page === "travelagency") {
 				const element = document.find("#tab-menu4 > ul > li[aria-selected='true'] .travel-name");
 
-				// FIXME - Add travel type count.
-				if (!element) return "TBD";
+				// CHECK - Add travel type count.
+				if (!element) return "private";
 				else return element.innerText.toLowerCase();
 			} else if (page === "home") {
-				return "TBD";
+				return "private";
 			}
 		}
 	}

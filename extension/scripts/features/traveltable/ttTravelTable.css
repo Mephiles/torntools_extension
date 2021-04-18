@@ -255,12 +255,10 @@ body.dark-mode #travelDestinations .legend .legend-content .row.countries .flag.
 	font-size: 10px;
 }
 
-/* TODO */
 #tt-travel-table .positive {
 	color: #00a500;
 }
 
-/* TODO */
 #tt-travel-table .negative {
 	color: #de0000;
 }
