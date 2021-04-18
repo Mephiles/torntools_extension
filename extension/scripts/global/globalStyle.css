@@ -321,8 +321,12 @@ body.dark-mode #tt-page-status {
 	color: green;
 }
 
-.tt-page-status-feature.information i {
+body:not(.dark-mode) .tt-page-status-feature.information i {
 	color: blue;
+}
+
+body.dark-mode .tt-page-status-feature.information i {
+	color: #058cff;
 }
 
 #tt-page-status.no-content {
