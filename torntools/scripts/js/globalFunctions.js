@@ -1342,6 +1342,7 @@ const STORAGE = {
 			activity: [],
 			status: [],
 			level: [],
+			faction: "",
 			special: {
 				isfedded: "both",
 				newplayer: "both",
