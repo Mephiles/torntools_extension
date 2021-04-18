@@ -161,7 +161,7 @@ requireDatabase().then(() => {
 		}
 
 		if (settings.pages.global.show_settings_areas_link && !mobile) ttSettingsLink();
-		
+
 		upkeepMoreThan();
 	});
 
@@ -915,5 +915,5 @@ function upkeepMoreThan() {
 		} else {
 			doc.find("#sidebarroot #nav-properties svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_desktop_green)");
 		}
-	};
+	}
 }

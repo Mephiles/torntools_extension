@@ -1094,6 +1094,6 @@ div[role="main"].tt-modified {
 	background-color: unset !important;
 }
 
-.tt-mobile .tt-upkeep span:not([class*='svgIconWrap']) {
+.tt-mobile .tt-upkeep span:not([class*="svgIconWrap"]) {
 	color: #85b200 !important;
 }
