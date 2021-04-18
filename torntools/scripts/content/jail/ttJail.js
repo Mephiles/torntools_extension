@@ -66,10 +66,10 @@ function addFilterToTable(list, title) {
 
 		filter_container.find("#tt-faction-filter").appendChild(option);
 	}
-	let ownFacOption = doc.new({ type: "option", value: userdata.faction.faction_tag, text: userdata.faction.faction_tag});
-	filter_container.find("#tt-faction-filter").appendChild(ownFacOption);
 	let divider_option = doc.new({ type: "option", value: "----------", text: "----------", attributes: { disabled: true } });
 	filter_container.find("#tt-faction-filter").appendChild(divider_option);
+	let ownFacOption = doc.new({ type: "option", value: userdata.faction.faction_tag, text: userdata.faction.faction_tag});
+	filter_container.find("#tt-faction-filter").appendChild(ownFacOption);
 
 	// Time slider
 	let time_slider = filter_container.find("#tt-time-filter");
