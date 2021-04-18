@@ -46,7 +46,6 @@
 		if (!context.getImageData(0, 0, canvas.width, canvas.height).data.some((d) => d !== 0)) return;
 
 		document.find(".tt-overlay").classList.remove("hidden");
-		egg.classList.add("tt-overlay-item", "highlight-egg");
 
 		const popup = document.newElement({
 			type: "div",
