@@ -251,7 +251,7 @@ const DEFAULT_STORAGE = {
 				table: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			events: {
-				easterEggs: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				easterEggs: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 		},
 		external: {
