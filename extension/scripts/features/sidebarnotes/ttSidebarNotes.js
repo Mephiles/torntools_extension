@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (isFlying()) return;
+
 	featureManager.registerFeature(
 		"Sidebar Notes",
 		"sidebar",

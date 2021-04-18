@@ -4,7 +4,7 @@
 	const page = getPage();
 
 	if (page === "factions" && getSearchParameters().get("step") !== "your") return;
-	if (page === "home" && !isAbroad()) return;
+	else if (page === "home" && !isAbroad()) return;
 
 	featureManager.registerFeature(
 		"Drug Details",
