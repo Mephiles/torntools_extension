@@ -1086,18 +1086,6 @@ div[role="main"].tt-modified {
 	background-color: #333 !important;
 }
 
-.tt-user-alias::after{
-	text-align: center;
-	content: attr(user-alias);
-	position: absolute;
-	left: 0;
-	top: -5px;
-	width: 50%;
-    margin-left: 25%;
-    color: black;
-	background-color: #efefef;
-}
-
 .tt-user-alias {
 	position: relative;
 }
@@ -1106,8 +1094,13 @@ div[role="main"].tt-modified {
 	position: absolute;
 	right: -4px;
 	bottom: 0;
-	color: #e0e0e0;
-	background-color: #00000061;
+	color: black;
+	background-color: #f2f2f2;
 	line-height: normal;
 	padding: 0 2px;
+}
+
+.dark-mode .tt-user-alias > div.tt-alias {
+	color: #e0e0e0;
+	background-color: #00000061;
 }
