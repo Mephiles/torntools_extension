@@ -188,6 +188,11 @@ body.dark-mode #travelDestinations .legend .legend-content .row.countries .flag.
 	border-top: unset !important;
 	color: var(--default-color);
 	text-shadow: unset;
+	cursor: pointer;
+}
+
+#tt-travel-table .row.header i {
+	margin-left: 4px;
 }
 
 #tt-travel-table .row {
@@ -259,5 +264,3 @@ body.dark-mode #travelDestinations .legend .legend-content .row.countries .flag.
 #tt-travel-table .negative {
 	color: #de0000;
 }
-
-/* TODO */

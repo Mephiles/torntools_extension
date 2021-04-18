@@ -64,7 +64,6 @@
 			});
 
 			const data = await pullInformation();
-			console.log("DKK travel data", data);
 			for (const code of Object.keys(data.stocks)) {
 				const country = COUNTRIES[code];
 				const lastUpdate = data.stocks[code].update;
@@ -86,8 +85,15 @@
 				}
 			}
 
+			table.findAll(".row.header > div").forEach((item, index) => {
+				item.addEventListener("click", () => {
+					sortTable(table, index + 1);
+				});
+			});
+
 			content.appendChild(document.newElement({ type: "div", class: "table-wrap", children: [table] }));
 			updateTable();
+			sortTable(table, 7, "desc");
 
 			function addLegend() {
 				let isOpen = filters.travel.open;
@@ -401,28 +407,28 @@
 							<img class="icon" src="/images/items/${item.id}/small.png" alt="${item.name}" title="${item.name}"/>
 							<span>${item.name}</a>
 						</a>
-						<div class="stock">
+						<div class="stock" value="${item.quantity}">
 							<span>${formatNumber(item.quantity)}</span>		
 							<div class="break advanced"></div>		
 							<span class="update basic">&nbsp;(${formatTime({ seconds: lastUpdate }, { type: "ago" })})</span>		
 							<span class="update advanced">(${formatTime({ seconds: lastUpdate }, { type: "ago", short: true })})</span>				
 						</div>
-						<div class="buy-price advanced">
+						<div class="buy-price advanced" value="${item.cost}">
 							${formatNumber(item.cost, { shorten: true, currency: true })}
 						</div>
-						<div class="market-value advanced">
+						<div class="market-value advanced" value="${typeof value !== "number" ? 0 : value}">
 							${formatNumber(value, { shorten: true, currency: true })}
 						</div>
-						<div class="profit-item advanced ${getValueClass(profitItem)}">
+						<div class="profit-item advanced ${getValueClass(profitItem)}" value="${typeof profitItem !== "number" ? 0 : profitItem}">
 							${formatNumber(profitItem, { shorten: true, currency: true })}
 						</div>
-						<div class="profit-minute ${getValueClass(profitMinute)}">
+						<div class="profit-minute ${getValueClass(profitMinute)}" value="${typeof profitMinute !== "number" ? 0 : profitMinute}">
 							${formatNumber(profitMinute, { shorten: true, currency: true })}
 						</div>
-						<div class="profit advanced ${getValueClass(profit)}">
+						<div class="profit advanced ${getValueClass(profit)}" value="${typeof profit !== "number" ? 0 : profit}">
 							${formatNumber(profit, { shorten: true, currency: true })}
 						</div>
-						<div class="money advanced">
+						<div class="money advanced" value="${totalCost}">
 							${formatNumber(totalCost, { shorten: true, currency: true })}
 						</div>
 					`,
@@ -489,12 +495,16 @@
 			}
 
 			function showTable() {
-				document.find(".travel-agency-travelling").classList.add("hidden");
+				document.find(".travel-agency-travelling .popup-info").classList.add("hidden");
+				document.find(".travel-agency-travelling .stage").classList.add("hidden");
+				document.find(".travel-agency-travelling .delimiter-999").classList.add("hidden");
 				findContainer("Travel Destinations").classList.remove("hidden");
 			}
 
 			function hideTable() {
-				document.find(".travel-agency-travelling").classList.remove("hidden");
+				document.find(".travel-agency-travelling .popup-info").classList.remove("hidden");
+				document.find(".travel-agency-travelling .stage").classList.remove("hidden");
+				document.find(".travel-agency-travelling .delimiter-999").classList.remove("hidden");
 				findContainer("Travel Destinations").classList.add("hidden");
 			}
 		}
@@ -513,7 +523,12 @@
 	}
 
 	function removeTable() {
-		// TODO - removeIcon();
+		removeIcon();
 		removeContainer("Travel Destinations");
+
+		function removeIcon() {
+			const icon = document.find(".tt-travel");
+			if (icon) icon.remove();
+		}
 	}
 })();

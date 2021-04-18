@@ -256,21 +256,22 @@ function rotateElement(element, degrees) {
 }
 
 function sortTable(table, columnPlace, order) {
-	const header = table.find(`th:nth-child(${columnPlace})`);
+	const header = table.find(`th:nth-child(${columnPlace}), .row.header > :nth-child(${columnPlace})`);
+	const icon = header.find("i");
 	if (order) {
-		if (header.find("i")) {
+		if (icon) {
 			switch (order) {
 				case "asc":
-					header.find("i.fa-caret-down").classList.add("fa-caret-up");
-					header.find("i.fa-caret-down").classList.remove("fa-caret-down");
+					icon.classList.add("fa-caret-up");
+					icon.classList.remove("fa-caret-down");
 					break;
 				case "desc":
-					header.find("i.fa-caret-up").classList.add("fa-caret-down");
-					header.find("i.fa-caret-up").classList.remove("fa-caret-up");
+					icon.classList.add("fa-caret-down");
+					icon.classList.remove("fa-caret-up");
 					break;
 				case "none":
 				default:
-					header.find("i").remove();
+					icon.remove();
 					break;
 			}
 		} else {
@@ -283,31 +284,33 @@ function sortTable(table, columnPlace, order) {
 					break;
 			}
 		}
-	} else if (header.find("i.fa-caret-down")) {
-		header.find("i.fa-caret-down").classList.add("fa-caret-up");
-		header.find("i.fa-caret-down").classList.remove("fa-caret-down");
+	} else if (icon) {
+		if (icon.classList.contains("fa-caret-down")) {
+			icon.classList.add("fa-caret-up");
+			icon.classList.remove("fa-caret-down");
 
-		order = "asc";
-	} else if (header.find("i.fa-caret-up") || order === "desc") {
-		header.find("i.fa-caret-up").classList.add("fa-caret-down");
-		header.find("i.fa-caret-up").classList.remove("fa-caret-up");
+			order = "asc";
+		} else if (icon.classList.contains("fa-caret-up")) {
+			icon.classList.add("fa-caret-down");
+			icon.classList.remove("fa-caret-up");
 
-		order = "desc";
+			order = "desc";
+		}
 	} else {
 		header.appendChild(document.newElement({ type: "i", class: "fas fa-caret-up" }));
 
 		order = "asc";
 	}
-	for (const h of table.findAll("th")) {
+	for (const h of table.findAll("th, .row.header > *")) {
 		if (h === header) continue;
 
 		if (h.find("i")) h.find("i").remove();
 	}
 
 	let rows;
-	if (!table.find("tr:not(.heading)")) rows = [];
+	if (!table.find("tr:not(.heading), .row:not(.header)")) rows = [];
 	else {
-		rows = [...table.findAll("tr:not(.header)")];
+		rows = [...table.findAll("tr:not(.header), .row:not(.header)")];
 		rows = sortRows(rows);
 	}
 
