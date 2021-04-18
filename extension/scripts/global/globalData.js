@@ -250,6 +250,9 @@ const DEFAULT_STORAGE = {
 				computer: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				table: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			events: {
+				easterEggs: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		external: {
 			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),
@@ -342,7 +345,7 @@ const CONTRIBUTORS = {
 	Tesa: {
 		id: 2639608,
 		name: "Tesa",
-		color: "white",
+		color: "brown",
 	},
 };
 

@@ -4,3 +4,15 @@
 	color: inherit;
 	margin: inherit;
 }
+
+body:not(.dark-mode) .tt-sidebar-information .countdown.short {
+	color: red;
+}
+
+body.dark-mode .tt-sidebar-information .countdown.short {
+	color: #d83500;
+}
+
+.tt-sidebar-information .countdown.medium {
+	color: darkorange;
+}

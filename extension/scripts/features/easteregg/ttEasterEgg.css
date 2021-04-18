@@ -1,0 +1,25 @@
+.highlight-egg {
+	border: 2px solid gold;
+}
+
+#tt-easter-popup {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 500px;
+	background: #f1f1f1;
+	/*box-shadow: 0 0 20px black;*/
+	border-radius: 8px;
+	padding: 10px;
+}
+
+body.dark-mode #tt-easter-popup {
+	background: #444;
+	box-shadow: 0 0 10px black;
+}
+
+.tt-button-link {
+	cursor: pointer;
+	color: var(--default-blue-color);
+}

@@ -2,7 +2,7 @@ export default [
 	{
 		version: { major: 6, minor: 0, build: 0 },
 		date: false,
-		title: "Starting new.",
+		title: "Starting over.",
 		logs: {
 			features: [
 				{ message: "Live update settings.", contributor: "DeKleineKobini" },
@@ -10,7 +10,6 @@ export default [
 				{ message: "Add booster and medical cooldown timed notifications.", contributor: "DeKleineKobini" },
 				{ message: "Show attack history and stakeouts on the target page.", contributor: "DeKleineKobini" },
 				{ message: "Add stakeouts when health drops below a certain percentage.", contributor: "DeKleineKobini" },
-				{ message: "Add unused energy and nerve refill highlighting", contributor: "Natty_Boh" },
 				{ message: "Highlight specific chat titles.", contributor: "DeKleineKobini" },
 				{ message: "Add alerts for stock system dumps and available shares.", contributor: "DeKleineKobini" },
 				{ message: "Customizable api usage.", contributor: "DeKleineKobini" },

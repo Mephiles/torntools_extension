@@ -21,8 +21,8 @@
 			<h1 class="title"></h1>
 			<div class="message"></div>
 			<div class="actions right">
-				<button id="popupConfirm" class="fancy-button" color="white" background-color="green">Confirm</button>
-				<button id="popupCancel" class="fancy-button" color="white" background-color="red">Cancel</button>
+				<button id="popupConfirm" class="fancy-button positive">Confirm</button>
+				<button id="popupCancel" class="fancy-button negative">Cancel</button>
 			</div>
 		</div>
 
@@ -68,6 +68,7 @@
 						<li name="notifications">Notifications</li>
 						<!-- <li>Other</li> -->
 						<li name="external">External Services</li>
+						<li name="events">Events</li>
 
 						<li class="header">Pages</li>
 						<li name="home">Home</li>
@@ -597,6 +598,13 @@
 							<label for="external-yata">Connect to YATA.</label>
 						</div>
 					</section>
+					<section name="events">
+						<div class="header">Events</div>
+						<div class="option">
+							<input id="events-easterEggs" type="checkbox" />
+							<label for="events-easterEggs">Let you know when an easter egg shows.</label>
+						</div>
+					</section>
 					<section name="home">
 						<div class="header">Home</div>
 						<div class="option">
@@ -694,8 +702,8 @@
 			<section>
 				<footer>
 					<div class="actions right">
-						<button id="saveSettings" class="fancy-button" color="white" background-color="green">Save</button>
-						<button id="resetSettings" class="fancy-button" color="white" background-color="red">Reset</button>
+						<button id="saveSettings" class="fancy-button positive">Save</button>
+						<button id="resetSettings" class="fancy-button negative">Reset</button>
 					</div>
 				</footer>
 			</section>

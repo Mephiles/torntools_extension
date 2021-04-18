@@ -30,8 +30,8 @@
 		if (factiondata.userCrime === -1) {
 			timeLeftElement.innerText = "No active OC.";
 		} else {
-			if (timeLeft <= TO_MILLIS.HOURS * 8) timeLeftElement.setAttribute("color", "red");
-			else if (timeLeft <= TO_MILLIS.HOURS * 12) timeLeftElement.setAttribute("color", "darkorange");
+			if (timeLeft <= TO_MILLIS.HOURS * 8) timeLeftElement.classList.add("short");
+			else if (timeLeft <= TO_MILLIS.HOURS * 12) timeLeftElement.classList.add("medium");
 
 			if (timeLeft > 0) {
 				timeLeftElement.innerText = formatTime({ milliseconds: timeLeft }, { type: "wordTimer", extraShort: true, showDays: true });
