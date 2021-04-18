@@ -1310,10 +1310,14 @@ function addFilterToItems(listGetter, title) {
 				case "weapon":
 					categoriesExtra.push("primary");
 					categoriesExtra.push("secondary");
+					categoriesExtra.push("defensive");
 					categoriesExtra.push("melee");
+					categoriesExtra.push("temporary");
 					break;
 				case "other":
 					categoriesExtra.push("enhancer");
+					categoriesExtra.push("clothing");
+					categoriesExtra.push("alcohol");
 					// FIXME - Add more missing categories.
 					break;
 			}
@@ -1342,12 +1346,13 @@ function addFilterToItems(listGetter, title) {
 					if (itemCategory === category) {
 						// FIXME Add category check.
 						matchesCategory = true;
-						break;
+						continue;
 					}
 				}
 
 				if (!matchesCategory) {
 					showRow(li, false);
+					continue;
 				}
 			}
 		}
