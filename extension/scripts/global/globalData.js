@@ -269,6 +269,7 @@ const DEFAULT_STORAGE = {
 			type: new DefaultSetting({ type: "string", defaultValue: "basic" }),
 			categories: new DefaultSetting({ type: "array", defaultValue: [] }),
 			countries: new DefaultSetting({ type: "array", defaultValue: [] }),
+			hideOutOfStock: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),

@@ -121,6 +121,12 @@
 										<input id="travel-items" type="number" min="5"/>
 									</div>
 								</div>
+								<div class="row flex">
+									<div>
+										<input id="hide-out-of-stock" type="checkbox"/>
+										<label for="hide-out-of-stock">Hide out of stock items.</label>
+									</div>
+								</div>
 								<div class="heading">Items</div>
 								<div class="row flex categories">
 									<div class="checkbox-item">
@@ -248,6 +254,7 @@
 
 				content.find("#travel-items").value = amount;
 
+				if (filters.travel.hideOutOfStock) content.find("#hide-out-of-stock").checked = true;
 				for (const category of filters.travel.categories) {
 					const element = content.find(`.categories input[name="item"][category="${category}"]`);
 					if (element) element.checked = true;
@@ -259,6 +266,11 @@
 
 				// Check for legend changes
 				content.find("#travel-items").addEventListener("change", () => updateAmount());
+				content.find("#hide-out-of-stock").addEventListener("change", (event) => {
+					ttStorage.change({ filters: { travel: { hideOutOfStock: event.target.checked } } });
+
+					updateTable();
+				});
 				for (const item of content.findAll(".categories input[name='item']")) {
 					item.addEventListener("change", () => {
 						ttStorage.change({ filters: { travel: { categories: getSelectedCategories() } } });
@@ -309,11 +321,16 @@
 			function updateTable() {
 				const categories = getSelectedCategories();
 				const countries = getSelectedCountries();
+				const hideOutOfStock = content.find("#hide-out-of-stock").checked;
 
 				for (const row of table.findAll(".row:not(.header)")) {
-					const { country, category } = row.dataset;
+					const { country, category, stock } = row.dataset;
 
-					if ((categories.length > 0 && !categories.includes(category)) || (countries.length > 0 && !countries.includes(country)))
+					if (
+						(categories.length > 0 && !categories.includes(category)) ||
+						(countries.length > 0 && !countries.includes(country)) ||
+						(hideOutOfStock && !parseInt(stock))
+					)
 						row.classList.add("hidden");
 					else row.classList.remove("hidden");
 				}
@@ -439,6 +456,7 @@
 						cost,
 						travelCost: getTravelType() === "standard" ? country.cost : 0,
 						time: country.time,
+						stock: item.quantity,
 					},
 				});
 			}
