@@ -66,6 +66,8 @@ function addFilterToTable(list, title) {
 
 		filter_container.find("#tt-faction-filter").appendChild(option);
 	}
+	let ownFacOption = doc.new({ type: "option", value: userdata.faction.faction_tag, text: userdata.faction.faction_tag});
+	filter_container.find("#tt-faction-filter").appendChild(ownFacOption);
 	let divider_option = doc.new({ type: "option", value: "----------", text: "----------", attributes: { disabled: true } });
 	filter_container.find("#tt-faction-filter").appendChild(divider_option);
 
@@ -265,7 +267,7 @@ function addFilterToTable(list, title) {
 	function populateFactions() {
 		let faction_tags = [...list.findAll(":scope>li")]
 			.map((x) => (x.find(".user.faction img") ? x.find(".user.faction img").getAttribute("title") : x.find("a.user.faction").innerText))
-			.filter((x) => x.trim() !== "");
+			.filter((x) => x.trim() !== "" && x.trim() !== userdata.faction.faction_tag);
 
 		for (let tag of faction_tags) {
 			if (filter_container.find(`#tt-faction-filter option[value='${tag}']`)) continue;
