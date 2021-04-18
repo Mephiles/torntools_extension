@@ -39,7 +39,6 @@
 	}
 
 	async function highlightBloodBags() {
-		// TODO - Implement for the items page.
 		await requireContent();
 
 		if (page === "item") {
