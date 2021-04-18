@@ -1582,6 +1582,7 @@ const STORAGE = {
 				refill_nerve: false,
 				miniprofile_last_action: true,
 				enable_central_revive: false,
+				upkeep_more_than: 5000000,
 				highlight_chain_timer: false,
 				highlight_chain_length: 10,
 			},
