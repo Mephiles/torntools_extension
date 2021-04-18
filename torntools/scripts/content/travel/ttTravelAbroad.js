@@ -411,6 +411,14 @@ function addFilterToTable(list, title) {
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="offline">Offline</div>
                 </div>
 			</div>
+			<div class="filter-wrap" id="faction-filter">
+                <div class="filter-heading">Faction</div>
+                <div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}">
+                    <select name="faction" id="tt-faction-filter">
+						<option selected value="">none</option>
+					</select>
+                </div>
+			</div>
 			<div class='filter-wrap' id='special-filter'>
 				<div class='filter-heading'>Special</div>
 				<div class='filter-multi-wrap ${mobile ? "tt-mobile" : ""}'>
@@ -524,14 +532,14 @@ function addFilterToTable(list, title) {
 	//     doc.find(`#faction-filter option[value='${filters.overseas.faction}']`).selected = true;
 	// }
 
-	// populateFactions();
+	populateFactions();
 	applyFilters();
 
 	function applyFilters() {
 		let activity = [];
 		let status = [];
 		let special = {};
-		// let faction = ``;
+		let faction;
 		// let time = []
 		let level = [];
 
@@ -543,6 +551,8 @@ function addFilterToTable(list, title) {
 		for (let checkbox of doc.findAll("#status-filter .tt-checkbox-wrap input:checked")) {
 			status.push(checkbox.getAttribute("value"));
 		}
+		// Faction
+		faction = doc.find("#faction-filter select").value;
 		// Special
 		for (let key in filters.overseas.special) {
 			if (
@@ -583,6 +593,12 @@ function addFilterToTable(list, title) {
 				}
 			}
 			if (!matches_one_activity) {
+				showRow(li, false);
+				continue;
+			}
+
+			// Faction
+			if (faction && li.find(".user.faction img") && li.find(".user.faction img").getAttribute("title").trim() !== faction) {
 				showRow(li, false);
 				continue;
 			}
@@ -636,7 +652,7 @@ function addFilterToTable(list, title) {
 				overseas: {
 					activity: activity,
 					status: status,
-					// faction: faction,
+					faction: faction,
 					// time: time,
 					level: level,
 				},
@@ -664,11 +680,21 @@ function addFilterToTable(list, title) {
 		}
 	}
 
+	function populateFactions() {
+		let factionTags = [...list.findAll(":scope>li")]
+		.map((x) => x.find(".user.faction img") ? x.find(".user.faction img").getAttribute("title") : x.find(".user.faction").innerText)
+		.filter((x) => x.trim() !== "");
+		factionTags = [...new Set(factionTags)];
+		for (let tag of factionTags) {
+			filter_container.find("select#tt-faction-filter").insertAdjacentHTML("beforeEnd", `<option value="${tag}">${tag}</option>`);
+		}
+	}
+
 	function updateStatistics() {
 		doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].filter(
 			(x) => !x.classList.contains("filter-hidden")
 		).length;
-		doc.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].length;
+		doc.find(".statistic#showing .filter-total").innerText = list.findAll(":scope>li:not(.tt-userinfo-container)").length;
 	}
 }
 

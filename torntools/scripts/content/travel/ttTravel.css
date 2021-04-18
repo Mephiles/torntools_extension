@@ -353,3 +353,8 @@ div#tt-timeout-warning span {
 	color: white;
 	font-size: large;
 }
+
+select#tt-faction-filter {
+	margin: unset !important;
+	width: unset !important;
+}
