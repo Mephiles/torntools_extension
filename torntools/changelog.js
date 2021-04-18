@@ -4,6 +4,7 @@ export default {
 			"Filter faction members by position. - Sashank999",
 			"Battle Stat on Attack Page. - Sashank999",
 			"Win Percentage on Racing Upgrades. - Sashank999",
+			"Faction filter in Abroad. - Sashank999",
 		],
 		Fixes: [
 			"Solve duplicate items on the map being ignored. - DKK",
