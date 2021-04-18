@@ -44,9 +44,9 @@
 }
 
 .tt-mobile .tt-forums-button > .tt-forums-button-dropdown {
-    width: fit-content !important;
-    position: relative !important;
-    top: 10px !important;
+	width: fit-content !important;
+	position: relative !important;
+	top: 10px !important;
 }
 
 .tt-forums-hide {

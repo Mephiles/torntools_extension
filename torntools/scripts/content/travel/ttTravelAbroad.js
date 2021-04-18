@@ -690,8 +690,8 @@ function addFilterToTable(list, title) {
 
 	function populateFactions() {
 		let factionTags = [...list.findAll(":scope>li")]
-		.map((x) => x.find(".user.faction img") ? x.find(".user.faction img").getAttribute("title") : x.find(".user.faction").innerText)
-		.filter((x) => x.trim() !== "");
+			.map((x) => (x.find(".user.faction img") ? x.find(".user.faction img").getAttribute("title") : x.find(".user.faction").innerText))
+			.filter((x) => x.trim() !== "");
 		factionTags = [...new Set(factionTags)];
 		for (let tag of factionTags) {
 			filter_container.find("select#tt-faction-filter").insertAdjacentHTML("beforeEnd", `<option value="${tag}">${tag}</option>`);
