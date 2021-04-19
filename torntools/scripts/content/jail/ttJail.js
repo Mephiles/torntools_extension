@@ -32,6 +32,8 @@ function addFilterToTable(list, title) {
                 <div class="filter-heading">Faction</div>
                 <select name="faction" id="tt-faction-filter">
                     <option selected value="">none</option>
+					<option value="----------" disabled>----------</option>
+					<option value="${userdata.faction.faction_tag}">${userdata.faction.faction_tag}</option>
                 </select>
             </div>
             <div class="filter-wrap" id="time-filter">
@@ -66,10 +68,6 @@ function addFilterToTable(list, title) {
 
 		filter_container.find("#tt-faction-filter").appendChild(option);
 	}
-	let divider_option = doc.new({ type: "option", value: "----------", text: "----------", attributes: { disabled: true } });
-	filter_container.find("#tt-faction-filter").appendChild(divider_option);
-	let ownFacOption = doc.new({ type: "option", value: userdata.faction.faction_tag, text: userdata.faction.faction_tag});
-	filter_container.find("#tt-faction-filter").appendChild(ownFacOption);
 
 	// Time slider
 	let time_slider = filter_container.find("#tt-time-filter");
