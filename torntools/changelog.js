@@ -26,7 +26,11 @@ export default {
 			"All items filters not working abroad. - Sashank999",
 			"Hide userinfo rows on the faction filter. - DKK",
 		],
-		Changes: ["Dark Mode for TornTools. - Sashank999", "Show travel table while racing. - Sashank999", "Show faction filter always when on Jail page. - Sashank999"],
+		Changes: [
+			"Dark Mode for TornTools. - Sashank999",
+			"Show travel table while racing. - Sashank999",
+			"Show faction filter always when on Jail page. - Sashank999",
+		],
 	},
 	"v5.8 - March, 25th. 2021": {
 		Features: [
