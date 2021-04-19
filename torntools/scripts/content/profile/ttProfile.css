@@ -222,6 +222,16 @@
 	margin-bottom: 5px;
 }
 
+.dark-mode .spy-table {
+	color: white !important;
+	border: 1px solid lightgrey;
+	border-bottom: none;
+}
+
+.dark-mode .spy-table > * {
+	background-color: #333 !important;
+}
+
 /* Target Info */
 #tt-target-info .content {
 	font-size: 15px;
@@ -239,6 +249,7 @@
 }
 
 .tt-table {
+	color: #333;
 	width: 774px;
 	margin: 5px 0;
 	padding: 0;

@@ -100,6 +100,8 @@ requireDatabase(false)
 
 		registerChanges();
 		searchPreferences();
+		if (window.self !== window.top && settings.page_theme === "dark") doc.body.style.backgroundColor = "#191919";
+		if (settings.page_theme === "dark") doc.body.classList.add("dark-mode");
 	})
 	.catch((err) => {
 		console.error(err);
@@ -360,6 +362,7 @@ function setupPreferences() {
 	preferences.find(`#format-date-${settings.format.date} input`).checked = true;
 	preferences.find(`#format-time-${settings.format.time} input`).checked = true;
 	preferences.find(`#theme-${settings.theme} input`).checked = true;
+	preferences.find(`#page_theme-${settings.page_theme} input`).checked = true;
 	preferences.find("#notifications_tts input").checked = settings.notifications_tts;
 	preferences.find("#notifications_link input").checked = settings.notifications_link;
 	preferences.find("#clean_flight input").checked = settings.clean_flight;
@@ -1064,6 +1067,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	settings.format.date = preferences.find("input[name=format-date]:checked").parentElement.id.split("-")[2];
 	settings.format.time = preferences.find("input[name=format-time]:checked").parentElement.id.split("-")[2];
 	settings.theme = preferences.find("input[name=theme]:checked").parentElement.id.split("-")[1];
+	settings.page_theme = preferences.find("input[name='page_theme']:checked").parentElement.id.split("-")[1];
 	settings.notifications_tts = preferences.find("#notifications_tts input").checked;
 	settings.notifications_link = preferences.find("#notifications_link input").checked;
 	settings.clean_flight = preferences.find("#clean_flight input").checked;
@@ -1815,8 +1819,6 @@ function getCustomLinkOptions() {
 
 function requestPermission(url) {
 	return new Promise((resolve, reject) => {
-		console.log("DKK requestPermission", url);
-
 		chrome.permissions.request({ origins: [url] }, (granted) => {
 			if (granted) resolve();
 			else reject();

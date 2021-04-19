@@ -1342,6 +1342,7 @@ const STORAGE = {
 			activity: [],
 			status: [],
 			level: [],
+			faction: "",
 			special: {
 				isfedded: "both",
 				newplayer: "both",
@@ -1355,18 +1356,11 @@ const STORAGE = {
 		faction_armory: {},
 		container_open: {},
 		stock_exchange: {
-			portfolio: {
-				forecast: [],
-				worth: [],
-				name: "",
-				profitLoss: [],
-				listedOnly: false,
-			},
-			market: {
-				forecast: [],
-				worth: [],
-				name: "",
-			},
+			owned: true,
+			name: "",
+			change: [],
+			totalProfitLoss: [],
+			benefit: false,
 		},
 		crimes: {
 			safeCrimes: false,
@@ -1418,6 +1412,7 @@ const STORAGE = {
 		clean_flight: false,
 		// "remove_info_boxes": false,
 		theme: "default",
+		page_theme: "light",
 		force_tt: true,
 		check_extensions: true,
 		developer: false,
@@ -1489,9 +1484,11 @@ const STORAGE = {
 				status_indicator: true,
 				block_ally_attacks: false,
 				notes: true,
+				show_chain_warning: false,
 			},
 			racing: {
 				upgrades: true,
+				win_percentage: true,
 			},
 			gym: {
 				estimated_energy: true,
@@ -1547,6 +1544,7 @@ const STORAGE = {
 				info_page_full: false,
 				armory_worth: false,
 				member_info: false,
+				member_index: true,
 				banking_tools: true,
 			},
 			properties: {
@@ -1581,10 +1579,12 @@ const STORAGE = {
 				easter_eggs: true,
 				hide_leave: false,
 				block_zalgo: true,
+				show_settings_areas_link: true,
 				refill_energy: true,
 				refill_nerve: false,
 				miniprofile_last_action: true,
 				enable_central_revive: false,
+				upkeep_more_than: 5000000,
 				highlight_chain_timer: false,
 				highlight_chain_length: 10,
 			},
@@ -1613,6 +1613,7 @@ const STORAGE = {
 			stats_estimate: {
 				global: true,
 				profile: true,
+				attack_page: false,
 				userlist: false,
 				abroad: false,
 				hall_of_fame: false,
@@ -1938,6 +1939,14 @@ const navbar = {
 
 			return div;
 		}
+	},
+	newAreasLink: function (attributes = {}) {
+		let exampleAreasLink = doc.findAll("div#sidebarroot div[id*='nav-'][class*='area-desktop_']")[9].cloneNode(true);
+		if (attributes.id) exampleAreasLink.id = attributes.id;
+		if (attributes.href) exampleAreasLink.find("a[href]").href = attributes.href;
+		if (attributes.svgHTML) exampleAreasLink.find("svg").outerHTML = attributes.svgHTML;
+		if (attributes.linkName) exampleAreasLink.find("span[class*='linkName_']").innerText = attributes.linkName;
+		return exampleAreasLink;
 	},
 };
 

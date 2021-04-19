@@ -9,7 +9,7 @@ requireDatabase().then(() => {
 		const step = params.get("step");
 		if (page === "factions") {
 			if (step === "mainnews" && parseInt(params.get("type")) === 4 && settings.pages.faction.armory) {
-				newstabLoaded("armory").then(shortenArmoryNews);
+				//newstabLoaded("armory").then(shortenArmoryNews);
 			} else if (step === "getMoneyDepositors") {
 				loadGiveToUser();
 			} else if (step === "crimesInitiate") {
@@ -107,6 +107,7 @@ function loadInfo() {
 		let title = list.previousElementSibling;
 
 		addFilterToTable(list, title);
+		if (settings.pages.faction.member_index) addNumbersToMembers();
 	});
 }
 
@@ -880,16 +881,16 @@ function addFilterToTable(list, title) {
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="jail">Jail</div>
                 </div>
 			</div>
-			<div class='filter-wrap' id='special-filter'>
-				<div class='filter-heading'>Special</div>
-				<div class='filter-multi-wrap ${mobile ? "tt-mobile" : ""}'>
-					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='isfedded-yes'>N:<input type='checkbox' value='isfedded-no'>Fedded</div>
+			<div class="filter-wrap" id="special-filter">
+				<div class="filter-heading">Special</div>
+				<div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}">
+					<div class="tt-checkbox-wrap">Y:<input type="checkbox" value="isfedded-yes">N:<input type="checkbox" value="isfedded-no">Fedded</div>
 					<!-- <div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='traveling-yes'>N:<input type='checkbox' value='traveling-no'>Traveling</div> -->
-					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='newplayer-yes'>N:<input type='checkbox' value='newplayer-no'>New Player</div>
-					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='onwall-yes'>N:<input type='checkbox' value='onwall-no'>On Wall</div>
-					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='incompany-yes'>N:<input type='checkbox' value='incompany-no'>In Company</div>
+					<div class="tt-checkbox-wrap">Y:<input type="checkbox" value="newplayer-yes">N:<input type="checkbox" value="newplayer-no">New Player</div>
+					<div class="tt-checkbox-wrap">Y:<input type="checkbox" value="onwall-yes">N:<input type="checkbox" value="onwall-no">On Wall</div>
+					<div class="tt-checkbox-wrap">Y:<input type="checkbox" value="incompany-yes">N:<input type="checkbox" value="incompany-no">In Company</div>
 					<!-- <div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='infaction-yes'>N:<input type='checkbox' value='infaction-no'>In Faction</div> -->
-					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='isdonator-yes'>N:<input type='checkbox' value='isdonator-no'>Is Donator</div>
+					<div class="tt-checkbox-wrap">Y:<input type="checkbox" value="isdonator-yes">N:<input type="checkbox" value="isdonator-no">Is Donator</div>
 				</div>
 			</div>
             <div class="filter-wrap" id="level-filter">
@@ -1509,7 +1510,7 @@ function observeWarlist() {
 			if (!found) return;
 
 			observeDescription();
-		}).observe(doc.find("#war-react-root ul.f-war-list"), { childList: true });
+		}).observe(doc.find("ul.f-war-list"), { childList: true });
 	});
 }
 
@@ -1632,7 +1633,7 @@ function showFactionBalance() {
 		row.innerHTML = `
 			<div class="clearfix">
 				<div class="user name btFaction" style="width: 147px;">
-					${hasHonors ? `<img src='${factionShow}' border="0" alt="${factionShowAlt}"/>` : `<span>${factionShow}</span>`}
+					${hasHonors ? `<img src="${factionShow}" border="0" alt="${factionShowAlt}"/>` : `<span>${factionShow}</span>`}
 				</div>
 				<div class="amount">
 					<div class="show">
@@ -1779,4 +1780,10 @@ function exportChallengeContributionsCSV() {
 		});
 		contributionsObserver.observe(doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation"), { childList: true, subtree: true });
 	});
+}
+
+function addNumbersToMembers() {
+	doc.findAll("div#faction-info-members ul.table-body li.table-row").forEach((memberRow, memberIndex) =>
+		memberRow.insertAdjacentHTML("afterbegin", `<span class="tt-member-index">${memberIndex + 1}</span>`)
+	);
 }

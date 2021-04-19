@@ -157,6 +157,16 @@ requireDatabase().then(() => {
 			chainTimerHighlight();
 
 		hideGymHighlight();
+
+		if (settings.pages.profile.show_chain_warning) {
+			let miniProfilesObserver = new MutationObserver(chainBonusWatch);
+			miniProfilesObserver.observe(doc.body, { childList: true });
+			chainBonusWatch();
+		}
+
+		if (settings.pages.global.show_settings_areas_link && !mobile) ttSettingsLink();
+
+		upkeepMoreThan();
 	});
 
 	chatsLoaded().then(() => {
@@ -863,6 +873,52 @@ function tradeChatPostTimer() {
 					}, 60000);
 				}
 			});
+	}
+}
+
+function chainBonusWatch() {
+	doc.findAll(".profile-button-attack[aria-label*='Attack']").forEach((attackButton) => {
+		if (!attackButton.classList.contains("tt-mouseenter")) {
+			attackButton.classList.add("tt-mouseenter");
+			attackButton.addEventListener("mouseenter", () => {
+				let chainParts = doc.find("a#barChain [class^='bar-value_']").innerText.split("/");
+				if (!doc.find(".tt-fac-chain-bonus-warning") && chainParts[0] > 10 && chainParts[1] - chainParts[0] < 20) {
+					let rawHTML = `<div class="tt-fac-chain-bonus-warning">
+						<div>
+							<span>Chain is approaching bonus hit ! Please check your faction chat !</span>
+						</div>
+					</div>`;
+					doc.body.insertAdjacentHTML("afterBegin", rawHTML);
+				}
+			});
+			attackButton.addEventListener("mouseleave", () => {
+				if (doc.find(".tt-fac-chain-bonus-warning")) doc.find("div.tt-fac-chain-bonus-warning").remove();
+			});
+		}
+	});
+}
+
+function ttSettingsLink() {
+	doc.find("div.areasWrapper [class*='toggle-content__']").appendChild(
+		navbar.newAreasLink({
+			id: "tt-nav-settings",
+			href: "/home.php#TornTools",
+			svgHTML: `<img src="${chrome.runtime.getURL("images/icongrey48.png")}" style="height: 21px;">`,
+			linkName: "TornTools Settings",
+		})
+	);
+}
+
+function upkeepMoreThan() {
+	if (-networth.current.value.unpaidfees >= settings.pages.global.upkeep_more_than) {
+		doc.find("#sidebarroot #nav-properties").classList.add("tt-upkeep");
+		if (isDarkMode()) {
+			doc.find("#sidebarroot #nav-properties svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_green_mobile)");
+		} else if (!isDarkMode() && mobile) {
+			doc.find("#sidebarroot #nav-properties svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_green_mobile)");
+		} else {
+			doc.find("#sidebarroot #nav-properties svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_desktop_green)");
+		}
 	}
 }
 
