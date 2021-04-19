@@ -43,6 +43,8 @@ const ttStorage = new (class {
 							parent[key] = recursive(parent[key], toChange[key]);
 						} else if (parent) {
 							parent[key] = toChange[key];
+						} else {
+							parent = { [key]: toChange[key] };
 						}
 					}
 					return parent;
