@@ -1819,8 +1819,6 @@ function getCustomLinkOptions() {
 
 function requestPermission(url) {
 	return new Promise((resolve, reject) => {
-		console.log("DKK requestPermission", url);
-
 		chrome.permissions.request({ origins: [url] }, (granted) => {
 			if (granted) resolve();
 			else reject();

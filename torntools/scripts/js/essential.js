@@ -115,13 +115,11 @@ const ttStorage = {
 		});
 	},
 	set: function (object, callback) {
-		console.log("DKK set", Object.keys(object), object);
 		chrome.storage.local.set(object, function () {
 			callback ? callback() : null;
 		});
 	},
 	change: function (keys_to_change, callback) {
-		console.log("DKK change", Object.keys(keys_to_change), keys_to_change);
 		for (let top_level_key of Object.keys(keys_to_change)) {
 			chrome.storage.local.get(top_level_key, function (data) {
 				let database = data[top_level_key];
@@ -147,7 +145,6 @@ const ttStorage = {
 					return parent;
 				}
 
-				if (Object.keys(keys_to_change).includes("torndata")) console.log("DKK change 2", database);
 				chrome.storage.local.set({ [top_level_key]: database }, function () {
 					callback ? callback() : null;
 				});
