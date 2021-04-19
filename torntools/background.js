@@ -276,7 +276,7 @@ function Main_30_seconds() {
 			// Torndata
 			if (!oldTorndata || !oldTorndata.date || new Date() - new Date(oldTorndata.date) >= days) {
 				console.log("Setting up torndata.");
-				await updateTorndata();
+				await updateTorndata(oldTorndata);
 			}
 
 			// Stakeouts
@@ -477,7 +477,7 @@ async function updateTorndata(oldTorndata) {
 				torndata.stocks = oldTorndata.stocks;
 
 				ttStorage.set({ torndata: torndata, itemlist: itemlist }, () => {
-					console.log("	Torndata info updated.", torndata);
+					console.log("	Torndata info updated.");
 					console.log("	Itemlist info updated.");
 					return resolve({ success: true, message: "Torndata fetched" });
 				});
@@ -610,7 +610,7 @@ function updateStocksData() {
 				stocks.date = new Date().toString();
 
 				ttStorage.change({ torndata: { stocks: stocks } }, async () => {
-					console.log("Stocks info updated.", stocks);
+					console.log("Stocks info updated.");
 					await checkStockAlerts();
 					return resolve(true);
 				});
