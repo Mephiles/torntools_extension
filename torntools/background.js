@@ -464,7 +464,7 @@ async function updateTorndata(oldTorndata) {
 			ttStorage.get("torndata", (oldTorndata) => updateTorndata(oldTorndata || {}).then(resolve));
 		});
 	}
-	console.log("Updating torndata");
+	console.log("Updating torndata", oldTorndata.stocks);
 
 	return new Promise((resolve) => {
 		fetchApi_v2("torn", { section: "torn", selections: "honors,medals,items,pawnshop,education" })

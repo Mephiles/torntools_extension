@@ -5,6 +5,7 @@ export default {
 			"Battle Stat on Attack Page. - Sashank999",
       "Aliases for users in Chatboxes and Userlists. - Sashank999",
 			"Win Percentage on Racing Upgrades. - Sashank999",
+			"Faction filter in Abroad. - Sashank999",
 			"Highlight properties if upkeep is due. - Sashank999",
 		],
 		Fixes: [
@@ -22,9 +23,15 @@ export default {
 			"Racing upgrades not appearing. - DKK",
 			"Fix hospital filter being broken on tablet mode. - DKK",
 			"Filters on Stocks 3.0. - Sashank999",
+			"Fix Faction Enhancements on mobile. - Sashank999",
 			"All items filters not working abroad. - Sashank999",
+			"Hide userinfo rows on the faction filter. - DKK",
 		],
-		Changes: ["Dark Mode for TornTools. - Sashank999", "Show travel table while racing. - Sashank999"],
+		Changes: [
+			"Dark Mode for TornTools. - Sashank999",
+			"Show travel table while racing. - Sashank999",
+			"Show faction filter always when on Jail page. - Sashank999",
+		],
 	},
 	"v5.8 - March, 25th. 2021": {
 		Features: [

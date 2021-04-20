@@ -32,6 +32,8 @@ function addFilterToTable(list, title) {
                 <div class="filter-heading">Faction</div>
                 <select name="faction" id="tt-faction-filter">
                     <option selected value="">none</option>
+					<option value="----------" disabled>----------</option>
+					<option value="${userdata.faction.faction_tag}">${userdata.faction.faction_tag}</option>
                 </select>
             </div>
             <div class="filter-wrap" id="time-filter">
@@ -66,8 +68,6 @@ function addFilterToTable(list, title) {
 
 		filter_container.find("#tt-faction-filter").appendChild(option);
 	}
-	let divider_option = doc.new({ type: "option", value: "----------", text: "----------", attributes: { disabled: true } });
-	filter_container.find("#tt-faction-filter").appendChild(divider_option);
 
 	// Time slider
 	let time_slider = filter_container.find("#tt-time-filter");
@@ -265,7 +265,7 @@ function addFilterToTable(list, title) {
 	function populateFactions() {
 		let faction_tags = [...list.findAll(":scope>li")]
 			.map((x) => (x.find(".user.faction img") ? x.find(".user.faction img").getAttribute("title") : x.find("a.user.faction").innerText))
-			.filter((x) => x.trim() !== "");
+			.filter((x) => x.trim() !== "" && x.trim() !== userdata.faction.faction_tag);
 
 		for (let tag of faction_tags) {
 			if (filter_container.find(`#tt-faction-filter option[value='${tag}']`)) continue;
