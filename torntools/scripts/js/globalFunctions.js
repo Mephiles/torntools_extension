@@ -1343,6 +1343,7 @@ const STORAGE = {
 			activity: [],
 			status: [],
 			level: [],
+			faction: "",
 			special: {
 				isfedded: "both",
 				newplayer: "both",
@@ -1576,6 +1577,7 @@ const STORAGE = {
 				show_toggle_chat: true,
 				collapse_areas: false,
 				oc_time: true,
+				easter_eggs: false,
 				hide_leave: false,
 				block_zalgo: true,
 				show_settings_areas_link: true,

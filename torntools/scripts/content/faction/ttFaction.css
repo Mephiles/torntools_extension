@@ -199,3 +199,7 @@ div#ttContribExport {
 div#ttContribExport div#ttExportButton {
 	width: 39px;
 }
+
+.table-body .table-row[style*="display: none"] + .tt-userinfo-container {
+	display: none;
+}
