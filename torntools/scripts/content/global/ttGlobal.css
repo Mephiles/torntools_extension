@@ -1097,3 +1097,33 @@ div[role="main"].tt-modified {
 .tt-mobile .tt-upkeep span:not([class*="svgIconWrap"]) {
 	color: #85b200 !important;
 }
+
+div#tt-loot {
+    background-color: #333;
+    font-size: 14px;
+    padding: 5px 0 5px 0;
+    text-align: center;
+    border-radius: 10px;
+}
+
+div#tt-loot > div {
+    padding-bottom: 5px;
+}
+
+div#tt-loot a.tt-npc-name {
+   font-weight: bold;
+   text-decoration: none;
+   color: var(--default-blue-color, #74c0fc);
+}
+
+div#tt-loot span.okay {
+   color: green;
+}
+
+div#tt-loot span.hosp {
+   color: red;
+}
+
+div#tt-loot span.loot, div#tt-loot > div > :nth-child(4) > span {
+   color: #FFD700;
+}
