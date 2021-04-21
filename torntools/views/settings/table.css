@@ -208,6 +208,10 @@
 	margin-right: 4px;
 }
 
+.dark-mode .table.list .row .text {
+	box-shadow: none !important;
+}
+
 .table.list .row input[type="checkbox"] {
 	position: relative;
 	top: 3px;
@@ -271,6 +275,14 @@
 	padding: unset;
 }
 
+.dark-mode .table.list .row .add-button {
+	color: #333;
+}
+
 .table.list .row .add-button:hover {
 	background: #c7f77b;
+}
+
+.dark-mode input:disabled {
+	color:white;
 }

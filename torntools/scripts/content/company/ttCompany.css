@@ -3,7 +3,7 @@
 	background-color: unset;
 }
 
-#employees .employee-list.tt-modified > li {
+body:not(.dark-mode) #employees .employee-list.tt-modified > li {
 	background-color: #f2f2f2;
 }
 
@@ -13,7 +13,12 @@
 	text-align: center;
 	padding-bottom: 5px;
 	color: #7b7b7b;
-	background-color: #dcdcdc !important;
+	background-color: #dcdcdc;
+}
+
+.dark-mode #employees .employee-list li.tt-user-info {
+	background-color: #333;
+	color: #ddd;
 }
 
 .tt-user-info .tt-user-info-inner-wrap {

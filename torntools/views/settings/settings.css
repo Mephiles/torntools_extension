@@ -634,6 +634,10 @@ span#no-result {
 	background-color: yellow !important;
 }
 
+.dark-mode .searched {
+	color: #333;
+}
+
 /* About */
 #about #new-version p {
 	text-decoration: underline;
