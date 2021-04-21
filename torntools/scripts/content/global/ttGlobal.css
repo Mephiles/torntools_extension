@@ -1118,7 +1118,7 @@ div#tt-loot > div:last-child {
 
 div#tt-loot > div {
 	padding-bottom: 5px;
-	    width: fit-content;
+	width: fit-content;
 }
 
 div#tt-loot > div > div {
@@ -1137,14 +1137,14 @@ div#tt-loot > div > div > :first-child {
 
 div#tt-loot a.tt-npc-name {
 	margin: 0 0 5px 10px;
-   font-weight: bold;
-   text-decoration: none;
-   color: var(--default-blue-color, #74c0fc);
+	font-weight: bold;
+	text-decoration: none;
+	color: var(--default-blue-color, #74c0fc);
 }
 
 div#tt-loot span.okay {
 	width: 42px;
-   color: #627e0d;
+	color: #627e0d;
 }
 
 div#tt-loot span.hosp {
@@ -1156,5 +1156,5 @@ div#tt-loot span.loot {
 	width: 14px;
 	margin: 0 4px 0 4px;
 	font-weight: 700;
-   color: #C78B07;
+	color: #c78b07;
 }

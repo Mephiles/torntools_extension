@@ -975,38 +975,43 @@ function showNpcLoot() {
 		let npcData = loot_times[npcID];
 		let npcDiv = doc.new("div");
 		let npcSubDiv = doc.new("div");
-		let npcName = doc.new({type: "a", class: "tt-npc-name", href: `https://www.torn.com/profiles.php?XID=${npcID}`, html: `${npcData.name} [${npcID}]:<br>`});
+		let npcName = doc.new({
+			type: "a",
+			class: "tt-npc-name",
+			href: `https://www.torn.com/profiles.php?XID=${npcID}`,
+			html: `${npcData.name} [${npcID}]:<br>`,
+		});
 		let npcStatus;
 		let npcInHosp = false;
-		if (npcData.hospout*1000 > Date.now()) {
+		if (npcData.hospout * 1000 > Date.now()) {
 			npcInHosp = true;
-			npcStatus = doc.new({type: "span", class: "hosp", text: "Hosp"});
+			npcStatus = doc.new({ type: "span", class: "hosp", text: "Hosp" });
 		} else {
-			npcStatus = doc.new({type: "span", class: "okay", text: "Okay"});
+			npcStatus = doc.new({ type: "span", class: "okay", text: "Okay" });
 		}
 		let npcLootLevel, npcNextLevelIn;
 		if (npcInHosp) {
-			npcLootLevel = doc.new({type: "span", class: "loot", text: "0"});
-			npcNextLevelIn = doc.new({type: "span", text: timeUntil(npcData.hospout*1000 - Date.now())});
+			npcLootLevel = doc.new({ type: "span", class: "loot", text: "0" });
+			npcNextLevelIn = doc.new({ type: "span", text: timeUntil(npcData.hospout * 1000 - Date.now()) });
 		} else {
 			for (let lootLevel in npcData.timings) {
-				let nextLvlTime = npcData.timings[lootLevel].ts*1000 - Date.now();
+				let nextLvlTime = npcData.timings[lootLevel].ts * 1000 - Date.now();
 				if (nextLvlTime > 0) {
-					npcLootLevel = doc.new({type: "span", class: "loot", text: lootLevel - 1});
-					npcNextLevelIn = doc.new({type: "span", text: timeUntil(nextLvlTime)});
+					npcLootLevel = doc.new({ type: "span", class: "loot", text: lootLevel - 1 });
+					npcNextLevelIn = doc.new({ type: "span", text: timeUntil(nextLvlTime) });
 					break;
 				} else if (lootLevel !== 5 && nextLvlTime < 0) {
 					continue;
 				} else if (lootLevel === 5 && nextLvlTime < 0) {
-					npcNextLevelIn = doc.new({type: "span", text: "Max Level Reached"});
+					npcNextLevelIn = doc.new({ type: "span", text: "Max Level Reached" });
 				}
 			}
 		}
 		npcDiv.appendChild(npcName);
 		npcSubDiv.appendChild(npcStatus);
-		npcSubDiv.appendChild(doc.new({type: "span", text: " / "}));
+		npcSubDiv.appendChild(doc.new({ type: "span", text: " / " }));
 		npcSubDiv.appendChild(npcLootLevel);
-		npcSubDiv.appendChild(doc.new({type: "span", text: " / "}));
+		npcSubDiv.appendChild(doc.new({ type: "span", text: " / " }));
 		npcSubDiv.appendChild(npcNextLevelIn);
 		npcDiv.appendChild(npcSubDiv);
 		npcContent.appendChild(npcDiv);
