@@ -7,7 +7,6 @@ export default {
 			"Win Percentage on Racing Upgrades. - Sashank999",
 			"Faction filter in Abroad. - Sashank999",
 			"Highlight properties if upkeep is due. - Sashank999",
-			"Display NPCs Loot info on Sidebar. - Sashank999",
 		],
 		Fixes: [
 			"Solve duplicate items on the map being ignored. - DKK",
