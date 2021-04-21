@@ -1099,20 +1099,33 @@ div[role="main"].tt-modified {
 }
 
 div#tt-loot {
-    background-color: #333;
-    font-size: 14px;
-    padding: 5px 0 5px 0;
-    border-radius: 10px;
+	font-size: 14px;
+	background-color: #f2f2f2;
+	padding: 5px 0 5px 0;
+	border-radius: 10px;
+}
+
+.dark-mode div#tt-loot {
+	background-color: #333;
 }
 
 div#tt-loot > div {
-    padding-bottom: 5px;
+	padding-bottom: 5px;
+	    width: fit-content;
 }
 
 div#tt-loot > div > div {
-    justify-content: space-between;
-    display: flex;
-    margin: 0 10px 0 10px;
+	margin: 0 10px 0 10px;
+}
+
+div#tt-loot > div > div > :last-child {
+	float: right;
+	margin-left: 5px;
+	white-space: nowrap;
+}
+
+div#tt-loot > div > div > :first-child {
+	float: left;
 }
 
 div#tt-loot a.tt-npc-name {
@@ -1123,13 +1136,18 @@ div#tt-loot a.tt-npc-name {
 }
 
 div#tt-loot span.okay {
-   color: green;
+	width: 42px;
+   color: #627e0d;
 }
 
 div#tt-loot span.hosp {
-   color: red;
+	width: 42px;
+	color: red;
 }
 
-div#tt-loot span.loot, div#tt-loot > div > :nth-child(4) > span {
-   color: #FFD700;
+div#tt-loot span.loot {
+	width: 14px;
+	margin: 0 4px 0 4px;
+	font-weight: 700;
+   color: #C78B07;
 }
