@@ -58,6 +58,9 @@ requireDatabase(false)
 		doc.find("#add_highlight").addEventListener("click", (event) => {
 			addHighlightToList(event);
 		});
+		doc.find("#add_id").addEventListener("click", (event) => {
+			addIdToList(event);
+		});
 		doc.find("#add_filter_faction").addEventListener("click", (event) => {
 			addFactionToFilter(event);
 		});
@@ -1509,6 +1512,42 @@ function addHighlightToList(event) {
 
 	// Clear input
 	event.target.previousElementSibling.value = "#7ca900";
+	event.target.previousElementSibling.previousElementSibling.value = "";
+}
+
+function addIdToList(event) {
+	let row = doc.new({ type: "div", class: "row" });
+	let name_input = doc.new({
+		type: "input",
+		class: "text name",
+		value: event.target.previousElementSibling.previousElementSibling.value,
+	});
+	let text_input = doc.new({
+		type: "input",
+		class: "text descr",
+		value: event.target.previousElementSibling.value,
+	});
+	let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+	let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
+
+	remove_icon.addEventListener("click", (event) => {
+		event.target.parentElement.parentElement.remove();
+	});
+
+	remove_icon_wrap.addEventListener("click", (event) => {
+		event.target.parentElement.remove();
+	});
+
+	remove_icon_wrap.appendChild(remove_icon);
+	row.appendChild(name_input);
+	row.appendChild(text_input);
+	row.appendChild(remove_icon_wrap);
+
+	let table_body = preferences.find("#users_alias .body");
+	table_body.insertBefore(row, table_body.find(".row.input"));
+
+	// Clear input
+	event.target.previousElementSibling.value = "None";
 	event.target.previousElementSibling.previousElementSibling.value = "";
 }
 
