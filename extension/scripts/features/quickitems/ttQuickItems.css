@@ -89,3 +89,7 @@ body.dark-mode #quickItems .inner-content .item.equipped {
 #quickItems .ajax-placeholder {
 	left: 0 !important;
 }
+
+#quickItems #edit-items-button i {
+	margin-right: 4px;
+}

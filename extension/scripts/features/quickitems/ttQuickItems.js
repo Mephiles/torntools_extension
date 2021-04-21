@@ -42,8 +42,9 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(() => {
 			setupQuickDragListeners();
 		});
-		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(() => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(({ tab }) => {
 			updateXIDs().catch(() => {});
+			setupOverlayItems(tab);
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_EQUIPPED].push(({ item, equip }) => {
 			updateEquippedItem(item, equip);
@@ -65,13 +66,23 @@
 				type: "div",
 				class: "option",
 				id: "edit-items-button",
-				children: [document.newElement({ type: "i", class: "fas fa-plus" }), " Add"],
+				children: [document.newElement({ type: "i", class: "fas fa-plus" }), "Add"],
 				events: {
 					click: (event) => {
 						event.stopPropagation();
 
-						document.find("ul.items-cont[aria-expanded='true']").classList.toggle("tt-overlay-item");
 						options.find("#edit-items-button").classList.toggle("tt-overlay-item");
+
+						for (const category of document.findAll("#categoriesItem:not(.no-items)")) {
+							if (!["Temporary", "Medical", "Drugs", "Energy Drink", "Alcohol", "Candy", "Booster", "Other"].includes(category.dataset.type))
+								continue;
+
+							category.classList.toggle("tt-overlay-item");
+						}
+						for (const item of document.findAll("ul.items-cont:not(.no-items)")) {
+							item.classList.toggle("tt-overlay-item");
+						}
+
 						if (document.find(".tt-overlay").classList.toggle("hidden")) {
 							for (const item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
 								if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
@@ -429,5 +440,13 @@
 				console.error("Error during action call.", error);
 			},
 		});
+	}
+
+	function setupOverlayItems(tab) {
+		for (const item of tab.findAll("li[data-item][data-category]")) {
+			if (allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
+
+			item.classList.add("tt-overlay-ignore");
+		}
 	}
 })();

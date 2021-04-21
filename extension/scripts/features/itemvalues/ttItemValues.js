@@ -164,7 +164,7 @@
 				list.insertBefore(
 					document.newElement({
 						type: "li",
-						class: "tt-ignore",
+						class: "tt-ignore tt-overlay-ignore",
 						children: [
 							document.newElement({
 								type: "li",
