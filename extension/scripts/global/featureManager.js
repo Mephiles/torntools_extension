@@ -239,6 +239,7 @@ class FeatureManager {
 	}
 
 	async createPopup() {
+		await loadDatabase();
 		if (await checkMobile()) return;
 
 		const collapsed = this.containerID in filters.containers ? filters.containers[this.containerID] : false;
