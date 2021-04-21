@@ -1101,12 +1101,19 @@ div[role="main"].tt-modified {
 div#tt-loot {
 	font-size: 14px;
 	background-color: #f2f2f2;
-	padding: 5px 0 5px 0;
 	border-radius: 0 5px 5px 0;
 }
 
 .dark-mode div#tt-loot {
 	background-color: #333;
+}
+
+div#tt-loot > div:first-child {
+	padding-top: 5px;
+}
+
+div#tt-loot > div:last-child {
+	padding-bottom: 5px;
 }
 
 div#tt-loot > div {
