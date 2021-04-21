@@ -1100,11 +1100,14 @@ div[role="main"].tt-modified {
 
 div#tt-loot {
 	font-size: 14px;
-	background-color: #f2f2f2;
 	border-radius: 0 5px 5px 0;
 }
 
-.dark-mode div#tt-loot {
+body:not(.dark-mode) div#tt-loot {
+	background-color: #f2f2f2;
+}
+
+body.dark-mode div#tt-loot {
 	background-color: #333;
 }
 
