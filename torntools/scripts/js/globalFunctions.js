@@ -1568,6 +1568,7 @@ const STORAGE = {
 				vault_balance: false,
 				vault_balance_own: false,
 				notes: true,
+				npc_loot_info: true,
 				hide_upgrade: false,
 				align_left: false,
 				find_chat: true,
