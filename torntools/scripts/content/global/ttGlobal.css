@@ -1102,7 +1102,6 @@ div#tt-loot {
     background-color: #333;
     font-size: 14px;
     padding: 5px 0 5px 0;
-    text-align: center;
     border-radius: 10px;
 }
 
@@ -1110,7 +1109,14 @@ div#tt-loot > div {
     padding-bottom: 5px;
 }
 
+div#tt-loot > div > div {
+    justify-content: space-between;
+    display: flex;
+    margin: 0 10px 0 10px;
+}
+
 div#tt-loot a.tt-npc-name {
+	margin: 0 0 5px 10px;
    font-weight: bold;
    text-decoration: none;
    color: var(--default-blue-color, #74c0fc);
