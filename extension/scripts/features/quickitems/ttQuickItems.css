@@ -93,3 +93,12 @@ body.dark-mode #quickItems .inner-content .item.equipped {
 #quickItems #edit-items-button i {
 	margin-right: 4px;
 }
+
+.tt-overlay-item li.tt-overlay-ignore[data-item] {
+	border-top: 1px solid #00000059;
+	border-bottom: 1px solid #00000059;
+}
+
+#quickItems .inner-content .item.removable {
+	background-color: #ffd5d5 !important;
+}

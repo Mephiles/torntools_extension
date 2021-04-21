@@ -66,12 +66,18 @@
 				type: "div",
 				class: "option",
 				id: "edit-items-button",
-				children: [document.newElement({ type: "i", class: "fas fa-plus" }), "Add"],
+				children: [document.newElement({ type: "i", class: "fas fa-plus" }), "Edit"],
 				events: {
 					click: (event) => {
 						event.stopPropagation();
 
-						options.find("#edit-items-button").classList.toggle("tt-overlay-item");
+						const enable = options.find("#edit-items-button").classList.toggle("tt-overlay-item");
+
+						const content = findContainer("Quick Items", { selector: ":scope > main" });
+						for (const quick of content.findAll(".item")) {
+							quick.classList.toggle("tt-overlay-item");
+							quick.classList.toggle("removable");
+						}
 
 						for (const category of document.findAll("#categoriesItem:not(.no-items)")) {
 							if (!["Temporary", "Medical", "Drugs", "Energy Drink", "Alcohol", "Candy", "Booster", "Other"].includes(category.dataset.type))
@@ -131,7 +137,13 @@
 			class: temporary ? "temp item" : "item",
 			dataset: data,
 			events: {
-				click: () => {
+				click: async () => {
+					if (itemWrap.classList.contains("removable")) {
+						itemWrap.remove();
+						await saveQuickItems();
+						return;
+					}
+
 					const data = isEquipable(id, torndata.items[id].type)
 						? { step: "actionForm", confirm: 1, action: "equip", id: xid }
 						: { step: "useItem", id: id, itemID: id };
@@ -242,6 +254,7 @@
 			})
 		);
 		innerContent.appendChild(itemWrap);
+		return itemWrap;
 	}
 
 	async function onItemClickQuickEdit(event) {
@@ -256,7 +269,8 @@
 			data.xid = parseInt(target.find(".actions[xid]").getAttribute("xid"));
 		}
 
-		addQuickItem(data, false);
+		const item = addQuickItem(data, false);
+		item.classList.add("tt-overlay-item", "removable");
 
 		await saveQuickItems();
 	}
