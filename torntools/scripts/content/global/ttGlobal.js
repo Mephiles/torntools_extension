@@ -921,10 +921,10 @@ function aliasUsers() {
 		for (const userID of Object.keys(users_alias)) {
 			doc.findAll(`.m-hide a[href*='/profiles.php?XID=${userID}']`).forEach((userIdA) => {
 				userIdA.classList.add("tt-user-alias");
-				userIdA.insertAdjacentHTML("beforeEnd", `<div class='tt-alias'>${users_alias[userID]}</div>`)
+				userIdA.insertAdjacentHTML("beforeEnd", `<div class='tt-alias'>${users_alias[userID]}</div>`);
 			});
-		};
-	})
+		}
+	});
 }
 
 function aliasUsersChat(message = "") {
@@ -937,7 +937,7 @@ function aliasUsersChat(message = "") {
 			doc.findAll(`#chatRoot a[href*='/profiles.php?XID=${userID}']`).forEach((profileA) => {
 				let messageUserId = profileA.href.split("=")[1];
 				profileA.innerText = users_alias[messageUserId] + ": ";
-			})
+			});
 		}
 	}
 }
