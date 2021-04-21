@@ -1108,30 +1108,30 @@ div#tt-loot {
 	background-color: #333;
 }
 
-div#tt-loot > div:first-child {
+div#tt-loot .tt-npc:first-child {
 	padding-top: 5px;
 }
 
-div#tt-loot > div:last-child {
+div#tt-loot .tt-npc:last-child {
 	padding-bottom: 5px;
 }
 
-div#tt-loot > div {
+div#tt-loot .tt-npc {
 	padding-bottom: 5px;
 	width: fit-content;
 }
 
-div#tt-loot > div > div {
+div#tt-loot .tt-npc .tt-npc-information {
 	margin: 0 10px 0 10px;
 }
 
-div#tt-loot > div > div > :last-child {
+div#tt-loot .tt-npc .tt-npc-information > :last-child {
 	float: right;
 	margin-left: 5px;
 	white-space: nowrap;
 }
 
-div#tt-loot > div > div > :first-child {
+div#tt-loot .tt-npc .tt-npc-information > :first-child {
 	float: left;
 }
 

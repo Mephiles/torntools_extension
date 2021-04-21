@@ -973,8 +973,8 @@ function showNpcLoot() {
 	let npcContent = npcLootDiv.find(".tt-content");
 	for (const npcID of Object.keys(loot_times)) {
 		let npcData = loot_times[npcID];
-		let npcDiv = doc.new("div");
-		let npcSubDiv = doc.new("div");
+		let npcDiv = doc.new({ type: "div", class: "tt-npc" });
+		let npcSubDiv = doc.new({ type: "div", class: "tt-npc-information" });
 		let npcName = doc.new({
 			type: "a",
 			class: "tt-npc-name",
