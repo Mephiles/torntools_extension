@@ -168,8 +168,6 @@ requireDatabase().then(() => {
 
 		if (settings.pages.global.show_settings_areas_link && !mobile) ttSettingsLink();
 
-		if (settings.pages.global.npc_loot_info) showNpcLoot();
-
 		upkeepMoreThan();
 	});
 
@@ -997,96 +995,4 @@ function easterEggs() {
 			overlay.classList.remove("active");
 		});
 	}
-}
-
-function showNpcLoot() {
-	let npcLootDiv = navbar.newSection("NPCs");
-	let npcContent = npcLootDiv.find(".tt-content");
-	for (const npcID of Object.keys(loot_times)) {
-		let npcData = loot_times[npcID];
-		let npcDiv = doc.new("div");
-		let npcName = doc.new({type: "a", class: "tt-npc-name", href: `https://www.torn.com/profiles.php?XID=${npcID}`, html: `${npcData.name} [${npcID}]:<br>`});
-		let npcStatus;
-		let npcInHosp = false;
-		if (npcData.hospout*1000 > Date.now()) {
-			npcInHosp = true;
-			npcStatus = doc.new({
-				type: "span",
-				text: "Status: ",
-				children: [
-					doc.new({type: "span", class: "hosp", text: "Hospital"}),
-					doc.new("br"),
-				]
-			});
-		} else {
-			npcStatus = doc.new({
-				type: "span",
-				html: "Status: ",
-				children: [
-					doc.new({type: "span", class: "okay", text: "Okay"}),
-					doc.new("br"),
-				]
-			});
-		}
-		let npcLootLevel, npcNextLevelIn;
-		if (npcInHosp) {
-			npcLootLevel = doc.new({
-				type: "span",
-				html: "Loot level: ",
-				children: [
-					doc.new({type: "span", class: "hosp", text: "Hosped"}),
-					doc.new("br"),
-				]
-			});
-			npcNextLevelIn = doc.new({
-				type: "span",
-				html: "Hosp out: ",
-				children: [
-					doc.new({type: "span", class: "hosp", text: timeUntil(npcData.hospout*1000 - Date.now())}),
-					doc.new("br"),
-				]
-			});
-		} else {
-			for (let lootLevel in npcData.timings) {
-				let nextLvlTime = npcData.timings[lootLevel].ts*1000 - Date.now();
-				if (nextLvlTime > 0) {
-					npcLootLevel = doc.new({
-						type: "span",
-						html: "Loot level: ",
-						children: [
-							doc.new({type: "span", class: "loot", text: lootLevel - 1}),
-							doc.new("br"),
-						]
-					});
-					npcNextLevelIn = doc.new({
-						type: "span",
-						html: "Next level in: ",
-						children: [
-							doc.new({type: "span", text: timeUntil(nextLvlTime)}),
-							doc.new("br"),
-						]
-					});
-					break;
-				} else if (lootLevel !== 5 && nextLvlTime < 0) {
-					continue;
-				} else if (lootLevel === 5 && nextLvlTime < 0) {
-					npcNextLevelIn = doc.new({
-						type: "span",
-						html: "Next level in: ",
-						children: [
-							doc.new({type: "span", text: "Max Level Reached"}),
-							doc.new("br"),
-						]
-					});
-				}
-			}
-		}
-		npcDiv.appendChild(npcName);
-		npcDiv.appendChild(npcStatus);
-		npcDiv.appendChild(npcLootLevel);
-		npcDiv.appendChild(npcNextLevelIn);
-		npcContent.appendChild(npcDiv);
-	}
-	npcContent.id = "tt-loot";
-	doc.find("#sidebar > :first-child").insertAdjacentElement("afterEnd", npcLootDiv);
 }
