@@ -230,7 +230,7 @@ requireDatabase().then(() => {
 
 		// Profile notes
 		if (settings.pages.profile.notes) showProfileNotes();
-		
+
 		if (Object.keys(users_alias).length) showAlias();
 
 		// Profile stats
@@ -1291,9 +1291,9 @@ function disableAllyAttack() {
 
 function showAlias() {
 	if (users_alias[getUserId()]) {
-	let clone = doc.findAll(".basic-info ul.info-table > *")[2].cloneNode(true);
-	clone.find(".user-information-section .bold").innerText = "Alias";
-	clone.find(".user-info-value span").innerText = users_alias[getUserId()];
-	doc.find(".basic-info ul.info-table > *").insertAdjacentElement("afterEnd", clone);
+		let clone = doc.findAll(".basic-info ul.info-table > *")[2].cloneNode(true);
+		clone.find(".user-information-section .bold").innerText = "Alias";
+		clone.find(".user-info-value span").innerText = users_alias[getUserId()];
+		doc.find(".basic-info ul.info-table > *").insertAdjacentElement("afterEnd", clone);
 	}
 }
