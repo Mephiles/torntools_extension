@@ -1159,4 +1159,22 @@ div#tt-loot span.loot {
 	margin: 0 4px 0 4px;
 	font-weight: 700;
 	color: #c78b07;
+
+.tt-user-alias {
+	position: relative;
+}
+
+.tt-user-alias > div.tt-alias {
+	position: absolute;
+	right: -4px;
+	bottom: 0;
+	color: black;
+	background-color: #f2f2f2;
+	line-height: normal;
+	padding: 0 2px;
+}
+
+.dark-mode .tt-user-alias > div.tt-alias {
+	color: #e0e0e0;
+	background-color: #00000061;
 }
