@@ -1097,3 +1097,22 @@ div[role="main"].tt-modified {
 .tt-mobile .tt-upkeep span:not([class*="svgIconWrap"]) {
 	color: #85b200 !important;
 }
+
+.tt-user-alias {
+	position: relative;
+}
+
+.tt-user-alias > div.tt-alias {
+	position: absolute;
+	right: -4px;
+	bottom: 0;
+	color: black;
+	background-color: #f2f2f2;
+	line-height: normal;
+	padding: 0 2px;
+}
+
+.dark-mode .tt-user-alias > div.tt-alias {
+	color: #e0e0e0;
+	background-color: #00000061;
+}

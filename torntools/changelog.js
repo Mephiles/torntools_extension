@@ -3,6 +3,7 @@ export default {
 		Features: [
 			"Filter faction members by position. - Sashank999",
 			"Battle Stat on Attack Page. - Sashank999",
+			"Aliases for users in Chatboxes and Userlists. - Sashank999",
 			"Win Percentage on Racing Upgrades. - Sashank999",
 			"Faction filter in Abroad. - Sashank999",
 			"Highlight properties if upkeep is due. - Sashank999",

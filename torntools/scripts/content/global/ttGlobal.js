@@ -32,6 +32,8 @@ requireDatabase().then(() => {
 		showCustomConsole();
 	}
 
+	aliasUsers();
+
 	const year = new Date().getUTCFullYear();
 	const now = Date.now();
 	if (Date.UTC(year, 3, 5, 12) <= now && Date.UTC(year, 3, 25, 12) >= now) easterEggs();
@@ -189,6 +191,7 @@ requireDatabase().then(() => {
 			}
 			if (settings.pages.global.trade_chat_timer) tradeChatPostTimer();
 			if (settings.pages.global.autocomplete_chat) addChatUsernameAutocomplete();
+			if (Object.keys(users_alias).length) aliasUsersChat();
 		}
 
 		doc.addEventListener("click", (event) => {
@@ -203,6 +206,7 @@ requireDatabase().then(() => {
 			}
 			if (settings.pages.global.trade_chat_timer) tradeChatPostTimer();
 			if (settings.pages.global.autocomplete_chat) addChatUsernameAutocomplete();
+			if (Object.keys(users_alias).length) aliasUsersChat();
 		});
 
 		let chat_observer = new MutationObserver((mutationsList) => {
@@ -212,6 +216,7 @@ requireDatabase().then(() => {
 
 					applyChatHighlights(message, highlights);
 					if (settings.pages.global.block_zalgo) removeZalgoText(message);
+					if (Object.keys(users_alias).length) aliasUsersChat(message);
 				}
 			}
 		});
@@ -907,6 +912,32 @@ function ttSettingsLink() {
 			linkName: "TornTools Settings",
 		})
 	);
+}
+
+function aliasUsers() {
+	requireElement(".m-hide a[href*='/profiles.php?XID=']").then(() => {
+		for (const userID of Object.keys(users_alias)) {
+			doc.findAll(`.m-hide a[href*='/profiles.php?XID=${userID}']`).forEach((userIdA) => {
+				userIdA.classList.add("tt-user-alias");
+				userIdA.insertAdjacentHTML("beforeEnd", `<div class='tt-alias'>${users_alias[userID]}</div>`);
+			});
+		}
+	});
+}
+
+function aliasUsersChat(message = "") {
+	if (message) {
+		let profileA = message.find(`a[href*='/profiles.php?XID=']`);
+		let messageUserId = profileA.href.split("=")[1];
+		if (Object.keys(users_alias).includes(messageUserId)) profileA.innerText = users_alias[messageUserId] + ": ";
+	} else {
+		for (const userID of Object.keys(users_alias)) {
+			doc.findAll(`#chatRoot a[href*='/profiles.php?XID=${userID}']`).forEach((profileA) => {
+				let messageUserId = profileA.href.split("=")[1];
+				profileA.innerText = users_alias[messageUserId] + ": ";
+			});
+		}
+	}
 }
 
 function upkeepMoreThan() {

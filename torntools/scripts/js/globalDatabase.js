@@ -30,6 +30,7 @@ let userdata,
 	settings,
 	api_key,
 	chat_highlight,
+	users_alias,
 	itemlist,
 	travel_market,
 	oc,
@@ -76,6 +77,7 @@ let userdata,
 		settings = DB.settings;
 		api_key = DB.api_key;
 		chat_highlight = DB.chat_highlight;
+		users_alias = DB.users_alias;
 		itemlist = DB.itemlist;
 		travel_market = DB.travel_market;
 		oc = DB.oc;
