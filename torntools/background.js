@@ -252,6 +252,7 @@ function Main_30_seconds() {
 			if (
 				(!oldLootTimes && (!oldYata || !oldYata.error)) ||
 				!("next_loot_update" in oldYata) ||
+				typeof oldYata.next_loot_update !== "number" ||
 				new Date(oldYata.next_loot_update).getTime() <= Date.now()
 			) {
 				updateLootTimes()
