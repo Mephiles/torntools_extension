@@ -1207,10 +1207,10 @@ function showProfileNotes() {
 	textbox.value = profile ? profile.notes : "";
 
 	const containerBox = content.newContainer("Profile Notes", {
-			next_element_heading: "Medals",
-			id: "tt-target-notes",
-			collapseId: 1,
-		});
+		next_element_heading: "Medals",
+		id: "tt-target-notes",
+		collapseId: 1,
+	});
 	if (npcIds.includes(parseInt(userId))) doc.find(".profile-wrapper.m-top10:not(.medals-wrapper)").insertAdjacentElement("beforeBegin", containerBox);
 	const container = containerBox.find(".content");
 	container.appendChild(
