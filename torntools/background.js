@@ -249,7 +249,11 @@ function Main_30_seconds() {
 			// console.log("NPC FETCH TIME", NPC_FETCH_TIME);
 			// oldLootTimes = undefined
 			// oldYata = { error: true
-			if ((!oldLootTimes && (!oldYata || !oldYata.error)) || new Date(oldYata.next_loot_update).getTime() <= Date.now()) {
+			if (
+				(!oldLootTimes && (!oldYata || !oldYata.error)) ||
+				!("next_loot_update" in oldYata) ||
+				new Date(oldYata.next_loot_update).getTime() <= Date.now()
+			) {
 				updateLootTimes()
 					.then(() => console.log("NPC loot times are set up."))
 					.catch((error) => console.error("Error while updating loot times.", error));
@@ -497,7 +501,9 @@ function updateLootTimes() {
 					4: { name: "Duke" },
 					10: { name: "Scrooge" },
 					15: { name: "Leslie" },
+					17: { name: "Easter Bunny" },
 					19: { name: "Jimmy" },
+					20: { name: "Fernando" },
 				};
 
 				const time = Date.now();
