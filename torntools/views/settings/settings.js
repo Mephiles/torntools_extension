@@ -1778,7 +1778,7 @@ function exportData(secureHash) {
 		}
 
 		fetchApi_v2("torntools", {
-			section: `api/${secureHash}/storage/update`,
+			section: `api/${secureHash}/storage/update?id=${userdata.player_id}`,
 			method: "POST",
 			postData: post_data,
 		})
@@ -1788,15 +1788,14 @@ function exportData(secureHash) {
 			})
 			.catch((err) => {
 				console.log("ERROR", err);
-				if (err.error.match(/User(.*)not in the database/)) message("User not found", false);
-				else message(err.error, false);
+				message(err.error, false);
 			});
 	});
 }
 
 function importData(secureHash) {
 	fetchApi_v2("torntools", {
-		section: `api/${secureHash}/storage`,
+		section: `api/${secureHash}/storage?id=${userdata.player_id}`,
 	})
 		.then((result) => {
 			console.log("import", result);
@@ -1847,8 +1846,7 @@ function importData(secureHash) {
 		})
 		.catch((err) => {
 			console.log("ERROR", err);
-			if (err.error.match(/User(.*)not in the database/)) message("User not found", false);
-			else message(err.error, false);
+			message(err.error, false);
 		});
 }
 
@@ -1893,15 +1891,14 @@ function importDataText() {
 }
 
 function clearRemoteData(secureHash) {
-	fetchApi_v2("torntools", { section: `api/${secureHash}/storage/clear`, method: "POST" })
+	fetchApi_v2("torntools", { section: `api/${secureHash}/storage/clear?id=${userdata.player_id}`, method: "POST" })
 		.then((result) => {
 			console.log("clear", result);
 			message(result.message, true, { reload: true });
 		})
 		.catch((err) => {
 			console.log("ERROR", err);
-			if (err.error.match(/User(.*)not in the database/)) message("User not found", false);
-			else message(err.error, false);
+			message(err.error, false);
 		});
 }
 
