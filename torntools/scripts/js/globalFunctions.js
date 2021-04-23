@@ -2937,6 +2937,10 @@ function loadConfirmationPopup(options) {
 			customElements[id] = { type: "textarea" };
 			markdown = markdown.replace(`[TEXTAREA=${id}]`, `<textarea id="${id}"></textarea>`);
 		}
+		if (Object.keys(options).includes("password")) {
+			customElements[options["password"]] = { type: "input" };
+			markdown += `<input type="password" id="${options['password']}"></input>`;
+		}
 
 		doc.find(".tt-confirmation-popup .message").innerHTML = markdown;
 

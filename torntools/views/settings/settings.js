@@ -950,11 +950,8 @@ function apiInfo() {
 }
 
 function server() {
+/*
 	loadingPlaceholder(doc.find("#server #tt_server_user_info"), true);
-
-	fetchApi_v2("torntools", { section: `api/${userdata.player_id}/mydata` })
-		.then((result) => {
-			console.log("result", result);
 
 			loadingPlaceholder(doc.find("#server #tt_server_user_info"), false);
 
@@ -967,14 +964,22 @@ function server() {
 				pre = JSON.stringify(result.data, null, 2);
 			} else pre = JSON.stringify(result, null, 2);
 
-			doc.find("#server #tt_server_user_info").innerText = pre;
+			doc.find("#server #tt_server_user_info").innerText = pre;*/
 
 			doc.find("#server_import").onclick = () => {
-				importData();
+				loadConfirmationPopup({
+					title: "Password",
+					message: "### Enter your TornTools Password",
+					password: "password",
+				})
+				.then(async ({ password }) => {
+					if (password.trim() === "") return;
+					importData(await sha256HashOf(password));
+				})
+				.catch(() => {});
 			};
-			doc.find("#server_import_text").onclick = () => {
-				importDataText();
-			};
+			doc.find("#server_import_text").onclick = importDataText;
+
 			doc.find("#tt_server_info_wrap .json-text-wrap .copy-button").onclick = () => {
 				const copyText = doc.find("#tt_server_info_wrap .json-text-wrap pre").textContent;
 				const tempArea = doc.new({ type: "textarea", class: "temp-area" });
@@ -986,13 +991,6 @@ function server() {
 
 				doc.execCommand("copy");
 			};
-		})
-		.catch((err) => {
-			console.log("ERROR", err);
-			doc.find("#server #tt_server_user_info").innerText = err.error;
-			doc.find("#server_import").setAttribute("style", "display: none;");
-			doc.find("#server_import_text").setAttribute("style", "display: none;");
-		});
 
 	doc.find("#server_export").onclick = () => {
 		loadConfirmationPopup({
@@ -1019,10 +1017,19 @@ function server() {
 	- profile notes
 					`,
 		})
-			.then(() => {
-				exportData();
+		.then(() => {
+			loadConfirmationPopup({
+				title: "Password",
+				message: "### Enter your TornTools Password",
+				password: "password",
+			})
+			.then(async ({ password }) => {
+					if (password.trim() === "") return;
+					exportData(await sha256HashOf(password));
 			})
 			.catch(() => {});
+		})
+		.catch(() => {});
 	};
 
 	doc.find("#server_clear").onclick = () => {
@@ -1030,10 +1037,19 @@ function server() {
 			title: "Clear Data",
 			message: `### Are you sure you want to Delete ALL data from the remote server?`,
 		})
-			.then(() => {
-				clearRemoteData();
+		.then(() => {
+			loadConfirmationPopup({
+				title: "Password",
+				message: "### Enter your TornTools Password",
+				password: "password",
+			})
+			.then(async ({ password }) => {
+					if (password.trim() === "") return;
+					clearRemoteData(await sha256HashOf(password));
 			})
 			.catch(() => {});
+		})
+		.catch(() => {});
 	};
 }
 
@@ -1632,7 +1648,7 @@ function setupApiStatistics() {
 	doc.find("#average_calls_per_hour").innerText = (total_hour_requests / total_hours).toFixed(1);
 }
 
-function exportData() {
+function exportData(secureHash) {
 	ttStorage.get(null, async (database) => {
 		if (!database) {
 			return message("No database found.", false);
@@ -1685,7 +1701,7 @@ function exportData() {
 		}
 
 		fetchApi_v2("torntools", {
-			section: `api/${userdata.player_id}/storage/update`,
+			section: `api/${secureHash}/storage/update`,
 			method: "POST",
 			postData: post_data,
 		})
@@ -1695,14 +1711,15 @@ function exportData() {
 			})
 			.catch((err) => {
 				console.log("ERROR", err);
-				message(err.error, false);
+				if (err.error.match(/User(.*)not in the database/)) message("User not found", false);
+				else message(err.error, false);
 			});
 	});
 }
 
-function importData() {
+function importData(secureHash) {
 	fetchApi_v2("torntools", {
-		section: `api/${userdata.player_id}/storage`,
+		section: `api/${secureHash}/storage`,
 	})
 		.then((result) => {
 			console.log("import", result);
@@ -1752,8 +1769,9 @@ function importData() {
 			});
 		})
 		.catch((err) => {
-			console.log(err);
-			message(err.error, false);
+			console.log("ERROR", err);
+			if (err.error.match(/User(.*)not in the database/)) message("User not found", false);
+			else message(err.error, false);
 		});
 }
 
@@ -1797,15 +1815,16 @@ function importDataText() {
 		.catch(() => {});
 }
 
-function clearRemoteData() {
-	fetchApi_v2("torntools", { section: `api/${userdata.player_id}/storage/clear`, method: "POST" })
+function clearRemoteData(secureHash) {
+	fetchApi_v2("torntools", { section: `api/${secureHash}/storage/clear`, method: "POST" })
 		.then((result) => {
 			console.log("clear", result);
 			message(result.message, true, { reload: true });
 		})
 		.catch((err) => {
 			console.log("ERROR", err);
-			message(err.error, false);
+			if (err.error.match(/User(.*)not in the database/)) message("User not found", false);
+			else message(err.error, false);
 		});
 }
 
@@ -1824,4 +1843,12 @@ function requestPermission(url) {
 			else reject();
 		});
 	});
+}
+
+async function sha256HashOf(rawString) {
+	const msgBuffer = new TextEncoder().encode(rawString);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
 }
