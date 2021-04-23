@@ -1262,6 +1262,7 @@ const STORAGE = {
 	chat_highlight: {
 		$player: "#7ca900",
 	},
+	users_alias: {},
 	hide_icons: [],
 	hide_casino_games: [],
 	hide_stock_blocks: [],
@@ -1567,6 +1568,7 @@ const STORAGE = {
 				vault_balance: false,
 				vault_balance_own: false,
 				notes: true,
+				npc_loot_info: true,
 				hide_upgrade: false,
 				align_left: false,
 				find_chat: true,
