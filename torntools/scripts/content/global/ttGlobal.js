@@ -32,6 +32,8 @@ requireDatabase().then(() => {
 		showCustomConsole();
 	}
 
+	aliasUsers();
+
 	const year = new Date().getUTCFullYear();
 	const now = Date.now();
 	if (Date.UTC(year, 3, 5, 12) <= now && Date.UTC(year, 3, 25, 12) >= now) easterEggs();
@@ -166,6 +168,8 @@ requireDatabase().then(() => {
 
 		if (settings.pages.global.show_settings_areas_link && !mobile) ttSettingsLink();
 
+		if (settings.pages.global.npc_loot_info) showNpcLoot();
+
 		upkeepMoreThan();
 	});
 
@@ -189,6 +193,7 @@ requireDatabase().then(() => {
 			}
 			if (settings.pages.global.trade_chat_timer) tradeChatPostTimer();
 			if (settings.pages.global.autocomplete_chat) addChatUsernameAutocomplete();
+			if (Object.keys(users_alias).length) aliasUsersChat();
 		}
 
 		doc.addEventListener("click", (event) => {
@@ -203,6 +208,7 @@ requireDatabase().then(() => {
 			}
 			if (settings.pages.global.trade_chat_timer) tradeChatPostTimer();
 			if (settings.pages.global.autocomplete_chat) addChatUsernameAutocomplete();
+			if (Object.keys(users_alias).length) aliasUsersChat();
 		});
 
 		let chat_observer = new MutationObserver((mutationsList) => {
@@ -212,6 +218,7 @@ requireDatabase().then(() => {
 
 					applyChatHighlights(message, highlights);
 					if (settings.pages.global.block_zalgo) removeZalgoText(message);
+					if (Object.keys(users_alias).length) aliasUsersChat(message);
 				}
 			}
 		});
@@ -909,6 +916,32 @@ function ttSettingsLink() {
 	);
 }
 
+function aliasUsers() {
+	requireElement(".m-hide a[href*='/profiles.php?XID=']").then(() => {
+		for (const userID of Object.keys(users_alias)) {
+			doc.findAll(`.m-hide a[href*='/profiles.php?XID=${userID}']`).forEach((userIdA) => {
+				userIdA.classList.add("tt-user-alias");
+				userIdA.insertAdjacentHTML("beforeEnd", `<div class='tt-alias'>${users_alias[userID]}</div>`);
+			});
+		}
+	});
+}
+
+function aliasUsersChat(message = "") {
+	if (message) {
+		let profileA = message.find(`a[href*='/profiles.php?XID=']`);
+		let messageUserId = profileA.href.split("=")[1];
+		if (Object.keys(users_alias).includes(messageUserId)) profileA.innerText = users_alias[messageUserId] + ": ";
+	} else {
+		for (const userID of Object.keys(users_alias)) {
+			doc.findAll(`#chatRoot a[href*='/profiles.php?XID=${userID}']`).forEach((profileA) => {
+				let messageUserId = profileA.href.split("=")[1];
+				profileA.innerText = users_alias[messageUserId] + ": ";
+			});
+		}
+	}
+}
+
 function upkeepMoreThan() {
 	if (-networth.current.value.unpaidfees >= settings.pages.global.upkeep_more_than) {
 		doc.find("#sidebarroot #nav-properties").classList.add("tt-upkeep");
@@ -964,4 +997,56 @@ function easterEggs() {
 			overlay.classList.remove("active");
 		});
 	}
+}
+
+function showNpcLoot() {
+	let npcLootDiv = navbar.newSection("NPCs");
+	let npcContent = npcLootDiv.find(".tt-content");
+	for (const npcID of Object.keys(loot_times)) {
+		let npcData = loot_times[npcID];
+		let npcDiv = doc.new({ type: "div", class: "tt-npc" });
+		let npcSubDiv = doc.new({ type: "div", class: "tt-npc-information" });
+		let npcName = doc.new({
+			type: "a",
+			class: "tt-npc-name",
+			href: `https://www.torn.com/profiles.php?XID=${npcID}`,
+			html: `${npcData.name} [${npcID}]:<br>`,
+		});
+		let npcStatus;
+		let npcInHosp = false;
+		if (npcData.hospout * 1000 > Date.now()) {
+			npcInHosp = true;
+			npcStatus = doc.new({ type: "span", class: "hosp", text: "Hosp" });
+		} else {
+			npcStatus = doc.new({ type: "span", class: "okay", text: "Okay" });
+		}
+		let npcLootLevel, npcNextLevelIn;
+		if (npcInHosp) {
+			npcLootLevel = doc.new({ type: "span", class: "loot", text: "0" });
+			npcNextLevelIn = doc.new({ type: "span", text: timeUntil(npcData.hospout * 1000 - Date.now()) });
+		} else {
+			for (let lootLevel in npcData.timings) {
+				let nextLvlTime = npcData.timings[lootLevel].ts * 1000 - Date.now();
+				if (nextLvlTime > 0) {
+					npcLootLevel = doc.new({ type: "span", class: "loot", text: lootLevel - 1 });
+					npcNextLevelIn = doc.new({ type: "span", text: timeUntil(nextLvlTime) });
+					break;
+				} else if (lootLevel !== 5 && nextLvlTime < 0) {
+					continue;
+				} else if (lootLevel === 5 && nextLvlTime < 0) {
+					npcNextLevelIn = doc.new({ type: "span", text: "Max Level Reached" });
+				}
+			}
+		}
+		npcDiv.appendChild(npcName);
+		npcSubDiv.appendChild(npcStatus);
+		npcSubDiv.appendChild(doc.new({ type: "span", text: " / " }));
+		npcSubDiv.appendChild(npcLootLevel);
+		npcSubDiv.appendChild(doc.new({ type: "span", text: " / " }));
+		npcSubDiv.appendChild(npcNextLevelIn);
+		npcDiv.appendChild(npcSubDiv);
+		npcContent.appendChild(npcDiv);
+	}
+	npcContent.id = "tt-loot";
+	doc.find("#sidebar > :first-child").insertAdjacentElement("afterEnd", npcLootDiv);
 }
