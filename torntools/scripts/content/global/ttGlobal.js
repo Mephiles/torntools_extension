@@ -1022,7 +1022,7 @@ function showNpcLoot() {
 		}
 		let npcLootLevel, npcNextLevelIn;
 		if (npcInHosp) {
-			let hospOutIn = npcData.hospout * 1000 - Date.now();
+			let hospOutIn = (npcData.hospout * 1000 - Date.now())/1000;
 			npcLootLevel = doc.new({ type: "span", class: "loot", text: "0" });
 			npcNextLevelIn = doc.new({ type: "span", text: timeUntil(hospOutIn), attributes: {seconds: hospOutIn} });
 		} else {
