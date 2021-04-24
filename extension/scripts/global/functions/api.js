@@ -16,6 +16,7 @@ async function fetchApi(location, options = {}) {
 		body: false,
 		silent: false,
 		succeedOnError: false,
+		includeKey: false,
 		...options,
 	};
 
@@ -57,6 +58,10 @@ async function fetchApi(location, options = {}) {
 				break;
 		}
 
+		if (options.includeKey) {
+			params.append("key", options.key || api.torn.key);
+		}
+
 		if (options.params) {
 			for (const [key, value] of Object.entries(options.params)) {
 				// noinspection JSCheckFunctionSignatures
@@ -79,12 +84,14 @@ async function fetchApi(location, options = {}) {
 			.then(async (response) => {
 				let result = {};
 
+				console.log("DKK fetch", response);
 				try {
 					result = await response.json();
 				} catch (error) {
 					if (response.status === 200) {
 						result.success = true;
 					} else {
+						console.log("DKK HTTP error", response, error);
 						result.success = false;
 						result.error = "Unknown error";
 					}
@@ -110,7 +117,7 @@ async function fetchApi(location, options = {}) {
 					resolve(result);
 				}
 			})
-			.catch(async (error) => handleError(error));
+			.catch((error) => handleError(error));
 
 		return fullUrl;
 
@@ -119,6 +126,8 @@ async function fetchApi(location, options = {}) {
 				resolve(result);
 				return;
 			}
+
+			console.log("DKK handleError", { result });
 
 			if (result.constructor.name === "TypeError") {
 				let error = result.message;
@@ -137,6 +146,7 @@ async function fetchApi(location, options = {}) {
 				}
 				reject({ error, isLocal, code });
 			} else if (location === "torn") {
+				console.log("DKK handleError TORN 1", result.error);
 				let error, online;
 
 				error = result.error.error;
@@ -146,6 +156,7 @@ async function fetchApi(location, options = {}) {
 					await ttStorage.change({ api: { torn: { online, error } } });
 					await setBadge("error");
 				}
+				console.log("DKK handleError TORN 2", { ...result.error });
 				reject({ ...result.error });
 			} else {
 				reject({ error: result.error });
