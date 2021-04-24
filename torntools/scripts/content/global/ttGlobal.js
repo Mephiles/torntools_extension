@@ -1027,7 +1027,7 @@ function showNpcLoot() {
 			npcNextLevelIn = doc.new({ type: "span", text: timeUntil(hospOutIn), attributes: {seconds: hospOutIn} });
 		} else {
 			for (let lootLevel in npcData.timings) {
-				let nextLvlTime = npcData.timings[lootLevel].ts * 1000 - Date.now();
+				let nextLvlTime = (npcData.timings[lootLevel].ts * 1000 - Date.now())/1000;
 				if (nextLvlTime > 0) {
 					npcLootLevel = doc.new({ type: "span", class: "loot", text: lootLevel - 1 });
 					npcNextLevelIn = doc.new({ type: "span", text: timeUntil(nextLvlTime), attributes: {seconds: nextLvlTime}});
@@ -1054,8 +1054,8 @@ function showNpcLoot() {
 		doc.findAll("div#tt-loot .tt-npc .tt-npc-information > :last-child").forEach((x) => {
 			if (!x.getAttribute("seconds")) return;
 			let secondsLeft = x.getAttribute("seconds");
-			x.setAttribute("seconds", secondsLeft-1000);
-			x.innerText = timeUntil(secondsLeft-1000);
+			x.setAttribute("seconds", secondsLeft-1);
+			x.innerText = timeUntil(secondsLeft-1);
 		})
 	}, 1000);
 }
