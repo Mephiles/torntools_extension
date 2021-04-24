@@ -236,6 +236,7 @@
 			document.newElement({ type: "div", class: "pic", attributes: { style: `background-image: url(/images/items/${id}/medium.png)` } })
 		);
 		if (hasAPIData()) {
+			itemWrap.setAttribute("title", torndata.items[id].name);
 			itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: torndata.items[id].name }));
 
 			if (settings.apiUsage.user.inventory) {
@@ -253,6 +254,7 @@
 			document.newElement({
 				type: "i",
 				class: "fas fa-times tt-close-icon",
+				attributes: { title: "Remove quick access." },
 				events: {
 					click: async (event) => {
 						event.stopPropagation();
