@@ -84,18 +84,17 @@ async function fetchApi(location, options = {}) {
 			.then(async (response) => {
 				let result = {};
 
-				console.log("DKK fetch", response);
 				try {
 					result = await response.json();
 				} catch (error) {
 					if (response.status === 200) {
 						result.success = true;
 					} else {
-						console.log("DKK HTTP error", response, error);
 						result.success = false;
-						result.error = "Unknown error";
+						result.error = new HTTPException(response.status);
 					}
 				}
+				result.error = new HTTPException(503);
 
 				if (options.fakeResponse) {
 					result = options.fakeResponse;
@@ -127,8 +126,6 @@ async function fetchApi(location, options = {}) {
 				return;
 			}
 
-			console.log("DKK handleError", { result });
-
 			if (result.constructor.name === "TypeError") {
 				let error = result.message;
 				let isLocal = false;
@@ -146,18 +143,26 @@ async function fetchApi(location, options = {}) {
 				}
 				reject({ error, isLocal, code });
 			} else if (location === "torn") {
-				console.log("DKK handleError TORN 1", result.error);
 				let error, online;
 
-				error = result.error.error;
-				online = result.error.code !== 9;
+				if (result.error instanceof HTTPException) {
+					error = result.error.toString();
+					online = false;
+				} else {
+					error = result.error.error;
+					online = result.error.code !== 9 && !(result instanceof HTTPException);
+				}
 
 				if (!options.silent) {
 					await ttStorage.change({ api: { torn: { online, error } } });
 					await setBadge("error");
 				}
-				console.log("DKK handleError TORN 2", { ...result.error });
-				reject({ ...result.error });
+
+				if (result.error instanceof HTTPException) {
+					reject(result.error.asObject());
+				} else {
+					reject(result.error);
+				}
 			} else {
 				reject({ error: result.error });
 			}

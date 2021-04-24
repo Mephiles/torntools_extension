@@ -39,9 +39,16 @@ const ttStorage = new (class {
 
 				function recursive(parent, toChange) {
 					for (const key in toChange) {
-						if (parent && key in parent && typeof toChange[key] === "object" && !Array.isArray(toChange[key]) && !Array.isArray(parent[key])) {
+						if (
+							parent &&
+							typeof parent === "object" &&
+							!Array.isArray(parent[key]) &&
+							key in parent &&
+							typeof toChange[key] === "object" &&
+							!Array.isArray(toChange[key])
+						) {
 							parent[key] = recursive(parent[key], toChange[key]);
-						} else if (parent) {
+						} else if (parent && typeof parent === "object") {
 							parent[key] = toChange[key];
 						} else {
 							parent = { [key]: toChange[key] };
