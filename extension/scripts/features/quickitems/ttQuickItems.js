@@ -71,35 +71,45 @@
 					click: (event) => {
 						event.stopPropagation();
 
-						const enable = options.find("#edit-items-button").classList.toggle("tt-overlay-item");
+						const enabled = options.find("#edit-items-button").classList.toggle("tt-overlay-item");
 
 						const content = findContainer("Quick Items", { selector: ":scope > main" });
 						for (const quick of content.findAll(".item")) {
-							quick.classList.toggle("tt-overlay-item");
-							quick.classList.toggle("removable");
+							if (enabled) {
+								quick.classList.add("tt-overlay-item");
+								quick.classList.add("removable");
+							} else {
+								quick.classList.remove("tt-overlay-item");
+								quick.classList.remove("removable");
+							}
 						}
 
 						for (const category of document.findAll("#categoriesItem:not(.no-items)")) {
 							if (!["Temporary", "Medical", "Drugs", "Energy Drink", "Alcohol", "Candy", "Booster", "Other"].includes(category.dataset.type))
 								continue;
 
-							category.classList.toggle("tt-overlay-item");
+							if (enabled) category.classList.add("tt-overlay-item");
+							else category.classList.remove("tt-overlay-item");
 						}
 						for (const item of document.findAll("ul.items-cont:not(.no-items)")) {
-							item.classList.toggle("tt-overlay-item");
+							if (enabled) item.classList.add("tt-overlay-item");
+							else item.classList.remove("tt-overlay-item");
 						}
 
-						if (document.find(".tt-overlay").classList.toggle("hidden")) {
+						if (enabled) document.find(".tt-overlay").classList.remove("hidden");
+						else document.find(".tt-overlay").classList.add("hidden");
+
+						if (enabled) {
 							for (const item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
 								if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
-								item.removeEventListener("click", onItemClickQuickEdit);
+								item.addEventListener("click", onItemClickQuickEdit);
 							}
 						} else {
 							for (const item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
 								if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
-								item.addEventListener("click", onItemClickQuickEdit);
+								item.removeEventListener("click", onItemClickQuickEdit);
 							}
 						}
 					},
