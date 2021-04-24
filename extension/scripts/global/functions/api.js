@@ -94,7 +94,6 @@ async function fetchApi(location, options = {}) {
 						result.error = new HTTPException(response.status);
 					}
 				}
-				result.error = new HTTPException(503);
 
 				if (options.fakeResponse) {
 					result = options.fakeResponse;
