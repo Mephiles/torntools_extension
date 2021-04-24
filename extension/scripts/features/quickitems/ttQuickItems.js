@@ -254,7 +254,7 @@
 			document.newElement({
 				type: "i",
 				class: "fas fa-times tt-close-icon",
-				attributes: { title: "Remove quick access." },
+				attributes: { title: "Remove quick access. " },
 				events: {
 					click: async (event) => {
 						event.stopPropagation();
