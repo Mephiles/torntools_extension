@@ -234,6 +234,7 @@ async function updateUserdata() {
 
 	const oldUserdata = { ...userdata };
 	userdata = await fetchApi("torn", { section: "user", selections });
+	if (!userdata) throw new Error("Aborted updating due to an expected response.");
 	userdata.date = now;
 	userdata.dateBasic = updateBasic ? now : oldUserdata.dateBasic;
 
@@ -694,6 +695,12 @@ async function updateStakeouts() {
 		let data;
 		try {
 			data = await fetchApi("torn", { section: "user", selections: ["profile"], id, silent: true });
+			if (!data) {
+				console.log("Unexpected result during stakeout updating.");
+				failed++;
+				continue;
+			}
+
 			success++;
 		} catch (e) {
 			console.log("STAKEOUT error", e);
@@ -780,6 +787,7 @@ async function updateStakeouts() {
 async function updateTorndata() {
 	const oldTorndata = { ...torndata };
 	torndata = await fetchApi("torn", { section: "torn", selections: ["education", "honors", "items", "medals", "pawnshop"] });
+	if (!torndata) throw new Error("Aborted updating due to an expected response.");
 	torndata.date = Date.now();
 
 	torndata.stocks = oldTorndata.stocks;
@@ -790,6 +798,7 @@ async function updateTorndata() {
 async function updateStocks() {
 	const oldStocks = { ...torndata.stocks };
 	let stocks = (await fetchApi("torn", { section: "torn", selections: ["stocks"] })).stocks;
+	if (!stocks) throw new Error("Aborted updating due to an expected response.");
 	stocks.date = Date.now();
 
 	await ttStorage.change({ torndata: { stocks } });
@@ -838,6 +847,7 @@ async function updateNetworth() {
 	if (!settings.apiUsage.user.networth) return;
 
 	let networth = (await fetchApi("torn", { section: "user", selections: ["networth"] })).networth;
+	if (!networth) throw new Error("Aborted updating due to an expected response.");
 	networth.date = Date.now();
 
 	await ttStorage.change({ userdata: { networth } });
@@ -849,6 +859,7 @@ async function updateFactiondata() {
 		factiondata = {};
 	} else {
 		factiondata = await fetchApi("torn", { section: "faction", selections: ["crimes"], silent: true, succeedOnError: true });
+		if (!factiondata) throw new Error("Aborted updating due to an expected response.");
 		delete factiondata.error;
 	}
 
