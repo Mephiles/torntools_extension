@@ -13,3 +13,7 @@
 	top: 1px;
 	right: 9px;
 }
+
+.tt-title-torn.collapsed {
+	margin-bottom: 2px;
+}
