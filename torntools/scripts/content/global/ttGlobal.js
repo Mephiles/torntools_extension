@@ -1024,13 +1024,13 @@ function showNpcLoot() {
 		if (npcInHosp) {
 			let hospOutIn = npcData.hospout * 1000 - Date.now();
 			npcLootLevel = doc.new({ type: "span", class: "loot", text: "0" });
-			npcNextLevelIn = doc.new({ type: "span", text: timeUntil(hospOutIn), attributes: {seconds: (hospOutIn/1000)} });
+			npcNextLevelIn = doc.new({ type: "span", text: timeUntil(hospOutIn), attributes: {seconds: Math.floor(hospOutIn/1000)} });
 		} else {
 			for (let lootLevel in npcData.timings) {
 				let nextLvlTime = npcData.timings[lootLevel].ts * 1000 - Date.now();
 				if (nextLvlTime > 0) {
 					npcLootLevel = doc.new({ type: "span", class: "loot", text: lootLevel - 1 });
-					npcNextLevelIn = doc.new({ type: "span", text: timeUntil(nextLvlTime), attributes: {seconds: (nextLvlTime/1000)}});
+					npcNextLevelIn = doc.new({ type: "span", text: timeUntil(nextLvlTime), attributes: {seconds: Math.floor(nextLvlTime/1000)}});
 					break;
 				} else if (lootLevel !== 5 && nextLvlTime < 0) {
 					continue;
@@ -1055,7 +1055,7 @@ function showNpcLoot() {
 			if (!x.getAttribute("seconds")) return;
 			let secondsLeft = x.getAttribute("seconds");
 			x.setAttribute("seconds", secondsLeft-1);
-			x.innerText = timeUntil(secondsLeft*1000-1000);
+			x.innerText = timeUntil((secondsLeft-1)*1000);
 		})
 	}, 1000);
 }
