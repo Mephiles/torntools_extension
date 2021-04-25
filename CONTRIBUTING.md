@@ -21,14 +21,15 @@ Start reading our code and you'll get the hang of it. We optimize for readabilit
 We have prettier formatting to help you follow our coding conventions.
 
 * We follow a certain pattern for our files.
-    * Content scripts are placed in the `extension/scripts/content` folder, in a folder based on the page it loads on.
-      The name is the page it loads on prefixed by `tt` and in camelCase.
-* All features should be in a function.
+    * Each feature has its own file and those are placed in the `extension/scripts/features` folder, in a folder based on the name of it.
+    * Both the feature's CSS and JS scripts should reside in the same directory
+    * The loading of the script is done in `manifest.json`, so that we can find which page has which features.
+* All features should be in its own anonymous function, in the files as specified above.
     * The function should be called after it's verified that all required elements are present.
     * Checking if the feature is enabled should happen in the function.
         * All features should have a setting where it can be disabled.
         * If it's not enabled, the function should remove all things is adds.
-* Don't use any Torn css-classes, they are always subject to change.
+* Don't use any Torn's CSS-classes, they are always subject to change.
     * It's fine to rely on them as selectors.
         * If a class contains `_` or `___`, make sure to not use the class selector, like `.SOMENAME_xyz` but instead
           use an attribute selector `[class*='SOMENAME_']`.
@@ -37,9 +38,10 @@ We have prettier formatting to help you follow our coding conventions.
     * Operators ( = + - * / ) and commas are followed by spaces.
     * Statements end with a semicolon.
     * Strings are surrounded by `"`'s.
+    * Although we have automated code formatting via Github Actions, maintain readable code in PRs.
 * We also use some standard naming conventions.
     * Identifier names (variables and functions) start with a letter and use camelCase.
-        * If it are global constants use UPPERCASE.
+        * If they are global constants, use UPPERCASE.
 * All code should work on as much browsers as possible.
     * Optional Chaining isn't supported by Kiwi Browser.
 * Any changes should be added in the `extension/changelog.js` file under the first unreleased version.
