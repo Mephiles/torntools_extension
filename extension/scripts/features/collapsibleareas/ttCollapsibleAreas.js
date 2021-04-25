@@ -37,7 +37,6 @@
 
 	async function clickListener() {
 		const areasHeader = document.find("h2=Areas");
-		areasHeader.classList.toggle("collapsed");
 		const collapsed = areasHeader.classList.toggle("collapsed");
 		await ttStorage.change({ filters: { containers: { collapseAreas: collapsed } } });
 	}
