@@ -21,14 +21,15 @@ Start reading our code and you'll get the hang of it. We optimize for readabilit
 We have prettier formatting to help you follow our coding conventions.
 
 * We follow a certain pattern for our files.
-    * Content scripts are placed in the `extension/scripts/content` folder, in a folder based on the page it loads on.
-      The name is the page it loads on prefixed by `tt` and in camelCase.
+    * Each feature has its own file and those are placed in the `extension/scripts/features` folder, in a folder based on the name of it.
+    * Both the feature's CSS and JS scripts should reside in the same directory
+    * The loading of the script is done in `manifest.json` so that we can find which page has which features.
 * All features should be in a function.
     * The function should be called after it's verified that all required elements are present.
     * Checking if the feature is enabled should happen in the function.
         * All features should have a setting where it can be disabled.
         * If it's not enabled, the function should remove all things is adds.
-* Don't use any Torn css-classes, they are always subject to change.
+* Don't use any Torn CSS-classes, they are always subject to change.
     * It's fine to rely on them as selectors.
         * If a class contains `_` or `___`, make sure to not use the class selector, like `.SOMENAME_xyz` but instead
           use an attribute selector `[class*='SOMENAME_']`.
