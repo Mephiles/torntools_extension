@@ -205,7 +205,6 @@ const DEFAULT_STORAGE = {
 				keepAttackHistory: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				miniProfileLastAction: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				nukeRevive: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				alignLeft: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			chat: {
 				fontSize: new DefaultSetting({ type: "number", defaultValue: 12 }),
