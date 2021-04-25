@@ -195,11 +195,11 @@
 	border-radius: 5px;
 }
 
-.tt-container .title.collapsed .icon, .tt-title-torn.collapsed .icon {
+.tt-container .title.collapsed .icon {
 	transform: rotate(-90deg);
 }
 
-.tt-container .title.collapsed + main, .tt-title-torn.collapsed + div {
+.tt-container .title.collapsed + main {
 	display: none;
 }
 
