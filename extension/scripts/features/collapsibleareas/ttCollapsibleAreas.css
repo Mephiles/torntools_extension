@@ -1,9 +1,9 @@
-.tt-title-torn.collapsed .icon {
-	transform: rotate(-90deg);
+.tt-title-torn {
+	cursor: pointer !important;
 }
 
-.tt-title-torn.collapsed + div {
-	display: none;
+.tt-title-torn.collapsed {
+	margin-bottom: 2px;
 }
 
 .tt-title-torn .icon {
@@ -14,6 +14,10 @@
 	right: 9px;
 }
 
-.tt-title-torn.collapsed {
-	margin-bottom: 2px;
+.tt-title-torn.collapsed .icon {
+	transform: rotate(-90deg);
+}
+
+.tt-title-torn.collapsed + div {
+	display: none;
 }

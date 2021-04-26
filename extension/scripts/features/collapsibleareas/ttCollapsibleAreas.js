@@ -11,33 +11,41 @@
 		{
 			storage: ["settings.pages.sidebar.collapseAreas"],
 		},
-		() => {
-			if (mobile) return "Shouldn't be on mobile";
+		async () => {
+			if (await checkMobile()) return "Not supported on mobile!";
+
+			await requireSidebar();
+
+			if (document.find("#sidebarroot .tablet")) return "Already collapsible.";
 		}
 	);
 
 	async function addCollapseIcon() {
-		await requireSidebar();
-		const areasIElement = document.newElement({ type: "i", class: "icon fas fa-caret-down" });
-		const areasHeader = document.find("h2=Areas");
-		areasHeader.classList.add("tt-title-torn");
-		areasHeader.appendChild(areasIElement);
-		if (filters.containers.collapseAreas) areasHeader.classList.add("collapsed");
-		areasHeader.addEventListener("click", clickListener);
+		const header = document.find("h2=Areas");
+		if (header.classList.contains("tt-title-torn")) return;
+
+		header.classList.add("tt-title-torn");
+		if (filters.containers.collapseAreas) header.classList.add("collapsed");
+		header.addEventListener("click", clickListener);
+
+		const icon = document.newElement({ type: "i", class: "icon fas fa-caret-down" });
+		header.appendChild(icon);
 	}
 
 	async function removeCollapseIcon() {
-		await requireSidebar();
-		const areasHeader = document.find("h2=Areas");
-		areasHeader.classList.remove("tt-title-torn");
-		areasHeader.find(".icon").remove();
-		if (areasHeader.classList.contains("collapsed")) areasHeader.classList.remove("collapsed");
-		areasHeader.removeEventListener("click", clickListener);
+		const header = document.find("h2=Areas");
+		if (!header) return;
+
+		header.classList.remove("tt-title-torn", "collapsed");
+		header.removeEventListener("click", clickListener);
+
+		if (header.find(".icon")) header.find(".icon").remove();
 	}
 
 	async function clickListener() {
 		const areasHeader = document.find("h2=Areas");
 		const collapsed = areasHeader.classList.toggle("collapsed");
+
 		await ttStorage.change({ filters: { containers: { collapseAreas: collapsed } } });
 	}
 })();
