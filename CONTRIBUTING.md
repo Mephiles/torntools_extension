@@ -45,8 +45,9 @@ We have prettier formatting to help you follow our coding conventions.
         * If a class contains `_` or `___`, make sure to not use the class selector, like `.SOMENAME_xyz` but instead
           use an attribute selector `[class*='SOMENAME_']`.
 * Some general rules are:
-    * Use `await checkMobile()` but not global variable `mobile`.
-    * CSS should generally follow order/logic : Wrapper -> Children.
+    * Every file/feature **must** be in strict mode, i.e. `"use strict";` at the start of the file.
+    * Use `await checkMobile()` but not global variable `mobile`, when checking for mobile.
+    * CSS should generally follow order/logic : Wrapper -> Children, i.e. CSS for children comes after its wrapper's CSS.
     * Any setting for a new feature should be defined in `extension/scripts/global/globalData.js `.
 * All code should be formatted using Prettier.
     * We indent using tabs with a width of 4.
@@ -54,7 +55,7 @@ We have prettier formatting to help you follow our coding conventions.
     * Statements end with a semicolon.
     * Strings are surrounded by `"`'s.
     * Although we have automated code formatting via Github Actions, maintain readable code in PRs.
-        * Please note that HTML inside of a `.js`-file, won't get automatically formatted.
+        * Please note that HTML inside of a `.js`-file, won't get automatically formatted. Please format them manually.
 * We also use some standard naming conventions.
     * Identifier names (variables and functions) start with a letter and use camelCase.
         * If they are global constants, use UPPERCASE.
