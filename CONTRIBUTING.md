@@ -29,7 +29,7 @@ We have prettier formatting to help you follow our coding conventions.
     * In this function, you register the feature in the Feature Manager.
         * `name` is a string with the feature name.
         * `scope` is a string stating what it's target is
-        * `enabled` is function that returns a boolean (or truthy/falsely) which checks the setting of the feature
+        * `enabled` is function that checks the setting of the feature and returns a boolean (or truthy/falsely).
         * `initialise` is a function that is only run once per page load, when the feature is enabled
         * `execute` is a function that is run every time the feature is started again
         * `cleanup` is a function that is run every time the feature is stopped
@@ -39,7 +39,7 @@ We have prettier formatting to help you follow our coding conventions.
             * Mobile
             * Certain elements being there, or not being there.
             * API Access
-            * Other things that would make it act as if the feature is no enabled.
+            * Other things that would make it act as if the feature is not enabled.
 * Don't use any of Torn's CSS-classes, they are always subject to change.
     * It's fine to rely on them as selectors.
         * If a class contains `_` or `___`, make sure to not use the class selector, like `.SOMENAME_xyz` but instead
