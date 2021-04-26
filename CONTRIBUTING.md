@@ -29,12 +29,12 @@ We have prettier formatting to help you follow our coding conventions.
     * In this function, you register the feature in the Feature Manager.
         * `name` is a string with the feature name.
         * `scope` is a string stating what it's target is
-        * `enabled` is either a boolean (or truthy/falsely) of a function returning one.
-        * `initialise` is a function that is only run once per page load, in case the feature is enabled
-        * `execute` is a function that is ran every time the feature is started again
-        * `cleanup` is a function that is ran every time the feature is stopped
-        * `loadListeners` is an object that has some fields that tell the manager when to reload the feature.
-        * `requirements` is a function that evaluates whether all requirements are fulfilled. If not fulfilled, the function returns a string with the reason.  
+        * `enabled` is function that returns a boolean (or truthy/falsely) which checks the setting of the feature
+        * `initialise` is a function that is only run once per page load, when the feature is enabled
+        * `execute` is a function that is run every time the feature is started again
+        * `cleanup` is a function that is run every time the feature is stopped
+        * `loadListeners` is an object that has some fields that tell the manager when to reload the feature
+        * `requirements` is a function that evaluates whether all requirements are fulfilled. If not fulfilled, the function should return a string with the reason.
           These requirements can be several things:
             * Mobile
             * Certain elements being there, or not being there.
@@ -44,6 +44,10 @@ We have prettier formatting to help you follow our coding conventions.
     * It's fine to rely on them as selectors.
         * If a class contains `_` or `___`, make sure to not use the class selector, like `.SOMENAME_xyz` but instead
           use an attribute selector `[class*='SOMENAME_']`.
+* Some general rules are:
+    * Use `await checkMobile()` but not global variable `mobile`.
+    * CSS should generally follow order/logic : Wrapper -> Children.
+    * Any setting for a new feature should be defined in `extension/scripts/global/globalData.js `.
 * All code should be formatted using Prettier.
     * We indent using tabs with a width of 4.
     * Operators ( = + - * / ) and commas are followed by spaces.
