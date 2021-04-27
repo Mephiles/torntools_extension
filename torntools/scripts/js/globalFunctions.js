@@ -3291,6 +3291,15 @@ function fetchApi_v2(
 						}
 					}
 
+					if ((location === "torn" && !result) || !Object.keys(result).length) {
+						result = {
+							error: {
+								error: "API returning unexpected results, assuming it's down",
+								code: 9,
+							},
+						};
+					}
+
 					logFetch(ogLocation, options);
 
 					if (result.error) {
