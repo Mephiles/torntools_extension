@@ -56,7 +56,8 @@
 				"scripts/features/highlightnerverefill/ttHighlightNerveRefill.css",
 				"scripts/features/hideareas/ttHideAreas.css",
 				"scripts/features/hideicons/ttHideIcons.css",
-				"scripts/features/blockzalgo/ttBlockZalgo.css"
+				"scripts/features/blockzalgo/ttBlockZalgo.css",
+				"scripts/features/collapsibleareas/ttCollapsibleAreas.css"
 			],
 			"js": [
 				"vendor/fontawesome/fontawesome.js",
@@ -83,7 +84,8 @@
 				"scripts/features/highlightnerverefill/ttHighlightNerveRefill.entry.js",
 				"scripts/features/hideareas/ttHideAreas.entry.js",
 				"scripts/features/hideicons/ttHideIcons.entry.js",
-				"scripts/features/blockzalgo/ttBlockZalgo.entry.js"
+				"scripts/features/blockzalgo/ttBlockZalgo.entry.js",
+				"scripts/features/collapsibleareas/ttCollapsibleAreas.js"
 			],
 			"run_at": "document_start"
 		},
