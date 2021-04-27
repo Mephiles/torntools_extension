@@ -53,7 +53,10 @@ const MISSIONS = {
 		task: "Defeat Duke within 7 days of activating this mission.",
 		hint: "Jump in when he gets looted 5-6 times a day, do not have to land finishing hit.",
 	},
-	"Candy From Babies": { task: "Collect $150k/$250k in bounties.", hint: "Doesn't have to be in a single bounty. Make sure to hospitalize the target(s)." },
+	"Candy From Babies": {
+		task: "Collect $150k/$200k/$250k in bounties.",
+		hint: "Doesn't have to be in a single bounty. Make sure to hospitalize the target(s).",
+	},
 	"Charity Work": {
 		task: "Mug 2 (P).",
 		hint: "Must be a successful mug. If target was recently mugged, I suggest sending cash to the target, then mugging.",
@@ -71,7 +74,8 @@ const MISSIONS = {
 	},
 	"Double Jeopardy": {
 		task: "Put a bounty on someone, then defeat them.",
-		hint: "You cannot claim your own bounties, so may as well just put the bounty, then leave or mug.",
+		hint:
+			"You cannot claim your own bounties, so may as well just put the bounty, then leave or mug. The bounty can be low because it doesn't have to be claimed.",
 	},
 	"Drug Problem": { task: "Defeat 4-7 (P)." },
 	"Emotional Debt": {
