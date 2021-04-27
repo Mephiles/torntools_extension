@@ -206,6 +206,9 @@ const DEFAULT_STORAGE = {
 				miniProfileLastAction: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				nukeRevive: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
+			profile: {
+				customProfileHeading: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 			chat: {
 				fontSize: new DefaultSetting({ type: "number", defaultValue: 12 }),
 				searchChat: new DefaultSetting({ type: "boolean", defaultValue: true }),

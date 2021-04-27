@@ -204,6 +204,12 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/profiles.php*"],
+			"css": ["scripts/features/customProfileHeading/ttCustomProfileHeading.css"],
+			"js": ["scripts/features/customProfileHeading/ttCustomProfileHeading.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/trade.php*"],
 			"css": ["scripts/features/itemvalues/ttItemValues.css"],
 			"js": ["scripts/features/itemvalues/ttItemValues.js"],
