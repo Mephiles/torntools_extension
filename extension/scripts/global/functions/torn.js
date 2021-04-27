@@ -260,3 +260,7 @@ function getPage() {
 function isCaptcha() {
 	return !!document.find(".captcha");
 }
+
+function darkMode() {
+	return document.body.classList.contains("dark-mode");
+}

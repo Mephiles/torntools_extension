@@ -1,0 +1,68 @@
+"use strict";
+
+(async () => {
+	featureManager.registerFeature(
+		"Hide Gym Highlight",
+		"sidebar",
+		() => settings.pages.sidebar.hideGymHighlight,
+		null,
+		hideGymHighlight,
+		removeHiddenHighlight,
+		{
+			storage: ["settings.pages.sidebar.hideGymHighlight"],
+		},
+		async () => {
+			await requireSidebar();
+		}
+	);
+
+	function hideGymHighlight() {
+		const navGym = document.find("#nav-gym");
+		const gymClass = [...navGym.classList].find((name) => name.includes("available___"));
+		const svg = navGym.find("svg");
+		if (!gymClass) return;
+
+		if (darkMode()) {
+			if (mobile) {
+				svg.setAttribute("fill", svg.getAttribute("fill").replace("_green", ""));
+				svg.setAttribute("filter", svg.getAttribute("filter").replace("_green", ""));
+			} else {
+				svg.setAttribute("fill", "url(#sidebar_svg_gradient_regular_mobile)");
+				svg.setAttribute("filter", "url(#svg_sidebar_mobile)");
+			}
+		} else {
+			if (mobile) {
+				svg.setAttribute("fill", "url(#sidebar_svg_gradient_regular_mobile)");
+				svg.setAttribute("filter", "url(#svg_sidebar_mobile)");
+			} else {
+				svg.setAttribute("fill", "url(#sidebar_svg_gradient_regular_desktop)");
+			}
+		}
+
+		navGym.classList.remove(gymClass);
+	}
+	
+	function removeHiddenHighlight() {
+		const navGym = document.find("#nav-gym");
+		const svg = navGym.find("svg");
+
+		if (darkMode()) {
+			if (mobile) {
+				svg.setAttribute("fill", "url(#sidebar_svg_gradient_regular_green_mobile)");
+				svg.setAttribute("filter", "url(#svg_sidebar_green_regular_mobile_green_filter)");
+			} else {
+				svg.setAttribute("fill", "url(#sidebar_svg_gradient_regular_green_mobile)");
+				svg.setAttribute("filter", "url(#svg_sidebar_green_mobile)");
+			}
+		} else {
+			if (mobile) {
+				svg.setAttribute("fill", "url(#sidebar_svg_gradient_regular_green_mobile)");
+				svg.setAttribute("filter", "url(#svg_sidebar_green_regular_mobile_green_filter)");
+			} else {
+				svg.setAttribute("fill", "url(#sidebar_svg_gradient_regular_desktop_green)");
+			}
+		}
+
+		navGym.find("[class*='area-row___']").classList.add("tt-available");
+	}
+})();
