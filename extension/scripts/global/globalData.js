@@ -196,6 +196,7 @@ const DEFAULT_STORAGE = {
 		},
 		hideAreas: new DefaultSetting({ type: "array", defaultValue: [] }),
 		hideIcons: new DefaultSetting({ type: "array", defaultValue: [] }),
+		hideCasinoGames: new DefaultSetting({ type: "array", defaultValue: [] }),
 		customLinks: new DefaultSetting({ type: "array", defaultValue: [] }),
 		pages: {
 			global: {
@@ -214,6 +215,7 @@ const DEFAULT_STORAGE = {
 				highlights: new DefaultSetting({ type: "array", defaultValue: [{ name: "$player", color: "#7ca900" }] }),
 				titleHighlights: new DefaultSetting({ type: "array", defaultValue: [] }),
 			},
+			casino: {},
 			sidebar: {
 				notes: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				highlightEnergy: new DefaultSetting({ type: "boolean", defaultValue: true }),
