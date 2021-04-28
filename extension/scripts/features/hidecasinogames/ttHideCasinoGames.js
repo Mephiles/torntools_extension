@@ -25,10 +25,7 @@
 		);
 		for (const gameClass of settings.hideCasinoGames) {
 			document.find(`.${gameClass}`).parentElement.classList.add("tt-hidden-parent");
-			document.find(`.${gameClass}`).insertAdjacentHTML(
-				"beforebegin",
-				"<div class='tt-hidden'><span><b>•&nbsp;REMOVED&nbsp;•</b></span></div>"
-			);
+			document.find(`.${gameClass}`).insertAdjacentHTML("beforebegin", "<div class='tt-hidden'><span><b>•&nbsp;REMOVED&nbsp;•</b></span></div>");
 			document.find(`.${gameClass}`).classList.add("hidden");
 		}
 	}
