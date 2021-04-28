@@ -217,6 +217,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/page.php?sid=stocks*"],
+			"css": ["scripts/features/stockacronyms/ttStockAcronyms.css"],
 			"js": ["scripts/features/stockacronyms/ttStockAcronyms.js"],
 			"run_at": "document_end"
 		},
