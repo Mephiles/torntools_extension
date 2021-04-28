@@ -101,7 +101,8 @@
 				"scripts/features/searchchat/ttSearchChat.css",
 				"scripts/features/computerlink/ttComputerLink.css",
 				"scripts/features/miniprofileinformation/ttMiniprofileInformation.css",
-				"scripts/features/easteregg/ttEasterEgg.css"
+				"scripts/features/easteregg/ttEasterEgg.css",
+				"scripts/features/hidegymhighlight/ttHideGymHighlight.css"
 			],
 			"js": [
 				"scripts/content/global/ttGlobal.js",
@@ -116,7 +117,8 @@
 				"scripts/features/chathighlight/ttChatHighlight.js",
 				"scripts/features/chatautocomplete/ttChatAutocomplete.js",
 				"scripts/features/miniprofileinformation/ttMiniprofileInformation.js",
-				"scripts/features/easteregg/ttEasterEgg.js"
+				"scripts/features/easteregg/ttEasterEgg.js",
+				"scripts/features/hidegymhighlight/ttHideGymHighlight.js"
 			],
 			"run_at": "document_end"
 		},
