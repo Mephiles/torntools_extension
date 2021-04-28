@@ -30,7 +30,7 @@
 		const addedIcon = document.find("h4#skip-to-content").parentElement.find(".tt-profile-icon");
 		if (addedIcon) addedIcon.remove();
 	}
-	
+
 	function getUserID() {
 		return document.find(".basic-information .profile-container ul.info-table .user-info-value > *:first-child").innerText.replace(/\D+/g, "");
 	}

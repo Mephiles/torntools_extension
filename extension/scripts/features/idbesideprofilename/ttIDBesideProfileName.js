@@ -25,7 +25,7 @@
 		const skipToContent = document.find("h4#skip-to-content");
 		skipToContent.innerText = skipToContent.innerText.replace(/ \[.*\]/g, "") + "'s Profile";
 	}
-	
+
 	function getUserID() {
 		return document.find(".basic-information .profile-container ul.info-table .user-info-value > *:first-child").innerText.replace(/\D+/g, "");
 	}
