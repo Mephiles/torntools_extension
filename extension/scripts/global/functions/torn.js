@@ -35,6 +35,8 @@ const ALLOWED_BLOOD = {
 	"ab-": [733, 735, 737, 739], // 737
 };
 
+const CASINO_GAMES = ["slots", "roulette", "high-low", "keno", "craps", "bookie", "lottery", "blackjack", "poker", "r-roulete", "spin-the-wheel"];
+
 const DRUG_INFORMATION = {
 	196: {
 		pros: ["Increased crime success rate", "+2-3 Nerve"],

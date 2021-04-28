@@ -196,6 +196,7 @@ const DEFAULT_STORAGE = {
 		},
 		hideAreas: new DefaultSetting({ type: "array", defaultValue: [] }),
 		hideIcons: new DefaultSetting({ type: "array", defaultValue: [] }),
+		hideCasinoGames: new DefaultSetting({ type: "array", defaultValue: [] }),
 		customLinks: new DefaultSetting({ type: "array", defaultValue: [] }),
 		pages: {
 			global: {

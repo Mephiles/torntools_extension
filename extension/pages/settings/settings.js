@@ -363,6 +363,16 @@ async function setupPreferences() {
 		});
 	}
 
+	const hideCasinoGamesParent = _preferences.find("#hide-casino-games");
+	for (const game of CASINO_GAMES) {
+		const casinoGame = document.newElement({ type: "span", text: capitalizeText(game), attributes: { name: game } });
+
+		hideCasinoGamesParent.appendChild(casinoGame);
+		if (CASINO_GAMES.indexOf(game) + 1 !== CASINO_GAMES.length) hideCasinoGamesParent.appendChild(document.createTextNode("\n"));
+
+		casinoGame.addEventListener("click", (event) => event.target.classList.toggle("disabled"));
+	}
+
 	_preferences.find("#external-tornstats").addEventListener("click", (event) => {
 		requestOrigin("https://beta.tornstats.com/", event);
 	});
@@ -509,6 +519,9 @@ async function setupPreferences() {
 		}
 		for (const icon of settings.hideIcons) {
 			_preferences.find(`#hide-icons .${icon}`).parentElement.classList.add("disabled");
+		}
+		for (const game of settings.hideCasinoGames) {
+			_preferences.find(`#hide-casino-games .${icon}`).parentElement.classList.add("disabled");
 		}
 		for (const link of settings.customLinks) {
 			addCustomLink(link);
@@ -752,7 +765,8 @@ async function setupPreferences() {
 		});
 
 		settings.hideAreas = [..._preferences.findAll("#hide-areas span.disabled")].map((area) => area.getAttribute("name"));
-		settings.hideIcons = [..._preferences.findAll("#hide-icons .icon.disabled > div")].map((area) => area.getAttribute("class"));
+		settings.hideIcons = [..._preferences.findAll("#hide-icons .icon.disabled > div")].map((icon) => icon.getAttribute("class"));
+		settings.hideCasinoGames = [..._preferences.findAll("#hide-casino-games span.disabled")].map((game) => game.getAttribute("name"));
 
 		settings.apiUsage.comment = _preferences.find("#api_usage-comment").value;
 		settings.apiUsage.delayEssential = parseInt(_preferences.find("#api_usage-essential").value);
