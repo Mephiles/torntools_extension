@@ -161,8 +161,16 @@
 					showRow(li, false);
 					continue;
 				}
+
 				// Faction
-				if (faction && li.find(".user.faction img") && li.find(".user.faction img").getAttribute("title").trim() !== faction.trim()) {
+				const rowFaction = li.find(".user.faction");
+				if (
+					faction &&
+					((rowFaction.childElementCount === 0 && rowFaction.innerText.trim() !== faction.trim()) ||
+						(rowFaction.childElementCount !== 0 &&
+							rowFaction.find("img") &&
+							rowFaction.find("img").getAttribute("title").trim() !== faction.trim()))
+				) {
 					showRow(li, false);
 					continue;
 				}
@@ -190,7 +198,16 @@
 		}
 
 		function addFactionsToList() {
-			const factions = new Set([...document.findAll(".users-list > li .user.faction img:not([alt=''])")].map((row) => row.getAttribute("title")));
+			const rows = [...document.findAll(".users-list > li .user.faction")];
+			const factions = new Set(
+				rows[0].find("img")
+					? rows
+							.map((row) => row.find("img"))
+							.filter((img) => !!img)
+							.map((img) => img.getAttribute("title").trim())
+							.filter((tag) => !!tag)
+					: rows.map((row) => row.innerText.trim()).filter((tag) => !!tag)
+			);
 
 			for (const fac of factions) {
 				content.find("#tt-faction-filter").appendChild(document.newElement({ type: "option", value: fac, text: fac }));
