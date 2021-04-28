@@ -261,6 +261,6 @@ function isCaptcha() {
 	return !!document.find(".captcha");
 }
 
-function darkMode() {
+function hasDarkMode() {
 	return document.body.classList.contains("dark-mode");
 }

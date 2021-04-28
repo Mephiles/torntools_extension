@@ -22,7 +22,7 @@
 		const svg = navGym.find("svg");
 		if (!gymClass) return;
 
-		if (darkMode()) {
+		if (hasDarkMode()) {
 			if (mobile) {
 				svg.setAttribute("fill", svg.getAttribute("fill").replace("_green", ""));
 				svg.setAttribute("filter", svg.getAttribute("filter").replace("_green", ""));
@@ -46,7 +46,7 @@
 		const navGym = document.find("#nav-gym");
 		const svg = navGym.find("svg");
 
-		if (darkMode()) {
+		if (hasDarkMode()) {
 			if (mobile) {
 				svg.setAttribute("fill", "url(#sidebar_svg_gradient_regular_green_mobile)");
 				svg.setAttribute("filter", "url(#svg_sidebar_green_regular_mobile_green_filter)");
