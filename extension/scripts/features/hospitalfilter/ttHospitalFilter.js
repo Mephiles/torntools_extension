@@ -42,7 +42,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="filter-wrap" id="revive-filter">
+				<div class="filter-wrap">
 					<div class="filter-heading">Revives</div>
 					<div class="filter-multi-wrap">
 						<div class="tt-checkbox-wrap">
@@ -51,7 +51,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="filter-wrap" id="faction-filter">
+				<div class="filter-wrap">
 					<div class="filter-heading">Faction</div>
 					<select name="faction" id="tt-faction-filter">
 						<option selected value="">none</option>
@@ -79,7 +79,7 @@
 		for (const activity of filters.hospital.activity) {
 			content.find(`#activity-filter [value="${activity}"]`).checked = true;
 		}
-		if (filters.hospital.revivesOn) content.find("#revive-filter input[type='checkbox']").checked = true;
+		if (filters.hospital.revivesOn) content.find("#tt-hospital-filter-revivable").checked = true;
 		// There is no faction filter setup
 		timeFilter.find("input#lower").value = filters.hospital.timeStart;
 		timeFilter.find("input#upper").value = filters.hospital.timeEnd;
