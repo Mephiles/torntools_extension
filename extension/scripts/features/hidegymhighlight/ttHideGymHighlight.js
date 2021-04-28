@@ -41,7 +41,7 @@
 
 		navGym.classList.remove(gymClass);
 	}
-	
+
 	function removeHiddenHighlight() {
 		const navGym = document.find("#nav-gym");
 		const svg = navGym.find("svg");
