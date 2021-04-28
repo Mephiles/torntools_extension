@@ -18,7 +18,7 @@
 
 	function hideGymHighlight() {
 		const navGym = document.find("#nav-gym");
-		const gymClass = [...navGym.classList].find((name) => name.includes("available___"));
+		const gymClass = navGym.classList.contains("^=available___");
 		const svg = navGym.find("svg");
 		if (!gymClass) return;
 
