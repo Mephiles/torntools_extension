@@ -180,7 +180,7 @@
 			}
 		}
 		function updateStat() {
-			document.find(".filter-count").innerText = document.findAll(".users-list > li:not(.hidden)").length;
+			filterContent.find(".filter-count").innerText = document.findAll(".users-list > li:not(.hidden)").length;
 		}
 	}
 	function removeFilters() {
