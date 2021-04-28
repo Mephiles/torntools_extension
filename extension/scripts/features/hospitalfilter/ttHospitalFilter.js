@@ -165,8 +165,9 @@
 			}
 
 			function showRow(li, show = true) {
-				if (show) li.classList && li.classList.remove("hidden");
-				else li.classList && li.classList.add("hidden");
+				if (!li.classList) return;
+				if (show) li.classList.remove("hidden");
+				else li.classList.add("hidden");
 			}
 			updateStat();
 		}
