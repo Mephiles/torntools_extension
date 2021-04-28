@@ -1,78 +1,75 @@
-.multi-range-container input[type=range] {
-	box-sizing:border-box;
-	appearance:none;
-	width:100%;
-	height:10px;
-	background-color:white;
-	border-radius:50px;
-	margin:0;
-	border:0;
-	outline:none;
-	background-size:100% 2px;
-	pointer-events:none;
-	box-shadow:inset 0 0 4px #000000;
-	appearance:none;
-	position:absolute;
+.multi-range-container input[type="range"] {
+	box-sizing: border-box;
+	appearance: none;
+	width: 100%;
+	height: 10px;
+	background-color: white;
+	border-radius: 50px;
+	margin: 0;
+	border: 0;
+	outline: none;
+	background-size: 100% 2px;
+	pointer-events: none;
+	box-shadow: inset 0 0 4px #000000;
+	position: absolute;
 }
 
-body.dark-mode .multi-range-container input[type=range] {
+body.dark-mode .multi-range-container input[type="range"] {
 	background-color: #b2b2b2;
 }
 
-.multi-range-container input[type=range]::-webkit-slider-thumb {
-	appearance:none;
+/*noinspection DuplicatedCode*/
+.multi-range-container input[type="range"]::-webkit-slider-thumb {
+	height: 20px;
+	width: 20px;
+	border-radius: 20px;
+	border: solid 1px #b2b2b2;
+	background-color: #fff;
+	position: relative;
+	z-index: 50;
+	cursor: pointer;
+	appearance: none;
+	pointer-events: all;
+	box-shadow: 0 1px 4px 0.5px rgba(0, 0, 0, 0.25);
 }
 
-.multi-range-container input[type=range]::-webkit-slider-thumb {
-	height:20px;
-	width:20px;
-	border-radius:20px;
-	border:solid 1px #b2b2b2;
-	background-color:#fff;
-	position:relative;
-	z-index:50;
-	cursor:pointer;
-	appearance:none;
-	pointer-events:all;
-	box-shadow:0 1px 4px 0.5px rgba(0,0,0,0.25);
-}
-
-.multi-range-container input[type=range]::-moz-range-thumb {
-	height:20px;
-	width:20px;
-	border-radius:20px;
-	border:solid 1px #b2b2b2;
-	background-color:#fff;
-	position:relative;
-	z-index:50;
-	cursor:pointer;
-	appearance:none;
-	pointer-events:all;
-	box-shadow:0 1px 4px 0.5px rgba(0,0,0,0.25);
+/*noinspection DuplicatedCode*/
+.multi-range-container input[type="range"]::-moz-range-thumb {
+	height: 20px;
+	width: 20px;
+	border-radius: 20px;
+	border: solid 1px #b2b2b2;
+	background-color: #fff;
+	position: relative;
+	z-index: 50;
+	cursor: pointer;
+	appearance: none;
+	pointer-events: all;
+	box-shadow: 0 1px 4px 0.5px rgba(0, 0, 0, 0.25);
 }
 
 .multi-range-container {
 	margin-top: 10px;
-	max-width:400px;
+	max-width: 400px;
 }
 
 .multi-range-container .multi-range {
-	position:relative;
+	position: relative;
 	height: 25px;
-	display:block;
-	width:100%;
+	display: block;
+	width: 100%;
 }
 
 .multi-range-container .range-color {
-	background-color:#333;
-	border-radius:50px;
-	width:100%;
-	display:block;
-	height:10px;
-	position:absolute;
+	background-color: #333;
+	border-radius: 50px;
+	width: 100%;
+	display: block;
+	height: 10px;
+	position: absolute;
 	z-index: 10;
 }
 
 body.dark-mode .multi-range-container .range-color {
-	background-color: #F8F8F9;
+	background-color: #f8f8f9;
 }
