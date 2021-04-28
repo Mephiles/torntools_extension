@@ -18,17 +18,15 @@
 
 	function addAcronyms() {
 		for (const stockName of document.findAll("[class*='stockMarket__'] ul[class*='stock__'] [class*='stockName__']")) {
-			stockName.find("[class*='nameContainer__']").classList.add("tt-stock-name");
-			stockName.appendChild(document.newElement({
+			stockName.find("[class*='nameContainer__']").insertAdjacentElement("afterBegin", document.newElement({
 				type: "span",
 				id: "tt-acronym",
-				text: `(${stockName.find("[class*='logoContainer__'] img").src.split("/").last().split(".")[0]})`;
-			}))
+				text: `(${stockName.find("[class*='logoContainer__'] img").src.split("/").last().split(".")[0]}) `,
+			}));
 		}
 	}
 
 	function removeAcronyms() {
-		document.findAll("[class*='stockMarket__'] #tt-stock-name[class*='nameContainer__']").forEach((x) => x.id = x.id.replaceAll("tt-stock-name", ""));
 		document.findAll("#tt-acronym").forEach((x) => x.remove());
 	}
 })();

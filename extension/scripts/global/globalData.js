@@ -265,7 +265,7 @@ const DEFAULT_STORAGE = {
 			},
 			stocks: {
 				acronyms: new DefaultSetting({ type: "boolean", defaultValue: true}),
-			}
+			},
 			events: {
 				easterEggs: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
