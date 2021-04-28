@@ -17,7 +17,7 @@
 	flex-wrap: wrap;
 }
 
-.filter-content.tt-mobile .filter-wrap {
+.tt-mobile .filter-content .filter-wrap {
 	flex: 1 0 100%;
 }
 
@@ -62,26 +62,27 @@
 	margin: auto;
 }
 
-.filter-multi-wrap.tt-mobile {
+.tt-mobile .filter-multi-wrap {
 	width: 80%;
 	display: flex;
 }
 
-.filter-multi-wrap.tt-mobile > * {
+.tt-mobile .filter-multi-wrap > * {
 	flex: 1 0 auto;
 }
 
 .tt-checkbox-wrap input {
-    height: 13px;
-    position: relative;
-    top: -2px;
-    cursor: pointer;
-    margin: 1px 5px 0;
+	height: 13px;
+	position: relative;
+	top: -2px;
+	cursor: pointer;
+	margin: 1px 5px 0;
 }
 
-.tt-checkbox-wrap *, .tt-input-wrap * {
-    display: inline-block;
-    vertical-align: top;
+.tt-checkbox-wrap *,
+.tt-input-wrap * {
+	display: inline-block;
+	vertical-align: top;
 }
 
 .filter-header .statistic {

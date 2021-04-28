@@ -7,6 +7,15 @@
 	margin-right: 15px;
 }
 
+/*noinspection CssInvalidPropertyValue*/
+.tt-mobile #time-filter,
+.tt-mobile #level-filter {
+	max-width: -moz-available; /* WebKit-based browsers will ignore this. */
+	max-width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+	max-width: fill-available;
+	margin-left: 15px;
+}
+
 #hospitalFilter .time-filter-info-wrap,
 #hospitalFilter .level-filter-info-wrap {
 	text-align: center;
