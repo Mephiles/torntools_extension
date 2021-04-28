@@ -127,6 +127,12 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/casino.php*"],
+			"css": ["scripts/features/hidecasinogames/ttHideCasinoGames.css"],
+			"js": ["scripts/features/hidecasinogames/ttHideCasinoGames.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/companies.php*"],
 			"css": [],
 			"js": ["scripts/features/companyspecials/ttCompanySpecials.js"],
