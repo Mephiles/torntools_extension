@@ -207,7 +207,8 @@ const DEFAULT_STORAGE = {
 				nukeRevive: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			profile: {
-				customProfileHeading: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				statusIndicator: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				idBesideProfileName: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			chat: {
 				fontSize: new DefaultSetting({ type: "number", defaultValue: 12 }),

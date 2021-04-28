@@ -2,35 +2,32 @@
 
 (async () => {
 	featureManager.registerFeature(
-		"Custom Profile Heading",
+		"Status Beside Profile Name",
 		"profile",
-		() => settings.pages.profile.customProfileHeading,
+		() => settings.pages.profile.statusIndicator,
 		null,
-		customHeading,
-		removeCustomHeading,
+		addIndicator,
+		removeIndicator,
 		{
-			storage: ["settings.pages.profile.customProfileHeading"],
+			storage: ["settings.pages.profile.statusIndicator"],
 		},
 		async () => {
 			await requireElement(".profile-container .row.basic-info > *:first-child");
 		}
 	);
 
-	function customHeading() {
+	function addIndicator() {
 		const skipToContent = document.find("h4#skip-to-content");
 		const onlOrOffIcon = document.find(".profile-container .row.basic-info > *:first-child");
 		const onlOrOffIconClone = onlOrOffIcon.cloneNode(true);
 		const backgroundPos = getComputedStyle(onlOrOffIcon).backgroundPosition;
 		onlOrOffIconClone.style.backgroundPosition = backgroundPos;
 		onlOrOffIconClone.classList.add("tt-profile-icon");
-		skipToContent.innerHTML = `${skipToContent.innerHTML.replace("'s Profile", "")} [${getUserID()}]`;
 		skipToContent.insertAdjacentElement("beforeBegin", onlOrOffIconClone);
 	}
 
-	function removeCustomHeading() {
-		const skipToContent = document.find("h4#skip-to-content");
-		skipToContent.innerText = skipToContent.innerText.replace(/ \[.*\]/g, "");
-		skipToContent.parentElement.find(".tt-profile-icon").remove();
+	function removeIndicator() {
+		document.find("h4#skip-to-content").parentElement.find(".tt-profile-icon").remove();
 	}
 	
 	function getUserID() {
