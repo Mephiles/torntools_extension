@@ -84,13 +84,13 @@
 						<!-- <li>Newspaper</li> -->
 						<!-- <li>Jail</li> -->
 						<!-- <li>Hospital</li> -->
-						<!-- <li>Casino</li> -->
+						<li name="casino">Casino</li>
 						<!-- <li>Forums</li> -->
 						<!-- <li>Hall of Fame</li> -->
 						<!-- <li>Faction</li> -->
 						<!-- <li>Recruit</li> -->
 						<!-- <li>Competitions</li> -->
-						<!-- <li>Profile</li> -->
+						<li name="profile">Profile</li>
 						<!-- <li>Stock Exchange</li> -->
 						<li name="travel">Travel</li>
 						<!-- <li>Trade</li> -->
@@ -126,7 +126,7 @@
 								<!--suppress HtmlFormInputWithoutLabel -->
 								<input type="radio" name="featureDisplayPosition" value="bottom-right" class="bottom right" />
 							</div>
-							<span class="tabbed note">Position for container</span>
+							<span class="tabbed note">Position of container</span>
 						</div>
 						<div class="option tabbed">
 							<input id="featureDisplayOnlyFailed" type="checkbox" />
@@ -214,7 +214,7 @@
 					</section>
 					<section name="api-usage">
 						<div class="header">API Usage</div>
-						<div class="note">All api usage is checked every 30 seconds.</div>
+						<div class="note">All API usage is checked every 30 seconds.</div>
 						<div class="option advanced">
 							<label for="api_usage-comment">Execute api calls with comment:</label>
 							<input id="api_usage-comment" />
@@ -689,6 +689,22 @@
 								</ul>
 							</label>
 						</div>
+					</section>
+					<section name="profile">
+						<div class="header">Profile</div>
+						<div class="option">
+							<input id="profile-idBesideProfileName" type="checkbox" />
+							<label for="profile-idBesideProfileName">Reformat Profile page headings as "USERNAME [ID]".</label>
+						</div>
+						<div class="option">
+							<input id="profile-statusIndicator" type="checkbox" />
+							<label for="profile-statusIndicator">Show user's status indicator next to their name.</label>
+						</div>
+					</section>
+					<section name="casino">
+						<div class="header">Casino</div>
+						<div class="header extra-mb">Hide Casino Games</div>
+						<div id="hide-casino-games"></div>
 					</section>
 					<section name="travel">
 						<div class="header">Travel</div>

@@ -196,6 +196,7 @@ const DEFAULT_STORAGE = {
 		},
 		hideAreas: new DefaultSetting({ type: "array", defaultValue: [] }),
 		hideIcons: new DefaultSetting({ type: "array", defaultValue: [] }),
+		hideCasinoGames: new DefaultSetting({ type: "array", defaultValue: [] }),
 		customLinks: new DefaultSetting({ type: "array", defaultValue: [] }),
 		pages: {
 			global: {
@@ -205,6 +206,10 @@ const DEFAULT_STORAGE = {
 				keepAttackHistory: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				miniProfileLastAction: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				nukeRevive: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			},
+			profile: {
+				statusIndicator: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				idBesideProfileName: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			chat: {
 				fontSize: new DefaultSetting({ type: "number", defaultValue: 12 }),
