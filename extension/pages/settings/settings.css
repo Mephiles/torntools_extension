@@ -49,8 +49,12 @@ ul.list-table select {
 	border: 1px solid #a7a7a7;
 	padding-left: 4px;
 	outline: none;
-	box-shadow: 0 1px 5px 1px #e8e8e8;
 	margin-right: 4px;
+}
+
+body:not(.dark) ul.list-table input:not([type="checkbox"]),
+body:not(.dark) ul.list-table select {
+	box-shadow: 0 1px 5px 1px #e8e8e8;
 }
 
 ul.list-table button {
