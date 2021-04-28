@@ -94,7 +94,7 @@
 
 		// Listeners
 		filterContent.findAll("input[type='checkbox']").forEach((x) => x.addEventListener("click", filtering))
-		filterContent.findAll("#faction-filter select, input#lower, input#upper").forEach((x) => x.addEventListener("change", filtering));
+		filterContent.findAll("#faction-filter select, input#lower, input#upper").forEach((x) => x.addEventListener("input", filtering));
 
 		addFacsToList();
 		filtering();
