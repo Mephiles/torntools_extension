@@ -210,6 +210,12 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/profiles.php*"],
+			"css": ["scripts/features/statusindicator/ttStatusIndicator.css"],
+			"js": ["scripts/features/idbesideprofilename/ttIDBesideProfileName.js", "scripts/features/statusindicator/ttStatusIndicator.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/trade.php*"],
 			"css": ["scripts/features/itemvalues/ttItemValues.css"],
 			"js": ["scripts/features/itemvalues/ttItemValues.js"],
