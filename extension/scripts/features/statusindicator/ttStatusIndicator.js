@@ -27,7 +27,8 @@
 	}
 
 	function removeIndicator() {
-		document.find("h4#skip-to-content").parentElement.find(".tt-profile-icon").remove();
+		const addedIcon = document.find("h4#skip-to-content").parentElement.find(".tt-profile-icon");
+		if (addedIcon) addedIcon.remove();
 	}
 	
 	function getUserID() {
