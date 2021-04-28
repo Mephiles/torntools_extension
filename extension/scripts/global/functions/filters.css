@@ -76,10 +76,14 @@
     position: relative;
     top: -2px;
     cursor: pointer;
-    margin: 1px 5px 0px;
+    margin: 1px 5px 0;
 }
 
 .tt-checkbox-wrap *, .tt-input-wrap * {
     display: inline-block;
     vertical-align: top;
+}
+
+.filter-header .statistic {
+	margin: 5px 10px 0 0;
 }
