@@ -64,13 +64,27 @@
 			type: "div",
 			class: "filter-wrap",
 			id: "time-filter",
-			children: [newSlider(), document.newElement({ type: "div", class: "time-filter-info" })],
+			children: [
+				newSlider(),
+				document.newElement({
+					type: "div",
+					class: "time-filter-info-wrap",
+					children: [document.newElement({ type: "span", class: "time-filter-info" })],
+				}),
+			],
 		});
 		const levelFilter = document.newElement({
 			type: "div",
 			class: "filter-wrap",
 			id: "level-filter",
-			children: [newSlider(), document.newElement({ type: "div", class: "level-filter-info" })],
+			children: [
+				newSlider(),
+				document.newElement({
+					type: "div",
+					class: "level-filter-info-wrap",
+					children: [document.newElement({ type: "span", class: "level-filter-info" })],
+				}),
+			],
 		});
 		content.find(".filter-content").appendChild(timeFilter);
 		content.find(".filter-content").appendChild(levelFilter);

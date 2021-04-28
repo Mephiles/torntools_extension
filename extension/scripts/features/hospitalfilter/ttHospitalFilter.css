@@ -2,10 +2,18 @@
 	margin-top: 10px;
 }
 
-#time-filter, #level-filter {
+#time-filter,
+#level-filter {
 	margin-right: 15px;
 }
 
-.time-filter-info, .level-filter-info {
+#hospitalFilter .time-filter-info-wrap,
+#hospitalFilter .level-filter-info-wrap {
 	text-align: center;
+}
+
+#hospitalFilter .time-filter-info,
+#hospitalFilter .level-filter-info {
+	display: inline-block;
+	width: 90px;
 }
