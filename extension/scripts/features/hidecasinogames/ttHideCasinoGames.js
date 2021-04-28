@@ -12,11 +12,7 @@
 			storage: ["settings.pages.sidebar.collapseAreas"],
 		},
 		async () => {
-			if (await checkMobile()) return "Not supported on mobile!";
-
 			await requireSidebar();
-
-			if (document.find("#sidebarroot .tablet")) return "Already collapsible.";
 		}
 	);
 

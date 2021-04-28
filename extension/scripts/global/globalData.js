@@ -215,7 +215,6 @@ const DEFAULT_STORAGE = {
 				highlights: new DefaultSetting({ type: "array", defaultValue: [{ name: "$player", color: "#7ca900" }] }),
 				titleHighlights: new DefaultSetting({ type: "array", defaultValue: [] }),
 			},
-			casino: {},
 			sidebar: {
 				notes: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				highlightEnergy: new DefaultSetting({ type: "boolean", defaultValue: true }),
