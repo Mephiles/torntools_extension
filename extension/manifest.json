@@ -214,7 +214,7 @@
 		{
 			"matches": ["https://www.torn.com/profiles.php*"],
 			"css": ["scripts/features/statusindicator/ttStatusIndicator.css"],
-			"js": ["scripts/features/idbesideprofilename/ttIDBesideProfileName.js", "scripts/features/statusindicator/ttStatusIndicator.js"],
+			"js": ["scripts/features/profileid/ttProfileID.js", "scripts/features/statusindicator/ttStatusIndicator.js"],
 			"run_at": "document_end"
 		},
 		{
