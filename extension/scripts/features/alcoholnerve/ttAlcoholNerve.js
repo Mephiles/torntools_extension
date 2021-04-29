@@ -2,7 +2,7 @@
 
 (async () => {
 	const feature = featureManager.registerFeature(
-		"Nerve Gains beside Alcoholic Drinks",
+		"Alcoholic Nerve",
 		"items",
 		() => settings.pages.items.nerveGains,
 		initialiseAddGains,
@@ -23,7 +23,7 @@
 	}
 
 	function addNerveGains() {
-		const facAlcoholGainPerc = parseInt(
+		const facAlcoholGainPerk = parseInt(
 			userdata.faction_perks
 				.filter((x) => /alcohol/i.test(x))
 				.map((x) => {
@@ -46,7 +46,7 @@
 						.filter((x) => !isNaN(x))[0]
 				);
 				let totalNerve = baseNerve;
-				if (!isNaN(facAlcoholGainPerc)) totalNerve += (facAlcoholGainPerc / 100) * baseNerve;
+				if (!isNaN(facAlcoholGainPerk)) totalNerve += (facAlcoholGainPerk / 100) * baseNerve;
 				if (!isNaN(jobAlcoholGainPerc)) totalNerve += (jobAlcoholGainPerc / 100) * baseNerve;
 				const maxNerve = Math.ceil(totalNerve);
 				const minNerve = Math.floor(totalNerve);

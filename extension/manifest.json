@@ -192,7 +192,7 @@
 				"scripts/features/itemvalues/ttItemValues.css",
 				"scripts/features/highlightbloodbags/ttHighlightBloodBags.css",
 				"scripts/features/missingsets/ttMissingSets.css",
-				"scripts/features/nervegainsbesidealc/ttNerveGainsBesideAlc.css"
+				"scripts/features/alcoholnerve/ttAlcoholNerve.css"
 			],
 			"js": [
 				"vendor/jquery/jquery.js",
@@ -203,7 +203,7 @@
 				"scripts/features/itemvalues/ttItemValues.js",
 				"scripts/features/highlightbloodbags/ttHighlightBloodBags.js",
 				"scripts/features/missingsets/ttMissingSets.js",
-				"scripts/features/nervegainsbesidealc/ttNerveGainsBesideAlc.js"
+				"scripts/features/alcoholnerve/ttAlcoholNerve.js"
 			],
 			"run_at": "document_end"
 		},
