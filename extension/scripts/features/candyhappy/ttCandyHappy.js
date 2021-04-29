@@ -2,7 +2,7 @@
 
 (async () => {
 	const feature = featureManager.registerFeature(
-		"Happy Gains beside Candy",
+		"Candy Happy",
 		"items",
 		() => settings.pages.items.candyHappyGains,
 		initialiseAddGains,
