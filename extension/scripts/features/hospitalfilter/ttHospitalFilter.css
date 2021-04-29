@@ -4,7 +4,7 @@
 
 #time-filter,
 #level-filter {
-	margin-right: 15px;
+	margin-left: 15px;
 }
 
 /*noinspection CssInvalidPropertyValue*/
@@ -18,7 +18,7 @@
 
 #hospitalFilter .time-filter-info-wrap,
 #hospitalFilter .level-filter-info-wrap {
-	text-align: center;
+	margin-left: 15%;
 }
 
 #hospitalFilter .time-filter-info,

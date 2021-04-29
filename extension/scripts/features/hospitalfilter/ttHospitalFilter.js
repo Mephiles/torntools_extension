@@ -95,14 +95,19 @@
 		}
 		if (filters.hospital.revivesOn) content.find("#tt-hospital-filter-revivable").checked = true;
 		// There is no faction filter setup
-		timeFilter.find("input#lower").value = filters.hospital.timeStart;
-		timeFilter.find("input#upper").value = filters.hospital.timeEnd;
-		levelFilter.find("input#lower").value = filters.hospital.levelStart;
-		levelFilter.find("input#upper").value = filters.hospital.levelEnd;
+		timeFilter.find(".handle.left").dataset.value = filters.hospital.timeStart;
+		timeFilter.find(".handle.right").dataset.value = filters.hospital.timeEnd;
+		timeFilter.find(".tt-dual-range").style.setProperty("--x-1", (((filters.hospital.timeStart*150)/100)-13) + "px");
+		timeFilter.find(".tt-dual-range").style.setProperty("--x-2", (((filters.hospital.timeEnd*150)/100)-13) + "px");
+		levelFilter.find(".handle.left").dataset.value = filters.hospital.levelStart;
+		levelFilter.find(".handle.right").dataset.value = filters.hospital.levelEnd;
+		levelFilter.find(".tt-dual-range").style.setProperty("--x-1", (((filters.hospital.levelStart*150)/100)-13) + "px");
+		levelFilter.find(".tt-dual-range").style.setProperty("--x-2", (((filters.hospital.levelEnd*150)/100)-13) + "px");
 
 		// Listeners
 		content.findAll("input[type='checkbox']").forEach((x) => x.addEventListener("click", filtering));
-		content.findAll("#tt-faction-filter, input#lower, input#upper").forEach((x) => x.addEventListener("input", filtering));
+		content.find("#tt-faction-filter").addEventListener("input", filtering);
+		content.findAll(".handle.left, .handle.right").forEach((x) => new MutationObserver(filtering).observe(x, {attributes: true}));
 
 		addFactionsToList();
 		filtering();
@@ -115,10 +120,10 @@
 			}
 			const revivesOn = content.find("#tt-hospital-filter-revivable").checked;
 			const faction = content.find("#tt-faction-filter").value;
-			const timeStart = parseInt(timeFilter.find("input#lower").value);
-			const timeEnd = parseInt(timeFilter.find("input#upper").value);
-			const levelStart = parseInt(levelFilter.find("input#lower").value);
-			const levelEnd = parseInt(levelFilter.find("input#upper").value);
+			const timeStart = parseInt(timeFilter.find(".handle.left").dataset.value);
+			const timeEnd = parseInt(timeFilter.find(".handle.right").dataset.value);
+			const levelStart = parseInt(levelFilter.find(".handle.left").dataset.value);
+			const levelEnd = parseInt(levelFilter.find(".handle.right").dataset.value);
 			// Update level and time slider counters
 			content.find(".level-filter-info").innerText = `Level ${levelStart} - ${levelEnd}`;
 			content.find(".time-filter-info").innerText = `Time ${timeStart}h - ${timeEnd}h`;
