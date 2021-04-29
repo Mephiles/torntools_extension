@@ -49,7 +49,7 @@
 				if (!isNaN(facCandyPerc)) totalHappy += (facCandyPerc / 100) * baseHappy;
 				if (!isNaN(jobCandyPerc)) totalHappy += (jobCandyPerc / 100) * baseHappy;
 				const rawHTML = `<span class="tt-candy-gains">${totalHappy}H</span>`;
-				candy.find(".name-wrap .qty.bold.t-hide").insertAdjacentHTML("beforeEnd", rawHTML);
+				candy.find(".name-wrap .qty.bold.t-hide").insertAdjacentHTML("beforeend", rawHTML);
 			}
 		});
 	}
