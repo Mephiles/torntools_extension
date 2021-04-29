@@ -2,7 +2,7 @@
 
 (async () => {
 	const feature = featureManager.registerFeature(
-		"Energy Gains beside E Cans",
+		"Can Energy",
 		"items",
 		() => settings.pages.items.canGains,
 		initialiseAddEGains,
