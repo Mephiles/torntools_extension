@@ -213,15 +213,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/jailview.php*"],
-			"css": [
-				"scripts/global/functions/slider.css",
-				"scripts/global/functions/filters.css",
-				"scripts/features/jailfilters/ttJailFilters.css"
-			],
-			"js": [
-				"scripts/global/functions/slider.js",
-				"scripts/features/jailfilters/ttJailFilters.js"
-			],
+			"css": ["scripts/global/functions/slider.css", "scripts/global/functions/filters.css", "scripts/features/jailfilter/ttJailFilter.css"],
+			"js": ["scripts/global/functions/slider.js", "scripts/features/jailfilter/ttJailFilter.js"],
 			"run_at": "document_end"
 		},
 		{

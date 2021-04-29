@@ -2,7 +2,7 @@
 
 (async () => {
 	featureManager.registerFeature(
-		"Jail Filters",
+		"Jail Filter",
 		"jail",
 		() => settings.pages.jail.filter,
 		null,
@@ -78,7 +78,8 @@
 				}),
 			],
 		});
-		const scoreMax = 100 * (parseInt(document.find(".users-list > *:first-child .info-wrap .time").lastChild.textContent.trim().split(" ")[0].replace(/[hs]/g, "")) + 3);
+		const scoreMax =
+			100 * (parseInt(document.find(".users-list > *:first-child .info-wrap .time").lastChild.textContent.trim().split(" ")[0].replace(/[hs]/g, "")) + 3);
 		const scoreFilter = document.newElement({
 			type: "div",
 			class: "filter-wrap",
@@ -103,12 +104,12 @@
 		// There is no faction filter setup
 		timeFilter.find(".handle.left").dataset.value = filters.jail.timeStart;
 		timeFilter.find(".handle.right").dataset.value = filters.jail.timeEnd;
-		timeFilter.find(".tt-dual-range").style.setProperty("--x-1", (((filters.jail.timeStart*150)/100)-13) + "px");
-		timeFilter.find(".tt-dual-range").style.setProperty("--x-2", (((filters.jail.timeEnd*150)/100)-13) + "px");
+		timeFilter.find(".tt-dual-range").style.setProperty("--x-1", (filters.jail.timeStart * 150) / 100 - 13 + "px");
+		timeFilter.find(".tt-dual-range").style.setProperty("--x-2", (filters.jail.timeEnd * 150) / 100 - 13 + "px");
 		levelFilter.find(".handle.left").dataset.value = filters.jail.levelStart;
 		levelFilter.find(".handle.right").dataset.value = filters.jail.levelEnd;
-		levelFilter.find(".tt-dual-range").style.setProperty("--x-1", (((filters.jail.levelStart*150)/100)-13) + "px");
-		levelFilter.find(".tt-dual-range").style.setProperty("--x-2", (((filters.jail.levelEnd*150)/100)-13) + "px");
+		levelFilter.find(".tt-dual-range").style.setProperty("--x-1", (filters.jail.levelStart * 150) / 100 - 13 + "px");
+		levelFilter.find(".tt-dual-range").style.setProperty("--x-2", (filters.jail.levelEnd * 150) / 100 - 13 + "px");
 		scoreFilter.find(".handle.left").dataset.value = 0;
 		scoreFilter.find(".handle.right").dataset.value = scoreMax;
 		scoreFilter.find(".tt-dual-range").style.setProperty("--x-1", "0px");
@@ -117,7 +118,7 @@
 		// Listeners
 		content.findAll("input[type='checkbox']").forEach((x) => x.addEventListener("click", filtering));
 		content.find("#tt-faction-filter").addEventListener("input", filtering);
-		content.findAll(".handle.left, .handle.right").forEach((x) => new MutationObserver(filtering).observe(x, {attributes: true}));
+		content.findAll(".handle.left, .handle.right").forEach((x) => new MutationObserver(filtering).observe(x, { attributes: true }));
 
 		addFactionsToList();
 		filtering();
@@ -147,7 +148,7 @@
 						timeEnd: timeEnd,
 						levelStart: levelStart,
 						levelEnd: levelEnd,
-					//	scoreStart: scoreStart,
+						//	scoreStart: scoreStart,
 						//scoreEnd: scoreEnd,
 						faction: faction,
 						activity: activity,
