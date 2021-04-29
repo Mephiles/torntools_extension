@@ -1,0 +1,12 @@
+.tt-e-gains {
+	padding-left: 10px;
+	float: none;
+}
+
+body:not(.dark-mode) .tt-e-gains {
+	color: rgb(103, 140, 0);
+}
+
+body.dark-mode .tt-e-gains {
+	color: #99cc00;
+}
