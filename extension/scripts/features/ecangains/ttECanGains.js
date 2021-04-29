@@ -49,7 +49,7 @@
 				if (!isNaN(facECanPerc)) totalEnergy += (facECanPerc / 100) * baseE;
 				if (!isNaN(jobECanPerc)) totalEnergy += (jobECanPerc / 100) * baseE;
 				const rawHTML = `<span class='tt-e-gains'>${totalEnergy}E</span>`;
-				eCanElement.find(".name-wrap").insertAdjacentHTML("beforeEnd", rawHTML);
+				eCanElement.find(".name-wrap").insertAdjacentHTML("beforeend", rawHTML);
 			}
 		});
 	}
