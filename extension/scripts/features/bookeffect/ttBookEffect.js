@@ -1,4 +1,5 @@
 "use strict";
+
 const BOOK_DESCRIPTIONS = {
 	744: "Incr. Str by 5% up to 10m upon completion.",
 	745: "Incr. Spd by 5% up to 10m upon completion.",
@@ -48,7 +49,7 @@ const BOOK_DESCRIPTIONS = {
 
 (async () => {
 	const feature = featureManager.registerFeature(
-		"Book Effects beside names",
+		"Book Effect",
 		"items",
 		() => settings.pages.items.bookEffects,
 		initialiseAddEffects,
