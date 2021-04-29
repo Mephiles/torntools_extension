@@ -72,7 +72,7 @@ const BOOK_DESCRIPTIONS = {
 		document.findAll("[data-category='Book']").forEach((book) => {
 			if (book.find(".tt-book-effect")) return;
 			book.find(".qty.bold.t-hide").insertAdjacentHTML(
-				"afterEnd",
+				"afterend",
 				`<span class="tt-book-effect"> - ${BOOK_DESCRIPTIONS[parseInt(book.dataset.item)]}</span>`
 			);
 		});
