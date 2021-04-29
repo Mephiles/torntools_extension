@@ -256,6 +256,7 @@ const DEFAULT_STORAGE = {
 				highlightBloodBags: new DefaultSetting({ type: "string", defaultValue: "none" }),
 				missingFlowers: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				missingPlushies: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				bookEffects: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			companies: {
 				specials: new DefaultSetting({ type: "boolean", defaultValue: true }),

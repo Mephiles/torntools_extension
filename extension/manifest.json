@@ -191,7 +191,8 @@
 				"scripts/features/drugdetails/ttDrugDetails.css",
 				"scripts/features/itemvalues/ttItemValues.css",
 				"scripts/features/highlightbloodbags/ttHighlightBloodBags.css",
-				"scripts/features/missingsets/ttMissingSets.css"
+				"scripts/features/missingsets/ttMissingSets.css",
+				"scripts/features/bookeffectsbesidename/ttBookEffectsBesideName.css"
 			],
 			"js": [
 				"vendor/jquery/jquery.js",
@@ -201,7 +202,8 @@
 				"scripts/features/drugdetails/ttDrugDetails.js",
 				"scripts/features/itemvalues/ttItemValues.js",
 				"scripts/features/highlightbloodbags/ttHighlightBloodBags.js",
-				"scripts/features/missingsets/ttMissingSets.js"
+				"scripts/features/missingsets/ttMissingSets.js",
+				"scripts/features/bookeffectsbesidename/ttBookEffectsBesideName.js"
 			],
 			"run_at": "document_end"
 		},
