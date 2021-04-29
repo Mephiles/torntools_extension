@@ -244,6 +244,9 @@ const DEFAULT_STORAGE = {
 				chain: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				travel: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			jail: {
+				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 			home: {
 				networthDetails: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				effectiveStats: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -278,6 +281,16 @@ const DEFAULT_STORAGE = {
 			showAdvanced: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 		containers: new DefaultSetting({ type: "object", defaultValue: {} }),
+		jail: {
+			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
+			faction: new DefaultSetting({ type: "string", defaultValue: "" }),
+			timeStart: new DefaultSetting({ type: "string", defaultValue: "0" }),
+			timeEnd: new DefaultSetting({ type: "string", defaultValue: "100" }),
+			scoreStart: new DefaultSetting({ type: "string", defaultValue: "0" }),
+			scoreEnd: new DefaultSetting({ type: "string", defaultValue: "100" }),
+			levelStart: new DefaultSetting({ type: "string", defaultValue: "0" }),
+			levelEnd: new DefaultSetting({ type: "string", defaultValue: "100" }),
+		},
 		travel: {
 			open: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			type: new DefaultSetting({ type: "string", defaultValue: "basic" }),
