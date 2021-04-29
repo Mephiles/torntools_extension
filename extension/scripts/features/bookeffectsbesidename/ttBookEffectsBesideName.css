@@ -1,12 +1,3 @@
 .tt-book-effect {
-	padding-left: 10px;
-	float: none;
-}
-
-body:not(.dark-mode) .tt-book-effect {
-	color: rgb(103, 140, 0);
-}
-
-body.dark-mode .tt-book-effect {
-	color: #99cc00;
+	color: #3070e6;
 }
