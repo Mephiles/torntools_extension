@@ -262,3 +262,7 @@ function getPage() {
 function isCaptcha() {
 	return !!document.find(".captcha");
 }
+
+function hasDarkMode() {
+	return document.body.classList.contains("dark-mode");
+}

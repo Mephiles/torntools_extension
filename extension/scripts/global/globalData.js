@@ -225,6 +225,7 @@ const DEFAULT_STORAGE = {
 				highlightNerve: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				ocTimer: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				collapseAreas: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				hideGymHighlight: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			popup: {
 				dashboard: new DefaultSetting({ type: "boolean", defaultValue: true }),
