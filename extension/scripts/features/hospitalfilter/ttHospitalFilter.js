@@ -2,7 +2,7 @@
 
 (async () => {
 	featureManager.registerFeature(
-		"Hospital Filters",
+		"Hospital Filter",
 		"hospital",
 		() => settings.pages.hospital.filter,
 		null,
@@ -97,17 +97,17 @@
 		// There is no faction filter setup
 		timeFilter.find(".handle.left").dataset.value = filters.hospital.timeStart;
 		timeFilter.find(".handle.right").dataset.value = filters.hospital.timeEnd;
-		timeFilter.find(".tt-dual-range").style.setProperty("--x-1", (((filters.hospital.timeStart*150)/100)-13) + "px");
-		timeFilter.find(".tt-dual-range").style.setProperty("--x-2", (((filters.hospital.timeEnd*150)/100)-13) + "px");
+		timeFilter.find(".tt-dual-range").style.setProperty("--x-1", (filters.hospital.timeStart * 150) / 100 - 13 + "px");
+		timeFilter.find(".tt-dual-range").style.setProperty("--x-2", (filters.hospital.timeEnd * 150) / 100 - 13 + "px");
 		levelFilter.find(".handle.left").dataset.value = filters.hospital.levelStart;
 		levelFilter.find(".handle.right").dataset.value = filters.hospital.levelEnd;
-		levelFilter.find(".tt-dual-range").style.setProperty("--x-1", (((filters.hospital.levelStart*150)/100)-13) + "px");
-		levelFilter.find(".tt-dual-range").style.setProperty("--x-2", (((filters.hospital.levelEnd*150)/100)-13) + "px");
+		levelFilter.find(".tt-dual-range").style.setProperty("--x-1", (filters.hospital.levelStart * 150) / 100 - 13 + "px");
+		levelFilter.find(".tt-dual-range").style.setProperty("--x-2", (filters.hospital.levelEnd * 150) / 100 - 13 + "px");
 
 		// Listeners
 		content.findAll("input[type='checkbox']").forEach((x) => x.addEventListener("click", filtering));
 		content.find("#tt-faction-filter").addEventListener("input", filtering);
-		content.findAll(".handle.left, .handle.right").forEach((x) => new MutationObserver(filtering).observe(x, {attributes: true}));
+		content.findAll(".handle.left, .handle.right").forEach((x) => new MutationObserver(filtering).observe(x, { attributes: true }));
 
 		addFactionsToList();
 		filtering();
