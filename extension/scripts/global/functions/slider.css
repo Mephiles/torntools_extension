@@ -22,7 +22,7 @@
 	height: 26px;
 	background: #fff;
 	position: absolute;
-	box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
 	border-radius: 50%;
 	top: 50%;
 	transform: translateY(-50%);
