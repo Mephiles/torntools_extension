@@ -2,7 +2,7 @@
 
 (async () => {
 	featureManager.registerFeature(
-		"ID beside Profile Name",
+		"Profile ID",
 		"profile",
 		() => settings.pages.profile.idBesideProfileName,
 		null,
