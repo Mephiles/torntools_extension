@@ -165,7 +165,7 @@ const MISSIONS = {
 	},
 	"Rabbit Response": {
 		task: "Defeat 3 (P) within 30/20/15/10 minutes.",
-		hint: "Make sure they're all out of hosp, activate mission and line them all up in tabbed screens to attack.",
+		hint: "Activate mission, make sure they're all out of the hospital and line them all up to attack. Time doesn't start until you attack the first one",
 	},
 	Reconstruction: { task: "Equip kitchen knife/leather gloves, defeat (P) then dump both items.", hint: "Don't have to actually use the kitchen knife." },
 	"Red Faced": { task: "Defeat (P) using a trout as finishing hit." },
