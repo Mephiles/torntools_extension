@@ -128,6 +128,11 @@ body.dark #preferences .sections {
 	position: relative;
 }
 
+body.dark #preferences a[href] {
+	color: #74c0fc;
+	text-decoration: none;
+}
+
 #preferences .option input.single.seconds {
 	width: 45px;
 }

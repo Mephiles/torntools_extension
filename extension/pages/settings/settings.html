@@ -82,7 +82,7 @@
 						<!-- <li>Crimes</li> -->
 						<!-- <li>Missions</li> -->
 						<!-- <li>Newspaper</li> -->
-						<!-- <li>Jail</li> -->
+						<li name="jail">Jail</li>
 						<!-- <li>Hospital</li> -->
 						<li name="casino">Casino</li>
 						<!-- <li>Forums</li> -->
@@ -683,10 +683,6 @@
 							<label for="items-canGains">Show Energy Can gains beside their names.</label>
 						</div>
 						<div class="option">
-							<input id="items-nerveGains" type="checkbox" />
-							<label for="items-nerveGains">Show nerve gains beside Alcohols.</label>
-						</div>
-						<div class="option">
 							<input id="items-candyHappyGains" type="checkbox" />
 							<label for="items-candyHappyGains">Show Happy Gains beside Candy.</label>
 						</div>
@@ -708,6 +704,16 @@
 									</li>
 								</ul>
 							</label>
+						</div>
+					</section>
+					<section name="jail">
+						<div class="header">Jail</div>
+						<div class="option">
+							<input id="jail-filter" type="checkbox" />
+							<label for="jail-filter">Enable Jail filters.</label>
+							<div class="tabbed note">Uses the new Score formula from the 
+								<a href="https://www.torn.com/forums.php#/p=threads&amp;f=61&amp;t=16192039"> forum.</a>
+							</div>
 						</div>
 					</section>
 					<section name="profile">
