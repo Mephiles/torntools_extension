@@ -207,6 +207,7 @@
 				"scripts/features/missingsets/ttMissingSets.css",
 				"scripts/features/bookeffect/ttBookEffect.css",
 				"scripts/features/canenergy/ttCanEnergy.css",
+				"scripts/features/alcoholnerve/ttAlcoholNerve.css",
 				"scripts/features/candyhappy/ttCandyHappy.css"
 			],
 			"js": [
@@ -220,6 +221,7 @@
 				"scripts/features/missingsets/ttMissingSets.js",
 				"scripts/features/bookeffect/ttBookEffect.js"
 				"scripts/features/canenergy/ttCanEnergy.js",
+				"scripts/features/alcoholnerve/ttAlcoholNerve.js",
 				"scripts/features/candyhappy/ttCandyHappy.js"
 			],
 			"run_at": "document_end"

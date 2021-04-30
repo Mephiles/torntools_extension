@@ -258,6 +258,7 @@ const DEFAULT_STORAGE = {
 				missingPlushies: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				bookEffects: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				canGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				nerveGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				candyHappyGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			companies: {
