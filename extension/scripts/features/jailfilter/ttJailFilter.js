@@ -22,7 +22,7 @@
 		});
 		content.innerHTML = `
 			<div class="filter-header">
-				<div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">50</span> users</div>
+				<div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">${document.findAll(".users-list > li").length}</span> users</div>
 			</div>
 			<div class="filter-content">
 				<div class="filter-wrap" id="activity-filter">
@@ -79,7 +79,7 @@
 			],
 		});
 		const scoreMax =
-			100 * (parseInt(document.find(".users-list > *:first-child .info-wrap .time").lastChild.textContent.trim().split(" ")[0].replace(/[hs]/g, "")) + 3);
+			Math.max(100 * (parseInt(document.find(".users-list > *:first-child .info-wrap .time").lastChild.textContent.trim().split(" ")[0].replace(/[hs]/g, "")) + 3), 5000);
 		const scoreFilter = document.newElement({
 			type: "div",
 			class: "filter-wrap",
@@ -104,16 +104,16 @@
 		// There is no faction filter setup
 		timeFilter.find(".handle.left").dataset.value = filters.jail.timeStart;
 		timeFilter.find(".handle.right").dataset.value = filters.jail.timeEnd;
-		timeFilter.find(".tt-dual-range").style.setProperty("--x-1", (filters.jail.timeStart * 150) / 100 - 13 + "px");
-		timeFilter.find(".tt-dual-range").style.setProperty("--x-2", (filters.jail.timeEnd * 150) / 100 - 13 + "px");
+		timeFilter.find(".tt-dual-range").style.setProperty("--x-1", (filters.jail.timeStart * 150) / 100 - 10.5 + "px");
+		timeFilter.find(".tt-dual-range").style.setProperty("--x-2", (filters.jail.timeEnd * 150) / 100 - 10.5 + "px");
 		levelFilter.find(".handle.left").dataset.value = filters.jail.levelStart;
 		levelFilter.find(".handle.right").dataset.value = filters.jail.levelEnd;
-		levelFilter.find(".tt-dual-range").style.setProperty("--x-1", (filters.jail.levelStart * 150) / 100 - 13 + "px");
-		levelFilter.find(".tt-dual-range").style.setProperty("--x-2", (filters.jail.levelEnd * 150) / 100 - 13 + "px");
-		scoreFilter.find(".handle.left").dataset.value = 0;
-		scoreFilter.find(".handle.right").dataset.value = scoreMax;
-		scoreFilter.find(".tt-dual-range").style.setProperty("--x-1", "0px");
-		scoreFilter.find(".tt-dual-range").style.setProperty("--x-2", "137px");
+		levelFilter.find(".tt-dual-range").style.setProperty("--x-1", (filters.jail.levelStart * 150) / 100 - 10.5 + "px");
+		levelFilter.find(".tt-dual-range").style.setProperty("--x-2", (filters.jail.levelEnd * 150) / 100 - 10.5 + "px");
+		scoreFilter.find(".handle.left").dataset.value = filters.jail.scoreStart;
+		scoreFilter.find(".handle.right").dataset.value = filters.jail.scoreEnd;
+		scoreFilter.find(".tt-dual-range").style.setProperty("--x-1", filters.jail.scoreStart < scoreMax ? ((filters.jail.scoreStart/scoreMax) * 150) - 10.5 + "px" : "-10.5px");
+		scoreFilter.find(".tt-dual-range").style.setProperty("--x-2", filters.jail.scoreEnd < scoreMax ? ((filters.jail.scoreEnd/scoreMax) * 150) - 10.5 + "px" : "137px");
 
 		// Listeners
 		content.findAll("input[type='checkbox']").forEach((x) => x.addEventListener("click", filtering));
@@ -148,8 +148,8 @@
 						timeEnd: timeEnd,
 						levelStart: levelStart,
 						levelEnd: levelEnd,
-						//	scoreStart: scoreStart,
-						//scoreEnd: scoreEnd,
+						scoreStart: scoreStart,
+						scoreEnd: scoreEnd,
 						faction: faction,
 						activity: activity,
 					},

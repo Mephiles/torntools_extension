@@ -1,16 +1,17 @@
 .tt-dual-range {
-	height: 20px;
+	height: 12px;
 	width: 150px;
-	background: #f2f2f2;
+	background: #ddd;
 	border-radius: 50px;
 	position: relative;
 	user-select: none;
+	margin: auto;
 }
 
 .tt-dual-range .highlight {
 	position: absolute;
-	height: 20px;
-	width: calc(calc(var(--x-2) - var(--x-1)) + 26px);
+	height: 12px;
+	width: calc(calc(var(--x-2) - var(--x-1)) + 21px);
 	left: var(--x-1);
 	background-color: #627e0d;
 	z-index: 1;
@@ -18,9 +19,8 @@
 }
 
 .tt-dual-range .handle {
-	width: 26px;
-	height: 26px;
-	background: #fff;
+	height: 21px;
+    width: 21px;
 	position: absolute;
 	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
 	border-radius: 50%;
@@ -28,6 +28,15 @@
 	transform: translateY(-50%);
 	z-index: 2;
 	cursor: grab;
+	float: none;
+}
+
+body:not(.dark-mode) .tt-dual-range .handle {
+	background-color: #fff;
+}
+
+body.dark-mode .tt-dual-range .handle {
+	background-color: #e8e8e8;
 }
 
 .tt-dual-range .handle.left {

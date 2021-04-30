@@ -287,7 +287,7 @@ const DEFAULT_STORAGE = {
 			timeStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
 			timeEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
 			scoreStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
-			scoreEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			scoreEnd: new DefaultSetting({ type: "number", defaultValue: 10000 }),
 			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
 			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
 		},

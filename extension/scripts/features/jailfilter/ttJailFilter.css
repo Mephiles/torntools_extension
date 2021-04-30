@@ -1,19 +1,11 @@
+#jailFilter {
+	margin-top: 10px;
+}
+
 #jailFilter .time-filter-info-wrap,
 #jailFilter .level-filter-info-wrap,
 #jailFilter .score-filter-info-wrap {
-	padding: 5px 0 0 20%;
-}
-
-#jailFilter .tt-dual-range {
-	height: 15px;
-}
-
-#jailFilter .tt-dual-range .handle {
-	height: 23px;
-    width: 23px;
-}
-
-#jailFilter .highlight {
-	height: 15px;
-	width: calc(calc(var(--x-2) - var(--x-1)) + 23px);
+	text-align: center;
+    padding-top: 10px;
+    margin: auto;
 }
