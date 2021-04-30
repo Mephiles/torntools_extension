@@ -79,7 +79,17 @@
 			],
 		});
 		const scoreMax =
-			Math.max(100 * (parseInt(document.find(".users-list > *:first-child .info-wrap .time").lastChild.textContent.trim().split(" ")[0].replace(/[hs]/g, "")) + 3), 5000);
+			Math.max(
+				jailScore(
+					100,
+					document.find(".users-list > *:first-child .info-wrap .time")
+						.lastChild
+						.textContent
+						.trim()
+						.split(" ")[0]
+						.replace(/[hs]/g, "")),
+				5000
+			);
 		const scoreFilter = document.newElement({
 			type: "div",
 			class: "filter-wrap",
@@ -201,7 +211,7 @@
 					continue;
 				}
 				// Score
-				const score = level * (timeLeftHrs + 3);
+				const score = jailScore(level, timeLeftHrs);
 				if ((scoreStart && score < scoreStart) || (scoreEnd !== scoreMax && score > scoreEnd)) {
 					showRow(li, false);
 					continue;
@@ -242,5 +252,9 @@
 	function removeFilters() {
 		removeContainer("Jail Filter");
 		document.findAll(".users-list > li.hidden").forEach((x) => x.classList.remove("hidden"));
+	}
+
+	function jailScore(level, timeLeft) {
+		return parseInt(level) * (parseInt(timeLeft) + 3);
 	}
 })();
