@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.items.nerveGains"],
 		},
-		null,
+		null
 	);
 
 	function initialiseAddGains() {

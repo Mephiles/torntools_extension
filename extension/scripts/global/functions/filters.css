@@ -49,8 +49,8 @@
 
 .filter-wrap select {
 	width: fit-content;
-    display: block;
-    margin: auto;
+	display: block;
+	margin: auto;
 }
 
 .filter-hidden,

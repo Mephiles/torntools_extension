@@ -163,15 +163,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/hospitalview.php*"],
-			"css": [
-				"scripts/global/functions/slider.css",
-				"scripts/global/functions/filters.css",
-				"scripts/features/hospitalfilter/ttHospitalFilter.css"
-			],
-			"js": [
-				"scripts/global/functions/slider.js",
-				"scripts/features/hospitalfilter/ttHospitalFilter.js"
-			],
+			"css": ["scripts/global/functions/slider.css", "scripts/global/functions/filters.css", "scripts/features/hospitalfilter/ttHospitalFilter.css"],
+			"js": ["scripts/global/functions/slider.js", "scripts/features/hospitalfilter/ttHospitalFilter.js"],
 			"run_at": "document_end"
 		},
 		{
@@ -219,7 +212,7 @@
 				"scripts/features/itemvalues/ttItemValues.js",
 				"scripts/features/highlightbloodbags/ttHighlightBloodBags.js",
 				"scripts/features/missingsets/ttMissingSets.js",
-				"scripts/features/bookeffect/ttBookEffect.js"
+				"scripts/features/bookeffect/ttBookEffect.js",
 				"scripts/features/canenergy/ttCanEnergy.js",
 				"scripts/features/alcoholnerve/ttAlcoholNerve.js",
 				"scripts/features/candyhappy/ttCandyHappy.js"

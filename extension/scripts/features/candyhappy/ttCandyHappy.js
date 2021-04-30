@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.items.candyHappyGains"],
 		},
-		null,
+		null
 	);
 
 	function initialiseAddGains() {
