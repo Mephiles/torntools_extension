@@ -257,6 +257,7 @@ const DEFAULT_STORAGE = {
 				missingFlowers: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				missingPlushies: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				bookEffects: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				canGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			companies: {
 				specials: new DefaultSetting({ type: "boolean", defaultValue: true }),
