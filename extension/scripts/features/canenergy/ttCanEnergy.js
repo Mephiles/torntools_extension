@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.items.canGains"],
 		},
-		null,
+		null
 	);
 
 	function initialiseAddEGains() {
