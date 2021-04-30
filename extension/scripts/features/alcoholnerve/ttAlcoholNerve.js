@@ -11,15 +11,15 @@
 		{
 			storage: ["settings.pages.items.nerveGains"],
 		},
-		async () => {
-			await requireElement("[data-category='Alcohol']");
-		}
+		null,
 	);
 
 	function initialiseAddGains() {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(() => {
+		const listener = () => {
 			if (feature.enabled()) addNerveGains();
-		});
+		};
+		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(listener);
+		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(listener);
 	}
 
 	function addNerveGains() {
