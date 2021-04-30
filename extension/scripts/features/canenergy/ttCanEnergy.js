@@ -11,15 +11,15 @@
 		{
 			storage: ["settings.pages.items.canGains"],
 		},
-		async () => {
-			await requireElement("[data-category='Energy Drink']");
-		}
+		null,
 	);
 
 	function initialiseAddEGains() {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(() => {
+		const listener = () => {
 			if (feature.enabled()) addEnergyGains();
-		});
+		};
+		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(listener);
+		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(listener);
 	}
 
 	function addEnergyGains() {
