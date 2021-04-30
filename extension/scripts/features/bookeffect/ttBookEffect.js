@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.items.bookEffects"],
 		},
-		null,
+		null
 	);
 
 	function initialiseAddEffects() {
