@@ -3,7 +3,7 @@
 }
 
 .tt-title-torn.collapsed {
-	margin-bottom: 2px;
+	margin-bottom: 2px !important;
 }
 
 .tt-title-torn .icon {

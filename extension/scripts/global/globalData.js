@@ -259,6 +259,7 @@ const DEFAULT_STORAGE = {
 				bookEffects: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				canGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				nerveGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				candyHappyGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			companies: {
 				specials: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -270,6 +271,9 @@ const DEFAULT_STORAGE = {
 			events: {
 				easterEggs: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
+			hospital: {
+				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		external: {
 			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),
@@ -279,6 +283,15 @@ const DEFAULT_STORAGE = {
 	filters: {
 		preferences: {
 			showAdvanced: new DefaultSetting({ type: "boolean", defaultValue: false }),
+		},
+		hospital: {
+			timeStart: new DefaultSetting({ type: "string", defaultValue: "0" }),
+			timeEnd: new DefaultSetting({ type: "string", defaultValue: "100" }),
+			levelStart: new DefaultSetting({ type: "string", defaultValue: "0" }),
+			levelEnd: new DefaultSetting({ type: "string", defaultValue: "100" }),
+			faction: new DefaultSetting({ type: "string", defaultValue: "" }),
+			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
+			revivesOn: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 		containers: new DefaultSetting({ type: "object", defaultValue: {} }),
 		travel: {

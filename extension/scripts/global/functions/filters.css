@@ -1,0 +1,91 @@
+.filter-container + * {
+	margin-top: 0 !important;
+}
+
+.filter-header {
+	margin-bottom: 10px;
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+.filter-header .statistic span {
+	font-weight: 600;
+}
+
+.filter-content {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.tt-mobile .filter-content .filter-wrap {
+	flex: 1 0 100%;
+}
+
+.filter-wrap {
+	flex: 1 0 auto;
+	margin-bottom: 10px;
+}
+
+.filter-subwrap {
+	flex: 1 0 auto;
+	margin-bottom: 10px;
+}
+
+.filter-wrap .filter-heading {
+	text-align: center;
+	font-weight: 600;
+	margin-bottom: 5px;
+}
+
+.filter-slider {
+	width: 70%;
+	margin: auto auto 10px;
+}
+
+.filter-slider + .filter-slider-info {
+	width: 100%;
+	text-align: center;
+}
+
+.filter-wrap select {
+	width: fit-content;
+    display: block;
+    margin: auto;
+}
+
+.filter-hidden,
+.filter-hidden + .tt-user-info {
+	display: none !important;
+}
+
+.filter-multi-wrap {
+	width: fit-content;
+	margin: auto;
+}
+
+.tt-mobile .filter-multi-wrap {
+	width: 80%;
+	display: flex;
+}
+
+.tt-mobile .filter-multi-wrap > * {
+	flex: 1 0 auto;
+}
+
+.tt-checkbox-wrap input {
+	height: 13px;
+	position: relative;
+	top: -2px;
+	cursor: pointer;
+	margin: 1px 5px 0;
+}
+
+.tt-checkbox-wrap *,
+.tt-input-wrap * {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.filter-header .statistic {
+	margin: 5px 10px 0 0;
+}
