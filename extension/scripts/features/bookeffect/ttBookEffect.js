@@ -11,9 +11,7 @@
 		{
 			storage: ["settings.pages.items.bookEffects"],
 		},
-		async () => {
-			await requireElement("[data-category='Book']");
-		}
+		null,
 	);
 
 	function initialiseAddEffects() {
