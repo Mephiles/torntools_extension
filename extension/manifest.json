@@ -162,6 +162,19 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/hospitalview.php*"],
+			"css": [
+				"scripts/global/functions/slider.css",
+				"scripts/global/functions/filters.css",
+				"scripts/features/hospitalfilter/ttHospitalFilter.css"
+			],
+			"js": [
+				"scripts/global/functions/slider.js",
+				"scripts/features/hospitalfilter/ttHospitalFilter.js"
+			],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/imarket.php*"],
 			"css": ["scripts/features/drugdetails/ttDrugDetails.css"],
 			"js": ["scripts/features/drugdetails/ttDrugDetails.js"],

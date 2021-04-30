@@ -15,6 +15,23 @@ function toSeconds(milliseconds) {
 	else return toSeconds(Date.now());
 }
 
+function formatTORNTime(time) {
+	time = time.toLowerCase();
+	let seconds = 0;
+
+	if (time.includes("h")) {
+		seconds += parseInt(time.split("h")[0].trim()) * 60 * 60;
+		time = time.split("h")[1];
+	}
+	if (time.includes("m")) {
+		seconds += parseInt(time.split("m")[0].trim()) * 60;
+		time = time.split("m")[1];
+	}
+	if (time.includes("s")) seconds += parseInt(time.split("s")[0].trim());
+
+	return seconds;
+}
+
 function toMultipleDigits(number, digits = 2) {
 	if (number === undefined) return undefined;
 	return number.toString().length < digits ? toMultipleDigits(`0${number}`, digits) : number;
