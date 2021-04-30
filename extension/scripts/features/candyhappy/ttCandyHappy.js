@@ -11,15 +11,15 @@
 		{
 			storage: ["settings.pages.items.candyHappyGains"],
 		},
-		async () => {
-			await requireElement("[data-category='Candy']");
-		}
+		null,
 	);
 
 	function initialiseAddGains() {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(() => {
+		const listener = () => {
 			if (feature.enabled()) addGains();
-		});
+		};
+		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(listener);
+		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(listener);
 	}
 
 	function addGains() {
