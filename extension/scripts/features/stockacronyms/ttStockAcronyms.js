@@ -18,8 +18,7 @@
 
 	function addAcronyms() {
 		for (const stockName of document.findAll("[class*='stockMarket__'] ul[class*='stock__'] [class*='stockName__']")) {
-			stockName.find("[class*='nameContainer__']").classList.add("tt-name-container");
-			stockName.find("[class*='nameContainer__']").insertAdjacentElement("afterend", document.newElement({
+			stockName.find("[class*='nameContainer__']").insertAdjacentElement("afterbegin", document.newElement({
 				type: "span",
 				id: "tt-acronym",
 				text: `(${stockName.find("[class*='logoContainer__'] img").src.split("/").last().split(".")[0]}) `,

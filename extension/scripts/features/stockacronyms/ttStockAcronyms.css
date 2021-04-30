@@ -1,9 +1,4 @@
-.tt-name-container {
-    white-space: nowrap;
-    margin-left: 15px;
-}
-
-#tt-acronym {
+.tt-acronym {
 	font-size: larger;
 	width: 8ch;
     text-align: right;
