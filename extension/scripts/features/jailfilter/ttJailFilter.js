@@ -22,7 +22,9 @@
 		});
 		content.innerHTML = `
 			<div class="filter-header">
-				<div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">${document.findAll(".users-list > li").length}</span> users</div>
+				<div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">${
+					document.findAll(".users-list > li").length
+				}</span> users</div>
 			</div>
 			<div class="filter-content">
 				<div class="filter-wrap" id="activity-filter">
@@ -78,18 +80,10 @@
 				}),
 			],
 		});
-		const scoreMax =
-			Math.max(
-				jailScore(
-					100,
-					document.find(".users-list > *:first-child .info-wrap .time")
-						.lastChild
-						.textContent
-						.trim()
-						.split(" ")[0]
-						.replace(/[hs]/g, "")),
-				5000
-			);
+		const scoreMax = Math.max(
+			jailScore(100, document.find(".users-list > *:first-child .info-wrap .time").lastChild.textContent.trim().split(" ")[0].replace(/[hs]/g, "")),
+			5000
+		);
 		const scoreFilter = document.newElement({
 			type: "div",
 			class: "filter-wrap",
@@ -122,8 +116,12 @@
 		levelFilter.find(".tt-dual-range").style.setProperty("--x-2", (filters.jail.levelEnd * 150) / 100 - 10.5 + "px");
 		scoreFilter.find(".handle.left").dataset.value = filters.jail.scoreStart;
 		scoreFilter.find(".handle.right").dataset.value = filters.jail.scoreEnd;
-		scoreFilter.find(".tt-dual-range").style.setProperty("--x-1", filters.jail.scoreStart < scoreMax ? ((filters.jail.scoreStart/scoreMax) * 150) - 10.5 + "px" : "-10.5px");
-		scoreFilter.find(".tt-dual-range").style.setProperty("--x-2", filters.jail.scoreEnd < scoreMax ? ((filters.jail.scoreEnd/scoreMax) * 150) - 10.5 + "px" : "137px");
+		scoreFilter
+			.find(".tt-dual-range")
+			.style.setProperty("--x-1", filters.jail.scoreStart < scoreMax ? (filters.jail.scoreStart / scoreMax) * 150 - 10.5 + "px" : "-10.5px");
+		scoreFilter
+			.find(".tt-dual-range")
+			.style.setProperty("--x-2", filters.jail.scoreEnd < scoreMax ? (filters.jail.scoreEnd / scoreMax) * 150 - 10.5 + "px" : "137px");
 
 		// Listeners
 		content.findAll("input[type='checkbox']").forEach((x) => x.addEventListener("click", filtering));
