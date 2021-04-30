@@ -30,7 +30,7 @@
 				secondsLeft--;
 				if (secondsLeft < 0) secondsLeft = 0;
 
-				timer.innerText = formatTime({ seconds: secondsLeft }, { type: "timer" });
+				timer.innerText = formatTime({ seconds: secondsLeft }, { type: "timer", daysToHours: true });
 
 				timer.dataset.secondsLeft = `${secondsLeft}`;
 			}
@@ -186,7 +186,7 @@
 
 								for (const count of responseWrap.findAll(".counter-wrap")) {
 									count.classList.add("tt-modified");
-									count.innerText = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer" });
+									count.innerText = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer", daysToHours: true });
 								}
 
 								if (response.success) {

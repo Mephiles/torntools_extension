@@ -204,7 +204,9 @@
 				"scripts/features/drugdetails/ttDrugDetails.css",
 				"scripts/features/itemvalues/ttItemValues.css",
 				"scripts/features/highlightbloodbags/ttHighlightBloodBags.css",
-				"scripts/features/missingsets/ttMissingSets.css"
+				"scripts/features/missingsets/ttMissingSets.css",
+				"scripts/features/bookeffect/ttBookEffect.css",
+				"scripts/features/canenergy/ttCanEnergy.css"
 			],
 			"js": [
 				"vendor/jquery/jquery.js",
@@ -214,7 +216,9 @@
 				"scripts/features/drugdetails/ttDrugDetails.js",
 				"scripts/features/itemvalues/ttItemValues.js",
 				"scripts/features/highlightbloodbags/ttHighlightBloodBags.js",
-				"scripts/features/missingsets/ttMissingSets.js"
+				"scripts/features/missingsets/ttMissingSets.js",
+				"scripts/features/bookeffect/ttBookEffect.js"
+				"scripts/features/canenergy/ttCanEnergy.js",
 			],
 			"run_at": "document_end"
 		},
@@ -227,7 +231,7 @@
 		{
 			"matches": ["https://www.torn.com/profiles.php*"],
 			"css": ["scripts/features/statusindicator/ttStatusIndicator.css"],
-			"js": ["scripts/features/idbesideprofilename/ttIDBesideProfileName.js", "scripts/features/statusindicator/ttStatusIndicator.js"],
+			"js": ["scripts/features/profileid/ttProfileID.js", "scripts/features/statusindicator/ttStatusIndicator.js"],
 			"run_at": "document_end"
 		},
 		{
