@@ -1,28 +1,10 @@
-#hospitalFilter.tt-container {
+#hospitalFilter {
 	margin-top: 10px;
-}
-
-#time-filter,
-#level-filter {
-	margin-left: 15px;
-}
-
-/*noinspection CssInvalidPropertyValue*/
-.tt-mobile #time-filter,
-.tt-mobile #level-filter {
-	max-width: -moz-available; /* WebKit-based browsers will ignore this. */
-	max-width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
-	max-width: fill-available;
-	margin-left: 15px;
 }
 
 #hospitalFilter .time-filter-info-wrap,
 #hospitalFilter .level-filter-info-wrap {
-	margin-left: 15%;
-}
-
-#hospitalFilter .time-filter-info,
-#hospitalFilter .level-filter-info {
-	display: inline-block;
-	width: 90px;
+	text-align: center;
+    padding-top: 10px;
+    margin: auto;
 }
