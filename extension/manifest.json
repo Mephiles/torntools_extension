@@ -219,7 +219,7 @@
 				"scripts/features/itemvalues/ttItemValues.js",
 				"scripts/features/highlightbloodbags/ttHighlightBloodBags.js",
 				"scripts/features/missingsets/ttMissingSets.js",
-				"scripts/features/bookeffect/ttBookEffect.js"
+				"scripts/features/bookeffect/ttBookEffect.js",
 				"scripts/features/canenergy/ttCanEnergy.js",
 				"scripts/features/alcoholnerve/ttAlcoholNerve.js",
 				"scripts/features/candyhappy/ttCandyHappy.js"
