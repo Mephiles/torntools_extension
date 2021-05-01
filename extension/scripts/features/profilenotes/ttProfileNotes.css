@@ -3,13 +3,9 @@
 }
 
 #profileNotes textarea {
-    width: 98%;
-    min-height: 24px;
-	resize: vertical;
-    box-sizing: border-box;
-	border-radius: inherit;
-    padding: 3px;
-	margin: 10px;
+    height: 76px;
+    padding: 10px;
+    width: -webkit-fill-available;
 }
 
 body:not(.dark-mode) #profileNotes textarea {
