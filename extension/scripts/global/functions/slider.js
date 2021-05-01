@@ -60,11 +60,11 @@ class dualRangeSlider {
 		let newX = e.clientX - parentRect.x - this.startPos;
 		if (isLeft) {
 			const otherX = parseInt(this.range.style.getPropertyValue("--x-2"));
-			newX = Math.min(newX, otherX - handleRect.width);
+			newX = Math.min(newX, otherX);
 			newX = Math.max(newX, 0 - handleRect.width / 2);
 		} else {
 			const otherX = parseInt(this.range.style.getPropertyValue("--x-1"));
-			newX = Math.max(newX, otherX + handleRect.width);
+			newX = Math.max(newX, otherX);
 			newX = Math.min(newX, parentRect.width - handleRect.width / 2);
 		}
 		this.activeHandle.dataset.value = this.calcHandleValue((newX + handleRect.width / 2) / parentRect.width);
