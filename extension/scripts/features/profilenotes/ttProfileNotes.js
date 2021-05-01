@@ -21,34 +21,22 @@
 		const { content } = createContainer("Profile Notes", {
 			nextElement: document.find(".profile-wrapper.medals-wrapper"),
 		});
-		const textBox = document.newElement({ type: "textarea" });
-		if (notes.profile[userID].text) textBox.value = notes.profile[userID].text;
-		textBox.style.height = notes.profile[userID] && notes.profile[userID].height ? notes.profile[userID].height : "17px";
-		content.appendChild(textBox);
-		textBox.addEventListener("input", (event) =>
-			ttStorage.change({
-				notes: {
-					profile: {
-						[userID]: {
-							text: event.target.value,
-							height: event.target.style.height,
-						},
-					},
-				},
-			})
-		);
-		new MutationObserver(() => {
-			ttStorage.change({
-				notes: {
-					profile: {
-						[userID]: {
-							text: findContainer("Profile Notes").find("textarea").value,
-							height: event.target.style.height,
-						},
-					},
-				},
-			});
-		}).observe(textBox, { attributes: true, attributeFilter: ["style"] });
+		const textarea = document.newElement({ type: "textarea" });
+		if (userID in notes.profile) {
+			textarea.value = notes.profile[userID].text || "";
+			textarea.style.height = notes.profile[userID].height || "17px";
+		} else {
+			textarea.value = "";
+			textarea.style.height = "17px";
+		}
+		content.appendChild(textarea);
+		textarea.addEventListener("input", (event) => saveNotes(event.target.value, event.target.style.height));
+
+		new MutationObserver(() => saveNotes(textarea.value, textarea.style.height)).observe(textarea, { attributes: true, attributeFilter: ["style"] });
+
+		function saveNotes(text, height) {
+			ttStorage.change({ notes: { profile: { [userID]: { text, height } } } });
+		}
 	}
 
 	function removeNotes() {
