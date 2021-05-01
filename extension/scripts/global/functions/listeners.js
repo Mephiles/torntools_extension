@@ -13,6 +13,8 @@ const EVENT_CHANNELS = {
 	ITEM_EQUIPPED: "item-equipped",
 	ITEM_ITEMS_LOADED: "item-items-loaded",
 	ITEM_SWITCH_TAB: "item-switch-tab",
+	HOSPITAL_SWITCH_PAGE: "hospital-switch-page",
+	JAIL_SWITCH_PAGE: "jail-switch-page",
 	// Feature callbacks
 	FEATURE_ENABLED: "feature-enabled",
 };
@@ -26,6 +28,8 @@ const CUSTOM_LISTENERS = {
 	[EVENT_CHANNELS.ITEM_EQUIPPED]: [],
 	[EVENT_CHANNELS.ITEM_ITEMS_LOADED]: [],
 	[EVENT_CHANNELS.ITEM_SWITCH_TAB]: [],
+	[EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE]: [],
+	[EVENT_CHANNELS.JAIL_SWITCH_PAGE]: [],
 
 	[EVENT_CHANNELS.FEATURE_ENABLED]: [],
 };

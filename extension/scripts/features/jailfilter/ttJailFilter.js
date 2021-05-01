@@ -1,3 +1,5 @@
+// noinspection DuplicatedCode
+
 "use strict";
 
 (async () => {
@@ -5,7 +7,7 @@
 		"Jail Filter",
 		"jail",
 		() => settings.pages.jail.filter,
-		null,
+		initialiseFilters,
 		addFilters,
 		removeFilters,
 		{
@@ -15,6 +17,10 @@
 			await requireElement(".users-list > *:first-child .info-wrap");
 		}
 	);
+
+	function initialiseFilters() {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.JAIL_SWITCH_PAGE].push(filtering);
+	}
 
 	function addFilters() {
 		const { content } = createContainer("Jail Filter", {
@@ -31,16 +37,16 @@
 					<div class="filter-heading">Activity</div>
 					<div class="filter-multi-wrap">
 						<div class="tt-checkbox-wrap">
-							<input type="checkbox" value="online" id="tt-hospital-filter-online">
-							<label for="tt-hospital-filter-online">Online</label>
+							<input type="checkbox" value="online" id="tt-jail-filter-online">
+							<label for="tt-jail-filter-online">Online</label>
 						</div>
 						<div class="tt-checkbox-wrap">
-							<input type="checkbox" value="idle" id="tt-hospital-filter-idle">
-							<label for="tt-hospital-filter-idle">Idle</label>
+							<input type="checkbox" value="idle" id="tt-jail-filter-idle">
+							<label for="tt-jail-filter-idle">Idle</label>
 						</div>
 						<div class="tt-checkbox-wrap">
-							<input type="checkbox" value="offline" id="tt-hospital-filter-offline">
-							<label for="tt-hospital-filter-offline">Offline</label>
+							<input type="checkbox" value="offline" id="tt-jail-filter-offline">
+							<label for="tt-jail-filter-offline">Offline</label>
 						</div>
 					</div>
 				</div>
@@ -81,7 +87,7 @@
 			],
 		});
 		const scoreMax = Math.max(
-			jailScore(100, document.find(".users-list > *:first-child .info-wrap .time").lastChild.textContent.trim().split(" ")[0].replace(/[hs]/g, "")),
+			getJailScore(100, document.find(".users-list > *:first-child .info-wrap .time").lastChild.textContent.trim().split(" ")[0].replace(/[hs]/g, "")),
 			5000
 		);
 		const scoreFilter = document.newElement({
@@ -130,8 +136,18 @@
 
 		addFactionsToList();
 		filtering();
+	}
 
-		async function filtering() {
+	function filtering() {
+		requireElement(".users-list > li").then(async () => {
+			const content = findContainer("Jail Filter").find(".filter-content");
+			const timeFilter = content.find("#time-filter");
+			const levelFilter = content.find("#level-filter");
+			const scoreFilter = content.find("#score-filter");
+			const scoreMax = Math.max(
+				getJailScore(100, document.find(".users-list > *:first-child .info-wrap .time").lastChild.textContent.trim().split(" ")[0].replace(/[hs]/g, "")),
+				5000
+			);
 			// Get the set filters
 			let activity = [];
 			for (const checkbox of content.findAll("#activity-filter input:checked")) {
@@ -209,7 +225,7 @@
 					continue;
 				}
 				// Score
-				const score = jailScore(level, timeLeftHrs);
+				const score = getJailScore(level, timeLeftHrs);
 				if ((scoreStart && score < scoreStart) || (scoreEnd !== scoreMax && score > scoreEnd)) {
 					showRow(li, false);
 					continue;
@@ -223,28 +239,29 @@
 				else li.classList.add("hidden");
 			}
 			updateStat();
-		}
+		});
+	}
 
-		function addFactionsToList() {
-			const rows = [...document.findAll(".users-list > li .user.faction")];
-			const factions = new Set(
-				rows[0].find("img")
-					? rows
-							.map((row) => row.find("img"))
-							.filter((img) => !!img)
-							.map((img) => img.getAttribute("title").trim())
-							.filter((tag) => !!tag)
-					: rows.map((row) => row.innerText.trim()).filter((tag) => !!tag)
-			);
+	function addFactionsToList() {
+		const content = findContainer("Jail Filter").find(".filter-content");
+		const rows = [...document.findAll(".users-list > li .user.faction")];
+		const factions = new Set(
+			rows[0].find("img")
+				? rows
+						.map((row) => row.find("img"))
+						.filter((img) => !!img)
+						.map((img) => img.getAttribute("title").trim())
+						.filter((tag) => !!tag)
+				: rows.map((row) => row.innerText.trim()).filter((tag) => !!tag)
+		);
 
-			for (const fac of factions) {
-				content.find("#tt-faction-filter").appendChild(document.newElement({ type: "option", value: fac, text: fac }));
-			}
+		for (const fac of factions) {
+			content.find("#tt-faction-filter").appendChild(document.newElement({ type: "option", value: fac, text: fac }));
 		}
+	}
 
-		function updateStat() {
-			content.find(".filter-count").innerText = document.findAll(".users-list > li:not(.hidden)").length;
-		}
+	function updateStat() {
+		findContainer("Jail Filter").find(".filter-count").innerText = document.findAll(".users-list > li:not(.hidden)").length;
 	}
 
 	function removeFilters() {
@@ -252,7 +269,7 @@
 		document.findAll(".users-list > li.hidden").forEach((x) => x.classList.remove("hidden"));
 	}
 
-	function jailScore(level, timeLeft) {
+	function getJailScore(level, timeLeft) {
 		return parseInt(level) * (parseInt(timeLeft) + 3);
 	}
 })();

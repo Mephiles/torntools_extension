@@ -164,7 +164,7 @@
 		{
 			"matches": ["https://www.torn.com/hospitalview.php*"],
 			"css": ["scripts/global/functions/slider.css", "scripts/global/functions/filters.css", "scripts/features/hospitalfilter/ttHospitalFilter.css"],
-			"js": ["scripts/global/functions/slider.js", "scripts/features/hospitalfilter/ttHospitalFilter.js"],
+			"js": ["scripts/global/functions/slider.js", "scripts/content/hospital/ttHospital.js", "scripts/features/hospitalfilter/ttHospitalFilter.js"],
 			"run_at": "document_end"
 		},
 		{
@@ -228,7 +228,7 @@
 		{
 			"matches": ["https://www.torn.com/jailview.php*"],
 			"css": ["scripts/global/functions/slider.css", "scripts/global/functions/filters.css", "scripts/features/jailfilter/ttJailFilter.css"],
-			"js": ["scripts/global/functions/slider.js", "scripts/features/jailfilter/ttJailFilter.js"],
+			"js": ["scripts/global/functions/slider.js", "scripts/content/jail/ttJail.js", "scripts/features/jailfilter/ttJailFilter.js"],
 			"run_at": "document_end"
 		},
 		{
