@@ -25,16 +25,18 @@
 		if (notes.profile[userID].text) textBox.value = notes.profile[userID].text;
 		textBox.style.height = notes.profile[userID] && notes.profile[userID].height ? notes.profile[userID].height : "17px";
 		content.appendChild(textBox);
-		textBox.addEventListener("input", (event) => ttStorage.change({
-			notes: {
-				profile: {
-					[userID]: {
-						text: event.target.value,
-						height: event.target.style.height,
-					}
-				}
-			}
-		}));
+		textBox.addEventListener("input", (event) =>
+			ttStorage.change({
+				notes: {
+					profile: {
+						[userID]: {
+							text: event.target.value,
+							height: event.target.style.height,
+						},
+					},
+				},
+			})
+		);
 		new MutationObserver(() => {
 			ttStorage.change({
 				notes: {
@@ -42,11 +44,11 @@
 						[userID]: {
 							text: findContainer("Profile Notes").find("textarea").value,
 							height: event.target.style.height,
-						}
-					}
-				}
+						},
+					},
+				},
 			});
-		}).observe(textBox, { attributes : true, attributeFilter : ['style'] });
+		}).observe(textBox, { attributes: true, attributeFilter: ["style"] });
 	}
 
 	function removeNotes() {
