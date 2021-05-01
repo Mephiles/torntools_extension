@@ -161,8 +161,7 @@
 							li
 								.find("#iconTray li")
 								.getAttribute("title")
-								.replace(/^<b>/g, "")
-								.replace(/<\/b>$/g, "")
+								.match(/(?<=\<b\>).*(?=\<\/b\>)/g)[0]
 								.toLowerCase()
 								.trim()
 					)
