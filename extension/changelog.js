@@ -41,7 +41,7 @@ export default [
 				{ message: "Apply notification volume for tts.", contributor: "Tesa" },
 				{ message: "Show drug details in every place where you can see item details.", contributor: "DeKleineKobini" },
 				{ message: "Allow temporary items and Box of Tissues as quick items.", contributor: "DeKleineKobini" },
-				{ message: "Jail Filters with new formula.", contributor: "Sashank999" },
+				{ message: "Jail Filters with new formula.", contributor: "bandirao" },
 			],
 		},
 	},
