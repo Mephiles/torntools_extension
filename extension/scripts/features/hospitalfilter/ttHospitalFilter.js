@@ -5,7 +5,7 @@
 		"Hospital Filter",
 		"hospital",
 		() => settings.pages.hospital.filter,
-		null,
+		initialiseFilters,
 		addFilterAndFilter,
 		removeFilters,
 		{
@@ -15,6 +15,10 @@
 			await requireElement(".userlist-wrapper.hospital-list-wrapper .users-list .time");
 		}
 	);
+
+	function initialiseFilters() {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE].push(filtering);
+	}
 
 	function addFilterAndFilter() {
 		const { content } = createContainer("Hospital Filter", {
@@ -56,6 +60,7 @@
 					<select name="faction" id="tt-faction-filter">
 						<option selected value="">none</option>
 						<option disabled value="------">------</option>
+						<option value="${userdata.faction.faction_tag}">${userdata.faction.faction_tag}</option>
 					</select>
 				</div>
 			</div>
@@ -111,8 +116,13 @@
 
 		addFactionsToList();
 		filtering();
+	}
 
-		async function filtering() {
+	function filtering() {
+		requireElement(".users-list > li").then(async () => {
+			const content = findContainer("Hospital Filter").find(".filter-content");
+			const timeFilter = content.find("#time-filter");
+			const levelFilter = content.find("#level-filter");
 			// Get the set filters
 			let activity = [];
 			for (const checkbox of content.findAll("#activity-filter input:checked")) {
@@ -152,8 +162,7 @@
 							li
 								.find("#iconTray li")
 								.getAttribute("title")
-								.replace(/^<b>/g, "")
-								.replace(/<\/b>$/g, "")
+								.match(/(?<=<b>).*(?=<\/b>)/g)[0]
 								.toLowerCase()
 								.trim()
 					)
@@ -200,29 +209,31 @@
 				else li.classList.add("hidden");
 			}
 			updateStat();
-		}
+		});
+	}
 
-		function addFactionsToList() {
-			const rows = [...document.findAll(".users-list > li .user.faction")];
-			const factions = new Set(
-				rows[0].find("img")
-					? rows
-							.map((row) => row.find("img"))
-							.filter((img) => !!img)
-							.map((img) => img.getAttribute("title").trim())
-							.filter((tag) => !!tag)
-					: rows.map((row) => row.innerText.trim()).filter((tag) => !!tag)
-			);
+	function addFactionsToList() {
+		const content = findContainer("Hospital Filter").find(".filter-content");
+		const rows = [...document.findAll(".users-list > li .user.faction")];
+		const factions = new Set(
+			rows[0].find("img")
+				? rows
+						.map((row) => row.find("img"))
+						.filter((img) => !!img)
+						.map((img) => img.getAttribute("title").trim())
+						.filter((tag) => !!tag)
+				: rows.map((row) => row.innerText.trim()).filter((tag) => !!tag)
+		);
 
-			for (const fac of factions) {
-				content.find("#tt-faction-filter").appendChild(document.newElement({ type: "option", value: fac, text: fac }));
-			}
-		}
-
-		function updateStat() {
-			content.find(".filter-count").innerText = document.findAll(".users-list > li:not(.hidden)").length;
+		for (const fac of factions) {
+			content.find("#tt-faction-filter").appendChild(document.newElement({ type: "option", value: fac, text: fac }));
 		}
 	}
+
+	function updateStat() {
+		findContainer("Hospital Filter").find(".filter-count").innerText = document.findAll(".users-list > li:not(.hidden)").length;
+	}
+
 	function removeFilters() {
 		removeContainer("Hospital Filter");
 		document.findAll(".users-list > li.hidden").forEach((x) => x.classList.remove("hidden"));
