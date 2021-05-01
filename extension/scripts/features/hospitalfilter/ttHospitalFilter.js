@@ -60,6 +60,7 @@
 					<select name="faction" id="tt-faction-filter">
 						<option selected value="">none</option>
 						<option disabled value="------">------</option>
+						<option value="${userdata.faction.faction_tag}">${userdata.faction.faction_tag}</option>
 					</select>
 				</div>
 			</div>
