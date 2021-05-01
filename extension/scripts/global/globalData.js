@@ -272,6 +272,9 @@ const DEFAULT_STORAGE = {
 				computer: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				table: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			stocks: {
+				acronyms: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 			events: {
 				easterEggs: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
@@ -289,13 +292,23 @@ const DEFAULT_STORAGE = {
 			showAdvanced: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 		hospital: {
-			timeStart: new DefaultSetting({ type: "string", defaultValue: "0" }),
-			timeEnd: new DefaultSetting({ type: "string", defaultValue: "100" }),
-			levelStart: new DefaultSetting({ type: "string", defaultValue: "0" }),
-			levelEnd: new DefaultSetting({ type: "string", defaultValue: "100" }),
+			timeStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			timeEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
 			faction: new DefaultSetting({ type: "string", defaultValue: "" }),
 			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
 			revivesOn: new DefaultSetting({ type: "boolean", defaultValue: false }),
+		},
+		jail: {
+			timeStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			timeEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			scoreStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			scoreEnd: new DefaultSetting({ type: "number", defaultValue: 5000 }),
+			faction: new DefaultSetting({ type: "string", defaultValue: "" }),
+			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
 		containers: new DefaultSetting({ type: "object", defaultValue: {} }),
 		travel: {
