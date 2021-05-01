@@ -1,23 +1,23 @@
-.tt-title-torn {
-	cursor: pointer !important;
+#profileNotes {
+	margin-top: 10px;
 }
 
-.tt-title-torn.collapsed {
-	margin-bottom: 2px !important;
+#profileNotes textarea {
+    width: 98%;
+    min-height: 24px;
+	resize: vertical;
+    box-sizing: border-box;
+	border-radius: inherit;
+    padding: 3px;
+	margin: 10px;
 }
 
-.tt-title-torn .icon {
-	line-height: inherit;
-	font-size: 16px;
-	position: absolute;
-	top: 1px;
-	right: 9px;
+body:not(.dark-mode) #profileNotes textarea {
+	background-color: rgb(242, 242, 242);
+	color: #333;
 }
 
-.tt-title-torn.collapsed .icon {
-	transform: rotate(-90deg);
-}
-
-.tt-title-torn.collapsed + div {
-	display: none;
+body.dark-mode #profileNotes textarea {
+	background-color: #000;
+	color: #fff;
 }

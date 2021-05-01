@@ -233,8 +233,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/profiles.php*"],
-			"css": ["scripts/features/statusindicator/ttStatusIndicator.css"],
-			"js": ["scripts/features/profileid/ttProfileID.js", "scripts/features/statusindicator/ttStatusIndicator.js"],
+			"css": ["scripts/features/profilenotes/ttProfileNotes.css", "scripts/features/statusindicator/ttStatusIndicator.css"],
+			"js": ["scripts/features/profileid/ttProfileID.js", "scripts/features/profilenotes/ttProfileNotes.js", "scripts/features/statusindicator/ttStatusIndicator.js"],
 			"run_at": "document_end"
 		},
 		{
