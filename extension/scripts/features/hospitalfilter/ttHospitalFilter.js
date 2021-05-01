@@ -162,7 +162,7 @@
 							li
 								.find("#iconTray li")
 								.getAttribute("title")
-								.match(/(?<=\<b\>).*(?=\<\/b\>)/g)[0]
+								.match(/(?<=<b>).*(?=<\/b>)/g)[0]
 								.toLowerCase()
 								.trim()
 					)
@@ -175,13 +175,15 @@
 					showRow(li, false);
 					continue;
 				}
-	
+
 				// Faction
 				const rowFaction = li.find(".user.faction");
 				if (
 					faction &&
 					((rowFaction.childElementCount === 0 && rowFaction.innerText.trim() !== faction.trim()) ||
-						(rowFaction.childElementCount !== 0 && rowFaction.find("img") && rowFaction.find("img").getAttribute("title").trim() !== faction.trim()))
+						(rowFaction.childElementCount !== 0 &&
+							rowFaction.find("img") &&
+							rowFaction.find("img").getAttribute("title").trim() !== faction.trim()))
 				) {
 					showRow(li, false);
 					continue;
@@ -200,14 +202,14 @@
 				}
 				showRow(li);
 			}
-	
+
 			function showRow(li, show = true) {
 				if (!li.classList) return;
 				if (show) li.classList.remove("hidden");
 				else li.classList.add("hidden");
 			}
 			updateStat();
-		})
+		});
 	}
 
 	function addFactionsToList() {

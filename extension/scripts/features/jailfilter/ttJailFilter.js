@@ -1,3 +1,5 @@
+// noinspection DuplicatedCode
+
 "use strict";
 
 (async () => {
@@ -5,7 +7,7 @@
 		"Jail Filter",
 		"jail",
 		() => settings.pages.jail.filter,
-		null,
+		initialiseFilters,
 		addFilters,
 		removeFilters,
 		{
@@ -85,7 +87,7 @@
 			],
 		});
 		const scoreMax = Math.max(
-			jailScore(100, document.find(".users-list > *:first-child .info-wrap .time").lastChild.textContent.trim().split(" ")[0].replace(/[hs]/g, "")),
+			getJailScore(100, document.find(".users-list > *:first-child .info-wrap .time").lastChild.textContent.trim().split(" ")[0].replace(/[hs]/g, "")),
 			5000
 		);
 		const scoreFilter = document.newElement({
@@ -143,7 +145,7 @@
 			const levelFilter = content.find("#level-filter");
 			const scoreFilter = content.find("#score-filter");
 			const scoreMax = Math.max(
-				jailScore(100, document.find(".users-list > *:first-child .info-wrap .time").lastChild.textContent.trim().split(" ")[0].replace(/[hs]/g, "")),
+				getJailScore(100, document.find(".users-list > *:first-child .info-wrap .time").lastChild.textContent.trim().split(" ")[0].replace(/[hs]/g, "")),
 				5000
 			);
 			// Get the set filters
@@ -163,7 +165,7 @@
 			content.find(".time-filter-info").innerText = `Time ${timeStart}h - ${timeEnd}h`;
 			content.find(".score-filter-info").innerText = `Score ${scoreStart} - ${scoreEnd}`;
 			// Save filters
-			ttStorage.change({
+			await ttStorage.change({
 				filters: {
 					jail: {
 						timeStart: timeStart,
@@ -223,7 +225,7 @@
 					continue;
 				}
 				// Score
-				const score = jailScore(level, timeLeftHrs);
+				const score = getJailScore(level, timeLeftHrs);
 				if ((scoreStart && score < scoreStart) || (scoreEnd !== scoreMax && score > scoreEnd)) {
 					showRow(li, false);
 					continue;
@@ -267,7 +269,7 @@
 		document.findAll(".users-list > li.hidden").forEach((x) => x.classList.remove("hidden"));
 	}
 
-	function jailScore(level, timeLeft) {
+	function getJailScore(level, timeLeft) {
 		return parseInt(level) * (parseInt(timeLeft) + 3);
 	}
 })();
