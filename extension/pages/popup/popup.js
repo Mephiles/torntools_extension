@@ -572,7 +572,9 @@ async function setupStocksOverview() {
 			const stock = userdata.stocks[buyId];
 			const id = stock.stock_id;
 
-			const profit = ((torndata.stocks[id].current_price - stock.bought_price) * stock.shares).dropDecimals();
+			const lastTransaction = Object.keys(stock.transactions).last();
+			const boughtPrice = stock.transactions[lastTransaction].bought_price;
+			const profit = ((torndata.stocks[id].current_price - boughtPrice) * stock.total_shares).dropDecimals();
 
 			const wrapper = document.newElement({ type: "div", class: "stock-wrap" });
 			wrapper.appendChild(document.newElement("hr"));
@@ -594,7 +596,7 @@ async function setupStocksOverview() {
 						document.newElement({
 							type: "span",
 							class: "quantity",
-							text: `(${formatNumber(stock.shares, { shorten: 2 })} share${applyPlural(stock.shares)})`,
+							text: `(${formatNumber(stock.total_shares, { shorten: 2 })} share${applyPlural(stock.total_shares)})`,
 						}),
 					],
 				})
@@ -618,7 +620,7 @@ async function setupStocksOverview() {
 					}),
 					document.newElement({
 						type: "span",
-						text: `Bought at: $${formatNumber(stock.bought_price, { decimals: 3 })}`,
+						text: `Bought at: $${formatNumber(boughtPrice, { decimals: 3 })}`,
 					}),
 				],
 			});
@@ -639,12 +641,12 @@ async function setupStocksOverview() {
 					children: [
 						document.newElement({
 							type: "span",
-							text: `Required stocks: ${formatNumber(stock.shares)}/${formatNumber(torndata.stocks[id].benefit.requirement)}`,
+							text: `Required stocks: ${formatNumber(stock.total_shares)}/${formatNumber(torndata.stocks[id].benefit.requirement)}`,
 						}),
 						document.newElement("br"),
 						document.newElement({
 							type: "span",
-							class: `description ${stock.shares >= torndata.stocks[id].benefit.requirement ? "completed" : "not-completed"}`,
+							class: `description ${stock.total_shares >= torndata.stocks[id].benefit.requirement ? "completed" : "not-completed"}`,
 							text: `${torndata.stocks[id].benefit.description}.`,
 						}),
 					],
