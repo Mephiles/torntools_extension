@@ -218,6 +218,7 @@ const DEFAULT_STORAGE = {
 				completeUsernames: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				highlights: new DefaultSetting({ type: "array", defaultValue: [{ name: "$player", color: "#7ca900" }] }),
 				titleHighlights: new DefaultSetting({ type: "array", defaultValue: [] }),
+				tradeTimer: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			sidebar: {
 				notes: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -289,6 +290,9 @@ const DEFAULT_STORAGE = {
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	factiondata: new DefaultSetting({ type: "object", defaultValue: {} }),
+	localdata: {
+		tradeMessage: new DefaultSetting({ type: "number", defaultValue: 0 }),
+	},
 	stakeouts: new DefaultSetting({ type: "object", defaultValue: {} }),
 	attackHistory: {
 		fetchData: new DefaultSetting({ type: "boolean", defaultValue: true }),

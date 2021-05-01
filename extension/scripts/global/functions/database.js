@@ -1,6 +1,6 @@
 "use strict";
 
-let settings, filters, version, api, userdata, torndata, stakeouts, attackHistory, notes, factiondata, quick;
+let settings, filters, version, api, userdata, torndata, stakeouts, attackHistory, notes, factiondata, quick, localdata;
 let databaseLoaded = false;
 let databaseLoading = false;
 const storageListeners = {
@@ -11,6 +11,7 @@ const storageListeners = {
 	stakeouts: [],
 	notes: [],
 	factiondata: [],
+	localdata: [],
 };
 
 async function loadDatabase() {
@@ -30,6 +31,7 @@ async function loadDatabase() {
 	api = database.api;
 	userdata = database.userdata;
 	torndata = database.torndata;
+	localdata = database.localdata;
 	stakeouts = database.stakeouts;
 	attackHistory = database.attackHistory;
 	notes = database.notes;
@@ -77,6 +79,9 @@ chrome.storage.onChanged.addListener((changes, area) => {
 					break;
 				case "quick":
 					quick = changes.quick.newValue;
+					break;
+				case "localdata":
+					localdata = changes.localdata.newValue;
 					break;
 			}
 			if (storageListeners[key]) storageListeners[key].forEach((listener) => listener(changes[key].oldValue));
