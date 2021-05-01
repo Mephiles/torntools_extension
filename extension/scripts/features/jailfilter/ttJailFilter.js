@@ -145,7 +145,10 @@
 			const levelFilter = content.find("#level-filter");
 			const scoreFilter = content.find("#score-filter");
 			const scoreMax = Math.max(
-				getJailScore(100, document.find(".users-list > *:first-child .info-wrap .time").lastChild.textContent.trim().split(" ")[0].replace(/[hs]/g, "")),
+				getJailScore(
+					100,
+					document.find(".users-list > *:first-child .info-wrap .time").lastChild.textContent.trim().split(" ")[0].replace(/[hs]/g, "")
+				),
 				5000
 			);
 			// Get the set filters
