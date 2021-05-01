@@ -36,7 +36,8 @@
 
 			if (seconds <= 0) {
 				countdown.removeAttribute("seconds-down");
-				countdown.innerText = "Ready";
+				countdown.innerText = countdown.dataset.doneText || "Ready";
+				delete countdown.dataset.seconds;
 				continue;
 			}
 
