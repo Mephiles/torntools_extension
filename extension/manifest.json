@@ -131,7 +131,6 @@
 				"scripts/global/functions/database.js",
 				"scripts/global/functions/requires.js",
 				"scripts/features/autoapifill/ttAutoAPIFill.js"
-
 			],
 			"run_at": "document_start"
 		},
