@@ -281,6 +281,9 @@ const DEFAULT_STORAGE = {
 			hospital: {
 				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			api: {
+				autoFillKey: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		external: {
 			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),

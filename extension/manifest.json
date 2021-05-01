@@ -125,6 +125,18 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/api.html*"],
+			"js": [
+				"scripts/global/globalClasses.js",
+				"scripts/global/globalData.js",
+				"scripts/global/functions/dom.js",
+				"scripts/global/functions/database.js",
+				"scripts/global/functions/requires.js",
+				"scripts/features/autoapifill/ttAutoAPIFill.js"
+			],
+			"run_at": "document_start"
+		},
+		{
 			"matches": ["https://www.torn.com/bazaar.php*"],
 			"css": ["scripts/features/drugdetails/ttDrugDetails.css", "scripts/features/itemvalues/ttItemValues.css"],
 			"js": ["scripts/features/drugdetails/ttDrugDetails.js", "scripts/features/itemvalues/ttItemValues.js"],
