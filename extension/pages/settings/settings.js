@@ -521,7 +521,7 @@ async function setupPreferences() {
 			_preferences.find(`#hide-icons .${icon}`).parentElement.classList.add("disabled");
 		}
 		for (const game of settings.hideCasinoGames) {
-			_preferences.find(`#hide-casino-games .${icon}`).parentElement.classList.add("disabled");
+			_preferences.find(`#hide-casino-games span[name="${game}"]`).classList.add("disabled");
 		}
 		for (const link of settings.customLinks) {
 			addCustomLink(link);

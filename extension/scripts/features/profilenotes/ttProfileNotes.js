@@ -11,12 +11,12 @@
 		{
 			storage: ["settings.pages.profile.notes"],
 		},
-		async () => {
-			await requireElement(".profile-information-wrapper .box-value");
-		}
+		null
 	);
 
-	function addNotes() {
+	async function addNotes() {
+		await requireElement(".profile-information-wrapper .box-value");
+
 		const userID = getUserID();
 		const { content } = createContainer("Profile Notes", {
 			nextElement: document.find(".profile-wrapper.medals-wrapper"),

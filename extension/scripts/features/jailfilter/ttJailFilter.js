@@ -13,16 +13,16 @@
 		{
 			storage: ["settings.pages.jail.filter"],
 		},
-		async () => {
-			await requireElement(".users-list > *:first-child .info-wrap");
-		}
+		null
 	);
 
 	function initialiseFilters() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.JAIL_SWITCH_PAGE].push(filtering);
 	}
 
-	function addFilters() {
+	async function addFilters() {
+		await requireElement(".users-list > *:first-child .info-wrap");
+
 		const { content } = createContainer("Jail Filter", {
 			nextElement: document.find(".users-list-title"),
 		});

@@ -11,19 +11,19 @@
 		{
 			storage: ["settings.pages.profile.idBesideProfileName"],
 		},
-		async () => {
-			await requireElement(".basic-info .info-table > *:first-child");
-		}
+		null
 	);
 
-	function addID() {
+	async function addID() {
+		await requireElement(".basic-info .info-table > *:first-child");
+
 		const skipToContent = document.find("h4#skip-to-content");
 		skipToContent.innerHTML = `${skipToContent.innerHTML.replace("'s Profile", "")} [${getUserID()}]`;
 	}
 
 	function removeID() {
 		const skipToContent = document.find("h4#skip-to-content");
-		skipToContent.innerText = skipToContent.innerText.replace(/ \[.*\]/g, "") + "'s Profile";
+		skipToContent.innerText = skipToContent.innerText.replace(/ \[.*]/g, "") + "'s Profile";
 	}
 
 	function getUserID() {

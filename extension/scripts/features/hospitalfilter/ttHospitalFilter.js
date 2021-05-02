@@ -6,21 +6,21 @@
 		"hospital",
 		() => settings.pages.hospital.filter,
 		initialiseFilters,
-		addFilterAndFilter,
+		addFilters,
 		removeFilters,
 		{
 			storage: ["settings.pages.hospital.filter"],
 		},
-		async () => {
-			await requireElement(".userlist-wrapper.hospital-list-wrapper .users-list .time");
-		}
+		null
 	);
 
 	function initialiseFilters() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE].push(filtering);
 	}
 
-	function addFilterAndFilter() {
+	async function addFilters() {
+		await requireElement(".userlist-wrapper.hospital-list-wrapper .users-list .time");
+
 		const { content } = createContainer("Hospital Filter", {
 			nextElement: document.find(".users-list-title"),
 		});

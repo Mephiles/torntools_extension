@@ -11,9 +11,7 @@
 		{
 			storage: ["settings.pages.chat.tradeTimer", "localdata.tradeMessage"],
 		},
-		async () => {
-			await requireChatsLoaded();
-		}
+		null
 	);
 
 	function initialise() {
@@ -24,7 +22,9 @@
 		});
 	}
 
-	function detectChat() {
+	async function detectChat() {
+		await requireChatsLoaded();
+
 		const chat = document.find("#chatRoot [class*='chat-box_'][class*='trade_'][class*='chat-active_']");
 		if (!chat) return;
 

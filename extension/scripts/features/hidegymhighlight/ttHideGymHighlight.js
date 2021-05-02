@@ -13,12 +13,12 @@
 		{
 			storage: ["settings.pages.sidebar.hideGymHighlight"],
 		},
-		async () => {
-			await requireSidebar();
-		}
+		null
 	);
 
-	function hideGymHighlight() {
+	async function hideGymHighlight() {
+		await requireSidebar();
+
 		const navGym = document.find("#nav-gym");
 		const gymClass = navGym.classList.contains("^=available___");
 		const svg = navGym.find("svg");

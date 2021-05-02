@@ -11,12 +11,12 @@
 		{
 			storage: ["settings.pages.stocks.acronyms"],
 		},
-		async () => {
-			await requireElement("[class*='stockMarket__'] ul[class*='stock__'] [class*='nameContainer__']");
-		}
+		null
 	);
 
-	function addAcronyms() {
+	async function addAcronyms() {
+		await requireElement("[class*='stockMarket__'] ul[class*='stock__'] [class*='nameContainer__']");
+
 		for (const stockName of document.findAll("[class*='stockMarket__'] ul[class*='stock__'] [class*='stockName__']")) {
 			const container = stockName.find("[class*='nameContainer__']");
 

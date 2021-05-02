@@ -11,12 +11,12 @@
 		{
 			storage: ["settings.hideIcons"],
 		},
-		null
+		async () => {
+			await requireSidebar();
+		}
 	);
 
-	async function initialiseHideIcons() {
-		await requireSidebar();
-
+	function initialiseHideIcons() {
 		const selector = "#sidebarroot ul[class*='status-icons_']";
 		if (document.find(selector)) {
 			new MutationObserver((mutations, observer) => {

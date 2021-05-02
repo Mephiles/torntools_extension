@@ -14,13 +14,15 @@
 		null
 	);
 
-	async function hideZalgo() {
-		await requireElement("#chatRoot");
-		document.find("#chatRoot").classList.add("no-zalgo");
-	}
-
 	async function showZalgo() {
 		await requireElement("#chatRoot");
 		document.find("#chatRoot").classList.remove("no-zalgo");
+	}
+
+	function hideZalgo() {
+		const root = document.find("#chatRoot");
+		if (!root) return;
+
+		root.classList.add("no-zalgo");
 	}
 })();

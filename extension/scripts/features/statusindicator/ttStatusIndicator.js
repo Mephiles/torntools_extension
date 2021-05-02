@@ -11,12 +11,12 @@
 		{
 			storage: ["settings.pages.profile.statusIndicator"],
 		},
-		async () => {
-			await requireElement(".profile-container .row.basic-info > *:first-child");
-		}
+		async () => {}
 	);
 
-	function addIndicator() {
+	async function addIndicator() {
+		await requireElement(".profile-container .row.basic-info > *:first-child");
+
 		const skipToContent = document.find("h4#skip-to-content");
 		const onlOrOffIcon = document.find(".profile-container .row.basic-info > *:first-child");
 		const onlOrOffIconClone = onlOrOffIcon.cloneNode(true);
