@@ -1,6 +1,19 @@
 export default {
-	"v5.9 - xxxx, xxth. 2021": {
-		Features: ["Filter faction members by position. - Sashank999"],
+	"v5.10 - xxxxx, xxth. 2021": {
+		Features: [],
+		Fixes: [],
+		Changes: [],
+	},
+	"v5.9 - May, 02th. 2021": {
+		Features: [
+			"Filter faction members by position. - Sashank999",
+			"Battle Stat on Attack Page. - Sashank999",
+			"Aliases for users in Chatboxes and Userlists. - Sashank999",
+			"Win Percentage on Racing Upgrades. - Sashank999",
+			"Faction filter in Abroad. - Sashank999",
+			"Highlight properties if upkeep is due. - Sashank999",
+			"Display NPCs Loot info on Sidebar. - Sashank999",
+		],
 		Fixes: [
 			"Solve duplicate items on the map being ignored. - DKK",
 			"Fix showing hidden portfolio stocks. - Sashank999",
@@ -9,9 +22,22 @@ export default {
 			"Don't warn when education course and bank investment are completed during travel. - Sashank999",
 			"Fix travel count not being correct. - Sashank999",
 			"Chat highlight not working. - Sashank999",
+			"'fill max' not appearing on mobile. - Sashank999",
+			"Warn to check user faction chat when chain is near to bonus hit. - Sashank999",
+			"Add numbers to faction member list. - Sashank999",
+			"TT Settings in Dark Mode. - Sashank999",
 			"Racing upgrades not appearing. - DKK",
+			"Fix hospital filter being broken on tablet mode. - DKK",
+			"Filters on Stocks 3.0. - Sashank999",
+			"Fix Faction Enhancements on mobile. - Sashank999",
+			"All items filters not working abroad. - Sashank999",
+			"Hide userinfo rows on the faction filter. - DKK",
 		],
-		Changes: ["Dark Mode for TornTools. - Sashank999"],
+		Changes: [
+			"Dark Mode for TornTools. - Sashank999",
+			"Show travel table while racing. - Sashank999",
+			"Show faction filter always when on Jail page. - Sashank999",
+		],
 	},
 	"v5.8 - March, 25th. 2021": {
 		Features: [

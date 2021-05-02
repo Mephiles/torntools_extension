@@ -39,3 +39,14 @@
 	background: repeating-linear-gradient(90deg, #627e0d, #627e0d 2px, #6e8820 0, #6e8820 4px);
 	color: white;
 }
+
+#ttIframe {
+	height: 1350px;
+	width: 1085px;
+	background-color: white;
+}
+
+#sidebarroot.tt-modified {
+	left: 0%;
+	position: absolute;
+}

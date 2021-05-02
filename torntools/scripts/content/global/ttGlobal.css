@@ -294,10 +294,6 @@
 	background-color: var(--default-bg-panel-active-color, #444);
 }
 
-.dark-mode #sidebar > div.tt-nav-section:nth-child(2) .tt-content [class*="area-row_"] {
-	background-color: #f2f2f2;
-}
-
 .dark-mode .tt-nav-section .tt-content [class*="area-row_"] {
 	background-color: #333;
 }
@@ -314,6 +310,11 @@
 	border: unset;
 	box-sizing: border-box;
 	padding: 3px;
+}
+
+.dark-mode .tt-nav-textarea {
+	background-color: #333 !important;
+	color: white !important;
 }
 
 .tt-nav-textarea::-webkit-scrollbar {
@@ -662,6 +663,11 @@ div[role="main"].tt-modified {
 	padding-bottom: 2px;
 	width: -moz-available;
 	width: -webkit-fill-available;
+}
+
+.dark-mode .tt-userinfo-container {
+	background-color: #333;
+	color: #ddd;
 }
 
 .tt-userinfo-container .tt-userinfo-row {
@@ -1052,4 +1058,124 @@ div[role="main"].tt-modified {
 
 .tt-mini-data {
 	color: #333;
+}
+
+.tt-fac-chain-bonus-warning {
+	position: fixed;
+	height: max-content;
+	width: 210px;
+	background-color: #f2f2f2;
+	border-radius: 5px;
+	z-index: 999999;
+	top: 45%;
+	left: 45%;
+}
+
+.tt-fac-chain-bonus-warning > div {
+	text-align: center;
+	color: #333;
+	font-size: large;
+	margin: 5%;
+}
+
+.dark-mode .tt-fac-chain-bonus-warning > div {
+	color: white !important;
+}
+
+.dark-mode .tt-fac-chain-bonus-warning {
+	background-color: #333 !important;
+}
+
+.tt-upkeep > div {
+	background-color: var(--sidebar-area-bg-available) !important;
+}
+
+.tt-mobile .tt-upkeep > div {
+	background-color: unset !important;
+}
+
+.tt-mobile .tt-upkeep span:not([class*="svgIconWrap"]) {
+	color: #85b200 !important;
+}
+
+div#tt-loot {
+	border-radius: 0 5px 5px 0;
+}
+
+body:not(.dark-mode) div#tt-loot {
+	background-color: #f2f2f2;
+}
+
+body.dark-mode div#tt-loot {
+	background-color: #333;
+}
+
+div#tt-loot .tt-npc:first-child {
+	padding-top: 5px;
+}
+
+div#tt-loot .tt-npc:last-child {
+	padding-bottom: 5px;
+}
+
+div#tt-loot .tt-npc {
+	padding-bottom: 5px;
+	width: fit-content;
+}
+
+div#tt-loot .tt-npc .tt-npc-information {
+	margin: 0 10px 0 10px;
+}
+
+div#tt-loot .tt-npc .tt-npc-information > :last-child {
+	float: right;
+	margin-left: 5px;
+	white-space: nowrap;
+}
+
+div#tt-loot .tt-npc .tt-npc-information > :first-child {
+	float: left;
+}
+
+div#tt-loot a.tt-npc-name {
+	margin: 0 0 5px 10px;
+	font-weight: bold;
+	text-decoration: none;
+	color: var(--default-blue-color, #74c0fc);
+}
+
+div#tt-loot span.okay {
+	width: 42px;
+	color: #627e0d;
+}
+
+div#tt-loot span.hosp {
+	width: 42px;
+	color: red;
+}
+
+div#tt-loot span.loot {
+	width: 14px;
+	margin: 0 4px 0 4px;
+	font-weight: 700;
+	color: #c78b07;
+}
+
+.tt-user-alias {
+	position: relative;
+}
+
+.tt-user-alias > div.tt-alias {
+	position: absolute;
+	right: -4px;
+	bottom: 0;
+	color: black;
+	background-color: #f2f2f2;
+	line-height: normal;
+	padding: 0 2px;
+}
+
+.dark-mode .tt-user-alias > div.tt-alias {
+	color: #e0e0e0;
+	background-color: #00000061;
 }

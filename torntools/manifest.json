@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Torn Tools",
-	"version": "5.8",
+	"version": "5.10",
 	"description": "Tools for Torn users.",
 	"icons": {
 		"128": "images/icon128.png"
@@ -297,7 +297,7 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.torn.com/stockexchange.php*"],
+			"matches": ["https://www.torn.com/page.php?sid=stocks*"],
 			"css": ["scripts/content/stockexchange/ttStockexchange.css"],
 			"js": ["scripts/content/stockexchange/ttStockexchange.js"],
 			"run_at": "document_end"

@@ -32,6 +32,12 @@ requireDatabase().then(() => {
 		showCustomConsole();
 	}
 
+	aliasUsers();
+
+	const year = new Date().getUTCFullYear();
+	const now = Date.now();
+	if (Date.UTC(year, 3, 5, 12) <= now && Date.UTC(year, 3, 25, 12) >= now) easterEggs();
+
 	requireNavbar().then(async () => {
 		let _flying = await isFlying();
 
@@ -153,6 +159,18 @@ requireDatabase().then(() => {
 			chainTimerHighlight();
 
 		hideGymHighlight();
+
+		if (settings.pages.profile.show_chain_warning) {
+			let miniProfilesObserver = new MutationObserver(chainBonusWatch);
+			miniProfilesObserver.observe(doc.body, { childList: true });
+			chainBonusWatch();
+		}
+
+		if (settings.pages.global.show_settings_areas_link && !mobile) ttSettingsLink();
+
+		if (settings.pages.global.npc_loot_info) showNpcLoot();
+
+		upkeepMoreThan();
 	});
 
 	chatsLoaded().then(() => {
@@ -175,6 +193,7 @@ requireDatabase().then(() => {
 			}
 			if (settings.pages.global.trade_chat_timer) tradeChatPostTimer();
 			if (settings.pages.global.autocomplete_chat) addChatUsernameAutocomplete();
+			if (Object.keys(users_alias).length) aliasUsersChat();
 		}
 
 		doc.addEventListener("click", (event) => {
@@ -189,6 +208,7 @@ requireDatabase().then(() => {
 			}
 			if (settings.pages.global.trade_chat_timer) tradeChatPostTimer();
 			if (settings.pages.global.autocomplete_chat) addChatUsernameAutocomplete();
+			if (Object.keys(users_alias).length) aliasUsersChat();
 		});
 
 		let chat_observer = new MutationObserver((mutationsList) => {
@@ -198,6 +218,7 @@ requireDatabase().then(() => {
 
 					applyChatHighlights(message, highlights);
 					if (settings.pages.global.block_zalgo) removeZalgoText(message);
+					if (Object.keys(users_alias).length) aliasUsersChat(message);
 				}
 			}
 		});
@@ -860,4 +881,181 @@ function tradeChatPostTimer() {
 				}
 			});
 	}
+}
+
+function chainBonusWatch() {
+	doc.findAll(".profile-button-attack[aria-label*='Attack']").forEach((attackButton) => {
+		if (!attackButton.classList.contains("tt-mouseenter")) {
+			attackButton.classList.add("tt-mouseenter");
+			attackButton.addEventListener("mouseenter", () => {
+				let chainParts = doc.find("a#barChain [class^='bar-value_']").innerText.split("/");
+				if (!doc.find(".tt-fac-chain-bonus-warning") && chainParts[0] > 10 && chainParts[1] - chainParts[0] < 20) {
+					let rawHTML = `<div class="tt-fac-chain-bonus-warning">
+						<div>
+							<span>Chain is approaching bonus hit ! Please check your faction chat !</span>
+						</div>
+					</div>`;
+					doc.body.insertAdjacentHTML("afterBegin", rawHTML);
+				}
+			});
+			attackButton.addEventListener("mouseleave", () => {
+				if (doc.find(".tt-fac-chain-bonus-warning")) doc.find("div.tt-fac-chain-bonus-warning").remove();
+			});
+		}
+	});
+}
+
+function ttSettingsLink() {
+	doc.find("div.areasWrapper [class*='toggle-content__']").appendChild(
+		navbar.newAreasLink({
+			id: "tt-nav-settings",
+			href: "/home.php#TornTools",
+			svgHTML: `<img src="${chrome.runtime.getURL("images/icongrey48.png")}" style="height: 21px;">`,
+			linkName: "TornTools Settings",
+		})
+	);
+}
+
+function aliasUsers() {
+	requireElement(".m-hide a[href*='/profiles.php?XID=']").then(() => {
+		for (const userID of Object.keys(users_alias)) {
+			doc.findAll(`.m-hide a[href*='/profiles.php?XID=${userID}']`).forEach((userIdA) => {
+				userIdA.classList.add("tt-user-alias");
+				userIdA.insertAdjacentHTML("beforeEnd", `<div class='tt-alias'>${users_alias[userID]}</div>`);
+			});
+		}
+	});
+}
+
+function aliasUsersChat(message = "") {
+	if (message) {
+		let profileA = message.find(`a[href*='/profiles.php?XID=']`);
+		let messageUserId = profileA.href.split("=")[1];
+		if (Object.keys(users_alias).includes(messageUserId)) profileA.innerText = users_alias[messageUserId] + ": ";
+	} else {
+		for (const userID of Object.keys(users_alias)) {
+			doc.findAll(`#chatRoot a[href*='/profiles.php?XID=${userID}']`).forEach((profileA) => {
+				let messageUserId = profileA.href.split("=")[1];
+				profileA.innerText = users_alias[messageUserId] + ": ";
+			});
+		}
+	}
+}
+
+function upkeepMoreThan() {
+	if (-networth.current.value.unpaidfees >= settings.pages.global.upkeep_more_than) {
+		doc.find("#sidebarroot #nav-properties").classList.add("tt-upkeep");
+		if (isDarkMode()) {
+			doc.find("#sidebarroot #nav-properties svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_green_mobile)");
+		} else if (!isDarkMode() && mobile) {
+			doc.find("#sidebarroot #nav-properties svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_green_mobile)");
+		} else {
+			doc.find("#sidebarroot #nav-properties svg").setAttribute("fill", "url(#sidebar_svg_gradient_regular_desktop_green)");
+		}
+	}
+}
+
+function easterEggs() {
+	const mainContainer = doc.find("#mainContainer");
+	if (!mainContainer) return;
+
+	const EGG_SELECTOR = "img[src^='competition.php?c=EasterEggs'][src*='step=eggImage'][src*='access_token=']";
+
+	for (const egg of doc.findAll(EGG_SELECTOR)) {
+		highlightEgg(egg);
+	}
+	new MutationObserver((mutations, observer) => {
+		for (const node of mutations.flatMap((mutation) => [...mutation.addedNodes])) {
+			if (node.nodeType !== Node.ELEMENT_NODE || !node.find(EGG_SELECTOR)) continue;
+
+			highlightEgg(node.find(EGG_SELECTOR));
+			observer.disconnect();
+			break;
+		}
+	}).observe(mainContainer, { childList: true });
+
+	function highlightEgg(egg) {
+		const canvas = document.new({ type: "canvas", attributes: { width: egg.width, height: egg.height } });
+		const context = canvas.getContext("2d");
+		context.drawImage(egg, 0, 0);
+
+		// Check if the egg has any non-transparent pixels, to make sure it's not a fake egg.
+		if (!canvas.width || !context.getImageData(0, 0, canvas.width, canvas.height).data.some((d) => d !== 0)) return;
+
+		const overlay = doc.find(".tt-black-overlay");
+
+		overlay.classList.add("active");
+		const ttEasterEggDiv = doc.new({
+			type: "div",
+			class: "tt-easter-egg-div",
+			text: "There is an Easter Egg on this page !",
+			children: doc.new({ type: "button", class: "tt-easter-egg-button", text: "Close" }),
+		});
+		doc.find(".tt-black-overlay").appendChild(ttEasterEggDiv);
+		ttEasterEggDiv.find("button").addEventListener("click", () => {
+			ttEasterEggDiv.remove();
+			overlay.classList.remove("active");
+		});
+	}
+}
+
+function showNpcLoot() {
+	let npcLootDiv = navbar.newSection("NPCs");
+	let npcContent = npcLootDiv.find(".tt-content");
+	for (const npcID of Object.keys(loot_times)) {
+		let npcData = loot_times[npcID];
+		let npcDiv = doc.new({ type: "div", class: "tt-npc" });
+		let npcSubDiv = doc.new({ type: "div", class: "tt-npc-information" });
+		let npcName = doc.new({
+			type: "a",
+			class: "tt-npc-name",
+			href: `https://www.torn.com/profiles.php?XID=${npcID}`,
+			html: `${npcData.name} [${npcID}]:<br>`,
+		});
+		let npcStatus;
+		let npcInHosp = false;
+		if (npcData.hospout * 1000 > Date.now()) {
+			npcInHosp = true;
+			npcStatus = doc.new({ type: "span", class: "hosp", text: "Hosp" });
+		} else {
+			npcStatus = doc.new({ type: "span", class: "okay", text: "Okay" });
+		}
+		let npcLootLevel, npcNextLevelIn;
+		if (npcInHosp) {
+			let hospOutIn = npcData.hospout * 1000 - Date.now();
+			npcLootLevel = doc.new({ type: "span", class: "loot", text: "0" });
+			npcNextLevelIn = doc.new({ type: "span", text: timeUntil(hospOutIn), attributes: { seconds: Math.floor(hospOutIn / 1000) } });
+		} else {
+			for (let lootLevel in npcData.timings) {
+				let nextLvlTime = npcData.timings[lootLevel].ts * 1000 - Date.now();
+				if (nextLvlTime > 0) {
+					npcLootLevel = doc.new({ type: "span", class: "loot", text: lootLevel - 1 });
+					npcNextLevelIn = doc.new({ type: "span", text: timeUntil(nextLvlTime), attributes: { seconds: Math.floor(nextLvlTime / 1000) } });
+					break;
+				} else if (lootLevel !== 5 && nextLvlTime < 0) {
+					continue;
+				} else if (lootLevel === 5 && nextLvlTime < 0) {
+					npcNextLevelIn = doc.new({ type: "span", text: "Max Level Reached" });
+				}
+			}
+		}
+		npcDiv.appendChild(npcName);
+		npcSubDiv.appendChild(npcStatus);
+		npcSubDiv.appendChild(doc.new({ type: "span", text: " / " }));
+		npcSubDiv.appendChild(npcLootLevel);
+		npcSubDiv.appendChild(doc.new({ type: "span", text: " / " }));
+		npcSubDiv.appendChild(npcNextLevelIn);
+		npcDiv.appendChild(npcSubDiv);
+		npcContent.appendChild(npcDiv);
+	}
+	npcContent.id = "tt-loot";
+	doc.find("#sidebar > :first-child").insertAdjacentElement("afterEnd", npcLootDiv);
+	setInterval(() => {
+		doc.findAll("div#tt-loot .tt-npc .tt-npc-information > :last-child").forEach((x) => {
+			if (!x.getAttribute("seconds")) return;
+			let secondsLeft = x.getAttribute("seconds");
+			x.setAttribute("seconds", secondsLeft - 1);
+			x.innerText = timeUntil((secondsLeft - 1) * 1000);
+		});
+	}, 1000);
 }

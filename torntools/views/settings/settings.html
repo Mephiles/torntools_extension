@@ -123,6 +123,9 @@
 							<div class="option" id="font_size">Chat font size: <input type="text" class="short" /></div>
 							<div class="option" id="developer"><input type="checkbox" />Enable Developer features.</div>
 
+							<div class="heading">Page Theme</div>
+							<div class="option" id="page_theme-light"><input type="radio" name="page_theme" />Light</div>
+							<div class="option" id="page_theme-dark"><input type="radio" name="page_theme" />Dark</div>
 							<div class="heading">Theme</div>
 							<div class="option" id="theme-default"><input type="radio" name="theme" />Default</div>
 							<div class="option" id="theme-alternative"><input type="radio" name="theme" />Alternative</div>
@@ -146,6 +149,11 @@
 							</div>
 							<div class="option" id="global-autocomplete_chat"><input type="checkbox" />Enable username auto-complete in chatboxes</div>
 							<div class="option" id="global-show_toggle_chat"><input type="checkbox" />Show the "Toggle Chat" button</div>
+							<div class="option" id="global-easter_eggs">
+								<input type="checkbox" />Alert when an Easter Egg is on page
+								<span class="new">New !</span>
+								<div class="tabbed note">Detection scripts supposedly lower your egg rate, use at your own risk.</div>
+							</div>
 							<div class="option" id="global-block_zalgo">
 								<input type="checkbox" />Block Zalgo in chat
 								<div class="tabbed note">Zalgo - corrupted text that also changes other messages. Example: ǎ̸͖̙̖̥̯̳͕̋͐̃͂̽s̵̢̰̘̳͕̥̆ͅd̴́̊̚͜͝͠</div>
@@ -174,14 +182,35 @@
 								</div>
 							</div>
 							<div class="note">Placeholders:</div>
+
+							<div class="heading">Users Aliases</div>
+							<div class="table list" id="users_alias">
+								<div class="body">
+									<div class="row input">
+										<input type="number" class="text name" placeholder="ID.." />
+										<input type="text" class="text descr" placeholder="Description.." />
+										<div class="add-button" id="add_id">Add</div>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="section" name="sidebar">
 							<div class="heading">Global</div>
 							<div class="option" id="global-notes"><input type="checkbox" />Show small Notes box in the Navigation panel</div>
+							<div class="option" id="global-npc_loot_info">
+								<input type="checkbox" />Show NPC Loot info in Sidebar<span class="new">New!</span>
+							</div>
+							<div class="option" id="global-show_settings_areas_link">
+								<input type="checkbox" />Show a link to TT Settings in Areas section<span class="new">New!</span>
+							</div>
 							<div class="option" id="global-vault_balance">
 								<input type="checkbox" />Display Vault balance under "Money" in Torn's Information tab
 							</div>
 							<div class="option tabbed" id="global-vault_balance_own"><input type="checkbox" />Display your own vault share</div>
+							<div class="option multi-nr-input" id="global-upkeep_more_than">
+								Highlight Properties when upkeep is greater than : <input type="number" /><span class="new">New!</span>
+							</div>
+							<div class="note tabbed">(might not work for spouses)</div>
 							<div class="option" id="global-oc_time">
 								<input type="checkbox" />
 								Display OC ready time in Information window
@@ -349,6 +378,9 @@
 							<div class="option" id="profile-show_id"><input type="checkbox" />Reformat Profile page headings as "USERNAME [ID]"</div>
 							<div class="option" id="profile-status_indicator"><input type="checkbox" />Show user's status indicator next to their name</div>
 							<div class="option" id="profile-notes"><input type="checkbox" />Keep notes on profiles</div>
+							<div class="option" id="profile-show_chain_warning">
+								<input type="checkbox" />Warn to check user faction chat when chain is near to bonus hit<span class="new">New!</span>
+							</div>
 
 							<div class="heading">NPC Loot</div>
 							<div class="option" id="profile-loot_times"><input type="checkbox" />Show NPC Loot times</div>
@@ -486,6 +518,9 @@
 							<div class="note tabbed">(requires Faction API access)</div>
 							<div class="option" id="faction-member_info"><input type="checkbox" />Show details about faction members</div>
 							<div class="note tabbed">(needs to be enabled for following settings - requires Faction API access)</div>
+							<div class="option" id="faction-member_index">
+								<input type="checkbox" />Show index of faction members<span class="new">New!</span>
+							</div>
 							<div class="option single-nr-input" id="faction-inactivity_alerts_first">
 								Inactivity 'orange' notifier: <input type="text" class="short" /> days
 							</div>
@@ -552,6 +587,7 @@
 							<div class="option" id="stats_estimate-profile"><input type="checkbox" />Profiles</div>
 							<div class="note tabbed">(will show at the same time as data fetch)</div>
 							<div class="option" id="stats_estimate-userlist"><input type="checkbox" />Userlist</div>
+							<div class="option" id="stats_estimate-attack_page"><input type="checkbox" />Attack Page</div>
 							<div class="option" id="stats_estimate-faction_members"><input type="checkbox" />Faction Member list</div>
 							<div class="option" id="stats_estimate-faction_wars"><input type="checkbox" />Faction Wars</div>
 							<div class="option" id="stats_estimate-bounties"><input type="checkbox" />Bounty List</div>
@@ -612,6 +648,7 @@
 						<div class="section" name="other">
 							<div class="heading">Other features</div>
 							<div class="option" id="racing-upgrades"><input type="checkbox" />Show Racing Upgrade values</div>
+							<div class="option" id="racing-win_percentage"><input type="checkbox" />Show Win Percentage of each car in Racing Upgrades</div>
 							<div class="option" id="shop-profits"><input type="checkbox" />Show item profits at City stores</div>
 							<div class="option" id="missions-rewards"><input type="checkbox" />Show Mission reward values</div>
 							<!-- <div class="option" id="remove_info_boxes"><input type="checkbox">Remove info boxes on some pages</div> -->

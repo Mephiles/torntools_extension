@@ -3,7 +3,9 @@ requireDatabase().then(() => {
 	let observer = new MutationObserver(hideCompletedCategories);
 	observer.observe(doc.find(".content-wrapper.m-left20"), { childList: true });
 	hideCompletedCategories();
-	showEducationCourseOverTime();
+	requireElement("div.msg.right-round span.bold.hasCountdown").then(() => {
+		showEducationCourseOverTime();
+	});
 });
 
 function hideCompletedCategories() {
@@ -16,10 +18,8 @@ function hideCompletedCategories() {
 
 function showEducationCourseOverTime() {
 	let overDate = formatDateObject(new Date(new Date().setSeconds(userdata.education_timeleft)));
-	if (doc.find("div.msg.right-round span.bold.hasCountdown")) {
-		doc.find("div.msg.right-round span.bold.hasCountdown").insertAdjacentHTML(
-			"afterEnd",
-			`<span>&nbsp;<b>(${overDate.formattedDate} ${overDate.formattedTime})</b></span>`
-		);
-	}
+	doc.find("div.msg.right-round span.bold.hasCountdown").insertAdjacentHTML(
+		"afterEnd",
+		`<span>&nbsp;<b>(${overDate.formattedDate} ${overDate.formattedTime})</b></span>`
+	);
 }
