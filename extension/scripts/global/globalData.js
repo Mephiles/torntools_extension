@@ -210,6 +210,7 @@ const DEFAULT_STORAGE = {
 			profile: {
 				statusIndicator: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				idBesideProfileName: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				notes: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			chat: {
 				fontSize: new DefaultSetting({ type: "number", defaultValue: 12 }),
@@ -339,6 +340,7 @@ const DEFAULT_STORAGE = {
 			text: new DefaultSetting({ type: "string", defaultValue: "" }),
 			height: new DefaultSetting({ type: "string", defaultValue: "22px" }),
 		},
+		profile: new DefaultSetting({ type: "object", defaultValue: {} }),
 	},
 	quick: {
 		items: new DefaultSetting({ type: "array", defaultValue: [] }),
