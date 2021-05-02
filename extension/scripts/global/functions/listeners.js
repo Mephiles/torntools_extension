@@ -15,24 +15,18 @@ const EVENT_CHANNELS = {
 	ITEM_SWITCH_TAB: "item-switch-tab",
 	HOSPITAL_SWITCH_PAGE: "hospital-switch-page",
 	JAIL_SWITCH_PAGE: "jail-switch-page",
+	TRAVEL_SELECT_TYPE: "travel-select-type",
 	// Feature callbacks
 	FEATURE_ENABLED: "feature-enabled",
 };
 
-const CUSTOM_LISTENERS = {
-	[EVENT_CHANNELS.CHAT_MESSAGE]: [],
-	[EVENT_CHANNELS.CHAT_NEW]: [],
-	[EVENT_CHANNELS.CHAT_OPENED]: [],
-	[EVENT_CHANNELS.FACTION_ARMORY_TAB]: [],
-	[EVENT_CHANNELS.ITEM_AMOUNT]: [],
-	[EVENT_CHANNELS.ITEM_EQUIPPED]: [],
-	[EVENT_CHANNELS.ITEM_ITEMS_LOADED]: [],
-	[EVENT_CHANNELS.ITEM_SWITCH_TAB]: [],
-	[EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE]: [],
-	[EVENT_CHANNELS.JAIL_SWITCH_PAGE]: [],
-
-	[EVENT_CHANNELS.FEATURE_ENABLED]: [],
-};
+const CUSTOM_LISTENERS = (() => {
+	const listeners = {};
+	for (const key in EVENT_CHANNELS) {
+		listeners[EVENT_CHANNELS[key]] = [];
+	}
+	return listeners;
+})();
 
 let injectedXHR, injectedFetch;
 

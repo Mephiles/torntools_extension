@@ -18,11 +18,11 @@
 		uni: { name: "United Kingdom", image: "uk", tag: "united_kingdom", cost: 1800, time: 159 },
 	};
 
-	featureManager.registerFeature(
+	const feature = featureManager.registerFeature(
 		"Travel Table",
 		"travel",
 		() => settings.pages.travel.table,
-		null,
+		initialise,
 		startTable,
 		removeTable,
 		{
@@ -35,9 +35,20 @@
 		}
 	);
 
+	function initialise() {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(({ type }) => {
+			if (!feature.enabled()) return;
+
+			document.find("#travel-items").value = getTravelCount(type);
+			updateValues();
+		});
+	}
+
 	async function startTable() {
 		if (page === "home") startFlyingTable();
-		else await createTable();
+		else {
+			await createTable();
+		}
 
 		async function createTable() {
 			const { content } = createContainer("Travel Destinations");
@@ -265,7 +276,7 @@
 				}
 
 				// Check for legend changes
-				content.find("#travel-items").addEventListener("change", () => updateAmount());
+				content.find("#travel-items").addEventListener("change", () => updateValues());
 				content.find("#hide-out-of-stock").addEventListener("change", (event) => {
 					ttStorage.change({ filters: { travel: { hideOutOfStock: event.target.checked } } });
 
@@ -286,27 +297,6 @@
 
 						updateTable();
 					});
-				}
-
-				function updateAmount() {
-					const amount = parseInt(content.find("#travel-items").value);
-
-					for (const row of table.findAll(".row:not(.header)")) {
-						const { value, cost, travelCost, time } = row.dataset;
-						if (!cost) continue;
-
-						const totalCost = amount * cost + travelCost;
-
-						if (value && value !== "N/A") {
-							const profit = amount * value - totalCost;
-							const profitMinute = (profit / (time * 2)).dropDecimals();
-
-							row.find(".profit-minute").innerText = formatNumber(profitMinute, { shorten: true, currency: true });
-							row.find(".profit").innerText = formatNumber(profit, { shorten: true, currency: true });
-						}
-
-						row.find(".money").innerText = formatNumber(totalCost, { shorten: true, currency: true });
-					}
 				}
 			}
 
@@ -334,37 +324,6 @@
 						row.classList.add("hidden");
 					else row.classList.remove("hidden");
 				}
-			}
-
-			function getTravelCount() {
-				let count = 5;
-
-				if (hasAPIData() && settings.apiUsage.user.perks) {
-					count += userdata.enhancer_perks
-						.map((perk) => perk.match(/\+ ([0-9]+) Travel items \(.* Suitcase\)/i))
-						.filter((result) => !!result)
-						.map((result) => parseInt(result[1]))
-						.totalSum();
-					// CHECK - Improve job perk checking.
-					count += userdata.job_perks
-						.filter((perk) => perk.includes("travel capacity"))
-						.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
-						.totalSum();
-					count += userdata.faction_perks
-						.map((perk) => perk.match(/\+ Increases maximum traveling capacity by ([0-9]+)/i))
-						.filter((result) => !!result)
-						.map((result) => parseInt(result[1]))
-						.totalSum();
-					// CHECK - Improve book perk checking.
-					count += userdata.book_perks
-						.filter((perk) => perk.includes("travel capacity"))
-						.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
-						.totalSum();
-				}
-
-				if (getTravelType() !== "standard") count += 10;
-
-				return count;
 			}
 
 			async function pullInformation() {
@@ -526,17 +485,74 @@
 				findContainer("Travel Destinations").classList.add("hidden");
 			}
 		}
+	}
 
-		function getTravelType() {
-			if (page === "travelagency") {
-				const element = document.find("#tab-menu4 > ul > li[aria-selected='true'] .travel-name");
+	function updateValues() {
+		const content = findContainer("Travel Destinations", { selector: ":scope > main" });
+		const table = content.find("#tt-travel-table");
 
-				// CHECK - Add travel type count.
-				if (!element) return "private";
-				else return element.innerText.toLowerCase();
-			} else if (page === "home") {
-				return "private";
+		const amount = parseInt(content.find("#travel-items").value);
+
+		for (const row of table.findAll(".row:not(.header)")) {
+			let { value, cost, travelCost, time } = toCorrectType(row.dataset);
+			if (!cost) continue;
+
+			const totalCost = amount * cost + travelCost;
+			if (value && value !== "N/A") {
+				const profit = amount * value - totalCost;
+				const profitMinute = (profit / (time * 2)).dropDecimals();
+
+				row.find(".profit-minute").innerText = formatNumber(profitMinute, { shorten: true, currency: true });
+				row.find(".profit").innerText = formatNumber(profit, { shorten: true, currency: true });
 			}
+
+			row.find(".money").innerText = formatNumber(totalCost, { shorten: true, currency: true });
+		}
+	}
+
+	function getTravelCount(type) {
+		if (!type) type = getTravelType();
+
+		let count = 5;
+
+		if (hasAPIData() && settings.apiUsage.user.perks) {
+			count += userdata.enhancer_perks
+				.map((perk) => perk.match(/\+ ([0-9]+) Travel items \(.* Suitcase\)/i))
+				.filter((result) => !!result)
+				.map((result) => parseInt(result[1]))
+				.totalSum();
+			// CHECK - Improve job perk checking.
+			count += userdata.job_perks
+				.filter((perk) => perk.includes("travel capacity"))
+				.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
+				.totalSum();
+			count += userdata.faction_perks
+				.map((perk) => perk.match(/\+ Increases maximum traveling capacity by ([0-9]+)/i))
+				.filter((result) => !!result)
+				.map((result) => parseInt(result[1]))
+				.totalSum();
+			// CHECK - Improve book perk checking.
+			count += userdata.book_perks
+				.filter((perk) => perk.includes("travel capacity"))
+				.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
+				.totalSum();
+		}
+
+		if (type !== "standard") count += 10;
+
+		return count;
+	}
+
+	function getTravelType() {
+		if (page === "travelagency") {
+			const element = document.find("#tab-menu4 > ul > li[aria-selected='true'] .travel-name");
+
+			// CHECK - Add travel type count.
+			if (!element) return "private";
+			else return element.innerText.toLowerCase();
+		} else if (page === "home") {
+			// CHECK - Add travel type count.
+			return "private";
 		}
 	}
 

@@ -200,3 +200,16 @@ async function getValueAsync(x) {
 
 	return x;
 }
+
+function toCorrectType(object) {
+	object = { ...object };
+
+	for (const key in object) {
+		const value = object[key];
+		if (!isNaN(value)) object[key] = parseFloat(value);
+		else if (value === "true") object[key] = true;
+		else if (value === "false") object[key] = false;
+	}
+
+	return object;
+}

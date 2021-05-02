@@ -270,7 +270,7 @@
 		{
 			"matches": ["https://www.torn.com/travelagency.php*"],
 			"css": ["scripts/features/traveltable/ttTravelTable.css"],
-			"js": ["scripts/features/traveltable/ttTravelTable.js"],
+			"js": ["scripts/content/travelagency/ttTravelAgency.js", "scripts/features/traveltable/ttTravelTable.js"],
 			"run_at": "document_end"
 		}
 	]
