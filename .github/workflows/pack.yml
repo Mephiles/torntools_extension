@@ -73,7 +73,7 @@ jobs:
             sed -i "2s/.*/\t\"$version - $(date +%B), $(date +%d)th. $(date +%Y)\"\:\ \{/" ./torntools/changelog.js
             version="${version/\\/}"
             version="${version/v/}"
-            zip -q -r "torntools_$version.zip" ./torntools
+            zip -q -r "torntools_$version.zip" ./torntools/*
             mv "torntools_$version.zip" ./versions/
             sed -i "2s/.*/${replaceLineWith}/" ./torntools/changelog.js
             sed -i "$(grep -nF '"version": ' ./torntools/manifest.json | cut -d: -f1)s,.*,\t\"version\"\: \"${{ github.event.inputs.new_version }}\"\,," ./torntools/manifest.json

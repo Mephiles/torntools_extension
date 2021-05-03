@@ -1,5 +1,10 @@
 export default {
-	"v5.9 - May, 2nd. 2021": {
+	"v5.10 - xxxxx, xxth. 2021": {
+		Features: [],
+		Fixes: [],
+		Changes: [],
+	},
+	"v5.9 - May, 02th. 2021": {
 		Features: [
 			"Filter faction members by position. - Sashank999",
 			"Battle Stat on Attack Page. - Sashank999",
