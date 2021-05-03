@@ -168,7 +168,7 @@ requireDatabase().then(() => {
 
 		if (settings.pages.global.show_settings_areas_link && !mobile) ttSettingsLink();
 
-		if (settings.pages.global.npc_loot_info) showNpcLoot();
+		if (settings.pages.global.npc_loot_info && !mobile) showNpcLoot();
 
 		upkeepMoreThan();
 	});
