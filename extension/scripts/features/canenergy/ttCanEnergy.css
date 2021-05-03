@@ -1,6 +1,7 @@
 .tt-e-gains {
 	padding-left: 10px;
 	float: none;
+	font-weight: 700;
 }
 
 body:not(.dark-mode) .tt-e-gains {
