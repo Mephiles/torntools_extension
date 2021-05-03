@@ -53,7 +53,10 @@ const MISSIONS = {
 		task: "Defeat Duke within 7 days of activating this mission.",
 		hint: "Jump in when he gets looted 5-6 times a day, do not have to land finishing hit.",
 	},
-	"Candy From Babies": { task: "Collect $150k/$250k in bounties.", hint: "Doesn't have to be in a single bounty. Make sure to hospitalize the target(s)." },
+	"Candy From Babies": {
+		task: "Collect $150k/$200k/$250k in bounties.",
+		hint: "Doesn't have to be in a single bounty. Make sure to hospitalize the target(s).",
+	},
 	"Charity Work": {
 		task: "Mug 2 (P).",
 		hint: "Must be a successful mug. If target was recently mugged, I suggest sending cash to the target, then mugging.",
@@ -71,7 +74,8 @@ const MISSIONS = {
 	},
 	"Double Jeopardy": {
 		task: "Put a bounty on someone, then defeat them.",
-		hint: "You cannot claim your own bounties, so may as well just put the bounty, then leave or mug.",
+		hint:
+			"You cannot claim your own bounties, so may as well just put the bounty, then leave or mug. The bounty can be low because it doesn't have to be claimed.",
 	},
 	"Drug Problem": { task: "Defeat 4-7 (P)." },
 	"Emotional Debt": {
@@ -92,7 +96,7 @@ const MISSIONS = {
 	},
 	"Forgotten Bills": { task: "Defeat (P)." },
 	Frenzy: { task: "Defeat any 5-15 players." },
-	"Get Things Jumping": { task: "Cause 2k/8k/10k/50k damage, receive 1k/4k/5k/25k." },
+	"Get Things Jumping": { task: "Cause 2k/8k/10k/20k/50k damage, receive 1k/4k/5k/10k/25k." },
 	Graffiti: { task: "Hit (P) with pepper spray.", hint: "Equip pepper spray temp item. If you miss, must retry mission." },
 	Guardian: { task: "Defeat (P)." },
 	"Hammer Time": {
@@ -161,7 +165,7 @@ const MISSIONS = {
 	},
 	"Rabbit Response": {
 		task: "Defeat 3 (P) within 30/20/15/10 minutes.",
-		hint: "Make sure they're all out of hosp, activate mission and line them all up in tabbed screens to attack.",
+		hint: "Activate mission, make sure they're all out of the hospital and line them all up to attack. Time doesn't start until you attack the first one",
 	},
 	Reconstruction: { task: "Equip kitchen knife/leather gloves, defeat (P) then dump both items.", hint: "Don't have to actually use the kitchen knife." },
 	"Red Faced": { task: "Defeat (P) using a trout as finishing hit." },
@@ -308,17 +312,7 @@ function showRewards() {
 
 function showMissionInformation() {
 	for (let mission of doc.findAll(".giver-cont-wrap > div[id^=mission]:not(.tt-modified)")) {
-		let title = mission.find(".title-black").innerText.split("\n");
-		if (title.length === 1 || title.length === 2) title = title[0];
-		else {
-			title = title[1].split(" ");
-
-			const char = title[title.length - 1][0];
-			if (char === char.toUpperCase()) title = title.splice(0, title.length - 1);
-			else title = title.splice(0, title.length - 2);
-
-			title = title.join(" ").trim();
-		}
+		let title = mission.find(".title-black").childNodes[0].wholeText.replace(/[\n]/g, "").trim();
 		let task, hint;
 
 		let miss = MISSIONS[title];

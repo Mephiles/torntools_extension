@@ -1,5 +1,10 @@
 export default {
-	"v5.9 - xxxx, xxth. 2021": {
+	"v5.10 - xxxxx, xxth. 2021": {
+		Features: [],
+		Fixes: ["Apply proper rounding on the racing winning rate."],
+		Changes: ["Disable loot timers on mobile devices. - Sashank999"],
+	},
+	"v5.9 - May, 02th. 2021": {
 		Features: [
 			"Filter faction members by position. - Sashank999",
 			"Battle Stat on Attack Page. - Sashank999",
