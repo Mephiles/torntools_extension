@@ -272,14 +272,14 @@ body.dark-mode #tt-page-status {
 	right: 16px;
 }
 
-body:not(.top-scroll) #tt-page-status.top-left,
-body:not(.top-scroll) #tt-page-status.top-right {
-	top: 16px;
+body:not(.scrolled) #tt-page-status.top-left,
+body:not(.scrolled) #tt-page-status.top-right {
+	top: 90px;
 }
 
-body.top-scroll #tt-page-status.top-left,
-body.top-scroll #tt-page-status.top-right {
-	top: 90px;
+body.scrolled #tt-page-status.top-left,
+body.scrolled #tt-page-status.top-right {
+	top: 16px;
 }
 
 #tt-page-status.bottom-left {

@@ -51,7 +51,7 @@
 	document.addEventListener("scroll", checkScroll);
 
 	function checkScroll() {
-		if (window.scrollY >= 75) document.body.classList.remove("top-scroll");
-		else document.body.classList.add("top-scroll");
+		if (window.scrollY >= 75) document.body.classList.add("scrolled");
+		else document.body.classList.remove("scrolled");
 	}
 })();
