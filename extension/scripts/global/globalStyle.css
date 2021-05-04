@@ -259,15 +259,23 @@ body.dark-mode #tt-page-status {
 }
 
 #tt-page-status.top-left {
-	position: absolute;
-	top: 90px;
+	position: fixed;
 	left: 16px;
 }
 
 #tt-page-status.top-right {
-	position: absolute;
-	top: 90px;
+	position: fixed;
 	right: 16px;
+}
+
+body:not(.top-scroll) #tt-page-status.top-left,
+body:not(.top-scroll) #tt-page-status.top-right {
+	top: 16px;
+}
+
+body.top-scroll #tt-page-status.top-left,
+body.top-scroll #tt-page-status.top-right {
+	top: 90px;
 }
 
 #tt-page-status.bottom-left {
