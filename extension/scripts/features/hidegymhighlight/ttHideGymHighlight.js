@@ -20,10 +20,11 @@
 		await requireSidebar();
 
 		const navGym = document.find("#nav-gym");
+		if (!navGym) return;
 		const gymClass = navGym.classList.contains("^=available___");
-		const svg = navGym.find("svg");
 		if (!gymClass) return;
 
+		const svg = navGym.find("svg");
 		if (hasDarkMode()) {
 			if (mobile) {
 				svg.setAttribute("fill", svg.getAttribute("fill").replace("_green", ""));
