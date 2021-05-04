@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       # Runs a set of commands using the runners shell
-      - name: Update the changelog.json
+      - name: Update the changelog.js
         run: |
             firstEntryLineNo="$(grep -m 1 -nFe $'\t},' ./torntools/changelog.js | cut -d: -f1)"
             touch ./entries.txt
