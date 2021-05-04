@@ -17,8 +17,7 @@
 	);
 
 	function applyStyle() {
-		if (!userdata.refills.energy_refill_used && settings.pages.sidebar.highlightEnergy)
-			document.documentElement.classList.add("tt-highlight-energy-refill");
-		else document.documentElement.classList.remove("tt-highlight-energy-refill");
+		if (!userdata.refills.energy_refill_used && settings.pages.sidebar.highlightEnergy) document.body.classList.add("tt-highlight-energy-refill");
+		else document.body.classList.remove("tt-highlight-energy-refill");
 	}
 })();
