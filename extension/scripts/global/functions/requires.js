@@ -62,8 +62,8 @@ function requireSidebar() {
 }
 
 function requireContent() {
-	// return requireElement(".box-title, .title-black[role=heading], .title-black > div[role=heading], .travel-agency-travelling");
-	return requireElement("#skip-to-content, #react-root");
+	// return requireElement("#skip-to-content, #react-root");
+	return requireElement(".content-wrapper");
 }
 
 function requireItemsLoaded() {
