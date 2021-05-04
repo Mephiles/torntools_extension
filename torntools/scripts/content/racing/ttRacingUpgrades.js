@@ -178,7 +178,7 @@ function winPercentage() {
 			.map((x) => x.split(":")[1].trim());
 		stat.find(".enlisted-stat").insertAdjacentHTML(
 			"beforeEnd",
-			`<li class="tt-win-percentage">• Win Percentage: ${(values[0] / values[1]).toFixed(2) * 100}% </li>`
+			`<li class="tt-win-percentage">• Win Percentage: ${((values[0] / values[1]) * 100).toFixed(2)}% </li>`
 		);
 	});
 }
