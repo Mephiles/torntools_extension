@@ -41,7 +41,7 @@
 			}
 		}
 
-		navGym.classList.remove(gymClass);
+		navGym.classList.removeSpecial("^=available___");
 	}
 
 	function removeHiddenHighlight() {
