@@ -1,4 +1,5 @@
-import changelog from "../../changelog.js";
+// noinspection JSUnresolvedVariable,JSUnresolvedFunction
+const changelog = await (await fetch(chrome.runtime.getURL("changelog.json"))).json();
 
 let version;
 let initiated_pages = {};
