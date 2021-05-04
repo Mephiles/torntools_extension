@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Update the changelog.js
         run: |
-          firstEntryLineNo="$(grep -m 1 -nFe $'\t\"' ./torntools/changelog.json | cut -d: -f1)"
+          firstEntryLineNo=2
           version="$(sed "${firstEntryLineNo}q;d" ./torntools/changelog.json | cut -d- -f1 | sed 's,^\t\"v,,' | tr -d ' ')"
           firstLineKey="$(sed "${firstEntryLineNo}"q\;d ./torntools/changelog.json | sed 's,^\t\",,' | sed 's,": {,,')"
           jqCommand="jq"
