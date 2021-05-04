@@ -16,8 +16,8 @@
 	}
 
 	function handlePopout() {
-		if (getSearchParameters().has("popped")) document.body.classList.add("tt-popout");
-		else document.body.classList.remove("tt-popout");
+		if (getSearchParameters().has("popped")) document.documentElement.classList.add("tt-popout");
+		else document.documentElement.classList.remove("tt-popout");
 	}
 
 	function setupFeatureManager() {

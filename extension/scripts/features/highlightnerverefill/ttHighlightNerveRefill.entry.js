@@ -17,7 +17,7 @@
 	);
 
 	function applyStyle() {
-		if (!userdata.refills.nerve_refill_used && settings.pages.sidebar.highlightNerve) document.body.classList.add("tt-highlight-nerve-refill");
-		else document.body.classList.remove("tt-highlight-nerve-refill");
+		if (!userdata.refills.nerve_refill_used && settings.pages.sidebar.highlightNerve) document.documentElement.classList.add("tt-highlight-nerve-refill");
+		else document.documentElement.classList.remove("tt-highlight-nerve-refill");
 	}
 })();
