@@ -10,75 +10,49 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      # Runs a set of commands using the runners shell
       - name: Update the changelog.js
         run: |
-            firstEntryLineNo="$(grep -m 1 -nFe $'\t},' ./torntools/changelog.js | cut -d: -f1)"
-            touch ./entries.txt
-            awk -v s="2" -v e="${firstEntryLineNo}" 'NR>1*s&&NR<1*e' ./torntools/changelog.js >> ./entries.txt
-            tr -d "\t" < ./entries.txt | tr -d "\n" > ./tmpfile
-            mv ./tmpfile ./entries.txt
-            firstLine=0
-            IFS=]; for line in $(cat entries.txt)
-            do
-                if [[ $line == *"Features: ["* ]]
-                then
-                    if [[ $firstLine -eq 0 ]]
-                    then
-                        echo "### Features:" >> releaseBody.md
-                        firstLine=1
-                    else
-                        echo -n "### Features:" >> releaseBody.md
-                    fi
-                    IFS=,; for featureLog in ${line//Features: [/}
-                    do
-                        echo -n "- $featureLog" | sed 's,^ ,,' | tr -d '"' >> releaseBody.md
-                    done
-                    echo "" >> releaseBody.md
-                elif [[ $line == *"Fixes: ["* ]]
-                then
-                    if [[ $firstLine -eq 0 ]]
-                    then
-                        echo "### Fixes:" >> releaseBody.md
-                        firstLine=1
-                    else
-                        echo -n "### Fixes:" >> releaseBody.md
-                    fi
-                    IFS=,; for fixLog in ${line//Fixes: [/}
-                    do
-                        echo -n "- $fixLog" | sed 's,^ ,,' | tr -d '"' >> releaseBody.md
-                    done
-                    echo "" >> releaseBody.md
-                elif [[ $line == *"Changes: ["* ]]
-                then
-                    if [[ $firstLine -eq 0 ]]
-                    then
-                        echo "### Changes:" >> releaseBody.md
-                        firstLine=1
-                    else
-                        echo -n "### Changes:" >> releaseBody.md
-                    fi
-                    IFS=,; for changesLog in ${line//Changes: [/}
-                    do
-                        echo -n "- $changesLog" | sed 's,^ ,,' | tr -d '"' >> releaseBody.md
-                    done
-                    echo "" >> releaseBody.md
-                fi
-            done
-            newChangelogEntries="\t\"v${{ github.event.inputs.new_version }} - xxxxx, xxth. $(date +%Y)\": \{\n\t\tFeatures\: [],\n\t\tFixes\: [],\n\t\tChanges\: [],\n\t\},"
-            version="$(sed '2q;d' ./torntools/changelog.js)"
-            version="$(echo \"${version%-*}\" | sed 's/[\t "]//g')"
-            version="${version//./\\.}"
-            replaceLineWith="${newChangelogEntries}\n\t\"$version - $(date +%B), $(date +%d)th. $(date +%Y)\"\:\ \{"
-            sed -i "2s/.*/\t\"$version - $(date +%B), $(date +%d)th. $(date +%Y)\"\:\ \{/" ./torntools/changelog.js
-            version="${version/\\/}"
-            version="${version/v/}"
-            zip -q -r "torntools_$version.zip" ./torntools/*
-            mv "torntools_$version.zip" ./versions/
-            sed -i "2s/.*/${replaceLineWith}/" ./torntools/changelog.js
-            sed -i "$(grep -nF '"version": ' ./torntools/manifest.json | cut -d: -f1)s,.*,\t\"version\"\: \"${{ github.event.inputs.new_version }}\"\,," ./torntools/manifest.json
-            export version
-            echo "version=$version" >> $GITHUB_ENV
+          sudo apt-get install jq
+          firstEntryLineNo="$(grep -m 1 -nFe $'\t\"' ./torntools/changelog.json | cut -d: -f1)"
+          version="$(sed "${firstEntryLineNo}q;d" ./torntools/changelog.json | cut -d- -f1 | sed 's,^\t\"v,,')"
+          firstLineKey="$(sed ${firstEntryLineNo}q\;d ./torntools/changelog.json | sed 's,^\t\",,' | sed 's,": {,,')"
+          jqCommand="jq"
+          echo "### Features" >> releaseBody.md
+          if [[ "$(${jqCommand} ".[\"${firstLineKey}\"] | .[\"Features\"]" < ./torntools/changelog.json)" != "[]" ]]
+          then
+              "$jqCommand" ".[\"${firstLineKey}\"] | .Features | map(sub(\"^\";\"- \";\"m\"))" < ./torntools/changelog.json | sed "1,1d" | sed "$ d" | sed "s,^  \",," | sed "s:\"\,$::" | sed "s,\"$,," | while read -r line
+              do
+                  echo "$line" >> releaseBody.md
+              done
+          else
+              echo "None" >> releaseBody.md
+          fi
+          echo "### Fixes" >> releaseBody.md
+          if [[ "$(${jqCommand} ".[\"${firstLineKey}\"] | .Fixes" < ./torntools/changelog.json)" != "[]" ]]
+          then
+              "$jqCommand" ".[\"${firstLineKey}\"] | .Fixes | map(sub(\"^\";\"- \";\"m\"))" < ./torntools/changelog.json | sed "1,1d" | sed "$ d" | sed "s,^  \",," | sed "s:\"\,$::" | sed "s,\"$,," | while read -r line
+              do
+                  echo "$line" >> releaseBody.md
+              done
+          else
+              echo "None" >> releaseBody.md
+          fi
+          echo "### Changes" >> releaseBody.md
+          if [[ "$(${jqCommand} ".[\"${firstLineKey}\"] | .Changes" < ./torntools/changelog.json)" != "[]" ]]
+          then
+              "$jqCommand" ".[\"${firstLineKey}\"] | .Changes | map(sub(\"^\";\"- \";\"m\"))" < ./torntools/changelog.json | sed "1,1d" | sed "$ d" | sed "s,^  \",," | sed "s:\"\,$::" | sed "s,\"$,," | while read -r line
+              do
+                  echo "$line" >> releaseBody.md
+              done
+          else
+              echo "None" >> releaseBody.md
+          fi
+          zip -q -r "torntools_$version.zip" ./torntools/*
+          mv "torntools_$version.zip" ./versions/
+          newChangelogEntries="\t\"v${{ github.event.inputs.new_version }} - xxxxx, xxth. $(date +%Y)\": \{\n\t\tFeatures\: [],\n\t\tFixes\: [],\n\t\tChanges\: [],\n\t\},"
+          sed -i "${firstEntryLineNo}s>\t\"${firstLineKey}.*>${newChangelogEntries}\n\t${firstLineKey}\ \:\ \{>" ./torntools/changelog.json
+          export version
+          echo "version=$version" >> $GITHUB_ENV
       - name: Release
         uses: ncipollo/release-action@v1
         with:
@@ -88,7 +62,7 @@ jobs:
           bodyFile: "./releaseBody.md"
           token: ${{ secrets.GH_TOKEN }}
       - name: Delete temporary files
-        run: rm -f entries.txt releaseBody.md
+        run: rm -f releaseBody.md
       - name: Add & Commit
         uses: EndBug/add-and-commit@v7.0.0
         with:
