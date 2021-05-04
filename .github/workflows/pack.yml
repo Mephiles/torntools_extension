@@ -32,7 +32,7 @@ jobs:
                     fi
                     IFS=,; for featureLog in ${line//Features: [/}
                     do
-                        echo "$featureLog" | sed 's,^ ,,' | tr -d '"' >> releaseBody.md
+                        echo -n "- $featureLog" | sed 's,^ ,,' | tr -d '"' >> releaseBody.md
                     done
                     echo "" >> releaseBody.md
                 elif [[ $line == *"Fixes: ["* ]]
@@ -46,7 +46,7 @@ jobs:
                     fi
                     IFS=,; for fixLog in ${line//Fixes: [/}
                     do
-                        echo "$fixLog" | sed 's,^ ,,' | tr -d '"' >> releaseBody.md
+                        echo -n "- $fixLog" | sed 's,^ ,,' | tr -d '"' >> releaseBody.md
                     done
                     echo "" >> releaseBody.md
                 elif [[ $line == *"Changes: ["* ]]
@@ -60,7 +60,7 @@ jobs:
                     fi
                     IFS=,; for changesLog in ${line//Changes: [/}
                     do
-                        echo "$changesLog" | sed 's,^ ,,' | tr -d '"' >> releaseBody.md
+                        echo -n "- $changesLog" | sed 's,^ ,,' | tr -d '"' >> releaseBody.md
                     done
                     echo "" >> releaseBody.md
                 fi
