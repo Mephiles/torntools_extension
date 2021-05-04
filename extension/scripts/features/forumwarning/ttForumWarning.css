@@ -1,0 +1,35 @@
+#ttBugWarning {
+	font-size: 16px;
+	height: 59px;
+	line-height: 16px;
+	color: #ffffff;
+	padding: 0 16px;
+	background: repeating-linear-gradient(90deg, #627e0d, #627e0d 2px, #6e8820 0, #6e8820 4px);
+	text-shadow: var(--tutorial-title-shadow);
+	font-weight: bold;
+}
+
+#ttBugWarning .bug-help {
+	cursor: pointer;
+}
+
+#tt-help-popup {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 500px;
+	background: #f1f1f1;
+	border-radius: 8px;
+	padding: 10px;
+}
+
+body.dark-mode #tt-help-popup {
+	background: #444;
+	box-shadow: 0 0 10px black;
+}
+
+#tt-help-popup a {
+	text-decoration: none;
+	color: var(--default-blue-color);
+}

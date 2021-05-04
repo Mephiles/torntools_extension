@@ -352,3 +352,8 @@ body.dark-mode .tt-page-status-feature.information i {
 #tt-page-status .no-content {
 	display: none;
 }
+
+.tt-button-link {
+	cursor: pointer;
+	color: var(--default-blue-color);
+}

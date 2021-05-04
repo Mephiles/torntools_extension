@@ -3,6 +3,8 @@
 // noinspection JSUnresolvedVariable
 chrome = typeof browser !== "undefined" ? browser : chrome;
 
+const FORUM_POST = "https://www.torn.com/forums.php#/p=threads&f=67&t=16170566&b=0&a=0";
+
 const ttStorage = new (class {
 	get(key) {
 		return new Promise((resolve) => {
@@ -284,6 +286,9 @@ const DEFAULT_STORAGE = {
 			},
 			api: {
 				autoFillKey: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
+			forums: {
+				warning: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		external: {
