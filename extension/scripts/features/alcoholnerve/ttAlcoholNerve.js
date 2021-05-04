@@ -23,37 +23,26 @@
 	}
 
 	function addNerveGains() {
-		const facAlcoholGainPerk = parseInt(
-			userdata.faction_perks
-				.filter((x) => /alcohol/i.test(x))
-				.map((x) => {
-					x.replace(/\D+/g, "");
-				})[0]
-		);
-		const jobAlcoholGainPerc = parseInt(
-			userdata.company_perks
-				.filter((x) => /boost/i.test(x))
-				.map((x) => {
-					x.replace(/\D+/g, "");
-				})[0]
-		);
+		const factionPerk = parseInt(userdata.faction_perks.filter((x) => /alcohol/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
+		const companyPerk = parseInt(userdata.company_perks.filter((x) => /boost/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
 		document.findAll("[data-category='Alcohol']").forEach((alcoholicDrink) => {
-			if (!alcoholicDrink.find(".tt-alcohol-gains")) {
-				const baseNerve = parseInt(
-					torndata.items[alcoholicDrink.dataset.item].effect
-						.split(" ")
-						.map((x) => parseInt(x))
-						.filter((x) => !isNaN(x))[0]
-				);
-				let totalNerve = baseNerve;
-				if (!isNaN(facAlcoholGainPerk)) totalNerve += (facAlcoholGainPerk / 100) * baseNerve;
-				if (!isNaN(jobAlcoholGainPerc)) totalNerve += (jobAlcoholGainPerc / 100) * baseNerve;
-				const maxNerve = Math.ceil(totalNerve);
-				const minNerve = Math.floor(totalNerve);
-				const nerveRange = maxNerve === minNerve ? maxNerve : `${minNerve} - ${maxNerve}`;
-				const rawHTML = `<span class="tt-alcohol-gains">${nerveRange} N</span>`;
-				alcoholicDrink.find(".name-wrap .qty.bold.t-hide").insertAdjacentHTML("beforeend", rawHTML);
-			}
+			if (alcoholicDrink.find(".tt-alcohol-gains")) return;
+
+			// noinspection JSCheckFunctionSignatures
+			const baseNerve = parseInt(
+				torndata.items[alcoholicDrink.dataset.item].effect
+					.split(" ")
+					.map((x) => parseInt(x))
+					.filter((x) => !isNaN(x))[0]
+			);
+			let totalNerve = baseNerve;
+			if (!isNaN(factionPerk)) totalNerve += (factionPerk / 100) * baseNerve;
+			if (!isNaN(companyPerk)) totalNerve += (companyPerk / 100) * baseNerve;
+			const maxNerve = Math.ceil(totalNerve);
+			const minNerve = Math.floor(totalNerve);
+			const nerveRange = maxNerve === minNerve ? maxNerve : `${minNerve} - ${maxNerve}`;
+			const rawHTML = `<span class="tt-alcohol-gains">${nerveRange} N</span>`;
+			alcoholicDrink.find(".name-wrap .qty.bold.t-hide").insertAdjacentHTML("beforeend", rawHTML);
 		});
 	}
 

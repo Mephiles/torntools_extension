@@ -1,5 +1,5 @@
 <div style="display:inline-block;vertical-align:top;">
-    <img align="left" src="extension/resources/images/icon_48.png">
+    <img alt="icon" src="extension/resources/images/icon_48.png">
 </div>
 <div style="display:inline-block;">
     <h2>TornTools</h2>

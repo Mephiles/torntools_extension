@@ -189,7 +189,7 @@
 										<img class="flag" src="/images/v2/travel_agency/flags/fl_uae.svg" country="uae" alt="UAE" title="UAE"/>
 										<img class="flag" src="/images/v2/travel_agency/flags/fl_south_africa.svg" country="south_africa" alt="South Africa" title="South Africa"/>
 									</div>
-								<div/>
+								</div>
 							</div>
 						`,
 					})
