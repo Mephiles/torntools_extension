@@ -52,6 +52,9 @@ async function setupChangelog() {
 	const content = document.find("#changelog > section");
 
 	changelog.forEach((entry, index, allEntries) => {
+		if (typeof entry.date === "string") entry.date = new Date(entry.date);
+		else if (typeof entry.date === "object") entry.date = false;
+
 		const wrapper = document.newElement({ type: "div", class: "parent" });
 		const heading = document.newElement({ type: "div", class: "heading", text: getTitle() });
 		const icon = document.newElement({ type: "i", class: "fas fa-chevron-down" });
