@@ -2,7 +2,7 @@
 
 (async () => {
 	featureManager.registerFeature(
-		"Status Beside Profile Name",
+		"Status Indicator",
 		"profile",
 		() => settings.pages.profile.statusIndicator,
 		null,
