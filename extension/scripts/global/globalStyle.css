@@ -258,13 +258,18 @@ body.dark-mode #tt-page-status {
 	border: 1px solid #444;
 }
 
+#tt-page-status.top-left,
+#tt-page-status.top-right {
+	position: fixed;
+	transition: top 1s;
+}
+
 #tt-page-status.top-left {
 	position: fixed;
 	left: 16px;
 }
 
 #tt-page-status.top-right {
-	position: fixed;
 	right: 16px;
 }
 
