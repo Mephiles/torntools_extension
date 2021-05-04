@@ -14,7 +14,7 @@ jobs:
         run: |
           sudo apt-get install jq
           firstEntryLineNo="$(grep -m 1 -nFe $'\t\"' ./torntools/changelog.json | cut -d: -f1)"
-          version="$(sed "${firstEntryLineNo}q;d" ./torntools/changelog.json | cut -d- -f1 | sed 's,^\t\"v,,')"
+          version="$(sed "${firstEntryLineNo}q;d" ./torntools/changelog.json | cut -d- -f1 | sed 's,^\t\"v,,' | tr -d ' ')"
           firstLineKey="$(sed ${firstEntryLineNo}q\;d ./torntools/changelog.json | sed 's,^\t\",,' | sed 's,": {,,')"
           jqCommand="jq"
           echo "### Features" >> releaseBody.md
