@@ -265,7 +265,6 @@ body.dark-mode #tt-page-status {
 }
 
 #tt-page-status.top-left {
-	position: fixed;
 	left: 16px;
 }
 
