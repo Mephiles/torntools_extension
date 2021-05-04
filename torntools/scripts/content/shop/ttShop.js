@@ -42,7 +42,7 @@ requireDatabase().then(() => {
 				let max = parseInt(buy_btn.parentElement.parentElement.find(".instock").innerText.replace(/,/g, ""));
 				if (!settings.pages.bazaar.max_buy_ignore_cash) {
 					let price = parseInt(buy_btn.parentElement.parentElement.find(".price").innerText.replace(/,/g, "").replace("$", ""));
-					let user_money = doc.find("#user-money").innerText.replace(/,/g, "").replace("$", "");
+					let user_money = parseInt(doc.find("#user-money").dataset.money);
 
 					if (Math.floor(user_money / price) < max) max = Math.floor(user_money / price);
 				}

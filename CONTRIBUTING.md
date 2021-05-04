@@ -31,4 +31,4 @@ Start reading our code and you'll get the hang of it. We optimize for readabilit
         * If it are global constants use UPPERCASE.
 * All features should be in a function.
     * The function should be called after it's verified that all required elements are present.
-* Any changes should be added in the `torntools/changelog.js` file under the first unreleased version.
+* Any changes should be added in the `torntools/changelog.json` file under the first unreleased version.
