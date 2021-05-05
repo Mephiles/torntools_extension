@@ -73,7 +73,6 @@ Object.defineProperty(Object.prototype, "equals", {
 	enumerable: false,
 });
 
-
 JSON.isValid = (str) => {
 	try {
 		JSON.parse(str);
