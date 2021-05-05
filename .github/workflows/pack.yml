@@ -14,7 +14,7 @@ jobs:
         run: |
           firstEntryLineNo=2
           version="$(sed "${firstEntryLineNo}q;d" ./torntools/changelog.json | cut -d- -f1 | sed 's,^\t\"v,,' | tr -d ' ')"
-          firstLineKey="$(sed "${firstEntryLineNo}"q\;d ./torntools/changelog.json | sed 's,^\t\",,' | sed 's,": {,,'  | tr -d '\n')"
+          firstLineKey="$(sed "${firstEntryLineNo}"q\;d ./torntools/changelog.json | sed 's,^\t\",,' | sed 's,": {,,' | tr -d $'\n')"
           jqCommand="jq"
           jqFeatures=".[\"${firstLineKey}\"] | .[\"Features\"]"
           jqFeaturesFull=".[\"${firstLineKey}\"] | .Features | map(sub(\"^\";\"- \";\"m\"))"
