@@ -23,14 +23,6 @@ jobs:
           jqFixesFull=".[\"${firstLineKey}\"] | .Fixes | map(sub(\"^\";\"- \";\"m\"))"
           jqChanges=".[\"${firstLineKey}\"] | .[\"Changes\"]"
           jqChangesFull=".[\"${firstLineKey}\"] | .Changes | map(sub(\"^\";\"- \";\"m\"))"
-          echo "$firstLineKey"
-          echo "$version"
-          echo "$jqFeatures"
-          echo "$jqFeaturesFull"
-          echo "$jqFixes"
-          echo "$jqFixesFull"
-          echo "$jqChanges"
-          echo "$jqChangesFull"
           echo "### Features" >> releaseBody.md
           if [[ "$(${jqCommand} "$jqFeatures" < ./torntools/changelog.json)" != "[]" ]]
           then
