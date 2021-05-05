@@ -417,9 +417,8 @@ function showLoadingPlaceholder(element, show) {
 		} else {
 			element.appendChild(
 				document.newElement({
-					type: "img",
-					class: "ajax-placeholder mt10 mb10 tt-loading-placeholder active", // FIXME - Don't use Torn classes.
-					attributes: { src: "https://www.torn.com/images/v2/main/ajax-loader.gif" },
+					type: "div",
+					class: "tt-loading-placeholder active",
 				})
 			);
 		}
