@@ -73,26 +73,6 @@ Object.defineProperty(Object.prototype, "equals", {
 	enumerable: false,
 });
 
-// Object.prototype.equals = function (other) {
-// 	for (const property in this) {
-// 		if (this.hasOwnProperty(property) !== other.hasOwnProperty(property)) return false;
-// 		else if (typeof this[property] !== typeof other[property]) return false;
-// 	}
-// 	for (const property in other) {
-// 		if (this.hasOwnProperty(property) !== other.hasOwnProperty(property)) return false;
-// 		else if (typeof this[property] !== typeof other[property]) return false;
-//
-// 		if (!this.hasOwnProperty(property)) continue;
-//
-// 		if (Array.isArray(this[property]) && Array.isArray(other[property])) {
-// 			if (!this[property].equals(other[property])) return false;
-// 		} else if (this[property] instanceof Object && this[property] instanceof Object) {
-// 			if (!this[property].equals(other[property])) return false;
-// 		} else if (this[property] !== other[property]) return false;
-// 	}
-//
-// 	return true;
-// };
 
 JSON.isValid = (str) => {
 	try {
