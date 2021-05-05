@@ -16,14 +16,26 @@ jobs:
           version="$(sed "${firstEntryLineNo}q;d" ./torntools/changelog.json | cut -d- -f1 | sed 's,^\t\"v,,' | tr -d ' ')"
           firstLineKey="$(sed "${firstEntryLineNo}"q\;d ./torntools/changelog.json | sed 's,^\t\",,' | sed 's,": {,,')"
           jqCommand="jq"
+          jqFeatures=".[\"${firstLineKey}\"] | .[\"Features\"]"
+          jqFeaturesFull=".[\"${firstLineKey}\"] | .Features | map(sub(\"^\";\"- \";\"m\"))"
+          jqFixes=".[\"${firstLineKey}\"] | .[\"Fixes\"]"
+          jqFixesFull=".[\"${firstLineKey}\"] | .Fixes | map(sub(\"^\";\"- \";\"m\"))"
+          jqChanges=".[\"${firstLineKey}\"] | .[\"Changes\"]"
+          jqChangesFull=".[\"${firstLineKey}\"] | .Changes | map(sub(\"^\";\"- \";\"m\"))"
           echo "${firstEntryLineNo}"
           echo "${version}"
           echo "${firstLineKey}"
           echo "${jqCommand}"
+          echo "${jqFeatures}"
+          echo "${jqFeaturesFull}"
+          echo "${jqFixes}"
+          echo "${jqFixesFull}"
+          echo "${jqChanges}"
+          echo "${jqChangesFull}"
           echo "### Features" >> releaseBody.md
-          if [[ "$(${jqCommand} ".[\"${firstLineKey}\"] | .Features" < ./torntools/changelog.json)" != "[]" ]]
+          if [[ "$(${jqCommand} "$jqFeatures" < ./torntools/changelog.json)" != "[]" ]]
           then
-              "$jqCommand" ".[\"${firstLineKey}\"] | .Features | map(sub(\"^\";\"- \";\"m\"))" < ./torntools/changelog.json | sed "1,1d" | sed "$ d" | sed "s,^  \",," | sed "s:\"\,$::" | sed "s,\"$,," | while read -r line
+              "$jqCommand" "$jqFeaturesFull" < ./torntools/changelog.json | sed "1,1d" | sed "$ d" | sed "s,^  \",," | sed "s:\"\,$::" | sed "s,\"$,," | while read -r line
               do
                   echo "$line" >> releaseBody.md
               done
@@ -31,9 +43,9 @@ jobs:
               echo "None" >> releaseBody.md
           fi
           echo "### Fixes" >> releaseBody.md
-          if [[ "$(${jqCommand} ".[\"${firstLineKey}\"] | .Fixes" < ./torntools/changelog.json)" != "[]" ]]
+          if [[ "$(${jqCommand} "$jqFixes" < ./torntools/changelog.json)" != "[]" ]]
           then
-              "$jqCommand" ".[\"${firstLineKey}\"] | .Fixes | map(sub(\"^\";\"- \";\"m\"))" < ./torntools/changelog.json | sed "1,1d" | sed "$ d" | sed "s,^  \",," | sed "s:\"\,$::" | sed "s,\"$,," | while read -r line
+              "$jqCommand" "$jqFixesFull" < ./torntools/changelog.json | sed "1,1d" | sed "$ d" | sed "s,^  \",," | sed "s:\"\,$::" | sed "s,\"$,," | while read -r line
               do
                   echo "$line" >> releaseBody.md
               done
@@ -41,9 +53,9 @@ jobs:
               echo "None" >> releaseBody.md
           fi
           echo "### Changes" >> releaseBody.md
-          if [[ "$(${jqCommand} ".[\"${firstLineKey}\"] | .Changes" < ./torntools/changelog.json)" != "[]" ]]
+          if [[ "$(${jqCommand} "$jqChanges" < ./torntools/changelog.json)" != "[]" ]]
           then
-              "$jqCommand" ".[\"${firstLineKey}\"] | .Changes | map(sub(\"^\";\"- \";\"m\"))" < ./torntools/changelog.json | sed "1,1d" | sed "$ d" | sed "s,^  \",," | sed "s:\"\,$::" | sed "s,\"$,," | while read -r line
+              "$jqCommand" "$jqChangesFull" < ./torntools/changelog.json | sed "1,1d" | sed "$ d" | sed "s,^  \",," | sed "s:\"\,$::" | sed "s,\"$,," | while read -r line
               do
                   echo "$line" >> releaseBody.md
               done
