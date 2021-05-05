@@ -13,7 +13,7 @@ jobs:
       - name: Update the changelog.js
         run: |
           sudo apt-get install jq
-          jqCommand="../../Downloads/jq-win64.exe"
+          jqCommand="jq"
           firstEntryLineNo=2
           firstLineKey="$("${jqCommand}" -j "keys_unsorted[0]" < torntools/changelog.json | tr -d "\"")"
           version="$(echo -n "${firstLineKey}" | cut -d- -f1 | sed 's,^v,,' | tr -d ' ')"
