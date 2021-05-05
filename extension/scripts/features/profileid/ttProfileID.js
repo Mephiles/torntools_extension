@@ -18,7 +18,7 @@
 		await requireElement(".basic-info .info-table > *:first-child");
 
 		const title = document.find("h4#skip-to-content");
-		title.innerHTML = `${title.innerHTML.trim().match(/([a-zA-Z0-9]*)'s? Profile/i)[1]} [${getUserID()}]`;
+		title.innerHTML = `${title.innerHTML.trim().match(/(.*)'s? Profile/i)[1]} [${getUserID()}]`;
 	}
 
 	function removeID() {
