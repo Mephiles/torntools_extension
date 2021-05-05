@@ -5,7 +5,6 @@
 	handlePopout();
 	setupFeatureManager();
 
-	// FIXME - Get to know what this is needed for.
 	forceUpdate().catch(() => {});
 
 	function handleMobile() {

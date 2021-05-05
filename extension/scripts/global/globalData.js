@@ -349,7 +349,6 @@ const DEFAULT_STORAGE = {
 	},
 	quick: {
 		items: new DefaultSetting({ type: "array", defaultValue: [] }),
-		// TODO - Put correct quick item in.
 	},
 };
 
