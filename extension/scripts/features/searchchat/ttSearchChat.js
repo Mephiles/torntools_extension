@@ -47,6 +47,10 @@
 		const id = `search_${chat.find("[class*='chat-box-title_']").getAttribute("title")}`;
 
 		const chatInput = chat.find("[class*='chat-box-input_']");
+		const hasTradeTimer = chat.classList.contains("^=trade_") && chat.find("#tt-trade-timer");
+
+		const inputChild = hasTradeTimer ? chat.find("#tt-trade-timer").parentElement.nextElementSibling : chatInput.firstElementChild;
+
 		chatInput.insertBefore(
 			document.newElement({
 				type: "div",
@@ -73,7 +77,7 @@
 					}),
 				],
 			}),
-			chatInput.firstElementChild
+			inputChild
 		);
 		chatInput.classList.add("tt-modified");
 	}
@@ -123,7 +127,9 @@
 
 			const searchInput = chat.find(".tt-chat-filter");
 			if (searchInput) searchInput.remove();
-			chat.find("[class*='chat-box-input_']").classList.remove("tt-modified");
+
+			const hasTradeTimer = chat.classList.contains("^=trade_") && chat.find("#tt-trade-timer");
+			if (!hasTradeTimer) chat.find("[class*='chat-box-input_']").classList.remove("tt-modified");
 		}
 		for (const search of document.findAll("#chatRoot .tt-chat-filter")) {
 			search.remove();
