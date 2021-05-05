@@ -82,16 +82,18 @@
 		const people = document.find("#chatRoot [class*='chat-box-people_'] [class*='chat-box-content_']");
 		if (!people || people.find(".tt-chat-filter")) return;
 
+		const id = "search_people";
 		people.appendChild(
 			document.newElement({
 				type: "div",
 				class: "tt-chat-filter",
 				children: [
-					document.newElement({ type: "div", text: "Search:" }),
+					document.newElement({ type: "label", text: "Search:", attributes: { for: id } }),
 					document.newElement({
 						type: "input",
+						id,
 						events: {
-							keyup(event) {
+							input: (event) => {
 								const keyword = event.target.value.toLowerCase();
 
 								for (const player of people.findAll("ul[class*='people-list_'] > li")) {
