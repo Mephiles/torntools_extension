@@ -12,10 +12,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Update the changelog.js
         run: |
+          sudo apt-get install jq
           firstEntryLineNo=2
           version="$(sed "${firstEntryLineNo}q;d" ./torntools/changelog.json | cut -d- -f1 | sed 's,^\t\"v,,' | tr -d ' ')"
           firstLineKey="$(sed "${firstEntryLineNo}"q\;d ./torntools/changelog.json | sed 's,^\t\",,' | sed 's,": {,,' | tr -d $'\n')"
-          firstLineKey="$(echo -n ${firstLineKey})"
+          firstLineKey="$(echo -n $firstLineKey)"
           jqCommand="jq"
           jqFeatures=".[\"${firstLineKey}\"] | .[\"Features\"]"
           jqFeaturesFull=".[\"${firstLineKey}\"] | .Features | map(sub(\"^\";\"- \";\"m\"))"
