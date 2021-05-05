@@ -9,6 +9,10 @@
 	align-items: center;
 }
 
+[class*="chat-box-people_"] .tt-chat-filter {
+	margin-bottom: 2px;
+}
+
 .tt-chat-filter input {
 	margin-left: 4px;
 	border-radius: 5px;

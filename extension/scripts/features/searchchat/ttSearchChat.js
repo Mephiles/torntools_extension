@@ -18,7 +18,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {
 			if (!feature.enabled()) return;
 
-			addSearch(chat);
+			addChatSearch(chat);
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_MESSAGE].push(({ message }) => {
 			if (!feature.enabled()) return;
@@ -36,11 +36,12 @@
 
 	async function showSearch() {
 		for (const chat of document.findAll("[class*='chat-active_']:not([class*='chat-box-settings_'])")) {
-			addSearch(chat);
+			addChatSearch(chat);
 		}
+		addPeopleSearch();
 	}
 
-	function addSearch(chat) {
+	function addChatSearch(chat) {
 		if (chat.find(".tt-chat-filter")) return;
 
 		const id = `search_${chat.find("[class*='chat-box-title_']").getAttribute("title")}`;
@@ -77,6 +78,39 @@
 		chatInput.classList.add("tt-modified");
 	}
 
+	function addPeopleSearch() {
+		const people = document.find("#chatRoot [class*='chat-box-people_'] [class*='chat-box-content_']");
+		if (!people || people.find(".tt-chat-filter")) return;
+
+		people.appendChild(
+			document.newElement({
+				type: "div",
+				class: "tt-chat-filter",
+				children: [
+					document.newElement({ type: "div", text: "Search:" }),
+					document.newElement({
+						type: "input",
+						events: {
+							keyup(event) {
+								const keyword = event.target.value.toLowerCase();
+
+								for (const player of people.findAll("ul[class*='people-list_'] > li")) {
+									if (keyword && !player.find(".bold").innerText.toLowerCase().includes(keyword)) {
+										player.style.display = "none";
+									} else {
+										player.style.display = "block";
+									}
+								}
+
+								if (!keyword) people.find("div[class*='viewport_']").scrollTo(0, 0);
+							},
+						},
+					}),
+				],
+			})
+		);
+	}
+
 	function removeSearch() {
 		for (const chat of document.findAll("[class*='chat-active_']:not([class*='chat-box-settings_'])")) {
 			for (const message of document.findAll("[class*='overview_'] [class*='message_']")) {
@@ -85,9 +119,12 @@
 			const viewport = chat.find("[class*='viewport_']");
 			viewport.scrollTop = viewport.scrollHeight;
 
-			const searchInput = document.find(".tt-chat-filter");
+			const searchInput = chat.find(".tt-chat-filter");
 			if (searchInput) searchInput.remove();
 			chat.find("[class*='chat-box-input_']").classList.remove("tt-modified");
+		}
+		for (const search of document.findAll("#chatRoot .tt-chat-filter")) {
+			search.remove();
 		}
 	}
 
