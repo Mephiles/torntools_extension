@@ -150,7 +150,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/companies.php*"],
-			"css": [],
+			"css": ["scripts/features/companyspecials/ttCompanySpecials.css"],
 			"js": ["scripts/features/companyspecials/ttCompanySpecials.js"],
 			"run_at": "document_end"
 		},
