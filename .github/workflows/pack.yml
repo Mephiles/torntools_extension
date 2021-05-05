@@ -16,8 +16,12 @@ jobs:
           version="$(sed "${firstEntryLineNo}q;d" ./torntools/changelog.json | cut -d- -f1 | sed 's,^\t\"v,,' | tr -d ' ')"
           firstLineKey="$(sed "${firstEntryLineNo}"q\;d ./torntools/changelog.json | sed 's,^\t\",,' | sed 's,": {,,')"
           jqCommand="jq"
+          echo "${firstEntryLineNo}"
+          echo "${version}"
+          echo "${firstLineKey}"
+          echo "${jqCommand}"
           echo "### Features" >> releaseBody.md
-          if [[ "$(${jqCommand} ".[\"${firstLineKey}\"] | .[\"Features\"]" < ./torntools/changelog.json)" != "[]" ]]
+          if [[ "$(${jqCommand} ".[\"${firstLineKey}\"] | .Features" < ./torntools/changelog.json)" != "[]" ]]
           then
               "$jqCommand" ".[\"${firstLineKey}\"] | .Features | map(sub(\"^\";\"- \";\"m\"))" < ./torntools/changelog.json | sed "1,1d" | sed "$ d" | sed "s,^  \",," | sed "s:\"\,$::" | sed "s,\"$,," | while read -r line
               do
