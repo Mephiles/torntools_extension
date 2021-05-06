@@ -49,10 +49,10 @@
 			input.insertBefore(document.newElement({ type: "div", children: [timer] }), input.firstElementChild);
 
 			input.find("textarea").addEventListener("keypress", onKeyPress);
+			input.classList.add("tt-modified");
 		}
 
 		const now = Date.now();
-		console.log("DKK triggerTrade", chat, localdata.tradeMessage, now);
 		if (localdata.tradeMessage > now) {
 			timer.innerText = formatTime({ milliseconds: localdata.tradeMessage - now }, { type: "wordTimer", extraShort: true });
 			timer.dataset.seconds = ((localdata.tradeMessage - now) / TO_MILLIS.SECONDS).dropDecimals().toString();
@@ -93,6 +93,10 @@
 		const timer = chat.find("#tt-trade-timer");
 		if (timer) timer.remove();
 
-		chat.find("[class*='chat-box-input_'] textarea").removeEventListener("keypress", onKeyPress);
+		const input = chat.find("[class*='chat-box-input_']");
+
+		if (!input.find(".tt-chat-filter")) input.classList.remove("tt-modified");
+
+		input.find("textarea").removeEventListener("keypress", onKeyPress);
 	}
 })();

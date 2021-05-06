@@ -26,10 +26,12 @@
 	vertical-align: middle;
 }
 
-body:not(.darkmode) .outside-actions .item-market-icon {
+/*noinspection CssUnknownTarget*/
+body:not(.dark-mode) .outside-actions .item-market-icon {
 	background: url(/images/v2/city/location_icons_34x34px.svg) no-repeat;
 }
 
+/*noinspection CssUnknownTarget*/
 body.dark-mode .outside-actions .item-market-icon {
 	background: url(/images/v2/city/location_icons_34x34px_dark.svg) no-repeat;
 }

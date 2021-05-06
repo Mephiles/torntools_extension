@@ -150,7 +150,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/companies.php*"],
-			"css": [],
+			"css": ["scripts/features/companyspecials/ttCompanySpecials.css"],
 			"js": ["scripts/features/companyspecials/ttCompanySpecials.js"],
 			"run_at": "document_end"
 		},
@@ -271,6 +271,12 @@
 			"matches": ["https://www.torn.com/travelagency.php*"],
 			"css": ["scripts/features/traveltable/ttTravelTable.css"],
 			"js": ["scripts/content/travelagency/ttTravelAgency.js", "scripts/features/traveltable/ttTravelTable.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/forums.php*"],
+			"css": ["scripts/features/forumwarning/ttForumWarning.css"],
+			"js": ["scripts/features/forumwarning/ttForumWarning.js"],
 			"run_at": "document_end"
 		}
 	]

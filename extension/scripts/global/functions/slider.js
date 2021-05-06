@@ -10,17 +10,16 @@ function newSlider(max = 100, min = 0) {
 				<span class="highlight"></span>
 				<span class="handle right"></span>`,
 	});
-	new dualRangeSlider(ttDualRange);
+	new DualRangeSlider(ttDualRange);
 	return ttDualRange;
 }
-class dualRangeSlider {
+class DualRangeSlider {
 	constructor(rangeElement) {
 		this.range = rangeElement;
 		this.min = Number(rangeElement.dataset.min);
 		this.max = Number(rangeElement.dataset.max);
 		this.handles = [...this.range.findAll(".handle")];
 		this.startPos = 0;
-		this.activeHandle;
 		this.handles.forEach((handle) => {
 			handle.addEventListener("mousedown", this.startMove.bind(this));
 			handle.addEventListener("touchstart", this.startMoveTouch.bind(this));

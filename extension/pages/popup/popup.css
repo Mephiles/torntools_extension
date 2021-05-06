@@ -4,6 +4,14 @@ body {
 	font-size: 75%;
 }
 
+body.light {
+	--default-preloader-url: url(https://www.torn.com/images/v2/main/ajax-loader.gif);
+}
+
+body.dark {
+	--default-preloader-url: url(https://www.torn.com/images/v2/main/ajax-loader-white.gif);
+}
+
 body.loading *:not(.tt-loading-placeholder) {
 	display: none !important;
 }

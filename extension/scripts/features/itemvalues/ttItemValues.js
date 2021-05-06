@@ -40,7 +40,7 @@
 			case "displaycase":
 				setupXHR({ ignoreUntradable: true, addRelative: true });
 				break;
-			case "item": // TODO - Finish testing.
+			case "item":
 				const listener = ({ tab }) => {
 					if (!feature.enabled()) return;
 

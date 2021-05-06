@@ -44,6 +44,6 @@
 	}
 
 	function getUserID() {
-		return document.find(".basic-info .user-info-value .bold").innerText.match(/(?<=\[).*(?=\])/g)[0];
+		return document.find(".basic-info .user-info-value .bold").innerText.match(/(?<=\[).*(?=])/g)[0];
 	}
 })();

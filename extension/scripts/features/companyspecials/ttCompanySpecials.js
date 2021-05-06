@@ -112,7 +112,7 @@
 
 			result[missingStat] = Object.entries(result)
 				.filter(([stat]) => missingStat !== stat)
-				.map(([stat, value]) => (stat === "total" ? -value : value))
+				.map(([stat, value]) => (stat === "total" ? value : -value))
 				.totalSum();
 
 			const position = stats.indexOf(missingStat) + 1;
@@ -126,7 +126,7 @@
 			const element = document.find(`.specials-confirm-cont ul.job-info > li:nth-child(${position})`);
 
 			element.classList.add("remembered");
-			element.innerText = `${element.innerText.split(" ")[0]} ${formatStat(result[remembered])}`;
+			element.innerText = `${element.innerText.split(" ")[0]} ${formatStat(result[stat])}`;
 		}
 		data[user] = result;
 

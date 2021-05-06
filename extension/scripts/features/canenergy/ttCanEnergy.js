@@ -23,34 +23,23 @@
 	}
 
 	function addEnergyGains() {
-		const facECanPerc = parseInt(
-			userdata.faction_perks
-				.filter((x) => /energy drinks/i.test(x))
-				.map((x) => {
-					x.replace(/\D+/g, "");
-				})[0]
-		);
-		const jobECanPerc = parseInt(
-			userdata.company_perks
-				.filter((x) => /boost/i.test(x))
-				.map((x) => {
-					x.replace(/\D+/g, "");
-				})[0]
-		);
+		const factionPerk = parseInt(userdata.faction_perks.filter((x) => /energy drinks/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
+		const companyPerk = parseInt(userdata.company_perks.filter((x) => /boost/i.test(x)).map((x) => x.replace(/\D+/g, ""))[0]);
 		document.findAll("[data-category='Energy Drink']").forEach((eCanElement) => {
-			if (!eCanElement.find(".tt-e-gains")) {
-				const baseE = parseInt(
-					torndata.items[eCanElement.dataset.item].effect
-						.split(" ")
-						.map((x) => parseInt(x))
-						.filter((x) => !isNaN(x))[0]
-				);
-				let totalEnergy = baseE;
-				if (!isNaN(facECanPerc)) totalEnergy += (facECanPerc / 100) * baseE;
-				if (!isNaN(jobECanPerc)) totalEnergy += (jobECanPerc / 100) * baseE;
-				const rawHTML = `<span class='tt-e-gains'>${totalEnergy}E</span>`;
-				eCanElement.find(".name-wrap").insertAdjacentHTML("beforeend", rawHTML);
-			}
+			if (eCanElement.find(".tt-e-gains")) return;
+
+			// noinspection JSCheckFunctionSignatures
+			const baseEnergy = parseInt(
+				torndata.items[eCanElement.dataset.item].effect
+					.split(" ")
+					.map((x) => parseInt(x))
+					.filter((x) => !isNaN(x))[0]
+			);
+			let totalEnergy = baseEnergy;
+			if (!isNaN(factionPerk)) totalEnergy += (factionPerk / 100) * baseEnergy;
+			if (!isNaN(companyPerk)) totalEnergy += (companyPerk / 100) * baseEnergy;
+			const rawHTML = `<span class='tt-e-gains'>${totalEnergy}E</span>`;
+			eCanElement.find(".name-wrap").insertAdjacentHTML("beforeend", rawHTML);
 		});
 	}
 

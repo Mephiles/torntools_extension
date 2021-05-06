@@ -46,4 +46,12 @@
 			countdown.dataset.seconds = seconds;
 		}
 	}, 1000);
+
+	checkScroll();
+	document.addEventListener("scroll", checkScroll);
+
+	function checkScroll() {
+		if (window.scrollY >= 75) document.body.classList.add("scrolled");
+		else document.body.classList.remove("scrolled");
+	}
 })();

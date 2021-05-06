@@ -17,16 +17,23 @@
 	async function addID() {
 		await requireElement(".basic-info .info-table > *:first-child");
 
-		const skipToContent = document.find("h4#skip-to-content");
-		skipToContent.innerHTML = `${skipToContent.innerHTML.replace("'s Profile", "")} [${getUserID()}]`;
+		const title = document.find("h4#skip-to-content");
+		title.innerHTML = `${title.innerHTML.trim().match(/(.*)'s? Profile/i)[1]} [${getUserID()}]`;
 	}
 
 	function removeID() {
-		const skipToContent = document.find("h4#skip-to-content");
-		skipToContent.innerText = skipToContent.innerText.replace(/ \[.*]/g, "") + "'s Profile";
+		const title = document.find("h4#skip-to-content");
+
+		const name = title.innerText.replace(/ \[.*]/g, "");
+		title.innerText = `${name}'${name.endsWith("s") ? "" : "s"} Profile`;
 	}
 
 	function getUserID() {
-		return document.find(".basic-information .profile-container ul.info-table .user-info-value > *:first-child").innerText.replace(/\D+/g, "");
+		return parseInt(
+			document
+				.find(".basic-information .profile-container ul.info-table .user-info-value > *:first-child")
+				.innerText.trim()
+				.match(/\[([0-9]*)]/i)[1]
+		);
 	}
 })();

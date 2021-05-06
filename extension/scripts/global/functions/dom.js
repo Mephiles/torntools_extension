@@ -79,6 +79,24 @@ Object.defineProperty(DOMTokenList.prototype, "contains", {
 	},
 	enumerable: false,
 });
+Object.defineProperty(DOMTokenList.prototype, "removeSpecial", {
+	value(className) {
+		const classes = [...this];
+		if (className.startsWith("^=")) {
+			className = className.substring(2, className.length);
+
+			for (const name of classes) {
+				if (!name.startsWith(className)) continue;
+
+				this.remove(name);
+				break;
+			}
+		} else {
+			this.remove(className);
+		}
+	},
+	enumerable: false,
+});
 
 function _find(element, selector, options = {}) {
 	options = {
@@ -399,9 +417,8 @@ function showLoadingPlaceholder(element, show) {
 		} else {
 			element.appendChild(
 				document.newElement({
-					type: "img",
-					class: "ajax-placeholder mt10 mb10 tt-loading-placeholder active", // FIXME - Don't use Torn classes.
-					attributes: { src: "https://www.torn.com/images/v2/main/ajax-loader.gif" },
+					type: "div",
+					class: "tt-loading-placeholder active",
 				})
 			);
 		}

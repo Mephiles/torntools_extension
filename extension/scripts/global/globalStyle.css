@@ -248,16 +248,28 @@ body.dark-mode #tt-page-status {
 	border: 1px solid #444;
 }
 
+#tt-page-status.top-left,
+#tt-page-status.top-right {
+	position: fixed;
+	transition: top 1s;
+}
+
 #tt-page-status.top-left {
-	position: absolute;
-	top: 90px;
 	left: 16px;
 }
 
 #tt-page-status.top-right {
-	position: absolute;
-	top: 90px;
 	right: 16px;
+}
+
+body:not(.scrolled) #tt-page-status.top-left,
+body:not(.scrolled) #tt-page-status.top-right {
+	top: 90px;
+}
+
+body.scrolled #tt-page-status.top-left,
+body.scrolled #tt-page-status.top-right {
+	top: 16px;
 }
 
 #tt-page-status.bottom-left {
@@ -341,4 +353,9 @@ body.dark-mode .tt-page-status-feature.information i {
 
 #tt-page-status .no-content {
 	display: none;
+}
+
+.tt-button-link {
+	cursor: pointer;
+	color: var(--default-blue-color);
 }
