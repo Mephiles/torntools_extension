@@ -11,7 +11,9 @@
 		{
 			storage: ["settings.pages.items.nerveGains"],
 		},
-		null
+		() => {
+			if (!hasAPIData() || !torndata || !torndata.items) return "No API access.";
+		}
 	);
 
 	function initialiseAddGains() {
