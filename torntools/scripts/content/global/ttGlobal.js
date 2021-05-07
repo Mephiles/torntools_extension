@@ -178,7 +178,7 @@ requireDatabase().then(() => {
 					let ttInHospClass = ttNavSettings.classList.contains("^=in-hospital");
 					if (ttInHospClass) ttNavSettings.classList.remove(ttInHospClass);
 					ttNavSettings.parentElement.appendChild(ttNavSettings);
-				};
+				}
 				let inJailClass = doc.find(".areasWrapper [id*='nav-']").classList.contains("^=in-jail");
 				if (inJailClass) {
 					ttNavSettings.classList.add(inJailClass);
@@ -187,7 +187,7 @@ requireDatabase().then(() => {
 					let ttInJailClass = ttNavSettings.classList.contains("^=in-jail");
 					if (ttInJailClass) ttNavSettings.classList.remove(ttInJailClass);
 					ttNavSettings.parentElement.appendChild(ttNavSettings);
-				};
+				}
 			}).observe(doc.find("#nav-hall_of_fame"), { attributes: true });
 		}
 
