@@ -1795,11 +1795,12 @@ DOMTokenList.prototype.contains = function (className) {
 	const classes = [...this];
 	if (className.startsWith("^=")) {
 		className = className.substring(2, className.length);
+		if (className === "") return false;
 
 		for (const name of classes) {
 			if (!name.startsWith(className)) continue;
 
-			return true;
+			return name;
 		}
 		return false;
 	} else {
@@ -1943,7 +1944,7 @@ const navbar = {
 		}
 	},
 	newAreasLink: function (attributes = {}) {
-		let exampleAreasLink = doc.findAll("div#sidebarroot div[id*='nav-'][class*='area-desktop_']")[9].cloneNode(true);
+		let exampleAreasLink = doc.findAll("div#sidebarroot .areasWrapper div[id*='nav-'][class*='area-desktop_']")[0].cloneNode(true);
 		if (attributes.id) exampleAreasLink.id = attributes.id;
 		if (attributes.href) exampleAreasLink.find("a[href]").href = attributes.href;
 		if (attributes.svgHTML) exampleAreasLink.find("svg").outerHTML = attributes.svgHTML;
