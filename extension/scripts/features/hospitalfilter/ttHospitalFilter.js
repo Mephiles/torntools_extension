@@ -65,13 +65,13 @@
 			</div>
 		`;
 		if (hasAPIData() && Object.keys(userdata) && userdata.faction && userdata.faction.faction_tag)
-				content.find(".filter-content #tt-faction-filter select").appendChild(document.newElement({
-					type: "option",
-					text: userdata.faction.faction_tag,
-					attributes: {
-						value: userdata.faction.faction_tag,
-					},
-				}));
+			content.find(".filter-content #tt-faction-filter select").appendChild(document.newElement({
+				type: "option",
+				text: userdata.faction.faction_tag,
+				attributes: {
+					value: userdata.faction.faction_tag,
+				},
+			}));
 		const timeFilter = document.newElement({
 			type: "div",
 			class: "filter-wrap",

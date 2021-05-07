@@ -12,7 +12,7 @@
 			storage: ["settings.pages.items.canGains"],
 		},
 		() => {
-			if (!hasAPIData() || !torndata || !torndata.items) return "No API access.";
+			if (!hasAPIData()) return "No API access.";
 		}
 	);
 
