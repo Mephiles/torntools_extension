@@ -11,7 +11,9 @@
 		{
 			storage: ["settings.pages.items.canGains"],
 		},
-		null
+		() => {
+			if (!hasAPIData()) return "No API access.";
+		}
 	);
 
 	function initialiseAddEGains() {

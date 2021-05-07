@@ -11,7 +11,9 @@
 		{
 			storage: ["settings.pages.items.candyHappyGains"],
 		},
-		null
+		() => {
+			if (!hasAPIData()) return "No API access.";
+		}
 	);
 
 	function initialiseAddGains() {
