@@ -85,7 +85,7 @@ async function fetchApi(location, options = {}) {
 				let result = {};
 
 				try {
-					result = await response.json();
+					result = await response.clone().json();
 				} catch (error) {
 					if (response.status === 200) {
 						result.success = true;
