@@ -24,7 +24,7 @@
 			storage: ["settings.pages.items.values"],
 		},
 		() => {
-			if (page === "item" && !hasAPIData()) return "No API data!";
+			if (page === "item" && !hasAPIData()) return "No API access.";
 		},
 		{ triggerCallback: true }
 	);
