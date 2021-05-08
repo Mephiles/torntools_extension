@@ -80,7 +80,7 @@ async function fetchApi(location, options = {}) {
 			};
 		}
 
-		fetch(fullUrl, parameters)
+		await fetch(fullUrl, parameters)
 			.then(async (response) => {
 				let result = {};
 
@@ -179,8 +179,8 @@ function fetchRelay(location, options = {}) {
 }
 
 function changeAPIKey(key) {
-	return new Promise((resolve, reject) => {
-		fetchApi("torn", { section: "user", selections: ["profile"], key, silent: true })
+	return new Promise(async (resolve, reject) => {
+		await fetchApi("torn", { section: "user", selections: ["profile"], key, silent: true })
 			.then(async () => {
 				await ttStorage.change({ api: { torn: { key } } });
 

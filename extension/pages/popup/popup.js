@@ -70,10 +70,10 @@ async function showPage(name) {
 async function setupInitialize() {
 	document.find("#pages").classList.add("hidden");
 
-	document.find("#set_api_key").addEventListener("click", () => {
+	document.find("#set_api_key").addEventListener("click", async () => {
 		const key = document.find("#api_key").value;
 
-		changeAPIKey(key)
+		await changeAPIKey(key)
 			.then(async () => {
 				document.find("#pages").classList.remove("hidden");
 				document.find(".error").classList.add("hidden");
@@ -99,7 +99,6 @@ async function setupInitialize() {
 }
 
 async function setupDashboard() {
-	if (!Object.keys(userdata).length) await ttStorage.get("userdata").then((x) => userdata = x);
 	const dashboard = document.find("#dashboard");
 
 	dashboard.find("#mute-notifications").classList.add(settings.notifications.types.global ? "enabled" : "disabled");
@@ -455,7 +454,6 @@ async function setupDashboard() {
 }
 
 async function setupMarketSearch() {
-	if (!Object.keys(userdata).length) await ttStorage.get("userdata").then((x) => userdata = x);
 	// setup itemlist
 	const itemSelection = document.find("#market .item-list");
 
@@ -567,12 +565,10 @@ async function setupMarketSearch() {
 }
 
 async function loadMarketSearch() {
-	if (!Object.keys(userdata).length) await ttStorage.get("userdata").then((x) => userdata = x);
 	document.find("#market #search-bar").focus();
 }
 
 async function setupStocksOverview() {
-	if (!Object.keys(userdata).length) await ttStorage.get("userdata").then((x) => userdata = x);
 	const stocksOverview = document.find("#stocks");
 	const userStocks = stocksOverview.find("#user-stocks");
 	const allStocks = stocksOverview.find("#all-stocks");
