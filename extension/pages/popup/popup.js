@@ -70,20 +70,14 @@ async function showPage(name) {
 async function setupInitialize() {
 	document.find("#pages").classList.add("hidden");
 
-	document.find("#set_api_key").addEventListener("click", async () => {
+	document.find("#set_api_key").addEventListener("click", () => {
 		const key = document.find("#api_key").value;
 
-		await changeAPIKey(key)
+		changeAPIKey(key)
 			.then(async () => {
 				document.find("#pages").classList.remove("hidden");
-				document.find(".error").classList.add("hidden");
 
-				// Update userdata locally
-				if (!Object.keys(userdata).length) {
-					await ttStorage.get("userdata").then((x) => userdata = x);
-				}
 				await showPage(settings.pages.popup.defaultTab);
-				document.find(`.main-nav [to='${settings.pages.popup.defaultTab}']`).click();
 			})
 			.catch((error) => {
 				document.find(".error").classList.remove("hidden");
