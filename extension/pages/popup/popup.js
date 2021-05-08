@@ -78,7 +78,7 @@ async function setupInitialize() {
 				document.find("#pages").classList.remove("hidden");
 				document.find(".error").classList.add("hidden");
 
-				// Update userdata in locally
+				// Update userdata locally
 				if (!Object.keys(userdata).length) {
 					await ttStorage.get("userdata").then((x) => userdata = x);
 				}

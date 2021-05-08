@@ -20,7 +20,7 @@ async function fetchApi(location, options = {}) {
 		...options,
 	};
 
-	return new Promise((resolve, reject) => {
+	return new Promise(async (resolve, reject) => {
 		const PLATFORMS = {
 			torn: "https://api.torn.com/",
 			yata: "https://yata.yt/",
@@ -178,13 +178,13 @@ function fetchRelay(location, options = {}) {
 	});
 }
 
-function changeAPIKey(key) {
+async function changeAPIKey(key) {
 	return new Promise(async (resolve, reject) => {
 		await fetchApi("torn", { section: "user", selections: ["profile"], key, silent: true })
 			.then(async () => {
 				await ttStorage.change({ api: { torn: { key } } });
 
-				chrome.runtime.sendMessage({ action: "initialize" }, async () => {
+				chrome.runtime.sendMessage({ action: "initialize" }, () => {
 					resolve();
 				});
 			})
