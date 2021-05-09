@@ -334,6 +334,15 @@ async function setupPreferences() {
 		inputRow.find(".href").classList.remove("hidden");
 	});
 
+	_preferences.find("#allyFactions").addEventListener("click", (event) => {
+		if (event.target.id === "addAllyFaction") addAllyFaction(event.target.parentElement.find("input").value);
+	});
+
+	const allyFactions = _preferences.find("#allyFactions");
+	settings.allyFactionsIDs.forEach((factionID) => {
+		addAllyFaction(factionID);
+	});
+
 	const chatSection = _preferences.find(".sections section[name='chat']");
 	for (const placeholder of HIGHLIGHT_PLACEHOLDERS) {
 		chatSection.insertBefore(
@@ -677,6 +686,27 @@ async function setupPreferences() {
 		_preferences.find("#customLinks").insertBefore(newRow, _preferences.find("#customLinks .input"));
 	}
 
+	function addAllyFaction(factionID) {
+		const deleteIcon = document.newElement({
+			type: "button",
+			class: "remove-icon-wrap",
+			children: [document.newElement({ type: "i", class: "remove-icon fas fa-trash-alt" })],
+		});
+		const newRow = document.newElement({
+			type: "li",
+			class: "input",
+			children: [
+				document.newElement({ type: "input", class: "faction", value: factionID, attributes: { type: "number" } }),
+				deleteIcon,
+			],
+		});
+
+		deleteIcon.addEventListener("click", () => newRow.remove());
+
+		_preferences.find("#allyFactions").insertAdjacentElement("afterbegin", newRow);
+		_preferences.find("#allyFactions li:last-child input").value = "";
+	}
+
 	function getCustomLinkOptions() {
 		let options = "<option value='custom'>Custom..</option>";
 		for (const name in CUSTOM_LINKS_PRESET) options += `<option value="${name}">${name}</option>`;
@@ -767,6 +797,7 @@ async function setupPreferences() {
 				color: highlight.find(".color").value,
 			};
 		});
+		settings.allyFactionsIDs = [..._preferences.findAll("#allyFactions input")].map((input) => parseInt(input.value)).filter((x) => !isNaN(x));
 
 		settings.hideAreas = [..._preferences.findAll("#hide-areas span.disabled")].map((area) => area.getAttribute("name"));
 		settings.hideIcons = [..._preferences.findAll("#hide-icons .icon.disabled > div")].map((icon) => icon.getAttribute("class"));

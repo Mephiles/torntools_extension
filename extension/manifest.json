@@ -247,11 +247,12 @@
 		},
 		{
 			"matches": ["https://www.torn.com/profiles.php*"],
-			"css": ["scripts/features/profilenotes/ttProfileNotes.css", "scripts/features/statusindicator/ttStatusIndicator.css"],
+			"css": ["scripts/features/profilenotes/ttProfileNotes.css", "scripts/features/statusindicator/ttStatusIndicator.css", "scripts/features/friendlyfire/ttFriendlyFire.css"],
 			"js": [
 				"scripts/features/profileid/ttProfileID.js",
 				"scripts/features/profilenotes/ttProfileNotes.js",
-				"scripts/features/statusindicator/ttStatusIndicator.js"
+				"scripts/features/statusindicator/ttStatusIndicator.js",
+				"scripts/features/friendlyfire/ttFriendlyFire.js"
 			],
 			"run_at": "document_end"
 		},
