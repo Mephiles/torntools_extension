@@ -1,0 +1,11 @@
+.tt-upkeep > div {
+	background-color: var(--sidebar-area-bg-available, #4b5738) !important;
+}
+
+.tt-mobile .tt-upkeep > div {
+	background-color: unset !important;
+}
+
+.tt-mobile .tt-upkeep span:not([class*="svgIconWrap"]) {
+	color: #85b200 !important;
+}
