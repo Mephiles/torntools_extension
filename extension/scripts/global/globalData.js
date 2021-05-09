@@ -586,6 +586,10 @@ const API_USAGE = {
 		// job_perks: true,
 		faction_perks: true,
 		// book_perk: true,
+		faction: {
+			faction_id: true,
+			faction_tag: true,
+		},
 	},
 	properties: {},
 	faction: {
