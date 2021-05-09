@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	const feature = featureManager.registerFeature(
+	featureManager.registerFeature(
 		"Highlight Property",
 		"sidebar",
 		() => settings.pages.sidebar.upkeepPropHighlight,
@@ -12,13 +12,14 @@
 			storage: ["settings.pages.sidebar.upkeepPropHighlight"],
 		},
 		async () => {
-			if (!hasAPIData()) return "No API access.";
 			if (await checkMobile()) return "Not supported on mobile!";
+			else if (!hasAPIData() || !settings.apiUsage.user.networth) return "No API access.";
 		}
 	);
 
 	async function addHighlight() {
 		await requireSidebar();
+
 		if (Math.abs(userdata.networth.unpaidfees) >= settings.pages.sidebar.upkeepPropHighlight) document.find("#nav-properties").classList.add("tt-upkeep");
 	}
 
