@@ -13,11 +13,12 @@
 		},
 		async () => {
 			if (!hasAPIData()) return "No API access.";
-			await requireSidebar();
+			if (await checkMobile()) return "Not supported on mobile!";
 		}
 	);
 
 	function addHighlight() {
+		await requireSidebar();
 		if (Math.abs(userdata.networth.unpaidfees) >= settings.pages.sidebar.upkeepPropHighlight) document.find("#nav-properties").classList.add("tt-upkeep");
 	}
 
