@@ -131,6 +131,7 @@
 			"js": [
 				"scripts/global/globalClasses.js",
 				"scripts/global/globalData.js",
+				"scripts/global/functions/api.js",
 				"scripts/global/functions/dom.js",
 				"scripts/global/functions/database.js",
 				"scripts/global/functions/requires.js",
