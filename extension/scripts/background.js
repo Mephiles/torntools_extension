@@ -192,7 +192,7 @@ async function updateUserdata() {
 	const now = Date.now();
 
 	const updatedTypes = [];
-	const updateEssential = !Object.keys(userdata).length || now - userdata.date + 100 >= TO_MILLIS.SECONDS * settings.apiUsage.delayEssential;
+	const updateEssential = !userdata || !Object.keys(userdata).length || now - userdata.date + 100 >= TO_MILLIS.SECONDS * settings.apiUsage.delayEssential;
 	const updateBasic =
 		updateEssential &&
 		(!userdata.dateBasic ||
