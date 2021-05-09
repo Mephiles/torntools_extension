@@ -134,9 +134,14 @@
 				"scripts/global/functions/dom.js",
 				"scripts/global/functions/database.js",
 				"scripts/global/functions/requires.js",
-				"scripts/features/autoapifill/ttAutoAPIFill.js"
+				"scripts/global/functions/utilities.js"
 			],
 			"run_at": "document_start"
+		},
+		{
+			"matches": ["https://www.torn.com/api.html*"],
+			"js": ["scripts/features/apidemo/ttAPIDemo.js", "scripts/features/autoapifill/ttAutoAPIFill.js"],
+			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/bazaar.php*"],
