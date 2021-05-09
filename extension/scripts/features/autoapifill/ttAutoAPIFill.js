@@ -3,6 +3,7 @@
 (async () => {
 	await loadDatabase();
 
+	if (!hasAPIData()) return;
 	if (!settings.pages.api.autoFillKey) return;
 
 	const input = document.find("input#api_key");
