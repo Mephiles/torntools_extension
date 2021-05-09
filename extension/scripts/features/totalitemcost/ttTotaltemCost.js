@@ -19,7 +19,6 @@
 			const target = event.target;
 			if (target.classList.contains("^=controlPanelButton__") && target.ariaLabel.includes("Buy")) {
 				if (feature.enabled()) addPrice();
-				else removePrice();
 			}
 		});
 	}
