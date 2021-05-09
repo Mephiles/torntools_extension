@@ -103,7 +103,8 @@
 				"scripts/features/miniprofileinformation/ttMiniprofileInformation.css",
 				"scripts/features/easteregg/ttEasterEgg.css",
 				"scripts/features/hidegymhighlight/ttHideGymHighlight.css",
-				"scripts/features/tradetimer/ttTradeTimer.css"
+				"scripts/features/tradetimer/ttTradeTimer.css",
+				"scripts/features/highlightproperties/ttHighlightProperties.css"
 			],
 			"js": [
 				"scripts/content/global/ttGlobal.js",
@@ -120,7 +121,8 @@
 				"scripts/features/miniprofileinformation/ttMiniprofileInformation.js",
 				"scripts/features/easteregg/ttEasterEgg.js",
 				"scripts/features/hidegymhighlight/ttHideGymHighlight.js",
-				"scripts/features/tradetimer/ttTradeTimer.js"
+				"scripts/features/tradetimer/ttTradeTimer.js",
+				"scripts/features/highlightproperties/ttHighlightProperties.js"
 			],
 			"run_at": "document_end"
 		},
