@@ -145,8 +145,16 @@
 		},
 		{
 			"matches": ["https://www.torn.com/bazaar.php*"],
-			"css": ["scripts/features/drugdetails/ttDrugDetails.css", "scripts/features/itemvalues/ttItemValues.css"],
-			"js": ["scripts/features/drugdetails/ttDrugDetails.js", "scripts/features/itemvalues/ttItemValues.js"],
+			"css": [
+				"scripts/features/drugdetails/ttDrugDetails.css",
+				"scripts/features/itemvalues/ttItemValues.css",
+				"scripts/features/totalitemcost/ttTotalItemCost.css"
+			],
+			"js": [
+				"scripts/features/drugdetails/ttDrugDetails.js",
+				"scripts/features/itemvalues/ttItemValues.js",
+				"scripts/features/totalitemcost/ttTotaltemCost.js"
+			],
 			"run_at": "document_end"
 		},
 		{
