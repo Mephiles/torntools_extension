@@ -21,10 +21,13 @@
 		const factionID = parseInt(document.find(".user-info-value [href*='/factions.php']").href.replace(/\D+/g, ""));
 		const factionName = document.find(".user-info-value [href*='/factions.php']").innerText.trim();
 		if (hasAPIData() && factionID === userdata.faction.faction_id) warning = "This user is in your faction!";
-		else if (settings.allyFactionsIDs.some((x) => {
-			if (isIntNumber(x)) return x === factionID;
-			else return x.trim() === factionName;
-		})) warning = "This user is an ally!";
+		else if (
+			settings.allyFactionsIDs.some((x) => {
+				if (isIntNumber(x)) return x === factionID;
+				else return x.trim() === factionName;
+			})
+		)
+			warning = "This user is an ally!";
 		document.find(".profile-left-wrapper .title-black").appendChild(
 			document.newElement({
 				type: "span",

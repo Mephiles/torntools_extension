@@ -692,10 +692,7 @@ async function setupPreferences() {
 		const newRow = document.newElement({
 			type: "li",
 			class: "input",
-			children: [
-				document.newElement({ type: "input", class: "faction", value: factionID }),
-				deleteIcon,
-			],
+			children: [document.newElement({ type: "input", class: "faction", value: factionID }), deleteIcon],
 		});
 
 		deleteIcon.addEventListener("click", () => newRow.remove());
@@ -794,13 +791,15 @@ async function setupPreferences() {
 				color: highlight.find(".color").value,
 			};
 		});
-		settings.allyFactionsIDs = [..._preferences.findAll("#allyFactions input")].map((input) => {
-			if (isNaN(input.value)) return input.value.trim();
-			else return parseInt(input.value.trim());
-		}).filter((x) => {
-            if (typeof(x) === "string") return x.trim() !== "";
-            else return x;
-        });
+		settings.allyFactionsIDs = [..._preferences.findAll("#allyFactions input")]
+			.map((input) => {
+				if (isNaN(input.value)) return input.value.trim();
+				else return parseInt(input.value.trim());
+			})
+			.filter((x) => {
+				if (typeof x === "string") return x.trim() !== "";
+				else return x;
+			});
 
 		settings.hideAreas = [..._preferences.findAll("#hide-areas span.disabled")].map((area) => area.getAttribute("name"));
 		settings.hideIcons = [..._preferences.findAll("#hide-icons .icon.disabled > div")].map((icon) => icon.getAttribute("class"));
