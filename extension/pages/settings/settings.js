@@ -696,7 +696,7 @@ async function setupPreferences() {
 			type: "li",
 			class: "input",
 			children: [
-				document.newElement({ type: "input", class: "faction", value: factionID, attributes: { type: "number" } }),
+				document.newElement({ type: "input", class: "faction", value: factionID }),
 				deleteIcon,
 			],
 		});
@@ -797,7 +797,13 @@ async function setupPreferences() {
 				color: highlight.find(".color").value,
 			};
 		});
-		settings.allyFactionsIDs = [..._preferences.findAll("#allyFactions input")].map((input) => parseInt(input.value)).filter((x) => !isNaN(x));
+		settings.allyFactionsIDs = [..._preferences.findAll("#allyFactions input")].map((input) => {
+			if (isNaN(parseInt(input.value))) return input.value.trim();
+			else return parseInt(input.value.trim());
+		}).filter((x) => {
+            if (typeof(x) === "string") return x.trim() !== "";
+            else return x;
+        });
 
 		settings.hideAreas = [..._preferences.findAll("#hide-areas span.disabled")].map((area) => area.getAttribute("name"));
 		settings.hideIcons = [..._preferences.findAll("#hide-icons .icon.disabled > div")].map((icon) => icon.getAttribute("class"));
