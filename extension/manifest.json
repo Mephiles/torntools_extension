@@ -200,13 +200,15 @@
 				"scripts/features/effectivestats/ttEffectiveStats.css",
 				"scripts/features/livenetworth/ttLiveNetworth.css",
 				"scripts/features/drugdetails/ttDrugDetails.css",
-				"scripts/features/traveltable/ttTravelTable.css"
+				"scripts/features/traveltable/ttTravelTable.css",
+				"scripts/features/travelitemprofits/ttTravelItemProfits.css"
 			],
 			"js": [
 				"scripts/features/effectivestats/ttEffectiveStats.js",
 				"scripts/features/livenetworth/ttLiveNetworth.js",
 				"scripts/features/drugdetails/ttDrugDetails.js",
-				"scripts/features/traveltable/ttTravelTable.js"
+				"scripts/features/traveltable/ttTravelTable.js",
+				"scripts/features/travelitemprofits/ttTravelItemProfits.js"
 			],
 			"run_at": "document_end"
 		},
