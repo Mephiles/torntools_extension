@@ -340,9 +340,7 @@ async function setupPreferences() {
 		addAllyFaction(inputRow.find(".faction").value);
 	});
 
-	settings.allyFactionsIDs.forEach((factionID) => {
-		addAllyFaction(factionID);
-	});
+	settings.allyFactionsIDs.forEach((ally) => addAllyFaction(ally));
 
 	const chatSection = _preferences.find(".sections section[name='chat']");
 	for (const placeholder of HIGHLIGHT_PLACEHOLDERS) {
@@ -687,7 +685,7 @@ async function setupPreferences() {
 		_preferences.find("#customLinks").insertBefore(newRow, _preferences.find("#customLinks .input"));
 	}
 
-	function addAllyFaction(factionID) {
+	function addAllyFaction(ally) {
 		const deleteIcon = document.newElement({
 			type: "button",
 			class: "remove-icon-wrap",
@@ -695,7 +693,7 @@ async function setupPreferences() {
 		});
 		const newRow = document.newElement({
 			type: "li",
-			children: [document.newElement({ type: "input", class: "faction", value: factionID }), deleteIcon],
+			children: [document.newElement({ type: "input", class: "faction", value: ally }), deleteIcon],
 		});
 
 		deleteIcon.addEventListener("click", () => newRow.remove());
