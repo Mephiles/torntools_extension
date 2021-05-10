@@ -155,6 +155,7 @@ body.dark #preferences a[href] {
 #preferences #addAllyFaction {
 	padding: 0 5px 0 5px;
 	width: fit-content;
+	width: -moz-fit-content;
 }
 
 /* Chat Highlighting */

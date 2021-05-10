@@ -9,7 +9,7 @@
 		addWarning,
 		removeWarning,
 		{
-			storage: ["settings.pages.profile.showAllyWarning", "settings.allyFactionsIDs.length"],
+			storage: ["settings.pages.profile.showAllyWarning", "settings.allyFactionsIDs"],
 		},
 		null
 	);

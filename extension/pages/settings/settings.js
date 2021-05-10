@@ -334,9 +334,7 @@ async function setupPreferences() {
 		inputRow.find(".href").classList.remove("hidden");
 	});
 
-	_preferences.find("#allyFactions").addEventListener("click", (event) => {
-		if (event.target.id === "addAllyFaction") addAllyFaction(event.target.parentElement.find("input").value);
-	});
+	_preferences.find("#addAllyFaction").addEventListener("click", (event) => addAllyFaction(event.target.parentElement.find("input").value));
 
 	const allyFactions = _preferences.find("#allyFactions");
 	settings.allyFactionsIDs.forEach((factionID) => {
@@ -798,7 +796,7 @@ async function setupPreferences() {
 			};
 		});
 		settings.allyFactionsIDs = [..._preferences.findAll("#allyFactions input")].map((input) => {
-			if (isNaN(parseInt(input.value))) return input.value.trim();
+			if (isNaN(input.value)) return input.value.trim();
 			else return parseInt(input.value.trim());
 		}).filter((x) => {
             if (typeof(x) === "string") return x.trim() !== "";
