@@ -703,7 +703,7 @@ async function setupPreferences() {
 
 		deleteIcon.addEventListener("click", () => newRow.remove());
 
-		_preferences.find("#allyFactions").insertAdjacentElement("afterbegin", newRow);
+		_preferences.find("#allyFactions li:last-child").insertAdjacentElement("beforebegin", newRow);
 		_preferences.find("#allyFactions li:last-child input").value = "";
 	}
 

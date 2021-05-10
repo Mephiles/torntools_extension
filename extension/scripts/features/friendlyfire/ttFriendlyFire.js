@@ -15,7 +15,7 @@
 	);
 
 	async function addWarning() {
-		if (document.find(".tt-ally-warning")) return;
+		if (document.find(".tt-ally-warning")) document.find(".tt-ally-warning").remove();
 		await requireElement(".user-info-value [href*='/factions.php']");
 		let warning;
 		const factionID = parseInt(document.find(".user-info-value [href*='/factions.php']").href.replace(/\D+/g, ""));
@@ -24,7 +24,7 @@
 		else if (settings.allyFactionsIDs.some((x) => {
 			if (isIntNumber(x)) return x === factionID;
 			else return x.trim() === factionName;
-			}) warning = "This user is an ally!";
+		})) warning = "This user is an ally!";
 		document.find(".profile-left-wrapper .title-black").appendChild(
 			document.newElement({
 				type: "span",
