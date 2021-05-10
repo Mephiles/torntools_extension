@@ -336,7 +336,6 @@ async function setupPreferences() {
 
 	_preferences.find("#addAllyFaction").addEventListener("click", (event) => addAllyFaction(event.target.value));
 
-	const allyFactions = _preferences.find("#allyFactions");
 	settings.allyFactionsIDs.forEach((factionID) => {
 		addAllyFaction(factionID);
 	});
