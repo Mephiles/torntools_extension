@@ -11,9 +11,7 @@
 		{
 			storage: ["settings.pages.profile.showAllyWarning", "settings.allyFactionsIDs"],
 		},
-		() => {
-			if (!hasAPIData()) return "No API access.";
-		}
+		null
 	);
 
 	async function addWarning() {
@@ -22,7 +20,7 @@
 		let warning;
 		const factionID = parseInt(document.find(".user-info-value [href*='/factions.php']").href.replace(/\D+/g, ""));
 		const factionName = document.find(".user-info-value [href*='/factions.php']").innerText.trim();
-		if (factionID === userdata.faction.faction_id) warning = "This user is in your faction!";
+		if (hasAPIData() && factionID === userdata.faction.faction_id) warning = "This user is in your faction!";
 		else if (settings.allyFactionsIDs.some((x) => {
 			if (isIntNumber(x)) return x === factionID;
 			else return x.trim() === factionName;
