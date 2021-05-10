@@ -334,7 +334,7 @@ async function setupPreferences() {
 		inputRow.find(".href").classList.remove("hidden");
 	});
 
-	_preferences.find("#addAllyFaction").addEventListener("click", (event) => addAllyFaction(event.target.parentElement.find("input").value));
+	_preferences.find("#addAllyFaction").addEventListener("click", (event) => addAllyFaction(event.target.value));
 
 	const allyFactions = _preferences.find("#allyFactions");
 	settings.allyFactionsIDs.forEach((factionID) => {
