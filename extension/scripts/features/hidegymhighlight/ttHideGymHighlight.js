@@ -18,6 +18,7 @@
 
 	async function hideGymHighlight() {
 		await requireSidebar();
+		await checkMobile();
 
 		const navGym = document.find("#nav-gym");
 		if (!navGym) return;

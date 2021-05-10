@@ -289,6 +289,7 @@ const DEFAULT_STORAGE = {
 			},
 			api: {
 				autoFillKey: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				autoDemo: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			forums: {
 				warning: new DefaultSetting({ type: "boolean", defaultValue: true }),
