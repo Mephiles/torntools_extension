@@ -11,7 +11,9 @@
 		{
 			storage: ["settings.pages.profile.showAllyWarning", "settings.allyFactionsIDs"],
 		},
-		null
+		() => {
+			if (!hasAPIData()) return "No API access.";
+		}
 	);
 
 	async function addWarning() {
