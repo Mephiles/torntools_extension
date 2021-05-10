@@ -275,6 +275,7 @@ const DEFAULT_STORAGE = {
 			travel: {
 				computer: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				table: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				cleanFlight: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			stocks: {
 				acronyms: new DefaultSetting({ type: "boolean", defaultValue: true }),
