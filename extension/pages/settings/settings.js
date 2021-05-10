@@ -334,7 +334,11 @@ async function setupPreferences() {
 		inputRow.find(".href").classList.remove("hidden");
 	});
 
-	_preferences.find("#addAllyFaction").addEventListener("click", (event) => addAllyFaction(event.target.value));
+	_preferences.find("#addAllyFaction").addEventListener("click", (event) => {
+		const inputRow = document.find("#allyFactions .input");
+
+		addAllyFaction(inputRow.find(".faction").value);
+	});
 
 	settings.allyFactionsIDs.forEach((factionID) => {
 		addAllyFaction(factionID);
@@ -691,7 +695,6 @@ async function setupPreferences() {
 		});
 		const newRow = document.newElement({
 			type: "li",
-			class: "input",
 			children: [document.newElement({ type: "input", class: "faction", value: factionID }), deleteIcon],
 		});
 
