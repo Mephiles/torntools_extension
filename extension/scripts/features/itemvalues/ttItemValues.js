@@ -263,6 +263,8 @@
 	}
 
 	async function startValues() {
+		await checkMobile();
+
 		if (page === "item") {
 			await requireItemsLoaded();
 
