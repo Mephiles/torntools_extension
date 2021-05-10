@@ -39,10 +39,10 @@
 		document.findAll("#tt-total-cost").forEach((x) => x.remove());
 	}
 
-	function changeTotalPrice(value) {
-		const bazaarItemStock = parseInt(document.find("[class*='buyMenu_'] [class*='amount_']").innerText.split(")")[0].replace(/\D+/g, ""));
-		const bazaarItemPrice = parseInt(document.find("[class*='buyMenu_'] [class*='price_']").innerText.split("$")[1].replaceAll(",", ""));
-		if (value > bazaarItemStock) value = bazaarItemStock;
-		if (document.find("#tt-total-cost")) document.find("#tt-total-cost").innerHTML = "$" + formatNumber(bazaarItemPrice * value);
+	function changeTotalPrice(amount) {
+		const stock = parseInt(document.find("[class*='buyMenu_'] [class*='amount_']").innerText.split(")")[0].replace(/\D+/g, ""));
+		const price = parseInt(document.find("[class*='buyMenu_'] [class*='price_']").innerText.split("$")[1].replaceAll(",", ""));
+		if (amount > stock) amount = stock;
+		if (document.find("#tt-total-cost")) document.find("#tt-total-cost").innerHTML = "$" + formatNumber(price * amount);
 	}
 })();
