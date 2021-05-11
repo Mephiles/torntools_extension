@@ -276,6 +276,8 @@ const DEFAULT_STORAGE = {
 				computer: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				table: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				travelProfits: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				sortable: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			stocks: {
 				acronyms: new DefaultSetting({ type: "boolean", defaultValue: true }),

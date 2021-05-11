@@ -1,0 +1,44 @@
+.travel-agency-market .tt-travel-market-heading {
+	width: 60px;
+	float: left;
+	padding-right: 10px;
+	text-align: right;
+	border-left: 2px solid #ccc;
+	padding-left: 0 !important;
+}
+
+.travel-agency-market li.first .tt-travel-market-cell {
+	border-top: 1px solid transparent;
+}
+
+.travel-agency-market .tt-travel-market-cell {
+	width: 60px;
+	line-height: 34px;
+	padding-left: 10px;
+	display: inline-block;
+	font-size: 12px;
+	border-left: 2px solid #ccc;
+	margin-top: -1px;
+	vertical-align: middle;
+	text-align: right;
+	padding-right: 10px;
+}
+
+.dark-mode .travel-agency-market .tt-travel-market-cell {
+	border-left: 2px solid #222;
+}
+
+.travel-agency-market .stock-b,
+.travel-agency-market li .stock {
+	width: 50px !important;
+}
+
+.travel-agency-market .name-b,
+.travel-agency-market li .name {
+	width: 269px !important;
+}
+
+.travel-agency-market .circulation-b,
+.travel-agency-market li .circulation {
+	width: 85px !important;
+}

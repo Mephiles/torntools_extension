@@ -201,14 +201,16 @@
 				"scripts/features/livenetworth/ttLiveNetworth.css",
 				"scripts/features/drugdetails/ttDrugDetails.css",
 				"scripts/features/traveltable/ttTravelTable.css",
-				"scripts/features/travelitemprofits/ttTravelItemProfits.css"
+				"scripts/features/travelitemprofits/ttTravelItemProfits.css",
+				"scripts/features/travelfillmax/ttTravelFillMax.css"
 			],
 			"js": [
 				"scripts/features/effectivestats/ttEffectiveStats.js",
 				"scripts/features/livenetworth/ttLiveNetworth.js",
 				"scripts/features/drugdetails/ttDrugDetails.js",
 				"scripts/features/traveltable/ttTravelTable.js",
-				"scripts/features/travelitemprofits/ttTravelItemProfits.js"
+				"scripts/features/travelitemprofits/ttTravelItemProfits.js",
+				"scripts/features/travelfillmax/ttTravelFillMax.js"
 			],
 			"run_at": "document_end"
 		},
