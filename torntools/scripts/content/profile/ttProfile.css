@@ -163,10 +163,7 @@
 	color: #00a500;
 }
 
-.dark-mode .positive
-.dark-mode .negative
-
-.negative {
+.dark-mode .positive .dark-mode .negative .negative {
 	color: #d83500;
 }
 
