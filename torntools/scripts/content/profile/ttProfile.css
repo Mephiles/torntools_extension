@@ -163,13 +163,11 @@
 	color: #00a500;
 }
 
-.dark-mode .positive,
-.dark-mode .negative {
-	font-weight: 800;
-}
+.dark-mode .positive
+.dark-mode .negative
 
 .negative {
-	color: #de0000;
+	color: #d83500;
 }
 
 .tt-footer {
