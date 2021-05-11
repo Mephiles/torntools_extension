@@ -76,6 +76,7 @@
 						<!-- <li>City</li> -->
 						<!-- <li>Job</li> -->
 						<li name="companies">Companies</li>
+						<li name="bazaar">Bazaar</li>
 						<!-- <li>Gym</li> -->
 						<!-- <li>Properties</li> -->
 						<!-- <li>Education</li> -->
@@ -714,6 +715,13 @@
 							</label>
 						</div>
 					</section>
+					<section name="bazaar">
+						<div class="header">Bazaar</div>
+						<div class="option">
+							<input id="bazaar-itemsCost" type="checkbox" />
+							<label for="bazaar-itemsCost">Show the total cost of buying an item.</label>
+						</div>
+					</section>
 					<section name="jail">
 						<div class="header">Jail</div>
 						<div class="option">
@@ -739,6 +747,19 @@
 							<input id="profile-notes" type="checkbox" />
 							<label for="profile-notes">Show Profile Notes.</label>
 						</div>
+						<div class="header">Friendly Fire</div>
+						<div class="option">
+							<input id="profile-showAllyWarning" type="checkbox" />
+							<label for="profile-showAllyWarning">Show ally warning on profiles.</label>
+						</div>
+						<ul id="allyFactions" class="list-table">
+							<li class="input">
+								<input class="faction" placeholder="Ally faction name or ID..." />
+								<button class="add-icon-wrap" id="addAllyFaction">
+									<i class="add-icon fas fa-plus"></i>
+								</button>
+							</li>
+						</ul>
 					</section>
 					<section name="stock-exchange">
 						<div class="header">Stock Exchange</div>

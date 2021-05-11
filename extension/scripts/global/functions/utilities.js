@@ -141,6 +141,10 @@ function isDefined(object) {
 	return typeof object !== "undefined";
 }
 
+function isIntNumber(number) {
+	return !isNaN(number) && isFinite(number) && number % 1 === 0;
+}
+
 function isSameUTCDay(date1, date2) {
 	return date1.setUTCHours(24, 0, 0, 0) === date2.setUTCHours(24, 0, 0, 0);
 }

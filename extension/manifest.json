@@ -131,6 +131,7 @@
 			"js": [
 				"scripts/global/globalClasses.js",
 				"scripts/global/globalData.js",
+				"scripts/global/functions/api.js",
 				"scripts/global/functions/dom.js",
 				"scripts/global/functions/database.js",
 				"scripts/global/functions/requires.js",
@@ -145,8 +146,16 @@
 		},
 		{
 			"matches": ["https://www.torn.com/bazaar.php*"],
-			"css": ["scripts/features/drugdetails/ttDrugDetails.css", "scripts/features/itemvalues/ttItemValues.css"],
-			"js": ["scripts/features/drugdetails/ttDrugDetails.js", "scripts/features/itemvalues/ttItemValues.js"],
+			"css": [
+				"scripts/features/drugdetails/ttDrugDetails.css",
+				"scripts/features/itemvalues/ttItemValues.css",
+				"scripts/features/totalitemcost/ttTotalItemCost.css"
+			],
+			"js": [
+				"scripts/features/drugdetails/ttDrugDetails.js",
+				"scripts/features/itemvalues/ttItemValues.js",
+				"scripts/features/totalitemcost/ttTotaltemCost.js"
+			],
 			"run_at": "document_end"
 		},
 		{
@@ -256,11 +265,16 @@
 		},
 		{
 			"matches": ["https://www.torn.com/profiles.php*"],
-			"css": ["scripts/features/profilenotes/ttProfileNotes.css", "scripts/features/statusindicator/ttStatusIndicator.css"],
+			"css": [
+				"scripts/features/profilenotes/ttProfileNotes.css",
+				"scripts/features/statusindicator/ttStatusIndicator.css",
+				"scripts/features/friendlyfire/ttFriendlyFire.css"
+			],
 			"js": [
 				"scripts/features/profileid/ttProfileID.js",
 				"scripts/features/profilenotes/ttProfileNotes.js",
-				"scripts/features/statusindicator/ttStatusIndicator.js"
+				"scripts/features/statusindicator/ttStatusIndicator.js",
+				"scripts/features/friendlyfire/ttFriendlyFire.js"
 			],
 			"run_at": "document_end"
 		},
