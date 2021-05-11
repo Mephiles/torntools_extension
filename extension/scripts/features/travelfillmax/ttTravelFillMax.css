@@ -1,0 +1,24 @@
+.tt-buy.deal {
+	position: relative;
+}
+
+.tt-buy.deal .buy {
+	margin-top: -14px !important;
+	line-height: 20px !important;
+}
+
+.tt-max-buy {
+	position: absolute;
+	width: 62px;
+	text-align: center;
+	border-left: 2px solid #ccc;
+	height: 15px;
+	line-height: 15px;
+	bottom: -17px;
+	right: 0;
+	font-size: 9px;
+}
+
+.dark-mode .tt-max-buy {
+	border-left: 2px solid #222 !important;
+}
