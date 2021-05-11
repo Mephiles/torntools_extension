@@ -1,13 +1,14 @@
-.tt-buy.deal {
+.tt-buy {
 	position: relative;
 }
 
-.tt-buy.deal .buy {
+.tt-buy .buy {
 	margin-top: -14px !important;
 	line-height: 20px !important;
 }
 
 .tt-max-buy {
+	color: #82c91e;
 	position: absolute;
 	width: 62px;
 	text-align: center;

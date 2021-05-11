@@ -11,12 +11,14 @@
 		{
 			storage: ["settings.pages.travel.travelProfits"],
 		},
-		() => {
+		async () => {
 			if (!hasAPIData()) return "No API access.";
+			await requireElement(".travel-agency-market .items-list-title");
 		}
 	);
 
 	function addProfitsColumn() {
+		document.documentElement.classList.add("tt-travel-profits");
 		if (document.find(".tt-travel-market-heading")) return;
 		const market = document.find(".travel-agency-market");
 		const headings = market.find(".items-list-title");
@@ -43,6 +45,7 @@
 	}
 
 	function removeProfitsColumn() {
-		document.findAll(".tt-travel-market-cell, .tt-travel-market-heading").forEach((x) => x.remove());
+		document.documentElement.classList.remove("tt-travel-profits");
+		document.findAll(".tt-travel-market-heading, .tt-travel-market-cell").forEach((x) => x.remove());
 	}
 })();
