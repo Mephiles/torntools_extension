@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	if (!document.find(".travel-agency-travelling .popup-info") || document.find(".travel-agency-market")) return;
+	if (!isFlying()) return;
 	featureManager.registerFeature(
 		"Clean Flight",
 		"travel",
