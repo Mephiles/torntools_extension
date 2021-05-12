@@ -1,5 +1,5 @@
 .tt-upkeep > div {
-	background-color: var(--sidebar-area-bg-available, #4b5738) !important;
+	background-color: var(--sidebar-area-bg-available) !important;
 }
 
 .tt-mobile .tt-upkeep > div {
@@ -7,5 +7,6 @@
 }
 
 .tt-mobile .tt-upkeep span:not([class*="svgIconWrap"]) {
+	/* FIXME - Check if there is a variable available. */
 	color: #85b200 !important;
 }

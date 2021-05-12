@@ -184,7 +184,6 @@ async function setupDashboard() {
 				dashboard.find(".status-wrap").classList.remove("hidden");
 
 				if (userdata.status.until) {
-					// noinspection JSValidateTypes
 					dashboard.find("#status").dataset.until = userdata.status.until * 1000;
 				} else delete dashboard.find("#status").dataset.until;
 
@@ -223,12 +222,9 @@ async function setupDashboard() {
 			dashboard.find(`#${name} .progress .value`).style.width = `${(current / maximum) * 100}%`;
 			dashboard.find(`#${name} .bar-info .bar-label`).innerText = `${current}/${maximum}`;
 
-			// noinspection JSValidateTypes
 			dashboard.find(`#${name} .bar-info`).dataset.full_at = fullAt;
-			// noinspection JSValidateTypes
 			dashboard.find(`#${name} .bar-info`).dataset.tick_at = tickAt;
 			if (bar.interval) {
-				// noinspection JSValidateTypes
 				dashboard.find(`#${name} .bar-info`).dataset.tick_time = bar.interval * 1000;
 			}
 
@@ -248,16 +244,13 @@ async function setupDashboard() {
 			dashboard.find("#traveling .progress .value").style.width = `${(current / maximum) * 100}%`;
 			dashboard.find("#traveling .bar-info .bar-label").innerText = formatTime(userdata.travel.timestamp * 1000);
 
-			// noinspection JSValidateTypes
 			dashboard.find("#traveling .bar-info").dataset.tick_at = userdata.travel.timestamp * 1000;
-			// noinspection JSValidateTypes
 			dashboard.find("#traveling .bar-info").dataset.full_at = userdata.travel.timestamp * 1000;
 
 			updateBarTimer(dashboard.find("#traveling"));
 		}
 
 		function updateCooldown(name, cooldown) {
-			// noinspection JSValidateTypes
 			dashboard.find(`#${name}-cooldown`).dataset.completed_at = userdata.timestamp && cooldown ? (userdata.timestamp + cooldown) * 1000 : 0;
 
 			updateCooldownTimer(dashboard.find(`#${name}-cooldown`));
@@ -272,7 +265,6 @@ async function setupDashboard() {
 		}
 
 		function updateActions() {
-			// noinspection JSValidateTypes
 			dashboard.find("#last-update").dataset.updated_at = userdata.date;
 
 			updateUpdateTimer();

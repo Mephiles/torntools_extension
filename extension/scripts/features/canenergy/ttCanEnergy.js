@@ -30,7 +30,7 @@
 		document.findAll("[data-category='Energy Drink']").forEach((eCanElement) => {
 			if (eCanElement.find(".tt-e-gains")) return;
 
-			// noinspection JSCheckFunctionSignatures
+			// noinspection JSCheckFunctionSignatures,DuplicatedCode
 			const baseEnergy = parseInt(
 				torndata.items[eCanElement.dataset.item].effect
 					.split(" ")

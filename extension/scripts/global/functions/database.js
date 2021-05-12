@@ -42,7 +42,6 @@ async function loadDatabase() {
 	console.log("TT - Database loaded.", database);
 }
 
-// noinspection JSDeprecatedSymbols
 chrome.storage.onChanged.addListener((changes, area) => {
 	if (area === "local") {
 		for (const key in changes) {

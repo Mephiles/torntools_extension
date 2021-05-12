@@ -1,7 +1,6 @@
 "use strict";
 
 (async () => {
-	// noinspection JSIncompatibleTypesComparison
 	featureManager.registerFeature(
 		"Hide Leave Buttons",
 		"global",

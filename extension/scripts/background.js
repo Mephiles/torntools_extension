@@ -166,7 +166,6 @@ function timedUpdates() {
 				.catch((error) => logError("updating torndata", error));
 		}
 
-		// noinspection JSCheckFunctionSignatures
 		if (!torndata || !torndata.stocks || !isSameStockTick(new Date(torndata.stocks.date), new Date())) {
 			updateStocks()
 				.then(() => console.log("Updated stocks."))
@@ -937,7 +936,6 @@ async function notifyUser(title, message, url) {
 			let sound = await getNotificationSound(settings.notifications.sound);
 
 			if (sound && sound !== "mute") {
-				// noinspection JSValidateTypes
 				notificationPlayer.src = sound;
 			}
 
@@ -947,7 +945,6 @@ async function notifyUser(title, message, url) {
 	}
 }
 
-// noinspection JSDeprecatedSymbols
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	switch (message.action) {
 		case "initialize":
@@ -960,7 +957,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				if (!sound) return;
 
 				notificationTestPlayer.volume = message.volume / 100;
-				// noinspection JSValidateTypes
 				notificationTestPlayer.src = sound;
 				// noinspection JSIgnoredPromiseFromCall
 				notificationTestPlayer.play();
@@ -992,7 +988,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	}
 });
 
-// noinspection JSDeprecatedSymbols
 chrome.notifications.onClicked.addListener((id) => {
 	if (settings.notifications.link) {
 		chrome.tabs.create({ url: notificationRelations[id] });
@@ -1019,7 +1014,6 @@ function getNotificationSound(type) {
 function getAudioPlayer() {
 	const audioPlayer = new Audio();
 	audioPlayer.autoplay = false;
-	// noinspection JSValidateTypes
 	audioPlayer.preload = true;
 
 	return audioPlayer;

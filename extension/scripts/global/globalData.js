@@ -1,6 +1,5 @@
 "use strict";
 
-// noinspection JSUnresolvedVariable
 chrome = typeof browser !== "undefined" ? browser : chrome;
 
 const FORUM_POST = "https://www.torn.com/forums.php#/p=threads&f=67&t=16170566&b=0&a=0";
@@ -430,7 +429,6 @@ const CUSTOM_LINKS_PRESET = {
 
 const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.name || "", description: "Your player name." }];
 
-// noinspection SpellCheckingInspection
 const API_USAGE = {
 	user: {
 		name: true,

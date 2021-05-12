@@ -14,12 +14,5 @@
 	float: right;
 	padding-right: 10px;
 	font-weight: normal;
-}
-
-body:not(.dark-mode) .tt-blood-price {
-	color: rgb(103, 140, 0);
-}
-
-body.dark-mode .tt-blood-price {
-	color: #99cc00;
+	color: var(--tt-color-item-text);
 }

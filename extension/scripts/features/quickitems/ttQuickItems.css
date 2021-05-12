@@ -57,7 +57,7 @@ body.dark-mode #quickItems .inner-content .item.equipped {
 }
 
 #quickItems .inner-content .item[data-equip-position] {
-	border: 1px solid gold !important;
+	border: 1px solid var(--tt-color-orange) !important;
 }
 
 #quickItems .inner-content .item .pic {

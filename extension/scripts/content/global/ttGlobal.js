@@ -42,7 +42,6 @@
 			}
 
 			countdown.innerText = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
-			// noinspection JSValidateTypes
 			countdown.dataset.seconds = seconds;
 		}
 	}, 1000);
