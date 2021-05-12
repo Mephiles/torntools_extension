@@ -21,7 +21,8 @@ Start reading our code and you'll get the hang of it. We optimize for readabilit
 We have prettier formatting to help you follow our coding conventions.
 
 * We follow a certain pattern for our files.
-    * Each feature has its own file and those are placed in the `extension/scripts/features` folder, in a folder based on the name of it.
+    * Each feature has its own file and those are placed in the `extension/scripts/features` folder, in a folder based
+      on the name of it.
     * Both the feature's CSS and JS scripts should reside in the same directory.
         * Don't include empty CSS files.
     * The loading of the script is done in `manifest.json`, so that we can find which page has which features.
@@ -34,12 +35,20 @@ We have prettier formatting to help you follow our coding conventions.
         * `execute` is a function that is run every time the feature is started again
         * `cleanup` is a function that is run every time the feature is stopped
         * `loadListeners` is an object that has some fields that tell the manager when to reload the feature
-        * `requirements` is a function that evaluates whether all requirements are fulfilled. If not fulfilled, the function should return a string with the reason.
-          These requirements can be several things:
+        * `requirements` is a function that evaluates whether all requirements are fulfilled. If not fulfilled, the
+          function should return a string with the reason. These requirements can be several things:
             * Mobile
             * Certain elements being there, or not being there.
             * API Access
             * Other things that would make it act as if the feature is not enabled.
+    * There are several ways for a feature to not load. You should use the correct way based on the situation.
+        1. A feature that shouldn't run on the page at all, but can't be prevented by `manifest.json` (due to the exact
+           url having 2 uses), should never be registered at all. The anonymous function should be returned if this is
+           the case.
+        2. Requirements, like missing api access or no mobile support, should be handled inside of the `requirements`
+           function.
+        3. When something unexpected happened, like the feature already being loaded, it should be silently handled
+           inside of the `execute` function.
 * Don't use any of Torn's CSS-classes, they are always subject to change.
     * It's fine to rely on them as selectors.
         * If a class contains `_` or `___`, make sure to not use the class selector, like `.SOMENAME_xyz` but instead
@@ -47,8 +56,10 @@ We have prettier formatting to help you follow our coding conventions.
 * Some general rules are:
     * Every file/feature **must** be in strict mode, i.e. `"use strict";` at the start of the file.
     * Use `await checkMobile()` but not global variable `mobile`, when checking for mobile.
-    * CSS should generally follow order/logic : Wrapper -> Children, i.e. CSS for children comes after its wrapper's CSS.
-    * Any setting for a new feature should be defined in `extension/scripts/global/globalData.js `.
+    * CSS should generally follow order/logic : wrapper -> children, i.e. CSS for children comes after its wrapper's
+      CSS.
+    * Any setting for a new feature should be defined in `extension/scripts/global/globalData.js`.
+    * We have some preset color variables set inside `extension/scripts/global/globalVariables.css`. These should be used where possible.
 * All code should be formatted using Prettier.
     * We indent using tabs with a width of 4.
     * Operators ( = + - * / ) and commas are followed by spaces.
