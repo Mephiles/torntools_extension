@@ -1,0 +1,9 @@
+.tt-list-flex {
+	display: flex;
+	flex-flow: column;
+}
+
+.sortable {
+	cursor: pointer;
+	white-space: nowrap;
+}

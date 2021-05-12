@@ -137,6 +137,9 @@ const DEFAULT_STORAGE = {
 			date: new DefaultSetting({ type: "string", defaultValue: "eu" }),
 			time: new DefaultSetting({ type: "string", defaultValue: "eu" }),
 		},
+		sorting: {
+			abroad: new DefaultSetting({ type: "object", defaultValue: {} }),
+		},
 		notifications: {
 			sound: new DefaultSetting({ type: "string", defaultValue: "default" }),
 			soundCustom: new DefaultSetting({ type: "string", defaultValue: "" }),
@@ -276,6 +279,10 @@ const DEFAULT_STORAGE = {
 			travel: {
 				computer: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				table: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				cleanFlight: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				travelProfits: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				sortable: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			stocks: {
 				acronyms: new DefaultSetting({ type: "boolean", defaultValue: true }),

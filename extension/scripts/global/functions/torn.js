@@ -223,7 +223,7 @@ function isFlying() {
 }
 
 function isAbroad() {
-	return document.body.dataset.abroad === "true" || document.body.dataset.abroad === true;
+	return (!isFlying() && document.body.dataset.abroad === "true") || document.body.dataset.abroad === true;
 }
 
 function getRFC() {
