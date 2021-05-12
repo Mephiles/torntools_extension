@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (!isAbroad()) return;
+
 	featureManager.registerFeature(
 		"Travel Item Profits",
 		"travel",
