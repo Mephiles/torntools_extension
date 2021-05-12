@@ -1,6 +1,7 @@
 "use strict";
 
 (async () => {
+	if (!document.find(".travel-agency-market")) return;
 	featureManager.registerFeature(
 		"Fill Max",
 		"travel",
@@ -11,9 +12,7 @@
 		{
 			storage: ["settings.pages.travel.fillMax"],
 		},
-		() => {
-			if (!document.find(".travel-agency-market")) return;
-		}
+		null
 	);
 
 	function addFillMax() {

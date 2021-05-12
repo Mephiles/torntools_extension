@@ -1,6 +1,7 @@
 "use strict";
 
 (async () => {
+	if (!document.find(".travel-agency-travelling .popup-info") || document.find(".travel-agency-market")) return;
 	featureManager.registerFeature(
 		"Clean Flight",
 		"travel",
@@ -11,9 +12,7 @@
 		{
 			storage: ["settings.pages.travel.cleanFlight"],
 		},
-		() => {
-			if (!document.find(".travel-agency-travelling .popup-info") || document.find(".travel-agency-market")) return;
-		},
+		null
 	);
 
 	function addCleanFlight() {
