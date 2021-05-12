@@ -38,8 +38,9 @@
 			const span = document.newElement({ type: "span", class: "tt-travel-market-cell", attributes: { value: profit } });
 			const innerSpan = document.newElement({ type: "span", text: `${profit < 0 ? "-$" : "+$"}${formatNumber(Math.abs(profit))}` });
 
-			if (buyPrice > marketPrice) span.style.color = "#de0000";
-			else if (buyPrice < marketPrice) span.style.color = "#00a500";
+			span.classList.remove("tt-color-green", "tt-color-red");
+			if (buyPrice > marketPrice) span.classList.add("tt-color-red");
+			else if (buyPrice < marketPrice) span.classList.add("tt-color-green");
 
 			span.appendChild(innerSpan);
 			row.find(".item-info-wrap").insertBefore(span, row.find(".item-info-wrap").find(".stock"));

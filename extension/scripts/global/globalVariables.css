@@ -28,3 +28,10 @@ body.dark-mode {
 
 	--tt-shadow-popup: 0 0 10px black;
 }
+
+.tt-color-green {
+	color: var(--tt-color-green);
+}
+.tt-color-red {
+	color: var(--tt-color-red);
+}
