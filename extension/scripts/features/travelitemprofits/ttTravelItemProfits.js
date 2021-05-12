@@ -11,13 +11,13 @@
 		{
 			storage: ["settings.pages.travel.travelProfits"],
 		},
-		async () => {
+		() => {
 			if (!hasAPIData()) return "No API access.";
-			await requireElement(".travel-agency-market .items-list-title");
 		}
 	);
 
-	function addProfitsColumn() {
+	async function addProfitsColumn() {
+		await requireElement(".travel-agency-market .items-list-title");
 		document.documentElement.classList.add("tt-travel-profits");
 		if (document.find(".tt-travel-market-heading")) return;
 		const market = document.find(".travel-agency-market");

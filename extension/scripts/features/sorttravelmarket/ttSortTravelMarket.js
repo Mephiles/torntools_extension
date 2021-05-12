@@ -11,12 +11,11 @@
 		{
 			storage: ["settings.pages.travel.sortable"],
 		},
-		async () => {
-			await requireElement(".items-list-title");
-		},
+		null
 	);
 
-	function makeSortable() {
+	async function makeSortable() {
+		await requireElement(".items-list-title");
 		const headers = [...document.find(".items-list-title").findAll(".type-b, .name-b, .cost-b, .item-profit, .tt-travel-market-heading, .stock-b, .circulation-b")];
 		const defaultHeader = document.find(".items-list-title .cost-b");
 

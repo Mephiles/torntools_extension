@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	const feature = featureManager.registerFeature(
+	featureManager.registerFeature(
 		"Clean Flight",
 		"travel",
 		() => settings.pages.travel.cleanFlight,
@@ -11,14 +11,16 @@
 		{
 			storage: ["settings.pages.travel.cleanFlight"],
 		},
-		null,
+		() => {
+			if (!document.find(".travel-agency-travelling .popup-info") || document.find(".travel-agency-market")) return;
+		},
 	);
 
 	function addCleanFlight() {
-		document.documentElement.style.setProperty("--torntools-clean-flight-display", "none");
+		document.findAll(".travel-agency-travelling .stage, .travel-agency-travelling .stage + hr, .travel-agency-travelling .popup-info").forEach(x => x.classList.add("hidden"));
 	}
 
 	function removeCleanFlight() {
-		document.documentElement.style.setProperty("--torntools-clean-flight-display", "block");
+		document.findAll(".travel-agency-travelling .stage, .travel-agency-travelling .stage + hr, .travel-agency-travelling .popup-info").forEach(x => x.classList.remove("hidden"));
 	}
 })();

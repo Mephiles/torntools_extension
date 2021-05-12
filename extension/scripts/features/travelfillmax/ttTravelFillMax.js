@@ -11,20 +11,18 @@
 		{
 			storage: ["settings.pages.travel.fillMax"],
 		},
-		null,
+		() => {
+			if (!document.find(".travel-agency-market")) return;
+		}
 	);
 
 	function addFillMax() {
 		const market = document.find(".travel-agency-market");
-
-		if (!market) {
-			console.log("No market");
-			return;
-		}
+		if (!market) return;
 
 		for (const buyBtn of market.findAll(".buy")) {
 			buyBtn.parentElement.classList.add("tt-buy");
-			const maxSpan = document.newElement({ type: "span", text: "fill max", class: "tt-max-buy bold" });
+			const maxSpan = document.newElement({ type: "span", text: "fill max", class: "tt-max-buy" });
 			buyBtn.parentElement.appendChild(maxSpan);
 
 			maxSpan.addEventListener("click", (event) => {

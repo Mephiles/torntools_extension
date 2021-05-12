@@ -19,8 +19,11 @@
     line-height: 34px;
 	display: inline-block;
 	font-size: 12px;
-	border-left: 2px solid #ccc;
 	text-align: right;
+}
+
+body:not(.dark-mode) .travel-agency-market .tt-travel-market-cell {
+	border-left: 2px solid #ccc;
 }
 
 .dark-mode .travel-agency-market .tt-travel-market-cell {

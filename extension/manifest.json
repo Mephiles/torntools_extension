@@ -210,7 +210,6 @@
 				"scripts/features/livenetworth/ttLiveNetworth.css",
 				"scripts/features/drugdetails/ttDrugDetails.css",
 				"scripts/features/traveltable/ttTravelTable.css",
-				"scripts/features/cleanflight/ttCleanFlight.css",
 				"scripts/features/travelitemprofits/ttTravelItemProfits.css",
 				"scripts/features/travelfillmax/ttTravelFillMax.css",
 				"scripts/features/sorttravelmarket/ttSortTravelMarket.css"
