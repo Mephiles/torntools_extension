@@ -5,7 +5,7 @@
 			"Apply proper rounding on the racing winning rate. - Sashank999",
 			"Fix max buy on mobile. - DKK",
 			"TT Settings Sidebar link not going down when hosped or jailed. - Sashank999",
-			"Fix probability calculation in HiLo helper. - smikula"
+			"Fix probability calculation in HiLo helper. - smikula",
 			"Various tweaks to dark mode. - Allo"
 		],
 		"Changes": ["Disable loot timers on mobile devices. - Sashank999"]
