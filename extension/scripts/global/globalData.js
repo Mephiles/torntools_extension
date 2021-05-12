@@ -138,6 +138,9 @@ const DEFAULT_STORAGE = {
 			date: new DefaultSetting({ type: "string", defaultValue: "eu" }),
 			time: new DefaultSetting({ type: "string", defaultValue: "eu" }),
 		},
+		sorting: {
+			abroad: new DefaultSetting({ type: "object", defaultValue: {} }),
+		},
 		notifications: {
 			sound: new DefaultSetting({ type: "string", defaultValue: "default" }),
 			soundCustom: new DefaultSetting({ type: "string", defaultValue: "" }),

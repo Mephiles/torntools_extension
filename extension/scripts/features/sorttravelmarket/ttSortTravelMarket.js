@@ -34,14 +34,14 @@
 				sort(order, header);
 			});
 		}
-/* 
-		if (sorting.abroadItems.column !== "default") {
-			const header = document.find(`.items-list-title .${sorting.abroadItems.column}`);
 
-			header.appendChild(document.newElement({ type: "i", class: `fas ${sorting.abroadItems.order === "asc" ? "fa-caret-down" : "fa-caret-up"} tt-title-icon-torn` }));
-			sort(sorting.abroadItems.order, header);
+		if (settings.sorting.abroad.column) {
+			const header = document.find(`.items-list-title .${settings.sorting.abroad.column}`);
+
+			header.appendChild(document.newElement({ type: "i", class: `fas ${settings.sorting.abroad.order === "asc" ? "fa-caret-down" : "fa-caret-up"}` }));
+			sort(settings.sorting.abroad.order, header);
 		}
- */
+
 		function toggleSorting(header) {
 			const icon = header.find("i");
 			if (icon) {
@@ -54,12 +54,12 @@
 					return "none";
 				}
 			} else {
-				header.appendChild(document.newElement({ type: "i", class: "fas fa-caret-down tt-title-icon-torn" }));
+				header.appendChild(document.newElement({ type: "i", class: "fas fa-caret-down" }));
 				return "asc";
 			}
 		}
 
-		function sort(order, header) {
+		async function sort(order, header) {
 			const list = document.find(".travel-agency-market .users-list");
 			list.classList.add("tt-list-flex");
 
@@ -67,6 +67,7 @@
 				for (const li of list.findAll("li")) {
 					if (li.style.order) li.style.order = "";
 				}
+				await ttStorage.change({ settings: { sorting: { abroad: { column: "", order: "none" } } } });
 				return;
 			}
 			let valueSelector, type;
@@ -119,6 +120,7 @@
 					value.style.order = i + 1;
 				}
 			};
+			await ttStorage.change({ settings: { sorting: { abroad: { column: type, order: order } } } });
 			/* const rows = [...list.childNodes].filter((node) => node.nodeName === "LI");
 			if (order === "asc") {
 				rows.sort((a, b) => {
