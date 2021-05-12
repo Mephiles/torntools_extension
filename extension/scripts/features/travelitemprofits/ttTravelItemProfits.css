@@ -13,10 +13,10 @@
 
 .travel-agency-market .tt-travel-market-cell {
 	width: 75px;
-    padding: 0 10px 0 7px;
+	padding: 0 10px 0 7px;
 	vertical-align: middle;
 	height: 34px;
-    line-height: 34px;
+	line-height: 34px;
 	display: inline-block;
 	font-size: 12px;
 	text-align: right;
@@ -32,16 +32,16 @@ body:not(.dark-mode) .travel-agency-market .tt-travel-market-cell {
 
 .tt-travel-profits .items-list-title .name-b,
 .tt-travel-profits .users-list li .name {
-    width: 263px !important;
+	width: 263px !important;
 }
 
 .tt-travel-profits .items-list-title .stock-b,
 .tt-travel-profits .users-list li .stock {
-    width: 50px !important;
+	width: 50px !important;
 }
 
 .tt-travel-profits .items-list-title .circulation-b,
 .tt-travel-profits .users-list li .circulation {
-    width: 70px !important;
+	width: 70px !important;
 	padding: 0 10px 0 0;
 }
