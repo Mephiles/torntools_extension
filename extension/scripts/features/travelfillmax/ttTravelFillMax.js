@@ -1,7 +1,8 @@
 "use strict";
 
 (async () => {
-	if (isFlying()) return;
+	if (!isAbroad()) return;
+
 	featureManager.registerFeature(
 		"Fill Max",
 		"travel",

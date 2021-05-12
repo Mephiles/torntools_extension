@@ -1,28 +1,30 @@
 "use strict";
 
 (async () => {
-	featureManager.registerFeature(
-		"Sort Market",
-		"travel",
-		() => settings.pages.travel.sortable,
-		null,
-		makeSortable,
-		removeSortable,
-		{
-			storage: ["settings.pages.travel.sortable"],
-		},
-		null
-	);
+	if (!isAbroad())
+		featureManager.registerFeature(
+			"Sort Market",
+			"travel",
+			() => settings.pages.travel.sortable,
+			null,
+			makeSortable,
+			removeSortable,
+			{
+				storage: ["settings.pages.travel.sortable"],
+			},
+			null
+		);
 
 	async function makeSortable() {
 		await requireElement(".items-list-title");
-		const headers = [...document.find(".items-list-title").findAll(".type-b, .name-b, .cost-b, .item-profit, .tt-travel-market-heading, .stock-b, .circulation-b")];
-		const defaultHeader = document.find(".items-list-title .cost-b");
+		const headers = [
+			...document.find(".items-list-title").findAll(".type-b, .name-b, .cost-b, .item-profit, .tt-travel-market-heading, .stock-b, .circulation-b"),
+		];
 
 		for (const header of headers) {
 			header.classList.add("sortable");
 
-			header.addEventListener("click", (event) => {
+			header.addEventListener("click", () => {
 				const order = toggleSorting(header);
 
 				headers
@@ -36,9 +38,13 @@
 
 		if (settings.sorting.abroad.column) {
 			const header = document.find(`.items-list-title .${settings.sorting.abroad.column}`);
-			if (!header) sort("none", undefined);
-			header.appendChild(document.newElement({ type: "i", class: `fas ${settings.sorting.abroad.order === "asc" ? "fa-caret-down" : "fa-caret-up"}` }));
-			sort(settings.sorting.abroad.order, header);
+			if (!header) await sort("none", undefined);
+			else {
+				header.appendChild(
+					document.newElement({ type: "i", class: `fas ${settings.sorting.abroad.order === "asc" ? "fa-caret-down" : "fa-caret-up"}` })
+				);
+				await sort(settings.sorting.abroad.order, header);
+			}
 		}
 
 		function toggleSorting(header) {
@@ -101,12 +107,15 @@
 				else allMappings[sortByValue] = [allMappings[sortByValue], item];
 			}
 
-			let allValues = (type === "type-b" || type === "name-b") ? Object.keys(allMappings).sort() : Object.keys(allMappings).sort((x, y) => {
-				const newX = parseInt(x.replace(/[a-zA-Z\$\:\,]/g, "").trim());
-				const newY = parseInt(y.replace(/[a-zA-Z\$\:\,]/g, "").trim());
-				if (newX >= newY) return -1;
-				else if (newX < newY) return 1;
-			});
+			let allValues =
+				type === "type-b" || type === "name-b"
+					? Object.keys(allMappings).sort()
+					: Object.keys(allMappings).sort((x, y) => {
+							const newX = parseInt(x.replace(/[a-zA-Z$:,]/g, "").trim());
+							const newY = parseInt(y.replace(/[a-zA-Z$:,]/g, "").trim());
+							if (newX >= newY) return -1;
+							else if (newX < newY) return 1;
+					  });
 			if (order === "desc") allValues.reverse();
 
 			for (let i = 0; i < allValues.length; i++) {
@@ -118,7 +127,7 @@
 				} else {
 					value.style.order = i + 1;
 				}
-			};
+			}
 			await ttStorage.change({ settings: { sorting: { abroad: { column: type, order: order } } } });
 			/* const rows = [...list.childNodes].filter((node) => node.nodeName === "LI");
 			if (order === "asc") {
@@ -178,6 +187,9 @@
 
 	function removeSortable() {
 		document.find(".travel-agency-market .users-list").classList.remove("tt-list-flex");
-		document.find(".items-list-title").findAll(".fa-caret-up, .fa-caret-down").forEach((x) => x.remove());
+		document
+			.find(".items-list-title")
+			.findAll(".fa-caret-up, .fa-caret-down")
+			.forEach((x) => x.remove());
 	}
 })();
