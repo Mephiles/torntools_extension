@@ -1,6 +1,5 @@
 "use strict";
 
-// noinspection JSUnresolvedVariable,JSUnresolvedFunction
 const changelog = await (await fetch(chrome.runtime.getURL("changelog.json"))).json();
 
 const initiatedPages = {};
@@ -21,7 +20,6 @@ const initiatedPages = {};
 
 // noinspection DuplicatedCode
 async function showPage(name) {
-	// noinspection DuplicatedCode
 	window.history.replaceState("", "Title", "?page=" + name);
 
 	for (const active of document.findAll("header nav.on-page > ul > li.active")) active.classList.remove("active");
@@ -509,12 +507,10 @@ async function setupPreferences() {
 		_preferences.find("#notification-requireInteraction").checked = settings.notifications.requireInteraction;
 		_preferences.find("#notification-searchOpenTab").checked = settings.notifications.searchOpenTab;
 		_preferences.find("#notification-volume").value = settings.notifications.volume;
-		// noinspection JSIncompatibleTypesComparison
 		if (settings.notifications.sound === "custom") {
 			_preferences.find("#notification-sound-upload").classList.remove("hidden");
 			_preferences.find("#notification-sound-upload + br").classList.remove("hidden");
 		} else {
-			// noinspection JSIncompatibleTypesComparison
 			if (settings.notifications.sound === "mute" || settings.notifications.sound === "default") {
 				_preferences.find("#notification-volume").classList.add("hidden");
 				_preferences.find("#notification-sound-play").classList.add("hidden");
@@ -841,7 +837,6 @@ async function setupPreferences() {
 		await ttStorage.set(newStorage);
 		console.log("Settings updated!", newStorage);
 
-		// noinspection BadExpressionStatementJS
 		["dark", "light"].forEach((theme) => document.body.classList.remove(theme));
 		document.body.classList.add(getPageTheme());
 

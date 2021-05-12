@@ -2,7 +2,7 @@
 
 .tt-travel {
 	cursor: pointer;
-	color: #7f7f7f;
+	color: var(--tt-color-icon-bar);
 	line-height: 24px;
 	float: right;
 	margin-right: 30px;
@@ -23,7 +23,13 @@ body.dark-mode {
 
 @media screen and (max-width: 600px) {
 	.tt-travel {
-		margin-right: 0;
+		position: relative;
+		margin: -10px 0;
+		display: flex;
+		align-items: center;
+		padding: 5px;
+		height: 29px;
+		width: 24px;
 	}
 
 	.tt-travel:before {
@@ -160,12 +166,8 @@ body.dark-mode {
 	border: 2px solid transparent;
 }
 
-body:not(.dark-mode) #travelDestinations .legend .legend-content .row.countries .flag.selected {
-	border: 2px solid orange;
-}
-
-body.dark-mode #travelDestinations .legend .legend-content .row.countries .flag.selected {
-	border: 2px solid gold;
+#travelDestinations .legend .legend-content .row.countries .flag.selected {
+	border: 2px solid var(--tt-color-orange);
 }
 
 /* Actual Table */
@@ -219,27 +221,6 @@ body.dark-mode #travelDestinations .legend .legend-content .row.countries .flag.
 	height: 0;
 }
 
-/*#tt-travel-table .header-row div {*/
-/*	position: relative;*/
-/*	cursor: pointer;*/
-/*	height: 30px;*/
-/*	line-height: 20px;*/
-/*}*/
-
-/*i.fa-caret-up:not(.tt-title-icon):not(.tt-title-icon-torn) {*/
-/*	font-size: 19px;*/
-/*	position: absolute;*/
-/*	left: 47%;*/
-/*	top: -10px;*/
-/*}*/
-
-/*i.fa-caret-down:not(.tt-title-icon):not(.tt-title-icon-torn) {*/
-/*	font-size: 19px;*/
-/*	position: absolute;*/
-/*	left: 47%;*/
-/*	top: 13px;*/
-/*}*/
-
 #tt-travel-table .row .country .flag {
 	width: 18px;
 	height: 18px;
@@ -256,9 +237,9 @@ body.dark-mode #travelDestinations .legend .legend-content .row.countries .flag.
 }
 
 #tt-travel-table .positive {
-	color: #00a500;
+	color: var(--tt-color-green);
 }
 
 #tt-travel-table .negative {
-	color: #de0000;
+	color: var(--tt-color-red);
 }

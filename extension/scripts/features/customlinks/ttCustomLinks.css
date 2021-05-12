@@ -9,15 +9,12 @@
 	vertical-align: top;
 	border-bottom-right-radius: 5px;
 	border-top-right-radius: 5px;
-	/*noinspection CssUnresolvedCustomProperty*/
 	background-color: var(--default-bg-panel-color);
 	margin-top: 2px;
 }
 
-/*noinspection DuplicatedCode*/
 #sidebarroot .pill a {
 	overflow: hidden;
-	/*noinspection CssUnresolvedCustomProperty*/
 	color: var(--default-font-color);
 	text-decoration: none;
 	height: 100%;

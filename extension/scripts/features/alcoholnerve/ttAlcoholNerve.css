@@ -1,12 +1,5 @@
 .tt-alcohol-gains {
 	padding-left: 10px;
 	float: none;
-}
-
-body:not(.dark-mode) .tt-alcohol-gains {
-	color: rgb(103, 140, 0);
-}
-
-body.dark-mode .tt-alcohol-gains {
-	color: #99cc00;
+	color: var(--tt-color-item-text);
 }

@@ -11,9 +11,9 @@
 }
 
 #tt-trade-timer[data-seconds] {
-	background: red;
+	background: var(--tt-color-red);
 }
 
 #tt-trade-timer:not([data-seconds]) {
-	background: green;
+	background: var(--tt-color-green);
 }

@@ -2,7 +2,6 @@
 	display: none !important;
 }
 
-/*noinspection CssUnusedSymbol*/
 .tt-black-overlay {
 	position: fixed;
 	top: 0;
@@ -71,11 +70,6 @@
 	margin-top: 10px;
 }
 
-/* CHECK - Replaces m-bottom10 */
-.mb10 {
-	margin-bottom: 10px;
-}
-
 [class*="torn-icon-"] {
 	background: url("https://www.torn.com/images/v2/city/location_icons_34x34px.svg") no-repeat;
 	height: 34px;
@@ -95,7 +89,6 @@
 	overflow: hidden;
 }
 
-/*noinspection CssOverwrittenProperties*/
 .tt-sidebar-area > div {
 	position: relative;
 	cursor: pointer;
@@ -103,15 +96,12 @@
 	vertical-align: top;
 	border-bottom-right-radius: 5px;
 	border-top-right-radius: 5px;
-	/*noinspection CssUnresolvedCustomProperty*/
-	background-color: var(--default-bg-panel-color, #f2f2f2);
+	background-color: var(--default-bg-panel-color);
 }
 
-/*noinspection CssOverwrittenProperties,DuplicatedCode*/
 .tt-sidebar-area a {
 	overflow: hidden;
-	/*noinspection CssUnresolvedCustomProperty*/
-	color: var(--default-content-font-color, #333);
+	color: var(--default-content-font-color);
 	text-decoration: none;
 	height: 100%;
 	display: flex;
@@ -146,12 +136,12 @@
 
 .tt-title-default, .tt-container.theme-default .title {
 	color: #fff;
-	background: repeating-linear-gradient(90deg, #627e0d, #627e0d 2px, #6e8820 0, #6e8820 4px);
+	background: var(--tt-background-green);
 }
 
 .tt-title-alternative, .tt-container.theme-alternative .title {
 	color: rgb(172, 234, 0);
-	background: repeating-linear-gradient(90deg, #242424, #242424 2px, #2e2e2e 0, #2e2e2e 4px);
+	background: var(--tt-background-green);
 }
 
 .tt-container.collapsible .title {
@@ -328,23 +318,19 @@ body.scrolled #tt-page-status.top-right {
 }
 
 .tt-page-status-feature.disabled i {
-	color: orange;
+	color: var(--tt-color-orange);
 }
 
 .tt-page-status-feature.failed i {
-	color: red;
+	color: var(--tt-color-red);
 }
 
 .tt-page-status-feature.loaded i {
-	color: green;
+	color: var(--tt-color-green);
 }
 
-body:not(.dark-mode) .tt-page-status-feature.information i {
-	color: blue;
-}
-
-body.dark-mode .tt-page-status-feature.information i {
-	color: #058cff;
+.tt-page-status-feature.information i {
+	color: var(--tt-color-blue);
 }
 
 #tt-page-status.no-content {

@@ -30,7 +30,7 @@
 		document.findAll("[data-category='Candy']").forEach((candy) => {
 			if (candy.find(".tt-candy-gains")) return;
 
-			// noinspection JSCheckFunctionSignatures
+			// noinspection JSCheckFunctionSignatures,DuplicatedCode
 			const baseHappy = parseInt(
 				torndata.items[candy.dataset.item].effect
 					.split(" ")

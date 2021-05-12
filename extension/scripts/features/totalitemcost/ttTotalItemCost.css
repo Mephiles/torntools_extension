@@ -1,11 +1,4 @@
 #tt-total-cost {
 	float: right;
-}
-
-body:not(.dark-mode) #tt-total-cost {
-	color: var(--default-green-color, #678c00);
-}
-
-body.dark-mode #tt-total-cost {
-	color: var(--default-green-color, #82c91e);
+	color: var(--default-green-color);
 }
