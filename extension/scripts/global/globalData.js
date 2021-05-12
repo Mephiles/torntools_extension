@@ -1,6 +1,5 @@
 "use strict";
 
-// noinspection JSUnresolvedVariable
 chrome = typeof browser !== "undefined" ? browser : chrome;
 
 const FORUM_POST = "https://www.torn.com/forums.php#/p=threads&f=67&t=16170566&b=0&a=0";
@@ -137,6 +136,9 @@ const DEFAULT_STORAGE = {
 		formatting: {
 			date: new DefaultSetting({ type: "string", defaultValue: "eu" }),
 			time: new DefaultSetting({ type: "string", defaultValue: "eu" }),
+		},
+		sorting: {
+			abroad: new DefaultSetting({ type: "object", defaultValue: {} }),
 		},
 		notifications: {
 			sound: new DefaultSetting({ type: "string", defaultValue: "default" }),
@@ -277,6 +279,10 @@ const DEFAULT_STORAGE = {
 			travel: {
 				computer: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				table: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				cleanFlight: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				travelProfits: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				sortable: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			stocks: {
 				acronyms: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -430,7 +436,6 @@ const CUSTOM_LINKS_PRESET = {
 
 const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.name || "", description: "Your player name." }];
 
-// noinspection SpellCheckingInspection
 const API_USAGE = {
 	user: {
 		name: true,

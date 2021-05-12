@@ -4,12 +4,8 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	width: 500px;
-	background: #f1f1f1;
+	background: var(--tt-background-popup);
+	box-shadow: var(--tt-shadow-popup);
 	border-radius: 8px;
 	padding: 10px;
-}
-
-body.dark-mode #tt-easter-popup {
-	background: #444;
-	box-shadow: 0 0 10px black;
 }

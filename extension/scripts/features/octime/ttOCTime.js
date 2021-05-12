@@ -36,7 +36,6 @@
 			if (timeLeft > 0) {
 				timeLeftElement.innerText = formatTime({ milliseconds: timeLeft }, { type: "wordTimer", extraShort: true, showDays: true });
 
-				// noinspection JSValidateTypes
 				timeLeftElement.dataset.seconds = (timeLeft / 1000).dropDecimals();
 				timeLeftElement.dataset.timeSettings = JSON.stringify({ type: "wordTimer", extraShort: true, showDays: true });
 				timeLeftElement.classList.add("automatic");

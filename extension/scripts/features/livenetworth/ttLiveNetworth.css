@@ -17,9 +17,9 @@
 }
 
 #liveNetworth table .positive {
-	color: #00a500;
+	color: var(--tt-color-green);
 }
 
 #liveNetworth table .negative {
-	color: #de0000;
+	color: var(--tt-color-red);
 }

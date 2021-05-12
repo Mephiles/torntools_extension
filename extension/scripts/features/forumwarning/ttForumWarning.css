@@ -2,9 +2,9 @@
 	font-size: 16px;
 	height: 59px;
 	line-height: 16px;
-	color: #ffffff;
+	color: white;
 	padding: 0 16px;
-	background: repeating-linear-gradient(90deg, #627e0d, #627e0d 2px, #6e8820 0, #6e8820 4px);
+	background: var(--tt-background-green);
 	text-shadow: var(--tutorial-title-shadow);
 	font-weight: bold;
 }
@@ -19,14 +19,10 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	width: 500px;
-	background: #f1f1f1;
 	border-radius: 8px;
 	padding: 10px;
-}
-
-body.dark-mode #tt-help-popup {
-	background: #444;
-	box-shadow: 0 0 10px black;
+	background: var(--tt-background-popup);
+	box-shadow: var(--tt-shadow-popup);
 }
 
 #tt-help-popup a {

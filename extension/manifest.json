@@ -46,6 +46,7 @@
 			"matches": ["https://www.torn.com/*"],
 			"exclude_matches": ["https://www.torn.com/api.html*"],
 			"css": [
+				"scripts/global/globalVariables.css",
 				"scripts/global/globalStyle.css",
 				"scripts/global/functions/dom.css",
 				"scripts/features/alignleft/ttAlignLeft.css",
@@ -154,7 +155,7 @@
 			"js": [
 				"scripts/features/drugdetails/ttDrugDetails.js",
 				"scripts/features/itemvalues/ttItemValues.js",
-				"scripts/features/totalitemcost/ttTotaltemCost.js"
+				"scripts/features/totalitemcost/ttTotalItemCost.js"
 			],
 			"run_at": "document_end"
 		},
@@ -209,13 +210,20 @@
 				"scripts/features/effectivestats/ttEffectiveStats.css",
 				"scripts/features/livenetworth/ttLiveNetworth.css",
 				"scripts/features/drugdetails/ttDrugDetails.css",
-				"scripts/features/traveltable/ttTravelTable.css"
+				"scripts/features/traveltable/ttTravelTable.css",
+				"scripts/features/travelitemprofits/ttTravelItemProfits.css",
+				"scripts/features/travelfillmax/ttTravelFillMax.css",
+				"scripts/features/sorttravelmarket/ttSortTravelMarket.css"
 			],
 			"js": [
 				"scripts/features/effectivestats/ttEffectiveStats.js",
 				"scripts/features/livenetworth/ttLiveNetworth.js",
 				"scripts/features/drugdetails/ttDrugDetails.js",
-				"scripts/features/traveltable/ttTravelTable.js"
+				"scripts/features/traveltable/ttTravelTable.js",
+				"scripts/features/cleanflight/ttCleanFlight.js",
+				"scripts/features/travelitemprofits/ttTravelItemProfits.js",
+				"scripts/features/travelfillmax/ttTravelFillMax.js",
+				"scripts/features/sorttravelmarket/ttSortTravelMarket.js"
 			],
 			"run_at": "document_end"
 		},
