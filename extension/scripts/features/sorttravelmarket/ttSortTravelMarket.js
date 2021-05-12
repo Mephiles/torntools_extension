@@ -36,7 +36,7 @@
 
 		if (settings.sorting.abroad.column) {
 			const header = document.find(`.items-list-title .${settings.sorting.abroad.column}`);
-
+			if (!header) sort("none", undefined);
 			header.appendChild(document.newElement({ type: "i", class: `fas ${settings.sorting.abroad.order === "asc" ? "fa-caret-down" : "fa-caret-up"}` }));
 			sort(settings.sorting.abroad.order, header);
 		}
