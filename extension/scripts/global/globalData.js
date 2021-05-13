@@ -6,14 +6,34 @@ const FORUM_POST = "https://www.torn.com/forums.php#/p=threads&f=67&t=16170566&b
 
 const ttStorage = new (class {
 	get(key) {
-		return new Promise((resolve) => {
+		return new Promise(async (resolve) => {
 			if (Array.isArray(key)) {
-				chrome.storage.local.get(key, (data) => resolve(key.map((i) => data[i])));
+				const data = await this._get(key);
+
+				resolve(key.map((i) => data[i]));
 			} else if (key) {
-				chrome.storage.local.get([key], (data) => resolve(data[key]));
+				const data = await this._get([key]);
+
+				resolve(data[key]);
 			} else {
-				chrome.storage.local.get(null, (data) => resolve(data));
+				const data = await this._get(null);
+
+				resolve(data);
 			}
+		});
+	}
+
+	_get(key) {
+		return new Promise((resolve) => {
+			chrome.storage.local.get(key, async (data) => {
+				console.log("DKK ttStorage _get", data);
+				while (!data || !Object.keys(data).length) {
+					console.log("DKK ttStorage _get - retry");
+					data = await this._get(key);
+				}
+
+				resolve(data);
+			});
 		});
 	}
 
