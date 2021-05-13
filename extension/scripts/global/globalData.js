@@ -26,9 +26,7 @@ const ttStorage = new (class {
 	_get(key) {
 		return new Promise((resolve) => {
 			chrome.storage.local.get(key, async (data) => {
-				console.log("DKK ttStorage _get", data);
 				while (!data || !Object.keys(data).length) {
-					console.log("DKK ttStorage _get - retry");
 					data = await this._get(key);
 				}
 
