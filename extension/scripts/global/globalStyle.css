@@ -134,12 +134,14 @@
 	margin: initial;
 }
 
-.tt-title-default, .tt-container.theme-default .title {
+.tt-title-default,
+.tt-container.theme-default .title {
 	color: #fff;
 	background: var(--tt-background-green);
 }
 
-.tt-title-alternative, .tt-container.theme-alternative .title {
+.tt-title-alternative,
+.tt-container.theme-alternative .title {
 	color: rgb(172, 234, 0);
 	background: var(--tt-background-green);
 }
