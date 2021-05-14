@@ -1,19 +1,20 @@
 "use strict";
 
 (async () => {
-	if (!isAbroad())
-		featureManager.registerFeature(
-			"Sort Market",
-			"travel",
-			() => settings.pages.travel.sortable,
-			null,
-			makeSortable,
-			removeSortable,
-			{
-				storage: ["settings.pages.travel.sortable"],
-			},
-			null
-		);
+	if (!isAbroad()) return;
+
+	featureManager.registerFeature(
+		"Sort Market",
+		"travel",
+		() => settings.pages.travel.sortable,
+		null,
+		makeSortable,
+		removeSortable,
+		{
+			storage: ["settings.pages.travel.sortable"],
+		},
+		null
+	);
 
 	async function makeSortable() {
 		await requireElement(".items-list-title");
