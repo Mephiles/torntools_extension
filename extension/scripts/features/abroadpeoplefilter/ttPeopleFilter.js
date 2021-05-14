@@ -1,7 +1,9 @@
 "use strict";
 
 (async () => {
-	featureManager.registerFeature(
+	if (!isAbroad()) return;
+
+	const feature = featureManager.registerFeature(
 		"People Filter",
 		"travel",
 		() => settings.pages.travel.peopleFilter,
@@ -15,7 +17,7 @@
 	);
 
 	function initialiseFilters() {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.PEOPLE_SWITCH_PAGE].push(filtering);
+		if (feature.enabled()) CUSTOM_LISTENERS[EVENT_CHANNELS.PEOPLE_SWITCH_PAGE].push(filtering);
 	}
 
 	async function addFilters() {
@@ -57,13 +59,37 @@
 						</select>
 					</div>
 				</div>
-				<div class='filter-wrap'>
-					<div class='filter-heading'>Special</div>
+				<div class="filter-wrap">
+					<div class="filter-heading">Special</div>
 					<div class="filter-multi-wrap">
-						<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='newplayer-yes'>N:<input type='checkbox' value='newplayer-no'>New Player</div>
-						<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='incompany-yes'>N:<input type='checkbox' value='incompany-no'>In Company</div>
-						<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='infaction-yes'>N:<input type='checkbox' value='infaction-no'>In Faction</div>
-						<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='isdonator-yes'>N:<input type='checkbox' value='isdonator-no'>Is Donator</div>
+						<div class="tt-checkbox-wrap">
+							<label for="newplayer-yes">Y:</label>
+							<input type="checkbox" id="newplayer-yes" value="newplayer-yes">
+							<label for="newplayer-no">N:</label>
+							<input type="checkbox" id="newplayer-no" value="newplayer-no">
+							New Player
+						</div>
+						<div class="tt-checkbox-wrap">
+							<label for="incompany-yes">Y:</label>
+							<input type="checkbox" id="incompany-yes" value="incompany-yes">
+							<label for="incompany-no">N:</label>
+							<input type="checkbox" id="incompany-no" value="incompany-no">
+							In Company
+						</div>
+						<div class="tt-checkbox-wrap">
+							<label for="infaction-yes">Y:</label>
+							<input type="checkbox" id="infaction-yes" value="infaction-yes">
+							<label for="infaction-no">N:</label>
+							<input type="checkbox" id="infaction-no" value="infaction-no">
+							In Faction
+						</div>
+						<div class="tt-checkbox-wrap">
+							<label for="isdonator-yes">Y:</label>
+							<input type="checkbox" id="isdonator-yes" value="isdonator-yes">
+							<label for="isdonator-no">N:</label>
+							<input type="checkbox" id="isdonator-no" value="isdonator-no">
+							Is Donator
+						</div>
 					</div>
 				</div>
 				<div class="filter-wrap" id="status-filter">

@@ -17,8 +17,8 @@
 	);
 
 	function addFillMax() {
+		await requireElement(".travel-agency-market");
 		const market = document.find(".travel-agency-market");
-		if (!market) return;
 
 		for (const buyBtn of market.findAll(".buy")) {
 			buyBtn.parentElement.classList.add("tt-buy");
