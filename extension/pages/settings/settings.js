@@ -1,7 +1,5 @@
 "use strict";
 
-const changelog = await (await fetch(chrome.runtime.getURL("changelog.json"))).json();
-
 const initiatedPages = {};
 
 (async () => {
@@ -47,6 +45,7 @@ async function showPage(name) {
 }
 
 async function setupChangelog() {
+	const changelog = await (await fetch(chrome.runtime.getURL("changelog.json"))).json();
 	const content = document.find("#changelog > section");
 
 	changelog.forEach((entry, index, allEntries) => {
