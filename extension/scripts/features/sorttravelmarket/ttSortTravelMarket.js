@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	if (!isAbroad())
+	if (!isAbroad()) return;
 		featureManager.registerFeature(
 			"Sort Market",
 			"travel",
