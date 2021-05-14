@@ -547,12 +547,23 @@
 		if (page === "travelagency") {
 			const element = document.find("#tab-menu4 > ul > li[aria-selected='true'] .travel-name");
 
-			// CHECK - Add travel type count.
-			if (!element) return "private";
+			if (!element) return hasAPIData() ? getAPIType() : "standard";
 			else return element.innerText.toLowerCase();
 		} else if (page === "home") {
-			// CHECK - Add travel type count.
-			return "private";
+			return hasAPIData() ? getAPIType() : "standard";
+		}
+
+		function getAPIType() {
+			if (!hasAPIData() || !settings.apiUsage.user.travel) return "standard";
+
+			switch (userdata.travel.method.toLowerCase()) {
+				case "airstrip":
+					return "private";
+				default:
+					console.log("TT - Detected unknown travel type.", userdata.travel.method);
+					// FIXME - Add travel type count.
+					return "standard";
+			}
 		}
 	}
 
