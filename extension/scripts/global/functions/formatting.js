@@ -258,12 +258,6 @@ function formatNumber(number, options = {}) {
 
 	if (!text) text = abstract.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-	if (options.currency) {
-		return `${number >= 0 ? (options.forceOperation ? "+" : "") : "-"}$${Math.abs(number)
-			.toString()
-			.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
-	}
-
 	return `${operation}${options.currency ? "$" : ""}${text}`;
 }
 
