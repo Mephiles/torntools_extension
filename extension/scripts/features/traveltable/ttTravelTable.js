@@ -396,13 +396,13 @@
 							${formatNumber(value, { shorten: true, currency: true })}
 						</div>
 						<div class="profit-item advanced ${getValueClass(profitItem)}" value="${typeof profitItem !== "number" ? 0 : profitItem}">
-							${formatNumber(profitItem, { shorten: true, currency: true })}
+							${formatNumber(profitItem, { shorten: true, currency: true, forceOperation: true })}
 						</div>
 						<div class="profit-minute ${getValueClass(profitMinute)}" value="${typeof profitMinute !== "number" ? 0 : profitMinute}">
-							${formatNumber(profitMinute, { shorten: true, currency: true })}
+							${formatNumber(profitMinute, { shorten: true, currency: true, forceOperation: true })}
 						</div>
 						<div class="profit advanced ${getValueClass(profit)}" value="${typeof profit !== "number" ? 0 : profit}">
-							${formatNumber(profit, { shorten: true, currency: true })}
+							${formatNumber(profit, { shorten: true, currency: true, forceOperation: true })}
 						</div>
 						<div class="money advanced" value="${totalCost}">
 							${formatNumber(totalCost, { shorten: true, currency: true })}
