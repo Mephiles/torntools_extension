@@ -228,6 +228,20 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/index.php?page=people*"],
+			"css": [
+				"scripts/global/functions/slider.css",
+				"scripts/global/functions/filters.css",
+				"scripts/features/abroadpeoplefilter/ttPeopleFilter.css"
+			],
+			"js": [
+				"scripts/global/functions/slider.js",
+				"scripts/content/people/ttTravelPeople.js",
+				"scripts/features/abroadpeoplefilter/ttPeopleFilter.js"
+			],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/item.php*"],
 			"css": [
 				"scripts/features/quickitems/ttQuickItems.css",

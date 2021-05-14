@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	if (!isAbroad()) return;
+	if (!isAbroad() || !document.find(".travel-agency-market")) return;
 
 	featureManager.registerFeature(
 		"Fill Max",
