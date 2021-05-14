@@ -175,7 +175,7 @@ async function setupStakeouts() {
 	}
 
 	function addStakeout(id, data = {}) {
-		const row = document.newElement({ type: "tr", class: "row", id: `stakeout_${id}` });
+		const row = document.newElement({ type: "tr", class: "row", id: `stakeout_${id}`, dataset: { id } });
 
 		row.appendChild(
 			document.newElement({
@@ -219,6 +219,7 @@ async function setupStakeouts() {
 				})
 			);
 		} else {
+			row.classList.add("new");
 			row.appendChild(document.newElement({ type: "td", class: "name", text: "" }));
 			row.appendChild(document.newElement({ type: "td", class: "status", text: "", attributes: { value: 0 } }));
 			row.appendChild(document.newElement({ type: "td", class: "last-action", text: "", attributes: { value: 0 } }));
@@ -308,12 +309,18 @@ async function setupStakeouts() {
 	}
 
 	function updateStakeouts() {
-		[...stakeoutList.findAll("tr:not(.header)")].filter((row) => !(parseInt(row.find(".id").innerText) in stakeouts)).forEach((row) => row.remove());
+		[...stakeoutList.findAll("tr:not(.header)")]
+			.filter((row) => !(parseInt(row.dataset.id) in stakeouts))
+			.filter((row) => !row.classList.contains("new"))
+			.forEach((row) => row.remove());
 
 		for (const id in stakeouts) {
 			if (isNaN(parseInt(id))) continue;
 
-			const row = stakeoutList.find(`tr .id=${id}`).parentElement;
+			const row = stakeoutList.find(`tr[data-id="${id}"]`);
+			if (!row) continue;
+
+			row.classList.remove("new");
 
 			row.find(".status").classList.remove("offline", "idle", "online");
 			if (stakeouts[id] && stakeouts[id].info && Object.keys(stakeouts[id].info).length) {
