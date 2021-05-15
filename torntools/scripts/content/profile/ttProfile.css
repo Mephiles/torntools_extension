@@ -129,6 +129,12 @@
 	background-color: #f2f2f2;
 }
 
+.dark-mode .tt-row {
+	display: flex;
+	border-bottom: 1px solid #222;
+	//background-color: #f2f2f2;
+}
+
 .tt-row .item {
 	flex: 1 0 33%;
 	font-size: 13px;
@@ -137,6 +143,16 @@
 	box-sizing: border-box;
 	padding-left: 10px;
 	border-right: 2px solid lightgray;
+}
+
+.dark-mode .tt-row .item {
+	flex: 1 0 33%;
+	font-size: 13px;
+	line-height: 16px;
+	overflow: hidden;
+	box-sizing: border-box;
+	padding-left: 10px;
+	border-right: 2px solid #222;
 }
 
 .tt-row .item:last-of-type {
@@ -163,13 +179,16 @@
 	color: #00a500;
 }
 
-.dark-mode .positive,
+.dark-mode .positive {
+	color: #00a500;
+}
+
 .dark-mode .negative {
-	font-weight: 800;
+	color: #d83500;
 }
 
 .negative {
-	color: #de0000;
+	color: #d83500;
 }
 
 .tt-footer {
