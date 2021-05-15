@@ -14,7 +14,6 @@ const EVENT_CHANNELS = {
 	ITEM_ITEMS_LOADED: "item-items-loaded",
 	ITEM_SWITCH_TAB: "item-switch-tab",
 	HOSPITAL_SWITCH_PAGE: "hospital-switch-page",
-	PEOPLE_SWITCH_PAGE: "people-switch-page",
 	JAIL_SWITCH_PAGE: "jail-switch-page",
 	TRAVEL_SELECT_TYPE: "travel-select-type",
 	// Feature callbacks

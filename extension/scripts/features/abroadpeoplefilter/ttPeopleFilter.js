@@ -7,7 +7,7 @@
 		"People Filter",
 		"travel",
 		() => settings.pages.travel.peopleFilter,
-		initialiseFilters,
+		null,
 		addFilters,
 		removeFilters,
 		{
@@ -15,10 +15,6 @@
 		},
 		null
 	);
-
-	function initialiseFilters() {
-		if (feature.enabled()) CUSTOM_LISTENERS[EVENT_CHANNELS.PEOPLE_SWITCH_PAGE].push(filtering);
-	}
 
 	async function addFilters() {
 		await requireElement(".users-list");
