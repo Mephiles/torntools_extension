@@ -74,7 +74,7 @@
 			class: "filter-wrap",
 			id: "time-filter",
 			children: [
-				newSlider(),
+				newSlider(0, 100),
 				document.newElement({
 					type: "div",
 					class: "time-filter-info-wrap",
@@ -87,7 +87,7 @@
 			class: "filter-wrap",
 			id: "level-filter",
 			children: [
-				newSlider(),
+				newSlider(1, 100),
 				document.newElement({
 					type: "div",
 					class: "level-filter-info-wrap",

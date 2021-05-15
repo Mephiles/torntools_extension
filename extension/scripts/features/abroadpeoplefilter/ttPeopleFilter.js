@@ -118,7 +118,7 @@
 			class: "filter-wrap",
 			id: "level-filter",
 			children: [
-				newSlider(),
+				newSlider(1, 100),
 				document.newElement({
 					type: "div",
 					class: "level-filter-info-wrap",
