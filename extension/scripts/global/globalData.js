@@ -24,14 +24,16 @@ const ttStorage = new (class {
 	}
 
 	_get(key) {
-		return new Promise((resolve) => {
-			chrome.storage.local.get(key, async (data) => {
-				while (!data || !Object.keys(data).length) {
-					data = await this._get(key);
-				}
+		return new Promise(async (resolve) => {
+			let data;
+			let count = 0;
+			do {
+				data = await new Promise((resolve) => chrome.storage.local.get(key, (data) => resolve(data)));
 
-				resolve(data);
-			});
+				count++;
+			} while (data && !Object.keys(data).length && count < 3);
+
+			resolve(data);
 		});
 	}
 

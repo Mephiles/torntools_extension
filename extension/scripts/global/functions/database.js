@@ -16,7 +16,7 @@ const storageListeners = {
 
 async function loadDatabase() {
 	if (databaseLoaded) return Promise.resolve();
-	if (databaseLoading) {
+	else if ((databaseLoaded && !settings) || databaseLoading) {
 		await sleep(75);
 		return await loadDatabase();
 	}
