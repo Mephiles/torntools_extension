@@ -21,13 +21,11 @@
 }
 
 .tt-networth-table .negative-change {
-	color: #de0000 !important;
-	font-weight: 800;
+	color: #d83500 !important;
 }
 
 .tt-networth-table .positive-change {
 	color: #00a500 !important;
-	font-weight: 800;
 }
 
 .tt-networth-footer {

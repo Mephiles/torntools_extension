@@ -166,9 +166,32 @@ requireDatabase().then(() => {
 			chainBonusWatch();
 		}
 
-		if (settings.pages.global.show_settings_areas_link && !mobile) ttSettingsLink();
+		if (settings.pages.global.show_settings_areas_link && !mobile) {
+			ttSettingsLink();
+			new MutationObserver(() => {
+				const ttNavSettings = doc.find(".areasWrapper #tt-nav-settings");
+				let inHospClass = doc.find(".areasWrapper [id*='nav-']").classList.contains("^=in-hospital");
+				if (inHospClass) {
+					ttNavSettings.classList.add(inHospClass);
+					ttNavSettings.parentElement.appendChild(ttNavSettings);
+				} else {
+					let ttInHospClass = ttNavSettings.classList.contains("^=in-hospital");
+					if (ttInHospClass) ttNavSettings.classList.remove(ttInHospClass);
+					ttNavSettings.parentElement.appendChild(ttNavSettings);
+				}
+				let inJailClass = doc.find(".areasWrapper [id*='nav-']").classList.contains("^=in-jail");
+				if (inJailClass) {
+					ttNavSettings.classList.add(inJailClass);
+					ttNavSettings.parentElement.appendChild(ttNavSettings);
+				} else {
+					let ttInJailClass = ttNavSettings.classList.contains("^=in-jail");
+					if (ttInJailClass) ttNavSettings.classList.remove(ttInJailClass);
+					ttNavSettings.parentElement.appendChild(ttNavSettings);
+				}
+			}).observe(doc.find("#nav-hall_of_fame"), { attributes: true });
+		}
 
-		if (settings.pages.global.npc_loot_info) showNpcLoot();
+		if (settings.pages.global.npc_loot_info && !mobile) showNpcLoot();
 
 		upkeepMoreThan();
 	});
@@ -906,7 +929,7 @@ function chainBonusWatch() {
 }
 
 function ttSettingsLink() {
-	doc.find("div.areasWrapper [class*='toggle-content__']").appendChild(
+	doc.find(".areasWrapper [class*='toggle-content__']").appendChild(
 		navbar.newAreasLink({
 			id: "tt-nav-settings",
 			href: "/home.php#TornTools",
@@ -1022,14 +1045,15 @@ function showNpcLoot() {
 		}
 		let npcLootLevel, npcNextLevelIn;
 		if (npcInHosp) {
+			let hospOutIn = npcData.hospout * 1000 - Date.now();
 			npcLootLevel = doc.new({ type: "span", class: "loot", text: "0" });
-			npcNextLevelIn = doc.new({ type: "span", text: timeUntil(npcData.hospout * 1000 - Date.now()) });
+			npcNextLevelIn = doc.new({ type: "span", text: timeUntil(hospOutIn), attributes: { seconds: Math.floor(hospOutIn / 1000) } });
 		} else {
 			for (let lootLevel in npcData.timings) {
 				let nextLvlTime = npcData.timings[lootLevel].ts * 1000 - Date.now();
 				if (nextLvlTime > 0) {
 					npcLootLevel = doc.new({ type: "span", class: "loot", text: lootLevel - 1 });
-					npcNextLevelIn = doc.new({ type: "span", text: timeUntil(nextLvlTime) });
+					npcNextLevelIn = doc.new({ type: "span", text: timeUntil(nextLvlTime), attributes: { seconds: Math.floor(nextLvlTime / 1000) } });
 					break;
 				} else if (lootLevel !== 5 && nextLvlTime < 0) {
 					continue;
@@ -1049,4 +1073,12 @@ function showNpcLoot() {
 	}
 	npcContent.id = "tt-loot";
 	doc.find("#sidebar > :first-child").insertAdjacentElement("afterEnd", npcLootDiv);
+	setInterval(() => {
+		doc.findAll("div#tt-loot .tt-npc .tt-npc-information > :last-child").forEach((x) => {
+			if (!x.getAttribute("seconds")) return;
+			let secondsLeft = x.getAttribute("seconds");
+			x.setAttribute("seconds", secondsLeft - 1);
+			x.innerText = timeUntil((secondsLeft - 1) * 1000);
+		});
+	}, 1000);
 }

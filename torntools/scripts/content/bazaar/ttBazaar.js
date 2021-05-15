@@ -101,7 +101,7 @@ function maxBuy(parent, amountOfStockSelector) {
 		let max = parseInt(parent.find(amountOfStockSelector).innerText.replace(/\D/g, ""));
 		if (!settings.pages.bazaar.max_buy_ignore_cash) {
 			let price = parseInt(parent.find("[class*='price_']").innerText.replace(/[,$]/g, ""));
-			let user_money = parseInt(doc.find("#user-money").innerText.replace(/[,$]/g, ""));
+			let user_money = parseInt(doc.find("#user-money").dataset.money);
 			if (Math.floor(user_money / price) < max) max = Math.floor(user_money / price);
 		}
 		if (max > 10000) max = 10000;

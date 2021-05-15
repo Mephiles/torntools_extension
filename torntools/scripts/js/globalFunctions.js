@@ -57,7 +57,7 @@ const DRUG_INFORMATION = {
 	},
 	opium: {
 		pros: ["Removes all hospital time (except Radiation Sickness) and replenishes life to 66.6%", "+50-100 Happy"],
-		cooldown: "3-4 hours",
+		cooldown: "2-3 hours",
 	},
 	pcp: {
 		pros: ["+20% Strength & Dexterity", "+250 Happy"],
@@ -1796,11 +1796,12 @@ DOMTokenList.prototype.contains = function (className) {
 	const classes = [...this];
 	if (className.startsWith("^=")) {
 		className = className.substring(2, className.length);
+		if (className === "") return false;
 
 		for (const name of classes) {
 			if (!name.startsWith(className)) continue;
 
-			return true;
+			return name;
 		}
 		return false;
 	} else {
@@ -1944,7 +1945,7 @@ const navbar = {
 		}
 	},
 	newAreasLink: function (attributes = {}) {
-		let exampleAreasLink = doc.findAll("div#sidebarroot div[id*='nav-'][class*='area-desktop_']")[9].cloneNode(true);
+		let exampleAreasLink = doc.findAll("div#sidebarroot .areasWrapper div[id*='nav-'][class*='area-desktop_']")[0].cloneNode(true);
 		if (attributes.id) exampleAreasLink.id = attributes.id;
 		if (attributes.href) exampleAreasLink.find("a[href]").href = attributes.href;
 		if (attributes.svgHTML) exampleAreasLink.find("svg").outerHTML = attributes.svgHTML;
@@ -3290,6 +3291,15 @@ function fetchApi_v2(
 						} else {
 							result.error = "Unknown error";
 						}
+					}
+
+					if ((location === "torn" && !result) || !Object.keys(result).length) {
+						result = {
+							error: {
+								error: "API returning unexpected results, assuming it's down",
+								code: 9,
+							},
+						};
 					}
 
 					logFetch(ogLocation, options);
