@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	if (!isAbroad() || !document.find(".travel-agency-market")) return;
+	if (!isAbroad()) return;
 
 	featureManager.registerFeature(
 		"Fill Max",
@@ -16,7 +16,7 @@
 		null
 	);
 
-	function addFillMax() {
+	async function addFillMax() {
 		await requireElement(".travel-agency-market");
 		const market = document.find(".travel-agency-market");
 
