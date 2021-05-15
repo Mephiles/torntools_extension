@@ -1,4 +1,4 @@
-function newSlider(max = 100, min = 0) {
+function newSlider(min = 0, max = 100) {
 	const ttDualRange = document.newElement({
 		type: "div",
 		class: "tt-dual-range",

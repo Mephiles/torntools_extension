@@ -104,7 +104,7 @@
 			class: "filter-wrap",
 			id: "score-filter",
 			children: [
-				newSlider(scoreMax, 0),
+				newSlider(0, scoreMax),
 				document.newElement({
 					type: "div",
 					class: "score-filter-info-wrap",
