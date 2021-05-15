@@ -13,7 +13,7 @@ let networthInterval = false;
 		showNetworth,
 		() => removeContainer("Live Networth"),
 		{
-			storage: ["settings.pages.home.networthDetails", "settings.apiUsage.user.networth", "userdata.networth.date"],
+			storage: ["settings.pages.home.networthDetails", "settings.apiUsage.user.networth", "userdata.networth"],
 		},
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.networth) return "No API access.";
@@ -21,11 +21,6 @@ let networthInterval = false;
 	);
 
 	async function showNetworth() {
-		if (!userdata.networth || Date.now() - userdata.networth.date >= TO_MILLIS.MINUTES * 5) {
-			chrome.runtime.sendMessage({ action: "updateData", type: "networth" });
-			return;
-		}
-
 		await requireContent();
 
 		const { content } = createContainer("Live Networth", {
@@ -42,8 +37,8 @@ let networthInterval = false;
 			type: "i",
 			class: "networth-info-icon",
 			attributes: {
-				seconds: (Date.now() - userdata.networth.date) / 1000,
-				title: "Last updated " + formatTime({ milliseconds: userdata.networth.date }, { type: "ago" }),
+				seconds: (Date.now() - userdata.date) / 1000,
+				title: "Last updated " + formatTime({ milliseconds: userdata.date }, { type: "ago" }),
 				style: "margin-left: 9px;",
 			},
 		});

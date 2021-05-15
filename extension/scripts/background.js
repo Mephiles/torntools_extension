@@ -210,7 +210,7 @@ async function updateUserdata() {
 		updatedTypes.push("essential");
 	}
 	if (updateBasic) {
-		for (const selection of ["personalstats", "stocks", "inventory", "merits", "perks"]) {
+		for (const selection of ["personalstats", "stocks", "inventory", "merits", "perks", "networth"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selections.push(selection);
@@ -842,17 +842,6 @@ async function updateStocks() {
 	}
 }
 
-async function updateNetworth() {
-	if (!settings.apiUsage.user.networth) return;
-
-	let networth = (await fetchApi("torn", { section: "user", selections: ["networth"] })).networth;
-	if (!networth) throw new Error("Aborted updating due to an expected response.");
-	networth.date = Date.now();
-
-	await ttStorage.change({ userdata: { networth } });
-	console.log("Updated networth data.");
-}
-
 async function updateFactiondata() {
 	if (!userdata || !userdata.faction.faction_id) {
 		factiondata = {};
@@ -965,17 +954,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			break;
 		case "stop-notification-sound":
 			notificationTestPlayer.pause();
-			break;
-		case "updateData":
-			switch (message.type) {
-				case "networth":
-					updateNetworth().then(() => {});
-					sendResponse({ success: true });
-					break;
-				default:
-					sendResponse({ success: false, message: "Unknown data type." });
-					break;
-			}
 			break;
 		case "fetchRelay":
 			fetchApi(message.location, message.options)
