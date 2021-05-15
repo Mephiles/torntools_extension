@@ -372,7 +372,7 @@ const DEFAULT_STORAGE = {
 				incompany: new DefaultSetting({ type: "string", defaultValue: "both" }),
 				infaction: new DefaultSetting({ type: "string", defaultValue: "both" }),
 				isdonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
-			}
+			},
 		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
