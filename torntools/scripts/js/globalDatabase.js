@@ -63,7 +63,8 @@ let userdata,
 	hide_stock_blocks,
 	travel_items,
 	notifications_custom,
-	yata;
+	yata,
+	serverPasswordHash;
 
 (async function () {
 	database_status = DATABASE_STATUSES.LOADING;
@@ -112,6 +113,7 @@ let userdata,
 		travel_items = DB.travel_items;
 		notifications_custom = DB.notifications_custom;
 		yata = DB.yata;
+		serverPasswordHash = DB.serverPasswordHash;
 
 		if (!api_key) {
 			database_status = DATABASE_STATUSES.FAILED;

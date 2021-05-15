@@ -1204,6 +1204,7 @@ const STORAGE = {
 		torntools: [],
 		nukefamily: [],
 	},
+	serverPasswordHash: undefined,
 
 	// userdata
 	itemlist: {},

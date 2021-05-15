@@ -982,47 +982,67 @@ function apiInfo() {
 }
 
 function server() {
-/*
-	loadingPlaceholder(doc.find("#server #tt_server_user_info"), true);
+	if (!serverPasswordHash) {
+		doc.find("#server #tt_server_user_info").innerText = "You have not exported any data. You can do so via the Export button.";
+	} else {
+		loadingPlaceholder(doc.find("#server #tt_server_user_info"), true);
+		fetchApi_v2("torntools", { section: `api/v3/${serverPasswordHash}/storage?id=${userdata.player_id}` })
+			.then((result) => {
+				console.log("result", result);
+				loadingPlaceholder(doc.find("#server #tt_server_user_info"), false);
 
-			loadingPlaceholder(doc.find("#server #tt_server_user_info"), false);
+				if (!result.success) {
+					throw result; // go to catch section
+				}
 
-			let pre;
-			if (result.data) {
-				let [day, month, year] = dateParts(new Date(result.data.date));
-				doc.find("#tt_server_info_wrap .date span").innerText = formatDate([day, month, year], settings.format.date);
-				delete result.data.date;
+				let pre;
+				if (result.data) {
+					const [day, month, year] = dateParts(new Date(result.data.date));
+					doc.find("#tt_server_info_wrap .date span").innerText = formatDate([day, month, year], settings.format.date);
 
-				pre = JSON.stringify(result.data, null, 2);
-			} else pre = JSON.stringify(result, null, 2);
+					pre = JSON.stringify(result.data.storage, null, 2);
+				} else {
+					pre = JSON.stringify(result, null, 2);
+				}
 
-			doc.find("#server #tt_server_user_info").innerText = pre;*/
+				doc.find("#server #tt_server_user_info").innerText = pre;
+			})
+			.catch((result) => {
+				console.log("ERROR", result);
+				doc.find("#server #tt_server_user_info").innerText = result?.message ?? "Something went wrong.";
+				doc.find("#server_import").setAttribute("style", "display: none;");
+				doc.find("#server_import_text").setAttribute("style", "display: none;");
+			});
+	}
 
-			doc.find("#server_import").onclick = () => {
-				loadConfirmationPopup({
-					title: "Password",
-					message: "### Enter your TornTools Password",
-					password: "password",
-				})
-				.then(async ({ password }) => {
-					if (password.trim() === "") return;
-					importData(await sha256HashOf(password));
-				})
-				.catch(() => {});
-			};
-			doc.find("#server_import_text").onclick = importDataText;
+	doc.find("#server_import").onclick = () => {
+		loadConfirmationPopup({
+			title: "Password",
+			message: "### Enter your TornTools Password",
+			password: "password",
+		})
+			.then(async ({ password }) => {
+				const enteredPasswordHash = await sha256HashOf(password);
+				if (password.trim() === "" || password.length < 4 || (serverPasswordHash !== undefined && serverPasswordHash !== enteredPasswordHash)) {
+					return;
+				}
+				importData(enteredPasswordHash);
+			})
+			.catch(() => {});
+	};
+	doc.find("#server_import_text").onclick = importDataText;
 
-			doc.find("#tt_server_info_wrap .json-text-wrap .copy-button").onclick = () => {
-				const copyText = doc.find("#tt_server_info_wrap .json-text-wrap pre").textContent;
-				const tempArea = doc.new({ type: "textarea", class: "temp-area" });
-				tempArea.textContent = copyText;
-				doc.find("body").append(tempArea);
+	doc.find("#tt_server_info_wrap .json-text-wrap .copy-button").onclick = () => {
+		const copyText = doc.find("#tt_server_info_wrap .json-text-wrap pre").textContent;
+		const tempArea = doc.new({ type: "textarea", class: "temp-area" });
+		tempArea.textContent = copyText;
+		doc.find("body").append(tempArea);
 
-				tempArea.select();
-				tempArea.setSelectionRange(0, 99999);
+		tempArea.select();
+		tempArea.setSelectionRange(0, 99999);
 
-				doc.execCommand("copy");
-			};
+		doc.execCommand("copy");
+	};
 
 	doc.find("#server_export").onclick = () => {
 		loadConfirmationPopup({
@@ -1049,19 +1069,26 @@ function server() {
 	- profile notes
 					`,
 		})
-		.then(() => {
-			loadConfirmationPopup({
-				title: "Password",
-				message: "### Enter your TornTools Password",
-				password: "password",
-			})
-			.then(async ({ password }) => {
-					if (password.trim() === "") return;
-					exportData(await sha256HashOf(password));
+			.then(() => {
+				loadConfirmationPopup({
+					title: "Password",
+					message:
+						"### Enter your TornTools Password \n If you have not set a password before then you can choose it now. The minimum length is 4 characters",
+					password: "password",
+				})
+					.then(async ({ password }) => {
+						const enteredPasswordHash = await sha256HashOf(password);
+						if (password.trim() === "" || password.length < 4 || (serverPasswordHash !== undefined && serverPasswordHash !== enteredPasswordHash)) {
+							return;
+						}
+						if (serverPasswordHash === undefined) {
+							ttStorage.set({ serverPasswordHash: enteredPasswordHash });
+						}
+						exportData(enteredPasswordHash);
+					})
+					.catch(() => {});
 			})
 			.catch(() => {});
-		})
-		.catch(() => {});
 	};
 
 	doc.find("#server_clear").onclick = () => {
@@ -1069,19 +1096,19 @@ function server() {
 			title: "Clear Data",
 			message: `### Are you sure you want to Delete ALL data from the remote server?`,
 		})
-		.then(() => {
-			loadConfirmationPopup({
-				title: "Password",
-				message: "### Enter your TornTools Password",
-				password: "password",
-			})
-			.then(async ({ password }) => {
-					if (password.trim() === "") return;
-					clearRemoteData(await sha256HashOf(password));
+			.then(() => {
+				loadConfirmationPopup({
+					title: "Password",
+					message: "### Enter your TornTools Password",
+					password: "password",
+				})
+					.then(async ({ password }) => {
+						if (password.trim() === "") return;
+						clearRemoteData(await sha256HashOf(password));
+					})
+					.catch(() => {});
 			})
 			.catch(() => {});
-		})
-		.catch(() => {});
 	};
 }
 
@@ -1778,7 +1805,7 @@ function exportData(secureHash) {
 		}
 
 		fetchApi_v2("torntools", {
-			section: `api/${secureHash}/storage/update?id=${userdata.player_id}`,
+			section: `api/v3/${secureHash}/storage/update?id=${userdata.player_id}`,
 			method: "POST",
 			postData: post_data,
 		})
@@ -1795,7 +1822,7 @@ function exportData(secureHash) {
 
 function importData(secureHash) {
 	fetchApi_v2("torntools", {
-		section: `api/${secureHash}/storage?id=${userdata.player_id}`,
+		section: `api/v3/${secureHash}/storage?id=${userdata.player_id}`,
 	})
 		.then((result) => {
 			console.log("import", result);
@@ -1803,8 +1830,8 @@ function importData(secureHash) {
 			let conflictMessage = `\n`;
 
 			ttStorage.get(null, (database) => {
-				for (let key in result.data) {
-					if (JSON.stringify(result.data[key]) !== JSON.stringify(database[key])) {
+				for (let key in result.data.storage) {
+					if (JSON.stringify(result.data.storage[key]) !== JSON.stringify(database[key])) {
 						conflictMessage += `- ${key}\n`;
 					}
 				}
@@ -1825,10 +1852,10 @@ function importData(secureHash) {
 						.then(async () => {
 							preferenceModifications.clear();
 							let import_result;
-							for (let key in result.data) {
+							for (let key in result.data.storage) {
 								import_result = await new Promise((resolve) => {
 									try {
-										ttStorage.set({ [key]: result.data[key] }, () => {
+										ttStorage.set({ [key]: result.data.storage[key] }, () => {
 											console.log(`${key} imported.`);
 											return resolve({ success: true, message: "All settings imported" });
 										});
@@ -1891,7 +1918,7 @@ function importDataText() {
 }
 
 function clearRemoteData(secureHash) {
-	fetchApi_v2("torntools", { section: `api/${secureHash}/storage/clear?id=${userdata.player_id}`, method: "POST" })
+	fetchApi_v2("torntools", { section: `api/v3/${secureHash}/storage/clear?id=${userdata.player_id}`, method: "POST" })
 		.then((result) => {
 			console.log("clear", result);
 			message(result.message, true, { reload: true });
@@ -1921,8 +1948,8 @@ function requestPermission(url) {
 
 async function sha256HashOf(rawString) {
 	const msgBuffer = new TextEncoder().encode(rawString);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    return hashHex;
+	const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+	const hashArray = Array.from(new Uint8Array(hashBuffer));
+	const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+	return hashHex;
 }
