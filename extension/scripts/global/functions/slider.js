@@ -1,18 +1,24 @@
 function newSlider(min = 0, max = 100) {
+	const uuid = getUUID();
+
 	const ttDualRange = document.newElement({
 		type: "div",
 		class: "tt-dual-range",
-		attributes: {
-			"data-max": max,
-			"data-min": min,
-		},
-		html: `<span class="handle left"></span>
-				<span class="highlight"></span>
-				<span class="handle right"></span>`,
+		html: `	
+			<label for="handle-left_${uuid}" class="handle left"></label>
+			<span class="highlight"></span>
+			<label for="handle-right_${uuid}" class="handle right"></label>
+			<div class="dump">
+				<input id="handle-left_${uuid}"/>
+				<input id="handle-right_${uuid}"/>
+			</div>
+		`,
+		dataset: { max, min },
 	});
 	new DualRangeSlider(ttDualRange);
 	return ttDualRange;
 }
+
 class DualRangeSlider {
 	constructor(rangeElement) {
 		this.range = rangeElement;
@@ -21,8 +27,16 @@ class DualRangeSlider {
 		this.handles = [...this.range.findAll(".handle")];
 		this.startPos = 0;
 		this.handles.forEach((handle) => {
+			const input = rangeElement.find(`#${handle.getAttribute("for")}`);
+
 			handle.addEventListener("mousedown", this.startMove.bind(this));
 			handle.addEventListener("touchstart", this.startMoveTouch.bind(this));
+
+			handle.addEventListener("click", () => input.focus());
+
+			input.addEventListener("focus", () => handle.classList.add("focus"));
+			input.addEventListener("blur", () => handle.classList.remove("focus"));
+			input.addEventListener("keyup", this.moveKeyboard.bind(this));
 		});
 		window.addEventListener("mouseup", this.stopMove.bind(this));
 		window.addEventListener("touchend", this.stopMove.bind(this));
@@ -35,28 +49,46 @@ class DualRangeSlider {
 		this.handles[0].dataset.value = this.range.dataset.min;
 		this.handles[1].dataset.value = this.range.dataset.max;
 	}
-	startMoveTouch(e) {
-		const handleRect = e.target.getBoundingClientRect();
-		this.startPos = e.touches[0].clientX - handleRect.x;
-		this.activeHandle = e.target;
+
+	startMoveTouch(event) {
+		const handleRect = event.target.getBoundingClientRect();
+		this.startPos = event.touches[0].clientX - handleRect.x;
+		this.activeHandle = event.target;
 		this.moveTouchListener = this.moveTouch.bind(this);
 		window.addEventListener("touchmove", this.moveTouchListener);
 	}
-	startMove(e) {
-		this.startPos = e.offsetX;
-		this.activeHandle = e.target;
+
+	startMove(event) {
+		this.startPos = event.offsetX;
+		this.activeHandle = event.target;
 		this.moveListener = this.move.bind(this);
 		window.addEventListener("mousemove", this.moveListener);
 	}
-	moveTouch(e) {
-		this.move({ clientX: e.touches[0].clientX });
+
+	moveKeyboard(event) {
+		if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+
+		const handle = this.range.find(`.handle[for="${event.target.id}"]`);
+		if (!handle) return;
+
+		let value = parseInt(handle.dataset.value);
+
+		if (event.key === "ArrowLeft") value--;
+		else if (event.key === "ArrowRight") value++;
+
+		this.updateValue(handle, value);
 	}
-	move(e) {
+
+	moveTouch(event) {
+		this.move({ clientX: event.touches[0].clientX });
+	}
+
+	move(event) {
 		const isLeft = this.activeHandle.classList.contains("left");
 		const property = isLeft ? "--x-1" : "--x-2";
 		const parentRect = this.range.getBoundingClientRect();
 		const handleRect = this.activeHandle.getBoundingClientRect();
-		let newX = e.clientX - parentRect.x - this.startPos;
+		let newX = event.clientX - parentRect.x - this.startPos;
 		if (isLeft) {
 			const otherX = parseInt(this.range.style.getPropertyValue("--x-2"));
 			newX = Math.min(newX, otherX);
@@ -69,9 +101,25 @@ class DualRangeSlider {
 		this.activeHandle.dataset.value = this.calcHandleValue((newX + handleRect.width / 2) / parentRect.width);
 		this.range.style.setProperty(property, newX + "px");
 	}
+
 	calcHandleValue(percentage) {
 		return Math.round(percentage * (this.max - this.min) + this.min);
 	}
+
+	updateValue(handle, value) {
+		const isLeft = handle.classList.contains("left");
+		const property = isLeft ? "--x-1" : "--x-2";
+
+		value = Math.max(Math.min(value, this.max), this.min);
+
+		if (isLeft) value = Math.min(value, parseInt(this.handles[1].dataset.value));
+		else value = Math.max(value, parseInt(this.handles[0].dataset.value));
+
+		handle.dataset.value = value;
+		// TODO - Recognize minimum value.
+		this.range.style.setProperty(property, (value * 150) / this.max - 13 + "px");
+	}
+
 	stopMove() {
 		window.removeEventListener("mousemove", this.moveListener);
 		window.removeEventListener("touchmove", this.moveTouchListener);

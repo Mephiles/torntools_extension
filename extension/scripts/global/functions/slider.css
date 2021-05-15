@@ -31,6 +31,10 @@
 	float: none;
 }
 
+.tt-dual-range .handle.focus {
+	border: 3px solid #888;
+}
+
 body:not(.dark-mode) .tt-dual-range .handle {
 	background-color: #fff;
 }
@@ -45,4 +49,14 @@ body.dark-mode .tt-dual-range .handle {
 
 .tt-dual-range .handle.right {
 	left: var(--x-2);
+}
+
+.tt-dual-range .dump {
+	width: 0;
+	overflow: hidden;
+}
+
+.tt-dual-range .dump * {
+	opacity: 0;
+	filter: alpha(opacity=0);
 }
