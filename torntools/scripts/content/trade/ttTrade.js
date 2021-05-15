@@ -64,8 +64,8 @@ function showValues() {
 				let items = text.split(",");
 
 				for (let item of items) {
-					let name = item.split(" x")[0].trim();
-					let quantity = parseInt(item.split(" x")[1]);
+					let name = item.split("x ")[1].replace(/\.$/, "");
+					let quantity = parseInt(item.match(/\d*(?=x)/g)[0]);
 
 					for (let id in itemlist.items) {
 						if (itemlist.items[id].name === name) {
