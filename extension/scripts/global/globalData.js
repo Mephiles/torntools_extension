@@ -303,6 +303,7 @@ const DEFAULT_STORAGE = {
 				travelProfits: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				sortable: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				peopleFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			stocks: {
 				acronyms: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -359,6 +360,19 @@ const DEFAULT_STORAGE = {
 			categories: new DefaultSetting({ type: "array", defaultValue: [] }),
 			countries: new DefaultSetting({ type: "array", defaultValue: [] }),
 			hideOutOfStock: new DefaultSetting({ type: "boolean", defaultValue: false }),
+		},
+		abroad: {
+			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
+			status: new DefaultSetting({ type: "array", defaultValue: [] }),
+			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			faction: new DefaultSetting({ type: "string", defaultValue: "" }),
+			special: {
+				newplayer: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				incompany: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				infaction: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				isdonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
+			},
 		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
