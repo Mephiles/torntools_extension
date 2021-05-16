@@ -98,11 +98,11 @@ class DualRangeSlider {
 			newX = Math.max(newX, otherX);
 			newX = Math.min(newX, parentRect.width - handleRect.width / 2);
 		}
-		this.activeHandle.dataset.value = this.calcHandleValue((newX + handleRect.width / 2) / parentRect.width);
+		this.activeHandle.dataset.value = this.calculateHandleValue((newX + handleRect.width / 2) / parentRect.width);
 		this.range.style.setProperty(property, newX + "px");
 	}
 
-	calcHandleValue(percentage) {
+	calculateHandleValue(percentage) {
 		return Math.round(percentage * (this.max - this.min) + this.min);
 	}
 
