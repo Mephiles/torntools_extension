@@ -265,3 +265,7 @@ body.dark #preferences #hide-casino-games span {
 #featureDisplayDemo .right {
 	right: 1px;
 }
+
+body.tt-mobile .no-mobile {
+	display: none !important;
+}
