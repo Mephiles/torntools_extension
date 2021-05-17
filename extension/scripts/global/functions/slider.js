@@ -36,7 +36,7 @@ class DualRangeSlider {
 
 			input.addEventListener("focus", () => handle.classList.add("focus"));
 			input.addEventListener("blur", () => handle.classList.remove("focus"));
-			input.addEventListener("keyup", this.moveKeyboard.bind(this));
+			input.addEventListener("keydown", this.moveKeyboard.bind(this));
 		});
 		window.addEventListener("mouseup", this.stopMove.bind(this));
 		window.addEventListener("touchend", this.stopMove.bind(this));
