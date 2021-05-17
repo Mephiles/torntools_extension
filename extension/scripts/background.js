@@ -809,17 +809,17 @@ async function updateStocks() {
 			if (alerts.priceFalls && oldStocks[id].current_price > alerts.priceFalls && stocks[id].current_price <= alerts.priceFalls) {
 				await notifyUser(
 					"TornTools - Stock Alerts",
-					`(${stocks[id].acronym}) ${stocks[id].name} has fallen to $${formatNumber(stocks[id].current_price)} (alert: $${formatNumber(
-						alerts.priceFalls
-					)})!`,
+					`(${stocks[id].acronym}) ${stocks[id].name} has fallen to ${formatNumber(stocks[id].current_price, {
+						currency: true,
+					})} (alert: ${formatNumber(alerts.priceFalls, { currency: true })})!`,
 					LINKS.stocks
 				);
 			} else if (alerts.priceReaches && oldStocks[id].current_price < alerts.priceFalls && stocks[id].current_price >= alerts.priceReaches) {
 				await notifyUser(
 					"TornTools - Stock Alerts",
-					`(${stocks[id].acronym}) ${stocks[id].name} has reached $${formatNumber(stocks[id].current_price)} (alert: $${formatNumber(
-						alerts.priceReaches
-					)})!`,
+					`(${stocks[id].acronym}) ${stocks[id].name} has reached ${formatNumber(stocks[id].current_price, {
+						currency: true,
+					})} (alert: ${formatNumber(alerts.priceReaches, { currency: true })})!`,
 					LINKS.stocks
 				);
 			}

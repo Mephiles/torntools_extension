@@ -73,7 +73,11 @@
 
 				if (hasAPIData()) {
 					item.find(".name").appendChild(
-						document.newElement({ type: "span", class: "tt-blood-price", text: `$${formatNumber(torndata.items[itemId].market_value)}` })
+						document.newElement({
+							type: "span",
+							class: "tt-blood-price",
+							text: `${formatNumber(torndata.items[itemId].market_value, { currency: true })}`,
+						})
 					);
 				}
 			}
