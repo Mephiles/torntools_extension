@@ -1,0 +1,51 @@
+.tt-total-value {
+	height: 30px;
+	line-height: 30px;
+	font-size: 15px;
+	text-align: center;
+	border-top: 1px solid lightgrey;
+}
+
+.tt-total-value span {
+	color: var(--tt-color-light-green);
+}
+
+.tt-item-value {
+	float: right;
+	color: var(--tt-color-light-green);
+}
+
+body.tt-trade-values .log .desc {
+	position: relative;
+	color: black !important;
+}
+
+.tt-log-value {
+	position: absolute;
+	bottom: 2px;
+	right: 3px;
+	color: var(--tt-color-light-green);
+}
+
+.user.left > .title-black,
+.user.right > .title-black {
+	position: relative;
+}
+
+.tt-hide-values {
+	position: absolute;
+	right: 10px;
+	top: 0;
+	color: #acea00;
+	font-size: 12px;
+}
+
+.tt-hide-values input {
+	position: relative;
+	top: 2px;
+	margin-left: 4px;
+}
+
+#trade-container > .title-black {
+	position: relative;
+}
