@@ -36,7 +36,7 @@ body.tt-trade-values .log .desc {
 	position: absolute;
 	right: 10px;
 	top: 0;
-	color: #acea00;
+	color: var(--tt-color-light-green);
 	font-size: 12px;
 }
 
