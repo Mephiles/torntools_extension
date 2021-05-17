@@ -11,6 +11,10 @@
 		{
 			storage: ["settings.pages.trade.openChat"],
 		}
+		() => {
+			const step = getHashParameters().get("step");
+			if (step !== "view" && step !== "initiateTrade" && step !== "accept") return "Not active trade.";
+		}
 	);
 
 	function initialiseListeners() {

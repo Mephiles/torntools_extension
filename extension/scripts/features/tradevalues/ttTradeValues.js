@@ -13,6 +13,8 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
+			const step = getHashParameters().get("step");
+			if (step !== "view" && step !== "initiateTrade" && step !== "accept") return "Not active trade.";
 		}
 	);
 
