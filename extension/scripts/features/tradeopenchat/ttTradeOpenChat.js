@@ -5,23 +5,27 @@
 		"Open Chat",
 		"trade",
 		() => settings.pages.trade.openChat,
-		null,
+		initialiseListeners,
 		addButton,
 		removeButton,
 		{
 			storage: ["settings.pages.trade.openChat"],
-		},
-		() => {
-			if (!hasAPIData()) return "No API access.";
 		}
 	);
 
-	function addButton() {
+	function initialiseListeners() {
+		addXHRListener(({ detail: { page, xhr, json } }) => {
+			if (!(new URLSearchParams(xhr.requestBody).get("step")) || page !== "trade") return;
+			if (feature.enabled()) addButton();
+		});
+	}
+
+	async function addButton() {
 		await requireElement("#trade-container .log > li .desc a");
 		let id;
 
 		const trader = document.find(`#trade-container .log > li .desc a:not([href*="${userdata.player_id}"])`);
-		if (trader) id = parseInt(link.href.match(/XID=([0-9]*)/i)[1]);
+		if (trader) id = parseInt(trader.href.match(/XID=([0-9]*)/i)[1]);
 		if (!id) return;
 
 		const button = document.newElement({
