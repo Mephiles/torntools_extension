@@ -124,7 +124,7 @@
 			document.newElement({
 				type: "span",
 				class: "tt-item-price",
-				text: `$${formatNumber(torndata.items[parseInt(missingItem.dataset.id)].market_value)}`,
+				text: `${formatNumber(torndata.items[parseInt(missingItem.dataset.id)].market_value, { currency: true })}`,
 			})
 		);
 	}

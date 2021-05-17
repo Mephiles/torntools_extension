@@ -29,7 +29,7 @@ let networthInterval = false;
 			applyRounding: false,
 			parentElement: document.find("h5=General Information").parentElement.nextElementSibling.find("ul.info-cont-wrap"),
 		});
-		const networthRow = newRow("(Live) Networth", `$${formatNumber(userdata.networth.total)}`);
+		const networthRow = newRow("(Live) Networth", `${formatNumber(userdata.networth.total, { currency: true })}`);
 		networthRow.style.backgroundColor = "#65c90069";
 
 		// Networth last updated info icon
@@ -141,10 +141,10 @@ let networthInterval = false;
 					type: "tr",
 					children: [
 						document.newElement({ type: "td", text: type }),
-						document.newElement({ type: "td", text: `$${formatNumber(current, { shorten: true })}` }),
+						document.newElement({ type: "td", text: `${formatNumber(current, { shorten: true, currency: true })}` }),
 						document.newElement({
 							type: "td",
-							text: `${isPositive ? "+" : "-"}$${formatNumber(Math.abs(current - previous), { shorten: true })}`,
+							text: `${formatNumber(current - previous, { shorten: true, currency: true, forceOperation: true })}`,
 							class: isPositive ? "positive" : "negative",
 						}),
 					],

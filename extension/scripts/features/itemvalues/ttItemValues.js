@@ -159,7 +159,7 @@
 
 		setTimeout(() => {
 			if (list.find(".tt-item-price.price-total"))
-				list.find(".tt-item-price.price-total").innerText = `Total Value: $${formatNumber(total, { decimals: 0 })}`;
+				list.find(".tt-item-price.price-total").innerText = `Total Value: ${formatNumber(total, { decimals: 0, currency: true })}`;
 			else
 				list.insertBefore(
 					document.newElement({
@@ -168,7 +168,7 @@
 						children: [
 							document.newElement({
 								type: "li",
-								text: `Total Value: $${formatNumber(total, { decimals: 0 })}`,
+								text: `Total Value: ${formatNumber(total, { decimals: 0, currency: true })}`,
 								class: "tt-item-price price-total",
 							}),
 						],
@@ -187,14 +187,14 @@
 		const totalPrice = quantity * price;
 		if (totalPrice) {
 			if (quantity > 1) {
-				priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(price)} | ` }));
+				priceElement.appendChild(document.newElement({ type: "span", text: `${formatNumber(price, { currency: true })} | ` }));
 				priceElement.appendChild(document.newElement({ type: "span", text: `${quantity}x = `, class: "tt-item-quantity" }));
 			}
-			priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(totalPrice)}` }));
+			priceElement.appendChild(document.newElement({ type: "span", text: `${formatNumber(totalPrice, { currency: true })}` }));
 		} else if (price === 0) {
 			priceElement.innerText = `N/A`;
 		} else {
-			priceElement.innerText = `$${formatNumber(price)}`;
+			priceElement.innerText = `${formatNumber(price, { currency: true })}`;
 		}
 	}
 
@@ -227,16 +227,16 @@
 
 			if (totalPrice) {
 				if (quantity === 1) {
-					priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(price)}` }));
+					priceElement.appendChild(document.newElement({ type: "span", text: `${formatNumber(price, { currency: true })}` }));
 				} else {
-					priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(price)} | ` }));
+					priceElement.appendChild(document.newElement({ type: "span", text: `${formatNumber(price, { currency: true })} | ` }));
 					priceElement.appendChild(document.newElement({ type: "span", text: `${quantity}x = `, class: "tt-item-quantity" }));
-					priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(totalPrice)}` }));
+					priceElement.appendChild(document.newElement({ type: "span", text: `${formatNumber(totalPrice, { currency: true })}` }));
 				}
 			} else if (price === 0) {
 				priceElement.innerText = `N/A`;
 			} else {
-				priceElement.innerText = `$${formatNumber(price)}`;
+				priceElement.innerText = `${formatNumber(price, { currency: true })}`;
 			}
 
 			parent.appendChild(priceElement);
@@ -254,10 +254,10 @@
 
 			if (newQuantity === 1) {
 				priceElement.innerHTML = "";
-				priceElement.appendChild(document.newElement({ type: "span", text: `$${formatNumber(price)}` }));
+				priceElement.appendChild(document.newElement({ type: "span", text: `${formatNumber(price, { currency: true })}` }));
 			} else {
 				quantityElement.innerText = `${newQuantity}x = `;
-				priceElement.find("span:last-child").innerText = `$${formatNumber(price * newQuantity)}`;
+				priceElement.find("span:last-child").innerText = `${formatNumber(price * newQuantity, { currency: true })}`;
 			}
 		}
 	}
