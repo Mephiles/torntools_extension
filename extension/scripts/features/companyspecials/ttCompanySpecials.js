@@ -71,9 +71,9 @@
 		jobInfo.appendChild(
 			document.newElement({
 				type: "li",
-				text: `Potential mug${api ? "" : "*"}: $${formatNumber(cash * (percentageMin / 100), { decimals: 0 })} - $${formatNumber(
+				text: `Potential mug${api ? "" : "*"}: ${formatNumber(cash * (percentageMin / 100), { decimals: 0, currency: true })} - ${formatNumber(
 					cash * (percentageMax / 100),
-					{ decimals: 0 }
+					{ decimals: 0, currency: true }
 				)}`,
 			})
 		);
