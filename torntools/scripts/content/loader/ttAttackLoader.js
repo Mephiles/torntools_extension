@@ -24,23 +24,22 @@ function displayWarning() {
 
 function warnAttackTimeout() {
 	let timeoutIntervalId;
-	let attackObserver = new MutationObserver(() => {
+	const attackObserver = new MutationObserver(() => {
 		if (doc.find("div[class^='dialogButtons_']")) {
 			attackObserver.disconnect();
 			return;
 		};
-		let attackTimerParts = doc.find("div[class^='labelsContainer_'] span[class^='labelTitle_'] span[id^='timeout-value']").innerText.split(":");
-		let attackTimer = parseInt(attackTimerParts[0]) * 60 + parseInt(attackTimerParts[1]);
+		const attackTimerParts = doc.find("div[class^='labelsContainer_'] span[class^='labelTitle_'] span[id^='timeout-value']").innerText.split(":");
+		const attackTimer = parseInt(attackTimerParts[0]) * 60 + parseInt(attackTimerParts[1]);
 		if (attackTimer === 0 || attackTimer > 60 || doc.find("div[class^='dialogButtons_']")) clearInterval(timeoutIntervalId);
 		if (timeoutIntervalId) return;
-		if (attackTimer !== 0 && attackTimer < 60)
-			timeoutIntervalId = setInterval(() => {
-				let audio = new Audio(
-					chrome.runtime.getURL(`/audio/notification${parseInt(settings.notifications_sound) ? settings.notifications_sound : 1}.wav`)
-				);
-				audio.volume = settings.notifications_volume;
-				audio.play();
-			}, 1000);
+		if (attackTimer !== 0 && attackTimer < 60) {
+			const audio = new Audio(
+				chrome.runtime.getURL(`/audio/notification${parseInt(settings.notifications_sound) ? settings.notifications_sound : 1}.wav`)
+			);
+			audio.volume = settings.notifications_volume;
+			audio.play();
+		}
 	});
 	attackObserver.observe(doc.find("div[class^='labelsContainer_'] span[class^='labelTitle_'] span[id^='timeout-value']"), {
 		characterData: true,
