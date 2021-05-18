@@ -1,10 +1,5 @@
 {
-	"v5.13 - xxxxx, xxth. 2021": {
-		"Features": [],
-		"Fixes": [],
-		"Changes": []
-	},
-	"v5.10 - May, 05th. 2021" : {
+	"v5.10 - xxxxx, xxth. 2021": {
 		"Features": [],
 		"Fixes": [
 			"Apply proper rounding on the racing winning rate. - Sashank999",
