@@ -323,6 +323,7 @@ const DEFAULT_STORAGE = {
 			},
 			bazaar: {
 				itemsCost: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				worth: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		external: {
