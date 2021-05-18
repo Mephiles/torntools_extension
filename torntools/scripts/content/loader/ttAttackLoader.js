@@ -25,6 +25,10 @@ function displayWarning() {
 function warnAttackTimeout() {
 	let timeoutIntervalId;
 	let attackObserver = new MutationObserver(() => {
+		if (doc.find("div[class^='dialogButtons_']")) {
+			attackObserver.disconnect();
+			return;
+		};
 		let attackTimerParts = doc.find("div[class^='labelsContainer_'] span[class^='labelTitle_'] span[id^='timeout-value']").innerText.split(":");
 		let attackTimer = parseInt(attackTimerParts[0]) * 60 + parseInt(attackTimerParts[1]);
 		if (attackTimer === 0 || attackTimer > 60 || doc.find("div[class^='dialogButtons_']")) clearInterval(timeoutIntervalId);
