@@ -1,33 +1,44 @@
-function newSlider(min = 0, max = 100) {
-	const uuid = getUUID();
+function newSlider(min = 0, max = 100, step = 1) {
+	const slider = new DualRangeSlider({ min, max, step });
 
-	const ttDualRange = document.newElement({
-		type: "div",
-		class: "tt-dual-range",
-		html: `	
-			<label for="handle-left_${uuid}" class="handle left"></label>
-			<span class="highlight"></span>
-			<label for="handle-right_${uuid}" class="handle right"></label>
-			<div class="dump">
-				<input id="handle-left_${uuid}"/>
-				<input id="handle-right_${uuid}"/>
-			</div>
-		`,
-		dataset: { max, min },
-	});
-	new DualRangeSlider(ttDualRange);
-	return ttDualRange;
+	return slider.slider;
 }
 
 class DualRangeSlider {
-	constructor(rangeElement) {
-		this.range = rangeElement;
-		this.min = Number(rangeElement.dataset.min);
-		this.max = Number(rangeElement.dataset.max);
-		this.handles = [...this.range.findAll(".handle")];
+	constructor(options = {}) {
+		this.options = {
+			min: 0,
+			max: 100,
+			step: 1,
+			valueLow: options.min || 0,
+			valueHigh: options.max || 100,
+			...options,
+		};
+
+		this.uuid = getUUID();
 		this.startPos = 0;
+
+		this._createElement();
+	}
+
+	_createElement() {
+		this.slider = document.newElement({
+			type: "div",
+			class: "tt-dual-range",
+			html: `	
+				<label for="handle-left_${this.uuid}" class="handle left"></label>
+				<span class="highlight"></span>
+				<label for="handle-right_${this.uuid}" class="handle right"></label>
+				<div class="dump">
+					<input id="handle-left_${this.uuid}"/>
+					<input id="handle-right_${this.uuid}"/>
+				</div>
+			`,
+		});
+		this.handles = [...this.slider.findAll(".handle")];
+
 		this.handles.forEach((handle) => {
-			const input = rangeElement.find(`#${handle.getAttribute("for")}`);
+			const input = this.slider.find(`#${handle.getAttribute("for")}`);
 
 			handle.addEventListener("mousedown", this.startMove.bind(this));
 			handle.addEventListener("touchstart", this.startMoveTouch.bind(this));
@@ -38,16 +49,14 @@ class DualRangeSlider {
 			input.addEventListener("blur", () => handle.classList.remove("focus"));
 			input.addEventListener("keydown", this.moveKeyboard.bind(this));
 		});
+
+		this.updateValue(this.handles[0], this.options.valueLow);
+		this.updateValue(this.handles[1], this.options.valueHigh);
+
 		window.addEventListener("mouseup", this.stopMove.bind(this));
 		window.addEventListener("touchend", this.stopMove.bind(this));
 		window.addEventListener("touchcancel", this.stopMove.bind(this));
 		window.addEventListener("touchleave", this.stopMove.bind(this));
-		const rangeRect = this.range.getBoundingClientRect();
-		const handleRect = this.handles[0].getBoundingClientRect();
-		this.range.style.setProperty("--x-1", "0px");
-		this.range.style.setProperty("--x-2", rangeRect.width - handleRect.width / 2 + "px");
-		this.handles[0].dataset.value = this.range.dataset.min;
-		this.handles[1].dataset.value = this.range.dataset.max;
 	}
 
 	startMoveTouch(event) {
@@ -68,13 +77,13 @@ class DualRangeSlider {
 	moveKeyboard(event) {
 		if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
 
-		const handle = this.range.find(`.handle[for="${event.target.id}"]`);
+		const handle = this.slider.find(`.handle[for="${event.target.id}"]`);
 		if (!handle) return;
 
 		let value = parseInt(handle.dataset.value);
 
-		if (event.key === "ArrowLeft") value--;
-		else if (event.key === "ArrowRight") value++;
+		if (event.key === "ArrowLeft") value -= this.options.step;
+		else if (event.key === "ArrowRight") value += this.options.step;
 
 		this.updateValue(handle, value);
 	}
@@ -84,44 +93,51 @@ class DualRangeSlider {
 	}
 
 	move(event) {
-		const isLeft = this.activeHandle.classList.contains("left");
-		const property = isLeft ? "--x-1" : "--x-2";
-		const parentRect = this.range.getBoundingClientRect();
+		const parentRect = this.slider.getBoundingClientRect();
 		const handleRect = this.activeHandle.getBoundingClientRect();
-		let newX = event.clientX - parentRect.x - this.startPos;
-		if (isLeft) {
-			const otherX = parseInt(this.range.style.getPropertyValue("--x-2"));
-			newX = Math.min(newX, otherX);
-			newX = Math.max(newX, 0 - handleRect.width / 2);
-		} else {
-			const otherX = parseInt(this.range.style.getPropertyValue("--x-1"));
-			newX = Math.max(newX, otherX);
-			newX = Math.min(newX, parentRect.width - handleRect.width / 2);
-		}
-		this.activeHandle.dataset.value = this.calculateHandleValue((newX + handleRect.width / 2) / parentRect.width);
-		this.range.style.setProperty(property, newX + "px");
-	}
 
-	calculateHandleValue(percentage) {
-		return Math.round(percentage * (this.max - this.min) + this.min);
+		const position = Math.max(Math.min(event.clientX - parentRect.x - this.startPos, parentRect.width - handleRect.width / 2), 0 - handleRect.width / 2);
+
+		this.updateValue(this.activeHandle, calculateValue.bind(this)((position + handleRect.width / 2) / parentRect.width));
+
+		function calculateValue(percentage) {
+			return Math.round(percentage * (this.options.max - this.options.min) + this.options.min);
+		}
 	}
 
 	updateValue(handle, value) {
-		const isLeft = handle.classList.contains("left");
-		const property = isLeft ? "--x-1" : "--x-2";
-
-		value = Math.max(Math.min(value, this.max), this.min);
-
-		if (isLeft) value = Math.min(value, parseInt(this.handles[1].dataset.value));
-		else value = Math.max(value, parseInt(this.handles[0].dataset.value));
-
+		value = Math.max(Math.min(value, this.options.max), this.options.min).roundNearest(this.options.step);
 		handle.dataset.value = value;
-		// TODO - Recognize minimum value.
-		this.range.style.setProperty(property, (value * 150) / this.max - 13 + "px");
+
+		this.updateValues();
 	}
 
 	stopMove() {
 		window.removeEventListener("mousemove", this.moveListener);
 		window.removeEventListener("touchmove", this.moveTouchListener);
+	}
+
+	updateValues() {
+		const valueLeft = parseInt(this.handles[0].dataset.value);
+		const valueRight = parseInt(this.handles[1].dataset.value);
+
+		const low = Math.min(valueLeft, valueRight);
+		const high = Math.max(valueLeft, valueRight);
+
+		updateHighlight.bind(this)("left", low);
+		updateHighlight.bind(this)("right", high);
+
+		this.slider.dataset.low = low;
+		this.slider.dataset.high = high;
+
+		function updateHighlight(side, value) {
+			const rangeWidth = this.slider.getBoundingClientRect().width || 150;
+			const handleWidth = this.handles[0].getBoundingClientRect().width || 21;
+
+			// FIXME - Fix bad calculation.
+			const percentage = value / this.options.max;
+
+			this.slider.style.setProperty(`--${side}`, percentage * rangeWidth - handleWidth / 2 + "px");
+		}
 	}
 }
