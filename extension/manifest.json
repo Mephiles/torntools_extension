@@ -142,7 +142,12 @@
 		},
 		{
 			"matches": ["https://www.torn.com/api.html*"],
-			"js": ["scripts/features/apidemo/ttAPIDemo.js", "scripts/features/autoapifill/ttAutoAPIFill.js", "scripts/features/autopretty/ttAutoPretty.js"],
+			"js": [
+				"scripts/features/apidemo/ttAPIDemo.js",
+				"scripts/features/autoapifill/ttAutoAPIFill.js",
+				"scripts/features/autopretty/ttAutoPretty.js",
+				"scripts/features/apiselections/ttAPISelections.js"
+			],
 			"run_at": "document_end"
 		},
 		{
