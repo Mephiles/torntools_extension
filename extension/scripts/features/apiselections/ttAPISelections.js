@@ -5,6 +5,7 @@
 
 	if (!settings.pages.api.clickableSelections) return;
 
+	document.body.classList.add("tt-api-selections-clickable");
 	await requireElement("p[class*='_fields']");
 	document.findAll("p[class*='_fields']").forEach((fields) => {
 		fields.addEventListener("click", (event) => {

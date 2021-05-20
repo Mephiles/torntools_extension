@@ -1,0 +1,3 @@
+.tt-api-selections-clickable p[class*='_fields'] small {
+	cursor: pointer;
+}
