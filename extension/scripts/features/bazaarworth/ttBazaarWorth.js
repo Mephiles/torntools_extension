@@ -37,7 +37,14 @@
 				);
 			})
 			.catch((err) => {
-				console.log("ERROR", err);
+				document.find(".info-msg-cont .msg").appendChild(
+					document.newElement({
+						type: "div",
+						class: "tt-bazaar-text",
+						text: "TORN API returned error:" + err.toString(),
+					})
+				);
+				console.log("TT - Bazaar Worth API Error:", err);
 			});
 	}
 
