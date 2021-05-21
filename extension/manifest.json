@@ -142,7 +142,13 @@
 		},
 		{
 			"matches": ["https://www.torn.com/api.html*"],
-			"js": ["scripts/features/apidemo/ttAPIDemo.js", "scripts/features/autoapifill/ttAutoAPIFill.js", "scripts/features/autopretty/ttAutoPretty.js"],
+			"css": ["scripts/features/apiselections/ttAPISelections.css"],
+			"js": [
+				"scripts/features/apidemo/ttAPIDemo.js",
+				"scripts/features/autoapifill/ttAutoAPIFill.js",
+				"scripts/features/autopretty/ttAutoPretty.js",
+				"scripts/features/apiselections/ttAPISelections.js"
+			],
 			"run_at": "document_end"
 		},
 		{
@@ -150,12 +156,14 @@
 			"css": [
 				"scripts/features/drugdetails/ttDrugDetails.css",
 				"scripts/features/itemvalues/ttItemValues.css",
-				"scripts/features/totalitemcost/ttTotalItemCost.css"
+				"scripts/features/totalitemcost/ttTotalItemCost.css",
+				"scripts/features/bazaarworth/ttBazaarWorth.css"
 			],
 			"js": [
 				"scripts/features/drugdetails/ttDrugDetails.js",
 				"scripts/features/itemvalues/ttItemValues.js",
-				"scripts/features/totalitemcost/ttTotalItemCost.js"
+				"scripts/features/totalitemcost/ttTotalItemCost.js",
+				"scripts/features/bazaarworth/ttBazaarWorth.js"
 			],
 			"run_at": "document_end"
 		},
