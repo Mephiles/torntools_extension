@@ -1,4 +1,6 @@
 async function setBadge(type, options = {}) {
+	if (SCRIPT_TYPE !== "BACKGROUND") return false;
+
 	options = {
 		events: 0,
 		messages: 0,
@@ -34,5 +36,7 @@ async function setBadge(type, options = {}) {
 }
 
 function getBadgeText() {
+	if (SCRIPT_TYPE !== "BACKGROUND") return Promise.resolve(false);
+
 	return new Promise((resolve) => chrome.browserAction.getBadgeText({}, resolve));
 }

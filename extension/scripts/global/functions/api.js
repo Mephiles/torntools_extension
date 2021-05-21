@@ -102,7 +102,7 @@ async function fetchApi(location, options = {}) {
 				if (result.error) {
 					await handleError(result);
 				} else {
-					if (location === "torn" && !options.silent) {
+					if (location === "torn" && !options.silent && SCRIPT_TYPE === "BACKGROUND") {
 						await getBadgeText()
 							.then(async (value) => {
 								if (value === "error") await setBadge("default");
@@ -136,7 +136,7 @@ async function fetchApi(location, options = {}) {
 					code = CUSTOM_API_ERROR.NO_NETWORK;
 				}
 
-				if (location === "torn" && !options.silent) {
+				if (location === "torn" && !options.silent && SCRIPT_TYPE === "BACKGROUND") {
 					await ttStorage.change({ api: { torn: { online: false, error } } });
 					await setBadge("error");
 				}
@@ -152,7 +152,7 @@ async function fetchApi(location, options = {}) {
 					online = result.error.code !== 9 && !(result instanceof HTTPException);
 				}
 
-				if (!options.silent) {
+				if (!options.silent && SCRIPT_TYPE === "BACKGROUND") {
 					await ttStorage.change({ api: { torn: { online, error } } });
 					await setBadge("error");
 				}
