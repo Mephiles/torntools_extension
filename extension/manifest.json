@@ -151,13 +151,13 @@
 				"scripts/features/drugdetails/ttDrugDetails.css",
 				"scripts/features/itemvalues/ttItemValues.css",
 				"scripts/features/totalitemcost/ttTotalItemCost.css",
-				"scripts/features/bazaarvalue/ttBazaarValue.css"
+				"scripts/features/bazaarworth/ttBazaarWorth.css"
 			],
 			"js": [
 				"scripts/features/drugdetails/ttDrugDetails.js",
 				"scripts/features/itemvalues/ttItemValues.js",
 				"scripts/features/totalitemcost/ttTotalItemCost.js",
-				"scripts/features/bazaarvalue/ttBazaarValue.js"
+				"scripts/features/bazaarworth/ttBazaarWorth.js"
 			],
 			"run_at": "document_end"
 		},
