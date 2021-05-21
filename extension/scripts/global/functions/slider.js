@@ -134,8 +134,7 @@ class DualRangeSlider {
 			const rangeWidth = this.slider.getBoundingClientRect().width || 150;
 			const handleWidth = this.handles[0].getBoundingClientRect().width || 21;
 
-			// FIXME - Fix bad calculation.
-			const percentage = value / this.options.max;
+			const percentage = (value - this.options.min) / (this.options.max - this.options.min);
 
 			this.slider.style.setProperty(`--${side}`, percentage * rangeWidth - handleWidth / 2 + "px");
 		}
