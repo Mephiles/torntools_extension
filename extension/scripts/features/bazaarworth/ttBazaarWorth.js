@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	const feature = featureManager.registerFeature(
+	featureManager.registerFeature(
 		"Bazaar Worth",
 		"bazaar",
 		() => settings.pages.bazaar.worth,
@@ -36,15 +36,15 @@
 					})
 				);
 			})
-			.catch((err) => {
+			.catch((error) => {
 				document.find(".info-msg-cont .msg").appendChild(
 					document.newElement({
 						type: "div",
 						class: "tt-bazaar-text",
-						text: "TORN API returned error:" + err.toString(),
+						text: "TORN API returned error:" + error.toString(),
 					})
 				);
-				console.log("TT - Bazaar Worth API Error:", err);
+				console.log("TT - Bazaar Worth API Error:", error);
 			});
 	}
 
