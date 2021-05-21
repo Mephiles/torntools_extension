@@ -2,6 +2,18 @@
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
+const SCRIPT_TYPE = (() => {
+	if (chrome && chrome.extension && chrome.extension.getBackgroundPage && chrome.extension.getBackgroundPage() === window) {
+		return "BACKGROUND";
+	} else if (chrome && chrome.extension && chrome.extension.getBackgroundPage && chrome.extension.getBackgroundPage() !== window) {
+		return "POPUP";
+	} else if (!chrome || !chrome.runtime || !chrome.runtime.onMessage) {
+		return "WEB";
+	} else {
+		return "CONTENT";
+	}
+})();
+
 Object.defineProperty(Array.prototype, "last", {
 	value() {
 		return this[this.length - 1];
