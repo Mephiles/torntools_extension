@@ -16,6 +16,9 @@
 .tt-chat-filter input {
 	margin-left: 4px;
 	border-radius: 5px;
-	border: 1px solid #ddd;
 	width: 232px;
+	/* TODO - Remove default value. */
+	border: 1px solid var(--chat-input-border-color, #ddd);
+	background-color: var(--chat-box-content-bg, #f2f2f2);
+	color: var(--chat-notebook-text-area-font-color-active);
 }

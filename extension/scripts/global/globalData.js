@@ -317,12 +317,15 @@ const DEFAULT_STORAGE = {
 			api: {
 				autoFillKey: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				autoDemo: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				autoPretty: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				clickableSelections: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			forums: {
 				warning: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			bazaar: {
 				itemsCost: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				worth: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			trade: {
 				itemValues: new DefaultSetting({ type: "boolean", defaultValue: true }),
