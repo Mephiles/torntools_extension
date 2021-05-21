@@ -327,6 +327,10 @@ const DEFAULT_STORAGE = {
 				itemsCost: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				worth: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			trade: {
+				itemValues: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				openChat: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		external: {
 			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),
@@ -376,6 +380,9 @@ const DEFAULT_STORAGE = {
 				infaction: new DefaultSetting({ type: "string", defaultValue: "both" }),
 				isdonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
 			},
+		},
+		trade: {
+			hideValues: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),

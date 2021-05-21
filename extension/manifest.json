@@ -306,8 +306,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/trade.php*"],
-			"css": ["scripts/features/itemvalues/ttItemValues.css"],
-			"js": ["scripts/features/itemvalues/ttItemValues.js"],
+			"css": ["scripts/features/itemvalues/ttItemValues.css", "scripts/features/tradevalues/ttTradeValues.css", "scripts/features/tradeopenchat/ttTradeOpenChat.css"],
+			"js": ["scripts/features/itemvalues/ttItemValues.js", "scripts/features/tradevalues/ttTradeValues.js", "scripts/features/tradeopenchat/ttTradeOpenChat.js"],
 			"run_at": "document_end"
 		},
 		{

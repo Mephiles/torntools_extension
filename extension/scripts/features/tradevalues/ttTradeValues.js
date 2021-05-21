@@ -1,0 +1,140 @@
+"use strict";
+
+(async () => {
+	const feature = featureManager.registerFeature(
+		"Trade Values",
+		"trade",
+		() => settings.pages.trade.itemValues,
+		initialiseListeners,
+		addItemValues,
+		removeItemValues,
+		{
+			storage: ["settings.pages.trade.itemValues"],
+		},
+		() => {
+			if (!hasAPIData()) return "No API access.";
+			const step = getHashParameters().get("step");
+			if (step !== "view" && step !== "initiateTrade" && step !== "accept") return "Not active trade.";
+		}
+	);
+
+	function initialiseListeners() {
+		addXHRListener(({ detail: { page, xhr, json } }) => {
+			if (!(new URLSearchParams(xhr.requestBody).get("step")) || page !== "trade") return;
+			if (feature.enabled()) addItemValues();
+		});
+	}
+
+	async function addItemValues() {
+		document.body.classList.add("tt-trade-values");
+		await requireElement(".cont .color1 .desc > li .name");
+		let localMappings = {};
+
+		for (const log of document.findAll(".log li div:not(.tt-modified)")) {
+			log.classList.add("tt-modified");
+			const text = log.childNodes[1].textContent;
+			let totalValue = 0;
+
+			if (!text.includes("says:") && text.includes("added")) {
+				if (text.includes("$")) {
+					totalValue = parseInt(text.match(/\$([0-9,]*)/i)[1].replace(/,/g, ""));
+				} else {
+					const itemEntries = text
+						.replace(" added", "")
+						.replace(" to the trade", "")
+						.split(",")
+						.map((x) => x.trim());
+					let quantityMap = {};
+					for (const entry of itemEntries) {
+						quantityMap[entry.match(/(?<=x ).*/)[0].replace(/\.$/, "")] = parseInt(entry.match(/\d*(?=x)/g)[0]);
+					}
+
+					for (const itemId in torndata.items) {
+						if (quantityMap.hasOwnProperty(torndata.items[itemId].name)) {
+							localMappings[torndata.items[itemId].name] = itemId;
+							totalValue += quantityMap[torndata.items[itemId].name] * torndata.items[itemId].market_value;
+							break;
+						}
+					}
+				}
+				log.appendChild(document.newElement({ type: "span", class: "tt-log-value", text: formatNumber(totalValue, { currency: true }) }));
+			}
+		}
+
+		for (const side of document.findAll(".user.left:not(.tt-modified), .user.right:not(.tt-modified)")) {
+			side.classList.add("tt-modified");
+			let totalValue = 0;
+
+			const cashInTrade = side.find(".cont .color1 .desc > li .name");
+			if (cashInTrade && cashInTrade.innerText !== "No money in trade")
+				totalValue += parseInt(cashInTrade.innerText.match(/\$([0-9,]*)/i)[1].replaceAll(",", ""));
+
+			for (const item of side.findAll(".cont .color2 .desc > li .name")) {
+				if (item.innerText === "No items in trade") continue;
+
+				const name = item.innerText.split(" x")[0].trim();
+				const quantity = parseInt(item.innerText.split(" x")[1]) || 1;
+
+				let marketValue = 0;
+				if (localMappings.hasOwnProperty(name)) {
+					marketValue = torndata.items[localMappings[name]].market_value;
+				} else {
+					for (const itemId in torndata.items) {
+						if (torndata.items[itemId].name === name) {
+							marketValue = torndata.items[itemId].market_value;
+							break;
+						}
+					}
+				}
+				if (marketValue === 0) continue;
+
+				const worth = parseInt(marketValue * quantity);
+				totalValue += worth;
+
+				item.appendChild(document.newElement({ type: "span", class: "tt-item-value", text: formatNumber(worth, { currency: true }) }));
+			}
+
+			if (totalValue !== 0) {
+				side.appendChild(
+					document.newElement({
+						type: "div",
+						class: "tt-total-value",
+						text: "Total value: ",
+						children: [document.newElement({ type: "span", text: formatNumber(totalValue, { currency: true }) })],
+					})
+				);
+			}
+
+			const checkbox = document.newElement({ type: "input", attributes: { type: "checkbox" } });
+			if (filters.trade.hideValues) {
+				checkbox.checked = true;
+				for (const item of side.findAll(".tt-item-value")) {
+					item.style.display = "none";
+				}
+			}
+			checkbox.addEventListener("click", async () => {
+				const style = checkbox.checked ? "none" : "block";
+				const filterSetting = style === "block" ? false : true;
+				await ttStorage.change({ filters: { trade: { hideValues: filterSetting } } });
+				filters.trade.hideValues = filterSetting;
+
+				for (const item of side.findAll(".tt-item-value")) {
+					item.style.display = style;
+				}
+			});
+			const wrap = document.newElement({
+				type: "div",
+				class: "tt-hide-values",
+				children: [document.newElement({ type: "span", text: "Hide item values" }), checkbox],
+			});
+
+			side.find(".title-black").appendChild(wrap);
+		}
+	}
+
+	function removeItemValues() {
+		document.body.classList.remove("tt-trade-values");
+		document.findAll(".tt-item-value, .tt-log-value, .tt-total-value, .tt-hide-values").forEach((x) => x.remove());
+		document.findAll(".tt-modified").forEach((x) => x.classList.remove("tt-modified"));
+	}
+})();
