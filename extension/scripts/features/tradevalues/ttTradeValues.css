@@ -7,12 +7,12 @@
 }
 
 .tt-total-value span {
-	color: var(--tt-color-light-green);
+	color: var(--tt-color-item-text);
 }
 
 .tt-item-value {
 	float: right;
-	color: var(--tt-color-light-green);
+	color: var(--tt-color-item-text);
 }
 
 body.tt-trade-values .log .desc {
@@ -24,7 +24,7 @@ body.tt-trade-values .log .desc {
 	position: absolute;
 	bottom: 2px;
 	right: 3px;
-	color: var(--tt-color-light-green);
+	color: var(--tt-color-item-text);
 }
 
 .user.left > .title-black,
