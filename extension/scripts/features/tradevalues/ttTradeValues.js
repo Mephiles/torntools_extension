@@ -20,7 +20,7 @@
 
 	function initialiseListeners() {
 		addXHRListener(({ detail: { page, xhr, json } }) => {
-			if (!(new URLSearchParams(xhr.requestBody).get("step")) || page !== "trade") return;
+			if (!new URLSearchParams(xhr.requestBody).get("step") || page !== "trade") return;
 			if (feature.enabled()) addItemValues();
 		});
 	}
