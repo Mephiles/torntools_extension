@@ -1,6 +1,5 @@
 :root {
 	--tt-color-green: #00a500;
-	--tt-color-light-green: #acea00;
 	--tt-color-red: #d83500;
 	--tt-color-icon-bar: #7f7f7f;
 
@@ -11,6 +10,7 @@
 body:not(.dark-mode) {
 	--tt-color-blue: blue;
 	--tt-color-orange: orange;
+	--tt-color-light-green: #678c00;
 	--tt-color-item-text: #678c00;
 	--tt-color-item-quantity: black;
 
@@ -22,6 +22,7 @@ body:not(.dark-mode) {
 body.dark-mode {
 	--tt-color-blue: #058cff;
 	--tt-color-orange: gold;
+	--tt-color-light-green: #acea00;
 	--tt-color-item-text: #99cc00;
 	--tt-color-item-quantity: #ddd;
 
