@@ -16,7 +16,6 @@ const EVENT_CHANNELS = {
 	HOSPITAL_SWITCH_PAGE: "hospital-switch-page",
 	JAIL_SWITCH_PAGE: "jail-switch-page",
 	TRAVEL_SELECT_TYPE: "travel-select-type",
-	// Feature callbacks
 	FEATURE_ENABLED: "feature-enabled",
 };
 
