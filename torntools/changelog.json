@@ -7,7 +7,8 @@
 			"TT Settings Sidebar link not going down when hosped or jailed. - Sashank999",
 			"Fix probability calculation in HiLo helper. - smikula",
 			"Various tweaks to dark mode. - Allo",
-			"Fix attack timeout alert. - Sashank999"
+			"Fix attack timeout alert. - Sashank999",
+			"Added toggle to hide stakeout on profile page. - hvr-lust"
 		],
 		"Changes": ["Disable loot timers on mobile devices. - Sashank999"]
 	},
