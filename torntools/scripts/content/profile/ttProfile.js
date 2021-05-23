@@ -368,7 +368,7 @@ requireDatabase().then(() => {
 			ttStorage.change({ filters: { profile_stats: { hide_stakeout: e.target.checked } } });
 
 			const stakeout = doc.find(".tt-section[name='stakeouts']");
-			displayElement(stakeout, e.target.checked);
+			displayElement(stakeout, !e.target.checked);
 		});
 
 		if (filters.profile_stats.relative_values) relative_values_checkbox.click();
@@ -1163,14 +1163,19 @@ function displayStakeoutOptions() {
 		}
 	}
 
-	displayElement(stakeout_div, filters.profile_stats.hide_stakeout);
+	displayElement(stakeout_div, !filters.profile_stats.hide_stakeout);
 }
 
 // display or hide an element
-function displayElement(element, shouldHide) {
-	if (!element instanceof Element || !element instanceof HTMLDocument) return;
+function displayElement(element, shouldDisplay) {
+	// non blocking sanity check
+	if (!element instanceof Element || !element instanceof HTMLDocument) {
+		console.warn("Unable to hide/display element as it is not of type element", element);
+		return;
+	}
+
 	element.style.display = 'none';
-	if (!shouldHide) {
+	if (shouldDisplay) {
 		element.style.display = 'block';
 	}
 }
