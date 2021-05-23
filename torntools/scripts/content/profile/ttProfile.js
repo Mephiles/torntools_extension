@@ -328,34 +328,49 @@ requireDatabase().then(() => {
 			}
 		};
 
+		function createCheckbox(text) {
+			const checkbox_wrap = doc.new({ type: "div", class: "in-title tt-checkbox-wrap" });
+			const checkbox = doc.new({ type: "input", attributes: { type: "checkbox" } });
+			const text_div = doc.new({ type: "div", text: text });
+			checkbox_wrap.appendChild(checkbox);
+			checkbox_wrap.appendChild(text_div);
+
+			checkbox_wrap.onclick = (event) => {
+				event.stopPropagation();
+			};
+
+			doc.find("#tt-target-info .tt-options").appendChild(checkbox_wrap);
+			return checkbox;
+		}
+
 		// Add Relative/Whole value setting
-		const checkbox_wrap = doc.new({ type: "div", class: "in-title tt-checkbox-wrap" });
-		const checkbox = doc.new({ type: "input", attributes: { type: "checkbox" } });
-		const text = doc.new({ type: "div", text: "Show relative values" });
-		checkbox_wrap.appendChild(checkbox);
-		checkbox_wrap.appendChild(text);
+		const relative_values_checkbox = createCheckbox("Show relative values");
+		const stakeout_checkbox = createCheckbox("Hide stakeout");
 
-		doc.find("#tt-target-info .tt-options").appendChild(checkbox_wrap);
-
-		checkbox_wrap.onclick = (event) => {
-			event.stopPropagation();
-		};
-
-		checkbox.onclick = () => {
+		relative_values_checkbox.onclick = (e) => {
 			for (let item of doc.findAll("#tt-target-info *[real-value-you]")) {
 				const your_value = item.getAttribute("real-value-you");
 				const your_value_relative = item.getAttribute("relative-value-you");
 
-				if (!checkbox.checked) {
+				if (!e.target.checked) {
 					item.innerText = your_value;
 				} else {
 					item.innerText = your_value_relative.includes("-") ? your_value_relative : "+" + your_value_relative;
 				}
 			}
 
-			ttStorage.change({ filters: { profile_stats: { relative_values: checkbox.checked } } });
+			ttStorage.change({ filters: { profile_stats: { relative_values: e.target.checked } } });
 		};
-		if (filters.profile_stats.relative_values) checkbox.click();
+
+		stakeout_checkbox.checked = filters.profile_stats.hide_stakeout;
+		stakeout_checkbox.onclick = (e) => {
+			ttStorage.change({ filters: { profile_stats: { hide_stakeout: e.target.checked } } });
+
+			const stakeout = doc.find(".tt-section[name='stakeouts']");
+			e.target.checked ? stakeout.style.display = 'none' : stakeout.style.display = 'block';
+		};
+
+		if (filters.profile_stats.relative_values) relative_values_checkbox.click();
 
 		async function fetchStats() {
 			await displayProfileStats();
@@ -1146,6 +1161,9 @@ function displayStakeoutOptions() {
 			});
 		}
 	}
+
+	// show/hide
+	filters.profile_stats.hide_stakeout ? stakeout_div.style.display = 'none' : stakeout_div.style.display = 'block';
 }
 
 function getUsername() {
