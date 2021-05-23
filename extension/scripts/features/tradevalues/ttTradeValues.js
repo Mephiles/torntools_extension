@@ -13,13 +13,17 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-			const step = getHashParameters().get("step");
-			if (step !== "view" && step !== "initiateTrade" && step !== "accept") return "Not active trade.";
 		}
 	);
 
 	function initialiseListeners() {
+		window.addEventListener("hashchange", () => {
+			const step = getHashParameters().get("step");
+			if (step !== "view" && step !== "initiateTrade" && step !== "accept" && step !== "start") return;
+			if (feature.enabled()) addItemValues();
+		});
 		addXHRListener(({ detail: { page, xhr, json } }) => {
+			xhr.responseURL
 			if (!new URLSearchParams(xhr.requestBody).get("step") || page !== "trade") return;
 			if (feature.enabled()) addItemValues();
 		});
