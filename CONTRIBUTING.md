@@ -58,7 +58,7 @@ We have prettier formatting to help you follow our coding conventions.
     * Use `await checkMobile()` but not global variable `mobile`, when checking for mobile.
     * CSS should generally follow order/logic : wrapper -> children, i.e. CSS for children comes after its wrapper's
       CSS.
-    * Any setting for a new feature should be defined in `extension/scripts/global/globalData.js`.
+    * Any setting for a new feature should be defined in `extension/scripts/global/globalData.js` in `DEFAULT_STORAGE`.
     * We have some preset color variables set inside `extension/scripts/global/globalVariables.css`. These should be used where possible.
 * All code should be formatted using Prettier.
     * We indent using tabs with a width of 4.
