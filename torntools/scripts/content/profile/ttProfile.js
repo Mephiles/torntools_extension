@@ -1167,6 +1167,8 @@ function displayStakeoutOptions() {
 
 // display or hide an element
 function displayElement(element, shouldDisplay) {
+	if (!element instanceof Element || !element instanceof HTMLDocument) return;
+
 	element.style.display = 'none';
 	if (shouldDisplay) {
 		element.style.display = 'block';
