@@ -347,7 +347,7 @@ requireDatabase().then(() => {
 		const relative_values_checkbox = createCheckbox("Show relative values");
 		const stakeout_checkbox = createCheckbox("Hide stakeout");
 
-		relative_values_checkbox.onclick = (e) => {
+		stakeout_checkbox.addEventListener("click", (e) => {
 			for (let item of doc.findAll("#tt-target-info *[real-value-you]")) {
 				const your_value = item.getAttribute("real-value-you");
 				const your_value_relative = item.getAttribute("relative-value-you");
@@ -360,15 +360,15 @@ requireDatabase().then(() => {
 			}
 
 			ttStorage.change({ filters: { profile_stats: { relative_values: e.target.checked } } });
-		};
+		});
 
 		stakeout_checkbox.checked = filters.profile_stats.hide_stakeout;
-		stakeout_checkbox.onclick = (e) => {
+		stakeout_checkbox.addEventListener("click", (e) => {
 			ttStorage.change({ filters: { profile_stats: { hide_stakeout: e.target.checked } } });
 
 			const stakeout = doc.find(".tt-section[name='stakeouts']");
-			e.target.checked ? stakeout.style.display = 'none' : stakeout.style.display = 'block';
-		};
+			displayElement(stakeout, e.target.checked);
+		});
 
 		if (filters.profile_stats.relative_values) relative_values_checkbox.click();
 
@@ -1162,8 +1162,15 @@ function displayStakeoutOptions() {
 		}
 	}
 
-	// show/hide
-	filters.profile_stats.hide_stakeout ? stakeout_div.style.display = 'none' : stakeout_div.style.display = 'block';
+	displayElement(stakeout_div, filters.profile_stats.hide_stakeout);
+}
+
+// display or hide an element
+function displayElement(element, shouldDisplay) {
+	element.style.display = 'none';
+	if (shouldDisplay) {
+		element.style.display = 'block';
+	}
 }
 
 function getUsername() {
