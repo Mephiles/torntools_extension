@@ -329,15 +329,16 @@ requireDatabase().then(() => {
 		};
 
 		function createCheckbox(text) {
-			const checkbox_wrap = doc.new({ type: "div", class: "in-title tt-checkbox-wrap" });
-			const checkbox = doc.new({ type: "input", attributes: { type: "checkbox" } });
-			const text_div = doc.new({ type: "div", text: text });
+			const id = generateUUID();
+			const checkbox_wrap = doc.new({ type: "div", class: "in-title tt-checkbox-wrap"});
+			const checkbox = doc.new({ type: "input", attributes: { type: "checkbox", id: id } });
+			const text_div = doc.new({ type: "label", class: "unselectable", text: text, attributes: { for: id } });
 			checkbox_wrap.appendChild(checkbox);
 			checkbox_wrap.appendChild(text_div);
 
-			checkbox_wrap.onclick = (event) => {
-				event.stopPropagation();
-			};
+			checkbox_wrap.addEventListener("click", (e) => {
+				e.stopPropagation();
+			});
 
 			doc.find("#tt-target-info .tt-options").appendChild(checkbox_wrap);
 			return checkbox;
@@ -347,7 +348,7 @@ requireDatabase().then(() => {
 		const relative_values_checkbox = createCheckbox("Show relative values");
 		const stakeout_checkbox = createCheckbox("Hide stakeout");
 
-		stakeout_checkbox.addEventListener("click", (e) => {
+		relative_values_checkbox.addEventListener("click", (e) => {
 			for (let item of doc.findAll("#tt-target-info *[real-value-you]")) {
 				const your_value = item.getAttribute("real-value-you");
 				const your_value_relative = item.getAttribute("relative-value-you");
@@ -1166,11 +1167,10 @@ function displayStakeoutOptions() {
 }
 
 // display or hide an element
-function displayElement(element, shouldDisplay) {
+function displayElement(element, shouldHide) {
 	if (!element instanceof Element || !element instanceof HTMLDocument) return;
-
 	element.style.display = 'none';
-	if (shouldDisplay) {
+	if (!shouldHide) {
 		element.style.display = 'block';
 	}
 }
