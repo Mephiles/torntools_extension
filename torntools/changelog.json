@@ -1,14 +1,15 @@
 {
 	"v5.10 - xxxxx, xxth. 2021": {
-		"Features": [],
+		"Features": [
+			"Added toggle to hide stakeout on profile page. - hvr-lust"
+		],
 		"Fixes": [
 			"Apply proper rounding on the racing winning rate. - Sashank999",
 			"Fix max buy on mobile. - DKK",
 			"TT Settings Sidebar link not going down when hosped or jailed. - Sashank999",
 			"Fix probability calculation in HiLo helper. - smikula",
 			"Various tweaks to dark mode. - Allo",
-			"Fix attack timeout alert. - Sashank999",
-			"Added toggle to hide stakeout on profile page. - hvr-lust"
+			"Fix attack timeout alert. - Sashank999"
 		],
 		"Changes": ["Disable loot timers on mobile devices. - Sashank999"]
 	},
