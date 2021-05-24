@@ -269,3 +269,148 @@ body.dark #preferences #hide-casino-games span {
 body.tt-mobile .no-mobile {
 	display: none !important;
 }
+
+main#preferences > h2 {
+    text-align: center;
+    margin: -2px 0 20px 0;
+}
+
+#preferences-search {
+	top: 10px;
+	position: relative;
+	display: inline-block;
+	background-color: #5a5a5a;
+	left: 155px;
+	border-radius: 5px;
+}
+
+#preferences-search > div {
+	width: 145px;
+	height: fit-content;
+	color: #fff;
+	font-family: sans-serif;
+	font-size: 14px;
+	font-weight: normal;
+	text-align: initial;
+	line-height: 1.5;
+}
+
+#preferences-search span {
+	float: left;
+    display: inline;
+    margin: 4px 0 4px 10px;
+}
+
+#preferences-search i {
+	float: right;
+	margin: 6px 10px 4px 0;
+	padding: 2px;
+	display: inline;
+	border-radius: 5px;
+	color: #fff;
+}
+
+#tt-search-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+	background-color: #00000059;
+}
+
+#tt-search-overlay > div {
+	top: 12%;
+	left: 18%;
+	height: 80%;
+	position: fixed;
+}
+
+#tt-search-overlay .circle {
+	position: fixed;
+	top: 13.5%;
+	left: 15%;
+	font-size: 27px;
+	background-color: white;
+	border-radius: 50%;
+}
+
+body.dark #tt-search-overlay .circle {
+	color: white;
+	background-color: #333;
+}
+
+#tt-search-overlay input {
+	width: 790px;
+	height: 40px;
+	font-size: large;
+	border: #acea00 solid;
+	border-radius: 15px;
+	padding-left: 10px;
+}
+
+body.dark #tt-search-overlay input {
+	background-color: #333;
+	color: white;
+}
+
+#tt-search-overlay #tt-search-button {
+	width: 39px;
+	height: 30px;
+	position: absolute;
+	margin-left: 10px;
+	padding: 9px 0 6px 12px;
+	border: #acea00 3px solid;
+	border-color: #858585;
+	border-radius: 15px;
+	color: #acea00;
+	background-color: white;
+	font-size: 27px;
+}
+
+body.dark #tt-search-overlay #tt-search-button {
+	background-color: #333 !important;
+}
+
+#tt-search-list {
+	width: 860px;
+	height: 500px;
+	margin-top: 10px;
+	padding: 10px 0 0 10px;
+	background-color: #f2f2f2;
+	border-radius: 15px;
+	font-size: large;
+	font-family: Arial;
+	overflow-y: scroll;
+	overflow-wrap: break-word;
+}
+
+body.dark #tt-search-list {
+	background-color: #a0a0a0 !important;
+}
+
+#no-result {
+	position: absolute;
+	top: 45%;
+	left: 42%;
+	font-size: larger;
+}
+
+@keyframes search-animation {
+	0% {
+		background-color: initial;
+	}
+	50% {
+		background-color: #769e07;
+	}
+	100% {
+		background-color: initial;
+	}
+}
+
+.searched {
+	animation-name: search-animation;
+	animation-duration: 4s;
+	animation-iteration-count: 5;
+}

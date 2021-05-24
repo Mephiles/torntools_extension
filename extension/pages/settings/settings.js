@@ -392,6 +392,111 @@ async function setupPreferences() {
 	fillSettings();
 	storageListeners.settings.push(updateSettings);
 
+	/* Search */
+	(() => {
+		const searchOverlay = document.find("#tt-search-overlay");
+		document.find("#preferences-search").addEventListener("click", () => searchOverlay.classList.remove("hidden"));
+
+		searchOverlay.find(".circle").addEventListener("click", () => {
+			searchOverlay.find("#tt-search-list").innerHTML = "";
+			searchOverlay.classList.add("hidden");
+		});
+		searchOverlay.find("#tt-search-button").addEventListener("click", search);
+		searchOverlay.find("input").addEventListener("keydown", (event) => {
+			if (event.keyCode === 13) search();
+		});
+		function search() {
+			const searchFor = searchOverlay.find("input").value.toLowerCase().trim();
+			if (!searchFor) return;
+			document.findAll(".searched").forEach((option) => option.classList.remove("searched"));
+			let searchResults = document.evaluate(
+				`//main[@id='preferences']
+					//section
+						//div[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'sections')]
+							//section
+								//label[not(contains(@class, 'note'))][contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '${searchFor}')]
+				| 
+				//main[@id='preferences']
+					//section
+						//div[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'sections')]
+							//section
+								//div[contains(@class, 'header')][contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '${searchFor}')]`,
+				document,
+				null,
+				XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+				null
+			);
+			const searchList = searchOverlay.find("#tt-search-list");
+			searchList.innerHTML = "";
+			// Sorry but there is no forEach method available. Had to use traditional loops.
+			if (searchResults.snapshotLength > 0) {
+				for (let i = 0; i < searchResults.snapshotLength; i++) {
+					const option = searchResults.snapshotItem(i);
+					const name = option.innerText.replace("New!", "").replace("\n", "").trim();
+					if (option.getAttribute("for")) {
+						const isAdvanced = option.parentElement.classList.contains("advanced");
+						if (isAdvanced && document.find(".advanced-hidden")) continue;
+						searchList.appendChild(
+							document.newElement({
+								type: "span",
+								text: name,
+								attributes: {
+									for: option.getAttribute("for"),
+								},
+								children: [document.newElement("br")],
+							})
+						);
+					} else if (option.classList.contains("header")) {
+						searchList.appendChild(
+							document.newElement({
+								type: "span",
+								text: name,
+								attributes: {
+									name: option.parentElement.getAttribute("name"),
+								},
+								children: [document.newElement("br")],
+							})
+						);
+					}
+					searchList.appendChild(
+						document.newElement("hr")
+					);
+				}
+			} else {
+				searchList.appendChild(
+					document.newElement({
+						type: "span",
+						id: "no-result",
+						text: "No Results"
+					})
+				);
+			}
+			searchList.addEventListener("click", (event) => {
+				event.stopPropagation();
+				searchOverlay.classList.add("hidden");
+				if (event.target.innerText.trim() !== "No Results") {
+					const nameAttr = event.target.getAttribute("name");
+					const forAttr = event.target.getAttribute("for");
+					if (forAttr) {
+						const optionFound = document.find(`#preferences [for="${forAttr}"]`);
+						document.find(`#preferences nav [name="${optionFound.closest("section").getAttribute("name")}"]`).click();
+						optionFound.parentElement.classList.add("searched");
+					} else if (nameAttr) {
+						for (const x of [...document.findAll(`#preferences [name="${nameAttr}"] .header`)]) {
+							if (x.innerText.trim() === event.target.innerText.trim()) {
+								x.classList.add("searched");
+								document.find(`#preferences nav [name="${x.closest("section").getAttribute("name")}"]`).click();
+								break;
+							}
+						}
+					}
+				}
+				searchList.innerHTML = "";
+			});
+			searchResults = null;
+		}
+	})();
+
 	function showAdvanced(advanced) {
 		if (advanced) {
 			_preferences.find(".sections").classList.remove("advanced-hidden");
@@ -852,6 +957,10 @@ async function setupPreferences() {
 			}
 		});
 	}
+
+	/* function searchPreferences() {
+		
+	} */
 }
 
 async function setupAPIInfo() {
