@@ -23,7 +23,6 @@
 			if (feature.enabled()) addItemValues();
 		});
 		addXHRListener(({ detail: { page, xhr, json } }) => {
-			xhr.responseURL
 			if (!new URLSearchParams(xhr.requestBody).get("step") || page !== "trade") return;
 			if (feature.enabled()) addItemValues();
 		});
