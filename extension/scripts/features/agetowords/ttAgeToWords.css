@@ -1,3 +1,8 @@
-.tt-bazaar-text span {
-	color: var(--tt-color-item-text);
+.tt-age-text {
+	font-size: 12px;
+    text-align: center;
+    margin-bottom: 8px;
+    color: #ccc;
+    text-decoration: none;
+    font-weight: 700;
 }

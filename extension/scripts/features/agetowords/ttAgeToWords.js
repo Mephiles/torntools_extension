@@ -15,16 +15,17 @@
 	);
 
 	async function addWords() {
-		document.findAll(".box-name.t-gray-9.bold")[2].remove();
-		const newAge = document.newElement({ type: "div", class: "box-name t-gray-9 bold" });
-		const age = parseInt([...document.findAll(".box-info.age .digit")].map((x) => x.innerText).join(""));
-		let dateCurrent = new Date();
-		let utimeTarget = dateCurrent.getTime() + age * 86400 * 1000;
-		let dateTarget = new Date(utimeTarget);
+		await requireElement(".box-info.age .box-value");
+		const ageDiv = document.find(".box-info.age");
+		ageDiv.find(".box-name").classList.add("hidden");
+		const age = parseInt(document.find(".box-info.age .box-value").innerText.replace(/\n/g, ""));
+		const dateCurrent = new Date();
+		const utimeTarget = dateCurrent.getTime() + age * 86400 * 1000;
+		const dateTarget = new Date(utimeTarget);
 		let diffYear = parseInt(dateTarget.getUTCFullYear() - dateCurrent.getUTCFullYear());
 		let diffMonth = parseInt(dateTarget.getUTCMonth() - dateCurrent.getUTCMonth());
 		let diffDay = parseInt(dateTarget.getUTCDate() - dateCurrent.getUTCDate());
-		let daysInMonth = [31, dateTarget.getUTCFullYear() % 4 ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+		const daysInMonth = [31, dateTarget.getUTCFullYear() % 4 ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 		let dateString = "";
 		while (true) {
 			dateString = "";
@@ -45,12 +46,18 @@
 			dateString += diffDay > 0 ? diffDay + " days" : "";
 			break;
 		}
-		newAge.innerText = dateString;
-		document.find(".box-info.age").find(".block-value").insertAdjacentElement("afterEnd", newAge);
-		newAge.insertAdjacentHTML("beforeBegin", "<br>");
+		ageDiv.find(".block-value").insertAdjacentElement("afterEnd", document.newElement({
+			type: "div",
+			text: dateString,
+			class: "tt-age-text",
+		}));
+		ageDiv.find(".block-value").insertAdjacentElement("afterEnd", document.newElement("br"));
 	}
 
 	function removeWords() {
-		document.find(".tt-bazaar-text").remove();
+		const ageDiv = document.find(".box-info.age");
+		ageDiv.find(".box-name").classList.remove("hidden");
+		ageDiv.findAll(".block-value + br").forEach(x => x.remove());
+		document.findAll(".tt-age-text").forEach(x => x.remove());
 	}
 })();
