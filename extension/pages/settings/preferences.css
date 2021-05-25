@@ -271,9 +271,11 @@ body.tt-mobile .no-mobile {
 }
 
 main#preferences > h2 {
-    text-align: center;
-    margin: -2px 0 20px 0;
+	text-align: center;
+	margin: -2px 0 20px 0;
 }
+
+/* Search */
 
 #preferences-search {
 	top: 10px;
@@ -297,8 +299,8 @@ main#preferences > h2 {
 
 #preferences-search span {
 	float: left;
-    display: inline;
-    margin: 4px 0 4px 10px;
+	display: inline;
+	margin: 4px 0 4px 10px;
 }
 
 #preferences-search i {
@@ -321,16 +323,21 @@ main#preferences > h2 {
 }
 
 #tt-search-overlay > div {
-	top: 12%;
-	left: 18%;
 	height: 80%;
-	position: fixed;
+	margin: 5% 12.5%;
+	display: flex;
+	flex-direction: column;
+}
+
+#tt-search-overlay #content-div {
+	display: inline-flex;
+	flex-wrap: nowrap;
 }
 
 #tt-search-overlay .circle {
-	position: fixed;
-	top: 13.5%;
-	left: 15%;
+	display: inline-block;
+	margin: auto;
+	margin-right: 10px;
 	font-size: 27px;
 	background-color: white;
 	border-radius: 50%;
@@ -342,12 +349,14 @@ body.dark #tt-search-overlay .circle {
 }
 
 #tt-search-overlay input {
-	width: 790px;
-	height: 40px;
 	font-size: large;
 	border: #acea00 solid;
 	border-radius: 15px;
 	padding-left: 10px;
+	display: inline-block;
+	position: relative;
+	flex-shrink: 0;
+	flex-grow: 1;
 }
 
 body.dark #tt-search-overlay input {
@@ -356,9 +365,9 @@ body.dark #tt-search-overlay input {
 }
 
 #tt-search-overlay #tt-search-button {
+	display: inline-block;
 	width: 39px;
 	height: 30px;
-	position: absolute;
 	margin-left: 10px;
 	padding: 9px 0 6px 12px;
 	border: #acea00 3px solid;
@@ -374,8 +383,7 @@ body.dark #tt-search-overlay #tt-search-button {
 }
 
 #tt-search-list {
-	width: 860px;
-	height: 500px;
+	height: 100%;
 	margin-top: 10px;
 	padding: 10px 0 0 10px;
 	background-color: #f2f2f2;
