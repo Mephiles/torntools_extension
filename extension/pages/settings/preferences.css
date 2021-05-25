@@ -271,18 +271,17 @@ body.tt-mobile .no-mobile {
 }
 
 main#preferences > h2 {
-	text-align: center;
-	margin: -2px 0 20px 0;
+	padding-left: 9%;
 }
 
 /* Search */
 
 #preferences-search {
-	top: 10px;
 	position: relative;
 	display: inline-block;
+	top: 10px;
+	left: 7%;
 	background-color: #5a5a5a;
-	left: 155px;
 	border-radius: 5px;
 }
 
