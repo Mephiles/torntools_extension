@@ -408,7 +408,7 @@ function removeZalgoText(message) {
 }
 
 function addChatFilters() {
-	let chats = doc.findAll(".chat-box-content_2C5UJ");
+	const chats = doc.findAll("[class*='chat-box-content_']");
 	for (let chat of chats) {
 		if (!chat.nextElementSibling) continue;
 		if (chat.nextElementSibling.find(".tt-chat-filter")) continue;
