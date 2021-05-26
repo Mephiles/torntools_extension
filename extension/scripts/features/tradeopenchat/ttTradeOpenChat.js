@@ -11,13 +11,15 @@
 		{
 			storage: ["settings.pages.trade.openChat"],
 		},
-		() => {
-			const step = getHashParameters().get("step");
-			if (step !== "view" && step !== "initiateTrade" && step !== "accept") return "Not active trade.";
-		}
+		null
 	);
 
 	function initialiseListeners() {
+		window.addEventListener("hashchange", () => {
+			const step = getHashParameters().get("step");
+			if (step !== "view" && step !== "initiateTrade" && step !== "accept" && step !== "start") return;
+			if (feature.enabled()) addItemValues();
+		});
 		addXHRListener(({ detail: { page, xhr, json } }) => {
 			if (!new URLSearchParams(xhr.requestBody).get("step") || page !== "trade") return;
 			if (feature.enabled()) addButton();
