@@ -330,7 +330,7 @@ requireDatabase().then(() => {
 
 		function createCheckbox(text) {
 			const id = generateUUID();
-			const checkbox_wrap = doc.new({ type: "div", class: "in-title tt-checkbox-wrap"});
+			const checkbox_wrap = doc.new({ type: "div", class: "in-title tt-checkbox-wrap" });
 			const checkbox = doc.new({ type: "input", attributes: { type: "checkbox", id: id } });
 			const text_div = doc.new({ type: "label", class: "unselectable", text: text, attributes: { for: id } });
 			checkbox_wrap.appendChild(checkbox);
@@ -1174,9 +1174,9 @@ function displayElement(element, shouldDisplay) {
 		return;
 	}
 
-	element.style.display = 'none';
+	element.style.display = "none";
 	if (shouldDisplay) {
-		element.style.display = 'block';
+		element.style.display = "block";
 	}
 }
 
