@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.pages.profile.ageToWords"],
 		},
-		null,
+		null
 	);
 
 	async function addWords() {
@@ -46,18 +46,21 @@
 			dateString += diffDay > 0 ? diffDay + " days" : "";
 			break;
 		}
-		ageDiv.find(".block-value").insertAdjacentElement("afterEnd", document.newElement({
-			type: "div",
-			text: dateString,
-			class: "tt-age-text",
-		}));
-		ageDiv.find(".block-value").insertAdjacentElement("afterEnd", document.newElement("br"));
+		ageDiv.find(".block-value").insertAdjacentElement(
+			"afterend",
+			document.newElement({
+				type: "div",
+				text: dateString,
+				class: "tt-age-text",
+			})
+		);
+		ageDiv.find(".block-value").insertAdjacentElement("afterend", document.newElement("br"));
 	}
 
 	function removeWords() {
 		const ageDiv = document.find(".box-info.age");
 		ageDiv.find(".box-name").classList.remove("hidden");
-		ageDiv.findAll(".block-value + br").forEach(x => x.remove());
-		document.findAll(".tt-age-text").forEach(x => x.remove());
+		ageDiv.findAll(".block-value + br").forEach((x) => x.remove());
+		document.findAll(".tt-age-text").forEach((x) => x.remove());
 	}
 })();
