@@ -497,10 +497,25 @@ async function updateUserdata() {
 
 			for (const checkpoint of checkpoints) {
 				if (oldUserdata[bar].current < userdata[bar].current && userdata[bar].current >= checkpoint && !notifications[bar][checkpoint]) {
+					const url = (() => {
+						switch (bar) {
+							case "energy":
+								return LINKS.gym;
+							case "happy":
+								return LINKS.items_candy;
+							case "nerve":
+								return LINKS.crimes;
+							case "life":
+								return LINKS.items_medical;
+							default:
+								return LINKS.home;
+						}
+					})();
+
 					notifications[bar][checkpoint] = newNotification(
 						`Bars`,
 						`Your ${capitalizeText(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}.`,
-						LINKS.home
+						url
 					);
 					break;
 				} else if (userdata[bar].current < checkpoint && notifications[bar][checkpoint]) {
