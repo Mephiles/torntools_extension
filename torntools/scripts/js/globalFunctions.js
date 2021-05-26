@@ -1298,6 +1298,7 @@ const STORAGE = {
 			auto_fetch: true,
 			relative_values: false,
 			chosen_stats: [],
+			hide_stakeout: false,
 		},
 		hospital: {
 			activity: [],
@@ -3431,4 +3432,11 @@ function fetchRelay(location, options) {
 
 function hasSilentSupport() {
 	return !usingFirefox() && (!navigator.userAgent.includes("Mobile Safari") || usingYandex());
+}
+
+function generateUUID() {
+	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+		return v.toString(16);
+	});
 }

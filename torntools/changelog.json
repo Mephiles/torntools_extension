@@ -1,6 +1,8 @@
 {
 	"v5.10 - xxxxx, xxth. 2021": {
-		"Features": [],
+		"Features": [
+			"Added toggle to hide stakeout on profile page. - hvr-lust"
+		],
 		"Fixes": [
 			"Apply proper rounding on the racing winning rate. - Sashank999",
 			"Fix max buy on mobile. - DKK",
