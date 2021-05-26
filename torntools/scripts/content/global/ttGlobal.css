@@ -600,7 +600,7 @@ div[role="main"].tt-modified {
 
 .tt-chat-filter input {
 	background-color: var(--chat-box-content-bg, #f2f2f2);
-    color: var(--chat-notebook-text-area-font-color-active);
+	color: var(--chat-notebook-text-area-font-color-active);
 }
 
 [class*="chat-box-input_"].tt-modified {
