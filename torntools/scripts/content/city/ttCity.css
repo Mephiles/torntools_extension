@@ -114,6 +114,10 @@ Thanks, Mauk @DocTorn
 	color: var(--default-green-color, #678c00);
 }
 
+#tt-city-items .tt-title:not(.collapsed) + .tt-content {
+	padding-bottom: 0 !important;
+}
+
 /* Items value */
 #tt-city-items-value {
 	line-height: 25px;

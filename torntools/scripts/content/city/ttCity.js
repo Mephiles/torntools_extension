@@ -96,10 +96,6 @@ function displayItems(container, itemlist) {
 		div.appendChild(inner_span);
 		span.appendChild(div);
 		outerDiv.appendChild(span);
-		if (settings.pages.city.items_images) {
-			let hr = doc.new({ type: "hr", class: "delimiter-999 m-top10 m-bottom10" });
-			outerDiv.appendChild(hr);
-		}
 		items_span.appendChild(outerDiv);
 	}
 	content.appendChild(items_span);

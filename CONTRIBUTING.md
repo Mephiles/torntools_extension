@@ -26,6 +26,8 @@ Start reading our code and you'll get the hang of it. We optimize for readabilit
     * We indent using tabs with a width of 4.
     * Operators ( = + - * / ) and commas are followed by spaces.
     * Statements end with a semicolon.
+* Some general rules are:
+    * Any setting for a new feature should be defined in `torntools/scripts/js/globalFunctions.js` in `STORAGE`.
 * We also use some standard formatting conventions.
     * Identifier names (variables and functions) start with a letter and use camelCase.
         * If it are global constants use UPPERCASE.

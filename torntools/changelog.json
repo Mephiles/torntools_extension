@@ -6,7 +6,8 @@
 			"Fix max buy on mobile. - DKK",
 			"TT Settings sidebar link not going down when hosped or jailed. - Sashank999",
 			"Fix probability calculation in HiLo helper. - smikula",
-			"Various tweaks to dark mode. - Allo"
+			"Various tweaks to dark mode. - Allo",
+			"Fix attack timeout alert. - Sashank999"
 		],
 		"Changes": [
 			"Disable loot timers on mobile devices. - Sashank999",
