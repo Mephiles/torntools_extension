@@ -29,21 +29,21 @@
 		let dateString = "";
 		while (true) {
 			dateString = "";
-			dateString += diffYear > 0 ? diffYear + " years " : "";
+			dateString += (diffYear > 0) ? `${diffYear} year${diffYear > 1 ? "s " : " "}` : "";
 
 			if (diffMonth < 0) {
 				diffYear -= 1;
 				diffMonth += 12;
 				continue;
 			}
-			dateString += diffMonth > 0 ? diffMonth + " months " : "";
+			dateString += diffMonth > 0 ? `${diffMonth} month${diffMonth > 1 ? "s " : " "}` : "";
 
 			if (diffDay < 0) {
 				diffMonth -= 1;
 				diffDay += daysInMonth[(11 + dateTarget.getUTCMonth()) % 12];
 				continue;
 			}
-			dateString += diffDay > 0 ? diffDay + " days" : "";
+			dateString += diffDay > 0 ? `${diffDay} day${diffDay > 1 ? "s " : " "}` : "";
 			break;
 		}
 		ageDiv.find(".block-value").insertAdjacentElement("afterEnd", document.newElement({
