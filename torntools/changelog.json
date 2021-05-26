@@ -4,11 +4,14 @@
 		"Fixes": [
 			"Apply proper rounding on the racing winning rate. - Sashank999",
 			"Fix max buy on mobile. - DKK",
-			"TT Settings Sidebar link not going down when hosped or jailed. - Sashank999",
+			"TT Settings sidebar link not going down when hosped or jailed. - Sashank999",
 			"Fix probability calculation in HiLo helper. - smikula",
 			"Various tweaks to dark mode. - Allo"
 		],
-		"Changes": ["Disable loot timers on mobile devices. - Sashank999"]
+		"Changes": [
+			"Disable loot timers on mobile devices. - Sashank999",
+			"Change notification bar links. - DKK"
+		]
 	},
 	"v5.9 - May, 02th. 2021": {
 		"Features": [
@@ -58,8 +61,14 @@
 			"Warning when user if about to fly but education or bank investment or both would timeout before return. - Sashank999",
 			"Show a timer between posts in trade chat. - Sashank999"
 		],
-		"Fixes": ["Battle stat disappeared from profile when sending user money. - Sashank999", "Fix HighLow helper not working. - Sashank999"],
-		"Changes": ["Add setting for 'Show flight times before flying'. - Sashank999", "Update to new beta TS API. - Sashank999"]
+		"Fixes": [
+			"Battle stat disappeared from profile when sending user money. - Sashank999",
+			"Fix HighLow helper not working. - Sashank999"
+		],
+		"Changes": [
+			"Add setting for 'Show flight times before flying'. - Sashank999",
+			"Update to new beta TS API. - Sashank999"
+		]
 	},
 	"v5.7 - February, 11th. 2021": {
 		"Features": [
@@ -99,13 +108,28 @@
 			"Show education course finish time. - Sashank999",
 			"Show investment finish time. - Sashank999"
 		],
-		"Fixes": ["Fix full faction description not working. - Sashank999"],
-		"Changes": ["Update Love Juice information to reflect the new change. - DKK", "Add ELO stat to stat list. - DKK"]
+		"Fixes": [
+			"Fix full faction description not working. - Sashank999"
+		],
+		"Changes": [
+			"Update Love Juice information to reflect the new change. - DKK",
+			"Add ELO stat to stat list. - DKK"
+		]
 	},
 	"v5.5 - January, 19th. 2021": {
-		"Features": ["Show missing flowers and plushies in the inventory. - Sashank999", "Disable some casino games. - Sashank999"],
-		"Fixes": ["Use the new Torn classes. - Sashank999", "Solve some problems regarding the new class names. - DKK"],
-		"Changes": ["Add ISO date formatting. - DKK", "Switch to new YATA domain. - DKK", "Update company specials. - DKK"]
+		"Features": [
+			"Show missing flowers and plushies in the inventory. - Sashank999",
+			"Disable some casino games. - Sashank999"
+		],
+		"Fixes": [
+			"Use the new Torn classes. - Sashank999",
+			"Solve some problems regarding the new class names. - DKK"
+		],
+		"Changes": [
+			"Add ISO date formatting. - DKK",
+			"Switch to new YATA domain. - DKK",
+			"Update company specials. - DKK"
+		]
 	},
 	"v5.4 - January, 12th. 2021": {
 		"Features": [
@@ -117,11 +141,17 @@
 			"Warning on Bugs & Issues subforum. - Sashank999",
 			"Show total value of properties besides their name. - Sashank999"
 		],
-		"Fixes": ["Use the new Torn classes. - DKK"]
+		"Fixes": [
+			"Use the new Torn classes. - DKK"
+		]
 	},
 	"v5.3.5 - December, 16th. 2020": {
-		"Fixes": ["Fix armory shortening. - Mephiles"],
-		"Changes": ["Remove proxy support. - DKK"]
+		"Fixes": [
+			"Fix armory shortening. - Mephiles"
+		],
+		"Changes": [
+			"Remove proxy support. - DKK"
+		]
 	},
 	"v5.3.4 - November, 29th. 2020": {
 		"Fixes": [
@@ -146,7 +176,9 @@
 			"Don't include your api key to YATA's API. - DKK",
 			"Stop hammering YATA's API when a YATA error occurred. - DKK"
 		],
-		"Changes": ["Switch to YATA's v1 abroad API. - Fogest"]
+		"Changes": [
+			"Switch to YATA's v1 abroad API. - Fogest"
+		]
 	},
 	"v5.3.1 - November, 2nd. 2020": {
 		"Fixes": [
@@ -164,7 +196,10 @@
 		]
 	},
 	"v5.3 - October, 16th. 2020": {
-		"Features": ["Add popup mute button. - finally", "Add forum enhancements, hide posts/threads, copy post for discord. - finally"],
+		"Features": [
+			"Add popup mute button. - finally",
+			"Add forum enhancements, hide posts/threads, copy post for discord. - finally"
+		],
 		"Fixes": [
 			"Fix item page crashing when the opening items too fast. - DKK",
 			"Fix rare condition where the database isn't loaded properly. - finally",
@@ -178,7 +213,9 @@
 			"Fix item market market value highlight settings. - DKK",
 			"Add FontAwesome as JavaScript instead of CSS. - DKK"
 		],
-		"Changes": ["Make nuke family permission optional. - DKK"]
+		"Changes": [
+			"Make nuke family permission optional. - DKK"
+		]
 	},
 	"v5.2 - October, 11th. 2020": {
 		"Features": [
@@ -208,11 +245,19 @@
 		]
 	},
 	"v5.1.2 - October, 1st. 2020": {
-		"Fixes": ["Show right temporary total value. - DKK", "Improve mobile checking on Firefox, fixing the loading issue. - DKK"],
-		"Changes": ["Improve mission information for several missions. - DKK", "Update FontAwesome. - DKK"]
+		"Fixes": [
+			"Show right temporary total value. - DKK",
+			"Improve mobile checking on Firefox, fixing the loading issue. - DKK"
+		],
+		"Changes": [
+			"Improve mission information for several missions. - DKK",
+			"Update FontAwesome. - DKK"
+		]
 	},
 	"v5.1.1 - September, 26th. 2020": {
-		"Changes": ["Change watchlist export to stakeouts. - DKK"]
+		"Changes": [
+			"Change watchlist export to stakeouts. - DKK"
+		]
 	},
 	"v5.1 - September, 24th. 2020": {
 		"Features": [
@@ -249,8 +294,13 @@
 		]
 	},
 	"v5.0.1 - September, 11th. 2020": {
-		"Fixes": ["Fix trade open chat on Firefox. - DKK"],
-		"Changes": ["Add an option to disable stats estimates on competition page. - DKK", "Add an option to not show the cached only text. - DKK"]
+		"Fixes": [
+			"Fix trade open chat on Firefox. - DKK"
+		],
+		"Changes": [
+			"Add an option to disable stats estimates on competition page. - DKK",
+			"Add an option to not show the cached only text. - DKK"
+		]
 	},
 	"v5.0 - September, 10th. 2020": {
 		"Features": [
@@ -318,10 +368,14 @@
 		]
 	},
 	"v4.10.2 - August, 19th. 2020": {
-		"Fixes": ["Fix OC data not updating. - Mephiles"]
+		"Fixes": [
+			"Fix OC data not updating. - Mephiles"
+		]
 	},
 	"v4.10.1 - August, 16th. 2020": {
-		"Fixes": ["Fix Notifications not appearing on Firefox. - Mephiles"]
+		"Fixes": [
+			"Fix Notifications not appearing on Firefox. - Mephiles"
+		]
 	},
 	"v4.10 - August, 14th. 2020": {
 		"Features": [
@@ -518,7 +572,9 @@
 		]
 	},
 	"v4.6": {
-		"Discord": ["Join the Discord (https://discord.gg/ukyK6f6) to report bugs, give suggestions or just chat"],
+		"Discord": [
+			"Join the Discord (https://discord.gg/ukyK6f6) to report bugs, give suggestions or just chat"
+		],
 		"Features": [
 			"Added option to automatically open OCs that are ready to initiate (all players are Okay)",
 			"Added Natural Nerve Bar info to OCs (powered by TornStats)",
@@ -562,7 +618,10 @@
 			"Fixed Chain timer in Info popup not appearing",
 			"Fixed Gym script not loading for players who have unlocked all gyms"
 		],
-		"Changes": ["Improved design of Info popup (removed unnecessary text & made 'update' text smaller)", "Improved Player Stats readability"]
+		"Changes": [
+			"Improved design of Info popup (removed unnecessary text & made 'update' text smaller)",
+			"Improved Player Stats readability"
+		]
 	},
 	"v4.4": {
 		"Features": [
@@ -588,7 +647,10 @@
 		]
 	},
 	"v4.3.1": {
-		"Fixes": ["Fixed Quick Crimes not appearing if user had 0 Quick Items", "Fixed Quick Items drag not working on Firefox"]
+		"Fixes": [
+			"Fixed Quick Crimes not appearing if user had 0 Quick Items",
+			"Fixed Quick Items drag not working on Firefox"
+		]
 	},
 	"v4.3": {
 		"Features": [
@@ -694,10 +756,15 @@
 		]
 	},
 	"v3.8.3": {
-		"Fixes": ["Added confirmation message when changing your API key", "Fixed API online set to false when other API errors"]
+		"Fixes": [
+			"Added confirmation message when changing your API key",
+			"Fixed API online set to false when other API errors"
+		]
 	},
 	"v3.8.1": {
-		"Fixes": ["Fixed \"Remove info boxes on some pages\" option not disabling"]
+		"Fixes": [
+			"Fixed \"Remove info boxes on some pages\" option not disabling"
+		]
 	},
 	"v3.8": {
 		"Features": [
@@ -791,7 +858,10 @@
 		]
 	},
 	"v3.4": {
-		"Features": ["Added Fraud crimes to Crime achievements.", "Added Github link to the extension (at the bottom of the Settings page)."]
+		"Features": [
+			"Added Fraud crimes to Crime achievements.",
+			"Added Github link to the extension (at the bottom of the Settings page)."
+		]
 	},
 	"v3.3": {
 		"Features": [
@@ -802,10 +872,15 @@
 		]
 	},
 	"v3.2": {
-		"Features": ["Show warning on player profiles when the player is in your faction or in an ally faction.", "Show racing upgrade values."]
+		"Features": [
+			"Show warning on player profiles when the player is in your faction or in an ally faction.",
+			"Show racing upgrade values."
+		]
 	},
 	"v3.1": {
-		"Fixes": ["Fixed the extension not updating after an API outage."]
+		"Fixes": [
+			"Fixed the extension not updating after an API outage."
+		]
 	},
 	"v3 - Long time, no see(?)": {
 		"Features": [
