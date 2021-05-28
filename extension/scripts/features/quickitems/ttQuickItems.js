@@ -191,19 +191,23 @@
 
 								if (response.success) {
 									if (response.items) {
-										for (const item of response.items.itemAppear) {
-											triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, {
-												item: parseInt(item.ID),
-												amount: parseInt(item.qty),
-												reason: "usage",
-											});
+										if (response.items.itemAppear) {
+											for (const item of response.items.itemAppear) {
+												triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, {
+													item: parseInt(item.ID),
+													amount: parseInt(item.qty),
+													reason: "usage",
+												});
+											}
 										}
-										for (const item of response.items.itemDisappear) {
-											triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, {
-												item: parseInt(item.ID),
-												amount: -parseInt(item.qty),
-												reason: "usage",
-											});
+										if (response.items.itemDisappear) {
+											for (const item of response.items.itemDisappear) {
+												triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, {
+													item: parseInt(item.ID),
+													amount: -parseInt(item.qty),
+													reason: "usage",
+												});
+											}
 										}
 									} else {
 										triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: id, amount: -1, reason: "usage" });
