@@ -237,6 +237,7 @@ const DEFAULT_STORAGE = {
 				idBesideProfileName: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				notes: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				showAllyWarning: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				ageToWords: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			chat: {
 				fontSize: new DefaultSetting({ type: "number", defaultValue: 12 }),
