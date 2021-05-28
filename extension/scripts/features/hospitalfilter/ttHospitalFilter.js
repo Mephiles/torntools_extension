@@ -74,12 +74,13 @@
 					},
 				})
 			);
+		const timeSlider = new DualRangeSlider({ min: 0, max: 100, step: 1, valueLow: filters.hospital.timeStart, valueHigh: filters.hospital.timeEnd });
 		const timeFilter = document.newElement({
 			type: "div",
 			class: "filter-wrap",
 			id: "time-filter",
 			children: [
-				newSlider(),
+				timeSlider.slider,
 				document.newElement({
 					type: "div",
 					class: "time-filter-info-wrap",
@@ -87,12 +88,13 @@
 				}),
 			],
 		});
+		const levelSlider = new DualRangeSlider({ min: 1, max: 100, step: 1, valueLow: filters.hospital.levelStart, valueHigh: filters.hospital.levelEnd });
 		const levelFilter = document.newElement({
 			type: "div",
 			class: "filter-wrap",
 			id: "level-filter",
 			children: [
-				newSlider(),
+				levelSlider.slider,
 				document.newElement({
 					type: "div",
 					class: "level-filter-info-wrap",
@@ -108,20 +110,13 @@
 			content.find(`#activity-filter [value="${activity}"]`).checked = true;
 		}
 		if (filters.hospital.revivesOn) content.find("#tt-hospital-filter-revivable").checked = true;
-		// There is no faction filter setup
-		timeFilter.find(".handle.left").dataset.value = filters.hospital.timeStart;
-		timeFilter.find(".handle.right").dataset.value = filters.hospital.timeEnd;
-		timeFilter.find(".tt-dual-range").style.setProperty("--x-1", (filters.hospital.timeStart * 150) / 100 - 13 + "px");
-		timeFilter.find(".tt-dual-range").style.setProperty("--x-2", (filters.hospital.timeEnd * 150) / 100 - 13 + "px");
-		levelFilter.find(".handle.left").dataset.value = filters.hospital.levelStart;
-		levelFilter.find(".handle.right").dataset.value = filters.hospital.levelEnd;
-		levelFilter.find(".tt-dual-range").style.setProperty("--x-1", (filters.hospital.levelStart * 150) / 100 - 13 + "px");
-		levelFilter.find(".tt-dual-range").style.setProperty("--x-2", (filters.hospital.levelEnd * 150) / 100 - 13 + "px");
 
 		// Listeners
 		content.findAll("input[type='checkbox']").forEach((x) => x.addEventListener("click", filtering));
 		content.find("#tt-faction-filter").addEventListener("input", filtering);
-		content.findAll(".handle.left, .handle.right").forEach((x) => new MutationObserver(filtering).observe(x, { attributes: true }));
+		[timeSlider.slider, levelSlider.slider].forEach((slider) =>
+			new MutationObserver(filtering).observe(slider, { attributes: true, attributeFilter: ["data-low", "data-high", "value"] })
+		);
 
 		addFactionsToList();
 		filtering();
@@ -130,8 +125,8 @@
 	function filtering() {
 		requireElement(".users-list > li").then(async () => {
 			const content = findContainer("Hospital Filter").find(".filter-content");
-			const timeFilter = content.find("#time-filter");
-			const levelFilter = content.find("#level-filter");
+			const timeFilter = content.find("#time-filter .tt-dual-range");
+			const levelFilter = content.find("#level-filter .tt-dual-range");
 			// Get the set filters
 			let activity = [];
 			for (const checkbox of content.findAll("#activity-filter input:checked")) {
@@ -139,10 +134,10 @@
 			}
 			const revivesOn = content.find("#tt-hospital-filter-revivable").checked;
 			const faction = content.find("#tt-faction-filter").value;
-			const timeStart = parseInt(timeFilter.find(".handle.left").dataset.value);
-			const timeEnd = parseInt(timeFilter.find(".handle.right").dataset.value);
-			const levelStart = parseInt(levelFilter.find(".handle.left").dataset.value);
-			const levelEnd = parseInt(levelFilter.find(".handle.right").dataset.value);
+			const timeStart = parseInt(timeFilter.dataset.low);
+			const timeEnd = parseInt(timeFilter.dataset.high);
+			const levelStart = parseInt(levelFilter.dataset.low);
+			const levelEnd = parseInt(levelFilter.dataset.high);
 			// Update level and time slider counters
 			content.find(".level-filter-info").innerText = `Level ${levelStart} - ${levelEnd}`;
 			content.find(".time-filter-info").innerText = `Time ${timeStart}h - ${timeEnd}h`;

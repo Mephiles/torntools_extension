@@ -3,6 +3,9 @@
 Number.prototype.dropDecimals = function () {
 	return parseInt(this.toString());
 };
+Number.prototype.roundNearest = function (multiple) {
+	return Math.round(this / multiple) * multiple;
+};
 
 String.prototype.camelCase = function (lowerCamelCase) {
 	return (this.trim().charAt(0)[lowerCamelCase ? "toLowerCase" : "toUpperCase"]() + this.slice(1)).trim().replaceAll(" ", "");

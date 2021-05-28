@@ -11,8 +11,8 @@
 .tt-dual-range .highlight {
 	position: absolute;
 	height: 12px;
-	width: calc(calc(var(--x-2) - var(--x-1)) + 21px);
-	left: var(--x-1);
+	width: calc(calc(var(--right) - var(--left)) + 21px);
+	left: var(--left);
 	background-color: #627e0d;
 	z-index: 1;
 	border-radius: 50px;
@@ -31,6 +31,12 @@
 	float: none;
 }
 
+.tt-dual-range .handle.focus {
+	border: 3px solid #888;
+	height: 15px;
+	width: 15px;
+}
+
 body:not(.dark-mode) .tt-dual-range .handle {
 	background-color: #fff;
 }
@@ -40,9 +46,19 @@ body.dark-mode .tt-dual-range .handle {
 }
 
 .tt-dual-range .handle.left {
-	left: var(--x-1);
+	left: var(--left);
 }
 
 .tt-dual-range .handle.right {
-	left: var(--x-2);
+	left: var(--right);
+}
+
+.tt-dual-range .dump {
+	width: 0;
+	overflow: hidden;
+}
+
+.tt-dual-range .dump * {
+	opacity: 0;
+	filter: alpha(opacity=0);
 }
