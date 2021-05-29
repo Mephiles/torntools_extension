@@ -288,13 +288,15 @@
 			"css": [
 				"scripts/features/profilenotes/ttProfileNotes.css",
 				"scripts/features/statusindicator/ttStatusIndicator.css",
-				"scripts/features/friendlyfire/ttFriendlyFire.css"
+				"scripts/features/friendlyfire/ttFriendlyFire.css",
+				"scripts/features/agetowords/ttAgeToWords.css"
 			],
 			"js": [
 				"scripts/features/profileid/ttProfileID.js",
 				"scripts/features/profilenotes/ttProfileNotes.js",
 				"scripts/features/statusindicator/ttStatusIndicator.js",
-				"scripts/features/friendlyfire/ttFriendlyFire.js"
+				"scripts/features/friendlyfire/ttFriendlyFire.js",
+				"scripts/features/agetowords/ttAgeToWords.js"
 			],
 			"run_at": "document_end"
 		},

@@ -69,12 +69,13 @@
 					},
 				})
 			);
+		const timeSlider = new DualRangeSlider({ min: 0, max: 100, step: 1, valueLow: filters.jail.timeStart, valueHigh: filters.jail.timeEnd });
 		const timeFilter = document.newElement({
 			type: "div",
 			class: "filter-wrap",
 			id: "time-filter",
 			children: [
-				newSlider(),
+				timeSlider.slider,
 				document.newElement({
 					type: "div",
 					class: "time-filter-info-wrap",
@@ -82,12 +83,13 @@
 				}),
 			],
 		});
+		const levelSlider = new DualRangeSlider({ min: 1, max: 100, step: 1, valueLow: filters.jail.levelStart, valueHigh: filters.jail.levelEnd });
 		const levelFilter = document.newElement({
 			type: "div",
 			class: "filter-wrap",
 			id: "level-filter",
 			children: [
-				newSlider(),
+				levelSlider.slider,
 				document.newElement({
 					type: "div",
 					class: "level-filter-info-wrap",
@@ -99,12 +101,13 @@
 			getJailScore(100, document.find(".users-list > *:first-child .info-wrap .time").lastChild.textContent.trim().split(" ")[0].replace(/[hs]/g, "")),
 			5000
 		);
+		const scoreSlider = new DualRangeSlider({ min: 0, max: scoreMax, step: 25, valueLow: filters.jail.scoreStart, valueHigh: filters.jail.scoreEnd });
 		const scoreFilter = document.newElement({
 			type: "div",
 			class: "filter-wrap",
 			id: "score-filter",
 			children: [
-				newSlider(scoreMax, 0),
+				scoreSlider.slider,
 				document.newElement({
 					type: "div",
 					class: "score-filter-info-wrap",
@@ -120,28 +123,13 @@
 		for (const activity of filters.jail.activity) {
 			content.find(`#activity-filter [value="${activity}"]`).checked = true;
 		}
-		// There is no faction filter setup
-		timeFilter.find(".handle.left").dataset.value = filters.jail.timeStart;
-		timeFilter.find(".handle.right").dataset.value = filters.jail.timeEnd;
-		timeFilter.find(".tt-dual-range").style.setProperty("--x-1", (filters.jail.timeStart * 150) / 100 - 10.5 + "px");
-		timeFilter.find(".tt-dual-range").style.setProperty("--x-2", (filters.jail.timeEnd * 150) / 100 - 10.5 + "px");
-		levelFilter.find(".handle.left").dataset.value = filters.jail.levelStart;
-		levelFilter.find(".handle.right").dataset.value = filters.jail.levelEnd;
-		levelFilter.find(".tt-dual-range").style.setProperty("--x-1", (filters.jail.levelStart * 150) / 100 - 10.5 + "px");
-		levelFilter.find(".tt-dual-range").style.setProperty("--x-2", (filters.jail.levelEnd * 150) / 100 - 10.5 + "px");
-		scoreFilter.find(".handle.left").dataset.value = filters.jail.scoreStart;
-		scoreFilter.find(".handle.right").dataset.value = filters.jail.scoreEnd;
-		scoreFilter
-			.find(".tt-dual-range")
-			.style.setProperty("--x-1", filters.jail.scoreStart < scoreMax ? (filters.jail.scoreStart / scoreMax) * 150 - 10.5 + "px" : "-10.5px");
-		scoreFilter
-			.find(".tt-dual-range")
-			.style.setProperty("--x-2", filters.jail.scoreEnd < scoreMax ? (filters.jail.scoreEnd / scoreMax) * 150 - 10.5 + "px" : "137px");
 
 		// Listeners
 		content.findAll("input[type='checkbox']").forEach((x) => x.addEventListener("click", filtering));
 		content.find("#tt-faction-filter").addEventListener("input", filtering);
-		content.findAll(".handle.left, .handle.right").forEach((x) => new MutationObserver(filtering).observe(x, { attributes: true }));
+		[timeSlider.slider, scoreSlider.slider, levelSlider.slider].forEach((slider) =>
+			new MutationObserver(filtering).observe(slider, { attributes: true, attributeFilter: ["data-low", "data-high", "value"] })
+		);
 
 		addFactionsToList();
 		filtering();
@@ -150,9 +138,9 @@
 	function filtering() {
 		requireElement(".users-list > li").then(async () => {
 			const content = findContainer("Jail Filter").find(".filter-content");
-			const timeFilter = content.find("#time-filter");
-			const levelFilter = content.find("#level-filter");
-			const scoreFilter = content.find("#score-filter");
+			const timeFilter = content.find("#time-filter .tt-dual-range");
+			const levelFilter = content.find("#level-filter .tt-dual-range");
+			const scoreFilter = content.find("#score-filter .tt-dual-range");
 			const scoreMax = Math.max(
 				getJailScore(
 					100,
@@ -166,12 +154,12 @@
 				activity.push(checkbox.getAttribute("value"));
 			}
 			const faction = content.find("#tt-faction-filter").value;
-			const timeStart = parseInt(timeFilter.find(".handle.left").dataset.value);
-			const timeEnd = parseInt(timeFilter.find(".handle.right").dataset.value);
-			const levelStart = parseInt(levelFilter.find(".handle.left").dataset.value);
-			const levelEnd = parseInt(levelFilter.find(".handle.right").dataset.value);
-			const scoreStart = parseInt(scoreFilter.find(".handle.left").dataset.value);
-			const scoreEnd = parseInt(scoreFilter.find(".handle.right").dataset.value);
+			const timeStart = parseInt(timeFilter.dataset.low);
+			const timeEnd = parseInt(timeFilter.dataset.high);
+			const levelStart = parseInt(levelFilter.dataset.low);
+			const levelEnd = parseInt(levelFilter.dataset.high);
+			const scoreStart = parseInt(scoreFilter.dataset.low);
+			const scoreEnd = parseInt(scoreFilter.dataset.high);
 			// Update level and time slider counters
 			content.find(".level-filter-info").innerText = `Level ${levelStart} - ${levelEnd}`;
 			content.find(".time-filter-info").innerText = `Time ${timeStart}h - ${timeEnd}h`;

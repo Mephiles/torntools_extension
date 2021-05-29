@@ -1,6 +1,6 @@
 "use strict";
 
-const ALL_ICONS = Array.from({ length: 81 }, (x, i) => `icon${i + 1}`);
+const ALL_ICONS = Array.from({ length: 84 }, (x, i) => `icon${i + 1}`);
 
 const ALL_AREAS = [
 	{ class: "home", text: "Home" },
@@ -180,10 +180,13 @@ const LINKS = {
 	stocks: "https://www.torn.com/stockexchange.php?step=portfolio",
 	home: "https://www.torn.com/index.php",
 	items: "https://www.torn.com/item.php",
+	items_candy: "https://www.torn.com/item.php#candy-items",
+	items_medical: "https://www.torn.com/item.php#medical-items",
 	education: "https://www.torn.com/education.php#/step=main",
 	chain: "https://www.torn.com/factions.php?step=your#/war/chain",
 	hospital: "https://www.torn.com/hospitalview.php",
 	organizedCrimes: "https://www.torn.com/factions.php?step=your#/tab=crimes",
+	gym: "https://www.torn.com/gym.php",
 };
 
 function isSameStockTick(date1, date2) {

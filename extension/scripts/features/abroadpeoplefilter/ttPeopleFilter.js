@@ -113,12 +113,13 @@
 					},
 				})
 			);
+		const levelSlider = new DualRangeSlider({ min: 1, max: 100, step: 1, valueLow: filters.abroad.levelStart, valueHigh: filters.abroad.levelEnd });
 		const levelFilter = document.newElement({
 			type: "div",
 			class: "filter-wrap",
 			id: "level-filter",
 			children: [
-				newSlider(),
+				levelSlider.slider,
 				document.newElement({
 					type: "div",
 					class: "level-filter-info-wrap",
@@ -149,15 +150,11 @@
 		for (const status of filters.abroad.status) {
 			content.find(`#status-${status}`).checked = true;
 		}
-		levelFilter.find(".handle.left").dataset.value = filters.abroad.levelStart;
-		levelFilter.find(".handle.right").dataset.value = filters.abroad.levelEnd;
-		levelFilter.find(".tt-dual-range").style.setProperty("--x-1", (filters.abroad.levelStart * 150) / 100 - 13 + "px");
-		levelFilter.find(".tt-dual-range").style.setProperty("--x-2", (filters.abroad.levelEnd * 150) / 100 - 13 + "px");
 
 		// Listeners
 		content.findAll("input[type='checkbox']").forEach((x) => x.addEventListener("click", filtering));
 		content.find("#tt-faction-filter").addEventListener("input", filtering);
-		content.findAll(".handle.left, .handle.right").forEach((x) => new MutationObserver(filtering).observe(x, { attributes: true }));
+		new MutationObserver(filtering).observe(levelSlider.slider, { attributes: true });
 
 		addFactionsToList();
 		filtering();
@@ -166,7 +163,7 @@
 	function filtering() {
 		requireElement(".users-list > li").then(async () => {
 			const content = findContainer("People Filter").find(".filter-content");
-			const levelFilter = content.find("#level-filter");
+			const levelFilter = content.find("#level-filter .tt-dual-range");
 			// Get the set filters
 			let activity = [];
 			for (const checkbox of content.findAll("#activity-filter input:checked")) {
@@ -189,8 +186,8 @@
 			for (const checkbox of content.findAll("#status-filter input:checked")) {
 				status.push(checkbox.getAttribute("value"));
 			}
-			const levelStart = parseInt(levelFilter.find(".handle.left").dataset.value);
-			const levelEnd = parseInt(levelFilter.find(".handle.right").dataset.value);
+			const levelStart = parseInt(levelFilter.dataset.low);
+			const levelEnd = parseInt(levelFilter.dataset.high);
 			// Update level and time slider counters
 			content.find(".level-filter-info").innerText = `Level ${levelStart} - ${levelEnd}`;
 			// Save filters
