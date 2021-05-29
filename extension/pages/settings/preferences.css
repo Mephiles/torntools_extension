@@ -271,7 +271,12 @@ body.tt-mobile .no-mobile {
 }
 
 main#preferences > h2 {
-	padding-left: 9%;
+	display: flex;
+	font-size: 1.5em;
+	font-weight: bold;
+	align-items: center;
+	justify-content: center;
+	margin-left: 8em;
 }
 
 /* Search */
@@ -279,7 +284,6 @@ main#preferences > h2 {
 #preferences-search {
 	position: relative;
 	display: inline-block;
-	top: 10px;
 	left: 7%;
 	background-color: #5a5a5a;
 	border-radius: 5px;
