@@ -687,29 +687,29 @@ const COMPANY_INFORMATION = {
 	},
 	"Lingerie Store": {
 		1: {
-			name: "Lingerie Party",
-			cost: "1",
-			effect: "Experience",
-		},
-		3: {
 			name: "Nine to Five",
 			cost: "10",
 			effect: "100 endurance",
 		},
-		5: {
+		3: {
 			name: "Concealment",
 			cost: "Passive",
-			effect: "2 extra travel items",
+			effect: "2 travel capacity",
 		},
-		7: {
+		5: {
 			name: "Born Free",
 			cost: "Passive",
-			effect: "50% dexterity when not wearing armor",
+			effect: "50% speed & dexterity when not wearing armor",
+		},
+		7: {
+			name: "Simp",
+			cost: "Passive",
+			effect: "No property upkeep or staff costs",
 		},
 		10: {
-			name: "Free as the Wind Blows",
+			name: "Sex Appeal",
 			cost: "Passive",
-			effect: "50% speed when not wearing armor",
+			effect: "Free business class upgrades",
 		},
 	},
 	"Logistics Management": {
