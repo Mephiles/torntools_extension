@@ -4,3 +4,21 @@
 .remembered {
 	color: var(--default-green-color);
 }
+
+.specials-confirm-cont.tt-modified .back {
+	display: flex;
+}
+
+.specials-confirm-cont.tt-modified .tt-btn.external-service {
+	background-color: var(--tt-color-light-green);
+	color: black;
+	border-radius: 6px;
+}
+
+.specials-confirm-cont.tt-modified .tt-btn.external-service:not([disabled]) {
+	cursor: pointer;
+}
+
+.specials-confirm-cont.tt-modified .tt-btn.external-service[disabled] {
+	cursor: not-allowed;
+}
