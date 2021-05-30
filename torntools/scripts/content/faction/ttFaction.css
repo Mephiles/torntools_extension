@@ -120,6 +120,10 @@
 	background-color: #f2f2f2;
 }
 
+.dark-mode .members-list .table-body.tt-modified > li {
+	background-color: #333;
+}
+
 .members-list .table-body li.tt-user-info {
 	line-height: 18px;
 	font-size: 11px;
@@ -146,6 +150,11 @@
 	margin-bottom: 10px;
 }
 
+.members-list .table-body .tt-member-index {
+	margin-right: -7px;
+	padding: 10px 5px 0 5px;
+}
+
 /* Drug information */
 .item-effect.tabbed {
 	margin-left: 15px;
@@ -169,4 +178,28 @@ span.tt-item-price {
 	color: #678c00;
 	float: right;
 	padding-right: 10px;
+}
+
+#ttExportButton {
+	padding-right: 12px;
+}
+
+.torn-msg > div.info-msg {
+	background-color: #627e0d;
+}
+
+.torn-msg div.msg {
+	color: #627e0d !important;
+}
+
+div#ttContribExport {
+	font-weight: normal;
+}
+
+div#ttContribExport div#ttExportButton {
+	width: 39px;
+}
+
+.table-body .table-row[style*="display: none"] + .tt-userinfo-container {
+	display: none;
 }

@@ -189,86 +189,126 @@ const country_dict_short = {
 	},
 };
 
-requireDatabase().then(function () {
-	mapLoaded().then(async () => {
-		console.log("TT - Travel (home)");
+let hasMap;
 
-		if (settings.pages.travel.cooldown_warnings) showCooldowns();
-
+requireDatabase().then(async () => {
+	if (doc.find(".content-wrapper .info-msg-cont").classList.contains("red") && !doc.find(".travel-map")) {
+		hasMap = false;
 		if (travel_market.length === 0 || !("date" in travel_market) || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) {
 			// 2 minutes
 			travel_market = await updateTravelMarket();
 		}
 
-		modifyTimeAndCost();
-
 		let container = content.newContainer("Travel Destinations", { id: "ttTravelTable" }).find(".content");
 
 		addLegend();
-		setTravelItems();
-
-		let travel_items = doc.find("#ttTravelTable #tt-items").value;
+		doc.find("#ttTravelTable #tt-items").value = travel_items;
 
 		let table = doc.new({ type: "div", class: "table" });
 		container.appendChild(table);
-
-		addTableContent(travel_items);
-
-		// Set initial table mode
+		ttStorage.get("travel_items", (travelItems) => addTableContent(travelItems));
 		if (filters.travel.table_type === "basic") {
 			doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
 		} else if (filters.travel.table_type === "advanced") {
 			doc.find("#ttTravelTable .table-type-button span[type='advanced']").click();
 		}
 
-		// Sort by country
 		sort(doc.find("#ttTravelTable .table"), 1, "text");
 
 		filterTable(false);
 
-		// Tab listeners
-		for (let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]) {
-			// tab.classList.remove("ui-state-disabled");  // Testing purposes
-			tab.addEventListener("click", function () {
-				setTravelItems();
-				reloadTable();
-			});
-		}
-
-		// Destination listeners
-		if (!mobile) {
-			for (let destination of doc.findAll(`div[role='tabpanel'][aria-expanded='true']>div[role='button']`)) {
-				destination.addEventListener("click", function () {
-					console.log(destination);
-					let country = destination.getAttribute("data-race") ? destination.getAttribute("data-race").replace(/-/g, " ") : "all";
-					if (country === "cayman") country = "cayman islands";
-					if (country === "uk") country = "united kingdom";
-
-					doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
-				});
-			}
-		} else {
-			for (let destination of doc.findAll(`.tab-menu-cont .travel-info-table li.travel-info-table-list`)) {
-				let country = destination.find(".city-flag").classList[1].replace(/-/g, " ");
-				if (country === "cayman") country = "cayman islands";
-				if (country === "uk") country = "united kingdom";
-
-				destination.addEventListener("click", function () {
-					doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
-				});
-			}
-		}
-
-		// mobile
-		if (mobile) {
-			doc.find(".travel-agency").classList.add("tt-mobile");
-		}
-
-		// Updater
 		setInterval(function () {
 			reloadTable();
 		}, 2 * 60 * 1000);
-	});
+	} else {
+		hasMap = true;
+		mapLoaded().then(async () => {
+			console.log("TT - Travel (home)");
+
+			if (settings.pages.travel.cooldown_warnings) showCooldowns();
+
+			if (travel_market.length === 0 || !("date" in travel_market) || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) {
+				// 2 minutes
+				travel_market = await updateTravelMarket();
+			}
+
+			modifyTimeAndCost();
+
+			let container = content.newContainer("Travel Destinations", { id: "ttTravelTable" }).find(".content");
+
+			addLegend();
+			setTravelItems();
+
+			let travel_items = doc.find("#ttTravelTable #tt-items").value;
+
+			let table = doc.new({ type: "div", class: "table" });
+			container.appendChild(table);
+
+			addTableContent(travel_items);
+
+			// Set initial table mode
+			if (filters.travel.table_type === "basic") {
+				doc.find("#ttTravelTable .table-type-button span[type='basic']").click();
+			} else if (filters.travel.table_type === "advanced") {
+				doc.find("#ttTravelTable .table-type-button span[type='advanced']").click();
+			}
+
+			// Sort by country
+			sort(doc.find("#ttTravelTable .table"), 1, "text");
+
+			filterTable(false);
+
+			// Tab listeners
+			for (let tab of [...doc.findAll("#tab-menu4>.tabs>li:not(.clear)")]) {
+				// tab.classList.remove("ui-state-disabled");  // Testing purposes
+				tab.addEventListener("click", function () {
+					setTravelItems();
+					reloadTable();
+				});
+			}
+
+			// Destination listeners
+			if (!mobile) {
+				for (let destination of doc.findAll(`div[role='tabpanel'][aria-expanded='true']>div[role='button']`)) {
+					destination.addEventListener("click", function () {
+						console.log(destination);
+						let country = destination.getAttribute("data-race") ? destination.getAttribute("data-race").replace(/-/g, " ") : "all";
+						if (country === "cayman") country = "cayman islands";
+						if (country === "uk") country = "united kingdom";
+
+						doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
+					});
+				}
+			} else {
+				for (let destination of doc.findAll(`.tab-menu-cont .travel-info-table li.travel-info-table-list`)) {
+					let country = destination.find(".city-flag").classList[1].replace(/-/g, " ");
+					if (country === "cayman") country = "cayman islands";
+					if (country === "uk") country = "united kingdom";
+
+					destination.addEventListener("click", function () {
+						doc.find(`#ttTravelTable .legend input[type='radio'][name='country'][_type='${country}']`).click();
+					});
+				}
+			}
+
+			// mobile
+			if (mobile) {
+				doc.find(".travel-agency").classList.add("tt-mobile");
+			}
+
+			// Updater
+			setInterval(function () {
+				reloadTable();
+			}, 2 * 60 * 1000);
+
+			doc.find("div.travel-agency:not([id])").addEventListener("click", () => {
+				if (event.target.classList.contains("raceway") && event.target.hasAttribute("data-race") && event.target.getAttribute("role") === "button")
+					addLandAndReturnTimes();
+			});
+
+			warnOnTimeout();
+		});
+	}
 });
 
 function modifyTimeAndCost() {
@@ -415,9 +455,9 @@ function addLegend() {
 
 function setTravelItems() {
 	// Travel items calculation
-	let airstrip = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "AIRSTRIP";
-	let wlt = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "PRIVATE";
-	let business = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "BUSINESS";
+	let airstrip = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "Airstrip";
+	let wlt = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "Private";
+	let business = doc.find("#tab-menu4 li[aria-selected=true]").innerText === "Business";
 
 	let suitcase = 0,
 		job_perk = 0,
@@ -642,7 +682,7 @@ function filterTable(manual) {
 		item: 2,
 	};
 
-	if (manual && country !== "all") {
+	if (hasMap && manual && country !== "all") {
 		let name = country.replace(/ /g, "-");
 		if (country === "cayman islands") name = "cayman";
 		if (country === "united kingdom") name = "uk";
@@ -803,4 +843,66 @@ function showCooldowns() {
 			else if (!isWasted && element.classList.contains("waste")) element.classList.remove("waste");
 		}
 	}
+}
+
+function addLandAndReturnTimes() {
+	let ttTimes = doc.find("span.tt-times");
+	let travelTime = doc
+		.find("div[role='tabpanel'][aria-hidden='false'] div.travel-container.full-map div.flight-time")
+		.innerText.split("-")[1]
+		.trim()
+		.split(":")
+		.map((x) => parseInt(x));
+	let landDate = formatDateObject(new Date(new Date().setSeconds(travelTime[0] * 60 * 60 + travelTime[1] * 60)));
+	let returnDate = formatDateObject(new Date(new Date().setSeconds(2 * travelTime[0] * 60 * 60 + 2 * travelTime[1] * 60)));
+	if (ttTimes) {
+		ttTimes.innerHTML = `Land at: ${landDate.formattedTime} ${landDate.formattedDate} | Return at: ${returnDate.formattedTime} ${returnDate.formattedDate}`;
+	} else {
+		doc.find("div.travel-agency:not([id])").insertAdjacentHTML(
+			"afterEnd",
+			`<span class="tt-times">Land at: ${landDate.formattedTime} ${landDate.formattedDate} | Return at: ${returnDate.formattedDate} ${returnDate.formattedTime}</span>`
+		);
+	}
+}
+
+function warnOnTimeout() {
+	doc.addEventListener("click", (event) => {
+		if (
+			event.target.className.trim() === "torn-btn btn-dark-bg" &&
+			doc.findAll("div.travel-confirm[style='display: block;']").length &&
+			!doc.findAll("div.travel-agency div[id*='tab4'][aria-hidden='false'] div#tt-timeout-warning").length
+		) {
+			let travelTimeArray = doc.findAll("div.travel-confirm[style='display: block;'] span.bold.white")[1].innerText.split(" ");
+			let travelTime;
+			if (travelTimeArray.length === 2) {
+				travelTime = travelTimeArray[0] * 60;
+			} else if (travelTimeArray.length === 5) {
+				travelTime = travelTimeArray[0] * 60 * 60 + travelTimeArray[3] * 60;
+			}
+			let timeoutFor;
+			if (
+				userdata.education_timeleft &&
+				userdata.city_bank.time_left &&
+				2 * travelTime >= userdata.education_timeleft &&
+				2 * travelTime >= userdata.city_bank.time_left
+			) {
+				timeoutFor = "education course and bank investment end";
+			} else if (userdata.education_timeleft && 2 * travelTime >= userdata.education_timeleft) {
+				timeoutFor = "education course ends";
+			} else if (userdata.city_bank.time_left && 2 * travelTime >= userdata.city_bank.time_left) {
+				timeoutFor = "bank investment ends";
+			} else {
+				return;
+			}
+			let rawHTML = `<div id="tt-timeout-warning">
+			<div class="patter-left"></div>
+			<div class="travel-wrap">
+				<span>Warning: Your ${timeoutFor} before you return to TORN !</span>
+			</div>
+			<div class="patter-right"></div>
+			<div class="clear"></div>
+		</div>`;
+			doc.find("div.travel-agency div.travel-container.full-map[style='display: block;']").insertAdjacentHTML("beforeBegin", rawHTML);
+		}
+	});
 }

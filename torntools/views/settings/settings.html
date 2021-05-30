@@ -38,6 +38,14 @@
 			<div class="site" id="about-link">About</div>
 		</div>
 		<div class="tt-black-overlay"></div>
+		<div id="tt-black-search-overlay" class="container">
+			<div>
+				<i class="far fa-times-circle"></i>
+				<input type="text" id="tt-search-input" />
+				<i class="fas fa-search fa-3x" id="tt-search-button"></i>
+				<div id="tt-search-overlay"></div>
+			</div>
+		</div>
 		<div class="tt-confirmation-popup">
 			<h1 class="title"></h1>
 			<div class="message"></div>
@@ -54,7 +62,7 @@
 				<div class="header">
 					<div class="contributor mephiles"><span>Mephiles [2087524]</span></div>
 					<div class="contributor dkk"><span>DeKleineKobini [2114440]</span></div>
-					<div class="contributor wootty2000"><span>Wootty2000 [2344687]</span></div>
+					<div class="contributor sashank999"><span>bandirao [1936821]</span></div>
 					<div class="contributor finally"><span>finally [2060206]</span></div>
 				</div>
 			</div>
@@ -62,7 +70,13 @@
 
 		<!-- PREFERENCES -->
 		<div id="preferences" class="container subpage">
-			<h2>Preferences</h2>
+			<div>
+				<h2>Preferences</h2>
+				<div id="tt-dummy-search">
+					<input id="tt-search-input" type="text" placeholder="Search" disabled />
+					<i id="tt-search-button" class="fas fa-search"></i>
+				</div>
+			</div>
 			<div class="content">
 				<div class="big-message error hidden">
 					I do not have permission to display Notifications.
@@ -81,6 +95,7 @@
 						<div name="profile">Profile</div>
 						<div name="home">Home</div>
 						<div name="items">Items</div>
+						<div name="bazaar">Bazaar</div>
 						<div name="city">City</div>
 						<div name="company">Company</div>
 						<div name="gym">Gym</div>
@@ -89,6 +104,7 @@
 						<div name="stock_exchange">Stock Exchange</div>
 						<div name="travel">Travel</div>
 						<div name="trade">Trade</div>
+						<div name="forums">Forums</div>
 						<div name="other">Other</div>
 
 						<div class="heading">Scripts</div>
@@ -108,6 +124,9 @@
 							<div class="option" id="font_size">Chat font size: <input type="text" class="short" /></div>
 							<div class="option" id="developer"><input type="checkbox" />Enable Developer features.</div>
 
+							<div class="heading">Page Theme</div>
+							<div class="option" id="page_theme-light"><input type="radio" name="page_theme" />Light</div>
+							<div class="option" id="page_theme-dark"><input type="radio" name="page_theme" />Dark</div>
 							<div class="heading">Theme</div>
 							<div class="option" id="theme-default"><input type="radio" name="theme" />Default</div>
 							<div class="option" id="theme-alternative"><input type="radio" name="theme" />Alternative</div>
@@ -126,18 +145,24 @@
 							<div class="option" id="global-align_left"><input type="checkbox" />Align Torn to left</div>
 							<div class="note">(fits more open chats)</div>
 							<div class="option" id="global-find_chat"><input type="checkbox" />Display 'find' feature for chatboxes</div>
+							<div class="option" id="global-trade_chat_timer">
+								<input type="checkbox" />Display 'Can Post' and 'Don't Post' for timers in trade chat
+							</div>
 							<div class="option" id="global-autocomplete_chat"><input type="checkbox" />Enable username auto-complete in chatboxes</div>
-							<div class="option" id="global-show_toggle_chat">
-								<input type="checkbox" />Show the "Toggle Chat" button <span class="new">New!</span>
+							<div class="option" id="global-show_toggle_chat"><input type="checkbox" />Show the "Toggle Chat" button</div>
+							<div class="option" id="global-easter_eggs">
+								<input type="checkbox" />Alert when an Easter Egg is on page
+								<span class="new">New !</span>
+								<div class="tabbed note">Detection scripts supposedly lower your egg rate, use at your own risk.</div>
 							</div>
 							<div class="option" id="global-block_zalgo">
-								<input type="checkbox" />Block Zalgo in chat <span class="new">New!</span>
+								<input type="checkbox" />Block Zalgo in chat
 								<div class="tabbed note">Zalgo - corrupted text that also changes other messages. Example: ǎ̸͖̙̖̥̯̳͕̋͐̃͂̽s̵̢̰̘̳͕̥̆ͅd̴́̊̚͜͝͠</div>
 							</div>
 							<div class="option" id="global-enable_central_revive" require-permission="https://www.nukefamily.org/">
 								<input type="checkbox" />
 								Enable Nuke Central Hospital Revive script
-								<span class="new">New!</span>
+
 								<div class="tabbed note red">
 									Revives cost $1m or 1 Xanax. Requests will go straight to Nuclear Central Hospital's Discord server.
 								</div>
@@ -145,7 +170,6 @@
 							<div class="option" id="global-miniprofile_last_action">
 								<input id="inputGlobalMiniprofileLastAction" type="checkbox" />
 								<label for="inputGlobalMiniprofileLastAction">Show Last Action in the mini profiles.</label>
-								<span class="new">New!</span>
 							</div>
 
 							<div class="heading">*Chat Highlight</div>
@@ -159,19 +183,47 @@
 								</div>
 							</div>
 							<div class="note">Placeholders:</div>
+
+							<div class="heading">Users Aliases</div>
+							<div class="table list" id="users_alias">
+								<div class="body">
+									<div class="row input">
+										<input type="number" class="text name" placeholder="ID.." />
+										<input type="text" class="text descr" placeholder="Description.." />
+										<div class="add-button" id="add_id">Add</div>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="section" name="sidebar">
 							<div class="heading">Global</div>
 							<div class="option" id="global-notes"><input type="checkbox" />Show small Notes box in the Navigation panel</div>
+							<div class="option" id="global-npc_loot_info">
+								<input type="checkbox" />Show NPC Loot info in Sidebar<span class="new">New!</span>
+							</div>
+							<div class="option" id="global-show_settings_areas_link">
+								<input type="checkbox" />Show a link to TT Settings in Areas section<span class="new">New!</span>
+							</div>
 							<div class="option" id="global-vault_balance">
 								<input type="checkbox" />Display Vault balance under "Money" in Torn's Information tab
 							</div>
 							<div class="option tabbed" id="global-vault_balance_own"><input type="checkbox" />Display your own vault share</div>
+							<div class="option multi-nr-input" id="global-upkeep_more_than">
+								Highlight Properties when upkeep is greater than : <input type="number" /><span class="new">New!</span>
+							</div>
+							<div class="note tabbed">(might not work for spouses)</div>
 							<div class="option" id="global-oc_time">
 								<input type="checkbox" />
 								Display OC ready time in Information window
 							</div>
 							<div class="note tabbed">(requires Faction API access)</div>
+
+							<div class="option" id="global-highlight_chain_timer">
+								<input type="checkbox" />Blink Chain Progress Bar when timer is below 1 minute
+								<div class="option multi-nr-input" id="global-highlight_chain_length">
+									when chain length is greater than : <input type="text" />
+								</div>
+							</div>
 
 							<div class="heading">Available Refills</div>
 							<div class="option" id="global-refill_energy">
@@ -327,6 +379,9 @@
 							<div class="option" id="profile-show_id"><input type="checkbox" />Reformat Profile page headings as "USERNAME [ID]"</div>
 							<div class="option" id="profile-status_indicator"><input type="checkbox" />Show user's status indicator next to their name</div>
 							<div class="option" id="profile-notes"><input type="checkbox" />Keep notes on profiles</div>
+							<div class="option" id="profile-show_chain_warning">
+								<input type="checkbox" />Warn to check user faction chat when chain is near to bonus hit<span class="new">New!</span>
+							</div>
 
 							<div class="heading">NPC Loot</div>
 							<div class="option" id="profile-loot_times"><input type="checkbox" />Show NPC Loot times</div>
@@ -344,7 +399,7 @@
 							<div class="option" id="profile-block_ally_attacks">
 								<input type="checkbox" />Block attacks on faction mates and on ally faction members
 							</div>
-							<span class="new">New!</span>
+
 							<div class="note">(show ally warning must be checked)</div>
 						</div>
 						<div class="section" name="home">
@@ -355,10 +410,24 @@
 						<div class="section" name="items">
 							<div class="heading">Items</div>
 							<div class="option" id="items-values"><input type="checkbox" />Display item values on Items page</div>
+							<div class="option" id="items-show_candy_happy_gains">
+								<input type="checkbox" />Display total Happy Gains beside name of the Candy
+							</div>
+							<div class="option" id="items-show_e_can_gains"><input type="checkbox" />Display total E Can Gains beside name of the Can</div>
 							<div class="option" id="items-drug_details">
 								<input type="checkbox" />Show more details about drugs (also affects Faction armory drug section)
 							</div>
 							<div class="option" id="items-itemmarket_links"><input type="checkbox" />Add link icons to Item Market</div>
+							<div class="option" id="items-show_missing_plushies">
+								<input type="checkbox" />Display Missing Plushies for a complete set, greyed out at the bottom of the Items page
+							</div>
+							<div class="option" id="items-show_missing_flowers">
+								<input type="checkbox" />Display Missing Flowers for a complete set, greyed out at the bottom of the Items page
+							</div>
+							<div class="option" id="items-show_book_effects"><input type="checkbox" />Show book effects beside the name of the book</div>
+							<div class="option" id="items-show_alcohol_nerve_gains">
+								<input type="checkbox" />Display total Nerve Gains beside name of the Alcoholic Drink
+							</div>
 							<div class="option" id="items-highlight_bloodbags">
 								Highlight blood bags for :
 								<select name="cars">
@@ -375,11 +444,24 @@
 								(also affects Faction armory)
 							</div>
 						</div>
+						<div class="section" name="bazaar">
+							<div class="heading">Bazaar</div>
+							<div class="option" id="bazaar-max_buy_ignore_cash">
+								<input type="checkbox" />Ignore the cash on hand for max buy in bazaars & shops.
+							</div>
+							<div class="option" id="bazaar-worth"><input type="checkbox" />Display how much a Bazaar is worth</div>
+							<div class="option" id="bazaar-display_total_price">
+								<input type="checkbox" />Display the total cost of the buying item in bazaar
+							</div>
+						</div>
 						<div class="section" name="city">
 							<div class="heading">City</div>
 							<div class="option" id="city-items"><input type="checkbox" />*Highlight items on City map</div>
 							<div class="tabbed option" id="city-closed_highlight">
 								<input type="checkbox" />Highlight items if TornTools container is closed
+							</div>
+							<div class="tabbed option" id="city-items_images">
+								<input type="checkbox" />Show images of items on city map in TornTools container
 							</div>
 							<div class="option" id="city-items_value"><input type="checkbox" />Show the total value of items on City map</div>
 						</div>
@@ -397,11 +479,33 @@
 						<div class="section" name="gym">
 							<div class="heading">Gym</div>
 							<div class="option" id="gym-estimated_energy"><input type="checkbox" />Display Estimated Energy progress</div>
+							<div class="option" id="gym-hide_gym_highlight"><input type="checkbox" />Hide Gym Highlight</div>
+							<div class="option" id="gym-warn_when_stacking"><input type="checkbox" />Warn when training while stacking E</div>
+							<div class="option" id="gym-warn_when_chain">
+								<input type="checkbox" />Warn when training while your faction is chaining
+								<div class="option multi-nr-input" id="gym-warn_when_chain_length">
+									when chain length is greater than : <input type="text" />
+								</div>
+							</div>
 						</div>
 						<div class="section" name="casino">
 							<div class="option heading" id="casino-global"><input type="checkbox" />Casino</div>
 							<div class="option" id="casino-blackjack"><input type="checkbox" />Enable Blackjack helper</div>
 							<div class="option" id="casino-hilo"><input type="checkbox" />Enable HiLo helper</div>
+							<div class="heading" style="margin-bottom: 5px">Hide Casino Games</div>
+							<div id="casinogames">
+								<span name="slots">Slots</span>
+								<span name="roulette">Roulette</span>
+								<span name="high-low">High-Low</span>
+								<span name="keno">Keno</span>
+								<span name="craps">Craps</span>
+								<span name="bookie">Bookie</span>
+								<span name="lottery">Lottery</span>
+								<span name="blackjack">BlackJack</span>
+								<span name="poker">Poker</span>
+								<span name="r-roulete">Russian Roulette</span>
+								<span name="spin-the-wheel">Spin The Wheel</span>
+							</div>
 						</div>
 						<div class="section" name="faction">
 							<div class="heading">Faction</div>
@@ -415,6 +519,9 @@
 							<div class="note tabbed">(requires Faction API access)</div>
 							<div class="option" id="faction-member_info"><input type="checkbox" />Show details about faction members</div>
 							<div class="note tabbed">(needs to be enabled for following settings - requires Faction API access)</div>
+							<div class="option" id="faction-member_index">
+								<input type="checkbox" />Show index of faction members<span class="new">New!</span>
+							</div>
 							<div class="option single-nr-input" id="faction-inactivity_alerts_first">
 								Inactivity 'orange' notifier: <input type="text" class="short" /> days
 							</div>
@@ -426,6 +533,43 @@
 							<div class="heading">Stock Exchange</div>
 							<div class="option" id="stockexchange-acronyms"><input type="checkbox" />Display Stock acronyms before their names.</div>
 							<div class="option" id="stockexchange-advanced"><input type="checkbox" />Display advanced information.</div>
+							<div class="option" id="stockexchange-hide_stock_block">
+								<input type="checkbox" />Display "Hide stock block" button in portfolio.
+							</div>
+							<div class="heading" style="margin-bottom: 5px">Hide Stock Blocks</div>
+							<div id="stock-blocks">
+								<span name="TCSE">TCSE</span>
+								<span name="TCB">TCB</span>
+								<span name="MCS">MCS</span>
+								<span name="PRN">PRN</span>
+								<span name="TSBC">TSBC</span>
+								<span name="CNC">CNC</span>
+								<span name="SYS">SYS</span>
+								<span name="SYM">SYM</span>
+								<span name="BAG">BAG</span>
+								<span name="WLT">WLT</span>
+								<span name="TCHS">TCHS</span>
+								<span name="LSC">LSC</span>
+								<span name="EVL">EVL</span>
+								<span name="FHG">FHG</span>
+								<span name="SLAG">SLAG</span>
+								<span name="GRN">GRN</span>
+								<span name="TCT">TCT</span>
+								<span name="TCM">TCM</span>
+								<span name="ISTC">ISTC</span>
+								<span name="TCP">TCP</span>
+								<span name="TCC">TCC</span>
+								<span name="ELBT">ELBT</span>
+								<span name="EWM">EWM</span>
+								<span name="HRG">HRG</span>
+								<span name="TMI">TMI</span>
+								<span name="IOU">IOU</span>
+								<span name="MSG">MSG</span>
+								<span name="IIL">IIL</span>
+								<span name="TGP">TGP</span>
+								<span name="WSSB">WSSB</span>
+								<span name="YAZ">YAZ</span>
+							</div>
 						</div>
 
 						<div class="section" name="stats_estimate">
@@ -437,13 +581,14 @@
 							<div class="option" id="stats_estimate-cached_only_show"><input type="checkbox" />Show that no cached result was found</div>
 							<div class="option single-nr-input" id="stats_estimate-max_level">
 								Max level
-								<input class="level" type="number" min="0" max="100" /> <span class="new">New!</span>
+								<input class="level" type="number" min="0" max="100" />
 							</div>
 
 							<div class="heading">Pages</div>
 							<div class="option" id="stats_estimate-profile"><input type="checkbox" />Profiles</div>
 							<div class="note tabbed">(will show at the same time as data fetch)</div>
 							<div class="option" id="stats_estimate-userlist"><input type="checkbox" />Userlist</div>
+							<div class="option" id="stats_estimate-attack_page"><input type="checkbox" />Attack Page</div>
 							<div class="option" id="stats_estimate-faction_members"><input type="checkbox" />Faction Member list</div>
 							<div class="option" id="stats_estimate-faction_wars"><input type="checkbox" />Faction Wars</div>
 							<div class="option" id="stats_estimate-bounties"><input type="checkbox" />Bounty List</div>
@@ -477,6 +622,10 @@
 							<div class="option" id="travel-cooldown_warnings">
 								<input type="checkbox" />Show warnings if your cooldowns are ending during your flight.
 							</div>
+							<div class="option" id="travel-land_and_return_times">
+								<input type="checkbox" />Show land and return times of the current trip.
+								<div class="note tabbed">(return time is valid if you return immediately after landing)</div>
+							</div>
 							<div class="option" id="clean_flight"><input type="checkbox" />Hide plane & funfact box on Flying page</div>
 						</div>
 						<div class="section" name="trade">
@@ -489,29 +638,29 @@
 							<div class="option" id="forums-show_bug_warning"><input type="checkbox" />Show TornTools Warning on Bugs & Issues</div>
 						</div>
 						<!-- <div class="section" name="npc">
-				<div class="heading">NPC Loot</div>
-				<div class="option" id="profile-loot_times"><input type="checkbox">Show NPC Loot times</div>
-				<div class="table list" id="loot-table">
-					<div class="heading">Alerts</div>
-					<div class="body"></div>
-					<div class="note">(Leave time empty to not get alerts)</div>
-				</div>
-			</div> -->
+					<div class="heading">NPC Loot</div>
+					<div class="option" id="profile-loot_times"><input type="checkbox">Show NPC Loot times</div>
+					<div class="table list" id="loot-table">
+						<div class="heading">Alerts</div>
+						<div class="body"></div>
+						<div class="note">(Leave time empty to not get alerts)</div>
+					</div>
+				</div> -->
 						<div class="section" name="other">
 							<div class="heading">Other features</div>
 							<div class="option" id="racing-upgrades"><input type="checkbox" />Show Racing Upgrade values</div>
+							<div class="option" id="racing-win_percentage"><input type="checkbox" />Show Win Percentage of each car in Racing Upgrades</div>
 							<div class="option" id="shop-profits"><input type="checkbox" />Show item profits at City stores</div>
 							<div class="option" id="missions-rewards"><input type="checkbox" />Show Mission reward values</div>
 							<!-- <div class="option" id="remove_info_boxes"><input type="checkbox">Remove info boxes on some pages</div> -->
 							<!-- <div class="tabbed note">(crimes)</div> -->
 							<div class="option" id="properties-vault_sharing"><input type="checkbox" />Keep track of each user's money in Vault</div>
-							<div class="option" id="bazaar-worth"><input type="checkbox" />Display how much a Bazaar is worth</div>
-							<div class="option" id="bazaar-max_buy_ignore_cash">
-								<input type="checkbox" />Ignore the cash on hand for max buy in bazaars & shops.
-							</div>
+							<div class="option" id="displaycase-worth"><input type="checkbox" />Display how much a Display Case is worth</div>
 							<div class="option" id="itemmarket-market_value">
 								Highlight when an item is over <input max="100" min="0" type="number" />% cheaper on the market than it's value.
 							</div>
+							<div class="option" id="attack-warn_when_stacking"><input type="checkbox" />Warn when attacking while stacking E</div>
+							<div class="option" id="attack-warn_when_attack_timeout"><input type="checkbox" />Warn when attack timer is lower than 1 min</div>
 
 							<div class="heading">Filters (factions)</div>
 							<div class="table list" id="filter-factions">
@@ -592,9 +741,9 @@
 							<li>Torn's honors, medals, item values, point values. Faction's OC info (1 per 24 hours)</li>
 
 							<!-- <li>Fetch Torn's Item list, Honors, Medals, Stocks</li>
-				<li>Fetch User's Personal stats, Crimes, Battle stats, Perks, Profile, Work stats, Stocks,
-					Networth, Bars, Cooldowns, Education, Messages, Events, Travel info</li>
-					<span class="note">3 main requests once per minute. 1 request for user's data every 15 seconds</span> -->
+					<li>Fetch User's Personal stats, Crimes, Battle stats, Perks, Profile, Work stats, Stocks,
+						Networth, Bars, Cooldowns, Education, Messages, Events, Travel info</li>
+						<span class="note">3 main requests once per minute. 1 request for user's data every 15 seconds</span> -->
 						</ul>
 					</li>
 					<li>
@@ -747,7 +896,7 @@
 			</div>
 		</div>
 
-		<!-- <script src="../changelog.js"></script> -->
+		<!-- <script src="../changelog.json"></script> -->
 		<script src="../../scripts/libs/Chart.min.js"></script>
 		<script src="../../scripts/libs/showdown.min.js"></script>
 		<script src="../../scripts/js/essential.js"></script>

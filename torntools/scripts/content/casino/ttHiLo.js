@@ -16,12 +16,7 @@ function Main() {
 		A: 14,
 	};
 
-	let current_deck = {
-		hearts: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-		diamonds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-		clubs: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-		spades: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-	};
+	let current_deck = getNewDeck();
 	let last_dealer_card;
 	let last_you_card;
 	let cashed_in = false;
@@ -34,7 +29,7 @@ function Main() {
 	});
 
 	// Continue game button
-	let continue_button = doc.find(".action-c[data-step=continue]");
+	let continue_button = doc.find(".action-btn-wrap[data-step=continue]");
 	continue_button.addEventListener("click", () => {
 		if (cashed_in) {
 			return;
@@ -44,20 +39,10 @@ function Main() {
 			console.log("Lost");
 			last_dealer_card = undefined;
 			last_you_card = undefined;
-			current_deck = {
-				hearts: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-				diamonds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-				clubs: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-				spades: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-			};
+			current_deck = getNewDeck();
 		} else if (doc.find(".deck-wrap").style.display === "block") {
 			console.log("Deck shuffled");
-			current_deck = {
-				hearts: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-				diamonds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-				clubs: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-				spades: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-			};
+			current_deck = getNewDeck();
 			setTimeout(calculate, 700);
 		} else {
 			setTimeout(calculate, 700);
@@ -71,12 +56,7 @@ function Main() {
 		cashed_in = true;
 		last_dealer_card = undefined;
 		last_you_card = undefined;
-		current_deck = {
-			hearts: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-			diamonds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-			clubs: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-			spades: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-		};
+		current_deck = getNewDeck();
 	});
 
 	// remove action when chosen option
@@ -111,10 +91,12 @@ function Main() {
 		console.log("Action", action);
 
 		// show action
-		let span = doc.new("span");
-		span.setClass("tt-hilo-action");
-		span.innerText = action;
-		doc.find(".actions-wrap").appendChild(span);
+		if (doc.find(".actions-wrap .tt-hilo-action")) {
+			doc.find(".actions-wrap .tt-hilo-action").innerText = action;
+		} else {
+			let span = doc.new({ type: "span", class: "tt-hilo-action", text: action });
+			doc.find(".actions-wrap").appendChild(span);
+		}
 	}
 }
 
@@ -125,7 +107,7 @@ function getCard(type, picture_cards, last_type_card) {
 	console.log("card_elements", card_elements);
 
 	for (let card_element of card_elements) {
-		let name = card_element.classList[0];
+		let name = card_element.classList[1];
 		if (name.indexOf("back") > -1) continue;
 
 		let suit = name.split("-")[1];
@@ -189,18 +171,14 @@ function getAction(deck, _card) {
 }
 
 function casinoGameLoaded() {
-	let promise = new Promise((resolve) => {
-		let counter = 0;
-		let checker = setInterval(() => {
-			if (doc.find(".startGame")) {
-				resolve(true);
-				return clearInterval(checker);
-			} else if (counter > 100) {
-				resolve(false);
-				return clearInterval(checker);
-			}
-		}, 100);
-	});
+	return requireElement("div.startGame").then((data) => data);
+}
 
-	return promise.then((data) => data);
+function getNewDeck() {
+	return {
+		hearts: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+		diamonds: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+		clubs: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+		spades: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+	};
 }

@@ -24,6 +24,10 @@
 	vertical-align: middle;
 }
 
+.dark-mode .travel-agency-market .tt-travel-market-cell {
+	border-left: 2px solid #222;
+}
+
 .travel-agency-market .stock-b,
 .travel-agency-market li .stock {
 	width: 50px !important;
@@ -70,6 +74,10 @@
 	bottom: -17px;
 	right: 0;
 	font-size: 9px;
+}
+
+.dark-mode .tt-max-buy {
+	border-left: 2px solid #222 !important;
 }
 
 /* HOME */
@@ -199,6 +207,11 @@ input[type="number"]::-webkit-outer-spin-button {
 	display: inline-block;
 }
 
+.dark-mode #ttTravelTable .table .row div a {
+	text-decoration: none;
+	color: #74c0fc;
+}
+
 #ttTravelTable .table .row.hidden {
 	display: none;
 }
@@ -240,7 +253,12 @@ i.fa-caret-down:not(.tt-title-icon):not(.tt-title-icon-torn) {
 }
 
 #ttTravelTable .negative.profit {
-	color: #de0000;
+	color: #d83500;
+}
+
+.dark-mode #ttTravelTable .positive.profit,
+.dark-mode #ttTravelTable .negative.profit {
+	font-size: 15px;
 }
 
 /* Cooldown Timers */
@@ -297,4 +315,45 @@ i.fa-caret-down:not(.tt-title-icon):not(.tt-title-icon-torn) {
  */
 .sortable {
 	cursor: pointer;
+}
+
+.tt-times {
+	padding-top: 8px;
+	color: #333;
+	font-size: large;
+	text-align: center;
+	display: block;
+}
+
+.dark-mode .tt-times {
+	color: white !important;
+}
+
+div#tt-timeout-warning div.patter-left {
+	height: 30px;
+	margin: 0 0 0 10px;
+}
+
+div#tt-timeout-warning div.patter-right {
+	height: 30px;
+	margin: 0 10px 0 0;
+}
+
+div#tt-timeout-warning div.travel-wrap {
+	height: 30px;
+	text-align: center;
+	display: block;
+	margin: 0;
+}
+
+div#tt-timeout-warning span {
+	top: 15%;
+	position: relative;
+	color: white;
+	font-size: large;
+}
+
+select#tt-faction-filter {
+	margin: unset !important;
+	width: unset !important;
 }

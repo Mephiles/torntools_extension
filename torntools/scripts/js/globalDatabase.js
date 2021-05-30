@@ -26,9 +26,11 @@ function requireDatabase(requireEntry = true) {
 // Pre-load database
 let userdata,
 	torndata,
+	last_trade_post_time,
 	settings,
 	api_key,
 	chat_highlight,
+	users_alias,
 	itemlist,
 	travel_market,
 	oc,
@@ -57,6 +59,8 @@ let userdata,
 	sorting,
 	stock_alerts,
 	hide_areas,
+	hide_casino_games,
+	hide_stock_blocks,
 	travel_items,
 	notifications_custom,
 	yata;
@@ -69,9 +73,11 @@ let userdata,
 
 		userdata = DB.userdata;
 		torndata = DB.torndata;
+		last_trade_post_time = DB.last_trade_post_time;
 		settings = DB.settings;
 		api_key = DB.api_key;
 		chat_highlight = DB.chat_highlight;
+		users_alias = DB.users_alias;
 		itemlist = DB.itemlist;
 		travel_market = DB.travel_market;
 		oc = DB.oc;
@@ -100,6 +106,9 @@ let userdata,
 		sorting = DB.sorting;
 		stock_alerts = DB.stock_alerts;
 		hide_areas = DB.hide_areas;
+		hide_casino_games = DB.hide_casino_games;
+		hide_stock_blocks = DB.hide_stock_blocks;
+		hidden_portfolio = DB.hidden_portfolio;
 		travel_items = DB.travel_items;
 		notifications_custom = DB.notifications_custom;
 		yata = DB.yata;

@@ -53,7 +53,7 @@ Element.prototype.find = function (type) {
 function getPageStatus() {
 	return new Promise((resolve) => {
 		let checker = setInterval(function () {
-			let page_heading = doc.find("#skip-to-content, [class^='title'], .nonFullScreen .content-title h4 .fullScreen .content-title h4");
+			let page_heading = doc.find("#skip-to-content, [class*='title_'], .nonFullScreen .content-title h4 .fullScreen .content-title h4");
 			let message = doc.find("div[role='main'] > .info-msg-cont");
 
 			// Page heading
@@ -123,11 +123,18 @@ const ttStorage = {
 		for (let top_level_key of Object.keys(keys_to_change)) {
 			chrome.storage.local.get(top_level_key, function (data) {
 				let database = data[top_level_key];
-				database = recursive(database, keys_to_change[top_level_key]);
+				if (typeof database === "object") database = recursive(database, keys_to_change[top_level_key]);
+				else database = keys_to_change[top_level_key];
 
 				function recursive(parent, keys_to_change) {
 					for (let key in keys_to_change) {
-						if (parent && key in parent && typeof keys_to_change[key] === "object" && !Array.isArray(keys_to_change[key])) {
+						if (
+							parent &&
+							key in parent &&
+							typeof keys_to_change[key] === "object" &&
+							!Array.isArray(keys_to_change[key]) &&
+							!Array.isArray(parent[key])
+						) {
 							parent[key] = recursive(parent[key], keys_to_change[key]);
 						} else if (parent) {
 							parent[key] = keys_to_change[key];

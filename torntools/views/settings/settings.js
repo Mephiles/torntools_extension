@@ -1,4 +1,5 @@
-import changelog from "../../changelog.js";
+// noinspection JSUnresolvedVariable,JSUnresolvedFunction
+const changelog = await (await fetch(chrome.runtime.getURL("changelog.json"))).json();
 
 let version;
 let initiated_pages = {};
@@ -58,6 +59,9 @@ requireDatabase(false)
 		doc.find("#add_highlight").addEventListener("click", (event) => {
 			addHighlightToList(event);
 		});
+		doc.find("#add_id").addEventListener("click", (event) => {
+			addIdToList(event);
+		});
 		doc.find("#add_filter_faction").addEventListener("click", (event) => {
 			addFactionToFilter(event);
 		});
@@ -69,7 +73,7 @@ requireDatabase(false)
 					targets: {},
 				},
 			});
-			message("Target list reset.", true);
+			message("Target list reset.", true, { reload: true });
 		});
 		doc.find("#allow_notifications").onclick = () => {
 			Notification.requestPermission().then((permission) => {
@@ -99,6 +103,9 @@ requireDatabase(false)
 		});
 
 		registerChanges();
+		searchPreferences();
+		if (window.self !== window.top && settings.page_theme === "dark") doc.body.style.backgroundColor = "#191919";
+		if (settings.page_theme === "dark") doc.body.classList.add("dark-mode");
 	})
 	.catch((err) => {
 		console.error(err);
@@ -121,6 +128,64 @@ requireDatabase(false)
 			.then(() => location.reload())
 			.catch(() => location.reload());
 	});
+
+function searchPreferences() {
+	let ttBlackSearchOverlay = doc.find("div#tt-black-search-overlay");
+	doc.find("div#preferences i#tt-search-button").parentElement.addEventListener("click", () => ttBlackSearchOverlay.classList.add("active"));
+
+	ttBlackSearchOverlay.find("i.far.fa-times-circle").addEventListener("click", () => {
+		ttBlackSearchOverlay.find("div#tt-search-overlay").innerHTML = "";
+		ttBlackSearchOverlay.classList.remove("active");
+	});
+	ttBlackSearchOverlay.find("i#tt-search-button").addEventListener("click", ttSearch);
+	ttBlackSearchOverlay.find("input#tt-search-input").addEventListener("keydown", (event) => {
+		if (event.keyCode === 13) ttSearch();
+	});
+	function ttSearch() {
+		if (!ttBlackSearchOverlay.find("input#tt-search-input").value.toLowerCase().trim()) return;
+		doc.findAll(".searched").forEach((option) => option.classList.remove("searched"));
+		let searchResults = doc.evaluate(
+			"//div[@id='preferences']//div[@class='inner-content']//div[@class='sections']//div[input][contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" +
+				ttBlackSearchOverlay.find("input#tt-search-input").value.toLowerCase() +
+				"')] | //div[@id='preferences']//div[@class='inner-content']//div[@class='sections']//div[@class='heading'][contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" +
+				ttBlackSearchOverlay.find("input#tt-search-input").value.toLowerCase() +
+				"')]",
+			doc,
+			null,
+			XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+			null
+		);
+		let searchDiv = "";
+		if (searchResults.snapshotLength > 0) {
+			for (let i = 0; i < searchResults.snapshotLength; i++) {
+				let searchOption = searchResults.snapshotItem(i);
+				let optionName = searchOption.innerText.replace("New!", "").replace("\n", "").trim();
+				let divName = findParent(searchOption, { has_attribute: "name" }).getAttribute("name");
+				if (optionName.trim()) searchDiv += `<span id="${divName}">${optionName}<br></span><hr>`;
+			}
+		} else {
+			searchDiv = "<span id='no-result'>No Results</span>";
+		}
+		ttBlackSearchOverlay.find("div#tt-search-overlay").innerHTML = searchDiv;
+		ttBlackSearchOverlay.find("div#tt-search-overlay").addEventListener("click", (event) => {
+			event.stopPropagation();
+			ttBlackSearchOverlay.classList.remove("active");
+			if (event.target.innerText.trim() !== "No Results" && event.target.getAttribute("id")) {
+				doc.find(`div#preferences div.inner-content div.navigation div[name='${event.target.getAttribute("id")}']`).click();
+				for (let option of [
+					...doc.findAll(`div#preferences div.inner-content div.sections div[name='${event.target.getAttribute("id")}'] div.option`),
+				]) {
+					if (option.innerText.replace("New!", "").trim() === event.target.innerText.trim()) {
+						option.classList.add("searched");
+						break;
+					}
+				}
+			}
+			ttBlackSearchOverlay.find("div#tt-search-overlay").innerHTML = "";
+		});
+		searchResults = null;
+	}
+}
 
 function registerChanges() {
 	const defaultKey = "defaultValue";
@@ -242,7 +307,7 @@ function setupChangelog() {
 							for (let _item of grandparent[parent_name][_key]) {
 								let contributor;
 
-								for (let c of ["Mephiles", "DKK", "wootty2000", "finally"]) {
+								for (let c of ["Mephiles", "DKK", "Sashank999", "finally"]) {
 									if (!_item.includes(`- ${c}`)) continue;
 
 									contributor = c.toLowerCase();
@@ -301,6 +366,7 @@ function setupPreferences() {
 	preferences.find(`#format-date-${settings.format.date} input`).checked = true;
 	preferences.find(`#format-time-${settings.format.time} input`).checked = true;
 	preferences.find(`#theme-${settings.theme} input`).checked = true;
+	preferences.find(`#page_theme-${settings.page_theme} input`).checked = true;
 	preferences.find("#notifications_tts input").checked = settings.notifications_tts;
 	preferences.find("#notifications_link input").checked = settings.notifications_link;
 	preferences.find("#clean_flight input").checked = settings.clean_flight;
@@ -508,6 +574,35 @@ function setupPreferences() {
 		);
 	}
 
+	// Hide Users
+	for (let userId in users_alias) {
+		let row = doc.new({ type: "div", class: "row" });
+		let id_input = doc.new({ type: "input", class: "text name", value: userId });
+		let text_input = doc.new({
+			type: "input",
+			class: "text descr",
+			value: users_alias[userId],
+		});
+		let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+		let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
+
+		remove_icon.addEventListener("click", (event) => {
+			event.target.parentElement.parentElement.remove();
+		});
+
+		remove_icon_wrap.addEventListener("click", (event) => {
+			event.target.parentElement.remove();
+		});
+
+		remove_icon_wrap.appendChild(remove_icon);
+		row.appendChild(id_input);
+		row.appendChild(text_input);
+		row.appendChild(remove_icon_wrap);
+
+		let table_body = preferences.find("#users_alias .body");
+		table_body.insertBefore(row, table_body.find(".row.input"));
+	}
+
 	// Loot alerts
 	for (let npc_id in loot_times) {
 		let row = doc.new({ type: "div", class: "row" });
@@ -669,6 +764,24 @@ function setupPreferences() {
 				.then(() => console.log("Received permission."))
 				.catch(() => console.log("Denied permission."));
 		});
+	}
+
+	for (let game of preferences.findAll("#casinogames span")) {
+		game.onclick = () => {
+			game.classList.toggle("disabled");
+		};
+	}
+	for (let game of hide_casino_games) {
+		preferences.find(`#casinogames span[name='${game}']`).classList.add("disabled");
+	}
+
+	for (let stockBlock of preferences.findAll("div#stock-blocks span")) {
+		stockBlock.onclick = () => {
+			stockBlock.classList.toggle("disabled");
+		};
+	}
+	for (let stockBlock of hide_stock_blocks) {
+		preferences.find(`#stock-blocks span[name='${stockBlock}']`).classList.add("disabled");
 	}
 }
 
@@ -937,7 +1050,7 @@ function server() {
 	- watchlist
 	- preferences
 	- profile notes
-                    `,
+					`,
 		})
 			.then(() => {
 				exportData();
@@ -987,6 +1100,7 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	settings.format.date = preferences.find("input[name=format-date]:checked").parentElement.id.split("-")[2];
 	settings.format.time = preferences.find("input[name=format-time]:checked").parentElement.id.split("-")[2];
 	settings.theme = preferences.find("input[name=theme]:checked").parentElement.id.split("-")[1];
+	settings.page_theme = preferences.find("input[name='page_theme']:checked").parentElement.id.split("-")[1];
 	settings.notifications_tts = preferences.find("#notifications_tts input").checked;
 	settings.notifications_link = preferences.find("#notifications_link input").checked;
 	settings.clean_flight = preferences.find("#clean_flight input").checked;
@@ -1069,6 +1183,13 @@ function savePreferences(preferences, settings, target_list_enabled) {
 		highlights[name] = row.find(".color").value;
 	}
 
+	// Users Alias
+	let users_aliases = {};
+	for (let row of preferences.findAll("#users_alias .row:not(.input)")) {
+		let id = row.find(".name").value;
+		users_aliases[id] = row.find(".descr").value;
+	}
+
 	// Notifications
 	for (let notification in settings.notifications) {
 		if (preferences.find(`#notifications-${notification} input[type='text']`)) {
@@ -1118,6 +1239,16 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	// Items
 	settings.pages.items.highlight;
 
+	const hiddenGames = [];
+	for (let game of preferences.findAll("#casinogames span.disabled")) {
+		hiddenGames.push(game.getAttribute("name"));
+	}
+
+	const hiddenStockBlocks = [];
+	for (let stockBlock of preferences.findAll("#stock-blocks span.disabled")) {
+		hiddenStockBlocks.push(stockBlock.getAttribute("name"));
+	}
+
 	// Filters (Faction)
 	let filter_factions = {
 		default: "",
@@ -1141,8 +1272,11 @@ function savePreferences(preferences, settings, target_list_enabled) {
 	ttStorage.set({ custom_links: custom_links });
 	ttStorage.set({ loot_alerts: alerts });
 	ttStorage.set({ chat_highlight: highlights });
+	ttStorage.set({ users_alias: users_aliases });
 	ttStorage.set({ hide_icons: icons });
 	ttStorage.set({ hide_areas: areas });
+	ttStorage.set({ hide_casino_games: hiddenGames });
+	ttStorage.set({ hide_stock_blocks: hiddenStockBlocks });
 	ttStorage.change({
 		filters: {
 			preset_data: {
@@ -1382,6 +1516,42 @@ function addHighlightToList(event) {
 	event.target.previousElementSibling.previousElementSibling.value = "";
 }
 
+function addIdToList(event) {
+	let row = doc.new({ type: "div", class: "row" });
+	let name_input = doc.new({
+		type: "input",
+		class: "text name",
+		value: event.target.previousElementSibling.previousElementSibling.value,
+	});
+	let text_input = doc.new({
+		type: "input",
+		class: "text descr",
+		value: event.target.previousElementSibling.value,
+	});
+	let remove_icon_wrap = doc.new({ type: "div", class: "remove-icon-wrap" });
+	let remove_icon = doc.new({ type: "i", class: "remove-icon fas fa-trash-alt" });
+
+	remove_icon.addEventListener("click", (event) => {
+		event.target.parentElement.parentElement.remove();
+	});
+
+	remove_icon_wrap.addEventListener("click", (event) => {
+		event.target.parentElement.remove();
+	});
+
+	remove_icon_wrap.appendChild(remove_icon);
+	row.appendChild(name_input);
+	row.appendChild(text_input);
+	row.appendChild(remove_icon_wrap);
+
+	let table_body = preferences.find("#users_alias .body");
+	table_body.insertBefore(row, table_body.find(".row.input"));
+
+	// Clear input
+	event.target.previousElementSibling.value = "None";
+	event.target.previousElementSibling.previousElementSibling.value = "";
+}
+
 function setupApiStatistics() {
 	console.log("api history", api_history);
 	if (!api_history) return;
@@ -1573,6 +1743,7 @@ function exportData() {
 			"allies",
 			"custom_links",
 			"chat_highlight",
+			"users_alias",
 			"hide_icons",
 			"quick",
 			"notes",
@@ -1726,8 +1897,6 @@ function getCustomLinkOptions() {
 
 function requestPermission(url) {
 	return new Promise((resolve, reject) => {
-		console.log("DKK requestPermission", url);
-
 		chrome.permissions.request({ origins: [url] }, (granted) => {
 			if (granted) resolve();
 			else reject();

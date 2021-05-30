@@ -47,7 +47,12 @@ Thanks, Mauk @DocTorn
 }
 
 /* Items list */
+#tt-city-items .tt-title {
+	border-radius: 5px 5px 0 0 !important;
+}
+
 #tt-city-items .content {
+	display: block;
 	padding-left: 7px;
 	padding-right: 7px;
 	padding-bottom: 26px !important;
@@ -59,22 +64,58 @@ Thanks, Mauk @DocTorn
 #tt-city-items .items {
 	display: flex;
 	margin-top: 10px;
+	flex-wrap: wrap;
 }
 
-#tt-city-items .items .column {
+#tt-city-items .items .item {
 	flex: 1 0 25%;
+	width: 120px;
+	height: 58px;
 }
 
-#tt-city-items .items .column > span {
+@media screen and (max-width: 600px) {
+	#tt-city-items .items .column {
+		flex: 1 0 25%;
+		width: 153px;
+		height: 76px;
+	}
+	#tt-city-items .items .column > span {
+		height: 54px;
+	}
+}
+
+#tt-city-items .items .item > span {
 	line-height: 18px;
 	font-size: 13px;
 	font-weight: 400;
-	display: block;
 	text-align: center;
+	display: flex;
+	flex-flow: row;
 }
 
-#tt-city-items .items .column > span > a {
+#tt-city-items .items .item > span > img {
+	opacity: 1;
+	height: 35px;
+	width: 60px;
+}
+
+#tt-city-items .items .item > span > div {
+	margin-left: 4px;
+	display: flex;
+	flex-flow: column;
+}
+
+#tt-city-items .items .item > span > div > a {
+	color: var(--default-blue-color, #74c0fc);
 	text-decoration: none;
+}
+
+#tt-city-items .items .item > span > div > span {
+	color: var(--default-green-color, #678c00);
+}
+
+#tt-city-items .tt-title:not(.collapsed) + .tt-content {
+	padding-bottom: 0 !important;
 }
 
 /* Items value */

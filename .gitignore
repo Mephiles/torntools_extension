@@ -5,3 +5,8 @@ torntools/personalized.js
 # IDE Settings
 .idea
 .vscode
+
+# Node.js files
+node_modules/
+package.json
+package-lock.json

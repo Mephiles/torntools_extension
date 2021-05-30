@@ -3,6 +3,7 @@ requireDatabase().then(() => {
 		const { page, xhr } = event.detail;
 
 		const params = new URL(xhr.responseURL).searchParams;
+		if (settings.pages.racing.win_percentage) enlistView().then(winPercentage);
 
 		if (page === "loader2") {
 			if (params.get("sid") === "racingActions" && params.get("step") === "partsbuy" && params.get("confirm") === "1") {
@@ -11,6 +12,8 @@ requireDatabase().then(() => {
 			}
 		}
 	});
+
+	if (settings.pages.racing.win_percentage) enlistView().then(winPercentage);
 
 	upgradeView().then(() => {
 		console.log("TT - Racing Upgrades");
@@ -28,6 +31,10 @@ requireDatabase().then(() => {
 	});
 });
 
+function enlistView() {
+	return requireElement(".enlist-info");
+}
+
 function upgradeView() {
 	return requireElement(".pm-categories-wrap");
 }
@@ -38,9 +45,9 @@ function showUpgrades() {
 		parts.push(item.getAttribute("data-part"));
 
 		for (let property of item.findAll(".properties")) {
-			let statOld = parseInt(property.find(".bar-gray-light-wrap-d").style.width);
-			let statNew = parseInt(property.find(".bar-color-wrap-d").style.width);
-			let difference = statNew - statOld;
+			const statNew = parseFloat(property.find(".progressbar.progress-light-green, .progressbar.progress-red").style.width) / 100;
+			const statOld = (statNew * parseFloat(property.find(".progressbar.progress-light-gray").style.width)) / 100;
+			const difference = Math.round((statNew - statOld) * 100);
 
 			if (isNaN(difference)) continue;
 
@@ -159,4 +166,19 @@ function resetUpgrades() {
 			neededUpgrade.remove();
 		}
 	}
+}
+
+function winPercentage() {
+	if (doc.find(".tt-win-percentage")) return;
+	doc.findAll(".enlist-info").forEach((stat) => {
+		let values = stat
+			.find(".enlisted-stat")
+			.innerText.split("• ")
+			.filter((x) => x.trim().includes("Races"))
+			.map((x) => x.split(":")[1].trim());
+		stat.find(".enlisted-stat").insertAdjacentHTML(
+			"beforeEnd",
+			`<li class="tt-win-percentage">• Win Percentage: ${((values[0] / values[1]) * 100).toFixed(2)}% </li>`
+		);
+	});
 }

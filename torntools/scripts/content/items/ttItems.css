@@ -17,6 +17,10 @@ li.tt-item-price {
 	font-weight: 600;
 }
 
+.dark-mode .tt-item-quantity {
+	color: white !important;
+}
+
 /* Quick items */
 #ttQuick {
 	margin-bottom: 20px;
@@ -24,7 +28,7 @@ li.tt-item-price {
 
 #ttQuick .inner-content {
 	width: 100%;
-	padding: 10px;
+	padding: 5px;
 	box-sizing: border-box;
 }
 
@@ -35,13 +39,18 @@ li.tt-item-price {
 #ttQuick .inner-content .item {
 	display: inline-block;
 	border: 1px solid lightgray;
-	margin-right: 10px;
 	padding: 5px;
 	border-radius: 5px;
 	background-color: white;
 	cursor: pointer;
 	position: relative;
-	margin-bottom: 10px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+.dark-mode #ttQuick .inner-content .item {
+	background-color: #696969;
+	color: white;
 }
 
 #ttQuick .inner-content .item:hover .tt-close-icon {
@@ -82,6 +91,10 @@ li.tt-item-price {
 	color: gray;
 }
 
+.dark-mode #ttQuick .inner-content .item .sub-text {
+	color: white;
+}
+
 #ttQuick .response-wrap {
 	display: none;
 	padding: 10px;
@@ -89,6 +102,10 @@ li.tt-item-price {
 	text-align: center;
 	border-top: 1px solid lightgray;
 	border-bottom: 1px solid lightgray;
+}
+
+.dark-mode #ttQuick .response-wrap {
+	background-color: #333 !important;
 }
 
 #ttQuick .ajax-placeholder {
@@ -150,4 +167,39 @@ li.item-group.tt-modified .group-arrow {
 
 .tt-bad_blood {
 	background-color: #f5b2b28a !important;
+}
+
+.tt-needed-div {
+	pointer-events: none;
+	background-color: #ffffff;
+	opacity: 0.4;
+	border-bottom: 1px solid #ccc;
+}
+
+.tt-needed-img {
+	line-height: 32px;
+	width: 58px;
+	height: 30px;
+	vertical-align: bottom;
+	border-right: 2px solid #ccc;
+}
+
+.tt-needed-name {
+	line-height: 32px;
+	padding-left: 10px;
+}
+
+/* Book effects */
+.tt-book-effect {
+	color: #3070e6;
+}
+
+.tt-e-can-alcohol-candy {
+	color: rgb(103, 140, 0);
+	padding-left: 10px;
+	float: none;
+}
+
+.tt-xan-warning {
+	color: red;
 }

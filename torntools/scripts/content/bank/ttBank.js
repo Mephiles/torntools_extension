@@ -2,6 +2,7 @@ requireDatabase().then(() => {
 	requireElement(".content-wrapper > .delimiter-999").then(async () => {
 		await showTable();
 	});
+	showInvestmentOverTime();
 });
 
 async function showTable() {
@@ -101,4 +102,12 @@ async function showTable() {
 			};
 		}
 	}
+}
+
+function showInvestmentOverTime() {
+	let overDate = formatDateObject(new Date(new Date().setSeconds(userdata.city_bank.time_left)));
+	doc.find("p.m-clear").insertAdjacentHTML(
+		"afterEnd",
+		`<span>Investment will be completed on <b>${overDate.formattedDate} ${overDate.formattedTime}</b></span>`
+	);
 }

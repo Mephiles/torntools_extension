@@ -21,8 +21,17 @@
 	z-index: 999;
 }
 
+.dark-mode .tt-forums-button > .tt-forums-button-dropdown {
+	border-color: #444444 !important;
+	border-radius: 0 0 5px 5px !important;
+}
+
 .tt-forums-button > .tt-forums-button-dropdown > div {
 	padding: 8px;
+}
+
+.dark-mode .tt-forums-button > .tt-forums-button-dropdown > div {
+	background-color: #444444;
 }
 
 .tt-forums-button > .tt-forums-button-dropdown > div:hover {
@@ -32,6 +41,12 @@
 
 .tt-forums-button:hover > .tt-forums-button-dropdown {
 	display: block;
+}
+
+.tt-mobile .tt-forums-button > .tt-forums-button-dropdown {
+	width: fit-content !important;
+	position: relative !important;
+	top: 10px !important;
 }
 
 .tt-forums-hide {
@@ -59,7 +74,7 @@
 	display: block;
 	border-bottom: 10px solid white;
 	border-top: 1px solid #ccc;
-	margin: 5px -5px -5px -5px;
+	margin: 5px -5px -5px;
 }
 
 .tt-bug-warning {
@@ -67,5 +82,6 @@
 	height: 59px !important;
 	line-height: 16px !important;
 	color: #ffffff !important;
-	padding : 0px 16px 0px 16px !important;
+	padding: 0 16px !important;
+	background: repeating-linear-gradient(90deg, #627e0d, #627e0d 2px, #6e8820 0, #6e8820 4px) !important;
 }

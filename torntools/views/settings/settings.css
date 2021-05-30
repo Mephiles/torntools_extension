@@ -5,6 +5,10 @@ body {
 	font-family: "Segoe UI", Tahoma, sans-serif;
 }
 
+body.dark-mode {
+	background-color: #333;
+}
+
 p {
 	margin-top: 6px;
 	margin-bottom: 6px;
@@ -142,6 +146,10 @@ label {
 	border-bottom: 1px solid lightgrey;
 }
 
+.dark-mode .navbar {
+	color: white;
+}
+
 .navbar .site {
 	flex: 1 0 auto;
 	text-align: center;
@@ -154,6 +162,10 @@ label {
 	border-bottom: 1px solid black;
 }
 
+.dark-mode .navbar .site.active {
+	background-color: #666;
+}
+
 /* Containers & content */
 .container {
 	display: none;
@@ -164,9 +176,8 @@ label {
 }
 
 .container h2 {
-	text-align: center;
-	margin-top: 20px;
-	margin-bottom: 20px;
+	margin-left: 45%;
+	display: inline;
 }
 
 .container .content {
@@ -179,6 +190,10 @@ label {
 }
 
 /* Changelog */
+
+.dark-mode #changelog {
+	color: white;
+}
 
 #changelog .content {
 	border: unset;
@@ -233,14 +248,16 @@ label {
 #changelog .dkk span,
 #changelog .mephiles span,
 #changelog .wootty2000 span,
-#changelog .finally span {
+#changelog .finally span,
+#changelog .sashank999 span {
 	position: relative;
 }
 
 #changelog .dkk span:before,
 #changelog .mephiles span:before,
 #changelog .wootty2000 span:before,
-#changelog .finally span:before {
+#changelog .finally span:before,
+#changelog .sashank999 span:before {
 	width: 5px;
 	height: 5px;
 	content: "";
@@ -272,10 +289,19 @@ label {
 	border: 2px solid purple;
 }
 
+#changelog .sashank999 span:before {
+	background-color: greenyellow;
+	border: 2px solid greenyellow;
+}
+
 /* API info */
 
 #api_info .input-field {
 	margin-top: 20px;
+}
+
+.dark-mode #api_info {
+	color: white;
 }
 
 #api_info .input-field .label {
@@ -283,21 +309,21 @@ label {
 }
 
 /* #api_info .actions .button {
-    width: fit-content;
-    padding: 0 3px;
-    height: 30px;
-    border: 1px solid lightgrey;
-    margin: 15px 10px 0 0;
-    text-align: center;
-    line-height: 30px;
-    border-radius: 7px;
-    color: white;
-    cursor: pointer;
-    font-weight: 600;
-    background-color: gray;
+	width: fit-content;
+	padding: 0 3px;
+	height: 30px;
+	border: 1px solid lightgrey;
+	margin: 15px 10px 0 0;
+	text-align: center;
+	line-height: 30px;
+	border-radius: 7px;
+	color: white;
+	cursor: pointer;
+	font-weight: 600;
+	background-color: gray;
 }
 #api_info .actions .button:hover {
-    background-color: lightgray;
+	background-color: lightgray;
 } */
 /* Target list */
 
@@ -307,7 +333,15 @@ label {
 	overflow: auto;
 }
 
+.dark-mode #target_list {
+	color: white;
+}
+
 /* Preferences */
+
+.dark-mode #preferences {
+	color: white;
+}
 
 #preferences .content {
 	width: 45%;
@@ -325,6 +359,10 @@ label {
 	background-color: #f1f1f1;
 }
 
+.dark-mode #preferences .navigation {
+	background-color: #333 !important;
+}
+
 #preferences .navigation > div {
 	padding: 7px;
 	border-bottom: 1px solid lightgray;
@@ -339,8 +377,16 @@ label {
 	cursor: pointer;
 }
 
+.dark-mode #preferences .navigation > div:not(.heading):hover {
+	color: #333;
+}
+
 #preferences .navigation > div:not(.heading).active {
 	background-color: #c1c1c1;
+}
+
+.dark-mode #preferences .navigation > div:not(.heading).active {
+	color: #333;
 }
 
 #preferences .navigation > div:not(.heading).active:hover {
@@ -353,6 +399,10 @@ label {
 	font-size: 16px;
 	padding: 2px;
 	background-color: #e0e0e0;
+}
+
+.dark-mode #preferences .navigation > div.heading {
+	color: #333;
 }
 
 .big-message {
@@ -464,7 +514,140 @@ label {
 	width: 45px;
 }
 
+div#tt-black-search-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+	background-color: #00000059;
+}
+
+div#tt-black-search-overlay > div {
+	top: 12%;
+	left: 18%;
+	height: 80%;
+	position: fixed;
+}
+
+div#tt-black-search-overlay i.far.fa-times-circle {
+	position: fixed;
+	top: 13.5%;
+	left: 15%;
+	font-size: 27px;
+	background-color: white;
+	border-radius: 50%;
+}
+
+.dark-mode div#tt-black-search-overlay i.far.fa-times-circle {
+	color: white;
+	background-color: #333;
+}
+
+div#tt-black-search-overlay input#tt-search-input {
+	width: 790px;
+	height: 40px;
+	font-size: large;
+	border: #acea00 solid;
+	border-radius: 15px;
+	padding-left: 10px;
+}
+
+.dark-mode div#tt-black-search-overlay input#tt-search-input {
+	background-color: #333;
+	color: white;
+}
+
+div#tt-black-search-overlay i#tt-search-button {
+	margin-left: 10px;
+	border: #acea00 3px solid;
+	border-color: rgb(133, 133, 133);
+	color: #acea00;
+	background-color: white;
+	border-radius: 15px;
+	position: absolute;
+	padding-bottom: 6px;
+	padding-left: 12px;
+	width: 39px;
+	padding-top: 9px;
+	height: 30px;
+	font-size: 27px;
+}
+
+.dark-mode div#tt-black-search-overlay i#tt-search-button {
+	background-color: #333 !important;
+}
+
+div#tt-search-overlay {
+	background-color: #f2f2f2;
+	overflow-y: scroll;
+	overflow-wrap: break-word;
+	font-size: large;
+	font-family: Arial;
+	border-radius: 15px;
+	width: 860px;
+	margin-top: 10px;
+	height: 500px;
+	padding-left: 10px;
+	padding-top: 10px;
+}
+
+.dark-mode div#tt-search-overlay {
+	background-color: #a0a0a0 !important;
+}
+
+div#preferences div#tt-dummy-search {
+	display: inline;
+}
+
+.dark-mode div#preferences div#tt-dummy-search input {
+	background-color: white !important;
+}
+
+div#preferences input#tt-search-input {
+	display: inline;
+	margin-left: 10%;
+}
+
+div#preferences > div:first-child {
+	margin: 20px;
+}
+
+div#preferences i#tt-search-button {
+	display: inline;
+	border: black 2px solid;
+	width: 15px;
+	height: 14px;
+	padding: 2px;
+	border-color: rgb(133, 133, 133);
+}
+
+span#no-result {
+	position: absolute;
+	top: 45%;
+	left: 42%;
+	font-size: larger;
+}
+
+.searched {
+	background-color: yellow !important;
+}
+
+.dark-mode .searched {
+	color: #333;
+}
+
 /* About */
 #about #new-version p {
 	text-decoration: underline;
+}
+
+.dark-mode #about {
+	color: white;
+}
+
+.dark-mode #about a[href] {
+	color: #74c0fc;
+	text-decoration: none;
 }

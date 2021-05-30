@@ -19,11 +19,12 @@
 }
 
 /* Fill max */
-[class^="buy"] {
+[class*="buy_"] {
 	height: 27px !important;
 }
 
 .tt-max-buy {
+	color: #82c91e;
 	position: absolute;
 	height: 15px;
 	line-height: 15px;
@@ -33,6 +34,10 @@
 	cursor: pointer;
 }
 
+.tt-mobile .tt-max-buy {
+	border: none !important;
+}
+
 /* Bazaar worth */
 .tt-bazaar-text span.tt-money {
 	color: #678c00;
@@ -40,4 +45,9 @@
 
 .not-bold {
 	font-weight: 400 !important;
+}
+
+#tt-total-cost {
+	float: right;
+	color: #678c00;
 }

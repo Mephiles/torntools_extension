@@ -1,13 +1,25 @@
 /* General UI */
 
-#tt-stock-filter.portfolio {
+.tt-total-stock-value {
+	color: #999999;
+	font-size: 17px;
+	font-weight: normal;
+}
+
+#tt-stock-filter.portfolio,
+#tt-hide-stocks.portfolio {
 	margin-bottom: 10px;
 }
 
 .filter-wrap {
 	padding: 5px;
 	margin-bottom: 5px;
+	text-align: center;
 	flex-basis: 0 !important;
+}
+
+.dark-mode .filter-content .filter-multi-wrap {
+	color: #333 !important;
 }
 
 .tt-input-wrap input {
@@ -23,85 +35,32 @@
 	height: initial;
 }
 
+#change-filter .tt-checkbox-wrap,
+#total-profit-filter .tt-checkbox-wrap {
+	display: flex;
+	justify-content: space-between;
+}
+
+label[for="up"] {
+	margin-right: 10px;
+}
+
 .tt-checkbox-wrap > * {
 	display: inline-block;
 	vertical-align: middle;
 }
 
+.dark-mode #change-filter .tt-checkbox-wrap > label,
+.dark-mode #total-profit-filter .tt-checkbox-wrap > label {
+	color: #ddd;
+}
+
+.dark-mode #change-filter .tt-checkbox-wrap input[value="loss"] {
+	margin-right: 10px;
+}
+
 .tt-mobile #tt-stock-filter .filter-content {
 	flex-flow: column;
-}
-
-/* Legend UI */
-
-.legend-worth {
-	border-left: 2px solid;
-	background-color: white;
-	height: 16px;
-	line-height: 16px;
-	padding: 2px;
-	border-radius: 0 5px 5px 0;
-	margin-bottom: 2px;
-}
-
-.legend-forecast {
-	background-color: white;
-	height: 16px;
-	line-height: 16px;
-	padding: 2px;
-	border-radius: 0 5px 5px 0;
-	margin-bottom: 2px;
-}
-
-/* Forecast Colors */
-
-.forecast-very_good {
-	background: #6bff71 !important;
-}
-
-.forecast-good {
-	background: #cbff8f !important;
-}
-
-.forecast-average {
-}
-
-.forecast-poor {
-	background: #ffdedc !important;
-}
-
-.forecast-very_poor {
-	background: #ffb0ac !important;
-}
-
-/* Worth Colors */
-
-.worth > .logo-stock {
-	width: 75px !important;
-}
-
-.worth > .logo {
-	width: 145px !important;
-}
-
-.worth-noshares > .logo-stock,
-.worth-noshares > .logo {
-	border-left: solid 5px #424242 !important;
-}
-
-.worth-level_1 > .logo-stock,
-.worth-level_1 > .logo {
-	border-left: solid 5px #ff1f1f !important;
-}
-
-.worth-level_2 > .logo-stock,
-.worth-level_2 > .logo {
-	border-left: solid 5px #f2ea47 !important;
-}
-
-.worth-level_3 > .logo-stock,
-.worth-level_3 > .logo {
-	border-left: solid 5px #7be12e !important;
 }
 
 /* Block Formatting */
@@ -177,4 +136,33 @@
 
 .difference.down i {
 	background: url("https://torn.com/images/v2/stock/up_down_steady.png") 0 1px no-repeat;
+}
+
+div#tt-hide-stocks td {
+	border-bottom: 1px solid;
+}
+
+div#tt-hide-stocks tr.heading {
+	border-bottom: black 2px solid;
+}
+
+div#tt-hide-stocks table {
+	width: 100%;
+	text-align: center;
+	background-color: white;
+	font-size: 14px;
+}
+
+div#tt-hide-stocks tr > td:nth-child(1) {
+	font-weight: bold;
+	font-size: 18px;
+	vertical-align: middle;
+}
+
+div#tt-hide-stocks tr > td:nth-child(3) {
+	color: blue;
+}
+
+div#tt-hide-stocks tr > td:nth-child(4) {
+	color: #678c00;
 }

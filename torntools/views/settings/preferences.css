@@ -1,4 +1,6 @@
-#areas span {
+#areas span,
+#casinogames span,
+#stock-blocks span {
 	background-color: #f2f2f2;
 	padding: 1px 5px;
 	border-radius: 4px;
@@ -9,7 +11,16 @@
 	margin-bottom: 4px;
 }
 
-#areas span.disabled {
-	opacity: 0.3;
+.dark-mode #areas,
+.dark-mode #casinogames,
+.dark-mode #stock-blocks {
+	color: #333;
+}
+
+#areas span.disabled,
+#casinogames span.disabled,
+#stock-blocks span.disabled {
+	color: white;
+	opacity: 0.7;
 	background-color: #ff000069;
 }

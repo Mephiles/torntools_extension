@@ -8,21 +8,19 @@ assignees: ''
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+A description of the bug.
 
 **To Reproduce**
-Steps to reproduce the behavior:
+Steps to reproduce if it isn't self-explanatory:
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
-
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
+If possible, add screenshots to help explain your problem.
 
+If you feel like the following information is important then please fill in:
 **Desktop (please complete the following information):**
  - OS: [e.g. iOS]
  - Browser [e.g. chrome, safari]
@@ -33,6 +31,3 @@ If applicable, add screenshots to help explain your problem.
  - OS: [e.g. iOS8.1]
  - Browser [e.g. stock browser, safari]
  - Version [e.g. 22]
-
-**Additional context**
-Add any other context about the problem here.

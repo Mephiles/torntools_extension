@@ -1,4 +1,50 @@
 const USABLE_ITEM_TYPES = ["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"];
+const BOOK_DESCRIPTIONS = {
+	744: "Incr. Str by 5% up to 10m upon completion.",
+	745: "Incr. Spd by 5% up to 10m upon completion.",
+	746: "Incr. Def by 5% up to 10m upon completion.",
+	747: "Incr. Dex by 5% up to 10m upon completion.",
+	748: "Incr. all working stats by 5% up to 2.5k each upon completion.",
+	749: "Incr. blacklist & friend list by 100 upon completion.",
+	750: "Provides a free merit reset upon completion.",
+	751: "Removes a large amount of drug addiction upon completion.",
+	752: "Provides a passive 25% bonus to all stats (31 days).",
+	753: "Provides a passive 100% bonus to Str (31 days).",
+	754: "Provides a passive 100% bonus to Def (31 days).",
+	755: "Provides a passive 100% bonus to Spd (31 days).",
+	756: "Provides a passive 100% bonus to Dex (31 days).",
+	757: "Incr. all gym gains by 20% (31 days).",
+	758: "Incr. Str gym gains by 30% (31 days).",
+	759: "Incr. Def gym gains by 30% (31 days).",
+	760: "Incr. Spd gym gains by 30% (31 days).",
+	761: "Incr. Dex gym gains by 30% (31 days).",
+	762: "Incr. crime skill & crime EXP gain by 25% (31 days).",
+	763: "Incr. all EXP gain by 25% (31 days).",
+	764: "Decr. all hospital times by 50% (31 days).",
+	765: "Decr. all jail times by 50% (31 days).",
+	766: "Decr. all travel times by 25% (31 days).",
+	767: "Incr. travel items by 10 (31 days).",
+	768: "Guaranteed stealth for the next 31 days.",
+	769: "Large jail bust & escape boost for the next 31 days.",
+	770: "Happiness can regen above maximum (31 days)",
+	771: "Doubles contract credit & money rewards (31 days).",
+	772: "Incr. city item spawns (31 days).",
+	773: "Gain no drug addiction 31 days.",
+	774: "Provides +20% energy regen (31 days).",
+	775: "Doubles nerve regen (31 days).",
+	776: "Doubles happiness regen (31 days).",
+	777: "Doubles life regen (31 days).",
+	778: "Duke will occasionally retaliate against your attackers (31 days).",
+	779: "Decr. all consumable cooldowns by 50% (31 days).",
+	780: "Decr. all medical cooldowns by 50% (31 days).",
+	781: "Doubles alcohol effects (31 days).",
+	782: "Doubles energy drink effects (31 days).",
+	783: "Doubles candy effects (31 days).",
+	784: "Incr. maximum energy to 250 (31 days)",
+	785: "Re-use your last used book (31 days).",
+	786: "Boost your employee effectiveness (31 days).",
+	787: "Guaranteed escape attempt success (31 days)",
+};
 
 requireDatabase().then(() => {
 	requireContent().then(() => {
@@ -39,6 +85,8 @@ requireDatabase().then(() => {
 		if (settings.scripts.no_confirm.global && settings.scripts.no_confirm.item_equip) {
 			addItemListener();
 		}
+
+		showXanaxWarning();
 	});
 });
 
@@ -194,6 +242,13 @@ requireDatabase().then(() => {
 function initializeItems() {
 	console.log("Showing item information.");
 
+	try {
+		doc.find("#tt-needed-plushies-div").style.display = "none";
+	} catch (err) {}
+	try {
+		doc.find("#tt-needed-flowers-div").style.display = "none";
+	} catch (err) {}
+
 	// Item values
 	if (settings.pages.items.values) {
 		displayItemPrices(itemlist.items);
@@ -218,6 +273,12 @@ function initializeItems() {
 	}
 
 	if (settings.pages.items.highlight_bloodbags !== "none") highlightBloodBags();
+	showMissingPlushies();
+	showMissingFlowers();
+	if (settings.pages.items.show_book_effects) showBookEffects();
+	if (settings.pages.items.show_candy_happy_gains) showCandyGains();
+	if (settings.pages.items.show_e_can_gains) showECanGains();
+	if (settings.pages.items.show_alcohol_nerve_gains) showAlcoholNerveGains();
 }
 
 function itemsLoaded() {
@@ -664,4 +725,229 @@ function addItemListener() {
 	`;
 
 	doc.find("head").appendChild(script);
+}
+
+function showMissingPlushies() {
+	if (settings.pages.items.show_missing_plushies) {
+		if (doc.find("ul#plushies-items").getAttribute("aria-hidden") === "true") return;
+		else if (doc.find("#tt-needed-plushies-div")) {
+			doc.find("#tt-needed-plushies-div").style.display = "block";
+			return;
+		}
+
+		let plushieSet = {
+			"Sheep Plushie": 186,
+			"Teddy Bear Plushie": 187,
+			"Kitten Plushie": 215,
+			"Jaguar Plushie": 258,
+			"Wolverine Plushie": 261,
+			"Nessie Plushie": 266,
+			"Red Fox Plushie": 268,
+			"Monkey Plushie": 269,
+			"Chamois Plushie": 273,
+			"Panda Plushie": 274,
+			"Lion Plushie": 281,
+			"Camel Plushie": 384,
+			"Stingray Plushie": 618,
+		};
+		let plushiesAvailable = userdata.inventory.filter((x) => x.type === "Plushie").map((x) => x.name);
+		if (plushiesAvailable.length > 0) {
+			let neededPlushies = Object.keys(plushieSet).filter((x) => !plushiesAvailable.includes(x));
+			let neededPlushiesDiv = doc.new({
+				type: "div",
+				id: "tt-needed-plushies-div",
+			});
+			for (let plushieNumber of neededPlushies) {
+				let plushieImgSrc = `https://www.torn.com/images/items/${plushieSet[plushieNumber]}/large.png`;
+				let rawHTML = `<div class="tt-needed-div title-wrap title"><img class="tt-needed-img" src="${plushieImgSrc}" alt=""/><span class="tt-needed-name">${plushieNumber}</span></div>`;
+				neededPlushiesDiv.innerHTML += rawHTML;
+			}
+			neededPlushiesDiv.lastChild.style.borderRadius = "0px 0px 5px 5px";
+			doc.find(".main-items-cont-wrap").insertAdjacentElement("afterEnd", neededPlushiesDiv);
+		}
+	}
+}
+
+function showMissingFlowers() {
+	if (settings.pages.items.show_missing_flowers) {
+		if (doc.find("ul#flowers-items").getAttribute("aria-hidden") === "true") return;
+		else if (doc.find("#tt-needed-flowers-div")) {
+			doc.find("#tt-needed-flowers-div").style.display = "block";
+			return;
+		}
+
+		let flowerSet = {
+			Dahlia: 260,
+			Crocus: 263,
+			Orchid: 264,
+			Heather: 267,
+			"Ceibo Flower": 271,
+			Edelweiss: 272,
+			Peony: 276,
+			"Cherry Blossom": 277,
+			"African Violet": 282,
+			"Tribulus Omanense": 385,
+			"Banana Orchid": 617,
+		};
+		let flowersAvailable = userdata.inventory.filter((x) => x.type === "Flower").map((x) => x.name);
+		if (flowersAvailable.length > 0) {
+			for (let flowerPresent of doc.findAll("#flowers-items > :not(.tt-ignore)")) {
+				flowersAvailable.push(flowerPresent.find("span.name").innerText);
+			}
+			let neededFlowers = Object.keys(flowerSet).filter((x) => !flowersAvailable.includes(x));
+			let neededFlowersDiv = doc.new({
+				type: "div",
+				id: "tt-needed-flowers-div",
+			});
+			for (let flowerNumber of neededFlowers) {
+				let flowerImgSrc = `https://www.torn.com/images/items/${flowerSet[flowerNumber]}/large.png`;
+				let rawHTML = `<div class="tt-needed-div title-wrap title"><img class="tt-needed-img" src="${flowerImgSrc}" alt=""/><span class="tt-needed-name">${flowerNumber}</span></div>`;
+				neededFlowersDiv.innerHTML += rawHTML;
+			}
+			neededFlowersDiv.lastChild.style.borderRadius = "0px 0px 5px 5px";
+			doc.find(".main-items-cont-wrap").insertAdjacentElement("afterEnd", neededFlowersDiv);
+		}
+	}
+}
+
+function showBookEffects() {
+	doc.findAll("[data-category='Book']").forEach((book) => {
+		if (book.find("span.tt-book-effect")) return;
+		book.find("span.qty.bold.t-hide").insertAdjacentHTML(
+			"afterEnd",
+			`<span class='tt-book-effect'> - ${BOOK_DESCRIPTIONS[parseInt(book.getAttribute("data-item"))]}</span>`
+		);
+	});
+}
+
+function showECanGains() {
+	// Get every element in array that matches string 'energy drinks'
+	let facECanPerc = parseInt(
+		userdata.faction_perks
+			.filter((x) => /energy drinks/i.test(x))
+			.map((x) => {
+				// Replace everything other than numbers
+				x.replace(/[^0-9\.]/g, "");
+			})[0]
+	);
+	// Get every element in array that matches string 'boost'
+	let jobECanPerc = parseInt(
+		userdata.company_perks
+			.filter((x) => /boost/i.test(x))
+			.map((x) => {
+				// Replace everything other than numbers
+				x.replace(/[^0-9\.]/g, "");
+			})[0]
+	);
+	doc.findAll("[data-category='Energy Drink']").forEach((eCanElement) => {
+		if (!eCanElement.find("span.tt-e-can-alcohol-candy")) {
+			let baseE = parseInt(
+				itemlist.items[eCanElement.getAttribute("data-item")].effect
+					.split(" ")
+					.map((x) => parseInt(x))
+					.filter((x) => !isNaN(x))[0]
+			);
+			let totalEnergy = baseE;
+			if (!isNaN(facECanPerc)) totalEnergy += (facECanPerc / 100) * baseE;
+			if (!isNaN(jobECanPerc)) totalEnergy += (jobECanPerc / 100) * baseE;
+			const rawHTML = `<span class='tt-e-can-alcohol-candy'>${totalEnergy}E</span>`;
+			eCanElement.find("span.name-wrap").insertAdjacentHTML("beforeEnd", rawHTML);
+		}
+	});
+}
+
+function showAlcoholNerveGains() {
+	// Get every element in array that matches string 'alcohol'
+	let facAlcoholGainPerc = parseInt(
+		userdata.faction_perks
+			.filter((x) => /alcohol/i.test(x))
+			.map((x) => {
+				// Replace everything other than numbers
+				x.replace(/[^0-9\.]/g, "");
+			})[0]
+	);
+	// Get every element in array that matches string 'boost'
+	let jobAlcoholGainPerc = parseInt(
+		userdata.company_perks
+			.filter((x) => /boost/i.test(x))
+			.map((x) => {
+				// Replace everything other than numbers
+				x.replace(/[^0-9\.]/g, "");
+			})[0]
+	);
+	doc.findAll("[data-category='Alcohol']").forEach((alcoholicDrink) => {
+		if (!alcoholicDrink.find("span.tt-e-can-alcohol-candy")) {
+			let baseNerve = parseInt(
+				itemlist.items[alcoholicDrink.getAttribute("data-item")].effect
+					.split(" ")
+					.map((x) => parseInt(x))
+					.filter((x) => !isNaN(x))[0]
+			);
+			let totalNerve = baseNerve;
+			if (!isNaN(facAlcoholGainPerc)) totalNerve += (facAlcoholGainPerc / 100) * baseNerve;
+			if (!isNaN(jobAlcoholGainPerc)) totalNerve += (jobAlcoholGainPerc / 100) * baseNerve;
+			let maxNerve = Math.ceil(totalNerve);
+			let minNerve = Math.floor(totalNerve);
+			let nerveRange = maxNerve === minNerve ? maxNerve : `${minNerve} - ${maxNerve}`;
+			const rawHTML = `<span class='tt-e-can-alcohol-candy'>${nerveRange} N</span>`;
+			alcoholicDrink.find("span.name-wrap span.qty.bold.t-hide").insertAdjacentHTML("beforeEnd", rawHTML);
+		}
+	});
+}
+
+function showCandyGains() {
+	// Get every element in array that matches string 'candies'
+	let facCandyPerc = parseInt(
+		userdata.faction_perks
+			.filter((x) => /candy/i.test(x))
+			.map((x) => {
+				// Replace everything other than numbers
+				x.replace(/[^0-9\.]/g, "");
+			})[0]
+	);
+	// Get every element in array that matches string 'boost'
+	let jobCandyPerc = parseInt(
+		userdata.company_perks
+			.filter((x) => /boost/i.test(x))
+			.map((x) => {
+				// Replace everything other than numbers
+				x.replace(/[^0-9\.]/g, "");
+			})[0]
+	);
+	doc.findAll("[data-category='Candy']").forEach((candy) => {
+		if (!candy.find("span.tt-e-can-alcohol-candy")) {
+			let baseHappy = parseInt(
+				itemlist.items[candy.getAttribute("data-item")].effect
+					.split(" ")
+					.map((x) => parseInt(x))
+					.filter((x) => !isNaN(x))[0]
+			);
+			let totalHappy = baseHappy;
+			if (!isNaN(facCandyPerc)) totalHappy += (facCandyPerc / 100) * baseHappy;
+			if (!isNaN(jobCandyPerc)) totalHappy += (jobCandyPerc / 100) * baseHappy;
+			const rawHTML = `<span class='tt-e-can-alcohol-candy'>${totalHappy}H</span>`;
+			candy.find("span.name-wrap span.qty.bold.t-hide").insertAdjacentHTML("beforeEnd", rawHTML);
+		}
+	});
+}
+
+function showXanaxWarning() {
+	doc.addEventListener("click", (event) => {
+		if (event.target.classList.contains("option-use") && event.target.getAttribute("aria-label") === "Take Xanax") {
+			requireElement("div.action-wrap.use-act.use-action[style*='display: block'] span.bold").then(() => {
+				let actionWrap = doc.find("div.action-wrap.use-act.use-action[style*='display: block']");
+				if (
+					actionWrap.find("span.bold").innerText.trim() === "Xanax" &&
+					!actionWrap.find("span.tt-xan-warning") &&
+					doc.find("a#barEnergy p[class*='bar-value_']").innerHTML.contains("1000/")
+				) {
+					actionWrap.find("h5#wai-action-desc").insertAdjacentHTML("afterEnd", "<span class='tt-xan-warning'>Warning ! You are at 1000E !</span>");
+				}
+			});
+		}
+	});
+	if (doc.find("div#ttQuick div.item[item-id='206']") && doc.find("a#barEnergy p[class*='bar-value_']").innerHTML.contains("1000/")) {
+		doc.find("div#ttQuick div.item[item-id='206']").style.backgroundColor = "#ff7979";
+		doc.find("div#ttQuick div.item[item-id='206']").style.pointerEvents = "none";
+	}
 }

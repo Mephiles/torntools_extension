@@ -229,7 +229,7 @@ window.addEventListener("load", async () => {
 		link.appendChild(icon);
 		link.appendChild(span);
 
-		doc.find("#top-page-links-list a.last").classList.remove("last");
+		// doc.find("#top-page-links-list a.last").classList.remove("last");
 		doc.find("#top-page-links-list").insertBefore(link, doc.find("#top-page-links-list .links-footer"));
 
 		if (on_travel_table) {
@@ -399,16 +399,32 @@ function addFilterToTable(list, title) {
 		})
 		.find(".content");
 	filter_container.innerHTML = `
-        <div class="filter-header">
-            <div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> users</div>
-        </div>
-        <div class="filter-content ${mobile ? "tt-mobile" : ""}">
-            <div class="filter-wrap" id="activity-filter">
-                <div class="filter-heading">Activity</div>
+		<div class="filter-header">
+			<div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">Y</span> users</div>
+		</div>
+		<div class="filter-content ${mobile ? "tt-mobile" : ""}">
+			<div class="filter-wrap" id="activity-filter">
+				<div class="filter-heading">Activity</div>
+				<div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}">
+					<div class="tt-checkbox-wrap"><input type="checkbox" value="online">Online</div>
+					<div class="tt-checkbox-wrap"><input type="checkbox" value="idle">Idle</div>
+					<div class="tt-checkbox-wrap"><input type="checkbox" value="offline">Offline</div>
+				</div>
+			</div>
+			<div class="filter-wrap" id="faction-filter">
+				<div class="filter-heading">Faction</div>
+				<div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}">
+					<select name="faction" id="tt-faction-filter">
+						<option selected value="">none</option>
+					</select>
+				</div>
+			</div>
+			<div class="filter-wrap" id="faction-filter">
+                <div class="filter-heading">Faction</div>
                 <div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}">
-                    <div class="tt-checkbox-wrap"><input type="checkbox" value="online">Online</div>
-                    <div class="tt-checkbox-wrap"><input type="checkbox" value="idle">Idle</div>
-                    <div class="tt-checkbox-wrap"><input type="checkbox" value="offline">Offline</div>
+                    <select name="faction" id="tt-faction-filter">
+						<option selected value="">none</option>
+					</select>
                 </div>
 			</div>
 			<div class='filter-wrap' id='special-filter'>
@@ -422,20 +438,20 @@ function addFilterToTable(list, title) {
 					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='isdonator-yes'>N:<input type='checkbox' value='isdonator-no'>Is Donator</div>
 				</div>
 			</div>
-            <div class="filter-wrap" id="status-filter">
-                <div class="filter-heading">Status</div>
-                <div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}">
-                    <div class="tt-checkbox-wrap"><input type="checkbox" value="okay">Okay</div>
-                    <div class="tt-checkbox-wrap"><input type="checkbox" value="hospital">Hospital</div>
-                </div>
-            </div>
-            <div class="filter-wrap" id="level-filter">
-                <div class="filter-heading">Level</div>
-                <div id="tt-level-filter" class="filter-slider"></div>
-                <div class="filter-slider-info"></div>
-            </div>
-        </div>
-    `;
+			<div class="filter-wrap" id="status-filter">
+				<div class="filter-heading">Status</div>
+				<div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}">
+					<div class="tt-checkbox-wrap"><input type="checkbox" value="okay">Okay</div>
+					<div class="tt-checkbox-wrap"><input type="checkbox" value="hospital">Hospital</div>
+				</div>
+			</div>
+			<div class="filter-wrap" id="level-filter">
+				<div class="filter-heading">Level</div>
+				<div id="tt-level-filter" class="filter-slider"></div>
+				<div class="filter-slider-info"></div>
+			</div>
+		</div>
+	`;
 
 	// Initializing
 	let level_start = filters.overseas.level[0] || 0;
@@ -524,14 +540,14 @@ function addFilterToTable(list, title) {
 	//     doc.find(`#faction-filter option[value='${filters.overseas.faction}']`).selected = true;
 	// }
 
-	// populateFactions();
+	populateFactions();
 	applyFilters();
 
 	function applyFilters() {
 		let activity = [];
 		let status = [];
 		let special = {};
-		// let faction = ``;
+		let faction;
 		// let time = []
 		let level = [];
 
@@ -543,6 +559,8 @@ function addFilterToTable(list, title) {
 		for (let checkbox of doc.findAll("#status-filter .tt-checkbox-wrap input:checked")) {
 			status.push(checkbox.getAttribute("value"));
 		}
+		// Faction
+		faction = doc.find("#faction-filter select").value;
 		// Special
 		for (let key in filters.overseas.special) {
 			if (
@@ -583,6 +601,12 @@ function addFilterToTable(list, title) {
 				}
 			}
 			if (!matches_one_activity) {
+				showRow(li, false);
+				continue;
+			}
+
+			// Faction
+			if (faction && li.find(".user.faction img") && li.find(".user.faction img").getAttribute("title").trim() !== faction) {
 				showRow(li, false);
 				continue;
 			}
@@ -636,7 +660,7 @@ function addFilterToTable(list, title) {
 				overseas: {
 					activity: activity,
 					status: status,
-					// faction: faction,
+					faction: faction,
 					// time: time,
 					level: level,
 				},
@@ -664,11 +688,21 @@ function addFilterToTable(list, title) {
 		}
 	}
 
+	function populateFactions() {
+		let factionTags = [...list.findAll(":scope>li")]
+			.map((x) => (x.find(".user.faction img") ? x.find(".user.faction img").getAttribute("title") : x.find(".user.faction").innerText))
+			.filter((x) => x.trim() !== "");
+		factionTags = [...new Set(factionTags)];
+		for (let tag of factionTags) {
+			filter_container.find("select#tt-faction-filter").insertAdjacentHTML("beforeEnd", `<option value="${tag}">${tag}</option>`);
+		}
+	}
+
 	function updateStatistics() {
 		doc.find(".statistic#showing .filter-count").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].filter(
 			(x) => !x.classList.contains("filter-hidden")
 		).length;
-		doc.find(".statistic#showing .filter-total").innerText = [...list.findAll(":scope>li:not(.tt-userinfo-container)")].length;
+		doc.find(".statistic#showing .filter-total").innerText = list.findAll(":scope>li:not(.tt-userinfo-container)").length;
 	}
 }
 
@@ -676,7 +710,12 @@ function addFilterToTable(list, title) {
 async function travelTableScript() {
 	doc.find(".content-wrapper .travel-agency-travelling").innerHTML = "";
 
-	if (travel_market.length === 0 || !("date" in travel_market) || new Date() - new Date(travel_market.date) >= 2 * 60 * 1000) {
+	if (
+		travel_market.length === 0 ||
+		typeof travel_items !== "object" ||
+		!("date" in travel_market) ||
+		new Date() - new Date(travel_market.date) >= 2 * 60 * 1000
+	) {
 		// 2 minutes
 		travel_market = await updateTravelMarket();
 	}
@@ -714,43 +753,43 @@ async function travelTableScript() {
 function addLegend() {
 	let legend = `
 <div class="legend">
-    <div class="top-row">
-        <div class="filter-button"><i class="fas ${filters.travel.open ? "fa-chevron-up" : "fa-chevron-down"}"></i><div>&nbsp;Filters</div></div>
-        <div class="table-type-button">
-            <span class="table-type" type="advanced">Advanced</span>
-            <span>&nbsp;/&nbsp;</span>
-            <span class="table-type" type="basic">Basic</span>
-        </div>
-    </div>
-    <div class="legend-content ${filters.travel.open ? "" : "collapsed"}">
-        <div class="row">
-            <div>Travel items:&nbsp;<input type="number" id="tt-items" min="5" max="99"></div>
-        </div>
-        <div class="heading">Items</div>
-        <div class="row">
-            <div class="checkbox-item"><input type="checkbox" name="item" _type="plushie">Plushies</div>
-            <div class="checkbox-item"><input type="checkbox" name="item" _type="flower">Flowers</div>
-            <div class="checkbox-item"><input type="checkbox" name="item" _type="drug">Drugs</div>
-            <div class="checkbox-item"><input type="checkbox" name="item" _type="other">Other</div>
-        </div>
-        <div class="heading">Countries</div>
-        <div class="row">
-            <div class="radio-item"><input type="radio" name="country" _type="all">All</div>
-            <div class="radio-item"><input type="radio" name="country" _type="mexico">Mexico</div>
-            <div class="radio-item"><input type="radio" name="country" _type="cayman islands">Cayman Islands</div>
-            <div class="radio-item"><input type="radio" name="country" _type="canada">Canada</div>
-            <div class="radio-item"><input type="radio" name="country" _type="hawaii">Hawaii</div>
-            <div class="radio-item"><input type="radio" name="country" _type="united kingdom">United Kingdom</div>
-            <div class="radio-item"><input type="radio" name="country" _type="argentina">Argentina</div>
-            <div class="radio-item"><input type="radio" name="country" _type="switzerland">Switzerland</div>
-            <div class="radio-item"><input type="radio" name="country" _type="japan">Japan</div>
-            <div class="radio-item"><input type="radio" name="country" _type="china">China</div>
-            <div class="radio-item"><input type="radio" name="country" _type="uae">UAE</div>
-            <div class="radio-item"><input type="radio" name="country" _type="south africa">South Africa</div>
-        </div>
-    </div>
+	<div class="top-row">
+		<div class="filter-button"><i class="fas ${filters.travel.open ? "fa-chevron-up" : "fa-chevron-down"}"></i><div>&nbsp;Filters</div></div>
+		<div class="table-type-button">
+			<span class="table-type" type="advanced">Advanced</span>
+			<span>&nbsp;/&nbsp;</span>
+			<span class="table-type" type="basic">Basic</span>
+		</div>
+	</div>
+	<div class="legend-content ${filters.travel.open ? "" : "collapsed"}">
+		<div class="row">
+			<div>Travel items:&nbsp;<input type="number" id="tt-items" min="5" max="99"></div>
+		</div>
+		<div class="heading">Items</div>
+		<div class="row">
+			<div class="checkbox-item"><input type="checkbox" name="item" _type="plushie">Plushies</div>
+			<div class="checkbox-item"><input type="checkbox" name="item" _type="flower">Flowers</div>
+			<div class="checkbox-item"><input type="checkbox" name="item" _type="drug">Drugs</div>
+			<div class="checkbox-item"><input type="checkbox" name="item" _type="other">Other</div>
+		</div>
+		<div class="heading">Countries</div>
+		<div class="row">
+			<div class="radio-item"><input type="radio" name="country" _type="all">All</div>
+			<div class="radio-item"><input type="radio" name="country" _type="mexico">Mexico</div>
+			<div class="radio-item"><input type="radio" name="country" _type="cayman islands">Cayman Islands</div>
+			<div class="radio-item"><input type="radio" name="country" _type="canada">Canada</div>
+			<div class="radio-item"><input type="radio" name="country" _type="hawaii">Hawaii</div>
+			<div class="radio-item"><input type="radio" name="country" _type="united kingdom">United Kingdom</div>
+			<div class="radio-item"><input type="radio" name="country" _type="argentina">Argentina</div>
+			<div class="radio-item"><input type="radio" name="country" _type="switzerland">Switzerland</div>
+			<div class="radio-item"><input type="radio" name="country" _type="japan">Japan</div>
+			<div class="radio-item"><input type="radio" name="country" _type="china">China</div>
+			<div class="radio-item"><input type="radio" name="country" _type="uae">UAE</div>
+			<div class="radio-item"><input type="radio" name="country" _type="south africa">South Africa</div>
+		</div>
+	</div>
 </div>
-    `;
+	`;
 
 	doc.find("#ttTravelTable .content").innerHTML += legend;
 
@@ -870,17 +909,17 @@ function addTableContent(travel_items) {
 function addTableHeader() {
 	let row = `
 <div class="row header-row">
-    <div>Destination</div>
-    <div>Item</div>
-    <div>Stock</div>
-    <div class="advanced" sort-type="value">Buy Price</div>
-    <div class="advanced" sort-type="value">Market Value</div>
-    <div class="advanced" sort-type="value">Profit/Item</div>
-    <div sort-type="value">Profit/Minute</div>
-    <div class="advanced" sort-type="value">Total Profit</div>
-    <div class="advanced" sort-type="value">Cash Needed</div>
+	<div>Destination</div>
+	<div>Item</div>
+	<div>Stock</div>
+	<div class="advanced" sort-type="value">Buy Price</div>
+	<div class="advanced" sort-type="value">Market Value</div>
+	<div class="advanced" sort-type="value">Profit/Item</div>
+	<div sort-type="value">Profit/Minute</div>
+	<div class="advanced" sort-type="value">Total Profit</div>
+	<div class="advanced" sort-type="value">Cash Needed</div>
 </div>
-    `;
+	`;
 	doc.find("#ttTravelTable .table").innerHTML += row;
 
 	doc.addEventListener("click", (event) => {
@@ -915,18 +954,17 @@ function addRow(item, time, cost, travel_items, country_yata, country_code_dict_
 
 	let row = `
 <div class="row">
-    <div country='${country_code_dict_data.long_name.toLowerCase()}'><div class="flag" style="background: ${background_style}"></div>${
+	<div country='${country_code_dict_data.long_name.toLowerCase()}'><div class="flag" style="background: ${background_style}"></div>${
 		country_code_dict_data.long_name
 	}</div>
-    <div item='${item_type}'>
-        <div class="item-image" style='background-image: url(https://www.torn.com/images/items/${item.id}/small.png)'></div>
-      <a target="_blank" href="https://www.torn.com/imarket.php#/p=shop&type=${item.id}">${item.name}</a>
-    </div>
-    <div>${item.quantity.toString()} <br class="advanced"> <span class="update-time">(${update_time})</span></div>
-    <div class="advanced" value="${item.cost.toString()}">$${numberWithCommas(item.cost, item.cost >= 1e6)}</div>
-    <div class="advanced" value="${market_value}">$${numberWithCommas(market_value, market_value >= 1e6)}</div>
-    
-    `;
+	<div item='${item_type}'>
+		<div class="item-image" style='background-image: url(https://www.torn.com/images/items/${item.id}/small.png)'></div>
+	  <a target="_blank" href="https://www.torn.com/imarket.php#/p=shop&type=${item.id}">${item.name}</a>
+	</div>
+	<div>${item.quantity.toString()} <br class="advanced"> <span class="update-time">(${update_time})</span></div>
+	<div class="advanced" value="${item.cost.toString()}">$${numberWithCommas(item.cost, item.cost >= 1e6)}</div>
+	<div class="advanced" value="${market_value}">$${numberWithCommas(market_value, market_value >= 1e6)}</div>
+	`;
 	let profit_per_item_div;
 	if (profit_per_item > 0) {
 		profit_per_item_div = `<div class="positive profit advanced" value="${profit_per_item}">+$${numberWithCommas(
@@ -1279,10 +1317,14 @@ function addFilterToItems(listGetter, title) {
 				case "weapon":
 					categoriesExtra.push("primary");
 					categoriesExtra.push("secondary");
+					categoriesExtra.push("defensive");
 					categoriesExtra.push("melee");
+					categoriesExtra.push("temporary");
 					break;
 				case "other":
 					categoriesExtra.push("enhancer");
+					categoriesExtra.push("clothing");
+					categoriesExtra.push("alcohol");
 					// FIXME - Add more missing categories.
 					break;
 			}
@@ -1311,12 +1353,13 @@ function addFilterToItems(listGetter, title) {
 					if (itemCategory === category) {
 						// FIXME Add category check.
 						matchesCategory = true;
-						break;
+						continue;
 					}
 				}
 
 				if (!matchesCategory) {
 					showRow(li, false);
+					continue;
 				}
 			}
 		}

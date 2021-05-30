@@ -5,6 +5,19 @@
 }
 
 /* Profile stats */
+.tt-profile-title {
+	font-size: 22px;
+	color: #333;
+}
+
+.tt-mobile .tt-profile-title {
+	font-size: 17px !important;
+}
+
+.dark-mode .tt-profile-title {
+	color: #999;
+}
+
 .content.tt-content {
 	overflow: hidden !important;
 }
@@ -33,6 +46,7 @@
 	cursor: pointer;
 	text-align: center;
 	background-color: #d8fdb4;
+	color: #333;
 	padding: 4px;
 	margin: 4px;
 }
@@ -46,6 +60,11 @@
 	position: relative;
 	background-color: #e0e0e0;
 	cursor: pointer;
+}
+
+.dark-mode .col-chosen.column.active > *,
+.dark-mode .col-other.column.active > * {
+	background-color: #333;
 }
 
 .col-other {
@@ -110,11 +129,30 @@
 	background-color: #f2f2f2;
 }
 
+.dark-mode .tt-row {
+	display: flex;
+	border-bottom: 1px solid #222;
+	//background-color: #f2f2f2;
+}
+
 .tt-row .item {
 	flex: 1 0 33%;
 	font-size: 13px;
 	line-height: 16px;
 	overflow: hidden;
+	box-sizing: border-box;
+	padding-left: 10px;
+	border-right: 2px solid lightgray;
+}
+
+.dark-mode .tt-row .item {
+	flex: 1 0 33%;
+	font-size: 13px;
+	line-height: 16px;
+	overflow: hidden;
+	box-sizing: border-box;
+	padding-left: 10px;
+	border-right: 2px solid #222;
 }
 
 .tt-row .item:last-of-type {
@@ -125,12 +163,6 @@
 .tt-row.sub-heading .item {
 	font-weight: 600;
 	font-size: 14px !important;
-}
-
-.tt-row .item {
-	box-sizing: border-box;
-	padding-left: 10px;
-	border-right: 2px solid lightgray;
 }
 
 .col-chosen.tt-highlight-sector .tt-row:not(.tt-header):not(.sub-heading):hover {
@@ -147,8 +179,16 @@
 	color: #00a500;
 }
 
+.dark-mode .positive {
+	color: #00a500;
+}
+
+.dark-mode .negative {
+	color: #d83500;
+}
+
 .negative {
-	color: #de0000;
+	color: #d83500;
 }
 
 .tt-footer {
@@ -196,8 +236,19 @@
 }
 
 .spy-table {
+	color: #333;
 	margin-top: 5px;
 	margin-bottom: 5px;
+}
+
+.dark-mode .spy-table {
+	color: white !important;
+	border: 1px solid lightgrey;
+	border-bottom: none;
+}
+
+.dark-mode .spy-table > * {
+	background-color: #333 !important;
 }
 
 /* Target Info */
@@ -217,6 +268,7 @@
 }
 
 .tt-table {
+	color: #333;
 	width: 774px;
 	margin: 5px 0;
 	padding: 0;
@@ -359,4 +411,11 @@
 
 .saved-note {
 	margin-left: 8px;
+}
+
+.unselectable {
+	-webkit-user-select: none; /* Safari */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none; /* Standard */
 }

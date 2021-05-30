@@ -9,7 +9,7 @@ requireDatabase().then(() => {
 		const step = params.get("step");
 		if (page === "factions") {
 			if (step === "mainnews" && parseInt(params.get("type")) === 4 && settings.pages.faction.armory) {
-				newstabLoaded("armory").then(shortenArmoryNews);
+				//newstabLoaded("armory").then(shortenArmoryNews);
 			} else if (step === "getMoneyDepositors") {
 				loadGiveToUser();
 			} else if (step === "crimesInitiate") {
@@ -79,14 +79,17 @@ requireDatabase().then(() => {
 function loadMain() {
 	subpageLoaded("main").then(() => {
 		fullInfoBox("main");
+		foldFactionDesc();
 
 		if (ownFaction && settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
+		displayWarOverTimes();
 	});
 }
 
 function loadInfo() {
 	subpageLoaded("info").then(() => {
 		fullInfoBox("info");
+		foldFactionDesc();
 
 		if (ownFaction) {
 			if (settings.pages.faction.armory_worth) armoryWorth();
@@ -94,6 +97,7 @@ function loadInfo() {
 	});
 
 	if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.faction_wars) observeWarlist();
+	if (!ownFaction) displayWarOverTimes();
 
 	requirePlayerList(".members-list .table-body").then(async () => {
 		await showUserInfo();
@@ -103,6 +107,7 @@ function loadInfo() {
 		let title = list.previousElementSibling;
 
 		addFilterToTable(list, title);
+		if (settings.pages.faction.member_index) addNumbersToMembers();
 	});
 }
 
@@ -132,6 +137,7 @@ function loadCrimes() {
 
 function loadUpgrades() {
 	upgradesInfoListener();
+	exportChallengeContributionsCSV();
 }
 
 function loadArmory() {
@@ -344,7 +350,7 @@ function openOCs() {
 function showNNB() {
 	if (shouldDisable()) return;
 
-	fetchApi_v2("tornstats", { section: "api.php", action: "crimes" })
+	fetchApi_v2("tornstats", { action: "crimes" })
 		.then((result) => {
 			// Populate active crimes
 			let crimes = doc.findAll(".organize-wrap .crimes-list>li");
@@ -417,14 +423,17 @@ function showNNB() {
 }
 
 function fullInfoBox(page) {
-	let info_box;
+	let info_box, facDescription;
 	if (getSearchParameters().get("step") === "profile") {
 		info_box = doc.find("#factions div[data-title='description']").nextElementSibling;
 	} else if (page === "main") {
 		info_box = doc.find("div[data-title='announcement']").nextElementSibling;
+		facDescription = info_box;
 	} else if (page === "info") {
 		info_box = doc.find("#faction-info .faction-info-wrap.faction-description .faction-info");
 	}
+
+	if (!facDescription) facDescription = info_box.parentElement.find("div.faction-description");
 
 	let title = info_box.previousElementSibling;
 
@@ -448,7 +457,7 @@ function fullInfoBox(page) {
 
 	if (settings.pages.faction[key]) {
 		checkbox.checked = true;
-		info_box.classList.toggle("tt-force-full");
+		facDescription.classList.toggle("tt-force-full");
 	}
 
 	setting_div.appendChild(checkbox);
@@ -457,7 +466,7 @@ function fullInfoBox(page) {
 	title.appendChild(options_div);
 
 	checkbox.onclick = () => {
-		info_box.classList.toggle("tt-force-full");
+		facDescription.classList.toggle("tt-force-full");
 
 		ttStorage.change({ settings: { pages: { faction: { [key]: checkbox.checked } } } });
 	};
@@ -690,7 +699,7 @@ function showAvailablePlayers() {
 		doc.find("#faction-crimes").insertBefore(
 			doc.new({
 				type: "div",
-				class: "info-msg-cont border-round m-top10",
+				class: "info-msg-cont border-round m-top10 torn-msg",
 				html: `
 				<div class="info-msg border-round">
 					<i class="info-icon"></i>
@@ -872,22 +881,28 @@ function addFilterToTable(list, title) {
                     <div class="tt-checkbox-wrap"><input type="checkbox" value="jail">Jail</div>
                 </div>
 			</div>
-			<div class='filter-wrap' id='special-filter'>
-				<div class='filter-heading'>Special</div>
-				<div class='filter-multi-wrap ${mobile ? "tt-mobile" : ""}'>
-					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='isfedded-yes'>N:<input type='checkbox' value='isfedded-no'>Fedded</div>
+			<div class="filter-wrap" id="special-filter">
+				<div class="filter-heading">Special</div>
+				<div class="filter-multi-wrap ${mobile ? "tt-mobile" : ""}">
+					<div class="tt-checkbox-wrap">Y:<input type="checkbox" value="isfedded-yes">N:<input type="checkbox" value="isfedded-no">Fedded</div>
 					<!-- <div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='traveling-yes'>N:<input type='checkbox' value='traveling-no'>Traveling</div> -->
-					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='newplayer-yes'>N:<input type='checkbox' value='newplayer-no'>New Player</div>
-					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='onwall-yes'>N:<input type='checkbox' value='onwall-no'>On Wall</div>
-					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='incompany-yes'>N:<input type='checkbox' value='incompany-no'>In Company</div>
+					<div class="tt-checkbox-wrap">Y:<input type="checkbox" value="newplayer-yes">N:<input type="checkbox" value="newplayer-no">New Player</div>
+					<div class="tt-checkbox-wrap">Y:<input type="checkbox" value="onwall-yes">N:<input type="checkbox" value="onwall-no">On Wall</div>
+					<div class="tt-checkbox-wrap">Y:<input type="checkbox" value="incompany-yes">N:<input type="checkbox" value="incompany-no">In Company</div>
 					<!-- <div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='infaction-yes'>N:<input type='checkbox' value='infaction-no'>In Faction</div> -->
-					<div class='tt-checkbox-wrap'>Y:<input type='checkbox' value='isdonator-yes'>N:<input type='checkbox' value='isdonator-no'>Is Donator</div>
+					<div class="tt-checkbox-wrap">Y:<input type="checkbox" value="isdonator-yes">N:<input type="checkbox" value="isdonator-no">Is Donator</div>
 				</div>
 			</div>
             <div class="filter-wrap" id="level-filter">
                 <div class="filter-heading">Level</div>
                 <div id="tt-level-filter" class="filter-slider"></div>
                 <div class="filter-slider-info"></div>
+            </div>
+			<div class="filter-wrap" id="position-filter">
+                <div class="filter-heading">Position</div>
+                <select name="position" id="position-filter">
+					<option value="None" selected>None</option>
+				</select>
             </div>
             <div class="filter-wrap ${settings.pages.faction.member_info && ownFaction ? "" : "filter-hidden"}" id="last-action-filter">
                 <div class="filter-heading">Last Action</div>
@@ -952,6 +967,14 @@ function addFilterToTable(list, title) {
 		}
 	}
 
+	// Positions
+	doc.findAll("#faction-info-members .table-body .position span").forEach((positionSpan) => {
+		let filterContainerSelect = filter_container.find("#position-filter select");
+		let position = positionSpan.innerText;
+		if (!filterContainerSelect.innerHTML.includes(">" + position + "<"))
+			filterContainerSelect.insertAdjacentHTML("beforeEnd", `<option value="${position}">${position}</option>`);
+	});
+
 	// Level slider
 	let level_slider = filter_container.find("#tt-level-filter");
 	noUiSlider.create(level_slider, {
@@ -995,6 +1018,7 @@ function addFilterToTable(list, title) {
 	for (let dropdown of filter_container.findAll("select")) {
 		dropdown.onchange = applyFilters;
 	}
+	filter_container.find("#position-filter select").addEventListener("change", () => applyFilters());
 	let filter_observer = new MutationObserver((mutations) => {
 		for (let mutation of mutations) {
 			if (
@@ -1142,6 +1166,19 @@ function addFilterToTable(list, title) {
 				}
 			}
 
+			// Position
+			if (filter_container.find("#position-filter select").value === "None") showRow(li);
+			else if (
+				filter_container.find("#position-filter select").value !== "None" &&
+				filter_container.find("#position-filter select").value === li.find(".position").innerText
+			)
+				showRow(li);
+			else if (
+				filter_container.find("#position-filter select").value !== "None" &&
+				filter_container.find("#position-filter select").value !== li.find(".position").innerText
+			)
+				showRow(li, false);
+
 			// Activity
 			let matches_one_activity = activity.length === 0;
 			for (let state of activity) {
@@ -1265,7 +1302,7 @@ function armoryFilter() {
 
 	if (
 		!["weapons", "armour"].includes(
-			doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
+			doc.find("ul[aria-label='Faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
 		)
 	) {
 		armory_filter.classList.add("filter-hidden");
@@ -1273,7 +1310,7 @@ function armoryFilter() {
 
 	// Switching page
 	if (!mobile) {
-		for (let link of doc.findAll("ul[aria-label='faction armoury tabs']>li")) {
+		for (let link of doc.findAll("ul[aria-label='Faction armoury tabs']>li")) {
 			if (["weapons", "armour"].includes(link.getAttribute("aria-controls").replace("armoury-", ""))) {
 				link.addEventListener("click", () => {
 					console.log("filter tab");
@@ -1294,7 +1331,7 @@ function armoryFilter() {
 		doc.find(".armoury-drop-list select#armour-nav-list").addEventListener("change", () => {
 			if (
 				["weapons", "armour"].includes(
-					doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
+					doc.find("ul[aria-label='Faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
 				)
 			) {
 				console.log("filter tab");
@@ -1334,7 +1371,7 @@ function armoryFilter() {
 					if (added_node.classList && added_node.classList.contains("item-list")) {
 						if (
 							["weapons", "armour"].includes(
-								doc.find("ul[aria-label='faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
+								doc.find("ul[aria-label='Faction armoury tabs']>li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "")
 							)
 						) {
 							console.log("items added");
@@ -1376,7 +1413,7 @@ const ALLOWED_BLOOD = {
 };
 
 function highlightBloodBags() {
-	const section = doc.find("ul[aria-label='faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
+	const section = doc.find("ul[aria-label='Faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
 	if (section === "medical") highlight();
 
 	new MutationObserver((mutations) => {
@@ -1388,7 +1425,7 @@ function highlightBloodBags() {
 		)
 			return;
 
-		const section = doc.find("ul[aria-label='faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
+		const section = doc.find("ul[aria-label='Faction armoury tabs'] > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
 		if (section !== "medical") return;
 
 		highlight();
@@ -1426,7 +1463,7 @@ function highlightBloodBags() {
 }
 
 function armoryTabsLoaded() {
-	return requireElement("ul[aria-label='faction armoury tabs'] > li[aria-selected='true']");
+	return requireElement("ul[aria-label='Faction armoury tabs'] > li[aria-selected='true']");
 }
 
 function armoryItemsLoaded() {
@@ -1445,7 +1482,7 @@ function memberInfoAdded() {
 }
 
 function warOverviewLoaded() {
-	return requireElement("#war-react-root ul.f-war-list");
+	return requireElement("#react-root ul.f-war-list");
 }
 
 function warDescriptionLoaded() {
@@ -1473,7 +1510,7 @@ function observeWarlist() {
 			if (!found) return;
 
 			observeDescription();
-		}).observe(doc.find("#war-react-root ul.f-war-list"), { childList: true });
+		}).observe(doc.find("ul.f-war-list"), { childList: true });
 	});
 }
 
@@ -1596,7 +1633,7 @@ function showFactionBalance() {
 		row.innerHTML = `
 			<div class="clearfix">
 				<div class="user name btFaction" style="width: 147px;">
-					${hasHonors ? `<img src='${factionShow}' border="0" alt="${factionShowAlt}"/>` : `<span>${factionShow}</span>`}
+					${hasHonors ? `<img src="${factionShow}" border="0" alt="${factionShowAlt}"/>` : `<span>${factionShow}</span>`}
 				</div>
 				<div class="amount">
 					<div class="show">
@@ -1638,4 +1675,115 @@ function suggestBalance() {
 	function getBalance(id) {
 		return parseInt(doc.find(`.depositor .user.name[href='/profiles.php?XID=${id}']`).parentElement.find(".amount .money").getAttribute("data-value")) || 0;
 	}
+}
+
+function displayWarOverTimes() {
+	warOverviewLoaded().then(() => {
+		doc.findAll("ul.f-war-list.war-new div.status-wrap div.timer").forEach((timer) => {
+			if (!timer.parentElement.find("div.timer.tt-timer")) {
+				let timerParts = timer.innerText.split(":").map((x) => parseInt(x));
+				let time = timerParts[0] * 24 * 60 * 60 + timerParts[1] * 60 * 60 + timerParts[2] * 60 + timerParts[3];
+				let overDate = formatDateObject(new Date(new Date().setSeconds(time)));
+				let rawHTML = `<div class="timer tt-timer">${overDate.formattedTime} ${overDate.formattedDate}</div>`;
+				timer.insertAdjacentHTML("afterEnd", rawHTML);
+			}
+		});
+	});
+}
+
+function foldFactionDesc() {
+	if (!doc.find("div[role='main'] i.tt-collapse-desc")) {
+		let rawHTML = "<i class='tt-collapse-desc fas fa-caret-down' style='padding-top: 9px;padding-left: 7px;'></i>";
+		doc.find("div[role='main'] div.tt-checkbox-wrap").insertAdjacentHTML("beforeEnd", rawHTML);
+		doc.find("i.tt-collapse-desc").addEventListener("click", (event) => {
+			event.target.classList.toggle("fa-caret-down");
+			event.target.classList.toggle("fa-caret-right");
+			let facDesc = doc.find("div[role='main'] div.cont-gray10");
+			if (facDesc.style.display == "none") {
+				facDesc.toggleAttribute("style");
+			} else {
+				facDesc.style.display = "none";
+			}
+			doc.find("div[role='main'] div.tt-options").parentElement.classList.toggle("active");
+			doc.find("div[role='main'] div.tt-options").parentElement.classList.toggle("all-rounded");
+		});
+	}
+}
+
+function exportChallengeContributionsCSV() {
+	requireElement("div#factions div#faction-upgrades div.body div#stu-confirmation").then(() => {
+		let rawHTML = `<div id="ttContribExport" class="tt-title title-green">
+                    <div class="title-text">Export Challenge Contributions</div>
+					<div class="tt-options">
+						<div id="ttExportButton" class="tt-option">
+							<i class="fa fa-table"></i>
+							<span class="text">CSV</span>
+							<a id="ttExportLink"></a>
+						</div>
+					</div>
+				</div>`;
+		let contributionsObserver = new MutationObserver(() => {
+			if (
+				!doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div#ttContribExport") &&
+				doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div.contributions-wrap")
+			) {
+				doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div.contributions-wrap").insertAdjacentHTML(
+					"beforeBegin",
+					rawHTML
+				);
+				doc.find(
+					"div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div#ttContribExport div#ttExportButton"
+				).addEventListener("click", () => {
+					let upgradeName = doc.find(
+						"div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div[role='alert'] div.name"
+					).innerText;
+					let totalTable = "data:text/csv;charset=utf-8," + "Number;Name;Profile Link;Ex Member;Contributions\r\n" + upgradeName + "\r\n";
+					for (const memberLi of [
+						...doc.findAll(
+							"div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div.contributions-wrap ul.flexslides li:not(.slide)"
+						),
+					]) {
+						let memberLabel = memberLi.find("div.player a").getAttribute("aria-label");
+						if (memberLi.classList.contains("ex-member")) {
+							totalTable +=
+								memberLi.find("div.numb").innerText +
+								";" +
+								memberLabel.split(" ")[0] +
+								";" +
+								memberLi.find("div.player a").href +
+								";" +
+								"Yes;" +
+								memberLabel.split(" ")[1].replace(/[()]/g, "") +
+								"\r\n";
+						} else {
+							totalTable +=
+								memberLi.find("div.numb").innerText +
+								";" +
+								memberLabel.split(" ")[0] +
+								";" +
+								memberLi.find("div.player a").href +
+								";" +
+								"No;" +
+								memberLabel.split(" ")[1].replace(/[()]/g, "") +
+								"\r\n";
+						}
+					}
+					let encodedUri = encodeURI(totalTable);
+					let ttExportLink = doc.find(
+						"div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div#ttContribExport div#ttExportButton #ttExportLink"
+					);
+					ttExportLink.setAttribute("href", encodedUri);
+					ttExportLink.setAttribute("download", `${upgradeName.replace(" ", "_")}_contributors.csv`);
+					ttExportLink.click();
+				});
+			}
+		});
+		contributionsObserver.observe(doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation"), { childList: true, subtree: true });
+	});
+}
+
+function addNumbersToMembers() {
+	doc.findAll("div#faction-info-members ul.table-body li.table-row").forEach((memberRow, memberIndex) =>
+		memberRow.insertAdjacentHTML("afterbegin", `<span class="tt-member-index">${memberIndex + 1}</span>`)
+	);
 }
