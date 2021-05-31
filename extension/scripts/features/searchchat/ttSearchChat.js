@@ -29,8 +29,8 @@
 			const input = parent.find(".tt-chat-filter input");
 			if (!input) return;
 
-			const keyword = input.value;
-			if (keyword) searchChat(message, keyword);
+			const inputValue = input.value;
+			if (inputValue) searchChat(message, inputValue);
 		});
 	}
 
@@ -62,13 +62,13 @@
 						id,
 						events: {
 							input: (event) => {
-								const keyword = event.target.value.toLowerCase();
+								const inputValue = event.target.value.toLowerCase();
 
 								for (const message of chat.findAll("[class*='overview_'] [class*='message_']")) {
-									searchChat(message, keyword);
+									searchChat(message, inputValue);
 								}
 
-								if (!keyword) {
+								if (!inputValue) {
 									const viewport = chat.find("[class*='viewport_']");
 									viewport.scrollTop = viewport.scrollHeight;
 								}
@@ -136,8 +136,21 @@
 		}
 	}
 
-	function searchChat(message, keyword) {
-		if (keyword && !message.find("span").innerText.toLowerCase().includes(keyword)) {
+	function searchChat(message, inputValue) {
+		let keyword, user, id;
+		if (inputValue.startsWith("by:") || inputValue.startsWith("u:")) {
+			const splitInput = inputValue.split(" ");
+			user = splitInput.shift().split(":")[1];
+			if (!isNaN(user)) id = user;
+			keyword = splitInput.join(" ");
+		}
+		const userName = message.find("a");
+		const messageText = message.find("span").innerText.toLowerCase();
+		if (id && !userName.href.includes(id)) {
+			message.classList.add("hidden");
+		} else if (!id && user && !userName.innerText.toLowerCase().includes(user)) {
+			message.classList.add("hidden");
+		} else if (keyword && !messageText.includes(keyword)) {
 			message.classList.add("hidden");
 		} else {
 			message.classList.remove("hidden");
