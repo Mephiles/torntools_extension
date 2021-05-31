@@ -339,8 +339,7 @@ main#preferences > h2 {
 
 #tt-search-overlay .circle {
 	display: inline-block;
-	margin: auto;
-	margin-right: 10px;
+	margin: auto 10px auto auto;
 	font-size: 27px;
 	background-color: white;
 	border-radius: 50%;
@@ -373,8 +372,7 @@ body.dark #tt-search-overlay input {
 	height: 30px;
 	margin-left: 10px;
 	padding: 9px 0 6px 12px;
-	border: #acea00 3px solid;
-	border-color: #858585;
+	border: #858585 3px solid;
 	border-radius: 15px;
 	color: #acea00;
 	background-color: white;
@@ -392,6 +390,7 @@ body.dark #tt-search-overlay #tt-search-button {
 	background-color: #f2f2f2;
 	border-radius: 15px;
 	font-size: large;
+	/*noinspection CssNoGenericFontName*/
 	font-family: Arial;
 	overflow-y: scroll;
 	overflow-wrap: break-word;
