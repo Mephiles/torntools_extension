@@ -375,19 +375,21 @@ body.dark #tt-search-overlay input {
 	border: #858585 3px solid;
 	border-radius: 15px;
 	color: #acea00;
-	background-color: white;
 	font-size: 27px;
 }
 
+body.light #tt-search-overlay #tt-search-button {
+	background-color: white;
+}
+
 body.dark #tt-search-overlay #tt-search-button {
-	background-color: #333 !important;
+	background-color: #333;
 }
 
 #tt-search-list {
 	height: 100%;
 	margin-top: 10px;
 	padding: 10px 0 0 10px;
-	background-color: #f2f2f2;
 	border-radius: 15px;
 	font-size: large;
 	/*noinspection CssNoGenericFontName*/
@@ -396,8 +398,12 @@ body.dark #tt-search-overlay #tt-search-button {
 	overflow-wrap: break-word;
 }
 
+body.light #tt-search-list {
+	background-color: #f2f2f2;
+}
+
 body.dark #tt-search-list {
-	background-color: #a0a0a0 !important;
+	background-color: #a0a0a0;
 }
 
 #no-result {
