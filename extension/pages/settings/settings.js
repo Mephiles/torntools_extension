@@ -866,6 +866,7 @@ async function setupPreferences() {
 		searchOverlay.find("input").addEventListener("keydown", (event) => {
 			if (event.keyCode === 13) search();
 		});
+
 		function search() {
 			const searchFor = searchOverlay.find("input").value.toLowerCase().trim();
 			if (!searchFor) return;
@@ -891,44 +892,43 @@ async function setupPreferences() {
 			searchList.innerHTML = "";
 			// Sorry but there is no forEach method available. Had to use traditional loops.
 			if (searchResults.snapshotLength > 0) {
+				const hideAdvanced = !!document.find(".advanced-hidden");
+
 				for (let i = 0; i < searchResults.snapshotLength; i++) {
 					const option = searchResults.snapshotItem(i);
 					const name = option.innerText.replace("New!", "").replace("\n", "").trim();
+
+					let keyword, section;
 					if (option.getAttribute("for")) {
 						const isAdvanced = option.parentElement.classList.contains("advanced");
-						if (isAdvanced && document.find(".advanced-hidden")) continue;
-						searchList.appendChild(
-							document.newElement({
-								type: "span",
-								text: name,
-								attributes: {
-									for: option.getAttribute("for"),
-								},
-								children: [document.newElement("br")],
-							})
-						);
+						if (isAdvanced && hideAdvanced) continue;
+
+						keyword = "for";
+						section = option.getAttribute("for");
 					} else if (option.classList.contains("header")) {
-						searchList.appendChild(
-							document.newElement({
-								type: "span",
-								text: name,
-								attributes: {
-									name: option.parentElement.getAttribute("name"),
-								},
-								children: [document.newElement("br")],
-							})
-						);
+						const isAdvanced = option.classList.contains("advanced");
+						if (isAdvanced && hideAdvanced) continue;
+
+						keyword = "name";
+						section = option.parentElement.getAttribute("name");
 					}
+
 					searchList.appendChild(
-						document.newElement("hr")
+						document.newElement({
+							type: "div",
+							text: name,
+							attributes: { [keyword]: section },
+							children: [document.newElement("br")],
+						})
 					);
+					searchList.appendChild(document.newElement("hr"));
 				}
 			} else {
 				searchList.appendChild(
 					document.newElement({
 						type: "span",
 						id: "no-result",
-						text: "No Results"
+						text: "No Results",
 					})
 				);
 			}
@@ -956,7 +956,7 @@ async function setupPreferences() {
 			});
 			searchResults = null;
 		}
-	};
+	}
 }
 
 async function setupAPIInfo() {
