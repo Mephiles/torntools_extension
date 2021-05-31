@@ -137,20 +137,20 @@
 	}
 
 	function searchChat(message, keyword) {
-		let user, id;
 		if (keyword.startsWith("by:") || keyword.startsWith("u:")) {
 			const splitInput = keyword.split(" ");
-			user = splitInput.shift().split(":")[1];
-			if (!isNaN(user)) id = user;
+			const target = splitInput.shift().split(":")[1];
 			keyword = splitInput.join(" ");
+
+			const user = message.find("a");
+			if (!user.innerText.toLowerCase().includes(target) && (isNaN(target) || !user.href.match(`XID=${target}$`))) {
+				message.classList.add("hidden");
+				return;
+			}
 		}
-		const userName = message.find("a");
+
 		const messageText = message.find("span").innerText.toLowerCase();
-		if (id && !userName.href.includes(id)) {
-			message.classList.add("hidden");
-		} else if (!id && user && !userName.innerText.toLowerCase().includes(user)) {
-			message.classList.add("hidden");
-		} else if (keyword && !messageText.includes(keyword)) {
+		if (keyword && !messageText.includes(keyword)) {
 			message.classList.add("hidden");
 		} else {
 			message.classList.remove("hidden");
