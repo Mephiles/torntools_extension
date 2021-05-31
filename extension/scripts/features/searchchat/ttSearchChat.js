@@ -29,8 +29,8 @@
 			const input = parent.find(".tt-chat-filter input");
 			if (!input) return;
 
-			const inputValue = input.value;
-			if (inputValue) searchChat(message, inputValue);
+			const keyword = input.value;
+			if (keyword) searchChat(message, keyword);
 		});
 	}
 
@@ -62,13 +62,13 @@
 						id,
 						events: {
 							input: (event) => {
-								const inputValue = event.target.value.toLowerCase();
+								const keyword = event.target.value.toLowerCase();
 
 								for (const message of chat.findAll("[class*='overview_'] [class*='message_']")) {
-									searchChat(message, inputValue);
+									searchChat(message, keyword);
 								}
 
-								if (!inputValue) {
+								if (!keyword) {
 									const viewport = chat.find("[class*='viewport_']");
 									viewport.scrollTop = viewport.scrollHeight;
 								}
