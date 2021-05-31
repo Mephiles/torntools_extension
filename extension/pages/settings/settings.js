@@ -390,6 +390,7 @@ async function setupPreferences() {
 	});
 
 	fillSettings();
+	searchPreferences();
 	storageListeners.settings.push(updateSettings);
 
 	function showAdvanced(advanced) {
@@ -851,6 +852,110 @@ async function setupPreferences() {
 				event.target.checked = false;
 			}
 		});
+	}
+
+	function searchPreferences() {
+		const searchOverlay = document.find("#tt-search-overlay");
+		document.find("#preferences-search").addEventListener("click", () => searchOverlay.classList.remove("hidden"));
+
+		searchOverlay.find(".circle").addEventListener("click", () => {
+			searchOverlay.find("#tt-search-list").innerHTML = "";
+			searchOverlay.classList.add("hidden");
+		});
+		searchOverlay.find("#tt-search-button").addEventListener("click", search);
+		searchOverlay.find("input").addEventListener("keydown", (event) => {
+			if (event.keyCode === 13) search();
+		});
+
+		function search() {
+			const searchFor = searchOverlay.find("input").value.toLowerCase().trim();
+			if (!searchFor) return;
+			document.findAll(".searched").forEach((option) => option.classList.remove("searched"));
+			let searchResults = document.evaluate(
+				`//main[@id='preferences']
+					//section
+						//div[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'sections')]
+							//section
+								//label[not(contains(@class, 'note'))][contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '${searchFor}')]
+				| 
+				//main[@id='preferences']
+					//section
+						//div[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'sections')]
+							//section
+								//div[contains(@class, 'header')][contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '${searchFor}')]`,
+				document,
+				null,
+				XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+				null
+			);
+			const searchList = searchOverlay.find("#tt-search-list");
+			searchList.innerHTML = "";
+			// Sorry but there is no forEach method available. Had to use traditional loops.
+			if (searchResults.snapshotLength > 0) {
+				const hideAdvanced = !!document.find(".advanced-hidden");
+
+				for (let i = 0; i < searchResults.snapshotLength; i++) {
+					const option = searchResults.snapshotItem(i);
+					const name = option.innerText.replace("New!", "").replace("\n", "").trim();
+
+					let keyword, section;
+					if (option.getAttribute("for")) {
+						const isAdvanced = option.parentElement.classList.contains("advanced");
+						if (isAdvanced && hideAdvanced) continue;
+
+						keyword = "for";
+						section = option.getAttribute("for");
+					} else if (option.classList.contains("header")) {
+						const isAdvanced = option.classList.contains("advanced");
+						if (isAdvanced && hideAdvanced) continue;
+
+						keyword = "name";
+						section = option.parentElement.getAttribute("name");
+					}
+
+					searchList.appendChild(
+						document.newElement({
+							type: "div",
+							text: name,
+							attributes: { [keyword]: section },
+							children: [document.newElement("br")],
+						})
+					);
+					searchList.appendChild(document.newElement("hr"));
+				}
+			} else {
+				searchList.appendChild(
+					document.newElement({
+						type: "span",
+						id: "no-result",
+						text: "No Results",
+					})
+				);
+			}
+			searchList.addEventListener("click", (event) => {
+				event.stopPropagation();
+				searchOverlay.classList.add("hidden");
+				if (event.target.innerText.trim() !== "No Results") {
+					const nameAttr = event.target.getAttribute("name");
+					const forAttr = event.target.getAttribute("for");
+					if (forAttr) {
+						const optionFound = document.find(`#preferences [for="${forAttr}"]`);
+						document.find(`#preferences nav [name="${optionFound.closest("section").getAttribute("name")}"]`).click();
+						optionFound.parentElement.classList.add("searched");
+					} else if (nameAttr) {
+						for (const x of [...document.findAll(`#preferences [name="${nameAttr}"] .header`)]) {
+							if (x.innerText.trim() === event.target.innerText.trim()) {
+								x.classList.add("searched");
+								document.find(`#preferences nav [name="${x.closest("section").getAttribute("name")}"]`).click();
+								break;
+							}
+						}
+					}
+				}
+				searchList.innerHTML = "";
+			});
+			searchResults = null;
+		}
 	}
 }
 
