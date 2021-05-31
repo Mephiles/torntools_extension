@@ -785,9 +785,11 @@ async function showSpyInfo() {
 	} else if (!npcIds.includes(parseInt(userId))) {
 		loadingPlaceholder(spySection, true);
 		result = await new Promise((resolve) => {
-			fetchApi_v2("tornstats", { action: `spy/${userId}` }).then(async (response) => {
-				return resolve(handleTornStatsData(response));
-			});
+			fetchApi_v2("tornstats", { action: `spy/${userId}` })
+				.then(async (response) => {
+					return resolve(handleTornStatsData(response));
+				})
+				.catch((error) => resolve(error));
 		});
 
 		if (!result.error) {

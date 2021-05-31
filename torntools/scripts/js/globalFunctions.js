@@ -3214,6 +3214,8 @@ function formatDateObject(givenDate) {
 	return { formattedDate, formattedTime };
 }
 
+const FETCH_TIMEOUT = 10 * TO_MILLIS.SECONDS;
+
 function fetchApi_v2(
 	location,
 	options = {
@@ -3274,7 +3276,10 @@ function fetchApi_v2(
 				};
 			}
 
-			fetch(full_url, parameters)
+			const controller = new AbortController();
+			const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT);
+
+			fetch(full_url, { ...parameters, signal: controller.signal })
 				.then(async (response) => {
 					let result = {};
 					try {
@@ -3344,10 +3349,14 @@ function fetchApi_v2(
 					}
 				})
 				.catch((result) => {
-					// const result = await response.json();
-					console.log("result", result);
+					console.log("result", result, { result });
 
-					if (result.error) {
+					if (result instanceof DOMException) {
+						if (location === "torn") reject({ error: "Request took too long." });
+						else reject({ error: "Request took too long." });
+					} else if (result instanceof TypeError) {
+						// TODO - Handle type errors.
+					} else if (result.error) {
 						// TornTools
 						if (location === "torntools") {
 							return reject(result);
@@ -3373,7 +3382,8 @@ function fetchApi_v2(
 							reject(result.error);
 						}
 					}
-				});
+				})
+				.then(() => clearTimeout(timeoutId));
 		});
 	});
 
