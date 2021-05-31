@@ -1,6 +1,35 @@
-/* TODO - Style TornStats button properly */
-
 .missing,
 .remembered {
-	color: var(--default-green-color);
+	color: var(--tt-color-green);
+}
+
+.missing::after {
+	content: "*";
+	padding-left: 2px;
+}
+
+.specials-confirm-cont.tt-modified .back {
+	display: flex;
+}
+
+.specials-confirm-cont.tt-modified .tt-btn.external-service {
+	background-color: var(--tt-color-light-green);
+	color: black;
+	border-radius: 6px;
+	margin-left: 15px;
+}
+
+.specials-confirm-cont.tt-modified .tt-btn.external-service:not([disabled]) {
+	cursor: pointer;
+}
+
+.specials-confirm-cont.tt-modified .tt-btn.external-service[disabled] {
+	cursor: not-allowed;
+}
+
+.specials-confirm-cont.tt-modified .external-response-wrap {
+	margin: 3px 15px 0 15px;
+}
+.specials-confirm-cont.tt-modified .external-response.error {
+	color: var(--tt-color-red);
 }

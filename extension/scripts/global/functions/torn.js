@@ -279,3 +279,45 @@ function isCaptcha() {
 function hasDarkMode() {
 	return document.body.classList.contains("dark-mode");
 }
+
+const REACT_UPDATE_VERSIONS = {
+	DEFAULT: "default",
+	NATIVE_SETTER: "nativeSetter",
+};
+
+function updateReactInput(input, value, options = {}) {
+	options = {
+		version: REACT_UPDATE_VERSIONS.DEFAULT,
+		...options,
+	};
+
+	switch (options.version) {
+		case "complex-please-never-be-needed":
+			const lastValue = input.value;
+			input.value = value;
+			const event = new Event("input", { bubbles: true, simulated: true });
+			// Probably needs to be moved to a script tag.
+			const tracker = input._valueTracker;
+			// Another try can be made by setting the value tracker to null.
+			if (tracker) {
+				tracker.setValue(lastValue);
+			}
+			console.log("TT DEBUG - Updating react input.", { input, value, lastValue, tracker });
+			input.dispatchEvent(event);
+			break;
+		case REACT_UPDATE_VERSIONS.NATIVE_SETTER:
+			const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
+			nativeSetter.call(input, value);
+
+			input.dispatchEvent(new Event("input", { bubbles: true }));
+			break;
+		case REACT_UPDATE_VERSIONS.DEFAULT:
+		default:
+			input.value = value;
+			input.dispatchEvent(new Event("input", { bubbles: true }));
+			break;
+	}
+
+	// const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
+	// nativeSetter.call(input, value);
+}
