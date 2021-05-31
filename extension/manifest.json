@@ -18,7 +18,6 @@
 		"scripts": [
 			"scripts/global/globalClasses.js",
 			"scripts/global/globalData.js",
-			"scripts/global/functions/api.js",
 			"scripts/global/functions/browser.js",
 			"scripts/global/functions/database.js",
 			"scripts/global/functions/dom.js",
@@ -26,6 +25,7 @@
 			"scripts/global/functions/formatting.js",
 			"scripts/global/functions/torn.js",
 			"scripts/global/functions/utilities.js",
+			"scripts/global/functions/api.js",
 			"scripts/background.js"
 		]
 	},
@@ -64,7 +64,6 @@
 				"vendor/fontawesome/fontawesome.js",
 				"scripts/global/globalClasses.js",
 				"scripts/global/globalData.js",
-				"scripts/global/functions/api.js",
 				"scripts/global/functions/browser.js",
 				"scripts/global/functions/containers.js",
 				"scripts/global/functions/dom.js",
@@ -75,6 +74,7 @@
 				"scripts/global/functions/requires.js",
 				"scripts/global/functions/torn.js",
 				"scripts/global/functions/utilities.js",
+				"scripts/global/functions/api.js",
 				"scripts/global/featureManager.js",
 				"scripts/content/global/ttGlobal.entry.js",
 				"scripts/features/alignleft/ttAlignLeft.entry.js",
@@ -132,11 +132,11 @@
 			"js": [
 				"scripts/global/globalClasses.js",
 				"scripts/global/globalData.js",
-				"scripts/global/functions/api.js",
 				"scripts/global/functions/dom.js",
 				"scripts/global/functions/database.js",
 				"scripts/global/functions/requires.js",
-				"scripts/global/functions/utilities.js"
+				"scripts/global/functions/utilities.js",
+				"scripts/global/functions/api.js"
 			],
 			"run_at": "document_start"
 		},
