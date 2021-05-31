@@ -264,16 +264,18 @@ body.scrolled #tt-page-status.top-right {
 	top: 16px;
 }
 
-#tt-page-status.bottom-left {
+#tt-page-status.bottom-left,
+#tt-page-status.bottom-right {
 	position: fixed;
+	bottom: 50px;
+}
+
+#tt-page-status.bottom-left {
 	left: 16px;
-	bottom: 16px;
 }
 
 #tt-page-status.bottom-right {
-	position: fixed;
 	right: 16px;
-	bottom: 50px;
 }
 
 #tt-page-status.hidden,

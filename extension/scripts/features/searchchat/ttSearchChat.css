@@ -17,8 +17,7 @@
 	margin-left: 4px;
 	border-radius: 5px;
 	width: 232px;
-	/* TODO - Remove default value. */
-	border: 1px solid var(--chat-input-border-color, #ddd);
-	background-color: var(--chat-box-content-bg, #f2f2f2);
+	border: 1px solid var(--chat-input-border-color);
+	background-color: var(--chat-box-content-bg);
 	color: var(--chat-notebook-text-area-font-color-active);
 }

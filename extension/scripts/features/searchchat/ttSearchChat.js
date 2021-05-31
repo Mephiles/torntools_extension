@@ -137,7 +137,20 @@
 	}
 
 	function searchChat(message, keyword) {
-		if (keyword && !message.find("span").innerText.toLowerCase().includes(keyword)) {
+		if (keyword.startsWith("by:") || keyword.startsWith("u:")) {
+			const splitInput = keyword.split(" ");
+			const target = splitInput.shift().split(":")[1];
+			keyword = splitInput.join(" ");
+
+			const user = message.find("a");
+			if (!user.innerText.toLowerCase().includes(target) && (isNaN(target) || !user.href.match(`XID=${target}$`))) {
+				message.classList.add("hidden");
+				return;
+			}
+		}
+
+		const messageText = message.find("span").innerText.toLowerCase();
+		if (keyword && !messageText.includes(keyword)) {
 			message.classList.add("hidden");
 		} else {
 			message.classList.remove("hidden");
