@@ -279,3 +279,10 @@ function isCaptcha() {
 function hasDarkMode() {
 	return document.body.classList.contains("dark-mode");
 }
+
+function updateReactInput(input, value) {
+	const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
+	nativeSetter.call(input, value);
+
+	input.dispatchEvent(new Event("input", { bubbles: true }));
+}
