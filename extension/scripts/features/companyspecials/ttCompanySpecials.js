@@ -107,6 +107,8 @@
 
 		await requireElement(".specials-confirm-cont ul.job-info > li");
 
+		const specialContext = document.find(".specials-confirm-cont");
+
 		if (missing.length === 1) {
 			const missingStat = missing[0];
 
@@ -116,55 +118,86 @@
 				.totalSum();
 
 			const position = stats.indexOf(missingStat) + 1;
-			const element = document.find(`.specials-confirm-cont ul.job-info > li:nth-child(${position})`);
+			const element = specialContext.find(`ul.job-info > li:nth-child(${position})`);
 
 			element.classList.add("missing");
-			element.innerText = `${element.innerText.split(" ")[0]} ${formatStat(result[missingStat])}`;
+			element.innerText = `${element.innerText.split(" ")[0]} ${formatNumber(result[missingStat])}`;
 		}
 		for (const stat of remembered) {
 			const position = stats.indexOf(stat) + 1;
-			const element = document.find(`.specials-confirm-cont ul.job-info > li:nth-child(${position})`);
+			const element = specialContext.find(`ul.job-info > li:nth-child(${position})`);
 
 			element.classList.add("remembered");
-			element.innerText = `${element.innerText.split(" ")[0]} ${formatStat(result[stat])}`;
+			element.innerText = `${element.innerText.split(" ")[0]} ${formatNumber(result[stat])}`;
 		}
 		data[user] = result;
 
-		console.log("TT - Detected stat spy: ", result);
+		console.log("TT - Detected stat spy: ", result, { missing, remembered });
 
 		if (settings.external.tornstats) {
-			document.find(".specials-confirm-cont").appendChild(
-				document.newElement({
-					type: "button",
-					class: "external-service tt-btn",
-					text: "Save to TornStats",
-					events: {
-						click() {
-							fetchApi("tornstats", {
-								section: "store/spy",
-								method: "POST",
-								params: {
-									player_id: parseInt(json.result.user.userID),
-									player_name: json.result.user.playername,
-									player_level: parseInt(json.result.user.level),
-									...data[user],
-								},
-							})
-								.then((response) => {
-									console.log("DKK store TS spy", response);
-									// FIXME - Show message (response.message)
-								})
-								.catch((error) => {
-									console.error("Couldn't store your spy to TornStats.", error);
-								});
-						},
-					},
-				})
-			);
-		}
+			specialContext.classList.add("tt-modified");
 
-		function formatStat(value) {
-			return formatNumber(value);
+			const backWrap = specialContext.find(".back");
+			const button = document.newElement({
+				type: "button",
+				class: "external-service tt-btn",
+				text: "Save to TornStats",
+				events: {
+					click() {
+						fetchApi("tornstats", {
+							section: "store/spy",
+							method: "POST",
+							params: {
+								player_id: parseInt(json.result.user.userID),
+								player_name: json.result.user.playername,
+								player_level: parseInt(json.result.user.level),
+								...data[user],
+							},
+						})
+							.then((response) => {
+								const responseElement = specialContext.find(".external-response");
+
+								if (response.status) {
+									if (responseElement) {
+										responseElement.setClass(`external-response ${!response.status ? "error" : ""}`);
+										responseElement.innerText = response.message;
+									}
+									button.setAttribute("disabled", "");
+								} else {
+									button.removeAttribute("disabled");
+								}
+
+								if (!responseElement) {
+									specialContext.appendChild(
+										document.newElement({
+											type: "div",
+											class: "external-response-wrap",
+											children: [
+												document.newElement({
+													type: "span",
+													class: `external-response ${!response.status ? "error" : ""}`,
+													text: response.message,
+												}),
+											],
+										})
+									);
+								}
+							})
+							.catch((error) => {
+								console.error("Couldn't store your spy to TornStats.", error);
+								specialContext.appendChild(
+									document.newElement({
+										type: "div",
+										class: "external-response-wrap",
+										children: [document.newElement({ type: "span", class: "external-response error", text: "Something went wrong!" })],
+									})
+								);
+							});
+					},
+				},
+			});
+
+			backWrap.insertBefore(button, backWrap.firstElementChild);
 		}
 	}
 })();
