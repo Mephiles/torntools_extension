@@ -298,6 +298,7 @@ function updateReactInput(input, value, options = {}) {
 			const event = new Event("input", { bubbles: true, simulated: true });
 			// Probably needs to be moved to a script tag.
 			const tracker = input._valueTracker;
+			// Another try can be made by setting the value tracker to null.
 			if (tracker) {
 				tracker.setValue(lastValue);
 			}
