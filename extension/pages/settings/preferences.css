@@ -341,8 +341,11 @@ main#preferences > h2 {
 	display: inline-block;
 	margin: auto 10px auto auto;
 	font-size: 27px;
-	background-color: white;
 	border-radius: 50%;
+}
+
+body.light #tt-search-overlay .circle {
+	background-color: white;
 }
 
 body.dark #tt-search-overlay .circle {
@@ -376,6 +379,7 @@ body.dark #tt-search-overlay input {
 	border-radius: 15px;
 	color: #acea00;
 	font-size: 27px;
+	cursor: pointer;
 }
 
 body.light #tt-search-overlay #tt-search-button {
@@ -404,6 +408,10 @@ body.light #tt-search-list {
 
 body.dark #tt-search-list {
 	background-color: #a0a0a0;
+}
+
+#tt-search-list > div {
+	cursor: pointer;
 }
 
 #no-result {
