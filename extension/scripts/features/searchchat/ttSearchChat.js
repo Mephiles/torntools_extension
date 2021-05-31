@@ -136,10 +136,10 @@
 		}
 	}
 
-	function searchChat(message, inputValue) {
-		let keyword, user, id;
-		if (inputValue.startsWith("by:") || inputValue.startsWith("u:")) {
-			const splitInput = inputValue.split(" ");
+	function searchChat(message, keyword) {
+		let user, id;
+		if (keyword.startsWith("by:") || keyword.startsWith("u:")) {
+			const splitInput = keyword.split(" ");
 			user = splitInput.shift().split(":")[1];
 			if (!isNaN(user)) id = user;
 			keyword = splitInput.join(" ");
