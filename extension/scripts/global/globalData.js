@@ -329,6 +329,7 @@ const DEFAULT_STORAGE = {
 				worth: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				maxBuyIgnoreCash: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				redirects: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			trade: {
 				itemValues: new DefaultSetting({ type: "boolean", defaultValue: true }),
