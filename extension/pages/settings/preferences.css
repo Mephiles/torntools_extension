@@ -289,7 +289,8 @@ main#preferences > h2 {
 	border-radius: 5px;
 }
 
-#preferences-search > div {
+#preferences-search .search-wrap {
+	display: block;
 	width: 145px;
 	height: fit-content;
 	color: #fff;
@@ -300,7 +301,7 @@ main#preferences > h2 {
 	line-height: 1.5;
 }
 
-#preferences-search span {
+#preferences-search .search {
 	float: left;
 	display: inline;
 	margin: 4px 0 4px 10px;
