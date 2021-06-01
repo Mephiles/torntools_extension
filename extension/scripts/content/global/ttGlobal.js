@@ -35,7 +35,6 @@
 			const seconds = parseInt(countdown.dataset.seconds) - 1;
 
 			if (seconds <= 0) {
-				countdown.removeAttribute("seconds-down");
 				countdown.innerText = countdown.dataset.doneText || "Ready";
 				delete countdown.dataset.seconds;
 				continue;

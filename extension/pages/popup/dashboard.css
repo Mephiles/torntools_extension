@@ -233,6 +233,14 @@ body.dark #dashboard .stakeouts .user:nth-child(even) {
 	text-align: end;
 }
 
+#dashboard .stakeouts .row {
+	display: flex;
+}
+
+#dashboard .stakeouts .row.information {
+	justify-content: space-between;
+}
+
 #dashboard .stakeouts .status:before {
 	content: "";
 	height: 12px;
@@ -253,16 +261,8 @@ body.dark #dashboard .stakeouts .user:nth-child(even) {
 	background-color: green;
 }
 
-#dashboard .stakeouts .delete-stakeout-wrap {
-	float: right;
-}
-
 #dashboard .stakeouts .delete-stakeout {
 	font-size: 12px;
-}
-
-#dashboard .stakeouts .detailed {
-	display: flex;
 }
 
 #dashboard .stakeouts .detailed > * {
@@ -285,4 +285,24 @@ body.dark #dashboard .stakeouts .user:nth-child(even) {
 	height: inherit;
 	max-width: 100%;
 	background: #7b98ee;
+}
+
+#dashboard .stakeouts .row.state.green {
+	color: #4c914c;
+}
+
+#dashboard .stakeouts .row.state.red {
+	color: #fa4e4e;
+}
+
+#dashboard .stakeouts .row.state.blue {
+	color: #7b98ee;
+}
+
+#dashboard .stakeouts .row.state.gray {
+	color: gray;
+}
+
+#dashboard .stakeouts .row.state .duration {
+	margin-left: 0.25em;
 }

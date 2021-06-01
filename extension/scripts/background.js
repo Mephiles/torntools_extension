@@ -790,6 +790,11 @@ async function updateStakeouts() {
 				current: data.life.current,
 				maximum: data.life.maximum,
 			},
+			status: {
+				state: data.status.state,
+				color: data.status.color,
+				until: data.status.until * 1000,
+			},
 		};
 	}
 	stakeouts.date = now;
