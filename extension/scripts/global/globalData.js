@@ -327,10 +327,16 @@ const DEFAULT_STORAGE = {
 			bazaar: {
 				itemsCost: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				worth: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				maxBuyIgnoreCash: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			trade: {
 				itemValues: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				openChat: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
+			shops: {
+				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				maxBuyIgnoreCash: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 		},
 		external: {
