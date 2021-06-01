@@ -398,7 +398,7 @@
 	display: var(--torntools-hide-doctorn) !important;
 }
 
-.overview_1MoPG .message_oP8oM * {
+[class*="overview_"] [class*="message_"] * {
 	font-size: var(--torntools-chat-font-size) !important;
 }
 
