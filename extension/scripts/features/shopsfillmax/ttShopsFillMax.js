@@ -41,7 +41,7 @@
 	}
 
 	function removeFillMax() {
-		document.findAll(".tt-buy").forEach(ttBuy => {
+		document.findAll(".tt-buy").forEach((ttBuy) => {
 			ttBuy.classList.remove("tt-buy");
 			ttBuy.find(".tt-max-buy").remove();
 		});
