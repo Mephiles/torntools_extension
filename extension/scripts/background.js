@@ -794,6 +794,7 @@ async function updateStakeouts() {
 				state: data.status.state,
 				color: data.status.color,
 				until: data.status.until * 1000,
+				description: data.status.description,
 			},
 		};
 	}

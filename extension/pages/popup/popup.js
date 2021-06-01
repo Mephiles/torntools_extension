@@ -380,7 +380,7 @@ async function setupDashboard() {
 			for (const id in stakeouts) {
 				if (isNaN(parseInt(id))) continue;
 
-				let activity, name, lastAction, lifeCurrent, lifeMaximum, state, stateColor, stateTimer;
+				let activity, name, lastAction, lifeCurrent, lifeMaximum, state, stateColor;
 
 				if (stakeouts[id].info && Object.keys(stakeouts[id].info).length) {
 					activity = stakeouts[id].info.last_action.status;
@@ -388,9 +388,8 @@ async function setupDashboard() {
 					lastAction = stakeouts[id].info.last_action.relative;
 					lifeCurrent = stakeouts[id].info.life.current;
 					lifeMaximum = stakeouts[id].info.life.maximum;
-					state = stakeouts[id].info.status.state;
+					state = stakeouts[id].info.status.description;
 					stateColor = stakeouts[id].info.status.color;
-					stateTimer = stakeouts[id].info.status.until;
 				} else {
 					activity = "N/A";
 					name = id;
@@ -399,7 +398,6 @@ async function setupDashboard() {
 					lifeMaximum = 100;
 					state = "Unknown";
 					stateColor = "gray";
-					stateTimer = 0;
 				}
 
 				const removeStakeoutButton = document.newElement({
@@ -430,7 +428,6 @@ async function setupDashboard() {
 						}),
 					],
 				});
-				const current = Date.now();
 
 				stakeoutList.appendChild(
 					document.newElement({
@@ -463,29 +460,11 @@ async function setupDashboard() {
 				);
 
 				function buildState() {
-					const row = document.newElement({
+					return document.newElement({
 						type: "div",
 						class: `row state ${stateColor}`,
 						children: [document.newElement({ type: "span", class: `state `, text: state })],
 					});
-
-					if (stateTimer > 0) {
-						console.log("DKK state", { stateTimer, current });
-						row.appendChild(document.newElement({ type: "span", class: "duration", text: "for" }));
-						row.appendChild(
-							document.newElement({
-								type: "span",
-								class: "duration countdown automatic",
-								text: formatTime({ seconds: (stateTimer - current) / 1000 }, { type: "wordTimer", extraShort: true, showDays: true }),
-								dataset: {
-									seconds: (stateTimer - current) / 1000,
-									timeSettings: JSON.stringify({ type: "wordTimer", extraShort: true, showDays: true }),
-								},
-							})
-						);
-					}
-
-					return row;
 				}
 			}
 		} else dashboard.find(".stakeouts").classList.add("hidden");
