@@ -134,6 +134,19 @@ async function setupDashboard() {
 			}
 		updateUpdateTimer();
 		updateStatusTimer();
+
+		for (const countdown of document.findAll(".countdown.automatic[data-seconds]")) {
+			const seconds = parseInt(countdown.dataset.seconds) - 1;
+
+			if (seconds <= 0) {
+				countdown.innerText = countdown.dataset.doneText || "Ready";
+				// delete countdown.dataset.seconds;
+				continue;
+			}
+
+			countdown.innerText = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
+			countdown.dataset.seconds = seconds;
+		}
 	}, 1000);
 
 	dashboard.find(".stakeouts .heading a").href = `${chrome.extension.getURL("pages/targets/targets.html")}?page=stakeouts`;
@@ -367,20 +380,26 @@ async function setupDashboard() {
 			for (const id in stakeouts) {
 				if (isNaN(parseInt(id))) continue;
 
-				let status, name, lastAction, lifeCurrent, lifeMaximum;
+				let activity, name, lastAction, lifeCurrent, lifeMaximum, state, stateColor, stateTimer;
 
 				if (stakeouts[id].info && Object.keys(stakeouts[id].info).length) {
-					status = stakeouts[id].info.last_action.status;
+					activity = stakeouts[id].info.last_action.status;
 					name = stakeouts[id].info.name;
 					lastAction = stakeouts[id].info.last_action.relative;
 					lifeCurrent = stakeouts[id].info.life.current;
 					lifeMaximum = stakeouts[id].info.life.maximum;
+					state = stakeouts[id].info.status.state;
+					stateColor = stakeouts[id].info.status.color;
+					stateTimer = stakeouts[id].info.status.until;
 				} else {
-					status = "N/A";
+					activity = "N/A";
 					name = id;
 					lastAction = "N/A";
 					lifeCurrent = 0;
 					lifeMaximum = 100;
+					state = "Unknown";
+					stateColor = "gray";
+					stateTimer = 0;
 				}
 
 				const removeStakeoutButton = document.newElement({
@@ -411,6 +430,7 @@ async function setupDashboard() {
 						}),
 					],
 				});
+				const current = Date.now();
 
 				stakeoutList.appendChild(
 					document.newElement({
@@ -419,21 +439,54 @@ async function setupDashboard() {
 						children: [
 							document.newElement({
 								type: "div",
-								class: "row",
-								html: `
-									<span class="status ${status.toLowerCase()}"></span>
-									<a href="https://www.torn.com/profiles.php?XID=${id}" target="_blank">${name}</a>
-								`,
-								children: [removeStakeoutButton],
+								class: "row information",
+								children: [
+									document.newElement({
+										type: "div",
+										class: "activity",
+										html: `
+											<span class="status ${activity.toLowerCase()}"></span>
+											<a href="https://www.torn.com/profiles.php?XID=${id}" target="_blank">${name}</a>
+										`,
+									}),
+									removeStakeoutButton,
+								],
 							}),
 							document.newElement({
 								type: "div",
 								class: "row detailed",
 								children: [lifeBar, document.newElement({ type: "span", class: "lastAction", text: `Last action: ${lastAction}` })],
 							}),
+							buildState(),
 						],
 					})
 				);
+
+				function buildState() {
+					const row = document.newElement({
+						type: "div",
+						class: `row state ${stateColor}`,
+						children: [document.newElement({ type: "span", class: `state `, text: state })],
+					});
+
+					if (stateTimer > 0) {
+						console.log("DKK state", { stateTimer, current });
+						row.appendChild(document.newElement({ type: "span", class: "duration", text: "for" }));
+						row.appendChild(
+							document.newElement({
+								type: "span",
+								class: "duration countdown automatic",
+								text: formatTime({ seconds: (stateTimer - current) / 1000 }, { type: "wordTimer", extraShort: true, showDays: true }),
+								dataset: {
+									seconds: (stateTimer - current) / 1000,
+									timeSettings: JSON.stringify({ type: "wordTimer", extraShort: true, showDays: true }),
+								},
+							})
+						);
+					}
+
+					return row;
+				}
 			}
 		} else dashboard.find(".stakeouts").classList.add("hidden");
 	}
