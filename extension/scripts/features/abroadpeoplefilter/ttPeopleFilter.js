@@ -3,7 +3,7 @@
 (async () => {
 	if (!isAbroad()) return;
 
-	const feature = featureManager.registerFeature(
+	featureManager.registerFeature(
 		"People Filter",
 		"travel",
 		() => settings.pages.travel.peopleFilter,
@@ -253,6 +253,7 @@
 
 						if (!matchesOneIcon) {
 							showRow(li, false);
+							// noinspection UnnecessaryContinueJS
 							continue;
 						}
 					} else if (value === "no") {
@@ -266,6 +267,7 @@
 
 						if (matchesOneIcon) {
 							showRow(li, false);
+							// noinspection UnnecessaryContinueJS
 							continue;
 						}
 					}
@@ -288,6 +290,7 @@
 				const level = parseInt(li.find(".level").innerText.replace(/\D+/g, ""));
 				if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
 					showRow(li, false);
+					// noinspection UnnecessaryContinueJS
 					continue;
 				}
 			}

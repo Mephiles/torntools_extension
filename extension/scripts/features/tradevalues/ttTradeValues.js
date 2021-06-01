@@ -22,7 +22,7 @@
 			if (step !== "view" && step !== "initiateTrade" && step !== "accept" && step !== "start") return;
 			if (feature.enabled()) addItemValues();
 		});
-		addXHRListener(({ detail: { page, xhr, json } }) => {
+		addXHRListener(({ detail: { page, xhr } }) => {
 			if (!new URLSearchParams(xhr.requestBody).get("step") || page !== "trade") return;
 			if (feature.enabled()) addItemValues();
 		});
@@ -91,6 +91,7 @@
 				}
 				if (marketValue === 0) continue;
 
+				// noinspection JSCheckFunctionSignatures
 				const worth = parseInt(marketValue * quantity);
 				totalValue += worth;
 
@@ -117,7 +118,7 @@
 			}
 			checkbox.addEventListener("click", async () => {
 				const style = checkbox.checked ? "none" : "block";
-				const filterSetting = style === "block" ? false : true;
+				const filterSetting = style !== "block";
 				await ttStorage.change({ filters: { trade: { hideValues: filterSetting } } });
 				filters.trade.hideValues = filterSetting;
 

@@ -20,7 +20,7 @@
 			if (step !== "view" && step !== "initiateTrade" && step !== "accept" && step !== "start") return;
 			if (feature.enabled()) addItemValues();
 		});
-		addXHRListener(({ detail: { page, xhr, json } }) => {
+		addXHRListener(({ detail: { page, xhr } }) => {
 			if (!new URLSearchParams(xhr.requestBody).get("step") || page !== "trade") return;
 			if (feature.enabled()) addButton();
 		});

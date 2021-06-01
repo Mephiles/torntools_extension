@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	const feature = featureManager.registerFeature(
+	featureManager.registerFeature(
 		"Fill Max",
 		"bazaar",
 		() => settings.pages.bazaar.fillMax,
@@ -23,7 +23,7 @@
 	async function addFillMax() {
 		if (!(await checkMobile())) document.addEventListener("click", maxBuyListener);
 		else {
-			maxBuyListener();
+			await maxBuyListener();
 			await requireElement(".ReactVirtualized__Grid__innerScrollContainer");
 			reactObserver.observe(document.find(".ReactVirtualized__Grid__innerScrollContainer"), { childList: true });
 		}

@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	const feature = featureManager.registerFeature(
+	featureManager.registerFeature(
 		"Fill Max",
 		"shops",
 		() => settings.pages.shops.fillMax,
@@ -28,7 +28,7 @@
 
 				let max = parseInt(item.find(".instock").innerText.replace(/,/g, ""));
 				if (!settings.pages.shops.maxBuyIgnoreCash) {
-					const price = parseInt(item.find(".price").innerText.replace(/[\$\,]/g, ""));
+					const price = parseInt(item.find(".price").innerText.replace(/[$,]/g, ""));
 					const money = parseInt(document.find("#user-money").dataset.money);
 
 					if (Math.floor(money / price) < max) max = Math.floor(money / price);
