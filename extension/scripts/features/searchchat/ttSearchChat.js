@@ -29,8 +29,14 @@
 			const input = parent.find(".tt-chat-filter input");
 			if (!input) return;
 
-			const keyword = input.value;
-			if (keyword) searchChat(message, keyword);
+			const inputValue = input.value;
+			if (inputValue) searchChat(message, inputValue);
+		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_ERROR].push(({ message }) => {
+			if (!feature.enabled()) return;
+
+			const nottModifiedInputs = document.findAll("#chatRoot [class*='chat-box-input_']:not(.tt-modified) .tt-chat-filter");
+			if (nottModifiedInputs.length) nottModifiedInputs.forEach(x => x.parentElement.classList.add("tt-modified"));
 		});
 	}
 

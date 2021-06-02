@@ -8,6 +8,7 @@ const EVENT_CHANNELS = {
 	CHAT_MESSAGE: "chat-message",
 	CHAT_NEW: "chat-box-new",
 	CHAT_OPENED: "chat-box-opened",
+	CHAT_ERROR: "chat-box-error",
 	FACTION_ARMORY_TAB: "faction-armory-tab",
 	ITEM_AMOUNT: "item-amount",
 	ITEM_EQUIPPED: "item-equipped",

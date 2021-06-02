@@ -23,7 +23,15 @@
 							triggerCustomListener(EVENT_CHANNELS.CHAT_OPENED, { chat: mutation.target });
 						} else if (addedNode.classList.contains("^=message_")) {
 							triggerCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, { message: addedNode });
+						} else if (addedNode.classList.contains("^=error_")) {
+							triggerCustomListener(EVENT_CHANNELS.CHAT_ERROR, { message: addedNode });
 						}
+					}
+				}
+				for (const removedNode of mutation.removedNodes) {
+					if (removedNode.classList && removedNode.classList.contains("^=error_")) {
+						triggerCustomListener(EVENT_CHANNELS.CHAT_ERROR, { message: removedNode });
+						break;
 					}
 				}
 			}
