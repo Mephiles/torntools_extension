@@ -154,84 +154,78 @@
 						return;
 					}
 
-					const data = isEquipable(id, torndata.items[id].type)
-						? { step: "actionForm", confirm: 1, action: "equip", id: xid }
-						: { step: "useItem", id: id, itemID: id };
+					const body = new URLSearchParams();
+					Object.entries(
+						isEquipable(id, torndata.items[id].type)
+							? { step: "actionForm", confirm: 1, action: "equip", id: xid }
+							: { step: "useItem", id: id, itemID: id }
+					).forEach(([key, value]) => body.set(key, value));
 
-					getAction({
-						type: "post",
-						action: "item.php",
-						data,
-						success: (str) => {
-							if (JSON.isValid(str)) {
-								const response = JSON.parse(str);
-
-								const links = ["<a href='#' class='close-act t-blue h'>Close</a>"];
-								if (response.links) {
-									for (const link of response.links) {
-										links.push(`<a class="t-blue h m-left10 ${link.class}" href="${link.url}" ${link.attr}>${link.title}</a>`);
-									}
+					fetchData("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
+						if (typeof result === "object") {
+							const links = ["<a href='#' class='close-act t-blue h'>Close</a>"];
+							if (result.links) {
+								for (const link of result.links) {
+									links.push(`<a class="t-blue h m-left10 ${link.class}" href="${link.url}" ${link.attr}>${link.title}</a>`);
 								}
+							}
 
-								responseWrap.style.display = "block";
-								responseWrap.innerHTML = `
-									<div class="action-wrap use-act use-action">
-										<form data-action="useItem" method="post">
-											<p>${response.text}</p>
-											<p>${links.join("")}</p>
-											<div class="clear"></div>
-										</form>
-									</div>
-								`;
+							responseWrap.style.display = "block";
+							responseWrap.innerHTML = `
+										<div class="action-wrap use-act use-action">
+											<form data-action="useItem" method="post">
+												<p>${result.text}</p>
+												<p>${links.join("")}</p>
+												<div class="clear"></div>
+											</form>
+										</div>
+									`;
 
-								for (const count of responseWrap.findAll(".counter-wrap")) {
-									count.classList.add("tt-modified");
-									count.innerText = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer", daysToHours: true });
-								}
+							for (const count of responseWrap.findAll(".counter-wrap")) {
+								count.classList.add("tt-modified");
+								count.innerText = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer", daysToHours: true });
+							}
 
-								if (response.success) {
-									if (response.items) {
-										if (response.items.itemAppear) {
-											for (const item of response.items.itemAppear) {
-												triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, {
-													item: parseInt(item.ID),
-													amount: parseInt(item.qty),
-													reason: "usage",
-												});
-											}
+							if (result.success) {
+								if (result.items) {
+									if (result.items.itemAppear) {
+										for (const item of result.items.itemAppear) {
+											triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, {
+												item: parseInt(item.ID),
+												amount: parseInt(item.qty),
+												reason: "usage",
+											});
 										}
-										if (response.items.itemDisappear) {
-											for (const item of response.items.itemDisappear) {
-												triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, {
-													item: parseInt(item.ID),
-													amount: -parseInt(item.qty),
-													reason: "usage",
-												});
-											}
-										}
-									} else {
-										triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: id, amount: -1, reason: "usage" });
 									}
+									if (result.items.itemDisappear) {
+										for (const item of result.items.itemDisappear) {
+											triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, {
+												item: parseInt(item.ID),
+												amount: -parseInt(item.qty),
+												reason: "usage",
+											});
+										}
+									}
+								} else {
+									triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: id, amount: -1, reason: "usage" });
 								}
-							} else {
-								responseWrap.style.display = "block";
-								responseWrap.innerHTML = str;
+							}
+						} else {
+							responseWrap.style.display = "block";
+							responseWrap.innerHTML = result;
 
+							[...innerContent.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) => x.classList.remove("equipped"));
+
+							if (result.includes(" equipped ")) {
 								[...innerContent.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) =>
 									x.classList.remove("equipped")
 								);
-
-								if (str.includes(" equipped ")) {
-									[...innerContent.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) =>
-										x.classList.remove("equipped")
-									);
-									itemWrap.classList.add("equipped");
-								} else if (str.includes(" unequipped "))
-									[...innerContent.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) =>
-										x.classList.remove("equipped")
-									);
-							}
-						},
+								itemWrap.classList.add("equipped");
+							} else if (result.includes(" unequipped "))
+								[...innerContent.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) =>
+									x.classList.remove("equipped")
+								);
+						}
 					});
 				},
 			},
@@ -445,31 +439,6 @@
 		[...document.findAll(`.item.equipped[data-equip-position="${equipPosition}"]`)].forEach((x) => x.classList.remove("equipped"));
 
 		if (isEquip && document.find(`.item[data-id="${item.id}"]`)) document.find(`.item[data-id="${item.id}"]`).classList.add("equipped");
-	}
-
-	/*
-	 * Torn Function
-	 */
-	function getAction(options = {}) {
-		options = {
-			success: () => {},
-			action: location.pathname,
-			type: "get",
-			data: {},
-			async: true,
-			...options,
-		};
-
-		return jQuery.ajax({
-			url: "https://www.torn.com/" + addRFC(options.action),
-			type: options.type,
-			data: options.data,
-			async: options.async,
-			success: (msg) => options.success(msg),
-			error: (xhr, ajaxOptions, error) => {
-				console.error("Error during action call.", error);
-			},
-		});
 	}
 
 	function setupOverlayItems(tab) {

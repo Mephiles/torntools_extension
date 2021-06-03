@@ -284,7 +284,6 @@
 				"scripts/features/candyhappy/ttCandyHappy.css"
 			],
 			"js": [
-				"vendor/jquery/jquery.js",
 				"scripts/content/items/ttItems.js",
 				"scripts/features/quickitems/ttQuickItems.js",
 				"scripts/features/marketicons/ttMarketIcons.js",
