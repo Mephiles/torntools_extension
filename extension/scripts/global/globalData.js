@@ -238,6 +238,7 @@ const DEFAULT_STORAGE = {
 				inventory: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				merits: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				perks: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				displaycase: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		themes: {
@@ -360,6 +361,9 @@ const DEFAULT_STORAGE = {
 			trade: {
 				itemValues: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				openChat: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
+			displayCase: {
+				worth: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			shops: {
 				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),

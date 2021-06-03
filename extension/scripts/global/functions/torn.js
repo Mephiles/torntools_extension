@@ -325,6 +325,24 @@ const darkModeObserver = (() => {
 	};
 })();
 
+async function newTornInfoBox(html, additionalClass = "") {
+	const svgHTML = await (await fetch(chrome.runtime.getURL("resources/images/svg-icons/icon_128.svg"))).text();
+	return document.newElement({
+		type: "div",
+		class: `tt-msg-box ${additionalClass}`,
+		html: `
+			<div class="tt-msg-div">
+				${svgHTML}
+				<div class="tt-msg">
+					<div class="tt-content">
+						${html}
+					</div>
+				</div>
+			</div>
+		`,
+	});
+}
+
 const REACT_UPDATE_VERSIONS = {
 	DEFAULT: "default",
 	NATIVE_SETTER: "nativeSetter",
