@@ -4,7 +4,7 @@
 		"Fixes": [],
 		"Changes": []
 	},
-	"v5.10 - June, 03th. 2021" : {
+	"v5.10 - June, 3rd. 2021" : {
 		"Features": ["Added toggle to hide stakeout on profile page. - hvr-lust"],
 		"Fixes": [
 			"Apply proper rounding on the racing winning rate. - Sashank999",
@@ -22,7 +22,7 @@
 			"Implement timeout on requests. - DKK"
 		]
 	},
-	"v5.9 - May, 02th. 2021": {
+	"v5.9 - May, 2nd. 2021": {
 		"Features": [
 			"Filter faction members by position. - Sashank999",
 			"Battle Stat on Attack Page. - Sashank999",
