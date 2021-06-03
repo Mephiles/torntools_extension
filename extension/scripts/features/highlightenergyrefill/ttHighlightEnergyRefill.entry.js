@@ -9,7 +9,7 @@
 		applyStyle,
 		applyStyle,
 		{
-			storage: ["settings.pages.sidebar.highlightEnergy", "settings.apiUsage.user.refills", "userdata.refills.energy_refill_used"],
+			storage: ["settings.pages.sidebar.highlightEnergy", "userdata.refills.energy_refill_used"],
 		},
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.refills) return "No API access.";

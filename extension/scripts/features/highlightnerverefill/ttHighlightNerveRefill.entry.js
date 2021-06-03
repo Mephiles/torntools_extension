@@ -9,7 +9,7 @@
 		applyStyle,
 		applyStyle,
 		{
-			storage: ["settings.pages.sidebar.highlightNerve", "settings.apiUsage.user.refills", "userdata.refills.nerve_refill_used"],
+			storage: ["settings.pages.sidebar.highlightNerve", "userdata.refills.nerve_refill_used"],
 		},
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.refills) return "No API access.";

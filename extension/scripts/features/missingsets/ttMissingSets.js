@@ -12,7 +12,7 @@
 			storage: ["settings.pages.items.missingFlowers"],
 		},
 		() => {
-			if (!hasAPIData() || !settings.apiUsage.user.inventory) return "No API data!";
+			if (!hasAPIData() || !settings.apiUsage.user.inventory) return "No API access!";
 		}
 	);
 	const featurePlushies = featureManager.registerFeature(
@@ -26,7 +26,7 @@
 			storage: ["settings.pages.items.missingPlushies"],
 		},
 		() => {
-			if (!hasAPIData() || !settings.apiUsage.user.inventory) return "No API data!";
+			if (!hasAPIData() || !settings.apiUsage.user.inventory) return "No API access!";
 		}
 	);
 

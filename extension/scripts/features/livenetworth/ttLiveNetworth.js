@@ -13,7 +13,7 @@ let networthInterval = false;
 		showNetworth,
 		() => removeContainer("Live Networth"),
 		{
-			storage: ["settings.pages.home.networthDetails", "settings.apiUsage.user.networth", "userdata.networth"],
+			storage: ["settings.pages.home.networthDetails", "userdata.networth"],
 		},
 		() => {
 			if (!hasAPIData() || !settings.apiUsage.user.networth) return "No API access.";
