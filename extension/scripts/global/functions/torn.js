@@ -284,7 +284,7 @@ const darkModeObserver = (() => {
 	const listeners = new Set();
 	let prevDarkModeState;
 
-	const observer = new MutationObserver((mutations, observer, x) => {
+	const observer = new MutationObserver(() => {
 		const darkModeState = hasDarkMode();
 
 		if (darkModeState !== prevDarkModeState) {
