@@ -280,11 +280,11 @@ function hasDarkMode() {
 	return document.body.classList.contains("dark-mode");
 }
 
-const darkModeObserver = (function createDarkModeObserver() {
+const darkModeObserver = (() => {
 	const listeners = new Set();
 	let prevDarkModeState;
 
-	const observer = new MutationObserver(function () {
+	const observer = new MutationObserver((mutations, observer, x) => {
 		const darkModeState = hasDarkMode();
 
 		if (darkModeState !== prevDarkModeState) {
@@ -301,7 +301,7 @@ const darkModeObserver = (function createDarkModeObserver() {
 		listeners.add(callback);
 
 		if (listeners.size === 1) {
-			observer.observe(document.body, { attributes: true });
+			observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
 		}
 	}
 
