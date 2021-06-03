@@ -27,67 +27,69 @@
 		if (displayCaseUserId && !isNaN(displayCaseUserId) && parseInt(displayCaseUserId) !== userdata.player_id) {
 			await requireElement(".info-msg-cont .msg");
 			fetchData("torn", { section: "user", id: displayCaseUserId, selections: ["display"] })
-			.then((result) => {
-				let total = 0;
+				.then((result) => {
+					let total = 0;
 
-				for (const item of result.display) {
-					total += item.market_price * item.quantity;
-				}
+					for (const item of result.display) {
+						total += item.market_price * item.quantity;
+					}
 
-				document.find(".info-msg-cont .msg").appendChild(
-					document.newElement({
-						type: "div",
-						class: "tt-display-worth",
-						text: "This display cabinet is worth ",
-						children: [
-							document.newElement({
-								type: "span",
-								text: formatNumber(total, { currency: true }) + "."
-							})
-						],
-					})
-				);
-			})
-			.catch((error) => {
-				document.find(".info-msg-cont .msg").appendChild(
-					document.newElement({
-						type: "div",
-						class: "tt-display-worth",
-						text: "TORN API returned error:" + error.toString(),
-					})
-				);
-				console.log("TT - Display Cabinet Worth API Error:", error);
-			});
+					document.find(".info-msg-cont .msg").appendChild(
+						document.newElement({
+							type: "div",
+							class: "tt-display-worth",
+							text: "This display cabinet is worth ",
+							children: [
+								document.newElement({
+									type: "span",
+									text: formatNumber(total, { currency: true }) + ".",
+								}),
+							],
+						})
+					);
+				})
+				.catch((error) => {
+					document.find(".info-msg-cont .msg").appendChild(
+						document.newElement({
+							type: "div",
+							class: "tt-display-worth",
+							text: "TORN API returned error:" + error.toString(),
+						})
+					);
+					console.log("TT - Display Cabinet Worth API Error:", error);
+				});
 		} else {
 			fetchData("torn", { section: "user", id: userdata.player_id, selections: ["display"] })
-			.then(async (result) => {
-				let total = 0;
+				.then(async (result) => {
+					let total = 0;
 
-				for (const item of result.display) {
-					total += item.market_price * item.quantity;
-				}
+					for (const item of result.display) {
+						total += item.market_price * item.quantity;
+					}
 
-				document.find(".display-cabinet").insertAdjacentElement(
-					"beforebegin",
-					await newTornInfoBox(`
+					document.find(".display-cabinet").insertAdjacentElement(
+						"beforebegin",
+						await newTornInfoBox(
+							`
 						This display cabinet is worth 
 							<span>${formatNumber(total, { currency: true })}</span>.`,
-						"tt-display-worth"
-					)
-				);
-			})
-			.catch(async (error) => {
-				document.find(".display-cabinet").insertAdjacentElement(
-					"beforebegin",
-					await newTornInfoBox(`
+							"tt-display-worth"
+						)
+					);
+				})
+				.catch(async (error) => {
+					document.find(".display-cabinet").insertAdjacentElement(
+						"beforebegin",
+						await newTornInfoBox(
+							`
 						TORN API returned error: 
 							${error.toString()}
 						.`,
-						"tt-display-worth"
-					)
-				);
-				console.log("TT - Display Cabinet Worth API Error:", error);
-			});
+							"tt-display-worth"
+						)
+					);
+					console.log("TT - Display Cabinet Worth API Error:", error);
+				});
 		}
 	}
 
