@@ -1,5 +1,8 @@
-// noinspection JSUnresolvedVariable,JSUnresolvedFunction
-const changelog = await (await fetch(chrome.runtime.getURL("changelog.json"))).json();
+let changelog;
+(async () => {
+	// noinspection JSUnresolvedVariable,JSUnresolvedFunction
+	changelog = await (await fetch(chrome.runtime.getURL("changelog.json"))).json();
+})();
 
 let version;
 let initiated_pages = {};
