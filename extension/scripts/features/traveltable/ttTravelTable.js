@@ -328,7 +328,7 @@
 
 			async function pullInformation() {
 				// FIXME - Add some kind of local cache.
-				return fetchRelay("yata", { section: "travel/export/" });
+				return fetchData("yata", { section: "travel/export/", relay: true });
 			}
 
 			function toRow(item, country, lastUpdate) {

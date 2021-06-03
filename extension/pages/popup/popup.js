@@ -519,7 +519,7 @@ async function setupMarketSearch() {
 		const viewItem = document.find("#market #item-information");
 		viewItem.find(".market").classList.add("hidden");
 
-		fetchApi("torn", { section: "market", id, selections: ["bazaar", "itemmarket"] })
+		fetchData("torn", { section: "market", id, selections: ["bazaar", "itemmarket"] })
 			.then((result) => {
 				const list = viewItem.find(".market");
 				list.innerHTML = "";

@@ -19,7 +19,7 @@
 	async function addWorth() {
 		await requireElement(".info-msg-cont .msg");
 		const bazaarUserId = getSearchParameters().get("userId");
-		fetchApi("torn", { section: "user", id: bazaarUserId, selections: ["bazaar"] })
+		fetchData("torn", { section: "user", id: bazaarUserId, selections: ["bazaar"] })
 			.then((result) => {
 				let total = 0;
 

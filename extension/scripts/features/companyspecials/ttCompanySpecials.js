@@ -43,7 +43,7 @@
 			percentageMin *= merits;
 			percentageMax *= merits;
 
-			const result = await fetchApi("torn", {
+			const result = await fetchData("torn", {
 				section: "user",
 				id: json.result.user.userID,
 				selections: ["profile"],
@@ -51,7 +51,7 @@
 				succeedOnError: true,
 			});
 			if (result.job && result.job.company_type === 5) {
-				const resultCompany = await fetchApi("torn", {
+				const resultCompany = await fetchData("torn", {
 					section: "company",
 					id: result.job.company_id,
 					selections: ["profile"],
@@ -144,7 +144,7 @@
 				text: "Save to TornStats",
 				events: {
 					click() {
-						fetchApi("tornstats", {
+						fetchData("tornstats", {
 							section: "store/spy",
 							method: "POST",
 							params: {

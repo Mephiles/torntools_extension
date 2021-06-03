@@ -232,7 +232,7 @@ async function updateUserdata() {
 	if (!selections.length) return { updated: false };
 
 	const oldUserdata = { ...userdata };
-	userdata = await fetchApi("torn", { section: "user", selections });
+	userdata = await fetchData("torn", { section: "user", selections });
 	if (!userdata) throw new Error("Aborted updating due to an expected response.");
 	userdata.date = now;
 	userdata.dateBasic = updateBasic ? now : oldUserdata.dateBasic;
@@ -708,7 +708,7 @@ async function updateStakeouts() {
 
 		let data;
 		try {
-			data = await fetchApi("torn", { section: "user", selections: ["profile"], id, silent: true });
+			data = await fetchData("torn", { section: "user", selections: ["profile"], id, silent: true });
 			if (!data) {
 				console.log("Unexpected result during stakeout updating.");
 				failed++;
@@ -806,7 +806,7 @@ async function updateStakeouts() {
 
 async function updateTorndata() {
 	const oldTorndata = { ...torndata };
-	torndata = await fetchApi("torn", { section: "torn", selections: ["education", "honors", "items", "medals", "pawnshop"] });
+	torndata = await fetchData("torn", { section: "torn", selections: ["education", "honors", "items", "medals", "pawnshop"] });
 	if (!torndata) throw new Error("Aborted updating due to an expected response.");
 	torndata.date = Date.now();
 
@@ -817,7 +817,7 @@ async function updateTorndata() {
 
 async function updateStocks() {
 	const oldStocks = { ...torndata.stocks };
-	let stocks = (await fetchApi("torn", { section: "torn", selections: ["stocks"] })).stocks;
+	let stocks = (await fetchData("torn", { section: "torn", selections: ["stocks"] })).stocks;
 	if (!stocks) throw new Error("Aborted updating due to an expected response.");
 	stocks.date = Date.now();
 
@@ -867,7 +867,7 @@ async function updateFactiondata() {
 	if (!userdata || !userdata.faction.faction_id) {
 		factiondata = {};
 	} else {
-		factiondata = await fetchApi("torn", { section: "faction", selections: ["crimes"], silent: true, succeedOnError: true });
+		factiondata = await fetchData("torn", { section: "faction", selections: ["crimes"], silent: true, succeedOnError: true });
 		if (!factiondata) throw new Error("Aborted updating due to an expected response.");
 		delete factiondata.error;
 	}
@@ -977,7 +977,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			notificationTestPlayer.pause();
 			break;
 		case "fetchRelay":
-			fetchApi(message.location, message.options)
+			fetchData(message.location, message.options)
 				.then((result) => sendResponse(result))
 				.catch((error) => sendResponse(error));
 			return true;
