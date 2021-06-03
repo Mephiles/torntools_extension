@@ -14,7 +14,8 @@
 				{ "message": "Add alerts for stock system dumps and available shares.", "contributor": "DeKleineKobini" },
 				{ "message": "Customizable api usage.", "contributor": "DeKleineKobini" },
 				{ "message": "Show muggable money when using a company special to show money on hand.", "contributor": "DeKleineKobini" },
-				{ "message": "Display features on each page including their status: running/disabled/failed.", "contributor": "Mephiles" }
+				{ "message": "Display features on each page including their status: running/disabled/failed.", "contributor": "Mephiles" },
+				{ "message": "Jail filters quick bail and bust with quick refresh button.", "contributor": "AllMight" }
 			],
 			"fixes": [{ "message": "Hide new chat messages while searching.", "contributor": "DeKleineKobini" }],
 			"changes": [
@@ -42,7 +43,8 @@
 				{ "message": "Show drug details in every place where you can see item details.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow temporary items and Box of Tissues as quick items.", "contributor": "DeKleineKobini" },
 				{ "message": "Jail Filters with new formula.", "contributor": "bandirao" },
-				{ "message": "Add chat search by username and id.", "contributor": "bandirao" }
+				{ "message": "Add chat search by username and id.", "contributor": "bandirao" },
+				{ "message": "Jail Filters rewrite based on elements and facade design.", "contributor": "AllMight" }
 			]
 		}
 	},

@@ -31,7 +31,14 @@
 	},
 	"permissions": ["storage", "notifications", "tabs", "https://api.torn.com/"],
 	"optional_permissions": ["https://beta.tornstats.com/", "https://yata.yt/"],
-	"web_accessible_resources": ["resources/images/*.png", "pages/*", "scripts/background.js", "scripts/*.inject.js", "vendor/*"],
+	"web_accessible_resources": [
+		"resources/images/*.png",
+		"resources/images/svg-icons/*.svg",
+		"pages/*",
+		"scripts/background.js",
+		"scripts/*.inject.js",
+		"vendor/*"
+	],
 	"options_ui": {
 		"page": "pages/settings/settings.html",
 		"open_in_tab": true
@@ -49,6 +56,9 @@
 				"scripts/global/globalVariables.css",
 				"scripts/global/globalStyle.css",
 				"scripts/global/functions/dom.css",
+				"scripts/global/elements/checkbox/ttCheckbox.css",
+				"scripts/global/elements/checkbox-list/ttCheckboxList.css",
+				"scripts/global/elements/slider/ttSlider.css",
 				"scripts/features/alignleft/ttAlignLeft.css",
 				"scripts/features/fontsize/ttFontSize.css",
 				"scripts/features/hideleave/ttHideLeave.css",
@@ -76,6 +86,10 @@
 				"scripts/global/functions/utilities.js",
 				"scripts/global/functions/api.js",
 				"scripts/global/featureManager.js",
+				"scripts/global/elements/checkbox/ttCheckbox.js",
+				"scripts/global/elements/checkbox-list/ttCheckboxList.js",
+				"scripts/global/elements/select/ttSelect.js",
+				"scripts/global/elements/slider/ttSlider.js",
 				"scripts/content/global/ttGlobal.entry.js",
 				"scripts/features/alignleft/ttAlignLeft.entry.js",
 				"scripts/features/fontsize/ttFontSize.entry.js",

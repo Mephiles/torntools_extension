@@ -280,6 +280,51 @@ function hasDarkMode() {
 	return document.body.classList.contains("dark-mode");
 }
 
+const darkModeObserver = (function createDarkModeObserver() {
+	const listeners = new Set();
+	let prevDarkModeState;
+
+	const observer = new MutationObserver(function () {
+		const darkModeState = hasDarkMode();
+
+		if (darkModeState !== prevDarkModeState) {
+			prevDarkModeState = darkModeState;
+			_invokeListeners(darkModeState);
+		}
+	});
+
+	function addListener(callback) {
+		if (!prevDarkModeState) {
+			prevDarkModeState = hasDarkMode();
+		}
+
+		listeners.add(callback);
+
+		if (listeners.size === 1) {
+			observer.observe(document.body, { attributes: true });
+		}
+	}
+
+	function removeListener(callback) {
+		listeners.delete(callback);
+
+		if (listeners.size === 0) {
+			observer.disconnect();
+		}
+	}
+
+	function _invokeListeners(isInDarkMode) {
+		for (const listener of listeners.values()) {
+			listener(isInDarkMode);
+		}
+	}
+
+	return {
+		addListener,
+		removeListener,
+	};
+})();
+
 const REACT_UPDATE_VERSIONS = {
 	DEFAULT: "default",
 	NATIVE_SETTER: "nativeSetter",

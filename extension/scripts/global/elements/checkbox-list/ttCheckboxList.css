@@ -1,0 +1,15 @@
+.tt-checkbox-list-wrapper {
+	display: flex;
+}
+
+.tt-checkbox-list-wrapper.tt-checkbox-list-column {
+	flex-direction: column;
+}
+
+.tt-checkbox-list-wrapper.tt-checkbox-list-row {
+	flex-direction: row;
+}
+
+.tt-checkbox-list-wrapper.tt-checkbox-list-row > .tt-checkbox-wrapper:not(:first-child) {
+	margin-left: 10px;
+}
