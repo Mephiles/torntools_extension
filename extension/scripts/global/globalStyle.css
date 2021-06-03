@@ -349,3 +349,59 @@ body.scrolled #tt-page-status.top-right {
 	cursor: pointer;
 	color: var(--default-blue-color);
 }
+
+.tt-msg-box {
+	line-height: 16px;
+	background: var(--info-msg-grey-gradient);
+	box-shadow: var(--info-msg-box-shadow);
+	color: var(--info-msg-font-color);
+	font-size: 0;
+	border-radius: 5px;
+	margin-top: 10px;
+}
+
+.tt-msg-box .tt-msg-div {
+	background: var(--info-msg-horizontal-gradient);
+	display: flex;
+	justify-content: flex-start;
+	border-radius: 5px;
+}
+
+.tt-msg-box .tt-msg {
+	flex-grow: 1;
+	border-radius: 0 5px 5px 0;
+	vertical-align: middle;
+	height: auto;
+	width: 1px;
+	background-color: var(--default-bg-panel-active-color);
+	background: var(--info-msg-delimiter-gradient);
+}
+
+.tt-msg-box .tt-content {
+	position: relative;
+	vertical-align: middle;
+	padding: 10px;
+	color: var(--info-msg-font-color);
+	font-size: 13px;
+	background-color: var(--default-bg-panel-active-color);
+	background: var(--info-msg-bg-gradient);
+	border-radius: 0 5px 5px 0;
+}
+
+.tt-svg {
+	width: 128px;
+	height: 128px;
+}
+
+.tt-svg .tt-T-upper,
+.tt-svg .tt-T-lower {
+	stroke: #000;
+	fill: #000;
+}
+
+.tt-svg .tt-t-upper,
+.tt-svg .tt-t-middle,
+.tt-svg .tt-t-lower {
+	stroke: #568725;
+	fill: #568725;
+}

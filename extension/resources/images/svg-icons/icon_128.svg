@@ -1,0 +1,10 @@
+<svg viewBox="0 0 128 128" class="tt-svg">
+  <g>
+    <title>TT</title>
+    <rect class="tt-T-upper" height="19" width="72" y="19" x="17"></rect>
+    <rect class="tt-T-lower" height="63" width="22" y="38" x="42"></rect>
+    <rect class="tt-t-upper" height="8" width="35" y="54" x="65"></rect>
+    <rect class="tt-t-middle" height="45" width="10" y="46" x="75"></rect>
+  </g>
+  <path class="tt-t-lower" d="M 93.012 90.33 C 94.793 90.479 97.256 92.004 97.559 94.062 C 98.036 97.301 94.147 100.385 90.652 100.453 C 89.036 100.484 84.043 100.357 81.64 99.762 C 80.525 99.486 74.674 94.466 75.002 91.017 C 75.179 89.16 84.406 88.356 85.191 89.439 C 88.846 91.67 91.231 90.181 93.012 90.33 Z"></path>
+</svg>

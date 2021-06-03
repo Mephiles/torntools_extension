@@ -33,6 +33,7 @@ async function fetchData(location, options = {}) {
 		} else {
 			const PLATFORMS = {
 				torn: "https://api.torn.com/",
+				torn_direct: "https://www.torn.com/",
 				yata: "https://yata.yt/",
 				tornstats: "https://beta.tornstats.com/",
 				torntools: "https://torntools.gregork.com/",
@@ -53,6 +54,13 @@ async function fetchData(location, options = {}) {
 						// noinspection JSCheckFunctionSignatures
 						params.append("comment", settings.apiUsage.comment);
 					}
+					break;
+				case "torn_direct":
+					url = PLATFORMS.torn_direct;
+
+					path = options.action;
+
+					params.set("rfcv", getRFC());
 					break;
 				case "tornstats":
 					url = PLATFORMS.tornstats;
@@ -82,12 +90,21 @@ async function fetchData(location, options = {}) {
 			const fullUrl = `${url}${path}${params.toString() ? "?" + params : ""}`;
 			let parameters = {};
 
-			if (options.method === "POST") {
-				parameters = {
-					method: "POST",
-					headers: { "content-type": "application/json" },
-					body: JSON.stringify(options.body),
-				};
+			if (options.method.toUpperCase() === "POST") {
+				const headers = {};
+
+				let body;
+				if (options.body instanceof URLSearchParams) body = options.body;
+				else {
+					body = JSON.stringify(options.body);
+					headers["content-type"] = "application/json";
+				}
+
+				if (location === "torn_direct") {
+					headers["x-requested-with"] = "XMLHttpRequest";
+				}
+
+				parameters = { method: "POST", headers, body };
 			}
 
 			const controller = new AbortController();
@@ -98,13 +115,20 @@ async function fetchData(location, options = {}) {
 					let result = {};
 
 					try {
-						result = await response.json();
+						result = await response.clone().json();
 					} catch (error) {
-						if (response.status === 200) {
-							result.success = true;
+						if (location === "torn_direct") {
+							result = await response.clone().text();
+
+							resolve(result);
+							return;
 						} else {
-							result.success = false;
-							result.error = new HTTPException(response.status);
+							if (response.status === 200) {
+								result.success = true;
+							} else {
+								result.success = false;
+								result.error = new HTTPException(response.status);
+							}
 						}
 					}
 
