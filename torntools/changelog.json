@@ -4,7 +4,7 @@
 		"Fixes": [],
 		"Changes": []
 	},
-	"v5.10 - June, 3rd. 2021" : {
+	"v5.10 - June, 3rd. 2021": {
 		"Features": ["Added toggle to hide stakeout on profile page. - hvr-lust"],
 		"Fixes": [
 			"Apply proper rounding on the racing winning rate. - Sashank999",
