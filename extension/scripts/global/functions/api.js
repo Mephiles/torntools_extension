@@ -20,7 +20,7 @@ async function fetchData(location, options = {}) {
 		silent: false,
 		succeedOnError: false,
 		includeKey: false,
-		relay: true,
+		relay: false,
 		...options,
 	};
 
