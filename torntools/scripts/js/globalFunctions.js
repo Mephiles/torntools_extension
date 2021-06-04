@@ -3451,3 +3451,9 @@ function generateUUID() {
 		return v.toString(16);
 	});
 }
+
+function getStockPrice(stock) {
+	const boughtTotal = Object.values(stock.transactions).reduce((prev, trans) => prev + trans.bought_price * trans.shares, 0);
+
+	return { boughtTotal, boughtPrice: boughtTotal / stock.total_shares };
+}

@@ -252,10 +252,9 @@ function showTotalPortfolioValue() {
 			const data = torndata.stocks[stockID];
 			const userStockData = userdata.stocks[stockID];
 			if (!userStockData) return 0;
-			let stockTransactions = Object.keys(userStockData.transactions);
-			let lastTransaction = userStockData.transactions[stockTransactions[stockTransactions.length - 1]];
-			let profitOrLoss = Math.floor((data.current_price - lastTransaction.bought_price) * lastTransaction.shares);
-			return profitOrLoss;
+
+			const { boughtPrice, boughtShares } = getStockPrice(userStockData);
+			return Math.floor((data.current_price - boughtPrice) * boughtShares);
 		})
 		.reduce((a, b) => (a += b), 0);
 
