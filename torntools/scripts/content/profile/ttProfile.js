@@ -377,7 +377,7 @@ requireDatabase().then(() => {
 			await displayProfileStats();
 			section_profile_stats.appendChild(doc.new({ type: "hr" }));
 			// Show Spy info
-			await showSpyInfo();
+			await showSpyInfo().catch((error) => console.error("Something went wrong during the TornStats integration.", error));
 		}
 
 		let observer = new MutationObserver(() => {
@@ -792,7 +792,7 @@ async function showSpyInfo() {
 				.catch((error) => resolve(error));
 		});
 
-		if (!result.error) {
+		if (!result.error && result.status !== false) {
 			ttStorage.change({
 				cache: {
 					spyReport: {
@@ -819,6 +819,8 @@ async function showSpyInfo() {
 		spySection.appendChild(doc.new({ type: "div", class: "tt-spy-info tt-error-message", text: result.error }));
 	} else if (npcIds.includes(parseInt(userId))) {
 		spySection.appendChild(doc.new({ type: "div", class: "tt-spy-info", text: "NPCs have no spies" }));
+	} else if (result.status === false) {
+		spySection.appendChild(doc.new({ type: "div", class: "tt-spy-info", text: result.message }));
 	} else if (!result.spyreport.status) {
 		spySection.appendChild(doc.new({ type: "div", class: "tt-spy-info", text: result.spyreport.message }));
 	} else {

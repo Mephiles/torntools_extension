@@ -1,7 +1,7 @@
 {
 	"v5.11 - xxxxx, xxth. 2021": {
 		"Features": [],
-		"Fixes": [],
+		"Fixes": ["Fix TornStats error handling and caching while it shouldn't."],
 		"Changes": []
 	},
 	"v5.10 - June, 3rd. 2021": {
