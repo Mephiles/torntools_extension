@@ -112,6 +112,10 @@
 	transform: rotate(-90deg);
 }
 
+.tt-title.title-green::before {
+	display: none !important;
+}
+
 .tt-cell a {
 	min-height: 23px !important;
 }

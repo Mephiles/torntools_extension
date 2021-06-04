@@ -253,7 +253,7 @@ const COMPANY_INFORMATION = {
 			effect: "+20% Armor Bonus",
 		},
 	},
-	"Cruise Line Agency": {
+	"Cruise Line": {
 		1: {
 			name: "Bursar",
 			cost: "1",

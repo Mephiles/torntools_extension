@@ -234,18 +234,17 @@ requireDatabase().then(() => {
 			if (Object.keys(users_alias).length) aliasUsersChat();
 		});
 
-		let chat_observer = new MutationObserver((mutationsList) => {
-			for (let mutation of mutationsList) {
-				if (mutation.addedNodes[0] && mutation.addedNodes[0].classList && mutation.addedNodes[0].classList.contains("message_oP8oM")) {
-					let message = mutation.addedNodes[0];
+		new MutationObserver((mutationsList) => {
+			for (const mutation of mutationsList) {
+				if (mutation.addedNodes[0] && mutation.addedNodes[0].classList && mutation.addedNodes[0].className.includes("message_")) {
+					const message = mutation.addedNodes[0];
 
 					applyChatHighlights(message, highlights);
 					if (settings.pages.global.block_zalgo) removeZalgoText(message);
 					if (Object.keys(users_alias).length) aliasUsersChat(message);
 				}
 			}
-		});
-		chat_observer.observe(doc.find("#chatRoot"), { childList: true, subtree: true });
+		}).observe(doc.find("#chatRoot"), { childList: true, subtree: true });
 	});
 });
 
@@ -867,37 +866,41 @@ function chainTimerHighlight() {
 }
 
 function tradeChatPostTimer() {
-	let canPostHTML =
+	const SELECTORS = {
+		tradeChatInput: "div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_']",
+		tradeChatTimer: "div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer",
+	};
+	const canPostHTML =
 		'<div id="tt-trade-post-timer"><span class="tt-trade-chat-timer red" style="display: none;">Don\'t post</span><span class="tt-trade-chat-timer green" style="display: block;">Can post</span></div>';
-	let dontPostHTML =
+	const dontPostHTML =
 		'<div id="tt-trade-post-timer"><span class="tt-trade-chat-timer red" style="display: block;">Don\'t post</span><span class="tt-trade-chat-timer green" style="display: none;">Can post</span></div>';
-	if (doc.findAll("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").length === 0) {
+	if (doc.findAll(SELECTORS.tradeChatTimer).length === 0) {
 		if (last_trade_post_time && new Date() - new Date(last_trade_post_time) < 60 * 1000) {
-			doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_']").insertAdjacentHTML("afterBegin", dontPostHTML);
+			const tradeChatInput = doc.find(SELECTORS.tradeChatInput);
+			if (tradeChatInput) tradeChatInput.insertAdjacentHTML("afterBegin", dontPostHTML);
+
 			setTimeout(() => {
-				let canPost = doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").lastElementChild;
-				let dontPost = doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").firstElementChild;
+				const canPost = doc.find(SELECTORS.tradeChatTimer).lastElementChild;
+				const dontPost = doc.find(SELECTORS.tradeChatTimer).firstElementChild;
 				if (canPost) canPost.style.display = "block";
 				if (dontPost) dontPost.style.display = "none";
 			}, 60 * 1000 - (new Date() - new Date(last_trade_post_time)));
 		} else {
-			if (doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_']"))
-				doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_']").insertAdjacentHTML("afterBegin", canPostHTML);
+			const tradeChatInput = doc.find(SELECTORS.tradeChatInput);
+			if (tradeChatInput) tradeChatInput.insertAdjacentHTML("afterBegin", canPostHTML);
 		}
-		if (doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] textarea"))
-			doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] textarea").addEventListener("keypress", (event) => {
-				if (event.keyCode == 13 && doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer")) {
+		const tradeChatTextarea = doc.find(`${SELECTORS.tradeChatInput} textarea`);
+		if (tradeChatTextarea)
+			tradeChatTextarea.addEventListener("keypress", (event) => {
+				if (event.keyCode == 13 && doc.find(SELECTORS.tradeChatTimer)) {
 					let new_last_trade_post_time = new Date().toString();
 					ttStorage.set({ last_trade_post_time: new_last_trade_post_time });
 					last_trade_post_time = new_last_trade_post_time;
-					doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").lastElementChild.style.display =
-						"none";
-					doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").firstElementChild.style.display =
-						"block";
+					doc.find(SELECTORS.tradeChatTimer).lastElementChild.style.display = "none";
+					doc.find(SELECTORS.tradeChatTimer).firstElementChild.style.display = "block";
 					setTimeout(() => {
-						let canPost = doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").lastElementChild;
-						let dontPost = doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer")
-							.firstElementChild;
+						let canPost = doc.find(SELECTORS.tradeChatTimer).lastElementChild;
+						let dontPost = doc.find(SELECTORS.tradeChatTimer).firstElementChild;
 						if (canPost) canPost.style.display = "block";
 						if (dontPost) dontPost.style.display = "none";
 					}, 60000);
