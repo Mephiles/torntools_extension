@@ -596,8 +596,7 @@ async function setupStocksOverview() {
 			const stock = userdata.stocks[buyId];
 			const id = stock.stock_id;
 
-			const lastTransaction = Object.keys(stock.transactions).last();
-			const boughtPrice = stock.transactions[lastTransaction].bought_price;
+			const { boughtPrice } = getStockBoughtPrice(stock);
 			const profit = ((torndata.stocks[id].current_price - boughtPrice) * stock.total_shares).dropDecimals();
 
 			const wrapper = document.newElement({ type: "div", class: "stock-wrap" });
@@ -640,11 +639,11 @@ async function setupStocksOverview() {
 				children: [
 					document.newElement({
 						type: "span",
-						text: `Current price: $${formatNumber(torndata.stocks[id].current_price, { decimals: 3 })}`,
+						text: `Current price: $${formatNumber(torndata.stocks[id].current_price, { decimals: 2 })}`,
 					}),
 					document.newElement({
 						type: "span",
-						text: `Bought at: $${formatNumber(boughtPrice, { decimals: 3 })}`,
+						text: `Bought at: $${formatNumber(boughtPrice, { decimals: 2 })}`,
 					}),
 				],
 			});
