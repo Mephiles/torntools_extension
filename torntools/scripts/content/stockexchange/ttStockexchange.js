@@ -145,7 +145,7 @@ function addFilter(filters) {
 		benefit = doc.find("#tt-stock-filter #benefit-filter input[type='checkbox']").checked;
 
 		// Filtering
-		for (let stock of doc.findAll("#stockmarketroot [class*='stockMarket__'] > *:not(#panel-InfoTab, #panel-ManagerTab)")) {
+		for (let stock of doc.findAll("#stockmarketroot [class*='stockMarket__'] > ul[id]")) {
 			const stockAcronym = stock.find("[class*='logoContainer__'] img").src.split("/").pop().replace(".svg", "");
 			let stockID;
 			for (let i = 1; i <= 31; i++) {
@@ -239,7 +239,7 @@ function showTotalPortfolioValue() {
 	const totalValue = [...doc.findAll("[class*='stockOwned__'] [class*='value__']")]
 		.map((x) => parseInt(x.innerText.replace(/[$,]/g, "").trim()))
 		.reduce((a, b) => (a += b), 0);
-	const profits = [...doc.findAll("#stockmarketroot [class*='stockMarket__'] > *:not(#panel-InfoTab, #panel-ManagerTab)")]
+	const profits = [...doc.findAll("#stockmarketroot [class*='stockMarket__'] > ul[id]")]
 		.map((x) => {
 			const stockAcronym = x.find("[class*='logoContainer__'] img").src.split("/").pop().replace(".svg", "");
 			let stockID;

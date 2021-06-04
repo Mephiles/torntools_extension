@@ -4,7 +4,8 @@
 		"Fixes": [
 			"Fix stock market total value not showing. - Sashank999",
 			"Use correct Cruise Line company name. - Sashank999",
-			"Fix TornStats error handling and caching while it shouldn't. - DKK"
+			"Fix TornStats error handling and caching while it shouldn't. - DKK",
+			"Fix stock market filter not working properly when you have a panel selected. - DKK"
 		],
 		"Changes": []
 	},
