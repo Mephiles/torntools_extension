@@ -263,7 +263,7 @@ function showTotalPortfolioValue() {
 	if (profits > 0) rawText = `Profit: <span style="color: #678c00;">+$${numberWithCommas(profits)}</span>`;
 	else if (profits < 0) rawText = `Loss: <span style="color: red;">-$${numberWithCommas(Math.abs(profits))}</span>`;
 
-	doc.find("div.content-title h4").appendChild(
+	doc.find("#stockmarketroot h4").appendChild(
 		doc.new({
 			type: "span",
 			class: "tt-total-stock-value",
