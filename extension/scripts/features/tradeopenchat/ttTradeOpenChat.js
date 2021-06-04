@@ -18,7 +18,7 @@
 		window.addEventListener("hashchange", () => {
 			const step = getHashParameters().get("step");
 			if (step !== "view" && step !== "initiateTrade" && step !== "accept" && step !== "start") return;
-			if (feature.enabled()) addItemValues();
+			if (feature.enabled()) addButton();
 		});
 		addXHRListener(({ detail: { page, xhr } }) => {
 			if (!new URLSearchParams(xhr.requestBody).get("step") || page !== "trade") return;
