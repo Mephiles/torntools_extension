@@ -887,8 +887,7 @@ function tradeChatPostTimer() {
 			}, 60 * 1000 - (new Date() - new Date(last_trade_post_time)));
 		} else {
 			const tradeChatInput = doc.find(SELECTORS.tradeChatInput);
-			if (tradeChatInput)
-				tradeChatInput.insertAdjacentHTML("afterBegin", canPostHTML);
+			if (tradeChatInput) tradeChatInput.insertAdjacentHTML("afterBegin", canPostHTML);
 		}
 		const tradeChatTextarea = doc.find(`${SELECTORS.tradeChatInput} textarea`);
 		if (tradeChatTextarea)
@@ -897,14 +896,11 @@ function tradeChatPostTimer() {
 					let new_last_trade_post_time = new Date().toString();
 					ttStorage.set({ last_trade_post_time: new_last_trade_post_time });
 					last_trade_post_time = new_last_trade_post_time;
-					doc.find(SELECTORS.tradeChatTimer).lastElementChild.style.display =
-						"none";
-					doc.find(SELECTORS.tradeChatTimer).firstElementChild.style.display =
-						"block";
+					doc.find(SELECTORS.tradeChatTimer).lastElementChild.style.display = "none";
+					doc.find(SELECTORS.tradeChatTimer).firstElementChild.style.display = "block";
 					setTimeout(() => {
 						let canPost = doc.find(SELECTORS.tradeChatTimer).lastElementChild;
-						let dontPost = doc.find(SELECTORS.tradeChatTimer)
-							.firstElementChild;
+						let dontPost = doc.find(SELECTORS.tradeChatTimer).firstElementChild;
 						if (canPost) canPost.style.display = "block";
 						if (dontPost) dontPost.style.display = "none";
 					}, 60000);
