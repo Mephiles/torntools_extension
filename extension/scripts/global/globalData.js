@@ -238,7 +238,6 @@ const DEFAULT_STORAGE = {
 				inventory: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				merits: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				perks: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				displaycase: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		themes: {
