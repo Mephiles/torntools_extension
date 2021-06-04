@@ -45,7 +45,8 @@
 				{ "message": "Jail Filters with new formula.", "contributor": "bandirao" },
 				{ "message": "Add chat search by username and id.", "contributor": "bandirao" },
 				{ "message": "Jail Filters rewrite based on elements and facade design.", "contributor": "AllMight" }
-			]
+			],
+			"removed": [{ "message": "We've removed the safe crimes features due to it being less useful than originally thought." }]
 		}
 	},
 	{

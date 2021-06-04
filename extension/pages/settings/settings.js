@@ -69,7 +69,7 @@ async function setupChangelog() {
 		const contributors = Object.values(entry.logs)
 			.flat()
 			.map((log) => log.contributor)
-			.filter((value, i, self) => self.indexOf(value) === i)
+			.filter((value, i, self) => !!value && self.indexOf(value) === i)
 			.map((contributor) => {
 				if (contributor in CONTRIBUTORS) {
 					return {
