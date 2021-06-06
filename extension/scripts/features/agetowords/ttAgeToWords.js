@@ -23,37 +23,32 @@
 		const dateCurrent = new Date();
 		const utimeTarget = dateCurrent.getTime() + age * 86400 * 1000;
 		const dateTarget = new Date(utimeTarget);
-		let diffYear = dateTarget.getUTCFullYear() - dateCurrent.getUTCFullYear();
-		let diffMonth = dateTarget.getUTCMonth() - dateCurrent.getUTCMonth();
-		let diffDay = dateTarget.getUTCDate() - dateCurrent.getUTCDate();
+		let years = dateTarget.getUTCFullYear() - dateCurrent.getUTCFullYear();
+		let months = dateTarget.getUTCMonth() - dateCurrent.getUTCMonth();
+		let days = dateTarget.getUTCDate() - dateCurrent.getUTCDate();
 		const daysInMonth = [31, dateTarget.getUTCFullYear() % 4 ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-		let dateString;
+
+		let parts;
 		while (true) {
-			dateString = diffYear > 0 ? `${diffYear} year${applyPlural(diffYear)}` : "";
+			parts = [];
+			if (years > 0) parts.push(`${years} year${applyPlural(years)}`);
 
-			if (diffMonth < 0) {
-				diffYear -= 1;
-				diffMonth += 12;
+			if (months < 0) {
+				years -= 1;
+				months += 12;
 				continue;
 			}
-			dateString += diffMonth > 0 ? `${diffMonth} month${applyPlural(diffMonth)}` : "";
+			if (months > 0) parts.push(`${months} month${applyPlural(months)}`);
 
-			if (diffDay < 0) {
-				diffMonth -= 1;
-				diffDay += daysInMonth[(11 + dateTarget.getUTCMonth()) % 12];
+			if (days < 0) {
+				months -= 1;
+				days += daysInMonth[(11 + dateTarget.getUTCMonth()) % 12];
 				continue;
 			}
-			dateString += diffDay > 0 ? `${diffDay} day${applyPlural(diffDay)}` : "";
+			if (days) parts.push(`${days} day${applyPlural(days)}`);
 			break;
 		}
-		ageDiv.find(".block-value").insertAdjacentElement(
-			"afterend",
-			document.newElement({
-				type: "div",
-				text: dateString,
-				class: "tt-age-text",
-			})
-		);
+		ageDiv.find(".block-value").insertAdjacentElement("afterend", document.newElement({ type: "div", text: parts.join(" "), class: "tt-age-text" }));
 		ageDiv.find(".block-value").insertAdjacentElement("afterend", document.newElement("br"));
 	}
 
