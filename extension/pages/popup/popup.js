@@ -324,7 +324,7 @@ async function setupDashboard() {
 			full = `${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer", hideHours: true })}`;
 		else if (name === "traveling") full = `Landing in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" })}`;
 		else {
-			full = `Full in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" })}`;
+			full = `Full in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer", daysToHours: true })}`;
 
 			if (settings.pages.popup.hoverBarTime) full += ` (${formatTime({ milliseconds: full_at }, { type: "normal" })})`;
 		}
