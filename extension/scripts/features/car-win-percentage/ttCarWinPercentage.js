@@ -37,6 +37,6 @@
 	}
 
 	function removePercentage() {
-		document.findAll(".tt-win-percentage").forEach(x => x.remove());
+		document.findAll(".tt-win-percentage").forEach((x) => x.remove());
 	}
 })();
