@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (await checkMobile()) return "Not supported on mobile!";
+
 	featureManager.registerFeature(
 		"Update Notice",
 		"sidebar",
@@ -11,9 +13,7 @@
 		{
 			storage: ["settings.updateNotice", "version.showNotice"],
 		},
-		async () => {
-			if (await checkMobile()) return "Not supported on mobile!";
-		}
+		null
 	);
 
 	async function showNotice() {

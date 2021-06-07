@@ -13,12 +13,13 @@
 		{
 			storage: ["settings.pages.sidebar.hideGymHighlight"],
 		},
-		null
+		async () => {
+			await checkMobile();
+		}
 	);
 
 	async function hideGymHighlight() {
 		await requireSidebar();
-		await checkMobile();
 
 		const navGym = document.find("#nav-gym");
 		if (!navGym) return;

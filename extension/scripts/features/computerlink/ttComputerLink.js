@@ -13,11 +13,13 @@
 		{
 			storage: ["settings.pages.travel.computer"],
 		},
-		() => {
+		async () => {
 			if (!document.find("#top-page-links-list")) return "No icon bar present.";
 			else if (document.find("#top-page-links-list > .laptop")) return "Already has a laptop.";
 			else if (hasAPIData() && settings.apiUsage.user.inventory && !findItemsInObject(userdata.inventory, { ID: 61 }, { single: true }))
 				return "No computer found!";
+
+			await checkMobile();
 		}
 	);
 
@@ -47,7 +49,7 @@
 							</svg>
 						</span>
 					</span>
-					${(await checkMobile()) ? "" : '<span id="pc">Computer</span>'}
+					${mobile ? "" : '<span id="pc">Computer</span>'}
 				`,
 				attributes: {
 					role: "button",

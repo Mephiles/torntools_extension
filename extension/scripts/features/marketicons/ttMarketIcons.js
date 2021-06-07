@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (await checkMobile()) return "Not supported on mobile!";
+
 	featureManager.registerFeature(
 		"Market Icons",
 		"items",
@@ -11,9 +13,7 @@
 		{
 			storage: ["settings.pages.items.marketLinks"],
 		},
-		async () => {
-			if (await checkMobile()) return "Not supported on mobile!";
-		},
+		null,
 		{ triggerCallback: true }
 	);
 

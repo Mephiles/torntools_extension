@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (await checkMobile()) return "Not supported on mobile!";
+
 	featureManager.registerFeature(
 		"TT Settings Link",
 		"sidebar",
@@ -11,9 +13,7 @@
 		{
 			storage: ["settings.pages.sidebar.settingsLink"],
 		},
-		async () => {
-			if (await checkMobile()) return "Not supported on mobile!";
-		}
+		null
 	);
 
 	async function addLink() {

@@ -13,7 +13,9 @@
 		{
 			storage: ["settings.pages.home.effectiveStats"],
 		},
-		null
+		async () => {
+			await checkMobile();
+		}
 	);
 
 	async function showEffectiveBattleStats() {
@@ -32,12 +34,12 @@
 			const effective = (base * modifier).dropDecimals();
 
 			effectiveTotal += effective;
-			content.appendChild(await newRow(stats[i], formatNumber(effective)));
+			content.appendChild(newRow(stats[i], formatNumber(effective)));
 		}
 
-		content.appendChild(await newRow("Total", formatNumber(effectiveTotal, false)));
+		content.appendChild(newRow("Total", formatNumber(effectiveTotal, false)));
 
-		async function newRow(name, value) {
+		function newRow(name, value) {
 			return document.newElement({
 				type: "li",
 				children: [
@@ -49,7 +51,7 @@
 					document.newElement({
 						type: "div",
 						class: "desc",
-						style: { width: (await checkMobile()) ? "180px" : "184px" },
+						style: { width: mobile ? "180px" : "184px" },
 						children: [document.newElement({ type: "span", text: value, style: { paddingLeft: "3px" } })],
 					}),
 				],

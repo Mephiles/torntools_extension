@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (await checkMobile()) return "Not supported on mobile!";
+
 	featureManager.registerFeature(
 		"Item Redirect",
 		"market",
@@ -11,9 +13,7 @@
 		{
 			storage: ["settings.pages.bazaar.redirects"],
 		},
-		async () => {
-			if (await checkMobile()) return "Not supported on mobile!";
-		}
+		null
 	);
 
 	async function addParams() {
