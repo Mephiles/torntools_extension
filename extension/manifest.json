@@ -216,6 +216,16 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/education.php*"],
+			"css": [
+				"scripts/features/greycompletedcourses/ttGreyCompletedCourses.css"
+			],
+			"js": [
+				"scripts/features/greycompletedcourses/ttGreyCompletedCourses.js"
+			],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/factions.php*"],
 			"css": [
 				"scripts/features/drugdetails/ttDrugDetails.css",

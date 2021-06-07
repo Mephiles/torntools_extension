@@ -301,6 +301,9 @@ const DEFAULT_STORAGE = {
 				chain: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				travel: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			education: {
+				greyOut: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 			jail: {
 				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
