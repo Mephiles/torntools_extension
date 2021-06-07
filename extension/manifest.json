@@ -217,12 +217,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/education.php*"],
-			"css": [
-				"scripts/features/greycompletedcourses/ttGreyCompletedCourses.css"
-			],
-			"js": [
-				"scripts/features/greycompletedcourses/ttGreyCompletedCourses.js"
-			],
+			"css": ["scripts/features/greycompletedcourses/ttGreyCompletedCourses.css"],
+			"js": ["scripts/features/greycompletedcourses/ttGreyCompletedCourses.js"],
 			"run_at": "document_end"
 		},
 		{
