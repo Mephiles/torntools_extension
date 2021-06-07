@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (await checkMobile()) return "Not supported on mobile!";
+
 	featureManager.registerFeature(
 		"Highlight Property",
 		"sidebar",
@@ -12,8 +14,7 @@
 			storage: ["settings.pages.sidebar.upkeepPropHighlight"],
 		},
 		async () => {
-			if (await checkMobile()) return "Not supported on mobile!";
-			else if (!hasAPIData() || !settings.apiUsage.user.networth) return "No API access.";
+			if (!hasAPIData() || !settings.apiUsage.user.networth) return "No API access.";
 		}
 	);
 

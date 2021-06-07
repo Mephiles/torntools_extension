@@ -11,8 +11,10 @@
 		{
 			storage: ["settings.pages.items.missingFlowers"],
 		},
-		() => {
+		async () => {
 			if (!hasAPIData() || !settings.apiUsage.user.inventory) return "No API access!";
+
+			await checkMobile();
 		}
 	);
 	const featurePlushies = featureManager.registerFeature(
@@ -25,8 +27,10 @@
 		{
 			storage: ["settings.pages.items.missingPlushies"],
 		},
-		() => {
+		async () => {
 			if (!hasAPIData() || !settings.apiUsage.user.inventory) return "No API access!";
+
+			await checkMobile();
 		}
 	);
 
@@ -137,7 +141,7 @@
 
 	async function addMarketIcon(missingItem, first, last) {
 		if (!settings.pages.items.marketLinks) return;
-		if (await checkMobile()) return;
+		if (mobile) return;
 		if (missingItem.find(".market-link")) return;
 
 		let parent = missingItem.find(".outside-actions");

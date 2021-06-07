@@ -11,17 +11,20 @@
 		{
 			storage: ["settings.pages.bazaar.fillMax"],
 		},
-		null
+		async () => {
+			await checkMobile();
+		}
 	);
 
 	let reactObserver;
-	async function initialiseListeners() {
-		if (!(await checkMobile())) return;
+	function initialiseListeners() {
+		if (!mobile) return;
+
 		reactObserver = new MutationObserver(() => maxBuyListener(""));
 	}
 
 	async function addFillMax() {
-		if (!(await checkMobile())) document.addEventListener("click", maxBuyListener);
+		if (!mobile) document.addEventListener("click", maxBuyListener);
 		else {
 			await maxBuyListener();
 			await requireElement(".ReactVirtualized__Grid__innerScrollContainer");
@@ -30,7 +33,7 @@
 	}
 
 	async function removeFillMax() {
-		if (!(await checkMobile())) {
+		if (!mobile) {
 			document.removeEventListener("click", maxBuyListener);
 			document.findAll(".tt-max-buy").forEach((x) => x.remove());
 		} else {
@@ -44,7 +47,7 @@
 	}
 
 	async function maxBuyListener(clickEvent = "") {
-		if (!(await checkMobile())) {
+		if (!mobile) {
 			if (!clickEvent.target.classList.contains("^=controlPanelButton__")) return;
 			requireElement("[class*='buyMenu__']").then(() => addButtonAndListener(document.find("[class*='buyMenu__']")));
 		} else {
@@ -60,9 +63,9 @@
 			const buyButton = parent.find("[class*='buy_']");
 			buyButton.classList.add("tt-buy");
 			buyButton.parentElement.appendChild(fillMax);
-			fillMax.addEventListener("click", async (event) => {
+			fillMax.addEventListener("click", (event) => {
 				event.stopPropagation();
-				let max = (await checkMobile())
+				let max = mobile
 					? parseInt(parent.find("[class*='amount__']").firstElementChild.innerText)
 					: parseInt(parent.find("[class*='amount__']").childNodes[1].textContent);
 				if (!settings.pages.bazaar.maxBuyIgnoreCash) {

@@ -1,7 +1,8 @@
 "use strict";
 
 (async () => {
-	if (isFlying()) return;
+	if (await checkMobile()) return "Not supported on mobile!";
+	else if (isFlying()) return;
 
 	featureManager.registerFeature(
 		"Sidebar Notes",
@@ -13,9 +14,7 @@
 		{
 			storage: ["settings.pages.sidebar.notes"],
 		},
-		async () => {
-			if (await checkMobile()) return "Not supported on mobile!";
-		}
+		null
 	);
 
 	async function showNotes() {

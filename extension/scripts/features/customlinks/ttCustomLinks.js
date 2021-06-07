@@ -11,7 +11,7 @@
 		{
 			storage: ["settings.customLinks"],
 		},
-		null
+		null // FIXME - Switch to new mobile check.
 	);
 
 	async function showLinks() {

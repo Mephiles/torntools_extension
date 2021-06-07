@@ -6,11 +6,11 @@
 	if (page === "displaycase") {
 		const userId = location.hash.startsWith("#display/") ? parseInt(location.hash.substring(9)) || false : false;
 
-		if (userId && hasAPIData() && userId !== hasAPIData()) return;
+		if (userId && hasAPIData() && userId !== userdata.player_id) return;
 	} else if (page === "bazaar") {
 		const userId = parseInt(getSearchParameters().get("userId"));
 
-		if (userId && hasAPIData() && userdata.player_id !== userId) return;
+		if (userId && hasAPIData() && userId !== userdata.player_id) return;
 	} else if (page === "faction" && getSearchParameters().get("step") !== "your") return;
 
 	const feature = featureManager.registerFeature(
@@ -23,8 +23,10 @@
 		{
 			storage: ["settings.pages.items.values"],
 		},
-		() => {
+		async () => {
 			if (page === "item" && !hasAPIData()) return "No API access.";
+
+			await checkMobile();
 		},
 		{ triggerCallback: true }
 	);
@@ -263,8 +265,6 @@
 	}
 
 	async function startValues() {
-		await checkMobile();
-
 		if (page === "item") {
 			await requireItemsLoaded();
 

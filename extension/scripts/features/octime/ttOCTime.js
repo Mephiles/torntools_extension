@@ -11,13 +11,15 @@
 		{
 			storage: ["settings.pages.sidebar.ocTimer", "factiondata.userCrime"],
 		},
-		() => {
+		async () => {
 			if (!hasAPIData() || !factiondata || !factiondata.userCrime) return "No API access.";
+
+			await checkMobile();
 		}
 	);
 
 	async function showTimer() {
-		if (await checkMobile()) return;
+		if (mobile) return;
 		await requireSidebar();
 
 		removeTimer();
