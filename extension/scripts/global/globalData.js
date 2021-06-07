@@ -280,6 +280,7 @@ const DEFAULT_STORAGE = {
 				highlightNerve: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				ocTimer: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				collapseAreas: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				settingsLink: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				hideGymHighlight: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				upkeepPropHighlight: new DefaultSetting({ type: "number", defaultValue: 5000000 }),
 			},
