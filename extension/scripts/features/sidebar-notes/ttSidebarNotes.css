@@ -1,0 +1,15 @@
+#sidebarNotes {
+	margin-bottom: 2px;
+}
+
+#sidebarNotes .notes {
+	margin-top: 2px;
+	width: 100%;
+	min-height: 22px;
+	background-color: var(--default-bg-panel-color);
+	box-sizing: border-box;
+	border: unset;
+	padding: 3px;
+	resize: vertical;
+	border-radius: 0 5px 5px 0;
+}

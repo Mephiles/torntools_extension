@@ -1,9 +1,0 @@
-body:not(.tt-mobile):not(.dark-mode) .tt-available {
-	/* FIXME - Check if there is a variable available. */
-	background-color: #d7e2cc;
-}
-
-body:not(.tt-mobile).dark-mode .tt-available {
-	/* FIXME - Check if there is a variable available. */
-	background-color: #4b5738;
-}

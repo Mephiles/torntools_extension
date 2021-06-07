@@ -1,0 +1,19 @@
+#tt-trade-timer {
+	float: right;
+	width: 20px;
+	height: 16px;
+	line-height: 15px;
+	padding: 2px 2px 0 2px;
+	margin: 0 3px;
+	color: white;
+	text-align: center;
+	border-radius: 5px;
+}
+
+#tt-trade-timer[data-seconds] {
+	background: var(--tt-color-red);
+}
+
+#tt-trade-timer:not([data-seconds]) {
+	background: var(--tt-color-green);
+}

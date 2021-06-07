@@ -59,16 +59,16 @@
 				"scripts/global/elements/checkbox/ttCheckbox.css",
 				"scripts/global/elements/checkbox-list/ttCheckboxList.css",
 				"scripts/global/elements/slider/ttSlider.css",
-				"scripts/features/alignleft/ttAlignLeft.css",
-				"scripts/features/fontsize/ttFontSize.css",
-				"scripts/features/hideleave/ttHideLeave.css",
-				"scripts/features/hidelevelupgrade/ttHideLevelUpgrade.css",
-				"scripts/features/highlightenergyrefill/ttHighlightEnergyRefill.css",
-				"scripts/features/highlightnerverefill/ttHighlightNerveRefill.css",
-				"scripts/features/hideareas/ttHideAreas.css",
-				"scripts/features/hideicons/ttHideIcons.css",
-				"scripts/features/blockzalgo/ttBlockZalgo.css",
-				"scripts/features/collapsibleareas/ttCollapsibleAreas.css"
+				"scripts/features/align-left/ttAlignLeft.css",
+				"scripts/features/font-size/ttFontSize.css",
+				"scripts/features/hide-leave/ttHideLeave.css",
+				"scripts/features/hide-level-upgrade/ttHideLevelUpgrade.css",
+				"scripts/features/highlight-energy-refill/ttHighlightEnergyRefill.css",
+				"scripts/features/highlight-nerve-refill/ttHighlightNerveRefill.css",
+				"scripts/features/hide-areas/ttHideAreas.css",
+				"scripts/features/hide-icons/ttHideIcons.css",
+				"scripts/features/block-zalgo/ttBlockZalgo.css",
+				"scripts/features/collapsible-areas/ttCollapsibleAreas.css"
 			],
 			"js": [
 				"vendor/fontawesome/fontawesome.js",
@@ -91,16 +91,16 @@
 				"scripts/global/elements/select/ttSelect.js",
 				"scripts/global/elements/slider/ttSlider.js",
 				"scripts/content/global/ttGlobal.entry.js",
-				"scripts/features/alignleft/ttAlignLeft.entry.js",
-				"scripts/features/fontsize/ttFontSize.entry.js",
-				"scripts/features/hideleave/ttHideLeave.entry.js",
-				"scripts/features/hidelevelupgrade/ttHideLevelUpgrade.entry.js",
-				"scripts/features/highlightenergyrefill/ttHighlightEnergyRefill.entry.js",
-				"scripts/features/highlightnerverefill/ttHighlightNerveRefill.entry.js",
-				"scripts/features/hideareas/ttHideAreas.entry.js",
-				"scripts/features/hideicons/ttHideIcons.entry.js",
-				"scripts/features/blockzalgo/ttBlockZalgo.entry.js",
-				"scripts/features/collapsibleareas/ttCollapsibleAreas.js"
+				"scripts/features/align-left/ttAlignLeft.entry.js",
+				"scripts/features/font-size/ttFontSize.entry.js",
+				"scripts/features/hide-leave/ttHideLeave.entry.js",
+				"scripts/features/hide-level-upgrade/ttHideLevelUpgrade.entry.js",
+				"scripts/features/highlight-energy-refill/ttHighlightEnergyRefill.entry.js",
+				"scripts/features/highlight-nerve-refill/ttHighlightNerveRefill.entry.js",
+				"scripts/features/hide-areas/ttHideAreas.entry.js",
+				"scripts/features/hide-icons/ttHideIcons.entry.js",
+				"scripts/features/block-zalgo/ttBlockZalgo.entry.js",
+				"scripts/features/collapsible-areas/ttCollapsibleAreas.js"
 			],
 			"run_at": "document_start"
 		},
@@ -108,38 +108,38 @@
 			"matches": ["https://www.torn.com/*"],
 			"exclude_matches": ["https://www.torn.com/api.html*"],
 			"css": [
-				"scripts/features/octime/ttOCTime.css",
-				"scripts/features/customlinks/ttCustomLinks.css",
-				"scripts/features/updatenotice/ttUpdateNotice.css",
-				"scripts/features/sidebarnotes/ttSidebarNotes.css",
-				"scripts/features/coloredchat/ttColoredChat.css",
-				"scripts/features/searchchat/ttSearchChat.css",
-				"scripts/features/computerlink/ttComputerLink.css",
-				"scripts/features/miniprofileinformation/ttMiniprofileInformation.css",
-				"scripts/features/easteregg/ttEasterEgg.css",
-				"scripts/features/hidegymhighlight/ttHideGymHighlight.css",
-				"scripts/features/tradetimer/ttTradeTimer.css",
-				"scripts/features/highlightproperties/ttHighlightProperties.css",
-				"scripts/features/settingslink/ttSettingsLink.css"
+				"scripts/features/oc-time/ttOCTime.css",
+				"scripts/features/custom-links/ttCustomLinks.css",
+				"scripts/features/update-notice/ttUpdateNotice.css",
+				"scripts/features/sidebar-notes/ttSidebarNotes.css",
+				"scripts/features/colored-chat/ttColoredChat.css",
+				"scripts/features/search-chat/ttSearchChat.css",
+				"scripts/features/computer-link/ttComputerLink.css",
+				"scripts/features/mini-profile-information/ttMiniprofileInformation.css",
+				"scripts/features/easter-egg/ttEasterEgg.css",
+				"scripts/features/hide-gym-highlight/ttHideGymHighlight.css",
+				"scripts/features/trade-timer/ttTradeTimer.css",
+				"scripts/features/highlight-properties/ttHighlightProperties.css",
+				"scripts/features/settings-link/ttSettingsLink.css"
 			],
 			"js": [
 				"scripts/content/global/ttGlobal.js",
-				"scripts/features/hidelevelupgrade/ttHideLevelUpgrade.js",
-				"scripts/features/octime/ttOCTime.js",
-				"scripts/features/customlinks/ttCustomLinks.js",
-				"scripts/features/updatenotice/ttUpdateNotice.js",
-				"scripts/features/sidebarnotes/ttSidebarNotes.js",
-				"scripts/features/coloredchat/ttColoredChat.js",
-				"scripts/features/searchchat/ttSearchChat.js",
-				"scripts/features/computerlink/ttComputerLink.js",
-				"scripts/features/chathighlight/ttChatHighlight.js",
-				"scripts/features/chatautocomplete/ttChatAutocomplete.js",
-				"scripts/features/miniprofileinformation/ttMiniprofileInformation.js",
-				"scripts/features/easteregg/ttEasterEgg.js",
-				"scripts/features/hidegymhighlight/ttHideGymHighlight.js",
-				"scripts/features/tradetimer/ttTradeTimer.js",
-				"scripts/features/highlightproperties/ttHighlightProperties.js",
-				"scripts/features/settingslink/ttSettingsLink.js"
+				"scripts/features/hide-level-upgrade/ttHideLevelUpgrade.js",
+				"scripts/features/oc-time/ttOCTime.js",
+				"scripts/features/custom-links/ttCustomLinks.js",
+				"scripts/features/update-notice/ttUpdateNotice.js",
+				"scripts/features/sidebar-notes/ttSidebarNotes.js",
+				"scripts/features/colored-chat/ttColoredChat.js",
+				"scripts/features/search-chat/ttSearchChat.js",
+				"scripts/features/computer-link/ttComputerLink.js",
+				"scripts/features/chat-highlight/ttChatHighlight.js",
+				"scripts/features/chat-autocomplete/ttChatAutocomplete.js",
+				"scripts/features/mini-profile-information/ttMiniprofileInformation.js",
+				"scripts/features/easter-egg/ttEasterEgg.js",
+				"scripts/features/hide-gym-highlight/ttHideGymHighlight.js",
+				"scripts/features/trade-timer/ttTradeTimer.js",
+				"scripts/features/highlight-properties/ttHighlightProperties.js",
+				"scripts/features/settings-link/ttSettingsLink.js"
 			],
 			"run_at": "document_end"
 		},
@@ -158,219 +158,219 @@
 		},
 		{
 			"matches": ["https://www.torn.com/api.html*"],
-			"css": ["scripts/features/apiselections/ttAPISelections.css"],
+			"css": ["scripts/features/api-selections/ttAPISelections.css"],
 			"js": [
-				"scripts/features/apidemo/ttAPIDemo.js",
-				"scripts/features/autoapifill/ttAutoAPIFill.js",
-				"scripts/features/autopretty/ttAutoPretty.js",
-				"scripts/features/apiselections/ttAPISelections.js"
+				"scripts/features/api-demo/ttAPIDemo.js",
+				"scripts/features/auto-api-fill/ttAutoAPIFill.js",
+				"scripts/features/auto-pretty/ttAutoPretty.js",
+				"scripts/features/api-selections/ttAPISelections.js"
 			],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/bazaar.php*"],
 			"css": [
-				"scripts/features/drugdetails/ttDrugDetails.css",
-				"scripts/features/itemvalues/ttItemValues.css",
-				"scripts/features/totalitemcost/ttTotalItemCost.css",
-				"scripts/features/bazaarworth/ttBazaarWorth.css",
-				"scripts/features/itemredirect/ttBazaarRedirect.css",
-				"scripts/features/bazaarworth/ttBazaarWorth.css",
-				"scripts/features/bazaarfillmax/ttBazaarFillMax.css"
+				"scripts/features/drug-details/ttDrugDetails.css",
+				"scripts/features/item-values/ttItemValues.css",
+				"scripts/features/total-item-cost/ttTotalItemCost.css",
+				"scripts/features/bazaar-worth/ttBazaarWorth.css",
+				"scripts/features/item-redirect/ttBazaarRedirect.css",
+				"scripts/features/bazaar-worth/ttBazaarWorth.css",
+				"scripts/features/bazaar-fill-max/ttBazaarFillMax.css"
 			],
 			"js": [
-				"scripts/features/drugdetails/ttDrugDetails.js",
-				"scripts/features/itemvalues/ttItemValues.js",
-				"scripts/features/totalitemcost/ttTotalItemCost.js",
-				"scripts/features/bazaarworth/ttBazaarWorth.js",
-				"scripts/features/itemredirect/ttBazaarRedirect.js",
-				"scripts/features/bazaarworth/ttBazaarWorth.js",
-				"scripts/features/bazaarfillmax/ttBazaarFillMax.js"
+				"scripts/features/drug-details/ttDrugDetails.js",
+				"scripts/features/item-values/ttItemValues.js",
+				"scripts/features/total-item-cost/ttTotalItemCost.js",
+				"scripts/features/bazaar-worth/ttBazaarWorth.js",
+				"scripts/features/item-redirect/ttBazaarRedirect.js",
+				"scripts/features/bazaar-worth/ttBazaarWorth.js",
+				"scripts/features/bazaar-fill-max/ttBazaarFillMax.js"
 			],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/casino.php*"],
-			"css": ["scripts/features/hidecasinogames/ttHideCasinoGames.css"],
-			"js": ["scripts/features/hidecasinogames/ttHideCasinoGames.js"],
+			"css": ["scripts/features/hide-casino-games/ttHideCasinoGames.css"],
+			"js": ["scripts/features/hide-casino-games/ttHideCasinoGames.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/companies.php*"],
-			"css": ["scripts/features/companyspecials/ttCompanySpecials.css"],
-			"js": ["scripts/features/companyspecials/ttCompanySpecials.js"],
+			"css": ["scripts/features/company-specials/ttCompanySpecials.css"],
+			"js": ["scripts/features/company-specials/ttCompanySpecials.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/displaycase.php*"],
 			"css": [
-				"scripts/features/drugdetails/ttDrugDetails.css",
-				"scripts/features/itemvalues/ttItemValues.css",
-				"scripts/features/displaycaseworth/ttDisplayCaseWorth.css"
+				"scripts/features/drug-details/ttDrugDetails.css",
+				"scripts/features/item-values/ttItemValues.css",
+				"scripts/features/display-case-worth/ttDisplayCaseWorth.css"
 			],
 			"js": [
-				"scripts/features/drugdetails/ttDrugDetails.js",
-				"scripts/features/itemvalues/ttItemValues.js",
-				"scripts/features/displaycaseworth/ttDisplayCaseWorth.js"
+				"scripts/features/drug-details/ttDrugDetails.js",
+				"scripts/features/item-values/ttItemValues.js",
+				"scripts/features/display-case-worth/ttDisplayCaseWorth.js"
 			],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/education.php*"],
-			"css": ["scripts/features/greycompletedcourses/ttGreyCompletedCourses.css"],
-			"js": ["scripts/features/greycompletedcourses/ttGreyCompletedCourses.js"],
+			"css": ["scripts/features/grey-completed-courses/ttGreyCompletedCourses.css"],
+			"js": ["scripts/features/grey-completed-courses/ttGreyCompletedCourses.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/factions.php*"],
 			"css": [
-				"scripts/features/drugdetails/ttDrugDetails.css",
-				"scripts/features/itemvalues/ttItemValues.css",
-				"scripts/features/highlightbloodbags/ttHighlightBloodBags.css"
+				"scripts/features/drug-details/ttDrugDetails.css",
+				"scripts/features/item-values/ttItemValues.css",
+				"scripts/features/highlight-blood-bags/ttHighlightBloodBags.css"
 			],
 			"js": [
 				"scripts/content/factions/ttFactions.js",
-				"scripts/features/drugdetails/ttDrugDetails.js",
-				"scripts/features/itemvalues/ttItemValues.js",
-				"scripts/features/highlightbloodbags/ttHighlightBloodBags.js"
+				"scripts/features/drug-details/ttDrugDetails.js",
+				"scripts/features/item-values/ttItemValues.js",
+				"scripts/features/highlight-blood-bags/ttHighlightBloodBags.js"
 			],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/hospitalview.php*"],
-			"css": ["scripts/global/functions/filters.css", "scripts/features/hospitalfilter/ttHospitalFilter.css"],
-			"js": ["scripts/content/hospital/ttHospital.js", "scripts/features/hospitalfilter/ttHospitalFilter.js"],
+			"css": ["scripts/global/functions/filters.css", "scripts/features/hospital-filter/ttHospitalFilter.css"],
+			"js": ["scripts/content/hospital/ttHospital.js", "scripts/features/hospital-filter/ttHospitalFilter.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/imarket.php*"],
-			"css": ["scripts/features/drugdetails/ttDrugDetails.css"],
-			"js": ["scripts/features/drugdetails/ttDrugDetails.js", "scripts/features/itemredirect/ttItemMarketRedirect.js"],
+			"css": ["scripts/features/drug-details/ttDrugDetails.css"],
+			"js": ["scripts/features/drug-details/ttDrugDetails.js", "scripts/features/item-redirect/ttItemMarketRedirect.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/index.php*"],
 			"css": [
-				"scripts/features/effectivestats/ttEffectiveStats.css",
-				"scripts/features/livenetworth/ttLiveNetworth.css",
-				"scripts/features/drugdetails/ttDrugDetails.css",
-				"scripts/features/traveltable/ttTravelTable.css",
-				"scripts/features/travelitemprofits/ttTravelItemProfits.css",
-				"scripts/features/travelfillmax/ttTravelFillMax.css",
-				"scripts/features/sorttravelmarket/ttSortTravelMarket.css"
+				"scripts/features/effective-stats/ttEffectiveStats.css",
+				"scripts/features/live-networth/ttLiveNetworth.css",
+				"scripts/features/drug-details/ttDrugDetails.css",
+				"scripts/features/travel-table/ttTravelTable.css",
+				"scripts/features/travel-item-profits/ttTravelItemProfits.css",
+				"scripts/features/travel-fill-max/ttTravelFillMax.css",
+				"scripts/features/sort-travel-market/ttSortTravelMarket.css"
 			],
 			"js": [
-				"scripts/features/effectivestats/ttEffectiveStats.js",
-				"scripts/features/livenetworth/ttLiveNetworth.js",
-				"scripts/features/drugdetails/ttDrugDetails.js",
-				"scripts/features/traveltable/ttTravelTable.js",
-				"scripts/features/cleanflight/ttCleanFlight.js",
-				"scripts/features/travelitemprofits/ttTravelItemProfits.js",
-				"scripts/features/travelfillmax/ttTravelFillMax.js",
-				"scripts/features/sorttravelmarket/ttSortTravelMarket.js"
+				"scripts/features/effective-stats/ttEffectiveStats.js",
+				"scripts/features/live-networth/ttLiveNetworth.js",
+				"scripts/features/drug-details/ttDrugDetails.js",
+				"scripts/features/travel-table/ttTravelTable.js",
+				"scripts/features/clean-flight/ttCleanFlight.js",
+				"scripts/features/travel-item-profits/ttTravelItemProfits.js",
+				"scripts/features/travel-fill-max/ttTravelFillMax.js",
+				"scripts/features/sort-travel-market/ttSortTravelMarket.js"
 			],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/index.php?page=people*"],
-			"css": ["scripts/global/functions/filters.css", "scripts/features/abroadpeoplefilter/ttPeopleFilter.css"],
-			"js": ["scripts/features/abroadpeoplefilter/ttPeopleFilter.js"],
+			"css": ["scripts/global/functions/filters.css", "scripts/features/abroad-people-filter/ttPeopleFilter.css"],
+			"js": ["scripts/features/abroad-people-filter/ttPeopleFilter.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/item.php*"],
 			"css": [
-				"scripts/features/quickitems/ttQuickItems.css",
-				"scripts/features/marketicons/ttMarketIcons.css",
-				"scripts/features/drugdetails/ttDrugDetails.css",
-				"scripts/features/itemvalues/ttItemValues.css",
-				"scripts/features/highlightbloodbags/ttHighlightBloodBags.css",
-				"scripts/features/missingsets/ttMissingSets.css",
-				"scripts/features/bookeffect/ttBookEffect.css",
-				"scripts/features/canenergy/ttCanEnergy.css",
-				"scripts/features/alcoholnerve/ttAlcoholNerve.css",
-				"scripts/features/candyhappy/ttCandyHappy.css"
+				"scripts/features/quick-items/ttQuickItems.css",
+				"scripts/features/market-icons/ttMarketIcons.css",
+				"scripts/features/drug-details/ttDrugDetails.css",
+				"scripts/features/item-values/ttItemValues.css",
+				"scripts/features/highlight-blood-bags/ttHighlightBloodBags.css",
+				"scripts/features/missing-sets/ttMissingSets.css",
+				"scripts/features/book-effect/ttBookEffect.css",
+				"scripts/features/can-energy/ttCanEnergy.css",
+				"scripts/features/alcohol-nerve/ttAlcoholNerve.css",
+				"scripts/features/candy-happy/ttCandyHappy.css"
 			],
 			"js": [
 				"scripts/content/items/ttItems.js",
-				"scripts/features/quickitems/ttQuickItems.js",
-				"scripts/features/marketicons/ttMarketIcons.js",
-				"scripts/features/drugdetails/ttDrugDetails.js",
-				"scripts/features/itemvalues/ttItemValues.js",
-				"scripts/features/highlightbloodbags/ttHighlightBloodBags.js",
-				"scripts/features/missingsets/ttMissingSets.js",
-				"scripts/features/bookeffect/ttBookEffect.js",
-				"scripts/features/canenergy/ttCanEnergy.js",
-				"scripts/features/alcoholnerve/ttAlcoholNerve.js",
-				"scripts/features/candyhappy/ttCandyHappy.js"
+				"scripts/features/quick-items/ttQuickItems.js",
+				"scripts/features/market-icons/ttMarketIcons.js",
+				"scripts/features/drug-details/ttDrugDetails.js",
+				"scripts/features/item-values/ttItemValues.js",
+				"scripts/features/highlight-blood-bags/ttHighlightBloodBags.js",
+				"scripts/features/missing-sets/ttMissingSets.js",
+				"scripts/features/book-effect/ttBookEffect.js",
+				"scripts/features/can-energy/ttCanEnergy.js",
+				"scripts/features/alcohol-nerve/ttAlcoholNerve.js",
+				"scripts/features/candy-happy/ttCandyHappy.js"
 			],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/itemuseparcel.php*"],
-			"css": ["scripts/features/itemvalues/ttItemValues.css"],
-			"js": ["scripts/features/itemvalues/ttItemValues.js"],
+			"css": ["scripts/features/item-values/ttItemValues.css"],
+			"js": ["scripts/features/item-values/ttItemValues.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/jailview.php*"],
-			"css": ["scripts/global/functions/filters.css", "scripts/features/jailfilter/ttJailFilter.css"],
-			"js": ["scripts/content/jail/ttJail.js", "scripts/features/jailfilter/ttJailFilter.js"],
+			"css": ["scripts/global/functions/filters.css", "scripts/features/jail-filter/ttJailFilter.css"],
+			"js": ["scripts/content/jail/ttJail.js", "scripts/features/jail-filter/ttJailFilter.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/profiles.php*"],
 			"css": [
-				"scripts/features/profilenotes/ttProfileNotes.css",
-				"scripts/features/statusindicator/ttStatusIndicator.css",
-				"scripts/features/friendlyfire/ttFriendlyFire.css",
-				"scripts/features/agetowords/ttAgeToWords.css"
+				"scripts/features/profile-notes/ttProfileNotes.css",
+				"scripts/features/status-indicator/ttStatusIndicator.css",
+				"scripts/features/friendly-fire/ttFriendlyFire.css",
+				"scripts/features/age-to-words/ttAgeToWords.css"
 			],
 			"js": [
-				"scripts/features/profileid/ttProfileID.js",
-				"scripts/features/profilenotes/ttProfileNotes.js",
-				"scripts/features/statusindicator/ttStatusIndicator.js",
-				"scripts/features/friendlyfire/ttFriendlyFire.js",
-				"scripts/features/agetowords/ttAgeToWords.js"
+				"scripts/features/profile-id/ttProfileID.js",
+				"scripts/features/profile-notes/ttProfileNotes.js",
+				"scripts/features/status-indicator/ttStatusIndicator.js",
+				"scripts/features/friendly-fire/ttFriendlyFire.js",
+				"scripts/features/age-to-words/ttAgeToWords.js"
 			],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/page.php?sid=stocks*"],
-			"css": ["scripts/features/stockacronyms/ttStockAcronyms.css"],
-			"js": ["scripts/features/stockacronyms/ttStockAcronyms.js"],
+			"css": ["scripts/features/stock-acronyms/ttStockAcronyms.css"],
+			"js": ["scripts/features/stock-acronyms/ttStockAcronyms.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/shops.php*", "https://www.torn.com/bigalgunshop.php*"],
-			"css": ["scripts/features/shopsfillmax/ttShopsFillMax.css"],
-			"js": ["scripts/features/shopsfillmax/ttShopsFillMax.js"],
+			"css": ["scripts/features/shops-fill-max/ttShopsFillMax.css"],
+			"js": ["scripts/features/shops-fill-max/ttShopsFillMax.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/trade.php*"],
 			"css": [
-				"scripts/features/itemvalues/ttItemValues.css",
-				"scripts/features/tradevalues/ttTradeValues.css",
-				"scripts/features/tradeopenchat/ttTradeOpenChat.css"
+				"scripts/features/item-values/ttItemValues.css",
+				"scripts/features/trade-values/ttTradeValues.css",
+				"scripts/features/trade-open-chat/ttTradeOpenChat.css"
 			],
 			"js": [
-				"scripts/features/itemvalues/ttItemValues.js",
-				"scripts/features/tradevalues/ttTradeValues.js",
-				"scripts/features/tradeopenchat/ttTradeOpenChat.js"
+				"scripts/features/item-values/ttItemValues.js",
+				"scripts/features/trade-values/ttTradeValues.js",
+				"scripts/features/trade-open-chat/ttTradeOpenChat.js"
 			],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/travelagency.php*"],
-			"css": ["scripts/features/traveltable/ttTravelTable.css"],
-			"js": ["scripts/content/travelagency/ttTravelAgency.js", "scripts/features/traveltable/ttTravelTable.js"],
+			"css": ["scripts/features/travel-table/ttTravelTable.css"],
+			"js": ["scripts/content/travelagency/ttTravelAgency.js", "scripts/features/travel-table/ttTravelTable.js"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/forums.php*"],
-			"css": ["scripts/features/forumwarning/ttForumWarning.css"],
-			"js": ["scripts/features/forumwarning/ttForumWarning.js"],
+			"css": ["scripts/features/forum-warning/ttForumWarning.css"],
+			"js": ["scripts/features/forum-warning/ttForumWarning.js"],
 			"run_at": "document_end"
 		}
 	]

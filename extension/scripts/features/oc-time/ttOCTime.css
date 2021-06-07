@@ -1,0 +1,25 @@
+.tt-sidebar-information .title {
+	font-weight: bold;
+	text-decoration: none;
+	color: inherit;
+	margin: inherit;
+}
+
+/*body:not(.dark-mode) .tt-sidebar-information .countdown.short {*/
+/*	!* FIXME - Test if color works on light mode. *!*/
+/*	color: red;*/
+/*}*/
+
+/*body.dark-mode .tt-sidebar-information .countdown.short {*/
+/*	color: var(--tt-color-red);*/
+/*}*/
+
+.tt-sidebar-information .countdown.short {
+	/* FIXME - Test if color works on light mode. */
+	color: var(--tt-color-red);
+}
+
+.tt-sidebar-information .countdown.medium {
+	/* FIXME - Test if color works. */
+	color: var(--tt-color-orange);
+}

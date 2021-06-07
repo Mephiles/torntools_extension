@@ -1,0 +1,5 @@
+.tt-ally-warning {
+	float: right;
+	color: var(--tt-color-red);
+	padding-right: 7px;
+}

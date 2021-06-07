@@ -1,3 +1,0 @@
-#chatRoot div[class^="overview_"] div[class^="message_"] * {
-	font-size: var(--torntools-chat-font-size, 12px) !important;
-}

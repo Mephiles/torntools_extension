@@ -1,0 +1,86 @@
+.tt-jail-filters-container {
+	margin-top: 10px;
+}
+
+.tt-jail-filters-container > main {
+	padding: 8px 15px 8px 4px;
+}
+
+.tt-jail-filters-header {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 10px;
+}
+
+.tt-jail-filters-shown-users > span {
+	font-weight: bold;
+}
+
+.tt-jail-filters-content {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+body.tt-mobile .tt-jail-filters-content {
+	flex-direction: column;
+}
+
+.tt-jail-filters-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0 5px;
+}
+
+body.tt-mobile .tt-jail-filters-item {
+	margin: 10px 0;
+}
+
+.tt-jail-filters-item-header {
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.tt-jail-filters-quick-mark {
+	position: absolute;
+	font-size: 10px;
+	right: -11px;
+	bottom: -8px;
+	color: rgb(133, 173, 13);
+	font-weight: 600;
+}
+
+.tt-jail-filters-main-refresh-wrapper {
+	display: inline-block;
+	width: 87px;
+	text-align: end;
+}
+
+.tt-jail-filters-main-refresh-wrapper > img {
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.tt-jail-filters-inner-refresh-wrapper {
+	height: 33px;
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.tt-jail-filters-inner-refresh-wrapper > .tt-jail-filters-bail-refresh {
+	margin-right: 24px;
+	cursor: pointer;
+}
+
+.tt-jail-filters-inner-refresh-wrapper > .tt-jail-filters-bust-refresh {
+	margin-right: 12px;
+	cursor: pointer;
+}
+
+.tt-jail-filters-bail-refresh.tt-jail-filters-inner-refresh-hide,
+.tt-jail-filters-bust-refresh.tt-jail-filters-inner-refresh-hide {
+	visibility: hidden;
+}
