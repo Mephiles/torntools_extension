@@ -264,6 +264,7 @@
 				"scripts/features/live-networth/ttLiveNetworth.js",
 				"scripts/features/drug-details/ttDrugDetails.js",
 				"scripts/features/travel-table/ttTravelTable.js",
+				"scripts/features/travel-table/ttTravelSync.js",
 				"scripts/features/clean-flight/ttCleanFlight.js",
 				"scripts/features/travel-item-profits/ttTravelItemProfits.js",
 				"scripts/features/travel-fill-max/ttTravelFillMax.js",
