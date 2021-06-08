@@ -382,6 +382,83 @@ function updateReactInput(input, value, options = {}) {
 	}
 }
 
+function isDividendStock(id) {
+	if (isIntNumber(id)) return [1, 4, 5, 6, 7, 9, 10, 12, 15, 16, 17, 18, 19, 22, 27, 28, 29, 31].includes(id);
+
+	return false;
+}
+
+function getRequiredStocks(required, increment) {
+	return (Math.pow(2, increment) - 1) * required;
+}
+
+function getStockIncrement(required, stocks) {
+	return Math.log2(Math.floor(stocks / required) + 1);
+}
+
+function getStockReward(reward, increment) {
+	let value;
+	if (reward.startsWith("$")) {
+		const cash = parseInt(reward.replace("$", "").replaceAll(",", "")) * increment;
+
+		value = formatNumber(cash, { currency: true });
+	} else if (reward.match(/^[0-9]+x? /i)) {
+		const splitBenefit = reward.split(" ");
+		const hasX = splitBenefit[0].endsWith("x");
+		const amount = parseInt(splitBenefit.shift().replace("x", "")) * increment;
+		const item = splitBenefit.join(" ");
+
+		value = `${formatNumber(amount)}${hasX ? "x" : ""} ${item}`;
+	} else {
+		value = "Unknown, please report this!";
+	}
+
+	return value;
+}
+
+function getRewardValue(reward) {
+	let value;
+	if (reward.startsWith("$")) {
+		value = parseInt(reward.replace("$", "").replaceAll(",", ""));
+	} else if (reward.match(/^[0-9]+x? /i)) {
+		const rewardItem = reward.split(" ").slice(1).join(" ");
+
+		const item = findItemsInObject(torndata.items, { name: rewardItem }, { single: true });
+
+		if (item) value = item ? item.market_value : -1;
+		else {
+			let prices;
+
+			switch (rewardItem) {
+				case "Ammunition Pack":
+					break;
+				case "Clothing Cache":
+					prices = [1057, 1112, 1113, 1114, 1115, 1116, 1117].map((id) => torndata.items[id].market_value);
+					break;
+				case "Random Property":
+					prices = Object.values(torndata.properties)
+						.map((property) => property.cost)
+						.filter((price) => !!price)
+						.map((price) => price * 0.75);
+					break;
+				case "Happiness":
+					break;
+				case "Energy":
+					break;
+				default:
+					value = -1;
+					break;
+			}
+
+			if (Array.isArray(prices)) value = prices.totalSum() / prices.length;
+		}
+	} else {
+		value = -1;
+	}
+
+	return value;
+}
+
 function getStockBoughtPrice(stock) {
 	const boughtTotal = Object.values(stock.transactions).reduce((prev, trans) => prev + trans.bought_price * trans.shares, 0);
 

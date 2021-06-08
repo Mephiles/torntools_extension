@@ -806,7 +806,7 @@ async function updateStakeouts() {
 
 async function updateTorndata() {
 	const oldTorndata = { ...torndata };
-	torndata = await fetchData("torn", { section: "torn", selections: ["education", "honors", "items", "medals", "pawnshop"] });
+	torndata = await fetchData("torn", { section: "torn", selections: ["education", "honors", "items", "medals", "pawnshop", "properties"] });
 	if (!torndata) throw new Error("Aborted updating due to an expected response.");
 	torndata.date = Date.now();
 
@@ -841,21 +841,6 @@ async function updateStocks() {
 					`(${stocks[id].acronym}) ${stocks[id].name} has reached ${formatNumber(stocks[id].current_price, {
 						currency: true,
 					})} (alert: ${formatNumber(alerts.priceReaches, { currency: true })})!`,
-					LINKS.stocks
-				);
-			}
-
-			if (alerts.systemDumps && oldStocks[id].total_shares < stocks[id].total_shares) {
-				await notifyUser("TornTools - Stock Alerts", `(${stocks[id].acronym}) ${stocks[id].name} has dumped new shares!`, LINKS.stocks);
-			} else if (
-				alerts.availableReaches &&
-				oldStocks[id].available_shares < stocks[id].available_shares &&
-				oldStocks[id].available_shares < alerts.availableReaches &&
-				stocks[id].available_shares >= alerts.availableReaches
-			) {
-				await notifyUser(
-					"TornTools - Stock Alerts",
-					`(${stocks[id].acronym}) ${stocks[id].name} has ${formatNumber(stocks[id].available_shares)} available shares!`,
 					LINKS.stocks
 				);
 			}

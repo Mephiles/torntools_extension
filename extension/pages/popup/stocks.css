@@ -60,6 +60,7 @@ body.dark #stocks .stock-list .information-section .heading {
 
 #stocks .stock-list .information-section .content.price {
 	display: flex;
+	flex-wrap: wrap;
 }
 
 #stocks .stock-list .information-section .content.price > * {
@@ -68,6 +69,10 @@ body.dark #stocks .stock-list .information-section .heading {
 
 #stocks .stock-list .information-section .content.benefit .description {
 	font-weight: bold;
+}
+
+#stocks .stock-list .information-section .content.benefit .duration {
+	margin-left: 0.25em;
 }
 
 #stocks .stock-list .information-section .content.alerts {
@@ -99,7 +104,7 @@ body.dark #stocks .stock-list .information-section .heading {
 
 /* Stocks - Users */
 
-#stocks #user-stocks .profit {
+#stocks .profit {
 	position: absolute;
 	top: 8px;
 	right: 4px;
@@ -107,18 +112,32 @@ body.dark #stocks .stock-list .information-section .heading {
 	font-weight: bold;
 }
 
-#stocks #user-stocks .profit.positive {
+#stocks .profit.positive {
 	color: #678c00;
 }
 
-#stocks #user-stocks .profit.negative {
+#stocks .profit.negative {
 	color: #ec3f3f;
 }
 
-#stocks #user-stocks .information-section .content.benefit .description.completed {
+#stocks .information-section .content.benefit .description.completed,
+#stocks .information-section .content.benefit .increment.completed {
 	color: #36b320;
 }
 
-#stocks #user-stocks .information-section .content.benefit .description.not-completed {
+#stocks .information-section .content.benefit .description.awaiting,
+#stocks .information-section .content.benefit .increment.awaiting {
+	color: #ffa937;
+}
+
+#stocks .information-section .content.benefit .description.not-completed {
 	color: #e44204;
+}
+
+.benefit-frequency {
+	margin-left: 0.25em;
+}
+
+.content.benefit table {
+	width: 100%;
 }

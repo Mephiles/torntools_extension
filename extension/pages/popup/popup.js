@@ -588,172 +588,13 @@ async function loadMarketSearch() {
 
 async function setupStocksOverview() {
 	const stocksOverview = document.find("#stocks");
-	const userStocks = stocksOverview.find("#user-stocks");
 	const allStocks = stocksOverview.find("#all-stocks");
 
-	if (settings.apiUsage.user.stocks) {
-		for (const buyId in userdata.stocks) {
-			const stock = userdata.stocks[buyId];
-			const id = stock.stock_id;
-
-			const { boughtPrice } = getStockBoughtPrice(stock);
-			const profit = ((torndata.stocks[id].current_price - boughtPrice) * stock.total_shares).dropDecimals();
-
-			const wrapper = document.newElement({ type: "div", class: "stock-wrap" });
-			wrapper.appendChild(document.newElement("hr"));
-
-			// Heading
-			wrapper.appendChild(
-				document.newElement({
-					type: "a",
-					class: "heading",
-					href: `https://www.torn.com/stockexchange.php?stock=${torndata.stocks[id].acronym}`,
-					attributes: { target: "_blank" },
-					children: [
-						document.newElement({
-							type: "span",
-							class: "name",
-							text: `${torndata.stocks[id][torndata.stocks[id].name.length > 35 ? "acronym" : "name"]}`,
-						}),
-						document.newElement("br"),
-						document.newElement({
-							type: "span",
-							class: "quantity",
-							text: `(${formatNumber(stock.total_shares, { shorten: 2 })} share${applyPlural(stock.total_shares)})`,
-						}),
-					],
-				})
-			);
-			wrapper.appendChild(
-				document.newElement({
-					type: "div",
-					class: `profit ${getProfitClass(profit)}`,
-					text: `${getProfitIndicator(profit)}$${formatNumber(Math.abs(profit))}`,
-				})
-			);
-
-			// Price Information
-			const priceContent = document.newElement({
-				type: "div",
-				class: "content price hidden",
-				children: [
-					document.newElement({
-						type: "span",
-						text: `Current price: $${formatNumber(torndata.stocks[id].current_price, { decimals: 2 })}`,
-					}),
-					document.newElement({
-						type: "span",
-						text: `Bought at: $${formatNumber(boughtPrice, { decimals: 2 })}`,
-					}),
-				],
-			});
-
-			wrapper.appendChild(
-				document.newElement({
-					type: "div",
-					class: "information-section",
-					children: [getPriceHeadingElement(priceContent), priceContent],
-				})
-			);
-
-			// Benefit Information
-			if (torndata.stocks[id].benefit) {
-				const benefitContent = document.newElement({
-					type: "div",
-					class: "content benefit hidden",
-					children: [
-						document.newElement({
-							type: "span",
-							text: `Required stocks: ${formatNumber(stock.total_shares)}/${formatNumber(torndata.stocks[id].benefit.requirement)}`,
-						}),
-						document.newElement("br"),
-						document.newElement({
-							type: "span",
-							class: `description ${stock.total_shares >= torndata.stocks[id].benefit.requirement ? "completed" : "not-completed"}`,
-							text: `${torndata.stocks[id].benefit.description}.`,
-						}),
-					],
-				});
-
-				wrapper.appendChild(
-					document.newElement({
-						type: "div",
-						class: "information-section",
-						children: [getBenefitHeadingElement(benefitContent), benefitContent],
-					})
-				);
-			}
-
-			// Alerts
-			if (id !== "0") addAlertsSection(wrapper, id, buyId);
-
-			userStocks.appendChild(wrapper);
-		}
-	}
-
-	for (const id in torndata.stocks) {
+	for (let id in torndata.stocks) {
 		if (id === "date") continue;
-		const wrapper = document.newElement({
-			type: "div",
-			class: "stock-wrap",
-			attributes: { name: `${torndata.stocks[id].name} (${torndata.stocks[id].acronym})`.toLowerCase() },
-		});
-		wrapper.appendChild(document.newElement("hr"));
+		id = parseInt(id);
 
-		// Heading
-		wrapper.appendChild(
-			document.newElement({
-				type: "a",
-				class: "heading",
-				href: `https://www.torn.com/stockexchange.php?stock=${torndata.stocks[id].acronym}`,
-				attributes: { target: "_blank" },
-				children: [document.newElement({ type: "span", class: "name", text: torndata.stocks[id].name })],
-			})
-		);
-
-		// Price Information
-		const priceContent = document.newElement({
-			type: "div",
-			class: "content price hidden",
-			children: [
-				document.newElement({
-					type: "span",
-					text: `Current price: $${formatNumber(torndata.stocks[id].current_price, { decimals: 3 })}`,
-				}),
-				document.newElement({
-					type: "span",
-					text: `Available shares: ${formatNumber(torndata.stocks[id].available_shares)}`,
-				}),
-			],
-		});
-
-		wrapper.appendChild(document.newElement({ type: "div", class: "information-section", children: [getPriceHeadingElement(priceContent), priceContent] }));
-
-		// Benefit Information
-		if (torndata.stocks[id].benefit) {
-			const benefitContent = document.newElement({
-				type: "div",
-				class: "content benefit hidden",
-				children: [
-					document.newElement({ type: "span", text: `Required stocks: ${formatNumber(torndata.stocks[id].benefit.requirement)}` }),
-					document.newElement("br"),
-					document.newElement({ type: "span", class: `description`, text: `${torndata.stocks[id].benefit.description}.` }),
-				],
-			});
-
-			wrapper.appendChild(
-				document.newElement({
-					type: "div",
-					class: "information-section",
-					children: [getBenefitHeadingElement(benefitContent), benefitContent],
-				})
-			);
-		}
-
-		// Alerts
-		if (id !== "0") addAlertsSection(wrapper, id, id);
-
-		allStocks.appendChild(wrapper);
+		allStocks.appendChild(buildSection(id));
 	}
 
 	// setup searchbar
@@ -761,42 +602,309 @@ async function setupStocksOverview() {
 		const keyword = event.target.value.toLowerCase();
 
 		if (!keyword) {
-			userStocks.classList.remove("hidden");
-			allStocks.classList.add("hidden");
+			for (const item of allStocks.findAll(".stock-wrap[data-user='false']")) {
+				item.classList.add("hidden");
+			}
+			for (const item of allStocks.findAll(".stock-wrap[data-user='true']")) {
+				item.classList.remove("hidden");
+			}
 			return;
 		}
 
 		for (const item of allStocks.findAll(".stock-wrap")) {
-			if (item.getAttribute("name").includes(keyword) || keyword === "*") {
+			if (keyword === "*" || item.dataset.name.includes(keyword)) {
 				item.classList.remove("hidden");
 			} else {
 				item.classList.add("hidden");
 			}
 		}
-
-		userStocks.classList.add("hidden");
-		allStocks.classList.remove("hidden");
 	});
 	stocksOverview.find("#stock-search-bar").addEventListener("click", (event) => {
 		event.target.value = "";
 
-		userStocks.classList.remove("hidden");
-		allStocks.classList.add("hidden");
+		for (const item of allStocks.findAll(".stock-wrap[data-user='false']")) {
+			item.classList.add("hidden");
+		}
+		for (const item of allStocks.findAll(".stock-wrap[data-user='true']")) {
+			item.classList.remove("hidden");
+		}
 	});
 
-	function getProfitClass(profit) {
-		return profit > 0 ? "positive" : profit < 0 ? "negative" : "";
+	for (const item of allStocks.findAll(".stock-wrap[data-user='false']")) {
+		item.classList.add("hidden");
 	}
 
-	function getProfitIndicator(profit) {
-		return profit > 0 ? "+" : profit < 0 ? "-" : "";
-	}
+	function buildSection(id) {
+		const stock = torndata.stocks[id];
+		const userStock = settings.apiUsage.user.stocks ? userdata.stocks[id] || false : false;
 
-	function addAlertsSection(wrapper, id, stockId) {
-		const alertContent = document.newElement({
+		const wrapper = document.newElement({
 			type: "div",
-			class: "content alerts hidden",
-			children: [
+			class: "stock-wrap",
+			dataset: { name: `${stock.name} (${stock.acronym})`.toLowerCase(), user: !!userStock },
+			children: [document.newElement("hr")],
+		});
+
+		let boughtPrice, profit;
+		if (userStock) {
+			boughtPrice = getStockBoughtPrice(userStock).boughtPrice;
+			profit = ((stock.current_price - boughtPrice) * userStock.total_shares).dropDecimals();
+		}
+
+		createHeading();
+		createPriceInformation();
+		createBenefitInformation();
+		createAlertsSection();
+
+		return wrapper;
+
+		function createHeading() {
+			const heading = document.newElement({
+				type: "a",
+				class: "heading",
+				href: `https://www.torn.com/stockexchange.php?stock=${stock.acronym}`,
+				attributes: { target: "_blank" },
+				children: [
+					document.newElement({
+						type: "span",
+						class: "name",
+						text: `${stock[stock.name.length > 35 ? "acronym" : "name"]}`,
+					}),
+					document.newElement("br"),
+				],
+			});
+			wrapper.appendChild(heading);
+
+			if (userStock) {
+				heading.appendChild(
+					document.newElement({
+						type: "span",
+						class: "quantity",
+						text: `(${formatNumber(userStock.total_shares, { shorten: 2 })} share${applyPlural(userStock.total_shares)})`,
+					})
+				);
+				wrapper.appendChild(
+					document.newElement({
+						type: "div",
+						class: `profit ${getProfitClass(profit)}`,
+						text: `${getProfitIndicator(profit)}${formatNumber(Math.abs(profit), { currency: true })}`,
+					})
+				);
+			}
+
+			function getProfitClass(profit) {
+				return profit > 0 ? "positive" : profit < 0 ? "negative" : "";
+			}
+
+			function getProfitIndicator(profit) {
+				return profit > 0 ? "+" : profit < 0 ? "-" : "";
+			}
+		}
+
+		function createPriceInformation() {
+			const priceContent = document.newElement({
+				type: "div",
+				class: "content price hidden",
+				children: [
+					document.newElement({
+						type: "span",
+						text: `Current price: ${formatNumber(stock.current_price, { decimals: 3, currency: true })}`,
+					}),
+					document.newElement({
+						type: "span",
+						text: `Total shares: ${formatNumber(stock.total_shares)}`,
+					}),
+				],
+			});
+			wrapper.append(
+				document.newElement({
+					type: "div",
+					class: "information-section",
+					children: [getHeadingElement("Price Information", priceContent), priceContent],
+				})
+			);
+
+			if (userStock) {
+				priceContent.appendChild(document.newElement({ type: "div", class: "flex-break" }));
+				priceContent.appendChild(
+					document.newElement({
+						type: "span",
+						text: `Bought at: ${formatNumber(boughtPrice, { decimals: 3, currency: true })}`,
+					})
+				);
+			}
+		}
+
+		function createBenefitInformation() {
+			const benefitContent = document.newElement({
+				type: "div",
+				class: "content benefit hidden",
+				children: [],
+			});
+			wrapper.append(
+				document.newElement({
+					type: "div",
+					class: "information-section",
+					children: [getHeadingElement("Benefit Information", benefitContent), benefitContent],
+				})
+			);
+
+			if (userStock) {
+				if (isDividendStock(id)) {
+					benefitContent.appendChild(
+						document.newElement({
+							type: "span",
+							text: userStock.dividend
+								? userStock.dividend.ready
+									? "Ready now!"
+									: `Available in ${stock.benefit.frequency - userStock.dividend.progress}/${stock.benefit.frequency} days.`
+								: `Available every ${stock.benefit.frequency} days.`,
+						})
+					);
+
+					const benefitTable = document.newElement({
+						type: "table",
+						children: [
+							document.newElement({
+								type: "tr",
+								children: [
+									document.newElement({ type: "th", text: "Increment" }),
+									document.newElement({ type: "th", text: "Stocks" }),
+									document.newElement({ type: "th", text: "Cost" }),
+									document.newElement({ type: "th", text: "Reward" }),
+									document.newElement({ type: "th", text: "ROI" }),
+								],
+							}),
+						],
+					});
+
+					const ownedLevel = getStockIncrement(stock.benefit.requirement, userStock.total_shares);
+					const activeLevel = userStock.dividend ? userStock.dividend.increment : 0;
+
+					const rewardValue = getRewardValue(stock.benefit.description);
+					const yearlyValue = (rewardValue / stock.benefit.frequency) * 365;
+					for (let i = 0; i < 5; i++) {
+						const level = i + 1;
+						const stocks = getRequiredStocks(stock.benefit.requirement, level);
+						const reward = getStockReward(stock.benefit.description, level);
+
+						const roi = ((yearlyValue * level) / (stocks * stock.current_price)) * 100;
+
+						benefitTable.appendChild(
+							document.newElement({
+								type: "tr",
+								class: `increment ${level <= ownedLevel ? (level <= activeLevel ? "completed" : "awaiting") : ""}`,
+								children: [
+									document.newElement({ type: "td", text: level }),
+									document.newElement({ type: "td", text: formatNumber(stocks) }),
+									document.newElement({ type: "td", text: formatNumber(stocks * stock.current_price, { decimals: 0, currency: true }) }),
+									document.newElement({ type: "td", text: reward }),
+									document.newElement({ type: "td", text: rewardValue > 0 ? `${formatNumber(roi, { decimals: 1 })}%` : "N/A" }),
+								],
+							})
+						);
+					}
+					benefitContent.appendChild(benefitTable);
+				} else {
+					benefitContent.appendChild(
+						document.newElement({
+							type: "span",
+							text: `Required stocks: ${formatNumber(userStock.total_shares)}/${formatNumber(stock.benefit.requirement)}`,
+						})
+					);
+					benefitContent.appendChild(document.newElement("br"));
+
+					let color;
+					let duration;
+
+					if (userStock.benefit) {
+						if (userStock.benefit.ready) {
+							color = "completed";
+						} else {
+							color = "awaiting";
+							duration = `in ${userStock.benefit.progress}/${stock.benefit.frequency} days.`;
+						}
+					} else {
+						color = "not-completed";
+						duration = `after ${stock.benefit.frequency} days.`;
+					}
+
+					benefitContent.appendChild(document.newElement({ type: "span", class: `description ${color}`, text: `${stock.benefit.description}` }));
+					if (duration) benefitContent.appendChild(document.newElement({ type: "span", class: "duration", text: duration }));
+				}
+			} else {
+				if (isDividendStock(id)) {
+					benefitContent.appendChild(
+						document.newElement({
+							type: "span",
+							text: `Available every ${stock.benefit.frequency} days.`,
+						})
+					);
+
+					const benefitTable = document.newElement({
+						type: "table",
+						children: [
+							document.newElement({
+								type: "tr",
+								children: [
+									document.newElement({ type: "th", text: "Increment" }),
+									document.newElement({ type: "th", text: "Stocks" }),
+									document.newElement({ type: "th", text: "Cost" }),
+									document.newElement({ type: "th", text: "Reward" }),
+									document.newElement({ type: "th", text: "ROI" }),
+								],
+							}),
+						],
+					});
+
+					const rewardValue = getRewardValue(stock.benefit.description);
+					const yearlyValue = (rewardValue / stock.benefit.frequency) * 365;
+					for (let i = 0; i < 5; i++) {
+						const level = i + 1;
+						const stocks = getRequiredStocks(stock.benefit.requirement, level);
+						const reward = getStockReward(stock.benefit.description, level);
+
+						const roi = ((yearlyValue * level) / (stocks * stock.current_price)) * 100;
+
+						benefitTable.appendChild(
+							document.newElement({
+								type: "tr",
+								class: "increment",
+								children: [
+									document.newElement({ type: "td", text: level }),
+									document.newElement({ type: "td", text: formatNumber(stocks) }),
+									document.newElement({ type: "td", text: formatNumber(stocks * stock.current_price, { decimals: 0, currency: true }) }),
+									document.newElement({ type: "td", text: reward }),
+									document.newElement({ type: "td", text: `${formatNumber(roi, { decimals: 1 })}%` }),
+								],
+							})
+						);
+					}
+					benefitContent.appendChild(benefitTable);
+				} else {
+					benefitContent.appendChild(document.newElement({ type: "span", text: `Required stocks: ${formatNumber(stock.benefit.requirement)}` }));
+					benefitContent.appendChild(document.newElement("br"));
+					benefitContent.appendChild(document.newElement({ type: "span", class: "description not-completed", text: `${stock.benefit.description}` }));
+					benefitContent.appendChild(document.newElement({ type: "span", class: "duration", text: `after ${stock.benefit.frequency} days.` }));
+				}
+			}
+		}
+
+		function createAlertsSection() {
+			const alertsContent = document.newElement({
+				type: "div",
+				class: "content alerts hidden",
+				children: [],
+			});
+			wrapper.append(
+				document.newElement({
+					type: "div",
+					class: "information-section",
+					children: [getHeadingElement("Alerts", alertsContent), alertsContent],
+				})
+			);
+
+			alertsContent.appendChild(
 				document.newElement({
 					type: "div",
 					children: [
@@ -804,10 +912,10 @@ async function setupStocksOverview() {
 						document.newElement({
 							type: "div",
 							children: [
-								document.newElement({ type: "label", attributes: { for: `stock-${stockId}-alert__reaches` }, text: "reaches" }),
+								document.newElement({ type: "label", attributes: { for: `stock-${id}-alert__reaches` }, text: "reaches" }),
 								document.newElement({
 									type: "input",
-									id: `stock-${stockId}-alert__reaches`,
+									id: `stock-${id}-alert__reaches`,
 									attributes: { type: "number", min: 0 },
 									value: () => {
 										if (!(id in settings.notifications.types.stocks)) return "";
@@ -829,10 +937,10 @@ async function setupStocksOverview() {
 						document.newElement({
 							type: "div",
 							children: [
-								document.newElement({ type: "label", attributes: { for: `stock-${stockId}-alert__falls` }, text: "falls to" }),
+								document.newElement({ type: "label", attributes: { for: `stock-${id}-alert__falls` }, text: "falls to" }),
 								document.newElement({
 									type: "input",
-									id: `stock-${stockId}-alert__falls`,
+									id: `stock-${id}-alert__falls`,
 									attributes: { type: "number", min: 0 },
 									value: () => {
 										if (!(id in settings.notifications.types.stocks)) return "";
@@ -852,125 +960,26 @@ async function setupStocksOverview() {
 							],
 						}),
 					],
-				}),
-				document.newElement({
-					type: "div",
-					children: [
-						document.newElement({ type: "span", class: "title", text: "Available Shares" }),
-						document.newElement({
-							type: "div",
-							children: [
-								document.newElement({ type: "label", attributes: { for: `stock-${stockId}-alert__available_reaches` }, text: "reaches" }),
-								document.newElement({
-									type: "input",
-									id: `stock-${stockId}-alert__available_reaches`,
-									attributes: { type: "number", min: 0 },
-									value: () => {
-										if (!(id in settings.notifications.types.stocks)) return "";
+				})
+			);
+		}
 
-										return settings.notifications.types.stocks[id].availableReaches || "";
-									},
-									events: {
-										change: async (event) => {
-											await ttStorage.change({
-												settings: {
-													notifications: { types: { stocks: { [id]: { availableReaches: parseFloat(event.target.value) } } } },
-												},
-											});
-										},
-									},
-								}),
-							],
-						}),
-						document.newElement({
-							type: "div",
-							children: [
-								document.newElement({
-									type: "input",
-									id: `stock-${stockId}-alert__dump`,
-									attributes: () => {
-										let attributes = {
-											type: "checkbox",
-										};
+		function getHeadingElement(title, content) {
+			return document.newElement({
+				type: "div",
+				class: "heading",
+				children: [
+					document.newElement({ type: "span", class: "title", text: title }),
+					document.newElement({ type: "i", class: "fas fa-chevron-down" }),
+				],
+				events: {
+					click: (event) => {
+						content.classList[content.classList.contains("hidden") ? "remove" : "add"]("hidden");
 
-										if (id in settings.notifications.types.stocks && settings.notifications.types.stocks[id].systemDumps)
-											attributes.checked = true;
-
-										return attributes;
-									},
-									events: {
-										change: async (event) => {
-											await ttStorage.change({
-												settings: { notifications: { types: { stocks: { [id]: { systemDumps: event.target.checked } } } } },
-											});
-										},
-									},
-								}),
-								document.newElement({ type: "label", attributes: { for: `stock-${stockId}-alert__dump` }, text: "system dump" }),
-							],
-						}),
-					],
-				}),
-			],
-		});
-		const alertHeading = document.newElement({
-			type: "div",
-			class: "heading",
-			children: [
-				document.newElement({ type: "span", class: "title", text: "Alerts" }),
-				document.newElement({
-					type: "i",
-					class: "fas fa-chevron-down",
-				}),
-			],
-			events: {
-				click: (event) => {
-					alertContent.classList[alertContent.classList.contains("hidden") ? "remove" : "add"]("hidden");
-
-					rotateElement((event.target.classList.contains("heading") ? event.target : event.target.parentElement).find("i"), 180);
+						rotateElement((event.target.classList.contains("heading") ? event.target : event.target.parentElement).find("i"), 180);
+					},
 				},
-			},
-		});
-
-		wrapper.appendChild(document.newElement({ type: "div", class: "information-section", children: [alertHeading, alertContent] }));
-	}
-
-	function getPriceHeadingElement(priceContent) {
-		return document.newElement({
-			type: "div",
-			class: "heading",
-			children: [
-				document.newElement({ type: "span", class: "title", text: "Price Information" }),
-				document.newElement({ type: "i", class: "fas fa-chevron-down" }),
-			],
-			events: {
-				click: (event) => {
-					priceContent.classList[priceContent.classList.contains("hidden") ? "remove" : "add"]("hidden");
-
-					rotateElement((event.target.classList.contains("heading") ? event.target : event.target.parentElement).find("i"), 180);
-				},
-			},
-		});
-	}
-
-	function getBenefitHeadingElement(benefitContent) {
-		return document.newElement({
-			type: "div",
-			class: "heading",
-			children: [
-				document.newElement({ type: "span", class: "title", text: "Benefit Information" }),
-				document.newElement({
-					type: "i",
-					class: "fas fa-chevron-down",
-				}),
-			],
-			events: {
-				click: (event) => {
-					benefitContent.classList[benefitContent.classList.contains("hidden") ? "remove" : "add"]("hidden");
-
-					rotateElement((event.target.classList.contains("heading") ? event.target : event.target.parentElement).find("i"), 180);
-				},
-			},
-		});
+			});
+		}
 	}
 }

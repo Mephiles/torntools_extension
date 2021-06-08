@@ -63,6 +63,13 @@
 	position: relative;
 }
 
+.flex-break {
+	flex-basis: 100% !important;
+	height: 0;
+	margin: 0;
+	border: 0;
+}
+
 /* Replace Torn classes */
 
 /* CHECK - Replaces m-top10 */
