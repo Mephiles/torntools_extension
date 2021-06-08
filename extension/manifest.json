@@ -320,6 +320,24 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/loader.php?sid=view*", "https://www.torn.com/loader.php?sid=rouletteStatistics"],
+			"css": ["scripts/features/casino-net-total/ttCasinoNetTotal.css"],
+			"js": ["scripts/features/casino-net-total/ttCasinoNetTotal.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/page.php?sid=bookie*"],
+			"css": ["scripts/features/casino-net-total/ttCasinoNetTotal.css"],
+			"js": ["scripts/features/casino-net-total/ttCasinoNetTotal.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/page.php?sid=bookie*"],
+			"css": ["scripts/features/casino-net-total/ttCasinoNetTotal.css"],
+			"js": ["scripts/features/casino-net-total/ttCasinoNetTotal.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/profiles.php*"],
 			"css": [
 				"scripts/features/profile-notes/ttProfileNotes.css",

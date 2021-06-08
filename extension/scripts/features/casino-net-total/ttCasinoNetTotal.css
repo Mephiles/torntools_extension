@@ -1,0 +1,32 @@
+.tt-net-total {
+	border-bottom: 1px solid #ccc;
+	border-bottom-color: var(--default-panel-divider-outer-side-color);
+	border-top: 1px solid #fff;
+	border-top-color: var(--default-panel-divider-inner-side-color);
+	display: flex;
+	justify-content: space-between;
+}
+
+body:not(.dark-mode) .tt-net-total {
+	color: var(--tt-color-green);
+}
+
+body.dark-mode .tt-net-total {
+	color: var(--tt-color-light-green);
+}
+
+.tt-net-total > .name {
+	width: 215px;
+	padding: 6px 10px 6px 10px;
+	border-right: 2px solid var(--default-panel-divider-outer-side-color, #222);
+}
+
+.tt-net-total.bookie > .name {
+	border-right-color: #cfcfcf;
+}
+
+.tt-net-total > .value {
+	width: 130px;
+	text-align: right;
+	padding: 6px 10px 6px 0;
+}
