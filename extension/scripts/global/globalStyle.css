@@ -435,3 +435,7 @@ body.scrolled #tt-page-status.top-right {
 	line-height: 22px;
 	margin-left: 8px;
 }
+
+#sidebarroot .pill:hover {
+	background-color: var(--default-bg-panel-active-color) !important;
+}

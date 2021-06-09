@@ -223,8 +223,12 @@ body.dark #preferences #hide-casino-games span {
 	margin-left: auto;
 }
 
-#preferences #customLinks .dragging {
-	background-color: red;
+body.light #preferences #customLinks .dragging {
+	border: 1px solid #333;
+}
+
+body.dark #preferences #customLinks .dragging {
+	border: 1px solid white;
 }
 
 #preferences .arrow {
