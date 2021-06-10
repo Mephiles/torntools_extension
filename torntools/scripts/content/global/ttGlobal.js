@@ -1061,6 +1061,7 @@ function showNpcLoot() {
 				} else if (lootLevel !== 5 && nextLvlTime < 0) {
 					continue;
 				} else if (lootLevel === 5 && nextLvlTime < 0) {
+					npcLootLevel = doc.new({ type: "span", class: "loot", text: "5" });
 					npcNextLevelIn = doc.new({ type: "span", text: "Max Level Reached" });
 				}
 			}
