@@ -18,6 +18,7 @@ const EVENT_CHANNELS = {
 	JAIL_SWITCH_PAGE: "jail-switch-page",
 	TRAVEL_SELECT_TYPE: "travel-select-type",
 	FEATURE_ENABLED: "feature-enabled",
+	STATE_CHANGED: "state-changed",
 };
 
 const CUSTOM_LISTENERS = (() => {

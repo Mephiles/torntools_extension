@@ -4,7 +4,8 @@
 	handleTheme();
 	createOverlay();
 	detectScroll();
-	observeChat().catch(() => {});
+	observeChat().catch(console.error);
+	observeBody().catch(console.error);
 
 	setInterval(decreaseCountdown, 1000);
 
@@ -59,6 +60,18 @@
 				}
 			}
 		}).observe(document.find("#chatRoot"), { childList: true, subtree: true });
+	}
+
+	async function observeBody() {
+		new MutationObserver((mutations) => {
+			for (const mutation of mutations) {
+				switch (mutation.attributeName) {
+					case "data-layout":
+						triggerCustomListener(EVENT_CHANNELS.STATE_CHANGED, { oldState: mutation.oldValue, newState: document.body.dataset.layout });
+						break;
+				}
+			}
+		}).observe(document.body, { attributes: true, attributeFilter: ["data-layout"], attributeOldValue: true });
 	}
 
 	function decreaseCountdown() {

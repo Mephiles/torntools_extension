@@ -2,12 +2,13 @@
 
 (async () => {
 	if (await checkMobile()) return "Not supported on mobile!";
+	if (isFlying() || isAbroad()) return;
 
-	featureManager.registerFeature(
+	const feature = featureManager.registerFeature(
 		"TT Settings Link",
 		"sidebar",
 		() => settings.pages.sidebar.settingsLink,
-		null,
+		initialiseLink,
 		addLink,
 		removeLink,
 		{
@@ -15,6 +16,20 @@
 		},
 		null
 	);
+
+	function initialiseLink() {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.STATE_CHANGED].push(({ oldState, newState }) => {
+			if (!feature.enabled()) return;
+
+			const setting = document.find(".tt-settings");
+			if (!setting) return;
+
+			new MutationObserver((mutations, observer) => {
+				observer.disconnect();
+				setting.parentElement.appendChild(setting);
+			}).observe(setting.parentElement, { childList: true });
+		});
+	}
 
 	async function addLink() {
 		await requireSidebar();
