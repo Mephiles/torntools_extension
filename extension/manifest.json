@@ -120,7 +120,8 @@
 				"scripts/features/hide-gym-highlight/ttHideGymHighlight.css",
 				"scripts/features/trade-timer/ttTradeTimer.css",
 				"scripts/features/highlight-properties/ttHighlightProperties.css",
-				"scripts/features/settings-link/ttSettingsLink.css"
+				"scripts/features/settings-link/ttSettingsLink.css",
+				"scripts/features/bar-links/ttBarLinks.css"
 			],
 			"js": [
 				"scripts/content/global/ttGlobal.js",
@@ -139,7 +140,8 @@
 				"scripts/features/hide-gym-highlight/ttHideGymHighlight.js",
 				"scripts/features/trade-timer/ttTradeTimer.js",
 				"scripts/features/highlight-properties/ttHighlightProperties.js",
-				"scripts/features/settings-link/ttSettingsLink.js"
+				"scripts/features/settings-link/ttSettingsLink.js",
+				"scripts/features/bar-links/ttBarLinks.js"
 			],
 			"run_at": "document_end"
 		},
