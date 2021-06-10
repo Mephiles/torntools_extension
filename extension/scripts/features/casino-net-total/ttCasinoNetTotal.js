@@ -1,7 +1,6 @@
 "use strict";
 
 (async () => {
-	console.log("DKK CASINO");
 	const page = getPage();
 
 	if (page === "loader") {
