@@ -424,6 +424,11 @@ body.scrolled #tt-page-status.top-right {
 	margin-top: 2px;
 }
 
+body.hospital #sidebarroot .pill {
+	margin-top: 0;
+	margin-bottom: 1px;
+}
+
 #sidebarroot .pill a {
 	overflow: hidden;
 	color: var(--default-font-color);
