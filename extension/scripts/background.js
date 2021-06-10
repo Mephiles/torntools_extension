@@ -342,6 +342,7 @@ async function updateUserdata() {
 									respect =
 										respect /
 										attack.modifiers.war /
+										attack.modifiers.retaliation /
 										attack.modifiers.group_attack /
 										attack.modifiers.overseas /
 										attack.modifiers.chain_bonus;
@@ -349,7 +350,12 @@ async function updateUserdata() {
 								} else {
 									if (attack.result === "Mugged") respect /= 0.75;
 
-									respect = respect / attack.modifiers.group_attack / attack.modifiers.overseas / attack.modifiers.chain_bonus;
+									respect =
+										respect /
+										attack.modifiers.retaliation /
+										attack.modifiers.group_attack /
+										attack.modifiers.overseas /
+										attack.modifiers.chain_bonus;
 								}
 							}
 

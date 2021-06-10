@@ -351,6 +351,7 @@ const DEFAULT_STORAGE = {
 				autoDemo: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				autoPretty: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				clickableSelections: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				marking: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			forums: {
 				warning: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -542,6 +543,18 @@ const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.name ||
 
 const API_USAGE = {
 	user: {
+		bazaar: {
+			"*": {
+				quantity: true, // target
+				market_price: true, // target
+			},
+		},
+		display: {
+			"*": {
+				quantity: true, // target
+				market_price: true, // target
+			},
+		},
 		name: true,
 		player_id: true,
 		server_time: true,
@@ -582,10 +595,12 @@ const API_USAGE = {
 		status: {
 			description: true,
 			state: true,
+			color: true,
 			until: true,
 		},
 		travel: {
 			destination: true,
+			method: true,
 			timestamp: true,
 			departed: true,
 			time_left: true,
@@ -616,7 +631,9 @@ const API_USAGE = {
 			nerve_refill_used: true,
 		},
 		last_action: {
+			status: true,
 			timestamp: true,
+			relative: true,
 		},
 		merits: {
 			"Masterful Looting": true,
@@ -632,20 +649,22 @@ const API_USAGE = {
 			},
 		},
 		attacks: {
-			timestamp_ended: true,
-			attacker_id: true,
-			attacker_name: true,
-			defender_id: true,
-			defender_name: true,
-			result: true,
-			stealthed: true,
-			respect_gain: true,
-			modifiers: {
-				war: true,
-				// 	retaliation: true,
-				group_attack: true,
-				overseas: true,
-				chain_bonus: true,
+			"*": {
+				timestamp_ended: true,
+				attacker_id: true,
+				attacker_name: true,
+				defender_id: true,
+				defender_name: true,
+				result: true,
+				stealthed: true,
+				respect_gain: true,
+				modifiers: {
+					war: true,
+					retaliation: true,
+					group_attack: true,
+					overseas: true,
+					chain_bonus: true,
+				},
 			},
 		},
 		networth: {
@@ -665,7 +684,7 @@ const API_USAGE = {
 			company: true,
 			bookie: true,
 			// loan: true,
-			// unpaidfees: true,
+			unpaidfees: true,
 			total: true,
 			// parsetime: true,
 		},
@@ -686,12 +705,12 @@ const API_USAGE = {
 			networthcompany: true,
 			networthbookie: true,
 			// networthloan: true,
-			// networthunpaidfees: true,
+			networthunpaidfees: true,
 			networth: true,
 		},
 		stocks: {
 			"*": {
-				stock_id: true,
+				// stock_id: true,
 				total_shares: true,
 				benefit: {
 					ready: true,
@@ -713,38 +732,46 @@ const API_USAGE = {
 			},
 		},
 		enhancer_perks: true,
-		// job_perks: true,
+		job_perks: true,
 		faction_perks: true,
-		// book_perk: true,
+		company_perks: true,
+		book_perk: true,
 		faction: {
 			faction_id: true,
 			faction_tag: true,
 		},
+		timestamp: true,
 	},
 	properties: {},
 	faction: {
 		crimes: {
-			// crime_id: true,
-			// crime_name: true,
-			participants: true,
-			// time_started: true,
-			time_ready: true,
-			// time_left: true,
-			// time_completed: true,
-			initiated: true,
-			// initiated_by: true,
-			// planned_by: true,
-			// success: true,
-			// money_gain: true,
-			// respect_gain: true,
+			"*": {
+				participants: true,
+				time_ready: true,
+				initiated: true,
+			},
 		},
 	},
 	company: {},
-	item_market: {},
+	item_market: {
+		bazaar: {
+			"*": {
+				quantity: true,
+				cost: true,
+			},
+		},
+		itemmarket: {
+			"*": {
+				quantity: true,
+				cost: true,
+			},
+		},
+	},
 	torn: {
 		items: {
 			"*": {
 				name: true,
+				effect: true,
 				type: true,
 				market_value: true,
 				circulation: true,
@@ -772,34 +799,39 @@ const API_USAGE = {
 				cost: true,
 			},
 		},
+		bank: {
+			"*": true,
+		},
 	},
 };
 
 const API_SELECTIONS = {
 	user: [
-		"profile",
-		"timestamp",
+		"attacks",
 		"bars",
+		"bazaar", // target
 		"cooldowns",
-		"travel",
+		"display", // target
+		"education",
 		"events",
-		"messages",
-		"money",
-		"refills",
-		"personalstats",
-		"stocks",
 		"inventory",
 		"merits",
-		"education",
-		"attacks",
+		"messages",
+		"money",
 		"networth",
 		"perks",
+		"personalstats",
+		"profile",
+		"refills",
+		"stocks",
+		"timestamp",
+		"travel",
 	],
 	properties: [],
 	faction: ["crimes"],
 	company: [],
-	item_market: [],
-	torn: ["education", "honors", "items", "medals", "stocks", "pawnshop", "properties"],
+	item_market: ["bazaar", "itemmarket"],
+	torn: ["bank", "education", "honors", "items", "medals", "pawnshop", "properties", "stocks"],
 };
 
 const CHAT_TITLE_COLORS = {

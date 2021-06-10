@@ -935,6 +935,10 @@
 							<input id="api-clickableSelections" type="checkbox" />
 							<label for="api-clickableSelections">Make API selections clickable.</label>
 						</div>
+						<div class="option">
+							<input id="api-marking" type="checkbox" />
+							<label for="api-marking">Mark selections and fields used by TornTools.</label>
+						</div>
 					</section>
 				</div>
 			</section>
@@ -975,13 +979,17 @@
 							<li>Stakeout target's information. (every 30 seconds (configurable), 1 request per stakeout)</li>
 							<li>Faction crime data. (every 15 minutes)</li>
 							<li>Torn's stock data. (every 15 minutes, synced with the stock ticks)</li>
-							<li>Torn's items, point values, honors, medals and educations. (daily)</li>
+							<li>Torn's items, point values, properties, honors, medals and educations. (daily)</li>
 						</ul>
 					</li>
 					<li>
 						Individually
 						<ul>
-							<li>Display Cabinet info when visited.</li>
+							<li>Market popup: 1 request per item</li>
+							<li>Bank: 1 request per visit for the interest</li>
+							<li>Display cabinet worth: 1 request per visit for the worth</li>
+							<li>Bazaar worth: 1 request per visit</li>
+							<li>Company Special - muggable cash: 1 request per special usage, a 2nd if that user is in a clothing store</li>
 						</ul>
 					</li>
 					<li>
