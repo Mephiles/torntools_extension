@@ -380,6 +380,9 @@ const DEFAULT_STORAGE = {
 			racing: {
 				winPercentage: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			faction: {
+				csvWarReport: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		external: {
 			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),

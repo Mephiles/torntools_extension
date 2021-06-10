@@ -400,6 +400,12 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/war.php?step=warreport*"],
+			"css": ["scripts/features/csv-war-report/ttCSVWarReport.css"],
+			"js": ["scripts/features/csv-war-report/ttCSVWarReport.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/forums.php*"],
 			"css": ["scripts/features/forum-warning/ttForumWarning.css"],
 			"js": ["scripts/features/forum-warning/ttForumWarning.js"],
