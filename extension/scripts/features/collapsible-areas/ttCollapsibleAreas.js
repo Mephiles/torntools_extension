@@ -33,7 +33,9 @@
 		const icon = document.newElement({ type: "i", class: "icon fas fa-caret-down" });
 		header.appendChild(icon);
 
-		observer = new MutationObserver(() => header.classList.add("tt-title-torn"));
+		observer = new MutationObserver(() => {
+			if (!header.classList.contains("tt-title-torn")) header.classList.add("tt-title-torn");
+		});
 		observer.observe(header, { attributes: true, attributeFilter: ["class"] });
 	}
 
