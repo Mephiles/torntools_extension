@@ -17,11 +17,15 @@ const pendingActions = {};
 				if (params.has("fac") && params.get("fac") !== "0") return;
 
 				if (json.items) {
-					for (const item of json.items.itemAppear) {
-						triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: parseInt(item.ID), amount: parseInt(item.qty), reason: "usage" });
+					if (json.items.itemAppear) {
+						for (const item of json.items.itemAppear) {
+							triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: parseInt(item.ID), amount: parseInt(item.qty), reason: "usage" });
+						}
 					}
-					for (const item of json.items.itemDisappear) {
-						triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: parseInt(item.ID), amount: -parseInt(item.qty), reason: "usage" });
+					if (json.items.itemDisappear) {
+						for (const item of json.items.itemDisappear) {
+							triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: parseInt(item.ID), amount: -parseInt(item.qty), reason: "usage" });
+						}
 					}
 				} else {
 					triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item: parseInt(params.get("itemID")), amount: -1, reason: "usage" });
