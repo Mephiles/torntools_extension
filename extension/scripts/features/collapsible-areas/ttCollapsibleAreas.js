@@ -20,6 +20,8 @@
 		}
 	);
 
+	let observer;
+
 	async function addCollapseIcon() {
 		const header = document.find("h2=Areas");
 		if (header.classList.contains("tt-title-torn")) return;
@@ -30,9 +32,14 @@
 
 		const icon = document.newElement({ type: "i", class: "icon fas fa-caret-down" });
 		header.appendChild(icon);
+
+		observer = new MutationObserver(() => header.classList.add("tt-title-torn"));
+		observer.observe(header, { attributes: true, attributeFilter: ["class"] });
 	}
 
 	async function removeCollapseIcon() {
+		if (!observer) observer.disconnect();
+
 		const header = document.find("h2=Areas");
 		if (!header) return;
 
