@@ -1,0 +1,28 @@
+.tt-bank-investment-container > main {
+	padding: 10px;
+}
+
+body:not(.dark-mode) .tt-bank-investment-selected-row {
+	background-color: #9bff9b;
+}
+
+body.dark-mode .tt-bank-investment-selected-row {
+	background-color: #207037;
+}
+
+.bank-investment-money-cell-wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+.bank-investment-money-cell-total {
+	font-size: 1rem;
+}
+
+body:not(.dark-mode) .bank-investment-money-cell-per-day {
+	color: #0f4983;
+}
+
+body.dark-mode .bank-investment-money-cell-per-day {
+	color: #60e5ff;
+}

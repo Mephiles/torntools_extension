@@ -1,0 +1,93 @@
+.tt-table {
+	display: grid;
+	overflow: auto;
+	border: 1px solid;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+body:not(.dark-mode) .tt-table {
+	background-color: white;
+	border-color: lightgrey;
+}
+
+body.dark-mode .tt-table {
+	background-color: #555;
+	border-color: #999999;
+}
+
+.tt-table-header {
+	display: flex;
+	min-height: 40px;
+	align-items: center;
+	white-space: nowrap;
+	font-weight: bold;
+	font-size: 0.8rem;
+	padding: 0 5px;
+}
+
+body:not(.dark-mode) .tt-table-header {
+	background-color: #f8f8f8;
+}
+
+body.dark-mode .tt-table-header {
+	background-color: #444;
+}
+
+.tt-table-header-cell {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.tt-table-header-cell-clickable {
+	cursor: pointer;
+}
+
+.tt-table-header-cell:not(:last-child) {
+	margin-right: 5px;
+}
+
+.tt-table-header-cell-title {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.tt-table-header-cell-sort-icon {
+	font-size: 1rem;
+	margin-right: 10px;
+}
+
+.tt-table-body {
+	display: flex;
+	flex-direction: column;
+	white-space: nowrap;
+	width: 100%;
+}
+
+.tt-table-row {
+	display: flex;
+	align-items: center;
+	min-height: 30px;
+	border-top: 1px solid;
+	padding: 5px;
+}
+
+body:not(.dark-mode) .tt-table-row {
+	border-color: lightgrey;
+}
+
+body.dark-mode .tt-table-row {
+	border-color: #999999;
+}
+
+.tt-table-row-cell {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.tt-table-row-cell:not(:last-child) {
+	margin-right: 5px;
+}

@@ -308,6 +308,10 @@ const DEFAULT_STORAGE = {
 			jail: {
 				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			bank: {
+				investmentInfo: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				investmentDueTime: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 			home: {
 				networthDetails: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				effectiveStats: new DefaultSetting({ type: "boolean", defaultValue: true }),

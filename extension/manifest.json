@@ -59,6 +59,7 @@
 				"scripts/global/elements/checkbox/ttCheckbox.css",
 				"scripts/global/elements/checkbox-list/ttCheckboxList.css",
 				"scripts/global/elements/slider/ttSlider.css",
+				"scripts/global/elements/table/ttTable.css",
 				"scripts/features/align-left/ttAlignLeft.css",
 				"scripts/features/font-size/ttFontSize.css",
 				"scripts/features/hide-leave/ttHideLeave.css",
@@ -89,6 +90,10 @@
 				"scripts/global/elements/checkbox-list/ttCheckboxList.js",
 				"scripts/global/elements/select/ttSelect.js",
 				"scripts/global/elements/slider/ttSlider.js",
+				"scripts/global/elements/table/ttTable.js",
+				"scripts/global/elements/table/ttTableRow.js",
+				"scripts/global/elements/table/ttTableCell.js",
+				"scripts/global/elements/table/ttHeaderCell.js",
 				"scripts/content/global/ttGlobal.entry.js",
 				"scripts/features/align-left/ttAlignLeft.entry.js",
 				"scripts/features/font-size/ttFontSize.entry.js",
@@ -415,6 +420,12 @@
 			"matches": ["https://www.torn.com/preferences.php*"],
 			"css": ["scripts/features/preference-settings/ttPreferenceSettings.css"],
 			"js": ["scripts/features/preference-settings/ttPreferenceSettings.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/bank.php*"],
+			"css": ["scripts/features/bank-investment-info/ttBankInvestmentInfo.css"],
+			"js": ["scripts/features/bank-investment-info/ttBankInvestmentInfo.js", "scripts/features/bank-investment-due-time/ttBankInvestmentDueTime.js"],
 			"run_at": "document_end"
 		}
 	]

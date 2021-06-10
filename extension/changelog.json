@@ -15,7 +15,8 @@
 				{ "message": "Customizable api usage.", "contributor": "DeKleineKobini" },
 				{ "message": "Show muggable money when using a company special to show money on hand.", "contributor": "DeKleineKobini" },
 				{ "message": "Display features on each page including their status: running/disabled/failed.", "contributor": "Mephiles" },
-				{ "message": "Jail filters quick bail and bust with quick refresh button.", "contributor": "AllMight" }
+				{ "message": "Jail filters quick bail and bust with quick refresh button.", "contributor": "AllMight" },
+				{ "message": "Bank investment table and investment due time", "contributor": "AllMight" }
 			],
 			"fixes": [{ "message": "Hide new chat messages while searching.", "contributor": "DeKleineKobini" }],
 			"changes": [
