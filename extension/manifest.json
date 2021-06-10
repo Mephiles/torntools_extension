@@ -404,6 +404,12 @@
 			"css": ["scripts/features/forum-warning/ttForumWarning.css"],
 			"js": ["scripts/features/forum-warning/ttForumWarning.js"],
 			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/preferences.php*"],
+			"css": ["scripts/features/preference-settings/ttPreferenceSettings.css"],
+			"js": ["scripts/features/preference-settings/ttPreferenceSettings.js"],
+			"run_at": "document_end"
 		}
 	]
 }

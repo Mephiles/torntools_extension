@@ -196,6 +196,8 @@
 	width: 100%;
 	display: flex;
 	flex-direction: row-reverse;
+	margin-right: 4px;
+	align-items: center;
 }
 
 .tt-container.theme-default .options {
@@ -205,6 +207,10 @@
 
 .tt-container.theme-alternative .options {
 	color: #acea00;
+}
+
+.tt-container .title .options > * {
+	margin-right: 4px;
 }
 
 #sidebarroot .tt-container .title {
