@@ -415,6 +415,12 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/war.php?step=chainreport*"],
+			"css": ["scripts/features/csv-chain-report/ttCSVChainReport.css"],
+			"js": ["scripts/features/csv-chain-report/ttCSVChainReport.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/forums.php*"],
 			"css": ["scripts/features/forum-warning/ttForumWarning.css"],
 			"js": ["scripts/features/forum-warning/ttForumWarning.js"],

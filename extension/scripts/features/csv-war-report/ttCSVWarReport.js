@@ -54,9 +54,10 @@
 			}
 			const warID = getSearchParameters().get("warID");
 			const encodedUri = encodeURI(table);
-			options.find("#ttExportLink").setAttribute("href", encodedUri);
-			options.find("#ttExportLink").setAttribute("download", `war_report_[${warID}].csv`);
-			options.find("#ttExportLink").click();
+			const ttExportLink = options.find("#ttExportLink");
+			ttExportLink.setAttribute("href", encodedUri);
+			ttExportLink.setAttribute("download", `War Report [${warID}].csv`);
+			ttExportLink.click();
 		});
 		options.insertAdjacentElement("afterbegin", ttExportButton);
 	}
