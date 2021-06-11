@@ -752,6 +752,9 @@ const API_USAGE = {
 			faction_tag: true,
 		},
 		timestamp: true,
+		city_bank: {
+			time_left: true,
+		},
 	},
 	properties: {},
 	faction: {
