@@ -25,11 +25,19 @@
 		for (const property of document.findAll(".properties-list > *:not(.clear)")) {
 			if (property.find(".tt-property-value")) return;
 			const propertyInfo = property.find(".info");
-			if (propertyInfo) property.find(".title").insertAdjacentHTML("beforeend", `<span class="tt-property-value">&nbsp;(${formatNumber(propertyInfo.innerText.split("\n")[3].slice(1).replaceAll(",", ""), { currency: true })})</span>`);
+			if (propertyInfo)
+				property
+					.find(".title")
+					.insertAdjacentHTML(
+						"beforeend",
+						`<span class="tt-property-value">&nbsp;(${formatNumber(propertyInfo.innerText.split("\n")[3].slice(1).replaceAll(",", ""), {
+							currency: true,
+						})})</span>`
+					);
 		}
 	}
 
 	function removeValues() {
-		document.findAll(".tt-property-value").forEach(x => x.remove());
+		document.findAll(".tt-property-value").forEach((x) => x.remove());
 	}
 })();
