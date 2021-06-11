@@ -26,14 +26,12 @@
 			if (property.find(".tt-property-value")) return;
 			const propertyInfo = property.find(".info");
 			if (propertyInfo)
-				property
-					.find(".title")
-					.insertAdjacentHTML(
-						"beforeend",
-						`<span class="tt-property-value">&nbsp;(${formatNumber(propertyInfo.innerText.split("\n")[3].slice(1).replaceAll(",", ""), {
-							currency: true,
-						})})</span>`
-					);
+				property.find(".title").insertAdjacentHTML(
+					"beforeend",
+					`<span class="tt-property-value">&nbsp;(${formatNumber(propertyInfo.innerText.split("\n")[3].slice(1).replaceAll(",", ""), {
+						currency: true,
+					})})</span>`
+				);
 		}
 	}
 
