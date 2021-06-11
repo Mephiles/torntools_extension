@@ -5,7 +5,7 @@
 		"Education Finish Time",
 		"education",
 		() => settings.pages.education.finishTime,
-		null,
+		initialise,
 		showEducationFinishTime,
 		removeTime,
 		{
@@ -16,7 +16,12 @@
 		}
 	);
 
+	function initialise() {
+		window.addEventListener("hashchange", showEducationFinishTime);
+	}
+
 	async function showEducationFinishTime() {
+		if (getHashParameters().get("step") !== "main") return;
 		if (userdata.education_timeleft <= 0) return;
 
 		await requireElement(".msg .bold");

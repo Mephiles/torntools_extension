@@ -19,12 +19,12 @@
 	}
 
 	async function greyOut() {
+		if (getHashParameters().get("step") !== "main") return;
+
 		await requireElement(".education .ajax-act");
 
-		if (getHashParameters().get("step") === "main") {
-			for (const category of document.findAll(".education .ajax-act")) {
-				if (category.find(".progressbar").style.width === "100%") category.classList.add("tt-grey");
-			}
+		for (const category of document.findAll(".education .ajax-act")) {
+			if (category.find(".progressbar").style.width === "100%") category.classList.add("tt-grey");
 		}
 	}
 
