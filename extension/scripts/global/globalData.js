@@ -387,6 +387,9 @@ const DEFAULT_STORAGE = {
 			faction: {
 				csvWarReport: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			property: {
+				value: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		external: {
 			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),

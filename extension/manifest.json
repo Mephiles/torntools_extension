@@ -367,8 +367,12 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/properties.ph*"],
+			"js": ["scripts/features/property-values/ttPropertyValues.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/loader.php?sid=racing*"],
-			"css": [],
 			"js": ["scripts/features/car-win-percentage/ttCarWinPercentage.js"],
 			"run_at": "document_end"
 		},
