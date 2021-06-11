@@ -37,7 +37,7 @@
 			members.forEach((member, index) => {
 				table += member.find(".user.name").dataset.placeholder + ";";
 				const memberInfo = info[index];
-				memberInfo.findAll(".members-stats-cols > *").forEach((infoItem) => table += infoItem.innerText + ";");
+				memberInfo.findAll(".members-stats-cols > *").forEach((infoItem) => (table += infoItem.innerText + ";"));
 				table += "\r\n";
 			});
 			const chainID = getSearchParameters().get("chainID");
