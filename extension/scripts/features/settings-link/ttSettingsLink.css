@@ -15,29 +15,25 @@
 }
 
 .tt-back {
-	text-shadow: none;
+	position: absolute;
+	width: 80%;
+	left: 222px;
+	height: 20px;
+}
+
+.tt-back > div {
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
-	height: auto;
-	width: auto;
-	margin-right: 26px;
-	border: none;
-	position: relative;
-	background: 0 0;
-	font-weight: 700;
-	line-height: 24px;
+	height: 100%;
 	color: var(--content-title-links);
+	font-weight: bolder;
 	cursor: pointer;
-	text-decoration: none;
-	float: right;
 }
 
 .tt-back svg {
-	display: block;
 	width: 15px;
-	height: 16px;
-	padding: 5px;
+	margin-right: 5px;
 	fill: var(--content-title-links);
 }
 

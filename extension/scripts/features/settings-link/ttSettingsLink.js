@@ -55,15 +55,20 @@
 				},
 			});
 			const returnToTorn = document.newElement({
-				type: "a",
+				type: "div",
 				class: "tt-back",
-				html: `
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13">
-						<path d="M16,13S14.22,4.41,6.42,4.41V1L0,6.7l6.42,5.9V8.75c4.24,0,7.37.38,9.58,4.25"></path>
-						<path d="M16,12S14.22,3.41,6.42,3.41V0L0,5.7l6.42,5.9V7.75c4.24,0,7.37.38,9.58,4.25"></path>
-					</svg>
-					<span id="back">Back to TORN</span>
-				`,
+				children: [
+					document.newElement({
+						type: "div",
+						html: `
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13">
+								<path d="M16,13S14.22,4.41,6.42,4.41V1L0,6.7l6.42,5.9V8.75c4.24,0,7.37.38,9.58,4.25"></path>
+								<path d="M16,12S14.22,3.41,6.42,3.41V0L0,5.7l6.42,5.9V7.75c4.24,0,7.37.38,9.58,4.25"></path>
+							</svg>
+							<span id="back">Back to TORN</span>
+						`,
+					}),
+				],
 			});
 			const tornContent = document.find(".content-wrapper[role*='main']");
 
