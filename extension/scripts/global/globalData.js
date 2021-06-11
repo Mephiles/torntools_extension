@@ -304,6 +304,7 @@ const DEFAULT_STORAGE = {
 			},
 			education: {
 				greyOut: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				finishTime: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			jail: {
 				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),

@@ -230,7 +230,10 @@
 		{
 			"matches": ["https://www.torn.com/education.php*"],
 			"css": ["scripts/features/grey-completed-courses/ttGreyCompletedCourses.css"],
-			"js": ["scripts/features/grey-completed-courses/ttGreyCompletedCourses.js"],
+			"js": [
+				"scripts/features/grey-completed-courses/ttGreyCompletedCourses.js",
+				"scripts/features/education-finish-time/ttEducationFinishTime.js"
+			],
 			"run_at": "document_end"
 		},
 		{
