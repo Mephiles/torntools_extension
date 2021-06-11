@@ -17,9 +17,9 @@
 	function createBankInvestmentFacade() {
 		const investmentTimeLeftElement = document.find("p.m-clear");
 
-		const bankDueDateMs = new Date().setSeconds(userdata.city_bank.time_left);
-		const formattedDate = formatDate({ milliseconds: bankDueDateMs }, { showYear: true });
-		const formattedTime = formatTime(bankDueDateMs);
+		const dueDate = new Date(userdata.date + userdata.city_bank.time_left * 1000);
+		const formattedDate = formatDate(dueDate, { showYear: true });
+		const formattedTime = formatTime(dueDate);
 		const formatted = `${formattedDate} ${formattedTime}`;
 
 		const investmentDueTimeElement = document.newElement({

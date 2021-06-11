@@ -42,6 +42,7 @@ function toMultipleDigits(number, digits = 2) {
 
 function formatTime(time = {}, options = {}) {
 	if (typeof time === "number") return formatTime({ milliseconds: time, attributes: options });
+	else if (time instanceof Date) return formatTime({ milliseconds: time.getTime() }, options);
 
 	time = {
 		milliseconds: undefined,
@@ -162,7 +163,8 @@ function formatTime(time = {}, options = {}) {
 }
 
 function formatDate(date = {}, options = {}) {
-	if (typeof date === "number") return formatDate({ milliseconds: date, attributes: options });
+	if (typeof date === "number") return formatDate({ milliseconds: date }, options);
+	else if (date instanceof Date) return formatDate({ milliseconds: date.getTime() }, options);
 
 	date = {
 		milliseconds: undefined,

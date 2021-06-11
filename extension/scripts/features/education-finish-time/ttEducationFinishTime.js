@@ -20,14 +20,17 @@
 		if (userdata.education_timeleft <= 0) return;
 
 		await requireElement(".msg .bold");
-		const overDateNumber = new Date(userdata.dateBasic + userdata.education_timeleft * 1000).getTime();
+		const overDate = new Date(userdata.dateBasic + userdata.education_timeleft * 1000).getTime();
 		document.find(".msg .bold").insertAdjacentHTML(
 			"afterend",
-			`<span class="tt-time">&nbsp;
-				<b>
-					(${formatDate({ milliseconds: overDateNumber }, { showYear: true })} ${formatTime({ milliseconds: overDateNumber })})
-				</b>
-			</span>`
+			`
+					<span class="tt-time">
+						&nbsp;
+						<b>
+							(${formatDate(overDate, { showYear: true })} ${formatTime({ milliseconds: overDate })})
+						</b>
+					</span>
+				`
 		);
 	}
 
