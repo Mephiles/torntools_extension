@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (!getPageStatus().access) return;
+
 	featureManager.registerFeature(
 		"Bank Investment Due Time",
 		"bank",

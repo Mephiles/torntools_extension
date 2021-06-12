@@ -466,3 +466,10 @@ function getStockBoughtPrice(stock) {
 
 	return { boughtTotal, boughtPrice: boughtTotal / stock.total_shares };
 }
+
+function getPageStatus() {
+	const infoMessage = document.find(".content-wrapper .info-msg-cont");
+	if (infoMessage && infoMessage.classList.contains("red")) return { access: false, message: infoMessage.innerText };
+
+	return { access: true };
+}

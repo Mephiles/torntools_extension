@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (!getPageStatus().access) return;
+
 	if (await checkMobile()) return "Not supported on mobile!";
 
 	featureManager.registerFeature(

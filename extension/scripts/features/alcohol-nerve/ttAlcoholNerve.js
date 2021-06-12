@@ -1,8 +1,10 @@
 "use strict";
 
 (async () => {
+	if (!getPageStatus().access) return;
+
 	const feature = featureManager.registerFeature(
-		"Alcoholic Nerve",
+		"Alcohol Nerve",
 		"items",
 		() => settings.pages.items.nerveGains,
 		initialiseAddGains,

@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (!getPageStatus().access) return;
+
 	const feature = featureManager.registerFeature(
 		"Candy Happy",
 		"items",

@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (!getPageStatus().access) return;
+
 	const page = getPage();
 
 	if (page === "factions" && getSearchParameters().get("step") !== "your") return;

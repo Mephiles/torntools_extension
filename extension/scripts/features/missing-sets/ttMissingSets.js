@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (!getPageStatus().access) return;
+
 	const featureFlowers = featureManager.registerFeature(
 		"Missing Flowers",
 		"items",

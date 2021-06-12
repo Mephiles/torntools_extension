@@ -1,8 +1,8 @@
 "use strict";
 
-let networthInterval = false;
-
 (async () => {
+	if (!getPageStatus().access) return;
+
 	if (isFlying() || isAbroad()) return;
 
 	featureManager.registerFeature(
@@ -19,6 +19,8 @@ let networthInterval = false;
 			if (!hasAPIData() || !settings.apiUsage.user.networth) return "No API access.";
 		}
 	);
+
+	let networthInterval = false;
 
 	async function showNetworth() {
 		await requireContent();

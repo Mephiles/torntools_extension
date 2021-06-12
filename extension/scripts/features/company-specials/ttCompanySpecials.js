@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (!getPageStatus().access) return;
+
 	const data = {};
 
 	// TODO - Test muggable cash again

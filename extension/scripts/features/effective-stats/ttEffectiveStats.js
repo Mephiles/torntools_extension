@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (!getPageStatus().access) return;
+
 	if (isFlying() || isAbroad()) return;
 
 	featureManager.registerFeature(

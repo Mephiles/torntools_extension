@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (!getPageStatus().access) return;
+
 	featureManager.registerFeature(
 		"War Report to CSV",
 		"faction",

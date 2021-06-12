@@ -1,9 +1,11 @@
 "use strict";
 
 (async () => {
+	if (!getPageStatus().access) return;
+
 	const feature = featureManager.registerFeature(
 		"Total Item Cost",
-		"items",
+		"bazaar",
 		() => settings.pages.bazaar.itemsCost,
 		initialiseListeners,
 		addPrice,
