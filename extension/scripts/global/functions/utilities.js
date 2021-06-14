@@ -33,6 +33,18 @@ Object.defineProperty(Array.prototype, "totalSum", {
 	},
 	enumerable: false,
 });
+Object.defineProperty(Array.prototype, "findHighest", {
+	value() {
+		return this.reduce((a, b) => Math.max(a, b), 0);
+	},
+	enumerable: false,
+});
+Object.defineProperty(Array.prototype, "findLowest", {
+	value() {
+		return this.reduce((a, b) => Math.min(a, b));
+	},
+	enumerable: false,
+});
 Object.defineProperty(Array.prototype, "equals", {
 	value(other) {
 		if (!other) return false;

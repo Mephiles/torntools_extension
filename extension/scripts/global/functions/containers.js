@@ -13,6 +13,7 @@ function createContainer(title, options = {}) {
 		spacer: false,
 		contentBackground: true,
 		allowDragging: false,
+		flexContainer: false,
 		...options,
 	};
 	if (options.onlyHeader) options.collapsible = false;
@@ -40,6 +41,10 @@ function createContainer(title, options = {}) {
 		if (options.spacer) containerClasses.push("spacer");
 		if (options.class) containerClasses.push(options.class.split(" "));
 
+		const mainClasses = [];
+		if (options.contentBackground) mainClasses.push("background");
+		if (options.flexContainer) mainClasses.push("t-flex");
+
 		const theme = THEMES[settings.themes.containers];
 		containerClasses.push(theme.containerClass);
 		const container = document.newElement({ type: "div", class: containerClasses.join(" "), id: options.id });
@@ -54,7 +59,7 @@ function createContainer(title, options = {}) {
 					<div class="options"></div>
 					${options.collapsible ? '<i class="icon fas fa-caret-down"></i>' : ""}
 				</div>`;
-		if (!options.onlyHeader) html += `<main class="${options.contentBackground ? "background" : ""}"></main>`;
+		if (!options.onlyHeader) html += `<main class="${mainClasses.join(" ")}"></main>`;
 		container.innerHTML = html;
 
 		if (options.collapsible) {

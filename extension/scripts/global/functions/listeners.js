@@ -19,6 +19,8 @@ const EVENT_CHANNELS = {
 	TRAVEL_SELECT_TYPE: "travel-select-type",
 	FEATURE_ENABLED: "feature-enabled",
 	STATE_CHANGED: "state-changed",
+	GYM_LOAD: "gym-load",
+	GYM_TRAIN: "gym-train",
 };
 
 const CUSTOM_LISTENERS = (() => {

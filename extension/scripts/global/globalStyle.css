@@ -77,6 +77,10 @@
 	margin-top: 10px;
 }
 
+.t-flex {
+	display: flex;
+}
+
 [class*="torn-icon-"] {
 	background: url("https://www.torn.com/images/v2/city/location_icons_34x34px.svg") no-repeat;
 	height: 34px;

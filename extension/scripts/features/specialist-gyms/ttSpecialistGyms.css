@@ -1,0 +1,22 @@
+.tt-mobile #specialistGyms main {
+	flex-direction: column;
+}
+
+.specialist-gym {
+	flex-basis: 100%;
+	padding: 4px;
+}
+
+.specialist-gym select {
+	width: 100%;
+}
+
+.specialist-gym span {
+	display: block;
+	margin-top: 2px;
+}
+
+.tt-specialist-stat {
+	height: 1rem;
+	margin-top: 4px;
+}

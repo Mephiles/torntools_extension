@@ -437,6 +437,12 @@
 			"css": ["scripts/features/bank-investment-info/ttBankInvestmentInfo.css"],
 			"js": ["scripts/features/bank-investment-info/ttBankInvestmentInfo.js", "scripts/features/bank-investment-due-time/ttBankInvestmentDueTime.js"],
 			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/gym.php*"],
+			"css": ["scripts/features/specialist-gyms/ttSpecialistGyms.css"],
+			"js": ["scripts/content/gym/ttGym.js", "scripts/features/specialist-gyms/ttSpecialistGyms.js"],
+			"run_at": "document_end"
 		}
 	]
 }
