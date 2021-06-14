@@ -256,7 +256,6 @@ const DEFAULT_STORAGE = {
 				hideQuitButtons: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				keepAttackHistory: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				miniProfileLastAction: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				nukeRevive: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			profile: {
 				statusIndicator: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -282,7 +281,7 @@ const DEFAULT_STORAGE = {
 				collapseAreas: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				settingsLink: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				hideGymHighlight: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				upkeepPropHighlight: new DefaultSetting({ type: "number", defaultValue: 5000000 }),
+				upkeepPropHighlight: new DefaultSetting({ type: "number", defaultValue: 0 }),
 				barLinks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			popup: {
