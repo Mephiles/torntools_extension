@@ -390,6 +390,7 @@ const DEFAULT_STORAGE = {
 				openOc: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				highlightOwn: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				availablePlayers: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				recommendedNnb: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			property: {
 				value: new DefaultSetting({ type: "boolean", defaultValue: true }),
