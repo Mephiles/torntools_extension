@@ -4,6 +4,8 @@
 	--tt-color-red: #d83500;
 	--tt-color-icon-bar: #7f7f7f;
 
+	--tt-background-torn-gray: repeating-linear-gradient(90deg, #627e0d, #627e0d 2px, #6e8820 0, #6e8820 4px);
+
 	--tt-background-green: repeating-linear-gradient(90deg, #627e0d, #627e0d 2px, #6e8820 0, #6e8820 4px);
 	--tt-background-alternative: repeating-linear-gradient(90deg, #242424, #242424 2px, #2e2e2e 0, #2e2e2e 4px);
 }

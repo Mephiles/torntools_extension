@@ -2,18 +2,17 @@
 	color: var(--tt-color-item-text);
 }
 
-.tt-display-worth svg {
+.tt-display-worth .tt-svg {
 	width: 34px;
 	height: 34px;
 	margin-top: 1.5px;
 	transform: scale(0.75);
+	stroke: #fff;
+	fill: #fff;
 }
 
-.tt-display-worth svg .tt-T-upper,
-.tt-display-worth svg .tt-T-lower,
-.tt-display-worth svg .tt-t-upper,
-.tt-display-worth svg .tt-t-middle,
-.tt-display-worth svg .tt-t-lower {
+.tt-display-worth .tt-svg .tt-svg-upper,
+.tt-display-worth .tt-svg .tt-svg-lower {
 	stroke: #fff;
 	fill: #fff;
 }

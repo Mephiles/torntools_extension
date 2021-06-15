@@ -67,27 +67,22 @@
 						total += item.market_price * item.quantity;
 					}
 
-					document.find(".display-cabinet").insertAdjacentElement(
-						"beforebegin",
-						await newTornInfoBox(
-							`
-						This display cabinet is worth 
-							<span>${formatNumber(total, { currency: true })}</span>.`,
-							"tt-display-worth"
-						)
-					);
+					document
+						.find(".display-cabinet")
+						.insertAdjacentElement(
+							"beforebegin",
+							await newTornInfoBox(`This display cabinet is worth <span>${formatNumber(total, { currency: true })}</span>.`, {
+								class: "tt-display-worth",
+							})
+						);
 				})
 				.catch(async (error) => {
-					document.find(".display-cabinet").insertAdjacentElement(
-						"beforebegin",
-						await newTornInfoBox(
-							`
-						TORN API returned error: 
-							${error.toString()}
-						.`,
-							"tt-display-worth"
-						)
-					);
+					document
+						.find(".display-cabinet")
+						.insertAdjacentElement(
+							"beforebegin",
+							await newTornInfoBox(`TORN API returned error: ${error.toString()}.`, { class: "tt-display-worth" })
+						);
 					console.log("TT - Display Cabinet Worth API Error:", error);
 				});
 		}

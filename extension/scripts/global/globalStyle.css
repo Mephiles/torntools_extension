@@ -367,6 +367,8 @@ body.scrolled #tt-page-status.top-right {
 	color: var(--default-blue-color);
 }
 
+/* region Message box */
+
 .tt-msg-box {
 	line-height: 16px;
 	background: var(--info-msg-grey-gradient);
@@ -405,20 +407,68 @@ body.scrolled #tt-page-status.top-right {
 	border-radius: 0 5px 5px 0;
 }
 
+/* new */
+
+.tt-message-box {
+	border-radius: 5px;
+	margin-top: 10px;
+	display: flex;
+	color: var(--info-msg-font-color);
+	font-size: 13px;
+	box-shadow: var(--info-msg-box-shadow);
+}
+
+.tt-message-box .tt-message-icon-wrap {
+	width: 34px;
+	background: var(--info-msg-grey-gradient);
+	border-radius: 5px 0 0 5px;
+}
+
+.tt-message-box .tt-message-icon {
+	width: 34px;
+	height: 100%;
+	background: var(--info-msg-horizontal-gradient);
+	border-radius: 5px 0 0 5px;
+	display: flex;
+	justify-content: center;
+}
+
+.tt-message-box .tt-svg {
+	width: 34px;
+	height: 34px;
+}
+
+.tt-message-box .tt-icon-info {
+	margin-top: 9px;
+}
+
+.tt-message-box .tt-message-wrap {
+	background-color: var(--default-bg-panel-active-color);
+	background: var(--info-msg-bg-gradient);
+	flex-grow: 1;
+	padding: 10px;
+	border-radius: 0 5px 5px 0;
+	display: flex;
+	align-items: center;
+}
+
+.tt-message-box .tt-message {
+	flex-grow: 1;
+}
+
+/* endregion */
+
 .tt-svg {
 	width: 128px;
 	height: 128px;
 }
 
-.tt-svg .tt-T-upper,
-.tt-svg .tt-T-lower {
+.tt-svg .tt-svg-upper {
 	stroke: #000;
 	fill: #000;
 }
 
-.tt-svg .tt-t-upper,
-.tt-svg .tt-t-middle,
-.tt-svg .tt-t-lower {
+.tt-svg .tt-svg-lower {
 	stroke: #568725;
 	fill: #568725;
 }
@@ -453,4 +503,10 @@ body[data-layout="hospital"] #sidebarroot .pill {
 
 #sidebarroot .pill:hover {
 	background-color: var(--default-bg-panel-active-color) !important;
+}
+
+.tt-icon-info {
+	height: 18px;
+	width: 10px;
+	background: url(https://www.torn.com/images/v2/main/info_msg/ordinary_importance.png) left top no-repeat;
 }

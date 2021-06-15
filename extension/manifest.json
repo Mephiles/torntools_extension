@@ -238,14 +238,16 @@
 			"css": [
 				"scripts/features/drug-details/ttDrugDetails.css",
 				"scripts/features/item-values/ttItemValues.css",
-				"scripts/features/highlight-blood-bags/ttHighlightBloodBags.css"
+				"scripts/features/highlight-blood-bags/ttHighlightBloodBags.css",
+				"scripts/features/oc-available-players/ttOCAvailablePlayers.css"
 			],
 			"js": [
 				"scripts/content/factions/ttFactions.js",
 				"scripts/features/drug-details/ttDrugDetails.js",
 				"scripts/features/item-values/ttItemValues.js",
 				"scripts/features/highlight-blood-bags/ttHighlightBloodBags.js",
-				"scripts/features/open-oc/ttOpenOC.js"
+				"scripts/features/open-oc/ttOpenOC.js",
+				"scripts/features/oc-available-players/ttOCAvailablePlayers.js"
 			],
 			"run_at": "document_end"
 		},
