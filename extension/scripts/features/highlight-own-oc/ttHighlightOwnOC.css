@@ -1,0 +1,7 @@
+body:not(.dark-mode) .tt-oc-highlight {
+	background-color: var(--tt-color-light-green);
+}
+
+body.dark-mode .tt-oc-highlight {
+	background-color: var(--tt-color-green);
+}

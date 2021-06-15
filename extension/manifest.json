@@ -239,6 +239,7 @@
 				"scripts/features/drug-details/ttDrugDetails.css",
 				"scripts/features/item-values/ttItemValues.css",
 				"scripts/features/highlight-blood-bags/ttHighlightBloodBags.css",
+				"scripts/features/highlight-own-oc/ttHighlightOwnOC.css",
 				"scripts/features/oc-available-players/ttOCAvailablePlayers.css"
 			],
 			"js": [
@@ -247,6 +248,7 @@
 				"scripts/features/item-values/ttItemValues.js",
 				"scripts/features/highlight-blood-bags/ttHighlightBloodBags.js",
 				"scripts/features/open-oc/ttOpenOC.js",
+				"scripts/features/highlight-own-oc/ttHighlightOwnOC.js",
 				"scripts/features/oc-available-players/ttOCAvailablePlayers.js"
 			],
 			"run_at": "document_end"
