@@ -67,14 +67,12 @@
 						total += item.market_price * item.quantity;
 					}
 
-					document
-						.find(".display-cabinet")
-						.insertAdjacentElement(
-							"beforebegin",
-							await newTornInfoBox(`This display cabinet is worth <span>${formatNumber(total, { currency: true })}</span>.`, {
-								class: "tt-display-worth",
-							})
-						);
+					document.find(".display-cabinet").insertAdjacentElement(
+						"beforebegin",
+						await newTornInfoBox(`This display cabinet is worth <span>${formatNumber(total, { currency: true })}</span>.`, {
+							class: "tt-display-worth",
+						})
+					);
 				})
 				.catch(async (error) => {
 					document
