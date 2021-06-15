@@ -22,6 +22,7 @@ async function loadDatabase() {
 	}
 
 	databaseLoading = true;
+	console.log("DKK loading db");
 
 	const database = await ttStorage.get();
 
@@ -38,8 +39,8 @@ async function loadDatabase() {
 	factiondata = database.factiondata;
 	quick = database.quick;
 
-	databaseLoaded = true;
 	console.log("TT - Database loaded.", database);
+	databaseLoaded = true;
 }
 
 chrome.storage.onChanged.addListener((changes, area) => {

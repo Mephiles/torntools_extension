@@ -11,10 +11,10 @@
 
 	function handleTheme() {
 		storageListeners.settings.push((oldSettings) => {
-			if (oldSettings.themes.containers !== settings.themes.containers) {
+			if (!oldSettings || !oldSettings.themes || !settings || !settings.themes || oldSettings.themes.containers !== settings.themes.containers) {
 				for (const container of document.findAll(`.${THEMES[oldSettings.themes.containers].containerClass}`)) {
-					container.classList.remove(THEMES[oldSettings.themes.containers].containerClass);
-					container.classList.add(THEMES[settings.themes.containers].containerClass);
+					if (oldSettings && !oldSettings.themes) container.classList.remove(THEMES[oldSettings.themes.containers].containerClass);
+					if (settings && !settings.themes) container.classList.add(THEMES[settings.themes.containers].containerClass);
 				}
 			}
 		});
