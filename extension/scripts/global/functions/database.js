@@ -22,7 +22,6 @@ async function loadDatabase() {
 	}
 
 	databaseLoading = true;
-	console.log("DKK loading db");
 
 	const database = await ttStorage.get();
 

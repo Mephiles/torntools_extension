@@ -40,7 +40,6 @@ const notifications = {
 
 async function convertDatabase() {
 	const storage = await ttStorage.get();
-	console.log("DKK convertDatabase", storage);
 
 	if (!storage || !Object.keys(storage).length) {
 		console.log("Setting new storage.");
