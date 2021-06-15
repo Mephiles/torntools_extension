@@ -388,6 +388,7 @@ const DEFAULT_STORAGE = {
 				csvWarReport: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				csvChainReport: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				openOc: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				highlightOwn: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				availablePlayers: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			property: {
