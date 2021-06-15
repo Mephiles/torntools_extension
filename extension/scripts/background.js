@@ -172,7 +172,7 @@ function timedUpdates() {
 				.catch((error) => logError("updating stocks", error));
 		}
 
-		if (!factiondata || !factiondata.date || Date.now() - factiondata.date >= TO_MILLIS.MINUTES * 15)
+		if (!factiondata || !factiondata.date || Date.now() - factiondata.date >= TO_MILLIS.MINUTES * 1)
 			updateFactiondata()
 				.then(() => console.log("Updated factiondata."))
 				.catch((error) => logError("updating factiondata", error));
@@ -858,9 +858,16 @@ async function updateFactiondata() {
 	if (!userdata || !userdata.faction.faction_id) {
 		factiondata = {};
 	} else {
+		const oldFactiondata = { ...factiondata };
+
 		factiondata = await fetchData("torn", { section: "faction", selections: ["crimes"], silent: true, succeedOnError: true });
 		if (!factiondata) throw new Error("Aborted updating due to an expected response.");
-		delete factiondata.error;
+		if (factiondata.error) {
+			delete factiondata.error;
+
+			factiondata.isManual = true;
+			if (oldFactiondata.userCrime) factiondata.userCrime = oldFactiondata.userCrime;
+		}
 	}
 
 	factiondata.date = Date.now();

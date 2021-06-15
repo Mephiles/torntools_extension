@@ -46,7 +46,8 @@
 				{ "message": "Jail Filters with new formula.", "contributor": "bandirao" },
 				{ "message": "Add chat search by username and id.", "contributor": "bandirao" },
 				{ "message": "Jail Filters rewrite based on elements and facade design.", "contributor": "AllMight" },
-				{ "message": "Significantly improve on page settings.", "contributor": "bandirao" }
+				{ "message": "Significantly improve on page settings.", "contributor": "bandirao" },
+				{ "message": "Scrape OCs to be able to display that information at all times.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [{ "message": "We've removed the safe crimes features due to it being less useful than originally thought." }]
 		}

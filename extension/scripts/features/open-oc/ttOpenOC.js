@@ -28,7 +28,6 @@
 	}
 
 	async function openCrimes() {
-		console.log("DKK openCrimes");
 		for (const crime of document.findAll(".organize-wrap .crimes-list > li")) {
 			const status = crime.find(".status .bold");
 			if (!status || status.innerText.trim() !== "Ready") continue;

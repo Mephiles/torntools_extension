@@ -18,21 +18,33 @@ function toSeconds(milliseconds) {
 	else return toSeconds(Date.now());
 }
 
-function formatTORNTime(time) {
+function textToTime(time) {
 	time = time.toLowerCase();
-	let seconds = 0;
 
-	if (time.includes("h")) {
-		seconds += parseInt(time.split("h")[0].trim()) * 60 * 60;
-		time = time.split("h")[1];
+	let millis = 0;
+	if (time.includes(" ")) {
+		for (const part of time.split(" ")) {
+			if (part.endsWith("h")) {
+				millis += parseInt(part.split("h")[0].trim()) * TO_MILLIS.HOURS;
+			} else if (part.endsWith("m") || part.endsWith("min")) {
+				millis += parseInt(part.split("m")[0].trim()) * TO_MILLIS.MINUTES;
+			} else if (part.endsWith("s")) {
+				millis += parseInt(part.split("s")[0].trim()) * TO_MILLIS.SECONDS;
+			}
+		}
+	} else {
+		if (time.includes("h")) {
+			millis += parseInt(time.split("h")[0].trim()) * TO_MILLIS.HOURS;
+			time = time.split("h")[1];
+		}
+		if (time.includes("m")) {
+			millis += parseInt(time.split("m")[0].trim()) * TO_MILLIS.MINUTES;
+			time = time.split("m")[1];
+		}
+		if (time.includes("s")) millis += parseInt(time.split("s")[0].trim()) * TO_MILLIS.SECONDS;
 	}
-	if (time.includes("m")) {
-		seconds += parseInt(time.split("m")[0].trim()) * 60;
-		time = time.split("m")[1];
-	}
-	if (time.includes("s")) seconds += parseInt(time.split("s")[0].trim());
 
-	return seconds;
+	return millis;
 }
 
 function toMultipleDigits(number, digits = 2) {
