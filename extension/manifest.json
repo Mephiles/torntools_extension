@@ -244,7 +244,8 @@
 				"scripts/content/factions/ttFactions.js",
 				"scripts/features/drug-details/ttDrugDetails.js",
 				"scripts/features/item-values/ttItemValues.js",
-				"scripts/features/highlight-blood-bags/ttHighlightBloodBags.js"
+				"scripts/features/highlight-blood-bags/ttHighlightBloodBags.js",
+				"scripts/features/open-oc/ttOpenOC.js"
 			],
 			"run_at": "document_end"
 		},
