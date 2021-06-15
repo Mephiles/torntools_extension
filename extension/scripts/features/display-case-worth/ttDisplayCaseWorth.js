@@ -17,7 +17,7 @@
 	);
 
 	function xhrListener() {
-		addXHRListener(({ detail: { page, xhr, json } }) => {
+		addXHRListener(({ detail: { page, xhr } }) => {
 			if (feature.enabled() && page === "displaycase" && (xhr.requestBody === "step=display" || xhr.requestBody.startsWith("userID="))) addWorth();
 		});
 	}
@@ -69,7 +69,7 @@
 
 					document.find(".display-cabinet").insertAdjacentElement(
 						"beforebegin",
-						await newTornInfoBox(`This display cabinet is worth <span>${formatNumber(total, { currency: true })}</span>.`, {
+						await createMessageBox(`This display cabinet is worth <span>${formatNumber(total, { currency: true })}</span>.`, {
 							class: "tt-display-worth",
 						})
 					);
@@ -79,7 +79,7 @@
 						.find(".display-cabinet")
 						.insertAdjacentElement(
 							"beforebegin",
-							await newTornInfoBox(`TORN API returned error: ${error.toString()}.`, { class: "tt-display-worth" })
+							await createMessageBox(`TORN API returned error: ${error.toString()}.`, { class: "tt-display-worth" })
 						);
 					console.log("TT - Display Cabinet Worth API Error:", error);
 				});

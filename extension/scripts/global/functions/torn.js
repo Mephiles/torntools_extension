@@ -327,28 +327,6 @@ const darkModeObserver = (() => {
 	};
 })();
 
-async function newTornInfoBox(content, options = {}) {
-	options = {
-		class: "",
-		...options,
-	};
-
-	const icon = await (await fetch(chrome.runtime.getURL("resources/images/svg-icons/icon_128.svg"))).text();
-
-	return document.newElement({
-		type: "div",
-		class: `tt-msg-box ${options.class}`,
-		html: `
-			<div class="tt-msg-div">
-				${icon}
-				<div class="tt-msg">
-					<div class="tt-content">${content}</div>
-				</div>
-			</div>
-		`,
-	});
-}
-
 async function createMessageBox(content, options = {}) {
 	options = {
 		class: "",
