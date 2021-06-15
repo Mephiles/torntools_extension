@@ -12,7 +12,7 @@
 			storage: ["settings.pages.sidebar.ocTimer", "factiondata.userCrime"],
 		},
 		async () => {
-			if (!hasAPIData() || !factiondata || !factiondata.userCrime) return "No API access.";
+			if (!factiondata || !factiondata.userCrime) return "No API access.";
 
 			await checkMobile();
 		}
