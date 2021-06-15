@@ -189,18 +189,6 @@ const LINKS = {
 	gym: "https://www.torn.com/gym.php",
 };
 
-function isSameStockTick(date1, date2) {
-	const interval = 5;
-
-	return (
-		(date1.getUTCMinutes() / interval).dropDecimals() === (date2.getUTCMinutes() / interval).dropDecimals() &&
-		date1.getUTCHours() === date2.getUTCHours() &&
-		date1.getUTCDate() === date2.getUTCDate() &&
-		date1.getUTCMonth() === date2.getUTCMonth() &&
-		date1.getUTCFullYear() === date2.getUTCFullYear()
-	);
-}
-
 function getNextChainBonus(current) {
 	return CHAIN_BONUSES.find((bonus) => bonus > current);
 }

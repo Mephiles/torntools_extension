@@ -166,7 +166,7 @@ function timedUpdates() {
 				.catch((error) => logError("updating torndata", error));
 		}
 
-		if (!torndata || !torndata.stocks || !isSameStockTick(new Date(torndata.stocks.date), new Date())) {
+		if (!torndata || !torndata.stocks || !torndata.stocks.date || Date.now() - torndata.stocks.date >= TO_MILLIS.MINUTES * 5) {
 			updateStocks()
 				.then(() => console.log("Updated stocks."))
 				.catch((error) => logError("updating stocks", error));
