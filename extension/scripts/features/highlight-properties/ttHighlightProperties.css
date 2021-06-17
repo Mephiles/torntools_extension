@@ -7,6 +7,5 @@
 }
 
 .tt-mobile .tt-upkeep span:not([class*="svgIconWrap"]) {
-	/* FIXME - Check if there is a variable available. */
 	color: #85b200 !important;
 }
