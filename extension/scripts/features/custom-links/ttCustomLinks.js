@@ -11,13 +11,15 @@
 		{
 			storage: ["settings.customLinks"],
 		},
-		null // FIXME - Switch to new mobile check.
+		async () => {
+			await checkMobile();
+		}
 	);
 
 	async function showLinks() {
 		await requireSidebar();
 
-		if (!(await checkMobile())) {
+		if (!mobile) {
 			showOutside("above", "customLinksAbove");
 			showOutside("under", "customLinksUnder");
 			showInside();
@@ -33,11 +35,13 @@
 			settings.customLinks.forEach((link) => {
 				customLinksContainer.insertAdjacentHTML(
 					"beforeend",
-					`<div class="tt-slide">
-						<a href="${link.href}" class="tt-mobile-link" target="${link.newTab ? "_blank" : ""}">
-							<span>${link.name}</span>
-						</a>
-					</div>`
+					`
+						<div class="tt-slide">
+							<a href="${link.href}" class="tt-mobile-link" target="${link.newTab ? "_blank" : ""}">
+								<span>${link.name}</span>
+							</a>
+						</div>
+					`
 				);
 			});
 
