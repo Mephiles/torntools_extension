@@ -117,9 +117,11 @@ async function checkUpdate() {
 }
 
 function registerUpdaters() {
+	clearCache();
 	timedUpdates();
 
 	setInterval(sendNotifications, 5 * TO_MILLIS.SECONDS);
+	setInterval(clearCache, 5 * TO_MILLIS.SECONDS);
 	setInterval(timedUpdates, 30 * TO_MILLIS.SECONDS);
 }
 
@@ -185,6 +187,10 @@ function timedUpdates() {
 			console.error(`Error while ${message}.`, error);
 		}
 	}
+}
+
+function clearCache() {
+	ttCache.refresh().catch((error) => console.error(`Error while clearing cache.`, error));
 }
 
 async function updateUserdata() {

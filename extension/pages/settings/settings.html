@@ -707,6 +707,12 @@
 								<a href="https://www.torn.com/forums.php#/p=threads&amp;f=61&amp;t=16167189"> this forum post.</a>
 							</div>
 						</div>
+						<div class="option">
+							<input id="faction-ocNnb" type="checkbox" />
+							<label for="faction-ocNnb">Show a user's NNB.</label>
+							<br />
+							<label class="tabbed note" for="travel-table">Requires YATA and/or Tornstats to be enabled as external service.</label>
+						</div>
 					</section>
 					<section name="items">
 						<div class="header">Items</div>
@@ -1053,11 +1059,14 @@
 							<li>Display cabinet worth: 1 request per visit for the worth</li>
 							<li>Bazaar worth: 1 request per visit</li>
 							<li>Company Special - muggable cash: 1 request per special usage, a 2nd if that user is in a clothing store</li>
+							<li>NNB: 1 request to YATA and 1 request to TornStats</li>
 						</ul>
 					</li>
 					<li>
 						<strong>Cache</strong>
-						<ul></ul>
+						<ul>
+							<li>NNB: 1 hour</li>
+						</ul>
 					</li>
 				</ul>
 			</section>

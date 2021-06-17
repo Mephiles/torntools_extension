@@ -1,0 +1,57 @@
+/* General */
+
+.tt-nnb {
+	text-align: right;
+	width: 27px;
+}
+
+/*.tt-nnb.short {*/
+/*	width: 88px;*/
+/*}*/
+
+/*.tt-mobile */
+
+.tt-nnb.short {
+	width: 20px;
+}
+
+/* Active Crimes */
+
+.tt-mobile .crimes-list .member.tt-modified {
+	width: 140px !important;
+}
+
+.crimes-list .level.tt-modified {
+	width: 227px !important;
+}
+
+.tt-mobile .crimes-list .level.tt-modified {
+	width: 30px !important;
+}
+
+.tt-mobile .crimes-list .stat.tt-modified {
+	width: 40px !important;
+	padding-left: 5px !important;
+}
+
+/* Selection */
+
+.tt-mobile .plans-list .member.tt-modified {
+	width: 100px !important;
+}
+
+.tt-mobile .plans-list .level.tt-modified {
+	width: 15px !important;
+}
+
+.plans-list .offences.tt-modified {
+	width: 115px !important;
+}
+
+.tt-mobile .plans-list .offences.tt-modified {
+	width: 50px !important;
+}
+
+.tt-mobile .plans-list .act.tt-modified {
+	width: 29px !important;
+}
