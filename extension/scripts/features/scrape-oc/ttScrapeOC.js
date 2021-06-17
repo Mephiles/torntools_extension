@@ -6,12 +6,18 @@
 	const params = getSearchParameters();
 	if (params.get("step") !== "your") return;
 
-	featureManager.registerFeature("Scrape OC", "faction", true, initialiseListeners, null, null, null, () => {
+	featureManager.registerFeature("Scrape OC", "faction", true, initialiseListeners, startFeature, null, null, () => {
 		if (hasAPIData() && factiondata && !factiondata.isManual) return "Scraping not needed.";
 	});
 
 	function initialiseListeners() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES].push(readCrimes);
+	}
+
+	function startFeature() {
+		if (!document.find(".faction-crimes-wrap")) return;
+
+		readCrimes();
 	}
 
 	async function readCrimes() {

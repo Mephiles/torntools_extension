@@ -11,8 +11,8 @@
 		"faction",
 		() => settings.pages.faction.highlightOwn,
 		initialiseListeners,
-		null,
-		null,
+		startFeature,
+		removeHighlight,
 		{
 			storage: ["settings.pages.faction.highlightOwn"],
 		},
@@ -29,10 +29,20 @@
 		});
 	}
 
+	function startFeature() {
+		if (!document.find(".faction-crimes-wrap")) return;
+
+		highlightCrime();
+	}
+
 	function highlightCrime() {
 		const member = document.find(`.crimes-list > li.item-wrap .team > a[href="/profiles.php?XID=${userdata.player_id}"]`);
 		if (!member) return;
 
 		member.closest(".item-wrap").classList.add("tt-oc-highlight");
+	}
+
+	function removeHighlight() {
+		for (const highlight of document.findAll(".tt-oc-highlight")) highlight.classList.remove(".tt-oc-highlight");
 	}
 })();

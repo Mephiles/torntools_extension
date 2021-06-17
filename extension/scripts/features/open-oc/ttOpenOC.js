@@ -11,7 +11,7 @@
 		"faction",
 		() => settings.pages.faction.openOc,
 		initialiseListeners,
-		null,
+		startFeature,
 		null,
 		{
 			storage: ["settings.pages.faction.openOc"],
@@ -25,6 +25,12 @@
 
 			openCrimes();
 		});
+	}
+
+	function startFeature() {
+		if (!document.find(".faction-crimes-wrap")) return;
+
+		openCrimes();
 	}
 
 	async function openCrimes() {

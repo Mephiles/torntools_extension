@@ -11,8 +11,8 @@
 		"faction",
 		() => settings.pages.faction.availablePlayers,
 		initialiseListeners,
-		null,
-		null,
+		startFeature,
+		removeAvailable,
 		{
 			storage: ["settings.pages.faction.availablePlayers"],
 		},
@@ -25,6 +25,12 @@
 
 			showAvailable();
 		});
+	}
+
+	function startFeature() {
+		if (!document.find(".faction-crimes-wrap")) return;
+
+		showAvailable();
 	}
 
 	function showAvailable() {
@@ -45,5 +51,9 @@
 				crimes.firstElementChild
 			);
 		}
+	}
+
+	function removeAvailable() {
+		for (const available of document.findAll(".tt-available-players")) available.remove();
 	}
 })();
