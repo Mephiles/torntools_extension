@@ -147,34 +147,73 @@ const ttCache = new (class {
 		return this._cache;
 	}
 
-	get(key) {
-		return this.hasValue(key) ? this.cache[key].value : undefined;
+	get(section, key) {
+		if (!key) {
+			key = section;
+			section = null;
+		}
+
+		if (section) return this.hasValue(section, key) ? this.cache[section][key].value : undefined;
+		else return this.hasValue(key) ? this.cache[key].value : undefined;
 	}
 
-	hasValue(key) {
-		return key in this.cache && this.cache[key].timeout > Date.now();
+	hasValue(section, key) {
+		if (!key) {
+			key = section;
+			section = null;
+		}
+
+		if (section) return section in this.cache && key in this.cache[section] && this.cache[section][key].timeout > Date.now();
+		else return key in this.cache && this.cache[key].timeout > Date.now();
 	}
 
-	async set(object, ttl) {
+	async set(object, ttl, section) {
 		const timeout = Date.now() + ttl;
-		for (const [key, value] of Object.entries(object)) {
-			this.cache[key] = { value, timeout };
+		if (section) {
+			if (!(section in this.cache)) this.cache[section] = {};
+
+			for (const [key, value] of Object.entries(object)) {
+				this.cache[section][key] = { value, timeout };
+			}
+		} else {
+			for (const [key, value] of Object.entries(object)) {
+				this.cache[key] = { value, timeout };
+			}
 		}
 
 		await ttStorage.set({ cache: this.cache });
 	}
 
+	clear() {
+		ttStorage.set({ cache: {} }).then(() => (this.cache = {}));
+	}
+
 	async refresh() {
 		let hasChanged = false;
 		const now = Date.now();
-		for (const [key, value] of Object.entries(this.cache)) {
-			if (value.timeout > now) continue;
 
-			hasChanged = true;
-			delete this.cache[key];
+		refreshObject(this.cache);
+
+		for (const section in this.cache) {
+			if (!Object.keys(this.cache[section]).length) delete this.cache[section];
 		}
 
 		if (hasChanged) await ttStorage.set({ cache: this.cache });
+
+		function refreshObject(object) {
+			for (const key in object) {
+				const value = object[key];
+
+				if ("timeout" in value) {
+					if (value.timeout > now) continue;
+
+					hasChanged = true;
+					delete object[key];
+				} else {
+					refreshObject(value);
+				}
+			}
+		}
 	}
 })();
 

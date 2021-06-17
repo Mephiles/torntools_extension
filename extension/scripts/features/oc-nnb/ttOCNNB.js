@@ -47,13 +47,13 @@
 
 			if (settings.external.tornstats) {
 				let result;
-				if (ttCache.hasValue("tsCrimes")) {
-					result = ttCache.get("tsCrimes");
+				if (ttCache.hasValue("crimes", "tornstats")) {
+					result = ttCache.get("crimes", "tornstats");
 				} else {
 					result = await fetchData("tornstats", { section: "faction/crimes" });
 
 					if (result.status) {
-						ttCache.set({ tsCrimes: result }, TO_MILLIS.HOURS).then(() => {});
+						ttCache.set({ tornstats: result }, TO_MILLIS.HOURS, "crimes").then(() => {});
 					}
 				}
 
@@ -67,19 +67,17 @@
 							verified: !!value.verified,
 						};
 					}
-
-					ttCache.set({ tsCrimes: result }, TO_MILLIS.HOURS).then(() => {});
 				}
 			}
 
 			if (settings.external.yata) {
 				let result;
-				if (ttCache.hasValue("yataCrimes")) {
-					result = ttCache.get("yataCrimes");
+				if (ttCache.hasValue("crimes", "yata")) {
+					result = ttCache.get("crimes", "yata");
 				} else {
 					result = await fetchData("yata", { section: "faction/crimes/export", includeKey: true, relay: true });
 
-					ttCache.set({ yataCrimes: result }, TO_MILLIS.HOURS).then(() => {});
+					ttCache.set({ yata: result }, TO_MILLIS.HOURS, "crimes").then(() => {});
 				}
 
 				for (const [user, value] of Object.entries(result.members)) {

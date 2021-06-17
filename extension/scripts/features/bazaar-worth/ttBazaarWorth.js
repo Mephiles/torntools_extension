@@ -19,33 +19,44 @@
 	async function addWorth() {
 		await requireElement(".info-msg-cont .msg");
 		const bazaarUserId = getSearchParameters().get("userId");
-		fetchData("torn", { section: "user", id: bazaarUserId, selections: ["bazaar"] })
-			.then((result) => {
-				let total = 0;
 
-				for (const item of result.bazaar) {
-					total += item.market_price * item.quantity;
-				}
+		if (ttCache.hasValue("bazaar", bazaarUserId)) {
+			handleBazaar(ttCache.get("bazaar", bazaarUserId));
+		} else {
+			fetchData("torn", { section: "user", id: bazaarUserId, selections: ["bazaar"] })
+				.then((result) => {
+					handleBazaar(result.bazaar);
 
-				document.find(".info-msg-cont .msg").appendChild(
-					document.newElement({
-						type: "div",
-						class: "tt-bazaar-text",
-						text: "This bazaar is worth ",
-						children: [document.newElement({ type: "span", text: formatNumber(total, { currency: true }) + "." })],
-					})
-				);
-			})
-			.catch((error) => {
-				document.find(".info-msg-cont .msg").appendChild(
-					document.newElement({
-						type: "div",
-						class: "tt-bazaar-text",
-						text: "TORN API returned error:" + error.toString(),
-					})
-				);
-				console.log("TT - Bazaar Worth API Error:", error);
-			});
+					ttCache.set({ [bazaarUserId]: result.bazaar }, TO_MILLIS.SECONDS * 30, "bazaar");
+				})
+				.catch((error) => {
+					document.find(".info-msg-cont .msg").appendChild(
+						document.newElement({
+							type: "div",
+							class: "tt-bazaar-text",
+							text: "TORN API returned error:" + error.toString(),
+						})
+					);
+					console.log("TT - Bazaar Worth API Error:", error);
+				});
+		}
+
+		function handleBazaar(bazaar) {
+			let total = 0;
+
+			for (const item of bazaar) {
+				total += item.market_price * item.quantity;
+			}
+
+			document.find(".info-msg-cont .msg").appendChild(
+				document.newElement({
+					type: "div",
+					class: "tt-bazaar-text",
+					text: "This bazaar is worth ",
+					children: [document.newElement({ type: "span", text: formatNumber(total, { currency: true }) + "." })],
+				})
+			);
+		}
 	}
 
 	function removeWorth() {

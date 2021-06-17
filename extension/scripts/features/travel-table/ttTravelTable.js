@@ -327,7 +327,7 @@
 			}
 
 			async function pullInformation() {
-				// FIXME - Add some kind of local cache.
+				// TODO - Cache result.
 				return fetchData("yata", { section: "travel/export/", relay: true });
 			}
 
@@ -561,7 +561,6 @@
 					return "private";
 				default:
 					console.log("TT - Detected unknown travel type.", userdata.travel.method);
-					// FIXME - Add travel type count.
 					return "standard";
 			}
 		}

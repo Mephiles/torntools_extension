@@ -165,12 +165,12 @@
 		await requireElement(".content-wrapper > .delimiter-999");
 
 		let response;
-		if (ttCache.hasValue("bankRates")) {
-			response = ttCache.get("bankRates");
+		if (ttCache.hasValue("bankInterest")) {
+			response = ttCache.get("bankInterest");
 		} else {
 			response = (await fetchData("torn", { section: "torn", selections: ["bank"] })).bank;
 
-			await ttCache.set({ bankRate: response }, millisToNewDay());
+			ttCache.set({ bankInterest: response }, millisToNewDay()).then(() => {});
 		}
 
 		bankInvestmentInfoContainer = createBankInvestmentContainer(response);

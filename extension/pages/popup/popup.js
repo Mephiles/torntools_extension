@@ -519,57 +519,20 @@ async function setupMarketSearch() {
 		const viewItem = document.find("#market #item-information");
 		viewItem.find(".market").classList.add("hidden");
 
-		fetchData("torn", { section: "market", id, selections: ["bazaar", "itemmarket"] })
-			.then((result) => {
-				const list = viewItem.find(".market");
-				list.innerHTML = "";
+		if (ttCache.hasValue("livePrice", id)) {
+			handleMarket(ttCache.get("livePrice", id));
+		} else {
+			fetchData("torn", { section: "market", id, selections: ["bazaar", "itemmarket"] })
+				.then((result) => {
+					handleMarket(result);
 
-				let found = false;
-
-				for (const type of Object.keys(result)) {
-					let text;
-					if (type === "itemmarket") text = "Item Market";
-					else text = capitalizeText(type);
-
-					const wrap = document.newElement({ type: "div" });
-
-					wrap.appendChild(document.newElement({ type: "h4", text }));
-
-					if (result[type]) {
-						found = true;
-
-						for (const item of result[type].slice(0, 3)) {
-							wrap.appendChild(
-								document.newElement({
-									type: "div",
-									class: "price",
-									text: `${item.quantity}x | $${formatNumber(item.cost)}`,
-								})
-							);
-						}
-					} else {
-						wrap.appendChild(
-							document.newElement({
-								type: "div",
-								class: "price no-price",
-								text: "No price found.",
-							})
-						);
-					}
-
-					list.appendChild(wrap);
-				}
-
-				if (!isSellable(id) && !found) {
-					list.classList.add("untradable");
-					list.innerHTML = "Item is not sellable!";
-				}
-				viewItem.find(".market").classList.remove("hidden");
-			})
-			.catch((error) => {
-				document.find(".error").classList.remove("hidden");
-				document.find(".error").innerText = error.error;
-			});
+					ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 30, "livePrice");
+				})
+				.catch((error) => {
+					document.find(".error").classList.remove("hidden");
+					document.find(".error").innerText = error.error;
+				});
+		}
 
 		const item = torndata.items[id];
 		viewItem.find(".circulation").innerText = formatNumber(item.circulation);
@@ -579,6 +542,53 @@ async function setupMarketSearch() {
 		viewItem.find(".image").src = item.image;
 
 		viewItem.classList.remove("hidden");
+
+		function handleMarket(result) {
+			const list = viewItem.find(".market");
+			list.innerHTML = "";
+
+			let found = false;
+
+			for (const type of Object.keys(result)) {
+				let text;
+				if (type === "itemmarket") text = "Item Market";
+				else text = capitalizeText(type);
+
+				const wrap = document.newElement({ type: "div" });
+
+				wrap.appendChild(document.newElement({ type: "h4", text }));
+
+				if (result[type]) {
+					found = true;
+
+					for (const item of result[type].slice(0, 3)) {
+						wrap.appendChild(
+							document.newElement({
+								type: "div",
+								class: "price",
+								text: `${item.quantity}x | $${formatNumber(item.cost)}`,
+							})
+						);
+					}
+				} else {
+					wrap.appendChild(
+						document.newElement({
+							type: "div",
+							class: "price no-price",
+							text: "No price found.",
+						})
+					);
+				}
+
+				list.appendChild(wrap);
+			}
+
+			if (!isSellable(id) && !found) {
+				list.classList.add("untradable");
+				list.innerHTML = "Item is not sellable!";
+			}
+			viewItem.find(".market").classList.remove("hidden");
+		}
 	}
 }
 

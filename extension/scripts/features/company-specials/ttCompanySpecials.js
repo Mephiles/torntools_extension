@@ -45,22 +45,44 @@
 			percentageMin *= merits;
 			percentageMax *= merits;
 
-			const result = await fetchData("torn", {
-				section: "user",
-				id: json.result.user.userID,
-				selections: ["profile"],
-				silent: true,
-				succeedOnError: true,
-			});
-			if (result.job && result.job.company_type === 5) {
-				const resultCompany = await fetchData("torn", {
-					section: "company",
-					id: result.job.company_id,
-					selections: ["profile"],
-					silent: true,
-					succeedOnError: true,
-				});
-				if (resultCompany.company && resultCompany.company.rating >= 7) {
+			const id = json.result.user.userID;
+			let jobResult;
+			if (ttCache.hasValue("profile", id)) {
+				jobResult = ttCache.get("profile", id);
+			} else {
+				jobResult = (
+					await fetchData("torn", {
+						section: "user",
+						id,
+						selections: ["profile"],
+						silent: true,
+						succeedOnError: true,
+					})
+				).job;
+
+				ttCache.set({ [id]: jobResult }, TO_MILLIS.SECONDS * 30, "profile").then(() => {});
+			}
+
+			if (jobResult && jobResult.company_type === 5) {
+				let companyResult;
+
+				if (ttCache.hasValue("company", jobResult.company_id)) {
+					companyResult = ttCache.get("company", jobResult.company_id);
+				} else {
+					companyResult = (
+						await fetchData("torn", {
+							section: "company",
+							id: jobResult.company_id,
+							selections: ["profile"],
+							silent: true,
+							succeedOnError: true,
+						})
+					).company;
+
+					ttCache.set({ [jobResult.company_id]: jobResult }, TO_MILLIS.SECONDS * 30, "company").then(() => {});
+				}
+
+				if (companyResult && companyResult.rating >= 7) {
 					percentageMin /= 4;
 					percentageMax /= 4;
 				}
