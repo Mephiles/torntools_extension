@@ -164,8 +164,6 @@ const ttCache = new (class {
 		await ttStorage.set({ cache: this.cache });
 	}
 
-	clear() {}
-
 	async refresh() {
 		let hasChanged = false;
 		const now = Date.now();
