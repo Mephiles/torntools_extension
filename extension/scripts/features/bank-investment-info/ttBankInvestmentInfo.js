@@ -164,11 +164,16 @@
 	async function initialize() {
 		await requireElement(".content-wrapper > .delimiter-999");
 
-		// TODO: Apply caching here till next Torn day
-		const res = await fetchData("torn", { section: "torn", selections: ["bank"] });
-		const bankAprInfo = res.bank;
+		let response;
+		if (ttCache.hasValue("bankRates")) {
+			response = ttCache.get("bankRates");
+		} else {
+			response = (await fetchData("torn", { section: "torn", selections: ["bank"] })).bank;
 
-		bankInvestmentInfoContainer = createBankInvestmentContainer(bankAprInfo);
+			await ttCache.set({ bankRate: response }, millisToNewDay());
+		}
+
+		bankInvestmentInfoContainer = createBankInvestmentContainer(response);
 	}
 
 	function teardown() {

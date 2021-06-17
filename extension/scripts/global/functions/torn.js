@@ -467,3 +467,12 @@ function getPageStatus() {
 
 	return { access: true };
 }
+
+function millisToNewDay() {
+	const now = new Date();
+	const newDate = new Date();
+	newDate.setUTCHours(0, 0, 0);
+	newDate.setUTCDate(newDate.getUTCDate() + 1);
+
+	return newDate - now;
+}
