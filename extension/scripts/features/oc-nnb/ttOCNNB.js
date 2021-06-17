@@ -84,8 +84,8 @@
 					if (!value.NNB) continue;
 
 					if (user in data) {
-						// Prioritise TornStats nnb by not modifying it.
-						data[user].verified = data[user].nnb === value.NNB;
+						const { verified, nnb } = data[user];
+						if (!verified && nnb !== value.NNB) data[user].nnb = value.NNB;
 					} else {
 						data[user] = {
 							nnb: value.NNB,
