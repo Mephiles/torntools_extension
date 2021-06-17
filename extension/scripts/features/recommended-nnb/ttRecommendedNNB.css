@@ -1,3 +1,10 @@
 .tt-recommended-nnb {
 	float: right;
 }
+
+.tt-mobile .faction-crimes-wrap:nth-of-type(3) .begin-wrap.tt-modified .crimes-list > .item-wrap:nth-of-type(4) > ul > li:not(.plan-crimes),
+.tt-mobile .faction-crimes-wrap:nth-of-type(3) .begin-wrap.tt-modified .crimes-list > .item-wrap:nth-of-type(5) > ul > li:not(.plan-crimes),
+.tt-mobile .faction-crimes-wrap:nth-of-type(3) .begin-wrap.tt-modified .crimes-list > .item-wrap:nth-of-type(6) > ul > li:not(.plan-crimes),
+.tt-mobile .faction-crimes-wrap:nth-of-type(3) .begin-wrap.tt-modified .crimes-list > .item-wrap:nth-of-type(8) > ul > li:not(.plan-crimes) {
+	line-height: 28px !important;
+}
