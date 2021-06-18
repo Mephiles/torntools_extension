@@ -11,8 +11,8 @@
 		"faction",
 		() => settings.pages.faction.ocNnb,
 		initialiseListeners,
-		null,
-		null,
+		startFeature,
+		removeNNBs,
 		{
 			storage: ["settings.pages.faction.ocNnb", "settings.external.yata"],
 		},
@@ -32,11 +32,14 @@
 		});
 	}
 
+	function startFeature() {
+		if (!document.find(".faction-crimes-wrap")) return;
+
+		showNNB();
+	}
+
 	async function showNNB() {
-		const data = await loadData().catch((error) => {
-			// TODO - Handle error while loading data.
-			console.error("TT - Unhandled error. Report this to the TornTools developers!", error);
-		});
+		const data = await loadData().catch((error) => console.error("TT - Unhandled error. Report this to the TornTools developers!", error));
 		if (!data) return;
 
 		populateCrimes();
@@ -182,5 +185,10 @@
 				}
 			}
 		}
+	}
+
+	function removeNNBs() {
+		for (const nnb of document.findAll(".tt-nnb")) nnb.remove();
+		for (const nnb of document.findAll(". crimes-list ul.plans-list .tt-modified")) nnb.remove();
 	}
 })();
