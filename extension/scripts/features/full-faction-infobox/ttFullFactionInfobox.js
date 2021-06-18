@@ -69,13 +69,7 @@
 			description.classList.add("prevent-overflow");
 		}
 
-		title.appendChild(
-			document.newElement({
-				type: "div",
-				class: "tt-options tt-full-infobox",
-				children: [document.newElement({ type: "div", class: "tt-checkbox-wrap in-title", children: [checkbox.element] })],
-			})
-		);
+		title.appendChild(document.newElement({ type: "div", class: "tt-options tt-full-infobox", children: [checkbox.element] }));
 
 		checkbox.onChange(() => {
 			const isChecked = checkbox.isChecked();
