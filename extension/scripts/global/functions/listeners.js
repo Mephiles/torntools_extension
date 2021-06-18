@@ -12,6 +12,8 @@ const EVENT_CHANNELS = {
 	FACTION_ARMORY_TAB: "faction-armory-tab",
 	FACTION_CRIMES: "faction-crimes",
 	FACTION_GIVE_TO_USER: "faction-give-to-user",
+	FACTION_INFO: "faction-info",
+	FACTION_MAIN: "faction-main",
 	ITEM_AMOUNT: "item-amount",
 	ITEM_EQUIPPED: "item-equipped",
 	ITEM_ITEMS_LOADED: "item-items-loaded",

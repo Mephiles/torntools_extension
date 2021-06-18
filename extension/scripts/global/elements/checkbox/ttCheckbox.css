@@ -3,6 +3,10 @@
 	align-items: center;
 }
 
+.tt-checkbox-wrapper > * {
+	cursor: pointer;
+}
+
 .tt-checkbox-wrapper > label {
 	margin-left: 2px;
 }

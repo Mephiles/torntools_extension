@@ -243,7 +243,8 @@
 				"scripts/features/oc-available-players/ttOCAvailablePlayers.css",
 				"scripts/features/recommended-nnb/ttRecommendedNNB.css",
 				"scripts/features/oc-nnb/ttOCNNB.css",
-				"scripts/features/oc-times/ttOCTimes.css"
+				"scripts/features/oc-times/ttOCTimes.css",
+				"scripts/features/full-faction-infobox/ttFullFactionInfobox.css"
 			],
 			"js": [
 				"scripts/content/factions/ttFactions.js",
@@ -257,7 +258,8 @@
 				"scripts/features/recommended-nnb/ttRecommendedNNB.js",
 				"scripts/features/oc-nnb/ttOCNNB.js",
 				"scripts/features/oc-times/ttOCTimes.js",
-				"scripts/features/faction-banker/ttFactionBanker.js"
+				"scripts/features/faction-banker/ttFactionBanker.js",
+				"scripts/features/full-faction-infobox/ttFullFactionInfobox.js"
 			],
 			"run_at": "document_end"
 		},
