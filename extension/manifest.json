@@ -242,7 +242,8 @@
 				"scripts/features/highlight-own-oc/ttHighlightOwnOC.css",
 				"scripts/features/oc-available-players/ttOCAvailablePlayers.css",
 				"scripts/features/recommended-nnb/ttRecommendedNNB.css",
-				"scripts/features/oc-nnb/ttOCNNB.css"
+				"scripts/features/oc-nnb/ttOCNNB.css",
+				"scripts/features/oc-times/ttOCTimes.css"
 			],
 			"js": [
 				"scripts/content/factions/ttFactions.js",
@@ -254,7 +255,8 @@
 				"scripts/features/highlight-own-oc/ttHighlightOwnOC.js",
 				"scripts/features/oc-available-players/ttOCAvailablePlayers.js",
 				"scripts/features/recommended-nnb/ttRecommendedNNB.js",
-				"scripts/features/oc-nnb/ttOCNNB.js"
+				"scripts/features/oc-nnb/ttOCNNB.js",
+				"scripts/features/oc-times/ttOCTimes.js"
 			],
 			"run_at": "document_end"
 		},
