@@ -477,6 +477,7 @@ const DEFAULT_STORAGE = {
 				ocNnb: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				ocTimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				banker: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				showFullInfobox: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			property: {
 				value: new DefaultSetting({ type: "boolean", defaultValue: true }),

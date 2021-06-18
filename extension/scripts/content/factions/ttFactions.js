@@ -15,12 +15,20 @@
 
 		await requireElement(".faction-tabs");
 
+		document.find(".faction-tabs li[data-case=main]").addEventListener("click", loadMain);
+		document.find(".faction-tabs li[data-case=info]").addEventListener("click", loadInfo);
 		// TODO - Check if XHR listener is enough.
 		// document.find(".faction-tabs li[data-case=crimes]").addEventListener("click", loadCrimes);
 		document.find(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
 		document.find(".faction-tabs li[data-case=controls]").addEventListener("click", loadControls);
 
 		switch (getSubpage()) {
+			case "main":
+				loadMain().then(() => {});
+				break;
+			case "info":
+				loadInfo().then(() => {});
+				break;
 			case "crimes":
 				loadCrimes().then(() => {});
 				break;
@@ -38,6 +46,18 @@
 	function getSubpage() {
 		const hash = window.location.hash.replace("#/", "");
 		return !hash || hash.includes("war/") ? "main" : getHashParameters().get("tab") || "";
+	}
+
+	async function loadMain() {
+		await requireElement(".announcement");
+
+		triggerCustomListener(EVENT_CHANNELS.FACTION_MAIN);
+	}
+
+	async function loadInfo() {
+		await requireElement(".faction-description, .members-list");
+
+		triggerCustomListener(EVENT_CHANNELS.FACTION_INFO);
 	}
 
 	async function loadCrimes() {
