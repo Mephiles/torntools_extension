@@ -62,7 +62,7 @@
 							ttCache.set({ tornstats: result }, TO_MILLIS.HOURS, "crimes").then(() => {});
 						}
 					} catch (error) {
-						console.error("TT - Failed to load crimes from TornStats.", error);
+						console.log("TT - Failed to load crimes from TornStats.", error);
 						return;
 					}
 				}
@@ -98,7 +98,7 @@
 
 						ttCache.set({ yata: result }, TO_MILLIS.HOURS, "crimes").then(() => {});
 					} catch (error) {
-						console.error("TT - Failed to load crimes from YATA.", error);
+						console.log("TT - Failed to load crimes from YATA.", error);
 						return;
 					}
 				}
