@@ -864,16 +864,9 @@ async function updateFactiondata() {
 	if (!userdata || !userdata.faction.faction_id) {
 		factiondata = {};
 	} else {
-		const oldFactiondata = { ...factiondata };
-
 		factiondata = await fetchData("torn", { section: "faction", selections: ["crimes"], silent: true, succeedOnError: true });
-		if (!factiondata) throw new Error("Aborted updating due to an expected response.");
-		if (factiondata.error) {
-			delete factiondata.error;
 
-			factiondata.isManual = true;
-			if (oldFactiondata.userCrime) factiondata.userCrime = oldFactiondata.userCrime;
-		}
+		if (!factiondata) throw new Error("Aborted updating due to an expected response.");
 	}
 
 	factiondata.date = Date.now();

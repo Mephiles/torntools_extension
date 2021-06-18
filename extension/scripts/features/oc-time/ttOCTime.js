@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (await checkMobile()) return "Not supported on mobile!";
+
 	featureManager.registerFeature(
 		"OC Time",
 		"sidebar",
@@ -9,27 +11,25 @@
 		showTimer,
 		removeTimer,
 		{
-			storage: ["settings.pages.sidebar.ocTimer", "factiondata.userCrime"],
+			storage: ["settings.pages.sidebar.ocTimer", "factiondata.userCrime", "localdata.userCrime"],
 		},
-		async () => {
-			if (!factiondata || !factiondata.userCrime) return "No API access.";
-
-			await checkMobile();
+		() => {
+			if (!factiondata.userCrime && !localdata.userCrime) return "No API access.";
 		}
 	);
 
 	async function showTimer() {
-		if (mobile) return;
 		await requireSidebar();
 
 		removeTimer();
 		addInformationSection();
 		showInformationSection();
 
-		const timeLeft = factiondata.userCrime - Date.now();
+		const userCrime = "userCrime" in factiondata ? factiondata.userCrime : localdata.userCrime;
+		const timeLeft = userCrime - Date.now();
 
 		const timeLeftElement = document.newElement({ type: "span", class: "countdown" });
-		if (factiondata.userCrime === -1) {
+		if (userCrime === -1) {
 			timeLeftElement.innerText = "No active OC.";
 		} else {
 			if (timeLeft <= TO_MILLIS.HOURS * 8) timeLeftElement.classList.add("short");

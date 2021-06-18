@@ -6,9 +6,7 @@
 	const params = getSearchParameters();
 	if (params.get("step") !== "your") return;
 
-	featureManager.registerFeature("Scrape OC", "faction", true, initialiseListeners, startFeature, null, null, () => {
-		if (hasAPIData() && factiondata && !factiondata.isManual) return "Scraping not needed.";
-	});
+	featureManager.registerFeature("Scrape OC", "faction", true, initialiseListeners, startFeature, null, null, null);
 
 	function initialiseListeners() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_CRIMES].push(readCrimes);
@@ -32,6 +30,6 @@
 			time = -1;
 		}
 
-		await ttStorage.change({ factiondata: { userCrime: time, isManual: true } });
+		await ttStorage.change({ localdata: { userCrime: time } });
 	}
 })();
