@@ -45,39 +45,62 @@
 		async function loadData() {
 			const data = {};
 
-			if (settings.external.tornstats) {
+			if (settings.external.tornstats) await loadTornstats();
+			if (settings.external.yata) await loadYATA();
+
+			return data;
+
+			async function loadTornstats() {
 				let result;
 				if (ttCache.hasValue("crimes", "tornstats")) {
 					result = ttCache.get("crimes", "tornstats");
 				} else {
-					result = await fetchData("tornstats", { section: "faction/crimes" });
+					try {
+						result = await fetchData("tornstats", { section: "faction/crimes" });
 
-					if (result.status) {
-						ttCache.set({ tornstats: result }, TO_MILLIS.HOURS, "crimes").then(() => {});
+						if (result.status) {
+							ttCache.set({ tornstats: result }, TO_MILLIS.HOURS, "crimes").then(() => {});
+						}
+					} catch (error) {
+						console.error("TT - Failed to load crimes from TornStats.", error);
+						return;
 					}
 				}
 
 				if (result.status) {
 					for (const [user, value] of Object.entries(result.members)) {
-						data[user] = {
-							nnb: value.natural_nerve,
-							degree: !!value.psych_degree,
-							federal_judge: !!value.federal_judge,
-							merits: value.crime_success,
-							verified: !!value.verified,
-						};
+						if (user in data) {
+							data[user].nnb = value.natural_nerve;
+							data[user].degree = !!value.psych_degree;
+							data[user].federal_judge = !!value.federal_judge;
+							data[user].merits = value.crime_success;
+							data[user].verified = !!value.verified;
+						} else {
+							data[user] = {
+								nnb: value.natural_nerve,
+								degree: !!value.psych_degree,
+								federal_judge: !!value.federal_judge,
+								merits: value.crime_success,
+								verified: !!value.verified,
+							};
+						}
 					}
 				}
 			}
 
-			if (settings.external.yata) {
+			async function loadYATA() {
 				let result;
 				if (ttCache.hasValue("crimes", "yata")) {
 					result = ttCache.get("crimes", "yata");
 				} else {
-					result = await fetchData("yata", { section: "faction/crimes/export", includeKey: true, relay: true });
+					try {
+						result = await fetchData("yata", { section: "faction/crimes/export", includeKey: true, relay: true });
 
-					ttCache.set({ yata: result }, TO_MILLIS.HOURS, "crimes").then(() => {});
+						ttCache.set({ yata: result }, TO_MILLIS.HOURS, "crimes").then(() => {});
+					} catch (error) {
+						console.error("TT - Failed to load crimes from YATA.", error);
+						return;
+					}
 				}
 
 				for (const [user, value] of Object.entries(result.members)) {
@@ -94,8 +117,6 @@
 					}
 				}
 			}
-
-			return data;
 		}
 
 		function populateCrimes() {
