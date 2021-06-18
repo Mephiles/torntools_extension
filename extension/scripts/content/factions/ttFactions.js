@@ -7,6 +7,8 @@
 
 				if (step === "crimes") {
 					loadCrimes().then(() => {});
+				} else if (step === "getMoneyDepositors") {
+					triggerCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER);
 				}
 			}
 		});
@@ -16,6 +18,7 @@
 		// TODO - Check if XHR listener is enough.
 		// document.find(".faction-tabs li[data-case=crimes]").addEventListener("click", loadCrimes);
 		document.find(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
+		document.find(".faction-tabs li[data-case=controls]").addEventListener("click", loadControls);
 
 		switch (getSubpage()) {
 			case "crimes":
@@ -23,6 +26,9 @@
 				break;
 			case "armoury":
 				loadArmory().then(() => {});
+				break;
+			case "controls":
+				loadControls().then(() => {});
 				break;
 			default:
 				break;
@@ -58,6 +64,23 @@
 
 		function getCurrentSection() {
 			return document.find("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
+		}
+	}
+
+	async function loadControls() {
+		await requireElement(".control-tabs");
+
+		const giveToUser = document.find(".control-tabs > li[aria-controls='option-give-to-user']");
+
+		if (giveToUser) {
+			checkGiveToUser();
+			giveToUser.addEventListener("click", () => checkGiveToUser());
+		}
+
+		function checkGiveToUser() {
+			if (document.find(".control-tabs > li[aria-controls='option-give-to-user']").getAttribute("aria-selected")) {
+				triggerCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER);
+			}
 		}
 	}
 })();

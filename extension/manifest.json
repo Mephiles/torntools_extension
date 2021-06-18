@@ -256,7 +256,8 @@
 				"scripts/features/oc-available-players/ttOCAvailablePlayers.js",
 				"scripts/features/recommended-nnb/ttRecommendedNNB.js",
 				"scripts/features/oc-nnb/ttOCNNB.js",
-				"scripts/features/oc-times/ttOCTimes.js"
+				"scripts/features/oc-times/ttOCTimes.js",
+				"scripts/features/faction-banker/ttFactionBanker.js"
 			],
 			"run_at": "document_end"
 		},

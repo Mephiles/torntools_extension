@@ -476,6 +476,7 @@ const DEFAULT_STORAGE = {
 				recommendedNnb: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				ocNnb: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				ocTimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				banker: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			property: {
 				value: new DefaultSetting({ type: "boolean", defaultValue: true }),

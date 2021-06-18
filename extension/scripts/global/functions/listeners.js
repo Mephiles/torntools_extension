@@ -11,6 +11,7 @@ const EVENT_CHANNELS = {
 	CHAT_ERROR: "chat-box-error",
 	FACTION_ARMORY_TAB: "faction-armory-tab",
 	FACTION_CRIMES: "faction-crimes",
+	FACTION_GIVE_TO_USER: "faction-give-to-user",
 	ITEM_AMOUNT: "item-amount",
 	ITEM_EQUIPPED: "item-equipped",
 	ITEM_ITEMS_LOADED: "item-items-loaded",
