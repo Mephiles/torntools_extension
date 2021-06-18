@@ -3,6 +3,9 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
+	const params = getSearchParameters();
+	if (params.get("step") !== "your") return;
+
 	const feature = featureManager.registerFeature(
 		"Faction Banker",
 		"home",
