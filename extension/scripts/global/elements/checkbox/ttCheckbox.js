@@ -20,6 +20,11 @@ function createCheckbox(description) {
 				text: description,
 			}),
 		],
+		events: {
+			click(event) {
+				event.stopPropagation();
+			},
+		},
 	});
 
 	let onChangeCallback;

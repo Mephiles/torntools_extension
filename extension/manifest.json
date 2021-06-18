@@ -244,7 +244,8 @@
 				"scripts/features/recommended-nnb/ttRecommendedNNB.css",
 				"scripts/features/oc-nnb/ttOCNNB.css",
 				"scripts/features/oc-times/ttOCTimes.css",
-				"scripts/features/full-faction-infobox/ttFullFactionInfobox.css"
+				"scripts/features/full-faction-infobox/ttFullFactionInfobox.css",
+				"scripts/features/fold-faction-infobox/ttFoldFactionInfobox.css"
 			],
 			"js": [
 				"scripts/content/factions/ttFactions.js",
@@ -259,7 +260,8 @@
 				"scripts/features/oc-nnb/ttOCNNB.js",
 				"scripts/features/oc-times/ttOCTimes.js",
 				"scripts/features/faction-banker/ttFactionBanker.js",
-				"scripts/features/full-faction-infobox/ttFullFactionInfobox.js"
+				"scripts/features/full-faction-infobox/ttFullFactionInfobox.js",
+				"scripts/features/fold-faction-infobox/ttFoldFactionInfobox.js"
 			],
 			"run_at": "document_end"
 		},

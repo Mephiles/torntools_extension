@@ -1,0 +1,20 @@
+.tt-foldable-infobox {
+	display: flex;
+	cursor: pointer;
+}
+
+.tt-foldable-infobox.folded {
+	border-radius: 5px !important;
+}
+
+.tt-collapse-infobox {
+	padding-right: 4px;
+	width: 15px;
+	align-self: center;
+	cursor: pointer;
+	color: var(--tt-color-light-green);
+}
+
+.tt-foldable.folded {
+	display: none !important;
+}

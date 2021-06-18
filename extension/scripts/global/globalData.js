@@ -478,6 +478,7 @@ const DEFAULT_STORAGE = {
 				ocTimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				banker: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				showFullInfobox: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				foldableInfobox: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			property: {
 				value: new DefaultSetting({ type: "boolean", defaultValue: true }),
