@@ -126,6 +126,7 @@ body.dark #preferences .sections {
 	margin-left: 10px;
 	color: #848484;
 	position: relative;
+	display: block;
 }
 
 body.dark #preferences a[href] {

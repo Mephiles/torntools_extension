@@ -163,7 +163,6 @@
 						<div class="option">
 							<input id="themes-pages__default" type="radio" name="themePage" value="default" />
 							<label for="themes-pages__default">OS Default</label>
-							<br />
 							<label for="themes-pages__default" class="tabbed note">
 								Might not work on every browser, will use light theme if not supported.
 							</label>
@@ -387,7 +386,6 @@
 						<div class="option no-mobile">
 							<input id="sidebar-ocTimer" type="checkbox" />
 							<label for="sidebar-ocTimer">Show OC ready time in sidebar.</label>
-							<br />
 							<label for="sidebar-ocTimer" class="note tabbed">(requires faction API access)</label>
 						</div>
 						<div class="option">
@@ -525,9 +523,7 @@
 							<input id="notification-volume" type="range" min="1" max="100" />
 							<i id="notification-sound-play" class="fas fa-play"></i>
 							<i id="notification-sound-stop" class="fas fa-stop"></i>
-							<br />
 							<input id="notification-sound-upload" class="hidden" type="file" accept=".mp3,.ogg,.wav" />
-							<br class="hidden" />
 							<label for="notification-sound" class="tabbed note">(Mute only works in Chrome, OS default might not work in all browsers)</label>
 						</div>
 						<div class="option">
@@ -660,7 +656,6 @@
 						<div class="option">
 							<input id="events-easterEggs" type="checkbox" />
 							<label for="events-easterEggs">Let you know when an easter egg shows.</label>
-							<br />
 							<label for="events-easterEggs" class="tabbed note">Detection scripts supposedly lower your egg rate, use at your own risk.</label>
 						</div>
 					</section>
@@ -722,7 +717,6 @@
 						<div class="option">
 							<input id="faction-ocNnb" type="checkbox" />
 							<label for="faction-ocNnb">Show a user's NNB.</label>
-							<br />
 							<label class="tabbed note" for="travel-table">Requires YATA and/or Tornstats to be enabled as external service.</label>
 						</div>
 						<div class="option">
@@ -743,7 +737,6 @@
 						<div class="option">
 							<input id="items-values" type="checkbox" />
 							<label for="items-values">Display item values.</label>
-							<br />
 							<label for="items-drugDetails" class="tabbed note">
 								Also affects adding items to trades, parcels, faction armory, bazaar and display case.
 							</label>
@@ -751,7 +744,6 @@
 						<div class="option">
 							<input id="items-drugDetails" type="checkbox" />
 							<label for="items-drugDetails">Show details about drugs.</label>
-							<br />
 							<label for="items-drugDetails" class="tabbed note">Also affects other places where you can view the item details.</label>
 						</div>
 						<div class="option">
@@ -767,7 +759,6 @@
 								<option value="ab+">AB+</option>
 								<option value="ab-">AB-</option>
 							</select>
-							<br />
 							<label for="items-highlightBloodBags" class="tabbed note">Also affects the faction armory.</label>
 						</div>
 
@@ -810,8 +801,7 @@
 									<li>Shows muggable cash (3* hair salon + 5* television network)</li>
 									<li>Calculate and combine stat spies (3* law firm + 5* television network)</li>
 									<li>
-										Send stat spies to TornStats (3* law firm + 5* television network)
-										<br />
+										<p class="no-margin">Send stat spies to TornStats (3* law firm + 5* television network)</p>
 										<span class="tabbed">Requires TornStats to be enabled as external service.</span>
 									</li>
 								</ul>
@@ -998,7 +988,6 @@
 						<div class="option">
 							<input id="travel-table" type="checkbox" />
 							<label for="travel-table">Show a table of all countries with their item and their stocks.</label>
-							<br />
 							<label class="note" for="travel-table">Requires YATA to be enabled as external service.</label>
 						</div>
 					</section>
@@ -1044,6 +1033,22 @@
 					<label for="api_key">API Key: </label>
 					<input id="api_key" type="text" placeholder="API key.." />
 					<button id="update_api_key">Update</button>
+				</div>
+
+				<h4>Disclaimer</h4>
+				<div>
+					<p class="no-margin">The user is allowed to make 100 requests to Torn's API in a minute.</p>
+					<p class="no-margin">The creator of this extension is not responsible if the user:</p>
+
+					<ul>
+						<li>spams requests too much</li>
+						<li>tries to use the wrong API key too many times</li>
+					</ul>
+
+					<p>
+						If for some reason you do get your IP blocked because the extension had a bug or glitched or anything - our apologies. Please do let us
+						know of such incidents so we can avoid them in the future.
+					</p>
 				</div>
 
 				<h4>API Usage</h4>
