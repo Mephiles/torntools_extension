@@ -320,6 +320,8 @@ async function setupDashboard() {
 
 		let full;
 		if (full_at === "full" || full_at === "over") full = "FULL";
+		else if (name === "chain" && bar.classList.contains("cooldown"))
+			full = `Cooldown over in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer", daysToHours: true })}`;
 		else if (name === "chain" || (name === "happy" && full_at === "over"))
 			full = `${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer", hideHours: true })}`;
 		else if (name === "traveling") full = `Landing in ${formatTime({ seconds: toSeconds(full_at - current) }, { type: "timer" })}`;
@@ -331,6 +333,8 @@ async function setupDashboard() {
 
 		let tick;
 		if (name === "traveling") tick = formatTime({ seconds: toSeconds(tick_at - current) }, { type: "timer" });
+		else if (name === "chain" && bar.classList.contains("cooldown"))
+			tick = formatTime({ seconds: toSeconds(tick_at - current) }, { type: "timer", daysToHours: true });
 		else tick = formatTime({ seconds: toSeconds(tick_at - current) }, { type: "timer", hideHours: true });
 
 		if (name === "happy") {
@@ -340,8 +344,6 @@ async function setupDashboard() {
 			} else {
 				barInfo.classList.remove("reset-timer");
 			}
-		} else if (name === "chain") {
-			if (bar.classList.contains("cooldown")) full = `Cooldown over in ${full}`;
 		}
 
 		dataset.full = full;
