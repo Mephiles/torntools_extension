@@ -981,4 +981,76 @@ async function setupAPIInfo() {
 
 function setupRemote() {}
 
-function setupAbout() {}
+function setupAbout() {
+	const about = document.find("#about");
+
+	// version
+	about.find(".version").innerText = chrome.runtime.getManifest().version;
+
+	// disk space
+	ttStorage.getSize().then((size) => (about.find(".disk-space").innerText = formatBytes(size)));
+
+	showTeam();
+
+	function showTeam() {
+		const ourTeam = about.find(".our-team");
+
+		for (const member of TEAM.filter((member) => member.core)) {
+			const title = Array.isArray(member.title) ? member.title.join(" + ") : member.title;
+
+			const card = document.newElement({
+				type: "div",
+				class: "member-card",
+				children: [
+					document.newElement({
+						type: "a",
+						class: "name",
+						text: member.name,
+						href: `https://www.torn.com/profiles.php?XID=${member.torn}`,
+						attributes: { target: "_blank" },
+					}),
+					document.newElement({ type: "span", class: "title", text: title }),
+				],
+			});
+
+			if (member.donations) {
+				const donations = document.newElement({ type: "div", class: "donations" });
+
+				for (const method of member.donations) {
+					donations.appendChild(
+						document.newElement({
+							type: "a",
+							text: method.name,
+							href: method.link,
+							attributes: { target: "_blank" },
+						})
+					);
+				}
+
+				card.appendChild(document.newElement("hr"));
+				card.appendChild(donations);
+			}
+
+			ourTeam.appendChild(card);
+		}
+	}
+}
+
+function formatBytes(bytes, options = {}) {
+	options = {
+		decimals: 2,
+		...options,
+	};
+
+	if (bytes === 0) return "0 bytes";
+	else if (bytes < 0) throw "Negative bytes are impossible";
+
+	const unitExponent = 1024;
+	const units = ["bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+
+	const effectiveUnit = Math.floor(Math.log(bytes) / Math.log(unitExponent));
+
+	const xBytes = bytes / Math.pow(unitExponent, effectiveUnit);
+
+	return `${formatNumber(xBytes, { decimals: options.decimals })} ${units[effectiveUnit]}`;
+}

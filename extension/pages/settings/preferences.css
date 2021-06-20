@@ -121,14 +121,6 @@ body.dark #preferences .sections {
 	padding-left: 20px;
 }
 
-#preferences .note {
-	font-size: 11px;
-	margin-left: 10px;
-	color: #848484;
-	position: relative;
-	display: block;
-}
-
 body.dark #preferences a[href] {
 	color: #74c0fc;
 	text-decoration: none;

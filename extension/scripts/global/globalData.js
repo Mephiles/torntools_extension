@@ -132,6 +132,15 @@ const ttStorage = new (class {
 			}
 		});
 	}
+
+	async getSize() {
+		let size;
+
+		if (chrome.storage.local.getBytesInUse) size = await new Promise((resolve) => chrome.storage.local.getBytesInUse((data) => resolve(data)));
+		else size = JSON.stringify(await this.get(null)).length;
+
+		return size;
+	}
 })();
 
 const ttCache = new (class {
@@ -575,68 +584,6 @@ const DEFAULT_STORAGE = {
 		jail: new DefaultSetting({ type: "array", defaultValue: [] }),
 	},
 	cache: new DefaultSetting({ type: "object", defaultValue: {} }),
-};
-
-const CONTRIBUTORS = {
-	Mephiles: {
-		id: 2087524,
-		name: "Mephiles",
-		color: "green",
-	},
-	DeKleineKobini: {
-		id: 2114440,
-		name: "DeKleineKobini",
-		color: "orange",
-	},
-	wootty2000: {
-		id: 2344687,
-		name: "wootty2000",
-		color: "red",
-	},
-	finally: {
-		id: 2060206,
-		name: "finally",
-		color: "purple",
-	},
-	Fogest: {
-		id: 2254826,
-		name: "Fogest",
-		color: "chartreuse",
-	},
-	smikula: {
-		name: "smikula",
-		color: "#fbff09",
-	},
-	kontamusse: {
-		id: 2408039,
-		name: "kontamusse",
-		color: "#58e4e4",
-	},
-	Natty_Boh: {
-		id: 1651049,
-		name: "Natty_Boh",
-		color: "blue",
-	},
-	h4xnoodle: {
-		id: 2315090,
-		name: "h4xnoodle",
-		color: "teal",
-	},
-	bandirao: {
-		id: 1936821,
-		name: "bandirao",
-		color: "greenyellow",
-	},
-	Tesa: {
-		id: 2639608,
-		name: "Tesa",
-		color: "brown",
-	},
-	AllMight: {
-		id: 1878147,
-		name: "AllMight",
-		color: "#ff3333",
-	},
 };
 
 const CUSTOM_LINKS_PRESET = {

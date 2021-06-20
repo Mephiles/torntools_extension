@@ -15,6 +15,7 @@
 		<link rel="stylesheet" href="changelog.css" />
 		<link rel="stylesheet" href="preferences.css" />
 		<link rel="stylesheet" href="icons.css" />
+		<link rel="stylesheet" href="about.css" />
 	</head>
 	<body>
 		<div id="message" class="hidden"></div>
@@ -1102,7 +1103,54 @@
 		<main id="about" class="hidden">
 			<h2>About</h2>
 			<section>
-				<h4>WIP</h4>
+				<p>
+					Version:
+					<span class="version"></span>
+				</p>
+				<p>
+					Disk space used:
+					<span class="disk-space"></span>
+					<br />
+					<span class="note">Estimation of the stored data, not the extension files.</span>
+				</p>
+			</section>
+			<section>
+				<!-- FIXME - Decide on how to design the team members. -->
+				<!-- <p>The team: WIP</p>-->
+				<p>
+					Our source code is available on <a href="https://github.com/Mephiles/torntools_extension" target="_blank">Github</a> and licenced under the
+					GNU General Public Licence.
+				</p>
+				<p>
+					We can be contacted through our <a href="https://discord.gg/ukyK6f6" target="_blank">Discord</a> or
+					<a href="https://www.torn.com/forums.php#/p=threads&f=67&t=16170566" target="_blank">our forum post</a>
+				</p>
+				<p class="mt10">
+					Suggestions and bug reports are important to keep improving TornTools. These can be done by contacting us through above links.<br />
+					For bug reports, we would appreciate you including:
+				</p>
+				<ul class="no-margin">
+					<li>Screenshots of the bug in action.</li>
+					<li>
+						Screenshots of the console.
+						<ul>
+							<li>Open with CTRL + SHIFT + J.</li>
+							<li>Open with F12 or CTRL + SHIFT + I -> console.</li>
+							<li>Open with right click -> inspect -> console.</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section>
+				<p>
+					TornTools is free to use but if you feel like giving back to the developers then feel free to donate in-game or via one of the donation
+					links.
+				</p>
+				<div class="our-team mt10"></div>
+				<p class="mt10">
+					and everyone else who contributed to our codebase; helped us beta-test; provided feedback, suggestions and bug reports; or just generally
+					helped out in the Discord.
+				</p>
 			</section>
 		</main>
 
@@ -1110,6 +1158,7 @@
 		<script src="../../vendor/sortable/sortable.js"></script>
 		<script src="../../scripts/global/globalClasses.js"></script>
 		<script src="../../scripts/global/globalData.js"></script>
+		<script src="../../scripts/global/team.js"></script>
 		<script src="../../scripts/global/functions/database.js"></script>
 		<script src="../../scripts/global/functions/dom.js"></script>
 		<script src="../../scripts/global/functions/extension.js"></script>

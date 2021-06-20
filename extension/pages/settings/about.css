@@ -1,0 +1,76 @@
+.version,
+.disk-space {
+	font-weight: bold;
+}
+
+#about a {
+	text-decoration: none;
+}
+
+body.light #about a {
+	color: #0000ff;
+}
+
+body.dark #about a {
+	color: #74c0fc;
+}
+
+#about p.mt10 {
+	margin-top: 10px;
+}
+
+#about .our-team {
+	display: grid;
+	grid-gap: 5px;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+	#about .our-team {
+		grid-template-columns: repeat(1, 1fr);
+	}
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+	#about .our-team {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+	#about .our-team {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	#about .our-team {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
+.member-card {
+	border: 1px solid black;
+	padding: 4px;
+}
+
+.member-card .name {
+	display: block;
+	font-size: large;
+	font-weight: bold;
+}
+
+.member-card .title {
+	font-size: small;
+}
+
+.member-card .donations > * {
+	display: block;
+}
+
+#about hr {
+	border: none;
+	border-bottom: 1px solid #aaa;
+}

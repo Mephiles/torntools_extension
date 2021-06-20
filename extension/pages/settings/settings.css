@@ -18,6 +18,11 @@ body {
 	margin-top: 0;
 }
 
+p {
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
 /* List Tables */
 
 ul.list-table {
@@ -129,4 +134,12 @@ ul.inline {
 .tooltip:hover .tooltip-text {
 	visibility: visible;
 	opacity: 1;
+}
+
+.note {
+	font-size: 11px;
+	margin-left: 10px;
+	color: #848484;
+	position: relative;
+	display: block;
 }
