@@ -21,6 +21,7 @@ async function fetchData(location, options = {}) {
 		succeedOnError: false,
 		includeKey: false,
 		relay: false,
+		params: {},
 		...options,
 	};
 

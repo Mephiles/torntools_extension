@@ -185,8 +185,14 @@ function checkMobile() {
 	});
 }
 
-function getSearchParameters() {
-	return new URL(window.location).searchParams;
+function getSearchParameters(input) {
+	if (!input) input = location.href;
+
+	try {
+		return new URL(input).searchParams;
+	} catch (e) {
+		return new URL(location.href).searchParams;
+	}
 }
 
 function getHashParameters() {

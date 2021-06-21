@@ -460,6 +460,12 @@
 			"css": ["scripts/features/specialist-gyms/ttSpecialistGyms.css"],
 			"js": ["scripts/content/gym/ttGym.js", "scripts/features/specialist-gyms/ttSpecialistGyms.js"],
 			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/crimes.php*"],
+			"css": ["scripts/features/quick-crimes/ttQuickCrimes.css"],
+			"js": ["scripts/content/crimes/ttCrimes.js", "scripts/features/quick-crimes/ttQuickCrimes.js"],
+			"run_at": "document_end"
 		}
 	]
 }

@@ -67,7 +67,9 @@ function interceptXHR(channel) {
 	 * JavaScript Get URL Parameter (https://www.kevinleary.net/javascript-get-url-parameters/)
 	 */
 	function getUrlParams(url, prop) {
-		const search = decodeURIComponent((url ? url : window.location.href).slice(window.location.href.indexOf("?") + 1));
+		if (!url) url = location.href;
+
+		const search = decodeURIComponent(url.slice(url.indexOf("?") + 1));
 		const definitions = search.split("&");
 
 		const params = {};

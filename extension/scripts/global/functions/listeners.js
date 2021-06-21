@@ -25,6 +25,8 @@ const EVENT_CHANNELS = {
 	STATE_CHANGED: "state-changed",
 	GYM_LOAD: "gym-load",
 	GYM_TRAIN: "gym-train",
+	CRIMES_LOADED: "crimes-loaded",
+	CRIMES_CRIME: "crimes-crime",
 };
 
 const CUSTOM_LISTENERS = (() => {

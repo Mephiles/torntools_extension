@@ -73,20 +73,20 @@ function createContainer(title, options = {}) {
 			const content = container.find(":scope > main");
 			content.addEventListener("dragover", (event) => event.preventDefault());
 			content.addEventListener("drop", (event) => {
-				if (content.find(".temp.item")) content.find(".temp.item").classList.remove("temp");
+				if (content.find(".temp.item, .temp.quick-item")) content.find(".temp.item, .temp.quick-item").classList.remove("temp");
 
 				// Firefox opens new tab when dropping item
 				event.preventDefault();
 				event.dataTransfer.clearData();
 			});
 			content.addEventListener("dragenter", () => {
-				if (content.find(".temp.item")) {
-					content.find(".temp.item").style.opacity = "1";
+				if (content.find(".temp.item, .temp.quick-item")) {
+					content.find(".temp.item, .temp.quick-item").style.opacity = "1";
 				}
 			});
 			content.addEventListener("dragleave", () => {
-				if (content.find(".temp.item")) {
-					content.find(".temp.item").style.opacity = "0.2";
+				if (content.find(".temp.item, .temp.quick-item")) {
+					content.find(".temp.item, .temp.quick-item").style.opacity = "0.2";
 				}
 			});
 		}

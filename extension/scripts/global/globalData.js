@@ -421,6 +421,9 @@ const DEFAULT_STORAGE = {
 				nerveGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				candyHappyGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			crimes: {
+				quickCrimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 			companies: {
 				specials: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
@@ -584,6 +587,7 @@ const DEFAULT_STORAGE = {
 	},
 	quick: {
 		items: new DefaultSetting({ type: "array", defaultValue: [] }),
+		crimes: new DefaultSetting({ type: "array", defaultValue: [] }),
 		jail: new DefaultSetting({ type: "array", defaultValue: [] }),
 	},
 	cache: new DefaultSetting({ type: "object", defaultValue: {} }),
