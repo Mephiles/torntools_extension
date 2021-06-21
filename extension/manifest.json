@@ -322,6 +322,7 @@
 				"scripts/features/candy-happy/ttCandyHappy.css"
 			],
 			"js": [
+				"vendor/drag-drop-touch/DragDropTouch.js",
 				"scripts/content/items/ttItems.js",
 				"scripts/features/quick-items/ttQuickItems.js",
 				"scripts/features/market-icons/ttMarketIcons.js",
@@ -464,7 +465,7 @@
 		{
 			"matches": ["https://www.torn.com/crimes.php*"],
 			"css": ["scripts/features/quick-crimes/ttQuickCrimes.css"],
-			"js": ["scripts/content/crimes/ttCrimes.js", "scripts/features/quick-crimes/ttQuickCrimes.js"],
+			"js": ["vendor/drag-drop-touch/DragDropTouch.js", "scripts/content/crimes/ttCrimes.js", "scripts/features/quick-crimes/ttQuickCrimes.js"],
 			"run_at": "document_end"
 		}
 	]

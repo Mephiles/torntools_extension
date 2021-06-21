@@ -34,16 +34,17 @@ body.dark-mode #quickCrimes .inner-content .quick-item {
 	background-color: #333;
 }
 
-#quickCrimes .inner-content .quick-item:hover .tt-close-icon {
-	opacity: 1;
-}
-
 #quickCrimes .inner-content .quick-item .tt-close-icon {
 	opacity: 0;
 	position: absolute;
 	top: 3px;
 	right: 3px;
 	color: #a7a7a7;
+}
+
+.tt-mobile #quickCrimes .inner-content .quick-item .tt-close-icon,
+#quickCrimes .inner-content .quick-item:hover .tt-close-icon {
+	opacity: 1;
 }
 
 #quickCrimes .inner-content .quick-item .tt-close-icon:hover {
