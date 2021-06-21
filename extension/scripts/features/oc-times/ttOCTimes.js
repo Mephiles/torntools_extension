@@ -37,7 +37,10 @@
 
 	function showTimes() {
 		for (const crime of document.findAll(".organize-wrap .crimes-list > .item-wrap")) {
-			const id = crime.find(".details-wrap").dataset.crime;
+			const details = crime.find(".details-wrap");
+			if (!details) continue;
+
+			const id = details.dataset.crime;
 
 			let text;
 			if (id in factiondata.crimes) {
