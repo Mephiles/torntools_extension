@@ -2,21 +2,6 @@
  * Market
  */
 
-/* Search Bar */
-
-#market #search-bar {
-	outline: none;
-	font-size: 16px;
-}
-
-body.light #market #search-bar {
-	border: 1px solid #ddd;
-}
-
-body.dark #market #search-bar {
-	border: 1px solid #777;
-}
-
 #market .item-list {
 	list-style: none;
 	padding: 0;

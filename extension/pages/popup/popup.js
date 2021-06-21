@@ -4,11 +4,12 @@ const SETUP_PAGES = {
 	initialize: setupInitialize,
 	dashboard: setupDashboard,
 	market: setupMarketSearch,
+	calculator: setupCalculator,
 	stocks: setupStocksOverview,
 };
 const LOAD_PAGES = {
 	market: loadMarketSearch,
-	// stocks: setupStocksOverview,
+	calculator: loadCalculator,
 };
 
 let initiatedPages = {};
@@ -596,6 +597,135 @@ async function setupMarketSearch() {
 
 async function loadMarketSearch() {
 	document.find("#market #search-bar").focus();
+}
+
+async function setupCalculator() {
+	const calculator = document.find("#calculator");
+
+	// setup itemlist
+	const itemSelection = calculator.find(".item-list");
+
+	let selectedItems = localdata.popup.calculatorItems;
+
+	for (const id in torndata.items) {
+		const name = torndata.items[id].name;
+
+		const identifier = `calculator-${id}`;
+
+		itemSelection.appendChild(
+			document.newElement({
+				type: "li",
+				class: "item",
+				id: name.toLowerCase().replace(/\s+/g, "").replace(":", "_"),
+				children: [
+					document.newElement({ type: "label", text: name, attributes: { for: identifier } }),
+					document.newElement({
+						type: "input",
+						id: identifier,
+						attributes: { type: "number" },
+						events: {
+							input(event) {
+								let item = selectedItems.find((i) => i.id === id);
+
+								const amount = event.target.value;
+								if (amount === "") {
+									if (item) {
+										selectedItems = selectedItems.filter((i) => i.id !== id);
+										updateSelection();
+									}
+
+									return;
+								}
+
+								if (!item) {
+									item = { id };
+									selectedItems.push(item);
+								}
+								item.amount = parseInt(amount);
+								updateSelection();
+							},
+						},
+					}),
+				],
+			})
+		);
+	}
+
+	// setup searchbar
+	const search = calculator.find(".search");
+	search.addEventListener("keyup", (event) => {
+		const keyword = event.target.value.toLowerCase();
+
+		if (!keyword) {
+			itemSelection.classList.add("hidden");
+			return;
+		}
+
+		for (const item of calculator.findAll(".item-list > li")) {
+			if (item.textContent.toLowerCase().includes(keyword)) {
+				item.classList.remove("hidden");
+				itemSelection.classList.remove("hidden");
+			} else {
+				item.classList.add("hidden");
+			}
+		}
+	});
+	search.addEventListener("click", (event) => {
+		event.target.value = "";
+
+		calculator.find(".item-list").classList.add("hidden");
+	});
+
+	const clear = calculator.find(".clear");
+	clear.addEventListener("click", () => {
+		selectedItems = [];
+
+		updateSelection();
+	});
+
+	updateSelection();
+
+	function updateSelection() {
+		const receipt = calculator.find(".receipt");
+		receipt.innerHTML = "";
+
+		if (!selectedItems.length) {
+			clear.classList.add("hidden");
+			return;
+		}
+		clear.classList.remove("hidden");
+
+		const items = document.newElement({ type: "ul" });
+
+		let totalValue = 0;
+		for (const { id, amount } of selectedItems) {
+			const { market_value: value, name } = torndata.items[id];
+			const price = amount * value;
+
+			items.appendChild(
+				document.newElement({
+					type: "li",
+					children: [
+						document.newElement({ type: "span", class: "amount", text: `${formatNumber(amount)}x` }),
+						document.newElement({ type: "span", class: "item", text: name }),
+						document.createTextNode("="),
+						document.newElement({ type: "span", class: "price", text: formatNumber(price, { currency: true, decimals: 0 }) }),
+					],
+				})
+			);
+
+			totalValue += price;
+		}
+
+		receipt.appendChild(items);
+		receipt.appendChild(document.newElement({ type: "div", class: "total", text: `Total: ${formatNumber(totalValue, { currency: true, decimals: 0 })}` }));
+
+		ttStorage.change({ localdata: { popup: { calculatorItems: selectedItems } } });
+	}
+}
+
+async function loadCalculator() {
+	document.find("#calculator .search").focus();
 }
 
 async function setupStocksOverview() {

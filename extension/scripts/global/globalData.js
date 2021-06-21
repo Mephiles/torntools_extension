@@ -565,6 +565,9 @@ const DEFAULT_STORAGE = {
 	localdata: {
 		tradeMessage: new DefaultSetting({ type: "number", defaultValue: 0 }),
 		userCrime: new DefaultSetting({ type: "number", defaultValue: 0 }),
+		popup: {
+			calculatorItems: new DefaultSetting({ type: "array", defaultValue: [] }),
+		},
 	},
 	stakeouts: new DefaultSetting({ type: "object", defaultValue: {} }),
 	attackHistory: {

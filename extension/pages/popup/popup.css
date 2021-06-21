@@ -91,3 +91,18 @@ body.dark button {
 #pages ul li.active {
 	border-top: 1px solid black;
 }
+
+/* Search bar */
+
+.search {
+	outline: none;
+	font-size: 16px;
+}
+
+body.light .search {
+	border: 1px solid #ddd;
+}
+
+body.dark .search {
+	border: 1px solid #777;
+}

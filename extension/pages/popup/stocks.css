@@ -1,17 +1,3 @@
-/* Search bar */
-#stocks #stock-search-bar {
-	outline: none;
-	font-size: 16px;
-}
-
-body.light #stocks #stock-search-bar {
-	border: 1px solid #ddd;
-}
-
-body.dark #stocks #stock-search-bar {
-	border: 1px solid #777;
-}
-
 /* Stocks */
 
 #stocks .stock-list .stock-wrap {
