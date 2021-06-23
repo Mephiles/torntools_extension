@@ -1,0 +1,13 @@
+.tt-mission-information {
+	margin-top: 16px;
+}
+
+.tt-mission-information > span {
+	display: block;
+}
+
+.tt-mission-title {
+	text-align: center;
+	margin-bottom: 4px;
+	color: var(--tt-color-light-green);
+}

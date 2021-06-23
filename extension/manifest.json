@@ -467,6 +467,12 @@
 			"css": ["scripts/features/quick-crimes/ttQuickCrimes.css"],
 			"js": ["vendor/drag-drop-touch/DragDropTouch.js", "scripts/content/crimes/ttCrimes.js", "scripts/features/quick-crimes/ttQuickCrimes.js"],
 			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/loader.php?sid=missions"],
+			"css": ["scripts/features/mission-hints/ttMissionHints.css"],
+			"js": ["scripts/content/missions/ttMissions.js", "scripts/features/mission-hints/ttMissionHints.js"],
+			"run_at": "document_end"
 		}
 	]
 }

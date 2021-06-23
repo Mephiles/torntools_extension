@@ -27,6 +27,8 @@ const EVENT_CHANNELS = {
 	GYM_TRAIN: "gym-train",
 	CRIMES_LOADED: "crimes-loaded",
 	CRIMES_CRIME: "crimes-crime",
+	MISSION_LOAD: "mission-load",
+	MISSION_REWARDS: "mission-rewards",
 };
 
 const CUSTOM_LISTENERS = (() => {

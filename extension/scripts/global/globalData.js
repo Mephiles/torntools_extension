@@ -498,6 +498,9 @@ const DEFAULT_STORAGE = {
 			gym: {
 				specialist: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			missions: {
+				hints: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		external: {
 			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),
