@@ -16,6 +16,8 @@
 		null
 	);
 
+	let movingElement;
+
 	function initialise() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CRIMES_LOADED].push(() => {
 			if (!feature.enabled()) return;
@@ -190,11 +192,41 @@
 							await saveCrimes();
 						}
 					},
+					dragstart(event) {
+						event.dataTransfer.effectAllowed = "move";
+						event.dataTransfer.setDragImage(event.currentTarget, 0, 0);
+
+						movingElement = event.currentTarget;
+					},
+					async dragend() {
+						movingElement.classList.remove("temp");
+						movingElement = undefined;
+
+						await saveCrimes();
+					},
+					dragover(event) {
+						event.preventDefault();
+					},
+					dragenter(event) {
+						if (movingElement !== event.currentTarget) {
+							const children = [...innerContent.children];
+
+							if (children.indexOf(movingElement) > children.indexOf(event.currentTarget))
+								innerContent.insertBefore(movingElement, event.currentTarget);
+							else if (event.currentTarget.nextElementSibling) {
+								innerContent.insertBefore(movingElement, event.currentTarget.nextElementSibling);
+							} else {
+								innerContent.appendChild(movingElement);
+							}
+							movingElement.classList.add("temp");
+						}
+					},
 				},
 				attributes: {
 					action: `crimes.php?step=${step}`,
 					method: "post",
 					name: "crimes",
+					draggable: true,
 				},
 			});
 			innerContent.appendChild(itemWrap);

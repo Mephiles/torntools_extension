@@ -79,16 +79,6 @@ function createContainer(title, options = {}) {
 				event.preventDefault();
 				event.dataTransfer.clearData();
 			});
-			content.addEventListener("dragenter", () => {
-				if (content.find(".temp.item, .temp.quick-item")) {
-					content.find(".temp.item, .temp.quick-item").style.opacity = "1";
-				}
-			});
-			content.addEventListener("dragleave", () => {
-				if (content.find(".temp.item, .temp.quick-item")) {
-					content.find(".temp.item, .temp.quick-item").style.opacity = "0.2";
-				}
-			});
 		}
 
 		return container;
