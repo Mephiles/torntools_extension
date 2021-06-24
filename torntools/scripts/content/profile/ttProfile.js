@@ -251,10 +251,10 @@ requireDatabase().then(() => {
 
 				button.addEventListener("click", async () => {
 					button.remove();
-					await fetchStats();
+					await fetchStats(section_profile_stats);
 				});
 			} else {
-				await fetchStats();
+				await fetchStats(section_profile_stats);
 			}
 		} catch (error) {
 			console.error("TT - Failed when loading profile stats.", error);
@@ -382,9 +382,9 @@ requireDatabase().then(() => {
 
 		if (filters.profile_stats.relative_values) relative_values_checkbox.click();
 
-		async function fetchStats() {
+		async function fetchStats(section) {
 			await displayProfileStats();
-			section_profile_stats.appendChild(doc.new({ type: "hr" }));
+			section.appendChild(doc.new({ type: "hr" }));
 			// Show Spy info
 			await showSpyInfo().catch((error) => console.error("Something went wrong during the TornStats integration.", error));
 		}
