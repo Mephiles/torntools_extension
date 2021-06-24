@@ -252,9 +252,22 @@ requireDatabase().then(() => {
 				button.addEventListener("click", async () => {
 					button.remove();
 					await fetchStats(section_profile_stats);
+
+					sortProfileStats();
 				});
 			} else {
 				await fetchStats(section_profile_stats);
+
+				sortProfileStats();
+			}
+
+			function sortProfileStats() {
+				new Sortable(doc.find("#tt-target-info .tt-stats-table .col-chosen"), {
+					animation: 150,
+					onMove: () => {
+						setTimeout(saveProfileStats, 100);
+					},
+				});
 			}
 		} catch (error) {
 			console.error("TT - Failed when loading profile stats.", error);
@@ -278,14 +291,6 @@ requireDatabase().then(() => {
 					setTimeout(() => {
 						saveSortingOrder(doc.find("#tt-target-info .content"), "profile");
 					}, 100);
-				},
-			});
-
-			// Make profile stats sortable
-			new Sortable(doc.find("#tt-target-info .tt-stats-table .col-chosen"), {
-				animation: 150,
-				onMove: () => {
-					setTimeout(saveProfileStats, 100);
 				},
 			});
 		} catch (error) {
