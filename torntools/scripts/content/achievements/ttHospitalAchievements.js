@@ -12,7 +12,7 @@ requireDatabase().then(() => {
 			Revives: {
 				stats: personalstats.revives,
 				keyword: "revive",
-				excl: ["within"],
+				excl: ["within", "someone"],
 			},
 		};
 

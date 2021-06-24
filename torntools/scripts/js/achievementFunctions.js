@@ -17,10 +17,14 @@ function displayAchievements(achievements, show_completed) {
 	let awards_section = navbar.newSection("Awards", { next_element_heading: "Lists" });
 	console.log(achievements);
 
+	console.log("DKK displayAchievements 1", achievements.Revives.stats);
 	addTimeToHeader(awards_section, userdata.personalstats.date);
+	console.log("DKK displayAchievements 2", achievements.Revives.stats);
 	createAchievementTooltip();
+	console.log("DKK displayAchievements 3", achievements.Revives.stats);
 	achievements = fillGoals(achievements, torndata);
 
+	console.log("DKK displayAchievements 4", achievements.Revives.stats);
 	// add achievements to awards section
 	for (let name in achievements) {
 		let current_stat = achievements[name].stats || 0;
@@ -128,7 +132,8 @@ function fillGoals(achievements, torndata) {
 					// get goal
 					desc = desc.split("for at least")[0]; // remove 'day' numbers from networth
 					desc = desc.replace(/\D/g, ""); // replace all non-numbers
-					let goal = parseInt(desc);
+					const goal = parseInt(desc);
+					if (isNaN(goal)) continue;
 
 					if (!achievements[name].awarded) achievements[name].awarded = [];
 
