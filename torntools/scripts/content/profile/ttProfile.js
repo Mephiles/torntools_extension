@@ -235,24 +235,29 @@ requireDatabase().then(() => {
 		if (Object.keys(users_alias).length) showAlias();
 
 		// Profile stats
-		let info_container = content.newContainer("User Info", { next_element_heading: "Medals", id: "tt-target-info" });
-		if (npcIds.includes(parseInt(userId))) doc.find(".profile-wrapper.m-top10:not(.medals-wrapper)").insertAdjacentElement("beforeBegin", info_container);
+		try {
+			let info_container = content.newContainer("User Info", { next_element_heading: "Medals", id: "tt-target-info" });
+			if (npcIds.includes(parseInt(userId)))
+				doc.find(".profile-wrapper.m-top10:not(.medals-wrapper)").insertAdjacentElement("beforeBegin", info_container);
 
-		let section_profile_stats = doc.new({ type: "div", class: "tt-section", attributes: { name: "profile-stats" } });
-		let profile_stats_div = doc.new({ type: "div", class: `profile-stats ${mobile ? "tt-mobile" : ""}` });
-		section_profile_stats.appendChild(profile_stats_div);
-		info_container.find(".content").appendChild(section_profile_stats);
+			let section_profile_stats = doc.new({ type: "div", class: "tt-section", attributes: { name: "profile-stats" } });
+			let profile_stats_div = doc.new({ type: "div", class: `profile-stats ${mobile ? "tt-mobile" : ""}` });
+			section_profile_stats.appendChild(profile_stats_div);
+			info_container.find(".content").appendChild(section_profile_stats);
 
-		if (!filters.profile_stats.auto_fetch) {
-			let button = doc.new({ type: "div", class: `fetch-button`, text: "Fetch Info via API" });
-			profile_stats_div.appendChild(button);
+			if (!filters.profile_stats.auto_fetch) {
+				let button = doc.new({ type: "div", class: `fetch-button`, text: "Fetch Info via API" });
+				profile_stats_div.appendChild(button);
 
-			button.addEventListener("click", async () => {
-				button.remove();
+				button.addEventListener("click", async () => {
+					button.remove();
+					await fetchStats();
+				});
+			} else {
 				await fetchStats();
-			});
-		} else {
-			await fetchStats();
+			}
+		} catch (error) {
+			console.error("TT - Failed when loading profile stats.", error);
 		}
 
 		// Target info
@@ -264,24 +269,28 @@ requireDatabase().then(() => {
 		displayStakeoutOptions();
 
 		// Make content sortable
-		sortSections(doc.find("#tt-target-info .content"), "profile");
-		new Sortable(doc.find("#tt-target-info .content"), {
-			handle: ".uk-sortable-handle", // handle's class
-			animation: 150,
-			onMove: () => {
-				setTimeout(() => {
-					saveSortingOrder(doc.find("#tt-target-info .content"), "profile");
-				}, 100);
-			},
-		});
+		try {
+			sortSections(doc.find("#tt-target-info .content"), "profile");
+			new Sortable(doc.find("#tt-target-info .content"), {
+				handle: ".uk-sortable-handle", // handle's class
+				animation: 150,
+				onMove: () => {
+					setTimeout(() => {
+						saveSortingOrder(doc.find("#tt-target-info .content"), "profile");
+					}, 100);
+				},
+			});
 
-		// Make profile stats sortable
-		new Sortable(doc.find("#tt-target-info .tt-stats-table .col-chosen"), {
-			animation: 150,
-			onMove: () => {
-				setTimeout(saveProfileStats, 100);
-			},
-		});
+			// Make profile stats sortable
+			new Sortable(doc.find("#tt-target-info .tt-stats-table .col-chosen"), {
+				animation: 150,
+				onMove: () => {
+					setTimeout(saveProfileStats, 100);
+				},
+			});
+		} catch (error) {
+			console.error("TT - Couldn't make sections sortable.", error);
+		}
 
 		// Add Edit button
 		let edit_button = doc.new({
