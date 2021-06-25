@@ -1,0 +1,25 @@
+/* Update button */
+
+.tornstats-update {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.tornstats-button {
+	margin: 4px auto;
+}
+
+.tornstats-response {
+	margin: 0 0 4px 4px;
+}
+
+.tornstats-response.error {
+	color: var(--tt-color-red);
+}
+
+/* Graph */
+
+.tornstats-graph-wrapper {
+	padding: 4px;
+}

@@ -367,6 +367,22 @@ body.scrolled #tt-page-status.top-right {
 	color: var(--default-blue-color);
 }
 
+.tt-btn {
+	width: fit-content;
+	border-radius: 6px;
+	background-color: var(--tt-color-light-green);
+	color: black;
+}
+
+.tt-btn:not([disabled]) {
+	cursor: pointer;
+}
+
+.tt-btn[disabled] {
+	cursor: not-allowed;
+	opacity: 0.4;
+}
+
 /* region Message box */
 
 .tt-msg-box {

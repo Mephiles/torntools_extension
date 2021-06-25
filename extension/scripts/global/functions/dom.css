@@ -1,7 +1,7 @@
 .tt-loading-placeholder {
 	display: none;
-	left: unset !important;
-	margin: 10px auto !important;
+	margin: 0 auto;
+	padding: 10px;
 	content: var(--default-preloader-url, url(https://www.torn.com/images/v2/main/ajax-loader.gif));
 }
 

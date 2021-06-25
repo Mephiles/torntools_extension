@@ -498,6 +498,7 @@ const DEFAULT_STORAGE = {
 			gym: {
 				specialist: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				disableStats: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				graph: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			missions: {
 				hints: new DefaultSetting({ type: "boolean", defaultValue: true }),
