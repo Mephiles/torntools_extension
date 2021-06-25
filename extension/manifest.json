@@ -458,8 +458,12 @@
 		},
 		{
 			"matches": ["https://www.torn.com/gym.php*"],
-			"css": ["scripts/features/specialist-gyms/ttSpecialistGyms.css"],
-			"js": ["scripts/content/gym/ttGym.js", "scripts/features/specialist-gyms/ttSpecialistGyms.js"],
+			"css": ["scripts/features/specialist-gyms/ttSpecialistGyms.css", "scripts/features/gym-disable-stats/ttGymDisableStats.css"],
+			"js": [
+				"scripts/content/gym/ttGym.js",
+				"scripts/features/specialist-gyms/ttSpecialistGyms.js",
+				"scripts/features/gym-disable-stats/ttGymDisableStats.js"
+			],
 			"run_at": "document_end"
 		},
 		{

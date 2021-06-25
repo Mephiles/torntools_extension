@@ -497,6 +497,7 @@ const DEFAULT_STORAGE = {
 			},
 			gym: {
 				specialist: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				disableStats: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			missions: {
 				hints: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -563,6 +564,10 @@ const DEFAULT_STORAGE = {
 		gym: {
 			specialist1: new DefaultSetting({ type: "string", defaultValue: "none" }),
 			specialist2: new DefaultSetting({ type: "string", defaultValue: "none" }),
+			strength: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			speed: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			defense: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			dexterity: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
