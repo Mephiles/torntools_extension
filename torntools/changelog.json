@@ -1,6 +1,11 @@
 {
 	"v5.10.1 - xxxxx, xxth. 2021": {
 		"Features": [],
+		"Fixes": [],
+		"Changes": []
+	},
+	"v5.10.1 - June, 25th. 2021" : {
+		"Features": [],
 		"Fixes": [
 			"Fix stock market total value not showing. - Sashank999",
 			"Use correct Cruise Line company name. - Sashank999",
