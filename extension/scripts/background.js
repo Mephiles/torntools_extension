@@ -216,7 +216,7 @@ async function updateUserdata() {
 		updatedTypes.push("essential");
 	}
 	if (updateBasic) {
-		for (const selection of ["personalstats", "stocks", "inventory", "merits", "perks", "networth"]) {
+		for (const selection of ["personalstats", "stocks", "inventory", "merits", "perks", "networth", "icons"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selections.push(selection);
@@ -243,6 +243,7 @@ async function updateUserdata() {
 	userdata.date = now;
 	userdata.dateBasic = updateBasic ? now : oldUserdata.dateBasic;
 
+	await processUserdata().catch((error) => console.error("Error while processing userdata.", error));
 	await checkAttacks().catch((error) => console.error("Error while checking personal stats for attack changes.", error));
 
 	await ttStorage.set({ userdata: { ...oldUserdata, ...userdata } });
@@ -390,6 +391,16 @@ async function updateUserdata() {
 			}
 
 			await ttStorage.change({ attackHistory: { lastAttack, fetchData: false, history: { ...attackHistory.history } } });
+		}
+	}
+
+	async function processUserdata() {
+		if ("icons" in userdata) {
+			userdata.userCrime = userdata.icons.icon85
+				? userdata.timestamp * TO_MILLIS.SECONDS + textToTime(userdata.icons.icon85.split("-").last().trim())
+				: userdata.icons.icon86
+				? userdata.timestamp * TO_MILLIS.SECONDS
+				: -1;
 		}
 	}
 

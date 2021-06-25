@@ -29,7 +29,7 @@
 				{ "message": "Show image, circulation and market value with market search in the popup.", "contributor": "DeKleineKobini" },
 				{ "message": "Add the ability to remove stakeouts from the popup.", "contributor": "DeKleineKobini" },
 				{
-					"message": "Significantly improve OC timer: load data from page itself, hide timer if wrong information is present and change the color to be more useful.",
+					"message": "Significantly improve OC timer: use icon to detect time, hide timer if wrong information is present and change the color to be more useful.",
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Apply notification volume for tts.", "contributor": "Tesa" },

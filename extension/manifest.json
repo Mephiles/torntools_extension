@@ -249,7 +249,6 @@
 			],
 			"js": [
 				"scripts/content/factions/ttFactions.js",
-				"scripts/features/scrape-oc/ttScrapeOC.js",
 				"scripts/features/drug-details/ttDrugDetails.js",
 				"scripts/features/item-values/ttItemValues.js",
 				"scripts/features/highlight-blood-bags/ttHighlightBloodBags.js",

@@ -73,7 +73,6 @@
 					})
 					.catch((error) => ({ message: error.error, status: false }));
 
-				console.log("DKK ts2", message);
 				responseElement.innerText = message;
 				responseElement.classList.add(status ? "success" : "error");
 

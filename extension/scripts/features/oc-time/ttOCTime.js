@@ -11,10 +11,10 @@
 		showTimer,
 		removeTimer,
 		{
-			storage: ["settings.pages.sidebar.ocTimer", "factiondata.userCrime", "localdata.userCrime"],
+			storage: ["settings.pages.sidebar.ocTimer", "factiondata.userCrime", "userdata.userCrime"],
 		},
 		() => {
-			if (!factiondata.userCrime && !localdata.userCrime) return "No API access.";
+			if (!hasAPIData() || !((settings.apiUsage.user.icons && userdata.userCrime) || factiondata.userCrime)) return "No API access.";
 		}
 	);
 
@@ -25,7 +25,7 @@
 		addInformationSection();
 		showInformationSection();
 
-		const userCrime = "userCrime" in factiondata ? factiondata.userCrime : localdata.userCrime;
+		const userCrime = "userCrime" in factiondata ? factiondata.userCrime : userdata.userCrime;
 		const timeLeft = userCrime - Date.now();
 
 		const timeLeftElement = document.newElement({ type: "span", class: "countdown" });
