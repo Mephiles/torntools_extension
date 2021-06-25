@@ -33,6 +33,10 @@ const ttStorage = new (class {
 				count++;
 			} while (data && !Object.keys(data).length && count < 3);
 
+			if (count > 1) {
+				console.log("DKK - Failed to load data on first try.", { count, data });
+			}
+
 			resolve(data);
 		});
 	}
