@@ -1,6 +1,6 @@
 "use strict";
 
-const ALL_ICONS = Array.from({ length: 84 }, (x, i) => `icon${i + 1}`);
+const ALL_ICONS = Array.from({ length: 86 }, (x, i) => `icon${i + 1}`);
 
 const ALL_AREAS = [
 	{ class: "home", text: "Home" },
