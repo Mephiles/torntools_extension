@@ -17,6 +17,7 @@
 	);
 
 	let movingElement;
+	let isEditing = false;
 
 	function initialiseQuickItems() {
 		document.addEventListener("click", (event) => {
@@ -49,6 +50,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(({ tab }) => {
 			updateXIDs().catch(() => {});
 			setupOverlayItems(tab);
+			attachEditListeners(isEditing);
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_EQUIPPED].push(({ item, equip }) => {
 			updateEquippedItem(item, equip);
@@ -76,6 +78,7 @@
 						event.stopPropagation();
 
 						const enabled = options.find("#edit-items-button").classList.toggle("tt-overlay-item");
+						isEditing = enabled;
 
 						const content = findContainer("Quick Items", { selector: ":scope > main" });
 						for (const quick of content.findAll(".item")) {
@@ -89,7 +92,7 @@
 						}
 
 						for (const category of document.findAll("#categoriesItem:not(.no-items)")) {
-							if (!["Temporary", "Medical", "Drugs", "Energy Drink", "Alcohol", "Candy", "Booster", "Other"].includes(category.dataset.type))
+							if (!["Temporary", "Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster", "Other"].includes(category.dataset.type))
 								continue;
 
 							if (enabled) category.classList.add("tt-overlay-item");
@@ -103,19 +106,7 @@
 						if (enabled) document.find(".tt-overlay").classList.remove("hidden");
 						else document.find(".tt-overlay").classList.add("hidden");
 
-						if (enabled) {
-							for (const item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
-								if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
-
-								item.addEventListener("click", onItemClickQuickEdit);
-							}
-						} else {
-							for (const item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
-								if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
-
-								item.removeEventListener("click", onItemClickQuickEdit);
-							}
-						}
+						attachEditListeners(enabled);
 					},
 				},
 			})
@@ -154,6 +145,8 @@
 				click: async () => {
 					if (itemWrap.classList.contains("removable")) {
 						itemWrap.remove();
+						itemWrap.dispatchEvent(new Event("mouseout"));
+						closeIcon.dispatchEvent(new Event("mouseout"));
 						await saveQuickItems();
 						return;
 					}
@@ -292,6 +285,7 @@
 			events: {
 				click: async (event) => {
 					event.stopPropagation();
+					itemWrap.dispatchEvent(new Event("mouseout"));
 					closeIcon.dispatchEvent(new Event("mouseout"));
 					itemWrap.remove();
 
@@ -483,6 +477,22 @@
 			if (allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
 
 			item.classList.add("tt-overlay-ignore");
+		}
+	}
+
+	function attachEditListeners(enabled) {
+		if (enabled) {
+			for (const item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
+				if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
+
+				item.addEventListener("click", onItemClickQuickEdit);
+			}
+		} else {
+			for (const item of document.findAll("ul.items-cont[aria-expanded='true'] > li")) {
+				if (!allowQuickItem(parseInt(item.dataset.item), item.dataset.category)) continue;
+
+				item.removeEventListener("click", onItemClickQuickEdit);
+			}
 		}
 	}
 })();
