@@ -128,7 +128,7 @@
 
 		const { id, xid } = data;
 
-		if (innerContent.find(`.item[data-id='${id}']`)) return;
+		if (innerContent.find(`.item[data-id='${id}']`)) return innerContent.find(`.item[data-id='${id}']`);
 		if (!allowQuickItem(id, torndata.items[id].type)) return;
 
 		let equipPosition;
@@ -311,7 +311,7 @@
 		}
 
 		const item = addQuickItem(data, false);
-		item.classList.add("tt-overlay-item", "removable");
+		if (item) item.classList.add("tt-overlay-item", "removable");
 
 		await saveQuickItems();
 	}
