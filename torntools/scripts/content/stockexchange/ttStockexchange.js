@@ -145,7 +145,7 @@ function addFilter(filters) {
 		benefit = doc.find("#tt-stock-filter #benefit-filter input[type='checkbox']").checked;
 
 		// Filtering
-		for (let stock of doc.findAll("#stockmarketroot [class*='stockMarket__'] > *:not(#panel-InfoTab, #panel-ManagerTab)")) {
+		for (let stock of doc.findAll("#stockmarketroot [class*='stockMarket__'] > ul[id]")) {
 			const stockAcronym = stock.find("[class*='logoContainer__'] img").src.split("/").pop().replace(".svg", "");
 			let stockID;
 			for (let i = 1; i <= 31; i++) {
@@ -239,7 +239,7 @@ function showTotalPortfolioValue() {
 	const totalValue = [...doc.findAll("[class*='stockOwned__'] [class*='value__']")]
 		.map((x) => parseInt(x.innerText.replace(/[$,]/g, "").trim()))
 		.reduce((a, b) => (a += b), 0);
-	const profits = [...doc.findAll("#stockmarketroot [class*='stockMarket__'] > *:not(#panel-InfoTab, #panel-ManagerTab)")]
+	const profits = [...doc.findAll("#stockmarketroot [class*='stockMarket__'] > ul[id]")]
 		.map((x) => {
 			const stockAcronym = x.find("[class*='logoContainer__'] img").src.split("/").pop().replace(".svg", "");
 			let stockID;
@@ -252,10 +252,9 @@ function showTotalPortfolioValue() {
 			const data = torndata.stocks[stockID];
 			const userStockData = userdata.stocks[stockID];
 			if (!userStockData) return 0;
-			let stockTransactions = Object.keys(userStockData.transactions);
-			let lastTransaction = userStockData.transactions[stockTransactions[stockTransactions.length - 1]];
-			let profitOrLoss = Math.floor((data.current_price - lastTransaction.bought_price) * lastTransaction.shares);
-			return profitOrLoss;
+
+			const { boughtPrice, boughtShares } = getStockPrice(userStockData);
+			return Math.floor((data.current_price - boughtPrice) * boughtShares);
 		})
 		.reduce((a, b) => (a += b), 0);
 
@@ -263,7 +262,7 @@ function showTotalPortfolioValue() {
 	if (profits > 0) rawText = `Profit: <span style="color: #678c00;">+$${numberWithCommas(profits)}</span>`;
 	else if (profits < 0) rawText = `Loss: <span style="color: red;">-$${numberWithCommas(Math.abs(profits))}</span>`;
 
-	doc.find("div.content-title h4").appendChild(
+	doc.find("#stockmarketroot h4").appendChild(
 		doc.new({
 			type: "span",
 			class: "tt-total-stock-value",

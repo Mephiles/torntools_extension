@@ -128,7 +128,8 @@ function fillGoals(achievements, torndata) {
 					// get goal
 					desc = desc.split("for at least")[0]; // remove 'day' numbers from networth
 					desc = desc.replace(/\D/g, ""); // replace all non-numbers
-					let goal = parseInt(desc);
+					const goal = parseInt(desc);
+					if (isNaN(goal)) continue;
 
 					if (!achievements[name].awarded) achievements[name].awarded = [];
 

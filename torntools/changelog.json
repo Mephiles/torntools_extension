@@ -1,16 +1,39 @@
 {
-	"v5.10 - xxxxx, xxth. 2021": {
+	"v5.10.1 - xxxxx, xxth. 2021": {
 		"Features": [],
+		"Fixes": [],
+		"Changes": []
+	},
+	"v5.10.1 - June, 25th. 2021" : {
+		"Features": [],
+		"Fixes": [
+			"Fix stock market total value not showing. - Sashank999",
+			"Use correct Cruise Line company name. - Sashank999",
+			"Fix TornStats error handling and caching while it shouldn't. - DKK",
+			"Fix stock market filter not working properly when you have a panel selected. - DKK",
+			"Add some minor error handling in hopes of the profile page breaking less. - DKK"
+		],
+		"Changes": []
+	},
+	"v5.10 - June, 3rd. 2021": {
+		"Features": ["Added toggle to hide stakeout on profile page. - hvr-lust"],
 		"Fixes": [
 			"Apply proper rounding on the racing winning rate. - Sashank999",
 			"Fix max buy on mobile. - DKK",
-			"TT Settings Sidebar link not going down when hosped or jailed. - Sashank999",
+			"TT Settings sidebar link not going down when hosped or jailed. - Sashank999",
 			"Fix probability calculation in HiLo helper. - smikula",
-			"Various tweaks to dark mode. - Allo"
+			"Various tweaks to dark mode. - Allo",
+			"Fix attack timeout alert. - Sashank999",
+			"Fix chat features. - Sashank999"
 		],
-		"Changes": ["Disable loot timers on mobile devices. - Sashank999"]
+		"Changes": [
+			"Disable loot timers on mobile devices. - Sashank999",
+			"Change notification bar links. - DKK",
+			"Show new lingerie store specials. - Oran",
+			"Implement timeout on requests. - DKK"
+		]
 	},
-	"v5.9 - May, 02th. 2021": {
+	"v5.9 - May, 2nd. 2021": {
 		"Features": [
 			"Filter faction members by position. - Sashank999",
 			"Battle Stat on Attack Page. - Sashank999",

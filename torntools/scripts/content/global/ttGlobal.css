@@ -112,6 +112,10 @@
 	transform: rotate(-90deg);
 }
 
+.tt-title.title-green::before {
+	display: none !important;
+}
+
 .tt-cell a {
 	min-height: 23px !important;
 }
@@ -398,7 +402,7 @@
 	display: var(--torntools-hide-doctorn) !important;
 }
 
-.overview_1MoPG .message_oP8oM * {
+[class*="overview_"] [class*="message_"] * {
 	font-size: var(--torntools-chat-font-size) !important;
 }
 
@@ -590,21 +594,20 @@ div[role="main"].tt-modified {
 
 .tt-chat-filter * {
 	display: inline-block;
-	vertical-align: top;
+	margin-top: 3.5px;
 }
 
 .tt-chat-filter div {
 	margin-left: 4px;
 	margin-right: 4px;
-	margin-top: 2px;
 }
 
 .tt-chat-filter input {
-	background-color: #f2f2f2;
-	margin-top: 1px;
+	background-color: var(--chat-box-content-bg, #f2f2f2);
+	color: var(--chat-notebook-text-area-font-color-active);
 }
 
-.chat-box-input_1SBQR.tt-modified {
+[class*="chat-box-input_"].tt-modified {
 	height: 85px !important;
 }
 
@@ -617,7 +620,6 @@ div[role="main"].tt-modified {
 	left: 5px;
 	bottom: 0;
 	z-index: 999;
-
 	font-size: 36px;
 	text-align: center;
 	cursor: pointer;
@@ -1038,14 +1040,14 @@ div[role="main"].tt-modified {
 }
 
 .tt-trade-chat-timer {
-	margin-top: 0;
+	margin-top: 2px;
 	height: 15px;
 	width: max-content;
 	float: left;
 	margin-left: 5px;
 	color: white;
 	border-radius: 5px;
-	padding: 2px 2px 0 2px;
+	padding: 2px 3px 0 3px;
 }
 
 .tt-trade-chat-timer.green {

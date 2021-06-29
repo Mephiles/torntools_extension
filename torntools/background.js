@@ -24,10 +24,14 @@ const links = {
 	stocks: "https://www.torn.com/stockexchange.php?step=portfolio",
 	home: "https://www.torn.com/index.php",
 	items: "https://www.torn.com/item.php",
+	items_candy: "https://www.torn.com/item.php#candy-items",
+	items_medical: "https://www.torn.com/item.php#medical-items",
 	education: "https://www.torn.com/education.php#/step=main",
 	messages: "https://www.torn.com/messages.php",
 	events: "https://www.torn.com/events.php#/step=all",
 	chain: "https://www.torn.com/factions.php?step=your#/war/chain",
+	crimes: "https://www.torn.com/crimes.php",
+	gym: "https://www.torn.com/gym.php",
 };
 
 let userdata,
@@ -851,32 +855,40 @@ function updateUserdata_essential(oldUserdata, oldTargetList, settings) {
 					}
 
 					// Check for bars
-					for (let bar of ["energy", "happy", "nerve", "life"]) {
-						if (oldUserdata[bar] && settings.notifications[bar].length > 0) {
-							let checkpoints = settings.notifications[bar]
-								.map((x) => (typeof x === "string" && x.includes("%") ? (parseInt(x) / 100) * userdata[bar].maximum : parseInt(x)))
-								.sort((a, b) => b - a);
-							// console.log(`${bar} checkpoints previous:`, settings.notifications[bar]);
-							// console.log(`${bar} checkpoints modified:`, checkpoints);
-							for (let checkpoint of checkpoints) {
-								if (
-									oldUserdata[bar].current < userdata[bar].current &&
-									userdata[bar].current >= checkpoint &&
-									!notifications[bar][checkpoint]
-								) {
-									notifications[bar][checkpoint] = {
-										title: "TornTools - Bars",
-										text: `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`,
-										url: links.home,
-										seen: 0,
-										date: new Date(),
-									};
-									break;
-									// notifyUser("TornTools - Bars", `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`, links.home);
-									// break;
-								} else if (userdata[bar].current < checkpoint && notifications[bar][checkpoint]) {
-									delete notifications[bar][checkpoint];
-								}
+					for (const bar of ["energy", "happy", "nerve", "life"]) {
+						if (!oldUserdata[bar] || !settings.notifications[bar].length) continue;
+
+						const checkpoints = settings.notifications[bar]
+							.map((x) => (typeof x === "string" && x.includes("%") ? (parseInt(x) / 100) * userdata[bar].maximum : parseInt(x)))
+							.sort((a, b) => b - a);
+
+						for (const checkpoint of checkpoints) {
+							if (oldUserdata[bar].current < userdata[bar].current && userdata[bar].current >= checkpoint && !notifications[bar][checkpoint]) {
+								const url = (() => {
+									switch (bar) {
+										case "energy":
+											return links.gym;
+										case "happy":
+											return links.items_candy;
+										case "nerve":
+											return links.crimes;
+										case "life":
+											return links.items_medical;
+										default:
+											return links.home;
+									}
+								})();
+
+								notifications[bar][checkpoint] = {
+									title: "TornTools - Bars",
+									text: `Your ${capitalize(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}`,
+									url: links.home,
+									seen: 0,
+									date: new Date(),
+								};
+								break;
+							} else if (userdata[bar].current < checkpoint && notifications[bar][checkpoint]) {
+								delete notifications[bar][checkpoint];
 							}
 						}
 					}

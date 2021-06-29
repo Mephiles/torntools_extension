@@ -201,13 +201,13 @@ requireDatabase().then(() => {
 
 		// Chat highlight
 		let highlights = { ...chat_highlight };
-		for (let key in highlights) {
+		for (const key in highlights) {
 			if (!(key in HIGHLIGHT_PLACEHOLDERS)) continue;
 
 			highlights[HIGHLIGHT_PLACEHOLDERS[key].value()] = highlights[key];
 		}
 
-		if (doc.find(".chat-box-content_2C5UJ .overview_1MoPG .message_oP8oM")) {
+		if (doc.find("[class*='chat-box-content_'] [class*='overview_'] [class*='message_']")) {
 			manipulateChat(highlights);
 
 			if (settings.pages.global.find_chat) {
@@ -220,7 +220,7 @@ requireDatabase().then(() => {
 		}
 
 		doc.addEventListener("click", (event) => {
-			if (!hasParent(event.target, { class: "chat-box_Wjbn9" })) {
+			if (!event.target.closest("[class*='chat-box_']")) {
 				return;
 			}
 
@@ -234,23 +234,22 @@ requireDatabase().then(() => {
 			if (Object.keys(users_alias).length) aliasUsersChat();
 		});
 
-		let chat_observer = new MutationObserver((mutationsList) => {
-			for (let mutation of mutationsList) {
-				if (mutation.addedNodes[0] && mutation.addedNodes[0].classList && mutation.addedNodes[0].classList.contains("message_oP8oM")) {
-					let message = mutation.addedNodes[0];
+		new MutationObserver((mutationsList) => {
+			for (const mutation of mutationsList) {
+				if (mutation.addedNodes[0] && mutation.addedNodes[0].classList && mutation.addedNodes[0].className.includes("message_")) {
+					const message = mutation.addedNodes[0];
 
 					applyChatHighlights(message, highlights);
 					if (settings.pages.global.block_zalgo) removeZalgoText(message);
 					if (Object.keys(users_alias).length) aliasUsersChat(message);
 				}
 			}
-		});
-		chat_observer.observe(doc.find("#chatRoot"), { childList: true, subtree: true });
+		}).observe(doc.find("#chatRoot"), { childList: true, subtree: true });
 	});
 });
 
 function chatsLoaded() {
-	return requireElement(".overview_1MoPG");
+	return requireElement("[class*='overview_']");
 }
 
 function addCustomLinks() {
@@ -364,8 +363,8 @@ function addUpdateNotification() {
 
 function manipulateChat(highlights) {
 	if (highlights || settings.pages.global.block_zalgo) {
-		for (let chat of doc.findAll(".chat-box-content_2C5UJ .overview_1MoPG")) {
-			for (let message of chat.findAll(".message_oP8oM")) {
+		for (let chat of doc.findAll("[class*='chat-box-content_'] [class*='overview_']")) {
+			for (let message of chat.findAll("[class*='message_']")) {
 				if (highlights) applyChatHighlights(message, highlights);
 
 				if (settings.pages.global.block_zalgo) removeZalgoText(message);
@@ -375,18 +374,18 @@ function manipulateChat(highlights) {
 }
 
 function applyChatHighlights(message, highlights) {
-	let sender = message.find("a").innerText.replace(":", "").trim();
-	let text = simplify(message.find("span").innerText);
+	const sender = message.find("a").innerText.replace(":", "").trim();
+	const text = simplify(message.find("span").innerText);
 	const words = text.split(" ").map(simplify);
 
 	if (sender in highlights) {
 		message.find("a").style.color = highlights[sender];
 	}
 
-	for (let highlight in highlights) {
+	for (const highlight in highlights) {
 		if (!words.includes(highlight.toLowerCase())) continue;
 
-		let color = highlights[highlight];
+		const color = highlights[highlight];
 		if (color.length === 7) color += "6e";
 
 		message.find("span").parentElement.style.backgroundColor = color;
@@ -408,16 +407,16 @@ function removeZalgoText(message) {
 }
 
 function addChatFilters() {
-	let chats = doc.findAll(".chat-box-content_2C5UJ");
-	for (let chat of chats) {
+	const chats = doc.findAll("[class*='chat-box-content_']");
+	for (const chat of chats) {
 		if (!chat.nextElementSibling) continue;
 		if (chat.nextElementSibling.find(".tt-chat-filter")) continue;
 
 		chat.nextElementSibling.classList.add("tt-modified");
 
-		let filter_wrap = doc.new({ type: "div", class: "tt-chat-filter" });
-		let filter_text = doc.new({ type: "div", text: "Find:" });
-		let filter_input = doc.new({ type: "input" });
+		const filter_wrap = doc.new({ type: "div", class: "tt-chat-filter" });
+		const filter_text = doc.new({ type: "div", text: "Find:" });
+		const filter_input = doc.new({ type: "input" });
 
 		filter_wrap.appendChild(filter_text);
 		filter_wrap.appendChild(filter_input);
@@ -426,9 +425,9 @@ function addChatFilters() {
 
 		// Filtering process
 		filter_input.onkeyup = () => {
-			let keyword = filter_input.value.toLowerCase();
+			const keyword = filter_input.value.toLowerCase();
 
-			for (let message of chat.findAll(".overview_1MoPG .message_oP8oM span")) {
+			for (const message of chat.findAll("[class*='overview_'] [class*='message_'] span")) {
 				message.parentElement.style.display = "block";
 
 				if (keyword && message.innerText.toLowerCase().indexOf(keyword) === -1) {
@@ -437,7 +436,7 @@ function addChatFilters() {
 			}
 
 			if (!keyword) {
-				let viewport = chat.find(".viewport_1F0WI");
+				const viewport = chat.find("[class*='viewport_']");
 				viewport.scrollTop = viewport.scrollHeight;
 			}
 		};
@@ -445,12 +444,12 @@ function addChatFilters() {
 }
 
 function addChatUsernameAutocomplete() {
-	let chats = doc.findAll(".chat-box_Wjbn9");
+	let chats = doc.findAll("[class*='chat-box_']");
 	for (let chat of chats) {
-		let chatMessageList = chat.find(".overview_1MoPG");
+		const chatMessageList = chat.find("[class*='overview_']");
 		if (!chatMessageList) continue;
 
-		let chatTextbox = chat.find(".chat-box-textarea_2V28W");
+		const chatTextbox = chat.find("[class*='chat-box-textarea_']");
 		if (!chatTextbox) continue;
 		if (chatTextbox.classList.contains("tt-chat-autocomplete")) continue;
 
@@ -467,19 +466,19 @@ function addChatUsernameAutocomplete() {
 
 			event.preventDefault();
 
-			let valueToCursor = chatTextbox.value.substr(0, chatTextbox.selectionStart);
-			let searchValueMatch = valueToCursor.match(/([^A-Za-z0-9\-_]?)([A-Za-z0-9\-_]*)$/);
+			const valueToCursor = chatTextbox.value.substr(0, chatTextbox.selectionStart);
+			const searchValueMatch = valueToCursor.match(/([^A-Za-z0-9\-_]?)([A-Za-z0-9\-_]*)$/);
 
 			if (currentSearchValue === null) {
 				currentSearchValue = searchValueMatch[2].toLowerCase();
 			}
 
-			let usernames = Array.from(chatMessageList.findAll(".message_oP8oM > a"))
+			const usernames = Array.from(chatMessageList.findAll("[class*='message_'] > a"))
 				.map((message) => message.innerText.slice(0, -2))
 				.filter((value, index, array) => array.indexOf(value) === index)
 				.sort();
 
-			let matchedUsernames = usernames.filter((username) => username.toLowerCase().indexOf(currentSearchValue) === 0);
+			const matchedUsernames = usernames.filter((username) => username.toLowerCase().indexOf(currentSearchValue) === 0);
 
 			if (matchedUsernames.length === 0) {
 				return;
@@ -496,11 +495,11 @@ function addChatUsernameAutocomplete() {
 
 			currentUsername = matchedUsernames[index];
 
-			let valueStart = searchValueMatch.index + searchValueMatch[1].length;
+			const valueStart = searchValueMatch.index + searchValueMatch[1].length;
 			chatTextbox.value =
 				chatTextbox.value.substring(0, valueStart) + currentUsername + chatTextbox.value.substring(valueToCursor.length, chatTextbox.value.length);
 
-			let selectionIndex = valueStart + currentUsername.length;
+			const selectionIndex = valueStart + currentUsername.length;
 			chatTextbox.setSelectionRange(selectionIndex, selectionIndex);
 		});
 	}
@@ -867,37 +866,41 @@ function chainTimerHighlight() {
 }
 
 function tradeChatPostTimer() {
-	let canPostHTML =
+	const SELECTORS = {
+		tradeChatInput: "div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_']",
+		tradeChatTimer: "div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer",
+	};
+	const canPostHTML =
 		'<div id="tt-trade-post-timer"><span class="tt-trade-chat-timer red" style="display: none;">Don\'t post</span><span class="tt-trade-chat-timer green" style="display: block;">Can post</span></div>';
-	let dontPostHTML =
+	const dontPostHTML =
 		'<div id="tt-trade-post-timer"><span class="tt-trade-chat-timer red" style="display: block;">Don\'t post</span><span class="tt-trade-chat-timer green" style="display: none;">Can post</span></div>';
-	if (doc.findAll("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").length === 0) {
+	if (doc.findAll(SELECTORS.tradeChatTimer).length === 0) {
 		if (last_trade_post_time && new Date() - new Date(last_trade_post_time) < 60 * 1000) {
-			doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_']").insertAdjacentHTML("afterBegin", dontPostHTML);
+			const tradeChatInput = doc.find(SELECTORS.tradeChatInput);
+			if (tradeChatInput) tradeChatInput.insertAdjacentHTML("afterBegin", dontPostHTML);
+
 			setTimeout(() => {
-				let canPost = doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").lastElementChild;
-				let dontPost = doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").firstElementChild;
+				const canPost = doc.find(SELECTORS.tradeChatTimer).lastElementChild;
+				const dontPost = doc.find(SELECTORS.tradeChatTimer).firstElementChild;
 				if (canPost) canPost.style.display = "block";
 				if (dontPost) dontPost.style.display = "none";
 			}, 60 * 1000 - (new Date() - new Date(last_trade_post_time)));
 		} else {
-			if (doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_']"))
-				doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_']").insertAdjacentHTML("afterBegin", canPostHTML);
+			const tradeChatInput = doc.find(SELECTORS.tradeChatInput);
+			if (tradeChatInput) tradeChatInput.insertAdjacentHTML("afterBegin", canPostHTML);
 		}
-		if (doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] textarea"))
-			doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] textarea").addEventListener("keypress", (event) => {
-				if (event.keyCode == 13 && doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer")) {
+		const tradeChatTextarea = doc.find(`${SELECTORS.tradeChatInput} textarea`);
+		if (tradeChatTextarea)
+			tradeChatTextarea.addEventListener("keypress", (event) => {
+				if (event.keyCode == 13 && doc.find(SELECTORS.tradeChatTimer)) {
 					let new_last_trade_post_time = new Date().toString();
 					ttStorage.set({ last_trade_post_time: new_last_trade_post_time });
 					last_trade_post_time = new_last_trade_post_time;
-					doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").lastElementChild.style.display =
-						"none";
-					doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").firstElementChild.style.display =
-						"block";
+					doc.find(SELECTORS.tradeChatTimer).lastElementChild.style.display = "none";
+					doc.find(SELECTORS.tradeChatTimer).firstElementChild.style.display = "block";
 					setTimeout(() => {
-						let canPost = doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer").lastElementChild;
-						let dontPost = doc.find("div[class*='chat-box'][class*='trade'] div[class*='chat-box-input_'] div#tt-trade-post-timer")
-							.firstElementChild;
+						let canPost = doc.find(SELECTORS.tradeChatTimer).lastElementChild;
+						let dontPost = doc.find(SELECTORS.tradeChatTimer).firstElementChild;
 						if (canPost) canPost.style.display = "block";
 						if (dontPost) dontPost.style.display = "none";
 					}, 60000);
@@ -1058,6 +1061,7 @@ function showNpcLoot() {
 				} else if (lootLevel !== 5 && nextLvlTime < 0) {
 					continue;
 				} else if (lootLevel === 5 && nextLvlTime < 0) {
+					npcLootLevel = doc.new({ type: "span", class: "loot", text: "5" });
 					npcNextLevelIn = doc.new({ type: "span", text: "Max Level Reached" });
 				}
 			}

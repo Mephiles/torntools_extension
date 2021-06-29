@@ -235,24 +235,42 @@ requireDatabase().then(() => {
 		if (Object.keys(users_alias).length) showAlias();
 
 		// Profile stats
-		let info_container = content.newContainer("User Info", { next_element_heading: "Medals", id: "tt-target-info" });
-		if (npcIds.includes(parseInt(userId))) doc.find(".profile-wrapper.m-top10:not(.medals-wrapper)").insertAdjacentElement("beforeBegin", info_container);
+		try {
+			let info_container = content.newContainer("User Info", { next_element_heading: "Medals", id: "tt-target-info" });
+			if (npcIds.includes(parseInt(userId)))
+				doc.find(".profile-wrapper.m-top10:not(.medals-wrapper)").insertAdjacentElement("beforeBegin", info_container);
 
-		let section_profile_stats = doc.new({ type: "div", class: "tt-section", attributes: { name: "profile-stats" } });
-		let profile_stats_div = doc.new({ type: "div", class: `profile-stats ${mobile ? "tt-mobile" : ""}` });
-		section_profile_stats.appendChild(profile_stats_div);
-		info_container.find(".content").appendChild(section_profile_stats);
+			let section_profile_stats = doc.new({ type: "div", class: "tt-section", attributes: { name: "profile-stats" } });
+			let profile_stats_div = doc.new({ type: "div", class: `profile-stats ${mobile ? "tt-mobile" : ""}` });
+			section_profile_stats.appendChild(profile_stats_div);
+			info_container.find(".content").appendChild(section_profile_stats);
 
-		if (!filters.profile_stats.auto_fetch) {
-			let button = doc.new({ type: "div", class: `fetch-button`, text: "Fetch Info via API" });
-			profile_stats_div.appendChild(button);
+			if (!filters.profile_stats.auto_fetch) {
+				let button = doc.new({ type: "div", class: `fetch-button`, text: "Fetch Info via API" });
+				profile_stats_div.appendChild(button);
 
-			button.addEventListener("click", async () => {
-				button.remove();
-				await fetchStats();
-			});
-		} else {
-			await fetchStats();
+				button.addEventListener("click", async () => {
+					button.remove();
+					await fetchStats(section_profile_stats);
+
+					sortProfileStats();
+				});
+			} else {
+				await fetchStats(section_profile_stats);
+
+				sortProfileStats();
+			}
+
+			function sortProfileStats() {
+				new Sortable(doc.find("#tt-target-info .tt-stats-table .col-chosen"), {
+					animation: 150,
+					onMove: () => {
+						setTimeout(saveProfileStats, 100);
+					},
+				});
+			}
+		} catch (error) {
+			console.error("TT - Failed when loading profile stats.", error);
 		}
 
 		// Target info
@@ -264,24 +282,20 @@ requireDatabase().then(() => {
 		displayStakeoutOptions();
 
 		// Make content sortable
-		sortSections(doc.find("#tt-target-info .content"), "profile");
-		new Sortable(doc.find("#tt-target-info .content"), {
-			handle: ".uk-sortable-handle", // handle's class
-			animation: 150,
-			onMove: () => {
-				setTimeout(() => {
-					saveSortingOrder(doc.find("#tt-target-info .content"), "profile");
-				}, 100);
-			},
-		});
-
-		// Make profile stats sortable
-		new Sortable(doc.find("#tt-target-info .tt-stats-table .col-chosen"), {
-			animation: 150,
-			onMove: () => {
-				setTimeout(saveProfileStats, 100);
-			},
-		});
+		try {
+			sortSections(doc.find("#tt-target-info .content"), "profile");
+			new Sortable(doc.find("#tt-target-info .content"), {
+				handle: ".uk-sortable-handle", // handle's class
+				animation: 150,
+				onMove: () => {
+					setTimeout(() => {
+						saveSortingOrder(doc.find("#tt-target-info .content"), "profile");
+					}, 100);
+				},
+			});
+		} catch (error) {
+			console.error("TT - Couldn't make sections sortable.", error);
+		}
 
 		// Add Edit button
 		let edit_button = doc.new({
@@ -328,40 +342,56 @@ requireDatabase().then(() => {
 			}
 		};
 
+		function createCheckbox(text) {
+			const id = generateUUID();
+			const checkbox_wrap = doc.new({ type: "div", class: "in-title tt-checkbox-wrap" });
+			const checkbox = doc.new({ type: "input", attributes: { type: "checkbox", id: id } });
+			const text_div = doc.new({ type: "label", class: "unselectable", text: text, attributes: { for: id } });
+			checkbox_wrap.appendChild(checkbox);
+			checkbox_wrap.appendChild(text_div);
+
+			checkbox_wrap.addEventListener("click", (e) => {
+				e.stopPropagation();
+			});
+
+			doc.find("#tt-target-info .tt-options").appendChild(checkbox_wrap);
+			return checkbox;
+		}
+
 		// Add Relative/Whole value setting
-		const checkbox_wrap = doc.new({ type: "div", class: "in-title tt-checkbox-wrap" });
-		const checkbox = doc.new({ type: "input", attributes: { type: "checkbox" } });
-		const text = doc.new({ type: "div", text: "Show relative values" });
-		checkbox_wrap.appendChild(checkbox);
-		checkbox_wrap.appendChild(text);
+		const relative_values_checkbox = createCheckbox("Show relative values");
+		const stakeout_checkbox = createCheckbox("Hide stakeout");
 
-		doc.find("#tt-target-info .tt-options").appendChild(checkbox_wrap);
-
-		checkbox_wrap.onclick = (event) => {
-			event.stopPropagation();
-		};
-
-		checkbox.onclick = () => {
+		relative_values_checkbox.addEventListener("click", (e) => {
 			for (let item of doc.findAll("#tt-target-info *[real-value-you]")) {
 				const your_value = item.getAttribute("real-value-you");
 				const your_value_relative = item.getAttribute("relative-value-you");
 
-				if (!checkbox.checked) {
+				if (!e.target.checked) {
 					item.innerText = your_value;
 				} else {
 					item.innerText = your_value_relative.includes("-") ? your_value_relative : "+" + your_value_relative;
 				}
 			}
 
-			ttStorage.change({ filters: { profile_stats: { relative_values: checkbox.checked } } });
-		};
-		if (filters.profile_stats.relative_values) checkbox.click();
+			ttStorage.change({ filters: { profile_stats: { relative_values: e.target.checked } } });
+		});
 
-		async function fetchStats() {
+		stakeout_checkbox.checked = filters.profile_stats.hide_stakeout;
+		stakeout_checkbox.addEventListener("click", (e) => {
+			ttStorage.change({ filters: { profile_stats: { hide_stakeout: e.target.checked } } });
+
+			const stakeout = doc.find(".tt-section[name='stakeouts']");
+			displayElement(stakeout, !e.target.checked);
+		});
+
+		if (filters.profile_stats.relative_values) relative_values_checkbox.click();
+
+		async function fetchStats(section) {
 			await displayProfileStats();
-			section_profile_stats.appendChild(doc.new({ type: "hr" }));
+			section.appendChild(doc.new({ type: "hr" }));
 			// Show Spy info
-			await showSpyInfo();
+			await showSpyInfo().catch((error) => console.error("Something went wrong during the TornStats integration.", error));
 		}
 
 		let observer = new MutationObserver(() => {
@@ -769,12 +799,14 @@ async function showSpyInfo() {
 	} else if (!npcIds.includes(parseInt(userId))) {
 		loadingPlaceholder(spySection, true);
 		result = await new Promise((resolve) => {
-			fetchApi_v2("tornstats", { action: `spy/${userId}` }).then(async (response) => {
-				return resolve(handleTornStatsData(response));
-			});
+			fetchApi_v2("tornstats", { action: `spy/${userId}` })
+				.then(async (response) => {
+					return resolve(handleTornStatsData(response));
+				})
+				.catch((error) => resolve(error));
 		});
 
-		if (!result.error) {
+		if (!result.error && result.status !== false) {
 			ttStorage.change({
 				cache: {
 					spyReport: {
@@ -801,6 +833,8 @@ async function showSpyInfo() {
 		spySection.appendChild(doc.new({ type: "div", class: "tt-spy-info tt-error-message", text: result.error }));
 	} else if (npcIds.includes(parseInt(userId))) {
 		spySection.appendChild(doc.new({ type: "div", class: "tt-spy-info", text: "NPCs have no spies" }));
+	} else if (result.status === false) {
+		spySection.appendChild(doc.new({ type: "div", class: "tt-spy-info", text: result.message }));
 	} else if (!result.spyreport.status) {
 		spySection.appendChild(doc.new({ type: "div", class: "tt-spy-info", text: result.spyreport.message }));
 	} else {
@@ -1145,6 +1179,22 @@ function displayStakeoutOptions() {
 				ttStorage.set({ stakeouts });
 			});
 		}
+	}
+
+	displayElement(stakeout_div, !filters.profile_stats.hide_stakeout);
+}
+
+// display or hide an element
+function displayElement(element, shouldDisplay) {
+	// non blocking sanity check
+	if (!element instanceof Element || !element instanceof HTMLDocument) {
+		console.warn("Unable to hide/display element as it is not of type element", element);
+		return;
+	}
+
+	element.style.display = "none";
+	if (shouldDisplay) {
+		element.style.display = "block";
 	}
 }
 

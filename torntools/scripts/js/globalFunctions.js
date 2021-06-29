@@ -253,7 +253,7 @@ const COMPANY_INFORMATION = {
 			effect: "+20% Armor Bonus",
 		},
 	},
-	"Cruise Line Agency": {
+	"Cruise Line": {
 		1: {
 			name: "Bursar",
 			cost: "1",
@@ -687,29 +687,29 @@ const COMPANY_INFORMATION = {
 	},
 	"Lingerie Store": {
 		1: {
-			name: "Lingerie Party",
-			cost: "1",
-			effect: "Experience",
-		},
-		3: {
 			name: "Nine to Five",
 			cost: "10",
 			effect: "100 endurance",
 		},
-		5: {
+		3: {
 			name: "Concealment",
 			cost: "Passive",
-			effect: "2 extra travel items",
+			effect: "2 travel capacity",
 		},
-		7: {
+		5: {
 			name: "Born Free",
 			cost: "Passive",
-			effect: "50% dexterity when not wearing armor",
+			effect: "50% speed & dexterity when not wearing armor",
+		},
+		7: {
+			name: "Simp",
+			cost: "Passive",
+			effect: "No property upkeep or staff costs",
 		},
 		10: {
-			name: "Free as the Wind Blows",
+			name: "Sex Appeal",
 			cost: "Passive",
-			effect: "50% speed when not wearing armor",
+			effect: "Free business class upgrades",
 		},
 	},
 	"Logistics Management": {
@@ -1298,6 +1298,7 @@ const STORAGE = {
 			auto_fetch: true,
 			relative_values: false,
 			chosen_stats: [],
+			hide_stakeout: false,
 		},
 		hospital: {
 			activity: [],
@@ -3213,6 +3214,8 @@ function formatDateObject(givenDate) {
 	return { formattedDate, formattedTime };
 }
 
+const FETCH_TIMEOUT = 10 * TO_MILLIS.SECONDS;
+
 function fetchApi_v2(
 	location,
 	options = {
@@ -3273,7 +3276,10 @@ function fetchApi_v2(
 				};
 			}
 
-			fetch(full_url, parameters)
+			const controller = new AbortController();
+			const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT);
+
+			fetch(full_url, { ...parameters, signal: controller.signal })
 				.then(async (response) => {
 					let result = {};
 					try {
@@ -3343,10 +3349,14 @@ function fetchApi_v2(
 					}
 				})
 				.catch((result) => {
-					// const result = await response.json();
-					console.log("result", result);
+					console.log("result", result, { result });
 
-					if (result.error) {
+					if (result instanceof DOMException) {
+						if (location === "torn") reject({ error: "Request took too long." });
+						else reject({ error: "Request took too long." });
+					} else if (result instanceof TypeError) {
+						// TODO - Handle type errors.
+					} else if (result.error) {
 						// TornTools
 						if (location === "torntools") {
 							return reject(result);
@@ -3372,7 +3382,8 @@ function fetchApi_v2(
 							reject(result.error);
 						}
 					}
-				});
+				})
+				.then(() => clearTimeout(timeoutId));
 		});
 	});
 
@@ -3431,4 +3442,18 @@ function fetchRelay(location, options) {
 
 function hasSilentSupport() {
 	return !usingFirefox() && (!navigator.userAgent.includes("Mobile Safari") || usingYandex());
+}
+
+function generateUUID() {
+	return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+		const r = (Math.random() * 16) | 0,
+			v = c === "x" ? r : (r & 0x3) | 0x8;
+		return v.toString(16);
+	});
+}
+
+function getStockPrice(stock) {
+	const boughtTotal = Object.values(stock.transactions).reduce((prev, trans) => prev + trans.bought_price * trans.shares, 0);
+
+	return { boughtTotal, boughtPrice: boughtTotal / stock.total_shares };
 }
