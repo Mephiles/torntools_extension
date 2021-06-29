@@ -15,7 +15,12 @@ jobs:
           sudo apt-get install jq
           jqCommand="jq"
           firstEntryLineNo=2
-          firstLineKey="$("${jqCommand}" -j "keys_unsorted[0]" < torntools/changelog.json | tr -d "\"")"
+          allKeys="$("${jqCommand}" -j "keys_unsorted" < torntools/changelog.json)"
+          if grep -q -F "v${{ github.event.inputs.new_version }}" <<< "$allKeys"
+          then
+              exit 1
+          fi
+          firstLineKey="$("${jqCommand}" -j ".[0]" <<< "$allKeys" | tr -d "\"")"
           version="$(echo -n "${firstLineKey}" | cut -d- -f1 | sed 's,^v,,' | tr -d ' ')"
           jqFeatures=".[\"${firstLineKey}\"] | .[\"Features\"]"
           jqFeaturesFull=".[\"${firstLineKey}\"] | .Features | map(sub(\"^\";\"- \";\"m\"))"
