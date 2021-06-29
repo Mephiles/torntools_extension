@@ -314,7 +314,7 @@
 			},
 			the_executive_game: {
 				task: "Defeat (P) using only fists or kick.",
-				hint: "Weapons can stay equipped. Using a weapon will fail this mission!",
+				hint: "Weapons can stay equipped.",
 			},
 			the_tattoo_artist: {
 				task: "Defeat (P) using only a slashing or piercing weapon.",
