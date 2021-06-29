@@ -16,7 +16,7 @@ jobs:
           jqCommand="jq"
           firstEntryLineNo=2
           allKeys="$("${jqCommand}" -j "keys_unsorted" < torntools/changelog.json)"
-          if grep -q -F "v${{ github.event.inputs.new_version }}" <<< "$allKeys"
+          if grep -q -F "v${{ github.event.inputs.new_version }} - " <<< "$allKeys"
           then
               echo "::error file=changelog.json,line=2,col=4::New version entered ${{ github.event.inputs.new_version }} is already present."
               exit 1
