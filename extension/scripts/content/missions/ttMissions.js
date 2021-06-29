@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	addXHRListener(({ detail: { page, xhr } }) => {
+	addXHRListener(({ detail: { page, xhr, uri } }) => {
 		if (page === "loader" || page === "loader2") {
 			const params = new URLSearchParams(xhr.requestBody);
 			let sid = params.get("sid");
