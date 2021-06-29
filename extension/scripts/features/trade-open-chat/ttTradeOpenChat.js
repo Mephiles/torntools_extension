@@ -17,14 +17,11 @@
 	);
 
 	function initialiseListeners() {
-		window.addEventListener("hashchange", () => {
-			const step = getHashParameters().get("step");
-			if (step !== "view" && step !== "initiateTrade" && step !== "accept" && step !== "start") return;
-			if (feature.enabled()) addButton();
-		});
-		addXHRListener(({ detail: { page, xhr } }) => {
-			if (!new URLSearchParams(xhr.requestBody).get("step") || page !== "trade") return;
-			if (feature.enabled()) addButton();
+		CUSTOM_LISTENERS[EVENT_CHANNELS.TRADE].push(({ step }) => {
+			if (!feature.enabled()) return;
+			if (!["view", "initiateTrade", "accept", "start"].includes(step)) return;
+
+			addButton();
 		});
 	}
 

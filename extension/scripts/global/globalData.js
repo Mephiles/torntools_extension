@@ -509,6 +509,13 @@ const DEFAULT_STORAGE = {
 				hints: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
+		scripts: {
+			noConfirm: {
+				itemEquip: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				tradeAccept: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				marketBuy: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			},
+		},
 		external: {
 			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			yata: new DefaultSetting({ type: "boolean", defaultValue: false }),

@@ -273,7 +273,11 @@
 		{
 			"matches": ["https://www.torn.com/imarket.php*"],
 			"css": ["scripts/features/drug-details/ttDrugDetails.css"],
-			"js": ["scripts/features/drug-details/ttDrugDetails.js", "scripts/features/item-redirect/ttItemMarketRedirect.js"],
+			"js": [
+				"scripts/features/drug-details/ttDrugDetails.js",
+				"scripts/features/item-redirect/ttItemMarketRedirect.js",
+				"scripts/features/no-confirm/ttItemMarketNoConfirm.js"
+			],
 			"run_at": "document_end"
 		},
 		{
@@ -332,7 +336,8 @@
 				"scripts/features/book-effect/ttBookEffect.js",
 				"scripts/features/can-energy/ttCanEnergy.js",
 				"scripts/features/alcohol-nerve/ttAlcoholNerve.js",
-				"scripts/features/candy-happy/ttCandyHappy.js"
+				"scripts/features/candy-happy/ttCandyHappy.js",
+				"scripts/features/no-confirm/ttItemNoConfirm.js"
 			],
 			"run_at": "document_end"
 		},
@@ -413,9 +418,11 @@
 				"scripts/features/trade-open-chat/ttTradeOpenChat.css"
 			],
 			"js": [
+				"scripts/content/trade/ttTrade.js",
 				"scripts/features/item-values/ttItemValues.js",
 				"scripts/features/trade-values/ttTradeValues.js",
-				"scripts/features/trade-open-chat/ttTradeOpenChat.js"
+				"scripts/features/trade-open-chat/ttTradeOpenChat.js",
+				"scripts/features/no-confirm/ttTradeNoConfirm.js"
 			],
 			"run_at": "document_end"
 		},

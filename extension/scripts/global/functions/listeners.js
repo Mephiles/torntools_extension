@@ -29,6 +29,7 @@ const EVENT_CHANNELS = {
 	CRIMES_CRIME: "crimes-crime",
 	MISSION_LOAD: "mission-load",
 	MISSION_REWARDS: "mission-rewards",
+	TRADE: "trade",
 };
 
 const CUSTOM_LISTENERS = (() => {

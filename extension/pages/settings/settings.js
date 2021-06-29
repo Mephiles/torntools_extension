@@ -426,7 +426,7 @@ async function setupPreferences() {
 		_preferences.find("#external-tornstats").checked = settings.external.tornstats;
 		_preferences.find("#external-yata").checked = settings.external.yata;
 
-		for (const type of ["pages"]) {
+		for (const type of ["pages", "scripts"]) {
 			for (const page in settings[type]) {
 				const isGlobalDisabled = settings[type][page].global === false;
 
@@ -742,7 +742,7 @@ async function setupPreferences() {
 		settings.external.tornstats = _preferences.find("#external-tornstats").checked;
 		settings.external.yata = _preferences.find("#external-yata").checked;
 
-		for (const type of ["pages"]) {
+		for (const type of ["pages", "scripts"]) {
 			for (const page in settings[type]) {
 				for (const setting in settings[type][page]) {
 					const input = _preferences.find(`#${page}-${setting}, input[name="${setting}"]:checked`);

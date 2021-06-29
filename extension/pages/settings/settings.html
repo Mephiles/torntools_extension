@@ -124,7 +124,7 @@
 
 						<li class="header">Scripts</li>
 						<!-- <li>Achievements</li> -->
-						<!-- <li>No Confirm</li> -->
+						<li name="no-confirm">No Confirm</li>
 						<!-- <li>Stats Estimate</li> -->
 					</ul>
 				</nav>
@@ -1026,6 +1026,23 @@
 						<div class="option">
 							<input id="api-marking" type="checkbox" />
 							<label for="api-marking">Mark selections and fields used by TornTools.</label>
+						</div>
+					</section>
+
+					<section name="no-confirm">
+						<div class="header">No Confirm</div>
+						<div class="option">
+							<input id="noConfirm-itemEquip" type="checkbox" />
+							<label for="noConfirm-itemEquip">Item equipping.</label>
+						</div>
+						<div class="option">
+							<input id="noConfirm-tradeAccept" type="checkbox" />
+							<label for="noConfirm-tradeAccept">Accepting a trade.</label>
+							<label class="note" for="noConfirm-tradeAccept">You are responsible for making sure the trade isn't a scam.</label>
+						</div>
+						<div class="option">
+							<input id="noConfirm-marketBuy" type="checkbox" />
+							<label for="noConfirm-marketBuy">Buying items on the item market.</label>
 						</div>
 					</section>
 				</div>

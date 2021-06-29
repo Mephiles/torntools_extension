@@ -60,6 +60,8 @@ function interceptXHR(channel) {
 
 		this.requestBody = body;
 
+		arguments[0] = body;
+
 		return oldXHRSend.apply(this, arguments);
 	};
 
