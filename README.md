@@ -16,17 +16,46 @@
 [![Github License](https://img.shields.io/github/license/Mephiles/torntools_extension?style=for-the-badge)](https://github.com/Mephiles/torntools_extension/blob/master/LICENSE.md)
 
 **Links**
-
 <div style="display:inline-block;">
-    <img src="bullet.svg" width="40.5px" height="28px">
-    <img src="https://img.shields.io/chrome-web-store/stars/hjpaapdjcgbmeikfnahipphknonhlhib?label=CHROME%20STARS&logo=googlechrome&logoColor=%234382ef&style=for-the-badge" href="https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib">
+    <a href="#">
+        <img src="bullet.svg" width="24.5px" height="28px">
+    </a>
+    <a href="https://www.torn.com/forums.php#/p=threads&f=67&t=16054539&b=0&a=0&start=0&to=19000313">
+        <img src="https://img.shields.io/static/v1?style=for-the-badge&label=TORN&message=ORIGINAL%20THREAD&color=%23666&logo=data:image/png;base64,AAABAAEAEBAAAAEAGABoAwAAFgAAACgAAAAQAAAAIAAAAAEAGAAAAAAAAAAAABMLAAATCwAAAAAAAAAAAAA3Nzs3Nzs5OT03Nzs5OT09PUFGRkpOTlFPT1NISEw/P0M5OT03Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs8PEBMTFBoaGuBgYODg4Zvb3JRUVQ+PkI3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3NztAQERhYWVnZ2giIiIZGRlTU1RsbG9GRko3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3NztEREhzc3VtbW4AAAAAAABKSkqBgYNLS083Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3NztHR0p7e35+fn8AAAAAAABYWFiKioxOTlE3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3NztHR0p8fH+AgIEBAQEAAABZWVmMjI5PT1I3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3NztHR0p8fH+AgIEBAQEAAABZWVmLi41OTlE3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3NztHR0p8fH+AgIEBAQEAAABZWVmLi41OTlE3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3NztHR0t8fH+AgIEBAQEAAABZWVmMjI5PT1M3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs6Oj5DQ0dbW16Tk5WKiooBAQEAAABcXFyioqRiYmVDQ0c6Oj43Nzs3Nzs3Nzs3NztDQ0daWl2AgIG+vsCAgIACAgIAAABWVlbGxseFhYhaWl5DQ0c3Nzs3Nzs3Nzs3NztMTFB6enwuLi4kJCQUFBQAAAAAAAAMDAwiIiItLS16enxNTVE3Nzs3Nzs3Nzs3NztRUVSFhYgBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAACFhYhRUVQ3Nzs3Nzs3Nzs3NztMTFB4eHssLCwjIyMkJCQkJCQkJCQkJCQjIyMrKyx5eXxMTFA3Nzs3Nzs3Nzs3NztCQkZYWFt5eXyQkJOdnZ+enqCenqCdnZ+QkJN5eXxYWFtCQkY3Nzs3Nzs4ODw3Nzs6Oj5BQUVLS09SUlZWVlpXV1tXV1tWVlpSUlZLS09BQUU6Oj43Nzs3NzsAAGFtAAB5IAAATW8AAGwgAAAgUwAAcHAAAGcgAAAgRwAAdWkAAEluAABsAAAAT0MAAFNPAABMRQAATD0AAFBS" alt="Original Thread">
+    </a>
 </div>
-
-  - [Original Thread](https://www.torn.com/forums.php#/p=threads&f=67&t=16054539&b=0&a=0&start=0&to=19000313)
-  - [New Thread by Armpit [2137519]](https://www.torn.com/forums.php#/p=threads&f=67&t=16170566&b=0&a=0)
-  - [![Chrome Web Store](https://img.shields.io/chrome-web-store/stars/hjpaapdjcgbmeikfnahipphknonhlhib?label=CHROME%20STARS&logo=googlechrome&logoColor=%234382ef&style=for-the-badge)](https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib)
-  - [![Mozilla Add-on](https://img.shields.io/amo/stars/torn-tools?label=FIREFOX%20STARS&logo=firefoxbrowser&style=for-the-badge)](https://addons.mozilla.org/en-US/firefox/addon/torn-tools/)
-  - [![Discord](https://img.shields.io/discord/726572303286009978?label=DISCORD&logo=Discord&style=for-the-badge)](https://discord.gg/ukyK6f6)
+<div style="display:inline-block;">
+    <a href="#">
+        <img src="bullet.svg" width="24.5px" height="28px">
+    </a>
+    <a href="https://www.torn.com/forums.php#/p=threads&f=67&t=16170566&b=0&a=0">
+        <img src="https://img.shields.io/static/v1?style=for-the-badge&label=TORN&message=NEW%20THREAD%20By%20ARMPIT%20[2137519]&color=%23666&logo=data:image/png;base64,AAABAAEAEBAAAAEAGABoAwAAFgAAACgAAAAQAAAAIAAAAAEAGAAAAAAAAAAAABMLAAATCwAAAAAAAAAAAAA3Nzs3Nzs5OT03Nzs5OT09PUFGRkpOTlFPT1NISEw/P0M5OT03Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs8PEBMTFBoaGuBgYODg4Zvb3JRUVQ+PkI3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3NztAQERhYWVnZ2giIiIZGRlTU1RsbG9GRko3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3NztEREhzc3VtbW4AAAAAAABKSkqBgYNLS083Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3NztHR0p7e35+fn8AAAAAAABYWFiKioxOTlE3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3NztHR0p8fH+AgIEBAQEAAABZWVmMjI5PT1I3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3NztHR0p8fH+AgIEBAQEAAABZWVmLi41OTlE3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3NztHR0p8fH+AgIEBAQEAAABZWVmLi41OTlE3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs3NztHR0t8fH+AgIEBAQEAAABZWVmMjI5PT1M3Nzs3Nzs3Nzs3Nzs3Nzs3Nzs6Oj5DQ0dbW16Tk5WKiooBAQEAAABcXFyioqRiYmVDQ0c6Oj43Nzs3Nzs3Nzs3NztDQ0daWl2AgIG+vsCAgIACAgIAAABWVlbGxseFhYhaWl5DQ0c3Nzs3Nzs3Nzs3NztMTFB6enwuLi4kJCQUFBQAAAAAAAAMDAwiIiItLS16enxNTVE3Nzs3Nzs3Nzs3NztRUVSFhYgBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAACFhYhRUVQ3Nzs3Nzs3Nzs3NztMTFB4eHssLCwjIyMkJCQkJCQkJCQkJCQjIyMrKyx5eXxMTFA3Nzs3Nzs3Nzs3NztCQkZYWFt5eXyQkJOdnZ+enqCenqCdnZ+QkJN5eXxYWFtCQkY3Nzs3Nzs4ODw3Nzs6Oj5BQUVLS09SUlZWVlpXV1tXV1tWVlpSUlZLS09BQUU6Oj43Nzs3NzsAAGFtAAB5IAAATW8AAGwgAAAgUwAAcHAAAGcgAAAgRwAAdWkAAEluAABsAAAAT0MAAFNPAABMRQAATD0AAFBS" alt="New Thread by Armpit [2137519]">
+    </a>
+</div>
+<div style="display:inline-block;">
+    <a href="#">
+        <img src="bullet.svg" width="24.5px" height="28px">
+    </a>
+    <a href="https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib">
+        <img src="https://img.shields.io/chrome-web-store/stars/hjpaapdjcgbmeikfnahipphknonhlhib?label=CHROME%20STARS&logo=googlechrome&logoColor=%234382ef&style=for-the-badge">
+    </a>
+</div>
+<div style="display:inline-block;">
+    <a href="#">
+        <img src="bullet.svg" width="24.5px" height="28px">
+    </a>
+    <a href="https://addons.mozilla.org/en-US/firefox/addon/torn-tools/">
+        <img src="https://img.shields.io/amo/stars/torn-tools?label=FIREFOX%20STARS&logo=firefoxbrowser&style=for-the-badge">
+    </a>
+</div>
+<div style="display:inline-block;">
+    <a href="#">
+        <img src="bullet.svg" width="24.5px" height="28px">
+    </a>
+    <a href="https://discord.gg/ukyK6f6">
+        <img src="https://img.shields.io/discord/726572303286009978?label=DISCORD&logo=Discord&style=for-the-badge">
+    </a>
+</div>
 
 **Wiki page**
 - Features
