@@ -14,6 +14,7 @@
 [![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/hjpaapdjcgbmeikfnahipphknonhlhib?label=CHROME%20USERS&style=for-the-badge)](https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib)
 [![Firefox Add-on Users](https://img.shields.io/amo/users/%257B3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9%257D?label=FIREFOX%20USERS&style=for-the-badge)](https://addons.mozilla.org/en-US/firefox/addon/torn-tools/)
 [![Github License](https://img.shields.io/github/license/Mephiles/torntools_extension?style=for-the-badge)](https://github.com/Mephiles/torntools_extension/blob/master/LICENSE.md)
+[![GitHub Build](https://img.shields.io/github/workflow/status/Mephiles/torntools_extension/Run%20Prettier/master?style=for-the-badge)](https://github.com/Mephiles/torntools_extension/actions/workflows/run-prettier.yml)
 
 **Links**
 <div style="display:inline-block;">
@@ -37,7 +38,7 @@
         <img src="bullet.svg" width="24.5px" height="28px">
     </a>
     <a href="https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib">
-        <img src="https://img.shields.io/chrome-web-store/stars/hjpaapdjcgbmeikfnahipphknonhlhib?label=CHROME%20STARS&logo=googlechrome&logoColor=%234382ef&style=for-the-badge">
+        <img src="https://img.shields.io/chrome-web-store/stars/hjpaapdjcgbmeikfnahipphknonhlhib?label=CHROME%20RATING&logo=googlechrome&logoColor=%234382ef&style=for-the-badge">
     </a>
 </div>
 <div style="display:inline-block;">
@@ -45,7 +46,7 @@
         <img src="bullet.svg" width="24.5px" height="28px">
     </a>
     <a href="https://addons.mozilla.org/en-US/firefox/addon/torn-tools/">
-        <img src="https://img.shields.io/amo/stars/torn-tools?label=FIREFOX%20STARS&logo=firefoxbrowser&style=for-the-badge">
+        <img src="https://img.shields.io/amo/stars/torn-tools?label=FIREFOX%20RATING&logo=firefoxbrowser&style=for-the-badge">
     </a>
 </div>
 <div style="display:inline-block;">
