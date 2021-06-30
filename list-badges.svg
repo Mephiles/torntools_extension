@@ -1,17 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 800 400" width="800" height="400">
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><!-- <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> --><!-- <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> --><!-- <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> --><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 800 400" width="800" height="400">
 	<foreignObject width="100%" height="100%">
-		<div xmlns="http://www.w3.org/1999/xhtml">
-			<style>
+		<div>
+			<style type="text/css">
 				li::marker {
 					line-height: 50px;
 				}
 			</style>
-			<div class="container">
+			<div>
 				<ul>
-    					<li style="vertical-align: middle;">
-						<a href="https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib">
-							<img src="https://img.shields.io/chrome-web-store/stars/hjpaapdjcgbmeikfnahipphknonhlhib?label=CHROME%20STARS&logo=googlechrome&logoColor=%234382ef&style=for-the-badge" />
-						</a>
+    				<li>
+						<img src="https://img.shields.io/chrome-web-store/stars/hjpaapdjcgbmeikfnahipphknonhlhib?label=CHROME%20STARS&amp;logo=googlechrome&amp;logoColor=%234382ef&amp;style=for-the-badge" href="https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib"></img>
 					</li>
 				</ul>
 			</div>
