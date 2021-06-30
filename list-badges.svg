@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 800 400" width="800" height="400">
+	<image xlink:href="https://www.amrita.edu/sites/default/files/news-images/new/news-events/images/l-nov/grass.jpg" />
 	<style type="text/css">
 		li::marker {
 			line-height: 50px;
