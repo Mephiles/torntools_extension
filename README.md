@@ -18,7 +18,7 @@
 **Links**
 
 <div style="display:inline-block;">
-    <img src="bullet.svg" width="8px" height="28px">
+    <img src="bullet.svg" width="40.5px" height="28px">
     <img src="https://img.shields.io/chrome-web-store/stars/hjpaapdjcgbmeikfnahipphknonhlhib?label=CHROME%20STARS&logo=googlechrome&logoColor=%234382ef&style=for-the-badge" href="https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib">
 </div>
 
