@@ -16,10 +16,11 @@
 [![Github License](https://img.shields.io/github/license/Mephiles/torntools_extension?style=for-the-badge)](https://github.com/Mephiles/torntools_extension/blob/master/LICENSE.md)
 
 **Links**
-<ul>
-    <img src="css.svg" width="0" height="0">
-    <li><img margin="50px" style="padding-top: 50px;" src="https://img.shields.io/chrome-web-store/stars/hjpaapdjcgbmeikfnahipphknonhlhib?label=CHROME%20STARS&logo=googlechrome&logoColor=%234382ef&style=for-the-badge" href="https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib"></li>
-</ul>
+
+<div style="display:inline-block;">
+    <img src="bullet.svg" width="8px" height="28px">
+    <img src="https://img.shields.io/chrome-web-store/stars/hjpaapdjcgbmeikfnahipphknonhlhib?label=CHROME%20STARS&logo=googlechrome&logoColor=%234382ef&style=for-the-badge" href="https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib">
+</div>
 
   - [Original Thread](https://www.torn.com/forums.php#/p=threads&f=67&t=16054539&b=0&a=0&start=0&to=19000313)
   - [New Thread by Armpit [2137519]](https://www.torn.com/forums.php#/p=threads&f=67&t=16170566&b=0&a=0)
