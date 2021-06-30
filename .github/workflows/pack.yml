@@ -13,7 +13,7 @@ jobs:
       - name: Update the changelog.json
         run: |
           DaySuffix() {
-            case `date +%d` in
+            case $(date +%d) in
             1|21|31) echo "st";;
             2|22)    echo "nd";;
             3|23)    echo "rd";;
@@ -64,7 +64,7 @@ jobs:
           zip -q -r "torntools_${version}.zip" ./torntools/*
           mv "torntools_${version}.zip" ./versions/
           newChangelogEntries="\t\"v${{ github.event.inputs.new_version }} - xxxxx, xxth. $(date +%Y)\": \{\n\t\t\"Features\"\: [],\n\t\t\"Fixes\"\: [],\n\t\t\"Changes\"\: []\n\t\},"
-          sed -i "${firstEntryLineNo}s>\t\"${firstLineKey}.*>${newChangelogEntries}\n\t\"v${version} - $(date "+%B, %-d`DaySuffix`. %Y")\"\ \:\ \{>" ./torntools/changelog.json
+          sed -i "${firstEntryLineNo}s>\t\"${firstLineKey}.*>${newChangelogEntries}\n\t\"v${version} - $(date "+%B, %-d$(DaySuffix). %Y")\"\ \:\ \{>" ./torntools/changelog.json
           export version
           echo "version=$version" >> "$GITHUB_ENV"
       - name: Release
