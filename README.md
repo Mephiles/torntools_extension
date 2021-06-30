@@ -9,7 +9,7 @@
 
 [![Chrome Extension Version](https://img.shields.io/chrome-web-store/v/hjpaapdjcgbmeikfnahipphknonhlhib?style=for-the-badge)](https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib)
 [![Firefox Extension Version](https://img.shields.io/amo/v/torn-tools?style=for-the-badge)](https://addons.mozilla.org/en-US/firefox/addon/torn-tools/)
-[![Github Version](https://img.shields.io/github/v/tag/Mephiles/torntools_extension?label=LATEST%20RELEASE&style=for-the-badge)](https://github.com/Mephiles/torntools_extension)
+[![GitHub Release Date](https://img.shields.io/github/release-date/Mephiles/torntools_extension?style=for-the-badge)](https://github.com/Mephiles/torntools_extension/releases/latest)
 
 [![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/hjpaapdjcgbmeikfnahipphknonhlhib?label=CHROME%20USERS&style=for-the-badge)](https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib)
 [![Firefox Add-on Users](https://img.shields.io/amo/users/%257B3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9%257D?label=FIREFOX%20USERS&style=for-the-badge)](https://addons.mozilla.org/en-US/firefox/addon/torn-tools/)
