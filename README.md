@@ -5,10 +5,14 @@
     <h2>TornTools</h2>
 </div>
 
-*A browser extension for Torn.com*  
+*A browser extension for Torn.com*
+
 ![Chrome Extension Version](https://img.shields.io/chrome-web-store/v/hjpaapdjcgbmeikfnahipphknonhlhib?style=for-the-badge)
 ![Firefox Extension Version](https://img.shields.io/amo/v/%7B3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9%7D?style=for-the-badge)
 ![Github Version](https://img.shields.io/github/v/tag/Mephiles/torntools_extension?style=for-the-badge)
+
+![Chrome Web Store](https://img.shields.io/chrome-web-store/users/hjpaapdjcgbmeikfnahipphknonhlhib?label=CHROME%20USERS&style=for-the-badge)
+![Mozilla Add-on](https://img.shields.io/amo/users/%257B3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9%257D?label=FIREFOX%20USERS&style=for-the-badge)
 
 **Links**
   - [Original Thread](https://www.torn.com/forums.php#/p=threads&f=67&t=16054539&b=0&a=0&start=0&to=19000313)  
