@@ -69,15 +69,25 @@ function formatTime(time = {}, options = {}) {
 	if (isDefined(time.milliseconds)) millis += time.milliseconds;
 	if (isDefined(time.seconds)) millis += time.seconds * TO_MILLIS.SECONDS;
 
-	let date;
-	let parts;
+	let date, parts;
 	switch (options.type) {
 		case "normal":
 			date = new Date(millis);
 
-			let hours = toMultipleDigits(date.getHours());
-			const minutes = toMultipleDigits(date.getMinutes());
-			const seconds = toMultipleDigits(date.getSeconds());
+			let seconds, minutes, hours;
+			if (settings.formatting.tct) {
+				seconds = date.getUTCSeconds();
+				minutes = date.getUTCMinutes();
+				hours = date.getUTCHours();
+			} else {
+				seconds = date.getSeconds();
+				minutes = date.getMinutes();
+				hours = date.getHours();
+			}
+
+			seconds = toMultipleDigits(seconds);
+			minutes = toMultipleDigits(minutes);
+			hours = toMultipleDigits(hours);
 
 			switch (settings.formatting.time) {
 				case "us":
@@ -184,28 +194,39 @@ function formatDate(date = {}, options = {}) {
 	if (isDefined(date.seconds)) millis += date.seconds * TO_MILLIS.SECONDS;
 
 	const _date = new Date(millis);
+
+	let day, month, year;
+	if (settings.formatting.tct) {
+		day = _date.getUTCDate();
+		month = _date.getUTCMonth() + 1;
+		year = _date.getUTCFullYear();
+	} else {
+		day = _date.getDate();
+		month = _date.getMonth() + 1;
+		year = _date.getFullYear();
+	}
+
 	const parts = [];
 	let separator;
-
 	switch (settings.formatting.date) {
 		case "us":
 			separator = "/";
 
-			parts.push(_date.getMonth() + 1, _date.getDate());
-			if (options.showYear) parts.push(_date.getFullYear());
+			parts.push(month, day);
+			if (options.showYear) parts.push(year);
 			break;
 		case "iso":
 			separator = "-";
 
-			if (options.showYear) parts.push(_date.getFullYear());
-			parts.push(_date.getMonth() + 1, _date.getDate());
+			if (options.showYear) parts.push(year);
+			parts.push(month, day);
 			break;
 		case "eu":
 		default:
 			separator = ".";
 
-			parts.push(_date.getDate(), _date.getMonth() + 1);
-			if (options.showYear) parts.push(_date.getFullYear());
+			parts.push(day, month);
+			if (options.showYear) parts.push(year);
 			break;
 	}
 

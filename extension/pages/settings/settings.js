@@ -417,6 +417,7 @@ async function setupPreferences() {
 			checkbox.checked = settings[setting];
 		}
 
+		_preferences.find("#formatting-tct").checked = settings.formatting.tct;
 		_preferences.find(`input[name="formatDate"][value="${settings.formatting.date}"]`).checked = true;
 		_preferences.find(`input[name="formatTime"][value="${settings.formatting.time}"]`).checked = true;
 		_preferences.find(`input[name="themePage"][value="${settings.themes.pages}"]`).checked = true;
@@ -733,6 +734,7 @@ async function setupPreferences() {
 			settings[setting] = checkbox.checked;
 		}
 
+		settings.formatting.tct = _preferences.find("#formatting-tct").checked;
 		settings.formatting.date = _preferences.find("input[name='formatDate']:checked").value;
 		settings.formatting.time = _preferences.find("input[name='formatTime']:checked").value;
 		settings.themes.pages = _preferences.find("input[name='themePage']:checked").value;

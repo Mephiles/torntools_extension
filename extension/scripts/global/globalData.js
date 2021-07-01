@@ -276,6 +276,7 @@ const DEFAULT_STORAGE = {
 		featureDisplayHideDisabled: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		developer: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		formatting: {
+			tct: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			date: new DefaultSetting({ type: "string", defaultValue: "eu" }),
 			time: new DefaultSetting({ type: "string", defaultValue: "eu" }),
 		},

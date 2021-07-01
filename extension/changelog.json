@@ -35,7 +35,8 @@
 				{ "message": "Apply notification volume for tts.", "contributor": "Tesa" },
 				{ "message": "Implement new jail score formula.", "contributor": "bandirao" },
 				{ "message": "Search chat by username and id. ('by:...' or 'u:...')", "contributor": "bandirao" },
-				{ "message": "Load NNBs from YATA too.", "contributor": "DeKleineKobini" }
+				{ "message": "Load NNBs from YATA too.", "contributor": "DeKleineKobini" },
+				{ "message": "Show dates and time in TCT instead of local time.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [{ "message": "We've removed the safe crimes features due to it being less useful than originally thought." }]
 		}
