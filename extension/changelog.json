@@ -15,7 +15,8 @@
 				{ "message": "Show muggable money when using a company special to show money on hand.", "contributor": "DeKleineKobini" },
 				{ "message": "Calculate and remember partial spy result and export them to TornStats.", "contributor": "DeKleineKobini" },
 				{ "message": "Display features on each page including their status.", "contributor": "Mephiles" },
-				{ "message": "Show a quick refresh button on the jail page.", "contributor": "AllMight" }
+				{ "message": "Show a quick refresh button on the jail page.", "contributor": "AllMight" },
+				{ "message": "Show weapon bonus descriptions in attack logs.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [],
 			"changes": [
