@@ -57,6 +57,7 @@
         <img src="https://img.shields.io/discord/726572303286009978?label=DISCORD&logo=Discord&style=for-the-badge">
     </a>
 </div>
+<br>
 
 **Wiki page**
 - Features
