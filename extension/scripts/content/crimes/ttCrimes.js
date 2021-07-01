@@ -2,7 +2,7 @@
 
 (async () => {
 	addXHRListener(({ detail: { page, uri } }) => {
-		if (page === "crimes") {
+		if (page === "crimes" && uri) {
 			const step = uri.step;
 
 			if (step === "main" || step === "docrime" || step === "docrime3") {
