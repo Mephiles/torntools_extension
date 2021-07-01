@@ -509,6 +509,7 @@ function updateLootTimes() {
 					17: { name: "Easter Bunny" },
 					19: { name: "Jimmy" },
 					20: { name: "Fernando" },
+					21: { name: "Tiny" },
 				};
 
 				const time = Date.now();
