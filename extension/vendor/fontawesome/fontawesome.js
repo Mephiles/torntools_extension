@@ -10,6 +10,7 @@ fetch(chrome.runtime.getURL("/vendor/fontawesome/fontawesome.css"))
 		});
 
 		const style = document.createElement("style");
+		style.classList.add("tt-style")
 		style.innerHTML = css;
 
 		document.querySelector("head").appendChild(style);

@@ -508,6 +508,9 @@ const DEFAULT_STORAGE = {
 			missions: {
 				hints: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			attack: {
+				bonusInformation: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		scripts: {
 			noConfirm: {

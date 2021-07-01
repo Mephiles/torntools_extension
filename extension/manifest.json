@@ -489,6 +489,12 @@
 			"css": ["scripts/features/mission-hints/ttMissionHints.css"],
 			"js": ["scripts/content/missions/ttMissions.js", "scripts/features/mission-hints/ttMissionHints.js"],
 			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/loader.php?sid=attackLog*"],
+			"css": ["scripts/features/weapon-bonus-information/ttWeaponBonusInformation.css"],
+			"js": ["scripts/features/weapon-bonus-information/ttWeaponBonusInformation.js"],
+			"run_at": "document_end"
 		}
 	]
 }
