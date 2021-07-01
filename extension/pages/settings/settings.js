@@ -383,7 +383,7 @@ async function setupPreferences() {
 	}
 
 	_preferences.find("#external-tornstats").addEventListener("click", (event) => {
-		requestOrigin("https://beta.tornstats.com/", event);
+		requestOrigin("https://www.tornstats.com/", event);
 	});
 	_preferences.find("#external-yata").addEventListener("click", (event) => {
 		requestOrigin("https://yata.yt/", event);

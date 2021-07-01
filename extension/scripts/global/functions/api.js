@@ -36,7 +36,7 @@ async function fetchData(location, options = {}) {
 				torn: "https://api.torn.com/",
 				torn_direct: "https://www.torn.com/",
 				yata: "https://yata.yt/",
-				tornstats: "https://beta.tornstats.com/",
+				tornstats: "https://www.tornstats.com/",
 				torntools: "https://torntools.gregork.com/",
 				nukefamily: "https://www.nukefamily.org/",
 			};
