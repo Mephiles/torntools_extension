@@ -477,6 +477,6 @@ function displayWarning() {
 		okButton = true;
 	}
 	if (!okButton) return;
-	doc.find("a[href='#skip-to-content']").insertAdjacentHTML("afterEnd", rawHTML);
+	doc.find("a[href='#skip-to-content']").insertAdjacentHTML("afterend", rawHTML);
 	doc.find("button.tt-silver-button.tt-ok-button").addEventListener("click", (event) => (event.target.parentElement.style.display = "none"));
 }

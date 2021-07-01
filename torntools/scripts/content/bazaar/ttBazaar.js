@@ -67,7 +67,7 @@ requireDatabase().then(() => {
 						if (settings.pages.bazaar.display_total_price) {
 							let rawHTML = "<span id='tt-total-cost'></span>";
 							let bazaarItemPrice = parseInt(doc.find("[class*='buyMenu_'] [class*='price_']").innerText.split("$")[1].replace(/,/g, ""));
-							doc.find("[class*='buyMenu_'] [class*='amount_']").insertAdjacentHTML("beforeEnd", rawHTML);
+							doc.find("[class*='buyMenu_'] [class*='amount_']").insertAdjacentHTML("beforeend", rawHTML);
 							doc.find("[class*='buyMenu_'] [class*='buyForm_'] input[class*='numberInput_']").addEventListener(
 								"keyup",
 								(event) => (doc.find("span#tt-total-cost").innerHTML = "$" + numberWithCommas(bazaarItemPrice * event.target.value, false))

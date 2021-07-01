@@ -763,7 +763,7 @@ function showMissingPlushies() {
 				neededPlushiesDiv.innerHTML += rawHTML;
 			}
 			neededPlushiesDiv.lastChild.style.borderRadius = "0px 0px 5px 5px";
-			doc.find(".main-items-cont-wrap").insertAdjacentElement("afterEnd", neededPlushiesDiv);
+			doc.find(".main-items-cont-wrap").insertAdjacentElement("afterend", neededPlushiesDiv);
 		}
 	}
 }
@@ -805,7 +805,7 @@ function showMissingFlowers() {
 				neededFlowersDiv.innerHTML += rawHTML;
 			}
 			neededFlowersDiv.lastChild.style.borderRadius = "0px 0px 5px 5px";
-			doc.find(".main-items-cont-wrap").insertAdjacentElement("afterEnd", neededFlowersDiv);
+			doc.find(".main-items-cont-wrap").insertAdjacentElement("afterend", neededFlowersDiv);
 		}
 	}
 }
@@ -814,7 +814,7 @@ function showBookEffects() {
 	doc.findAll("[data-category='Book']").forEach((book) => {
 		if (book.find("span.tt-book-effect")) return;
 		book.find("span.qty.bold.t-hide").insertAdjacentHTML(
-			"afterEnd",
+			"afterend",
 			`<span class='tt-book-effect'> - ${BOOK_DESCRIPTIONS[parseInt(book.getAttribute("data-item"))]}</span>`
 		);
 	});
@@ -851,7 +851,7 @@ function showECanGains() {
 			if (!isNaN(facECanPerc)) totalEnergy += (facECanPerc / 100) * baseE;
 			if (!isNaN(jobECanPerc)) totalEnergy += (jobECanPerc / 100) * baseE;
 			const rawHTML = `<span class='tt-e-can-alcohol-candy'>${totalEnergy}E</span>`;
-			eCanElement.find("span.name-wrap").insertAdjacentHTML("beforeEnd", rawHTML);
+			eCanElement.find("span.name-wrap").insertAdjacentHTML("beforeend", rawHTML);
 		}
 	});
 }
@@ -890,7 +890,7 @@ function showAlcoholNerveGains() {
 			let minNerve = Math.floor(totalNerve);
 			let nerveRange = maxNerve === minNerve ? maxNerve : `${minNerve} - ${maxNerve}`;
 			const rawHTML = `<span class='tt-e-can-alcohol-candy'>${nerveRange} N</span>`;
-			alcoholicDrink.find("span.name-wrap span.qty.bold.t-hide").insertAdjacentHTML("beforeEnd", rawHTML);
+			alcoholicDrink.find("span.name-wrap span.qty.bold.t-hide").insertAdjacentHTML("beforeend", rawHTML);
 		}
 	});
 }
@@ -926,27 +926,27 @@ function showCandyGains() {
 			if (!isNaN(facCandyPerc)) totalHappy += (facCandyPerc / 100) * baseHappy;
 			if (!isNaN(jobCandyPerc)) totalHappy += (jobCandyPerc / 100) * baseHappy;
 			const rawHTML = `<span class='tt-e-can-alcohol-candy'>${totalHappy}H</span>`;
-			candy.find("span.name-wrap span.qty.bold.t-hide").insertAdjacentHTML("beforeEnd", rawHTML);
+			candy.find("span.name-wrap span.qty.bold.t-hide").insertAdjacentHTML("beforeend", rawHTML);
 		}
 	});
 }
 
 function showXanaxWarning() {
 	doc.addEventListener("click", (event) => {
-		if (event.target.classList.contains("option-use") && event.target.getAttribute("aria-label") === "Take Xanax") {
+		if (event.target.classList.contains("option-use") && event.target.ariaLabel === "Take Xanax") {
 			requireElement("div.action-wrap.use-act.use-action[style*='display: block'] span.bold").then(() => {
 				let actionWrap = doc.find("div.action-wrap.use-act.use-action[style*='display: block']");
 				if (
 					actionWrap.find("span.bold").innerText.trim() === "Xanax" &&
 					!actionWrap.find("span.tt-xan-warning") &&
-					doc.find("a#barEnergy p[class*='bar-value_']").innerHTML.contains("1000/")
+					doc.find("a#barEnergy p[class*='bar-value_']").innerHTML.includes("1000/")
 				) {
-					actionWrap.find("h5#wai-action-desc").insertAdjacentHTML("afterEnd", "<span class='tt-xan-warning'>Warning ! You are at 1000E !</span>");
+					actionWrap.find("h5#wai-action-desc").insertAdjacentHTML("afterend", "<span class='tt-xan-warning'>Warning ! You are at 1000E !</span>");
 				}
 			});
 		}
 	});
-	if (doc.find("div#ttQuick div.item[item-id='206']") && doc.find("a#barEnergy p[class*='bar-value_']").innerHTML.contains("1000/")) {
+	if (doc.find("div#ttQuick div.item[item-id='206']") && doc.find("a#barEnergy p[class*='bar-value_']").innerHTML.includes("1000/")) {
 		doc.find("div#ttQuick div.item[item-id='206']").style.backgroundColor = "#ff7979";
 		doc.find("div#ttQuick div.item[item-id='206']").style.pointerEvents = "none";
 	}

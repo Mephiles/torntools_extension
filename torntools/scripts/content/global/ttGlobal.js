@@ -877,7 +877,7 @@ function tradeChatPostTimer() {
 	if (doc.findAll(SELECTORS.tradeChatTimer).length === 0) {
 		if (last_trade_post_time && new Date() - new Date(last_trade_post_time) < 60 * 1000) {
 			const tradeChatInput = doc.find(SELECTORS.tradeChatInput);
-			if (tradeChatInput) tradeChatInput.insertAdjacentHTML("afterBegin", dontPostHTML);
+			if (tradeChatInput) tradeChatInput.insertAdjacentHTML("afterbegin", dontPostHTML);
 
 			setTimeout(() => {
 				const canPost = doc.find(SELECTORS.tradeChatTimer).lastElementChild;
@@ -887,7 +887,7 @@ function tradeChatPostTimer() {
 			}, 60 * 1000 - (new Date() - new Date(last_trade_post_time)));
 		} else {
 			const tradeChatInput = doc.find(SELECTORS.tradeChatInput);
-			if (tradeChatInput) tradeChatInput.insertAdjacentHTML("afterBegin", canPostHTML);
+			if (tradeChatInput) tradeChatInput.insertAdjacentHTML("afterbegin", canPostHTML);
 		}
 		const tradeChatTextarea = doc.find(`${SELECTORS.tradeChatInput} textarea`);
 		if (tradeChatTextarea)
@@ -921,7 +921,7 @@ function chainBonusWatch() {
 							<span>Chain is approaching bonus hit ! Please check your faction chat !</span>
 						</div>
 					</div>`;
-					doc.body.insertAdjacentHTML("afterBegin", rawHTML);
+					doc.body.insertAdjacentHTML("afterbegin", rawHTML);
 				}
 			});
 			attackButton.addEventListener("mouseleave", () => {
@@ -947,7 +947,7 @@ function aliasUsers() {
 		for (const userID of Object.keys(users_alias)) {
 			doc.findAll(`.m-hide a[href*='/profiles.php?XID=${userID}']`).forEach((userIdA) => {
 				userIdA.classList.add("tt-user-alias");
-				userIdA.insertAdjacentHTML("beforeEnd", `<div class='tt-alias'>${users_alias[userID]}</div>`);
+				userIdA.insertAdjacentHTML("beforeend", `<div class='tt-alias'>${users_alias[userID]}</div>`);
 			});
 		}
 	});
@@ -1076,7 +1076,7 @@ function showNpcLoot() {
 		npcContent.appendChild(npcDiv);
 	}
 	npcContent.id = "tt-loot";
-	doc.find("#sidebar > :first-child").insertAdjacentElement("afterEnd", npcLootDiv);
+	doc.find("#sidebar > :first-child").insertAdjacentElement("afterend", npcLootDiv);
 	setInterval(() => {
 		doc.findAll("div#tt-loot .tt-npc .tt-npc-information > :last-child").forEach((x) => {
 			if (!x.getAttribute("seconds")) return;
