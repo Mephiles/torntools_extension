@@ -17,7 +17,6 @@
 
 		document.find(".faction-tabs li[data-case=main]").addEventListener("click", loadMain);
 		document.find(".faction-tabs li[data-case=info]").addEventListener("click", loadInfo);
-		// TODO - Check if XHR listener is enough.
 		// document.find(".faction-tabs li[data-case=crimes]").addEventListener("click", loadCrimes);
 		document.find(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
 		document.find(".faction-tabs li[data-case=controls]").addEventListener("click", loadControls);

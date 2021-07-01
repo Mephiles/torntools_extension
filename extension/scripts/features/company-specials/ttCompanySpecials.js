@@ -5,7 +5,6 @@
 
 	const data = {};
 
-	// TODO - Test muggable cash again
 	const feature = featureManager.registerFeature(
 		"Company Specials",
 		"companies",
