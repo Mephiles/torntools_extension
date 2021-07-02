@@ -21,6 +21,11 @@ jobs:
               echo "::error file=changelog.json,line=2,col=4::New version entered ${{ github.event.inputs.new_version }} is already present."
               exit 1
           fi
+          if grep -q -F "v" <<< "${{ github.event.inputs.new_version }}"
+          then
+              echo "::error file=changelog.json,line=2,col=4::New version entered ${{ github.event.inputs.new_version }} contains \"v\"."
+              exit 1
+          fi
           firstLineKey="$("${jqCommand}" -j ".[0]" <<< "$allKeys" | tr -d "\"")"
           version="$(echo -n "${firstLineKey}" | cut -d- -f1 | sed 's,^v,,' | tr -d ' ')"
           jqFeatures=".[\"${firstLineKey}\"] | .[\"Features\"]"
