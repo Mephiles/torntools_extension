@@ -12,6 +12,14 @@ jobs:
       - uses: actions/checkout@v2
       - name: Update the changelog.json
         run: |
+          DaySuffix() {
+            case $(date +%d) in
+            1|21|31) echo "st";;
+            2|22)    echo "nd";;
+            3|23)    echo "rd";;
+            *)       echo "th";;
+            esac
+          }
           sudo apt-get install jq
           jqCommand="jq"
           firstEntryLineNo=2
@@ -67,7 +75,8 @@ jobs:
           zip -q -r "torntools_${version}.zip" ./torntools/*
           mv "torntools_${version}.zip" ./versions/
           newChangelogEntries="\t\"v${{ github.event.inputs.new_version }} - xxxxx, xxth. $(date +%Y)\": \{\n\t\t\"Features\"\: [],\n\t\t\"Fixes\"\: [],\n\t\t\"Changes\"\: []\n\t\},"
-          sed -i "${firstEntryLineNo}s>\t\"${firstLineKey}.*>${newChangelogEntries}\n\t\"v${version} - $(date +%B), $(date +%d)th. $(date +%Y)\"\ \:\ \{>" ./torntools/changelog.json
+          sed -i "${firstEntryLineNo}s>\t\"${firstLineKey}.*>${newChangelogEntries}\n\t\"v${version} - $(date "+%B, %-d$(DaySuffix). %Y")\"\ \:\ \{>" ./torntools/changelog.json
+          sed -i "s+.*A pointer for bash.*+\[\!\[GitHub Release Date\]\(https\:\/\/img\.shields\.io\/static\/v1\?label\=RELEASE\%20DATE\&message\=$(date "+%B, %-d$(DaySuffix). %Y" | $jqCommand --raw-input --raw-output '. | @uri')\&color\=\%23acea00\&style\=for\-the\-badge\)\]\(https\:\/\/github\.com\/Mephiles\/torntools\_extension\/releases\/latest\)\<\!\-\-\-A\ pointer\ for\ bash\-\-\>+" README.md
           export version
           echo "version=$version" >> "$GITHUB_ENV"
       - name: Release
