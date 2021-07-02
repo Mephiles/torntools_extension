@@ -30,7 +30,7 @@
         <img src="bullet.svg" width="24.5px" height="28px">
     </a>
     <a href="https://www.torn.com/forums.php#/p=threads&f=67&t=16170566&b=0&a=0">
-        <img src="https://img.shields.io/static/v1?style=for-the-badge&label=TORN&message=NEW%20THREAD%20By%20ARMPIT%20[2137519]&color=%23666&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAIVBMVEVRTU1GQkI3MzNbWVkAAACAfX2LiIgcHBydm5tvbGzFw8O9mSGGAAAAWElEQVQI12NQUmQwNmYQUmJQEo7o6Gg1BDJYy4EgAMhgcwGCBLCIiwtYRDgqxHkZSI2iRYpzM0iXkmiIc4ISsQzJKY4QhvD0golghsK0SEYwQ0mAUUhJCQAuLRvb97saxwAAAABJRU5ErkJggg==" alt="New Thread by Armpit [2137519]">
+        <img src="https://img.shields.io/static/v1?style=for-the-badge&label=TORN&message=NEW%20THREAD%20By%20CANKLES%20[2137519]&color=%23666&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAIVBMVEVRTU1GQkI3MzNbWVkAAACAfX2LiIgcHBydm5tvbGzFw8O9mSGGAAAAWElEQVQI12NQUmQwNmYQUmJQEo7o6Gg1BDJYy4EgAMhgcwGCBLCIiwtYRDgqxHkZSI2iRYpzM0iXkmiIc4ISsQzJKY4QhvD0golghsK0SEYwQ0mAUUhJCQAuLRvb97saxwAAAABJRU5ErkJggg==" alt="New Thread by cankles [2137519]">
     </a>
 </div>
 <div style="display:inline-block;">
