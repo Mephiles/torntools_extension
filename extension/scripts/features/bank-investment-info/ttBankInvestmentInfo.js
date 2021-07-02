@@ -62,6 +62,7 @@
 					type: "div",
 					class: "bank-investment-money-cell-per-day",
 					text: formatNumber(bankMoneyData.daily, { currency: true, decimals: 0 }),
+					attributes: { title: "Profit per day." },
 				}),
 			],
 		});
