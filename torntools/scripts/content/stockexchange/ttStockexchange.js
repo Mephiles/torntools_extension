@@ -278,6 +278,6 @@ function hideStockBlocks() {
 		}
 		let rawHTML =
 			'<div class="info-msg-cont gray border-round m-top10"><div class="info-msg border-round" style="background-color: #627e0d;"><i class="info-icon"></i><div class="delimiter"><div class="msg right-round" style="background-color: #627e0d;color: #627e0d;">Some stock blocks have been disabled by TornTools. Please re-enable them in Settings.</div></div></div></div>';
-		doc.find("div.stock-main-wrap div.title-black").insertAdjacentHTML("beforeBegin", rawHTML);
+		doc.find("div.stock-main-wrap div.title-black").insertAdjacentHTML("beforebegin", rawHTML);
 	}
 }

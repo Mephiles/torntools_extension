@@ -167,11 +167,11 @@
 /* Highlight blood bags */
 
 .tt-good_blood {
-	background-color: #bdecb9b5 !important;
+	background-color: var(--default-bg-green-hover-color) !important;
 }
 
 .tt-bad_blood {
-	background-color: #f5b2b28a !important;
+	background-color: var(--default-bg-red-hover-color) !important;
 }
 
 span.tt-item-price {

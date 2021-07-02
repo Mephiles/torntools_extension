@@ -324,6 +324,6 @@ function bniWarning() {
 				"<br>Please try disabling TornTools to make sure if the issue persists.&nbsp;Contact <a href='https://www.torn.com/profiles.php?XID=2087524' style='color:#f2f2f2'>Mephiles [2087524]</a> in case of issues caused by TornTools.<br><br>",
 			class: "title-green tt-bug-warning",
 		});
-		doc.find("ul.title.title-black").insertAdjacentElement("afterEnd", ttBugWarning);
+		doc.find("ul.title.title-black").insertAdjacentElement("afterend", ttBugWarning);
 	}
 }

@@ -694,7 +694,7 @@ function addFilterToTable(list, title) {
 			.filter((x) => x.trim() !== "");
 		factionTags = [...new Set(factionTags)];
 		for (let tag of factionTags) {
-			filter_container.find("select#tt-faction-filter").insertAdjacentHTML("beforeEnd", `<option value="${tag}">${tag}</option>`);
+			filter_container.find("select#tt-faction-filter").insertAdjacentHTML("beforeend", `<option value="${tag}">${tag}</option>`);
 		}
 	}
 

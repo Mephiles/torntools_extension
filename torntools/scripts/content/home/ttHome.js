@@ -16,9 +16,9 @@ requireDatabase().then(() => {
 			let ttIframeHTML = `<iframe id="ttIframe" src="${chrome.runtime.getURL("views/settings/settings.html")}"></iframe>`;
 			doc.find("div#sidebarroot").classList.add("tt-modified");
 			doc.find("div.content-wrapper div.content").style.display = "none";
-			doc.find("div.content-wrapper div.content").insertAdjacentHTML("beforeBegin", ttIframeHTML);
+			doc.find("div.content-wrapper div.content").insertAdjacentHTML("beforebegin", ttIframeHTML);
 			doc.find("a[role='button'].activity-log").insertAdjacentHTML(
-				"afterEnd",
+				"afterend",
 				`<a id="tt-back-to-torn" class="back t-clear h c-pointer line-h24 right" href="/index.php">
 				<span class="icon-wrap svg-icon-wrap">
 					<span class="link-icon-svg back ">

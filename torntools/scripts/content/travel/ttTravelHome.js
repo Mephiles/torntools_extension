@@ -859,7 +859,7 @@ function addLandAndReturnTimes() {
 		ttTimes.innerHTML = `Land at: ${landDate.formattedTime} ${landDate.formattedDate} | Return at: ${returnDate.formattedTime} ${returnDate.formattedDate}`;
 	} else {
 		doc.find("div.travel-agency:not([id])").insertAdjacentHTML(
-			"afterEnd",
+			"afterend",
 			`<span class="tt-times">Land at: ${landDate.formattedTime} ${landDate.formattedDate} | Return at: ${returnDate.formattedDate} ${returnDate.formattedTime}</span>`
 		);
 	}
@@ -902,7 +902,7 @@ function warnOnTimeout() {
 			<div class="patter-right"></div>
 			<div class="clear"></div>
 		</div>`;
-			doc.find("div.travel-agency div.travel-container.full-map[style='display: block;']").insertAdjacentHTML("beforeBegin", rawHTML);
+			doc.find("div.travel-agency div.travel-container.full-map[style='display: block;']").insertAdjacentHTML("beforebegin", rawHTML);
 		}
 	});
 }

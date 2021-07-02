@@ -972,7 +972,7 @@ function addFilterToTable(list, title) {
 		let filterContainerSelect = filter_container.find("#position-filter select");
 		let position = positionSpan.innerText;
 		if (!filterContainerSelect.innerHTML.includes(">" + position + "<"))
-			filterContainerSelect.insertAdjacentHTML("beforeEnd", `<option value="${position}">${position}</option>`);
+			filterContainerSelect.insertAdjacentHTML("beforeend", `<option value="${position}">${position}</option>`);
 	});
 
 	// Level slider
@@ -1435,10 +1435,10 @@ function highlightBloodBags() {
 		const allowedBlood = ALLOWED_BLOOD[settings.pages.items.highlight_bloodbags];
 		const items = doc.findAll(`#faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list > li`);
 
-		for (let item of items) {
+		for (const item of items) {
 			if (!item.find(".name") || item.find(".name").classList.contains(".tt-modified")) continue;
 
-			if (item.find(".img-wrap").getAttribute("data-id") === "1012") continue; // is an irradiated blood bag
+			if (item.find(".img-wrap").getAttribute("data-itemid") === "1012") continue; // is an irradiated blood bag
 
 			if (!item.find(".name").innerText.split(" x")[0].includes("Blood Bag : ")) continue; // is not a filled blood bag
 
@@ -1446,7 +1446,7 @@ function highlightBloodBags() {
 
 			classes.add("tt-modified");
 
-			let bloodId = item.find(".img-wrap").getAttribute("data-id");
+			let bloodId = item.find(".img-wrap").getAttribute("data-itemid");
 
 			if (allowedBlood.includes(parseInt(bloodId))) classes.add("tt-good_blood");
 			else classes.add("tt-bad_blood");
@@ -1685,7 +1685,7 @@ function displayWarOverTimes() {
 				let time = timerParts[0] * 24 * 60 * 60 + timerParts[1] * 60 * 60 + timerParts[2] * 60 + timerParts[3];
 				let overDate = formatDateObject(new Date(new Date().setSeconds(time)));
 				let rawHTML = `<div class="timer tt-timer">${overDate.formattedTime} ${overDate.formattedDate}</div>`;
-				timer.insertAdjacentHTML("afterEnd", rawHTML);
+				timer.insertAdjacentHTML("afterend", rawHTML);
 			}
 		});
 	});
@@ -1694,7 +1694,7 @@ function displayWarOverTimes() {
 function foldFactionDesc() {
 	if (!doc.find("div[role='main'] i.tt-collapse-desc")) {
 		let rawHTML = "<i class='tt-collapse-desc fas fa-caret-down' style='padding-top: 9px;padding-left: 7px;'></i>";
-		doc.find("div[role='main'] div.tt-checkbox-wrap").insertAdjacentHTML("beforeEnd", rawHTML);
+		doc.find("div[role='main'] div.tt-checkbox-wrap").insertAdjacentHTML("beforeend", rawHTML);
 		doc.find("i.tt-collapse-desc").addEventListener("click", (event) => {
 			event.target.classList.toggle("fa-caret-down");
 			event.target.classList.toggle("fa-caret-right");
@@ -1728,7 +1728,7 @@ function exportChallengeContributionsCSV() {
 				doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div.contributions-wrap")
 			) {
 				doc.find("div#factions div#faction-upgrades div.body div#stu-confirmation div.description-wrap div.contributions-wrap").insertAdjacentHTML(
-					"beforeBegin",
+					"beforebegin",
 					rawHTML
 				);
 				doc.find(

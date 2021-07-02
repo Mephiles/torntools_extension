@@ -30,7 +30,7 @@ function addNetTotal(overallOrYour) {
 				false
 			);
 		totalLost.parentElement.parentElement.insertAdjacentHTML(
-			"afterEnd",
+			"afterend",
 			`<li id="tt-net-total">
 			<ul class="item">
 				<li class="stat" style="color: #acea00;">Net total<span class="m-show">:</span></li>

@@ -238,7 +238,7 @@ requireDatabase().then(() => {
 		try {
 			let info_container = content.newContainer("User Info", { next_element_heading: "Medals", id: "tt-target-info" });
 			if (npcIds.includes(parseInt(userId)))
-				doc.find(".profile-wrapper.m-top10:not(.medals-wrapper)").insertAdjacentElement("beforeBegin", info_container);
+				doc.find(".profile-wrapper.m-top10:not(.medals-wrapper)").insertAdjacentElement("beforebegin", info_container);
 
 			let section_profile_stats = doc.new({ type: "div", class: "tt-section", attributes: { name: "profile-stats" } });
 			let profile_stats_div = doc.new({ type: "div", class: `profile-stats ${mobile ? "tt-mobile" : ""}` });
@@ -1261,7 +1261,7 @@ function showProfileNotes() {
 		id: "tt-target-notes",
 		collapseId: 1,
 	});
-	if (npcIds.includes(parseInt(userId))) doc.find(".profile-wrapper.m-top10:not(.medals-wrapper)").insertAdjacentElement("beforeBegin", containerBox);
+	if (npcIds.includes(parseInt(userId))) doc.find(".profile-wrapper.m-top10:not(.medals-wrapper)").insertAdjacentElement("beforebegin", containerBox);
 	const container = containerBox.find(".content");
 	container.appendChild(
 		doc.new({
@@ -1343,8 +1343,8 @@ function ageToWords() {
 		break;
 	}
 	newAge.innerText = dateString;
-	document.find(".box-info.age").find(".block-value").insertAdjacentElement("afterEnd", newAge);
-	newAge.insertAdjacentHTML("beforeBegin", "<br>");
+	document.find(".box-info.age").find(".block-value").insertAdjacentElement("afterend", newAge);
+	newAge.insertAdjacentHTML("beforebegin", "<br>");
 }
 
 function disableAllyAttack() {
@@ -1353,7 +1353,7 @@ function disableAllyAttack() {
 		let crossSvg =
 			'<svg xmlns="http://www.w3.org/2000/svg" class="default___25YWq" filter="" fill="rgba(217, 54, 0, 0.5)" stroke="#d4d4d4" stroke-width="0" width="46" height="46" viewBox="551.393 356 44 44"><path d="M556.393,363l12.061,14-12.061,14,1,1,14-11.94,14,11.94,1-1-12.06-14,12.06-14-1-1-14,11.94-14-11.94Z"></path></svg>';
 		let attackButton = doc.find("a.profile-button-attack");
-		attackButton.children[0].insertAdjacentHTML("afterEnd", crossSvg);
+		attackButton.children[0].insertAdjacentHTML("afterend", crossSvg);
 		attackButton.style.pointerEvents = "none";
 		doc.find("a.profile-button-attack").children[0].style.fill = "rgba(153, 153, 153, 0.4)";
 		attackButton.classList.remove("active");
@@ -1377,6 +1377,6 @@ function showAlias() {
 		let clone = doc.findAll(".basic-info ul.info-table > *")[2].cloneNode(true);
 		clone.find(".user-information-section .bold").innerText = "Alias";
 		clone.find(".user-info-value span").innerText = users_alias[getUserId()];
-		doc.find(".basic-info ul.info-table > *").insertAdjacentElement("afterEnd", clone);
+		doc.find(".basic-info ul.info-table > *").insertAdjacentElement("afterend", clone);
 	}
 }

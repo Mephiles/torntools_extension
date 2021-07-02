@@ -13,7 +13,7 @@ function displayWarning() {
 		new Date(settings.disable_attack_stacked_warning_until) - new Date() <= 0
 	) {
 		let rawHTML = `<div class='tt-overlay-div'><span class='tt-overlay-text'>Warning! You have stacked energy. Beware!</span><button class="tt-silver-button tt-ok-button">OK</button><button class="tt-silver-button tt-dnd-button">I'm Chaining/Warring</button></div>`;
-		doc.find("a[href='#skip-to-content']").insertAdjacentHTML("afterEnd", rawHTML);
+		doc.find("a[href='#skip-to-content']").insertAdjacentHTML("afterend", rawHTML);
 		doc.find("button.tt-silver-button.tt-ok-button").addEventListener("click", (event) => (event.target.parentElement.style.display = "none"));
 		doc.find("button.tt-silver-button.tt-dnd-button").addEventListener("click", (event) => {
 			event.target.parentElement.style.display = "none";
@@ -112,7 +112,7 @@ function battleStatOnAttackPage() {
 					}`;
 			}
 			textEntries.classList.add("tt-change-margin");
-			textEntries.insertAdjacentElement("afterBegin", statEstEntry);
+			textEntries.insertAdjacentElement("afterbegin", statEstEntry);
 		});
 	});
 }
