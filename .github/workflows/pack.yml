@@ -65,7 +65,6 @@ jobs:
           mv "torntools_${version}.zip" ./versions/
           newChangelogEntries="\t\"v${{ github.event.inputs.new_version }} - xxxxx, xxth. $(date +%Y)\": \{\n\t\t\"Features\"\: [],\n\t\t\"Fixes\"\: [],\n\t\t\"Changes\"\: []\n\t\},"
           sed -i "${firstEntryLineNo}s>\t\"${firstLineKey}.*>${newChangelogEntries}\n\t\"v${version} - $(date "+%B, %-d$(DaySuffix). %Y")\"\ \:\ \{>" ./torntools/changelog.json
-          ls -lha README.md
           sed -i "s+.*A pointer for bash.*+\[\!\[GitHub Release Date\]\(https\:\/\/img\.shields\.io\/static\/v1\?label\=RELEASE\%20DATE\&message\=$(date "+%B, %-d$(DaySuffix). %Y" | $jqCommand --raw-input --raw-output '. | @uri')\&color\=\%23acea00\&style\=for\-the\-badge\)\]\(https\:\/\/github\.com\/Mephiles\/torntools\_extension\/releases\/latest\)\<\!\-\-\-A\ pointer\ for\ bash\-\-\>+" README.md
           export version
           echo "version=$version" >> "$GITHUB_ENV"
