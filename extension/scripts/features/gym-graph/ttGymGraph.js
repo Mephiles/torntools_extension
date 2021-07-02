@@ -100,10 +100,9 @@
 						ttCache.set({ graph: result }, TO_MILLIS.HOURS, "gym").then(() => {});
 					}
 				} catch (error) {
-					result = {
-						status: false,
-						message: error.error,
-					};
+					const message = error.error instanceof HTTPException ? error.error.message : error.error;
+
+					result = { status: false, message };
 				}
 			}
 
