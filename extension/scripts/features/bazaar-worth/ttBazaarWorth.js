@@ -17,7 +17,7 @@
 	);
 
 	async function addWorth() {
-		await requireElement(".info-msg-cont .msg");
+		await requireElement(".info-msg-cont .msg a[href]");
 		const bazaarUserId = getSearchParameters().get("userId");
 
 		if (ttCache.hasValue("bazaar", bazaarUserId)) {
