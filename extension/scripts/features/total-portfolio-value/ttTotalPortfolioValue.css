@@ -4,7 +4,8 @@
 	font-weight: normal;
 }
 
-.tt-total-stock-value .value, .tt-total-stock-value .profit {
+.tt-total-stock-value .value,
+.tt-total-stock-value .profit {
 	color: var(--stockmarket-green-color);
 }
 

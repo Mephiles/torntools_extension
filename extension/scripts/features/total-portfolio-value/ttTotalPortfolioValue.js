@@ -41,9 +41,13 @@
 				class: "tt-total-stock-value",
 				children: [
 					"Value: ",
-					document.newElement({ type: "span", class: "value" , text: formatNumber(totalValue, { currency: true, shorten: true }) }),
+					document.newElement({ type: "span", class: "value", text: formatNumber(totalValue, { currency: true, shorten: true }) }),
 					" | Profit: ",
-					document.newElement({ type: "span", class: profits >= 0 ? "profit" : "loss", text: formatNumber(profits, { currency: true, shorten: true }) }),
+					document.newElement({
+						type: "span",
+						class: profits >= 0 ? "profit" : "loss",
+						text: formatNumber(profits, { currency: true, shorten: true }),
+					}),
 				],
 			})
 		);
