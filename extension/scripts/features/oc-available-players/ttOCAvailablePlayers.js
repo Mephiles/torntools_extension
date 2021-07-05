@@ -38,6 +38,10 @@
 			displayAvailable(0).then(() => {});
 		} else {
 			const list = document.find("ul.plans-list");
+			if (!list) {
+				displayAvailable(-1).then(() => {});
+				return;
+			}
 			const members = list.findAll(".item").length;
 
 			displayAvailable(members).then(() => {});
@@ -46,10 +50,14 @@
 		async function displayAvailable(amount) {
 			const crimes = document.find("#faction-crimes");
 
-			crimes.insertBefore(
-				await createMessageBox(`${amount} member${applyPlural(amount)} available for OCs.`, { class: "tt-available-players" }),
-				crimes.firstElementChild
-			);
+			let message;
+			if (amount === -1) {
+				message = "You don't have OC permissions.";
+			} else {
+				message = `${amount} member${applyPlural(amount)} available for OCs.`;
+			}
+
+			crimes.insertBefore(await createMessageBox(message, { class: "tt-available-players" }), crimes.firstElementChild);
 		}
 	}
 
