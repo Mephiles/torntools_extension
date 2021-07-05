@@ -246,7 +246,8 @@
 				"scripts/features/oc-nnb/ttOCNNB.css",
 				"scripts/features/oc-times/ttOCTimes.css",
 				"scripts/features/full-faction-infobox/ttFullFactionInfobox.css",
-				"scripts/features/fold-faction-infobox/ttFoldFactionInfobox.css"
+				"scripts/features/fold-faction-infobox/ttFoldFactionInfobox.css",
+				"scripts/features/csv-challenge-contributions/ttCSVChallengeContributions.css"
 			],
 			"js": [
 				"scripts/content/factions/ttFactions.js",
@@ -261,7 +262,8 @@
 				"scripts/features/oc-times/ttOCTimes.js",
 				"scripts/features/faction-banker/ttFactionBanker.js",
 				"scripts/features/full-faction-infobox/ttFullFactionInfobox.js",
-				"scripts/features/fold-faction-infobox/ttFoldFactionInfobox.js"
+				"scripts/features/fold-faction-infobox/ttFoldFactionInfobox.js",
+				"scripts/features/csv-challenge-contributions/ttCSVChallengeContributions.js"
 			],
 			"run_at": "document_end"
 		},

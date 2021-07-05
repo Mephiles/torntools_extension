@@ -1,0 +1,9 @@
+#exportChallengeContributions .title {
+	font-family: Arial !important;
+}
+
+#ttExportButton {
+	cursor: pointer;
+	padding-right: 12px;
+	width: 45px;
+}
