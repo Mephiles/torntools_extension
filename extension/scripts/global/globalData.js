@@ -441,6 +441,7 @@ const DEFAULT_STORAGE = {
 				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				sortable: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				peopleFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				landingTime: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			stocks: {
 				acronyms: new DefaultSetting({ type: "boolean", defaultValue: true }),
