@@ -1,0 +1,6 @@
+.tt-blackjack-suggestion {
+	color: var(--tt-color-light-green);
+	position: absolute;
+	font-size: 17px;
+	margin-top: 15px;
+}

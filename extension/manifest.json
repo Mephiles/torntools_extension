@@ -506,6 +506,12 @@
 			"css": ["scripts/features/city-items/ttCityItems.css"],
 			"js": ["scripts/features/city-items/ttCityItems.js"],
 			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/loader.php?sid=blackjack*"],
+			"css": ["scripts/features/blackjack-strategy/ttBlackjackStrategy.css"],
+			"js": ["scripts/features/blackjack-strategy/ttBlackjackStrategy.js"],
+			"run_at": "document_end"
 		}
 	]
 }
