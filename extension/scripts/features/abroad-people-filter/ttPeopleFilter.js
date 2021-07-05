@@ -20,7 +20,9 @@
 		await requireElement(".users-list");
 
 		const { content } = createContainer("People Filter", {
+			class: "mt10",
 			nextElement: document.find(".users-list-title"),
+			compact: true,
 		});
 		content.innerHTML = `
 			<div class="filter-header">

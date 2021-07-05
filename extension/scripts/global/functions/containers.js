@@ -14,11 +14,13 @@ function createContainer(title, options = {}) {
 		contentBackground: true,
 		allowDragging: false,
 		flexContainer: false,
+		compact: false,
+		alwaysContent: false,
 		...options,
 	};
 	if (options.onlyHeader) options.collapsible = false;
 
-	const container = _createContainer(title, options);
+	const { container, collapsed } = _createContainer(title, options);
 
 	let parentElement;
 	if (options.parentElement) parentElement = options.parentElement;
@@ -30,7 +32,7 @@ function createContainer(title, options = {}) {
 	else if (options.previousElement) parentElement.insertBefore(container, options.previousElement.nextSibling);
 	else parentElement.appendChild(container);
 
-	return { container, content: container.find(":scope > main"), options: container.find(".options") };
+	return { container, content: container.find(":scope > main"), options: container.find(".options"), collapsed };
 
 	function _createContainer(title, options = {}) {
 		if (document.find(`#${options.id}`)) document.find(`#${options.id}`).remove();
@@ -39,6 +41,8 @@ function createContainer(title, options = {}) {
 		if (options.collapsible) containerClasses.push("collapsible");
 		if (options.applyRounding) containerClasses.push("rounding");
 		if (options.spacer) containerClasses.push("spacer");
+		if (options.compact) containerClasses.push("compact");
+		if (options.alwaysContent) containerClasses.push("always-content");
 		if (options.class) containerClasses.push(options.class.split(" "));
 
 		const mainClasses = [];
@@ -81,7 +85,7 @@ function createContainer(title, options = {}) {
 			});
 		}
 
-		return container;
+		return { container, collapsed };
 	}
 }
 

@@ -22,6 +22,7 @@
 		const userID = getUserID();
 		const { content } = createContainer("Profile Notes", {
 			nextElement: document.find(".profile-wrapper.medals-wrapper"),
+			class: "mt10",
 		});
 		const textarea = document.newElement({ type: "textarea" });
 		if (userID in notes.profile) {

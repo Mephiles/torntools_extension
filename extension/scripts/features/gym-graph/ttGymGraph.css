@@ -17,9 +17,3 @@
 .tornstats-response.error {
 	color: var(--tt-color-red);
 }
-
-/* Graph */
-
-.tornstats-graph-wrapper {
-	padding: 4px;
-}

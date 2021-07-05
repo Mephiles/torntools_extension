@@ -24,6 +24,7 @@
 			id: "sidebarNotes",
 			applyRounding: false,
 			contentBackground: false,
+			compact: true,
 			previousElement: findParent(document.find("h2=Information"), { class: "^=sidebar-block_" }),
 		});
 

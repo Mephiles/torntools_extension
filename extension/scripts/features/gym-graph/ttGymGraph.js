@@ -84,7 +84,7 @@
 		}
 
 		async function loadGraph() {
-			const wrapper = document.newElement({ type: "div", class: "tornstats-graph-wrapper" });
+			const wrapper = document.newElement("div");
 			content.appendChild(wrapper);
 
 			showLoadingPlaceholder(wrapper, true);

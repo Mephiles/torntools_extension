@@ -62,6 +62,7 @@
 			class: "tt-custom-link-container",
 			applyRounding: false,
 			contentBackground: false,
+			compact: true,
 			[filter === "above" ? "nextElement" : "previousElement"]: findParent(document.find("h2=Areas"), { class: "^=sidebar-block_" }),
 		});
 

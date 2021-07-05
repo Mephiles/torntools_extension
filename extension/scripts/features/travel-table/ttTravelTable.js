@@ -51,7 +51,7 @@
 		}
 
 		async function createTable() {
-			const { content } = createContainer("Travel Destinations");
+			const { content } = createContainer("Travel Destinations", { class: "mt10" });
 			const amount = getTravelCount();
 
 			addLegend();

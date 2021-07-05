@@ -64,6 +64,7 @@
 			nextElement: document.find(".equipped-items-wrap"),
 			spacer: true,
 			allowDragging: true,
+			compact: true,
 		});
 		content.appendChild(document.newElement({ type: "div", class: "inner-content" }));
 		content.appendChild(document.newElement({ type: "div", class: "response-wrap" }));

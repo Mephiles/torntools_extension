@@ -1,7 +1,3 @@
-.tt-bank-investment-container > main {
-	padding: 10px;
-}
-
 body:not(.dark-mode) .tt-bank-investment-selected-row {
 	background-color: #9bff9b;
 }

@@ -34,7 +34,7 @@
 	}
 
 	function startFeature() {
-		const { content } = createContainer("Specialist Gyms", { class: "mt10", flexContainer: true });
+		const { content } = createContainer("Specialist Gyms", { class: "mt10", flexContainer: true, compact: true });
 
 		content.appendChild(createSection(filters.gym.specialist1, (gym) => ttStorage.change({ filters: { gym: { specialist1: gym } } })));
 		content.appendChild(createSection(filters.gym.specialist2, (gym) => ttStorage.change({ filters: { gym: { specialist2: gym } } })));

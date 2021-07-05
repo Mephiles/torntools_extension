@@ -24,7 +24,12 @@
 		await requireContent();
 
 		const statsContainer = document.find("h5=Battle Stats").parentElement.nextElementSibling.find("ul.info-cont-wrap");
-		const { content } = createContainer("Effective Battle Stats", { collapsible: false, applyRounding: false, parentElement: statsContainer });
+		const { content } = createContainer("Effective Battle Stats", {
+			collapsible: false,
+			applyRounding: false,
+			compact: true,
+			parentElement: statsContainer,
+		});
 
 		let effectiveTotal = 0;
 		const stats = ["Strength", "Defense", "Speed", "Dexterity"];

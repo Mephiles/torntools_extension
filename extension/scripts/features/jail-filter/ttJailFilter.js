@@ -67,7 +67,7 @@
 
 		const { container, content, options } = createContainer("Jail Filter", {
 			nextElement: document.find(".users-list-title"),
-			class: "tt-jail-filters-container",
+			class: "mt10",
 		});
 
 		const activityCheckboxList = createCheckboxList(activityOptions, "column");

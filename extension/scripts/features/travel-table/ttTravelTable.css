@@ -46,16 +46,6 @@ body.dark-mode {
 	}
 }
 
-/* Container */
-
-#travelDestinations {
-	margin-top: 8px;
-}
-
-#travelDestinations main {
-	padding: 4px;
-}
-
 /* Legend */
 
 #travelDestinations .legend .top-row {

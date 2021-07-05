@@ -29,6 +29,7 @@
 			collapsible: false,
 			showHeader: false,
 			applyRounding: false,
+			compact: true,
 			parentElement: document.find("h5=General Information").parentElement.nextElementSibling.find("ul.info-cont-wrap"),
 		});
 		const networthRow = newRow("(Live) Networth", `${formatNumber(userdata.networth.total, { currency: true })}`);

@@ -1,8 +1,4 @@
-.tt-jail-filters-container {
-	margin-top: 10px;
-}
-
-.tt-jail-filters-container > main {
+#jailFilter > main {
 	padding: 8px 15px 8px 4px;
 }
 

@@ -37,6 +37,7 @@
 		const { content, options } = createContainer("Quick Crimes", {
 			previousElement: document.find(".content-title"),
 			allowDragging: true,
+			compact: true,
 		});
 		content.appendChild(document.newElement({ type: "div", class: "inner-content" }));
 

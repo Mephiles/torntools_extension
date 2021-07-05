@@ -24,7 +24,9 @@
 		await requireElement(".userlist-wrapper.hospital-list-wrapper .users-list .time");
 
 		const { content } = createContainer("Hospital Filter", {
+			class: "mt10",
 			nextElement: document.find(".users-list-title"),
+			compact: true,
 		});
 		content.innerHTML = `
 			<div class="filter-header">
