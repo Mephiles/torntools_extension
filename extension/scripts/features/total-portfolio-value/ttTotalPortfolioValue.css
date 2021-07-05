@@ -1,0 +1,13 @@
+.tt-total-stock-value {
+	margin: 0 0 0 9px;
+	font-size: 17px;
+	font-weight: normal;
+}
+
+.tt-total-stock-value .value, .tt-total-stock-value .profit {
+	color: var(--stockmarket-green-color);
+}
+
+.tt-total-stock-value .loss {
+	color: var(--stockmarket-red-color);
+}

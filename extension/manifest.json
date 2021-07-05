@@ -400,8 +400,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/page.php?sid=stocks*"],
-			"css": ["scripts/features/stock-acronyms/ttStockAcronyms.css"],
-			"js": ["scripts/features/stock-acronyms/ttStockAcronyms.js"],
+			"css": ["scripts/features/stock-acronyms/ttStockAcronyms.css", "scripts/features/total-portfolio-value/ttTotalPortfolioValue.css"],
+			"js": ["scripts/features/stock-acronyms/ttStockAcronyms.js", "scripts/features/total-portfolio-value/ttTotalPortfolioValue.js"],
 			"run_at": "document_end"
 		},
 		{
