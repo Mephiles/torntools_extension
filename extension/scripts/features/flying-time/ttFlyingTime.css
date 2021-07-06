@@ -1,0 +1,10 @@
+.tt-flying-time {
+	display: block;
+	text-align: center;
+	font-size: large;
+	padding-top: 10px;
+}
+
+body.dark-mode .tt-flying-time {
+	color: white;
+}

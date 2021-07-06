@@ -433,8 +433,12 @@
 		},
 		{
 			"matches": ["https://www.torn.com/travelagency.php*"],
-			"css": ["scripts/features/travel-table/ttTravelTable.css"],
-			"js": ["scripts/content/travelagency/ttTravelAgency.js", "scripts/features/travel-table/ttTravelTable.js"],
+			"css": ["scripts/features/travel-table/ttTravelTable.css", "scripts/features/flying-time/ttFlyingTime.css"],
+			"js": [
+				"scripts/content/travelagency/ttTravelAgency.js",
+				"scripts/features/travel-table/ttTravelTable.js",
+				"scripts/features/flying-time/ttFlyingTime.js"
+			],
 			"run_at": "document_end"
 		},
 		{

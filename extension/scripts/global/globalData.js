@@ -442,6 +442,7 @@ const DEFAULT_STORAGE = {
 				sortable: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				peopleFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				landingTime: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				flyingTime: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			stocks: {
 				acronyms: new DefaultSetting({ type: "boolean", defaultValue: true }),

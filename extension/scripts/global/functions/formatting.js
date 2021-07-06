@@ -85,7 +85,7 @@ function formatTime(time = {}, options = {}) {
 				hours = date.getHours();
 			}
 
-			seconds = toMultipleDigits(seconds);
+			seconds = options.hideSeconds ? false : toMultipleDigits(seconds);
 			minutes = toMultipleDigits(minutes);
 			hours = toMultipleDigits(hours);
 
