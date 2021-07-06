@@ -36,6 +36,8 @@
 	}
 
 	async function showInformation(information) {
+		if (isNaN(information.user.lastAction.seconds)) return;
+
 		const miniProfile = document.find("#profile-mini-root .mini-profile-wrapper");
 		const lastAction = formatTime({ seconds: information.user.lastAction.seconds }, { type: "wordTimer", showDays: true });
 
