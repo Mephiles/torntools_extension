@@ -1,0 +1,41 @@
+.tt-mission-reward {
+	box-sizing: border-box;
+	border-color: black !important;
+	border-image: none !important;
+	border-top: 1px solid transparent !important;
+}
+
+.tt-mission-reward.affordable {
+	border-top-color: #2ef42e !important;
+}
+
+.tt-mission-reward.not-affordable {
+	border-top-color: red !important;
+}
+
+.rewards-list li.tt-modified {
+	height: 160px !important;
+}
+
+.tt-mission-reward-owned,
+.tt-mission-reward-total {
+	margin-top: 60px;
+}
+
+.tt-mission-reward-owned,
+.tt-mission-reward-total,
+.tt-mission-reward-points {
+	text-align: left;
+	padding-left: 7px;
+}
+
+.tt-mission-reward-owned span,
+.tt-mission-reward-total span,
+.tt-mission-reward-points span {
+	color: #678c00;
+}
+
+.tt-mobile .tt-mission-reward-owned,
+.tt-mobile .tt-mission-reward-total {
+	margin-top: 66px;
+}

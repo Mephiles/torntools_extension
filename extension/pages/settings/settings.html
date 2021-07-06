@@ -101,7 +101,7 @@
 						<li name="properties">Properties</li>
 						<li name="education">Education</li>
 						<!-- <li>Crimes</li> -->
-						<!-- <li>Missions</li> -->
+						<li name="missions">Missions</li>
 						<!-- <li>Newspaper</li> -->
 						<li name="jail">Jail</li>
 						<li name="bank">Bank Investment</li>
@@ -327,6 +327,10 @@
 						<div class="option advanced">
 							<input id="api_usage-user_icons" type="checkbox" />
 							<label for="api_usage-user_icons">Icons</label>
+						</div>
+						<div class="option advanced">
+							<input id="api_usage-user_ammo" type="checkbox" />
+							<label for="api_usage-user_ammo">Ammo</label>
 						</div>
 					</section>
 					<section name="chat">
@@ -648,6 +652,17 @@
 						<div class="option">
 							<input id="education-finishTime" type="checkbox" />
 							<label for="education-finishTime">Show education course finish time.</label>
+						</div>
+					</section>
+					<section name="missions">
+						<div class="header">Missions</div>
+						<div class="option">
+							<input id="missions-hints" type="checkbox" />
+							<label for="missions-hints">Show mission hints.</label>
+						</div>
+						<div class="option">
+							<input id="missions-rewards" type="checkbox" />
+							<label for="missions-rewards">Show reward information.</label>
 						</div>
 					</section>
 					<section name="external">
@@ -1142,8 +1157,8 @@
 								User's information, status, cooldown, money, events, messages and refills. (every 30 seconds (configurable))
 								<ul>
 									<li>
-										User's personal stats, networth, stock inventory, educations and merit allocation. (every 2 minutes (configurable), when
-										active on Torn)
+										User's personal stats, networth, stock inventory, ammo, educations and merit allocation. (every 2 minutes
+										(configurable), when active on Torn)
 									</li>
 									<li>User's attack history. (whenever an attack or defend is detected)</li>
 								</ul>

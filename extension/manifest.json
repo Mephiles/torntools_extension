@@ -495,8 +495,12 @@
 		},
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=missions"],
-			"css": ["scripts/features/mission-hints/ttMissionHints.css"],
-			"js": ["scripts/content/missions/ttMissions.js", "scripts/features/mission-hints/ttMissionHints.js"],
+			"css": ["scripts/features/mission-hints/ttMissionHints.css", "scripts/features/mission-rewards/ttMissionRewards.css"],
+			"js": [
+				"scripts/content/missions/ttMissions.js",
+				"scripts/features/mission-hints/ttMissionHints.js",
+				"scripts/features/mission-rewards/ttMissionRewards.js"
+			],
 			"run_at": "document_end"
 		},
 		{
