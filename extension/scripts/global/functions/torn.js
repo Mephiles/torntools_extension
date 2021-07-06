@@ -377,7 +377,7 @@ function updateReactInput(input, value, options = {}) {
 }
 
 function isDividendStock(id) {
-	if (isIntNumber(id)) return [1, 4, 5, 6, 7, 9, 10, 12, 15, 16, 17, 18, 19, 22, 27, 28, 29, 31].includes(id);
+	if (isIntNumber(id)) return [1, 4, 5, 6, 7, 9, 10, 12, 15, 16, 17, 18, 19, 22, 24, 27, 28, 29, 31, 32].includes(id);
 
 	return false;
 }
