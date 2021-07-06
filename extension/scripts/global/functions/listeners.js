@@ -21,6 +21,7 @@ const EVENT_CHANNELS = {
 	HOSPITAL_SWITCH_PAGE: "hospital-switch-page",
 	JAIL_SWITCH_PAGE: "jail-switch-page",
 	TRAVEL_SELECT_TYPE: "travel-select-type",
+	TRAVEL_SELECT_COUNTRY: "travel-select-country",
 	FEATURE_ENABLED: "feature-enabled",
 	STATE_CHANGED: "state-changed",
 	GYM_LOAD: "gym-load",
