@@ -42,7 +42,12 @@
 				marker.classList.add("city-item");
 				marker.dataset.id = id;
 
-				items.push(id);
+				if (settings.pages.city.combineDuplicates) {
+					const duplicate = items.find((item) => item.id === id);
+
+					if (duplicate) duplicate.count++;
+					else items.push({ id, count: 1, name: torndata.items[id].name });
+				} else items.push({ id, count: 1, name: torndata.items[id].name });
 			}
 
 			return items;
@@ -73,12 +78,12 @@
 
 		function showValue() {
 			const totalValue = items
-				.map((id) => torndata.items[id])
+				.map(({ id }) => torndata.items[id])
 				.filter((item) => !!item)
 				.map((item) => item.market_value)
 				.filter((value) => !!value)
 				.totalSum();
-			const itemCount = items.length;
+			const itemCount = items.map(({ count }) => count).totalSum();
 
 			content.appendChild(
 				document.newElement({
@@ -109,7 +114,7 @@
 				if (items.length > 0) {
 					element = document.newElement({ type: "p", html: `There are <strong>${items.length}</strong> items in the city: ` });
 
-					const _items = items.map((id) => ({ id, name: torndata.items[id].name }));
+					const _items = [...items];
 					if (items.length === 1) {
 						element.appendChild(createItemElement(_items[0]));
 					} else {
@@ -131,11 +136,16 @@
 				}
 				listElement.appendChild(element);
 
-				function createItemElement({ id, name }) {
+				function createItemElement({ id, name, count }) {
+					let text;
+					if (count > 1) {
+						text = `${count}x ${name}`;
+					} else text = name;
+
 					// noinspection JSUnusedGlobalSymbols
 					return document.newElement({
 						type: "span",
-						text: name,
+						text,
 						events: {
 							mouseenter() {
 								for (const item of document.findAll(`.city-item[data-id="${id}"]`)) {

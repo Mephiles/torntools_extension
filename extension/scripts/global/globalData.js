@@ -518,6 +518,7 @@ const DEFAULT_STORAGE = {
 			},
 			city: {
 				items: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				combineDuplicates: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		scripts: {

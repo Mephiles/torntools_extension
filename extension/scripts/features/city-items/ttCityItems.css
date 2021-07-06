@@ -39,6 +39,7 @@
 
 .tt-city-total {
 	font-size: 14px;
+	margin-bottom: 2px;
 }
 
 .tt-city-total-text {
@@ -52,3 +53,16 @@
 .city-table {
 	display: flex;
 }
+
+.tt-city-items {
+	line-height: 14px;
+	letter-spacing: 0.2px;
+}
+
+.tt-city-items span:nth-of-type(odd) {
+	color: #aaa;
+}
+
+/*.tt-city-items span:nth-of-type(even) {*/
+/*	color: #d4d4d4;*/
+/*}*/
