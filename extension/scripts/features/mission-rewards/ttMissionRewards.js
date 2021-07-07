@@ -67,6 +67,10 @@
 				const value = torndata.items[id].market_value;
 				const totalValue = amount * value;
 
+				reward
+					.find(".img-wrap")
+					.appendChild(document.newElement({ type: "span", class: "tt-mission-reward-individual", text: formatNumber(value, { currency: true }) }));
+
 				actionsWrap.insertBefore(
 					document.newElement({
 						type: "div",

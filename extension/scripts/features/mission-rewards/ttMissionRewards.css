@@ -6,11 +6,11 @@
 }
 
 .tt-mission-reward.affordable {
-	border-top-color: #2ef42e !important;
+	border-top-color: var(--tt-color-green) !important;
 }
 
 .tt-mission-reward.not-affordable {
-	border-top-color: red !important;
+	border-top-color: var(--tt-color-red) !important;
 }
 
 .rewards-list li.tt-modified {
@@ -38,4 +38,12 @@
 .tt-mobile .tt-mission-reward-owned,
 .tt-mobile .tt-mission-reward-total {
 	margin-top: 66px;
+}
+
+.tt-mission-reward-individual {
+	color: var(--tt-color-light-green);
+	position: absolute;
+	left: 18px;
+	bottom: 6px;
+	font-size: 11px;
 }
