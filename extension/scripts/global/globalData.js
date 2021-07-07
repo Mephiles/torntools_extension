@@ -8,45 +8,29 @@ const ttStorage = new (class {
 	get(key) {
 		return new Promise(async (resolve) => {
 			if (Array.isArray(key)) {
-				const data = await this._get(key);
+				const data = await new Promise((resolve) => chrome.storage.local.get(key, (data) => resolve(data)));
 
 				resolve(key.map((i) => data[i]));
 			} else if (key) {
-				const data = await this._get([key]);
+				const data = await new Promise((resolve) => chrome.storage.local.get([key], (data) => resolve(data)));
 
 				resolve(data[key]);
 			} else {
-				const data = await this._get(null);
+				const data = await new Promise((resolve) => chrome.storage.local.get(null, (data) => resolve(data)));
 
 				resolve(data);
 			}
 		});
 	}
 
-	_get(key) {
-		return new Promise(async (resolve) => {
-			let data;
-			let count = 0;
-			do {
-				data = await new Promise((resolve) => chrome.storage.local.get(key, (data) => resolve(data)));
-
-				count++;
-			} while (data && !Object.keys(data).length && count < 3);
-
-			if (count > 1) {
-				console.log("DKK - Failed to load data on first try.", { count, data });
-			}
-
-			resolve(data);
-		});
+	set(object) {
+		return new Promise((resolve) => chrome.storage.local.set(object, () => resolve()));
 	}
 
-	set(object) {
-		return new Promise((resolve) => {
-			chrome.storage.local.set(object, function () {
-				resolve();
-			});
-		});
+	remove(key) {
+		if (!key) return Promise.reject("No key provided");
+
+		return new Promise(async (resolve) => chrome.storage.local.remove(Array.isArray(key) ? key : [key], () => resolve()));
 	}
 
 	clear() {

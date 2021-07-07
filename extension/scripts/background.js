@@ -49,8 +49,11 @@ async function convertDatabase() {
 
 		const newStorage = convertGeneral(storage, DEFAULT_STORAGE);
 
-		await ttStorage.clear();
 		await ttStorage.set(newStorage);
+
+		const keys = Object.keys(newStorage);
+		const outdatedKeys = Object.keys(storage).filter((key) => !keys.includes(key));
+		if (outdatedKeys.length) await ttStorage.remove(outdatedKeys);
 
 		console.log("New storage.", newStorage);
 	}
