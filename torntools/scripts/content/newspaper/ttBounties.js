@@ -1,19 +1,13 @@
 requireDatabase().then(() => {
 	console.log("TT - Newspaper | Bounties");
 
-	addXHRListener((event) => {
-		const { page, xhr } = event.detail;
-		if (page !== "bounties") return;
-
-		const params = new URLSearchParams(xhr.requestBody);
-		if (params.get("step") !== "mainBounties") return;
-
+	new MutationObserver(() => {
 		bountiesLoaded().then(() => {
 			addFilter(filters);
 
 			if (settings.scripts.stats_estimate.global && settings.scripts.stats_estimate.bounties) showStatsEstimates();
 		});
-	});
+	}).observe(doc.find(".content-wrapper"), { childList: true });
 
 	bountiesLoaded().then(() => {
 		addFilter(filters);
