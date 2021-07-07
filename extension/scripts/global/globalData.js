@@ -507,6 +507,9 @@ const DEFAULT_STORAGE = {
 				items: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				combineDuplicates: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			bounties: {
+				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		scripts: {
 			noConfirm: {
@@ -583,6 +586,10 @@ const DEFAULT_STORAGE = {
 		},
 		city: {
 			highlightItems: new DefaultSetting({ type: "boolean", defaultValue: true }),
+		},
+		bounties: {
+			maxLevel: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			hideUnavailable: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
