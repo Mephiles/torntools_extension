@@ -83,11 +83,13 @@ let setup_storage = new Promise((resolve) => {
 
 			console.log("	New storage", new_storage);
 
-			ttStorage.clear(() => {
-				ttStorage.set(new_storage, () => {
-					console.log("	Storage updated.");
-					return resolve(true);
-				});
+			ttStorage.set(new_storage, async () => {
+				const keys = Object.keys(new_storage);
+				const outdatedKeys = Object.keys(old_storage).filter((key) => !keys.includes(key));
+				if (outdatedKeys.length) await ttStorage.remove(outdatedKeys);
+
+				console.log("	Storage updated.");
+				return resolve(true);
 			});
 		}
 
