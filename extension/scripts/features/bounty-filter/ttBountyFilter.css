@@ -1,0 +1,6 @@
+#bountyFilter .options input[type="number"] {
+	height: 20px;
+	margin: 0 6px;
+	width: 50px;
+	border-radius: 5px;
+}

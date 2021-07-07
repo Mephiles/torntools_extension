@@ -5,7 +5,6 @@
 .tt-container .title {
 	padding-left: 10px;
 	height: 30px;
-	line-height: 30px;
 	font-size: 13px;
 	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.65);
 	letter-spacing: 1px;
@@ -35,6 +34,7 @@
 }
 
 .tt-container .title .text {
+	align-self: center;
 	/*noinspection CssInvalidPropertyValue*/
 	width: -webkit-fill-available;
 	width: -moz-available;

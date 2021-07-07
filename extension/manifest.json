@@ -203,6 +203,12 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/bounties.php*"],
+			"css": ["scripts/features/bounty-filter/ttBountyFilter.css"],
+			"js": ["scripts/features/bounty-filter/ttBountyFilter.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/casino.php*"],
 			"css": ["scripts/features/hide-casino-games/ttHideCasinoGames.css"],
 			"js": ["scripts/features/hide-casino-games/ttHideCasinoGames.js"],
