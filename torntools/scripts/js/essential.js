@@ -177,6 +177,11 @@ const ttStorage = {
 			});
 		});
 	},
+	remove(key) {
+		if (!key) return Promise.reject("No key provided");
+
+		return new Promise(async (resolve) => chrome.storage.local.remove(Array.isArray(key) ? key : [key], () => resolve()));
+	},
 };
 
 function getCurrentPage() {
