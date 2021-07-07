@@ -204,12 +204,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/bounties.php*"],
-			"css": [
-				"scripts/features/bounty-filter/ttBountyFilter.css"
-			],
-			"js": [
-				"scripts/features/bounty-filter/ttBountyFilter.js"
-			],
+			"css": ["scripts/features/bounty-filter/ttBountyFilter.css"],
+			"js": ["scripts/features/bounty-filter/ttBountyFilter.js"],
 			"run_at": "document_end"
 		},
 		{
