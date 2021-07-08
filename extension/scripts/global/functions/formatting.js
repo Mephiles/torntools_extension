@@ -21,19 +21,28 @@ function toSeconds(milliseconds) {
 function textToTime(time) {
 	let millis = 0;
 
-	let group;
-	// noinspection JSUnusedAssignment
-	if ((group = time.match(/([0-9]+) ?d/i))) {
-		millis += parseInt(group[1]) * TO_MILLIS.DAYS;
-	}
-	if ((group = time.match(/([0-9]+) ?h/i))) {
-		millis += parseInt(group[1]) * TO_MILLIS.HOURS;
-	}
-	if ((group = time.match(/([0-9]+) ?min/i))) {
-		millis += parseInt(group[1]) * TO_MILLIS.MINUTES;
-	}
-	if ((group = time.match(/([0-9]+) ?s/i))) {
-		millis += parseInt(group[1]) * TO_MILLIS.SECONDS;
+	if (time.includes(":")) {
+		const parts = time.split(":");
+
+		if (parts.length === 2) {
+			millis += parseInt(parts[0]) * TO_MILLIS.HOURS;
+			millis += parseInt(parts[1]) * TO_MILLIS.MINUTES;
+		}
+	} else {
+		let group;
+		// noinspection JSUnusedAssignment
+		if ((group = time.match(/([0-9]+) ?d/i))) {
+			millis += parseInt(group[1]) * TO_MILLIS.DAYS;
+		}
+		if ((group = time.match(/([0-9]+) ?h/i))) {
+			millis += parseInt(group[1]) * TO_MILLIS.HOURS;
+		}
+		if ((group = time.match(/([0-9]+) ?min/i))) {
+			millis += parseInt(group[1]) * TO_MILLIS.MINUTES;
+		}
+		if ((group = time.match(/([0-9]+) ?s/i))) {
+			millis += parseInt(group[1]) * TO_MILLIS.SECONDS;
+		}
 	}
 
 	return millis;

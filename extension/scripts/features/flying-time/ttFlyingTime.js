@@ -29,16 +29,11 @@
 		const container = document.find(".travel-agency > div[aria-expanded='true'] .travel-container.full-map[style='display: block;']");
 		if (!container) return;
 
-		// const travelTimer = container.find(".flight-time");
-
-		// FIXME - Calculate flight duration.
-		let duration = 0;
-
-		// console.log("DKK showTime", container.find(".flight-time"));
+		const duration = textToTime(container.find(".flight-time").innerText.split(" - ")[1]);
 
 		const now = new Date();
 		const arrivalTime = new Date(now.getTime() + duration);
-		const returnTime = new Date(now + duration * 2);
+		const returnTime = new Date(now.getTime() + duration * 2);
 
 		const text = `Landing at ${format(arrivalTime)} | Return at ${format(returnTime)}`;
 
