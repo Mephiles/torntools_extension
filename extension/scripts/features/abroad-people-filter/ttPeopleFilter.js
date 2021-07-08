@@ -115,7 +115,13 @@
 					},
 				})
 			);
-		const levelSlider = new DualRangeSlider({ min: 1, max: 100, step: 1, valueLow: filters.abroadPeople.levelStart, valueHigh: filters.abroadPeople.levelEnd });
+		const levelSlider = new DualRangeSlider({
+			min: 1,
+			max: 100,
+			step: 1,
+			valueLow: filters.abroadPeople.levelStart,
+			valueHigh: filters.abroadPeople.levelEnd,
+		});
 		const levelFilter = document.newElement({
 			type: "div",
 			class: "filter-wrap",

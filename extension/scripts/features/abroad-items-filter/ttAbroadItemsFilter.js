@@ -26,10 +26,7 @@
 		const profitOnlyFilter = document.newElement({
 			type: "div",
 			class: "profitOnlyFilter",
-			children: [
-				document.newElement({ type: "strong", text: "Profit" }),
-				cbProfitOnly.element,
-			],
+			children: [document.newElement({ type: "strong", text: "Profit" }), cbProfitOnly.element],
 		});
 		const cbsCategories = createCheckboxList(
 			[
@@ -46,31 +43,29 @@
 		const categoryFilter = document.newElement({
 			type: "div",
 			class: "categoryFilter",
-			children: [
-				document.newElement({ type: "strong", text: "Categories" }),
-				cbsCategories.element,
-			],
+			children: [document.newElement({ type: "strong", text: "Categories" }), cbsCategories.element],
 		});
 		// Append them ALL
-		content.appendChild(document.newElement({
-			type: "div",
-			class: "statistics",
-			children: [
-				"Showing ",
-				document.newElement({ type: "strong", class: "count", text: "X" }),
-				" of ",
-				document.newElement({ type: "strong", class: "total", text: "Y" }),
-				" items",
-			],
-		}));
-		content.appendChild(document.newElement({
-			type: "div",
-			class: "content",
-			children: [
-				profitOnlyFilter,
-				categoryFilter
-			],
-		}));
+		content.appendChild(
+			document.newElement({
+				type: "div",
+				class: "statistics",
+				children: [
+					"Showing ",
+					document.newElement({ type: "strong", class: "count", text: "X" }),
+					" of ",
+					document.newElement({ type: "strong", class: "total", text: "Y" }),
+					" items",
+				],
+			})
+		);
+		content.appendChild(
+			document.newElement({
+				type: "div",
+				class: "content",
+				children: [profitOnlyFilter, categoryFilter],
+			})
+		);
 
 		cbProfitOnly.setChecked(filters.abroadItems.profitOnly);
 		cbsCategories.setSelections(filters.abroadItems.categories);
@@ -166,6 +161,6 @@
 
 	function removeFilter() {
 		removeContainer("Item Filters");
-		document.findAll(".users-list > li.hidden").forEach(x => x.classList.remove("hidden"));
+		document.findAll(".users-list > li.hidden").forEach((x) => x.classList.remove("hidden"));
 	}
 })();
