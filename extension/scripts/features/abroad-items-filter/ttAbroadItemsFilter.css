@@ -1,0 +1,15 @@
+#itemFilters .statistics {
+    float: right;
+    margin-right: 5px;
+}
+
+#itemFilters .content {
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0;
+}
+
+#itemFilters .content strong {
+    display: block;
+    margin-bottom: 2px;
+}

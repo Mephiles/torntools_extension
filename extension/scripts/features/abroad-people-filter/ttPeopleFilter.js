@@ -115,7 +115,7 @@
 					},
 				})
 			);
-		const levelSlider = new DualRangeSlider({ min: 1, max: 100, step: 1, valueLow: filters.abroad.levelStart, valueHigh: filters.abroad.levelEnd });
+		const levelSlider = new DualRangeSlider({ min: 1, max: 100, step: 1, valueLow: filters.abroadPeople.levelStart, valueHigh: filters.abroadPeople.levelEnd });
 		const levelFilter = document.newElement({
 			type: "div",
 			class: "filter-wrap",
@@ -132,12 +132,12 @@
 		content.find(".filter-content").appendChild(levelFilter);
 
 		// Set up the filters
-		for (const activity of filters.abroad.activity) {
+		for (const activity of filters.abroadPeople.activity) {
 			content.find(`#activity-filter [value="${activity}"]`).checked = true;
 		}
 		// There is no faction filter setup
-		for (const specialFilter in filters.abroad.special) {
-			const value = filters.abroad.special[specialFilter];
+		for (const specialFilter in filters.abroadPeople.special) {
+			const value = filters.abroadPeople.special[specialFilter];
 			const yesCheckBox = content.find(`[value="${specialFilter}-yes"]`);
 			const noCheckbox = content.find(`[value="${specialFilter}-no"]`);
 			if (value === "both") {
@@ -149,7 +149,7 @@
 				noCheckbox.checked = true;
 			}
 		}
-		for (const status of filters.abroad.status) {
+		for (const status of filters.abroadPeople.status) {
 			content.find(`#status-${status}`).checked = true;
 		}
 
@@ -195,7 +195,7 @@
 			// Save filters
 			await ttStorage.change({
 				filters: {
-					abroad: {
+					abroadPeople: {
 						activity: activity,
 						faction: faction,
 						special: special,
