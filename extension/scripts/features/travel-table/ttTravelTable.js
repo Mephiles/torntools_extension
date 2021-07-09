@@ -472,16 +472,28 @@
 			}
 
 			function showTable() {
-				document.find(".travel-agency-travelling .popup-info").classList.add("hidden");
-				document.find(".travel-agency-travelling .stage").classList.add("hidden");
-				document.find(".travel-agency-travelling .delimiter-999").classList.add("hidden");
+				const agency = document.find(".travel-agency-travelling");
+
+				const hiddenBy = JSON.parse(agency.dataset.hiddenBy || "[]");
+				hiddenBy.push("travel-table");
+				agency.dataset.hiddenBy = JSON.stringify(hiddenBy);
+
+				agency.findAll(".popup-info, .stage, .delimiter-999").forEach((element) => element.classList.add("hidden"));
+
 				findContainer("Travel Destinations").classList.remove("hidden");
 			}
 
 			function hideTable() {
-				document.find(".travel-agency-travelling .popup-info").classList.remove("hidden");
-				document.find(".travel-agency-travelling .stage").classList.remove("hidden");
-				document.find(".travel-agency-travelling .delimiter-999").classList.remove("hidden");
+				const agency = document.find(".travel-agency-travelling");
+				const hiddenBy = JSON.parse(agency.dataset.hiddenBy || "[]").filter((by) => by !== "travel-table");
+
+				if (hiddenBy.length) {
+					agency.dataset.hiddenBy = JSON.stringify(hiddenBy);
+				} else {
+					agency.findAll(".popup-info, .stage, .delimiter-999").forEach((element) => element.classList.remove("hidden"));
+
+					delete agency.dataset.hiddenBy;
+				}
 				findContainer("Travel Destinations").classList.add("hidden");
 			}
 		}

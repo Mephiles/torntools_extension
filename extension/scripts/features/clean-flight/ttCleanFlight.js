@@ -19,14 +19,26 @@
 	);
 
 	function addCleanFlight() {
+		const agency = document.find(".travel-agency-travelling");
+		const hiddenBy = JSON.parse(agency.dataset.hiddenBy || "[]");
+		hiddenBy.push("clean-flight");
+		agency.dataset.hiddenBy = JSON.stringify(hiddenBy);
+
 		document
 			.findAll(".travel-agency-travelling .stage, .travel-agency-travelling .stage + hr, .travel-agency-travelling .popup-info")
 			.forEach((x) => x.classList.add("hidden"));
 	}
 
 	function removeCleanFlight() {
-		document
-			.findAll(".travel-agency-travelling .stage, .travel-agency-travelling .stage + hr, .travel-agency-travelling .popup-info")
-			.forEach((x) => x.classList.remove("hidden"));
+		const agency = document.find(".travel-agency-travelling");
+		const hiddenBy = JSON.parse(agency.dataset.hiddenBy || "[]").filter((by) => by !== "clean-flight");
+
+		if (hiddenBy.length) {
+			agency.dataset.hiddenBy = JSON.stringify(hiddenBy);
+		} else {
+			agency.findAll(".popup-info, .stage, .delimiter-999").forEach((element) => element.classList.remove("hidden"));
+
+			delete agency.dataset.hiddenBy;
+		}
 	}
 })();
