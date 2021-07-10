@@ -89,3 +89,59 @@
 .filter-header .statistic {
 	margin: 5px 10px 0 0;
 }
+
+/* New Filters CSS Model */
+.tt-filter .statistics {
+	width: 100%;
+	text-align: right;
+	padding-top: 5px;
+	transform: translateX(-10px);
+}
+
+.tt-filter .content {
+	display: flex;
+	width: 100%;
+	justify-content: space-evenly;
+	padding: 10px 0;
+}
+
+body.tt-mobile .tt-filter .content {
+	flex-flow: column;
+	justify-content: center;
+	align-items: center;
+}
+
+body.tt-mobile .tt-filter .content .tt-checkbox-wrapper {
+	margin: 1px 0;
+}
+
+.tt-filter .content .special {
+	display: flex;
+	justify-content: space-around;
+	flex-flow: column;
+}
+
+.tt-filter .content .special > div {
+	display: flex;
+}
+
+.tt-filter .content .special label {
+	margin: 0 4px;
+}
+
+.tt-filter .content > div {
+	text-align: center;
+}
+
+body.tt-mobile .tt-filter .content > div {
+	margin-bottom: 12px;
+}
+
+.tt-filter .content strong {
+	display: block;
+	margin-bottom: 2px;
+}
+
+.tt-filter .content .slider-counter {
+	margin-top: 5px;
+}

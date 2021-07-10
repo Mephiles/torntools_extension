@@ -1,8 +1,9 @@
 "use strict";
 
 (async () => {
-	if (!getPageStatus().access) return;
 	if (!isAbroad()) return;
+	if (!getPageStatus().access) return;
+	if (getSearchParameters().has("page")) return;
 
 	featureManager.registerFeature(
 		"Item Filter",

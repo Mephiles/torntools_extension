@@ -170,6 +170,13 @@ const SPECIAL_FILTER_ICONS = {
 	incompany: ["icon21_", "icon22_", "icon23_", "icon24_", "icon25_", "icon26_", "icon27_", "icon73_", "icon83_"],
 	infaction: ["icon9_", "icon74_", "icon81_"],
 	isdonator: ["icon3_", "icon4_"],
+	isFedded: ["icon70_"],
+	traveling: ["icon71_"],
+	newPlayer: ["icon72_"],
+	onWall: ["icon75_", "icon76_"],
+	inCompany: ["icon21_", "icon22_", "icon23_", "icon24_", "icon25_", "icon26_", "icon27_", "icon73_", "icon83_"],
+	inFaction: ["icon9_", "icon74_", "icon81_"],
+	isDonator: ["icon3_", "icon4_"],
 };
 
 const CHAIN_BONUSES = [10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000];

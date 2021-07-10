@@ -304,6 +304,7 @@
 				"scripts/features/abroad-items-filter/ttAbroadItemsFilter.css"
 			],
 			"js": [
+				"scripts/global/functions/filters.js",
 				"scripts/features/effective-stats/ttEffectiveStats.js",
 				"scripts/features/live-networth/ttLiveNetworth.js",
 				"scripts/features/drug-details/ttDrugDetails.js",
