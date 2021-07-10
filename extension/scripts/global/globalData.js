@@ -568,10 +568,10 @@ const DEFAULT_STORAGE = {
 			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
 			faction: new DefaultSetting({ type: "string", defaultValue: "" }),
 			special: {
-				"newPlayer": new DefaultSetting({ type: "string", defaultValue: "both" }),
-				"inCompany": new DefaultSetting({ type: "string", defaultValue: "both" }),
-				"inFaction": new DefaultSetting({ type: "string", defaultValue: "both" }),
-				"isDonator": new DefaultSetting({ type: "string", defaultValue: "both" }),
+				newPlayer: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				inCompany: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				inFaction: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				isDonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
 			},
 		},
 		abroadItems: {

@@ -62,7 +62,7 @@
 		];
 		const factionFilter = createFilterSection({
 			title: "Faction",
-			select: [ ...defaultFactionsItems, ...getFactions() ],
+			select: [...defaultFactionsItems, ...getFactions()],
 			defaults: "",
 			callback: filtering,
 		});
@@ -157,9 +157,7 @@
 				if (
 					faction &&
 					((rowFaction.childElementCount === 0 && rowFaction.innerText.trim() !== faction) ||
-						(rowFaction.childElementCount !== 0 &&
-							rowFaction.find("img") &&
-							rowFaction.find("img").getAttribute("alt").trim() !== faction))
+						(rowFaction.childElementCount !== 0 && rowFaction.find("img") && rowFaction.find("img").getAttribute("alt").trim() !== faction))
 				) {
 					hideRow(li);
 					continue;
@@ -228,12 +226,8 @@
 				li.classList.add("hidden");
 			}
 
-			statistics.updateStatistics(
-				document.findAll(".users-list > li:not(.hidden)").length,
-				document.findAll(".users-list > li").length,
-				content
-			);
-		};
+			statistics.updateStatistics(document.findAll(".users-list > li:not(.hidden)").length, document.findAll(".users-list > li").length, content);
+		}
 	}
 
 	function getFactions() {
@@ -250,7 +244,7 @@
 
 		const factions = [];
 		for (const faction of _factions) {
-			factions.push({ value: faction, description: faction })
+			factions.push({ value: faction, description: faction });
 		}
 		return factions;
 	}
