@@ -193,20 +193,39 @@ class FeatureManager {
 
 				let scopeElement = document.find(`.tt-page-status-content #scope-${feature.scope}`);
 				if (!scopeElement) {
+					const scopeHeading = document.newElement({
+						type: "div",
+						class: "tt-page-status-scope-heading",
+						children: [
+							document.newElement({ type: "span", text: `— ${feature.scope} —` }),
+							document.newElement({ type: "i", class: "icon fas fa-caret-down" }),
+						],
+					});
 					scopeElement = document.newElement({
 						type: "div",
 						id: "scope-" + feature.scope,
-						children: [
-							document.newElement({
-								type: "div",
-								class: "tt-page-status-scope-heading",
-								text: `— ${feature.scope} —`,
-							}),
-						],
+						children: [scopeHeading],
+					});
+					scopeHeading.addEventListener("click", async (event) => {
+						const scopeElementLocal = event.target.closest("[id*='scope']");
+						const addedOrRemoved = scopeElementLocal.classList.toggle("collapsed");
+						const closedScopes = (await ttStorage.get("filters")).closedScopes;
+						if (addedOrRemoved) closedScopes.push(scopeElementLocal.getAttribute("id").split("scope-")[1]);
+						else {
+							const index = closedScopes.indexOf(scopeElementLocal.getAttribute("id").split("scope-")[1]);
+							if (index !== -1) {
+								closedScopes.splice(index, 1);
+							}
+						}
+						await ttStorage.change({ filters: { closedScopes: closedScopes } });
 					});
 					document.find(".tt-page-status-content").appendChild(scopeElement);
+					scopeElement.appendChild(document.newElement({
+						type: "div",
+						class: "tt-page-status-feature features-list",
+					}));
 				}
-				scopeElement.appendChild(row);
+				scopeElement.find(":scope > .features-list").appendChild(row);
 			}
 			this.checkScopes();
 		}).catch((error) => {
@@ -283,7 +302,7 @@ class FeatureManager {
 		this.checkScopes();
 	}
 
-	checkScopes() {
+	async checkScopes() {
 		let hasContent = false;
 		for (const scope of document.findAll(".tt-page-status-content > div")) {
 			let isEmpty = [...scope.findAll(".tt-page-status-feature")].every((element) => window.getComputedStyle(element).display === "none");
@@ -297,6 +316,11 @@ class FeatureManager {
 		}
 
 		document.find("#tt-page-status").classList[hasContent ? "remove" : "add"]("no-content");
+
+		for (const scope of (await ttStorage.get("filters")).closedScopes) {
+			const scopeElement = document.find(`.tt-page-status-content > #scope-${scope}`);
+			if (!scopeElement.find(":scope > .features-list > .failed")) scopeElement.classList.add("collapsed");
+		}
 	}
 }
 

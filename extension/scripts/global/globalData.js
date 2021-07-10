@@ -596,6 +596,7 @@ const DEFAULT_STORAGE = {
 			maxLevel: new DefaultSetting({ type: "number", defaultValue: 100 }),
 			hideUnavailable: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
+		closedScopes: new DefaultSetting({ type: "array", defaultValue: [] }),
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),
