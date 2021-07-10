@@ -220,10 +220,12 @@ class FeatureManager {
 						await ttStorage.change({ filters: { closedScopes: closedScopes } });
 					});
 					document.find(".tt-page-status-content").appendChild(scopeElement);
-					scopeElement.appendChild(document.newElement({
-						type: "div",
-						class: "tt-page-status-feature features-list",
-					}));
+					scopeElement.appendChild(
+						document.newElement({
+							type: "div",
+							class: "tt-page-status-feature features-list",
+						})
+					);
 				}
 				scopeElement.find(":scope > .features-list").appendChild(row);
 			}
