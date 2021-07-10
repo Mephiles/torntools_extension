@@ -21,7 +21,7 @@
 	async function hideGymHighlight() {
 		await requireSidebar();
 
-		const navGym = document.find("#nav-gym");
+		const navGym = document.find("#nav-gym, #nav-jail_gym");
 		if (!navGym) return;
 		const gymClass = navGym.classList.contains("^=available___");
 		if (!gymClass) return;
@@ -48,7 +48,7 @@
 	}
 
 	function removeHiddenHighlight() {
-		const navGym = document.find("#nav-gym");
+		const navGym = document.find("#nav-gym, #nav-jail_gym");
 		const svg = navGym.find("svg");
 
 		if (hasDarkMode()) {
