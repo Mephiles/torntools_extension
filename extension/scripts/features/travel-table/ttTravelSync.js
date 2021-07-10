@@ -2,6 +2,8 @@
 
 (async () => {
 	if (!isAbroad()) return;
+	if (!getPageStatus().access) return;
+	if (getSearchParameters().has("page")) return;
 
 	featureManager.registerFeature(
 		"Travel Sync",
