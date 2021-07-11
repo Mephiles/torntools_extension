@@ -321,7 +321,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/index.php?page=people*"],
-			"css": ["scripts/global/functions/filters.css", "scripts/features/abroad-people-filter/ttPeopleFilter.css"],
+			"css": ["scripts/global/functions/filters.css"],
 			"js": ["scripts/features/abroad-people-filter/ttPeopleFilter.js"],
 			"run_at": "document_end"
 		},

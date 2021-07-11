@@ -22,7 +22,6 @@
 		const { content } = createContainer("People Filter", {
 			class: "mt10",
 			nextElement: document.find(".users-list-title"),
-			compact: true,
 			filter: true,
 		});
 

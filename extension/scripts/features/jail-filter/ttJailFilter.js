@@ -70,7 +70,7 @@
 			class: "mt10",
 		});
 
-		const activityCheckboxList = createCheckboxList(activityOptions, "column");
+		const activityCheckboxList = createCheckboxList({ items: activityOptions, orientation: "column" });
 		activityCheckboxList.setSelections(filters.activity);
 		activityCheckboxList.onSelectionChange(() => {
 			if (filtersChangedCallback) {
@@ -120,7 +120,7 @@
 			text: "0",
 		});
 
-		const quickModeCheckboxList = createCheckboxList(quickModesOptions, "row");
+		const quickModeCheckboxList = createCheckboxList({ items: quickModesOptions, orientation: "row" });
 		quickModeCheckboxList.setSelections(quickModes);
 		quickModeCheckboxList.onSelectionChange(() => {
 			if (quickModesChangedCallback) {

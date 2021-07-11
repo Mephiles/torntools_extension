@@ -1,5 +1,11 @@
-function createCheckbox(description, reverseLabel = false) {
-	const id = getUUID();
+function createCheckbox(_options) {
+	const options = {
+		description: "",
+		reverseLabel: false,
+		useId: "",
+		..._options,
+	}
+	const id = options.useId || getUUID();
 	const checkbox = document.newElement({
 		type: "input",
 		id,
@@ -11,15 +17,15 @@ function createCheckbox(description, reverseLabel = false) {
 		type: "div",
 		class: "tt-checkbox-wrapper",
 		children: [
-			...(!reverseLabel ? [checkbox] : []),
+			...(!options.reverseLabel ? [checkbox] : []),
 			document.newElement({
 				type: "label",
 				attributes: {
 					for: id,
 				},
-				text: description,
+				text: options.description,
 			}),
-			...(reverseLabel ? [checkbox] : []),
+			...(options.reverseLabel ? [checkbox] : []),
 		],
 		events: {
 			click(event) {
