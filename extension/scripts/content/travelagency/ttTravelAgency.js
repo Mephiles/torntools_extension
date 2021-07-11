@@ -8,7 +8,15 @@
 	}
 	for (const flag of document.findAll(".travel-agency .raceway")) {
 		flag.addEventListener("click", async () => {
-			await requireElement(".travel-agency > div[aria-expanded='true'] .travel-container.full-map[style='display: block;']");
+			const container = document.find(".travel-agency > div[aria-expanded='true'] .travel-container.full-map[style='display: block;']");
+			if (container) {
+				await new Promise((resolve) => {
+					new MutationObserver((mutations, observer) => {
+						observer.disconnect();
+						resolve();
+					}).observe(container, { childList: true });
+				});
+			} else await requireElement(".travel-agency > div[aria-expanded='true'] .travel-container.full-map[style='display: block;']");
 
 			triggerCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, { country: flag.dataset.race });
 		});
