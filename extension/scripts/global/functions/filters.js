@@ -1,5 +1,5 @@
-function createFilterSection(_options) {
-	const options = {
+function createFilterSection(options) {
+	options = {
 		type: "",
 		title: "",
 		checkbox: "",
@@ -11,7 +11,7 @@ function createFilterSection(_options) {
 		defaults: [],
 		orientation: "column",
 		noTitle: false,
-		..._options,
+		...options,
 	};
 
 	if (options.type === "Activity") {
@@ -33,6 +33,7 @@ function createFilterSection(_options) {
 		checkbox.onChange(options.callback);
 		checkbox.setChecked(options.defaults);
 		section.appendChild(checkbox.element);
+
 		return {
 			element: section,
 			isChecked: (content) => content.find(`.${ccTitle} input`).checked,
@@ -44,6 +45,7 @@ function createFilterSection(_options) {
 		checkboxes.onSelectionChange(options.callback);
 		checkboxes.setSelections(options.defaults);
 		section.appendChild(checkboxes.element);
+
 		return {
 			element: section,
 			getSelections: (content) => [...content.findAll(`.${ccTitle} input:checked`)].map((x) => x.getAttribute("id").toLowerCase().trim()),
@@ -67,6 +69,11 @@ function createFilterSection(_options) {
 			section.appendChild(checkboxesDiv);
 		});
 
+		return {
+			element: section,
+			getSelections,
+		};
+
 		function getSelections(content) {
 			const selections = {};
 			for (const specialDiv of [...content.findAll(`.${ccTitle} > div`)]) {
@@ -74,18 +81,12 @@ function createFilterSection(_options) {
 				const yChecked = checkboxes[0].checked;
 				const nChecked = checkboxes[1].checked;
 				const key = specialDiv.className;
-				if (yChecked && nChecked) {
-					selections[key] = "both";
-				} else if (yChecked) selections[key] = "yes";
+				if (yChecked && nChecked) selections[key] = "both";
+				else if (yChecked) selections[key] = "yes";
 				else if (nChecked) selections[key] = "no";
 			}
 			return selections;
 		}
-
-		return {
-			element: section,
-			getSelections,
-		};
 	}
 
 	if (options.select.length) {
@@ -93,6 +94,7 @@ function createFilterSection(_options) {
 		select.setSelected(options.defaults);
 		select.onChange(options.callback);
 		section.appendChild(select.element);
+
 		return {
 			element: section,
 			getSelected: (content) => content.find(`.${ccTitle} select`).value,
@@ -102,22 +104,19 @@ function createFilterSection(_options) {
 	if (options.slider && Object.keys(options.slider).length) {
 		const rangeSlider = new DualRangeSlider(options.slider);
 		section.appendChild(rangeSlider.slider);
-		section.appendChild(
-			document.newElement({
-				type: "div",
-				class: "slider-counter",
-				text: "",
-			})
-		);
+		section.appendChild(document.newElement({ type: "div", class: "slider-counter", text: "" }));
+
 		new MutationObserver(options.callback).observe(rangeSlider.slider, { attributes: true });
 
-		function getStartEnd(content) {
+		return { element: section, getStartEnd, updateCounter };
+
+		function getStartEnd() {
 			return { start: rangeSlider.slider.dataset.low, end: rangeSlider.slider.dataset.high };
 		}
+
 		function updateCounter(string, content) {
 			content.find(`.${ccTitle} .slider-counter`).innerText = string;
 		}
-		return { element: section, getStartEnd, updateCounter };
 	}
 }
 
@@ -133,9 +132,11 @@ function createStatistics() {
 			" items",
 		],
 	});
+
 	function updateStatistics(count, total, content) {
 		content.find(".statistics .count").innerText = count;
 		content.find(".statistics .total").innerText = total;
 	}
+
 	return { element: statistics, updateStatistics };
 }

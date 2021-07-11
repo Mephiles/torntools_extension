@@ -62,7 +62,7 @@
 
 		title.classList.add("tt-infobox-title");
 
-		const checkbox = createCheckbox("Show full page");
+		const checkbox = createCheckbox({ description: "Show full page" });
 
 		if (filters.containers[key]) {
 			checkbox.setChecked(true);

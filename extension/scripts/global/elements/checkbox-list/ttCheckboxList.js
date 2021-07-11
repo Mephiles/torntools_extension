@@ -1,19 +1,21 @@
-function createCheckboxList(_options) {
-	const options = {
+function createCheckboxList(options) {
+	options = {
 		items: {},
 		orientation: "column",
 		reverseLabel: false,
 		useId: "",
-		..._options,
+		...options,
 	};
+
 	let selectedIds = {};
 	const checkboxes = {};
 	let selectionChangeCallback;
 
 	for (const item of options.items) {
 		const checkbox = options.useId
-			? createCheckbox({ description: item.description, reverseLabel: options.reverseLabel, useId: item.id })
+			? createCheckbox({ description: item.description, reverseLabel: options.reverseLabel, id: item.id })
 			: createCheckbox({ description: item.description, reverseLabel: options.reverseLabel });
+
 		checkbox.onChange(() => {
 			if (checkbox.isChecked()) {
 				selectedIds[item.id] = true;
@@ -35,7 +37,7 @@ function createCheckboxList(_options) {
 	});
 
 	function setSelections(selectedItemIds) {
-		selectedIds = selectedItemIds.reduce((acc, curr) => ({ ...acc, [curr]: true }), {});
+		selectedIds = selectedItemIds.reduce((object, id) => ({ ...object, [id]: true }), {});
 
 		for (const id in checkboxes) {
 			checkboxes[id].setChecked(selectedIds[id] || false);

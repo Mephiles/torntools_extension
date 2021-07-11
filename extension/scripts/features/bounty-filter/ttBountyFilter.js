@@ -36,7 +36,7 @@
 				max: "100",
 			},
 		});
-		const cbHideUnavailable = createCheckbox("Hide Unavailable");
+		const cbHideUnavailable = createCheckbox({ description: "Hide Unavailable" });
 		options.appendChild(
 			document.newElement({
 				type: "span",

@@ -54,7 +54,7 @@
 		}
 
 		function handleHighlight() {
-			const checkbox = createCheckbox("Highlight items");
+			const checkbox = createCheckbox({ description: "Highlight items" });
 
 			highlight(filters.city.highlightItems);
 
