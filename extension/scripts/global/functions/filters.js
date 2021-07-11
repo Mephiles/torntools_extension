@@ -35,7 +35,7 @@ function createFilterSection(_options) {
 		section.appendChild(checkbox.element);
 		return {
 			element: section,
-			isChecked: (content) => content.find(`.${ccTitle} input`).checked
+			isChecked: (content) => content.find(`.${ccTitle} input`).checked,
 		};
 	}
 
@@ -45,13 +45,13 @@ function createFilterSection(_options) {
 		checkboxes.setSelections(options.defaults);
 		section.appendChild(checkboxes.element);
 		return {
-			element: section, getSelections:
-			(content) => [...content.findAll(`.${ccTitle} input:checked`)].map(x => x.getAttribute("id").toLowerCase().trim())
+			element: section,
+			getSelections: (content) => [...content.findAll(`.${ccTitle} input:checked`)].map((x) => x.getAttribute("id").toLowerCase().trim()),
 		};
 	}
 
 	if (options.ynCheckboxes.length) {
-		options.ynCheckboxes.forEach(key => {
+		options.ynCheckboxes.forEach((key) => {
 			const ccKey = key.camelCase(true);
 			const checkboxesDiv = document.newElement({ type: "div", class: ccKey });
 			const yCheckbox = createCheckbox({ description: "Y:", reverseLabel: true });
@@ -76,8 +76,7 @@ function createFilterSection(_options) {
 				const key = specialDiv.className;
 				if (yChecked && nChecked) {
 					selections[key] = "both";
-				}
-				else if (yChecked) selections[key] = "yes";
+				} else if (yChecked) selections[key] = "yes";
 				else if (nChecked) selections[key] = "no";
 			}
 			return selections;
@@ -103,11 +102,13 @@ function createFilterSection(_options) {
 	if (options.slider && Object.keys(options.slider).length) {
 		const rangeSlider = new DualRangeSlider(options.slider);
 		section.appendChild(rangeSlider.slider);
-		section.appendChild(document.newElement({
-			type: "div",
-			class: "slider-counter",
-			text: "",
-		}));
+		section.appendChild(
+			document.newElement({
+				type: "div",
+				class: "slider-counter",
+				text: "",
+			})
+		);
 		new MutationObserver(options.callback).observe(rangeSlider.slider, { attributes: true });
 
 		function getStartEnd(content) {
@@ -122,16 +123,16 @@ function createFilterSection(_options) {
 
 function createStatistics() {
 	const statistics = document.newElement({
-				type: "div",
-				class: "statistics",
-				children: [
-					"Showing ",
-					document.newElement({ type: "strong", class: "count", text: "X" }),
-					" of ",
-					document.newElement({ type: "strong", class: "total", text: "Y" }),
-					" items",
-				],
-			});
+		type: "div",
+		class: "statistics",
+		children: [
+			"Showing ",
+			document.newElement({ type: "strong", class: "count", text: "X" }),
+			" of ",
+			document.newElement({ type: "strong", class: "total", text: "Y" }),
+			" items",
+		],
+	});
 	function updateStatistics(count, total, content) {
 		content.find(".statistics .count").innerText = count;
 		content.find(".statistics .total").innerText = total;

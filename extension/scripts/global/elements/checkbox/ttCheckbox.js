@@ -4,7 +4,7 @@ function createCheckbox(_options) {
 		reverseLabel: false,
 		useId: "",
 		..._options,
-	}
+	};
 	const id = options.useId || getUUID();
 	const checkbox = document.newElement({
 		type: "input",

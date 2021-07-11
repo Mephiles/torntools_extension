@@ -5,7 +5,7 @@ function createCheckboxList(_options) {
 		reverseLabel: false,
 		useId: "",
 		..._options,
-	}
+	};
 	let selectedIds = {};
 	const checkboxes = {};
 	let selectionChangeCallback;

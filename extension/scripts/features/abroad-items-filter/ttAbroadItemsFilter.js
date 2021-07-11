@@ -127,11 +127,7 @@
 				},
 			});
 
-			statistics.updateStatistics(
-				document.findAll(".users-list > li:not(.hidden)").length,
-				document.findAll(".users-list > li").length,
-				content
-			);
+			statistics.updateStatistics(document.findAll(".users-list > li:not(.hidden)").length, document.findAll(".users-list > li").length, content);
 		}
 
 		function showRow(row) {
