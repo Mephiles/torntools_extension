@@ -216,9 +216,22 @@ body.scrolled #tt-page-status.top-right {
 }
 
 .tt-page-status-scope-heading {
+	display: flex;
 	text-align: center;
 	font-style: italic;
 	margin-bottom: 3px;
+}
+
+.tt-page-status-scope-heading > span {
+	width: 100%;
+}
+
+.tt-page-status-content .collapsed[id*="scope-"] .tt-page-status-scope-heading .icon {
+	transform: rotate(270deg);
+}
+
+.tt-page-status-content .collapsed[id*="scope-"] .features-list {
+	display: none;
 }
 
 .tt-page-status-feature {

@@ -568,10 +568,10 @@ const DEFAULT_STORAGE = {
 			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
 			faction: new DefaultSetting({ type: "string", defaultValue: "" }),
 			special: {
-				newplayer: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				incompany: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				infaction: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				isdonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				newPlayer: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				inCompany: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				inFaction: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				isDonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
 			},
 		},
 		abroadItems: {
@@ -596,6 +596,7 @@ const DEFAULT_STORAGE = {
 			maxLevel: new DefaultSetting({ type: "number", defaultValue: 100 }),
 			hideUnavailable: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
+		closedScopes: new DefaultSetting({ type: "array", defaultValue: [] }),
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),

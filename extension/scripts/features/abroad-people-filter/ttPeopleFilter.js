@@ -23,181 +23,101 @@
 			class: "mt10",
 			nextElement: document.find(".users-list-title"),
 			compact: true,
+			filter: true,
 		});
-		content.innerHTML = `
-			<div class="filter-header">
-				<div class="statistic" id="showing">Showing <span class="filter-count">X</span> of <span class="filter-total">${
-					document.findAll(".users-list > *").length
-				}</span> users</div>
-			</div>
-			<div class="filter-content">
-				<div class="filter-wrap" id="activity-filter">
-					<div class="filter-heading">Activity</div>
-					<div class="filter-multi-wrap">
-						<div class="tt-checkbox-wrap">
-							<input type="checkbox" value="online" id="tt-people-filter-online">
-							<label for="tt-people-filter-online">Online</label>
-						</div>
-						<div class="tt-checkbox-wrap">
-							<input type="checkbox" value="idle" id="tt-people-filter-idle">
-							<label for="tt-people-filter-idle">Idle</label>
-						</div>
-						<div class="tt-checkbox-wrap">
-							<input type="checkbox" value="offline" id="tt-people-filter-offline">
-							<label for="tt-people-filter-offline">Offline</label>
-						</div>
-					</div>
-				</div>
-				<div class="filter-wrap">
-					<div class="filter-heading">Faction</div>
-					<div class="filter-multi-wrap">
-						<select name="faction" id="tt-faction-filter">
-							<option selected value="">none</option>
-							<option disabled value="------">------</option>
-						</select>
-					</div>
-				</div>
-				<div class="filter-wrap">
-					<div class="filter-heading">Special</div>
-					<div class="filter-multi-wrap">
-						<div class="tt-checkbox-wrap">
-							<label for="newplayer-yes">Y:</label>
-							<input type="checkbox" id="newplayer-yes" value="newplayer-yes">
-							<label for="newplayer-no">N:</label>
-							<input type="checkbox" id="newplayer-no" value="newplayer-no">
-							New Player
-						</div>
-						<div class="tt-checkbox-wrap">
-							<label for="incompany-yes">Y:</label>
-							<input type="checkbox" id="incompany-yes" value="incompany-yes">
-							<label for="incompany-no">N:</label>
-							<input type="checkbox" id="incompany-no" value="incompany-no">
-							In Company
-						</div>
-						<div class="tt-checkbox-wrap">
-							<label for="infaction-yes">Y:</label>
-							<input type="checkbox" id="infaction-yes" value="infaction-yes">
-							<label for="infaction-no">N:</label>
-							<input type="checkbox" id="infaction-no" value="infaction-no">
-							In Faction
-						</div>
-						<div class="tt-checkbox-wrap">
-							<label for="isdonator-yes">Y:</label>
-							<input type="checkbox" id="isdonator-yes" value="isdonator-yes">
-							<label for="isdonator-no">N:</label>
-							<input type="checkbox" id="isdonator-no" value="isdonator-no">
-							Is Donator
-						</div>
-					</div>
-				</div>
-				<div class="filter-wrap" id="status-filter">
-					<div class="filter-heading">Status</div>
-					<div class="filter-multi-wrap">
-						<div class="tt-checkbox-wrap">
-							<input type="checkbox" id="status-okay" value="okay">
-							<label for="status-okay">Okay</label>
-						</div>
-						<div class="tt-checkbox-wrap">
-							<input type="checkbox" id="status-hospital" value="hospital">
-							<label for="status-hospital">Hospital</label>
-						</div>
-					</div>
-				</div>
-			</div>
-		`;
-		if (hasAPIData() && Object.keys(userdata) && userdata.faction && userdata.faction.faction_tag)
-			content.find("#tt-faction-filter").appendChild(
-				document.newElement({
-					type: "option",
-					text: userdata.faction.faction_tag,
-					attributes: {
-						value: userdata.faction.faction_tag,
-					},
-				})
-			);
-		const levelSlider = new DualRangeSlider({
-			min: 1,
-			max: 100,
-			step: 1,
-			valueLow: filters.abroadPeople.levelStart,
-			valueHigh: filters.abroadPeople.levelEnd,
-		});
-		const levelFilter = document.newElement({
+
+		const statistics = createStatistics();
+		content.appendChild(statistics.element);
+
+		const filterContent = document.newElement({
 			type: "div",
-			class: "filter-wrap",
-			id: "level-filter",
-			children: [
-				levelSlider.slider,
-				document.newElement({
-					type: "div",
-					class: "level-filter-info-wrap",
-					children: [document.newElement({ type: "span", class: "level-filter-info" })],
-				}),
-			],
+			class: "content",
 		});
-		content.find(".filter-content").appendChild(levelFilter);
 
-		// Set up the filters
-		for (const activity of filters.abroadPeople.activity) {
-			content.find(`#activity-filter [value="${activity}"]`).checked = true;
-		}
-		// There is no faction filter setup
-		for (const specialFilter in filters.abroadPeople.special) {
-			const value = filters.abroadPeople.special[specialFilter];
-			const yesCheckBox = content.find(`[value="${specialFilter}-yes"]`);
-			const noCheckbox = content.find(`[value="${specialFilter}-no"]`);
-			if (value === "both") {
-				yesCheckBox.checked = true;
-				noCheckbox.checked = true;
-			} else if (value === "yes") {
-				yesCheckBox.checked = true;
-			} else if (value === "no") {
-				noCheckbox.checked = true;
-			}
-		}
-		for (const status of filters.abroadPeople.status) {
-			content.find(`#status-${status}`).checked = true;
-		}
+		const activityFilter = createFilterSection({
+			type: "Activity",
+			defaults: filters.abroadPeople.activity,
+			callback: filtering,
+		});
+		filterContent.appendChild(activityFilter.element);
 
-		// Listeners
-		content.findAll("input[type='checkbox']").forEach((x) => x.addEventListener("click", filtering));
-		content.find("#tt-faction-filter").addEventListener("input", filtering);
-		new MutationObserver(filtering).observe(levelSlider.slider, { attributes: true });
+		const defaultFactionsItems = [
+			{
+				value: "",
+				description: "All",
+			},
+			...(hasAPIData() && !!userdata.faction.faction_id
+				? [
+						{
+							value: userdata.faction.faction_tag,
+							description: userdata.faction.faction_tag,
+						},
+				  ]
+				: []),
+			{
+				value: "------",
+				description: "------",
+				disabled: true,
+			},
+		];
+		const factionFilter = createFilterSection({
+			title: "Faction",
+			select: [...defaultFactionsItems, ...getFactions()],
+			defaults: "",
+			callback: filtering,
+		});
+		filterContent.appendChild(factionFilter.element);
 
-		addFactionsToList();
+		const specialFilter = createFilterSection({
+			title: "Special",
+			ynCheckboxes: ["New Player", "In Company", "In Faction", "Is Donator"],
+			defaults: filters.abroadPeople.special,
+			callback: filtering,
+		});
+		filterContent.appendChild(specialFilter.element);
+
+		const statusFilter = createFilterSection({
+			title: "Status",
+			checkboxes: [
+				{ id: "okay", description: "Okay" },
+				{ id: "hospital", description: "Hospital" },
+			],
+			defaults: filters.abroadPeople.status,
+			callback: filtering,
+		});
+		filterContent.appendChild(statusFilter.element);
+
+		const levelFilter = createFilterSection({
+			title: "Level Filter",
+			noTitle: true,
+			slider: {
+				min: 1,
+				max: 100,
+				step: 1,
+				valueLow: filters.abroadPeople.levelStart,
+				valueHigh: filters.abroadPeople.levelEnd,
+			},
+			callback: filtering,
+		});
+		filterContent.appendChild(levelFilter.element);
+		content.appendChild(filterContent);
+
 		filtering();
-	}
 
-	function filtering() {
-		requireElement(".users-list > li").then(async () => {
-			const content = findContainer("People Filter").find(".filter-content");
-			const levelFilter = content.find("#level-filter .tt-dual-range");
+		async function filtering() {
+			await requireElement(".users-list > li");
 			// Get the set filters
-			let activity = [];
-			for (const checkbox of content.findAll("#activity-filter input:checked")) {
-				activity.push(checkbox.getAttribute("value"));
-			}
-			const faction = content.find("#tt-faction-filter").value;
-			let special = {};
-			for (const specialFilter of ["newplayer", "incompany", "infaction", "isdonator"]) {
-				const yesChecked = content.find(`[value="${specialFilter}-yes"`).checked;
-				const noChecked = content.find(`[value="${specialFilter}-no"`).checked;
-				if ((yesChecked && noChecked) || (!yesChecked && !noChecked)) {
-					special[specialFilter] = "both";
-				} else if (yesChecked && !noChecked) {
-					special[specialFilter] = "yes";
-				} else if (!yesChecked && noChecked) {
-					special[specialFilter] = "no";
-				}
-			}
-			let status = [];
-			for (const checkbox of content.findAll("#status-filter input:checked")) {
-				status.push(checkbox.getAttribute("value"));
-			}
-			const levelStart = parseInt(levelFilter.dataset.low);
-			const levelEnd = parseInt(levelFilter.dataset.high);
-			// Update level and time slider counters
-			content.find(".level-filter-info").innerText = `Level ${levelStart} - ${levelEnd}`;
+			const activity = activityFilter.getSelections(content);
+			const faction = factionFilter.getSelected(content).trim();
+			const special = specialFilter.getSelections(content);
+			const status = statusFilter.getSelections(content);
+			const levels = levelFilter.getStartEnd();
+			const levelStart = parseInt(levels.start);
+			const levelEnd = parseInt(levels.end);
+
+			// Update level slider counter
+			levelFilter.updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
+
 			// Save filters
 			await ttStorage.change({
 				filters: {
@@ -228,7 +148,7 @@
 								.trim()
 					)
 				) {
-					showRow(li, false);
+					hideRow(li);
 					continue;
 				}
 
@@ -236,12 +156,10 @@
 				const rowFaction = li.find(".faction");
 				if (
 					faction &&
-					((rowFaction.childElementCount === 0 && rowFaction.innerText.trim() !== faction.trim()) ||
-						(rowFaction.childElementCount !== 0 &&
-							rowFaction.find("img") &&
-							rowFaction.find("img").getAttribute("title").trim() !== faction.trim()))
+					((rowFaction.childElementCount === 0 && rowFaction.innerText.trim() !== faction) ||
+						(rowFaction.childElementCount !== 0 && rowFaction.find("img") && rowFaction.find("img").getAttribute("alt").trim() !== faction))
 				) {
-					showRow(li, false);
+					hideRow(li);
 					continue;
 				}
 
@@ -260,13 +178,12 @@
 						}
 
 						if (!matchesOneIcon) {
-							showRow(li, false);
-							// noinspection UnnecessaryContinueJS
+							hideRow(li);
 							continue;
 						}
 					} else if (value === "no") {
 						let matchesOneIcon = false;
-						for (let icon of SPECIAL_FILTER_ICONS[key]) {
+						for (const icon of SPECIAL_FILTER_ICONS[key]) {
 							if (li.find(`li[id^='${icon}']`)) {
 								matchesOneIcon = true;
 								break;
@@ -274,8 +191,7 @@
 						}
 
 						if (matchesOneIcon) {
-							showRow(li, false);
-							// noinspection UnnecessaryContinueJS
+							hideRow(li);
 							continue;
 						}
 					}
@@ -283,39 +199,40 @@
 
 				// Status
 				let matches_one_status = status.length === 0;
-				for (let state of status) {
+				for (const state of status) {
 					if (li.find(".status").innerText.replace("STATUS:", "").trim().toLowerCase() === state) {
 						matches_one_status = true;
 						break;
 					}
 				}
 				if (!matches_one_status) {
-					showRow(li, false);
+					hideRow(li);
 					continue;
 				}
 
 				// Level
 				const level = parseInt(li.find(".level").innerText.replace(/\D+/g, ""));
 				if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
-					showRow(li, false);
-					// noinspection UnnecessaryContinueJS
+					hideRow(li);
 					continue;
 				}
 			}
 
-			function showRow(li, show = true) {
-				if (!li.classList) return;
-				if (show) li.classList.remove("hidden");
-				else li.classList.add("hidden");
+			function showRow(li) {
+				li.classList.remove("hidden");
 			}
-			updateStat();
-		});
+
+			function hideRow(li) {
+				li.classList.add("hidden");
+			}
+
+			statistics.updateStatistics(document.findAll(".users-list > li:not(.hidden)").length, document.findAll(".users-list > li").length, content);
+		}
 	}
 
-	function addFactionsToList() {
-		const content = findContainer("People Filter").find(".filter-content");
+	function getFactions() {
 		const rows = [...document.findAll(".users-list > li .user.faction")];
-		const factions = new Set(
+		const _factions = new Set(
 			rows[0].find("img")
 				? rows
 						.map((row) => row.find("img"))
@@ -325,13 +242,11 @@
 				: rows.map((row) => row.innerText.trim()).filter((tag) => !!tag)
 		);
 
-		for (const fac of factions) {
-			content.find("#tt-faction-filter").appendChild(document.newElement({ type: "option", value: fac, text: fac }));
+		const factions = [];
+		for (const faction of _factions) {
+			factions.push({ value: faction, description: faction });
 		}
-	}
-
-	function updateStat() {
-		findContainer("People Filter").find(".filter-count").innerText = document.findAll(".users-list > li:not(.hidden)").length;
+		return factions;
 	}
 
 	function removeFilters() {

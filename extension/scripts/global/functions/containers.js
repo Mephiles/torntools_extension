@@ -16,6 +16,7 @@ function createContainer(title, options = {}) {
 		flexContainer: false,
 		compact: false,
 		alwaysContent: false,
+		filter: false,
 		...options,
 	};
 	if (options.onlyHeader) options.collapsible = false;
@@ -44,6 +45,7 @@ function createContainer(title, options = {}) {
 		if (options.compact) containerClasses.push("compact");
 		if (options.alwaysContent) containerClasses.push("always-content");
 		if (options.class) containerClasses.push(options.class.split(" "));
+		if (options.filter) containerClasses.push("tt-filter");
 
 		const mainClasses = [];
 		if (options.contentBackground) mainClasses.push("background");
