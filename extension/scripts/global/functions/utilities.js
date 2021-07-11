@@ -220,3 +220,17 @@ function toCorrectType(object) {
 
 	return object;
 }
+
+function toClipboard(text) {
+	if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+		navigator.clipboard.writeText(text);
+	} else {
+		const textarea = document.newElement({ type: "textarea", value: text, style: { position: "absolute", left: "-9999px" }, attributes: { readonly: "" } });
+		document.body.appendChild(textarea);
+
+		textarea.select();
+		document.execCommand("copy");
+
+		document.body.removeChild(textarea);
+	}
+}

@@ -35,23 +35,7 @@
 	}
 
 	function copyID() {
-		const title = document.find("h4#skip-to-content");
-		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
-			navigator.clipboard.writeText(title.innerText);
-		} else {
-			const textarea = document.newElement({
-				type: "textarea",
-				value: title.innerText,
-				style: { position: "absolute", left: "-9999px" },
-				attributes: { readonly: "" },
-			});
-			document.body.appendChild(textarea);
-
-			textarea.select();
-			document.execCommand("copy");
-
-			document.body.removeChild(textarea);
-		}
+		toClipboard(document.find("h4#skip-to-content").innerText);
 	}
 
 	function getUserID() {

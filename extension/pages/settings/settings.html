@@ -15,6 +15,7 @@
 		<link rel="stylesheet" href="changelog.css" />
 		<link rel="stylesheet" href="preferences.css" />
 		<link rel="stylesheet" href="icons.css" />
+		<link rel="stylesheet" href="export.css" />
 		<link rel="stylesheet" href="about.css" />
 	</head>
 	<body>
@@ -46,7 +47,7 @@
 					<li to="changelog">Changelog</li>
 					<li to="preferences">Preferences</li>
 					<li to="api">API</li>
-					<li to="remote">Remote</li>
+					<li to="export">Export</li>
 					<li to="about">About</li>
 				</ul>
 			</nav>
@@ -1202,10 +1203,26 @@
 				</ul>
 			</section>
 		</main>
-		<main id="remote" class="hidden">
-			<h2>Remote</h2>
+		<main id="export" class="hidden">
+			<h2>Export</h2>
 			<section>
-				<h4>WIP</h4>
+				<h3 class="first-header">Locally</h3>
+
+				<div class="export-locally">
+					<p class="description">Simply receive the database content in a text format. Will be copied to your clipboard.</p>
+					<div class="actions">
+						<button id="export-local-text" class="fancy-button">Export</button>
+						<button id="import-local-text" class="fancy-button">Import</button>
+					</div>
+
+					<p class="description">Save the database as a file.</p>
+					<div class="actions">
+						<button id="export-local-file" class="fancy-button">Export</button>
+						<button id="import-local-file" class="fancy-button">Import</button>
+
+						<input id="import-local-file-origin" class="hidden" type="file" accept=".json" />
+					</div>
+				</div>
 			</section>
 		</main>
 		<main id="about" class="hidden">

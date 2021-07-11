@@ -1,0 +1,12 @@
+.export-locally {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.export-locally .description {
+	max-width: 45ch;
+}
+
+.export-locally .actions {
+	grid-row-start: 2;
+}
