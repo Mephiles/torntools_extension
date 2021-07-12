@@ -1,12 +1,29 @@
-.export-locally {
+.export-locally,
+.export-remote {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 }
 
-.export-locally .description {
+.export-locally .description,
+.export-remote .description {
 	max-width: 45ch;
 }
 
 .export-locally .actions {
 	grid-row-start: 2;
+}
+
+.export-remote .last-update-wrap {
+	grid-row-start: 2;
+}
+.export-remote .version-wrap {
+	grid-row-start: 3;
+}
+.export-remote .actions {
+	grid-row-start: 4;
+}
+
+#export .last-update,
+#export .version {
+	font-weight: bold;
 }

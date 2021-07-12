@@ -131,11 +131,27 @@ button.fancy-button {
 	text-align: center;
 	line-height: 30px;
 	border-radius: 7px;
-	cursor: pointer;
 	font-weight: 600;
 	display: inline-block;
 	vertical-align: top;
+	cursor: pointer;
+}
+
+body.dark button.fancy-button {
 	color: white;
+}
+
+button.fancy-button[disabled] {
+	cursor: not-allowed;
+}
+
+body.light button.fancy-button[disabled] {
+}
+
+body.dark button.fancy-button[disabled] {
+	background: #616161;
+	color: #7a7a7a;
+	border-color: dimgrey;
 }
 
 button.fancy-button.positive {
