@@ -163,15 +163,8 @@ const SETS = {
 };
 
 const SPECIAL_FILTER_ICONS = {
-	isfedded: ["icon70_"],
 	traveling: ["icon71_"],
-	newplayer: ["icon72_"],
-	onwall: ["icon75_", "icon76_"],
-	incompany: ["icon21_", "icon22_", "icon23_", "icon24_", "icon25_", "icon26_", "icon27_", "icon73_", "icon83_"],
-	infaction: ["icon9_", "icon74_", "icon81_"],
-	isdonator: ["icon3_", "icon4_"],
 	isFedded: ["icon70_"],
-	traveling: ["icon71_"],
 	newPlayer: ["icon72_"],
 	onWall: ["icon75_", "icon76_"],
 	inCompany: ["icon21_", "icon22_", "icon23_", "icon24_", "icon25_", "icon26_", "icon27_", "icon73_", "icon83_"],
