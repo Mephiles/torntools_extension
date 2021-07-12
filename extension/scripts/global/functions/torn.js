@@ -242,12 +242,6 @@ function getRFC() {
 	return rfc;
 }
 
-function addRFC(url) {
-	url = url || "";
-	url += (url.split("?").length > 1 ? "&" : "?") + "rfcv=" + getRFC();
-	return url;
-}
-
 function getPage() {
 	let page = location.pathname.substring(1);
 	if (page.endsWith(".php")) page = page.substring(0, page.length - 4);

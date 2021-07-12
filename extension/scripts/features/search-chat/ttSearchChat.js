@@ -32,11 +32,11 @@
 			const inputValue = input.value;
 			if (inputValue) searchChat(message, inputValue);
 		});
-		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_ERROR].push(({ message }) => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_ERROR].push(({}) => {
 			if (!feature.enabled()) return;
 
-			const nottModifiedInputs = document.findAll("#chatRoot [class*='chat-box-input_']:not(.tt-modified) .tt-chat-filter");
-			if (nottModifiedInputs.length) nottModifiedInputs.forEach((x) => x.parentElement.classList.add("tt-modified"));
+			const notModifiedInputs = document.findAll("#chatRoot [class*='chat-box-input_']:not(.tt-modified) .tt-chat-filter");
+			if (notModifiedInputs.length) notModifiedInputs.forEach((x) => x.parentElement.classList.add("tt-modified"));
 		});
 	}
 

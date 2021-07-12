@@ -17,7 +17,7 @@
 	);
 
 	function initialiseListener() {
-		addXHRListener(({ detail: { page, xhr, json } }) => {
+		addXHRListener(({ detail: { page, xhr } }) => {
 			if (feature.enabled() && page === "loader" && xhr.responseURL.includes("tab=parts")) addPercentage();
 		});
 	}

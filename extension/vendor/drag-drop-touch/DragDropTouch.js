@@ -1,3 +1,5 @@
+// noinspection ES6ConvertVarToLetConst,JSUnusedGlobalSymbols,EqualityComparisonWithCoercionJS,JSDuplicatedDeclaration
+
 /*
 * DnD polyfill  https://github.com/Bernardo-Castilho/dragdroptouch
 */

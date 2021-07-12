@@ -461,15 +461,13 @@
 		}
 
 		function getFactionOptions() {
-			const distinctFactions = [
+			return [
 				...new Set(
 					usersInfo
 						.map((userInfo) => userInfo.faction)
 						.filter((faction) => faction && faction !== JAIL_CONSTANTS.unknownFactions && faction !== JAIL_CONSTANTS.noFaction)
 				),
 			];
-
-			return distinctFactions;
 		}
 
 		function getUsersAmount() {
@@ -492,7 +490,7 @@
 		}
 
 		function _createRefreshButton(mode, classes) {
-			const refreshButton = document.newElement({
+			return document.newElement({
 				type: "img",
 				attributes: {
 					src: _getRefreshIconSrc(mode),
@@ -502,8 +500,6 @@
 					click: () => location.reload(),
 				},
 			});
-
-			return refreshButton;
 		}
 
 		function _getRefreshIconSrc(mode) {

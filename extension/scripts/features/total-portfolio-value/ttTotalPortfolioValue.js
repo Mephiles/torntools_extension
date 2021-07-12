@@ -3,7 +3,7 @@
 (async () => {
 	if (isFlying() || isAbroad()) return;
 
-	const feature = featureManager.registerFeature(
+	featureManager.registerFeature(
 		"Total Portfolio Value and Profit",
 		"stocks",
 		() => settings.pages.stocks.valueAndProfit,

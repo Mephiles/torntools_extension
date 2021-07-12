@@ -67,10 +67,10 @@
 			await requireElement(`.stats-wrap .${statsType}-stats-wrap .stat`);
 			totalLostElement.closest("li:not(.stat-value)").insertAdjacentHTML(
 				"afterend",
-				`<div class="tt-net-total ${isBookie() ? "bookie" : ""}">
+				`<ul class="tt-net-total ${isBookie() ? "bookie" : ""}">
 						<li class="name">Net total</li>
 						<li class="value">${formatNumber(totalWon - totalLost, { currency: true })}</li>
-					</div>`
+					</ul>`
 			);
 		}
 

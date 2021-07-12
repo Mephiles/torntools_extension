@@ -48,9 +48,9 @@
 		maxLevelInput.value = filters.bounties.maxLevel;
 		cbHideUnavailable.setChecked(filters.bounties.hideUnavailable);
 
-		filterListing();
 		maxLevelInput.addEventListener("input", filterListing);
 		cbHideUnavailable.onChange(filterListing);
+		await filterListing();
 
 		async function filterListing() {
 			// Get the set filters
@@ -76,6 +76,7 @@
 				} else showBounty(bounty);
 				if (hideUnavailable && bounty.find(".t-red")) {
 					hideBounty(bounty);
+					// noinspection UnnecessaryContinueJS
 					continue;
 				} else showBounty(bounty);
 			}

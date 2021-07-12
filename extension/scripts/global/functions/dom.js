@@ -206,21 +206,6 @@ function getHashParameters() {
 	return new URLSearchParams(hash);
 }
 
-function hasParent(element, options = {}) {
-	options = {
-		class: false,
-		id: false,
-		...options,
-	};
-
-	if (!element.parentElement) return false;
-
-	if (options.class && element.parentElement.classList.contains(options.class)) return true;
-	if (options.id && element.parentElement.id === options.id) return true;
-
-	return hasParent(element.parentElement, options);
-}
-
 function findParent(element, options = {}) {
 	options = {
 		tag: false,

@@ -223,7 +223,7 @@ function toCorrectType(object) {
 
 function toClipboard(text) {
 	if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
-		navigator.clipboard.writeText(text);
+		navigator.clipboard.writeText(text).then(() => {});
 	} else {
 		const textarea = document.newElement({ type: "textarea", value: text, style: { position: "absolute", left: "-9999px" }, attributes: { readonly: "" } });
 		document.body.appendChild(textarea);

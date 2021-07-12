@@ -18,7 +18,7 @@
 	);
 
 	function initialiseLink() {
-		CUSTOM_LISTENERS[EVENT_CHANNELS.STATE_CHANGED].push(({ oldState, newState }) => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.STATE_CHANGED].push(({}) => {
 			if (!feature.enabled()) return;
 
 			const setting = document.find(".tt-settings");

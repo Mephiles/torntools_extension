@@ -229,7 +229,8 @@ class FeatureManager {
 				}
 				scopeElement.find(":scope > .features-list").appendChild(row);
 			}
-			this.checkScopes();
+
+			await this.checkScopes();
 		}).catch((error) => {
 			console.error(`[TornTools] FeatureManager - Couldn't log result for ${feature.name}`, error, options);
 		});
@@ -257,7 +258,7 @@ class FeatureManager {
 			settings.featureDisplayOnlyFailed ? "only-fails" : "",
 			settings.featureDisplayHideDisabled ? "hide-disabled" : ""
 		);
-		this.checkScopes();
+		this.checkScopes().then(() => {});
 	}
 
 	async createPopup() {
@@ -301,7 +302,7 @@ class FeatureManager {
 			const [feature, status, options] = item;
 			this.showResult(feature, status, options);
 		}
-		this.checkScopes();
+		await this.checkScopes();
 	}
 
 	async checkScopes() {
