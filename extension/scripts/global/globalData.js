@@ -508,6 +508,9 @@ const DEFAULT_STORAGE = {
 				items: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				combineDuplicates: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			joblist: {
+				specials: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 			bounties: {
 				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},

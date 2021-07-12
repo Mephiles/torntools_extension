@@ -369,6 +369,12 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/joblist.php*"],
+			"css": ["scripts/features/job-specials/ttJobSpecials.css"],
+			"js": ["scripts/features/job-specials/ttJobSpecials.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/loader.php?sid=view*", "https://www.torn.com/loader.php?sid=rouletteStatistics"],
 			"css": ["scripts/features/casino-net-total/ttCasinoNetTotal.css"],
 			"js": ["scripts/features/casino-net-total/ttCasinoNetTotal.js"],

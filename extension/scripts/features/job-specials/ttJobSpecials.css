@@ -1,0 +1,62 @@
+#jobSpecials main {
+	display: flex;
+}
+
+body.tt-mobile #jobSpecials main {
+	flex-flow: column;
+	padding: 0;
+}
+
+body:not(.tt-mobile) #jobSpecials .tt-company-info-wrap {
+	width: 20%;
+	text-align: center;
+	padding: 10px;
+}
+
+body.tt-mobile #jobSpecials .tt-company-info-wrap {
+	padding: 0;
+	display: table;
+	text-align: center;
+	border-bottom: 1px solid #666;
+}
+
+body.tt-mobile #jobSpecials .tt-company-info-wrap:last-child {
+	border-bottom: none;
+}
+
+body.tt-mobile #jobSpecials .tt-company-info-wrap > div {
+	display: table-cell;
+	vertical-align: middle;
+	width: 33%;
+	padding: 10px 0;
+	border-right: 1px solid #666;
+	text-align: center;
+}
+
+#jobSpecials .tt-company-info-wrap .heading {
+	font-weight: 600;
+}
+
+body.tt-mobile #jobSpecials .tt-company-info-wrap > div:first-child {
+	border-left: none;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+body.tt-mobile #jobSpecials .tt-company-info-wrap > div:last-child {
+	border-right: none;
+}
+
+body:not(.tt-mobile) #jobSpecials .tt-company-info-wrap hr {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border: 1px solid grey;
+}
+
+body:not(.tt-mobile) #jobSpecials .tt-company-info-wrap hr:nth-of-type(1) {
+	width: 80%;
+}
+
+body:not(.tt-mobile) #jobSpecials .tt-company-info-wrap hr:nth-of-type(2) {
+	width: 20%;
+}
