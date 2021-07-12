@@ -1017,7 +1017,7 @@ async function setupStocksOverview() {
 									document.newElement({ type: "td", text: formatNumber(stocks) }),
 									document.newElement({ type: "td", text: formatNumber(stocks * stock.current_price, { decimals: 0, currency: true }) }),
 									document.newElement({ type: "td", text: reward }),
-									document.newElement({ type: "td", text: `${formatNumber(roi, { decimals: 1 })}%` }),
+									document.newElement({ type: "td", text: rewardValue > 0 ? `${formatNumber(roi, { decimals: 1 })}%` : "N/A" }),
 								],
 							})
 						);
