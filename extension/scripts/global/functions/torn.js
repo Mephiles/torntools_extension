@@ -1219,13 +1219,16 @@ const SETS = {
 };
 
 const SPECIAL_FILTER_ICONS = {
-	traveling: ["icon71_"],
-	isFedded: ["icon70_"],
-	newPlayer: ["icon72_"],
-	onWall: ["icon75_", "icon76_"],
-	inCompany: ["icon21_", "icon22_", "icon23_", "icon24_", "icon25_", "icon26_", "icon27_", "icon73_", "icon83_"],
-	inFaction: ["icon9_", "icon74_", "icon81_"],
-	isDonator: ["icon3_", "icon4_"],
+	traveling: ["icon71"],
+	isFedded: ["icon70"],
+	fedded: ["icon70"],
+	newPlayer: ["icon72"],
+	onWall: ["icon75", "icon76"],
+	inCompany: ["icon21", "icon22", "icon23", "icon24", "icon25", "icon26", "icon27", "icon73", "icon83"],
+	inFaction: ["icon9", "icon74", "icon81"],
+	isDonator: ["icon3", "icon4"],
+	inHospital: ["icon15"],
+	inJail: ["icon16"],
 };
 
 const CHAIN_BONUSES = [10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000];

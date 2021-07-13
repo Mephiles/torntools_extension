@@ -426,6 +426,12 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/page.php?sid=UserList*"],
+			"css": ["scripts/global/functions/filters.css"],
+			"js": ["scripts/global/functions/filters.js", "scripts/content/userlist/ttUserlist.js", "scripts/features/userlist-filter/ttUserlistFilter.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/shops.php*", "https://www.torn.com/bigalgunshop.php*"],
 			"css": ["scripts/features/shops-fill-max/ttShopsFillMax.css"],
 			"js": ["scripts/features/shops-fill-max/ttShopsFillMax.js"],

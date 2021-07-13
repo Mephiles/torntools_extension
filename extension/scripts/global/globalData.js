@@ -514,6 +514,9 @@ const DEFAULT_STORAGE = {
 			bounties: {
 				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			userlist: {
+				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		scripts: {
 			noConfirm: {
@@ -598,6 +601,22 @@ const DEFAULT_STORAGE = {
 		bounties: {
 			maxLevel: new DefaultSetting({ type: "number", defaultValue: 100 }),
 			hideUnavailable: new DefaultSetting({ type: "boolean", defaultValue: false }),
+		},
+		userlist: {
+			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
+			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			special: {
+				fedded: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				traveling: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				newPlayer: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				onWall: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				inCompany: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				inFaction: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				isDonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				inHospital: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				inJail: new DefaultSetting({ type: "string", defaultValue: "both" }),
+			},
 		},
 		closedScopes: new DefaultSetting({ type: "array", defaultValue: [] }),
 	},

@@ -1,3 +1,23 @@
+const defaultFactionsItems = [
+	{
+		value: "",
+		description: "All",
+	},
+	...(hasAPIData() && !!userdata.faction.faction_id
+		? [
+				{
+					value: userdata.faction.faction_tag,
+					description: userdata.faction.faction_tag,
+				},
+		  ]
+		: []),
+	{
+		value: "------",
+		description: "------",
+		disabled: true,
+	},
+];
+
 function createFilterSection(options) {
 	options = {
 		type: "",
@@ -142,22 +162,6 @@ function createStatistics() {
 	return { element: statistics, updateStatistics };
 }
 
-const defaultFactionsItems = [
-	{
-		value: "",
-		description: "All",
-	},
-	...(hasAPIData() && !!userdata.faction.faction_id
-		? [
-				{
-					value: userdata.faction.faction_tag,
-					description: userdata.faction.faction_tag,
-				},
-		  ]
-		: []),
-	{
-		value: "------",
-		description: "------",
-		disabled: true,
-	},
-];
+function getSpecialIcons(li) {
+	return [...li.findAll(":scope li[id*='icon']")].map(x => x.id.split("_")[0]);
+}
