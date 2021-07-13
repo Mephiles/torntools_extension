@@ -1,8 +1,4 @@
 let changelog;
-(async () => {
-	// noinspection JSUnresolvedVariable,JSUnresolvedFunction
-	changelog = await (await fetch(chrome.runtime.getURL("changelog.json"))).json();
-})();
 
 let version;
 let initiated_pages = {};
@@ -250,112 +246,118 @@ function loadPage(name) {
 }
 
 function setupChangelog() {
-	let content = doc.find(".container#changelog .content");
+	fetch(chrome.runtime.getURL("changelog.json"))
+		.then((response) => response.json())
+		.then((response) => {
+			changelog = response;
 
-	for (let ver in changelog) {
-		let sub_ver = ver.split(" - ")[1] ? " - " + ver.split(" - ")[1] : "";
-		ver = ver.split(" - ")[0];
+			let content = doc.find(".container#changelog .content");
 
-		let div = doc.new({ type: "div", class: "parent" });
+			for (let ver in changelog) {
+				let sub_ver = ver.split(" - ")[1] ? " - " + ver.split(" - ")[1] : "";
+				ver = ver.split(" - ")[0];
 
-		// Heading
-		let heading = doc.new({ type: "div", class: "heading", text: ver });
-		let span = doc.new({ type: "span", text: sub_ver });
-		let icon = doc.new({ type: "i", class: "fas fa-chevron-down" });
-		heading.appendChild(span);
-		heading.appendChild(icon);
+				let div = doc.new({ type: "div", class: "parent" });
 
-		if (Object.keys(changelog).indexOf(ver + sub_ver) === 0) {
-			heading.style.color = "red";
-		}
+				// Heading
+				let heading = doc.new({ type: "div", class: "heading", text: ver });
+				let span = doc.new({ type: "span", text: sub_ver });
+				let icon = doc.new({ type: "i", class: "fas fa-chevron-down" });
+				heading.appendChild(span);
+				heading.appendChild(icon);
 
-		div.appendChild(heading);
-
-		// Closeable
-		let closeable = doc.new("div");
-		closeable.setClass("closeable");
-
-		heading.addEventListener("click", () => {
-			if (closeable.style.maxHeight) {
-				closeable.style.maxHeight = null;
-			} else {
-				closeable.style.maxHeight = closeable.scrollHeight + "px";
-			}
-
-			rotateElement(icon, 180);
-		});
-
-		// Content
-		if (Array.isArray(changelog[ver + sub_ver])) {
-			for (let item of changelog[ver + sub_ver]) {
-				let item_div = doc.new("div");
-				item_div.setClass("child");
-				item_div.innerText = "- " + item;
-
-				closeable.appendChild(item_div);
-			}
-		} else {
-			(function loopKeyInChangelog(grandparent, parent_name, parent_element) {
-				for (let _key in grandparent[parent_name]) {
-					let _div = doc.new("div");
-					if (typeof grandparent[parent_name][_key] == "object") {
-						_div.setClass("parent");
-						let _heading = doc.new("div");
-						_heading.setClass("heading");
-						_heading.innerText = _key;
-
-						_div.appendChild(_heading);
-
-						if (Array.isArray(grandparent[parent_name][_key])) {
-							for (let _item of grandparent[parent_name][_key]) {
-								let contributor;
-
-								for (let c of ["Mephiles", "DKK", "Sashank999", "finally"]) {
-									if (!_item.includes(`- ${c}`)) continue;
-
-									contributor = c.toLowerCase();
-									_item = _item.slice(0, _item.indexOf(`- ${c}`));
-									break;
-								}
-
-								let _item_div = doc.new({ type: "div", class: `child ${contributor}` });
-								let _item_span = doc.new({ type: "span", text: _item });
-								_item_div.appendChild(_item_span);
-								_div.appendChild(_item_div);
-							}
-						} else {
-							loopKeyInChangelog(grandparent[parent_name], _key, _div);
-						}
-					} else {
-						_div.setClass("child");
-						_div.innerText = grandparent[parent_name][_key];
-					}
-					parent_element.appendChild(_div);
+				if (Object.keys(changelog).indexOf(ver + sub_ver) === 0) {
+					heading.style.color = "red";
 				}
-			})(changelog, ver + sub_ver, closeable);
-		}
 
-		// Bottom border on last element
-		if (ver + sub_ver.split(" ")[0] === "v3") {
-			let hr = doc.new("hr");
-			closeable.appendChild(hr);
-		}
+				div.appendChild(heading);
 
-		// Finish
-		div.appendChild(closeable);
-		content.appendChild(div);
+				// Closeable
+				let closeable = doc.new("div");
+				closeable.setClass("closeable");
 
-		if (Object.keys(changelog).indexOf(ver + sub_ver) === 0) {
-			heading.click();
-		}
-	}
+				heading.addEventListener("click", () => {
+					if (closeable.style.maxHeight) {
+						closeable.style.maxHeight = null;
+					} else {
+						closeable.style.maxHeight = closeable.scrollHeight + "px";
+					}
 
-	// Ending words
-	let p = doc.new("p");
-	p.innerText = "The rest is history..";
-	p.style.textAlign = "center";
+					rotateElement(icon, 180);
+				});
 
-	content.appendChild(p);
+				// Content
+				if (Array.isArray(changelog[ver + sub_ver])) {
+					for (let item of changelog[ver + sub_ver]) {
+						let item_div = doc.new("div");
+						item_div.setClass("child");
+						item_div.innerText = "- " + item;
+
+						closeable.appendChild(item_div);
+					}
+				} else {
+					(function loopKeyInChangelog(grandparent, parent_name, parent_element) {
+						for (let _key in grandparent[parent_name]) {
+							let _div = doc.new("div");
+							if (typeof grandparent[parent_name][_key] == "object") {
+								_div.setClass("parent");
+								let _heading = doc.new("div");
+								_heading.setClass("heading");
+								_heading.innerText = _key;
+
+								_div.appendChild(_heading);
+
+								if (Array.isArray(grandparent[parent_name][_key])) {
+									for (let _item of grandparent[parent_name][_key]) {
+										let contributor;
+
+										for (let c of ["Mephiles", "DKK", "Sashank999", "finally"]) {
+											if (!_item.includes(`- ${c}`)) continue;
+
+											contributor = c.toLowerCase();
+											_item = _item.slice(0, _item.indexOf(`- ${c}`));
+											break;
+										}
+
+										let _item_div = doc.new({ type: "div", class: `child ${contributor}` });
+										let _item_span = doc.new({ type: "span", text: _item });
+										_item_div.appendChild(_item_span);
+										_div.appendChild(_item_div);
+									}
+								} else {
+									loopKeyInChangelog(grandparent[parent_name], _key, _div);
+								}
+							} else {
+								_div.setClass("child");
+								_div.innerText = grandparent[parent_name][_key];
+							}
+							parent_element.appendChild(_div);
+						}
+					})(changelog, ver + sub_ver, closeable);
+				}
+
+				// Bottom border on last element
+				if (ver + sub_ver.split(" ")[0] === "v3") {
+					let hr = doc.new("hr");
+					closeable.appendChild(hr);
+				}
+
+				// Finish
+				div.appendChild(closeable);
+				content.appendChild(div);
+
+				if (Object.keys(changelog).indexOf(ver + sub_ver) === 0) {
+					heading.click();
+				}
+			}
+
+			// Ending words
+			let p = doc.new("p");
+			p.innerText = "The rest is history..";
+			p.style.textAlign = "center";
+
+			content.appendChild(p);
+		});
 }
 
 function setupPreferences() {
