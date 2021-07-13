@@ -163,5 +163,5 @@ function createStatistics() {
 }
 
 function getSpecialIcons(li) {
-	return [...li.findAll(":scope li[id*='icon']")].map(x => x.id.split("_")[0]);
+	return [...li.findAll(":scope li[id*='icon']")].map((x) => x.id.split("_")[0]);
 }
