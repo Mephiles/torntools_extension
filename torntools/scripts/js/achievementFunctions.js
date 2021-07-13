@@ -157,7 +157,15 @@ function createAchievementTooltip() {
 }
 
 function addTooltip(cell) {
-	cell.addEventListener("mouseenter", function (event) {
+	cell.setAttribute("tabindex", "-1");
+
+	cell.addEventListener("mouseenter", showTooltip);
+	cell.addEventListener("focus", showTooltip);
+
+	cell.addEventListener("mouseleave", hideTooltip);
+	cell.addEventListener("blur", hideTooltip);
+
+	function showTooltip(event) {
 		let position = event.target.getBoundingClientRect();
 
 		let tooltip = doc.find(".tt-ach-tooltip");
@@ -196,11 +204,13 @@ function addTooltip(cell) {
 		}
 
 		tooltip.find(".tt-ach-tooltip-text").appendChild(line_progress);
-	});
+	}
 
-	cell.addEventListener("mouseleave", function () {
+	function hideTooltip(event) {
+		if (document.activeElement === event.target) return;
+
 		doc.find(".tt-ach-tooltip").style.display = "none";
-	});
+	}
 }
 
 function getDonations() {
