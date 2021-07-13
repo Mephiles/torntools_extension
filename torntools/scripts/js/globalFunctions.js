@@ -1867,18 +1867,18 @@ const navbar = {
 			}
 
 			// FIXME - Use right classes.
-			let sidebarBlock = doc.new({ type: "div", class: "sidebar-block___1Cqc2 tt-nav-section" });
+			let sidebarBlock = doc.new({ type: "div", class: "sidebar-block___21UeJ tt-nav-section" });
 			sidebarBlock.innerHTML = `
-                <div class="content___kMC8x">
-                    <div class="areas___2pu_3">
-                        <div class="toggle-block___358Y7">
+                <div class="content___a102K">
+                    <div class="areas___1DaSb">
+                        <div class="toggle-block___3zG_T">
                             <div class="tt-title tt-nav ${THEME_CLASSES[settings.theme].title} ${
 				collapsed === true || collapsed === undefined ? "collapsed" : ""
 			}">
                                 <div class="title-text">${name}</div>
                                 <div class="tt-options"></div>
                                 <i class="tt-title-icon fas fa-caret-down"></i></div>
-                            <div class="toggle-content___3YEYV tt-content"></div>
+                            <div class="toggle-content___lxjGH tt-content"></div>
                         </div>
                     </div>
                 </div>
@@ -1928,12 +1928,12 @@ const navbar = {
 		return newCellBlock;
 
 		function createNewCellBlock(text, attr) {
-			let div = doc.new({ type: "div", class: "area-desktop___2YU-q area-desktop___2N3Jp" }); // FIXME - Use right classes.
+			let div = doc.new({ type: "div", class: "area-desktop___2YU-q" }); // FIXME - Use right classes.
 
 			// FIXME - Use right classes.
 			div.innerHTML = `
-                <div class="area-row___34mEZ area-row___1VM_l tt-cell">
-                    <a class="desktopLink___2dcWC desktopLink___1p2Dr ${attr.class || ""}" ${attr.href ? `href='${attr.href}'` : ""} target="${
+                <div class="area-row___34mEZ tt-cell">
+                    <a class="desktopLink___2dcWC desktopLink___2dcWC ${attr.class || ""}" ${attr.href ? `href='${attr.href}'` : ""} target="${
 				attr.link_target || ""
 			}">
                         <span>${text}</span>
