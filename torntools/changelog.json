@@ -4,7 +4,7 @@
 		"Fixes": [],
 		"Changes": []
 	},
-	"v5.10.2 - July, 11th. 2021" : {
+	"v5.10.2 - July, 11th. 2021": {
 		"Fixes": ["Potentially solve the issue where the database resets. - DKK", "Improve bounty filter loading. - Sashank999"]
 	},
 	"v5.10.1 - June, 25th. 2021": {
