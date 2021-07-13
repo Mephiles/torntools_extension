@@ -534,7 +534,7 @@ const DEFAULT_STORAGE = {
 		hospital: {
 			timeStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
 			timeEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			levelStart: new DefaultSetting({ type: "number", defaultValue: 1 }),
 			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
 			faction: new DefaultSetting({ type: "string", defaultValue: "" }),
 			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
@@ -567,7 +567,7 @@ const DEFAULT_STORAGE = {
 		abroadPeople: {
 			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
 			status: new DefaultSetting({ type: "array", defaultValue: [] }),
-			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			levelStart: new DefaultSetting({ type: "number", defaultValue: 1 }),
 			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
 			faction: new DefaultSetting({ type: "string", defaultValue: "" }),
 			special: {
