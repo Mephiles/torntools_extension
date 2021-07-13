@@ -8,7 +8,7 @@ function createSelect(options) {
 		children: _createOptionsElements(shownOptions),
 	});
 
-	function updateOptionsList(options) {
+	function updateOptionsList(options, select = select) {
 		const newOptions = _createOptionsElements(options);
 
 		while (select.firstChild) {

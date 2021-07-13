@@ -275,8 +275,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/hospitalview.php*"],
-			"css": ["scripts/global/functions/filters.css", "scripts/features/hospital-filter/ttHospitalFilter.css"],
-			"js": ["scripts/content/hospital/ttHospital.js", "scripts/features/hospital-filter/ttHospitalFilter.js"],
+			"css": ["scripts/global/functions/filters.css"],
+			"js": ["scripts/global/functions/filters.js", "scripts/content/hospital/ttHospital.js", "scripts/features/hospital-filter/ttHospitalFilter.js"],
 			"run_at": "document_end"
 		},
 		{
