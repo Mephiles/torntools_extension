@@ -1,22 +1,16 @@
 {
 	"v5.11 - xxxxx, xxth. 2021": {
-		"Features": [],
-		"Fixes": [],
-		"Changes": []
-	},
-	"v5.10.2 - July, 11th. 2021": {
-		"Fixes": ["Potentially solve the issue where the database resets. - DKK", "Improve bounty filter loading. - Sashank999"]
+		"Fixes": ["Potentially solve the issue where the database resets. - DKK", "Improve bounty filter loading. - Sashank999", "Fix sidebar issues. - Sashank999"],
+		"Changes": ["Improve awards for visually impaired users.. - DKK"]
 	},
 	"v5.10.1 - June, 25th. 2021": {
-		"Features": [],
 		"Fixes": [
 			"Fix stock market total value not showing. - Sashank999",
 			"Use correct Cruise Line company name. - Sashank999",
 			"Fix TornStats error handling and caching while it shouldn't. - DKK",
 			"Fix stock market filter not working properly when you have a panel selected. - DKK",
 			"Add some minor error handling in hopes of the profile page breaking less. - DKK"
-		],
-		"Changes": []
+		]
 	},
 	"v5.10 - June, 3rd. 2021": {
 		"Features": ["Added toggle to hide stakeout on profile page. - hvr-lust"],
