@@ -165,10 +165,11 @@ body.dark #preferences a[href] {
 	cursor: pointer;
 }
 
-/* Hide Areas && Hide Casino Games */
+/* Hide Areas, Hide Casino Games */
 
 #preferences #hide-areas span,
-#preferences #hide-casino-games span {
+#preferences #hide-casino-games span,
+#preferences #hide-stocks span {
 	padding: 1px 5px;
 	border-radius: 4px;
 	cursor: pointer;
@@ -177,20 +178,27 @@ body.dark #preferences a[href] {
 	margin-bottom: 4px;
 }
 
+#preferences #hide-stock-blocks span:not(:last-child) {
+    margin-right: 5px;
+}
+
 body.light #preferences #hide-areas span,
-body.light #preferences #hide-casino-games span {
+body.light #preferences #hide-casino-games span,
+body.light #preferences #hide-stocks span {
 	background-color: #f9f9f9;
 	border: 1px solid lightgray;
 }
 
 body.dark #preferences #hide-areas span,
-body.dark #preferences #hide-casino-games span {
+body.dark #preferences #hide-casino-games span,
+body.dark #preferences #hide-stocks span {
 	background-color: #383838;
 	border: 1px solid #333;
 }
 
 #preferences #hide-areas span.disabled,
-#preferences #hide-casino-games span.disabled {
+#preferences #hide-casino-games span.disabled,
+#preferences #hide-stocks span.disabled {
 	opacity: 0.6;
 	background-color: rgba(255, 0, 0, 0.6) !important;
 }

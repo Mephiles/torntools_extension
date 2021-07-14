@@ -153,3 +153,7 @@ ul.inline {
 	height: 2rem;
 	border-radius: 5px;
 }
+
+.warning {
+	color: red;
+}
