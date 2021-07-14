@@ -179,7 +179,7 @@ body.dark #preferences a[href] {
 }
 
 #preferences #hide-stock-blocks span:not(:last-child) {
-    margin-right: 5px;
+	margin-right: 5px;
 }
 
 body.light #preferences #hide-areas span,
