@@ -18,7 +18,10 @@ const initiatedPages = {};
 
 // noinspection DuplicatedCode
 async function showPage(name) {
-	window.history.replaceState("", "Title", "?page=" + name);
+	const params = new URL(location.href).searchParams;
+	params.set("page", name);
+	if (name !== "preferences") params.delete("section");
+	window.history.replaceState("", "Title", `?${params.toString()}`);
 
 	for (const active of document.findAll("header nav.on-page > ul > li.active")) active.classList.remove("active");
 	document.find(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
@@ -179,14 +182,11 @@ async function setupPreferences() {
 
 	const showAdvancedIcon = _preferences.find("#preferences-show_advanced");
 
-	for (const link of _preferences.findAll(":scope > section > nav ul > li[name]")) {
-		link.addEventListener("click", () => {
-			_preferences.find(":scope > section > nav ul li[name].active").classList.remove("active");
-			_preferences.find(":scope > section > .sections > section.active").classList.remove("active");
+	if (getSearchParameters().has("section"))
+		switchSection(_preferences.find(`#preferences > section > nav ul > li[name="${getSearchParameters().get("section")}"]`));
 
-			link.classList.add("active");
-			_preferences.find(`:scope > section > .sections > section[name="${link.getAttribute("name")}"]`).classList.add("active");
-		});
+	for (const link of _preferences.findAll(":scope > section > nav ul > li[name]")) {
+		link.addEventListener("click", () => switchSection(link));
 	}
 
 	showAdvanced(filters.preferences.showAdvanced);
@@ -392,6 +392,21 @@ async function setupPreferences() {
 	fillSettings();
 	searchPreferences();
 	storageListeners.settings.push(updateSettings);
+
+	function switchSection(link) {
+		const params = new URL(location.href).searchParams;
+		params.set("page", "preferences");
+		params.set("section", link.getAttribute("name"));
+		window.history.replaceState("", "Title", `?${params.toString()}`);
+
+		_preferences.find(":scope > section > nav ul li[name].active").classList.remove("active");
+		_preferences.find(":scope > section > .sections > section.active").classList.remove("active");
+
+		link.classList.add("active");
+		_preferences.find(`:scope > section > .sections > section[name="${link.getAttribute("name")}"]`).classList.add("active");
+
+		window.scrollTo({ top: 0, behavior: "smooth" });
+	}
 
 	function showAdvanced(advanced) {
 		if (advanced) {
