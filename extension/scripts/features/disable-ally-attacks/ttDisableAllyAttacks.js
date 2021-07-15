@@ -19,7 +19,7 @@
 	async function startObserver() {
 		await requireElement(".profile-container");
 		new MutationObserver(() => {
-			if (feature.enabled()) disableAttackButton()
+			if (feature.enabled()) disableAttackButton();
 		}).observe(document.find(".profile-container"), { childList: true });
 	}
 
@@ -37,13 +37,12 @@
 		const factionID = parseInt(document.find(".user-info-value [href*='/factions.php']").href.replace(/\D+/g, ""));
 		const factionName = document.find(".user-info-value [href*='/factions.php']").innerText.trim();
 		if (
-			(hasAPIData() &&
-			factionID === userdata.faction.faction_id) ||
+			(hasAPIData() && factionID === userdata.faction.faction_id) ||
 			settings.allyFactionsIDs.some((ally) => {
 				if (isIntNumber(ally)) return ally === factionID || ally.toString() === factionName;
 				else return ally.trim() === factionName;
 			})
-			) {
+		) {
 			const crossSvg = await fetch(chrome.runtime.getURL("resources/images/svg-icons/cross.svg")).then((x) => x.text());
 			const attackButton = document.find(".profile-buttons .profile-button-attack");
 			attackButton.insertAdjacentHTML("beforeend", crossSvg);
