@@ -347,6 +347,7 @@ const DEFAULT_STORAGE = {
 				notes: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				showAllyWarning: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				ageToWords: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				disableAllyAttacks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			chat: {
 				fontSize: new DefaultSetting({ type: "number", defaultValue: 12 }),
