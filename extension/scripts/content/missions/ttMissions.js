@@ -7,8 +7,12 @@
 			let sid = params.get("sid");
 			if (!sid && uri && (uri.sid || uri["?sid"])) sid = uri.sid || uri["?sid"];
 
-			if (sid === "missionsRewards") requireMissions().then(() => triggerCustomListener(EVENT_CHANNELS.MISSION_REWARDS));
-			else if (sid === "missions" || sid === "completeContract" || sid === "acceptMission") {
+			if (sid === "missionsRewards") {
+				new MutationObserver((mutations, observer) => {
+					triggerCustomListener(EVENT_CHANNELS.MISSION_REWARDS);
+					observer.disconnect();
+				}).observe(document.find("#viewMissionsRewardsContainer"), { childList: true });
+			} else if (sid === "missions" || sid === "completeContract" || sid === "acceptMission") {
 				new MutationObserver((mutations, observer) => {
 					triggerCustomListener(EVENT_CHANNELS.MISSION_LOAD);
 					observer.disconnect();
