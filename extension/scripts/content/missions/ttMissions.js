@@ -20,8 +20,4 @@
 			}
 		}
 	});
-
-	function requireMissions() {
-		return requireElement("ul.rewards-list li");
-	}
 })();
