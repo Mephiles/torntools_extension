@@ -697,9 +697,9 @@ function showMiniprofileInformation(information) {
 	const formattedTime = formatTime([signupDate.getUTCHours(), signupDate.getUTCMinutes(), signupDate.getUTCSeconds()], settings.format.time);
 	const formattedDate = formatDate([signupDate.getUTCDate(), signupDate.getUTCMonth() + 1, signupDate.getUTCFullYear()], settings.format.date);
 
-	requireElement("[class*='-profile-mini-_userProfileWrapper']", { parent: miniProfile }).then(() => {
+	requireElement("[class*='profile-mini-_userProfileWrapper___']", { parent: miniProfile }).then(() => {
 		setTimeout(() => {
-			miniProfile.find("[class*='-profile-mini-_userProfileWrapper']").appendChild(
+			miniProfile.find("[class*='profile-mini-_userProfileWrapper___']").appendChild(
 				doc.new({
 					type: "div",
 					class: "tt-mini-data",
