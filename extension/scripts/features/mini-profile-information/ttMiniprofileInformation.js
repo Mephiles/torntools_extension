@@ -18,7 +18,7 @@
 
 	function initialiseMiniprofile() {
 		addFetchListener((event) => {
-			if (!feature.enabled) return;
+			if (!feature.enabled()) return;
 
 			const { page, json, fetch } = event.detail;
 			if (page !== "profiles") return;
@@ -41,7 +41,7 @@
 		const miniProfile = document.find("#profile-mini-root .mini-profile-wrapper");
 		const lastAction = formatTime({ seconds: information.user.lastAction.seconds }, { type: "wordTimer", showDays: true });
 
-		await requireElement("div[class*='-profile-mini-_userProfileWrapper']", { parent: miniProfile });
+		await requireElement("div[class*='profile-mini-_userProfileWrapper___']", { parent: miniProfile });
 
 		const oldHeight = miniProfile.clientHeight;
 		const data = document.newElement({
@@ -49,7 +49,7 @@
 			class: "tt-mini-data",
 			children: [document.newElement({ type: "strong", text: "Last Action: " }), document.newElement({ type: "span", text: lastAction })],
 		});
-		miniProfile.find("div[class*='-profile-mini-_userProfileWrapper']").appendChild(data);
+		miniProfile.find("div[class*='profile-mini-_userProfileWrapper___']").appendChild(data);
 
 		const profileBounding = miniProfile.getBoundingClientRect();
 		if (profileBounding.top < mouseY) {
