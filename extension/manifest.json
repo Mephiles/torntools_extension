@@ -382,6 +382,12 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/loader.php?sid=attack*"],
+			"css": ["scripts/features/disable-ally-attacks/ttDisableAllyAttacks.css"],
+			"js": ["scripts/features/disable-ally-attacks/ttDisableAllyAttacksLoader.js"],
+			"run_at": "document_start"
+		},
+		{
 			"matches": ["https://www.torn.com/loader.php?sid=view*", "https://www.torn.com/loader.php?sid=rouletteStatistics"],
 			"css": ["scripts/features/casino-net-total/ttCasinoNetTotal.css"],
 			"js": ["scripts/features/casino-net-total/ttCasinoNetTotal.js"],

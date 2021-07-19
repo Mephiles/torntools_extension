@@ -4,3 +4,17 @@
 	padding: 7px;
 	transform: translate(-4px, -51px);
 }
+
+.tt-disable-ally-attack {
+	display: flex;
+	align-items: center;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: #999;
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	font-weight: 700;
+	text-shadow: 0 1px 0 hsl(0deg 0% 100% / 40%);
+	color: #333;
+}

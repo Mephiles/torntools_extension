@@ -337,7 +337,7 @@ async function setupPreferences() {
 		addAllyFaction(inputRow.find(".faction").value);
 	});
 
-	settings.allyFactionsIDs.forEach((ally) => addAllyFaction(ally));
+	settings.alliedFactions.forEach((ally) => addAllyFaction(ally));
 
 	const chatSection = _preferences.find(".sections section[name='chat']");
 	for (const placeholder of HIGHLIGHT_PLACEHOLDERS) {
@@ -831,7 +831,7 @@ async function setupPreferences() {
 				color: highlight.find(".color").value,
 			};
 		});
-		settings.allyFactionsIDs = [..._preferences.findAll("#allyFactions input")]
+		settings.alliedFactions = [..._preferences.findAll("#allyFactions input")]
 			.map((input) => {
 				if (isNaN(input.value)) return input.value.trim();
 				else return parseInt(input.value.trim());

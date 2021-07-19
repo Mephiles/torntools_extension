@@ -24,7 +24,7 @@
 		const factionName = document.find(".user-info-value [href*='/factions.php']").innerText.trim();
 		if (hasAPIData() && factionID === userdata.faction.faction_id) warning = "This user is in your faction!";
 		else if (
-			settings.allyFactionsIDs.some((ally) => {
+			settings.alliedFactions.some((ally) => {
 				if (isIntNumber(ally)) return ally === factionID || ally.toString() === factionName;
 				else return ally.trim() === factionName;
 			})
