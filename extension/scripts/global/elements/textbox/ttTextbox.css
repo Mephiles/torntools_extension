@@ -1,0 +1,8 @@
+.tt-textbox {
+	width: 75%;
+	border-radius: 5px;
+	border: 1px solid var(--input-border-color);
+	background: var(--input-background-color);
+	color: var(--input-color);
+	padding: 0 3px;
+}

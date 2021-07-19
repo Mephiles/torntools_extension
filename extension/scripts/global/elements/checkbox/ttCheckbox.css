@@ -7,6 +7,10 @@
 	cursor: pointer;
 }
 
-.tt-checkbox-wrapper > label {
+.tt-checkbox-wrapper:not(.reverse-label) > label {
 	margin-left: 2px;
+}
+
+.tt-checkbox-wrapper.reverse-label > label {
+	margin-right: 2px;
 }

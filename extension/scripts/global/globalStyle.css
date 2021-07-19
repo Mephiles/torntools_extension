@@ -72,9 +72,12 @@
 
 /* Replace Torn classes */
 
-/* CHECK - Replaces m-top10 */
 .mt10 {
 	margin-top: 10px;
+}
+
+.mb10 {
+	margin-bottom: 10px;
 }
 
 .t-flex {

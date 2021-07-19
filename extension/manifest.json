@@ -61,6 +61,8 @@
 				"scripts/global/elements/checkbox-list/ttCheckboxList.css",
 				"scripts/global/elements/slider/ttSlider.css",
 				"scripts/global/elements/table/ttTable.css",
+				"scripts/global/elements/textbox/ttTextbox.css",
+				"scripts/global/elements/checkbox-duo/ttCheckboxDuo.css",
 				"scripts/features/align-left/ttAlignLeft.css",
 				"scripts/features/font-size/ttFontSize.css",
 				"scripts/features/hide-leave/ttHideLeave.css",
@@ -96,6 +98,8 @@
 				"scripts/global/elements/table/ttTableRow.js",
 				"scripts/global/elements/table/ttTableCell.js",
 				"scripts/global/elements/table/ttHeaderCell.js",
+				"scripts/global/elements/textbox/ttTextbox.js",
+				"scripts/global/elements/checkbox-duo/ttCheckboxDuo.js",
 				"scripts/content/global/ttGlobal.entry.js",
 				"scripts/features/align-left/ttAlignLeft.entry.js",
 				"scripts/features/font-size/ttFontSize.entry.js",
@@ -427,11 +431,15 @@
 		{
 			"matches": ["https://www.torn.com/page.php?sid=stocks*"],
 			"css": [
+				"scripts/global/functions/filters.css",
+				"scripts/features/stocks-filter/ttStocksFilter.css",
 				"scripts/features/stock-acronyms/ttStockAcronyms.css",
 				"scripts/features/total-portfolio-value/ttTotalPortfolioValue.css",
 				"scripts/features/hide-stocks/ttHideStocks.css"
 			],
 			"js": [
+				"scripts/global/functions/filters.js",
+				"scripts/features/stocks-filter/ttStocksFilter.js",
 				"scripts/features/stock-acronyms/ttStockAcronyms.js",
 				"scripts/features/total-portfolio-value/ttTotalPortfolioValue.js",
 				"scripts/features/hide-stocks/ttHideStocks.js"

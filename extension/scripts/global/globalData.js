@@ -440,6 +440,7 @@ const DEFAULT_STORAGE = {
 				itemFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			stocks: {
+				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				acronyms: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				valueAndProfit: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
@@ -632,6 +633,18 @@ const DEFAULT_STORAGE = {
 			},
 		},
 		closedScopes: new DefaultSetting({ type: "array", defaultValue: [] }),
+		stocks: {
+			name: new DefaultSetting({ type: "string", defaultValue: "" }),
+			investment: {
+				owned: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				benefit: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				passive: new DefaultSetting({ type: "string", defaultValue: "both" }),
+			},
+			price: {
+				price: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				profit: new DefaultSetting({ type: "string", defaultValue: "both" }),
+			},
+		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),

@@ -28,6 +28,7 @@ function createFilterSection(options) {
 		select: [],
 		slider: {},
 		callback: () => {},
+		default: false,
 		defaults: [],
 		orientation: "column",
 		noTitle: false,
@@ -47,6 +48,19 @@ function createFilterSection(options) {
 	const section = document.newElement({ type: "div", class: ccTitle });
 
 	if (!options.noTitle) section.appendChild(document.newElement({ type: "strong", text: options.title }));
+
+	if (options.text) {
+		const textbox = createTextbox();
+		textbox.setValue(options.default);
+		textbox.onChange(options.callback);
+
+		section.appendChild(textbox.element);
+
+		return {
+			element: section,
+			getValue: () => textbox.getValue(),
+		};
+	}
 
 	if (options.checkbox) {
 		const checkbox = createCheckbox({ description: options.checkbox });
@@ -139,9 +153,11 @@ function createFilterSection(options) {
 			content.find(`.${ccTitle} .slider-counter`).innerText = string;
 		}
 	}
+
+	return { element: section };
 }
 
-function createStatistics() {
+function createStatistics(text = "items") {
 	const statistics = document.newElement({
 		type: "div",
 		class: "statistics",
@@ -150,7 +166,7 @@ function createStatistics() {
 			document.newElement({ type: "strong", class: "count", text: "X" }),
 			" of ",
 			document.newElement({ type: "strong", class: "total", text: "Y" }),
-			" items",
+			` ${text}`,
 		],
 	});
 
