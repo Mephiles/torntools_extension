@@ -53,7 +53,10 @@ Object.defineProperty(Document.prototype, "newElement", {
 			for (const event in options.events) newElement.addEventListener(event, options.events[event]);
 
 			for (const key in options.style) newElement.style[key] = options.style[key];
-			for (const key in options.dataset) newElement.dataset[key] = options.dataset[key];
+			for (const key in options.dataset) {
+				if (typeof options.dataset[key] === "object") newElement.dataset[key] = JSON.stringify(options.dataset[key]);
+				else newElement.dataset[key] = options.dataset[key];
+			}
 
 			return newElement;
 		}

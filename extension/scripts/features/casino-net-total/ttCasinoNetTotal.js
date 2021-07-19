@@ -80,7 +80,7 @@
 	}
 
 	function isBookie() {
-		return page === "bookies" || (page === "page" && getSearchParameters().get("sid") === "bookie");
+		return page === "bookies" || page === "bookie";
 	}
 
 	function removeTotal() {

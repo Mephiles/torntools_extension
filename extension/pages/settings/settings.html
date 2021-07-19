@@ -127,7 +127,7 @@
 						<li name="api">API</li>
 
 						<li class="header">Scripts</li>
-						<!-- <li>Achievements</li> -->
+						<li name="achievements">Achievements</li>
 						<li name="no-confirm">No Confirm</li>
 						<!-- <li>Stats Estimate</li> -->
 					</ul>
@@ -334,6 +334,14 @@
 						<div class="option advanced">
 							<input id="api_usage-user_ammo" type="checkbox" />
 							<label for="api_usage-user_ammo">Ammo</label>
+						</div>
+						<div class="option advanced">
+							<input id="api_usage-user_honors" type="checkbox" />
+							<label for="api_usage-user_honors">Honors</label>
+						</div>
+						<div class="option advanced">
+							<input id="api_usage-user_medals" type="checkbox" />
+							<label for="api_usage-user_medals">Medals</label>
 						</div>
 					</section>
 					<section name="chat">
@@ -1126,6 +1134,17 @@
 						</div>
 					</section>
 
+					<section name="achievements">
+						<div class="header">Achievements</div>
+						<div class="option">
+							<input id="achievements-show" type="checkbox" />
+							<label for="achievements-show">Display achievements.</label>
+						</div>
+						<div class="option">
+							<input id="achievements-completed" type="checkbox" />
+							<label for="achievements-completed">Display your completed achievements.</label>
+						</div>
+					</section>
 					<section name="no-confirm">
 						<div class="header">No Confirm</div>
 						<div class="option">
@@ -1188,8 +1207,8 @@
 								User's information, status, cooldown, money, events, messages and refills. (every 30 seconds (configurable))
 								<ul>
 									<li>
-										User's personal stats, networth, stock inventory, ammo, educations and merit allocation. (every 2 minutes
-										(configurable), when active on Torn)
+										User's personal stats, networth, stock inventory, ammo, stats, crimes, skills, weapon experience, educations and merit
+										allocation. (every 2 minutes (configurable), when active on Torn)
 									</li>
 									<li>User's attack history. (whenever an attack or defend is detected)</li>
 								</ul>

@@ -148,7 +148,7 @@ function formatTime(time = {}, options = {}) {
 
 			return parts.join(" ");
 		case "ago":
-			let timeAgo = Date.now() - millis;
+			let timeAgo = Math.floor(Date.now() - millis);
 
 			let token = "ago";
 			if (timeAgo < 0) {
@@ -269,29 +269,51 @@ function formatNumber(number, options = {}) {
 	let text;
 
 	if (options.shorten) {
-		let words;
-		if (options.shorten === true || options.shorten === 1) {
-			words = {
-				thousand: "k",
-				million: "mil",
-				billion: "bill",
-			};
-		} else {
-			words = {
-				thousand: "k",
-				million: "m",
-				billion: "b",
-			};
-		}
+		const version = options.shorten === true ? 1 : options.shorten;
+		const decimals = options.decimals !== -1 ? options.decimals : 3;
 
-		if (abstract >= 1e9) {
-			if (abstract % 1e9 === 0) text = (abstract / 1e9).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + words.billion;
-			else text = (abstract / 1e9).toFixed(3) + words.billion;
-		} else if (abstract >= 1e6) {
-			if (abstract % 1e6 === 0) text = abstract / 1e6 + words.million;
-			else text = (abstract / 1e6).toFixed(3) + words.million;
-		} else if (abstract >= 1e3) {
-			if (abstract % 1e3 === 0) text = abstract / 1e3 + words.thousand;
+		const words = (() => {
+			switch (version) {
+				default:
+				case 1:
+					return {
+						thousand: "k",
+						million: "mil",
+						billion: "bill",
+					};
+				case 2:
+				case 3:
+					return {
+						thousand: "k",
+						million: "m",
+						billion: "b",
+					};
+			}
+		})();
+
+		if (version === 1 || version === 2) {
+			if (abstract >= 1e9) {
+				if (abstract % 1e9 === 0) text = (abstract / 1e9).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + words.billion;
+				else text = (abstract / 1e9).toFixed(3) + words.billion;
+			} else if (abstract >= 1e6) {
+				if (abstract % 1e6 === 0) text = abstract / 1e6 + words.million;
+				else text = (abstract / 1e6).toFixed(3) + words.million;
+			} else if (abstract >= 1e3) {
+				if (abstract % 1e3 === 0) text = abstract / 1e3 + words.thousand;
+			}
+		} else {
+			if (abstract >= 1e9) {
+				if (abstract % 1e9 === 0) text = abstract / 1e9 + words.billion;
+				else text = parseFloat((abstract / 1e9).toFixed(decimals)) + words.billion;
+			} else if (abstract >= 1e6) {
+				if (abstract % 1e6 === 0) text = abstract / 1e6 + words.million;
+				else text = parseFloat((abstract / 1e6).toFixed(decimals)) + words.million;
+			} else if (abstract >= 1e3) {
+				if (abstract % 1e3 === 0) text = abstract / 1e3 + words.thousand;
+				else if (abstract % 100 === 0) {
+					text = abstract / 1e3 + words.thousand;
+				}
+			}
 		}
 	}
 

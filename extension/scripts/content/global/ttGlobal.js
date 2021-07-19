@@ -87,5 +87,10 @@
 			countdown.innerText = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
 			countdown.dataset.seconds = seconds;
 		}
+		for (const countdown of document.findAll(".count.automatic[data-seconds]")) {
+			const seconds = parseInt(countdown.dataset.seconds);
+
+			countdown.innerText = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
+		}
 	}
 })();
