@@ -1,5 +1,5 @@
 (async () => {
-	if (getSearchParameters().get("step") === "your") {
+	if (isOwnFaction()) {
 		addXHRListener(async ({ detail: { page, xhr } }) => {
 			if (page === "factions") {
 				const params = new URLSearchParams(xhr.requestBody);
@@ -103,3 +103,7 @@
 		}
 	}
 })();
+
+function isOwnFaction() {
+	return getSearchParameters().get("step") === "your";
+}

@@ -260,7 +260,8 @@
 				"scripts/features/oc-times/ttOCTimes.css",
 				"scripts/features/full-faction-infobox/ttFullFactionInfobox.css",
 				"scripts/features/fold-faction-infobox/ttFoldFactionInfobox.css",
-				"scripts/features/csv-challenge-contributions/ttCSVChallengeContributions.css"
+				"scripts/features/csv-challenge-contributions/ttCSVChallengeContributions.css",
+				"scripts/features/faction-member-number/ttFactionMemberNumber.css"
 			],
 			"js": [
 				"scripts/content/factions/ttFactions.js",
@@ -276,7 +277,8 @@
 				"scripts/features/faction-banker/ttFactionBanker.js",
 				"scripts/features/full-faction-infobox/ttFullFactionInfobox.js",
 				"scripts/features/fold-faction-infobox/ttFoldFactionInfobox.js",
-				"scripts/features/csv-challenge-contributions/ttCSVChallengeContributions.js"
+				"scripts/features/csv-challenge-contributions/ttCSVChallengeContributions.js",
+				"scripts/features/faction-member-number/ttFactionMemberNumber.js"
 			],
 			"run_at": "document_end"
 		},
