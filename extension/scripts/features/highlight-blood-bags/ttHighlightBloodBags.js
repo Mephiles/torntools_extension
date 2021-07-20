@@ -5,7 +5,7 @@
 
 	const page = getPage();
 
-	if (page === "factions" && getSearchParameters().get("step") !== "your") return;
+	if (page === "factions" && !isOwnFaction()) return;
 
 	// noinspection JSIncompatibleTypesComparison
 	const feature = featureManager.registerFeature(

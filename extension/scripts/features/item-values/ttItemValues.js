@@ -13,7 +13,7 @@
 		const userId = parseInt(getSearchParameters().get("userId"));
 
 		if (userId && hasAPIData() && userId !== userdata.player_id) return;
-	} else if (page === "faction" && getSearchParameters().get("step") !== "your") return;
+	} else if (page === "faction" && !isOwnFaction()) return;
 
 	const feature = featureManager.registerFeature(
 		"Item Values",

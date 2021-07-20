@@ -498,6 +498,7 @@ const DEFAULT_STORAGE = {
 				banker: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				showFullInfobox: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				foldableInfobox: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				numberMembers: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			property: {
 				value: new DefaultSetting({ type: "boolean", defaultValue: true }),

@@ -2,7 +2,7 @@
 
 (async () => {
 	if (!getPageStatus().access) return;
-	if (getSearchParameters().get("step") !== "your") return;
+	if (!isOwnFaction()) return;
 
 	const feature = featureManager.registerFeature(
 		"Challenge Contributions to CSV",
