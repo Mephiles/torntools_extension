@@ -190,7 +190,7 @@ body.scrolled #tt-page-status.top-right {
 }
 
 #tt-page-status.hidden,
-#tt-page-status.only-fails .tt-page-status-feature:not(.failed),
+#tt-page-status.only-fails .tt-page-status-feature:not(.features-list):not(.failed),
 #tt-page-status.hide-disabled .tt-page-status-feature.disabled,
 .tt-page-status-header.collapsed + .tt-page-status-content {
 	display: none;
