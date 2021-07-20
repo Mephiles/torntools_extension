@@ -308,7 +308,9 @@ class FeatureManager {
 	async checkScopes() {
 		let hasContent = false;
 		for (const scope of document.findAll(".tt-page-status-content > div")) {
-			let isEmpty = [...scope.findAll(".tt-page-status-feature:not(.features-list)")].every((element) => window.getComputedStyle(element).display === "none");
+			let isEmpty = [...scope.findAll(".tt-page-status-feature:not(.features-list)")].every(
+				(element) => window.getComputedStyle(element).display === "none"
+			);
 
 			if (isEmpty) {
 				scope.classList.add("no-content");
