@@ -485,8 +485,6 @@
 						default:
 							if (json.DB.roundNotEnded && json.DB.nextGame) {
 								executeStrategy(json.DB);
-							} else {
-								console.log("DKK unknown action", json.DB.result, json);
 							}
 							break;
 					}

@@ -1172,7 +1172,6 @@ async function setupExport() {
 	// 	loadConfirmationPopup(POPUP_TEMPLATES.EXPORT)
 	// 		.then(() => {
 	// 			// FIXME - Store data in remote server.
-	// 			console.log("DKK TODO - Store data in remote server.");
 	// 		})
 	// 		.catch(() => {});
 	// });
@@ -1180,7 +1179,6 @@ async function setupExport() {
 	// 	loadConfirmationPopup(POPUP_TEMPLATES.IMPORT)
 	// 		.then(() => {
 	// 			// FIXME - Load data from remote server.
-	// 			console.log("DKK TODO - Load data from remote server.");
 	// 		})
 	// 		.catch(() => {});
 	// });

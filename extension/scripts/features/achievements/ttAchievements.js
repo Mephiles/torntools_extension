@@ -60,8 +60,6 @@
 		fillGoals();
 		displayContainer();
 
-		console.log("DKK showAchievements", { page, achievements });
-
 		function fillGoals() {
 			achievements.forEach((achievement) => {
 				achievement.current = achievement.stats();
@@ -221,8 +219,6 @@
 				}
 
 				tooltipContent.appendChild(progress);
-
-				console.log("DKK showTooltip", score, goals);
 
 				function getNode(score, isCompleted, isActive) {
 					return document.newElement({
