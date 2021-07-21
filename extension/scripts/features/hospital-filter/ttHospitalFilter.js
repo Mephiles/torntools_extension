@@ -182,12 +182,14 @@
 					continue;
 				}
 			} else if (faction === "No faction") {
-				if (rowFaction.href) { // Not "No faction"
+				if (rowFaction.href) {
+					// Not "No faction"
 					hideRow(li);
 					continue;
 				}
 			} else if (faction === "Unknown faction") {
-				if (!factionImg || (factionImg && factionImg.src !== "https://factiontags.torn.com/0-0.png")) { // Not "Unknown faction"
+				if (!factionImg || (factionImg && factionImg.src !== "https://factiontags.torn.com/0-0.png")) {
+					// Not "Unknown faction"
 					hideRow(li);
 					continue;
 				}

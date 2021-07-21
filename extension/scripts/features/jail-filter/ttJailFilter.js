@@ -198,12 +198,14 @@
 					continue;
 				}
 			} else if (faction === "No faction") {
-				if (rowFaction.href) { // Not "No faction"
+				if (rowFaction.href) {
+					// Not "No faction"
 					hideRow(li);
 					continue;
 				}
 			} else if (faction === "Unknown faction") {
-				if (!factionImg || (factionImg && factionImg.src !== "https://factiontags.torn.com/0-0.png")) { // Not "Unknown faction"
+				if (!factionImg || (factionImg && factionImg.src !== "https://factiontags.torn.com/0-0.png")) {
+					// Not "Unknown faction"
 					hideRow(li);
 					continue;
 				}
@@ -263,21 +265,20 @@
 			},
 		});
 
-		document.findAll(".tt-quick-refresh, .tt-quick-refresh-wrap").forEach(x => x.remove());
+		document.findAll(".tt-quick-refresh, .tt-quick-refresh-wrap").forEach((x) => x.remove());
 		if (quickBust || quickBail) {
 			if (document.find(".users-list > li:not(.hidden)")) {
 				if (!document.find(".users-list-title .tt-quick-refresh")) {
 					document.find(".users-list-title").appendChild(newRefreshButton());
 				}
 			} else {
-				document.find(".users-list").appendChild(document.newElement({
-					type: "div",
-					class: "tt-quick-refresh-wrap",
-					children: [
-						... quickBail ? [newRefreshButton("tt-bail")] : [],
-						... quickBust ? [newRefreshButton("tt-bust")] : [],
-					]
-				}))
+				document.find(".users-list").appendChild(
+					document.newElement({
+						type: "div",
+						class: "tt-quick-refresh-wrap",
+						children: [...(quickBail ? [newRefreshButton("tt-bail")] : []), ...(quickBust ? [newRefreshButton("tt-bust")] : [])],
+					})
+				);
 			}
 		}
 
@@ -290,12 +291,12 @@
 
 		function newRefreshButton(customClass = "") {
 			return document.newElement({
-						type: "i",
-						class: `fas fa-redo tt-quick-refresh ${customClass}`,
-						events: {
-							"click": () => location.reload(),
-						},
-					});
+				type: "i",
+				class: `fas fa-redo tt-quick-refresh ${customClass}`,
+				events: {
+					click: () => location.reload(),
+				},
+			});
 		}
 
 		function addQAndHref(iconNode) {

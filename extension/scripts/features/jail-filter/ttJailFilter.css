@@ -22,10 +22,10 @@
 
 .tt-quick-refresh-wrap > * {
 	width: 48px;
-    text-align: center;
+	text-align: center;
 }
 
 .tt-quick-refresh.tt-bail {
-    position: absolute;
-    margin-right: 48px;
+	position: absolute;
+	margin-right: 48px;
 }

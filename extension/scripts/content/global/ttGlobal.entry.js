@@ -19,7 +19,7 @@
 		checkTablet().then((tablet) => {
 			if (tablet) document.body.classList.add("tt-tablet");
 			else document.body.classList.remove("tt-tablet");
-		})
+		});
 	}
 
 	function handlePopout() {
