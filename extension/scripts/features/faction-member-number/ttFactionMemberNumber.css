@@ -21,7 +21,11 @@
 }
 
 body:not(.tt-mobile) .members-list.tt-modified .table-header .member {
-	width: calc(34% + 61px) !important;
+	width: calc(34% + 70px) !important;
+}
+
+body:not(.tt-mobile) .members-list.tt-modified .table-row .member.icons {
+	min-width: 34%;
 }
 
 body:not(.tt-mobile) .members-list.tt-modified .status {
