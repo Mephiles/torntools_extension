@@ -2,6 +2,7 @@
 
 (async () => {
 	handleMobile();
+	handleTablet();
 	handlePopout();
 	setupFeatureManager();
 
@@ -12,6 +13,13 @@
 			if (mobile) document.body.classList.add("tt-mobile");
 			else document.body.classList.remove("tt-mobile");
 		});
+	}
+
+	function handleTablet() {
+		checkTablet().then((tablet) => {
+			if (tablet) document.body.classList.add("tt-tablet");
+			else document.body.classList.remove("tt-tablet");
+		})
 	}
 
 	function handlePopout() {

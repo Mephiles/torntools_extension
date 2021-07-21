@@ -214,32 +214,6 @@ const ttCache = new (class {
 	}
 })();
 
-const JAIL_CONSTANTS = {
-	// Activity
-	online: "online",
-	idle: "idle",
-	offline: "offline",
-	// Factions
-	allFactions: "__all__",
-	noFaction: "__none__",
-	unknownFactions: "__unknown__",
-	// Quick modes
-	bust: "bust",
-	bail: "bail",
-	// Time
-	timeMin: 0,
-	timeMax: 100,
-	timeStep: 1,
-	// Level
-	levelMin: 1,
-	levelMax: 100,
-	levelStep: 1,
-	// Score
-	scoreMin: 0,
-	scoreMax: 5000,
-	scoreStep: 25,
-};
-
 const DEFAULT_STORAGE = {
 	version: {
 		oldVersion: new DefaultSetting({ type: "string" }),
@@ -559,20 +533,14 @@ const DEFAULT_STORAGE = {
 			revivesOn: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 		jail: {
-			time: {
-				from: new DefaultSetting({ type: "number", defaultValue: JAIL_CONSTANTS.timeMin }),
-				to: new DefaultSetting({ type: "number", defaultValue: JAIL_CONSTANTS.timeMax }),
-			},
-			level: {
-				from: new DefaultSetting({ type: "number", defaultValue: JAIL_CONSTANTS.levelMin }),
-				to: new DefaultSetting({ type: "number", defaultValue: JAIL_CONSTANTS.levelMax }),
-			},
-			score: {
-				from: new DefaultSetting({ type: "number", defaultValue: JAIL_CONSTANTS.scoreMin }),
-				to: new DefaultSetting({ type: "number", defaultValue: JAIL_CONSTANTS.scoreMax }),
-			},
-			faction: new DefaultSetting({ type: "string", defaultValue: JAIL_CONSTANTS.allFactions }),
 			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
+			faction: new DefaultSetting({ type: "string", defaultValue: "All" }),
+			timeStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			timeEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			levelStart: new DefaultSetting({ type: "number", defaultValue: 1 }),
+			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			scoreStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			scoreEnd: new DefaultSetting({ type: "number", defaultValue: 5000 }),
 		},
 		containers: new DefaultSetting({ type: "object", defaultValue: {} }),
 		travel: {

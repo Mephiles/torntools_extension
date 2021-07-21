@@ -3,6 +3,14 @@ const defaultFactionsItems = [
 		value: "",
 		description: "All",
 	},
+	{
+		value: "No faction",
+		description: "No faction",
+	},
+	{
+		value: "Unknown faction",
+		description: "Unknown faction",
+	},
 	...(hasAPIData() && !!userdata.faction.faction_id
 		? [
 				{

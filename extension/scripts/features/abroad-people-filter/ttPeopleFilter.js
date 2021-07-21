@@ -133,14 +133,27 @@
 				}
 
 				// Faction
-				const rowFaction = li.find(".faction");
-				if (
-					faction &&
-					((rowFaction.childElementCount === 0 && rowFaction.innerText.trim() !== faction) ||
-						(rowFaction.childElementCount !== 0 && rowFaction.find("img") && rowFaction.find("img").getAttribute("alt").trim() !== faction))
-				) {
-					hideRow(li);
-					continue;
+				const rowFaction = li.find(".user.faction");
+				const factionImg = rowFaction.find(":scope > img");
+				if (faction && faction !== "No faction" && faction !== "Unknown faction") {
+					if (
+						!rowFaction.href || // No faction
+						(rowFaction.href && factionImg && factionImg.src === "https://factiontags.torn.com/0-0.png") || // Unknown faction
+						(rowFaction.href && factionImg && faction !== factionImg.getAttribute("title").trim())
+					) {
+						hideRow(li);
+						continue;
+					}
+				} else if (faction === "No faction") {
+					if (rowFaction.href) { // Not "No faction"
+						hideRow(li);
+						continue;
+					}
+				} else if (faction === "Unknown faction") {
+					if (!factionImg || (factionImg && factionImg.src !== "https://factiontags.torn.com/0-0.png")) { // Not "Unknown faction"
+						hideRow(li);
+						continue;
+					}
 				}
 
 				// Special

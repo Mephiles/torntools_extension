@@ -374,7 +374,7 @@
 		{
 			"matches": ["https://www.torn.com/jailview.php*"],
 			"css": ["scripts/global/functions/filters.css", "scripts/features/jail-filter/ttJailFilter.css"],
-			"js": ["scripts/content/jail/ttJail.js", "scripts/features/jail-filter/ttJailFilter.js"],
+			"js": ["scripts/global/functions/filters.js", "scripts/content/jail/ttJail.js", "scripts/features/jail-filter/ttJailFilter.js"],
 			"run_at": "document_end"
 		},
 		{

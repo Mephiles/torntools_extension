@@ -3,603 +3,335 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
-	featureManager.registerFeature(
+	const feature = featureManager.registerFeature(
 		"Jail Filter",
 		"jail",
 		() => settings.pages.jail.filter,
-		null,
-		initialize,
-		teardown,
+		initialiseFilters,
+		addFilters,
+		removeFilters,
 		{
 			storage: ["settings.pages.jail.filter"],
 		},
 		null
 	);
 
-	const storageFilters = filters;
-	const storageQuick = quick;
+	function initialiseFilters() {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.JAIL_SWITCH_PAGE].push(() => {
+			if (!feature.enabled()) return;
 
-	function createJailFiltersContainer(factions, filters, quickModes) {
-		const activityOptions = [
-			{ id: JAIL_CONSTANTS.online, description: "Online" },
-			{ id: JAIL_CONSTANTS.idle, description: "Idle" },
-			{ id: JAIL_CONSTANTS.offline, description: "Offline" },
-		];
-		const defaultFactionsItems = [
-			{
-				value: JAIL_CONSTANTS.allFactions,
-				description: "All",
-			},
-			{
-				value: JAIL_CONSTANTS.noFaction,
-				description: "No faction",
-			},
-			{
-				value: JAIL_CONSTANTS.unknownFactions,
-				description: "Unknown faction",
-			},
-			...(hasAPIData() && !!userdata.faction.faction_id
-				? [
-						{
-							value: userdata.faction.faction_tag,
-							description: userdata.faction.faction_tag,
-						},
-				  ]
-				: []),
-			{
-				value: "------",
-				description: "------",
-				disabled: true,
-			},
-		];
-		const quickModesOptions = [
-			{
-				id: JAIL_CONSTANTS.bust,
-				description: "Quick bust",
-			},
-			{
-				id: JAIL_CONSTANTS.bail,
-				description: "Quick bail",
-			},
-		];
-		let filtersChangedCallback;
-		let quickModesChangedCallback;
+			filtering(true);
+		});
+	}
 
-		const { container, content, options } = createContainer("Jail Filter", {
-			nextElement: document.find(".users-list-title"),
+	const localFilters = {};
+
+	async function addFilters() {
+		await requireElement(".userlist-wrapper .user-info-list-wrap .bust-icon");
+
+		const { content, options } = createContainer("Jail Filter", {
 			class: "mt10",
+			nextElement: document.find(".users-list-title"),
+			compact: true,
+			filter: true,
 		});
 
-		const activityCheckboxList = createCheckboxList({ items: activityOptions, orientation: "column" });
-		activityCheckboxList.setSelections(filters.activity);
-		activityCheckboxList.onSelectionChange(() => {
-			if (filtersChangedCallback) {
-				filtersChangedCallback();
+		const statistics = createStatistics();
+		content.appendChild(statistics.element);
+		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
+
+		const filterContent = document.newElement({
+			type: "div",
+			class: "content",
+		});
+
+		const activityFilter = createFilterSection({
+			type: "Activity",
+			defaults: filters.jail.activity,
+			callback: filtering,
+		});
+		filterContent.appendChild(activityFilter.element);
+		localFilters["Activity"] = { getSelections: activityFilter.getSelections };
+
+		const factionFilter = createFilterSection({
+			title: "Faction",
+			select: [...defaultFactionsItems, ...getFactions()],
+			defaults: "",
+			callback: filtering,
+		});
+		filterContent.appendChild(factionFilter.element);
+		localFilters["Faction"] = { getSelected: factionFilter.getSelected, updateOptions: factionFilter.updateOptions };
+
+		const timeFilter = createFilterSection({
+			title: "Time Filter",
+			noTitle: true,
+			slider: {
+				min: 0,
+				max: 100,
+				step: 1,
+				valueLow: filters.jail.timeStart,
+				valueHigh: filters.jail.timeEnd,
+			},
+			callback: filtering,
+		});
+		filterContent.appendChild(timeFilter.element);
+		localFilters["Time Filter"] = { getStartEnd: timeFilter.getStartEnd, updateCounter: timeFilter.updateCounter };
+
+		const levelFilter = createFilterSection({
+			title: "Level Filter",
+			noTitle: true,
+			slider: {
+				min: 1,
+				max: 100,
+				step: 1,
+				valueLow: filters.jail.levelStart,
+				valueHigh: filters.jail.levelEnd,
+			},
+			callback: filtering,
+		});
+		filterContent.appendChild(levelFilter.element);
+		localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
+
+		const scoreFilter = createFilterSection({
+			title: "Score Filter",
+			noTitle: true,
+			slider: {
+				min: 0,
+				max: 5000,
+				step: 25,
+				valueLow: filters.jail.scoreStart,
+				valueHigh: filters.jail.scoreEnd,
+			},
+			callback: filtering,
+		});
+		filterContent.appendChild(scoreFilter.element);
+		localFilters["Score Filter"] = { getStartEnd: scoreFilter.getStartEnd, updateCounter: scoreFilter.updateCounter };
+
+		content.appendChild(filterContent);
+
+		const quickBust = createCheckbox({ description: "Quick Bust" });
+		quickBust.onChange(quickBustAndBail);
+		quickBust.setChecked(quick.jail.includes("bust"));
+		options.appendChild(quickBust.element);
+		localFilters["Quick Bust"] = { isChecked: quickBust.isChecked };
+
+		const quickBail = createCheckbox({ description: "Quick Bail" });
+		quickBail.onChange(quickBustAndBail);
+		quickBail.setChecked(quick.jail.includes("bail"));
+		options.appendChild(quickBail.element);
+		localFilters["Quick Bail"] = { isChecked: quickBail.isChecked };
+
+		await filtering();
+	}
+
+	async function filtering(pageChange) {
+		await requireElement(".users-list > li");
+		const content = findContainer("Jail Filter").find("main");
+		const activity = localFilters["Activity"].getSelections(content);
+		const faction = localFilters["Faction"].getSelected(content).trim();
+		const times = localFilters["Time Filter"].getStartEnd(content);
+		const timeStart = parseInt(times.start);
+		const timeEnd = parseInt(times.end);
+		const levels = localFilters["Level Filter"].getStartEnd(content);
+		const levelStart = parseInt(levels.start);
+		const levelEnd = parseInt(levels.end);
+		const scores = localFilters["Score Filter"].getStartEnd(content);
+		const scoreStart = parseInt(scores.start);
+		const scoreEnd = parseInt(scores.end);
+		if (pageChange) {
+			localFilters["Faction"].updateOptions([...defaultFactionsItems, ...getFactions()], content);
+		}
+
+		// Update level and time slider counters
+		localFilters["Time Filter"].updateCounter(`Time ${timeStart}h - ${timeEnd}h`, content);
+		localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
+		localFilters["Score Filter"].updateCounter(`Score ${scoreStart} - ${scoreEnd}`, content);
+
+		// Save filters
+		await ttStorage.change({
+			filters: {
+				jail: {
+					activity: activity,
+					faction: faction,
+					timeStart: timeStart,
+					timeEnd: timeEnd,
+					levelStart: levelStart,
+					levelEnd: levelEnd,
+					scoreStart: scoreStart,
+					scoreEnd: scoreEnd,
+				},
+			},
+		});
+
+		// Actual Filtering
+		for (const li of document.findAll(".users-list > li")) {
+			showRow(li);
+
+			// Activity
+			if (
+				activity.length &&
+				!activity.some(
+					(x) =>
+						x.trim() ===
+						li
+							.find("#iconTray li")
+							.getAttribute("title")
+							.match(/(?<=<b>).*(?=<\/b>)/g)[0]
+							.toLowerCase()
+							.trim()
+				)
+			) {
+				hideRow(li);
+				continue;
 			}
-		});
 
-		const factionsSelect = createSelect([...defaultFactionsItems, ...factions]);
-		factionsSelect.setSelected(filters.faction);
-		factionsSelect.onChange(() => {
-			if (filtersChangedCallback) {
-				filtersChangedCallback();
+			// Faction
+			const rowFaction = li.find(".user.faction");
+			const factionImg = rowFaction.find(":scope > img");
+			if (faction && faction !== "No faction" && faction !== "Unknown faction") {
+				if (
+					!rowFaction.href || // No faction
+					(rowFaction.href && factionImg && factionImg.src === "https://factiontags.torn.com/0-0.png") || // Unknown faction
+					(rowFaction.href && factionImg && faction !== factionImg.getAttribute("title").trim())
+				) {
+					hideRow(li);
+					continue;
+				}
+			} else if (faction === "No faction") {
+				if (rowFaction.href) { // Not "No faction"
+					hideRow(li);
+					continue;
+				}
+			} else if (faction === "Unknown faction") {
+				if (!factionImg || (factionImg && factionImg.src !== "https://factiontags.torn.com/0-0.png")) { // Not "Unknown faction"
+					hideRow(li);
+					continue;
+				}
 			}
-		});
 
-		const timeFilter = createSlider(JAIL_CONSTANTS.timeMin, JAIL_CONSTANTS.timeMax, JAIL_CONSTANTS.timeStep, (num) => `${num}h`);
-		timeFilter.setRange(filters.time);
-		timeFilter.onRangeChanged(() => {
-			if (filtersChangedCallback) {
-				filtersChangedCallback();
+			// Time
+			const timeLeftHrs = parseInt(li.find(".info-wrap .time").innerText.match(/[0-9]*(?=h)/g)[0]);
+			if ((timeStart && timeLeftHrs < timeStart) || (timeEnd !== 100 && timeLeftHrs > timeEnd)) {
+				hideRow(li);
+				continue;
 			}
-		});
 
-		const levelFilter = createSlider(JAIL_CONSTANTS.levelMin, JAIL_CONSTANTS.levelMax, JAIL_CONSTANTS.levelStep);
-		levelFilter.setRange(filters.level);
-		levelFilter.onRangeChanged(() => {
-			if (filtersChangedCallback) {
-				filtersChangedCallback();
+			// Level
+			const level = parseInt(li.find(".info-wrap .level").innerText.replace(/\D+/g, ""));
+			if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
+				hideRow(li);
+				continue;
 			}
-		});
 
-		const scoreFilter = createSlider(JAIL_CONSTANTS.scoreMin, JAIL_CONSTANTS.scoreMax, JAIL_CONSTANTS.scoreStep);
-		scoreFilter.setRange(filters.score);
-		scoreFilter.onRangeChanged(() => {
-			if (filtersChangedCallback) {
-				filtersChangedCallback();
+			// Score
+			const score = level * (timeLeftHrs + 3);
+			if ((scoreStart && score < scoreStart) || (scoreEnd !== 100 && score > scoreEnd)) {
+				hideRow(li);
+				continue;
 			}
-		});
+		}
 
-		const shownCountElement = document.newElement({
-			type: "span",
-			text: "0",
-		});
+		function showRow(li) {
+			li.classList.remove("hidden");
+		}
 
-		const pageCountElement = document.newElement({
-			type: "span",
-			text: "0",
-		});
+		function hideRow(li) {
+			li.classList.add("hidden");
+		}
 
-		const quickModeCheckboxList = createCheckboxList({ items: quickModesOptions, orientation: "row" });
-		quickModeCheckboxList.setSelections(quickModes);
-		quickModeCheckboxList.onSelectionChange(() => {
-			if (quickModesChangedCallback) {
-				quickModesChangedCallback();
-			}
-		});
-
-		options.appendChild(
-			document.newElement({
-				type: "div",
-				children: [quickModeCheckboxList.element],
-			})
+		localFilters["Statistics"].updateStatistics(
+			document.findAll(".users-list > li:not(.hidden)").length,
+			document.findAll(".users-list > li").length,
+			content
 		);
-
-		const filtersHeaderDiv = document.newElement({
-			type: "div",
-			class: "tt-jail-filters-header",
-			children: [
-				document.newElement({
-					type: "div",
-					class: "tt-jail-filters-shown-users",
-					children: [
-						document.newElement({
-							type: "text",
-							text: "Showing ",
-						}),
-						shownCountElement,
-						document.newElement({
-							type: "text",
-							text: " of ",
-						}),
-						pageCountElement,
-						document.newElement({
-							type: "text",
-							text: " users",
-						}),
-					],
-				}),
-			],
-		});
-		const filtersInfo = [
-			{
-				title: "Activity",
-				element: activityCheckboxList.element,
-			},
-			{
-				title: "Faction",
-				element: factionsSelect.element,
-			},
-			{
-				title: "Time",
-				element: timeFilter.element,
-			},
-			{
-				title: "Level",
-				element: levelFilter.element,
-			},
-			{
-				title: "Score",
-				element: scoreFilter.element,
-			},
-		];
-		const filtersContentDiv = document.newElement({
-			type: "div",
-			class: "tt-jail-filters-content",
-			children: filtersInfo.map((filterInfo) =>
-				document.newElement({
-					type: "div",
-					class: "tt-jail-filters-item",
-					children: [
-						document.newElement({
-							type: "div",
-							class: "tt-jail-filters-item-header",
-							text: filterInfo.title,
-						}),
-						filterInfo.element,
-					],
-				})
-			),
-		});
-		content.appendChild(filtersHeaderDiv);
-		content.appendChild(filtersContentDiv);
-
-		function updateFactions(factions) {
-			factionsSelect.updateOptionsList([...defaultFactionsItems, ...factions]);
-		}
-
-		function updateShownAmount(shownCount) {
-			shownCountElement.innerText = shownCount;
-		}
-
-		function updatePageAmount(pageCount) {
-			pageCountElement.innerText = pageCount;
-		}
-
-		function getFilters() {
-			return {
-				activity: activityCheckboxList.getSelections(),
-				faction: factionsSelect.getSelected(),
-				time: timeFilter.getRange(),
-				level: levelFilter.getRange(),
-				score: scoreFilter.getRange(),
-			};
-		}
-
-		function getQuickModes() {
-			return quickModeCheckboxList.getSelections();
-		}
-
-		function onFiltersChanged(callback) {
-			filtersChangedCallback = callback;
-		}
-
-		function onQuickModesChanged(callback) {
-			quickModesChangedCallback = callback;
-		}
-
-		function dispose() {
-			activityCheckboxList.dispose();
-			factionsSelect.dispose();
-			timeFilter.dispose();
-			levelFilter.dispose();
-			scoreFilter.dispose();
-			quickModeCheckboxList.dispose();
-
-			filtersChangedCallback = undefined;
-			quickModesChangedCallback = undefined;
-
-			container.remove();
-		}
-
-		return {
-			updateFactions,
-			updateShownAmount,
-			updatePageAmount,
-			getFilters,
-			getQuickModes,
-			onFiltersChanged,
-			onQuickModesChanged,
-			dispose,
-		};
+		quickBustAndBail();
 	}
 
-	function createJailUserFacade(userElement) {
-		const activityIconId = userElement.querySelector('#iconTray > li[id^="icon"]').id;
-		const activity = activityIconId.startsWith("icon1")
-			? JAIL_CONSTANTS.online
-			: activityIconId.startsWith("icon62")
-			? JAIL_CONSTANTS.idle
-			: JAIL_CONSTANTS.offline;
+	async function quickBustAndBail() {
+		await requireElement(".users-list > li");
 
-		const factionElem = userElement.querySelector(".faction > img");
-		const faction = factionElem ? factionElem.title || JAIL_CONSTANTS.unknownFactions : JAIL_CONSTANTS.noFaction;
+		const quickModes = [];
+		const quickBust = localFilters["Quick Bust"].isChecked();
+		const quickBail = localFilters["Quick Bail"].isChecked();
 
-		const time = _getTimeFromText(userElement.querySelector(".time").lastChild.textContent.trim());
-		const level = parseInt(userElement.querySelector(".level").lastChild.textContent.trim());
-		const score = level * (time + 3);
+		if (quickBust) quickModes.push("bust");
+		if (quickBail) quickModes.push("bail");
 
-		const bustElem = userElement.querySelector(".bust");
-		const bustIcon = bustElem.querySelector(".bust-icon");
-
-		const bailElem = userElement.querySelector(".bye");
-		const bailIcon = bailElem.querySelector(".bye-icon");
-
-		function applyQuickModes(quickModes) {
-			if (quickModes.includes(JAIL_CONSTANTS.bust)) {
-				_applyQuickMode(bustElem, bustIcon);
-			} else {
-				_removeQuickMode(bustElem, bustIcon);
-			}
-
-			if (quickModes.includes(JAIL_CONSTANTS.bail)) {
-				_applyQuickMode(bailElem, bailIcon);
-			} else {
-				_removeQuickMode(bailElem, bailIcon);
-			}
-		}
-
-		function hide() {
-			userElement.classList.add("hidden");
-		}
-
-		function show() {
-			userElement.classList.remove("hidden");
-		}
-
-		function isShown() {
-			return !userElement.classList.contains("hidden");
-		}
-
-		function dispose() {
-			show();
-			applyQuickModes([]);
-		}
-
-		function _getTimeFromText(text) {
-			const hourAndMinRegex = /^(?<hour>\d\d?)h \d\d?m$/;
-			const match = text.match(hourAndMinRegex);
-
-			if (match) {
-				return parseInt(match.groups.hour);
-			}
-
-			return 0;
-		}
-
-		function _applyQuickMode(elem, iconElem) {
-			if (iconElem.firstChild) {
-				return;
-			}
-
-			elem.href = elem.href + "1";
-			const quickMark = document.newElement({
-				type: "span",
-				class: "tt-jail-filters-quick-mark",
-				text: "Q",
-			});
-			iconElem.appendChild(quickMark);
-		}
-
-		function _removeQuickMode(elem, iconElem) {
-			if (!iconElem.firstChild) {
-				return;
-			}
-
-			iconElem.firstChild.remove();
-			elem.href = elem.href.slice(0, -1);
-		}
-
-		return {
-			activity,
-			faction,
-			time,
-			level,
-			score,
-			applyQuickModes,
-			hide,
-			show,
-			isShown,
-			dispose,
-		};
-	}
-
-	function createInJailFacade() {
-		let usersInfo = [];
-		let usersChangedCallback;
-		const usersListContainer = document.find(".users-list");
-		const usersListTitleContainer = document.find(".users-list-title");
-
-		const config = { childList: true };
-
-		const callback = function () {
-			const isNotInLoadingState = usersListContainer.children.length !== 1 || !usersListContainer.children[0].find(".ajax-placeholder");
-			if (isNotInLoadingState) {
-				_buildUsersInfo();
-			}
-		};
-
-		const observer = new MutationObserver(callback);
-		observer.observe(usersListContainer, config);
-
-		_buildUsersInfo();
-
-		const mainRefresh = document.newElement({
-			type: "div",
-			class: "tt-jail-filters-main-refresh-wrapper hidden",
-			children: [_createRefreshButton("white")],
+		await ttStorage.change({
+			quick: {
+				jail: quickModes,
+			},
 		});
-		usersListTitleContainer.appendChild(mainRefresh);
 
-		const refreshColor = hasDarkMode() ? "white" : "black";
-		const bailRefreshButton = _createRefreshButton(refreshColor, "tt-jail-filters-bail-refresh");
-		const bustRefreshButton = _createRefreshButton(refreshColor, "tt-jail-filters-bust-refresh");
-		const innerRefreshWrapper = document.newElement({
-			type: "div",
-			class: "tt-jail-filters-inner-refresh-wrapper hidden",
-			children: [bailRefreshButton, bustRefreshButton],
-		});
-		usersListContainer.parentNode.insertBefore(innerRefreshWrapper, usersListContainer.nextSibling);
-		darkModeObserver.addListener(_darkModeChanged);
-
-		function updateRefreshButtons(quickModes) {
-			const showBusts = quickModes.includes(JAIL_CONSTANTS.bust);
-			const showBails = quickModes.includes(JAIL_CONSTANTS.bail);
-
-			if (!showBusts && !showBails) {
-				mainRefresh.classList.add("hidden");
-				innerRefreshWrapper.classList.add("hidden");
-				return;
-			}
-
-			const allHidden = usersInfo.every((userInfo) => !userInfo.isShown());
-
-			if (allHidden) {
-				innerRefreshWrapper.classList.remove("hidden");
-				mainRefresh.classList.add("hidden");
-
-				if (showBusts) {
-					bustRefreshButton.classList.remove("tt-jail-filters-inner-refresh-hide");
-				} else {
-					bustRefreshButton.classList.add("tt-jail-filters-inner-refresh-hide");
-				}
-
-				if (showBails) {
-					bailRefreshButton.classList.remove("tt-jail-filters-inner-refresh-hide");
-				} else {
-					bailRefreshButton.classList.add("tt-jail-filters-inner-refresh-hide");
+		document.findAll(".tt-quick-refresh, .tt-quick-refresh-wrap").forEach(x => x.remove());
+		if (quickBust || quickBail) {
+			if (document.find(".users-list > li:not(.hidden)")) {
+				if (!document.find(".users-list-title .tt-quick-refresh")) {
+					document.find(".users-list-title").appendChild(newRefreshButton());
 				}
 			} else {
-				innerRefreshWrapper.classList.add("hidden");
-				mainRefresh.classList.remove("hidden");
+				document.find(".users-list").appendChild(document.newElement({
+					type: "div",
+					class: "tt-quick-refresh-wrap",
+					children: [
+						... quickBail ? [newRefreshButton("tt-bail")] : [],
+						... quickBust ? [newRefreshButton("tt-bust")] : [],
+					]
+				}))
 			}
 		}
 
-		function applyFilters(filters) {
-			let shownAmount = 0;
+		document.findAll(".users-list > li").forEach((li) => {
+			if (quickBust) addQAndHref(li.find(":scope > [href*='breakout']"));
+			else removeQAndHref(li.find(":scope > [href*='breakout']"));
+			if (quickBail) addQAndHref(li.find(":scope > [href*='buy']"));
+			else removeQAndHref(li.find(":scope > [href*='buy']"));
+		});
 
-			for (const userInfo of usersInfo) {
-				const matchesActivity = !filters.activity.length || filters.activity.includes(userInfo.activity);
-				const matchesFaction = filters.faction === JAIL_CONSTANTS.allFactions || filters.faction === userInfo.faction;
-				const matchesTime = userInfo.time >= filters.time.from && userInfo.time <= filters.time.to;
-				const matchesLevel = userInfo.level >= filters.level.from && userInfo.level <= filters.level.to;
-				const matchesScore = userInfo.score >= filters.score.from && userInfo.score <= filters.score.to;
-
-				if (matchesActivity && matchesFaction && matchesTime && matchesLevel && matchesScore) {
-					userInfo.show();
-					shownAmount++;
-				} else {
-					userInfo.hide();
-				}
-			}
-
-			return shownAmount;
-		}
-
-		function applyQuickModes(quickModes) {
-			usersInfo.forEach((userInfo) => userInfo.applyQuickModes(quickModes));
-		}
-
-		function getFactionOptions() {
-			return [
-				...new Set(
-					usersInfo
-						.map((userInfo) => userInfo.faction)
-						.filter((faction) => faction && faction !== JAIL_CONSTANTS.unknownFactions && faction !== JAIL_CONSTANTS.noFaction)
-				),
-			];
-		}
-
-		function getUsersAmount() {
-			return usersInfo.length;
-		}
-
-		function onUsersChanged(callback) {
-			usersChangedCallback = callback;
-		}
-
-		function dispose() {
-			observer.disconnect();
-			for (const userInfo of usersInfo) {
-				userInfo.dispose();
-			}
-			usersChangedCallback = undefined;
-			mainRefresh.remove();
-			innerRefreshWrapper.remove();
-			darkModeObserver.removeListener(_darkModeChanged);
-		}
-
-		function _createRefreshButton(mode, classes) {
+		function newRefreshButton(customClass = "") {
 			return document.newElement({
-				type: "img",
-				attributes: {
-					src: _getRefreshIconSrc(mode),
-					...(classes ? { class: classes } : {}),
-				},
-				events: {
-					click: () => location.reload(),
-				},
-			});
+						type: "i",
+						class: `fas fa-redo tt-quick-refresh ${customClass}`,
+						events: {
+							"click": () => location.reload(),
+						},
+					});
 		}
 
-		function _getRefreshIconSrc(mode) {
-			return chrome.runtime.getURL(`resources/images/svg-icons/refresh-icon${mode === "white" ? "-white" : ""}.svg`);
+		function addQAndHref(iconNode) {
+			if (iconNode.find(":scope > .tt-quick-q")) return;
+			iconNode.appendChild(document.newElement({ type: "span", class: "tt-quick-q", text: "Q" }));
+			iconNode.href = iconNode.href + "1";
 		}
 
-		function _buildUsersInfo() {
-			usersInfo = [];
-
-			for (const userElement of usersListContainer.children) {
-				usersInfo.push(createJailUserFacade(userElement));
-			}
-
-			if (usersChangedCallback) {
-				usersChangedCallback();
-			}
+		function removeQAndHref(iconNode) {
+			const quickQ = iconNode.find(":scope > .tt-quick-q");
+			if (quickQ) quickQ.remove();
+			if (iconNode.href.slice(-1) === "1") iconNode.href = iconNode.href.slice(0, -1);
 		}
-
-		function _darkModeChanged(isInDarkMode) {
-			bailRefreshButton.src = _getRefreshIconSrc(isInDarkMode ? "white" : "black");
-			bustRefreshButton.src = _getRefreshIconSrc(isInDarkMode ? "white" : "black");
-		}
-
-		return {
-			updateRefreshButtons,
-			applyFilters,
-			applyQuickModes,
-			getFactionOptions,
-			getUsersAmount,
-			onUsersChanged,
-			dispose,
-		};
 	}
 
-	async function jailReady() {
-		await requireElement(".users-list > *:first-child .info-wrap");
-	}
-
-	let jailFiltersContainer;
-	let inJailFacade;
-
-	async function initialize() {
-		await jailReady();
-
-		inJailFacade = createInJailFacade();
-
-		const factionOptions = inJailFacade.getFactionOptions();
-
-		jailFiltersContainer = createJailFiltersContainer(
-			factionOptions.map((faction) => ({ value: faction, description: faction })),
-			storageFilters.jail,
-			storageQuick.jail
+	function getFactions() {
+		const rows = [...document.findAll(".users-list > li .user.faction")];
+		const _factions = new Set(
+			document.findAll(".users-list > li .user.faction img").length
+				? rows
+						.map((row) => row.find("img"))
+						.filter((img) => !!img)
+						.map((img) => img.getAttribute("title").trim())
+						.filter((tag) => !!tag)
+				: rows.map((row) => row.innerText.trim()).filter((tag) => !!tag)
 		);
 
-		const shownAmount = inJailFacade.applyFilters(jailFiltersContainer.getFilters());
-		jailFiltersContainer.updatePageAmount(inJailFacade.getUsersAmount());
-		jailFiltersContainer.updateShownAmount(shownAmount);
-		const quickModes = jailFiltersContainer.getQuickModes();
-		inJailFacade.applyQuickModes(quickModes);
-		inJailFacade.updateRefreshButtons(quickModes);
-
-		jailFiltersContainer.onFiltersChanged(() => {
-			const filters = jailFiltersContainer.getFilters();
-			const shownAmount = inJailFacade.applyFilters(filters);
-			jailFiltersContainer.updateShownAmount(shownAmount);
-			inJailFacade.updateRefreshButtons(jailFiltersContainer.getQuickModes());
-
-			ttStorage.change({
-				filters: {
-					jail: filters,
-				},
-			});
-		});
-		jailFiltersContainer.onQuickModesChanged(() => {
-			const quickModes = jailFiltersContainer.getQuickModes();
-			inJailFacade.applyQuickModes(quickModes);
-			inJailFacade.updateRefreshButtons(quickModes);
-
-			ttStorage.change({
-				quick: {
-					jail: quickModes,
-				},
-			});
-		});
-		inJailFacade.onUsersChanged(() => {
-			const factionItems = inJailFacade.getFactionOptions().map((faction) => ({ value: faction, description: faction }));
-			jailFiltersContainer.updateFactions(factionItems);
-			const shownAmount = inJailFacade.applyFilters(jailFiltersContainer.getFilters());
-			jailFiltersContainer.updatePageAmount(inJailFacade.getUsersAmount());
-			jailFiltersContainer.updateShownAmount(shownAmount);
-			const quickModes = jailFiltersContainer.getQuickModes();
-			inJailFacade.applyQuickModes(quickModes);
-			inJailFacade.updateRefreshButtons(quickModes);
-		});
+		const factions = [];
+		for (const faction of _factions) {
+			factions.push({ value: faction, description: faction });
+		}
+		return factions;
 	}
 
-	function teardown() {
-		jailFiltersContainer.dispose();
-		jailFiltersContainer = undefined;
-		inJailFacade.dispose();
-		inJailFacade = undefined;
+	function removeFilters() {
+		removeContainer("Jail Filter");
+		document.findAll(".users-list > li.hidden").forEach((x) => x.classList.remove("hidden"));
 	}
 })();
