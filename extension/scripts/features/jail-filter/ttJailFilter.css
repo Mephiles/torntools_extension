@@ -13,7 +13,7 @@ body.tt-tablet .tt-quick-refresh-wrap .tt-quick-refresh {
 body.tt-mobile .users-list-title .tt-quick-refresh,
 body.tt-tablet .users-list-title .tt-quick-refresh {
 	position: absolute;
-    right: 0px;
+	right: 0px;
 }
 
 .tt-quick-q {

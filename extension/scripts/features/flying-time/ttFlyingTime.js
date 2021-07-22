@@ -26,11 +26,12 @@
 
 			showTime();
 		});
-		if (mobile || tablet) CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(() => {
-			if (!feature.enabled()) return;
+		if (mobile || tablet)
+			CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(() => {
+				if (!feature.enabled()) return;
 
-			showTime();
-		});
+				showTime();
+			});
 	}
 
 	function showTime() {
@@ -38,13 +39,11 @@
 			mobile || tablet
 				? "#tab-menu4 [id*='tab4-'][aria-hidden='false'] .travel-info-table-list[aria-selected*='true']"
 				: ".travel-agency > div[aria-expanded='true'] .travel-container.full-map[style='display: block;']"
-		)
+		);
 		if (!container) return;
 
 		const duration = textToTime(
-			mobile || tablet
-				? container.find(".flight-time-table").innerText.trim()
-				: container.find(".flight-time").innerText.match(/(?<=- ).*/g)[0]
+			mobile || tablet ? container.find(".flight-time-table").innerText.trim() : container.find(".flight-time").innerText.match(/(?<=- ).*/g)[0]
 		);
 
 		const now = new Date();

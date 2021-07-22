@@ -398,7 +398,7 @@ body.scrolled #tt-page-status.top-right {
 
 #sidebarroot .pill {
 	display: flex;
-    align-items: center;
+	align-items: center;
 	cursor: pointer;
 	overflow: hidden;
 	border-bottom-right-radius: 5px;
