@@ -397,15 +397,19 @@ body.scrolled #tt-page-status.top-right {
 }
 
 #sidebarroot .pill {
-	position: relative;
+	display: flex;
+	align-items: center;
 	cursor: pointer;
 	overflow: hidden;
-	vertical-align: top;
 	border-bottom-right-radius: 5px;
 	border-top-right-radius: 5px;
 	background-color: var(--default-bg-panel-color);
 	margin-top: 2px;
 	min-height: 22px;
+}
+
+body.tt-tablet #sidebarroot .pill {
+	min-height: 34px;
 }
 
 body[data-layout="hospital"] #sidebarroot .pill {
@@ -422,7 +426,6 @@ body[data-layout="hospital"] #sidebarroot .pill {
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	line-height: 22px;
 	margin-left: 8px;
 }
 

@@ -1,10 +1,59 @@
 .tt-net-total {
-	border-bottom: 1px solid #ccc;
-	border-bottom-color: var(--default-panel-divider-outer-side-color);
-	border-top: 1px solid #fff;
-	border-top-color: var(--default-panel-divider-inner-side-color);
+	border-top: 1px solid var(--default-panel-divider-inner-side-color);
+	border-bottom: 1px solid var(--default-panel-divider-outer-side-color);
 	display: flex;
-	justify-content: space-between;
+}
+
+body.tt-mobile .tt-net-total {
+	display: unset;
+}
+
+.tt-net-total > li {
+	height: 22px;
+	line-height: 22px;
+	padding: 0 10px 2px 10px;
+	margin-bottom: -2px;
+}
+
+.tt-net-total .name {
+	width: 215px;
+}
+
+.tt-net-total.bookie .name {
+	border-right: 1px solid var(--default-panel-divider-inner-side-color);
+}
+
+body.tt-mobile .tt-net-total.bookie .name {
+	border: 0;
+}
+
+body.tt-tablet .tt-net-total .name {
+	width: 205px;
+}
+
+body.tt-mobile .tt-net-total .name {
+	font-weight: bold;
+}
+
+.tt-net-total .value {
+	width: 130px;
+	text-align: right;
+	border-left: 2px solid var(--default-panel-divider-outer-side-color);
+}
+
+body.tt-tablet .tt-net-total .value {
+	width: 139px;
+}
+
+body.tt-mobile .tt-net-total .value {
+	text-align: left;
+	border: 0;
+	border-bottom: 1px solid var(--default-panel-divider-outer-side-color);
+	width: 100%;
+}
+
+.tt-net-total.bookie .value {
+	border-width: 1px;
 }
 
 body:not(.dark-mode) .tt-net-total {
@@ -13,20 +62,4 @@ body:not(.dark-mode) .tt-net-total {
 
 body.dark-mode .tt-net-total {
 	color: var(--tt-color-light-green);
-}
-
-.tt-net-total > .name {
-	width: 215px;
-	padding: 6px 10px 6px 10px;
-	border-right: 2px solid var(--default-panel-divider-outer-side-color, #222);
-}
-
-.tt-net-total.bookie > .name {
-	border-right-color: #cfcfcf;
-}
-
-.tt-net-total > .value {
-	width: 130px;
-	text-align: right;
-	padding: 6px 10px 6px 0;
 }

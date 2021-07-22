@@ -14,7 +14,10 @@
 		{
 			storage: ["settings.pages.travel.flyingTime"],
 		},
-		null
+		async () => {
+			await checkMobile();
+			await checkTablet();
+		}
 	);
 
 	function initialise() {
@@ -23,13 +26,25 @@
 
 			showTime();
 		});
+		if (mobile || tablet)
+			CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(() => {
+				if (!feature.enabled()) return;
+
+				showTime();
+			});
 	}
 
 	function showTime() {
-		const container = document.find(".travel-agency > div[aria-expanded='true'] .travel-container.full-map[style='display: block;']");
+		const container = document.find(
+			mobile || tablet
+				? "#tab-menu4 [id*='tab4-'][aria-hidden='false'] .travel-info-table-list[aria-selected*='true']"
+				: ".travel-agency > div[aria-expanded='true'] .travel-container.full-map[style='display: block;']"
+		);
 		if (!container) return;
 
-		const duration = textToTime(container.find(".flight-time").innerText.split(" - ")[1]);
+		const duration = textToTime(
+			mobile || tablet ? container.find(".flight-time-table").innerText.trim() : container.find(".flight-time").innerText.match(/(?<=- ).*/g)[0]
+		);
 
 		const now = new Date();
 		const arrivalTime = new Date(now.getTime() + duration);
@@ -42,7 +57,6 @@
 		else {
 			document.find("div.travel-agency:not([id])").appendChild(document.newElement({ type: "span", class: "tt-flying-time", text }));
 		}
-
 		function format(date) {
 			if (date.getDate() === now.getDate()) return formatTime(date, { hideSeconds: true });
 			else return `${formatTime(date, { hideSeconds: true })} ${formatDate(date)}`;

@@ -11,6 +11,7 @@
 	display: flex;
 	white-space: nowrap;
 	margin: initial;
+	align-items: center;
 }
 
 .tt-title-default,
@@ -34,14 +35,11 @@
 }
 
 .tt-container .title .text {
-	align-self: center;
-	/*noinspection CssInvalidPropertyValue*/
 	width: -webkit-fill-available;
 	width: -moz-available;
 }
 
 .tt-container .title .icon {
-	line-height: inherit;
 	min-width: 30px;
 	font-size: 16px;
 	text-align: center;
@@ -89,10 +87,14 @@
 }
 
 #sidebarroot .tt-container .title {
+	align-items: center;
 	height: 22px;
-	line-height: 22px;
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
+}
+
+body.tt-tablet #sidebarroot .tt-container .title {
+	height: 34px;
 }
 
 .tt-container > main {
