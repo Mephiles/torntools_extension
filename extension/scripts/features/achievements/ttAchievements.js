@@ -159,10 +159,10 @@
 				});
 
 				if (hasGoals) {
-					pill.addEventListener("mouseenter", showTooltip);
+					if (!mobile && !tablet) pill.addEventListener("mouseenter", showTooltip);
 					pill.addEventListener("focus", showTooltip);
 
-					pill.addEventListener("mouseleave", hideTooltip);
+					if (!mobile && !tablet) pill.addEventListener("mouseleave", hideTooltip);
 					pill.addEventListener("blur", hideTooltip);
 				}
 

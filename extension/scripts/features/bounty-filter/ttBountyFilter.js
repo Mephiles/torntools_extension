@@ -37,10 +37,12 @@
 			},
 		});
 		const cbHideUnavailable = createCheckbox({ description: "Hide Unavailable" });
+		options.appendChild(cbHideUnavailable.element);
+		options.appendChild(maxLevelInput);
 		options.appendChild(
 			document.newElement({
 				type: "span",
-				children: ["Max Level", maxLevelInput, cbHideUnavailable.element],
+				text: "Max Level",
 			})
 		);
 

@@ -67,7 +67,7 @@
 			await requireElement(`.stats-wrap .${statsType}-stats-wrap .stat`);
 			totalLostElement.closest("li:not(.stat-value)").insertAdjacentHTML(
 				"afterend",
-				`<ul class="tt-net-total ${isBookie() ? "bookie" : ""}">
+				`<ul class="tt-net-total ${isBookie(true) ? "bookie" : ""}">
 						<li class="name">Net total</li>
 						<li class="value">${formatNumber(totalWon - totalLost, { currency: true })}</li>
 					</ul>`
@@ -79,8 +79,8 @@
 		}
 	}
 
-	function isBookie() {
-		return page === "bookies" || page === "bookie";
+	function isBookie(beta = false) {
+		return (!beta && page === "bookies") || page === "bookie";
 	}
 
 	function removeTotal() {

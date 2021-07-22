@@ -118,10 +118,7 @@
 			stretchColumns: true,
 		});
 
-		const { content, container } = createContainer("Bank Investment - Based on 2b investment", {
-			previousElement: document.find(".content-wrapper > .delimiter-999"),
-			class: "tt-bank-investment-container",
-		});
+		const { content, container } = createContainer("Bank Investment", { previousElement: document.find(".content-wrapper > .delimiter-999") });
 		content.appendChild(table.element);
 
 		function dispose() {

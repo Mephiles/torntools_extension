@@ -13,7 +13,9 @@
 		{
 			storage: ["settings.pages.stocks.valueAndProfit"],
 		},
-		null
+		async () => {
+			await checkMobile();
+		}
 	);
 
 	async function addProfitAndValue() {
@@ -35,26 +37,29 @@
 			})
 			.totalSum();
 
+		const shorten = mobile ? 2 : true;
 		document.find("#stockmarketroot h4").appendChild(
 			document.newElement({
 				type: "span",
 				class: "tt-total-stock-value",
 				children: [
 					"Value: ",
-					document.newElement({ type: "span", class: "value", text: formatNumber(totalValue, { currency: true, shorten: true }) }),
+					document.newElement({ type: "span", class: "value", text: formatNumber(totalValue, { currency: true, shorten }) }),
 					" | Profit: ",
 					document.newElement({
 						type: "span",
 						class: profits >= 0 ? "profit" : "loss",
-						text: formatNumber(profits, { currency: true, shorten: true }),
+						text: formatNumber(profits, { currency: true, shorten }),
 					}),
 				],
 			})
 		);
+		if (mobile) document.find("#stockmarketroot [class*='topSection__']").classList.add("tt-total-stock-value-wrap");
 	}
 
 	function removeProfitAndValue() {
 		const ttTotalStockValue = document.find("#stockmarketroot .tt-total-stock-value");
 		if (ttTotalStockValue) ttTotalStockValue.remove();
+		if (mobile) document.find("#stockmarketroot [class*='topSection__']").classList.remove("tt-total-stock-value-wrap");
 	}
 })();

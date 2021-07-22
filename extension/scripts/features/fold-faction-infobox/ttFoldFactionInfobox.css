@@ -7,6 +7,10 @@
 	border-radius: 5px !important;
 }
 
+.tt-foldable-infobox.folded::before {
+	display: none !important;
+}
+
 .tt-collapse-infobox {
 	padding-right: 4px;
 	width: 15px;

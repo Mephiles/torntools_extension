@@ -1,3 +1,8 @@
+body.tt-mobile .tt-item-price-wrap,
+body.tt-tablet .tt-item-price-wrap {
+	height: 30px !important;
+}
+
 .tt-item-price-color,
 .tt-item-price {
 	color: var(--tt-color-item-text);
@@ -23,7 +28,8 @@ span.tt-item-price {
 	color: var(--tt-color-item-quantity);
 }
 
-.tt-mobile .tt-item-price {
+body.tt-mobile .tt-item-price,
+body.tt-tablet .tt-item-price {
 	position: absolute;
 	right: -10px;
 	top: 10px;
@@ -31,12 +37,22 @@ span.tt-item-price {
 	font-size: 11px;
 }
 
-.tt-mobile .needed-item .tt-item-price {
+body.tt-mobile .needed-item .tt-item-price,
+body.tt-tablet .needed-item .tt-item-price {
 	right: 0;
 }
 
-.tt-mobile .items-cont .name,
-.tt-mobile .items-cont .qty {
+body.tt-mobile .tt-item-price.price-total,
+body.tt-tablet .tt-item-price.price-total {
+	top: 0;
+	left: 0 !important;
+	font-size: 12px;
+}
+
+body.tt-mobile .items-cont .name,
+body.tt-tablet .items-cont .name,
+body.tt-mobile .items-cont .qty,
+body.tt-tablet .items-cont .qty {
 	position: relative;
 	top: -3px;
 }

@@ -1,9 +1,8 @@
 #ttBugWarning {
 	font-size: 16px;
-	height: 59px;
 	line-height: 16px;
 	color: white;
-	padding: 0 16px;
+	padding: 16px;
 	background: var(--tt-background-green);
 	text-shadow: var(--tutorial-title-shadow);
 	font-weight: bold;
@@ -23,6 +22,11 @@
 	padding: 10px;
 	background: var(--tt-background-popup);
 	box-shadow: var(--tt-shadow-popup);
+}
+
+body.tt-mobile #tt-help-popup {
+	width: fit-content;
+	width: -moz-fit-content;
 }
 
 #tt-help-popup a {

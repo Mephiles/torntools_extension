@@ -56,7 +56,6 @@
 				type: "div",
 				id: "ttBugWarning",
 				children: [
-					document.newElement("br"),
 					document.newElement({ type: "span", text: "Please try disabling TornTools to make sure if the issue persists." }),
 					document.newElement("br"),
 					document.newElement({
