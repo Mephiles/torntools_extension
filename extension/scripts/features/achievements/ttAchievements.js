@@ -12,7 +12,7 @@
 		showAchievements,
 		removeAchievements,
 		{
-			storage: ["settings.scripts.achievements.show"],
+			storage: ["settings.scripts.achievements.show", "settings.scripts.achievements.completed"],
 		},
 		() => {
 			if (
@@ -37,7 +37,7 @@
 		await requireSidebar();
 
 		const page = getPage();
-		const achievements = ACHIEVEMENTS.filter((achievement) => {
+		let achievements = ACHIEVEMENTS.filter((achievement) => {
 			if (achievement.requirements.pages) return achievement.requirements.pages.includes(page);
 			else return false;
 		}).sort((a, b) => {
@@ -58,6 +58,16 @@
 		if (!achievements.length) return;
 
 		fillGoals();
+
+		if (!settings.scripts.achievements.completed) {
+			achievements = achievements.filter((achievement) => !achievement.completed);
+
+			if (!achievements.length) {
+				removeAchievements();
+				return;
+			}
+		}
+
 		displayContainer();
 
 		function fillGoals() {
@@ -135,8 +145,6 @@
 			document.body.appendChild(tooltip);
 
 			for (const achievement of achievements) {
-				if (!settings.scripts.achievements.completed && achievement.completed) continue;
-
 				const hasGoals = !!achievement.goals;
 
 				const dataset = { score: achievement.current };

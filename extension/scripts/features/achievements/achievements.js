@@ -196,7 +196,7 @@ const ACHIEVEMENTS = [
 	{
 		name: "Revives",
 		stats: () => userdata.personalstats.revives,
-		detection: { keyword: "respect", exclude: ["within", "someone"] },
+		detection: { keyword: "revive", exclude: ["within", "someone"] },
 		requirements: { pages: ["hospital"] },
 	},
 	{
