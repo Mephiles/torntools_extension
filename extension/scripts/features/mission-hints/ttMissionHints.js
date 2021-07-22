@@ -222,7 +222,7 @@
 				hint: "You just need to attack the target, defeating them isn't a requirement.",
 			},
 			meeting_the_challenge: {
-				task: "Mug people for a total of $10,000 - $160,000.",
+				task: "Mug people for a total of $10,000 - $16,000,000.",
 			},
 			motivator: {
 				task: "Lose or stalemate to (P) on the first attempt.",
