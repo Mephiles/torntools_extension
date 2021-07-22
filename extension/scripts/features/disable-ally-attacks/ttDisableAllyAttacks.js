@@ -2,6 +2,7 @@
 
 (async () => {
 	if (!getPageStatus().access) return;
+	if (isOwnProfile()) return;
 
 	const feature = featureManager.registerFeature(
 		"Disable Ally Attacks",

@@ -1553,3 +1553,24 @@ function millisToNewDay() {
 
 	return newDate - now;
 }
+
+function isOwnProfile() {
+	let id, name;
+
+	if (!hasAPIData()) {
+		const script = document.find("script[uid][name]");
+		if (!script) return false;
+
+		id = parseInt(script.getAttribute("uid"));
+		name = script.getAttribute("name");
+	}
+	// FIXME - Find way to detect it anyway.
+	else {
+		id = userdata.player_id;
+		name = userdata.name;
+	}
+
+	const params = getSearchParameters();
+
+	return (params.has("XID") && parseInt(params.get("XID")) === id) || (params.has("NID") && params.get("NID") === name);
+}
