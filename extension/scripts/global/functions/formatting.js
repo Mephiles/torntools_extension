@@ -27,6 +27,11 @@ function textToTime(time) {
 		if (parts.length === 2) {
 			millis += parseInt(parts[0]) * TO_MILLIS.HOURS;
 			millis += parseInt(parts[1]) * TO_MILLIS.MINUTES;
+		} else if (parts.length === 4) {
+			millis += parseInt(parts[0]) * TO_MILLIS.DAYS;
+			millis += parseInt(parts[1]) * TO_MILLIS.HOURS;
+			millis += parseInt(parts[2]) * TO_MILLIS.MINUTES;
+			millis += parseInt(parts[3]) * TO_MILLIS.SECONDS;
 		}
 	} else {
 		let group;

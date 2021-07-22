@@ -473,6 +473,7 @@ const DEFAULT_STORAGE = {
 				showFullInfobox: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				foldableInfobox: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				numberMembers: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				warFinishTimes: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			property: {
 				value: new DefaultSetting({ type: "boolean", defaultValue: true }),

@@ -261,7 +261,8 @@
 				"scripts/features/full-faction-infobox/ttFullFactionInfobox.css",
 				"scripts/features/fold-faction-infobox/ttFoldFactionInfobox.css",
 				"scripts/features/csv-challenge-contributions/ttCSVChallengeContributions.css",
-				"scripts/features/faction-member-number/ttFactionMemberNumber.css"
+				"scripts/features/faction-member-number/ttFactionMemberNumber.css",
+				"scripts/features/war-finish-times/ttWarFinishTimes.css"
 			],
 			"js": [
 				"scripts/content/factions/ttFactions.js",
@@ -278,7 +279,8 @@
 				"scripts/features/full-faction-infobox/ttFullFactionInfobox.js",
 				"scripts/features/fold-faction-infobox/ttFoldFactionInfobox.js",
 				"scripts/features/csv-challenge-contributions/ttCSVChallengeContributions.js",
-				"scripts/features/faction-member-number/ttFactionMemberNumber.js"
+				"scripts/features/faction-member-number/ttFactionMemberNumber.js",
+				"scripts/features/war-finish-times/ttWarFinishTimes.js"
 			],
 			"run_at": "document_end"
 		},

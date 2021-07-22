@@ -1,0 +1,8 @@
+.tt-timer {
+	font-family: fjalla one, sans-serif;
+	font-size: 11px;
+	color: #858585;
+	text-shadow: var(--title-text-shadow);
+	letter-spacing: 0.3px;
+	line-height: 14px;
+}
