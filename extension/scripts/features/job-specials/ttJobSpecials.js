@@ -20,14 +20,10 @@
 
 	function addListener() {
 		window.addEventListener("hashchange", async () => {
-			if (
-				!feature.enabled() ||
-				(getHashParameters().get("p") !== "corpinfo" &&
-				getHashParameters().get("!p") !== "corpinfo")
-			) return;
+			if (!feature.enabled() || (getHashParameters().get("p") !== "corpinfo" && getHashParameters().get("!p") !== "corpinfo")) return;
 
 			await showSpecials();
-		})
+		});
 	}
 
 	async function showSpecials() {
