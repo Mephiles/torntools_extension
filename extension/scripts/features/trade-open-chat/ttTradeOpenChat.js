@@ -49,7 +49,7 @@
 					html: `chat.r(${id})`,
 				});
 
-				document.find("head").appendChild(script);
+				document.head.appendChild(script);
 				setTimeout(() => script.remove(), 100);
 			}
 		});

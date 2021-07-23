@@ -110,13 +110,13 @@
 		content.appendChild(filterContent);
 
 		const quickBust = createCheckbox({ description: "Quick Bust" });
-		quickBust.onChange(quickBustAndBail);
+		quickBust.onChange(applyQuickBustAndBail);
 		quickBust.setChecked(quick.jail.includes("bust"));
 		options.appendChild(quickBust.element);
 		localFilters["Quick Bust"] = { isChecked: quickBust.isChecked };
 
 		const quickBail = createCheckbox({ description: "Quick Bail" });
-		quickBail.onChange(quickBustAndBail);
+		quickBail.onChange(applyQuickBustAndBail);
 		quickBail.setChecked(quick.jail.includes("bail"));
 		options.appendChild(quickBail.element);
 		localFilters["Quick Bail"] = { isChecked: quickBail.isChecked };
@@ -165,8 +165,6 @@
 
 		// Actual Filtering
 		for (const li of document.findAll(".users-list > li")) {
-			showRow(li);
-
 			// Activity
 			if (
 				activity.length &&
@@ -231,6 +229,8 @@
 				hideRow(li);
 				continue;
 			}
+
+			showRow(li);
 		}
 
 		function showRow(li) {
@@ -246,10 +246,11 @@
 			document.findAll(".users-list > li").length,
 			content
 		);
-		quickBustAndBail();
+
+		await applyQuickBustAndBail();
 	}
 
-	async function quickBustAndBail() {
+	async function applyQuickBustAndBail() {
 		await requireElement(".users-list > li");
 
 		const quickModes = [];

@@ -35,6 +35,7 @@
 }
 
 .tt-container .title .text {
+	/*noinspection CssInvalidPropertyValue*/
 	width: -webkit-fill-available;
 	width: -moz-available;
 }
