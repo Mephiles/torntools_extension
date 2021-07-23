@@ -3,11 +3,11 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
-	featureManager.registerFeature(
+	const feature = featureManager.registerFeature(
 		"Job Specials",
 		"joblist",
 		() => settings.pages.joblist.specials,
-		null,
+		addListener,
 		showSpecials,
 		removeSpecials,
 		{
@@ -17,6 +17,18 @@
 			await checkMobile();
 		}
 	);
+
+	function addListener() {
+		window.addEventListener("hashchange", async () => {
+			if (
+				!feature.enabled() ||
+				(getHashParameters().get("p") !== "corpinfo" &&
+				getHashParameters().get("!p") !== "corpinfo")
+			) return;
+
+			await showSpecials();
+		})
+	}
 
 	async function showSpecials() {
 		await requireElement(".content-wrapper .company-details");
