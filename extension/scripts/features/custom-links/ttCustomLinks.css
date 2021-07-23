@@ -40,3 +40,8 @@
 body.tt-tablet .tt-custom-link-container .pill {
 	font-size: 13px;
 }
+
+.tt-custom-link-container .pill > a,
+.pill.custom-link > a {
+	width: 100%;
+}
