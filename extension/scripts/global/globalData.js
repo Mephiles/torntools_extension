@@ -514,6 +514,11 @@ const DEFAULT_STORAGE = {
 				show: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				completed: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
+			vaultSharing: {
+				vaultSharing: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				sidebar: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				sidebarTotal: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			},
 		},
 		external: {
 			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),
@@ -623,6 +628,19 @@ const DEFAULT_STORAGE = {
 		tradeMessage: new DefaultSetting({ type: "number", defaultValue: 0 }),
 		popup: {
 			calculatorItems: new DefaultSetting({ type: "array", defaultValue: [] }),
+		},
+		vault: {
+			initialized: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			lastTransaction: new DefaultSetting({ type: "string", defaultValue: "" }),
+			total: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			user: {
+				initial: new DefaultSetting({ type: "number", defaultValue: 0 }),
+				current: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			},
+			partner: {
+				initial: new DefaultSetting({ type: "number", defaultValue: 0 }),
+				current: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			},
 		},
 	},
 	stakeouts: new DefaultSetting({ type: "object", defaultValue: {} }),

@@ -421,9 +421,11 @@ function sortTable(table, columnPlace, order) {
 }
 
 function showLoadingPlaceholder(element, show) {
+	const placeholder = element.find(".tt-loading-placeholder");
+
 	if (show) {
-		if (element.find(".tt-loading-placeholder")) {
-			element.find(".tt-loading-placeholder").classList.add("active");
+		if (placeholder) {
+			placeholder.classList.add("active");
 		} else {
 			element.appendChild(
 				document.newElement({
@@ -432,7 +434,7 @@ function showLoadingPlaceholder(element, show) {
 				})
 			);
 		}
-	} else {
-		element.find(".tt-loading-placeholder").classList.remove("active");
+	} else if (placeholder) {
+		placeholder.classList.remove("active");
 	}
 }
