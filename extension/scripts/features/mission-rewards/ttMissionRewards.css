@@ -17,9 +17,18 @@
 	height: 160px !important;
 }
 
+body.tt-tablet .rewards-list li.tt-modified {
+	height: 164px !important;
+}
+
 .tt-mission-reward-owned,
 .tt-mission-reward-total {
 	margin-top: 60px;
+}
+
+body.tt-tablet .tt-mission-reward-owned,
+body.tt-tablet .tt-mission-reward-total {
+	margin-top: 66px;
 }
 
 .tt-mission-reward-owned,
@@ -46,4 +55,8 @@
 	left: 18px;
 	bottom: 6px;
 	font-size: 11px;
+}
+
+.tt-mobile .tt-mission-reward-individual {
+	left: 34px;
 }
