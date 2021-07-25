@@ -34,6 +34,7 @@
 	"web_accessible_resources": [
 		"resources/images/*.png",
 		"resources/images/svg-icons/*.svg",
+		"resources/audio/*.wav",
 		"pages/*",
 		"scripts/background.js",
 		"scripts/*.inject.js",
@@ -559,6 +560,11 @@
 			"matches": ["https://www.torn.com/loader.php?sid=attackLog*"],
 			"css": ["scripts/features/weapon-bonus-information/ttWeaponBonusInformation.css"],
 			"js": ["scripts/features/weapon-bonus-information/ttWeaponBonusInformation.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/loader.php?sid=attack*"],
+			"js": ["scripts/features/attack-timeout-warning/ttAttackTimeoutWarning.js"],
 			"run_at": "document_end"
 		},
 		{

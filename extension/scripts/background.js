@@ -1003,6 +1003,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		case "stop-notification-sound":
 			notificationTestPlayer.pause();
 			break;
+		case "notification":
+			notifyUser(message.title, message.message, message.url)
+				.then(() => sendResponse({ success: true }))
+				.catch((error) => sendResponse({ success: false, error }));
+			return true;
 		case "fetchRelay":
 			fetchData(message.location, message.options)
 				.then((result) => sendResponse(result))

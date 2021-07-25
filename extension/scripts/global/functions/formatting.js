@@ -18,15 +18,25 @@ function toSeconds(milliseconds) {
 	else return toSeconds(Date.now());
 }
 
-function textToTime(time) {
+function textToTime(time, options = {}) {
+	options = {
+		short: false,
+		...options,
+	};
+
 	let millis = 0;
 
 	if (time.includes(":")) {
 		const parts = time.split(":");
 
 		if (parts.length === 2) {
-			millis += parseInt(parts[0]) * TO_MILLIS.HOURS;
-			millis += parseInt(parts[1]) * TO_MILLIS.MINUTES;
+			if (options.short) {
+				millis += parseInt(parts[0]) * TO_MILLIS.MINUTES;
+				millis += parseInt(parts[1]) * TO_MILLIS.SECONDS;
+			} else {
+				millis += parseInt(parts[0]) * TO_MILLIS.HOURS;
+				millis += parseInt(parts[1]) * TO_MILLIS.MINUTES;
+			}
 		} else if (parts.length === 4) {
 			millis += parseInt(parts[0]) * TO_MILLIS.DAYS;
 			millis += parseInt(parts[1]) * TO_MILLIS.HOURS;

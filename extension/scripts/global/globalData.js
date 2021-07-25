@@ -490,6 +490,7 @@ const DEFAULT_STORAGE = {
 			},
 			attack: {
 				bonusInformation: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				timeoutWarning: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			city: {
 				items: new DefaultSetting({ type: "boolean", defaultValue: true }),
