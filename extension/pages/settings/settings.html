@@ -130,6 +130,7 @@
 						<li name="achievements">Achievements</li>
 						<li name="no-confirm">No Confirm</li>
 						<li name="vault-sharing">Vault Sharing</li>
+						<li name="last-action">Last Action</li>
 						<!-- <li>Stats Estimate</li> -->
 					</ul>
 				</nav>
@@ -1209,6 +1210,24 @@
 							<label for="vaultSharing-sidebarTotal">Show the total balance instead of yours.</label>
 						</div>
 					</section>
+					<section name="last-action">
+						<div class="header">Last Action</div>
+						<div class="option">
+							<input id="lastAction-factionMember" type="checkbox" />
+							<label for="lastAction-factionMember">Faction members.</label>
+						</div>
+						<div class="option">
+							<input id="lastAction-companyOwn" type="checkbox" />
+							<label for="lastAction-companyOwn">Own company employees.</label>
+						</div>
+						<div class="option tabbed">
+							<input id="lastAction-companyOther" type="checkbox" />
+							<label for="lastAction-companyOther">Other company employees.</label>
+							<label class="tabbed note" for="lastAction-companyOther">
+								This uses twice the api requests made when the company id isn't available.
+							</label>
+						</div>
+					</section>
 				</div>
 			</section>
 			<section>
@@ -1276,6 +1295,8 @@
 							<li>Bazaar worth: 1 request per visit</li>
 							<li>Company Special - muggable cash: 1 request per special usage, a 2nd if that user is in a clothing store</li>
 							<li>NNB: 1 request to YATA and 1 request to TornStats</li>
+							<li>Last Action - factions: 1 request per visit</li>
+							<li>Last Action - companies: 1 or 2 requests per visit</li>
 						</ul>
 					</li>
 					<li>

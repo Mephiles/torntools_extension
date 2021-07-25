@@ -1,0 +1,12 @@
+.tt-last-action {
+    text-align: center;
+    padding: 5px;
+    border-bottom: 1px solid;
+	border-color: var(--default-panel-divider-outer-side-color);
+}
+
+.tt-last-action.joblist {
+    border-top: 1px solid;
+	border-top-color: var(--default-panel-divider-outer-side-color);
+	border-bottom: none;
+}

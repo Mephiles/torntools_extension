@@ -18,15 +18,17 @@
 		}
 	);
 
-	function addListener() {
-		window.addEventListener("hashchange", async () => {
-			if (!feature.enabled() || (getHashParameters().get("p") !== "corpinfo" && getHashParameters().get("!p") !== "corpinfo")) return;
+	async function addListener() {
+		await requireElement(".content #mainContainer .employees-wrap");
+		new MutationObserver((mutations) => {
+			if (!feature.enabled() || !mutations.some(mutation => mutation.addedNodes && mutation.addedNodes.length)) return;
 
-			await showSpecials();
-		});
+			showSpecials();
+		}).observe(document.find(".content #mainContainer .content-wrapper"), { childList: true });
 	}
 
 	async function showSpecials() {
+		if (findContainer("Job Specials")) return;
 		await requireElement(".content-wrapper .company-details");
 
 		const { content } = createContainer("Job Specials", {

@@ -519,6 +519,11 @@ const DEFAULT_STORAGE = {
 				sidebar: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				sidebarTotal: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
+			lastAction: {
+				factionMember: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				companyOwn: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				companyOther: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			},
 		},
 		external: {
 			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),
@@ -1021,8 +1026,25 @@ const API_USAGE = {
 				initiated: true,
 			},
 		},
+		members: {
+			"*": {
+				last_action: {
+					relative: true,
+				},
+			},
+		},
 	},
-	company: {},
+	company: {
+		company: {
+			employees: {
+				"*": {
+					last_action: {
+						relative: true,
+					},
+				},
+			},
+		},
+	},
 	item_market: {
 		bazaar: {
 			"*": {
@@ -1113,8 +1135,13 @@ const API_SELECTIONS = {
 		"workstats",
 	],
 	properties: [],
-	faction: ["crimes"],
-	company: [],
+	faction: [
+		"basic", // target
+		"crimes",
+	],
+	company: [
+		"profile", // target
+	],
 	item_market: ["bazaar", "itemmarket"],
 	torn: ["bank", "education", "honors", "items", "medals", "pawnshop", "properties", "stocks"],
 };

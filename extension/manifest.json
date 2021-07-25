@@ -225,8 +225,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/companies.php*"],
-			"css": ["scripts/features/company-specials/ttCompanySpecials.css"],
-			"js": ["scripts/features/company-specials/ttCompanySpecials.js"],
+			"css": ["scripts/features/company-specials/ttCompanySpecials.css", "scripts/features/last-action/ttLastAction.css"],
+			"js": ["scripts/features/company-specials/ttCompanySpecials.js", "scripts/features/last-action/ttCompanyLastAction.js"],
 			"run_at": "document_end"
 		},
 		{
@@ -264,7 +264,8 @@
 				"scripts/features/fold-faction-infobox/ttFoldFactionInfobox.css",
 				"scripts/features/csv-challenge-contributions/ttCSVChallengeContributions.css",
 				"scripts/features/faction-member-number/ttFactionMemberNumber.css",
-				"scripts/features/war-finish-times/ttWarFinishTimes.css"
+				"scripts/features/war-finish-times/ttWarFinishTimes.css",
+				"scripts/features/last-action/ttLastAction.css"
 			],
 			"js": [
 				"scripts/content/factions/ttFactions.js",
@@ -282,7 +283,8 @@
 				"scripts/features/fold-faction-infobox/ttFoldFactionInfobox.js",
 				"scripts/features/csv-challenge-contributions/ttCSVChallengeContributions.js",
 				"scripts/features/faction-member-number/ttFactionMemberNumber.js",
-				"scripts/features/war-finish-times/ttWarFinishTimes.js"
+				"scripts/features/war-finish-times/ttWarFinishTimes.js",
+				"scripts/features/last-action/ttFactionLastAction.js"
 			],
 			"run_at": "document_end"
 		},
@@ -383,8 +385,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/joblist.php*"],
-			"css": ["scripts/features/job-specials/ttJobSpecials.css"],
-			"js": ["scripts/features/job-specials/ttJobSpecials.js"],
+			"css": ["scripts/features/job-specials/ttJobSpecials.css", "scripts/features/last-action/ttLastAction.css"],
+			"js": ["scripts/features/job-specials/ttJobSpecials.js", "scripts/features/last-action/ttCompanyLastAction.js"],
 			"run_at": "document_end"
 		},
 		{
