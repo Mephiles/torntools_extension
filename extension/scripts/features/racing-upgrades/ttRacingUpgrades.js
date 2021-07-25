@@ -20,7 +20,7 @@
 		addXHRListener(async ({ detail: { page, xhr, uri } }) => {
 			if (!feature.enabled()) return;
 
-			if (page === "loader") {
+			if (page === "loader" && uri) {
 				const sid = uri.sid;
 				if (sid !== "racing") return;
 
