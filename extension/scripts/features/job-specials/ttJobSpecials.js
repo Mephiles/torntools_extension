@@ -21,7 +21,7 @@
 	async function addListener() {
 		await requireElement(".content #mainContainer .employees-wrap");
 		new MutationObserver((mutations) => {
-			if (!feature.enabled() || !mutations.some(mutation => mutation.addedNodes && mutation.addedNodes.length)) return;
+			if (!feature.enabled() || !mutations.some((mutation) => mutation.addedNodes && mutation.addedNodes.length)) return;
 
 			showSpecials();
 		}).observe(document.find(".content #mainContainer .content-wrapper"), { childList: true });
