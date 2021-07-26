@@ -117,17 +117,17 @@ body.tt-tablet .tt-filter .content .tt-checkbox-wrapper {
 	margin: 1px 0;
 }
 
-.tt-filter .content .special {
+.tt-filter .content .tt-yn-checkboxes {
 	display: flex;
 	justify-content: space-around;
 	flex-flow: column;
 }
 
-.tt-filter .content .special > div {
+.tt-filter .content .tt-yn-checkboxes > div {
 	display: flex;
 }
 
-.tt-filter .content .special label {
+.tt-filter .content .tt-yn-checkboxes label {
 	margin: 0 4px;
 }
 
@@ -143,6 +143,10 @@ body.tt-tablet .tt-filter .content > div {
 .tt-filter .content strong {
 	display: block;
 	margin-bottom: 2px;
+}
+
+.tt-filter .content .tt-slider {
+	padding: 0 10px;
 }
 
 .tt-filter .content .slider-counter {

@@ -1,0 +1,10 @@
+#memberFilter .content .levelFilter__section-class,
+#memberFilter .content .lastActiveFilter__section-class {
+	display: flex;
+	flex-flow: column;
+	align-self: center;
+}
+
+#memberFilter .content .tt-dual-range {
+	margin-bottom: 10px
+}

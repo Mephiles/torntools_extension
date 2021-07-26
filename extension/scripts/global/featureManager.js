@@ -55,7 +55,7 @@ class FeatureManager {
 		return this.features.find((feature) => feature.name === name);
 	}
 
-	async startFeature(feature) {
+	async startFeature(feature, liveReload) {
 		await loadDatabase();
 		try {
 			if (getValue(feature.enabled)) {
@@ -75,7 +75,11 @@ class FeatureManager {
 					await this.executeFunction(feature.initialise);
 					this.initialized.push(feature.name);
 				}
-				await this.executeFunction(feature.execute);
+				if (liveReload && feature.options.liveReload) {
+					await this.executeFunction(feature.execute, liveReload);
+				} else {
+					await this.executeFunction(feature.execute);
+				}
 
 				this.showResult(feature, "loaded");
 
@@ -86,6 +90,9 @@ class FeatureManager {
 				if (feature.hasLoaded) {
 					console.log("[TornTools] FeatureManager - Disabling feature.", feature);
 					await this.executeFunction(feature.cleanup);
+					if (feature.options.triggerCallback) {
+						triggerCustomListener(EVENT_CHANNELS.FEATURE_DISABLED, { name: feature.name });
+					}
 				}
 
 				this.showResult(feature, "disabled");
@@ -134,7 +141,7 @@ class FeatureManager {
 					)
 						return;
 
-					this.startFeature(feature).catch((error) =>
+					this.startFeature(feature, "liveReload").catch((error) =>
 						console.error(`[TornTools] FeatureManager - Failed to start "${feature.name}" during live reload.`, error)
 					);
 				});
@@ -149,7 +156,7 @@ class FeatureManager {
 		}
 	}
 
-	async executeFunction(func) {
+	async executeFunction(func, liveReload) {
 		if (!func) return;
 
 		if (Array.isArray(func)) {
@@ -159,8 +166,13 @@ class FeatureManager {
 			return;
 		}
 
-		if (func.constructor.name === "AsyncFunction") await func();
-		else func();
+		if (liveReload) {
+			if (func.constructor.name === "AsyncFunction") await func(liveReload);
+			else func(liveReload);
+		} else {
+			if (func.constructor.name === "AsyncFunction") await func();
+			else func();
+		}
 	}
 
 	showResult(feature, status, options = {}) {

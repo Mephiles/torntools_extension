@@ -24,6 +24,7 @@ const EVENT_CHANNELS = {
 	TRAVEL_SELECT_TYPE: "travel-select-type",
 	TRAVEL_SELECT_COUNTRY: "travel-select-country",
 	FEATURE_ENABLED: "feature-enabled",
+	FEATURE_DISABLED: "feature-disabled",
 	STATE_CHANGED: "state-changed",
 	GYM_LOAD: "gym-load",
 	GYM_TRAIN: "gym-train",

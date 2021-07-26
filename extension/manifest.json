@@ -253,6 +253,7 @@
 		{
 			"matches": ["https://www.torn.com/factions.php*"],
 			"css": [
+				"scripts/global/functions/filters.css",
 				"scripts/features/drug-details/ttDrugDetails.css",
 				"scripts/features/item-values/ttItemValues.css",
 				"scripts/features/highlight-blood-bags/ttHighlightBloodBags.css",
@@ -266,9 +267,11 @@
 				"scripts/features/csv-challenge-contributions/ttCSVChallengeContributions.css",
 				"scripts/features/faction-member-number/ttFactionMemberNumber.css",
 				"scripts/features/war-finish-times/ttWarFinishTimes.css",
-				"scripts/features/last-action/ttLastAction.css"
+				"scripts/features/last-action/ttLastAction.css",
+				"scripts/features/faction-member-filter/ttFactionMemberFilter.css"
 			],
 			"js": [
+				"scripts/global/functions/filters.js",
 				"scripts/content/factions/ttFactions.js",
 				"scripts/features/drug-details/ttDrugDetails.js",
 				"scripts/features/item-values/ttItemValues.js",
@@ -285,7 +288,8 @@
 				"scripts/features/csv-challenge-contributions/ttCSVChallengeContributions.js",
 				"scripts/features/faction-member-number/ttFactionMemberNumber.js",
 				"scripts/features/war-finish-times/ttWarFinishTimes.js",
-				"scripts/features/last-action/ttFactionLastAction.js"
+				"scripts/features/last-action/ttFactionLastAction.js",
+				"scripts/features/faction-member-filter/ttFactionMemberFilter.js"
 			],
 			"run_at": "document_end"
 		},

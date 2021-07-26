@@ -1,3 +1,5 @@
+"use strict";
+
 const defaultFactionsItems = [
 	{
 		value: "",
@@ -52,7 +54,7 @@ function createFilterSection(options) {
 		];
 	}
 
-	const ccTitle = options.title.camelCase(true);
+	const ccTitle = options.title.camelCase(true) + "__section-class";
 	const section = document.newElement({ type: "div", class: ccTitle });
 
 	if (!options.noTitle) section.appendChild(document.newElement({ type: "strong", text: options.title }));
@@ -110,6 +112,7 @@ function createFilterSection(options) {
 			checkboxesDiv.appendChild(document.newElement({ type: "label", text: key }));
 			section.appendChild(checkboxesDiv);
 		});
+		section.classList.add("tt-yn-checkboxes");
 
 		return {
 			element: section,
@@ -122,7 +125,7 @@ function createFilterSection(options) {
 				const checkboxes = specialDiv.findAll("input");
 				const yChecked = checkboxes[0].checked;
 				const nChecked = checkboxes[1].checked;
-				const key = specialDiv.className;
+				const key = specialDiv.className.split("__")[0];
 				if (yChecked && nChecked) selections[key] = "both";
 				else if (yChecked) selections[key] = "yes";
 				else if (nChecked) selections[key] = "no";
@@ -148,13 +151,14 @@ function createFilterSection(options) {
 		const rangeSlider = new DualRangeSlider(options.slider);
 		section.appendChild(rangeSlider.slider);
 		section.appendChild(document.newElement({ type: "div", class: "slider-counter", text: "" }));
+		section.classList.add("tt-slider");
 
 		new MutationObserver(options.callback).observe(rangeSlider.slider, { attributes: true });
 
 		return { element: section, getStartEnd, updateCounter };
 
-		function getStartEnd() {
-			return { start: rangeSlider.slider.dataset.low, end: rangeSlider.slider.dataset.high };
+		function getStartEnd(content) {
+			return { start: content.find(`.${ccTitle} .tt-dual-range`).dataset.low, end: content.find(`.${ccTitle} .tt-dual-range`).dataset.high };
 		}
 
 		function updateCounter(string, content) {

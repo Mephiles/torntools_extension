@@ -762,6 +762,10 @@
 							<input id="faction-warFinishTimes" type="checkbox" />
 							<label for="faction-warFinishTimes">Show the finish time of wars.</label>
 						</div>
+						<div class="option">
+							<input id="faction-memberFilter" type="checkbox" />
+							<label for="faction-memberFilter">Enable faction member filters.</label>
+						</div>
 
 						<div class="header">OCs</div>
 						<div class="option">
@@ -1205,6 +1209,7 @@
 							<label for="noConfirm-marketBuy">Buying items on the item market.</label>
 						</div>
 					</section>
+
 					<section name="vault-sharing">
 						<div class="header">Vault Sharing</div>
 						<div class="option">
@@ -1236,6 +1241,25 @@
 							<label class="tabbed note" for="lastAction-companyOther">
 								This uses twice the api requests made when the company id isn't available.
 							</label>
+						</div>
+					</section>
+
+					<section name="last-action">
+						<div class="header">Last Action</div>
+						<div class="option">
+							<input id="lastAction-factionMember" type="checkbox" />
+							<label for="lastAction-factionMember">Faction Members.</label>
+						</div>
+						<div class="option">
+							<input id="lastAction-companyOwn" type="checkbox" />
+							<label for="lastAction-companyOwn">Own company employees.</label>
+						</div>
+						<div class="option tabbed">
+							<input id="lastAction-companyOther" type="checkbox" />
+							<label for="lastAction-companyOther">Include other companies.</label>
+							<div class="tabbed note">
+								This uses twice the API Requests made when ID isn't available.
+							</div>
 						</div>
 					</section>
 				</div>
