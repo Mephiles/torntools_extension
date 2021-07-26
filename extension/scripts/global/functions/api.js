@@ -238,3 +238,18 @@ function changeAPIKey(key) {
 function hasAPIData() {
 	return api.torn.key && !api.torn.error && userdata && !!Object.keys(userdata).length;
 }
+
+function hasFactionAPIAccess() {
+	if (!hasAPIData()) return false;
+
+	const position = userdata.faction.position;
+	// noinspection JSIncompatibleTypesComparison
+	if (position === "Leader" || position === "Co-leader") return true; // (Co-)Leader always have api access.
+
+	// Faction positions not loaded, impossible to detect api access.
+	if (!factiondata.positions) return false;
+	// Positions not found, impossible to detect api access.
+	if (!(position in factiondata.positions)) return false;
+
+	return factiondata.positions[userdata.faction.position].canAccessFactionApi === 1;
+}

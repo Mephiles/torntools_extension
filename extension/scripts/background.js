@@ -894,22 +894,27 @@ async function updateFactiondata() {
 	if (!userdata || !userdata.faction.faction_id) {
 		factiondata = {};
 	} else {
-		factiondata = await fetchData("torn", { section: "faction", selections: ["crimes"], silent: true, succeedOnError: true });
+		const selections = ["positions"];
+		if (hasFactionAPIAccess()) selections.push("crimes");
+
+		factiondata = await fetchData("torn", { section: "faction", selections, silent: true, succeedOnError: true });
 
 		if (!factiondata) throw new Error("Aborted updating due to an expected response.");
 	}
 
 	factiondata.date = Date.now();
 
-	if (factiondata.crimes) {
-		factiondata.userCrime = -1;
+	if (hasFactionAPIAccess()) {
+		if (factiondata.crimes) {
+			factiondata.userCrime = -1;
 
-		for (const id of Object.keys(factiondata.crimes).reverse()) {
-			const crime = factiondata.crimes[id];
+			for (const id of Object.keys(factiondata.crimes).reverse()) {
+				const crime = factiondata.crimes[id];
 
-			if (crime.initiated || !crime.participants.map((value) => parseInt(Object.keys(value)[0])).includes(userdata.player_id)) continue;
+				if (crime.initiated || !crime.participants.map((value) => parseInt(Object.keys(value)[0])).includes(userdata.player_id)) continue;
 
-			factiondata.userCrime = crime.time_ready * 1000;
+				factiondata.userCrime = crime.time_ready * 1000;
+			}
 		}
 	}
 
