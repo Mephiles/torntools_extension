@@ -1,0 +1,23 @@
+.item-desc .price.tt-modified {
+	display: flex !important;
+	justify-content: space-between;
+}
+
+.tt-profit {
+	margin-right: 4px;
+	display: flex;
+	align-items: center;
+}
+
+.tt-profit.positive {
+	color: var(--tt-color-green);
+}
+
+.tt-profit.negative {
+	color: var(--tt-color-red);
+}
+
+.tt-profit i {
+	font-size: 16px;
+	margin-right: 2px;
+}

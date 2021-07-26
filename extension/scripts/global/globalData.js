@@ -451,6 +451,7 @@ const DEFAULT_STORAGE = {
 			shops: {
 				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				maxBuyIgnoreCash: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				profit: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			casino: {
 				netTotal: new DefaultSetting({ type: "boolean", defaultValue: true }),
