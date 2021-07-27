@@ -23,10 +23,8 @@ let initiatedPages = {};
 
 	document.body.classList.add(getPageTheme());
 
-	if (api.torn.error) {
-		document.find(".error").classList.remove("hidden");
-		document.find(".error").innerText = api.torn.error;
-	}
+	handleAPIError();
+	storageListeners.api.push(handleAPIError);
 
 	for (const navigation of document.findAll("#pages .main-nav li")) {
 		navigation.addEventListener("click", async () => {
@@ -49,6 +47,16 @@ let initiatedPages = {};
 
 	showLoadingPlaceholder(document.body, false);
 	document.body.classList.remove("loading");
+
+	function handleAPIError() {
+		if (api.torn.error) {
+			document.find(".error").classList.remove("hidden");
+			document.find(".error").innerText = api.torn.error;
+		} else {
+			document.find(".error").classList.add("hidden");
+			document.find(".error").innerText = "";
+		}
+	}
 })();
 
 async function showPage(name) {

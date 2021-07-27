@@ -13,6 +13,7 @@ const storageListeners = {
 	factiondata: [],
 	localdata: [],
 	cache: [],
+	api: [],
 };
 
 async function loadDatabase() {
