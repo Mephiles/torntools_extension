@@ -947,7 +947,7 @@ async function notifyUser(title, message, url) {
 		try {
 			await notifyService();
 		} catch (errorService) {
-			console.error("Failed to send notification.", { native: errorNative, sevice: errorService });
+			console.error("Failed to send notification.", { native: errorNative, service: errorService });
 		}
 	}
 
