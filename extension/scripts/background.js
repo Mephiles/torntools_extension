@@ -47,6 +47,7 @@ async function convertDatabase() {
 	} else {
 		console.log("Old storage.", storage);
 
+		convertSpecific(storage);
 		const newStorage = convertGeneral(storage, DEFAULT_STORAGE);
 
 		await ttStorage.set(newStorage);
@@ -103,6 +104,41 @@ async function convertDatabase() {
 		}
 
 		return newStorage;
+	}
+
+	function convertSpecific(storage) {
+		const versionString = storage.version.current || "5.0.0";
+		const version = toNumericVersion(versionString);
+
+		let updated = false;
+		if (version <= toNumericVersion("5")) {
+			if (storage.vault) {
+				storage.localdata.vault.initialized = storage.vault?.initialized ?? false;
+				storage.localdata.vault.lastTransaction = storage.vault?.last_transaction ?? "";
+				storage.localdata.vault.total = storage.vault?.total_money ?? 0;
+				storage.localdata.vault.user.initial = storage.vault?.user.initial_money ?? 0;
+				storage.localdata.vault.user.current = storage.vault?.user.current_money ?? 0;
+				storage.localdata.vault.partner.initial = storage.vault?.partner.initial_money ?? 0;
+				storage.localdata.vault.partner.current = storage.vault?.partner.current_money ?? 0;
+				updated = true;
+			}
+		}
+
+		const newVersion = chrome.runtime.getManifest().version;
+		if (updated) {
+			console.log(`Upgraded database from ${versionString} to ${newVersion}`);
+		}
+		storage.version.current = newVersion;
+
+		function toNumericVersion(version) {
+			return parseInt(
+				version
+					.split(".")
+					.map((part) => part.padStart(3, "0"))
+					.join("")
+					.padEnd(9, "9")
+			);
+		}
 	}
 }
 
