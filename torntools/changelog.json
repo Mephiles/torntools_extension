@@ -1,7 +1,7 @@
 {
-	"v5.12 - xxxxx, xxth. 2021": {
+	"v5.11.1 - xxxxx, xxth. 2021": {
 		"Features": [],
-		"Fixes": [],
+		"Fixes": ["Fix last action on miniprofiles. - DKK"],
 		"Changes": []
 	},
 	"v5.11 - July, 13th. 2021": {
