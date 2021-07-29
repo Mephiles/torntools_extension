@@ -1,13 +1,3 @@
-.wip:after {
-	content: " - WIP";
-	color: red;
-}
-
-.to-test:after {
-	content: " - Not Tested";
-	color: orange;
-}
-
 /* General */
 
 body {
