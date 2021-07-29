@@ -42,6 +42,11 @@ body.dark-mode #quickCrimes .inner-content .quick-item {
 	color: #a7a7a7;
 }
 
+#quickCrimes .inner-content .quick-item .item {
+	padding: 5px;
+	margin: -5px;
+}
+
 .tt-mobile #quickCrimes .inner-content .quick-item .tt-close-icon,
 #quickCrimes .inner-content .quick-item:hover .tt-close-icon {
 	opacity: 1;
