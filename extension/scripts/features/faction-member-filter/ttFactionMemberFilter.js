@@ -232,7 +232,7 @@
 
 			// Status
 			if (status && status.length > 0 && status.length !== 4) {
-				const liStatus = li.find(".status").innerText.toLowerCase();
+				const liStatus = li.find(".status").innerText.toLowerCase().trim();
 				if (!status.includes(liStatus)) {
 					hideRow(li);
 					continue;

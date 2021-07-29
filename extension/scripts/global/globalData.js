@@ -478,6 +478,7 @@ const DEFAULT_STORAGE = {
 				numberMembers: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				warFinishTimes: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				memberFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				armoryFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			property: {
 				value: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -644,6 +645,9 @@ const DEFAULT_STORAGE = {
 				inCompany: new DefaultSetting({ type: "string", defaultValue: "both" }),
 				isDonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
 			},
+		},
+		factionArmory : {
+			hideUnavailable: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),

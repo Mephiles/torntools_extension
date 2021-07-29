@@ -1,45 +1,47 @@
+"use strict";
+
 (async () => {
-	if (isOwnFaction()) {
-		addXHRListener(async ({ detail: { page, xhr } }) => {
-			if (page === "factions") {
-				const params = new URLSearchParams(xhr.requestBody);
-				const step = params.get("step");
+	if (!isOwnFaction()) return;
 
-				if (step === "crimes") {
-					loadCrimes().then(() => {});
-				} else if (step === "getMoneyDepositors") {
-					triggerCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER);
-				}
-			}
-		});
+	addXHRListener(({ detail: { page, xhr } }) => {
+		if (page === "factions") {
+			const params = new URLSearchParams(xhr.requestBody);
+			const step = params.get("step");
 
-		await requireElement(".faction-tabs");
-
-		document.find(".faction-tabs li[data-case=main]").addEventListener("click", loadMain);
-		document.find(".faction-tabs li[data-case=info]").addEventListener("click", loadInfo);
-		// document.find(".faction-tabs li[data-case=crimes]").addEventListener("click", loadCrimes);
-		document.find(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
-		document.find(".faction-tabs li[data-case=controls]").addEventListener("click", loadControls);
-
-		switch (getSubpage()) {
-			case "main":
-				loadMain().then(() => {});
-				break;
-			case "info":
-				loadInfo().then(() => {});
-				break;
-			case "crimes":
+			if (step === "crimes") {
 				loadCrimes().then(() => {});
-				break;
-			case "armoury":
-				loadArmory().then(() => {});
-				break;
-			case "controls":
-				loadControls().then(() => {});
-				break;
-			default:
-				break;
+			} else if (step === "getMoneyDepositors") {
+				triggerCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER);
+			}
 		}
+	});
+
+	await requireElement(".faction-tabs");
+
+	document.find(".faction-tabs li[data-case=main]").addEventListener("click", loadMain);
+	document.find(".faction-tabs li[data-case=info]").addEventListener("click", loadInfo);
+	// document.find(".faction-tabs li[data-case=crimes]").addEventListener("click", loadCrimes);
+	document.find(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);
+	document.find(".faction-tabs li[data-case=controls]").addEventListener("click", loadControls);
+
+	switch (getSubpage()) {
+		case "main":
+			loadMain().then(() => {});
+			break;
+		case "info":
+			loadInfo().then(() => {});
+			break;
+		case "crimes":
+			loadCrimes().then(() => {});
+			break;
+		case "armoury":
+			loadArmory().then(() => {});
+			break;
+		case "controls":
+			loadControls().then(() => {});
+			break;
+		default:
+			break;
 	}
 
 	function getSubpage() {
@@ -70,16 +72,9 @@
 
 		triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: getCurrentSection() });
 		new MutationObserver((mutations) => {
-			if (
-				!mutations
-					.filter((mut) => mut.type === "childList" && mut.addedNodes.length)
-					.flatMap((mut) => Array.from(mut.addedNodes))
-					.some((node) => node.classList && node.classList.contains("item-list"))
-			)
-				return;
-
-			triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: getCurrentSection() });
-		}).observe(document.find(`#faction-armoury-tabs`), { childList: true, subtree: true });
+			if (mutations.length > 1 && mutations.some((mutation) => mutation.target.id.includes("armoury-")))
+				triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: getCurrentSection() });
+		}).observe(document.find("#faction-armoury-tabs"), { childList: true, subtree: true });
 
 		function getCurrentSection() {
 			return document.find("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
