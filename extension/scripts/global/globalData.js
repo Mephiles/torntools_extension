@@ -646,7 +646,7 @@ const DEFAULT_STORAGE = {
 				isDonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
 			},
 		},
-		factionArmory : {
+		factionArmory: {
 			hideUnavailable: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 	},
