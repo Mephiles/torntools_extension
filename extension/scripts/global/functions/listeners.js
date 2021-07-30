@@ -9,6 +9,7 @@ const EVENT_CHANNELS = {
 	CHAT_NEW: "chat-box-new",
 	CHAT_OPENED: "chat-box-opened",
 	CHAT_ERROR: "chat-box-error",
+	COMPANY_EMPLOYEES_PAGE: "company-employees-page",
 	FACTION_ARMORY_TAB: "faction-armory-tab",
 	FACTION_CRIMES: "faction-crimes",
 	FACTION_GIVE_TO_USER: "faction-give-to-user",

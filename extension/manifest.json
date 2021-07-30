@@ -224,8 +224,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/companies.php*"],
-			"css": ["scripts/features/company-specials/ttCompanySpecials.css", "scripts/features/last-action/ttLastAction.css"],
-			"js": ["scripts/features/company-specials/ttCompanySpecials.js", "scripts/features/last-action/ttCompanyLastAction.js"],
+			"css": ["scripts/features/company-specials/ttCompanySpecials.css", "scripts/features/last-action/ttLastAction.css", "scripts/features/employee-inactivity-warning/ttEmployeeInactivityWarning.css"],
+			"js": ["scripts/content/company/ttCompany.js", "scripts/features/company-specials/ttCompanySpecials.js", "scripts/features/last-action/ttCompanyLastAction.js", "scripts/features/employee-inactivity-warning/ttEmployeeInactivityWarning.js"],
 			"run_at": "document_end"
 		},
 		{
@@ -390,7 +390,7 @@
 		{
 			"matches": ["https://www.torn.com/joblist.php*"],
 			"css": ["scripts/features/job-specials/ttJobSpecials.css", "scripts/features/last-action/ttLastAction.css"],
-			"js": ["scripts/features/job-specials/ttJobSpecials.js", "scripts/features/last-action/ttCompanyLastAction.js"],
+			"js": ["scripts/content/company/ttCompany.js", "scripts/features/job-specials/ttJobSpecials.js", "scripts/features/last-action/ttCompanyLastAction.js"],
 			"run_at": "document_end"
 		},
 		{

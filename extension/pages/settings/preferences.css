@@ -240,6 +240,21 @@ body.dark #preferences #customLinks .dragging {
 	transform: rotate(-90deg);
 }
 
+#employeeInactivityWarning .tabbed {
+	height: 35px;
+	display: flex;
+	align-items: center;
+}
+
+#employeeInactivityWarning input[type="number"] {
+	margin-right: 5px;
+	width: 40px;
+}
+
+#employeeInactivityWarning input[type="color"] {
+	margin-left: 5px;
+}
+
 /* FeatureDisplayDemo */
 #featureDisplayDemo {
 	border: 1px solid lightgray;

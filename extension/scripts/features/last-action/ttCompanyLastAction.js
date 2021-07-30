@@ -1,8 +1,6 @@
 "use strict";
 
 (async () => {
-	const isOwnCompany = location.pathname === "/companies.php";
-
 	const feature = featureManager.registerFeature(
 		"Last Action",
 		"last action",
@@ -15,14 +13,15 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access!";
-		}
+		},
+		{ triggerCallback: true }
 	);
 
 	async function addListener() {
 		if (isOwnCompany) {
-			window.addEventListener("hashchange", () => {
+			CUSTOM_LISTENERS[EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE].push(() => {
 				if (!feature.enabled) return;
-				if (getHashParameters().get("option") === "employees") addLastAction(true);
+				addLastAction(true);
 			});
 		} else {
 			await requireElement(".content #mainContainer .employees-wrap");
@@ -85,14 +84,19 @@
 		let list;
 		if (isOwnCompany) {
 			list = document.find(".employee-list-wrap .employee-list");
+			const nowDate = Date.now();
 			list.findAll(":scope > li").forEach((li) => {
 				const employeeID = li.dataset.user;
+				const days = ((nowDate - employees[employeeID].last_action.timestamp * 1000) / TO_MILLIS.DAYS).dropDecimals();
 				li.insertAdjacentElement(
 					"afterend",
 					document.newElement({
 						type: "div",
 						class: "tt-last-action",
 						text: `Last action: ${employees[employeeID].last_action.relative}`,
+						dataset: {
+							days: days,
+						}
 					})
 				);
 			});
