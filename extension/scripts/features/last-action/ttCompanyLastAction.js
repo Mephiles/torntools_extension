@@ -96,7 +96,7 @@
 						text: `Last action: ${employees[employeeID].last_action.relative}`,
 						dataset: {
 							days: days,
-						}
+						},
 					})
 				);
 			});
