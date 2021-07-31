@@ -578,7 +578,7 @@ async function setupPreferences() {
 		}
 		settings.employeeInactivityWarning.forEach((warning, index) => {
 			const numberInput = _preferences.find(`#employeeInactivityWarning .tabbed:nth-child(${index + 2}) input[type='number']`);
-			numberInput.value = warning.days;
+			numberInput.value = warning.days ?? "";
 			numberInput.nextElementSibling.value = warning.color;
 		});
 	}
