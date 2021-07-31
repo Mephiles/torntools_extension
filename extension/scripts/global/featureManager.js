@@ -11,6 +11,7 @@ class FeatureManager {
 	registerFeature(name, scope, enabled, initialise, execute, cleanup, loadListeners, requirements, options) {
 		options = {
 			triggerCallback: false,
+			liveReload: false,
 			...options,
 		};
 

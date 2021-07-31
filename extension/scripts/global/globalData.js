@@ -315,7 +315,7 @@ const DEFAULT_STORAGE = {
 		hideStocks: new DefaultSetting({ type: "array", defaultValue: [] }),
 		alliedFactions: new DefaultSetting({ type: "array", defaultValue: [] }),
 		customLinks: new DefaultSetting({ type: "array", defaultValue: [] }),
-		employeeInactivityWarning: new DefaultSetting({ type: "object", defaultValue: {} }),
+		employeeInactivityWarning: new DefaultSetting({ type: "array", defaultValue: [] }),
 		pages: {
 			global: {
 				alignLeft: new DefaultSetting({ type: "boolean", defaultValue: false }),

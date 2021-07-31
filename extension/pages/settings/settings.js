@@ -576,13 +576,10 @@ async function setupPreferences() {
 		for (const link of settings.customLinks) {
 			addCustomLink(link);
 		}
-		Object.keys(settings.employeeInactivityWarning).forEach((timePeriod, index) => {
+		settings.employeeInactivityWarning.forEach((warning, index) => {
 			const numberInput = _preferences.find(`#employeeInactivityWarning .tabbed:nth-child(${index + 2}) input[type='number']`);
-			numberInput.value = timePeriod;
-			numberInput.nextElementSibling.value = settings.employeeInactivityWarning[timePeriod];
-		});
-		_preferences.findAll("#employeeInactivityWarning > .tabbed input[type='number']").forEach((inputNode) => {
-			settings.employeeInactivityWarning[inputNode.value] = inputNode.nextElementSibling.value;
+			numberInput.value = warning.days;
+			numberInput.nextElementSibling.value = warning.color;
 		});
 	}
 
@@ -853,10 +850,9 @@ async function setupPreferences() {
 		settings.hideIcons = [..._preferences.findAll("#hide-icons .icon.disabled > div")].map((icon) => icon.getAttribute("class"));
 		settings.hideCasinoGames = [..._preferences.findAll("#hide-casino-games span.disabled")].map((game) => game.getAttribute("name"));
 		settings.hideStocks = [..._preferences.findAll("#hide-stocks span.disabled")].map((stock) => stock.getAttribute("id"));
-		settings.employeeInactivityWarning = {};
-		_preferences.findAll("#employeeInactivityWarning > .tabbed input[type='number']").forEach((inputNode) => {
-			settings.employeeInactivityWarning[inputNode.value] = inputNode.nextElementSibling.value;
-		});
+		settings.employeeInactivityWarning = [..._preferences.findAll("#employeeInactivityWarning > .tabbed input[type='number']")]
+			.map((warning) => ({ color: warning.nextElementSibling.value, days: isNaN(warning.value) ? false : parseInt(warning.value) }))
+			.sort((first, second) => first.days - second.days);
 
 		settings.apiUsage.comment = _preferences.find("#api_usage-comment").value;
 		settings.apiUsage.delayEssential = parseInt(_preferences.find("#api_usage-essential").value);
