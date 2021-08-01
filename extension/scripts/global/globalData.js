@@ -1008,6 +1008,7 @@ const API_USAGE = {
 		stock_perks: true,
 		book_perk: true,
 		faction: {
+			position: true,
 			faction_id: true,
 			faction_tag: true,
 			days_in_faction: true,
@@ -1059,6 +1060,11 @@ const API_USAGE = {
 				last_action: {
 					relative: true,
 				},
+			},
+		},
+		positions: {
+			"*": {
+				canAccessFactionApi: true,
 			},
 		},
 	},
@@ -1166,6 +1172,7 @@ const API_SELECTIONS = {
 	faction: [
 		"basic", // target
 		"crimes",
+		"positions",
 	],
 	company: [
 		"profile", // target
