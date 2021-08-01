@@ -18,15 +18,12 @@
 	);
 
 	function addListener() {
-		addXHRListener(({ detail: { page, json } }) => {
-			if (!json || !json.contributors || page !== "factions") return;
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_UPGRADE_INFO].push(() => {
 			if (feature.enabled()) addCSVContainer();
 		});
 	}
 
 	async function addCSVContainer() {
-		if (document.find(".faction-tabs .ui-tabs-active").dataset.case !== "upgrades") return;
-
 		await requireElement("#factions #faction-upgrades .body #stu-confirmation .description-wrap");
 
 		const descriptionWrap = document.find("#factions #faction-upgrades .body #stu-confirmation .description-wrap");

@@ -12,6 +12,9 @@
 				loadCrimes().then(() => {});
 			} else if (step === "getMoneyDepositors") {
 				triggerCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER);
+			} else if (step === "upgradeConfirm") {
+				if (document.find(".faction-tabs .ui-tabs-active").dataset.case !== "upgrades") return;
+				triggerCustomListener(EVENT_CHANNELS.FACTION_UPGRADE_INFO);
 			}
 		}
 	});

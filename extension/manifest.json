@@ -297,7 +297,8 @@
 				"scripts/features/war-finish-times/ttWarFinishTimes.js",
 				"scripts/features/last-action/ttFactionLastAction.js",
 				"scripts/features/faction-member-filter/ttFactionMemberFilter.js",
-				"scripts/features/armory-filter/ttArmoryFilter.js"
+				"scripts/features/armory-filter/ttArmoryFilter.js",
+				"scripts/features/upgrade-required-respect/ttUpgradeRequiredRespect.js"
 			],
 			"run_at": "document_end"
 		},
