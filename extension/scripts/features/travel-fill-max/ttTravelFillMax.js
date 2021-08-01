@@ -29,11 +29,27 @@
 			maxSpan.addEventListener("click", (event) => {
 				event.stopPropagation();
 
-				let max = parseInt(buyBtn.parentElement.parentElement.find(".stck-amount").innerText.replace(/,/g, ""));
-				const price = parseInt(buyBtn.parentElement.parentElement.find(".c-price").innerText.replace(/,/g, "").replace("$", ""));
+				const row = buyBtn.closest("li");
+				const price = parseInt(row.find(".c-price").innerText.replace(/,/g, "").replace("$", ""));
 				const userMoney = document.find(".user-info .msg .bold:nth-of-type(2)").innerText.replace(/,/g, "").replace("$", "");
 				const bought = parseInt(document.find(".user-info .msg .bold:nth-of-type(3)").innerText);
-				const limit = parseInt(document.find(".user-info .msg .bold:nth-of-type(4)").innerText) - bought;
+				let max = parseInt(row.find(".stck-amount").innerText.replace(/,/g, ""));
+				let limit = parseInt(document.find(".user-info .msg .bold:nth-of-type(4)").innerText) - bought;
+
+				if (hasAPIData() && settings.apiUsage.user.perks && userdata.job.company_type) {
+					const companyType = userdata.job.company_type;
+
+					const itemType = row.find(".type").innerText.split("\n")[1].toLowerCase();
+					if (
+						(companyType === 3 &&
+							itemType === "flower" &&
+							userdata.company_perks.some((perk) => perk.includes("special flowers") && perk.includes("5 additional"))) ||
+						(companyType === 0 &&
+							itemType === "plushie" &&
+							userdata.company_perks.some((perk) => perk.includes("plushies") && perk.includes("5 additional")))
+					)
+						limit += 5;
+				}
 
 				max = max > limit ? limit : max;
 				max = Math.floor(userMoney / price) < max ? Math.floor(userMoney / price) : max;

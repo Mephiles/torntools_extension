@@ -1041,6 +1041,9 @@ const API_USAGE = {
 			other: true,
 			total: true,
 		},
+		job: {
+			company_type: true,
+		},
 	},
 	properties: {},
 	faction: {
