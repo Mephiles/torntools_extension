@@ -480,6 +480,7 @@ const DEFAULT_STORAGE = {
 				warFinishTimes: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				memberFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				armoryFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				armoryWorth: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				upgradeRequiredRespect: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			property: {
