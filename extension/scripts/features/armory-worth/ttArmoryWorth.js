@@ -52,9 +52,7 @@
 								document.newElement({ type: "span", text: "Armory value: ", class: "bold" }),
 								document.newElement({
 									type: "span",
-									text: err.error === "Incorrect ID-entity relation"
-										? "No faction API access."
-										: "Error during fetching API data."
+									text: err.error === "Incorrect ID-entity relation" ? "No faction API access." : "Error during fetching API data.",
 								}),
 							],
 						})
