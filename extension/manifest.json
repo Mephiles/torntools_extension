@@ -111,7 +111,7 @@
 				"scripts/features/hide-icons/ttHideIcons.entry.js",
 				"scripts/features/block-zalgo/ttBlockZalgo.entry.js",
 				"scripts/features/achievements/achievements.js",
-				"scripts/features/achievements/ttAchievements.js"
+				"scripts/features/achievements/ttAchievements.entry.js"
 			],
 			"run_at": "document_start"
 		},
@@ -412,7 +412,7 @@
 		{
 			"matches": ["https://www.torn.com/loader.php?sid=attack*"],
 			"css": ["scripts/features/disable-ally-attacks/ttDisableAllyAttacks.css"],
-			"js": ["scripts/features/disable-ally-attacks/ttDisableAllyAttacksLoader.js"],
+			"js": ["scripts/features/disable-ally-attacks/ttDisableAllyAttacksLoader.entry.js"],
 			"run_at": "document_start"
 		},
 		{
