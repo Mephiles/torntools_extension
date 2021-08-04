@@ -33,7 +33,7 @@
 	left: -60px !important;
 	top: -62px !important;
 	z-index: 1000 !important;
-	padding: 37.5px 0;
+	padding: 37px 0;
 	background: black;
 }
 
@@ -56,13 +56,10 @@
 
 .tt-city-items {
 	line-height: 14px;
+	/*noinspection CssNonIntegerLengthInPixels*/
 	letter-spacing: 0.2px;
 }
 
 .tt-city-items span:nth-of-type(odd) {
 	color: #aaa;
 }
-
-/*.tt-city-items span:nth-of-type(even) {*/
-/*	color: #d4d4d4;*/
-/*}*/

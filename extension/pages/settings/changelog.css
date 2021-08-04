@@ -20,7 +20,7 @@
 
 #changelog > section > .parent > .heading {
 	cursor: pointer;
-	border-bottom: 0.5px solid lightgrey;
+	border-bottom: 1px solid lightgrey;
 	padding: 2px 0 2px 5px;
 	height: 23px;
 	line-height: 23px;

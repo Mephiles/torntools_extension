@@ -92,7 +92,8 @@
 		}
 	}
 
-	let oldObserver;
+	let observer;
+
 	async function showDetails(id, options = {}) {
 		options = {
 			react: false,
@@ -120,8 +121,6 @@
 
 		for (const info of [element.find(".info-msg"), document.find(`.info-wrap[aria-labelledby="armory-info-${id}-"] .info-msg`)]) {
 			if (!info) continue;
-
-			const hasInformation = info.classList.contains("tt-modified");
 
 			show(info, details);
 			if (options.changeListener) watchChanges(element, details);
@@ -203,8 +202,9 @@
 		}
 
 		function watchChanges(element, details) {
-			if (oldObserver) oldObserver.disconnect();
-			oldObserver = new MutationObserver((mutations, observer) => {
+			if (observer) observer.disconnect();
+
+			observer = new MutationObserver((mutations, observer) => {
 				const filteredMutations = [...mutations].filter((mutation) =>
 					[...mutation.addedNodes].some((node) => node.nodeType === Node.ELEMENT_NODE && node.classList.contains("info-wrap"))
 				);
@@ -214,7 +214,8 @@
 				show(newElement.find(".info-msg"), details);
 				watchChanges(newElement, details);
 				observer.disconnect();
-			}).observe(element, { childList: true, attributes: true, subtree: true });
+			});
+			observer.observe(element, { childList: true, attributes: true, subtree: true });
 		}
 	}
 })();
