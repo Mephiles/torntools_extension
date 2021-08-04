@@ -258,6 +258,12 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/events.php*"],
+			"css": [],
+			"js": ["scripts/features/event-worth/ttEventWorth.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/factions.php*"],
 			"css": [
 				"scripts/global/functions/filters.css",
