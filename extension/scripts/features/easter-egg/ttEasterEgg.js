@@ -5,7 +5,7 @@
 
 	if (Date.UTC(year, 3, 5, 12) > now || Date.UTC(year, 3, 25, 12) < now) return;
 
-	featureManager.registerFeature("Easter Eggs", "event", () => settings.pages.events.easterEggs, initialiseDetector, enableDetector, null, null, null);
+	featureManager.registerFeature("Easter Eggs", "event", () => settings.pages.competitions.easterEggs, initialiseDetector, enableDetector, null, null, null);
 
 	const EGG_SELECTOR = "img[src^='competition.php?c=EasterEggs'][src*='step=eggImage'][src*='access_token=']";
 

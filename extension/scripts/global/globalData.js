@@ -420,8 +420,11 @@ const DEFAULT_STORAGE = {
 				acronyms: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				valueAndProfit: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
-			events: {
+			competitions: {
 				easterEggs: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			},
+			events: {
+				worth: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			hospital: {
 				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
