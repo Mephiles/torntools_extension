@@ -1,7 +1,8 @@
 "use strict";
 
+const isOwnFaction = getSearchParameters().get("step") === "your";
 (async () => {
-	if (!isOwnFaction()) return;
+	if (!isOwnFaction) return;
 
 	addXHRListener(({ detail: { page, xhr } }) => {
 		if (page === "factions") {
@@ -101,7 +102,3 @@
 		}
 	}
 })();
-
-function isOwnFaction() {
-	return getSearchParameters().get("step") === "your";
-}

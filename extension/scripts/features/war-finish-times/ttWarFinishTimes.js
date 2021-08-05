@@ -15,7 +15,7 @@
 	);
 
 	function startListeners() {
-		if (isOwnFaction()) {
+		if (isOwnFaction) {
 			CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_MAIN].push(() => {
 				if (feature.enabled()) addFinishTimes();
 			});

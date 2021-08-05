@@ -283,7 +283,8 @@
 				"scripts/features/faction-member-number/ttFactionMemberNumber.css",
 				"scripts/features/war-finish-times/ttWarFinishTimes.css",
 				"scripts/features/last-action/ttLastAction.css",
-				"scripts/features/faction-member-filter/ttFactionMemberFilter.css"
+				"scripts/features/faction-member-filter/ttFactionMemberFilter.css",
+				"scripts/features/faction-member-info/ttFactionMemberInfo.css"
 			],
 			"js": [
 				"scripts/global/functions/filters.js",
@@ -308,7 +309,8 @@
 				"scripts/features/armory-filter/ttArmoryFilter.js",
 				"scripts/features/armory-worth/ttArmoryWorth.js",
 				"scripts/features/armory-filter/ttArmoryFilter.js",
-				"scripts/features/upgrade-required-respect/ttUpgradeRequiredRespect.js"
+				"scripts/features/upgrade-required-respect/ttUpgradeRequiredRespect.js",
+				"scripts/features/faction-member-info/ttFactionMemberInfo.js"
 			],
 			"run_at": "document_end"
 		},

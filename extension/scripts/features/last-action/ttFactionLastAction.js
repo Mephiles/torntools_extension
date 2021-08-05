@@ -18,7 +18,7 @@
 	);
 
 	function addListener() {
-		if (isOwnFaction()) {
+		if (isOwnFaction) {
 			CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
 				if (!feature.enabled()) return;
 
@@ -28,12 +28,12 @@
 	}
 
 	async function addLastAction(force) {
-		if (isOwnFaction() && !force) return;
+		if (isOwnFaction && !force) return;
 		if (document.find(".tt-last-action")) return;
 
 		await requireElement(".members-list .table-body > li");
 
-		const id = isOwnFaction() ? "own" : parseInt(document.find(".faction-info-wrap .faction-info").dataset.faction);
+		const id = isOwnFaction ? "own" : parseInt(document.find(".faction-info-wrap .faction-info").dataset.faction);
 		if (!id) return; // FIXME - Find a way to go around this.
 
 		let members;

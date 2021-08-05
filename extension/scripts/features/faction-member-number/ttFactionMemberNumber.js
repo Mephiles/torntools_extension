@@ -15,7 +15,7 @@
 	);
 
 	function addListener() {
-		if (isOwnFaction()) {
+		if (isOwnFaction) {
 			CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(() => {
 				if (!feature.enabled()) return;
 
@@ -25,7 +25,7 @@
 	}
 
 	async function addNumbers(force) {
-		if (!force && isOwnFaction() && getHashParameters().get("tab") !== "info") return;
+		if (!force && isOwnFaction && getHashParameters().get("tab") !== "info") return;
 
 		if (document.find(".tt-member-index")) return;
 		await requireElement("#faction-info-members .table-body > .table-row");

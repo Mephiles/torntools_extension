@@ -17,7 +17,7 @@
 	let filterContent;
 	let lastActionState = settings.scripts.lastAction.factionMember;
 	function addListener() {
-		if (isOwnFaction()) {
+		if (isOwnFaction) {
 			CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
 				if (!feature.enabled()) return;
 

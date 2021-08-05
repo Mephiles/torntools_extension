@@ -485,6 +485,7 @@ const DEFAULT_STORAGE = {
 				armoryFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				armoryWorth: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				upgradeRequiredRespect: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				memberInfo: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			property: {
 				value: new DefaultSetting({ type: "boolean", defaultValue: true }),

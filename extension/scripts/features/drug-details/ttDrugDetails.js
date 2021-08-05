@@ -5,7 +5,7 @@
 
 	const page = getPage();
 
-	if (page === "factions" && !isOwnFaction()) return;
+	if (page === "factions" && !isOwnFaction) return;
 	else if (page === "home" && !isAbroad()) return;
 
 	featureManager.registerFeature(

@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	if (!isOwnFaction()) return;
+	if (!isOwnFaction) return;
 
 	const feature = featureManager.registerFeature(
 		"Armory Filter",

@@ -2,7 +2,7 @@
 
 (async () => {
 	if (!getPageStatus().access) return;
-	if (!isOwnFaction()) return;
+	if (!isOwnFaction) return;
 
 	const feature = featureManager.registerFeature(
 		"Upgrade Required Respect",

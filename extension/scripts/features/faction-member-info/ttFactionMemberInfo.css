@@ -1,0 +1,17 @@
+.tt-member-info {
+	display: flex;
+	justify-content: space-evenly;
+	border-bottom: 1px solid;
+	border-color: var(--default-panel-divider-outer-side-color);
+}
+
+.tt-last-action.tt-modified {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.tt-money-balance,
+.tt-points-balance {
+	text-align: center;
+}
