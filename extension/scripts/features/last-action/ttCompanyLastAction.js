@@ -30,7 +30,12 @@
 					!(mutations.length > 1) ||
 					!feature.enabled() ||
 					(isOwnCompany && getHashParameters().get("option") !== "employees") ||
-					!mutations.some((mutation) => mutation.addedNodes && mutation.addedNodes.length && [...mutation.addedNodes].some(x => x.classList && x.classList.contains("employees-wrap")))
+					!mutations.some(
+						(mutation) =>
+							mutation.addedNodes &&
+							mutation.addedNodes.length &&
+							[...mutation.addedNodes].some((x) => x.classList && x.classList.contains("employees-wrap"))
+					)
 				)
 					return;
 
