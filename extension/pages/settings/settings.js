@@ -581,6 +581,11 @@ async function setupPreferences() {
 			numberInput.value = warning.days ?? "";
 			numberInput.nextElementSibling.value = warning.color;
 		});
+		settings.factionInactivityWarning.forEach((warning, index) => {
+			const numberInput = _preferences.find(`#factionInactivityWarning .tabbed:nth-child(${index + 2}) input[type='number']`);
+			numberInput.value = warning.days ?? "";
+			numberInput.nextElementSibling.value = warning.color;
+		});
 	}
 
 	function updateSettings() {
@@ -851,6 +856,9 @@ async function setupPreferences() {
 		settings.hideCasinoGames = [..._preferences.findAll("#hide-casino-games span.disabled")].map((game) => game.getAttribute("name"));
 		settings.hideStocks = [..._preferences.findAll("#hide-stocks span.disabled")].map((stock) => stock.getAttribute("id"));
 		settings.employeeInactivityWarning = [..._preferences.findAll("#employeeInactivityWarning > .tabbed input[type='number']")]
+			.map((warning) => ({ color: warning.nextElementSibling.value, days: isNaN(warning.value) ? false : parseInt(warning.value) }))
+			.sort((first, second) => first.days - second.days);
+		settings.factionInactivityWarning = [..._preferences.findAll("#factionInactivityWarning > .tabbed input[type='number']")]
 			.map((warning) => ({ color: warning.nextElementSibling.value, days: isNaN(warning.value) ? false : parseInt(warning.value) }))
 			.sort((first, second) => first.days - second.days);
 

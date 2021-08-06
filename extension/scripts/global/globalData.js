@@ -316,6 +316,7 @@ const DEFAULT_STORAGE = {
 		alliedFactions: new DefaultSetting({ type: "array", defaultValue: [] }),
 		customLinks: new DefaultSetting({ type: "array", defaultValue: [] }),
 		employeeInactivityWarning: new DefaultSetting({ type: "array", defaultValue: [] }),
+		factionInactivityWarning: new DefaultSetting({ type: "array", defaultValue: [] }),
 		pages: {
 			global: {
 				alignLeft: new DefaultSetting({ type: "boolean", defaultValue: false }),
