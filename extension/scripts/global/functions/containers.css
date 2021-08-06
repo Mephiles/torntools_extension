@@ -23,7 +23,7 @@
 .tt-title-alternative,
 .tt-container.theme-alternative .title {
 	color: rgb(172, 234, 0);
-	background: var(--tt-background-green);
+	background: var(--tt-background-alternative);
 }
 
 .tt-container.collapsible .title {
