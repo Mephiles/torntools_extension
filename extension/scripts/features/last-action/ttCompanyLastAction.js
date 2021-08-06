@@ -25,15 +25,16 @@
 			});
 		} else {
 			await requireElement(".content #mainContainer .employees-wrap");
-			new MutationObserver((mutations) => {
+			new MutationObserver(async (mutations) => {
 				if (
+					!(mutations.length > 1) ||
 					!feature.enabled() ||
 					(isOwnCompany && getHashParameters().get("option") !== "employees") ||
-					!mutations.some((mutation) => mutation.addedNodes && mutation.addedNodes.length)
+					!mutations.some((mutation) => mutation.addedNodes && mutation.addedNodes.length && [...mutation.addedNodes].some(x => x.classList && x.classList.contains("employees-wrap")))
 				)
 					return;
 
-				if (mutations.length > 1) addLastAction();
+				await addLastAction();
 			}).observe(document.find(".content #mainContainer .content-wrapper"), { childList: true });
 		}
 	}
