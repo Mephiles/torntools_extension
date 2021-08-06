@@ -251,7 +251,9 @@
 		for (const item of document.findAll(`.items-cont > li[data-item="${id}"]`)) {
 			const priceElement = item.find(".tt-item-price");
 			if (!priceElement) continue;
+
 			const quantityElement = priceElement.find(".tt-item-quantity");
+			if (!quantityElement) continue;
 
 			const price = torndata.items[id].market_value;
 			const newQuantity = parseInt(quantityElement.innerText.match(/([0-9]*)x = /i)[1]) + change;
