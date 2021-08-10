@@ -23,7 +23,7 @@
 .tt-title-alternative,
 .tt-container.theme-alternative .title {
 	color: rgb(172, 234, 0);
-	background: var(--tt-background-green);
+	background: var(--tt-background-alternative);
 }
 
 .tt-container.collapsible .title {
@@ -63,7 +63,7 @@
 
 .tt-container:not(.always-content) .title.collapsed + main,
 .tt-container.always-content .title.collapsed + main .hide-collapse {
-	display: none;
+	display: none !important;
 }
 
 .tt-container .title .options {

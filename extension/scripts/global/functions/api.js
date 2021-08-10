@@ -10,13 +10,13 @@ const FETCH_TIMEOUT = 10 * TO_MILLIS.SECONDS;
 async function fetchData(location, options = {}) {
 	options = {
 		fakeResponse: false,
-		section: "",
-		id: "",
+		section: undefined,
+		id: undefined,
 		selections: [],
-		key: "",
-		action: "",
+		key: undefined,
+		action: undefined,
 		method: "GET",
-		body: false,
+		body: undefined,
 		silent: false,
 		succeedOnError: false,
 		includeKey: false,
@@ -41,7 +41,7 @@ async function fetchData(location, options = {}) {
 				nukefamily: "https://www.nukefamily.org/",
 			};
 
-			let url, path;
+			let url, path, pathSections;
 			const params = new URLSearchParams();
 			switch (location) {
 				case "torn":
@@ -66,14 +66,19 @@ async function fetchData(location, options = {}) {
 				case "tornstats":
 					url = PLATFORMS.tornstats;
 
-					let pathSections = ["api", "v1", options.key || api.torn.key];
+					pathSections = ["api", "v1", options.key || api.torn.key];
 					if (options.section) pathSections.push(options.section);
+					if (options.id) pathSections.push(options.id);
 
 					path = pathSections.join("/");
 					break;
 				case "yata":
 					url = PLATFORMS.yata;
-					path = `api/v1/${options.section}`;
+
+					pathSections = ["api", "v1", options.section];
+					if (options.id) pathSections.push(options.id);
+
+					path = pathSections.join("/");
 					break;
 			}
 

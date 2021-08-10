@@ -1,0 +1,248 @@
+/* region Layout */
+
+#userInformation main {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: repeat(3, auto);
+}
+
+body.tt-tablet #userInformation main,
+body.tt-mobile #userInformation main {
+	display: flex;
+	flex-direction: column;
+}
+
+.user-stats {
+	grid-row-start: 1;
+	grid-row-end: span 2;
+}
+
+.attack-history {
+	grid-row-start: 3;
+	grid-column-start: 1;
+	grid-column-end: span 2;
+}
+
+/* endregion */
+
+.manually-fetch {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#userInformation .tt-table {
+	border: 0 !important;
+	background: unset !important;
+	padding: 0;
+	border-radius: 3px;
+	color: var(--default-color);
+
+	/* FIXME - Remove CSS. */
+	width: auto;
+	margin: 0;
+	box-shadow: unset;
+}
+
+#userInformation .section {
+	padding: 4px;
+	margin: 1px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.spy-information .no-spy-errors {
+	color: var(--tt-color-red);
+}
+
+.user-stats {
+	display: flex;
+	flex-direction: column;
+}
+
+.stat-actions {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 4px -4px -4px -4px;
+	position: relative;
+}
+
+.move-stats {
+	position: absolute !important;
+	left: 1px;
+	bottom: 1px;
+	margin: 0;
+	padding: 0;
+	font-size: 14px;
+	color: var(--default-color);
+	cursor: pointer;
+}
+
+.other-stats-button {
+	text-align: center;
+	border-radius: 5px 5px 0 0;
+	line-height: 20px;
+	width: 80%;
+	align-self: center;
+	cursor: pointer;
+	border: 0;
+	padding: 0;
+}
+
+.edit-stats {
+	position: absolute !important;
+	right: 1px;
+	bottom: 1px;
+	margin: 0;
+	padding: 0;
+	font-size: 14px;
+	color: var(--default-color);
+	cursor: pointer;
+}
+
+#userInformation .user-stats .tt-table {
+	margin-bottom: auto;
+	padding: 0 5px 2px 5px;
+}
+
+#userInformation .spy-information .tt-table {
+	padding: 2px 4px;
+}
+
+.user-stats .tt-table .tt-table-header-cell,
+.spy-information .tt-table .tt-table-header-cell {
+	line-height: 20px;
+}
+
+.user-stats .tt-table .tt-table-row-cell,
+.spy-information .tt-table .tt-table-row-cell {
+	line-height: 18px;
+}
+
+.stakeout .alerts {
+	margin-left: 20px;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.stakeout .alerts .tt-textbox {
+	width: 40px;
+	margin-left: 2px;
+}
+
+#userInformation .section.spy-information,
+#userInformation .section.attack-history {
+	padding: 0;
+}
+
+.no-spy,
+.attack-history .no-history {
+	display: block;
+	margin: 2px 4px;
+}
+
+#userInformation .tt-table .tt-table-header {
+	min-height: auto;
+	background: unset;
+	padding: 0;
+}
+
+body:not(.dark-mode) .attack-history .tt-table .positive {
+	background-color: #dfffdf;
+}
+
+body.dark-mode .attack-history .tt-table .positive {
+	background-color: #408624;
+}
+
+body:not(.dark-mode) .attack-history .tt-table .negative {
+	background-color: #ffe0e0;
+}
+
+body.dark-mode .attack-history .tt-table .negative {
+	background-color: darkred;
+}
+
+body:not(.dark-mode) .attack-history .tt-table .neutral {
+	background-color: white;
+}
+
+body.dark-mode .attack-history .tt-table .neutral {
+	background-color: #555;
+}
+
+.attack-history .tt-table .last-cell {
+	border-right: 1px solid #333;
+}
+
+#userInformation .tt-table .tt-table-row {
+	min-height: auto;
+	padding: 0;
+}
+
+#userInformation .tt-table .tt-table-row:first-child {
+	border-color: #333 !important;
+}
+
+#userInformation .tt-table .tt-table-row:not(:first-child) {
+	border-color: #ddd !important;
+}
+
+.user-stats .tt-table .tt-table-header-cell:not(:last-child),
+.user-stats .tt-table .tt-table-row-cell:not(:last-child),
+.spy-information .tt-table .tt-table-header-cell:not(:last-child),
+.spy-information .tt-table .tt-table-row-cell:not(:last-child) {
+	border-right: 1px solid #ddd;
+}
+
+.attack-history .tt-table .tt-table-header-cell,
+.attack-history .tt-table .tt-table-row-cell {
+	display: flex;
+	justify-content: center;
+	margin: 0;
+	padding: 2px;
+}
+
+.superior-them .their-stat {
+	color: var(--tt-color-green);
+}
+
+.superior-them .your-stat {
+	color: var(--tt-color-red);
+}
+
+.superior-you .their-stat {
+	color: var(--tt-color-red);
+}
+
+.superior-you .your-stat {
+	color: var(--tt-color-green);
+}
+
+.spy-source {
+	margin: 0 4px 2px 4px;
+}
+
+.stats-error-message {
+	color: var(--tt-color-red);
+}
+
+body:not(.dark-mode) .edit-stats.tt-overlay-item:hover,
+body:not(.dark-mode) .edit-stats.tt-overlay-item:focus {
+	color: black;
+}
+
+#userInformation .user-stats .tt-table.tt-overlay-item {
+	background-color: var(--default-bg-panel-color) !important;
+}
+
+.user-stats .tt-table-row.tt-sortable,
+.user-stats .tt-table.tt-overlay-item .tt-table-row:not(.tt-table-row-header) {
+	cursor: pointer;
+}
+
+.user-stats .tt-table.tt-overlay-item .tt-table-row:not(.tt-table-row-header):hover {
+	background-color: #ff000047;
+}

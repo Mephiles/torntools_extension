@@ -9,7 +9,7 @@ function createTableHeaderCell(columnDef, options) {
 
 	const headerCellElement = document.newElement({
 		type: "div",
-		class: "tt-table-header-cell",
+		class: ["tt-table-header-cell", ...(columnDef.class ? [columnDef.class] : [])],
 		style: {
 			...(options.stretchColumns ? { minWidth: `${columnDef.width}px`, flex: 1 } : { width: `${columnDef.width}px` }),
 		},
