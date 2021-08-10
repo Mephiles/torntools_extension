@@ -247,7 +247,7 @@ async function updateUserdata() {
 	if (updateEssential) {
 		selections.push("profile", "timestamp");
 
-		for (const selection of ["bars", "cooldowns", "travel", "events", "messages", "money", "refills"]) {
+		for (const selection of ["bars", "cooldowns", "travel", "newevents", "newmessages", "money", "refills"]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
 			selections.push(selection);
