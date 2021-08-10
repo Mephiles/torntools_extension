@@ -15,6 +15,7 @@ function stringCellRenderer(value) {
 function createTable(tableColumnsDefs, tableRowsData, options = {}) {
 	options = {
 		stretchColumns: false,
+		class: false,
 		...options,
 		cellRenderers: {
 			...options.cellRenderers,
@@ -46,7 +47,7 @@ function createTable(tableColumnsDefs, tableRowsData, options = {}) {
 	});
 	const tableElem = document.newElement({
 		type: "div",
-		class: "tt-table",
+		class: ["tt-table", ...(options.class ? [options.class] : [])],
 		children: [
 			document.newElement({
 				type: "div",

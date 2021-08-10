@@ -92,3 +92,7 @@ body.dark-mode .tt-table-row {
 .tt-table-row-cell:not(:last-child) {
 	margin-right: 5px;
 }
+
+.tt-table-row-header {
+	font-weight: bold;
+}

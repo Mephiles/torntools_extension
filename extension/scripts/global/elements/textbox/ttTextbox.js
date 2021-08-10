@@ -1,5 +1,29 @@
-function createTextbox() {
-	const textbox = document.newElement({ type: "input", class: "tt-textbox", attributes: { type: "text" } });
+function createTextbox(options = {}) {
+	options = {
+		description: false,
+		id: getUUID(),
+		type: "text",
+		attributes: {},
+		...options,
+	};
+
+	const textbox = document.newElement({ type: "input", class: "tt-textbox", id: options.id, attributes: { ...options.attributes, type: options.type } });
+
+	let element;
+	if (options.description) {
+		element = document.newElement({ type: "div", class: "tt-textbox-wrapper" });
+
+		if (typeof options.description === "string") {
+			element.appendChild(document.newElement({ type: "label", text: options.description, attributes: { for: options.id } }));
+			element.appendChild(textbox);
+		} else {
+			element.appendChild(document.newElement({ type: "label", text: options.description.before, attributes: { for: options.id } }));
+			element.appendChild(textbox);
+			element.appendChild(document.newElement({ type: "label", text: options.description.after, attributes: { for: options.id } }));
+		}
+	} else {
+		element = textbox;
+	}
 
 	let onChangeCallback;
 
@@ -28,7 +52,7 @@ function createTextbox() {
 	}
 
 	return {
-		element: textbox,
+		element,
 		setValue,
 		getValue,
 		onChange,

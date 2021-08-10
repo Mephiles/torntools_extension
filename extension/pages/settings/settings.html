@@ -1087,6 +1087,33 @@
 							<input id="profile-ageToWords" type="checkbox" />
 							<label for="profile-ageToWords">Show age of profile in words.</label>
 						</div>
+
+						<div class="header">Profile Box</div>
+						<div class="option">
+							<input id="profile-box" type="checkbox" />
+							<label for="profile-box">Show the profile box.</label>
+						</div>
+						<div class="option tabbed">
+							<input id="profile-boxFetch" type="checkbox" />
+							<label for="profile-boxFetch">Automatically fetch data from the API.</label>
+						</div>
+						<div class="option tabbed">
+							<input id="profile-boxStats" type="checkbox" />
+							<label for="profile-boxStats">Display personal stats.</label>
+						</div>
+						<div class="option tabbed">
+							<input id="profile-boxSpy" type="checkbox" />
+							<label for="profile-boxSpy">Show known spy results.</label>
+						</div>
+						<div class="option tabbed">
+							<input id="profile-boxStakeout" type="checkbox" />
+							<label for="profile-boxStakeout">Enable stakeout options.</label>
+						</div>
+						<div class="option tabbed">
+							<input id="profile-boxAttackHistory" type="checkbox" />
+							<label for="profile-boxAttackHistory">Show your attack history.</label>
+						</div>
+
 						<div class="header">Friendly Fire</div>
 						<div class="option">
 							<input id="profile-showAllyWarning" type="checkbox" />
@@ -1376,6 +1403,8 @@
 							<li>NNB: 1 request to YATA and 1 request to TornStats</li>
 							<li>Last Action - factions: 1 request per visit</li>
 							<li>Last Action - companies: 1 or 2 requests per visit</li>
+							<li>Profile Box - stats: 1 request per profile visit</li>
+							<li>Profile Box - spy report: 1 request to YATA and 1 request to TornStats per profile visit</li>
 						</ul>
 					</li>
 					<li>

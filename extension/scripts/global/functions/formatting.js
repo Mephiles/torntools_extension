@@ -69,7 +69,7 @@ function toMultipleDigits(number, digits = 2) {
 }
 
 function formatTime(time = {}, options = {}) {
-	if (typeof time === "number") return formatTime({ milliseconds: time, attributes: options });
+	if (typeof time === "number") return formatTime({ milliseconds: time }, options);
 	else if (time instanceof Date) return formatTime({ milliseconds: time.getTime() }, options);
 
 	time = {
@@ -172,6 +172,33 @@ function formatTime(time = {}, options = {}) {
 			}
 
 			const UNITS = [
+				{
+					unit: options.short ? "y" : "year",
+					millis: TO_MILLIS.DAYS * 370,
+					getter: () => {
+						const to = new Date();
+						const from = new Date(millis);
+
+						let years = to.getFullYear() - from.getFullYear();
+						if (to.getMonth() > from.getMonth() || (to.getMonth() === from.getMonth() && to.getDay() > from.getDay())) years--;
+
+						return years;
+					},
+				},
+				{
+					unit: options.short ? "mth" : "month",
+					millis: TO_MILLIS.DAYS * 30,
+					getter: () => {
+						const to = new Date();
+						const from = new Date(millis);
+
+						let months = (to.getFullYear() - from.getFullYear()) * 12;
+						months += to.getMonth() - from.getMonth();
+						if (to.getDay() > from.getDay()) months--;
+
+						return months;
+					},
+				},
 				{ unit: options.short ? "day" : "d", millis: TO_MILLIS.DAYS },
 				{ unit: options.short ? "hr" : "hour", millis: TO_MILLIS.HOURS },
 				{ unit: options.short ? "min" : "minute", millis: TO_MILLIS.MINUTES },
@@ -186,7 +213,7 @@ function formatTime(time = {}, options = {}) {
 				if (timeAgo < unit.millis) continue;
 
 				if (unit.unit) {
-					const amount = Math.floor(timeAgo / unit.millis);
+					const amount = unit.getter ? unit.getter() : Math.floor(timeAgo / unit.millis);
 
 					return `${amount} ${unit.unit}${applyPlural(amount)} ${token}`;
 				} else if (unit.text) {

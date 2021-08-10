@@ -2,7 +2,7 @@ function createTableCell(data, columnDef, cellRenderer, options) {
 	const cell = cellRenderer(data);
 	const cellElement = document.newElement({
 		type: "div",
-		class: "tt-table-row-cell",
+		class: ["tt-table-row-cell", ...(columnDef.class ? [columnDef.class] : [])],
 		style: {
 			...(options.stretchColumns ? { minWidth: `${columnDef.width}px`, flex: 1 } : { width: `${columnDef.width}px` }),
 		},
