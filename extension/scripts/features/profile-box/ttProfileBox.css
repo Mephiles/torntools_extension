@@ -79,7 +79,7 @@ body.tt-mobile #userInformation main {
 	cursor: pointer;
 }
 
-.other-stats-button {
+.tt-btn.other-stats-button {
 	text-align: center;
 	border-radius: 5px 5px 0 0;
 	line-height: 20px;
