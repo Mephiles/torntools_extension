@@ -294,7 +294,7 @@
 			showLoadingPlaceholder(section, true);
 
 			let data;
-			if (ttCache.hasValue("profile-stats", userdata.faction.faction_id)) {
+			if (ttCache.hasValue("profile-stats", id)) {
 				data = ttCache.get("profile-stats", id);
 			} else {
 				try {
