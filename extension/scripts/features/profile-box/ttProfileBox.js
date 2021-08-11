@@ -404,12 +404,13 @@
 
 				const table = row.closest(".tt-table");
 				const isCustom = table.classList.contains("custom-stats");
-				const otherTable = isCustom ? table.nextElementSibling : table.previousElementSibling;
 				if (isCustom) {
 					row.remove();
 					await saveStats();
 					buildOthers(true);
 				} else {
+					const otherTable = table.previousElementSibling.find(".tt-table-body");
+
 					otherTable.appendChild(row);
 					await saveStats();
 				}
