@@ -279,9 +279,9 @@ async function setupDashboard() {
 		}
 
 		function updateExtra() {
-			if (settings.apiUsage.user.events)
+			if (settings.apiUsage.user.newevents)
 				dashboard.find(".extra .events .count").innerText = Object.values(userdata.events).filter((event) => !event.seen).length;
-			if (settings.apiUsage.user.messages)
+			if (settings.apiUsage.user.newmessages)
 				dashboard.find(".extra .messages .count").innerText = Object.values(userdata.messages).filter((message) => !message.seen).length;
 			if (settings.apiUsage.user.money) dashboard.find(".extra .wallet .count").innerText = `$${formatNumber(userdata.money_onhand)}`;
 		}
