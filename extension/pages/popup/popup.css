@@ -39,6 +39,11 @@ h1 {
 
 /* Dark Mode */
 
+body.light {
+	background-color: white;
+	color: black;
+}
+
 body.dark {
 	background-color: #232323;
 	color: #f8f8f8;
