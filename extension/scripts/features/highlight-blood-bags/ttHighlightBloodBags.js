@@ -69,7 +69,7 @@
 			if (page === "factions") {
 				if (item.find(".tt-item-price")) item.find(".tt-item-price").remove();
 
-				if (hasAPIData()) {
+				if (hasAPIData() && !item.find(".tt-blood-price")) {
 					item.find(".name").appendChild(
 						document.newElement({
 							type: "span",
