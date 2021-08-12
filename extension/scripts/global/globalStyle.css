@@ -139,6 +139,7 @@
 	width: 150px;
 	border-radius: 10px;
 	z-index: 5;
+	overflow: auto;
 }
 
 body:not(.dark-mode) #tt-page-status {
@@ -168,17 +169,20 @@ body.dark-mode #tt-page-status {
 body:not(.scrolled) #tt-page-status.top-left,
 body:not(.scrolled) #tt-page-status.top-right {
 	top: 90px;
+	max-height: calc(100% - 60px - 90px);
 }
 
 body.scrolled #tt-page-status.top-left,
 body.scrolled #tt-page-status.top-right {
 	top: 16px;
+	max-height: calc(100% - 60px - 16px);
 }
 
 #tt-page-status.bottom-left,
 #tt-page-status.bottom-right {
 	position: fixed;
 	bottom: 50px;
+	max-height: calc(100% - 60px - 50px);
 }
 
 #tt-page-status.bottom-left {
