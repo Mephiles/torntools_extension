@@ -126,7 +126,6 @@
 				"scripts/features/colored-chat/ttColoredChat.css",
 				"scripts/features/search-chat/ttSearchChat.css",
 				"scripts/features/computer-link/ttComputerLink.css",
-				"scripts/features/mini-profile-information/ttMiniprofileInformation.css",
 				"scripts/features/easter-egg/ttEasterEgg.css",
 				"scripts/features/hide-gym-highlight/ttHideGymHighlight.css",
 				"scripts/features/trade-timer/ttTradeTimer.css",
