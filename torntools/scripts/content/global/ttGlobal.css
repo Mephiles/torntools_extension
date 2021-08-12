@@ -1058,10 +1058,6 @@ div[role="main"].tt-modified {
 	background: red;
 }
 
-.tt-mini-data {
-	color: #333;
-}
-
 .tt-fac-chain-bonus-warning {
 	position: fixed;
 	height: max-content;
