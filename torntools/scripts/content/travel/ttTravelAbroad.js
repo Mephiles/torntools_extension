@@ -873,9 +873,10 @@ function addTableContent(travel_items) {
 	let time_modifier = 1;
 	let cost_modifier = undefined;
 	if (userdata && userdata.status && userdata.status.state === "Traveling" && userdata.travel) {
-		let country = (userdata.travel.destination == "Torn"
-			? userdata.status.description.match(/Returning to Torn from (.*)/i)[1].toLowerCase()
-			: userdata.travel.destination
+		let country = (
+			userdata.travel.destination == "Torn"
+				? userdata.status.description.match(/Returning to Torn from (.*)/i)[1].toLowerCase()
+				: userdata.travel.destination
 		).toLowerCase();
 		let base_time = country_dict[country].time;
 		let actual_time = (userdata.travel.timestamp - userdata.travel.departed) / 60;
