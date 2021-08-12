@@ -76,8 +76,12 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 
 		triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: getCurrentSection() });
 		new MutationObserver((mutations) => {
-			if (mutations.length > 1 && mutations.some((mutation) => mutation.target.id.includes("armoury-")))
-				triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: getCurrentSection() });
+			if (mutations.length < 2) return;
+
+			const mutation = mutations.find((mutation) => mutation.target.id.includes("armoury-"));
+			if (!mutation) return;
+
+			triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: mutation.target.id.replace("armoury-", "") });
 		}).observe(document.find("#faction-armoury-tabs"), { childList: true, subtree: true });
 
 		function getCurrentSection() {

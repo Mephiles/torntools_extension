@@ -47,17 +47,13 @@
 			await requireItemsLoaded();
 		} else if (page === "factions") {
 			if (getCurrentTab() === "armoury") {
-				await requireElement("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']");
-
-				if (getCurrentSection() !== "medical") return;
+				await requireElement("#armoury-medical > .p10 > .ajax-placeholder", { invert: true });
 			} else return;
 		}
 
 		const allowedBlood = ALLOWED_BLOOD[settings.pages.items.highlightBloodBags];
 
-		for (const item of document.findAll(
-			"ul.items-cont[aria-expanded=true] > li[data-category='Medical'], #faction-armoury-tabs .armoury-tabs[aria-expanded='true'] .item-list > li"
-		)) {
+		for (const item of document.findAll("ul.items-cont[aria-expanded=true] > li[data-category='Medical'], #armoury-medical .item-list > li")) {
 			if (!item.find(".name-wrap, .name")) continue;
 			item.find(".name-wrap, .name").classList.remove("good-blood", "bad-blood");
 
@@ -88,10 +84,6 @@
 
 	function getCurrentTab() {
 		return document.find("#factions > ul.faction-tabs > li[aria-selected='true']").getAttribute("data-case").replace("faction-", "");
-	}
-
-	function getCurrentSection() {
-		return document.find("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']").getAttribute("aria-controls").replace("armoury-", "");
 	}
 
 	async function removeHighlights() {
