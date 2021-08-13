@@ -8,7 +8,7 @@
 
 	const feature = featureManager.registerFeature(
 		"Faction Banker",
-		"home",
+		"faction",
 		() => settings.pages.faction.banker,
 		initialiseListeners,
 		showHelper,
