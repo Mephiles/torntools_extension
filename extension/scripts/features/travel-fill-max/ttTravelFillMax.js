@@ -51,7 +51,7 @@
 						limit += 5;
 				}
 
-				max = max > limit ? limit : max;
+				max = Math.max(limit, max);
 				max = Math.floor(userMoney / price) < max ? Math.floor(userMoney / price) : max;
 
 				buyBtn.parentElement.find("input[name='amount']").value = max;
