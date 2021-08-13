@@ -44,9 +44,9 @@
 						(companyType === 3 &&
 							itemType === "flower" &&
 							userdata.company_perks.some((perk) => perk.includes("special flowers") && perk.includes("5 additional"))) ||
-						(companyType === 0 &&
+						(companyType === 9 &&
 							itemType === "plushie" &&
-							userdata.company_perks.some((perk) => perk.includes("plushies") && perk.includes("5 additional")))
+							userdata.company_perks.some((perk) => perk.includes("+5 plushies") && perk.includes("from abroad")))
 					)
 						limit += 5;
 				}
