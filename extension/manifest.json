@@ -445,7 +445,8 @@
 				"scripts/features/friendly-fire/ttFriendlyFire.css",
 				"scripts/features/age-to-words/ttAgeToWords.css",
 				"scripts/features/disable-ally-attacks/ttDisableAllyAttacks.css",
-				"scripts/features/profile-box/ttProfileBox.css"
+				"scripts/features/profile-box/ttProfileBox.css",
+				"scripts/features/stats-estimate/ttStatsEstimate.css"
 			],
 			"js": [
 				"vendor/sortable/sortable.js",
@@ -455,7 +456,9 @@
 				"scripts/features/friendly-fire/ttFriendlyFire.js",
 				"scripts/features/age-to-words/ttAgeToWords.js",
 				"scripts/features/disable-ally-attacks/ttDisableAllyAttacks.js",
-				"scripts/features/profile-box/ttProfileBox.js"
+				"scripts/features/profile-box/ttProfileBox.js",
+				"scripts/features/stats-estimate/statsEstimate.js",
+				"scripts/features/stats-estimate/ttStatsEstimateProfile.js"
 			],
 			"run_at": "document_end"
 		},

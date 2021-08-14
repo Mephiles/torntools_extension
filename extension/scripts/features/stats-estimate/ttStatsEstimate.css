@@ -1,0 +1,5 @@
+.tt-stats-estimate-profile {
+	float: right;
+	padding-right: 10px;
+	color: var(--tt-color-light-green);
+}

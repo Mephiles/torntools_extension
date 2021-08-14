@@ -35,6 +35,7 @@ const EVENT_CHANNELS = {
 	MISSION_LOAD: "mission-load",
 	MISSION_REWARDS: "mission-rewards",
 	TRADE: "trade",
+	PROFILE_FETCHED: "profile-fetched",
 };
 
 const CUSTOM_LISTENERS = (() => {

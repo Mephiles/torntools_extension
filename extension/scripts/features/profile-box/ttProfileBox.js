@@ -300,6 +300,8 @@
 				try {
 					data = await fetchData("torn", { section: "user", id, selections: ["profile", "personalstats", "crimes"], silent: true });
 
+					triggerCustomListener(EVENT_CHANNELS.PROFILE_FETCHED, { data });
+
 					ttCache.set({ [id]: data }, TO_MILLIS.HOURS * 6, "profile-stats").catch(() => {});
 				} catch (error) {
 					console.log("TT - Couldn't fetch users stats.", error);

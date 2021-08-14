@@ -544,6 +544,14 @@ const DEFAULT_STORAGE = {
 				companyOwn: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				companyOther: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
+			statsEstimate: {
+				global: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				// delay: new DefaultSetting({ type: "number", defaultValue: 1500 }),
+				// cachedOnly: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				// displayNoResult: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				maxLevel: new DefaultSetting({ type: "number", defaultValue: 100 }),
+				profiles: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		external: {
 			tornstats: new DefaultSetting({ type: "boolean", defaultValue: false }),

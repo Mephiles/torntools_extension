@@ -96,7 +96,7 @@
 						<li name="no-confirm">No Confirm</li>
 						<li name="vault-sharing">Vault Sharing</li>
 						<li name="last-action">Last Action</li>
-						<!-- <li>Stats Estimate</li> -->
+						<li name="stats-estimate">Stats Estimate</li>
 
 						<li class="header">Pages</li>
 						<li name="home">Home</li>
@@ -1334,6 +1334,22 @@
 							</label>
 						</div>
 					</section>
+					<section name="stats-estimate">
+						<div class="option header">
+							<input id="statsEstimate-global" type="checkbox" />
+							<label for="statsEstimate-global">Stats Estimate</label>
+						</div>
+						<div class="option">
+							<label for="statsEstimate-maxLevel">Show estimates for users up to level </label>
+							<input id="statsEstimate-maxLevel" type="number" min="1" max="100" />
+						</div>
+
+						<div class="header">Pages</div>
+						<div class="option">
+							<input id="statsEstimate-profiles" type="checkbox" />
+							<label for="statsEstimate-profiles">Profiles</label>
+						</div>
+					</section>
 				</div>
 			</section>
 			<section>
@@ -1405,6 +1421,7 @@
 							<li>Last Action - companies: 1 or 2 requests per visit</li>
 							<li>Profile Box - stats: 1 request per profile visit</li>
 							<li>Profile Box - spy report: 1 request to YATA and 1 request to TornStats per profile visit</li>
+							<li>Stats Estimate: 1 request per estimate</li>
 						</ul>
 					</li>
 					<li>
@@ -1412,6 +1429,8 @@
 						<ul>
 							<li>NNB: 1 hour</li>
 							<li>Bank interest: till new day</li>
+							<li>Profile Box - stats: 6 hour</li>
+							<li>Stats Estimate: 7 days, or 31 days if 'over 200' or inactive for over 180 days, or 1 day if not able to calculate it</li>
 						</ul>
 					</li>
 				</ul>
