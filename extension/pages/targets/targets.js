@@ -94,14 +94,35 @@ async function setupAttackHistory() {
 				],
 			})
 		);
-		row.appendChild(
-			document.newElement({
-				type: "td",
-				class: "last-attack",
-				text: `${formatDate({ milliseconds: data.lastAttack }, { showYear: true })}, ${formatTime({ milliseconds: data.lastAttack })}`,
-				attributes: { value: data.lastAttack },
-			})
-		);
+
+		const lastAttackText = `${formatDate({ milliseconds: data.lastAttack }, { showYear: true })}, ${formatTime({ milliseconds: data.lastAttack })}`;
+		// FIXME - Check date.
+		if (data.lastAttackCode) {
+			row.appendChild(
+				document.newElement({
+					type: "td",
+					class: "last-attack",
+					attributes: { value: data.lastAttack },
+					children: [
+						document.newElement({
+							type: "a",
+							text: lastAttackText,
+							href: `https://www.torn.com/loader.php?sid=attackLog&ID=${data.lastAttackCode}`,
+							attributes: { target: "_blank" },
+						}),
+					],
+				})
+			);
+		} else {
+			row.appendChild(
+				document.newElement({
+					type: "td",
+					class: "last-attack",
+					text: lastAttackText,
+					attributes: { value: data.lastAttack },
+				})
+			);
+		}
 		const totalWins = data.win;
 		row.appendChild(document.newElement({ type: "td", class: `data win`, text: totalWins.toString(), attributes: { value: totalWins } }));
 		for (const type of ["mug", "leave", "hospitalise", "arrest", "special", "stealth"]) {

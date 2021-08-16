@@ -370,6 +370,7 @@ async function updateUserdata() {
 
 				// Manipulate the data to be correct.
 				attackHistory.history[enemyId].lastAttack = attack.timestamp_ended * 1000;
+				attackHistory.history[enemyId].lastAttackCode = attack.code;
 
 				if (attack.defender_id === userdata.player_id) {
 					if (attack.attacker_name) attackHistory.history[enemyId].name = attack.attacker_name;
