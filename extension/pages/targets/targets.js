@@ -85,7 +85,15 @@ async function setupAttackHistory() {
 				children: [document.newElement({ type: "a", text: id, href: `https://www.torn.com/profiles.php?XID=${id}`, attributes: { target: "_blank" } })],
 			})
 		);
-		row.appendChild(document.newElement({ type: "td", class: "name", text: data.name }));
+		row.appendChild(
+			document.newElement({
+				type: "td",
+				class: "name",
+				children: [
+					document.newElement({ type: "a", text: data.name, href: `https://www.torn.com/profiles.php?XID=${id}`, attributes: { target: "_blank" } }),
+				],
+			})
+		);
 		row.appendChild(
 			document.newElement({
 				type: "td",
@@ -201,7 +209,20 @@ async function setupStakeouts() {
 					break;
 			}
 
-			row.appendChild(document.newElement({ type: "td", class: "name", text: data.info.name }));
+			row.appendChild(
+				document.newElement({
+					type: "td",
+					class: "name",
+					children: [
+						document.newElement({
+							type: "a",
+							text: data.info.name,
+							href: `https://www.torn.com/profiles.php?XID=${id}`,
+							attributes: { target: "_blank" },
+						}),
+					],
+				})
+			);
 			row.appendChild(
 				document.newElement({
 					type: "td",
