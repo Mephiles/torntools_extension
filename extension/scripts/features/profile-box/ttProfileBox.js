@@ -577,7 +577,7 @@
 
 			showLoadingPlaceholder(section, true);
 
-			let errors = [{ service: "DKK", message: "NONO" }];
+			const errors = [];
 			let spy = false;
 			if (settings.external.yata) {
 				try {
