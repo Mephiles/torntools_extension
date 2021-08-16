@@ -53,6 +53,7 @@ body.tt-mobile #userInformation main {
 
 .spy-information .no-spy-errors {
 	color: var(--tt-color-red);
+	margin: 2px 4px;
 }
 
 .user-stats {
