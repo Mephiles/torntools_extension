@@ -6,10 +6,13 @@ function initializeInternalPage(options = {}) {
 		...options,
 	};
 
-	// Check if the user is on mobile.
-	checkMobile().then((mobile) => {
+	// Check if the user is on mobile or tablet.
+	checkDevice().then(({ mobile, tablet }) => {
 		if (mobile) document.body.classList.add("tt-mobile");
 		else document.body.classList.remove("tt-mobile");
+
+		if (tablet) document.body.classList.add("tt-tablet");
+		else document.body.classList.remove("tt-tablet");
 	});
 
 	// Add sorting functionality to tables.

@@ -14,7 +14,7 @@
 			storage: ["settings.pages.stocks.valueAndProfit"],
 		},
 		async () => {
-			await checkMobile();
+			await checkDevice();
 		}
 	);
 

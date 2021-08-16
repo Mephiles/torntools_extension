@@ -12,7 +12,7 @@
 			storage: ["settings.customLinks"],
 		},
 		async () => {
-			await checkMobile();
+			await checkDevice();
 		}
 	);
 

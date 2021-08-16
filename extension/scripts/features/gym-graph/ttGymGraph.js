@@ -17,7 +17,7 @@
 			if (!hasAPIData()) return "No API access.";
 			else if (!settings.external.tornstats) return "TornStats not enabled";
 
-			await checkMobile();
+			await checkDevice();
 		}
 	);
 

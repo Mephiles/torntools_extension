@@ -14,7 +14,7 @@
 			storage: ["settings.pages.joblist.specials"],
 		},
 		async () => {
-			await checkMobile();
+			await checkDevice();
 		}
 	);
 

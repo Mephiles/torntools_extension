@@ -177,32 +177,18 @@ Object.defineProperty(Element.prototype, "setClass", {
 	enumerable: false,
 });
 
-function checkMobile() {
+function checkDevice() {
 	return new Promise((resolve) => {
-		if (typeof mobile === "boolean") return resolve(mobile);
+		if (typeof mobile === "boolean" && typeof tablet === "boolean") return resolve({ mobile, tablet });
 
 		if (document.readyState === "complete" || document.readyState === "interactive") check();
 		else window.addEventListener("DOMContentLoaded", check);
 
 		function check() {
 			mobile = window.innerWidth <= 600;
-
-			resolve(mobile);
-		}
-	});
-}
-
-function checkTablet() {
-	return new Promise((resolve) => {
-		if (typeof tablet === "boolean") return resolve(tablet);
-
-		if (document.readyState === "complete" || document.readyState === "interactive") check();
-		else window.addEventListener("DOMContentLoaded", check);
-
-		function check() {
 			tablet = window.innerWidth <= 960 && window.innerWidth >= 600;
 
-			resolve(tablet);
+			resolve({ mobile, tablet });
 		}
 	});
 }

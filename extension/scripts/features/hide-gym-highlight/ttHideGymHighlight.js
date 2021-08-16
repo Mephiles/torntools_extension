@@ -14,7 +14,7 @@
 			storage: ["settings.pages.sidebar.hideGymHighlight"],
 		},
 		async () => {
-			await checkMobile();
+			await checkDevice();
 		}
 	);
 

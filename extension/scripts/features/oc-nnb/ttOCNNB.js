@@ -20,7 +20,7 @@
 			if (!hasAPIData()) return "No API access.";
 			else if (!settings.external.yata && !settings.external.tornstats) return "YATA or TornStats not enabled";
 
-			await checkMobile();
+			await checkDevice();
 		}
 	);
 

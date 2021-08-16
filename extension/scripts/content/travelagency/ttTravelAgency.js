@@ -1,7 +1,9 @@
 "use strict";
 
 (async () => {
-	if ((await checkMobile()) || (await checkTablet())) {
+	await checkDevice();
+
+	if (mobile || tablet) {
 		document.find(".travel-agency").addEventListener("click", (event) => {
 			const parent = event.target.closest(".travel-info-table-list[aria-selected*='true'][role*='tab']");
 

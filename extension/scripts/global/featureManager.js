@@ -183,7 +183,7 @@ class FeatureManager {
 		}
 
 		new Promise(async (resolve) => {
-			if (await checkMobile()) return resolve();
+			if ((await checkDevice()).mobile) return resolve();
 
 			let row = document.find(`#tt-page-status-feature-${feature.name.toLowerCase().replace(/ /g, "-")}`);
 			if (row) {
@@ -276,7 +276,7 @@ class FeatureManager {
 
 	async createPopup() {
 		await loadDatabase();
-		if (await checkMobile()) return;
+		if ((await checkDevice()).mobile) return;
 
 		const collapsed = this.containerID in filters.containers ? filters.containers[this.containerID] : false;
 

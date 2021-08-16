@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	if (await checkMobile()) return "Not supported on mobile!";
+	if ((await checkDevice()).mobile) return "Not supported on mobile!";
 
 	featureManager.registerFeature(
 		"Vault Balance",

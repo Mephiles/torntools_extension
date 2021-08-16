@@ -15,8 +15,7 @@
 			storage: ["settings.pages.travel.flyingTime"],
 		},
 		async () => {
-			await checkMobile();
-			await checkTablet();
+			await checkDevice();
 		}
 	);
 

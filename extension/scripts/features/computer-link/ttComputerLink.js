@@ -19,7 +19,7 @@
 			else if (hasAPIData() && settings.apiUsage.user.inventory && !findItemsInObject(userdata.inventory, { ID: 61 }, { single: true }))
 				return "No computer found!";
 
-			await checkMobile();
+			await checkDevice();
 		}
 	);
 

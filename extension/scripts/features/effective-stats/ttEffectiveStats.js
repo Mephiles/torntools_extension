@@ -16,7 +16,7 @@
 			storage: ["settings.pages.home.effectiveStats"],
 		},
 		async () => {
-			await checkMobile();
+			await checkDevice();
 		}
 	);
 

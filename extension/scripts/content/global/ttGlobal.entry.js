@@ -1,22 +1,17 @@
 "use strict";
 
 (async () => {
-	handleMobile();
-	handleTablet();
+	handleDevice();
 	handlePopout();
 	setupFeatureManager();
 
 	forceUpdate().catch(() => {});
 
-	function handleMobile() {
-		checkMobile().then((mobile) => {
+	function handleDevice() {
+		checkDevice().then(({ mobile, tablet }) => {
 			if (mobile) document.body.classList.add("tt-mobile");
 			else document.body.classList.remove("tt-mobile");
-		});
-	}
 
-	function handleTablet() {
-		checkTablet().then((tablet) => {
 			if (tablet) document.body.classList.add("tt-tablet");
 			else document.body.classList.remove("tt-tablet");
 		});

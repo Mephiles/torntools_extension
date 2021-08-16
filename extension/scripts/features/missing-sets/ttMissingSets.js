@@ -16,7 +16,7 @@
 		async () => {
 			if (!hasAPIData() || !settings.apiUsage.user.inventory) return "No API access!";
 
-			await checkMobile();
+			await checkDevice();
 		}
 	);
 	const featurePlushies = featureManager.registerFeature(
@@ -32,7 +32,7 @@
 		async () => {
 			if (!hasAPIData() || !settings.apiUsage.user.inventory) return "No API access!";
 
-			await checkMobile();
+			await checkDevice();
 		}
 	);
 

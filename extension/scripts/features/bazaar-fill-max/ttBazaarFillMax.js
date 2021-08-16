@@ -14,7 +14,7 @@
 			storage: ["settings.pages.bazaar.fillMax"],
 		},
 		async () => {
-			await checkMobile();
+			await checkDevice();
 		}
 	);
 

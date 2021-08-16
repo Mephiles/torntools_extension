@@ -17,7 +17,7 @@
 			storage: ["settings.pages.faction.recommendedNnb"],
 		},
 		async () => {
-			await checkMobile();
+			await checkDevice();
 		}
 	);
 

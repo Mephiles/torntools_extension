@@ -28,7 +28,7 @@
 		async () => {
 			if (page === "item" && !hasAPIData()) return "No API access.";
 
-			await checkMobile();
+			await checkDevice();
 		},
 		{ triggerCallback: true }
 	);
