@@ -112,7 +112,10 @@
 			function generateText() {
 				let element;
 				if (items.length > 0) {
-					element = document.newElement({ type: "p", html: `There are <strong>${items.length}</strong> items in the city: ` });
+					element = document.newElement({
+						type: "p",
+						html: `There are <strong>${items.map(({ count }) => count).totalSum()}</strong> items in the city: `,
+					});
 
 					const _items = [...items];
 					if (items.length === 1) {
