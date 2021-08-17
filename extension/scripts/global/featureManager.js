@@ -6,6 +6,13 @@ class FeatureManager {
 
 		this.popupLoaded = false;
 		this.resultQueue = [];
+
+		this.isDisconnected = false;
+		this.port = chrome.runtime.connect({ name: "status-check" });
+		this.port.onDisconnect.addListener(() => {
+			this.features.forEach((feature) => this.executeFunction(feature.cleanup));
+			this.isDisconnected = true;
+		});
 	}
 
 	registerFeature(name, scope, enabled, initialise, execute, cleanup, loadListeners, requirements, options) {
@@ -18,7 +25,17 @@ class FeatureManager {
 		const oldFeature = this.findFeature(name);
 		if (oldFeature) throw "Feature already registered.";
 
-		const newFeature = { name, scope, enabled, initialise, execute, cleanup, loadListeners, requirements, options };
+		const newFeature = {
+			name,
+			scope,
+			enabled: () => !this.isDisconnected && getValue(enabled),
+			initialise,
+			execute,
+			cleanup,
+			loadListeners,
+			requirements,
+			options,
+		};
 
 		console.log("[TornTools] FeatureManager - Registered new feature.", newFeature);
 		this.features.push(newFeature);
