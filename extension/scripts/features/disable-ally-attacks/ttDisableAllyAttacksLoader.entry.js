@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	await requireFeatureManager();
+
 	const feature = featureManager.registerFeature(
 		"Disable Ally Attacks",
 		"loader",

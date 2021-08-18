@@ -360,3 +360,11 @@ class FeatureManager {
 }
 
 const featureManager = new FeatureManager();
+
+function requireFeatureManager() {
+	return new Promise((resolve) => {
+		while (typeof featureManager === "undefined") {}
+
+		resolve();
+	});
+}
