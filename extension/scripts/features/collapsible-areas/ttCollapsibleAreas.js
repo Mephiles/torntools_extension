@@ -40,7 +40,7 @@
 	}
 
 	async function removeCollapseIcon() {
-		if (!observer) observer.disconnect();
+		if (observer) observer.disconnect();
 
 		const header = document.find("h2=Areas");
 		if (!header) return;

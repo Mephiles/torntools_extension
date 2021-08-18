@@ -49,6 +49,7 @@
 
 	function removeHiddenHighlight() {
 		const navGym = document.find("#nav-gym, #nav-jail_gym");
+		if (!navGym) return;
 		const svg = navGym.find("svg");
 
 		if (hasDarkMode()) {
