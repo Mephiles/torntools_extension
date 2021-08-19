@@ -40,7 +40,7 @@
 		filterContent.appendChild(profitOnlyFilter.element);
 
 		const categoryFilter = createFilterSection({
-			title: "Status",
+			title: "Category",
 			checkboxes: [
 				{ id: "plushie", description: "Plushies" },
 				{ id: "flower", description: "Flowers" },
