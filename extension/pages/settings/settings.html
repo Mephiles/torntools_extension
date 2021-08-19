@@ -434,7 +434,6 @@
 						<div class="option no-mobile">
 							<input id="sidebar-ocTimer" type="checkbox" />
 							<label for="sidebar-ocTimer">Show OC ready time in sidebar.</label>
-							<label for="sidebar-ocTimer" class="note tabbed">(requires faction API access)</label>
 						</div>
 						<div class="option">
 							<input id="sidebar-hideGymHighlight" type="checkbox" />
@@ -572,7 +571,7 @@
 							<i id="notification-sound-play" class="fas fa-play"></i>
 							<i id="notification-sound-stop" class="fas fa-stop"></i>
 							<input id="notification-sound-upload" class="hidden" type="file" accept=".mp3,.ogg,.wav" />
-							<label for="notification-sound" class="tabbed note">(Mute only works in Chrome, OS default might not work in all browsers)</label>
+							<label for="notification-sound" class="tabbed note">Mute and OS default might not work in all browsers.</label>
 						</div>
 						<div class="option">
 							<input id="notification-tts" type="checkbox" />
@@ -783,6 +782,7 @@
 						<div class="option">
 							<input id="faction-armoryWorth" type="checkbox" />
 							<label for="faction-armoryWorth">Show total worth of faction armory.</label>
+							<label for="faction-armoryWorth" class="note tabbed">Requires faction API access.</label>
 						</div>
 						<div class="option">
 							<input id="faction-upgradeRequiredRespect" type="checkbox" />
@@ -791,6 +791,7 @@
 						<div class="option">
 							<input id="faction-memberInfo" type="checkbox" />
 							<label for="faction-memberInfo">Show money and points balance of members.</label>
+							<label for="faction-memberInfo" class="note tabbed">Requires faction API access.</label>
 						</div>
 
 						<div class="header">OCs</div>
@@ -1185,9 +1186,26 @@
 							<label for="travel-computer">Show a computer link while flying or abroad.</label>
 						</div>
 						<div class="option">
-							<input id="travel-cleanFlight" type="checkbox" />
-							<label for="travel-cleanFlight">Hide plane & funfact box on Flying page.</label>
+							<input id="travel-table" type="checkbox" />
+							<label for="travel-table">Show a table of all countries with their item and their stocks.</label>
+							<label class="note" for="travel-table">Requires YATA to be enabled as external service.</label>
 						</div>
+						<div class="option">
+							<input id="travel-flyingTime" type="checkbox" />
+							<label for="travel-flyingTime">Show the time when you would land when flying now.</label>
+						</div>
+
+						<div class="header">Flying</div>
+						<div class="option">
+							<input id="travel-landingTime" type="checkbox" />
+							<label for="travel-landingTime">Show the landing time when flying.</label>
+						</div>
+						<div class="option">
+							<input id="travel-cleanFlight" type="checkbox" />
+							<label for="travel-cleanFlight">Hide plane & funfact box while flying.</label>
+						</div>
+
+						<div class="header">Abroad</div>
 						<div class="option">
 							<input id="travel-travelProfits" type="checkbox" />
 							<label for="travel-travelProfits">Show profits of items in market.</label>
@@ -1207,19 +1225,6 @@
 						<div class="option">
 							<input id="travel-sortable" type="checkbox" />
 							<label for="travel-sortable">Make market table sortable.</label>
-						</div>
-						<div class="option">
-							<input id="travel-table" type="checkbox" />
-							<label for="travel-table">Show a table of all countries with their item and their stocks.</label>
-							<label class="note" for="travel-table">Requires YATA to be enabled as external service.</label>
-						</div>
-						<div class="option">
-							<input id="travel-landingTime" type="checkbox" />
-							<label for="travel-landingTime">Show the landing time when flying.</label>
-						</div>
-						<div class="option">
-							<input id="travel-flyingTime" type="checkbox" />
-							<label for="travel-flyingTime">Show the time when you would land when flying now.</label>
 						</div>
 					</section>
 					<section name="attack">
