@@ -1,11 +1,15 @@
 "use strict";
 
 (() => {
-	document.addEventListener("click", (event) => {
-		if (event.target.classList.contains("page-number") || event.target.classList.contains("page-nb")) {
-			requireElement(".user-info-list-wrap #iconTray li").then(() => {
-				triggerCustomListener(EVENT_CHANNELS.USERLIST_SWITCH_PAGE);
-			});
-		}
+	addXHRListener(async ({ detail: { page, xhr } }) => {
+		if (page !== "page") return;
+
+		const sid = new URLSearchParams(xhr.requestBody).get("sid");
+		if (sid !== "UserListAjax") return;
+
+		await requireElement(".user-info-list-wrap");
+		await requireElement(".user-info-list-wrap .ajax-placeholder", { invert: true });
+
+		triggerCustomListener(EVENT_CHANNELS.USERLIST_SWITCH_PAGE);
 	});
 })();

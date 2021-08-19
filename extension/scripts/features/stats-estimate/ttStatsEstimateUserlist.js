@@ -16,26 +16,19 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-		},
-		{ liveReload: true }
+		}
 	);
 
 	function registerListeners() {
-		addXHRListener(async ({ detail: { page, xhr } }) => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.USERLIST_SWITCH_PAGE].push(() => {
 			if (!feature.enabled() || settings.pages.userlist.filter) return;
-			if (page !== "page") return;
 
-			const sid = new URLSearchParams(xhr.requestBody).get("sid");
-			if (sid !== "UserListAjax") return;
-
-			await requireElement(".user-info-list-wrap .ajax-placeholder", { invert: true });
-
-			showEstimates().then(() => {});
+			showEstimates(false);
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FILTER_APPLIED].push(() => {
 			if (!feature.enabled()) return;
 
-			showEstimates().then(() => {});
+			showEstimates(false);
 		});
 	}
 

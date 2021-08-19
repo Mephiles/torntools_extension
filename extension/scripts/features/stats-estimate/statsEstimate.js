@@ -37,7 +37,7 @@ class StatsEstimate {
 
 	showEstimates(selector, handler, hasFilter) {
 		for (const row of document.findAll(selector)) {
-			if (row.classList.contains("hidden") || row.classList.contains("tt-estimated")) continue;
+			if ((row.classList.contains("hidden") && row.dataset.hideReason !== "stats-estimate") || row.classList.contains("tt-estimated")) continue;
 
 			const { id, level } = handler(row);
 			if (!id) continue;
@@ -73,6 +73,7 @@ class StatsEstimate {
 				if (hasFilter) row.dataset.estimate = estimate;
 
 				showLoadingPlaceholder(section, false);
+				if (hasFilter) triggerCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, { row });
 			} else if (settings.scripts.statsEstimate.cachedOnly) {
 				if (settings.scripts.statsEstimate.displayNoResult) section.innerText = "No cached result found!";
 				else {
@@ -83,7 +84,6 @@ class StatsEstimate {
 				showLoadingPlaceholder(section, false);
 			} else this.queue.push({ row, section, id, hasFilter });
 		}
-		if (hasFilter) triggerCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, { global: true });
 
 		this.runQueue().then(() => {});
 	}
@@ -96,7 +96,7 @@ class StatsEstimate {
 		while (this.queue.length) {
 			const { row, section, id, hasFilter } = this.queue.shift();
 
-			if (row.classList.contains("hidden")) {
+			if (row.classList.contains("hidden") && row.dataset.hideReason !== "stats-estimate") {
 				row.classList.remove("tt-estimated");
 				section.remove();
 				continue;
@@ -116,7 +116,7 @@ class StatsEstimate {
 				} else {
 					section.remove();
 				}
-				if (hasFilter) triggerCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, { row });
+				// if (hasFilter) triggerCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, { row });
 			}
 			showLoadingPlaceholder(section, false);
 

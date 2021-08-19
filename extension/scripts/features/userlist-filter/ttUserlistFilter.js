@@ -20,15 +20,16 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.USERLIST_SWITCH_PAGE].push(() => {
 			if (!feature.enabled()) return;
 
-			filtering();
+			filtering(false);
 		});
-		CUSTOM_LISTENERS[EVENT_CHANNELS.STATS_ESTIMATED].push(() => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.STATS_ESTIMATED].push(({ row }) => {
 			if (!feature.enabled()) return;
 
 			const content = findContainer("Userlist Filter", { selector: "main" });
-			if (!localFilters["Stats Estimate"]?.getSelections(content).length) return;
+			const statsEstimates = localFilters["Stats Estimate"]?.getSelections(content);
+			if (!statsEstimates?.length) return;
 
-			filtering();
+			filterRow(row, { statsEstimates }, true);
 		});
 	}
 
@@ -55,7 +56,7 @@
 		const activityFilter = createFilterSection({
 			type: "Activity",
 			defaults: filters.userlist.activity,
-			callback: filtering,
+			callback: () => filtering(true),
 		});
 		filterContent.appendChild(activityFilter.element);
 		localFilters["Activity"] = { getSelections: activityFilter.getSelections };
@@ -64,7 +65,7 @@
 			title: "Special",
 			ynCheckboxes: ["Fedded", "Traveling", "New Player", "On Wall", "In Company", "In Faction", "Is Donator", "In Hospital", "In Jail"],
 			defaults: filters.userlist.special,
-			callback: filtering,
+			callback: () => filtering(true),
 		});
 		filterContent.appendChild(specialFilter.element);
 		localFilters["Special"] = { getSelections: specialFilter.getSelections };
@@ -79,7 +80,7 @@
 				valueLow: filters.userlist.levelStart,
 				valueHigh: filters.userlist.levelEnd,
 			},
-			callback: filtering,
+			callback: () => filtering(true),
 		});
 		filterContent.appendChild(levelFilter.element);
 		localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
@@ -93,7 +94,7 @@
 					{ id: "n/a", description: "N/A" },
 				],
 				defaults: filters.userlist.estimates,
-				callback: filtering,
+				callback: () => filtering(true),
 			});
 			filterContent.appendChild(estimatesFilter.element);
 
@@ -102,11 +103,13 @@
 
 		content.appendChild(filterContent);
 
-		await filtering();
+		await filtering(false);
 	}
 
-	async function filtering() {
-		await requireElement(".user-info-list-wrap > li #iconTray");
+	async function filtering(includeEstimates) {
+		await requireElement(".user-info-list-wrap");
+		await requireElement(".user-info-list-wrap .ajax-placeholder", { invert: true });
+
 		const content = findContainer("Userlist Filter", { selector: "main" });
 		const activity = localFilters["Activity"].getSelections(content);
 		const special = localFilters["Special"].getSelections(content);
@@ -114,9 +117,9 @@
 		const levelStart = parseInt(levels.start);
 		const levelEnd = parseInt(levels.end);
 		const statsEstimates =
-			settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()
-				? localFilters["Stats Estimate"]?.getSelections(content) ?? filters.userlist.estimates
-				: filters.userlist.estimates;
+			includeEstimates && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()
+				? localFilters["Stats Estimate"]?.getSelections(content)
+				: undefined;
 
 		// Update level and time slider counters
 		localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
@@ -129,20 +132,33 @@
 					levelStart: levelStart,
 					levelEnd: levelEnd,
 					special: special,
-					estimates: statsEstimates,
+					estimates: statsEstimates ?? filters.userlist.estimates,
 				},
 			},
 		});
 
 		// Actual Filtering
 		for (const li of document.findAll(".user-info-list-wrap > li")) {
-			// Activity
+			filterRow(li, { activity, special, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
+		}
+
+		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
+
+		localFilters["Statistics"].updateStatistics(
+			document.findAll(".user-info-list-wrap > li:not(.hidden)").length,
+			document.findAll(".user-info-list-wrap > li").length,
+			content
+		);
+	}
+
+	function filterRow(row, filters, individual) {
+		if (filters.activity) {
 			if (
-				activity.length &&
-				!activity.some(
+				filters.activity.length &&
+				!filters.activity.some(
 					(x) =>
 						x.trim() ===
-						li
+						row
 							.find("#iconTray li")
 							.getAttribute("title")
 							.match(/(?<=<b>).*(?=<\/b>)/g)[0]
@@ -150,75 +166,84 @@
 							.trim()
 				)
 			) {
-				hideRow(li);
-				continue;
+				hide("activity");
+				return;
 			}
+		}
+		if (filters.special) {
+			const match = Object.entries(filters.special)
+				.filter(([, value]) => value !== "both")
+				.find(([key, value]) => {
+					const icons = getSpecialIcons(row);
+					const filterIcons = SPECIAL_FILTER_ICONS[key];
 
-			let hidden = false;
-			for (const key in special) {
-				const value = special[key];
-				if (value === "both") continue;
+					return (
+						(value === "yes" && !icons.some((foundIcon) => filterIcons.includes(foundIcon))) ||
+						(value === "no" && icons.some((foundIcon) => filterIcons.includes(foundIcon)))
+					);
+				});
 
-				const foundIcons = getSpecialIcons(li);
-				const definedIcons = SPECIAL_FILTER_ICONS[key];
-				if (value === "yes") {
-					if (!foundIcons.some((foundIcon) => definedIcons.includes(foundIcon))) {
-						hidden = true;
-						hideRow(li);
-						break;
-					}
-				} else if (value === "no") {
-					if (foundIcons.some((foundIcon) => definedIcons.includes(foundIcon))) {
-						hidden = true;
-						hideRow(li);
-						break;
-					}
+			if (match) {
+				hide(`special-${match[0]}`);
+				return;
+			}
+		}
+		if (filters.level) {
+			const level = parseInt(row.find(".level .value").innerText);
+			if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
+				hide("level");
+				return;
+			}
+		}
+		if (filters.statsEstimates) {
+			if (filters.statsEstimates.length) {
+				const estimate = row.dataset.estimate?.toLowerCase() ?? "none";
+				if ((estimate !== "none" || !row.classList.contains("tt-estimated")) && !filters.statsEstimates.includes(estimate)) {
+					hide("stats-estimate");
+					return;
 				}
 			}
-			if (hidden) continue;
-
-			// Level
-			const level = parseInt(li.find(".level .value").innerText);
-			if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
-				hideRow(li);
-				continue;
-			}
-
-			// Stats Estimates
-			if (statsEstimates.length) {
-				const estimate = li.dataset.estimate?.toLowerCase() ?? "none";
-				if ((estimate !== "none" || !li.classList.contains("tt-estimated")) && !statsEstimates.includes(estimate)) {
-					hideRow(li);
-					continue;
-				}
-			}
-
-			showRow(li);
 		}
 
-		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
+		show();
 
-		function showRow(li) {
-			li.classList.remove("hidden");
+		function show() {
+			row.classList.remove("hidden");
+			delete row.dataset.hideReason;
 
-			if (li.nextElementSibling?.classList.contains("tt-stats-estimate")) {
-				li.nextElementSibling.classList.remove("hidden");
+			if (row.nextElementSibling?.classList.contains("tt-stats-estimate")) {
+				row.nextElementSibling.classList.remove("hidden");
+			}
+
+			if (individual) {
+				const content = findContainer("Userlist Filter", { selector: "main" });
+
+				localFilters["Statistics"].updateStatistics(
+					document.findAll(".user-info-list-wrap > li:not(.hidden)").length,
+					document.findAll(".user-info-list-wrap > li").length,
+					content
+				);
 			}
 		}
 
-		function hideRow(li) {
-			li.classList.add("hidden");
+		function hide(reason) {
+			row.classList.add("hidden");
+			row.dataset.hideReason = reason;
 
-			if (li.nextElementSibling?.classList.contains("tt-stats-estimate")) {
-				li.nextElementSibling.classList.add("hidden");
+			if (row.nextElementSibling?.classList.contains("tt-stats-estimate")) {
+				row.nextElementSibling.classList.add("hidden");
+			}
+
+			if (individual) {
+				const content = findContainer("Userlist Filter", { selector: "main" });
+
+				localFilters["Statistics"].updateStatistics(
+					document.findAll(".user-info-list-wrap > li:not(.hidden)").length,
+					document.findAll(".user-info-list-wrap > li").length,
+					content
+				);
 			}
 		}
-
-		localFilters["Statistics"].updateStatistics(
-			document.findAll(".user-info-list-wrap > li:not(.hidden)").length,
-			document.findAll(".user-info-list-wrap > li").length,
-			content
-		);
 	}
 
 	function removeFilters() {
