@@ -54,7 +54,7 @@
 			filter: true,
 		});
 
-		const statistics = createStatistics("users");
+		const statistics = createStatistics("players");
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 

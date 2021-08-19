@@ -23,7 +23,7 @@
 			nextElement: document.find(".travel-agency-market"),
 		});
 
-		const statistics = createStatistics();
+		const statistics = createStatistics("items");
 		content.appendChild(statistics.element);
 
 		const filterContent = document.newElement({

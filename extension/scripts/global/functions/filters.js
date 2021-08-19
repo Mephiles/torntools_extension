@@ -169,7 +169,7 @@ function createFilterSection(options) {
 	return { element: section };
 }
 
-function createStatistics(text = "items") {
+function createStatistics(name = "entries") {
 	const statistics = document.newElement({
 		type: "div",
 		class: "statistics",
@@ -178,7 +178,7 @@ function createStatistics(text = "items") {
 			document.newElement({ type: "strong", class: "count", text: "X" }),
 			" of ",
 			document.newElement({ type: "strong", class: "total", text: "Y" }),
-			` ${text}`,
+			` ${name}.`,
 		],
 	});
 

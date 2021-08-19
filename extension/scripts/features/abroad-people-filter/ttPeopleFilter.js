@@ -25,7 +25,7 @@
 			filter: true,
 		});
 
-		const statistics = createStatistics();
+		const statistics = createStatistics("players");
 		content.appendChild(statistics.element);
 
 		const filterContent = document.newElement({
