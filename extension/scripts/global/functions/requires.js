@@ -73,3 +73,11 @@ function requireItemsLoaded() {
 function requireChatsLoaded() {
 	return requireElement("[class*='overview_']");
 }
+
+function requireFeatureManager() {
+	return new Promise((resolve) => {
+		while (typeof featureManager === "undefined") {}
+
+		resolve();
+	});
+}
