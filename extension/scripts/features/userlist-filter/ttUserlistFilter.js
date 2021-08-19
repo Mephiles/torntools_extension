@@ -22,6 +22,14 @@
 
 			filtering();
 		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.STATS_ESTIMATED].push(() => {
+			if (!feature.enabled()) return;
+
+			const content = findContainer("Userlist Filter", { selector: "main" });
+			if (!localFilters["Stats Estimate"]?.getSelections(content).length) return;
+
+			filtering();
+		});
 	}
 
 	const localFilters = {};
@@ -35,7 +43,7 @@
 			filter: true,
 		});
 
-		const statistics = createStatistics();
+		const statistics = createStatistics("players");
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 
@@ -76,6 +84,22 @@
 		filterContent.appendChild(levelFilter.element);
 		localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
 
+		if (settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()) {
+			const estimatesFilter = createFilterSection({
+				title: "Stats Estimates",
+				checkboxes: [
+					{ id: "none", description: "none" },
+					...RANK_TRIGGERS.stats.map((trigger) => ({ id: trigger, description: trigger })),
+					{ id: "n/a", description: "N/A" },
+				],
+				defaults: filters.userlist.estimates,
+				callback: filtering,
+			});
+			filterContent.appendChild(estimatesFilter.element);
+
+			localFilters["Stats Estimate"] = { getSelections: estimatesFilter.getSelections };
+		}
+
 		content.appendChild(filterContent);
 
 		await filtering();
@@ -83,12 +107,16 @@
 
 	async function filtering() {
 		await requireElement(".user-info-list-wrap > li #iconTray");
-		const content = findContainer("Userlist Filter").find("main");
+		const content = findContainer("Userlist Filter", { selector: "main" });
 		const activity = localFilters["Activity"].getSelections(content);
 		const special = localFilters["Special"].getSelections(content);
 		const levels = localFilters["Level Filter"].getStartEnd(content);
 		const levelStart = parseInt(levels.start);
 		const levelEnd = parseInt(levels.end);
+		const statsEstimates =
+			settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()
+				? localFilters["Stats Estimate"]?.getSelections(content) ?? filters.userlist.estimates
+				: filters.userlist.estimates;
 
 		// Update level and time slider counters
 		localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
@@ -101,14 +129,13 @@
 					levelStart: levelStart,
 					levelEnd: levelEnd,
 					special: special,
+					estimates: statsEstimates,
 				},
 			},
 		});
 
 		// Actual Filtering
 		for (const li of document.findAll(".user-info-list-wrap > li")) {
-			showRow(li);
-
 			// Activity
 			if (
 				activity.length &&
@@ -127,6 +154,7 @@
 				continue;
 			}
 
+			let hidden = false;
 			for (const key in special) {
 				const value = special[key];
 				if (value === "both") continue;
@@ -135,34 +163,55 @@
 				const definedIcons = SPECIAL_FILTER_ICONS[key];
 				if (value === "yes") {
 					if (!foundIcons.some((foundIcon) => definedIcons.includes(foundIcon))) {
+						hidden = true;
 						hideRow(li);
-						// noinspection UnnecessaryContinueJS
-						continue;
+						break;
 					}
 				} else if (value === "no") {
 					if (foundIcons.some((foundIcon) => definedIcons.includes(foundIcon))) {
+						hidden = true;
 						hideRow(li);
-						// noinspection UnnecessaryContinueJS
-						continue;
+						break;
 					}
 				}
 			}
+			if (hidden) continue;
 
 			// Level
 			const level = parseInt(li.find(".level .value").innerText);
 			if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
 				hideRow(li);
-				// noinspection UnnecessaryContinueJS
 				continue;
 			}
+
+			// Stats Estimates
+			if (statsEstimates.length) {
+				const estimate = li.dataset.estimate?.toLowerCase() ?? "none";
+				if ((estimate !== "none" || !li.classList.contains("tt-estimated")) && !statsEstimates.includes(estimate)) {
+					hideRow(li);
+					continue;
+				}
+			}
+
+			showRow(li);
 		}
+
+		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
 
 		function showRow(li) {
 			li.classList.remove("hidden");
+
+			if (li.nextElementSibling?.classList.contains("tt-stats-estimate")) {
+				li.nextElementSibling.classList.remove("hidden");
+			}
 		}
 
 		function hideRow(li) {
 			li.classList.add("hidden");
+
+			if (li.nextElementSibling?.classList.contains("tt-stats-estimate")) {
+				li.nextElementSibling.classList.add("hidden");
+			}
 		}
 
 		localFilters["Statistics"].updateStatistics(

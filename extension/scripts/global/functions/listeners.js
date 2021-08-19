@@ -36,6 +36,8 @@ const EVENT_CHANNELS = {
 	MISSION_REWARDS: "mission-rewards",
 	TRADE: "trade",
 	PROFILE_FETCHED: "profile-fetched",
+	FILTER_APPLIED: "filter-applied",
+	STATS_ESTIMATED: "stats-estimated",
 };
 
 const CUSTOM_LISTENERS = (() => {

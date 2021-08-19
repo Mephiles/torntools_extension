@@ -27,32 +27,176 @@ const RANKS = {
 	Invincible: 26,
 };
 
-const RANK_TRIGGERS = {
-	level: [2, 6, 11, 26, 31, 50, 71, 100],
-	crimes: [100, 5000, 10000, 20000, 30000, 50000],
-	networth: [5000000, 50000000, 500000000, 5000000000, 50000000000],
+class StatsEstimate {
+	constructor(isList) {
+		this.queue = [];
+		this.running = false;
 
-	stats: ["under 2k", "2k - 25k", "20k - 250k", "200k - 2.5m", "2m - 25m", "20m - 250m", "over 200m"],
-};
+		this.isList = isList;
+	}
 
-function calculateEstimateBattleStats(rank, level, crimes, networth) {
-	rank = rank.match(/[A-Z][a-z ]+/g)[0].trim();
+	showEstimates(selector, handler, hasFilter) {
+		for (const row of document.findAll(selector)) {
+			if (row.classList.contains("hidden") || row.classList.contains("tt-estimated")) continue;
 
-	const triggersLevel = RANK_TRIGGERS.level.filter((x) => x <= level).length;
-	const triggersCrimes = RANK_TRIGGERS.crimes.filter((x) => x <= crimes).length;
-	const triggersNetworth = RANK_TRIGGERS.networth.filter((x) => x <= networth).length;
+			const { id, level } = handler(row);
+			if (!id) continue;
 
-	const triggersStats = RANKS[rank] - triggersLevel - triggersCrimes - triggersNetworth - 1;
+			if (level && settings.scripts.statsEstimate.maxLevel && settings.scripts.statsEstimate.maxLevel < level) continue;
 
-	return RANK_TRIGGERS.stats[triggersStats] ?? "N/A";
-}
+			row.classList.add("tt-estimated");
 
-function cacheStatsEstimate(id, estimate, lastAction) {
-	let days = 7;
+			const section = document.newElement({ type: "div", class: "tt-stats-estimate" });
+			row.insertAdjacentElement("afterend", section);
 
-	if (estimate === RANK_TRIGGERS.stats.last()) days = 31;
-	else if (lastAction && lastAction <= Date.now() - TO_MILLIS.DAYS * 180) days = 31;
-	else if (estimate === "N/A") days = 1;
+			showLoadingPlaceholder(section, true);
 
-	return ttCache.set({ [id]: estimate }, TO_MILLIS.DAYS * days, "stats-estimate");
+			let estimate;
+			if (ttCache.hasValue("stats-estimate", id)) {
+				estimate = ttCache.get("stats-estimate", id);
+			} else if (ttCache.hasValue("profile-stats", id)) {
+				const {
+					rank,
+					level,
+					criminalrecord: { total: crimes },
+					personalstats: { networth },
+					last_action: { timestamp: lastAction },
+				} = ttCache.get("profile-stats", id);
+
+				estimate = this.getEstimate(rank, level, crimes, networth);
+
+				this.cacheResult(id, estimate, lastAction * 1000).catch((error) => console.error("Failed to cache stat estimate.", error));
+			}
+
+			if (estimate) {
+				section.innerText = `Stats Estimate: ${estimate}`;
+				if (hasFilter) row.dataset.estimate = estimate;
+
+				showLoadingPlaceholder(section, false);
+			} else if (settings.scripts.statsEstimate.cachedOnly) {
+				if (settings.scripts.statsEstimate.displayNoResult) section.innerText = "No cached result found!";
+				else {
+					row.classList.remove("tt-estimated");
+					section.remove();
+				}
+
+				showLoadingPlaceholder(section, false);
+			} else this.queue.push({ row, section, id, hasFilter });
+		}
+		if (hasFilter) triggerCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, { global: true });
+
+		this.runQueue().then(() => {});
+	}
+
+	async runQueue() {
+		if (this.running || !this.queue.length) return;
+
+		this.running = true;
+
+		while (this.queue.length) {
+			const { row, section, id, hasFilter } = this.queue.shift();
+
+			if (row.classList.contains("hidden")) {
+				row.classList.remove("tt-estimated");
+				section.remove();
+				continue;
+			}
+
+			try {
+				const estimate = await this.fetchEstimate(id);
+
+				section.innerText = `Stats Estimate: ${estimate}`;
+				if (hasFilter) {
+					row.dataset.estimate = estimate;
+					triggerCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, { row, estimate });
+				}
+			} catch (error) {
+				if (error.show) {
+					section.innerText = error.message;
+				} else {
+					section.remove();
+				}
+				if (hasFilter) triggerCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, { row });
+			}
+			showLoadingPlaceholder(section, false);
+
+			await sleep(settings.scripts.statsEstimate.delay);
+		}
+
+		this.running = false;
+	}
+
+	clearQueue() {
+		for (const { row, section } of this.queue) {
+			row.classList.remove("tt-estimated");
+			section.remove();
+		}
+
+		this.queue = [];
+	}
+
+	getEstimate(rank, level, crimes, networth) {
+		rank = rank.match(/[A-Z][a-z ]+/g)[0].trim();
+
+		const triggersLevel = RANK_TRIGGERS.level.filter((x) => x <= level).length;
+		const triggersCrimes = RANK_TRIGGERS.crimes.filter((x) => x <= crimes).length;
+		const triggersNetworth = RANK_TRIGGERS.networth.filter((x) => x <= networth).length;
+
+		const triggersStats = RANKS[rank] - triggersLevel - triggersCrimes - triggersNetworth - 1;
+
+		return RANK_TRIGGERS.stats[triggersStats] ?? "N/A";
+	}
+
+	async fetchEstimate(id) {
+		let estimate, data;
+		if (ttCache.hasValue("stats-estimate", id)) {
+			estimate = ttCache.get("stats-estimate", id);
+		} else if (ttCache.hasValue("profile-stats", id)) {
+			data = ttCache.get("profile-stats", id);
+		} else {
+			if (this.isList && settings.scripts.statsEstimate.cachedOnly)
+				throw { message: "No cached result found!", show: settings.scripts.statsEstimate.displayNoResult };
+
+			try {
+				data = await fetchData("torn", { section: "user", id, selections: ["profile", "personalstats", "crimes"], silent: true });
+			} catch (error) {
+				let message;
+				if (error.error) message = error.error;
+				else if (error.code) message = `Unknown (code ${error.code})`;
+				else message = error;
+
+				throw { message, show: true };
+			}
+		}
+
+		if (!estimate) {
+			if (data) {
+				const {
+					rank,
+					level,
+					criminalrecord: { total: crimes },
+					personalstats: { networth },
+					last_action: { timestamp: lastAction },
+				} = data;
+
+				estimate = this.getEstimate(rank, level, crimes, networth);
+
+				this.cacheResult(id, estimate, lastAction * 1000).catch((error) => console.error("Failed to cache stat estimate.", error));
+			} else {
+				throw { message: "Failed to load estimate.", show: true };
+			}
+		}
+
+		return estimate;
+	}
+
+	cacheResult(id, estimate, lastAction) {
+		let days = 7;
+
+		if (estimate === RANK_TRIGGERS.stats.last()) days = 31;
+		else if (lastAction && lastAction <= Date.now() - TO_MILLIS.DAYS * 180) days = 31;
+		else if (estimate === "N/A") days = 1;
+
+		return ttCache.set({ [id]: estimate }, TO_MILLIS.DAYS * days, "stats-estimate");
+	}
 }

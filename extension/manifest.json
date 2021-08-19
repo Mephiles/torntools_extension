@@ -494,8 +494,14 @@
 		},
 		{
 			"matches": ["https://www.torn.com/page.php?sid=UserList*"],
-			"css": ["scripts/global/functions/filters.css"],
-			"js": ["scripts/global/functions/filters.js", "scripts/content/userlist/ttUserlist.js", "scripts/features/userlist-filter/ttUserlistFilter.js"],
+			"css": ["scripts/global/functions/filters.css", "scripts/features/stats-estimate/ttStatsEstimate.css"],
+			"js": [
+				"scripts/global/functions/filters.js",
+				"scripts/content/userlist/ttUserlist.js",
+				"scripts/features/userlist-filter/ttUserlistFilter.js",
+				"scripts/features/stats-estimate/statsEstimate.js",
+				"scripts/features/stats-estimate/ttStatsEstimateUserlist.js"
+			],
 			"run_at": "document_end"
 		},
 		{
@@ -613,6 +619,24 @@
 			"matches": ["https://www.torn.com/loader.php?sid=blackjack*"],
 			"css": ["scripts/features/blackjack-strategy/ttBlackjackStrategy.css"],
 			"js": ["scripts/features/blackjack-strategy/ttBlackjackStrategy.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/blacklist.php*"],
+			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css"],
+			"js": ["scripts/features/stats-estimate/statsEstimate.js", "scripts/features/stats-estimate/ttStatsEstimateEnemies.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/halloffame.php*"],
+			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css"],
+			"js": ["scripts/features/stats-estimate/statsEstimate.js", "scripts/features/stats-estimate/ttStatsEstimateHOF.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/loader.php?sid=attack*"],
+			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css"],
+			"js": ["scripts/features/stats-estimate/statsEstimate.js", "scripts/features/stats-estimate/ttStatsEstimateAttacks.js"],
 			"run_at": "document_end"
 		}
 	]

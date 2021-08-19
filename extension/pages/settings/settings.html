@@ -1343,11 +1343,44 @@
 							<label for="statsEstimate-maxLevel">Show estimates for users up to level </label>
 							<input id="statsEstimate-maxLevel" type="number" min="1" max="100" />
 						</div>
+						<div class="option">
+							<label for="statsEstimate-delay">Delay requests for </label>
+							<input id="statsEstimate-delay" type="number" min="1" />
+							<label for="statsEstimate-delay">ms.</label>
+							<label class="tabbed note" for="statsEstimate-delay">
+								Lowering this value might risk using too many api requests and getting blocked.
+							</label>
+						</div>
+						<div class="option">
+							<input id="statsEstimate-cachedOnly" type="checkbox" />
+							<label for="statsEstimate-cachedOnly">Only show cached results.</label>
+							<label class="tabbed note" for="statsEstimate-cachedOnly">Ignored on profiles.</label>
+						</div>
+						<div class="option">
+							<input id="statsEstimate-displayNoResult" type="checkbox" />
+							<label for="statsEstimate-displayNoResult">Show a notice when there was no cached result.</label>
+						</div>
 
 						<div class="header">Pages</div>
 						<div class="option">
 							<input id="statsEstimate-profiles" type="checkbox" />
 							<label for="statsEstimate-profiles">Profiles</label>
+						</div>
+						<div class="option">
+							<input id="statsEstimate-enemies" type="checkbox" />
+							<label for="statsEstimate-enemies">Enemies list</label>
+						</div>
+						<div class="option">
+							<input id="statsEstimate-hof" type="checkbox" />
+							<label for="statsEstimate-hof">Hall of Fame</label>
+						</div>
+						<div class="option">
+							<input id="statsEstimate-attacks" type="checkbox" />
+							<label for="statsEstimate-attacks">Attacks page</label>
+						</div>
+						<div class="option">
+							<input id="statsEstimate-userlist" type="checkbox" />
+							<label for="statsEstimate-userlist">Userlist</label>
 						</div>
 					</section>
 				</div>

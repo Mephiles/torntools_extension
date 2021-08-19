@@ -546,11 +546,15 @@ const DEFAULT_STORAGE = {
 			},
 			statsEstimate: {
 				global: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				// delay: new DefaultSetting({ type: "number", defaultValue: 1500 }),
-				// cachedOnly: new DefaultSetting({ type: "boolean", defaultValue: false }),
-				// displayNoResult: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				delay: new DefaultSetting({ type: "number", defaultValue: 1500 }),
+				cachedOnly: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				displayNoResult: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				maxLevel: new DefaultSetting({ type: "number", defaultValue: 100 }),
 				profiles: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				enemies: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				hof: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				attacks: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				userlist: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		external: {
@@ -639,6 +643,7 @@ const DEFAULT_STORAGE = {
 				inHospital: new DefaultSetting({ type: "string", defaultValue: "both" }),
 				inJail: new DefaultSetting({ type: "string", defaultValue: "both" }),
 			},
+			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
 		closedScopes: new DefaultSetting({ type: "array", defaultValue: [] }),
 		stocks: {
@@ -1325,4 +1330,12 @@ const BOOK_DESCRIPTIONS = {
 	785: "Re-use your last used book (31 days).",
 	786: "Boost your employee effectiveness (31 days).",
 	787: "Guaranteed escape attempt success (31 days)",
+};
+
+const RANK_TRIGGERS = {
+	level: [2, 6, 11, 26, 31, 50, 71, 100],
+	crimes: [100, 5000, 10000, 20000, 30000, 50000],
+	networth: [5000000, 50000000, 500000000, 5000000000, 50000000000],
+
+	stats: ["under 2k", "2k - 25k", "20k - 250k", "200k - 2.5m", "2m - 25m", "20m - 250m", "over 200m"],
 };

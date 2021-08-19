@@ -3,3 +3,37 @@
 	padding-right: 10px;
 	color: var(--tt-color-light-green);
 }
+
+.tt-stats-estimate {
+	text-align: center;
+	padding: 5px;
+	border-bottom: 1px solid var(--default-panel-divider-outer-side-color);
+	font-size: 11px;
+	color: #7b7b7b;
+	min-height: 11px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.tt-stats-estimate .tt-loading-placeholder {
+	padding: 0;
+}
+
+.tt-stats-estimate-attacks-wrapper > * {
+	margin-left: 10px !important;
+}
+
+.tt-mobile .tt-stats-estimate-attacks-wrapper > :first-child {
+	margin-left: 0 !important;
+}
+
+.tt-mobile .tt-stats-estimate-attacks-wrapper > :nth-child(2) {
+	margin-left: 0 !important;
+}
+.tt-mobile .tt-stats-estimate-attacks-wrapper > :nth-child(3) {
+	margin-left: 5px !important;
+}
+.tt-mobile .tt-stats-estimate-attacks-wrapper > :nth-child(4) {
+	margin-left: 12px !important;
+}
