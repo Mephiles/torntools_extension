@@ -61,6 +61,11 @@
 			ttCache.set({ [userdata.faction.faction_id]: donations }, TO_MILLIS.SECONDS * 60, "faction-members-donations").then(() => {});
 		}
 
+		if (!donations) {
+			console.log("TT - Failed to load donations.");
+			return;
+		}
+
 		document.findAll(".members-list .table-body > li").forEach((li) => {
 			const userID = li.find(".user.name").dataset.placeholder.match(/(?<=\[)\d+(?=]$)/g)[0];
 			if (!donations[userID] || (!donations[userID].points_balance && !donations[userID].money_balance)) return;
