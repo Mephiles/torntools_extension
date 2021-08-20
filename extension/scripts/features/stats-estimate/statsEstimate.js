@@ -35,7 +35,7 @@ class StatsEstimate {
 		this.isList = isList;
 	}
 
-	showEstimates(selector, handler, hasFilter) {
+	showEstimates(selector, handler, hasFilter, placement) {
 		for (const row of document.findAll(selector)) {
 			if ((row.classList.contains("hidden") && row.dataset.hideReason !== "stats-estimate") || row.classList.contains("tt-estimated")) continue;
 
@@ -47,7 +47,11 @@ class StatsEstimate {
 			row.classList.add("tt-estimated");
 
 			const section = document.newElement({ type: "div", class: "tt-stats-estimate" });
-			row.insertAdjacentElement("afterend", section);
+			const parent = placement ? placement(row) ?? row : row;
+			new Promise((resolve) => {
+				parent.insertAdjacentElement("afterend", section);
+				resolve();
+			}).then(() => {});
 
 			showLoadingPlaceholder(section, true);
 

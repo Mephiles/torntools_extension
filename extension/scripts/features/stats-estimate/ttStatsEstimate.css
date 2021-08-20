@@ -31,9 +31,19 @@
 .tt-mobile .tt-stats-estimate-attacks-wrapper > :nth-child(2) {
 	margin-left: 0 !important;
 }
+
 .tt-mobile .tt-stats-estimate-attacks-wrapper > :nth-child(3) {
 	margin-left: 5px !important;
 }
+
 .tt-mobile .tt-stats-estimate-attacks-wrapper > :nth-child(4) {
 	margin-left: 12px !important;
+}
+
+.bounties-list .tt-stats-estimate {
+	background: var(--newspaper-divider-horizontal-older-line-url) left top repeat-x;
+}
+
+body.dark-mode .bounties-list .tt-stats-estimate {
+	color: #aaa;
 }

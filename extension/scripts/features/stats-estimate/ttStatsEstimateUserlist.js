@@ -9,7 +9,7 @@
 		"stat estimates",
 		() => settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist,
 		registerListeners,
-		showEstimates,
+		startFeature,
 		removeEstimates,
 		{
 			storage: ["settings.scripts.statsEstimate.global", "settings.scripts.statsEstimate.userlist"],
@@ -33,6 +33,15 @@
 			if (triggerFilter) clearTimeout(triggerFilter);
 			triggerFilter = setTimeout(showEstimates, 500);
 		});
+	}
+
+	async function startFeature() {
+		if (settings.pages.userlist.filter) {
+			const list = document.find(".user-info-list-wrap");
+			if (!list || list.find(".ajax-placeholder")) return;
+		}
+
+		await showEstimates();
 	}
 
 	async function showEstimates() {

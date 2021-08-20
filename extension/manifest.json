@@ -213,8 +213,13 @@
 		},
 		{
 			"matches": ["https://www.torn.com/bounties.php*"],
-			"css": ["scripts/features/bounty-filter/ttBountyFilter.css"],
-			"js": ["scripts/features/bounty-filter/ttBountyFilter.js"],
+			"css": ["scripts/features/bounty-filter/ttBountyFilter.css", "scripts/features/stats-estimate/ttStatsEstimate.css"],
+			"js": [
+				"scripts/content/bounties/ttBounties.js",
+				"scripts/features/bounty-filter/ttBountyFilter.js",
+				"scripts/features/stats-estimate/statsEstimate.js",
+				"scripts/features/stats-estimate/ttStatsEstimateBounties.js"
+			],
 			"run_at": "document_end"
 		},
 		{
@@ -284,7 +289,8 @@
 				"scripts/features/last-action/ttLastAction.css",
 				"scripts/features/faction-member-filter/ttFactionMemberFilter.css",
 				"scripts/features/faction-member-info/ttFactionMemberInfo.css",
-				"scripts/features/faction-inactivity-warning/ttFactionInactivityWarning.css"
+				"scripts/features/faction-inactivity-warning/ttFactionInactivityWarning.css",
+				"scripts/features/stats-estimate/ttStatsEstimate.css"
 			],
 			"js": [
 				"scripts/global/functions/filters.js",
@@ -311,7 +317,9 @@
 				"scripts/features/armory-filter/ttArmoryFilter.js",
 				"scripts/features/upgrade-required-respect/ttUpgradeRequiredRespect.js",
 				"scripts/features/faction-member-info/ttFactionMemberInfo.js",
-				"scripts/features/faction-inactivity-warning/ttFactionInactivityWarning.js"
+				"scripts/features/faction-inactivity-warning/ttFactionInactivityWarning.js",
+				"scripts/features/stats-estimate/statsEstimate.js",
+				"scripts/features/stats-estimate/ttStatsEstimateFactionMembers.js"
 			],
 			"run_at": "document_end"
 		},
