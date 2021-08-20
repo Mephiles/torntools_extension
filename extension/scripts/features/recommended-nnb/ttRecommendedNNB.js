@@ -59,8 +59,7 @@
 	}
 
 	function removeRecommendedNNB() {
-		const parent = document.find(".faction-crimes-wrap .begin-wrap");
-		parent.classList.remove("tt-modified");
+		document.find(".faction-crimes-wrap .begin-wrap")?.classList.remove("tt-modified");
 
 		for (const nnb of document.findAll(".tt-recommended-nnb")) {
 			nnb.remove();

@@ -189,6 +189,6 @@
 
 	function removeNNBs() {
 		for (const nnb of document.findAll(".tt-nnb")) nnb.remove();
-		for (const nnb of document.findAll(". crimes-list ul.plans-list .tt-modified")) nnb.remove();
+		for (const nnb of document.findAll(".crimes-list ul.plans-list .tt-modified")) nnb.remove();
 	}
 })();
