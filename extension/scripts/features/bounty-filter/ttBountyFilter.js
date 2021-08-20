@@ -71,7 +71,8 @@
 				},
 			});
 
-			for (const bounty of [...document.findAll(".bounties-list > *:not(.clear)")]) {
+			const list = document.find(".bounties-list");
+			for (const bounty of [...list.findAll(":scope > li[data-id]")]) {
 				if (maxLevel > 0 && parseInt(bounty.find(".level").lastChild.textContent) > maxLevel) {
 					hideBounty(bounty);
 					continue;
@@ -83,18 +84,29 @@
 				} else showBounty(bounty);
 			}
 
+			list.classList.add("tt-filtered");
+			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
+
 			function hideBounty(bounty) {
 				bounty.classList.add("hidden");
+
+				if (bounty.nextElementSibling.classList.contains("tt-stats-estimate")) {
+					bounty.nextElementSibling.classList.add("hidden");
+				}
 			}
 
 			function showBounty(bounty) {
 				bounty.classList.remove("hidden");
+
+				if (bounty.nextElementSibling.classList.contains("tt-stats-estimate")) {
+					bounty.nextElementSibling.classList.remove("hidden");
+				}
 			}
 		}
 	}
 
 	function removeFilter() {
-		document.findAll(".bounties-list > .hidden:not(.clear)").forEach((x) => x.classList.remove("hidden"));
+		document.findAll(".bounties-list > .hidden").forEach((x) => x.classList.remove("hidden"));
 		removeContainer("Bounty Filter");
 	}
 })();

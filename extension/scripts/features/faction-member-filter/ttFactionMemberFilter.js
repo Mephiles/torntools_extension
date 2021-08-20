@@ -126,7 +126,7 @@
 
 		content.appendChild(filterContent);
 
-		await applyFilter();
+		applyFilter().then(() => {});
 	}
 
 	async function showLastAction() {
@@ -153,7 +153,7 @@
 			updateCounter: lastActiveFilter.updateCounter,
 			element: lastActiveFilter.element,
 		};
-		await applyFilter();
+		applyFilter().then(() => {});
 	}
 
 	async function removeLastAction() {
@@ -169,6 +169,10 @@
 	}
 
 	async function applyFilter() {
+		_applyFilter().then(() => {});
+	}
+
+	async function _applyFilter() {
 		await requireElement(".members-list .table-body > li");
 		const content = findContainer("Member Filter").find("main");
 		const activity = localFilters["Activity"].getSelections(content);
@@ -276,16 +280,35 @@
 			showRow(li);
 		}
 
+		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
+
 		function showRow(li) {
 			li.classList.remove("hidden");
 			li.classList.remove("last-action");
-			if (li.nextSibling.className && li.nextSibling.className.includes("tt-last-action")) li.nextSibling.classList.remove("hidden");
+			if (li.nextElementSibling?.classList.contains("tt-last-action") || li.nextElementSibling?.classList.contains("tt-stats-estimate")) {
+				li.nextElementSibling.classList.remove("hidden");
+
+				if (
+					li.nextElementSibling.nextElementSibling?.classList.contains("tt-last-action") ||
+					li.nextElementSibling.nextElementSibling?.classList.contains("tt-stats-estimate")
+				)
+					li.nextElementSibling.nextElementSibling.classList.remove("hidden");
+			}
 		}
 
 		function hideRow(li, customClass = "") {
 			li.classList.add("hidden");
 			if (customClass) li.classList.add(customClass);
-			if (li.nextSibling.className && li.nextSibling.className.includes("tt-last-action")) li.nextSibling.classList.add("hidden");
+
+			if (li.nextElementSibling?.classList.contains("tt-last-action") || li.nextElementSibling?.classList.contains("tt-stats-estimate")) {
+				li.nextElementSibling.classList.add("hidden");
+
+				if (
+					li.nextElementSibling.nextElementSibling?.classList.contains("tt-last-action") ||
+					li.nextElementSibling.nextElementSibling?.classList.contains("tt-stats-estimate")
+				)
+					li.nextElementSibling.nextElementSibling.classList.add("hidden");
+			}
 		}
 
 		localFilters["Statistics"].updateStatistics(

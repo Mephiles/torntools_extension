@@ -38,6 +38,7 @@ const EVENT_CHANNELS = {
 	PROFILE_FETCHED: "profile-fetched",
 	FILTER_APPLIED: "filter-applied",
 	STATS_ESTIMATED: "stats-estimated",
+	SWITCH_PAGE: "switch-page",
 };
 
 const CUSTOM_LISTENERS = (() => {

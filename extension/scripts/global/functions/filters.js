@@ -162,7 +162,10 @@ function createFilterSection(options) {
 		}
 
 		function updateCounter(string, content) {
-			content.find(`.${ccTitle} .slider-counter`).innerText = string;
+			const counter = content.find(`.${ccTitle} .slider-counter`);
+			if (!counter) return;
+
+			counter.innerText = string;
 		}
 	}
 
