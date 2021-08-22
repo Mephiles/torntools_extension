@@ -1281,11 +1281,11 @@ function isSellable(id) {
 }
 
 function isFlying() {
-	return document.body.dataset.traveling === "true" || document.body.dataset.traveling === true;
+	return document.body.dataset.traveling === "true";
 }
 
 function isAbroad() {
-	return (!isFlying() && document.body.dataset.abroad === "true") || document.body.dataset.abroad === true;
+	return !isFlying() && document.body.dataset.abroad === "true";
 }
 
 function getRFC() {
