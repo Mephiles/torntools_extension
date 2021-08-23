@@ -24,7 +24,7 @@
 		});
 	}
 
-	function showHints() {
+	async function showHints() {
 		const MISSION_HINTS = {
 			a_good_day_to_get_hard: {
 				task: "Achieve a killstreak of 3 - 10.",
@@ -61,7 +61,8 @@
 				hint: "Unequip everything. Residual effects from previous fights will fail this mission!",
 			},
 			batshit_crazy: {
-				task: () => {
+				task: async () => {
+					await requireSidebar();
 					const max = parseInt(document.find("#barLife [class*='bar-value___']").innerText.split("/")[1]);
 
 					return `Inflict ${formatNumber(max * 0.5, { decimals: 0 })} - ${formatNumber(max * 2.5, {
@@ -93,7 +94,8 @@
 			},
 			bring_it: {
 				task: "Defeat Duke in a group attack",
-				hint: "Unlike other missions, you'll have a week to finish this one. Doesn't have to be the finishing hit, so just join when people try to loot him.",
+				hint:
+					"Unlike other missions, you'll have a week to finish this one. Doesn't have to be the finishing hit, so just join when people try to loot him.",
 			},
 			candy_from_babies: {
 				task: "Collect $50,000 - $250,000 in bounties.",
@@ -225,7 +227,8 @@
 			},
 			motivator: {
 				task: "Lose or stalemate to (P) on the first attempt.",
-				hint: "Timing out doesn't fail this mission, so if you're about to win, let it time out. You can get your health low by using the wrong blood bag. Make yourself weak by unequipping armor and equip a rusty sword.",
+				hint:
+					"Timing out doesn't fail this mission, so if you're about to win, let it time out. You can get your health low by using the wrong blood bag. Make yourself weak by unequipping armor and equip a rusty sword.",
 			},
 			new_kid_on_the_block: {
 				task: "Defeat 5 players.",
@@ -350,7 +353,12 @@
 			if (key in MISSION_HINTS) {
 				const mission = MISSION_HINTS[key];
 
-				task = typeof mission.task === "function" ? mission.task() : mission.task;
+				task =
+					typeof mission.task === "function"
+						? mission.task.constructor.name === "AsyncFunction"
+							? await mission.task()
+							: mission.task()
+						: mission.task;
 				hint = mission.hint;
 			} else {
 				if (title.includes("{name}")) {
