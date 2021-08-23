@@ -1563,9 +1563,7 @@ function isOwnProfile() {
 
 		id = parseInt(script.getAttribute("uid"));
 		name = script.getAttribute("name");
-	}
-	// FIXME - Find way to detect it anyway.
-	else {
+	} else {
 		id = userdata.player_id;
 		name = userdata.name;
 	}

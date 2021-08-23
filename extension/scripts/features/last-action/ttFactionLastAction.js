@@ -34,7 +34,7 @@
 		await requireElement(".members-list .table-body > li");
 
 		const id = isOwnFaction ? "own" : parseInt(document.find(".faction-info-wrap .faction-info").dataset.faction);
-		if (!id) return; // FIXME - Find a way to go around this.
+		if (!id) return;
 
 		let members;
 		if (ttCache.hasValue("faction-members", id)) {

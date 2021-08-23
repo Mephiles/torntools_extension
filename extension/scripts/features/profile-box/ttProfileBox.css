@@ -37,11 +37,6 @@ body.tt-mobile #userInformation main {
 	padding: 0;
 	border-radius: 3px;
 	color: var(--default-color);
-
-	/* FIXME - Remove CSS. */
-	width: auto;
-	margin: 0;
-	box-shadow: unset;
 }
 
 #userInformation .section {

@@ -327,7 +327,6 @@
 			}
 
 			async function pullInformation() {
-				// TODO - Cache result.
 				return fetchData("yata", { section: "travel/export/", relay: true });
 			}
 

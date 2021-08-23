@@ -96,7 +96,6 @@ async function setupAttackHistory() {
 		);
 
 		const lastAttackText = `${formatDate({ milliseconds: data.lastAttack }, { showYear: true })}, ${formatTime({ milliseconds: data.lastAttack })}`;
-		// FIXME - Check date.
 		if (data.lastAttackCode) {
 			row.appendChild(
 				document.newElement({
