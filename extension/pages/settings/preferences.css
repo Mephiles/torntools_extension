@@ -1,305 +1,27 @@
-/* Preferences */
+/* region Advanced Settings */
+
+main#preferences > h2 {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: 8em;
+}
 
 #preferences-show_advanced {
 	cursor: pointer;
-}
-
-#preferences > section:first-of-type {
-	display: flex;
-	font-size: 15px;
-	padding: 0;
-}
-
-#preferences nav {
-	width: max-content;
-}
-
-body.light #preferences nav {
-	border-right: 1px solid lightgray;
-	background-color: #f1f1f1;
-}
-
-body.dark #preferences nav {
-	border-right: 1px solid #444;
-	background-color: #5a5a5a;
-}
-
-#preferences nav ul {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-}
-
-#preferences nav ul > li {
-	padding: 7px;
-	border-bottom: 1px solid lightgray;
-	white-space: nowrap;
-}
-
-body.light #preferences nav ul > li {
-	border-bottom: 1px solid lightgray;
-}
-
-body.dark #preferences nav ul > li {
-	border-bottom: 1px solid #444;
-}
-
-body.light #preferences nav ul > li.header {
-	background-color: #b9b9b9;
-}
-
-body.dark #preferences nav ul > li.header {
-	background-color: #353535;
-}
-
-#preferences nav ul > li[name] {
-	white-space: nowrap;
-}
-
-#preferences nav ul > li[name]:hover {
-	cursor: pointer;
-}
-
-body.light #preferences nav ul > li[name].active,
-body.light #preferences nav ul > li[name]:hover {
-	background-color: #e2e0e0;
-}
-
-body.dark #preferences nav ul > li[name].active,
-body.dark #preferences nav ul > li[name]:hover {
-	background-color: #404040;
-}
-
-#preferences nav ul > li[name].active:hover {
-	cursor: initial;
-}
-
-#preferences .sections {
-	width: 100%;
-	padding: 10px;
-}
-
-body.light #preferences .sections {
-	border-bottom: 1px solid lightgray;
-}
-
-body.dark #preferences .sections {
-	border-bottom: 1px solid #333;
-}
-
-#preferences .sections > section {
-	display: none;
-	margin-bottom: 20px;
-}
-
-#preferences .sections > section.active {
-	display: block;
-}
-
-#preferences .sections > section .header:first-of-type {
-	margin-top: unset;
-}
-
-#preferences .sections > section .header {
-	font-weight: bold;
-	margin-top: 12px;
-}
-
-#preferences .sections > section .header.extra-mb {
-	margin-bottom: 4px;
-}
-
-#preferences footer {
-	padding: 5px;
 }
 
 #preferences .advanced-hidden .advanced {
 	display: none;
 }
 
-#preferences .tabbed {
-	padding-left: 20px;
-}
-
-body.dark #preferences a[href] {
-	color: #74c0fc;
-	text-decoration: none;
-}
-
-#preferences .option input.single.seconds {
-	width: 45px;
-}
-
-/* Action Buttons */
-
-#preferences .remove-icon-wrap,
-#preferences .add-icon-wrap {
-	width: 25px;
-}
-
-#preferences .remove-icon {
-	color: red;
-}
-
-#preferences .add-icon {
-	color: green;
-}
-
-#preferences #addAllyFaction {
-	padding: 0 5px 0 5px;
-	width: fit-content;
-	width: -moz-fit-content;
-}
-
-/* Chat Highlighting */
-
-#preferences #chatTitleHighlight select.color {
-	height: 21px;
-	margin-top: 2px;
-}
-
-/* Notifications */
-
-#preferences #notification-sound-play,
-#preferences #notification-sound-stop {
-	cursor: pointer;
-}
-
-/* Hide Areas, Hide Casino Games */
-
-#preferences #hide-areas span,
-#preferences #hide-casino-games span,
-#preferences #hide-stocks span {
-	padding: 1px 5px;
-	border-radius: 4px;
-	cursor: pointer;
-	position: relative;
-	display: inline-block;
-	margin-bottom: 4px;
-}
-
-#preferences #hide-stock-blocks span:not(:last-child) {
-	margin-right: 5px;
-}
-
-body.light #preferences #hide-areas span,
-body.light #preferences #hide-casino-games span,
-body.light #preferences #hide-stocks span {
-	background-color: #f9f9f9;
-	border: 1px solid lightgray;
-}
-
-body.dark #preferences #hide-areas span,
-body.dark #preferences #hide-casino-games span,
-body.dark #preferences #hide-stocks span {
-	background-color: #383838;
-	border: 1px solid #333;
-}
-
-#preferences #hide-areas span.disabled,
-#preferences #hide-casino-games span.disabled,
-#preferences #hide-stocks span.disabled {
-	opacity: 0.6;
-	background-color: rgba(255, 0, 0, 0.6) !important;
-}
-
-/* Custom Links */
-
-#preferences #customLinks > li {
-	display: flex;
-	transform: none !important;
-}
-
-#preferences #customLinks > li .name,
-#preferences #customLinks > li .href {
-	flex: 1;
-}
-
-#preferences #customLinks .move-icon-wrap {
-	margin: 0 8px;
-}
-
-#preferences #customLinks .remove-icon-wrap,
-#preferences #customLinks .add-icon-wrap {
-	margin-left: auto;
-}
-
-body.light #preferences #customLinks .dragging {
-	border: 1px solid #333;
-}
-
-body.dark #preferences #customLinks .dragging {
-	border: 1px solid white;
-}
-
-#preferences .arrow {
-	position: absolute;
-	font-size: 26px;
-	left: -2px;
-	top: -13px;
-	transform: rotate(-90deg);
-}
-
-#employeeInactivityWarning .tabbed {
-	height: 35px;
-	display: flex;
-	align-items: center;
-}
-
-#employeeInactivityWarning input[type="number"] {
-	margin-right: 5px;
-	width: 40px;
-}
-
-#employeeInactivityWarning input[type="color"] {
-	margin-left: 5px;
-}
-
-/* FeatureDisplayDemo */
-#featureDisplayDemo {
-	border: 1px solid lightgray;
-	border-radius: 10px;
-	padding: 3px;
-	width: 70px;
-	height: 40px;
-	position: relative;
-	margin-left: 40px;
-}
-
-#featureDisplayDemo input[type="radio"] {
-	position: absolute;
-}
-
-#featureDisplayDemo .top {
-	top: 1px;
-}
-
-#featureDisplayDemo .bottom {
-	bottom: 1px;
-}
-
-#featureDisplayDemo .left {
-	left: 1px;
-}
-
-#featureDisplayDemo .right {
-	right: 1px;
-}
-
 body.tt-mobile .no-mobile {
 	display: none !important;
 }
 
-main#preferences > h2 {
-	display: flex;
-	font-size: 1.5em;
-	font-weight: bold;
-	align-items: center;
-	justify-content: center;
-	margin-left: 8em;
-}
+/* endregion */
 
-/* Search */
+/* region Search */
 
 #preferences-search {
 	position: relative;
@@ -459,3 +181,395 @@ body.dark #tt-search-list {
 	animation-duration: 4s;
 	animation-iteration-count: 5;
 }
+
+/* endregion */
+
+/* region Navigation */
+
+#preferences > section:first-of-type {
+	display: flex;
+	font-size: 15px;
+	padding: 0;
+}
+
+#preferences nav {
+	width: max-content;
+}
+
+body.light #preferences nav {
+	border-right: 1px solid lightgray;
+	background-color: #f1f1f1;
+}
+
+body.dark #preferences nav {
+	border-right: 1px solid #444;
+	background-color: #5a5a5a;
+}
+
+#preferences nav ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+#preferences nav ul > li {
+	padding: 7px;
+	border-bottom: 1px solid lightgray;
+	white-space: nowrap;
+}
+
+body.light #preferences nav ul > li {
+	border-bottom: 1px solid lightgray;
+}
+
+body.dark #preferences nav ul > li {
+	border-bottom: 1px solid #444;
+}
+
+body.light #preferences nav ul > li.header {
+	background-color: #b9b9b9;
+}
+
+body.dark #preferences nav ul > li.header {
+	background-color: #353535;
+}
+
+#preferences nav ul > li[name] {
+	white-space: nowrap;
+}
+
+#preferences nav ul > li[name]:hover {
+	cursor: pointer;
+}
+
+body.light #preferences nav ul > li[name].active,
+body.light #preferences nav ul > li[name]:hover {
+	background-color: #e2e0e0;
+}
+
+body.dark #preferences nav ul > li[name].active,
+body.dark #preferences nav ul > li[name]:hover {
+	background-color: #404040;
+}
+
+#preferences nav ul > li[name].active:hover {
+	cursor: initial;
+}
+
+/* endregion */
+
+/* region Section */
+
+#preferences .sections {
+	width: 100%;
+	padding: 10px;
+	overflow: auto;
+}
+
+body.light #preferences .sections {
+	border-bottom: 1px solid lightgray;
+}
+
+body.dark #preferences .sections {
+	border-bottom: 1px solid #333;
+}
+
+#preferences .sections > section {
+	display: none;
+	margin-bottom: 20px;
+}
+
+#preferences .sections > section.active {
+	display: block;
+}
+
+#preferences .sections > section .header:first-of-type {
+	margin-top: unset;
+}
+
+#preferences .sections .header {
+	font-weight: bold;
+	margin-top: 12px;
+}
+
+#preferences .sections > section .header.extra-mb {
+	margin-bottom: 4px;
+}
+
+#preferences footer {
+	padding: 5px;
+}
+
+/* endregion */
+
+/* region Action Buttons */
+
+#preferences .remove-icon-wrap,
+#preferences .add-icon-wrap {
+	width: 25px;
+	min-width: 25px;
+}
+
+#preferences .remove-icon {
+	color: red;
+}
+
+#preferences .add-icon {
+	color: green;
+}
+
+/* endregion */
+
+/* region Feature Manager */
+
+#featureDisplayDemo {
+	border: 1px solid lightgray;
+	border-radius: 10px;
+	padding: 3px;
+	width: 70px;
+	height: 40px;
+	position: relative;
+	margin-left: 40px;
+}
+
+#featureDisplayDemo input[type="radio"] {
+	position: absolute;
+}
+
+#featureDisplayDemo .top {
+	top: 1px;
+}
+
+#featureDisplayDemo .bottom {
+	bottom: 1px;
+}
+
+#featureDisplayDemo .left {
+	left: 1px;
+}
+
+#featureDisplayDemo .right {
+	right: 1px;
+}
+
+/* endregion */
+
+#preferences .tabbed {
+	padding-left: 20px;
+}
+
+body.dark #preferences a[href] {
+	color: #74c0fc;
+	text-decoration: none;
+}
+
+ul.inline {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+/* region List Tables */
+
+ul.list-table {
+	list-style: none;
+	padding: unset;
+	margin: unset;
+	overflow-x: scroll;
+}
+
+ul.list-table li {
+	display: flex;
+	align-items: center;
+}
+
+ul.list-table li > *:not(:first-child):not(:last-child) {
+	margin: 0 8px;
+}
+
+ul.list-table li > *:last-child {
+	margin-left: 8px;
+}
+
+ul.list-table li:not(:last-of-type) {
+	margin-bottom: 5px;
+}
+
+ul.list-table button {
+	height: 24px;
+	line-height: 24px;
+	border: 1px solid lightgray;
+	cursor: pointer;
+	border-radius: 6px;
+	background: #f9f9f9;
+	padding: unset;
+}
+
+ul.list-table input:not([type="checkbox"]),
+ul.list-table select {
+	margin-right: 4px;
+}
+
+/* endregion */
+
+/* region Inputs */
+
+input[type="checkbox"],
+input[type="color"],
+select,
+label {
+	cursor: pointer;
+}
+
+input:not([type="checkbox"]),
+select {
+	border-radius: 4px;
+	outline: none;
+	border: 1px solid #a7a7a7;
+}
+
+input:not([type="checkbox"]):not([type="color"]) {
+	padding-left: 4px;
+}
+
+input[type="color"] {
+	height: 20px;
+}
+
+#preferences .sections button:focus {
+	outline: unset;
+	box-shadow: 0 0 1pt 1pt #c7f77b;
+}
+
+#preferences .sections button:hover {
+	background: #ddd;
+}
+
+/* FIXME - Style inputs. */
+/* - Companies / Faction */
+
+input[type="number"].short-input {
+	width: 40px;
+}
+
+input[type="number"].medium-input {
+	width: 60px;
+}
+
+input.medium-input,
+input[type="number"].long-input {
+	width: 80px;
+}
+
+/* endregion */
+
+#preferences .arrow {
+	position: absolute;
+	font-size: 26px;
+	left: -2px;
+	top: -13px;
+	transform: rotate(-90deg);
+}
+
+/* region Specific Preferences */
+
+/* region Custom Links */
+
+#customLinks .name {
+	max-width: 250px;
+}
+
+#preferences #customLinks > li .name,
+#preferences #customLinks > li .href {
+	flex: 1;
+}
+
+#preferences #customLinks .move-icon-wrap {
+	margin-right: 8px;
+}
+
+#preferences #customLinks .remove-icon-wrap,
+#preferences #customLinks .add-icon-wrap {
+	margin-left: auto;
+}
+
+body.light #preferences #customLinks .dragging {
+	border: 1px solid #333;
+}
+
+body.dark #preferences #customLinks .dragging {
+	border: 1px solid white;
+}
+
+/* endregion */
+
+/* region Hide items (stocks, areas and casino games) */
+
+.hide-items {
+	display: flex;
+	align-items: baseline;
+	gap: 0 5px;
+	flex-wrap: wrap;
+}
+
+.hide-items span {
+	padding: 1px 5px;
+	border-radius: 4px;
+	cursor: pointer;
+	position: relative;
+	display: inline-block;
+	margin-bottom: 4px;
+}
+
+body.light .hide-items span {
+	background-color: #f9f9f9;
+	border: 1px solid lightgray;
+}
+
+body.dark .hide-items span {
+	background-color: #383838;
+	border: 1px solid #333;
+}
+
+.hide-items span.disabled {
+	opacity: 0.6;
+	background-color: rgba(255, 0, 0, 0.6) !important;
+}
+
+/* endregion */
+
+/* region Inactivity warning */
+
+.member-inactivity .tabbed {
+	display: flex;
+	align-items: center;
+}
+
+.member-inactivity .tabbed:not(:last-child) {
+	margin-bottom: 10px;
+}
+
+.member-inactivity .tabbed *:not(:last-child) {
+	margin-right: 5px;
+}
+
+/*#employeeInactivityWarning input[type="number"] {*/
+/*	margin-right: 5px;*/
+/*	width: 40px;*/
+/*}*/
+
+/*#employeeInactivityWarning input[type="color"] {*/
+/*	margin-left: 5px;*/
+/*}*/
+
+/* endregion */
+
+#notification-sound-play,
+#notification-sound-stop {
+	cursor: pointer;
+}
+
+#hide-icons .tooltip-text {
+	margin-left: -17.5px;
+}
+
+/* endregion */

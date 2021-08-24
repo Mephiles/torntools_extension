@@ -55,11 +55,11 @@ async function setupChangelog() {
 		if (typeof entry.date === "string") entry.date = new Date(entry.date);
 		else if (typeof entry.date === "object") entry.date = false;
 
-		const wrapper = document.newElement({ type: "div", class: "parent" });
-		const heading = document.newElement({ type: "div", class: "heading", text: getTitle() });
+		const log = document.newElement({ type: "div", class: "version-log" });
+		const heading = document.newElement({ type: "div", class: "title", text: getTitle() });
 		const icon = document.newElement({ type: "i", class: "fas fa-chevron-down" });
 		heading.appendChild(icon);
-		wrapper.appendChild(heading);
+		log.appendChild(heading);
 
 		// Closeable
 		const closeable = document.newElement({ type: "div", class: "closable hidden" });
@@ -89,23 +89,24 @@ async function setupChangelog() {
 
 		const contributorsWrap = document.newElement({
 			type: "div",
-			class: "parent contributors",
-			children: [document.newElement({ type: "div", class: "heading", text: "Contributors" })],
+			class: "list contributors",
+			children: [document.newElement({ type: "div", class: "subheader", text: "Contributors" })],
 		});
 		contributors.forEach((contributor) => {
 			const child = document.newElement({
 				type: "div",
-				class: `child contributor`,
+				class: `contributor`,
 			});
 
 			if (contributor.id)
-				child.innerHTML = `
-					<span>
-						<a href="https://www.torn.com/profiles.php?XID=${contributor.id}" target="_blank">
-							${contributor.name} [${contributor.id}]
-						</a>
-					</span>
-				`;
+				child.appendChild(
+					document.newElement({
+						type: "a",
+						text: `${contributor.name} [${contributor.id}]`,
+						href: `https://www.torn.com/profiles.php?XID=${contributor.id}`,
+						attributes: { target: "_blank" },
+					})
+				);
 			else child.appendChild(document.newElement({ type: "span", text: contributor.name }));
 
 			if (contributor.color) child.style.setProperty("--contributor-color", contributor.color);
@@ -117,14 +118,14 @@ async function setupChangelog() {
 		for (const title in entry.logs) {
 			const parent = document.newElement({
 				type: "div",
-				class: "parent",
-				children: [document.newElement({ type: "div", class: "heading", text: capitalizeText(title) })],
+				class: "list",
+				children: [document.newElement({ type: "div", class: "subheader", text: capitalizeText(title) })],
 			});
 
 			for (const log of entry.logs[title]) {
 				const child = document.newElement({
 					type: "div",
-					class: `child contributor`,
+					class: `contributor`,
 					children: [document.newElement({ type: "span", text: log.message })],
 				});
 
@@ -142,13 +143,13 @@ async function setupChangelog() {
 		// Bottom border on last element
 		if (index + 1 === allEntries.length) closeable.appendChild(document.newElement("hr"));
 		if (index === 0) {
-			heading.click();
-			heading.classList.add("current");
+			closeable.classList.remove("hidden");
+			log.classList.add("current");
 		}
 
 		// Finish
-		wrapper.appendChild(closeable);
-		content.appendChild(wrapper);
+		log.appendChild(closeable);
+		content.appendChild(log);
 
 		function getTitle() {
 			const parts = [];
@@ -360,8 +361,13 @@ async function setupPreferences() {
 	}
 
 	const hideIconsParent = _preferences.find("#hide-icons");
-	for (const icon of ALL_ICONS) {
-		const iconsWrap = document.newElement({ type: "div", class: `icon`, children: [document.newElement({ type: "div", class: icon })] });
+	for (const { icon, description } of ALL_ICONS) {
+		const iconsWrap = document.newElement({
+			type: "div",
+			class: "icon",
+			children: [document.newElement({ type: "div", class: icon })],
+		});
+		tippy(iconsWrap, { content: description });
 
 		hideIconsParent.appendChild(iconsWrap);
 
@@ -575,14 +581,16 @@ async function setupPreferences() {
 			addCustomLink(link);
 		}
 		settings.employeeInactivityWarning.forEach((warning, index) => {
-			const numberInput = _preferences.find(`#employeeInactivityWarning .tabbed:nth-child(${index + 2}) input[type='number']`);
-			numberInput.value = warning.days ?? "";
-			numberInput.nextElementSibling.value = warning.color;
+			const row = _preferences.find(`#employeeInactivityWarning .tabbed:nth-child(${index + 2})`);
+
+			row.find("input[type='number']").value = warning.days ?? "";
+			row.find("input[type='color']").value = warning.color;
 		});
 		settings.factionInactivityWarning.forEach((warning, index) => {
-			const numberInput = _preferences.find(`#factionInactivityWarning .tabbed:nth-child(${index + 2}) input[type='number']`);
-			numberInput.value = warning.days ?? "";
-			numberInput.nextElementSibling.value = warning.color;
+			const row = _preferences.find(`#factionInactivityWarning .tabbed:nth-child(${index + 2})`);
+
+			row.find("input[type='number']").value = warning.days ?? "";
+			row.find("input[type='color']").value = warning.color;
 		});
 	}
 

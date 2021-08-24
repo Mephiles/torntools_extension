@@ -61,7 +61,7 @@
 
 		<main id="changelog" class="hidden">
 			<h2>Changelog</h2>
-			<section class="center"></section>
+			<section></section>
 		</main>
 		<main id="preferences" class="hidden">
 			<h2>
@@ -250,21 +250,21 @@
 						<div class="note">All API usage is checked every 30 seconds.</div>
 						<div class="option advanced">
 							<label for="api_usage-comment">Execute API calls with comment:</label>
-							<input id="api_usage-comment" />
+							<input id="api_usage-comment" class="medium-input" />
 						</div>
 						<div class="option">
 							<label for="api_usage-essential">Update essential userdata every</label>
-							<input id="api_usage-essential" type="number" min="30" class="single seconds" />
+							<input id="api_usage-essential" type="number" min="30" class="short-input" />
 							<label for="api_usage-essential">seconds.</label>
 						</div>
 						<div class="option advanced">
 							<label for="api_usage-basic">Update basic userdata every</label>
-							<input id="api_usage-basic" type="number" min="30" class="single seconds" />
+							<input id="api_usage-basic" type="number" min="30" class="short-input" />
 							<label for="api_usage-basic">seconds.</label>
 						</div>
 						<div class="option">
 							<label for="api_usage-stakeouts">Update stakeouts every</label>
-							<input id="api_usage-stakeouts" type="number" min="30" class="single seconds" />
+							<input id="api_usage-stakeouts" type="number" min="30" class="short-input" />
 							<label for="api_usage-stakeouts">seconds.</label>
 						</div>
 
@@ -441,7 +441,7 @@
 						</div>
 						<div class="option no-mobile">
 							<label for="sidebar-upkeepPropHighlight">Highlight properties link when upkeep is greater than</label>
-							<input id="sidebar-upkeepPropHighlight" type="number" />
+							<input id="sidebar-upkeepPropHighlight" type="number" class="long-input" min="0" />
 						</div>
 						<div class="option no-mobile">
 							<input id="sidebar-barLinks" type="checkbox" />
@@ -462,7 +462,7 @@
 						<div id="hide-icons"></div>
 
 						<div class="header extra-mb">Hide Areas</div>
-						<div id="hide-areas"></div>
+						<div id="hide-areas" class="hide-items"></div>
 
 						<div class="header">Custom Links</div>
 						<ul id="customLinks" class="list-table grid">
@@ -826,17 +826,19 @@
 						</div>
 
 						<div class="header">Faction Member Inactivity Warning</div>
-						<div id="factionInactivityWarning">
+						<div id="factionInactivityWarning" class="member-inactivity">
 							<div>Highlight members who have been inactive for:</div>
 							<div class="tabbed">
 								<!--suppress HtmlFormInputWithoutLabel -->
-								<input type="number" /> days with the color
+								<input type="number" class="short-input" min="0" />
+								<span>days with the color</span>
 								<!--suppress HtmlFormInputWithoutLabel -->
 								<input type="color" />
 							</div>
 							<div class="tabbed">
 								<!--suppress HtmlFormInputWithoutLabel -->
-								<input type="number" /> days with the color
+								<input type="number" class="short-input" min="0" />
+								<span>days with the color</span>
 								<!--suppress HtmlFormInputWithoutLabel -->
 								<input type="color" />
 							</div>
@@ -942,17 +944,19 @@
 						</div>
 
 						<div class="header">Employee Inactivity Warning</div>
-						<div id="employeeInactivityWarning">
+						<div id="employeeInactivityWarning" class="member-inactivity">
 							<div>Highlight employees who have been inactive for:</div>
 							<div class="tabbed">
 								<!--suppress HtmlFormInputWithoutLabel -->
-								<input type="number" /> days with the color
+								<input type="number" class="short-input" min="0" />
+								<span>days with the color</span>
 								<!--suppress HtmlFormInputWithoutLabel -->
 								<input type="color" />
 							</div>
 							<div class="tabbed">
 								<!--suppress HtmlFormInputWithoutLabel -->
-								<input type="number" /> days with the color
+								<input type="number" class="short-input" min="0" />
+								<span>days with the color</span>
 								<!--suppress HtmlFormInputWithoutLabel -->
 								<input type="color" />
 							</div>
@@ -1149,7 +1153,7 @@
 							<label for="stocks-valueAndProfit">Display total value of portfolio and profits.</label>
 						</div>
 						<div class="header extra-mb">Hide Stocks</div>
-						<div id="hide-stocks"></div>
+						<div id="hide-stocks" class="hide-items"></div>
 					</section>
 					<section name="casino">
 						<div class="header">Casino</div>
@@ -1170,7 +1174,7 @@
 							</div>
 						</div>
 						<div class="header extra-mb">Hide Casino games</div>
-						<div id="hide-casino-games"></div>
+						<div id="hide-casino-games" class="hide-items"></div>
 					</section>
 					<section name="forums">
 						<div class="header">Forums</div>
@@ -1346,11 +1350,11 @@
 						</div>
 						<div class="option">
 							<label for="statsEstimate-maxLevel">Show estimates for users up to level </label>
-							<input id="statsEstimate-maxLevel" type="number" min="1" max="100" />
+							<input id="statsEstimate-maxLevel" type="number" min="1" max="100" class="short-input" />
 						</div>
 						<div class="option">
 							<label for="statsEstimate-delay">Delay requests for </label>
-							<input id="statsEstimate-delay" type="number" min="1" />
+							<input id="statsEstimate-delay" type="number" min="1" class="medium-input" />
 							<label for="statsEstimate-delay">ms.</label>
 							<label class="tabbed note" for="statsEstimate-delay">
 								Lowering this value might risk using too many api requests and getting blocked.
@@ -1582,6 +1586,8 @@
 			</section>
 		</main>
 
+		<script src="../../vendor/tippy/popper.js"></script>
+		<script src="../../vendor/tippy/tippy.js"></script>
 		<script src="../../vendor/fontawesome/fontawesome.js"></script>
 		<script src="../../vendor/sortable/sortable.js"></script>
 		<script src="../../scripts/global/globalClasses.js"></script>

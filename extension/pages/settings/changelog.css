@@ -1,24 +1,8 @@
-/* Changelog */
-
-:root {
-	--contributor-color: white;
-}
-
 #changelog > section {
 	border: unset;
 }
 
-#changelog > section .header {
-	width: 100%;
-	display: flex;
-}
-
-#changelog > section .header .contributor {
-	flex: 1 0 auto;
-	text-align: center;
-}
-
-#changelog > section > .parent > .heading {
+#changelog .title {
 	cursor: pointer;
 	border-bottom: 1px solid lightgrey;
 	padding: 2px 0 2px 5px;
@@ -27,50 +11,40 @@
 	font-size: 15px;
 }
 
-#changelog > section > .parent > .heading.current {
+#changelog .current .title {
 	color: red;
 }
 
-#changelog > section > .parent > .heading span {
-	font-size: 12px;
-}
-
-#changelog > section > .parent > .heading i {
+#changelog .title i {
 	float: right;
 	position: relative;
 	top: 7px;
 }
 
-#changelog > section .parent .parent {
+#changelog .list {
+	margin-left: 20px;
+}
+
+#changelog .subheader {
 	font-weight: 600;
+}
+
+#changelog .list > *:not(.subheader) {
 	margin-left: 20px;
 }
 
-#changelog > section .parent .child {
-	font-weight: 400;
-	margin-left: 20px;
-}
-
-#changelog > section .parent .closeable {
-	max-height: 0;
-	overflow: hidden;
-	transition: max-height 0.2s ease-out;
-	padding: 4px 0 4px 10px;
-}
-
-#changelog .contributors .contributor a {
+#changelog .contributor a {
 	text-decoration: none;
 	color: inherit;
-	margin-left: -4px;
 }
 
-#changelog .contributor span:before {
+#changelog .contributor > *:before {
 	display: inline-block;
 	width: 5px;
 	height: 5px;
 	content: "";
 	border-radius: 50%;
 	margin-right: 4px;
-	background-color: var(--contributor-color);
-	border: 2px solid var(--contributor-color);
+	background-color: var(--contributor-color, white);
+	border: 2px solid var(--contributor-color, white);
 }

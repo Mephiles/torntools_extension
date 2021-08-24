@@ -15,10 +15,6 @@ body.dark #about a {
 	color: #74c0fc;
 }
 
-#about p.mt10 {
-	margin-top: 10px;
-}
-
 #about .our-team {
 	display: grid;
 	grid-gap: 5px;

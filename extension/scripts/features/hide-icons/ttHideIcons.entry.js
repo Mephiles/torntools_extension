@@ -28,7 +28,7 @@
 	}
 
 	function applyStyle() {
-		for (const icon of ALL_ICONS) {
+		for (const { icon } of ALL_ICONS) {
 			document.documentElement.style.setProperty(`--torntools-hide-icons-${icon}`, settings.hideIcons.includes(icon) ? "none" : "initial");
 		}
 		moveIcons();
