@@ -187,10 +187,10 @@
 	}
 
 	function removeSortable() {
-		document.find(".travel-agency-market .users-list").classList.remove("tt-list-flex");
+		document.find(".travel-agency-market .users-list")?.classList.remove("tt-list-flex");
 		document
 			.find(".items-list-title")
-			.findAll(".fa-caret-up, .fa-caret-down")
+			?.findAll(".fa-caret-up, .fa-caret-down")
 			.forEach((x) => x.remove());
 	}
 })();
