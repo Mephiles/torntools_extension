@@ -17,13 +17,16 @@
 	);
 
 	async function addIndicator() {
-		await requireElement(".profile-container .row.basic-info > *:first-child");
+		const basicInfo = await requireElement(".profile-container .row.basic-info > *:first-child");
 
-		const icon = document.find(".profile-container .row.basic-info > *:first-child");
-		const clone = icon.cloneNode(true);
-		clone.style.backgroundPosition = getComputedStyle(icon).backgroundPosition;
-		clone.classList.add("tt-profile-icon");
-		document.find("#skip-to-content").insertAdjacentElement("beforebegin", clone);
+		document.find("#skip-to-content").insertAdjacentElement(
+			"beforebegin",
+			document.newElement({
+				type: "ul",
+				class: "big tt-profile-icon",
+				children: [basicInfo.cloneNode(true)],
+			})
+		);
 	}
 
 	function removeIndicator() {

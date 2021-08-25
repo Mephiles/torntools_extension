@@ -1,6 +1,7 @@
 class FeatureManager {
 	constructor() {
 		this.containerID = "tt-page-status";
+		this.container = null;
 		this.features = [];
 		this.initialized = [];
 
@@ -13,6 +14,10 @@ class FeatureManager {
 			this.features.forEach((feature) => this.executeFunction(feature.cleanup));
 			this.isDisconnected = true;
 		});
+		this.log = async (params, error) => {
+			if (error) console.error(...params);
+			else console.log(...params);
+		};
 	}
 
 	registerFeature(name, scope, enabled, initialise, execute, cleanup, loadListeners, requirements, options) {
@@ -37,10 +42,10 @@ class FeatureManager {
 			options,
 		};
 
-		console.log("[TornTools] FeatureManager - Registered new feature.", newFeature);
+		this.log(["[TornTools] FeatureManager - Registered new feature.", newFeature]);
 		this.features.push(newFeature);
 
-		this.startFeature(newFeature).catch((error) => console.error(`[TornTools] FeatureManager - Failed to start "${name}".`, error));
+		this.startFeature(newFeature).catch((error) => this.log([`[TornTools] FeatureManager - Failed to start "${name}".`, error], true));
 		this.startLoadListeners(newFeature);
 
 		return newFeature;
@@ -65,7 +70,7 @@ class FeatureManager {
 			this.executeFunction(execute).catch(() => {});
 		}
 
-		console.log("[TornTools] FeatureManager - Adjusted feature.", feature);
+		this.log(["[TornTools] FeatureManager - Adjusted feature.", feature]);
 		return feature;
 	}
 
@@ -77,7 +82,7 @@ class FeatureManager {
 		await loadDatabase();
 		try {
 			if (getValue(feature.enabled)) {
-				console.log("[TornTools] FeatureManager - Starting feature.", feature);
+				this.log(["[TornTools] FeatureManager - Starting feature.", feature]);
 				if ("requirements" in feature) {
 					const requirements = await getValueAsync(feature.requirements);
 
@@ -106,7 +111,7 @@ class FeatureManager {
 				}
 			} else {
 				if (feature.hasLoaded) {
-					console.log("[TornTools] FeatureManager - Disabling feature.", feature);
+					this.log(["[TornTools] FeatureManager - Disabling feature.", feature]);
 					await this.executeFunction(feature.cleanup);
 					if (feature.options.triggerCallback) {
 						triggerCustomListener(EVENT_CHANNELS.FEATURE_DISABLED, { name: feature.name });
@@ -119,7 +124,7 @@ class FeatureManager {
 			await this.executeFunction(feature.cleanup).catch(() => {});
 
 			this.showResult(feature, "failed");
-			console.error(`[TornTools] FeatureManager - Failed to start "${feature.name}".`, error);
+			this.log([`[TornTools] FeatureManager - Failed to start "${feature.name}".`, error], true);
 		}
 		feature.hasLoaded = true;
 	}
@@ -160,7 +165,7 @@ class FeatureManager {
 						return;
 
 					this.startFeature(feature, "liveReload").catch((error) =>
-						console.error(`[TornTools] FeatureManager - Failed to start "${feature.name}" during live reload.`, error)
+						this.log([`[TornTools] FeatureManager - Failed to start "${feature.name}" during live reload.`, error], true)
 					);
 				});
 			}
@@ -202,7 +207,7 @@ class FeatureManager {
 		new Promise(async (resolve) => {
 			if ((await checkDevice()).mobile) return resolve();
 
-			let row = document.find(`#tt-page-status-feature-${feature.name.toLowerCase().replace(/ /g, "-")}`);
+			let row = this.container.find(`#tt-page-status-feature-${feature.name.toLowerCase().replace(/ /g, "-")}`);
 			if (row) {
 				row.setClass(`tt-page-status-feature ${status}`);
 				row.find(".tt-page-status-feature-icon i").setClass(`fas ${getIcon()}`);
@@ -221,7 +226,7 @@ class FeatureManager {
 					},
 				});
 
-				let scopeElement = document.find(`.tt-page-status-content #scope-${feature.scope}`);
+				let scopeElement = this.container.find(`.tt-page-status-content #scope-${feature.scope}`);
 				if (!scopeElement) {
 					const scopeHeading = document.newElement({
 						type: "div",
@@ -249,7 +254,7 @@ class FeatureManager {
 						}
 						await ttStorage.change({ filters: { closedScopes: [...new Set(closedScopes)] } });
 					});
-					document.find(".tt-page-status-content").appendChild(scopeElement);
+					this.container.find(".tt-page-status-content").appendChild(scopeElement);
 					scopeElement.appendChild(
 						document.newElement({
 							type: "div",
@@ -262,7 +267,7 @@ class FeatureManager {
 
 			await this.checkScopes();
 		}).catch((error) => {
-			console.error(`[TornTools] FeatureManager - Couldn't log result for ${feature.name}`, error, options);
+			this.log([`[TornTools] FeatureManager - Couldn't log result for ${feature.name}`, error, options], true);
 		});
 
 		function getIcon() {
@@ -279,10 +284,9 @@ class FeatureManager {
 	}
 
 	display() {
-		const container = document.find(`#${this.containerID}`);
-		if (!container) return;
+		if (!this.container) return;
 
-		container.setClass(
+		this.container.setClass(
 			settings.featureDisplay ? "" : "hidden",
 			settings.featureDisplayPosition,
 			settings.featureDisplayOnlyFailed ? "only-fails" : "",
@@ -297,32 +301,33 @@ class FeatureManager {
 
 		const collapsed = this.containerID in filters.containers ? filters.containers[this.containerID] : false;
 
-		document.body.appendChild(
-			document.newElement({
-				id: this.containerID,
-				type: "div",
-				class: `
-					${settings.featureDisplay ? "" : "hidden"}
-					${settings.featureDisplayPosition} 
-					${settings.featureDisplayOnlyFailed ? "only-fails" : ""}
-					${settings.featureDisplayHideDisabled ? "hide-disabled" : ""}
-				`,
-				children: [
-					document.newElement({
-						type: "div",
-						class: `tt-page-status-header ${collapsed ? "collapsed" : ""}`,
-						children: [
-							document.newElement({ type: "span", text: "TornTools activated" }),
-							document.newElement({ type: "i", class: "icon fas fa-caret-down" }),
-						],
-					}),
-					document.newElement({ type: "div", class: "tt-page-status-content" }),
-				],
-			})
-		);
+		const popupHeader = document.newElement({
+			type: "div",
+			class: `tt-page-status-header ${collapsed ? "collapsed" : ""}`,
+			children: [
+				document.newElement({ type: "span", text: "TornTools activated" }),
+				document.newElement({ type: "i", class: "icon fas fa-caret-down" }),
+			],
+		});
+		const container = document.newElement({
+			id: this.containerID,
+			type: "div",
+			class: `
+				${settings.featureDisplay ? "" : "hidden"}
+				${settings.featureDisplayPosition} 
+				${settings.featureDisplayOnlyFailed ? "only-fails" : ""}
+				${settings.featureDisplayHideDisabled ? "hide-disabled" : ""}
+			`,
+			children: [
+				popupHeader,
+				document.newElement({ type: "div", class: "tt-page-status-content" }),
+			],
+		});
+		document.body.appendChild(container);
+		this.container = container;
 
-		document.find(".tt-page-status-header").onclick = () => {
-			const toggleResult = document.find(".tt-page-status-header").classList.toggle("collapsed");
+		popupHeader.onclick = (event) => {
+			const toggleResult = event.currentTarget.classList.toggle("collapsed");
 			ttStorage.change({ filters: { containers: { [this.containerID]: toggleResult } } });
 		};
 
@@ -336,11 +341,16 @@ class FeatureManager {
 	}
 
 	async checkScopes() {
+		if (!settings.featureDisplay) return;
 		let hasContent = false;
-		for (const scope of document.findAll(".tt-page-status-content > div")) {
-			let isEmpty = [...scope.findAll(".tt-page-status-feature:not(.features-list)")].every(
-				(element) => window.getComputedStyle(element).display === "none"
-			);
+		for (const scope of this.container.findAll(".tt-page-status-content > div")) {
+			const isEmpty = settings.featureDisplayOnlyFailed || settings.featureDisplayHideDisabled
+			? [...scope.findAll(".tt-page-status-feature:not(.features-list)")].every(
+				(element) =>
+					(settings.featureDisplayOnlyFailed && !element.classList.contains("failed")) ||
+					(settings.featureDisplayHideDisabled && !element.classList.contains("disabled"))
+			)
+			: false;
 
 			if (isEmpty) {
 				scope.classList.add("no-content");
@@ -350,10 +360,10 @@ class FeatureManager {
 			}
 		}
 
-		document.find("#tt-page-status").classList[hasContent ? "remove" : "add"]("no-content");
+		this.container.classList[hasContent ? "remove" : "add"]("no-content");
 
 		for (const scope of (await ttStorage.get("filters")).closedScopes) {
-			const scopeElement = document.find(`.tt-page-status-content > #scope-${scope}`);
+			const scopeElement = this.container.find(`.tt-page-status-content > [id*="${scope}"]`);
 			if (scopeElement && !scopeElement.find(":scope > .features-list > .failed")) scopeElement.classList.add("collapsed");
 		}
 	}

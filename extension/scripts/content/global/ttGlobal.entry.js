@@ -1,5 +1,8 @@
 "use strict";
 
+const countdownTimers = [];
+const countTimers = [];
+
 (async () => {
 	handleDevice();
 	handlePopout();

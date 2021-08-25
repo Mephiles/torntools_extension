@@ -1481,19 +1481,25 @@ async function createMessageBox(content, options = {}) {
 		...options,
 	};
 
-	const icon = await (await fetch(chrome.runtime.getURL("resources/images/svg-icons/icon_128.svg"))).text();
-
 	return document.newElement({
 		type: "div",
 		class: `tt-message-box ${options.class}`,
-		html: `
-			<div class="tt-message-icon-wrap">
-				<div class="tt-message-icon">${icon}</div>
-			</div>
-			<div class="tt-message-wrap">
-				<div class="tt-message">${content}</div>
-			</div>
-		`,
+		children: [
+			document.newElement({
+				type: "div",
+				class: "tt-message-icon-wrap",
+				children: [
+					document.newElement({ type: "div", class: "tt-message-icon", children: [ttSvg()] }),
+				]
+			}),
+			document.newElement({
+				type: "div",
+				class: "tt-message-wrap",
+				children: [
+					document.newElement({ type: "div", class: "tt-message", text: content }),
+				]
+			}),
+		],
 	});
 }
 

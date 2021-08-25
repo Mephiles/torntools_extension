@@ -75,22 +75,22 @@
 	}
 
 	function decreaseCountdown() {
-		for (const countdown of document.findAll(".countdown.automatic[data-seconds]")) {
+		countdownTimers.forEach((countdown, index) => {
 			const seconds = parseInt(countdown.dataset.seconds) - 1;
 
 			if (seconds <= 0) {
-				countdown.innerText = countdown.dataset.doneText || "Ready";
+				countdown.textContent = countdown.dataset.doneText || "Ready";
 				delete countdown.dataset.seconds;
-				continue;
+				countdownTimers.splice(index, 1);
+			} else {
+				countdown.textContent = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
+				countdown.dataset.seconds = seconds;
 			}
-
-			countdown.innerText = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
-			countdown.dataset.seconds = seconds;
-		}
-		for (const countdown of document.findAll(".count.automatic[data-seconds]")) {
+		});
+		countTimers.forEach((countdown) => {
 			const seconds = parseInt(countdown.dataset.seconds);
 
-			countdown.innerText = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
-		}
+			countdown.textContent = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
+		});
 	}
 })();

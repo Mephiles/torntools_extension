@@ -124,10 +124,7 @@
 
 		function populateCrimes() {
 			for (const row of document.findAll(".organize-wrap .crimes-list .details-list > li > ul")) {
-				const modifiedElements = [".level"];
-				if (mobile) modifiedElements.push(".member", ".stat", ".level", ".stat");
-
-				modifiedElements.map((selector) => row.find(selector)).forEach((element) => element.classList.add("tt-modified"));
+				row.findAll(`.level${mobile ? ", .member, .stat" : ""}`).forEach((element) => element.classList.add("tt-modified"));
 
 				const stat = row.find(".stat");
 				if (row.classList.contains("title")) {
@@ -147,19 +144,16 @@
 				if (id in data) {
 					const { nnb, verified } = data[id];
 
-					stat.parentElement.insertBefore(document.newElement({ type: "li", class: "tt-nnb", text: `${verified ? "" : "*"}${nnb}` }), stat);
+					stat.insertAdjacentElement("beforebegin", document.newElement({ type: "li", class: "tt-nnb", text: `${verified ? "" : "*"}${nnb}` }));
 				} else {
-					stat.parentElement.insertBefore(document.newElement({ type: "li", class: "tt-nnb", text: "N/A" }), stat);
+					stat.insertAdjacentElement("beforebegin", document.newElement({ type: "li", class: "tt-nnb", text: "N/A" }));
 				}
 			}
 		}
 
 		function populateSelection() {
 			for (const row of document.findAll(".plans-list .item")) {
-				const modifiedElements = [".offences"];
-				if (mobile) modifiedElements.push(".member", ".level", ".act");
-
-				modifiedElements.map((selector) => row.find(selector)).forEach((element) => element.classList.add("tt-modified"));
+				row.findAll(`.offences${mobile ? ", .member, .level, .act" : ""}`).forEach((element) => element.classList.add("tt-modified"));
 
 				const act = row.find(".act");
 				if (row.classList.contains("title")) {
@@ -179,9 +173,9 @@
 				if (id in data) {
 					const { nnb, verified } = data[id];
 
-					act.parentElement.insertBefore(document.newElement({ type: "li", class: "tt-nnb short", text: `${verified ? "" : "*"}${nnb}` }), act);
+					act.insertAdjacentElement("beforebegin", document.newElement({ type: "li", class: "tt-nnb short", text: `${verified ? "" : "*"}${nnb}` }));
 				} else {
-					act.parentElement.insertBefore(document.newElement({ type: "li", class: "tt-nnb short", text: "N/A" }), act);
+					act.insertAdjacentElement("beforebegin", document.newElement({ type: "li", class: "tt-nnb short", text: "N/A" }));
 				}
 			}
 		}

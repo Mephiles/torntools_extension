@@ -1,3 +1,7 @@
 #stocksFilter .price .tt-checkbox-wrapper label {
 	width: 1em;
 }
+
+[class*="stockMarket___"] > .hidden + [class*="stockDropdown___"] {
+	display: none;
+}

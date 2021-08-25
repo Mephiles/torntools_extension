@@ -127,7 +127,14 @@
 
 			const context = canvas.getContext("2d");
 
-			createChart();
+			const gymChart = createChart();
+			darkModeObserver.addListener(darkMode => {
+				const color = darkMode ? "#fff" : "#000";
+				gymChart.options.scales.x.ticks.color = color;
+				gymChart.options.scales.y.ticks.color = color;
+				gymChart.options.plugins.legend.labels.color = color;
+				gymChart.update();
+			});
 
 			showLoadingPlaceholder(wrapper, false);
 
@@ -138,6 +145,7 @@
 			}
 
 			function createChart() {
+				const darkMode = hasDarkMode();
 				return new Chart(context, {
 					type: "line",
 					data: {
@@ -151,6 +159,18 @@
 						],
 					},
 					options: {
+						scales: {
+							x: {
+								ticks: {
+									color: darkMode ? "#fff" : "#000"
+								}
+							},
+							y: {
+								ticks: {
+									color: darkMode ? "#fff" : "#000"
+								}
+							}
+						},
 						interaction: {
 							mode: "index",
 							intersect: false,
@@ -162,6 +182,7 @@
 									boxWidth: 10,
 									usePointStyle: true,
 									pointStyle: "circle",
+									color: darkMode ? "#fff" : "#000",
 								},
 							},
 							tooltip: {

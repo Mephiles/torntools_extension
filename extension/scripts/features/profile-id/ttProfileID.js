@@ -20,7 +20,7 @@
 		await requireElement(".basic-info .info-table > *:first-child");
 
 		const title = document.find("h4#skip-to-content");
-		title.innerHTML = `${title.innerHTML.trim().match(/(.*)'s? Profile/i)[1]} [${getUserID()}]`;
+		title.textContent = `${title.textContent.trim().match(/(.*)'s? Profile/i)[1]} [${getUserID()}]`;
 		title.setAttribute("title", "Click to copy.");
 		title.addEventListener("click", copyID);
 	}
@@ -29,7 +29,7 @@
 		const title = document.find("h4#skip-to-content");
 
 		const name = title.innerText.replace(/ \[.*]/g, "");
-		title.innerText = `${name}'${name.endsWith("s") ? "" : "s"} Profile`;
+		title.textContent = `${name}'${name.endsWith("s") ? "" : "s"} Profile`;
 		title.removeAttribute("title");
 		title.removeEventListener("click", copyID);
 	}
@@ -42,8 +42,8 @@
 		return parseInt(
 			document
 				.find(".basic-information .profile-container ul.info-table .user-info-value > *:first-child")
-				.innerText.trim()
-				.match(/\[([0-9]*)]/i)[1]
+				.textContent
+				.match(/(?<=\[)\d*(?=\])/i)[0]
 		);
 	}
 })();

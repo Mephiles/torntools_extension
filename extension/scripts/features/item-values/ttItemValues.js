@@ -213,7 +213,7 @@
 
 			const parent = mobile ? item.find(".name-wrap") : item.find(".bonuses-wrap") || item.find(".name-wrap");
 
-			const quantity = parseInt(item.find(".item-amount.qty").innerText) || 1;
+			const quantity = parseInt(item.find(".item-amount.qty").textContent) || 1;
 			const totalPrice = quantity * parseInt(price);
 
 			if (parent.find(".tt-item-price")) continue;

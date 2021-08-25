@@ -31,9 +31,7 @@
 		const controlsPanel = document.find("#faction-controls");
 		if (controlsPanel.getAttribute("aria-expanded") !== "true") return;
 
-		await requireElement("#money-user");
-
-		const input = document.find("#money-user");
+		const input = await requireElement("#money-user");
 		if (input.classList.contains("tt-modified")) return;
 
 		input.classList.add("tt-modified");

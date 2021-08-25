@@ -34,7 +34,7 @@
 .tt-back svg {
 	width: 15px;
 	margin-right: 5px;
-	fill: var(--content-title-links);
+	--tt-svg-back-fill: var(--content-title-links);
 }
 
 .tt-settings-iframe {

@@ -201,14 +201,12 @@
 	let overlayStatus = false;
 
 	async function showBox() {
-		await requireElement(".basic-information .info-table .user-info-value");
+		const userInfoValue = await requireElement(".basic-information .info-table .user-info-value > *:first-child");
 
 		const id = parseInt(
-			document
-				.find(".basic-information .info-table .user-info-value > *:first-child")
-				.innerText.trim()
-				.match(/\[([0-9]*)]/i)[1]
-		);
+				userInfoValue
+				.textContent.trim()
+				.match(/\[([0-9]*)]/i)[1]);
 
 		const { content, options } = createContainer("User Information", {
 			nextElement: document.find(".medals-wrapper") || document.find(".basic-information")?.closest(".profile-wrapper"),

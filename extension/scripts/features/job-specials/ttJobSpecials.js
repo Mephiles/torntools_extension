@@ -19,12 +19,11 @@
 	);
 
 	async function addListener() {
-		await requireElement(".content #mainContainer .employees-wrap");
 		new MutationObserver((mutations) => {
 			if (!feature.enabled() || !mutations.some((mutation) => mutation.addedNodes && mutation.addedNodes.length)) return;
 
 			showSpecials();
-		}).observe(document.find(".content #mainContainer .content-wrapper"), { childList: true });
+		}).observe(await requireElement(".content #mainContainer .employees-wrap"), { childList: true });
 	}
 
 	async function showSpecials() {
@@ -36,7 +35,7 @@
 			spacer: true,
 		});
 
-		const companyType = document.find(".details-wrap ul.info .m-title .m-show:not(.arrow-left)").innerText.trim();
+		const companyType = document.find(".details-wrap ul.info .m-title .m-show:not(.arrow-left)").textContent.trim();
 		const companyInfo = COMPANY_INFORMATION[companyType];
 
 		for (const stars of [1, 3, 5, 7, 10]) {
@@ -49,9 +48,9 @@
 						class: "tt-company-info-wrap",
 						children: [
 							document.newElement({ type: "div", class: "heading", text: `${name} (${stars}★)` }),
-							document.newElement({ type: "hr" }),
+							document.newElement({ type: "hr", class: "first-hr" }),
 							document.newElement({ type: "div", text: `${cost} ${cost === "Passive" ? "" : cost === "1" ? "job point" : "job points"}` }),
-							document.newElement({ type: "hr" }),
+							document.newElement({ type: "hr", class: "second-hr" }),
 							document.newElement({ type: "div", text: effect }),
 						],
 					})

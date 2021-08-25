@@ -171,7 +171,9 @@
 				document.newElement({
 					type: "div",
 					class: "tt-bonus-information",
-					html: `<i class="fas fa-info-circle" title="${bonus.description}"></i>`,
+					children: [
+						document.newElement({ type: "i", class: "fas fa-info-circle", attributes: { title: bonus.description } }),
+					],
 				})
 			);
 		}

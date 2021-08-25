@@ -17,13 +17,11 @@
 	);
 
 	async function initialise() {
-		await requireElement("#forums-page-wrap");
-
 		new MutationObserver(() => {
 			if (!feature.enabled()) return;
 
 			showWarning();
-		}).observe(document.find("#forums-page-wrap"), { childList: true });
+		}).observe(await requireElement("#forums-page-wrap"), { childList: true });
 	}
 
 	function showWarning() {

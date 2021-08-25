@@ -11,6 +11,10 @@ String.prototype.camelCase = function (lowerCamelCase) {
 	return (this.trim().charAt(0)[lowerCamelCase ? "toLowerCase" : "toUpperCase"]() + this.slice(1)).trim().replaceAll(" ", "");
 };
 
+String.prototype.getNumber = function () {
+	return parseInt(this.replace(/\D/g, ""));
+};
+
 function toSeconds(milliseconds) {
 	if (!milliseconds) return toSeconds(Date.now());
 	else if (typeof milliseconds === "object" && milliseconds instanceof Date) return toSeconds(milliseconds.getTime());

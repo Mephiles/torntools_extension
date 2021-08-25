@@ -135,6 +135,8 @@
 				"scripts/features/collapsible-areas/ttCollapsibleAreas.css"
 			],
 			"js": [
+				"resources/images/svg-icons/back.js",
+				"resources/images/svg-icons/icon_128.js",
 				"scripts/content/global/ttGlobal.js",
 				"scripts/features/hide-level-upgrade/ttHideLevelUpgrade.js",
 				"scripts/features/oc-time/ttOCTime.js",
@@ -457,6 +459,7 @@
 				"scripts/features/stats-estimate/ttStatsEstimate.css"
 			],
 			"js": [
+				"resources/images/svg-icons/cross.js",
 				"vendor/sortable/sortable.js",
 				"scripts/features/profile-id/ttProfileID.js",
 				"scripts/features/profile-notes/ttProfileNotes.js",

@@ -32,7 +32,7 @@
 
 		const selector = mobile || tablet ? "[class*='playerArea__'] [class*='modal__']" : "[class*='players__'] #defender [class*='modal__']";
 		if ((hasAPIData() && userdata.faction.faction_id === factionID) || settings.alliedFactions.some((ally) => ally === factionID)) {
-			await requireElement(selector);
+			const node = await requireElement(selector);
 
 			const warning = document.newElement({
 				type: "div",
@@ -49,7 +49,7 @@
 				}
 			});
 
-			document.find(selector).insertAdjacentElement("afterbegin", warning);
+			node.insertAdjacentElement("afterbegin", warning);
 		}
 	}
 

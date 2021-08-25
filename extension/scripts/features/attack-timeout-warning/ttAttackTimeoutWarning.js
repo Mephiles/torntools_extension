@@ -21,7 +21,7 @@
 	async function addListener() {
 		stopListener();
 
-		await requireElement("span[id^='timeout-value']");
+		const timeoutValue = await requireElement("span[id^='timeout-value']");
 
 		const soundSource = await new Promise((resolve) => {
 			const type = settings.notifications.sound;
@@ -65,7 +65,7 @@
 
 			audio.play().catch(() => {});
 		});
-		observer.observe(document.find("span[id^='timeout-value']").firstChild, { characterData: true });
+		observer.observe(timeoutValue.firstChild, { characterData: true });
 	}
 
 	function stopListener() {

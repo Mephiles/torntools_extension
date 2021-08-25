@@ -18,10 +18,10 @@
 
 	async function addWarning() {
 		if (document.find(".tt-ally-warning")) document.find(".tt-ally-warning").remove();
-		await requireElement(".user-info-value [href*='/factions.php']");
 		let warning;
-		const factionID = parseInt(document.find(".user-info-value [href*='/factions.php']").href.replace(/\D+/g, ""));
-		const factionName = document.find(".user-info-value [href*='/factions.php']").innerText.trim();
+		const factionNode = await requireElement(".user-info-value [href*='/factions.php']");
+		const factionID = factionNode.href.getNumber();
+		const factionName = factionNode.textContent.trim();
 		if (hasAPIData() && factionID === userdata.faction.faction_id) warning = "This user is in your faction!";
 		else if (
 			settings.alliedFactions.some((ally) => {

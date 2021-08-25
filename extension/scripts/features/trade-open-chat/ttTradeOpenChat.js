@@ -26,10 +26,9 @@
 	}
 
 	async function addButton() {
-		await requireElement("#trade-container .log > li .desc a");
 		let id;
 
-		const trader = document.find(`#trade-container .log > li .desc a:not([href*="${userdata.player_id}"])`);
+		const trader = await requireElement(`#trade-container .log > li .desc a:not([href*="${userdata.player_id}"])`);;
 		if (trader) id = parseInt(trader.href.match(/XID=([0-9]*)/i)[1]);
 		if (!id) return;
 

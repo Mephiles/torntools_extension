@@ -26,9 +26,9 @@
 		if (getHashParameters().get("step") !== "main") return;
 		if (userdata.education_timeleft <= 0) return;
 
-		await requireElement(".msg .bold");
+		const msg = await requireElement(".msg .bold");
 		const overDate = new Date(userdata.dateBasic + userdata.education_timeleft * 1000).getTime();
-		document.find(".msg .bold").insertAdjacentHTML(
+		msg.insertAdjacentHTML(
 			"afterend",
 			`
 					<span class="tt-time">

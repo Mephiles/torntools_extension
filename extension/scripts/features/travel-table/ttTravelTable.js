@@ -59,19 +59,23 @@
 			const table = document.newElement({
 				type: "div",
 				id: "tt-travel-table",
-				html: `
-					<div class="row header">
-						<div class="country">Country</div>
-						<div class="item">Item</div>
-						<div class="stock">Stock</div>
-						<div class="buy-price advanced">Buy Price</div>
-						<div class="market-value advanced">Market Value</div>
-						<div class="profit-item advanced" >Profit / Item</div>
-						<div class="profit-minute" >Profit / Minute</div>
-						<div class="profit advanced">Total Profit</div>
-						<div class="money advanced">Cash Needed</div>
-					</div>
-				`,
+				children: [
+					document.newElement({
+						type: "div",
+						class: "row header",
+						children: [
+							document.newElement({ type: "div", class: "country", text: "Country" }),
+							document.newElement({ type: "div", class: "item", text: "Item" }),
+							document.newElement({ type: "div", class: "stock", text: "Stock" }),
+							document.newElement({ type: "div", class: "buy-price advanced", text: "Buy Price" }),
+							document.newElement({ type: "div", class: "market-value advanced", text: "Market Value" }),
+							document.newElement({ type: "div", class: "profit-item advanced", text: "Profit / Item" }),
+							document.newElement({ type: "div", class: "profit-minute", text: "Profit / Minute" }),
+							document.newElement({ type: "div", class: "profit advanced", text: "Total Profit" }),
+							document.newElement({ type: "div", class: "money advanced", text: "Cash Needed" }),
+						],
+					}),
+				],
 			});
 
 			const data = await pullInformation();

@@ -124,7 +124,7 @@ function _find(element, selector, options = {}) {
 		const value = selector.split("=")[1];
 
 		for (const element of document.querySelectorAll(key)) {
-			if (element.innerText === value) {
+			if (element.textContent.trim() === value.trim()) {
 				return element;
 			}
 		}
@@ -185,8 +185,9 @@ function checkDevice() {
 		else window.addEventListener("DOMContentLoaded", check);
 
 		function check() {
-			mobile = window.innerWidth <= 600;
-			tablet = window.innerWidth <= 960 && window.innerWidth >= 600;
+			const innerWidth = window.innerWidth;
+			mobile = innerWidth <= 600;
+			tablet = innerWidth <= 960 && innerWidth >= 600;
 
 			resolve({ mobile, tablet });
 		}

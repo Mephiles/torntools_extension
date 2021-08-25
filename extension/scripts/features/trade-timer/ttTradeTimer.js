@@ -40,13 +40,13 @@
 			timer = document.newElement({
 				type: "div",
 				id: "tt-trade-timer",
-				class: "countdown automatic",
 				dataset: {
 					doneText: "OK",
 					timeSettings: JSON.stringify({ type: "wordTimer", extraShort: true }),
 				},
 			});
 			input.insertBefore(document.newElement({ type: "div", children: [timer] }), input.firstElementChild);
+			countdownTimers.push(timer);
 
 			input.find("textarea").addEventListener("keypress", onKeyPress);
 			input.classList.add("tt-modified");

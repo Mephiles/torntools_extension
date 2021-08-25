@@ -28,8 +28,7 @@
 	async function addWorth(force) {
 		if (!force) return;
 
-		await requireElement("#faction-info .f-info.right > li[title]");
-		const moneyLi = document.find("#faction-info .f-info.right > li[title]");
+		const moneyLi = await requireElement("#faction-info .f-info.right > li[title]");
 		const selections = ["weapons", "armor", "temporary", "medical", "drugs", "boosters", "cesium", "currency"];
 
 		if (ttCache.hasValue("armory", userdata.faction.faction_id)) {

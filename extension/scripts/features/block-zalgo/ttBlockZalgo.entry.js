@@ -15,8 +15,8 @@
 	);
 
 	async function showZalgo() {
-		await requireElement("#chatRoot");
-		document.find("#chatRoot").classList.remove("no-zalgo");
+		const chatRoot = await requireElement("#chatRoot");
+		chatRoot.classList.remove("no-zalgo");
 	}
 
 	function hideZalgo() {

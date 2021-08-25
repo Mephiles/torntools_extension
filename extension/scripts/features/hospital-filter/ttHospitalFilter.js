@@ -202,7 +202,7 @@
 				continue;
 			}
 			// Level
-			const level = parseInt(li.find(".info-wrap .level").innerText.replace(/\D+/g, ""));
+			const level = parseInt(li.find(".info-wrap .level").textContent.replace(/\D+/g, ""));
 			if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
 				hideRow(li);
 				// noinspection UnnecessaryContinueJS

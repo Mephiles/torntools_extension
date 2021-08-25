@@ -154,7 +154,7 @@
 					text = `${formatNumber(achievement.current, { shorten: true })}/${formatNumber(achievement.goals.find((goal) => !goal.completed).score, {
 						shorten: true,
 					})}`;
-				else text = String(formatNumber(achievement.current, { shorten: true }));
+				else text = formatNumber(achievement.current, { shorten: true });
 
 				if (hasGoals) dataset.goals = achievement.goals.map(({ score, completed }) => ({ score, completed }));
 
@@ -167,10 +167,12 @@
 				});
 
 				if (hasGoals) {
-					if (!mobile && !tablet) pill.addEventListener("mouseenter", showTooltip);
-					pill.addEventListener("focus", showTooltip);
+					if (!mobile && !tablet) {
+						pill.addEventListener("mouseenter", showTooltip);
+						pill.addEventListener("mouseleave", hideTooltip);
+					}
 
-					if (!mobile && !tablet) pill.addEventListener("mouseleave", hideTooltip);
+					pill.addEventListener("focus", showTooltip);
 					pill.addEventListener("blur", hideTooltip);
 				}
 
@@ -178,17 +180,17 @@
 			}
 
 			function showTimer() {
-				options.appendChild(
-					document.newElement({
+				const timer = document.newElement({
 						type: "span",
-						class: "tt-awards-time-ago count automatic",
+						class: "tt-awards-time-ago",
 						text: formatTime({ milliseconds: userdata.dateBasic }, { type: "ago", short: true }),
 						dataset: {
 							seconds: Math.floor(userdata.dateBasic / TO_MILLIS.SECONDS),
 							timeSettings: { type: "ago", short: true },
 						},
-					})
-				);
+					});
+				options.appendChild(timer);
+				countTimers.push(timer);
 			}
 
 			function showTooltip(event) {

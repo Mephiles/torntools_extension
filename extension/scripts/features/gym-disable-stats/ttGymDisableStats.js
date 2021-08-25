@@ -40,10 +40,9 @@
 	}
 
 	async function showCheckboxes() {
-		await requireElement("#gymroot ul[class*='properties___']");
 		await sleep();
 
-		const properties = document.find("#gymroot ul[class*='properties___']");
+		const properties = await requireElement("#gymroot ul[class*='properties___']");
 
 		for (const stat of properties.findAll(":scope > li:not([class*='locked___']):not(.tt-modified)")) {
 			stat.classList.add("tt-modified");

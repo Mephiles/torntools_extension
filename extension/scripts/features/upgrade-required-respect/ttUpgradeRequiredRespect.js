@@ -28,7 +28,7 @@
 		if (!force) return;
 		await requireElement("#faction-upgrades #stu-confirmation div[role] > :nth-child(3)");
 
-		const availableRespect = parseInt(document.find("#faction-upgrades .skill-tree .residue-respect").innerText.replace(/[, ]/g, ""));
+		const availableRespect = parseInt(document.find("#faction-upgrades .skill-tree .residue-respect").textContent.replace(/[\n, ]/g, "").trim());
 		const requiredNode = document.find("#faction-upgrades #stu-confirmation div[role] > :nth-child(3) > .text");
 		let diff;
 		if (requiredNode.parentElement.classList.contains("completed")) {

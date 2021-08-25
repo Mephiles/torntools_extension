@@ -73,7 +73,7 @@
 		};
 	}
 
-	function createBankInvestmentContainer(bankAprInfo) {
+	function createBankInvestmentContainer(bankAprInfo, delimiter) {
 		const tableColumnsDefs = [
 			{
 				id: "period",
@@ -118,7 +118,7 @@
 			stretchColumns: true,
 		});
 
-		const { content, container } = createContainer("Bank Investment", { previousElement: document.find(".content-wrapper > .delimiter-999") });
+		const { content, container } = createContainer("Bank Investment", { previousElement: delimiter });
 		content.appendChild(table.element);
 
 		function dispose() {
@@ -160,7 +160,7 @@
 	let bankInvestmentInfoContainer;
 
 	async function initialize() {
-		await requireElement(".content-wrapper > .delimiter-999");
+		const delimiter = await requireElement(".content-wrapper > .delimiter-999");
 
 		let response;
 		if (ttCache.hasValue("bankInterest")) {
@@ -171,7 +171,7 @@
 			ttCache.set({ bankInterest: response }, millisToNewDay()).then(() => {});
 		}
 
-		bankInvestmentInfoContainer = createBankInvestmentContainer(response);
+		bankInvestmentInfoContainer = createBankInvestmentContainer(response, delimiter);
 	}
 
 	function teardown() {

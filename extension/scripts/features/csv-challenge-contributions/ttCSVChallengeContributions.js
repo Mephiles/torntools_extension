@@ -24,9 +24,7 @@
 	}
 
 	async function addCSVContainer() {
-		await requireElement("#factions #faction-upgrades .body #stu-confirmation .description-wrap");
-
-		const descriptionWrap = document.find("#factions #faction-upgrades .body #stu-confirmation .description-wrap");
+		const descriptionWrap = await requireElement("#factions #faction-upgrades .body #stu-confirmation .description-wrap");
 		const contributionsWrap = descriptionWrap.find(".contributions-wrap");
 		if (!contributionsWrap) return;
 

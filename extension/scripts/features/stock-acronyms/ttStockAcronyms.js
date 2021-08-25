@@ -28,7 +28,7 @@
 				document.newElement({
 					type: "span",
 					id: "tt-acronym",
-					text: `(${stockName.find("[class*='logoContainer__'] img").src.split("/").last().split(".")[0]}) `,
+					text: `(${torndata.stocks[stockName.closest("[class*='stock___']").id].acronym}) `,
 				})
 			);
 		}

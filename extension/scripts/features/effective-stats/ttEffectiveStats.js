@@ -34,8 +34,8 @@
 		let effectiveTotal = 0;
 		const stats = ["Strength", "Defense", "Speed", "Dexterity"];
 		for (let i = 0; i < stats.length; i++) {
-			const base = parseInt(statsContainer.find(`li:nth-child(${i + 1}) .desc`).innerText.replace(/,/g, ""));
-			let modifier = statsContainer.find(`li:nth-child(${i + 1}) .mod`).innerText;
+			const base = statsContainer.find(`li:nth-child(${i + 1}) .desc`).textContent.getNumber();
+			let modifier = statsContainer.find(`li:nth-child(${i + 1}) .mod`).textContent.trim();
 			if (modifier.charAt(0) === "+") modifier = parseInt(modifier.slice(1, -1)) / 100 + 1;
 			else modifier = 1 - parseInt(modifier.slice(1, -1)) / 100;
 			const effective = (base * modifier).dropDecimals();

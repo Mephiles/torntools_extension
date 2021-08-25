@@ -15,11 +15,11 @@
 	);
 
 	async function addWords() {
-		await requireElement(".box-info.age .box-value");
+		const boxValue = await requireElement(".box-info.age .box-value");
 
 		const ageDiv = document.find(".box-info.age");
 		ageDiv.find(".box-name").classList.add("hidden");
-		const age = parseInt(document.find(".box-info.age .box-value").innerText.replace(/\n/g, ""));
+		const age = boxValue.textContent.getNumber();
 		const dateCurrent = new Date();
 		const utimeTarget = dateCurrent.getTime() + age * 86400 * 1000;
 		const dateTarget = new Date(utimeTarget);

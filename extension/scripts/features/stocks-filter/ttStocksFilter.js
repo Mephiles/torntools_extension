@@ -17,8 +17,6 @@
 	);
 
 	async function initialiseFilters() {
-		await requireElement("#stockmarketroot [class*='stockMarket___']");
-
 		new MutationObserver((mutations) => {
 			if (!feature.enabled()) return;
 
@@ -26,19 +24,19 @@
 			if (mutations.length < 3) return;
 
 			applyFilter();
-		}).observe(document.find("#stockmarketroot [class*='stockMarket___']"), { subtree: true, attributes: true, attributeFilter: ["aria-label"] });
+		}).observe(await requireElement("#stockmarketroot [class*='stockMarket___']"), { subtree: true, attributes: true, attributeFilter: ["aria-label"] });
 	}
 
 	let localFilters;
 
 	async function addFilters() {
-		await requireElement("#stockmarketroot");
+		const stockMarketRoot = await requireElement("#stockmarketroot");
 
 		localFilters = {};
 
 		const { content } = createContainer("Stocks Filter", {
 			class: "mt10 mb10",
-			previousElement: document.find("#stockmarketroot").firstElementChild,
+			previousElement: stockMarketRoot.firstElementChild,
 			compact: true,
 			filter: true,
 		});
@@ -124,13 +122,13 @@
 			const id = parseInt(row.getAttribute("id"));
 
 			// Name
-			if (name && !row.find("li[data-name='nameTab']").innerText.toLowerCase().includes(name.toLowerCase())) {
+			if (name && !row.find(`li[class*="stockName___"][aria-label*="${name}" i]`)) {
 				hideRow(row);
 				continue;
 			}
 
 			if (owned === "yes" || owned === "no") {
-				const isOwned = row.find("p[class*='count___']").innerText !== "None";
+				const isOwned = row.find("p[class*='count___']").textContent !== "None";
 
 				if ((isOwned && owned === "no") || (!isOwned && owned === "yes")) {
 					hideRow(row);

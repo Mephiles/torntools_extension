@@ -57,7 +57,7 @@
 						.match(/([0-9]+)/g)
 						?.last()
 				),
-				level: parseInt(row.find(".lvl").innerText.trim()),
+				level: parseInt(row.find(".lvl").textContent.trim()),
 			}),
 			true,
 			(row) =>

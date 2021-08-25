@@ -90,9 +90,7 @@
 
 		const cash = parseInt(json.result.msg.money.replaceAll(",", ""));
 
-		await requireElement(".job-info");
-
-		const jobInfo = document.find(".job-info");
+		const jobInfo = await requireElement(".job-info");;
 		jobInfo.appendChild(
 			document.newElement({
 				type: "li",

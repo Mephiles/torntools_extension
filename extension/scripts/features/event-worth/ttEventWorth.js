@@ -29,7 +29,7 @@
 		];
 		document.findAll("form#masssell .mail-link[id]").forEach((li) => {
 			regexes.forEach((regex) => {
-				const matches = li.innerText.match(regex);
+				const matches = li.textContent.match(regex);
 				if (matches?.length === 2) {
 					li.setAttribute(
 						"title",

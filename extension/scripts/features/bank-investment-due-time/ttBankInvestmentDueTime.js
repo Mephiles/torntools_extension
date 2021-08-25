@@ -18,8 +18,8 @@
 		}
 	);
 
-	function createBankInvestmentFacade() {
-		const investmentTimeLeftElement = document.find("p.m-clear");
+	function createBankInvestmentFacade(node) {
+		const investmentTimeLeftElement = node;
 
 		const dueDate = new Date(userdata.date + userdata.city_bank.time_left * 1000);
 		const formattedDate = formatDate(dueDate, { showYear: true });
@@ -51,9 +51,7 @@
 	let bankInvestmentFacade;
 
 	async function initialize() {
-		await requireElement("p.m-clear");
-
-		bankInvestmentFacade = createBankInvestmentFacade();
+		bankInvestmentFacade = createBankInvestmentFacade(await requireElement("p.m-clear"));
 	}
 
 	function teardown() {

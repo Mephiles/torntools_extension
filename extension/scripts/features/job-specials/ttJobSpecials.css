@@ -53,10 +53,10 @@ body:not(.tt-mobile) #jobSpecials .tt-company-info-wrap hr {
 	border: 1px solid grey;
 }
 
-body:not(.tt-mobile) #jobSpecials .tt-company-info-wrap hr:nth-of-type(1) {
+body:not(.tt-mobile) #jobSpecials .tt-company-info-wrap .first-hr {
 	width: 80%;
 }
 
-body:not(.tt-mobile) #jobSpecials .tt-company-info-wrap hr:nth-of-type(2) {
+body:not(.tt-mobile) #jobSpecials .tt-company-info-wrap .second-hr {
 	width: 20%;
 }
