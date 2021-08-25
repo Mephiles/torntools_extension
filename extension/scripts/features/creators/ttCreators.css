@@ -1,0 +1,20 @@
+.tt-creator {
+	display: flex;
+	align-items: center;
+	margin: -4px 0 4px 0;
+}
+
+.tt-creator .tt-svg {
+	width: 24px;
+	height: 24px;
+}
+
+body.dark-mode .tt-creator .tt-svg .tt-svg-upper {
+	stroke: #999;
+	fill: #999;
+}
+
+.tt-creator span {
+	margin-left: 4px;
+	font-size: 18px;
+}

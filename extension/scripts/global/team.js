@@ -40,7 +40,7 @@ const TEAM = [
 		name: "Allo",
 		title: "Community Admin",
 		core: true,
-		torn: 0,
+		torn: 2316070,
 	},
 	{
 		name: "AllMight",
