@@ -181,14 +181,14 @@
 
 			function showTimer() {
 				const timer = document.newElement({
-						type: "span",
-						class: "tt-awards-time-ago",
-						text: formatTime({ milliseconds: userdata.dateBasic }, { type: "ago", short: true }),
-						dataset: {
-							seconds: Math.floor(userdata.dateBasic / TO_MILLIS.SECONDS),
-							timeSettings: { type: "ago", short: true },
-						},
-					});
+					type: "span",
+					class: "tt-awards-time-ago",
+					text: formatTime({ milliseconds: userdata.dateBasic }, { type: "ago", short: true }),
+					dataset: {
+						seconds: Math.floor(userdata.dateBasic / TO_MILLIS.SECONDS),
+						timeSettings: { type: "ago", short: true },
+					},
+				});
 				options.appendChild(timer);
 				countTimers.push(timer);
 			}

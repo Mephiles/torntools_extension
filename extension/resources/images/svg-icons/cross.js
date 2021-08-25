@@ -23,6 +23,6 @@ function crossSvg() {
 	rect2.setAttributeNS(null, "transform", "rotate(-45)");
 	rect2.setAttributeNS(null, "fill", "#627e0d");
 	svg.appendChild(rect2);
-	
+
 	return svg;
 }

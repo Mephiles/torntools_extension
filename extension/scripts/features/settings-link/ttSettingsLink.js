@@ -59,10 +59,7 @@
 				children: [
 					document.newElement({
 						type: "div",
-						children: [
-							backSvg(),
-							document.newElement({ type: "span", id: "back", text: "Back to TORN" }),
-						],
+						children: [backSvg(), document.newElement({ type: "span", id: "back", text: "Back to TORN" })],
 					}),
 				],
 			});

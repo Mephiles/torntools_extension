@@ -128,7 +128,7 @@
 			const context = canvas.getContext("2d");
 
 			const gymChart = createChart();
-			darkModeObserver.addListener(darkMode => {
+			darkModeObserver.addListener((darkMode) => {
 				const color = darkMode ? "#fff" : "#000";
 				gymChart.options.scales.x.ticks.color = color;
 				gymChart.options.scales.y.ticks.color = color;
@@ -162,14 +162,14 @@
 						scales: {
 							x: {
 								ticks: {
-									color: darkMode ? "#fff" : "#000"
-								}
+									color: darkMode ? "#fff" : "#000",
+								},
 							},
 							y: {
 								ticks: {
-									color: darkMode ? "#fff" : "#000"
-								}
-							}
+									color: darkMode ? "#fff" : "#000",
+								},
+							},
 						},
 						interaction: {
 							mode: "index",

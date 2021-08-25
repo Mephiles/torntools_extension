@@ -29,10 +29,7 @@
 		if (!mobile) document.addEventListener("click", maxBuyListener);
 		else {
 			await maxBuyListener();
-			reactObserver.observe(
-				await requireElement(".ReactVirtualized__Grid__innerScrollContainer"),
-				{ childList: true }
-			);
+			reactObserver.observe(await requireElement(".ReactVirtualized__Grid__innerScrollContainer"), { childList: true });
 		}
 	}
 

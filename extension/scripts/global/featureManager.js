@@ -304,10 +304,7 @@ class FeatureManager {
 		const popupHeader = document.newElement({
 			type: "div",
 			class: `tt-page-status-header ${collapsed ? "collapsed" : ""}`,
-			children: [
-				document.newElement({ type: "span", text: "TornTools activated" }),
-				document.newElement({ type: "i", class: "icon fas fa-caret-down" }),
-			],
+			children: [document.newElement({ type: "span", text: "TornTools activated" }), document.newElement({ type: "i", class: "icon fas fa-caret-down" })],
 		});
 		const container = document.newElement({
 			id: this.containerID,
@@ -318,10 +315,7 @@ class FeatureManager {
 				${settings.featureDisplayOnlyFailed ? "only-fails" : ""}
 				${settings.featureDisplayHideDisabled ? "hide-disabled" : ""}
 			`,
-			children: [
-				popupHeader,
-				document.newElement({ type: "div", class: "tt-page-status-content" }),
-			],
+			children: [popupHeader, document.newElement({ type: "div", class: "tt-page-status-content" })],
 		});
 		document.body.appendChild(container);
 		this.container = container;
@@ -344,13 +338,14 @@ class FeatureManager {
 		if (!settings.featureDisplay) return;
 		let hasContent = false;
 		for (const scope of this.container.findAll(".tt-page-status-content > div")) {
-			const isEmpty = settings.featureDisplayOnlyFailed || settings.featureDisplayHideDisabled
-			? [...scope.findAll(".tt-page-status-feature:not(.features-list)")].every(
-				(element) =>
-					(settings.featureDisplayOnlyFailed && !element.classList.contains("failed")) ||
-					(settings.featureDisplayHideDisabled && !element.classList.contains("disabled"))
-			)
-			: false;
+			const isEmpty =
+				settings.featureDisplayOnlyFailed || settings.featureDisplayHideDisabled
+					? [...scope.findAll(".tt-page-status-feature:not(.features-list)")].every(
+							(element) =>
+								(settings.featureDisplayOnlyFailed && !element.classList.contains("failed")) ||
+								(settings.featureDisplayHideDisabled && !element.classList.contains("disabled"))
+					  )
+					: false;
 
 			if (isEmpty) {
 				scope.classList.add("no-content");
