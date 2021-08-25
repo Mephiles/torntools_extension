@@ -73,7 +73,7 @@ class StatsEstimate {
 			}
 
 			if (estimate) {
-				section.innerText = `Stats Estimate: ${estimate}`;
+				section.textContent = `Stats Estimate: ${estimate}`;
 				if (hasFilter) row.dataset.estimate = estimate;
 
 				showLoadingPlaceholder(section, false);
@@ -84,6 +84,7 @@ class StatsEstimate {
 					row.classList.remove("tt-estimated");
 					section.remove();
 				}
+				if (hasFilter) row.dataset.estimate = "none";
 
 				showLoadingPlaceholder(section, false);
 			} else this.queue.push({ row, section, id, hasFilter });

@@ -321,7 +321,8 @@
 				"scripts/features/faction-member-info/ttFactionMemberInfo.js",
 				"scripts/features/faction-inactivity-warning/ttFactionInactivityWarning.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
-				"scripts/features/stats-estimate/ttStatsEstimateFactionMembers.js"
+				"scripts/features/stats-estimate/ttStatsEstimateFactionMembers.js",
+				"scripts/features/stats-estimate/ttStatsEstimateFactionWars.js"
 			],
 			"run_at": "document_end"
 		},
@@ -372,8 +373,12 @@
 		},
 		{
 			"matches": ["https://www.torn.com/index.php?page=people*"],
-			"css": [],
-			"js": ["scripts/features/abroad-people-filter/ttPeopleFilter.js"],
+			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css"],
+			"js": [
+				"scripts/features/abroad-people-filter/ttPeopleFilter.js",
+				"scripts/features/stats-estimate/statsEstimate.js",
+				"scripts/features/stats-estimate/ttStatsEstimateAbroad.js"
+			],
 			"run_at": "document_end"
 		},
 		{

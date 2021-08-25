@@ -117,12 +117,6 @@ body.tt-tablet .tt-filter .content .tt-checkbox-wrapper {
 	margin: 1px 0;
 }
 
-.tt-filter .content .tt-yn-checkboxes {
-	display: flex;
-	justify-content: space-around;
-	flex-flow: column;
-}
-
 .tt-filter .content .tt-yn-checkboxes > div {
 	display: flex;
 }

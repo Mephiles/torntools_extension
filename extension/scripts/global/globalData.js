@@ -557,6 +557,8 @@ const DEFAULT_STORAGE = {
 				userlist: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				bounties: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				factions: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				wars: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				abroad: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		external: {
@@ -607,6 +609,7 @@ const DEFAULT_STORAGE = {
 				inFaction: new DefaultSetting({ type: "string", defaultValue: "both" }),
 				isDonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
 			},
+			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
 		abroadItems: {
 			categories: new DefaultSetting({ type: "array", defaultValue: [] }),

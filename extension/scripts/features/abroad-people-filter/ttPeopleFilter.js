@@ -3,11 +3,11 @@
 (async () => {
 	if (!isAbroad()) return;
 
-	featureManager.registerFeature(
+	const feature = featureManager.registerFeature(
 		"People Filter",
 		"travel",
 		() => settings.pages.travel.peopleFilter,
-		null,
+		initialiseFilters,
 		addFilters,
 		removeFilters,
 		{
@@ -15,6 +15,20 @@
 		},
 		null
 	);
+
+	function initialiseFilters() {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.STATS_ESTIMATED].push(({ row }) => {
+			if (!feature.enabled()) return;
+
+			const content = findContainer("People Filter", { selector: "main" });
+			const statsEstimates = localFilters["Stats Estimate"]?.getSelections(content);
+			if (!statsEstimates?.length) return;
+
+			filterRow(row, { statsEstimates }, true);
+		});
+	}
+
+	const localFilters = {};
 
 	async function addFilters() {
 		await requireElement(".users-list");
@@ -27,6 +41,7 @@
 
 		const statistics = createStatistics("players");
 		content.appendChild(statistics.element);
+		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };
 
 		const filterContent = document.newElement({
 			type: "div",
@@ -36,25 +51,28 @@
 		const activityFilter = createFilterSection({
 			type: "Activity",
 			defaults: filters.abroadPeople.activity,
-			callback: filtering,
+			callback: () => applyFilters(true),
 		});
 		filterContent.appendChild(activityFilter.element);
+		localFilters["Activity"] = { getSelections: activityFilter.getSelections };
 
 		const factionFilter = createFilterSection({
 			title: "Faction",
 			select: [...defaultFactionsItems, ...getFactions()],
 			defaults: "",
-			callback: filtering,
+			callback: () => applyFilters(true),
 		});
 		filterContent.appendChild(factionFilter.element);
+		localFilters["Faction"] = { getSelected: factionFilter.getSelected };
 
 		const specialFilter = createFilterSection({
 			title: "Special",
 			ynCheckboxes: ["New Player", "In Company", "In Faction", "Is Donator"],
 			defaults: filters.abroadPeople.special,
-			callback: filtering,
+			callback: () => applyFilters(true),
 		});
 		filterContent.appendChild(specialFilter.element);
+		localFilters["Special"] = { getSelections: specialFilter.getSelections };
 
 		const statusFilter = createFilterSection({
 			title: "Status",
@@ -63,9 +81,10 @@
 				{ id: "hospital", description: "Hospital" },
 			],
 			defaults: filters.abroadPeople.status,
-			callback: filtering,
+			callback: () => applyFilters(true),
 		});
 		filterContent.appendChild(statusFilter.element);
+		localFilters["Status"] = { getSelections: statusFilter.getSelections };
 
 		const levelFilter = createFilterSection({
 			title: "Level Filter",
@@ -77,154 +96,208 @@
 				valueLow: filters.abroadPeople.levelStart,
 				valueHigh: filters.abroadPeople.levelEnd,
 			},
-			callback: filtering,
+			callback: () => applyFilters(true),
 		});
 		filterContent.appendChild(levelFilter.element);
 		content.appendChild(filterContent);
+		localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
 
-		await filtering();
-
-		async function filtering() {
-			await requireElement(".users-list > li");
-			// Get the set filters
-			const activity = activityFilter.getSelections(content);
-			const faction = factionFilter.getSelected(content).trim();
-			const special = specialFilter.getSelections(content);
-			const status = statusFilter.getSelections(content);
-			const levels = levelFilter.getStartEnd();
-			const levelStart = parseInt(levels.start);
-			const levelEnd = parseInt(levels.end);
-
-			// Update level slider counter
-			levelFilter.updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
-
-			// Save filters
-			await ttStorage.change({
-				filters: {
-					abroadPeople: {
-						activity: activity,
-						faction: faction,
-						special: special,
-						status: status,
-						levelStart: levelStart,
-						levelEnd: levelEnd,
-					},
-				},
+		if (settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()) {
+			const estimatesFilter = createFilterSection({
+				title: "Stats Estimates",
+				checkboxes: [
+					{ id: "none", description: "none" },
+					...RANK_TRIGGERS.stats.map((trigger) => ({ id: trigger, description: trigger })),
+					{ id: "n/a", description: "N/A" },
+				],
+				defaults: filters.abroadPeople.estimates,
+				callback: () => applyFilters(true),
 			});
-			// Actual Filtering
-			for (const li of document.findAll(".users-list > li")) {
-				showRow(li);
-				// Activity
+			filterContent.appendChild(estimatesFilter.element);
+
+			localFilters["Stats Estimate"] = { getSelections: estimatesFilter.getSelections };
+		}
+
+		await applyFilters();
+	}
+
+	async function applyFilters(includeEstimates) {
+		await requireElement(".users-list > li");
+
+		// Get the set filters
+		const content = findContainer("People Filter", { selector: "main" });
+		const activity = localFilters["Activity"].getSelections(content);
+		const faction = localFilters["Faction"].getSelected(content).trim();
+		const special = localFilters["Special"].getSelections(content);
+		const status = localFilters["Status"].getSelections(content);
+		const levels = localFilters["Level Filter"].getStartEnd(content);
+		const levelStart = parseInt(levels.start);
+		const levelEnd = parseInt(levels.end);
+		const statsEstimates =
+			includeEstimates && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()
+				? localFilters["Stats Estimate"]?.getSelections(content)
+				: undefined;
+
+		// Update level slider counter
+		localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
+
+		// Save filters
+		await ttStorage.change({
+			filters: {
+				abroadPeople: {
+					activity,
+					faction,
+					special,
+					status,
+					levelStart,
+					levelEnd,
+					estimates: statsEstimates ?? filters.abroadPeople.estimates,
+				},
+			},
+		});
+
+		// Actual Filtering
+		for (const row of document.findAll(".users-list > li")) {
+			filterRow(row, { activity, faction, special, status, level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
+		}
+
+		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
+
+		localFilters["Statistics"].updateStatistics(
+			document.findAll(".users-list > li:not(.hidden)").length,
+			document.findAll(".users-list > li").length,
+			content
+		);
+	}
+
+	function filterRow(row, filters, individual) {
+		if (filters.activity?.length) {
+			if (
+				!filters.activity.some(
+					(x) =>
+						x.trim() ===
+						row
+							.find("#iconTray li")
+							.getAttribute("title")
+							.match(/(?<=<b>).*(?=<\/b>)/g)[0]
+							.toLowerCase()
+							.trim()
+				)
+			) {
+				hide("activity");
+				return;
+			}
+		}
+		if (filters.faction) {
+			const factionElement = row.find(".user.faction");
+			const image = factionElement.find(":scope > img");
+
+			const hasFaction = !!factionElement.href;
+			const isUnknownFaction = !image || image.src === "https://factiontags.torn.com/0-0.png";
+
+			if (filters.faction === "No faction") {
+				if (hasFaction) {
+					hide("faction");
+					return;
+				}
+			} else if (filters.faction === "Unknown faction") {
+				if (!isUnknownFaction) {
+					// Not "Unknown faction"
+					hide("faction");
+					return;
+				}
+			} else {
 				if (
-					activity.length &&
-					!activity.some(
-						(x) =>
-							x.trim() ===
-							li
-								.find("#iconTray li")
-								.getAttribute("title")
-								.match(/(?<=<b>).*(?=<\/b>)/g)[0]
-								.toLowerCase()
-								.trim()
-					)
+					!hasFaction || // No faction
+					isUnknownFaction || // Unknown faction
+					filters.faction !== image.getAttribute("title").trim()
 				) {
-					hideRow(li);
-					continue;
-				}
-
-				// Faction
-				const rowFaction = li.find(".user.faction");
-				const factionImg = rowFaction.find(":scope > img");
-				if (faction && faction !== "No faction" && faction !== "Unknown faction") {
-					if (
-						!rowFaction.href || // No faction
-						(rowFaction.href && factionImg && factionImg.src === "https://factiontags.torn.com/0-0.png") || // Unknown faction
-						(rowFaction.href && factionImg && faction !== factionImg.getAttribute("title").trim())
-					) {
-						hideRow(li);
-						continue;
-					}
-				} else if (faction === "No faction") {
-					if (rowFaction.href) {
-						// Not "No faction"
-						hideRow(li);
-						continue;
-					}
-				} else if (faction === "Unknown faction") {
-					if (!factionImg || (factionImg && factionImg.src !== "https://factiontags.torn.com/0-0.png")) {
-						// Not "Unknown faction"
-						hideRow(li);
-						continue;
-					}
-				}
-
-				// Special
-				for (const key in special) {
-					const value = special[key];
-					if (value === "both") continue;
-
-					if (value === "yes") {
-						let matchesOneIcon = false;
-						for (const icon of SPECIAL_FILTER_ICONS[key]) {
-							if (li.find(`li[id^='${icon}']`)) {
-								matchesOneIcon = true;
-								break;
-							}
-						}
-
-						if (!matchesOneIcon) {
-							hideRow(li);
-							// noinspection UnnecessaryContinueJS
-							continue;
-						}
-					} else if (value === "no") {
-						let matchesOneIcon = false;
-						for (const icon of SPECIAL_FILTER_ICONS[key]) {
-							if (li.find(`li[id^='${icon}']`)) {
-								matchesOneIcon = true;
-								break;
-							}
-						}
-
-						if (matchesOneIcon) {
-							hideRow(li);
-							// noinspection UnnecessaryContinueJS
-							continue;
-						}
-					}
-				}
-
-				// Status
-				let matches_one_status = status.length === 0;
-				for (const state of status) {
-					if (li.find(".status").innerText.replace("STATUS:", "").trim().toLowerCase() === state) {
-						matches_one_status = true;
-						break;
-					}
-				}
-				if (!matches_one_status) {
-					hideRow(li);
-					continue;
-				}
-
-				// Level
-				const level = parseInt(li.find(".level").innerText.replace(/\D+/g, ""));
-				if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
-					hideRow(li);
-					// noinspection UnnecessaryContinueJS
-					continue;
+					hide("faction");
+					return;
 				}
 			}
+		}
+		if (filters.special) {
+			const match = Object.entries(filters.special)
+				.filter(([, value]) => value !== "both")
+				.find(([key, value]) => {
+					const icons = getSpecialIcons(row);
+					const filterIcons = SPECIAL_FILTER_ICONS[key];
 
-			function showRow(li) {
-				li.classList.remove("hidden");
+					return (
+						(value === "yes" && !icons.some((foundIcon) => filterIcons.includes(foundIcon))) ||
+						(value === "no" && icons.some((foundIcon) => filterIcons.includes(foundIcon)))
+					);
+				});
+
+			if (match) {
+				hide(`special-${match[0]}`);
+				return;
+			}
+		}
+		if (filters.status?.length && filters.status.length !== 4) {
+			const status = row.find(".status").textContent.toLowerCase().trim();
+
+			if (!filters.status.includes(status)) {
+				hide("status");
+				return;
+			}
+		}
+		if (filters.level?.start || filters.level?.end) {
+			const level = row.find(".level").textContent.getNumber();
+			if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
+				hide("level");
+				return;
+			}
+		}
+		if (filters.statsEstimates) {
+			if (filters.statsEstimates.length) {
+				const estimate = row.dataset.estimate?.toLowerCase();
+				if ((estimate || !row.classList.contains("tt-estimated")) && !filters.statsEstimates.includes(estimate)) {
+					hide("stats-estimate");
+					return;
+				}
+			}
+		}
+
+		show();
+
+		function show() {
+			row.classList.remove("hidden");
+			delete row.dataset.hideReason;
+
+			if (row.nextElementSibling?.classList.contains("tt-stats-estimate")) {
+				row.nextElementSibling.classList.remove("hidden");
 			}
 
-			function hideRow(li) {
-				li.classList.add("hidden");
+			if (individual) {
+				const content = findContainer("People Filter", { selector: "main" });
+
+				localFilters["Statistics"].updateStatistics(
+					document.findAll(".users-list > li:not(.hidden)").length,
+					document.findAll(".users-list > li").length,
+					content
+				);
+			}
+		}
+
+		function hide(reason) {
+			row.classList.add("hidden");
+			row.dataset.hideReason = reason;
+
+			if (row.nextElementSibling?.classList.contains("tt-stats-estimate")) {
+				row.nextElementSibling.classList.add("hidden");
 			}
 
-			statistics.updateStatistics(document.findAll(".users-list > li:not(.hidden)").length, document.findAll(".users-list > li").length, content);
+			if (individual) {
+				const content = findContainer("People Filter", { selector: "main" });
+
+				localFilters["Statistics"].updateStatistics(
+					document.findAll(".users-list > li:not(.hidden)").length,
+					document.findAll(".users-list > li").length,
+					content
+				);
+			}
 		}
 	}
 
