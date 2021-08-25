@@ -421,6 +421,7 @@ const DEFAULT_STORAGE = {
 				landingTime: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				flyingTime: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				itemFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				energyWarning: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			stocks: {
 				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
