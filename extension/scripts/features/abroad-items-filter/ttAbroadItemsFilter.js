@@ -21,6 +21,7 @@
 	function addFilter() {
 		const { content } = createContainer("Item Filters", {
 			nextElement: document.find(".travel-agency-market"),
+			filter: true,
 		});
 
 		const statistics = createStatistics("items");
