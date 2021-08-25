@@ -47,3 +47,7 @@
 body.dark-mode .bounties-list .tt-stats-estimate {
 	color: #aaa;
 }
+
+.faction-war .tt-stats-estimate {
+	border-bottom: unset;
+}
