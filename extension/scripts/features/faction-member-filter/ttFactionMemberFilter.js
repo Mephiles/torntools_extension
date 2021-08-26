@@ -81,15 +81,12 @@
 		filterContent.appendChild(specialFilter.element);
 		localFilters["Special"] = { getSelections: specialFilter.getSelections };
 
-		/* const newDiv = document.newElement({ type: "div" }); */
-
 		const positionFilter = createFilterSection({
 			title: "Position",
 			select: getPositions(),
 			defaults: "",
 			callback: applyFilter,
 		});
-		/* newDiv.appendChild(positionFilter.element); */
 		filterContent.appendChild(positionFilter.element);
 		localFilters["Position"] = { getSelected: positionFilter.getSelected };
 
@@ -104,11 +101,8 @@
 			defaults: filters.faction.status,
 			callback: applyFilter,
 		});
-		/* newDiv.appendChild(statusFilter.element); */
 		filterContent.appendChild(statusFilter.element);
 		localFilters["Status"] = { getSelections: statusFilter.getSelections };
-
-		/* filterContent.appendChild(newDiv); */
 
 		const levelFilter = createFilterSection({
 			title: "Level Filter",

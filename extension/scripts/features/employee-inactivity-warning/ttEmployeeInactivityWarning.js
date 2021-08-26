@@ -1,8 +1,6 @@
 "use strict";
 
 (async () => {
-	// if (!isOwnCompany) return;
-
 	const feature = featureManager.registerFeature(
 		"Employee Inactivity Warning",
 		"companies",

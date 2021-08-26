@@ -130,59 +130,6 @@
 				}
 			}
 			await ttStorage.change({ settings: { sorting: { abroad: { column: type, order: order } } } });
-			/* const rows = [...list.childNodes].filter((node) => node.nodeName === "LI");
-			if (order === "asc") {
-				rows.sort((a, b) => {
-					const helper = sortHelper(a.children[0], b.children[0]);
-
-					return helper.a - helper.b;
-				});
-			} else {
-				rows.sort((a, b) => {
-					const helper = sortHelper(a.children[0], b.children[0]);
-					return helper.b - helper.a;
-				});
-			}
-			rows.forEach((row) => newList.appendChild(row));
-
-			list.parentNode.replaceChild(newList, list);
-
-			ttStorage.change({ sorting: { abroadItems: { column: type, order } } });
-
-			function sortHelper(elementA, elementB) {
-				elementA = elementA.find(valueSelector);
-				elementB = elementB.find(valueSelector);
-
-				let valueA, valueB;
-				if (elementA.hasAttribute("value")) {
-					valueA = elementA.getAttribute("value");
-					valueB = elementB.getAttribute("value");
-				} else {
-					valueA = elementA.innerText;
-					valueB = elementB.innerText;
-
-					if (elementA.find(".t-show, .wai") && valueA.includes("\n")) {
-						valueA = valueA.split("\n").filter((x) => !!x)[1];
-						valueB = valueB.split("\n").filter((x) => !!x)[1];
-					}
-				}
-
-				let a, b;
-				if (isNaN(parseFloat(valueA))) {
-					if (valueA.includes("$")) {
-						a = parseFloat(valueA.replace("$", "").replace(/,/g, ""));
-						b = parseFloat(valueB.replace("$", "").replace(/,/g, ""));
-					} else {
-						a = valueA.toLowerCase().localeCompare(valueB.toLowerCase());
-						b = 0;
-					}
-				} else {
-					a = parseFloat(valueA.replaceAll(",", ""));
-					b = parseFloat(valueB.replaceAll(",", ""));
-				}
-
-				return { a, b };
-			} */
 		}
 	}
 
