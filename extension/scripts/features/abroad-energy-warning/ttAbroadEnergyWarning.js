@@ -11,11 +11,9 @@
 	let observer;
 
 	async function detect() {
-		console.log("DKK detect 1");
 		observer?.disconnect();
 
 		const content = await requireElement(".travel-home-content");
-		console.log("DKK detect 2");
 
 		if (content.style.display !== "none") showWarning();
 
