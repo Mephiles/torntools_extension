@@ -58,7 +58,7 @@
 			// Get the set filters
 			const tempMaxLevel = parseInt(maxLevelInput.value);
 			const maxLevel = tempMaxLevel < 100 && tempMaxLevel > 0 ? tempMaxLevel : 100;
-			maxLevelInput.value = maxLevel;
+			maxLevelInput.value = maxLevelInput.value === "" ? "" : maxLevel;
 			const hideUnavailable = cbHideUnavailable.isChecked();
 
 			// Save the filters
