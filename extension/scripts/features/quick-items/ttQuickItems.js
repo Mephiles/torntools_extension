@@ -170,14 +170,14 @@
 
 							responseWrap.style.display = "block";
 							responseWrap.innerHTML = `
-										<div class="action-wrap use-act use-action">
-											<form data-action="useItem" method="post">
-												<p>${result.text}</p>
-												<p>${links.join("")}</p>
-												<div class="clear"></div>
-											</form>
-										</div>
-									`;
+								<div class="action-wrap use-act use-action">
+									<form data-action="useItem" method="post">
+										<p>${result.text}</p>
+										<p>${links.join("")}</p>
+										<div class="clear"></div>
+									</form>
+								</div>
+							`;
 
 							for (const count of responseWrap.findAll(".counter-wrap")) {
 								count.classList.add("tt-modified");
@@ -378,7 +378,25 @@
 			["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category) ||
 			[
 				// Temporary Items
-				220, 221, 222, 226, 229, 239, 242, 246, 256, 257, 392, 394, 581, 611, 616, 742, 833, 840, 1042,
+				220,
+				221,
+				222,
+				226,
+				229,
+				239,
+				242,
+				246,
+				256,
+				257,
+				392,
+				394,
+				581,
+				611,
+				616,
+				742,
+				833,
+				840,
+				1042,
 				// Others
 				403,
 			].includes(id)
