@@ -236,13 +236,15 @@
 			"css": [
 				"scripts/features/company-specials/ttCompanySpecials.css",
 				"scripts/features/last-action/ttLastAction.css",
-				"scripts/features/employee-inactivity-warning/ttEmployeeInactivityWarning.css"
+				"scripts/features/employee-inactivity-warning/ttEmployeeInactivityWarning.css",
+				"scripts/features/employee-effectiveness/ttEmployeeEffectiveness.css"
 			],
 			"js": [
 				"scripts/content/company/ttCompany.js",
 				"scripts/features/company-specials/ttCompanySpecials.js",
 				"scripts/features/last-action/ttCompanyLastAction.js",
-				"scripts/features/employee-inactivity-warning/ttEmployeeInactivityWarning.js"
+				"scripts/features/employee-inactivity-warning/ttEmployeeInactivityWarning.js",
+				"scripts/features/employee-effectiveness/ttEmployeeEffectiveness.js"
 			],
 			"run_at": "document_end"
 		},
