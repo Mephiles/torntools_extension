@@ -807,7 +807,8 @@ async function updateStakeouts() {
 			if (okay) {
 				const key = `${id}_okay`;
 				if (data.status.state === "Okay" && !notifications.stakeouts[key]) {
-					notifications.stakeouts[key] = newNotification("Stakeouts", `${data.name} is now okay.`, `https://www.torn.com/profiles.php?XID=${id}`);
+					if (settings.notifications.types.global)
+						notifications.stakeouts[key] = newNotification("Stakeouts", `${data.name} is now okay.`, `https://www.torn.com/profiles.php?XID=${id}`);
 				} else if (data.status.state !== "Okay") {
 					delete notifications.stakeouts[key];
 				}
@@ -815,11 +816,12 @@ async function updateStakeouts() {
 			if (hospital) {
 				const key = `${id}_hospital`;
 				if (data.status.state === "Hospital" && !notifications.stakeouts[key]) {
-					notifications.stakeouts[key] = newNotification(
-						"Stakeouts",
-						`${data.name} is now in the hospital.`,
-						`https://www.torn.com/profiles.php?XID=${id}`
-					);
+					if (settings.notifications.types.global)
+						notifications.stakeouts[key] = newNotification(
+							"Stakeouts",
+							`${data.name} is now in the hospital.`,
+							`https://www.torn.com/profiles.php?XID=${id}`
+						);
 				} else if (data.status.state !== "Hospital") {
 					delete notifications.stakeouts[key];
 				}
@@ -827,11 +829,12 @@ async function updateStakeouts() {
 			if (landing) {
 				const key = `${id}_landing`;
 				if (data.last_action.status !== "Traveling" && !notifications.stakeouts[key]) {
-					notifications.stakeouts[key] = newNotification(
-						"Stakeouts",
-						`${data.name} is now ${data.status.state === "abroad" ? data.status.description : "in Torn"}.`,
-						`https://www.torn.com/profiles.php?XID=${id}`
-					);
+					if (settings.notifications.types.global)
+						notifications.stakeouts[key] = newNotification(
+							"Stakeouts",
+							`${data.name} is now ${data.status.state === "abroad" ? data.status.description : "in Torn"}.`,
+							`https://www.torn.com/profiles.php?XID=${id}`
+						);
 				} else if (data.last_action.status !== "Traveling") {
 					delete notifications.stakeouts[key];
 				}
@@ -839,7 +842,12 @@ async function updateStakeouts() {
 			if (online) {
 				const key = `${id}_online`;
 				if (data.last_action.status === "Online" && !notifications.stakeouts[key]) {
-					notifications.stakeouts[key] = newNotification("Stakeouts", `${data.name} is now online.`, `https://www.torn.com/profiles.php?XID=${id}`);
+					if (settings.notifications.types.global)
+						notifications.stakeouts[key] = newNotification(
+							"Stakeouts",
+							`${data.name} is now online.`,
+							`https://www.torn.com/profiles.php?XID=${id}`
+						);
 				} else if (data.last_action.status !== "Online") {
 					delete notifications.stakeouts[key];
 				}
@@ -847,11 +855,12 @@ async function updateStakeouts() {
 			if (life) {
 				const key = `${id}_life`;
 				if (data.life.current <= data.life.maximum * (life / 100) && !notifications.stakeouts[key]) {
-					notifications.stakeouts[key] = newNotification(
-						"Stakeouts",
-						`${data.name}'${data.name.endsWith("s") ? "" : "s"} life has dropped below ${life}%.`,
-						`https://www.torn.com/profiles.php?XID=${id}`
-					);
+					if (settings.notifications.types.global)
+						notifications.stakeouts[key] = newNotification(
+							"Stakeouts",
+							`${data.name}'${data.name.endsWith("s") ? "" : "s"} life has dropped below ${life}%.`,
+							`https://www.torn.com/profiles.php?XID=${id}`
+						);
 				} else if (data.life.current > data.life.maximum * (life / 100)) {
 					delete notifications.stakeouts[key];
 				}
