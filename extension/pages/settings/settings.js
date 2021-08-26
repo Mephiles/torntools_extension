@@ -861,11 +861,17 @@ async function setupPreferences() {
 		settings.hideIcons = [..._preferences.findAll("#hide-icons .icon.disabled > div")].map((icon) => icon.getAttribute("class"));
 		settings.hideCasinoGames = [..._preferences.findAll("#hide-casino-games span.disabled")].map((game) => game.getAttribute("name"));
 		settings.hideStocks = [..._preferences.findAll("#hide-stocks span.disabled")].map((stock) => stock.getAttribute("id"));
-		settings.employeeInactivityWarning = [..._preferences.findAll("#employeeInactivityWarning > .tabbed input[type='number']")]
-			.map((warning) => ({ color: warning.nextElementSibling.value, days: isNaN(warning.value) ? false : parseInt(warning.value) }))
+		settings.employeeInactivityWarning = [..._preferences.findAll("#employeeInactivityWarning > .tabbed")]
+			.map((warning) => ({
+				color: warning.find("input[type='color']").value,
+				days: parseInt(warning.find("input[type='number']").value) ?? false,
+			}))
 			.sort((first, second) => first.days - second.days);
-		settings.factionInactivityWarning = [..._preferences.findAll("#factionInactivityWarning > .tabbed input[type='number']")]
-			.map((warning) => ({ color: warning.nextElementSibling.value, days: isNaN(warning.value) ? false : parseInt(warning.value) }))
+		settings.factionInactivityWarning = [..._preferences.findAll("#factionInactivityWarning > .tabbed")]
+			.map((warning) => ({
+				color: warning.find("input[type='color']").value,
+				days: parseInt(warning.find("input[type='number']").value) ?? false,
+			}))
 			.sort((first, second) => first.days - second.days);
 
 		settings.apiUsage.comment = _preferences.find("#api_usage-comment").value;

@@ -87,36 +87,29 @@
 			ttCache.set({ [id]: employees }, TO_MILLIS.SECONDS * 30, "company-employees").then(() => {});
 		}
 
-		let list;
-		if (isOwnCompany) {
-			list = document.find(".employee-list-wrap .employee-list");
-			const nowDate = Date.now();
-			list.findAll(":scope > li").forEach((li) => {
-				const employeeID = li.dataset.user;
-				const days = ((nowDate - employees[employeeID].last_action.timestamp * 1000) / TO_MILLIS.DAYS).dropDecimals();
-				li.insertAdjacentElement(
-					"afterend",
-					document.newElement({
-						type: "div",
-						class: "tt-last-action",
-						text: `Last action: ${employees[employeeID].last_action.relative}`,
-						dataset: { days },
-					})
+		const now = Date.now();
+		const list = document.find(".employee-list-wrap .employee-list, .employees-wrap .employees-list");
+		for (const row of list.findAll(":scope > li")) {
+			const id =
+				row.dataset.user ??
+				parseInt(
+					row
+						.find(".user.name > [title]")
+						.getAttribute("title")
+						.match(/([0-9]+)/g)
+						?.last()
 				);
-			});
-		} else {
-			list = document.find(".employees-wrap .employees-list");
-			list.findAll(":scope > li").forEach((li) => {
-				const employeeID = li.find(".user.name").dataset.placeholder.match(/(?<=\[)\d+(?=]$)/g)[0];
-				li.insertAdjacentElement(
-					"afterend",
-					document.newElement({
-						type: "div",
-						class: "tt-last-action joblist",
-						text: `Last action: ${employees[employeeID].last_action.relative}`,
-					})
-				);
-			});
+			const days = ((now - employees[id].last_action.timestamp * 1000) / TO_MILLIS.DAYS).dropDecimals();
+
+			row.insertAdjacentElement(
+				"afterend",
+				document.newElement({
+					type: "div",
+					class: `tt-last-action ${isOwnCompany ? "" : "joblist"}`,
+					text: `Last action: ${employees[id].last_action.relative}`,
+					dataset: { days },
+				})
+			);
 		}
 		list.classList.add("tt-modified");
 	}

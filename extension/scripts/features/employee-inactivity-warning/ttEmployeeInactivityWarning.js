@@ -1,12 +1,12 @@
 "use strict";
 
 (async () => {
-	if (!isOwnCompany) return;
+	// if (!isOwnCompany) return;
 
 	const feature = featureManager.registerFeature(
 		"Employee Inactivity Warning",
 		"companies",
-		() => isOwnCompany && settings.employeeInactivityWarning.filter((warning) => "days" in warning).length,
+		() => settings.employeeInactivityWarning.filter((warning) => "days" in warning).length,
 		addListener,
 		addWarning,
 		removeWarning,
@@ -38,17 +38,20 @@
 	async function addWarning(force) {
 		if (!force) return;
 
-		document.findAll(".employee-list-wrap .employee-list > li").forEach((li) => {
-			if (li.nextSibling.className.includes("tt-last-action")) {
-				const days = parseInt(li.nextSibling.dataset.days);
-				settings.employeeInactivityWarning.forEach((warning) => {
-					if (!("days" in warning) || days < warning.days) return;
+		await requireElement(".employee-list-wrap .employee-list, .employees-wrap .employees-list");
 
-					li.style.setProperty("--tt-inactive-background", warning.color);
-					li.classList.add("tt-inactive");
-				});
+		for (const row of document.findAll(".employee-list-wrap .employee-list > li, .employees-wrap .employees-list > li")) {
+			if (!row.nextSibling.classList.contains("tt-last-action")) continue;
+
+			const days = parseInt(row.nextSibling.dataset.days);
+
+			for (const warning of settings.employeeInactivityWarning) {
+				if (!("days" in warning) || days < warning.days) continue;
+
+				row.style.setProperty("--tt-inactive-background", warning.color);
+				row.classList.add("tt-inactive");
 			}
-		});
+		}
 	}
 
 	function removeWarning() {

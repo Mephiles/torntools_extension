@@ -433,11 +433,16 @@
 		},
 		{
 			"matches": ["https://www.torn.com/joblist.php*"],
-			"css": ["scripts/features/job-specials/ttJobSpecials.css", "scripts/features/last-action/ttLastAction.css"],
+			"css": [
+				"scripts/features/job-specials/ttJobSpecials.css",
+				"scripts/features/last-action/ttLastAction.css",
+				"scripts/features/employee-inactivity-warning/ttEmployeeInactivityWarning.css"
+			],
 			"js": [
 				"scripts/content/company/ttCompany.js",
 				"scripts/features/job-specials/ttJobSpecials.js",
-				"scripts/features/last-action/ttCompanyLastAction.js"
+				"scripts/features/last-action/ttCompanyLastAction.js",
+				"scripts/features/employee-inactivity-warning/ttEmployeeInactivityWarning.js"
 			],
 			"run_at": "document_end"
 		},
