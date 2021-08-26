@@ -17,6 +17,7 @@
 	);
 
 	async function initialise() {
+		// noinspection JSCheckFunctionSignatures
 		new MutationObserver(() => {
 			if (!feature.enabled()) return;
 

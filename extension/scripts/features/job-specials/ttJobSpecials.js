@@ -19,6 +19,7 @@
 	);
 
 	async function addListener() {
+		// noinspection JSCheckFunctionSignatures
 		new MutationObserver((mutations) => {
 			if (!feature.enabled() || !mutations.some((mutation) => mutation.addedNodes && mutation.addedNodes.length)) return;
 

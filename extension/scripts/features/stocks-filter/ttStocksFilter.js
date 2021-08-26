@@ -17,6 +17,7 @@
 	);
 
 	async function initialiseFilters() {
+		// noinspection JSCheckFunctionSignatures
 		new MutationObserver((mutations) => {
 			if (!feature.enabled()) return;
 

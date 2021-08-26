@@ -42,7 +42,7 @@ class FeatureManager {
 			options,
 		};
 
-		this.log(["[TornTools] FeatureManager - Registered new feature.", newFeature]);
+		this.log(["[TornTools] FeatureManager - Registered new feature.", newFeature]).then(() => {});
 		this.features.push(newFeature);
 
 		this.startFeature(newFeature).catch((error) => this.log([`[TornTools] FeatureManager - Failed to start "${name}".`, error], true));
@@ -70,7 +70,7 @@ class FeatureManager {
 			this.executeFunction(execute).catch(() => {});
 		}
 
-		this.log(["[TornTools] FeatureManager - Adjusted feature.", feature]);
+		this.log(["[TornTools] FeatureManager - Adjusted feature.", feature]).then(() => {});
 		return feature;
 	}
 
@@ -82,7 +82,7 @@ class FeatureManager {
 		await loadDatabase();
 		try {
 			if (getValue(feature.enabled)) {
-				this.log(["[TornTools] FeatureManager - Starting feature.", feature]);
+				this.log(["[TornTools] FeatureManager - Starting feature.", feature]).then(() => {});
 				if ("requirements" in feature) {
 					const requirements = await getValueAsync(feature.requirements);
 
@@ -111,7 +111,9 @@ class FeatureManager {
 				}
 			} else {
 				if (feature.hasLoaded) {
-					this.log(["[TornTools] FeatureManager - Disabling feature.", feature]);
+					this.log(["[TornTools] FeatureManager - Disabling feature.", feature])
+						.then(() => {})
+						.then(() => {});
 					await this.executeFunction(feature.cleanup);
 					if (feature.options.triggerCallback) {
 						triggerCustomListener(EVENT_CHANNELS.FEATURE_DISABLED, { name: feature.name });
@@ -124,7 +126,7 @@ class FeatureManager {
 			await this.executeFunction(feature.cleanup).catch(() => {});
 
 			this.showResult(feature, "failed");
-			this.log([`[TornTools] FeatureManager - Failed to start "${feature.name}".`, error], true);
+			this.log([`[TornTools] FeatureManager - Failed to start "${feature.name}".`, error], true).then(() => {});
 		}
 		feature.hasLoaded = true;
 	}
@@ -267,7 +269,7 @@ class FeatureManager {
 
 			await this.checkScopes();
 		}).catch((error) => {
-			this.log([`[TornTools] FeatureManager - Couldn't log result for ${feature.name}`, error, options], true);
+			this.log([`[TornTools] FeatureManager - Couldn't log result for ${feature.name}`, error, options], true).then(() => {});
 		});
 
 		function getIcon() {

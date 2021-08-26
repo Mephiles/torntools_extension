@@ -20,7 +20,7 @@
 
 	async function addProfitAndValue() {
 		await requireElement("#stockmarketroot [class*='stock___']");
-		const totalValue = [...document.findAll("[class*='stockOwned__'] [class*='value__']")].map((x) => parseInt(x.textContent.getNumber())).totalSum();
+		const totalValue = [...document.findAll("[class*='stockOwned__'] [class*='value__']")].map((x) => x.textContent.getNumber()).totalSum();
 		const profits = [...document.findAll("#stockmarketroot [class*='stockMarket__'] > ul[id]")]
 			.map((x) => {
 				const stockID = x.id;
