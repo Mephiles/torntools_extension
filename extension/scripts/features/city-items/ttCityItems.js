@@ -114,7 +114,11 @@
 				if (items.length > 0) {
 					element = document.newElement({
 						type: "p",
-						html: `There are <strong>${items.map(({ count }) => count).totalSum()}</strong> items in the city: `,
+						children: [
+							"There are ",
+							document.newElement({ type: "strong", text: items.map(({ count }) => count).totalSum() }),
+							" items in the city: ",
+						],
 					});
 
 					const _items = [...items];

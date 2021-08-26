@@ -22,7 +22,13 @@
 			msg.appendChild(
 				document.newElement({
 					type: "div",
-					html: "<span class='tt-msg'>Some games have been removed by TornTools. They can be re-enabled in TornTools' settings.</span>",
+					children: [
+						document.newElement({
+							type: "span",
+							class: "tt-msg",
+							text: "Some games have been removed by TornTools. They can be re-enabled in TornTools' settings.",
+						}),
+					],
 				})
 			);
 		}

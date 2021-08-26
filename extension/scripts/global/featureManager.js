@@ -219,9 +219,14 @@ class FeatureManager {
 					type: "div",
 					class: `tt-page-status-feature ${status}`,
 					id: `tt-page-status-feature-${feature.name.toLowerCase().replace(/ /g, "-")}`,
-					html: `
-						<span class="tt-page-status-feature-icon"><i class="fas ${getIcon()}"></i></span>
-						<span class="tt-page-status-feature-text">${feature.name}</span>`,
+					children: [
+						document.newElement({
+							type: "span",
+							class: "tt-page-status-feature-icon",
+							children: [document.newElement({ type: "i", class: `fas ${getIcon()}` })],
+						}),
+						document.newElement({ type: "span", class: "tt-page-status-feature-icon", text: feature.name }),
+					],
 					attributes: () => {
 						if (options.message) return { title: options.message };
 						else return false;
