@@ -828,11 +828,11 @@ async function updateStakeouts() {
 			}
 			if (landing) {
 				const key = `${id}_landing`;
-				if (data.last_action.status !== "Traveling" && !notifications.stakeouts[key]) {
+				if (data.status.state !== "Traveling" && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
-							`${data.name} is now ${data.status.state === "abroad" ? data.status.description : "in Torn"}.`,
+							`${data.name} is now ${data.status.state === "Abroad" ? data.status.description : "in Torn"}.`,
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
 				} else if (data.last_action.status !== "Traveling") {
