@@ -46,7 +46,6 @@
 				},
 			});
 			input.insertBefore(document.newElement({ type: "div", children: [timer] }), input.firstElementChild);
-			countdownTimers.push(timer);
 
 			input.find("textarea").addEventListener("keypress", onKeyPress);
 			input.classList.add("tt-modified");
@@ -56,6 +55,7 @@
 		if (localdata.tradeMessage > now) {
 			timer.innerText = formatTime({ milliseconds: localdata.tradeMessage - now }, { type: "wordTimer", extraShort: true });
 			timer.dataset.seconds = ((localdata.tradeMessage - now) / TO_MILLIS.SECONDS).dropDecimals().toString();
+			countdownTimers.push(timer);
 		} else {
 			timer.innerText = "OK";
 		}
