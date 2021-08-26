@@ -51,10 +51,10 @@ let initiatedPages = {};
 	function handleAPIError() {
 		if (api.torn.error) {
 			document.find(".error").classList.remove("hidden");
-			document.find(".error").innerText = api.torn.error;
+			document.find(".error").textContent = api.torn.error;
 		} else {
 			document.find(".error").classList.add("hidden");
-			document.find(".error").innerText = "";
+			document.find(".error").textContent = "";
 		}
 	}
 })();
@@ -90,7 +90,7 @@ async function setupInitialize() {
 			})
 			.catch((error) => {
 				document.find(".error").classList.remove("hidden");
-				document.find(".error").innerText = error.error;
+				document.find(".error").textContent = error.error;
 			});
 	});
 
@@ -106,7 +106,7 @@ async function setupDashboard() {
 
 	dashboard.find("#mute-notifications").classList.add(settings.notifications.types.global ? "enabled" : "disabled");
 	dashboard.find("#mute-notifications i").classList.add(settings.notifications.types.global ? "fa-bell" : "fa-bell-slash");
-	dashboard.find("#mute-notifications span").innerText = settings.notifications.types.global ? "Notifications enabled" : "Notifications disabled";
+	dashboard.find("#mute-notifications span").textContent = settings.notifications.types.global ? "Notifications enabled" : "Notifications disabled";
 	dashboard.find("#mute-notifications").addEventListener("click", () => {
 		const newStatus = !settings.notifications.types.global;
 
@@ -117,13 +117,13 @@ async function setupDashboard() {
 			dashboard.find("#mute-notifications").classList.remove("disabled");
 			dashboard.find("#mute-notifications i").classList.add("fa-bell");
 			dashboard.find("#mute-notifications i").classList.remove("fa-bell-slash");
-			dashboard.find("#mute-notifications span").innerText = "Notifications enabled";
+			dashboard.find("#mute-notifications span").textContent = "Notifications enabled";
 		} else {
 			dashboard.find("#mute-notifications").classList.remove("enabled");
 			dashboard.find("#mute-notifications").classList.add("disabled");
 			dashboard.find("#mute-notifications i").classList.remove("fa-bell");
 			dashboard.find("#mute-notifications i").classList.add("fa-bell-slash");
-			dashboard.find("#mute-notifications span").innerText = "Notifications disabled";
+			dashboard.find("#mute-notifications span").textContent = "Notifications disabled";
 		}
 	});
 
@@ -148,12 +148,12 @@ async function setupDashboard() {
 			const seconds = parseInt(countdown.dataset.seconds) - 1;
 
 			if (seconds <= 0) {
-				countdown.innerText = countdown.dataset.doneText || "Ready";
+				countdown.textContent = countdown.dataset.doneText || "Ready";
 				// delete countdown.dataset.seconds;
 				continue;
 			}
 
-			countdown.innerText = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
+			countdown.textContent = formatTime({ seconds }, JSON.parse(countdown.dataset.timeSettings));
 			countdown.dataset.seconds = seconds;
 		}
 	}, 1000);
@@ -194,14 +194,14 @@ async function setupDashboard() {
 
 		function updateStatus() {
 			if (userdata.travel.time_left) {
-				dashboard.find("#country").innerText = `Traveling to ${userdata.travel.destination}`;
+				dashboard.find("#country").textContent = `Traveling to ${userdata.travel.destination}`;
 				dashboard.find(".status-wrap").classList.add("hidden");
 			} else {
-				dashboard.find("#country").innerText = userdata.travel.destination;
+				dashboard.find("#country").textContent = userdata.travel.destination;
 
 				const status = userdata.status.state === "abroad" ? "okay" : userdata.status.state.toLowerCase();
 
-				dashboard.find("#status").innerText = capitalizeText(status);
+				dashboard.find("#status").textContent = capitalizeText(status);
 				dashboard.find("#status").setAttribute("class", status);
 				dashboard.find(".status-wrap").classList.remove("hidden");
 
@@ -242,7 +242,7 @@ async function setupDashboard() {
 			}
 
 			dashboard.find(`#${name} .progress .value`).style.width = `${(current / maximum) * 100}%`;
-			dashboard.find(`#${name} .bar-info .bar-label`).innerText = `${current}/${maximum}`;
+			dashboard.find(`#${name} .bar-info .bar-label`).textContent = `${current}/${maximum}`;
 
 			dashboard.find(`#${name} .bar-info`).dataset.full_at = fullAt;
 			dashboard.find(`#${name} .bar-info`).dataset.tick_at = tickAt;
@@ -264,7 +264,7 @@ async function setupDashboard() {
 			const current = maximum - userdata.travel.time_left;
 
 			dashboard.find("#traveling .progress .value").style.width = `${(current / maximum) * 100}%`;
-			dashboard.find("#traveling .bar-info .bar-label").innerText = formatTime(userdata.travel.timestamp * 1000);
+			dashboard.find("#traveling .bar-info .bar-label").textContent = formatTime(userdata.travel.timestamp * 1000);
 
 			dashboard.find("#traveling .bar-info").dataset.tick_at = userdata.travel.timestamp * 1000;
 			dashboard.find("#traveling .bar-info").dataset.full_at = userdata.travel.timestamp * 1000;
@@ -280,10 +280,10 @@ async function setupDashboard() {
 
 		function updateExtra() {
 			if (settings.apiUsage.user.newevents)
-				dashboard.find(".extra .events .count").innerText = Object.values(userdata.events).filter((event) => !event.seen).length;
+				dashboard.find(".extra .events .count").textContent = Object.values(userdata.events).filter((event) => !event.seen).length;
 			if (settings.apiUsage.user.newmessages)
-				dashboard.find(".extra .messages .count").innerText = Object.values(userdata.messages).filter((message) => !message.seen).length;
-			if (settings.apiUsage.user.money) dashboard.find(".extra .wallet .count").innerText = `$${formatNumber(userdata.money_onhand)}`;
+				dashboard.find(".extra .messages .count").textContent = Object.values(userdata.messages).filter((message) => !message.seen).length;
+			if (settings.apiUsage.user.money) dashboard.find(".extra .wallet .count").textContent = `$${formatNumber(userdata.money_onhand)}`;
 		}
 
 		function updateActions() {
@@ -305,9 +305,9 @@ async function setupDashboard() {
 		if (!status.dataset.until) return;
 
 		if (status.classList.contains("jail")) {
-			status.innerText = `Jailed for ${formatTime({ milliseconds: status.dataset.until - current }, { type: "timer" })}`;
+			status.textContent = `Jailed for ${formatTime({ milliseconds: status.dataset.until - current }, { type: "timer" })}`;
 		} else if (status.classList.contains("hospital")) {
-			status.innerText = `Hospitalized for ${formatTime({ milliseconds: status.dataset.until - current }, { type: "timer" })}`;
+			status.textContent = `Hospitalized for ${formatTime({ milliseconds: status.dataset.until - current }, { type: "timer" })}`;
 		}
 	}
 
@@ -365,12 +365,12 @@ async function setupDashboard() {
 
 		const completed_at = !isNaN(parseInt(dataset.completed_at)) ? parseInt(dataset.completed_at) : false;
 
-		cooldown.find(".cooldown-label").innerText = formatTime({ milliseconds: completed_at ? completed_at - current : 0 }, { type: "timer" });
+		cooldown.find(".cooldown-label").textContent = formatTime({ milliseconds: completed_at ? completed_at - current : 0 }, { type: "timer" });
 
 		if (completed_at) {
-			cooldown.find(".cooldown-label").innerText = formatTime({ milliseconds: completed_at - current }, { type: "timer", daysToHours: true });
+			cooldown.find(".cooldown-label").textContent = formatTime({ milliseconds: completed_at - current }, { type: "timer", daysToHours: true });
 		} else {
-			cooldown.find(".cooldown-label").innerText = formatTime({ milliseconds: 0 }, { type: "timer", daysToHours: true });
+			cooldown.find(".cooldown-label").textContent = formatTime({ milliseconds: 0 }, { type: "timer", daysToHours: true });
 		}
 	}
 
@@ -378,7 +378,7 @@ async function setupDashboard() {
 		Date.now();
 		const updatedAt = parseInt(dashboard.find("#last-update").dataset.updated_at);
 
-		dashboard.find("#last-update").innerText = formatTime({ milliseconds: updatedAt }, { type: "ago", agoFilter: TO_MILLIS.SECONDS });
+		dashboard.find("#last-update").textContent = formatTime({ milliseconds: updatedAt }, { type: "ago", agoFilter: TO_MILLIS.SECONDS });
 	}
 
 	function updateStakeouts() {
@@ -452,10 +452,15 @@ async function setupDashboard() {
 									document.newElement({
 										type: "div",
 										class: "activity",
-										html: `
-											<span class="status ${activity.toLowerCase()}"></span>
-											<a href="https://www.torn.com/profiles.php?XID=${id}" target="_blank">${name}</a>
-										`,
+										children: [
+											document.newElement({ type: "span", class: `status ${activity.toLowerCase()}` }),
+											document.newElement({
+												type: "a",
+												href: `https://www.torn.com/profiles.php?XID=${id}`,
+												text: name,
+												attributes: { target: "_blank" },
+											}),
+										],
 									}),
 									removeStakeoutButton,
 								],
@@ -541,14 +546,14 @@ async function setupMarketSearch() {
 				})
 				.catch((error) => {
 					document.find(".error").classList.remove("hidden");
-					document.find(".error").innerText = error.error;
+					document.find(".error").textContent = error.error;
 				});
 		}
 
 		const item = torndata.items[id];
-		viewItem.find(".circulation").innerText = formatNumber(item.circulation);
-		viewItem.find(".value").innerText = `$${formatNumber(item.market_value)}`;
-		viewItem.find(".name").innerText = item.name;
+		viewItem.find(".circulation").textContent = formatNumber(item.circulation);
+		viewItem.find(".value").textContent = `$${formatNumber(item.market_value)}`;
+		viewItem.find(".name").textContent = item.name;
 		viewItem.find(".name").href = `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${item.name}`;
 		viewItem.find(".image").src = item.image;
 

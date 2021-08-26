@@ -53,7 +53,7 @@
 			if (currentSearchValue === null) currentSearchValue = searchValueMatch[2].toLowerCase();
 
 			const matchedUsernames = Array.from(messages.findAll("[class*='message_'] > a"))
-				.map((message) => message.innerText.slice(0, -2))
+				.map((message) => message.textContent.slice(0, -2))
 				.filter((username, index, array) => array.indexOf(username) === index && username.toLowerCase().startsWith(currentSearchValue))
 				.sort();
 			if (!matchedUsernames.length) return;

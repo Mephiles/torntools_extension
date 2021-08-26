@@ -130,7 +130,7 @@
 					nerve,
 					name: event.target.find(".choice-container input").value,
 					icon: event.target.find(".title img").src,
-					text: event.target.find(".bonus").innerText.trim(),
+					text: event.target.find(".bonus").textContent.trim(),
 				};
 
 				addQuickCrime(data, true);
@@ -268,7 +268,7 @@
 				nerve,
 				name: item.find(".choice-container input").value,
 				icon: item.find(".title img").src,
-				text: item.find(".bonus").innerText.trim(),
+				text: item.find(".bonus").textContent.trim(),
 			};
 
 			const quick = addQuickCrime(data, false);

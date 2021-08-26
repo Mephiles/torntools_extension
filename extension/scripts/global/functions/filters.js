@@ -165,7 +165,7 @@ function createFilterSection(options) {
 			const counter = content.find(`.${ccTitle} .slider-counter`);
 			if (!counter) return;
 
-			counter.innerText = string;
+			counter.textContent = string;
 		}
 	}
 
@@ -186,8 +186,8 @@ function createStatistics(name = "entries") {
 	});
 
 	function updateStatistics(count, total, content) {
-		content.find(".statistics .count").innerText = count;
-		content.find(".statistics .total").innerText = total;
+		content.find(".statistics .count").textContent = count;
+		content.find(".statistics .total").textContent = total;
 	}
 
 	return { element: statistics, updateStatistics };

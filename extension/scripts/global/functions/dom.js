@@ -32,7 +32,7 @@ Object.defineProperty(Document.prototype, "newElement", {
 				if (Array.isArray(options.class)) newElement.setClass(...options.class.filter((name) => !!name));
 				else newElement.setClass(options.class.trim());
 			}
-			if (options.text) newElement.innerText = options.text;
+			if (options.text) newElement.textContent = options.text;
 			if (options.html) newElement.innerHTML = options.html;
 			if (options.value) {
 				if (typeof options.value === "function") newElement.value = options.value();
@@ -113,7 +113,7 @@ function _find(element, selector, options = {}) {
 
 	if (options.text) {
 		for (const element of document.querySelectorAll(selector)) {
-			if (element.innerText === options.text) {
+			if (element.textContent === options.text) {
 				return element;
 			}
 		}
@@ -387,8 +387,8 @@ function sortTable(table, columnPlace, order) {
 				valueA = elementA.getAttribute("value");
 				valueB = elementB.getAttribute("value");
 			} else {
-				valueA = elementA.innerText;
-				valueB = elementB.innerText;
+				valueA = elementA.textContent;
+				valueB = elementB.textContent;
 			}
 
 			let a, b;

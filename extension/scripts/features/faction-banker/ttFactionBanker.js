@@ -46,7 +46,7 @@
 
 		const user = input.value.match(/(.*) \[([0-9]*)]/i);
 		if (!user) {
-			document.find("label[for='money-user']").innerText = "Select player: ";
+			document.find("label[for='money-user']").textContent = "Select player: ";
 			return;
 		}
 
@@ -54,7 +54,7 @@
 		const balance =
 			parseInt(document.find(`.depositor .user.name[href='/profiles.php?XID=${user[2]}']`).parentElement.find(".amount .money").dataset.value) || 0;
 
-		document.find("label[for='money-user']").innerText = `${name} has a balance of $${formatNumber(balance, { decimals: 0 })}`;
+		document.find("label[for='money-user']").textContent = `${name} has a balance of $${formatNumber(balance, { decimals: 0 })}`;
 	}
 
 	function removeHelper() {

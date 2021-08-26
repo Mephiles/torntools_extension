@@ -102,7 +102,7 @@
 
 			let allMappings = {};
 			for (const item of list.findAll("li")) {
-				const sortByValue = item.find(valueSelector).innerText;
+				const sortByValue = item.find(valueSelector).textContent;
 				if (!Object.keys(allMappings).includes(sortByValue)) allMappings[sortByValue] = item;
 				else if (Array.isArray(allMappings[sortByValue])) allMappings[sortByValue].push(item);
 				else allMappings[sortByValue] = [allMappings[sortByValue], item];

@@ -44,7 +44,7 @@ function loadConfirmationPopup(options = {}) {
 
 		document.body.classList.add("tt-unscrollable");
 
-		document.find("#tt-confirmation-popup .title").innerText = options.title;
+		document.find("#tt-confirmation-popup .title").textContent = options.title;
 		document.find("#tt-confirmation-popup .message").innerHTML = options.message;
 
 		document.find("#tt-confirmation-popup #popupConfirm").onclick = () => {
@@ -81,7 +81,7 @@ function sendMessage(text, good, options = {}) {
 	if (!message) return;
 
 	message.classList.remove("hidden");
-	message.innerText = text;
+	message.textContent = text;
 	message.style.backgroundColor = good ? "#30e202" : "#ff19199e";
 	message.style.maxHeight = message.scrollHeight + "px";
 
@@ -91,7 +91,7 @@ function sendMessage(text, good, options = {}) {
 		}, 1200);
 	} else {
 		setTimeout(() => {
-			message.innerText = "";
+			message.textContent = "";
 			message.classList.add("hidden");
 		}, 1500);
 	}

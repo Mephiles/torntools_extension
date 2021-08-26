@@ -34,8 +34,8 @@
 
 		for (const item of document.findAll(".users-list > li")) {
 			const id = parseInt(item.find(".details").getAttribute("itemid"));
-			const quantity = parseInt(item.find(".stck-amount").innerText.replaceAll(",", ""));
-			const cost = parseInt(item.find(".cost .c-price").innerText.replace("$", "").replaceAll(",", ""));
+			const quantity = parseInt(item.find(".stck-amount").textContent.replaceAll(",", ""));
+			const cost = parseInt(item.find(".cost .c-price").textContent.replace("$", "").replaceAll(",", ""));
 
 			data.items.push({ id, quantity, cost });
 		}
@@ -49,7 +49,7 @@
 			});
 
 		function getCountryName() {
-			return document.find("#skip-to-content").innerText.slice(0, 3).toLowerCase();
+			return document.find("#skip-to-content").textContent.slice(0, 3).toLowerCase();
 		}
 	}
 })();

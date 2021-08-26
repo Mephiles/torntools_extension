@@ -59,7 +59,7 @@
 
 			// Filter out items that aren't blood bags.
 			if (page === "item" && !item.dataset.sort.includes("Blood Bag : ")) continue;
-			else if (page === "factions" && !item.find(".name").innerText.split(" x")[0].includes("Blood Bag : ")) continue;
+			else if (page === "factions" && !item.find(".name").textContent.split(" x")[0].includes("Blood Bag : ")) continue;
 
 			const itemId = parseInt(item.dataset.item || item.find(".img-wrap").dataset.itemid);
 			if (itemId === 1012) continue; // is an irradiated blood bag

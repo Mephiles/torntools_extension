@@ -39,18 +39,18 @@
 		if (requiredNode.parentElement.classList.contains("completed")) {
 			diff = 0;
 		} else {
-			const upgradeRespect = parseInt(requiredNode.innerText.replace(/.*Requires: |.*Assigned: | respect.*|,/g, ""));
+			const upgradeRespect = parseInt(requiredNode.textContent.replace(/.*Requires: |.*Assigned: | respect.*|,/g, ""));
 			diff = upgradeRespect - availableRespect;
 			if (diff < 0) diff = 0;
 		}
 		requiredNode.parentElement.classList.add("tt-modified");
-		requiredNode.innerText += ` (${formatNumber(diff)} needed to go)`;
+		requiredNode.textContent += ` (${formatNumber(diff)} needed to go)`;
 	}
 
 	function removeRequiredRespect() {
 		const requiredNode = document.find("#faction-upgrades #stu-confirmation div[role] > .tt-modified > .text");
 		if (requiredNode) {
-			requiredNode.innerText = requiredNode.innerText.replace(/ \(.*\)/, "");
+			requiredNode.textContent = requiredNode.textContent.replace(/ \(.*\)/, "");
 			requiredNode.parentElement.classList.remove("tt-modified");
 		}
 	}

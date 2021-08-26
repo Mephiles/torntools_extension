@@ -59,7 +59,7 @@
 			icon.dataset.action = "buyItemConfirm";
 			icon.classList.add("yes-buy", "tt-modified");
 
-			if (isItemView) icon.dataset.price = item.find(".cost").innerText.split(": ").pop().substring(1).replaceAll(",", "");
+			if (isItemView) icon.dataset.price = item.find(".cost").textContent.split(": ").pop().substring(1).replaceAll(",", "");
 		}
 	}
 

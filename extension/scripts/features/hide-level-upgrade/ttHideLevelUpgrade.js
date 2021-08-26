@@ -7,7 +7,7 @@
 		await requireContent();
 
 		for (const info of document.findAll(".info-msg-cont")) {
-			if (!info.innerText.includes("Congratulations! You have enough experience to go up to level")) continue;
+			if (!info.textContent.includes("Congratulations! You have enough experience to go up to level")) continue;
 
 			info.classList.add("tt-level-upgrade");
 		}

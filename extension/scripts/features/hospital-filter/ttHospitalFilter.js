@@ -234,7 +234,7 @@
 						.filter((img) => !!img)
 						.map((img) => img.getAttribute("title").trim())
 						.filter((tag) => !!tag)
-				: rows.map((row) => row.innerText.trim()).filter((tag) => !!tag)
+				: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag)
 		);
 
 		const factions = [];

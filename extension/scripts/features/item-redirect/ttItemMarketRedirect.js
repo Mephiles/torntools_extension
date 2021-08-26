@@ -43,7 +43,7 @@
 				const price = event.target
 					.closest(".item")
 					.find(".cost-price")
-					.innerText.replace(/[$, ]|\(\d+\)/g, "");
+					.textContent.replace(/[$, ]|\(\d+\)/g, "");
 				const itemId = document.find(".wai-hover").getAttribute("itemid");
 				url += `&tt_itemid=${itemId}&tt_itemprice=${price}`;
 				event.target.parentElement.href = url;

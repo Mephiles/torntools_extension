@@ -63,7 +63,7 @@
 			batshit_crazy: {
 				task: async () => {
 					await requireSidebar();
-					const max = parseInt(document.find("#barLife [class*='bar-value___']").innerText.split("/")[1]);
+					const max = parseInt(document.find("#barLife [class*='bar-value___']").textContent.split("/")[1]);
 
 					return `Inflict ${formatNumber(max * 0.5, { decimals: 0 })} - ${formatNumber(max * 2.5, {
 						decimals: 0,

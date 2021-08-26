@@ -274,7 +274,7 @@
 					// noinspection JSCheckFunctionSignatures
 					const options = { ...(JSON.parse(field.dataset.options ?? false) || { decimals: 0 }), forceOperation: isRelative };
 
-					field.innerText = formatNumber(value, options);
+					field.textContent = formatNumber(value, options);
 				}
 			});
 			options.appendChild(relativeValue.element);
@@ -348,11 +348,11 @@
 							if (isCustom) {
 								content.find(".other-stats").classList.add("hidden");
 								content.find(".move-stats").classList.remove("hidden");
-								otherList.innerText = "View other stats.";
+								otherList.textContent = "View other stats.";
 							} else {
 								content.find(".other-stats").classList.remove("hidden");
 								content.find(".move-stats").classList.add("hidden");
-								otherList.innerText = "View custom list.";
+								otherList.textContent = "View custom list.";
 							}
 						},
 					},
@@ -414,7 +414,7 @@
 			}
 
 			function saveStats() {
-				const stats = [...section.findAll(".custom-stats .tt-table-row")].map((row) => row.children[0].innerText);
+				const stats = [...section.findAll(".custom-stats .tt-table-row")].map((row) => row.children[0].textContent);
 
 				return ttStorage.change({ filters: { profile: { stats } } });
 			}

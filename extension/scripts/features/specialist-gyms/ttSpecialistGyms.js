@@ -86,7 +86,7 @@
 
 			const requiredStats = SPECIALITY_GYMS[gym];
 			if (!requiredStats) {
-				section.find("span").innerText = "";
+				section.find("span").textContent = "";
 				continue;
 			}
 
@@ -127,7 +127,7 @@
 				text = `Gain ${formatNumber(amount, { decimals: 0 })} ${requiredStats.join(" and ")}.`;
 			}
 
-			if (text) section.find("span").innerText = text;
+			if (text) section.find("span").textContent = text;
 		}
 
 		Object.entries(allowedGains).forEach(([stat, values]) => (allowedGains[stat] = values.length ? values.findLowest() : 0));
@@ -157,7 +157,7 @@
 				title = false;
 			}
 
-			if (specialistStat) specialistStat.innerText = text;
+			if (specialistStat) specialistStat.textContent = text;
 			else {
 				specialistStat = document.newElement({
 					type: "div",

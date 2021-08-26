@@ -41,18 +41,18 @@
 
 		if (localdata.vault.initialized) {
 			const lastTransaction = new Date(localdata.vault.lastTransaction);
-			const username = document.find("[class*='menu-info-row___'] a").innerText;
+			const username = document.find("[class*='menu-info-row___'] a").textContent;
 
 			for (const transaction of document.findAll("ul.vault-trans-list > li:not(.title)")) {
-				const [day, month, year] = transaction.find(".date .transaction-date").innerText.split("/");
-				const time = transaction.find(".date .transaction-time").innerText;
+				const [day, month, year] = transaction.find(".date .transaction-date").textContent.split("/");
+				const time = transaction.find(".date .transaction-time").textContent;
 				const date = new Date(`${MONTHS[parseInt(month) - 1]} ${day}, ${year} ${time}`);
 
 				if (date <= lastTransaction) break;
 
 				const user = transaction.find("li.user .user.name span").getAttribute("title").includes(username);
-				const amount = parseInt(transaction.find(".amount").innerText.replace(/[$,]/g, ""));
-				const type = transaction.find("li.type").innerText.includes("Deposit") ? "deposit" : "withdraw";
+				const amount = parseInt(transaction.find(".amount").textContent.replace(/[$,]/g, ""));
+				const type = transaction.find("li.type").textContent.includes("Deposit") ? "deposit" : "withdraw";
 
 				if (user) yourShare = type === "withdraw" ? yourShare - amount : yourShare + amount;
 				else partnerShare = type === "withdraw" ? partnerShare - amount : partnerShare + amount;
@@ -91,17 +91,17 @@
 		});
 
 		buttonSave.addEventListener("click", async () => {
-			buttonSave.innerText = "";
+			buttonSave.textContent = "";
 			buttonSave.setAttribute("disabled", "");
 			showLoadingPlaceholder(buttonSave, true);
 
 			await saveVault();
 
-			buttonSave.innerText = "Saved!";
+			buttonSave.textContent = "Saved!";
 			showLoadingPlaceholder(buttonSave, false);
 
 			setTimeout(() => {
-				buttonSave.innerText = "Save";
+				buttonSave.textContent = "Save";
 				buttonSave.removeAttribute("disabled");
 			}, TO_MILLIS.SECONDS);
 		});
@@ -178,14 +178,14 @@
 		function getValue(input) {
 			let value;
 			if (input instanceof HTMLInputElement) value = input.value;
-			else value = input.innerText;
+			else value = input.textContent;
 
 			return parseInt(value.replace(/[$,]/g, "")) || 0;
 		}
 
 		function getLastTransaction() {
-			const [day, month, year] = document.find(".vault-trans-list > li:not(.title) .date .transaction-date").innerText.split("/");
-			const time = document.find(".vault-trans-list > li:not(.title) .date .transaction-time").innerText;
+			const [day, month, year] = document.find(".vault-trans-list > li:not(.title) .date .transaction-date").textContent.split("/");
+			const time = document.find(".vault-trans-list > li:not(.title) .date .transaction-time").textContent;
 
 			return new Date(`${MONTHS[parseInt(month) - 1]} ${day}, ${year} ${time}`);
 		}

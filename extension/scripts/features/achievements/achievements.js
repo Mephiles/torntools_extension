@@ -79,7 +79,7 @@ const ACHIEVEMENTS = [
 		stats: () => {
 			const description = document.find("#church-donate .desc > p:first-child > span");
 			if (!description) return -1;
-			return parseInt(description.innerText.substring(1).replaceAll(",", ""));
+			return parseInt(description.textContent.substring(1).replaceAll(",", ""));
 		},
 		detection: { keyword: "church" },
 		requirements: { pages: ["church"] },

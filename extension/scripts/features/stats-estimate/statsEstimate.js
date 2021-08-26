@@ -79,7 +79,7 @@ class StatsEstimate {
 				showLoadingPlaceholder(section, false);
 				if (hasFilter) triggerCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, { row });
 			} else if (settings.scripts.statsEstimate.cachedOnly) {
-				if (settings.scripts.statsEstimate.displayNoResult) section.innerText = "No cached result found!";
+				if (settings.scripts.statsEstimate.displayNoResult) section.textContent = "No cached result found!";
 				else {
 					row.classList.remove("tt-estimated");
 					section.remove();
@@ -110,14 +110,14 @@ class StatsEstimate {
 			try {
 				const estimate = await this.fetchEstimate(id);
 
-				section.innerText = `Stats Estimate: ${estimate}`;
+				section.textContent = `Stats Estimate: ${estimate}`;
 				if (hasFilter) {
 					row.dataset.estimate = estimate;
 					triggerCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, { row, estimate });
 				}
 			} catch (error) {
 				if (error.show) {
-					section.innerText = error.message;
+					section.textContent = error.message;
 				} else {
 					section.remove();
 				}

@@ -54,7 +54,7 @@
 				.getAttribute("title")
 				.match(/([0-9]+)/g)
 				.last(),
-			level: parseInt(row.find(levelSelector).innerText),
+			level: parseInt(row.find(levelSelector).textContent),
 		}));
 	}
 

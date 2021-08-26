@@ -523,7 +523,7 @@
 		}
 
 		let element = document.find(".tt-blackjack-suggestion");
-		if (element) element.innerText = suggestion;
+		if (element) element.textContent = suggestion;
 		else {
 			document.find(".player-cards").appendChild(document.newElement({ type: "span", class: "tt-blackjack-suggestion", text: suggestion }));
 		}

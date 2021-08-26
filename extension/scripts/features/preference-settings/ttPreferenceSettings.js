@@ -22,7 +22,7 @@
 
 		if (api.torn.key) {
 			connectButton.setAttribute("disabled", "");
-			connectButton.innerText = "Connected!";
+			connectButton.textContent = "Connected!";
 		} else {
 			connectButton.addEventListener("click", connect);
 		}
@@ -34,7 +34,7 @@
 
 			changeAPIKey(key).then(() => {
 				connectButton.setAttribute("disabled", "");
-				connectButton.innerText = "Connected!";
+				connectButton.textContent = "Connected!";
 
 				connectButton.removeEventListener("click", connect);
 			});

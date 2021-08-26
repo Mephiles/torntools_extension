@@ -189,7 +189,7 @@
 			}
 		}
 		if (filters.level) {
-			const level = parseInt(row.find(".level .value").innerText);
+			const level = parseInt(row.find(".level .value").textContent);
 			if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
 				hide("level");
 				return;

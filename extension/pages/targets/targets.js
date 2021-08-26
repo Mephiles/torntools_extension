@@ -368,14 +368,14 @@ async function setupStakeouts() {
 
 			row.find(".status").classList.remove("offline", "idle", "online");
 			if (stakeouts[id] && stakeouts[id].info && Object.keys(stakeouts[id].info).length) {
-				row.find(".name").innerText = stakeouts[id].info.name;
-				row.find(".status").innerText = stakeouts[id].info.last_action.status;
+				row.find(".name").textContent = stakeouts[id].info.name;
+				row.find(".status").textContent = stakeouts[id].info.last_action.status;
 				row.find(".status").classList.add(stakeouts[id].info.last_action.status.toLowerCase());
-				row.find(".last-action").innerText = stakeouts[id].info.last_action.relative;
+				row.find(".last-action").textContent = stakeouts[id].info.last_action.relative;
 			} else {
-				row.find(".name").innerText = "";
-				row.find(".status").innerText = "";
-				row.find(".last-action").innerText = "";
+				row.find(".name").textContent = "";
+				row.find(".status").textContent = "";
+				row.find(".last-action").textContent = "";
 			}
 
 			const alerts = row.find(".alerts-wrap");

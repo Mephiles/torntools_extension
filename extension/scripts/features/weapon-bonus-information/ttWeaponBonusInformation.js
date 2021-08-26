@@ -141,11 +141,11 @@
 					bonus = BONUSES.Freeze;
 					break;
 				case "attacking-events-lacerated":
-					if (messageElement.innerText.includes("is lacerated")) bonus = BONUSES.Laceration;
+					if (messageElement.textContent.includes("is lacerated")) bonus = BONUSES.Laceration;
 					else continue;
 					break;
 				case "attacking-events-poisoned":
-					if (messageElement.innerText.includes("is poisoned")) bonus = BONUSES.Poisoned;
+					if (messageElement.textContent.includes("is poisoned")) bonus = BONUSES.Poisoned;
 					else continue;
 					break;
 				case "attacking-events-blindfire":
@@ -153,14 +153,14 @@
 					break;
 				case "attacking-events-burn":
 				case "attacking-events-burning":
-					if (messageElement.innerText.includes("is set alight")) bonus = BONUSES.Burning;
-					else if (messageElement.innerText.includes("is set ablaze")) bonus = BONUSES.SevereBurning;
+					if (messageElement.textContent.includes("is set alight")) bonus = BONUSES.Burning;
+					else if (messageElement.textContent.includes("is set ablaze")) bonus = BONUSES.SevereBurning;
 					else continue;
 					break;
 				case "attacking-events-slowed":
 				case "attacking-events-weakened":
 				case "attacking-events-crippled":
-					if (log.nextElementSibling && log.nextElementSibling.innerText.includes("Poison Umbrella")) bonus = BONUSES.Toxin;
+					if (log.nextElementSibling && log.nextElementSibling.textContent.includes("Poison Umbrella")) bonus = BONUSES.Toxin;
 					else continue;
 					break;
 				default:

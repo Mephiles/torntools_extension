@@ -1623,7 +1623,7 @@ function getStockBoughtPrice(stock) {
 
 function getPageStatus() {
 	const infoMessage = document.find(".content-wrapper .info-msg-cont");
-	if (infoMessage && infoMessage.classList.contains("red")) return { access: false, message: infoMessage.innerText };
+	if (infoMessage && infoMessage.classList.contains("red")) return { access: false, message: infoMessage.textContent };
 
 	if (document.find(".captcha")) return { access: false, message: "Captcha required" };
 

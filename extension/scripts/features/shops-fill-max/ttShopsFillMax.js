@@ -28,9 +28,9 @@
 			fillMax.addEventListener("click", (event) => {
 				event.stopPropagation();
 
-				let max = parseInt(item.find(".instock").innerText.replace(/,/g, ""));
+				let max = parseInt(item.find(".instock").textContent.replace(/,/g, ""));
 				if (!settings.pages.shops.maxBuyIgnoreCash) {
-					const price = parseInt(item.find(".price").innerText.replace(/[$,]/g, ""));
+					const price = parseInt(item.find(".price").textContent.replace(/[$,]/g, ""));
 					const money = parseInt(document.find("#user-money").dataset.money);
 
 					if (Math.floor(money / price) < max) max = Math.floor(money / price);

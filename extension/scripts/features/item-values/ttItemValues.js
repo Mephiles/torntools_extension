@@ -113,7 +113,7 @@
 
 					const valueWrap = itemRow.find(".info-wrap");
 
-					if (valueWrap && valueWrap.clientWidth && (!valueWrap.innerText.trim() || valueWrap.innerText.startsWith("$"))) {
+					if (valueWrap && valueWrap.clientWidth && (!valueWrap.textContent.trim() || valueWrap.textContent.startsWith("$"))) {
 						valueWrap.innerHTML = "";
 						valueWrap.classList.add("tt-item-price-color");
 						addValue(valueWrap, quantity, price);
@@ -163,7 +163,7 @@
 
 		setTimeout(() => {
 			if (list.find(".tt-item-price.price-total"))
-				list.find(".tt-item-price.price-total").innerText = `Total Value: ${formatNumber(total, { decimals: 0, currency: true })}`;
+				list.find(".tt-item-price.price-total").textContent = `Total Value: ${formatNumber(total, { decimals: 0, currency: true })}`;
 			else
 				list.insertBefore(
 					document.newElement({
@@ -196,9 +196,9 @@
 			}
 			priceElement.appendChild(document.newElement({ type: "span", text: `${formatNumber(totalPrice, { currency: true })}` }));
 		} else if (price === 0) {
-			priceElement.innerText = `N/A`;
+			priceElement.textContent = `N/A`;
 		} else {
-			priceElement.innerText = `${formatNumber(price, { currency: true })}`;
+			priceElement.textContent = `${formatNumber(price, { currency: true })}`;
 		}
 	}
 
@@ -238,9 +238,9 @@
 					priceElement.appendChild(document.newElement({ type: "span", text: `${formatNumber(totalPrice, { currency: true })}` }));
 				}
 			} else if (price === 0) {
-				priceElement.innerText = `N/A`;
+				priceElement.textContent = `N/A`;
 			} else {
-				priceElement.innerText = `${formatNumber(price, { currency: true })}`;
+				priceElement.textContent = `${formatNumber(price, { currency: true })}`;
 			}
 
 			parent.appendChild(priceElement);
@@ -256,14 +256,14 @@
 			if (!quantityElement) continue;
 
 			const price = torndata.items[id].market_value;
-			const newQuantity = parseInt(quantityElement.innerText.match(/([0-9]*)x = /i)[1]) + change;
+			const newQuantity = parseInt(quantityElement.textContent.match(/([0-9]*)x = /i)[1]) + change;
 
 			if (newQuantity === 1) {
 				priceElement.innerHTML = "";
 				priceElement.appendChild(document.newElement({ type: "span", text: `${formatNumber(price, { currency: true })}` }));
 			} else {
-				quantityElement.innerText = `${newQuantity}x = `;
-				priceElement.find("span:last-child").innerText = `${formatNumber(price * newQuantity, { currency: true })}`;
+				quantityElement.textContent = `${newQuantity}x = `;
+				priceElement.find("span:last-child").textContent = `${formatNumber(price * newQuantity, { currency: true })}`;
 			}
 		}
 	}

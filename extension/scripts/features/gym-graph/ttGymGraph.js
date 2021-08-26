@@ -73,7 +73,7 @@
 					})
 					.catch((error) => ({ message: error.error, status: false }));
 
-				responseElement.innerText = message;
+				responseElement.textContent = message;
 				responseElement.classList.add(status ? "success" : "error");
 
 				button.removeAttribute("disabled");

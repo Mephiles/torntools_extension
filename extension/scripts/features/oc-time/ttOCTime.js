@@ -30,7 +30,7 @@
 
 		const timeLeftElement = document.newElement({ type: "span", class: "countdown" });
 		if (userCrime === -1) {
-			timeLeftElement.innerText = "No active OC.";
+			timeLeftElement.textContent = "No active OC.";
 		} else {
 			if (timeLeft <= TO_MILLIS.HOURS * 8) timeLeftElement.classList.add("short");
 			else if (timeLeft <= TO_MILLIS.HOURS * 12) timeLeftElement.classList.add("medium");

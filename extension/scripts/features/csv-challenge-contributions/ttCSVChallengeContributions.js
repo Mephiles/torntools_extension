@@ -44,13 +44,13 @@
 			collapsible: false,
 		}).options.appendChild(exportButtonDiv);
 		descriptionWrap.find("#ttExportButton").addEventListener("click", () => {
-			const upgradeName = descriptionWrap.find("[role='alert'] .name").innerText;
+			const upgradeName = descriptionWrap.find("[role='alert'] .name").textContent;
 			let totalTable = "data:text/csv;charset=utf-8," + "Number;Name;Profile Link;Ex Member;Contributions\r\n" + upgradeName + "\r\n";
 			contributionsWrap.findAll(".flexslides li:not(.slide)").forEach((memberLi) => {
 				const memberName = memberLi.find(".player a");
 				const memberLabel = memberName.ariaLabel;
 				totalTable +=
-					memberLi.find(".numb").innerText +
+					memberLi.find(".numb").textContent +
 					";" +
 					memberLabel.match(/.*(?= \()/)[0] +
 					";" +

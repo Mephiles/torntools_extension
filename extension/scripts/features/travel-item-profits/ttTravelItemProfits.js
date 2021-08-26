@@ -34,7 +34,7 @@
 		for (let row of rows) {
 			const id = parseInt(row.find(".details").getAttribute("itemid"));
 			const marketPrice = parseInt(torndata.items[id].market_value);
-			const buyPrice = parseInt(row.find(".cost .c-price").innerText.replace(/[$,]/g, ""));
+			const buyPrice = parseInt(row.find(".cost .c-price").textContent.replace(/[$,]/g, ""));
 			const profit = marketPrice - buyPrice;
 
 			const span = document.newElement({ type: "span", class: "tt-travel-market-cell", attributes: { value: profit } });

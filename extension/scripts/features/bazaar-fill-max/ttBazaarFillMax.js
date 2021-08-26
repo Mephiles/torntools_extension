@@ -67,10 +67,10 @@
 			fillMax.addEventListener("click", (event) => {
 				event.stopPropagation();
 				let max = mobile
-					? parseInt(parent.find("[class*='amount__']").firstElementChild.innerText)
+					? parseInt(parent.find("[class*='amount__']").firstElementChild.textContent)
 					: parseInt(parent.find("[class*='amount__']").childNodes[1].textContent);
 				if (!settings.pages.bazaar.maxBuyIgnoreCash) {
-					const price = parseInt(parent.find("[class*='price_']").innerText.replace(/[,$]/g, ""));
+					const price = parseInt(parent.find("[class*='price_']").textContent.replace(/[,$]/g, ""));
 					const money = parseInt(document.find("#user-money").dataset.money);
 					if (Math.floor(money / price) < max) max = Math.floor(money / price);
 				}

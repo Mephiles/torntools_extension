@@ -42,7 +42,7 @@
 		if (!container) return;
 
 		const duration = textToTime(
-			mobile || tablet ? container.find(".flight-time-table").innerText.trim() : container.find(".flight-time").innerText.match(/(?<=- ).*/g)[0]
+			mobile || tablet ? container.find(".flight-time-table").textContent.trim() : container.find(".flight-time").textContent.match(/(?<=- ).*/g)[0]
 		);
 
 		const now = new Date();
@@ -52,7 +52,7 @@
 		const text = `Landing at ${format(arrivalTime)} | Return at ${format(returnTime)}`;
 
 		let timer = document.find(".tt-flying-time");
-		if (timer) timer.innerText = text;
+		if (timer) timer.textContent = text;
 		else {
 			document.find("div.travel-agency:not([id])").appendChild(document.newElement({ type: "span", class: "tt-flying-time", text }));
 		}

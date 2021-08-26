@@ -467,7 +467,7 @@
 					searchParams.set("travel", `${isOpened}`);
 					history.pushState(null, "", `${window.location.pathname}?${searchParams.toString()}`);
 
-					document.find(".tt-travel span").innerText = isOpened ? "Home" : "Travel Table";
+					document.find(".tt-travel span").textContent = isOpened ? "Home" : "Travel Table";
 
 					if (isOpened) showTable();
 					else hideTable();
@@ -517,11 +517,11 @@
 				const profit = amount * value - totalCost;
 				const profitMinute = (profit / (time * 2)).dropDecimals();
 
-				row.find(".profit-minute").innerText = formatNumber(profitMinute, { shorten: true, currency: true });
-				row.find(".profit").innerText = formatNumber(profit, { shorten: true, currency: true });
+				row.find(".profit-minute").textContent = formatNumber(profitMinute, { shorten: true, currency: true });
+				row.find(".profit").textContent = formatNumber(profit, { shorten: true, currency: true });
 			}
 
-			row.find(".money").innerText = formatNumber(totalCost, { shorten: true, currency: true });
+			row.find(".money").textContent = formatNumber(totalCost, { shorten: true, currency: true });
 		}
 	}
 
@@ -563,7 +563,7 @@
 			const element = document.find("#tab-menu4 > ul > li[aria-selected='true'] .travel-name");
 
 			if (!element) return hasAPIData() ? getAPIType() : "standard";
-			else return element.innerText.toLowerCase();
+			else return element.textContent.toLowerCase();
 		} else if (page === "home") {
 			return hasAPIData() ? getAPIType() : "standard";
 		}

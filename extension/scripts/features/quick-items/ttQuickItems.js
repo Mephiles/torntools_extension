@@ -35,7 +35,7 @@
 				secondsLeft--;
 				if (secondsLeft < 0) secondsLeft = 0;
 
-				timer.innerText = formatTime({ seconds: secondsLeft }, { type: "timer", daysToHours: true });
+				timer.textContent = formatTime({ seconds: secondsLeft }, { type: "timer", daysToHours: true });
 
 				timer.dataset.secondsLeft = `${secondsLeft}`;
 			}
@@ -181,7 +181,7 @@
 
 							for (const count of responseWrap.findAll(".counter-wrap")) {
 								count.classList.add("tt-modified");
-								count.innerText = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer", daysToHours: true });
+								count.textContent = formatTime({ seconds: parseInt(count.dataset.time) }, { type: "timer", daysToHours: true });
 							}
 
 							if (result.success) {
@@ -378,7 +378,25 @@
 			["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category) ||
 			[
 				// Temporary Items
-				220, 221, 222, 226, 229, 239, 242, 246, 256, 257, 392, 394, 581, 611, 616, 742, 833, 840, 1042,
+				220,
+				221,
+				222,
+				226,
+				229,
+				239,
+				242,
+				246,
+				256,
+				257,
+				392,
+				394,
+				581,
+				611,
+				616,
+				742,
+				833,
+				840,
+				1042,
 				// Others
 				403,
 			].includes(id)
@@ -418,7 +436,7 @@
 			let newQuantity = parseInt(quickQuantity.getAttribute("quantity")) + change;
 			if (newQuantity < 0) newQuantity = 0;
 
-			quickQuantity.innerText = newQuantity + "x";
+			quickQuantity.textContent = newQuantity + "x";
 			quickQuantity.setAttribute("quantity", newQuantity);
 		}
 	}

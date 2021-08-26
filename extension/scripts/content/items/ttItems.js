@@ -62,7 +62,7 @@ const pendingActions = {};
 					const textElement = responseElement.find("h5, [data-status]");
 
 					if (textElement) {
-						const text = textElement.innerText.trim();
+						const text = textElement.textContent.trim();
 
 						const regexResult = text.match(/You (unequipped|equipped) your (.*)\./i);
 						if (regexResult) {

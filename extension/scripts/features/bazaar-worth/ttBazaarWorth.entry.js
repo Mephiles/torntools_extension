@@ -69,7 +69,7 @@
 			}
 
 			const text = document.find(".tt-bazaar-text span");
-			if (text) text.innerText = formatNumber(total, { currency: true });
+			if (text) text.textContent = formatNumber(total, { currency: true });
 			else
 				document.find(".info-msg-cont .msg").appendChild(
 					document.newElement({

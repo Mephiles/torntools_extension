@@ -29,7 +29,7 @@
 	async function showRewards() {
 		await requireElement("ul.rewards-list li");
 
-		const credits = parseInt(document.find(".total-mission-points").innerText.replace(",", ""));
+		const credits = parseInt(document.find(".total-mission-points").textContent.replace(",", ""));
 
 		for (const reward of document.findAll(".rewards-list li")) {
 			const information = JSON.parse(reward.dataset.ammoInfo);

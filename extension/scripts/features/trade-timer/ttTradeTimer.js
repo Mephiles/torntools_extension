@@ -53,11 +53,11 @@
 
 		const now = Date.now();
 		if (localdata.tradeMessage > now) {
-			timer.innerText = formatTime({ milliseconds: localdata.tradeMessage - now }, { type: "wordTimer", extraShort: true });
+			timer.textContent = formatTime({ milliseconds: localdata.tradeMessage - now }, { type: "wordTimer", extraShort: true });
 			timer.dataset.seconds = ((localdata.tradeMessage - now) / TO_MILLIS.SECONDS).dropDecimals().toString();
 			countdownTimers.push(timer);
 		} else {
-			timer.innerText = "OK";
+			timer.textContent = "OK";
 		}
 	}
 

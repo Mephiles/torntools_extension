@@ -28,14 +28,14 @@
 	function removeID() {
 		const title = document.find("h4#skip-to-content");
 
-		const name = title.innerText.replace(/ \[.*]/g, "");
+		const name = title.textContent.replace(/ \[.*]/g, "");
 		title.textContent = `${name}'${name.endsWith("s") ? "" : "s"} Profile`;
 		title.removeAttribute("title");
 		title.removeEventListener("click", copyID);
 	}
 
 	function copyID() {
-		toClipboard(document.find("h4#skip-to-content").innerText);
+		toClipboard(document.find("h4#skip-to-content").textContent);
 	}
 
 	function getUserID() {

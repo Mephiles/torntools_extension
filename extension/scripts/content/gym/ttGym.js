@@ -29,7 +29,7 @@
 		for (let stat of ["strength", "defense", "speed", "dexterity"]) {
 			await requireElement(`#${stat}-val`);
 
-			STATS[stat] = parseInt(document.find(`#${stat}-val`).innerText.replaceAll(",", ""));
+			STATS[stat] = parseInt(document.find(`#${stat}-val`).textContent.replaceAll(",", ""));
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.GYM_LOAD, { stats: STATS });

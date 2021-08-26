@@ -107,7 +107,7 @@
 								const keyword = event.target.value.toLowerCase();
 
 								for (const player of people.findAll("ul[class*='people-list_'] > li")) {
-									if (keyword && !player.find(".bold").innerText.toLowerCase().includes(keyword)) {
+									if (keyword && !player.find(".bold").textContent.toLowerCase().includes(keyword)) {
 										player.style.display = "none";
 									} else {
 										player.style.display = "block";
@@ -149,13 +149,13 @@
 			keyword = splitInput.join(" ");
 
 			const user = message.find("a");
-			if (!user.innerText.toLowerCase().includes(target) && (isNaN(target) || !user.href.match(`XID=${target}$`))) {
+			if (!user.textContent.toLowerCase().includes(target) && (isNaN(target) || !user.href.match(`XID=${target}$`))) {
 				message.classList.add("hidden");
 				return;
 			}
 		}
 
-		const messageText = message.find("span").innerText.toLowerCase();
+		const messageText = message.find("span").textContent.toLowerCase();
 		if (keyword && !messageText.includes(keyword)) {
 			message.classList.add("hidden");
 		} else {

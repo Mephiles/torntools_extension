@@ -210,14 +210,14 @@
 			}
 
 			// Time
-			const timeLeftHrs = parseInt(li.find(".info-wrap .time").innerText.match(/[0-9]*(?=h)/g)[0]);
+			const timeLeftHrs = parseInt(li.find(".info-wrap .time").textContent.match(/[0-9]*(?=h)/g)[0]);
 			if ((timeStart && timeLeftHrs < timeStart) || (timeEnd !== 100 && timeLeftHrs > timeEnd)) {
 				hideRow(li);
 				continue;
 			}
 
 			// Level
-			const level = parseInt(li.find(".info-wrap .level").innerText.replace(/\D+/g, ""));
+			const level = parseInt(li.find(".info-wrap .level").textContent.replace(/\D+/g, ""));
 			if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
 				hideRow(li);
 				continue;
@@ -322,7 +322,7 @@
 						.filter((img) => !!img)
 						.map((img) => img.getAttribute("title").trim())
 						.filter((tag) => !!tag)
-				: rows.map((row) => row.innerText.trim()).filter((tag) => !!tag)
+				: rows.map((row) => row.textContent.trim()).filter((tag) => !!tag)
 		);
 
 		const factions = [];

@@ -441,13 +441,13 @@ async function setupPreferences() {
 
 			showAdvancedIcon.classList.add("fa-eye-slash");
 			showAdvancedIcon.classList.remove("fa-eye");
-			showAdvancedIcon.find(".tooltip-text").innerText = "Hide advanced options.";
+			showAdvancedIcon.find(".tooltip-text").textContent = "Hide advanced options.";
 		} else {
 			_preferences.find(".sections").classList.add("advanced-hidden");
 
 			showAdvancedIcon.classList.remove("fa-eye-slash");
 			showAdvancedIcon.classList.add("fa-eye");
-			showAdvancedIcon.find(".tooltip-text").innerText = "Show advanced options.";
+			showAdvancedIcon.find(".tooltip-text").textContent = "Show advanced options.";
 		}
 	}
 
@@ -968,7 +968,7 @@ async function setupPreferences() {
 
 				for (let i = 0; i < searchResults.snapshotLength; i++) {
 					const option = searchResults.snapshotItem(i);
-					const name = option.innerText.replace("New!", "").replace("\n", "").trim();
+					const name = option.textContent.replace("New!", "").replace("\n", "").trim();
 
 					let keyword, section;
 					if (option.getAttribute("for")) {
@@ -1007,7 +1007,7 @@ async function setupPreferences() {
 			searchList.addEventListener("click", (event) => {
 				event.stopPropagation();
 				searchOverlay.classList.add("hidden");
-				if (event.target.innerText.trim() !== "No Results") {
+				if (event.target.textContent.trim() !== "No Results") {
 					const nameAttr = event.target.getAttribute("name");
 					const forAttr = event.target.getAttribute("for");
 					if (forAttr) {
@@ -1016,7 +1016,7 @@ async function setupPreferences() {
 						optionFound.parentElement.classList.add("searched");
 					} else if (nameAttr) {
 						for (const x of [...document.findAll(`#preferences [name="${nameAttr}"] .header`)]) {
-							if (x.innerText.trim() === event.target.innerText.trim()) {
+							if (x.textContent.trim() === event.target.textContent.trim()) {
 								x.classList.add("searched");
 								document.find(`#preferences nav [name="${x.closest("section").getAttribute("name")}"]`).click();
 								break;
@@ -1302,23 +1302,23 @@ async function setupExport() {
 			if (!data.error) {
 				importRemoteSync.removeAttribute("disabled");
 				importRemoteSync.classList.remove("tooltip");
-				importRemoteSync.find(".tooltip-text").innerText = "";
+				importRemoteSync.find(".tooltip-text").textContent = "";
 				clearRemoteSync.removeAttribute("disabled");
 
 				const updated = new Date(data.date);
-				lastUpdate.innerText = `${formatTime(updated)} ${formatDate(updated, { showYear: true })}`;
+				lastUpdate.textContent = `${formatTime(updated)} ${formatDate(updated, { showYear: true })}`;
 				lastUpdate.parentElement.classList.remove("hidden");
-				version.innerText = data.client.version;
+				version.textContent = data.client.version;
 				version.parentElement.classList.remove("hidden");
 			} else {
 				importRemoteSync.setAttribute("disabled", "");
 				importRemoteSync.classList.add("tooltip");
-				importRemoteSync.find(".tooltip-text").innerText = data.message;
+				importRemoteSync.find(".tooltip-text").textContent = data.message;
 				clearRemoteSync.setAttribute("disabled", "");
 
-				lastUpdate.innerText = "";
+				lastUpdate.textContent = "";
 				lastUpdate.parentElement.classList.add("hidden");
-				version.innerText = "";
+				version.textContent = "";
 				version.parentElement.classList.add("hidden");
 			}
 		}
@@ -1329,10 +1329,10 @@ function setupAbout() {
 	const about = document.find("#about");
 
 	// version
-	about.find(".version").innerText = chrome.runtime.getManifest().version;
+	about.find(".version").textContent = chrome.runtime.getManifest().version;
 
 	// disk space
-	ttStorage.getSize().then((size) => (about.find(".disk-space").innerText = formatBytes(size)));
+	ttStorage.getSize().then((size) => (about.find(".disk-space").textContent = formatBytes(size)));
 
 	showTeam();
 

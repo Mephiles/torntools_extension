@@ -35,7 +35,7 @@
 
 			field.classList.add("tt-modified");
 
-			const selections = field.innerText
+			const selections = field.textContent
 				.split(": ")
 				.slice(1)
 				.join(": ")
@@ -64,10 +64,6 @@
 			new MutationObserver(() => {
 				const responseElement = result.firstElementChild;
 
-				// let selections = responseElement.find("h4").innerText.match(/selections=([a-zA-Z,]*)/);
-				// if (!selections) return;
-				// selections = selections[1].split(",").map((selection) => selection.trim());
-
 				const originalPre = responseElement.find("pre");
 				originalPre.classList.add("original");
 
@@ -83,7 +79,7 @@
 				createTabs();
 
 				function populateResponse() {
-					const response = JSON.parse(originalPre.innerText);
+					const response = JSON.parse(originalPre.textContent);
 
 					modifiedPre.appendChild(document.newElement({ type: "span", text: "{" }));
 					modifiedPre.appendChild(document.newElement("br"));

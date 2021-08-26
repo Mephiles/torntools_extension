@@ -30,7 +30,7 @@
 			if (propertyInfo)
 				property.find(".title").insertAdjacentHTML(
 					"beforeend",
-					`<span class="tt-property-value">&nbsp;(${formatNumber(propertyInfo.innerText.split("\n")[3].slice(1).replaceAll(",", ""), {
+					`<span class="tt-property-value">&nbsp;(${formatNumber(propertyInfo.textContent.split("\n")[3].slice(1).replaceAll(",", ""), {
 						currency: true,
 					})})</span>`
 				);

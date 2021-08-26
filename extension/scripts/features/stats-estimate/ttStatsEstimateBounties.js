@@ -58,7 +58,7 @@
 						.href.match(/([0-9]+)/g)
 						?.last()
 				),
-				level: parseInt(row.find(".level").innerText.replaceAll("\n", "").split(":").last().trim()),
+				level: parseInt(row.find(".level").textContent.replaceAll("\n", "").split(":").last().trim()),
 			}),
 			true
 		);

@@ -58,9 +58,9 @@
 				null
 			);
 			if (moneyElementsList.snapshotLength !== 2) continue;
-			const totalWon = parseInt(moneyElementsList.snapshotItem(0).innerText.replace(/[$, ]/g, ""));
+			const totalWon = parseInt(moneyElementsList.snapshotItem(0).textContent.replace(/[$, ]/g, ""));
 			const totalLostElement = moneyElementsList.snapshotItem(1);
-			const totalLost = parseInt(totalLostElement.innerText.replace(/[$, ]/g, ""));
+			const totalLost = parseInt(totalLostElement.textContent.replace(/[$, ]/g, ""));
 
 			if (document.find(`.${statsType}-stats-wrap .tt-net-total`)) return;
 

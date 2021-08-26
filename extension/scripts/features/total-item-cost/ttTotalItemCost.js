@@ -42,8 +42,8 @@
 	}
 
 	function changeTotalPrice(amount) {
-		const stock = parseInt(document.find("[class*='buyMenu_'] [class*='amount_']").innerText.split(")")[0].replace(/\D+/g, ""));
-		const price = parseInt(document.find("[class*='buyMenu_'] [class*='price_']").innerText.split("$")[1].replaceAll(",", ""));
+		const stock = parseInt(document.find("[class*='buyMenu_'] [class*='amount_']").textContent.split(")")[0].replace(/\D+/g, ""));
+		const price = parseInt(document.find("[class*='buyMenu_'] [class*='price_']").textContent.split("$")[1].replaceAll(",", ""));
 		if (amount > stock) amount = stock;
 		if (document.find("#tt-total-cost")) document.find("#tt-total-cost").innerHTML = "$" + formatNumber(price * amount);
 	}

@@ -29,16 +29,16 @@
 				event.stopPropagation();
 
 				const row = buyBtn.closest("li");
-				const price = parseInt(row.find(".c-price").innerText.replace(/,/g, "").replace("$", ""));
-				const userMoney = document.find(".user-info .msg .bold:nth-of-type(2)").innerText.replace(/,/g, "").replace("$", "");
-				const bought = parseInt(document.find(".user-info .msg .bold:nth-of-type(3)").innerText);
-				let max = parseInt(row.find(".stck-amount").innerText.replace(/,/g, ""));
-				let limit = parseInt(document.find(".user-info .msg .bold:nth-of-type(4)").innerText) - bought;
+				const price = parseInt(row.find(".c-price").textContent.replace(/,/g, "").replace("$", ""));
+				const userMoney = document.find(".user-info .msg .bold:nth-of-type(2)").textContent.replace(/,/g, "").replace("$", "");
+				const bought = parseInt(document.find(".user-info .msg .bold:nth-of-type(3)").textContent);
+				let max = parseInt(row.find(".stck-amount").textContent.replace(/,/g, ""));
+				let limit = parseInt(document.find(".user-info .msg .bold:nth-of-type(4)").textContent) - bought;
 
 				if (hasAPIData() && settings.apiUsage.user.perks && userdata.job.company_type) {
 					const companyType = userdata.job.company_type;
 
-					const itemType = row.find(".type").innerText.split("\n")[1].toLowerCase();
+					const itemType = row.find(".type").textContent.split("\n")[1].toLowerCase();
 					if (
 						(companyType === 3 &&
 							itemType === "flower" &&

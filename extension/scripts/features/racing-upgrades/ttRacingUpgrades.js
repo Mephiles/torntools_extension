@@ -72,14 +72,14 @@
 
 				if (difference !== 0) {
 					if (property.find(".bar-tpl-wrap").classList.contains("negative")) {
-						bar.innerText = `-${difference}%`;
+						bar.textContent = `-${difference}%`;
 						bar.classList.add("negative");
 					} else {
-						bar.innerText = `+${difference}%`;
+						bar.textContent = `+${difference}%`;
 						bar.classList.add("positive");
 					}
 				} else {
-					bar.innerText = `${difference}%`;
+					bar.textContent = `${difference}%`;
 				}
 
 				property.find(".name").prepend(bar);
@@ -124,7 +124,7 @@
 
 			const elCategory = document.find(`.pm-categories > li[data-category="${category}"]`);
 			if (elCategory.find(".tt-race-need-icon")) {
-				elCategory.find(".tt-race-need-icon").innerText = parseInt(elCategory.find(".tt-race-need-icon").innerText) + 1;
+				elCategory.find(".tt-race-need-icon").textContent = parseInt(elCategory.find(".tt-race-need-icon").textContent) + 1;
 			} else {
 				elCategory.find(".bg-hover").appendChild(document.newElement({ type: "div", class: "tt-race-need-icon", text: 1 }));
 			}
@@ -175,12 +175,12 @@
 
 		const category = findParent(unlockElement, { class: "pm-items-wrap" }).getAttribute("category");
 		const counter = document.find(`.pm-categories > .unlock[data-category="${category}"] .tt-race-need-icon`);
-		counter.innerText = parseInt(counter.innerText) - 1;
-		if (counter.innerText === "0") counter.remove();
+		counter.textContent = parseInt(counter.textContent) - 1;
+		if (counter.textContent === "0") counter.remove();
 
 		const totalCounter = document.find(".tt-race-upgrades .counter");
-		totalCounter.innerText = parseInt(totalCounter.innerText) - 1;
-		if (totalCounter.innerText === "0") {
+		totalCounter.textContent = parseInt(totalCounter.textContent) - 1;
+		if (totalCounter.textContent === "0") {
 			document.find(".tt-race-upgrades").remove();
 		}
 

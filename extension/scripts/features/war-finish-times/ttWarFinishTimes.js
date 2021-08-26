@@ -26,7 +26,7 @@
 		await requireElement("#react-root .f-war-list");
 
 		document.findAll(".f-war-list.war-new .status-wrap .timer").forEach((warTimer) => {
-			const millis = Date.now() + textToTime(warTimer.innerText);
+			const millis = Date.now() + textToTime(warTimer.textContent);
 
 			warTimer.insertAdjacentElement(
 				"afterend",

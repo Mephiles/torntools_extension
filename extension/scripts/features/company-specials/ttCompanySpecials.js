@@ -140,16 +140,16 @@
 				.map(([stat, value]) => (stat === "total" ? value : -value))
 				.totalSum();
 
-			const element = [...specialContext.findAll("ul.job-info > li")].find((element) => element.innerText.toLowerCase().startsWith(missingStat));
+			const element = [...specialContext.findAll("ul.job-info > li")].find((element) => element.textContent.toLowerCase().startsWith(missingStat));
 
 			element.classList.add("missing");
-			element.innerText = `${element.innerText.split(" ")[0]} ${formatNumber(result[missingStat])}`;
+			element.textContent = `${element.textContent.split(" ")[0]} ${formatNumber(result[missingStat])}`;
 		}
 		for (const stat of remembered) {
-			const element = [...specialContext.findAll("ul.job-info > li")].find((element) => element.innerText.toLowerCase().startsWith(stat));
+			const element = [...specialContext.findAll("ul.job-info > li")].find((element) => element.textContent.toLowerCase().startsWith(stat));
 
 			element.classList.add("remembered");
-			element.innerText = `${element.innerText.split(" ")[0]} ${formatNumber(result[stat])}`;
+			element.textContent = `${element.textContent.split(" ")[0]} ${formatNumber(result[stat])}`;
 		}
 		data[user] = result;
 
@@ -181,7 +181,7 @@
 								if (response.status) {
 									if (responseElement) {
 										responseElement.setClass(`external-response ${!response.status ? "error" : ""}`);
-										responseElement.innerText = response.message;
+										responseElement.textContent = response.message;
 									}
 									button.setAttribute("disabled", "");
 								} else {

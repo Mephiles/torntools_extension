@@ -59,8 +59,8 @@
 		if (!message.find) console.log("DKK highlightChat 1", { message });
 		if (!highlights.length) return;
 
-		const sender = simplify(message.find("a").innerText).slice(0, -1);
-		const words = message.find("span").innerText.split(" ").map(simplify);
+		const sender = simplify(message.find("a").textContent).slice(0, -1);
+		const words = message.find("span").textContent.split(" ").map(simplify);
 
 		const senderHighlights = highlights.filter(({ name }) => name === sender);
 		if (senderHighlights.length) {

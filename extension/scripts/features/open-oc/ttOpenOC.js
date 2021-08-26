@@ -36,9 +36,9 @@
 	async function openCrimes() {
 		for (const crime of document.findAll(".organize-wrap .crimes-list > li")) {
 			const status = crime.find(".status .bold");
-			if (!status || status.innerText.trim() !== "Ready") continue;
+			if (!status || status.textContent.trim() !== "Ready") continue;
 
-			const allReady = [...crime.findAll(".details-list > li:not(:first-child) .stat")].every((row) => row.innerText === "Okay");
+			const allReady = [...crime.findAll(".details-list > li:not(:first-child) .stat")].every((row) => row.textContent === "Okay");
 			if (allReady) crime.classList.add("active");
 		}
 	}

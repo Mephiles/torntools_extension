@@ -68,14 +68,14 @@
 			let totalValue = 0;
 
 			const cashInTrade = side.find(".cont .color1 .desc > li .name");
-			if (cashInTrade && cashInTrade.innerText !== "No money in trade")
-				totalValue += parseInt(cashInTrade.innerText.match(/\$([0-9,]*)/i)[1].replaceAll(",", ""));
+			if (cashInTrade && cashInTrade.textContent !== "No money in trade")
+				totalValue += parseInt(cashInTrade.textContent.match(/\$([0-9,]*)/i)[1].replaceAll(",", ""));
 
 			for (const item of side.findAll(".cont .color2 .desc > li .name")) {
-				if (item.innerText === "No items in trade") continue;
+				if (item.textContent === "No items in trade") continue;
 
-				const name = item.innerText.split(" x")[0].trim();
-				const quantity = parseInt(item.innerText.split(" x")[1]) || 1;
+				const name = item.textContent.split(" x")[0].trim();
+				const quantity = parseInt(item.textContent.split(" x")[1]) || 1;
 
 				let marketValue = 0;
 				if (localMappings.hasOwnProperty(name)) {
