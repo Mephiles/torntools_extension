@@ -36,6 +36,8 @@
 	}
 
 	function showTimes() {
+		let oldDate = false;
+
 		for (const crime of document.findAll(".organize-wrap .crimes-list > .item-wrap")) {
 			const details = crime.find(".details-wrap");
 			if (!details) continue;
@@ -46,7 +48,13 @@
 			if (id in factiondata.crimes) {
 				const finish = new Date(factiondata.crimes[id].time_ready * 1000);
 
-				text = `${formatTime(finish)} | ${formatDate(finish)}`;
+				const date = formatDate(finish);
+				if (oldDate !== date) {
+					crime.insertAdjacentElement("beforebegin", document.newElement({ type: "div", class: "tt-oc-time-date", text: date }));
+					oldDate = date;
+				}
+
+				text = `${formatTime(finish)} | ${date}`;
 			} else {
 				text = "N/A";
 			}

@@ -1,3 +1,11 @@
+.tt-oc-time-date {
+	color: #ddd;
+	background-color: #235f5f;
+	padding: 7px 2px;
+	text-align: center;
+	font-style: italic;
+}
+
 .tt-oc-time {
 	font-size: 11px;
 	font-weight: 600;
