@@ -38,20 +38,7 @@
 			class: "tt-open-chat",
 		});
 
-		button.addEventListener("click", () => {
-			if (window.wrappedJSObject) {
-				window.wrappedJSObject.chat.r(id);
-			} else {
-				const script = document.newElement({
-					type: "script",
-					attributes: { type: "text/javascript" },
-					html: `chat.r(${id})`,
-				});
-
-				document.head.appendChild(script);
-				setTimeout(() => script.remove(), 100);
-			}
-		});
+		button.addEventListener("click", () => executeScript((wrapped) => wrapped.chat.r(id), `chat.r(${id})`));
 
 		document.find("#trade-container > .title-black").appendChild(
 			document.newElement({

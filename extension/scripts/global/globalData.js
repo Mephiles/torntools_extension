@@ -358,6 +358,7 @@ const DEFAULT_STORAGE = {
 				hideGymHighlight: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				upkeepPropHighlight: new DefaultSetting({ type: "number", defaultValue: 0 }),
 				barLinks: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				pointsValue: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			popup: {
 				dashboard: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -1231,6 +1232,9 @@ const API_USAGE = {
 				description: true,
 			},
 		},
+		stats: {
+			points_averagecost: true,
+		},
 	},
 };
 
@@ -1271,7 +1275,7 @@ const API_SELECTIONS = {
 		"profile", // target
 	],
 	item_market: ["bazaar", "itemmarket"],
-	torn: ["bank", "education", "honors", "items", "medals", "pawnshop", "properties", "stocks"],
+	torn: ["bank", "education", "honors", "items", "medals", "pawnshop", "properties", "stocks", "stats"],
 };
 
 const CHAT_TITLE_COLORS = {

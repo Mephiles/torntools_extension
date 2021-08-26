@@ -894,7 +894,7 @@ async function updateStakeouts() {
 
 async function updateTorndata() {
 	const oldTorndata = { ...torndata };
-	torndata = await fetchData("torn", { section: "torn", selections: ["education", "honors", "items", "medals", "pawnshop", "properties"] });
+	torndata = await fetchData("torn", { section: "torn", selections: ["education", "honors", "items", "medals", "pawnshop", "properties", "stats"] });
 	if (!torndata) throw new Error("Aborted updating due to an expected response.");
 	torndata.date = Date.now();
 

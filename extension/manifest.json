@@ -156,7 +156,8 @@
 				"scripts/features/highlight-properties/ttHighlightProperties.js",
 				"scripts/features/settings-link/ttSettingsLink.js",
 				"scripts/features/bar-links/ttBarLinks.js",
-				"scripts/features/collapsible-areas/ttCollapsibleAreas.js"
+				"scripts/features/collapsible-areas/ttCollapsibleAreas.js",
+				"scripts/features/points-value/ttPointsValue.js"
 			],
 			"run_at": "document_end"
 		},

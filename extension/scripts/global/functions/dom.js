@@ -428,3 +428,17 @@ function showLoadingPlaceholder(element, show) {
 		placeholder.classList.remove("active");
 	}
 }
+
+function executeScript(handler, code) {
+	if (window.wrappedJSObject && handler) handler(window.wrappedJSObject);
+	else {
+		const script = document.newElement({
+			type: "script",
+			attributes: { type: "text/javascript" },
+			html: code,
+		});
+
+		document.head.appendChild(script);
+		setTimeout(() => script.remove(), 100);
+	}
+}
