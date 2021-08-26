@@ -42,8 +42,7 @@
 			let totalHappy = baseHappy;
 			if (!isNaN(factionPerk)) totalHappy += (factionPerk / 100) * baseHappy;
 			if (!isNaN(companyPerk)) totalHappy += (companyPerk / 100) * baseHappy;
-			const rawHTML = `<span class="tt-candy-gains">${totalHappy}H</span>`;
-			candy.find(".name-wrap").insertAdjacentHTML("beforeend", rawHTML);
+			candy.find(".name-wrap").insertAdjacentElement("beforeend", document.newElement({ type: "span", class: "tt-candy-gains", text: `${totalHappy}H` }));
 		});
 	}
 

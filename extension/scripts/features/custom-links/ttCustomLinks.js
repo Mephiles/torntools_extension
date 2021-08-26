@@ -33,21 +33,26 @@
 			});
 
 			settings.customLinks.forEach((link) => {
-				customLinksContainer.insertAdjacentHTML(
+				customLinksContainer.insertAdjacentElement(
 					"beforeend",
-					`
-						<div class="tt-slide">
-							<a href="${link.href}" class="tt-mobile-link" target="${link.newTab ? "_blank" : ""}">
-								<span>${link.name}</span>
-							</a>
-						</div>
-					`
+					document.newElement({
+						type: "div",
+						class: "tt-slide",
+						children: [
+							document.newElement({
+								type: "a",
+								href: link.href,
+								class: "tt-mobile-link",
+								attributes: { target: link.newTab ? "_blank" : "" },
+								children: [document.newElement({ type: "span", text: link.name })],
+							}),
+						],
+					})
 				);
 			});
 
 			document.find("#sidebar [class*='content_'] [class*='user-information-mobile_']").insertAdjacentElement("beforebegin", customLinksContainer);
-
-			document.find(".content-wrapper[role='main']").insertAdjacentHTML("afterbegin", "<div class='dummy-div'></div>");
+			document.find(".content-wrapper[role='main']").insertAdjacentElement("afterbegin", document.newElement({ type: "div", class: "dummy-div" }));
 		}
 	}
 

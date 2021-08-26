@@ -42,8 +42,9 @@
 			let totalEnergy = baseEnergy;
 			if (!isNaN(factionPerk)) totalEnergy += (factionPerk / 100) * baseEnergy;
 			if (!isNaN(companyPerk)) totalEnergy += (companyPerk / 100) * baseEnergy;
-			const rawHTML = `<span class='tt-e-gains'>${totalEnergy}E</span>`;
-			eCanElement.find(".name-wrap").insertAdjacentHTML("beforeend", rawHTML);
+			eCanElement
+				.find(".name-wrap")
+				.insertAdjacentElement("beforeend", document.newElement({ type: "span", class: "tt-e-gains", text: `${totalEnergy}E` }));
 		});
 	}
 

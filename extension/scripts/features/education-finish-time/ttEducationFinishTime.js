@@ -28,16 +28,10 @@
 
 		const msg = await requireElement(".msg .bold");
 		const overDate = new Date(userdata.dateBasic + userdata.education_timeleft * 1000).getTime();
-		msg.insertAdjacentHTML(
+
+		msg.insertAdjacentElement(
 			"afterend",
-			`
-					<span class="tt-time">
-						&nbsp;
-						<b>
-							(${formatDate(overDate, { showYear: true })} ${formatTime({ milliseconds: overDate })})
-						</b>
-					</span>
-				`
+			document.newElement({ type: "b", text: ` (${formatDate(overDate, { showYear: true })} ${formatTime({ milliseconds: overDate })})` })
 		);
 	}
 

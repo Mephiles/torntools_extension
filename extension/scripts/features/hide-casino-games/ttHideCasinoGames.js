@@ -43,7 +43,14 @@
 
 			game.parentElement.classList.add("tt-hidden-parent");
 			game.classList.add("hidden");
-			game.insertAdjacentHTML("beforebegin", "<div class='tt-hidden'><span><b>•&nbsp;REMOVED&nbsp;•</b></span></div>");
+			game.insertAdjacentElement(
+				"beforebegin",
+				document.newElement({
+					type: "div",
+					class: "tt-hidden",
+					children: [document.newElement({ type: "b", text: "•&nbsp;REMOVED&nbsp;•" })],
+				})
+			);
 		}
 	}
 

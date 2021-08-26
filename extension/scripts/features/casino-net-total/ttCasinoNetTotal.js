@@ -65,12 +65,16 @@
 			if (document.find(`.${statsType}-stats-wrap .tt-net-total`)) return;
 
 			await requireElement(`.stats-wrap .${statsType}-stats-wrap .stat`);
-			totalLostElement.closest("li:not(.stat-value)").insertAdjacentHTML(
+			totalLostElement.closest("li:not(.stat-value)").insertAdjacentElement(
 				"afterend",
-				`<ul class="tt-net-total ${isBookie(true) ? "bookie" : ""}">
-						<li class="name">Net total</li>
-						<li class="value">${formatNumber(totalWon - totalLost, { currency: true })}</li>
-					</ul>`
+				document.newElement({
+					type: "ul",
+					class: `tt-net-total ${isBookie(true) ? "bookie" : ""}`,
+					children: [
+						document.newElement({ type: "li", class: "name", text: "Net total" }),
+						document.newElement({ type: "li", class: "value", text: formatNumber(totalWon - totalLost, { currency: true }) }),
+					],
+				})
 			);
 		}
 
