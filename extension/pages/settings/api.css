@@ -32,11 +32,11 @@ body.dark .current-usage .buttons > button {
 }
 
 body.light .current-usage .torn .icon {
-	background-image: url(chrome-extension://inenlnlahoabccpagiohmdhecchmaemb/resources/images/torn_light.png);
+	background-image: url(../../resources/images/torn_light.png);
 }
 
 body.dark .current-usage .torn .icon {
-	background-image: url(chrome-extension://inenlnlahoabccpagiohmdhecchmaemb/resources/images/torn_dark.png);
+	background-image: url(../../resources/images/torn_dark.png);
 }
 
 body.light .yata svg .yata-stroke,
@@ -63,7 +63,7 @@ body.dark .yata svg .yata-fill {
 }
 
 .current-usage .tornstats .icon {
-	background-image: url(chrome-extension://inenlnlahoabccpagiohmdhecchmaemb/resources/images/svg-icons/tornstats.svg);
+	background-image: url(../../resources/images/svg-icons/tornstats.svg);
 	background-repeat: no-repeat;
 }
 
