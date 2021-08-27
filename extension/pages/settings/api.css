@@ -1,9 +1,13 @@
 .current-usage .usages {
 	display: flex;
 }
+body.tt-mobile .current-usage .usages {
+	flex-direction: column;
+	align-items: center;
+}
 
 .current-usage .usages > div {
-	width: 33%;
+	flex: 1;
 	text-align: center;
 }
 
@@ -63,15 +67,15 @@ body.dark .yata svg .yata-fill {
 }
 
 .current-usage .tornstats .icon {
-	background-image: url(../../resources/images/svg-icons/tornstats.svg);
-	background-repeat: no-repeat;
+	background: url(../../resources/images/svg-icons/tornstats.svg) no-repeat center;
 }
 
 .current-usage .icon {
 	width: 172px;
-	height: 77px;
+	height: 76px;
 	margin: auto auto 10px auto;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	cursor: unset;
 }
