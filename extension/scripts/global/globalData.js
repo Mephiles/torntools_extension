@@ -504,6 +504,7 @@ const DEFAULT_STORAGE = {
 				specialist: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				disableStats: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				graph: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				steadfast: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			missions: {
 				hints: new DefaultSetting({ type: "boolean", defaultValue: true }),
