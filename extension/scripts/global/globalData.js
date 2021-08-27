@@ -229,9 +229,9 @@ const ttUsage = new (class {
 	}
 
 	async refresh() {
-		const last24HrsMinute = ((Date.now() - (24 * TO_MILLIS.HOURS)) / TO_MILLIS.MINUTES).dropDecimals();
+		const last24HrsMinute = ((Date.now() - 24 * TO_MILLIS.HOURS) / TO_MILLIS.MINUTES).dropDecimals();
 
-		Object.keys(this.usage).forEach(minute => {
+		Object.keys(this.usage).forEach((minute) => {
 			if (minute < last24HrsMinute) delete this.usage[minute];
 		});
 
