@@ -149,6 +149,7 @@ class FeatureManager {
 				["version", () => version],
 				["factiondata", () => factiondata],
 				["localdata", () => localdata],
+				["npcs", () => npcs],
 			]) {
 				if (!(key in storageKeys)) continue;
 

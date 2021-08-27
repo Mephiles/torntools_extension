@@ -1,0 +1,43 @@
+#npc-loot-times {
+	margin-bottom: 2px;
+}
+
+#npc-loot-times main {
+	margin-top: 2px !important;
+	border-radius: 0 5px 5px 0;
+}
+
+.tt-npc:not(:last-child) {
+	margin-bottom: 4px;
+}
+
+.npc-name {
+	color: var(--default-blue-color);
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.npc-information {
+	margin-top: 2px;
+}
+
+.npc-information .status {
+	display: inline-block;
+	width: 50px;
+}
+
+.npc-information .status.okay {
+	color: #627e0d;
+}
+
+.npc-information .status.hospital {
+	color: red;
+}
+
+.npc-information .loot-level {
+	display: inline-block;
+	width: 7px;
+	font-weight: bold;
+	color: #c78b07;
+	/*margin: 0 4px;*/
+}

@@ -32,7 +32,7 @@ Object.defineProperty(Document.prototype, "newElement", {
 				if (Array.isArray(options.class)) newElement.setClass(...options.class.filter((name) => !!name));
 				else newElement.setClass(options.class.trim());
 			}
-			if (options.text) newElement.textContent = options.text;
+			if (options.text !== false) newElement.textContent = options.text;
 			if (options.html) newElement.innerHTML = options.html;
 			if (options.value) {
 				if (typeof options.value === "function") newElement.value = options.value();

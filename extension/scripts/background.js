@@ -1022,7 +1022,7 @@ async function updateNPCs() {
 						4: hospital + TO_MILLIS.MINUTES * 210,
 						5: hospital + TO_MILLIS.MINUTES * 450,
 					},
-					name: NPCS[id] ?? `Unknown (${id})`,
+					name: NPCS[id] ?? "Unknown",
 				};
 
 				npcs.targets[id].current =
@@ -1036,22 +1036,34 @@ async function updateNPCs() {
 
 			updated = true;
 		} else {
+			const targets = {};
+
+			for (const [id, npc] of Object.entries(npcs.targets)) {
+				const current =
+					Object.entries(npc.levels)
+						.filter(([, time]) => time <= now)
+						.map(([level, time]) => ({ level: parseInt(level), time }))
+						?.last()?.level ?? 0;
+
+				if (npc.current !== current) targets[id] = { current };
+			}
+
+			if (Object.keys(targets).length) await ttStorage.change({ npcs: { targets } });
+		}
+	} else {
+		const targets = {};
+
+		for (const [id, npc] of Object.entries(npcs.targets)) {
 			const current =
-				Object.entries(npcs.targets[id].levels)
+				Object.entries(npc.levels)
 					.filter(([, time]) => time <= now)
 					.map(([level, time]) => ({ level: parseInt(level), time }))
 					?.last()?.level ?? 0;
 
-			if (current !== npcs.targets[id].current) await ttStorage.change({ npcs: { targets: { [id]: { current } } } });
+			if (npc.current !== current) targets[id] = { current };
 		}
-	} else {
-		const current =
-			Object.entries(npcs.targets[id].levels)
-				.filter(([, time]) => time <= now)
-				.map(([level, time]) => ({ level: parseInt(level), time }))
-				?.last()?.level ?? 0;
 
-		if (current !== npcs.targets[id].current) await ttStorage.change({ npcs: { targets: { [id]: { current } } } });
+		if (Object.keys(targets).length) await ttStorage.change({ npcs: { targets } });
 	}
 
 	const alerts = checkNPCAlerts();
