@@ -1109,8 +1109,7 @@ async function setupAPIInfo() {
 			});
 	});
 
-	const yataSvg = await (await fetch(chrome.runtime.getURL("resources/images/svg-icons/yata.svg"))).text();
-	document.find(".current-usage .yata .icon").innerHTML = yataSvg;
+	document.find(".current-usage .yata .icon").innerHTML = await (await fetch(chrome.runtime.getURL("resources/images/svg-icons/yata.svg"))).text();
 
 	const apiUsageLocations = ["torn", "tornstats", "yata"];
 	const perMinuteUsage = {
@@ -1124,8 +1123,7 @@ async function setupAPIInfo() {
 		yata: { hours: new Set() },
 	};
 
-	Object.keys(ttUsage.usage).forEach((minute, index) => {
-		const localUsage = ttUsage.usage[minute];
+	Object.entries(ttUsage.usage).forEach(([minute, localUsage]) => {
 		const hourOfMinute = (minute / 60).dropDecimals();
 		for (const location of apiUsageLocations) {
 			if (localUsage[location] !== undefined && localUsage[location] !== null) {
@@ -1211,6 +1209,7 @@ async function setupAPIInfo() {
 		usageChart.options.scales.x.ticks.color = color;
 		usageChart.options.scales.y.ticks.color = color;
 		usageChart.options.plugins.legend.labels.color = color;
+		// noinspection JSCheckFunctionSignatures
 		usageChart.update();
 	});
 	await ttUsage.refresh();

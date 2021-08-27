@@ -225,14 +225,6 @@ async function fetchData(location, options = {}) {
 					reject({ error: result.error });
 				}
 			}
-
-			function updateCurrentAPIUsage(second) {
-				if (second in CURRENT_API_USAGE) {
-					CURRENT_API_USAGE[second].push(location);
-				} else {
-					CURRENT_API_USAGE[second] = [location];
-				}
-			}
 		}
 	});
 }

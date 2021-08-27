@@ -1,47 +1,77 @@
+<!--suppress CheckTagEmptyBody -->
 <svg width="150px" viewBox="0 0 32.15 9.2604" xmlns="http://www.w3.org/2000/svg">
-<g transform="matrix(.99992 0 0 .99992 117.58 -126.34)">
-<g transform="matrix(.1025 0 0 .1025 -105.54 121.71)">
-<g stroke-linecap="round" stroke-linejoin="round">
-<g transform="matrix(.98987 0 0 1.0098 -.00011938 .061732)" fill="#447e9b" stroke="#414c51" stroke-width="3.9431" style="paint-order: markers fill stroke" aria-label="Y">
-<path class="yata-stroke" d="m-79.966 85.455 17.727-38.38h19.19l-27.966 54.294v30.891h-17.844v-30.891l-27.966-54.294h19.249z" fill="#447e9b" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.9431" style="paint-order: markers fill stroke"></path>
-</g>
-<g class="yata-stroke-letters yata-fill" transform="rotate(-90 .52917 -.52917)" stroke-width=".68696" style="paint-order: markers fill stroke" aria-label="ET">
-<path d="m-124.92-56.344h-6.7866v4.5951h7.9648v2.8395h-11.5v-17.155h11.476v2.8631h-7.9413v4.0885h6.7866z" style="paint-order: markers fill stroke"></path>
-<path d="m-108.52-63.201h-5.2549v14.292h-3.5347v-14.292h-5.1842v-2.8631h13.974z" style="paint-order: markers fill stroke"></path>
-</g>
-</g>
-<g transform="translate(-2.6458)">
-<g transform="matrix(.98987 0 0 1.0098 -.00011938 .061732)" fill="#447e9b" stroke="#414c51" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.9431" style="paint-order: markers fill stroke" aria-label="T">
-<path class="yata-stroke" d="m116.36 61.291h-26.094v70.968h-17.552v-70.968h-25.743v-14.217h69.388z" fill="#447e9b" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.9431" style="paint-order: markers fill stroke"></path>
-</g>
-<g class="yata-stroke-letters yata-fill" transform="rotate(-90,-1.0583,1.0583)" stroke-width=".69341" aria-label="ORN">
-<path d="m-121.02 106.16q0 2.4645-0.87118 4.3215-0.87119 1.857-2.4989 2.8657-1.6163 1.0087-3.714 1.0087-2.0748 0-3.7025-0.99728-1.6277-0.99727-2.5218-2.8428-0.89411-1.857-0.90557-4.2642v-0.82533q0-2.4645 0.88264-4.333 0.89411-1.8799 2.5104-2.8772 1.6277-1.0087 3.714-1.0087t3.7025 1.0087q1.6277 0.99728 2.5104 2.8772 0.89411 1.8685 0.89411 4.3215zm-3.4847-0.75656q0-2.625-0.93997-3.9891-0.93996-1.3641-2.6823-1.3641-1.7309 0-2.6709 1.3526-0.93996 1.3412-0.95142 3.9433v0.81387q0 2.5562 0.93996 3.9662t2.7053 1.4099q1.7309 0 2.6594-1.3526 0.9285-1.3641 0.93997-3.9662z"></path>
-<path d="m-112.32 108.01h-2.7396v6.1098h-3.4389v-16.69h6.2015q2.9574 0 4.5622 1.3182t1.6048 3.7255q0 1.708-0.74509 2.8543-0.73363 1.1348-2.2353 1.8112l3.6108 6.8205v0.16048h-3.6911zm-2.7396-2.7855h2.774q1.2953 0 2.006-0.65339 0.7107-0.66485 0.7107-1.8226 0-1.1807-0.67631-1.857-0.66486-0.67632-2.0519-0.67632h-2.7626z"></path>
-<path d="m-89.937 114.12h-3.4389l-6.6944-10.982v10.982h-3.4389v-16.69h3.4389l6.7058 11.004v-11.004h3.4274z"></path>
-</g>
-</g>
-<g transform="translate(1.5875)" stroke-linecap="round" stroke-linejoin="round">
-<g transform="matrix(.98987 0 0 1.0098 -.00011938 .061732)" fill="#447e9b" stroke="#455258" stroke-width="3.9435" style="paint-order: markers fill stroke" aria-label="A">
-<path class="yata-stroke-other" d="m11.088 114.71h-30.774l-5.8506 17.552h-18.663l31.71-85.184h16.265l31.886 85.184h-18.663zm-26.035-14.217h21.296l-10.707-31.886z" fill="#447e9b" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.9435" style="paint-order: markers fill stroke"></path>
-</g>
-<g class="yata-stroke-letters yata-fill" transform="rotate(69.992,-2.1167,-3.0234)" stroke-width=".66929" style="paint-order: markers fill stroke" aria-label="NOTHER">
-<path d="m66.839 3.7338h-3.4437l-6.7038-10.997v10.997h-3.4437v-16.714h3.4437l6.7153 11.02v-11.02h3.4323z" style="paint-order: markers fill stroke"></path>
-<path d="m83.598-4.2442q0 2.468-0.87242 4.3276t-2.5025 2.8698q-1.6186 1.0102-3.7192 1.0102-2.0777 0-3.7078-0.99869-1.63-0.99869-2.5254-2.8468-0.89537-1.8596-0.90685-4.2702v-0.8265q0-2.468 0.88389-4.3391 0.89537-1.8826 2.5139-2.8813 1.63-1.0102 3.7192-1.0102t3.7078 1.0102q1.63 0.99868 2.5139 2.8813 0.89537 1.8711 0.89537 4.3276zm-3.4897-0.75762q0-2.6287-0.94129-3.9947t-2.6861-1.366q-1.7334 0-2.6746 1.3545-0.94129 1.3431-0.95277 3.9488v0.81502q0 2.5598 0.94129 3.9718 0.94129 1.4119 2.7091 1.4119 1.7334 0 2.6632-1.3545 0.92981-1.366 0.94129-3.9718z" style="paint-order: markers fill stroke"></path>
-<path d="m97.741-10.19h-5.1197v13.924h-3.4437v-13.924h-5.0508v-2.7894h13.614z" style="paint-order: markers fill stroke"></path>
-<path d="m113.32 3.7338h-3.4437v-7.163h-6.7153v7.163h-3.4437v-16.714h3.4437v6.7727h6.7153v-6.7727h3.4437z" style="paint-order: markers fill stroke"></path>
-<path d="m126.39-3.5095h-6.612v4.4769h7.7599v2.7665h-11.204v-16.714h11.181v2.7894h-7.737v3.9833h6.612z" style="paint-order: markers fill stroke"></path>
-<path d="m135.75-2.3846h-2.7435v6.1184h-3.4438v-16.714h6.2102q2.9616 0 4.5687 1.3201t1.6071 3.7307q0 1.7104-0.74614 2.8583-0.73467 1.1364-2.2384 1.8137l3.6159 6.8301v0.16071h-3.6963zm-2.7435-2.7894h2.778q1.2971 0 2.0088-0.65431 0.71171-0.66579 0.71171-1.8252 0-1.1824-0.67727-1.8596-0.66579-0.67727-2.0548-0.67727h-2.7665z" style="paint-order: markers fill stroke"></path>
-</g>
-</g>
-<g transform="translate(-4.7625)">
-<g transform="matrix(.98987 0 0 1.0098 -1.5876 .061732)" fill="#447e9b" stroke="#414c51" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.9431" style="paint-order: markers fill stroke" aria-label="A">
-<path class="yata-stroke" d="m177.97 114.71h-30.774l-5.8506 17.552h-18.663l31.71-85.185h16.265l31.886 85.185h-18.663zm-26.035-14.217h21.296l-10.707-31.886z" fill="#447e9b" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.9431" style="paint-order: markers fill stroke"></path>
-</g>
-<g class="yata-stroke-letters yata-fill" transform="rotate(-90 -.79375 .79375)" stroke-width=".7117" aria-label="PP">
-<path d="m-70.958 195.3v6.0356h-3.5296v-17.13h6.6827q1.9295 0 3.3884 0.70592 1.4707 0.70592 2.2589 2.0119 0.78828 1.2942 0.78828 2.9531 0 2.5178-1.7295 3.9767-1.7177 1.4471-4.765 1.4471zm0-2.859h3.1531q1.4001 0 2.1295-0.65886 0.74122-0.65886 0.74122-1.8824 0-1.2589-0.74122-2.0354t-2.0472-0.80004h-3.2355z"></path>
-<path d="m-55.428 195.3v6.0356h-3.5296v-17.13h6.6827q1.9295 0 3.3884 0.70592 1.4707 0.70592 2.2589 2.0119 0.78828 1.2942 0.78828 2.9531 0 2.5178-1.7295 3.9767-1.7177 1.4471-4.765 1.4471zm0-2.859h3.1531q1.4001 0 2.1295-0.65886 0.74121-0.65886 0.74121-1.8824 0-1.2589-0.74121-2.0354-0.74122-0.77651-2.0472-0.80004h-3.2355z"></path>
-</g>
-</g>
-</g>
-</g>
+    <g transform="matrix(.99992 0 0 .99992 117.58 -126.34)">
+        <g transform="matrix(.1025 0 0 .1025 -105.54 121.71)">
+            <g stroke-linecap="round" stroke-linejoin="round">
+                <g transform="matrix(.98987 0 0 1.0098 -.00011938 .061732)" fill="#447e9b" stroke="#414c51"
+                   stroke-width="3.9431" style="paint-order: markers fill stroke" aria-label="Y">
+                    <path class="yata-stroke"
+                          d="m-79.966 85.455 17.727-38.38h19.19l-27.966 54.294v30.891h-17.844v-30.891l-27.966-54.294h19.249z"
+                          fill="#447e9b" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.9431"
+                          style="paint-order: markers fill stroke"></path>
+                </g>
+                <g class="yata-stroke-letters yata-fill" transform="rotate(-90 .52917 -.52917)" stroke-width=".68696"
+                   style="paint-order: markers fill stroke" aria-label="ET">
+                    <path d="m-124.92-56.344h-6.7866v4.5951h7.9648v2.8395h-11.5v-17.155h11.476v2.8631h-7.9413v4.0885h6.7866z"
+                          style="paint-order: markers fill stroke"></path>
+                    <path d="m-108.52-63.201h-5.2549v14.292h-3.5347v-14.292h-5.1842v-2.8631h13.974z"
+                          style="paint-order: markers fill stroke"></path>
+                </g>
+            </g>
+            <g transform="translate(-2.6458)">
+                <g transform="matrix(.98987 0 0 1.0098 -.00011938 .061732)" fill="#447e9b" stroke="#414c51"
+                   stroke-linecap="round" stroke-linejoin="round" stroke-width="3.9431"
+                   style="paint-order: markers fill stroke" aria-label="T">
+                    <path class="yata-stroke" d="m116.36 61.291h-26.094v70.968h-17.552v-70.968h-25.743v-14.217h69.388z"
+                          fill="#447e9b" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.9431"
+                          style="paint-order: markers fill stroke"></path>
+                </g>
+                <g class="yata-stroke-letters yata-fill" transform="rotate(-90,-1.0583,1.0583)" stroke-width=".69341"
+                   aria-label="ORN">
+                    <path d="m-121.02 106.16q0 2.4645-0.87118 4.3215-0.87119 1.857-2.4989 2.8657-1.6163 1.0087-3.714 1.0087-2.0748 0-3.7025-0.99728-1.6277-0.99727-2.5218-2.8428-0.89411-1.857-0.90557-4.2642v-0.82533q0-2.4645 0.88264-4.333 0.89411-1.8799 2.5104-2.8772 1.6277-1.0087 3.714-1.0087t3.7025 1.0087q1.6277 0.99728 2.5104 2.8772 0.89411 1.8685 0.89411 4.3215zm-3.4847-0.75656q0-2.625-0.93997-3.9891-0.93996-1.3641-2.6823-1.3641-1.7309 0-2.6709 1.3526-0.93996 1.3412-0.95142 3.9433v0.81387q0 2.5562 0.93996 3.9662t2.7053 1.4099q1.7309 0 2.6594-1.3526 0.9285-1.3641 0.93997-3.9662z"></path>
+                    <path d="m-112.32 108.01h-2.7396v6.1098h-3.4389v-16.69h6.2015q2.9574 0 4.5622 1.3182t1.6048 3.7255q0 1.708-0.74509 2.8543-0.73363 1.1348-2.2353 1.8112l3.6108 6.8205v0.16048h-3.6911zm-2.7396-2.7855h2.774q1.2953 0 2.006-0.65339 0.7107-0.66485 0.7107-1.8226 0-1.1807-0.67631-1.857-0.66486-0.67632-2.0519-0.67632h-2.7626z"></path>
+                    <path d="m-89.937 114.12h-3.4389l-6.6944-10.982v10.982h-3.4389v-16.69h3.4389l6.7058 11.004v-11.004h3.4274z"></path>
+                </g>
+            </g>
+            <g transform="translate(1.5875)" stroke-linecap="round" stroke-linejoin="round">
+                <g transform="matrix(.98987 0 0 1.0098 -.00011938 .061732)" fill="#447e9b" stroke="#455258"
+                   stroke-width="3.9435" style="paint-order: markers fill stroke" aria-label="A">
+                    <path class="yata-stroke-other"
+                          d="m11.088 114.71h-30.774l-5.8506 17.552h-18.663l31.71-85.184h16.265l31.886 85.184h-18.663zm-26.035-14.217h21.296l-10.707-31.886z"
+                          fill="#447e9b" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.9435"
+                          style="paint-order: markers fill stroke"></path>
+                </g>
+                <g class="yata-stroke-letters yata-fill" transform="rotate(69.992,-2.1167,-3.0234)"
+                   stroke-width=".66929" style="paint-order: markers fill stroke" aria-label="NOTHER">
+                    <path d="m66.839 3.7338h-3.4437l-6.7038-10.997v10.997h-3.4437v-16.714h3.4437l6.7153 11.02v-11.02h3.4323z"
+                          style="paint-order: markers fill stroke"></path>
+                    <path d="m83.598-4.2442q0 2.468-0.87242 4.3276t-2.5025 2.8698q-1.6186 1.0102-3.7192 1.0102-2.0777 0-3.7078-0.99869-1.63-0.99869-2.5254-2.8468-0.89537-1.8596-0.90685-4.2702v-0.8265q0-2.468 0.88389-4.3391 0.89537-1.8826 2.5139-2.8813 1.63-1.0102 3.7192-1.0102t3.7078 1.0102q1.63 0.99868 2.5139 2.8813 0.89537 1.8711 0.89537 4.3276zm-3.4897-0.75762q0-2.6287-0.94129-3.9947t-2.6861-1.366q-1.7334 0-2.6746 1.3545-0.94129 1.3431-0.95277 3.9488v0.81502q0 2.5598 0.94129 3.9718 0.94129 1.4119 2.7091 1.4119 1.7334 0 2.6632-1.3545 0.92981-1.366 0.94129-3.9718z"
+                          style="paint-order: markers fill stroke"></path>
+                    <path d="m97.741-10.19h-5.1197v13.924h-3.4437v-13.924h-5.0508v-2.7894h13.614z"
+                          style="paint-order: markers fill stroke"></path>
+                    <path d="m113.32 3.7338h-3.4437v-7.163h-6.7153v7.163h-3.4437v-16.714h3.4437v6.7727h6.7153v-6.7727h3.4437z"
+                          style="paint-order: markers fill stroke"></path>
+                    <path d="m126.39-3.5095h-6.612v4.4769h7.7599v2.7665h-11.204v-16.714h11.181v2.7894h-7.737v3.9833h6.612z"
+                          style="paint-order: markers fill stroke"></path>
+                    <path d="m135.75-2.3846h-2.7435v6.1184h-3.4438v-16.714h6.2102q2.9616 0 4.5687 1.3201t1.6071 3.7307q0 1.7104-0.74614 2.8583-0.73467 1.1364-2.2384 1.8137l3.6159 6.8301v0.16071h-3.6963zm-2.7435-2.7894h2.778q1.2971 0 2.0088-0.65431 0.71171-0.66579 0.71171-1.8252 0-1.1824-0.67727-1.8596-0.66579-0.67727-2.0548-0.67727h-2.7665z"
+                          style="paint-order: markers fill stroke"></path>
+                </g>
+            </g>
+            <g transform="translate(-4.7625)">
+                <g transform="matrix(.98987 0 0 1.0098 -1.5876 .061732)" fill="#447e9b" stroke="#414c51"
+                   stroke-linecap="round" stroke-linejoin="round" stroke-width="3.9431"
+                   style="paint-order: markers fill stroke" aria-label="A">
+                    <path class="yata-stroke"
+                          d="m177.97 114.71h-30.774l-5.8506 17.552h-18.663l31.71-85.185h16.265l31.886 85.185h-18.663zm-26.035-14.217h21.296l-10.707-31.886z"
+                          fill="#447e9b" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.9431"
+                          style="paint-order: markers fill stroke"></path>
+                </g>
+                <g class="yata-stroke-letters yata-fill" transform="rotate(-90 -.79375 .79375)" stroke-width=".7117"
+                   aria-label="PP">
+                    <path d="m-70.958 195.3v6.0356h-3.5296v-17.13h6.6827q1.9295 0 3.3884 0.70592 1.4707 0.70592 2.2589 2.0119 0.78828 1.2942 0.78828 2.9531 0 2.5178-1.7295 3.9767-1.7177 1.4471-4.765 1.4471zm0-2.859h3.1531q1.4001 0 2.1295-0.65886 0.74122-0.65886 0.74122-1.8824 0-1.2589-0.74122-2.0354t-2.0472-0.80004h-3.2355z"></path>
+                    <path d="m-55.428 195.3v6.0356h-3.5296v-17.13h6.6827q1.9295 0 3.3884 0.70592 1.4707 0.70592 2.2589 2.0119 0.78828 1.2942 0.78828 2.9531 0 2.5178-1.7295 3.9767-1.7177 1.4471-4.765 1.4471zm0-2.859h3.1531q1.4001 0 2.1295-0.65886 0.74121-0.65886 0.74121-1.8824 0-1.2589-0.74121-2.0354-0.74122-0.77651-2.0472-0.80004h-3.2355z"></path>
+                </g>
+            </g>
+        </g>
+    </g>
 </svg>
