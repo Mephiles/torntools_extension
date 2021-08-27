@@ -22,6 +22,7 @@ const notifications = {
 	chain: {},
 	chainCount: {},
 	stakeouts: {},
+	npcs: {},
 };
 
 (async () => {
@@ -220,6 +221,13 @@ function timedUpdates() {
 				.then(() => console.log("Updated factiondata."))
 				.catch((error) => logError("updating factiondata", error));
 	}
+
+	updateNPCs()
+		.then(({ updated, alerts }) => {
+			if (updated) console.log("Updated npcs.");
+			if (alerts) console.log(`Sent out ${alerts} npc alerts.`);
+		})
+		.catch((error) => logError("updating npcs", error));
 
 	function logError(message, error) {
 		if (error.code === CUSTOM_API_ERROR.NO_NETWORK) {
@@ -971,6 +979,122 @@ async function updateFactiondata() {
 	}
 
 	await ttStorage.set({ factiondata });
+}
+
+async function updateNPCs() {
+	if (!settings.external.yata) {
+		await ttStorage.set({ npcs: {} });
+		return { updated: false };
+	}
+
+	const NPCS = {
+		4: "DUKE",
+		7: "Amanda",
+		9: "Anonymous",
+		10: "Scrooge",
+		15: "Leslie",
+		17: "Easter Bunny",
+		19: "Jimmy",
+		20: "Fernando",
+		21: "Tiny",
+	};
+
+	let updated = false;
+
+	const now = Date.now();
+	if (!npcs || !npcs.next_update || npcs.next_update * 1000 <= now) {
+		const data = await fetchData("yata", { section: "loot" });
+
+		if (!npcs || npcs.timestamp !== data.timestamp) {
+			npcs = {
+				next_update: data.next_update,
+				targets: {},
+			};
+
+			for (let [id, hospital] of Object.entries(data.hosp_out)) {
+				hospital = hospital * 1000;
+
+				npcs.targets[id] = {
+					levels: {
+						1: hospital,
+						2: hospital + TO_MILLIS.MINUTES * 30,
+						3: hospital + TO_MILLIS.MINUTES * 90,
+						4: hospital + TO_MILLIS.MINUTES * 210,
+						5: hospital + TO_MILLIS.MINUTES * 450,
+					},
+					name: NPCS[id] ?? `Unknown (${id})`,
+				};
+
+				npcs.targets[id].current =
+					Object.entries(npcs.targets[id].levels)
+						.filter(([, time]) => time <= now)
+						.map(([level, time]) => ({ level: parseInt(level), time }))
+						?.last()?.level ?? 0;
+			}
+
+			await ttStorage.set({ npcs });
+
+			updated = true;
+		} else {
+			const current =
+				Object.entries(npcs.targets[id].levels)
+					.filter(([, time]) => time <= now)
+					.map(([level, time]) => ({ level: parseInt(level), time }))
+					?.last()?.level ?? 0;
+
+			if (current !== npcs.targets[id].current) await ttStorage.change({ npcs: { targets: { [id]: { current } } } });
+		}
+	} else {
+		const current =
+			Object.entries(npcs.targets[id].levels)
+				.filter(([, time]) => time <= now)
+				.map(([level, time]) => ({ level: parseInt(level), time }))
+				?.last()?.level ?? 0;
+
+		if (current !== npcs.targets[id].current) await ttStorage.change({ npcs: { targets: { [id]: { current } } } });
+	}
+
+	const alerts = checkNPCAlerts();
+
+	return { updated, alerts };
+
+	function checkNPCAlerts() {
+		if (!settings.notifications.types.global) return 0;
+
+		let alerts = 0;
+
+		for (const { id, level, minutes } of settings.notifications.types.npcs.filter(({ level, minutes }) => level !== "" && minutes !== "")) {
+			const npc = npcs.targets[id];
+			if (!npc) {
+				delete notifications.npcs[id];
+				continue;
+			}
+
+			const time = npc.levels[level];
+			if (!time) {
+				delete notifications.npcs[id];
+				continue;
+			}
+
+			const left = time - now;
+			const _minutes = Math.ceil(left / TO_MILLIS.MINUTES);
+			if (_minutes > minutes) {
+				delete notifications.npcs[id];
+				continue;
+			}
+
+			if (notifications.npcs[id]) continue;
+
+			notifications.npcs[id] = newNotification(
+				"NPC Loot",
+				`${npc.name} is reaching loot level ${formatNumber(level, { roman: true })} in ${formatTime(left, { type: "wordTimer" })}.`,
+				`https://www.torn.com/profiles.php?XID=${id}`
+			);
+			alerts++;
+		}
+
+		return alerts;
+	}
 }
 
 function newNotification(title, message, link) {

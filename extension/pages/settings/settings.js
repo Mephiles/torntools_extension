@@ -236,7 +236,7 @@ async function setupPreferences() {
 		const disable = !event.target.checked;
 
 		for (const notificationType in settings.notifications.types) {
-			if (notificationType === "global") continue;
+			if (["global", "stocks", "npcs"].includes(notificationType)) continue;
 
 			if (disable) _preferences.find(`#notification_type-${notificationType}`).setAttribute("disabled", true);
 			else _preferences.find(`#notification_type-${notificationType}`).removeAttribute("disabled");
@@ -407,6 +407,36 @@ async function setupPreferences() {
 	} else {
 		hideStocksParent.classList.add("warning");
 		hideStocksParent.appendChild(document.createTextNode("Requires API data to be loaded."));
+	}
+
+	if (hasAPIData() && npcs.targets) {
+		const alerts = _preferences.find("#npc-alerts");
+
+		for (const [id, npc] of Object.entries(npcs.targets)) {
+			alerts.appendChild(
+				document.newElement({
+					type: "li",
+					children: [
+						document.newElement({ type: "input", value: npc.name, attributes: { disabled: "" } }),
+						document.newElement({
+							type: "input",
+							class: "level",
+							// value: notification.level,
+							attributes: { placeholder: "Level", type: "number", min: 1, max: 5 },
+							events: { input: enforceInputLimits },
+						}),
+						document.newElement({
+							type: "input",
+							class: "minutes",
+							// value: notification.minutes,
+							attributes: { placeholder: "Minutes", type: "number", min: 0, max: 450 },
+							events: { input: enforceInputLimits },
+						}),
+					],
+					dataset: { id },
+				})
+			);
+		}
 	}
 
 	_preferences.find("#external-tornstats").addEventListener("click", (event) => {
@@ -592,6 +622,13 @@ async function setupPreferences() {
 			row.find("input[type='number']").value = warning.days ?? "";
 			row.find("input[type='color']").value = warning.color;
 		});
+		for (const { id, level, minutes } of settings.notifications.types.npcs) {
+			const row = _preferences.find(`#npc-alerts > li[data-id='${id}']`);
+			if (!row) continue;
+
+			row.find(".level").value = level;
+			row.find(".minutes").value = minutes;
+		}
 	}
 
 	function updateSettings() {
@@ -864,13 +901,13 @@ async function setupPreferences() {
 		settings.employeeInactivityWarning = [..._preferences.findAll("#employeeInactivityWarning > .tabbed")]
 			.map((warning) => ({
 				color: warning.find("input[type='color']").value,
-				days: parseInt(warning.find("input[type='number']").value) ?? false,
+				days: parseInt(warning.find("input[type='number']").value) || false,
 			}))
 			.sort((first, second) => first.days - second.days);
 		settings.factionInactivityWarning = [..._preferences.findAll("#factionInactivityWarning > .tabbed")]
 			.map((warning) => ({
 				color: warning.find("input[type='color']").value,
-				days: parseInt(warning.find("input[type='number']").value) ?? false,
+				days: parseInt(warning.find("input[type='number']").value) || false,
 			}))
 			.sort((first, second) => first.days - second.days);
 
@@ -885,7 +922,7 @@ async function setupPreferences() {
 		}
 
 		for (const notificationType in settings.notifications.types) {
-			if (notificationType === "stocks") continue;
+			if (notificationType === "stocks" || notificationType === "npcs") continue;
 
 			if (Array.isArray(settings.notifications.types[notificationType])) {
 				settings.notifications.types[notificationType] = _preferences
@@ -897,6 +934,18 @@ async function setupPreferences() {
 				settings.notifications.types[notificationType] = _preferences.find(`#notification_type-${notificationType}`).checked;
 			}
 		}
+		settings.notifications.types.npcs = [..._preferences.findAll("#npc-alerts > li")]
+			.map((row) => {
+				const level = row.find(".level").value;
+				const minutes = row.find(".minutes").value;
+
+				return {
+					id: parseInt(row.dataset.id),
+					level: !level || isNaN(level) ? "" : parseInt(level),
+					minutes: !minutes || isNaN(minutes) ? "" : parseInt(minutes),
+				};
+			})
+			.filter(({ level, minutes }) => level !== "" || minutes !== "");
 
 		settings.notifications.tts = _preferences.find("#notification-tts").checked;
 		settings.notifications.link = _preferences.find("#notification-link").checked;
@@ -1028,6 +1077,16 @@ async function setupPreferences() {
 			});
 			searchResults = null;
 		}
+	}
+
+	function enforceInputLimits(event) {
+		const value = event.target.value ?? "";
+		if (value === "") return;
+
+		const newValue = Math.min(Math.max(event.target.value, parseInt(event.target.min)), parseInt(event.target.max));
+		if (value === newValue) return;
+
+		event.target.value = newValue;
 	}
 }
 

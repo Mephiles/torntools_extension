@@ -295,6 +295,7 @@ function formatNumber(number, options = {}) {
 		decimals: -1,
 		currency: false,
 		forceOperation: false,
+		roman: false,
 		...options,
 	};
 	if (typeof number !== "number") {
@@ -308,6 +309,39 @@ function formatNumber(number, options = {}) {
 
 	if (options.formatter) {
 		return formatter.format(number);
+	}
+
+	if (options.roman) {
+		if (number === 0) return "";
+		else if (number < 0) throw "Roman numbers can only be positive!";
+
+		const ROMAN = [
+			[1000, "M"],
+			[900, "CM"],
+			[500, "D"],
+			[400, "CD"],
+			[100, "C"],
+			[90, "XC"],
+			[50, "L"],
+			[40, "XL"],
+			[10, "X"],
+			[9, "IX"],
+			[5, "V"],
+			[4, "IV"],
+			[1, "I"],
+		];
+
+		return toRoman(number);
+
+		function toRoman(number) {
+			if (number === 0) return "";
+
+			for (const [value, character] of ROMAN) {
+				if (number < value) continue;
+
+				return character + toRoman(number - value);
+			}
+		}
 	}
 
 	const abstract = Math.abs(number);

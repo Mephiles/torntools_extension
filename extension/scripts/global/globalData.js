@@ -301,6 +301,7 @@ const DEFAULT_STORAGE = {
 				cooldownBooster: new DefaultSetting({ type: "array", defaultValue: [] }),
 				cooldownMedical: new DefaultSetting({ type: "array", defaultValue: [] }),
 				stocks: new DefaultSetting({ type: "object", defaultValue: {} }),
+				npcs: new DefaultSetting({ type: "array", defaultValue: [] }),
 			},
 		},
 		apiUsage: {
@@ -762,6 +763,7 @@ const DEFAULT_STORAGE = {
 	},
 	cache: new DefaultSetting({ type: "object", defaultValue: {} }),
 	usage: new DefaultSetting({ type: "object", defaultValue: {} }),
+	npcs: new DefaultSetting({ type: "object", defaultValue: {} }),
 };
 
 const CUSTOM_LINKS_PRESET = {

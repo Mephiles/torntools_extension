@@ -1,6 +1,6 @@
 "use strict";
 
-let settings, filters, version, api, userdata, torndata, stakeouts, attackHistory, notes, factiondata, quick, localdata, cache;
+let settings, filters, version, api, userdata, torndata, stakeouts, attackHistory, notes, factiondata, quick, localdata, npcs;
 let databaseLoaded = false;
 let databaseLoading = false;
 const storageListeners = {
@@ -41,6 +41,7 @@ async function loadDatabase() {
 	quick = database.quick;
 	ttCache.cache = database.cache;
 	ttUsage.usage = database.usage;
+	npcs = database.npcs;
 
 	console.log("TT - Database loaded.", database);
 	databaseLoaded = true;
