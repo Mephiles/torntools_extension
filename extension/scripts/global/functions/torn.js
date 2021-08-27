@@ -1427,52 +1427,44 @@ function isCaptcha() {
 }
 
 function hasDarkMode() {
-	return document.body.classList.contains("dark-mode");
+	return window.location.host === chrome.runtime.id ? document.body.classList.contains("dark") : document.body.classList.contains("dark-mode");
 }
 
-const darkModeObserver = (() => {
-	const listeners = new Set();
-	let prevDarkModeState;
+const darkModeObserver = new (class {
+	constructor() {
+		this.listeners = new Set();
+		this.prevDarkModeState = null;
+		this.observer = new MutationObserver(() => {
+			const darkModeState = hasDarkMode();
 
-	const observer = new MutationObserver(() => {
-		const darkModeState = hasDarkMode();
+			if (darkModeState !== this.prevDarkModeState) {
+				this.prevDarkModeState = darkModeState;
+				this._invokeListeners(darkModeState);
+			}
+		});
+	}
 
-		if (darkModeState !== prevDarkModeState) {
-			prevDarkModeState = darkModeState;
-			_invokeListeners(darkModeState);
-		}
-	});
+	addListener(callback) {
+		if (!this.prevDarkModeState) this.prevDarkModeState = hasDarkMode();
 
-	function addListener(callback) {
-		if (!prevDarkModeState) {
-			prevDarkModeState = hasDarkMode();
-		}
+		this.listeners.add(callback);
 
-		listeners.add(callback);
-
-		if (listeners.size === 1) {
-			observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+		if (this.listeners.size === 1) {
+			this.observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
 		}
 	}
 
-	function removeListener(callback) {
-		listeners.delete(callback);
+	removeListener(callback) {
+		this.listeners.delete(callback);
 
-		if (listeners.size === 0) {
-			observer.disconnect();
-		}
+		if (this.listeners.size === 0) this.observer.disconnect();
 	}
 
-	function _invokeListeners(isInDarkMode) {
-		for (const listener of listeners.values()) {
+	_invokeListeners(isInDarkMode) {
+		for (const listener of this.listeners.values()) {
 			listener(isInDarkMode);
 		}
 	}
-
-	return {
-		addListener,
-		removeListener,
-	};
 })();
 
 async function createMessageBox(content, options = {}) {

@@ -157,10 +157,12 @@ async function checkUpdate() {
 
 function registerUpdaters() {
 	clearCache();
+	clearUsage();
 	timedUpdates();
 
 	setInterval(sendNotifications, 5 * TO_MILLIS.SECONDS);
 	setInterval(clearCache, 5 * TO_MILLIS.SECONDS);
+	setInterval(clearUsage, 1 * TO_MILLIS.HOURS);
 	setInterval(timedUpdates, 30 * TO_MILLIS.SECONDS);
 }
 
@@ -229,7 +231,11 @@ function timedUpdates() {
 }
 
 function clearCache() {
-	ttCache.refresh().catch((error) => console.error(`Error while clearing cache.`, error));
+	ttCache.refresh().catch((error) => console.error("Error while clearing cache.", error));
+}
+
+function clearUsage() {
+	ttUsage.refresh().catch((error) => console.error("Error while clearing API usage data.", error));
 }
 
 async function updateUserdata() {

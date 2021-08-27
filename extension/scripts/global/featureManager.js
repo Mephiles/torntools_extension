@@ -209,7 +209,7 @@ class FeatureManager {
 		new Promise(async (resolve) => {
 			if ((await checkDevice()).mobile) return resolve();
 
-			let row = this.container.find(`#tt-page-status-feature-${feature.name.toLowerCase().replace(/ /g, "-")}`);
+			let row = this.container.find(`#tt-page-status-feature-${feature.name.toLowerCase().replaceAll(" ", "-")}`);
 			if (row) {
 				row.setClass(`tt-page-status-feature ${status}`);
 				row.find(".tt-page-status-feature-icon i").setClass(`fas ${getIcon()}`);
@@ -218,7 +218,7 @@ class FeatureManager {
 				row = document.newElement({
 					type: "div",
 					class: `tt-page-status-feature ${status}`,
-					id: `tt-page-status-feature-${feature.name.toLowerCase().replace(/ /g, "-")}`,
+					id: `tt-page-status-feature-${feature.name.toLowerCase().replaceAll(" ", "-")}`,
 					children: [
 						document.newElement({
 							type: "span",
@@ -233,7 +233,7 @@ class FeatureManager {
 					},
 				});
 
-				let scopeElement = this.container.find(`.tt-page-status-content #scope-${feature.scope}`);
+				let scopeElement = this.container.find(`.tt-page-status-content #scope-${feature.scope.toLowerCase().replaceAll(" ", "_")}`);
 				if (!scopeElement) {
 					const scopeHeading = document.newElement({
 						type: "div",
@@ -245,16 +245,16 @@ class FeatureManager {
 					});
 					scopeElement = document.newElement({
 						type: "div",
-						id: "scope-" + feature.scope,
+						id: "scope-" + feature.scope.toLowerCase().replaceAll(" ", "_"),
 						children: [scopeHeading],
 					});
 					scopeHeading.addEventListener("click", async (event) => {
-						const scopeElementLocal = event.target.closest("[id*='scope']");
+						const scopeElementLocal = event.target.closest("[id*='scope-']");
 						const addedOrRemoved = scopeElementLocal.classList.toggle("collapsed");
 						const closedScopes = (await ttStorage.get("filters")).closedScopes;
-						if (addedOrRemoved) closedScopes.push(scopeElementLocal.getAttribute("id").split("scope-")[1]);
+						if (addedOrRemoved) closedScopes.push(scopeElementLocal.getAttribute("id").split("scope-")[1].replaceAll("_", " "));
 						else {
-							const index = closedScopes.indexOf(scopeElementLocal.getAttribute("id").split("scope-")[1]);
+							const index = closedScopes.indexOf(scopeElementLocal.getAttribute("id").split("scope-")[1].replaceAll("_", " "));
 							if (index !== -1) {
 								closedScopes.splice(index, 1);
 							}
@@ -365,7 +365,7 @@ class FeatureManager {
 		this.container.classList[hasContent ? "remove" : "add"]("no-content");
 
 		for (const scope of (await ttStorage.get("filters")).closedScopes) {
-			const scopeElement = this.container.find(`.tt-page-status-content > [id*="${scope}"]`);
+			const scopeElement = this.container.find(`.tt-page-status-content > [id*="${scope.replaceAll(" ", "_")}"]`);
 			if (scopeElement && !scopeElement.find(":scope > .features-list > .failed")) scopeElement.classList.add("collapsed");
 		}
 	}

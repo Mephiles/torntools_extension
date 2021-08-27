@@ -25,7 +25,7 @@ async function fetchData(location, options = {}) {
 		...options,
 	};
 
-	return new Promise((resolve, reject) => {
+	return new Promise(async (resolve, reject) => {
 		if (options.relay && SCRIPT_TYPE !== "BACKGROUND") {
 			chrome.runtime.sendMessage({ action: "fetchRelay", location, options: { ...options, relay: false } }, (response) => {
 				if (response.error) return reject(response);
@@ -55,6 +55,8 @@ async function fetchData(location, options = {}) {
 						// noinspection JSCheckFunctionSignatures
 						params.append("comment", settings.apiUsage.comment);
 					}
+
+					await ttUsage.add(location);
 					break;
 				case "torn_direct":
 					url = PLATFORMS.torn_direct;
@@ -71,6 +73,7 @@ async function fetchData(location, options = {}) {
 					if (options.id) pathSections.push(options.id);
 
 					path = pathSections.join("/");
+					await ttUsage.add(location);
 					break;
 				case "yata":
 					url = PLATFORMS.yata;
@@ -79,6 +82,7 @@ async function fetchData(location, options = {}) {
 					if (options.id) pathSections.push(options.id);
 
 					path = pathSections.join("/");
+					await ttUsage.add(location);
 					break;
 			}
 
@@ -166,6 +170,7 @@ async function fetchData(location, options = {}) {
 			async function handleError(result) {
 				if (options.succeedOnError) {
 					resolve(result);
+					await ttUsage.add(location);
 					return;
 				}
 
@@ -218,6 +223,14 @@ async function fetchData(location, options = {}) {
 					}
 				} else {
 					reject({ error: result.error });
+				}
+			}
+
+			function updateCurrentAPIUsage(second) {
+				if (second in CURRENT_API_USAGE) {
+					CURRENT_API_USAGE[second].push(location);
+				} else {
+					CURRENT_API_USAGE[second] = [location];
 				}
 			}
 		}

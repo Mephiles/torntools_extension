@@ -214,6 +214,36 @@ const ttCache = new (class {
 	}
 })();
 
+const ttUsage = new (class {
+	constructor() {
+		this.usage = {};
+	}
+
+	async add(location) {
+		const minute = (Date.now() / TO_MILLIS.MINUTES).dropDecimals();
+		if (!(minute in this.usage)) this.usage[minute] = {};
+		if (!(location in this.usage[minute])) this.usage[minute][location] = 0;
+
+		this.usage[minute][location] += 1;
+		await ttStorage.set({ usage: this.usage });
+	}
+
+	async refresh() {
+		const last24HrsMinute = ((Date.now() - (24 * TO_MILLIS.HOURS)) / TO_MILLIS.MINUTES).dropDecimals();
+
+		Object.keys(this.usage).forEach(minute => {
+			if (minute < last24HrsMinute) delete this.usage[minute];
+		});
+
+		await ttStorage.set({ usage: this.usage });
+	}
+
+	async clear() {
+		this.usage = {};
+		await ttStorage.set({ usage: {} });
+	}
+})();
+
 const DEFAULT_STORAGE = {
 	version: {
 		current: new DefaultSetting({ type: "string", defaultValue: () => chrome.runtime.getManifest().version }),
@@ -731,6 +761,7 @@ const DEFAULT_STORAGE = {
 		jail: new DefaultSetting({ type: "array", defaultValue: [] }),
 	},
 	cache: new DefaultSetting({ type: "object", defaultValue: {} }),
+	usage: new DefaultSetting({ type: "object", defaultValue: {} }),
 };
 
 const CUSTOM_LINKS_PRESET = {

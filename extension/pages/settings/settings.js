@@ -1049,6 +1049,150 @@ async function setupAPIInfo() {
 				document.find("#api_key").value = api.torn.key || "";
 			});
 	});
+
+	const yataSvg = await (await fetch(chrome.runtime.getURL("resources/images/svg-icons/yata.svg"))).text();
+	document.find(".current-usage .yata .icon").innerHTML = yataSvg;
+
+	const apiUsageLocations = ["torn", "tornstats", "yata"];
+	const perMinuteUsage = {
+		torn: { count: 0, usage: 0 },
+		tornstats: { count: 0, usage: 0 },
+		yata: { count: 0, usage: 0 },
+	};
+	const perHourUsage = {
+		torn: { hours: new Set() },
+		tornstats: { hours: new Set() },
+		yata: { hours: new Set() },
+	};
+
+	Object.keys(ttUsage.usage).forEach((minute, index) => {
+		const localUsage = ttUsage.usage[minute];
+		const hourOfMinute = (minute / 60).dropDecimals();
+		for (const location of apiUsageLocations) {
+			if (localUsage[location] !== undefined && localUsage[location] !== null) {
+				perMinuteUsage[location].usage += localUsage[location];
+				perHourUsage[location].hours.add(hourOfMinute);
+			}
+			perMinuteUsage[location].count += 1;
+		}
+	});
+	for (const location of apiUsageLocations) {
+		perHourUsage[location].count = perHourUsage[location].hours.size;
+		delete perHourUsage[location].hours;
+	}
+	document.findAll(".current-usage .averages > div.per-minute").forEach((usageDiv, index) => {
+		const key = apiUsageLocations[index];
+		usageDiv.textContent = `Average calls per minute: ${perMinuteUsage[key].count ? (perMinuteUsage[key].usage / perMinuteUsage[key].count).dropDecimals() : 0}`;
+	});
+	document.findAll(".current-usage .averages > div.per-hour").forEach((usageDiv, index) => {
+		const key = apiUsageLocations[index];
+		usageDiv.innerText = `Average calls per hour: ${perHourUsage[key].count ? (perMinuteUsage[key].usage / perHourUsage[key].count).dropDecimals() : 0}`;
+	});
+
+	const canvas = document.find("#current-usage-chart");
+	document.find(".current-usage").appendChild(canvas);
+
+	const darkMode = hasDarkMode();
+	const usageChart = new Chart(canvas, {
+		type: "bar",
+		data: {
+			labels: [],
+			datasets: [
+				{
+					label: "Torn",
+					data: [],
+					backgroundColor: "#666",
+				},
+				{
+					label: "Tornstats",
+					data: [],
+					backgroundColor: "#8abeef",
+				},
+				{
+					label: "YATA",
+					data: [],
+					backgroundColor: "#447e9b",
+				},
+			],
+		},
+		options: {
+			animation: {
+				duration: 0
+			},
+			scales: {
+				x: {
+					stacked: true,
+					ticks: {
+						color: darkMode ? "#fff" : "#000",
+					},
+				},
+				y: {
+					stacked: true,
+					ticks: {
+						min: 0,
+						max: 100,
+						stepSize: 1,
+						color: darkMode ? "#fff" : "#000",
+					}
+				},
+			},
+			plugins: {
+				legend: {
+					labels: {
+						color: darkMode ? "#fff" : "#000",
+					},
+				},
+			},
+		},
+	});
+	darkModeObserver.addListener((darkMode) => {
+		const color = darkMode ? "#fff" : "#000";
+		usageChart.options.scales.x.ticks.color = color;
+		usageChart.options.scales.y.ticks.color = color;
+		usageChart.options.plugins.legend.labels.color = color;
+		usageChart.update();
+	});
+	await ttUsage.refresh();
+
+	updateUsage(usageChart, "Last 5");
+	document.find(".current-usage .buttons .last-5").addEventListener("click", () => updateUsage(usageChart, "Last 5"));
+	document.find(".current-usage .buttons .last-1hr").addEventListener("click", () => updateUsage(usageChart, "Last 1hr"));
+	document.find(".current-usage .buttons .last-24hrs").addEventListener("click", () => updateUsage(usageChart, "Last 24hrs"));
+
+	function updateUsage(usageChart, position) {
+		let maxIndex, barThickness, lastMinute;
+		if (position === "Last 5") {
+			maxIndex = 5;
+			barThickness = 30;
+		} else if (position === "Last 1hr") {
+			maxIndex = 60;
+			barThickness = 10;
+		} else if (position === "Last 24hrs") {
+			maxIndex = 1440;
+			barThickness = 2;
+		}
+
+		usageChart.data.labels = [];
+		usageChart.options.barThickness = barThickness;
+		let i = 0;
+		const offset = (new Date()).getTimezoneOffset();
+		let minutesArray = Object.keys(ttUsage.usage).slice(-maxIndex);
+		if (position === "Last 1hr") {
+			lastMinute = parseInt(minutesArray.at(-1)) - 60;
+			minutesArray = minutesArray.filter(minute => minute >= lastMinute);
+		}
+		for (const minute of minutesArray) {
+			const seconds = (parseInt(minute) - offset) * 60;
+			const hour = (seconds % 86400 / 3600).dropDecimals();
+			usageChart.data.labels.push(`${toMultipleDigits(hour)}:${toMultipleDigits((seconds % 3600 / 60).dropDecimals())}`);
+			usageChart.data.datasets[0].data[i] = ttUsage.usage[minute].torn ?? 0;
+			usageChart.data.datasets[1].data[i] = ttUsage.usage[minute].tornstats ?? 0;
+			usageChart.data.datasets[2].data[i] = ttUsage.usage[minute].yata ?? 0;
+			i++;
+		}
+		i = null;
+		usageChart.update(false);
+	}
 }
 
 async function setupExport() {

@@ -1,0 +1,77 @@
+.current-usage .usages {
+    display: flex;
+}
+
+.current-usage .usages > div {
+    width: 33%;
+    text-align: center;
+}
+
+.current-usage .buttons {
+    margin: 0 0 5px 40px;
+}
+
+.current-usage .buttons > button {
+    padding: 6px;
+    border-radius: 6px;
+}
+
+body.light .current-usage .buttons > button {
+    background-color: #fff;
+    color: #000;
+}
+
+body.dark .current-usage .buttons > button {
+    background-color: #333;
+    color: #fff;
+}
+
+.current-usage .torn .icon > div {
+	width: 172px;
+	margin: auto;
+}
+
+body.light .current-usage .torn .icon {
+    background-image: url(chrome-extension://inenlnlahoabccpagiohmdhecchmaemb/resources/images/torn_light.png);
+}
+
+body.dark .current-usage .torn .icon {
+    background-image: url(chrome-extension://inenlnlahoabccpagiohmdhecchmaemb/resources/images/torn_dark.png);
+}
+
+body.light .yata svg .yata-stroke, body.light .yata svg .yata-fill {
+	stroke: #414c51;
+}
+
+body.light .yata svg .yata-stroke-letters {
+	stroke: #adadad;
+}
+
+body.light .yata svg .yata-stroke-other {
+	stroke: #455258;
+}
+
+body.dark .yata svg .yata-stroke,
+body.dark .yata svg .yata-stroke-letters,
+body.dark .yata svg .yata-stroke-other {
+	stroke: #fff;
+}
+
+body.dark .yata svg .yata-fill {
+	fill: #fff;
+}
+
+.current-usage .tornstats .icon {
+    background-image: url(chrome-extension://inenlnlahoabccpagiohmdhecchmaemb/resources/images/svg-icons/tornstats.svg);
+	background-repeat: no-repeat;
+}
+
+.current-usage .icon {
+    width: 172px;
+    height: 77px;
+    margin: auto;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}

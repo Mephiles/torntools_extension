@@ -17,6 +17,7 @@
 		<link rel="stylesheet" href="icons.css" />
 		<link rel="stylesheet" href="export.css" />
 		<link rel="stylesheet" href="about.css" />
+		<link rel="stylesheet" href="api.css" />
 	</head>
 	<body>
 		<div id="message" class="hidden"></div>
@@ -1505,6 +1506,44 @@
 						</ul>
 					</li>
 				</ul>
+
+				<h4>Current Usage</h4>
+				<div class="current-usage">
+					<div class="usages">
+						<div class="torn">
+							<div class="icon"></div>
+							<strong>Torn API</strong>
+							<div class="averages">
+								<div class="per-minute"></div>
+								<div class="per-hour"></div>
+							</div>
+						</div>
+						<div class="tornstats">
+							<div class="icon"></div>
+							<strong>Tornstats API</strong>
+							<div class="averages">
+								<div class="per-minute"></div>
+								<div class="per-hour"></div>
+							</div>
+						</div>
+						<div class="yata">
+							<div class="icon"></div>
+							<strong>YATA API</strong>
+							<div class="averages">
+								<div class="per-minute"></div>
+								<div class="per-hour"></div>
+							</div>
+						</div>
+					</div>
+					<div class="note tabbed">All stats are based on the last 24 hours.</div>
+					<br>
+					<div class="buttons">
+						<button class="last-5">Last 5 minutes</button>
+						<button class="last-1hr">Last 1 hour</button>
+						<button class="last-24hrs">Last 24 hours</button>
+					</div>
+					<canvas id="current-usage-chart"></canvas>
+				</div>
 			</section>
 		</main>
 		<main id="export" class="hidden">
@@ -1611,6 +1650,7 @@
 		<script src="../../vendor/tippy/tippy.js"></script>
 		<script src="../../vendor/fontawesome/fontawesome.js"></script>
 		<script src="../../vendor/sortable/sortable.js"></script>
+		<script src="../../vendor/chartjs/chart.min.js"></script>
 		<script src="../../scripts/global/globalClasses.js"></script>
 		<script src="../../scripts/global/globalData.js"></script>
 		<script src="../../scripts/global/team.js"></script>
