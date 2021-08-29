@@ -36,7 +36,7 @@
 			const members = document.findAll(".members-names-rows > *");
 			const info = document.findAll(".members-stats-rows > *");
 			members.forEach((member, index) => {
-				table += member.find(".user.name").dataset.placeholder + ";";
+				table += getUsername(member) + ";";
 				const memberInfo = info[index];
 				memberInfo.findAll(".members-stats-cols > *").forEach((infoItem) => (table += infoItem.textContent + ";"));
 				table += "\r\n";

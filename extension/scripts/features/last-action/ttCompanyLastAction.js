@@ -90,15 +90,7 @@
 		const now = Date.now();
 		const list = document.find(".employee-list-wrap .employee-list, .employees-wrap .employees-list");
 		for (const row of list.findAll(":scope > li")) {
-			const id =
-				row.dataset.user ??
-				parseInt(
-					row
-						.find(".user.name > [title]")
-						.getAttribute("title")
-						.match(/([0-9]+)/g)
-						?.last()
-				);
+			const id = getUsername(row, true);
 			const days = ((now - employees[id].last_action.timestamp * 1000) / TO_MILLIS.DAYS).dropDecimals();
 
 			row.insertAdjacentElement(
