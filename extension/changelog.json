@@ -39,7 +39,10 @@
 				{ "message": "Load NNBs from YATA too.", "contributor": "DeKleineKobini" },
 				{ "message": "Show dates and time in TCT instead of local time.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [{ "message": "We've removed the safe crimes features due to it being less useful than originally thought." }]
+			"removed": [
+				{ "message": "We've removed the safe crimes feature due to it being less useful than originally thought." },
+				{ "message": "We've removed the loot times on the profile due to the NPCs being available in the sidebar." }
+			]
 		}
 	},
 	{
