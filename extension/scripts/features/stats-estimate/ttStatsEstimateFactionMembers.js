@@ -50,13 +50,7 @@
 		statsEstimate.showEstimates(
 			"#faction-info-members .table-body > .table-row",
 			(row) => ({
-				id: parseInt(
-					row
-						.find(".user.name > [title]")
-						.getAttribute("title")
-						.match(/([0-9]+)/g)
-						?.last()
-				),
+				id: getUsername(row, true),
 				level: parseInt(row.find(".lvl").textContent.trim()),
 			}),
 			true,

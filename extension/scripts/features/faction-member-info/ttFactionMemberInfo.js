@@ -67,7 +67,7 @@
 		}
 
 		document.findAll(".members-list .table-body > li").forEach((li) => {
-			const userID = li.find(".user.name").dataset.placeholder.match(/(?<=\[)\d+(?=]$)/g)[0];
+			const userID = getUsername(li, true);
 			if (!donations[userID] || (!donations[userID].points_balance && !donations[userID].money_balance)) return;
 
 			const memberInfo = document.newElement({ type: "div", class: "tt-member-info" });

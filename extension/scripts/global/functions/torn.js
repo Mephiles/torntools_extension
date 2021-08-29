@@ -1649,3 +1649,9 @@ function isOwnProfile() {
 
 	return (params.has("XID") && parseInt(params.get("XID")) === id) || (params.has("NID") && params.get("NID") === name);
 }
+
+function getUsername(li, onlyID) {
+	const username = li.find(".user.name > [title]").getAttribute("title");
+	if (onlyID) return parseInt(username.match(/(?<=\[)\d+(?=\])/g)[0]);
+	return username;
+}

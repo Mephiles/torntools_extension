@@ -58,7 +58,7 @@
 		const nowDate = Date.now();
 		let maxHours = 0;
 		list.findAll(":scope > li").forEach((li) => {
-			const userID = li.find(".user.name").dataset.placeholder.match(/(?<=\[)\d+(?=]$)/g)[0];
+			const userID = getUsername(li, true);
 			const hours = ((nowDate - members[userID].last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
 			li.insertAdjacentElement(
 				"afterend",
