@@ -1090,7 +1090,7 @@ async function updateNPCs() {
 
 			const left = time - now;
 			const _minutes = Math.ceil(left / TO_MILLIS.MINUTES);
-			if (_minutes > minutes) {
+			if (_minutes > minutes || _minutes < 0) {
 				delete notifications.npcs[id];
 				continue;
 			}
