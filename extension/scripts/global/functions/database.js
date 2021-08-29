@@ -14,6 +14,7 @@ const storageListeners = {
 	localdata: [],
 	cache: [],
 	api: [],
+	npcs: [],
 };
 
 async function loadDatabase() {
@@ -89,6 +90,12 @@ chrome.storage.onChanged.addListener((changes, area) => {
 					break;
 				case "cache":
 					ttCache.cache = changes.cache.newValue;
+					break;
+				case "usage":
+					ttCache.usage = changes.usage.newValue;
+					break;
+				case "npcs":
+					npcs = changes.npcs.newValue;
 					break;
 			}
 			if (storageListeners[key]) storageListeners[key].forEach((listener) => listener(changes[key].oldValue));

@@ -132,7 +132,8 @@
 				"scripts/features/highlight-properties/ttHighlightProperties.css",
 				"scripts/features/settings-link/ttSettingsLink.css",
 				"scripts/features/bar-links/ttBarLinks.css",
-				"scripts/features/collapsible-areas/ttCollapsibleAreas.css"
+				"scripts/features/collapsible-areas/ttCollapsibleAreas.css",
+				"scripts/features/npc-loot-times/ttNPCLootTimes.css"
 			],
 			"js": [
 				"resources/images/svg-icons/back.js",
@@ -157,7 +158,8 @@
 				"scripts/features/settings-link/ttSettingsLink.js",
 				"scripts/features/bar-links/ttBarLinks.js",
 				"scripts/features/collapsible-areas/ttCollapsibleAreas.js",
-				"scripts/features/points-value/ttPointsValue.js"
+				"scripts/features/points-value/ttPointsValue.js",
+				"scripts/features/npc-loot-times/ttNPCLootTimes.js"
 			],
 			"run_at": "document_end"
 		},
