@@ -24,18 +24,21 @@
 
 	async function addPropertyValues() {
 		await requireElement("#properties-page-wrap .properties-list .title");
+
 		for (const property of document.findAll(".properties-list > *:not(.clear)")) {
 			if (property.find(".tt-property-value")) return;
-			const propertyInfo = property.find(".info");
-			if (propertyInfo)
-				property.find(".title").insertAdjacentElement(
-					"beforeend",
-					document.newElement({
-						type: "span",
-						class: "tt-property-value",
-						text: `&nbsp;(${formatNumber(propertyInfo.textContent.split("\n")[3].slice(1).replaceAll(",", ""), { currency: true })})`,
-					})
-				);
+
+			const info = property.find(".info > li:nth-child(2)");
+			if (!info) return;
+
+			property.find(".title").insertAdjacentElement(
+				"beforeend",
+				document.newElement({
+					type: "span",
+					class: "tt-property-value",
+					text: ` (${formatNumber(info.textContent.getNumber(), { currency: true })})`,
+				})
+			);
 		}
 	}
 
