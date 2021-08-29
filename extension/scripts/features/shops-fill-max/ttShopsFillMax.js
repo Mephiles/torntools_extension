@@ -28,10 +28,10 @@
 			fillMax.addEventListener("click", (event) => {
 				event.stopPropagation();
 
-				let max = parseInt(item.find(".instock").textContent.replace(/,/g, ""));
+				let max = item.find(".instock").textContent.getNumber();
 				if (!settings.pages.shops.maxBuyIgnoreCash) {
-					const price = parseInt(item.find(".price").textContent.replace(/[$,]/g, ""));
-					const money = parseInt(document.find("#user-money").dataset.money);
+					const price = item.find(".price").firstChild.textContent.getNumber();
+					const money = document.find("#user-money").dataset.money.getNumber();
 
 					if (Math.floor(money / price) < max) max = Math.floor(money / price);
 				}
