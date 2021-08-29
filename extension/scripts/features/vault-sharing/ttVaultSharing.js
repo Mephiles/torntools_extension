@@ -51,7 +51,7 @@
 				if (date <= lastTransaction) break;
 
 				const user = transaction.find("li.user .user.name span").getAttribute("title").includes(username);
-				const amount = parseInt(transaction.find(".amount").textContent.replace(/[$,]/g, ""));
+				const amount = ransaction.find(".amount").textContent.getNumber();
 				const type = transaction.find("li.type").textContent.includes("Deposit") ? "deposit" : "withdraw";
 
 				if (user) yourShare = type === "withdraw" ? yourShare - amount : yourShare + amount;
