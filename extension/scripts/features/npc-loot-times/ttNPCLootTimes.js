@@ -53,7 +53,6 @@
 				countdownTimers.push(timer);
 			} else timer = document.newElement({ type: "span", class: "timer", text: "TODO" });
 
-			console.log("DKK npc", npc.current);
 			content.appendChild(
 				document.newElement({
 					type: "div",
