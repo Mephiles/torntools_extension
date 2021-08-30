@@ -301,6 +301,7 @@ const DEFAULT_STORAGE = {
 				cooldownBooster: new DefaultSetting({ type: "array", defaultValue: [] }),
 				cooldownMedical: new DefaultSetting({ type: "array", defaultValue: [] }),
 				stocks: new DefaultSetting({ type: "object", defaultValue: {} }),
+				npcsGlobal: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				npcs: new DefaultSetting({ type: "array", defaultValue: [] }),
 			},
 		},

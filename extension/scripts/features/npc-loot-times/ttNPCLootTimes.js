@@ -22,10 +22,9 @@
 	async function showNPCs() {
 		await requireSidebar();
 
-		const { content } = createContainer("NPCs", {
+		const { content, options } = createContainer("NPCs", {
 			id: "npc-loot-times",
 			applyRounding: false,
-			// compact: true,
 			previousElement: findParent(document.find("h2=Information"), { class: "^=sidebar-block_" }),
 		});
 
@@ -74,6 +73,27 @@
 				})
 			);
 		}
+
+		// fas-bell-flash
+
+		options.appendChild(
+			document.newElement({
+				type: "i",
+				class: `npc-notifications fas ${settings.notifications.types.npcsGlobal ? "fa-bell" : "fa-bell-slash"}`,
+				events: {
+					click(event) {
+						const notifications = event.target.classList.toggle("fa-bell");
+
+						if (notifications) event.target.classList.remove("fa-bell-slash");
+						else event.target.classList.add("fa-bell-slash");
+
+						event.stopPropagation();
+
+						ttStorage.change({ settings: { notifications: { types: { npcsGlobal: notifications } } } });
+					},
+				},
+			})
+		);
 	}
 
 	function removeNPCs() {

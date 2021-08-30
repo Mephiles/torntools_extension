@@ -2,6 +2,11 @@
 	margin-bottom: 2px;
 }
 
+.npc-notifications {
+	width: 18px;
+	text-align: center;
+}
+
 #npc-loot-times main {
 	margin-top: 2px !important;
 	border-radius: 0 5px 5px 0;

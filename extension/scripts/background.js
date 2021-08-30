@@ -1071,7 +1071,7 @@ async function updateNPCs() {
 	return { updated, alerts };
 
 	function checkNPCAlerts() {
-		if (!settings.notifications.types.global) return 0;
+		if (!settings.notifications.types.global || !settings.notifications.types.npcsGlobal) return 0;
 
 		let alerts = 0;
 
