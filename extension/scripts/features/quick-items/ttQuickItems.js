@@ -152,32 +152,61 @@
 						return;
 					}
 
+					const equipItem = isEquipable(id, torndata.items[id].type);
+					if (settings.pages.items.energyWarning && ["Drug", "Energy Drink"].includes(torndata.items[id].type)) {
+						const userE = getUserEnergy();
+						const itemE = getItemEnergy(id);
+						if (!equipItem && userE[0] > userE[1] && itemE + userE[0] > 1000) {
+							if (!confirm("Are you sure to use this item ? It will get you to more than 1000E.")) return;
+						}
+					}
+
 					const body = new URLSearchParams();
-					Object.entries(
-						isEquipable(id, torndata.items[id].type)
-							? { step: "actionForm", confirm: 1, action: "equip", id: xid }
-							: { step: "useItem", id: id, itemID: id }
-					).forEach(([key, value]) => body.set(key, value));
+					Object.entries(equipItem ? { step: "actionForm", confirm: 1, action: "equip", id: xid } : { step: "useItem", id: id, itemID: id }).forEach(
+						([key, value]) => body.set(key, value)
+					);
 
 					fetchData("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
 						if (typeof result === "object") {
-							const links = ["<a href='#' class='close-act t-blue h'>Close</a>"];
+							const links = [document.newElement({ type: "a", href: "#", class: "close-act t-blue h", text: "Close" })];
 							if (result.links) {
 								for (const link of result.links) {
-									links.push(`<a class="t-blue h m-left10 ${link.class}" href="${link.url}" ${link.attr}>${link.title}</a>`);
+									links.push(
+										document.newElement({
+											type: "a",
+											class: `t-blue h m-left10 ${link.class}`,
+											href: link.url,
+											text: link.title,
+											attributes: Object.fromEntries(
+												link.attr
+													.split(" ")
+													.filter((x) => !!x)
+													.map((x) => x.split("="))
+											),
+										})
+									);
 								}
 							}
 
 							responseWrap.style.display = "block";
-							responseWrap.innerHTML = `
-								<div class="action-wrap use-act use-action">
-									<form data-action="useItem" method="post">
-										<p>${result.text}</p>
-										<p>${links.join("")}</p>
-										<div class="clear"></div>
-									</form>
-								</div>
-							`;
+							responseWrap.appendChild(
+								document.newElement({
+									type: "div",
+									class: "action-wrap use-act use-action",
+									children: [
+										document.newElement({
+											type: "form",
+											dataset: { action: "useItem" },
+											attributes: { method: "post" },
+											children: [
+												document.newElement({ type: "p", html: result.text }),
+												document.newElement({ type: "p", children: links }),
+												document.newElement({ type: "div", class: "clear" }),
+											],
+										}),
+									],
+								})
+							);
 
 							for (const count of responseWrap.findAll(".counter-wrap")) {
 								count.classList.add("tt-modified");

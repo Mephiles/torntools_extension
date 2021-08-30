@@ -1650,6 +1650,17 @@ function isOwnProfile() {
 	return (params.has("XID") && parseInt(params.get("XID")) === id) || (params.has("NID") && params.get("NID") === name);
 }
 
+function getUserEnergy() {
+	return document
+		.find("#barEnergy [class*='bar-value___']")
+		.textContent.split("/")
+		.map((x) => parseInt(x));
+}
+
+function getItemEnergy(itemID) {
+	return parseInt(torndata.items[itemID].effect.match(/(?<=Increases energy by )\d+/)[0]);
+}
+
 function getUsername(li, onlyID) {
 	const username = li.find(".user.name > [title]").getAttribute("title");
 	if (onlyID) return parseInt(username.match(/(?<=\[)\d+(?=\])/g)[0]);

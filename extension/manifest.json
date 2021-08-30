@@ -298,7 +298,8 @@
 				"scripts/features/faction-member-info/ttFactionMemberInfo.css",
 				"scripts/features/faction-inactivity-warning/ttFactionInactivityWarning.css",
 				"scripts/features/stats-estimate/ttStatsEstimate.css",
-				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.css"
+				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.css",
+				"scripts/features/energy-warning/ttEnergyWarning.css"
 			],
 			"js": [
 				"scripts/global/functions/filters.js",
@@ -329,7 +330,8 @@
 				"scripts/features/stats-estimate/statsEstimate.js",
 				"scripts/features/stats-estimate/ttStatsEstimateFactionMembers.js",
 				"scripts/features/stats-estimate/ttStatsEstimateFactionWars.js",
-				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.js"
+				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.js",
+				"scripts/features/energy-warning/ttEnergyWarning.js"
 			],
 			"run_at": "document_end"
 		},
@@ -402,7 +404,8 @@
 				"scripts/features/book-effect/ttBookEffect.css",
 				"scripts/features/can-energy/ttCanEnergy.css",
 				"scripts/features/alcohol-nerve/ttAlcoholNerve.css",
-				"scripts/features/candy-happy/ttCandyHappy.css"
+				"scripts/features/candy-happy/ttCandyHappy.css",
+				"scripts/features/energy-warning/ttEnergyWarning.css"
 			],
 			"js": [
 				"vendor/drag-drop-touch/DragDropTouch.js",
@@ -417,7 +420,8 @@
 				"scripts/features/can-energy/ttCanEnergy.js",
 				"scripts/features/alcohol-nerve/ttAlcoholNerve.js",
 				"scripts/features/candy-happy/ttCandyHappy.js",
-				"scripts/features/no-confirm/ttItemNoConfirm.js"
+				"scripts/features/no-confirm/ttItemNoConfirm.js",
+				"scripts/features/energy-warning/ttEnergyWarning.js"
 			],
 			"run_at": "document_end"
 		},
@@ -653,6 +657,12 @@
 			"matches": ["https://www.torn.com/loader.php?sid=blackjack*"],
 			"css": ["scripts/features/blackjack-strategy/ttBlackjackStrategy.css"],
 			"js": ["scripts/features/blackjack-strategy/ttBlackjackStrategy.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/loader.php?sid=highlow*"],
+			"css": ["scripts/features/high-low-helper/ttHighLowHelper.css"],
+			"js": ["scripts/features/high-low-helper/ttHighLowHelper.js"],
 			"run_at": "document_end"
 		},
 		{

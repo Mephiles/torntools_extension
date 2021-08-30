@@ -436,6 +436,7 @@ const DEFAULT_STORAGE = {
 				canGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				nerveGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				candyHappyGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				energyWarning: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			crimes: {
 				quickCrimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -503,6 +504,8 @@ const DEFAULT_STORAGE = {
 			casino: {
 				netTotal: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				blackjack: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				highlow: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				highlowMovement: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			racing: {
 				winPercentage: new DefaultSetting({ type: "boolean", defaultValue: true }),
