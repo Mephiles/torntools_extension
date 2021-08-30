@@ -1,0 +1,25 @@
+.tt-high-low {
+	display: block;
+	width: 100%;
+	text-align: center;
+	color: #73ff09;
+	font-size: 18px;
+}
+
+.actions-wrap[data-outcome] .action-btn-wrap {
+	user-select: none;
+}
+
+.actions-wrap[data-outcome="lower"] .low,
+.actions-wrap[data-outcome="higher"] .high {
+	display: inline-block !important;
+}
+
+.actions-wrap[data-outcome="higher"] .low,
+.actions-wrap[data-outcome="lower"] .high {
+	display: none !important;
+}
+
+.highlow-main-wrap.beach .item-10 {
+	z-index: 0 !important;
+}
