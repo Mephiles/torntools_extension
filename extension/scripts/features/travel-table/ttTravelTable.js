@@ -517,8 +517,8 @@
 				const profit = amount * value - totalCost;
 				const profitMinute = (profit / (time * 2)).dropDecimals();
 
-				row.find(".profit-minute").textContent = formatNumber(profitMinute, { shorten: true, currency: true });
-				row.find(".profit").textContent = formatNumber(profit, { shorten: true, currency: true });
+				row.find(".profit-minute").textContent = formatNumber(profitMinute, { shorten: true, currency: true, forceOperation: true });
+				row.find(".profit").textContent = formatNumber(profit, { shorten: true, currency: true, forceOperation: true });
 			}
 
 			row.find(".money").textContent = formatNumber(totalCost, { shorten: true, currency: true });
