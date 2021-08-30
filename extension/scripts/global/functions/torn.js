@@ -1657,12 +1657,20 @@ function getUserEnergy() {
 		.map((x) => parseInt(x));
 }
 
-function getItemEnergy(itemID) {
-	return parseInt(torndata.items[itemID].effect.match(/(?<=Increases energy by )\d+/)[0]);
+function getItemEnergy(id) {
+	const effect = torndata.items[id]?.effect;
+	if (!effect) return false;
+
+	const energy = effect.match(/(?<=Increases energy by )\d+/);
+	if (!energy) return false;
+
+	const value = energy[0];
+
+	return !isNaN(value) ? parseInt(value) : false;
 }
 
 function getUsername(li, onlyID) {
 	const username = li.find(".user.name > [title]").getAttribute("title");
-	if (onlyID) return parseInt(username.match(/(?<=\[)\d+(?=\])/g)[0]);
+	if (onlyID) return parseInt(username.match(/(?<=\[)\d+(?=])/g)[0]);
 	return username;
 }

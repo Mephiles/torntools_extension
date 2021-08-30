@@ -2,7 +2,7 @@
 
 (async () => {
 	if (!getPageStatus().access) return;
-	const factionPage = getPage() === "factions" ? true : false;
+	const factionPage = getPage() === "factions";
 	if (factionPage && !isOwnFaction) return;
 
 	const feature = featureManager.registerFeature(
@@ -33,33 +33,27 @@
 
 	async function addWarning(item) {
 		if (!item) return;
+
 		item.findAll(".tt-energy-warning").forEach((x) => x.remove());
 
-		const useItemMessage = factionPage ? await requireElement(".confirm-wrap", { parent: item }) : await requireElement(".use-act", { parent: item });
-		if (useItemMessage) {
-			const eBarValues = getUserEnergy();
-			const itemE = getItemEnergy(factionPage ? item.find(".img-wrap").dataset.itemid : item.dataset.item);
-			if (eBarValues[0] > eBarValues[1] && itemE + eBarValues[0] > 1000) {
-				if (factionPage) {
-					useItemMessage.find(".confirm").insertAdjacentElement(
-						"afterEnd",
-						document.newElement({
-							type: "div",
-							class: "tt-energy-warning",
-							text: "Warning! Using this item increases your E to over 1000!",
-						})
-					);
-				} else {
-					useItemMessage.find("#wai-action-desc").appendChild(
-						document.newElement({
-							type: "div",
-							class: "tt-energy-warning",
-							text: "Warning! Using this item increases your E to over 1000!",
-						})
-					);
-				}
-				useItemMessage.find("a.next-act").addEventListener("click", clickListener, { capture: true, once: true });
-			}
+		const message = await requireElement(".confirm-wrap, .use-act", { parent: item });
+		if (!message) return;
+
+		const received = getItemEnergy(factionPage ? item.find(".img-wrap").dataset.itemid : item.dataset.item);
+		if (!received) return;
+
+		const [current, max] = getUserEnergy();
+		if (current > max && received + current > 1000) {
+			const warning = document.newElement({
+				type: "div",
+				class: "tt-energy-warning",
+				text: "Warning! Using this item increases your energy to over 1000!",
+			});
+
+			if (factionPage) message.find(".confirm").insertAdjacentElement("afterend", warning);
+			else message.find("#wai-action-desc").appendChild(warning);
+
+			message.find("a.next-act").addEventListener("click", clickListener, { capture: true, once: true });
 		}
 	}
 

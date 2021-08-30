@@ -153,18 +153,20 @@
 					}
 
 					const equipItem = isEquipable(id, torndata.items[id].type);
-					if (settings.pages.items.energyWarning && ["Drug", "Energy Drink"].includes(torndata.items[id].type)) {
-						const userE = getUserEnergy();
-						const itemE = getItemEnergy(id);
-						if (!equipItem && userE[0] > userE[1] && itemE + userE[0] > 1000) {
-							if (!confirm("Are you sure to use this item ? It will get you to more than 1000E.")) return;
+					if (settings.pages.items.energyWarning && !equipItem && hasAPIData() && ["Drug", "Energy Drink"].includes(torndata.items[id].type)) {
+						const received = getItemEnergy(id);
+						if (received) {
+							const [current, max] = getUserEnergy();
+							if (current > max && received + current > 1000) {
+								if (!confirm("Are you sure to use this item ? It will get you to more than 1000E.")) return;
+							}
 						}
 					}
 
 					const body = new URLSearchParams();
-					Object.entries(equipItem ? { step: "actionForm", confirm: 1, action: "equip", id: xid } : { step: "useItem", id: id, itemID: id }).forEach(
-						([key, value]) => body.set(key, value)
-					);
+					Object.entries(
+						equipItem ? { step: "actionForm", confirm: 1, action: "equip", id: xid } : { step: "useItem", id: id, itemID: id }
+					).forEach(([key, value]) => body.set(key, value));
 
 					fetchData("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
 						if (typeof result === "object") {
@@ -408,7 +410,25 @@
 			["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category) ||
 			[
 				// Temporary Items
-				220, 221, 222, 226, 229, 239, 242, 246, 256, 257, 392, 394, 581, 611, 616, 742, 833, 840, 1042,
+				220,
+				221,
+				222,
+				226,
+				229,
+				239,
+				242,
+				246,
+				256,
+				257,
+				392,
+				394,
+				581,
+				611,
+				616,
+				742,
+				833,
+				840,
+				1042,
 				// Others
 				403,
 			].includes(id)
