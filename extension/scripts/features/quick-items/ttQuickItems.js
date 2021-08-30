@@ -162,44 +162,51 @@
 					}
 
 					const body = new URLSearchParams();
-					Object.entries(
-						equipItem
-							? { step: "actionForm", confirm: 1, action: "equip", id: xid }
-							: { step: "useItem", id: id, itemID: id }
-					).forEach(([key, value]) => body.set(key, value));
+					Object.entries(equipItem ? { step: "actionForm", confirm: 1, action: "equip", id: xid } : { step: "useItem", id: id, itemID: id }).forEach(
+						([key, value]) => body.set(key, value)
+					);
 
 					fetchData("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
 						if (typeof result === "object") {
 							const links = [document.newElement({ type: "a", href: "#", class: "close-act t-blue h", text: "Close" })];
 							if (result.links) {
 								for (const link of result.links) {
-									links.push(document.newElement({
-										type: "a",
-										class: `t-blue h m-left10 ${link.class}`,
-										href: link.url,
-										text: link.title,
-										attributes: Object.fromEntries(link.attr.split(" ").filter(x => !!x).map(x => x.split("="))),
-									}));
+									links.push(
+										document.newElement({
+											type: "a",
+											class: `t-blue h m-left10 ${link.class}`,
+											href: link.url,
+											text: link.title,
+											attributes: Object.fromEntries(
+												link.attr
+													.split(" ")
+													.filter((x) => !!x)
+													.map((x) => x.split("="))
+											),
+										})
+									);
 								}
 							}
 
 							responseWrap.style.display = "block";
-							responseWrap.appendChild(document.newElement({
-								type: "div",
-								class: "action-wrap use-act use-action",
-								children: [
-									document.newElement({
-										type: "form",
-										dataset: { action: "useItem" },
-										attributes: { method: "post" },
-										children: [
-											document.newElement({ type: "p", html: result.text }),
-											document.newElement({ type: "p", children: links }),
-											document.newElement({ type: "div", class: "clear" }),
-										]
-									})
-								]
-							}));
+							responseWrap.appendChild(
+								document.newElement({
+									type: "div",
+									class: "action-wrap use-act use-action",
+									children: [
+										document.newElement({
+											type: "form",
+											dataset: { action: "useItem" },
+											attributes: { method: "post" },
+											children: [
+												document.newElement({ type: "p", html: result.text }),
+												document.newElement({ type: "p", children: links }),
+												document.newElement({ type: "div", class: "clear" }),
+											],
+										}),
+									],
+								})
+							);
 
 							for (const count of responseWrap.findAll(".counter-wrap")) {
 								count.classList.add("tt-modified");

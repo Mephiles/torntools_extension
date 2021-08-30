@@ -1651,7 +1651,10 @@ function isOwnProfile() {
 }
 
 function getUserEnergy() {
-	return document.find("#barEnergy [class*='bar-value___']").textContent.split("/").map(x => parseInt(x));
+	return document
+		.find("#barEnergy [class*='bar-value___']")
+		.textContent.split("/")
+		.map((x) => parseInt(x));
 }
 
 function getItemEnergy(itemID) {

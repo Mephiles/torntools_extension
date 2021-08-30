@@ -33,12 +33,9 @@
 
 	async function addWarning(item) {
 		if (!item) return;
-		item.findAll(".tt-energy-warning").forEach(x => x.remove());
+		item.findAll(".tt-energy-warning").forEach((x) => x.remove());
 
-		const useItemMessage =
-			factionPage
-				? await requireElement(".confirm-wrap", { parent: item })
-				: await requireElement(".use-act", { parent: item });
+		const useItemMessage = factionPage ? await requireElement(".confirm-wrap", { parent: item }) : await requireElement(".use-act", { parent: item });
 		if (useItemMessage) {
 			const eBarValues = getUserEnergy();
 			const itemE = getItemEnergy(factionPage ? item.find(".img-wrap").dataset.itemid : item.dataset.item);
