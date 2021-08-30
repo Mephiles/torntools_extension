@@ -436,6 +436,7 @@ const DEFAULT_STORAGE = {
 				canGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				nerveGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				candyHappyGains: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				energyWarning: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			crimes: {
 				quickCrimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
