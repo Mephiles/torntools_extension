@@ -162,9 +162,9 @@
 					}
 
 					const body = new URLSearchParams();
-					Object.entries(
-						equipItem ? { step: "actionForm", confirm: 1, action: "equip", id: xid } : { step: "useItem", id: id, itemID: id }
-					).forEach(([key, value]) => body.set(key, value));
+					Object.entries(equipItem ? { step: "actionForm", confirm: 1, action: "equip", id: xid } : { step: "useItem", id: id, itemID: id }).forEach(
+						([key, value]) => body.set(key, value)
+					);
 
 					fetchData("torn_direct", { action: "item.php", method: "POST", body }).then(async (result) => {
 						if (typeof result === "object") {
@@ -408,25 +408,7 @@
 			["Medical", "Drug", "Energy Drink", "Alcohol", "Candy", "Booster"].includes(category) ||
 			[
 				// Temporary Items
-				220,
-				221,
-				222,
-				226,
-				229,
-				239,
-				242,
-				246,
-				256,
-				257,
-				392,
-				394,
-				581,
-				611,
-				616,
-				742,
-				833,
-				840,
-				1042,
+				220, 221, 222, 226, 229, 239, 242, 246, 256, 257, 392, 394, 581, 611, 616, 742, 833, 840, 1042,
 				// Others
 				403,
 			].includes(id)
