@@ -51,7 +51,7 @@
 
 			const days = (row.nextElementSibling.getAttribute("hours") / 24).dropDecimals();
 
-			for (const warning of settings.employeeInactivityWarning) {
+			for (const warning of settings.factionInactivityWarning) {
 				if (!(warning.days !== undefined && warning.days !== false) || days < warning.days) continue;
 
 				row.style.setProperty("--tt-inactive-background", warning.color);
