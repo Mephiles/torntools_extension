@@ -34,7 +34,7 @@ body.tt-mobile #jobSpecials .tt-company-info-wrap > div {
 }
 
 #jobSpecials .tt-company-info-wrap .heading {
-	font-weight: 600;
+	font-weight: bold;
 }
 
 body.tt-mobile #jobSpecials .tt-company-info-wrap > div:first-child {

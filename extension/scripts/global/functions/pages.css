@@ -131,7 +131,7 @@ button.fancy-button {
 	text-align: center;
 	line-height: 30px;
 	border-radius: 7px;
-	font-weight: 600;
+	font-weight: bold;
 	display: inline-block;
 	vertical-align: top;
 	cursor: pointer;
@@ -194,7 +194,7 @@ body.dark #tt-confirmation-popup {
 }
 
 #tt-confirmation-popup .title {
-	font-weight: 600;
+	font-weight: bold;
 	width: calc(100% - 20px);
 	border-bottom: 1px solid lightgray;
 	padding-bottom: 1px;

@@ -54,7 +54,7 @@ a#dashboard > header #country:hover {
 
 #dashboard a.bar:hover .bar-info:before {
 	content: attr(data-full);
-	font-weight: 700;
+	font-weight: bold;
 }
 
 #dashboard a.bar:hover .bar-label {

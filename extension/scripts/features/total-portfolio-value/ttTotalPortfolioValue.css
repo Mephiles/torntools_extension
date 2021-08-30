@@ -12,7 +12,7 @@ body.tt-mobile .tt-total-stock-value {
 	font-size: 14px;
 	margin: 16px 0 0 -86px;
 	position: absolute;
-	font-weight: 700;
+	font-weight: bold;
 }
 
 .tt-total-stock-value .value,

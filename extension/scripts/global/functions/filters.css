@@ -9,7 +9,7 @@
 }
 
 .filter-header .statistic span {
-	font-weight: 600;
+	font-weight: bold;
 }
 
 .filter-content {
@@ -33,7 +33,7 @@
 
 .filter-wrap .filter-heading {
 	text-align: center;
-	font-weight: 600;
+	font-weight: bold;
 	margin-bottom: 5px;
 }
 

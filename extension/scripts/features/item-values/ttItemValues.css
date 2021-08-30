@@ -24,7 +24,7 @@ span.tt-item-price {
 }
 
 .tt-item-quantity {
-	font-weight: 600;
+	font-weight: bold;
 	color: var(--tt-color-item-quantity);
 }
 

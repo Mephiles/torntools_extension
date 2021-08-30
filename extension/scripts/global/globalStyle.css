@@ -201,7 +201,7 @@ body.scrolled #tt-page-status.top-right {
 
 .tt-page-status-header {
 	border-bottom: 2px solid lightgray;
-	font-weight: 600;
+	font-weight: bold;
 	margin-bottom: 5px;
 	display: inline-flex;
 	width: 100%;
