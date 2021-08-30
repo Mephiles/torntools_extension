@@ -613,13 +613,13 @@ async function setupPreferences() {
 		settings.employeeInactivityWarning.forEach((warning, index) => {
 			const row = _preferences.find(`#employeeInactivityWarning .tabbed:nth-child(${index + 2})`);
 
-			row.find("input[type='number']").value = warning.days ?? "";
+			row.find("input[type='number']").value = !isNaN(warning.days) ? warning.days : "";
 			row.find("input[type='color']").value = warning.color;
 		});
 		settings.factionInactivityWarning.forEach((warning, index) => {
 			const row = _preferences.find(`#factionInactivityWarning .tabbed:nth-child(${index + 2})`);
 
-			row.find("input[type='number']").value = warning.days ?? "";
+			row.find("input[type='number']").value = !isNaN(warning.days) ? warning.days : "";
 			row.find("input[type='color']").value = warning.color;
 		});
 		for (const { id, level, minutes } of settings.notifications.types.npcs) {
@@ -899,16 +899,24 @@ async function setupPreferences() {
 		settings.hideCasinoGames = [..._preferences.findAll("#hide-casino-games span.disabled")].map((game) => game.getAttribute("name"));
 		settings.hideStocks = [..._preferences.findAll("#hide-stocks span.disabled")].map((stock) => stock.getAttribute("id"));
 		settings.employeeInactivityWarning = [..._preferences.findAll("#employeeInactivityWarning > .tabbed")]
-			.map((warning) => ({
-				color: warning.find("input[type='color']").value,
-				days: parseInt(warning.find("input[type='number']").value) || false,
-			}))
+			.map((warning) => {
+				const days = warning.find("input[type='number']").value;
+
+				return {
+					color: warning.find("input[type='color']").value,
+					days: !isNaN(days) && days !== "" ? parseInt(days) : false,
+				};
+			})
 			.sort((first, second) => first.days - second.days);
 		settings.factionInactivityWarning = [..._preferences.findAll("#factionInactivityWarning > .tabbed")]
-			.map((warning) => ({
-				color: warning.find("input[type='color']").value,
-				days: parseInt(warning.find("input[type='number']").value) || false,
-			}))
+			.map((warning) => {
+				const days = warning.find("input[type='number']").value;
+
+				return {
+					color: warning.find("input[type='color']").value,
+					days: !isNaN(days) && days !== "" ? parseInt(days) : false,
+				};
+			})
 			.sort((first, second) => first.days - second.days);
 
 		settings.apiUsage.comment = _preferences.find("#api_usage-comment").value;
@@ -1080,7 +1088,7 @@ async function setupPreferences() {
 	}
 
 	function enforceInputLimits(event) {
-		const value = event.target.value ?? "";
+		const value = event.target.value || "";
 		if (value === "") return;
 
 		const newValue = Math.min(Math.max(event.target.value, parseInt(event.target.min)), parseInt(event.target.max));

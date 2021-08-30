@@ -4,7 +4,7 @@
 	const feature = featureManager.registerFeature(
 		"Member Inactivity Warning",
 		"faction",
-		() => settings.factionInactivityWarning.filter((warning) => "days" in warning).length,
+		() => settings.factionInactivityWarning.filter((warning) => warning.days !== undefined && warning.days !== false).length,
 		addListener,
 		addWarning,
 		removeWarning,
@@ -16,6 +16,7 @@
 	);
 
 	let lastActionState = settings.scripts.lastAction.factionMember;
+
 	function addListener() {
 		if (isOwnFaction) {
 			CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(async () => {
@@ -41,23 +42,21 @@
 	}
 
 	async function addWarning(force) {
-		if (!force) return;
+		if (!force || !lastActionState) return;
 
-		if (lastActionState) {
-			await requireElement(".tt-last-action");
-			document.findAll(".members-list .table-body > li").forEach((li) => {
-				if (li.nextSibling?.className?.includes("tt-last-action")) {
-					// noinspection JSCheckFunctionSignatures
-					const days = parseInt(li.nextSibling.getAttribute("hours") / 24);
+		await requireElement(".tt-last-action");
 
-					settings.factionInactivityWarning.forEach((warning) => {
-						if (!("days" in warning) || days < warning.days) return;
+		for (const row of document.findAll(".members-list .table-body > li")) {
+			if (!row.nextElementSibling.classList.contains("tt-last-action")) continue;
 
-						li.style.setProperty("--tt-inactive-background", warning.color);
-						li.classList.add("tt-inactive");
-					});
-				}
-			});
+			const days = (row.nextElementSibling.getAttribute("hours") / 24).dropDecimals();
+
+			for (const warning of settings.employeeInactivityWarning) {
+				if (!(warning.days !== undefined && warning.days !== false) || days < warning.days) continue;
+
+				row.style.setProperty("--tt-inactive-background", warning.color);
+				row.classList.add("tt-inactive");
+			}
 		}
 	}
 

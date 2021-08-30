@@ -4,7 +4,7 @@
 	const feature = featureManager.registerFeature(
 		"Employee Inactivity Warning",
 		"companies",
-		() => settings.employeeInactivityWarning.filter((warning) => "days" in warning).length,
+		() => settings.employeeInactivityWarning.filter((warning) => warning.days !== undefined && warning.days !== false).length,
 		addListener,
 		addWarning,
 		removeWarning,
@@ -15,7 +15,8 @@
 		{ liveReload: true }
 	);
 
-	let lastActionState = settings.scripts.lastAction.companyOwn;
+	let lastActionState = isOwnCompany ? settings.scripts.lastAction.companyOwn : settings.scripts.lastAction.companyOther;
+
 	function addListener() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_ENABLED].push(async ({ name }) => {
 			if (feature.enabled() && name === "Last Action") {
@@ -34,17 +35,17 @@
 	}
 
 	async function addWarning(force) {
-		if (!force) return;
+		if (!force || !lastActionState) return;
 
 		await requireElement(".employee-list-wrap .employee-list, .employees-wrap .employees-list");
 
 		for (const row of document.findAll(".employee-list-wrap .employee-list > li, .employees-wrap .employees-list > li")) {
-			if (!row.nextSibling.classList.contains("tt-last-action")) continue;
+			if (!row.nextElementSibling.classList.contains("tt-last-action")) continue;
 
-			const days = parseInt(row.nextSibling.dataset.days);
+			const days = parseInt(row.nextElementSibling.dataset.days);
 
 			for (const warning of settings.employeeInactivityWarning) {
-				if (!("days" in warning) || days < warning.days) continue;
+				if (!(warning.days !== undefined && warning.days !== false) || days < warning.days) continue;
 
 				row.style.setProperty("--tt-inactive-background", warning.color);
 				row.classList.add("tt-inactive");
