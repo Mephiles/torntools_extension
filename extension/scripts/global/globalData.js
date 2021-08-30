@@ -1179,6 +1179,11 @@ const API_USAGE = {
 		job: {
 			company_type: true,
 		},
+		weaponexp: {
+			"*": {
+				exp: true,
+			},
+		},
 	},
 	properties: {},
 	faction: {
@@ -1303,6 +1308,7 @@ const API_SELECTIONS = {
 		"stocks",
 		"timestamp",
 		"travel",
+		"weaponexp",
 		"workstats",
 	],
 	properties: [],
