@@ -1,0 +1,89 @@
+.tt-forums-hide {
+	display: none;
+}
+
+.tt-forums-hide-show {
+	display: block;
+	opacity: 0.5;
+}
+
+.tt-forums-hide-show:hover {
+	opacity: 1;
+}
+
+.tt-forums-button {
+	position: relative;
+	width: 32px !important;
+}
+
+.tt-forums-button svg {
+	width: 15px;
+	height: 15px;
+	margin: -1px 0;
+}
+
+.tt-forums-button-dropdown {
+	position: absolute;
+	display: none;
+	top: 100%;
+	left: -2px;
+	font-weight: 400;
+	white-space: nowrap;
+	text-align: left;
+	border: 1px solid transparent;
+	border-top: none;
+	z-index: 999;
+	border-radius: 0 0 5px 5px;
+}
+
+body.tt-mobile .tt-forums-button-dropdown,
+body.tt-tablet .tt-forums-button-dropdown {
+	position: relative;
+	top: 6px;
+	width: fit-content;
+	margin-bottom: -3px;
+	border-radius: 0;
+}
+
+body:not(.dark-mode) .tt-forums-button-dropdown {
+	border-color: #ccc;
+	background: white;
+}
+
+body.dark-mode .tt-forums-button-dropdown {
+	border-color: #444;
+	background: #444;
+}
+
+.tt-forums-button:hover .tt-forums-button-dropdown {
+	display: block;
+}
+
+.tt-forums-button-dropdown > div {
+	padding: 8px;
+}
+
+.tt-forums-button-dropdown > div:hover {
+	background-color: #fafafa;
+	color: black;
+}
+
+.tt-forums-hidden {
+	cursor: pointer;
+	text-align: center;
+	padding: 5px !important;
+	border-bottom: 1px solid #ccc;
+}
+
+.thread-list > .tt-forums-hidden::after {
+	content: "";
+	display: block;
+	border-bottom: 10px solid white;
+	border-top: 1px solid #ccc;
+	margin: 5px -5px -5px;
+}
+
+.tt-forums-highlight .post-container,
+.threads-list .tt-forums-highlight {
+	background-color: #ffdd0020;
+}
