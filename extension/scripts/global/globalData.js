@@ -482,6 +482,11 @@ const DEFAULT_STORAGE = {
 			},
 			forums: {
 				warning: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				menu: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				hidePosts: new DefaultSetting({ type: "object", defaultValue: {} }),
+				hideThreads: new DefaultSetting({ type: "object", defaultValue: {} }),
+				highlightPosts: new DefaultSetting({ type: "object", defaultValue: {} }),
+				highlightThreads: new DefaultSetting({ type: "object", defaultValue: {} }),
 			},
 			bazaar: {
 				itemsCost: new DefaultSetting({ type: "boolean", defaultValue: true }),
