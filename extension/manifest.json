@@ -566,11 +566,16 @@
 		},
 		{
 			"matches": ["https://www.torn.com/travelagency.php*"],
-			"css": ["scripts/features/travel-table/ttTravelTable.css", "scripts/features/flying-time/ttFlyingTime.css"],
+			"css": [
+				"scripts/features/travel-table/ttTravelTable.css",
+				"scripts/features/flying-time/ttFlyingTime.css",
+				"scripts/features/travel-cooldowns/ttTravelCooldowns.css"
+			],
 			"js": [
 				"scripts/content/travelagency/ttTravelAgency.js",
 				"scripts/features/travel-table/ttTravelTable.js",
-				"scripts/features/flying-time/ttFlyingTime.js"
+				"scripts/features/flying-time/ttFlyingTime.js",
+				"scripts/features/travel-cooldowns/ttTravelCooldowns.js"
 			],
 			"run_at": "document_end"
 		},

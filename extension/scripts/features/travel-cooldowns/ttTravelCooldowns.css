@@ -1,0 +1,41 @@
+.tt-cooldowns .travel-wrap {
+	display: flex;
+}
+
+.tt-cooldowns .cooldown {
+	flex: 1 0 0;
+	line-height: 60px;
+	text-align: center;
+	text-shadow: none;
+}
+
+.tt-mobile .tt-cooldowns .travel-wrap,
+.tt-tablet .tt-cooldowns .travel-wrap {
+	padding-bottom: 0 !important;
+}
+
+.tt-cooldowns .cooldown:first-child {
+	border-right: 1px solid rgb(17, 17, 17);
+}
+
+.tt-cooldowns .cooldown:last-child {
+	border-left: 1px solid rgb(61, 61, 61);
+}
+
+.tt-cooldowns .cooldown:not(:first-child):not(:last-child) {
+	border-right: 1px solid rgb(17, 17, 17);
+	border-left: 1px solid rgb(61, 61, 61);
+}
+
+.tt-cooldowns .waste,
+.tt-cooldowns ~ .cooldown.waste {
+	display: block;
+	color: red;
+}
+
+.tt-cooldowns ~ .cooldown {
+	display: none;
+	text-shadow: none;
+	color: white;
+	padding: 2px 12px;
+}
