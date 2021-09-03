@@ -106,11 +106,13 @@
 	async function calculateSpies(json) {
 		const user = parseInt(json.result.user.userID);
 
-		const stats = ["strength", "speed", "dexterity", "defence", "total"];
+		const stats = ["strength", "speed", "dexterity", "defense", "total"];
 		const result = {};
 		const missing = [];
 		const remembered = [];
 		for (let [key, value] of Object.entries(json.result.msg)) {
+			if (key === "defence") key = "defense";
+
 			if (!stats.includes(key)) continue;
 
 			if (value === "N/A") {
