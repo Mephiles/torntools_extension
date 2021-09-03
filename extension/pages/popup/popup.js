@@ -12,7 +12,7 @@ const LOAD_PAGES = {
 	calculator: loadCalculator,
 };
 
-let initiatedPages = {};
+const initiatedPages = {};
 
 (async () => {
 	document.body.style.minWidth = `${Math.min(416, screen.availWidth * 0.8)}px`;

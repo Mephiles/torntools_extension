@@ -16,7 +16,7 @@
 	async function initialiseListeners() {
 		await requireChatsLoaded();
 
-		new MutationObserver((mutations, observer) => {
+		new MutationObserver((mutations) => {
 			if (!feature.enabled()) return;
 			if (![...mutations].some((mutation) => mutation.addedNodes.length)) return;
 
@@ -44,16 +44,13 @@
 
 		overview.appendChild(checkbox.element);
 
-		if (settings.pages.chat.hideChat) hideChats();
+		if (settings.pages.chat.hideChat) await hideChats();
 	}
 
 	async function hideChats() {
 		const root = await document.find("#chatRoot");
 
 		root.classList.add("tt-chat-hidden");
-
-		console.log("DKK hideChats");
-		// FIXME - Actually hide chats.
 	}
 
 	async function showChats() {

@@ -509,7 +509,7 @@
 		const amount = parseInt(content.find("#travel-items").value);
 
 		for (const row of table.findAll(".row:not(.header)")) {
-			let { value, cost, travelCost, time } = toCorrectType(row.dataset);
+			const { value, cost, travelCost, time } = toCorrectType(row.dataset);
 			if (!cost) continue;
 
 			const totalCost = amount * cost + travelCost;

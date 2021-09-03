@@ -30,7 +30,7 @@
 	async function addItemValues() {
 		document.body.classList.add("tt-trade-values");
 		await requireElement(".cont .color1 .desc > li .name");
-		let localMappings = {};
+		const localMappings = {};
 
 		for (const log of document.findAll(".log li div:not(.tt-modified)")) {
 			log.classList.add("tt-modified");
@@ -46,7 +46,7 @@
 						.replace(" to the trade", "")
 						.split(",")
 						.map((x) => x.trim());
-					let quantityMap = {};
+					const quantityMap = {};
 					for (const entry of itemEntries) {
 						quantityMap[entry.match(/(?<=x ).*/)[0].replace(/\.$/, "")] = parseInt(entry.match(/\d*(?=x)/g)[0]);
 					}

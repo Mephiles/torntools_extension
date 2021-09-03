@@ -715,7 +715,7 @@ async function updateUserdata() {
 		for (const cooldown of COOLDOWNS) {
 			if (settings.notifications.types[cooldown.setting].length && userdata.cooldowns[cooldown.name] > 0) {
 				for (const checkpoint of settings.notifications.types[cooldown.setting].sort((a, b) => a - b)) {
-					let timeLeft = userdata.cooldowns[cooldown.name] * 1000;
+					const timeLeft = userdata.cooldowns[cooldown.name] * 1000;
 
 					if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications[cooldown.memory][checkpoint]) continue;
 
@@ -919,7 +919,7 @@ async function updateTorndata() {
 
 async function updateStocks() {
 	const oldStocks = { ...torndata.stocks };
-	let stocks = (await fetchData("torn", { section: "torn", selections: ["stocks"] })).stocks;
+	const stocks = (await fetchData("torn", { section: "torn", selections: ["stocks"] })).stocks;
 	if (!stocks) throw new Error("Aborted updating due to an expected response.");
 	stocks.date = Date.now();
 
