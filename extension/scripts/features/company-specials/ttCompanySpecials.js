@@ -137,7 +137,7 @@
 
 			result[missingStat] = Object.entries(result)
 				.filter(([stat]) => missingStat !== stat)
-				.map(([stat, value]) => (stat === "total" ? value : -value))
+				.map(([stat, value]) => (stat === "total" || missingStat === "total" ? value : -value))
 				.totalSum();
 
 			const element = [...specialContext.findAll("ul.job-info > li")].find((element) => element.textContent.toLowerCase().startsWith(missingStat));
