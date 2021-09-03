@@ -1,0 +1,7 @@
+.tt-hide-chat-option {
+	padding: 0 5px;
+}
+
+.tt-chat-hidden [class*="chat-box_"] {
+	display: none;
+}
