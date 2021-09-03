@@ -38,7 +38,7 @@
 				{ "message": "Search chat by username and id. ('by:...' or 'u:...')", "contributor": "bandirao" },
 				{ "message": "Load NNBs from YATA too.", "contributor": "DeKleineKobini" },
 				{ "message": "Show dates and time in TCT instead of local time.", "contributor": "DeKleineKobini" },
-				{"message":  "Move option for hiding chats to the chat settings of Torn."}
+				{ "message": "Move option for hiding chats to the chat settings of Torn." }
 			],
 			"removed": [
 				{ "message": "We've removed the safe crimes feature due to it being less useful than originally thought." },
