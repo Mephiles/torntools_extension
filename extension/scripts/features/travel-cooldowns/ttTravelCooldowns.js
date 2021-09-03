@@ -45,17 +45,14 @@
 				? "#tab-menu4 [id*='tab4-'][aria-hidden='false'] .travel-info-table-list[aria-selected*='true']"
 				: ".travel-agency .travel-container.full-map[style='display: block;']"
 		);
-		console.log("DKK showWarnings 1", container);
 		if (!container) return;
 
 		const element = mobile || tablet ? container.find(".flight-time-table") : container.find(".flight-time");
-		console.log("DKK showWarnings 2", element);
 		if (!element) return;
 
 		const duration = textToTime(mobile || tablet ? element.textContent.trim() : element.textContent.match(/(?<=- ).*/g)[0]);
-		console.log("DKK showWarnings 3", duration);
 
-		let cooldowns = document.find(".tt-cooldowns");
+		let cooldowns = mobile || tablet ? container.parentElement.find(".show-confirm[aria-expanded='true'] .tt-cooldowns") : document.find(".tt-cooldowns");
 		if (!cooldowns) {
 			cooldowns = document.newElement({
 				type: "div",
@@ -92,7 +89,6 @@
 
 			if (!mobile && !tablet) container.insertAdjacentElement("beforebegin", cooldowns);
 			else {
-				console.log("DKK showWarnings x", container.parentElement);
 				container.parentElement.find(".show-confirm[aria-expanded='true'] .travel-container").insertAdjacentElement("afterend", cooldowns);
 			}
 
