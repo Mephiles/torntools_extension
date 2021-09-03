@@ -379,6 +379,8 @@ const DEFAULT_STORAGE = {
 				highlights: new DefaultSetting({ type: "array", defaultValue: [{ name: "$player", color: "#7ca900" }] }),
 				titleHighlights: new DefaultSetting({ type: "array", defaultValue: [] }),
 				tradeTimer: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				hideChatButton: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				hideChat: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			sidebar: {
 				notes: new DefaultSetting({ type: "boolean", defaultValue: true }),
