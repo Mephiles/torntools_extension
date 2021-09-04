@@ -315,20 +315,23 @@ async function setupStakeouts() {
 			document.newElement({
 				type: "div",
 				children: [
-					document.newElement({ type: "label", attributes: { for: `life-${id}` }, text: "life drops below" }),
-					document.newElement({ type: "input", id: `life-${id}`, class: "life", attributes: { type: "number", min: 1, max: 100 } }),
-					document.newElement({ type: "label", attributes: { for: `life-${id}` }, text: "%" }),
+					document.newElement({ type: "label", attributes: { for: `life-${id}` }, text: "life drops below " }),
+					document.newElement({ type: "input", id: `life-${id}`, class: "life short-input", attributes: { type: "number", min: 1, max: 100 } }),
+					document.newElement({ type: "label", attributes: { for: `life-${id}` }, text: " %" }),
+				],
+			}),
+			document.newElement({
+				type: "div",
+				children: [
+					document.newElement({ type: "label", attributes: { for: `offline-${id}` }, text: "offline for over " }),
+					document.newElement({ type: "input", id: `offline-${id}`, class: "offline short-input", attributes: { type: "number", min: 1 } }),
+					document.newElement({ type: "label", attributes: { for: `offline-${id}` }, text: " hours" }),
 				],
 			})
 		);
 
-		row.appendChild(
-			document.newElement({
-				type: "td",
-				class: "alerts-wrap",
-				children: alerts,
-			})
-		);
+		const alertsWrap = document.newElement({ type: "td", class: "alerts-wrap", children: alerts });
+		row.appendChild(alertsWrap);
 
 		if (data && data.alerts) {
 			for (const key in data.alerts) {
@@ -336,11 +339,11 @@ async function setupStakeouts() {
 
 				switch (typeof data.alerts[key]) {
 					case "boolean":
-						row.find(`.${key}`).checked = true;
+						alertsWrap.find(`.${key}`).checked = true;
 						break;
 					case "number":
 					case "string":
-						row.find(`.${key}`).value = data.alerts[key];
+						alertsWrap.find(`.${key}`).value = data.alerts[key];
 						break;
 				}
 			}
@@ -384,6 +387,7 @@ async function setupStakeouts() {
 			alerts.find(".landing").checked = stakeouts[id].alerts.landing;
 			alerts.find(".online").checked = stakeouts[id].alerts.online;
 			alerts.find(".life").value = stakeouts[id].alerts.life || "";
+			alerts.find(".offline").value = stakeouts[id].alerts.offline || "";
 		}
 	}
 
@@ -403,6 +407,7 @@ async function setupStakeouts() {
 					landing: alertsSection.find(".landing").checked,
 					online: alertsSection.find(".online").checked,
 					life: parseInt(alertsSection.find(".life").value) || false,
+					offline: parseInt(alertsSection.find(".offline").value) || false,
 				},
 			};
 		}
