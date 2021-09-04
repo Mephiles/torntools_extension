@@ -795,17 +795,24 @@
 				ttStorage.change({ stakeouts: { [id]: { alerts: { online: comesOnline.isChecked() } } } });
 			});
 
-			const lifeDrops = createTextbox({ description: { before: "life drops below", after: "%" }, type: "number", attributes: { min: 0, max: 100 } });
+			const lifeDrops = createTextbox({ description: { before: "life drops below", after: "%" }, type: "number", attributes: { min: 1, max: 100 } });
 			lifeDrops.onChange(() => {
 				if (!(id in stakeouts)) return;
 
 				ttStorage.change({ stakeouts: { [id]: { alerts: { life: parseInt(lifeDrops.getValue()) || false } } } });
 			});
 
+			const offlineFor = createTextbox({ description: { before: "offline for over", after: "hours" }, type: "number", attributes: { min: 1 } });
+			offlineFor.onChange(() => {
+				if (!(id in stakeouts)) return;
+
+				ttStorage.change({ stakeouts: { [id]: { alerts: { offline: parseInt(offlineFor.getValue()) || false } } } });
+			});
+
 			const alerts = document.newElement({
 				type: "div",
 				class: "alerts",
-				children: [isOkay.element, isInHospital.element, lands.element, comesOnline.element, lifeDrops.element],
+				children: [isOkay.element, isInHospital.element, lands.element, comesOnline.element, lifeDrops.element, offlineFor.element],
 			});
 
 			if (hasStakeout) {
@@ -814,6 +821,7 @@
 				lands.setChecked(stakeouts[id].alerts.landing);
 				comesOnline.setChecked(stakeouts[id].alerts.online);
 				lifeDrops.setValue(stakeouts[id].alerts.life === false ? "" : stakeouts[id].alerts.life);
+				offlineFor.setValue(stakeouts[id].alerts.offline === false ? "" : stakeouts[id].alerts.offline);
 			} else {
 				alerts.classList.add("hidden");
 			}

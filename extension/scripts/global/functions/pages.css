@@ -213,3 +213,45 @@ body.dark #tt-confirmation-popup {
 table.sortable th:not(.no-sorting) {
 	cursor: pointer;
 }
+
+/* region Inputs */
+
+input[type="checkbox"],
+input[type="color"],
+select,
+label {
+	cursor: pointer;
+}
+
+input:not([type="checkbox"]),
+select {
+	border-radius: 4px;
+	outline: none;
+	border: 1px solid #a7a7a7;
+}
+
+input:not([type="checkbox"]):not([type="color"]) {
+	padding-left: 4px;
+}
+
+input[type="color"] {
+	height: 20px;
+}
+
+/* FIXME - Style inputs. */
+/* - Companies / Faction */
+
+input[type="number"].short-input {
+	width: 40px;
+}
+
+input[type="number"].medium-input {
+	width: 60px;
+}
+
+input.medium-input,
+input[type="number"].long-input {
+	width: 80px;
+}
+
+/* endregion */

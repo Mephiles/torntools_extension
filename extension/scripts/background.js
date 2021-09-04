@@ -799,6 +799,7 @@ async function updateStakeouts() {
 	for (const id in stakeouts) {
 		if (isNaN(parseInt(id))) continue;
 
+		const oldData = stakeouts[id]?.info ?? false;
 		let data;
 		try {
 			data = await fetchData("torn", { section: "user", selections: ["profile"], id, silent: true });
@@ -816,11 +817,11 @@ async function updateStakeouts() {
 		}
 
 		if (stakeouts[id].alerts) {
-			const { okay, hospital, landing, online, life } = stakeouts[id].alerts;
+			const { okay, hospital, landing, online, life, offline } = stakeouts[id].alerts;
 
 			if (okay) {
 				const key = `${id}_okay`;
-				if (data.status.state === "Okay" && !notifications.stakeouts[key]) {
+				if (data.status.state === "Okay" && (!oldData || oldData.status.state !== data.status.state) && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification("Stakeouts", `${data.name} is now okay.`, `https://www.torn.com/profiles.php?XID=${id}`);
 				} else if (data.status.state !== "Okay") {
@@ -829,7 +830,7 @@ async function updateStakeouts() {
 			}
 			if (hospital) {
 				const key = `${id}_hospital`;
-				if (data.status.state === "Hospital" && !notifications.stakeouts[key]) {
+				if (data.status.state === "Hospital" && (!oldData || oldData.status.state !== data.status.state) && !notifications.stakeouts[key]) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
@@ -855,7 +856,11 @@ async function updateStakeouts() {
 			}
 			if (online) {
 				const key = `${id}_online`;
-				if (data.last_action.status === "Online" && !notifications.stakeouts[key]) {
+				if (
+					data.last_action.status === "Online" &&
+					(!oldData || oldData.last_action.status !== data.last_action.status) &&
+					!notifications.stakeouts[key]
+				) {
 					if (settings.notifications.types.global)
 						notifications.stakeouts[key] = newNotification(
 							"Stakeouts",
@@ -876,6 +881,22 @@ async function updateStakeouts() {
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
 				} else if (data.life.current > data.life.maximum * (life / 100)) {
+					delete notifications.stakeouts[key];
+				}
+			}
+			if (offline) {
+				const oldOfflineHours = oldData ? ((now - oldData.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals() : false;
+				const offlineHours = ((now - data.last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
+
+				const key = `${id}_offline`;
+				if (offlineHours >= offline && (!oldOfflineHours || oldOfflineHours < offlineHours) && !notifications.stakeouts[key]) {
+					if (settings.notifications.types.global)
+						notifications.stakeouts[key] = newNotification(
+							"Stakeouts",
+							`${data.name} has been offline for ${offlineHours} hours.`,
+							`https://www.torn.com/profiles.php?XID=${id}`
+						);
+				} else if (offlineHours < offline) {
 					delete notifications.stakeouts[key];
 				}
 			}
