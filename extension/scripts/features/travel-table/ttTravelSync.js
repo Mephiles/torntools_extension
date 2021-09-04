@@ -49,7 +49,7 @@
 			});
 
 		function getCountryName() {
-			return document.find("#skip-to-content").textContent.slice(0, 3).toLowerCase();
+			return document.find("#skip-to-content").textContent.trim().slice(0, 3).toLowerCase();
 		}
 	}
 })();
