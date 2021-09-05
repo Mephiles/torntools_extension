@@ -20,6 +20,8 @@
 		}
 	);
 
+	let observer;
+
 	async function showEstimate() {
 		const userInfoValue = await requireElement(".basic-information .info-table .user-info-value > *:first-child");
 
@@ -65,9 +67,17 @@
 			}
 		}
 
-		document
-			.find(".profile-right-wrapper > .profile-action .title-black")
-			.appendChild(document.newElement({ type: "span", class: "tt-stats-estimate-profile", text: estimate }));
+		const title = document.find(".profile-right-wrapper > .profile-action .title-black");
+
+		title.appendChild(document.newElement({ type: "span", class: "tt-stats-estimate-profile", text: estimate }));
+
+		observer?.disconnect();
+		observer = new MutationObserver((mutations) => {
+			if (![...mutations].some((mutation) => [...mutation.addedNodes].every((node) => node.nodeType === Document.TEXT_NODE))) return;
+
+			title.appendChild(document.newElement({ type: "span", class: "tt-stats-estimate-profile", text: estimate }));
+		});
+		observer.observe(title, { childList: true });
 
 		function getLevel() {
 			const levelWrap = document.find(".box-info .box-value");
@@ -81,6 +91,9 @@
 	}
 
 	function removeEstimate() {
+		observer?.disconnect();
+		observer = undefined;
+
 		document.find(".tt-stats-estimate-profile")?.remove();
 	}
 })();
