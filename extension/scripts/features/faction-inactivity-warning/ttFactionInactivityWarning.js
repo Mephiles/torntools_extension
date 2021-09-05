@@ -48,6 +48,8 @@
 
 		for (const row of document.findAll(".members-list .table-body > li")) {
 			if (!row.nextElementSibling.classList.contains("tt-last-action")) continue;
+			// Skip users that are confirmed to be dead IRL.
+			if (row.find("[id*='icon77___']")) continue;
 
 			const days = (row.nextElementSibling.getAttribute("hours") / 24).dropDecimals();
 
