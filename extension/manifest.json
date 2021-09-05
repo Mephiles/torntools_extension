@@ -30,7 +30,7 @@
 		]
 	},
 	"permissions": ["storage", "notifications", "tabs", "https://api.torn.com/"],
-	"optional_permissions": ["https://www.tornstats.com/", "https://yata.yt/"],
+	"optional_permissions": ["https://www.tornstats.com/", "https://yata.yt/", "https://www.nukefamily.org/", "https://tornuhc.eu/"],
 	"web_accessible_resources": [
 		"resources/images/*.png",
 		"resources/images/svg-icons/*.svg",
@@ -134,7 +134,8 @@
 				"scripts/features/bar-links/ttBarLinks.css",
 				"scripts/features/collapsible-areas/ttCollapsibleAreas.css",
 				"scripts/features/npc-loot-times/ttNPCLootTimes.css",
-				"scripts/features/hide-chat/ttHideChat.css"
+				"scripts/features/hide-chat/ttHideChat.css",
+				"scripts/features/revive-request/ttReviveRequest.css"
 			],
 			"js": [
 				"resources/images/svg-icons/back.js",
@@ -161,7 +162,8 @@
 				"scripts/features/collapsible-areas/ttCollapsibleAreas.js",
 				"scripts/features/points-value/ttPointsValue.js",
 				"scripts/features/npc-loot-times/ttNPCLootTimes.js",
-				"scripts/features/hide-chat/ttHideChat.js"
+				"scripts/features/hide-chat/ttHideChat.js",
+				"scripts/features/revive-request/ttReviveRequest.js"
 			],
 			"run_at": "document_end"
 		},

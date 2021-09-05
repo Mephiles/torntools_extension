@@ -356,6 +356,7 @@ const DEFAULT_STORAGE = {
 				hideQuitButtons: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				keepAttackHistory: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				miniProfileLastAction: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				reviveProvider: new DefaultSetting({ type: "string", defaultValue: "" }),
 			},
 			profile: {
 				statusIndicator: new DefaultSetting({ type: "boolean", defaultValue: true }),
