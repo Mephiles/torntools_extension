@@ -1631,12 +1631,12 @@ function millisToNewDay() {
 	return newDate - now;
 }
 
-function isOwnProfile() {
+function getUserDetails() {
 	let id, name;
 
 	if (!hasAPIData()) {
 		const script = document.find("script[uid][name]");
-		if (!script) return false;
+		if (!script) return { error: "Couldn't get details" };
 
 		id = parseInt(script.getAttribute("uid"));
 		name = script.getAttribute("name");
@@ -1645,6 +1645,15 @@ function isOwnProfile() {
 		name = userdata.name;
 	}
 
+	return { id, name };
+}
+
+function isOwnProfile() {
+	const details = getUserDetails();
+
+	if (details.error) return false;
+
+	const { id, name } = details;
 	const params = getSearchParameters();
 
 	return (params.has("XID") && parseInt(params.get("XID")) === id) || (params.has("NID") && params.get("NID") === name);

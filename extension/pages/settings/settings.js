@@ -439,11 +439,25 @@ async function setupPreferences() {
 		}
 	}
 
-	_preferences.find("#external-tornstats").addEventListener("click", (event) => {
-		requestOrigin("https://www.tornstats.com/", event);
-	});
-	_preferences.find("#external-yata").addEventListener("click", (event) => {
-		requestOrigin("https://yata.yt/", event);
+	_preferences.find("#external-tornstats").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornstats, event));
+	_preferences.find("#external-yata").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.yata, event));
+
+	_preferences.find("#global-reviveProvider").addEventListener("change", (event) => {
+		const provider = event.target.value;
+		if (!provider) return;
+
+		let origin;
+		if (provider === "nuke") origin = FETCH_PLATFORMS.nukefamily;
+		else if (provider === "uhc") origin = FETCH_PLATFORMS.uhc;
+
+		if (!origin) return;
+
+		chrome.permissions.request({ origins: [origin] }, (granted) => {
+			if (!granted) {
+				sendMessage("Can't select this provider without accepting the permission.", false);
+				event.target.value = settings.pages.global.reviveProvider;
+			}
+		});
 	});
 
 	fillSettings();
