@@ -207,3 +207,12 @@ div#ttContribExport div#ttExportButton {
 #ttExportButton {
 	cursor: pointer;
 }
+
+.faction-info .f-info.tt-modified {
+	height: fit-content !important;
+	height: -moz-fit-content !important;
+}
+
+.tt-armory-worth {
+	white-space: normal !important;
+}
