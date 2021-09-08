@@ -304,7 +304,8 @@
 				"scripts/features/faction-inactivity-warning/ttFactionInactivityWarning.css",
 				"scripts/features/stats-estimate/ttStatsEstimate.css",
 				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.css",
-				"scripts/features/energy-warning/ttEnergyWarning.css"
+				"scripts/features/energy-warning/ttEnergyWarning.css",
+				"scripts/features/armory-worth/ttArmoryWorth.css"
 			],
 			"js": [
 				"scripts/global/functions/filters.js",
@@ -328,7 +329,6 @@
 				"scripts/features/faction-member-filter/ttFactionMemberFilter.js",
 				"scripts/features/armory-filter/ttArmoryFilter.js",
 				"scripts/features/armory-worth/ttArmoryWorth.js",
-				"scripts/features/armory-filter/ttArmoryFilter.js",
 				"scripts/features/upgrade-required-respect/ttUpgradeRequiredRespect.js",
 				"scripts/features/faction-member-info/ttFactionMemberInfo.js",
 				"scripts/features/faction-inactivity-warning/ttFactionInactivityWarning.js",

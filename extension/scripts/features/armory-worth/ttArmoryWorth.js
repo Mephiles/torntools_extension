@@ -28,7 +28,7 @@
 	async function addWorth(force) {
 		if (!force) return;
 
-		const moneyLi = await requireElement("#faction-info .f-info.right > li[title]");
+		const moneyLi = (await requireElement("#faction-info .f-info > li")).parentElement;
 		const selections = ["weapons", "armor", "temporary", "medical", "drugs", "boosters", "cesium", "currency"];
 
 		if (ttCache.hasValue("armory", userdata.faction.faction_id)) {
@@ -42,8 +42,8 @@
 				})
 				.catch((err) => {
 					console.log("Error fetching armory data: ", err);
-					moneyLi.insertAdjacentElement(
-						"afterend",
+					moneyLi.classList.add("tt-modified");
+					moneyLi.appendChild(
 						document.newElement({
 							type: "li",
 							class: "tt-armory-worth",
@@ -76,13 +76,13 @@
 			// Points
 			total += data.points * torndata.pawnshop.points_value;
 
-			moneyLi.insertAdjacentElement(
-				"afterend",
+			moneyLi.classList.add("tt-modified");
+			moneyLi.appendChild(
 				document.newElement({
 					type: "li",
 					class: "tt-armory-worth",
 					children: [
-						document.newElement({ type: "span", text: "Armory value: ", class: "bold" }),
+						document.newElement({ type: "span", text: "Armory value: " }),
 						document.newElement({ type: "span", text: formatNumber(total, { currency: true }) }),
 					],
 				})
@@ -91,6 +91,9 @@
 	}
 
 	function removeWorth() {
-		document.findAll(".tt-armory-worth").forEach((x) => x.remove());
+		document.findAll(".tt-armory-worth").forEach((x) => {
+			x.parentElement.classList.remove("tt-modified");
+			x.remove();
+		});
 	}
 })();
