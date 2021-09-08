@@ -1236,6 +1236,22 @@ async function setupAPIInfo() {
 	});
 	await ttUsage.refresh();
 
+	document
+		.find("#update-torndata")
+		.addEventListener("click", () =>
+			chrome.runtime.sendMessage({ action: "forceUpdate", update: "torndata" }, (result) => console.log("Manually fetched torndata.", result))
+		);
+	document
+		.find("#update-stocks")
+		.addEventListener("click", () =>
+			chrome.runtime.sendMessage({ action: "forceUpdate", update: "stocks" }, (result) => console.log("Manually fetched stocks.", result))
+		);
+	document
+		.find("#update-factiondata")
+		.addEventListener("click", () =>
+			chrome.runtime.sendMessage({ action: "forceUpdate", update: "factiondata" }, (result) => console.log("Manually fetched factiondata.", result))
+		);
+
 	updateUsage(usageChart, "Last 5");
 	document.find(".current-usage .buttons .last-5").addEventListener("click", () => updateUsage(usageChart, "Last 5"));
 	document.find(".current-usage .buttons .last-1hr").addEventListener("click", () => updateUsage(usageChart, "Last 1hr"));

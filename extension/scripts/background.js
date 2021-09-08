@@ -1278,6 +1278,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				.then((result) => sendResponse(result))
 				.catch((error) => sendResponse(error));
 			return true;
+		case "forceUpdate":
+			let updateFunction;
+
+			if (message.update === "torndata") updateFunction = updateTorndata;
+			else if (message.update === "stocks") updateFunction = updateStocks;
+			else if (message.update === "factiondata") updateFunction = updateFactiondata;
+			else break;
+
+			updateFunction()
+				.then((result) => sendResponse(result))
+				.catch((error) => sendResponse(error));
+			return true;
 		default:
 			sendResponse({ success: false, message: "Unknown action." });
 			break;
