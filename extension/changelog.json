@@ -16,13 +16,17 @@
 				{ "message": "Calculate and remember partial spy result and export them to TornStats.", "contributor": "DeKleineKobini" },
 				{ "message": "Display features on each page including their status.", "contributor": "Mephiles" },
 				{ "message": "Show a quick refresh button on the jail page.", "contributor": "AllMight" },
-				{ "message": "Show weapon bonus descriptions in attack logs.", "contributor": "DeKleineKobini" }
+				{ "message": "Show weapon bonus descriptions in attack logs.", "contributor": "DeKleineKobini" },
+				{ "message": "Filter based on stats estimates.", "contributor": "DeKleineKobini" },
+				{ "message": "Display the point values in the sidebar on hover.", "contributor": "DeKleineKobini" },
+				{ "message": "Show active steadfast bonus in the gym.", "contributor": "DeKleineKobini" },
+				{ "message": "Highlight forum threads and/or posts from specific users.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [],
 			"changes": [
 				{ "message": "Rewrite core system.", "contributor": "DeKleineKobini" },
 				{ "message": "Rewrite and redesign many features. Features might also work on more pages when applicable.", "contributor": "DeKleineKobini" },
-				{ "message": "Rewrite and redesign some features.", "contributor": "bandirao" },
+				{ "message": "Rewrite and redesign many features. Performance should be way better with this.", "contributor": "bandirao" },
 				{ "message": "Rewrite and redesign some features.", "contributor": "AllMight" },
 				{ "message": "Don't make an additional api call for 'basic' userdata or the attack log.", "contributor": "DeKleineKobini" },
 				{ "message": "Improve update notice so it only shows when another version was installed.", "contributor": "DeKleineKobini" },
@@ -37,12 +41,19 @@
 				{ "message": "Implement new jail score formula.", "contributor": "bandirao" },
 				{ "message": "Search chat by username and id. ('by:...' or 'u:...')", "contributor": "bandirao" },
 				{ "message": "Load NNBs from YATA too.", "contributor": "DeKleineKobini" },
-				{ "message": "Show dates and time in TCT instead of local time.", "contributor": "DeKleineKobini" },
-				{ "message": "Move option for hiding chats to the chat settings of Torn." }
+				{ "message": "Show dates and time in TCT instead of local time.", "contributor": "bandirao" },
+				{ "message": "Extend the warning of getting over the energy cap to other items as well.", "contributor": "DeKleineKobini" },
+				{ "message": "Allow you to mute notification of all NPCs at once, without removing the information.", "contributor": "DeKleineKobini" },
+				{ "message": "Move option for hiding chats to the chat settings of Torn.", "contributor": "DeKleineKobini" },
+				{ "message": "Only show the revive request button when you are hospitalised.", "contributor": "DeKleineKobini" },
+				{ "message": "Allow requesting revives from UHC.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{ "message": "We've removed the safe crimes feature due to it being less useful than originally thought." },
-				{ "message": "We've removed the loot times on the profile due to the NPCs being available in the sidebar." }
+				{ "message": "We've removed the loot times on the profile due to the NPCs being available in the sidebar." },
+				{
+					"message": "Shortening of the faction armory news has now been officially removed. It was broken for a couple of months already due to changes where it no longer is page based."
+				}
 			]
 		}
 	},
