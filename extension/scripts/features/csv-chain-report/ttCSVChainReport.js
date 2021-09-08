@@ -30,23 +30,17 @@
 			],
 		});
 		ttExportButton.addEventListener("click", () => {
-			let table = "data:text/csv;charset=utf-8,";
-			table += document.find(".report-title-faction-name").textContent + "\r\n";
-			table += "Members;Respect;Avg;Attacks;Leave;Mug;Hosp;War;Bonus;Assist;Retal;Overseas;Draw;Escape;Loss\r\n";
-			const members = document.findAll(".members-names-rows > *");
-			const info = document.findAll(".members-stats-rows > *");
-			members.forEach((member, index) => {
-				table += getUsername(member) + ";";
-				const memberInfo = info[index];
-				memberInfo.findAll(".members-stats-cols > *").forEach((infoItem) => (table += infoItem.textContent + ";"));
-				table += "\r\n";
-			});
 			const chainID = getSearchParameters().get("chainID");
-			const encodedUri = encodeURI(table);
-			const ttExportLink = options.find("#ttExportLink");
-			ttExportLink.setAttribute("href", encodedUri);
-			ttExportLink.setAttribute("download", `Chain Report [${chainID}].csv`);
-			ttExportLink.click();
+			const csv = new CSVExport(`Chain Report [${chainID}]`, options.find("#ttExportLink"));
+			csv.append(document.find(".report-title-faction-name").textContent);
+			csv.append("Members", "Respect", "Avg", "Attacks", "Leave", "Mug", "Hosp", "War", "Bonus", "Assist", "Retal", "Overseas", "Draw", "Escape", "Loss");
+
+			const info = document.findAll(".members-stats-rows > *");
+			document.findAll(".members-names-rows > *").forEach((member, index) => {
+				csv.append(getUsername(member), ...[...info[index].findAll(".members-stats-cols > *")].map((info) => info.textContent));
+			});
+
+			csv.download();
 		});
 		options.insertAdjacentElement("afterbegin", ttExportButton);
 	}

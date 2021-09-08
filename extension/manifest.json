@@ -89,6 +89,7 @@
 				"scripts/global/functions/torn.js",
 				"scripts/global/functions/utilities.js",
 				"scripts/global/functions/api.js",
+				"scripts/global/functions/csv.js",
 				"scripts/global/featureManager.js",
 				"scripts/global/elements/checkbox/ttCheckbox.js",
 				"scripts/global/elements/checkbox-list/ttCheckboxList.js",

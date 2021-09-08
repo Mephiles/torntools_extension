@@ -32,29 +32,28 @@
 			],
 		});
 		ttExportButton.addEventListener("click", () => {
-			let table = "data:text/csv;charset=utf-8,";
+			const warID = getSearchParameters().get("warID");
+			const csv = new CSVExport(`War Report [${warID}]`, options.find("#ttExportLink"));
+
 			for (const selector of ["enemy", "your"]) {
-				table += document.find(`.faction-war .${selector}`).textContent + "\r\n";
-				table += "Members;Level;Points;Joins;Clears\r\n";
+				csv.append(document.find(`.faction-war .${selector}`).textContent);
+				csv.append("Members", "Level", "Points", "Joins", "Clears");
+
 				const members = document.findAll(`.${selector}-faction .members-list > *`);
 				if (members.length) {
-					for (const memberRow of members) {
-						let totalRowString = "";
-						totalRowString += getUsername(memberRow) + ";";
-						totalRowString += memberRow.find(".lvl").textContent + ";";
-						totalRowString += memberRow.find(".points").textContent + ";";
-						totalRowString += memberRow.find(".joins").textContent + ";";
-						totalRowString += memberRow.find(".knock-off").textContent + ";";
-						table += totalRowString + "\r\n";
+					for (const row of members) {
+						csv.append(
+							getUsername(row),
+							row.find(".lvl").textContent,
+							row.find(".points").textContent,
+							row.find(".joins").textContent,
+							row.find(".knock-off").textContent
+						);
 					}
-				} else table += "None\r\n";
+				} else csv.append("None");
 			}
-			const warID = getSearchParameters().get("warID");
-			const encodedUri = encodeURI(table);
-			const ttExportLink = options.find("#ttExportLink");
-			ttExportLink.setAttribute("href", encodedUri);
-			ttExportLink.setAttribute("download", `War Report [${warID}].csv`);
-			ttExportLink.click();
+
+			csv.download();
 		});
 		options.insertAdjacentElement("afterbegin", ttExportButton);
 	}

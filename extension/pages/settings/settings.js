@@ -513,6 +513,8 @@ async function setupPreferences() {
 		_preferences.find("#external-tornstats").checked = settings.external.tornstats;
 		_preferences.find("#external-yata").checked = settings.external.yata;
 
+		_preferences.find("#csvDelimiter").value = settings.csvDelimiter;
+
 		for (const type of ["pages", "scripts"]) {
 			for (const page in settings[type]) {
 				const isGlobalDisabled = settings[type][page].global === false;
@@ -848,6 +850,8 @@ async function setupPreferences() {
 		settings.themes.pages = _preferences.find("input[name='themePage']:checked").value;
 		settings.themes.containers = _preferences.find("input[name='themeContainers']:checked").value;
 		settings.featureDisplayPosition = _preferences.find("input[name='featureDisplayPosition']:checked").value;
+
+		settings.csvDelimiter = _preferences.find("#csvDelimiter").value;
 
 		settings.external.tornstats = _preferences.find("#external-tornstats").checked;
 		settings.external.yata = _preferences.find("#external-yata").checked;

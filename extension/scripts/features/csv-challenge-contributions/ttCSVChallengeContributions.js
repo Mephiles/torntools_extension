@@ -45,26 +45,25 @@
 		}).options.appendChild(exportButtonDiv);
 		descriptionWrap.find("#ttExportButton").addEventListener("click", () => {
 			const upgradeName = descriptionWrap.find("[role='alert'] .name").textContent;
-			let totalTable = "data:text/csv;charset=utf-8," + "Number;Name;Profile Link;Ex Member;Contributions\r\n" + upgradeName + "\r\n";
-			contributionsWrap.findAll(".flexslides li:not(.slide)").forEach((memberLi) => {
-				const memberName = memberLi.find(".player a");
-				const memberLabel = memberName.ariaLabel;
-				totalTable +=
-					memberLi.find(".numb").textContent +
-					";" +
-					memberLabel.match(/.*(?= \()/)[0] +
-					";" +
-					memberName.href +
-					";" +
-					(memberLi.classList.contains("ex-member") ? "No" : "Yes") +
-					";" +
-					memberLabel.match(/(?<= \().*(?=\))/)[0] +
-					"\r\n";
-			});
-			const ttExportLink = descriptionWrap.find("#ttExportButton #ttExportLink");
-			ttExportLink.setAttribute("href", encodeURI(totalTable));
-			ttExportLink.setAttribute("download", `${upgradeName} Contributors.csv`);
-			ttExportLink.click();
+
+			const csv = new CSVExport(`${upgradeName} Contributors`, descriptionWrap.find("#ttExportButton #ttExportLink"));
+			csv.append(upgradeName);
+			csv.append("Number", "Name", "Profile Link", "Ex Member", "Contributions");
+
+			for (const row of contributionsWrap.findAll(".flexslides li:not(.slide)")) {
+				const link = row.find(".player a");
+				const name = link.getAttribute("aria-label");
+
+				csv.append(
+					row.find(".numb").textContent,
+					name.match(/.*(?= \()/)[0],
+					link.href,
+					row.classList.contains("ex-member") ? "No" : "Yes",
+					name.match(/(?<= \().*(?=\))/)[0]
+				);
+			}
+
+			csv.download();
 		});
 	}
 

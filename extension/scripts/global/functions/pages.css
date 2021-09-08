@@ -254,4 +254,8 @@ input[type="number"].long-input {
 	width: 80px;
 }
 
+input[type="text"].short-input {
+	width: 25px;
+}
+
 /* endregion */

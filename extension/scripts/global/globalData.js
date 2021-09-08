@@ -349,6 +349,7 @@ const DEFAULT_STORAGE = {
 		customLinks: new DefaultSetting({ type: "array", defaultValue: [] }),
 		employeeInactivityWarning: new DefaultSetting({ type: "array", defaultValue: [] }),
 		factionInactivityWarning: new DefaultSetting({ type: "array", defaultValue: [] }),
+		csvDelimiter: new DefaultSetting({ type: "string", defaultValue: ";" }),
 		pages: {
 			global: {
 				alignLeft: new DefaultSetting({ type: "boolean", defaultValue: false }),
