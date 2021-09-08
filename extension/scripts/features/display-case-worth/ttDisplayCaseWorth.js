@@ -71,6 +71,7 @@
 						"beforebegin",
 						await createMessageBox(`This display cabinet is worth <span>${formatNumber(total, { currency: true })}</span>.`, {
 							class: "tt-display-worth",
+							isHTML: true,
 						})
 					);
 				})

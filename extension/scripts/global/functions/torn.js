@@ -1470,6 +1470,7 @@ const darkModeObserver = new (class {
 async function createMessageBox(content, options = {}) {
 	options = {
 		class: "",
+		isHTML: false,
 		...options,
 	};
 
@@ -1485,7 +1486,7 @@ async function createMessageBox(content, options = {}) {
 			document.newElement({
 				type: "div",
 				class: "tt-message-wrap",
-				children: [document.newElement({ type: "div", class: "tt-message", text: content })],
+				children: [document.newElement({ type: "div", class: "tt-message", [options.isHTML ? "html" : "text"]: content })],
 			}),
 		],
 	});
