@@ -57,7 +57,7 @@
 				message = `${amount} member${applyPlural(amount)} available for OCs.`;
 			}
 
-			crimes.insertBefore(await createMessageBox(message, { class: "tt-available-players" }), crimes.firstElementChild);
+			crimes.insertBefore(createMessageBox(message, { class: "tt-available-players" }), crimes.firstElementChild);
 		}
 	}
 

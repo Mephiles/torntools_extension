@@ -24,7 +24,7 @@
 		});
 		document
 			.find("#stockmarketroot [class*='appHeaderWrapper__']")
-			.insertAdjacentElement("afterend", await createMessageBox("Some stocks have been hidden.", { class: "tt-stocks-hidden" }));
+			.insertAdjacentElement("afterend", createMessageBox("Some stocks have been hidden.", { class: "tt-stocks-hidden" }));
 	}
 
 	function unhideStocks() {

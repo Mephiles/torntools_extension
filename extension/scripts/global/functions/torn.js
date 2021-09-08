@@ -1467,7 +1467,7 @@ const darkModeObserver = new (class {
 	}
 })();
 
-async function createMessageBox(content, options = {}) {
+function createMessageBox(content, options = {}) {
 	options = {
 		class: "",
 		isHTML: false,
