@@ -463,6 +463,17 @@
 			"run_at": "document_start"
 		},
 		{
+			"matches": ["https://www.torn.com/loader.php?sid=attack*"],
+			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css", "scripts/features/weapon-experience/ttWeaponExperience.css"],
+			"js": [
+				"scripts/features/attack-timeout-warning/ttAttackTimeoutWarning.js",
+				"scripts/features/stats-estimate/statsEstimate.js",
+				"scripts/features/stats-estimate/ttStatsEstimateAttacks.js",
+				"scripts/features/weapon-experience/ttWeaponExperience.js"
+			],
+			"run_at": "document_end"
+		},
+		{
 			"matches": [
 				"https://www.torn.com/loader.php?sid=view*",
 				"https://www.torn.com/loader.php?sid=rouletteStatistics",
@@ -652,11 +663,6 @@
 			"run_at": "document_end"
 		},
 		{
-			"matches": ["https://www.torn.com/loader.php?sid=attack*"],
-			"js": ["scripts/features/attack-timeout-warning/ttAttackTimeoutWarning.js"],
-			"run_at": "document_end"
-		},
-		{
 			"matches": ["https://www.torn.com/city.php*"],
 			"css": ["scripts/features/city-items/ttCityItems.css"],
 			"js": ["scripts/features/city-items/ttCityItems.js"],
@@ -684,12 +690,6 @@
 			"matches": ["https://www.torn.com/halloffame.php*"],
 			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css"],
 			"js": ["scripts/features/stats-estimate/statsEstimate.js", "scripts/features/stats-estimate/ttStatsEstimateHOF.js"],
-			"run_at": "document_end"
-		},
-		{
-			"matches": ["https://www.torn.com/loader.php?sid=attack*"],
-			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css"],
-			"js": ["scripts/features/stats-estimate/statsEstimate.js", "scripts/features/stats-estimate/ttStatsEstimateAttacks.js"],
 			"run_at": "document_end"
 		}
 	]

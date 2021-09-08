@@ -20,7 +20,8 @@
 				{ "message": "Filter based on stats estimates.", "contributor": "DeKleineKobini" },
 				{ "message": "Display the point values in the sidebar on hover.", "contributor": "DeKleineKobini" },
 				{ "message": "Show active steadfast bonus in the gym.", "contributor": "DeKleineKobini" },
-				{ "message": "Highlight forum threads and/or posts from specific users.", "contributor": "DeKleineKobini" }
+				{ "message": "Highlight forum threads and/or posts from specific users.", "contributor": "DeKleineKobini" },
+				{ "message": "Show weapon experience during an attack.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [],
 			"changes": [
