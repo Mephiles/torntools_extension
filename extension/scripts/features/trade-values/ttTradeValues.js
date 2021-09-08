@@ -68,7 +68,7 @@
 			let totalValue = 0;
 
 			const cashInTrade = side.find(".cont .color1 .desc > li .name");
-			if (cashInTrade && cashInTrade.textContent !== "No money in trade")
+			if (cashInTrade && cashInTrade.textContent.trim() !== "No money in trade")
 				totalValue += parseInt(cashInTrade.textContent.match(/\$([0-9,]*)/i)[1].replaceAll(",", ""));
 
 			for (const item of side.findAll(".cont .color2 .desc > li .name")) {
