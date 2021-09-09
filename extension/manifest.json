@@ -348,11 +348,16 @@
 		},
 		{
 			"matches": ["https://www.torn.com/imarket.php*"],
-			"css": ["scripts/features/drug-details/ttDrugDetails.css", "scripts/features/no-confirm/ttItemMarketNoConfirm.css"],
+			"css": [
+				"scripts/features/drug-details/ttDrugDetails.css",
+				"scripts/features/no-confirm/ttItemMarketNoConfirm.css",
+				"scripts/features/highlight-cheap-items/ttHighlightCheapItems.css"
+			],
 			"js": [
 				"scripts/features/drug-details/ttDrugDetails.js",
 				"scripts/features/item-redirect/ttItemMarketRedirect.js",
-				"scripts/features/no-confirm/ttItemMarketNoConfirm.js"
+				"scripts/features/no-confirm/ttItemMarketNoConfirm.js",
+				"scripts/features/highlight-cheap-items/ttHighlightCheapItems.js"
 			],
 			"run_at": "document_end"
 		},

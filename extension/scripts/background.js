@@ -76,7 +76,9 @@ async function convertDatabase() {
 							useDefault();
 							useCurrent = false;
 						}
-					} else if (!defaultStorage[key].type.split("|").some((value) => value === typeof oldStorage[key])) {
+					} else if (
+						!defaultStorage[key].type.split("|").some((value) => value === typeof oldStorage[key] || (value === "empty" && oldStorage[key] === ""))
+					) {
 						useDefault();
 						useCurrent = false;
 					}

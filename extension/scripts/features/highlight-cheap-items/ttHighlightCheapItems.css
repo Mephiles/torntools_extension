@@ -1,0 +1,4 @@
+.tt-highlight-item .title {
+	background-color: var(--tt-color-green--30) !important;
+	margin-left: 0 !important;
+}

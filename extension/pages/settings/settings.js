@@ -865,7 +865,14 @@ async function setupPreferences() {
 					if (input.tagName === "INPUT") {
 						switch (input.getAttribute("type")) {
 							case "number":
-								settings[type][page][setting] = parseInt(input.value);
+								settings[type][page][setting] =
+									!isNaN(input.value) && input.value !== ""
+										? parseInt(input.value)
+										: input.hasAttribute("save-empty") && input.value === ""
+										? ""
+										: input.hasAttribute("min")
+										? input.getAttribute("min")
+										: 0;
 								break;
 							case "checkbox":
 								settings[type][page][setting] = input.checked;
