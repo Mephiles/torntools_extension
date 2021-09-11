@@ -50,7 +50,7 @@
 				});
 
 				countdownTimers.push(timer);
-			} else timer = document.newElement({ type: "span", class: "timer", text: "TODO" });
+			} else timer = document.newElement({ type: "span", class: "timer", text: "max level" });
 
 			content.appendChild(
 				document.newElement({
