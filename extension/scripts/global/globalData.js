@@ -745,24 +745,6 @@ const DEFAULT_STORAGE = {
 		competition: {
 			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
 			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			special: {
-				// FIXME - Check if possible.
-				fedded: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				// FIXME - Check if possible.
-				traveling: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				// FIXME - Check if possible.
-				newPlayer: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				// FIXME - Check if possible.
-				inCompany: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				// FIXME - Check if possible.
-				inFaction: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				// FIXME - Check if possible.
-				isDonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				// FIXME - Check if possible.
-				inHospital: new DefaultSetting({ type: "string", defaultValue: "both" }),
-				// FIXME - Check if possible.
-				inJail: new DefaultSetting({ type: "string", defaultValue: "both" }),
-			},
 			// FIXME - Implement SE.
 			// estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},

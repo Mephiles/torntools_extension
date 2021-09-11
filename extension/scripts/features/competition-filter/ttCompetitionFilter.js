@@ -78,15 +78,6 @@
 			class: "content",
 		});
 
-		const specialFilter = createFilterSection({
-			title: "Special",
-			ynCheckboxes: ["Fedded", "Traveling", "New Player", "In Company", "In Faction", "Is Donator", "In Hospital", "In Jail"],
-			defaults: filters.competition.special,
-			callback: () => applyFilter(true),
-		});
-		filterContent.appendChild(specialFilter.element);
-		localFilters["Special"] = { getSelections: specialFilter.getSelections };
-
 		const levelFilter = createFilterSection({
 			title: "Level Filter",
 			noTitle: true,
@@ -129,7 +120,6 @@
 		console.log("DKK applyFilter", document.find("a.user.name").dataset.placeholder);
 
 		const content = findContainer("Competition Filter", { selector: "main" });
-		const special = localFilters["Special"].getSelections(content);
 		const levels = localFilters["Level Filter"].getStartEnd(content);
 		const levelStart = parseInt(levels.start);
 		const levelEnd = parseInt(levels.end);
@@ -148,7 +138,6 @@
 				competition: {
 					levelStart,
 					levelEnd,
-					special,
 					// FIXME - Implement SE.
 					// estimates: statsEstimates ?? filters.userlist.estimates,
 				},
@@ -160,7 +149,6 @@
 			filterRow(
 				li,
 				{
-					special,
 					level: { start: levelStart, end: levelEnd },
 					// FIXME - Implement SE.
 					// statsEstimates
@@ -179,24 +167,6 @@
 	}
 
 	function filterRow(row, filters, individual) {
-		if (filters.special) {
-			const match = Object.entries(filters.special)
-				.filter(([, value]) => value !== "both")
-				.find(([key, value]) => {
-					const icons = getSpecialIcons(row);
-					const filterIcons = SPECIAL_FILTER_ICONS[key];
-
-					return (
-						(value === "yes" && !icons.some((foundIcon) => filterIcons.includes(foundIcon))) ||
-						(value === "no" && icons.some((foundIcon) => filterIcons.includes(foundIcon)))
-					);
-				});
-
-			if (match) {
-				hide(`special-${match[0]}`);
-				return;
-			}
-		}
 		if (filters.level) {
 			const level = row.find(".level").textContent.getNumber();
 			if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
