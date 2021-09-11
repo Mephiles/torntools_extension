@@ -616,6 +616,7 @@ const DEFAULT_STORAGE = {
 				factions: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				wars: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				abroad: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				competition: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		external: {
