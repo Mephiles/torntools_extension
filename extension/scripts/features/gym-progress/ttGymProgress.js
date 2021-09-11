@@ -26,7 +26,7 @@
 		const index = currentGym.id.split("-")[1] - 2;
 		const percentage = currentGym.find("[class*='percentage_']").textContent.getNumber();
 		let goal = gymGoals[index];
-		if (userdata.company_perks.some(perk => perk.indexOf("increased gym experience") > -1)) goal = goal / 1.3;
+		if (userdata.company_perks.some((perk) => perk.indexOf("increased gym experience") > -1)) goal = goal / 1.3;
 
 		const stat = parseInt((goal * (percentage / 100)).toFixed(0));
 
@@ -37,13 +37,13 @@
 				type: "p",
 				class: "tt-gym-energy-progress",
 				text: "Estimated Energy progress: ",
-				children: [document.newElement({ type: "span", text: `${formatNumber(stat, false)}/${formatNumber(goal, false)}E.` })]
+				children: [document.newElement({ type: "span", text: `${formatNumber(stat, false)}/${formatNumber(goal, false)}E.` })],
 			})
 		);
 	}
 
 	function removeDiv() {
-		document.findAll(".tt-gym-energy-progress").forEach(x => {
+		document.findAll(".tt-gym-energy-progress").forEach((x) => {
 			x.closest("[class*='notification__']").classList.remove("tt-modified");
 			x.remove();
 		});
