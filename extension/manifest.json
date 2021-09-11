@@ -697,6 +697,16 @@
 			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css"],
 			"js": ["scripts/features/stats-estimate/statsEstimate.js", "scripts/features/stats-estimate/ttStatsEstimateHOF.js"],
 			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/competition.php*"],
+			"css": ["scripts/global/functions/filters.css", "scripts/features/competition-filter/ttCompetitionFilter.css"],
+			"js": [
+				"scripts/global/functions/filters.js",
+				"scripts/content/competition/ttCompetition.js",
+				"scripts/features/competition-filter/ttCompetitionFilter.js"
+			],
+			"run_at": "document_end"
 		}
 	]
 }

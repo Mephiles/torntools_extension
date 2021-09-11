@@ -577,6 +577,9 @@ const DEFAULT_STORAGE = {
 			itemmarket: {
 				highlightCheapItems: new DefaultSetting({ type: "number|empty", defaultValue: "" }),
 			},
+			competition: {
+				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		scripts: {
 			noConfirm: {
@@ -738,6 +741,12 @@ const DEFAULT_STORAGE = {
 		profile: {
 			relative: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			stats: new DefaultSetting({ type: "array", defaultValue: [] }),
+		},
+		competition: {
+			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			// FIXME - Implement SE.
+			// estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
