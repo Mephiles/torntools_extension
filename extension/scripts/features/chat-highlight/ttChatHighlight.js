@@ -56,7 +56,7 @@
 
 	function applyHighlights(message) {
 		if (!message) return;
-		if (!message.find) console.log("DKK highlightChat 1", { message });
+		if (!message.find) console.log("DKK highlightChat", { message });
 		if (!highlights.length) return;
 
 		const sender = simplify(message.find("a").textContent).slice(0, -1);
