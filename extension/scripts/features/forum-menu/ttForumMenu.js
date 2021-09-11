@@ -20,7 +20,7 @@
 	}
 
 	async function startFeature() {
-		const wrap = await requireElement(".forums-wrap, .forums-committee-wrap, .forums-thread");
+		const wrap = await requireElement(".forums-wrap, .forums-committee-wrap, .forums-thread-wrap:not(.search-wrap) .forums-thread");
 
 		if (wrap.classList.contains("forums-committee-wrap")) await showThreads();
 		else if (wrap.classList.contains("forums-thread")) await showPosts();
