@@ -577,6 +577,9 @@ const DEFAULT_STORAGE = {
 			itemmarket: {
 				highlightCheapItems: new DefaultSetting({ type: "number|empty", defaultValue: "" }),
 			},
+			competition: {
+				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		scripts: {
 			noConfirm: {
@@ -738,6 +741,30 @@ const DEFAULT_STORAGE = {
 		profile: {
 			relative: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			stats: new DefaultSetting({ type: "array", defaultValue: [] }),
+		},
+		competition: {
+			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
+			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			special: {
+				// FIXME - Check if possible.
+				fedded: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				// FIXME - Check if possible.
+				traveling: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				// FIXME - Check if possible.
+				newPlayer: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				// FIXME - Check if possible.
+				inCompany: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				// FIXME - Check if possible.
+				inFaction: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				// FIXME - Check if possible.
+				isDonator: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				// FIXME - Check if possible.
+				inHospital: new DefaultSetting({ type: "string", defaultValue: "both" }),
+				// FIXME - Check if possible.
+				inJail: new DefaultSetting({ type: "string", defaultValue: "both" }),
+			},
+			// FIXME - Implement SE.
+			// estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
