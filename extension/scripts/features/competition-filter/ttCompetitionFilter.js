@@ -117,7 +117,6 @@
 
 	async function applyFilter(includeEstimates) {
 		await requireElement(".team-list-wrap");
-		console.log("DKK applyFilter", document.find("a.user.name").dataset.placeholder);
 
 		const content = findContainer("Competition Filter", { selector: "main" });
 		const levels = localFilters["Level Filter"].getStartEnd(content);
