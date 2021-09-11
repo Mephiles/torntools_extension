@@ -1025,12 +1025,12 @@ async function updateNPCs() {
 	let updated = false;
 
 	const now = Date.now();
-	if (!npcs || !npcs.next_update || npcs.next_update * 1000 <= now) {
+	if (!npcs || !npcs.next_update || npcs.next_update <= now) {
 		const data = await fetchData("yata", { section: "loot" });
 
 		if (!npcs || npcs.timestamp !== data.timestamp) {
 			npcs = {
-				next_update: data.next_update,
+				next_update: data.next_update * 1000,
 				targets: {},
 			};
 
