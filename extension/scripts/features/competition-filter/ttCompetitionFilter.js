@@ -32,23 +32,21 @@
 						return;
 
 					addFilters();
-					applyFilter(false);
 					observer.disconnect();
 				}).observe(container.parentElement, { childList: true });
 			else {
 				addFilters();
 			}
 		});
-		// FIXME - Implement SE.
-		// CUSTOM_LISTENERS[EVENT_CHANNELS.STATS_ESTIMATED].push(({ row }) => {
-		// 	if (!feature.enabled()) return;
-		//
-		// 	const content = findContainer("Competition Filter", { selector: "main" });
-		// 	const statsEstimates = localFilters["Stats Estimate"]?.getSelections(content);
-		// 	if (!statsEstimates?.length) return;
-		//
-		// 	filterRow(row, { statsEstimates }, true);
-		// });
+		CUSTOM_LISTENERS[EVENT_CHANNELS.STATS_ESTIMATED].push(({ row }) => {
+			if (!feature.enabled()) return;
+
+			const content = findContainer("Competition Filter", { selector: "main" });
+			const statsEstimates = localFilters["Stats Estimate"]?.getSelections(content);
+			if (!statsEstimates?.length) return;
+
+			filterRow(row, { statsEstimates }, true);
+		});
 	}
 
 	const localFilters = {};
@@ -93,22 +91,21 @@
 		filterContent.appendChild(levelFilter.element);
 		localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
 
-		// FIXME - Implement SE.
-		// if (settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()) {
-		// 	const estimatesFilter = createFilterSection({
-		// 		title: "Stats Estimates",
-		// 		checkboxes: [
-		// 			{ id: "none", description: "none" },
-		// 			...RANK_TRIGGERS.stats.map((trigger) => ({ id: trigger, description: trigger })),
-		// 			{ id: "n/a", description: "N/A" },
-		// 		],
-		// 		defaults: filters.userlist.estimates,
-		// 		callback: () => filtering(true),
-		// 	});
-		// 	filterContent.appendChild(estimatesFilter.element);
-		//
-		// 	localFilters["Stats Estimate"] = { getSelections: estimatesFilter.getSelections };
-		// }
+		if (settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.competition && hasAPIData()) {
+			const estimatesFilter = createFilterSection({
+				title: "Stats Estimates",
+				checkboxes: [
+					{ id: "none", description: "none" },
+					...RANK_TRIGGERS.stats.map((trigger) => ({ id: trigger, description: trigger })),
+					{ id: "n/a", description: "N/A" },
+				],
+				defaults: filters.competition.estimates,
+				callback: () => applyFilter(true),
+			});
+			filterContent.appendChild(estimatesFilter.element);
+
+			localFilters["Stats Estimate"] = { getSelections: estimatesFilter.getSelections };
+		}
 
 		content.appendChild(filterContent);
 
@@ -122,11 +119,10 @@
 		const levels = localFilters["Level Filter"].getStartEnd(content);
 		const levelStart = parseInt(levels.start);
 		const levelEnd = parseInt(levels.end);
-		// FIXME - Implement SE.
-		// const statsEstimates =
-		// 	includeEstimates && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()
-		// 		? localFilters["Stats Estimate"]?.getSelections(content)
-		// 		: undefined;
+		const statsEstimates =
+			includeEstimates && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.competition && hasAPIData()
+				? localFilters["Stats Estimate"]?.getSelections(content)
+				: undefined;
 
 		// Update level and time slider counters
 		localFilters["Level Filter"].updateCounter(`Level ${levelStart} - ${levelEnd}`, content);
@@ -137,23 +133,14 @@
 				competition: {
 					levelStart,
 					levelEnd,
-					// FIXME - Implement SE.
-					// estimates: statsEstimates ?? filters.userlist.estimates,
+					estimates: statsEstimates ?? filters.competition.estimates,
 				},
 			},
 		});
 
 		// Actual Filtering
 		for (const li of document.findAll(".competition-list > li")) {
-			filterRow(
-				li,
-				{
-					level: { start: levelStart, end: levelEnd },
-					// FIXME - Implement SE.
-					// statsEstimates
-				},
-				false
-			);
+			filterRow(li, { level: { start: levelStart, end: levelEnd }, statsEstimates }, false);
 		}
 
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
@@ -173,17 +160,15 @@
 				return;
 			}
 		}
-
-		// FIXME - Implement SE.
-		// if (filters.statsEstimates) {
-		// 	if (filters.statsEstimates.length) {
-		// 		const estimate = row.dataset.estimate?.toLowerCase() ?? "none";
-		// 		if ((estimate !== "none" || !row.classList.contains("tt-estimated")) && !filters.statsEstimates.includes(estimate)) {
-		// 			hide("stats-estimate");
-		// 			return;
-		// 		}
-		// 	}
-		// }
+		if (filters.statsEstimates) {
+			if (filters.statsEstimates.length) {
+				const estimate = row.dataset.estimate?.toLowerCase() ?? "none";
+				if ((estimate !== "none" || !row.classList.contains("tt-estimated")) && !filters.statsEstimates.includes(estimate)) {
+					hide("stats-estimate");
+					return;
+				}
+			}
+		}
 
 		show();
 

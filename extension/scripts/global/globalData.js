@@ -746,8 +746,7 @@ const DEFAULT_STORAGE = {
 		competition: {
 			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
 			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
-			// FIXME - Implement SE.
-			// estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
+			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
