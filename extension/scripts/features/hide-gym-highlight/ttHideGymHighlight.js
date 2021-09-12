@@ -18,13 +18,16 @@
 		}
 	);
 
+	let hadHighlight = false;
+
 	async function hideGymHighlight() {
 		await requireSidebar();
 
 		const navGym = document.find("#nav-gym, #nav-jail_gym");
 		if (!navGym) return;
-		const gymClass = navGym.classList.contains("^=available___");
-		if (!gymClass) return;
+
+		hadHighlight = navGym.classList.contains("^=available___");
+		if (!hadHighlight) return;
 
 		const svg = navGym.find("svg");
 		if (hasDarkMode()) {
@@ -48,8 +51,11 @@
 	}
 
 	function removeHiddenHighlight() {
+		if (!hadHighlight) return;
+
 		const navGym = document.find("#nav-gym, #nav-jail_gym");
 		if (!navGym) return;
+
 		const svg = navGym.find("svg");
 
 		if (hasDarkMode()) {
