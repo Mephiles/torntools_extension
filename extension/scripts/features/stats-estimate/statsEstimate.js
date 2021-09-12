@@ -84,7 +84,10 @@ class StatsEstimate {
 					row.classList.remove("tt-estimated");
 					section.remove();
 				}
-				if (hasFilter) row.dataset.estimate = "none";
+				if (hasFilter) {
+					row.dataset.estimate = "none";
+					triggerCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, { rows: cached });
+				}
 
 				showLoadingPlaceholder(section, false);
 			} else this.queue.push({ row, section, id, hasFilter });
