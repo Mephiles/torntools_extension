@@ -86,7 +86,7 @@ class StatsEstimate {
 				}
 				if (hasFilter) {
 					row.dataset.estimate = "none";
-					triggerCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, { rows: cached });
+					triggerCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, { row });
 				}
 
 				showLoadingPlaceholder(section, false);
