@@ -626,9 +626,6 @@ const DEFAULT_STORAGE = {
 		},
 	},
 	filters: {
-		preferences: {
-			showAdvanced: new DefaultSetting({ type: "boolean", defaultValue: false }),
-		},
 		hospital: {
 			timeStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
 			timeEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),

@@ -1,18 +1,8 @@
-/* region Advanced Settings */
-
 main#preferences > h2 {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	margin-left: 8em;
-}
-
-#preferences-show_advanced {
-	cursor: pointer;
-}
-
-#preferences .advanced-hidden .advanced {
-	display: none;
 }
 
 body.tt-mobile .no-mobile {

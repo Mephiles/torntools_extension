@@ -67,10 +67,6 @@
 		<main id="preferences" class="hidden">
 			<h2>
 				Preferences
-				<span>
-					&nbsp;-&nbsp;
-					<i id="preferences-show_advanced" class="tooltip fas"><span class="tooltip-text"></span></i>
-				</span>
 				<span id="preferences-search">
 					<span class="search-wrap">
 						<span class="search">Search</span>
@@ -137,7 +133,7 @@
 					</ul>
 				</nav>
 
-				<div class="sections advanced-hidden">
+				<div class="sections">
 					<section class="active" name="general">
 						<div class="header">General</div>
 						<div class="option no-mobile">
@@ -263,9 +259,12 @@
 						</div>
 					</section>
 					<section name="api-usage">
+						<div class="note warning">
+							These options will influence some features or even the entire workings of TornTools. Change them at your own risk!
+						</div>
 						<div class="header">API Usage</div>
 						<div class="note">All API usage is checked every 30 seconds.</div>
-						<div class="option advanced">
+						<div class="option">
 							<label for="api_usage-comment">Execute API calls with comment:</label>
 							<input id="api_usage-comment" class="medium-input" />
 						</div>
@@ -274,7 +273,7 @@
 							<input id="api_usage-essential" type="number" min="30" class="short-input" />
 							<label for="api_usage-essential">seconds.</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<label for="api_usage-basic">Update basic userdata every</label>
 							<input id="api_usage-basic" type="number" min="30" class="short-input" />
 							<label for="api_usage-basic">seconds.</label>
@@ -285,101 +284,101 @@
 							<label for="api_usage-stakeouts">seconds.</label>
 						</div>
 
-						<div class="header advanced">User Selections</div>
-						<div class="note advanced">Disabling certain selections will silently disable certain features that rely on that api selection.</div>
-						<div class="option advanced">
+						<div class="header">User Selections</div>
+						<div class="note">Disabling certain selections will silently disable certain features that rely on that api selection.</div>
+						<div class="option">
 							<input id="api_usage-user_bars" type="checkbox" />
 							<label for="api_usage-user_bars">Bars</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_cooldowns" type="checkbox" />
 							<label for="api_usage-user_cooldowns">Cooldowns</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_travel" type="checkbox" />
 							<label for="api_usage-user_travel">Travel</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_newevents" type="checkbox" />
 							<label for="api_usage-user_newevents">Unread Events</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_newmessages" type="checkbox" />
 							<label for="api_usage-user_newmessages">Unread Messages</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_money" type="checkbox" />
 							<label for="api_usage-user_money">Money</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_refills" type="checkbox" />
 							<label for="api_usage-user_refills">Refills</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_personalstats" type="checkbox" />
 							<label for="api_usage-user_personalstats">Personal Stats</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_stocks" type="checkbox" />
 							<label for="api_usage-user_stocks">Stocks</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_education" type="checkbox" />
 							<label for="api_usage-user_education">Education</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_attacks" type="checkbox" />
 							<label for="api_usage-user_attacks">Attacks</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_networth" type="checkbox" />
 							<label for="api_usage-user_networth">Networth</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_inventory" type="checkbox" />
 							<label for="api_usage-user_inventory">Inventory</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_merits" type="checkbox" />
 							<label for="api_usage-user_merits">Merits</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_perks" type="checkbox" />
 							<label for="api_usage-user_perks">Perks</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_icons" type="checkbox" />
 							<label for="api_usage-user_icons">Icons</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_ammo" type="checkbox" />
 							<label for="api_usage-user_ammo">Ammo</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_honors" type="checkbox" />
 							<label for="api_usage-user_honors">Honors</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_medals" type="checkbox" />
 							<label for="api_usage-user_medals">Medals</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_battlestats" type="checkbox" />
 							<label for="api_usage-user_battlestats">Battlestats</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_crimes" type="checkbox" />
 							<label for="api_usage-user_crimes">Crimes</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_workstats" type="checkbox" />
 							<label for="api_usage-user_workstats">Workstats</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_skills" type="checkbox" />
 							<label for="api_usage-user_skills">Skills</label>
 						</div>
-						<div class="option advanced">
+						<div class="option">
 							<input id="api_usage-user_weaponexp" type="checkbox" />
 							<label for="api_usage-user_weaponexp">Weapon Experience</label>
 						</div>

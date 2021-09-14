@@ -181,22 +181,12 @@ async function setupChangelog() {
 async function setupPreferences() {
 	const _preferences = document.find("#preferences");
 
-	const showAdvancedIcon = _preferences.find("#preferences-show_advanced");
-
 	if (getSearchParameters().has("section"))
 		switchSection(_preferences.find(`#preferences > section > nav ul > li[name="${getSearchParameters().get("section")}"]`));
 
 	for (const link of _preferences.findAll(":scope > section > nav ul > li[name]")) {
 		link.addEventListener("click", () => switchSection(link));
 	}
-
-	showAdvanced(filters.preferences.showAdvanced);
-	showAdvancedIcon.addEventListener("click", async () => {
-		const newStatus = !filters.preferences.showAdvanced;
-
-		showAdvanced(newStatus);
-		await ttStorage.change({ filters: { preferences: { showAdvanced: newStatus } } });
-	});
 
 	_preferences.find("#addChatHighlight").addEventListener("click", () => {
 		const inputRow = document.find("#chatHighlight .input");
@@ -477,22 +467,6 @@ async function setupPreferences() {
 		_preferences.find(`:scope > section > .sections > section[name="${link.getAttribute("name")}"]`).classList.add("active");
 
 		window.scrollTo({ top: 0, behavior: "smooth" });
-	}
-
-	function showAdvanced(advanced) {
-		if (advanced) {
-			_preferences.find(".sections").classList.remove("advanced-hidden");
-
-			showAdvancedIcon.classList.add("fa-eye-slash");
-			showAdvancedIcon.classList.remove("fa-eye");
-			showAdvancedIcon.find(".tooltip-text").textContent = "Hide advanced options.";
-		} else {
-			_preferences.find(".sections").classList.add("advanced-hidden");
-
-			showAdvancedIcon.classList.remove("fa-eye-slash");
-			showAdvancedIcon.classList.add("fa-eye");
-			showAdvancedIcon.find(".tooltip-text").textContent = "Show advanced options.";
-		}
 	}
 
 	function fillSettings() {
@@ -1046,23 +1020,15 @@ async function setupPreferences() {
 			searchList.innerHTML = "";
 			// Sorry but there is no forEach method available. Had to use traditional loops.
 			if (searchResults.snapshotLength > 0) {
-				const hideAdvanced = !!document.find(".advanced-hidden");
-
 				for (let i = 0; i < searchResults.snapshotLength; i++) {
 					const option = searchResults.snapshotItem(i);
 					const name = option.textContent.replace("New!", "").replace("\n", "").trim();
 
 					let keyword, section;
 					if (option.getAttribute("for")) {
-						const isAdvanced = option.parentElement.classList.contains("advanced");
-						if (isAdvanced && hideAdvanced) continue;
-
 						keyword = "for";
 						section = option.getAttribute("for");
 					} else if (option.classList.contains("header")) {
-						const isAdvanced = option.classList.contains("advanced");
-						if (isAdvanced && hideAdvanced) continue;
-
 						keyword = "name";
 						section = option.parentElement.getAttribute("name");
 					}
