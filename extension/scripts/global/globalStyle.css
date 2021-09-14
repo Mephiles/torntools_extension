@@ -182,7 +182,16 @@ body.scrolled #tt-page-status.top-right {
 #tt-page-status.bottom-right {
 	position: fixed;
 	bottom: 50px;
-	max-height: calc(100% - 60px - 50px);
+}
+
+body:not(.scrolled) #tt-page-status.bottom-left,
+body:not(.scrolled) #tt-page-status.bottom-right {
+	max-height: calc(100vh - 100px - 50px);
+}
+
+body.scrolled #tt-page-status.bottom-left,
+body.scrolled #tt-page-status.bottom-right {
+	max-height: calc(100vh - 50px - 50px);
 }
 
 #tt-page-status.bottom-left {
