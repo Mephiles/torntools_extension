@@ -235,8 +235,8 @@
 				return;
 			}
 		}
-		if (filters.status?.length && filters.status.length !== 4) {
-			const status = row.find(".status").textContent.toLowerCase().trim();
+		if (filters.status?.length && filters.status.length !== 2) {
+			const status = row.find(".status :last-child").textContent.toLowerCase().trim();
 
 			if (!filters.status.includes(status)) {
 				hide("status");
