@@ -38,6 +38,16 @@
 			const notModifiedInputs = document.findAll("#chatRoot [class*='chat-box-input_']:not(.tt-modified) .tt-chat-filter");
 			if (notModifiedInputs.length) notModifiedInputs.forEach((x) => x.parentElement.classList.add("tt-modified"));
 		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_REPORT_OPENED].push(({ input }) => {
+			if (!feature.enabled()) return;
+
+			removeChatSearch(input.parentElement);
+		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_REPORT_CLOSED].push(({ input }) => {
+			if (!feature.enabled()) return;
+
+			addChatSearch(input.parentElement);
+		});
 	}
 
 	async function showSearch() {
@@ -123,9 +133,25 @@
 		);
 	}
 
+	function removeChatSearch(chat) {
+		for (const message of chat.findAll("[class*='overview_'] [class*='message_']")) {
+			message.classList.remove("hidden");
+		}
+		const viewport = chat.find("[class*='viewport_']");
+		viewport.scrollTop = viewport.scrollHeight;
+
+		const searchInput = chat.find(".tt-chat-filter");
+		if (searchInput) searchInput.remove();
+
+		const hasTradeTimer = chat.classList.contains("^=trade_") && chat.find("#tt-trade-timer");
+		if (!hasTradeTimer) chat.find("[class*='chat-box-input_']").classList.remove("tt-modified");
+
+		chat.findAll(".tt-chat-filter")?.remove();
+	}
+
 	function removeSearch() {
 		for (const chat of document.findAll("[class*='chat-active_']:not([class*='chat-box-settings_'])")) {
-			for (const message of document.findAll("[class*='overview_'] [class*='message_']")) {
+			for (const message of chat.findAll("[class*='overview_'] [class*='message_']")) {
 				message.classList.remove("hidden");
 			}
 			const viewport = chat.find("[class*='viewport_']");

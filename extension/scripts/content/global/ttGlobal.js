@@ -49,6 +49,8 @@
 							triggerCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, { message: addedNode });
 						} else if (addedNode.classList.contains("^=error_")) {
 							triggerCustomListener(EVENT_CHANNELS.CHAT_ERROR, { message: addedNode });
+						} else if (addedNode.classList.contains("^=chat-confirm_")) {
+							triggerCustomListener(EVENT_CHANNELS.CHAT_REPORT_OPENED, { input: mutation.target });
 						}
 					}
 				}
@@ -56,6 +58,8 @@
 					if (removedNode.classList && removedNode.classList.contains("^=error_")) {
 						triggerCustomListener(EVENT_CHANNELS.CHAT_ERROR, { message: removedNode });
 						break;
+					} else if (removedNode.classList.contains("^=chat-confirm_")) {
+						triggerCustomListener(EVENT_CHANNELS.CHAT_REPORT_CLOSED, { input: mutation.target });
 					}
 				}
 			}
