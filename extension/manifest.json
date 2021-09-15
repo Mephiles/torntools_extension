@@ -72,7 +72,8 @@
 				"scripts/features/hide-areas/ttHideAreas.css",
 				"scripts/features/hide-icons/ttHideIcons.css",
 				"scripts/features/block-zalgo/ttBlockZalgo.css",
-				"scripts/features/achievements/ttAchievements.css"
+				"scripts/features/achievements/ttAchievements.css",
+				"scripts/features/hide-tutorials/ttHideTutorials.css"
 			],
 			"js": [
 				"vendor/fontawesome/fontawesome.js",
@@ -112,7 +113,8 @@
 				"scripts/features/hide-icons/ttHideIcons.entry.js",
 				"scripts/features/block-zalgo/ttBlockZalgo.entry.js",
 				"scripts/features/achievements/achievements.js",
-				"scripts/features/achievements/ttAchievements.entry.js"
+				"scripts/features/achievements/ttAchievements.entry.js",
+				"scripts/features/hide-tutorials/ttHideTutorials.entry.js"
 			],
 			"run_at": "document_start"
 		},
