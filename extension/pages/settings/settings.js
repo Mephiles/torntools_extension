@@ -451,6 +451,7 @@ async function setupPreferences() {
 	});
 
 	fillSettings();
+	requestPermissions();
 	searchPreferences();
 	storageListeners.settings.push(updateSettings);
 
@@ -1086,6 +1087,46 @@ async function setupPreferences() {
 		if (value === newValue) return;
 
 		event.target.value = newValue;
+	}
+
+	function requestPermissions() {
+		const origins = [];
+
+		for (const { id, origin } of [
+			{ id: "external-tornstats", origin: FETCH_PLATFORMS.tornstats },
+			{ id: "external-yata", origin: FETCH_PLATFORMS.yata },
+		]) {
+			if (!_preferences.find(`#${id}`)?.checked) continue;
+
+			origins.push(origin);
+		}
+
+		const reviveProvider = _preferences.find("#global-reviveProvider").value;
+		if (reviveProvider) {
+			let origin;
+			if (reviveProvider === "nuke") origin = FETCH_PLATFORMS.nukefamily;
+			else if (reviveProvider === "uhc") origin = FETCH_PLATFORMS.uhc;
+
+			if (origin) origins.push(origin);
+		}
+
+		chrome.permissions.contains({ origins }, (granted) => {
+			if (granted) return;
+
+			loadConfirmationPopup({
+				title: "Permission Issue",
+				message: "There are settings enabled that require permissions to be given, but those permissions are missing.",
+			})
+				.then(() => {})
+				.catch(() => {})
+				.then(() => {
+					chrome.permissions.request({ origins }, (granted) => {
+						if (granted) return;
+
+						sendMessage("These permissions are essential.", false);
+					});
+				});
+		});
 	}
 }
 
