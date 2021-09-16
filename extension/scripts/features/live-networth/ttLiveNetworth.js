@@ -51,8 +51,9 @@
 		networthInterval = setInterval(() => {
 			const seconds = parseInt(infoIcon.getAttribute("seconds")) + 1;
 
-			infoIcon.setAttribute("title", `Last updated: ${formatTime({ milliseconds: Date.now() - seconds * 1000 }, { type: "ago" })}`);
-			infoIcon.setAttribute("seconds", `${seconds}`);
+			if (!infoIcon.hasAttribute("aria-describedby"))
+				infoIcon.setAttribute("title", `Last updated: ${formatTime({ milliseconds: Date.now() - seconds * 1000 }, { type: "ago" })}`);
+			infoIcon.setAttribute("seconds", seconds);
 		}, 1000);
 
 		const table = document.newElement({
