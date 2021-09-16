@@ -89,7 +89,7 @@
 		if (hasAPIData()) {
 			const profitFilter = createCheckboxDuo({ description: "Profit" });
 			profitFilter.onChange(applyFilter);
-			profitFilter.setValue(filters.stocks.price.price);
+			profitFilter.setValue(filters.stocks.price.profit);
 			localFilters.profit = { getValue: profitFilter.getValue };
 			priceSection.element.appendChild(profitFilter.element);
 		} else {
@@ -116,7 +116,7 @@
 		const profit = localFilters.profit.getValue();
 
 		// Save filters
-		await ttStorage.change({ filters: { stocks: { name, owned: { owned, benefit, passive } } } });
+		await ttStorage.change({ filters: { stocks: { name, investment: { owned, benefit, passive }, price: { price, profit } } } });
 
 		// Actual Filtering
 		for (const row of document.findAll("#stockmarketroot ul[class*='stock___']")) {
