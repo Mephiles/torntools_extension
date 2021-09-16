@@ -49,18 +49,10 @@
 		function newRow(name, value) {
 			return document.newElement({
 				type: "li",
+				class: "stats-row",
 				children: [
-					document.newElement({
-						type: "div",
-						class: "divider",
-						children: [document.newElement({ type: "span", text: name, style: { backgroundColor: "transparent" } })],
-					}),
-					document.newElement({
-						type: "div",
-						class: "desc",
-						style: { width: mobile ? "180px" : "184px" },
-						children: [document.newElement({ type: "span", text: value, style: { paddingLeft: "3px" } })],
-					}),
+					document.newElement({ type: "div", class: "divider", children: [document.newElement({ type: "span", text: name })] }),
+					document.newElement({ type: "div", class: "desc", children: [document.newElement({ type: "span", text: value })] }),
 				],
 			});
 		}

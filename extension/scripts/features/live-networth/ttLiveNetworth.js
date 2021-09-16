@@ -33,7 +33,6 @@
 			parentElement: document.find("h5=General Information").parentElement.nextElementSibling.find("ul.info-cont-wrap"),
 		});
 		const networthRow = newRow("(Live) Networth", `${formatNumber(userdata.networth.total, { currency: true })}`);
-		networthRow.style.backgroundColor = "#65c90069";
 
 		// Networth last updated info icon
 		const infoIcon = document.newElement({
@@ -85,17 +84,10 @@
 		function newRow(name, value) {
 			return document.newElement({
 				type: "li",
+				class: "networth-row",
 				children: [
-					document.newElement({
-						type: "div",
-						class: "divider",
-						children: [document.newElement({ type: "span", text: name, style: { backgroundColor: "transparent" } })],
-					}),
-					document.newElement({
-						type: "div",
-						class: "desc",
-						children: [document.newElement({ type: "span", text: value, style: { paddingLeft: "3px" } })],
-					}),
+					document.newElement({ type: "div", class: "divider", children: [document.newElement({ type: "span", text: name })] }),
+					document.newElement({ type: "div", class: "desc", children: [document.newElement({ type: "span", text: value })] }),
 				],
 			});
 		}

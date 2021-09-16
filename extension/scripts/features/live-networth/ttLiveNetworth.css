@@ -23,3 +23,15 @@
 #liveNetworth table .negative {
 	color: var(--tt-color-red);
 }
+
+.networth-row {
+	background-color: #65c90069;
+}
+
+.networth-row .divider span {
+	background-color: transparent !important;
+}
+
+.networth-row .desc span {
+	padding-left: 3px !important;
+}

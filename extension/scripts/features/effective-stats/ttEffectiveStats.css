@@ -1,3 +1,23 @@
 #effectiveBattleStats .title {
 	cursor: initial !important;
 }
+
+.stats-row {
+	background-color: #65c90069;
+}
+
+.stats-row .divider span {
+	background-color: transparent !important;
+}
+
+body:not(.tt-mobile) .stats-row .desc {
+	width: 184px !important;
+}
+
+body.tt-mobile .stats-row .desc {
+	width: 180px !important;
+}
+
+.stats-row .desc span {
+	padding-left: 3px !important;
+}
