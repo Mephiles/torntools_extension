@@ -185,24 +185,23 @@
 
 			// Faction
 			const rowFaction = li.find(".user.faction");
-			const factionImg = rowFaction.find(":scope > img");
+			const hasFaction = !!rowFaction.href;
+			const factionName = rowFaction.hasAttribute("rel")
+				? rowFaction.find(":scope > img").getAttribute("title").trim() || "N/A"
+				: rowFaction.textContent.trim();
+
 			if (faction && faction !== "No faction" && faction !== "Unknown faction") {
-				if (
-					!rowFaction.href || // No faction
-					(rowFaction.href && factionImg && factionImg.src === "https://factiontags.torn.com/0-0.png") || // Unknown faction
-					(rowFaction.href && factionImg && faction !== factionImg.getAttribute("title").trim())
-				) {
+				if (!hasFaction || factionName === "N/A" || factionName !== faction) {
 					hideRow(li);
 					continue;
 				}
 			} else if (faction === "No faction") {
-				if (rowFaction.href) {
-					// Not "No faction"
+				if (hasFaction) {
 					hideRow(li);
 					continue;
 				}
 			} else if (faction === "Unknown faction") {
-				if (!factionImg || (factionImg && factionImg.src !== "https://factiontags.torn.com/0-0.png")) {
+				if (!hasFaction || factionName !== "N/A") {
 					// Not "Unknown faction"
 					hideRow(li);
 					continue;

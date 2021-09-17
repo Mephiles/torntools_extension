@@ -190,10 +190,14 @@
 		}
 		if (filters.faction) {
 			const factionElement = row.find(".user.faction");
-			const image = factionElement.find(":scope > img");
 
 			const hasFaction = !!factionElement.href;
-			const isUnknownFaction = !image || image.src === "https://factiontags.torn.com/0-0.png";
+			const factionName = hasFaction
+				? rowFaction.hasAttribute("rel")
+					? rowFaction.find(":scope > img").getAttribute("title").trim() || "N/A"
+					: rowFaction.textContent.trim()
+				: false;
+			const isUnknownFaction = hasFaction && factionName === "N/A";
 
 			if (filters.faction === "No faction") {
 				if (hasFaction) {
@@ -210,7 +214,7 @@
 				if (
 					!hasFaction || // No faction
 					isUnknownFaction || // Unknown faction
-					filters.faction !== image.getAttribute("title").trim()
+					filters.faction !== factionName
 				) {
 					hide("faction");
 					return;
