@@ -1679,8 +1679,23 @@ function getItemEnergy(id) {
 	return !isNaN(value) ? parseInt(value) : false;
 }
 
-function getUsername(li, onlyID) {
-	const username = li.find(".user.name > [title]").getAttribute("title");
-	if (onlyID) return parseInt(username.match(/(?<=\[)\d+(?=])/g)[0]);
-	return username;
+function getUsername(row) {
+	let name, id, combined;
+
+	const element = row.find(".user.name");
+	const title = element.find(":scope > [title]");
+	if (title) {
+		combined = title.getAttribute("title");
+
+		const regex = combined.match(/(.*) \[([0-9]+)]/);
+		name = regex[1];
+		id = parseInt(regex[2]);
+	} else {
+		name = element.textContent;
+		id = element.href.getNumber();
+
+		combined = `${name} [${id}]`;
+	}
+
+	return { name, id, combined, toString: () => combined };
 }

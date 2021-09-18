@@ -37,7 +37,7 @@
 
 			const info = document.findAll(".members-stats-rows > *");
 			document.findAll(".members-names-rows > *").forEach((member, index) => {
-				csv.append(getUsername(member), ...[...info[index].findAll(".members-stats-cols > *")].map((info) => info.textContent));
+				csv.append(getUsername(member).combined, ...[...info[index].findAll(".members-stats-cols > *")].map((info) => info.textContent));
 			});
 
 			csv.download();
