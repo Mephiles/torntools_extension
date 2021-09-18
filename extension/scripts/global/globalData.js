@@ -589,6 +589,7 @@ const DEFAULT_STORAGE = {
 				itemEquip: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				tradeAccept: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				marketBuy: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				pointsMarketRemove: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			achievements: {
 				show: new DefaultSetting({ type: "boolean", defaultValue: true }),

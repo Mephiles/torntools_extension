@@ -11,6 +11,8 @@ function interceptXHR(channel) {
 	const oldXHRSend = window.XMLHttpRequest.prototype.send;
 
 	window.XMLHttpRequest.prototype.open = function (method, url) {
+		let params = this.params ?? {};
+
 		if (typeof xhrOpenAdjustments === "object") {
 			for (const key in xhrOpenAdjustments) {
 				if (typeof xhrOpenAdjustments[key] !== "function") continue;
@@ -19,8 +21,14 @@ function interceptXHR(channel) {
 
 				method = adjustments.method;
 				url = adjustments.url;
+
+				params = { ...params, ...(adjustments.params || {}) };
 			}
 		}
+
+		this.method = method;
+		this.url = url;
+		this.params = params;
 
 		this.addEventListener("readystatechange", function () {
 			if (this.readyState > 3 && this.status === 200) {
@@ -47,9 +55,13 @@ function interceptXHR(channel) {
 			}
 		});
 
+		arguments[0] = method;
+		arguments[1] = url;
+
 		return oldXHROpen.apply(this, arguments);
 	};
 	window.XMLHttpRequest.prototype.send = function (body) {
+		this.params = this.params ?? {};
 		if (typeof xhrSendAdjustments === "object") {
 			for (const key in xhrSendAdjustments) {
 				if (typeof xhrSendAdjustments[key] !== "function") continue;

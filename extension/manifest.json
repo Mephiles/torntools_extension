@@ -732,6 +732,11 @@
 				"scripts/features/stats-estimate/ttStatsEstimateCompetition.js"
 			],
 			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.torn.com/pmarket.php*"],
+			"js": ["scripts/features/no-confirm/ttPointsMarketNoConfirm.js"],
+			"run_at": "document_end"
 		}
 	]
 }
