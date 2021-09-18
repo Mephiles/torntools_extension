@@ -1,11 +1,11 @@
 .tt-user-alias {
-    position: absolute;
+	position: absolute;
 	transform: translate(calc(204px - 100%), -25px);
-    font-size: 14px;
+	font-size: 14px;
 }
 
 .tt-user-alias-list {
 	position: absolute;
-    font-size: 14px;
-    transform: translate(-100%, 15px);
+	font-size: 14px;
+	transform: translate(-100%, 15px);
 }

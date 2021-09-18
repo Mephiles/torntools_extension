@@ -55,6 +55,6 @@
 	}
 
 	function removeAlias() {
-		document.findAll(".tt-user-alias-list").forEach(x => x.remove());
+		document.findAll(".tt-user-alias-list").forEach((x) => x.remove());
 	}
 })();

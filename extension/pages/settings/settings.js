@@ -329,7 +329,7 @@ async function setupPreferences() {
 	_preferences.find("#addUserAlias").addEventListener("click", () => {
 		const inputRow = document.find("#userAlias li:last-child");
 
-		addUserAlias(inputRow.find(".userID").value, inputRow.find(".name").value, inputRow.find(".alias").value)
+		addUserAlias(inputRow.find(".userID").value, inputRow.find(".name").value, inputRow.find(".alias").value);
 	});
 
 	const chatSection = _preferences.find(".sections section[name='chat']");
@@ -811,7 +811,7 @@ async function setupPreferences() {
 		deleteIcon.addEventListener("click", () => newRow.remove());
 
 		_preferences.find("#userAlias li:last-child").insertAdjacentElement("beforebegin", newRow);
-		_preferences.findAll("#userAlias li:last-child input").forEach(x => x.value = "");
+		_preferences.findAll("#userAlias li:last-child input").forEach((x) => (x.value = ""));
 	}
 
 	function getCustomLinkOptions() {
@@ -926,7 +926,7 @@ async function setupPreferences() {
 		settings.userAlias = {};
 		for (const aliasRow of _preferences.findAll("#userAlias > li")) {
 			if (aliasRow.find(".userID").value) {
-				settings.userAlias[aliasRow.find(".userID").value] = { name: aliasRow.find(".name").value, alias: aliasRow.find(".alias").value }
+				settings.userAlias[aliasRow.find(".userID").value] = { name: aliasRow.find(".name").value, alias: aliasRow.find(".alias").value };
 			}
 		}
 

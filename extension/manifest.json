@@ -454,8 +454,12 @@
 		{
 			"matches": ["https://www.torn.com/jailview.php*"],
 			"css": ["scripts/global/functions/filters.css", "scripts/features/jail-filter/ttJailFilter.css"],
-			"js": ["scripts/global/functions/filters.js", "scripts/content/jail/ttJail.js", "scripts/features/jail-filter/ttJailFilter.js",
-				"scripts/features/user-alias/ttUserAliasUserlist.js"],
+			"js": [
+				"scripts/global/functions/filters.js",
+				"scripts/content/jail/ttJail.js",
+				"scripts/features/jail-filter/ttJailFilter.js",
+				"scripts/features/user-alias/ttUserAliasUserlist.js"
+			],
 			"run_at": "document_end"
 		},
 		{
@@ -563,10 +567,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/page.php?sid=UserList*"],
-			"css": [
-				"scripts/global/functions/filters.css",
-				"scripts/features/stats-estimate/ttStatsEstimate.css"
-			],
+			"css": ["scripts/global/functions/filters.css", "scripts/features/stats-estimate/ttStatsEstimate.css"],
 			"js": [
 				"scripts/global/functions/filters.js",
 				"scripts/content/userlist/ttUserlist.js",

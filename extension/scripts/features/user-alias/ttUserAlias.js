@@ -45,9 +45,7 @@
 	function addAliasTitle() {
 		document.findAll("#chatRoot [class*='chat-box-title_']").forEach((chatTitle) => {
 			const chatPlayerTitle = chatTitle.getAttribute("title").trim();
-			if (!chatPlayerTitle ||
-			(chatPlayerTitle && ["Global", "Faction", "Company", "Trade", "People"].includes(chatPlayerTitle))
-			) return;
+			if (!chatPlayerTitle || (chatPlayerTitle && ["Global", "Faction", "Company", "Trade", "People"].includes(chatPlayerTitle))) return;
 
 			for (const alias of Object.values(settings.userAlias)) {
 				if (chatPlayerTitle === alias.name.trim()) {
@@ -57,7 +55,7 @@
 				}
 			}
 		});
-	} 
+	}
 
 	function addAliasMessage(message = "") {
 		if (!message) {
@@ -78,7 +76,7 @@
 	}
 
 	function removeAlias() {
-		document.findAll("#chatRoot [class*='message_'] a[href*='/profiles.php?XID='], #chatRoot [class*='chat-box-title_'] [class*='name_']").forEach(x => {
+		document.findAll("#chatRoot [class*='message_'] a[href*='/profiles.php?XID='], #chatRoot [class*='chat-box-title_'] [class*='name_']").forEach((x) => {
 			if (x.dataset.userName) x.textContent = x.dataset.userName;
 			delete x.dataset.userName;
 		});
