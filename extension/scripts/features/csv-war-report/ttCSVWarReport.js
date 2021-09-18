@@ -43,7 +43,7 @@
 				if (members.length) {
 					for (const row of members) {
 						csv.append(
-							getUsername(row),
+							getUsername(row).combined,
 							row.find(".lvl").textContent,
 							row.find(".points").textContent,
 							row.find(".joins").textContent,

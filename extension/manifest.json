@@ -138,7 +138,8 @@
 				"scripts/features/collapsible-areas/ttCollapsibleAreas.css",
 				"scripts/features/npc-loot-times/ttNPCLootTimes.css",
 				"scripts/features/hide-chat/ttHideChat.css",
-				"scripts/features/revive-request/ttReviveRequest.css"
+				"scripts/features/revive-request/ttReviveRequest.css",
+				"scripts/features/user-alias/ttUserAlias.css"
 			],
 			"js": [
 				"resources/images/svg-icons/back.js",
@@ -166,7 +167,8 @@
 				"scripts/features/points-value/ttPointsValue.js",
 				"scripts/features/npc-loot-times/ttNPCLootTimes.js",
 				"scripts/features/hide-chat/ttHideChat.js",
-				"scripts/features/revive-request/ttReviveRequest.js"
+				"scripts/features/revive-request/ttReviveRequest.js",
+				"scripts/features/user-alias/ttUserAlias.js"
 			],
 			"run_at": "document_end"
 		},
@@ -338,14 +340,20 @@
 				"scripts/features/stats-estimate/ttStatsEstimateFactionMembers.js",
 				"scripts/features/stats-estimate/ttStatsEstimateFactionWars.js",
 				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.js",
-				"scripts/features/energy-warning/ttEnergyWarning.js"
+				"scripts/features/energy-warning/ttEnergyWarning.js",
+				"scripts/features/user-alias/ttUserAliasUserlist.js"
 			],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://www.torn.com/hospitalview.php*"],
 			"css": ["scripts/global/functions/filters.css"],
-			"js": ["scripts/global/functions/filters.js", "scripts/content/hospital/ttHospital.js", "scripts/features/hospital-filter/ttHospitalFilter.js"],
+			"js": [
+				"scripts/global/functions/filters.js",
+				"scripts/content/hospital/ttHospital.js",
+				"scripts/features/hospital-filter/ttHospitalFilter.js",
+				"scripts/features/user-alias/ttUserAliasUserlist.js"
+			],
 			"run_at": "document_end"
 		},
 		{
@@ -446,7 +454,12 @@
 		{
 			"matches": ["https://www.torn.com/jailview.php*"],
 			"css": ["scripts/global/functions/filters.css", "scripts/features/jail-filter/ttJailFilter.css"],
-			"js": ["scripts/global/functions/filters.js", "scripts/content/jail/ttJail.js", "scripts/features/jail-filter/ttJailFilter.js"],
+			"js": [
+				"scripts/global/functions/filters.js",
+				"scripts/content/jail/ttJail.js",
+				"scripts/features/jail-filter/ttJailFilter.js",
+				"scripts/features/user-alias/ttUserAliasUserlist.js"
+			],
 			"run_at": "document_end"
 		},
 		{
@@ -517,7 +530,8 @@
 				"scripts/features/profile-box/ttProfileBox.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
 				"scripts/features/stats-estimate/ttStatsEstimateProfile.js",
-				"scripts/features/creators/ttCreators.js"
+				"scripts/features/creators/ttCreators.js",
+				"scripts/features/user-alias/ttUserAliasProfile.js"
 			],
 			"run_at": "document_end"
 		},
@@ -559,7 +573,8 @@
 				"scripts/content/userlist/ttUserlist.js",
 				"scripts/features/userlist-filter/ttUserlistFilter.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
-				"scripts/features/stats-estimate/ttStatsEstimateUserlist.js"
+				"scripts/features/stats-estimate/ttStatsEstimateUserlist.js",
+				"scripts/features/user-alias/ttUserAliasUserlist.js"
 			],
 			"run_at": "document_end"
 		},

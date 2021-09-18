@@ -28,16 +28,16 @@
 		let goal = gymGoals[index];
 		if (userdata.company_perks.some((perk) => perk.indexOf("increased gym experience") > -1)) goal = goal / 1.3;
 
-		const stat = parseInt((goal * (percentage / 100)).toFixed(0));
-
+		const stat = (goal * (percentage / 100)).dropDecimals();
 		if (!stat || !goal) return;
+
 		gymNotification.closest("[class*='notification__']").classList.add("tt-modified");
 		gymNotification.appendChild(
 			document.newElement({
 				type: "p",
 				class: "tt-gym-energy-progress",
 				text: "Estimated Energy progress: ",
-				children: [document.newElement({ type: "span", text: `${formatNumber(stat, false)}/${formatNumber(goal, false)}E.` })],
+				children: [document.newElement({ type: "span", text: `${formatNumber(stat, { decimals: 0 })}/${formatNumber(goal, { decimals: 0 })}E.` })],
 			})
 		);
 	}

@@ -1,7 +1,7 @@
 "use strict";
 
 (() => {
-	addXHRListener(async ({ detail: { page, xhr, uri } }) => {
+	addXHRListener(async ({ detail: { page, xhr } }) => {
 		if (page === "competition") {
 			const params = new URLSearchParams(xhr.requestBody);
 			const p = params.get("p");

@@ -2,10 +2,6 @@
 	cursor: initial !important;
 }
 
-.stats-row {
-	background-color: #65c90069;
-}
-
 .stats-row .divider span {
 	background-color: transparent !important;
 }

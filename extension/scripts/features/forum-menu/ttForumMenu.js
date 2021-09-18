@@ -41,7 +41,7 @@
 				continue;
 			}
 
-			const userId = getUsername(thread, true);
+			const userId = getUsername(thread).id;
 
 			const shouldHideThreads = settings.pages.forums.hideThreads[userId];
 			if (shouldHideThreads) {
