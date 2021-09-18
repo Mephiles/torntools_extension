@@ -326,7 +326,11 @@ async function setupPreferences() {
 		addAllyFaction(inputRow.find(".faction").value);
 	});
 
-	settings.alliedFactions.forEach((ally) => addAllyFaction(ally));
+	_preferences.find("#addUserAlias").addEventListener("click", () => {
+		const inputRow = document.find("#userAlias li:last-child");
+
+		addUserAlias(inputRow.find(".userID").value, inputRow.find(".name").value, inputRow.find(".alias").value)
+	});
 
 	const chatSection = _preferences.find(".sections section[name='chat']");
 	for (const placeholder of HIGHLIGHT_PLACEHOLDERS) {
@@ -613,6 +617,10 @@ async function setupPreferences() {
 			row.find("input[type='number']").value = !isNaN(warning.days) ? warning.days : "";
 			row.find("input[type='color']").value = warning.color;
 		});
+		settings.alliedFactions.forEach((ally) => addAllyFaction(ally));
+		for (const userID in settings.userAlias) {
+			addUserAlias(userID, settings.userAlias[userID].name, settings.userAlias[userID].alias);
+		}
 		for (const { id, level, minutes } of settings.notifications.types.npcs) {
 			const row = _preferences.find(`#npc-alerts > li[data-id='${id}']`);
 			if (!row) continue;
@@ -784,6 +792,28 @@ async function setupPreferences() {
 		_preferences.find("#allyFactions li:last-child input").value = "";
 	}
 
+	function addUserAlias(userID, name, alias) {
+		const deleteIcon = document.newElement({
+			type: "button",
+			class: "remove-icon-wrap",
+			children: [document.newElement({ type: "i", class: "remove-icon fas fa-trash-alt" })],
+		});
+		const newRow = document.newElement({
+			type: "li",
+			children: [
+				document.newElement({ type: "input", class: "userID", value: userID, attributes: { type: "text", placeholder: "User ID.." } }),
+				document.newElement({ type: "input", class: "name", value: name, attributes: { type: "text", placeholder: "Name.." } }),
+				document.newElement({ type: "input", class: "alias", value: alias, attributes: { type: "text", placeholder: "Alias.." } }),
+				deleteIcon,
+			],
+		});
+
+		deleteIcon.addEventListener("click", () => newRow.remove());
+
+		_preferences.find("#userAlias li:last-child").insertAdjacentElement("beforebegin", newRow);
+		_preferences.findAll("#userAlias li:last-child input").forEach(x => x.value = "");
+	}
+
 	function getCustomLinkOptions() {
 		let options = "<option value='custom'>Custom..</option>";
 		for (const name in CUSTOM_LINKS_PRESET) options += `<option value="${name}">${name}</option>`;
@@ -893,6 +923,12 @@ async function setupPreferences() {
 				if (typeof x === "string") return x.trim() !== "";
 				else return x;
 			});
+		settings.userAlias = {};
+		for (const aliasRow of _preferences.findAll("#userAlias > li")) {
+			if (aliasRow.find(".userID").value) {
+				settings.userAlias[aliasRow.find(".userID").value] = { name: aliasRow.find(".name").value, alias: aliasRow.find(".alias").value }
+			}
+		}
 
 		settings.hideAreas = [..._preferences.findAll("#hide-areas span.disabled")].map((area) => area.getAttribute("name"));
 		settings.hideIcons = [..._preferences.findAll("#hide-icons .icon.disabled > div")].map((icon) => icon.getAttribute("class"));
