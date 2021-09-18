@@ -1,0 +1,183 @@
+name: Pack new version
+on:
+  workflow_dispatch:
+    inputs:
+      new_version_major:
+        description: "The new major version to be used in New Changelog Entry(without 'v')"
+        required: true
+      new_version_minor:
+        description: "The new minor version to be used in New Changelog Entry(without 'v')"
+        required: true
+      new_version_build:
+        description: "The new build version to be used in New Changelog Entry(without 'v')"
+        required: true
+        default: "0"
+      new_version_title:
+        description: "The new title version to be used in New Changelog Entry(without any ' or \")"
+        required: true
+        default: "null"
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Update the changelog.json
+        run: |
+          DaySuffix() {
+            case $(date +%d) in
+            1|21|31) echo "st";;
+            2|22)    echo "nd";;
+            3|23)    echo "rd";;
+            *)       echo "th";;
+            esac
+          }
+          sudo apt-get install jq
+          jqCommand="jq"
+          changelogPath="./extension/changelog.json"
+          releaseBodyFile="./releaseBody.md"
+          tmpFile="tmp.tmp"
+          readmePath="README.md"
+          newVersionMajor="${{ github.event.inputs.new_version_major }}" 
+          newVersionMinor="${{ github.event.inputs.new_version_minor }}" 
+          newVersionBuild="${{ github.event.inputs.new_version_build }}" 
+          newVersionTitle="${{ github.event.inputs.new_version_title }}"
+          if ! output="$(echo "[ \"${newVersionMajor}\", \"${newVersionMinor}\", \"${newVersionBuild}\" ]" | "${jqCommand}" -j ".[] | tonumber")"
+          then
+              echo "$output"
+              echo "::error file=changelog.json,line=2,col=4::New version entered \"${newVersionMajor}.${newVersionMinor}.${newVersionBuild}\" contains non-numerical parts."
+              exit 1
+          fi
+          if output="$("${jqCommand}" -e "
+            . |
+            map(
+                select(
+                    .version.major == ${newVersionMajor} and
+                    .version.minor == ${newVersionMinor} and
+                    .version.build == ${newVersionBuild}
+                )
+            ) |
+            length != 0
+          " "${changelogPath}")"
+          then
+              echo "$output"
+              echo "::error file=changelog.json,line=2,col=4::New version entered \"${newVersionMajor}.${newVersionMinor}.${newVersionBuild}\" is already present."
+              exit 1
+          fi
+          firstEntry="$("${jqCommand}" -j ".[0]" "${changelogPath}")"
+          version="$(echo "$firstEntry" | "${jqCommand}" -j "[ .version | to_entries[] | .value ] | join(\".\")")"
+          export version
+          echo "version=$version" >> "$GITHUB_ENV"
+          echo "$firstEntry" | "${jqCommand}" -j "
+            .logs as \$clFirstEntryLogs | (
+                \$clFirstEntryLogs |
+                if ((.features | length) > 0) then
+                    (.features |
+                    map(
+                        if ((.message | .[-1:]) == \".\") then
+                            ((.message | .[:-1]) + \" by \" + .contributor)
+                        else
+                            (.message + \" by \" + .contributor)
+                        end
+                        + \".\n\"
+                    ) |
+                    . |= [\"### Features\n\"] + . |
+                    . |= . + [\"\n\"] |
+                    join(\"\")
+                    )
+                else (\"\")
+                end
+            ),
+            (
+                \$clFirstEntryLogs |
+                if ((.fixes | length) > 0) then
+                    (.fixes |
+                    map(
+                        if ((.message | .[-1:]) == \".\") then
+                            ((.message | .[:-1]) + \" by \" + .contributor)
+                        else
+                            (.message + \" by \" + .contributor)
+                        end
+                        + \".\n\"
+                    ) |
+                    . |= [\"### Fixes\n\"] + . |
+                    . |= . + [\"\n\"] |
+                    join(\"\")
+                    )
+                else (\"\")
+                end
+            ),
+            (
+                \$clFirstEntryLogs |
+                if ((.changes | length) > 0) then
+                    (.changes |
+                    map(
+                        if ((.message | .[-1:]) == \".\") then
+                            ((.message | .[:-1]) + \" by \" + .contributor)
+                        else
+                            (.message + \" by \" + .contributor)
+                        end
+                        + \".\n\"
+                    ) |
+                    . |= [\"### Changes\n\"] + . |
+                    . |= . + [\"\n\"] |
+                    join(\"\")
+                    )
+                else (\"\")
+                end
+            ),
+            (
+                \$clFirstEntryLogs |
+                if ((.removed | length) > 0) then
+                    (.removed |
+                    map(
+                        if ((.message | .[-1:]) == \".\") then
+                            (.message | .[:-1])
+                        else
+                            (.message)
+                        end
+                        + \".\n\"
+                    ) |
+                    . |= [\"### Removed\n\"] + . |
+                    . |= . + [\"\n\"] |
+                    join(\"\")
+                    )
+                else (\"\")
+                end
+            )
+          " >> "$releaseBodyFile"
+          "${jqCommand}" -j ".[0].date |= \"$(date +"%Y/%m/%d")\"" "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
+          zip -q -r "torntools_${version}.zip" ./extension/*
+          [ ! -d "versions" ] && mkdir versions
+          mv "torntools_${version}.zip" ./versions/
+          "${jqCommand}" "
+            . |= 
+              [{
+                  \"version\": { \"major\": ${newVersionMajor}, \"minor\": ${newVersionMinor}, \"build\": ${newVersionBuild} },
+                  \"title\": \"${newVersionTitle}\",
+                  \"date\": false,
+                  \"logs\": {
+                      \"features\": [],
+                      \"fixes\": [],
+                      \"changes\": [],
+                      \"removed\": []
+                  }
+              }] +
+              ." "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
+          ghReleaseDateMarkdown="[![GitHub Release Date](https://img.shields.io/static/v1?label=RELEASE%20DATE\\\\&message=$(date "+%B, %-d$(DaySuffix). %Y" | "${jqCommand}" --raw-input --raw-output '. | @uri')\\\\&color=%23acea00\\\\&style=for-the-badge)](https://github.com/Mephiles/torntools_extension/releases/latest)<!---A pointer for bash-->"
+          awk "/.*A pointer for bash.*/ {sub(/.*/, \"${ghReleaseDateMarkdown}\")} {print}" "${readmePath}" > "${tmpFile}" && mv "${tmpFile}" "${readmePath}"
+          export version
+          echo "version=$version" >> "$GITHUB_ENV"
+      - name: Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: versions/torntools_${{ env.version }}.zip
+          name: "Release: v${{ env.version }}"
+          tag: "${{ env.version }}"
+          bodyFile: "./releaseBody.md"
+          token: ${{ secrets.GH_TOKEN }}
+      - name: Delete temporary files
+        run: rm -f ./releaseBody.md
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v7.0.0
+        with:
+          message: "Pack v${{ env.version }}"
