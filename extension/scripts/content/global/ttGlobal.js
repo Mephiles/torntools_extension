@@ -55,10 +55,10 @@
 					}
 				}
 				for (const removedNode of mutation.removedNodes) {
-					if (removedNode.classList && removedNode.classList.contains("^=error_")) {
+					if (removedNode.classList?.contains("^=error_")) {
 						triggerCustomListener(EVENT_CHANNELS.CHAT_ERROR, { message: removedNode });
 						break;
-					} else if (removedNode.classList.contains("^=chat-confirm_")) {
+					} else if (removedNode.classList?.contains("^=chat-confirm_")) {
 						triggerCustomListener(EVENT_CHANNELS.CHAT_REPORT_CLOSED, { input: mutation.target });
 					}
 				}
