@@ -13,11 +13,12 @@ on:
         required: true
         default: "0"
       new_version_title:
-        description: "The new title version to be used in New Changelog Entry(without any ' or \")"
+        description: "The title to be used in New Changelog Entry(without any ' or \")"
         required: true
         default: "null"
 jobs:
   publish:
+    environment: Release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -72,18 +73,10 @@ jobs:
                 \$clFirstEntryLogs |
                 if ((.features | length) > 0) then
                     (.features |
-                    map(
-                        if ((.message | .[-1:]) == \".\") then
-                            ((.message | .[:-1]) + \" by \" + .contributor)
-                        else
-                            (.message + \" by \" + .contributor)
-                        end
-                        + \".\n\"
-                    ) |
+                    map(\"* \" + .message + \"\n\") |
                     . |= [\"### Features\n\"] + . |
                     . |= . + [\"\n\"] |
-                    join(\"\")
-                    )
+                    join(\"\"))
                 else (\"\")
                 end
             ),
@@ -91,18 +84,10 @@ jobs:
                 \$clFirstEntryLogs |
                 if ((.fixes | length) > 0) then
                     (.fixes |
-                    map(
-                        if ((.message | .[-1:]) == \".\") then
-                            ((.message | .[:-1]) + \" by \" + .contributor)
-                        else
-                            (.message + \" by \" + .contributor)
-                        end
-                        + \".\n\"
-                    ) |
+                    map(\"* \" + .message + \"\n\") |
                     . |= [\"### Fixes\n\"] + . |
                     . |= . + [\"\n\"] |
-                    join(\"\")
-                    )
+                    join(\"\"))
                 else (\"\")
                 end
             ),
@@ -110,18 +95,10 @@ jobs:
                 \$clFirstEntryLogs |
                 if ((.changes | length) > 0) then
                     (.changes |
-                    map(
-                        if ((.message | .[-1:]) == \".\") then
-                            ((.message | .[:-1]) + \" by \" + .contributor)
-                        else
-                            (.message + \" by \" + .contributor)
-                        end
-                        + \".\n\"
-                    ) |
+                    map(\"* \" + .message + \"\n\") |
                     . |= [\"### Changes\n\"] + . |
                     . |= . + [\"\n\"] |
-                    join(\"\")
-                    )
+                    join(\"\"))
                 else (\"\")
                 end
             ),
@@ -129,24 +106,16 @@ jobs:
                 \$clFirstEntryLogs |
                 if ((.removed | length) > 0) then
                     (.removed |
-                    map(
-                        if ((.message | .[-1:]) == \".\") then
-                            (.message | .[:-1])
-                        else
-                            (.message)
-                        end
-                        + \".\n\"
-                    ) |
+                    map(\"* \" + .message + \"\n\") |
                     . |= [\"### Removed\n\"] + . |
                     . |= . + [\"\n\"] |
-                    join(\"\")
-                    )
+                    join(\"\"))
                 else (\"\")
                 end
             )
           " >> "$releaseBodyFile"
           "${jqCommand}" -j ".[0].date |= \"$(date +"%Y/%m/%d")\"" "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
-          zip -q -r "torntools_${version}.zip" ./extension/*
+          cd extension && zip -q -r "../torntools_${version}.zip" * && cd ..
           [ ! -d "versions" ] && mkdir versions
           mv "torntools_${version}.zip" ./versions/
           "${jqCommand}" "
