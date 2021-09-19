@@ -11,6 +11,11 @@
 [![Firefox Extension Version](https://img.shields.io/amo/v/torn-tools?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAKlBMVEVHcEwAytkAzNsA4vEAytkAytkAytkAytkAzd4AytoAy9kAy9kA0uoAydi22zB6AAAADXRSTlMA8TcF3KacuiWBaU0LEfdW0AAAAIJJREFUCNdj4ApiUElmmNbAsPYqk+xVi7vODLFXFt69W3n3BoOq710guD6BgWEtiCHMwMAkC2JcNWBQvAsGwQy+V2rv3nW/e4sh9w733esH5kowsDkw1N5m2KjAwMDAIXuTgRlIMwO13WQAgdy7d4XADLa7FxXADIZYiAADg1UDkAAAuaM0aWPgcX4AAAAASUVORK5CYII=)](https://addons.mozilla.org/en-US/firefox/addon/torn-tools/)
 [![GitHub Release Date](https://img.shields.io/static/v1?label=RELEASE%20DATE&message=July%2C%2028th.%202021&color=%23acea00&style=for-the-badge)](https://github.com/Mephiles/torntools_extension/releases/latest)<!---A pointer for bash-->
 
+[![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/hjpaapdjcgbmeikfnahipphknonhlhib?label=CHROME%20USERS&style=for-the-badge)](https://chrome.google.com/webstore/detail/torn-tools/hjpaapdjcgbmeikfnahipphknonhlhib)
+[![Firefox Add-on Users](https://img.shields.io/amo/users/%257B3754707b-1aa4-4c6f-96e7-5b1cdc1de5f9%257D?label=FIREFOX%20USERS&style=for-the-badge)](https://addons.mozilla.org/en-US/firefox/addon/torn-tools/)
+[![Github License](https://img.shields.io/github/license/Mephiles/torntools_extension?style=for-the-badge)](https://github.com/Mephiles/torntools_extension/blob/master/LICENSE.md)
+[![GitHub Build](https://img.shields.io/github/workflow/status/Mephiles/torntools_extension/Run%20Prettier/master?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAYUExURQAAAAAAAAAAAAAAAAAAAAAAAAAAAEdwTHO38yIAAAAIdFJOU/k2D9Nrt5MA1Sk7ugAAAHZJREFUCNcljrEKg0AQRAc8U59KuD6itl7EPkljLQq24h+cKPP7mdNp9rHD7Cwo7Q2JCE8vCDkDNkFlWCXROuBsyt2Bhbf41W8wdCvSdlHKQpLFj+aoOwfwyBqBFt33isMUiSPKGcMJL+gNQ2vUNQ1qjanX/ccfxlQhprAciDYAAAAASUVORK5CYII=)](https://github.com/Mephiles/torntools_extension/actions/workflows/run-prettier.yml)
+
 **Links**
 
 <a href="https://www.torn.com/forums.php#/p=threads&f=67&t=16170566">
