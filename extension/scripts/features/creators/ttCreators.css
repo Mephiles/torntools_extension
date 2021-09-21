@@ -21,7 +21,7 @@ body.dark-mode .tt-creator .tt-svg .tt-svg-upper rect:nth-child(1) {
 
 body.dark-mode .tt-creator .tt-svg .tt-svg-upper rect:nth-child(2) {
 	stroke-dashoffset: 22px;
-	stroke-dasharray: 22px 22px 126px 0px;
+	stroke-dasharray: 22px 22px 126px 0;
 }
 
 .tt-creator span {
