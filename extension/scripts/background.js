@@ -25,6 +25,8 @@ const notifications = {
 	npcs: {},
 };
 
+let npcUpdater;
+
 (async () => {
 	await convertDatabase();
 	await loadDatabase();
@@ -1022,7 +1024,7 @@ async function updateNPCs() {
 		21: "Tiny",
 	};
 
-	let updated = false;
+	let updated;
 
 	const now = Date.now();
 	if (!npcs || !npcs.next_update || npcs.next_update <= now) {
@@ -1054,8 +1056,10 @@ async function updateNPCs() {
 			await ttStorage.set({ npcs });
 
 			updated = true;
-		} else await updateLevels();
-	} else await updateLevels();
+		} else updated = await updateLevels();
+	} else updated = await updateLevels();
+
+	if (updated || !npcUpdater) triggerUpdate();
 
 	const alerts = checkNPCAlerts();
 
@@ -1070,7 +1074,11 @@ async function updateNPCs() {
 			if (npc.current !== current) targets[id] = { current };
 		}
 
-		if (Object.keys(targets).length) await ttStorage.change({ npcs: { targets } });
+		if (Object.keys(targets).length) {
+			await ttStorage.change({ npcs: { targets } });
+			return true;
+		}
+		return false;
 	}
 
 	function getCurrentLevel(npc) {
@@ -1118,6 +1126,21 @@ async function updateNPCs() {
 		}
 
 		return alerts;
+	}
+
+	function triggerUpdate() {
+		const shortest = Object.values(npcs.targets)
+			.flatMap((npc) => Object.values(npc.levels))
+			.filter((time) => time > now)
+			.sort()[0];
+		if (!shortest) return false;
+
+		if (npcUpdater) clearTimeout(npcUpdater);
+		npcUpdater = setTimeout(() => {
+			updateLevels();
+
+			npcUpdater = undefined;
+		}, shortest - Date.now());
 	}
 }
 
