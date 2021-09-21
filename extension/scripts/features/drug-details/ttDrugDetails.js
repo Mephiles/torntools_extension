@@ -52,12 +52,24 @@
 		}
 
 		function handleRequest(request, json, options = {}) {
-			const params = request.url ? new URL(request.url).searchParams : new URLSearchParams(request.requestBody);
-
-			const step = params.get("step");
+			const step = getStep();
 			if (step !== "info") return;
 
 			showDetails(json.itemID, options).catch((error) => console.error("Couldn't show drug details.", error));
+
+			function getStep() {
+				let params;
+
+				if (request.url) {
+					try {
+						params = new URL(request.url).searchParams;
+
+						if (params.has("step")) return params.get("step");
+					} catch (error) {}
+				}
+
+				return new URLSearchParams(request.requestBody).get("step");
+			}
 		}
 
 		function addMutationObserver(selector) {
