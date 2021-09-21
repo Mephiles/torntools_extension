@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	const feature = featureManager.registerFeature(
+	featureManager.registerFeature(
 		"User Alias - Profile",
 		"profile",
 		() => Object.keys(settings.userAlias).length,

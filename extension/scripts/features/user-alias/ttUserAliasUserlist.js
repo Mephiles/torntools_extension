@@ -34,7 +34,7 @@
 		});
 		if (typeof isOwnFaction !== "undefined" && isOwnFaction) {
 			CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_INFO].push(() => {
-				if (feature.enabled()) addAlias(true);
+				if (feature.enabled()) addAlias();
 			});
 		}
 	}
