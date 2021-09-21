@@ -31,12 +31,11 @@ const initiatedPages = {};
 			await showPage(navigation.getAttribute("to"));
 		});
 	}
-	document.find("#pages .right-nav li[to='settings']").addEventListener("click", () => {
-		chrome.runtime.openOptionsPage();
-	});
+	document.find("#pages .right-nav li[to='settings']").addEventListener("click", () => chrome.runtime.openOptionsPage());
 
 	if (!settings.pages.popup.dashboard) document.find('#pages li[to="dashboard"]').classList.add("hidden");
 	if (!settings.pages.popup.marketSearch) document.find('#pages li[to="market"]').classList.add("hidden");
+	if (!settings.pages.popup.calculator) document.find('#pages li[to="calculator"]').classList.add("hidden");
 	if (!settings.pages.popup.stocksOverview) document.find('#pages li[to="stocks"]').classList.add("hidden");
 
 	if (!api.torn.key) {

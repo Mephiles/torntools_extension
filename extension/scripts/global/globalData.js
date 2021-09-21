@@ -402,6 +402,7 @@ const DEFAULT_STORAGE = {
 			popup: {
 				dashboard: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				marketSearch: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				calculator: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				stocksOverview: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				defaultTab: new DefaultSetting({ type: "string", defaultValue: "dashboard" }),
 				hoverBarTime: new DefaultSetting({ type: "boolean", defaultValue: false }),
