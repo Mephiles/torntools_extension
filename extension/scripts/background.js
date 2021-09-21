@@ -1048,40 +1048,24 @@ async function updateNPCs() {
 					name: NPCS[id] ?? "Unknown",
 				};
 
-				npcs.targets[id].current =
-					Object.entries(npcs.targets[id].levels)
-						.filter(([, time]) => time <= now)
-						.map(([level, time]) => ({ level: parseInt(level), time }))
-						?.last()?.level ?? 0;
+				npcs.targets[id].current = getCurrentLevel(npcs.targets[id]);
 			}
 
 			await ttStorage.set({ npcs });
 
 			updated = true;
-		} else {
-			const targets = {};
+		} else await updateLevels();
+	} else await updateLevels();
 
-			for (const [id, npc] of Object.entries(npcs.targets)) {
-				const current =
-					Object.entries(npc.levels)
-						.filter(([, time]) => time <= now)
-						.map(([level, time]) => ({ level: parseInt(level), time }))
-						?.last()?.level ?? 0;
+	const alerts = checkNPCAlerts();
 
-				if (npc.current !== current) targets[id] = { current };
-			}
+	return { updated, alerts };
 
-			if (Object.keys(targets).length) await ttStorage.change({ npcs: { targets } });
-		}
-	} else {
+	async function updateLevels() {
 		const targets = {};
 
 		for (const [id, npc] of Object.entries(npcs.targets)) {
-			const current =
-				Object.entries(npc.levels)
-					.filter(([, time]) => time <= now)
-					.map(([level, time]) => ({ level: parseInt(level), time }))
-					?.last()?.level ?? 0;
+			const current = getCurrentLevel(npc);
 
 			if (npc.current !== current) targets[id] = { current };
 		}
@@ -1089,9 +1073,14 @@ async function updateNPCs() {
 		if (Object.keys(targets).length) await ttStorage.change({ npcs: { targets } });
 	}
 
-	const alerts = checkNPCAlerts();
-
-	return { updated, alerts };
+	function getCurrentLevel(npc) {
+		return (
+			Object.entries(npc.levels)
+				.filter(([, time]) => time <= now)
+				.map(([level, time]) => ({ level: parseInt(level), time }))
+				?.last()?.level ?? 0
+		);
+	}
 
 	function checkNPCAlerts() {
 		if (!settings.notifications.types.global || !settings.notifications.types.npcsGlobal) return 0;
