@@ -15,7 +15,9 @@ jobs:
               uses: actionsx/prettier@v2
               with:
                   args: --config .prettierrc --write . --list-different
+
             - name: Add & Commit
-              uses: EndBug/add-and-commit@v7.0.0
+              uses: EndBug/add-and-commit@v7.3.0
               with:
                   message: Apply prettier changes.
+                  default_author: github_actions
