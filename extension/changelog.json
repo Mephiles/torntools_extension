@@ -54,7 +54,9 @@
 				{ "message": "We've removed the loot times on the profile due to the NPCs being available in the sidebar." },
 				{
 					"message": "Shortening of the faction armory news has now been officially removed. It was broken for a couple of months already due to changes where it no longer is page based."
-				}
+				},
+				{ "message": "All features that show a warning when stacked have been removed. We've planned a replacement for a future version." },
+				{ "message": "All features that help with chains. We've planned a replacement for a future version." }
 			]
 		}
 	},
