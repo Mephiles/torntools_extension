@@ -750,7 +750,7 @@
 				{ "message": "Fixed Stakeouts continuing requests if user was no longer watched", "contributor": "Mephiles" },
 				{ "message": "Fixed TTS working even when disabled", "contributor": "Mephiles" },
 				{ "message": "Fixed Profile Stats view for Mobile users", "contributor": "Mephiles" },
-				{ "message": "Added all Profile Stats keys as normal text", "contributor": "Thanks Allo" }
+				{ "message": "Added all Profile Stats keys as normal text", "contributor": "Allo" }
 			],
 			"changes": [
 				{
