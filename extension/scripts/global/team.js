@@ -110,7 +110,6 @@ const TEAM = [
 		name: "hvr-lust",
 		title: "Developer",
 		core: false,
-		torn: 1778676,
 		color: "darkkhaki",
 	},
 	{
