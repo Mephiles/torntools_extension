@@ -108,7 +108,7 @@
 			"changes": [
 				{ "message": "Disable loot timers on mobile devices.", "contributor": "bandirao" },
 				{ "message": "Change notification bar links.", "contributor": "DeKleineKobini" },
-				{ "message": "Show new lingerie store specials.", "contributor": "Oran" },
+				{ "message": "Show new lingerie store specials.", "contributor": "ORAN" },
 				{ "message": "Implement timeout on requests.", "contributor": "DeKleineKobini" }
 			]
 		}

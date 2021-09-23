@@ -41,6 +41,7 @@ const TEAM = [
 		title: "Community Admin",
 		core: true,
 		torn: 2316070,
+		color: "royalblue",
 	},
 	{
 		name: "AllMight",
@@ -105,9 +106,23 @@ const TEAM = [
 		torn: 2639608,
 		color: "brown",
 	},
+	{
+		name: "hvr-lust",
+		title: "Developer",
+		core: false,
+		torn: 1778676,
+		color: "darkkhaki",
+	},
+	{
+		name: "ORAN",
+		title: "Developer",
+		core: false,
+		torn: 1778676,
+		color: "mediumpurple",
+	},
 ];
 
-const CONTRIBUTORS = TEAM.filter(({ title }) => title.includes("Developer")).reduce(
+const CONTRIBUTORS = TEAM.filter(({ title, color }) => title.includes("Developer") || color).reduce(
 	(object, { name, torn, color }) => ({ ...object, [name]: { id: torn, name, color } }),
 	{}
 );
