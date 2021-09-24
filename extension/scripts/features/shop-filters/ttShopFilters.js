@@ -29,7 +29,7 @@
 			],
 			orientation: "row",
 		});
-		shopFilters.setSelections([ ...filters.shops.hideLoss ? ["hideLoss"] : [], ...filters.shops.hideUnder100 ? ["hideUnder100"] : [] ]);
+		shopFilters.setSelections([...(filters.shops.hideLoss ? ["hideLoss"] : []), ...(filters.shops.hideUnder100 ? ["hideUnder100"] : [])]);
 
 		shopFilters.onSelectionChange(filtering);
 		localFilters.filters = { getSelections: shopFilters.getSelections };
@@ -40,7 +40,7 @@
 			document.newElement({
 				type: "div",
 				class: "tt-shop-filters tt-theme",
-				children: [ shopFilters.element ],
+				children: [shopFilters.element],
 			})
 		);
 	}
@@ -58,7 +58,7 @@
 			li.classList.remove("hidden");
 
 			const liItemID = li.find(".item").getAttribute("itemid").getNumber();
-			const profitable = (torndata.items[liItemID].market_value - li.find(".price").firstChild.textContent.getNumber()) > 0;
+			const profitable = torndata.items[liItemID].market_value - li.find(".price").firstChild.textContent.getNumber() > 0;
 			if (hideLoss && !profitable) {
 				li.classList.add("hidden");
 				continue;
@@ -68,11 +68,11 @@
 				li.classList.add("hidden");
 				continue;
 			}
-		};
+		}
 	}
 
 	function removeFilters() {
-		document.findAll(".tt-shop-filters").forEach(x => x.remove());
-		document.findAll(".buy-items-wrap .items-list > li.hidden").forEach(x => x.classList.remove("hidden"));
+		document.findAll(".tt-shop-filters").forEach((x) => x.remove());
+		document.findAll(".buy-items-wrap .items-list > li.hidden").forEach((x) => x.classList.remove("hidden"));
 	}
 })();
