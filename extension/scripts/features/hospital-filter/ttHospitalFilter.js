@@ -196,8 +196,8 @@
 			}
 
 			// Time
-			const timeLeftHrs = li.find(".info-wrap .time").lastChild.textContent.trim().split(" ")[0].replace(/[hs]/g, "");
-			if ((timeStart && timeLeftHrs < timeStart) || (timeEnd !== 100 && timeLeftHrs > timeEnd)) {
+			const timeLeftHrs = li.find(".info-wrap .time").lastChild.textContent.trim().split(" ")[0].getNumber();
+			if ((timeStart && timeLeftHrs < timeStart) || (timeEnd !== 100 && timeLeftHrs >= timeEnd)) {
 				hideRow(li);
 				continue;
 			}
