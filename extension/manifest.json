@@ -580,8 +580,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/shops.php*", "https://www.torn.com/bigalgunshop.php*"],
-			"css": ["scripts/features/shops-fill-max/ttShopsFillMax.css", "scripts/features/shop-profits/ttShopProfits.css"],
-			"js": ["scripts/features/shops-fill-max/ttShopsFillMax.js", "scripts/features/shop-profits/ttShopProfits.js"],
+			"css": ["scripts/features/shops-fill-max/ttShopsFillMax.css", "scripts/features/shop-profits/ttShopProfits.css", "scripts/features/shop-filters/ttShopFilters.css"],
+			"js": ["scripts/features/shops-fill-max/ttShopsFillMax.js", "scripts/features/shop-profits/ttShopProfits.js", "scripts/features/shop-filters/ttShopFilters.js"],
 			"run_at": "document_end"
 		},
 		{

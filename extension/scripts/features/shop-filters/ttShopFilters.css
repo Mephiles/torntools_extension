@@ -1,0 +1,15 @@
+.tt-shop-filters {
+	float: right;
+    background: var(--tt-background-green);
+    border-radius: 0 5px 0 0;
+    padding: 0 8px;
+    height: 30px;
+}
+
+.tt-shop-filters input {
+	margin-top: -2px;
+}
+
+.buy-items-wrap .items-list > li.last.empty {
+    display: none;
+}

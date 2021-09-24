@@ -51,8 +51,7 @@ function createContainer(title, options = {}) {
 		if (options.contentBackground) mainClasses.push("background");
 		if (options.flexContainer) mainClasses.push("t-flex");
 
-		const theme = THEMES[settings.themes.containers];
-		containerClasses.push(theme.containerClass);
+		containerClasses.push("tt-theme-background");
 		const container = document.newElement({ type: "div", class: containerClasses.join(" "), id: options.id });
 
 		const collapsed = options.onlyHeader || (options.collapsible && (options.id in filters.containers ? filters.containers[options.id] : false));

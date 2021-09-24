@@ -14,16 +14,10 @@
 	align-items: center;
 }
 
-.tt-title-default,
-.tt-container.theme-default .title {
-	color: #fff;
-	background: var(--tt-background-green);
-}
-
-.tt-title-alternative,
-.tt-container.theme-alternative .title {
-	color: rgb(172, 234, 0);
-	background: var(--tt-background-alternative);
+.tt-theme,
+.tt-container.tt-theme-background .title {
+	color: var(--tt-theme-color);
+	background: var(--tt-theme-background);
 }
 
 .tt-container.collapsible .title {

@@ -10,12 +10,12 @@
 	setInterval(decreaseCountdown, 1000);
 
 	function handleTheme() {
+		document.documentElement.style.setProperty("--tt-theme-color", settings.themes.containers !== "alternative" ? "#fff" : "#acea00");
+		document.documentElement.style.setProperty("--tt-theme-background", settings.themes.containers !== "alternative" ? "var(--tt-background-green)" : "var(--tt-background-alternative)");
 		storageListeners.settings.push((oldSettings) => {
 			if (!oldSettings || !oldSettings.themes || !settings || !settings.themes || oldSettings.themes.containers !== settings.themes.containers) {
-				for (const container of document.findAll(`.${THEMES[oldSettings.themes.containers].containerClass}`)) {
-					if (oldSettings && !oldSettings.themes) container.classList.remove(THEMES[oldSettings.themes.containers].containerClass);
-					if (settings && !settings.themes) container.classList.add(THEMES[settings.themes.containers].containerClass);
-				}
+				document.documentElement.style.setProperty("--tt-theme-color", settings.themes.containers !== "alternative" ? "#fff" : "#acea00");
+				document.documentElement.style.setProperty("--tt-theme-background", settings.themes.containers !== "alternative" ? "var(--tt-background-green)" : "var(--tt-background-alternative)");
 			}
 		});
 	}

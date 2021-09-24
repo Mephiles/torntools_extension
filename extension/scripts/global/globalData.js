@@ -514,6 +514,7 @@ const DEFAULT_STORAGE = {
 				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				maxBuyIgnoreCash: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				profit: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				filters: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			casino: {
 				netTotal: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -749,6 +750,10 @@ const DEFAULT_STORAGE = {
 			levelStart: new DefaultSetting({ type: "number", defaultValue: 0 }),
 			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
 			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
+		},
+		shops: {
+			hideLoss: new DefaultSetting({ type: "boolean", defaultValue: false }),
+			hideUnder100: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
