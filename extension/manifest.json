@@ -1,6 +1,6 @@
 {
 	"manifest_version": 2,
-	"name": "TornTools 2",
+	"name": "TornTools",
 	"version": "6.0.0",
 	"description": "Several tools for Torn.",
 	"icons": {
