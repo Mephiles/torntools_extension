@@ -34,7 +34,7 @@
 		shopFilters.onSelectionChange(filtering);
 		localFilters.filters = { getSelections: shopFilters.getSelections };
 
-		filtering();
+		filtering().then(() => {});
 
 		title.appendChild(
 			document.newElement({
@@ -55,8 +55,6 @@
 		await ttStorage.change({ filters: { shops: { hideLoss, hideUnder100 } } });
 
 		for (const li of document.findAll(".buy-items-wrap .items-list > li:not(.empty, .clear)")) {
-			li.classList.remove("hidden");
-
 			const liItemID = li.find(".item").getAttribute("itemid").getNumber();
 			const profitable = torndata.items[liItemID].market_value - li.find(".price").firstChild.textContent.getNumber() > 0;
 			if (hideLoss && !profitable) {
@@ -68,6 +66,8 @@
 				li.classList.add("hidden");
 				continue;
 			}
+
+			li.classList.remove("hidden");
 		}
 	}
 

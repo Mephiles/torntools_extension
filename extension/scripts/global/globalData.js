@@ -1363,15 +1363,6 @@ const CHAT_TITLE_COLORS = {
 	red: ["rgb(123,4,4)", "rgb(255,3,3)"],
 };
 
-const THEMES = {
-	default: {
-		containerClass: "theme-default",
-	},
-	alternative: {
-		containerClass: "theme-alternative",
-	},
-};
-
 const BOOK_DESCRIPTIONS = {
 	744: "Incr. Str by 5% up to 10m upon completion.",
 	745: "Incr. Spd by 5% up to 10m upon completion.",

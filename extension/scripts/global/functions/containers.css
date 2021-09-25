@@ -68,15 +68,6 @@
 	align-items: center;
 }
 
-.tt-container.theme-default .options {
-	/*color: #acea00;*/
-	color: white;
-}
-
-.tt-container.theme-alternative .options {
-	color: #acea00;
-}
-
 .tt-container .title .options > * {
 	margin-right: 4px;
 }

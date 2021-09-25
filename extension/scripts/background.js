@@ -1185,7 +1185,7 @@ async function notifyUser(title, message, url) {
 
 	async function setupSoundPlayer() {
 		if (notificationSound !== settings.notifications.sound) {
-			let sound = await getNotificationSound(settings.notifications.sound);
+			const sound = await getNotificationSound(settings.notifications.sound);
 
 			if (sound && sound !== "mute") {
 				notificationPlayer.src = sound;
