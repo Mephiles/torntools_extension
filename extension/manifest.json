@@ -9,7 +9,7 @@
 		"128": "resources/images/icon_128.png"
 	},
 	"browser_action": {
-		"default_title": "TornTools 2",
+		"default_title": "TornTools",
 		"default_popup": "pages/popup/popup.html",
 		"default_icon": "resources/images/icon_128.png"
 	},
