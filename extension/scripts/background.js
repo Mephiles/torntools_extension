@@ -985,7 +985,7 @@ async function updateStocks() {
 }
 
 async function updateFactiondata() {
-	if (!userdata || !userdata.faction.faction_id) {
+	if (!userdata?.faction?.faction_id) {
 		factiondata = {};
 	} else {
 		const selections = ["positions"];
