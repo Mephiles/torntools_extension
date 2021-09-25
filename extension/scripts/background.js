@@ -773,14 +773,23 @@ async function showIconBars() {
 			if (!settings.pages.icon[key] || !userdata[key]) return;
 			if (key === "chain" && userdata.chain.current === 0) return;
 
-			let width;
+			let current, maximum;
 			if (key === "travel") {
-				let totalTrip = userdata[key].timestamp - userdata[key].departed;
-				width = barWidth * ((totalTrip - userdata[key].time_left) / totalTrip);
+				const totalTrip = userdata[key].timestamp - userdata[key].departed;
+
+				current = totalTrip - userdata[key].time_left;
+				maximum = totalTrip;
+			} else if (key === "chain") {
+				current = userdata[key].current;
+				maximum = userdata[key].maximum;
+
+				if (current !== maximum) maximum = getNextChainBonus(current);
 			} else {
-				width = barWidth * (userdata[key].current / userdata[key].maximum);
+				current = userdata[key].current;
+				maximum = userdata[key].maximum;
 			}
 
+			let width = barWidth * (current / maximum);
 			width = Math.min(width, barWidth);
 
 			canvasContext.fillStyle = BAR_COLORS[key];
