@@ -229,7 +229,7 @@
 						li
 							.find("#iconTray li")
 							.getAttribute("title")
-							.match(/(?<=<b>).*(?=<\/b>)/g)[0]
+							.match(FILTER_REGEXES.activity)[0]
 							.toLowerCase()
 							.trim()
 				)

@@ -25,6 +25,7 @@
 	}
 
 	const localFilters = {};
+	const JAIL_FILTER_TIME_REGEX = /[0-9]*(?=h)/g;
 
 	async function addFilters() {
 		await requireElement(".userlist-wrapper .user-info-list-wrap .bust-icon");
@@ -174,7 +175,7 @@
 						li
 							.find("#iconTray li")
 							.getAttribute("title")
-							.match(/(?<=<b>).*(?=<\/b>)/g)[0]
+							.match(FILTER_REGEXES.activity)[0]
 							.toLowerCase()
 							.trim()
 				)
@@ -209,14 +210,15 @@
 			}
 
 			// Time
-			const timeLeftHrs = parseInt(li.find(".info-wrap .time").textContent.match(/[0-9]*(?=h)/g)[0]);
+			const timeMatch = li.find(".info-wrap .time").textContent.match(JAIL_FILTER_TIME_REGEX);
+			const timeLeftHrs = timeMatch ? parseInt(timeMatch[0]) : 0;
 			if ((timeStart && timeLeftHrs < timeStart) || (timeEnd !== 100 && timeLeftHrs >= timeEnd)) {
 				hideRow(li);
 				continue;
 			}
 
 			// Level
-			const level = parseInt(li.find(".info-wrap .level").textContent.replace(/\D+/g, ""));
+			const level = li.find(".info-wrap .level").textContent.getNumber();
 			if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
 				hideRow(li);
 				continue;

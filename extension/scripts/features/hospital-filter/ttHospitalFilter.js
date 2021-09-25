@@ -154,7 +154,7 @@
 						li
 							.find("#iconTray li")
 							.getAttribute("title")
-							.match(/(?<=<b>).*(?=<\/b>)/g)[0]
+							.match(FILTER_REGEXES.activity)[0]
 							.toLowerCase()
 							.trim()
 				)
@@ -202,7 +202,7 @@
 				continue;
 			}
 			// Level
-			const level = parseInt(li.find(".info-wrap .level").textContent.replace(/\D+/g, ""));
+			const level = li.find(".info-wrap .level").textContent.getNumber();
 			if ((levelStart && level < levelStart) || (levelEnd !== 100 && level > levelEnd)) {
 				hideRow(li);
 				// noinspection UnnecessaryContinueJS

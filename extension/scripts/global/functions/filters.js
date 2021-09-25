@@ -28,6 +28,10 @@ const defaultFactionsItems = [
 	},
 ];
 
+const FILTER_REGEXES = {
+	activity: /(?<=<b>).*(?=<\/b>)/g,
+};
+
 function createFilterSection(options) {
 	options = {
 		type: "",
