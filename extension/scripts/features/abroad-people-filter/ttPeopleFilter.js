@@ -174,14 +174,7 @@
 		if (filters.activity?.length) {
 			if (
 				!filters.activity.some(
-					(x) =>
-						x.trim() ===
-						row
-							.find("#iconTray li")
-							.getAttribute("title")
-							.match(FILTER_REGEXES.activity)[0]
-							.toLowerCase()
-							.trim()
+					(x) => x.trim() === row.find("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim()
 				)
 			) {
 				hide("activity");
