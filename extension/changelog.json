@@ -41,7 +41,6 @@
 				{ "message": "Highlight forum threads and/or posts from specific users.", "contributor": "DeKleineKobini" },
 				{ "message": "Show weapon experience during an attack.", "contributor": "DeKleineKobini" }
 			],
-			"fixes": [],
 			"changes": [
 				{ "message": "Rewrite core system.", "contributor": "DeKleineKobini" },
 				{ "message": "Rewrite and redesign many features. Features might also work on more pages when applicable.", "contributor": "DeKleineKobini" },
