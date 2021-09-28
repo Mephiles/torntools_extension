@@ -127,6 +127,7 @@ async function convertDatabase() {
 				newStorage.localdata.vault.partner.current = storage.vault.partner.current_money || 0;
 				updated = true;
 			}
+			newStorage.quick.items = [];
 		}
 
 		const newVersion = chrome.runtime.getManifest().version;
