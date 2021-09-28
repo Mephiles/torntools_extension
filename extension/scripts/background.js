@@ -302,7 +302,7 @@ async function updateUserdata() {
 
 		if (
 			settings.apiUsage.user.education &&
-			(!userdata.education || !userdata.education_completed || userdata.education_completed.length !== Object.keys(torndata.education).length)
+			(!torndata.education || !userdata.education_completed || userdata.education_completed.length !== Object.keys(torndata.education).length)
 		)
 			selections.push("education");
 
