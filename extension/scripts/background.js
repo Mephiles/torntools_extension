@@ -300,11 +300,7 @@ async function updateUserdata() {
 			selections.push(selection);
 		}
 
-		if (
-			settings.apiUsage.user.education &&
-			(!torndata.education || !userdata.education_completed || userdata.education_completed.length !== Object.keys(torndata.education).length)
-		)
-			selections.push("education");
+		if (settings.apiUsage.user.education && !hasFinishedEducation()) selections.push("education");
 
 		updatedTypes.push("basic");
 	}

@@ -92,14 +92,15 @@
 				container.parentElement.find(".show-confirm[aria-expanded='true'] .travel-container").insertAdjacentElement("afterend", cooldowns);
 			}
 
-			cooldowns.insertAdjacentElement(
-				"afterend",
-				document.newElement({
-					type: "div",
-					class: ["cooldown", "education", getDurationClass(userdata.education_timeleft)],
-					text: "Your education course will end before you return!",
-				})
-			);
+			if (!hasFinishedEducation())
+				cooldowns.insertAdjacentElement(
+					"afterend",
+					document.newElement({
+						type: "div",
+						class: ["cooldown", "education", getDurationClass(userdata.education_timeleft)],
+						text: "Your education course will end before you return!",
+					})
+				);
 			cooldowns.insertAdjacentElement(
 				"afterend",
 				document.newElement({
@@ -114,7 +115,7 @@
 			handleClass(cooldowns.find(".drug"), userdata.cooldowns.drug);
 			handleClass(cooldowns.find(".booster"), userdata.cooldowns.booster);
 			handleClass(cooldowns.find(".medical"), userdata.cooldowns.medical);
-			handleClass(cooldowns.parentElement.find(".education"), userdata.education_timeleft);
+			if (!hasFinishedEducation()) handleClass(cooldowns.parentElement.find(".education"), userdata.education_timeleft);
 			handleClass(cooldowns.parentElement.find(".investment"), userdata.city_bank.time_left);
 		}
 
