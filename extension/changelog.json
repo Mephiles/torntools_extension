@@ -8,7 +8,8 @@
 			"fixes": [
 				{ "message": "Solve issue with travel cooldowns using a single flight time.", "contributor": "DeKleineKobini" },
 				{ "message": "Update database migration to properly update from v5.", "contributor": "DeKleineKobini" },
-				{ "message": "Don't show education warning when you've completed all educations.", "contributor": "DeKleineKobini" }
+				{ "message": "Don't show education warning when you've completed all educations.", "contributor": "DeKleineKobini" },
+				{ "message": "Calculate value for items that contain an 'x' properly on the events page.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": []
