@@ -157,7 +157,7 @@ async function setupDashboard() {
 		}
 	}, 1000);
 
-	dashboard.find(".stakeouts .heading a").href = `${chrome.extension.getURL("pages/targets/targets.html")}?page=stakeouts`;
+	dashboard.find(".stakeouts .heading a").href = `${chrome.runtime.getURL("pages/targets/targets.html")}?page=stakeouts`;
 	dashboard.find(".stakeouts .heading i").addEventListener("click", () => {
 		const stakeoutSection = dashboard.find(".stakeouts .stakeout-list");
 
