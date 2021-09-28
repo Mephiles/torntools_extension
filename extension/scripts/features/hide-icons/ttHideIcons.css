@@ -317,3 +317,27 @@
 #sidebarroot ul[class*="status-icons_"] > li[class*="icon80_"] {
 	display: var(--torntools-hide-icons-icon80, inline-block);
 }
+
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon81_"] {
+	display: var(--torntools-hide-icons-icon81, inline-block);
+}
+
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon82_"] {
+	display: var(--torntools-hide-icons-icon82, inline-block);
+}
+
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon83_"] {
+	display: var(--torntools-hide-icons-icon83, inline-block);
+}
+
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon84_"] {
+	display: var(--torntools-hide-icons-icon84, inline-block);
+}
+
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon85_"] {
+	display: var(--torntools-hide-icons-icon85, inline-block);
+}
+
+#sidebarroot ul[class*="status-icons_"] > li[class*="icon86_"] {
+	display: var(--torntools-hide-icons-icon86, inline-block);
+}
