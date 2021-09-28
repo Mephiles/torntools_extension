@@ -12,7 +12,8 @@
 				{ "message": "Calculate value for items that contain an 'x' properly on the events page.", "contributor": "DeKleineKobini" },
 				{ "message": "Solve issue with the city shop filters on mobile and tablet views.", "contributor": "DeKleineKobini" },
 				{ "message": "Solve issue with hiding some newer icons.", "contributor": "DeKleineKobini" },
-				{ "message": "Solve issue with hiding areas on mobile.", "contributor": "DeKleineKobini" }
+				{ "message": "Solve issue with hiding areas on mobile.", "contributor": "DeKleineKobini" },
+				{ "message": "Open correct bar link when using middle click.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": []
