@@ -50,8 +50,8 @@ async function convertDatabase() {
 	} else {
 		console.log("Old storage.", storage);
 
-		convertSpecific(storage);
 		const newStorage = convertGeneral(storage, DEFAULT_STORAGE);
+		convertSpecific(storage, newStorage);
 
 		await ttStorage.set(newStorage);
 
@@ -111,20 +111,20 @@ async function convertDatabase() {
 		return newStorage;
 	}
 
-	function convertSpecific(storage) {
-		const versionString = storage.version.current || "5.0.0";
+	function convertSpecific(storage, newStorage) {
+		const versionString = storage?.version?.current || "5.0.0";
 		const version = toNumericVersion(versionString);
 
 		let updated = false;
 		if (version <= toNumericVersion("5")) {
-			if (storage.vault) {
-				storage.localdata.vault.initialized = storage.vault?.initialized ?? false;
-				storage.localdata.vault.lastTransaction = storage.vault?.last_transaction ?? "";
-				storage.localdata.vault.total = storage.vault?.total_money ?? 0;
-				storage.localdata.vault.user.initial = storage.vault?.user.initial_money ?? 0;
-				storage.localdata.vault.user.current = storage.vault?.user.current_money ?? 0;
-				storage.localdata.vault.partner.initial = storage.vault?.partner.initial_money ?? 0;
-				storage.localdata.vault.partner.current = storage.vault?.partner.current_money ?? 0;
+			if (storage?.vault) {
+				newStorage.localdata.vault.initialized = storage.vault.initialized || false;
+				newStorage.localdata.vault.lastTransaction = storage.vault.last_transaction || "";
+				newStorage.localdata.vault.total = storage.vault.total_money || 0;
+				newStorage.localdata.vault.user.initial = storage.vault.user.initial_money || 0;
+				newStorage.localdata.vault.user.current = storage.vault.user.current_money || 0;
+				newStorage.localdata.vault.partner.initial = storage.vault.partner.initial_money || 0;
+				newStorage.localdata.vault.partner.current = storage.vault.partner.current_money || 0;
 				updated = true;
 			}
 		}
@@ -133,7 +133,9 @@ async function convertDatabase() {
 		if (updated) {
 			console.log(`Upgraded database from ${versionString} to ${newVersion}`);
 		}
-		storage.version.current = newVersion;
+
+		if ("version" in storage) storage.version.current = newVersion;
+		else storage.version = { current: newVersion };
 
 		function toNumericVersion(version) {
 			return parseInt(
