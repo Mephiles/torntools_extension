@@ -3,3 +3,5 @@
 
 # VS Code settings
 .vscode
+
+extension/scripts/jshint.json

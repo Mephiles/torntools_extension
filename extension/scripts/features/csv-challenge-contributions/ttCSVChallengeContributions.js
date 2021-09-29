@@ -58,7 +58,7 @@
 					row.find(".numb").textContent,
 					name.match(/.*(?= \()/)[0],
 					link.href,
-					row.classList.contains("ex-member") ? "No" : "Yes",
+					row.classList.contains("ex-member") ? "Yes" : "No",
 					name.match(/(?<= \().*(?=\))/)[0]
 				);
 			}
