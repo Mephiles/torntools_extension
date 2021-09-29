@@ -17,9 +17,8 @@
 	margin-left: 4px;
 	margin-right: 4px;
 	border-radius: 5px;
-	width: 232px;
-	/*noinspection CssInvalidPropertyValue*/
 	width: -webkit-fill-available;
+	width: -moz-available;
 	border: 1px solid var(--chat-input-border-color);
 	background-color: var(--chat-box-content-bg);
 	color: var(--chat-notebook-text-area-font-color-active);
