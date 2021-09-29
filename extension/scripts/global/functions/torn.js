@@ -1699,3 +1699,9 @@ function getUsername(row) {
 
 	return { name, id, combined, toString: () => combined };
 }
+
+function hasFinishedEducation() {
+	if (!torndata.education || !userdata.education_completed) return false;
+
+	return userdata.education_completed.length === Object.keys(torndata.education).length;
+}

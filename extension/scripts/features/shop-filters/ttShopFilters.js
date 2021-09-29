@@ -13,19 +13,22 @@
 		{
 			storage: ["settings.pages.shops.filters"],
 		},
-		() => {
+		async () => {
 			if (!hasAPIData()) return "No API access.";
+
+			await checkDevice();
 		}
 	);
 
 	const localFilters = {};
+
 	async function addFilters() {
 		const title = await requireElement(".buy-items-wrap > [role*='heading']");
 
 		const shopFilters = createCheckboxList({
 			items: [
-				{ id: "hideLoss", description: "Hide items with loss" },
-				{ id: "hideUnder100", description: "Hide items under 100 stock" },
+				{ id: "hideLoss", description: mobile || tablet ? "Only profit" : "Hide items with loss" },
+				{ id: "hideUnder100", description: mobile || tablet ? "Enough stock" : "Hide items under 100 stock" },
 			],
 			orientation: "row",
 		});
@@ -54,20 +57,20 @@
 
 		await ttStorage.change({ filters: { shops: { hideLoss, hideUnder100 } } });
 
-		for (const li of document.findAll(".buy-items-wrap .items-list > li:not(.empty, .clear)")) {
-			const liItemID = li.find(".item").getAttribute("itemid").getNumber();
-			const profitable = torndata.items[liItemID].market_value - li.find(".price").firstChild.textContent.getNumber() > 0;
+		for (const element of document.findAll(".buy-items-wrap .items-list > li:not(.empty, .clear)")) {
+			const id = element.find(".item").getAttribute("itemid").getNumber();
+			const profitable = torndata.items[id].market_value - element.find(".price").firstChild.textContent.getNumber() > 0;
 			if (hideLoss && !profitable) {
-				li.classList.add("hidden");
+				element.classList.add("hidden");
 				continue;
 			}
 
-			if (hideUnder100 && li.find(".instock").textContent.getNumber() < 100) {
-				li.classList.add("hidden");
+			if (hideUnder100 && element.find(".instock").textContent.getNumber() < 100) {
+				element.classList.add("hidden");
 				continue;
 			}
 
-			li.classList.remove("hidden");
+			element.classList.remove("hidden");
 		}
 	}
 

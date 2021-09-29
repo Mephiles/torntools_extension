@@ -6,6 +6,12 @@
 	height: 30px;
 }
 
+body.tt-mobile .tt-shop-filters,
+body.tt-tablet .tt-shop-filters {
+	height: unset;
+	border-radius: 0;
+}
+
 .tt-shop-filters input {
 	margin-top: -2px;
 }

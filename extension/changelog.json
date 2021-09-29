@@ -5,7 +5,20 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Solve issue with travel cooldowns using a single flight time.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Solve issue with travel cooldowns using a single flight time.", "contributor": "DeKleineKobini" },
+				{ "message": "Update database migration to properly update from v5.", "contributor": "DeKleineKobini" },
+				{ "message": "Don't show education warning when you've completed all educations.", "contributor": "DeKleineKobini" },
+				{ "message": "Calculate value for items that contain an 'x' properly on the events page.", "contributor": "DeKleineKobini" },
+				{ "message": "Solve issue with the city shop filters on mobile and tablet views.", "contributor": "DeKleineKobini" },
+				{ "message": "Solve issue with hiding some newer icons.", "contributor": "DeKleineKobini" },
+				{ "message": "Solve issue with hiding areas on mobile.", "contributor": "DeKleineKobini" },
+				{ "message": "Open correct bar link when using middle click.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Make sure chat search doesn't go over the chat width (only on Chrome, still an issue on Firefox).",
+					"contributor": "DeKleineKobini"
+				}
+			],
 			"changes": [],
 			"removed": []
 		}
@@ -34,7 +47,6 @@
 				{ "message": "Highlight forum threads and/or posts from specific users.", "contributor": "DeKleineKobini" },
 				{ "message": "Show weapon experience during an attack.", "contributor": "DeKleineKobini" }
 			],
-			"fixes": [],
 			"changes": [
 				{ "message": "Rewrite core system.", "contributor": "DeKleineKobini" },
 				{ "message": "Rewrite and redesign many features. Features might also work on more pages when applicable.", "contributor": "DeKleineKobini" },

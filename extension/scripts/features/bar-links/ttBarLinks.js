@@ -27,11 +27,17 @@
 		await requireSidebar();
 
 		for (const id of Object.keys(LINKS)) {
-			const barName = document.find(`#${id} [class*="bar-name_"]`);
-			if (!barName) continue;
+			const barLink = document.find(`#${id}`);
+			if (!barLink) continue;
 
-			barName.addEventListener("click", onClick);
-			barName.classList.add("bar-link");
+			barLink.removeAttribute("href");
+			barLink.addEventListener("click", onClick);
+			barLink.addEventListener("mouseup", (event) => {
+				if (event.button !== 1) return; // 1 is middle click
+
+				onClick(event);
+			});
+			barLink.classList.add("bar-link");
 		}
 	}
 
@@ -42,7 +48,11 @@
 		const link = LINKS[bar.id];
 		if (!link) return;
 
-		window.open(link, "_self");
+		let target;
+		if (event.button === 1) target = "_blank";
+		else target = "_self";
+
+		window.open(link, target);
 	}
 
 	function removeLinks() {

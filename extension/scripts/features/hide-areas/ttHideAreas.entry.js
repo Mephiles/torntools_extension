@@ -15,6 +15,7 @@
 	);
 
 	function applyStyle() {
+		document.documentElement.classList.add("tt-hidden-areas");
 		for (const area of ALL_AREAS.map((area) => area.class)) {
 			document.documentElement.style.setProperty(`--torntools-hide-area-${area}`, settings.hideAreas.includes(area) ? "none" : "initial");
 		}

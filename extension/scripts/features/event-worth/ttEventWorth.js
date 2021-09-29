@@ -25,7 +25,7 @@
 
 		const regexes = [
 			/(?<=bought ).*(?= of)|(?<=your points that were on the market for \$).*(?=\.)/g,
-			/(?<=bought ).*(?=x)|(?<=from your bazaar for \$).*(?=\.)/g,
+			/(?<=bought ).*(?= x )|(?<=from your bazaar for \$).*(?=\.)/g,
 		];
 		document.findAll("form#masssell .mail-link[id]").forEach((li) => {
 			regexes.forEach((regex) => {

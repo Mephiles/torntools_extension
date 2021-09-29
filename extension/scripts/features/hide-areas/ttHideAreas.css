@@ -1,3 +1,7 @@
+.tt-hidden-areas body.tt-mobile .areasWrapper .swiper-slide {
+	max-width: min-content;
+}
+
 #nav-home {
 	display: var(--torntools-hide-area-home, block) !important;
 }
