@@ -51,10 +51,11 @@ function requireElement(selector, attributes) {
 		parent: document,
 		...attributes,
 	};
-	return requireCondition(
-		() => (attributes.invert && !attributes.parent.find(selector)) || (!attributes.invert && attributes.parent.find(selector)),
-		attributes
-	);
+	if (attributes.invert) {
+		return requireCondition(() => !attributes.parent.find(selector), attributes);
+	} else {
+		return requireCondition(() => attributes.parent.find(selector), attributes);
+	}
 }
 
 function requireSidebar() {

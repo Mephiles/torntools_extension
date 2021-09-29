@@ -18,11 +18,15 @@
 	);
 
 	function addListener() {
-		addFetchListener(({ detail: { page, json } }) => {
-			if (page === "bazaar" && json && json.list) {
-				if (json.list.length === 0) addWorth(true, []);
-				else if (json.list.length === json.total) addWorth(true, json.list);
-				else if (json.list.length < json.total) addWorth(true, false);
+		addFetchListener(({ detail: { page, json, fetch } }) => {
+			if (page === "bazaar" && json) {
+				if (json.list) {
+					if (json.list.length === 0) addWorth(true, []);
+					else if (json.list.length === json.total) addWorth(true, json.list);
+					else if (json.list.length < json.total) addWorth(true, false);
+				} else if ((new URLSearchParams(fetch.url)).get("step") === "getBazaarItems") {
+					addWorth(true, false);
+				}
 			}
 		});
 	}
@@ -61,17 +65,18 @@
 				});
 		}
 
-		function handleBazaar(bazaar) {
+		async function handleBazaar(bazaar) {
 			let total = 0;
 
 			for (const item of bazaar) {
 				total += (item.market_price ?? item.averageprice) * (item.quantity ?? item.amount);
 			}
 
+			await requireElement("[class*='preloader___']", { invert: true });
 			const text = document.find(".tt-bazaar-text span");
 			if (text) text.textContent = formatNumber(total, { currency: true });
 			else
-				document.find(".info-msg-cont .msg").appendChild(
+				document.find(".info-msg-cont .msg")?.appendChild(
 					document.newElement({
 						type: "div",
 						class: "tt-bazaar-text",
