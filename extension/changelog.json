@@ -14,10 +14,10 @@
 				{ "message": "Solve issue with hiding some newer icons.", "contributor": "DeKleineKobini" },
 				{ "message": "Solve issue with hiding areas on mobile.", "contributor": "DeKleineKobini" },
 				{ "message": "Open correct bar link when using middle click.", "contributor": "DeKleineKobini" },
-				{"message": "Make sure chat search doesn't go over the chat width.", "contributor": "DeKleineKobini"},
-				{"message": "Make sure chat search doesn't go over the chat width.", "contributor": "bandirao"},
-				{"message": "Show correct faction status for contribution csv.", "contributor": "bandirao"},
-				{"message": "Solve issue with showing the bazaar worth while editing.", "contributor": "bandirao"}
+				{ "message": "Make sure chat search doesn't go over the chat width.", "contributor": "DeKleineKobini" },
+				{ "message": "Make sure chat search doesn't go over the chat width.", "contributor": "bandirao" },
+				{ "message": "Show correct faction status for contribution csv.", "contributor": "bandirao" },
+				{ "message": "Solve issue with showing the bazaar worth while editing.", "contributor": "bandirao" }
 			],
 			"changes": [{"message": "Change notifications back to the previous system.", "contributor": "DeKleineKobini"},{"message": "Update massacrist mission hint.", "contributor": "DeKleineKobini"}],
 			"removed": []
