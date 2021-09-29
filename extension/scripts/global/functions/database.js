@@ -92,7 +92,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
 					ttCache.cache = changes.cache.newValue;
 					break;
 				case "usage":
-					ttCache.usage = changes.usage.newValue;
+					ttUsage.usage = changes.usage.newValue;
 					break;
 				case "npcs":
 					npcs = changes.npcs.newValue;
