@@ -1164,18 +1164,15 @@ function newNotification(title, message, link) {
 }
 
 async function notifyUser(title, message, url) {
-	const options = {
-		icon: "resources/images/icon_128.png",
-		body: message,
-		requireInteraction: settings.notifications.requireInteraction,
-	};
-
 	await setupSoundPlayer();
-	if (notificationSound !== "default" && hasSilentSupport()) options.silent = true;
+
+	const icon = "resources/images/icon_128.png";
+	const requireInteraction = hasInteractionSupport() && settings.notifications.requireInteraction;
+	const silent = hasSilentSupport() && notificationSound !== "default";
 
 	if (settings.notifications.tts) speakMessage();
 	try {
-		notifyNative();
+		await notifyNative();
 	} catch (errorNative) {
 		try {
 			await notifyService();
@@ -1197,36 +1194,28 @@ async function notifyUser(title, message, url) {
 		notificationPlayer.volume = settings.notifications.volume / 100;
 	}
 
-	function notifyNative() {
-		const notification = new Notification(title, options);
+	async function notifyNative() {
+		const id = await new Promise((resolve) => {
+			const options = { type: "basic", iconUrl: icon, title, message };
+			if (silent) options.silent = true;
+			if (requireInteraction) options.requireInteraction = true;
 
-		if (notificationSound !== "default" && notificationSound !== "mute") {
-			notification.onshow = () => {
-				notificationPlayer.play();
-			};
-		}
+			chrome.notifications.create(options, (id) => resolve(id));
+		});
 
-		if (settings.notifications.link) {
-			notification.onclick = () => {
-				if (settings.notifications.searchOpenTab) {
-					chrome.tabs.query({ url: "https://www.torn.com/index.php" }, (result) => {
-						if (result.length) {
-							const tab = result[0];
+		if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play().then(() => {});
 
-							chrome.tabs.highlight({ windowId: tab.windowId, tabs: tab.index });
-						} else {
-							chrome.tabs.create({ url });
-						}
-					});
-				} else {
-					chrome.tabs.create({ url });
-				}
-			};
-		}
+		if (settings.notifications.link) notificationRelations[id] = url;
 	}
 
 	async function notifyService() {
-		options.data = { settings: {} };
+		const options = {
+			icon,
+			body: message,
+			requireInteraction,
+			data: { settings: {} },
+		};
+		if (silent) options.silent;
 
 		if (settings.notifications.link) {
 			options.data.link = url;
@@ -1321,7 +1310,24 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 chrome.notifications.onClicked.addListener((id) => {
-	if (settings.notifications.link) {
+	if (id in notificationRelations) {
+		if (settings.notifications.searchOpenTab) {
+			// noinspection JSIgnoredPromiseFromCall
+			chrome.tabs.query({ url: "https://www.torn.com/index.php" }, (result) => {
+				if (result.length) {
+					const tab = result[0];
+
+					chrome.tabs.highlight({ windowId: tab.windowId, tabs: tab.index });
+				} else {
+					chrome.tabs.create({ url });
+				}
+			});
+		} else {
+			chrome.tabs.create({ url });
+		}
+	}
+
+	if (settings.notifications.link && id in notificationRelations) {
 		chrome.tabs.create({ url: notificationRelations[id] });
 	}
 });
