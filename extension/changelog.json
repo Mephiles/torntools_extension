@@ -19,7 +19,10 @@
 				{ "message": "Show correct faction status for contribution csv.", "contributor": "bandirao" },
 				{ "message": "Solve issue with showing the bazaar worth while editing.", "contributor": "bandirao" }
 			],
-			"changes": [{"message": "Change notifications back to the previous system.", "contributor": "DeKleineKobini"},{"message": "Update massacrist mission hint.", "contributor": "DeKleineKobini"}],
+			"changes": [
+				{ "message": "Change notifications back to the previous system.", "contributor": "DeKleineKobini" },
+				{ "message": "Update massacrist mission hint.", "contributor": "DeKleineKobini" }
+			],
 			"removed": []
 		}
 	},
