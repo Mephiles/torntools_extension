@@ -24,7 +24,7 @@
 					if (json.list.length === 0) addWorth(true, []);
 					else if (json.list.length === json.total) addWorth(true, json.list);
 					else if (json.list.length < json.total) addWorth(true, false);
-				} else if ((new URLSearchParams(fetch.url)).get("step") === "getBazaarItems") {
+				} else if (new URLSearchParams(fetch.url).get("step") === "getBazaarItems") {
 					addWorth(true, false);
 				}
 			}
