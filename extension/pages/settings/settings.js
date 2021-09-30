@@ -573,7 +573,6 @@ async function setupPreferences() {
 		_preferences.find("#notification-tts").checked = settings.notifications.tts;
 		_preferences.find("#notification-link").checked = settings.notifications.link;
 		_preferences.find("#notification-requireInteraction").checked = settings.notifications.requireInteraction;
-		_preferences.find("#notification-searchOpenTab").checked = settings.notifications.searchOpenTab;
 		_preferences.find("#notification-volume").value = settings.notifications.volume;
 		if (settings.notifications.sound === "custom") {
 			_preferences.find("#notification-sound-upload").classList.remove("hidden");
@@ -994,7 +993,6 @@ async function setupPreferences() {
 		settings.notifications.tts = _preferences.find("#notification-tts").checked;
 		settings.notifications.link = _preferences.find("#notification-link").checked;
 		settings.notifications.requireInteraction = _preferences.find("#notification-requireInteraction").checked;
-		settings.notifications.searchOpenTab = _preferences.find("#notification-searchOpenTab").checked;
 		settings.notifications.volume = parseInt(_preferences.find("#notification-volume").value);
 		settings.notifications.sound = _preferences.find(`#notification-sound`).value;
 

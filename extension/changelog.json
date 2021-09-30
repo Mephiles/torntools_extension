@@ -19,8 +19,16 @@
 				{ "message": "Show correct faction status for contribution csv.", "contributor": "bandirao" },
 				{ "message": "Solve issue with showing the bazaar worth while editing.", "contributor": "bandirao" }
 			],
-			"changes": [{"message": "Change notifications back to the previous system.", "contributor": "DeKleineKobini"},{"message": "Update massacrist mission hint.", "contributor": "DeKleineKobini"}],
-			"removed": []
+			"changes": [
+				{ "message": "Change notifications back to the previous system.", "contributor": "DeKleineKobini" },
+				{ "message": "Update massacrist mission hint.", "contributor": "DeKleineKobini" }
+			],
+			"removed": [
+				{
+					"message": "We've removed the feature to open an already existing tab when clicking a notification. Removing this allows us to remove the 'tabs' permission.",
+					"contributor": "DeKleineKobini"
+				}
+			]
 		}
 	},
 	{

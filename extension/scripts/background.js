@@ -1219,7 +1219,6 @@ async function notifyUser(title, message, url) {
 
 		if (settings.notifications.link) {
 			options.data.link = url;
-			options.data.settings.searchOpenTab = settings.notifications.searchOpenTab;
 		}
 
 		if (!notificationWorker) {
@@ -1311,23 +1310,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 chrome.notifications.onClicked.addListener((id) => {
 	if (id in notificationRelations) {
-		if (settings.notifications.searchOpenTab) {
-			// noinspection JSIgnoredPromiseFromCall
-			chrome.tabs.query({ url: "https://www.torn.com/index.php" }, (result) => {
-				if (result.length) {
-					const tab = result[0];
-
-					chrome.tabs.highlight({ windowId: tab.windowId, tabs: tab.index });
-				} else {
-					chrome.tabs.create({ url });
-				}
-			});
-		} else {
-			chrome.tabs.create({ url });
-		}
-	}
-
-	if (settings.notifications.link && id in notificationRelations) {
 		chrome.tabs.create({ url: notificationRelations[id] });
 	}
 });

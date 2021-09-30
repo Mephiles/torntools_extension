@@ -279,7 +279,6 @@ const DEFAULT_STORAGE = {
 			link: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			volume: new DefaultSetting({ type: "number", defaultValue: 100 }),
 			requireInteraction: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			searchOpenTab: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			types: {
 				global: new DefaultSetting({ type: "boolean", defaultValue: () => Notification.permission === "granted" }),
 				events: new DefaultSetting({ type: "boolean", defaultValue: true }),
