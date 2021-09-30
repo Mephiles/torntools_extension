@@ -20,7 +20,8 @@
 				{ "message": "Solve issue with showing the bazaar worth while editing.", "contributor": "bandirao" },
 				{ "message": "Show the quick items container even if there is a warning for too many items.", "contributor": "DeKleineKobini" },
 				{ "message": "Align stock alert prices in the popup on mobile.", "contributor": "DeKleineKobini" },
-				{ "message": "Solve issue with showing job specials.", "contributor": "DeKleineKobini" }
+				{ "message": "Solve issue with showing job specials.", "contributor": "DeKleineKobini" },
+				{ "message": "Solve issue with energy/nerve/candy figures when in a company that provides any boost.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Change notifications back to the previous system.", "contributor": "DeKleineKobini" },
