@@ -127,6 +127,15 @@ async function convertDatabase() {
 				newStorage.localdata.vault.partner.current = storage.vault.partner.current_money || 0;
 				updated = true;
 			}
+			if (storage?.notes?.text || storage?.notes?.height) {
+				newStorage.notes.sidebar.text = storage.notes.text || "";
+				newStorage.notes.sidebar.height = storage.notes.height || "22px";
+			}
+			if (storage?.profile_notes?.profiles) {
+				for (const [id, { height, notes }] of Object.entries(storage.profile_notes.profiles)) {
+					newStorage.notes.profile[id] = { height: height || "17px", text: notes };
+				}
+			}
 			newStorage.quick.crimes = [];
 			newStorage.quick.items = [];
 			newStorage.torndata = {};
@@ -137,8 +146,7 @@ async function convertDatabase() {
 			console.log(`Upgraded database from ${versionString} to ${newVersion}`);
 		}
 
-		if ("version" in storage) storage.version.current = newVersion;
-		else storage.version = { current: newVersion };
+		newStorage.version.current = newVersion;
 
 		function toNumericVersion(version) {
 			return parseInt(
