@@ -142,22 +142,24 @@ async function convertDatabase() {
 			if (storage?.stakeouts)
 				newStorage.stakeouts = Object.entries(storage.stakeouts)
 					.filter(([id]) => !isNaN(id) && !!parseInt(id))
-					.map(([id, stakeout]) => {
-						return {
-							[id]: {
-								alerts: {
-									okay: stakeout.notifications.okay,
-									hospital: stakeout.notifications.hospital,
-									landing: stakeout.notifications.lands,
-									online: stakeout.notifications.online,
-									life: false,
-									offline: false,
-								},
+					.map(([id, stakeout]) => ({
+						[id]: {
+							alerts: {
+								okay: stakeout.notifications.okay,
+								hospital: stakeout.notifications.hospital,
+								landing: stakeout.notifications.lands,
+								online: stakeout.notifications.online,
+								life: false,
+								offline: false,
 							},
-						};
-					})
+						},
+					}))
 					.reduce((prev, current) => ({ ...prev, ...current }), {});
-			// FIXME - Migrate @ Stock Alerts
+			if (storage?.stock_alerts)
+				settings.notifications.types.stocks = Object.entries(storage.stock_alerts)
+					.filter(([id]) => !isNaN(id) && !!parseInt(id))
+					.map(([id, alert]) => ({ [id]: { priceFalls: parseInt(alert.fall) || "", priceReaches: parseInt(alert.reach) || "" } }))
+					.reduce((prev, current) => ({ ...prev, ...current }), {});
 			newStorage.torndata = {};
 		}
 
