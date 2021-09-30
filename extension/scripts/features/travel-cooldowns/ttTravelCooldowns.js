@@ -101,13 +101,13 @@
 						text: "Your education course will end before you return!",
 					})
 				);
+
+			const investmentMessage = userdata.city_bank.time_left
+				? "Your bank will be ready for investment before you return!"
+				: "You have no bank investment going on.";
 			cooldowns.insertAdjacentElement(
 				"afterend",
-				document.newElement({
-					type: "div",
-					class: ["cooldown", "investment", getDurationClass(userdata.city_bank.time_left)],
-					text: "Your bank investment will end before you return!",
-				})
+				document.newElement({ type: "div", class: ["cooldown", "investment", getDurationClass(userdata.city_bank.time_left)], text: investmentMessage })
 			);
 		} else {
 			handleClass(cooldowns.find(".energy"), userdata.energy.fulltime);
