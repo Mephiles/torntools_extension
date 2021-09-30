@@ -137,7 +137,7 @@ async function convertDatabase() {
 				}
 			}
 			newStorage.quick.crimes = [];
-			newStorage.quick.items = [];
+			newStorage.quick.items = storage?.quick?.items?.map((id) => ({ id: parseInt(id) })) || [];
 			newStorage.torndata = {};
 		}
 
