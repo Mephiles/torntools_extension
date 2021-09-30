@@ -138,6 +138,26 @@ async function convertDatabase() {
 			}
 			newStorage.quick.crimes = [];
 			newStorage.quick.items = storage?.quick?.items?.map((id) => ({ id: parseInt(id) })) || [];
+			// FIXME - Migrate @ User Info on Profiles
+			if (storage?.stakeouts)
+				newStorage.stakeouts = Object.entries(storage.stakeouts)
+					.filter(([id]) => !isNaN(id) && !!parseInt(id))
+					.map(([id, stakeout]) => {
+						return {
+							[id]: {
+								alerts: {
+									okay: stakeout.notifications.okay,
+									hospital: stakeout.notifications.hospital,
+									landing: stakeout.notifications.lands,
+									online: stakeout.notifications.online,
+									life: false,
+									offline: false,
+								},
+							},
+						};
+					})
+					.reduce((prev, current) => ({ ...prev, ...current }), {});
+			// FIXME - Migrate @ Stock Alerts
 			newStorage.torndata = {};
 		}
 
