@@ -117,6 +117,7 @@ async function convertDatabase() {
 
 		let updated = false;
 		if (version <= toNumericVersion("5")) {
+			// Migration
 			if (storage?.vault) {
 				newStorage.localdata.vault.initialized = storage.vault.initialized || false;
 				newStorage.localdata.vault.lastTransaction = storage.vault.last_transaction || "";
@@ -136,7 +137,6 @@ async function convertDatabase() {
 					newStorage.notes.profile[id] = { height: height || "17px", text: notes };
 				}
 			}
-			newStorage.quick.crimes = [];
 			newStorage.quick.items = storage?.quick?.items?.map((id) => ({ id: parseInt(id) })) || [];
 			if (storage?.stakeouts)
 				newStorage.stakeouts = Object.entries(storage.stakeouts)
@@ -159,7 +159,12 @@ async function convertDatabase() {
 					.filter(([id]) => !isNaN(id) && !!parseInt(id))
 					.map(([id, alert]) => ({ [id]: { priceFalls: parseInt(alert.fall) || "", priceReaches: parseInt(alert.reach) || "" } }))
 					.reduce((prev, current) => ({ ...prev, ...current }), {});
+
+			// Reset
+			newStorage.quick.crimes = [];
+			newStorage.userdata = {};
 			newStorage.torndata = {};
+			newStorage.cache = {};
 		}
 
 		const newVersion = chrome.runtime.getManifest().version;
