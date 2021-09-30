@@ -521,4 +521,26 @@ body.dark .hide-items span {
 	margin-top: 2px;
 }
 
+#preferences [granted] :last-child {
+	display: inline-flex;
+	align-items: center;
+}
+
+#preferences [granted] :last-child::after {
+	content: "";
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	margin-left: 4px;
+}
+
+#preferences [granted="true"] :last-child::after {
+	background-color: var(--tt-color-green);
+}
+
+#preferences [granted="false"] :last-child::after {
+	background-color: var(--tt-color-red);
+}
+
 /* endregion */

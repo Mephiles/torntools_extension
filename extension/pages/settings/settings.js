@@ -489,8 +489,14 @@ async function setupPreferences() {
 		_preferences.find(`input[name="themeContainers"][value="${settings.themes.containers}"]`).checked = true;
 		_preferences.find(`input[name="featureDisplayPosition"][value="${settings.featureDisplayPosition}"]`).checked = true;
 
-		_preferences.find("#external-tornstats").checked = settings.external.tornstats;
-		_preferences.find("#external-yata").checked = settings.external.yata;
+		for (const service of ["tornstats", "yata"]) {
+			_preferences.find(`#external-${service}`).checked = settings.external[service];
+
+			chrome.permissions.contains({ origins: [FETCH_PLATFORMS.tornstats] }, (granted) => {
+				_preferences.find(`#external-${service}`).parentElement.setAttribute("granted", !!granted);
+				console.log("DKK", service, granted);
+			});
+		}
 
 		_preferences.find("#csvDelimiter").value = settings.csvDelimiter;
 
