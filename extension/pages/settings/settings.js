@@ -492,9 +492,8 @@ async function setupPreferences() {
 		for (const service of ["tornstats", "yata"]) {
 			_preferences.find(`#external-${service}`).checked = settings.external[service];
 
-			chrome.permissions.contains({ origins: [FETCH_PLATFORMS.tornstats] }, (granted) => {
+			chrome.permissions.contains({ origins: [FETCH_PLATFORMS[service]] }, (granted) => {
 				_preferences.find(`#external-${service}`).parentElement.setAttribute("granted", !!granted);
-				console.log("DKK", service, granted);
 			});
 		}
 
@@ -1020,6 +1019,7 @@ async function setupPreferences() {
 				sendMessage("Can't enable this without accepting the permission.", false);
 				event.target.checked = false;
 			}
+			event.target.closest(".option").setAttribute("granted", !!granted);
 		});
 	}
 
