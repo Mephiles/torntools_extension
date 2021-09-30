@@ -1058,60 +1058,57 @@ async function setupStocksOverview() {
 				})
 			);
 
+			alertsContent.appendChild(document.newElement({ type: "span", class: "title", text: "Price" }));
 			alertsContent.appendChild(
 				document.newElement({
 					type: "div",
 					children: [
-						document.newElement({ type: "span", class: "title", text: "Price" }),
+						document.newElement({ type: "label", attributes: { for: `stock-${id}-alert__reaches` }, text: "reaches" }),
 						document.newElement({
-							type: "div",
-							children: [
-								document.newElement({ type: "label", attributes: { for: `stock-${id}-alert__reaches` }, text: "reaches" }),
-								document.newElement({
-									type: "input",
-									id: `stock-${id}-alert__reaches`,
-									attributes: { type: "number", min: 0 },
-									value: () => {
-										if (!(id in settings.notifications.types.stocks)) return "";
+							type: "input",
+							id: `stock-${id}-alert__reaches`,
+							attributes: { type: "number", min: 0 },
+							value: () => {
+								if (!(id in settings.notifications.types.stocks)) return "";
 
-										return settings.notifications.types.stocks[id].priceReaches || "";
-									},
-									events: {
-										change: async (event) => {
-											await ttStorage.change({
-												settings: {
-													notifications: { types: { stocks: { [id]: { priceReaches: parseFloat(event.target.value) } } } },
-												},
-											});
+								return settings.notifications.types.stocks[id].priceReaches || "";
+							},
+							events: {
+								change: async (event) => {
+									await ttStorage.change({
+										settings: {
+											notifications: { types: { stocks: { [id]: { priceReaches: parseFloat(event.target.value) } } } },
 										},
-									},
-								}),
-							],
+									});
+								},
+							},
 						}),
+					],
+				})
+			);
+			alertsContent.appendChild(
+				document.newElement({
+					type: "div",
+					children: [
+						document.newElement({ type: "label", attributes: { for: `stock-${id}-alert__falls` }, text: "falls to" }),
 						document.newElement({
-							type: "div",
-							children: [
-								document.newElement({ type: "label", attributes: { for: `stock-${id}-alert__falls` }, text: "falls to" }),
-								document.newElement({
-									type: "input",
-									id: `stock-${id}-alert__falls`,
-									attributes: { type: "number", min: 0 },
-									value: () => {
-										if (!(id in settings.notifications.types.stocks)) return "";
+							type: "input",
+							id: `stock-${id}-alert__falls`,
+							attributes: { type: "number", min: 0 },
+							value: () => {
+								if (!(id in settings.notifications.types.stocks)) return "";
 
-										return settings.notifications.types.stocks[id].priceFalls || "";
-									},
-									events: {
-										change: async (event) => {
-											await ttStorage.change({
-												settings: {
-													notifications: { types: { stocks: { [id]: { priceFalls: parseFloat(event.target.value) } } } },
-												},
-											});
+								return settings.notifications.types.stocks[id].priceFalls || "";
+							},
+							events: {
+								change: async (event) => {
+									await ttStorage.change({
+										settings: {
+											notifications: { types: { stocks: { [id]: { priceFalls: parseFloat(event.target.value) } } } },
 										},
-									},
-								}),
-							],
+									});
+								},
+							},
 						}),
 					],
 				})

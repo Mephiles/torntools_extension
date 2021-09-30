@@ -63,6 +63,7 @@ body.dark #stocks .stock-list .information-section .heading {
 
 #stocks .stock-list .information-section .content.alerts {
 	display: flex;
+	flex-direction: column;
 }
 
 #stocks .stock-list .information-section .content.alerts > * {
