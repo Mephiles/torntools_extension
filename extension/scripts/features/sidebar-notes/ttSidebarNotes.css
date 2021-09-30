@@ -13,3 +13,7 @@
 	resize: vertical;
 	border-radius: 0 5px 5px 0;
 }
+
+body.dark-mode #sidebarNotes .notes {
+	color: #fff;
+}
