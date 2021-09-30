@@ -153,6 +153,7 @@ async function convertDatabase() {
 							},
 						},
 					}))
+					.filter((result) => Object.values(result)[0] !== undefined)
 					.reduce((prev, current) => ({ ...prev, ...current }), {});
 			if (storage?.stock_alerts)
 				newStorage.settings.notifications.types.stocks = Object.entries(storage.stock_alerts)
