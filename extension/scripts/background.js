@@ -155,7 +155,7 @@ async function convertDatabase() {
 					}))
 					.reduce((prev, current) => ({ ...prev, ...current }), {});
 			if (storage?.stock_alerts)
-				settings.notifications.types.stocks = Object.entries(storage.stock_alerts)
+				newStorage.settings.notifications.types.stocks = Object.entries(storage.stock_alerts)
 					.filter(([id]) => !isNaN(id) && !!parseInt(id))
 					.map(([id, alert]) => ({ [id]: { priceFalls: parseInt(alert.fall) || "", priceReaches: parseInt(alert.reach) || "" } }))
 					.reduce((prev, current) => ({ ...prev, ...current }), {});
