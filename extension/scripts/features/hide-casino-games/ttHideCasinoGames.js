@@ -48,7 +48,7 @@
 				document.newElement({
 					type: "div",
 					class: "tt-hidden",
-					children: [document.newElement({ type: "b", text: "•&nbsp;REMOVED&nbsp;•" })],
+					children: [document.newElement({ type: "b", text: "• REMOVED •" })],
 				})
 			);
 		}
