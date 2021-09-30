@@ -30,7 +30,8 @@
 				{ "message": "Clarify bank investment message before flying.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't autofill the bazaar more than once.", "contributor": "DeKleineKobini" },
 				{ "message": "Add an option to disable autoscroll for bazaars.", "contributor": "DeKleineKobini" },
-				{ "message": "Add indication if a permission was granted or not.", "contributor": "DeKleineKobini" }
+				{ "message": "Add indication if a permission was granted or not.", "contributor": "DeKleineKobini" },
+				{ "message": "Redirect user to normal settings page when there are permission issues.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{

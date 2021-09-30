@@ -446,6 +446,12 @@ async function setupPreferences() {
 
 		if (!origin) return;
 
+		if (!chrome.permissions) {
+			event.target.value = settings.pages.global.reviveProvider;
+			warnMissingPermissionAPI();
+			return;
+		}
+
 		chrome.permissions.request({ origins: [origin] }, (granted) => {
 			if (!granted) {
 				sendMessage("Can't select this provider without accepting the permission.", false);
@@ -1014,6 +1020,12 @@ async function setupPreferences() {
 	function requestOrigin(origin, event) {
 		if (!event.target.checked) return;
 
+		if (!chrome.permissions) {
+			event.target.checked = false;
+			warnMissingPermissionAPI();
+			return;
+		}
+
 		chrome.permissions.request({ origins: [origin] }, (granted) => {
 			if (!granted) {
 				sendMessage("Can't enable this without accepting the permission.", false);
@@ -1130,6 +1142,8 @@ async function setupPreferences() {
 	}
 
 	function requestPermissions() {
+		if (!chrome.permissions) return;
+
 		const origins = [];
 
 		for (const { id, origin } of [
@@ -1167,6 +1181,25 @@ async function setupPreferences() {
 					});
 				});
 		});
+	}
+
+	function warnMissingPermissionAPI() {
+		loadConfirmationPopup({
+			title: "Couldn't request permissions",
+			message: `
+				<p>
+					There was an issue when requesting additional permissions. Please go to the normal settings page.
+				</p>
+				<p>
+					Clicking confirm will save your current settings and go to the normal settings page.
+				</p>
+			`,
+		})
+			.then(() => {
+				saveSettings();
+				window.open(location.href, "_blank");
+			})
+			.catch(() => {});
 	}
 }
 
