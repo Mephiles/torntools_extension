@@ -138,7 +138,6 @@ async function convertDatabase() {
 			}
 			newStorage.quick.crimes = [];
 			newStorage.quick.items = storage?.quick?.items?.map((id) => ({ id: parseInt(id) })) || [];
-			// FIXME - Migrate @ User Info on Profiles
 			if (storage?.stakeouts)
 				newStorage.stakeouts = Object.entries(storage.stakeouts)
 					.filter(([id]) => !isNaN(id) && !!parseInt(id))
