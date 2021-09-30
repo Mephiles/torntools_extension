@@ -21,7 +21,8 @@
 			],
 			"changes": [
 				{ "message": "Change notifications back to the previous system.", "contributor": "DeKleineKobini" },
-				{ "message": "Update massacrist mission hint.", "contributor": "DeKleineKobini" }
+				{ "message": "Update massacrist mission hint.", "contributor": "DeKleineKobini" },
+				{ "message": "Allow the extension to run in the background again.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{
