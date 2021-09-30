@@ -26,7 +26,8 @@
 				{ "message": "Update massacrist mission hint.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow the extension to run in the background again.", "contributor": "DeKleineKobini" },
 				{ "message": "Clarify bank investment message before flying.", "contributor": "DeKleineKobini" },
-				{ "message": "Don't autofill the bazaar more than once.", "contributor": "DeKleineKobini" }
+				{ "message": "Don't autofill the bazaar more than once.", "contributor": "DeKleineKobini" },
+				{ "message": "Add an option to disable autoscroll for bazaars.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{

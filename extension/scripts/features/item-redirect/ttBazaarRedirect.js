@@ -34,7 +34,7 @@
 				) {
 					foundItem = true;
 					item.classList.add("tt-flash");
-					item.scrollIntoView({ behavior: "smooth" });
+					if (settings.pages.bazaar.redirectsScroll) item.scrollIntoView({ behavior: "smooth" });
 					break;
 				}
 			}
