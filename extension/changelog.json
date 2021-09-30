@@ -27,8 +27,7 @@
 			],
 			"removed": [
 				{
-					"message": "We've removed the feature to open an already existing tab when clicking a notification. Removing this allows us to remove the 'tabs' permission.",
-					"contributor": "DeKleineKobini"
+					"message": "We've removed the feature to open an already existing tab when clicking a notification. Removing this allows us to remove the 'tabs' permission."
 				}
 			]
 		}
