@@ -632,8 +632,7 @@
 					}
 
 					if (result.spy?.status) {
-						// FIXME - Load timestamp.
-						const timestamp = false;
+						const timestamp = result.spy.timestamp;
 
 						if (!spy || timestamp > spy.timestamp) {
 							spy = {
