@@ -23,12 +23,6 @@
 	let triggerFilter;
 
 	function registerListeners() {
-		// FIXME - Handle page switching.
-		// CUSTOM_LISTENERS[EVENT_CHANNELS.USERLIST_SWITCH_PAGE].push(() => {
-		// 	if (!feature.enabled() || settings.pages.userlist.filter) return;
-		//
-		// 	showEstimates();
-		// });
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FILTER_APPLIED].push(() => {
 			if (!feature.enabled()) return;
 
