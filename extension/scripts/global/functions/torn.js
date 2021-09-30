@@ -1709,5 +1709,5 @@ function getUsername(row) {
 function hasFinishedEducation() {
 	if (!torndata.education || !userdata.education_completed) return false;
 
-	return userdata.education_completed.length === Object.keys(torndata.education).length;
+	return userdata.education_completed.length >= Object.keys(torndata.education).length;
 }
