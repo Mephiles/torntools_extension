@@ -19,7 +19,8 @@
 				{ "message": "Show correct faction status for contribution csv.", "contributor": "bandirao" },
 				{ "message": "Solve issue with showing the bazaar worth while editing.", "contributor": "bandirao" },
 				{ "message": "Show the quick items container even if there is a warning for too many items.", "contributor": "DeKleineKobini" },
-				{ "message": "Align stock alert prices in the popup on mobile.", "contributor": "DeKleineKobini" }
+				{ "message": "Align stock alert prices in the popup on mobile.", "contributor": "DeKleineKobini" },
+				{ "message": "Solve issue with showing job specials.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Change notifications back to the previous system.", "contributor": "DeKleineKobini" },
