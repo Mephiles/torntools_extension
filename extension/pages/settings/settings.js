@@ -1019,19 +1019,25 @@ async function setupPreferences() {
 
 	function searchPreferences() {
 		const searchOverlay = document.find("#tt-search-overlay");
-		document.find("#preferences-search").addEventListener("click", () => searchOverlay.classList.remove("hidden"));
+		document.find("#preferences-search").addEventListener("click", () => {
+			searchOverlay.classList.remove("hidden")
+			search();
+		});
 
 		searchOverlay.find(".circle").addEventListener("click", () => {
 			searchOverlay.find("#tt-search-list").innerHTML = "";
 			searchOverlay.classList.add("hidden");
 		});
+		const searchOverlayInput = searchOverlay.find("input");
 		searchOverlay.find("#tt-search-button").addEventListener("click", search);
-		searchOverlay.find("input").addEventListener("keydown", (event) => {
+		searchOverlayInput.addEventListener("input", search);
+		searchOverlayInput.addEventListener("keydown", (event) => {
 			if (event.keyCode === 13) search();
 		});
 
+		const searchList = searchOverlay.find("#tt-search-list");
 		function search() {
-			const searchFor = searchOverlay.find("input").value.toLowerCase().trim();
+			const searchFor = searchOverlayInput.value.toLowerCase().trim();
 			if (!searchFor) return;
 			document.findAll(".searched").forEach((option) => option.classList.remove("searched"));
 			let searchResults = document.evaluate(
@@ -1051,7 +1057,6 @@ async function setupPreferences() {
 				XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
 				null
 			);
-			const searchList = searchOverlay.find("#tt-search-list");
 			searchList.innerHTML = "";
 			// Sorry but there is no forEach method available. Had to use traditional loops.
 			if (searchResults.snapshotLength > 0) {
@@ -1087,30 +1092,30 @@ async function setupPreferences() {
 					})
 				);
 			}
-			searchList.addEventListener("click", (event) => {
-				event.stopPropagation();
-				searchOverlay.classList.add("hidden");
-				if (event.target.textContent.trim() !== "No Results") {
-					const nameAttr = event.target.getAttribute("name");
-					const forAttr = event.target.getAttribute("for");
-					if (forAttr) {
-						const optionFound = document.find(`#preferences [for="${forAttr}"]`);
-						document.find(`#preferences nav [name="${optionFound.closest("section").getAttribute("name")}"]`).click();
-						optionFound.parentElement.classList.add("searched");
-					} else if (nameAttr) {
-						for (const x of [...document.findAll(`#preferences [name="${nameAttr}"] .header`)]) {
-							if (x.textContent.trim() === event.target.textContent.trim()) {
-								x.classList.add("searched");
-								document.find(`#preferences nav [name="${x.closest("section").getAttribute("name")}"]`).click();
-								break;
-							}
+			searchResults = null;
+		}
+		searchList.addEventListener("click", (event) => {
+			event.stopPropagation();
+			searchOverlay.classList.add("hidden");
+			if (event.target.textContent.trim() !== "No Results") {
+				const nameAttr = event.target.getAttribute("name");
+				const forAttr = event.target.getAttribute("for");
+				if (forAttr) {
+					const optionFound = document.find(`#preferences [for="${forAttr}"]`);
+					document.find(`#preferences nav [name="${optionFound.closest("section").getAttribute("name")}"]`).click();
+					optionFound.parentElement.classList.add("searched");
+				} else if (nameAttr) {
+					for (const x of [...document.findAll(`#preferences [name="${nameAttr}"] .header`)]) {
+						if (x.textContent.trim() === event.target.textContent.trim()) {
+							x.classList.add("searched");
+							document.find(`#preferences nav [name="${x.closest("section").getAttribute("name")}"]`).click();
+							break;
 						}
 					}
 				}
-				searchList.innerHTML = "";
-			});
-			searchResults = null;
-		}
+			}
+			searchList.innerHTML = "";
+		});
 	}
 
 	function enforceInputLimits(event) {
