@@ -25,7 +25,8 @@
 				{ "message": "Change notifications back to the previous system.", "contributor": "DeKleineKobini" },
 				{ "message": "Update massacrist mission hint.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow the extension to run in the background again.", "contributor": "DeKleineKobini" },
-				{ "message": "Clarify bank investment message before flying.", "contributor": "DeKleineKobini" }
+				{ "message": "Clarify bank investment message before flying.", "contributor": "DeKleineKobini" },
+				{ "message": "Don't autofill the bazaar more than once.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{

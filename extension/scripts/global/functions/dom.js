@@ -442,3 +442,14 @@ function executeScript(handler, code) {
 		setTimeout(() => script.remove(), 100);
 	}
 }
+
+function updateQuery(key, value) {
+	if (history.pushState) {
+		const url = new URL(location.href);
+		const params = url.searchParams;
+
+		params.set(key, value);
+
+		history.pushState({ path: url.toString() }, "", url.toString());
+	}
+}

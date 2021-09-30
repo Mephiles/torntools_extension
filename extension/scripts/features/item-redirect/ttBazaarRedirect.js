@@ -39,9 +39,14 @@
 				}
 			}
 
-			if (!foundItem) {
+			const hasAutofill = params.has("tt_autofill");
+			const isAutofill = params.get("tt_autofill") !== "false";
+
+			if (!foundItem && (!hasAutofill || isAutofill)) {
 				updateReactInput(document.find("div[class*='item__'] input"), itemName);
 			}
+
+			if (!hasAutofill) updateQuery("tt_autofill", false);
 		}
 	}
 
