@@ -359,6 +359,7 @@ const DEFAULT_STORAGE = {
 				keepAttackHistory: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				miniProfileLastAction: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				reviveProvider: new DefaultSetting({ type: "string", defaultValue: "" }),
+				pageTitles: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			profile: {
 				statusIndicator: new DefaultSetting({ type: "boolean", defaultValue: true }),
