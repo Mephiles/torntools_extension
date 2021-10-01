@@ -305,7 +305,7 @@ const DEFAULT_STORAGE = {
 			},
 		},
 		apiUsage: {
-			comment: new DefaultSetting({ type: "string", defaultValue: "" }),
+			comment: new DefaultSetting({ type: "string", defaultValue: "TornTools" }),
 			delayEssential: new DefaultSetting({ type: "number", defaultValue: 30 }),
 			delayBasic: new DefaultSetting({ type: "number", defaultValue: 120 }),
 			delayStakeouts: new DefaultSetting({ type: "number", defaultValue: 30 }),

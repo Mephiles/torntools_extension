@@ -166,6 +166,8 @@ async function convertDatabase() {
 			newStorage.userdata = {};
 			newStorage.torndata = {};
 			newStorage.cache = {};
+		} else if (version === toNumericVersion("6.0.0")) {
+			newStorage.settings.apiUsage.comment = storage?.settings?.apiUsage?.comment || "TornTools";
 		}
 
 		const newVersion = chrome.runtime.getManifest().version;
