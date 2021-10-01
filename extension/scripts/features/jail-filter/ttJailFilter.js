@@ -217,7 +217,7 @@
 
 			// Score
 			const score = level * (timeLeftHrs + 3);
-			if ((scoreStart && score < scoreStart) || (scoreEnd !== 100 && score > scoreEnd)) {
+			if ((scoreStart && score < scoreStart) || (scoreEnd !== 5000 && score > scoreEnd)) {
 				hideRow(li);
 				continue;
 			}
