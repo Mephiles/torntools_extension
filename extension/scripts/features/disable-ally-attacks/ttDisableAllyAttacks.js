@@ -46,8 +46,11 @@
 				else return ally.trim() === factionName;
 			})
 		) {
+			const attackButton = document.find(".profile-buttons .profile-button-attack");
+			if (attackButton.classList.contains("cross")) return;
+
 			const crossSvgNode = crossSvg();
-			document.find(".profile-buttons .profile-button-attack").insertAdjacentElement("beforeend", crossSvgNode);
+			attackButton.insertAdjacentElement("beforeend", crossSvgNode);
 			crossSvgNode.addEventListener("click", listenerFunction, { capture: true });
 		}
 	}

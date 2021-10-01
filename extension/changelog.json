@@ -26,7 +26,8 @@
 				{ "message": "Make absolute sure that the settings are loaded before applying container styling.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix dark mode issue with sidebar notes.", "contributor": "bandirao" },
 				{ "message": "Fix jail filter showing everone when score is set to 100.", "contributor": "bandirao" },
-				{ "message": "Update 'Batshit Crazy' mission hint.", "contributor": "DeKleineKobini" }
+				{ "message": "Update 'Batshit Crazy' mission hint.", "contributor": "DeKleineKobini" },
+				{ "message": "Don't show the ally blocking icon when the attack is already blocked.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Change notifications back to the previous system.", "contributor": "DeKleineKobini" },
