@@ -94,8 +94,7 @@
 			},
 			bring_it: {
 				task: "Defeat Duke in a group attack",
-				hint:
-					"Unlike other missions, you'll have a week to finish this one. Doesn't have to be the finishing hit, so just join when people try to loot him.",
+				hint: "Unlike other missions, you'll have a week to finish this one. Doesn't have to be the finishing hit, so just join when people try to loot him.",
 			},
 			candy_from_babies: {
 				task: "Collect $50,000 - $250,000 in bounties.",
@@ -226,8 +225,7 @@
 			},
 			motivator: {
 				task: "Lose or stalemate to (P) on the first attempt.",
-				hint:
-					"Timing out doesn't fail this mission, so if you're about to win, let it time out. You can get your health low by using the wrong blood bag. Make yourself weak by unequipping armor and equip a rusty sword.",
+				hint: "Timing out doesn't fail this mission, so if you're about to win, let it time out. You can get your health low by using the wrong blood bag. Make yourself weak by unequipping armor and equip a rusty sword.",
 			},
 			new_kid_on_the_block: {
 				task: "Defeat 5 players.",
