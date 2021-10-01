@@ -207,9 +207,13 @@ async function setupPreferences() {
 	});
 	_preferences.find("#chatTitleHighlight .input .color").innerHTML = getChatTitleColorOptions();
 
+	_preferences.find("#saveSettingsTemporary").addEventListener("click", async () => {
+		_preferences.find("#saveSettingsBar").classList.add("hidden");
+		await saveSettings();
+	});
 	_preferences.find("#saveSettings").addEventListener("click", async () => {
 		_preferences.find("#saveSettingsBar").classList.add("hidden");
-		await saveSettings()
+		await saveSettings();
 	});
 	_preferences.find("#revertSettings").addEventListener("click", () => {
 		_preferences.find("#saveSettingsBar").classList.add("hidden");
@@ -1028,7 +1032,7 @@ async function setupPreferences() {
 	function searchPreferences() {
 		const searchOverlay = document.find("#tt-search-overlay");
 		document.find("#preferences-search").addEventListener("click", () => {
-			searchOverlay.classList.remove("hidden")
+			searchOverlay.classList.remove("hidden");
 			search();
 		});
 
@@ -1177,12 +1181,15 @@ async function setupPreferences() {
 	}
 
 	function addSaveDialog(event) {
-		if (event.target.tagName === "INPUT" || event.target.closest("button.remove-icon-wrap") || event.target.tagName === "SELECT") document.find("#saveSettingsBar").classList.remove("hidden");
+		if (event.target.tagName === "INPUT" || event.target.closest("button.remove-icon-wrap") || event.target.tagName === "SELECT")
+			document.find("#saveSettingsBar").classList.remove("hidden");
 	}
 
 	function revertSettings() {
-		_preferences.findAll("#hide-areas .disabled, #hide-icons .disabled, #hide-casino-games .disabled, #hide-stocks .disabled").forEach(x => x.classList.remove("disabled"));
-		_preferences.findAll("button.remove-icon-wrap").forEach(x => x.closest("li").remove());
+		_preferences
+			.findAll("#hide-areas .disabled, #hide-icons .disabled, #hide-casino-games .disabled, #hide-stocks .disabled")
+			.forEach((x) => x.classList.remove("disabled"));
+		_preferences.findAll("button.remove-icon-wrap").forEach((x) => x.closest("li").remove());
 		fillSettings();
 	}
 }
