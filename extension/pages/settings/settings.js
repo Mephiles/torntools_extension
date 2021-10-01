@@ -180,6 +180,7 @@ async function setupChangelog() {
 
 async function setupPreferences() {
 	const _preferences = document.find("#preferences");
+	_preferences.addEventListener("click", addSaveDialog);
 
 	if (getSearchParameters().has("section"))
 		switchSection(_preferences.find(`#preferences > section > nav ul > li[name="${getSearchParameters().get("section")}"]`));
@@ -206,7 +207,18 @@ async function setupPreferences() {
 	});
 	_preferences.find("#chatTitleHighlight .input .color").innerHTML = getChatTitleColorOptions();
 
-	_preferences.find("#saveSettings").addEventListener("click", async () => await saveSettings());
+	_preferences.find("#saveSettingsTemporary").addEventListener("click", async () => {
+		_preferences.find("#saveSettingsBar").classList.add("hidden");
+		await saveSettings();
+	});
+	_preferences.find("#saveSettings").addEventListener("click", async () => {
+		_preferences.find("#saveSettingsBar").classList.add("hidden");
+		await saveSettings();
+	});
+	_preferences.find("#revertSettings").addEventListener("click", () => {
+		_preferences.find("#saveSettingsBar").classList.add("hidden");
+		revertSettings();
+	});
 	_preferences.find("#resetSettings").addEventListener("click", () => {
 		loadConfirmationPopup({
 			title: "Reset settings",
@@ -1032,19 +1044,25 @@ async function setupPreferences() {
 
 	function searchPreferences() {
 		const searchOverlay = document.find("#tt-search-overlay");
-		document.find("#preferences-search").addEventListener("click", () => searchOverlay.classList.remove("hidden"));
+		document.find("#preferences-search").addEventListener("click", () => {
+			searchOverlay.classList.remove("hidden");
+			search();
+		});
 
 		searchOverlay.find(".circle").addEventListener("click", () => {
 			searchOverlay.find("#tt-search-list").innerHTML = "";
 			searchOverlay.classList.add("hidden");
 		});
+		const searchOverlayInput = searchOverlay.find("input");
 		searchOverlay.find("#tt-search-button").addEventListener("click", search);
-		searchOverlay.find("input").addEventListener("keydown", (event) => {
+		searchOverlayInput.addEventListener("input", search);
+		searchOverlayInput.addEventListener("keydown", (event) => {
 			if (event.keyCode === 13) search();
 		});
 
+		const searchList = searchOverlay.find("#tt-search-list");
 		function search() {
-			const searchFor = searchOverlay.find("input").value.toLowerCase().trim();
+			const searchFor = searchOverlayInput.value.toLowerCase().trim();
 			if (!searchFor) return;
 			document.findAll(".searched").forEach((option) => option.classList.remove("searched"));
 			let searchResults = document.evaluate(
@@ -1064,7 +1082,6 @@ async function setupPreferences() {
 				XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
 				null
 			);
-			const searchList = searchOverlay.find("#tt-search-list");
 			searchList.innerHTML = "";
 			// Sorry but there is no forEach method available. Had to use traditional loops.
 			if (searchResults.snapshotLength > 0) {
@@ -1100,30 +1117,30 @@ async function setupPreferences() {
 					})
 				);
 			}
-			searchList.addEventListener("click", (event) => {
-				event.stopPropagation();
-				searchOverlay.classList.add("hidden");
-				if (event.target.textContent.trim() !== "No Results") {
-					const nameAttr = event.target.getAttribute("name");
-					const forAttr = event.target.getAttribute("for");
-					if (forAttr) {
-						const optionFound = document.find(`#preferences [for="${forAttr}"]`);
-						document.find(`#preferences nav [name="${optionFound.closest("section").getAttribute("name")}"]`).click();
-						optionFound.parentElement.classList.add("searched");
-					} else if (nameAttr) {
-						for (const x of [...document.findAll(`#preferences [name="${nameAttr}"] .header`)]) {
-							if (x.textContent.trim() === event.target.textContent.trim()) {
-								x.classList.add("searched");
-								document.find(`#preferences nav [name="${x.closest("section").getAttribute("name")}"]`).click();
-								break;
-							}
+			searchResults = null;
+		}
+		searchList.addEventListener("click", (event) => {
+			event.stopPropagation();
+			searchOverlay.classList.add("hidden");
+			if (event.target.textContent.trim() !== "No Results") {
+				const nameAttr = event.target.getAttribute("name");
+				const forAttr = event.target.getAttribute("for");
+				if (forAttr) {
+					const optionFound = document.find(`#preferences [for="${forAttr}"]`);
+					document.find(`#preferences nav [name="${optionFound.closest("section").getAttribute("name")}"]`).click();
+					optionFound.parentElement.classList.add("searched");
+				} else if (nameAttr) {
+					for (const x of [...document.findAll(`#preferences [name="${nameAttr}"] .header`)]) {
+						if (x.textContent.trim() === event.target.textContent.trim()) {
+							x.classList.add("searched");
+							document.find(`#preferences nav [name="${x.closest("section").getAttribute("name")}"]`).click();
+							break;
 						}
 					}
 				}
-				searchList.innerHTML = "";
-			});
-			searchResults = null;
-		}
+			}
+			searchList.innerHTML = "";
+		});
 	}
 
 	function enforceInputLimits(event) {
@@ -1176,6 +1193,19 @@ async function setupPreferences() {
 					});
 				});
 		});
+	}
+
+	function addSaveDialog(event) {
+		if (event.target.tagName === "INPUT" || event.target.closest("button.remove-icon-wrap") || event.target.tagName === "SELECT")
+			document.find("#saveSettingsBar").classList.remove("hidden");
+	}
+
+	function revertSettings() {
+		_preferences
+			.findAll("#hide-areas .disabled, #hide-icons .disabled, #hide-casino-games .disabled, #hide-stocks .disabled")
+			.forEach((x) => x.classList.remove("disabled"));
+		_preferences.findAll("button.remove-icon-wrap").forEach((x) => x.closest("li").remove());
+		fillSettings();
 	}
 
 	function warnMissingPermissionAPI() {
