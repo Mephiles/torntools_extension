@@ -274,3 +274,7 @@ function hasFactionAPIAccess() {
 
 	return factiondata.positions[userdata.faction.position].canAccessFactionApi === 1;
 }
+
+async function hasOrigins(...origins) {
+	return new Promise((resolve) => chrome.permissions.contains({ origins }, (granted) => resolve(granted)));
+}
