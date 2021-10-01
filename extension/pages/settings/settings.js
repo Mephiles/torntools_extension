@@ -1196,7 +1196,10 @@ async function setupPreferences() {
 	}
 
 	function addSaveDialog(event) {
-		if (["INPUT", "SELECT"].includes(event.target.tagName) || event.target.closest("button.remove-icon-wrap, #hide-icons, #hide-areas, #hide-casino-games, #hide-stocks"))
+		if (
+			["INPUT", "SELECT"].includes(event.target.tagName) ||
+			event.target.closest("button.remove-icon-wrap, #hide-icons, #hide-areas, #hide-casino-games, #hide-stocks")
+		)
 			document.find("#saveSettingsBar").classList.remove("hidden");
 	}
 
