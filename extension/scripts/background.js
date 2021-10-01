@@ -901,7 +901,7 @@ async function updateStakeouts() {
 							`${data.name} is now ${data.status.state === "Abroad" ? data.status.description : "in Torn"}.`,
 							`https://www.torn.com/profiles.php?XID=${id}`
 						);
-				} else if (data.last_action.status !== "Traveling") {
+				} else if (data.last_action.status === "Traveling") {
 					delete notifications.stakeouts[key];
 				}
 			}
