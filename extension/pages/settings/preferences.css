@@ -141,6 +141,7 @@ body.dark #tt-search-overlay #tt-search-button {
 	font-family: Arial;
 	overflow-y: scroll;
 	overflow-wrap: break-word;
+	scrollbar-width: thin;
 }
 
 body.light #tt-search-list {
@@ -149,6 +150,18 @@ body.light #tt-search-list {
 
 body.dark #tt-search-list {
 	background-color: #444;
+}
+
+#tt-search-list::-webkit-scrollbar-thumb {
+	border-radius: 5px;
+}
+
+body.light #tt-search-list::-webkit-scrollbar-thumb {
+	background: #666;
+}
+
+body.dark #tt-search-list::-webkit-scrollbar-thumb {
+	background: #999;
 }
 
 #tt-search-list > div {
@@ -537,27 +550,24 @@ body.dark .hide-items span {
 
 /* endregion */
 
-div#tt-search-list::-webkit-scrollbar-thumb {
-	border-radius: 5px;
-}
-
-body.light div#tt-search-list::-webkit-scrollbar-thumb {
-	background: #666;
-}
-
-body.dark div#tt-search-list::-webkit-scrollbar-thumb {
-	background: #999;
-}
-
 #saveSettingsBar {
 	width: 80%;
 	position: fixed;
 	margin: 0 10%;
 	padding: 12.5px 25px;
 	bottom: 30px;
-	background-color: #666;
-	border: none;
 	border-radius: 15px;
+}
+
+body.light #saveSettingsBar {
+	background-color: #fff;
+	color: #000;
+}
+
+body.dark #saveSettingsBar {
+	background-color: #666;
+	color: #fff;
+	border: none;
 }
 
 #saveSettingsBar > div {
@@ -576,6 +586,5 @@ body.dark div#tt-search-list::-webkit-scrollbar-thumb {
 	margin: 0 5px;
 	font-size: 14px;
 	font-weight: bold;
-	color: #fff;
 	background-color: #0000;
 }
