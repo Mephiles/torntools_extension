@@ -530,6 +530,11 @@ body.dark .hide-items span {
 	margin-top: 2px;
 }
 
+#preferences [granted] :last-child {
+	display: inline-flex;
+	align-items: center;
+}
+
 /* endregion */
 
 div#tt-search-list::-webkit-scrollbar-thumb {

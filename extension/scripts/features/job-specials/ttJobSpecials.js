@@ -19,12 +19,11 @@
 	);
 
 	async function addListener() {
-		// noinspection JSCheckFunctionSignatures
-		new MutationObserver((mutations) => {
-			if (!feature.enabled() || !mutations.some((mutation) => mutation.addedNodes && mutation.addedNodes.length)) return;
+		CUSTOM_LISTENERS[EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE].push(() => {
+			if (!feature.enabled) return;
 
 			showSpecials();
-		}).observe(await requireElement(".content #mainContainer .employees-wrap"), { childList: true });
+		});
 	}
 
 	async function showSpecials() {

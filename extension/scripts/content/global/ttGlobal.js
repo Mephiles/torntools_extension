@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	handleTheme();
+	handleTheme().catch(() => {});
 	createOverlay();
 	detectScroll();
 	observeChat().catch(console.error);
@@ -9,7 +9,9 @@
 
 	setInterval(decreaseCountdown, 1000);
 
-	function handleTheme() {
+	async function handleTheme() {
+		await loadDatabase();
+
 		document.documentElement.style.setProperty("--tt-theme-color", settings.themes.containers !== "alternative" ? "#fff" : "#acea00");
 		document.documentElement.style.setProperty(
 			"--tt-theme-background",

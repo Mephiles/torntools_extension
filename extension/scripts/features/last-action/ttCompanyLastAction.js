@@ -18,30 +18,11 @@
 	);
 
 	async function addListener() {
-		if (isOwnCompany) {
-			CUSTOM_LISTENERS[EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE].push(() => {
-				if (!feature.enabled) return;
-				addLastAction(true);
-			});
-		} else {
-			await requireElement(".content #mainContainer .employees-wrap");
-			new MutationObserver(async (mutations) => {
-				if (
-					!(mutations.length > 1) ||
-					!feature.enabled() ||
-					(isOwnCompany && getHashParameters().get("option") !== "employees") ||
-					!mutations.some(
-						(mutation) =>
-							mutation.addedNodes &&
-							mutation.addedNodes.length &&
-							[...mutation.addedNodes].some((x) => x.classList && x.classList.contains("employees-wrap"))
-					)
-				)
-					return;
+		CUSTOM_LISTENERS[EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE].push(() => {
+			if (!feature.enabled) return;
 
-				await addLastAction();
-			}).observe(document.find(".content #mainContainer .content-wrapper"), { childList: true });
-		}
+			addLastAction(isOwnCompany);
+		});
 	}
 
 	async function addLastAction(force) {

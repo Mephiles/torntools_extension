@@ -117,6 +117,7 @@ async function convertDatabase() {
 
 		let updated = false;
 		if (version <= toNumericVersion("5")) {
+			// Migration
 			if (storage?.vault) {
 				newStorage.localdata.vault.initialized = storage.vault.initialized || false;
 				newStorage.localdata.vault.lastTransaction = storage.vault.last_transaction || "";
@@ -127,9 +128,44 @@ async function convertDatabase() {
 				newStorage.localdata.vault.partner.current = storage.vault.partner.current_money || 0;
 				updated = true;
 			}
+			if (storage?.notes?.text || storage?.notes?.height) {
+				newStorage.notes.sidebar.text = storage.notes.text || "";
+				newStorage.notes.sidebar.height = storage.notes.height || "22px";
+			}
+			if (storage?.profile_notes?.profiles) {
+				for (const [id, { height, notes }] of Object.entries(storage.profile_notes.profiles)) {
+					newStorage.notes.profile[id] = { height: height || "17px", text: notes };
+				}
+			}
+			newStorage.quick.items = storage?.quick?.items?.map((id) => ({ id: parseInt(id) })) || [];
+			if (storage?.stakeouts)
+				newStorage.stakeouts = Object.entries(storage.stakeouts)
+					.filter(([id]) => !isNaN(id) && !!parseInt(id))
+					.map(([id, stakeout]) => ({
+						[id]: {
+							alerts: {
+								okay: stakeout.notifications.okay,
+								hospital: stakeout.notifications.hospital,
+								landing: stakeout.notifications.lands,
+								online: stakeout.notifications.online,
+								life: false,
+								offline: false,
+							},
+						},
+					}))
+					.filter((result) => Object.values(result)[0] !== undefined)
+					.reduce((prev, current) => ({ ...prev, ...current }), {});
+			if (storage?.stock_alerts)
+				newStorage.settings.notifications.types.stocks = Object.entries(storage.stock_alerts)
+					.filter(([id]) => !isNaN(id) && !!parseInt(id))
+					.map(([id, alert]) => ({ [id]: { priceFalls: parseInt(alert.fall) || "", priceReaches: parseInt(alert.reach) || "" } }))
+					.reduce((prev, current) => ({ ...prev, ...current }), {});
+
+			// Reset
 			newStorage.quick.crimes = [];
-			newStorage.quick.items = [];
+			newStorage.userdata = {};
 			newStorage.torndata = {};
+			newStorage.cache = {};
 		}
 
 		const newVersion = chrome.runtime.getManifest().version;
@@ -137,8 +173,7 @@ async function convertDatabase() {
 			console.log(`Upgraded database from ${versionString} to ${newVersion}`);
 		}
 
-		if ("version" in storage) storage.version.current = newVersion;
-		else storage.version = { current: newVersion };
+		newStorage.version.current = newVersion;
 
 		function toNumericVersion(version) {
 			return parseInt(
