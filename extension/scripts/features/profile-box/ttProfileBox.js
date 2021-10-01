@@ -754,7 +754,7 @@
 		async function buildStakeouts() {
 			if (!settings.pages.profile.boxStakeout) return;
 
-			const hasStakeout = id in stakeouts;
+			const hasStakeout = id in stakeouts && typeof stakeouts[id] !== "undefined";
 
 			const checkbox = createCheckbox({ description: "Stakeout this user." });
 			checkbox.setChecked(hasStakeout);
