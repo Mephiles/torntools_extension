@@ -58,7 +58,10 @@ const ttStorage = new (class {
 						) {
 							parent[key] = recursive(parent[key], toChange[key]);
 						} else if (parent && typeof parent === "object") {
-							parent[key] = toChange[key];
+							const value = toChange[key];
+
+							if (value === undefined || value === null) delete parent[key];
+							else parent[key] = value;
 						} else {
 							parent = { [key]: toChange[key] };
 						}
