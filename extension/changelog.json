@@ -23,7 +23,9 @@
 				{ "message": "Solve issue with showing job specials.", "contributor": "DeKleineKobini" },
 				{ "message": "Solve issue with energy/nerve/candy figures when in a company that provides any boost.", "contributor": "DeKleineKobini" },
 				{ "message": "Properly display hidden casino games.", "contributor": "DeKleineKobini" },
-				{ "message": "Make absolute sure that the settings are loaded before applying container styling.", "contributor": "DeKleineKobini" }
+				{ "message": "Make absolute sure that the settings are loaded before applying container styling.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix dark mode issue with sidebar notes.", "contributor": "bandirao" },
+				{ "message": "Fix jail filter showing everone when score is set to 100.", "contributor": "bandirao" }
 			],
 			"changes": [
 				{ "message": "Change notifications back to the previous system.", "contributor": "DeKleineKobini" },
@@ -33,7 +35,9 @@
 				{ "message": "Don't autofill the bazaar more than once.", "contributor": "DeKleineKobini" },
 				{ "message": "Add an option to disable autoscroll for bazaars.", "contributor": "DeKleineKobini" },
 				{ "message": "Add indication if a permission was granted or not.", "contributor": "DeKleineKobini" },
-				{ "message": "Redirect user to normal settings page when there are permission issues.", "contributor": "DeKleineKobini" }
+				{ "message": "Redirect user to normal settings page when there are permission issues.", "contributor": "DeKleineKobini" },
+				{ "message": "Search settings while typing directly.", "contributor": "bandirao" },
+				{ "message": "Show settings save button as 'snackbar'.", "contributor": "bandirao" }
 			],
 			"removed": [
 				{
