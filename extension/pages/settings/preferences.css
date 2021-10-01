@@ -538,15 +538,15 @@ body.dark .hide-items span {
 /* endregion */
 
 div#tt-search-list::-webkit-scrollbar-thumb {
-    border-radius: 5px;
+	border-radius: 5px;
 }
 
 body.light div#tt-search-list::-webkit-scrollbar-thumb {
-    background: #666;
+	background: #666;
 }
 
 body.dark div#tt-search-list::-webkit-scrollbar-thumb {
-    background: #999;
+	background: #999;
 }
 
 #saveSettingsBar {
