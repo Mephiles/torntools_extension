@@ -1,7 +1,6 @@
 [
 	{
 		"version": { "major": 6, "minor": 1, "build": 0 },
-		"title": "Beta",
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Change some page titles to be more clear.", "contributor": "DeKleineKobini" }],
