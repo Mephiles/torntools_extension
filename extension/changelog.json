@@ -32,7 +32,8 @@
 				{ "message": "Fix dark mode issue with sidebar notes.", "contributor": "bandirao" },
 				{ "message": "Fix jail filter showing everone when score is set to 100.", "contributor": "bandirao" },
 				{ "message": "Update 'Batshit Crazy' mission hint.", "contributor": "DeKleineKobini" },
-				{ "message": "Don't show the ally blocking icon when the attack is already blocked.", "contributor": "DeKleineKobini" }
+				{ "message": "Don't show the ally blocking icon when the attack is already blocked.", "contributor": "DeKleineKobini" },
+				{ "message": "Show properly formatted date in the changelog.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Change notifications back to the previous system.", "contributor": "DeKleineKobini" },

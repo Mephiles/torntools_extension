@@ -155,7 +155,7 @@ async function setupChangelog() {
 			const parts = [];
 
 			parts.push(getVersion());
-			if (entry.date) parts.push(`${MONTHS[entry.date.getMonth()]}, ${entry.date.getDate()}th ${entry.date.getFullYear()}`);
+			if (entry.date) parts.push(`${MONTHS[entry.date.getMonth()]}, ${daySuffix(entry.date.getDate())} ${entry.date.getFullYear()}`);
 			if (entry.title) parts.push(entry.title);
 
 			return parts.join(" - ");

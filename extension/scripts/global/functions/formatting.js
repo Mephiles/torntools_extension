@@ -426,3 +426,13 @@ function capitalizeText(text, options = {}) {
 function applyPlural(check) {
 	return check !== 1 ? "s" : "";
 }
+
+function daySuffix(number) {
+	const last = number % 10,
+		double = number % 100;
+
+	if (last === 1 && double !== 11) return number + "st";
+	else if (last === 2 && double !== 12) return number + "nd";
+	else if (last === 3 && double !== 13) return number + "rd";
+	else return number + "th";
+}
