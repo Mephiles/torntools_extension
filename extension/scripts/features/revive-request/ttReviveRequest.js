@@ -145,6 +145,23 @@
 					button.removeAttribute("disabled");
 					console.log("TT - Failed to request a revive with UHC!", response);
 				}
+			} else if (provider === "imperium") {
+				const response = await fetchData("imperium", {
+					section: "revive",
+					method: "POST",
+					body: { userID: id, userName: name, factionName: faction, source },
+					relay: true,
+					silent: true,
+					succeedOnError: true,
+				});
+
+				if (response.success) {
+					displayMessage("Revive requested!");
+				} else {
+					displayMessage("Failed to request!", true);
+					button.removeAttribute("disabled");
+					console.log("TT - Failed to request a revive with Imperium!", response);
+				}
 			} else {
 				console.error("There was an attempt to request revives from an non-existing provider.", settings.pages.global.reviveProvider);
 			}

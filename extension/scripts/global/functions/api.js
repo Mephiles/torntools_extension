@@ -15,6 +15,7 @@ const FETCH_PLATFORMS = {
 	torntools: "https://torntools.gregork.com/",
 	nukefamily: "https://www.nukefamily.org/",
 	uhc: "https://tornuhc.eu/",
+	imperium: "https://api.mavriware.me/",
 };
 
 async function fetchData(location, options = {}) {
@@ -92,6 +93,11 @@ async function fetchData(location, options = {}) {
 					break;
 				case "uhc":
 					url = FETCH_PLATFORMS.uhc;
+
+					path = options.section;
+					break;
+				case "imperium":
+					url = FETCH_PLATFORMS.imperium;
 
 					path = options.section;
 					break;
