@@ -352,8 +352,8 @@ function sortTable(table, columnPlace, order) {
 		return rows;
 
 		function sortHelper(elementA, elementB) {
-			elementA = elementA.find(`*:nth-child(${columnPlace})`);
-			elementB = elementB.find(`*:nth-child(${columnPlace})`);
+			elementA = elementA.find(`:scope > *:nth-child(${columnPlace})`);
+			elementB = elementB.find(`:scope > *:nth-child(${columnPlace})`);
 
 			let valueA, valueB;
 			if (elementA.hasAttribute("sort-type")) {
