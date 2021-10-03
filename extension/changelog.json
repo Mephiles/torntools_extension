@@ -9,7 +9,7 @@
 				{ "message": "Don't show stakeout landing notifications more than it should.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't break stakeouts when removing them from the profile.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [],
+			"changes": [{ "message": "Allow requesting revives from The Imperium.", "contributor": "Mephiles" }],
 			"removed": []
 		}
 	},

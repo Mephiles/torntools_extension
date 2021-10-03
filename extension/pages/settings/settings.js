@@ -455,6 +455,7 @@ async function setupPreferences() {
 		let origin;
 		if (provider === "nuke") origin = FETCH_PLATFORMS.nukefamily;
 		else if (provider === "uhc") origin = FETCH_PLATFORMS.uhc;
+		else if (provider === "imperium") origin = FETCH_PLATFORMS.imperium;
 
 		if (!origin) return;
 
@@ -1172,6 +1173,7 @@ async function setupPreferences() {
 			let origin;
 			if (reviveProvider === "nuke") origin = FETCH_PLATFORMS.nukefamily;
 			else if (reviveProvider === "uhc") origin = FETCH_PLATFORMS.uhc;
+			else if (reviveProvider === "imperium") origin = FETCH_PLATFORMS.imperium;
 
 			if (origin) origins.push(origin);
 		}
