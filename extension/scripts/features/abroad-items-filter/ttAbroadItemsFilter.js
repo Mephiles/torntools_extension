@@ -62,6 +62,7 @@
 		async function filtering() {
 			const profitOnly = settings.pages.travel.travelProfits && profitOnlyFilter.isChecked(content);
 			const categories = categoryFilter.getSelections(content);
+			if (profitOnly) await requireElement(".tt-travel-market-cell");
 
 			for (const li of document.findAll(".users-list > li")) {
 				showRow(li);
