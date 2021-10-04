@@ -9,7 +9,8 @@
 				{ "message": "Don't show stakeout landing notifications more than it should.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't break stakeouts when removing them from the profile.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix abroad filter loading and travel table item sorting.", "contributor": "bandirao" },
-				{ "message": "Remember profile relative value preference.", "contributor": "DeKleineKobini" }
+				{ "message": "Remember profile relative value preference.", "contributor": "DeKleineKobini" },
+				{ "message": "Properly display relative values.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Allow requesting revives from The Imperium.", "contributor": "Mephiles" }],
 			"removed": []
