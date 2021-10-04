@@ -30,7 +30,13 @@
 		]
 	},
 	"permissions": ["storage", "notifications", "background", "https://api.torn.com/"],
-	"optional_permissions": ["https://www.tornstats.com/", "https://yata.yt/", "https://www.nukefamily.org/", "https://tornuhc.eu/"],
+	"optional_permissions": [
+		"https://www.tornstats.com/",
+		"https://yata.yt/",
+		"https://www.nukefamily.org/",
+		"https://tornuhc.eu/",
+		"https://api.mavriware.me/"
+	],
 	"web_accessible_resources": [
 		"resources/images/*.png",
 		"resources/images/svg-icons/*.svg",
