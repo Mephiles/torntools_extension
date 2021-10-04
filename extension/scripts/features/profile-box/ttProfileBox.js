@@ -266,9 +266,9 @@
 			const relativeValue = createCheckbox({ description: "Relative values" });
 			relativeValue.setChecked(filters.profile.relative);
 			relativeValue.onChange(() => {
-				for (const field of content.findAll(".relative-field")) {
-					const isRelative = relativeValue.isChecked();
+				const isRelative = relativeValue.isChecked();
 
+				for (const field of content.findAll(".relative-field")) {
 					const value = isRelative ? field.dataset.relative : field.dataset.value;
 
 					// noinspection JSCheckFunctionSignatures
@@ -276,6 +276,8 @@
 
 					field.textContent = formatNumber(value, options);
 				}
+
+				ttStorage.change({ filters: { profile: { relative: isRelative } } });
 			});
 			options.appendChild(relativeValue.element);
 		}
