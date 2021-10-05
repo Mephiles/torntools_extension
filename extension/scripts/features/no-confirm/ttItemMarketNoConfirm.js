@@ -64,6 +64,7 @@
 	}
 
 	function getViewType() {
+		if (!window.location.hash) return VIEW_TYPES.BROWSE;
 		const page = getHashParameters().get("p");
 
 		if (page === "shop") return VIEW_TYPES.ITEM;
