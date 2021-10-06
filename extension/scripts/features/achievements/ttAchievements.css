@@ -110,7 +110,7 @@ body.dark-mode .awards-progress {
 }
 
 .awards-progress li:first-child::after {
-	left: calc(-50% - 5px);
+	left: calc(-50% - 6px);
 	z-index: 2;
 	border-bottom-color: var(--default-bg-panel-color);
 }
