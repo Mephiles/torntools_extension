@@ -18,6 +18,11 @@
 	let lastActionState = isOwnCompany ? settings.scripts.lastAction.companyOwn : settings.scripts.lastAction.companyOther;
 
 	function addListener() {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE].push(async () => {
+			if (!feature.enabled) return;
+
+			await addWarning(true);
+		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FEATURE_ENABLED].push(async ({ name }) => {
 			if (feature.enabled() && name === "Last Action") {
 				lastActionState = true;
@@ -37,7 +42,7 @@
 	async function addWarning(force) {
 		if (!force || !lastActionState) return;
 
-		await requireElement(".employee-list-wrap .employee-list, .employees-wrap .employees-list");
+		await requireElement(".employee-list-wrap .employee-list > li + .tt-last-action, .employees-wrap .employees-list > li + .tt-last-action");
 
 		for (const row of document.findAll(".employee-list-wrap .employee-list > li, .employees-wrap .employees-list > li")) {
 			if (!row.nextElementSibling.classList.contains("tt-last-action")) continue;
