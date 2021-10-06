@@ -10,7 +10,8 @@
 				{ "message": "Don't break stakeouts when removing them from the profile.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix abroad filter loading and travel table item sorting.", "contributor": "bandirao" },
 				{ "message": "Remember profile relative value preference.", "contributor": "DeKleineKobini" },
-				{ "message": "Properly display relative values.", "contributor": "DeKleineKobini" }
+				{ "message": "Properly display relative values.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix employee inactivity warning on Job page.", "contributor": "bandirao" }
 			],
 			"changes": [{ "message": "Allow requesting revives from The Imperium.", "contributor": "Mephiles" }],
 			"removed": []
