@@ -190,7 +190,7 @@ const ACHIEVEMENTS = [
 	{
 		name: "Respect",
 		stats: () => userdata.personalstats.respectforfaction,
-		detection: { keyword: "respect", include: ["earn"] },
+		detection: { keyword: "respect", include: ["earn"], exclude: ["hit"] },
 		requirements: { pages: ["factions"] },
 	},
 	{
