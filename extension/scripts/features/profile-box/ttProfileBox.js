@@ -638,7 +638,7 @@
 					}
 
 					if (result.spy?.status) {
-						const timestamp = result.spy.timestamp;
+						const timestamp = result.spy.timestamp * 1000;
 
 						if (!spy || timestamp > spy.timestamp) {
 							spy = {
