@@ -42,6 +42,7 @@
 			type: "div",
 			class: "tt-settings pill",
 			children: [settingsSpan],
+			attributes: { icon: "" },
 		});
 		ttSettingsDiv.insertAdjacentElement("afterbegin", ttSvg());
 		ttSettingsDiv.addEventListener("click", () => {

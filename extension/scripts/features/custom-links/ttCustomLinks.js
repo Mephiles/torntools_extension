@@ -74,18 +74,11 @@
 		for (const link of settings.customLinks.filter((link) => link.location === filter)) {
 			content.appendChild(
 				document.newElement({
-					type: "div",
+					type: "a",
 					class: "pill",
-					children: [
-						document.newElement({
-							type: "a",
-							href: link.href,
-							text: link.name,
-							attributes: {
-								target: link.newTab ? "_blank" : "_self",
-							},
-						}),
-					],
+					href: link.href,
+					text: link.name,
+					attributes: { target: link.newTab ? "_blank" : "_self" },
 				})
 			);
 		}
@@ -107,18 +100,11 @@
 			if (locationSplit[0] === "under") target = target.nextSibling;
 
 			const pill = document.newElement({
-				type: "div",
+				type: "a",
 				class: "pill custom-link",
-				children: [
-					document.newElement({
-						type: "a",
-						href: link.href,
-						text: link.name,
-						attributes: {
-							target: link.newTab ? "_blank" : "",
-						},
-					}),
-				],
+				href: link.href,
+				text: link.name,
+				attributes: { target: link.newTab ? "_blank" : "_self" },
 			});
 			const parent = areas.find("div[class*='toggle-content_']");
 			if (target) parent.insertBefore(pill, target);

@@ -161,7 +161,7 @@
 				const pill = document.newElement({
 					type: "div",
 					class: `pill tt-award ${achievement.completed ? "completed" : ""}`,
-					children: [document.newElement({ type: "span", text: `${achievement.name}: ${text}` })],
+					text: `${achievement.name}: ${text}`,
 					attributes: { tabindex: "-1" },
 					dataset,
 				});

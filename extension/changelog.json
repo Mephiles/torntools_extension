@@ -13,7 +13,8 @@
 				{ "message": "Properly display relative values.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix employee inactivity warning on Job page.", "contributor": "bandirao" },
 				{ "message": "Fix Item Market No Confirm when no hash in URL.", "contributor": "bandirao" },
-				{ "message": "Fix Profile box using older spy from YATA.", "contributor": "bandirao" }
+				{ "message": "Fix Profile box using older spy from YATA.", "contributor": "bandirao" },
+				{ "message": "Improve click area on sidebar items.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Allow requesting revives from The Imperium.", "contributor": "Mephiles" }],
 			"removed": []

@@ -418,6 +418,27 @@ body.scrolled #tt-page-status.bottom-right {
 	background-color: var(--default-bg-panel-color);
 	margin-top: 2px;
 	min-height: 22px;
+	color: var(--default-font-color);
+	text-decoration: none;
+}
+
+#sidebarroot .pill:not([icon]) {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	box-sizing: border-box;
+}
+
+#sidebarroot .pill:not([icon]),
+#sidebarroot .pill[icon] span {
+	height: 100%;
+	justify-content: flex-start;
+	padding-left: 8px;
+
+	overflow: hidden;
+	color: var(--default-font-color);
+	text-decoration: none;
+	display: flex;
+	align-items: center;
 }
 
 body.tt-tablet #sidebarroot .pill {
@@ -427,18 +448,6 @@ body.tt-tablet #sidebarroot .pill {
 body[data-layout="hospital"] #sidebarroot .pill {
 	margin-top: 0;
 	margin-bottom: 1px;
-}
-
-#sidebarroot .pill > a,
-#sidebarroot .pill > span {
-	overflow: hidden;
-	color: var(--default-font-color);
-	text-decoration: none;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	padding-left: 8px;
 }
 
 #sidebarroot .pill:hover {
