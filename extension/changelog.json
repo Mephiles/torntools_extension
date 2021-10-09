@@ -11,9 +11,9 @@
 				{ "message": "Fix abroad filter loading and travel table item sorting.", "contributor": "bandirao" },
 				{ "message": "Remember profile relative value preference.", "contributor": "DeKleineKobini" },
 				{ "message": "Properly display relative values.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix employee inactivity warning on Job page.", "contributor": "bandirao" },
-				{ "message": "Fix Item Market No Confirm when no hash in URL.", "contributor": "bandirao" },
-				{ "message": "Fix Profile box using older spy from YATA.", "contributor": "bandirao" },
+				{ "message": "Fix employee inactivity warning on job page.", "contributor": "bandirao" },
+				{ "message": "Fix no confirm on the item market in certain situations.", "contributor": "bandirao" },
+				{ "message": "Fix profile box using older spy from YATA.", "contributor": "bandirao" },
 				{ "message": "Improve click area on sidebar items.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Allow requesting revives from The Imperium.", "contributor": "Mephiles" }],
