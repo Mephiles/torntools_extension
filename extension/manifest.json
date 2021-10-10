@@ -721,6 +721,11 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/museum.php*"],
+			"js": ["scripts/features/museum-auto-fill/ttMuseumAutoFill.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/blacklist.php*"],
 			"css": ["scripts/features/stats-estimate/ttStatsEstimate.css"],
 			"js": ["scripts/features/stats-estimate/statsEstimate.js", "scripts/features/stats-estimate/ttStatsEstimateEnemies.js"],

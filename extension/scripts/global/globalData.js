@@ -589,6 +589,9 @@ const DEFAULT_STORAGE = {
 			competition: {
 				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			museum: {
+				autoFill: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 		},
 		scripts: {
 			noConfirm: {
