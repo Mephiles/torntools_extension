@@ -350,7 +350,7 @@ async function updateUserdata() {
 
 	const oldUserdata = { ...userdata };
 	userdata = await fetchData("torn", { section: "user", selections });
-	if (!userdata) throw new Error("Aborted updating due to an expected response.");
+	if (!userdata || !Object.keys(userdata).length) throw new Error("Aborted updating due to an unexpected response.");
 	userdata.date = now;
 	userdata.dateBasic = updateBasic ? now : oldUserdata.dateBasic;
 
@@ -981,7 +981,7 @@ async function updateStakeouts() {
 async function updateTorndata() {
 	const oldTorndata = { ...torndata };
 	torndata = await fetchData("torn", { section: "torn", selections: ["education", "honors", "items", "medals", "pawnshop", "properties", "stats"] });
-	if (!torndata) throw new Error("Aborted updating due to an expected response.");
+	if (!torndata || !Object.keys(torndata).length) throw new Error("Aborted updating due to an unexpected response.");
 	torndata.date = Date.now();
 
 	torndata.stocks = oldTorndata.stocks;
@@ -992,7 +992,7 @@ async function updateTorndata() {
 async function updateStocks() {
 	const oldStocks = { ...torndata.stocks };
 	const stocks = (await fetchData("torn", { section: "torn", selections: ["stocks"] })).stocks;
-	if (!stocks) throw new Error("Aborted updating due to an expected response.");
+	if (!stocks || !Object.keys(stocks).length) throw new Error("Aborted updating due to an unexpected response.");
 	stocks.date = Date.now();
 
 	await ttStorage.change({ torndata: { stocks } });
@@ -1031,7 +1031,7 @@ async function updateFactiondata() {
 
 		factiondata = await fetchData("torn", { section: "faction", selections, silent: true, succeedOnError: true });
 
-		if (!factiondata) throw new Error("Aborted updating due to an expected response.");
+		if (!factiondata || !Object.keys(factiondata).length) throw new Error("Aborted updating due to an unexpected response.");
 	}
 
 	factiondata.date = Date.now();
