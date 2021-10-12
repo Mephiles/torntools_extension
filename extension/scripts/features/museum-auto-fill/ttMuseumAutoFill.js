@@ -17,7 +17,7 @@
 
 	function addListener() {
 		document.addEventListener("click", (event) => {
-			if (feature.enabled() && (event.target.closest(".museum-map > .pinpoint") || event.target.closest(".museum #tabs .boxes > .box"))) autoFill();
+			if (feature.enabled() && (event.target.closest(".museum-map > .pinpoint, .museum #tabs .boxes > .box"))) autoFill();
 		});
 	}
 
