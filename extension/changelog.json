@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Add auto fill for museum.", "contributor": "bandirao" }],
 			"fixes": [
 				{ "message": "Don't show stakeout landing notifications more than it should.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't break stakeouts when removing them from the profile.", "contributor": "DeKleineKobini" },
