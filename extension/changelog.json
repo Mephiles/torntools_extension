@@ -14,7 +14,8 @@
 				{ "message": "Fix employee inactivity warning on job page.", "contributor": "bandirao" },
 				{ "message": "Fix no confirm on the item market in certain situations.", "contributor": "bandirao" },
 				{ "message": "Fix profile box using older spy from YATA.", "contributor": "bandirao" },
-				{ "message": "Improve click area on sidebar items.", "contributor": "DeKleineKobini" }
+				{ "message": "Improve click area on sidebar items.", "contributor": "DeKleineKobini" },
+				{ "message": "Solve issue with city items ignoring the worth of duplicate items.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Allow requesting revives from The Imperium.", "contributor": "Mephiles" }],
 			"removed": []

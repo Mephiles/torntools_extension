@@ -78,9 +78,9 @@
 
 		function showValue() {
 			const totalValue = items
-				.map(({ id }) => torndata.items[id])
+				.map(({ id, count }) => ({ ...torndata.items[id], count }))
 				.filter((item) => !!item)
-				.map((item) => item.market_value)
+				.map(({ market_value: value, count }) => value * count)
 				.filter((value) => !!value)
 				.totalSum();
 			const itemCount = items.map(({ count }) => count).totalSum();
