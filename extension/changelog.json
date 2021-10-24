@@ -1,8 +1,7 @@
 [
 	{
 		"version": { "major": 6, "minor": 2, "build": 0 },
-		"title": "Beta",
-		"date": false,
+		"date": "2021/10/24",
 		"logs": {
 			"features": [{ "message": "Add auto fill for museum.", "contributor": "bandirao" }],
 			"fixes": [
