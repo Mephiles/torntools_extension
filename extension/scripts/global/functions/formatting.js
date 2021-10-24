@@ -46,6 +46,10 @@ function textToTime(time, options = {}) {
 				millis += parseInt(parts[0]) * TO_MILLIS.HOURS;
 				millis += parseInt(parts[1]) * TO_MILLIS.MINUTES;
 			}
+		} else if (parts.length === 3) {
+			millis += parseInt(parts[0]) * TO_MILLIS.HOURS;
+			millis += parseInt(parts[1]) * TO_MILLIS.MINUTES;
+			millis += parseInt(parts[2]) * TO_MILLIS.SECONDS;
 		} else if (parts.length === 4) {
 			millis += parseInt(parts[0]) * TO_MILLIS.DAYS;
 			millis += parseInt(parts[1]) * TO_MILLIS.HOURS;

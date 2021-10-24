@@ -174,7 +174,8 @@
 				"scripts/features/npc-loot-times/ttNPCLootTimes.js",
 				"scripts/features/hide-chat/ttHideChat.js",
 				"scripts/features/revive-request/ttReviveRequest.js",
-				"scripts/features/user-alias/ttUserAlias.js"
+				"scripts/features/user-alias/ttUserAlias.js",
+				"scripts/features/cooldown-end-times/ttCooldownEndTimes.js"
 			],
 			"run_at": "document_end"
 		},
