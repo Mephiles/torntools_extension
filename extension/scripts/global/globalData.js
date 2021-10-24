@@ -553,6 +553,7 @@ const DEFAULT_STORAGE = {
 			},
 			property: {
 				value: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				happy: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			gym: {
 				specialist: new DefaultSetting({ type: "boolean", defaultValue: true }),
