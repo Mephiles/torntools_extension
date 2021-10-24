@@ -1,21 +1,6 @@
 name: Pack new version
 on:
   workflow_dispatch:
-    inputs:
-      new_version_major:
-        description: "The new major version to be used in New Changelog Entry(without 'v')"
-        required: true
-      new_version_minor:
-        description: "The new minor version to be used in New Changelog Entry(without 'v')"
-        required: true
-      new_version_build:
-        description: "The new build version to be used in New Changelog Entry(without 'v')"
-        required: true
-        default: "0"
-      new_version_title:
-        description: "The title to be used in New Changelog Entry(without any ' or \")"
-        required: true
-        default: "null"
 jobs:
   publish:
     environment: Release
@@ -34,40 +19,17 @@ jobs:
           }
           sudo apt-get install jq
           jqCommand="jq"
+          manifestPath="./extension/manifest.json"
           changelogPath="./extension/changelog.json"
           releaseBodyFile="./releaseBody.md"
           tmpFile="tmp.tmp"
           readmePath="README.md"
-          newVersionMajor="${{ github.event.inputs.new_version_major }}" 
-          newVersionMinor="${{ github.event.inputs.new_version_minor }}" 
-          newVersionBuild="${{ github.event.inputs.new_version_build }}" 
-          newVersionTitle="${{ github.event.inputs.new_version_title }}"
-          if ! output="$(echo "[ \"${newVersionMajor}\", \"${newVersionMinor}\", \"${newVersionBuild}\" ]" | "${jqCommand}" -j ".[] | tonumber")"
-          then
-              echo "$output"
-              echo "::error file=changelog.json,line=2,col=4::New version entered \"${newVersionMajor}.${newVersionMinor}.${newVersionBuild}\" contains non-numerical parts."
-              exit 1
-          fi
-          if output="$("${jqCommand}" -e "
-            . |
-            map(
-                select(
-                    .version.major == ${newVersionMajor} and
-                    .version.minor == ${newVersionMinor} and
-                    .version.build == ${newVersionBuild}
-                )
-            ) |
-            length != 0
-          " "${changelogPath}")"
-          then
-              echo "$output"
-              echo "::error file=changelog.json,line=2,col=4::New version entered \"${newVersionMajor}.${newVersionMinor}.${newVersionBuild}\" is already present."
-              exit 1
-          fi
           firstEntry="$("${jqCommand}" -j ".[0]" "${changelogPath}")"
           version="$(echo "$firstEntry" | "${jqCommand}" -j "[ .version | to_entries[] | .value ] | join(\".\")")"
-          export version
-          echo "version=$version" >> "$GITHUB_ENV"
+          newVersionMajor="6"
+          newVersionMinor="$(echo -n "\"${version}\"" | "${jqCommand}" -j "split(\".\")[1] | tonumber | . + 1")" 
+          newVersionBuild="0"
+          newVersionTitle="Beta"
           echo "$firstEntry" | "${jqCommand}" -j "
             .logs as \$clFirstEntryLogs | (
                 \$clFirstEntryLogs |
@@ -115,10 +77,10 @@ jobs:
             )
           " >> "$releaseBodyFile"
           "${jqCommand}" -j ".[0].date |= \"$(date +"%Y/%m/%d")\"" "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
-          cd extension && zip -q -r "../torntools_${version}.zip" * && cd ..
+          cd extension && zip -q -r "../torntools_${version}.zip" . && cd ..
           [ ! -d "versions" ] && mkdir versions
           mv "torntools_${version}.zip" ./versions/
-          "${jqCommand}" "
+          "${jqCommand}" -r --indent 0 "
             . |= 
               [{
                   \"version\": { \"major\": ${newVersionMajor}, \"minor\": ${newVersionMinor}, \"build\": ${newVersionBuild} },
@@ -132,10 +94,15 @@ jobs:
                   }
               }] +
               ." "${changelogPath}" > "${tmpFile}" && mv "${tmpFile}" "${changelogPath}"
+          "${jqCommand}" -r --indent 0 ".[\"version\"] |= \"${newVersionMajor}.${newVersionMinor}.${newVersionBuild}\"" "${manifestPath}" > "${tmpFile}" && mv "${tmpFile}" "${manifestPath}"
           ghReleaseDateMarkdown="[![GitHub Release Date](https://img.shields.io/static/v1?label=RELEASE%20DATE\\\\&message=$(date "+%B, %-d$(DaySuffix). %Y" | "${jqCommand}" --raw-input --raw-output '. | @uri')\\\\&color=%23acea00\\\\&style=for-the-badge)](https://github.com/Mephiles/torntools_extension/releases/latest)<!---A pointer for bash-->"
           awk "/.*A pointer for bash.*/ {sub(/.*/, \"${ghReleaseDateMarkdown}\")} {print}" "${readmePath}" > "${tmpFile}" && mv "${tmpFile}" "${readmePath}"
           export version
           echo "version=$version" >> "$GITHUB_ENV"
+      - name: Format with prettier
+        uses: actionsx/prettier@v2
+        with:
+          args: --config .prettierrc --write . --list-different
       - name: Release
         uses: ncipollo/release-action@v1
         with:
