@@ -337,6 +337,7 @@ const DEFAULT_STORAGE = {
 				workstats: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				skills: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				weaponexp: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				properties: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		themes: {
@@ -1223,6 +1224,11 @@ const API_USAGE = {
 				exp: true,
 			},
 		},
+		properties: {
+			"*": {
+				happy: true,
+			},
+		},
 	},
 	properties: {},
 	faction: {
@@ -1349,6 +1355,7 @@ const API_SELECTIONS = {
 		"travel",
 		"weaponexp",
 		"workstats",
+		"properties",
 	],
 	properties: [],
 	faction: [

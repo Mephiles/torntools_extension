@@ -6,12 +6,12 @@
 	const feature = featureManager.registerFeature(
 		"Property Happiness",
 		"property",
-		() => settings.pages.property.happy,
+		() => settings.apiUsage.user.properties && settings.pages.property.happy,
 		initialiseListener,
 		addPropertyHappiness,
 		removeValues,
 		{
-			storage: ["settings.pages.property.happy"],
+			storage: ["settings.apiUsage.user.properties", "settings.pages.property.happy"],
 		},
 		null
 	);
@@ -25,19 +25,17 @@
 	async function addPropertyHappiness() {
 		await requireElement("#properties-page-wrap .properties-list .title");
 
-		for (const property of document.findAll(".properties-list > *:not(.clear)")) {
-			if (property.find(".tt-property-happiness")) return;
+		for (const property of document.findAll(".properties-list > li:not(.clear)")) {
+			if (property.classList.contains("tt-modified")) return;
 
-			const info = property.find(".info > li:nth-child(2)");
-			const propertyID = parseInt(property.find("[data-id]").dataset.id);
-			if (!propertyID || !info) return;
-
-			property.find(".info").insertAdjacentElement(
+			const propertyID = parseInt(property.find(".image-place").dataset.id);
+			property.classList.add("tt-modified");
+			property.find(".image-description").insertAdjacentElement(
 				"beforeend",
 				document.newElement({
-					type: "span",
+					type: "div",
 					class: "tt-property-happiness",
-					text: `Happy: ${formatNumber(userdata.properties[propertyID].happy)}`,
+					text: `Happy: ${formatNumber(userdata.properties[propertyID]?.happy ?? 100)}`,
 				})
 			);
 		}
@@ -45,5 +43,6 @@
 
 	function removeValues() {
 		document.findAll(".tt-property-happiness").forEach((x) => x.remove());
+		document.findAll(".properties-list > li.tt-modified").forEach((x) => x.classList.remove("tt-modified"));
 	}
 })();

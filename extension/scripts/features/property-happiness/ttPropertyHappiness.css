@@ -1,3 +1,11 @@
-.tt-property-happiness {
+.tt-modified .image-description .title {
+	padding-top: 1px !important;
+}
+
+body:not(.dark-mode) .tt-property-happiness {
+	color: #000;
+}
+
+body.dark-mode .tt-property-happiness {
 	color: gold;
 }
