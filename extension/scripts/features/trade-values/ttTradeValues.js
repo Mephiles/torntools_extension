@@ -55,7 +55,6 @@
 						if (quantityMap.hasOwnProperty(torndata.items[itemId].name)) {
 							localMappings[torndata.items[itemId].name] = itemId;
 							totalValue += quantityMap[torndata.items[itemId].name] * torndata.items[itemId].market_value;
-							break;
 						}
 					}
 				}
