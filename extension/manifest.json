@@ -524,8 +524,8 @@
 		},
 		{
 			"matches": ["https://www.torn.com/properties.ph*"],
-			"css": ["scripts/features/vault-sharing/ttVaultSharing.css"],
-			"js": ["scripts/features/property-values/ttPropertyValues.js", "scripts/features/vault-sharing/ttVaultSharing.js"],
+			"css": ["scripts/features/vault-sharing/ttVaultSharing.css", "scripts/features/property-happiness/ttPropertyHappiness.css"],
+			"js": ["scripts/features/property-values/ttPropertyValues.js", "scripts/features/vault-sharing/ttVaultSharing.js", "scripts/features/property-happiness/ttPropertyHappiness.js"],
 			"run_at": "document_end"
 		},
 		{
