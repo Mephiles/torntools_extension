@@ -33,7 +33,7 @@
 			addEndTime(tooltipPortal, tooltipChildren);
 			if (!tooltipObserver)
 				tooltipObserver = new MutationObserver((mutations) => {
-					if (feature.enabled() && mutations.some(mutation => mutation.target.tagName === "B")) {
+					if (feature.enabled() && mutations.some((mutation) => mutation.target.tagName === "B")) {
 						tooltipChildren = tooltipPortal.find("[class*='tooltip__']");
 						addEndTime(tooltipPortal, tooltipChildren);
 					}
@@ -42,20 +42,30 @@
 		}
 
 		function addEndTime(tooltipPortal, tooltipChildren) {
-			Array.from(tooltipChildren.getElementsByClassName("tt-tooltip-end-times")).forEach(x => x.remove());
-			if (["Education", "Racing", "Drug Cooldown", "Booster Cooldown", "Medical Cooldown"].includes(tooltipChildren.getElementsByTagName("b")[0].textContent)) {
-				const time = Date.now() + textToTime(tooltipChildren.find("[class*='static-width___']")?.firstChild?.textContent ?? tooltipChildren.find("p:not([class])").textContent);
-				tooltipPortal.find("[class*='tooltip__']").appendChild(document.newElement({
-					type: "div",
-					class: "tt-tooltip-end-times",
-					text: `${formatDate(time, { showYear: true })} ${formatTime(time)}`,
-				}));
+			Array.from(tooltipChildren.getElementsByClassName("tt-tooltip-end-times")).forEach((x) => x.remove());
+			if (
+				["Education", "Racing", "Drug Cooldown", "Booster Cooldown", "Medical Cooldown"].includes(
+					tooltipChildren.getElementsByTagName("b")[0].textContent
+				)
+			) {
+				const time =
+					Date.now() +
+					textToTime(
+						tooltipChildren.find("[class*='static-width___']")?.firstChild?.textContent ?? tooltipChildren.find("p:not([class])").textContent
+					);
+				tooltipPortal.find("[class*='tooltip__']").appendChild(
+					document.newElement({
+						type: "div",
+						class: "tt-tooltip-end-times",
+						text: `${formatDate(time, { showYear: true })} ${formatTime(time)}`,
+					})
+				);
 			}
 		}
 	}
 
 	function removeEndTimes() {
-		document.findAll(".tt-tooltip-end-times").forEach(x => x.remove());
+		document.findAll(".tt-tooltip-end-times").forEach((x) => x.remove());
 		tooltipObserver.disconnect();
 	}
 })();
