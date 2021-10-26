@@ -9,7 +9,7 @@
 		"version": { "major": 6, "minor": 2, "build": 0 },
 		"date": "2021/10/24",
 		"logs": {
-			"features": [{ "message": "Add auto fill for museum.", "contributor": "bandirao" }],
+			"features": [{ "message": "Add auto fill for museum.", "contributor": "bandirao" }, { "message": "Add end times for cooldowns.", "contributor": "bandirao" }],
 			"fixes": [
 				{ "message": "Don't show stakeout landing notifications more than it should.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't break stakeouts when removing them from the profile.", "contributor": "DeKleineKobini" },
