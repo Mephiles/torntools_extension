@@ -23,7 +23,8 @@
 				{ "message": "Fix no confirm on the item market in certain situations.", "contributor": "bandirao" },
 				{ "message": "Fix profile box using older spy from YATA.", "contributor": "bandirao" },
 				{ "message": "Improve click area on sidebar items.", "contributor": "DeKleineKobini" },
-				{ "message": "Solve issue with city items ignoring the worth of duplicate items.", "contributor": "DeKleineKobini" }
+				{ "message": "Solve issue with city items ignoring the worth of duplicate items.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix trade value logs showing value of only one item.", "contributor": "bandirao" }
 			],
 			"changes": [{ "message": "Allow requesting revives from The Imperium.", "contributor": "Mephiles" }],
 			"removed": []
