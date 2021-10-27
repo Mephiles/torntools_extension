@@ -17,7 +17,7 @@
 
 body.tt-trade-values .log .desc {
 	position: relative;
-	color: black !important;
+	color: var(--default-color) !important;
 }
 
 .tt-log-value {
