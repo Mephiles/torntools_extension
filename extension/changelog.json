@@ -3,15 +3,24 @@
 		"version": { "major": 6, "minor": 3, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+		"logs": {
+			"features": [
+				{ "message": "Add end times for cooldowns.", "contributor": "bandirao" },
+				{ "message": "Add property happiness.", "contributor": "bandirao" }
+			],
+			"fixes": [
+				{ "message": "Fix trade value logs showing value of only one item.", "contributor": "bandirao" }
+			],
+			"changes": [],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 6, "minor": 2, "build": 0 },
 		"date": "2021/10/24",
 		"logs": {
 			"features": [
-				{ "message": "Add auto fill for museum.", "contributor": "bandirao" },
-				{ "message": "Add end times for cooldowns.", "contributor": "bandirao" }
+				{ "message": "Add auto fill for museum.", "contributor": "bandirao" }
 			],
 			"fixes": [
 				{ "message": "Don't show stakeout landing notifications more than it should.", "contributor": "DeKleineKobini" },
@@ -23,8 +32,7 @@
 				{ "message": "Fix no confirm on the item market in certain situations.", "contributor": "bandirao" },
 				{ "message": "Fix profile box using older spy from YATA.", "contributor": "bandirao" },
 				{ "message": "Improve click area on sidebar items.", "contributor": "DeKleineKobini" },
-				{ "message": "Solve issue with city items ignoring the worth of duplicate items.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix trade value logs showing value of only one item.", "contributor": "bandirao" }
+				{ "message": "Solve issue with city items ignoring the worth of duplicate items.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Allow requesting revives from The Imperium.", "contributor": "Mephiles" }],
 			"removed": []
