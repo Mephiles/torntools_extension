@@ -196,7 +196,7 @@
 			}
 			priceElement.appendChild(document.newElement({ type: "span", text: `${formatNumber(totalPrice, { currency: true })}` }));
 		} else if (price === 0) {
-			priceElement.textContent = `N/A`;
+			priceElement.textContent = "N/A";
 		} else {
 			priceElement.textContent = `${formatNumber(price, { currency: true })}`;
 		}
@@ -238,7 +238,7 @@
 					priceElement.appendChild(document.newElement({ type: "span", text: `${formatNumber(totalPrice, { currency: true })}` }));
 				}
 			} else if (price === 0) {
-				priceElement.textContent = `N/A`;
+				priceElement.textContent = "N/A";
 			} else {
 				priceElement.textContent = `${formatNumber(price, { currency: true })}`;
 			}

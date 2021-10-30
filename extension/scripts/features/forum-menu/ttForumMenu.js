@@ -220,8 +220,8 @@
 
 											// Remove bbcode
 											const bbcodeRegex = /\[(\w+)(?:\s?\w*=[^\]]*)*](.*?)\[\/\1]/gs;
-											while (postContent !== (postContent = postContent.replace(bbcodeRegex, "$2"))) {}
-											while (quotesContent !== (quotesContent = quotesContent.replace(bbcodeRegex, "$2"))) {}
+											while (postContent !== (postContent = postContent.replace(bbcodeRegex, "$2"))) {} // eslint-disable-line no-empty
+											while (quotesContent !== (quotesContent = quotesContent.replace(bbcodeRegex, "$2"))) {} // eslint-disable-line no-empty
 
 											// Remove 3+ newlines
 											const newlineRegex = /\n{3,}/gs;

@@ -95,7 +95,7 @@ async function setupChangelog() {
 		contributors.forEach((contributor) => {
 			const child = document.newElement({
 				type: "div",
-				class: `contributor`,
+				class: "contributor",
 			});
 
 			if (contributor.id)
@@ -125,7 +125,7 @@ async function setupChangelog() {
 			for (const log of entry.logs[title]) {
 				const child = document.newElement({
 					type: "div",
-					class: `contributor`,
+					class: "contributor",
 					children: [document.newElement({ type: "span", text: log.message })],
 				});
 
@@ -222,7 +222,7 @@ async function setupPreferences() {
 	_preferences.find("#resetSettings").addEventListener("click", () => {
 		loadConfirmationPopup({
 			title: "Reset settings",
-			message: `<h3>Are you sure you want to delete ALL data except your API key?</h3>`,
+			message: "<h3>Are you sure you want to delete ALL data except your API key?</h3>",
 		})
 			.then(async () => {
 				await ttStorage.reset();
@@ -1014,7 +1014,7 @@ async function setupPreferences() {
 		settings.notifications.link = _preferences.find("#notification-link").checked;
 		settings.notifications.requireInteraction = _preferences.find("#notification-requireInteraction").checked;
 		settings.notifications.volume = parseInt(_preferences.find("#notification-volume").value);
-		settings.notifications.sound = _preferences.find(`#notification-sound`).value;
+		settings.notifications.sound = _preferences.find("#notification-sound").value;
 
 		const newStorage = { settings };
 		await ttStorage.set(newStorage);

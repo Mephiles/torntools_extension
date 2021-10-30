@@ -70,8 +70,8 @@
 			}
 
 			// Cesium
-			if (data.cesium) {
-			}
+			// if (data.cesium) {
+			// }
 
 			// Points
 			total += data.points * torndata.pawnshop.points_value;

@@ -575,9 +575,9 @@ async function updateUserdata() {
 
 		if (current === "Okay") {
 			if (previous === "Hospital") {
-				await notifyUser("TornTools - Status", `You are out of the hospital.`, LINKS.home);
+				await notifyUser("TornTools - Status", "You are out of the hospital.", LINKS.home);
 			} else if (previous === "Jail") {
-				await notifyUser("TornTools - Status", `You are out of the jail.`, LINKS.home);
+				await notifyUser("TornTools - Status", "You are out of the jail.", LINKS.home);
 			}
 		} else {
 			await notifyUser("TornTools - Status", userdata.status.description, LINKS.home);
@@ -606,7 +606,7 @@ async function updateUserdata() {
 		if (!settings.apiUsage.user.education || !settings.notifications.types.global || !settings.notifications.types.education || !oldUserdata.travel) return;
 		if (userdata.education_timeleft !== 0 || oldUserdata.education_timeleft === 0) return;
 
-		await notifyUser("TornTools - Education", `You have finished your education course.`, LINKS.education);
+		await notifyUser("TornTools - Education", "You have finished your education course.", LINKS.education);
 	}
 
 	async function notifyNewDay() {
@@ -616,7 +616,7 @@ async function updateUserdata() {
 		const utc = `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`;
 		if (date.getUTCHours() !== 0 || date.getUTCMinutes() !== 0 || utc in notifications.newDay) return;
 
-		notifications.newDay[utc] = newNotification(`New Day`, "It's a new day! Hopefully a sunny one.", LINKS.home);
+		notifications.newDay[utc] = newNotification("New Day", "It's a new day! Hopefully a sunny one.", LINKS.home);
 	}
 
 	async function notifyBars() {
@@ -649,7 +649,7 @@ async function updateUserdata() {
 					})();
 
 					notifications[bar][checkpoint] = newNotification(
-						`Bars`,
+						"Bars",
 						`Your ${capitalizeText(bar)} bar has reached ${userdata[bar].current}/${userdata[bar].maximum}.`,
 						url
 					);
@@ -673,7 +673,7 @@ async function updateUserdata() {
 				if (timeout > parseInt(checkpoint) * TO_MILLIS.SECONDS || notifications.chain[key]) continue;
 
 				notifications.chain[key] = newNotification(
-					`Chain`,
+					"Chain",
 					`Chain timer will run out in ${formatTime({ milliseconds: timeout }, { type: "wordTimer" })}.`,
 					LINKS.chain
 				);
@@ -693,7 +693,7 @@ async function updateUserdata() {
 				if (nextBonus - count > parseInt(checkpoint) || notifications.chainCount[key]) continue;
 
 				notifications.chainCount[key] = newNotification(
-					`Chain`,
+					"Chain",
 					`Chain will reach the next bonus hit in ${nextBonus - count} hit${applyPlural(nextBonus - count)}.`,
 					LINKS.chain
 				);
@@ -714,7 +714,7 @@ async function updateUserdata() {
 				if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications.hospital[checkpoint]) continue;
 
 				notifications.hospital[checkpoint] = newNotification(
-					`Hospital`,
+					"Hospital",
 					`You will be out of the hospital in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
 					LINKS.hospital
 				);
@@ -735,7 +735,7 @@ async function updateUserdata() {
 				if (timeLeft > parseFloat(checkpoint) * TO_MILLIS.MINUTES || notifications.travel[checkpoint]) continue;
 
 				notifications.travel[checkpoint] = newNotification(
-					`Travel`,
+					"Travel",
 					`You will be landing in ${formatTime({ milliseconds: timeLeft }, { type: "wordTimer" })}.`,
 					LINKS.home
 				);

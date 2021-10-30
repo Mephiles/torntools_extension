@@ -49,7 +49,7 @@
 							</svg>
 						</span>
 					</span>
-					${mobile ? "" : '<span id="pc">Computer</span>'}
+					${mobile ? "" : "<span id=\"pc\">Computer</span>"}
 				`,
 				attributes: {
 					role: "button",

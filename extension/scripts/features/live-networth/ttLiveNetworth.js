@@ -126,7 +126,7 @@
 				previous = userdata.personalstats.networth;
 			} else {
 				current = userdata.networth[name];
-				previous = userdata.personalstats[`networth` + name];
+				previous = userdata.personalstats["networth" + name];
 			}
 			if (current === previous) return;
 

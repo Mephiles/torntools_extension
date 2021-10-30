@@ -46,7 +46,7 @@ const ttStorage = new (class {
 			for (const key of Object.keys(object)) {
 				const data = recursive(await this.get(key), object[key]);
 
-				function recursive(parent, toChange) {
+				function recursive(parent, toChange) { // eslint-disable-line no-inner-declarations
 					for (const key in toChange) {
 						if (
 							parent &&

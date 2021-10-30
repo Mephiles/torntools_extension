@@ -29,7 +29,7 @@
 		const daysInMonth = [31, dateTarget.getUTCFullYear() % 4 ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 		let parts;
-		while (true) {
+		while (true) { // eslint-disable-line no-constant-condition
 			parts = [];
 			if (years > 0) parts.push(`${years} year${applyPlural(years)}`);
 
