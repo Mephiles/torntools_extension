@@ -1,6 +1,9 @@
 "use strict";
 
 (async () => {
+	await requireElement("body");
+	if (isFlying() || isAbroad()) return;
+
 	featureManager.registerFeature(
 		"Hide Icons",
 		"sidebar",

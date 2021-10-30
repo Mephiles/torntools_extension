@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (isFlying() || isAbroad()) return;
+
 	const feature = featureManager.registerFeature(
 		"Cooldown End Times",
 		"sidebar",

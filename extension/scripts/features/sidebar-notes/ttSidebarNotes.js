@@ -2,7 +2,7 @@
 
 (async () => {
 	if ((await checkDevice()).mobile) return "Not supported on mobile!";
-	else if (isFlying()) return;
+	else if (isFlying() || isAbroad()) return;
 
 	featureManager.registerFeature(
 		"Sidebar Notes",

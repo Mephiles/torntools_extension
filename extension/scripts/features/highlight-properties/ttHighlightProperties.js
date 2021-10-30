@@ -1,6 +1,7 @@
 "use strict";
 
 (async () => {
+	if (isFlying() || isAbroad()) return;
 	if (!getPageStatus().access) return;
 
 	if ((await checkDevice()).mobile) return "Not supported on mobile!";
