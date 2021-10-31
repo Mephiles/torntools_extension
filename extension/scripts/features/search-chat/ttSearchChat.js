@@ -32,7 +32,7 @@
 			const inputValue = input.value;
 			if (inputValue) searchChat(message, inputValue);
 		});
-		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_ERROR].push(({}) => {
+		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_ERROR].push(() => {
 			if (!feature.enabled()) return;
 
 			const notModifiedInputs = document.findAll("#chatRoot [class*='chat-box-input_']:not(.tt-modified) .tt-chat-filter");

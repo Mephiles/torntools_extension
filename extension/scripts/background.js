@@ -67,7 +67,7 @@ async function convertDatabase() {
 
 		for (const key in defaultStorage) {
 			if (!oldStorage) oldStorage = {};
-			if (!key in oldStorage) oldStorage[key] = {};
+			if (!(key in oldStorage)) oldStorage[key] = {};
 
 			if (typeof defaultStorage[key] === "object") {
 				if (defaultStorage[key] instanceof DefaultSetting) {

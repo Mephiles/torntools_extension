@@ -1654,7 +1654,7 @@ async function setupExport() {
 				.catch(() => {});
 		});
 
-		new Promise(async (resolve) => {
+		new Promise((resolve) => {
 			chrome.storage.sync.get(null, (data) => {
 				if (Object.keys(data).length && "database" in data) resolve(data);
 				else resolve({ error: true, message: "No exported data." });

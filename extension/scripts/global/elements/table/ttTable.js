@@ -70,15 +70,15 @@ function createTable(tableColumnsDefs, tableRowsData, options = {}) {
 
 			let comparatorResult = 0;
 
-			if (valueA != null && valueB != null) {
+			if (valueA !== null && valueB !== null) {
 				if (valueA > valueB) {
 					comparatorResult = 1;
 				} else if (valueA < valueB) {
 					comparatorResult = -1;
 				}
-			} else if (valueA != null) {
+			} else if (valueA !== null) {
 				comparatorResult = 1;
-			} else if (valueB != null) {
+			} else if (valueB !== null) {
 				comparatorResult = -1;
 			}
 

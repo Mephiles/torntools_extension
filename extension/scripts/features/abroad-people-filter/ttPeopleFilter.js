@@ -261,7 +261,7 @@
 
 		function show() {
 			row.classList.remove("hidden");
-			delete row.dataset.hideReason;
+			row.removeAttribute("data-hide-reason");
 
 			if (row.nextElementSibling?.classList.contains("tt-stats-estimate")) {
 				row.nextElementSibling.classList.remove("hidden");

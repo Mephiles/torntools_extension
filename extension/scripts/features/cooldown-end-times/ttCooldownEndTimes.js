@@ -68,6 +68,6 @@
 
 	function removeEndTimes() {
 		document.findAll(".tt-tooltip-end-times").forEach((x) => x.remove());
-		tooltipObserver.disconnect();
+		tooltipObserver?.disconnect();
 	}
 })();
