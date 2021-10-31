@@ -35,39 +35,51 @@ function loadConfirmationPopup(options = {}) {
 	options = {
 		title: "Title",
 		message: "A message here.",
+		execute: false,
+		variables: {},
 		...options,
 	};
 
 	return new Promise((resolve, reject) => {
+		const popup = document.find("#tt-confirmation-popup");
+		const message = popup.find(".message");
+
 		document.find("#tt-black-overlay").classList.remove("hidden");
-		document.find("#tt-confirmation-popup").classList.remove("hidden");
+		popup.classList.remove("hidden");
 
 		document.body.classList.add("tt-unscrollable");
 
-		document.find("#tt-confirmation-popup .title").textContent = options.title;
-		document.find("#tt-confirmation-popup .message").innerHTML = options.message;
+		popup.find(".title").textContent = options.title;
+		message.innerHTML = options.message;
 
-		document.find("#tt-confirmation-popup #popupConfirm").onclick = () => {
+		if (options.execute && typeof options.execute === "function") options.execute(message, options.variables);
+
+		popup.find("#popupConfirm").addEventListener("click", () => {
 			document.find("#tt-black-overlay").classList.add("hidden");
-			document.find("#tt-confirmation-popup").classList.add("hidden");
+			popup.classList.add("hidden");
 
 			document.body.classList.remove("tt-unscrollable");
 
 			const data = {};
-			for (const input of document.findAll("#tt-confirmation-popup .message textarea")) {
-				data[input.getAttribute("name")] = input.value;
+			for (const input of message.findAll("textarea, input")) {
+				let type = "value";
+				if (input.tagName === "INPUT") {
+					if (input.type === "checkbox") type = "checked";
+				}
+
+				data[input.getAttribute("name")] = input[type];
 			}
 
 			resolve(data);
-		};
-		document.find("#tt-confirmation-popup #popupCancel").onclick = () => {
+		});
+		popup.find("#popupCancel").addEventListener("click", () => {
 			document.find("#tt-black-overlay").classList.add("hidden");
-			document.find("#tt-confirmation-popup").classList.add("hidden");
+			popup.classList.add("hidden");
 
 			document.body.classList.remove("tt-unscrollable");
 
 			reject();
-		};
+		});
 	});
 }
 

@@ -1062,6 +1062,7 @@ async function setupPreferences() {
 		});
 
 		const searchList = searchOverlay.find("#tt-search-list");
+
 		function search() {
 			const searchFor = searchOverlayInput.value.toLowerCase().trim();
 			if (!searchFor) return;
@@ -1120,6 +1121,7 @@ async function setupPreferences() {
 			}
 			searchResults = null;
 		}
+
 		searchList.addEventListener("click", (event) => {
 			event.stopPropagation();
 			searchOverlay.classList.add("hidden");
@@ -1426,7 +1428,7 @@ async function setupExport() {
 					<li>Exportation date and time</li>
 					<li>
 						Database
-						<ul>
+						<ul class="export-keys">
 							<li>version notice</li>
 							<li>preferences</li>
 							<li>filter and sorting settings</li>
@@ -1437,12 +1439,29 @@ async function setupExport() {
 					</li>
 				</ul>
 			`,
+			execute(popup, variables) {
+				const { api } = {
+					api: false,
+					...variables,
+				};
+
+				if (api)
+					popup.find(".export-keys").appendChild(
+						document.newElement({
+							type: "li",
+							children: [
+								document.newElement({ type: "input", id: "export-api-key", attributes: { type: "checkbox", name: "api_key" } }),
+								document.newElement({ type: "label", text: "api key", attributes: { for: "export-api-key" } }),
+							],
+						})
+					);
+			},
 		},
 		IMPORT: {
 			title: "Import",
 			message: `
 				<h3>Are you sure you want to overwrite following items?</h3>
-				<ul>
+				<ul class="export-keys">
 					<li>version notice</li>
 					<li>preferences</li>
 					<li>filter and sorting settings</li>
@@ -1451,6 +1470,14 @@ async function setupExport() {
 					<li>quick items, crimes and jail bust / bail</li>
 				</ul>
 			`,
+			execute(popup, variables) {
+				const { api } = {
+					api: false,
+					...variables,
+				};
+
+				if (api) popup.find(".export-keys").appendChild(document.newElement({ type: "li", text: "api key" }));
+			},
 		},
 		IMPORT_MANUAL: {
 			title: "Import",
@@ -1466,6 +1493,7 @@ async function setupExport() {
 					<li>stakeouts</li>
 					<li>notes</li>
 					<li>quick items, crimes and jail bust / bail</li>
+					<li>api key</li>
 				</ul>
 			`,
 		},
@@ -1479,9 +1507,12 @@ async function setupExport() {
 
 	// Local Text
 	exportSection.find("#export-local-text").addEventListener("click", async () => {
-		loadConfirmationPopup(POPUP_TEMPLATES.EXPORT)
-			.then(async () => {
-				const data = JSON.stringify(await getExportData());
+		loadConfirmationPopup({
+			...POPUP_TEMPLATES.EXPORT,
+			variables: { api: true },
+		})
+			.then(async ({ api_key: exportApi }) => {
+				const data = JSON.stringify(await getExportData(exportApi));
 
 				toClipboard(data);
 				sendMessage("Copied database to your clipboard.", true);
@@ -1513,9 +1544,12 @@ async function setupExport() {
 
 	// Local File
 	exportSection.find("#export-local-file").addEventListener("click", () => {
-		loadConfirmationPopup(POPUP_TEMPLATES.EXPORT)
-			.then(async () => {
-				const data = JSON.stringify(await getExportData(), null, 4);
+		loadConfirmationPopup({
+			...POPUP_TEMPLATES.EXPORT,
+			variables: { api: true },
+		})
+			.then(async ({ api_key: exportApi }) => {
+				const data = JSON.stringify(await getExportData(exportApi), null, 4);
 
 				document
 					.newElement({
@@ -1528,7 +1562,10 @@ async function setupExport() {
 			.catch(() => {});
 	});
 	exportSection.find("#import-local-file").addEventListener("click", () => {
-		loadConfirmationPopup(POPUP_TEMPLATES.IMPORT)
+		loadConfirmationPopup({
+			...POPUP_TEMPLATES.IMPORT,
+			variables: { api: true },
+		})
 			.then(() => document.find("#import-local-file-origin").click())
 			.catch(() => {});
 	});
@@ -1574,8 +1611,9 @@ async function setupExport() {
 	// 		.catch(() => {});
 	// });
 
-	async function getExportData() {
+	async function getExportData(api) {
 		const exportedKeys = ["version", "settings", "filters", "stakeouts", "notes", "quick"];
+		if (api) exportedKeys.insertAt(0, "api");
 
 		const data = {
 			user: false,
@@ -1619,7 +1657,7 @@ async function setupExport() {
 		exportSection.find("#export-remote-sync").addEventListener("click", async () => {
 			loadConfirmationPopup(POPUP_TEMPLATES.EXPORT)
 				.then(async () => {
-					const data = await getExportData();
+					const data = await getExportData(false);
 
 					try {
 						await new Promise((resolve) => {
