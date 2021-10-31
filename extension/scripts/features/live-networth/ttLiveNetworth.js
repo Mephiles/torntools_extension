@@ -20,8 +20,6 @@
 		}
 	);
 
-	let networthInterval = false;
-
 	async function showNetworth() {
 		await requireContent();
 
@@ -48,7 +46,7 @@
 		content.appendChild(networthRow);
 
 		// Update 'last updated'
-		networthInterval = setInterval(() => {
+		setInterval(() => {
 			const seconds = parseInt(infoIcon.getAttribute("seconds")) + 1;
 
 			if (!infoIcon.hasAttribute("aria-describedby"))

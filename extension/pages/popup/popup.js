@@ -469,18 +469,14 @@ async function setupDashboard() {
 								class: "row detailed",
 								children: [lifeBar, document.newElement({ type: "span", class: "lastAction", text: `Last action: ${lastAction}` })],
 							}),
-							buildState(),
+							document.newElement({
+								type: "div",
+								class: `row state ${stateColor}`,
+								children: [document.newElement({ type: "span", class: "state ", text: state })],
+							}),
 						],
 					})
 				);
-
-				function buildState() {
-					return document.newElement({
-						type: "div",
-						class: `row state ${stateColor}`,
-						children: [document.newElement({ type: "span", class: `state `, text: state })],
-					});
-				}
 			}
 		} else dashboard.find(".stakeouts").classList.add("hidden");
 	}
