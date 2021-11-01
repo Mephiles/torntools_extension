@@ -6,9 +6,9 @@ let tablet;
 
 Object.defineProperty(Document.prototype, "newElement", {
 	value(options = {}) {
-		if (typeof options == "string") {
+		if (typeof options === "string") {
 			return this.createElement(options);
-		} else if (typeof options == "object") {
+		} else if (typeof options === "object") {
 			options = {
 				type: "div",
 				id: false,

@@ -77,7 +77,7 @@ function requireChatsLoaded() {
 
 function requireFeatureManager() {
 	return new Promise((resolve) => {
-		while (typeof featureManager === "undefined") {}
+		while (typeof featureManager === "undefined") {} // eslint-disable-line no-empty
 
 		resolve();
 	});

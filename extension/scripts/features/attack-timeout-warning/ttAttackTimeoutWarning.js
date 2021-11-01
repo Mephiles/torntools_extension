@@ -35,7 +35,7 @@
 				case "custom":
 					return resolve(settings.notifications.soundCustom);
 				default:
-					return resolve(`resources/audio/notification1.wav`);
+					return resolve("resources/audio/notification1.wav");
 			}
 		});
 

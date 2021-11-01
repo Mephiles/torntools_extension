@@ -352,7 +352,7 @@ class FeatureManager {
 							(element) =>
 								(settings.featureDisplayOnlyFailed && !element.classList.contains("failed")) ||
 								(settings.featureDisplayHideDisabled && !element.classList.contains("disabled"))
-					  )
+					)
 					: false;
 
 			if (isEmpty) {

@@ -46,7 +46,7 @@ const ttStorage = new (class {
 			for (const key of Object.keys(object)) {
 				const data = recursive(await this.get(key), object[key]);
 
-				function recursive(parent, toChange) {
+				function recursive(parent, toChange) { // eslint-disable-line no-inner-declarations
 					for (const key in toChange) {
 						if (
 							parent &&
@@ -402,7 +402,7 @@ const DEFAULT_STORAGE = {
 				barLinks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				pointsValue: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				npcLootTimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				cooldownEndTimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				cooldownEndTimes: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			popup: {
 				dashboard: new DefaultSetting({ type: "boolean", defaultValue: true }),

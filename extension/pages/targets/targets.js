@@ -55,7 +55,7 @@ async function setupAttackHistory() {
 	_attackHistory.find("#resetHistory").addEventListener("click", () => {
 		loadConfirmationPopup({
 			title: "Reset attack history",
-			message: `<h3>Are you sure you want to delete the attack history?</h3>`,
+			message: "<h3>Are you sure you want to delete the attack history?</h3>",
 		})
 			.then(async () => {
 				await ttStorage.reset("attackHistory");
@@ -123,7 +123,7 @@ async function setupAttackHistory() {
 			);
 		}
 		const totalWins = data.win;
-		row.appendChild(document.newElement({ type: "td", class: `data win`, text: totalWins.toString(), attributes: { value: totalWins } }));
+		row.appendChild(document.newElement({ type: "td", class: "data win", text: totalWins.toString(), attributes: { value: totalWins } }));
 		for (const type of ["mug", "leave", "hospitalise", "arrest", "special", "stealth"]) {
 			const element = document.newElement({ type: "td", class: `data switchable ${type}`, attributes: { "sort-type": "css-dataset" } });
 
@@ -134,8 +134,8 @@ async function setupAttackHistory() {
 
 			row.appendChild(element);
 		}
-		row.appendChild(document.newElement({ type: "td", class: `data assist`, text: data.assist.toString(), attributes: { value: data.assist } }));
-		row.appendChild(document.newElement({ type: "td", class: `data defend`, text: data.defend.toString(), attributes: { value: data.defend } }));
+		row.appendChild(document.newElement({ type: "td", class: "data assist", text: data.assist.toString(), attributes: { value: data.assist } }));
+		row.appendChild(document.newElement({ type: "td", class: "data defend", text: data.defend.toString(), attributes: { value: data.defend } }));
 		for (const type of ["lose", "stalemate", "escapes", "defend_lost"]) {
 			row.appendChild(document.newElement({ type: "td", class: `data ${type}`, text: data[type].toString(), attributes: { value: data[type] } }));
 		}
@@ -167,7 +167,7 @@ async function setupStakeouts() {
 	_stakeouts.find("#resetStakeouts").addEventListener("click", () => {
 		loadConfirmationPopup({
 			title: "Reset stakeouts",
-			message: `<h3>Are you sure you want to delete all stakeouts?</h3>`,
+			message: "<h3>Are you sure you want to delete all stakeouts?</h3>",
 		})
 			.then(async () => {
 				await ttStorage.reset("stakeouts");

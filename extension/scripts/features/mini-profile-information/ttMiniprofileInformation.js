@@ -1,7 +1,7 @@
 "use strict";
 
 (async () => {
-	let mouseX, mouseY;
+	let mouseY;
 
 	const feature = featureManager.registerFeature(
 		"Miniprofile Information",
@@ -30,7 +30,6 @@
 			showInformation(json);
 		});
 		document.addEventListener("mousemove", (event) => {
-			mouseX = event.x;
 			mouseY = event.y;
 		});
 	}

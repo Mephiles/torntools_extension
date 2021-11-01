@@ -33,10 +33,10 @@ const initiatedPages = {};
 	}
 	document.find("#pages .right-nav li[to='settings']").addEventListener("click", () => chrome.runtime.openOptionsPage());
 
-	if (!settings.pages.popup.dashboard) document.find('#pages li[to="dashboard"]').classList.add("hidden");
-	if (!settings.pages.popup.marketSearch) document.find('#pages li[to="market"]').classList.add("hidden");
-	if (!settings.pages.popup.calculator) document.find('#pages li[to="calculator"]').classList.add("hidden");
-	if (!settings.pages.popup.stocksOverview) document.find('#pages li[to="stocks"]').classList.add("hidden");
+	if (!settings.pages.popup.dashboard) document.find("#pages li[to='dashboard']").classList.add("hidden");
+	if (!settings.pages.popup.marketSearch) document.find("#pages li[to='market']").classList.add("hidden");
+	if (!settings.pages.popup.calculator) document.find("#pages li[to='calculator']").classList.add("hidden");
+	if (!settings.pages.popup.stocksOverview) document.find("#pages li[to='stocks']").classList.add("hidden");
 
 	if (!api.torn.key) {
 		await showPage("initialize");
@@ -469,18 +469,14 @@ async function setupDashboard() {
 								class: "row detailed",
 								children: [lifeBar, document.newElement({ type: "span", class: "lastAction", text: `Last action: ${lastAction}` })],
 							}),
-							buildState(),
+							document.newElement({
+								type: "div",
+								class: `row state ${stateColor}`,
+								children: [document.newElement({ type: "span", class: "state ", text: state })],
+							}),
 						],
 					})
 				);
-
-				function buildState() {
-					return document.newElement({
-						type: "div",
-						class: `row state ${stateColor}`,
-						children: [document.newElement({ type: "span", class: `state `, text: state })],
-					});
-				}
 			}
 		} else dashboard.find(".stakeouts").classList.add("hidden");
 	}

@@ -45,18 +45,18 @@
 				setupXHR({ ignoreUntradable: true, addRelative: true });
 				break;
 			case "item":
-				const listener = ({ tab }) => {
-					if (!feature.enabled()) return;
-
-					showItemValues(tab);
-				};
-
-				CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(listener);
-				CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(listener);
+				CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_ITEMS_LOADED].push(itemListener);
+				CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_SWITCH_TAB].push(itemListener);
 				CUSTOM_LISTENERS[EVENT_CHANNELS.ITEM_AMOUNT].push(({ item, amount }) => {
 					updateItemAmount(item, amount);
 				});
 				break;
+		}
+
+		function itemListener({ tab }) {
+			if (!feature.enabled()) return;
+
+			showItemValues(tab);
 		}
 
 		function setupXHR(options = {}) {
@@ -196,7 +196,7 @@
 			}
 			priceElement.appendChild(document.newElement({ type: "span", text: `${formatNumber(totalPrice, { currency: true })}` }));
 		} else if (price === 0) {
-			priceElement.textContent = `N/A`;
+			priceElement.textContent = "N/A";
 		} else {
 			priceElement.textContent = `${formatNumber(price, { currency: true })}`;
 		}
@@ -238,7 +238,7 @@
 					priceElement.appendChild(document.newElement({ type: "span", text: `${formatNumber(totalPrice, { currency: true })}` }));
 				}
 			} else if (price === 0) {
-				priceElement.textContent = `N/A`;
+				priceElement.textContent = "N/A";
 			} else {
 				priceElement.textContent = `${formatNumber(price, { currency: true })}`;
 			}

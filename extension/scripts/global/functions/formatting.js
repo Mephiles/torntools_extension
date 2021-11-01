@@ -160,7 +160,7 @@ function formatTime(time = {}, options = {}) {
 				parts.insertAt(parts.length - 1, "and");
 			}
 
-			function formatUnit(amount, unit) {
+			function formatUnit(amount, unit) { // eslint-disable-line no-inner-declarations
 				let formatted = `${amount}`;
 
 				if (options.extraShort) {
@@ -342,7 +342,7 @@ function formatNumber(number, options = {}) {
 
 		return toRoman(number);
 
-		function toRoman(number) {
+		function toRoman(number) { // eslint-disable-line no-inner-declarations
 			if (number === 0) return "";
 
 			for (const [value, character] of ROMAN) {

@@ -1,6 +1,8 @@
 "use strict";
 
 (async () => {
+	if (isFlying() || isAbroad()) return;
+
 	const feature = featureManager.registerFeature(
 		"Cooldown End Times",
 		"sidebar",
@@ -66,6 +68,6 @@
 
 	function removeEndTimes() {
 		document.findAll(".tt-tooltip-end-times").forEach((x) => x.remove());
-		tooltipObserver.disconnect();
+		tooltipObserver?.disconnect();
 	}
 })();
