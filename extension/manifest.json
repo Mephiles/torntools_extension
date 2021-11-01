@@ -130,7 +130,8 @@
 				"scripts/features/npc-loot-times/ttNPCLootTimes.css",
 				"scripts/features/hide-chat/ttHideChat.css",
 				"scripts/features/revive-request/ttReviveRequest.css",
-				"scripts/features/user-alias/ttUserAlias.css"
+				"scripts/features/user-alias/ttUserAlias.css",
+				"scripts/features/cooldown-end-times/ttCooldownEndTimes.css"
 			],
 			"js": [
 				"resources/images/svg-icons/back.js",
