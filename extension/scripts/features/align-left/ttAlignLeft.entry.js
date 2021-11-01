@@ -1,9 +1,6 @@
 "use strict";
 
 (async () => {
-	await requireElement("body");
-	if (isFlying() || isAbroad()) return;
-
 	featureManager.registerFeature(
 		"Align Left",
 		"global",

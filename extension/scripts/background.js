@@ -73,28 +73,37 @@ async function convertDatabase() {
 				if (defaultStorage[key] instanceof DefaultSetting) {
 					let useCurrent = true;
 
-					if (
-						(defaultStorage[key].type === "array" && !Array.isArray(oldStorage[key])) ||
-						(defaultStorage[key].type !== "array" && !defaultStorage[key].type.split("|").some((value) => value === typeof oldStorage[key] || (value === "empty" && oldStorage[key] === "")))
-					) {
-						if (defaultStorage[key].hasOwnProperty("defaultValue")) {
-							switch (typeof defaultStorage[key].defaultValue) {
-								case "function":
-									newStorage[key] = defaultStorage[key].defaultValue();
-									break;
-								case "boolean":
-								default:
-									newStorage[key] = defaultStorage[key].defaultValue;
-									break;
-							}
+					if (defaultStorage[key].type === "array") {
+						if (!Array.isArray(oldStorage[key])) {
+							useDefault();
+							useCurrent = false;
 						}
-
+					} else if (
+						!defaultStorage[key].type.split("|").some((value) => value === typeof oldStorage[key] || (value === "empty" && oldStorage[key] === ""))
+					) {
+						useDefault();
 						useCurrent = false;
 					}
 
 					if (useCurrent) newStorage[key] = oldStorage[key];
 				} else {
 					newStorage[key] = convertGeneral(oldStorage[key], defaultStorage[key]);
+				}
+			}
+
+			function useDefault() {
+				if (!defaultStorage[key].hasOwnProperty("defaultValue")) return;
+
+				switch (typeof defaultStorage[key].defaultValue) {
+					case "function":
+						newStorage[key] = defaultStorage[key].defaultValue();
+						break;
+					case "boolean":
+						newStorage[key] = defaultStorage[key].defaultValue;
+						break;
+					default:
+						newStorage[key] = defaultStorage[key].defaultValue;
+						break;
 				}
 			}
 		}

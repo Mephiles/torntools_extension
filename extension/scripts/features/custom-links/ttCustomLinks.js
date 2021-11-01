@@ -1,8 +1,6 @@
 "use strict";
 
 (async () => {
-	if (isFlying() || isAbroad()) return;
-
 	featureManager.registerFeature(
 		"Custom Links",
 		"sidebar",
