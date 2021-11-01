@@ -19,7 +19,7 @@ const defaultFactionsItems = [
 					value: userdata.faction.faction_tag,
 					description: userdata.faction.faction_tag,
 				},
-		]
+		  ]
 		: []),
 	{
 		value: "------",
@@ -123,7 +123,8 @@ function createFilterSection(options) {
 			getSelections,
 		};
 
-		function getSelections(content) { // eslint-disable-line no-inner-declarations
+		function getSelections(content) {
+			// eslint-disable-line no-inner-declarations
 			const selections = {};
 			for (const specialDiv of [...content.findAll(`.${ccTitle} > div`)]) {
 				const checkboxes = specialDiv.findAll("input");
@@ -161,11 +162,13 @@ function createFilterSection(options) {
 
 		return { element: section, getStartEnd, updateCounter };
 
-		function getStartEnd(content) { // eslint-disable-line no-inner-declarations
+		function getStartEnd(content) {
+			// eslint-disable-line no-inner-declarations
 			return { start: content.find(`.${ccTitle} .tt-dual-range`).dataset.low, end: content.find(`.${ccTitle} .tt-dual-range`).dataset.high };
 		}
 
-		function updateCounter(string, content) { // eslint-disable-line no-inner-declarations
+		function updateCounter(string, content) {
+			// eslint-disable-line no-inner-declarations
 			const counter = content.find(`.${ccTitle} .slider-counter`);
 			if (!counter) return;
 

@@ -184,7 +184,8 @@ async function fetchData(location, options = {}) {
 
 			return fullUrl;
 
-			async function handleError(result) { // eslint-disable-line no-inner-declarations
+			async function handleError(result) {
+				// eslint-disable-line no-inner-declarations
 				if (options.succeedOnError) {
 					resolve(result);
 					await ttUsage.add(location);
