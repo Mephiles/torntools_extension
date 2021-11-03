@@ -5,14 +5,14 @@
 		"date": false,
 		"logs": {
 			"features": [
-				{ "message": "Add end times for cooldowns.", "contributor": "bandirao" },
-				{ "message": "Add property happiness.", "contributor": "bandirao" }
+				{ "message": "Show end times for cooldowns on icon hover.", "contributor": "bandirao" },
+				{ "message": "Display property happiness.", "contributor": "bandirao" }
 			],
-			"fixes": [
-				{ "message": "Fix trade value logs showing value of only one item.", "contributor": "bandirao" },
+			"fixes": [{ "message": "Fix trade value logs showing value of only one item.", "contributor": "bandirao" }],
+			"changes": [
+				{ "message": "Include racing skill on the profile box.", "contributor": "bandirao" },
 				{ "message": "Don't only check addiction for employee effectiveness reduction.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [],
 			"removed": []
 		}
 	},
