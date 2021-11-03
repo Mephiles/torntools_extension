@@ -160,6 +160,7 @@
 		{ name: "Racing points earned", type: "racing", getter: (data) => data.personalstats.racingpointsearned },
 		{ name: "Races entered", type: "racing", getter: (data) => data.personalstats.racesentered },
 		{ name: "Races won", type: "racing", getter: (data) => data.personalstats.raceswon },
+		{ name: "Racing skill", type: "racing", getter: (data) => data.personalstats.racingskill },
 		// Networth
 		{ name: "Networth", type: "networth", getter: (data) => data.personalstats.networth, formatter: "currency" },
 		// Other
