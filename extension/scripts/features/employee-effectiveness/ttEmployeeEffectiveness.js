@@ -36,13 +36,11 @@
 		const x = settings.pages.companies.employeeEffectiveness;
 		for (const row of list.findAll(".effectiveness[data-multipliers]")) {
 			const multipliers = JSON.parse(row.dataset.multipliers);
-			// const [stats, settled, book, merits, education, u1, u2, addiction, u3] = multipliers;
-			let [, , , , , , , addiction] = multipliers;
-			addiction *= -1;
+			const reduction = multipliers.filter((multiplier) => multiplier < 0).totalSum() * -1;
 
 			const element = row.find(".effectiveness-value");
 
-			if (addiction < x) {
+			if (reduction < x) {
 				element.classList.remove("tt-employee-effectiveness");
 				continue;
 			}
