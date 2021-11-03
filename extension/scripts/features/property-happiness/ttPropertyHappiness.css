@@ -9,3 +9,11 @@ body:not(.dark-mode) .tt-property-happiness {
 body.dark-mode .tt-property-happiness {
 	color: gold;
 }
+
+.tt-mobile .tt-modified .image-description {
+	height: 90px !important;
+	display: flex;
+	flex-flow: column;
+	vertical-align: middle;
+	justify-content: center;
+}
