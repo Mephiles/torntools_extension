@@ -17,57 +17,47 @@
 	);
 
 	const iconRegex = /1[97]|39|4\d|5[0-3]/m;
-	let tooltipObserver;
 	async function addEndTimes() {
 		const statusIcons = await requireElement("#sidebarroot [class*='status-icons__']");
-		statusIcons.addEventListener("mouseover", listenerCallback);
+		statusIcons.addEventListener("mouseover", listener);
+		let tooltipPortal, addedListener = true;
 
-		function listenerCallback(event) {
-			if (event.target.closest("li")?.getAttribute("id")?.match(iconRegex)) {
-				statusIcons.removeEventListener("mouseover", listenerCallback);
-				addTooltipObserver();
+		async function listener(event) {
+			if (!event.target.closest("li")?.getAttribute("id")?.match(iconRegex)) return;
+
+			if (addedListener) {
+				statusIcons.removeEventListener("mouseover", listener);
+				addedListener = false;
 			}
-		}
-
-		async function addTooltipObserver() {
-			const tooltipPortal = await requireElement("body > .ToolTipPortal");
-			let tooltipChildren = tooltipPortal.find("[class*='tooltip__']");
-			addEndTime(tooltipPortal, tooltipChildren);
-			if (!tooltipObserver)
-				tooltipObserver = new MutationObserver((mutations) => {
-					if (feature.enabled() && mutations.some((mutation) => mutation.target.tagName === "B")) {
-						tooltipChildren = tooltipPortal.find("[class*='tooltip__']");
-						addEndTime(tooltipPortal, tooltipChildren);
+			if (!tooltipPortal) tooltipPortal = await requireElement("body > .ToolTipPortal");
+			new MutationObserver((mutations) => {
+				if (feature.enabled() && !mutations.some(mut => mut.addedNodes[0]?.className === "tt-tooltip-end-times" || mut.removedNodes[0]?.className === "tt-tooltip-end-times")) {
+					removeEndTimes(tooltipPortal);
+					const tooltip = tooltipPortal.find("[class*='tooltip__']");
+					if (
+						["Education", "Racing", "Drug Cooldown", "Booster Cooldown", "Medical Cooldown"].includes(
+							tooltip.getElementsByTagName("b")[0]?.textContent
+						)
+					) {
+						const time =
+							Date.now() +
+							textToTime(
+								tooltip.find("[class*='static-width___']")?.firstChild?.textContent ?? tooltip.find("p:not([class])").textContent
+							);
+						tooltip.appendChild(
+							document.newElement({
+								type: "div",
+								class: "tt-tooltip-end-times",
+								text: `${formatDate(time, { showYear: true })} ${formatTime(time)}`,
+							})
+						);
 					}
-				});
-			tooltipObserver.observe(tooltipPortal, { childList: true, subtree: true });
-		}
-
-		function addEndTime(tooltipPortal, tooltipChildren) {
-			Array.from(tooltipChildren.getElementsByClassName("tt-tooltip-end-times")).forEach((x) => x.remove());
-			if (
-				["Education", "Racing", "Drug Cooldown", "Booster Cooldown", "Medical Cooldown"].includes(
-					tooltipChildren.getElementsByTagName("b")[0].textContent
-				)
-			) {
-				const time =
-					Date.now() +
-					textToTime(
-						tooltipChildren.find("[class*='static-width___']")?.firstChild?.textContent ?? tooltipChildren.find("p:not([class])").textContent
-					);
-				tooltipPortal.find("[class*='tooltip__']").appendChild(
-					document.newElement({
-						type: "div",
-						class: "tt-tooltip-end-times",
-						text: `${formatDate(time, { showYear: true })} ${formatTime(time)}`,
-					})
-				);
-			}
+				}
+			}).observe(tooltipPortal, { childList: true, subtree: true });
 		}
 	}
 
-	function removeEndTimes() {
-		document.findAll(".tt-tooltip-end-times").forEach((x) => x.remove());
-		tooltipObserver?.disconnect();
+	function removeEndTimes(parent = document) {
+		[...parent.getElementsByClassName("tt-tooltip-end-times")].forEach((x) => x.remove());
 	}
 })();
