@@ -20,7 +20,8 @@
 	async function addEndTimes() {
 		const statusIcons = await requireElement("#sidebarroot [class*='status-icons__']");
 		statusIcons.addEventListener("mouseover", listener);
-		let tooltipPortal, addedListener = true;
+		let tooltipPortal,
+			addedListener = true;
 
 		async function listener(event) {
 			if (!event.target.closest("li")?.getAttribute("id")?.match(iconRegex)) return;
@@ -31,7 +32,12 @@
 			}
 			if (!tooltipPortal) tooltipPortal = await requireElement("body > .ToolTipPortal");
 			new MutationObserver((mutations) => {
-				if (feature.enabled() && !mutations.some(mut => mut.addedNodes[0]?.className === "tt-tooltip-end-times" || mut.removedNodes[0]?.className === "tt-tooltip-end-times")) {
+				if (
+					feature.enabled() &&
+					!mutations.some(
+						(mut) => mut.addedNodes[0]?.className === "tt-tooltip-end-times" || mut.removedNodes[0]?.className === "tt-tooltip-end-times"
+					)
+				) {
 					removeEndTimes(tooltipPortal);
 					const tooltip = tooltipPortal.find("[class*='tooltip__']");
 					if (
@@ -41,9 +47,7 @@
 					) {
 						const time =
 							Date.now() +
-							textToTime(
-								tooltip.find("[class*='static-width___']")?.firstChild?.textContent ?? tooltip.find("p:not([class])").textContent
-							);
+							textToTime(tooltip.find("[class*='static-width___']")?.firstChild?.textContent ?? tooltip.find("p:not([class])").textContent);
 						tooltip.appendChild(
 							document.newElement({
 								type: "div",
