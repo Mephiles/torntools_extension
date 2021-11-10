@@ -472,6 +472,7 @@ const DEFAULT_STORAGE = {
 				itemFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				energyWarning: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				cooldownWarnings: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				autoTravelTableCountry: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			stocks: {
 				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),

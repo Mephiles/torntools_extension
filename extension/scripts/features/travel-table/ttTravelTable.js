@@ -26,7 +26,7 @@
 		startTable,
 		removeTable,
 		{
-			storage: ["settings.pages.travel.table", "settings.external.yata"],
+			storage: ["settings.pages.travel.table", "settings.pages.travel.autoTravelTableCountry", "settings.external.yata"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API data!";
@@ -302,6 +302,16 @@
 						updateTable();
 					});
 				}
+
+				document.find("#tab-menu4").addEventListener("click", (event) => {
+					if (settings.pages.travel.autoTravelTableCountry && event.target.matches("[aria-hidden*='false'] > .raceway")) {
+						if (!event.target.dataset.race) return;
+
+						content.findAll(".countries .flag.selected").forEach(flag => flag.classList.remove("selected"));
+						content.find(`.countries .flag[country*="${event.target.dataset.race.replaceAll("-", "_")}"]`).classList.add("selected");
+						updateTable();
+					}
+				});
 			}
 
 			function getSelectedCategories() {
