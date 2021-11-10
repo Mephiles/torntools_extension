@@ -33,10 +33,13 @@
 <a href="https://discord.gg/ukyK6f6">
     <img src="https://img.shields.io/discord/726572303286009978?label=DISCORD&logo=Discord&style=for-the-badge" alt="Discord Server">
 </a>
-<br>
+<br>  
+
 
 **Wiki**
-- TODO
+- [Features](https://github.com/Mephiles/torntools_extension/wiki/Features)
+- [API Usage](https://github.com/Mephiles/torntools_extension/wiki/API-usage) - WIP
+- [FAQ](https://github.com/Mephiles/torntools_extension/wiki/FAQ)
 
 &nbsp;  
 **Open Source**  
