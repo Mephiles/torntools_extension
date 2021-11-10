@@ -35,6 +35,7 @@
 				.trim()
 		);
 		const requiredNode = document.find("#faction-upgrades #stu-confirmation div[role] > :nth-child(3) > .text");
+		if (requiredNode.textContent.includes("Challenge:")) return;
 		let diff;
 		if (requiredNode.parentElement.classList.contains("completed")) {
 			diff = 0;
