@@ -8,10 +8,14 @@
 				{ "message": "Show end times for cooldowns on icon hover.", "contributor": "bandirao" },
 				{ "message": "Display property happiness.", "contributor": "bandirao" }
 			],
-			"fixes": [{ "message": "Fix trade value logs showing value of only one item.", "contributor": "bandirao" }],
+			"fixes": [
+				{ "message": "Fix trade value logs showing value of only one item.", "contributor": "bandirao" },
+				{ "message": "Fix NaN in upgrade required respect.", "contributor": "bandirao" }
+			],
 			"changes": [
 				{ "message": "Include racing skill on the profile box.", "contributor": "bandirao" },
-				{ "message": "Don't only check addiction for employee effectiveness reduction.", "contributor": "DeKleineKobini" }
+				{ "message": "Don't only check addiction for employee effectiveness reduction.", "contributor": "DeKleineKobini" },
+				{ "message": "Make it possible to change the travel table country when selecting a country.", "contributor": "bandirao" }
 			],
 			"removed": []
 		}
