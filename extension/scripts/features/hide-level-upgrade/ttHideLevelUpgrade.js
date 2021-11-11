@@ -6,10 +6,12 @@
 	async function hideUpgrade() {
 		await requireContent();
 
-		for (const info of document.findAll(".info-msg-cont")) {
-			if (!info.textContent.includes("Congratulations! You have enough experience to go up to level")) continue;
-
-			info.classList.add("tt-level-upgrade");
+		for (const li of document.findAll(".info-msg li")) {
+			if (li.textContent.includes("Congratulations! You have enough experience to go up to level")) {
+				if (li.parentElement.childElementCount > 1) li.classList.add("tt-level-upgrade");
+				else li.closest(".info-msg").classList.add("tt-level-upgrade");
+				break;
+			}
 		}
 	}
 
