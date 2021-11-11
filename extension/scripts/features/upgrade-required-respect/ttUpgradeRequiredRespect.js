@@ -34,7 +34,8 @@
 				.textContent.replace(/[\n, ]/g, "")
 				.trim()
 		);
-		const requiredNode = document.find("#faction-upgrades #stu-confirmation div[role] > :nth-child(3) > .text");
+		const requiredNode = document.find("#faction-upgrades #stu-confirmation div[role] .required .text");
+		if (!requiredNode || requiredNode.textContent.includes("Challenge:")) return;
 		let diff;
 		if (requiredNode.parentElement.classList.contains("completed")) {
 			diff = 0;
