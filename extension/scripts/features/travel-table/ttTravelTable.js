@@ -26,7 +26,7 @@
 		startTable,
 		removeTable,
 		{
-			storage: ["settings.pages.travel.table", "settings.external.yata"],
+			storage: ["settings.pages.travel.table", "settings.pages.travel.autoTravelTableCountry", "settings.external.yata"],
 		},
 		() => {
 			if (!hasAPIData()) return "No API data!";
@@ -302,6 +302,23 @@
 						updateTable();
 					});
 				}
+
+				if (!isFlying() && !isAbroad()) document.find("#tab-menu4").addEventListener("click", (event) => {
+					if (
+						settings.pages.travel.table &&
+						settings.pages.travel.autoTravelTableCountry &&
+						(event.target.matches("[aria-hidden*='false'] > .raceway") || event.target.closest(".travel-info-table-list"))
+					) {
+						const country = mobile || tablet
+							? event.target.closest(".travel-info-table-list").find(".city-flag")?.className.replaceAll("city-flag", "").trim()
+							: event.target.dataset.race.trim();
+						if (!country) return;
+
+						content.findAll(".countries .flag.selected").forEach(flag => flag.classList.remove("selected"));
+						content.find(`.countries .flag[country*="${country.replaceAll("-", "_")}"]`).classList.add("selected");
+						updateTable();
+					}
+				});
 			}
 
 			function getSelectedCategories() {
