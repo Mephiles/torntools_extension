@@ -1242,10 +1242,21 @@ async function setupAPIInfo() {
 		_api.find("#api_key").value = api.torn.key;
 	}
 	document.find("#update_api_key").addEventListener("click", async () => {
-		changeAPIKey(document.find("#api_key").value)
-			.then(() => {
-				sendMessage("API Key updated", true);
-				console.log("TT - Updated api key!");
+		const key = document.find("#api_key").value;
+
+		checkAPIPermission(key)
+			.then((granted) => {
+				changeAPIKey(key)
+					.then(() => {
+						if (granted) sendMessage("API Key updated", true);
+						else sendMessage("Your API key is not the correct API level. This will affect a lot of features.", false);
+						console.log("TT - Updated api key!");
+					})
+					.catch((error) => {
+						sendMessage(error, false);
+						console.log("TT - Couldn't update API key!", error);
+						document.find("#api_key").value = api.torn.key || "";
+					});
 			})
 			.catch((error) => {
 				sendMessage(error, false);
