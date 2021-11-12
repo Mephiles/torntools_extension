@@ -385,7 +385,8 @@
 				"scripts/features/sort-travel-market/ttSortTravelMarket.js",
 				"scripts/features/landing-time/ttLandingTime.js",
 				"scripts/features/abroad-items-filter/ttAbroadItemsFilter.js",
-				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.js"
+				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.js",
+				"scripts/features/abroad-auto-fill-max/ttAbroadAutoFillMax.js"
 			],
 			"run_at": "document_end"
 		},
