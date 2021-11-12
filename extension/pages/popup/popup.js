@@ -81,16 +81,30 @@ async function setupInitialize() {
 	document.find("#set_api_key").addEventListener("click", () => {
 		const key = document.find("#api_key").value;
 
-		changeAPIKey(key)
-			.then(async () => {
-				document.find("#pages").classList.remove("hidden");
+		checkAPIPermission(key)
+			.then((granted) => {
+				changeAPIKey(key)
+					.then(async () => {
+						document.find("#pages").classList.remove("hidden");
 
-				await showPage(settings.pages.popup.defaultTab);
+						if (granted) {
+							// await showPage(settings.pages.popup.defaultTab);
+						} else {
+							document.find(".permission-error").classList.remove("hidden");
+							document.find(".permission-error").textContent = "Your API key is not the correct API level. This will affect a lot of features.";
+
+							setTimeout(() => {
+								document.find(".permission-error").classList.add("hidden");
+								document.find(".permission-error").textContent = "";
+
+								showPage(settings.pages.popup.defaultTab);
+							}, 10 * TO_MILLIS.SECONDS);
+						}
+					})
+
+					.catch((error) => showError(error.error));
 			})
-			.catch((error) => {
-				document.find(".error").classList.remove("hidden");
-				document.find(".error").textContent = error.error;
-			});
+			.catch((error) => showError(error.error));
 	});
 
 	document.find("#api_quicklink").addEventListener("click", () => {
@@ -98,6 +112,11 @@ async function setupInitialize() {
 			url: "https://www.torn.com/preferences.php#tab=api",
 		});
 	});
+
+	function showError(message) {
+		document.find(".error").classList.remove("hidden");
+		document.find(".error").textContent = message;
+	}
 }
 
 async function setupDashboard() {

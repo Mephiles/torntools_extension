@@ -23,7 +23,8 @@ body.loading *:not(.tt-loading-placeholder) {
 	display: block;
 }
 
-.error {
+.error,
+.permission-error {
 	margin-bottom: 5px;
 	color: red;
 }
