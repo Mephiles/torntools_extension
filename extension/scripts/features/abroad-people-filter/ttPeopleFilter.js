@@ -186,9 +186,9 @@
 
 			const hasFaction = !!factionElement.href;
 			const factionName = hasFaction
-				? rowFaction.hasAttribute("rel")
-					? rowFaction.find(":scope > img").getAttribute("title").trim() || "N/A"
-					: rowFaction.textContent.trim()
+				? factionElement.hasAttribute("rel")
+					? factionElement.find(":scope > img").getAttribute("title").trim() || "N/A"
+					: factionElement.textContent.trim()
 				: false;
 			const isUnknownFaction = hasFaction && factionName === "N/A";
 
