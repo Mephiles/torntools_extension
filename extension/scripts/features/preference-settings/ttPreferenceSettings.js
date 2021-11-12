@@ -22,7 +22,7 @@
 				})
 			);
 
-			const connectButton = document.newElement({ type: "a", class: "preference-button", text: "Connect" });
+			const connectButton = document.newElement({ type: "a", class: "preference-button", text: "Connect", id: "connect-torntools" });
 			options.appendChild(connectButton);
 
 			if (api.torn.key) {
@@ -69,6 +69,8 @@
 		}
 
 		function updateKey(key) {
+			const connectButton = document.find("#connect-torntools");
+
 			changeAPIKey(key).then(() => {
 				connectButton.setAttribute("disabled", "");
 				connectButton.textContent = "Connected!";
