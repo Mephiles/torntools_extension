@@ -247,6 +247,26 @@ async function fetchData(location, options = {}) {
 	});
 }
 
+function checkAPIPermission(key) {
+	return new Promise((resolve, reject) => {
+		fetchData("torn", { section: "key", selections: ["info"], key, silent: true })
+			.then(async (response) => {
+				const level = response.access_level;
+				if (
+					level === 3 || // Limited Access
+					level === 4 // Full Access
+				) {
+					resolve(true);
+				} else {
+					resolve(false);
+				}
+			})
+			.catch((error) => {
+				reject(error.error);
+			});
+	});
+}
+
 function changeAPIKey(key) {
 	return new Promise((resolve, reject) => {
 		fetchData("torn", { section: "user", selections: ["profile"], key, silent: true })
