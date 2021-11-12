@@ -6,11 +6,14 @@
 		"logs": {
 			"features": [
 				{ "message": "Show end times for cooldowns on icon hover.", "contributor": "bandirao" },
-				{ "message": "Display property happiness.", "contributor": "bandirao" }
+				{ "message": "Display property happiness.", "contributor": "bandirao" },
+				{ "message": "Fill max when landing abroad.", "contributor": "bandirao" }
 			],
 			"fixes": [
 				{ "message": "Fix trade value logs showing value of only one item.", "contributor": "bandirao" },
-				{ "message": "Fix NaN in upgrade required respect.", "contributor": "bandirao" }
+				{ "message": "Fix NaN in upgrade required respect.", "contributor": "bandirao" },
+				{ "message": "Fix hide level also hiding the bank message.", "contributor": "bandirao" },
+				{ "message": "Fix issue with the abroad people filter.", "contributor": "bandirao" }
 			],
 			"changes": [
 				{ "message": "Include racing skill on the profile box.", "contributor": "bandirao" },
