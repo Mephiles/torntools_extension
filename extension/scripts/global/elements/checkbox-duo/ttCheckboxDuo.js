@@ -47,7 +47,7 @@ function createCheckboxDuo(options = {}) {
 		if (yes && no) return "both";
 		else if (yes) return "yes";
 		else if (no) return "no";
-		else return "";
+		else return "none";
 	}
 
 	function onChange(callback) {
