@@ -123,8 +123,7 @@ function createFilterSection(options) {
 			getSelections,
 		};
 
-		function getSelections(content) {
-			// eslint-disable-line no-inner-declarations
+		function getSelections(content) { // eslint-disable-line no-inner-declarations
 			const selections = {};
 			for (const specialDiv of [...content.findAll(`.${ccTitle} > div`)]) {
 				const checkboxes = specialDiv.findAll("input");
@@ -134,6 +133,7 @@ function createFilterSection(options) {
 				if (yChecked && nChecked) selections[key] = "both";
 				else if (yChecked) selections[key] = "yes";
 				else if (nChecked) selections[key] = "no";
+				else selections[key] = "none";
 			}
 			return selections;
 		}

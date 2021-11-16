@@ -258,7 +258,7 @@
 			let hideSpecial = false;
 			for (const key in special) {
 				const value = special[key];
-				if (value === "both") continue;
+				if (value === "both" || value === "none") continue;
 
 				const foundIcons = getSpecialIcons(li);
 				const definedIcons = SPECIAL_FILTER_ICONS[key];

@@ -172,7 +172,7 @@
 		}
 		if (filters.special) {
 			const match = Object.entries(filters.special)
-				.filter(([, value]) => value !== "both")
+				.filter(([, value]) => value !== "both" && value !== "none")
 				.find(([key, value]) => {
 					const icons = getSpecialIcons(row);
 					const filterIcons = SPECIAL_FILTER_ICONS[key];
