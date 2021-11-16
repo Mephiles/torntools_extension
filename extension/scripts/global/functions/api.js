@@ -43,7 +43,8 @@ async function fetchData(location, options = {}) {
 				else return resolve(response);
 			});
 		} else {
-			let url, path, pathSections;
+			let url, path, pathSections, key;
+
 			const params = new URLSearchParams();
 			switch (location) {
 				case "torn":
@@ -70,7 +71,7 @@ async function fetchData(location, options = {}) {
 				case "tornstats":
 					url = FETCH_PLATFORMS.tornstats;
 
-					pathSections = ["api", "v1", options.key || api.torn.key];
+					pathSections = ["api", "v1", options.key || api.tornstats.key || api.torn.key];
 					if (options.section) pathSections.push(options.section);
 					if (options.id) pathSections.push(options.id);
 
@@ -82,6 +83,7 @@ async function fetchData(location, options = {}) {
 
 					pathSections = ["api", "v1", options.section];
 					if (options.id) pathSections.push(options.id);
+					if (options.includeKey) key = api.yata.key;
 
 					path = pathSections.join("/");
 					await ttUsage.add(location);
@@ -104,7 +106,7 @@ async function fetchData(location, options = {}) {
 			}
 
 			if (options.includeKey) {
-				params.append("key", options.key || api.torn.key);
+				params.append("key", options.key || key || api.torn.key);
 			}
 
 			if (options.params) {
