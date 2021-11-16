@@ -13,7 +13,8 @@
 				{ "message": "Fix trade value logs showing value of only one item.", "contributor": "bandirao" },
 				{ "message": "Fix NaN in upgrade required respect.", "contributor": "bandirao" },
 				{ "message": "Fix hide level also hiding the bank message.", "contributor": "bandirao" },
-				{ "message": "Fix issue with the abroad people filter.", "contributor": "bandirao" }
+				{ "message": "Fix issue with the abroad people filter.", "contributor": "bandirao" },
+				{ "message": "Solve issues with filters not saving correctly all the time.", "contributor": "bandirao" }
 			],
 			"changes": [
 				{ "message": "Include racing skill on the profile box.", "contributor": "bandirao" },
