@@ -34,13 +34,13 @@
 			weapons: [{ id: 244, name: "Blowgun" }],
 			type: TYPES.DOT,
 			description:
-				"Poisoned causes a long DOT effect, with damage ticks starting at 45% that of the damage dealt when the proc occurs, and reducing to zero over 15 turns.",
+				"Poisoned causes a long DOT effect, with damage ticks starting at 95% that of the damage dealt when the proc occurs, and reducing to zero over 19 turns.",
 		},
 		Burning: {
 			weapons: [{ id: 255, name: "Flamethrower" }],
 			type: TYPES.DOT,
 			description:
-				"Burning causes a short DOT effect, with damage ticks starting at 15% that of the damage dealt when proc occurs, and reducing to zero over 5 turns.",
+				"Burning causes a short DOT effect, with damage ticks starting at 45% that of the damage dealt when proc occurs, and reducing to zero over 3 turns.",
 		},
 		Laceration: {
 			weapons: [{ id: 1053, name: "Bread Knife" }],
@@ -52,7 +52,7 @@
 			weapons: [{ id: 742, name: "Molotov Cocktail" }],
 			type: TYPES.DOT,
 			description:
-				"Severe Burning causes a short DOT effect, with damage ticks starting at 15% that of the damage dealt when proc occurs, and reducing to zero over 5 turns.",
+				"Severe Burning causes a short DOT effect, with damage ticks starting at 45% that of the damage dealt when proc occurs, and reducing to zero over 3 turns.",
 		},
 		Spray: {
 			weapons: [
