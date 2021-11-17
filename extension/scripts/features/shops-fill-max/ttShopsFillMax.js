@@ -18,14 +18,23 @@
 
 	async function addFillMax() {
 		await requireElement(".item-desc");
+
 		document.findAll(".item-desc").forEach((item) => {
 			item.classList.add("tt-buy");
-			const fillMax = document.newElement({ type: "span", text: "fill max", class: "tt-max-buy" });
+
+			const fillMaxButton = document.newElement({ type: "span", text: "fill max", class: "tt-max-buy" });
+			fillMaxButton.addEventListener("click", fillMax);
+
 			const buyButton = item.find(".buy-act-wrap .buy-act button");
 			buyButton.appendChild(document.newElement("br"));
-			buyButton.appendChild(fillMax);
+			buyButton.appendChild(fillMaxButton);
 
-			fillMax.addEventListener("click", (event) => {
+			const fillMaxOverlay = document.newElement({ type: "div", class: "tt-max-buy-overlay" });
+			fillMaxOverlay.addEventListener("click", fillMax);
+
+			item.find(".buy-act").appendChild(fillMaxOverlay);
+
+			function fillMax(event) {
 				event.stopPropagation();
 
 				let max = item.find(".instock").textContent.getNumber();
@@ -38,7 +47,7 @@
 				if (max > 100) max = 100;
 
 				item.find("input").value = max;
-			});
+			}
 		});
 	}
 
@@ -46,6 +55,7 @@
 		document.findAll(".tt-buy").forEach((ttBuy) => {
 			ttBuy.classList.remove("tt-buy");
 			ttBuy.find(".tt-max-buy").remove();
+			ttBuy.find(".tt-max-buy-overlay").remove();
 		});
 	}
 })();

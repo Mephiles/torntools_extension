@@ -1,4 +1,5 @@
-.tt-buy {
+/*.tt-buy,*/
+.tt-buy .buy-act {
 	position: relative;
 }
 
@@ -14,4 +15,12 @@
 
 .tt-mobile .tt-max-buy {
 	border: none !important;
+}
+
+.tt-max-buy-overlay {
+	position: absolute;
+	top: 50%;
+	height: 50%;
+	left: 0;
+	width: 100%;
 }
