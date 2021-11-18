@@ -1039,6 +1039,13 @@ async function setupPreferences(requireCleanup) {
 		await ttStorage.set(newStorage);
 		console.log("Settings updated!", newStorage);
 
+		await ttStorage.change({
+			api: {
+				tornstats: { key: document.find("#external-tornstats-key").value },
+				yata: { key: document.find("#external-yata-key").value },
+			},
+		});
+
 		["dark", "light"].forEach((theme) => document.body.classList.remove(theme));
 		document.body.classList.add(getPageTheme());
 
@@ -1257,9 +1264,10 @@ async function setupPreferences(requireCleanup) {
 async function setupAPIInfo() {
 	const _api = document.find("#api");
 
-	if (api.torn.key) {
-		_api.find("#api_key").value = api.torn.key;
-	}
+	if (api.torn.key) _api.find("#api_key").value = api.torn.key;
+	if (api.tornstats.key) _api.find("#external-tornstats-key").value = api.tornstats.key;
+	if (api.yata.key) _api.find("#external-yata-key").value = api.yata.key;
+
 	document.find("#update_api_key").addEventListener("click", async () => {
 		const key = document.find("#api_key").value;
 

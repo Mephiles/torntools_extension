@@ -260,6 +260,12 @@ const DEFAULT_STORAGE = {
 			online: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			error: new DefaultSetting({ type: "string" }),
 		},
+		tornstats: {
+			key: new DefaultSetting({ type: "string" }),
+		},
+		yata: {
+			key: new DefaultSetting({ type: "string" }),
+		},
 	},
 	settings: {
 		updateNotice: new DefaultSetting({ type: "boolean", defaultValue: true }),
