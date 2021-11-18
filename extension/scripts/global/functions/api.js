@@ -2,6 +2,7 @@
 
 const CUSTOM_API_ERROR = {
 	NO_NETWORK: "tt-no_network",
+	NO_PERMISSION: "tt-no_permission",
 	CANCELLED: "tt-cancelled",
 };
 
@@ -79,6 +80,7 @@ async function fetchData(location, options = {}) {
 					await ttUsage.add(location);
 					break;
 				case "yata":
+				case FETCH_PLATFORMS.yata:
 					url = FETCH_PLATFORMS.yata;
 
 					pathSections = ["api", "v1", options.section];
@@ -210,9 +212,14 @@ async function fetchData(location, options = {}) {
 					let code;
 
 					if (error === "Failed to fetch") {
-						error = "Network issues";
 						isLocal = true;
-						code = CUSTOM_API_ERROR.NO_NETWORK;
+						if (SCRIPT_TYPE === "BACKGROUND" && !(await hasOrigins(url))) {
+							error = "Permission issues";
+							code = CUSTOM_API_ERROR.NO_PERMISSION;
+						} else {
+							error = "Network issues";
+							code = CUSTOM_API_ERROR.NO_NETWORK;
+						}
 					}
 
 					if (location === "torn" && !options.silent && SCRIPT_TYPE === "BACKGROUND") {

@@ -583,7 +583,7 @@
 					if (ttCache.hasValue("yata-spy", id)) {
 						result = ttCache.get("yata-spy", id);
 					} else {
-						result = (await fetchData("yata", { relay: true, section: "spy", id, includeKey: true, silent: true }))?.spies[id];
+						result = (await fetchData(FETCH_PLATFORMS.yata, { relay: true, section: "spy", id, includeKey: true, silent: true }))?.spies[id];
 
 						if (result) {
 							result = {
@@ -610,13 +610,17 @@
 						};
 					}
 				} catch (error) {
-					if (error.code === 2 && error.error === "Player not found") errors.push({ service: "YATA", message: "You don't have an account." });
-					else if (error.code === 502) errors.push({ service: "YATA", message: "YATA appears to be down." });
-					else if (error.code === CUSTOM_API_ERROR.NO_NETWORK) {
-						if (!(await hasOrigins(FETCH_PLATFORMS.yata)))
-							errors.push({ service: "YATA", message: "Permission not granted. Please make sure YATA has permission to run." });
-						else errors.push({ service: "YATA", message: "Network issues. You likely have no internet at this moment." });
-					} else errors.push({ service: "YATA", message: `Unknown (${error.code}) - ${error.error}` });
+					if (typeof error.error === "object") {
+						const { code, error: message } = error.error;
+
+						if (code === 2 && message === "Player not found") errors.push({ service: "YATA", message: "You don't have an account." });
+						else if (code === 502) errors.push({ service: "YATA", message: "YATA appears to be down." });
+						else errors.push({ service: "YATA", message: `Unknown (${code}) - ${message}` });
+					} else if (error.code === CUSTOM_API_ERROR.NO_NETWORK) {
+						errors.push({ service: "YATA", message: "Network issues. You likely have no internet at this moment." });
+					} else if (error.code === CUSTOM_API_ERROR.NO_PERMISSION) {
+						errors.push({ service: "YATA", message: "Permission not granted. Please make sure YATA has permission to run." });
+					} else errors.push({ service: "YATA", message: `Unknown - ${error}` });
 
 					console.log("Couldn't load stat spy from YATA.", error);
 				}
@@ -665,9 +669,9 @@
 				} catch (error) {
 					if (error.code === 429) errors.push({ service: "TornStats", message: "You've exceeded your API limit. Try again in a minute." });
 					else if (error.code === CUSTOM_API_ERROR.NO_NETWORK) {
-						if (!(await hasOrigins(FETCH_PLATFORMS.tornstats)))
-							errors.push({ service: "TornStats", message: "Permission not granted. Please make sure TornStats has permission to run." });
-						else errors.push({ service: "TornStats", message: "Network issues. You likely have no internet at this moment." });
+						errors.push({ service: "TornStats", message: "Network issues. You likely have no internet at this moment." });
+					} else if (error.code === CUSTOM_API_ERROR.NO_PERMISSION) {
+						errors.push({ service: "TornStats", message: "Permission not granted. Please make sure TornStats has permission to run." });
 					} else errors.push({ service: "TornStats", message: `Unknown - ${error}` });
 
 					console.log("Couldn't load stat spy from TornStats.", error);

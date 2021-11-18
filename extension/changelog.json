@@ -24,7 +24,8 @@
 				{ "message": "Allow the connect button to work with multiple keys.", "contributor": "DeKleineKobini" },
 				{ "message": "Show warning if an api key with bad permisisons is being used.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow setting different api keys for TornStats and YATA integration.", "contributor": "DeKleineKobini" },
-				{ "message": "Update weapon bonus effects.", "contributor": "DeKleineKobini" }
+				{ "message": "Update weapon bonus effects.", "contributor": "DeKleineKobini" },
+				{ "message": "Improve error handling for the profile box.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

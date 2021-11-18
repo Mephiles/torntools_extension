@@ -276,7 +276,9 @@ function timedUpdates() {
 		.catch((error) => logError("updating npcs", error));
 
 	function logError(message, error) {
-		if (error.code === CUSTOM_API_ERROR.NO_NETWORK) {
+		if (error.code === CUSTOM_API_ERROR.NO_PERMISSION) {
+			console.warn(`You disabled our permission to call the API!`);
+		} else if (error.code === CUSTOM_API_ERROR.NO_NETWORK) {
 			console.warn(`Error due to no internet while ${message}.`);
 		} else {
 			console.error(`Error while ${message}.`, error);
