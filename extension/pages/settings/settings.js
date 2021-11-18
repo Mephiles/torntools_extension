@@ -178,7 +178,26 @@ async function setupChangelog() {
 	await ttStorage.change({ version: { showNotice: false } });
 }
 
-async function setupPreferences() {
+function cleanupPreferences() {
+	const preferences = document.find("#preferences");
+
+	preferences
+		.findAll(
+			[
+				".hide-items > *",
+				"#customLink > li:not(.input)",
+				"#allyFactions > li:not(.input)",
+				"#userAlias > li:not(.input)",
+				"#chatHighlight > li:not(.input)",
+				"#chatTitleHighlight> li:not(input)",
+			].join(", ")
+		)
+		.forEach((element) => element.remove());
+}
+
+async function setupPreferences(requireCleanup) {
+	if (requireCleanup) cleanupPreferences();
+
 	const _preferences = document.find("#preferences");
 	_preferences.addEventListener("click", addSaveDialog);
 
@@ -1663,7 +1682,7 @@ async function setupExport() {
 		}
 
 		sendMessage("Imported file.", true);
-		await setupPreferences();
+		await setupPreferences(true);
 	}
 
 	function loadSync() {

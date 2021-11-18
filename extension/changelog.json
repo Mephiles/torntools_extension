@@ -14,7 +14,8 @@
 				{ "message": "Fix NaN in upgrade required respect.", "contributor": "bandirao" },
 				{ "message": "Fix hide level also hiding the bank message.", "contributor": "bandirao" },
 				{ "message": "Fix issue with the abroad people filter.", "contributor": "bandirao" },
-				{ "message": "Solve issues with filters not saving correctly all the time.", "contributor": "bandirao" }
+				{ "message": "Solve issues with filters not saving correctly all the time.", "contributor": "bandirao" },
+				{ "message": "Improve the clickable area of fill max in the city shops.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Include racing skill on the profile box.", "contributor": "bandirao" },
@@ -22,7 +23,8 @@
 				{ "message": "Make it possible to change the travel table country when selecting a country.", "contributor": "bandirao" },
 				{ "message": "Allow the connect button to work with multiple keys.", "contributor": "DeKleineKobini" },
 				{ "message": "Show warning if an api key with bad permisisons is being used.", "contributor": "DeKleineKobini" },
-				{ "message": "Allow setting different api keys for TornStats and YATA integration.", "contributor": "DeKleineKobini" }
+				{ "message": "Allow setting different api keys for TornStats and YATA integration.", "contributor": "DeKleineKobini" },
+				{ "message": "Update weapon bonus effects.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
