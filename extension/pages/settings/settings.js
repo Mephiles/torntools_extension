@@ -582,6 +582,9 @@ async function setupPreferences(requireCleanup) {
 			}
 		}
 
+		if (api.tornstats.key) _preferences.find("#external-tornstats-key").value = api.tornstats.key;
+		if (api.yata.key) _preferences.find("#external-yata-key").value = api.yata.key;
+
 		for (const highlight of settings.pages.chat.highlights) {
 			addChatHighlightRow(highlight.name, highlight.color);
 		}
@@ -1265,8 +1268,6 @@ async function setupAPIInfo() {
 	const _api = document.find("#api");
 
 	if (api.torn.key) _api.find("#api_key").value = api.torn.key;
-	if (api.tornstats.key) _api.find("#external-tornstats-key").value = api.tornstats.key;
-	if (api.yata.key) _api.find("#external-yata-key").value = api.yata.key;
 
 	document.find("#update_api_key").addEventListener("click", async () => {
 		const key = document.find("#api_key").value;
