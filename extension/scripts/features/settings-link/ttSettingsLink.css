@@ -37,11 +37,76 @@
 	--tt-svg-back-fill: var(--content-title-links);
 }
 
-.tt-settings-iframe {
+#tt-settings-iframe {
 	height: 85%;
 	width: 80%;
 	position: absolute;
 	top: 110px;
 	left: 222px;
 	background-color: white;
+}
+
+#saveSettingsBar {
+	width: 80%;
+	position: fixed;
+	margin: 0 10%;
+	padding: 12.5px 25px;
+	bottom: 30px;
+	border-radius: 15px;
+}
+
+body:not(.dark-mode) #saveSettingsBar {
+	background-color: #fff;
+	color: #000;
+}
+
+body.dark-mode #saveSettingsBar {
+	background-color: #666;
+	color: #fff;
+	border: none;
+}
+
+#saveSettingsBar > div {
+	display: flex;
+	align-items: center;
+}
+
+#saveSettingsBar span {
+	width: 100%;
+	font-weight: 500;
+	font-size: 16px;
+}
+
+#saveSettingsBar #saveSettings {
+	min-width: 60px;
+	padding: 0 4px;
+	height: 30px;
+	border: 1px solid lightgrey;
+	margin-right: 10px;
+	text-align: center;
+	line-height: 30px;
+	border-radius: 7px;
+	font-weight: bold;
+	display: inline-block;
+	vertical-align: top;
+	cursor: pointer;
+	background-color: #149a32;
+	color: #fff;
+}
+
+#saveSettingsBar #revertSettings {
+	border: none;
+	margin: 0 5px;
+	font-size: 14px;
+	font-weight: bold;
+	background-color: #0000;
+	cursor: pointer;
+}
+
+body:not(.dark-mode) #revertSettings {
+	color: #000;
+}
+
+body.dark-mode #revertSettings {
+	color: #fff;
 }

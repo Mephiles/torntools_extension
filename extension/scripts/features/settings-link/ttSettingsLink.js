@@ -31,6 +31,7 @@
 		});
 	}
 
+	let addedMessageListener = false;
 	async function addLink() {
 		await requireSidebar();
 
@@ -46,14 +47,18 @@
 		});
 		ttSettingsDiv.insertAdjacentElement("afterbegin", ttSvg());
 		ttSettingsDiv.addEventListener("click", () => {
-			if (document.find(".tt-settings-iframe")) return;
+			if (document.getElementById("tt-settings-iframe")) return;
 			const ttSettingsIframe = document.newElement({
 				type: "iframe",
-				class: "tt-settings-iframe",
+				id: "tt-settings-iframe",
 				attributes: {
 					src: chrome.runtime.getURL("pages/settings/settings.html"),
 				},
 			});
+			if (!addedMessageListener) {
+				window.addEventListener("message", messageListener);
+				addedMessageListener = true;
+			}
 			const returnToTorn = document.newElement({
 				type: "div",
 				class: "tt-back",
@@ -80,19 +85,58 @@
 		document.find(".areasWrapper [class*='toggle-content__']").appendChild(ttSettingsDiv);
 	}
 
-	function removeLink() {
-		const returnToTorn = document.find(".tt-back");
-		if (returnToTorn) returnToTorn.remove();
+	function messageListener(event) {
+		let saveSettingsBar = document.getElementById("saveSettingsBar");
+		if (!saveSettingsBar) {
+			saveSettingsBar = document.newElement({
+				type: "div",
+				id: "saveSettingsBar",
+				class: "hidden",
+				children: [
+					document.newElement({
+						type: "div",
+						children: [
+							document.newElement({ type: "span", text: "You have unsaved changes." }),
+							document.newElement({
+								type: "button",
+								id: "revertSettings",
+								text: "Revert",
+								events: {
+									click: () => {
+										document.getElementById("saveSettingsBar").classList.add("hidden");
+										document.getElementById("tt-settings-iframe").contentWindow.postMessage({ torntools: 1, revert: 1 }, "*");
+									}
+								},
+							}),
+							document.newElement({
+								type: "button",
+								id: "saveSettings",
+								text: "Save",
+								events: {
+									click: () => {
+										document.getElementById("saveSettingsBar").classList.add("hidden");
+										document.getElementById("tt-settings-iframe").contentWindow.postMessage({ torntools: 1, save: 1 }, "*");
+									},
+								}
+							}),
+						]
+					})
+				]
+			});
+			document.body.insertAdjacentElement("beforeend", saveSettingsBar);
+		}
+		if (event.data !== null && typeof event.data === "object" && event.data.torntools) {
+			if (event.data.show) saveSettingsBar.classList.remove("hidden");
+			else if (event.data.hide) saveSettingsBar.classList.add("hidden");
+		}
+	}
 
-		const ttSettingsIframe = document.find(".tt-settings-iframe");
-		if (ttSettingsIframe) ttSettingsIframe.remove();
+	function removeLink() {
+		document.findAll(".tt-back, .tt-settings, #tt-settings-iframe, #saveSettingsBar").forEach(x => x.remove());
 
 		const tornContent = document.find(".content-wrapper[role*='main']");
 		if (tornContent.style.display === "none") tornContent.style.display = "block";
 
 		document.body.classList.remove("tt-align-left");
-
-		const sidebarLink = document.find(".tt-settings");
-		if (sidebarLink) sidebarLink.remove();
 	}
 })();

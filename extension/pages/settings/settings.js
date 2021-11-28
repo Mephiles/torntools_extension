@@ -16,6 +16,8 @@ const initiatedPages = {};
 	}
 })();
 
+const isIframe = window.self !== window.top; // https://stackoverflow.com/a/326076
+
 // noinspection DuplicatedCode
 async function showPage(name) {
 	const params = new URL(location.href).searchParams;
@@ -496,6 +498,14 @@ async function setupPreferences(requireCleanup) {
 	requestPermissions();
 	searchPreferences();
 	storageListeners.settings.push(updateSettings);
+	if (isIframe) {
+		window.addEventListener("message", async (event) => {
+			if (event.data !== null && typeof event.data === "object" && event.data.torntools) {
+				if (event.data.save) await saveSettings();
+				else if (event.data.revert) revertSettings();
+			}
+		});
+	}
 
 	function switchSection(link) {
 		const params = new URL(location.href).searchParams;
@@ -1232,8 +1242,10 @@ async function setupPreferences(requireCleanup) {
 		if (
 			["INPUT", "SELECT"].includes(event.target.tagName) ||
 			event.target.closest("button.remove-icon-wrap, #hide-icons, #hide-areas, #hide-casino-games, #hide-stocks")
-		)
-			document.find("#saveSettingsBar").classList.remove("hidden");
+		) {
+			if (isIframe) window.top.postMessage({ torntools: 1, show: 1 }, "*");
+			else document.find("#saveSettingsBar").classList.remove("hidden");
+		}
 	}
 
 	function revertSettings() {
