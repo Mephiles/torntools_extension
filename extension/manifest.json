@@ -348,13 +348,14 @@
 			"css": [
 				"scripts/features/drug-details/ttDrugDetails.css",
 				"scripts/features/no-confirm/ttItemMarketNoConfirm.css",
-				"scripts/features/highlight-cheap-items/ttHighlightCheapItems.css"
+				"scripts/features/highlight-cheap-items/ttHighlightCheapItems.css",
+				"scripts/features/compact-item-market/ttCompactItemMarket.css"
 			],
 			"js": [
 				"scripts/features/drug-details/ttDrugDetails.js",
 				"scripts/features/item-redirect/ttItemMarketRedirect.js",
 				"scripts/features/no-confirm/ttItemMarketNoConfirm.js",
-				"scripts/features/highlight-cheap-items/ttHighlightCheapItems.js"
+				"scripts/features/compact-item-market/ttCompactItemMarket.js"
 			],
 			"run_at": "document_end"
 		},
