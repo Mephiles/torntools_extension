@@ -15,7 +15,9 @@
 				{ "message": "Fix hide level also hiding the bank message.", "contributor": "bandirao" },
 				{ "message": "Fix issue with the abroad people filter.", "contributor": "bandirao" },
 				{ "message": "Solve issues with filters not saving correctly all the time.", "contributor": "bandirao" },
-				{ "message": "Improve the clickable area of fill max in the city shops.", "contributor": "DeKleineKobini" }
+				{ "message": "Improve the clickable area of fill max in the city shops.", "contributor": "DeKleineKobini" },
+				{ "message": "Solve permission asking issues in the ingame settings.", "contributor": "bandirao" },
+				{ "message": "Fix mini profiles of users in a threatre while flying.", "contributor": "bandirao" }
 			],
 			"changes": [
 				{ "message": "Include racing skill on the profile box.", "contributor": "bandirao" },
@@ -25,8 +27,7 @@
 				{ "message": "Show warning if an api key with bad permisisons is being used.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow setting different api keys for TornStats and YATA integration.", "contributor": "DeKleineKobini" },
 				{ "message": "Update weapon bonus effects.", "contributor": "DeKleineKobini" },
-				{ "message": "Improve error handling for the profile box.", "contributor": "DeKleineKobini" },
-				{ "message": "Improve save popup in ingame TT settings.", "contributor": "bandirao" }
+				{ "message": "Improve error handling for the profile box.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
