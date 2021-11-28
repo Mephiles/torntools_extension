@@ -1,4 +1,4 @@
-.hidden {
+.hidden:not(.profile-container.travelling) {
 	display: none !important;
 }
 
