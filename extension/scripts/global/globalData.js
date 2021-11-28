@@ -597,6 +597,7 @@ const DEFAULT_STORAGE = {
 			},
 			itemmarket: {
 				highlightCheapItems: new DefaultSetting({ type: "number|empty", defaultValue: "" }),
+				compactList: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			competition: {
 				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
