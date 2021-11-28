@@ -105,7 +105,7 @@
 									click: () => {
 										document.getElementById("saveSettingsBar").classList.add("hidden");
 										document.getElementById("tt-settings-iframe").contentWindow.postMessage({ torntools: 1, revert: 1 }, "*");
-									}
+									},
 								},
 							}),
 							document.newElement({
@@ -117,11 +117,11 @@
 										document.getElementById("saveSettingsBar").classList.add("hidden");
 										document.getElementById("tt-settings-iframe").contentWindow.postMessage({ torntools: 1, save: 1 }, "*");
 									},
-								}
+								},
 							}),
-						]
-					})
-				]
+						],
+					}),
+				],
 			});
 			document.body.insertAdjacentElement("beforeend", saveSettingsBar);
 		}
@@ -132,7 +132,7 @@
 	}
 
 	function removeLink() {
-		document.findAll(".tt-back, .tt-settings, #tt-settings-iframe, #saveSettingsBar").forEach(x => x.remove());
+		document.findAll(".tt-back, .tt-settings, #tt-settings-iframe, #saveSettingsBar").forEach((x) => x.remove());
 
 		const tornContent = document.find(".content-wrapper[role*='main']");
 		if (tornContent.style.display === "none") tornContent.style.display = "block";
