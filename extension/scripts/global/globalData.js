@@ -819,6 +819,7 @@ const DEFAULT_STORAGE = {
 	cache: new DefaultSetting({ type: "object", defaultValue: {} }),
 	usage: new DefaultSetting({ type: "object", defaultValue: {} }),
 	npcs: new DefaultSetting({ type: "object", defaultValue: {} }),
+	notificationHistory: new DefaultSetting({ type: "array", defaultValue: [] }),
 };
 
 const CUSTOM_LINKS_PRESET = {

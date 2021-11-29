@@ -1,6 +1,6 @@
 "use strict";
 
-let settings, filters, version, api, userdata, torndata, stakeouts, attackHistory, notes, factiondata, quick, localdata, npcs;
+let settings, filters, version, api, userdata, torndata, stakeouts, attackHistory, notes, factiondata, quick, localdata, npcs, notificationHistory;
 let databaseLoaded = false;
 let databaseLoading = false;
 const storageListeners = {
@@ -46,6 +46,7 @@ async function loadDatabase() {
 
 	console.log("TT - Database loaded.", database);
 	databaseLoaded = true;
+	return database;
 }
 
 chrome.storage.onChanged.addListener((changes, area) => {
@@ -96,6 +97,9 @@ chrome.storage.onChanged.addListener((changes, area) => {
 					break;
 				case "npcs":
 					npcs = changes.npcs.newValue;
+					break;
+				case "notificationHistory":
+					if (typeof notificationHistory !== "undefined") notificationHistory = changes.notificationHistory.newValue;
 					break;
 			}
 			if (storageListeners[key]) storageListeners[key].forEach((listener) => listener(changes[key].oldValue));

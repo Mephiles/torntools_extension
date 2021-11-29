@@ -29,7 +29,8 @@ let npcUpdater;
 
 (async () => {
 	await convertDatabase();
-	await loadDatabase();
+	const database = await loadDatabase();
+	notificationHistory = database.notificationHistory;
 
 	await checkUpdate();
 
@@ -222,6 +223,9 @@ async function sendNotifications() {
 				await notifyUser(title, message, url);
 
 				notifications[type][key].seen = true;
+				if (key === "combined" || !notificationHistory.find((history) => history.type === type && history.key === key)) {
+					notificationHistory.insertAt(0, { title, message, url, type, key });
+				}
 			}
 
 			if (seen && Date.now() - date > 3 * TO_MILLIS.DAYS) {
@@ -229,6 +233,7 @@ async function sendNotifications() {
 			}
 		}
 	}
+	await ttStorage.set({ notificationHistory });
 }
 
 function timedUpdates() {
@@ -536,7 +541,7 @@ async function updateUserdata() {
 			}
 			if (events.length) {
 				let message = events.last().event.replace(/<\/?[^>]+(>|$)/g, "");
-				if (events.length > 1) message += `\n(and ${events.length - 1} more event${events.length > 2 ? "s" : ""}`;
+				if (events.length > 1) message += `\n(and ${events.length - 1} more event${events.length > 2 ? "s" : ""})`;
 
 				notifications.events.combined = newNotification(`New Event${applyPlural(events.length)}`, message, LINKS.events);
 			}
@@ -578,12 +583,22 @@ async function updateUserdata() {
 		if (current === "Okay") {
 			if (previous === "Hospital") {
 				await notifyUser("TornTools - Status", "You are out of the hospital.", LINKS.home);
+				notificationHistory.insertAt(0, {
+					title: "TornTools - Status",
+					message: "You are out of the hospital.",
+					url: LINKS.home,
+					type: "status",
+					key: Date.now(),
+				});
 			} else if (previous === "Jail") {
 				await notifyUser("TornTools - Status", "You are out of the jail.", LINKS.home);
+				notificationHistory.insertAt(0, { title: "TornTools - Status", message: "You are out of the jail.", url: LINKS.home });
 			}
 		} else {
 			await notifyUser("TornTools - Status", userdata.status.description, LINKS.home);
+			notificationHistory.insertAt(0, { title: "TornTools - Status", message: userdata.status.description, url: LINKS.home });
 		}
+		await ttStorage.set({ notificationHistory });
 	}
 
 	async function notifyCooldownOver() {
@@ -594,7 +609,9 @@ async function updateUserdata() {
 			if (userdata.cooldowns[type] || !oldUserdata.cooldowns[type]) continue;
 
 			await notifyUser("TornTools - Cooldown", `Your ${type} cooldown has ended.`, LINKS.items);
+			notificationHistory.insertAt(0, { title: "TornTools - Cooldown", message: `Your ${type} cooldown has ended.`, url: LINKS.items });
 		}
+		await ttStorage.set({ notificationHistory });
 	}
 
 	async function notifyTravelLanding() {
@@ -602,6 +619,8 @@ async function updateUserdata() {
 		if (userdata.travel.time_left !== 0 || oldUserdata.travel.time_left === 0) return;
 
 		await notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}.`, LINKS.home);
+		notificationHistory.insertAt(0, { title: "TornTools - Traveling", message: `You have landed in ${userdata.travel.destination}.`, url: LINKS.home });
+		await ttStorage.set({ notificationHistory });
 	}
 
 	async function notifyEducation() {
@@ -609,6 +628,8 @@ async function updateUserdata() {
 		if (userdata.education_timeleft !== 0 || oldUserdata.education_timeleft === 0) return;
 
 		await notifyUser("TornTools - Education", "You have finished your education course.", LINKS.education);
+		notificationHistory.insertAt(0, { title: "TornTools - Education", message: "You have finished your education course.", url: LINKS.education });
+		await ttStorage.set({ notificationHistory });
 	}
 
 	async function notifyNewDay() {
@@ -1005,23 +1026,22 @@ async function updateStocks() {
 			const alerts = settings.notifications.types.stocks[id];
 
 			if (alerts.priceFalls && oldStocks[id].current_price > alerts.priceFalls && stocks[id].current_price <= alerts.priceFalls) {
-				await notifyUser(
-					"TornTools - Stock Alerts",
-					`(${stocks[id].acronym}) ${stocks[id].name} has fallen to ${formatNumber(stocks[id].current_price, {
-						currency: true,
-					})} (alert: ${formatNumber(alerts.priceFalls, { currency: true })})!`,
-					LINKS.stocks
-				);
+				const message = `(${stocks[id].acronym}) ${stocks[id].name} has fallen to ${formatNumber(stocks[id].current_price, {
+					currency: true,
+				})} (alert: ${formatNumber(alerts.priceFalls, { currency: true })})!`;
+
+				await notifyUser("TornTools - Stock Alerts", message, LINKS.stocks);
+				notificationHistory.insertAt(0, { title: "TornTools -  Stock Alerts", message, url: LINKS.stocks });
 			} else if (alerts.priceReaches && oldStocks[id].current_price < alerts.priceFalls && stocks[id].current_price >= alerts.priceReaches) {
-				await notifyUser(
-					"TornTools - Stock Alerts",
-					`(${stocks[id].acronym}) ${stocks[id].name} has reached ${formatNumber(stocks[id].current_price, {
-						currency: true,
-					})} (alert: ${formatNumber(alerts.priceReaches, { currency: true })})!`,
-					LINKS.stocks
-				);
+				const message = `(${stocks[id].acronym}) ${stocks[id].name} has reached ${formatNumber(stocks[id].current_price, {
+					currency: true,
+				})} (alert: ${formatNumber(alerts.priceReaches, { currency: true })})!`;
+
+				await notifyUser("TornTools - Stock Alerts", message, LINKS.stocks);
+				notificationHistory.insertAt(0, { title: "TornTools -  Stock Alerts", message, url: LINKS.stocks });
 			}
 		}
+		await ttStorage.set({ notificationHistory });
 	}
 }
 
