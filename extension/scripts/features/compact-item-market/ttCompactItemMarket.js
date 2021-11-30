@@ -6,7 +6,7 @@
 	featureManager.registerFeature(
 		"Compact Item Market",
 		"item market",
-		() => settings.pages.itemmarket.compactList || true,
+		() => settings.pages.itemmarket.compactList,
 		null,
 		makeCompact,
 		restore,
