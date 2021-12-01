@@ -29,8 +29,10 @@ let npcUpdater;
 
 (async () => {
 	await convertDatabase();
-	const database = await loadDatabase();
-	notificationHistory = database.notificationHistory;
+	await loadDatabase();
+
+	notificationHistory = [];
+	ttStorage.set({ notificationHistory: [] }).then(() => {});
 
 	await checkUpdate();
 
@@ -223,7 +225,7 @@ async function sendNotifications() {
 				await notifyUser(title, message, url);
 
 				notifications[type][key].seen = true;
-				notificationHistory.insertAt(0, { title, message, url, type, key, date });
+				storeNotification({ title, message, url, type, key, date });
 			}
 
 			if (seen && Date.now() - date > 3 * TO_MILLIS.DAYS) {
@@ -581,7 +583,7 @@ async function updateUserdata() {
 		if (current === "Okay") {
 			if (previous === "Hospital") {
 				await notifyUser("TornTools - Status", "You are out of the hospital.", LINKS.home);
-				notificationHistory.insertAt(0, {
+				storeNotification({
 					title: "TornTools - Status",
 					message: "You are out of the hospital.",
 					url: LINKS.home,
@@ -591,11 +593,11 @@ async function updateUserdata() {
 				});
 			} else if (previous === "Jail") {
 				await notifyUser("TornTools - Status", "You are out of the jail.", LINKS.home);
-				notificationHistory.insertAt(0, { title: "TornTools - Status", message: "You are out of the jail.", url: LINKS.home, date: Date.now() });
+				storeNotification({ title: "TornTools - Status", message: "You are out of the jail.", url: LINKS.home, date: Date.now() });
 			}
 		} else {
 			await notifyUser("TornTools - Status", userdata.status.description, LINKS.home);
-			notificationHistory.insertAt(0, { title: "TornTools - Status", message: userdata.status.description, url: LINKS.home, date: Date.now() });
+			storeNotification({ title: "TornTools - Status", message: userdata.status.description, url: LINKS.home, date: Date.now() });
 		}
 		await ttStorage.set({ notificationHistory });
 	}
@@ -608,7 +610,7 @@ async function updateUserdata() {
 			if (userdata.cooldowns[type] || !oldUserdata.cooldowns[type]) continue;
 
 			await notifyUser("TornTools - Cooldown", `Your ${type} cooldown has ended.`, LINKS.items);
-			notificationHistory.insertAt(0, { title: "TornTools - Cooldown", message: `Your ${type} cooldown has ended.`, url: LINKS.items, date: Date.now() });
+			storeNotification({ title: "TornTools - Cooldown", message: `Your ${type} cooldown has ended.`, url: LINKS.items, date: Date.now() });
 		}
 		await ttStorage.set({ notificationHistory });
 	}
@@ -618,7 +620,7 @@ async function updateUserdata() {
 		if (userdata.travel.time_left !== 0 || oldUserdata.travel.time_left === 0) return;
 
 		await notifyUser("TornTools - Traveling", `You have landed in ${userdata.travel.destination}.`, LINKS.home);
-		notificationHistory.insertAt(0, {
+		storeNotification({
 			title: "TornTools - Traveling",
 			message: `You have landed in ${userdata.travel.destination}.`,
 			url: LINKS.home,
@@ -632,7 +634,7 @@ async function updateUserdata() {
 		if (userdata.education_timeleft !== 0 || oldUserdata.education_timeleft === 0) return;
 
 		await notifyUser("TornTools - Education", "You have finished your education course.", LINKS.education);
-		notificationHistory.insertAt(0, {
+		storeNotification({
 			title: "TornTools - Education",
 			message: "You have finished your education course.",
 			url: LINKS.education,
@@ -1040,14 +1042,14 @@ async function updateStocks() {
 				})} (alert: ${formatNumber(alerts.priceFalls, { currency: true })})!`;
 
 				await notifyUser("TornTools - Stock Alerts", message, LINKS.stocks);
-				notificationHistory.insertAt(0, { title: "TornTools -  Stock Alerts", message, url: LINKS.stocks, date: Date.now() });
+				storeNotification({ title: "TornTools -  Stock Alerts", message, url: LINKS.stocks, date: Date.now() });
 			} else if (alerts.priceReaches && oldStocks[id].current_price < alerts.priceFalls && stocks[id].current_price >= alerts.priceReaches) {
 				const message = `(${stocks[id].acronym}) ${stocks[id].name} has reached ${formatNumber(stocks[id].current_price, {
 					currency: true,
 				})} (alert: ${formatNumber(alerts.priceReaches, { currency: true })})!`;
 
 				await notifyUser("TornTools - Stock Alerts", message, LINKS.stocks);
-				notificationHistory.insertAt(0, { title: "TornTools -  Stock Alerts", message, url: LINKS.stocks, date: Date.now() });
+				storeNotification({ title: "TornTools -  Stock Alerts", message, url: LINKS.stocks, date: Date.now() });
 			}
 		}
 		await ttStorage.set({ notificationHistory });
@@ -1406,4 +1408,9 @@ function getAudioPlayer() {
 	audioPlayer.preload = true;
 
 	return audioPlayer;
+}
+
+function storeNotification(notification) {
+	notificationHistory.insertAt(0, notification);
+	notificationHistory = notificationHistory.slice(0, 100);
 }
