@@ -39,6 +39,7 @@ const initiatedPages = {};
 	if (!settings.pages.popup.marketSearch) document.find("#pages li[to='market']").classList.add("hidden");
 	if (!settings.pages.popup.calculator) document.find("#pages li[to='calculator']").classList.add("hidden");
 	if (!settings.pages.popup.stocksOverview) document.find("#pages li[to='stocks']").classList.add("hidden");
+	if (!settings.pages.popup.notifications) document.find("#pages li[to='notifications']").classList.add("hidden");
 
 	if (!api.torn.key) {
 		await showPage("initialize");
