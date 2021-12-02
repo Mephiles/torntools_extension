@@ -15,6 +15,7 @@
 		<link rel="stylesheet" href="market.css" />
 		<link rel="stylesheet" href="calculator.css" />
 		<link rel="stylesheet" href="stocks.css" />
+		<link rel="stylesheet" href="notifications.css" />
 	</head>
 	<body class="loading">
 		<div class="hidden error"></div>
@@ -26,6 +27,7 @@
 				<li to="market">Market</li>
 				<li to="calculator">Calculator</li>
 				<li to="stocks">Stocks</li>
+				<li to="notifications">Notifications</li>
 			</ul>
 			<ul class="right-nav">
 				<li to="settings">Settings</li>
@@ -203,6 +205,10 @@
 			<input id="stock-search-bar" class="search" type="text" placeholder="Search.." autofocus />
 
 			<div class="stock-list" id="all-stocks"></div>
+		</main>
+
+		<main id="notifications" class="subpage">
+			<ul></ul>
 		</main>
 
 		<script src="../../vendor/fontawesome/fontawesome.js"></script>

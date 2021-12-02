@@ -416,6 +416,7 @@ const DEFAULT_STORAGE = {
 				marketSearch: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				calculator: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				stocksOverview: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				notifications: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				defaultTab: new DefaultSetting({ type: "string", defaultValue: "dashboard" }),
 				hoverBarTime: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				showStakeouts: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -819,6 +820,7 @@ const DEFAULT_STORAGE = {
 	cache: new DefaultSetting({ type: "object", defaultValue: {} }),
 	usage: new DefaultSetting({ type: "object", defaultValue: {} }),
 	npcs: new DefaultSetting({ type: "object", defaultValue: {} }),
+	notificationHistory: new DefaultSetting({ type: "array", defaultValue: [] }),
 };
 
 const CUSTOM_LINKS_PRESET = {

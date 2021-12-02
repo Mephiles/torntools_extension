@@ -6,6 +6,7 @@ const SETUP_PAGES = {
 	market: setupMarketSearch,
 	calculator: setupCalculator,
 	stocks: setupStocksOverview,
+	notifications: setupNotifications,
 };
 const LOAD_PAGES = {
 	market: loadMarketSearch,
@@ -19,7 +20,8 @@ const initiatedPages = {};
 
 	showLoadingPlaceholder(document.body, true);
 
-	await loadDatabase();
+	const database = await loadDatabase();
+	notificationHistory = database.notificationHistory;
 
 	document.body.classList.add(getPageTheme());
 
@@ -37,6 +39,7 @@ const initiatedPages = {};
 	if (!settings.pages.popup.marketSearch) document.find("#pages li[to='market']").classList.add("hidden");
 	if (!settings.pages.popup.calculator) document.find("#pages li[to='calculator']").classList.add("hidden");
 	if (!settings.pages.popup.stocksOverview) document.find("#pages li[to='stocks']").classList.add("hidden");
+	if (!settings.pages.popup.notifications) document.find("#pages li[to='notifications']").classList.add("hidden");
 
 	if (!api.torn.key) {
 		await showPage("initialize");
@@ -1147,5 +1150,28 @@ async function setupStocksOverview() {
 				},
 			});
 		}
+	}
+}
+
+async function setupNotifications() {
+	const notifications = document.find("#notifications ul");
+
+	notificationHistory.map(createEntry).forEach((entry) => notifications.appendChild(entry));
+
+	function createEntry(notification) {
+		const { message, url, date } = notification;
+		const title = notification.title.replace("TornTools - ", "");
+
+		return document.newElement({
+			type: "li",
+			children: [
+				document.newElement({
+					type: "div",
+					class: "title",
+					children: [document.newElement({ type: "span", text: title }), document.newElement({ type: "span", text: formatTime(date) })],
+				}),
+				document.newElement({ type: "span", text: message }),
+			],
+		});
 	}
 }
