@@ -225,7 +225,7 @@
 			},
 			motivator: {
 				task: "Lose or stalemate to (P) on the first attempt.",
-				hint: "Timing out doesn't fail this mission, so if you're about to win, let it time out. You can get your health low by using the wrong blood bag. Make yourself weak by unequipping armor and equip a rusty sword.",
+				hint: "You can get your health low by using the wrong blood bag. Make yourself weak by unequipping armor and equip a rusty sword. Timing out DOES fail this mission. ",
 			},
 			new_kid_on_the_block: {
 				task: "Defeat 5 players.",
