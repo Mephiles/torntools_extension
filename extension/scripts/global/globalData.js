@@ -582,6 +582,7 @@ const DEFAULT_STORAGE = {
 				bonusInformation: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				timeoutWarning: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				weaponExperience: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				hideAttackButtons: new DefaultSetting({ type: "array", defaultValue: [] }),
 			},
 			city: {
 				items: new DefaultSetting({ type: "boolean", defaultValue: true }),
