@@ -20,7 +20,10 @@
 				{ "message": "Improve the clickable area of fill max in the city shops.", "contributor": "DeKleineKobini" },
 				{ "message": "Solve permission asking issues in the ingame settings.", "contributor": "bandirao" },
 				{ "message": "Fix mini profiles of users in a threatre while flying.", "contributor": "bandirao" },
-				{ "message": "Possibly solve an issue with the blackjack helper when having the same cards after splitting once.", "contributor": "DeKleineKobini" }
+				{
+					"message": "Possibly solve an issue with the blackjack helper when having the same cards after splitting once.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [
 				{ "message": "Include racing skill on the profile box.", "contributor": "bandirao" },
