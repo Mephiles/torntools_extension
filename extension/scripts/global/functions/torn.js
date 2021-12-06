@@ -1688,19 +1688,25 @@ function getItemEnergy(id) {
 function getUsername(row) {
 	let name, id, combined;
 
-	const element = row.find(".user.name");
-	const title = element.find(":scope > [title]");
-	if (title) {
-		combined = title.getAttribute("title");
-
-		const regex = combined.match(/(.*) \[([0-9]+)]/);
-		name = regex[1];
-		id = parseInt(regex[2]);
+	if ((new URLSearchParams(window.location.search)).get("step") === "chainreport") {
+		name = "";
+		id = row.findAll("a[id*='user']")[0].id.split("-")[0];
+		combined = id;
 	} else {
-		name = element.textContent;
-		id = element.href.getNumber();
+		const element = row.find(".user.name");
+		const title = element.find(":scope > [title]");
+		if (title) {
+			combined = title.getAttribute("title");
 
-		combined = `${name} [${id}]`;
+			const regex = combined.match(/(.*) \[([0-9]+)]/);
+			name = regex[1];
+			id = parseInt(regex[2]);
+		} else {
+			name = element.textContent;
+			id = element.href.getNumber();
+
+			combined = `${name} [${id}]`;
+		}
 	}
 
 	return { name, id, combined, toString: () => combined };
