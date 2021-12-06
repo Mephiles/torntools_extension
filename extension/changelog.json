@@ -19,7 +19,8 @@
 				{ "message": "Solve issues with filters not saving correctly all the time.", "contributor": "bandirao" },
 				{ "message": "Improve the clickable area of fill max in the city shops.", "contributor": "DeKleineKobini" },
 				{ "message": "Solve permission asking issues in the ingame settings.", "contributor": "bandirao" },
-				{ "message": "Fix mini profiles of users in a threatre while flying.", "contributor": "bandirao" }
+				{ "message": "Fix mini profiles of users in a threatre while flying.", "contributor": "bandirao" },
+				{ "message": "Fix CSV faction chain report.", "contributor": "bandirao" }
 			],
 			"changes": [
 				{ "message": "Include racing skill on the profile box.", "contributor": "bandirao" },
