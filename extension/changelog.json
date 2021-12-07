@@ -9,7 +9,8 @@
 				{ "message": "Display property happiness.", "contributor": "bandirao" },
 				{ "message": "Fill max when landing abroad.", "contributor": "bandirao" },
 				{ "message": "Add option to make item market list compacter.", "contributor": "DeKleineKobini" },
-				{ "message": "Keep notification history to show them in the popup.", "contributor": "DeKleineKobini" }
+				{ "message": "Keep notification history to show them in the popup.", "contributor": "DeKleineKobini" },
+				{ "message": "Hide attack buttons.", "contributor": "bandirao" }
 			],
 			"fixes": [
 				{ "message": "Fix trade value logs showing value of only one item.", "contributor": "bandirao" },
