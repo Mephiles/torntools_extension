@@ -21,17 +21,18 @@
 		const defenderDiv = await requireElement("#defender");
 		removeObserver();
 
-		if (!observer) observer = new MutationObserver((mutations) => {
-			mutations.forEach(mutation => {
-				if (mutation.addedNodes?.length && [...mutation.addedNodes]?.some(node => node.matches("[class*='defender__']"))) {
-					removeObserver();
+		if (!observer)
+			observer = new MutationObserver((mutations) => {
+				mutations.forEach((mutation) => {
+					if (mutation.addedNodes?.length && [...mutation.addedNodes]?.some((node) => node.matches("[class*='defender__']"))) {
+						removeObserver();
 
-					defenderDiv.findAll("button").forEach(button => {
-						if (settings.pages.attack.hideAttackButtons.includes(button.textContent.trim())) button.classList.add("hidden");
-					});
-				}
-			})
-		});
+						defenderDiv.findAll("button").forEach((button) => {
+							if (settings.pages.attack.hideAttackButtons.includes(button.textContent.trim())) button.classList.add("hidden");
+						});
+					}
+				});
+			});
 		observer.observe(defenderDiv, { childList: true, subtree: true });
 	}
 
@@ -40,6 +41,6 @@
 			observer.disconnect();
 			observer = undefined;
 		}
-		document.findAll("#defender [class*='defender__'] button.hidden").forEach(x => x.classList.remove("hidden"));
+		document.findAll("#defender [class*='defender__'] button.hidden").forEach((x) => x.classList.remove("hidden"));
 	}
 })();

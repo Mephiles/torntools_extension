@@ -467,7 +467,7 @@ async function setupPreferences(requireCleanup) {
 	}
 
 	const hideAttackOptionsParent = _preferences.find("#hide-attack-options");
-	["leave", "mug", "hospitalize"].forEach(option => {
+	["leave", "mug", "hospitalize"].forEach((option) => {
 		const optionNode = document.newElement({ type: "span", text: capitalizeText(option), attributes: { value: option } });
 		hideAttackOptionsParent.appendChild(optionNode);
 		optionNode.addEventListener("click", (event) => event.target.classList.toggle("disabled"));
@@ -1015,7 +1015,7 @@ async function setupPreferences(requireCleanup) {
 				};
 			})
 			.sort((first, second) => first.days - second.days);
-		settings.pages.attack.hideAttackButtons = [..._preferences.findAll("#hide-attack-options span.disabled")].map(x => x.getAttribute("value"));
+		settings.pages.attack.hideAttackButtons = [..._preferences.findAll("#hide-attack-options span.disabled")].map((x) => x.getAttribute("value"));
 
 		settings.apiUsage.comment = _preferences.find("#api_usage-comment").value;
 		settings.apiUsage.delayEssential = parseInt(_preferences.find("#api_usage-essential").value);
