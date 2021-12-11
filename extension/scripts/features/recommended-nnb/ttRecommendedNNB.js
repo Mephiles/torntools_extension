@@ -48,6 +48,7 @@
 
 	async function showRecommendedNNB() {
 		const parent = document.find(".faction-crimes-wrap .begin-wrap");
+		if (!parent) return;
 		parent.classList.add("tt-modified");
 
 		const heading = parent.find(".plan-crimes[role=heading]");
