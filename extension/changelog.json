@@ -25,7 +25,8 @@
 					"message": "Possibly solve an issue with the blackjack helper when having the same cards after splitting once.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Fix CSV faction chain report.", "contributor": "bandirao" }
+				{ "message": "Fix CSV faction chain report.", "contributor": "bandirao" },
+				{ "message": "Fix issues with stats estimates.", "contributor": "bandirao" }
 			],
 			"changes": [
 				{ "message": "Include racing skill on the profile box.", "contributor": "bandirao" },
