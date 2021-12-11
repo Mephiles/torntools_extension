@@ -1688,7 +1688,7 @@ function getItemEnergy(id) {
 function getUsername(row) {
 	let name, id, combined;
 
-	if ((new URLSearchParams(window.location.search)).get("step") === "chainreport") {
+	if (new URLSearchParams(window.location.search).get("step") === "chainreport") {
 		name = "";
 		id = row.findAll("a[id*='user']")[0].id.split("-")[0];
 		combined = id;
