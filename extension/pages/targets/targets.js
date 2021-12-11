@@ -371,12 +371,21 @@ async function setupStakeouts() {
 
 			row.find(".status").classList.remove("offline", "idle", "online");
 			if (stakeouts[id] && stakeouts[id].info && Object.keys(stakeouts[id].info).length) {
-				row.find(".name").textContent = stakeouts[id].info.name;
+				if (row.find(".name a")) row.find(".name a").textContent = stakeouts[id].info.name;
+				else
+					row.find(".name").appendChild(
+						document.newElement({
+							type: "a",
+							text: stakeouts[id].info.name,
+							href: `https://www.torn.com/profiles.php?XID=${id}`,
+							attributes: { target: "_blank" },
+						})
+					);
 				row.find(".status").textContent = stakeouts[id].info.last_action.status;
 				row.find(".status").classList.add(stakeouts[id].info.last_action.status.toLowerCase());
 				row.find(".last-action").textContent = stakeouts[id].info.last_action.relative;
 			} else {
-				row.find(".name").textContent = "";
+				row.find(".name").innerHTML = "";
 				row.find(".status").textContent = "";
 				row.find(".last-action").textContent = "";
 			}
