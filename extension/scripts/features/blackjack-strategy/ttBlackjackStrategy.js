@@ -539,15 +539,7 @@
 				const dealer = cards.dealer;
 
 				if (dealer in SUGGESTIONS[player]) {
-					let action = SUGGESTIONS[player][dealer];
-					if (action === "S3") action = cards.player.length > 3 ? "H" : "S";
-					else if (action === "S4") action = cards.player.length > 4 ? "H" : "S";
-					else if (action === "D" && !data.availableActions.includes("doubleDown")) action = "H";
-					else if (action === "DS3") action = data.availableActions.includes("doubleDown") ? "D" : cards.player.length > 3 ? "H" : "S";
-					else if (action === "R" && !data.availableActions.includes("surrender")) action = "H";
-					else if (action === "Rs") action = data.availableActions.includes("surrender") ? "R" : "S";
-					else if (action === "RS4") action = data.availableActions.includes("surrender") ? "R" : cards.player.length > 4 ? "H" : "S";
-					else if (action === "P" && !data.availableActions.includes("split")) action = "H";
+					const action = getAction(SUGGESTIONS[player][dealer], true);
 
 					suggestion = action in ACTIONS ? ACTIONS[action] : `no action - ${action}`;
 				} else {
@@ -558,6 +550,35 @@
 			}
 
 			return suggestion;
+
+			function getAction(action, allowSelf) {
+				if (action === "S3") return cards.player.length > 3 ? "H" : "S";
+				else if (action === "S4") return cards.player.length > 4 ? "H" : "S";
+				else if (action === "D" && !data.availableActions.includes("doubleDown")) return "H";
+				else if (action === "DS3") return data.availableActions.includes("doubleDown") ? "D" : cards.player.length > 3 ? "H" : "S";
+				else if (action === "R" && !data.availableActions.includes("surrender")) return "H";
+				else if (action === "Rs") return data.availableActions.includes("surrender") ? "R" : "S";
+				else if (action === "RS4") return data.availableActions.includes("surrender") ? "R" : cards.player.length > 4 ? "H" : "S";
+				else if (action === "P" && !data.availableActions.includes("split")) {
+					if (allowSelf) {
+						const cards = player.split(",");
+						if (cards[0] === cards[1]) {
+							let value;
+							if (!isNaN(cards[0])) {
+								if (cards[0] === "A") value = 12;
+								else value = 20;
+							} else value = parseInt(cards[0]) * 2;
+
+							const alternative = getAction(SUGGESTIONS[value][dealer], false);
+							if (alternative !== "P") return alternative;
+						}
+					}
+
+					return "H";
+				}
+
+				return action;
+			}
 		}
 	}
 

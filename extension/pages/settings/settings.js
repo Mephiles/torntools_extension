@@ -466,6 +466,13 @@ async function setupPreferences(requireCleanup) {
 		}
 	}
 
+	const hideAttackOptionsParent = _preferences.find("#hide-attack-options");
+	["leave", "mug", "hospitalize"].forEach((option) => {
+		const optionNode = document.newElement({ type: "span", text: capitalizeText(option), attributes: { value: option } });
+		hideAttackOptionsParent.appendChild(optionNode);
+		optionNode.addEventListener("click", (event) => event.target.classList.toggle("disabled"));
+	});
+
 	_preferences.find("#external-tornstats").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornstats, event));
 	_preferences.find("#external-yata").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.yata, event));
 
@@ -678,6 +685,9 @@ async function setupPreferences(requireCleanup) {
 
 			row.find(".level").value = level;
 			row.find(".minutes").value = minutes;
+		}
+		for (const option of settings.pages.attack.hideAttackButtons) {
+			hideAttackOptionsParent.find(`[value*="${option}"]`).classList.add("disabled");
 		}
 	}
 
@@ -1005,6 +1015,7 @@ async function setupPreferences(requireCleanup) {
 				};
 			})
 			.sort((first, second) => first.days - second.days);
+		settings.pages.attack.hideAttackButtons = [..._preferences.findAll("#hide-attack-options span.disabled")].map((x) => x.getAttribute("value"));
 
 		settings.apiUsage.comment = _preferences.find("#api_usage-comment").value;
 		settings.apiUsage.delayEssential = parseInt(_preferences.find("#api_usage-essential").value);
@@ -1241,7 +1252,7 @@ async function setupPreferences(requireCleanup) {
 	function addSaveDialog(event) {
 		if (
 			["INPUT", "SELECT"].includes(event.target.tagName) ||
-			event.target.closest("button.remove-icon-wrap, #hide-icons, #hide-areas, #hide-casino-games, #hide-stocks")
+			event.target.closest("button.remove-icon-wrap, #hide-icons, #hide-areas, #hide-casino-games, #hide-stocks, #hide-attack-options")
 		) {
 			if (isIframe) window.top.postMessage({ torntools: 1, show: 1 }, "*");
 			else document.find("#saveSettingsBar").classList.remove("hidden");
