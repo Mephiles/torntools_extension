@@ -52,11 +52,7 @@
 		statsEstimate.showEstimates(
 			".user-info-list-wrap > li",
 			(row) => ({
-				id: row
-					.find(".user.name > [title]")
-					.getAttribute("title")
-					.match(/([0-9]+)/g)
-					?.last(),
+				id: parseInt(row.find(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
 				level: parseInt(row.find(".level").textContent.replaceAll("\n", "").split(":").last().trim()),
 			}),
 			true
