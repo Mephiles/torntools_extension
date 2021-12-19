@@ -1,8 +1,7 @@
 [
 	{
 		"version": { "major": 6, "minor": 3, "build": 0 },
-		"title": "Beta",
-		"date": false,
+		"date": 2021/12/19,
 		"logs": {
 			"features": [
 				{ "message": "Show end times for cooldowns on icon hover.", "contributor": "bandirao" },
