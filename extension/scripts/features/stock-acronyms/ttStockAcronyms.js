@@ -28,7 +28,7 @@
 				document.newElement({
 					type: "span",
 					id: "tt-acronym",
-					text: `(${torndata.stocks[stockName.closest("[class*='stock___']").id].acronym}) `,
+					text: `(${stockdata[stockName.closest("[class*='stock___']").id].acronym}) `,
 				})
 			);
 		}

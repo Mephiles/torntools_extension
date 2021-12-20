@@ -170,7 +170,7 @@
 					continue;
 				}
 
-				const currentPrice = torndata.stocks[id].current_price * userdata.stocks[id].total_shares;
+				const currentPrice = stockdata[id].current_price * userdata.stocks[id].total_shares;
 				const boughtPrice = Object.values(userdata.stocks[id].transactions)
 					.map((transaction) => transaction.shares * transaction.bought_price)
 					.totalSum();

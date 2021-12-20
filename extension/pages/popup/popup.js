@@ -762,7 +762,7 @@ async function setupStocksOverview() {
 	const stocksOverview = document.find("#stocks");
 	const allStocks = stocksOverview.find("#all-stocks");
 
-	for (let id in torndata.stocks) {
+	for (let id in stockdata) {
 		if (id === "date") continue;
 		id = parseInt(id);
 
@@ -807,7 +807,7 @@ async function setupStocksOverview() {
 	}
 
 	function buildSection(id) {
-		const stock = torndata.stocks[id];
+		const stock = stockdata[id];
 		const userStock = settings.apiUsage.user.stocks ? userdata.stocks[id] || false : false;
 
 		const wrapper = document.newElement({

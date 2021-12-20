@@ -261,7 +261,7 @@ function timedUpdates() {
 				.catch((error) => logError("updating torndata", error));
 		}
 
-		if (!torndata || !torndata.stocks || !torndata.stocks.date || Date.now() - torndata.stocks.date >= TO_MILLIS.MINUTES * 5) {
+		if (!stockdata || !stockdata.date || Date.now() - stockdata.date >= TO_MILLIS.MINUTES * 5) {
 			updateStocks()
 				.then(() => console.log("Updated stocks."))
 				.catch((error) => logError("updating stocks", error));
@@ -1014,23 +1014,20 @@ async function updateStakeouts() {
 }
 
 async function updateTorndata() {
-	const oldTorndata = { ...torndata };
 	torndata = await fetchData("torn", { section: "torn", selections: ["education", "honors", "items", "medals", "pawnshop", "properties", "stats"] });
 	if (!torndata || !Object.keys(torndata).length) throw new Error("Aborted updating due to an unexpected response.");
 	torndata.date = Date.now();
-
-	torndata.stocks = oldTorndata.stocks;
 
 	await ttStorage.set({ torndata });
 }
 
 async function updateStocks() {
-	const oldStocks = { ...torndata.stocks };
+	const oldStocks = { ...stockdata };
 	const stocks = (await fetchData("torn", { section: "torn", selections: ["stocks"] })).stocks;
 	if (!stocks || !Object.keys(stocks).length) throw new Error("Aborted updating due to an unexpected response.");
 	stocks.date = Date.now();
 
-	await ttStorage.change({ torndata: { stocks } });
+	await ttStorage.change({ stockdata: stocks });
 
 	if (oldStocks && settings.notifications.types.global) {
 		for (const id in settings.notifications.types.stocks) {

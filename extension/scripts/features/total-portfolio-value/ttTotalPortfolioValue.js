@@ -24,7 +24,7 @@
 		const profits = [...document.findAll("#stockmarketroot [class*='stockMarket__'] > ul[id]")]
 			.map((x) => {
 				const stockID = x.id;
-				const data = torndata.stocks[stockID];
+				const data = stockdata[stockID];
 				const userStockData = userdata.stocks[stockID];
 				if (!userStockData) return 0;
 

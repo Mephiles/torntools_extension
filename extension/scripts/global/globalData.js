@@ -780,6 +780,7 @@ const DEFAULT_STORAGE = {
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),
+	stockdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	factiondata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	localdata: {
 		tradeMessage: new DefaultSetting({ type: "number", defaultValue: 0 }),
