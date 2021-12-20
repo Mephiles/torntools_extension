@@ -1688,12 +1688,8 @@ function getItemEnergy(id) {
 function getUsername(row) {
 	let name, id, combined;
 
-	if (new URLSearchParams(window.location.search).get("step") === "chainreport") {
-		name = "";
-		id = row.findAll("a[id*='user']")[0].id.split("-")[0];
-		combined = id;
-	} else {
-		const element = row.find(".user.name");
+	const element = row.find(".user.name");
+	if (element) {
 		const title = element.find(":scope > [title]");
 		if (title) {
 			combined = title.getAttribute("title");
@@ -1704,6 +1700,18 @@ function getUsername(row) {
 		} else {
 			name = element.textContent;
 			id = element.href.getNumber();
+
+			combined = `${name} [${id}]`;
+		}
+	} else {
+		const link = row.find("a[href*='profiles']");
+		if (link.getAttribute("id")) {
+			name = "";
+			id = link.getAttribute("id").split("-")[0].getNumber();
+			combined = id;
+		} else {
+			name = link.textContent;
+			id = link.href.match(/XID=([0-9]*)/i)[1].getNumber();
 
 			combined = `${name} [${id}]`;
 		}
