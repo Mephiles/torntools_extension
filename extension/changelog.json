@@ -43,8 +43,7 @@
 				{ "message": "Update weapon bonus effects.", "contributor": "DeKleineKobini" },
 				{ "message": "Improve error handling for the profile box.", "contributor": "DeKleineKobini" },
 				{ "message": "Update motivitor mission hint.", "contributor": "DeKleineKobini" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
