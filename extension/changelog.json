@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": ["Solve issue where the dump value honor was recognized as dump amount merit."],
+			"fixes": [{ "message": "Solve issue where the dump value honor was recognized as dump amount merit.", "contributor": "DeKleineKobini" }],
 			"changes": [{ "message": "Split torndata and stocks to possibly avoid corruption of data", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}
