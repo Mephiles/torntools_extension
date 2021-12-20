@@ -355,6 +355,7 @@
 				"scripts/features/drug-details/ttDrugDetails.js",
 				"scripts/features/item-redirect/ttItemMarketRedirect.js",
 				"scripts/features/no-confirm/ttItemMarketNoConfirm.js",
+				"scripts/features/highlight-cheap-items/ttHighlightCheapItems.js",
 				"scripts/features/compact-item-market/ttCompactItemMarket.js"
 			],
 			"run_at": "document_end"
