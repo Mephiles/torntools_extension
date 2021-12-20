@@ -90,7 +90,12 @@ const ACHIEVEMENTS = [
 		detection: { keyword: "city", include: ["find", "items"] },
 		requirements: { pages: ["city"] },
 	},
-	{ name: "Dump finds", stats: () => userdata.personalstats.dumpfinds, detection: { keyword: "dump" }, requirements: { pages: ["dump"] } },
+	{
+		name: "Dump finds",
+		stats: () => userdata.personalstats.dumpfinds,
+		detection: { keyword: "dump", exclude: ["market value"] },
+		requirements: { pages: ["dump"] },
+	},
 	{
 		name: "Complete courses",
 		stats: () => userdata.education_completed.length,
