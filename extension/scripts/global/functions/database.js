@@ -1,6 +1,6 @@
 "use strict";
 
-let settings, filters, version, api, userdata, torndata, stakeouts, attackHistory, notes, factiondata, quick, localdata, npcs, notificationHistory;
+let settings, filters, version, api, userdata, torndata, stakeouts, attackHistory, notes, factiondata, quick, localdata, npcs, notificationHistory, stockdata;
 let databaseLoaded = false;
 let databaseLoading = false;
 const storageListeners = {
@@ -43,6 +43,7 @@ async function loadDatabase() {
 	ttCache.cache = database.cache;
 	ttUsage.usage = database.usage;
 	npcs = database.npcs;
+	stockdata = database.stockdata;
 
 	console.log("TT - Database loaded.", database);
 	databaseLoaded = true;
@@ -97,6 +98,9 @@ chrome.storage.onChanged.addListener((changes, area) => {
 					break;
 				case "npcs":
 					npcs = changes.npcs.newValue;
+					break;
+				case "stockdata":
+					stockdata = changes.stockdata.newValue;
 					break;
 				case "notificationHistory":
 					if (typeof notificationHistory !== "undefined") notificationHistory = changes.notificationHistory.newValue;

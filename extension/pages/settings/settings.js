@@ -414,12 +414,12 @@ async function setupPreferences(requireCleanup) {
 	}
 
 	const hideStocksParent = _preferences.find("#hide-stocks");
-	if (hasAPIData() && torndata && torndata.stocks) {
-		for (const stock in torndata.stocks) {
+	if (hasAPIData() && stockdata) {
+		for (const stock in stockdata) {
 			// noinspection JSCheckFunctionSignatures
 			if (isNaN(stock)) continue;
 
-			const stockName = torndata.stocks[stock].name;
+			const stockName = stockdata[stock].name;
 			hideStocksParent.appendChild(
 				document.newElement({
 					type: "span",
