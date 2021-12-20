@@ -7,7 +7,8 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Solve issue where the dump value honor was recognized as dump amount merit.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix CSV chain report when honorbars are disabled.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix CSV chain report when honorbars are disabled.", "contributor": "DeKleineKobini" },
+				{ "message": "Reintroduce cheap item highlight after accidentally removing it.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Split torndata and stocks to possibly avoid corruption of data", "contributor": "DeKleineKobini" }],
 			"removed": []
