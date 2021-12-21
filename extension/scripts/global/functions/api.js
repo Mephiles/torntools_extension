@@ -16,7 +16,7 @@ const FETCH_PLATFORMS = {
 	torntools: "https://torntools.gregork.com/",
 	nukefamily: "https://www.nukefamily.org/",
 	uhc: "https://tornuhc.eu/",
-	imperium: "https://api.mavriware.me/",
+	imperium: "https://inq.mavri.dev/",
 };
 
 async function fetchData(location, options = {}) {

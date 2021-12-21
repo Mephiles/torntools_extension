@@ -9,7 +9,10 @@
 				{ "message": "Solve issue where the dump value honor was recognized as dump amount merit.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix CSV chain report when honorbars are disabled.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Split torndata and stocks to possibly avoid corruption of data", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Split torndata and stocks to possibly avoid corruption of data", "contributor": "DeKleineKobini" },
+				{ "message": "Use The Imperiums new domain.", "contributor": "DeKleineKobini" }
+			],
 			"removed": []
 		}
 	},

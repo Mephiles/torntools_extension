@@ -27,7 +27,7 @@
 		"https://yata.yt/",
 		"https://www.nukefamily.org/",
 		"https://tornuhc.eu/",
-		"https://api.mavriware.me/"
+		"https://inq.mavri.dev/"
 	],
 	"web_accessible_resources": [
 		"resources/images/*.png",
