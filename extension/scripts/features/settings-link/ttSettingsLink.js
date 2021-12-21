@@ -76,6 +76,7 @@
 			tornContent.insertAdjacentElement("afterend", ttSettingsIframe);
 			document.body.classList.add("tt-align-left");
 			returnToTorn.addEventListener("click", () => {
+				document.getElementById("saveSettingsBar")?.remove();
 				returnToTorn.remove();
 				ttSettingsIframe.remove();
 				tornContent.style.display = "block";

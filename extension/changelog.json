@@ -7,7 +7,10 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Solve issue where the dump value honor was recognized as dump amount merit.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix CSV chain report when honorbars are disabled.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix CSV chain report when honorbars are disabled.", "contributor": "DeKleineKobini" },
+				{ "message": "Reintroduce cheap item highlight after accidentally removing it.", "contributor": "DeKleineKobini" },
+				{ "message": "Remove the lingering settings bar even after closing the in-game settings.", "contributor": "bandirao" },
+				{ "message": "Solve issue when splitting is preferred in blackjack, after splitting once already.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Split torndata and stocks to possibly avoid corruption of data", "contributor": "DeKleineKobini" },
