@@ -561,15 +561,15 @@
 				else if (action === "RS4") return data.availableActions.includes("surrender") ? "R" : cards.player.length > 4 ? "H" : "S";
 				else if (action === "P" && !data.availableActions.includes("split")) {
 					if (allowSelf) {
-						const cards = player.split(",");
-						if (cards[0] === cards[1]) {
+						const hand = player.split(",");
+						if (hand[0] === hand[1]) {
 							let value;
-							if (!isNaN(cards[0])) {
-								if (cards[0] === "A") value = 12;
+							if (isNaN(hand[0])) {
+								if (hand[0] === "A") value = 12;
 								else value = 20;
-							} else value = parseInt(cards[0]) * 2;
+							} else value = parseInt(hand[0]) * 2;
 
-							const alternative = getAction(SUGGESTIONS[value][dealer], false);
+							const alternative = getAction(SUGGESTIONS[value][cards.dealer], false);
 							if (alternative !== "P") return alternative;
 						}
 					}
