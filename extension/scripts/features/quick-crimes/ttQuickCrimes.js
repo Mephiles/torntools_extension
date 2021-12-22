@@ -174,8 +174,8 @@
 				class: `quick-item ${temporary ? "temp" : ""}`,
 				dataset: data,
 				children: [
-					document.newElement({ type: "input", attributes: { name: "nervetake", type: "tt-hidden", value: nerve } }),
-					document.newElement({ type: "input", attributes: { name: "crime", type: "tt-hidden", value: name } }),
+					document.newElement({ type: "input", attributes: { name: "nervetake", type: "hidden", value: nerve } }),
+					document.newElement({ type: "input", attributes: { name: "crime", type: "hidden", value: name } }),
 					document.newElement({
 						type: "ul",
 						class: "item forced-item",
