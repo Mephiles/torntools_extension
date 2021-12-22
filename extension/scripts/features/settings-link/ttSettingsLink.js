@@ -92,7 +92,7 @@
 			saveSettingsBar = document.newElement({
 				type: "div",
 				id: "saveSettingsBar",
-				class: "hidden",
+				class: "tt-hidden",
 				children: [
 					document.newElement({
 						type: "div",
@@ -104,7 +104,7 @@
 								text: "Revert",
 								events: {
 									click: () => {
-										document.getElementById("saveSettingsBar").classList.add("hidden");
+										document.getElementById("saveSettingsBar").classList.add("tt-hidden");
 										document.getElementById("tt-settings-iframe").contentWindow.postMessage({ torntools: 1, revert: 1 }, "*");
 									},
 								},
@@ -115,7 +115,7 @@
 								text: "Save",
 								events: {
 									click: () => {
-										document.getElementById("saveSettingsBar").classList.add("hidden");
+										document.getElementById("saveSettingsBar").classList.add("tt-hidden");
 										document.getElementById("tt-settings-iframe").contentWindow.postMessage({ torntools: 1, save: 1 }, "*");
 									},
 								},
@@ -127,8 +127,8 @@
 			document.body.insertAdjacentElement("beforeend", saveSettingsBar);
 		}
 		if (event.data !== null && typeof event.data === "object" && event.data.torntools) {
-			if (event.data.show) saveSettingsBar.classList.remove("hidden");
-			else if (event.data.hide) saveSettingsBar.classList.add("hidden");
+			if (event.data.show) saveSettingsBar.classList.remove("tt-hidden");
+			else if (event.data.hide) saveSettingsBar.classList.add("tt-hidden");
 		}
 	}
 

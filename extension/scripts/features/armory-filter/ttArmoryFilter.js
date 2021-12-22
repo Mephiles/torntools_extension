@@ -33,7 +33,7 @@
 
 		const presentFilter = findContainer("Armory Filter");
 		if (presentFilter) {
-			presentFilter.classList.remove("hidden");
+			presentFilter.classList.remove("tt-hidden");
 
 			await applyFilters();
 			return;
@@ -68,23 +68,23 @@
 			});
 
 			function hideRow(li) {
-				li.classList.add("hidden");
+				li.classList.add("tt-hidden");
 			}
 
 			function showRow(li) {
-				li.classList.remove("hidden");
+				li.classList.remove("tt-hidden");
 			}
 		}
 	}
 
 	function hideFilter() {
 		const presentFilter = findContainer("Armory Filter");
-		if (presentFilter) presentFilter.classList.add("hidden");
+		if (presentFilter) presentFilter.classList.add("tt-hidden");
 	}
 
 	function removeFilter() {
 		cbHideUnavailable = undefined;
 		removeContainer("Armory Filter");
-		document.findAll(".torn-tabs ~ [aria-hidden*='false'] .item-list > li.hidden").forEach((x) => x.classList.remove("hidden"));
+		document.findAll(".torn-tabs ~ [aria-hidden*='false'] .item-list > li.hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

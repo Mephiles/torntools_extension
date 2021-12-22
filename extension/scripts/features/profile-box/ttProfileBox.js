@@ -223,7 +223,7 @@
 				events: {
 					async click() {
 						showLoadingPlaceholder(section, true);
-						button.classList.add("hidden");
+						button.classList.add("tt-hidden");
 
 						let finished = 0;
 
@@ -346,15 +346,15 @@
 					text: "View other stats.",
 					events: {
 						click() {
-							const isCustom = !content.find(".custom-stats").classList.toggle("hidden");
+							const isCustom = !content.find(".custom-stats").classList.toggle("tt-hidden");
 
 							if (isCustom) {
-								content.find(".other-stats").classList.add("hidden");
-								content.find(".move-stats").classList.remove("hidden");
+								content.find(".other-stats").classList.add("tt-hidden");
+								content.find(".move-stats").classList.remove("tt-hidden");
 								otherList.textContent = "View other stats.";
 							} else {
-								content.find(".other-stats").classList.remove("hidden");
-								content.find(".move-stats").classList.add("hidden");
+								content.find(".other-stats").classList.remove("tt-hidden");
+								content.find(".move-stats").classList.add("tt-hidden");
 								otherList.textContent = "View custom list.";
 							}
 						},
@@ -375,7 +375,7 @@
 							const customStats = section.find(".custom-stats");
 							const otherStats = section.find(".other-stats");
 
-							if (overlay.classList.toggle("hidden")) {
+							if (overlay.classList.toggle("tt-hidden")) {
 								// Overlay is now hidden.
 								[button, otherStatsButton, customStats, otherStats].forEach((element) => element.classList.remove("tt-overlay-item"));
 								section.findAll(".tt-table-row:not(.tt-table-row-header)").forEach((row) => row.removeEventListener("click", onStatClick));
@@ -431,7 +431,7 @@
 					],
 					rows,
 					{
-						class: `${id} ${hidden ? "hidden" : ""}`,
+						class: `${id} ${hidden ? "tt-hidden" : ""}`,
 						cellRenderers: {
 							number: (data) => {
 								let node;
@@ -774,11 +774,11 @@
 						},
 					});
 
-					alerts.classList.remove("hidden");
+					alerts.classList.remove("tt-hidden");
 				} else {
 					ttStorage.change({ stakeouts: { [id]: undefined } });
 
-					alerts.classList.add("hidden");
+					alerts.classList.add("tt-hidden");
 				}
 			});
 
@@ -838,7 +838,7 @@
 				lifeDrops.setValue(stakeouts[id].alerts.life === false ? "" : stakeouts[id].alerts.life);
 				offlineFor.setValue(stakeouts[id].alerts.offline === false ? "" : stakeouts[id].alerts.offline);
 			} else {
-				alerts.classList.add("hidden");
+				alerts.classList.add("tt-hidden");
 			}
 
 			content.appendChild(

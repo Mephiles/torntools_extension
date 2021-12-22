@@ -187,11 +187,11 @@
 		}
 
 		function showRow(li) {
-			li.classList.remove("hidden");
+			li.classList.remove("tt-hidden");
 		}
 
 		function hideRow(li) {
-			li.classList.add("hidden");
+			li.classList.add("tt-hidden");
 		}
 
 		localFilters.statistics.updateStatistics(
@@ -205,6 +205,6 @@
 		localFilters = undefined;
 
 		removeContainer("Stocks Filter");
-		document.findAll("#stockmarketroot ul[class*='stock___'].hidden").forEach((stock) => stock.classList.remove("hidden"));
+		document.findAll("#stockmarketroot ul[class*='stock___'].hidden").forEach((stock) => stock.classList.remove("tt-hidden"));
 	}
 })();

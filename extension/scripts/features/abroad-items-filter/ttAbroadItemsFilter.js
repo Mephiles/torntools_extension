@@ -133,16 +133,16 @@
 		}
 
 		function showRow(row) {
-			row.classList.remove("hidden");
+			row.classList.remove("tt-hidden");
 		}
 
 		function hideRow(row) {
-			row.classList.add("hidden");
+			row.classList.add("tt-hidden");
 		}
 	}
 
 	function removeFilter() {
 		removeContainer("Item Filters");
-		document.findAll(".users-list > li.hidden").forEach((x) => x.classList.remove("hidden"));
+		document.findAll(".users-list > li.hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

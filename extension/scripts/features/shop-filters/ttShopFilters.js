@@ -61,21 +61,21 @@
 			const id = element.find(".item").getAttribute("itemid").getNumber();
 			const profitable = torndata.items[id].market_value - element.find(".price").firstChild.textContent.getNumber() > 0;
 			if (hideLoss && !profitable) {
-				element.classList.add("hidden");
+				element.classList.add("tt-hidden");
 				continue;
 			}
 
 			if (hideUnder100 && element.find(".instock").textContent.getNumber() < 100) {
-				element.classList.add("hidden");
+				element.classList.add("tt-hidden");
 				continue;
 			}
 
-			element.classList.remove("hidden");
+			element.classList.remove("tt-hidden");
 		}
 	}
 
 	function removeFilters() {
 		document.findAll(".tt-shop-filters").forEach((x) => x.remove());
-		document.findAll(".buy-items-wrap .items-list > li.hidden").forEach((x) => x.classList.remove("hidden"));
+		document.findAll(".buy-items-wrap .items-list > li.hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

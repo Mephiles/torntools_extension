@@ -4,7 +4,7 @@ function createTableHeaderCell(columnDef, options) {
 
 	const sortIcon = document.newElement({
 		type: "i",
-		class: "fas tt-table-header-cell-sort-icon hidden",
+		class: "fas tt-table-header-cell-sort-icon tt-hidden",
 	});
 
 	const headerCellElement = document.newElement({
@@ -34,7 +34,7 @@ function createTableHeaderCell(columnDef, options) {
 		}
 
 		currentDirection = direction;
-		sortIcon.classList.remove("hidden");
+		sortIcon.classList.remove("tt-hidden");
 
 		if (direction === COLUMN_SORT_DIRECTION.Asc) {
 			sortIcon.classList.remove("fa-caret-up");
@@ -46,7 +46,7 @@ function createTableHeaderCell(columnDef, options) {
 	}
 
 	function clearColumnSort() {
-		sortIcon.classList.add("hidden");
+		sortIcon.classList.add("tt-hidden");
 	}
 
 	function onColumnSorted(callback) {

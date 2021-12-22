@@ -20,9 +20,9 @@
 		<link rel="stylesheet" href="api.css" />
 	</head>
 	<body>
-		<div id="message" class="hidden"></div>
-		<div id="tt-black-overlay" class="hidden"></div>
-		<div id="tt-search-overlay" class="hidden">
+		<div id="message" class="tt-hidden"></div>
+		<div id="tt-black-overlay" class="tt-hidden"></div>
+		<div id="tt-search-overlay" class="tt-hidden">
 			<div>
 				<div id="content-div">
 					<i class="circle far fa-times-circle"></i>
@@ -33,7 +33,7 @@
 				<div id="tt-search-list"></div>
 			</div>
 		</div>
-		<div id="tt-confirmation-popup" class="hidden">
+		<div id="tt-confirmation-popup" class="tt-hidden">
 			<h1 class="title"></h1>
 			<div class="message"></div>
 			<div class="actions right">
@@ -60,11 +60,11 @@
 			</nav>
 		</header>
 
-		<main id="changelog" class="hidden">
+		<main id="changelog" class="tt-hidden">
 			<h2>Changelog</h2>
 			<section></section>
 		</main>
-		<main id="preferences" class="hidden">
+		<main id="preferences" class="tt-hidden">
 			<h2>
 				Preferences
 				<span id="preferences-search">
@@ -633,7 +633,7 @@
 							<input id="notification-volume" type="range" min="1" max="100" />
 							<i id="notification-sound-play" class="fas fa-play"></i>
 							<i id="notification-sound-stop" class="fas fa-stop"></i>
-							<input id="notification-sound-upload" class="hidden" type="file" accept=".mp3,.ogg,.wav" />
+							<input id="notification-sound-upload" class="tt-hidden" type="file" accept=".mp3,.ogg,.wav" />
 							<label for="notification-sound" class="tabbed note">Mute and OS default might not work in all browsers.</label>
 						</div>
 						<div class="option">
@@ -1587,7 +1587,7 @@
 					</section>
 				</div>
 			</section>
-			<section id="saveSettingsBar" class="hidden">
+			<section id="saveSettingsBar" class="tt-hidden">
 				<div>
 					<span>You have unsaved changes.</span>
 					<button id="revertSettings" class="fancy-button negative">Revert</button>
@@ -1603,7 +1603,7 @@
 				</footer>
 			</section>
 		</main>
-		<main id="api" class="hidden">
+		<main id="api" class="tt-hidden">
 			<h2>API</h2>
 			<section>
 				<h4 class="first-header">Change API Key</h4>
@@ -1723,7 +1723,7 @@
 				</div>
 			</section>
 		</main>
-		<main id="export" class="hidden">
+		<main id="export" class="tt-hidden">
 			<h2>Export</h2>
 			<section>
 				<h3 class="first-header">Locally</h3>
@@ -1740,7 +1740,7 @@
 						<button id="export-local-file" class="fancy-button">Export</button>
 						<button id="import-local-file" class="fancy-button">Import</button>
 
-						<input id="import-local-file-origin" class="hidden" type="file" accept=".json" />
+						<input id="import-local-file-origin" class="tt-hidden" type="file" accept=".json" />
 					</div>
 				</div>
 			</section>
@@ -1771,7 +1771,7 @@
 				</div>
 			</section>
 		</main>
-		<main id="about" class="hidden">
+		<main id="about" class="tt-hidden">
 			<h2>About</h2>
 			<section>
 				<p>

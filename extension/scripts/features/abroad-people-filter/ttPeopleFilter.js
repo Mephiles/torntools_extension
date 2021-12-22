@@ -260,11 +260,11 @@
 		show();
 
 		function show() {
-			row.classList.remove("hidden");
+			row.classList.remove("tt-hidden");
 			row.removeAttribute("data-hide-reason");
 
 			if (row.nextElementSibling?.classList.contains("tt-stats-estimate")) {
-				row.nextElementSibling.classList.remove("hidden");
+				row.nextElementSibling.classList.remove("tt-hidden");
 			}
 
 			if (individual) {
@@ -279,11 +279,11 @@
 		}
 
 		function hide(reason) {
-			row.classList.add("hidden");
+			row.classList.add("tt-hidden");
 			row.dataset.hideReason = reason;
 
 			if (row.nextElementSibling?.classList.contains("tt-stats-estimate")) {
-				row.nextElementSibling.classList.add("hidden");
+				row.nextElementSibling.classList.add("tt-hidden");
 			}
 
 			if (individual) {
@@ -319,6 +319,6 @@
 
 	function removeFilters() {
 		removeContainer("People Filter");
-		document.findAll(".users-list > li.hidden").forEach((x) => x.classList.remove("hidden"));
+		document.findAll(".users-list > li.hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

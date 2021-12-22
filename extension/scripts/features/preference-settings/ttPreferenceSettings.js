@@ -51,7 +51,7 @@
 						?.find("input").value;
 
 					connectButton.textContent = "Connect";
-					connectButton.classList.remove("hidden");
+					connectButton.classList.remove("tt-hidden");
 
 					if (defaultKey) {
 						// Using onclick to avoid multiple events.
@@ -64,7 +64,7 @@
 					}
 				});
 			} else {
-				connectButton.classList.add("hidden");
+				connectButton.classList.add("tt-hidden");
 			}
 		}
 

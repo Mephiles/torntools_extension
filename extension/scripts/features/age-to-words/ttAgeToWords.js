@@ -18,7 +18,7 @@
 		const boxValue = await requireElement(".box-info.age .box-value");
 
 		const ageDiv = document.find(".box-info.age");
-		ageDiv.find(".box-name").classList.add("hidden");
+		ageDiv.find(".box-name").classList.add("tt-hidden");
 		const age = boxValue.textContent.getNumber();
 		const dateCurrent = new Date();
 		const utimeTarget = dateCurrent.getTime() + age * 86400 * 1000;
@@ -55,7 +55,7 @@
 
 	function removeWords() {
 		const ageDiv = document.find(".box-info.age");
-		ageDiv.find(".box-name").classList.remove("hidden");
+		ageDiv.find(".box-name").classList.remove("tt-hidden");
 		ageDiv.findAll(".block-value + br").forEach((x) => x.remove());
 		document.findAll(".tt-age-text").forEach((x) => x.remove());
 	}

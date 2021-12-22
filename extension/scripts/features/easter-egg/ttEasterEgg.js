@@ -45,7 +45,7 @@
 		// Check if the egg
 		if (!context.getImageData(0, 0, canvas.width, canvas.height).data.some((d) => d !== 0)) return;
 
-		document.find(".tt-overlay").classList.remove("hidden");
+		document.find(".tt-overlay").classList.remove("tt-hidden");
 
 		const popup = document.newElement({
 			type: "div",
@@ -68,7 +68,7 @@
 		});
 
 		function removePopup() {
-			document.find(".tt-overlay").classList.add("hidden");
+			document.find(".tt-overlay").classList.add("tt-hidden");
 			popup.remove();
 		}
 	}

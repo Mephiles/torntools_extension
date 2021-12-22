@@ -65,7 +65,7 @@
 						}
 
 						if (enabled) {
-							document.find(".tt-overlay").classList.remove("hidden");
+							document.find(".tt-overlay").classList.remove("tt-hidden");
 
 							if (document.find(".specials-cont-wrap form[name=crimes] .item[draggable='true']")) {
 								document.find(".specials-cont-wrap form[name='crimes']").classList.add("tt-overlay-item");
@@ -76,7 +76,7 @@
 								}
 							}
 						} else {
-							document.find(".tt-overlay").classList.add("hidden");
+							document.find(".tt-overlay").classList.add("tt-hidden");
 							document.find(".specials-cont-wrap form[name='crimes']").classList.remove("tt-overlay-item");
 
 							for (const crime of document.findAll(".specials-cont-wrap form[name='crimes'] .item[draggable='false']")) {
@@ -174,8 +174,8 @@
 				class: `quick-item ${temporary ? "temp" : ""}`,
 				dataset: data,
 				children: [
-					document.newElement({ type: "input", attributes: { name: "nervetake", type: "hidden", value: nerve } }),
-					document.newElement({ type: "input", attributes: { name: "crime", type: "hidden", value: name } }),
+					document.newElement({ type: "input", attributes: { name: "nervetake", type: "tt-hidden", value: nerve } }),
+					document.newElement({ type: "input", attributes: { name: "crime", type: "tt-hidden", value: name } }),
 					document.newElement({
 						type: "ul",
 						class: "item forced-item",

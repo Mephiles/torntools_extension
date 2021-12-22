@@ -27,8 +27,8 @@ async function showPage(name) {
 	for (const active of document.findAll("header nav.on-page > ul > li.active")) active.classList.remove("active");
 	document.find(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
 
-	for (const active of document.findAll("body > main:not(.hidden)")) active.classList.add("hidden");
-	document.find(`#${name}`).classList.remove("hidden");
+	for (const active of document.findAll("body > main:not(.tt-hidden)")) active.classList.add("tt-hidden");
+	document.find(`#${name}`).classList.remove("tt-hidden");
 
 	const setup = {
 		attackHistory: setupAttackHistory,

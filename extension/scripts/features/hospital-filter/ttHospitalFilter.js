@@ -202,11 +202,11 @@
 		}
 
 		function showRow(li) {
-			li.classList.remove("hidden");
+			li.classList.remove("tt-hidden");
 		}
 
 		function hideRow(li) {
-			li.classList.add("hidden");
+			li.classList.add("tt-hidden");
 		}
 
 		localFilters["Statistics"].updateStatistics(
@@ -237,6 +237,6 @@
 
 	function removeFilters() {
 		removeContainer("Hospital Filter");
-		document.findAll(".users-list > li.hidden").forEach((x) => x.classList.remove("hidden"));
+		document.findAll(".users-list > li.hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

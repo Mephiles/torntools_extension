@@ -44,8 +44,8 @@ function loadConfirmationPopup(options = {}) {
 		const popup = document.find("#tt-confirmation-popup");
 		const message = popup.find(".message");
 
-		document.find("#tt-black-overlay").classList.remove("hidden");
-		popup.classList.remove("hidden");
+		document.find("#tt-black-overlay").classList.remove("tt-hidden");
+		popup.classList.remove("tt-hidden");
 
 		document.body.classList.add("tt-unscrollable");
 
@@ -55,8 +55,8 @@ function loadConfirmationPopup(options = {}) {
 		if (options.execute && typeof options.execute === "function") options.execute(message, options.variables);
 
 		popup.find("#popupConfirm").addEventListener("click", () => {
-			document.find("#tt-black-overlay").classList.add("hidden");
-			popup.classList.add("hidden");
+			document.find("#tt-black-overlay").classList.add("tt-hidden");
+			popup.classList.add("tt-hidden");
 
 			document.body.classList.remove("tt-unscrollable");
 
@@ -73,8 +73,8 @@ function loadConfirmationPopup(options = {}) {
 			resolve(data);
 		});
 		popup.find("#popupCancel").addEventListener("click", () => {
-			document.find("#tt-black-overlay").classList.add("hidden");
-			popup.classList.add("hidden");
+			document.find("#tt-black-overlay").classList.add("tt-hidden");
+			popup.classList.add("tt-hidden");
 
 			document.body.classList.remove("tt-unscrollable");
 
@@ -92,7 +92,7 @@ function sendMessage(text, good, options = {}) {
 	const message = document.find("#message");
 	if (!message) return;
 
-	message.classList.remove("hidden");
+	message.classList.remove("tt-hidden");
 	message.textContent = text;
 	message.style.backgroundColor = good ? "#30e202" : "#ff19199e";
 	message.style.maxHeight = message.scrollHeight + "px";
@@ -104,7 +104,7 @@ function sendMessage(text, good, options = {}) {
 	} else {
 		setTimeout(() => {
 			message.textContent = "";
-			message.classList.add("hidden");
+			message.classList.add("tt-hidden");
 		}, 1500);
 	}
 }

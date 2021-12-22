@@ -295,7 +295,7 @@ class FeatureManager {
 		if (!this.container) return;
 
 		this.container.setClass(
-			settings.featureDisplay ? "" : "hidden",
+			settings.featureDisplay ? "" : "tt-hidden",
 			settings.featureDisplayPosition,
 			settings.featureDisplayOnlyFailed ? "only-fails" : "",
 			settings.featureDisplayHideDisabled ? "hide-disabled" : ""
@@ -318,7 +318,7 @@ class FeatureManager {
 			id: this.containerID,
 			type: "div",
 			class: `
-				${settings.featureDisplay ? "" : "hidden"}
+				${settings.featureDisplay ? "" : "tt-hidden"}
 				${settings.featureDisplayPosition} 
 				${settings.featureDisplayOnlyFailed ? "only-fails" : ""}
 				${settings.featureDisplayHideDisabled ? "hide-disabled" : ""}

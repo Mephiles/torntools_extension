@@ -37,7 +37,7 @@ class StatsEstimate {
 
 	showEstimates(selector, handler, hasFilter, placement) {
 		for (const row of document.findAll(selector)) {
-			if ((row.classList.contains("hidden") && row.dataset.hideReason !== "stats-estimate") || row.classList.contains("tt-estimated")) continue;
+			if ((row.classList.contains("tt-hidden") && row.dataset.hideReason !== "stats-estimate") || row.classList.contains("tt-estimated")) continue;
 
 			const { id, level } = handler(row);
 			if (!id) continue;
@@ -104,7 +104,7 @@ class StatsEstimate {
 		while (this.queue.length) {
 			const { row, section, id, hasFilter } = this.queue.shift();
 
-			if (row.classList.contains("hidden") && row.dataset.hideReason !== "stats-estimate") {
+			if (row.classList.contains("tt-hidden") && row.dataset.hideReason !== "stats-estimate") {
 				row.classList.remove("tt-estimated");
 				section.remove();
 				continue;

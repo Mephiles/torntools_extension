@@ -28,8 +28,8 @@ async function showPage(name) {
 	for (const active of document.findAll("header nav.on-page > ul > li.active")) active.classList.remove("active");
 	document.find(`header nav.on-page > ul > li[to="${name}"]`).classList.add("active");
 
-	for (const active of document.findAll("body > main:not(.hidden)")) active.classList.add("hidden");
-	document.find(`#${name}`).classList.remove("hidden");
+	for (const active of document.findAll("body > main:not(.tt-hidden)")) active.classList.add("tt-hidden");
+	document.find(`#${name}`).classList.remove("tt-hidden");
 
 	const setup = {
 		changelog: setupChangelog,
@@ -64,9 +64,9 @@ async function setupChangelog() {
 		log.appendChild(heading);
 
 		// Closeable
-		const closeable = document.newElement({ type: "div", class: "closable hidden" });
+		const closeable = document.newElement({ type: "div", class: "closable tt-hidden" });
 		heading.addEventListener("click", () => {
-			closeable.classList.toggle("hidden");
+			closeable.classList.toggle("tt-hidden");
 
 			rotateElement(icon, 180);
 		});
@@ -145,7 +145,7 @@ async function setupChangelog() {
 		// Bottom border on last element
 		if (index + 1 === allEntries.length) closeable.appendChild(document.newElement("hr"));
 		if (index === 0) {
-			closeable.classList.remove("hidden");
+			closeable.classList.remove("tt-hidden");
 			log.classList.add("current");
 		}
 
@@ -229,15 +229,15 @@ async function setupPreferences(requireCleanup) {
 	_preferences.find("#chatTitleHighlight .input .color").innerHTML = getChatTitleColorOptions();
 
 	_preferences.find("#saveSettingsTemporary").addEventListener("click", async () => {
-		_preferences.find("#saveSettingsBar").classList.add("hidden");
+		_preferences.find("#saveSettingsBar").classList.add("tt-hidden");
 		await saveSettings();
 	});
 	_preferences.find("#saveSettings").addEventListener("click", async () => {
-		_preferences.find("#saveSettingsBar").classList.add("hidden");
+		_preferences.find("#saveSettingsBar").classList.add("tt-hidden");
 		await saveSettings();
 	});
 	_preferences.find("#revertSettings").addEventListener("click", () => {
-		_preferences.find("#saveSettingsBar").classList.add("hidden");
+		_preferences.find("#saveSettingsBar").classList.add("tt-hidden");
 		revertSettings();
 	});
 	_preferences.find("#resetSettings").addEventListener("click", () => {
@@ -269,19 +269,19 @@ async function setupPreferences(requireCleanup) {
 		const value = event.target.value;
 
 		if (value === "custom") {
-			_preferences.find("#notification-sound-upload").classList.remove("hidden");
+			_preferences.find("#notification-sound-upload").classList.remove("tt-hidden");
 		} else {
-			_preferences.find("#notification-sound-upload").classList.add("hidden");
+			_preferences.find("#notification-sound-upload").classList.add("tt-hidden");
 		}
 
 		if (value === "mute" || value === "default") {
-			_preferences.find("#notification-volume").classList.add("hidden");
-			_preferences.find("#notification-sound-play").classList.add("hidden");
-			_preferences.find("#notification-sound-stop").classList.add("hidden");
+			_preferences.find("#notification-volume").classList.add("tt-hidden");
+			_preferences.find("#notification-sound-play").classList.add("tt-hidden");
+			_preferences.find("#notification-sound-stop").classList.add("tt-hidden");
 		} else {
-			_preferences.find("#notification-volume").classList.remove("hidden");
-			_preferences.find("#notification-sound-play").classList.remove("hidden");
-			_preferences.find("#notification-sound-stop").classList.remove("hidden");
+			_preferences.find("#notification-volume").classList.remove("tt-hidden");
+			_preferences.find("#notification-sound-play").classList.remove("tt-hidden");
+			_preferences.find("#notification-sound-stop").classList.remove("tt-hidden");
 		}
 	});
 	_preferences.find("#notification-sound-play").addEventListener("click", () => {
@@ -321,11 +321,11 @@ async function setupPreferences(requireCleanup) {
 
 		// noinspection DuplicatedCode
 		if (event.target.value === "custom") {
-			hrefInput.classList.remove("hidden");
-			nameInput.classList.remove("hidden");
+			hrefInput.classList.remove("tt-hidden");
+			nameInput.classList.remove("tt-hidden");
 		} else {
-			hrefInput.classList.add("hidden");
-			nameInput.classList.add("hidden");
+			hrefInput.classList.add("tt-hidden");
+			nameInput.classList.add("tt-hidden");
 
 			hrefInput.value = CUSTOM_LINKS_PRESET[event.target.value.replaceAll("_", " ")].link;
 			nameInput.value = event.target.value.replaceAll("_", " ");
@@ -348,9 +348,9 @@ async function setupPreferences(requireCleanup) {
 		inputRow.find(".preset").value = "custom";
 		inputRow.find(".location").value = "above";
 		inputRow.find(".name").value = "";
-		inputRow.find(".name").classList.remove("hidden");
+		inputRow.find(".name").classList.remove("tt-hidden");
 		inputRow.find(".href").value = "";
-		inputRow.find(".href").classList.remove("hidden");
+		inputRow.find(".href").classList.remove("tt-hidden");
 	});
 
 	_preferences.find("#addAllyFaction").addEventListener("click", () => {
@@ -634,17 +634,17 @@ async function setupPreferences(requireCleanup) {
 		_preferences.find("#notification-requireInteraction").checked = settings.notifications.requireInteraction;
 		_preferences.find("#notification-volume").value = settings.notifications.volume;
 		if (settings.notifications.sound === "custom") {
-			_preferences.find("#notification-sound-upload").classList.remove("hidden");
-			_preferences.find("#notification-sound-upload + br").classList.remove("hidden");
+			_preferences.find("#notification-sound-upload").classList.remove("tt-hidden");
+			_preferences.find("#notification-sound-upload + br").classList.remove("tt-hidden");
 		} else {
 			if (settings.notifications.sound === "mute" || settings.notifications.sound === "default") {
-				_preferences.find("#notification-volume").classList.add("hidden");
-				_preferences.find("#notification-sound-play").classList.add("hidden");
-				_preferences.find("#notification-sound-stop").classList.add("hidden");
+				_preferences.find("#notification-volume").classList.add("tt-hidden");
+				_preferences.find("#notification-sound-play").classList.add("tt-hidden");
+				_preferences.find("#notification-sound-stop").classList.add("tt-hidden");
 			} else {
-				_preferences.find("#notification-volume").classList.remove("hidden");
-				_preferences.find("#notification-sound-play").classList.remove("hidden");
-				_preferences.find("#notification-sound-stop").classList.remove("hidden");
+				_preferences.find("#notification-volume").classList.remove("tt-hidden");
+				_preferences.find("#notification-sound-play").classList.remove("tt-hidden");
+				_preferences.find("#notification-sound-stop").classList.remove("tt-hidden");
 			}
 		}
 
@@ -787,11 +787,11 @@ async function setupPreferences(requireCleanup) {
 
 							// noinspection DuplicatedCode
 							if (event.target.value === "custom") {
-								hrefInput.classList.remove("hidden");
-								nameInput.classList.remove("hidden");
+								hrefInput.classList.remove("tt-hidden");
+								nameInput.classList.remove("tt-hidden");
 							} else {
-								hrefInput.classList.add("hidden");
-								nameInput.classList.add("hidden");
+								hrefInput.classList.add("tt-hidden");
+								nameInput.classList.add("tt-hidden");
 
 								hrefInput.value = CUSTOM_LINKS_PRESET[event.target.value.replaceAll("_", " ")].link;
 								nameInput.value = event.target.value.replaceAll("_", " ");
@@ -807,13 +807,13 @@ async function setupPreferences(requireCleanup) {
 				}),
 				document.newElement({
 					type: "input",
-					class: `name ${data.preset === "custom" ? "" : "hidden"}`,
+					class: `name ${data.preset === "custom" ? "" : "tt-hidden"}`,
 					value: data.name,
 					attributes: { type: "text", placeholder: "Name.." },
 				}),
 				document.newElement({
 					type: "input",
-					class: `href ${data.preset === "custom" ? "" : "hidden"}`,
+					class: `href ${data.preset === "custom" ? "" : "tt-hidden"}`,
 					value: data.href,
 					attributes: { type: "text", placeholder: "Name.." },
 				}),
@@ -1096,13 +1096,13 @@ async function setupPreferences(requireCleanup) {
 	function searchPreferences() {
 		const searchOverlay = document.find("#tt-search-overlay");
 		document.find("#preferences-search").addEventListener("click", () => {
-			searchOverlay.classList.remove("hidden");
+			searchOverlay.classList.remove("tt-hidden");
 			search();
 		});
 
 		searchOverlay.find(".circle").addEventListener("click", () => {
 			searchOverlay.find("#tt-search-list").innerHTML = "";
-			searchOverlay.classList.add("hidden");
+			searchOverlay.classList.add("tt-hidden");
 		});
 		const searchOverlayInput = searchOverlay.find("input");
 		searchOverlay.find("#tt-search-button").addEventListener("click", search);
@@ -1174,7 +1174,7 @@ async function setupPreferences(requireCleanup) {
 
 		searchList.addEventListener("click", (event) => {
 			event.stopPropagation();
-			searchOverlay.classList.add("hidden");
+			searchOverlay.classList.add("tt-hidden");
 			if (event.target.textContent.trim() !== "No Results") {
 				const nameAttr = event.target.getAttribute("name");
 				const forAttr = event.target.getAttribute("for");
@@ -1255,7 +1255,7 @@ async function setupPreferences(requireCleanup) {
 			event.target.closest("button.remove-icon-wrap, #hide-icons, #hide-areas, #hide-casino-games, #hide-stocks, #hide-attack-options")
 		) {
 			if (isIframe) window.top.postMessage({ torntools: 1, show: 1 }, "*");
-			else document.find("#saveSettingsBar").classList.remove("hidden");
+			else document.find("#saveSettingsBar").classList.remove("tt-hidden");
 		}
 	}
 
@@ -1770,9 +1770,9 @@ async function setupExport() {
 
 				const updated = new Date(data.date);
 				lastUpdate.textContent = `${formatTime(updated)} ${formatDate(updated, { showYear: true })}`;
-				lastUpdate.parentElement.classList.remove("hidden");
+				lastUpdate.parentElement.classList.remove("tt-hidden");
 				version.textContent = data.client.version;
-				version.parentElement.classList.remove("hidden");
+				version.parentElement.classList.remove("tt-hidden");
 			} else {
 				importRemoteSync.setAttribute("disabled", "");
 				importRemoteSync.classList.add("tooltip");
@@ -1780,9 +1780,9 @@ async function setupExport() {
 				clearRemoteSync.setAttribute("disabled", "");
 
 				lastUpdate.textContent = "";
-				lastUpdate.parentElement.classList.add("hidden");
+				lastUpdate.parentElement.classList.add("tt-hidden");
 				version.textContent = "";
-				version.parentElement.classList.add("hidden");
+				version.parentElement.classList.add("tt-hidden");
 			}
 		}
 	}

@@ -91,12 +91,12 @@
 			if (filters.travel.type === "basic") {
 				table.classList.add("basic");
 				for (const advanced of table.findAll(".advanced:not(.hidden)")) {
-					advanced.classList.add("hidden");
+					advanced.classList.add("tt-hidden");
 				}
 			} else {
 				table.classList.add("advanced");
 				for (const basic of table.findAll(".basic:not(.hidden)")) {
-					basic.classList.add("hidden");
+					basic.classList.add("tt-hidden");
 				}
 			}
 
@@ -129,7 +129,7 @@
 									<span class="table-type" type="advanced">Advanced</span>
 								</div>
 							</div>
-							<div class="legend-content ${isOpen ? "" : "hidden"}">
+							<div class="legend-content ${isOpen ? "" : "tt-hidden"}">
 								<div class="row flex">
 									<div>
 										<label for="travel-items">Travel items: </label>
@@ -202,7 +202,7 @@
 				content.find(".legend-icon").addEventListener("click", (event) => {
 					if (event.target.classList.contains("legend-icon")) return;
 
-					const isOpen = !content.find(".legend-content").classList.toggle("hidden");
+					const isOpen = !content.find(".legend-content").classList.toggle("tt-hidden");
 
 					const iconClasses = content.find(".legend-icon i").classList;
 					if (isOpen) {
@@ -227,10 +227,10 @@
 					table.classList.remove("advanced");
 
 					for (const basic of table.findAll(".basic.hidden")) {
-						basic.classList.remove("hidden");
+						basic.classList.remove("tt-hidden");
 					}
 					for (const advanced of table.findAll(".advanced:not(.hidden)")) {
-						advanced.classList.add("hidden");
+						advanced.classList.add("tt-hidden");
 					}
 
 					ttStorage.change({ filters: { travel: { type: "basic" } } });
@@ -243,10 +243,10 @@
 					table.classList.remove("basic");
 
 					for (const advanced of table.findAll(".advanced.hidden")) {
-						advanced.classList.remove("hidden");
+						advanced.classList.remove("tt-hidden");
 					}
 					for (const basic of table.findAll(".basic:not(.hidden)")) {
-						basic.classList.add("hidden");
+						basic.classList.add("tt-hidden");
 					}
 
 					ttStorage.change({ filters: { travel: { type: "advanced" } } });
@@ -344,8 +344,8 @@
 						(countries.length > 0 && !countries.includes(country)) ||
 						(hideOutOfStock && !parseInt(stock))
 					)
-						row.classList.add("hidden");
-					else row.classList.remove("hidden");
+						row.classList.add("tt-hidden");
+					else row.classList.remove("tt-hidden");
 				}
 			}
 
@@ -500,9 +500,9 @@
 				hiddenBy.push("travel-table");
 				agency.dataset.hiddenBy = JSON.stringify(hiddenBy);
 
-				agency.findAll(".popup-info, .stage, .delimiter-999").forEach((element) => element.classList.add("hidden"));
+				agency.findAll(".popup-info, .stage, .delimiter-999").forEach((element) => element.classList.add("tt-hidden"));
 
-				findContainer("Travel Destinations").classList.remove("hidden");
+				findContainer("Travel Destinations").classList.remove("tt-hidden");
 			}
 
 			function hideTable() {
@@ -512,11 +512,11 @@
 				if (hiddenBy.length) {
 					agency.dataset.hiddenBy = JSON.stringify(hiddenBy);
 				} else {
-					agency.findAll(".popup-info, .stage, .delimiter-999").forEach((element) => element.classList.remove("hidden"));
+					agency.findAll(".popup-info, .stage, .delimiter-999").forEach((element) => element.classList.remove("tt-hidden"));
 
 					delete agency.dataset.hiddenBy;
 				}
-				findContainer("Travel Destinations").classList.add("hidden");
+				findContainer("Travel Destinations").classList.add("tt-hidden");
 			}
 		}
 	}

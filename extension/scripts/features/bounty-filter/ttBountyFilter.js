@@ -88,25 +88,25 @@
 			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
 
 			function hideBounty(bounty) {
-				bounty.classList.add("hidden");
+				bounty.classList.add("tt-hidden");
 
 				if (bounty.nextElementSibling.classList.contains("tt-stats-estimate")) {
-					bounty.nextElementSibling.classList.add("hidden");
+					bounty.nextElementSibling.classList.add("tt-hidden");
 				}
 			}
 
 			function showBounty(bounty) {
-				bounty.classList.remove("hidden");
+				bounty.classList.remove("tt-hidden");
 
 				if (bounty.nextElementSibling.classList.contains("tt-stats-estimate")) {
-					bounty.nextElementSibling.classList.remove("hidden");
+					bounty.nextElementSibling.classList.remove("tt-hidden");
 				}
 			}
 		}
 	}
 
 	function removeFilter() {
-		document.findAll(".bounties-list > .hidden").forEach((x) => x.classList.remove("hidden"));
+		document.findAll(".bounties-list > .hidden").forEach((x) => x.classList.remove("tt-hidden"));
 		removeContainer("Bounty Filter");
 	}
 })();

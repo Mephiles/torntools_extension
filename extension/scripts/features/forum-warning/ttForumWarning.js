@@ -65,7 +65,7 @@
 							click: () => {
 								const overlay = document.find(".tt-overlay");
 
-								overlay.classList.remove("hidden");
+								overlay.classList.remove("tt-hidden");
 								overlay.addEventListener("click", closePopup);
 
 								const popup = document.newElement({
@@ -103,7 +103,7 @@
 
 								function closePopup() {
 									overlay.removeEventListener("click", closePopup);
-									overlay.classList.add("hidden");
+									overlay.classList.add("tt-hidden");
 
 									popup.remove();
 								}

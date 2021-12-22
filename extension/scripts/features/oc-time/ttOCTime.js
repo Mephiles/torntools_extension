@@ -78,7 +78,7 @@
 			.find("#sidebarroot div[class*='user-information_'] div[class*='toggle-content_'] div[class*='content_']")
 			.appendChild(document.newElement({ type: "div", class: "tt-sidebar-information hidden" }));
 
-		document.find(".tt-sidebar-information-divider").classList.remove("hidden");
-		document.find(".tt-sidebar-information").classList.remove("hidden");
+		document.find(".tt-sidebar-information-divider").classList.remove("tt-hidden");
+		document.find(".tt-sidebar-information").classList.remove("tt-hidden");
 	}
 })();

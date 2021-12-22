@@ -165,7 +165,7 @@
 		if (!lastActionState && localFilters["Last Active Filter"] && localFilters["Last Active Filter"].element) {
 			localFilters["Last Active Filter"].element.remove();
 			document.findAll(".members-list .table-body > li.hidden.last-action").forEach((x) => {
-				x.classList.remove("hidden");
+				x.classList.remove("tt-hidden");
 				x.classList.remove("last-action");
 			});
 			localFilters["Last Active Filter"] = undefined;
@@ -294,31 +294,31 @@
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
 
 		function showRow(li) {
-			li.classList.remove("hidden");
+			li.classList.remove("tt-hidden");
 			li.classList.remove("last-action");
 			if (li.nextElementSibling?.classList.contains("tt-last-action") || li.nextElementSibling?.classList.contains("tt-stats-estimate")) {
-				li.nextElementSibling.classList.remove("hidden");
+				li.nextElementSibling.classList.remove("tt-hidden");
 
 				if (
 					li.nextElementSibling.nextElementSibling?.classList.contains("tt-last-action") ||
 					li.nextElementSibling.nextElementSibling?.classList.contains("tt-stats-estimate")
 				)
-					li.nextElementSibling.nextElementSibling.classList.remove("hidden");
+					li.nextElementSibling.nextElementSibling.classList.remove("tt-hidden");
 			}
 		}
 
 		function hideRow(li, customClass = "") {
-			li.classList.add("hidden");
+			li.classList.add("tt-hidden");
 			if (customClass) li.classList.add(customClass);
 
 			if (li.nextElementSibling?.classList.contains("tt-last-action") || li.nextElementSibling?.classList.contains("tt-stats-estimate")) {
-				li.nextElementSibling.classList.add("hidden");
+				li.nextElementSibling.classList.add("tt-hidden");
 
 				if (
 					li.nextElementSibling.nextElementSibling?.classList.contains("tt-last-action") ||
 					li.nextElementSibling.nextElementSibling?.classList.contains("tt-stats-estimate")
 				)
-					li.nextElementSibling.nextElementSibling.classList.add("hidden");
+					li.nextElementSibling.nextElementSibling.classList.add("tt-hidden");
 			}
 		}
 
@@ -354,6 +354,6 @@
 		localFilters = {};
 		filterContent = undefined;
 		removeContainer("Member Filter");
-		document.findAll(".members-list .table-body > li.hidden").forEach((x) => x.classList.remove("hidden"));
+		document.findAll(".members-list .table-body > li.hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

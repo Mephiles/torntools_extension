@@ -35,11 +35,11 @@ const initiatedPages = {};
 	}
 	document.find("#pages .right-nav li[to='settings']").addEventListener("click", () => chrome.runtime.openOptionsPage());
 
-	if (!settings.pages.popup.dashboard) document.find("#pages li[to='dashboard']").classList.add("hidden");
-	if (!settings.pages.popup.marketSearch) document.find("#pages li[to='market']").classList.add("hidden");
-	if (!settings.pages.popup.calculator) document.find("#pages li[to='calculator']").classList.add("hidden");
-	if (!settings.pages.popup.stocksOverview) document.find("#pages li[to='stocks']").classList.add("hidden");
-	if (!settings.pages.popup.notifications) document.find("#pages li[to='notifications']").classList.add("hidden");
+	if (!settings.pages.popup.dashboard) document.find("#pages li[to='dashboard']").classList.add("tt-hidden");
+	if (!settings.pages.popup.marketSearch) document.find("#pages li[to='market']").classList.add("tt-hidden");
+	if (!settings.pages.popup.calculator) document.find("#pages li[to='calculator']").classList.add("tt-hidden");
+	if (!settings.pages.popup.stocksOverview) document.find("#pages li[to='stocks']").classList.add("tt-hidden");
+	if (!settings.pages.popup.notifications) document.find("#pages li[to='notifications']").classList.add("tt-hidden");
 
 	if (!api.torn.key) {
 		await showPage("initialize");
@@ -52,10 +52,10 @@ const initiatedPages = {};
 
 	function handleAPIError() {
 		if (api.torn.error) {
-			document.find(".error").classList.remove("hidden");
+			document.find(".error").classList.remove("tt-hidden");
 			document.find(".error").textContent = api.torn.error;
 		} else {
-			document.find(".error").classList.add("hidden");
+			document.find(".error").classList.add("tt-hidden");
 			document.find(".error").textContent = "";
 		}
 	}
@@ -79,7 +79,7 @@ async function showPage(name) {
 }
 
 async function setupInitialize() {
-	document.find("#pages").classList.add("hidden");
+	document.find("#pages").classList.add("tt-hidden");
 
 	document.find("#set_api_key").addEventListener("click", () => {
 		const key = document.find("#api_key").value;
@@ -88,16 +88,16 @@ async function setupInitialize() {
 			.then((granted) => {
 				changeAPIKey(key)
 					.then(async () => {
-						document.find("#pages").classList.remove("hidden");
+						document.find("#pages").classList.remove("tt-hidden");
 
 						if (granted) {
 							// await showPage(settings.pages.popup.defaultTab);
 						} else {
-							document.find(".permission-error").classList.remove("hidden");
+							document.find(".permission-error").classList.remove("tt-hidden");
 							document.find(".permission-error").textContent = "Your API key is not the correct API level. This will affect a lot of features.";
 
 							setTimeout(() => {
-								document.find(".permission-error").classList.add("hidden");
+								document.find(".permission-error").classList.add("tt-hidden");
 								document.find(".permission-error").textContent = "";
 
 								showPage(settings.pages.popup.defaultTab);
@@ -117,7 +117,7 @@ async function setupInitialize() {
 	});
 
 	function showError(message) {
-		document.find(".error").classList.remove("hidden");
+		document.find(".error").classList.remove("tt-hidden");
 		document.find(".error").textContent = message;
 	}
 }
@@ -183,12 +183,12 @@ async function setupDashboard() {
 	dashboard.find(".stakeouts .heading i").addEventListener("click", () => {
 		const stakeoutSection = dashboard.find(".stakeouts .stakeout-list");
 
-		if (stakeoutSection.classList.contains("hidden")) {
-			stakeoutSection.classList.remove("hidden");
+		if (stakeoutSection.classList.contains("tt-hidden")) {
+			stakeoutSection.classList.remove("tt-hidden");
 			dashboard.find(".stakeouts .heading i").classList.add("fa-caret-down");
 			dashboard.find(".stakeouts .heading i").classList.remove("fa-caret-right");
 		} else {
-			stakeoutSection.classList.add("hidden");
+			stakeoutSection.classList.add("tt-hidden");
 			dashboard.find(".stakeouts .heading i").classList.remove("fa-caret-down");
 			dashboard.find(".stakeouts .heading i").classList.add("fa-caret-right");
 		}
@@ -216,7 +216,7 @@ async function setupDashboard() {
 		function updateStatus() {
 			if (userdata.travel.time_left) {
 				dashboard.find("#country").textContent = `Traveling to ${userdata.travel.destination}`;
-				dashboard.find(".status-wrap").classList.add("hidden");
+				dashboard.find(".status-wrap").classList.add("tt-hidden");
 			} else {
 				dashboard.find("#country").textContent = userdata.travel.destination;
 
@@ -224,7 +224,7 @@ async function setupDashboard() {
 
 				dashboard.find("#status").textContent = capitalizeText(status);
 				dashboard.find("#status").setAttribute("class", status);
-				dashboard.find(".status-wrap").classList.remove("hidden");
+				dashboard.find(".status-wrap").classList.remove("tt-hidden");
 
 				if (userdata.status.until) {
 					dashboard.find("#status").dataset.until = userdata.status.until * 1000;
@@ -245,10 +245,10 @@ async function setupDashboard() {
 
 			if (name === "chain") {
 				if (current === 0) {
-					dashboard.find(`#${name}`).classList.add("hidden");
+					dashboard.find(`#${name}`).classList.add("tt-hidden");
 					return;
 				}
-				dashboard.find(`#${name}`).classList.remove("hidden");
+				dashboard.find(`#${name}`).classList.remove("tt-hidden");
 
 				if (current !== maximum) maximum = getNextChainBonus(current);
 				if (bar.cooldown !== 0) {
@@ -276,10 +276,10 @@ async function setupDashboard() {
 
 		function updateTravelBar() {
 			if (!userdata.travel.time_left) {
-				dashboard.find("#traveling").classList.add("hidden");
+				dashboard.find("#traveling").classList.add("tt-hidden");
 				return;
 			}
-			dashboard.find("#traveling").classList.remove("hidden");
+			dashboard.find("#traveling").classList.remove("tt-hidden");
 
 			const maximum = userdata.travel.timestamp - userdata.travel.departed;
 			const current = maximum - userdata.travel.time_left;
@@ -315,8 +315,8 @@ async function setupDashboard() {
 
 		function setupStakeouts() {
 			if (settings.pages.popup.showStakeouts && Object.keys(stakeouts).length && !(Object.keys(stakeouts).length === 1 && stakeouts.date))
-				dashboard.find(".stakeouts").classList.remove("hidden");
-			else dashboard.find(".stakeouts").classList.add("hidden");
+				dashboard.find(".stakeouts").classList.remove("tt-hidden");
+			else dashboard.find(".stakeouts").classList.add("tt-hidden");
 		}
 	}
 
@@ -404,7 +404,7 @@ async function setupDashboard() {
 
 	function updateStakeouts() {
 		if (settings.pages.popup.showStakeouts && Object.keys(stakeouts).length && !(Object.keys(stakeouts).length === 1 && stakeouts.date)) {
-			dashboard.find(".stakeouts").classList.remove("hidden");
+			dashboard.find(".stakeouts").classList.remove("tt-hidden");
 
 			const stakeoutList = dashboard.find(".stakeouts .stakeout-list");
 			stakeoutList.innerHTML = "";
@@ -500,7 +500,7 @@ async function setupDashboard() {
 					})
 				);
 			}
-		} else dashboard.find(".stakeouts").classList.add("hidden");
+		} else dashboard.find(".stakeouts").classList.add("tt-hidden");
 	}
 }
 
@@ -517,7 +517,7 @@ async function setupMarketSearch() {
 
 		// display item if clicked on it
 		div.addEventListener("click", async () => {
-			itemSelection.classList.add("hidden");
+			itemSelection.classList.add("tt-hidden");
 
 			showMarketInfo(id);
 		});
@@ -528,29 +528,29 @@ async function setupMarketSearch() {
 		const keyword = event.target.value.toLowerCase();
 
 		if (!keyword) {
-			itemSelection.classList.add("hidden");
+			itemSelection.classList.add("tt-hidden");
 			return;
 		}
 
 		for (const item of document.findAll("#market .item-list li")) {
 			if (item.textContent.toLowerCase().includes(keyword)) {
-				item.classList.remove("hidden");
-				itemSelection.classList.remove("hidden");
+				item.classList.remove("tt-hidden");
+				itemSelection.classList.remove("tt-hidden");
 			} else {
-				item.classList.add("hidden");
+				item.classList.add("tt-hidden");
 			}
 		}
 	});
 	document.find("#market #search-bar").addEventListener("click", (event) => {
 		event.target.value = "";
 
-		document.find("#market .item-list").classList.add("hidden");
-		document.find("#market #item-information").classList.add("hidden");
+		document.find("#market .item-list").classList.add("tt-hidden");
+		document.find("#market #item-information").classList.add("tt-hidden");
 	});
 
 	function showMarketInfo(id) {
 		const viewItem = document.find("#market #item-information");
-		viewItem.find(".market").classList.add("hidden");
+		viewItem.find(".market").classList.add("tt-hidden");
 
 		if (ttCache.hasValue("livePrice", id)) {
 			handleMarket(ttCache.get("livePrice", id));
@@ -562,7 +562,7 @@ async function setupMarketSearch() {
 					ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 30, "livePrice");
 				})
 				.catch((error) => {
-					document.find(".error").classList.remove("hidden");
+					document.find(".error").classList.remove("tt-hidden");
 					document.find(".error").textContent = error.error;
 				});
 		}
@@ -574,7 +574,7 @@ async function setupMarketSearch() {
 		viewItem.find(".name").href = `https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${item.name}`;
 		viewItem.find(".image").src = item.image;
 
-		viewItem.classList.remove("hidden");
+		viewItem.classList.remove("tt-hidden");
 
 		function handleMarket(result) {
 			const list = viewItem.find(".market");
@@ -620,7 +620,7 @@ async function setupMarketSearch() {
 				list.classList.add("untradable");
 				list.innerHTML = "Item is not sellable!";
 			}
-			viewItem.find(".market").classList.remove("hidden");
+			viewItem.find(".market").classList.remove("tt-hidden");
 		}
 	}
 }
@@ -687,23 +687,23 @@ async function setupCalculator() {
 		const keyword = event.target.value.toLowerCase();
 
 		if (!keyword) {
-			itemSelection.classList.add("hidden");
+			itemSelection.classList.add("tt-hidden");
 			return;
 		}
 
 		for (const item of calculator.findAll(".item-list > li")) {
 			if (item.textContent.toLowerCase().includes(keyword)) {
-				item.classList.remove("hidden");
-				itemSelection.classList.remove("hidden");
+				item.classList.remove("tt-hidden");
+				itemSelection.classList.remove("tt-hidden");
 			} else {
-				item.classList.add("hidden");
+				item.classList.add("tt-hidden");
 			}
 		}
 	});
 	search.addEventListener("click", (event) => {
 		event.target.value = "";
 
-		calculator.find(".item-list").classList.add("hidden");
+		calculator.find(".item-list").classList.add("tt-hidden");
 	});
 
 	const clear = calculator.find(".clear");
@@ -720,10 +720,10 @@ async function setupCalculator() {
 		receipt.innerHTML = "";
 
 		if (!selectedItems.length) {
-			clear.classList.add("hidden");
+			clear.classList.add("tt-hidden");
 			return;
 		}
-		clear.classList.remove("hidden");
+		clear.classList.remove("tt-hidden");
 
 		const items = document.newElement({ type: "ul" });
 
@@ -775,19 +775,19 @@ async function setupStocksOverview() {
 
 		if (!keyword) {
 			for (const item of allStocks.findAll(".stock-wrap[data-user='false']")) {
-				item.classList.add("hidden");
+				item.classList.add("tt-hidden");
 			}
 			for (const item of allStocks.findAll(".stock-wrap[data-user='true']")) {
-				item.classList.remove("hidden");
+				item.classList.remove("tt-hidden");
 			}
 			return;
 		}
 
 		for (const item of allStocks.findAll(".stock-wrap")) {
 			if (keyword === "*" || item.dataset.name.includes(keyword)) {
-				item.classList.remove("hidden");
+				item.classList.remove("tt-hidden");
 			} else {
-				item.classList.add("hidden");
+				item.classList.add("tt-hidden");
 			}
 		}
 	});
@@ -795,15 +795,15 @@ async function setupStocksOverview() {
 		event.target.value = "";
 
 		for (const item of allStocks.findAll(".stock-wrap[data-user='false']")) {
-			item.classList.add("hidden");
+			item.classList.add("tt-hidden");
 		}
 		for (const item of allStocks.findAll(".stock-wrap[data-user='true']")) {
-			item.classList.remove("hidden");
+			item.classList.remove("tt-hidden");
 		}
 	});
 
 	for (const item of allStocks.findAll(".stock-wrap[data-user='false']")) {
-		item.classList.add("hidden");
+		item.classList.add("tt-hidden");
 	}
 
 	function buildSection(id) {
@@ -1143,7 +1143,7 @@ async function setupStocksOverview() {
 				],
 				events: {
 					click: (event) => {
-						content.classList[content.classList.contains("hidden") ? "remove" : "add"]("hidden");
+						content.classList[content.classList.contains("tt-hidden") ? "remove" : "add"]("tt-hidden");
 
 						rotateElement((event.target.classList.contains("heading") ? event.target : event.target.parentElement).find("i"), 180);
 					},

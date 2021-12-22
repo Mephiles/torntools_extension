@@ -34,7 +34,7 @@
 		}
 		document.findAll(".games-list .hidden").forEach((game) => {
 			game.parentElement.classList.remove("tt-hidden-parent");
-			game.classList.remove("hidden");
+			game.classList.remove("tt-hidden");
 			game.parentElement.find(".tt-hidden").remove();
 		});
 
@@ -42,7 +42,7 @@
 			const game = document.find(`.${gameClass}`);
 
 			game.parentElement.classList.add("tt-hidden-parent");
-			game.classList.add("hidden");
+			game.classList.add("tt-hidden");
 			game.insertAdjacentElement(
 				"beforebegin",
 				document.newElement({
@@ -60,6 +60,6 @@
 		document.find(".msg .tt-msg").remove();
 		document.find(".tt-hidden-parent").classList.remove("tt-hidden-parent");
 		document.find(".tt-hidden").remove();
-		document.findAll(".games-list .hidden").forEach((x) => x.classList.remove("hidden"));
+		document.findAll(".games-list .hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

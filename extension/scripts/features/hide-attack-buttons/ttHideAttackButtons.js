@@ -28,7 +28,7 @@
 						removeObserver();
 
 						defenderDiv.findAll("button").forEach((button) => {
-							if (settings.pages.attack.hideAttackButtons.includes(button.textContent.trim())) button.classList.add("hidden");
+							if (settings.pages.attack.hideAttackButtons.includes(button.textContent.trim())) button.classList.add("tt-hidden");
 						});
 					}
 				});
@@ -41,6 +41,6 @@
 			observer.disconnect();
 			observer = undefined;
 		}
-		document.findAll("#defender [class*='defender__'] button.hidden").forEach((x) => x.classList.remove("hidden"));
+		document.findAll("#defender [class*='defender__'] button.hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

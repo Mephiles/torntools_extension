@@ -104,8 +104,8 @@
 							else item.classList.remove("tt-overlay-item");
 						}
 
-						if (enabled) document.find(".tt-overlay").classList.remove("hidden");
-						else document.find(".tt-overlay").classList.add("hidden");
+						if (enabled) document.find(".tt-overlay").classList.remove("tt-hidden");
+						else document.find(".tt-overlay").classList.add("tt-hidden");
 
 						attachEditListeners(enabled);
 					},

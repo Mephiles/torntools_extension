@@ -29,7 +29,7 @@
 	}
 
 	function createOverlay() {
-		document.body.appendChild(document.newElement({ type: "div", class: "tt-overlay hidden" }));
+		document.body.appendChild(document.newElement({ type: "div", class: "tt-overlay tt-hidden" }));
 	}
 
 	function detectScroll() {

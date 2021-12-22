@@ -135,7 +135,7 @@
 
 	function removeChatSearch(chat) {
 		for (const message of chat.findAll("[class*='overview_'] [class*='message_']")) {
-			message.classList.remove("hidden");
+			message.classList.remove("tt-hidden");
 		}
 		const viewport = chat.find("[class*='viewport_']");
 		viewport.scrollTop = viewport.scrollHeight;
@@ -152,7 +152,7 @@
 	function removeSearch() {
 		for (const chat of document.findAll("[class*='chat-active_']:not([class*='chat-box-settings_'])")) {
 			for (const message of chat.findAll("[class*='overview_'] [class*='message_']")) {
-				message.classList.remove("hidden");
+				message.classList.remove("tt-hidden");
 			}
 			const viewport = chat.find("[class*='viewport_']");
 			viewport.scrollTop = viewport.scrollHeight;
@@ -176,16 +176,16 @@
 
 			const user = message.find("a");
 			if (!user.textContent.toLowerCase().includes(target) && (isNaN(target) || !user.href.match(`XID=${target}$`))) {
-				message.classList.add("hidden");
+				message.classList.add("tt-hidden");
 				return;
 			}
 		}
 
 		const messageText = message.find("span").textContent.toLowerCase();
 		if (keyword && !messageText.includes(keyword)) {
-			message.classList.add("hidden");
+			message.classList.add("tt-hidden");
 		} else {
-			message.classList.remove("hidden");
+			message.classList.remove("tt-hidden");
 		}
 	}
 })();

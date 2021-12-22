@@ -173,11 +173,11 @@
 		show();
 
 		function show() {
-			row.classList.remove("hidden");
+			row.classList.remove("tt-hidden");
 			delete row.dataset.hideReason;
 
 			if (row.nextElementSibling?.classList.contains("tt-stats-estimate")) {
-				row.nextElementSibling.classList.remove("hidden");
+				row.nextElementSibling.classList.remove("tt-hidden");
 			}
 
 			if (individual) {
@@ -192,11 +192,11 @@
 		}
 
 		function hide(reason) {
-			row.classList.add("hidden");
+			row.classList.add("tt-hidden");
 			row.dataset.hideReason = reason;
 
 			if (row.nextElementSibling?.classList.contains("tt-stats-estimate")) {
-				row.nextElementSibling.classList.add("hidden");
+				row.nextElementSibling.classList.add("tt-hidden");
 			}
 
 			if (individual) {
@@ -213,6 +213,6 @@
 
 	function removeFilters() {
 		removeContainer("Competition Filter");
-		document.findAll(".team-list-wrap > li.hidden").forEach((x) => x.classList.remove("hidden"));
+		document.findAll(".team-list-wrap > li.hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

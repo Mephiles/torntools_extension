@@ -26,7 +26,7 @@
 
 		document
 			.findAll(".travel-agency-travelling .stage, .travel-agency-travelling .stage + hr, .travel-agency-travelling .popup-info")
-			.forEach((x) => x.classList.add("hidden"));
+			.forEach((x) => x.classList.add("tt-hidden"));
 	}
 
 	function removeCleanFlight() {
@@ -36,7 +36,7 @@
 		if (hiddenBy.length) {
 			agency.dataset.hiddenBy = JSON.stringify(hiddenBy);
 		} else {
-			agency.findAll(".popup-info, .stage, .delimiter-999").forEach((element) => element.classList.remove("hidden"));
+			agency.findAll(".popup-info, .stage, .delimiter-999").forEach((element) => element.classList.remove("tt-hidden"));
 
 			delete agency.dataset.hiddenBy;
 		}
