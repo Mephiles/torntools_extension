@@ -516,7 +516,12 @@
 			}
 		} else {
 			if (cards.player.includes("A") && data.player.score !== data.player.lowestScore) {
-				suggestion = getSuggestion(`A,${cards.player.filter((worth) => worth !== "A").totalSum()}`);
+				const leftOver = cards.player
+					.filter((card) => card !== "A")
+					.map(getWorth);
+				const leftOverWorth = leftOver.totalSum() + (cards.player.length - 1 - leftOver.length);
+
+				suggestion = getSuggestion(`A,${leftOverWorth}`);
 			} else {
 				suggestion = getSuggestion(data.player.score);
 			}
