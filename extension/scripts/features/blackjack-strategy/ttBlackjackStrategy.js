@@ -516,9 +516,7 @@
 			}
 		} else {
 			if (cards.player.includes("A") && data.player.score !== data.player.lowestScore) {
-				const leftOver = cards.player
-					.filter((card) => card !== "A")
-					.map(getWorth);
+				const leftOver = cards.player.filter((card) => card !== "A").map(getWorth);
 				const leftOverWorth = leftOver.totalSum() + (cards.player.length - 1 - leftOver.length);
 
 				suggestion = getSuggestion(`A,${leftOverWorth}`);
