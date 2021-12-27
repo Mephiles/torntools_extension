@@ -18,7 +18,7 @@
 				{ "message": "Split torndata and stocks to possibly avoid corruption of data", "contributor": "DeKleineKobini" },
 				{ "message": "Use The Imperiums new domain.", "contributor": "DeKleineKobini" }
 			],
-			"removed": []
+			"removed": [{ "message": "Remove vault balance, as it was pretty broken.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{

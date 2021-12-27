@@ -619,11 +619,6 @@ const DEFAULT_STORAGE = {
 				show: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				completed: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
-			vaultSharing: {
-				vaultSharing: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				sidebar: new DefaultSetting({ type: "boolean", defaultValue: true }),
-				sidebarTotal: new DefaultSetting({ type: "boolean", defaultValue: false }),
-			},
 			lastAction: {
 				factionMember: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				companyOwn: new DefaultSetting({ type: "boolean", defaultValue: false }),

@@ -120,17 +120,6 @@ async function convertDatabase() {
 
 		let updated = false;
 		if (version <= toNumericVersion("5")) {
-			// Migration
-			if (storage?.vault) {
-				newStorage.localdata.vault.initialized = storage.vault.initialized || false;
-				newStorage.localdata.vault.lastTransaction = storage.vault.last_transaction || "";
-				newStorage.localdata.vault.total = storage.vault.total_money || 0;
-				newStorage.localdata.vault.user.initial = storage.vault.user.initial_money || 0;
-				newStorage.localdata.vault.user.current = storage.vault.user.current_money || 0;
-				newStorage.localdata.vault.partner.initial = storage.vault.partner.initial_money || 0;
-				newStorage.localdata.vault.partner.current = storage.vault.partner.current_money || 0;
-				updated = true;
-			}
 			if (storage?.notes?.text || storage?.notes?.height) {
 				newStorage.notes.sidebar.text = storage.notes.text || "";
 				newStorage.notes.sidebar.height = storage.notes.height || "22px";
@@ -169,8 +158,13 @@ async function convertDatabase() {
 			newStorage.userdata = {};
 			newStorage.torndata = {};
 			newStorage.cache = {};
+			updated.true;
 		} else if (version === toNumericVersion("6.0.0")) {
 			newStorage.settings.apiUsage.comment = storage?.settings?.apiUsage?.comment || "TornTools";
+			updated.true;
+		} else if (version <= toNumericVersion("6.3")) {
+			newStorage.localdata.vault = undefined;
+			updated.true;
 		}
 
 		const newVersion = chrome.runtime.getManifest().version;

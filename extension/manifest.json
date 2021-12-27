@@ -110,7 +110,6 @@
 				"scripts/features/custom-links/ttCustomLinks.css",
 				"scripts/features/update-notice/ttUpdateNotice.css",
 				"scripts/features/sidebar-notes/ttSidebarNotes.css",
-				"scripts/features/vault-sharing/ttVaultBalance.css",
 				"scripts/features/colored-chat/ttColoredChat.css",
 				"scripts/features/search-chat/ttSearchChat.css",
 				"scripts/features/computer-link/ttComputerLink.css",
@@ -135,7 +134,6 @@
 				"scripts/features/custom-links/ttCustomLinks.js",
 				"scripts/features/update-notice/ttUpdateNotice.js",
 				"scripts/features/sidebar-notes/ttSidebarNotes.js",
-				"scripts/features/vault-sharing/ttVaultBalance.js",
 				"scripts/features/colored-chat/ttColoredChat.js",
 				"scripts/features/search-chat/ttSearchChat.js",
 				"scripts/features/computer-link/ttComputerLink.js",
@@ -522,10 +520,9 @@
 		},
 		{
 			"matches": ["https://www.torn.com/properties.ph*"],
-			"css": ["scripts/features/vault-sharing/ttVaultSharing.css", "scripts/features/property-happiness/ttPropertyHappiness.css"],
+			"css": ["scripts/features/property-happiness/ttPropertyHappiness.css"],
 			"js": [
 				"scripts/features/property-values/ttPropertyValues.js",
-				"scripts/features/vault-sharing/ttVaultSharing.js",
 				"scripts/features/property-happiness/ttPropertyHappiness.js"
 			],
 			"run_at": "document_end"
