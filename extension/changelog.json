@@ -1,8 +1,14 @@
 [
 	{
-		"version": { "major": 6, "minor": 3, "build": 1 },
+		"version": { "major": 6, "minor": 4, "build": 0 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 3, "build": 1 },
+		"title": "Beta",
+		"date": "2021/12/27",
 		"logs": {
 			"fixes": [
 				{ "message": "Solve issue where the dump value honor was recognized as dump amount merit.", "contributor": "DeKleineKobini" },
