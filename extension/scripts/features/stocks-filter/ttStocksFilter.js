@@ -195,7 +195,7 @@
 		}
 
 		localFilters.statistics.updateStatistics(
-			document.findAll("#stockmarketroot ul[class*='stock___']:not(.hidden)").length,
+			document.findAll("#stockmarketroot ul[class*='stock___']:not(.tt-hidden)").length,
 			document.findAll("#stockmarketroot ul[class*='stock___']").length,
 			content
 		);
@@ -205,6 +205,6 @@
 		localFilters = undefined;
 
 		removeContainer("Stocks Filter");
-		document.findAll("#stockmarketroot ul[class*='stock___'].hidden").forEach((stock) => stock.classList.remove("tt-hidden"));
+		document.findAll("#stockmarketroot ul[class*='stock___'].tt-hidden").forEach((stock) => stock.classList.remove("tt-hidden"));
 	}
 })();

@@ -146,7 +146,7 @@
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".competition-list > li:not(.hidden)").length,
+			document.findAll(".competition-list > li:not(.tt-hidden)").length,
 			document.findAll(".competition-list > li").length,
 			content
 		);
@@ -184,7 +184,7 @@
 				const content = findContainer("Competition Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".competition-list > li:not(.hidden)").length,
+					document.findAll(".competition-list > li:not(.tt-hidden)").length,
 					document.findAll(".competition-list > li").length,
 					content
 				);
@@ -203,7 +203,7 @@
 				const content = findContainer("Competition Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".competition-list > li:not(.hidden)").length,
+					document.findAll(".competition-list > li:not(.tt-hidden)").length,
 					document.findAll(".competition-list > li").length,
 					content
 				);
@@ -213,6 +213,6 @@
 
 	function removeFilters() {
 		removeContainer("Competition Filter");
-		document.findAll(".team-list-wrap > li.hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		document.findAll(".team-list-wrap > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

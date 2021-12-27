@@ -76,6 +76,6 @@
 
 	function removeFilters() {
 		document.findAll(".tt-shop-filters").forEach((x) => x.remove());
-		document.findAll(".buy-items-wrap .items-list > li.hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		document.findAll(".buy-items-wrap .items-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

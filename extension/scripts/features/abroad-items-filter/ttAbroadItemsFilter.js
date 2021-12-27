@@ -129,7 +129,7 @@
 				},
 			});
 
-			statistics.updateStatistics(document.findAll(".users-list > li:not(.hidden)").length, document.findAll(".users-list > li").length, content);
+			statistics.updateStatistics(document.findAll(".users-list > li:not(.tt-hidden)").length, document.findAll(".users-list > li").length, content);
 		}
 
 		function showRow(row) {
@@ -143,6 +143,6 @@
 
 	function removeFilter() {
 		removeContainer("Item Filters");
-		document.findAll(".users-list > li.hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		document.findAll(".users-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

@@ -164,7 +164,7 @@
 	async function removeLastAction() {
 		if (!lastActionState && localFilters["Last Active Filter"] && localFilters["Last Active Filter"].element) {
 			localFilters["Last Active Filter"].element.remove();
-			document.findAll(".members-list .table-body > li.hidden.last-action").forEach((x) => {
+			document.findAll(".members-list .table-body > li.tt-hidden.last-action").forEach((x) => {
 				x.classList.remove("tt-hidden");
 				x.classList.remove("last-action");
 			});
@@ -323,7 +323,7 @@
 		}
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".members-list .table-body > li:not(.hidden)").length,
+			document.findAll(".members-list .table-body > li:not(.tt-hidden)").length,
 			document.findAll(".members-list .table-body > li").length,
 			content
 		);
@@ -354,6 +354,6 @@
 		localFilters = {};
 		filterContent = undefined;
 		removeContainer("Member Filter");
-		document.findAll(".members-list .table-body > li.hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		document.findAll(".members-list .table-body > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

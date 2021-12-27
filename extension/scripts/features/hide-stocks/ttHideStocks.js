@@ -28,7 +28,7 @@
 	}
 
 	function unhideStocks() {
-		document.findAll("#stockmarketroot .hidden[class*='stock___'][id]").forEach((stockNode) => stockNode.classList.remove("tt-hidden"));
+		document.findAll("#stockmarketroot .tt-hidden[class*='stock___'][id]").forEach((stockNode) => stockNode.classList.remove("tt-hidden"));
 		const ttMessage = document.find(".tt-stocks-hidden");
 		if (ttMessage) ttMessage.remove();
 	}

@@ -106,7 +106,7 @@
 	}
 
 	function removeFilter() {
-		document.findAll(".bounties-list > .hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		document.findAll(".bounties-list > .tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 		removeContainer("Bounty Filter");
 	}
 })();

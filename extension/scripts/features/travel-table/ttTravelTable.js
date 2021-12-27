@@ -90,12 +90,12 @@
 
 			if (filters.travel.type === "basic") {
 				table.classList.add("basic");
-				for (const advanced of table.findAll(".advanced:not(.hidden)")) {
+				for (const advanced of table.findAll(".advanced:not(.tt-hidden)")) {
 					advanced.classList.add("tt-hidden");
 				}
 			} else {
 				table.classList.add("advanced");
-				for (const basic of table.findAll(".basic:not(.hidden)")) {
+				for (const basic of table.findAll(".basic:not(.tt-hidden)")) {
 					basic.classList.add("tt-hidden");
 				}
 			}
@@ -226,10 +226,10 @@
 					table.classList.add("basic");
 					table.classList.remove("advanced");
 
-					for (const basic of table.findAll(".basic.hidden")) {
+					for (const basic of table.findAll(".basic.tt-hidden")) {
 						basic.classList.remove("tt-hidden");
 					}
-					for (const advanced of table.findAll(".advanced:not(.hidden)")) {
+					for (const advanced of table.findAll(".advanced:not(.tt-hidden)")) {
 						advanced.classList.add("tt-hidden");
 					}
 
@@ -242,10 +242,10 @@
 					table.classList.add("advanced");
 					table.classList.remove("basic");
 
-					for (const advanced of table.findAll(".advanced.hidden")) {
+					for (const advanced of table.findAll(".advanced.tt-hidden")) {
 						advanced.classList.remove("tt-hidden");
 					}
-					for (const basic of table.findAll(".basic:not(.hidden)")) {
+					for (const basic of table.findAll(".basic:not(.tt-hidden)")) {
 						basic.classList.add("tt-hidden");
 					}
 

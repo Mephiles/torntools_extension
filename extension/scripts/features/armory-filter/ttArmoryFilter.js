@@ -85,6 +85,6 @@
 	function removeFilter() {
 		cbHideUnavailable = undefined;
 		removeContainer("Armory Filter");
-		document.findAll(".torn-tabs ~ [aria-hidden*='false'] .item-list > li.hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		document.findAll(".torn-tabs ~ [aria-hidden*='false'] .item-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

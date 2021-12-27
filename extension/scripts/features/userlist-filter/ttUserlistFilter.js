@@ -145,7 +145,7 @@
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED);
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".user-info-list-wrap > li:not(.hidden)").length,
+			document.findAll(".user-info-list-wrap > li:not(.tt-hidden)").length,
 			document.findAll(".user-info-list-wrap > li").length,
 			content
 		);
@@ -219,7 +219,7 @@
 				const content = findContainer("Userlist Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".user-info-list-wrap > li:not(.hidden)").length,
+					document.findAll(".user-info-list-wrap > li:not(.tt-hidden)").length,
 					document.findAll(".user-info-list-wrap > li").length,
 					content
 				);
@@ -238,7 +238,7 @@
 				const content = findContainer("Userlist Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".user-info-list-wrap > li:not(.hidden)").length,
+					document.findAll(".user-info-list-wrap > li:not(.tt-hidden)").length,
 					document.findAll(".user-info-list-wrap > li").length,
 					content
 				);
@@ -248,6 +248,6 @@
 
 	function removeFilters() {
 		removeContainer("Userlist Filter");
-		document.findAll(".user-info-list-wrap > li.hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		document.findAll(".user-info-list-wrap > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

@@ -234,7 +234,7 @@
 		}
 
 		localFilters["Statistics"].updateStatistics(
-			document.findAll(".users-list > li:not(.hidden)").length,
+			document.findAll(".users-list > li:not(.tt-hidden)").length,
 			document.findAll(".users-list > li").length,
 			content
 		);
@@ -260,7 +260,7 @@
 
 		document.findAll(".tt-quick-refresh, .tt-quick-refresh-wrap").forEach((x) => x.remove());
 		if (quickBust || quickBail) {
-			if (document.find(".users-list > li:not(.hidden)")) {
+			if (document.find(".users-list > li:not(.tt-hidden)")) {
 				if (!document.find(".users-list-title .tt-quick-refresh")) {
 					document.find(".users-list-title").appendChild(newRefreshButton());
 				}
@@ -326,6 +326,6 @@
 
 	function removeFilters() {
 		removeContainer("Jail Filter");
-		document.findAll(".users-list > li.hidden").forEach((x) => x.classList.remove("tt-hidden"));
+		document.findAll(".users-list > li.tt-hidden").forEach((x) => x.classList.remove("tt-hidden"));
 	}
 })();

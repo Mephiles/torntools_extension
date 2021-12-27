@@ -2,6 +2,6 @@
 	width: 1em;
 }
 
-[class*="stockMarket___"] > .hidden + [class*="stockDropdown___"] {
+[class*="stockMarket___"] > .tt-hidden + [class*="stockDropdown___"] {
 	display: none;
 }
