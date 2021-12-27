@@ -521,10 +521,7 @@
 		{
 			"matches": ["https://www.torn.com/properties.ph*"],
 			"css": ["scripts/features/property-happiness/ttPropertyHappiness.css"],
-			"js": [
-				"scripts/features/property-values/ttPropertyValues.js",
-				"scripts/features/property-happiness/ttPropertyHappiness.js"
-			],
+			"js": ["scripts/features/property-values/ttPropertyValues.js", "scripts/features/property-happiness/ttPropertyHappiness.js"],
 			"run_at": "document_end"
 		},
 		{
