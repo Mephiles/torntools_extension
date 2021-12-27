@@ -158,13 +158,13 @@ async function convertDatabase() {
 			newStorage.userdata = {};
 			newStorage.torndata = {};
 			newStorage.cache = {};
-			updated.true;
+			updated = true;
 		} else if (version === toNumericVersion("6.0.0")) {
 			newStorage.settings.apiUsage.comment = storage?.settings?.apiUsage?.comment || "TornTools";
-			updated.true;
-		} else if (version <= toNumericVersion("6.3")) {
+			updated = true;
+		} else if (version <= toNumericVersion("6.3.0")) {
 			newStorage.localdata.vault = undefined;
-			updated.true;
+			updated = true;
 		}
 
 		const newVersion = chrome.runtime.getManifest().version;
