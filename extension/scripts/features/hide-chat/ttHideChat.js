@@ -56,5 +56,4 @@
 	function removeButton() {
 		document.find(".tt-hide-chat-option")?.remove();
 	}
-
 })();

@@ -21,5 +21,4 @@
 	function showChats() {
 		document.documentElement.classList.remove("tt-chat-hidden");
 	}
-
 })();

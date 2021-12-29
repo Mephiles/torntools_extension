@@ -4,11 +4,11 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-          "features": [],
-          "fixes": [],
-          "changes": [{ "message": "Solve hide chat not working as it should.", "contributor": "DeKleineKobini" }],
-          "removed": []
-        }
+			"features": [],
+			"fixes": [],
+			"changes": [{ "message": "Solve hide chat not working as it should.", "contributor": "DeKleineKobini" }],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 6, "minor": 3, "build": 1 },
