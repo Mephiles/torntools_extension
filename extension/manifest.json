@@ -99,7 +99,8 @@
 				"scripts/features/block-zalgo/ttBlockZalgo.entry.js",
 				"scripts/features/achievements/achievements.js",
 				"scripts/features/achievements/ttAchievements.entry.js",
-				"scripts/features/hide-tutorials/ttHideTutorials.entry.js"
+				"scripts/features/hide-tutorials/ttHideTutorials.entry.js",
+				"scripts/features/hide-chat/ttHideChat.entry.js"
 			],
 			"run_at": "document_start"
 		},
