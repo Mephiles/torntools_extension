@@ -29,7 +29,7 @@
 			if (checked) hideChats();
 			else showChats();
 
-			console.log("DKK chats",  settings.pages.chat.hideChatButton, checked)
+			console.log("DKK chats", settings.pages.chat.hideChatButton, checked);
 			ttStorage.change({ settings: { pages: { chat: { hideChat: checked } } } });
 		});
 
