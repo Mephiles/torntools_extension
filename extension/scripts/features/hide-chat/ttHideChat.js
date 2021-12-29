@@ -24,8 +24,8 @@
 		}).observe(document.find("#chatRoot [class*='chat-box-settings_'] [class*='overview_']"), { childList: true });
 	}
 
-	async function showButton() {
-		const settingsBox = await document.find("#chatRoot [class*='chat-box-settings_']");
+	function showButton() {
+		const settingsBox = document.find("#chatRoot [class*='chat-box-settings_']");
 		if (!settingsBox.classList.contains("^=chat-active_")) return;
 
 		const overview = settingsBox.find("[class*='overview_']");
@@ -43,22 +43,18 @@
 		});
 
 		overview.appendChild(checkbox.element);
-
-		if (settings.pages.chat.hideChat) await hideChats();
 	}
 
-	async function hideChats() {
-		const root = await document.find("#chatRoot");
-
-		root.classList.add("tt-chat-hidden");
+	function hideChats() {
+		document.documentElement.classList.add("tt-chat-hidden");
 	}
 
-	async function showChats() {
-		document.find("#chatRoot")?.classList.remove("tt-chat-hidden");
+	function showChats() {
+		document.documentElement.classList.remove("tt-chat-hidden");
 	}
 
 	function removeButton() {
 		document.find(".tt-hide-chat-option")?.remove();
-		showChats();
 	}
+
 })();
