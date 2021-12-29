@@ -15,7 +15,7 @@
 	);
 
 	function hideChats() {
-		document.documentElement.classList.add("tt-chat-hidden");
+		if (settings.pages.chat.hideChat) document.documentElement.classList.add("tt-chat-hidden");
 	}
 
 	function showChats() {

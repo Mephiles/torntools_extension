@@ -1,17 +1,7 @@
 "use strict";
 
 (async () => {
-	const feature = featureManager.registerFeature(
-		"Hide Chat",
-		"chat",
-		() => settings.pages.chat.hideChatButton,
-		initialiseListeners,
-		showButton,
-		removeButton,
-		{
-			storage: ["settings.pages.chat.hideChatButton"],
-		}
-	);
+	const feature = featureManager.adjustFeature("Hide Chat", initialiseListeners, showButton, removeButton);
 
 	async function initialiseListeners() {
 		await requireChatsLoaded();
@@ -39,6 +29,7 @@
 			if (checked) hideChats();
 			else showChats();
 
+			console.log("DKK chats",  settings.pages.chat.hideChatButton, checked)
 			ttStorage.change({ settings: { pages: { chat: { hideChat: checked } } } });
 		});
 
