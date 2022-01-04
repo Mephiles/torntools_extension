@@ -502,28 +502,29 @@
 			cards.player.push(worth);
 		}
 
-		let suggestion;
+		let playerValue;
 		if (cards.player.length === 2) {
 			if (cards.player.includes("A")) {
 				const other = cards.player.find((worth) => worth !== "A");
 
-				if (!other) suggestion = getSuggestion("A,A");
-				else suggestion = getSuggestion(`A,${other}`);
+				if (!other) playerValue = "A,A";
+				else playerValue = `A,${other}`;
 			} else if (cards.player[0] === cards.player[1]) {
-				suggestion = getSuggestion(`${cards.player[0]},${cards.player[1]}`);
+				playerValue = `${cards.player[0]},${cards.player[1]}`;
 			} else {
-				suggestion = getSuggestion(data.player.score);
+				playerValue = data.player.score;
 			}
 		} else {
 			if (cards.player.includes("A") && data.player.score !== data.player.lowestScore) {
 				const leftOver = cards.player.filter((card) => card !== "A").map(getWorth);
 				const leftOverWorth = leftOver.totalSum() + (cards.player.length - 1 - leftOver.length);
 
-				suggestion = getSuggestion(`A,${leftOverWorth}`);
+				playerValue = `A,${leftOverWorth}`;
 			} else {
-				suggestion = getSuggestion(data.player.score);
+				playerValue = data.player.score;
 			}
 		}
+		const suggestion = getSuggestion(playerValue);
 
 		let element = document.find(".tt-blackjack-suggestion");
 		if (element) element.textContent = suggestion;
@@ -532,7 +533,10 @@
 		}
 
 		function getWorth(card) {
-			const symbol = card.split("-").last();
+			let symbol;
+			if (typeof card === "string") symbol = card.split("-").last();
+			else symbol = card;
+
 			return isNaN(symbol) ? (symbol === "A" ? "A" : 10) : parseInt(symbol);
 		}
 
