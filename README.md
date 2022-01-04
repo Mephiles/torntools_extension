@@ -18,7 +18,7 @@
 
 **Links**
 
-<a href="https://www.torn.com/forums.php#/p=threads&f=67&t=16170566">
+<a href="https://www.torn.com/forums.php#/p=threads&f=67&t=16243863">
     <img src="https://img.shields.io/static/v1?style=for-the-badge&label=TORN&message=FORUM%20THREAD&color=%23666&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAIVBMVEVRTU1GQkI3MzNbWVkAAACAfX2LiIgcHBydm5tvbGzFw8O9mSGGAAAAWElEQVQI12NQUmQwNmYQUmJQEo7o6Gg1BDJYy4EgAMhgcwGCBLCIiwtYRDgqxHkZSI2iRYpzM0iXkmiIc4ISsQzJKY4QhvD0golghsK0SEYwQ0mAUUhJCQAuLRvb97saxwAAAABJRU5ErkJggg==" alt="New Thread">
 </a>
 <br>
