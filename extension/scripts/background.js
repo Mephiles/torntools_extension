@@ -255,13 +255,13 @@ function timedUpdates() {
 				.catch((error) => logError("updating torndata", error));
 		}
 
-		if (!stockdata || !stockdata.date || hasTimePassed(stockdata.date, TO_MILLIS.MINUTES * 5, "stocks")) {
+		if (!stockdata || !stockdata.date || hasTimePassed(stockdata.date, TO_MILLIS.MINUTES * 5)) {
 			updateStocks()
 				.then(() => console.log("Updated stocks."))
 				.catch((error) => logError("updating stocks", error));
 		}
 
-		if (!factiondata || !factiondata.date || hasTimePassed(factiondata.date, TO_MILLIS.MINUTES * 15, "faction"))
+		if (!factiondata || !factiondata.date || hasTimePassed(factiondata.date, TO_MILLIS.MINUTES * 15))
 			updateFactiondata()
 				.then(() => console.log("Updated factiondata."))
 				.catch((error) => logError("updating factiondata", error));
@@ -285,10 +285,9 @@ function timedUpdates() {
 	}
 }
 
-function hasTimePassed(timestamp, time, text) {
+function hasTimePassed(timestamp, time) {
 	const difference = Date.now() - timestamp;
 
-	console.log("DKK hasTimePassed", { timestamp, time, text }, difference, Math.abs(difference) >= time);
 	return Math.abs(difference) >= time;
 }
 
@@ -305,14 +304,12 @@ async function updateUserdata() {
 
 	const updatedTypes = [];
 	const updateEssential =
-		!userdata ||
-		!Object.keys(userdata).length ||
-		hasTimePassed(userdata.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayEssential, "essential userdata");
+		!userdata || !Object.keys(userdata).length || hasTimePassed(userdata.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayEssential);
 	const updateBasic =
 		updateEssential &&
 		(!userdata.dateBasic ||
-			(hasTimePassed(userdata.dateBasic - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayBasic, "basic userdata") &&
-				!hasTimePassed(userdata.last_action.timestamp * 1000, TO_MILLIS.MINUTES * 5, "userdata activity")));
+			(hasTimePassed(userdata.dateBasic - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayBasic) &&
+				!hasTimePassed(userdata.last_action.timestamp * 1000, TO_MILLIS.MINUTES * 5)));
 
 	const selections = [];
 	if (updateEssential) {
@@ -882,7 +879,7 @@ async function showIconBars() {
 async function updateStakeouts() {
 	const now = Date.now();
 
-	if (stakeouts.date && !hasTimePassed(stakeouts.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts, "stakeouts")) return { updated: false };
+	if (stakeouts.date && !hasTimePassed(stakeouts.date - 100, TO_MILLIS.SECONDS * settings.apiUsage.delayStakeouts)) return { updated: false };
 
 	let success = 0;
 	let failed = 0;
