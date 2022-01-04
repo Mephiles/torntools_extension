@@ -17,14 +17,12 @@
 						xhrSendAdjustments.noconfirm_items = (xhr, body) => {
 							if (!body) return body;
 		
-							const { action, confirm, step, id } = getParams(body);
+							const { step, action, confirm } = getParams(body);
 							if (step !== "actionForm" || action !== "equip" || confirm === 1) return body;
 							
 							return paramsToBody({
-								step,
+								...getParams(body),
 								confirm: 1,
-								action,
-								id,
 							});
 						};
 					})();

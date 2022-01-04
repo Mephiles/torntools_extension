@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [],
+			"fixes": [{ "message": "Don't break item equiping with no confirm after using them in another tab.", "contributor": "DeKleineKobini" }],
 			"changes": [
 				{ "message": "Solve hide chat not working as it should.", "contributor": "DeKleineKobini" },
 				{ "message": "Link to the new forum thread.", "contributor": "DeKleineKobini" }
