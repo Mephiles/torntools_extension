@@ -543,6 +543,7 @@ const DEFAULT_STORAGE = {
 				upgrades: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			faction: {
+				csvRankedWarReport: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				csvWarReport: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				csvChainReport: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				csvChallengeContributions: new DefaultSetting({ type: "boolean", defaultValue: true }),
