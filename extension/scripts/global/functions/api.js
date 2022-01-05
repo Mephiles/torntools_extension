@@ -154,12 +154,21 @@ async function fetchData(location, options = {}) {
 							resolve(result);
 							return;
 						} else {
-							if (response.status === 200) {
+							if (controller.signal.aborted) {
+								result.success = false;
+								result.error = error;
+							} else if (response.status === 200) {
 								result.success = true;
 							} else {
 								result.success = false;
 								result.error = new HTTPException(response.status);
 							}
+
+							result.metadata = {
+								error,
+								response,
+								signal: controller.signal,
+							};
 						}
 					}
 
