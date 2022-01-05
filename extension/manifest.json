@@ -614,6 +614,12 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/war.php?step=rankreport*"],
+			"css": ["scripts/features/csv-ranked-war-report/ttCSVRankedWarReport.css"],
+			"js": ["scripts/features/csv-ranked-war-report/ttCSVRankedWarReport.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/war.php?step=chainreport*"],
 			"css": ["scripts/features/csv-chain-report/ttCSVChainReport.css"],
 			"js": ["scripts/features/csv-chain-report/ttCSVChainReport.js"],

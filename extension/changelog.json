@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Export ranked war report to CSV.", "contributor": "DeKleineKobini" }],
 			"fixes": [
 				{ "message": "Don't break item equiping with no confirm after using them in another tab.", "contributor": "DeKleineKobini" },
 				{ "message": "Solve blackjack issue when you had A and 2 other cards or more.", "contributor": "DeKleineKobini" },
@@ -13,7 +13,8 @@
 			"changes": [
 				{ "message": "Solve hide chat not working as it should.", "contributor": "DeKleineKobini" },
 				{ "message": "Link to the new forum thread.", "contributor": "DeKleineKobini" },
-				{ "message": "Update time checking during the update cycle.", "contributor": "DeKleineKobini" }
+				{ "message": "Update time checking during the update cycle.", "contributor": "DeKleineKobini" },
+				{ "message": "Show names in chain CSV again after Torn removed them from the page.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
