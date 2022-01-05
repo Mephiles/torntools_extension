@@ -1706,9 +1706,10 @@ function getUsername(row) {
 	} else {
 		const link = row.find("a[href*='profiles']");
 		if (link.getAttribute("id")) {
-			name = "";
+			name = link.find("span").textContent || "";
 			id = link.getAttribute("id").split("-")[0].getNumber();
-			combined = id;
+
+			combined = name ? `${name} [${id}]` : id;
 		} else {
 			name = link.textContent;
 			id = link.href.match(/XID=([0-9]*)/i)[1].getNumber();
