@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Export ranked war report to CSV.", "contributor": "DeKleineKobini" }],
+			"features": [
+				{ "message": "Export ranked war report to CSV.", "contributor": "DeKleineKobini" },
+				{ "message": "Export raid report to CSV.", "contributor": "DeKleineKobini" }
+			],
 			"fixes": [
 				{ "message": "Don't break item equiping with no confirm after using them in another tab.", "contributor": "DeKleineKobini" },
 				{ "message": "Solve blackjack issue when you had A and 2 other cards or more.", "contributor": "DeKleineKobini" },

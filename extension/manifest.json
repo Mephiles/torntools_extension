@@ -620,6 +620,12 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/war.php?step=raidreport*"],
+			"css": ["scripts/features/csv-raid-report/ttCSVRaidReport.css"],
+			"js": ["scripts/features/csv-raid-report/ttCSVRaidReport.js"],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/war.php?step=chainreport*"],
 			"css": ["scripts/features/csv-chain-report/ttCSVChainReport.css"],
 			"js": ["scripts/features/csv-chain-report/ttCSVChainReport.js"],
