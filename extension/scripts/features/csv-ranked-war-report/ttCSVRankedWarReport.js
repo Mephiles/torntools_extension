@@ -53,6 +53,6 @@
 	}
 
 	function removeCSVContainer() {
-		removeContainer("War Report");
+		removeContainer("Ranked War Report");
 	}
 })();
