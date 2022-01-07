@@ -12,7 +12,8 @@
 				{ "message": "Don't break item equiping with no confirm after using them in another tab.", "contributor": "DeKleineKobini" },
 				{ "message": "Solve blackjack issue when you had A and 2 other cards or more.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't corrupt your data when the request takes too long.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix csv export for war report not working.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix csv export for war report not working.", "contributor": "DeKleineKobini" },
+				{ "message": "Actually clear popup calculator data.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Solve hide chat not working as it should.", "contributor": "DeKleineKobini" },

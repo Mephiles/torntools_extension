@@ -721,6 +721,7 @@ async function setupCalculator() {
 
 		if (!selectedItems.length) {
 			clear.classList.add("tt-hidden");
+			ttStorage.change({ localdata: { popup: { calculatorItems: [] } } });
 			return;
 		}
 		clear.classList.remove("tt-hidden");
