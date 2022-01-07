@@ -409,6 +409,7 @@ const DEFAULT_STORAGE = {
 				barLinks: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				pointsValue: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				npcLootTimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				npcLootTimesService: new DefaultSetting({ type: "string", defaultValue: "tornstats" }),
 				cooldownEndTimes: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			popup: {

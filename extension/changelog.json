@@ -14,7 +14,8 @@
 				{ "message": "Solve hide chat not working as it should.", "contributor": "DeKleineKobini" },
 				{ "message": "Link to the new forum thread.", "contributor": "DeKleineKobini" },
 				{ "message": "Update time checking during the update cycle.", "contributor": "DeKleineKobini" },
-				{ "message": "Show names in chain CSV again after Torn removed them from the page.", "contributor": "DeKleineKobini" }
+				{ "message": "Show names in chain CSV again after Torn removed them from the page.", "contributor": "DeKleineKobini" },
+				{ "message": "Have NPC times to come from TornStats instead of YATA. This is enabled by default.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

@@ -488,6 +488,18 @@
 						<div class="option no-mobile">
 							<input id="sidebar-npcLootTimes" type="checkbox" />
 							<label for="sidebar-npcLootTimes">Show NPC loot times in the sidebar.</label>
+							<label class="tabbed note" for="sidebar-npcLootTimes">Requires YATA or Tornstats to be enabled as external service.</label>
+						</div>
+						<div class="option no-mobile tabbed">
+							<div class="option">
+								<input id="sidebar-npcLootTimes_tornstats" type="radio" name="npcLootTimesService" value="tornstats" />
+								<label for="sidebar-npcLootTimes_tornstats">TornStats</label>
+							</div>
+							<div class="option">
+								<input id="sidebar-npcLootTimes_yata" type="radio" name="npcLootTimesService" value="yata" />
+								<label for="sidebar-npcLootTimes_yata">YATA</label>
+							</div>
+							<div class="note">Will use the selected service if more than is enabled.</div>
 						</div>
 						<div class="option">
 							<input id="sidebar-cooldownEndTimes" type="checkbox" />

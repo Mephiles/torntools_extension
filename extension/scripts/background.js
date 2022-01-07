@@ -1086,7 +1086,8 @@ async function updateFactiondata() {
 }
 
 async function updateNPCs() {
-	if (!settings.external.yata) {
+	const { yata: useYata, tornstats: useTornstats } = settings.external;
+	if (!useYata && !useTornstats) {
 		await ttStorage.set({ npcs: {} });
 		return { updated: false };
 	}
@@ -1103,46 +1104,94 @@ async function updateNPCs() {
 		21: "Tiny",
 	};
 
+	const now = Date.now();
 	let updated;
 
-	const now = Date.now();
-	if (!npcs || !npcs.next_update || npcs.next_update <= now) {
-		const data = await fetchData("yata", { section: "loot" });
-
-		if (!npcs || npcs.timestamp !== data.timestamp) {
-			npcs = {
-				next_update: data.next_update * 1000,
-				targets: {},
-			};
-
-			for (let [id, hospital] of Object.entries(data.hosp_out)) {
-				hospital = hospital * 1000;
-
-				npcs.targets[id] = {
-					levels: {
-						1: hospital,
-						2: hospital + TO_MILLIS.MINUTES * 30,
-						3: hospital + TO_MILLIS.MINUTES * 90,
-						4: hospital + TO_MILLIS.MINUTES * 210,
-						5: hospital + TO_MILLIS.MINUTES * 450,
-					},
-					name: NPCS[id] ?? "Unknown",
-				};
-
-				npcs.targets[id].current = getCurrentLevel(npcs.targets[id]);
-			}
-
-			await ttStorage.set({ npcs });
-
-			updated = true;
-		} else updated = await updateLevels();
-	} else updated = await updateLevels();
+	if (npcs && npcs.next_update && npcs.next_update > now) {
+		updated = await updateLevels();
+	} else if (useYata && useTornstats) {
+		switch (settings.pages.sidebar.npcLootTimesService) {
+			case "tornstats":
+				updated = await fetchTornStats();
+				break;
+			case "yata":
+			default:
+				updated = await fetchYata();
+				break;
+		}
+	} else if (useYata) {
+		updated = await fetchYata();
+	} else if (useTornstats) {
+		updated = await fetchTornStats();
+	}
 
 	if (updated || !npcUpdater) triggerUpdate();
 
 	const alerts = checkNPCAlerts();
 
 	return { updated, alerts };
+
+	async function fetchYata() {
+		const data = await fetchData("yata", { section: "loot" });
+
+		if (npcs && npcs.timestamp === data.timestamp) return await updateLevels();
+
+		npcs = {
+			next_update: data.next_update * 1000,
+			service: "YATA",
+			targets: {},
+		};
+
+		for (let [id, hospital] of Object.entries(data.hosp_out)) {
+			hospital = hospital * 1000;
+
+			npcs.targets[id] = {
+				levels: {
+					1: hospital,
+					2: hospital + TO_MILLIS.MINUTES * 30,
+					3: hospital + TO_MILLIS.MINUTES * 90,
+					4: hospital + TO_MILLIS.MINUTES * 210,
+					5: hospital + TO_MILLIS.MINUTES * 450,
+				},
+				name: NPCS[id] ?? "Unknown",
+			};
+
+			npcs.targets[id].current = getCurrentLevel(npcs.targets[id]);
+		}
+
+		await ttStorage.set({ npcs });
+		return true;
+	}
+
+	async function fetchTornStats() {
+		const data = await fetchData("tornstats", { section: "loot" });
+
+		if (data && !data.status) return await updateLevels();
+
+		npcs = {
+			next_update: now + TO_MILLIS.MINUTES * 15,
+			service: "TornStats",
+			targets: {},
+		};
+
+		for (const npc of Object.values(data)) {
+			npcs.targets[npc.torn_id] = {
+				levels: {
+					1: npc.hosp_out,
+					2: npc.loot_2,
+					3: npc.loot_3,
+					4: npc.loot_4,
+					5: npc.loot_5,
+				},
+				name: npc.name,
+			};
+
+			npcs.targets[npc.torn_id].current = getCurrentLevel(npcs.targets[npc.torn_id]);
+		}
+
+		await ttStorage.set({ npcs });
+		return true;
+	}
 
 	async function updateLevels() {
 		const targets = {};
