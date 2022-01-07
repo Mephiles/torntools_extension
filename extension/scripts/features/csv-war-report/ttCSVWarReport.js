@@ -39,7 +39,7 @@
 				csv.append(document.find(`.faction-war .${selector}`).textContent);
 				csv.append("Members", "Level", "Points", "Joins", "Clears");
 
-				const members = document.findAll(`.${selector}-faction .members-list > *`);
+				const members = document.findAll(`.${selector}-faction .members-list > *[class]`);
 				if (members.length) {
 					for (const row of members) {
 						csv.append(
