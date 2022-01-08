@@ -33,15 +33,14 @@
 			if (alcoholicDrink.find(".tt-alcohol-gains")) return;
 
 			// noinspection JSCheckFunctionSignatures
-			const baseNerve = parseInt(
+			let totalNerve = parseInt(
 				torndata.items[alcoholicDrink.dataset.item].effect
 					.split(" ")
 					.map((x) => parseInt(x))
 					.filter((x) => !isNaN(x))[0]
 			);
-			let totalNerve = baseNerve;
-			if (!isNaN(factionPerk)) totalNerve += (factionPerk / 100) * baseNerve;
-			if (!isNaN(companyPerk)) totalNerve += (companyPerk / 100) * baseNerve;
+			if (!isNaN(factionPerk)) totalNerve *= 1 + factionPerk / 100;
+			if (!isNaN(companyPerk)) totalNerve *= 1 + companyPerk / 100;
 			const maxNerve = Math.ceil(totalNerve);
 			const minNerve = Math.floor(totalNerve);
 			const nerveRange = maxNerve === minNerve ? maxNerve : `${minNerve} - ${maxNerve}`;
