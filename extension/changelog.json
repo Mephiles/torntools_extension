@@ -14,7 +14,8 @@
 				{ "message": "Don't corrupt your data when the request takes too long.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix csv export for war report not working.", "contributor": "DeKleineKobini" },
 				{ "message": "Actually clear popup calculator data.", "contributor": "DeKleineKobini" },
-				{ "message": "Apply faction and company perks different while calculating nerve for alcohol.", "contributor": "DeKleineKobini" }
+				{ "message": "Apply faction and company perks different while calculating nerve for alcohol.", "contributor": "DeKleineKobini" },
+				{ "message": "Don't fetch attacks if they are simply ignored anyway.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Solve hide chat not working as it should.", "contributor": "DeKleineKobini" },

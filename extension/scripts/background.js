@@ -350,7 +350,7 @@ async function updateUserdata() {
 
 		updatedTypes.push("basic");
 	}
-	if (attackHistory.fetchData && settings.apiUsage.user.attacks) {
+	if (attackHistory.fetchData && settings.apiUsage.user.attacks && settings.pages.global.keepAttackHistory) {
 		selections.push("attacks");
 
 		updatedTypes.push("attack history");
