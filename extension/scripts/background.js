@@ -1179,11 +1179,11 @@ async function updateNPCs() {
 			.filter((npc) => npc.torn_id)) {
 			npcs.targets[npc.torn_id] = {
 				levels: {
-					1: npc.hosp_out,
-					2: npc.loot_2,
-					3: npc.loot_3,
-					4: npc.loot_4,
-					5: npc.loot_5,
+					1: npc.hosp_out * 1000,
+					2: npc.loot_2 * 1000,
+					3: npc.loot_3 * 1000,
+					4: npc.loot_4 * 1000,
+					5: npc.loot_5 * 1000,
 				},
 				name: npc.name,
 			};
