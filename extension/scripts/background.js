@@ -1174,7 +1174,9 @@ async function updateNPCs() {
 			targets: {},
 		};
 
-		for (const npc of Object.values(data)) {
+		for (const npc of Object.values(data)
+			.filter((x) => typeof x === "object")
+			.filter((npc) => npc.torn_id)) {
 			npcs.targets[npc.torn_id] = {
 				levels: {
 					1: npc.hosp_out,
