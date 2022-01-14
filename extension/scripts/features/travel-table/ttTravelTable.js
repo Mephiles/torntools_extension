@@ -303,7 +303,7 @@
 					});
 				}
 
-				if (!isFlying() && !isAbroad())
+				if (!isFlying() && !isAbroad() && document.find(".info-msg-cont.red .msg").textContent.indexOf("currently in a race") === -1)
 					document.find("#tab-menu4").addEventListener("click", (event) => {
 						if (
 							settings.pages.travel.table &&
