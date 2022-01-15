@@ -18,7 +18,12 @@
 
 	function initialiseListener() {
 		addXHRListener(({ detail: { page, xhr } }) => {
-			if (feature.enabled() && page === "loader" && xhr.responseURL.includes("tab=parts")) addPercentage();
+			if (
+				feature.enabled() &&
+				page === "loader" &&
+				(xhr.responseURL.includes("tab=parts") || xhr.responseURL.includes("tab=cars") || xhr.responseURL.includes("race_carlist.js"))
+			)
+				addPercentage();
 		});
 	}
 
@@ -26,16 +31,14 @@
 		await requireElement(".enlisted-stat");
 		if (document.find(".tt-win-percentage")) return;
 		document.findAll(".enlist-info").forEach((stat) => {
+			let text;
 			const values = stat
 				.find(".enlisted-stat")
 				.textContent.replace(/\n/g, "")
 				.match(/(?<=• Races won: )\d*(?= • W)|(?<=• Races entered: )\d*(?= • )/g);
-			const percentage = ((values[0] / values[1]) * 100).toFixed(2);
-			if (percentage !== "NaN")
-				stat.find(".enlisted-stat").insertAdjacentElement(
-					"beforeend",
-					document.newElement({ type: "li", class: "tt-win-percentage", text: `• Win Percentage: ${((values[0] / values[1]) * 100).toFixed(2)}%` })
-				);
+			if (values[0] === "0") text = "• Win Percentage: 0%";
+			else text = `• Win Percentage: ${((values[0] / values[1]) * 100).toFixed(2)}%`;
+			stat.find(".enlisted-stat").insertAdjacentElement("beforeend", document.newElement({ type: "li", class: "tt-win-percentage", text: text }));
 		});
 	}
 
