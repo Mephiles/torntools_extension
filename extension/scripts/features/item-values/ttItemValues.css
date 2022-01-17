@@ -30,7 +30,6 @@ span.tt-item-price {
 
 body.tt-mobile .tt-item-price,
 body.tt-tablet .tt-item-price {
-	position: absolute;
 	right: -10px;
 	top: 10px;
 	float: unset;
