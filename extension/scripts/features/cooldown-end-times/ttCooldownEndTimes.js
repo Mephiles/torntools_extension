@@ -24,7 +24,7 @@
 			addedListener = true;
 
 		async function listener(event) {
-			if (!event.target.closest("li")?.getAttribute("id")?.match(iconRegex)) return;
+			if (!event.target.closest("li")?.getAttribute("class")?.match(iconRegex)) return;
 
 			if (addedListener) {
 				statusIcons.removeEventListener("mouseover", listener);

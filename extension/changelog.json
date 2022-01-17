@@ -18,7 +18,8 @@
 				{ "message": "Don't fetch attacks if they are simply ignored anyway.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix travel table not showing while in a race.", "contributor": "bandirao" },
 				{ "message": "Fix race win percentage not showing after switching car pages.", "contributor": "bandirao" },
-				{ "message": "Fix item total values on mobiles and tablets.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix item total values on mobiles and tablets.", "contributor": "DeKleineKobini" },
+				{ "message": "Solve cooldown times not being shown on icon hover.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Solve hide chat not working as it should.", "contributor": "DeKleineKobini" },
