@@ -32,9 +32,7 @@
 	}
 
 	async function loadCrimes() {
-		console.log("DKK loadCrimes 1");
 		await requireElement(".specials-cont-wrap form[name='crimes'], #defaultCountdown");
-		console.log("DKK loadCrimes 2");
 
 		const { container, content, options } = createContainer("Quick Crimes", {
 			previousElement: document.find(".content-title"),
@@ -301,7 +299,6 @@
 				.find((id) => id === containerId);
 			if (hasRemovedQuickCrimes) return;
 
-			console.log("DKK mutation", hasRemovedQuickCrimes);
 			loadCrimes();
 		});
 		showCrimesAgainOnFirefoxObserver.observe(document.find(".content-wrapper"), { childList: true, attributes: true, subtree: true });
