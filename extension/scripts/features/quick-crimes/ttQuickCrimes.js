@@ -16,7 +16,7 @@
 		null
 	);
 
-	let movingElement;
+	let movingElement, showCrimesAgainOnFirefoxObserver;
 
 	function initialise() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CRIMES_LOADED].push(() => {
@@ -34,11 +34,13 @@
 	async function loadCrimes() {
 		await requireElement(".specials-cont-wrap form[name='crimes'], #defaultCountdown");
 
-		const { content, options } = createContainer("Quick Crimes", {
+		const { container, content, options } = createContainer("Quick Crimes", {
 			previousElement: document.find(".content-title"),
 			allowDragging: true,
 			compact: true,
 		});
+		showCrimesAgainOnFirefox(container.id);
+
 		content.appendChild(document.newElement({ type: "div", class: "inner-content" }));
 
 		options.appendChild(
@@ -278,6 +280,28 @@
 
 			await saveCrimes();
 		}
+	}
+
+	function showCrimesAgainOnFirefox(containerId) {
+		if (!usingFirefox()) return;
+
+		if (showCrimesAgainOnFirefoxObserver) {
+			showCrimesAgainOnFirefoxObserver.disconnect();
+			showCrimesAgainOnFirefoxObserver = undefined;
+			return;
+		}
+
+		showCrimesAgainOnFirefoxObserver = new MutationObserver((mutations, observer) => {
+			const hasRemovedQuickCrimes = ![...mutations]
+				.filter((mutation) => mutation.removedNodes.length)
+				.flatMap((mutation) => [...mutation.removedNodes])
+				.map((node) => node.id)
+				.find((id) => id === containerId);
+			if (hasRemovedQuickCrimes) return;
+
+			loadCrimes();
+		});
+		showCrimesAgainOnFirefoxObserver.observe(document.find(".content-wrapper"), { childList: true, attributes: true, subtree: true });
 	}
 
 	function dispose() {
