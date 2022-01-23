@@ -877,7 +877,7 @@ async function setupStocksOverview() {
 		function createPriceInformation() {
 			const priceContent = document.newElement({
 				type: "div",
-				class: "content price hidden",
+				class: "content price tt-hidden",
 				children: [
 					document.newElement({
 						type: "span",
@@ -911,7 +911,7 @@ async function setupStocksOverview() {
 		function createBenefitInformation() {
 			const benefitContent = document.newElement({
 				type: "div",
-				class: "content benefit hidden",
+				class: "content benefit tt-hidden",
 				children: [],
 			});
 			wrapper.append(
@@ -1066,7 +1066,7 @@ async function setupStocksOverview() {
 		function createAlertsSection() {
 			const alertsContent = document.newElement({
 				type: "div",
-				class: "content alerts hidden",
+				class: "content alerts tt-hidden",
 				children: [],
 			});
 			wrapper.append(
