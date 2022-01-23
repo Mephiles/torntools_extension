@@ -583,7 +583,7 @@
 					if (ttCache.hasValue("yata-spy", id)) {
 						result = ttCache.get("yata-spy", id);
 					} else {
-						result = (await fetchData(FETCH_PLATFORMS.yata, { relay: true, section: "spy", id, includeKey: true, silent: true }))?.spies[id];
+						result = (await fetchData(FETCH_PLATFORMS.yata__v1, { relay: true, section: "spy", id, includeKey: true, silent: true }))?.spies[id];
 
 						if (result) {
 							result = {
