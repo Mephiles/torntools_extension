@@ -12,7 +12,7 @@ const FETCH_PLATFORMS = {
 	torn: "https://api.torn.com/",
 	torn_direct: "https://www.torn.com/",
 	yata: "https://yata.yt/",
-	tornstats: "https://www.tornstats.com/",
+	tornstats__v2: "https://www.tornstats.com/",
 	torntools: "https://torntools.gregork.com/",
 	nukefamily: "https://www.nukefamily.org/",
 	uhc: "https://tornuhc.eu/",
@@ -69,10 +69,10 @@ async function fetchData(location, options = {}) {
 
 					params.set("rfcv", getRFC());
 					break;
-				case "tornstats":
-					url = FETCH_PLATFORMS.tornstats;
+				case FETCH_PLATFORMS.tornstats__v2:
+					url = FETCH_PLATFORMS.tornstats__v2;
 
-					pathSections = ["api", "v1", options.key || api.tornstats.key || api.torn.key];
+					pathSections = ["api", "v2", options.key || api.tornstats.key || api.torn.key];
 					if (options.section) pathSections.push(options.section);
 					if (options.id) pathSections.push(options.id);
 

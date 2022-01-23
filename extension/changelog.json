@@ -11,7 +11,7 @@
 				{ "message": "Fix book effect not showing.", "contributor": "DeKleineKobini" },
 				{ "message": "Make sure item effects are loaded reliably on page load.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [],
+			"changes": [{ "message": "Switch to TornStats' v2 api.", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}
 	},

@@ -1164,7 +1164,7 @@ async function updateNPCs() {
 	}
 
 	async function fetchTornStats() {
-		const data = await fetchData("tornstats", { section: "loot" });
+		const data = await fetchData(FETCH_PLATFORMS.tornstats__v2, { section: "loot" });
 
 		if (data && !data.status) return await updateLevels();
 

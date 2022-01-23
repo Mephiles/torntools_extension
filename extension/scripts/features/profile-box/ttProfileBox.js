@@ -631,7 +631,7 @@
 					if (ttCache.hasValue("tornstats-spy", id)) {
 						result = ttCache.get("tornstats-spy", id);
 					} else {
-						result = await fetchData("tornstats", { section: "spy", id, silent: true });
+						result = await fetchData(FETCH_PLATFORMS.tornstats__v2, { section: "spy/user", id, silent: true });
 
 						result = {
 							status: result.status,
