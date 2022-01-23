@@ -28,7 +28,7 @@
 		document.findAll("[data-category='Book']").forEach((book) => {
 			if (book.find(".tt-book-effect")) return;
 
-			book.find(".qty").insertAdjacentElement(
+			book.find(".name-wrap .qty.t-hide").insertAdjacentElement(
 				"afterend",
 				document.newElement({ type: "span", class: "tt-book-effect", text: ` - ${BOOK_DESCRIPTIONS[parseInt(book.dataset.item)]}` })
 			);
