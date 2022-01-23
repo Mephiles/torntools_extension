@@ -37,6 +37,7 @@
 
 		CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY].push(handler);
 		if (mobile || tablet) CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(handler);
+		else CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(removeWarnings);
 	}
 
 	function showWarnings() {
@@ -130,5 +131,7 @@
 		}
 	}
 
-	function removeWarnings() {}
+	function removeWarnings() {
+		document.findAll(".tt-cooldowns").forEach((cooldown) => cooldown.remove());
+	}
 })();
