@@ -473,7 +473,7 @@ async function setupPreferences(requireCleanup) {
 		optionNode.addEventListener("click", (event) => event.target.classList.toggle("disabled"));
 	});
 
-	_preferences.find("#external-tornstats").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornstats__v1, event));
+	_preferences.find("#external-tornstats").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornstats, event));
 	_preferences.find("#external-yata").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.yata, event));
 
 	_preferences.find("#global-reviveProvider").addEventListener("change", (event) => {
@@ -1212,7 +1212,7 @@ async function setupPreferences(requireCleanup) {
 		const origins = [];
 
 		for (const { id, origin } of [
-			{ id: "external-tornstats", origin: FETCH_PLATFORMS.tornstats__v1 },
+			{ id: "external-tornstats", origin: FETCH_PLATFORMS.tornstats },
 			{ id: "external-yata", origin: FETCH_PLATFORMS.yata },
 		]) {
 			if (!_preferences.find(`#${id}`)?.checked) continue;
