@@ -37,6 +37,7 @@
 
 		CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY].push(handler);
 		if (mobile || tablet) CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(handler);
+		else CUSTOM_LISTENERS[EVENT_CHANNELS.TRAVEL_SELECT_TYPE].push(removeWarnings);
 	}
 
 	function showWarnings() {
@@ -52,7 +53,7 @@
 
 		const duration = textToTime(mobile || tablet ? element.textContent.trim() : element.textContent.match(/(?<=- ).*/g)[0]) * 2;
 
-		let cooldowns = mobile || tablet ? container.parentElement.find(".show-confirm[aria-expanded='true'] .tt-cooldowns") : document.find(".tt-cooldowns");
+		let cooldowns = mobile || tablet ? container.parentElement.find(".show-confirm[aria-expanded='true'] .tt-cooldowns") : container.find(".tt-cooldowns");
 		if (!cooldowns) {
 			cooldowns = document.newElement({
 				type: "div",
@@ -130,5 +131,7 @@
 		}
 	}
 
-	function removeWarnings() {}
+	function removeWarnings() {
+		document.findAll(".tt-cooldowns").forEach((cooldown) => cooldown.remove());
+	}
 })();
