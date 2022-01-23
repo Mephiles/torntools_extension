@@ -44,7 +44,7 @@ const pendingActions = {};
 					triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item, amount: -amount, reason: "sending" });
 				}
 			} else if (json && ["getCategoryList", "getNotAllItemsListWithoutGroups", "getItemsListByItemId", "getSearchList"].includes(step)) {
-				const tab = document.find("ul.items-cont.tab-menu-cont[style='display: block;'], ul.items-cont.tab-menu-cont:not([style])");
+				const tab = getCurrentTab();
 				if (!tab) return;
 
 				new MutationObserver((mutations, observer) => {
@@ -88,5 +88,11 @@ const pendingActions = {};
 				triggerCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, { tab: icon.dataset.type });
 			});
 		}
+
+		triggerCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, { tab: getCurrentTab(), initial: false });
 	});
+
+	function getCurrentTab() {
+		return document.find("ul.items-cont.tab-menu-cont[style='display: block;'], ul.items-cont.tab-menu-cont:not([style])");
+	}
 })();
