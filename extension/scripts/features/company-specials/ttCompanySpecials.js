@@ -167,7 +167,7 @@
 				text: "Save to TornStats",
 				events: {
 					click() {
-						fetchData("tornstats", {
+						fetchData(FETCH_PLATFORMS.tornstats, {
 							section: "store/spy",
 							method: "POST",
 							params: {

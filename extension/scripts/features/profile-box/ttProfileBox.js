@@ -631,7 +631,7 @@
 					if (ttCache.hasValue("tornstats-spy", id)) {
 						result = ttCache.get("tornstats-spy", id);
 					} else {
-						result = await fetchData("tornstats", { section: "spy", id, silent: true });
+						result = await fetchData(FETCH_PLATFORMS.tornstats, { section: "spy/user", id, silent: true });
 
 						result = {
 							status: result.status,
@@ -667,11 +667,15 @@
 						}
 					}
 				} catch (error) {
-					if (error.code === 429) errors.push({ service: "TornStats", message: "You've exceeded your API limit. Try again in a minute." });
-					else if (error.code === CUSTOM_API_ERROR.NO_NETWORK) {
+					if (typeof error.error === "object") {
+						const { code, error: message } = error.error;
+
+						if (code === 429) errors.push({ service: "TornStats", message: "You've exceeded your API limit. Try again in a minute." });
+						else errors.push({ service: "TornStats", message: `Unknown (${code}) - ${message}` });
+					} else if (error.code === CUSTOM_API_ERROR.NO_NETWORK) {
 						errors.push({ service: "TornStats", message: "Network issues. You likely have no internet at this moment." });
 					} else if (error.code === CUSTOM_API_ERROR.NO_PERMISSION) {
-						errors.push({ service: "TornStats", message: "Permission not granted. Please make sure TornStats has permission to run." });
+						errors.push({ service: "TornStats", message: "Permission not granted. Please make sure YATA has permission to run." });
 					} else errors.push({ service: "TornStats", message: `Unknown - ${error}` });
 
 					console.log("Couldn't load stat spy from TornStats.", error);

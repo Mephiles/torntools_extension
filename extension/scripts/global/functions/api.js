@@ -69,10 +69,10 @@ async function fetchData(location, options = {}) {
 
 					params.set("rfcv", getRFC());
 					break;
-				case "tornstats":
+				case FETCH_PLATFORMS.tornstats:
 					url = FETCH_PLATFORMS.tornstats;
 
-					pathSections = ["api", "v1", options.key || api.tornstats.key || api.torn.key];
+					pathSections = ["api", "v2", options.key || api.tornstats.key || api.torn.key];
 					if (options.section) pathSections.push(options.section);
 					if (options.id) pathSections.push(options.id);
 
