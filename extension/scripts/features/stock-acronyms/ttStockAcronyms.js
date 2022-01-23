@@ -22,19 +22,17 @@
 		for (const stockName of document.findAll("[class*='stockMarket__'] ul[class*='stock__'] [class*='stockName__']")) {
 			const container = stockName.find("[class*='nameContainer__']");
 
+			const acronym = stockdata[stockName.closest("[class*='stock___']").id].acronym;
+
 			container.classList.add("tt-acronym-container");
 			container.insertAdjacentElement(
 				"afterbegin",
-				document.newElement({
-					type: "span",
-					id: "tt-acronym",
-					text: `(${stockdata[stockName.closest("[class*='stock___']").id].acronym}) `,
-				})
+				document.newElement({ type: "span", class: "tt-acronym", text: `(${acronym}) `, dataset: { acronym } })
 			);
 		}
 	}
 
 	function removeAcronyms() {
-		document.findAll("#tt-acronym").forEach((x) => x.remove());
+		document.findAll(".tt-acronym").forEach((x) => x.remove());
 	}
 })();
