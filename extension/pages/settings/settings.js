@@ -474,7 +474,7 @@ async function setupPreferences(requireCleanup) {
 	});
 
 	_preferences.find("#external-tornstats").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.tornstats__v1, event));
-	_preferences.find("#external-yata").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.yata__v1, event));
+	_preferences.find("#external-yata").addEventListener("click", (event) => requestOrigin(FETCH_PLATFORMS.yata, event));
 
 	_preferences.find("#global-reviveProvider").addEventListener("change", (event) => {
 		const provider = event.target.value;
@@ -1213,7 +1213,7 @@ async function setupPreferences(requireCleanup) {
 
 		for (const { id, origin } of [
 			{ id: "external-tornstats", origin: FETCH_PLATFORMS.tornstats__v1 },
-			{ id: "external-yata", origin: FETCH_PLATFORMS.yata__v1 },
+			{ id: "external-yata", origin: FETCH_PLATFORMS.yata },
 		]) {
 			if (!_preferences.find(`#${id}`)?.checked) continue;
 

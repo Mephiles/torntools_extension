@@ -11,8 +11,8 @@ const FETCH_TIMEOUT = 10 * TO_MILLIS.SECONDS;
 const FETCH_PLATFORMS = {
 	torn: "https://api.torn.com/",
 	torn_direct: "https://www.torn.com/",
-	yata__v1: "https://yata.yt/",
-	tornstats__v2: "https://www.tornstats.com/",
+	yata: "https://yata.yt/",
+	tornstats: "https://www.tornstats.com/",
 	torntools: "https://torntools.gregork.com/",
 	nukefamily: "https://www.nukefamily.org/",
 	uhc: "https://tornuhc.eu/",
@@ -69,8 +69,8 @@ async function fetchData(location, options = {}) {
 
 					params.set("rfcv", getRFC());
 					break;
-				case FETCH_PLATFORMS.tornstats__v2:
-					url = FETCH_PLATFORMS.tornstats__v2;
+				case FETCH_PLATFORMS.tornstats:
+					url = FETCH_PLATFORMS.tornstats;
 
 					pathSections = ["api", "v2", options.key || api.tornstats.key || api.torn.key];
 					if (options.section) pathSections.push(options.section);
@@ -80,8 +80,8 @@ async function fetchData(location, options = {}) {
 					await ttUsage.add(location);
 					break;
 				case "yata":
-				case FETCH_PLATFORMS.yata__v1:
-					url = FETCH_PLATFORMS.yata__v1;
+				case FETCH_PLATFORMS.yata:
+					url = FETCH_PLATFORMS.yata;
 
 					pathSections = ["api", "v1", options.section];
 					if (options.id) pathSections.push(options.id);
