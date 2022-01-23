@@ -10,7 +10,8 @@
 				{ "message": "Fix item features not working when searching.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix book effect not showing.", "contributor": "DeKleineKobini" },
 				{ "message": "Make sure item effects are loaded reliably on page load.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix travel cooldowns not showing after changing travel method.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix travel cooldowns not showing after changing travel method.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix issue with the popup stocks.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Switch to TornStats' v2 api.", "contributor": "DeKleineKobini" },
