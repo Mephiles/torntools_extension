@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Solve quick crimes not always showing on Firefox.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Solve quick crimes not always showing on Firefox.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix item features not working when searching.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [],
 			"removed": []
 		}
