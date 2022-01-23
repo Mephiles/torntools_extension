@@ -43,7 +43,7 @@ const pendingActions = {};
 
 					triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, { item, amount: -amount, reason: "sending" });
 				}
-			} else if (json && (step === "getCategoryList" || step === "getNotAllItemsListWithoutGroups" || step === "getItemsListByItemId")) {
+			} else if (json && ["getCategoryList", "getNotAllItemsListWithoutGroups", "getItemsListByItemId", "getSearchList"].includes(step)) {
 				const tab = document.find("ul.items-cont.tab-menu-cont[style='display: block;'], ul.items-cont.tab-menu-cont:not([style])");
 				if (!tab) return;
 
