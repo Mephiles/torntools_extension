@@ -123,7 +123,8 @@
 			const id = parseInt(row.getAttribute("id"));
 
 			// Name
-			if (name && !row.find(`li[class*="stockName___"][aria-label*="${name}" i]`)) {
+			const acronym = row.find(".tt-acronym")?.dataset.acronym;
+			if (name && !row.find(`li[class*="stockName___"][aria-label*="${name}" i]`) && (!acronym || acronym !== name)) {
 				hideRow(row);
 				continue;
 			}
