@@ -29,7 +29,6 @@
 			if (!feature.enabled() || (localFilters["Last Active Filter"] && localFilters["Last Active Filter"].element)) return;
 
 			if (name === "Last Action") {
-				lastActionState = true;
 				await showLastAction();
 			}
 		});
@@ -37,7 +36,6 @@
 			if (!feature.enabled()) return;
 
 			if (name === "Last Action") {
-				lastActionState = false;
 				await removeLastAction();
 			}
 		});
@@ -46,11 +44,11 @@
 	let localFilters = {};
 
 	async function addFilter() {
-		await requireElement("#faction-info-members .members-list .table-row");
+		await requireElement(".faction-info-wrap .members-list .table-row");
 
 		const { content } = createContainer("Member Filter", {
 			class: "mt10",
-			nextElement: document.getElementById("faction-info-members"),
+			nextElement: document.find(".faction-info-wrap .members-list"),
 			compact: true,
 			filter: true,
 		});
@@ -124,7 +122,6 @@
 		applyFilter().then(() => {});
 
 		if (settings.scripts.lastAction.factionMember && !lastActionState) {
-			lastActionState = true;
 			showLastAction().then(() => {});
 		}
 	}
@@ -134,7 +131,9 @@
 
 		await requireElement(".members-list .table-body.tt-modified > .tt-last-action");
 
-		if (filterContent.find(".lastActiveFilter__section-class")) return;
+		if (!filterContent || filterContent.find(".lastActiveFilter__section-class")) return;
+
+		lastActionState = true;
 
 		const upperLimit = parseInt(document.find(".members-list .table-body.tt-modified").getAttribute("max-hours")) || 1000;
 
@@ -163,6 +162,7 @@
 
 	async function removeLastAction() {
 		if (!lastActionState && localFilters["Last Active Filter"] && localFilters["Last Active Filter"].element) {
+			lastActionState = false;
 			localFilters["Last Active Filter"].element.remove();
 			document.findAll(".members-list .table-body > li.tt-hidden.last-action").forEach((x) => {
 				x.classList.remove("tt-hidden");
@@ -179,6 +179,7 @@
 
 	async function _applyFilter() {
 		await requireElement(".members-list .table-body > li");
+
 		const content = findContainer("Member Filter").find("main");
 		const activity = localFilters["Activity"].getSelections(content);
 		const levels = localFilters["Level Filter"].getStartEnd(content);
@@ -221,12 +222,13 @@
 
 		for (const li of document.findAll(".members-list .table-body > li")) {
 			// Activity
-			if (
-				activity.length &&
-				!activity.some((x) => x.trim() === li.find("#iconTray li").getAttribute("title").match(FILTER_REGEXES.activity)[0].toLowerCase().trim())
-			) {
-				hideRow(li);
-				continue;
+			if (activity.length) {
+				const userActivity = li.find("[class*='userStatusWrap___']").id.match(FILTER_REGEXES.activity_v2)[1].toLowerCase().trim();
+
+				if (!activity.some((x) => x.trim() === userActivity)) {
+					hideRow(li);
+					continue;
+				}
 			}
 
 			// Level

@@ -44,11 +44,11 @@
 	}
 
 	async function showEstimates() {
-		await requireElement("#faction-info-members .table-body");
+		await requireElement(".faction-info-wrap .table-body");
 
 		statsEstimate.clearQueue();
 		statsEstimate.showEstimates(
-			"#faction-info-members .table-body > .table-row",
+			".faction-info-wrap .table-body > .table-row",
 			(row) => ({
 				id: getUsername(row).id,
 				level: parseInt(row.find(".lvl").textContent.trim()),

@@ -34,20 +34,20 @@
 	}
 
 	function startFeature() {
-		if (!document.find(".faction-description, .members-list, .announcement")) return;
+		if (isInternal && !document.find(".faction-description, .members-list, .announcement")) return;
 
 		foldInfobox();
 	}
 
 	const registered = [];
 
-	function foldInfobox() {
+	async function foldInfobox() {
 		let title, description, key;
 
 		if (isInternal) {
 			if (getHashParameters().get("tab") === "info") {
-				title = document.find(".faction-description > [role='heading']");
-				description = document.find(".faction-description .faction-info");
+				title = document.find(".faction-title");
+				description = document.find(".faction-description");
 				key = "faction_description_fold";
 			} else {
 				title = document.find("#faction-main > [data-title='announcement'][role='heading']");
@@ -55,7 +55,7 @@
 				key = "faction_announcement_fold";
 			}
 		} else {
-			title = document.find("#factions > [role='heading']");
+			title = await requireElement(".faction-title");
 			description = document.find(".faction-description");
 			key = "faction_description_fold";
 		}
