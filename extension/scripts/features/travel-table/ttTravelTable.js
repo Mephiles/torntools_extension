@@ -557,7 +557,7 @@
 				.totalSum();
 			// CHECK - Improve job perk checking.
 			count += userdata.job_perks
-				.filter((perk) => perk.includes("travel capacity"))
+				.filter((perk) => perk.includes("travel capacity") || perk.includes("travel items"))
 				.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
 				.totalSum();
 			count += userdata.faction_perks
