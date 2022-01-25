@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix several faction page features being broken.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Fix several faction page features being broken.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix an issue where travel table capacity ignored a company special.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [],
 			"removed": []
 		}
