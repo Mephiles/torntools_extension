@@ -76,7 +76,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 
 		triggerCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, { section: getCurrentSection() });
 		new MutationObserver((mutations) => {
-			if (!mutations.some((mutation) => mutation.addedNodes.length === 7)) return;
+			if (!mutations.some((mutation) => mutation.addedNodes.length > 5)) return;
 
 			const mutation = mutations.find((mutation) => mutation.target.id.includes("armoury-"));
 			if (!mutation) return;

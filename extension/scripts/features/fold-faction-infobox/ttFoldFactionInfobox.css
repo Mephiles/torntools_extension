@@ -1,6 +1,7 @@
 .tt-foldable-infobox {
 	display: flex;
 	cursor: pointer;
+	justify-content: space-between;
 }
 
 .tt-foldable-infobox.folded {

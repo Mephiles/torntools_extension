@@ -28,9 +28,9 @@
 		if (!force && isOwnFaction && getHashParameters().get("tab") !== "info") return;
 
 		if (document.find(".tt-member-index")) return;
-		await requireElement("#faction-info-members .table-body > .table-row");
+		await requireElement(".faction-info-wrap .table-body > .table-row");
 
-		const list = document.find("#faction-info-members .members-list");
+		const list = document.find(".faction-info-wrap .members-list");
 		if (list.classList.contains("tt-modified")) return;
 		list.classList.add("tt-modified");
 
