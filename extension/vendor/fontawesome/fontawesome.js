@@ -13,5 +13,23 @@ fetch(chrome.runtime.getURL("/vendor/fontawesome/fontawesome.css"))
 		style.classList.add("tt-style")
 		style.innerHTML = css;
 
-		document.head.appendChild(style);
+		new Promise((resolve) => {
+			let counter = 0;
+			const interval = setInterval(() => {
+				if (counter++ > 1000) {
+					finish();
+					return;
+				}
+
+				if (!document.head) return;
+
+				finish();
+
+				function finish() {
+					clearInterval(interval);
+					resolve();
+				}
+			});
+		})
+			.then(() => document.head.appendChild(style));
 	});
