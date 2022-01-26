@@ -1,6 +1,6 @@
 [
 	{
-		"version": { "major": 6, "minor": 5, "build": 0 },
+		"version": { "major": 6, "minor": 6, "build": 0 },
 		"title": "Beta",
 		"date": false,
 		"logs": {
@@ -14,11 +14,9 @@
 		}
 	},
 	{
-		"version": { "major": 6, "minor": 4, "build": 1 },
-		"title": "",
+		"version": { "major": 6, "minor": 5, "build": 0 },
 		"date": "2022/01/25",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "Solve quick crimes not always showing on Firefox.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix item features not working when searching.", "contributor": "DeKleineKobini" },
@@ -31,8 +29,7 @@
 				{ "message": "Switch to TornStats' v2 api.", "contributor": "DeKleineKobini" },
 				{ "message": "Improve TornStats error handling on the profile.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow stock search to work for acronyms.", "contributor": "DeKleineKobini" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
