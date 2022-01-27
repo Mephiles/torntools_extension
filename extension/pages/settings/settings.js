@@ -1661,14 +1661,14 @@ async function setupExport() {
 	// exportSection.find("#export-remote-server").addEventListener("click", () => {
 	// 	loadConfirmationPopup(POPUP_TEMPLATES.EXPORT)
 	// 		.then(() => {
-	// 			// FIXME - Store data in remote server.
+	// 			// TODO - Store data in remote server.
 	// 		})
 	// 		.catch(() => {});
 	// });
 	// exportSection.find("#import-remote-server").addEventListener("click", () => {
 	// 	loadConfirmationPopup(POPUP_TEMPLATES.IMPORT)
 	// 		.then(() => {
-	// 			// FIXME - Load data from remote server.
+	// 			// TODO - Load data from remote server.
 	// 		})
 	// 		.catch(() => {});
 	// });
