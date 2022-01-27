@@ -658,7 +658,7 @@ async function updateUserdata() {
 		if (!settings.apiUsage.user.bars || !settings.notifications.types.global) return;
 
 		for (const bar of ["energy", "happy", "nerve", "life"]) {
-			if (!settings.notifications.types[bar].length || !oldUserdata[bar]) return;
+			if (!settings.notifications.types[bar].length || !oldUserdata[bar]) continue;
 
 			const checkpoints = settings.notifications.types[bar]
 				.map((checkpoint) =>
