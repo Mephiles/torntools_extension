@@ -160,7 +160,7 @@ const DRUG_INFORMATION = {
 	},
 	200: {
 		pros: ["Removes all hospital time (except Radiation Sickness) and replenishes life to 66.6%", "+50-100 Happy"],
-		cooldown: "3-4 hours",
+		cooldown: "2-3 hours",
 	},
 	201: {
 		pros: ["+20% Strength & Dexterity", "+250 Happy"],
