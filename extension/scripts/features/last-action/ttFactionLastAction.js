@@ -57,20 +57,21 @@
 		list.classList.add("tt-modified");
 		const nowDate = Date.now();
 		let maxHours = 0;
-		list.findAll(":scope > li").forEach((li) => {
-			const userID = getUsername(li).id;
+		list.findAll(":scope > li").forEach((row) => {
+			const userID = getUsername(row).id;
 			const hours = ((nowDate - members[userID].last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
-			li.insertAdjacentElement(
-				"afterend",
-				document.newElement({
-					type: "div",
-					class: "tt-last-action",
-					text: `Last action: ${members[userID].last_action.relative}`,
-					attributes: {
-						hours: hours,
-					},
-				})
-			);
+
+			const element = document.newElement({
+				type: "div",
+				class: "tt-last-action",
+				text: `Last action: ${members[userID].last_action.relative}`,
+				attributes: {
+					hours: hours,
+				},
+			});
+			if (row.classList.contains("tt-hidden")) element.classList.add("tt-hidden");
+
+			row.insertAdjacentElement("afterend", element);
 			if (hours > maxHours) maxHours = hours;
 		});
 		list.setAttribute("max-hours", maxHours);
