@@ -53,7 +53,10 @@
 
 		const duration = textToTime(mobile || tablet ? element.textContent.trim() : element.textContent.match(/(?<=- ).*/g)[0]) * 2;
 
-		let cooldowns = mobile || tablet ? container.parentElement.find(".show-confirm[aria-expanded='true'] .tt-cooldowns") : container.find(".tt-cooldowns");
+		let cooldowns =
+			mobile || tablet
+				? container.parentElement.find(".show-confirm[aria-expanded='true'] .tt-cooldowns")
+				: container.parentElement.find(".tt-cooldowns");
 		if (!cooldowns) {
 			cooldowns = document.newElement({
 				type: "div",
