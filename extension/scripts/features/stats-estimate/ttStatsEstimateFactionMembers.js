@@ -34,6 +34,18 @@
 
 			showEstimates();
 		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_FILTER].push(() => {
+			if (!feature.enabled()) return;
+
+			removeEstimates();
+			showEstimates();
+		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_SORT].push(() => {
+			if (!feature.enabled()) return;
+
+			removeEstimates();
+			showEstimates();
+		});
 	}
 
 	async function startFeature(forced) {

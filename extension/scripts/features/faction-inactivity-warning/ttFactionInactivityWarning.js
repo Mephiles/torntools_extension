@@ -39,6 +39,12 @@
 				await removeWarning();
 			}
 		});
+
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_FILTER].push(async () => {
+			if (!feature.enabled()) return;
+
+			await addWarning(true);
+		});
 	}
 
 	async function addWarning(force) {

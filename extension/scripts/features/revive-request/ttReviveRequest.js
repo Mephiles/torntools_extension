@@ -97,7 +97,7 @@
 			const provider = settings.pages.global.reviveProvider || "";
 
 			const details = getUserDetails();
-			if (details.error) return false; // FIXME - Show error message.
+			if (details.error) return false; // TODO - Show error message.
 
 			button.setAttribute("disabled", "");
 

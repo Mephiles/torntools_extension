@@ -9,7 +9,9 @@
 				{ "message": "Fix several faction page features being broken.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix an issue where travel table capacity ignored a company special.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix an issue with loading the icon on the profile box.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix bar notifications not working properly if another one is disabled.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix bar notifications not working properly if another one is disabled.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix last action on the faction page not always hiding according to the filter.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix several features on the faction page regarding native filtering and sorting.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": []

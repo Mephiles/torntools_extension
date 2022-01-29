@@ -43,6 +43,18 @@
 				await addInfo(true);
 			}
 		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_FILTER].push(({ hasResults }) => {
+			if (!feature.enabled()) return;
+
+			removeInfo();
+			if (hasResults) addInfo(true);
+		});
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_SORT].push(() => {
+			if (!feature.enabled()) return;
+
+			removeInfo();
+			addInfo(true);
+		});
 	}
 
 	async function addInfo(force) {

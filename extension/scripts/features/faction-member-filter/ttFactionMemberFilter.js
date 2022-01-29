@@ -39,6 +39,12 @@
 				await removeLastAction();
 			}
 		});
+
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_FILTER].push(async () => {
+			if (!feature.enabled()) return;
+
+			await applyFilter();
+		});
 	}
 
 	let localFilters = {};
@@ -174,10 +180,6 @@
 	}
 
 	async function applyFilter() {
-		_applyFilter().then(() => {});
-	}
-
-	async function _applyFilter() {
 		await requireElement(".members-list .table-body > li");
 
 		const content = findContainer("Member Filter").find("main");

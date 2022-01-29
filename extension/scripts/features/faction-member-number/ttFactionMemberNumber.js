@@ -22,6 +22,13 @@
 				addNumbers(true);
 			});
 		}
+
+		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_NATIVE_FILTER].push(async () => {
+			if (!feature.enabled()) return;
+
+			removeNumbers();
+			await addNumbers(true);
+		});
 	}
 
 	async function addNumbers(force) {
@@ -48,5 +55,6 @@
 
 	function removeNumbers() {
 		document.findAll(".tt-member-index").forEach((element) => element.remove());
+		document.find(".faction-info-wrap .members-list.tt-modified")?.classList.remove("tt-modified");
 	}
 })();
