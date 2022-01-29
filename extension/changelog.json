@@ -13,7 +13,8 @@
 				{ "message": "Fix last action on the faction page not always hiding according to the filter.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix several features on the faction page regarding native filtering and sorting.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix wrong Opium cooldown time.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix travel cooldown box being duplicated.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix travel cooldown box being duplicated.", "contributor": "DeKleineKobini" },
+				{ "message": "Properly remove stat estimates from the faction list.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": []
