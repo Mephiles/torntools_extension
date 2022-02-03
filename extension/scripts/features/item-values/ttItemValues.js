@@ -211,7 +211,7 @@
 			const id = item.dataset.item;
 			const price = torndata.items[id].market_value;
 
-			const parent = mobile ? item.find(".name-wrap") : item.find(".bonuses-wrap") || item.find(".name-wrap");
+			const parent = mobile || tablet ? item.find(".name-wrap") : item.find(".bonuses-wrap") || item.find(".name-wrap");
 
 			const quantity = parseInt(item.find(".item-amount.qty").textContent) || 1;
 			const totalPrice = quantity * parseInt(price);
