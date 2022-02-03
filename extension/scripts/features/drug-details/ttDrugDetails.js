@@ -120,12 +120,12 @@
 		if (options.react && (typeof options.react !== "function" || options.react()) && options.target.find(".info-active .show-item-info[data-reactid]")) {
 			const reactid = options.target.find(".info-active .show-item-info").dataset.reactid;
 
-			await requireElement(`[data-reactid="${reactid}"] .ajax-placeholder`, { invert: true });
+			await requireElement(`[data-reactid="${reactid}"] .ajax-placeholder, [data-reactid="${reactid}"] .ajax-preloader`, { invert: true });
 
 			element = options.target.find(`[data-reactid="${reactid}"]`);
 		} else {
 			element = findElement();
-			await requireElement(".ajax-placeholder", { invert: true, parent: element });
+			await requireElement(".ajax-placeholder, .ajax-preloader", { invert: true, parent: element });
 		}
 
 		const details = DRUG_INFORMATION[id];
