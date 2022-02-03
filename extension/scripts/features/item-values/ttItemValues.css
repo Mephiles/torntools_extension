@@ -30,10 +30,14 @@ span.tt-item-price {
 
 body.tt-mobile .tt-item-price,
 body.tt-tablet .tt-item-price {
-	right: -10px;
-	top: 10px;
-	float: unset;
+	margin-top: 12px;
+	padding-right: 5px !important;
+	float: right;
 	font-size: 11px;
+}
+
+body.tt-mobile li[data-equipped] .name-wrap {
+	margin-top: -4px;
 }
 
 body.tt-mobile .needed-item .tt-item-price,
@@ -45,6 +49,7 @@ body.tt-mobile .tt-item-price.price-total,
 body.tt-tablet .tt-item-price.price-total {
 	top: 0;
 	left: 0 !important;
+	float: left;
 	font-size: 12px;
 }
 
