@@ -565,6 +565,7 @@ const DEFAULT_STORAGE = {
 				armoryWorth: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				upgradeRequiredRespect: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				memberInfo: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				rankedWarFilter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			property: {
 				value: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -761,6 +762,13 @@ const DEFAULT_STORAGE = {
 		},
 		factionArmory: {
 			hideUnavailable: new DefaultSetting({ type: "boolean", defaultValue: false }),
+		},
+		factionRankedWar: {
+			activity: new DefaultSetting({ type: "array", defaultValue: [] }),
+			status: new DefaultSetting({ type: "array", defaultValue: [] }),
+			levelStart: new DefaultSetting({ type: "number", defaultValue: 1 }),
+			levelEnd: new DefaultSetting({ type: "number", defaultValue: 100 }),
+			estimates: new DefaultSetting({ type: "array", defaultValue: [] }),
 		},
 		profile: {
 			relative: new DefaultSetting({ type: "boolean", defaultValue: false }),
