@@ -16,6 +16,7 @@
 				{ "message": "Fix travel cooldown box being duplicated.", "contributor": "DeKleineKobini" },
 				{ "message": "Properly remove stat estimates from the faction list.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix hospital time filtering on smaller units.", "contributor": "bandirao" },
+				{ "message": "Fix stock acronym filter only working with exact match.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix the userlist features being broken.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
