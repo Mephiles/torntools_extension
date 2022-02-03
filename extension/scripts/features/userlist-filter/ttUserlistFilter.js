@@ -108,7 +108,7 @@
 
 	async function filtering(includeEstimates) {
 		await requireElement(".user-info-list-wrap");
-		await requireElement(".user-info-list-wrap .ajax-placeholder", { invert: true });
+		await requireElement(".user-info-list-wrap .ajax-placeholder, .user-info-list-wrap .ajax-preloader", { invert: true });
 
 		const content = findContainer("Userlist Filter", { selector: "main" });
 		const activity = localFilters["Activity"].getSelections(content);
