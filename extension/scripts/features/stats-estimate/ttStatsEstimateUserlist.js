@@ -38,7 +38,7 @@
 	async function startFeature() {
 		if (settings.pages.userlist.filter) {
 			const list = document.find(".user-info-list-wrap");
-			if (!list || list.find(".ajax-placeholder")) return;
+			if (!list || list.find(".ajax-placeholder, .ajax-preloader")) return;
 		}
 
 		await showEstimates();
@@ -46,7 +46,7 @@
 
 	async function showEstimates() {
 		await requireElement(".user-info-list-wrap");
-		await requireElement(".user-info-list-wrap .ajax-placeholder", { invert: true });
+		await requireElement(".user-info-list-wrap .ajax-placeholder, .user-info-list-wrap .ajax-preloader", { invert: true });
 
 		statsEstimate.clearQueue();
 		statsEstimate.showEstimates(

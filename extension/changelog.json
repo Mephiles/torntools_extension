@@ -15,7 +15,8 @@
 				{ "message": "Fix wrong Opium cooldown time.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix travel cooldown box being duplicated.", "contributor": "DeKleineKobini" },
 				{ "message": "Properly remove stat estimates from the faction list.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix hospital time filtering on smaller units.", "contributor": "bandirao" }
+				{ "message": "Fix hospital time filtering on smaller units.", "contributor": "bandirao" },
+				{ "message": "Fix the userlist features being broken.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": []
