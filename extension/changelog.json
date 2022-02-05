@@ -19,7 +19,8 @@
 				{ "message": "Fix stock acronym filter only working with exact match.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix the userlist features being broken.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix item market values on mobile and tablet.", "contributor": "bandirao" },
-				{ "message": "Fix the drug details not showing all the time.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix the drug details not showing all the time.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix quick bail or quick bust messages not always showing correctly.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": []

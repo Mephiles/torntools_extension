@@ -22,6 +22,10 @@
 
 			filtering(true);
 		});
+
+		addXHRListener(async ({ detail: { page, xhr, uri, ...details } }) => {
+			console.log("DKK xhr", page, xhr, uri, details);
+		});
 	}
 
 	const localFilters = {};
@@ -295,13 +299,13 @@
 		function addQAndHref(iconNode) {
 			if (iconNode.find(":scope > .tt-quick-q")) return;
 			iconNode.appendChild(document.newElement({ type: "span", class: "tt-quick-q", text: "Q" }));
-			iconNode.href = iconNode.href + "1";
+			iconNode.href = iconNode.getAttribute("href") + "1";
 		}
 
 		function removeQAndHref(iconNode) {
 			const quickQ = iconNode.find(":scope > .tt-quick-q");
 			if (quickQ) quickQ.remove();
-			if (iconNode.href.slice(-1) === "1") iconNode.href = iconNode.href.slice(0, -1);
+			if (iconNode.href.slice(-1) === "1") iconNode.href = iconNode.getAttribute("href").slice(0, -1);
 		}
 	}
 
