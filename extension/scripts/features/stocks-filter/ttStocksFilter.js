@@ -124,7 +124,7 @@
 
 			// Name
 			const acronym = row.find(".tt-acronym")?.dataset.acronym;
-			if (name && !row.find(`li[class*="stockName___"][aria-label*="${name}" i]`) && (!acronym || acronym !== name)) {
+			if (name && !row.find(`li[class*="stockName___"][aria-label*="${name}" i]`) && (!acronym || !acronym.toLowerCase().includes(name.toLowerCase()))) {
 				hideRow(row);
 				continue;
 			}

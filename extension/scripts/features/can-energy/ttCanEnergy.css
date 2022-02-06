@@ -1,4 +1,6 @@
 .tt-e-gains {
+	position: relative;
+	top: -3px;
 	padding-left: 10px;
 	float: none;
 	color: var(--tt-color-item-text);
