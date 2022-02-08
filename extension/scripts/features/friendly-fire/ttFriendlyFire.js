@@ -20,7 +20,7 @@
 		if (document.find(".tt-ally-warning")) document.find(".tt-ally-warning").remove();
 		let warning;
 		const factionNode = await requireElement(".user-info-value [href*='/factions.php']");
-		const factionID = factionNode.href.getNumber();
+		const factionID = parseInt((new URLSearchParams(factionNode.href)).get("ID"));
 		const factionName = factionNode.textContent.trim();
 		if (hasAPIData() && factionID === userdata.faction.faction_id) warning = "This user is in your faction!";
 		else if (
