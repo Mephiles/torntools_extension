@@ -976,14 +976,8 @@ async function setupPreferences(requireCleanup) {
 			};
 		});
 		settings.alliedFactions = [..._preferences.findAll("#allyFactions input")]
-			.map((input) => {
-				if (isNaN(input.value)) return input.value.trim();
-				else return parseInt(input.value.trim());
-			})
-			.filter((x) => {
-				if (typeof x === "string") return x.trim() !== "";
-				else return x;
-			});
+			.map((input) => input.value.replace(/\D/g, ""))
+			.filter((x) => x.trim() !== "");
 		settings.userAlias = {};
 		for (const aliasRow of _preferences.findAll("#userAlias > li")) {
 			if (aliasRow.find(".userID").value) {
