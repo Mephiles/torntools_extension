@@ -1,7 +1,13 @@
 [
 	{
-		"version": { "major": 6, "minor": 5, "build": 1 },
+		"version": { "major": 6, "minor": 6, "build": 0 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 5, "build": 1 },
+		"date": "2022/02/09",
 		"logs": {
 			"fixes": [
 				{ "message": "Fix several faction page features being broken.", "contributor": "DeKleineKobini" },
