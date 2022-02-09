@@ -3,18 +3,7 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
-	const feature = featureManager.registerFeature(
-		"Forum Warning",
-		"forums",
-		() => settings.pages.forums.warning,
-		initialise,
-		showWarning,
-		removeWarning,
-		{
-			storage: ["settings.pages.forums.warning"],
-		},
-		null
-	);
+	const feature = featureManager.registerFeature("Forum Warning", "forums", true, initialise, showWarning, removeWarning, null, null);
 
 	async function initialise() {
 		// noinspection JSCheckFunctionSignatures
