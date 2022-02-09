@@ -1,10 +1,8 @@
 [
 	{
-		"version": { "major": 6, "minor": 6, "build": 0 },
-		"title": "Beta",
+		"version": { "major": 6, "minor": 5, "build": 1 },
 		"date": false,
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "Fix several faction page features being broken.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix an issue where travel table capacity ignored a company special.", "contributor": "DeKleineKobini" },
@@ -25,8 +23,7 @@
 				{ "message": "Fix friendly fire with faction ids.", "contributor": "bandirao" },
 				{ "message": "Fix chat input layout being broken.", "contributor": "bandirao" }
 			],
-			"changes": [{ "message": "Add a button to add factions as an ally.", "contributor": "bandirao" }],
-			"removed": []
+			"changes": [{ "message": "Add a button to add factions as an ally.", "contributor": "bandirao" }]
 		}
 	},
 	{
