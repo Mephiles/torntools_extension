@@ -1,5 +1,7 @@
 [class*="chat-box-input_"].tt-modified {
 	height: 86px !important;
+	flex-direction: column;
+	align-items: stretch !important;
 }
 
 .tt-chat-filter {

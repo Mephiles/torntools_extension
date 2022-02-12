@@ -505,7 +505,6 @@ const DEFAULT_STORAGE = {
 				marking: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 			forums: {
-				warning: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				menu: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				hidePosts: new DefaultSetting({ type: "object", defaultValue: {} }),
 				hideThreads: new DefaultSetting({ type: "object", defaultValue: {} }),

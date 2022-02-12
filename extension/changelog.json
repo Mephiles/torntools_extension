@@ -5,6 +5,18 @@
 		"date": false,
 		"logs": {
 			"features": [],
+			"fixes": [],
+			"changes": [
+				{ "message": "Remove the option to disable the B&I warning.", "contributor": "DeKleineKobini" },
+				{ "message": "Add a warning when clicking the post button in B&I.", "contributor": "DeKleineKobini" }
+			],
+			"removed": []
+		}
+	},
+	{
+		"version": { "major": 6, "minor": 5, "build": 1 },
+		"date": "2022/02/09",
+		"logs": {
 			"fixes": [
 				{ "message": "Fix several faction page features being broken.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix an issue where travel table capacity ignored a company special.", "contributor": "DeKleineKobini" },
@@ -20,10 +32,11 @@
 				{ "message": "Fix the userlist features being broken.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix item market values on mobile and tablet.", "contributor": "bandirao" },
 				{ "message": "Fix the drug details not showing all the time.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix quick bail or quick bust messages not always showing correctly.", "contributor": "DeKleineKobini" }
-			],
-			"changes": [],
-			"removed": []
+				{ "message": "Fix quick bail or quick bust messages not always showing correctly.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix filters not applying when changing pagination using the arrows.", "contributor": "bandirao" },
+				{ "message": "Fix friendly fire with faction ids.", "contributor": "bandirao" },
+				{ "message": "Fix chat input layout being broken.", "contributor": "DeKleineKobini" }
+			]
 		}
 	},
 	{
