@@ -3,7 +3,15 @@
 		"version": { "major": 6, "minor": 6, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [
+				{ "message": "Remove the option to disable the B&I warning.", "contributor": "DeKleineKobini" },
+				{ "message": "Add a warning when clicking the post button in B&I.", "contributor": "DeKleineKobini" }
+			],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 6, "minor": 5, "build": 1 },
