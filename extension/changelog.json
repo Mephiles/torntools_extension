@@ -35,7 +35,7 @@
 				{ "message": "Fix quick bail or quick bust messages not always showing correctly.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix filters not applying when changing pagination using the arrows.", "contributor": "bandirao" },
 				{ "message": "Fix friendly fire with faction ids.", "contributor": "bandirao" },
-				{ "message": "Fix chat input layout being broken.", "contributor": "bandirao" }
+				{ "message": "Fix chat input layout being broken.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},
