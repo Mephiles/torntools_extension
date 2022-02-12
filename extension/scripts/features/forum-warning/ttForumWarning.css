@@ -33,3 +33,7 @@ body.tt-mobile #tt-help-popup {
 	text-decoration: none;
 	color: var(--default-blue-color);
 }
+
+.warning-text {
+	color: var(--tt-color-red);
+}

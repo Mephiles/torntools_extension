@@ -36,6 +36,14 @@
 		} else if (page === "newthread") {
 			parent = document.find("#bbc-editor .actions");
 			position = "beforebegin";
+
+			parent.find("button[type='submit']").addEventListener("click", handleDisabledPost);
+
+			const input = document.find("#main-input");
+			const text = "I'm currently posting this with TornTools enabled.";
+			if (!input.innerText.includes(text)) {
+				input.innerHTML = text + "<br>" + input.innerHTML;
+			}
 		}
 
 		parent.insertAdjacentElement(
@@ -50,62 +58,130 @@
 						type: "span",
 						class: "bug-help",
 						text: "If the issues are caused by TornTools, contact the team: here.",
-						events: {
-							click: () => {
-								const overlay = document.find(".tt-overlay");
-
-								overlay.classList.remove("tt-hidden");
-								overlay.addEventListener("click", closePopup);
-
-								const popup = document.newElement({
-									type: "div",
-									id: "tt-help-popup",
-									class: "tt-overlay-item",
-									children: [
-										document.newElement({ type: "span", text: "Support is provided in multiple ways!" }),
-										document.newElement("br"),
-										document.newElement("br"),
-										document.newElement({
-											type: "a",
-											text: "- Join our Discord and report the issue there.",
-											attributes: {
-												href: "https://discord.com/invite/ukyK6f6",
-												target: "_blank",
-											},
-										}),
-										document.newElement("br"),
-										document.newElement({
-											type: "a",
-											text: "- Post it in our forum thread.",
-											attributes: {
-												href: FORUM_POST,
-												target: "_blank",
-											},
-										}),
-										document.newElement("br"),
-										document.newElement("br"),
-										document.newElement({ type: "button", class: "tt-button-link", text: "Close", events: { click: closePopup } }),
-									],
-								});
-
-								document.body.appendChild(popup);
-
-								function closePopup() {
-									overlay.removeEventListener("click", closePopup);
-									overlay.classList.add("tt-hidden");
-
-									popup.remove();
-								}
-							},
-						},
+						events: { click: showPopup },
 					}),
 				],
 			})
 		);
+
+		function showPopup() {
+			const overlay = document.find(".tt-overlay");
+
+			overlay.classList.remove("tt-hidden");
+			overlay.addEventListener("click", closePopup);
+
+			const popup = document.newElement({
+				type: "div",
+				id: "tt-help-popup",
+				class: "tt-overlay-item",
+				children: [
+					document.newElement({ type: "span", text: "Support is provided in multiple ways!" }),
+					document.newElement("br"),
+					document.newElement("br"),
+					document.newElement({
+						type: "a",
+						text: "- Join our Discord and report the issue there.",
+						attributes: {
+							href: "https://discord.com/invite/ukyK6f6",
+							target: "_blank",
+						},
+					}),
+					document.newElement("br"),
+					document.newElement({
+						type: "a",
+						text: "- Post it in our forum thread.",
+						attributes: {
+							href: FORUM_POST,
+							target: "_blank",
+						},
+					}),
+					document.newElement("br"),
+					document.newElement("br"),
+					document.newElement({ type: "button", class: "tt-button-link", text: "Close", events: { click: closePopup } }),
+				],
+			});
+
+			document.body.appendChild(popup);
+
+			function closePopup() {
+				overlay.removeEventListener("click", closePopup);
+				overlay.classList.add("tt-hidden");
+
+				popup.remove();
+			}
+		}
+	}
+
+	function handleDisabledPost(event) {
+		event.preventDefault();
+
+		const overlay = document.find(".tt-overlay");
+
+		overlay.classList.remove("tt-hidden");
+		overlay.addEventListener("click", closePopup);
+
+		const popup = document.newElement({
+			type: "div",
+			id: "tt-help-popup",
+			class: "tt-overlay-item",
+			children: [
+				document.newElement({
+					type: "span",
+					class: "warning-text",
+					text: "Please make sure this issue is not caused by TornTools before posting in this forum.",
+				}),
+				document.newElement("br"),
+				document.newElement("br"),
+				document.newElement({ type: "span", text: "If you can not replicate it without TornTools enabled, please report it to use instead of Torn!" }),
+				document.newElement("br"),
+				document.newElement("br"),
+				document.newElement({
+					type: "a",
+					text: "- Join our Discord and report the issue there.",
+					attributes: {
+						href: "https://discord.com/invite/ukyK6f6",
+						target: "_blank",
+					},
+				}),
+				document.newElement("br"),
+				document.newElement({
+					type: "a",
+					text: "- Post it in our forum thread.",
+					attributes: {
+						href: FORUM_POST,
+						target: "_blank",
+					},
+				}),
+				document.newElement("br"),
+				document.newElement("br"),
+				document.newElement({
+					type: "button",
+					class: "tt-button-link",
+					text: "Confirm post",
+					attributes: { type: "submit" },
+					events: { click: () => setTimeout(closePopup) },
+				}),
+				document.newElement({ type: "button", class: "tt-button-link", text: "Close", events: { click: closePopup } }),
+			],
+		});
+
+		document.find("#editor-form").appendChild(popup);
+
+		function closePopup() {
+			overlay.removeEventListener("click", closePopup);
+			overlay.classList.add("tt-hidden");
+
+			popup.remove();
+			return true;
+		}
 	}
 
 	function removeWarning() {
-		const warning = document.find("#ttBugWarning");
-		if (warning) warning.remove();
+		document.find("#ttBugWarning")?.remove();
+
+		const actions = document.find("#bbc-editor .actions");
+		if (actions) {
+			actions.find("button[type='submit']")?.removeEventListener("click", handleDisabledPost);
+		}
 	}
 })();
