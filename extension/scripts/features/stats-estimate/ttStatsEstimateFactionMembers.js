@@ -61,10 +61,15 @@
 		statsEstimate.clearQueue();
 		statsEstimate.showEstimates(
 			".faction-info-wrap .table-body > .table-row",
-			(row) => ({
-				id: getUsername(row).id,
-				level: parseInt(row.find(".lvl").textContent.trim()),
-			}),
+			(row) => {
+				// Don't show this for fallen players.
+				if (row.find(".icons li[id*='icon77___']")) return {};
+
+				return {
+					id: getUsername(row).id,
+					level: parseInt(row.find(".lvl").textContent.trim()),
+				};
+			},
 			true,
 			(row) =>
 				row.nextElementSibling?.classList.contains("tt-last-action") || row.nextElementSibling?.classList.contains("tt-member-info")

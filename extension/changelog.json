@@ -9,7 +9,8 @@
 			"changes": [
 				{ "message": "Remove the option to disable the B&I warning.", "contributor": "DeKleineKobini" },
 				{ "message": "Add a warning when clicking the post button in B&I.", "contributor": "DeKleineKobini" },
-				{ "message": "Allow stock filtering on multiple names (comma-seperated).", "contributor": "DeKleineKobini" }
+				{ "message": "Allow stock filtering on multiple names (comma-seperated).", "contributor": "DeKleineKobini" },
+				{ "message": "Ignore fallen players on some faction features.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

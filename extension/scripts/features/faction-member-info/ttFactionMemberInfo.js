@@ -82,6 +82,9 @@
 			const userID = getUsername(li).id;
 			if (!donations[userID] || (!donations[userID].points_balance && !donations[userID].money_balance)) return;
 
+			// Don't show this for fallen players.
+			if (li.find(".icons li[id*='icon77___']")) return;
+
 			const memberInfo = document.newElement({ type: "div", class: "tt-member-info" });
 			const parent = lastActionState && li.nextSibling?.className?.includes("tt-last-action") ? li.nextSibling : memberInfo;
 

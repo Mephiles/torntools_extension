@@ -57,6 +57,9 @@
 		const nowDate = Date.now();
 		let maxHours = 0;
 		list.findAll(":scope > li.table-row").forEach((row) => {
+			// Don't show this for fallen players.
+			if (row.find(".icons li[id*='icon77___']")) return;
+
 			const userID = getUsername(row).id;
 			const hours = ((nowDate - members[userID].last_action.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
 
