@@ -466,24 +466,17 @@ async function updateUserdata() {
 								if (respect === attack.modifiers.chain_bonus) {
 									respect = 1;
 									hasBaseRespect = false;
-								} else if (attack.modifiers.war > 1) {
+								} else {
+									if (attack.result === "Mugged") respect /= 0.75;
+
 									respect =
 										respect /
 										attack.modifiers.war /
 										attack.modifiers.retaliation /
 										attack.modifiers.group_attack /
 										attack.modifiers.overseas /
-										attack.modifiers.chain_bonus;
-									hasBaseRespect = false;
-								} else {
-									if (attack.result === "Mugged") respect /= 0.75;
-
-									respect =
-										respect /
-										attack.modifiers.retaliation /
-										attack.modifiers.group_attack /
-										attack.modifiers.overseas /
-										attack.modifiers.chain_bonus;
+										attack.modifiers.chain_bonus /
+										(attack.modifiers.warlord_bonus || 1);
 								}
 							}
 
