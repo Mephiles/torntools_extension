@@ -7,7 +7,8 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Fix item value positioning on mobile.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix issue when there are no results in the userlist search.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix issue when there are no results in the userlist search.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix time formatting for days in certain cases.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Remove the option to disable the B&I warning.", "contributor": "DeKleineKobini" },

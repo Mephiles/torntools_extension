@@ -213,7 +213,7 @@ function formatTime(time = {}, options = {}) {
 						return months;
 					},
 				},
-				{ unit: options.short ? "day" : "d", millis: TO_MILLIS.DAYS },
+				{ unit: options.short ? "d" : "day", millis: TO_MILLIS.DAYS },
 				{ unit: options.short ? "hr" : "hour", millis: TO_MILLIS.HOURS },
 				{ unit: options.short ? "min" : "minute", millis: TO_MILLIS.MINUTES },
 				{ unit: options.short ? "sec" : "second", millis: TO_MILLIS.SECONDS },
