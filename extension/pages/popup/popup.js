@@ -396,7 +396,6 @@ async function setupDashboard() {
 	}
 
 	function updateUpdateTimer() {
-		Date.now();
 		const updatedAt = parseInt(dashboard.find("#last-update").dataset.updated_at);
 
 		dashboard.find("#last-update").textContent = formatTime({ milliseconds: updatedAt }, { type: "ago", agoFilter: TO_MILLIS.SECONDS });
@@ -1160,7 +1159,7 @@ async function setupNotifications() {
 	notificationHistory.map(createEntry).forEach((entry) => notifications.appendChild(entry));
 
 	function createEntry(notification) {
-		const { message, url, date } = notification;
+		const { message, date } = notification;
 		const title = notification.title.replace("TornTools - ", "");
 
 		return document.newElement({
