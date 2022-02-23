@@ -510,7 +510,13 @@ async function setupMarketSearch() {
 	for (const id in torndata.items) {
 		const name = torndata.items[id].name;
 
-		const div = document.newElement({ type: "li", class: "item", id: name.toLowerCase().replace(/\s+/g, "").replace(":", "_"), text: name });
+		const div = document.newElement({
+			type: "li",
+			class: "item",
+			id: name.toLowerCase().replace(/\s+/g, "").replace(":", "_"),
+			text: name,
+			dataset: { id },
+		});
 
 		itemSelection.appendChild(div);
 
@@ -531,8 +537,11 @@ async function setupMarketSearch() {
 			return;
 		}
 
+		let id;
+		if (!isNaN(keyword)) id = parseInt(keyword);
+
 		for (const item of document.findAll("#market .item-list li")) {
-			if (item.textContent.toLowerCase().includes(keyword)) {
+			if (item.textContent.toLowerCase().includes(keyword) || (id && parseInt(item.dataset.id) === id)) {
 				item.classList.remove("tt-hidden");
 				itemSelection.classList.remove("tt-hidden");
 			} else {

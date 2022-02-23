@@ -16,7 +16,8 @@
 				{ "message": "Add a warning when clicking the post button in B&I.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow stock filtering on multiple names (comma-seperated).", "contributor": "DeKleineKobini" },
 				{ "message": "Ignore fallen players on some faction features.", "contributor": "DeKleineKobini" },
-				{ "message": "Update base respect calculations (war changes and warlord bonus).", "contributor": "DeKleineKobini" }
+				{ "message": "Update base respect calculations (war changes and warlord bonus).", "contributor": "DeKleineKobini" },
+				{ "message": "Allow searching on item id in the market popup tab.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
