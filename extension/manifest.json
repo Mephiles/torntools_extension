@@ -321,7 +321,8 @@
 				"scripts/features/stats-estimate/ttStatsEstimateFactionWars.js",
 				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.js",
 				"scripts/features/energy-warning/ttEnergyWarning.js",
-				"scripts/features/user-alias/ttUserAliasUserlist.js"
+				"scripts/features/user-alias/ttUserAliasUserlist.js",
+				"scripts/features/ranked-war-filter/ttRankedWarFilter.js"
 			],
 			"run_at": "document_end"
 		},
