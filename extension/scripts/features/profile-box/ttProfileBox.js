@@ -616,11 +616,13 @@
 						if (code === 2 && message === "Player not found") errors.push({ service: "YATA", message: "You don't have an account." });
 						else if (code === 502) errors.push({ service: "YATA", message: "YATA appears to be down." });
 						else errors.push({ service: "YATA", message: `Unknown (${code}) - ${message}` });
-					} else if (error.code === CUSTOM_API_ERROR.NO_NETWORK) {
+					} else if (error.code === 502) {
+						errors.push({ service: "YATA", message: "YATA appears to be down." });
+					} else if (error.code === CUSTOM_API_ERROR.NO_NETWORK || error.code === CUSTOM_API_ERROR.CANCELLED) {
 						errors.push({ service: "YATA", message: "Network issues. You likely have no internet at this moment." });
 					} else if (error.code === CUSTOM_API_ERROR.NO_PERMISSION) {
 						errors.push({ service: "YATA", message: "Permission not granted. Please make sure YATA has permission to run." });
-					} else errors.push({ service: "YATA", message: `Unknown - ${error}` });
+					} else errors.push({ service: "YATA", message: `Unknown - ${JSON.stringify(error)}` });
 
 					console.log("Couldn't load stat spy from YATA.", error);
 				}
@@ -672,11 +674,13 @@
 
 						if (code === 429) errors.push({ service: "TornStats", message: "You've exceeded your API limit. Try again in a minute." });
 						else errors.push({ service: "TornStats", message: `Unknown (${code}) - ${message}` });
-					} else if (error.code === CUSTOM_API_ERROR.NO_NETWORK) {
+					} else if (error.code === 502) {
+						errors.push({ service: "TornStats", message: "TornStats appears to be down." });
+					} else if (error.code === CUSTOM_API_ERROR.NO_NETWORK || error.code === CUSTOM_API_ERROR.CANCELLED) {
 						errors.push({ service: "TornStats", message: "Network issues. You likely have no internet at this moment." });
 					} else if (error.code === CUSTOM_API_ERROR.NO_PERMISSION) {
-						errors.push({ service: "TornStats", message: "Permission not granted. Please make sure YATA has permission to run." });
-					} else errors.push({ service: "TornStats", message: `Unknown - ${error}` });
+						errors.push({ service: "TornStats", message: "Permission not granted. Please make sure TornStats has permission to run." });
+					} else errors.push({ service: "TornStats", message: `Unknown - ${JSON.stringify(error)}` });
 
 					console.log("Couldn't load stat spy from TornStats.", error);
 				}

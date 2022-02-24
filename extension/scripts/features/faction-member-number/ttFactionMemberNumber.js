@@ -41,16 +41,18 @@
 		if (list.classList.contains("tt-modified")) return;
 		list.classList.add("tt-modified");
 
-		list.findAll(".table-body > .table-row").forEach((row, index) =>
-			row.insertAdjacentElement(
-				"afterbegin",
-				document.newElement({
-					type: "div",
-					class: "tt-member-index",
-					text: index + 1,
-				})
-			)
-		);
+		let reduced = 0;
+		list.findAll(".table-body > .table-row").forEach((row, index) => {
+			let text;
+			if (row.find(".icons li[id*='icon77___']")) {
+				text = "-";
+				reduced++;
+			} else {
+				text = index + 1 - reduced;
+			}
+
+			row.insertAdjacentElement("afterbegin", document.newElement({ type: "div", class: "tt-member-index", text }));
+		});
 	}
 
 	function removeNumbers() {

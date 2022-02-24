@@ -108,7 +108,12 @@
 
 	async function filtering(includeEstimates) {
 		await requireElement(".user-info-list-wrap");
-		await requireElement(".user-info-list-wrap .ajax-placeholder, .user-info-list-wrap .ajax-preloader", { invert: true });
+		await requireCondition(
+			() =>
+				!document.find(".user-info-list-wrap .ajax-placeholder, .user-info-list-wrap .ajax-preloader") ||
+				document.find(".userlist-wrapper div=No users found"),
+			{}
+		);
 
 		const content = findContainer("Userlist Filter", { selector: "main" });
 		const activity = localFilters["Activity"].getSelections(content);
@@ -152,6 +157,8 @@
 	}
 
 	function filterRow(row, filters, individual) {
+		if (row.find(".ajax-preloader")) return;
+
 		if (filters.activity) {
 			if (
 				filters.activity.length &&

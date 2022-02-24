@@ -28,7 +28,14 @@ span.tt-item-price {
 	color: var(--tt-color-item-quantity);
 }
 
-body.tt-mobile .tt-item-price,
+body.tt-mobile .tt-item-price {
+	position: absolute;
+	right: -10px;
+	top: 10px;
+	float: unset;
+	font-size: 11px;
+}
+
 body.tt-tablet .tt-item-price {
 	margin-top: 12px;
 	padding-right: 5px !important;

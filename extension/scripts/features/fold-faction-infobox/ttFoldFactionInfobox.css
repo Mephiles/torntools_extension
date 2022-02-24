@@ -18,6 +18,7 @@
 	align-self: center;
 	cursor: pointer;
 	color: var(--tt-color-light-green);
+	order: 10;
 }
 
 .tt-foldable.folded {

@@ -386,7 +386,7 @@ async function setupDashboard() {
 
 		const completed_at = !isNaN(parseInt(dataset.completed_at)) ? parseInt(dataset.completed_at) : false;
 
-		cooldown.find(".cooldown-label").textContent = formatTime({ milliseconds: completed_at ? completed_at - current : 0 }, { type: "timer" });
+		cooldown.find(".cooldown-label").textContent = formatTime({ milliseconds: completed_at ? Math.max(completed_at - current, 0) : 0 }, { type: "timer" });
 
 		if (completed_at) {
 			cooldown.find(".cooldown-label").textContent = formatTime({ milliseconds: completed_at - current }, { type: "timer", daysToHours: true });
@@ -396,7 +396,6 @@ async function setupDashboard() {
 	}
 
 	function updateUpdateTimer() {
-		Date.now();
 		const updatedAt = parseInt(dashboard.find("#last-update").dataset.updated_at);
 
 		dashboard.find("#last-update").textContent = formatTime({ milliseconds: updatedAt }, { type: "ago", agoFilter: TO_MILLIS.SECONDS });
@@ -511,7 +510,13 @@ async function setupMarketSearch() {
 	for (const id in torndata.items) {
 		const name = torndata.items[id].name;
 
-		const div = document.newElement({ type: "li", class: "item", id: name.toLowerCase().replace(/\s+/g, "").replace(":", "_"), text: name });
+		const div = document.newElement({
+			type: "li",
+			class: "item",
+			id: name.toLowerCase().replace(/\s+/g, "").replace(":", "_"),
+			text: name,
+			dataset: { id },
+		});
 
 		itemSelection.appendChild(div);
 
@@ -532,8 +537,11 @@ async function setupMarketSearch() {
 			return;
 		}
 
+		let id;
+		if (!isNaN(keyword)) id = parseInt(keyword);
+
 		for (const item of document.findAll("#market .item-list li")) {
-			if (item.textContent.toLowerCase().includes(keyword)) {
+			if (item.textContent.toLowerCase().includes(keyword) || (id && parseInt(item.dataset.id) === id)) {
 				item.classList.remove("tt-hidden");
 				itemSelection.classList.remove("tt-hidden");
 			} else {
@@ -1160,7 +1168,7 @@ async function setupNotifications() {
 	notificationHistory.map(createEntry).forEach((entry) => notifications.appendChild(entry));
 
 	function createEntry(notification) {
-		const { message, url, date } = notification;
+		const { message, date } = notification;
 		const title = notification.title.replace("TornTools - ", "");
 
 		return document.newElement({
