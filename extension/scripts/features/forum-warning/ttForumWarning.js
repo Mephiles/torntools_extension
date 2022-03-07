@@ -132,7 +132,7 @@
 				}),
 				document.newElement("br"),
 				document.newElement("br"),
-				document.newElement({ type: "span", text: "If you can not replicate it without TornTools enabled, please report it to use instead of Torn!" }),
+				document.newElement({ type: "span", text: "If you can not replicate it without TornTools enabled, please report it to us instead of Torn!" }),
 				document.newElement("br"),
 				document.newElement("br"),
 				document.newElement({
