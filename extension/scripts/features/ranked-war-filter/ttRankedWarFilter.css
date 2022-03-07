@@ -1,16 +1,4 @@
-#memberFilter .content .levelFilter__section-class,
-#memberFilter .content .lastActiveFilter__section-class {
-	display: flex;
-	flex-flow: column;
-	align-self: center;
-}
-
-#memberFilter .content .tt-dual-range {
-	margin-bottom: 10px;
-}
-
-#faction-info-members .table-body.tt-modified > li[style*="display: none"] + .tt-last-action,
-#faction-info-members .table-body.tt-modified > li[style*="display: none"] + .tt-stats-estimate,
-#faction-info-members .table-body.tt-modified > li[style*="display: none"] + .tt-last-action + .tt-stats-estimate {
-	display: none;
+#rankedWarFilter {
+	background-color: #333;
+	padding-top: 10px;
 }

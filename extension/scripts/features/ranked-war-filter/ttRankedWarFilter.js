@@ -47,8 +47,6 @@
 			applyRounding: false,
 		});
 
-		content.closest(".tt-filter").style = "background-color: #333; padding-top: 10px;";
-
 		const statistics = createStatistics("players");
 		content.appendChild(statistics.element);
 		localFilters["Statistics"] = { updateStatistics: statistics.updateStatistics };

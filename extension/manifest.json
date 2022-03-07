@@ -289,7 +289,8 @@
 				"scripts/features/stats-estimate/ttStatsEstimate.css",
 				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.css",
 				"scripts/features/energy-warning/ttEnergyWarning.css",
-				"scripts/features/armory-worth/ttArmoryWorth.css"
+				"scripts/features/armory-worth/ttArmoryWorth.css",
+				"scripts/features/ranked-war-filter/ttRankedWarFilter.css"
 			],
 			"js": [
 				"scripts/global/functions/filters.js",
