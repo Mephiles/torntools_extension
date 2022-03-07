@@ -91,6 +91,10 @@
 }
 
 /* New Filters CSS Model */
+.tt-filter {
+	font-family: Arial;
+}
+
 .tt-filter .statistics {
 	width: 100%;
 	text-align: right;

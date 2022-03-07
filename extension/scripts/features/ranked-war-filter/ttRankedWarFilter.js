@@ -23,6 +23,7 @@
 				addFilters(await requireElement(".descriptions .faction-war", { parent: rankedWarItem.parentElement }));
 			}
 		});
+
 		CUSTOM_LISTENERS[EVENT_CHANNELS.STATS_ESTIMATED].push(({ row }) => {
 			if (!feature.enabled()) return;
 
@@ -36,6 +37,7 @@
 
 	const localFilters = {};
 	async function addFilters(rankedWarList) {
+		if (window.location.hash.includes("#/war/rank")) rankedWarList = await requireElement(".act[class*='warListItem__'] ~ .descriptions .faction-war");
 		if (!rankedWarList) return;
 
 		const { content } = createContainer("Ranked War Filter", {
@@ -92,7 +94,7 @@
 		filterContent.appendChild(levelFilter.element);
 		localFilters["Level Filter"] = { getStartEnd: levelFilter.getStartEnd, updateCounter: levelFilter.updateCounter };
 
-		if (settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()) {
+		if (settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.rankedWars && hasAPIData()) {
 			const estimatesFilter = createFilterSection({
 				title: "Stats Estimates",
 				checkboxes: [
@@ -123,7 +125,7 @@
 		const levelStart = parseInt(levels.start);
 		const levelEnd = parseInt(levels.end);
 		const statsEstimates =
-			includeEstimates && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.userlist && hasAPIData()
+			includeEstimates && settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.rankedWars && hasAPIData()
 				? localFilters["Stats Estimate"]?.getSelections(content)
 				: undefined;
 
@@ -203,8 +205,8 @@
 				const content = findContainer("Ranked War Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".user-info-list-wrap > li:not(.tt-hidden)").length,
-					document.findAll(".user-info-list-wrap > li").length,
+					document.findAll(".faction-war[class*='membersWrap__'] .members-list > li:not(.tt-hidden)").length,
+					document.findAll(".faction-war[class*='membersWrap__'] .members-list > li").length,
 					content
 				);
 			}
@@ -222,8 +224,8 @@
 				const content = findContainer("Ranked War Filter", { selector: "main" });
 
 				localFilters["Statistics"].updateStatistics(
-					document.findAll(".user-info-list-wrap > li:not(.tt-hidden)").length,
-					document.findAll(".user-info-list-wrap > li").length,
+					document.findAll(".faction-war[class*='membersWrap__'] .members-list > li:not(.tt-hidden)").length,
+					document.findAll(".faction-war[class*='membersWrap__'] .members-list > li").length,
 					content
 				);
 			}

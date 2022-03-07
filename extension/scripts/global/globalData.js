@@ -643,6 +643,7 @@ const DEFAULT_STORAGE = {
 				wars: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				abroad: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				competition: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				rankedWars: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
 		},
 		external: {

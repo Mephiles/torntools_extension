@@ -316,13 +316,14 @@
 				"scripts/features/upgrade-required-respect/ttUpgradeRequiredRespect.js",
 				"scripts/features/faction-member-info/ttFactionMemberInfo.js",
 				"scripts/features/faction-inactivity-warning/ttFactionInactivityWarning.js",
-				"scripts/features/stats-estimate/statsEstimate.js",
-				"scripts/features/stats-estimate/ttStatsEstimateFactionMembers.js",
-				"scripts/features/stats-estimate/ttStatsEstimateFactionWars.js",
 				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.js",
 				"scripts/features/energy-warning/ttEnergyWarning.js",
 				"scripts/features/user-alias/ttUserAliasUserlist.js",
-				"scripts/features/ranked-war-filter/ttRankedWarFilter.js"
+				"scripts/features/ranked-war-filter/ttRankedWarFilter.js",
+				"scripts/features/stats-estimate/statsEstimate.js",
+				"scripts/features/stats-estimate/ttStatsEstimateFactionMembers.js",
+				"scripts/features/stats-estimate/ttStatsEstimateFactionWars.js",
+				"scripts/features/stats-estimate/ttStatsEstimateFactionRankedWars.js"
 			],
 			"run_at": "document_end"
 		},
