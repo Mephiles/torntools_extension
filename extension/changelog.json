@@ -18,7 +18,8 @@
 				{ "message": "Ignore fallen players on some faction features.", "contributor": "DeKleineKobini" },
 				{ "message": "Update base respect calculations (war changes and warlord bonus).", "contributor": "DeKleineKobini" },
 				{ "message": "Allow searching on item id in the market popup tab.", "contributor": "DeKleineKobini" },
-				{ "message": "Allow chat highlights on the rest ('*').", "contributor": "DeKleineKobini" }
+				{ "message": "Allow chat highlights on the rest ('*').", "contributor": "DeKleineKobini" },
+				{ "message": "Disable most features on the dirty bomb screen", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
