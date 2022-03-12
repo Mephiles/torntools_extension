@@ -1,5 +1,5 @@
 #rankedWarFilter {
-	background-color: #333;
+	background-color: var(--default-bg-panel-color);
 	padding-top: 10px;
 }
 
