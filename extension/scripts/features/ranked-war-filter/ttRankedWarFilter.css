@@ -2,8 +2,3 @@
 	background-color: var(--default-bg-panel-color);
 	padding-top: 10px;
 }
-
-.tt-stats-estimate {
-	padding: 0px;
-	line-height: 25px !important;
-}
