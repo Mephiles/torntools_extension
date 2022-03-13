@@ -1625,6 +1625,7 @@ function getPageStatus() {
 	}
 
 	if (document.find(".captcha")) return { access: false, message: "Captcha required" };
+	else if (document.find(".dirty-bomb")) return { access: false, message: "Dirty bomb screen" };
 
 	return { access: true };
 }

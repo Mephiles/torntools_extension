@@ -62,7 +62,7 @@
 		const sender = simplify(message.find("a").textContent).slice(0, -1);
 		const words = message.find("span").textContent.split(" ").map(simplify);
 
-		const senderHighlights = highlights.filter(({ name }) => name === sender);
+		const senderHighlights = highlights.filter(({ name }) => name === sender || name === "*");
 		if (senderHighlights.length) {
 			message.find("a").style.color = senderHighlights[0].senderColor;
 			message.find("a").classList.add("tt-highlight");
