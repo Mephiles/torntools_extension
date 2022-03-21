@@ -59,6 +59,9 @@
 		} else {
 			timer.textContent = "OK";
 		}
+
+		const search = input.find(".tt-chat-filter");
+		if (search) timer.parentElement.appendChild(search);
 	}
 
 	async function onKeyPress(event) {
@@ -99,4 +102,14 @@
 
 		input.find("textarea").removeEventListener("keypress", onKeyPress);
 	}
+
+	// function moveSearch() {
+	// 	const timer = document.find("#tt-trade-timer");
+	// 	if (!timer) return;
+	//
+	// 	const search = timer.parentElement.parentElement.find(".tt-chat-filter");
+	// 	if (!search) return;
+	//
+	// 	timer.parentElement.appendChild(search);
+	// }
 })();

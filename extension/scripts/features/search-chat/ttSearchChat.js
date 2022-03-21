@@ -65,36 +65,37 @@
 		const chatInput = chat.find("[class*='chat-box-input_']");
 		const hasTradeTimer = chat.classList.contains("^=trade_") && chat.find("#tt-trade-timer");
 
-		const inputChild = hasTradeTimer ? chat.find("#tt-trade-timer").parentElement.nextElementSibling : chatInput.firstElementChild;
+		const searchElement = document.newElement({
+			type: "div",
+			class: "tt-chat-filter",
+			children: [
+				document.newElement({ type: "label", text: "Search:", attributes: { for: id } }),
+				document.newElement({
+					type: "input",
+					id,
+					events: {
+						input: (event) => {
+							const keyword = event.target.value.toLowerCase();
 
-		chatInput.insertBefore(
-			document.newElement({
-				type: "div",
-				class: "tt-chat-filter",
-				children: [
-					document.newElement({ type: "label", text: "Search:", attributes: { for: id } }),
-					document.newElement({
-						type: "input",
-						id,
-						events: {
-							input: (event) => {
-								const keyword = event.target.value.toLowerCase();
+							for (const message of chat.findAll("[class*='overview_'] [class*='message_']")) {
+								searchChat(message, keyword);
+							}
 
-								for (const message of chat.findAll("[class*='overview_'] [class*='message_']")) {
-									searchChat(message, keyword);
-								}
-
-								if (!keyword) {
-									const viewport = chat.find("[class*='viewport_']");
-									viewport.scrollTop = viewport.scrollHeight;
-								}
-							},
+							if (!keyword) {
+								const viewport = chat.find("[class*='viewport_']");
+								viewport.scrollTop = viewport.scrollHeight;
+							}
 						},
-					}),
-				],
-			}),
-			inputChild
-		);
+					},
+				}),
+			],
+		});
+
+		if (hasTradeTimer) {
+			hasTradeTimer.parentElement.appendChild(searchElement);
+		} else {
+			chatInput.insertBefore(searchElement, chatInput.firstElementChild);
+		}
 		chatInput.classList.add("tt-modified");
 	}
 
