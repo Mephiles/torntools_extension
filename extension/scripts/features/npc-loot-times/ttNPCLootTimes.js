@@ -2,7 +2,6 @@
 
 (async () => {
 	if ((await checkDevice()).mobile) return "Not supported on mobile!";
-	else if (isFlying() || isAbroad()) return;
 
 	featureManager.registerFeature(
 		"NPC Loot Times",

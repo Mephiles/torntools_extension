@@ -3,8 +3,6 @@
 (async () => {
 	if ((await checkDevice()).mobile) return "Not supported on mobile!";
 
-	if (isFlying() || isAbroad()) return;
-
 	featureManager.registerFeature(
 		"Bar Links",
 		"sidebar",

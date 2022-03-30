@@ -1,5 +1,5 @@
 .travel-agency-market .tt-travel-market-heading {
-	width: 82px;
+	width: 100px;
 	float: left;
 	padding: 0 10px 0 7px;
 	text-align: right;
@@ -12,7 +12,7 @@
 }
 
 .travel-agency-market .tt-travel-market-cell {
-	width: 75px;
+	width: 93px;
 	padding: 0 10px 0 7px;
 	vertical-align: middle;
 	height: 34px;
@@ -30,18 +30,12 @@ body:not(.dark-mode) .travel-agency-market .tt-travel-market-cell {
 	border-left: 2px solid #222;
 }
 
-.tt-travel-profits .items-list-title .name-b,
-.tt-travel-profits .users-list li .name {
-	width: 263px !important;
-}
-
 .tt-travel-profits .items-list-title .stock-b,
 .tt-travel-profits .users-list li .stock {
-	width: 50px !important;
+	width: 70px !important;
 }
 
 .tt-travel-profits .items-list-title .circulation-b,
 .tt-travel-profits .users-list li .circulation {
-	width: 70px !important;
-	padding: 0 10px 0 0;
+	display: none !important;
 }
