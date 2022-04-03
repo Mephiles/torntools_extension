@@ -1,7 +1,13 @@
 [
 	{
-		"version": { "major": 6, "minor": 5, "build": 2 },
+		"version": { "major": 6, "minor": 6, "build": 0 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 5, "build": 2 },
+		"date": "2022/04/03",
 		"logs": {
 			"fixes": [
 				{ "message": "Fix item value positioning on mobile.", "contributor": "DeKleineKobini" },
