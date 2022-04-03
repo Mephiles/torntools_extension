@@ -20,7 +20,10 @@
 				{ "message": "Allow searching on item id in the market popup tab.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow chat highlights on the rest ('*').", "contributor": "DeKleineKobini" },
 				{ "message": "Disable most features on the dirty bomb screen.", "contributor": "DeKleineKobini" },
-				{ "message": "Change the popup stock ROI calculation to reflect only the single increment instead of the entire block.", "contributor": "DeKleineKobini" }
+				{
+					"message": "Change the popup stock ROI calculation to reflect only the single increment instead of the entire block.",
+					"contributor": "DeKleineKobini"
+				}
 			]
 		}
 	},
