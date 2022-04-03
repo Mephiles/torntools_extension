@@ -943,49 +943,7 @@ async function setupStocksOverview() {
 						})
 					);
 
-					const benefitTable = document.newElement({
-						type: "table",
-						children: [
-							document.newElement({
-								type: "tr",
-								children: [
-									document.newElement({ type: "th", text: "Increment" }),
-									document.newElement({ type: "th", text: "Stocks" }),
-									document.newElement({ type: "th", text: "Cost" }),
-									document.newElement({ type: "th", text: "Reward" }),
-									document.newElement({ type: "th", text: "ROI" }),
-								],
-							}),
-						],
-					});
-
-					const ownedLevel = getStockIncrement(stock.benefit.requirement, userStock.total_shares);
-					const activeLevel = userStock.dividend ? userStock.dividend.increment : 0;
-
-					const rewardValue = getRewardValue(stock.benefit.description);
-					const yearlyValue = (rewardValue / stock.benefit.frequency) * 365;
-					for (let i = 0; i < 5; i++) {
-						const level = i + 1;
-						const stocks = getRequiredStocks(stock.benefit.requirement, level);
-						const reward = getStockReward(stock.benefit.description, level);
-
-						const roi = ((yearlyValue * level) / (stocks * stock.current_price)) * 100;
-
-						benefitTable.appendChild(
-							document.newElement({
-								type: "tr",
-								class: `increment ${level <= ownedLevel ? (level <= activeLevel ? "completed" : "awaiting") : ""}`,
-								children: [
-									document.newElement({ type: "td", text: level }),
-									document.newElement({ type: "td", text: formatNumber(stocks) }),
-									document.newElement({ type: "td", text: formatNumber(stocks * stock.current_price, { decimals: 0, currency: true }) }),
-									document.newElement({ type: "td", text: reward }),
-									document.newElement({ type: "td", text: rewardValue > 0 ? `${formatNumber(roi, { decimals: 1 })}%` : "N/A" }),
-								],
-							})
-						);
-					}
-					benefitContent.appendChild(benefitTable);
+					benefitContent.appendChild(createRoiTable(stock, userStock));
 				} else {
 					benefitContent.appendChild(
 						document.newElement({
@@ -1022,46 +980,7 @@ async function setupStocksOverview() {
 						})
 					);
 
-					const benefitTable = document.newElement({
-						type: "table",
-						children: [
-							document.newElement({
-								type: "tr",
-								children: [
-									document.newElement({ type: "th", text: "Increment" }),
-									document.newElement({ type: "th", text: "Stocks" }),
-									document.newElement({ type: "th", text: "Cost" }),
-									document.newElement({ type: "th", text: "Reward" }),
-									document.newElement({ type: "th", text: "ROI" }),
-								],
-							}),
-						],
-					});
-
-					const rewardValue = getRewardValue(stock.benefit.description);
-					const yearlyValue = (rewardValue / stock.benefit.frequency) * 365;
-					for (let i = 0; i < 5; i++) {
-						const level = i + 1;
-						const stocks = getRequiredStocks(stock.benefit.requirement, level);
-						const reward = getStockReward(stock.benefit.description, level);
-
-						const roi = ((yearlyValue * level) / (stocks * stock.current_price)) * 100;
-
-						benefitTable.appendChild(
-							document.newElement({
-								type: "tr",
-								class: "increment",
-								children: [
-									document.newElement({ type: "td", text: level }),
-									document.newElement({ type: "td", text: formatNumber(stocks) }),
-									document.newElement({ type: "td", text: formatNumber(stocks * stock.current_price, { decimals: 0, currency: true }) }),
-									document.newElement({ type: "td", text: reward }),
-									document.newElement({ type: "td", text: rewardValue > 0 ? `${formatNumber(roi, { decimals: 1 })}%` : "N/A" }),
-								],
-							})
-						);
-					}
-					benefitContent.appendChild(benefitTable);
+					benefitContent.appendChild(createRoiTable(stock, undefined));
 				} else {
 					benefitContent.appendChild(document.newElement({ type: "span", text: `Required stocks: ${formatNumber(stock.benefit.requirement)}` }));
 					benefitContent.appendChild(document.newElement("br"));
@@ -1158,6 +1077,60 @@ async function setupStocksOverview() {
 					},
 				},
 			});
+		}
+
+		function createRoiTable(stock, userStock) {
+			const benefitTable = document.newElement({
+				type: "table",
+				children: [
+					document.newElement({
+						type: "tr",
+						children: [
+							document.newElement({ type: "th", text: "Increment" }),
+							document.newElement({ type: "th", text: "Stocks" }),
+							document.newElement({ type: "th", text: "Cost" }),
+							document.newElement({ type: "th", text: "Reward" }),
+							document.newElement({ type: "th", text: "ROI" }),
+						],
+					}),
+				],
+			});
+
+			let ownedLevel, activeLevel;
+			if (userStock) {
+				ownedLevel = getStockIncrement(stock.benefit.requirement, userStock.total_shares);
+				activeLevel = userStock.dividend ? userStock.dividend.increment : 0;
+			} else {
+				ownedLevel = 0;
+				activeLevel = 0;
+			}
+
+			const rewardValue = getRewardValue(stock.benefit.description);
+			const yearlyValue = (rewardValue / stock.benefit.frequency) * 365;
+			for (let i = 0; i < 5; i++) {
+				const level = i + 1;
+				const stocks = getRequiredStocks(stock.benefit.requirement, level);
+				const previousStocks = getRequiredStocks(stock.benefit.requirement, level - 1);
+				const reward = getStockReward(stock.benefit.description, level);
+
+				const roi = (yearlyValue / ((stocks - previousStocks) * stock.current_price)) * 100;
+
+				benefitTable.appendChild(
+					document.newElement({
+						type: "tr",
+						class: ["increment", level <= ownedLevel ? (level <= activeLevel ? "completed" : "awaiting") : ""],
+						children: [
+							document.newElement({ type: "td", text: level }),
+							document.newElement({ type: "td", text: formatNumber(stocks) }),
+							document.newElement({ type: "td", text: formatNumber(stocks * stock.current_price, { decimals: 0, currency: true }) }),
+							document.newElement({ type: "td", text: reward }),
+							document.newElement({ type: "td", text: rewardValue > 0 ? `${formatNumber(roi, { decimals: 1 })}%` : "N/A" }),
+						],
+					})
+				);
+			}
+
+			return benefitTable;
 		}
 	}
 }
