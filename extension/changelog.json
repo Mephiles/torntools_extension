@@ -1,10 +1,8 @@
 [
 	{
-		"version": { "major": 6, "minor": 6, "build": 0 },
-		"title": "Beta",
+		"version": { "major": 6, "minor": 5, "build": 2 },
 		"date": false,
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "Fix item value positioning on mobile.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix issue when there are no results in the userlist search.", "contributor": "DeKleineKobini" },
@@ -22,12 +20,8 @@
 				{ "message": "Allow searching on item id in the market popup tab.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow chat highlights on the rest ('*').", "contributor": "DeKleineKobini" },
 				{ "message": "Disable most features on the dirty bomb screen.", "contributor": "DeKleineKobini" },
-				{
-					"message": "Change the popup stock ROI calculation to reflect only the single increment instead of the entire block.",
-					"contributor": "DeKleineKobini"
-				}
-			],
-			"removed": []
+				{ "message": "Change the popup stock ROI calculation to reflect only the single increment instead of the entire block.", "contributor": "DeKleineKobini" }
+			]
 		}
 	},
 	{
