@@ -67,9 +67,7 @@ class StatsEstimate {
 					last_action: { timestamp: lastAction },
 				} = ttCache.get("profile-stats", id);
 
-				estimate = this.getEstimate(rank, level, crimes, networth);
-
-				this.cacheResult(id, estimate, lastAction * 1000).catch((error) => console.error("Failed to cache stat estimate.", error));
+				estimate = this.getAndCacheResult(id, rank, level, crimes, networth, lastAction * 1000);
 			}
 
 			if (estimate) {
@@ -187,9 +185,7 @@ class StatsEstimate {
 					last_action: { timestamp: lastAction },
 				} = data;
 
-				estimate = this.getEstimate(rank, level, crimes, networth);
-
-				this.cacheResult(id, estimate, lastAction * 1000).catch((error) => console.error("Failed to cache stat estimate.", error));
+				estimate = this.getAndCacheResult(id, rank, level, crimes, networth, lastAction * 1000);
 			} else {
 				throw { message: "Failed to load estimate.", show: true };
 			}
@@ -206,5 +202,15 @@ class StatsEstimate {
 		else if (estimate === "N/A") days = 1;
 
 		return ttCache.set({ [id]: estimate }, TO_MILLIS.DAYS * days, "stats-estimate");
+	}
+
+	getAndCacheResult(id, rank, level, crimes, networth, lastAction) {
+		const isOldSystem = new Date(lastAction * 1000).getUTCFullYear() <= 2015;
+		if (isOldSystem) return "N/A";
+
+		const estimate = this.getEstimate(rank, level, crimes, networth);
+		this.cacheResult(id, estimate, lastAction * 1000).catch((error) => console.error("Failed to cache stat estimate.", error));
+
+		return estimate;
 	}
 }

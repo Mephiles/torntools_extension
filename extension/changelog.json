@@ -3,7 +3,17 @@
 		"version": { "major": 6, "minor": 6, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [
+				{
+					"message": "Show N/A as stat estimate on accounts that haven't been online since 2015 due to the old rank system.",
+					"contributor": "DeKleineKobini"
+				}
+			],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 6, "minor": 5, "build": 2 },
