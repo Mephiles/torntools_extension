@@ -47,15 +47,18 @@
 
 		document.find(".tt-overlay").classList.remove("tt-hidden");
 
+		const locationText = calculateLocation(egg);
+
 		const popup = document.newElement({
 			type: "div",
 			id: "tt-easter-popup",
 			class: "tt-overlay-item",
 			events: { click: removePopup },
 			children: [
-				document.newElement({ type: "span", text: "Detect an easter egg!" }),
-				document.newElement({ type: "button", class: "tt-button-link", text: "Close" }),
-			],
+				document.newElement({ type: "span", text: "Detected an easter egg!" }),
+				document.newElement({ type: "span", text: `It's located near the ${locationText} of your screen.` }),
+				document.newElement({ type: "button", class: "tt-button-link", text: "Close" })
+			]
 		});
 
 		document.body.appendChild(popup);
@@ -71,5 +74,37 @@
 			document.find(".tt-overlay").classList.add("tt-hidden");
 			popup.remove();
 		}
+	}
+
+	function calculateLocation(element) {
+		const { left, top, width, height } = element.getBoundingClientRect();
+
+		const centerX = left + width / 2;
+		const centerY = top + height / 2;
+
+		const innerHeight = window.innerHeight;
+		const innerWidth = window.innerWidth;
+
+		const relativeHeight = centerY / innerHeight;
+		const relativeWidth = centerX / innerWidth;
+
+		let verticalText, horizontalText;
+
+		if (relativeWidth > 1 || relativeWidth < 0 || relativeHeight > 1 || relativeHeight < 0)
+			return "offscreen";
+
+		if (relativeHeight < 0.25) verticalText = "top";
+		else if (relativeHeight > 0.75) verticalText = "bottom";
+		else verticalText = "center";
+
+		if (relativeWidth < 0.3) horizontalText = "left";
+		else if (relativeWidth > 0.7) horizontalText = "right";
+		else horizontalText = "center";
+
+		let text;
+		if (verticalText === horizontalText) text = verticalText;
+		else text = `${verticalText} ${horizontalText}`;
+
+		return text;
 	}
 })();
