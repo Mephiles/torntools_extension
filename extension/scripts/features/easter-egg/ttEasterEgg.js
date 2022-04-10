@@ -57,8 +57,8 @@
 			children: [
 				document.newElement({ type: "span", text: "Detected an easter egg!" }),
 				document.newElement({ type: "span", text: `It's located near the ${locationText} of your screen.` }),
-				document.newElement({ type: "button", class: "tt-button-link", text: "Close" })
-			]
+				document.newElement({ type: "button", class: "tt-button-link", text: "Close" }),
+			],
 		});
 
 		document.body.appendChild(popup);
@@ -90,8 +90,7 @@
 
 		let verticalText, horizontalText;
 
-		if (relativeWidth > 1 || relativeWidth < 0 || relativeHeight > 1 || relativeHeight < 0)
-			return "offscreen";
+		if (relativeWidth > 1 || relativeWidth < 0 || relativeHeight > 1 || relativeHeight < 0) return "offscreen";
 
 		if (relativeHeight < 0.25) verticalText = "top";
 		else if (relativeHeight > 0.75) verticalText = "bottom";
