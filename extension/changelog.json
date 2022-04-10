@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [],
+			"fixes": [{ "message": "Fix dark mode issues on quick items+crimes in edit mode.", "contributor": "DeKleineKobini" }],
 			"changes": [
 				{
 					"message": "Show N/A as stat estimate on accounts that haven't been online since 2015 due to the old rank system.",

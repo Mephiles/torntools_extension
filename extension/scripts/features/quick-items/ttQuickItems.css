@@ -75,7 +75,14 @@ body.dark-mode #quickItems .inner-content .item.equipped {
 #quickItems .inner-content .item .sub-text {
 	text-align: center;
 	font-size: 10px;
+}
+
+body:not(.dark-mode) #quickItems .inner-content .item .sub-text {
 	color: gray;
+}
+
+body.dark-mode #quickItems .inner-content .item .sub-text {
+	color: #bdadad;
 }
 
 #quickItems .response-wrap {
@@ -100,6 +107,10 @@ body.dark-mode #quickItems .inner-content .item.equipped {
 	border-bottom: 1px solid #00000059;
 }
 
-#quickItems .inner-content .item.removable {
+body:not(.dark-mode) #quickItems .inner-content .item.removable {
 	background-color: #ffd5d5 !important;
+}
+
+body.dark-mode #quickItems .inner-content .item.removable {
+	background-color: #9d2f2f !important;
 }
