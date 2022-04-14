@@ -459,8 +459,6 @@
 			else hideTable();
 
 			function showIcon() {
-				document.find("#top-page-links-list > .last").classList.remove("last");
-
 				document.find("#top-page-links-list").insertBefore(
 					document.newElement({
 						type: "span",

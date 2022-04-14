@@ -85,6 +85,10 @@ body.dark-mode #quickCrimes .inner-content .quick-item {
 	margin-right: 4px;
 }
 
-#quickCrimes .inner-content .quick-item.removable {
+body:not(.dark-mode) #quickCrimes .inner-content .quick-item.removable {
 	background-color: #ffd5d5 !important;
+}
+
+body.dark-mode #quickCrimes .inner-content .quick-item.removable {
+	background-color: #9d2f2f !important;
 }

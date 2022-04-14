@@ -46,9 +46,11 @@
 					level,
 					criminalrecord: { total: crimes },
 					personalstats: { networth },
+					last_action: { timestamp: lastAction },
+					player_id: id,
 				} = userdata;
 
-				const estimate = statsEstimate.getEstimate(rank, level, crimes, networth);
+				const estimate = statsEstimate.getAndCacheResult(id, rank, level, crimes, networth, lastAction * 1000);
 
 				createElement(estimate, true, "attacker");
 			}

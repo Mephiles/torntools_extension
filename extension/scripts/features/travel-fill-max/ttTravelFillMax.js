@@ -22,7 +22,7 @@
 
 		for (const buyBtn of market.findAll(".buy")) {
 			buyBtn.parentElement.classList.add("tt-buy");
-			const maxSpan = document.newElement({ type: "span", text: "fill max", class: "tt-max-buy" });
+			const maxSpan = document.newElement({ type: "span", text: "max", class: "tt-max-buy" });
 			buyBtn.parentElement.appendChild(maxSpan);
 
 			maxSpan.addEventListener("click", (event) => {

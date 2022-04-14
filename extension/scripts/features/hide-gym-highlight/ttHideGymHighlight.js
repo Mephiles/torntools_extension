@@ -1,8 +1,6 @@
 "use strict";
 
 (async () => {
-	if (isFlying() || isAbroad()) return;
-
 	featureManager.registerFeature(
 		"Hide Gym Highlight",
 		"sidebar",

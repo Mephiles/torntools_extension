@@ -1,8 +1,6 @@
 "use strict";
 
 (async () => {
-	if (isFlying() || isAbroad()) return;
-
 	featureManager.registerFeature(
 		"Total Portfolio Value and Profit",
 		"stocks",

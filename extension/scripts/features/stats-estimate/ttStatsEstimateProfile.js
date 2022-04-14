@@ -58,9 +58,7 @@
 					last_action: { timestamp: lastAction },
 				} = data;
 
-				estimate = statsEstimate.getEstimate(rank, level, crimes, networth);
-
-				statsEstimate.cacheResult(id, estimate, lastAction * 1000).catch((error) => console.error("Failed to cache stat estimate.", error));
+				estimate = statsEstimate.getAndCacheResult(id, rank, level, crimes, networth, lastAction * 1000);
 			} else {
 				console.log("TT - Failed to load estimates.");
 				return;

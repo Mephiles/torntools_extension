@@ -5,11 +5,27 @@
 		"date": false,
 		"logs": {
 			"features": [],
+			"fixes": [{ "message": "Fix dark mode issues on quick items+crimes in edit mode.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{
+					"message": "Show N/A as stat estimate on accounts that haven't been online since 2015 due to the old rank system.",
+					"contributor": "DeKleineKobini"
+				}
+			],
+			"removed": []
+		}
+	},
+	{
+		"version": { "major": 6, "minor": 5, "build": 2 },
+		"date": "2022/04/03",
+		"logs": {
 			"fixes": [
 				{ "message": "Fix item value positioning on mobile.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix issue when there are no results in the userlist search.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix time formatting for days in certain cases.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix the cooldown timers going in the negative.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix the cooldown timers going in the negative.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix trade timer position.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix travel sidebar stuff.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Remove the option to disable the B&I warning.", "contributor": "DeKleineKobini" },
@@ -19,9 +35,12 @@
 				{ "message": "Update base respect calculations (war changes and warlord bonus).", "contributor": "DeKleineKobini" },
 				{ "message": "Allow searching on item id in the market popup tab.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow chat highlights on the rest ('*').", "contributor": "DeKleineKobini" },
-				{ "message": "Disable most features on the dirty bomb screen", "contributor": "DeKleineKobini" }
-			],
-			"removed": []
+				{ "message": "Disable most features on the dirty bomb screen.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Change the popup stock ROI calculation to reflect only the single increment instead of the entire block.",
+					"contributor": "DeKleineKobini"
+				}
+			]
 		}
 	},
 	{

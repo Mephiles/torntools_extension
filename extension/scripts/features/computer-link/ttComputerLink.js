@@ -15,9 +15,7 @@
 		},
 		async () => {
 			if (!document.find("#top-page-links-list")) return "No icon bar present.";
-			else if (document.find("#top-page-links-list > .laptop")) return "Already has a laptop.";
-			else if (hasAPIData() && settings.apiUsage.user.inventory && !findItemsInObject(userdata.inventory, { ID: 61 }, { single: true }))
-				return "No computer found!";
+			else if (hasAPIData() && settings.apiUsage.user.inventory && !hasComputer()) return "No computer found!";
 
 			await checkDevice();
 		}
@@ -64,5 +62,9 @@
 	function removeComputer() {
 		const link = document.find(".tt-computer");
 		if (link) link.remove();
+	}
+
+	function hasComputer() {
+		return findItemsInObject(userdata.inventory, { ID: 61 }, { single: true }) || findItemsInObject(userdata.inventory, { ID: 154 }, { single: true });
 	}
 })();

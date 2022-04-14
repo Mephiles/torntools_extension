@@ -2,7 +2,6 @@
 
 (async () => {
 	await requireElement("body");
-	if (isFlying() || isAbroad()) return;
 
 	featureManager.registerFeature(
 		"Highlight Nerve Refill",
