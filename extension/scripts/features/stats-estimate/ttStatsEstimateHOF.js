@@ -38,7 +38,8 @@
 	}
 
 	async function showEstimates() {
-		await requireElement(".players-list");
+		await requireElement(".players-list > li");
+		await requireElement(".players-list > li .ajax-preloader", { invert: true });
 
 		let levelSelector;
 		if (document.find(".hall-of-fame-list-wrap .hall-of-fame-wrap").classList.contains("levels")) {
@@ -48,7 +49,7 @@
 		}
 
 		statsEstimate.clearQueue();
-		statsEstimate.showEstimates(".players-list > li", (row) => ({
+		statsEstimate.showEstimates(".players-list > li:not(.empty)", (row) => ({
 			id: parseInt(row.find(".user.name[href*='profiles.php']").href.match(/(?<=XID=).*/)[0]),
 			level: parseInt(row.find(levelSelector).textContent),
 		}));

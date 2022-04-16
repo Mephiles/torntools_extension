@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix dark mode issues on quick items+crimes in edit mode.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Fix dark mode issues on quick items+crimes in edit mode.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix stats estimates on the HOF not always working properly.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [
 				{
 					"message": "Show N/A as stat estimate on accounts that haven't been online since 2015 due to the old rank system.",
