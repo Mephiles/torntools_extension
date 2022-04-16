@@ -22,10 +22,6 @@
 
 			filtering(true);
 		});
-
-		addXHRListener(async ({ detail: { page, xhr, uri, ...details } }) => {
-			console.log("DKK xhr", page, xhr, uri, details);
-		});
 	}
 
 	const localFilters = {};
