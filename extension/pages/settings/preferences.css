@@ -181,7 +181,7 @@ body.dark #tt-search-list::-webkit-scrollbar-thumb {
 		background-color: initial;
 	}
 	50% {
-		background-color: #769e07;
+		background-color: rgba(118, 158, 7, 0.4);
 	}
 	100% {
 		background-color: initial;
