@@ -37,7 +37,7 @@
 		addFetchListener(({ detail: { page, fetch } }) => {
 			if (!feature.enabled()) return;
 
-			if (page === "page" && (new URL(fetch.url)).searchParams.get("sid") === "factionsRankedWarring") filtering();
+			if (page === "page" && new URL(fetch.url).searchParams.get("sid") === "factionsRankedWarring") filtering();
 		});
 	}
 
@@ -172,8 +172,7 @@
 			}
 		}
 		if (filters.status.length) {
-			if (!filters.status.includes(row.find(".status").textContent.toLowerCase().trim()))
-			{
+			if (!filters.status.includes(row.find(".status").textContent.toLowerCase().trim())) {
 				hide("status");
 				return;
 			}
