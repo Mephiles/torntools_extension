@@ -38,12 +38,11 @@
 			return;
 		}
 
-		const canvas = document.newElement({ type: "canvas", attributes: { width: egg.width, height: egg.height } });
-		const context = canvas.getContext("2d");
-		context.drawImage(egg, 0, 0);
-
-		// Check if the egg
-		if (!context.getImageData(0, 0, canvas.width, canvas.height).data.some((d) => d !== 0)) return;
+		if (!isVisible(egg)) {
+			console.log("TT detected an hidden egg", egg);
+			egg.classList.add("hidden-egg");
+			return;
+		}
 
 		document.find(".tt-overlay").classList.remove("tt-hidden");
 
@@ -55,8 +54,8 @@
 			class: "tt-overlay-item",
 			events: { click: removePopup },
 			children: [
-				document.newElement({ type: "span", text: "Detected an easter egg!" }),
-				document.newElement({ type: "span", text: `It's located near the ${locationText} of your screen.` }),
+				document.newElement({ type: "div", text: "Detected an easter egg!" }),
+				document.newElement({ type: "div", text: `It's located near the ${locationText} of your screen.` }),
 				document.newElement({ type: "button", class: "tt-button-link", text: "Close" }),
 			],
 		});
@@ -76,6 +75,21 @@
 		}
 	}
 
+	function isVisible(egg) {
+		const canvas = document.newElement({ type: "canvas", attributes: { width: egg.width, height: egg.height } });
+		const context = canvas.getContext("2d");
+		context.drawImage(egg, 0, 0);
+
+		const { data } = context.getImageData(0, 0, canvas.width, canvas.height);
+
+		// total pixels 	= 1520
+		// 0				= 868
+		// not 0			= 652
+
+		// 0 means it's transparent, not having any other pixels means it's completely hidden
+		return data.some((d) => d !== 0);
+	}
+
 	function calculateLocation(element) {
 		const { left, top, width, height } = element.getBoundingClientRect();
 
@@ -90,8 +104,6 @@
 
 		let verticalText, horizontalText;
 
-		if (relativeWidth > 1 || relativeWidth < 0 || relativeHeight > 1 || relativeHeight < 0) return "offscreen";
-
 		if (relativeHeight < 0.25) verticalText = "top";
 		else if (relativeHeight > 0.75) verticalText = "bottom";
 		else verticalText = "center";
@@ -103,6 +115,8 @@
 		let text;
 		if (verticalText === horizontalText) text = verticalText;
 		else text = `${verticalText} ${horizontalText}`;
+
+		if (relativeWidth > 1 || relativeWidth < 0 || relativeHeight > 1 || relativeHeight < 0) text += " (offscreen)";
 
 		return text;
 	}

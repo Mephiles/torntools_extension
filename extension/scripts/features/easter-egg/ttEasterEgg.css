@@ -8,4 +8,26 @@
 	box-shadow: var(--tt-shadow-popup);
 	border-radius: 8px;
 	padding: 10px;
+	line-height: 1.1em;
+}
+
+img[src^="competition.php?c=EasterEggs"][src*="step=eggImage"][src*="access_token="]:not(.hidden-egg) {
+	animation: easter-pulse 2s infinite;
+}
+
+@keyframes easter-pulse {
+	0% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(0, 165, 0, 0.7);
+	}
+
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 50px rgba(0, 165, 0, 0);
+	}
+
+	100% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(0, 165, 0, 0);
+	}
 }
