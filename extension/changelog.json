@@ -13,7 +13,8 @@
 				{
 					"message": "Show N/A as stat estimate on accounts that haven't been online since 2015 due to the old rank system.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Highlight easter eggs and show their location in the popup.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
