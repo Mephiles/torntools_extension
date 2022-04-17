@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [
+				{ "message": "Filters for ranked wars", "contributor": "bandirao" },
+				{ "message": "Stats Estimates for ranked wars.", "contributor": "bandirao" }
+			],
 			"fixes": [
 				{ "message": "Fix dark mode issues on quick items+crimes in edit mode.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix stats estimates on the HOF not always working properly.", "contributor": "DeKleineKobini" }
