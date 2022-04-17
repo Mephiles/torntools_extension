@@ -1049,33 +1049,67 @@ async function updateStocks() {
 
 async function updateFactiondata() {
 	if (!userdata?.faction?.faction_id) {
-		factiondata = {};
+		factiondata = { access: FACTION_ACCESS.none };
 	} else {
-		const selections = ["positions"];
-		if (hasFactionAPIAccess()) selections.push("crimes");
+		const hasFactiondata = !factiondata || typeof factiondata !== "object" || factiondata.access !== FACTION_ACCESS.none;
 
-		factiondata = await fetchData("torn", { section: "faction", selections, silent: true, succeedOnError: true });
+		if (!hasFactiondata || hasFactionAPIAccess()) {
+			factiondata = await updateAccess();
+		} else {
+			const retry = !factiondata.retry || hasTimePassed(factiondata.date, TO_MILLIS.HOURS * 6);
 
-		if (!factiondata || !Object.keys(factiondata).length) throw new Error("Aborted updating due to an unexpected response.");
-	}
-
-	factiondata.date = Date.now();
-
-	if (hasFactionAPIAccess()) {
-		if (factiondata.crimes) {
-			factiondata.userCrime = -1;
-
-			for (const id of Object.keys(factiondata.crimes).reverse()) {
-				const crime = factiondata.crimes[id];
-
-				if (crime.initiated || !crime.participants.map((value) => parseInt(Object.keys(value)[0])).includes(userdata.player_id)) continue;
-
-				factiondata.userCrime = crime.time_ready * 1000;
-			}
+			if (retry) factiondata = await updateAccess();
+			else factiondata = await updateBasic();
 		}
 	}
 
 	await ttStorage.set({ factiondata });
+
+	async function updateAccess() {
+		try {
+			const data = await fetchData("torn", { section: "faction", selections: ["crimes", "basic"], silent: true });
+			data.access = FACTION_ACCESS.full_access;
+			data.date = Date.now();
+
+			data.userCrime = calculateOC(data.crimes);
+			return data;
+		} catch (error) {
+			if (error?.code === 7) {
+				const data = await updateBasic();
+				data.retry = Date.now();
+
+				return data;
+			}
+
+			return { error, access: FACTION_ACCESS.none };
+		}
+
+		function calculateOC(crimes) {
+			let oc = -1;
+
+			for (const id of Object.keys(crimes).reverse()) {
+				const crime = crimes[id];
+
+				if (crime.initiated || !crime.participants.map((value) => parseInt(Object.keys(value)[0])).includes(userdata.player_id)) continue;
+
+				oc = crime.time_ready * 1000;
+			}
+
+			return oc;
+		}
+	}
+
+	async function updateBasic() {
+		try {
+			const data = await fetchData("torn", { section: "faction", selections: ["basic"], silent: true });
+			data.access = FACTION_ACCESS.basic;
+			data.date = Date.now();
+
+			return data;
+		} catch (error) {
+			return { error, access: FACTION_ACCESS.none };
+		}
+	}
 }
 
 async function updateNPCs() {

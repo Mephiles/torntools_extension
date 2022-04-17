@@ -19,6 +19,12 @@ const FETCH_PLATFORMS = {
 	imperium: "https://inq.mavri.dev/",
 };
 
+const FACTION_ACCESS = {
+	none: "none",
+	basic: "basic",
+	full_access: "full_access",
+};
+
 async function fetchData(location, options = {}) {
 	options = {
 		fakeResponse: false,
@@ -308,16 +314,7 @@ function hasAPIData() {
 function hasFactionAPIAccess() {
 	if (!hasAPIData()) return false;
 
-	const position = userdata.faction.position;
-	// noinspection JSIncompatibleTypesComparison
-	if (position === "Leader" || position === "Co-leader") return true; // (Co-)Leader always have api access.
-
-	// Faction positions not loaded, impossible to detect api access.
-	if (!factiondata.positions) return false;
-	// Positions not found, impossible to detect api access.
-	if (!(position in factiondata.positions)) return false;
-
-	return factiondata.positions[userdata.faction.position].canAccessFactionApi === 1;
+	return factiondata?.access === FACTION_ACCESS.full_access;
 }
 
 async function hasOrigins(...origins) {
