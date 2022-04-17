@@ -33,6 +33,12 @@
 
 			filterRow(row, { statsEstimates }, true);
 		});
+
+		addFetchListener(({ detail: { page, fetch } }) => {
+			if (!feature.enabled()) return;
+
+			if (page === "page" && (new URL(fetch.url)).searchParams.get("sid") === "factionsRankedWarring") filtering();
+		});
 	}
 
 	const localFilters = {};
