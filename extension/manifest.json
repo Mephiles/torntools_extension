@@ -240,7 +240,8 @@
 				"scripts/features/company-specials/ttCompanySpecials.js",
 				"scripts/features/last-action/ttCompanyLastAction.js",
 				"scripts/features/employee-inactivity-warning/ttEmployeeInactivityWarning.js",
-				"scripts/features/employee-effectiveness/ttEmployeeEffectiveness.js"
+				"scripts/features/employee-effectiveness/ttEmployeeEffectiveness.js",
+				"scripts/features/auto-stock-fill/ttAutoStockFill.js"
 			],
 			"run_at": "document_end"
 		},

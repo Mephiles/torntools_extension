@@ -465,6 +465,7 @@ const DEFAULT_STORAGE = {
 			},
 			companies: {
 				specials: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				autoStockFill: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				employeeEffectiveness: new DefaultSetting({ type: "number", defaultValue: 18 }),
 			},
 			travel: {
