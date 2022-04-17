@@ -12,22 +12,19 @@
 }
 
 img[src^="competition.php?c=EasterEggs"][src*="step=eggImage"][src*="access_token="]:not(.hidden-egg) {
-	animation: easter-pulse 2s infinite;
+	animation: easter-pulse 2s ease-out infinite;
 }
 
 @keyframes easter-pulse {
 	0% {
-		transform: scale(0.95);
-		box-shadow: 0 0 0 0 rgba(0, 165, 0, 0.7);
+		box-shadow: 0 0 0 0 rgba(0, 165, 0, 0.9);
 	}
 
 	70% {
-		transform: scale(1);
-		box-shadow: 0 0 0 50px rgba(0, 165, 0, 0);
+		box-shadow: 0 0 0 100px rgba(0, 165, 0, 0);
 	}
 
 	100% {
-		transform: scale(0.95);
 		box-shadow: 0 0 0 0 rgba(0, 165, 0, 0);
 	}
 }
