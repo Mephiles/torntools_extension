@@ -4,17 +4,9 @@
 	if (!getPageStatus().access) return;
 	if (!isOwnCompany) return;
 
-	const feature = featureManager.registerFeature(
-		"Auto Fill Stock",
-		"companies",
-		() => settings.pages.companies.autoStockFill,
-		addListener,
-		fillStock,
-		null,
-		{
-			storage: ["settings.pages.companies.autoStockFill"],
-		}
-	);
+	const feature = featureManager.registerFeature("Auto Fill Stock", "companies", () => settings.pages.companies.autoStockFill, addListener, fillStock, null, {
+		storage: ["settings.pages.companies.autoStockFill"],
+	});
 
 	function addListener() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.COMPANY_STOCK_PAGE].push(async () => {
@@ -35,7 +27,7 @@
 			const inStock = stockItem.find(".stock").lastChild.textContent.getNumber();
 			const soldDaily = stockItem.find(".sold-daily").lastChild.textContent.getNumber();
 
-			const neededStock = (((soldDaily / totalSoldDaily) * totalCapacity) - onOrder - inStock).dropDecimals();
+			const neededStock = ((soldDaily / totalSoldDaily) * totalCapacity - onOrder - inStock).dropDecimals();
 
 			const input = stockItem.find("input");
 			input.value = neededStock;
