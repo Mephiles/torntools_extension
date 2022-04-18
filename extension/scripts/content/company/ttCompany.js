@@ -23,5 +23,6 @@ if (!isOwnCompany) {
 } else {
 	window.addEventListener("hashchange", () => {
 		if (getHashParameters().get("option") === "employees") triggerCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE);
+		else if (getHashParameters().get("option") === "stock") triggerCustomListener(EVENT_CHANNELS.COMPANY_STOCK_PAGE);
 	});
 }

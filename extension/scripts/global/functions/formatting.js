@@ -17,7 +17,7 @@ String.prototype.camelCase = function (lowerCamelCase) {
 };
 
 String.prototype.getNumber = function () {
-	return parseInt(this.replace(REGEXES.getNumber, ""));
+	return parseInt(this.replace(REGEXES.getNumber, "")) || 0;
 };
 
 function toSeconds(milliseconds) {
