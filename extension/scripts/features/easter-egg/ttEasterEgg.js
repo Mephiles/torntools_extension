@@ -26,6 +26,8 @@
 	}
 
 	function enableDetector() {
+		document.body.classList.add("tt-easter-highlight");
+
 		for (const egg of document.findAll(EGG_SELECTOR)) {
 			highlightEgg(egg);
 		}

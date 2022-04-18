@@ -11,7 +11,7 @@
 	line-height: 1.1em;
 }
 
-img[src^="competition.php?c=EasterEggs"][src*="step=eggImage"][src*="access_token="]:not(.hidden-egg) {
+.tt-easter-highlight img[src^="competition.php?c=EasterEggs"][src*="step=eggImage"][src*="access_token="]:not(.hidden-egg) {
 	animation: easter-pulse 2s ease-out infinite;
 }
 
