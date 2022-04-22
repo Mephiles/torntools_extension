@@ -21,7 +21,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 
 		await requireElement(".faction-tabs");
 
-		document.find(".faction-tabs li[data-case=main]").addEventListener("click", loadMain);
+		document.find(".faction-tabs li[data-case=mainTabContent]").addEventListener("click", loadMain);
 		document.find(".faction-tabs li[data-case=info]").addEventListener("click", loadInfo);
 		// document.find(".faction-tabs li[data-case=crimes]").addEventListener("click", loadCrimes);
 		document.find(".faction-tabs li[data-case=armoury]").addEventListener("click", loadArmory);

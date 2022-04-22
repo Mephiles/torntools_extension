@@ -48,7 +48,7 @@
 				description = document.find(".faction-description");
 				key = "faction_description_full";
 			} else {
-				title = document.find("#faction-main > [data-title='announcement'][role='heading']");
+				title = document.find("#faction-main [data-title='announcement'][role='heading']");
 				description = title.nextElementSibling;
 				key = "faction_announcement_full";
 			}

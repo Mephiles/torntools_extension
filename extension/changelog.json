@@ -11,7 +11,10 @@
 			],
 			"fixes": [
 				{ "message": "Fix dark mode issues on quick items+crimes in edit mode.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix stats estimates on the HOF not always working properly.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix stats estimates on the HOF not always working properly.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix faction infobox folding.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix showing full faction infobox.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix faction features on other tabs.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{
