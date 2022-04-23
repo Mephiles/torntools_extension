@@ -387,12 +387,6 @@ async function setupDashboard() {
 		const completed_at = !isNaN(parseInt(dataset.completed_at)) ? parseInt(dataset.completed_at) : false;
 
 		cooldown.find(".cooldown-label").textContent = formatTime({ milliseconds: completed_at ? Math.max(completed_at - current, 0) : 0 }, { type: "timer" });
-
-		if (completed_at) {
-			cooldown.find(".cooldown-label").textContent = formatTime({ milliseconds: completed_at - current }, { type: "timer", daysToHours: true });
-		} else {
-			cooldown.find(".cooldown-label").textContent = formatTime({ milliseconds: 0 }, { type: "timer", daysToHours: true });
-		}
 	}
 
 	function updateUpdateTimer() {
