@@ -5,9 +5,9 @@
 		"date": false,
 		"logs": {
 			"features": [
-				{ "message": "Filters for ranked wars", "contributor": "bandirao" },
+				{ "message": "Filters for ranked wars.", "contributor": "bandirao" },
 				{ "message": "Stats Estimates for ranked wars.", "contributor": "bandirao" },
-				{ "message": "Company refill button", "contributor": "bandirao" },
+				{ "message": "Company refill button.", "contributor": "bandirao" },
 				{ "message": "Show the life you'll get when taking a medical item.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
