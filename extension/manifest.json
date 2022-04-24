@@ -291,7 +291,8 @@
 				"scripts/features/abroad-energy-warning/ttAbroadEnergyWarning.css",
 				"scripts/features/energy-warning/ttEnergyWarning.css",
 				"scripts/features/armory-worth/ttArmoryWorth.css",
-				"scripts/features/ranked-war-filter/ttRankedWarFilter.css"
+				"scripts/features/ranked-war-filter/ttRankedWarFilter.css",
+				"scripts/features/medical-life/ttMedicalLife.css"
 			],
 			"js": [
 				"scripts/global/functions/filters.js",
@@ -325,7 +326,8 @@
 				"scripts/features/stats-estimate/statsEstimate.js",
 				"scripts/features/stats-estimate/ttStatsEstimateFactionMembers.js",
 				"scripts/features/stats-estimate/ttStatsEstimateFactionWars.js",
-				"scripts/features/stats-estimate/ttStatsEstimateFactionRankedWars.js"
+				"scripts/features/stats-estimate/ttStatsEstimateFactionRankedWars.js",
+				"scripts/features/medical-life/ttMedicalLife.js"
 			],
 			"run_at": "document_end"
 		},
@@ -412,7 +414,8 @@
 				"scripts/features/can-energy/ttCanEnergy.css",
 				"scripts/features/alcohol-nerve/ttAlcoholNerve.css",
 				"scripts/features/candy-happy/ttCandyHappy.css",
-				"scripts/features/energy-warning/ttEnergyWarning.css"
+				"scripts/features/energy-warning/ttEnergyWarning.css",
+				"scripts/features/medical-life/ttMedicalLife.css"
 			],
 			"js": [
 				"vendor/drag-drop-touch/DragDropTouch.js",
@@ -428,7 +431,8 @@
 				"scripts/features/alcohol-nerve/ttAlcoholNerve.js",
 				"scripts/features/candy-happy/ttCandyHappy.js",
 				"scripts/features/no-confirm/ttItemNoConfirm.js",
-				"scripts/features/energy-warning/ttEnergyWarning.js"
+				"scripts/features/energy-warning/ttEnergyWarning.js",
+				"scripts/features/medical-life/ttMedicalLife.js"
 			],
 			"run_at": "document_end"
 		},
