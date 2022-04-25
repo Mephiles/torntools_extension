@@ -663,9 +663,15 @@
 						}
 					} else {
 						if (!result.status) {
-							if (result.message.includes("User not found.")) errors.push({ service: "TornStats", message: "You don't have an account." });
-							else if (result.spy.message.includes("Spy not found.")) errors.push({ service: "TornStats", message: "No spy found." });
-							else errors.push({ service: "TornStats", message: `Unknown - ${error.message}` });
+							if (result.message) {
+								if (result.message.includes("User not found.")) errors.push({ service: "TornStats", message: "You don't have an account." });
+								else if (result.spy.message.includes("Spy not found.")) errors.push({ service: "TornStats", message: "No spy found." });
+								else errors.push({ service: "TornStats", message: `Unknown - ${result.message}` });
+							} else {
+								errors.push({ service: "TornStats", message: `Unknown - ${JSON.stringify(result)}` });
+							}
+						} else {
+							errors.push({ service: "TornStats", message: `Unknown - ${JSON.stringify(result)}` });
 						}
 					}
 				} catch (error) {
