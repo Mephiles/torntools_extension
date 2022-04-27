@@ -670,8 +670,6 @@
 							} else {
 								errors.push({ service: "TornStats", message: `Unknown - ${JSON.stringify(result)}` });
 							}
-						} else {
-							errors.push({ service: "TornStats", message: `Unknown - ${JSON.stringify(result)}` });
 						}
 					}
 				} catch (error) {
