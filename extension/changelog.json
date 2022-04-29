@@ -23,7 +23,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Highlight easter eggs and show their location in the popup.", "contributor": "DeKleineKobini" },
-				{ "message": "Update faction update logic.", "contributor": "DeKleineKobini" }
+				{ "message": "Update faction update logic.", "contributor": "DeKleineKobini" },
+				{ "message": "Use own tooltip instead of 3rd-party libraries.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

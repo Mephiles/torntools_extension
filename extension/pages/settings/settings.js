@@ -394,7 +394,8 @@ async function setupPreferences(requireCleanup) {
 			class: "icon",
 			children: [document.newElement({ type: "div", class: icon })],
 		});
-		tippy(iconsWrap, { content: description });
+		iconsWrap.classList.add("hover_tooltip");
+		iconsWrap.appendChild(document.newElement({ type: "span", class: "hover_tooltip_text", text: description }));
 
 		hideIconsParent.appendChild(iconsWrap);
 
