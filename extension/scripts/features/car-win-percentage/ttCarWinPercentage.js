@@ -29,15 +29,21 @@
 
 	async function addPercentage() {
 		await requireElement(".enlisted-stat");
+
 		if (document.find(".tt-win-percentage")) return;
+
+		const REGEX = /(Races won:) (\d)*|(Races entered:) (\d)*/;
+
 		document.findAll(".enlist-info").forEach((stat) => {
+			const values = [...stat.findAll(".enlisted-stat > li")]
+				.map((item) => item.textContent.replace(/[^\d\w :]/g, "").trim())
+				.filter((text) => REGEX.test(text))
+				.map((text) => text.getNumber());
+
 			let text;
-			const values = stat
-				.find(".enlisted-stat")
-				.textContent.replace(/\n/g, "")
-				.match(/(?<=• Races won: )\d*(?= • W)|(?<=• Races entered: )\d*(?= • )/g);
 			if (values[0] === "0") text = "• Win Percentage: 0%";
 			else text = `• Win Percentage: ${((values[0] / values[1]) * 100).toFixed(2)}%`;
+
 			stat.find(".enlisted-stat").insertAdjacentElement("beforeend", document.newElement({ type: "li", class: "tt-win-percentage", text: text }));
 		});
 	}
