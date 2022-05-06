@@ -622,29 +622,29 @@ const COMPANY_INFORMATION = {
 	},
 	"Gents Strip Club": {
 		1: {
-			name: "Happy Hour",
+			name: "Happy Ending",
 			cost: "1",
-			effect: "Money",
+			effect: "50 happy",
 		},
 		3: {
-			name: "Free Drinks",
-			cost: "1",
-			effect: "2 nerve",
-		},
-		5: {
-			name: "High Heels",
-			cost: "500",
-			effect: "Pair of high heels",
-		},
-		7: {
-			name: "Dancer's flair",
+			name: "Dancer's Flair",
 			cost: "Passive",
 			effect: "25% passive dexterity",
 		},
-		10: {
-			name: "Aspiring Workout",
+		5: {
+			name: "Supple",
+			cost: "Passive",
+			effect: "50% tyrosine effect & duration",
+		},
+		7: {
+			name: "Pilates",
 			cost: "Passive",
 			effect: "10% dexterity gym gains",
+		},
+		10: {
+			name: "No Touching",
+			cost: "Passive",
+			effect: "1/4 chance to dodge melee attacks",
 		},
 	},
 	"Grocery Store": {
@@ -730,29 +730,29 @@ const COMPANY_INFORMATION = {
 	},
 	"Ladies Strip Club": {
 		1: {
-			name: "Happy Hour",
+			name: "Hot Flush",
 			cost: "1",
-			effect: "Money",
+			effect: "50 happy",
 		},
 		3: {
-			name: "Free Drinks",
-			cost: "1",
-			effect: "2 nerve",
-		},
-		5: {
-			name: "Thong",
-			cost: "300",
-			effect: "Thong",
-		},
-		7: {
 			name: "Hench",
 			cost: "Passive",
 			effect: "25% passive defense",
 		},
-		10: {
-			name: "Aspiring Workout",
+		5: {
+			name: "Hormonal",
+			cost: "Passive",
+			effect: "50% serotonin effect & duration",
+		},
+		7: {
+			name: "Boxercise",
 			cost: "Passive",
 			effect: "10% defense gym gains",
+		},
+		10: {
+			name: "Hardbody",
+			cost: "Passive",
+			effect: "30% melee damage mitigation",
 		},
 	},
 	"Law Firm": {
