@@ -19,7 +19,7 @@
 	async function makeCompact() {
 		const tabs = await requireElement(".market-tabs");
 
-		document.find(".market-tabs").classList.add("tt-compact");
+		tabs.classList.add("tt-compact");
 	}
 
 	function restore() {
