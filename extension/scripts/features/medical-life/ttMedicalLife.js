@@ -80,7 +80,7 @@
 			actionWrap = await requireElement(`.action-cont[data-itemid='${id}'] .confirm`);
 		}
 
-		const text = `Your life total will be ${newLife}/${maximumLife}.`;
+		const text = `Your life total will be ${newLife.toPrecision(1)}/${maximumLife.toPrecision(1)}.`;
 
 		if (actionWrap.find(".tt-medical-life")) {
 			actionWrap.find(".tt-medical-life").textContent = text;
