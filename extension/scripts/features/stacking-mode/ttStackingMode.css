@@ -1,0 +1,11 @@
+#tt-stack-block {
+	width: 100%;
+	text-align: center;
+	height: 30vh;
+	line-height: 30vh;
+	font-size: 26px;
+}
+
+.tt-mouse-block {
+	pointer-events: none;
+}

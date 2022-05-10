@@ -371,6 +371,7 @@ const DEFAULT_STORAGE = {
 				miniProfileLastAction: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				reviveProvider: new DefaultSetting({ type: "string", defaultValue: "" }),
 				pageTitles: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				stackingMode: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			profile: {
 				statusIndicator: new DefaultSetting({ type: "boolean", defaultValue: true }),
