@@ -25,7 +25,7 @@
 	}
 
 	const localFilters = {};
-	const JAIL_FILTER_TIME_REGEX = /[0-9]*(?=h)/g;
+	const JAIL_FILTER_TIME_REGEX = /\d*(?=h)/g;
 
 	async function addFilters() {
 		await requireElement(".userlist-wrapper .user-info-list-wrap .bust-icon");

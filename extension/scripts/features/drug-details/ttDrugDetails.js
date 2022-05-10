@@ -95,7 +95,7 @@
 						target
 							.find(".info-wrap")
 							.getAttribute("aria-labelledby")
-							.match(/armory-info-([0-9]*)/i)[1]
+							.match(/armory-info-(\d*)/i)[1]
 					);
 
 					showDetails(id, { target }).catch((error) => console.error("Couldn't show drug details.", error));

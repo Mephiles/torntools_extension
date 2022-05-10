@@ -303,7 +303,7 @@
 			if (!quantityElement) continue;
 
 			const price = torndata.items[id].market_value;
-			const newQuantity = parseInt(quantityElement.textContent.match(/([0-9]*)x = /i)[1]) + change;
+			const newQuantity = parseInt(quantityElement.textContent.match(/(\d*)x = /i)[1]) + change;
 
 			if (newQuantity === 1) {
 				priceElement.innerHTML = "";

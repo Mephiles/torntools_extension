@@ -91,7 +91,7 @@
 							row
 								.find(".user.name > [title]")
 								.getAttribute("title")
-								.match(/([0-9]+)/g)
+								.match(/(\d+)/g)
 								?.last()
 						),
 						level: parseInt(row.find(".level").textContent.trim()),

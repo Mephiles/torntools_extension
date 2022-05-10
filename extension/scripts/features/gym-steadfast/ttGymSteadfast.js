@@ -35,7 +35,7 @@
 			const perk = perks.find((perk) => perk.includes(stat));
 			if (!perk) continue;
 
-			const [, amount] = perk.match(/([0-9]+)%/);
+			const [, amount] = perk.match(/(\d+)%/);
 			const box = properties.find(`[class*='${stat}___']`);
 
 			if (box.find(".tt-gym-steadfast")) continue;

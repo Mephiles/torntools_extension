@@ -19,7 +19,7 @@
 	let observer;
 	async function addObserver() {
 		const defenderDiv = await requireElement("#defender");
-		removeObserver();
+		removeObserver().catch(console.error);
 
 		if (!observer)
 			observer = new MutationObserver((mutations) => {

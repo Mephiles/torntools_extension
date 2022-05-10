@@ -40,12 +40,12 @@
 		else await requireElement(".info-msg-cont .msg a[href]");
 
 		if (list && Array.isArray(list)) {
-			handleBazaar(list);
+			handleBazaar(list).catch(console.error);
 			return;
 		}
 
 		if (ttCache.hasValue("bazaar", bazaarUserId)) {
-			handleBazaar(ttCache.get("bazaar", bazaarUserId));
+			handleBazaar(ttCache.get("bazaar", bazaarUserId)).catch(console.error);
 		} else {
 			fetchData("torn", { section: "user", id: bazaarUserId, selections: ["bazaar"] })
 				.then((result) => {

@@ -1551,7 +1551,7 @@ function getStockReward(reward, increment) {
 		const cash = parseInt(reward.replace("$", "").replaceAll(",", "")) * increment;
 
 		value = formatNumber(cash, { currency: true });
-	} else if (reward.match(/^[0-9]+x? /i)) {
+	} else if (reward.match(/^\d+x? /i)) {
 		const splitBenefit = reward.split(" ");
 		const hasX = splitBenefit[0].endsWith("x");
 		const amount = parseInt(splitBenefit.shift().replace("x", "")) * increment;
@@ -1569,7 +1569,7 @@ function getRewardValue(reward) {
 	let value;
 	if (reward.startsWith("$")) {
 		value = parseInt(reward.replace("$", "").replaceAll(",", ""));
-	} else if (reward.match(/^[0-9]+x? /i)) {
+	} else if (reward.match(/^\d+x? /i)) {
 		const rewardItem = reward.split(" ").slice(1).join(" ");
 
 		const item = findItemsInObject(torndata.items, { name: rewardItem }, { single: true });
@@ -1695,7 +1695,7 @@ function getUsername(row) {
 		if (title) {
 			combined = title.getAttribute("title");
 
-			const regex = combined.match(/(.*) \[([0-9]+)]/);
+			const regex = combined.match(/(.*) \[(\d+)]/);
 			name = regex[1];
 			id = parseInt(regex[2]);
 		} else {
@@ -1713,7 +1713,7 @@ function getUsername(row) {
 			combined = name ? `${name} [${id}]` : id;
 		} else {
 			name = link.textContent;
-			id = link.href.match(/XID=([0-9]*)/i)[1].getNumber();
+			id = link.href.match(/XID=(\d*)/i)[1].getNumber();
 
 			combined = `${name} [${id}]`;
 		}

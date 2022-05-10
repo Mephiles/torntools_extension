@@ -27,7 +27,7 @@
 
 		if (settings.scripts.statsEstimate.maxLevel && settings.scripts.statsEstimate.maxLevel < getLevel()) return;
 
-		const id = parseInt(userInfoValue.textContent.trim().match(/\[([0-9]*)]/i)[1]);
+		const id = parseInt(userInfoValue.textContent.trim().match(/\[(\d*)]/i)[1]);
 
 		let estimate, data;
 		if (ttCache.hasValue("stats-estimate", id)) {

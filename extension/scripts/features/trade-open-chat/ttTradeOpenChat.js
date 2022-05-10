@@ -29,7 +29,7 @@
 		let id;
 
 		const trader = await requireElement(`#trade-container .log > li .desc a:not([href*="${userdata.player_id}"])`);
-		if (trader) id = parseInt(trader.href.match(/XID=([0-9]*)/i)[1]);
+		if (trader) id = parseInt(trader.href.match(/XID=(\d*)/i)[1]);
 		if (!id) return;
 
 		const button = document.newElement({

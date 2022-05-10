@@ -54,7 +54,7 @@
 				id: row
 					.find(".user.name > [title]")
 					.getAttribute("title")
-					.match(/([0-9]+)/g)
+					.match(/(\d+)/g)
 					?.last(),
 				level: row.find(".level").textContent.getNumber(),
 			}),

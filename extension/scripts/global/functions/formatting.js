@@ -59,16 +59,16 @@ function textToTime(time, options = {}) {
 	} else {
 		let group;
 		// noinspection JSUnusedAssignment
-		if ((group = time.match(/([0-9]+) ?d/i))) {
+		if ((group = time.match(/(\d+) ?d/i))) {
 			millis += parseInt(group[1]) * TO_MILLIS.DAYS;
 		}
-		if ((group = time.match(/([0-9]+) ?h/i))) {
+		if ((group = time.match(/(\d+) ?h/i))) {
 			millis += parseInt(group[1]) * TO_MILLIS.HOURS;
 		}
-		if ((group = time.match(/([0-9]+) ?min/i))) {
+		if ((group = time.match(/(\d+) ?min/i))) {
 			millis += parseInt(group[1]) * TO_MILLIS.MINUTES;
 		}
-		if ((group = time.match(/([0-9]+) ?s/i))) {
+		if ((group = time.match(/(\d+) ?s/i))) {
 			millis += parseInt(group[1]) * TO_MILLIS.SECONDS;
 		}
 	}
@@ -318,7 +318,7 @@ function formatNumber(number, options = {}) {
 	}
 
 	if (options.formatter) {
-		return formatter.format(number);
+		return options.formatter.format(number);
 	}
 
 	if (options.roman) {

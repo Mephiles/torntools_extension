@@ -204,7 +204,7 @@
 	async function showBox() {
 		const userInfoValue = await requireElement(".basic-information .info-table .user-info-value > *:first-child");
 
-		const id = parseInt(userInfoValue.textContent.trim().match(/\[([0-9]*)]/i)[1]);
+		const id = parseInt(userInfoValue.textContent.trim().match(/\[(\d*)]/i)[1]);
 
 		const { content, options } = createContainer("User Information", {
 			nextElement: document.find(".medals-wrapper") || document.find(".basic-information")?.closest(".profile-wrapper"),
