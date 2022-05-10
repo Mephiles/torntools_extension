@@ -56,6 +56,6 @@
 	}
 
 	function enableButton() {
-		document.findAll(".tt-cross").forEach((x) => x.remove());
+		document.findAll("#profileroot .tt-cross").forEach((x) => x.remove());
 	}
 })();
