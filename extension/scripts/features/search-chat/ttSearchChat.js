@@ -23,7 +23,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_MESSAGE].push(({ message }) => {
 			if (!feature.enabled()) return;
 
-			const parent = findParent(message, { class: "^=chat-box_" });
+			const parent = findParent(message, { class: "^=_chat-box_" });
 			if (!parent) return;
 
 			const input = parent.find(".tt-chat-filter input");
@@ -35,7 +35,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_ERROR].push(() => {
 			if (!feature.enabled()) return;
 
-			const notModifiedInputs = document.findAll("#chatRoot [class*='chat-box-input_']:not(.tt-modified) .tt-chat-filter");
+			const notModifiedInputs = document.findAll("#chatRoot [class*='_chat-box-input_']:not(.tt-modified) .tt-chat-filter");
 			if (notModifiedInputs.length) notModifiedInputs.forEach((x) => x.parentElement.classList.add("tt-modified"));
 		});
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_REPORT_OPENED].push(({ input }) => {
@@ -51,7 +51,7 @@
 	}
 
 	async function showSearch() {
-		for (const chat of document.findAll("[class*='chat-active_']:not([class*='chat-box-settings_'])")) {
+		for (const chat of document.findAll("[class*='_chat-active_']:not([class*='_chat-box-settings_'])")) {
 			addChatSearch(chat);
 		}
 		addPeopleSearch();
@@ -60,10 +60,10 @@
 	function addChatSearch(chat) {
 		if (chat.find(".tt-chat-filter")) return;
 
-		const id = `search_${chat.find("[class*='chat-box-title_']").getAttribute("title")}`;
+		const id = `search_${chat.find("[class*='_chat-box-title_']").getAttribute("title")}`;
 
-		const chatInput = chat.find("[class*='chat-box-input_']");
-		const hasTradeTimer = chat.classList.contains("^=trade_") && chat.find("#tt-trade-timer");
+		const chatInput = chat.find("[class*='_chat-box-input_']");
+		const hasTradeTimer = chat.classList.contains("^=_trade_") && chat.find("#tt-trade-timer");
 
 		const searchElement = document.newElement({
 			type: "div",
@@ -100,7 +100,7 @@
 	}
 
 	function addPeopleSearch() {
-		const people = document.find("#chatRoot [class*='chat-box-people_'] [class*='chat-box-content_']");
+		const people = document.find("#chatRoot [class*='_chat-box-people_'] [class*='_chat-box-content_']");
 		if (!people || people.find(".tt-chat-filter")) return;
 
 		const id = "search_people";
@@ -144,25 +144,25 @@
 		const searchInput = chat.find(".tt-chat-filter");
 		if (searchInput) searchInput.remove();
 
-		const hasTradeTimer = chat.classList.contains("^=trade_") && chat.find("#tt-trade-timer");
-		if (!hasTradeTimer) chat.find("[class*='chat-box-input_']").classList.remove("tt-modified");
+		const hasTradeTimer = chat.classList.contains("^=_trade_") && chat.find("#tt-trade-timer");
+		if (!hasTradeTimer) chat.find("[class*='_chat-box-input_']").classList.remove("tt-modified");
 
 		chat.findAll(".tt-chat-filter")?.remove();
 	}
 
 	function removeSearch() {
-		for (const chat of document.findAll("[class*='chat-active_']:not([class*='chat-box-settings_'])")) {
-			for (const message of chat.findAll("[class*='overview_'] [class*='message_']")) {
+		for (const chat of document.findAll("[class*='_chat-active_']:not([class*='_chat-box-settings_'])")) {
+			for (const message of chat.findAll("[class*='_overview_'] [class*='_message_']")) {
 				message.classList.remove("tt-hidden");
 			}
-			const viewport = chat.find("[class*='viewport_']");
+			const viewport = chat.find("[class*='_viewport_']");
 			viewport.scrollTop = viewport.scrollHeight;
 
 			const searchInput = chat.find(".tt-chat-filter");
 			if (searchInput) searchInput.remove();
 
-			const hasTradeTimer = chat.classList.contains("^=trade_") && chat.find("#tt-trade-timer");
-			if (!hasTradeTimer) chat.find("[class*='chat-box-input_']").classList.remove("tt-modified");
+			const hasTradeTimer = chat.classList.contains("^=_trade_") && chat.find("#tt-trade-timer");
+			if (!hasTradeTimer) chat.find("[class*='_chat-box-input_']").classList.remove("tt-modified");
 		}
 		for (const search of document.findAll("#chatRoot .tt-chat-filter")) {
 			search.remove();

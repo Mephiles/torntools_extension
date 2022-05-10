@@ -16,7 +16,8 @@
 				{ "message": "Fix faction infobox folding.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix showing full faction infobox.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix faction features on other tabs.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid NaN values in car win percentages.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid NaN values in car win percentages.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix chat features.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{

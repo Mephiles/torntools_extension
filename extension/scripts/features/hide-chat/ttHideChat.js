@@ -11,12 +11,12 @@
 			if (![...mutations].some((mutation) => mutation.addedNodes.length)) return;
 
 			showButton();
-		}).observe(document.find("#chatRoot [class*='chat-box-settings_'] [class*='overview_']"), { childList: true });
+		}).observe(document.find("#chatRoot [class*='_chat-box-settings_'] [class*='_overview_']"), { childList: true });
 	}
 
 	function showButton() {
-		const settingsBox = document.find("#chatRoot [class*='chat-box-settings_']");
-		if (!settingsBox.classList.contains("^=chat-active_")) return;
+		const settingsBox = document.find("#chatRoot [class*='_chat-box-settings_']");
+		if (!settingsBox.classList.contains("^=_chat-active_")) return;
 
 		const overview = settingsBox.find("[class*='overview_']");
 		if (overview.find(".tt-hide-chat-option")) return;

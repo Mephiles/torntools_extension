@@ -25,7 +25,7 @@
 	async function readSettings() {
 		await requireChatsLoaded();
 
-		for (const chat of document.findAll("[class*='chat-box_']")) {
+		for (const chat of document.findAll("[class*='_chat-box_']")) {
 			addAutocomplete(chat);
 		}
 	}

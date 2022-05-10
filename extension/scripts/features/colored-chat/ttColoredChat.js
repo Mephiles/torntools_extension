@@ -30,8 +30,8 @@
 			.map((entry) => {
 				return {
 					colors: CHAT_TITLE_COLORS[entry.color],
-					element: findParent(document.find(`[class*='chat-box-title_'][title^="${entry.title}"]`, { text: entry.title }), {
-						class: "^=chat-box-head_",
+					element: findParent(document.find(`[class*='_chat-box-title_'][title^="${entry.title}"]`, { text: entry.title }), {
+						class: "^=_chat-box-head_",
 					}),
 				};
 			})

@@ -1,4 +1,4 @@
-[class*="chat-box-input_"].tt-modified {
+[class*="_chat-box-input_"].tt-modified {
 	height: 86px !important;
 	flex-direction: column;
 	align-items: stretch !important;
@@ -11,7 +11,7 @@
 	align-items: center;
 }
 
-[class*="chat-box-people_"] .tt-chat-filter {
+[class*="_chat-box-people_"] .tt-chat-filter {
 	margin-bottom: 2px;
 }
 
