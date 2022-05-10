@@ -75,7 +75,7 @@
 
 		let actionWrap;
 		if (page === "item") {
-			actionWrap = await requireElement(".use-action[style*='display: block;'] #wai-action-desc");
+			actionWrap = await requireElement(".use-action[style*='display: block;'] #wai-action-desc, .use-action:not([style]) #wai-action-desc");
 		} else if (page === "factions") {
 			actionWrap = await requireElement(`.action-cont[data-itemid='${id}'] .confirm`);
 		}
