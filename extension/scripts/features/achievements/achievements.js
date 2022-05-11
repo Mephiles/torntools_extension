@@ -2,7 +2,6 @@ const ACHIEVEMENTS = [
 	{
 		name: "Perks",
 		stats: () =>
-			userdata.company_perks.length +
 			userdata.education_perks.length +
 			userdata.enhancer_perks.length +
 			userdata.faction_perks.length +
