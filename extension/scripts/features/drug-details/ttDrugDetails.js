@@ -175,7 +175,7 @@
 
 			// Cons
 			if (details.cons) {
-				parent.appendChild(document.newElement({ type: "div", class: "item-effect con", text: "Con" }));
+				parent.appendChild(document.newElement({ type: "div", class: "item-effect con", text: "Cons:" }));
 
 				for (const effect of details.cons) {
 					parent.appendChild(
@@ -222,6 +222,17 @@
 							})
 						);
 					}
+				}
+
+				// stats
+				if (details.overdose.stats) {
+					parent.appendChild(
+						document.newElement({
+							type: "div",
+							class: "item-effect con tabbed",
+							text: `Stats: ${details.overdose.stats}`,
+						})
+					);
 				}
 
 				// hospital time

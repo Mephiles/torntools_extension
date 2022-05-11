@@ -121,6 +121,7 @@ const ALLOWED_BLOOD = {
 const CASINO_GAMES = ["slots", "roulette", "high-low", "keno", "craps", "bookie", "lottery", "blackjack", "poker", "r-roulete", "spin-the-wheel"];
 
 const DRUG_INFORMATION = {
+	// Cannabis
 	196: {
 		pros: ["Increased crime success rate", "+2-3 Nerve"],
 		cons: ["-20% Strength", "-25% Defense", "-35% Speed"],
@@ -131,6 +132,7 @@ const DRUG_INFORMATION = {
 			extra: "'Spaced Out' honor bar",
 		},
 	},
+	// Ecstasy
 	197: {
 		pros: ["Doubles Happy"],
 		cooldown: "3-4 hours",
@@ -138,6 +140,7 @@ const DRUG_INFORMATION = {
 			bars: ["-100% Energy & Happy"],
 		},
 	},
+	// Ketamine
 	198: {
 		pros: ["+50% Defense"],
 		cons: ["-20% Strength & Speed"],
@@ -149,6 +152,7 @@ const DRUG_INFORMATION = {
 			extra: "24-27 hours of cooldown",
 		},
 	},
+	// LSD
 	199: {
 		pros: ["+30% Strength", "+50% Defense", "+50 Energy", "+200-500 Happy", "+5 Nerve"],
 		cons: ["-30% Speed & Dexterity"],
@@ -158,10 +162,12 @@ const DRUG_INFORMATION = {
 			stats: "-30% Speed & Dexterity",
 		},
 	},
+	// Opium
 	200: {
-		pros: ["Removes all hospital time (except Radiation Sickness) and replenishes life to 66.6%", "+50-100 Happy"],
+		pros: ["Removes all hospital time (except Radiation Sickness) and replenishes life to 50%", "+30% Defense"],
 		cooldown: "2-3 hours",
 	},
+	// PCP
 	201: {
 		pros: ["+20% Strength & Dexterity", "+250 Happy"],
 		cooldown: "4-7 hours",
@@ -171,6 +177,7 @@ const DRUG_INFORMATION = {
 			stats: "-10x(player level) Speed (permanent)",
 		},
 	},
+	// Shrooms
 	203: {
 		pros: ["+500 Happy"],
 		cons: ["-20% All Battle Stats", "-25 Energy (caps at 0)"],
@@ -180,6 +187,7 @@ const DRUG_INFORMATION = {
 			hosp_time: "1h 40min",
 		},
 	},
+	// Speed
 	204: {
 		pros: ["+20% Speed", "+50 Happy"],
 		cons: ["-20% Dexterity"],
@@ -190,6 +198,7 @@ const DRUG_INFORMATION = {
 			hosp_time: "7h 30min",
 		},
 	},
+	// Vicodin
 	205: {
 		pros: ["+25% All Battle Stats", "+75 Happy"],
 		cooldown: "4-6 hours",
@@ -197,6 +206,7 @@ const DRUG_INFORMATION = {
 			bars: ["-150 Happy"],
 		},
 	},
+	// Xanax
 	206: {
 		pros: ["+250 Energy", "+75 Happy"],
 		cons: ["-35% All Battle Stats"],
@@ -207,6 +217,7 @@ const DRUG_INFORMATION = {
 			extra: "24 hours of cooldown and increased addiction.",
 		},
 	},
+	// Love Juice
 	870: {
 		pros: ["Cost of attacking and reviving reduced by 10 energy.", "+50% Speed", "+25% Dexterity"],
 		cons: ["Only works on Valentine's Day"],
