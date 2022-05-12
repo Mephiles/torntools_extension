@@ -1,4 +1,4 @@
-.chat-colored[class*="chat-box-head_"] [class*="chat-box-title_"] {
+.chat-colored[class*="_chat-box-head_"] [class*="_chat-box-title_"] {
 	background: linear-gradient(0deg, var(--highlight-color__1) 0%, var(--highlight-color__2) 100%);
 	border-radius: 5px 5px 0 0;
 	height: inherit;

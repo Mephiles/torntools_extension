@@ -39,7 +39,7 @@
 
 			if (!text.includes("says:") && text.includes("added")) {
 				if (text.includes("$")) {
-					totalValue = parseInt(text.match(/\$([0-9,]*)/i)[1].replace(/,/g, ""));
+					totalValue = parseInt(text.match(/\$([\d,]*)/i)[1].replace(/,/g, ""));
 				} else {
 					const itemEntries = text
 						.replace(" added", "")
@@ -68,7 +68,7 @@
 
 			const cashInTrade = side.find(".cont .color1 .desc > li .name");
 			if (cashInTrade && cashInTrade.textContent.trim() !== "No money in trade")
-				totalValue += parseInt(cashInTrade.textContent.match(/\$([0-9,]*)/i)[1].replaceAll(",", ""));
+				totalValue += parseInt(cashInTrade.textContent.match(/\$([\d,]*)/i)[1].replaceAll(",", ""));
 
 			for (const item of side.findAll(".cont .color2 .desc > li .name")) {
 				if (item.textContent === "No items in trade") continue;

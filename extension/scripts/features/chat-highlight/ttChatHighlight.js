@@ -48,7 +48,7 @@
 		requireChatsLoaded().then(() => {
 			removeHighlights();
 
-			for (const message of document.findAll("[class*='chat-box-content_'] [class*='overview_'] [class*='message_']")) {
+			for (const message of document.findAll("[class*='_chat-box-content_'] [class*='_overview_'] [class*='_message_']")) {
 				applyHighlights(message);
 			}
 		});
@@ -82,7 +82,7 @@
 	}
 
 	function removeHighlights() {
-		for (const message of document.findAll("[class*='chat-box-content_'] [class*='overview_'] [class*='message_'] .tt-highlight")) {
+		for (const message of document.findAll("[class*='_chat-box-content_'] [class*='_overview_'] [class*='_message_'] .tt-highlight")) {
 			message.style.color = "unset";
 			message.classList.remove("tt-highlight");
 		}

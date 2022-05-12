@@ -87,13 +87,7 @@
 				".faction-war .members-list > li.enemy, .faction-war .members-list > li.your",
 				(row) => {
 					return {
-						id: parseInt(
-							row
-								.find(".user.name > [title]")
-								.getAttribute("title")
-								.match(/([0-9]+)/g)
-								?.last()
-						),
+						id: parseInt(row.find(".user.name > [title]").getAttribute("title").match(/(\d+)/g)?.last()),
 						level: parseInt(row.find(".level").textContent.trim()),
 					};
 				},

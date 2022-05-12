@@ -96,7 +96,7 @@
 
 								let desc = description;
 								desc = desc.split("for at least")[0]; // remove 'day' numbers from networth
-								desc = desc.replace(/\D|[0-9]+%/g, ""); // replace all non-numbers and percentages
+								desc = desc.replace(/\D|\d+%/g, ""); // replace all non-numbers and percentages
 
 								const score = parseInt(desc) || "none";
 								if (isNaN(score)) continue;

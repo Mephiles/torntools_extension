@@ -52,12 +52,7 @@
 		statsEstimate.showEstimates(
 			".bounties-list > li[data-id]",
 			(row) => ({
-				id: parseInt(
-					row
-						.find(".target a")
-						.href.match(/([0-9]+)/g)
-						?.last()
-				),
+				id: parseInt(row.find(".target a").href.match(/(\d+)/g)?.last()),
 				level: parseInt(row.find(".level").textContent.replaceAll("\n", "").split(":").last().trim()),
 			}),
 			true

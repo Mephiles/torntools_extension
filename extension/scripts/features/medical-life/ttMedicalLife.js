@@ -75,12 +75,12 @@
 
 		let actionWrap;
 		if (page === "item") {
-			actionWrap = await requireElement(".use-action[style*='display: block;'] #wai-action-desc");
+			actionWrap = await requireElement(".use-action[style*='display: block;'] #wai-action-desc, .use-action:not([style]) #wai-action-desc");
 		} else if (page === "factions") {
 			actionWrap = await requireElement(`.action-cont[data-itemid='${id}'] .confirm`);
 		}
 
-		const text = `Your life total will be ${newLife}/${maximumLife}.`;
+		const text = `Your life total will be ${newLife.roundNearest(1)}/${maximumLife.roundNearest(1)}.`;
 
 		if (actionWrap.find(".tt-medical-life")) {
 			actionWrap.find(".tt-medical-life").textContent = text;

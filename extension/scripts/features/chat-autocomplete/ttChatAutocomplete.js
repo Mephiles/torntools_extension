@@ -25,7 +25,7 @@
 	async function readSettings() {
 		await requireChatsLoaded();
 
-		for (const chat of document.findAll("[class*='chat-box_']")) {
+		for (const chat of document.findAll("[class*='_chat-box_']")) {
 			addAutocomplete(chat);
 		}
 	}
@@ -48,7 +48,7 @@
 			event.preventDefault();
 
 			const valueBeforeCursor = textarea.value.substr(0, textarea.selectionStart);
-			const searchValueMatch = valueBeforeCursor.match(/([^A-Za-z0-9\-_]?)([A-Za-z0-9\-_]*)$/);
+			const searchValueMatch = valueBeforeCursor.match(/([^A-Za-z\d\-_]?)([A-Za-z\d\-_]*)$/);
 
 			if (currentSearchValue === null) currentSearchValue = searchValueMatch[2].toLowerCase();
 

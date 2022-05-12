@@ -44,7 +44,7 @@
 		const input = document.find("#money-user");
 		if (!input) return;
 
-		const user = input.value.match(/(.*) \[([0-9]*)]/i);
+		const user = input.value.match(/(.*) \[(\d*)]/i);
 		if (!user) {
 			document.find("label[for='money-user']").textContent = "Select player: ";
 			return;

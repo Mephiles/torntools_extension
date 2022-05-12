@@ -343,7 +343,7 @@
 		};
 
 		for (const context of document.findAll(".giver-cont-wrap > div[id^=mission]:not(.tt-modified)")) {
-			const title = context.find(".title-black").childNodes[0].wholeText.replace(/[\n]/g, "").trim();
+			const title = context.find(".title-black").childNodes[0].wholeText.replace(/\n/g, "").trim();
 
 			const key = transformTitle(title);
 			let task, hint;

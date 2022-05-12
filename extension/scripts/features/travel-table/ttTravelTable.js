@@ -549,7 +549,7 @@
 
 		if (hasAPIData() && settings.apiUsage.user.perks) {
 			count += userdata.enhancer_perks
-				.map((perk) => perk.match(/\+ ([0-9]+) Travel items \(.* Suitcase\)/i))
+				.map((perk) => perk.match(/\+ (\d+) Travel items \(.* Suitcase\)/i))
 				.filter((result) => !!result)
 				.map((result) => parseInt(result[1]))
 				.totalSum();
@@ -559,7 +559,7 @@
 				.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
 				.totalSum();
 			count += userdata.faction_perks
-				.map((perk) => perk.match(/\+ Increases maximum traveling capacity by ([0-9]+)/i))
+				.map((perk) => perk.match(/\+ Increases maximum traveling capacity by (\d+)/i))
 				.filter((result) => !!result)
 				.map((result) => parseInt(result[1]))
 				.totalSum();

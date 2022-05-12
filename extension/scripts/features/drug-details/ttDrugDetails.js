@@ -95,7 +95,7 @@
 						target
 							.find(".info-wrap")
 							.getAttribute("aria-labelledby")
-							.match(/armory-info-([0-9]*)/i)[1]
+							.match(/armory-info-(\d*)/i)[1]
 					);
 
 					showDetails(id, { target }).catch((error) => console.error("Couldn't show drug details.", error));
@@ -142,8 +142,13 @@
 			return (
 				options.target.find(`li[itemid="${id}"] .view-item-info`) ||
 				options.target.find(
-					".show-item-info, .view-item-info[style*='display: block;'], .buy-show-item-info, " +
-						".item-info-wrap + .details[aria-expanded='true'], .details-wrap[style*='display: block;']"
+					[
+						".show-item-info",
+						".view-item-info[style*='display: block;']",
+						".buy-show-item-info",
+						".item-info-wrap + .details[aria-expanded='true']",
+						".details-wrap[style*='display: block;']",
+					].join(", ")
 				)
 			);
 		}
@@ -158,22 +163,40 @@
 				parent.appendChild(document.newElement({ type: "div", class: "item-effect pro mt10", text: "Pros:" }));
 
 				for (const effect of details.pros) {
-					parent.appendChild(document.newElement({ type: "div", class: "item-effect pro tabbed", text: effect }));
+					parent.appendChild(
+						document.newElement({
+							type: "div",
+							class: "item-effect pro tabbed",
+							text: effect,
+						})
+					);
 				}
 			}
 
 			// Cons
 			if (details.cons) {
-				parent.appendChild(document.newElement({ type: "div", class: "item-effect con", text: "Con" }));
+				parent.appendChild(document.newElement({ type: "div", class: "item-effect con", text: "Cons:" }));
 
 				for (const effect of details.cons) {
-					parent.appendChild(document.newElement({ type: "div", class: "item-effect con tabbed", text: effect }));
+					parent.appendChild(
+						document.newElement({
+							type: "div",
+							class: "item-effect con tabbed",
+							text: effect,
+						})
+					);
 				}
 			}
 
 			// Cooldown
 			if (details.cooldown) {
-				parent.appendChild(document.newElement({ type: "div", class: "item-effect con", text: `Cooldown: ${details.cooldown}` }));
+				parent.appendChild(
+					document.newElement({
+						type: "div",
+						class: "item-effect con",
+						text: `Cooldown: ${details.cooldown}`,
+					})
+				);
 			}
 
 			// Overdose
@@ -182,11 +205,34 @@
 
 				// bars
 				if (details.overdose.bars) {
-					parent.appendChild(document.newElement({ type: "div", class: "item-effect con tabbed", text: "Bars" }));
+					parent.appendChild(
+						document.newElement({
+							type: "div",
+							class: "item-effect con tabbed",
+							text: "Bars",
+						})
+					);
 
 					for (const effect of details.overdose.bars) {
-						parent.appendChild(document.newElement({ type: "div", class: "item-effect con double-tabbed", text: effect }));
+						parent.appendChild(
+							document.newElement({
+								type: "div",
+								class: "item-effect con double-tabbed",
+								text: effect,
+							})
+						);
 					}
+				}
+
+				// stats
+				if (details.overdose.stats) {
+					parent.appendChild(
+						document.newElement({
+							type: "div",
+							class: "item-effect con tabbed",
+							text: `Stats: ${details.overdose.stats}`,
+						})
+					);
 				}
 
 				// hospital time

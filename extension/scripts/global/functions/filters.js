@@ -30,7 +30,7 @@ const defaultFactionsItems = [
 
 const FILTER_REGEXES = {
 	activity: /(?<=<b>).*(?=<\/b>)/g,
-	activity_v2: /[0-9]+_([a-zA-Z]+)-user/,
+	activity_v2: /\d+_([a-zA-Z]+)-user/,
 };
 
 function createFilterSection(options) {

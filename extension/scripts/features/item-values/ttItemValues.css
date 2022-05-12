@@ -67,3 +67,7 @@ body.tt-tablet .items-cont .qty {
 	position: relative;
 	top: -3px;
 }
+
+.thumbnails .tt-item-price-wrap {
+	display: block !important;
+}

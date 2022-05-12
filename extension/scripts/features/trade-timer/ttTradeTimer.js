@@ -16,7 +16,7 @@
 
 	function initialise() {
 		CUSTOM_LISTENERS[EVENT_CHANNELS.CHAT_OPENED].push(({ chat }) => {
-			if (!chat.classList.contains("^=trade_")) return;
+			if (!chat.classList.contains("^=_trade_")) return;
 
 			triggerTrade(chat);
 		});
@@ -25,14 +25,14 @@
 	async function detectChat() {
 		await requireChatsLoaded();
 
-		const chat = document.find("#chatRoot [class*='chat-box_'][class*='trade_'][class*='chat-active_']");
+		const chat = document.find("#chatRoot [class*='_chat-box_'][class*='_trade_'][class*='_chat-active_']");
 		if (!chat) return;
 
 		triggerTrade(chat);
 	}
 
 	function triggerTrade(chat) {
-		const input = chat.find("[class*='chat-box-input_']");
+		const input = chat.find("[class*='_chat-box-input_']");
 
 		let timer;
 		if (input.find("#tt-trade-timer")) timer = input.find("#tt-trade-timer");
@@ -68,8 +68,8 @@
 		if (event.key !== "Enter") return;
 		if (!event.target.value) return;
 
-		const chat = findParent(event.target, { class: "^=chat-box_" });
-		const overview = chat.find("[class*='overview_']");
+		const chat = findParent(event.target, { class: "^=_chat-box_" });
+		const overview = chat.find("[class*='_overview_']");
 
 		const message = await new Promise((resolve) => {
 			new MutationObserver((mutations, observer) => {
@@ -90,13 +90,13 @@
 	}
 
 	function cleanup() {
-		const chat = document.find("#chatRoot [class*='chat-box_'][class*='trade_'][class*='chat-active_']");
+		const chat = document.find("#chatRoot [class*='_chat-box_'][class*='_trade_'][class*='_chat-active_']");
 		if (!chat) return;
 
 		const timer = chat.find("#tt-trade-timer");
 		if (timer) timer.remove();
 
-		const input = chat.find("[class*='chat-box-input_']");
+		const input = chat.find("[class*='_chat-box-input_']");
 
 		if (!input.find(".tt-chat-filter")) input.classList.remove("tt-modified");
 

@@ -20,7 +20,7 @@
 		document.addEventListener("click", async (event) => {
 			const rankedWarItem = event.target.closest("[class*='warListItem__']");
 			if (rankedWarItem && rankedWarItem.find(":scope > [data-warid]")) {
-				addFilters(await requireElement(".descriptions .faction-war", { parent: rankedWarItem.parentElement }));
+				addFilters(await requireElement(".descriptions .faction-war", { parent: rankedWarItem.parentElement })).catch(console.error);
 			}
 		});
 
