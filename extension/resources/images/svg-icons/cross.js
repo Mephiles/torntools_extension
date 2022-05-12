@@ -4,7 +4,7 @@ function crossSvg() {
 	const svg = document.createElementNS(svgNS, "svg");
 	svg.setAttributeNS(null, "class", "tt-cross");
 	svg.setAttributeNS(null, "viewBox", "0 0 30 30");
-	svg.setAttributeNS(null, "style", "position: absolute; margin: -41px 2px; fill: #627e0d;");
+	svg.setAttributeNS(null, "fill", "#627e0d");
 	svg.setAttributeNS(null, "height", "30");
 	svg.setAttributeNS(null, "width", "30");
 	svg.setAttributeNS(null, "title", "Blocked by TornTools");
