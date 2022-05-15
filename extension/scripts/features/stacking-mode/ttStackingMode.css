@@ -9,3 +9,15 @@
 .tt-mouse-block {
 	pointer-events: none;
 }
+
+.tt-stacking.tt-cross {
+	transform: translate(5px, -43px);
+}
+
+#profile-mini-root .tt-stacking.tt-cross {
+	margin-top: 1px;
+}
+
+.tt-stacking.tt-revive-block {
+	transform: translateY(-24px);
+}

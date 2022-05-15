@@ -17,6 +17,10 @@
 	);
 
 	function miniProfileListener() {
+		if (window.location.pathname === "/hospitalview.php") {
+			CUSTOM_LISTENERS[EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE].push(EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE, disableReviving);
+		}
+
 		addFetchListener(async (event) => {
 			if (!feature.enabled()) return;
 
@@ -26,10 +30,16 @@
 			const step = (new URL(fetch.url).searchParams).get("step");
 			if (step !== "getUserNameContextMenu") return;
 
-			const miniProfile = document.find("#profile-mini-root .mini-profile-wrapper");
-			const attackBtn = await requireElement("div[class*='profile-mini-_userProfileWrapper___'] .profile-button-attack", { parent: miniProfile });
+			const miniProfile = await requireElement("#profile-mini-root .mini-profile-wrapper");
+			const attackBtn = await requireElement(".profile-button-attack", { parent: miniProfile });
 			attackBtn.classList.add("tt-mouse-block");
-			attackBtn.appendChild(crossSvg());
+			attackBtn.appendChild(stackBlockSvg());
+
+			if (miniProfile.find(".profile-container").classList.contains("hospital")) {
+				const revBtn = await requireElement(".profile-button-revive", { parent: miniProfile });
+				revBtn.classList.add("tt-mouse-block");
+				revBtn.appendChild(stackBlockSvg());
+			}
 		});
 	}
 
@@ -75,6 +85,21 @@
 			dumpWrap.classList.add("tt-hidden");
 			dumpWrap.insertAdjacentElement("beforebegin", createBlock());
 		}
+		else if (window.location.pathname === "/profiles.php")
+		{
+			// Disable attacking on profile page
+			const attackBtn = await requireElement("#profileroot .profile-button-attack");
+			attackBtn.classList.add("tt-mouse-block");
+			attackBtn.appendChild(stackBlockSvg());
+
+			const revBtn = await requireElement("#profileroot .profile-button-revive");
+			revBtn.classList.add("tt-mouse-block");
+			revBtn.appendChild(stackBlockSvg());
+		}
+		else if (window.location.pathname === "/hospitalview.php")
+		{
+			disableReviving();
+		}
 
 		function createBlock() {
 			return document.newElement({
@@ -87,11 +112,25 @@
 		}
 	}
 
+	async function disableReviving() {
+		await requireElement(".user-info-list-wrap > li");
+		document.findAll("a.revive:not(.reviveNotAvailable)").forEach(btn => {
+			btn.classList.add("tt-mouse-block");
+			btn.appendChild(stackBlockSvg("tt-revive-block"));
+		});
+	}
+
+	function stackBlockSvg(customClass = "") {
+		const svg = crossSvg();
+		svg.classList.add("tt-stacking " + customClass);
+		return svg;
+	}
+
 	function enableEActs() {
 		hiddenDivs.forEach(x => x.classList.remove("tt-hidden"));
 		hiddenDivs = [];
 		document.getElementById("tt-stack-block")?.remove();
-		document.findAll(".tt-mouse-block").forEach(x => x.classList.remove("tt-mouse-block"));
+		[...document.getElementsByClassName("tt-mouse-block")].forEach(x => x.classList.remove("tt-mouse-block"));
 		document.findAll("#profile-mini-root .tt-cross").forEach(x => x.remove());
 	}
 })();
