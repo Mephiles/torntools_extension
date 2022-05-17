@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix racing win percentage.", "contributor": "bandirao" }],
+			"fixes": [
+				{ "message": "Fix racing win percentage.", "contributor": "bandirao" },
+				{ "message": "(Potentially) Fix TTS failing on long numbers.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [{ "message": "Add the url to the notifications in the popup.", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}

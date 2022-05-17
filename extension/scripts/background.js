@@ -1317,7 +1317,11 @@ async function notifyUser(title, message, url) {
 	const requireInteraction = hasInteractionSupport() && settings.notifications.requireInteraction;
 	const silent = hasSilentSupport() && notificationSound !== "default";
 
-	if (settings.notifications.tts) speakMessage();
+	if (settings.notifications.tts) {
+		readMessage(title);
+		readMessage(message);
+	}
+
 	try {
 		await notifyNative();
 	} catch (errorNative) {
@@ -1394,12 +1398,13 @@ async function notifyUser(title, message, url) {
 		});
 	}
 
-	function speakMessage() {
-		const ttsTitle = new SpeechSynthesisUtterance(title);
-		const ttsMessage = new SpeechSynthesisUtterance(message);
-		ttsTitle.volume = settings.notifications.volume / 100;
+	function readMessage(text) {
+		for (const match of text.match(/[\d,]*/g)) {
+			text = text.replace(match, match.replace(/,/g, ""));
+		}
+
+		const ttsMessage = new SpeechSynthesisUtterance(text);
 		ttsMessage.volume = settings.notifications.volume / 100;
-		window.speechSynthesis.speak(ttsTitle);
 		window.speechSynthesis.speak(ttsMessage);
 	}
 }
