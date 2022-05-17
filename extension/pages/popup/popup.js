@@ -1135,18 +1135,25 @@ async function setupNotifications() {
 	notificationHistory.map(createEntry).forEach((entry) => notifications.appendChild(entry));
 
 	function createEntry(notification) {
-		const { message, date } = notification;
+		const { message, date, url } = notification;
 		const title = notification.title.replace("TornTools - ", "");
 
 		return document.newElement({
 			type: "li",
 			children: [
 				document.newElement({
-					type: "div",
-					class: "title",
-					children: [document.newElement({ type: "span", text: title }), document.newElement({ type: "span", text: formatTime(date) })],
+					type: "a",
+					href: url,
+					children: [
+						document.newElement({
+							type: "div",
+							class: "title",
+							children: [document.newElement({ type: "span", text: title }), document.newElement({ type: "span", text: formatTime(date) })],
+						}),
+						document.newElement({ type: "span", text: message }),
+					],
+					attributes: { target: "_blank" },
 				}),
-				document.newElement({ type: "span", text: message }),
 			],
 		});
 	}
