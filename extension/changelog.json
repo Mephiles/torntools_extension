@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [],
+			"fixes": [{ "message": "Fix racing win percentage.", "contributor": "bandirao" }],
 			"changes": [{ "message": "Add the url to the notifications in the popup.", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}
