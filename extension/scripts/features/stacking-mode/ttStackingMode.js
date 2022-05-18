@@ -1,8 +1,6 @@
 "use strict";
 
 (async () => {
-	if (!getPageStatus().access) return;
-
 	const feature = featureManager.registerFeature(
 		"Stacking Mode",
 		"global",
@@ -45,6 +43,7 @@
 
 	let hiddenDivs = [];
 	async function disableEActs() {
+		const page = getPage();
 		// Disable hunting link in sidebar, when abroad
 		if (window.location.pathname === "/index.php" && document.body.dataset.country === "south-africa")
 		{
@@ -99,6 +98,8 @@
 		else if (window.location.pathname === "/hospitalview.php")
 		{
 			disableReviving();
+		} else if (page === "home" && window.location.search.startsWith("?page=people")) {
+			disableAttacking();
 		}
 
 		function createBlock() {
@@ -112,6 +113,14 @@
 		}
 	}
 
+	async function disableAttacking() {
+		await requireElement(".users-list > li .attack");
+		document.findAll(".users-list > li .attack").forEach(btn => {
+			btn.classList.add("tt-mouse-block");
+			btn.appendChild(stackBlockSvg("tt-attack-block"));
+		});
+	}
+
 	async function disableReviving() {
 		await requireElement(".user-info-list-wrap > li");
 		document.findAll("a.revive:not(.reviveNotAvailable)").forEach(btn => {
@@ -120,9 +129,10 @@
 		});
 	}
 
-	function stackBlockSvg(customClass = "") {
+	function stackBlockSvg(customClass) {
 		const svg = crossSvg();
-		svg.classList.add("tt-stacking " + customClass);
+		svg.classList.add("tt-stacking");
+		if (customClass) svg.classList.add(customClass);
 		return svg;
 	}
 
@@ -131,6 +141,6 @@
 		hiddenDivs = [];
 		document.getElementById("tt-stack-block")?.remove();
 		[...document.getElementsByClassName("tt-mouse-block")].forEach(x => x.classList.remove("tt-mouse-block"));
-		document.findAll("#profile-mini-root .tt-cross").forEach(x => x.remove());
+		document.findAll("#profile-mini-root .tt-cross, .tt-stacking").forEach(x => x.remove());
 	}
 })();

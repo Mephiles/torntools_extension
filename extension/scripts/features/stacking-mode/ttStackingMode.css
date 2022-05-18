@@ -21,3 +21,9 @@
 .tt-stacking.tt-revive-block {
 	transform: translateY(-24px);
 }
+
+.tt-stacking.tt-attack-block {
+	position: absolute;
+	margin-left: -2.3%;
+	transform: none;
+}
