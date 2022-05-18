@@ -94,9 +94,7 @@
 			const revBtn = await requireElement("#profileroot .profile-button-revive");
 			revBtn.classList.add("tt-mouse-block");
 			revBtn.appendChild(stackBlockSvg());
-		}
-		else if (window.location.pathname === "/hospitalview.php")
-		{
+		} else if (page === "hospital") {
 			disableReviving();
 		} else if (page === "home" && window.location.search.startsWith("?page=people")) {
 			disableAttacking();
@@ -122,7 +120,7 @@
 	}
 
 	async function disableReviving() {
-		await requireElement(".user-info-list-wrap > li");
+		await requireElement(".user-info-list-wrap > li .user.name");
 		document.findAll("a.revive:not(.reviveNotAvailable)").forEach(btn => {
 			btn.classList.add("tt-mouse-block");
 			btn.appendChild(stackBlockSvg("tt-revive-block"));
