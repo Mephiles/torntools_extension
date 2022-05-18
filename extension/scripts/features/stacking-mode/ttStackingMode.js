@@ -45,47 +45,37 @@
 	async function disableEActs() {
 		const page = getPage();
 		// Disable hunting link in sidebar, when abroad
-		if (window.location.pathname === "/index.php" && document.body.dataset.country === "south-africa")
-		{
+		if (page === "home" && document.body.dataset.country === "south-africa") {
 			const huntingSidebar = await requireElement("#nav-hunting");
 			hiddenDivs.push(huntingSidebar);
 			huntingSidebar.classList.add("tt-hidden");
 		}
 
-		if (window.location.pathname === "/gym.php")
-		{
+		if (page === "gym") {
 			// Disable gyms
 			const gymWrap = await requireElement("#gymroot");
 			hiddenDivs.push(gymWrap);
 			gymWrap.classList.add("tt-hidden");
 			gymWrap.insertAdjacentElement("beforebegin", createBlock());
-		}
-		else if (window.location.pathname === "/index.php" && window.location.search.startsWith("?page=hunting"))
-		{
+		} else if (page === "home" && window.location.search.startsWith("?page=hunting")) {
 			// Disable hunting page
 			const huntingWrap = await requireElement(".hunt");
 			hiddenDivs.push(huntingWrap);
 			huntingWrap.classList.add("tt-hidden");
 			huntingWrap.insertAdjacentElement("beforebegin", createBlock());
-		}
-		else if (window.location.pathname === "/loader.php" && window.location.search.startsWith("?sid=attack"))
-		{
+		} else if (page === "loader" && window.location.search.startsWith("?sid=attack")) {
 			// Disable attack page
 			const attackWrap = await requireElement("[class*='coreWrap__']");
 			hiddenDivs.push(attackWrap);
 			attackWrap.classList.add("tt-hidden");
 			attackWrap.insertAdjacentElement("beforebegin", createBlock());
-		}
-		else if (window.location.pathname === "/dump.php")
-		{
+		} else if (page === "dump") {
 			// Disable dump page
 			const dumpWrap = await requireElement(".dump-main-page");
 			hiddenDivs.push(dumpWrap);
 			dumpWrap.classList.add("tt-hidden");
 			dumpWrap.insertAdjacentElement("beforebegin", createBlock());
-		}
-		else if (window.location.pathname === "/profiles.php")
-		{
+		} else if (page === "profiles") {
 			// Disable attacking on profile page
 			const attackBtn = await requireElement("#profileroot .profile-button-attack");
 			attackBtn.classList.add("tt-mouse-block");
