@@ -1399,10 +1399,6 @@ async function notifyUser(title, message, url) {
 	}
 
 	function readMessage(text) {
-		for (const match of text.match(/[\d,]+/g) || []) {
-			text = text.replace(match, match.replace(/,/g, ""));
-		}
-
 		const ttsMessage = new SpeechSynthesisUtterance(text);
 		ttsMessage.volume = settings.notifications.volume / 100;
 		window.speechSynthesis.speak(ttsMessage);
