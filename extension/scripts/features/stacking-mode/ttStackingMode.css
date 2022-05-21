@@ -1,0 +1,29 @@
+.tt-stack-block {
+	width: 100%;
+	text-align: center;
+	height: 30vh;
+	line-height: 30vh;
+	font-size: 26px;
+}
+
+.tt-mouse-block {
+	pointer-events: none;
+}
+
+.tt-stacking.tt-cross {
+	transform: translate(5px, -43px);
+}
+
+#profile-mini-root .tt-stacking.tt-cross {
+	margin-top: 1px;
+}
+
+.tt-stacking.tt-revive-block {
+	transform: translateY(-24px);
+}
+
+.tt-stacking.tt-attack-block {
+	position: absolute;
+	margin-left: -2.3%;
+	transform: none;
+}

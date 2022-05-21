@@ -1,4 +1,3 @@
-<svg class="tt-cross" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 5">
-    <rect x="0.5" y="-0.5" width="6" height="1" style="fill: rgb(98, 126, 13);" transform="rotate(45)"/>
-    <rect x="-3" y="3" width="6" height="1" style="fill: rgb(98, 126, 13);" transform="rotate(-45)"/>
+<svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" fill="#627e0d" width="30" height="30" class="tt-cross">
+	<path d="M 0 1 L 12.061 15 L 0 29 L 1 30 L 15 18.06 L 29 30 L 30 29 L 17.94 15 L 30 1 L 29 0 L 15 11.94 L 1 0 L 0 1 Z"></path>
 </svg>

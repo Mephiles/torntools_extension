@@ -50,12 +50,13 @@
 			if (attackButton.classList.contains("cross")) return;
 
 			const crossSvgNode = crossSvg();
+			crossSvgNode.classList.add("tt-disable-ally");
 			attackButton.insertAdjacentElement("beforeend", crossSvgNode);
 			crossSvgNode.addEventListener("click", listenerFunction, { capture: true });
 		}
 	}
 
 	function enableButton() {
-		document.findAll(".tt-cross").forEach((x) => x.remove());
+		document.findAll("#profileroot .tt-disable-ally.tt-cross").forEach((x) => x.remove());
 	}
 })();

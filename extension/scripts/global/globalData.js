@@ -46,8 +46,7 @@ const ttStorage = new (class {
 			for (const key of Object.keys(object)) {
 				const data = recursive(await this.get(key), object[key]);
 
-				function recursive(parent, toChange) {
-					// eslint-disable-line no-inner-declarations
+				function recursive(parent, toChange) { // eslint-disable-line no-inner-declarations
 					for (const key in toChange) {
 						if (
 							parent &&
@@ -371,6 +370,7 @@ const DEFAULT_STORAGE = {
 				miniProfileLastAction: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				reviveProvider: new DefaultSetting({ type: "string", defaultValue: "" }),
 				pageTitles: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				stackingMode: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			},
 			profile: {
 				statusIndicator: new DefaultSetting({ type: "boolean", defaultValue: true }),

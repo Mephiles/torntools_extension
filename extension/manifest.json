@@ -124,9 +124,11 @@
 				"scripts/features/npc-loot-times/ttNPCLootTimes.css",
 				"scripts/features/hide-chat/ttHideChat.css",
 				"scripts/features/revive-request/ttReviveRequest.css",
-				"scripts/features/user-alias/ttUserAlias.css"
+				"scripts/features/user-alias/ttUserAlias.css",
+				"scripts/features/stacking-mode/ttStackingMode.css"
 			],
 			"js": [
+				"resources/images/svg-icons/cross.js",
 				"resources/images/svg-icons/back.js",
 				"resources/images/svg-icons/icon_128.js",
 				"scripts/content/global/ttGlobal.js",
@@ -153,7 +155,8 @@
 				"scripts/features/hide-chat/ttHideChat.js",
 				"scripts/features/revive-request/ttReviveRequest.js",
 				"scripts/features/user-alias/ttUserAlias.js",
-				"scripts/features/cooldown-end-times/ttCooldownEndTimes.js"
+				"scripts/features/cooldown-end-times/ttCooldownEndTimes.js",
+				"scripts/features/stacking-mode/ttStackingMode.js"
 			],
 			"run_at": "document_end"
 		},
@@ -510,7 +513,6 @@
 				"scripts/features/creators/ttCreators.css"
 			],
 			"js": [
-				"resources/images/svg-icons/cross.js",
 				"vendor/sortable/sortable.js",
 				"scripts/global/team.js",
 				"scripts/features/profile-id/ttProfileID.js",
