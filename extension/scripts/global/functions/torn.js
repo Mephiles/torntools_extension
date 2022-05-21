@@ -1402,7 +1402,12 @@ function getPage() {
 
 	switch (page) {
 		case "index":
-			page = "home";
+			const _page = getSearchParameters().get("page");
+
+			if (_page === "hunting") page = "hunting";
+			else if (_page === "people") page = "abroad-people";
+			else page = "home";
+
 			break;
 		case "page":
 			page = getSearchParameters().get("sid");
@@ -1425,6 +1430,7 @@ function getPage() {
 			switch (sid) {
 				case "missions":
 				case "racing":
+				case "attack":
 					page = sid;
 			}
 			break;
