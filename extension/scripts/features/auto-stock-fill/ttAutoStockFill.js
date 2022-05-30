@@ -29,7 +29,7 @@
 	async function addFillStockButton(add) {
 		if (!add && getHashParameters().get("option") !== "stock") return;
 
-		(await requireElement("form[action*='stock']")).find(".order ~ a").insertAdjacentElement(
+		(await requireElement("form[action*='stock'] .order ~ a")).insertAdjacentElement(
 			"afterend",
 			document.newElement({
 				type: "div",
