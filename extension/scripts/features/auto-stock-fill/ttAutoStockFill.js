@@ -30,10 +30,9 @@
 		(await requireElement("form[action*='stock']")).find(".order ~ a").insertAdjacentElement(
 			"afterend",
 			document.newElement({
-				type: "button",
-				class: "tt-btn tt-fill-stock",
-				text: "FILL STOCK",
-				events: { click: fillStock },
+				type: "div",
+				class: "tt-fill-stock-wrapper",
+				children: [document.newElement({ type: "button", class: "tt-btn tt-fill-stock", text: "FILL STOCK", events: { click: fillStock } })],
 			})
 		);
 	}

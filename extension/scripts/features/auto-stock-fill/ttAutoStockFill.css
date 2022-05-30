@@ -1,7 +1,12 @@
+.tt-fill-stock-wrapper {
+	position: relative;
+}
+
 .tt-fill-stock {
-	float: right;
-	margin-right: 20px;
-	font-weight: bolder;
-	font-size: 15px;
-	font-family: Arial;
+	position: absolute;
+	right: 10px;
+	bottom: 0;
+	font-size: 14px;
+	font-weight: bold;
+	letter-spacing: 0;
 }
