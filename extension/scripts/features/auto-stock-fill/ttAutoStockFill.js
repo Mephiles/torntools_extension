@@ -10,7 +10,7 @@
 		() => settings.pages.companies.autoStockFill,
 		addListener,
 		addFillStockBtn,
-		() => document.findAll(".tt-fill-stock").forEach(x => x.remove()),
+		() => document.findAll(".tt-fill-stock").forEach((x) => x.remove()),
 		{
 			storage: ["settings.pages.companies.autoStockFill"],
 		}
@@ -27,16 +27,15 @@
 	async function addFillStockBtn(add) {
 		if (!add && getHashParameters().get("option") !== "stock") return;
 
-		(await requireElement("form[action*='stock']"))
-			.find(".order ~ a")
-			.insertAdjacentElement("afterend",
-				document.newElement({
-					type: "button",
-					class: "tt-btn tt-fill-stock",
-					text: "FILL STOCK",
-					events: { click: fillStock },
-				})
-			);
+		(await requireElement("form[action*='stock']")).find(".order ~ a").insertAdjacentElement(
+			"afterend",
+			document.newElement({
+				type: "button",
+				class: "tt-btn tt-fill-stock",
+				text: "FILL STOCK",
+				events: { click: fillStock },
+			})
+		);
 	}
 
 	async function fillStock() {
