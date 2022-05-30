@@ -13,7 +13,9 @@
 		() => document.findAll(".tt-fill-stock").forEach((x) => x.remove()),
 		{
 			storage: ["settings.pages.companies.autoStockFill"],
-		}
+		},
+		undefined,
+		{ liveReload: true }
 	);
 
 	function addListener() {
