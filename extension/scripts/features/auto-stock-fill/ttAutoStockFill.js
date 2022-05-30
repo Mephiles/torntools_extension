@@ -48,9 +48,7 @@
 
 			const neededStock = ((soldDaily / totalSoldDaily) * totalCapacity - onOrder - inStock).dropDecimals();
 
-			const input = stockItem.find("input");
-			input.value = neededStock;
-			input.dispatchEvent(new Event("blur"));
+			updateReactInput(stockItem.find("input"), neededStock, REACT_UPDATE_VERSIONS.DEFAULT);
 		});
 	}
 })();
