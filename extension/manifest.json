@@ -236,7 +236,8 @@
 				"scripts/features/company-specials/ttCompanySpecials.css",
 				"scripts/features/last-action/ttLastAction.css",
 				"scripts/features/employee-inactivity-warning/ttEmployeeInactivityWarning.css",
-				"scripts/features/employee-effectiveness/ttEmployeeEffectiveness.css"
+				"scripts/features/employee-effectiveness/ttEmployeeEffectiveness.css",
+				"scripts/features/auto-stock-fill/ttAutoStockFill.css"
 			],
 			"js": [
 				"scripts/content/company/ttCompany.js",
