@@ -6,7 +6,10 @@
 		"logs": {
 			"features": [],
 			"fixes": [{ "message": "Fix racing win percentage.", "contributor": "bandirao" }],
-			"changes": [{ "message": "Add the url to the notifications in the popup.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Add the url to the notifications in the popup.", "contributor": "DeKleineKobini" },
+				{ "message": "Change auto fill stock to have a button.", "contributor": "bandirao" }
+			],
 			"removed": []
 		}
 	},
