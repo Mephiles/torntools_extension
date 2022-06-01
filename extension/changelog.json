@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix racing win percentage.", "contributor": "bandirao" },{ "message": "Fix bank investment table rounding.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Fix racing win percentage.", "contributor": "bandirao" },
+				{ "message": "Fix bank investment table rounding.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [
 				{ "message": "Add the url to the notifications in the popup.", "contributor": "DeKleineKobini" },
 				{ "message": "Change auto fill stock to have a button.", "contributor": "bandirao" },
