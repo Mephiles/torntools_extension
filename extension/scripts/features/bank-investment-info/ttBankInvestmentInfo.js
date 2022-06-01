@@ -88,8 +88,8 @@
 				cellRenderer: "bankMoney",
 			},
 			{
-				id: "tcbOnly",
-				title: "TCB Only",
+				id: "tciOnly",
+				title: "TCI Only",
 				width: 110,
 				cellRenderer: "bankMoney",
 			},
@@ -100,8 +100,8 @@
 				cellRenderer: "bankMoney",
 			},
 			{
-				id: "meritsAndTcb",
-				title: "10/10 Merits + TCB",
+				id: "meritsAndTci",
+				title: "10/10 Merits + TCI",
 				width: 125,
 				cellRenderer: "bankMoney",
 			},
@@ -130,9 +130,9 @@
 			return {
 				period: PERIOD_DESC[period],
 				regular: _getMoneyInfo(period, []),
-				tcbOnly: _getMoneyInfo(period, [INVESTMENTS_BONUSES.TCI]),
+				tciOnly: _getMoneyInfo(period, [INVESTMENTS_BONUSES.TCI]),
 				meritsOnly: _getMoneyInfo(period, [INVESTMENTS_BONUSES.MERIT]),
-				meritsAndTcb: _getMoneyInfo(period, [INVESTMENTS_BONUSES.TCI, INVESTMENTS_BONUSES.MERIT]),
+				meritsAndTci: _getMoneyInfo(period, [INVESTMENTS_BONUSES.TCI, INVESTMENTS_BONUSES.MERIT]),
 			};
 		}
 
@@ -143,7 +143,7 @@
 			const aprWithBonus = aprPercent * totalBonusRatio;
 			const profitPerDayRatio = (aprWithBonus / DAYS_IN_YEAR) * DAYS[period];
 
-			const total = profitPerDayRatio.toFixed(4) * BALANCE;
+			const total = (profitPerDayRatio.toFixed(4) * BALANCE).roundNearest(1);
 			const daily = (total / DAYS[period]).toFixed();
 
 			return {
