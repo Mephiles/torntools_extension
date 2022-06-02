@@ -49,7 +49,8 @@
 			const stock = stockItem.find(".stock").lastChild.textContent.getNumber();
 			const soldDaily = stockItem.find(".sold-daily").lastChild.textContent.getNumber();
 
-			const neededStock = ((soldDaily / totalSoldDaily) * totalCapacity - ordered - stock).dropDecimals();
+			let neededStock = ((soldDaily / totalSoldDaily) * totalCapacity - ordered - stock).dropDecimals();
+			neededStock = Math.max(0, neededStock);
 
 			updateReactInput(stockItem.find("input"), neededStock, REACT_UPDATE_VERSIONS.DEFAULT);
 		});
