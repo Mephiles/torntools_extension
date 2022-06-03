@@ -19,7 +19,25 @@
 	async function showValue() {
 		await requireSidebar();
 
-		const block = document.find("#pointsPoints").parentElement;
+		const block = document.evaluate(
+			`
+				(
+					//a[@id='pointsPoints']
+					| 
+					//div[@id='sidebarroot']
+						//span[contains(@class, 'name___')][contains(., 'Points')]
+				)
+					/parent::p[contains(@class, 'point-block___')]
+			`,
+			document,
+			null,
+			XPathResult.FIRST_ORDERED_NODE_TYPE,
+			null
+		)?.singleNodeValue;
+		if (!block) {
+			console.warn("Couldn't find your points block for some odd reason.");
+			return;
+		}
 
 		block.classList.add("tt-points-value");
 
@@ -29,7 +47,10 @@
 		for (const elements of block.findAll(":scope > span"))
 			elements.setAttribute(
 				"title",
-				`${formatNumber(value, { currency: true })} | ${formatNumber(points)}x = ${formatNumber(value * points, { currency: true, shorten: 2 })}`
+				`${formatNumber(value, { currency: true })} | ${formatNumber(points)}x = ${formatNumber(value * points, {
+					currency: true,
+					shorten: 2,
+				})}`
 			);
 
 		executeScript((wrapped) => wrapped.initializeTooltip(".tt-points-value", "white-tooltip"), "initializeTooltip('.tt-points-value', 'white-tooltip')");
