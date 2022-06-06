@@ -4,7 +4,9 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [
+				{ "message": "Stakeout notification when player becomes revivable (based on the setting, not hospital status).", "contributor": "DeKleineKobini" }
+			],
 			"fixes": [
 				{ "message": "Fix racing win percentage.", "contributor": "bandirao" },
 				{ "message": "Fix bank investment table rounding.", "contributor": "DeKleineKobini" },

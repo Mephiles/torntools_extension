@@ -897,7 +897,7 @@ async function updateStakeouts() {
 		}
 
 		if (stakeouts[id].alerts) {
-			const { okay, hospital, landing, online, life, offline } = stakeouts[id].alerts;
+			const { okay, hospital, landing, online, life, offline, revivable } = stakeouts[id].alerts;
 
 			if (okay) {
 				const key = `${id}_okay`;
@@ -980,6 +980,22 @@ async function updateStakeouts() {
 					delete notifications.stakeouts[key];
 				}
 			}
+			if (revivable) {
+				const oldIsRevivable = oldData?.isRevivable ?? false;
+				const isRevivable = data.revivable === 1;
+
+				const key = `${id}_revivable`;
+				if (!oldIsRevivable && isRevivable && !notifications.stakeouts[key]) {
+					if (settings.notifications.types.global)
+						notifications.stakeouts[key] = newNotification(
+							"Stakeouts",
+							`${data.name} is now revivable.`,
+							`https://www.torn.com/profiles.php?XID=${id}`
+						);
+				} else if (!oldIsRevivable) {
+					delete notifications.stakeouts[key];
+				}
+			}
 		}
 
 		stakeouts[id].info = {
@@ -999,6 +1015,7 @@ async function updateStakeouts() {
 				until: data.status.until * 1000,
 				description: data.status.description,
 			},
+			isRevivable: data.revivable === 1,
 		};
 	}
 	stakeouts.date = now;
