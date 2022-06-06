@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [
-				{ "message": "Stakeout notification when player becomes revivable (based on the setting, not hospital status).", "contributor": "DeKleineKobini" }
+				{
+					"message": "Stakeout notification when player becomes revivable (based on the setting, not hospital status).",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"fixes": [
 				{ "message": "Fix racing win percentage.", "contributor": "bandirao" },
