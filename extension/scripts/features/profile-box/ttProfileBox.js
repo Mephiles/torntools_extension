@@ -836,10 +836,25 @@
 				ttStorage.change({ stakeouts: { [id]: { alerts: { offline: parseInt(offlineFor.getValue()) || false } } } });
 			});
 
+			const isRevivable = createCheckbox({ description: "is revivable" });
+			isRevivable.onChange(() => {
+				if (!(id in stakeouts)) return;
+
+				ttStorage.change({ stakeouts: { [id]: { alerts: { revivable: isRevivable.isChecked() } } } });
+			});
+
 			const alerts = document.newElement({
 				type: "div",
 				class: "alerts",
-				children: [isOkay.element, isInHospital.element, lands.element, comesOnline.element, lifeDrops.element, offlineFor.element],
+				children: [
+					isOkay.element,
+					isInHospital.element,
+					lands.element,
+					comesOnline.element,
+					lifeDrops.element,
+					offlineFor.element,
+					isRevivable.element,
+				],
 			});
 
 			if (hasStakeout) {
@@ -849,6 +864,7 @@
 				comesOnline.setChecked(stakeouts[id].alerts.online);
 				lifeDrops.setValue(stakeouts[id].alerts.life === false ? "" : stakeouts[id].alerts.life);
 				offlineFor.setValue(stakeouts[id].alerts.offline === false ? "" : stakeouts[id].alerts.offline);
+				isRevivable.setChecked(stakeouts[id].alerts.revivable);
 			} else {
 				alerts.classList.add("tt-hidden");
 			}

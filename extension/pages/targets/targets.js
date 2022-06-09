@@ -327,6 +327,13 @@ async function setupStakeouts() {
 					document.newElement({ type: "input", id: `offline-${id}`, class: "offline short-input", attributes: { type: "number", min: 1 } }),
 					document.newElement({ type: "label", attributes: { for: `offline-${id}` }, text: " hours" }),
 				],
+			}),
+			document.newElement({
+				type: "div",
+				children: [
+					document.newElement({ type: "input", id: `revivable-${id}`, class: "revivable", attributes: { type: "checkbox" } }),
+					document.newElement({ type: "label", attributes: { for: `revivable-${id}` }, text: "is revivable" }),
+				],
 			})
 		);
 
@@ -337,13 +344,16 @@ async function setupStakeouts() {
 			for (const key in data.alerts) {
 				if (!data.alerts[key]) continue;
 
+				const element = alertsWrap.find(`.${key}`);
+				if (!element) continue;
+
 				switch (typeof data.alerts[key]) {
 					case "boolean":
-						alertsWrap.find(`.${key}`).checked = true;
+						element.checked = true;
 						break;
 					case "number":
 					case "string":
-						alertsWrap.find(`.${key}`).value = data.alerts[key];
+						element.value = data.alerts[key];
 						break;
 				}
 			}
@@ -397,6 +407,7 @@ async function setupStakeouts() {
 			alerts.find(".online").checked = stakeouts[id].alerts.online;
 			alerts.find(".life").value = stakeouts[id].alerts.life || "";
 			alerts.find(".offline").value = stakeouts[id].alerts.offline || "";
+			alerts.find(".revivable").checked = stakeouts[id].alerts.revivable;
 		}
 	}
 
@@ -417,6 +428,7 @@ async function setupStakeouts() {
 					online: alertsSection.find(".online").checked,
 					life: parseInt(alertsSection.find(".life").value) || false,
 					offline: parseInt(alertsSection.find(".offline").value) || false,
+					revivable: alertsSection.find(".revivable").checked,
 				},
 			};
 		}
