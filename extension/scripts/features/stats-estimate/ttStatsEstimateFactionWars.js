@@ -44,7 +44,12 @@
 
 		requireElement("ul.f-war-list").then((warList) => {
 			observer = new MutationObserver((mutations) => {
-				if (![...mutations].some((mutation) => [...(mutation.addedNodes ?? [])].some((node) => node.classList?.contains("descriptions") && node.find(".enemy-faction")))) return;
+				if (
+					![...mutations].some((mutation) =>
+						[...(mutation.addedNodes ?? [])].some((node) => node.classList?.contains("descriptions") && node.find(".enemy-faction"))
+					)
+				)
+					return;
 
 				observeDescription();
 			});
