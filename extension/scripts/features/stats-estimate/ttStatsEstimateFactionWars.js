@@ -42,20 +42,25 @@
 
 		if (window.location.hash.includes("/war/")) requireElement(".f-war-list > .descriptions").then(observeDescription);
 
-		requireElement("ul.f-war-list").then(() => {
+		requireElement("ul.f-war-list").then((warList) => {
 			observer = new MutationObserver((mutations) => {
-				if (![...mutations].some((mutation) => [...(mutation.addedNodes ?? [])].some((node) => node.classList?.contains("descriptions")))) return;
+				if (
+					![...mutations].some((mutation) =>
+						[...(mutation.addedNodes ?? [])].some((node) => node.classList?.contains("descriptions") && node.find(".enemy-faction"))
+					)
+				)
+					return;
 
 				observeDescription();
 			});
-			observer.observe(document.find("ul.f-war-list"), { childList: true });
+			observer.observe(warList, { childList: true });
 		});
 	}
 
 	function observeDescription() {
 		showEstimates();
 
-		requireElement(".faction-war .members-list").then(() => {
+		requireElement(".faction-war .members-list").then((membersList) => {
 			new MutationObserver((mutations) => {
 				let shouldEstimate = false;
 
@@ -76,7 +81,7 @@
 				}
 
 				if (shouldEstimate) showEstimates();
-			}).observe(document.find(".faction-war .members-list"), { childList: true });
+			}).observe(membersList, { childList: true });
 		});
 	}
 
