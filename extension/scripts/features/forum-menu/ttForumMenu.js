@@ -201,8 +201,16 @@
 											const urls = [];
 											const urlRegex = /\[url=(.*?)](.*?)\[\/url]/gs;
 											const urlCallback = (match, url, content) => {
-												urls.push(url);
-												return `[${content.trim()}][${urls.length}]`;
+												let place;
+
+												if (urls.includes(url)) {
+													place = urls.indexOf(url) + 1;
+												} else {
+													urls.push(url);
+													place = urls.length;
+												}
+
+												return `[${content.trim()}][${place}]`;
 											};
 											quotesContent = quotesContent.replace(urlRegex, urlCallback);
 											postContent = postContent.replace(urlRegex, urlCallback);
