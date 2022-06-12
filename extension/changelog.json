@@ -19,7 +19,8 @@
 				{ "message": "Add the url to the notifications in the popup.", "contributor": "DeKleineKobini" },
 				{ "message": "Change auto fill stock to have a button.", "contributor": "bandirao" },
 				{ "message": "Rename TCB to TCI.", "contributor": "DeKleineKobini" },
-				{ "message": "Don't duplicate url entries when copying forum posts for Discord.", "contributor": "DeKleineKobini" }
+				{ "message": "Don't duplicate url entries when copying forum posts for Discord.", "contributor": "DeKleineKobini" },
+				{ "message": "Add compatability with the faction stats script for the ranked war filter.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
