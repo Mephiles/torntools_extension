@@ -173,7 +173,7 @@
 				return;
 			}
 		}
-		if (filters.status.length) {
+		if (filters.status?.length) {
 			if (!filters.status.includes(row.find(".status").textContent.toLowerCase().trim())) {
 				hide("status");
 				return;
