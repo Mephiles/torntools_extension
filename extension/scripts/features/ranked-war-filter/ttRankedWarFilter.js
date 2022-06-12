@@ -146,7 +146,7 @@
 					levelStart: levelStart,
 					levelEnd: levelEnd,
 					status: status,
-					estimates: statsEstimates ?? filters.userlist.estimates,
+					estimates: statsEstimates ?? filters.factionRankedWar.estimates,
 				},
 			},
 		});
