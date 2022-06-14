@@ -17,6 +17,7 @@ const FETCH_PLATFORMS = {
 	nukefamily: "https://www.nukefamily.org/",
 	uhc: "https://tornuhc.eu/",
 	imperium: "https://inq.mavri.dev/",
+	hela: "https://mule.pictures/",
 };
 
 const FACTION_ACCESS = {
@@ -108,6 +109,11 @@ async function fetchData(location, options = {}) {
 					break;
 				case "imperium":
 					url = FETCH_PLATFORMS.imperium;
+
+					path = options.section;
+					break;
+				case "hela":
+					url = FETCH_PLATFORMS.hela;
 
 					path = options.section;
 					break;
