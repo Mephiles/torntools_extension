@@ -146,7 +146,7 @@
 					levelStart: levelStart,
 					levelEnd: levelEnd,
 					status: status,
-					estimates: statsEstimates ?? filters.userlist.estimates,
+					estimates: statsEstimates ?? filters.factionRankedWar.estimates,
 				},
 			},
 		});
@@ -173,7 +173,7 @@
 				return;
 			}
 		}
-		if (filters.status.length) {
+		if (filters.status?.length) {
 			let status = row.find(".status").textContent.toLowerCase().trim();
 			if (status.includes(":")) status = "hospital";
 
