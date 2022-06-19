@@ -184,8 +184,12 @@
 				return;
 			}
 		}
-		if (filters.status?.length) {
-			if (!filters.status.includes(row.find(".status").textContent.toLowerCase().trim())) {
+
+		if (filters.status.length) {
+			let status = row.find(".status").textContent.toLowerCase().trim();
+			if (status.includes(":")) status = "hospital";
+
+			if (!filters.status.includes(status)) {
 				hide("status");
 				return;
 			}

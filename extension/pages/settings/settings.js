@@ -485,6 +485,7 @@ async function setupPreferences(requireCleanup) {
 		if (provider === "nuke") origin = FETCH_PLATFORMS.nukefamily;
 		else if (provider === "uhc") origin = FETCH_PLATFORMS.uhc;
 		else if (provider === "imperium") origin = FETCH_PLATFORMS.imperium;
+		else if (provider === "hela") origin = FETCH_PLATFORMS.hela;
 
 		if (!origin) return;
 
@@ -1227,6 +1228,7 @@ async function setupPreferences(requireCleanup) {
 			if (reviveProvider === "nuke") origin = FETCH_PLATFORMS.nukefamily;
 			else if (reviveProvider === "uhc") origin = FETCH_PLATFORMS.uhc;
 			else if (reviveProvider === "imperium") origin = FETCH_PLATFORMS.imperium;
+			else if (reviveProvider === "hela") origin = FETCH_PLATFORMS.hela;
 
 			if (origin) origins.push(origin);
 		}
