@@ -33,7 +33,7 @@
 			const statsEstimates = localFilters["Stats Estimate"]?.getSelections(content);
 			if (!statsEstimates?.length) return;
 
-			filterRow(row, { statsEstimates }, true);
+			filterRow(row, { statsEstimates }, true, true);
 		});
 
 		addFetchListener(({ detail: { page, fetch } }) => {
@@ -165,7 +165,18 @@
 		);
 	}
 
-	function filterRow(row, filters, individual) {
+	function filterRow(row, filters, individual, statsEstimatesOnly = false) {
+		if (filters.statsEstimates) {
+			if (filters.statsEstimates.length) {
+				const estimate = row.dataset.estimate?.toLowerCase() ?? "none";
+				if ((estimate !== "none" || !row.classList.contains("tt-estimated")) && !filters.statsEstimates.includes(estimate)) {
+					hide("stats-estimate");
+					return;
+				}
+			}
+		}
+		if (statsEstimatesOnly) return;
+
 		if (filters.activity) {
 			const activity = row.find(".member.icons [class*='userStatusWrap___']").id.split("_")[1].split("-")[0].trim();
 			if (filters.activity.length && !filters.activity.some((x) => x.trim() === activity)) {
@@ -184,15 +195,6 @@
 			if ((filters.level.start && level < filters.level.start) || (filters.level.end !== 100 && level > filters.level.end)) {
 				hide("level");
 				return;
-			}
-		}
-		if (filters.statsEstimates) {
-			if (filters.statsEstimates.length) {
-				const estimate = row.dataset.estimate?.toLowerCase() ?? "none";
-				if ((estimate !== "none" || !row.classList.contains("tt-estimated")) && !filters.statsEstimates.includes(estimate)) {
-					hide("stats-estimate");
-					return;
-				}
 			}
 		}
 
