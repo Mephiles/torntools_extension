@@ -692,7 +692,12 @@ async function updateUserdata() {
 	async function notifyChain() {
 		if (!settings.apiUsage.user.bars || !settings.notifications.types.global) return;
 
-		if (settings.notifications.types.chainTimer.length > 0 && userdata.chain.timeout !== 0 && userdata.chain.current >= 10) {
+		if (
+			settings.notifications.types.chainTimerEnabled &&
+			settings.notifications.types.chainTimer.length > 0 &&
+			userdata.chain.timeout !== 0 &&
+			userdata.chain.current >= 10
+		) {
 			const timeout = userdata.chain.timeout * 1000 - (now - userdata.timestamp * 1000); // ms
 			const count = userdata.chain.current;
 
@@ -711,7 +716,12 @@ async function updateUserdata() {
 			notifications.chain = {};
 		}
 
-		if (settings.notifications.types.chainBonus.length > 0 && userdata.chain.timeout !== 0 && userdata.chain.current >= 10) {
+		if (
+			settings.notifications.types.chainBonusEnabled &&
+			settings.notifications.types.chainBonus.length > 0 &&
+			userdata.chain.timeout !== 0 &&
+			userdata.chain.current >= 10
+		) {
 			const count = userdata.chain.current;
 			const nextBonus = getNextChainBonus(count);
 
@@ -735,7 +745,7 @@ async function updateUserdata() {
 	async function notifyHospital() {
 		if (!settings.notifications.types.global) return;
 
-		if (settings.notifications.types.leavingHospital.length && userdata.status.state === "Hospital") {
+		if (settings.notifications.type.leavingHospitalEnabled && settings.notifications.types.leavingHospital.length && userdata.status.state === "Hospital") {
 			for (const checkpoint of settings.notifications.types.leavingHospital.sort((a, b) => a - b)) {
 				const timeLeft = userdata.status.until * 1000 - now;
 
@@ -756,7 +766,7 @@ async function updateUserdata() {
 	async function notifyTraveling() {
 		if (!settings.apiUsage.user.travel || !settings.notifications.types.global) return;
 
-		if (settings.notifications.types.landing.length && userdata.travel.time_left) {
+		if (settings.notifications.types.landingEnabled && settings.notifications.types.landing.length && userdata.travel.time_left) {
 			for (const checkpoint of settings.notifications.types.landing.sort((a, b) => a - b)) {
 				const timeLeft = userdata.travel.timestamp * 1000 - now;
 
@@ -778,13 +788,17 @@ async function updateUserdata() {
 		if (!settings.apiUsage.user.cooldowns || !settings.notifications.types.global) return;
 
 		const COOLDOWNS = [
-			{ name: "drug", title: "Drugs", setting: "cooldownDrug", memory: "drugs" },
-			{ name: "booster", title: "Boosters", setting: "cooldownBooster", memory: "boosters" },
-			{ name: "medical", title: "Medical", setting: "cooldownMedical", memory: "medical" },
+			{ name: "drug", title: "Drugs", setting: "cooldownDrug", memory: "drugs", enabled: "cooldownDrugEnabled" },
+			{ name: "booster", title: "Boosters", setting: "cooldownBooster", memory: "boosters", enabled: "cooldownBoosterEnabled" },
+			{ name: "medical", title: "Medical", setting: "cooldownMedical", memory: "medical", enabled: "cooldownMedicalEnabled" },
 		];
 
 		for (const cooldown of COOLDOWNS) {
-			if (settings.notifications.types[cooldown.setting].length && userdata.cooldowns[cooldown.name] > 0) {
+			if (
+				settings.notifications.types[cooldown.enabled] &&
+				settings.notifications.types[cooldown.setting].length &&
+				userdata.cooldowns[cooldown.name] > 0
+			) {
 				for (const checkpoint of settings.notifications.types[cooldown.setting].sort((a, b) => a - b)) {
 					const timeLeft = userdata.cooldowns[cooldown.name] * 1000;
 
