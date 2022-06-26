@@ -745,7 +745,7 @@ async function updateUserdata() {
 	async function notifyHospital() {
 		if (!settings.notifications.types.global) return;
 
-		if (settings.notifications.type.leavingHospitalEnabled && settings.notifications.types.leavingHospital.length && userdata.status.state === "Hospital") {
+		if (settings.notifications.types.leavingHospitalEnabled && settings.notifications.types.leavingHospital.length && userdata.status.state === "Hospital") {
 			for (const checkpoint of settings.notifications.types.leavingHospital.sort((a, b) => a - b)) {
 				const timeLeft = userdata.status.until * 1000 - now;
 
