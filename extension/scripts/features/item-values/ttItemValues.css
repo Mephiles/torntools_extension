@@ -1,6 +1,9 @@
-body.tt-mobile .tt-item-price-wrap,
-body.tt-tablet .tt-item-price-wrap {
+body.tt-mobile .tt-item-price-wrap {
 	height: 30px !important;
+}
+
+body.tt-tablet .tt-item-price-wrap {
+	height: 34px !important;
 }
 
 .tt-item-price-color,

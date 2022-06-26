@@ -81,7 +81,7 @@ const pendingActions = {};
 	});
 
 	requireItemsLoaded().then(() => {
-		for (const icon of document.findAll("ul[role=tablist] li:not(.no-items):not(.m-show):not(.hide)")) {
+		for (const icon of document.findAll("#categoriesList > li:not(.no-items):not(.m-show):not(.hide)")) {
 			icon.addEventListener("click", async () => {
 				await requireItemsLoaded();
 

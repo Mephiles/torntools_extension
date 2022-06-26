@@ -13,7 +13,8 @@
 			"fixes": [
 				{ "message": "Fix racing win percentage.", "contributor": "bandirao" },
 				{ "message": "Fix bank investment table rounding.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix points values while flying.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix points values while flying.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix item values on tablet view.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Add the url to the notifications in the popup.", "contributor": "DeKleineKobini" },
