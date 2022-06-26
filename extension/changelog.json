@@ -22,7 +22,8 @@
 				{ "message": "Rename TCB to TCI.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't duplicate url entries when copying forum posts for Discord.", "contributor": "DeKleineKobini" },
 				{ "message": "Add compatability with the faction stats script for the ranked war filter.", "contributor": "DeKleineKobini" },
-				{ "message": "Allow requesting revives from HeLa", "contributor": "dat-mule" }
+				{ "message": "Allow requesting revives from HeLa", "contributor": "dat-mule" },
+				{ "message": "Allow disabling notifications without removing timer numbers.", "contributor": "josephting" }
 			],
 			"removed": []
 		}
