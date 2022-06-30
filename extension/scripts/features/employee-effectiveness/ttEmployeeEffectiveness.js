@@ -33,15 +33,14 @@
 	async function showEffectiveness() {
 		const list = await requireElement(".employee-list");
 
-		const x = settings.pages.companies.employeeEffectiveness;
 		for (const row of list.findAll(".effectiveness[data-multipliers]")) {
-			const multipliers = JSON.parse(row.dataset.multipliers);
+			const multipliers = JSON.parse(row.dataset.multipliers) || [];
 			const reduction = multipliers.filter((multiplier) => multiplier < 0).totalSum() * -1;
 
 			const element = row.find(".effectiveness-value");
 
-			if (reduction < x) {
-				element.classList.remove("tt-employee-effectiveness");
+			if (reduction < settings.pages.companies.employeeEffectiveness) {
+				element.classList.remove("tt-employee-effectiveness"); // Live reload
 				continue;
 			}
 
