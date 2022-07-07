@@ -15,7 +15,8 @@
 				{ "message": "Fix bank investment table rounding.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix points values while flying.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix item values on tablet view.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix travel agency selecting uk as country.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix travel agency selecting uk as country.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix abroad auto fill not working on Firefox.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Add the url to the notifications in the popup.", "contributor": "DeKleineKobini" },

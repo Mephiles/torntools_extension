@@ -38,9 +38,11 @@
 			const max = Math.min(stock, affordableStock, leftCapacity);
 
 			const input = item.find("input[id]");
-			input.value = max;
-			input.setAttribute("value", max);
-			input.dispatchEvent(new Event("blur"));
+			setTimeout(() => {
+				input.value = max;
+				input.setAttribute("value", max);
+				input.dispatchEvent(new Event("blur"));
+			});
 		});
 	}
 })();
