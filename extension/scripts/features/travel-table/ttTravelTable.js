@@ -310,11 +310,15 @@
 							settings.pages.travel.autoTravelTableCountry &&
 							(event.target.matches("[aria-hidden*='false'] > .raceway") || event.target.closest(".travel-info-table-list"))
 						) {
-							const country =
+							let country =
 								mobile || tablet
 									? event.target.closest(".travel-info-table-list").find(".city-flag")?.className.replaceAll("city-flag", "").trim()
 									: event.target.dataset.race.trim();
 							if (!country) return;
+
+							if (country === "uk") {
+								country = "united_kingdom";
+							}
 
 							content.findAll(".countries .flag.selected").forEach((flag) => flag.classList.remove("selected"));
 							content.find(`.countries .flag[country*="${country.replaceAll("-", "_")}"]`).classList.add("selected");
