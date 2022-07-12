@@ -1,8 +1,14 @@
 [
 	{
-		"version": { "major": 6, "minor": 7, "build": 0 },
+		"version": { "major": 6, "minor": 8, "build": 0 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 7, "build": 0 },
+		"title": "Beta",
+		"date": "2022/07/12",
 		"logs": {
 			"features": [
 				{
@@ -28,8 +34,7 @@
 				{ "message": "Add compatability with the faction stats script for the ranked war filter.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow requesting revives from HeLa", "contributor": "dat-mule" },
 				{ "message": "Allow disabling notifications without removing timer numbers.", "contributor": "josephting" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
