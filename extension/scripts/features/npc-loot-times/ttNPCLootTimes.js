@@ -14,7 +14,7 @@
 			storage: ["settings.pages.sidebar.npcLootTimes", "npcs.targets"],
 		},
 		() => {
-			if (!settings.external.yata) return "YATA not enabled";
+			if (!settings.external.yata && !settings.external.tornstats) return "YATA or TornStats not enabled";
 		}
 	);
 
