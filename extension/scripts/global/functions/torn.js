@@ -1444,7 +1444,7 @@ function isCaptcha() {
 }
 
 function hasDarkMode() {
-	return window.location.host === chrome.runtime.id ? document.body.classList.contains("dark") : document.body.classList.contains("dark-mode");
+	return location.host === chrome.runtime.id ? document.body.classList.contains("dark") : document.body.classList.contains("dark-mode");
 }
 
 const darkModeObserver = new (class {

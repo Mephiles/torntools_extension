@@ -40,7 +40,7 @@
 	function observeWars() {
 		if (observer) observer.disconnect();
 
-		if (window.location.hash.includes("/war/rank")) requireElement(".f-war-list > .descriptions").then(() => showEstimates());
+		if (location.hash.includes("/war/rank")) requireElement(".f-war-list > .descriptions").then(() => showEstimates());
 
 		requireElement("ul.f-war-list").then(() => {
 			observer = new MutationObserver((mutations) => {

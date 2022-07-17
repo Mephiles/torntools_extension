@@ -23,7 +23,7 @@
 	}
 
 	async function addWorth() {
-		const displayCaseUserId = window.location.hash.split("/").length > 1 ? window.location.hash.split("/").last() : "";
+		const displayCaseUserId = location.hash.split("/").length > 1 ? location.hash.split("/").last() : "";
 		if (displayCaseUserId && !isNaN(displayCaseUserId) && parseInt(displayCaseUserId) !== userdata.player_id) {
 			await requireElement(".info-msg-cont .msg");
 			fetchData("torn", { section: "user", id: displayCaseUserId, selections: ["display"] })

@@ -29,7 +29,7 @@
 	function initialiseListener() {
 		if (isBookie()) {
 			window.addEventListener("hashchange", () => {
-				if (feature.enabled() && window.location.hash.includes("stats/")) {
+				if (feature.enabled() && location.hash.includes("stats/")) {
 					addTotal();
 				}
 			});
@@ -37,7 +37,7 @@
 	}
 
 	async function addTotal() {
-		if (isBookie() && !window.location.hash.includes("stats/")) return;
+		if (isBookie() && !location.hash.includes("stats/")) return;
 
 		for (const statsType of ["overall", "your"]) {
 			if (statsType === "overall" && isPoker()) continue;

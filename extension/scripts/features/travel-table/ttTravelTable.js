@@ -454,7 +454,7 @@
 		}
 
 		function startFlyingTable() {
-			let isOpened = new URLSearchParams(window.location.search).get("travel") === "true";
+			let isOpened = new URLSearchParams(location.search).get("travel") === "true";
 
 			showIcon();
 			createTable();
@@ -484,9 +484,9 @@
 				function changeState() {
 					isOpened = !isOpened;
 
-					const searchParams = new URLSearchParams(window.location.search);
+					const searchParams = new URLSearchParams(location.search);
 					searchParams.set("travel", `${isOpened}`);
-					history.pushState(null, "", `${window.location.pathname}?${searchParams.toString()}`);
+					history.pushState(null, "", `${location.pathname}?${searchParams.toString()}`);
 
 					document.find(".tt-travel span").textContent = isOpened ? "Home" : "Travel Table";
 

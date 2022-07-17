@@ -28,7 +28,7 @@
 		event.preventDefault();
 		event.stopImmediatePropagation();
 		if (confirm("Are you sure you want to attack this ally ?")) {
-			window.location = document.find(".profile-buttons .profile-button-attack").href;
+			location = document.find(".profile-buttons .profile-button-attack").href;
 		}
 	}
 

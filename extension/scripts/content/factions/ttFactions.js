@@ -48,7 +48,7 @@ const isOwnFaction = getSearchParameters().get("step") === "your";
 		}
 
 		function getSubpage() {
-			const hash = window.location.hash.replace("#/", "");
+			const hash = location.hash.replace("#/", "");
 			return !hash || hash.includes("war/") ? "main" : getHashParameters().get("tab") || "";
 		}
 

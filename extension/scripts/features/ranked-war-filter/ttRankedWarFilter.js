@@ -45,7 +45,7 @@
 
 	const localFilters = {};
 	async function addFilters(rankedWarList) {
-		if (window.location.hash.includes("#/war/rank")) rankedWarList = await requireElement(".act[class*='warListItem__'] ~ .descriptions .faction-war");
+		if (location.hash.includes("#/war/rank")) rankedWarList = await requireElement(".act[class*='warListItem__'] ~ .descriptions .faction-war");
 		if (!rankedWarList) return;
 
 		const { content } = createContainer("Ranked War Filter", {

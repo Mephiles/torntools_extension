@@ -205,7 +205,7 @@ function getSearchParameters(input) {
 }
 
 function getHashParameters(hash) {
-	if (!hash) hash = window.location.hash;
+	if (!hash) hash = location.hash;
 
 	if (hash.startsWith("#/")) hash = hash.substring(2);
 	else if (hash.startsWith("#") || hash.startsWith("/")) hash = hash.substring(1);
