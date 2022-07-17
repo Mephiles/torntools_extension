@@ -3,10 +3,17 @@
 		"version": { "major": 6, "minor": 8, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [{
-			"message": "Fix NPC loot times not showing when YATA is disabled, even when using TS for it.",
-			"contributor": "DeKleineKobini"
-		}], "changes": [], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [
+				{
+					"message": "Fix NPC loot times not showing when YATA is disabled, even when using TS for it.",
+					"contributor": "DeKleineKobini"
+				}
+			],
+			"changes": [],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 6, "minor": 7, "build": 0 },
