@@ -11,7 +11,7 @@
 					"contributor": "DeKleineKobini"
 				}
 			],
-			"changes": [],
+			"changes": [{ "message": "Update mission hints", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}
 	},
