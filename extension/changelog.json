@@ -17,7 +17,6 @@
 	},
 	{
 		"version": { "major": 6, "minor": 7, "build": 0 },
-		"title": "Beta",
 		"date": "2022/07/12",
 		"logs": {
 			"features": [
