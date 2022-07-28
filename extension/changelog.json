@@ -11,7 +11,7 @@
 					"contributor": "DeKleineKobini"
 				}
 			],
-			"changes": [{ "message": "Update mission hints", "contributor": "DeKleineKobini" }],
+			"changes": [{ "message": "Update mission hints.", "contributor": "DeKleineKobini" }, { "message": "Allow hiding of the Enby icon.", "contributor": "DeKleineKobini" }],
 			"removed": []
 		}
 	},

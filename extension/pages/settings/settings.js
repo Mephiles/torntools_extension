@@ -388,11 +388,11 @@ async function setupPreferences(requireCleanup) {
 	}
 
 	const hideIconsParent = _preferences.find("#hide-icons");
-	for (const { icon, description } of ALL_ICONS) {
+	for (const { icon, id, description } of ALL_ICONS) {
 		const iconsWrap = document.newElement({
 			type: "div",
 			class: "icon",
-			children: [document.newElement({ type: "div", class: icon })],
+			children: [document.newElement({ type: "div", style: { backgroundPosition: `-${(id - 1) * 18}px 0` } })],
 		});
 		iconsWrap.classList.add("hover_tooltip");
 		iconsWrap.appendChild(document.newElement({ type: "span", class: "hover_tooltip_text", text: description }));
