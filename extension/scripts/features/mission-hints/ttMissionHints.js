@@ -61,15 +61,8 @@
 				hint: "Unequip everything. Residual effects from previous fights will fail this mission!",
 			},
 			batshit_crazy: {
-				task: async () => {
-					await requireSidebar();
-					const max = parseInt(document.find("#barLife [class*='bar-value___']").textContent.split("/")[1]);
-
-					return `Inflict ${formatNumber(max * 0.5, { decimals: 0 })} - ${formatNumber(max * 4, {
-						decimals: 0,
-					})} (based on your maximum life) damage with Penelope.`;
-				},
-				hint: "You'll receive Penelope from Duke.",
+				task: "Inflict damage with Penelope.",
+				hint: "You'll receive Penelope from Duke. Amount of damage is apparently based on your maximum life.",
 			},
 			battering_ram: {
 				task: "Attack (P) 3 times.",
@@ -148,8 +141,8 @@
 				task: "Defeat any 5 - 15 players.",
 			},
 			get_things_jumping: {
-				task: "Deal 2,000 - 50,000 and receive 1,000 - 25,000 damage based your max life.",
-				hint: "Values are apparently based on your max life.",
+				task: "Deal and receive damage.",
+				hint: "Values are apparently based on your maximum life.",
 			},
 			graffiti: {
 				task: "Hit (P) with pepper spray.",
@@ -350,12 +343,7 @@
 			if (key in MISSION_HINTS) {
 				const mission = MISSION_HINTS[key];
 
-				task =
-					typeof mission.task === "function"
-						? mission.task.constructor.name === "AsyncFunction"
-							? await mission.task()
-							: mission.task()
-						: mission.task;
+				task = mission.task;
 				hint = mission.hint;
 			} else {
 				if (title.includes("{name}")) {
