@@ -164,16 +164,16 @@
 				}
 			} else if (provider === "hela") {
 				const response = await fetchData("hela", {
-					section: "api/request",
+					section: "hela/revive",
 					method: "POST",
-					body: { userID: id, userName: name, factionName: faction, source, country },
+					body: { TornID: ('' + id), Username: name, Source: source},
 					relay: true,
 					silent: true,
 					succeedOnError: true,
 				});
 
-				if (response.success) {
-					displayMessage("Revive requested!");
+				if (response.hasOwnProperty('contract')) {
+					displayMessage((response['contract'] ? "Contract " : "") + " Revive requested!");
 				} else {
 					displayMessage("Failed to request!", true);
 					button.removeAttribute("disabled");
