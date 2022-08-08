@@ -776,7 +776,18 @@ async function setupPreferences(requireCleanup) {
 		const newRow = document.newElement({
 			type: "li",
 			children: [
-				document.newElement({ type: "input", class: "newTab", attributes: { type: "checkbox" } }),
+				document.newElement({
+					type: "input",
+					class: "newTab",
+					attributes: {
+						type: "checkbox",
+						...(data.newTab
+							? {
+									checked: true,
+							  }
+							: {}),
+					},
+				}),
 				document.newElement({
 					type: "select",
 					class: "preset",

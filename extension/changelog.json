@@ -9,6 +9,10 @@
 				{
 					"message": "Fix NPC loot times not showing when YATA is disabled, even when using TS for it.",
 					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Fix open in new tab settings in sidebar custom links not saving properly.",
+					"contributor": "josephting"
 				}
 			],
 			"changes": [
