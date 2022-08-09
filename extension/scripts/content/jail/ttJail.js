@@ -1,11 +1,13 @@
 "use strict";
 
-(() => {
-	document.addEventListener("click", (event) => {
-		if (event.target.classList.contains("page-number") || event.target.classList.contains("page-nb") || event.target.className.includes("pagination")) {
-			requireElement(".user-info-list-wrap .last #iconTray li").then(() => {
-				triggerCustomListener(EVENT_CHANNELS.JAIL_SWITCH_PAGE, null);
-			});
-		}
-	});
-})();
+window.addEventListener("hashchange", (e) => {
+	const oldHash = (new URL(e.oldURL)).hash || "#";
+	const newHash = (new URL(e.newURL)).hash || "#";
+	const oldStart = getHashParameters(oldHash).get("start");
+	const newStart = getHashParameters(newHash).get("start");
+	if (oldStart !== newStart) {
+		requireElement(".user-info-list-wrap .last #iconTray li").then(() => {
+			triggerCustomListener(EVENT_CHANNELS.JAIL_SWITCH_PAGE, null);
+		});
+	}
+});

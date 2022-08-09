@@ -187,16 +187,16 @@ function createStatistics(name = "entries") {
 		class: "statistics",
 		children: [
 			"Showing ",
-			document.newElement({ type: "strong", class: "count", text: "X" }),
+			document.newElement({ type: "strong", class: "stat-count", text: "X" }),
 			" of ",
-			document.newElement({ type: "strong", class: "total", text: "Y" }),
+			document.newElement({ type: "strong", class: "stat-total", text: "Y" }),
 			` ${name}.`,
 		],
 	});
 
 	function updateStatistics(count, total, content) {
-		content.find(".statistics .count").textContent = count;
-		content.find(".statistics .total").textContent = total;
+		content.find(".statistics .stat-count").textContent = count;
+		content.find(".statistics .stat-total").textContent = total;
 	}
 
 	return { element: statistics, updateStatistics };
