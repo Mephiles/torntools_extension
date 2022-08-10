@@ -17,7 +17,7 @@ const FETCH_PLATFORMS = {
 	nukefamily: "https://www.nukefamily.org/",
 	uhc: "https://tornuhc.eu/",
 	imperium: "https://inq.mavri.dev/",
-	hela: "https://mule.pictures/",
+	hela: "https://api.no1irishstig.co.uk/",
 };
 
 const FACTION_ACCESS = {
