@@ -166,7 +166,7 @@
 				const response = await fetchData("hela", {
 					section: "hela/revive",
 					method: "POST",
-					body: { TornID: ('' + id), Username: name, Source: source},
+					body: { TornID: id.toString(), Username: name, Source: source},
 					relay: true,
 					silent: true,
 					succeedOnError: true,
