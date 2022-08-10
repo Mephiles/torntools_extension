@@ -13,11 +13,16 @@
 				{
 					"message": "Fix open in new tab settings in sidebar custom links not saving properly.",
 					"contributor": "josephting"
+				},
+				{
+					"message": "Fix Jail and Hospital filters when changing pages.",
+					"contributor": "bandirao"
 				}
 			],
 			"changes": [
 				{ "message": "Update mission tasks and hints.", "contributor": "DeKleineKobini" },
-				{ "message": "Allow hiding of the Enby icon.", "contributor": "DeKleineKobini" }
+				{ "message": "Allow hiding of the Enby icon.", "contributor": "DeKleineKobini" },
+				{ "message": "Update HeLa revive request to support new endpoint.", "contributor": "Lazerpent" }
 			],
 			"removed": []
 		}
