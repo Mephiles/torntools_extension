@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix settings saving for Hide Icons and Custom Links.", "contributor": "bandirao" }],
+			"fixes": [
+				{ "message": "Fix settings saving for Hide Icons and Custom Links.", "contributor": "bandirao" },
+				{ "message": "Fix Hospital & Jail filters on page changing on Firefox.", "contributor": "bandirao" }
+			],
 			"changes": [],
 			"removed": []
 		}
