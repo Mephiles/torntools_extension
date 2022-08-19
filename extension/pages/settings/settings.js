@@ -394,7 +394,7 @@ async function setupPreferences(requireCleanup) {
 		const iconsWrap = document.newElement({
 			type: "div",
 			class: "icon",
-			children: [document.newElement({ type: "div", style: { backgroundPosition: `-${(id - 1) * 18}px 0` } })],
+			children: [document.newElement({ type: "div", class: icon, style: { backgroundPosition: `-${(id - 1) * 18}px 0` } })],
 		});
 		iconsWrap.classList.add("hover_tooltip");
 		iconsWrap.appendChild(document.newElement({ type: "span", class: "hover_tooltip_text", text: description }));
