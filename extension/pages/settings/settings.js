@@ -322,7 +322,9 @@ async function setupPreferences(requireCleanup) {
 		// noinspection DuplicatedCode
 		if (event.target.value === "custom") {
 			hrefInput.classList.remove("tt-hidden");
+			hrefInput.value = "";
 			nameInput.classList.remove("tt-hidden");
+			nameInput.value = "";
 		} else {
 			hrefInput.classList.add("tt-hidden");
 			nameInput.classList.add("tt-hidden");
