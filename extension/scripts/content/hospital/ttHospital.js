@@ -6,8 +6,10 @@ window.addEventListener("hashchange", (e) => {
 	const oldStart = getHashParameters(oldHash).get("start");
 	const newStart = getHashParameters(newHash).get("start");
 	if (oldStart !== newStart) {
-		requireElement(".user-info-list-wrap .last #iconTray li").then(() => {
-			triggerCustomListener(EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE, null);
+		requireElement(".user-info-list-wrap .last .ajax-preloader").then(() => {
+			requireElement(".user-info-list-wrap .last #iconTray li").then(() => {
+				triggerCustomListener(EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE, null);
+			});
 		});
 	}
 });
