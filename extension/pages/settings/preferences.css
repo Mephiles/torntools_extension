@@ -451,13 +451,12 @@ ul.list-table select {
 /* region Custom Links */
 
 #customLinks > li > input[type*="text"] {
-    width: 25%;
+	width: 25%;
 }
 
 #customLinks > li > select {
-    width: 23.5%;
+	width: 23.5%;
 }
-
 
 #customLinks .name {
 	max-width: 250px;
