@@ -22,17 +22,21 @@
 		document.findAll(".item-desc").forEach((item) => {
 			item.classList.add("tt-buy");
 
-			const fillMaxButton = document.newElement({ type: "span", text: "fill max", class: "tt-max-buy" });
+			let buyActDesc = item.find('.desc');
+			let buyActWrap = item.find('.buy-act-wrap');
+			let buyActWrapBuyAct = buyActWrap.find('.buy-act');
+
+			// We want to make the right side a little wider and the left side narrower.
+			buyActDesc.style.width = '130px';
+			buyActWrap.style.width = '90px';
+			buyActWrapBuyAct.style.float = 'right';
+			buyActWrapBuyAct.style.height = '36px';
+			buyActWrapBuyAct.style.width = '42px';
+
+			const fillMaxButton = document.newElement({ type: "button", text: "fill max", class: "tt-max-buy" });
 			fillMaxButton.addEventListener("click", fillMax);
-
-			const buyButton = item.find(".buy-act-wrap .buy-act button");
-			buyButton.appendChild(document.newElement("br"));
-			buyButton.appendChild(fillMaxButton);
-
-			const fillMaxOverlay = document.newElement({ type: "div", class: "tt-max-buy-overlay" });
-			fillMaxOverlay.addEventListener("click", fillMax);
-
-			item.find(".buy-act").appendChild(fillMaxOverlay);
+			buyActWrap.appendChild(document.newElement("hr"));
+			buyActWrap.appendChild(fillMaxButton);
 
 			function fillMax(event) {
 				event.stopPropagation();
@@ -55,7 +59,6 @@
 		document.findAll(".tt-buy").forEach((ttBuy) => {
 			ttBuy.classList.remove("tt-buy");
 			ttBuy.find(".tt-max-buy").remove();
-			ttBuy.find(".tt-max-buy-overlay").remove();
 		});
 	}
 })();

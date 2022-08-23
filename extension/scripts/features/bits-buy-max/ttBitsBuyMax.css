@@ -1,0 +1,20 @@
+/*.tt-buy,*/
+.tt-buy .buy-act {
+	position: relative;
+}
+
+.tt-buy .buy-act button {
+	transform: translateY(-5px);
+}
+
+.tt-max-buy {
+	color: var(--tt-color-item-text);
+	font-size: 9px;
+	cursor: pointer;
+	width: 100%;
+	height: 20px;
+}
+
+.tt-mobile .tt-max-buy {
+	border: none !important;
+}

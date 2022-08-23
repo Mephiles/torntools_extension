@@ -595,6 +595,16 @@
 			"run_at": "document_end"
 		},
 		{
+			"matches": ["https://www.torn.com/shops.php?step=bitsnbobs"],
+			"css": [
+				"scripts/features/bits-buy-max/ttBitsBuyMax.css"
+			],
+			"js": [
+				"scripts/features/bits-buy-max/ttBitsBuyMax.js"
+			],
+			"run_at": "document_end"
+		},
+		{
 			"matches": ["https://www.torn.com/trade.php*"],
 			"css": [
 				"scripts/features/item-values/ttItemValues.css",

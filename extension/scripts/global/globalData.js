@@ -538,6 +538,9 @@ const DEFAULT_STORAGE = {
 			},
 			shops: {
 				fillMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				bitsBuyMax: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				bitsBuyMaxIgnoreCash: new DefaultSetting({ type: "boolean", defaultValue: false }),
+				bitsBuyMaxAutoConfirm: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				maxBuyIgnoreCash: new DefaultSetting({ type: "boolean", defaultValue: false }),
 				profit: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				filters: new DefaultSetting({ type: "boolean", defaultValue: true }),
