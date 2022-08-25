@@ -7,7 +7,7 @@
 	const feature = featureManager.registerFeature(
 		"Disable Ally Attacks",
 		"profile",
-		() => settings.pages.profile.disableAllyAttacks && settings.alliedFactions.length,
+		() => settings.pages.profile.disableAllyAttacks,
 		startObserver,
 		disableAttackButton,
 		enableButton,
@@ -37,7 +37,7 @@
 
 		enableButton();
 
-		const factionID = factionLink.href.getNumber();
+		const factionID = (new URLSearchParams(factionLink.href).get("ID")).getNumber();
 		const factionName = factionLink.textContent.trim();
 		if (
 			(hasAPIData() && factionID === userdata.faction.faction_id) ||
