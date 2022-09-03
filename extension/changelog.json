@@ -8,6 +8,8 @@
 			"fixes": [
 				{ "message": "Fix settings saving for Hide Icons and Custom Links.", "contributor": "bandirao" },
 				{ "message": "Fix Hospital & Jail filters on page changing on Firefox.", "contributor": "bandirao" }
+				{ "message": "Fix Hospital & Jail filters on page changing on Firefox.", "contributor": "bandirao" },
+				{ "message": "Fix cleanup code in settings.", "contributor": "bandirao" }
 			],
 			"changes": [],
 			"removed": []
