@@ -6,8 +6,7 @@
 		"logs": {
 			"features": [],
 			"fixes": [
-				{ "message": "Fix settings saving for Hide Icons and Custom Links.", "contributor": "bandirao" },
-				{ "message": "Fix Hospital & Jail filters on page changing on Firefox.", "contributor": "bandirao" }
+				{ "message": "Fix settings saving for Hide Icons and Custom Links.", "contributor": "TheFoxMan" },
 				{ "message": "Fix Hospital & Jail filters on page changing on Firefox.", "contributor": "bandirao" },
 				{ "message": "Fix cleanup code in settings.", "contributor": "bandirao" }
 			],
@@ -23,7 +22,7 @@
 			"fixes": [
 				{ "message": "Fix NPC loot times not showing when YATA is disabled, even when using TS for it.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix open in new tab settings in sidebar custom links not saving properly.", "contributor": "josephting" },
-				{ "message": "Fix Jail and Hospital filters when changing pages.", "contributor": "bandirao" }
+				{ "message": "Fix Jail and Hospital filters when changing pages.", "contributor": "TheFoxMan" }
 			],
 			"changes": [
 				{ "message": "Update mission tasks and hints.", "contributor": "DeKleineKobini" },
@@ -43,18 +42,18 @@
 				}
 			],
 			"fixes": [
-				{ "message": "Fix racing win percentage.", "contributor": "bandirao" },
+				{ "message": "Fix racing win percentage.", "contributor": "TheFoxMan" },
 				{ "message": "Fix bank investment table rounding.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix points values while flying.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix ranked war stats estimate filters.", "contributor": "bandirao" },
+				{ "message": "Fix ranked war stats estimate filters.", "contributor": "TheFoxMan" },
 				{ "message": "Fix item values on tablet view.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix showing employee effectiveness if a new employee is present.", "contributor": "bandirao" },
+				{ "message": "Fix showing employee effectiveness if a new employee is present.", "contributor": "TheFoxMan" },
 				{ "message": "Fix travel agency selecting uk as country.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix abroad auto fill not working on Firefox.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Add the url to the notifications in the popup.", "contributor": "DeKleineKobini" },
-				{ "message": "Change auto fill stock to have a button.", "contributor": "bandirao" },
+				{ "message": "Change auto fill stock to have a button.", "contributor": "TheFoxMan" },
 				{ "message": "Rename TCB to TCI.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't duplicate url entries when copying forum posts for Discord.", "contributor": "DeKleineKobini" },
 				{ "message": "Add compatability with the faction stats script for the ranked war filter.", "contributor": "DeKleineKobini" },
@@ -68,9 +67,9 @@
 		"date": "2022/05/14",
 		"logs": {
 			"features": [
-				{ "message": "Filters for ranked wars.", "contributor": "bandirao" },
-				{ "message": "Stats Estimates for ranked wars.", "contributor": "bandirao" },
-				{ "message": "Company refill button.", "contributor": "bandirao" },
+				{ "message": "Filters for ranked wars.", "contributor": "TheFoxMan" },
+				{ "message": "Stats Estimates for ranked wars.", "contributor": "TheFoxMan" },
+				{ "message": "Company refill button.", "contributor": "TheFoxMan" },
 				{ "message": "Show the life you'll get when taking a medical item.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
@@ -138,14 +137,14 @@
 				{ "message": "Fix wrong Opium cooldown time.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix travel cooldown box being duplicated.", "contributor": "DeKleineKobini" },
 				{ "message": "Properly remove stat estimates from the faction list.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix hospital time filtering on smaller units.", "contributor": "bandirao" },
+				{ "message": "Fix hospital time filtering on smaller units.", "contributor": "TheFoxMan" },
 				{ "message": "Fix stock acronym filter only working with exact match.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix the userlist features being broken.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix item market values on mobile and tablet.", "contributor": "bandirao" },
+				{ "message": "Fix item market values on mobile and tablet.", "contributor": "TheFoxMan" },
 				{ "message": "Fix the drug details not showing all the time.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix quick bail or quick bust messages not always showing correctly.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix filters not applying when changing pagination using the arrows.", "contributor": "bandirao" },
-				{ "message": "Fix friendly fire with faction ids.", "contributor": "bandirao" },
+				{ "message": "Fix filters not applying when changing pagination using the arrows.", "contributor": "TheFoxMan" },
+				{ "message": "Fix friendly fire with faction ids.", "contributor": "TheFoxMan" },
 				{ "message": "Fix chat input layout being broken.", "contributor": "DeKleineKobini" }
 			]
 		}
@@ -185,8 +184,8 @@
 				{ "message": "Actually clear popup calculator data.", "contributor": "DeKleineKobini" },
 				{ "message": "Apply faction and company perks different while calculating nerve for alcohol.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't fetch attacks if they are simply ignored anyway.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix travel table not showing while in a race.", "contributor": "bandirao" },
-				{ "message": "Fix race win percentage not showing after switching car pages.", "contributor": "bandirao" },
+				{ "message": "Fix travel table not showing while in a race.", "contributor": "TheFoxMan" },
+				{ "message": "Fix race win percentage not showing after switching car pages.", "contributor": "TheFoxMan" },
 				{ "message": "Fix item total values on mobiles and tablets.", "contributor": "DeKleineKobini" },
 				{ "message": "Solve cooldown times not being shown on icon hover.", "contributor": "DeKleineKobini" }
 			],
@@ -207,7 +206,7 @@
 				{ "message": "Solve issue where the dump value honor was recognized as dump amount merit.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix CSV chain report when honorbars are disabled.", "contributor": "DeKleineKobini" },
 				{ "message": "Reintroduce cheap item highlight after accidentally removing it.", "contributor": "DeKleineKobini" },
-				{ "message": "Remove the lingering settings bar even after closing the in-game settings.", "contributor": "bandirao" },
+				{ "message": "Remove the lingering settings bar even after closing the in-game settings.", "contributor": "TheFoxMan" },
 				{ "message": "Solve issue when splitting is preferred in blackjack, after splitting once already.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix auto max buy while abroad.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix suggestion for blackjack on some soft values.", "contributor": "DeKleineKobini" }
@@ -224,33 +223,33 @@
 		"date": "2021/12/19",
 		"logs": {
 			"features": [
-				{ "message": "Show end times for cooldowns on icon hover.", "contributor": "bandirao" },
-				{ "message": "Display property happiness.", "contributor": "bandirao" },
-				{ "message": "Fill max when landing abroad.", "contributor": "bandirao" },
+				{ "message": "Show end times for cooldowns on icon hover.", "contributor": "TheFoxMan" },
+				{ "message": "Display property happiness.", "contributor": "TheFoxMan" },
+				{ "message": "Fill max when landing abroad.", "contributor": "TheFoxMan" },
 				{ "message": "Add option to make item market list compacter.", "contributor": "DeKleineKobini" },
 				{ "message": "Keep notification history to show them in the popup.", "contributor": "DeKleineKobini" },
-				{ "message": "Hide attack buttons.", "contributor": "bandirao" }
+				{ "message": "Hide attack buttons.", "contributor": "TheFoxMan" }
 			],
 			"fixes": [
-				{ "message": "Fix trade value logs showing value of only one item.", "contributor": "bandirao" },
-				{ "message": "Fix NaN in upgrade required respect.", "contributor": "bandirao" },
-				{ "message": "Fix hide level also hiding the bank message.", "contributor": "bandirao" },
-				{ "message": "Fix issue with the abroad people filter.", "contributor": "bandirao" },
-				{ "message": "Solve issues with filters not saving correctly all the time.", "contributor": "bandirao" },
+				{ "message": "Fix trade value logs showing value of only one item.", "contributor": "TheFoxMan" },
+				{ "message": "Fix NaN in upgrade required respect.", "contributor": "TheFoxMan" },
+				{ "message": "Fix hide level also hiding the bank message.", "contributor": "TheFoxMan" },
+				{ "message": "Fix issue with the abroad people filter.", "contributor": "TheFoxMan" },
+				{ "message": "Solve issues with filters not saving correctly all the time.", "contributor": "TheFoxMan" },
 				{ "message": "Improve the clickable area of fill max in the city shops.", "contributor": "DeKleineKobini" },
-				{ "message": "Solve permission asking issues in the ingame settings.", "contributor": "bandirao" },
-				{ "message": "Fix mini profiles of users in a threatre while flying.", "contributor": "bandirao" },
+				{ "message": "Solve permission asking issues in the ingame settings.", "contributor": "TheFoxMan" },
+				{ "message": "Fix mini profiles of users in a threatre while flying.", "contributor": "TheFoxMan" },
 				{
 					"message": "Possibly solve an issue with the blackjack helper when having the same cards after splitting once.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Fix CSV faction chain report.", "contributor": "bandirao" },
-				{ "message": "Fix issues with stats estimates.", "contributor": "bandirao" }
+				{ "message": "Fix CSV faction chain report.", "contributor": "TheFoxMan" },
+				{ "message": "Fix issues with stats estimates.", "contributor": "TheFoxMan" }
 			],
 			"changes": [
-				{ "message": "Include racing skill on the profile box.", "contributor": "bandirao" },
+				{ "message": "Include racing skill on the profile box.", "contributor": "TheFoxMan" },
 				{ "message": "Don't only check addiction for employee effectiveness reduction.", "contributor": "DeKleineKobini" },
-				{ "message": "Make it possible to change the travel table country when selecting a country.", "contributor": "bandirao" },
+				{ "message": "Make it possible to change the travel table country when selecting a country.", "contributor": "TheFoxMan" },
 				{ "message": "Allow the connect button to work with multiple keys.", "contributor": "DeKleineKobini" },
 				{ "message": "Show warning if an api key with bad permisisons is being used.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow setting different api keys for TornStats and YATA integration.", "contributor": "DeKleineKobini" },
@@ -264,16 +263,16 @@
 		"version": { "major": 6, "minor": 2, "build": 0 },
 		"date": "2021/10/24",
 		"logs": {
-			"features": [{ "message": "Add auto fill for museum.", "contributor": "bandirao" }],
+			"features": [{ "message": "Add auto fill for museum.", "contributor": "TheFoxMan" }],
 			"fixes": [
 				{ "message": "Don't show stakeout landing notifications more than it should.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't break stakeouts when removing them from the profile.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix abroad filter loading and travel table item sorting.", "contributor": "bandirao" },
+				{ "message": "Fix abroad filter loading and travel table item sorting.", "contributor": "TheFoxMan" },
 				{ "message": "Remember profile relative value preference.", "contributor": "DeKleineKobini" },
 				{ "message": "Properly display relative values.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix employee inactivity warning on job page.", "contributor": "bandirao" },
-				{ "message": "Fix no confirm on the item market in certain situations.", "contributor": "bandirao" },
-				{ "message": "Fix profile box using older spy from YATA.", "contributor": "bandirao" },
+				{ "message": "Fix employee inactivity warning on job page.", "contributor": "TheFoxMan" },
+				{ "message": "Fix no confirm on the item market in certain situations.", "contributor": "TheFoxMan" },
+				{ "message": "Fix profile box using older spy from YATA.", "contributor": "TheFoxMan" },
 				{ "message": "Improve click area on sidebar items.", "contributor": "DeKleineKobini" },
 				{ "message": "Solve issue with city items ignoring the worth of duplicate items.", "contributor": "DeKleineKobini" }
 			],
@@ -295,17 +294,17 @@
 				{ "message": "Solve issue with hiding areas on mobile.", "contributor": "DeKleineKobini" },
 				{ "message": "Open correct bar link when using middle click.", "contributor": "DeKleineKobini" },
 				{ "message": "Make sure chat search doesn't go over the chat width.", "contributor": "DeKleineKobini" },
-				{ "message": "Make sure chat search doesn't go over the chat width.", "contributor": "bandirao" },
-				{ "message": "Show correct faction status for contribution csv.", "contributor": "bandirao" },
-				{ "message": "Solve issue with showing the bazaar worth while editing.", "contributor": "bandirao" },
+				{ "message": "Make sure chat search doesn't go over the chat width.", "contributor": "TheFoxMan" },
+				{ "message": "Show correct faction status for contribution csv.", "contributor": "TheFoxMan" },
+				{ "message": "Solve issue with showing the bazaar worth while editing.", "contributor": "TheFoxMan" },
 				{ "message": "Show the quick items container even if there is a warning for too many items.", "contributor": "DeKleineKobini" },
 				{ "message": "Align stock alert prices in the popup on mobile.", "contributor": "DeKleineKobini" },
 				{ "message": "Solve issue with showing job specials.", "contributor": "DeKleineKobini" },
 				{ "message": "Solve issue with energy/nerve/candy figures when in a company that provides any boost.", "contributor": "DeKleineKobini" },
 				{ "message": "Properly display hidden casino games.", "contributor": "DeKleineKobini" },
 				{ "message": "Make absolute sure that the settings are loaded before applying container styling.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix dark mode issue with sidebar notes.", "contributor": "bandirao" },
-				{ "message": "Fix jail filter showing everone when score is set to 100.", "contributor": "bandirao" },
+				{ "message": "Fix dark mode issue with sidebar notes.", "contributor": "TheFoxMan" },
+				{ "message": "Fix jail filter showing everone when score is set to 100.", "contributor": "TheFoxMan" },
 				{ "message": "Update 'Batshit Crazy' mission hint.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't show the ally blocking icon when the attack is already blocked.", "contributor": "DeKleineKobini" },
 				{ "message": "Show properly formatted date in the changelog.", "contributor": "DeKleineKobini" }
@@ -319,8 +318,8 @@
 				{ "message": "Add an option to disable autoscroll for bazaars.", "contributor": "DeKleineKobini" },
 				{ "message": "Add indication if a permission was granted or not.", "contributor": "DeKleineKobini" },
 				{ "message": "Redirect user to normal settings page when there are permission issues.", "contributor": "DeKleineKobini" },
-				{ "message": "Search settings while typing directly.", "contributor": "bandirao" },
-				{ "message": "Show settings save button as 'snackbar'.", "contributor": "bandirao" },
+				{ "message": "Search settings while typing directly.", "contributor": "TheFoxMan" },
+				{ "message": "Show settings save button as 'snackbar'.", "contributor": "TheFoxMan" },
 				{ "message": "Improve spies error handling.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
@@ -357,7 +356,7 @@
 			"changes": [
 				{ "message": "Rewrite core system.", "contributor": "DeKleineKobini" },
 				{ "message": "Rewrite and redesign many features. Features might also work on more pages when applicable.", "contributor": "DeKleineKobini" },
-				{ "message": "Rewrite and redesign many features. Performance should be way better with this.", "contributor": "bandirao" },
+				{ "message": "Rewrite and redesign many features. Performance should be way better with this.", "contributor": "TheFoxMan" },
 				{ "message": "Rewrite and redesign some features.", "contributor": "AllMight" },
 				{ "message": "Don't make an additional api call for 'basic' userdata or the attack log.", "contributor": "DeKleineKobini" },
 				{ "message": "Improve update notice so it only shows when another version was installed.", "contributor": "DeKleineKobini" },
@@ -369,10 +368,10 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Apply notification volume for tts.", "contributor": "Tesa" },
-				{ "message": "Implement new jail score formula.", "contributor": "bandirao" },
-				{ "message": "Search chat by username and id. ('by:...' or 'u:...')", "contributor": "bandirao" },
+				{ "message": "Implement new jail score formula.", "contributor": "TheFoxMan" },
+				{ "message": "Search chat by username and id. ('by:...' or 'u:...')", "contributor": "TheFoxMan" },
 				{ "message": "Load NNBs from YATA too.", "contributor": "DeKleineKobini" },
-				{ "message": "Show dates and time in TCT instead of local time.", "contributor": "bandirao" },
+				{ "message": "Show dates and time in TCT instead of local time.", "contributor": "TheFoxMan" },
 				{ "message": "Extend the warning of getting over the energy cap to other items as well.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow you to mute notification of all NPCs at once, without removing the information.", "contributor": "DeKleineKobini" },
 				{ "message": "Move option for hiding chats to the chat settings of Torn.", "contributor": "DeKleineKobini" },
@@ -401,8 +400,8 @@
 		"logs": {
 			"fixes": [
 				{ "message": "Potentially solve the issue where the database resets.", "contributor": "DeKleineKobini" },
-				{ "message": "Improve bounty filter loading.", "contributor": "bandirao" },
-				{ "message": "Fix sidebar issues.", "contributor": "bandirao" }
+				{ "message": "Improve bounty filter loading.", "contributor": "TheFoxMan" },
+				{ "message": "Fix sidebar issues.", "contributor": "TheFoxMan" }
 			],
 			"changes": [{ "message": "Improve awards for visually impaired users.", "contributor": "DeKleineKobini" }]
 		}
@@ -412,8 +411,8 @@
 		"date": "2021/6/25",
 		"logs": {
 			"fixes": [
-				{ "message": "Fix stock market total value not showing.", "contributor": "bandirao" },
-				{ "message": "Use correct Cruise Line company name.", "contributor": "bandirao" },
+				{ "message": "Fix stock market total value not showing.", "contributor": "TheFoxMan" },
+				{ "message": "Use correct Cruise Line company name.", "contributor": "TheFoxMan" },
 				{ "message": "Fix TornStats error handling and caching while it shouldn't.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix stock market filter not working properly when you have a panel selected.", "contributor": "DeKleineKobini" },
 				{ "message": "Add some minor error handling in hopes of the profile page breaking less.", "contributor": "DeKleineKobini" }
@@ -426,15 +425,15 @@
 		"logs": {
 			"features": [{ "message": "Added toggle to hide stakeout on profile page.", "contributor": "hvr-lust" }],
 			"fixes": [
-				{ "message": "Apply proper rounding on the racing winning rate.", "contributor": "bandirao" },
+				{ "message": "Apply proper rounding on the racing winning rate.", "contributor": "TheFoxMan" },
 				{ "message": "Fix max buy on mobile.", "contributor": "DeKleineKobini" },
-				{ "message": "Settings sidebar link not going down when hospitalized or jailed.", "contributor": "bandirao" },
+				{ "message": "Settings sidebar link not going down when hospitalized or jailed.", "contributor": "TheFoxMan" },
 				{ "message": "Fix probability calculation in the high-low helper.", "contributor": "smikula" },
 				{ "message": "Various tweaks to dark mode.", "contributor": "Allo" },
-				{ "message": "Fix chat features.", "contributor": "bandirao" }
+				{ "message": "Fix chat features.", "contributor": "TheFoxMan" }
 			],
 			"changes": [
-				{ "message": "Disable loot timers on mobile devices.", "contributor": "bandirao" },
+				{ "message": "Disable loot timers on mobile devices.", "contributor": "TheFoxMan" },
 				{ "message": "Change notification bar links.", "contributor": "DeKleineKobini" },
 				{ "message": "Show new lingerie store specials.", "contributor": "ORAN" },
 				{ "message": "Implement timeout on requests.", "contributor": "DeKleineKobini" }
@@ -446,37 +445,37 @@
 		"date": "2021/5/2",
 		"logs": {
 			"features": [
-				{ "message": "Filter faction members by position.", "contributor": "bandirao" },
-				{ "message": "Battle stat on attack page.", "contributor": "bandirao" },
-				{ "message": "Aliases for users in chatboxes and userlists.", "contributor": "bandirao" },
-				{ "message": "Win percentage on racing upgrades.", "contributor": "bandirao" },
-				{ "message": "Faction filter while  abroad.", "contributor": "bandirao" },
-				{ "message": "Highlight properties if upkeep is due.", "contributor": "bandirao" },
-				{ "message": "Display NPCs loot info on sidebar.", "contributor": "bandirao" }
+				{ "message": "Filter faction members by position.", "contributor": "TheFoxMan" },
+				{ "message": "Battle stat on attack page.", "contributor": "TheFoxMan" },
+				{ "message": "Aliases for users in chatboxes and userlists.", "contributor": "TheFoxMan" },
+				{ "message": "Win percentage on racing upgrades.", "contributor": "TheFoxMan" },
+				{ "message": "Faction filter while  abroad.", "contributor": "TheFoxMan" },
+				{ "message": "Highlight properties if upkeep is due.", "contributor": "TheFoxMan" },
+				{ "message": "Display NPCs loot info on sidebar.", "contributor": "TheFoxMan" }
 			],
 			"fixes": [
 				{ "message": "Solve duplicate items on the map being ignored.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix showing hidden portfolio stocks.", "contributor": "bandirao" },
-				{ "message": "Completed education courses not dimming.", "contributor": "bandirao" },
-				{ "message": "Improve city finds alignment on mobile.", "contributor": "bandirao" },
-				{ "message": "Don't warn when education course and bank investment are completed during travel.", "contributor": "bandirao" },
-				{ "message": "Fix travel count not being correct.", "contributor": "bandirao" },
-				{ "message": "Chat highlight not working.", "contributor": "bandirao" },
-				{ "message": "'fill max' not appearing on mobile.", "contributor": "bandirao" },
-				{ "message": "Warn to check user faction chat when chain is near to bonus hit.", "contributor": "bandirao" },
-				{ "message": "Add numbers to faction member list.", "contributor": "bandirao" },
-				{ "message": "TT Settings in dark mode.", "contributor": "bandirao" },
+				{ "message": "Fix showing hidden portfolio stocks.", "contributor": "TheFoxMan" },
+				{ "message": "Completed education courses not dimming.", "contributor": "TheFoxMan" },
+				{ "message": "Improve city finds alignment on mobile.", "contributor": "TheFoxMan" },
+				{ "message": "Don't warn when education course and bank investment are completed during travel.", "contributor": "TheFoxMan" },
+				{ "message": "Fix travel count not being correct.", "contributor": "TheFoxMan" },
+				{ "message": "Chat highlight not working.", "contributor": "TheFoxMan" },
+				{ "message": "'fill max' not appearing on mobile.", "contributor": "TheFoxMan" },
+				{ "message": "Warn to check user faction chat when chain is near to bonus hit.", "contributor": "TheFoxMan" },
+				{ "message": "Add numbers to faction member list.", "contributor": "TheFoxMan" },
+				{ "message": "TT Settings in dark mode.", "contributor": "TheFoxMan" },
 				{ "message": "Racing upgrades not appearing.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix hospital filter being broken on tablet mode.", "contributor": "DeKleineKobini" },
-				{ "message": "Filters on stocks 3.0.", "contributor": "bandirao" },
-				{ "message": "Fix faction enhancements on mobile.", "contributor": "bandirao" },
-				{ "message": "All items filters not working abroad.", "contributor": "bandirao" },
+				{ "message": "Filters on stocks 3.0.", "contributor": "TheFoxMan" },
+				{ "message": "Fix faction enhancements on mobile.", "contributor": "TheFoxMan" },
+				{ "message": "All items filters not working abroad.", "contributor": "TheFoxMan" },
 				{ "message": "Hide userinfo rows on the faction filter.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
-				{ "message": "Dark mode for TornTools.", "contributor": "bandirao" },
-				{ "message": "Show travel table while racing.", "contributor": "bandirao" },
-				{ "message": "Show faction filter always when on jail page.", "contributor": "bandirao" }
+				{ "message": "Dark mode for TornTools.", "contributor": "TheFoxMan" },
+				{ "message": "Show travel table while racing.", "contributor": "TheFoxMan" },
+				{ "message": "Show faction filter always when on jail page.", "contributor": "TheFoxMan" }
 			]
 		}
 	},
@@ -485,27 +484,27 @@
 		"date": "2021/3/25",
 		"logs": {
 			"features": [
-				{ "message": "Add revives skill to profile stat comparison table.", "contributor": "bandirao" },
-				{ "message": "Export faction upgrade challenge contributions as CSV.", "contributor": "bandirao" },
-				{ "message": "Add an arrow for folding faction description.", "contributor": "bandirao" },
-				{ "message": "Show warning when taking xanax while the user is already at 1000E.", "contributor": "bandirao" },
-				{ "message": "Add setting to hide some portfolio and stock blocks.", "contributor": "bandirao" },
-				{ "message": "Add Hospital filter to show only revive-enabled players.", "contributor": "bandirao" },
-				{ "message": "Show net total on casino statistics.", "contributor": "bandirao" },
-				{ "message": "Add search in TT preferences page.", "contributor": "bandirao" },
+				{ "message": "Add revives skill to profile stat comparison table.", "contributor": "TheFoxMan" },
+				{ "message": "Export faction upgrade challenge contributions as CSV.", "contributor": "TheFoxMan" },
+				{ "message": "Add an arrow for folding faction description.", "contributor": "TheFoxMan" },
+				{ "message": "Show warning when taking xanax while the user is already at 1000E.", "contributor": "TheFoxMan" },
+				{ "message": "Add setting to hide some portfolio and stock blocks.", "contributor": "TheFoxMan" },
+				{ "message": "Add Hospital filter to show only revive-enabled players.", "contributor": "TheFoxMan" },
+				{ "message": "Show net total on casino statistics.", "contributor": "TheFoxMan" },
+				{ "message": "Add search in TT preferences page.", "contributor": "TheFoxMan" },
 				{
 					"message": "Warning when user if about to fly but education or bank investment or both would timeout before return.",
-					"contributor": "bandirao"
+					"contributor": "TheFoxMan"
 				},
-				{ "message": "Show a timer between posts in trade chat.", "contributor": "bandirao" }
+				{ "message": "Show a timer between posts in trade chat.", "contributor": "TheFoxMan" }
 			],
 			"fixes": [
-				{ "message": "Battle stat disappeared from profile when sending user money.", "contributor": "bandirao" },
-				{ "message": "Fix HighLow helper not working.", "contributor": "bandirao" }
+				{ "message": "Battle stat disappeared from profile when sending user money.", "contributor": "TheFoxMan" },
+				{ "message": "Fix HighLow helper not working.", "contributor": "TheFoxMan" }
 			],
 			"changes": [
-				{ "message": "Add setting for 'Show flight times before flying'.", "contributor": "bandirao" },
-				{ "message": "Update to new beta TS API.", "contributor": "bandirao" }
+				{ "message": "Add setting for 'Show flight times before flying'.", "contributor": "TheFoxMan" },
+				{ "message": "Update to new beta TS API.", "contributor": "TheFoxMan" }
 			]
 		}
 	},
@@ -514,24 +513,24 @@
 		"date": "2021/2/11",
 		"logs": {
 			"features": [
-				{ "message": "Add option to export war report as CSV.", "contributor": "bandirao" },
-				{ "message": "Show end time of wars on faction pages.", "contributor": "bandirao" },
-				{ "message": "Show employee effectiveness in red if has negatives in effectiveness.", "contributor": "bandirao" },
-				{ "message": "Show total price to buy an item in bazaar.", "contributor": "bandirao" }
+				{ "message": "Add option to export war report as CSV.", "contributor": "TheFoxMan" },
+				{ "message": "Show end time of wars on faction pages.", "contributor": "TheFoxMan" },
+				{ "message": "Show employee effectiveness in red if has negatives in effectiveness.", "contributor": "TheFoxMan" },
+				{ "message": "Show total price to buy an item in bazaar.", "contributor": "TheFoxMan" }
 			],
 			"fixes": [
-				{ "message": "Don't show the attack warning on attack logs.", "contributor": "bandirao" },
-				{ "message": "Fix achievements section not showing.", "contributor": "bandirao" },
-				{ "message": "Show a warning when you try to train while stacking.", "contributor": "bandirao" },
+				{ "message": "Don't show the attack warning on attack logs.", "contributor": "TheFoxMan" },
+				{ "message": "Fix achievements section not showing.", "contributor": "TheFoxMan" },
+				{ "message": "Show a warning when you try to train while stacking.", "contributor": "TheFoxMan" },
 				{
 					"message": "Fix an interaction between chrome, torn tools, the faction page, that would cause chrome to suggest addresses in the chat box.",
 					"contributor": "WizardRubic"
 				},
-				{ "message": "Fix 'fill max' button not working in bazaar.", "contributor": "bandirao" }
+				{ "message": "Fix 'fill max' button not working in bazaar.", "contributor": "TheFoxMan" }
 			],
 			"changes": [
-				{ "message": "Only highlight chain timers over a configurable amount.", "contributor": "bandirao" },
-				{ "message": "Add 'I'm Chaining' button to stop warning for 30 minutes on attack page.", "contributor": "bandirao" }
+				{ "message": "Only highlight chain timers over a configurable amount.", "contributor": "TheFoxMan" },
+				{ "message": "Add 'I'm Chaining' button to stop warning for 30 minutes on attack page.", "contributor": "TheFoxMan" }
 			]
 		}
 	},
@@ -542,8 +541,8 @@
 			"fixes": [
 				{ "message": "Fix notes showing in the wrong location.", ",contributor": "DeKleineKobini" },
 				{ "message": "Fix mission hints not showing.", ",contributor": "DeKleineKobini" },
-				{ "message": "Fix achievements section not closing properly.", ",contributor": "bandirao" },
-				{ "message": "Add tt_itemprice & tt_itemid to URL not working in bazaar when right clicked.", ",contributor": "bandirao" }
+				{ "message": "Fix achievements section not closing properly.", ",contributor": "TheFoxMan" },
+				{ "message": "Add tt_itemprice & tt_itemid to URL not working in bazaar when right clicked.", ",contributor": "TheFoxMan" }
 			]
 		}
 	},
@@ -552,16 +551,16 @@
 		"date": "2021/1/27",
 		"logs": {
 			"features": [
-				{ "message": "Disable gym highlight.", "contributor": "bandirao" },
-				{ "message": "Show energy gains from cans.", "contributor": "bandirao" },
-				{ "message": "Show a warning when you try to attack while stacking.", "contributor": "bandirao" },
-				{ "message": "Highlight chain timer when it's under a minute.", "contributor": "bandirao" },
-				{ "message": "Show happy gains from candy.", "contributor": "bandirao" },
-				{ "message": "Show nerve gains from alcohol.", "contributor": "bandirao" },
-				{ "message": "Show education course finish time.", "contributor": "bandirao" },
-				{ "message": "Show investment finish time.", "contributor": "bandirao" }
+				{ "message": "Disable gym highlight.", "contributor": "TheFoxMan" },
+				{ "message": "Show energy gains from cans.", "contributor": "TheFoxMan" },
+				{ "message": "Show a warning when you try to attack while stacking.", "contributor": "TheFoxMan" },
+				{ "message": "Highlight chain timer when it's under a minute.", "contributor": "TheFoxMan" },
+				{ "message": "Show happy gains from candy.", "contributor": "TheFoxMan" },
+				{ "message": "Show nerve gains from alcohol.", "contributor": "TheFoxMan" },
+				{ "message": "Show education course finish time.", "contributor": "TheFoxMan" },
+				{ "message": "Show investment finish time.", "contributor": "TheFoxMan" }
 			],
-			"fixes": [{ "message": "Fix full faction description not working.", "contributor": "bandirao" }],
+			"fixes": [{ "message": "Fix full faction description not working.", "contributor": "TheFoxMan" }],
 			"changes": [
 				{ "message": "Update Love Juice information to reflect the new change.", "contributor": "DeKleineKobini" },
 				{ "message": "Add ELO stat to stat list.", "contributor": "DeKleineKobini" }
@@ -573,11 +572,11 @@
 		"date": "2021/1/19",
 		"logs": {
 			"features": [
-				{ "message": "Show missing flowers and plushies in the inventory.", "contributor": "bandirao" },
-				{ "message": "Disable some casino games.", "contributor": "bandirao" }
+				{ "message": "Show missing flowers and plushies in the inventory.", "contributor": "TheFoxMan" },
+				{ "message": "Disable some casino games.", "contributor": "TheFoxMan" }
 			],
 			"fixes": [
-				{ "message": "Use the new Torn class.", "contributor": "bandirao" },
+				{ "message": "Use the new Torn class.", "contributor": "TheFoxMan" },
 				{ "message": "Solve some problems regarding the new class names.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
@@ -592,13 +591,13 @@
 		"date": "2021/1/12",
 		"logs": {
 			"features": [
-				{ "message": "Show total portfolio value.", "contributor": "bandirao" },
-				{ "message": "Allow chat filtering for people with recent interactions.", "contributor": "bandirao" },
-				{ "message": "Show age as words.", "contributor": "bandirao" },
-				{ "message": "Hide completed education courses.", "contributor": "bandirao" },
-				{ "message": "Disable attacks on allies.", "contributor": "bandirao" },
-				{ "message": "Show a TornTools warning on the Bugs & Issues subforum.", "contributor": "bandirao" },
-				{ "message": "Show total value of properties.", "contributor": "bandirao" }
+				{ "message": "Show total portfolio value.", "contributor": "TheFoxMan" },
+				{ "message": "Allow chat filtering for people with recent interactions.", "contributor": "TheFoxMan" },
+				{ "message": "Show age as words.", "contributor": "TheFoxMan" },
+				{ "message": "Hide completed education courses.", "contributor": "TheFoxMan" },
+				{ "message": "Disable attacks on allies.", "contributor": "TheFoxMan" },
+				{ "message": "Show a TornTools warning on the Bugs & Issues subforum.", "contributor": "TheFoxMan" },
+				{ "message": "Show total value of properties.", "contributor": "TheFoxMan" }
 			],
 			"fixes": [{ "message": "Use the new Torn class.", "contributor": "DeKleineKobini" }]
 		}
