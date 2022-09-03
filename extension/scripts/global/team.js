@@ -30,7 +30,7 @@ const TEAM = [
 		],
 	},
 	{
-		name: "bandirao",
+		name: "TheFoxMan",
 		title: "Developer",
 		core: true,
 		torn: 1936821,

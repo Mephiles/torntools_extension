@@ -191,7 +191,7 @@ function cleanupPreferences() {
 				"#allyFactions > li:not(.input)",
 				"#userAlias > li:not(.input)",
 				"#chatHighlight > li:not(.input)",
-				"#chatTitleHighlight> li:not(input)",
+				"#chatTitleHighlight> li:not(.input)",
 			].join(", ")
 		)
 		.forEach((element) => element.remove());
