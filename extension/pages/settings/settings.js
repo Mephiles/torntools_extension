@@ -639,7 +639,6 @@ async function setupPreferences(requireCleanup) {
 		_preferences.find("#notification-volume").value = settings.notifications.volume;
 		if (settings.notifications.sound === "custom") {
 			_preferences.find("#notification-sound-upload").classList.remove("tt-hidden");
-			_preferences.find("#notification-sound-upload + br").classList.remove("tt-hidden");
 		} else {
 			if (settings.notifications.sound === "mute" || settings.notifications.sound === "default") {
 				_preferences.find("#notification-volume").classList.add("tt-hidden");
