@@ -199,6 +199,7 @@ function cleanupPreferences() {
 
 async function setupPreferences(requireCleanup) {
 	if (requireCleanup) cleanupPreferences();
+	searchPreferences();
 
 	const _preferences = document.find("#preferences");
 	_preferences.addEventListener("click", addSaveDialog);
@@ -507,7 +508,6 @@ async function setupPreferences(requireCleanup) {
 
 	fillSettings();
 	requestPermissions();
-	searchPreferences();
 	storageListeners.settings.push(updateSettings);
 	if (isIframe) {
 		window.addEventListener("message", async (event) => {
