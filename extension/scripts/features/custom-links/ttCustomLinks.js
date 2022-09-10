@@ -19,7 +19,7 @@
 	async function showLinks() {
 		await requireSidebar();
 
-		if (!mobile) {
+		if (!mobile && !tablet) {
 			showOutside("above", "customLinksAbove");
 			showOutside("under", "customLinksUnder");
 			showInside();

@@ -208,7 +208,8 @@ class FeatureManager {
 		}
 
 		new Promise(async (resolve) => {
-			if ((await checkDevice()).mobile) return resolve();
+			const devices = await checkDevice();
+			if (devices.mobile || devices.tablet) return resolve();
 
 			let row = this.container.find(`#tt-page-status-feature-${feature.name.toLowerCase().replaceAll(" ", "-")}`);
 			if (row) {
@@ -305,7 +306,8 @@ class FeatureManager {
 
 	async createPopup() {
 		await loadDatabase();
-		if ((await checkDevice()).mobile) return;
+		const devices = await checkDevice();
+		if (devices.mobile || devices.tablet) return; // TODO: Wait for the future.
 
 		const collapsed = this.containerID in filters.containers ? filters.containers[this.containerID] : false;
 

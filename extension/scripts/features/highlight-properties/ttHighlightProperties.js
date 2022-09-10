@@ -3,7 +3,10 @@
 (async () => {
 	if (!getPageStatus().access) return;
 
-	if ((await checkDevice()).mobile) return "Not supported on mobile!";
+	/* Feature is supported on mobile.
+	const devices = await checkDevice();
+	if (devices.mobile || devices.tablet) return "Not supported on mobiles or tablets!";
+	*/
 
 	featureManager.registerFeature(
 		"Highlight Property",
