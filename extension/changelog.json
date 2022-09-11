@@ -10,7 +10,8 @@
 				{ "message": "Fix Hospital & Jail filters on page changing on Firefox.", "contributor": "TheFoxMan" },
 				{ "message": "Fix custom notification sound messing settings.", "contributor": "TheFoxMan" },
 				{ "message": "Fix cleanup code in settings.", "contributor": "TheFoxMan" },
-				{ "message": "Fix item profits in market on tablet mode.", "contributor": "TheFoxMan" }
+				{ "message": "Fix item profits in market on tablet mode.", "contributor": "TheFoxMan" },
+				{ "message": "Fix Stats Estimates on Elimination page.", "contributor": "TheFoxMan" }
 			],
 			"changes": [
 				{ "message": "Add option to disable Quick Crimes.", "contributor": "TheFoxMan" },
