@@ -39,3 +39,7 @@ body:not(.dark-mode) .travel-agency-market .tt-travel-market-cell {
 .tt-travel-profits .users-list li .circulation {
 	display: none !important;
 }
+
+.tt-tablet .tt-travel-profits-table {
+	width: 500px !important;
+}
