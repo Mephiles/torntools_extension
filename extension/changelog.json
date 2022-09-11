@@ -8,9 +8,14 @@
 			"fixes": [
 				{ "message": "Fix settings saving for Hide Icons and Custom Links.", "contributor": "TheFoxMan" },
 				{ "message": "Fix Hospital & Jail filters on page changing on Firefox.", "contributor": "TheFoxMan" },
-				{ "message": "Fix cleanup code in settings.", "contributor": "TheFoxMan" }
+				{ "message": "Fix custom notification sound messing settings.", "contributor": "TheFoxMan" },
+				{ "message": "Fix cleanup code in settings.", "contributor": "TheFoxMan" },
+				{ "message": "Fix item profits in market on tablet mode.", "contributor": "TheFoxMan" }
 			],
-			"changes": [],
+			"changes": [
+				{ "message": "Add option to disable Quick Crimes.", "contributor": "TheFoxMan" },
+				{ "message": "Modify(disable) various features on tablet mode.", "contributor": "TheFoxMan" }
+			],
 			"removed": []
 		}
 	},
