@@ -164,9 +164,9 @@
 				}
 			} else if (provider === "hela") {
 				const response = await fetchData("hela", {
-					section: "hela/revive",
+					section: "revive",
 					method: "POST",
-					body: { TornID: id.toString(), Username: name, Source: source },
+					body: { TornID: id.toString(), Username: name, Source: source, 'Vendor': 'HeLa' },
 					relay: true,
 					silent: true,
 					succeedOnError: true,
