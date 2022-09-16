@@ -15,7 +15,7 @@
 }
 
 body.tt-elimination .tt-stats-estimate {
-    background-color: var(--elimination-team-list-background-color);
+	background-color: var(--elimination-team-list-background-color);
 }
 
 .tt-stats-estimate .tt-loading-placeholder {

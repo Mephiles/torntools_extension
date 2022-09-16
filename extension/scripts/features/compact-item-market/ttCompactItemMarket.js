@@ -2,7 +2,7 @@
 
 (async () => {
 	const devices = await checkDevice();
-    if (devices.mobile || devices.tablet) return;
+	if (devices.mobile || devices.tablet) return;
 
 	featureManager.registerFeature(
 		"Compact Item Market",

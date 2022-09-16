@@ -52,7 +52,11 @@
 		statsEstimate.showEstimates(
 			".competition-list > li",
 			(row) => ({
-				id: row.find(".user.name[href]").getAttribute("href").match(/(?<=XID\=)\d+/)[0].getNumber(),
+				id: row
+					.find(".user.name[href]")
+					.getAttribute("href")
+					.match(/(?<=XID\=)\d+/)[0]
+					.getNumber(),
 				level: row.find(".level").textContent.getNumber(),
 			}),
 			true
