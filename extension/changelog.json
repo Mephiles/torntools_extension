@@ -1,7 +1,6 @@
 [
 	{
 		"version": { "major": 6, "minor": 9, "build": 0 },
-		"title": "Beta",
 		"date": false,
 		"logs": {
 			"features": [],
@@ -22,7 +21,6 @@
 	},
 	{
 		"version": { "major": 6, "minor": 8, "build": 0 },
-		"title": "Beta",
 		"date": "2022/08/18",
 		"logs": {
 			"fixes": [
