@@ -434,6 +434,10 @@ ul.list-table select {
 	background: #ddd;
 }
 
+#preferences #notification-sound-upload {
+	margin: 7.5px 15px;
+}
+
 /* - Companies / Faction */
 
 /* endregion */

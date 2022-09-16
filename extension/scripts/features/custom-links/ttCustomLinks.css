@@ -2,7 +2,7 @@
 	margin-bottom: 2px;
 }
 
-.tt-mobile .tt-custom-links-container {
+:is(.tt-mobile, .tt-tablet) .tt-custom-links-container {
 	display: flex;
 	border-bottom: 1px solid #000;
 	background-color: #85b005;
@@ -14,18 +14,18 @@
 	padding-bottom: 2px;
 }
 
-.tt-mobile .tt-custom-links-container::-webkit-scrollbar {
+:is(.tt-mobile, .tt-tablet) .tt-custom-links-container::-webkit-scrollbar {
 	display: none;
 }
 
-.tt-mobile .tt-custom-links-container .tt-slide {
+:is(.tt-mobile, .tt-tablet) .tt-custom-links-container .tt-slide {
 	height: 100%;
 	padding: 0 2px;
 	text-align: center;
 	flex-shrink: 0;
 }
 
-.tt-mobile .tt-custom-links-container .tt-mobile-link {
+:is(.tt-mobile, .tt-tablet) .tt-custom-links-container .tt-mobile-link {
 	color: #333;
 	font-weight: bold;
 	font-size: 12px;
@@ -33,11 +33,11 @@
 	text-decoration: none;
 }
 
-.tt-mobile .dummy-div {
+:is(.tt-mobile, .tt-tablet) .dummy-div {
 	margin-top: 17px;
 }
 
-body.tt-tablet .tt-custom-link-container .pill {
+.tt-tablet .tt-custom-link-container .pill {
 	font-size: 13px;
 }
 

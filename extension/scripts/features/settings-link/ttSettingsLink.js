@@ -1,7 +1,8 @@
 "use strict";
 
 (async () => {
-	if ((await checkDevice()).mobile) return "Not supported on mobile!";
+	const devices = await checkDevice();
+	if (devices.mobile || devices.tablet) return "Not supported on mobiles or tablets!";
 
 	const feature = featureManager.registerFeature(
 		"TT Settings Link",

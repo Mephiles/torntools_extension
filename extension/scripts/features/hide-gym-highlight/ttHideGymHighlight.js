@@ -29,7 +29,7 @@
 
 		const svg = navGym.find("svg");
 		if (hasDarkMode()) {
-			if (mobile) {
+			if (mobile || tablet) {
 				svg.setAttribute("fill", svg.getAttribute("fill").replace("_green", ""));
 				svg.setAttribute("filter", svg.getAttribute("filter").replace("_green", ""));
 			} else {
@@ -37,7 +37,7 @@
 				svg.setAttribute("filter", "url(#svg_sidebar_mobile)");
 			}
 		} else {
-			if (mobile) {
+			if (mobile || tablet) {
 				svg.setAttribute("fill", "url(#sidebar_svg_gradient_regular_mobile)");
 				svg.setAttribute("filter", "url(#svg_sidebar_mobile)");
 			} else {
@@ -57,7 +57,7 @@
 		const svg = navGym.find("svg");
 
 		if (hasDarkMode()) {
-			if (mobile) {
+			if (mobile || tablet) {
 				svg.setAttribute("fill", "url(#sidebar_svg_gradient_regular_green_mobile)");
 				svg.setAttribute("filter", "url(#svg_sidebar_green_regular_mobile_green_filter)");
 			} else {
@@ -65,7 +65,7 @@
 				svg.setAttribute("filter", "url(#svg_sidebar_green_mobile)");
 			}
 		} else {
-			if (mobile) {
+			if (mobile || tablet) {
 				svg.setAttribute("fill", "url(#sidebar_svg_gradient_regular_green_mobile)");
 				svg.setAttribute("filter", "url(#svg_sidebar_green_regular_mobile_green_filter)");
 			} else {
