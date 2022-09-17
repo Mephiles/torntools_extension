@@ -5,9 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [
-				{ "message": "Fix stakeouts reset accidentally causing settings reset.", "contributor": "TheFoxMan" }
-			],
+			"fixes": [{ "message": "Fix stakeouts reset accidentally causing settings reset.", "contributor": "TheFoxMan" }],
 			"changes": [],
 			"removed": []
 		}
