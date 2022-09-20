@@ -624,7 +624,13 @@ async function updateUserdata() {
 	}
 
 	async function notifyEducation() {
-		if (!settings.apiUsage.user.education || !settings.notifications.types.global || !settings.notifications.types.education || !oldUserdata.education_timeleft) return;
+		if (
+			!settings.apiUsage.user.education ||
+			!settings.notifications.types.global ||
+			!settings.notifications.types.education ||
+			!oldUserdata.education_timeleft
+		)
+			return;
 		if (userdata.education_timeleft !== 0 || oldUserdata.education_timeleft === 0) return;
 
 		await notifyUser("TornTools - Education", "You have finished your education course.", LINKS.education);
