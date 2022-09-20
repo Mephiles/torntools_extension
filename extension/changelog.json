@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix stakeouts reset accidentally causing settings reset.", "contributor": "TheFoxMan" }],
+			"fixes": [
+				{ "message": "Fix stakeouts reset accidentally causing settings reset.", "contributor": "TheFoxMan" },
+				{ "message": "Fix education notification issue.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [],
 			"removed": []
 		}
