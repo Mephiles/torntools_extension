@@ -42,8 +42,8 @@ body:not(.dark-mode) .travel-agency-market .tt-travel-market-cell {
 
 body.tt-mobile .tt-travel-market-heading {
 	right: 0;
-    width: fit-content;
-    position: absolute;
+	width: fit-content;
+	position: absolute;
 }
 
 body.tt-mobile .travel-agency-market.tt-travel-profits-table .users-list {
@@ -53,5 +53,5 @@ body.tt-mobile .travel-agency-market.tt-travel-profits-table .users-list {
 body.tt-mobile .travel-agency-market.tt-travel-profits-table .users-list > li > span {
 	width: max-content;
 	background-color: var(--default-bg-panel-color);
-    border-bottom-color: var(--default-panel-divider-outer-side-color);
+	border-bottom-color: var(--default-panel-divider-outer-side-color);
 }
