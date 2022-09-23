@@ -40,6 +40,18 @@ body:not(.dark-mode) .travel-agency-market .tt-travel-market-cell {
 	display: none !important;
 }
 
-.tt-tablet .tt-travel-profits-table {
-	width: 500px !important;
+body.tt-mobile .tt-travel-market-heading {
+	right: 0;
+    width: fit-content;
+    position: absolute;
+}
+
+body.tt-mobile .travel-agency-market.tt-travel-profits-table .users-list {
+	overflow: scroll !important;
+}
+
+body.tt-mobile .travel-agency-market.tt-travel-profits-table .users-list > li > span {
+	width: max-content;
+	background-color: var(--default-bg-panel-color);
+    border-bottom-color: var(--default-panel-divider-outer-side-color);
 }
