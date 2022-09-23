@@ -297,7 +297,6 @@ class FeatureManager {
 
 		this.container.setClass(
 			settings.featureDisplay ? "" : "tt-hidden",
-			settings.featureDisplayPosition,
 			settings.featureDisplayOnlyFailed ? "only-fails" : "",
 			settings.featureDisplayHideDisabled ? "hide-disabled" : ""
 		);
@@ -321,7 +320,6 @@ class FeatureManager {
 			type: "div",
 			class: `
 				${settings.featureDisplay ? "" : "tt-hidden"}
-				${settings.featureDisplayPosition} 
 				${settings.featureDisplayOnlyFailed ? "only-fails" : ""}
 				${settings.featureDisplayHideDisabled ? "hide-disabled" : ""}
 			`,

@@ -3,7 +3,6 @@
 (async () => {
 	handleTheme().catch(() => {});
 	createOverlay();
-	detectScroll();
 	observeChat().catch(console.error);
 	observeBody().catch(console.error);
 
@@ -30,16 +29,6 @@
 
 	function createOverlay() {
 		document.body.appendChild(document.newElement({ type: "div", class: "tt-overlay tt-hidden" }));
-	}
-
-	function detectScroll() {
-		checkScroll();
-		document.addEventListener("scroll", checkScroll);
-
-		function checkScroll() {
-			if (window.scrollY >= 75) document.body.classList.add("scrolled");
-			else document.body.classList.remove("scrolled");
-		}
 	}
 
 	async function observeChat() {
