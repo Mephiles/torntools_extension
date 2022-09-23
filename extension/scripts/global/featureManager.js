@@ -8,6 +8,7 @@ class FeatureManager {
 
 		this.popupLoaded = false;
 		this.resultQueue = [];
+		this.errorCount = 0;
 
 		this.isDisconnected = false;
 		this.port = chrome.runtime.connect({ name: "status-check" });
@@ -218,87 +219,63 @@ class FeatureManager {
 		}
 
 		new Promise(async (resolve) => {
-			const devices = await checkDevice();
-			if (devices.mobile || devices.tablet) return resolve();
-
-			let row = this.container.find(`#tt-page-status-feature-${feature.name.toLowerCase().replaceAll(" ", "-")}`);
+			let row = this.container.find(`[feature-name*="${feature.name}"]`);
 			if (row) {
-				row.setClass(`tt-page-status-feature ${status}`);
-				row.find(".tt-page-status-feature-icon i").setClass(`fas ${getIcon()}`);
-				if (options.message) row.find(".tt-page-status-feature-icon i").setAttribute("title", options.message);
+				row.setAttribute("status", status);
+
+				const statusIcon = row.find("i")
+				statusIcon.setClass(getIconClass(status));
+
+				if (options.message) statusIcon.setAttribute("title", options.message);
 			} else {
 				row = document.newElement({
 					type: "div",
-					class: `tt-page-status-feature ${status}`,
-					id: `tt-page-status-feature-${feature.name.toLowerCase().replaceAll(" ", "-")}`,
+					class: "tt-feature",
+					attributes: { "feature-name": feature.name, status: status },
 					children: [
 						document.newElement({
-							type: "span",
-							class: "tt-page-status-feature-icon",
-							children: [document.newElement({ type: "i", class: `fas ${getIcon()}` })],
+							type: "i",
+							class: getIconClass(status),
+							...(options.message
+							    ? { attributes: { title: options.message } }
+							    : {})
 						}),
-						document.newElement({ type: "span", class: "tt-page-status-feature-icon", text: feature.name }),
-					],
-					attributes: () => {
-						if (options.message) return { title: options.message };
-						else return false;
-					},
+						document.newElement({ type: "span", text: feature.name })
+					]
 				});
 
-				let scopeElement = this.container.find(`.tt-page-status-content #scope-${feature.scope.toLowerCase().replaceAll(" ", "_")}`);
-				if (!scopeElement) {
-					const scopeHeading = document.newElement({
+				let scopeEl = this.container.find(`[scope*="${feature.scope}"]`);
+				if (!scopeEl) {
+					scopeEl = document.newElement({
 						type: "div",
-						class: "tt-page-status-scope-heading",
+						attributes: { scope: feature.scope },
 						children: [
-							document.newElement({ type: "span", text: `— ${feature.scope} —` }),
-							document.newElement({ type: "i", class: "icon fas fa-caret-down" }),
-						],
+							document.newElement({ type: "div", text: `— ${feature.scope} —` })
+						]
 					});
-					scopeElement = document.newElement({
-						type: "div",
-						id: "scope-" + feature.scope.toLowerCase().replaceAll(" ", "_"),
-						children: [scopeHeading],
-					});
-					scopeHeading.addEventListener("click", async (event) => {
-						const scopeElementLocal = event.target.closest("[id*='scope-']");
-						const addedOrRemoved = scopeElementLocal.classList.toggle("collapsed");
-						const closedScopes = (await ttStorage.get("filters")).closedScopes;
-						if (addedOrRemoved) closedScopes.push(scopeElementLocal.getAttribute("id").split("scope-")[1].replaceAll("_", " "));
-						else {
-							const index = closedScopes.indexOf(scopeElementLocal.getAttribute("id").split("scope-")[1].replaceAll("_", " "));
-							if (index !== -1) {
-								closedScopes.splice(index, 1);
-							}
-						}
-						await ttStorage.change({ filters: { closedScopes: [...new Set(closedScopes)] } });
-					});
-					this.container.find(".tt-page-status-content").appendChild(scopeElement);
-					scopeElement.appendChild(
-						document.newElement({
-							type: "div",
-							class: "tt-page-status-feature features-list",
-						})
-					);
+					this.container.find(".tt-features-list").appendChild(scopeEl);
 				}
-				scopeElement.find(":scope > .features-list").appendChild(row);
+				scopeEl.appendChild(row);
 			}
-
-			await this.checkScopes();
+			this.hideEmptyScopes();
 		}).catch((error) => {
 			this.logError(`Couldn't log result for ${feature.name}: ${JSON.stringify(options)}`, error).then(() => {});
 		});
 
-		function getIcon() {
+		function getIconClass(status) {
+			let className = "fas ";
 			switch (status) {
 				case "disabled":
 				case "failed":
-					return "fa-times-circle";
+					className += "fa-times-circle";
+					break;
 				case "loaded":
-					return "fa-check";
+					className += "fa-check";
+					break;
 				default:
-					return "fa-question-circle";
+					className += "fa-question-circle";
 			}
+			return className;
 		}
 	}
 
@@ -310,38 +287,43 @@ class FeatureManager {
 			settings.featureDisplayOnlyFailed ? "only-fails" : "",
 			settings.featureDisplayHideDisabled ? "hide-disabled" : ""
 		);
-		this.checkScopes().then(() => {});
+		this.hideEmptyScopes();
 	}
 
 	async createPopup() {
 		await loadDatabase();
-		const devices = await checkDevice();
-		if (devices.mobile || devices.tablet) return; // TODO: Wait for the future.
 
-		const collapsed = this.containerID in filters.containers ? filters.containers[this.containerID] : false;
-
-		const popupHeader = document.newElement({
+		const popup = document.newElement({
 			type: "div",
-			class: `tt-page-status-header ${collapsed ? "collapsed" : ""}`,
-			children: [document.newElement({ type: "span", text: "TornTools activated" }), document.newElement({ type: "i", class: "icon fas fa-caret-down" })],
-		});
-		const container = document.newElement({
 			id: this.containerID,
-			type: "div",
-			class: `
-				${settings.featureDisplay ? "" : "tt-hidden"}
-				${settings.featureDisplayOnlyFailed ? "only-fails" : ""}
-				${settings.featureDisplayHideDisabled ? "hide-disabled" : ""}
-			`,
-			children: [popupHeader, document.newElement({ type: "div", class: "tt-page-status-content" })],
+			attributes: {
+				tabindex: 0, // To make :focus-within working on div elements
+				"error-count": 0
+			},
+			children: [
+				document.newElement({
+					type: "div",
+					children: [
+						document.newElement({
+							type: "button",
+							style: { "background-image": `url(${chrome.runtime.getURL("resources/images/icon_128.png")})` },
+							events: {
+								click: (e) => {
+									const title = e.target.matches(`#${this.containerID}`) ? e.target : e.target.closest(`#${this.containerID}`);
+									title.classList.toggle("open");
+								}
+							}
+						}),
+					]
+				}),
+				document.newElement({
+					type: "div",
+					class: "tt-features-list"
+				})
+			]
 		});
-		document.body.appendChild(container);
-		this.container = container;
-
-		popupHeader.onclick = (event) => {
-			const toggleResult = event.currentTarget.classList.toggle("collapsed");
-			ttStorage.change({ filters: { containers: { [this.containerID]: toggleResult } } });
-		};
+		document.body.appendChild(popup);
+		this.container = popup;
 
 		this.popupLoaded = true;
 
@@ -349,36 +331,17 @@ class FeatureManager {
 			const [feature, status, options] = item;
 			this.showResult(feature, status, options);
 		}
-		await this.checkScopes();
 	}
 
-	async checkScopes() {
+	hideEmptyScopes() {
 		if (!settings.featureDisplay) return;
-		let hasContent = false;
-		for (const scope of this.container.findAll(".tt-page-status-content > div")) {
-			const isEmpty =
-				settings.featureDisplayOnlyFailed || settings.featureDisplayHideDisabled
-					? [...scope.findAll(".tt-page-status-feature:not(.features-list)")].every(
-							(element) =>
-								(settings.featureDisplayOnlyFailed && !element.classList.contains("failed")) ||
-								(settings.featureDisplayHideDisabled && !element.classList.contains("disabled"))
-					  )
-					: false;
 
-			if (isEmpty) {
-				scope.classList.add("no-content");
-			} else {
-				scope.classList.remove("no-content");
-				hasContent = true;
-			}
-		}
-
-		this.container.classList[hasContent ? "remove" : "add"]("no-content");
-
-		for (const scope of (await ttStorage.get("filters")).closedScopes) {
-			const scopeElement = this.container.find(`.tt-page-status-content > [id*="${scope.replaceAll(" ", "_")}"]`);
-			if (scopeElement && !scopeElement.find(":scope > .features-list > .failed")) scopeElement.classList.add("collapsed");
-		}
+		this.container.findAll(".tt-features-list > div[scope]").forEach(scopeDiv => {
+			let hideScope = false;
+			if (settings.featureDisplayOnlyFailed && scopeDiv.findAll(":scope > .tt-feature:not([status*='failed'])").count === 0) hideScope = true;
+			if (settings.featureDisplayHideDisabled && scopeDiv.findAll(":scope > .tt-feature:not([status*='disabled'])").count === 0) hideScope = true;
+			scopeDiv.classList[hideScope ? "add" : "remove"]("no-content");
+		});
 	}
 }
 
