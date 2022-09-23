@@ -1,5 +1,6 @@
 class FeatureManager {
 	constructor() {
+		this.logPadding = "[TornTools] FeatureManager - ";
 		this.containerID = "tt-page-status";
 		this.container = null;
 		this.features = [];
@@ -14,9 +15,20 @@ class FeatureManager {
 			this.features.forEach((feature) => this.executeFunction(feature.cleanup));
 			this.isDisconnected = true;
 		});
-		this.log = async (params, error) => {
-			if (error) console.error(...params);
-			else console.log(...params);
+		this.logInfo = async (...params) => {
+			params[0] = this.logPadding + params[0];
+			console.log(...params);
+		};
+		this.logError = async (info, error) => {
+			this.errorCount = this.errorCount + 1;
+			if (Array.isArray(info)) {
+				info[0] = this.logPadding + info[0];
+			} else {
+				info = [this.logPadding + info];
+			}
+			info.append(error.stack);
+			console.error(...info);
+			this.container.setAttribute("error-count", this.errorCount);
 		};
 	}
 
@@ -42,10 +54,10 @@ class FeatureManager {
 			options,
 		};
 
-		this.log(["[TornTools] FeatureManager - Registered new feature.", newFeature]).then(() => {});
+		this.logInfo("Registered new feature.", newFeature).then(() => {});
 		this.features.push(newFeature);
 
-		this.startFeature(newFeature).catch((error) => this.log([`[TornTools] FeatureManager - Failed to start "${name}".`, error], true));
+		this.startFeature(newFeature).catch((error) => this.logError(`Failed to start "${name}".`, error));
 		this.startLoadListeners(newFeature);
 
 		return newFeature;
@@ -66,11 +78,11 @@ class FeatureManager {
 		}
 
 		if (feature.hasLoaded && getValue(feature.enabled)) {
-			this.executeFunction(initialise).catch(() => {});
-			this.executeFunction(execute).catch(() => {});
+			this.executeFunction(initialise).catch((error) => this.logError(`Failed to (adjust)initialise "${name}".`, error));
+			this.executeFunction(execute).catch((error) => this.logError(`Failed to (adjust)start "${name}".`, error));
 		}
 
-		this.log(["[TornTools] FeatureManager - Adjusted feature.", feature]).then(() => {});
+		this.logInfo("Adjusted feature.", feature).then(() => {});
 		return feature;
 	}
 
@@ -82,12 +94,12 @@ class FeatureManager {
 		await loadDatabase();
 		try {
 			if (getValue(feature.enabled)) {
-				this.log(["[TornTools] FeatureManager - Starting feature.", feature]).then(() => {});
+				this.logInfo("Starting feature.", feature).then(() => {});
 				if ("requirements" in feature) {
 					const requirements = await getValueAsync(feature.requirements);
 
 					if (typeof requirements === "string") {
-						await this.executeFunction(feature.cleanup).catch(() => {});
+						await this.executeFunction(feature.cleanup).catch((error) => this.logError(`Failed to (string requirements)cleanup "${feature.name}".`, error));
 
 						this.showResult(feature, "information", { message: requirements });
 						return;
@@ -111,9 +123,7 @@ class FeatureManager {
 				}
 			} else {
 				if (feature.hasLoaded) {
-					this.log(["[TornTools] FeatureManager - Disabling feature.", feature])
-						.then(() => {})
-						.then(() => {});
+					this.logInfo("Disabling feature.", feature).then(() => {});
 					await this.executeFunction(feature.cleanup);
 					if (feature.options.triggerCallback) {
 						triggerCustomListener(EVENT_CHANNELS.FEATURE_DISABLED, { name: feature.name });
@@ -123,10 +133,10 @@ class FeatureManager {
 				this.showResult(feature, "disabled");
 			}
 		} catch (error) {
-			await this.executeFunction(feature.cleanup).catch(() => {});
+			await this.executeFunction(feature.cleanup).catch((error) => this.logError(`Failed to cleanup in a failed start of "${name}".`, error));
 
 			this.showResult(feature, "failed");
-			this.log([`[TornTools] FeatureManager - Failed to start "${feature.name}".`, error], true).then(() => {});
+			this.logError(`Failed to start "${feature.name}".`, error).then(() => {});
 		}
 		feature.hasLoaded = true;
 	}
@@ -168,7 +178,7 @@ class FeatureManager {
 						return;
 
 					this.startFeature(feature, "liveReload").catch((error) =>
-						this.log([`[TornTools] FeatureManager - Failed to start "${feature.name}" during live reload.`, error], true)
+						this.logError(`Failed to start "${feature.name}" during live reload.`, error)
 					);
 				});
 			}
@@ -276,7 +286,7 @@ class FeatureManager {
 
 			await this.checkScopes();
 		}).catch((error) => {
-			this.log([`[TornTools] FeatureManager - Couldn't log result for ${feature.name}`, error, options], true).then(() => {});
+			this.logError(`Couldn't log result for ${feature.name}: ${JSON.stringify(options)}`, error).then(() => {});
 		});
 
 		function getIcon() {
