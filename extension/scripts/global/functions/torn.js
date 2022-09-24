@@ -831,7 +831,7 @@ const COMPANY_INFORMATION = {
 		3: {
 			name: "Organized",
 			cost: "Passive",
-			effect: "Increases available open contracts from 3 to 5",
+			effect: "Increases available open mission contracts from 3 to 5",
 		},
 		5: {
 			name: "Repatriated",
