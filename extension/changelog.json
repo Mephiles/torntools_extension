@@ -10,9 +10,7 @@
 				{ "message": "Fix education notification issue.", "contributor": "DeKleineKobini" },
 				{ "message": "Properly fix profits on abroad market pages on mobiles & tablets.", "contributor": "TheFoxMan" }
 			],
-			"changes": [
-				{ "message": "Update Logistics specials wording.", "contributor": "Acarya" }
-			],
+			"changes": [{ "message": "Update Logistics specials wording.", "contributor": "Acarya" }],
 			"removed": []
 		}
 	},
