@@ -11,7 +11,6 @@
 				{ "message": "Properly fix profits on abroad market pages on mobiles & tablets.", "contributor": "TheFoxMan" }
 			],
 			"changes": [
-				{ "message": "Update HeLa revive request script.", "contributor": "No1IrishStig" },
 				{ "message": "Update Logistics specials wording.", "contributor": "Acarya" }
 			],
 			"removed": []
@@ -31,7 +30,8 @@
 			],
 			"changes": [
 				{ "message": "Add option to disable Quick Crimes.", "contributor": "TheFoxMan" },
-				{ "message": "Modify(disable) various features on tablet mode.", "contributor": "TheFoxMan" }
+				{ "message": "Modify (disable) various features on tablet mode.", "contributor": "TheFoxMan" },
+				{ "message": "Update HeLa revive request script.", "contributor": "No1IrishStig" }
 			]
 		}
 	},
