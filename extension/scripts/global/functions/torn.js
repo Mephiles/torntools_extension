@@ -831,22 +831,22 @@ const COMPANY_INFORMATION = {
 		3: {
 			name: "Organized",
 			cost: "Passive",
-			effect: "Increases available open mission contracts from 3 to 5",
+			effect: "2 additional open mission contracts",
 		},
 		5: {
 			name: "Repatriated",
 			cost: "Passive",
-			effect: "Allows traveling back to Torn from abroad while in hospital",
+			effect: "Return from abroad while in hospital",
 		},
 		7: {
 			name: "Contraband",
 			cost: "50",
-			effect: "Large quantity of a foreign item",
+			effect: "Shipment of foreign goods",
 		},
 		10: {
 			name: "Logistics Report",
 			cost: "250",
-			effect: "Targeted company productivity boost",
+			effect: "Company productivity boost",
 		},
 	},
 	"Meat Warehouse": {
