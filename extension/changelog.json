@@ -10,7 +10,10 @@
 				{ "message": "Fix education notification issue.", "contributor": "DeKleineKobini" },
 				{ "message": "Properly fix profits on abroad market pages on mobiles & tablets.", "contributor": "TheFoxMan" }
 			],
-			"changes": [],
+			"changes": [
+				{ "message": "Update HeLa revive request script.", "contributor": "No1IrishStig" },
+				{ "message": "Update Logistics specials wording.", "contributor": "Acarya" }
+			],
 			"removed": []
 		}
 	},
