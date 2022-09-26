@@ -7,9 +7,14 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Fix stakeouts reset accidentally causing settings reset.", "contributor": "TheFoxMan" },
-				{ "message": "Fix education notification issue.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix education notification issue.", "contributor": "DeKleineKobini" },
+				{ "message": "Properly fix profits on abroad market pages on mobiles & tablets.", "contributor": "TheFoxMan" },
+				{ "message": "Fix travel table faction perks not being counted.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [{ "message": "Switch feature manager popup to new layout.", "contributor": "TheFoxMan" }],
+			"changes": [
+				{ "message": "Switch feature manager popup to new layout.", "contributor": "TheFoxMan" },
+				{ "message": "Update Logistics specials wording.", "contributor": "Acarya" }
+			],
 			"removed": []
 		}
 	},
@@ -27,7 +32,8 @@
 			],
 			"changes": [
 				{ "message": "Add option to disable Quick Crimes.", "contributor": "TheFoxMan" },
-				{ "message": "Modify(disable) various features on tablet mode.", "contributor": "TheFoxMan" }
+				{ "message": "Modify (disable) various features on tablet mode.", "contributor": "TheFoxMan" },
+				{ "message": "Update HeLa revive request script.", "contributor": "No1IrishStig" }
 			]
 		}
 	},
