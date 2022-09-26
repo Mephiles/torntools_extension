@@ -563,7 +563,7 @@
 				.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
 				.totalSum();
 			count += userdata.faction_perks
-				.filter((perk) => perk.includes("travel item capacity"))
+				.filter((perk) => perk.includes("travel") && perk.includes("capacity"))
 				.map((result) => result.getNumber())
 				.totalSum();
 			// CHECK - Improve book perk checking.
