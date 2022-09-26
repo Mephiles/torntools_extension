@@ -53,7 +53,7 @@ body.tt-tablet li[data-category="Secondary"] .tt-item-price {
 
 body.tt-tablet li[data-category="Defensive"]:not([data-group]) .tt-item-price,
 body.tt-tablet li[data-category="Defensive"][data-group="item"] .tt-item-price,
-body.tt-tablet li[data-category="Melee"] .tt-item-price{
+body.tt-tablet li[data-category="Melee"] .tt-item-price {
 	transform: translateX(-155px);
 }
 
