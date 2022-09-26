@@ -142,6 +142,10 @@
 	overflow: hidden;
 }
 
+#tt-page-status button {
+	cursor: pointer;
+}
+
 body.tt-mobile #tt-page-status {
 	pointer-events: none; /* Used to prevent sticky on mobiles & tablets */
 	top: 0;
@@ -230,7 +234,7 @@ body.tt-tablet #tt-page-status .tt-features-list {
 
 #tt-page-status.no-content .tt-features-list::before {
     display: inline-block;
-    padding: 15px;
+    padding: 15px 15px 5px 15px;
     font-size: 14px;
     content: "No features to show.";
 }
