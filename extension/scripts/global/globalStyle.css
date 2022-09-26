@@ -143,7 +143,7 @@
 }
 
 body.tt-mobile #tt-page-status {
-	pointer-events: none;
+	pointer-events: none; /* Used to prevent sticky on mobiles & tablets */
 	top: 0;
 	right: 0;
 	z-index: 99999;
@@ -158,6 +158,7 @@ body.tt-tablet #tt-page-status {
 }
 
 /* Used to prevent sticky on mobiles & tablets */
+
 :is(body.tt-mobile, body.tt-tablet) #tt-page-status > div > * {
 	pointer-events: all;
 }
@@ -178,7 +179,8 @@ body.tt-mobile #tt-page-status > div:first-child {
 }
 
 #tt-page-status .tt-features-list {
-	height: 82vh;
+	min-height: fit-content;
+	max-height: 82vh;
 	width: fit-content;
 	padding: 0 12.5px 12.5px 12.5px;
     border-radius: 15px 0 15px 15px;
@@ -202,7 +204,8 @@ body.tt-tablet #tt-page-status .tt-features-list {
 	height: fit-content;
 }
 
-/* Show error count if any */
+/* Show error count, if any */
+
 #tt-page-status:not([error-count="0"])::before {
     top: 3px;
     right: 1px;
@@ -214,18 +217,47 @@ body.tt-tablet #tt-page-status .tt-features-list {
 }
 
 /* Hide disabled && Show failed only */
-#tt-page-status.hide-disabled .tt-features-list .tt-feature[scope="disabled"] {
+
+#tt-page-status.hide-disabled .tt-features-list .tt-feature[status="disabled"] {
 	display: none;
 }
 
-#tt-page-status.only-fails .tt-features-list .tt-feature:not([scope="failed"]) {
+#tt-page-status.only-fails .tt-features-list .tt-feature:not([status="failed"]) {
 	display: none;
+}
+
+/* When all scopes are hidden */
+
+#tt-page-status.no-content .tt-features-list::before {
+    display: inline-block;
+    padding: 15px;
+    font-size: 14px;
+    content: "No features to show.";
 }
 
 /* Open features list when focused(PC) or hover(mobiles & tablets) */
 
 #tt-page-status.open .tt-features-list {
 	display: block;
+}
+
+/* Error messages styles */
+
+#tt-page-status .error-messages:not(:empty)::before {
+    content: "Errors";
+    display: block;
+    margin: 10px 0;
+    color: red;
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 5px solid red;
+}
+
+#tt-page-status .error-messages:not(:empty) .error .name {
+    margin-top: 5px;
+    font-weight: bold;
+    background: #ff3e00;
 }
 
 /* Using JS due to usability issues on mobiles & tablets
