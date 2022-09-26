@@ -1,9 +1,6 @@
 "use strict";
 
 (async () => {
-	const devices = await checkDevice();
-	if (devices.mobile || devices.tablet) return "Not supported on mobiles or tablets!";
-
 	const feature = featureManager.registerFeature(
 		"Cooldown End Times",
 		"sidebar",
