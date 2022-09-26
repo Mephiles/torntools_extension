@@ -40,7 +40,7 @@ body.tt-mobile .tt-item-price {
 }
 
 body.tt-tablet .tt-item-price {
-	margin-top: 11px;
+	margin-top: -1px;
 	padding-right: 5px !important;
 	float: right;
 	font-size: 12px;
