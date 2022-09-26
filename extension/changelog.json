@@ -8,7 +8,8 @@
 			"fixes": [
 				{ "message": "Fix stakeouts reset accidentally causing settings reset.", "contributor": "TheFoxMan" },
 				{ "message": "Fix education notification issue.", "contributor": "DeKleineKobini" },
-				{ "message": "Properly fix profits on abroad market pages on mobiles & tablets.", "contributor": "TheFoxMan" }
+				{ "message": "Properly fix profits on abroad market pages on mobiles & tablets.", "contributor": "TheFoxMan" },
+				{ "message": "Fix travel table faction perks not being counted.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [{ "message": "Update Logistics specials wording.", "contributor": "Acarya" }],
 			"removed": []

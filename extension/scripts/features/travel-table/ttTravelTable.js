@@ -563,9 +563,8 @@
 				.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))
 				.totalSum();
 			count += userdata.faction_perks
-				.map((perk) => perk.match(/\+ Increases maximum traveling capacity by (\d+)/i))
-				.filter((result) => !!result)
-				.map((result) => parseInt(result[1]))
+				.filter((perk) => perk.includes("travel item capacity"))
+				.map((result) => result.getNumber())
 				.totalSum();
 			// CHECK - Improve book perk checking.
 			count += userdata.book_perks
