@@ -27,9 +27,30 @@ class FeatureManager {
 			} else {
 				info = [this.logPadding + info];
 			}
-			info.append(error.stack);
+			info.push(error.stack);
 			console.error(...info);
-			this.container.setAttribute("error-count", this.errorCount);
+			// this.container.find(".error-messages")
+			/*
+			<div class="error-messages">
+				<div class="error">
+					<div class="name">Uncaught Error: Error Name.</div>
+					<pre class="stack">	at sample.js:90
+						at otherSample.js:100
+					</pre>
+				</div>
+			</div>*/
+			if (this.errorCount > 25) this.container.setAttribute("error-count", "25+");
+			else {
+				this.container.setAttribute("error-count", this.errorCount);
+				this.container.find(".error-messages").appendChild(document.newElement({
+					type: "div",
+					class: "error",
+					children: [
+						document.newElement({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
+						document.newElement({ type: "pre", class: "stack", text: error.stack })
+					]
+				}));
+			}
 		};
 	}
 
@@ -318,7 +339,10 @@ class FeatureManager {
 				}),
 				document.newElement({
 					type: "div",
-					class: "tt-features-list"
+					class: "tt-features-list",
+					children: [
+						document.newElement({ type: "div", class: "error-messages" })
+					]
 				})
 			]
 		});
@@ -326,6 +350,7 @@ class FeatureManager {
 		this.container = popup;
 
 		this.popupLoaded = true;
+		this.display();
 
 		for (const item of this.resultQueue) {
 			const [feature, status, options] = item;
@@ -338,10 +363,12 @@ class FeatureManager {
 
 		this.container.findAll(".tt-features-list > div[scope]").forEach(scopeDiv => {
 			let hideScope = false;
-			if (settings.featureDisplayOnlyFailed && scopeDiv.findAll(":scope > .tt-feature:not([status*='failed'])").count === 0) hideScope = true;
-			if (settings.featureDisplayHideDisabled && scopeDiv.findAll(":scope > .tt-feature:not([status*='disabled'])").count === 0) hideScope = true;
+			if (settings.featureDisplayOnlyFailed && scopeDiv.findAll(":scope > .tt-feature[status*='failed']").length === 0) hideScope = true;
+			if (settings.featureDisplayHideDisabled && scopeDiv.findAll(":scope > .tt-feature:not([status*='disabled'])").length === 0) hideScope = true;
 			scopeDiv.classList[hideScope ? "add" : "remove"]("no-content");
 		});
+		if (!this.container.find(".tt-features-list > div[scope]:not(.no-content)")) this.container.classList.add("no-content");
+		else this.container.classList.remove("no-content");
 	}
 }
 
