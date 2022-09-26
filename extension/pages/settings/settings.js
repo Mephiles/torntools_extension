@@ -5,7 +5,7 @@ const initiatedPages = {};
 (async () => {
 	initializeInternalPage({ sortTables: true });
 	await loadDatabase();
-	await showPage(getSearchParameters().get("page") || "changelog");
+	await showPage(getSearchParameters().get("page") || "preferences");
 
 	document.body.classList.add(getPageTheme());
 
