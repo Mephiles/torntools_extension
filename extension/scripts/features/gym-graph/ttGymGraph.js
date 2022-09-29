@@ -47,7 +47,7 @@
 							let message = response.message;
 
 							if (message.includes("User not found")) {
-								message = "Can't update stats because no TornStats account was found. Please register an account @ www.tornstats.com";
+								message = "Can't update stats because no TornStats account was found. This likely is because the API keys don't match. Change the key in the settings, under 'external services'.";
 							}
 
 							return { message, status: false };
@@ -112,7 +112,7 @@
 				if (message.includes("Not enough data found")) {
 					message = "Not enough data found on TornStats.";
 				} else if (message.includes("User not found")) {
-					message = "Can't display graph because no TornStats account was found. Please register an account @ www.tornstats.com";
+					message = "Can't display graph because no TornStats account was found. This likely is because the API keys don't match. Change the key in the settings, under 'external services'.";
 				}
 
 				console.log("TT - Couldn't load graph data from TornStats.", result);
