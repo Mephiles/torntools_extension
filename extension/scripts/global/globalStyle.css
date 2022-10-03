@@ -136,44 +136,35 @@
 
 #tt-page-status {
 	top: 5px;
-	right: 10.75vw;
+	right: calc((100vw - 976px) / 2 - 50px);
 	position: absolute;
 	z-index: 5;
 	overflow: hidden;
+}
+
+:is(body.tt-mobile, body.tt-tablet) #tt-page-status {
+	pointer-events: none; /* Used to prevent sticky on mobiles & tablets */
+	top: 0;
+	left: 33vw;
+	right: unset;
+	z-index: 99999;
 }
 
 #tt-page-status button {
 	cursor: pointer;
 }
 
-body.tt-mobile #tt-page-status {
-	pointer-events: none; /* Used to prevent sticky on mobiles & tablets */
-	top: 0;
-	right: 0;
-	z-index: 99999;
-	width: 100%;
-}
-
-body.tt-tablet #tt-page-status {
-	top: 0;
-    left: unset;
-    right: 60vw;
-	z-index: 99999;
-}
-
-/* Used to prevent sticky on mobiles & tablets */
-
-:is(body.tt-mobile, body.tt-tablet) #tt-page-status > div > * {
-	pointer-events: all;
-}
-
-
 #tt-page-status > div:first-child {
 	text-align: right;
 }
 
-body.tt-mobile #tt-page-status > div:first-child {
-	text-align: center;
+:is(body.tt-mobile, body.tt-tablet) #tt-page-status > div:first-child {
+	text-align: left;
+}
+
+/* Used to prevent sticky on mobiles & tablets */
+:is(body.tt-mobile, body.tt-tablet) #tt-page-status > div > * {
+	pointer-events: all;
 }
 
 #tt-page-status button {
@@ -199,17 +190,12 @@ body.dark-mode #tt-page-status .tt-features-list {
 	border: 1px solid #444;
 }
 
-body.tt-mobile #tt-page-status .tt-features-list {
-	width: 92%;
+:is(body.tt-mobile, body.tt-tablet) #tt-page-status .tt-features-list {
 	height: fit-content;
-}
-
-body.tt-tablet #tt-page-status .tt-features-list {
-	height: fit-content;
+	border-radius: 0 15px 15px 15px;
 }
 
 /* Show error count, if any */
-
 #tt-page-status:not([error-count="0"])::before {
     top: 3px;
     right: 1px;
@@ -221,17 +207,12 @@ body.tt-tablet #tt-page-status .tt-features-list {
 }
 
 /* Hide disabled && Show failed only */
-
-#tt-page-status.hide-disabled .tt-features-list .tt-feature[status="disabled"] {
-	display: none;
-}
-
+#tt-page-status.hide-disabled .tt-features-list .tt-feature[status="disabled"],
 #tt-page-status.only-fails .tt-features-list .tt-feature:not([status="failed"]) {
 	display: none;
 }
 
 /* When all scopes are hidden */
-
 #tt-page-status.no-content .tt-features-list::before {
     display: inline-block;
     padding: 15px 15px 5px 15px;
@@ -240,13 +221,11 @@ body.tt-tablet #tt-page-status .tt-features-list {
 }
 
 /* Open features list when focused(PC) or hover(mobiles & tablets) */
-
 #tt-page-status.open .tt-features-list {
 	display: block;
 }
 
 /* Error messages styles */
-
 #tt-page-status .error-messages:not(:empty)::before {
     content: "Errors";
     display: block;
@@ -275,7 +254,6 @@ body.tt-tablet #tt-page-status .tt-features-list {
 } */
 
 /* General padding for icons & features  */
-
 #tt-page-status .tt-features-list div[scope] > div:first-child {
 	border-bottom: 2px solid lightgray;
 	font-weight: bold;
@@ -295,7 +273,6 @@ body.tt-tablet #tt-page-status .tt-features-list {
 }
 
 /* Colors of feature status icons  */
-
 #tt-page-status .tt-features-list .tt-feature[status="disabled"] i {
 	color: var(--tt-color-orange);
 }
