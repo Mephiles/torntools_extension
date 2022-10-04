@@ -136,7 +136,7 @@
 					body: { userID: id, userName: name, factionName: faction, source },
 					relay: true,
 					silent: true,
-					succeedOnError: true
+					succeedOnError: true,
 				});
 
 				if (response.success) {
