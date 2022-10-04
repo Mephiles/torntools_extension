@@ -5,7 +5,7 @@ const initiatedPages = {};
 (async () => {
 	initializeInternalPage({ sortTables: true });
 	await loadDatabase();
-	await showPage(getSearchParameters().get("page") || "changelog");
+	await showPage(getSearchParameters().get("page") || "preferences");
 
 	document.body.classList.add(getPageTheme());
 
@@ -191,7 +191,7 @@ function cleanupPreferences() {
 				"#allyFactions > li:not(.input)",
 				"#userAlias > li:not(.input)",
 				"#chatHighlight > li:not(.input)",
-				"#chatTitleHighlight> li:not(input)",
+				"#chatTitleHighlight> li:not(.input)",
 			].join(", ")
 		)
 		.forEach((element) => element.remove());
@@ -199,6 +199,7 @@ function cleanupPreferences() {
 
 async function setupPreferences(requireCleanup) {
 	if (requireCleanup) cleanupPreferences();
+	searchPreferences();
 
 	const _preferences = document.find("#preferences");
 	_preferences.addEventListener("click", addSaveDialog);
@@ -322,7 +323,9 @@ async function setupPreferences(requireCleanup) {
 		// noinspection DuplicatedCode
 		if (event.target.value === "custom") {
 			hrefInput.classList.remove("tt-hidden");
+			hrefInput.value = "";
 			nameInput.classList.remove("tt-hidden");
+			nameInput.value = "";
 		} else {
 			hrefInput.classList.add("tt-hidden");
 			nameInput.classList.add("tt-hidden");
@@ -392,7 +395,7 @@ async function setupPreferences(requireCleanup) {
 		const iconsWrap = document.newElement({
 			type: "div",
 			class: "icon",
-			children: [document.newElement({ type: "div", style: { backgroundPosition: `-${(id - 1) * 18}px 0` } })],
+			children: [document.newElement({ type: "div", class: icon, style: { backgroundPosition: `-${(id - 1) * 18}px 0` } })],
 		});
 		iconsWrap.classList.add("hover_tooltip");
 		iconsWrap.appendChild(document.newElement({ type: "span", class: "hover_tooltip_text", text: description }));
@@ -505,7 +508,6 @@ async function setupPreferences(requireCleanup) {
 
 	fillSettings();
 	requestPermissions();
-	searchPreferences();
 	storageListeners.settings.push(updateSettings);
 	if (isIframe) {
 		window.addEventListener("message", async (event) => {
@@ -637,7 +639,6 @@ async function setupPreferences(requireCleanup) {
 		_preferences.find("#notification-volume").value = settings.notifications.volume;
 		if (settings.notifications.sound === "custom") {
 			_preferences.find("#notification-sound-upload").classList.remove("tt-hidden");
-			_preferences.find("#notification-sound-upload + br").classList.remove("tt-hidden");
 		} else {
 			if (settings.notifications.sound === "mute" || settings.notifications.sound === "default") {
 				_preferences.find("#notification-volume").classList.add("tt-hidden");
@@ -776,7 +777,18 @@ async function setupPreferences(requireCleanup) {
 		const newRow = document.newElement({
 			type: "li",
 			children: [
-				document.newElement({ type: "input", class: "newTab", attributes: { type: "checkbox" } }),
+				document.newElement({
+					type: "input",
+					class: "newTab",
+					attributes: {
+						type: "checkbox",
+						...(data.newTab
+							? {
+									checked: true,
+							  }
+							: {}),
+					},
+				}),
 				document.newElement({
 					type: "select",
 					class: "preset",

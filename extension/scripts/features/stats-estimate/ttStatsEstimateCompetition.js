@@ -46,12 +46,17 @@
 
 	async function showEstimates() {
 		await requireElement(".team-list-wrap");
+		if (document.find("#nav-elimination")) document.body.classList.add("tt-elimination");
 
 		statsEstimate.clearQueue();
 		statsEstimate.showEstimates(
 			".competition-list > li",
 			(row) => ({
-				id: row.find(".user.name > [title]").getAttribute("title").match(/(\d+)/g)?.last(),
+				id: row
+					.find(".user.name[href]")
+					.getAttribute("href")
+					.match(/(?<=XID\=)\d+/)[0]
+					.getNumber(),
 				level: row.find(".level").textContent.getNumber(),
 			}),
 			true

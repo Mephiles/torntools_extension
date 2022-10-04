@@ -40,10 +40,21 @@ body.tt-mobile .tt-item-price {
 }
 
 body.tt-tablet .tt-item-price {
-	margin-top: 12px;
+	margin-top: -1px;
 	padding-right: 5px !important;
 	float: right;
-	font-size: 11px;
+	font-size: 12px;
+}
+
+body.tt-tablet li[data-category="Primary"] .tt-item-price,
+body.tt-tablet li[data-category="Secondary"] .tt-item-price {
+	transform: translateX(-225px);
+}
+
+body.tt-tablet li[data-category="Defensive"]:not([data-group]) .tt-item-price,
+body.tt-tablet li[data-category="Defensive"][data-group="item"] .tt-item-price,
+body.tt-tablet li[data-category="Melee"] .tt-item-price {
+	transform: translateX(-155px);
 }
 
 body.tt-mobile li[data-equipped] .name-wrap {

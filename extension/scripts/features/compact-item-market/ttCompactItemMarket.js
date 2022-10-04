@@ -1,7 +1,8 @@
 "use strict";
 
 (async () => {
-	if (await checkDevice().mobile) return;
+	const devices = await checkDevice();
+	if (devices.mobile || devices.tablet) return;
 
 	featureManager.registerFeature(
 		"Compact Item Market",

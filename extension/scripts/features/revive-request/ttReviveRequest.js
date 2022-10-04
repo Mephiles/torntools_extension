@@ -1,7 +1,8 @@
 "use strict";
 
 (async () => {
-	if ((await checkDevice()).mobile) return "Not supported on mobile!";
+	const devices = await checkDevice();
+	if (devices.mobile || devices.tablet) return "Not supported on mobiles or tablets!";
 	else if (isFlying()) return;
 
 	const page = getPage();
@@ -164,16 +165,16 @@
 				}
 			} else if (provider === "hela") {
 				const response = await fetchData("hela", {
-					section: "hela/revive",
+					section: "revive",
 					method: "POST",
-					body: { TornID: id.toString(), Username: name, Source: source},
+					body: { TornID: id.toString(), Username: name, Source: source, Vendor: "HeLa" },
 					relay: true,
 					silent: true,
 					succeedOnError: true,
 				});
 
-				if (response.hasOwnProperty('contract')) {
-					displayMessage((response['contract'] ? "Contract " : "") + " Revive requested!");
+				if (response.hasOwnProperty("contract")) {
+					displayMessage((response["contract"] ? "Contract " : "") + " Revive requested!");
 				} else {
 					displayMessage("Failed to request!", true);
 					button.removeAttribute("disabled");

@@ -1,11 +1,15 @@
 "use strict";
 
-(() => {
-	document.addEventListener("click", (event) => {
-		if (event.target.classList.contains("page-number") || event.target.classList.contains("page-nb") || event.target.className.includes("pagination")) {
+window.addEventListener("hashchange", (e) => {
+	const oldHash = new URL(e.oldURL).hash || "#";
+	const newHash = new URL(e.newURL).hash || "#";
+	const oldStart = getHashParameters(oldHash).get("start");
+	const newStart = getHashParameters(newHash).get("start");
+	if (oldStart !== newStart) {
+		requireElement(".user-info-list-wrap .last .ajax-preloader").then(() => {
 			requireElement(".user-info-list-wrap .last #iconTray li").then(() => {
-				triggerCustomListener(EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE, {});
+				triggerCustomListener(EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE, null);
 			});
-		}
-	});
-})();
+		});
+	}
+});

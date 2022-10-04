@@ -30,6 +30,8 @@
 		const profitHeading = document.newElement({ type: "div", text: "Profit", class: `tt-travel-market-heading tt-title-${settings.themes.containers}` });
 		headings.insertBefore(profitHeading, headings.find(".stock-b"));
 
+		const devices = await checkDevice();
+		if (devices.mobile || devices.tablet) document.find(".travel-agency-market").classList.add("tt-travel-profits-table");
 		const rows = document.findAll(".users-list > li");
 		for (let row of rows) {
 			const id = parseInt(row.find(".details").getAttribute("itemid"));
@@ -51,6 +53,7 @@
 
 	function removeProfitsColumn() {
 		document.documentElement.classList.remove("tt-travel-profits");
+		document.find(".travel-agency-market.tt-travel-profits-table")?.classList.remove("tt-travel-profits-table");
 		document.findAll(".tt-travel-market-heading, .tt-travel-market-cell").forEach((x) => x.remove());
 	}
 })();
