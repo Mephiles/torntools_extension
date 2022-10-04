@@ -15,7 +15,7 @@
 		startFeature,
 		removeButton,
 		{
-			storage: ["settings.pages.global.reviveProvider"],
+			storage: ["settings.pages.global.reviveProvider"]
 		},
 		() => {
 			switch (settings.pages.global.reviveProvider) {
@@ -73,8 +73,11 @@
 		const button = document.newElement({
 			type: "button",
 			class: "tt-revive",
-			children: [document.newElement({ type: "i", class: "fas fa-stethoscope" }), document.newElement({ type: "span", text: "Request Revive" })],
-			events: { click: requestRevive },
+			children: [document.newElement({
+				type: "i",
+				class: "fas fa-stethoscope"
+			}), document.newElement({ type: "span", text: "Request Revive" })],
+			events: { click: requestRevive }
 		});
 
 		const parent = getParent();
@@ -119,7 +122,7 @@
 					body: { uid: id, Player: name, Faction: faction, Country: country, AppInfo: source },
 					relay: true,
 					silent: true,
-					succeedOnError: true,
+					succeedOnError: true
 				});
 
 				if (response.success) {
@@ -136,7 +139,7 @@
 					body: { userID: id, userName: name, factionName: faction, source },
 					relay: true,
 					silent: true,
-					succeedOnError: true,
+					succeedOnError: true
 				});
 
 				if (response.success) {
@@ -153,7 +156,7 @@
 					body: { userID: id, userName: name, factionName: faction, source },
 					relay: true,
 					silent: true,
-					succeedOnError: true,
+					succeedOnError: true
 				});
 
 				if (response.success) {
@@ -163,14 +166,21 @@
 					button.removeAttribute("disabled");
 					console.log("TT - Failed to request a revive with Imperium!", response);
 				}
-			} else if (provider === "hela") {
-				const response = await fetchData("hela", {
-					section: "revive",
+			} else if (provider === "hela" || provider === "vinerri") {
+				const providers = { "hela": "HeLa", "vinerri": "Vinerri" };
+				const response = await fetchData(provider, {
+					section: "request",
 					method: "POST",
-					body: { TornID: id.toString(), Username: name, Source: source, Vendor: "HeLa" },
+					body: {
+						tornid: id.toString(),
+						username: name,
+						source: source,
+						vendor: providers[provider],
+						type: "revive"
+					},
 					relay: true,
 					silent: true,
-					succeedOnError: true,
+					succeedOnError: true
 				});
 
 				if (response.hasOwnProperty("contract")) {
@@ -178,7 +188,7 @@
 				} else {
 					displayMessage("Failed to request!", true);
 					button.removeAttribute("disabled");
-					console.log("TT - Failed to request a revive with HeLa!", response);
+					console.log("TT - Failed to request a revive with " + providers[provider] + "!", response);
 				}
 			} else {
 				console.error("There was an attempt to request revives from an non-existing provider.", settings.pages.global.reviveProvider);
