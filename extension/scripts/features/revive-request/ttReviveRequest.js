@@ -15,7 +15,7 @@
 		startFeature,
 		removeButton,
 		{
-			storage: ["settings.pages.global.reviveProvider"]
+			storage: ["settings.pages.global.reviveProvider"],
 		},
 		() => {
 			switch (settings.pages.global.reviveProvider) {
@@ -73,11 +73,8 @@
 		const button = document.newElement({
 			type: "button",
 			class: "tt-revive",
-			children: [document.newElement({
-				type: "i",
-				class: "fas fa-stethoscope"
-			}), document.newElement({ type: "span", text: "Request Revive" })],
-			events: { click: requestRevive }
+			children: [document.newElement({ type: "i", class: "fas fa-stethoscope" }), document.newElement({ type: "span", text: "Request Revive" })],
+			events: { click: requestRevive },
 		});
 
 		const parent = getParent();
@@ -122,7 +119,7 @@
 					body: { uid: id, Player: name, Faction: faction, Country: country, AppInfo: source },
 					relay: true,
 					silent: true,
-					succeedOnError: true
+					succeedOnError: true,
 				});
 
 				if (response.success) {
@@ -156,7 +153,7 @@
 					body: { userID: id, userName: name, factionName: faction, source },
 					relay: true,
 					silent: true,
-					succeedOnError: true
+					succeedOnError: true,
 				});
 
 				if (response.success) {
@@ -180,7 +177,7 @@
 					},
 					relay: true,
 					silent: true,
-					succeedOnError: true
+					succeedOnError: true,
 				});
 
 				if (response.hasOwnProperty("contract")) {
