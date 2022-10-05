@@ -164,7 +164,7 @@
 					console.log("TT - Failed to request a revive with Imperium!", response);
 				}
 			} else if (provider === "hela" || provider === "vinerri") {
-				const providers = { "hela": "HeLa", "vinerri": "Vinerri" };
+				const providers = { hela: "HeLa", vinerri: "Vinerri" };
 				const response = await fetchData(provider, {
 					section: "request",
 					method: "POST",
@@ -173,7 +173,7 @@
 						username: name,
 						source: source,
 						vendor: providers[provider],
-						type: "revive"
+						type: "revive",
 					},
 					relay: true,
 					silent: true,
