@@ -14,7 +14,9 @@
 			"changes": [
 				{ "message": "Update Logistics specials wording.", "contributor": "Acarya" },
 				{ "message": "Change item price layout on tablets.", "contributor": "TheFoxMan" },
-				{ "message": "Make cooldown end times available again on mobiles & tablets.", "contributor": "TheFoxMan" }
+				{ "message": "Make cooldown end times available again on mobiles & tablets.", "contributor": "TheFoxMan" },
+				{ "message": "Allow requesting revives from Shadow Healers.", "contributor": "Lazerpent" },
+				{ "message": "Update HeLa revive request script.", "contributor": "Lazerpent" }
 			],
 			"removed": []
 		}
@@ -80,7 +82,7 @@
 				{ "message": "Rename TCB to TCI.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't duplicate url entries when copying forum posts for Discord.", "contributor": "DeKleineKobini" },
 				{ "message": "Add compatability with the faction stats script for the ranked war filter.", "contributor": "DeKleineKobini" },
-				{ "message": "Allow requesting revives from HeLa", "contributor": "dat-mule" },
+				{ "message": "Allow requesting revives from HeLa.", "contributor": "dat-mule" },
 				{ "message": "Allow disabling notifications without removing timer numbers.", "contributor": "josephting" }
 			]
 		}
