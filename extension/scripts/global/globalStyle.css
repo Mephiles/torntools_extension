@@ -135,149 +135,161 @@
  */
 
 #tt-page-status {
-	padding: 7px 14px;
-	width: 150px;
-	border-radius: 10px;
+	top: 5px;
+	right: calc((100vw - 976px) / 2 - 50px);
+	position: absolute;
 	z-index: 5;
-	overflow: auto;
+	overflow: hidden;
 }
 
-body:not(.dark-mode) #tt-page-status {
+:is(body.tt-mobile, body.tt-tablet) #tt-page-status {
+	pointer-events: none; /* Used to prevent sticky on mobiles & tablets */
+	top: 0;
+	left: 33vw;
+	right: unset;
+	z-index: 99999;
+}
+
+#tt-page-status button {
+	cursor: pointer;
+}
+
+#tt-page-status > div:first-child {
+	text-align: right;
+}
+
+:is(body.tt-mobile, body.tt-tablet) #tt-page-status > div:first-child {
+	text-align: left;
+}
+
+/* Used to prevent sticky on mobiles & tablets */
+:is(body.tt-mobile, body.tt-tablet) #tt-page-status > div > * {
+	pointer-events: all;
+}
+
+#tt-page-status button {
+    width: 38px;
+    height: 38px;
+	background-size: contain;
+}
+
+#tt-page-status .tt-features-list {
+	min-height: fit-content;
+	max-height: 82vh;
+	width: fit-content;
+	padding: 0 12.5px 12.5px 12.5px;
+    border-radius: 15px 0 15px 15px;
 	background-color: #fff;
 	border: 1px solid lightgray;
+	display: none;
+	overflow: hidden auto;
 }
 
-body.dark-mode #tt-page-status {
+body.dark-mode #tt-page-status .tt-features-list {
 	background-color: #333;
 	border: 1px solid #444;
 }
 
-#tt-page-status.top-left,
-#tt-page-status.top-right {
-	position: fixed;
-	transition: top 1s;
+:is(body.tt-mobile, body.tt-tablet) #tt-page-status .tt-features-list {
+	height: fit-content;
+	border-radius: 0 15px 15px 15px;
 }
 
-#tt-page-status.top-left {
-	left: 16px;
+/* Show error count, if any */
+#tt-page-status:not([error-count="0"])::before {
+    top: 3px;
+    right: 1px;
+    position: absolute;
+    padding: 2px 4px;
+    background-color: #d90000;
+    content: attr(error-count);
+    border-radius: 100%;
 }
 
-#tt-page-status.top-right {
-	right: 16px;
-}
-
-body:not(.scrolled) #tt-page-status.top-left,
-body:not(.scrolled) #tt-page-status.top-right {
-	top: 90px;
-	max-height: calc(100% - 60px - 90px);
-}
-
-body.scrolled #tt-page-status.top-left,
-body.scrolled #tt-page-status.top-right {
-	top: 16px;
-	max-height: calc(100% - 60px - 16px);
-}
-
-#tt-page-status.bottom-left,
-#tt-page-status.bottom-right {
-	position: fixed;
-	bottom: 50px;
-}
-
-body:not(.scrolled) #tt-page-status.bottom-left,
-body:not(.scrolled) #tt-page-status.bottom-right {
-	max-height: calc(100vh - 100px - 50px);
-}
-
-body.scrolled #tt-page-status.bottom-left,
-body.scrolled #tt-page-status.bottom-right {
-	max-height: calc(100vh - 50px - 50px);
-}
-
-#tt-page-status.bottom-left {
-	left: 16px;
-}
-
-#tt-page-status.bottom-right {
-	right: 16px;
-}
-
-#tt-page-status.only-fails .tt-page-status-feature:not(.features-list):not(.failed),
-#tt-page-status.hide-disabled .tt-page-status-feature.disabled,
-.tt-page-status-header.collapsed + .tt-page-status-content {
+/* Hide disabled && Show failed only */
+#tt-page-status.hide-disabled .tt-features-list .tt-feature[status="disabled"],
+#tt-page-status.only-fails .tt-features-list .tt-feature:not([status="failed"]) {
 	display: none;
 }
 
-.tt-page-status-header {
+/* When all scopes are hidden */
+#tt-page-status.no-content .tt-features-list::before {
+    display: inline-block;
+    padding: 15px 15px 5px 15px;
+    font-size: 14px;
+    content: "No features to show.";
+}
+
+/* Open features list when focused(PC) or hover(mobiles & tablets) */
+#tt-page-status.open .tt-features-list {
+	display: block;
+}
+
+/* Error messages styles */
+#tt-page-status .error-messages:not(:empty)::before {
+    content: "Errors";
+    display: block;
+    margin: 10px 0;
+    color: red;
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 5px solid red;
+}
+
+#tt-page-status .error-messages:not(:empty) .error .name {
+    margin-top: 5px;
+    font-weight: bold;
+    background: #ff3e00;
+}
+
+/* Using JS due to usability issues on mobiles & tablets
+
+#tt-page-status:focus-within .tt-features-list {
+	display: block;
+}
+
+:is(body.tt-mobile, body.tt-tablet) #tt-page-status:hover .tt-features-list {
+	display: block;
+} */
+
+/* General padding for icons & features  */
+#tt-page-status .tt-features-list div[scope] > div:first-child {
 	border-bottom: 2px solid lightgray;
 	font-weight: bold;
+	padding-bottom: 2.5px;
+	margin-top: 5px;
 	margin-bottom: 5px;
-	display: inline-flex;
-	width: 100%;
-	cursor: pointer;
-}
-
-.tt-page-status-header.collapsed {
-	border-bottom: none;
-	margin-bottom: 0;
-}
-
-.tt-page-status-header.collapsed i {
-	transform: rotate(-90deg);
-}
-
-.tt-page-status-header span {
-	width: 100%;
-}
-
-.tt-page-status-scope-heading {
-	display: flex;
 	text-align: center;
 	font-style: italic;
-	margin-bottom: 3px;
 }
 
-.tt-page-status-scope-heading > span {
-	width: 100%;
+#tt-page-status .tt-features-list .tt-feature {
+	margin-bottom: 1px;
 }
 
-.tt-page-status-content .collapsed[id*="scope-"] .tt-page-status-scope-heading .icon {
-	transform: rotate(270deg);
-}
-
-.tt-page-status-content .collapsed[id*="scope-"] .features-list {
-	display: none;
-}
-
-.tt-page-status-feature {
-	padding: 1px 0;
-}
-
-.tt-page-status-feature-icon i {
+#tt-page-status .tt-features-list .tt-feature i {
 	margin-right: 3px;
 }
 
-.tt-page-status-feature.disabled i {
+/* Colors of feature status icons  */
+#tt-page-status .tt-features-list .tt-feature[status="disabled"] i {
 	color: var(--tt-color-orange);
 }
 
-.tt-page-status-feature.failed i {
+#tt-page-status .tt-features-list .tt-feature[status="failed"] i {
 	color: var(--tt-color-red);
 }
 
-.tt-page-status-feature.loaded i {
+#tt-page-status .tt-features-list .tt-feature[status="loaded"] i {
 	color: var(--tt-color-green);
 }
 
-.tt-page-status-feature.information i {
+#tt-page-status .tt-features-list .tt-feature[status="information"] i {
 	color: var(--tt-color-blue);
 }
 
-#tt-page-status.no-content {
-	display: none;
-}
-
-#tt-page-status .no-content {
+#tt-page-status div[scope].no-content {
 	display: none;
 }
 

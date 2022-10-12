@@ -1,5 +1,6 @@
 class FeatureManager {
 	constructor() {
+		this.logPadding = "[TornTools] FeatureManager - ";
 		this.containerID = "tt-page-status";
 		this.container = null;
 		this.features = [];
@@ -7,6 +8,7 @@ class FeatureManager {
 
 		this.popupLoaded = false;
 		this.resultQueue = [];
+		this.errorCount = 0;
 
 		this.isDisconnected = false;
 		this.port = chrome.runtime.connect({ name: "status-check" });
@@ -14,9 +16,41 @@ class FeatureManager {
 			this.features.forEach((feature) => this.executeFunction(feature.cleanup));
 			this.isDisconnected = true;
 		});
-		this.log = async (params, error) => {
-			if (error) console.error(...params);
-			else console.log(...params);
+		this.logInfo = async (...params) => {
+			params[0] = this.logPadding + params[0];
+			console.log(...params);
+		};
+		this.logError = async (info, error) => {
+			this.errorCount = this.errorCount + 1;
+			if (Array.isArray(info)) {
+				info[0] = this.logPadding + info[0];
+			} else {
+				info = [this.logPadding + info];
+			}
+			info.push(error.stack);
+			console.error(...info);
+			// this.container.find(".error-messages")
+			/*
+			<div class="error-messages">
+				<div class="error">
+					<div class="name">Uncaught Error: Error Name.</div>
+					<pre class="stack">	at sample.js:90
+						at otherSample.js:100
+					</pre>
+				</div>
+			</div>*/
+			if (this.errorCount > 25) this.container.setAttribute("error-count", "25+");
+			else {
+				this.container.setAttribute("error-count", this.errorCount);
+				this.container.find(".error-messages").appendChild(document.newElement({
+					type: "div",
+					class: "error",
+					children: [
+						document.newElement({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
+						document.newElement({ type: "pre", class: "stack", text: error.stack })
+					]
+				}));
+			}
 		};
 	}
 
@@ -42,10 +76,10 @@ class FeatureManager {
 			options,
 		};
 
-		this.log(["[TornTools] FeatureManager - Registered new feature.", newFeature]).then(() => {});
+		this.logInfo("Registered new feature.", newFeature).then(() => {});
 		this.features.push(newFeature);
 
-		this.startFeature(newFeature).catch((error) => this.log([`[TornTools] FeatureManager - Failed to start "${name}".`, error], true));
+		this.startFeature(newFeature).catch((error) => this.logError(`Failed to start "${name}".`, error));
 		this.startLoadListeners(newFeature);
 
 		return newFeature;
@@ -66,11 +100,11 @@ class FeatureManager {
 		}
 
 		if (feature.hasLoaded && getValue(feature.enabled)) {
-			this.executeFunction(initialise).catch(() => {});
-			this.executeFunction(execute).catch(() => {});
+			this.executeFunction(initialise).catch((error) => this.logError(`Failed to (adjust)initialise "${name}".`, error));
+			this.executeFunction(execute).catch((error) => this.logError(`Failed to (adjust)start "${name}".`, error));
 		}
 
-		this.log(["[TornTools] FeatureManager - Adjusted feature.", feature]).then(() => {});
+		this.logInfo("Adjusted feature.", feature).then(() => {});
 		return feature;
 	}
 
@@ -82,12 +116,12 @@ class FeatureManager {
 		await loadDatabase();
 		try {
 			if (getValue(feature.enabled)) {
-				this.log(["[TornTools] FeatureManager - Starting feature.", feature]).then(() => {});
+				this.logInfo("Starting feature.", feature).then(() => {});
 				if ("requirements" in feature) {
 					const requirements = await getValueAsync(feature.requirements);
 
 					if (typeof requirements === "string") {
-						await this.executeFunction(feature.cleanup).catch(() => {});
+						await this.executeFunction(feature.cleanup).catch((error) => this.logError(`Failed to (string requirements)cleanup "${feature.name}".`, error));
 
 						this.showResult(feature, "information", { message: requirements });
 						return;
@@ -111,9 +145,7 @@ class FeatureManager {
 				}
 			} else {
 				if (feature.hasLoaded) {
-					this.log(["[TornTools] FeatureManager - Disabling feature.", feature])
-						.then(() => {})
-						.then(() => {});
+					this.logInfo("Disabling feature.", feature).then(() => {});
 					await this.executeFunction(feature.cleanup);
 					if (feature.options.triggerCallback) {
 						triggerCustomListener(EVENT_CHANNELS.FEATURE_DISABLED, { name: feature.name });
@@ -123,10 +155,10 @@ class FeatureManager {
 				this.showResult(feature, "disabled");
 			}
 		} catch (error) {
-			await this.executeFunction(feature.cleanup).catch(() => {});
+			await this.executeFunction(feature.cleanup).catch((error) => this.logError(`Failed to cleanup in a failed start of "${name}".`, error));
 
 			this.showResult(feature, "failed");
-			this.log([`[TornTools] FeatureManager - Failed to start "${feature.name}".`, error], true).then(() => {});
+			this.logError(`Failed to start "${feature.name}".`, error).then(() => {});
 		}
 		feature.hasLoaded = true;
 	}
@@ -168,7 +200,7 @@ class FeatureManager {
 						return;
 
 					this.startFeature(feature, "liveReload").catch((error) =>
-						this.log([`[TornTools] FeatureManager - Failed to start "${feature.name}" during live reload.`, error], true)
+						this.logError(`Failed to start "${feature.name}" during live reload.`, error)
 					);
 				});
 			}
@@ -208,87 +240,63 @@ class FeatureManager {
 		}
 
 		new Promise(async (resolve) => {
-			const devices = await checkDevice();
-			if (devices.mobile || devices.tablet) return resolve();
-
-			let row = this.container.find(`#tt-page-status-feature-${feature.name.toLowerCase().replaceAll(" ", "-")}`);
+			let row = this.container.find(`[feature-name*="${feature.name}"]`);
 			if (row) {
-				row.setClass(`tt-page-status-feature ${status}`);
-				row.find(".tt-page-status-feature-icon i").setClass(`fas ${getIcon()}`);
-				if (options.message) row.find(".tt-page-status-feature-icon i").setAttribute("title", options.message);
+				row.setAttribute("status", status);
+
+				const statusIcon = row.find("i")
+				statusIcon.setClass(getIconClass(status));
+
+				if (options.message) statusIcon.setAttribute("title", options.message);
 			} else {
 				row = document.newElement({
 					type: "div",
-					class: `tt-page-status-feature ${status}`,
-					id: `tt-page-status-feature-${feature.name.toLowerCase().replaceAll(" ", "-")}`,
+					class: "tt-feature",
+					attributes: { "feature-name": feature.name, status: status },
 					children: [
 						document.newElement({
-							type: "span",
-							class: "tt-page-status-feature-icon",
-							children: [document.newElement({ type: "i", class: `fas ${getIcon()}` })],
+							type: "i",
+							class: getIconClass(status),
+							...(options.message
+							    ? { attributes: { title: options.message } }
+							    : {})
 						}),
-						document.newElement({ type: "span", class: "tt-page-status-feature-icon", text: feature.name }),
-					],
-					attributes: () => {
-						if (options.message) return { title: options.message };
-						else return false;
-					},
+						document.newElement({ type: "span", text: feature.name })
+					]
 				});
 
-				let scopeElement = this.container.find(`.tt-page-status-content #scope-${feature.scope.toLowerCase().replaceAll(" ", "_")}`);
-				if (!scopeElement) {
-					const scopeHeading = document.newElement({
+				let scopeEl = this.container.find(`[scope*="${feature.scope}"]`);
+				if (!scopeEl) {
+					scopeEl = document.newElement({
 						type: "div",
-						class: "tt-page-status-scope-heading",
+						attributes: { scope: feature.scope },
 						children: [
-							document.newElement({ type: "span", text: `— ${feature.scope} —` }),
-							document.newElement({ type: "i", class: "icon fas fa-caret-down" }),
-						],
+							document.newElement({ type: "div", text: `— ${feature.scope} —` })
+						]
 					});
-					scopeElement = document.newElement({
-						type: "div",
-						id: "scope-" + feature.scope.toLowerCase().replaceAll(" ", "_"),
-						children: [scopeHeading],
-					});
-					scopeHeading.addEventListener("click", async (event) => {
-						const scopeElementLocal = event.target.closest("[id*='scope-']");
-						const addedOrRemoved = scopeElementLocal.classList.toggle("collapsed");
-						const closedScopes = (await ttStorage.get("filters")).closedScopes;
-						if (addedOrRemoved) closedScopes.push(scopeElementLocal.getAttribute("id").split("scope-")[1].replaceAll("_", " "));
-						else {
-							const index = closedScopes.indexOf(scopeElementLocal.getAttribute("id").split("scope-")[1].replaceAll("_", " "));
-							if (index !== -1) {
-								closedScopes.splice(index, 1);
-							}
-						}
-						await ttStorage.change({ filters: { closedScopes: [...new Set(closedScopes)] } });
-					});
-					this.container.find(".tt-page-status-content").appendChild(scopeElement);
-					scopeElement.appendChild(
-						document.newElement({
-							type: "div",
-							class: "tt-page-status-feature features-list",
-						})
-					);
+					this.container.find(".tt-features-list").appendChild(scopeEl);
 				}
-				scopeElement.find(":scope > .features-list").appendChild(row);
+				scopeEl.appendChild(row);
 			}
-
-			await this.checkScopes();
+			this.hideEmptyScopes();
 		}).catch((error) => {
-			this.log([`[TornTools] FeatureManager - Couldn't log result for ${feature.name}`, error, options], true).then(() => {});
+			this.logError(`Couldn't log result for ${feature.name}: ${JSON.stringify(options)}`, error).then(() => {});
 		});
 
-		function getIcon() {
+		function getIconClass(status) {
+			let className = "fas ";
 			switch (status) {
 				case "disabled":
 				case "failed":
-					return "fa-times-circle";
+					className += "fa-times-circle";
+					break;
 				case "loaded":
-					return "fa-check";
+					className += "fa-check";
+					break;
 				default:
-					return "fa-question-circle";
+					className += "fa-question-circle";
 			}
+			return className;
 		}
 	}
 
@@ -297,80 +305,70 @@ class FeatureManager {
 
 		this.container.setClass(
 			settings.featureDisplay ? "" : "tt-hidden",
-			settings.featureDisplayPosition,
 			settings.featureDisplayOnlyFailed ? "only-fails" : "",
 			settings.featureDisplayHideDisabled ? "hide-disabled" : ""
 		);
-		this.checkScopes().then(() => {});
+		this.hideEmptyScopes();
 	}
 
 	async createPopup() {
 		await loadDatabase();
-		const devices = await checkDevice();
-		if (devices.mobile || devices.tablet) return; // TODO: Wait for the future.
 
-		const collapsed = this.containerID in filters.containers ? filters.containers[this.containerID] : false;
-
-		const popupHeader = document.newElement({
+		const popup = document.newElement({
 			type: "div",
-			class: `tt-page-status-header ${collapsed ? "collapsed" : ""}`,
-			children: [document.newElement({ type: "span", text: "TornTools activated" }), document.newElement({ type: "i", class: "icon fas fa-caret-down" })],
-		});
-		const container = document.newElement({
 			id: this.containerID,
-			type: "div",
-			class: `
-				${settings.featureDisplay ? "" : "tt-hidden"}
-				${settings.featureDisplayPosition} 
-				${settings.featureDisplayOnlyFailed ? "only-fails" : ""}
-				${settings.featureDisplayHideDisabled ? "hide-disabled" : ""}
-			`,
-			children: [popupHeader, document.newElement({ type: "div", class: "tt-page-status-content" })],
+			attributes: {
+				tabindex: 0, // To make :focus-within working on div elements
+				"error-count": 0
+			},
+			children: [
+				document.newElement({
+					type: "div",
+					children: [
+						document.newElement({
+							type: "button",
+							style: { "background-image": `url(${chrome.runtime.getURL("resources/images/icon_128.png")})` },
+							events: {
+								click: (e) => {
+									const title = e.target.matches(`#${this.containerID}`) ? e.target : e.target.closest(`#${this.containerID}`);
+									title.classList.toggle("open");
+								}
+							}
+						}),
+					]
+				}),
+				document.newElement({
+					type: "div",
+					class: "tt-features-list",
+					children: [
+						document.newElement({ type: "div", class: "error-messages" })
+					]
+				})
+			]
 		});
-		document.body.appendChild(container);
-		this.container = container;
-
-		popupHeader.onclick = (event) => {
-			const toggleResult = event.currentTarget.classList.toggle("collapsed");
-			ttStorage.change({ filters: { containers: { [this.containerID]: toggleResult } } });
-		};
+		document.body.appendChild(popup);
+		this.container = popup;
 
 		this.popupLoaded = true;
+		this.display();
 
 		for (const item of this.resultQueue) {
 			const [feature, status, options] = item;
 			this.showResult(feature, status, options);
 		}
-		await this.checkScopes();
 	}
 
-	async checkScopes() {
+	hideEmptyScopes() {
 		if (!settings.featureDisplay) return;
-		let hasContent = false;
-		for (const scope of this.container.findAll(".tt-page-status-content > div")) {
-			const isEmpty =
-				settings.featureDisplayOnlyFailed || settings.featureDisplayHideDisabled
-					? [...scope.findAll(".tt-page-status-feature:not(.features-list)")].every(
-							(element) =>
-								(settings.featureDisplayOnlyFailed && !element.classList.contains("failed")) ||
-								(settings.featureDisplayHideDisabled && !element.classList.contains("disabled"))
-					  )
-					: false;
 
-			if (isEmpty) {
-				scope.classList.add("no-content");
-			} else {
-				scope.classList.remove("no-content");
-				hasContent = true;
-			}
-		}
-
-		this.container.classList[hasContent ? "remove" : "add"]("no-content");
-
-		for (const scope of (await ttStorage.get("filters")).closedScopes) {
-			const scopeElement = this.container.find(`.tt-page-status-content > [id*="${scope.replaceAll(" ", "_")}"]`);
-			if (scopeElement && !scopeElement.find(":scope > .features-list > .failed")) scopeElement.classList.add("collapsed");
-		}
+		this.container.findAll(".tt-features-list > div[scope]").forEach(scopeDiv => {
+			let hideScope = false;
+			if (settings.featureDisplayOnlyFailed && scopeDiv.findAll(":scope > .tt-feature[status*='failed']").length === 0) hideScope = true;
+			if (settings.featureDisplayHideDisabled && scopeDiv.findAll(":scope > .tt-feature:not([status*='disabled'])").length === 0) hideScope = true;
+			scopeDiv.classList[hideScope ? "add" : "remove"]("no-content");
+		});
+		if (!this.container.find(".tt-features-list > div[scope]:not(.no-content)")) this.container.classList.add("no-content");
+		else this.container.classList.remove("no-content");
 	}
 }
 

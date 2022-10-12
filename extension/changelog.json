@@ -12,6 +12,7 @@
 				{ "message": "Fix travel table faction perks not being counted.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
+				{ "message": "Switch feature manager popup to new layout.", "contributor": "TheFoxMan" },
 				{ "message": "Update Logistics specials wording.", "contributor": "Acarya" },
 				{ "message": "Change item price layout on tablets.", "contributor": "TheFoxMan" },
 				{ "message": "Make cooldown end times available again on mobiles & tablets.", "contributor": "TheFoxMan" },
