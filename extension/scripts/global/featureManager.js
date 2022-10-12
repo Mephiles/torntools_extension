@@ -42,14 +42,16 @@ class FeatureManager {
 			if (this.errorCount > 25) this.container.setAttribute("error-count", "25+");
 			else {
 				this.container.setAttribute("error-count", this.errorCount);
-				this.container.find(".error-messages").appendChild(document.newElement({
-					type: "div",
-					class: "error",
-					children: [
-						document.newElement({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
-						document.newElement({ type: "pre", class: "stack", text: error.stack })
-					]
-				}));
+				this.container.find(".error-messages").appendChild(
+					document.newElement({
+						type: "div",
+						class: "error",
+						children: [
+							document.newElement({ type: "div", class: "name", text: `${error.name}: ${error.message}` }),
+							document.newElement({ type: "pre", class: "stack", text: error.stack }),
+						],
+					})
+				);
 			}
 		};
 	}
@@ -121,7 +123,9 @@ class FeatureManager {
 					const requirements = await getValueAsync(feature.requirements);
 
 					if (typeof requirements === "string") {
-						await this.executeFunction(feature.cleanup).catch((error) => this.logError(`Failed to (string requirements)cleanup "${feature.name}".`, error));
+						await this.executeFunction(feature.cleanup).catch((error) =>
+							this.logError(`Failed to (string requirements)cleanup "${feature.name}".`, error)
+						);
 
 						this.showResult(feature, "information", { message: requirements });
 						return;
@@ -199,9 +203,7 @@ class FeatureManager {
 					)
 						return;
 
-					this.startFeature(feature, "liveReload").catch((error) =>
-						this.logError(`Failed to start "${feature.name}" during live reload.`, error)
-					);
+					this.startFeature(feature, "liveReload").catch((error) => this.logError(`Failed to start "${feature.name}" during live reload.`, error));
 				});
 			}
 		}
@@ -244,7 +246,7 @@ class FeatureManager {
 			if (row) {
 				row.setAttribute("status", status);
 
-				const statusIcon = row.find("i")
+				const statusIcon = row.find("i");
 				statusIcon.setClass(getIconClass(status));
 
 				if (options.message) statusIcon.setAttribute("title", options.message);
@@ -257,12 +259,10 @@ class FeatureManager {
 						document.newElement({
 							type: "i",
 							class: getIconClass(status),
-							...(options.message
-							    ? { attributes: { title: options.message } }
-							    : {})
+							...(options.message ? { attributes: { title: options.message } } : {}),
 						}),
-						document.newElement({ type: "span", text: feature.name })
-					]
+						document.newElement({ type: "span", text: feature.name }),
+					],
 				});
 
 				let scopeEl = this.container.find(`[scope*="${feature.scope}"]`);
@@ -270,9 +270,7 @@ class FeatureManager {
 					scopeEl = document.newElement({
 						type: "div",
 						attributes: { scope: feature.scope },
-						children: [
-							document.newElement({ type: "div", text: `— ${feature.scope} —` })
-						]
+						children: [document.newElement({ type: "div", text: `— ${feature.scope} —` })],
 					});
 					this.container.find(".tt-features-list").appendChild(scopeEl);
 				}
@@ -319,7 +317,7 @@ class FeatureManager {
 			id: this.containerID,
 			attributes: {
 				tabindex: 0, // To make :focus-within working on div elements
-				"error-count": 0
+				"error-count": 0,
 			},
 			children: [
 				document.newElement({
@@ -332,19 +330,17 @@ class FeatureManager {
 								click: (e) => {
 									const title = e.target.matches(`#${this.containerID}`) ? e.target : e.target.closest(`#${this.containerID}`);
 									title.classList.toggle("open");
-								}
-							}
+								},
+							},
 						}),
-					]
+					],
 				}),
 				document.newElement({
 					type: "div",
 					class: "tt-features-list",
-					children: [
-						document.newElement({ type: "div", class: "error-messages" })
-					]
-				})
-			]
+					children: [document.newElement({ type: "div", class: "error-messages" })],
+				}),
+			],
 		});
 		document.body.appendChild(popup);
 		this.container = popup;
@@ -361,7 +357,7 @@ class FeatureManager {
 	hideEmptyScopes() {
 		if (!settings.featureDisplay) return;
 
-		this.container.findAll(".tt-features-list > div[scope]").forEach(scopeDiv => {
+		this.container.findAll(".tt-features-list > div[scope]").forEach((scopeDiv) => {
 			let hideScope = false;
 			if (settings.featureDisplayOnlyFailed && scopeDiv.findAll(":scope > .tt-feature[status*='failed']").length === 0) hideScope = true;
 			if (settings.featureDisplayHideDisabled && scopeDiv.findAll(":scope > .tt-feature:not([status*='disabled'])").length === 0) hideScope = true;

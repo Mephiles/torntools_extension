@@ -168,8 +168,8 @@
 }
 
 #tt-page-status button {
-    width: 38px;
-    height: 38px;
+	width: 38px;
+	height: 38px;
 	background-size: contain;
 }
 
@@ -178,7 +178,7 @@
 	max-height: 82vh;
 	width: fit-content;
 	padding: 0 12.5px 12.5px 12.5px;
-    border-radius: 15px 0 15px 15px;
+	border-radius: 15px 0 15px 15px;
 	background-color: #fff;
 	border: 1px solid lightgray;
 	display: none;
@@ -197,13 +197,13 @@ body.dark-mode #tt-page-status .tt-features-list {
 
 /* Show error count, if any */
 #tt-page-status:not([error-count="0"])::before {
-    top: 3px;
-    right: 1px;
-    position: absolute;
-    padding: 2px 4px;
-    background-color: #d90000;
-    content: attr(error-count);
-    border-radius: 100%;
+	top: 3px;
+	right: 1px;
+	position: absolute;
+	padding: 2px 4px;
+	background-color: #d90000;
+	content: attr(error-count);
+	border-radius: 100%;
 }
 
 /* Hide disabled && Show failed only */
@@ -214,10 +214,10 @@ body.dark-mode #tt-page-status .tt-features-list {
 
 /* When all scopes are hidden */
 #tt-page-status.no-content .tt-features-list::before {
-    display: inline-block;
-    padding: 15px 15px 5px 15px;
-    font-size: 14px;
-    content: "No features to show.";
+	display: inline-block;
+	padding: 15px 15px 5px 15px;
+	font-size: 14px;
+	content: "No features to show.";
 }
 
 /* Open features list when focused(PC) or hover(mobiles & tablets) */
@@ -227,20 +227,20 @@ body.dark-mode #tt-page-status .tt-features-list {
 
 /* Error messages styles */
 #tt-page-status .error-messages:not(:empty)::before {
-    content: "Errors";
-    display: block;
-    margin: 10px 0;
-    color: red;
-    font-size: 16px;
-    text-align: center;
-    font-weight: bold;
-    border-bottom: 5px solid red;
+	content: "Errors";
+	display: block;
+	margin: 10px 0;
+	color: red;
+	font-size: 16px;
+	text-align: center;
+	font-weight: bold;
+	border-bottom: 5px solid red;
 }
 
 #tt-page-status .error-messages:not(:empty) .error .name {
-    margin-top: 5px;
-    font-weight: bold;
-    background: #ff3e00;
+	margin-top: 5px;
+	font-weight: bold;
+	background: #ff3e00;
 }
 
 /* Using JS due to usability issues on mobiles & tablets
