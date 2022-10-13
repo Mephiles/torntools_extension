@@ -18,7 +18,8 @@
 				{ "message": "Change item price layout on tablets.", "contributor": "TheFoxMan" },
 				{ "message": "Make cooldown end times available again on mobiles & tablets.", "contributor": "TheFoxMan" },
 				{ "message": "Allow requesting revives from Shadow Healers.", "contributor": "Lazerpent" },
-				{ "message": "Update HeLa revive request script.", "contributor": "Lazerpent" }
+				{ "message": "Update HeLa revive request script.", "contributor": "Lazerpent" },
+				{ "message": "Message on force update.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
