@@ -1,5 +1,6 @@
 .tt-align-left .container {
 	margin-left: 20px !important;
+	justify-content: flex-start !important;
 }
 
 .tt-align-left.tt-popout .content-wrapper[role="main"] {
