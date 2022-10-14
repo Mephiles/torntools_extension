@@ -41,7 +41,7 @@
 						children: [
 							document.newElement({
 								type: "a",
-								href: chrome.runtime.getURL("/pages/settings/settings.html"),
+								href: chrome.runtime.getURL("/pages/settings/settings.html") + "?page=changelog",
 								attributes: { target: "_blank" },
 								children: [document.newElement({ type: "span", text: `TornTools updated: ${currentVersion}` })],
 							}),
