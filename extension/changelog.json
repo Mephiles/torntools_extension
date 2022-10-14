@@ -1,9 +1,14 @@
 [
 	{
-		"version": { "major": 6, "minor": 9, "build": 1 },
+		"version": { "major": 6, "minor": 10, "build": 0 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 9, "build": 1 },
+		"date": "2022/10/14",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{ "message": "Fix stakeouts reset accidentally causing settings reset.", "contributor": "TheFoxMan" },
 				{ "message": "Fix education notification issue.", "contributor": "DeKleineKobini" },
@@ -19,8 +24,7 @@
 				{ "message": "Allow requesting revives from Shadow Healers.", "contributor": "Lazerpent" },
 				{ "message": "Update HeLa revive request script.", "contributor": "Lazerpent" },
 				{ "message": "Message on force update.", "contributor": "DeKleineKobini" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
