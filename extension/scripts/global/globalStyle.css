@@ -150,6 +150,10 @@
 	z-index: 99999;
 }
 
+.tt-align-left #tt-page-status {
+	right: calc(100vw - 996px - 50px);
+}
+
 #tt-page-status button {
 	cursor: pointer;
 }
