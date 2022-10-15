@@ -1,8 +1,14 @@
 [
 	{
-		"version": { "major": 6, "minor": 9, "build": 2 },
+		"version": { "major": 6, "minor": 10, "build": 0 },
+		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [{ "message": "Fix left align on attack pages.", "contributor": "DeKleineKobini" }], "changes": [], "removed": [] }
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 9, "build": 2 },
+		"date": "2022/10/15",
+		"logs": { "fixes": [{ "message": "Fix left align on attack pages.", "contributor": "DeKleineKobini" }] }
 	},
 	{
 		"version": { "major": 6, "minor": 9, "build": 1 },
