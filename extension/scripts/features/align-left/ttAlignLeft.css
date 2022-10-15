@@ -6,3 +6,7 @@
 .tt-align-left.tt-popout .content-wrapper[role="main"] {
 	margin-left: 0 !important;
 }
+
+.tt-align-left .without-sidebar #mainContainer .content-wrapper {
+    margin-left: 20px;
+}
