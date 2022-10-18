@@ -26,7 +26,7 @@
 		const index = currentGym.id.split("-")[1] - 2;
 		const percentage = currentGym.find("[class*='percentage_']").textContent.getNumber();
 		let goal = gymGoals[index];
-		if (userdata.job_perks.some((perk) => perk.indexOf("increased gym experience") > -1)) goal = goal / 1.3;
+		if (userdata.job_perks.some((perk) => perk.includes("gym experience"))) goal = goal / 1.3;
 
 		const stat = (goal * (percentage / 100)).dropDecimals();
 		if (!stat || !goal) return;
