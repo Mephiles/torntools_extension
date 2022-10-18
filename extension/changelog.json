@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Fix gym progress not taking the clothes store special into account anymore.", "contributor": "DeKleineKobini" }],
+			"fixes": [{ "message": "Fix gym progress not taking the music store special into account anymore.", "contributor": "DeKleineKobini" }],
 			"changes": [],
 			"removed": []
 		}
