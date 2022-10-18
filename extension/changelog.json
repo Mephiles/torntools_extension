@@ -3,7 +3,12 @@
 		"version": { "major": 6, "minor": 10, "build": 0 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [{ "message": "Fix gym progress not taking the clothes store special into account anymore.", "contributor": "DeKleineKobini" }], "changes": [], "removed": [] }
+		"logs": {
+			"features": [],
+			"fixes": [{ "message": "Fix gym progress not taking the clothes store special into account anymore.", "contributor": "DeKleineKobini" }],
+			"changes": [],
+			"removed": []
+		}
 	},
 	{
 		"version": { "major": 6, "minor": 9, "build": 2 },
