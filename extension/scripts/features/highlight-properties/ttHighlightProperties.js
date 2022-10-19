@@ -26,7 +26,13 @@
 	async function addHighlight() {
 		await requireSidebar();
 
-		if (Math.abs(userdata.networth.unpaidfees) >= settings.pages.sidebar.upkeepPropHighlight) document.find("#nav-properties").classList.add("tt-upkeep");
+		if (Math.abs(userdata.networth.unpaidfees) >= settings.pages.sidebar.upkeepPropHighlight) {
+			const navProperties = document.find("#nav-properties");
+
+			if (navProperties) {
+				navProperties.classList.add("tt-upkeep");
+			}
+		}
 	}
 
 	function removeHighlight() {
