@@ -29,9 +29,9 @@
 		if (Math.abs(userdata.networth.unpaidfees) >= settings.pages.sidebar.upkeepPropHighlight) {
 			const navProperties = document.find("#nav-properties");
 
-			if (navProperties) {
-				navProperties.classList.add("tt-upkeep");
-			}
+			if (!navProperties) return;
+
+			navProperties.classList.add("tt-upkeep");
 		}
 	}
 
