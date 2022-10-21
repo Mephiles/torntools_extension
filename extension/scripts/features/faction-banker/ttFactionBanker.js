@@ -23,7 +23,7 @@
 		CUSTOM_LISTENERS[EVENT_CHANNELS.FACTION_GIVE_TO_USER].push(() => {
 			if (!feature.enabled()) return;
 
-			showHelper();
+			showBalance();
 		});
 	}
 
@@ -44,9 +44,11 @@
 		const input = document.find("#money-user");
 		if (!input) return;
 
+		const label = document.find(".select-wrap .placeholder");
+
 		const user = input.value.match(/(.*) \[(\d*)]/i);
 		if (!user) {
-			document.find("label[for='money-user']").textContent = "Select player: ";
+			label.textContent = "Select player: ";
 			return;
 		}
 
@@ -54,7 +56,7 @@
 		const balance =
 			parseInt(document.find(`.depositor .user.name[href='/profiles.php?XID=${user[2]}']`).parentElement.find(".amount .money").dataset.value) || 0;
 
-		document.find("label[for='money-user']").textContent = `${name} has a balance of $${formatNumber(balance, { decimals: 0 })}`;
+		label.textContent = `${name} has a balance of $${formatNumber(balance, { decimals: 0 })}`;
 	}
 
 	function removeHelper() {
