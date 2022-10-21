@@ -70,8 +70,8 @@
 
 		["change", "paste", "keyup", "select", "focus", "input"].forEach((event) => input.removeEventListener(event, showBalance));
 		document.find("#money-user-cont").removeEventListener("click", showBalance);
-		if (typeof originalText === "string"){
-			document.find(".select-wrap .placeholder").textContent = originalText
+		if (typeof originalText === "string") {
+			document.find(".select-wrap .placeholder").textContent = originalText;
 		}
 	}
 })();
