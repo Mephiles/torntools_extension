@@ -6,6 +6,8 @@
 	const params = getSearchParameters();
 	if (params.get("step") !== "your") return;
 
+	let originalText;
+
 	const feature = featureManager.registerFeature(
 		"Faction Banker",
 		"faction",
@@ -45,10 +47,13 @@
 		if (!input) return;
 
 		const label = document.find(".select-wrap .placeholder");
+		if (typeof originalText === "undefined" && !label.textContent.includes("balance of")) {
+			originalText = label.textContent;
+		}
 
 		const user = input.value.match(/(.*) \[(\d*)]/i);
 		if (!user) {
-			label.textContent = "Select player: ";
+			label.textContent = originalText;
 			return;
 		}
 
@@ -65,5 +70,8 @@
 
 		["change", "paste", "keyup", "select", "focus", "input"].forEach((event) => input.removeEventListener(event, showBalance));
 		document.find("#money-user-cont").removeEventListener("click", showBalance);
+		if (typeof originalText === "string"){
+			document.find(".select-wrap .placeholder").textContent = originalText
+		}
 	}
 })();
