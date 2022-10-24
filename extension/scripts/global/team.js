@@ -159,7 +159,7 @@ const TEAM = [
 		title: "Developer",
 		core: false,
 		torn: 2190604,
-		color: "deeppink"
+		color: "deeppink",
 	},
 ];
 
