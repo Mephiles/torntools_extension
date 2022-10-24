@@ -138,7 +138,7 @@
 	top: 5px;
 	right: calc((100vw - 976px) / 2 - 50px);
 	position: absolute;
-	z-index: 5;
+	z-index: 11;
 	overflow: hidden;
 }
 
