@@ -9,7 +9,7 @@
 				{ "message": "Fix gym progress not taking the music store special into account anymore.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix banking helper no longer working.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [],
+			"changes": [{ "message": "Improve feature manager overlaps.", "contributor": "Kwack" }],
 			"removed": []
 		}
 	},
