@@ -2,6 +2,7 @@
 
 (async () => {
 	if (!getPageStatus().access) return;
+	if (isFlying() || isAbroad()) return;
 
 	/* Feature is supported on mobile.
 	const devices = await checkDevice();
