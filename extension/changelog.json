@@ -10,7 +10,10 @@
 				{ "message": "Fix banking helper no longer working.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix faction infobox folding after switching tabs.", "contributor": "Kwack" }
 			],
-			"changes": [{ "message": "Improve feature manager overlaps.", "contributor": "Kwack" },{ "message": "Don't run TornTools on the logout page.", "contributor": "Kwack" }],
+			"changes": [
+				{ "message": "Improve feature manager overlaps.", "contributor": "Kwack" },
+				{ "message": "Don't run TornTools on the logout page.", "contributor": "Kwack" }
+			],
 			"removed": []
 		}
 	},
