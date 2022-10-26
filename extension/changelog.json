@@ -7,9 +7,10 @@
 			"features": [],
 			"fixes": [
 				{ "message": "Fix gym progress not taking the music store special into account anymore.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix banking helper no longer working.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix banking helper no longer working.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix faction infobox folding after switching tabs.", "contributor": "Kwack" }
 			],
-			"changes": [{ "message": "Improve feature manager overlaps.", "contributor": "Kwack" }],
+			"changes": [{ "message": "Improve feature manager overlaps.", "contributor": "Kwack" },{ "message": "Don't run TornTools on the logout page.", "contributor": "Kwack" }],
 			"removed": []
 		}
 	},
