@@ -39,8 +39,6 @@
 		foldInfobox();
 	}
 
-	const registered = [];
-
 	async function foldInfobox() {
 		let title, description, key;
 
@@ -71,8 +69,8 @@
 
 		fold(!!filters.containers[key]);
 
-		if (!registered.includes(key)) {
-			registered.push(key);
+		if (!title.classList.contains(`tt-${key}`)) {
+			title.classList.add(`tt-${key}`);
 			title.addEventListener("click", () => fold());
 		}
 

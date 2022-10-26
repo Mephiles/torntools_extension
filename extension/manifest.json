@@ -44,6 +44,7 @@
 	"content_scripts": [
 		{
 			"matches": ["https://www.torn.com/*.php*"],
+			"exclude_matches": ["https://www.torn.com/logout.php*"],
 			"css": [
 				"scripts/global/globalVariables.css",
 				"scripts/global/globalStyle.css",
@@ -113,6 +114,7 @@
 		},
 		{
 			"matches": ["https://www.torn.com/*.php*"],
+			"exclude_matches": ["https://www.torn.com/logout.php*"],
 			"css": [
 				"scripts/features/oc-time/ttOCTime.css",
 				"scripts/features/custom-links/ttCustomLinks.css",
