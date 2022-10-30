@@ -12,7 +12,8 @@
 			],
 			"changes": [
 				{ "message": "Improve feature manager overlaps.", "contributor": "Kwack" },
-				{ "message": "Don't run TornTools on the logout page.", "contributor": "Kwack" }
+				{ "message": "Don't run TornTools on the logout page.", "contributor": "Kwack" },
+				{ "message": "Allow filtering on fallen players on the search page and the faction member list.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

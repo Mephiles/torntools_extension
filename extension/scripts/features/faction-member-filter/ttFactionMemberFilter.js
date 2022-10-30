@@ -78,7 +78,7 @@
 
 		const specialFilter = createFilterSection({
 			title: "Special",
-			ynCheckboxes: ["Fedded", "New Player", "In Company", "Is Donator"],
+			ynCheckboxes: ["Fedded", "Fallen", "New Player", "In Company", "Is Donator"],
 			defaults: filters.faction.special,
 			callback: applyFilter,
 		});
