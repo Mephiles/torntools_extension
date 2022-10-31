@@ -198,7 +198,6 @@
 			},
 			loud_and_clear: {
 				task: "Use 3 - 11 explosive grenades.",
-				hint: "Grenades must be a type that causes damage.",
 			},
 			loyal_customer: {
 				task: "Defeat (P).",
