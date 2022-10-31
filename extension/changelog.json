@@ -15,7 +15,10 @@
 				{ "message": "Don't run TornTools on the logout page.", "contributor": "Kwack" },
 				{ "message": "Allow filtering on fallen players on the search page and the faction member list.", "contributor": "DeKleineKobini" },
 				{ "message": "Improve YATA error message for rate limit.", "contributor": "DeKleineKobini" },
-				{ "message": "Remove Loud and Clear mission hint as it's outdated and the task itself should be clear enough.", "contributor": "DeKleineKobini" }
+				{
+					"message": "Remove Loud and Clear mission hint as it's outdated and the task itself should be clear enough.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"removed": []
 		}
