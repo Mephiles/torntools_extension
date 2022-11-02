@@ -384,7 +384,7 @@
 				if (getTravelType() === "standard") totalCost += country.cost;
 
 				let value = torndata.items[item.id].market_value;
-				let time = country.time * getTimeModifier(getTravelType())
+				let time = country.time * getTimeModifier(getTravelType());
 				let profitItem, profitMinute, profit;
 				if (value !== 0) {
 					profitItem = value - cost;
@@ -579,7 +579,7 @@
 		return count;
 	}
 	function getTimeModifier(type) {
-		switch(type) {
+		switch (type) {
 			case "standard":
 				return 1;
 			case "airstrip":
@@ -587,9 +587,9 @@
 			case "private":
 				return 0.5;
 			case "business":
-				return 0.3
+				return 0.3;
 			default:
-				console.error("Unknown travel type")
+				console.error("Unknown travel type");
 		}
 	}
 
