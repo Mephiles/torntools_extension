@@ -5,17 +5,17 @@
 	if (page === "home" && !isFlying()) return;
 
 	const COUNTRIES = {
-		arg: { name: "Argentina", image: "argentina", tag: "argentina", cost: 21000, time: { standard: 167, airstrip: 117, private: 83, business: 50 } },
-		can: { name: "Canada", image: "canada", tag: "canada", cost: 9000, time: { standard: 49, airstrip: 29, private: 20, business: 12 } },
-		cay: { name: "Cayman Islands", image: "cayman", tag: "cayman_islands", cost: 10000, time: { standard: 35, airstrip: 25, private: 18, business: 11 } },
-		chi: { name: "China", image: "china", tag: "china", cost: 35000, time: { standard: 242, airstrip: 169, private: 121, business: 72 } },
-		haw: { name: "Hawaii", image: "hawaii", tag: "hawaii", cost: 11000, time: { standard: 134, airstrip: 94, private: 67, business: 40 } },
-		jap: { name: "Japan", image: "japan", tag: "japan", cost: 32000, time: { standard: 225, airstrip: 158, private: 88, business: 68 } },
-		mex: { name: "Mexico", image: "mexico", tag: "mexico", cost: 6500, time: { standard: 26, airstrip: 18, private: 13, business: 8 } },
-		sou: { name: "South Africa", image: "south_africa", tag: "south_africa", cost: 40000, time: { standard: 297, airstrip: 208, private: 159, business: 89 } },
-		swi: { name: "Switzerland", image: "switzerland", tag: "switzerland", cost: 27000, time: { standard: 175, airstrip: 123, private: 88, business: 53 } },
-		uae: { name: "UAE", image: "uae", tag: "uae", cost: 32000, time: { standard: 271, airstrip: 190, private: 135, business: 81 } },
-		uni: { name: "United Kingdom", image: "uk", tag: "united_kingdom", cost: 1800, time: { standard: 159, airstrip: 101, private: 80, business: 48 } },
+		arg: { name: "Argentina", image: "argentina", tag: "argentina", cost: 21000, time: 167 },
+		can: { name: "Canada", image: "canada", tag: "canada", cost: 9000, time: 41 },
+		cay: { name: "Cayman Islands", image: "cayman", tag: "cayman_islands", cost: 10000, time: 35 },
+		chi: { name: "China", image: "china", tag: "china", cost: 35000, time: 242 },
+		haw: { name: "Hawaii", image: "hawaii", tag: "hawaii", cost: 11000, time: 134 },
+		jap: { name: "Japan", image: "japan", tag: "japan", cost: 32000, time: 225 },
+		mex: { name: "Mexico", image: "mexico", tag: "mexico", cost: 6500, time: 26 },
+		sou: { name: "South Africa", image: "south_africa", tag: "south_africa", cost: 40000, time: 297 },
+		swi: { name: "Switzerland", image: "switzerland", tag: "switzerland", cost: 27000, time: 175 },
+		uae: { name: "UAE", image: "uae", tag: "uae", cost: 32000, time: 271 },
+		uni: { name: "United Kingdom", image: "uk", tag: "united_kingdom", cost: 1800, time: 159 },
 	};
 
 	const feature = featureManager.registerFeature(
@@ -384,11 +384,12 @@
 				if (getTravelType() === "standard") totalCost += country.cost;
 
 				let value = torndata.items[item.id].market_value;
+				let time = country.time * getTimeModifier(getTravelType())
 				let profitItem, profitMinute, profit;
 				if (value !== 0) {
 					profitItem = value - cost;
 					profit = amount * value - totalCost;
-					profitMinute = (profit / (country.time[getTravelType()] * 2)).dropDecimals();
+					profitMinute = (profit / (time * 2)).dropDecimals();
 				} else {
 					value = "N/A";
 					profitItem = "N/A";
@@ -532,11 +533,11 @@
 		for (const row of table.findAll(".row:not(.header)")) {
 			const { value, cost, travelCost, time } = toCorrectType(row.dataset);
 			if (!cost) continue;
-
+			const modifiedTime = time * getTimeModifier(getTravelType());
 			const totalCost = amount * cost + travelCost;
 			if (value && value !== "N/A") {
 				const profit = amount * value - totalCost;
-				const profitMinute = (profit / (JSON.parse(time)[getTravelType()] * 2)).dropDecimals();
+				const profitMinute = (profit / (modifiedTime * 2)).dropDecimals();
 
 				row.find(".profit-minute").textContent = formatNumber(profitMinute, { shorten: true, currency: true, forceOperation: true });
 				row.find(".profit").textContent = formatNumber(profit, { shorten: true, currency: true, forceOperation: true });
@@ -576,6 +577,20 @@
 		if (type !== "standard") count += 10;
 
 		return count;
+	}
+	function getTimeModifier(type) {
+		switch(type) {
+			case "standard":
+				return 1;
+			case "airstrip":
+				return 0.7;
+			case "private":
+				return 0.5;
+			case "business":
+				return 0.3
+			default:
+				console.error("Unknown travel type")
+		}
 	}
 
 	function getTravelType() {
