@@ -384,11 +384,12 @@
 				if (getTravelType() === "standard") totalCost += country.cost;
 
 				let value = torndata.items[item.id].market_value;
+				let time = country.time * getTimeModifier(getTravelType())
 				let profitItem, profitMinute, profit;
 				if (value !== 0) {
 					profitItem = value - cost;
 					profit = amount * value - totalCost;
-					profitMinute = (profit / (country.time * 2)).dropDecimals();
+					profitMinute = (profit / (time * 2)).dropDecimals();
 				} else {
 					value = "N/A";
 					profitItem = "N/A";
@@ -532,11 +533,11 @@
 		for (const row of table.findAll(".row:not(.header)")) {
 			const { value, cost, travelCost, time } = toCorrectType(row.dataset);
 			if (!cost) continue;
-
+			const modifiedTime = time * getTimeModifier(getTravelType());
 			const totalCost = amount * cost + travelCost;
 			if (value && value !== "N/A") {
 				const profit = amount * value - totalCost;
-				const profitMinute = (profit / (time * 2)).dropDecimals();
+				const profitMinute = (profit / (modifiedTime * 2)).dropDecimals();
 
 				row.find(".profit-minute").textContent = formatNumber(profitMinute, { shorten: true, currency: true, forceOperation: true });
 				row.find(".profit").textContent = formatNumber(profit, { shorten: true, currency: true, forceOperation: true });
@@ -576,6 +577,20 @@
 		if (type !== "standard") count += 10;
 
 		return count;
+	}
+	function getTimeModifier(type) {
+		switch(type) {
+			case "standard":
+				return 1;
+			case "airstrip":
+				return 0.7;
+			case "private":
+				return 0.5;
+			case "business":
+				return 0.3
+			default:
+				console.error("Unknown travel type")
+		}
 	}
 
 	function getTravelType() {
