@@ -68,6 +68,7 @@ body.tt-tablet .needed-item .tt-item-price {
 
 body.tt-mobile .tt-item-price.price-total,
 body.tt-tablet .tt-item-price.price-total {
+	position: relative;
 	top: 0;
 	left: 0 !important;
 	float: left;

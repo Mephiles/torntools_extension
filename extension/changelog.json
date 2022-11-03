@@ -8,7 +8,8 @@
 			"fixes": [
 				{ "message": "Fix gym progress not taking the music store special into account anymore.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix banking helper no longer working.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix faction infobox folding after switching tabs.", "contributor": "Kwack" }
+				{ "message": "Fix faction infobox folding after switching tabs.", "contributor": "Kwack" },
+				{ "message": "Fix total item value in the faction armory on mobile.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Improve feature manager overlaps.", "contributor": "Kwack" },
