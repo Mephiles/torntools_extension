@@ -44,7 +44,7 @@
 		const container = document.find(
 			mobile || tablet
 				? "#tab-menu4 [id*='tab4-'][aria-hidden='false'] .travel-info-table-list[aria-selected*='true']"
-				: ".travel-agency .travel-container.full-map[style='display: block;'], .travel-agency .business .travel-container.full-map[style='']"
+				: ".travel-agency div[aria-expanded='true'] .travel-container.full-map[style='display: block;']"
 		);
 		if (!container) return;
 
