@@ -27,7 +27,7 @@
 	function listenerFunction(event) {
 		event.preventDefault();
 		event.stopImmediatePropagation();
-		if (confirm("Are you sure you want to attack this ally ?")) {
+		if (confirm("Are you sure you want to attack this ally?")) {
 			location = document.find(".profile-buttons .profile-button-attack").href;
 		}
 	}
