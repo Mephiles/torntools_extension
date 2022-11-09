@@ -892,6 +892,7 @@
 						{ id: "stalemate", title: "Stalemates", class: "negative", width: 70, cellRenderer: "string" },
 						{ id: "escapes", title: "Escapes", class: "negative last-cell", width: 60, cellRenderer: "string" },
 						{ id: "respect_base", title: "Respect", class: "neutral", width: 50, cellRenderer: "respect" },
+						{ id: "latestFairFightModifier", title: "FF", class: "neutral", width: 50, cellRenderer: "ff" },
 					],
 					[history],
 					{
@@ -899,10 +900,20 @@
 							respect: (respectArray) => {
 								let respect = respectArray.length ? respectArray.totalSum() / respectArray.length : 0;
 								if (respect > 0) respect = formatNumber(respect, { decimals: 2 });
-								else respect = "/";
+								else respect = "-";
 
 								return {
 									element: document.createTextNode(respect),
+									dispose: () => {},
+								};
+							},
+							ff: (modifier) => {
+								let ff;
+								if (modifier > 0) ff = formatNumber(modifier, { decimals: 2 });
+								else ff = "-";
+
+								return {
+									element: document.createTextNode(ff),
 									dispose: () => {},
 								};
 							},
