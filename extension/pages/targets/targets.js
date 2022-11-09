@@ -152,6 +152,12 @@ async function setupAttackHistory() {
 			row.appendChild(document.newElement({ type: "td", class: "data respect", text: "-", attributes: { value: -1 } }));
 		}
 
+		if (data.latestFairFightModifier) {
+			row.appendChild(document.newElement({ type: "td", class: "data fair_fight", text: data.latestFairFightModifier, attributes: { value: data.latestFairFightModifier } }));
+		} else {
+			row.appendChild(document.newElement({ type: "td", class: "data fair_fight", text: "-", attributes: { value: -1 } }));
+		}
+
 		historyList.appendChild(row);
 	}
 }
