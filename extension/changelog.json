@@ -20,7 +20,8 @@
 				{
 					"message": "Remove Loud and Clear mission hint as it's outdated and the task itself should be clear enough.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Add fair fight in the attack history.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
