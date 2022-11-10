@@ -494,6 +494,7 @@
 				"scripts/features/attack-timeout-warning/ttAttackTimeoutWarning.js",
 				"scripts/features/stats-estimate/statsEstimate.js",
 				"scripts/features/stats-estimate/ttStatsEstimateAttacks.js",
+				"scripts/features/fair-attack/ttFairAttack.js",
 				"scripts/features/weapon-experience/ttWeaponExperience.js",
 				"scripts/features/page-title/ttPageTitleAttack.js"
 			],

@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Show fair fight on the attack page.", "contributor": "DeKleineKobini" }],
 			"fixes": [
 				{ "message": "Fix gym progress not taking the music store special into account anymore.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix banking helper no longer working.", "contributor": "DeKleineKobini" },
