@@ -66,8 +66,10 @@
 
 			let entries;
 			if (mobile || tablet) {
-				if (side === "attacker") entries = document.find("div[class*='playersModelWrap___'] div[class*='header___']:first-child div[class*='textEntries___']");
-				else if (side === "defender") entries = document.find("div[class*='playersModelWrap___'] div[class*='header___']:nth-child(2) div[class*='textEntries___']");
+				if (side === "attacker")
+					entries = document.find("div[class*='playersModelWrap___'] div[class*='header___']:first-child div[class*='textEntries___']");
+				else if (side === "defender")
+					entries = document.find("div[class*='playersModelWrap___'] div[class*='header___']:nth-child(2) div[class*='textEntries___']");
 			} else entries = document.find(`#${side} div[class*='textEntries___']`);
 
 			entries.classList.add("tt-stats-estimate-attacks-wrapper");
