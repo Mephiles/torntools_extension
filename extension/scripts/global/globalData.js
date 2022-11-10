@@ -594,6 +594,7 @@ const DEFAULT_STORAGE = {
 			attack: {
 				bonusInformation: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				timeoutWarning: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				fairAttack: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				weaponExperience: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				hideAttackButtons: new DefaultSetting({ type: "array", defaultValue: [] }),
 			},

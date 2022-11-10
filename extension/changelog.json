@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Show fair fight on the attack page.", "contributor": "DeKleineKobini" }],
 			"fixes": [
 				{ "message": "Fix gym progress not taking the music store special into account anymore.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix banking helper no longer working.", "contributor": "DeKleineKobini" },
@@ -20,7 +20,8 @@
 				{
 					"message": "Remove Loud and Clear mission hint as it's outdated and the task itself should be clear enough.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Add fair fight in the attack history.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
