@@ -22,7 +22,7 @@ const notifications = {
 	chain: {},
 	chainCount: {},
 	stakeouts: {},
-	npcs: {}
+	npcs: {},
 };
 
 let npcUpdater;
@@ -32,8 +32,7 @@ let npcUpdater;
 	await loadDatabase();
 
 	notificationHistory = [];
-	ttStorage.set({ notificationHistory: [] }).then(() => {
-	});
+	ttStorage.set({ notificationHistory: [] }).then(() => {});
 
 	await checkUpdate();
 
@@ -142,9 +141,9 @@ async function convertDatabase() {
 								landing: stakeout.notifications.lands,
 								online: stakeout.notifications.online,
 								life: false,
-								offline: false
-							}
-						}
+								offline: false,
+							},
+						},
 					}))
 					.filter((result) => Object.values(result)[0] !== undefined)
 					.reduce((prev, current) => ({ ...prev, ...current }), {});
@@ -154,8 +153,8 @@ async function convertDatabase() {
 					.map(([id, alert]) => ({
 						[id]: {
 							priceFalls: parseInt(alert.fall) || "",
-							priceReaches: parseInt(alert.reach) || ""
-						}
+							priceReaches: parseInt(alert.reach) || "",
+						},
 					}))
 					.reduce((prev, current) => ({ ...prev, ...current }), {});
 
@@ -345,7 +344,7 @@ async function updateUserdata() {
 			"workstats",
 			"skills",
 			"weaponexp",
-			"properties"
+			"properties",
 		]) {
 			if (!settings.apiUsage.user[selection]) continue;
 
@@ -436,7 +435,7 @@ async function updateUserdata() {
 					escapes: 0,
 					respect: [],
 					respect_base: [],
-					...attackHistory.history[enemyId]
+					...attackHistory.history[enemyId],
 				};
 
 				// Manipulate the data to be correct.
@@ -515,8 +514,8 @@ async function updateUserdata() {
 				attackHistory: {
 					lastAttack,
 					fetchData: false,
-					history: { ...attackHistory.history }
-				}
+					history: { ...attackHistory.history },
+				},
 			});
 		}
 	}
@@ -526,8 +525,8 @@ async function updateUserdata() {
 			userdata.userCrime = userdata.icons.icon85
 				? userdata.timestamp * TO_MILLIS.SECONDS + textToTime(userdata.icons.icon85.split("-").last().trim())
 				: userdata.icons.icon86
-					? userdata.timestamp * TO_MILLIS.SECONDS
-					: -1;
+				? userdata.timestamp * TO_MILLIS.SECONDS
+				: -1;
 		}
 	}
 
@@ -596,7 +595,7 @@ async function updateUserdata() {
 					url: LINKS.home,
 					type: "status",
 					key: Date.now(),
-					date: Date.now()
+					date: Date.now(),
 				});
 			} else if (previous === "Jail") {
 				await notifyUser("TornTools - Status", "You are out of the jail.", LINKS.home);
@@ -604,7 +603,7 @@ async function updateUserdata() {
 					title: "TornTools - Status",
 					message: "You are out of the jail.",
 					url: LINKS.home,
-					date: Date.now()
+					date: Date.now(),
 				});
 			}
 		} else {
@@ -613,7 +612,7 @@ async function updateUserdata() {
 				title: "TornTools - Status",
 				message: userdata.status.description,
 				url: LINKS.home,
-				date: Date.now()
+				date: Date.now(),
 			});
 		}
 		await ttStorage.set({ notificationHistory });
@@ -631,7 +630,7 @@ async function updateUserdata() {
 				title: "TornTools - Cooldown",
 				message: `Your ${type} cooldown has ended.`,
 				url: LINKS.items,
-				date: Date.now()
+				date: Date.now(),
 			});
 		}
 		await ttStorage.set({ notificationHistory });
@@ -646,7 +645,7 @@ async function updateUserdata() {
 			title: "TornTools - Traveling",
 			message: `You have landed in ${userdata.travel.destination}.`,
 			url: LINKS.home,
-			date: Date.now()
+			date: Date.now(),
 		});
 		await ttStorage.set({ notificationHistory });
 	}
@@ -666,7 +665,7 @@ async function updateUserdata() {
 			title: "TornTools - Education",
 			message: "You have finished your education course.",
 			url: LINKS.education,
-			date: Date.now()
+			date: Date.now(),
 		});
 		await ttStorage.set({ notificationHistory });
 	}
@@ -832,15 +831,15 @@ async function updateUserdata() {
 				title: "Boosters",
 				setting: "cooldownBooster",
 				memory: "boosters",
-				enabled: "cooldownBoosterEnabled"
+				enabled: "cooldownBoosterEnabled",
 			},
 			{
 				name: "medical",
 				title: "Medical",
 				setting: "cooldownMedical",
 				memory: "medical",
-				enabled: "cooldownMedicalEnabled"
-			}
+				enabled: "cooldownMedicalEnabled",
+			},
 		];
 
 		for (const cooldown of COOLDOWNS) {
@@ -895,7 +894,7 @@ async function showIconBars() {
 			happy: "#e3e338",
 			life: "#7b98ee",
 			chain: "#333",
-			travel: "#d961ee"
+			travel: "#d961ee",
 		};
 
 		let y = padding;
@@ -1067,19 +1066,19 @@ async function updateStakeouts() {
 			last_action: {
 				status: data.last_action.status,
 				relative: data.last_action.relative,
-				timestamp: data.last_action.timestamp * 1000
+				timestamp: data.last_action.timestamp * 1000,
 			},
 			life: {
 				current: data.life.current,
-				maximum: data.life.maximum
+				maximum: data.life.maximum,
 			},
 			status: {
 				state: data.status.state,
 				color: data.status.color,
 				until: data.status.until * 1000,
-				description: data.status.description
+				description: data.status.description,
 			},
-			isRevivable: data.revivable === 1
+			isRevivable: data.revivable === 1,
 		};
 	}
 	stakeouts.date = now;
@@ -1091,7 +1090,7 @@ async function updateStakeouts() {
 async function updateTorndata() {
 	torndata = await fetchData("torn", {
 		section: "torn",
-		selections: ["education", "honors", "items", "medals", "pawnshop", "properties", "stats"]
+		selections: ["education", "honors", "items", "medals", "pawnshop", "properties", "stats"],
 	});
 	if (!torndata || !Object.keys(torndata).length) throw new Error("Aborted updating due to an unexpected response.");
 	torndata.date = Date.now();
@@ -1113,14 +1112,14 @@ async function updateStocks() {
 
 			if (alerts.priceFalls && oldStocks[id].current_price > alerts.priceFalls && stocks[id].current_price <= alerts.priceFalls) {
 				const message = `(${stocks[id].acronym}) ${stocks[id].name} has fallen to ${formatNumber(stocks[id].current_price, {
-					currency: true
+					currency: true,
 				})} (alert: ${formatNumber(alerts.priceFalls, { currency: true })})!`;
 
 				await notifyUser("TornTools - Stock Alerts", message, LINKS.stocks);
 				storeNotification({ title: "TornTools -  Stock Alerts", message, url: LINKS.stocks, date: Date.now() });
 			} else if (alerts.priceReaches && oldStocks[id].current_price < alerts.priceFalls && stocks[id].current_price >= alerts.priceReaches) {
 				const message = `(${stocks[id].acronym}) ${stocks[id].name} has reached ${formatNumber(stocks[id].current_price, {
-					currency: true
+					currency: true,
 				})} (alert: ${formatNumber(alerts.priceReaches, { currency: true })})!`;
 
 				await notifyUser("TornTools - Stock Alerts", message, LINKS.stocks);
@@ -1212,7 +1211,7 @@ async function updateNPCs() {
 		17: "Easter Bunny",
 		19: "Jimmy",
 		20: "Fernando",
-		21: "Tiny"
+		21: "Tiny",
 	};
 
 	const now = Date.now();
@@ -1250,7 +1249,7 @@ async function updateNPCs() {
 		npcs = {
 			next_update: data.next_update * 1000,
 			service: "YATA",
-			targets: {}
+			targets: {},
 		};
 
 		for (let [id, hospital] of Object.entries(data.hosp_out)) {
@@ -1262,9 +1261,9 @@ async function updateNPCs() {
 					2: hospital + TO_MILLIS.MINUTES * 30,
 					3: hospital + TO_MILLIS.MINUTES * 90,
 					4: hospital + TO_MILLIS.MINUTES * 210,
-					5: hospital + TO_MILLIS.MINUTES * 450
+					5: hospital + TO_MILLIS.MINUTES * 450,
 				},
-				name: NPCS[id] ?? "Unknown"
+				name: NPCS[id] ?? "Unknown",
 			};
 
 			npcs.targets[id].current = getCurrentLevel(npcs.targets[id]);
@@ -1282,7 +1281,7 @@ async function updateNPCs() {
 		npcs = {
 			next_update: now + TO_MILLIS.MINUTES * 15,
 			service: "TornStats",
-			targets: {}
+			targets: {},
 		};
 
 		for (const npc of Object.values(data)
@@ -1294,9 +1293,9 @@ async function updateNPCs() {
 					2: npc.loot_2 * 1000,
 					3: npc.loot_3 * 1000,
 					4: npc.loot_4 * 1000,
-					5: npc.loot_5 * 1000
+					5: npc.loot_5 * 1000,
 				},
-				name: npc.name
+				name: npc.name,
 			};
 
 			npcs.targets[npc.torn_id].current = getCurrentLevel(npcs.targets[npc.torn_id]);
@@ -1336,10 +1335,7 @@ async function updateNPCs() {
 
 		let alerts = 0;
 
-		for (const { id, level, minutes } of settings.notifications.types.npcs.filter(({
-																						   level,
-																						   minutes
-																					   }) => level !== "" && minutes !== "")) {
+		for (const { id, level, minutes } of settings.notifications.types.npcs.filter(({ level, minutes }) => level !== "" && minutes !== "")) {
 			const npc = npcs.targets[id];
 			if (!npc) {
 				delete notifications.npcs[id];
@@ -1393,7 +1389,7 @@ function newNotification(title, message, link) {
 		title: `TornTools - ${title}`,
 		message,
 		url: link,
-		date: Date.now()
+		date: Date.now(),
 	};
 }
 
@@ -1441,8 +1437,7 @@ async function notifyUser(title, message, url) {
 			chrome.notifications.create(options, (id) => resolve(id));
 		});
 
-		if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play().then(() => {
-		});
+		if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play().then(() => {});
 
 		if (settings.notifications.link) notificationRelations[id] = url;
 	}
@@ -1452,7 +1447,7 @@ async function notifyUser(title, message, url) {
 			icon,
 			body: message,
 			requireInteraction,
-			data: { settings: {} }
+			data: { settings: {} },
 		};
 		if (silent) options.silent;
 
@@ -1493,8 +1488,7 @@ async function notifyUser(title, message, url) {
 	}
 }
 
-chrome.runtime.onConnect.addListener(() => {
-});
+chrome.runtime.onConnect.addListener(() => {});
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	switch (message.action) {

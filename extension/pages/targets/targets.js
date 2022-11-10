@@ -153,7 +153,14 @@ async function setupAttackHistory() {
 		}
 
 		if (data.latestFairFightModifier) {
-			row.appendChild(document.newElement({ type: "td", class: "data fair_fight", text: data.latestFairFightModifier, attributes: { value: data.latestFairFightModifier } }));
+			row.appendChild(
+				document.newElement({
+					type: "td",
+					class: "data fair_fight",
+					text: data.latestFairFightModifier,
+					attributes: { value: data.latestFairFightModifier },
+				})
+			);
 		} else {
 			row.appendChild(document.newElement({ type: "td", class: "data fair_fight", text: "-", attributes: { value: -1 } }));
 		}

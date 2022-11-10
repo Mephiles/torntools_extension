@@ -17,7 +17,7 @@
 			if (!hasAPIData()) return "No API access.";
 
 			await checkDevice();
-		},
+		}
 	);
 
 	async function showFF() {
@@ -28,9 +28,9 @@
 		if (!ff) return;
 
 		const entries = document.find(
-			mobile || tablet ?
-				"div[class*='playersModelWrap___'] div[class*='header___']:nth-child(2) div[class*='textEntries___']" :
-				"#defender div[class*='textEntries___']",
+			mobile || tablet
+				? "div[class*='playersModelWrap___'] div[class*='header___']:nth-child(2) div[class*='textEntries___']"
+				: "#defender div[class*='textEntries___']"
 		);
 
 		entries.classList.add("tt-fair-attack");
@@ -40,7 +40,7 @@
 				type: "div",
 				class: "tt-fair-attack",
 				text: `FF: ${formatNumber(ff, { decimals: 2 })}`,
-			}),
+			})
 		);
 	}
 
