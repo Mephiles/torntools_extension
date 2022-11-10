@@ -10,7 +10,8 @@
 				{ "message": "Fix banking helper no longer working.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix faction infobox folding after switching tabs.", "contributor": "Kwack" },
 				{ "message": "Fix total item value in the faction armory on mobile.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix cooldowns not showing on first load when business flight is default.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix cooldowns not showing on first load when business flight is default.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix stats estimates on the attack page not working on tablet and mobile.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Improve feature manager overlaps.", "contributor": "Kwack" },
