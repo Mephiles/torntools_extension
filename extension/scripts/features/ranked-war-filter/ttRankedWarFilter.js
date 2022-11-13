@@ -77,6 +77,7 @@
 			checkboxes: [
 				{ id: "okay", description: "Okay" },
 				{ id: "hospital", description: "Hospital" },
+				{ id: "abroad", description: "Abroad" },
 				{ id: "traveling", description: "Traveling" },
 			],
 			defaults: filters.factionRankedWar.status,
