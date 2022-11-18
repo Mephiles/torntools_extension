@@ -854,6 +854,7 @@ const CUSTOM_LINKS_PRESET = {
 	"Points Market": { link: "https://www.torn.com/pmarket.php" },
 	Raceway: { link: "https://www.torn.com/loader.php?sid=racing" },
 	"Travel Agency": { link: "https://www.torn.com/travelagency.php" },
+	"Christmas Town : Maps": { link: "https://www.torn.com/christmas_town.php#/mymaps" },
 };
 
 const HIGHLIGHT_PLACEHOLDERS = [{ name: "$player", value: () => userdata.name || "", description: "Your player name." }];
