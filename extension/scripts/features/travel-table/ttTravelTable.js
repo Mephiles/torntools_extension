@@ -609,6 +609,10 @@
 			switch (userdata.travel.method.toLowerCase()) {
 				case "airstrip":
 					return "private";
+				case "private": // Needs to be validated.
+					return "private";
+				case "business":
+					return "business";
 				default:
 					console.log("TT - Detected unknown travel type.", userdata.travel.method);
 					return "standard";
