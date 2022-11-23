@@ -214,7 +214,7 @@
 		if (settings.pages.profile.boxFetch) {
 			showRelative();
 			buildStats().catch((error) => console.log("TT - Couldn't build the stats part of the profile box.", error));
-			buildSpy().catch((error) => console.log("TT - Couldn't build the spy part of the profile box.", error));
+			buildSpy(false).catch((error) => console.log("TT - Couldn't build the spy part of the profile box.", error));
 		} else {
 			const button = document.newElement({
 				type: "button",
@@ -231,7 +231,7 @@
 						buildStats()
 							.catch((error) => console.log("TT - Couldn't build the stats part of the profile box.", error))
 							.then(handleBuild);
-						buildSpy()
+						buildSpy(false)
 							.catch((error) => console.log("TT - Couldn't build the spy part of the profile box.", error))
 							.then(handleBuild);
 
@@ -286,7 +286,7 @@
 		async function buildStats() {
 			if (!settings.pages.profile.boxStats || !settings.apiUsage.user.personalstats || !settings.apiUsage.user.crimes) return;
 
-			const section = document.newElement({ type: "div", class: "section user-stats", attributes: { order: 1 } });
+			const section = document.newElement({ type: "div", class: "section user-stats" });
 			content.appendChild(section);
 
 			showLoadingPlaceholder(section, true);
@@ -567,21 +567,22 @@
 			}
 		}
 
-		async function buildSpy() {
+		async function buildSpy(ignoreCache) {
 			if (!settings.pages.profile.boxSpy || !settings.apiUsage.user.battlestats) return;
 
-			const section = document.newElement({ type: "div", class: "section spy-information", attributes: { order: 2 } });
+			const section = document.newElement({ type: "div", class: "section spy-information" });
 			content.appendChild(section);
 
 			showLoadingPlaceholder(section, true);
 
 			const errors = [];
-			let spy = false;
+			let spy = false, isCached = false;
 			if (settings.external.yata) {
 				try {
 					let result;
-					if (ttCache.hasValue("yata-spy", id)) {
+					if (!ignoreCache && ttCache.hasValue("yata-spy", id)) {
 						result = ttCache.get("yata-spy", id);
+						isCached = true;
 					} else {
 						result = (await fetchData(FETCH_PLATFORMS.yata, { relay: true, section: "spy", id, includeKey: true, silent: true }))?.spies[id];
 
@@ -592,7 +593,8 @@
 							};
 						}
 
-						ttCache.set({ [id]: result || false }, TO_MILLIS.SECONDS * 30, "yata-spy").then(() => {});
+						ttCache.set({ [id]: result || false }, getCacheTime(!result, result?.update * 1000), "yata-spy").then(() => {});
+						isCached = false;
 					}
 
 					if (result) {
@@ -631,8 +633,9 @@
 			if (settings.external.tornstats) {
 				try {
 					let result;
-					if (ttCache.hasValue("tornstats-spy", id)) {
+					if (!ignoreCache && ttCache.hasValue("tornstats-spy", id)) {
 						result = ttCache.get("tornstats-spy", id);
+						isCached = true;
 					} else {
 						result = await fetchData(FETCH_PLATFORMS.tornstats, { section: "spy/user", id, silent: true });
 
@@ -642,7 +645,8 @@
 							spy: result.spy,
 						};
 
-						ttCache.set({ [id]: result }, TO_MILLIS.SECONDS * 30, "tornstats-spy").then(() => {});
+						ttCache.set({ [id]: result }, getCacheTime(result.spy?.status, result.spy?.timestamp * 1000), "tornstats-spy").then(() => {});
+						isCached = false;
 					}
 
 					if (result.spy?.status) {
@@ -748,11 +752,29 @@
 				);
 				section.appendChild(table.element);
 
-				let footer;
-				if (spy.source && spy.type) footer = `Source: ${spy.source} (${spy.type}), ${spy.updated}`;
-				else if (spy.source) footer = `Source: ${spy.source}, ${spy.updated}`;
+				let sourceText;
+				if (spy.source) {
+					if (isCached) sourceText = "Cached Source: ";
+					else sourceText = "Source: ";
 
-				if (footer) section.appendChild(document.newElement({ type: "p", class: "spy-source", html: footer }));
+					sourceText += spy.source;
+					if (spy.type) sourceText += `(${spy.type})`;
+					sourceText += `, ${spy.updated}`;
+				}
+
+				const footer = document.newElement({ type: "div", class: "spy-footer" })
+
+				if (sourceText) footer.appendChild(document.newElement({ type: "p", class: "spy-source", html: sourceText }));
+				footer.appendChild(document.newElement({
+					type: "i", class: "fas fa-redo", events: {
+						click: () => {
+							section.remove();
+							buildSpy(true);
+						},
+					},
+				}));
+
+				section.appendChild(footer);
 			} else {
 				section.appendChild(document.newElement({ type: "span", class: "no-spy", text: "There is no spy report." }));
 
@@ -769,6 +791,17 @@
 
 			function getRelative(them, your) {
 				return them === "N/A" || your === "N/A" ? "N/A" : your - them;
+			}
+
+			function getCacheTime(hasSpy, timestamp) {
+				if (!hasSpy) {
+					return TO_MILLIS.HOURS * 1;
+				}
+
+				const days = timestamp / TO_MILLIS.DAYS;
+
+				if (days > 31) return TO_MILLIS.HOURS * 6;
+				else return TO_MILLIS.DAYS;
 			}
 		}
 
@@ -871,14 +904,14 @@
 			}
 
 			content.appendChild(
-				document.newElement({ type: "div", class: "section stakeout", attributes: { order: 3 }, children: [checkbox.element, alerts] })
+				document.newElement({ type: "div", class: "section stakeout", children: [checkbox.element, alerts] })
 			);
 		}
 
 		async function buildAttackHistory() {
 			if (!settings.pages.profile.boxAttackHistory || !settings.pages.global.keepAttackHistory) return;
 
-			const section = document.newElement({ type: "div", class: "section attack-history", attributes: { order: 4 } });
+			const section = document.newElement({ type: "div", class: "section attack-history" });
 
 			if (id in attackHistory.history) {
 				const history = attackHistory.history[id];

@@ -217,8 +217,18 @@ body.dark-mode .attack-history .tt-table .neutral {
 	color: var(--tt-color-green);
 }
 
+.spy-footer {
+	display: flex;
+	justify-content: space-between;
+}
+
 .spy-source {
 	margin: 0 4px 2px 4px;
+}
+
+.spy-footer i {
+	cursor: pointer;
+	margin-right: 4px;
 }
 
 .stats-error-message {
@@ -241,4 +251,22 @@ body:not(.dark-mode) .edit-stats.tt-overlay-item:focus {
 
 .user-stats .tt-table.tt-overlay-item .tt-table-row:not(.tt-table-row-header):hover {
 	background-color: #ff000047;
+}
+
+/* Orders */
+
+.user-stats {
+	order: 1;
+}
+
+.spy-information {
+	order: 2;
+}
+
+.stakeout {
+	order: 3;
+}
+
+.attack-history {
+	order: 4;
 }
