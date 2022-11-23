@@ -576,7 +576,8 @@
 			showLoadingPlaceholder(section, true);
 
 			const errors = [];
-			let spy = false, isCached = false;
+			let spy = false,
+				isCached = false;
 			if (settings.external.yata) {
 				try {
 					let result;
@@ -762,17 +763,21 @@
 					sourceText += `, ${spy.updated}`;
 				}
 
-				const footer = document.newElement({ type: "div", class: "spy-footer" })
+				const footer = document.newElement({ type: "div", class: "spy-footer" });
 
 				if (sourceText) footer.appendChild(document.newElement({ type: "p", class: "spy-source", html: sourceText }));
-				footer.appendChild(document.newElement({
-					type: "i", class: "fas fa-redo", events: {
-						click: () => {
-							section.remove();
-							buildSpy(true);
+				footer.appendChild(
+					document.newElement({
+						type: "i",
+						class: "fas fa-redo",
+						events: {
+							click: () => {
+								section.remove();
+								buildSpy(true);
+							},
 						},
-					},
-				}));
+					})
+				);
 
 				section.appendChild(footer);
 			} else {
@@ -903,9 +908,7 @@
 				alerts.classList.add("tt-hidden");
 			}
 
-			content.appendChild(
-				document.newElement({ type: "div", class: "section stakeout", children: [checkbox.element, alerts] })
-			);
+			content.appendChild(document.newElement({ type: "div", class: "section stakeout", children: [checkbox.element, alerts] }));
 		}
 
 		async function buildAttackHistory() {
