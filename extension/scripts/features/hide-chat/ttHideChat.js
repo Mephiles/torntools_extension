@@ -33,6 +33,14 @@
 		});
 
 		overview.appendChild(checkbox.element);
+
+		new MutationObserver((mutations) => {
+			if ([...mutations].every((m) => m.addedNodes.length === 0 || [...m.addedNodes].includes(checkbox.element))) {
+				return;
+			}
+
+			overview.appendChild(checkbox.element);
+		}).observe(overview, {childList: true});
 	}
 
 	function hideChats() {
