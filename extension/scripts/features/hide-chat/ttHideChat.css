@@ -2,6 +2,7 @@
 	padding: 0 5px;
 }
 
-.tt-chat-hidden [class*="_chat-box_"] {
+.tt-chat-hidden [class*="_chat-box_"]:not([class*="_chat-box-notebook_"]),
+.tt-chat-hidden [class*="_chat-box-people_"] {
 	display: none;
 }

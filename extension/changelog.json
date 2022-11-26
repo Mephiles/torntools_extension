@@ -26,7 +26,8 @@
 				{ "message": "Add fair fight in the attack history.", "contributor": "DeKleineKobini" },
 				{ "message": "Filter on abroad status for ranked wars.", "contributor": "DeKleineKobini" },
 				{ "message": "Increase the profile box spy cache time.", "contributor": "DeKleineKobini" },
-				{ "message": "Include a button to manually refresh the profile box spy.", "contributor": "DeKleineKobini" }
+				{ "message": "Include a button to manually refresh the profile box spy.", "contributor": "DeKleineKobini" },
+				{ "message": "Change chat hiding to not hide the notebook, but hide the people box.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
