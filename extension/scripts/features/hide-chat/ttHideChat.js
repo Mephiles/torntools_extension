@@ -40,7 +40,7 @@
 			}
 
 			overview.appendChild(checkbox.element);
-		}).observe(overview, {childList: true});
+		}).observe(overview, { childList: true });
 	}
 
 	function hideChats() {
