@@ -1552,7 +1552,7 @@ function updateReactInput(input, value, options = {}) {
 }
 
 function isDividendStock(id) {
-	if (isIntNumber(id)) return [1, 4, 5, 6, 7, 9, 10, 12, 15, 16, 17, 18, 19, 22, 24, 27, 28, 29, 31, 32].includes(id);
+	if (isIntNumber(id)) return [1, 4, 5, 6, 7, 9, 10, 12, 15, 16, 17, 18, 19, 22, 24, 27, 28, 29, 31, 32, 33, 35].includes(id);
 
 	return false;
 }
@@ -1610,9 +1610,12 @@ function getRewardValue(reward) {
 						.filter((price) => !!price)
 						.map((price) => price * 0.75);
 					break;
-				case "Happiness":
+				case "points":
+					value = torndata.stats.points_averagecost * 100;
 					break;
-				case "Energy":
+				case "happiness":
+				case "energy":
+				case "nerve":
 					break;
 				default:
 					value = -1;
