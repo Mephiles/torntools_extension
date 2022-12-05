@@ -13,7 +13,8 @@
 				{ "message": "Fix cooldowns not showing on first load when business flight is default.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix stats estimates on the attack page not working on tablet and mobile.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix travel table count to be correct for business travel.", "contributor": "DeKleineKobini" },
-				{ "message": "Fix hide chat position.", "contributor": "DeKleineKobini" }
+				{ "message": "Fix hide chat position.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix trade value not working when there is a peace treaty included.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Improve feature manager overlaps.", "contributor": "Kwack" },

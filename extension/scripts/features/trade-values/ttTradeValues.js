@@ -48,7 +48,15 @@
 						.map((x) => x.trim());
 					const quantityMap = {};
 					for (const entry of itemEntries) {
-						quantityMap[entry.match(/(?<=x ).*/)[0].replace(/\.$/, "")] = parseInt(entry.match(/\d*(?=x)/g)[0]);
+						const nameRegex = entry.match(/(?<=x ).*/);
+						const quantityRegex = entry.match(/\d*(?=x)/g);
+						if (!nameRegex || !quantityRegex) {
+							console.log("TT - (Trade Values) Ignoring item because it doesn't match anything.", entry)
+							continue;
+						}
+
+						const name = nameRegex[0].replace(/\.$/, "");
+						quantityMap[name] = parseInt(quantityRegex[0]);
 					}
 
 					for (const itemId in torndata.items) {
