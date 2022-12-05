@@ -51,7 +51,7 @@
 						const nameRegex = entry.match(/(?<=x ).*/);
 						const quantityRegex = entry.match(/\d*(?=x)/g);
 						if (!nameRegex || !quantityRegex) {
-							console.log("TT - (Trade Values) Ignoring item because it doesn't match anything.", entry)
+							console.log("TT - (Trade Values) Ignoring item because it doesn't match anything.", entry);
 							continue;
 						}
 
