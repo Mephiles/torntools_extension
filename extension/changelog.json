@@ -31,7 +31,8 @@
 				{ "message": "Increase the profile box spy cache time.", "contributor": "DeKleineKobini" },
 				{ "message": "Include a button to manually refresh the profile box spy.", "contributor": "DeKleineKobini" },
 				{ "message": "Change chat hiding to not hide the notebook, but hide the people box.", "contributor": "DeKleineKobini" },
-				{ "message": "Include PTS ROI in the popup.", "contributor": "DeKleineKobini" }
+				{ "message": "Include PTS ROI in the popup.", "contributor": "DeKleineKobini" },
+				{ "message": "Add hint to graffiti mission.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}

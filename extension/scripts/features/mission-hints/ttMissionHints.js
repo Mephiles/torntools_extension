@@ -146,6 +146,7 @@
 			},
 			graffiti: {
 				task: "Hit (P) with pepper spray.",
+				hint: "Even if it's ineffective, it still counts.",
 			},
 			guardian: {
 				task: "Defeat (P).",
