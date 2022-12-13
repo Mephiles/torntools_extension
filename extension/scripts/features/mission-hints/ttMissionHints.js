@@ -25,6 +25,7 @@
 	}
 
 	async function showHints() {
+		// Source: https://www.torn.com/forums.php#/p=threads&f=19&t=16130409&b=0&a=0&start=0&to=19915206
 		const MISSION_HINTS = {
 			a_good_day_to_get_hard: {
 				task: "Achieve a killstreak of 3 - 10.",
