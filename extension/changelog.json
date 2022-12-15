@@ -1,7 +1,6 @@
 [
 	{
 		"version": { "major": 6, "minor": 9, "build": 3 },
-		"title": "Beta",
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Show fair fight on the attack page.", "contributor": "DeKleineKobini" }],
