@@ -280,6 +280,7 @@
 			},
 			sellout_slayer: {
 				task: "Buy a gun, use the gun on any 2 - 6 players, then sell it again.",
+				hint: "Not every non-melee weapon is a gun. As example, a blowgun might not work.",
 			},
 			sending_a_message: {
 				task: "Defeat (P).",
