@@ -1,7 +1,13 @@
 [
 	{
-		"version": { "major": 6, "minor": 9, "build": 3 },
+		"version": { "major": 6, "minor": 10, "build": 0 },
+		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [] }
+	},
+	{
+		"version": { "major": 6, "minor": 9, "build": 3 },
+		"date": "2022/12/15",
 		"logs": {
 			"features": [{ "message": "Show fair fight on the attack page.", "contributor": "DeKleineKobini" }],
 			"fixes": [
@@ -33,8 +39,7 @@
 				{ "message": "Change chat hiding to not hide the notebook, but hide the people box.", "contributor": "DeKleineKobini" },
 				{ "message": "Include PTS ROI in the popup.", "contributor": "DeKleineKobini" },
 				{ "message": "Add hint to graffiti mission.", "contributor": "DeKleineKobini" }
-			],
-			"removed": []
+			]
 		}
 	},
 	{
