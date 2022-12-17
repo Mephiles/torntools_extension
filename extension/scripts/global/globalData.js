@@ -564,6 +564,7 @@ const DEFAULT_STORAGE = {
 				recommendedNnb: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				ocNnb: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				ocTimes: new DefaultSetting({ type: "boolean", defaultValue: true }),
+				ocLastAction: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				banker: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				showFullInfobox: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				foldableInfobox: new DefaultSetting({ type: "boolean", defaultValue: true }),

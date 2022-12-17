@@ -1,0 +1,12 @@
+.tt-oc-last-action {
+    text-align: center;
+    padding: 5px;
+}
+
+.details-list li:not(:last-child) .tt-oc-last-action {
+    border-top: 1px solid var(--default-panel-divider-outer-side-color);
+}
+
+.details-list li:last-child .tt-oc-last-action {
+    border-bottom: 1px solid var(--default-panel-divider-outer-side-color);
+}
