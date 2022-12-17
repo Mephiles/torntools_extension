@@ -18,7 +18,7 @@
 		},
 		async () => {
 			if (!hasAPIData() || !factiondata || !factiondata.members) return "No API access.";
-		},
+		}
 	);
 
 	function initialiseListeners() {
@@ -44,12 +44,15 @@
 			const lastAction = factiondata.members[id].last_action;
 			const hours = ((nowDate - lastAction.timestamp * 1000) / TO_MILLIS.HOURS).dropDecimals();
 
-			row.insertAdjacentElement("afterend", document.newElement({
-				type: "div",
-				class: "tt-oc-last-action",
-				text: `Last action: ${lastAction.relative}`,
-				attributes: { hours: hours },
-			}));
+			row.insertAdjacentElement(
+				"afterend",
+				document.newElement({
+					type: "div",
+					class: "tt-oc-last-action",
+					text: `Last action: ${lastAction.relative}`,
+					attributes: { hours: hours },
+				})
+			);
 		}
 	}
 
