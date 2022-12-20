@@ -33,7 +33,7 @@
 			const chainID = getSearchParameters().get("chainID");
 			const csv = new CSVExport(`Chain Report [${chainID}]`, options.find("#ttExportLink"));
 			csv.append(document.find(".report-title-faction-name").textContent);
-			csv.append("Members", "Respect", "Avg", "Attacks", "Leave", "Mug", "Hosp", "War", "Bonus", "Assist", "Retal", "Overseas", "Draw", "Escape", "Loss");
+			csv.append("Members", "Respect", "Avg", "Attacks", "Leave", "Mug", "Hosp", "War", "Assist", "Retal", "Overseas", "Draw", "Escape", "Loss");
 
 			const info = document.findAll(".members-stats-rows > *");
 			document.findAll(".members-names-rows > *").forEach((member, index) => {
