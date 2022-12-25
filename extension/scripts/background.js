@@ -1088,14 +1088,22 @@ async function updateStakeouts() {
 }
 
 async function updateTorndata() {
-	torndata = await fetchData("torn", {
+	const data = await fetchData("torn", {
 		section: "torn",
 		selections: ["education", "honors", "items", "medals", "pawnshop", "properties", "stats"],
 	});
-	if (!torndata || !Object.keys(torndata).length) throw new Error("Aborted updating due to an unexpected response.");
-	torndata.date = Date.now();
+	if (!isValidTorndata(data)) throw new Error("Aborted updating due to an unexpected response.");
+	data.date = Date.now();
 
-	await ttStorage.set({ torndata });
+	torndata = data;
+	await ttStorage.set({ torndata: data });
+
+	function isValidTorndata(data) {
+		return !!data
+			&& Object.keys(data).length > 0
+			&& data.items
+			&& Object.keys(data.items).length > 0;
+	}
 }
 
 async function updateStocks() {

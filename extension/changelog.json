@@ -8,7 +8,8 @@
 			"fixes": [],
 			"changes": [
 				{ "message": "Add Sellout Slayer mission hint.", "contributor": "DeKleineKobini" },
-				{ "message": "Update CSV export to reflect Torn changes (add 'best' and remove 'bonus').", "contributor": "DeKleineKobini" }
+				{ "message": "Update CSV export to reflect Torn changes (add 'best' and remove 'bonus').", "contributor": "DeKleineKobini" },
+				{ "message": "Change torndata validity check to better avoid corrupt data.", "contributor": "DeKleineKobini" }
 			],
 			"removed": []
 		}
