@@ -1099,10 +1099,7 @@ async function updateTorndata() {
 	await ttStorage.set({ torndata: data });
 
 	function isValidTorndata(data) {
-		return !!data
-			&& Object.keys(data).length > 0
-			&& data.items
-			&& Object.keys(data.items).length > 0;
+		return !!data && Object.keys(data).length > 0 && data.items && Object.keys(data.items).length > 0;
 	}
 }
 
