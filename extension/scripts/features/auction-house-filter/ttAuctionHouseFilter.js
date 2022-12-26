@@ -157,48 +157,6 @@
 			localFilters.armorBonus = { getValue: bonusFilter.getValue };
 		}
 
-		const rarityFilter = createFilterSection({
-			title: "Rarity",
-			select: [
-				{
-					value: "",
-					description: "All",
-				},
-				{
-					value: "very common",
-					description: "Very Common",
-				},
-				{
-					value: "common",
-					description: "Common",
-				},
-				{
-					value: "uncommon",
-					description: "Uncommon",
-				},
-				{
-					value: "Limited",
-					description: "Limited",
-				},
-				{
-					value: "rare",
-					description: "Rare",
-				},
-				{
-					value: "very rare",
-					description: "Very Rare",
-				},
-				{
-					value: "extremely rare",
-					description: "Extremely Rare",
-				},
-			],
-			defaults: filters.auction[itemType].rarity,
-			callback: applyFilters,
-		});
-		filterContent.appendChild(rarityFilter.element);
-		localFilters.rarity = { getSelected: rarityFilter.getSelected };
-
 		content.appendChild(filterContent);
 
 		await applyFilters();
@@ -212,8 +170,7 @@
 		const itemType = localFilters.itemType;
 
 		const name = localFilters.name.getValue();
-		const rarity = localFilters.rarity.getSelected(content);
-		const filters = { name, rarity };
+		const filters = { name };
 
 		if (itemType === "items" || itemType === "weapons") {
 			filters.category = localFilters.category.getSelected(content);
