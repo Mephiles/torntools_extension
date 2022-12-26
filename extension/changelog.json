@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Show last action on the OC page.", "contributor": "DeKleineKobini" }],
+			"features": [{ "message": "Show last action on the OC page.", "contributor": "DeKleineKobini" }, { "message": "Filter in the auction house.", "contributor": "DeKleineKobini" }],
 			"fixes": [],
 			"changes": [
 				{ "message": "Add Sellout Slayer mission hint.", "contributor": "DeKleineKobini" },
