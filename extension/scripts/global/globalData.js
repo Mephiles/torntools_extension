@@ -507,6 +507,9 @@ const DEFAULT_STORAGE = {
 			hospital: {
 				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
 			},
+			auction: {
+				filter: new DefaultSetting({ type: "boolean", defaultValue: true }),
+			},
 			api: {
 				autoFillKey: new DefaultSetting({ type: "boolean", defaultValue: true }),
 				autoDemo: new DefaultSetting({ type: "boolean", defaultValue: true }),
@@ -797,6 +800,27 @@ const DEFAULT_STORAGE = {
 			hideLoss: new DefaultSetting({ type: "boolean", defaultValue: false }),
 			hideUnder100: new DefaultSetting({ type: "boolean", defaultValue: false }),
 		},
+		auction: {
+			weapons: {
+				name: new DefaultSetting({ type: "string", defaultValue: "" }),
+				category: new DefaultSetting({ type: "string", defaultValue: "" }),
+				rarity: new DefaultSetting({ type: "string", defaultValue: "" }),
+				weaponType: new DefaultSetting({ type: "string", defaultValue: "" }),
+				damage: new DefaultSetting({ type: "string", defaultValue: "" }),
+				accuracy: new DefaultSetting({ type: "string", defaultValue: "" }),
+			},
+			armor: {
+				name: new DefaultSetting({ type: "string", defaultValue: "" }),
+				rarity: new DefaultSetting({ type: "string", defaultValue: "" }),
+				defence: new DefaultSetting({ type: "string", defaultValue: "" }),
+				set: new DefaultSetting({ type: "string", defaultValue: "" }),
+			},
+			items: {
+				name: new DefaultSetting({ type: "string", defaultValue: "" }),
+				category: new DefaultSetting({ type: "string", defaultValue: "" }),
+				rarity: new DefaultSetting({ type: "string", defaultValue: "" }),
+			},
+		}
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),

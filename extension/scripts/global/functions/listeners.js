@@ -44,6 +44,7 @@ const EVENT_CHANNELS = {
 	FILTER_APPLIED: "filter-applied",
 	STATS_ESTIMATED: "stats-estimated",
 	SWITCH_PAGE: "switch-page",
+	AUCTION_SWITCH_TYPE: "auction-switch-type",
 };
 
 const CUSTOM_LISTENERS = (() => {
