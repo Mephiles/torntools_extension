@@ -821,7 +821,7 @@ const DEFAULT_STORAGE = {
 				category: new DefaultSetting({ type: "string", defaultValue: "" }),
 				rarity: new DefaultSetting({ type: "string", defaultValue: "" }),
 			},
-		}
+		},
 	},
 	userdata: new DefaultSetting({ type: "object", defaultValue: {} }),
 	torndata: new DefaultSetting({ type: "object", defaultValue: {} }),

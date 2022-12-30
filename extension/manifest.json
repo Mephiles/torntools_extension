@@ -764,10 +764,7 @@
 		{ "matches": ["https://www.torn.com/pmarket.php*"], "js": ["scripts/features/no-confirm/ttPointsMarketNoConfirm.js"], "run_at": "document_end" },
 		{
 			"matches": ["https://www.torn.com/amarket.php*"],
-			"css": [
-				"scripts/global/functions/filters.css",
-				"scripts/features/auction-house-filter/ttAuctionHouseFilter.css"
-			],
+			"css": ["scripts/global/functions/filters.css", "scripts/features/auction-house-filter/ttAuctionHouseFilter.css"],
 			"js": [
 				"scripts/global/functions/filters.js",
 				"scripts/content/auction-house/ttAuctionHouse.js",

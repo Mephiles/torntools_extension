@@ -13,7 +13,7 @@
 		},
 		() => {
 			if (!hasAPIData()) return "No API access.";
-		},
+		}
 	);
 
 	function initialiseFilters() {
@@ -74,10 +74,7 @@
 		if (itemType === "items" || itemType === "weapons") {
 			const categoryFilter = createFilterSection({
 				title: "Category",
-				select: [
-					{ value: "", description: "All" },
-					...getCategories(itemType),
-				],
+				select: [{ value: "", description: "All" }, ...getCategories(itemType)],
 				defaults: filters.auction[itemType].category,
 				callback: applyFilters,
 			});
@@ -90,8 +87,9 @@
 				title: "Weapon Type",
 				select: [
 					{ value: "", description: "All" },
-					...["Clubbing", "Piercing", "Slashing", "Mechanical", "Pistol", "Shotgun", "SMG", "Rifle", "Machine gun", "Heavy artillery"]
-						.map((type) => ({ value: type.toLowerCase(), description: type })),
+					...["Clubbing", "Piercing", "Slashing", "Mechanical", "Pistol", "Shotgun", "SMG", "Rifle", "Machine gun", "Heavy artillery"].map(
+						(type) => ({ value: type.toLowerCase(), description: type })
+					),
 				],
 				defaults: filters.auction[itemType].weaponType,
 				callback: applyFilters,
@@ -142,8 +140,7 @@
 				title: "Set",
 				select: [
 					{ value: "", description: "All" },
-					...["Assault", "Riot", "Dune", "Delta", "Marauder", "EOD"]
-						.map((type) => ({ value: type.toLowerCase(), description: type })),
+					...["Assault", "Riot", "Dune", "Delta", "Marauder", "EOD"].map((type) => ({ value: type.toLowerCase(), description: type })),
 				],
 				defaults: filters.auction[itemType].set,
 				callback: applyFilters,
@@ -169,8 +166,39 @@
 		function createWeaponBonusFilter({ callback, defaults }) {
 			const selectOptions = [
 				{ value: "", description: "None" },
-				...["Assassinate", "Blindside", "Bloodlust", "Cripple", "Cupid", "Deadeye", "Deadly", "Disarm", "Empower", "Eviscerate", "Execute", "Frenzy", "Home Run", "Motivation", "Penetrate", "Plunder", "Proficience", "Rage", "Revitalize", "Roshambo", "Slow", "Smurf", "Specialist", "Stricken", "Stun", "Suppress", "Throttle", "Warlord", "Weaken", "Wind-up", "Wither"]
-					.map((bonus) => ({ value: bonus.toLowerCase(), description: bonus })),
+				...[
+					"Assassinate",
+					"Blindside",
+					"Bloodlust",
+					"Cripple",
+					"Cupid",
+					"Deadeye",
+					"Deadly",
+					"Disarm",
+					"Empower",
+					"Eviscerate",
+					"Execute",
+					"Frenzy",
+					"Home Run",
+					"Motivation",
+					"Penetrate",
+					"Plunder",
+					"Proficience",
+					"Rage",
+					"Revitalize",
+					"Roshambo",
+					"Slow",
+					"Smurf",
+					"Specialist",
+					"Stricken",
+					"Stun",
+					"Suppress",
+					"Throttle",
+					"Warlord",
+					"Weaken",
+					"Wind-up",
+					"Wither",
+				].map((bonus) => ({ value: bonus.toLowerCase(), description: bonus })),
 			];
 
 			const select1 = createSelect(selectOptions);
@@ -201,8 +229,10 @@
 			return {
 				element: bonusFilter.element,
 				getValues: () =>
-					[[select1, value1], [select2, value2]]
-						.map(([s, v]) => ({ bonus: s.getSelected(), value: isNaN(v.getValue()) ? "" : parseInt(v.getValue()) })),
+					[
+						[select1, value1],
+						[select2, value2],
+					].map(([s, v]) => ({ bonus: s.getSelected(), value: isNaN(v.getValue()) ? "" : parseInt(v.getValue()) })),
 			};
 		}
 	}
@@ -247,7 +277,7 @@
 		localFilters["Statistics"].updateStatistics(
 			document.findAll(".tabContent[aria-hidden='false'] .items-list > li[id]:not(.tt-hidden)").length,
 			document.findAll(".tabContent[aria-hidden='false'] .items-list > li[id]").length,
-			content,
+			content
 		);
 	}
 
@@ -267,7 +297,12 @@
 			}
 		}
 		if (filters.rarity) {
-			if (row.find(".item-cont-wrap .title p").textContent.match(/\((.+) [0-9]+\)/)[1].toLowerCase() !== filters.rarity) {
+			if (
+				row
+					.find(".item-cont-wrap .title p")
+					.textContent.match(/\((.+) [0-9]+\)/)[1]
+					.toLowerCase() !== filters.rarity
+			) {
 				hide("rarity");
 				return;
 			}
@@ -326,10 +361,9 @@
 					value: description.getNumber(),
 				}));
 
-			const hasBonuses = toFilterBonus.every(({ bonus, value }) => foundBonuses.filter(
-				(found) => found.bonus === bonus
-					&& (!value || found.value >= value),
-			).length > 0);
+			const hasBonuses = toFilterBonus.every(
+				({ bonus, value }) => foundBonuses.filter((found) => found.bonus === bonus && (!value || found.value >= value)).length > 0
+			);
 
 			if (!hasBonuses) {
 				hide("weapon-bonus");
@@ -357,12 +391,9 @@
 
 	function getCategories(itemType) {
 		if (itemType === "weapons") {
-			return ["Melee", "Secondary", "Primary"]
-				.sort()
-				.map((type) => ({ value: type.toLowerCase(), description: type }));
+			return ["Melee", "Secondary", "Primary"].sort().map((type) => ({ value: type.toLowerCase(), description: type }));
 		} else if (itemType === "items") {
-			return ITEM_TYPES
-				.filter((type) => !["Melee", "Secondary", "Primary", "Defensive", "Unused", "Book"].includes(type))
+			return ITEM_TYPES.filter((type) => !["Melee", "Secondary", "Primary", "Defensive", "Unused", "Book"].includes(type))
 				.sort()
 				.map((type) => ({ value: type.toLowerCase(), description: type }));
 		} else {

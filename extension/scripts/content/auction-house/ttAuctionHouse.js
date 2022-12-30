@@ -5,7 +5,7 @@
 
 	for (const list of document.findAll(".items-list")) {
 		new MutationObserver((mutations) => {
-			if ([...mutations].every(mutation => mutation.addedNodes.length === 2)) {
+			if ([...mutations].every((mutation) => mutation.addedNodes.length === 2)) {
 				return;
 			}
 
@@ -14,7 +14,7 @@
 			if (type === previousType) {
 				triggerCustomListener(EVENT_CHANNELS.SWITCH_PAGE);
 			} else {
-				triggerCustomListener(EVENT_CHANNELS.AUCTION_SWITCH_TYPE, {type: type});
+				triggerCustomListener(EVENT_CHANNELS.AUCTION_SWITCH_TYPE, { type: type });
 			}
 
 			previousType = type;
