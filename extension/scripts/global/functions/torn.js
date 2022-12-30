@@ -1345,6 +1345,8 @@ const LINKS = {
 	gym: "https://www.torn.com/gym.php",
 };
 
+const ITEM_TYPES = ["Melee", "Secondary", "Primary", "Defensive", "Candy", "Electronic", "Clothing", "Jewelry", "Other", "Medical", "Virus", "Collectible", "Car", "Flower", "Booster", "Unused", "Alcohol", "Plushie", "Drug", "Temporary", "Special", "Supply Pack", "Enhancer", "Artifact", "Energy Drink", "Book"];
+
 function getNextChainBonus(current) {
 	return CHAIN_BONUSES.find((bonus) => bonus > current);
 }

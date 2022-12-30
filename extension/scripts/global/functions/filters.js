@@ -47,6 +47,7 @@ function createFilterSection(options) {
 		defaults: [],
 		orientation: "column",
 		noTitle: false,
+		style: {},
 		...options,
 	};
 
@@ -60,12 +61,14 @@ function createFilterSection(options) {
 	}
 
 	const ccTitle = options.title.camelCase(true) + "__section-class";
-	const section = document.newElement({ type: "div", class: ccTitle });
+	const section = document.newElement({ type: "div", class: ccTitle, style: options.style });
 
 	if (!options.noTitle) section.appendChild(document.newElement({ type: "strong", text: options.title }));
 
 	if (options.text) {
-		const textbox = createTextbox();
+		const textbox = createTextbox({
+			type: typeof options.text === "string" ? options.text : "text",
+		});
 		textbox.setValue(options.default);
 		textbox.onChange(options.callback);
 
