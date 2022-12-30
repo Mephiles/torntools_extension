@@ -808,6 +808,7 @@ const DEFAULT_STORAGE = {
 				weaponType: new DefaultSetting({ type: "string", defaultValue: "" }),
 				damage: new DefaultSetting({ type: "string", defaultValue: "" }),
 				accuracy: new DefaultSetting({ type: "string", defaultValue: "" }),
+				weaponBonus: new DefaultSetting({ type: "array", defaultValue: [] }),
 			},
 			armor: {
 				name: new DefaultSetting({ type: "string", defaultValue: "" }),

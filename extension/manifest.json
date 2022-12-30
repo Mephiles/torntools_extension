@@ -765,7 +765,8 @@
 		{
 			"matches": ["https://www.torn.com/amarket.php*"],
 			"css": [
-				"scripts/global/functions/filters.css"
+				"scripts/global/functions/filters.css",
+				"scripts/features/auction-house-filter/ttAuctionHouseFilter.css"
 			],
 			"js": [
 				"scripts/global/functions/filters.js",

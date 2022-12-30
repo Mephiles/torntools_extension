@@ -4,10 +4,11 @@ function createTextbox(options = {}) {
 		id: getUUID(),
 		type: "text",
 		attributes: {},
+		style: {},
 		...options,
 	};
 
-	const textbox = document.newElement({ type: "input", class: "tt-textbox", id: options.id, attributes: { ...options.attributes, type: options.type } });
+	const textbox = document.newElement({ type: "input", class: "tt-textbox", id: options.id, attributes: { ...options.attributes, type: options.type }, style: options.style });
 
 	let element;
 	if (options.description) {
