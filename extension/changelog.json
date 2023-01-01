@@ -8,7 +8,7 @@
 				{ "message": "Show last action on the OC page.", "contributor": "DeKleineKobini" },
 				{ "message": "Filter in the auction house.", "contributor": "DeKleineKobini" }
 			],
-			"fixes": [],
+			"fixes": [{ "message": "Fix company stock button updating.", "contributor": "DeKleineKobini" }],
 			"changes": [
 				{ "message": "Add Sellout Slayer mission hint.", "contributor": "DeKleineKobini" },
 				{ "message": "Update CSV export to reflect Torn changes (add 'best' and remove 'bonus').", "contributor": "DeKleineKobini" },

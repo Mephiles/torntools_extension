@@ -52,7 +52,7 @@
 			let neededStock = ((soldDaily / totalSoldDaily) * totalCapacity - ordered - stock).dropDecimals();
 			neededStock = Math.max(0, neededStock);
 
-			updateReactInput(stockItem.find("input"), neededStock, REACT_UPDATE_VERSIONS.DEFAULT);
+			updateReactInput(stockItem.find("input"), neededStock, { version: REACT_UPDATE_VERSIONS.DOUBLE_DEFAULT });
 		});
 	}
 })();

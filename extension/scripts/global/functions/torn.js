@@ -1543,6 +1543,7 @@ function createMessageBox(content, options = {}) {
 
 const REACT_UPDATE_VERSIONS = {
 	DEFAULT: "default",
+	DOUBLE_DEFAULT: "doubleDefault",
 	NATIVE_SETTER: "nativeSetter",
 };
 
@@ -1571,6 +1572,11 @@ function updateReactInput(input, value, options = {}) {
 			nativeSetter.call(input, value);
 
 			input.dispatchEvent(new Event("input", { bubbles: true }));
+			break;
+		case REACT_UPDATE_VERSIONS.DOUBLE_DEFAULT:
+			input.value = value;
+			input.dispatchEvent(new Event("input", { bubbles: true }));
+			input.dispatchEvent(new Event("change", { bubbles: true }));
 			break;
 		case REACT_UPDATE_VERSIONS.DEFAULT:
 		default:
