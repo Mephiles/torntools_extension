@@ -434,7 +434,7 @@
 			],
 			"js": [
 				"vendor/drag-drop-touch/DragDropTouch.js",
-				"scripts/global/functions/torn_items.js",
+				"scripts/global/functions/torn-items.js",
 				"scripts/content/items/ttItems.js",
 				"scripts/features/quick-items/ttQuickItems.js",
 				"scripts/features/market-icons/ttMarketIcons.js",
@@ -718,7 +718,7 @@
 		{
 			"matches": ["https://www.torn.com/city.php*"],
 			"css": ["scripts/features/city-items/ttCityItems.css"],
-			"js": ["scripts/global/functions/torn_items.js", "scripts/features/city-items/ttCityItems.js"],
+			"js": ["scripts/global/functions/torn-items.js", "scripts/features/city-items/ttCityItems.js"],
 			"run_at": "document_end"
 		},
 		{
