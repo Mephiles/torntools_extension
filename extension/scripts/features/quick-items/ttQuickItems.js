@@ -307,6 +307,9 @@
 
 				if (inventoryItem.equipped) itemWrap.classList.add("equipped");
 			}
+		} else if (id in TORN_ITEMS) {
+			itemWrap.setAttribute("title", TORN_ITEMS[id].name);
+			itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: TORN_ITEMS[id].name }));
 		} else {
 			itemWrap.appendChild(document.newElement({ type: "div", class: "text", text: id }));
 		}
